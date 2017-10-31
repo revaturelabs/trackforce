@@ -30,6 +30,14 @@ buildNumber.properties
 *.zip
 *.tar.gz
 *.rar
+*.dll
+*.exe
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+# OS generated files
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+ehthumbs.dbThumbs.db

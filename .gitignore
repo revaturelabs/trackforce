@@ -1,3 +1,6 @@
+# Don't store Hibernate DB credentials
+hibernate.cfg.xml
+
 # Eclipse
 .settings/
 bin/

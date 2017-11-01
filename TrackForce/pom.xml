@@ -40,14 +40,14 @@
 <dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>3.6.10.Final</version>
+			<version>5.2.12.Final</version>
 		</dependency>
 
 		<!-- Hibernate Entity Manager Maven Central Repository -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.6.10.Final</version>
+			<version>5.2.12.Final</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.inject/jersey-hk2 -->

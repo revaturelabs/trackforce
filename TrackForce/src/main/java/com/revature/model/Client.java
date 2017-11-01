@@ -15,7 +15,6 @@ public class Client {
 	private int deployedUnmapped;
 	
 	public Client() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Client(String name, int trainingMapped, int trainingUnmapped, int reservedMapped, int reservedUnmapped,

@@ -20,7 +20,7 @@ public class ClientResource {
 
 	@GET
 	@Path("{clientid}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.APPLICATION_JSON })
 	public Client getAClient(@PathParam("clientid") int clientid) {
 		Client aClient = new Client("A Single Client", 5, 17, 34, 12, 6, 44, 23, 25, 16, 12);
 		return aClient;

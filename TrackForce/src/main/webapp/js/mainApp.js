@@ -29,9 +29,33 @@ mainApp.config(function($routeProvider) {
 
 });
 
-mainApp.controller("mainCtrl", function mainCtrl($scope, $http) {
+mainApp.controller("mainCtrl", function ($scope) {
+	  $scope.labels = ["Mapped", "Unmapped"];
+	  $scope.data = [500, 100];
+	  
+	  $scope.labels2 = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
 
-})
+	  $scope.data2 = [65, 59, 80, 81, 56, 55, 40]
+	  
+	  $scope.labels3 = ["January", "February", "March", "April", "May", "June", "July"];
+	  $scope.data3 = [28, 48, 40, 19, 86, 27, 90]
+	  $scope.onClick = function (points, evt) {
+	    console.log(points, evt);
+	  };
+	  $scope.datasetOverride = {yAxisID: 'y-axis-1'};
+	  $scope.options3 = {
+	    scales: {
+	      yAxes: [
+	        {
+	          id: 'y-axis-1',
+	          type: 'linear',
+	          display: true,
+	          position: 'left'
+	        }
+	      ]
+	    }
+	  };
+});
 
 mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 

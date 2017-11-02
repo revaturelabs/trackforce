@@ -35,6 +35,19 @@ mainApp.controller("batchCtrl", function($scope) {
 			[ 28, 48, 40, 19, 86, 27, 90 ] ];
 });
 
+mainApp.controller("clientSearchAndListCtrl", function($scope, $http){
+    $scope.getAllClientNames = function(){
+    	$http({
+    		method : "GET",
+    		url : "http://localhost:8080/TrackForce/track/clients"
+    	}).then( function(response){
+    		$scope.clients = response.data;
+    		
+    	});
+    }
+	
+});
+
 mainApp.controller("clientDetailsCtrl", function($scope, $http) {
 	$scope.getAllClients = function() {
 		$http({

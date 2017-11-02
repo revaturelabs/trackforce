@@ -26,10 +26,10 @@ public class ClientResource {
 		clients.add("Client2");
 		clients.add("Client3");
 		
-		Map<String, List<String>> entity = new HashMap<>();
-		entity.put("name", clients);
+		//Map<String, List<String>> entity = new HashMap<>();
+		//entity.put("name", clients);
 
-		return Response.ok(entity).build();
+		return Response.ok(clients).build();
 	}
 
 	@GET

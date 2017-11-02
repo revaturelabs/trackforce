@@ -1,23 +1,23 @@
 package com.revature.model;
 
 public class ClientInfo {
-	
+
 	private String name; // Name of client
 	private int trainingMapped;
 	private int trainingUnmapped;
 	private int reservedMapped;
-	private int reservedUnmapped;
+	private int openUnmapped;
 	private int selectedMapped;
 	private int selectedUnmapped;
 	private int confirmedMapped;
 	private int confirmedUnmapped;
 	private int deployedMapped;
 	private int deployedUnmapped;
-	
+
 	public ClientInfo() {
 	}
 
-	public ClientInfo(String name, int trainingMapped, int trainingUnmapped, int reservedMapped, int reservedUnmapped,
+	public ClientInfo(String name, int trainingMapped, int trainingUnmapped, int reservedMapped, int openUnmapped,
 			int selectedMapped, int selectedUnmapped, int confirmedMapped, int confirmedUnmapped, int deployedMapped,
 			int deployedUnmapped) {
 		super();
@@ -25,7 +25,7 @@ public class ClientInfo {
 		this.trainingMapped = trainingMapped;
 		this.trainingUnmapped = trainingUnmapped;
 		this.reservedMapped = reservedMapped;
-		this.reservedUnmapped = reservedUnmapped;
+		this.openUnmapped = openUnmapped;
 		this.selectedMapped = selectedMapped;
 		this.selectedUnmapped = selectedUnmapped;
 		this.confirmedMapped = confirmedMapped;
@@ -71,12 +71,12 @@ public class ClientInfo {
 		this.reservedMapped = reservedMapped;
 	}
 
-	public int getReservedUnmapped() {
-		return reservedUnmapped;
+	public int getOpenUnmapped() {
+		return openUnmapped;
 	}
 
-	public void setReservedUnmapped(int reservedUnmapped) {
-		this.reservedUnmapped = reservedUnmapped;
+	public void setOpenUnmapped(int openUnmapped) {
+		this.openUnmapped = openUnmapped;
 	}
 
 	public int getSelectedMapped() {
@@ -137,7 +137,7 @@ public class ClientInfo {
 		result = prime * result + deployedUnmapped;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + reservedMapped;
-		result = prime * result + reservedUnmapped;
+		result = prime * result + openUnmapped;
 		result = prime * result + selectedMapped;
 		result = prime * result + selectedUnmapped;
 		result = prime * result + trainingMapped;
@@ -169,7 +169,7 @@ public class ClientInfo {
 			return false;
 		if (reservedMapped != other.reservedMapped)
 			return false;
-		if (reservedUnmapped != other.reservedUnmapped)
+		if (openUnmapped != other.openUnmapped)
 			return false;
 		if (selectedMapped != other.selectedMapped)
 			return false;
@@ -184,13 +184,11 @@ public class ClientInfo {
 
 	@Override
 	public String toString() {
-		return "ClientInfo  [name=" + name + ", trainingMapped=" + trainingMapped + ", trainingUnmapped=" + trainingUnmapped
-				+ ", reservedMapped=" + reservedMapped + ", reservedUnmapped=" + reservedUnmapped + ", selectedMapped="
-				+ selectedMapped + ", selectedUnmapped=" + selectedUnmapped + ", confirmedMapped=" + confirmedMapped
-				+ ", confirmedUnmapped=" + confirmedUnmapped + ", deployedMapped=" + deployedMapped
+		return "ClientInfo  [name=" + name + ", trainingMapped=" + trainingMapped + ", trainingUnmapped="
+				+ trainingUnmapped + ", reservedMapped=" + reservedMapped + ", openUnmapped=" + openUnmapped
+				+ ", selectedMapped=" + selectedMapped + ", selectedUnmapped=" + selectedUnmapped + ", confirmedMapped="
+				+ confirmedMapped + ", confirmedUnmapped=" + confirmedUnmapped + ", deployedMapped=" + deployedMapped
 				+ ", deployedUnmapped=" + deployedUnmapped + "]";
 	}
-	
-	
 
 }

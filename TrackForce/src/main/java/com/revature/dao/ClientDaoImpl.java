@@ -27,20 +27,21 @@ public class ClientDaoImpl implements ClientDao {
 
 	@Override
 	public ClientInfo getAllClientInfo() {
+		final int numberOfStatuses = 10;
 		
-		
-		for (int i = 1; i <= 8; i++) {
+		int[] counts = new int[numberOfStatuses];
+		for (int i = 1; i <= numberOfStatuses; i++) {
 			EntityManager em = HibernateUtil.getSession().createEntityManager();
 			StoredProcedureQuery query = em.createStoredProcedureQuery("ADMIN.GET_ALLCLIENTS_STATUS_COUNT");
 			query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
 			query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
 			query.setParameter(1, i);
 			query.execute();
-			System.out.println(query.getOutputParameterValue(2));
+			counts[i - 1] = (int) query.getOutputParameterValue(2);
 		}
-
-		ClientInfo clients = new ClientInfo("All Clients", 100, 95, 75, 107, 145, 23, 65, 72, 15, 34);
-		return clients;
+		ClientInfo clientInfo = setClientInfoWithIntArray(counts);
+		clientInfo.setName("all");
+		return clientInfo;
 	}
 
 	@Override
@@ -145,6 +146,21 @@ public class ClientDaoImpl implements ClientDao {
         aClient.setDeployedUnmapped((int) query10.getOutputParameterValue(3));
 		
 		return aClient;
+	}
+
+	private ClientInfo setClientInfoWithIntArray(int[] counts) {
+		ClientInfo clientInfo = new ClientInfo();
+		clientInfo.setTrainingMapped(counts[0]);
+		clientInfo.setReservedMapped(counts[1]);
+		clientInfo.setSelectedMapped(counts[2]);
+		clientInfo.setConfirmedMapped(counts[3]);
+		clientInfo.setDeployedMapped(counts[4]);
+		clientInfo.setTrainingUnmapped(counts[5]);
+		clientInfo.setOpenUnmapped(counts[6]);
+		clientInfo.setSelectedUnmapped(counts[7]);
+		clientInfo.setConfirmedUnmapped(counts[8]);
+		clientInfo.setDeployedUnmapped(counts[9]);
+		return clientInfo;
 	}
 
 }

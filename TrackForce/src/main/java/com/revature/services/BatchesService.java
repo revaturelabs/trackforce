@@ -10,10 +10,11 @@ import javax.ws.rs.MatrixParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
+import com.revature.dao.AssociateDaoHibernate;
+import com.revature.dao.BatchDaoHibernate;
+import com.revature.dao.ClientNameDaoHibernate;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 
@@ -80,7 +81,11 @@ public class BatchesService {
 		//TODO: need hibernate call that returns mapped numbers
 	}
 	
-	
-	
+	@GET
+    @Produces (MediaType.APPLICATION_JSON)
+    public List<TfBatch> getBatches(@MatrixParam("fromdate") String fromdate, @MatrixParam("todate") String todate ){
+        
+        return new BatchDaoHibernate().getBatchDetails(fromdate, todate);
+    }
 
 }

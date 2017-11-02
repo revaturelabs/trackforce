@@ -1,8 +1,9 @@
 package com.revature.services;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -26,8 +27,15 @@ public class ClientResource {
 	public Response getAllClients() {
 
 		List<TfClient> clients = clientDaoImpl.getAllTfClients();
+		List<Map<String,Object>> entity = new ArrayList<>();
+		for(TfClient client : clients) {
+			Map<String,Object> map = new HashMap<>();
+			map.put("id", client.getTfClientId());
+			map.put("name", client.getTfClientName());
+			entity.add(map);
+		}
 
-		return Response.ok(clients).build();
+		return Response.ok(entity).build();
 	}
 
 	@GET

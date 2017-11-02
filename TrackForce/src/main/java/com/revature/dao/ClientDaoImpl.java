@@ -1,20 +1,24 @@
 package com.revature.dao;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.criteria.CriteriaQuery;
+
+import org.hibernate.Session;
 
 import com.revature.entity.TfClient;
 import com.revature.model.ClientInfo;
+import com.revature.utils.HibernateUtil;
 
 public class ClientDaoImpl implements ClientDao {
 
 	@Override
 	public List<TfClient> getAllTfClients() {
-		List<TfClient> clients = new ArrayList<>();
-		clients.add(new TfClient(new BigDecimal(1), "Client 1"));
-		clients.add(new TfClient(new BigDecimal(2), "Client 2"));
-		clients.add(new TfClient(new BigDecimal(3), "Client 3"));
+		Session session = HibernateUtil.getSession().openSession();
+		CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
+		cq.from(TfClient.class);
+		List<TfClient> clients = session.createQuery(cq).getResultList();
+		session.close();
 		return clients;
 	}
 

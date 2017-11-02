@@ -1,6 +1,6 @@
 package com.revature.model;
 
-public class Client {
+public class ClientInfo {
 	
 	private String name; // Name of client
 	private int trainingMapped;
@@ -14,10 +14,10 @@ public class Client {
 	private int deployedMapped;
 	private int deployedUnmapped;
 	
-	public Client() {
+	public ClientInfo() {
 	}
 
-	public Client(String name, int trainingMapped, int trainingUnmapped, int reservedMapped, int reservedUnmapped,
+	public ClientInfo(String name, int trainingMapped, int trainingUnmapped, int reservedMapped, int reservedUnmapped,
 			int selectedMapped, int selectedUnmapped, int confirmedMapped, int confirmedUnmapped, int deployedMapped,
 			int deployedUnmapped) {
 		super();
@@ -148,7 +148,7 @@ public class Client {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Client other = (Client) obj;
+		ClientInfo other = (ClientInfo) obj;
 		if (confirmedMapped != other.confirmedMapped)
 			return false;
 		if (confirmedUnmapped != other.confirmedUnmapped)
@@ -179,7 +179,7 @@ public class Client {
 
 	@Override
 	public String toString() {
-		return "Client [name=" + name + ", trainingMapped=" + trainingMapped + ", trainingUnmapped=" + trainingUnmapped
+		return "ClientInfo  [name=" + name + ", trainingMapped=" + trainingMapped + ", trainingUnmapped=" + trainingUnmapped
 				+ ", reservedMapped=" + reservedMapped + ", reservedUnmapped=" + reservedUnmapped + ", selectedMapped="
 				+ selectedMapped + ", selectedUnmapped=" + selectedUnmapped + ", confirmedMapped=" + confirmedMapped
 				+ ", confirmedUnmapped=" + confirmedUnmapped + ", deployedMapped=" + deployedMapped

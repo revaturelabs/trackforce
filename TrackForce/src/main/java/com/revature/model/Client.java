@@ -4,7 +4,7 @@ public class Client {
 	
 	private String name; // Name of client
 	private int trainingMapped;
-	private int trainingUnmapped;
+	private int trainingUnmapped; 
 	private int reservedMapped;
 	private int reservedUnmapped;
 	private int selectedMapped;

@@ -1,4 +1,5 @@
 package com.revature.model;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,21 +16,23 @@ public class Associate {
 	@GeneratedValue
 	@Column(name = "TF_ASSOCIATE_ID")
 	private int associateid;
-	
+
 	@Column(name = "TF_ASSOCIATE_FIRST_NAME")
 	private String associatefirstname;
-	
+
 	@Column(name = "TF_ASSOCIATE_LAST_NAME")
 	private String associatelastname;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private int marketingstatusid;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private int batchid;
 
-	
-	
+	public Associate() {
+
+	}
+
 	public int getAssociateid() {
 		return associateid;
 	}
@@ -77,5 +80,4 @@ public class Associate {
 				+ batchid + "]";
 	}
 
-	
 }

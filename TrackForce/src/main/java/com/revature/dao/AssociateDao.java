@@ -1,7 +1,8 @@
 package com.revature.dao;
 
+import java.math.BigDecimal;
 
 public interface AssociateDao {
 
-	public int getNoOfAssociates(int batch_id);
+	public BigDecimal getNoOfAssociates(BigDecimal batch_id);
 }

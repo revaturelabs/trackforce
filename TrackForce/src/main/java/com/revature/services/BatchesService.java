@@ -1,10 +1,13 @@
 package com.revature.services;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.MatrixParam;
 import javax.ws.rs.Path;
@@ -14,6 +17,9 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.revature.dao.AssociateDaoHibernate;
+import com.revature.dao.BatchDaoHibernate;
+import com.revature.dao.ClientNameDaoHibernate;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 
@@ -23,9 +29,11 @@ public class BatchesService {
 	@GET
 	@Path("type")
 	@Produces({MediaType.APPLICATION_JSON})
-	public Map<String, Integer> getBatchChartInfo(@MatrixParam("fromDate") String fromDate, 
-			@MatrixParam("toDate") String toDate) {
-		List<TfBatch> batches = BatchDaoHibernate.getBatchDetails(fromDate, toDate);
+	public Map<String, Integer> getBatchChartInfo(@FormParam("fromDate") Timestamp fromDate, 
+			@FormParam("toDate") Timestamp toDate) {
+		BatchDaoHibernate batchDao = new BatchDaoHibernate();
+		AssociateDaoHibernate associateDao = new AssociateDaoHibernate();
+		List<TfBatch> batches = batchDao.getBatchDetails(fromDate, toDate);
 		Map<String, Integer> chartData = new Hashtable<String, Integer>();
 
 		for (TfBatch batch : batches) {
@@ -35,12 +43,12 @@ public class BatchesService {
 			BigDecimal curriculumId = batch.getTfCurriculum().getTfCurriculumId();
 
 			if (chartData.containsKey(curriculumName)) {
-				int moreAssociates = AssociateDaoHibernate.getNoOfAssociates(curriculumId, fromDate, toDate);
+				int moreAssociates = associateDao.getNoOfAssociates(curriculumId, fromDate, toDate);
 				int totalAssociates = chartData.get(curriculumName) + moreAssociates;
 				chartData.put(curriculumName, totalAssociates);
 			}
 			else {
-				int totalAssociates = AssociateDaoHibernate.getNoOfAssociates(curriculumId, fromDate, toDate);
+				int totalAssociates = associateDao.getNoOfAssociates(curriculumId, fromDate, toDate);
 				chartData.put(curriculumName, totalAssociates);
 			}
 		}
@@ -51,7 +59,8 @@ public class BatchesService {
 	@Path("{batch}/associates")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<TfAssociate> getAssociateInfo(@PathParam("batch") String batchName) {
-		return AssociateDaoHibernate.getAssociatesByBatch(batchName);
+		AssociateDaoHibernate associateDao = new AssociateDaoHibernate();
+		return associateDao.getAssociatesByBatch(batchName);
 	}
 	
 	
@@ -59,8 +68,8 @@ public class BatchesService {
 	@Path("{batch}/client")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getClientInfo(@PathParam("batch") String batchName){
-		//need to check hibernate method name
-		return ClientNameDaoHibernate.getClientName(batchName);
+		ClientNameDaoHibernate clientNameDao = new ClientNameDaoHibernate();
+		return clientNameDao.getClientName(batchName);
 	}
 	
 	@GET 
@@ -78,6 +87,7 @@ public class BatchesService {
 	public Map<String, Integer> getMappedData(@PathParam("batch") String batchName){
 		Map<String, Integer> mappedChartData = new Hashtable<>();
 		//TODO: need hibernate call that returns mapped numbers
+		return mappedChartData;
 	}
 	
 	

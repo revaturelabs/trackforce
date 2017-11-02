@@ -2,6 +2,9 @@ package com.revature.dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.Session;
@@ -24,6 +27,18 @@ public class ClientDaoImpl implements ClientDao {
 
 	@Override
 	public ClientInfo getAllClientInfo() {
+		
+		
+		for (int i = 1; i <= 8; i++) {
+			EntityManager em = HibernateUtil.getSession().createEntityManager();
+			StoredProcedureQuery query = em.createStoredProcedureQuery("ADMIN.GET_ALLCLIENTS_STATUS_COUNT");
+			query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+			query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
+			query.setParameter(1, i);
+			query.execute();
+			System.out.println(query.getOutputParameterValue(2));
+		}
+
 		ClientInfo clients = new ClientInfo("All Clients", 100, 95, 75, 107, 145, 23, 65, 72, 15, 34);
 		return clients;
 	}

@@ -84,25 +84,23 @@ public class BatchesTest {
 	public void i_am_able_to_see_batches_that_are_going_on_between_these_two_dates() throws Throwable {
 	}
 
-	// @When("^I click on a batch name$")
-	// public void i_click_on_a_batch_name() throws Throwable {
-	// WebElement batchDetails = driver
-	// .findElement(By.xpath("/html/body/div/div/div/div[3]/div[1]/div/table/tbody/tr[1]/td[1]/a"));
-	// batchDetails.click();
-	// }
-	//
-	// @Then("^I should see the different details about a batch$")
-	// public void i_should_see_the_different_details_about_a_batch() throws
-	// Throwable {
-	// String expectedUrl =
-	// "http://localhost:8080/TrackForce/html/index.html#!/batchDetails";
-	// driver.get(expectedUrl);
-	// try {
-	// Assert.assertEquals(expectedUrl, driver.getCurrentUrl());
-	// System.out.println("Navigated to correct webpage");
-	// } catch (Throwable pageNavigationError) {
-	// System.out.println("Didn't navigate to correct webpage");
-	// }
-	// }
+	@When("^I click on a batch name$")
+	public void i_click_on_a_batch_name() throws Throwable {
+		WebElement batchDetails = driver
+				.findElement(By.xpath("/html/body/div/div/div/div[3]/div[1]/div/table/tbody/tr[1]/td[1]/a"));
+		batchDetails.click();
+	}
+
+	@Then("^I should see the different details about a batch$")
+	public void i_should_see_the_different_details_about_a_batch() throws Throwable {
+		String expectedUrl = "http://localhost:8080/TrackForce/html/index.html#!/batchDetails";
+		driver.get(expectedUrl);
+		try {
+			Assert.assertEquals(expectedUrl, driver.getCurrentUrl());
+			System.out.println("Navigated to correct webpage");
+		} catch (Throwable pageNavigationError) {
+			System.out.println("Didn't navigate to correct webpage");
+		}
+	}
 
 }

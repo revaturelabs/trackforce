@@ -35,6 +35,11 @@ public class TfClient implements java.io.Serializable {
 		this.tfClientId = tfClientId;
 	}
 
+	public TfClient(BigDecimal tfClientId, String tfClientName) {
+		this.tfClientId = tfClientId;
+		this.tfClientName = tfClientName;
+	}
+
 	public TfClient(BigDecimal tfClientId, String tfClientName, Set<TfPlacement> tfPlacements,
 			Set<TfInterview> tfInterviews, Set<TfBatch> tfBatches) {
 		this.tfClientId = tfClientId;

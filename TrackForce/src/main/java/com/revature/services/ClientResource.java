@@ -24,6 +24,7 @@ public class ClientResource {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getAllClients() {
+
 		List<TfClient> clients = clientDaoImpl.getAllTfClients();
 
 		return Response.ok(clients).build();

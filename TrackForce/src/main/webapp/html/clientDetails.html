@@ -8,8 +8,8 @@
         <input type="text" ng-keypress="getAllClientNames()" ng-model="searchName" class="form-control" id="clientSearch" placeholder="Search by client name...">
       </div>
           <h3>Clients</h3>
-          <ul> to be replaced with ng-repeat
-            <li ng-repeat="client in clients | filter:searchName">{{client}}</li>
+          <ul >
+            <li ng-repeat="client in clients | filter:searchName"><a ng-click="getOneClient(client.id)">{{client.name}}</a></li>
             
           </ul>
         </div>
@@ -27,8 +27,8 @@
 			<div ng-controller="clientCtrl">
 				<h1 ng-bind="clientName"></h1>
 				<div class="col-md-9">
-					<canvas id="bar" ng-init="getAllClients()" class="chart chart-bar"
-						chart-data="data" chart-labels="labels"></canvas>
+					<canvas id="bar" class="chart chart-bar"
+						chart-data="data" ng-init="getAllClients()" chart-labels="labels"></canvas>
 				</div>
 			</div>
         

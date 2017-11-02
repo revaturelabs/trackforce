@@ -4,6 +4,7 @@ hibernate.cfg.xml
 # Eclipse
 .settings/
 bin/
+.project
 
 target/
 pom.xml.tag

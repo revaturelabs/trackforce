@@ -1,54 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
-    <title>untitled</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.6/angular.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.6/angular-route.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.js"></script>
-<body>
-  <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand">Associate Tracker</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li><a href="/">Welcome</a></li>
-                <li><a href="/clientDetails">Clients</a></li>
-                <li><a href="#!/batchDetails">Batches</a></li>
-                <li><a
-                    href="http://localhost:8080/ERS_Project_1">Log out</a></li>
-            </ul>
-        </div>
-    </nav>
-   <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-3">
-        <div class="form-group">
-        <input type="text" class="form-control" id="clientSearch" placeholder="Search by client name...">
-      </div>
-          <h3>Clients</h3>
-          <ul> to be replaced with ng-repeat
-            <li>clientx</li>
-            <li>clienty</li>
-            <li>clientz</li>
-          </ul>
-      </div>
-      <div class="col-md-9">
-         <h2>chart placeholder</h2>
-         <canvas id="forExChart" class="chart chart-bar"></canvas>
-      </div>
-    </div><!--/row1-->
-    <div class="row">
-    <div class="col-3"></div>
-    <div class-"col-9">
+<meta charset="utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
+<title>untitled</title>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+</head>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.6/angular.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.6/angular-route.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.js"></script>
+<script src="../js/mainApp.js"></script>
+<body ng-app="mainApp">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand">Associate Tracker</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="/">Welcome</a></li>
+				<li><a href="/clientDetails">Clients</a></li>
+				<li><a href="#!/batchDetails">Batches</a></li>
+				<li><a href="http://localhost:8080/ERS_Project_1">Log out</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-md-3">
+				<div class="form-group">
+					<input type="text" class="form-control" id="clientSearch"
+						placeholder="Search by client name...">
+				</div>
+				<h3>Clients</h3>
+				<ul>
+					to be replaced with ng-repeat
+					<li>clientx</li>
+					<li>clienty</li>
+					<li>clientz</li>
+				</ul>
+			</div>
+			<div ng-controller="clientCtrl">
+				<h1 ng-bind="clientName"></h1>
+				<div class="col-md-9">
+					<canvas id="bar" ng-init="getAllClients()" class="chart chart-bar"
+						chart-data="data" chart-labels="labels"></canvas>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-3"></div>
+			<divclass-"col-9">
 
     </div>
     </div>
     <div class="row"></div>
   </div><!--container-fluid-->
-    <!--<script src="../js/mainApp.js"></script>-->
+	<!--<script src="../js/mainApp.js"></script>-->
 </body>
 </html>

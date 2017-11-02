@@ -44,13 +44,13 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 		console.log('before http');
 		$http({
 			method : "GET",
-			url : "http://localhost:8080/TrackForce/track/clients"
+			url : "http://localhost:8080/TrackForce/track/clients/info"
 				
 		})
 				.then(
 						function(response) {
 							var clients = response.data;
-							
+							$scope.clientName=clients.name;
 							$scope.labels = [ 'Training', 'Reserved - Mapped',
 								'Reserved - Unmapped', 'Selected - Mapped',
 								'Selected - Unmapped', 'Confirmed - Mapped',
@@ -72,17 +72,18 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 							+ $scope.searchValue
 				}).then(
 				function(response) {
-					$scope.client = response.data;
+					$scope.clients = response.data;
+					$scope.clientName=clients.name;
 					$scope.labels = [ 'Training', 'Reserved - Mapped',
 							'Reserved - Unmapped', 'Selected - Mapped',
 							'Selected - Unmapped', 'Confirmed - Mapped',
 							'Confirmed - Unmapped', 'Deployed - Mapped',
 							'Deployed - Unmapped' ];
-					$scope.data = [ $scope.clients.trainingMapped,
-						$scope.clients.reservedMapped,$scope.clients.reservedUnmapped,
-						$scope.clients.selectedMapped,$scope.clients.selectedUnmapped,
-						$scope.clients.confirmedMapped,$scope.clients.confirmedUnmapped,
-						$scope.clients.deployedMapped,$scope.clients.deployedUnmapped  ];
+					$scope.data = [ clients.trainingMapped,
+						clients.reservedMapped,clients.reservedUnmapped,
+						clients.selectedMapped,clients.selectedUnmapped,
+						clients.confirmedMapped,clients.confirmedUnmapped,
+						clients.deployedMapped,clients.deployedUnmapped  ];
 				});
 	}
 

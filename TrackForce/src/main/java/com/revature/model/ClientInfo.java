@@ -33,6 +33,7 @@ public class ClientInfo {
 		this.deployedMapped = deployedMapped;
 		this.deployedUnmapped = deployedUnmapped;
 	}
+	
 
 	public String getName() {
 		return name;
@@ -53,8 +54,12 @@ public class ClientInfo {
 	public int getTrainingUnmapped() {
 		return trainingUnmapped;
 	}
-
+	
 	public void setTrainingUnmapped(int trainingUnmapped) {
+		this.trainingUnmapped = trainingUnmapped;
+	}
+
+	public void confirmed(int trainingUnmapped) {
 		this.trainingUnmapped = trainingUnmapped;
 	}
 

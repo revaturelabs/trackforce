@@ -37,10 +37,17 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 		}).then(function successCallback(response) {
 		    // this callback will be called asynchronously
 		    // when the response is available
-			$scope.batches = response.data;
+			$scope.batches = response.data; 
 		}, function errorCallback(response) {
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
+			$scope.batches = {"batches":[
+									{
+										"batchname":"JTA_SDET",
+										"batchname":".NET"
+									}
+								]
+							}; 
 		})
 		
 	};
@@ -57,6 +64,7 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 		}, function errorCallback(response) {
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
+			$scope.amountType = {"JTA_SDET":"2",".NET":"3"}
 		})
 		
 	};
@@ -73,6 +81,7 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 		}, function errorCallback(response) {
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
+			$scope.assosicatesBatch = {"firstname":"Raul", "lastname":"Dummy-Data", "associateId":"000"}; 
 		})
 		
 	};
@@ -85,10 +94,11 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 		}).then(function successCallback(response) {
 		    // this callback will be called asynchronously
 		    // when the response is available
-			$scope.batchInfo = response.data;
+			$scope.batchInfo = response.data; 
 		}, function errorCallback(response) {
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
+			$scope.batchInfo = {"startdate":"09/11/2017","enddate":"11/17/2017"};
 		})
 		
 	};
@@ -105,15 +115,23 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 		}, function errorCallback(response) {
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
+			$scope.batchMapSatus = {"Mapped":"0", "Unmapped":"0"}
 		})
 		
 	};
 	
 	
 	
-	$scope.labels = [ '2006', '2007', '2008', '2009', '2010', '2011', '2012' ];
-	$scope.series = [ 'Series A', 'Series B' ];
-
-	$scope.data = [ [ 65, 59, 80, 81, 56, 55, 40 ],
-			[ 28, 48, 40, 19, 86, 27, 90 ] ];
+	$scope.labels = [ 'Mapped','Unmapped' ];
+	$scope.series = [ 'Series A' ];
+	$scope.data = [70, 61];
+	$scope.options = {
+			  scales: {
+			    yAxes: [
+			      {
+			        ticks: {beginAtZero:true}
+			      }
+			    ]
+			  }
+			 };
 });

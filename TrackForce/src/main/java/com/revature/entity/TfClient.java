@@ -4,6 +4,7 @@ package com.revature.entity;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,7 +23,7 @@ public class TfClient implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1189336735420927002L;
-	private BigDecimal tfClientId;
+	private int tfClientId;
 	private String tfClientName;
 	private Set<TfPlacement> tfPlacements = new HashSet<TfPlacement>(0);
 	private Set<TfInterview> tfInterviews = new HashSet<TfInterview>(0);
@@ -31,16 +32,16 @@ public class TfClient implements java.io.Serializable {
 	public TfClient() {
 	}
 
-	public TfClient(BigDecimal tfClientId) {
+	public TfClient(int tfClientId) {
 		this.tfClientId = tfClientId;
 	}
 
-	public TfClient(BigDecimal tfClientId, String tfClientName) {
+	public TfClient(int tfClientId, String tfClientName) {
 		this.tfClientId = tfClientId;
 		this.tfClientName = tfClientName;
 	}
 
-	public TfClient(BigDecimal tfClientId, String tfClientName, Set<TfPlacement> tfPlacements,
+	public TfClient(int tfClientId, String tfClientName, Set<TfPlacement> tfPlacements,
 			Set<TfInterview> tfInterviews, Set<TfBatch> tfBatches) {
 		this.tfClientId = tfClientId;
 		this.tfClientName = tfClientName;
@@ -52,11 +53,11 @@ public class TfClient implements java.io.Serializable {
 	@Id
 
 	@Column(name = "TF_CLIENT_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getTfClientId() {
+	public int getTfClientId() {
 		return this.tfClientId;
 	}
 
-	public void setTfClientId(BigDecimal tfClientId) {
+	public void setTfClientId(int tfClientId) {
 		this.tfClientId = tfClientId;
 	}
 

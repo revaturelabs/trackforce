@@ -1,6 +1,6 @@
 <div ng-controller="batchCtrl">
 	<div class="container">
-		<div><h2 class="text-center text-primary">Batch List</h2></div>
+		<div><title class="text-center text-primary">Batch List</title></div>
 	
 		<div class="row">
 			<div class="col-sm-6">
@@ -9,8 +9,9 @@
 			<div class="col-sm-6">
 			<h3>Select dates:</h3>
 				<form>
-					From: <input type="date" name="fromDate"> 
-					To: <input type="date" name="toDate">
+					From: <input type="date" ng-model="fromdate"/> 
+					To: <input type="date" ng-model="todate"/>
+					<input type="submit" value="Submit" ng-click="getBatches()"/>
 				</form>
 			</div>
 		</div>

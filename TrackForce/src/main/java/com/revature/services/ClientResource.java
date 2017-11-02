@@ -1,9 +1,8 @@
 package com.revature.services;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.revature.entity.TfClient;
 import com.revature.model.ClientInfo;
 
 @Path("/clients")
@@ -21,15 +21,12 @@ public class ClientResource {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getAllClients() {
-		List<String> clients = new ArrayList<>();
-		clients.add("Client1");
-		clients.add("Client2");
-		clients.add("Client3");
-		
-		Map<String, List<String>> entity = new HashMap<>();
-		entity.put("name", clients);
+		List<TfClient> clients = new ArrayList<>();
+		clients.add(new TfClient(new BigDecimal(1), "Client 1"));
+		clients.add(new TfClient(new BigDecimal(2), "Client 2"));
+		clients.add(new TfClient(new BigDecimal(3), "Client 3"));
 
-		return Response.ok(entity).build();
+		return Response.ok(clients).build();
 	}
 
 	@GET

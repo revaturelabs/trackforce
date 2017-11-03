@@ -52,21 +52,21 @@ public class BatchesService {
 //		return chartData;
 //	}
 //	
-//	@GET
-//	@Path("{batch}/associates")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public List<TfAssociate> getAssociateInfo(@PathParam("batch") String batchName) {
-//		return AssociateDaoHibernate.getAssociatesByBatch(batchName);
-//	}
-//	
-//	
-//	@GET
-//	@Path("{batch}/client")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public String getClientInfo(@PathParam("batch") String batchName){
-//		//need to check hibernate method name
-//		return ClientNameDaoHibernate.getClientName(batchName);
-//	}
+////	@GET
+////	@Path("{batch}/associates")
+////	@Produces(MediaType.APPLICATION_JSON)
+////	public List<TfAssociate> getAssociateInfo(@PathParam("batch") String batchName) {
+////		return AssociateDaoHibernate.getAssociatesByBatch(batchName);
+////	}
+////	
+////	
+////	@GET
+////	@Path("{batch}/client")
+////	@Produces(MediaType.APPLICATION_JSON)
+////	public String getClientInfo(@PathParam("batch") String batchName){
+////		//need to check hibernate method name
+////		return ClientNameDaoHibernate.getClientName(batchName);
+////	}
 //	
 //	@GET 
 //	@Path("{batch}/info")
@@ -81,11 +81,11 @@ public class BatchesService {
 //	@Path("{batch}/batchChart")
 //	@Produces(MediaType.APPLICATION_JSON)
 //	public Map<String, Integer> getMappedData(@PathParam("batch") String batchName){
-//		Map<String, Integer> mappedChartData = new Hashtable<>();
+//		Map<String, Integer> mappedChartData = new Hashtable<String, Integer>();
 //		//TODO: need hibernate call that returns mapped numbers
 //	}
 //	
-	
+//	
 
 	@Path("{fromdate}/{todate}")
     @Produces(MediaType.APPLICATION_JSON)

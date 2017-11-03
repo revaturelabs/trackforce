@@ -16,9 +16,8 @@ import com.revature.utils.HibernateUtil;
 public class AssociateDaoHibernate implements AssociateDao{
     
     @Override
-	public Integer getNoOfAssociates(BigDecimal associate_batch_id) {
+	public int getNoOfAssociates(BigDecimal associate_batch_id) {
 		// count on the batchid based on the batchid condition
-
 		String count_batches = "select count(TfAssociate.tfAssociateId) from com.revature.entity where entity.tfBatchId=:associatebatch_id group by entity.tfAssociateId ";
 		SessionFactory conn = HibernateUtil.getSession();
 		Session obj=conn.getCurrentSession();

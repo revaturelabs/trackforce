@@ -1,7 +1,6 @@
 package com.revature.services;
 
 
-import java.sql.Timestamp;
 import java.util.Hashtable;
 
 import java.util.List;
@@ -26,10 +25,8 @@ public class BatchesService {
 	public Map<String, Integer> getBatchChartInfo(@PathParam("fromDate") String fromdate, 
 			@PathParam("toDate") String todate) {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
-		Timestamp fromDate = new Timestamp(Long.valueOf(fromdate));
-		Timestamp toDate = new Timestamp(Long.valueOf(todate));
 		
-		List<TfBatch> batches = batchDao.getBatchDetails(fromDate, toDate);
+		List<TfBatch> batches = batchDao.getBatchDetails(fromdate.substring(4, 15), todate.substring(4, 15));
 		Map<String, Integer> chartData = new Hashtable<String, Integer>();
 
 		for (TfBatch batch : batches) {
@@ -88,7 +85,7 @@ public class BatchesService {
     public List<TfBatch> getBatches(@PathParam("fromdate") String fromdate, @PathParam("todate") String todate ){
 		System.out.println(fromdate);
         System.out.println(todate);
-        return new BatchDaoHibernate().getBatchDetails(new Timestamp(Long.valueOf(fromdate)), new Timestamp(Long.valueOf(todate)));
+        return new BatchDaoHibernate().getBatchDetails(fromdate.substring(4, 15), todate.substring(4, 15));
     }
 
 }

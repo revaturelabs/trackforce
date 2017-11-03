@@ -1,14 +1,15 @@
 package com.revature.dao;
 
-import java.sql.Timestamp;
 import java.util.List;
+
 
 import javax.persistence.ParameterMode;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
+
 import org.hibernate.procedure.ProcedureCall;
-import org.hibernate.query.Query;
 import org.hibernate.result.Output;
 import org.hibernate.result.ResultSetOutput;
 
@@ -16,25 +17,6 @@ import com.revature.entity.TfBatch;
 import com.revature.utils.HibernateUtil;
 
 public class BatchDaoHibernate implements BatchDao {
-
-	// fromdate is a variable we created, batchstartdate is from the
-	/**
-	 * jkl
-	 * @param fromdate hi
-	 */
-	public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate) {
-		String batchdetails = "from com.revature.entity.TfBatch where (tfBatchStartDate between :fromdate and :todate) or (tfBatchEndDate between  :fromdate and :todate)";
-		SessionFactory conn = HibernateUtil.getSession();
-		Session obj=conn.getCurrentSession();
-		Query<TfBatch> q = obj.createQuery(batchdetails);
-		q.setParameter("fromdate", fromdate);
-		q.setParameter("from_date", fromdate);
-		q.setParameter("todate", todate);
-		q.setParameter("to_date", todate);
-		List<TfBatch> batch_details = q.list();
-		return batch_details;
-
-    }
 
     /**
      * Get a batch from the database given its name.
@@ -64,4 +46,22 @@ public class BatchDaoHibernate implements BatchDao {
 
         return batch;
     }
+
+
+	
+
+	
+	public List<TfBatch> getBatchDetails(String fromdate,String todate){
+		SessionFactory sessionFactory = HibernateUtil.getSession();
+		Session session = sessionFactory.unwrap( Session.class );
+		ProcedureCall sp=session.createStoredProcedureCall("ADMIN.batch_by_date_range_PROC");
+		sp.registerParameter(1,String.class,ParameterMode.IN).bindValue(fromdate);
+		sp.registerParameter(2, String.class, ParameterMode.IN).bindValue(todate);
+		sp.registerParameter(3,Class.class,ParameterMode.REF_CURSOR);
+		Output output=sp.getOutputs().getCurrent();
+		List<TfBatch> postComments=((ResultSetOutput) output).getResultList();
+		return postComments;	
+	}
+	
 }
+

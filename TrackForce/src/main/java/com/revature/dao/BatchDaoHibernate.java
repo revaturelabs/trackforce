@@ -1,5 +1,6 @@
-package com.revature.dao; 
+package com.revature.dao;
 
+import java.sql.Timestamp;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -9,8 +10,6 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfBatch;
@@ -19,17 +18,15 @@ import com.revature.utils.HibernateUtil;
 public class BatchDaoHibernate implements BatchDao {
 
 	// fromdate is a variable we created, batchstartdate is from the
-	@SuppressWarnings("rawtypes")
-	public List<TfBatch> getBatchDetails(String fromdate, String todate) {
-		String batchdetails = "from com.revature.entity where (tfBatchStartDate between :fromdate and :todate) or (tfBatchEndDate between  :from_date and :to_date)";
+	public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate) {
+		String batchdetails = "from com.revature.entity.TfBatch where (tfBatchStartDate between :fromdate and :todate) or (tfBatchEndDate between  :fromdate and :todate)";
 		SessionFactory conn = HibernateUtil.getSession();
 		Session obj=conn.getCurrentSession();
-		Query q = obj.createQuery(batchdetails);
+		Query<TfBatch> q = obj.createQuery(batchdetails);
 		q.setParameter("fromdate", fromdate);
 		q.setParameter("from_date", fromdate);
 		q.setParameter("todate", todate);
 		q.setParameter("to_date", todate);
-		@SuppressWarnings("unchecked")
 		List<TfBatch> batch_details = q.list();
 		return batch_details;
 
@@ -54,12 +51,10 @@ public class BatchDaoHibernate implements BatchDao {
         
         return batch.getTfCurriculum().getTfCurriculumName();
     }
-    
-	/**
-	 * Gets a batch's ID from its name
-	 */
-    @Override
-    public BigDecimal getBatchID(String batchName){
+//	 * Gets a batch's ID from its name
+//	 */
+//    @Override
+//    public int getBatchID(String batchName){
 //        SessionFactory sessionFactory = HibernateUtil.getSession();
 //        Session session = sessionFactory.openSession();
 //
@@ -69,12 +64,24 @@ public class BatchDaoHibernate implements BatchDao {
 //        Integer id = (Integer)query.list().get(0);
 //        
 //        session.close();
-        
-        TfBatch batch = getBatch(batchName);
-        
-        return batch.getTfBatchId();
-    }
-
+//        
+//        return id.intValue();
+////    }
+//    @Override
+//    public Batch getBatch(int batchID) {
+//        SessionFactory sessionFactory = HibernateUtil.getSession();
+//        Session session = sessionFactory.openSession();
+//
+//        String hql = "FROM com.revature.model.Batch batch where batch.id = :batchID";
+//        Query query = session.createQuery(hql);
+//        query.setParameter("batchID", batchID);
+//        Batch batch = (Batch)query.list().get(0);
+//        
+//        session.close();
+//        
+//        return batch;
+//    }
+    
     /**
      * Insert a batch into the database.
      */

@@ -15,7 +15,10 @@ describe('Test Batch Feature Suite', function() {
 	// Allows us to not depend on Rest Services to be setup to test http requests
 	beforeEach(angular.mock.inject(function($httpBackend) {
 		backend = $httpBackend;
-		backend.expect("GET", 'http://localhost:8080/TrackForce/track/batches').respond(
+		var fromDate = new Date(123456789);
+		var toDate = new Date(123456789);
+		
+		backend.expect("GET", 'http://localhost:8080/TrackForce/track/batches/' + fromDate.getTime() + '/' + toDate.getTime()).respond(
 				[
 					{ "name": "SDET", "startdate": "hello", "enddate": "bye"},
 					{ "name": ".NET", "startdate": "hello", "enddate": "bye"},
@@ -39,14 +42,7 @@ describe('Test Batch Feature Suite', function() {
 			console.log('hello there');
 			console.log(mockScope.batches);
 		});
-		
-		it('Test getBatches1()', function() {
-			mockScope.getBatches();
-			
-			// This ensures that the http request was sent
-			// ***Still trying to check if the data is generated***
-			backend.verifyNoOutstandingExpectation();
-		});
+
 	});
 
 });

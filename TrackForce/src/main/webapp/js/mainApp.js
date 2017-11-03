@@ -62,10 +62,16 @@ mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 	$scope.batches = 'hello';
 	
 	$scope.getBatches = function() {
+		console.log($scope.fromdate);
+		console.log($scope.todate);
+		var fromdate = new Date($scope.fromdate);
+		var todate = new Date($scope.todate);
+		
 		// Simple GET request example:
 		$http({
 			method : 'GET',
-			url : baseURL + 'batches'
+			url : baseURL + 'batches/' + fromdate.getTime() + '/' + todate.getTime(),
+		    headers: {'Content-Type': 'application/json' }
 		}).then(function(success) {
 			$scope.batches = data;
 			console.log($scope.batches);

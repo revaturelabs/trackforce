@@ -38,6 +38,7 @@ public class BatchDaoHibernate implements BatchDao {
 
     /**
      * Get a batch from the database given its name.
+     * @param batchName - The name of the batch to get information about
      */
     @Override
     public TfBatch getBatch(String batchName) {

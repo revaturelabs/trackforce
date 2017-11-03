@@ -1,7 +1,6 @@
 package com.revature.dao;
 
 import java.sql.Timestamp;
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -10,6 +9,8 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfBatch;
@@ -31,62 +32,12 @@ public class BatchDaoHibernate implements BatchDao {
 		return batch_details;
 
 	}
-	
-	/**
-	 * Gets the cirriculum name from a batch ID
-	 */
-	@Override
-    public String getBatchCirriculumName(int batchID) {
-//        SessionFactory sessionFactory = HibernateUtil.getSession();
-//        Session session = sessionFactory.openSession();
-//
-//        String hql = "select curriculum.tfCurriculumName FROM com.revature.model.TfBatch as batch, com.revature.model.TfCurriculum as curriculum WHERE batch.tfCurriculumId = Curruculumn.tfCurriculumId AND batch.tfCurriculumId = :batchID";
-//        Query query = session.createQuery(hql);
-//        query.setParameter("batchID", batchID);
-//        TfBatch batch = (TfBatch)query.list().get(0);
-//        
-//        session.close();
-	    
-	    TfBatch batch = getBatch(batchID);
-        
-        return batch.getTfCurriculum().getTfCurriculumName();
-    }
-//	 * Gets a batch's ID from its name
-//	 */
-//    @Override
-//    public int getBatchID(String batchName){
-//        SessionFactory sessionFactory = HibernateUtil.getSession();
-//        Session session = sessionFactory.openSession();
-//
-//        String hql = "select batch.id FROM com.revature.model.Batch batch WHERE batch.batchname = :batchName";
-//        Query query = session.createQuery(hql);
-//        query.setParameter("batchName", batchName);
-//        Integer id = (Integer)query.list().get(0);
-//        
-//        session.close();
-//        
-//        return id.intValue();
-////    }
-//    @Override
-//    public Batch getBatch(int batchID) {
-//        SessionFactory sessionFactory = HibernateUtil.getSession();
-//        Session session = sessionFactory.openSession();
-//
-//        String hql = "FROM com.revature.model.Batch batch where batch.id = :batchID";
-//        Query query = session.createQuery(hql);
-//        query.setParameter("batchID", batchID);
-//        Batch batch = (Batch)query.list().get(0);
-//        
-//        session.close();
-//        
-//        return batch;
-//    }
     
     /**
      * Insert a batch into the database.
      */
     @Override
-    public void insertBatch(Batch batch) {
+    public void insertBatch(TfBatch batch) {
         SessionFactory sessionFactory = HibernateUtil.getSession();
         Session session = sessionFactory.openSession();
         

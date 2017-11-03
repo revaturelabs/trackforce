@@ -10,10 +10,7 @@ public interface BatchDao {
 
 	// public List<Batch> selectAll();
 	public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate);
-
-    //String getBatchCirriculumName(int batchID);
-    //int getBatchID(String batchName);
-    //void insertBatch(TfBatch batch);
-    //Batch getBatch(int batchID);
+    void insertBatch(TfBatch batch);
+    TfBatch getBatch(int batchID);
     TfBatch getBatch(String batchName);
 }

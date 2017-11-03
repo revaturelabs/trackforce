@@ -46,7 +46,7 @@ mainApp.controller("clientSearchAndListCtrl", function($scope, $http){
     		url : "http://localhost:8080/TrackForce/track/clients"
     	}).then( function(response){
     		$scope.clients = response.data;
-    		
+    		console.log(response.data);
     	});
     }
 	
@@ -77,15 +77,17 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 						});
 	}
 
-	$scope.getOneClient = function() {
+	$scope.getOneClient = function(searchValue) {
 		$http(
 				{
 					method : "GET",
 					url : "http://localhost:8080/TrackForce/track/clients/"
-							+ $scope.searchValue
+							+ searchValue
 				}).then(
 				function(response) {
-					$scope.clients = response.data;
+					console.log(response.status);
+					console.log(response.data);
+					var clients = $scope.clients;
 					$scope.clientName=clients.name;
 					$scope.labels = [ 'Training', 'Reserved - Mapped',
 							'Reserved - Unmapped', 'Selected - Mapped',

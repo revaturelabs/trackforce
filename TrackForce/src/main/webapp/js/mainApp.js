@@ -181,9 +181,9 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 									clients.selectedUnmapped,
 									clients.confirmedUnmapped,
 									clients.deployedUnmapped ] ];
-					$scope.colors = [ '#72C02C', '#3498DB', '#717984',
-							'#F1C40F' ];
-					$scope.options = { legend: { display: true, position: 'right' } };
+					$scope.colors = [ {backgroundColor:'#e85410'}, {backgroundColor:'#59504c'}, '#e85410',
+							'#e85410' ];
+					$scope.options = { legend: { display: true, position: 'right' },};
 				});
 	}
 	/*

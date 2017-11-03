@@ -53,7 +53,7 @@ public class BatchDaoHibernate implements BatchDao {
         // Query<TfBatch> query = session.createQuery(criteriaQuery);
         // TfBatch batch = query.getSingleResult();
 
-        ProcedureCall call = session.createStoredProcedureCall("Test");
+        ProcedureCall call = session.createStoredProcedureCall("ADMIN.rows_by_batchname");
         call.registerParameter(1, Integer.class, ParameterMode.IN).bindValue(1);
         call.registerParameter(2, Class.class, ParameterMode.REF_CURSOR);
 

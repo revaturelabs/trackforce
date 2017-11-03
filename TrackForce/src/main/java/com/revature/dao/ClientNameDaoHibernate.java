@@ -16,6 +16,7 @@ public class ClientNameDaoHibernate implements ClientNameDao {
 		Query q = obj.createQuery(client_name);
 		q.setParameter("batch_batch_name", batch_name);
 		String name = (String) q.list().get(0);
+		obj.close();
 		return name;
 	}
 }

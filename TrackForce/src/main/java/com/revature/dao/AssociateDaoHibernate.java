@@ -12,50 +12,53 @@ import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.utils.HibernateUtil;
 
+public class AssociateDaoHibernate implements AssociateDao {
 
-public class AssociateDaoHibernate implements AssociateDao{
-    
-    @Override
+	@Override
 	@SuppressWarnings("rawtypes")
 	public BigDecimal getNoOfAssociates(BigDecimal associate_batch_id) {
 		// count on the batchid based on the batchid condition
 
-		String count_batches = "select count(TfAssociate.tfAssociateId) from com.revature.entity where entity.tfBatchId=:associatebatch_id group by entity.tfAssociateId ";
-		SessionFactory conn = HibernateUtil.getSession();
-		Session obj=conn.getCurrentSession();
-		Query query =obj.createQuery(count_batches);
+		String count_associate = "select count(TfAssociate.tfAssociateId) from com.revature.entity.TfAssociate where TfAssociate.tfBatch=:associatebatch_id group by TfAssociate.tfAssociateId ";
+		SessionFactory sessionfactory = HibernateUtil.getSession();
+		Session session = sessionfactory.openSession();
+		System.out.println(session);
+		System.out.println(count_associate);
+		Query query = session.createQuery(count_associate);
 		query.setParameter("associatebatch_id", associate_batch_id);
-		BigDecimal associate_count =  (BigDecimal) query.list().get(0);
-		//conn.close();
+		System.out.println(query.list());
+		BigDecimal associate_count = (BigDecimal) query.list().get(0);
+		session.close();
 		return associate_count;
-		
+
 	}
-	
+
 	/**
 	 * Get a list of associates in a batch.
 	 * 
-	 * @param batchName - The name of the batch
+	 * @param batchName
+	 *            - The name of the batch
 	 * @return - A list of associates.
 	 */
 	@Override
-    public List<TfAssociate> getAssociatesByBatch(String batchName)
-    {
-        int batchID = new BatchDaoHibernate().getBatchID(batchName);
-        SessionFactory sessionFactory = HibernateUtil.getSession();
-        Session session = sessionFactory.openSession();
-        
-//        String hql = "FROM com.revature.Associate associate WHERE associate.batchID = :batchID";
-//        TypedQuery<TfAssociate> query = session.createQuery(hql);
-//        query.setParameter("batchID", batchID);
-//        List<TfAssociate> associates = query.getResultList();
-        
-        TfBatch batch = new BatchDaoHibernate().getBatch(batchName);
-        
-        List<TfAssociate> associates = new ArrayList<TfAssociate>();
-        associates.addAll(batch.getTfAssociates());
-        
-        session.close();
-        
-        return associates;
-    }
+	public List<TfAssociate> getAssociatesByBatch(String batchName) {
+		int batchID = new BatchDaoHibernate().getBatchID(batchName);
+		SessionFactory sessionFactory = HibernateUtil.getSession();
+		Session session = sessionFactory.openSession();
+
+		// String hql = "FROM com.revature.Associate associate WHERE associate.batchID =
+		// :batchID";
+		// TypedQuery<TfAssociate> query = session.createQuery(hql);
+		// query.setParameter("batchID", batchID);
+		// List<TfAssociate> associates = query.getResultList();
+
+		TfBatch batch = new BatchDaoHibernate().getBatch(batchName);
+
+		List<TfAssociate> associates = new ArrayList<TfAssociate>();
+		associates.addAll(batch.getTfAssociates());
+
+		session.close();
+
+		return associates;
+	}
 }

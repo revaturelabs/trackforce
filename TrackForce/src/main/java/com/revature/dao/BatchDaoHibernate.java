@@ -31,74 +31,6 @@ public class BatchDaoHibernate implements BatchDao {
 
 	}
 	
-//	/**
-//	 * Gets the cirriculum name from a batch ID
-//	 */
-//	@Override
-//    public String getBatchCirriculumName(int batchID) {
-//        SessionFactory sessionFactory = HibernateUtil.getSession();
-//        Session session = sessionFactory.openSession();
-//
-//        String hql = "select cirriculum.name FROM com.revature.model.Batch batch, com.revature.model.Cirriculum cirriculum WHERE batch.cirriculumid = cirriculumn.id AND batch.cirriculumid = :batchID";
-//        Query query = session.createQuery(hql);
-//        query.setParameter("batchID", batchID);
-//        TfBatch batch = (TfBatch)query.list().get(0);
-//        
-//        session.close();
-//        
-//        return batch.getTfCurriculum().getTfCurriculumName();
-//    }
-//    
-//	/**
-//	 * Gets a batch's ID from its name
-//	 */
-//    @Override
-//    public int getBatchID(String batchName){
-//        SessionFactory sessionFactory = HibernateUtil.getSession();
-//        Session session = sessionFactory.openSession();
-//
-//        String hql = "select batch.id FROM com.revature.model.Batch batch WHERE batch.batchname = :batchName";
-//        Query query = session.createQuery(hql);
-//        query.setParameter("batchName", batchName);
-//        Integer id = (Integer)query.list().get(0);
-//        
-//        session.close();
-//        
-//        return id.intValue();
-////    }
-//
-//    /**
-//     * Insert a batch into the database.
-//     */
-//    @Override
-//    public void insertBatch(TfBatch batch) {
-//        SessionFactory sessionFactory = HibernateUtil.getSession();
-//        Session session = sessionFactory.openSession();
-//        
-//        Transaction transaction = session.beginTransaction();
-//        session.save(batch);
-//        transaction.commit();
-//        
-//        session.close();
-//    }
-//    
-//    /**
-//     * Get a batch from the database given its ID.
-//     */
-//    @Override
-//    public Batch getBatch(int batchID) {
-//        SessionFactory sessionFactory = HibernateUtil.getSession();
-//        Session session = sessionFactory.openSession();
-//
-//        String hql = "FROM com.revature.model.Batch batch where batch.id = :batchID";
-//        Query query = session.createQuery(hql);
-//        query.setParameter("batchID", batchID);
-//        Batch batch = (Batch)query.list().get(0);
-//        
-//        session.close();
-//        
-//        return batch;
-//    }
     
     /**
      * Get a batch from the database given its name.
@@ -119,4 +51,5 @@ public class BatchDaoHibernate implements BatchDao {
         
         return batch;
     }
+
 }

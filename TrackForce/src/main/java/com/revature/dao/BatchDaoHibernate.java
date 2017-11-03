@@ -17,18 +17,22 @@ import com.revature.utils.HibernateUtil;
 
 public class BatchDaoHibernate implements BatchDao {
 
-    // fromdate is a variable we created, batchstartdate is from the
-    public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate) {
-        String batchdetails = "from com.revature.entity.TfBatch where (tfBatchStartDate between :fromdate and :todate) or (tfBatchEndDate between  :fromdate and :todate)";
-        SessionFactory conn = HibernateUtil.getSession();
-        Session obj = conn.getCurrentSession();
-        Query<TfBatch> q = obj.createQuery(batchdetails);
-        q.setParameter("fromdate", fromdate);
-        q.setParameter("from_date", fromdate);
-        q.setParameter("todate", todate);
-        q.setParameter("to_date", todate);
-        List<TfBatch> batch_details = q.list();
-        return batch_details;
+	// fromdate is a variable we created, batchstartdate is from the
+	/**
+	 * jkl
+	 * @param fromdate hi
+	 */
+	public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate) {
+		String batchdetails = "from com.revature.entity.TfBatch where (tfBatchStartDate between :fromdate and :todate) or (tfBatchEndDate between  :fromdate and :todate)";
+		SessionFactory conn = HibernateUtil.getSession();
+		Session obj=conn.getCurrentSession();
+		Query<TfBatch> q = obj.createQuery(batchdetails);
+		q.setParameter("fromdate", fromdate);
+		q.setParameter("from_date", fromdate);
+		q.setParameter("todate", todate);
+		q.setParameter("to_date", todate);
+		List<TfBatch> batch_details = q.list();
+		return batch_details;
 
     }
 

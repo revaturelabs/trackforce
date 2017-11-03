@@ -8,7 +8,7 @@ import com.revature.entity.TfBatch;
 
 public interface BatchDao {
 
-	// public List<Batch> selectAll();
+
 	public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate);
     TfBatch getBatch(String batchName);
 }

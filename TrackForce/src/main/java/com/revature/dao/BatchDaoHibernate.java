@@ -53,5 +53,4 @@ public class BatchDaoHibernate implements BatchDao {
         
         return batch;
     }
-
 }

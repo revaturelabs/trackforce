@@ -8,6 +8,7 @@ import javax.persistence.StoredProcedureQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import com.revature.entity.TfClient;
 import com.revature.model.ClientInfo;
@@ -21,6 +22,7 @@ public class ClientDaoImpl implements ClientDao {
 		CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
 		cq.from(TfClient.class);
 		List<TfClient> clients = session.createQuery(cq).getResultList();
+		
 		session.close();
 		return clients;
 	}
@@ -28,10 +30,10 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public ClientInfo getAllClientInfo() {
 		final int numberOfStatuses = 10;
+		EntityManager em = HibernateUtil.getSession().createEntityManager();
 
 		int[] counts = new int[numberOfStatuses];
 		for (int i = 1; i <= numberOfStatuses; i++) {
-			EntityManager em = HibernateUtil.getSession().createEntityManager();
 			StoredProcedureQuery query = em.createStoredProcedureQuery("ADMIN.GET_ALLCLIENTS_STATUS_COUNT");
 			query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
 			query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
@@ -39,8 +41,10 @@ public class ClientDaoImpl implements ClientDao {
 			query.execute();
 			counts[i - 1] = (int) query.getOutputParameterValue(2);
 		}
+		em.close();
 		ClientInfo clientInfo = setClientInfoWithIntArray(counts);
 		clientInfo.setName("all");
+		
 		return clientInfo;
 	}
 
@@ -63,9 +67,10 @@ public class ClientDaoImpl implements ClientDao {
 			query.execute();
 			counts[i - 1] = (int) query.getOutputParameterValue(3);
 		}
-		
+		em.close();
 		ClientInfo clientInfo = setClientInfoWithIntArray(counts);
-		clientInfo.setName("all");
+		clientInfo.setName("Client name");
+		
 		return clientInfo;
 	}
 

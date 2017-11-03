@@ -22,6 +22,12 @@ public class ClientResource {
 	
 	private ClientDao clientDaoImpl = new ClientDaoImpl();
 
+	/**
+	 * Returns a map of all of the clients from the TfClient table
+	 * as a response object.
+	 * 
+	 * @return	a map of TfClients as a Response object
+	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getAllClients() {
@@ -38,20 +44,31 @@ public class ClientResource {
 		return Response.ok(entity).build();
 	}
 
+	/**
+	 * Returns a ClientInfo object representing all clients'
+	 * associates and their statuses.
+	 * 
+	 * @return	a ClientInfo object for all clients
+	 */
 	@GET
 	@Path("info")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public ClientInfo getAllClientInfo() {
-		ClientInfo clients = clientDaoImpl.getAllClientInfo();
-		return clients;
+		return clientDaoImpl.getAllClientInfo();
 	}
 
+	/**
+	 * Returns a ClientInfo object representing a client's
+	 * associates and their statuses.
+	 * 
+	 * @param clientid	The id of the client in the TfClient table
+	 * @return			a ClientInfo object for a specified client
+	 */
 	@GET
 	@Path("{clientid}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public ClientInfo getClientInfo(@PathParam("clientid") int clientid) {
-		ClientInfo aClient = clientDaoImpl.getClientInfo(clientid);
-		return aClient;
+		return clientDaoImpl.getClientInfo(clientid);
 	}
 
 }

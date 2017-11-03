@@ -134,6 +134,7 @@ mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 			} ]
 		}
 	};
+});
 // Controller used for the search bar function
 mainApp.controller("clientSearchAndListCtrl", function($scope, $http) {
 	/*

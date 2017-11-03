@@ -95,5 +95,4 @@ public class ClientDaoImpl implements ClientDao {
 		clientInfo.setDeployedUnmapped(counts[9]);
 		return clientInfo;
 	}
-
 }

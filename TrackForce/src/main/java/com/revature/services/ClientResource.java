@@ -74,5 +74,4 @@ public class ClientResource {
 	public ClientInfo getClientInfo(@PathParam("clientid") int clientid) {
 		return clientDaoImpl.getClientInfo(clientid);
 	}
-
 }

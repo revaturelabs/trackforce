@@ -28,6 +28,7 @@ mainApp.config(function($routeProvider) {
 		controller : "clientCtrl"
 	})
 });
+mainApp.controller("mainCtrl", function(){});
 mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 	$scope.batches = 'hello';
 	$scope.getBatches = function() {
@@ -135,8 +136,8 @@ mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 		}
 	};
 });
-// Controller used for the search bar function
-mainApp.controller("clientSearchAndListCtrl", function($scope, $http) {
+// This controller is used for generating charts for the client page
+mainApp.controller("clientCtrl", function($scope, $http) {
 	/*
 	 * This function will return a JavaScript object that contains all of the
 	 * client name and their id numbers
@@ -150,9 +151,6 @@ mainApp.controller("clientSearchAndListCtrl", function($scope, $http) {
 			console.log(response.data);
 		});
 	}
-});
-// This controller is used for generating charts for the client page
-mainApp.controller("clientCtrl", function($scope, $http) {
 	// This function will create a chart for all of the clients data
 	$scope.getAllClients = function() {
 		$http({
@@ -195,8 +193,6 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 							+ searchValue
 				}).then(
 				function(response) {
-					console.log(response.status);
-					console.log(response.data);
 					var clients = response.data;
 					$scope.clientName = clients.name;
 					$scope.labels = [ 'Training', 'Reserved - Mapped',

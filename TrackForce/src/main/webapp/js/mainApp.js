@@ -28,13 +28,48 @@ mainApp.config(function($routeProvider) {
 		controller : "clientCtrl"
 	})
 });
+
+mainApp.controller("mainCtrl", function ($scope) {
+	  $scope.labels = ["Mapped", "Unmapped"];
+	  $scope.data = [500, 100];
+	  
+	  $scope.labels2 = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+
+	  $scope.data2 = [65, 59, 80, 81, 56, 55, 40]
+	  
+	  $scope.labels3 = ["January", "February", "March", "April", "May", "June", "July"];
+	  $scope.data3 = [28, 48, 40, 19, 86, 27, 90]
+	  $scope.onClick = function (points, evt) {
+	    console.log(points, evt);
+	  };
+	  $scope.datasetOverride = {yAxisID: 'y-axis-1'};
+	  $scope.options3 = {
+	    scales: {
+	      yAxes: [
+	        {
+	          id: 'y-axis-1',
+	          type: 'linear',
+	          display: true,
+	          position: 'left'
+	        }
+	      ]
+	    }
+	  };
+});
+
 mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 	$scope.batches = 'hello';
 	$scope.getBatches = function() {
+		console.log($scope.fromdate);
+		console.log($scope.todate);
+		var fromdate = new Date($scope.fromdate);
+		var todate = new Date($scope.todate);
+		
 		// Simple GET request example:
 		$http({
 			method : 'GET',
-			url : baseURL + 'batches'
+			url : baseURL + 'batches/' + fromdate.getTime() + '/' + todate.getTime(),
+		    headers: {'Content-Type': 'application/json' }
 		}).then(function(success) {
 			$scope.batches = data;
 			console.log($scope.batches);

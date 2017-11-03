@@ -93,7 +93,7 @@ public class BatchesService {
 		System.out.println(fromdate);
         System.out.println(todate);
        // @HeaderParam("")
-        return new BatchDaoHibernate().getBatchDetails(Timestamp.valueOf(fromdate), Timestamp.valueOf(todate));
+        return new BatchDaoHibernate().getBatchDetails(new Timestamp(Long.valueOf(fromdate)), new Timestamp(Long.valueOf(todate)));
     }
 
 }

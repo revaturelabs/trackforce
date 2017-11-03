@@ -40,7 +40,7 @@ public class ClientDaoImpl implements ClientDao {
 			counts[i - 1] = (int) query.getOutputParameterValue(2);
 		}
 		ClientInfo clientInfo = setClientInfoWithIntArray(counts);
-		clientInfo.setName("all");
+		clientInfo.setName("All Clients");
 		return clientInfo;
 	}
 

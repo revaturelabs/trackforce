@@ -1,43 +1,39 @@
 
+<div class="container">
+	<div class="row align-items-center">
+		<div class="col-md-3">
+			<div ng-controller="clientSearchAndListCtrl">
+				<div class="form-group">
+					<input type="text" ng-keypress="getAllClientNames()"
+						ng-model="searchName" class="form-control" id="clientSearch"
+						placeholder="Search by client name...">
+				</div>
+				<h3>Clients</h3>
+				<ul>
+					<li ng-repeat="client in clients | filter:searchName"><a
+					    ng-click="getOneClient(client.id)">{{client.name}}</a></li>
 
-   <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-3">
-       <div ng-controller="clientSearchAndListCtrl">
-        <div class="form-group">
-        <input type="text" ng-keypress="getAllClientNames()" ng-model="searchName" class="form-control" id="clientSearch" placeholder="Search by client name...">
-      </div>
-          <h3>Clients</h3>
-          <ul >
-            <li ng-repeat="client in clients | filter:searchName"><a ng-click="getOneClient(client.id)">{{client.name}}</a></li>
-            
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-9">
-         <h2>chart placeholder</h2>
-         <canvas id="forExChart" class="chart chart-bar"></canvas>
-      </div>
-    </div><!--/row1-->
-    <div class="row">
-    <div class="col-3"></div>
-    <div class-"col-9">
-        
 
-			<div ng-controller="clientCtrl">
+				</ul>
+			</div>
+		</div>
+		<div ng-controller="clientCtrl" class="col-md-9">
 				<h1 ng-bind="clientName"></h1>
 				<div class="col-md-9">
 					<canvas id="bar" class="chart chart-bar"
 						chart-data="data" ng-init="getAllClients()" chart-labels="labels"></canvas>
 				</div>
 			</div>
-        
-
+	</div>
+	<!--/row1-->
+	<div class="row">
+		<div class="col-3"></div>
     </div>
     </div>
-    <div class="row"></div>
+<div class="row"></div>
 
 
 
-  </div><!--container-fluid-->
+  </div>
+<!--container-fluid-->
 

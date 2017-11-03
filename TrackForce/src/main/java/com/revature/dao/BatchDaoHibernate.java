@@ -17,6 +17,10 @@ import com.revature.utils.HibernateUtil;
 public class BatchDaoHibernate implements BatchDao {
 
 	// fromdate is a variable we created, batchstartdate is from the
+	/**
+	 * jkl
+	 * @param fromdate hi
+	 */
 	public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate) {
 		String batchdetails = "from com.revature.entity.TfBatch where (tfBatchStartDate between :fromdate and :todate) or (tfBatchEndDate between  :fromdate and :todate)";
 		SessionFactory conn = HibernateUtil.getSession();

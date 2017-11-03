@@ -1,5 +1,6 @@
 package com.revature.dao; 
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -39,15 +40,17 @@ public class BatchDaoHibernate implements BatchDao {
 	 */
 	@Override
     public String getBatchCirriculumName(int batchID) {
-        SessionFactory sessionFactory = HibernateUtil.getSession();
-        Session session = sessionFactory.openSession();
-
-        String hql = "select cirriculum.name FROM com.revature.model.Batch batch, com.revature.model.Cirriculum cirriculum WHERE batch.cirriculumid = cirriculumn.id AND batch.cirriculumid = :batchID";
-        Query query = session.createQuery(hql);
-        query.setParameter("batchID", batchID);
-        TfBatch batch = (TfBatch)query.list().get(0);
-        
-        session.close();
+//        SessionFactory sessionFactory = HibernateUtil.getSession();
+//        Session session = sessionFactory.openSession();
+//
+//        String hql = "select curriculum.tfCurriculumName FROM com.revature.model.TfBatch as batch, com.revature.model.TfCurriculum as curriculum WHERE batch.tfCurriculumId = Curruculumn.tfCurriculumId AND batch.tfCurriculumId = :batchID";
+//        Query query = session.createQuery(hql);
+//        query.setParameter("batchID", batchID);
+//        TfBatch batch = (TfBatch)query.list().get(0);
+//        
+//        session.close();
+	    
+	    TfBatch batch = getBatch(batchID);
         
         return batch.getTfCurriculum().getTfCurriculumName();
     }
@@ -56,18 +59,20 @@ public class BatchDaoHibernate implements BatchDao {
 	 * Gets a batch's ID from its name
 	 */
     @Override
-    public int getBatchID(String batchName){
-        SessionFactory sessionFactory = HibernateUtil.getSession();
-        Session session = sessionFactory.openSession();
-
-        String hql = "select batch.id FROM com.revature.model.Batch batch WHERE batch.batchname = :batchName";
-        Query query = session.createQuery(hql);
-        query.setParameter("batchName", batchName);
-        Integer id = (Integer)query.list().get(0);
+    public BigDecimal getBatchID(String batchName){
+//        SessionFactory sessionFactory = HibernateUtil.getSession();
+//        Session session = sessionFactory.openSession();
+//
+//        String hql = "select batch.id FROM com.revature.model.Batch batch WHERE batch.batchname = :batchName";
+//        Query query = session.createQuery(hql);
+//        query.setParameter("batchName", batchName);
+//        Integer id = (Integer)query.list().get(0);
+//        
+//        session.close();
         
-        session.close();
+        TfBatch batch = getBatch(batchName);
         
-        return id.intValue();
+        return batch.getTfBatchId();
     }
 
     /**
@@ -89,14 +94,28 @@ public class BatchDaoHibernate implements BatchDao {
      * Get a batch from the database given its ID.
      */
     @Override
-    public Batch getBatch(int batchID) {
+    public TfBatch getBatch(int batchID) {
         SessionFactory sessionFactory = HibernateUtil.getSession();
         Session session = sessionFactory.openSession();
 
-        String hql = "FROM com.revature.model.Batch batch where batch.id = :batchID";
-        Query query = session.createQuery(hql);
-        query.setParameter("batchID", batchID);
-        Batch batch = (Batch)query.list().get(0);
+//        String hql = "FROM com.revature.model.Batch batch where batch.id = :batchID";
+//        Query query = session.createQuery(hql);
+//        query.setParameter("batchID", batchID);
+//        TfBatch batch = (TfBatch)query.list().get(0);
+        
+//        CriteriaBuilder builder = session.getCriteriaBuilder();
+//        CriteriaQuery<TfBatch> criteriaQuery = builder.createQuery(TfBatch.class);
+//        Root<TfBatch> root = criteriaQuery.from(TfBatch.class);
+//        criteriaQuery.select(root).where(builder.equal(root.get("tfBatchId"), batchID));
+//        Query<TfBatch> query = session.createQuery(criteriaQuery);
+//        TfBatch batch = query.getSingleResult();
+        
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<TfBatch> criteriaQuery = builder.createQuery(TfBatch.class);
+        Root<TfBatch> root = criteriaQuery.from(TfBatch.class);
+        criteriaQuery.select(root).where(builder.equal(root.get("tfBatchId"), batchID));
+        Query<TfBatch> query = session.createQuery(criteriaQuery);
+        TfBatch batch = query.getSingleResult();
         
         session.close();
         

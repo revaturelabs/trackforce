@@ -9,6 +9,7 @@
 						placeholder="Search by client name...">
 				</div>
 				<h3>Clients</h3>
+				<button ng-click="getAllClients()" class="btn btn-info">View Data for All Clients</button>
 				<ul>
 					<li ng-repeat="client in clients | filter:searchName"><a
 					    ng-click="getOneClient(client.id)">{{client.name}}</a></li>

@@ -3,7 +3,7 @@ var mainApp = angular.module('mainApp', [ 'ngRoute', 'chart.js' ]).constant(
 		'baseURL', 'http://localhost:8080/TrackForce/track/');
 
 // Setup constants for use in angular code
-//mainApp.constant('baseURL', 'http://localhost:8080/TrackForce/track/');
+// mainApp.constant('baseURL', 'http://localhost:8080/TrackForce/track/');
 
 // Configure $routeProvider to create a Single Page Application
 var mainApp = angular.module('mainApp', [ 'ngRoute', 'chart.js' ]);
@@ -28,7 +28,8 @@ mainApp.config(function($routeProvider) {
 		controller : "clientCtrl"
 	})
 });
-mainApp.controller("mainCtrl", function(){});
+mainApp.controller("mainCtrl", function() {
+});
 mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 	$scope.batches = 'hello';
 	$scope.getBatches = function() {
@@ -166,18 +167,23 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 					$scope.clientName = clients.name;
 					// This will bind an array of strings to the x-axis of the
 					// bar chart
-					$scope.labels = [ 'Training', 'Reserved - Mapped',
-							'Reserved - Unmapped', 'Selected - Mapped',
-							'Selected - Unmapped', 'Confirmed - Mapped',
-							'Confirmed - Unmapped', 'Deployed - Mapped',
-							'Deployed - Unmapped' ];
+					$scope.labels = [ 'Training', 'Reserved', 'Selected',
+							'Confirmed', 'Deployed' ];
 					// The clients JavaScript object is used for the data it
 					// contains which is then bound to the chart
-					$scope.data = [ clients.trainingMapped,
-							clients.reservedMapped, clients.reservedUnmapped,
-							clients.selectedMapped, clients.selectedUnmapped,
-							clients.confirmedMapped, clients.confirmedUnmapped,
-							clients.deployedMapped, clients.deployedUnmapped ];
+					$scope.series = [ 'Mapped', 'Unmapped' ];
+					$scope.data = [
+							[ clients.trainingMapped, clients.selectedMapped,
+									clients.confirmedMapped,
+									clients.deployedMapped,
+									clients.reservedMapped ],
+							[ clients.reservedUnmapped,
+									clients.selectedUnmapped,
+									clients.confirmedUnmapped,
+									clients.deployedUnmapped ] ];
+					$scope.colors = [ '#72C02C', '#3498DB', '#717984',
+							'#F1C40F' ];
+					$scope.options = { legend: { display: true, position: 'right' } };
 				});
 	}
 	/*
@@ -195,16 +201,19 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 				function(response) {
 					var clients = response.data;
 					$scope.clientName = clients.name;
-					$scope.labels = [ 'Training', 'Reserved - Mapped',
-							'Reserved - Unmapped', 'Selected - Mapped',
-							'Selected - Unmapped', 'Confirmed - Mapped',
-							'Confirmed - Unmapped', 'Deployed - Mapped',
-							'Deployed - Unmapped' ];
-					$scope.data = [ clients.trainingMapped,
-							clients.reservedMapped, clients.reservedUnmapped,
-							clients.selectedMapped, clients.selectedUnmapped,
-							clients.confirmedMapped, clients.confirmedUnmapped,
-							clients.deployedMapped, clients.deployedUnmapped ];
+					$scope.labels = [ 'Training', 'Reserved', 'Selected',
+							'Confirmed', 'Deployed', 'Deployed' ];
+					$scope.series = [ 'Mapped', 'Unmapped' ];
+					$scope.data = [
+							[ clients.trainingMapped, clients.selectedMapped,
+									clients.confirmedMapped,
+									clients.deployedMapped,
+									clients.reservedMapped ],
+							[ clients.reservedUnmapped,
+									clients.selectedUnmapped,
+									clients.confirmedUnmapped,
+									clients.deployedUnmapped ] ];
+					$scope.options = { legend: { display: true, position: 'right' } };
 				});
 	}
 });

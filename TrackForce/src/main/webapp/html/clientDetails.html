@@ -20,8 +20,8 @@
 		<div class="col-md-9">
 				<h1 ng-bind="clientName"></h1>
 				<div class="col-md-9">
-					<canvas id="bar" class="chart chart-bar"
-						chart-data="data" ng-init="getAllClients()" chart-labels="labels"></canvas>
+					<canvas id="bar" class="chart chart-bar" chart-series="series" chart-colors="colors"
+						chart-data="data" ng-init="getAllClients()" chart-labels="labels" chart-options="options"></canvas>
 				</div>
 			</div>
 	</div>

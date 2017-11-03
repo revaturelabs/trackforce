@@ -1,6 +1,6 @@
 'use strict';
 
-// Test Suite for Batch Feature
+// Test Suite for Batch Feature change
 describe('Test Batch Feature Suite', function() {
 
 	// Arrange variables for rootScope and controller

@@ -32,53 +32,7 @@ public class BatchDaoHibernate implements BatchDao {
 		return batch_details;
 
 	}
-    
-    /**
-     * Insert a batch into the database.
-     */
-    @Override
-    public void insertBatch(TfBatch batch) {
-        SessionFactory sessionFactory = HibernateUtil.getSession();
-        Session session = sessionFactory.openSession();
-        
-        Transaction transaction = session.beginTransaction();
-        session.save(batch);
-        transaction.commit();
-        
-        session.close();
-    }
-    
-    /**
-     * Get a batch from the database given its ID.
-     */
-    @Override
-    public TfBatch getBatch(int batchID) {
-        SessionFactory sessionFactory = HibernateUtil.getSession();
-        Session session = sessionFactory.openSession();
-
-//        String hql = "FROM com.revature.model.Batch batch where batch.id = :batchID";
-//        Query query = session.createQuery(hql);
-//        query.setParameter("batchID", batchID);
-//        TfBatch batch = (TfBatch)query.list().get(0);
-        
-//        CriteriaBuilder builder = session.getCriteriaBuilder();
-//        CriteriaQuery<TfBatch> criteriaQuery = builder.createQuery(TfBatch.class);
-//        Root<TfBatch> root = criteriaQuery.from(TfBatch.class);
-//        criteriaQuery.select(root).where(builder.equal(root.get("tfBatchId"), batchID));
-//        Query<TfBatch> query = session.createQuery(criteriaQuery);
-//        TfBatch batch = query.getSingleResult();
-        
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<TfBatch> criteriaQuery = builder.createQuery(TfBatch.class);
-        Root<TfBatch> root = criteriaQuery.from(TfBatch.class);
-        criteriaQuery.select(root).where(builder.equal(root.get("tfBatchId"), batchID));
-        Query<TfBatch> query = session.createQuery(criteriaQuery);
-        TfBatch batch = query.getSingleResult();
-        
-        session.close();
-        
-        return batch;
-    }
+	
     
     /**
      * Get a batch from the database given its name.
@@ -99,4 +53,5 @@ public class BatchDaoHibernate implements BatchDao {
         
         return batch;
     }
+
 }

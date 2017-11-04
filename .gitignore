@@ -1,9 +1,14 @@
 # Don't store Hibernate DB credentials
 hibernate.cfg.xml
 
+# Node dependencies are inside package-lock.json 
+# To install node modules on your end run an npm install
+node_modules/
+
 # Eclipse
 .settings/
 bin/
+.project
 
 target/
 pom.xml.tag
@@ -15,6 +20,8 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 .classpath
+
+test-output/
 
 # Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
 !/.mvn/wrapper/maven-wrapper.jar

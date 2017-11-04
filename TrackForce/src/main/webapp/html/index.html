@@ -14,6 +14,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 <script src="http://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
 <body>
+<div ng-controller="databaseCtrl">
+		<button ng-click="populateDB()">Populate Database</button>
+		
+		<button ng-click="deleteDB()">Empty Database</button>
+
+	</div>
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">

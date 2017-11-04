@@ -250,3 +250,22 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 				});
 	}
 });
+//controller for database population and deletion
+mainApp.controller('databaseCtrl', function($http, $scope) {
+	$scope.populateDB = function() {
+		$http({
+			method : "GET",
+			url : "http://localhost:8080/TrackForce/track/database/populateDB"
+		}).then(function(response) {
+			$scope.dbMessage = response.data;
+		})
+	}
+	$scope.deleteDB = function() {
+		$http({
+			method : "GET",
+			url : "http://localhost:8080/TrackForce/track/database/deleteFromDB"
+		}).then(function(response) {
+			$scope.dbMessage = response.data;
+		})
+	}
+});

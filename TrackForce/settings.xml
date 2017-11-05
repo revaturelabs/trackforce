@@ -1,0 +1,26 @@
+<settings>
+<servers>
+  <server>
+    <id>maven.oracle.com </id>
+    <username>trackforce@ether123.net</username>
+    <password>{I875r0WkQS0HsMBwOHkbooZQyVHhwbuPxxp7WFISKg8+OATLAdbmAfnlnOVmSHeXJ7KpyCKdODiOZN2XhTe6Zg==}</password>
+  <configuration>
+    <basicAuthScope>
+      <host>ANY </host>
+      <port>ANY </port>
+      <realm>OAM 11g </realm>
+    </basicAuthScope>
+    <httpConfiguration>
+      <all>
+      <params>
+        <property>
+          <name>http.protocol.allow-circular-redirects </name>
+          <value>%b,true </value>
+        </property>
+      </params>
+      </all>
+    </httpConfiguration>
+  </configuration>
+  </server>
+  </servers>
+</settings>

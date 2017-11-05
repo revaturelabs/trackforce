@@ -1,7 +1,7 @@
 package com.revature.dao;
 
 public interface DatabaseDAO {
-	public void deleteAll();
+	public String deleteAll();
 
-	public void populate();
+	public String populate();
 }

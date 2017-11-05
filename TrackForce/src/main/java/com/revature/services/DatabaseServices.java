@@ -1,5 +1,6 @@
 package com.revature.services;
 
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -7,6 +8,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.revature.dao.DatabaseDAOImpl;
 
@@ -16,18 +18,28 @@ public class DatabaseServices {
 	@GET
 	@Path("populateDB")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public void populateDB() {
+	public Response populateDB() {
+		System.out.println("In Services");
+
+		String string;
 		DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
-		dbCalls.populate();
+		string= dbCalls.populate();
+		
+		return Response.ok(string).build();
+
 	}
 
 	@GET
 	@Path("deleteFromDB")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public void deleteDB() {
+	public Response deleteDB() {
+		System.out.println("In Services");
+		
+		String string;
 		DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
-		dbCalls.deleteAll();
-
+		string= dbCalls.deleteAll();
+		
+		return Response.ok(string).build();
 	}
 
 }

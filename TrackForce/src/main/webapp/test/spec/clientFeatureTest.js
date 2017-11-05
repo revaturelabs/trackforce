@@ -15,21 +15,16 @@ describe('Test Batch Feature Suite', function() {
 	// Allows us to not depend on Rest Services to be setup to test http requests
 	beforeEach(angular.mock.inject(function($httpBackend) {
 		backend = $httpBackend;
-		var fromDate = new Date(123456789);
-		var toDate = new Date(123456789);
-		
-		backend.expect("GET", 'http://localhost:8080/TrackForce/track/batches/' + fromDate.getTime() + '/' + toDate.getTime()).respond(
+		backend.expect("GET", 'http://localhost:8080/TrackForce/track/clients/info').respond(
 				[
-					{ "name": "SDET", "startdate": "hello", "enddate": "bye"},
-					{ "name": ".NET", "startdate": "hello", "enddate": "bye"},
-					{ "name": "PEGA", "startdate": "hello", "enddate": "bye"}
+					{"name":"All Clients","trainingMapped":100,"trainingUnmapped":95,"reservedMapped":75,"reservedUnmapped":107,"selectedMapped":145,"selectedUnmapped":23,"confirmedMapped":65,"confirmedUnmapped":72,"deployedMapped":15,"deployedUnmapped":34}
 				]);
 	}));
 
 	// Inject dependencies needed for controller
 	beforeEach(angular.mock.inject(function($rootScope, $controller, $http) {
 		mockScope = $rootScope.$new();
-		controller = $controller('batchCtrl', {
+		controller = $controller('clientCtrl', {
 			$scope: mockScope,
 			$http: $http
 		});
@@ -37,12 +32,20 @@ describe('Test Batch Feature Suite', function() {
 
 	// Test functions that call http methods
 	describe('Test functions for $http methods', function() {
-		it('Test getBatches()', function() {
-			expect(mockScope.getBatches).not.toBeNull();
+		it('Test getAllClients()', function() {
+			mockScope.getAllClients();
+			console.log(mockScope.clients);
+			expect(mockScope.getAllClients).not.toBeNull();
 			console.log('hello there');
-			console.log(mockScope.batches);
+			
 		});
-
+		
+		it('Test getAllClients1()', function() {
+			mockScope.getAllClients();
+			// This ensures that the http request was sent
+			// ***Still trying to check if the data is generated***
+			backend.verifyNoOutstandingExpectation();
+		});
 	});
 
 });

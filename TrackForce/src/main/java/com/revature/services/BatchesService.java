@@ -88,7 +88,7 @@ public class BatchesService {
     public List<TfBatch> getBatches(@PathParam("fromdate") String fromdate, @PathParam("todate") String todate ){
 		System.out.println(fromdate);
         System.out.println(todate);
-        return new BatchDaoHibernate().getBatchDetails(new Timestamp(Long.valueOf(fromdate)), new Timestamp(Long.valueOf(todate)));
+        return new BatchDaoHibernate().getBatchDetails(fromdate.substring(4, 15), todate.substring(4, 15));
     }
 
 }

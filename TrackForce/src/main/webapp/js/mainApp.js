@@ -70,7 +70,7 @@ mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 		// Simple GET request example:
 		$http({
 			method : 'GET',
-			url : baseURL + 'batches/' + fromdate.getTime() + '/' + todate.getTime(),
+			url : baseURL + 'batches/' + fromdate + '/' + todate,
 		    headers: {'Content-Type': 'application/json' }
 		}).then(function(success) {
 			$scope.batches = data;

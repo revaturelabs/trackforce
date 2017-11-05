@@ -1,14 +1,14 @@
 <settings>
-<servers>
+ <servers>
   <server>
     <id>maven.oracle.com </id>
     <username>trackforce@ether123.net</username>
-    <password>{I875r0WkQS0HsMBwOHkbooZQyVHhwbuPxxp7WFISKg8+OATLAdbmAfnlnOVmSHeXJ7KpyCKdODiOZN2XhTe6Zg==}</password>
+    <password>{jIojNlHP0LIHjEFsk4443FEQw1bZ9XjrJhLnLq7arYPoR9VBHLhN0sfiGCvAxBBg0gmm9+nc3x/rRyNmCNBqPA==}</password>
   <configuration>
     <basicAuthScope>
       <host>ANY </host>
       <port>ANY </port>
-      <realm>OAM 11g </realm>
+      <realm>OAM 11g</realm>
     </basicAuthScope>
     <httpConfiguration>
       <all>
@@ -22,5 +22,5 @@
     </httpConfiguration>
   </configuration>
   </server>
-  </servers>
+</servers>
 </settings>

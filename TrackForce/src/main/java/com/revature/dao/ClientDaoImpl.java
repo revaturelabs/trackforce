@@ -28,60 +28,66 @@ public class ClientDaoImpl implements ClientDao {
 
 	@Override
 	public ClientInfo getAllClientInfo() {
-		final int numberOfStatuses = 10;
 		EntityManager em = HibernateUtil.getSession().createEntityManager();
-
-		int[] counts = new int[numberOfStatuses];
-		for (int i = 1; i <= numberOfStatuses; i++) {
-			StoredProcedureQuery query = em.createStoredProcedureQuery("ADMIN.GET_ALLCLIENTS_STATUS_COUNT");
-			query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
-			query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
-			query.setParameter(1, i);
-			query.execute();
-			counts[i - 1] = (int) query.getOutputParameterValue(2);
-		}
-		ClientInfo clientInfo = setClientInfoWithIntArray(counts);
+		StoredProcedureQuery query = em.createStoredProcedureQuery("ADMIN.GET_ALLCLIENTS_STATUS_COUNT");
+		registerOutputParameters(query);
+		query.execute();
+		ClientInfo clientInfo = getClientInfo(query);
 		clientInfo.setName("All Clients");
-
 		em.close();
 		return clientInfo;
 	}
 
 	@Override
 	public ClientInfo getClientInfo(int id) {
-		
-		/* Returns an empty set of info for this client
-		 * if the given ID is invalid (0 or less)
-		 */
-		if(id < 1) {
-			return new ClientInfo();
-		}
 
+		/*
+		 * Returns an empty set of info for this client if the given ID is invalid (0 or
+		 * less)
+		 */
 		if (id < 1) {
 			return new ClientInfo();
 		}
 
 		EntityManager em = HibernateUtil.getSession().createEntityManager();
-
-		final int numberOfStatuses = 10;
-
-		int[] counts = new int[numberOfStatuses];
-
-		for (int i = 1; i <= numberOfStatuses; i++) {
-			StoredProcedureQuery query = em.createStoredProcedureQuery("ADMIN.GET_CLIENT_STATUS_COUNT");
-			query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
-			query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.IN);
-			query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.OUT);
-			query.setParameter(1, id);
-			query.setParameter(2, i);
-			query.execute();
-			counts[i - 1] = (int) query.getOutputParameterValue(3);
-		}
-		ClientInfo clientInfo = setClientInfoWithIntArray(counts);
+		StoredProcedureQuery query = em.createStoredProcedureQuery("ADMIN.GET_CLIENT_STATUS_COUNT");
+		registerOutputParameters(query);
+		query.registerStoredProcedureParameter(11, Integer.class, ParameterMode.IN);
+		query.setParameter(11, id);
+		query.execute();
+		ClientInfo clientInfo = getClientInfo(query);
 		TfClient client = em.find(TfClient.class, id);
 		clientInfo.setName(client.getTfClientName());
 
 		em.close();
+		return clientInfo;
+	}
+	
+	private void registerOutputParameters(StoredProcedureQuery query) {
+		query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.OUT);
+		query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
+		query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.OUT);
+		query.registerStoredProcedureParameter(4, Integer.class, ParameterMode.OUT);
+		query.registerStoredProcedureParameter(5, Integer.class, ParameterMode.OUT);
+		query.registerStoredProcedureParameter(6, Integer.class, ParameterMode.OUT);
+		query.registerStoredProcedureParameter(7, Integer.class, ParameterMode.OUT);
+		query.registerStoredProcedureParameter(8, Integer.class, ParameterMode.OUT);
+		query.registerStoredProcedureParameter(9, Integer.class, ParameterMode.OUT);
+		query.registerStoredProcedureParameter(10, Integer.class, ParameterMode.OUT);
+	}
+	
+	private ClientInfo getClientInfo(StoredProcedureQuery query) {
+		ClientInfo clientInfo = new ClientInfo();
+		clientInfo.setTrainingMapped((int) query.getOutputParameterValue(1));
+		clientInfo.setReservedMapped((int) query.getOutputParameterValue(2));
+		clientInfo.setSelectedMapped((int) query.getOutputParameterValue(3));
+		clientInfo.setConfirmedMapped((int) query.getOutputParameterValue(4));
+		clientInfo.setDeployedMapped((int) query.getOutputParameterValue(5));
+		clientInfo.setTrainingUnmapped((int) query.getOutputParameterValue(6));
+		clientInfo.setOpenUnmapped((int)query.getOutputParameterValue(7));
+		clientInfo.setSelectedUnmapped((int) query.getOutputParameterValue(8));
+		clientInfo.setConfirmedUnmapped((int) query.getOutputParameterValue(9));
+		clientInfo.setDeployedUnmapped((int) query.getOutputParameterValue(10));
 		return clientInfo;
 	}
 

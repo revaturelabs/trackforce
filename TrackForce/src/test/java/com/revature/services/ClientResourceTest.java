@@ -1,9 +1,12 @@
 package com.revature.services;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -14,6 +17,7 @@ import org.testng.annotations.Test;
 import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.entity.TfClient;
+import com.revature.model.ClientInfo;
 
 public class ClientResourceTest {
 
@@ -28,10 +32,20 @@ public class ClientResourceTest {
 		MockitoAnnotations.initMocks(this);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
-	public void f() {
+	public void getAllClientsCheckMapIsOfProperForm() {
 		List<TfClient> clients = new ArrayList<>();
-		
+		clients.add(new TfClient());
 		when(clientDaoImpl.getAllTfClients()).thenReturn(clients);
+
+		List<Map<String, Object>> entity = (List<Map<String, Object>>) clientResource.getAllClients().getEntity();
+		assertTrue(entity.get(0).containsKey("id"));
+		assertTrue(entity.get(0).containsKey("name"));
+	}
+
+	@Test
+	public void getClientInfoNegativeInt() {
+		assertEquals(clientResource.getClientInfo(-1), new ClientInfo());
 	}
 }

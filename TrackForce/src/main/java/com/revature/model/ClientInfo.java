@@ -57,24 +57,24 @@ public class ClientInfo {
 	}
 	
 	/**
-	 * This returns the name of this client
-	 * @return this client's name
+	 * This returns the name of this client.
+	 * @return this client's name.
 	 */
 	public String getName() {
 		return name;
 	}
 	
 	/**
-	 * This allows the client name to be set
-	 * @param name the name to set for this client
+	 * This allows the client name to be set.
+	 * @param name the name to set for this client.
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	
 	/**
-	 * This returns the number associates who are mapped and training
-	 * @return the number of mapped associates who are training
+	 * This returns the number associates who are mapped and training.
+	 * @return the number of mapped associates who are training.
 	 */
 	public int getTrainingMapped() {
 		return trainingMapped;
@@ -82,7 +82,7 @@ public class ClientInfo {
 	
 	/**
 	 * This allows the number of mapped associates who are training to be set
-	 * @param trainingMapped the number of mapped associates who are training
+	 * @param trainingMapped the number of mapped associates who are training.
 	 */
 	public void setTrainingMapped(int trainingMapped) {
 		this.trainingMapped = trainingMapped;
@@ -90,7 +90,7 @@ public class ClientInfo {
 	
 	/**
 	 * This returns the number of associates who are unmapped and training
-	 * @return the number of unmapped associates who are training
+	 * @return the number of unmapped associates who are training.
 	 */
 	public int getTrainingUnmapped() {
 		return trainingUnmapped;
@@ -98,7 +98,7 @@ public class ClientInfo {
 
 	/**
 	 * This allows the number of unmapped associates who are training to be set.
-	 * @param trainingUnmapped the number of unmapped associates who are training
+	 * @param trainingUnmapped the number of unmapped associates who are training.
 	 */
 	public void setTrainingUnmapped(int trainingUnmapped) {
 		this.trainingUnmapped = trainingUnmapped;
@@ -111,7 +111,7 @@ public class ClientInfo {
 	
 	/**
 	 * This returns the number of associates who are mapped and finished with training.
-	 * @return the number of mapped associates who are done training
+	 * @return the number of mapped associates who are done training.
 	 */
 	public int getReservedMapped() {
 		return reservedMapped;
@@ -125,17 +125,27 @@ public class ClientInfo {
 		this.reservedMapped = reservedMapped;
 	}
 	
+	/**
+	 * This returns the number of associates who are finished training,
+	 * and aren't mapped to this client.
+	 * @return The number of unmapped associates who are finished training.
+	 */
 	public int getOpenUnmapped() {
 		return openUnmapped;
 	}
 	
+	/**
+	 * This allows the number of unmapped associates who are finished training
+	 * to be set.
+	 * @param openUnmapped The number of unmapped associates who are finished training.
+	 */
 	public void setOpenUnmapped(int openUnmapped) {
 		this.openUnmapped = openUnmapped;
 	}
 
 	/**
 	 * This returns the number of mapped associates who have been selected
-	 * by the client.
+	 * by this client.
 	 * @return The number of mapped associates who were selected by this client.
 	 */
 	public int getSelectedMapped() {
@@ -144,7 +154,7 @@ public class ClientInfo {
 	
 	/**
 	 * This allows the number of mapped associates who have been selected
-	 * by the client to be set.
+	 * by this client to be set.
 	 * @param selectedMapped The number of mapped associates who are selected by this client.
 	 */
 	public void setSelectedMapped(int selectedMapped) {
@@ -163,7 +173,8 @@ public class ClientInfo {
 	/**
 	 * This allows the number of associates who are selected by the client,
 	 * but aren't mapped, to be set.
-	 * @param selectedUnmapped The number of unmapped associates who are selected.
+	 * @param selectedUnmapped The number of unmapped associates who are selected
+	 * by this client.
 	 */
 	public void setSelectedUnmapped(int selectedUnmapped) {
 		this.selectedUnmapped = selectedUnmapped;
@@ -181,33 +192,68 @@ public class ClientInfo {
 	/**
 	 * This allows the number of associates who were mapped and confirmed
 	 * by this client to be set.
-	 * @param confirmedMapped The number of mapped associates who were confirmed by
+	 * @param confirmedMapped The number of mapped associates who are confirmed by
 	 * this client.
 	 */
 	public void setConfirmedMapped(int confirmedMapped) {
 		this.confirmedMapped = confirmedMapped;
 	}
-
+	
+	/**
+	 * This returns the number of associates who aren't mapped,
+	 * and who have been confirmed by the client.
+	 * @return The number of mapped associates who were confirmed by this client.
+	 */
 	public int getConfirmedUnmapped() {
 		return confirmedUnmapped;
 	}
-
+	
+	/**
+	 * This allows the number of associates who are not mapped,
+	 * but have been confirmed by the client, to be set.
+	 * @param confirmedUnmapped The number of unmapped associates who are confirmed
+	 * by this client.
+	 */
 	public void setConfirmedUnmapped(int confirmedUnmapped) {
 		this.confirmedUnmapped = confirmedUnmapped;
 	}
-
+	
+	/**
+	 * This returns the number of associates who were mapped,
+	 * and are deployed at a client location.
+	 * @return The number of mapped associates who are deployed
+	 * with a client.
+	 */
 	public int getDeployedMapped() {
 		return deployedMapped;
 	}
 
+	/**
+	 * This allows the number of associates who were mapped,
+	 * and are deployed at a client location, to be set.
+	 * @param deployedMapped The number of mapped associates who have deployed
+	 * with this client.
+	 */
 	public void setDeployedMapped(int deployedMapped) {
 		this.deployedMapped = deployedMapped;
 	}
-
+	
+	/**
+	 * This returns the number of associates who were mapped,
+	 * and are deployed with this client.
+	 * @return The number of unmapped associates who are deployed
+	 * with this client.
+	 */
 	public int getDeployedUnmapped() {
 		return deployedUnmapped;
 	}
-
+	
+	/**
+	 * This allows the number of associates who are unmapped,
+	 * and are deployed with this client, to be set.
+	 * @param deployedUnmapped The number of unmapped associates
+	 * who are deployed with this client.
+	 */
 	public void setDeployedUnmapped(int deployedUnmapped) {
 		this.deployedUnmapped = deployedUnmapped;
 	}

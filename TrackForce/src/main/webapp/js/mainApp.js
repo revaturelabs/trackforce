@@ -1,10 +1,3 @@
-// Start the main module to be used for angular app
-var mainApp = angular.module('mainApp', [ 'ngRoute', 'chart.js' ]).constant(
-		'baseURL', 'http://localhost:8080/TrackForce/track/');
-
-// Setup constants for use in angular code
-//mainApp.constant('baseURL', 'http://localhost:8080/TrackForce/track/');
-
 // Configure $routeProvider to create a Single Page Application
 var mainApp = angular.module('mainApp', [ 'ngRoute', 'chart.js' ]);
 mainApp.config(function($routeProvider) {
@@ -57,7 +50,7 @@ mainApp.controller("mainCtrl", function ($scope) {
 	  };
 });
 
-mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
+mainApp.controller("batchCtrl", function($scope, $http) {
 	$scope.batches = 'hello';
 	$scope.getBatches = function() {
 		console.log($scope.fromdate);
@@ -68,12 +61,11 @@ mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 		// Simple GET request example:
 		$http({
 			method : 'GET',
-			url : baseURL + 'batches/' + fromdate.getTime() + '/' + todate.getTime(),
+			url : 'http://localhost:8080/TrackForce/track/' + 'batches/' + fromdate.getTime() + '/' + todate.getTime(),
 		    headers: {'Content-Type': 'application/json' }
 		}).then(function(success) {
 			$scope.batches = data;
 			console.log($scope.batches);
-			console.log(baseURL);
 		}, function(error) {
 			console.log('Error in doing http request')
 		});
@@ -137,17 +129,19 @@ mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 			};
 		})
 	};
-	$scope.getMapStatusBatch = function($http) {
+	$scope.getMapStatusBatch = function() {
 		// Simple GET request example:
 		$http(
 				{
 					method : 'GET',
-					url : 'http://localhost:8080/TrackForce/track/batches'
-							+ $scope.batchname + '/batchChart'
+					url : 'http://localhost:8080/TrackForce/track/batches/'
+							+ '1707 Jul10 PEGA' + '/batchChart'
 				}).then(function successCallback(response) {
 			// this callback will be called asynchronously
 			// when the response is available
-			$scope.batchMapStatus = response.data;
+			var batchMapStatus = response.data;
+			$scope.mappedOrUnmapped = ['Mapped', 'Unmapped'];
+			$scope.data4 = [batchMapStatus.mappedCount, batchMapStatus.unmappedCount];
 		}, function errorCallback(response) {
 			// called asynchronously if an error occurs
 			// or server returns response with an error status.
@@ -157,9 +151,8 @@ mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 			}
 		})
 	};
-	$scope.labels = [ 'Mapped', 'Unmapped' ];
-	$scope.series = [ 'Series A' ];
-	$scope.data = [ 70, 61 ];
+	$scope.labels = ["Mapped","Unmapped"]
+	$scope.data = ["70","61"]; 
 	$scope.options = {
 		scales : {
 			yAxes : [ {

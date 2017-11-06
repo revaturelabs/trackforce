@@ -3,8 +3,18 @@
         <h3>Batch Details</h3>
     </div>
     <div class="col-sm-6">
+    	<h1 ng-bind="batchname"></h1>
         <canvas id="bar" class="chart chart-bar"
-            chart-data="data" chart-labels="labels" chart-options="options">
+            chart-data="data" chart-labels="mappedorUnmapped" chart-options="options">
         </canvas>
+    </div>
+    <div>
+    	<h3>Associates</h3>
+    	<table class="table table-striped">
+    		<tr ng-repeat="associates in associatesBatch">
+    			<td>{{associates.tfAssociateFirstName}}</td>
+    			<td>{{assocaites.tfAssociateLastName}}</td>
+    		</tr>
+    	</table>
     </div>
 </div>

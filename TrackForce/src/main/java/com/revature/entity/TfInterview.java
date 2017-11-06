@@ -3,6 +3,8 @@ package com.revature.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,7 +29,7 @@ public class TfInterview implements java.io.Serializable {
 	private TfClient tfClient;
 	private TfEndClient tfEndClient;
 	private TfInterviewType tfInterviewType;
-	private Serializable tfInterviewDate;
+	private Timestamp tfInterviewDate;
 	private String tfInterviewFeedback;
 
 	public TfInterview() {
@@ -38,7 +40,7 @@ public class TfInterview implements java.io.Serializable {
 	}
 
 	public TfInterview(BigDecimal tfInterviewId, TfAssociate tfAssociate, TfClient tfClient, TfEndClient tfEndClient,
-			TfInterviewType tfInterviewType, Serializable tfInterviewDate, String tfInterviewFeedback) {
+			TfInterviewType tfInterviewType, Timestamp tfInterviewDate, String tfInterviewFeedback) {
 		this.tfInterviewId = tfInterviewId;
 		this.tfAssociate = tfAssociate;
 		this.tfClient = tfClient;
@@ -104,7 +106,7 @@ public class TfInterview implements java.io.Serializable {
 		return this.tfInterviewDate;
 	}
 
-	public void setTfInterviewDate(Serializable tfInterviewDate) {
+	public void setTfInterviewDate(Timestamp tfInterviewDate) {
 		this.tfInterviewDate = tfInterviewDate;
 	}
 

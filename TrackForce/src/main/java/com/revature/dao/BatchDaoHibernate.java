@@ -17,6 +17,9 @@ import org.hibernate.query.Query;
 import com.revature.entity.TfBatch;
 import com.revature.utils.HibernateUtil;
 
+/**
+ * Implementation of the BatchDao interface that uses Hibernate to retrieve batch information from the database.
+ */
 public class BatchDaoHibernate implements BatchDao {
 
     /**

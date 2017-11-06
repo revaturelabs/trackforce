@@ -3,10 +3,12 @@ package com.revature.test;
 import java.sql.Timestamp;
 
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.testng.annotations.Test;
 
+import com.revature.dao.BatchDaoHibernate;
 import com.revature.entity.TfBatch;
 import com.revature.services.BatchesService;
 
@@ -27,6 +29,9 @@ public class testBatchesService {
 	  List<TfBatch> batches = batchesService.getBatches(firstDate, secondDate);
 	  Assert.assertNotNull(batches);
   }
+	
+  
+  
   
   
 }

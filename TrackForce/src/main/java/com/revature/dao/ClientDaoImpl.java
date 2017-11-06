@@ -63,6 +63,11 @@ public class ClientDaoImpl implements ClientDao {
 		return clientInfo;
 	}
 	
+	/**
+	 * Register out parameters for the client status stored procedures.
+	 * 
+	 * @param query to register duplicate stored procedure parameters
+	 */
 	private void registerOutputParameters(StoredProcedureQuery query) {
 		query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.OUT);
 		query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
@@ -76,6 +81,12 @@ public class ClientDaoImpl implements ClientDao {
 		query.registerStoredProcedureParameter(10, Integer.class, ParameterMode.OUT);
 	}
 	
+	/**
+	 * Get a 
+	 * 
+	 * @param query to get out parameter values from
+	 * @return a ClientInfo object with status counts set 
+	 */
 	private ClientInfo getClientInfo(StoredProcedureQuery query) {
 		ClientInfo clientInfo = new ClientInfo();
 		clientInfo.setTrainingMapped((int) query.getOutputParameterValue(1));
@@ -88,28 +99,6 @@ public class ClientDaoImpl implements ClientDao {
 		clientInfo.setSelectedUnmapped((int) query.getOutputParameterValue(8));
 		clientInfo.setConfirmedUnmapped((int) query.getOutputParameterValue(9));
 		clientInfo.setDeployedUnmapped((int) query.getOutputParameterValue(10));
-		return clientInfo;
-	}
-
-	/**
-	 * Returns a ClientInfo object with each status set based off of counts.
-	 * 
-	 * @param counts
-	 *            int array representing count of each status
-	 * @return a ClientInfo object with statuses set
-	 */
-	private ClientInfo setClientInfoWithIntArray(int[] counts) {
-		ClientInfo clientInfo = new ClientInfo();
-		clientInfo.setTrainingMapped(counts[0]);
-		clientInfo.setReservedMapped(counts[1]);
-		clientInfo.setSelectedMapped(counts[2]);
-		clientInfo.setConfirmedMapped(counts[3]);
-		clientInfo.setDeployedMapped(counts[4]);
-		clientInfo.setTrainingUnmapped(counts[5]);
-		clientInfo.setOpenUnmapped(counts[6]);
-		clientInfo.setSelectedUnmapped(counts[7]);
-		clientInfo.setConfirmedUnmapped(counts[8]);
-		clientInfo.setDeployedUnmapped(counts[9]);
 		return clientInfo;
 	}
 }

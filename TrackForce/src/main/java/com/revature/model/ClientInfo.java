@@ -16,6 +16,10 @@ public class ClientInfo {
 
 	public ClientInfo() {
 	}
+	
+	public ClientInfo(String name) {
+		this.name = name;
+	}
 
 	public ClientInfo(String name, int trainingMapped, int trainingUnmapped, int reservedMapped, int openUnmapped,
 			int selectedMapped, int selectedUnmapped, int confirmedMapped, int confirmedUnmapped, int deployedMapped,

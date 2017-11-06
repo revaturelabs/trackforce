@@ -110,6 +110,7 @@ public class BatchesService {
 	 * @param fromdate - the starting date of the date range
 	 * @param todate - the ending date of the date range
 	 */
+	@GET
 	@Path("{fromdate}/{todate}")
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<ArrayList<String>> getBatches(@PathParam("fromdate") long fromdate, 
@@ -125,6 +126,8 @@ public class BatchesService {
 			batchDetails.add(batch.getTfBatchEndDate().toString());
 			batchesList.add(batchDetails);
 		}
+		
+		System.out.println(batchesList);
 		return batchesList;
     }
 	
@@ -132,6 +135,7 @@ public class BatchesService {
 	 * Gets the information of the associates in a particular batch
 	 * @param batchName - the name of a batch that is in the database
 	 */
+	@GET
 	@Path("{batch}/associates")
     @Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<ArrayList<String>> getAssociates(@PathParam("batch") String batchName){

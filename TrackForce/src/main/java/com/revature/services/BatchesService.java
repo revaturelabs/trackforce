@@ -18,6 +18,9 @@ import com.revature.dao.BatchDaoHibernate;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 
+/**
+ * Class that provides RESTful services for the batch listing and batch details page.
+ */
 @Path("batches")
 public class BatchesService {
 	
@@ -26,6 +29,7 @@ public class BatchesService {
 	 * during a given date range
 	 * @param fromdate - the starting date of the date range
 	 * @param todate - the ending date of the date range
+	 * @return - A map of associates in each curriculum with the curriculum name as the key and number of associates as value.
 	 */
 	@GET
 	@Path("{fromdate}/{todate}/type")
@@ -58,6 +62,7 @@ public class BatchesService {
 	 * When given a batch name returns an object that contains 
 	 * all information about that batch
 	 * @param batchName - the name of a batch that is in the database
+	 * @return - A list with batch name, client name, curriculum name, batch location, batch start date, and batch end date.
 	 */
 	@GET 
 	@Path("{batch}/info")
@@ -81,6 +86,7 @@ public class BatchesService {
 	 * Gets the number of associates that are mapped and unmapped 
 	 * within a particular batch
 	 * @param batchName - the name of a batch that is in the database
+	 * @return - A map with the key being either Mapped or Unmapped and the value being the number of associates in those statuses..
 	 */
 	@GET
 	@Path("{batch}/batchChart")
@@ -109,6 +115,7 @@ public class BatchesService {
 	 * Gets all batches that are running within a given date range
 	 * @param fromdate - the starting date of the date range
 	 * @param todate - the ending date of the date range
+	 * @return - A list of the lists of batch info. Batch info contains batch name, client name, batch start date, and batch end date.
 	 */
 	@Path("{fromdate}/{todate}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -131,6 +138,7 @@ public class BatchesService {
 	/**
 	 * Gets the information of the associates in a particular batch
 	 * @param batchName - the name of a batch that is in the database
+	 * @return - A list of the lists of associate info. Associate info contains id, first name, last name, and marketing status.
 	 */
 	@Path("{batch}/associates")
     @Produces(MediaType.APPLICATION_JSON)

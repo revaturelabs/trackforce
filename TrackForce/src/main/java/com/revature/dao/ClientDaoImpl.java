@@ -67,7 +67,8 @@ public class ClientDaoImpl implements ClientDao {
 			counts[i - 1] = (int) query.getOutputParameterValue(3);
 		}
 		ClientInfo clientInfo = setClientInfoWithIntArray(counts);
-		clientInfo.setName("Client name");
+		TfClient client = em.find(TfClient.class, id);
+		clientInfo.setName(client.getTfClientName());
 
 		em.close();
 		return clientInfo;

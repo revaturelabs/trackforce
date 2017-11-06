@@ -238,19 +238,19 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 					 * @description Local variable of getAllClients.
 					 *  This will bind an array of strings to the x-axis of the
 					 * bar chart */
-					$scope.clientlabels = [ 'Training', 'Reserved/Open', 'Selected',
+					$scope.clientLabels = [ 'Training', 'Reserved/Open', 'Selected',
 							'Confirmed', 'Deployed' ];
 					/** 
 					 * @member {Array} clientSeries
 					 * @description Local variable of getAllClients.
 					 * This array describes the different bars you want to display.*/
-					$scope.clientseries = [ 'Mapped', 'Unmapped' ];
+					$scope.clientSeries = [ 'Mapped', 'Unmapped' ];
 					/** 
 					 * @member {Array} clientData
 					 * @description Local variable of getAllClients.
 					 * The clients JavaScript object is used for the data it
 					 * contains which is then bound to the chart dataset using the $scope service. */
-					$scope.clientdata = [
+					$scope.clientData = [
 							[ clients.trainingMapped, clients.reservedMapped,
 									clients.selectedMapped,
 									clients.confirmedMapped,
@@ -264,7 +264,7 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 					 * @property {Array} clientColors
 					 * @description Local variable of getAllClients.
 					 *  This array sets the color scheme for the chart.*/
-					$scope.clientcolors = [ {
+					$scope.clientColors = [ {
 						backgroundColor : '#e85410'
 					}, {
 						backgroundColor : '#59504c'
@@ -273,7 +273,7 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 					 * @property {Array} clientOptions
 					 * @description Local variable of getAllClients.
 					 * This array modifies the options of the chart.*/
-					$scope.clientoptions = {
+					$scope.clientOptions = {
 						legend : {
 							display : true,
 							position : 'right'
@@ -308,10 +308,10 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 				function(response) {
 					var clients = response.data;
 					$scope.clientName = clients.name;
-					$scope.clientlabels = [ 'Training', 'Reserved/Open', 'Selected',
+					$scope.clientLabels = [ 'Training', 'Reserved/Open', 'Selected',
 							'Confirmed', 'Deployed' ];
-					$scope.clientseries = [ 'Mapped', 'Unmapped' ];
-					$scope.clientdata = [
+					$scope.clientSeries = [ 'Mapped', 'Unmapped' ];
+					$scope.clientData = [
 							[ clients.trainingMapped, clients.reservedMapped,
 									clients.selectedMapped,
 									clients.confirmedMapped,
@@ -321,7 +321,7 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 									clients.selectedUnmapped,
 									clients.confirmedUnmapped,
 									clients.deployedUnmapped ] ];
-					$scope.clientoptions = {
+					$scope.clientOptions = {
 						legend : {
 							display : true,
 							position : 'right'

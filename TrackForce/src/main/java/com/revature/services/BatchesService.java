@@ -2,6 +2,7 @@ package com.revature.services;
 
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import java.util.List;
@@ -61,8 +62,18 @@ public class BatchesService {
 	@GET 
 	@Path("{batch}/info")
 	@Produces(MediaType.APPLICATION_JSON)
-	public TfBatch getBatchInfo(@PathParam("batch")String batchName) {
-		return new BatchDaoHibernate().getBatch(batchName);
+	public List<String> getBatchInfo(@PathParam("batch")String batchName) {
+		BatchDaoHibernate batchDao = new BatchDaoHibernate();
+		TfBatch batch = batchDao.getBatch(batchName);
+		List<String> batchInfo = new ArrayList<String>();
+		batchInfo.add(batch.getTfBatchName());
+		batchInfo.add(batch.getTfClient().getTfClientName());
+		batchInfo.add(batch.getTfCurriculum().getTfCurriculumName());
+		batchInfo.add(batch.getTfBatchLocation().getTfBatchLocationName());
+		batchInfo.add(batch.getTfBatchStartDate().toString());
+		batchInfo.add(batch.getTfBatchEndDate().toString());
+		
+		return batchInfo;
 	}
 	
 	
@@ -101,10 +112,41 @@ public class BatchesService {
 	 */
 	@Path("{fromdate}/{todate}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<TfBatch> getBatches(@PathParam("fromdate") long fromdate, 
+    public ArrayList<ArrayList<String>> getBatches(@PathParam("fromdate") long fromdate, 
     		@PathParam("todate") long todate ){
-		return new BatchDaoHibernate().getBatchDetails(new Timestamp(fromdate), 
-				new Timestamp(todate));
+		ArrayList<ArrayList<String>> batchesList = new ArrayList<ArrayList<String>>();
+		BatchDaoHibernate batchDao = new BatchDaoHibernate();
+		List<TfBatch> list = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
+		for (TfBatch batch : list) {
+			ArrayList<String> batchDetails = new ArrayList<String>();
+			batchDetails.add(batch.getTfBatchName());
+			batchDetails.add(batch.getTfClient().getTfClientName());
+			batchDetails.add(batch.getTfBatchStartDate().toString());
+			batchDetails.add(batch.getTfBatchEndDate().toString());
+			batchesList.add(batchDetails);
+		}
+		return batchesList;
+    }
+	
+	/**
+	 * Gets the information of the associates in a particular batch
+	 * @param batchName - the name of a batch that is in the database
+	 */
+	@Path("{batch}/associates")
+    @Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<ArrayList<String>> getAssociates(@PathParam("batch") String batchName){
+		ArrayList<ArrayList<String>> associatesList = new ArrayList<ArrayList<String>>();
+		BatchDaoHibernate batchDao = new BatchDaoHibernate();
+		TfBatch batch = batchDao.getBatch(batchName);
+		for (TfAssociate associate : batch.getTfAssociates()) {
+			ArrayList<String> associateDetails = new ArrayList<String>();
+			associateDetails.add(associate.getTfAssociateId().toString());
+			associateDetails.add(associate.getTfAssociateFirstName());
+			associateDetails.add(associate.getTfAssociateLastName());
+			associateDetails.add(associate.getTfMarketingStatus().getTfMarketingStatusName());
+			associatesList.add(associateDetails);
+		}
+		return associatesList;
     }
 
 }

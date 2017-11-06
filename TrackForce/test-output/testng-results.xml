@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="2" passed="2">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="4318" started-at="2017-11-06T04:34:16Z" finished-at="2017-11-06T04:34:21Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="4318" started-at="2017-11-06T04:34:16Z" finished-at="2017-11-06T04:34:21Z">
+      <class name="com.revature.test.testBatchesService">
+        <test-method status="PASS" signature="testGetBatchInfo()[pri:0, instance:com.revature.test.testBatchesService@56ac3a89]" name="testGetBatchInfo" duration-ms="3997" started-at="2017-11-05T22:34:16Z" finished-at="2017-11-05T22:34:20Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGetBatchInfo -->
+        <test-method status="PASS" signature="testGetBatches()[pri:0, instance:com.revature.test.testBatchesService@56ac3a89]" name="testGetBatches" duration-ms="294" started-at="2017-11-05T22:34:20Z" finished-at="2017-11-05T22:34:21Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGetBatches -->
+      </class> <!-- com.revature.test.testBatchesService -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

@@ -1,7 +1,7 @@
 package com.revature.entity;
 // Generated Nov 2, 2017 9:19:06 AM by Hibernate Tools 5.2.5.Final
 
-import java.math.BigDecimal;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -97,4 +97,11 @@ public class TfClient implements java.io.Serializable {
 		this.tfBatches = tfBatches;
 	}
 
+//	@Override
+//	public String toString() {
+//		return "TfClient [tfClientId=" + tfClientId + ", tfClientName=" + tfClientName + ", tfPlacements="
+//				+ tfPlacements + ", tfInterviews=" + tfInterviews + ", tfBatches=" + tfBatches + "]";
+//	}
+
+	
 }

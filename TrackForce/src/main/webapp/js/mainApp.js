@@ -282,7 +282,6 @@ mainApp
 									url : "http://localhost:8080/TrackForce/track/database/populateDB"
 								}).then(function(response) {
 							$scope.dbMessage = response.data;
-
 						})
 					}
 					$scope.deleteDB = function() {
@@ -292,7 +291,9 @@ mainApp
 									url : "http://localhost:8080/TrackForce/track/database/deleteFromDB"
 								}).then(function(response) {
 							$scope.dbMessage = response.data;
-
 						})
+					}
+					$scope.refresh = function(){
+						window.location.reload();
 					}
 				});

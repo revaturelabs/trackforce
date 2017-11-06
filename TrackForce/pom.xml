@@ -14,26 +14,6 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
-    <repositories>
-      <repository>
-        <id>maven.oracle.com</id>
-        <releases>
-          <enabled>true</enabled>
-        </releases>
-        <snapshots>
-          <enabled>false</enabled>
-        </snapshots>
-        <url>https://maven.oracle.com</url>
-        <layout>default</layout>
-      </repository>
-    </repositories>
-    <pluginRepositories>
-      <pluginRepository>
-        <id>maven.oracle.com</id>
-        <url>https://maven.oracle.com</url>
-      </pluginRepository>
-    </pluginRepositories>
-
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet -->
 		<dependency>

@@ -32,7 +32,6 @@ public class ClientResource {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getAllClients() {
-
 		List<TfClient> clients = clientDaoImpl.getAllTfClients();
 		List<Map<String,Object>> entity = new ArrayList<>();
 		for(TfClient client : clients) {

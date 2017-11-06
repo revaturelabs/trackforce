@@ -68,4 +68,7 @@ public class TfCurriculum implements java.io.Serializable {
 		this.tfBatches = tfBatches;
 	}
 
+	
+	
+
 }

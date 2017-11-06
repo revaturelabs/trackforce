@@ -1,17 +1,17 @@
 package com.revature.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 
-
-import javax.persistence.ParameterMode;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
-
-import org.hibernate.procedure.ProcedureCall;
-import org.hibernate.result.Output;
-import org.hibernate.result.ResultSetOutput;
+import org.hibernate.query.Query;
 
 import com.revature.entity.TfBatch;
 import com.revature.utils.HibernateUtil;
@@ -23,45 +23,34 @@ public class BatchDaoHibernate implements BatchDao {
      * @param batchName - The name of the batch to get information about
      */
     @Override
-    public TfBatch getBatch(String batchName) {
-        SessionFactory sessionFactory = HibernateUtil.getSession();
-        Session session = sessionFactory.openSession();
-
-        // CriteriaBuilder builder = session.getCriteriaBuilder();
-        // CriteriaQuery<TfBatch> criteriaQuery = builder.createQuery(TfBatch.class);
-        // Root<TfBatch> root = criteriaQuery.from(TfBatch.class);
-        // criteriaQuery.select(root).where(builder.equal(root.get("tfBatchName"),
-        // batchName));
-        // Query<TfBatch> query = session.createQuery(criteriaQuery);
-        // TfBatch batch = query.getSingleResult();
-
-        ProcedureCall call = session.createStoredProcedureCall("ADMIN.rows_by_batchname");
-        call.registerParameter(1, Integer.class, ParameterMode.IN).bindValue(1);
-        call.registerParameter(2, Class.class, ParameterMode.REF_CURSOR);
-
-        Output output = call.getOutputs().getCurrent();
-        TfBatch batch = (TfBatch) ((ResultSetOutput) output).getSingleResult();
-
-        session.close();
-
-        return batch;
-    }
-
-
-	
-
-	
-	public List<TfBatch> getBatchDetails(String fromdate,String todate){
+	public TfBatch getBatch(String batchName) {
 		SessionFactory sessionFactory = HibernateUtil.getSession();
-		Session session = sessionFactory.unwrap( Session.class );
-		ProcedureCall sp=session.createStoredProcedureCall("ADMIN.batch_by_date_range_PROC");
-		sp.registerParameter(1,String.class,ParameterMode.IN).bindValue(fromdate);
-		sp.registerParameter(2, String.class, ParameterMode.IN).bindValue(todate);
-		sp.registerParameter(3,Class.class,ParameterMode.REF_CURSOR);
-		Output output=sp.getOutputs().getCurrent();
-		List<TfBatch> postComments=((ResultSetOutput) output).getResultList();
-		return postComments;	
+		Session session = sessionFactory.openSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<TfBatch> criteriaQuery = builder.createQuery(TfBatch.class);
+		Root<TfBatch> root = criteriaQuery.from(TfBatch.class);
+		criteriaQuery.select(root).where(builder.equal(root.get("tfBatchName"), batchName));
+		Query<TfBatch> query = session.createQuery(criteriaQuery);
+		TfBatch batch = query.getSingleResult();
+		return batch;
+
 	}
+	
+    /**
+     * Get a list of batches that are running within the given dates
+     * @param fromdate - the beginning number of the date range
+     * @param todate - the ending date of the date range
+     */
+	@Override
+	public List<TfBatch> getBatchDetails(Timestamp fromdate,Timestamp todate){
+		EntityManager em = HibernateUtil.getSession().createEntityManager();
+		TypedQuery<TfBatch> query = em.createQuery("from TfBatch where (tfBatchStartDate >= :fromdate) and (tfBatchEndDate <= :todate)", TfBatch.class);
+		query.setParameter("fromdate", fromdate);
+		query.setParameter("todate", todate);
+		List<TfBatch> batch = query.getResultList();
+		return batch;	
+	}
+	
 	
 }
 

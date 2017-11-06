@@ -3,11 +3,11 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="com.revature.dao.testBatchDaoHibernate">
+      <class name="com.revature.test.testBatchDaoHibernate">
         <methods>
-          <include name="getNoOfAssociatesTest"/>
+          <include name="testgetBatchDetails"/>
         </methods>
-      </class> <!-- com.revature.dao.testBatchDaoHibernate -->
+      </class> <!-- com.revature.test.testBatchDaoHibernate -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

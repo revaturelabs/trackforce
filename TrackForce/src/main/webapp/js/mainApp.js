@@ -30,25 +30,7 @@ mainApp.config(function($routeProvider) {
 });
 
 mainApp.controller("mainCtrl",function($scope, $http) {
-	
-	
-	$scope.getBatches = (function() {
-		var fromdate = new Date($scope.fromdate);
-		var todate = new Date($scope.todate);
 
-		// Simple GET request example:
-		$http({
-			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime(),
-			headers : {'Content-Type' : 'application/json'}
-		}).then(function successCallback(response) {
-			$scope.batches = response.data;
-			console.log($scope.batches);
-		}, function errorCallback(response) {
-			console.log('Error in doing http request')
-		});
-	});
-	
 	
 	$scope.labels = [ "Mapped", "Unmapped" ];
 	$scope.data = [ 500, 100 ];
@@ -80,6 +62,18 @@ mainApp.controller("mainCtrl",function($scope, $http) {
 });
 
 mainApp.controller("batchCtrl", function($scope, $http) {
+	
+	// Simple GET request example:
+	$http({
+		method : 'GET',
+		url : 'http://localhost:8080/TrackForce/track/batches/1501992000000/1517893200000',
+		headers : {'Content-Type' : 'application/json'}
+	}).then(function successCallback(response) {
+		$scope.batches = response.data;
+		console.log($scope.batches);
+	}, function errorCallback(response) {
+		console.log('Error in doing http request')
+	});
 	
 	$scope.getBatches = (function() {
 		var fromdate = new Date($scope.fromdate);

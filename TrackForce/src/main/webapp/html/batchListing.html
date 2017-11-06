@@ -22,15 +22,17 @@
 						<thead>
 							<tr>
 								<th>Batch Name</th>
+								<th>Client Name</th>
 								<th>Start Date</th>
 								<th>End Date</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr ng-repeat="batch in batches">
-								<td><a href="#!/batchDetails" ng-click="getMapStatusBatch()">{{batch}}</a></td>
-								<td>9/11/2017</td>
-								<td>11/17/2017</td>
+								<td><a href="#!/batchDetails" ng-click="getMapStatusBatch()">{{batch.batchName}}</a></td>
+								<td>{{batch.clientName}}</td>
+								<td>{{batch.startDate.substring(0, 10)}}</td>
+								<td>{{batch.endDate.substring(0, 10)}}</td>
 							</tr>
 						</tbody>
 					</table>

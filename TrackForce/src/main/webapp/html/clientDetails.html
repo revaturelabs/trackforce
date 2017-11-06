@@ -9,6 +9,7 @@
 						placeholder="Search by client name...">
 				</div>
 				<h3>Clients</h3>
+				<button ng-click="getAllClients()" class="btn btn-info">View Data for All Clients</button>
 				<ul>
 					<li ng-repeat="client in clients | filter:searchName"><a
 					    ng-click="getOneClient(client.id)">{{client.name}}</a></li>
@@ -19,10 +20,9 @@
 		</div>
 		<div class="col-md-9">
 				<h1 ng-bind="clientName"></h1>
-				<div class="col-md-9">
-					<canvas id="bar" class="chart chart-bar" chart-series="series" chart-colors="colors"
+				
+					<canvas id="bar" style="width:100%; height: auto;" class="chart chart-bar" chart-series="series" chart-colors="colors"
 						chart-data="data" ng-init="getAllClients()" chart-labels="labels" chart-options="options"></canvas>
-				</div>
 			</div>
 	</div>
 	<!--/row1-->

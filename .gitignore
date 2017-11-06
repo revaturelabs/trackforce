@@ -48,6 +48,9 @@ test-output/
 *.dll
 *.exe
 
+# We have to include the OJDBC driver in the project
+!ojdbc8.jar
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 # OS generated files

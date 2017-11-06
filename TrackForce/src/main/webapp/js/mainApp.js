@@ -213,11 +213,12 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 					// contains which is then bound to the chart
 					$scope.series = [ 'Mapped', 'Unmapped' ];
 					$scope.data = [
-							[ clients.trainingMapped, clients.selectedMapped,
+							[ clients.trainingMapped, clients.reservedMapped,
+									clients.selectedMapped,
 									clients.confirmedMapped,
-									clients.deployedMapped,
-									clients.reservedMapped ],
-							[ clients.reservedUnmapped,
+									clients.deployedMapped ],
+							[ clients.trainingUnmapped,
+									clients.reservedUnmapped,
 									clients.selectedUnmapped,
 									clients.confirmedUnmapped,
 									clients.deployedUnmapped ] ];
@@ -250,14 +251,15 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 					var clients = response.data;
 					$scope.clientName = clients.name;
 					$scope.labels = [ 'Training', 'Reserved', 'Selected',
-							'Confirmed', 'Deployed', 'Deployed' ];
+							'Confirmed', 'Deployed' ];
 					$scope.series = [ 'Mapped', 'Unmapped' ];
 					$scope.data = [
-							[ clients.trainingMapped, clients.selectedMapped,
+							[ clients.trainingMapped, clients.reservedMapped,
+									clients.selectedMapped,
 									clients.confirmedMapped,
-									clients.deployedMapped,
-									clients.reservedMapped ],
-							[ clients.reservedUnmapped,
+									clients.deployedMapped ],
+							[ clients.trainingUnmapped,
+									clients.reservedUnmapped,
 									clients.selectedUnmapped,
 									clients.confirmedUnmapped,
 									clients.deployedUnmapped ] ];
@@ -293,7 +295,7 @@ mainApp
 							$scope.dbMessage = response.data;
 						})
 					}
-					$scope.refresh = function(){
+					$scope.refresh = function() {
 						window.location.reload();
 					}
 				});

@@ -46,6 +46,6 @@ public class ClientResourceTest {
 
 	@Test
 	public void getClientInfoNegativeInt() {
-		assertEquals(clientResource.getClientInfo(-1), new ClientInfo());
+		assertEquals(clientResource.getClientInfo(-1), new ClientInfo(""));
 	}
 }

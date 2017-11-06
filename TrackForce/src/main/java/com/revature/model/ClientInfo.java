@@ -20,13 +20,21 @@ public class ClientInfo {
 	private int deployedUnmapped;
 	
 	/**
-	 * Default no-arg constructor
+	 * Default no-arg constructor for an empty ClientInfo object.
 	 */
 	public ClientInfo() {
 	}
 	
 	/**
-	 * Constructs a ClientInfo object
+	* Constructs a ClientInfo object with a name.
+	* @param name The name of the client
+	*/
+	public ClientInfo(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Constructs a ClientInfo object.
 	 * @param name The name of the client
 	 * @param trainingMapped The number of associates who are currently training and mapped to this client.
 	 * @param trainingUnmapped The number of associates who are currently training and not mapped to this client.

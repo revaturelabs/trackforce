@@ -57,6 +57,10 @@ public class ClientDaoImpl implements ClientDao {
 			return new ClientInfo();
 		}
 
+		if (id < 1) {
+			return new ClientInfo();
+		}
+
 		EntityManager em = HibernateUtil.getSession().createEntityManager();
 
 		final int numberOfStatuses = 10;
@@ -85,9 +89,8 @@ public class ClientDaoImpl implements ClientDao {
 	 * Returns a ClientInfo object with each status set based off of counts.
 	 * 
 	 * @param counts
-	 * int array representing count of each status
-	 * @return
-	 * a ClientInfo object with statuses set
+	 *            int array representing count of each status
+	 * @return a ClientInfo object with statuses set
 	 */
 	private ClientInfo setClientInfoWithIntArray(int[] counts) {
 		ClientInfo clientInfo = new ClientInfo();

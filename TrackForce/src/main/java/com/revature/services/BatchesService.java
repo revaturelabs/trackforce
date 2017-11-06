@@ -117,6 +117,7 @@ public class BatchesService {
 	 * @param todate - the ending date of the date range
 	 * @return - A list of the lists of batch info. Batch info contains batch name, client name, batch start date, and batch end date.
 	 */
+	@GET
 	@Path("{fromdate}/{todate}")
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<ArrayList<String>> getBatches(@PathParam("fromdate") long fromdate, 
@@ -140,6 +141,7 @@ public class BatchesService {
 	 * @param batchName - the name of a batch that is in the database
 	 * @return - A list of the lists of associate info. Associate info contains id, first name, last name, and marketing status.
 	 */
+	@GET
 	@Path("{batch}/associates")
     @Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<ArrayList<String>> getAssociates(@PathParam("batch") String batchName){

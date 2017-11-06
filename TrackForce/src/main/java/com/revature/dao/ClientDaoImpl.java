@@ -49,6 +49,13 @@ public class ClientDaoImpl implements ClientDao {
 
 	@Override
 	public ClientInfo getClientInfo(int id) {
+		
+		/* Returns an empty set of info for this client
+		 * if the given ID is invalid (0 or less)
+		 */
+		if(id < 1) {
+			return new ClientInfo();
+		}
 
 		if (id < 1) {
 			return new ClientInfo();

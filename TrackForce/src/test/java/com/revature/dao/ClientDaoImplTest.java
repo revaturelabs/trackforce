@@ -82,15 +82,16 @@ public class ClientDaoImplTest {
 
   @Test(dataProvider = "clientID")
 	public void getClientInfo(int id) {
+
 		EntityManager em = HibernateUtil.getSession().createEntityManager();
 		assertNotNull(em);
 
 		final int numberOfStatuses = 10;
 		assertEquals(numberOfStatuses, 10);
-		
+
 		int[] counts = new int[numberOfStatuses];
 		assertEquals(counts.length, 10);
-		
+
 		for (int i = 1; i <= numberOfStatuses; i++) {
 			StoredProcedureQuery query = em.createStoredProcedureQuery("ADMIN.GET_CLIENT_STATUS_COUNT");
 			assertNotNull(query);
@@ -99,9 +100,9 @@ public class ClientDaoImplTest {
 			query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.OUT);
 			assertFalse(query.getParameters().isEmpty());
 			query.setParameter(1, id);
-			assertEquals(query.getParameter(1).getParameterType(),Integer.class);
+			assertEquals(query.getParameter(1).getParameterType(), Integer.class);
 			query.setParameter(2, i);
-			assertEquals(query.getParameter(2).getParameterType(),Integer.class);
+			assertEquals(query.getParameter(2).getParameterType(), Integer.class);
 			assertFalse(query.execute());
 			counts[i - 1] = (int) query.getOutputParameterValue(3);
 			assertNotNull(counts[i - 1]);

@@ -13,9 +13,18 @@ public class BatchDaoHibernateTest {
   @Test
   public void getBatchByIDTest() {
       BatchDao batchDao = new BatchDaoHibernate();
-      TfBatch batch = batchDao.getBatch(1);
+      TfBatch batch = batchDao.getBatch("1712 Dec04 AP-USF");
       
       assertNotNull(batch);
       System.out.println(batch.getTfClient());
+  }
+  
+  @Test
+  public void getBatchByIDTestNegative() {
+      BatchDao batchDao = new BatchDaoHibernate();
+      TfBatch batch = batchDao.getBatch("さいうえぁじぇうjp♫¥=⌐~ë");
+      
+      assertNotNull(batch);
+      Assert.
   }
 }

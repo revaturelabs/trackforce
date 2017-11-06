@@ -71,6 +71,9 @@ public class ClientResource {
 	@Path("{clientid}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public ClientInfo getClientInfo(@PathParam("clientid") int clientid) {
-		return clientDaoImpl.getClientInfo(clientid);
+		if(clientid < 1)
+			return new ClientInfo("");
+		else
+			return clientDaoImpl.getClientInfo(clientid);
 	}
 }

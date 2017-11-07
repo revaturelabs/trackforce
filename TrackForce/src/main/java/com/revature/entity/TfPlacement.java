@@ -3,6 +3,8 @@ package com.revature.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,8 +28,8 @@ public class TfPlacement implements java.io.Serializable {
 	private TfAssociate tfAssociate;
 	private TfClient tfClient;
 	private TfEndClient tfEndClient;
-	private Serializable tfPlacementStartDate;
-	private Serializable tfPlacementEndDate;
+	private Timestamp tfPlacementStartDate;
+	private Timestamp tfPlacementEndDate;
 
 	public TfPlacement() {
 	}
@@ -37,7 +39,7 @@ public class TfPlacement implements java.io.Serializable {
 	}
 
 	public TfPlacement(BigDecimal tfPlacementId, TfAssociate tfAssociate, TfClient tfClient, TfEndClient tfEndClient,
-			Serializable tfPlacementStartDate, Serializable tfPlacementEndDate) {
+			Timestamp tfPlacementStartDate, Timestamp tfPlacementEndDate) {
 		this.tfPlacementId = tfPlacementId;
 		this.tfAssociate = tfAssociate;
 		this.tfClient = tfClient;
@@ -88,20 +90,20 @@ public class TfPlacement implements java.io.Serializable {
 	}
 
 	@Column(name = "TF_PLACEMENT_START_DATE")
-	public Serializable getTfPlacementStartDate() {
+	public Timestamp getTfPlacementStartDate() {
 		return this.tfPlacementStartDate;
 	}
 
-	public void setTfPlacementStartDate(Serializable tfPlacementStartDate) {
+	public void setTfPlacementStartDate(Timestamp tfPlacementStartDate) {
 		this.tfPlacementStartDate = tfPlacementStartDate;
 	}
 
 	@Column(name = "TF_PLACEMENT_END_DATE")
-	public Serializable getTfPlacementEndDate() {
+	public Timestamp getTfPlacementEndDate() {
 		return this.tfPlacementEndDate;
 	}
 
-	public void setTfPlacementEndDate(Serializable tfPlacementEndDate) {
+	public void setTfPlacementEndDate(Timestamp tfPlacementEndDate) {
 		this.tfPlacementEndDate = tfPlacementEndDate;
 	}
 

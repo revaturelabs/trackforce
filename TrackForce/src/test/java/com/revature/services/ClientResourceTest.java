@@ -17,7 +17,7 @@ import org.testng.annotations.Test;
 import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.entity.TfClient;
-import com.revature.model.ClientInfo;
+import com.revature.model.StatusInfo;
 
 public class ClientResourceTest {
 
@@ -46,6 +46,6 @@ public class ClientResourceTest {
 
 	@Test
 	public void getClientInfoNegativeInt() {
-		assertEquals(clientResource.getClientInfo(-1), new ClientInfo(""));
+		assertEquals(clientResource.getClientInfo(-1), new StatusInfo(""));
 	}
 }

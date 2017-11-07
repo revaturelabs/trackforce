@@ -33,12 +33,16 @@ public class HomeResource {
 		return statusInfo;
 	}
 	
+	/**
+	 * 
+	 * @param statusid the ID of the desired associate marketing status 
+	 * @return a list of TfAssociate objects filtered by marketing status ID.
+	 */
 	@GET
 	@Path("{statusid}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<TfAssociate> getAssociatesByStatus(@PathParam("statusid") int statusid) {
-		HomeDao dao = new HomeDaoImpl();
-		List<TfAssociate> associates = dao.getAllTfAssociates();
+		List<TfAssociate> associates = homeDaoImpl.getAllTfAssociates();
 		return associatesListByStatus(associates, statusid);
 	}
 

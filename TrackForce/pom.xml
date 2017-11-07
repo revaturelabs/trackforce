@@ -121,11 +121,5 @@
 			<version>1.9.5</version>
 			<scope>test</scope>
 		</dependency>
-		
-		<!-- <dependency>
-			<groupId>com.github.noraui</groupId>
-			<artifactId>ojdbc7</artifactId>
-			<version>12.1.0.2</version>
-		</dependency> -->
 	</dependencies>
 </project>

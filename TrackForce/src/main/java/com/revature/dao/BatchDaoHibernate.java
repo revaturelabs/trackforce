@@ -30,8 +30,7 @@ public class BatchDaoHibernate implements BatchDao {
      */
     @Override
     public TfBatch getBatch(String batchName) {
-        SessionFactory sessionFactory = HibernateUtil.getSession();
-        Session session = sessionFactory.openSession();
+        Session session = HibernateUtil.getSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<TfBatch> criteriaQuery = builder.createQuery(TfBatch.class);
         Root<TfBatch> root = criteriaQuery.from(TfBatch.class);
@@ -59,7 +58,7 @@ public class BatchDaoHibernate implements BatchDao {
      */
     @Override
     public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate) {
-        EntityManager em = HibernateUtil.getSession().createEntityManager();
+        EntityManager em = HibernateUtil.getSession();
         TypedQuery<TfBatch> query = em.createQuery(
                 "from TfBatch where (tfBatchStartDate >= :fromdate) and (tfBatchEndDate <= :todate)", TfBatch.class);
         query.setParameter("fromdate", fromdate);

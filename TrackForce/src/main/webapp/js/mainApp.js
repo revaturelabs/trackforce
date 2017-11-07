@@ -29,6 +29,12 @@ mainApp.config(function($routeProvider) {
 	}).when("/clientDetails", {
 		templateUrl : "clientDetails.html",
 		controller : "clientCtrl"
+	}).when("/clientMapped", {
+		templateUrl : "clientDetails.html",
+		controller : "clientCtrl"
+	}).when("/skillset", {
+		templateUrl : "clientDetails.html",
+		controller : "clientCtrl"
 	})
 });
 /**

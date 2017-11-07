@@ -3,6 +3,7 @@ package com.revature.test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import static org.junit.Assert.assertNotNull;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
@@ -46,4 +47,24 @@ public class testBatchDaoHibernate  {
 		}
 		Assert.assertNotNull(batchA);
 	}
+
+    @Test
+    public void testgetBatchDetailsNegative() {
+        Timestamp firstDate = Timestamp.valueOf("2017-12-30 10:10:10.0");
+        Timestamp secondDate = Timestamp.valueOf("2017-09-10 10:10:10.0");
+        BatchDao batchdao = new BatchDaoHibernate();
+        List<TfBatch> batchlist = batchdao.getBatchDetails(firstDate, secondDate);
+        Assert.assertNotNull(batchlist);
+        System.out.println("Test Get Batch Details Negative");
+        System.out.println(batchlist);
+    }
+
+    @Test
+    public void testGetBatchNegative() {
+        BatchDao batchDao = new BatchDaoHibernate();
+        TfBatch batch = batchDao.getBatch("さいうえぁじぇうjp♫¥=⌐~ë");
+        assertNotNull(batch);
+        System.out.println("Test Get Batch Negative");
+        System.out.println(batch);
+    }
 }

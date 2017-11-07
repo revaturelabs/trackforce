@@ -43,6 +43,7 @@ public class BatchDaoHibernate implements BatchDao {
         } catch (NoResultException nre) {
             batch = new TfBatch();
         }
+        
         return batch;
 
     }

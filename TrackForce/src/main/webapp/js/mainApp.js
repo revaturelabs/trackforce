@@ -1,84 +1,97 @@
 // Start the main module to be used for angular app
-var mainApp = angular.module('mainApp', [ 'ngRoute', 'chart.js' ]).constant(
-		'baseURL', 'http://localhost:8080/TrackForce/track/');
-
-// Setup constants for use in angular code
-//mainApp.constant('baseURL', 'http://localhost:8080/TrackForce/track/');
-
-// Configure $routeProvider to create a Single Page Application
 var mainApp = angular.module('mainApp', [ 'ngRoute', 'chart.js' ]);
+
 mainApp.config(function($routeProvider) {
 	$routeProvider
-	// Home Page route
+	
+	// Home Page 
 	.when("/", {
 		templateUrl : "home.html",
 		controller : "mainCtrl"
 	})
-	// Mapped View Page route
+	
+	// Batch Listing page
 	.when("/batchListing", {
 		templateUrl : "batchListing.html",
 		controller : "batchCtrl"
 	})
-	// Unmapped View Page route
+	
+	// Batch Details page
 	.when("/batchDetails", {
 		templateUrl : "batchDetails.html",
 		controller : "batchCtrl"
-	}).when("/clientDetails", {
+	})
+	
+	// Client Details page
+	.when("/clientDetails", {
 		templateUrl : "clientDetails.html",
 		controller : "clientCtrl"
 	})
 });
 
-mainApp.controller("mainCtrl", function ($scope) {
-	  $scope.labels = ["Mapped", "Unmapped"];
-	  $scope.data = [500, 100];
-	  
-	  $scope.labels2 = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+mainApp.controller("mainCtrl",function($scope, $http) {
+	
+	$scope.labels = [ "Mapped", "Unmapped" ];
+	$scope.data = [ 500, 100 ];
 
-	  $scope.data2 = [65, 59, 80, 81, 56, 55, 40]
-	  
-	  $scope.labels3 = ["January", "February", "March", "April", "May", "June", "July"];
-	  $scope.data3 = [28, 48, 40, 19, 86, 27, 90]
-	  $scope.onClick = function (points, evt) {
-	    console.log(points, evt);
-	  };
-	  $scope.datasetOverride = {yAxisID: 'y-axis-1'};
-	  $scope.options3 = {
-	    scales: {
-	      yAxes: [
-	        {
-	          id: 'y-axis-1',
-	          type: 'linear',
-	          display: true,
-	          position: 'left'
-	        }
-	      ]
-	    }
-	  };
+	$scope.labels2 = [ '2006', '2007', '2008', '2009', '2010', '2011',
+			'2012' ];
+
+	$scope.data2 = [ 65, 59, 80, 81, 56, 55, 40 ]
+
+	$scope.labels3 = [ "January", "February", "March", "April", "May",
+			"June", "July" ];
+	$scope.data3 = [ 28, 48, 40, 19, 86, 27, 90 ]
+	$scope.onClick = function(points, evt) {
+		console.log(points, evt);
+	};
+	$scope.datasetOverride = {
+		yAxisID : 'y-axis-1'
+	};
+	$scope.options3 = {
+		scales : {
+			yAxes : [ {
+				id : 'y-axis-1',
+				type : 'linear',
+				display : true,
+				position : 'left'
+			} ]
+		}
+	};
 });
 
-mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
-	$scope.batches = 'hello';
-	$scope.getBatches = function() {
-		console.log($scope.fromdate);
-		console.log($scope.todate);
+mainApp.controller("batchCtrl", function($scope, $http) {
+	
+	// Simple GET request example:
+	$http({
+		method : 'GET',
+		url : 'http://localhost:8080/TrackForce/track/batches/1501992000000/1517893200000',
+		headers : {'Content-Type' : 'application/json'}
+	}).then(function successCallback(response) {
+		$scope.batches = response.data;
+		console.log($scope.batches);
+	}, function errorCallback(response) {
+		console.log('Error in doing http request')
+	});
+	
+	$scope.getBatches = (function() {
 		var fromdate = new Date($scope.fromdate);
 		var todate = new Date($scope.todate);
-		
+
 		// Simple GET request example:
 		$http({
 			method : 'GET',
-			url : baseURL + 'batches/' + fromdate.getTime() + '/' + todate.getTime(),
-		    headers: {'Content-Type': 'application/json' }
-		}).then(function(success) {
-			$scope.batches = data;
+			url : 'http://localhost:8080/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime(),
+			headers : {'Content-Type' : 'application/json'}
+		}).then(function successCallback(response) {
+			$scope.batches = response.data;
 			console.log($scope.batches);
-			console.log(baseURL);
-		}, function(error) {
+		}, function errorCallback(response) {
 			console.log('Error in doing http request')
 		});
-	};
-	$scope.getCountPerBatchType = function($http) {
+	});
+
+	$scope.getCountPerBatchType = function() {
 		// Simple GET request example:
 		$http({
 			method : 'GET',
@@ -96,7 +109,8 @@ mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 			}
 		})
 	};
-	$scope.getBatchAssociates = function($http) {
+
+	$scope.getBatchAssociates = function() {
 		// Simple GET request example:
 		$http(
 				{
@@ -117,7 +131,8 @@ mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 			};
 		})
 	};
-	$scope.getBatchInfo = function($http) {
+
+	$scope.getBatchInfo = function() {
 		// Simple GET request example:
 		$http(
 				{
@@ -137,6 +152,7 @@ mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 			};
 		})
 	};
+
 	$scope.getMapStatusBatch = function($http) {
 		// Simple GET request example:
 		$http(
@@ -148,6 +164,7 @@ mainApp.controller("batchCtrl", function($scope, $http, baseURL) {
 			// this callback will be called asynchronously
 			// when the response is available
 			$scope.batchMapStatus = response.data;
+			console.log($scope.batchmapStaus);
 		}, function errorCallback(response) {
 			// called asynchronously if an error occurs
 			// or server returns response with an error status.

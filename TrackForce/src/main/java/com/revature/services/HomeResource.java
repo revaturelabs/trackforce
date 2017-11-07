@@ -28,24 +28,34 @@ public class HomeResource {
 			switch (associate.getTfMarketingStatus().getTfMarketingStatusId().intValue()) {
 			case 1:
 				clientInfo.setTrainingMapped(clientInfo.getTrainingMapped() + 1);
+				break;
 			case 2:
 				clientInfo.setReservedMapped(clientInfo.getReservedMapped() + 1);
+				break;
 			case 3:
 				clientInfo.setSelectedMapped(clientInfo.getSelectedMapped() + 1);
+				break;
 			case 4:
 				clientInfo.setConfirmedMapped(clientInfo.getConfirmedMapped() + 1);
+				break;
 			case 5:
 				clientInfo.setDeployedMapped(clientInfo.getDeployedMapped() + 1);
+				break;
 			case 6:
 				clientInfo.setTrainingUnmapped(clientInfo.getTrainingUnmapped() + 1);
+				break;
 			case 7:
 				clientInfo.setOpenUnmapped(clientInfo.getOpenUnmapped() + 1);
+				break;
 			case 8:
 				clientInfo.setSelectedUnmapped(clientInfo.getSelectedUnmapped() + 1);
+				break;
 			case 9:
 				clientInfo.setConfirmedUnmapped(clientInfo.getConfirmedUnmapped() + 1);
+				break;
 			case 10:
 				clientInfo.setDeployedUnmapped(clientInfo.getDeployedUnmapped() + 1);
+				break;
 			}
 		}
 

@@ -39,8 +39,8 @@ public class BatchesService {
 	@GET
 	@Path("{fromdate}/{todate}/type")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Map<String, Integer> getBatchChartInfo(@PathParam("fromDate") long fromdate,
-			@PathParam("toDate") long todate) {
+	public Map<String, Integer> getBatchChartInfo(@PathParam("fromdate") long fromdate,
+			@PathParam("todate") long todate) {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 
 		List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
@@ -147,6 +147,8 @@ public class BatchesService {
 
 			batchesList.add(batchDetails);
 		}
+
+		System.out.println(batchesList);
 		return batchesList;
 	}
 

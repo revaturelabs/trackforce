@@ -25,6 +25,9 @@ public class testBatchesService {
 		long secondDate = Timestamp.valueOf("2017-12-30 10:10:10.0").getTime();
 		BatchesService batchesService = new BatchesService();
 		List<BatchInfo> batches = batchesService.getBatches(firstDate, secondDate);
+		for (BatchInfo bat : batches) {
+			System.out.println(bat.getClientName());
+		}
 		Assert.assertNotNull(batches);
 	}
 

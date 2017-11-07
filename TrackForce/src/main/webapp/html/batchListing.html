@@ -9,8 +9,8 @@
 			<div class="col-sm-6">
 			<h3>Select dates:</h3>
 				<form>
-					From: <input type="date" ng-model="fromdate"/> 
-					To: <input type="date" ng-model="todate"/>
+					From: <input type="date" ng-model="fromdate" value="2017-08-09" max="todate"/> 
+					To: <input type="date" ng-model="todate" value="2018-02-09" min="fromdate"/>
 					<input type="submit" value="Submit" ng-click="getBatches()"/>
 				</form>
 			</div>
@@ -27,10 +27,10 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td><a href="#!/batchDetails">1707 Jul10 PEGA</a></td>
-								<td>9/11/2017</td>
-								<td>11/17/2017</td>
+							<tr ng-repeat="batch in batches">
+								<td><a href="#!/batchDetails" ng-click="getMapStatusBatch()">{{batch.batchName}}</a></td>
+								<td>{{batch.startDate.substring(0, 10)}}</td>
+								<td>{{batch.endDate.substring(0, 10)}}</td>
 							</tr>
 						</tbody>
 					</table>

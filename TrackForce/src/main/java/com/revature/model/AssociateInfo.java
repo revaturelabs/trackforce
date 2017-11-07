@@ -9,6 +9,7 @@ public class AssociateInfo {
     private String firstName;
     private String lastName;
     private String marketingStatus;
+    private String client;
     
     /**
      * Constructs a newly allocated AssociateInfo object that represents an empty associate.
@@ -24,12 +25,13 @@ public class AssociateInfo {
      * @param lastName - The associate's last name.
      * @param marketingStatus - The associate's marketing status (mapped, unmapped, etc.)
      */
-    public AssociateInfo(String id, String firstName, String lastName, String marketingStatus) {
+    public AssociateInfo(String id, String firstName, String lastName, String marketingStatus, String client) {
         super();
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.marketingStatus = marketingStatus;
+        this.client = client;
     }
 
     /**

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.testng.annotations.Test;
 
+import com.revature.entity.TfBatch;
 import com.revature.model.BatchInfo;
 import com.revature.services.BatchesService;
 
@@ -24,9 +25,9 @@ public class testBatchesService {
 	  long firstDate = Timestamp.valueOf("2017-09-10 10:10:10.0").getTime();
 	  long secondDate = Timestamp.valueOf("2017-12-30 10:10:10.0").getTime();
 	  BatchesService batchesService = new BatchesService();
-	  List<TfBatch> batches = batchesService.getBatches(firstDate, secondDate);
-	  for (TfBatch bat : batches) {
-		  System.out.println(bat.getTfClient().getTfClientName());
+	  List<BatchInfo> batches = batchesService.getBatches(firstDate, secondDate);
+	  for (BatchInfo bat : batches) {
+		  System.out.println(bat.getClientName());
 	  }
 	  Assert.assertNotNull(batches);
   }

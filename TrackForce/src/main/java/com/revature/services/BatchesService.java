@@ -13,6 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.hibernate.Hibernate;
+
 import com.revature.dao.BatchDaoHibernate;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
@@ -130,6 +132,8 @@ public class BatchesService {
 		List<TfBatch> list = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
 		
 		for (TfBatch batch : list) {
+		    Hibernate.initialize(batch.getTfClient());
+		    
 			String batchName = batch.getTfBatchName();
 			String clientName = batch.getTfClient().getTfClientName();
 			String startDate = batch.getTfBatchStartDate().toString();
@@ -162,7 +166,7 @@ public class BatchesService {
 			String firstName = associate.getTfAssociateFirstName();
 			String lastName = associate.getTfAssociateLastName();
 			String marketingStatus = associate.getTfMarketingStatus().getTfMarketingStatusName();
-			AssociateInfo associateDetails = new AssociateInfo(id, firstName, lastName, marketingStatus);
+			AssociateInfo associateDetails = new AssociateInfo(id, firstName, lastName, marketingStatus, "");
 			
 			associatesList.add(associateDetails);
 		}

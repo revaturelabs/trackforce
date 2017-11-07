@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.entity.TfClient;
-import com.revature.model.ClientInfo;
+import com.revature.model.StatusInfo;
 
 @Path("/clients")
 public class ClientResource {
@@ -54,7 +54,7 @@ public class ClientResource {
 	@GET
 	@Path("info")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ClientInfo getAllClientInfo() {
+	public StatusInfo getAllClientInfo() {
 		return clientDaoImpl.getAllClientInfo();
 	}
 
@@ -70,9 +70,9 @@ public class ClientResource {
 	@GET
 	@Path("{clientid}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ClientInfo getClientInfo(@PathParam("clientid") int clientid) {
+	public StatusInfo getClientInfo(@PathParam("clientid") int clientid) {
 		if(clientid < 1)
-			return new ClientInfo("");
+			return new StatusInfo("");
 		else
 			return clientDaoImpl.getClientInfo(clientid);
 	}

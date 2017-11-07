@@ -9,7 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.revature.entity.TfAssociate;
-import com.revature.model.ClientInfo;
+import com.revature.model.StatusInfo;
 
 @Path("/")
 public class HomeResource {
@@ -17,13 +17,13 @@ public class HomeResource {
 	@GET
 	@Path("info")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ClientInfo getMappedAndUnmappedInfo() {
+	public StatusInfo getMappedAndUnmappedInfo() {
 		List<TfAssociate> associates = new ArrayList<>();
 		return countAssociatesBasedOnStatus(associates);
 	}
 
-	private ClientInfo countAssociatesBasedOnStatus(List<TfAssociate> associates) {
-		ClientInfo clientInfo = new ClientInfo();
+	private StatusInfo countAssociatesBasedOnStatus(List<TfAssociate> associates) {
+		StatusInfo clientInfo = new StatusInfo();
 		for (TfAssociate associate : associates) {
 			switch (associate.getTfMarketingStatus().getTfMarketingStatusId().intValue()) {
 			case 1:
@@ -59,7 +59,7 @@ public class HomeResource {
 			}
 		}
 
-		clientInfo = new ClientInfo("My test", 2, 4, 24, 6, 5, 15, 61, 14, 13, 4);
+		clientInfo = new StatusInfo("My test", 2, 4, 24, 6, 5, 15, 61, 14, 13, 4);
 		return clientInfo;
 	}
 

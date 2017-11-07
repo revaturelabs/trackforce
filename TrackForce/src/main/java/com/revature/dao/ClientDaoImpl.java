@@ -10,7 +10,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 
 import com.revature.entity.TfClient;
-import com.revature.model.ClientInfo;
+import com.revature.model.StatusInfo;
 import com.revature.utils.HibernateUtil;
 
 public class ClientDaoImpl implements ClientDao {
@@ -27,26 +27,26 @@ public class ClientDaoImpl implements ClientDao {
 	}
 
 	@Override
-	public ClientInfo getAllClientInfo() {
+	public StatusInfo getAllClientInfo() {
 		EntityManager em = HibernateUtil.getSession().createEntityManager();
 		StoredProcedureQuery query = em.createStoredProcedureQuery("ADMIN.GET_ALLCLIENTS_STATUS_COUNT");
 		registerOutputParameters(query);
 		query.execute();
-		ClientInfo clientInfo = getClientInfo(query);
+		StatusInfo clientInfo = getClientInfo(query);
 		clientInfo.setName("All Clients");
 		em.close();
 		return clientInfo;
 	}
 
 	@Override
-	public ClientInfo getClientInfo(int id) {
+	public StatusInfo getClientInfo(int id) {
 
 		/*
 		 * Returns an empty set of info for this client if the given ID is invalid (0 or
 		 * less)
 		 */
 		if (id < 1) {
-			return new ClientInfo();
+			return new StatusInfo();
 		}
 
 		EntityManager em = HibernateUtil.getSession().createEntityManager();
@@ -55,7 +55,7 @@ public class ClientDaoImpl implements ClientDao {
 		query.registerStoredProcedureParameter(11, Integer.class, ParameterMode.IN);
 		query.setParameter(11, id);
 		query.execute();
-		ClientInfo clientInfo = getClientInfo(query);
+		StatusInfo clientInfo = getClientInfo(query);
 		TfClient client = em.find(TfClient.class, id);
 		clientInfo.setName(client.getTfClientName());
 
@@ -87,8 +87,8 @@ public class ClientDaoImpl implements ClientDao {
 	 * @param query to get out parameter values from
 	 * @return a ClientInfo object with status counts set 
 	 */
-	private ClientInfo getClientInfo(StoredProcedureQuery query) {
-		ClientInfo clientInfo = new ClientInfo();
+	private StatusInfo getClientInfo(StoredProcedureQuery query) {
+		StatusInfo clientInfo = new StatusInfo();
 		clientInfo.setTrainingMapped((int) query.getOutputParameterValue(1));
 		clientInfo.setReservedMapped((int) query.getOutputParameterValue(2));
 		clientInfo.setSelectedMapped((int) query.getOutputParameterValue(3));

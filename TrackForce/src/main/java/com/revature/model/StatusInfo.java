@@ -5,7 +5,7 @@ package com.revature.model;
  * @author Jacob Hackel, Jarrod Bieber
  * @version 1.0
  */
-public class ClientInfo {
+public class StatusInfo {
 
 	private String name; // Name of client
 	private int trainingMapped;
@@ -22,14 +22,14 @@ public class ClientInfo {
 	/**
 	 * Default no-arg constructor for an empty ClientInfo object.
 	 */
-	public ClientInfo() {
+	public StatusInfo() {
 	}
 	
 	/**
 	* Constructs a ClientInfo object with a name.
 	* @param name The name of the client
 	*/
-	public ClientInfo(String name) {
+	public StatusInfo(String name) {
 		this.name = name;
 	}
 
@@ -47,7 +47,7 @@ public class ClientInfo {
 	 * @param deployedMapped The number of associates who are deployed to a client location and were mapped to this client.
 	 * @param deployedUnmapped The number of associates who are deployed to a client location and were not mapped to this client.
 	 */
-	public ClientInfo(String name, int trainingMapped, int trainingUnmapped, int reservedMapped, int openUnmapped,
+	public StatusInfo(String name, int trainingMapped, int trainingUnmapped, int reservedMapped, int openUnmapped,
 			int selectedMapped, int selectedUnmapped, int confirmedMapped, int confirmedUnmapped, int deployedMapped,
 			int deployedUnmapped) {
 		super();
@@ -292,7 +292,7 @@ public class ClientInfo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ClientInfo other = (ClientInfo) obj;
+		StatusInfo other = (StatusInfo) obj;
 		if (confirmedMapped != other.confirmedMapped)
 			return false;
 		if (confirmedUnmapped != other.confirmedUnmapped)

@@ -3,7 +3,7 @@ package com.revature.dao;
 import java.util.List;
 
 import com.revature.entity.TfClient;
-import com.revature.model.ClientInfo;
+import com.revature.model.StatusInfo;
 
 public interface ClientDao {
 
@@ -21,7 +21,7 @@ public interface ClientDao {
 	 * @return
 	 * a ClientInfo object for all clients
 	 */
-	ClientInfo getAllClientInfo();
+	StatusInfo getAllClientInfo();
 
 	/**
 	 * Returns a ClientInfo object representing the sums of each status for a specified client.
@@ -31,6 +31,6 @@ public interface ClientDao {
 	 * @return
 	 * a ClientInfo object for a specified client
 	 */
-	ClientInfo getClientInfo(int id);
+	StatusInfo getClientInfo(int id);
 
 }

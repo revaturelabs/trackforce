@@ -3,7 +3,7 @@ package com.revature.dao;
 import org.testng.annotations.Test;
 
 import com.revature.entity.TfClient;
-import com.revature.model.ClientInfo;
+import com.revature.model.StatusInfo;
 import com.revature.utils.HibernateUtil;
 
 import static org.testng.Assert.*;
@@ -71,7 +71,7 @@ public class ClientDaoImplTest {
 			counts[i - 1] = (int) query.getOutputParameterValue(2);
 			assertNotNull(counts[i - 1]);
 		}
-		ClientInfo clientInfo = setClientInfoWithIntArrayHelper(counts);
+		StatusInfo clientInfo = setClientInfoWithIntArrayHelper(counts);
 		assertNotNull(clientInfo);
 		clientInfo.setName("All Clients");
 		assertEquals(clientInfo.getName(), "All Clients");
@@ -108,7 +108,7 @@ public class ClientDaoImplTest {
 			assertNotNull(counts[i - 1]);
 			assertEquals(query.getOutputParameterValue(3).getClass(), Integer.class);
 		}
-		ClientInfo clientInfo = setClientInfoWithIntArrayHelper(counts);
+		StatusInfo clientInfo = setClientInfoWithIntArrayHelper(counts);
 		assertNotNull(clientInfo);
 		clientInfo.setName("Client name");
 		assertEquals(clientInfo.getName(), "Client name");
@@ -118,8 +118,8 @@ public class ClientDaoImplTest {
 	}
   
   // Helper method
-  private ClientInfo setClientInfoWithIntArrayHelper(int[] counts) {
-		ClientInfo clientInfo = new ClientInfo();
+  private StatusInfo setClientInfoWithIntArrayHelper(int[] counts) {
+		StatusInfo clientInfo = new StatusInfo();
 		clientInfo.setTrainingMapped(counts[0]);
 		clientInfo.setReservedMapped(counts[1]);
 		clientInfo.setSelectedMapped(counts[2]);
@@ -135,7 +135,7 @@ public class ClientDaoImplTest {
 
   @Test(dataProvider = "countsDummy")
   public void setClientInfoWithIntArray(int[] counts) {
-	  ClientInfo clientInfo = new ClientInfo();
+	  StatusInfo clientInfo = new StatusInfo();
 	  assertNotNull(clientInfo);
 	clientInfo.setTrainingMapped(counts[0]);
 	assertEquals(clientInfo.getTrainingMapped(),1);

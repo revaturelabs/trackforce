@@ -1,7 +1,7 @@
 <div ng-controller="batchCtrl">
+	<section>
 	<div class="container">
 		<div><title class="text-center text-primary">Batch List</title></div>
-	
 		<div class="row">
 			<div class="col-sm-6">
 				<h3>All Batches</h3>
@@ -28,7 +28,7 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="batch in batches">
-								<td><a href="#!/batchDetails" ng-click="getMapStatusBatch()">{{batch.batchName}}</a></td>
+								<td><a href="" ng-click="getMapStatusBatch(batch.batchName); getBatchAssociates(batch.batchName); showMapStatusAndAssociates()">{{batch.batchName}}</a></td>
 								<td>{{batch.startDate.substring(0, 10)}}</td>
 								<td>{{batch.endDate.substring(0, 10)}}</td>
 							</tr>
@@ -36,13 +36,33 @@
 					</table>
 				</div>
 			</div>
-			<div>
-				<div class="col-sm-6">
-				<h3>Title of chart</h3>
+		</div>
+	</section>
+	<div class="container">
+		<div ng-show="batchDetails">
+				<div class="col-sm-6" ng-show="batchDetails">
+					<h3>Associates: Mapped vs. Unmapped</h3>
 					<canvas id="bar" class="chart chart-bar" chart-data="data"
 						chart-labels="labels" chart-series="series" chart-options="options"></canvas>
 				</div>
+				<div class="col-sm-6" ng-show="batchDetails">
+					<h3>Associates</h3>
+    				<table class="table table-striped table-hover">
+    					<thead>
+    						<tr>
+    							<th>First Name</th>
+    							<th>Last Name</th>
+    							<th>Marketing Status</th>
+    						</tr>
+    					</thead>
+   						<tr ng-repeat="associates in associatesBatch">
+  							<td>{{associates.firstName}}</td>
+    						<td>{{associates.lastName}}</td>
+   							<td>{{associates.marketingStatus}}<td>
+ 						</tr>
+   					</table>
+				</div>
 			</div>
 		</div>
-	</div>
 </div>
+

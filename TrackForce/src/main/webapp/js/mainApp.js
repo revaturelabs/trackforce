@@ -19,7 +19,7 @@ mainApp.config(function($routeProvider) {
 	// Batch Details page
 	.when("/batchDetails", {
 		templateUrl : "batchDetails.html",
-		controller : "batchDetailsCtrl"
+		controller : "batchCtrl"
 	}).when("/clientDetails", {
 		templateUrl : "clientDetails.html",
 		controller : "clientCtrl"
@@ -58,6 +58,8 @@ mainApp.controller("mainCtrl",function($scope, $http) {
 });
 
 mainApp.controller("batchCtrl", function($scope, $http) {
+	
+	$scope.batchDetails = false; 
 	
 	// Simple GET request example:
 	$http({
@@ -106,44 +108,23 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 			}
 		})
 	};
-	
-	$scope.getBatchAssociates = function() {
-		// Simple GET request example:
-		$http(
-				{
-					method : 'GET',
-					url : 'http://localhost:8080/TrackForce/track/batches'
-							+ $scope.batchname + '/info'
-				}).then(function successCallback(response) {
-			// this callback will be called asynchronously
-			// when the response is available
-			$scope.batchInfo = response.data;
-		}, function errorCallback(response) {
-			// called asynchronously if an error occurs
-			// or server returns response with an error status.
-			$scope.batchInfo = {
-				"startdate" : "09/11/2017",
-				"enddate" : "11/17/2017"
-			};
-		})
-	};
-});
 
-mainApp.controller("batchDetailsCtrl", function($scope,$http){
-	$scope.getMapStatusBatch = function() {
+		$scope.getMapStatusBatch = function(batchName) {
 		// Simple GET request example:
 		$http(
 				{
 					method : 'GET',
 					url : 'http://localhost:8080/TrackForce/track/batches/' 
-						+ '1707 Jul10 PEGA' + '/batchChart'
+						+ batchName + '/batchChart'
 				}).then(function(response) {
 			// this callback will be called asynchronously
 			// when the response is available
 			var batchMapStatus = response.data;
 			console.log(response.data);
 			$scope.labels = ['Mapped', 'Unmapped'];
+			console.log($scope.labels);
 			$scope.data = [batchMapStatus.Mapped, batchMapStatus.Unmapped];
+			console.log($scope.data); 
 			$scope.options = {
 					scales : {
 						yAxes : [ {
@@ -158,13 +139,13 @@ mainApp.controller("batchDetailsCtrl", function($scope,$http){
 			// or server returns response with an error status.
 		})
 	};
-	$scope.getBatchAssociates = function() {
+	$scope.getBatchAssociates = function(batchName) {
 		// Simple GET request example:
 		$http(
 				{
 					method : 'GET',
 					url : 'http://localhost:8080/TrackForce/track/batches/'
-							+ '1707 Jul10 PEGA' + '/associates'
+							+ batchName + '/associates'
 				}).then(function successCallback(response) {
 			// this callback will be called asynchronously
 			// when the response is available
@@ -180,6 +161,11 @@ mainApp.controller("batchDetailsCtrl", function($scope,$http){
 			};
 		})
 	};
+	
+	$scope.showMapStatusAndAssociates = function(){
+		return $scope.batchDetails = true; 
+	};
+	
 });
 
 // Controller used for the search bar function

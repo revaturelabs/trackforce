@@ -1,20 +1,22 @@
 <div class="container">
-    <div ng-controller="batchCtrl">
-        <h3>Batch Details</h3>
+    <div ng-controller="batchDetailsCtrl">
+    	<div class="col-sm-6">
+        	<h3>Batch Details</h3>
+        	<canvas id="bar" class="chart chart-bar"
+            	chart-data="data" chart-labels="labels" chart-options="options" ng-init="getMapStatusBatch()">
+        	</canvas>
+        </div>
     </div>
-    <div class="col-sm-6">
-    	<h1 ng-bind="batchname"></h1>
-        <canvas id="bar" class="chart chart-bar"
-            chart-data="data" chart-labels="mappedorUnmapped" chart-options="options">
-        </canvas>
-    </div>
-    <div>
+    <div ng-init="getBatchAssociates()">
+    	<div class="col-sm-6">
     	<h3>Associates</h3>
     	<table class="table table-striped">
     		<tr ng-repeat="associates in associatesBatch">
-    			<td>{{associates.tfAssociateFirstName}}</td>
-    			<td>{{assocaites.tfAssociateLastName}}</td>
+    			<td>{{associates.firstName}}</td>
+    			<td>{{associates.lastName}}</td>
+    			<td>{{associates.marketingStatus}}
     		</tr>
     	</table>
+    	</div>
     </div>
 </div>

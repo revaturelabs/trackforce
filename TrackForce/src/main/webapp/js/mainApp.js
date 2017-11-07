@@ -30,7 +30,6 @@ mainApp.config(function($routeProvider) {
 });
 
 mainApp.controller("mainCtrl",function($scope, $http) {
-
 	
 	$scope.labels = [ "Mapped", "Unmapped" ];
 	$scope.data = [ 500, 100 ];

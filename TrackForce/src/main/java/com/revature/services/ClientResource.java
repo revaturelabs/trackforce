@@ -27,7 +27,7 @@ public class ClientResource {
 	 * as a response object.
 	 * 
 	 * @return
-	 * a map of TfClients as a Response object
+	 * A map of TfClients as a Response object
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -49,7 +49,7 @@ public class ClientResource {
 	 * associates and their statuses.
 	 * 
 	 * @return
-	 * a StatusInfo object for all clients
+	 * A StatusInfo object for all clients
 	 */
 	@GET
 	@Path("info")
@@ -65,7 +65,7 @@ public class ClientResource {
 	 * @param clientid
 	 * The id of the client in the TfClient table
 	 * @return
-	 * a StatusInfo object for a specified client
+	 * A StatusInfo object for a specified client
 	 */
 	@GET
 	@Path("{clientid}")

@@ -19,8 +19,11 @@ public class HomeResource {
 	private HomeDao homeDaoImpl = new HomeDaoImpl();
 
 	/**
+	 * Returns a StatusInfo object showing mapped and unmapped info
+	 * for all of the associates.
 	 * 
-	 * @return a StatusInfo object
+	 * @return
+	 * a StatusInfo object for all of the associates.
 	 */
 	@GET
 	@Path("info")
@@ -32,6 +35,15 @@ public class HomeResource {
 		return statusInfo;
 	}
 
+	/**
+	 * Returns a StatusInfo object with counts based off of
+	 * associates' marketing status. 
+	 * 
+	 * @param associates
+	 * A list of associates
+	 * @return
+	 * A StatusInfo object with counts based off of associates
+	 */
 	private StatusInfo countAssociatesBasedOnStatus(List<TfAssociate> associates) {
 		StatusInfo statusInfo = new StatusInfo();
 		for (TfAssociate associate : associates) {

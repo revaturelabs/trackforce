@@ -11,7 +11,7 @@ public interface ClientDao {
 	 * Returns a list of TfClient objects, most notably the name and id of the client.
 	 * 
 	 * @return
-	 * a list of TfClient objects
+	 * A list of TfClient objects
 	 */
 	List<TfClient> getAllTfClients();
 
@@ -19,7 +19,7 @@ public interface ClientDao {
 	 * Returns a StatusInfo object representing the sums of each status for all clients.
 	 * 
 	 * @return
-	 * a StatusInfo object for all clients
+	 * A StatusInfo object for all clients
 	 */
 	StatusInfo getAllClientInfo();
 
@@ -29,7 +29,7 @@ public interface ClientDao {
 	 * @param id
 	 * the id of a TfClient record
 	 * @return
-	 * a StatusInfo object for a specified client
+	 * A StatusInfo object for a specified client
 	 */
 	StatusInfo getClientInfo(int id);
 

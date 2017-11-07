@@ -3,6 +3,7 @@ package com.revature.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -30,8 +31,8 @@ public class TfBatch implements java.io.Serializable {
 	private TfCurriculum tfCurriculum;
 	private TfBatchLocation tfBatchLocation;
 	private String tfBatchName;
-	private Serializable tfBatchStartDate;
-	private Serializable tfBatchEndDate;
+	private Timestamp tfBatchStartDate;
+	private Timestamp tfBatchEndDate;
 	private Set<TfAssociate> tfAssociates = new HashSet<TfAssociate>(0);
 
 	public TfBatch() {
@@ -42,7 +43,7 @@ public class TfBatch implements java.io.Serializable {
 	}
 
 	public TfBatch(BigDecimal tfBatchId, TfClient tfClient, TfCurriculum tfCurriculum, TfBatchLocation tfBatchLocation,
-			String tfBatchName, Serializable tfBatchStartDate, Serializable tfBatchEndDate,
+			String tfBatchName, Timestamp tfBatchStartDate, Timestamp tfBatchEndDate,
 			Set<TfAssociate> tfAssociates) {
 		this.tfBatchId = tfBatchId;
 		this.tfClient = tfClient;
@@ -105,20 +106,20 @@ public class TfBatch implements java.io.Serializable {
 	}
 
 	@Column(name = "TF_BATCH_START_DATE")
-	public Serializable getTfBatchStartDate() {
+	public Timestamp getTfBatchStartDate() {
 		return this.tfBatchStartDate;
 	}
 
-	public void setTfBatchStartDate(Serializable tfBatchStartDate) {
+	public void setTfBatchStartDate(Timestamp tfBatchStartDate) {
 		this.tfBatchStartDate = tfBatchStartDate;
 	}
 
 	@Column(name = "TF_BATCH_END_DATE")
-	public Serializable getTfBatchEndDate() {
+	public Timestamp getTfBatchEndDate() {
 		return this.tfBatchEndDate;
 	}
 
-	public void setTfBatchEndDate(Serializable tfBatchEndDate) {
+	public void setTfBatchEndDate(Timestamp tfBatchEndDate) {
 		this.tfBatchEndDate = tfBatchEndDate;
 	}
 

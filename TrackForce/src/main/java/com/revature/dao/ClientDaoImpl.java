@@ -85,7 +85,7 @@ public class ClientDaoImpl implements ClientDao {
 	 * Get a 
 	 * 
 	 * @param query to get out parameter values from
-	 * @return a ClientInfo object with status counts set 
+	 * @return a StatusInfo object with status counts set 
 	 */
 	private StatusInfo getClientInfo(StoredProcedureQuery query) {
 		StatusInfo clientInfo = new StatusInfo();

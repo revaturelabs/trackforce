@@ -7,7 +7,7 @@ package com.revature.model;
  */
 public class StatusInfo {
 
-	private String name; // Name of client
+	private String name;
 	private int trainingMapped;
 	private int trainingUnmapped;
 	private int reservedMapped;

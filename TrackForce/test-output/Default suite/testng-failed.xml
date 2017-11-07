@@ -6,6 +6,7 @@
       <class name="com.revature.test.testBatchDaoHibernate">
         <methods>
           <include name="testgetBatchDetails"/>
+          <include name="testBeforetst"/>
         </methods>
       </class> <!-- com.revature.test.testBatchDaoHibernate -->
     </classes>

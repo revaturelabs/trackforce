@@ -62,5 +62,9 @@ public class HomeResource {
 		clientInfo = new StatusInfo("My test", 2, 4, 24, 6, 5, 15, 61, 14, 13, 4);
 		return clientInfo;
 	}
+	
+	private List<TfAssociate> associatesById(int id){
+		return null;
+	}
 
 }

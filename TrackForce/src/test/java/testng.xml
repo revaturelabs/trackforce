@@ -4,6 +4,8 @@
   <test name="Test">
     <classes>
       <class name="com.revature.dao.ClientDaoImplTest"/>
+      <class name="com.revature.dao.DatabaseDaoImpl"/>
+      <class name="com.revature.services.DatabaseServicesTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

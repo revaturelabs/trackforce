@@ -178,6 +178,22 @@ mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
 				url : "http://localhost:8080/TrackForce/track/unmapped/"
 						+ $rootScope.selectedStatus
 			}).then(function(response) {
+				
+				var skillsets = response.data;
+				$scope.skillsetLabels = [];
+				$scope.skillsetData = [];
+				for(let i = 0 ; i < skillsets.length; i++){
+					skillsetLabels.push(skillsets[i].name);
+					skillsetData.push(skillsets[i].count);
+				}
+				
+				$scope.options = {
+						legend : {
+							display : true,
+							position : 'right'
+						}
+					}
+				$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 
 	});
 });

@@ -20,10 +20,11 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
     public TfMarketingStatus getMarketingStatus(String status) {
         SessionFactory sessionFactory = HibernateUtil.getSession();
         Session session = sessionFactory.openSession();
+        
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<TfMarketingStatus> criteriaQuery = builder.createQuery(TfMarketingStatus.class);
         Root<TfMarketingStatus> root = criteriaQuery.from(TfMarketingStatus.class);
-        criteriaQuery.select(root).where(builder.equal(root.get("tfBatchName"), status));
+        criteriaQuery.select(root).where(builder.equal(root.get("tfMarketingStatusName"), status));
         Query<TfMarketingStatus> query = session.createQuery(criteriaQuery);
 
         TfMarketingStatus marketingStatus;

@@ -15,22 +15,23 @@ import com.revature.entity.TfMarketingStatus;
 public class testAssociateDaoHibernate {
 
     @Test
-    public void testUpdateInfo(){
+    public void testUpdateInfo() {
         AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
         ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
         MarketingStatusDaoHibernate marketingStatusDaoHibernate = new MarketingStatusDaoHibernate();
-        
+
         TfClient client = clientDaoImpl.getClient("Accenture");
         TfMarketingStatus status = marketingStatusDaoHibernate.getMarketingStatus("MAPPED: DEPLOYED");
-        
-        associateDaoHibernate.updateInfo(new BigDecimal(10), status, client);
+
+        associateDaoHibernate.updateInfo(new BigDecimal(266), status, client);
     }
-    @Test
-	public void testGetAssociate() {
-		AssociateDaoHibernate associate = new AssociateDaoHibernate();
-		BigDecimal d = new BigDecimal(12);
-		TfAssociate associateA = associate.getAssociate(d);
-		System.out.println(associateA.toString());
-		Assert.assertNotNull(associateA);
-}
+
+    @Test (enabled=false)
+    public void testGetAssociate() {
+        AssociateDaoHibernate associate = new AssociateDaoHibernate();
+        BigDecimal d = new BigDecimal(266);
+        TfAssociate associateA = associate.getAssociate(d);
+        System.out.println(associateA.toString());
+        Assert.assertNotNull(associateA);
+    }
 }

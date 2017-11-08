@@ -12,6 +12,7 @@ public class AssociateInfo {
 	private String lastName;
 	private String marketingStatus;
 	private String client;
+	private String endClient;
 
 	/**
 	 * Constructs a newly allocated BatchInfo object that represents an associate.
@@ -136,11 +137,30 @@ public class AssociateInfo {
 		this.client = client;
 	}
 
+	/**
+	 * Retrieve the end client's name
+	 * 
+	 * @return - A string with the name of the end client
+	 */
+	public String getEndClient() {
+		return endClient;
+	}
+
+	/**
+	 * Set the end client's name
+	 * 
+	 * @param endClient
+	 */
+	public void setEndClient(String endClient) {
+		this.endClient = endClient;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((client == null) ? 0 : client.hashCode());
+		result = prime * result + ((endClient == null) ? 0 : endClient.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
@@ -161,6 +181,11 @@ public class AssociateInfo {
 			if (other.client != null)
 				return false;
 		} else if (!client.equals(other.client))
+			return false;
+		if (endClient == null) {
+			if (other.endClient != null)
+				return false;
+		} else if (!endClient.equals(other.endClient))
 			return false;
 		if (firstName == null) {
 			if (other.firstName != null)
@@ -188,7 +213,7 @@ public class AssociateInfo {
 	@Override
 	public String toString() {
 		return "AssociateInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", marketingStatus="
-				+ marketingStatus + ", clientname=" + client + "]";
+				+ marketingStatus + ", client=" + client + ", endClient=" + endClient + "]";
 	}
 
 }

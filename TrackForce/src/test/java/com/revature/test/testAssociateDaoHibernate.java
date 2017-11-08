@@ -2,11 +2,13 @@ package com.revature.test;
 
 import java.math.BigDecimal;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.MarketingStatusDaoHibernate;
+import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfMarketingStatus;
 
@@ -23,4 +25,12 @@ public class testAssociateDaoHibernate {
         
         associateDaoHibernate.updateInfo(new BigDecimal(10), status, client);
     }
+    @Test
+	public void testGetAssociate() {
+		AssociateDaoHibernate associate = new AssociateDaoHibernate();
+		BigDecimal d = new BigDecimal(12);
+		TfAssociate associateA = associate.getAssociate(d);
+		System.out.println(associateA.toString());
+		Assert.assertNotNull(associateA);
+}
 }

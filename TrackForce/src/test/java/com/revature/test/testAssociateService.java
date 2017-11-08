@@ -23,4 +23,5 @@ public class testAssociateService {
 		AssociateInfo associate=associateservice.getAssociate(bigdecimal);
 		System.out.println(associate);
 	}
+
 }

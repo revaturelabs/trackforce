@@ -1,5 +1,5 @@
 package com.revature.entity;
-// Generated Nov 2, 2017 9:19:06 AM by Hibernate Tools 5.2.5.Final
+// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
 import java.math.BigDecimal;
 import java.util.HashSet;

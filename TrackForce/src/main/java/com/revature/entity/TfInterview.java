@@ -1,8 +1,10 @@
 package com.revature.entity;
-// Generated Nov 2, 2017 9:19:06 AM by Hibernate Tools 5.2.5.Final
+// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,13 +23,13 @@ public class TfInterview implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4355590425662758895L;
+	private static final long serialVersionUID = -4148475604579144144L;
 	private BigDecimal tfInterviewId;
 	private TfAssociate tfAssociate;
 	private TfClient tfClient;
 	private TfEndClient tfEndClient;
 	private TfInterviewType tfInterviewType;
-	private Serializable tfInterviewDate;
+	private Timestamp tfInterviewDate;
 	private String tfInterviewFeedback;
 
 	public TfInterview() {
@@ -38,7 +40,7 @@ public class TfInterview implements java.io.Serializable {
 	}
 
 	public TfInterview(BigDecimal tfInterviewId, TfAssociate tfAssociate, TfClient tfClient, TfEndClient tfEndClient,
-			TfInterviewType tfInterviewType, Serializable tfInterviewDate, String tfInterviewFeedback) {
+			TfInterviewType tfInterviewType, Timestamp tfInterviewDate, String tfInterviewFeedback) {
 		this.tfInterviewId = tfInterviewId;
 		this.tfAssociate = tfAssociate;
 		this.tfClient = tfClient;
@@ -100,11 +102,11 @@ public class TfInterview implements java.io.Serializable {
 	}
 
 	@Column(name = "TF_INTERVIEW_DATE")
-	public Serializable getTfInterviewDate() {
+	public Timestamp getTfInterviewDate() {
 		return this.tfInterviewDate;
 	}
 
-	public void setTfInterviewDate(Serializable tfInterviewDate) {
+	public void setTfInterviewDate(Timestamp tfInterviewDate) {
 		this.tfInterviewDate = tfInterviewDate;
 	}
 

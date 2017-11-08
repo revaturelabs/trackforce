@@ -1,10 +1,22 @@
 <div class="container">
     <div ng-controller="batchCtrl">
-        <h3>Batch Details</h3>
+    	<div class="col-sm-6">
+        	<h3>Batch Details</h3>
+        	<canvas id="bar" class="chart chart-bar"
+            	chart-data="data" chart-labels="labels" chart-options="options">
+        	</canvas>
+        </div>
     </div>
-    <div class="col-sm-6">
-        <canvas id="bar" class="chart chart-bar"
-            chart-data="" chart-labels="{Mapped, Unmapped}" chart-options="options">
-        </canvas>
+    <div>
+    	<div class="col-sm-6">
+    	<h3>Associates</h3>
+    	<table class="table table-striped">
+    		<tr ng-repeat="associates in associatesBatch">
+    			<td>{{associates.firstName}}</td>
+    			<td>{{associates.lastName}}</td>
+    			<td>{{associates.marketingStatus}}<td>
+    		</tr>
+    	</table>
+    	</div>
     </div>
 </div>

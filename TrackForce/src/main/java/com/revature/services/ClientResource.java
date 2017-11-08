@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.entity.TfClient;
-import com.revature.model.ClientInfo;
+import com.revature.model.StatusInfo;
 
 @Path("/clients")
 public class ClientResource {
@@ -27,12 +27,11 @@ public class ClientResource {
 	 * as a response object.
 	 * 
 	 * @return
-	 * a map of TfClients as a Response object
+	 * A map of TfClients as a Response object
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getAllClients() {
-
 		List<TfClient> clients = clientDaoImpl.getAllTfClients();
 		List<Map<String,Object>> entity = new ArrayList<>();
 		for(TfClient client : clients) {
@@ -46,32 +45,35 @@ public class ClientResource {
 	}
 
 	/**
-	 * Returns a ClientInfo object representing all clients'
+	 * Returns a StatusInfo object representing all clients'
 	 * associates and their statuses.
 	 * 
 	 * @return
-	 * a ClientInfo object for all clients
+	 * A StatusInfo object for all clients
 	 */
 	@GET
 	@Path("info")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ClientInfo getAllClientInfo() {
+	public StatusInfo getAllClientInfo() {
 		return clientDaoImpl.getAllClientInfo();
 	}
 
 	/**
-	 * Returns a ClientInfo object representing a client's
+	 * Returns a StatusInfo object representing a client's
 	 * associates and their statuses.
 	 * 
 	 * @param clientid
 	 * The id of the client in the TfClient table
 	 * @return
-	 * a ClientInfo object for a specified client
+	 * A StatusInfo object for a specified client
 	 */
 	@GET
 	@Path("{clientid}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ClientInfo getClientInfo(@PathParam("clientid") int clientid) {
-		return clientDaoImpl.getClientInfo(clientid);
+	public StatusInfo getClientInfo(@PathParam("clientid") int clientid) {
+		if(clientid < 1)
+			return new StatusInfo("");
+		else
+			return clientDaoImpl.getClientInfo(clientid);
 	}
 }

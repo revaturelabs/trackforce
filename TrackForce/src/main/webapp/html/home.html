@@ -2,22 +2,27 @@
 	<div ng-controller="mainCtrl">
 		<h2 class="text-center text-primary">This is the home page</h2>
 		<div class="col-sm-6">
-		<h3 class="text-center text-primary">Mapped vs. Unmapped</h3>
+		<h3 class="text-center text-primary">Mapped vs. Unmapped (Undeployed)</h3>
 		<canvas id="pie" class="chart chart-pie"
-  			chart-data="data" chart-labels="labels" chart-options="options">
+  			chart-click="onClick" chart-data="UndeployedData" chart-colors="colors" chart-labels="UndeployedLabels" chart-options="options">
 		</canvas>
 		</div> 
 		<div class="col-sm-6">
-		<h3 class = "text-center text-primary">Batch Types</h3>
-		<canvas id="radar" class="chart chart-radar"
-  			chart-data="data2" chart-options="options" chart-labels="labels2">
+		<h3 class = "text-center text-primary">Mapped vs. Unmapped (Deployed)</h3>
+		<canvas id="pie" class="chart chart-pie"
+  			chart-data="DeployedData" chart-colors="colors" chart-options="options" chart-labels="DeployedLabels">
 		</canvas> 
 		</div>
 		<div class="col-sm-6">
-		<h3 class="text-center text-primary">Future Projections?</h3>
-		<canvas id="line" class="chart chart-line" chart-data="data3"
-			chart-labels="labels3" chart-series="series3" chart-options="options3"
-			chart-dataset-override="datasetOverride" chart-click="onClick">
+		<h3 class="text-center text-primary">Mapped</h3>
+		<canvas id="pie" class="chart chart-pie" chart-data="MappedData"
+			chart-labels="MappedLabels" chart-colors="colors2" chart-options="options">
+		</canvas>
+		</div>
+		<div class="col-sm-6">
+		<h3 class="text-center text-primary">Unmapped</h3>
+		<canvas id="pie" class="chart chart-pie" chart-data="UnmappedData"
+			chart-labels="UnmappedLabels" chart-colors="colors2" chart-options="options">
 		</canvas>
 		</div>
 	</div>

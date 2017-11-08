@@ -11,7 +11,7 @@ public class AssociateInfo {
     private String firstName;
     private String lastName;
     private String marketingStatus;
-    private String clientname;
+    private String client;
     
    
 
@@ -23,13 +23,13 @@ public class AssociateInfo {
      * @param marketingStatus - The associate's marketing status (mapped, unmapped, etc.)
      * @param clientid-The clients's name.
      */
-    public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String clientname) {
+    public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client) {
         super();
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.marketingStatus = marketingStatus;
-        this.clientname=clientname;
+        this.client = client;
     }
 
 	public AssociateInfo() {
@@ -105,23 +105,23 @@ public class AssociateInfo {
  * @return- A string with the client's name
   */
 
-    public String getClientname() {
-		return clientname;
+    public String getClient() {
+		return client;
 	}
 
     /**
      * Set the client's name
      * @param clientname -What to set the associate's client name to.
      */
-	public void setClientname(String clientname) {
-		this.clientname = clientname;
+	public void setClient(String client) {
+		this.client = client;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((clientname == null) ? 0 : clientname.hashCode());
+		result = prime * result + ((client == null) ? 0 : client.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
@@ -138,10 +138,10 @@ public class AssociateInfo {
 		if (getClass() != obj.getClass())
 			return false;
 		AssociateInfo other = (AssociateInfo) obj;
-		if (clientname == null) {
-			if (other.clientname != null)
+		if (client == null) {
+			if (other.client != null)
 				return false;
-		} else if (!clientname.equals(other.clientname))
+		} else if (!client.equals(other.client))
 			return false;
 		if (firstName == null) {
 			if (other.firstName != null)
@@ -169,7 +169,7 @@ public class AssociateInfo {
 	@Override
 	public String toString() {
 		return "AssociateInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", marketingStatus="
-				+ marketingStatus + ", clientname=" + clientname + "]";
+				+ marketingStatus + ", clientname=" + client + "]";
 	}
 
 }

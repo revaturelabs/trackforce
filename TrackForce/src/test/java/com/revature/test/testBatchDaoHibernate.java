@@ -1,19 +1,18 @@
 package com.revature.test;
 
 import static org.testng.AssertJUnit.assertNotNull;
+
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
 import org.testng.Assert;
 
-import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDao;
 import com.revature.dao.BatchDaoHibernate;
 import com.revature.entity.TfAssociate;
@@ -71,15 +70,5 @@ public class testBatchDaoHibernate {
 		assertNotNull(batch);
 		System.out.println("Test Get Batch Negative");
 		System.out.println(batch);
-	}
-
-	@Test
-	public void testGetAssociate() {
-		AssociateDaoHibernate associate = new AssociateDaoHibernate();
-		BigDecimal d = new BigDecimal(12);
-		TfAssociate associateA = associate.getAssociate(d);
-		System.out.println(associateA.toString());
-		Assert.assertNotNull(associateA);
-
 	}
 }

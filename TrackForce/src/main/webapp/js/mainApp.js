@@ -30,10 +30,10 @@ mainApp.config(function($routeProvider) {
 		templateUrl : "clientDetails.html",
 		controller : "clientCtrl"
 	}).when("/clientMapped", {
-		templateUrl : "clientDetails.html",
-		controller : "clientCtrl"
+		templateUrl : "clientMapped.html",
+		controller : "clientMappedCtrl"
 	}).when("/skillset", {
-		templateUrl : "clientDetails.html",
+		templateUrl : "skillset.html",
 		controller : "clientCtrl"
 	})
 });
@@ -42,64 +42,123 @@ mainApp.config(function($routeProvider) {
  * @memberof mainApp
  * @description controller for the home page
  */
-mainApp.controller("mainCtrl", function($scope, $http) {
-	$http({
-		method : 'GET',
-		url : 'http://localhost:8080/TrackForce/track/info',
-		headers : {
-			'Content-Type' : 'application/json'
+mainApp
+		.controller(
+				"mainCtrl",
+				function($scope, $http, $rootScope) {
+					$http({
+						method : 'GET',
+						url : 'http://localhost:8080/TrackForce/track/info',
+						headers : {
+							'Content-Type' : 'application/json'
+						}
+					})
+							.then(
+									function(response) {
+										// Undeployed table shows mapped vs.
+										// unmapped excluding deployed
+										// associates
+										$scope.UndeployedLabels = [ "Mapped",
+												"Unmapped" ];
+										$scope.UndeployedData = [
+												response.data.trainingMapped
+														+ response.data.reservedMapped
+														+ response.data.selectedMapped
+														+ response.data.confirmedMapped,
+												response.data.trainingUnmapped
+														+ response.data.openUnmapped
+														+ response.data.selectedUnmapped
+														+ response.data.confirmedUnmapped ];
+										// Mapped table shows undeployed mapped
+										// associates
+										$scope.MappedLabels = [ 'Training',
+												'Reserved', 'Selected',
+												'Confirmed' ];
+										$scope.MappedData = [
+												response.data.trainingMapped,
+												response.data.reservedMapped,
+												response.data.selectedMapped,
+												response.data.confirmedMapped ];
+										// Unmapped table shows undeployed
+										// unmapped associates
+										$scope.UnmappedLabels = [ 'Training',
+												'Open', 'Selected', 'Confirmed' ];
+										$scope.UnmappedData = [
+												response.data.trainingUnmapped,
+												response.data.openUnmapped,
+												response.data.selectedUnmapped,
+												response.data.confirmedUnmapped ];
+										// Deployed table shows mapped vs.
+										// unmapped deployed associates
+										$scope.DeployedLabels = [ 'Mapped',
+												'Unmapped' ];
+										$scope.DeployedData = [
+												response.data.deployedMapped,
+												response.data.deployedUnmapped ];
+										// Optional styling arrays
+										$scope.colors = [ '#e85410', '#59504c',
+												'#2d8799', '#6017a5' ];
+										$scope.colors2 = [ '#17d339',
+												'#59504c', '#2d8799', '#e85410' ];
+										$scope.options = {
+											legend : {
+												display : true,
+												position : 'right'
+											}
+										};
+										/*
+										 * When the "Mapped" chart is clicked
+										 * the global variable selectedStatus is
+										 * set to the label of the slice
+										 * clicked. The window then loads the
+										 * clientMapped.html partial.
+										 */
+										$scope.MappedOnClick = function(points,
+												evt) {
+											console.log(points, evt);
+											var clickedElementindex = points[0]["_index"];
+											console
+													.log($scope.MappedLabels[clickedElementindex]);
+											$rootScope.selectedStatus = $scope.MappedLabels[clickedElementindex];
+											window.location.href = "#!/clientMapped";
+										};
+									});
+				});
+mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
+
+	$http(
+			{
+				method : 'GET',
+				/*
+				 * This URL will pull varying data from the REST service based
+				 * on the selectedStatus
+				 */
+				// TODO: update this URL with the REST service for pulling all
+				// associates
+				url : 'http://localhost:8080/TrackForce/track/mapped/'
+						+ $rootScope.selectedStatus
+			}).then(function(response) {
+		// clients is a JSON array of clients mapped with their respective
+		// numbers
+		var clients = response.data;
+		$scope.clientMappedLabels = [];
+		$scope.clientMappedData = [];
+		for (let i = 0; i < clients.length; i++) {
+			/*
+			 * These variable names may need to be changed according to the JSON
+			 * (clients[].name and clients[].count)
+			 */
+			clientMappedLabels.push(clients[i].name);
+			clientMappedData.push(clients[i].count);
 		}
-	}).then(
-			function(response) {
-				$scope.UndeployedLabels = [ "Mapped", "Unmapped" ];
-				
-				$scope.UndeployedData = [
-					response.data.trainingMapped + response.data.reservedMapped
-								+ response.data.selectedMapped
-								+ response.data.confirmedMapped,
-								response.data.trainingUnmapped + response.data.openUnmapped
-								+ response.data.selectedUnmapped
-								+ response.data.confirmedUnmapped ];
-				
-				$scope.MappedLabels = [ 'Training', 'Reserved', 'Selected',
-						'Confirmed' ];
-				
-				$scope.MappedData = [ response.data.trainingMapped,
-					response.data.reservedMapped, response.data.selectedMapped,
-					response.data.confirmedMapped ];
-				
-				$scope.UnmappedLabels = [ 'Training', 'Open', 'Selected',
-						'Confirmed' ];
-				
-				$scope.UnmappedData = [ response.data.trainingUnmapped,
-					response.data.openUnmapped, response.data.selectedUnmapped,
-					response.data.confirmedUnmapped ];
-				
-				$scope.DeployedLabels = [ 'Mapped', 'Unmapped' ];
-				
-				$scope.DeployedData = [ response.data.deployedMapped,
-					response.data.deployedUnmapped ];
-				
-				$scope.colors = [ '#e85410','#59504c',
-			 '#2d8799', '#6017a5' ];
-				
-				$scope.colors2 = [ '#17d339','#59504c',
-					 '#2d8799', '#e85410' ];
-				
-				$scope.options = {
-					legend : {
-						display : true,
-						position : 'right'
-					}
-				};
-				
-				$scope.onClick = function (points, evt) {
-				    console.log(points, evt);
-				    $scope.clickedElementindex = points[0]["_index"];
-				    console.log($scope.UndeployedLabels[$scope.clickedElementindex]);
-				    $scope.UndeployedLabels[clickedElementindex];
-				};
-			});
+		$scope.options = {
+			legend : {
+				display : true,
+				position : 'right'
+			}
+		}
+		$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
+	});
 });
 /**
  * @class mainApp.batchCtrl

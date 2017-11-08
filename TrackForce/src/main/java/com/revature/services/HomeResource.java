@@ -27,6 +27,7 @@ public class HomeResource {
 	private List<TfAssociate> associates;
 	private List<TfClient> clients;
 
+
 	/**
 	 * Returns a StatusInfo object showing mapped and unmapped info for all of the
 	 * associates.
@@ -53,7 +54,7 @@ public class HomeResource {
 		}
 		updateStatusInfoFromAssociates(associates);
 	}
-
+	
 	/**
 	 * 
 	 * @param statusid
@@ -89,7 +90,7 @@ public class HomeResource {
 		}
 		StatusInfoUtil.setAllAssociatesStatusInfo(allAssociatesStatusInfo);
 	}
-
+	
 	/**
 	 * This method takes a list of TfAssociates and a desired marketing status ID,
 	 * and filters the list to give back a list of only TfAssociates who are listed

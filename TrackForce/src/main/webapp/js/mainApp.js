@@ -148,9 +148,7 @@ mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
 						 * clientMapped.html partial.
 						 */
 						$scope.MappedOnClick = function(points,evt) {
-							console.log(points, evt);
 							var clickedElementindex = points[0]["_index"];
-							console.log($scope.MappedLabels[clickedElementindex]);
 							$rootScope.selectedStatus = $scope.MappedLabels[clickedElementindex];
 							window.location.href = "#!/clientMapped";
 							};
@@ -164,9 +162,7 @@ mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
 							 * skillset.html partial.
 							 */
 						$scope.UnmappedOnClick = function(points, evt) {
-							console.log(points, evt);
 							var clickedElementindex = points[0]["_index"];
-							console.log($scope.UnmappedLabels[clickedElementindex]);
 							$rootScope.selectedStatus = $scope.UnmappedLabels[clickedElementindex];
 							window.location.href = "#!/skillset";
 							};
@@ -186,18 +182,18 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 				 * on the selectedStatus
 				 */
 				// TODO: update this URL with the REST service for pulling all
-				// associates
-				url : 'http://localhost:8080/TrackForce/track/mapped/'
-						+ $rootScope.selectedStatus
+				// associates 'http://localhost:8080/TrackForce/track/mapped/'+ $rootScope.selectedStatus
+				url :"http://localhost:8080/TrackForce/track/clients"
 			}).then(function(response) {
+				$scope.chartType='bar';
 		/**
 		 *  @member {Array} clients
 		 *  @memberof mainApp.clientMappedCtrl
 		 *  @description clients is a JSON array of clients mapped with their respective
 		 *  numbers for the corresponding status. 
-		 *  (Example: [{'name':Revature', 'count':'100'},{'name':'Another','count':'100'])
+		 *  (Example: [{'name':'Revature', 'count':'100'},{'name':'Another','count':'100'}])
 		 */
-		var clients = response.data;
+		var clients = [{'name':'JTA','count':'33'},{'name':'Java','count':'54'},{'name':'.NET','count':'37'},{'name':'PEGA','count':'44'}];
 		/**
 		 * @member {Array} clientMappedLabels
 		 * @memberof mainApp.clientMappedCtrl
@@ -220,45 +216,76 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 			 * TODO: These variable names may need to be changed according to the JSON
 			 * (clients[].name and clients[].count)
 			 */
-			clientMappedLabels.push(clients[i].name);
-			clientMappedData.push(clients[i].count);
+			$scope.clientMappedLabels.push(clients[i].name);
+			$scope.clientMappedData.push(clients[i].count);
 		}
 		$scope.options = {
 			legend : {
 				display : true,
 				position : 'right'
-			}
+			}, type : $scope.chartType
 		}
 		$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
+	/**
+	 * @function changeChartType
+	 * @memberof mainApp.clientMappedCtrl
+	 * @description Handles changing the chart type when the buttons are clicked.
+	 * Removes the chart legend for charts that don't utilize it.
+	 */
+	$scope.changeChartType = (function(selectedType){
+		if(selectedType=='pie'||selectedType=='polarArea'){
+			$scope.chartType=selectedType;
+			$scope.options={type:selectedType, legend:{display:true, position: 'right'}};
+		} else{
+			$scope.chartType=selectedType;
+			$scope.options={type:selectedType, legend:{display:false}};
+		}
+	});
+	//TODO: URL may need to be changed
+	$scope.skillsetClick = function(points, evt){
+		var clickedElementindex = points[0]["_index"];
+		var selectedClient = $scope.clientMappedLabels[clickedElementindex];
+		window.location.href = "#!/associates/{{selectedSkill}}/{{selectedClient}}/{{selectedStatus}}";
+	};
 });
 
 //Controller for skillset.html
 mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
-
 	$http(
-			{
+			{ //"http://localhost:8080/TrackForce/track/unmapped/"+ $rootScope.selectedStatus
+						
 				method : "GET",
-				url : "http://localhost:8080/TrackForce/track/unmapped/"
-						+ $rootScope.selectedStatus
+				url :"http://localhost:8080/TrackForce/track/clients"
 			}).then(function(response) {
-				
-				var skillsets = response.data;
+				$scope.chartType='bar';
+				var skillsets = [{'name':'JTA','count':'33'},{'name':'Java','count':'54'},{'name':'.NET','count':'37'},{'name':'PEGA','count':'44'}];
 				$scope.skillsetLabels = [];
 				$scope.skillsetData = [];
 				for(let i = 0 ; i < skillsets.length; i++){
-					skillsetLabels.push(skillsets[i].name);
-					skillsetData.push(skillsets[i].count);
+					$scope.skillsetLabels.push(skillsets[i].name);
+					$scope.skillsetData.push(skillsets[i].count);
 				}
-				
-				$scope.options = {
-						legend : {
-							display : true,
-							position : 'right'
-						}
-					}
+				$scope.options = {type: $scope.chartType};
 				$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
+	
+	$scope.changeChartType = (function(selectedType){
+		if(selectedType=='pie'||selectedType=='polarArea'){
+			$scope.chartType=selectedType;
+			$scope.options={type:selectedType, legend:{display:true, position: 'right'}};
+		} else{
+			$scope.chartType=selectedType;
+			$scope.options={type:selectedType, legend:{display:false}};
+		}
+	});
+	
+	//TODO: Update this function with correct URL
+	$scope.skillsetClick = function(points, evt){
+		var clickedElementindex = points[0]["_index"];
+		var selectedSkill = $scope.skillsetLabels[clickedElementindex];
+		window.location.href = "#!/associates/{{selectedSkill}}/{{selectedClient}}/{{selectedStatus}}";
+	};
 });
 /**
  * @class mainApp.batchCtrl

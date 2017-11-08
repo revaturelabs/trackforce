@@ -1,5 +1,5 @@
 package com.revature.entity;
-// Generated Nov 2, 2017 9:19:06 AM by Hibernate Tools 5.2.5.Final
+// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -21,12 +21,12 @@ public class TfClient implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1189336735420927002L;
+	private static final long serialVersionUID = 3153069785231904041L;
 	private BigDecimal tfClientId;
 	private String tfClientName;
 	private Set<TfPlacement> tfPlacements = new HashSet<TfPlacement>(0);
+	private Set<TfAssociate> tfAssociates = new HashSet<TfAssociate>(0);
 	private Set<TfInterview> tfInterviews = new HashSet<TfInterview>(0);
-	private Set<TfBatch> tfBatches = new HashSet<TfBatch>(0);
 
 	public TfClient() {
 	}
@@ -36,12 +36,12 @@ public class TfClient implements java.io.Serializable {
 	}
 
 	public TfClient(BigDecimal tfClientId, String tfClientName, Set<TfPlacement> tfPlacements,
-			Set<TfInterview> tfInterviews, Set<TfBatch> tfBatches) {
+			Set<TfAssociate> tfAssociates, Set<TfInterview> tfInterviews) {
 		this.tfClientId = tfClientId;
 		this.tfClientName = tfClientName;
 		this.tfPlacements = tfPlacements;
+		this.tfAssociates = tfAssociates;
 		this.tfInterviews = tfInterviews;
-		this.tfBatches = tfBatches;
 	}
 
 	@Id
@@ -55,7 +55,7 @@ public class TfClient implements java.io.Serializable {
 		this.tfClientId = tfClientId;
 	}
 
-	@Column(name = "TF_CLIENT_NAME", length = 30)
+	@Column(name = "TF_CLIENT_NAME", length = 100)
 	public String getTfClientName() {
 		return this.tfClientName;
 	}
@@ -74,21 +74,21 @@ public class TfClient implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfClient")
+	public Set<TfAssociate> getTfAssociates() {
+		return this.tfAssociates;
+	}
+
+	public void setTfAssociates(Set<TfAssociate> tfAssociates) {
+		this.tfAssociates = tfAssociates;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfClient")
 	public Set<TfInterview> getTfInterviews() {
 		return this.tfInterviews;
 	}
 
 	public void setTfInterviews(Set<TfInterview> tfInterviews) {
 		this.tfInterviews = tfInterviews;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfClient")
-	public Set<TfBatch> getTfBatches() {
-		return this.tfBatches;
-	}
-
-	public void setTfBatches(Set<TfBatch> tfBatches) {
-		this.tfBatches = tfBatches;
 	}
 
 }

@@ -1,8 +1,10 @@
 package com.revature.entity;
-// Generated Nov 2, 2017 9:19:06 AM by Hibernate Tools 5.2.5.Final
+// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,13 +23,13 @@ public class TfPlacement implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 273052269297562777L;
+	private static final long serialVersionUID = 6812378121809201089L;
 	private BigDecimal tfPlacementId;
 	private TfAssociate tfAssociate;
 	private TfClient tfClient;
 	private TfEndClient tfEndClient;
-	private Serializable tfPlacementStartDate;
-	private Serializable tfPlacementEndDate;
+	private Timestamp tfPlacementStartDate;
+	private Timestamp tfPlacementEndDate;
 
 	public TfPlacement() {
 	}
@@ -37,7 +39,7 @@ public class TfPlacement implements java.io.Serializable {
 	}
 
 	public TfPlacement(BigDecimal tfPlacementId, TfAssociate tfAssociate, TfClient tfClient, TfEndClient tfEndClient,
-			Serializable tfPlacementStartDate, Serializable tfPlacementEndDate) {
+			Timestamp tfPlacementStartDate, Timestamp tfPlacementEndDate) {
 		this.tfPlacementId = tfPlacementId;
 		this.tfAssociate = tfAssociate;
 		this.tfClient = tfClient;
@@ -92,7 +94,7 @@ public class TfPlacement implements java.io.Serializable {
 		return this.tfPlacementStartDate;
 	}
 
-	public void setTfPlacementStartDate(Serializable tfPlacementStartDate) {
+	public void setTfPlacementStartDate(Timestamp tfPlacementStartDate) {
 		this.tfPlacementStartDate = tfPlacementStartDate;
 	}
 
@@ -101,7 +103,7 @@ public class TfPlacement implements java.io.Serializable {
 		return this.tfPlacementEndDate;
 	}
 
-	public void setTfPlacementEndDate(Serializable tfPlacementEndDate) {
+	public void setTfPlacementEndDate(Timestamp tfPlacementEndDate) {
 		this.tfPlacementEndDate = tfPlacementEndDate;
 	}
 

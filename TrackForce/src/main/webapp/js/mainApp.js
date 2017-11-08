@@ -29,6 +29,12 @@ mainApp.config(function($routeProvider) {
 	}).when("/clientDetails", {
 		templateUrl : "clientDetails.html",
 		controller : "clientCtrl"
+	}).when("/clientMapped", {
+		templateUrl : "clientMapped.html",
+		controller : "clientMappedCtrl"
+	}).when("/skillset", {
+		templateUrl : "skillset.html",
+		controller : "clientCtrl"
 	})
 });
 /**
@@ -36,64 +42,136 @@ mainApp.config(function($routeProvider) {
  * @memberof mainApp
  * @description controller for the home page
  */
-mainApp.controller("mainCtrl", function($scope, $http) {
+mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
 	$http({
 		method : 'GET',
 		url : 'http://localhost:8080/TrackForce/track/info',
 		headers : {
 			'Content-Type' : 'application/json'
 		}
-	}).then(
-			function(response) {
-				$scope.UndeployedLabels = [ "Mapped", "Unmapped" ];
-				
-				$scope.UndeployedData = [
-					response.data.trainingMapped + response.data.reservedMapped
-								+ response.data.selectedMapped
-								+ response.data.confirmedMapped,
-								response.data.trainingUnmapped + response.data.openUnmapped
-								+ response.data.selectedUnmapped
-								+ response.data.confirmedUnmapped ];
-				
-				$scope.MappedLabels = [ 'Training', 'Reserved', 'Selected',
-						'Confirmed' ];
-				
-				$scope.MappedData = [ response.data.trainingMapped,
-					response.data.reservedMapped, response.data.selectedMapped,
-					response.data.confirmedMapped ];
-				
-				$scope.UnmappedLabels = [ 'Training', 'Open', 'Selected',
-						'Confirmed' ];
-				
-				$scope.UnmappedData = [ response.data.trainingUnmapped,
-					response.data.openUnmapped, response.data.selectedUnmapped,
-					response.data.confirmedUnmapped ];
-				
-				$scope.DeployedLabels = [ 'Mapped', 'Unmapped' ];
-				
-				$scope.DeployedData = [ response.data.deployedMapped,
-					response.data.deployedUnmapped ];
-				
-				$scope.colors = [ '#e85410','#59504c',
-			 '#2d8799', '#6017a5' ];
-				
-				$scope.colors2 = [ '#17d339','#59504c',
-					 '#2d8799', '#e85410' ];
-				
-				$scope.options = {
-					legend : {
-						display : true,
-						position : 'right'
-					}
-				};
-				
-				$scope.onClick = function (points, evt) {
-				    console.log(points, evt);
-				    $scope.clickedElementindex = points[0]["_index"];
-				    console.log($scope.UndeployedLabels[$scope.clickedElementindex]);
-				    $scope.UndeployedLabels[clickedElementindex];
-				};
-			});
+	}).then(function(response) {
+		// Undeployed table shows mapped vs.
+		// unmapped excluding deployed
+		// associates
+		$scope.UndeployedLabels = [ "Mapped",
+				"Unmapped" ];
+		$scope.UndeployedData = [
+				response.data.trainingMapped
+						+ response.data.reservedMapped
+						+ response.data.selectedMapped
+						+ response.data.confirmedMapped,
+				response.data.trainingUnmapped
+						+ response.data.openUnmapped
+						+ response.data.selectedUnmapped
+						+ response.data.confirmedUnmapped ];
+		// Mapped table shows undeployed mapped
+		// associates
+		$scope.MappedLabels = [ 'Training',
+				'Reserved', 'Selected',
+				'Confirmed' ];
+		$scope.MappedData = [
+				response.data.trainingMapped,
+				response.data.reservedMapped,
+				response.data.selectedMapped,
+				response.data.confirmedMapped ];
+		// Unmapped table shows undeployed
+		// unmapped associates
+		$scope.UnmappedLabels = [ 'Training',
+				'Open', 'Selected', 'Confirmed' ];
+		$scope.UnmappedData = [
+				response.data.trainingUnmapped,
+				response.data.openUnmapped,
+				response.data.selectedUnmapped,
+				response.data.confirmedUnmapped ];
+		// Deployed table shows mapped vs.
+		// unmapped deployed associates
+		$scope.DeployedLabels = [ 'Mapped',
+				'Unmapped' ];
+		$scope.DeployedData = [
+				response.data.deployedMapped,
+				response.data.deployedUnmapped ];
+		// Optional styling arrays
+		$scope.colors = [ '#e85410', '#59504c',
+				'#2d8799', '#6017a5' ];
+		$scope.colors2 = [ '#17d339',
+				'#59504c', '#2d8799', '#e85410' ];
+		$scope.options = {
+			legend : {
+				display : true,
+				position : 'right'
+			}
+		};
+		/*
+		 * When the "Mapped" chart is clicked
+		 * the global variable selectedStatus is
+		 * set to the label of the slice
+		 * clicked. The window then loads the
+		 * clientMapped.html partial.
+		 */
+		$scope.MappedOnClick = function(points, evt) {
+			console.log(points, evt);
+			var clickedElementindex = points[0]["_index"];
+			console
+					.log($scope.MappedLabels[clickedElementindex]);
+			$rootScope.selectedStatus = $scope.MappedLabels[clickedElementindex];
+			window.location.href = "#!/clientMapped";
+		};
+		$scope.UnmappedOnClick = function(
+				points, evt) {
+			console.log(points, evt);
+			var clickedElementindex = points[0]["_index"];
+			console
+					.log($scope.UnmappedLabels[clickedElementindex]);
+			$rootScope.selectedStatus = $scope.UnmappedLabels[clickedElementindex];
+			window.location.href = "#!/skillset";
+		};
+	});
+});
+// clientMapped Ctrl
+mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
+	$http({
+		method : 'GET',
+		/*
+		 * This URL will pull varying data from the REST service based
+		 * on the selectedStatus
+		 */
+		// TODO: update this URL with the REST service for pulling all
+		// associates
+		url : 'http://localhost:8080/TrackForce/track/mapped/'
+				+ $rootScope.selectedStatus
+	}).then(function(response) {
+		// clients is a JSON array of clients mapped with their respective
+		// numbers
+		var clients = response.data;
+		$scope.clientMappedLabels = [];
+		$scope.clientMappedData = [];
+		for (let i = 0; i < clients.length; i++) {
+			/*
+			 * These variable names may need to be changed according to the JSON
+			 * (clients[].name and clients[].count)
+			 */
+			clientMappedLabels.push(clients[i].name);
+			clientMappedData.push(clients[i].count);
+		}
+		$scope.options = {
+			legend : {
+				display : true,
+				position : 'right'
+			}
+		}
+		$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
+	});
+});
+
+//Controller for skillset.html
+mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
+	$http({
+		method : "GET",
+		url : "http://localhost:8080/TrackForce/track/unmapped/"
+				+ $rootScope.selectedStatus
+	}).then(function(response) {
+
+	});
 });
 /**
  * @class mainApp.batchCtrl
@@ -103,11 +181,15 @@ mainApp.controller("mainCtrl", function($scope, $http) {
 mainApp.controller("batchCtrl", function($scope, $http) {
 	
 	$scope.batchDetails = false; 
+	var currentTime = new Date().getTime();
+	var threeMonthsAfter = currentTime + 7889238000;
+	var threeMonthsBefore = currentTime - 7889238000;
+	
 	
 	// Simple GET request example:
 	$http({
 		method : 'GET',
-		url : 'http://localhost:8080/TrackForce/track/batches/1501992000000/1517893200000',
+		url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter,
 		headers : {'Content-Type' : 'application/json'}
 	}).then(function successCallback(response) {
 		$scope.batches = response.data;
@@ -154,12 +236,11 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 
 		$scope.getMapStatusBatch = function(batchName) {
 		// Simple GET request example:
-		$http(
-				{
-					method : 'GET',
-					url : 'http://localhost:8080/TrackForce/track/batches/' 
-						+ batchName + '/batchChart'
-				}).then(function(response) {
+		$http({
+			method : 'GET',
+			url : 'http://localhost:8080/TrackForce/track/batches/' 
+				+ batchName + '/batchChart'
+		}).then(function(response) {
 			// this callback will be called asynchronously
 			// when the response is available
 			var batchMapStatus = response.data;
@@ -184,12 +265,11 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 	};
 	$scope.getBatchAssociates = function(batchName) {
 		// Simple GET request example:
-		$http(
-				{
-					method : 'GET',
-					url : 'http://localhost:8080/TrackForce/track/batches/'
-							+ batchName + '/associates'
-				}).then(function successCallback(response) {
+		$http({
+			method : 'GET',
+			url : 'http://localhost:8080/TrackForce/track/batches/'
+					+ batchName + '/associates'
+		}).then(function successCallback(response) {
 			// this callback will be called asynchronously
 			// when the response is available
 			$scope.associatesBatch = response.data;
@@ -250,77 +330,76 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 		$http({
 			method : "GET",
 			url : "http://localhost:8080/TrackForce/track/clients/info"
-		}).then(
-				function(response) {
-					/**
-					 * @member {Client} clients
-					 * @description Local variable of getAllClients. A
-					 *              JavaScript object is created from the client
-					 *              object that is sent from the REST service.
-					 *              This client object contains data from all
-					 *              clients
-					 */
-					var clients = response.data;
-					/**
-					 * @member {String} clientName
-					 * @description Local variable of getAllClients. This $scope
-					 *              variable binds the data in the client name
-					 *              to the header above the chart on the HTML
-					 */
-					$scope.clientName = clients.name;
-					/**
-					 * @member {Array} clientLabels
-					 * @description Local variable of getAllClients. This will
-					 *              bind an array of strings to the x-axis of
-					 *              the bar chart
-					 */
-					$scope.clientLabels = [ 'Training', 'Reserved/Open',
-							'Selected', 'Confirmed', 'Deployed' ];
-					/**
-					 * @member {Array} clientSeries
-					 * @description Local variable of getAllClients. This array
-					 *              describes the different bars you want to
-					 *              display.
-					 */
-					$scope.clientSeries = [ 'Mapped', 'Unmapped' ];
-					/**
-					 * @member {Array} clientData
-					 * @description Local variable of getAllClients. The clients
-					 *              JavaScript object is used for the data it
-					 *              contains which is then bound to the chart
-					 *              dataset using the $scope service.
-					 */
-					$scope.clientData = [
-							[ clients.trainingMapped, clients.reservedMapped,
-									clients.selectedMapped,
-									clients.confirmedMapped,
-									clients.deployedMapped ],
-							[ clients.trainingUnmapped, clients.openUnmapped,
-									clients.selectedUnmapped,
-									clients.confirmedUnmapped,
-									clients.deployedUnmapped ] ];
-					/**
-					 * @property {Array} clientColors
-					 * @description Local variable of getAllClients. This array
-					 *              sets the color scheme for the chart.
-					 */
-					$scope.clientColors = [ {
-						backgroundColor : '#e85410'
-					}, {
-						backgroundColor : '#59504c'
-					}, '#e85410', '#e85410' ];
-					/**
-					 * @property {Array} clientOptions
-					 * @description Local variable of getAllClients. This array
-					 *              modifies the options of the chart.
-					 */
-					$scope.clientOptions = {
-						legend : {
-							display : true,
-							position : 'right'
-						},
-					};
-				});
+		}).then(function(response) {
+			/**
+			 * @member {Client} clients
+			 * @description Local variable of getAllClients. A
+			 *              JavaScript object is created from the client
+			 *              object that is sent from the REST service.
+			 *              This client object contains data from all
+			 *              clients
+			 */
+			var clients = response.data;
+			/**
+			 * @member {String} clientName
+			 * @description Local variable of getAllClients. This $scope
+			 *              variable binds the data in the client name
+			 *              to the header above the chart on the HTML
+			 */
+			$scope.clientName = clients.name;
+			/**
+			 * @member {Array} clientLabels
+			 * @description Local variable of getAllClients. This will
+			 *              bind an array of strings to the x-axis of
+			 *              the bar chart
+			 */
+			$scope.clientLabels = [ 'Training', 'Reserved/Open',
+					'Selected', 'Confirmed', 'Deployed' ];
+			/**
+			 * @member {Array} clientSeries
+			 * @description Local variable of getAllClients. This array
+			 *              describes the different bars you want to
+			 *              display.
+			 */
+			$scope.clientSeries = [ 'Mapped', 'Unmapped' ];
+			/**
+			 * @member {Array} clientData
+			 * @description Local variable of getAllClients. The clients
+			 *              JavaScript object is used for the data it
+			 *              contains which is then bound to the chart
+			 *              dataset using the $scope service.
+			 */
+			$scope.clientData = [
+					[ clients.trainingMapped, clients.reservedMapped,
+							clients.selectedMapped,
+							clients.confirmedMapped,
+							clients.deployedMapped ],
+					[ clients.trainingUnmapped, clients.openUnmapped,
+							clients.selectedUnmapped,
+							clients.confirmedUnmapped,
+							clients.deployedUnmapped ] ];
+			/**
+			 * @property {Array} clientColors
+			 * @description Local variable of getAllClients. This array
+			 *              sets the color scheme for the chart.
+			 */
+			$scope.clientColors = [ {
+				backgroundColor : '#e85410'
+			}, {
+				backgroundColor : '#59504c'
+			}, '#e85410', '#e85410' ];
+			/**
+			 * @property {Array} clientOptions
+			 * @description Local variable of getAllClients. This array
+			 *              modifies the options of the chart.
+			 */
+			$scope.clientOptions = {
+				legend : {
+					display : true,
+					position : 'right'
+				},
+			};
+		});
 	}
 	/**
 	 * @function getOneClient
@@ -341,34 +420,33 @@ mainApp.controller("clientCtrl", function($scope, $http) {
 	 *              clientOptions
 	 */
 	$scope.getOneClient = function(searchValue) {
-		$http(
-				{
-					method : "GET",
-					url : "http://localhost:8080/TrackForce/track/clients/"
-							+ searchValue
-				}).then(
-				function(response) {
-					var clients = response.data;
-					$scope.clientName = clients.name;
-					$scope.clientLabels = [ 'Training', 'Reserved/Open',
-							'Selected', 'Confirmed', 'Deployed' ];
-					$scope.clientSeries = [ 'Mapped', 'Unmapped' ];
-					$scope.clientData = [
-							[ clients.trainingMapped, clients.reservedMapped,
-									clients.selectedMapped,
-									clients.confirmedMapped,
-									clients.deployedMapped ],
-							[ clients.trainingUnmapped, clients.openUnmapped,
-									clients.selectedUnmapped,
-									clients.confirmedUnmapped,
-									clients.deployedUnmapped ] ];
-					$scope.clientOptions = {
-						legend : {
-							display : true,
-							position : 'right'
-						}
-					};
-				});
+		$http({
+			method : "GET",
+			url : "http://localhost:8080/TrackForce/track/clients/"
+					+ searchValue
+		}).then(
+		function(response) {
+			var clients = response.data;
+			$scope.clientName = clients.name;
+			$scope.clientLabels = [ 'Training', 'Reserved/Open',
+					'Selected', 'Confirmed', 'Deployed' ];
+			$scope.clientSeries = [ 'Mapped', 'Unmapped' ];
+			$scope.clientData = [
+					[ clients.trainingMapped, clients.reservedMapped,
+							clients.selectedMapped,
+							clients.confirmedMapped,
+							clients.deployedMapped ],
+					[ clients.trainingUnmapped, clients.openUnmapped,
+							clients.selectedUnmapped,
+							clients.confirmedUnmapped,
+							clients.deployedUnmapped ] ];
+			$scope.clientOptions = {
+				legend : {
+					display : true,
+					position : 'right'
+				}
+			};
+		});
 	}
 });
 /**
@@ -376,40 +454,35 @@ mainApp.controller("clientCtrl", function($scope, $http) {
  * @memberof mainApp
  * @description controller for database population and deletion.
  */
-mainApp
-		.controller(
-				'databaseCtrl',
-				function($http, $scope) {
-					/**
-					 * @function populateDB
-					 * @memberof mainApp.databaseCtrl
-					 * @description Populates the database with information from
-					 *              data script
-					 */
-					$scope.populateDB = function() {
-						$http(
-								{
-									method : "GET",
-									url : "http://localhost:8080/TrackForce/track/database/populateDB"
-								}).then(function(response) {
-							$scope.dbMessage = response.data;
-						})
-					}
-					/**
-					 * @function deleteDB
-					 * @memberof mainApp.databaseCtrl
-					 * @description Truncates all the tables in the database
-					 */
-					$scope.deleteDB = function() {
-						$http(
-								{
-									method : "GET",
-									url : "http://localhost:8080/TrackForce/track/database/deleteFromDB"
-								}).then(function(response) {
-							$scope.dbMessage = response.data;
-						})
-					}
-					$scope.refresh = function() {
-						window.location.reload();
-					}
-				});
+mainApp.controller('databaseCtrl', function($http, $scope) {
+	/**
+	 * @function populateDB
+	 * @memberof mainApp.databaseCtrl
+	 * @description Populates the database with information from
+	 *              data script
+	 */
+	$scope.populateDB = function() {
+		$http({
+			method : "GET",
+			url : "http://localhost:8080/TrackForce/track/database/populateDB"
+		}).then(function(response) {
+			$scope.dbMessage = response.data;
+		})
+	}
+	/**
+	 * @function deleteDB
+	 * @memberof mainApp.databaseCtrl
+	 * @description Truncates all the tables in the database
+	 */
+	$scope.deleteDB = function() {
+		$http({
+			method : "GET",
+			url : "http://localhost:8080/TrackForce/track/database/deleteFromDB"
+		}).then(function(response) {
+			$scope.dbMessage = response.data;
+		})
+	}
+	$scope.refresh = function() {
+		window.location.reload();
+	}
+});

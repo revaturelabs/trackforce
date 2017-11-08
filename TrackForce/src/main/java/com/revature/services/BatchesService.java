@@ -186,10 +186,10 @@ public class BatchesService {
         TfBatch batch = batchDao.getBatch(batchName);
 
         for (TfAssociate associate : batch.getTfAssociates()) {
-            if(associate.getTfMarketingStatus().getTfMarketingStatusName() == "TERMINATED" || associate.getTfMarketingStatus().getTfMarketingStatusName() == "DIRECTLY PLACED") {
+            if(associate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED") || associate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
                 continue;
             }
-            String id = associate.getTfAssociateId().toString();
+            BigDecimal id = associate.getTfAssociateId();
             String firstName = associate.getTfAssociateFirstName();
             String lastName = associate.getTfAssociateLastName();
             String marketingStatus = associate.getTfMarketingStatus().getTfMarketingStatusName();

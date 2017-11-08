@@ -1,5 +1,5 @@
 package com.revature.entity;
-// Generated Nov 2, 2017 9:19:06 AM by Hibernate Tools 5.2.5.Final
+// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -23,7 +23,7 @@ public class TfPlacement implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 273052269297562777L;
+	private static final long serialVersionUID = 6812378121809201089L;
 	private BigDecimal tfPlacementId;
 	private TfAssociate tfAssociate;
 	private TfClient tfClient;

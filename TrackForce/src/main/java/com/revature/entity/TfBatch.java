@@ -1,5 +1,5 @@
 package com.revature.entity;
-// Generated Nov 2, 2017 9:19:06 AM by Hibernate Tools 5.2.5.Final
+// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -26,11 +26,10 @@ public class TfBatch implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1981150396737240585L;
+	private static final long serialVersionUID = 1893469049852289417L;
 	private BigDecimal tfBatchId;
-	private TfClient tfClient;
-	private TfCurriculum tfCurriculum;
 	private TfBatchLocation tfBatchLocation;
+	private TfCurriculum tfCurriculum;
 	private String tfBatchName;
 	private Timestamp tfBatchStartDate;
 	private Timestamp tfBatchEndDate;
@@ -43,13 +42,11 @@ public class TfBatch implements java.io.Serializable {
 		this.tfBatchId = tfBatchId;
 	}
 
-	public TfBatch(BigDecimal tfBatchId, TfClient tfClient, TfCurriculum tfCurriculum, TfBatchLocation tfBatchLocation,
-			String tfBatchName, Timestamp tfBatchStartDate, Timestamp tfBatchEndDate,
-			Set<TfAssociate> tfAssociates) {
+	public TfBatch(BigDecimal tfBatchId, TfBatchLocation tfBatchLocation, TfCurriculum tfCurriculum, String tfBatchName,
+			Timestamp tfBatchStartDate, Timestamp tfBatchEndDate, Set<TfAssociate> tfAssociates) {
 		this.tfBatchId = tfBatchId;
-		this.tfClient = tfClient;
-		this.tfCurriculum = tfCurriculum;
 		this.tfBatchLocation = tfBatchLocation;
+		this.tfCurriculum = tfCurriculum;
 		this.tfBatchName = tfBatchName;
 		this.tfBatchStartDate = tfBatchStartDate;
 		this.tfBatchEndDate = tfBatchEndDate;
@@ -68,13 +65,13 @@ public class TfBatch implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TF_CLIENT_ID")
-	public TfClient getTfClient() {
-		return this.tfClient;
+	@JoinColumn(name = "TF_BATCH_LOCATION_ID")
+	public TfBatchLocation getTfBatchLocation() {
+		return this.tfBatchLocation;
 	}
 
-	public void setTfClient(TfClient tfClient) {
-		this.tfClient = tfClient;
+	public void setTfBatchLocation(TfBatchLocation tfBatchLocation) {
+		this.tfBatchLocation = tfBatchLocation;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -87,17 +84,8 @@ public class TfBatch implements java.io.Serializable {
 		this.tfCurriculum = tfCurriculum;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TF_BATCH_LOCATION_ID")
-	public TfBatchLocation getTfBatchLocation() {
-		return this.tfBatchLocation;
-	}
 
-	public void setTfBatchLocation(TfBatchLocation tfBatchLocation) {
-		this.tfBatchLocation = tfBatchLocation;
-	}
-
-	@Column(name = "TF_BATCH_NAME", length = 30)
+	@Column(name = "TF_BATCH_NAME", length = 50)
 	public String getTfBatchName() {
 		return this.tfBatchName;
 	}

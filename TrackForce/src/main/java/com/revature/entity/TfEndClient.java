@@ -1,5 +1,5 @@
 package com.revature.entity;
-// Generated Nov 2, 2017 9:19:06 AM by Hibernate Tools 5.2.5.Final
+// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -21,9 +21,10 @@ public class TfEndClient implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8175414335191263880L;
+	private static final long serialVersionUID = -8077675564245631804L;
 	private BigDecimal tfEndClientId;
 	private String tfEndClientName;
+	private Set<TfAssociate> tfAssociates = new HashSet<TfAssociate>(0);
 	private Set<TfPlacement> tfPlacements = new HashSet<TfPlacement>(0);
 	private Set<TfInterview> tfInterviews = new HashSet<TfInterview>(0);
 
@@ -34,10 +35,11 @@ public class TfEndClient implements java.io.Serializable {
 		this.tfEndClientId = tfEndClientId;
 	}
 
-	public TfEndClient(BigDecimal tfEndClientId, String tfEndClientName, Set<TfPlacement> tfPlacements,
-			Set<TfInterview> tfInterviews) {
+	public TfEndClient(BigDecimal tfEndClientId, String tfEndClientName, Set<TfAssociate> tfAssociates,
+			Set<TfPlacement> tfPlacements, Set<TfInterview> tfInterviews) {
 		this.tfEndClientId = tfEndClientId;
 		this.tfEndClientName = tfEndClientName;
+		this.tfAssociates = tfAssociates;
 		this.tfPlacements = tfPlacements;
 		this.tfInterviews = tfInterviews;
 	}
@@ -53,13 +55,22 @@ public class TfEndClient implements java.io.Serializable {
 		this.tfEndClientId = tfEndClientId;
 	}
 
-	@Column(name = "TF_END_CLIENT_NAME", length = 30)
+	@Column(name = "TF_END_CLIENT_NAME", length = 100)
 	public String getTfEndClientName() {
 		return this.tfEndClientName;
 	}
 
 	public void setTfEndClientName(String tfEndClientName) {
 		this.tfEndClientName = tfEndClientName;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfEndClient")
+	public Set<TfAssociate> getTfAssociates() {
+		return this.tfAssociates;
+	}
+
+	public void setTfAssociates(Set<TfAssociate> tfAssociates) {
+		this.tfAssociates = tfAssociates;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfEndClient")

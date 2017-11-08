@@ -9,13 +9,13 @@ Given I am on the client listing page
 @tag1
 Scenario Outline: I want to search for a specific client
 When I enter the <client> name into the search bar
-Then The table name shown is equal to the client name
+Then The table name shown is equal to the <client> name
 Examples:
     | client  			 |
     | Accenture 		 |  
-    | Infosys   		 |
-    | AFS		 |  
-		| Revature|
+    #| Infosys   		 |
+   # | AFS		 |  
+	#	| Revature|
 
 @tag2
 Scenario: I want to view the table for all clients

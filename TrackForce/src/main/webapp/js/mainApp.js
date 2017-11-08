@@ -30,6 +30,12 @@ mainApp.config(function($routeProvider) {
 		controller : "batchCtrl"
 	})
 	
+	// Associate List Page
+	.when("/associateListing", {
+		templateUrl : "associateListing.html",
+		controller : "associateCtrl"
+	})
+	
 	// Form Page
 	.when("/form", {
 		templateUrl : "form.html",
@@ -583,7 +589,7 @@ mainApp.controller('databaseCtrl', function($http, $scope) {
 			method : "GET",
 			url : "http://localhost:8080/TrackForce/track/database/deleteFromDB"
 		}).then(function(response) {
-			$scope.dbM;essage = response.data;
+			$scope.dbMessage = response.data;
 		})
 	}
 	$scope.refresh = function() {
@@ -594,8 +600,15 @@ mainApp.controller('databaseCtrl', function($http, $scope) {
 mainApp.controller('associateCtrl', function($http, $scope, $routeParams) {
 	$http({
 		method : "GET",
-		url : "http://localhost:8080/TrackForce/track/" + $routeParams.associateId
+		url : "http://localhost:8080/TrackForce/track/associates/266"// + $routeParams.associateId
 	}).then(function(response) {
 		$scope.associateInfo = response.data;
+	})
+	
+	$http({
+		method : "GET",
+		url : "http://localhost:8080/TrackForce/track/5" // + $routeParam.statusId
+	}).then(function(response) {
+		$scope.associates = response.data;
 	})
 });

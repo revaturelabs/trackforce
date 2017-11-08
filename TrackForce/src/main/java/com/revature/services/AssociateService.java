@@ -20,14 +20,16 @@ public class AssociateService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public AssociateInfo getAssociate(@PathParam("associateid")BigDecimal associateid)
 	{
+		System.out.println(associateid);
 		AssociateDaoHibernate associatedao=new AssociateDaoHibernate();
 		TfAssociate associate=associatedao.getAssociate(associateid);
 		AssociateInfo associateinfo=new AssociateInfo();
 		associateinfo.setId(associate.getTfAssociateId());
 		associateinfo.setFirstName(associate.getTfAssociateFirstName());
 		associateinfo.setLastName(associate.getTfAssociateLastName());
-		associateinfo.setMarketingStatus(associate.getTfMarketingStatus().getTfMarketingStatusName());
-		associateinfo.setClient(associate.getTfClient().getTfClientName());
+//		associateinfo.setMarketingStatus(associate.getTfMarketingStatus().getTfMarketingStatusName());
+//		associateinfo.setClient(associate.getTfClient().getTfClientName());
+		System.out.println(associateinfo);
 		return associateinfo;
 		
 	}

@@ -12,27 +12,45 @@ var mainApp = angular.module('mainApp', [ 'ngRoute', 'chart.js' ]);
  */
 mainApp.config(function($routeProvider) {
 	$routeProvider
-	// Home Page route
+	
+	// Home Page 
 	.when("/", {
 		templateUrl : "home.html",
 		controller : "mainCtrl"
 	})
-	// Mapped View Page route
+	
+	// Batch Listing Page
 	.when("/batchListing", {
 		templateUrl : "batchListing.html",
 		controller : "batchCtrl"
 	})
-	// Unmapped View Page route
+	
+	// Batch Details Page
 	.when("/batchDetails", {
 		templateUrl : "batchDetails.html",
 		controller : "batchCtrl"
-	}).when("/clientDetails", {
+	})
+	
+	// Form Page
+	.when("/form", {
+		templateUrl : "form.html",
+		controller : "associateCtrl"
+	})
+	
+	// Client Details Page
+	.when("/clientDetails", {
 		templateUrl : "clientDetails.html",
 		controller : "clientCtrl"
-	}).when("/clientMapped", {
+	})
+	
+	// Client Mapped Page
+	.when("/clientMapped", {
 		templateUrl : "clientMapped.html",
 		controller : "clientMappedCtrl"
-	}).when("/skillset", {
+	})
+	
+	// Skillset Page
+	.when("/skillset", {
 		templateUrl : "skillset.html",
 		controller : "clientCtrl"
 	})
@@ -479,10 +497,19 @@ mainApp.controller('databaseCtrl', function($http, $scope) {
 			method : "GET",
 			url : "http://localhost:8080/TrackForce/track/database/deleteFromDB"
 		}).then(function(response) {
-			$scope.dbMessage = response.data;
+			$scope.dbM;essage = response.data;
 		})
 	}
 	$scope.refresh = function() {
 		window.location.reload();
 	}
+});
+
+mainApp.controller('associateCtrl', function($http, $scope, $routeParams) {
+	$http({
+		method : "GET",
+		url : "http://localhost:8080/TrackForce/track/" + $routeParams.associateId
+	}).then(function(response) {
+		$scope.associateInfo = response.data;
+	})
 });

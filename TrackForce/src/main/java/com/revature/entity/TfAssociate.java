@@ -1,5 +1,5 @@
 package com.revature.entity;
-// Generated Nov 2, 2017 9:19:06 AM by Hibernate Tools 5.2.5.Final
+// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -23,10 +23,12 @@ public class TfAssociate implements java.io.Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6402610995778836801L;
+	private static final long serialVersionUID = -2324082555924677252L;
 	private BigDecimal tfAssociateId;
 	private TfBatch tfBatch;
 	private TfMarketingStatus tfMarketingStatus;
+	private TfClient tfClient;
+	private TfEndClient tfEndClient;
 	private String tfAssociateFirstName;
 	private String tfAssociateLastName;
 	private Set<TfInterview> tfInterviews = new HashSet<TfInterview>(0);
@@ -40,11 +42,13 @@ public class TfAssociate implements java.io.Serializable {
 	}
 
 	public TfAssociate(BigDecimal tfAssociateId, TfBatch tfBatch, TfMarketingStatus tfMarketingStatus,
-			String tfAssociateFirstName, String tfAssociateLastName, Set<TfInterview> tfInterviews,
-			Set<TfPlacement> tfPlacements) {
+			TfClient tfClient, TfEndClient tfEndClient, String tfAssociateFirstName, String tfAssociateLastName,
+			Set<TfInterview> tfInterviews, Set<TfPlacement> tfPlacements) {
 		this.tfAssociateId = tfAssociateId;
 		this.tfBatch = tfBatch;
 		this.tfMarketingStatus = tfMarketingStatus;
+		this.tfClient = tfClient;
+		this.tfEndClient = tfEndClient;
 		this.tfAssociateFirstName = tfAssociateFirstName;
 		this.tfAssociateLastName = tfAssociateLastName;
 		this.tfInterviews = tfInterviews;
@@ -80,6 +84,26 @@ public class TfAssociate implements java.io.Serializable {
 
 	public void setTfMarketingStatus(TfMarketingStatus tfMarketingStatus) {
 		this.tfMarketingStatus = tfMarketingStatus;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TF_CLIENT_ID")
+	public TfClient getTfClient() {
+		return this.tfClient;
+	}
+
+	public void setTfClient(TfClient tfClient) {
+		this.tfClient = tfClient;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TF_END_CLIENT_ID")
+	public TfEndClient getTfEndClient() {
+		return this.tfEndClient;
+	}
+
+	public void setTfEndClient(TfEndClient tfEndClient) {
+		this.tfEndClient = tfEndClient;
 	}
 
 	@Column(name = "TF_ASSOCIATE_FIRST_NAME", length = 30)

@@ -5,6 +5,9 @@ hibernate.cfg.xml
 # To install node modules on your end run an npm install
 node_modules/
 
+#Auto generated TestNG files
+test-output/
+
 # Eclipse
 .settings/
 bin/

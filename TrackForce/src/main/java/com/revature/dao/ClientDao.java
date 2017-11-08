@@ -33,4 +33,10 @@ public interface ClientDao {
 	 */
 	StatusInfo getClientInfo(int id);
 
+	/**
+	 * Returns a 
+	 * @return
+	 */
+    TfClient getClient(String name);
+
 }

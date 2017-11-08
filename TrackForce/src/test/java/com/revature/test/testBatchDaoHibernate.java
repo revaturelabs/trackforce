@@ -1,31 +1,35 @@
 package com.revature.test;
 
+import static org.testng.AssertJUnit.assertNotNull;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import static org.junit.Assert.assertNotNull;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
+import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDao;
 import com.revature.dao.BatchDaoHibernate;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 
-public class testBatchDaoHibernate  {
+public class testBatchDaoHibernate {
 	Properties properties = new Properties();
+
 	@BeforeClass
 	public void beforeclass() throws IOException {
 		File configFile = new File("src/main/resources/tests.properties");
-        FileInputStream fileInput = new FileInputStream(configFile);
-        properties.load(fileInput);
-        fileInput.close();
+		FileInputStream fileInput = new FileInputStream(configFile);
+		properties.load(fileInput);
+		fileInput.close();
 	}
+
 	@Test
 	public void testgetBatchDetails() {
 		Timestamp firstDate = Timestamp.valueOf(properties.getProperty("from_date"));
@@ -33,9 +37,10 @@ public class testBatchDaoHibernate  {
 		BatchDao batchdao = new BatchDaoHibernate();
 		List<TfBatch> batchlist = batchdao.getBatchDetails(firstDate, secondDate);
 		Assert.assertNotNull(batchlist);
+		System.out.println("Test Get Batch Details Positive");
 		System.out.println(batchlist);
 	}
-	
+
 	@Test
 	public void testGetBatch() {
 		BatchDaoHibernate batch = new BatchDaoHibernate();
@@ -48,23 +53,33 @@ public class testBatchDaoHibernate  {
 		Assert.assertNotNull(batchA);
 	}
 
-    @Test
-    public void testgetBatchDetailsNegative() {
-        Timestamp firstDate = Timestamp.valueOf("2017-12-30 10:10:10.0");
-        Timestamp secondDate = Timestamp.valueOf("2017-09-10 10:10:10.0");
-        BatchDao batchdao = new BatchDaoHibernate();
-        List<TfBatch> batchlist = batchdao.getBatchDetails(firstDate, secondDate);
-        Assert.assertNotNull(batchlist);
-        System.out.println("Test Get Batch Details Negative");
-        System.out.println(batchlist);
-    }
+	@Test
+	public void testgetBatchDetailsNegative() {
+		Timestamp firstDate = Timestamp.valueOf("2017-12-30 10:10:10.0");
+		Timestamp secondDate = Timestamp.valueOf("2017-09-10 10:10:10.0");
+		BatchDao batchdao = new BatchDaoHibernate();
+		List<TfBatch> batchlist = batchdao.getBatchDetails(firstDate, secondDate);
+		Assert.assertNotNull(batchlist);
+		System.out.println("Test Get Batch Details Negative");
+		System.out.println(batchlist);
+	}
 
-    @Test
-    public void testGetBatchNegative() {
-        BatchDao batchDao = new BatchDaoHibernate();
-        TfBatch batch = batchDao.getBatch("さいうえぁじぇうjp♫¥=⌐~ë");
-        assertNotNull(batch);
-        System.out.println("Test Get Batch Negative");
-        System.out.println(batch);
-    }
+	@Test
+	public void testGetBatchNegative() {
+		BatchDao batchDao = new BatchDaoHibernate();
+		TfBatch batch = batchDao.getBatch("さいうえぁじぇうjp♫¥=⌐~ë");
+		assertNotNull(batch);
+		System.out.println("Test Get Batch Negative");
+		System.out.println(batch);
+	}
+
+	@Test
+	public void testGetAssociate() {
+		AssociateDaoHibernate associate = new AssociateDaoHibernate();
+		BigDecimal d = new BigDecimal(12);
+		TfAssociate associateA = associate.getAssociate(d);
+		System.out.println(associateA.toString());
+		Assert.assertNotNull(associateA);
+
+	}
 }

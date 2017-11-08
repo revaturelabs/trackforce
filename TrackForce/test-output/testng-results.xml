@@ -2,23 +2,23 @@
 <testng-results skipped="0" failed="0" ignored="0" total="2" passed="2">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="5112" started-at="2017-11-06T20:56:33Z" finished-at="2017-11-06T20:56:38Z">
+  <suite name="Default suite" duration-ms="4227" started-at="2017-11-07T18:27:27Z" finished-at="2017-11-07T18:27:31Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="5112" started-at="2017-11-06T20:56:33Z" finished-at="2017-11-06T20:56:38Z">
+    <test name="Default test" duration-ms="4227" started-at="2017-11-07T18:27:27Z" finished-at="2017-11-07T18:27:31Z">
       <class name="com.revature.test.testBatchDaoHibernate">
-        <test-method status="PASS" signature="beforeclass()[pri:0, instance:com.revature.test.testBatchDaoHibernate@5702b3b1]" name="beforeclass" is-config="true" duration-ms="31" started-at="2017-11-06T15:56:33Z" finished-at="2017-11-06T15:56:33Z">
+        <test-method status="PASS" signature="beforeclass()[pri:0, instance:com.revature.test.testBatchDaoHibernate@25bbe1b6]" name="beforeclass" is-config="true" duration-ms="15" started-at="2017-11-07T13:27:27Z" finished-at="2017-11-07T13:27:27Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- beforeclass -->
-        <test-method status="PASS" signature="testGetBatch()[pri:0, instance:com.revature.test.testBatchDaoHibernate@5702b3b1]" name="testGetBatch" duration-ms="4675" started-at="2017-11-06T15:56:33Z" finished-at="2017-11-06T15:56:37Z">
+        <test-method status="PASS" signature="testGetAssociate()[pri:0, instance:com.revature.test.testBatchDaoHibernate@25bbe1b6]" name="testGetAssociate" duration-ms="4057" started-at="2017-11-07T13:27:27Z" finished-at="2017-11-07T13:27:31Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testGetAssociate -->
+        <test-method status="PASS" signature="testGetBatch()[pri:0, instance:com.revature.test.testBatchDaoHibernate@25bbe1b6]" name="testGetBatch" duration-ms="118" started-at="2017-11-07T13:27:31Z" finished-at="2017-11-07T13:27:31Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testGetBatch -->
-        <test-method status="PASS" signature="testgetBatchDetails()[pri:0, instance:com.revature.test.testBatchDaoHibernate@5702b3b1]" name="testgetBatchDetails" duration-ms="375" started-at="2017-11-06T15:56:37Z" finished-at="2017-11-06T15:56:38Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testgetBatchDetails -->
       </class> <!-- com.revature.test.testBatchDaoHibernate -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->

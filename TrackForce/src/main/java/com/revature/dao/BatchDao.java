@@ -1,8 +1,10 @@
 package com.revature.dao;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 
 /**
@@ -24,5 +26,4 @@ public interface BatchDao {
 	 * @return - A batch object that represents the retrieve batch.
 	 */
     public TfBatch getBatch(String batchName);
-
-}
+  }

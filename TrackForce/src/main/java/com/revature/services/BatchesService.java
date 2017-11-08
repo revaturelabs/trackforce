@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -25,21 +26,6 @@ import com.revature.model.BatchInfo;
 public class BatchesService {
 
 	/**
-<<<<<<< HEAD
-	 * Gets the number of associates learning each curriculum during a given date
-	 * range
-	 * 
-	 * @param fromdate
-	 *            - the starting date of the date range
-	 * @param todate
-	 *            - the ending date of the date range
-	 */
-	@GET
-	@Path("{fromdate}/{todate}/type")
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Map<String, Integer> getBatchChartInfo(@PathParam("fromDate") long fromdate,
-			@PathParam("toDate") long todate) {
-=======
 	 * Gets the number of associates learning each curriculum
 	 * during a given date range
 	 * @param fromdate - the starting date of the date range
@@ -51,7 +37,6 @@ public class BatchesService {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String, Integer> getBatchChartInfo(@PathParam("fromdate") long fromdate, 
 			@PathParam("todate") long todate) {
->>>>>>> bbc30026326fc8941b9fffd317c0e26af546349c
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 
 		List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
@@ -73,26 +58,14 @@ public class BatchesService {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * When given a batch name returns an object that contains all information about
-	 * that batch
-	 * 
-	 * @param batchName
-	 *            - the name of a batch that is in the database
-=======
 	 * When given a batch name returns an object that contains 
 	 * all information about that batch
 	 * @param batchName - the name of a batch that is in the database
 	 * @return - A list with batch name, client name, curriculum name, batch location, batch start date, and batch end date.
->>>>>>> bbc30026326fc8941b9fffd317c0e26af546349c
 	 */
 	@GET
 	@Path("{batch}/info")
 	@Produces(MediaType.APPLICATION_JSON)
-<<<<<<< HEAD
-	public TfBatch getBatchInfo(@PathParam("batch") String batchName) {
-		return new BatchDaoHibernate().getBatch(batchName);
-=======
 	public BatchInfo getBatchInfo(@PathParam("batch")String batchName) {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 		TfBatch batch = batchDao.getBatch(batchName);
@@ -106,22 +79,13 @@ public class BatchesService {
         BatchInfo batchInfo = new BatchInfo(name, clientName, curriculumName, batchLocation, startDate, endDate);
 		
 		return batchInfo;
->>>>>>> bbc30026326fc8941b9fffd317c0e26af546349c
 	}
 
 	/**
-<<<<<<< HEAD
-	 * Gets the number of associates that are mapped and unmapped within a
-	 * particular batch
-	 * 
-	 * @param batchName
-	 *            - the name of a batch that is in the database
-=======
 	 * Gets the number of associates that are mapped and unmapped 
 	 * within a particular batch
 	 * @param batchName - the name of a batch that is in the database
 	 * @return - A map with the key being either Mapped or Unmapped and the value being the number of associates in those statuses..
->>>>>>> bbc30026326fc8941b9fffd317c0e26af546349c
 	 */
 	@GET
 	@Path("{batch}/batchChart")
@@ -147,26 +111,12 @@ public class BatchesService {
 
 	/**
 	 * Gets all batches that are running within a given date range
-<<<<<<< HEAD
-	 * 
-	 * @param fromdate
-	 *            - the starting date of the date range
-	 * @param todate
-	 *            - the ending date of the date range
-=======
 	 * @param fromdate - the starting date of the date range
 	 * @param todate - the ending date of the date range
 	 * @return - A list of the batch info. Batch info contains batch name, client name, batch start date, and batch end date.
->>>>>>> bbc30026326fc8941b9fffd317c0e26af546349c
 	 */
 	@GET
 	@Path("{fromdate}/{todate}")
-<<<<<<< HEAD
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<TfBatch> getBatches(@PathParam("fromdate") long fromdate, @PathParam("todate") long todate) {
-		return new BatchDaoHibernate().getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
-	}
-=======
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<BatchInfo> getBatches(@PathParam("fromdate") long fromdate, 
     		@PathParam("todate") long todate ){
@@ -204,16 +154,16 @@ public class BatchesService {
 		TfBatch batch = batchDao.getBatch(batchName);
 		
 		for (TfAssociate associate : batch.getTfAssociates()) {
-			String id = associate.getTfAssociateId().toString();
+			BigDecimal id = associate.getTfAssociateId();
 			String firstName = associate.getTfAssociateFirstName();
 			String lastName = associate.getTfAssociateLastName();
 			String marketingStatus = associate.getTfMarketingStatus().getTfMarketingStatusName();
-			AssociateInfo associateDetails = new AssociateInfo(id, firstName, lastName, marketingStatus);
+			String clientName=associate.getTfClientid().getTfClientName();
+			AssociateInfo associateDetails = new AssociateInfo(id, firstName, lastName, marketingStatus,clientName);
 			
 			associatesList.add(associateDetails);
 		}
 		return associatesList;
     }
->>>>>>> bbc30026326fc8941b9fffd317c0e26af546349c
 
 }

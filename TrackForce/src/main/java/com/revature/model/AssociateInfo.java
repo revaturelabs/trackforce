@@ -36,15 +36,6 @@ public class AssociateInfo {
 		this.client = client;
 	}
 
-	// placeholder constructor until other group finishes their ClientDaoImp class
-	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.marketingStatus = marketingStatus;
-	}
-
 	public AssociateInfo() {
 		// TODO Auto-generated constructor stub
 	}

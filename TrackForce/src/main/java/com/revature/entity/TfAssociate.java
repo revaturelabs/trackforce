@@ -142,4 +142,13 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfPlacements = tfPlacements;
 	}
 
+//	@Override
+//	public String toString() {
+//		return "TfAssociate [tfAssociateId=" + tfAssociateId + ", tfBatch=" + tfBatch + ", tfMarketingStatus="
+//				+ tfMarketingStatus + ", tfAssociateFirstName=" + tfAssociateFirstName + ", tfAssociateLastName="
+//				+ tfAssociateLastName + ", tfInterviews=" + tfInterviews + ", tfPlacements=" + tfPlacements + "]";
+//	}
+	
+	
+
 }

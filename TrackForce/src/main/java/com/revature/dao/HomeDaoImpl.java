@@ -19,7 +19,12 @@ public class HomeDaoImpl implements HomeDao {
 		cq.from(TfAssociate.class);
 		List<TfAssociate> associates = session.createQuery(cq).getResultList();
 		for (TfAssociate associate : associates) {
+			Hibernate.initialize(associate.getTfBatch());
 			Hibernate.initialize(associate.getTfMarketingStatus());
+			Hibernate.initialize(associate.getTfClient());
+			if (associate.getTfBatch() != null) {
+				Hibernate.initialize(associate.getTfBatch().getTfCurriculum());
+			}
 		}
 		session.close();
 		return associates;

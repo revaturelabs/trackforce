@@ -18,7 +18,7 @@ import com.revature.model.StatusInfo;
 public class HomeResource {
 	
 	private HomeDao homeDaoImpl = new HomeDaoImpl();
-
+	
 	/**
 	 * Returns a StatusInfo object showing mapped and unmapped info
 	 * for all of the associates.
@@ -35,6 +35,7 @@ public class HomeResource {
 		statusInfo.setName("All associates' mapped/unmapped info");
 		return statusInfo;
 	}
+	
 	
 	/**
 	 * 
@@ -96,6 +97,7 @@ public class HomeResource {
 		}
 		return statusInfo;
 	}
+	
 	
 	/**
 	 * This method takes a list of TfAssociates and a desired marketing status ID,

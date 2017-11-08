@@ -51,12 +51,12 @@ public class ClientResource {
 	 * @return
 	 * A StatusInfo object for all clients
 	 */
-	@GET
+	/*@GET
 	@Path("info")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public StatusInfo getAllClientInfo() {
 		return clientDaoImpl.getAllClientInfo();
-	}
+	}*/
 
 	/**
 	 * Returns a StatusInfo object representing a client's
@@ -67,7 +67,7 @@ public class ClientResource {
 	 * @return
 	 * A StatusInfo object for a specified client
 	 */
-	@GET
+	/*@GET
 	@Path("{clientid}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public StatusInfo getClientInfo(@PathParam("clientid") int clientid) {
@@ -75,5 +75,5 @@ public class ClientResource {
 			return new StatusInfo("");
 		else
 			return clientDaoImpl.getClientInfo(clientid);
-	}
+	}*/
 }

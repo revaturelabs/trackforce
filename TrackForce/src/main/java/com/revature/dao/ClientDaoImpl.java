@@ -7,6 +7,7 @@ import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 import com.revature.entity.TfClient;
@@ -21,12 +22,15 @@ public class ClientDaoImpl implements ClientDao {
 		CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
 		cq.from(TfClient.class);
 		List<TfClient> clients = session.createQuery(cq).getResultList();
-
+		for(TfClient client : clients) {
+			Hibernate.initialize(client.getTfClientId());
+			Hibernate.initialize(client.getTfClientName());
+		}
 		session.close();
 		return clients;
 	}
 
-	@Override
+	/*@Override
 	public StatusInfo getAllClientInfo() {
 		EntityManager em = HibernateUtil.getSession().createEntityManager();
 		StoredProcedureQuery query = em.createStoredProcedureQuery("ADMIN.GET_ALLCLIENTS_STATUS_COUNT");
@@ -36,15 +40,15 @@ public class ClientDaoImpl implements ClientDao {
 		clientInfo.setName("All Clients");
 		em.close();
 		return clientInfo;
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public StatusInfo getClientInfo(int id) {
 
-		/*
+		
 		 * Returns an empty set of info for this client if the given ID is invalid (0 or
 		 * less)
-		 */
+		 
 		if (id < 1) {
 			return new StatusInfo();
 		}
@@ -61,14 +65,14 @@ public class ClientDaoImpl implements ClientDao {
 
 		em.close();
 		return clientInfo;
-	}
+	}*/
 	
 	/**
 	 * Register out parameters for the client status stored procedures.
 	 * 
 	 * @param query to register duplicate stored procedure parameters
 	 */
-	private void registerOutputParameters(StoredProcedureQuery query) {
+	/*private void registerOutputParameters(StoredProcedureQuery query) {
 		query.registerStoredProcedureParameter(1, Integer.class, ParameterMode.OUT);
 		query.registerStoredProcedureParameter(2, Integer.class, ParameterMode.OUT);
 		query.registerStoredProcedureParameter(3, Integer.class, ParameterMode.OUT);
@@ -79,7 +83,7 @@ public class ClientDaoImpl implements ClientDao {
 		query.registerStoredProcedureParameter(8, Integer.class, ParameterMode.OUT);
 		query.registerStoredProcedureParameter(9, Integer.class, ParameterMode.OUT);
 		query.registerStoredProcedureParameter(10, Integer.class, ParameterMode.OUT);
-	}
+	}*/
 	
 	/**
 	 * Get a 
@@ -87,7 +91,7 @@ public class ClientDaoImpl implements ClientDao {
 	 * @param query to get out parameter values from
 	 * @return a StatusInfo object with status counts set 
 	 */
-	private StatusInfo getClientInfo(StoredProcedureQuery query) {
+	/*private StatusInfo getClientInfo(StoredProcedureQuery query) {
 		StatusInfo clientInfo = new StatusInfo();
 		clientInfo.setTrainingMapped((int) query.getOutputParameterValue(1));
 		clientInfo.setReservedMapped((int) query.getOutputParameterValue(2));
@@ -100,5 +104,5 @@ public class ClientDaoImpl implements ClientDao {
 		clientInfo.setConfirmedUnmapped((int) query.getOutputParameterValue(9));
 		clientInfo.setDeployedUnmapped((int) query.getOutputParameterValue(10));
 		return clientInfo;
-	}
+	}*/
 }

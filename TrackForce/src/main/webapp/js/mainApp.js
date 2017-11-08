@@ -23,9 +23,10 @@ mainApp.config(function($routeProvider) {
 		controller : "batchCtrl"
 	})
 	// Unmapped View Page route
-	.when("/batchDetails", {
+	.when("/batchDetails/:batchname", {
 		templateUrl : "batchDetails.html",
-		controller : "batchCtrl"
+		controller : "batchDetailsCtrl",
+		controllerAs : "batchDetails"
 	}).when("/clientDetails", {
 		templateUrl : "clientDetails.html",
 		controller : "clientCtrl"
@@ -233,13 +234,15 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 			}
 		})
 	};
-
-		$scope.getMapStatusBatch = function(batchName) {
+}); 
+mainApp.controller("batchDetailsCtrl",function($scope, $http, $routeParams){ 
+		$scope.batchname = $routeParams.batchname; 
+		$scope.getMapStatusBatch = function() {
 		// Simple GET request example:
 		$http({
 			method : 'GET',
 			url : 'http://localhost:8080/TrackForce/track/batches/' 
-				+ batchName + '/batchChart'
+				+ $scope.batchname + '/batchChart'
 		}).then(function(response) {
 			// this callback will be called asynchronously
 			// when the response is available
@@ -263,12 +266,12 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 			// or server returns response with an error status.
 		})
 	};
-	$scope.getBatchAssociates = function(batchName) {
+	$scope.getBatchAssociates = function() {
 		// Simple GET request example:
 		$http({
 			method : 'GET',
 			url : 'http://localhost:8080/TrackForce/track/batches/'
-					+ batchName + '/associates'
+					+ $scope.batchname + '/associates'
 		}).then(function successCallback(response) {
 			// this callback will be called asynchronously
 			// when the response is available
@@ -290,6 +293,7 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 	};
 	
 });
+
 /**
  * @class mainApp.clientCtrl
  * @memberof mainApp

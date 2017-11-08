@@ -7,112 +7,140 @@ import java.math.BigDecimal;
  */
 public class AssociateInfo {
 
-    private BigDecimal id;
-    private String firstName;
-    private String lastName;
-    private String marketingStatus;
-    private String client;
-    
-   
+	private BigDecimal id;
+	private String firstName;
+	private String lastName;
+	private String marketingStatus;
+	private String client;
 
-    /**
-     * Constructs a newly allocated BatchInfo object that represents an associate.
-     * @param id - The id of the associate.
-     * @param firstName - The associate's first name.
-     * @param lastName - The associate's last name.
-     * @param marketingStatus - The associate's marketing status (mapped, unmapped, etc.)
-     * @param clientid-The clients's name.
-     */
-    public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client) {
-        super();
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.marketingStatus = marketingStatus;
-        this.client = client;
-    }
+	/**
+	 * Constructs a newly allocated BatchInfo object that represents an associate.
+	 * 
+	 * @param id
+	 *            - The id of the associate.
+	 * @param firstName
+	 *            - The associate's first name.
+	 * @param lastName
+	 *            - The associate's last name.
+	 * @param marketingStatus
+	 *            - The associate's marketing status (mapped, unmapped, etc.)
+	 * @param clientid-The
+	 *            clients's name.
+	 */
+	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.marketingStatus = marketingStatus;
+		this.client = client;
+	}
+
+	// placeholder constructor until other group finishes their ClientDaoImp class
+	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.marketingStatus = marketingStatus;
+	}
 
 	public AssociateInfo() {
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
-     * Retrieve the associate's ID
-     * @return - String with the ID of the associate
-     */
-    public BigDecimal getId() {
-        return id;
-    }
+	 * Retrieve the associate's ID
+	 * 
+	 * @return - String with the ID of the associate
+	 */
+	public BigDecimal getId() {
+		return id;
+	}
 
-    /**
-     * Set's the associate's ID
-     * @param id - What to set the associate's ID to.
-     */
-    public void setId(BigDecimal id) {
-        this.id = id;
-    }
+	/**
+	 * Set's the associate's ID
+	 * 
+	 * @param id
+	 *            - What to set the associate's ID to.
+	 */
+	public void setId(BigDecimal id) {
+		this.id = id;
+	}
 
-    /**
-     * Retrieve the first name of the associate.
-     * @return - A string with the first name of the associate.
-     */
-    public String getFirstName() {
-        return firstName;
-    }
+	/**
+	 * Retrieve the first name of the associate.
+	 * 
+	 * @return - A string with the first name of the associate.
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
 
-    /**
-     * Set's the first name of the associate.
-     * @param firstName - What to set the associate's first name to.
-     */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	/**
+	 * Set's the first name of the associate.
+	 * 
+	 * @param firstName
+	 *            - What to set the associate's first name to.
+	 */
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    /**
-     * Retrieve the last name of the associate.
-     * @return - A string with the last name of the associate.
-     */
-    public String getLastName() {
-        return lastName;
-    }
+	/**
+	 * Retrieve the last name of the associate.
+	 * 
+	 * @return - A string with the last name of the associate.
+	 */
+	public String getLastName() {
+		return lastName;
+	}
 
-    /**
-     * Sets the last name of the associate
-     * @param lastName - What to set the associate's last name to.
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	/**
+	 * Sets the last name of the associate
+	 * 
+	 * @param lastName
+	 *            - What to set the associate's last name to.
+	 */
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    /**
-     * Retrieve the associate's marketing status (mapped, unmapped, etc.)
-     * @return - A string with the associate's marketing status
-     */
-    public String getMarketingStatus() {
-        return marketingStatus;
-    }
+	/**
+	 * Retrieve the associate's marketing status (mapped, unmapped, etc.)
+	 * 
+	 * @return - A string with the associate's marketing status
+	 */
+	public String getMarketingStatus() {
+		return marketingStatus;
+	}
 
-    /**
-     * Set the associate's marketing status (mapped, unmapped, etc.)
-     * @param marketingStatus - What to set the associate's marketing status to.
-     */
-    public void setMarketingStatus(String marketingStatus) {
-        this.marketingStatus = marketingStatus;
-    }
-    
-/**
- * Retrieve the client name 
- * @return- A string with the client's name
-  */
+	/**
+	 * Set the associate's marketing status (mapped, unmapped, etc.)
+	 * 
+	 * @param marketingStatus
+	 *            - What to set the associate's marketing status to.
+	 */
+	public void setMarketingStatus(String marketingStatus) {
+		this.marketingStatus = marketingStatus;
+	}
 
-    public String getClient() {
+	/**
+	 * Retrieve the client name
+	 * 
+	 * @return- A string with the client's name
+	 */
+
+	public String getClient() {
 		return client;
 	}
 
-    /**
-     * Set the client's name
-     * @param clientname -What to set the associate's client name to.
-     */
+	/**
+	 * Set the client's name
+	 * 
+	 * @param clientname
+	 *            -What to set the associate's client name to.
+	 */
 	public void setClient(String client) {
 		this.client = client;
 	}

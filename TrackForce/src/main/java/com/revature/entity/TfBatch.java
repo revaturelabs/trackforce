@@ -93,7 +93,7 @@ public class TfBatch implements java.io.Serializable {
 	}
 
 	@Column(name = "TF_BATCH_START_DATE")
-	public Serializable getTfBatchStartDate() {
+	public Timestamp getTfBatchStartDate() {
 		return this.tfBatchStartDate;
 	}
 
@@ -102,7 +102,7 @@ public class TfBatch implements java.io.Serializable {
 	}
 
 	@Column(name = "TF_BATCH_END_DATE")
-	public Serializable getTfBatchEndDate() {
+	public Timestamp getTfBatchEndDate() {
 		return this.tfBatchEndDate;
 	}
 

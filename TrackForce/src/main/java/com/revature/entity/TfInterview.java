@@ -102,7 +102,7 @@ public class TfInterview implements java.io.Serializable {
 	}
 
 	@Column(name = "TF_INTERVIEW_DATE")
-	public Serializable getTfInterviewDate() {
+	public Timestamp getTfInterviewDate() {
 		return this.tfInterviewDate;
 	}
 

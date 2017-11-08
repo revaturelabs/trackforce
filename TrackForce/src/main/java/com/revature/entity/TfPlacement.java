@@ -90,7 +90,7 @@ public class TfPlacement implements java.io.Serializable {
 	}
 
 	@Column(name = "TF_PLACEMENT_START_DATE")
-	public Serializable getTfPlacementStartDate() {
+	public Timestamp getTfPlacementStartDate() {
 		return this.tfPlacementStartDate;
 	}
 
@@ -99,7 +99,7 @@ public class TfPlacement implements java.io.Serializable {
 	}
 
 	@Column(name = "TF_PLACEMENT_END_DATE")
-	public Serializable getTfPlacementEndDate() {
+	public Timestamp getTfPlacementEndDate() {
 		return this.tfPlacementEndDate;
 	}
 

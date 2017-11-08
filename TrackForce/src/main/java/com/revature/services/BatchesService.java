@@ -176,22 +176,23 @@ public class BatchesService {
     @GET
     @Path("{batch}/associates")
     @Produces(MediaType.APPLICATION_JSON)
-    public ArrayList<AssociateInfo> getAssociates(@PathParam("batch") String batchName) {
-        ArrayList<AssociateInfo> associatesList = new ArrayList<AssociateInfo>();
-
-        BatchDaoHibernate batchDao = new BatchDaoHibernate();
-        TfBatch batch = batchDao.getBatch(batchName);
-
-        for (TfAssociate associate : batch.getTfAssociates()) {
-            String id = associate.getTfAssociateId().toString();
-            String firstName = associate.getTfAssociateFirstName();
-            String lastName = associate.getTfAssociateLastName();
-            String marketingStatus = associate.getTfMarketingStatus().getTfMarketingStatusName();
-            AssociateInfo associateDetails = new AssociateInfo(id, firstName, lastName, marketingStatus, "");
-
-            associatesList.add(associateDetails);
-        }
-        return associatesList;
+	public ArrayList<AssociateInfo> getAssociates(@PathParam("batch") String batchName){
+		ArrayList<AssociateInfo> associatesList = new ArrayList<AssociateInfo>();
+		
+		BatchDaoHibernate batchDao = new BatchDaoHibernate();
+		TfBatch batch = batchDao.getBatch(batchName);
+		
+		for (TfAssociate associate : batch.getTfAssociates()) {
+			BigDecimal id = associate.getTfAssociateId();
+			String firstName = associate.getTfAssociateFirstName();
+			String lastName = associate.getTfAssociateLastName();
+			String marketingStatus = associate.getTfMarketingStatus().getTfMarketingStatusName();
+			String clientName=associate.getTfClient().getTfClientName();
+			AssociateInfo associateDetails = new AssociateInfo(id, firstName, lastName, marketingStatus,clientName);
+			
+			associatesList.add(associateDetails);
+		}
+		return associatesList;
     }
 
     @PUT

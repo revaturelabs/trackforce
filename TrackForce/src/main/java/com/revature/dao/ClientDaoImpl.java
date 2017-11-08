@@ -15,7 +15,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfClient;
-import com.revature.model.ClientInfo;
+import com.revature.model.StatusInfo;
 import com.revature.utils.HibernateUtil;
 
 public class ClientDaoImpl implements ClientDao {
@@ -59,7 +59,7 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public ClientInfo getAllClientInfo() {
+    public StatusInfo getAllClientInfo() {
         final int numberOfStatuses = 10;
         EntityManager em = HibernateUtil.getSession().createEntityManager();
 
@@ -72,7 +72,7 @@ public class ClientDaoImpl implements ClientDao {
             query.execute();
             counts[i - 1] = (int) query.getOutputParameterValue(2);
         }
-        ClientInfo clientInfo = setClientInfoWithIntArray(counts);
+        StatusInfo clientInfo = setClientInfoWithIntArray(counts);
         clientInfo.setName("All Clients");
 
         em.close();
@@ -80,7 +80,7 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
-    public ClientInfo getClientInfo(int id) {
+    public StatusInfo getClientInfo(int id) {
 
         EntityManager em = HibernateUtil.getSession().createEntityManager();
 
@@ -98,7 +98,7 @@ public class ClientDaoImpl implements ClientDao {
             query.execute();
             counts[i - 1] = (int) query.getOutputParameterValue(3);
         }
-        ClientInfo clientInfo = setClientInfoWithIntArray(counts);
+        StatusInfo clientInfo = setClientInfoWithIntArray(counts);
         clientInfo.setName("Client name");
 
         em.close();
@@ -112,8 +112,8 @@ public class ClientDaoImpl implements ClientDao {
      *            int array representing count of each status
      * @return a ClientInfo object with statuses set
      */
-    private ClientInfo setClientInfoWithIntArray(int[] counts) {
-        ClientInfo clientInfo = new ClientInfo();
+    private StatusInfo setClientInfoWithIntArray(int[] counts) {
+    	StatusInfo clientInfo = new StatusInfo();
         clientInfo.setTrainingMapped(counts[0]);
         clientInfo.setReservedMapped(counts[1]);
         clientInfo.setSelectedMapped(counts[2]);

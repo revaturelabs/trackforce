@@ -2,18 +2,20 @@ package com.revature.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
+import com.revature.dao.ClientDao;
+import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.HomeDao;
 import com.revature.dao.HomeDaoImpl;
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfClient;
 import com.revature.model.StatusInfo;
 import com.revature.utils.StatusInfoUtil;
 
@@ -21,7 +23,9 @@ import com.revature.utils.StatusInfoUtil;
 public class HomeResource {
 
 	private HomeDao homeDaoImpl = new HomeDaoImpl();
+	private ClientDao clientDaoImpl = new ClientDaoImpl();
 	private List<TfAssociate> associates;
+	private List<TfClient> clients;
 
 	/**
 	 * Returns a StatusInfo object showing mapped and unmapped info for all of the
@@ -33,22 +37,21 @@ public class HomeResource {
 	@Path("info")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public StatusInfo getMappedAndUnmappedInfo() {
-		associates = homeDaoImpl.getAllTfAssociates();
-		StatusInfo statusInfo = countAssociatesBasedOnStatus(associates);
-		statusInfo.setName("All associates' mapped/unmapped info");
-		return statusInfo;
+		associates = this.getAllTfAssociates();
+		return StatusInfoUtil.getAllAssociatesStatusInfo();
 	}
 
-	@GET
-	@Path("{idk}")
+	@PUT
+	@Path("init")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getIDK(@PathParam("idk") String idk) {
-		if (associates == null) {
-			associates = homeDaoImpl.getAllTfAssociates();
+	public void init() {
+		associates = this.getAllTfAssociates();
+		clients = clientDaoImpl.getAllTfClients();
+		StatusInfoUtil.clearMaps();
+		for(TfClient client : clients) {
+			StatusInfoUtil.putClientStatusInfo(client.getTfClientId().intValue(), new StatusInfo(client.getTfClientName()));
 		}
-
-		List<Map<String, Object>> entity = new ArrayList<>();
-		return Response.ok(entity).build();
+		updateStatusInfoFromAssociates(associates);
 	}
 
 	/**
@@ -65,45 +68,27 @@ public class HomeResource {
 		return associatesListByStatus(associates, statusid);
 	}
 
-	private void updateStatusInfoOfAssociates(List<TfAssociate> associates) {
+	/**
+	 * Updates the status count for status info from all associates and the status
+	 * counts for specific clients based on the status of specific associates'
+	 * statuses.
+	 * 
+	 * @param associates
+	 * List of all associates
+	 */
+	private void updateStatusInfoFromAssociates(List<TfAssociate> associates) {
 		StatusInfo allAssociatesStatusInfo = new StatusInfo("All clients");
 		for (TfAssociate associate : associates) {
 			StatusInfoUtil.updateStatusCount(allAssociatesStatusInfo, associate);
-			//if(associate.)
-			
+			if (associate.getTfClient().getTfClientId() != null) {
+				int clientID = associate.getTfClient().getTfClientId().intValue();
+				StatusInfo clientStatusInfo = StatusInfoUtil.getClientStatusInfo(clientID);
+				StatusInfoUtil.updateStatusCount(clientStatusInfo, associate);
+				StatusInfoUtil.putClientStatusInfo(clientID, clientStatusInfo);
+			}
 		}
 		StatusInfoUtil.setAllAssociatesStatusInfo(allAssociatesStatusInfo);
 	}
-
-	/**
-	 * Returns a StatusInfo object with counts based off of associates' marketing
-	 * status.
-	 * 
-	 * @param associates
-	 *            A list of associates
-	 * @return A StatusInfo object with counts based off of associates
-	 */
-	/*
-	 * private StatusInfo countAssociatesBasedOnStatus(List<TfAssociate> associates)
-	 * { StatusInfo statusInfo = new StatusInfo(); for (TfAssociate associate :
-	 * associates) { switch
-	 * (associate.getTfMarketingStatus().getTfMarketingStatusId().intValue()) { case
-	 * 1: statusInfo.setTrainingMapped(statusInfo.getTrainingMapped() + 1); break;
-	 * case 2: statusInfo.setReservedMapped(statusInfo.getReservedMapped() + 1);
-	 * break; case 3: statusInfo.setSelectedMapped(statusInfo.getSelectedMapped() +
-	 * 1); break; case 4:
-	 * statusInfo.setConfirmedMapped(statusInfo.getConfirmedMapped() + 1); break;
-	 * case 5: statusInfo.setDeployedMapped(statusInfo.getDeployedMapped() + 1);
-	 * break; case 6:
-	 * statusInfo.setTrainingUnmapped(statusInfo.getTrainingUnmapped() + 1); break;
-	 * case 7: statusInfo.setOpenUnmapped(statusInfo.getOpenUnmapped() + 1); break;
-	 * case 8: statusInfo.setSelectedUnmapped(statusInfo.getSelectedUnmapped() + 1);
-	 * break; case 9:
-	 * statusInfo.setConfirmedUnmapped(statusInfo.getConfirmedUnmapped() + 1);
-	 * break; case 10:
-	 * statusInfo.setDeployedUnmapped(statusInfo.getDeployedUnmapped() + 1); break;
-	 * default: break; } } return statusInfo; }
-	 */
 
 	/**
 	 * This method takes a list of TfAssociates and a desired marketing status ID,
@@ -124,5 +109,19 @@ public class HomeResource {
 			}
 		}
 		return assoc;
+	}
+	
+	/**
+	 * Returns the instance variable associates after ensuring that
+	 * it has the TfAssociate objects from the database.
+	 * 
+	 * @return
+	 * list of TfAssociate
+	 */
+	private List<TfAssociate> getAllTfAssociates(){
+		if (associates == null || associates.isEmpty()) {
+			associates = homeDaoImpl.getAllTfAssociates();
+		}
+		return associates;
 	}
 }

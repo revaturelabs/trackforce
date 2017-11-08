@@ -56,6 +56,22 @@ public class StatusInfoUtil {
 				statusInfo.getDeployedMapped(), statusInfo.getDeployedUnmapped());
 	}
 
+	/**
+	 * Convenience method to clear the static maps
+	 */
+	public static void clearMaps() {
+		specificClientStatusInfo.clear();
+		specificCurriculumStatusInfo.clear();
+	}
+
+	/**
+	 * Returns a StatusInfo object with updated counts based off of an associate's marketing
+	 * status.
+	 * 
+	 * @param associates
+	 *            A list of associates
+	 * @return A StatusInfo object with updated counts based off of an associate
+	 */
 	public static StatusInfo updateStatusCount(StatusInfo statusInfo, TfAssociate associate) {
 		switch (associate.getTfMarketingStatus().getTfMarketingStatusId().intValue()) {
 		case 1:

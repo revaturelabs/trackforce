@@ -6,8 +6,7 @@ var mainApp = angular.module('mainApp', [ 'ngRoute', 'chart.js' ]);
 /**
  * @function config
  * @memberof mainApp
- * @param {service}
- *            routeprovider
+ * @param {service} routeprovider
  * @description Configure $routeProvider to create a Single Page Application
  */
 mainApp.config(function($routeProvider) {
@@ -50,10 +49,21 @@ mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
 				'Content-Type' : 'application/json'
 			}
 		}).then(function(response) {
-						// Undeployed table shows mapped vs.
-						// unmapped excluding deployed
-						// associates
+						/**
+						* @member {Array} UndeployedLabels
+			 			* @memberof mainApp.mainCtrl
+			 			* @description Undeployed chart shows mapped vs. unmapped 
+			 			* excluding deployed associates. This array is used for the labels of the chart
+			 			*/			
 						$scope.UndeployedLabels = [ "Mapped","Unmapped" ];
+						/**
+						 * @member {Array} UndeployedData
+						 * @memberof mainApp.mainCtrl
+						 * @description UndeployedData is an array used to populate the 
+						 * dataset of the Undeployed chart. The dataset contains two numbers:
+						 * the mapped number is the sum of all mapped associates, the unmapped number
+						 * is the sum of all unmapped associates.
+						 */
 						$scope.UndeployedData = [response.data.trainingMapped
 								+ response.data.reservedMapped
 								+ response.data.selectedMapped
@@ -62,23 +72,63 @@ mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
 								+ response.data.openUnmapped
 								+ response.data.selectedUnmapped
 								+ response.data.confirmedUnmapped ];
-						// Mapped table shows undeployed mapped
-						// associates
+						 /**
+						  * @member {Array} MappedLabels
+						  * @memberof mainApp.mainCtrl
+						  * @description Mapped chart shows undeployed mapped associates.
+						  * This array is used to set the labels for the chart.
+						  */
 						$scope.MappedLabels = [ 'Training','Reserved', 'Selected','Confirmed' ];
+						/**
+						 * @member {Array} MappedData
+						 * @memberof mainApp.mainCtrl
+						 * @description MappedData is an array that stores the 
+						 * data for the dataset of the Mapped chart.
+						 * The dataset contains four numbers: training mapped<br>
+						 * reserved mapped <br>
+						 * selected mapped <br>
+						 * confirmed mapped<br>
+						 */
 						$scope.MappedData = [response.data.trainingMapped,
 											response.data.reservedMapped,
 											response.data.selectedMapped,
 											response.data.confirmedMapped ];
-						// Unmapped table shows undeployed
-						// unmapped associates
+						/**
+						  * @member {Array} UnmappedLabels
+						  * @memberof mainApp.mainCtrl
+						  * @description Unmapped chart shows undeployed unmapped associates.
+						  * This array is used to set the labels for the chart.
+						  */
 						$scope.UnmappedLabels = [ 'Training','Open', 'Selected', 'Confirmed' ];
+						/**
+						 * @member {Array} UnmappedData
+						 * @memberof mainApp.mainCtrl
+						 * @description UnmappedData is an array that stores the 
+						 * data for the dataset of the Unmapped chart.
+						 * The dataset contains four numbers: training unmapped<br>
+						 * open unmapped <br>
+						 * selected unmapped <br>
+						 * confirmed unmapped<br>
+						 */
 						$scope.UnmappedData = [response.data.trainingUnmapped,
 												response.data.openUnmapped,
 												response.data.selectedUnmapped,
 												response.data.confirmedUnmapped ];
-						// Deployed table shows mapped vs.
-						// unmapped deployed associates
+						/**
+						* @member {Array} DeployedLabels
+			 			* @memberof mainApp.mainCtrl
+			 			* @description Deployed chart shows mapped vs. unmapped 
+			 			* including only deployed associates. This array is used for the labels of the chart
+			 			*/	
 						$scope.DeployedLabels = [ 'Mapped','Unmapped' ];
+						/**
+						 * @member {Array} DeployedData
+						 * @memberof mainApp.mainCtrl
+						 * @description DeployedData is an array used to populate the 
+						 * dataset of the Deployed chart. The dataset contains two numbers:
+						 * the mapped number is the sum of all mapped associates, the unmapped number
+						 * is the sum of all unmapped associates. Both numbers contain only deployed associates.
+						 */
 						$scope.DeployedData = [response.data.deployedMapped,
 											response.data.deployedUnmapped ];
 						// Optional styling arrays
@@ -87,8 +137,10 @@ mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
 						$scope.options = {legend : {
 										  display : true,
 										  position : 'right'}};
-						/*
-						 * When the "Mapped" chart is clicked
+						/**
+						 * @function MappedOnClick
+						 * @memberof mainApp.mainCtrl
+						 * @description When the "Mapped" chart is clicked
 						 * the global variable selectedStatus is
 						 * set to the label of the slice
 						 * clicked. The window then loads the
@@ -101,6 +153,15 @@ mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
 							$rootScope.selectedStatus = $scope.MappedLabels[clickedElementindex];
 							window.location.href = "#!/clientMapped";
 							};
+							/**
+							 * @function UnmappedOnClick
+							 * @memberof mainApp.mainCtrl
+							 * @description When the "Unmapped" chart is clicked
+							 * the global variable selectedStatus is
+							 * set to the label of the slice
+							 * clicked. The window then loads the
+							 * skillset.html partial.
+							 */
 						$scope.UnmappedOnClick = function(points, evt) {
 							console.log(points, evt);
 							var clickedElementindex = points[0]["_index"];
@@ -110,7 +171,11 @@ mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
 							};
 						});
 				});
-// clientMapped Ctrl
+/**
+ * @class mainApp.clientMappedCtrl
+ * @memberof mainApp
+ * @description controller for the Client Mapped page.
+ */
 mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 	$http(
 			{
@@ -124,14 +189,34 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 				url : 'http://localhost:8080/TrackForce/track/mapped/'
 						+ $rootScope.selectedStatus
 			}).then(function(response) {
-		// clients is a JSON array of clients mapped with their respective
-		// numbers
+		/**
+		 *  @member {Array} clients
+		 *  @memberof mainApp.clientMappedCtrl
+		 *  @description clients is a JSON array of clients mapped with their respective
+		 *  numbers for the corresponding status. 
+		 *  (Example: [{'name':Revature', 'count':'100'},{'name':'Another','count':'100'])
+		 */
 		var clients = response.data;
+		/**
+		 * @member {Array} clientMappedLabels
+		 * @memberof mainApp.clientMappedCtrl
+		 * @description clientMappedLabels is initialized as empty and then populated
+		 * in a for loop that will add on each client name to the array. This array is then used
+		 * to create the labels for the chart on the clientMapped.html page.
+		 */
 		$scope.clientMappedLabels = [];
+		/**
+		 * @member {Array} clientMappedData
+		 * @memberof mainApp.clientMappedCtrl
+		 * @description clientMappedData is initialized as empty and then populated 
+		 * in a for loop that will add on each set of data corresponding to the label in the 
+		 * clientMappedLabel array. This array is used to populate the dataset of the chart
+		 * on the clientMapped.html page.
+		 */
 		$scope.clientMappedData = [];
 		for (let i = 0; i < clients.length; i++) {
 			/*
-			 * These variable names may need to be changed according to the JSON
+			 * TODO: These variable names may need to be changed according to the JSON
 			 * (clients[].name and clients[].count)
 			 */
 			clientMappedLabels.push(clients[i].name);

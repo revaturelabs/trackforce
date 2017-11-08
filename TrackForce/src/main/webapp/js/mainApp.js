@@ -42,96 +42,73 @@ mainApp.config(function($routeProvider) {
  * @memberof mainApp
  * @description controller for the home page
  */
-mainApp
-		.controller(
-				"mainCtrl",
-				function($scope, $http, $rootScope) {
-					$http({
-						method : 'GET',
-						url : 'http://localhost:8080/TrackForce/track/info',
-						headers : {
-							'Content-Type' : 'application/json'
-						}
-					})
-							.then(
-									function(response) {
-										// Undeployed table shows mapped vs.
-										// unmapped excluding deployed
-										// associates
-										$scope.UndeployedLabels = [ "Mapped",
-												"Unmapped" ];
-										$scope.UndeployedData = [
-												response.data.trainingMapped
-														+ response.data.reservedMapped
-														+ response.data.selectedMapped
-														+ response.data.confirmedMapped,
-												response.data.trainingUnmapped
-														+ response.data.openUnmapped
-														+ response.data.selectedUnmapped
-														+ response.data.confirmedUnmapped ];
-										// Mapped table shows undeployed mapped
-										// associates
-										$scope.MappedLabels = [ 'Training',
-												'Reserved', 'Selected',
-												'Confirmed' ];
-										$scope.MappedData = [
-												response.data.trainingMapped,
-												response.data.reservedMapped,
-												response.data.selectedMapped,
-												response.data.confirmedMapped ];
-										// Unmapped table shows undeployed
-										// unmapped associates
-										$scope.UnmappedLabels = [ 'Training',
-												'Open', 'Selected', 'Confirmed' ];
-										$scope.UnmappedData = [
-												response.data.trainingUnmapped,
+mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
+		$http({
+			method : 'GET',
+			url : 'http://localhost:8080/TrackForce/track/info',
+			headers : {
+				'Content-Type' : 'application/json'
+			}
+		}).then(function(response) {
+						// Undeployed table shows mapped vs.
+						// unmapped excluding deployed
+						// associates
+						$scope.UndeployedLabels = [ "Mapped","Unmapped" ];
+						$scope.UndeployedData = [response.data.trainingMapped
+								+ response.data.reservedMapped
+								+ response.data.selectedMapped
+								+ response.data.confirmedMapped,
+								response.data.trainingUnmapped
+								+ response.data.openUnmapped
+								+ response.data.selectedUnmapped
+								+ response.data.confirmedUnmapped ];
+						// Mapped table shows undeployed mapped
+						// associates
+						$scope.MappedLabels = [ 'Training','Reserved', 'Selected','Confirmed' ];
+						$scope.MappedData = [response.data.trainingMapped,
+											response.data.reservedMapped,
+											response.data.selectedMapped,
+											response.data.confirmedMapped ];
+						// Unmapped table shows undeployed
+						// unmapped associates
+						$scope.UnmappedLabels = [ 'Training','Open', 'Selected', 'Confirmed' ];
+						$scope.UnmappedData = [response.data.trainingUnmapped,
 												response.data.openUnmapped,
 												response.data.selectedUnmapped,
 												response.data.confirmedUnmapped ];
-										// Deployed table shows mapped vs.
-										// unmapped deployed associates
-										$scope.DeployedLabels = [ 'Mapped',
-												'Unmapped' ];
-										$scope.DeployedData = [
-												response.data.deployedMapped,
-												response.data.deployedUnmapped ];
-										// Optional styling arrays
-										$scope.colors = [ '#e85410', '#59504c',
-												'#2d8799', '#6017a5' ];
-										$scope.colors2 = [ '#17d339',
-												'#59504c', '#2d8799', '#e85410' ];
-										$scope.options = {
-											legend : {
-												display : true,
-												position : 'right'
-											}
-										};
-										/*
-										 * When the "Mapped" chart is clicked
-										 * the global variable selectedStatus is
-										 * set to the label of the slice
-										 * clicked. The window then loads the
-										 * clientMapped.html partial.
-										 */
-										$scope.MappedOnClick = function(points,
-												evt) {
-											console.log(points, evt);
-											var clickedElementindex = points[0]["_index"];
-											console
-													.log($scope.MappedLabels[clickedElementindex]);
-											$rootScope.selectedStatus = $scope.MappedLabels[clickedElementindex];
-											window.location.href = "#!/clientMapped";
-										};
-										$scope.UnmappedOnClick = function(
-												points, evt) {
-											console.log(points, evt);
-											var clickedElementindex = points[0]["_index"];
-											console
-													.log($scope.UnmappedLabels[clickedElementindex]);
-											$rootScope.selectedStatus = $scope.UnmappedLabels[clickedElementindex];
-											window.location.href = "#!/skillset";
-										};
-									});
+						// Deployed table shows mapped vs.
+						// unmapped deployed associates
+						$scope.DeployedLabels = [ 'Mapped','Unmapped' ];
+						$scope.DeployedData = [response.data.deployedMapped,
+											response.data.deployedUnmapped ];
+						// Optional styling arrays
+						$scope.colors = [ '#e85410', '#59504c','#2d8799', '#6017a5' ];
+						$scope.colors2 = [ '#17d339','#59504c', '#2d8799', '#e85410' ];
+						$scope.options = {legend : {
+										  display : true,
+										  position : 'right'}};
+						/*
+						 * When the "Mapped" chart is clicked
+						 * the global variable selectedStatus is
+						 * set to the label of the slice
+						 * clicked. The window then loads the
+						 * clientMapped.html partial.
+						 */
+						$scope.MappedOnClick = function(points,evt) {
+							console.log(points, evt);
+							var clickedElementindex = points[0]["_index"];
+							console.log($scope.MappedLabels[clickedElementindex]);
+							$rootScope.selectedStatus = $scope.MappedLabels[clickedElementindex];
+							window.location.href = "#!/clientMapped";
+							};
+						$scope.UnmappedOnClick = function(points, evt) {
+							console.log(points, evt);
+							var clickedElementindex = points[0]["_index"];
+							console.log($scope.UnmappedLabels[clickedElementindex]);
+							$rootScope.selectedStatus = $scope.UnmappedLabels[clickedElementindex];
+							window.location.href = "#!/skillset";
+							};
+						});
 				});
 // clientMapped Ctrl
 mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {

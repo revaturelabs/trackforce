@@ -77,6 +77,7 @@ public class BatchDaoHibernate implements BatchDao {
         List<TfBatch> batch = query.getResultList();
 
         for (TfBatch bat : batch) {
+            Hibernate.initialize(bat.getTfBatchLocation());
             Hibernate.initialize(bat.getTfCurriculum());
             Hibernate.initialize(bat.getTfAssociates());
         }

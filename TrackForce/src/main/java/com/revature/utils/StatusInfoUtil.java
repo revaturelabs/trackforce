@@ -5,36 +5,92 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.revature.entity.TfAssociate;
 import com.revature.model.StatusInfo;
 
 public class StatusInfoUtil {
 
-	private StatusInfo allClientStatusInfo = new StatusInfo("All clients");
-	private Map<Integer, StatusInfo> specificClientStatusInfo = new HashMap<>();
-	private Map<Integer, StatusInfo> specificCurriculumStatusInfo = new HashMap<>();
-
-	StatusInfo getClientStatusInfo(int clientID) {
-		return specificClientStatusInfo.get(clientID);
+	private StatusInfoUtil() {
 	}
 
-	StatusInfo getCurriculumStatusInfo(int curriculumID) {
-		return specificCurriculumStatusInfo.get(curriculumID);
+	private static StatusInfo allAssociatesStatusInfo = new StatusInfo("All associates");
+	private static Map<Integer, StatusInfo> specificClientStatusInfo = new HashMap<>();
+	private static Map<Integer, StatusInfo> specificCurriculumStatusInfo = new HashMap<>();
+
+	public static StatusInfo getAllAssociatesStatusInfo() {
+		return getDeepCopyOfStatusInfo(allAssociatesStatusInfo);
 	}
 
-	void addClientStatusInfo(int clientID, StatusInfo clientStatusInfo) {
+	public static StatusInfo getClientStatusInfo(int clientID) {
+		return getDeepCopyOfStatusInfo(specificClientStatusInfo.get(clientID));
+	}
+
+	public static StatusInfo getCurriculumStatusInfo(int curriculumID) {
+		return getDeepCopyOfStatusInfo(specificCurriculumStatusInfo.get(curriculumID));
+	}
+
+	public static void setAllAssociatesStatusInfo(StatusInfo statusInfo) {
+		allAssociatesStatusInfo = statusInfo;
+	}
+
+	public static void putClientStatusInfo(int clientID, StatusInfo clientStatusInfo) {
 		specificClientStatusInfo.put(clientID, clientStatusInfo);
 	}
 
-	void addCurriculumStatusInfo(int curriculumID, StatusInfo curriculumStatusInfo) {
+	public static void putCurriculumStatusInfo(int curriculumID, StatusInfo curriculumStatusInfo) {
 		specificClientStatusInfo.put(curriculumID, curriculumStatusInfo);
 	}
 
-	List<StatusInfo> getSpecificClientStatusInfoAsList() {
+	public static List<StatusInfo> getSpecificClientStatusInfoAsList() {
 		return new ArrayList<>(specificClientStatusInfo.values());
 	}
 
-	List<StatusInfo> getSpecificCurriculumStatusInfoAsList() {
+	public static List<StatusInfo> getSpecificCurriculumStatusInfoAsList() {
 		return new ArrayList<>(specificCurriculumStatusInfo.values());
 	}
 
+	private static StatusInfo getDeepCopyOfStatusInfo(StatusInfo statusInfo) {
+		return new StatusInfo(statusInfo.getName(), statusInfo.getTrainingMapped(), statusInfo.getTrainingUnmapped(),
+				statusInfo.getReservedMapped(), statusInfo.getOpenUnmapped(), statusInfo.getSelectedMapped(),
+				statusInfo.getSelectedUnmapped(), statusInfo.getConfirmedMapped(), statusInfo.getConfirmedUnmapped(),
+				statusInfo.getDeployedMapped(), statusInfo.getDeployedUnmapped());
+	}
+
+	public static StatusInfo updateStatusCount(StatusInfo statusInfo, TfAssociate associate) {
+		switch (associate.getTfMarketingStatus().getTfMarketingStatusId().intValue()) {
+		case 1:
+			statusInfo.setTrainingMapped(statusInfo.getTrainingMapped() + 1);
+			break;
+		case 2:
+			statusInfo.setReservedMapped(statusInfo.getReservedMapped() + 1);
+			break;
+		case 3:
+			statusInfo.setSelectedMapped(statusInfo.getSelectedMapped() + 1);
+			break;
+		case 4:
+			statusInfo.setConfirmedMapped(statusInfo.getConfirmedMapped() + 1);
+			break;
+		case 5:
+			statusInfo.setDeployedMapped(statusInfo.getDeployedMapped() + 1);
+			break;
+		case 6:
+			statusInfo.setTrainingUnmapped(statusInfo.getTrainingUnmapped() + 1);
+			break;
+		case 7:
+			statusInfo.setOpenUnmapped(statusInfo.getOpenUnmapped() + 1);
+			break;
+		case 8:
+			statusInfo.setSelectedUnmapped(statusInfo.getSelectedUnmapped() + 1);
+			break;
+		case 9:
+			statusInfo.setConfirmedUnmapped(statusInfo.getConfirmedUnmapped() + 1);
+			break;
+		case 10:
+			statusInfo.setDeployedUnmapped(statusInfo.getDeployedUnmapped() + 1);
+			break;
+		default:
+			break;
+		}
+		return statusInfo;
+	}
 }

@@ -12,21 +12,25 @@ import com.revature.utils.HibernateUtil;
 
 public class HomeDaoImpl implements HomeDao {
 
+	private static List<TfAssociate> associates;
+
 	@Override
 	public List<TfAssociate> getAllTfAssociates() {
-		Session session = HibernateUtil.getSession().openSession();
-		CriteriaQuery<TfAssociate> cq = session.getCriteriaBuilder().createQuery(TfAssociate.class);
-		cq.from(TfAssociate.class);
-		List<TfAssociate> associates = session.createQuery(cq).getResultList();
-		for (TfAssociate associate : associates) {
-			Hibernate.initialize(associate.getTfBatch());
-			Hibernate.initialize(associate.getTfMarketingStatus());
-			Hibernate.initialize(associate.getTfClient());
-			if (associate.getTfBatch() != null) {
-				Hibernate.initialize(associate.getTfBatch().getTfCurriculum());
+		if (associates == null || associates.isEmpty()) {
+			Session session = HibernateUtil.getSession().openSession();
+			CriteriaQuery<TfAssociate> cq = session.getCriteriaBuilder().createQuery(TfAssociate.class);
+			cq.from(TfAssociate.class);
+			associates = session.createQuery(cq).getResultList();
+			for (TfAssociate associate : associates) {
+				Hibernate.initialize(associate.getTfBatch());
+				Hibernate.initialize(associate.getTfMarketingStatus());
+				Hibernate.initialize(associate.getTfClient());
+				if (associate.getTfBatch() != null) {
+					Hibernate.initialize(associate.getTfBatch().getTfCurriculum());
+				}
 			}
+			session.close();
 		}
-		session.close();
 		return associates;
 	}
 

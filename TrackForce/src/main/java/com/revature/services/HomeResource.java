@@ -24,9 +24,6 @@ public class HomeResource {
 
 	private HomeDao homeDaoImpl = new HomeDaoImpl();
 	private ClientDao clientDaoImpl = new ClientDaoImpl();
-	private List<TfAssociate> associates;
-	private List<TfClient> clients;
-
 
 	/**
 	 * Returns a StatusInfo object showing mapped and unmapped info for all of the
@@ -38,7 +35,7 @@ public class HomeResource {
 	@Path("info")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public StatusInfo getMappedAndUnmappedInfo() {
-		associates = this.getAllTfAssociates();
+		List<TfAssociate> associates = homeDaoImpl.getAllTfAssociates();
 		return StatusInfoUtil.getAllAssociatesStatusInfo();
 	}
 
@@ -46,8 +43,8 @@ public class HomeResource {
 	@Path("init")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public void init() {
-		associates = this.getAllTfAssociates();
-		clients = clientDaoImpl.getAllTfClients();
+		List<TfAssociate> associates = homeDaoImpl.getAllTfAssociates();
+		List<TfClient> clients = clientDaoImpl.getAllTfClients();
 		StatusInfoUtil.clearMaps();
 		for(TfClient client : clients) {
 			StatusInfoUtil.putClientStatusInfo(client.getTfClientId().intValue(), new StatusInfo(client.getTfClientName()));
@@ -65,7 +62,7 @@ public class HomeResource {
 	@Path("{statusid}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<TfAssociate> getAssociatesByStatus(@PathParam("statusid") int statusid) {
-		associates = homeDaoImpl.getAllTfAssociates();
+		List<TfAssociate> associates = homeDaoImpl.getAllTfAssociates();
 		return associatesListByStatus(associates, statusid);
 	}
 
@@ -81,8 +78,9 @@ public class HomeResource {
 		StatusInfo allAssociatesStatusInfo = new StatusInfo("All clients");
 		for (TfAssociate associate : associates) {
 			StatusInfoUtil.updateStatusCount(allAssociatesStatusInfo, associate);
-			if (associate.getTfClient().getTfClientId() != null) {
-				int clientID = associate.getTfClient().getTfClientId().intValue();
+			TfClient tfClient = associate.getTfClient();
+			if (tfClient != null) {
+				int clientID = tfClient.getTfClientId().intValue();
 				StatusInfo clientStatusInfo = StatusInfoUtil.getClientStatusInfo(clientID);
 				StatusInfoUtil.updateStatusCount(clientStatusInfo, associate);
 				StatusInfoUtil.putClientStatusInfo(clientID, clientStatusInfo);
@@ -110,19 +108,5 @@ public class HomeResource {
 			}
 		}
 		return assoc;
-	}
-	
-	/**
-	 * Returns the instance variable associates after ensuring that
-	 * it has the TfAssociate objects from the database.
-	 * 
-	 * @return
-	 * list of TfAssociate
-	 */
-	private List<TfAssociate> getAllTfAssociates(){
-		if (associates == null || associates.isEmpty()) {
-			associates = homeDaoImpl.getAllTfAssociates();
-		}
-		return associates;
 	}
 }

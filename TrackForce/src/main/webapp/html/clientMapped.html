@@ -2,7 +2,7 @@
 	<div ng-controller="clientMappedCtrl">
 		<h2 class="text-center text-primary">This is the home page</h2>
 		<div class="col-sm-6">
-			<h3 class="text-center text-primary" ng-bind="statusName"></h3>
+			<h3 class="text-center text-primary" ng-bind="selectedStatus"></h3>
 			<canvas id="bar" class="chart chart-bar" chart-data="clientMappedData"
 				chart-colors="colors" chart-labels="clientMappedLabels" chart-options="options">
 		</canvas>

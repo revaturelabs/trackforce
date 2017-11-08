@@ -122,10 +122,19 @@ mainApp
 											$rootScope.selectedStatus = $scope.MappedLabels[clickedElementindex];
 											window.location.href = "#!/clientMapped";
 										};
+										$scope.UnmappedOnClick = function(
+												points, evt) {
+											console.log(points, evt);
+											var clickedElementindex = points[0]["_index"];
+											console
+													.log($scope.UnmappedLabels[clickedElementindex]);
+											$rootScope.selectedStatus = $scope.UnmappedLabels[clickedElementindex];
+											window.location.href = "#!/skillset";
+										};
 									});
 				});
+// clientMapped Ctrl
 mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
-	$scope.statusName=$rootScope.selectedStatus;
 	$http(
 			{
 				method : 'GET',
@@ -158,6 +167,18 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 			}
 		}
 		$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
+	});
+});
+
+//Controller for skillset.html
+mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
+	$http(
+			{
+				method : "GET",
+				url : "http://localhost:8080/TrackForce/track/unmapped/"
+						+ $rootScope.selectedStatus
+			}).then(function(response) {
+
 	});
 });
 /**

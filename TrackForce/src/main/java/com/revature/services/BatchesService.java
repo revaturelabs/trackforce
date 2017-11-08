@@ -121,6 +121,9 @@ public class BatchesService {
         for (TfAssociate associate : selectedBatch.getTfAssociates()) {
             if (associate.getTfMarketingStatus().getTfMarketingStatusName().contains("UNMAPPED")) {
                 unmappedCount++;
+            } else if (associate.getTfMarketingStatus().getTfMarketingStatusName().contains("TERMINATED")
+                    || associate.getTfMarketingStatus().getTfMarketingStatusName().contains("DIRECTLY")) {
+                continue;
             } else {
                 mappedCount++;
             }
@@ -183,6 +186,9 @@ public class BatchesService {
         TfBatch batch = batchDao.getBatch(batchName);
 
         for (TfAssociate associate : batch.getTfAssociates()) {
+            if(associate.getTfMarketingStatus().getTfMarketingStatusName() == "TERMINATED" || associate.getTfMarketingStatus().getTfMarketingStatusName() == "DIRECTLY PLACED") {
+                continue;
+            }
             String id = associate.getTfAssociateId().toString();
             String firstName = associate.getTfAssociateFirstName();
             String lastName = associate.getTfAssociateLastName();
@@ -195,20 +201,21 @@ public class BatchesService {
     }
 
     @PUT
-	@Path("{associate}/update")
+    @Path("{associate}/update")
     @Produces({ MediaType.TEXT_HTML })
-	public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus, @FormParam("client") String client) {
-	    MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
-	    TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
-	    
-	    ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
-	    TfClient tfclient = clientDaoImpl.getClient(client);
-	    
-	    BigDecimal associateID = new BigDecimal(Integer.parseInt(id));
-	    
-	    AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
-	    associateDaoHibernate.updateInfo(associateID, status, tfclient);
-	    
-	    return Response.status(Response.Status.OK).entity("Updated the associate's information").build();
-	}
+    public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus,
+            @FormParam("client") String client) {
+        MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
+        TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
+
+        ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
+        TfClient tfclient = clientDaoImpl.getClient(client);
+
+        BigDecimal associateID = new BigDecimal(Integer.parseInt(id));
+
+        AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
+        associateDaoHibernate.updateInfo(associateID, status, tfclient);
+
+        return Response.status(Response.Status.OK).entity("Updated the associate's information").build();
+    }
 }

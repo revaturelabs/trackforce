@@ -27,7 +27,7 @@ public class testBatchesService {
         BatchesService batchesService = new BatchesService();
         List<BatchInfo> batches = batchesService.getBatches(firstDate, secondDate);
         for (BatchInfo bat : batches) {
-            System.out.println(bat.getClientName());
+            System.out.println(bat.getBatchName());
         }
         Assert.assertNotNull(batches);
     }

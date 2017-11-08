@@ -200,6 +200,14 @@ public class BatchesService {
         return associatesList;
     }
 
+    /**
+     * Update the marketing status or client of an associate from form data.
+     * 
+     * @param id - The ID of the associate to change
+     * @param marketingStatus - What to change the associate's marketing status to
+     * @param client - What client to change the associate to
+     * @return
+     */
     @PUT
     @Path("{associate}/update")
     @Produces({ MediaType.TEXT_HTML })

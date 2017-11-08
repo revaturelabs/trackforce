@@ -125,7 +125,7 @@ mainApp
 									});
 				});
 mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
-
+	$scope.statusName=$rootScope.selectedStatus;
 	$http(
 			{
 				method : 'GET',

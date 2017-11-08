@@ -2,16 +2,20 @@ package com.revature.dao;
 
 import java.math.BigDecimal;
 
-<<<<<<< HEAD
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transaction;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfBatch;
+import com.revature.entity.TfClient;
+import com.revature.entity.TfMarketingStatus;
 import com.revature.utils.HibernateUtil;
 
 public class AssociateDaoHibernate implements AssociateDao {
@@ -39,18 +43,6 @@ public class AssociateDaoHibernate implements AssociateDao {
     	return associate;
 		
 	} 
-=======
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
-import com.revature.entity.TfClient;
-import com.revature.entity.TfMarketingStatus;
-import com.revature.utils.HibernateUtil;
-
-public class AssociateDaoHibernate implements AssociateDao {
 
     @Override
     public void updateInfo(BigDecimal id, TfMarketingStatus marketingStatus, TfClient client) {
@@ -80,5 +72,4 @@ public class AssociateDaoHibernate implements AssociateDao {
             session.close();
         }
     }
->>>>>>> 464b1f7fd381f48b1d350ea76559cf845da83972
 }

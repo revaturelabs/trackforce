@@ -11,16 +11,16 @@ public class ClientPage {
 		PageFactory.initElements(driver, this);
 	}
 	
-	@FindBy(id = "")
-	public WebElement headline;
+	@FindBy(xpath = "/html/body/div/div[1]/div[1]/div[2]/h1")
+	public WebElement chartTitle; // /html/body/div/div[1]/div[1]/div[2]/h1
 	
 	@FindBy(id = "clientSearch")
 	public WebElement searchBar;
 	
-	@FindBy(id = "")
-	public WebElement clientTab;
+	@FindBy(xpath = "/html/body/div/div[1]/div[1]/div[1]/div/button")
+	public WebElement allClientsBtn;
 	
-	@FindBy(id = "")
-	public WebElement mainTab;
+	@FindBy(xpath = "/html/body/div/div[1]/div[1]/div[1]/div/ul/li/a")
+	public WebElement clientListItem; // /html/body/div/div[1]/div[1]/div[1]/div/ul/li
 
 }

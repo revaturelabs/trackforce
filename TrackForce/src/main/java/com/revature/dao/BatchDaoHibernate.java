@@ -15,6 +15,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.utils.HibernateUtil;
 
@@ -51,6 +52,12 @@ public class BatchDaoHibernate implements BatchDao {
         {
             Hibernate.initialize(batch.getTfCurriculum());
             Hibernate.initialize(batch.getTfBatchLocation());
+            Hibernate.initialize(batch.getTfAssociates());
+            
+            for(TfAssociate associate : batch.getTfAssociates())
+            {
+                Hibernate.initialize(associate.getTfMarketingStatus());
+            }
         }
 
         session.close();
@@ -80,6 +87,11 @@ public class BatchDaoHibernate implements BatchDao {
             Hibernate.initialize(bat.getTfBatchLocation());
             Hibernate.initialize(bat.getTfCurriculum());
             Hibernate.initialize(bat.getTfAssociates());
+
+            for(TfAssociate associate : bat.getTfAssociates())
+            {
+                Hibernate.initialize(associate.getTfMarketingStatus());
+            }
         }
 
         em.close();

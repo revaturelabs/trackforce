@@ -187,7 +187,7 @@ public class BatchesService {
 			String firstName = associate.getTfAssociateFirstName();
 			String lastName = associate.getTfAssociateLastName();
 			String marketingStatus = associate.getTfMarketingStatus().getTfMarketingStatusName();
-			String clientName=associate.getTfClientId().getTfClientName();
+			String clientName=associate.getTfClient().getTfClientName();
 			AssociateInfo associateDetails = new AssociateInfo(id, firstName, lastName, marketingStatus,clientName);
 			
 			associatesList.add(associateDetails);

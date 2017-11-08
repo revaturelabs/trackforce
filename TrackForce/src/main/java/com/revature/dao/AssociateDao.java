@@ -2,12 +2,7 @@ package com.revature.dao;
 
 import java.math.BigDecimal;
 
-<<<<<<< HEAD
 import com.revature.entity.TfAssociate;
-
-public interface AssociateDao {
-	  public TfAssociate getAssociate(BigDecimal associateId);
-=======
 import com.revature.entity.TfClient;
 import com.revature.entity.TfMarketingStatus;
 

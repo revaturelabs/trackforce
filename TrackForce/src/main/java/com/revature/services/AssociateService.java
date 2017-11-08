@@ -10,7 +10,6 @@ import javax.ws.rs.core.MediaType;
 
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
 import com.revature.model.AssociateInfo;
 
 @Path("associates")
@@ -28,7 +27,7 @@ public class AssociateService {
 		associateinfo.setFirstName(associate.getTfAssociateFirstName());
 		associateinfo.setLastName(associate.getTfAssociateLastName());
 		associateinfo.setMarketingStatus(associate.getTfMarketingStatus().getTfMarketingStatusName());
-		associateinfo.setClientname(associate.getTfClientId.getTfClientName());
+		associateinfo.setClient(associate.getTfClient().getTfClientName());
 		return associateinfo;
 		
 	}

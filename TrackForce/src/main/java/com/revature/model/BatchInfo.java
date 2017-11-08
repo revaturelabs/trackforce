@@ -6,7 +6,6 @@ package com.revature.model;
 public class BatchInfo {
 
     private String batchName;
-    private String clientName;
     private String curriculumName;
     private String location;
     private String startDate;
@@ -23,14 +22,12 @@ public class BatchInfo {
      * Constructs a newly allocated BatchInfo object that represents a batch of Revature assodiates without curriculum or location.
      * 
      * @param batchName - The name of the batch.
-     * @param clientName - The name of the client this batch is mapped to.
      * @param startDate - The date that this batch started.
      * @param endDate - The date that this batch graduates.
      */
-    public BatchInfo(String batchName, String clientName, String startDate, String endDate) {
+    public BatchInfo(String batchName, String startDate, String endDate) {
         super();
         this.batchName = batchName;
-        this.clientName = clientName;
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -39,17 +36,14 @@ public class BatchInfo {
      * Constructs a newly allocated BatchInfo object that represents a batch of Revature associates.
      * 
      * @param batchName - The name of the batch.
-     * @param clientName - The name of the client this batch is mapped to.
      * @param curriculumName - The name of the curriculum this batch is studying.
      * @param location - The location of this batch.
      * @param startDate - The date that this batch started.
      * @param endDate - The date that this batch graduates.
      */
-    public BatchInfo(String batchName, String clientName, String curriculumName, String location, String startDate,
-            String endDate) {
+    public BatchInfo(String batchName, String curriculumName, String location, String startDate, String endDate) {
         super();
         this.batchName = batchName;
-        this.clientName = clientName;
         this.curriculumName = curriculumName;
         this.location = location;
         this.startDate = startDate;
@@ -71,23 +65,7 @@ public class BatchInfo {
     public void setBatchName(String batchName) {
         this.batchName = batchName;
     }
-
-    /**
-     * Retrieves the name of the client this batch is mapped to.
-     * @return - A string with the client name
-     */
-    public String getClientName() {
-        return clientName;
-    }
-
-    /**
-     * Sets the name to the given value of the client this batch is mapped to.
-     * @param clientName - What to set the client's name to.
-     */
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
+    
     /**
      * Retrieve the name of the curriculum this batch is studying.
      * @return - A string with the curriculum name.
@@ -157,7 +135,6 @@ public class BatchInfo {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((batchName == null) ? 0 : batchName.hashCode());
-        result = prime * result + ((clientName == null) ? 0 : clientName.hashCode());
         result = prime * result + ((curriculumName == null) ? 0 : curriculumName.hashCode());
         result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
         result = prime * result + ((location == null) ? 0 : location.hashCode());
@@ -178,11 +155,6 @@ public class BatchInfo {
             if (other.batchName != null)
                 return false;
         } else if (!batchName.equals(other.batchName))
-            return false;
-        if (clientName == null) {
-            if (other.clientName != null)
-                return false;
-        } else if (!clientName.equals(other.clientName))
             return false;
         if (curriculumName == null) {
             if (other.curriculumName != null)
@@ -209,7 +181,7 @@ public class BatchInfo {
 
     @Override
     public String toString() {
-        return "BatchInfo [batchName=" + batchName + ", clientName=" + clientName + ", curriculumName=" + curriculumName
+        return "BatchInfo [batchName=" + batchName + ", curriculumName=" + curriculumName
                 + ", location=" + location + ", startDate=" + startDate + ", endDate=" + endDate + "]";
     }
 

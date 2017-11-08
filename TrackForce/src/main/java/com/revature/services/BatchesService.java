@@ -90,13 +90,12 @@ public class BatchesService {
         TfBatch batch = batchDao.getBatch(batchName);
 
         String name = batch.getTfBatchName();
-        String clientName = batch.getTfClient().getTfClientName();
         String curriculumName = batch.getTfCurriculum().getTfCurriculumName();
         String batchLocation = batch.getTfBatchLocation().getTfBatchLocationName();
         String startDate = batch.getTfBatchStartDate().toString();
         String endDate = batch.getTfBatchEndDate().toString();
 
-        BatchInfo batchInfo = new BatchInfo(name, clientName, curriculumName, batchLocation, startDate, endDate);
+        BatchInfo batchInfo = new BatchInfo(name, curriculumName, batchLocation, startDate, endDate);
 
         return batchInfo;
     }
@@ -152,14 +151,12 @@ public class BatchesService {
         List<TfBatch> list = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
 
         for (TfBatch batch : list) {
-            Hibernate.initialize(batch.getTfClient());
 
             String batchName = batch.getTfBatchName();
-            String clientName = batch.getTfClient().getTfClientName();
             String startDate = batch.getTfBatchStartDate().toString();
             String endDate = batch.getTfBatchEndDate().toString();
 
-            BatchInfo batchDetails = new BatchInfo(batchName, clientName, startDate, endDate);
+            BatchInfo batchDetails = new BatchInfo(batchName, startDate, endDate);
 
             batchesList.add(batchDetails);
         }

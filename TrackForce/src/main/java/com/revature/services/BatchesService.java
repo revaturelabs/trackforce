@@ -16,8 +16,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.hibernate.Hibernate;
-
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDaoHibernate;
 import com.revature.dao.ClientDaoImpl;

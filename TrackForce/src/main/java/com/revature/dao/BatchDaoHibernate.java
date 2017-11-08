@@ -47,7 +47,7 @@ public class BatchDaoHibernate implements BatchDao {
         } catch (NoResultException nre) {
             batch = new TfBatch();
         }
-        
+        System.out.println(batch);
         if(batch.getTfBatchId() != null)
         {
             Hibernate.initialize(batch.getTfCurriculum());

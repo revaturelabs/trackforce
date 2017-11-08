@@ -1,16 +1,23 @@
+
 <div class="container">
-    <div ng-controller="batchCtrl">
+    <div ng-controller="batchDetailsCtrl">
+    	<div><a href="#!/batchListing" class="btn btn-info" role="button">Back</a></div>
     	<div class="col-sm-6">
-        	<h3>Batch Details</h3>
+        	<h3>Batch Details: {{batchname}}</h3>
         	<canvas id="bar" class="chart chart-bar"
-            	chart-data="data" chart-labels="labels" chart-options="options">
+            	chart-data="data" chart-labels="labels" chart-options="options" ng-init="getMapStatusBatch()">
         	</canvas>
         </div>
     </div>
     <div>
-    	<div class="col-sm-6">
+    	<div class="col-sm-6" ng-init="getBatchAssociates()">
     	<h3>Associates</h3>
     	<table class="table table-striped">
+    		<thead>
+    			<th>First Name</th>
+    			<th>Last Name</th>
+    			<th>Marketing Status</th>
+    		</thead>
     		<tr ng-repeat="associates in associatesBatch">
     			<td>{{associates.firstName}}</td>
     			<td>{{associates.lastName}}</td>

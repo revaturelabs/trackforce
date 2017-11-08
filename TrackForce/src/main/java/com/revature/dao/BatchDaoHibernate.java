@@ -49,7 +49,6 @@ public class BatchDaoHibernate implements BatchDao {
         
         if(batch.getTfBatchId() != null)
         {
-            Hibernate.initialize(batch.getTfClient());
             Hibernate.initialize(batch.getTfCurriculum());
             Hibernate.initialize(batch.getTfBatchLocation());
         }
@@ -78,7 +77,6 @@ public class BatchDaoHibernate implements BatchDao {
         List<TfBatch> batch = query.getResultList();
 
         for (TfBatch bat : batch) {
-            Hibernate.initialize(bat.getTfClient());
             Hibernate.initialize(bat.getTfCurriculum());
             Hibernate.initialize(bat.getTfAssociates());
         }

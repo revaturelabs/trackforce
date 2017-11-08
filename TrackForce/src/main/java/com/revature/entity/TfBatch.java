@@ -120,14 +120,4 @@ public class TfBatch implements java.io.Serializable {
 	public void setTfAssociates(Set<TfAssociate> tfAssociates) {
 		this.tfAssociates = tfAssociates;
 	}
-
-	@Override
-	public String toString() {
-		return "TfBatch [tfBatchId=" + tfBatchId + ", tfClient=" + tfClient + ", tfCurriculum=" + tfCurriculum
-				+ ", tfBatchLocation=" + tfBatchLocation + ", tfBatchName=" + tfBatchName + ", tfBatchStartDate="
-				+ tfBatchStartDate + ", tfBatchEndDate=" + tfBatchEndDate + ", tfAssociates=" + tfAssociates + "]";
-	}
-	
-	
-
 }

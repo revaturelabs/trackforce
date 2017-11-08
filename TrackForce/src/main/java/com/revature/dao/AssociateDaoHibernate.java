@@ -22,7 +22,7 @@ public class AssociateDaoHibernate implements AssociateDao {
         TfAssociate associate = new TfAssociate();
         associate.setTfMarketingStatus(marketingStatus);
         associate.setTfBatch(batch);
-        associate.getTfBatch().setTfClient(client);
+        associate.setTfClient(client);
 
         SessionFactory factory = HibernateUtil.getSession();
         Session session = factory.openSession();

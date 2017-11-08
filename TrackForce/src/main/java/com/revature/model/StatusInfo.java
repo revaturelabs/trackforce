@@ -1,7 +1,7 @@
 package com.revature.model;
 
 /**
- * This class models all information that pertains to clients
+ * This class models all information that pertains to mapped/unmapped statuses
  * @author Jacob Hackel, Jarrod Bieber
  * @version 1.0
  */
@@ -20,13 +20,13 @@ public class StatusInfo {
 	private int deployedUnmapped;
 	
 	/**
-	 * Default no-arg constructor for an empty ClientInfo object.
+	 * Default no-arg constructor for an empty StatusInfo object.
 	 */
 	public StatusInfo() {
 	}
 	
 	/**
-	* Constructs a ClientInfo object with a name.
+	* Constructs a StatusInfo object with a name.
 	* @param name The name of the client
 	*/
 	public StatusInfo(String name) {
@@ -34,7 +34,7 @@ public class StatusInfo {
 	}
 
 	/**
-	 * Constructs a ClientInfo object.
+	 * Constructs a StatusInfo object.
 	 * @param name The name of the client
 	 * @param trainingMapped The number of associates who are currently training and mapped to this client.
 	 * @param trainingUnmapped The number of associates who are currently training and not mapped to this client.
@@ -65,16 +65,16 @@ public class StatusInfo {
 	}
 	
 	/**
-	 * This returns the name of this client.
-	 * @return this client's name.
+	 * This returns the name of this object.
+	 * @return this object's name.
 	 */
 	public String getName() {
 		return name;
 	}
 	
 	/**
-	 * This allows the client name to be set.
-	 * @param name the name to set for this client.
+	 * This allows the object name to be set.
+	 * @param name the name to set for this object.
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -135,7 +135,7 @@ public class StatusInfo {
 	
 	/**
 	 * This returns the number of associates who are finished training,
-	 * and aren't mapped to this client.
+	 * and aren't mapped to this object.
 	 * @return The number of unmapped associates who are finished training.
 	 */
 	public int getOpenUnmapped() {
@@ -153,8 +153,8 @@ public class StatusInfo {
 
 	/**
 	 * This returns the number of mapped associates who have been selected
-	 * by this client.
-	 * @return The number of mapped associates who were selected by this client.
+	 * by this object.
+	 * @return The number of mapped associates who were selected by this object.
 	 */
 	public int getSelectedMapped() {
 		return selectedMapped;
@@ -162,16 +162,16 @@ public class StatusInfo {
 	
 	/**
 	 * This allows the number of mapped associates who have been selected
-	 * by this client to be set.
-	 * @param selectedMapped The number of mapped associates who are selected by this client.
+	 * by this object to be set.
+	 * @param selectedMapped The number of mapped associates who are selected by this object.
 	 */
 	public void setSelectedMapped(int selectedMapped) {
 		this.selectedMapped = selectedMapped;
 	}
 	
 	/**
-	 * This returns the number of associates who were selected by the client, but weren't mapped.
-	 * @return The number of unmapped associates who were selected by this client.
+	 * This returns the number of associates who were selected by the object, but weren't mapped.
+	 * @return The number of unmapped associates who were selected by this object.
 	 */
 	public int getSelectedUnmapped() {
 		return selectedUnmapped;
@@ -179,10 +179,10 @@ public class StatusInfo {
 	
 	
 	/**
-	 * This allows the number of associates who are selected by the client,
+	 * This allows the number of associates who are selected by the object,
 	 * but aren't mapped, to be set.
 	 * @param selectedUnmapped The number of unmapped associates who are selected
-	 * by this client.
+	 * by this object.
 	 */
 	public void setSelectedUnmapped(int selectedUnmapped) {
 		this.selectedUnmapped = selectedUnmapped;
@@ -190,8 +190,8 @@ public class StatusInfo {
 	
 	/**
 	 * This returns the number of associates who were mapped and selected
-	 * by the client.
-	 * @return The number of mapped associates who were confirmed by this client.
+	 * by the object.
+	 * @return The number of mapped associates who were confirmed by this object.
 	 */
 	public int getConfirmedMapped() {
 		return confirmedMapped;
@@ -199,9 +199,9 @@ public class StatusInfo {
 	
 	/**
 	 * This allows the number of associates who were mapped and confirmed
-	 * by this client to be set.
+	 * by this object to be set.
 	 * @param confirmedMapped The number of mapped associates who are confirmed by
-	 * this client.
+	 * this object.
 	 */
 	public void setConfirmedMapped(int confirmedMapped) {
 		this.confirmedMapped = confirmedMapped;
@@ -209,8 +209,8 @@ public class StatusInfo {
 	
 	/**
 	 * This returns the number of associates who aren't mapped,
-	 * and who have been confirmed by the client.
-	 * @return The number of mapped associates who were confirmed by this client.
+	 * and who have been confirmed by the object.
+	 * @return The number of mapped associates who were confirmed by this object.
 	 */
 	public int getConfirmedUnmapped() {
 		return confirmedUnmapped;
@@ -218,9 +218,9 @@ public class StatusInfo {
 	
 	/**
 	 * This allows the number of associates who are not mapped,
-	 * but have been confirmed by the client, to be set.
+	 * but have been confirmed by the object, to be set.
 	 * @param confirmedUnmapped The number of unmapped associates who are confirmed
-	 * by this client.
+	 * by this object.
 	 */
 	public void setConfirmedUnmapped(int confirmedUnmapped) {
 		this.confirmedUnmapped = confirmedUnmapped;
@@ -228,9 +228,9 @@ public class StatusInfo {
 	
 	/**
 	 * This returns the number of associates who were mapped,
-	 * and are deployed at a client location.
+	 * and are deployed at a object location.
 	 * @return The number of mapped associates who are deployed
-	 * with a client.
+	 * with a object.
 	 */
 	public int getDeployedMapped() {
 		return deployedMapped;
@@ -238,9 +238,9 @@ public class StatusInfo {
 
 	/**
 	 * This allows the number of associates who were mapped,
-	 * and are deployed at a client location, to be set.
+	 * and are deployed at a object location, to be set.
 	 * @param deployedMapped The number of mapped associates who have deployed
-	 * with this client.
+	 * with this object.
 	 */
 	public void setDeployedMapped(int deployedMapped) {
 		this.deployedMapped = deployedMapped;
@@ -248,9 +248,9 @@ public class StatusInfo {
 	
 	/**
 	 * This returns the number of associates who were mapped,
-	 * and are deployed with this client.
+	 * and are deployed with this object.
 	 * @return The number of unmapped associates who are deployed
-	 * with this client.
+	 * with this object.
 	 */
 	public int getDeployedUnmapped() {
 		return deployedUnmapped;
@@ -258,9 +258,9 @@ public class StatusInfo {
 	
 	/**
 	 * This allows the number of associates who are unmapped,
-	 * and are deployed with this client, to be set.
+	 * and are deployed with this object, to be set.
 	 * @param deployedUnmapped The number of unmapped associates
-	 * who are deployed with this client.
+	 * who are deployed with this object.
 	 */
 	public void setDeployedUnmapped(int deployedUnmapped) {
 		this.deployedUnmapped = deployedUnmapped;
@@ -323,7 +323,7 @@ public class StatusInfo {
 
 	@Override
 	public String toString() {
-		return "ClientInfo  [name=" + name + ", trainingMapped=" + trainingMapped + ", trainingUnmapped="
+		return "StatusInfo  [name=" + name + ", trainingMapped=" + trainingMapped + ", trainingUnmapped="
 				+ trainingUnmapped + ", reservedMapped=" + reservedMapped + ", openUnmapped=" + openUnmapped
 				+ ", selectedMapped=" + selectedMapped + ", selectedUnmapped=" + selectedUnmapped + ", confirmedMapped="
 				+ confirmedMapped + ", confirmedUnmapped=" + confirmedUnmapped + ", deployedMapped=" + deployedMapped

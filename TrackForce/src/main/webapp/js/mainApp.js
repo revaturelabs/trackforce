@@ -46,6 +46,7 @@ mainApp.controller("mainCtrl", function($scope, $http) {
 	}).then(
 			function(response) {
 				$scope.UndeployedLabels = [ "Mapped", "Unmapped" ];
+				
 				$scope.UndeployedData = [
 					response.data.trainingMapped + response.data.reservedMapped
 								+ response.data.selectedMapped
@@ -53,28 +54,44 @@ mainApp.controller("mainCtrl", function($scope, $http) {
 								response.data.trainingUnmapped + response.data.openUnmapped
 								+ response.data.selectedUnmapped
 								+ response.data.confirmedUnmapped ];
+				
 				$scope.MappedLabels = [ 'Training', 'Reserved', 'Selected',
 						'Confirmed' ];
+				
 				$scope.MappedData = [ response.data.trainingMapped,
 					response.data.reservedMapped, response.data.selectedMapped,
 					response.data.confirmedMapped ];
+				
 				$scope.UnmappedLabels = [ 'Training', 'Open', 'Selected',
 						'Confirmed' ];
+				
 				$scope.UnmappedData = [ response.data.trainingUnmapped,
 					response.data.openUnmapped, response.data.selectedUnmapped,
 					response.data.confirmedUnmapped ];
+				
 				$scope.DeployedLabels = [ 'Mapped', 'Unmapped' ];
+				
 				$scope.DeployedData = [ response.data.deployedMapped,
 					response.data.deployedUnmapped ];
+				
 				$scope.colors = [ '#e85410','#59504c',
 			 '#2d8799', '#6017a5' ];
+				
 				$scope.colors2 = [ '#17d339','#59504c',
 					 '#2d8799', '#e85410' ];
+				
 				$scope.options = {
 					legend : {
 						display : true,
 						position : 'right'
 					}
+				};
+				
+				$scope.onClick = function (points, evt) {
+				    console.log(points, evt);
+				    $scope.clickedElementindex = points[0]["_index"];
+				    console.log($scope.UndeployedLabels[$scope.clickedElementindex]);
+				    $scope.UndeployedLabels[clickedElementindex];
 				};
 			});
 });

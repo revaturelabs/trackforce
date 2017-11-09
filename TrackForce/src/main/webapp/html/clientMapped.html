@@ -1,14 +1,18 @@
 <div class="container">
-	<div ng-controller="clientMappedCtrl">
-		<div class="col-sm-6">
+	<div ng-init="onLoad()">
+		<div class="row">
+		<div class="col-md-6">
 			<h3 class="text-center text-primary" ng-bind="selectedStatus"></h3>
 			<canvas id="bar" class="chart chart-bar" chart-type="chartType" chart-data="clientMappedData"
 				chart-colors="colors" chart-click="clientMappedClick" chart-labels="clientMappedLabels" chart-options="options">
 		</canvas>
-		<div>
-		   <button ng-click="changeChartType('bar')">Bar Chart</button>
-		   <button ng-click="changeChartType('pie')">Pie Chart</button>
-		   <button ng-click="changeChartType('polarArea')">Polar Chart</button>
+		</div>
+		</div>
+		<div class="row">
+		<div class="col-md-6">
+		   <button ng-click="changeChartType('bar')" class="btn btn-default">Bar Chart</button>
+		   <button ng-click="changeChartType('pie')" class="btn btn-default">Pie Chart</button>
+		   <button ng-click="changeChartType('polarArea')" class="btn btn-default">Polar Chart</button>
 		</div>
 		</div>
 	</div>

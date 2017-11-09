@@ -15,4 +15,6 @@ public interface ClientDao {
 	 */
 	List<TfClient> getAllTfClients();
 
+	TfClient getClient(String name);
+
 }

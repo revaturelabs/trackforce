@@ -2,10 +2,15 @@ package com.revature.dao;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import com.revature.entity.TfClient;
 import com.revature.utils.HibernateUtil;
@@ -30,4 +35,30 @@ public class ClientDaoImpl implements ClientDao {
 		return clients;
 	}
 
+	@Override
+	public TfClient getClient(String name) {
+		SessionFactory sessionFactory = HibernateUtil.getSession();
+		Session session = sessionFactory.openSession();
+
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
+
+		Root<TfClient> root = criteriaQuery.from(TfClient.class);
+
+		criteriaQuery.select(root).where(builder.equal(root.get("tfClientName"), name));
+
+		Query<TfClient> query = session.createQuery(criteriaQuery);
+
+		TfClient client;
+
+		try {
+			client = query.getSingleResult();
+		} catch (NoResultException nre) {
+			client = new TfClient();
+		} finally {
+			session.close();
+		}
+
+		return client;
+	}
 }

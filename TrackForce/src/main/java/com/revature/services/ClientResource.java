@@ -17,7 +17,6 @@ import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.HomeDao;
 import com.revature.dao.HomeDaoImpl;
-import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
 import com.revature.model.StatusInfo;
 import com.revature.utils.StatusInfoUtil;

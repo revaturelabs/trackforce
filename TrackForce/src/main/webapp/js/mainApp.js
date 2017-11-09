@@ -1,4 +1,11 @@
-/**
+/**                                                     
+ *	  *   )                    )  (                          
+ *	` )  /( (       )       ( /(  )\ )       (           (   
+ *	 ( )(_)))(   ( /(   (   )\())(()/(   (   )(    (    ))\  
+ *	(_(_())(()\  )(_))  )\ ((_)\  /(_))  )\ (()\   )\  /((_) 
+ *	|_   _| ((_)((_)_  ((_)| |(_)(_) _| ((_) ((_) ((_)(_))   
+ *	  | |  | '_|/ _` |/ _| | / /  |  _|/ _ \| '_|/ _| / -_)  
+ *	  |_|  |_|  \__,_|\__| |_\_\  |_|  \___/|_|  \__| \___| 
  * @namespace mainApp
  * @description Start the main module to be used for angular app
  */
@@ -11,32 +18,101 @@ var mainApp = angular.module('mainApp', [ 'ngRoute', 'chart.js' ]);
  */
 mainApp.config(function($routeProvider) {
 	$routeProvider
-	// Home Page route
+	
+	// Home Page 
 	.when("/", {
 		templateUrl : "home.html",
 		controller : "mainCtrl"
 	})
-	// Mapped View Page route
+	
+	// Batch Listing Page
 	.when("/batchListing", {
 		templateUrl : "batchListing.html",
 		controller : "batchCtrl"
 	})
+
 	// Unmapped View Page route
 	.when("/batchDetails/:batchname", {
 		templateUrl : "batchDetails.html",
 		controller : "batchDetailsCtrl",
 		controllerAs : "batchDetails"
-	}).when("/clientDetails", {
+	})
+	
+	// Associate List Page
+	.when("/associateListing", {
+		templateUrl : "associateListing.html",
+		controller : "associateCtrl"
+	})
+	
+	// Form Page
+	.when("/form/:associateId", {
+		templateUrl : "form.html",
+		controller : "associateCtrl"
+	})
+	
+	// Client Details Page
+	.when("/clientDetails", {
 		templateUrl : "clientDetails.html",
 		controller : "clientCtrl"
-	}).when("/clientMapped", {
+	})
+	
+	// Client Mapped Page
+	.when("/clientMapped", {
 		templateUrl : "clientMapped.html",
 		controller : "clientMappedCtrl"
-	}).when("/skillset", {
+	})
+	
+	// Skillset Page
+	.when("/skillset", {
 		templateUrl : "skillset.html",
 		controller : "skillsetCtrl"
 	})
 });
+
+
+mainApp.controller("indexCtrl", function($scope, $http, $rootScope) {
+		
+	var currentTime = new Date().getTime();
+	var threeMonthsAfter = currentTime + 7889238000;
+	var threeMonthsBefore = currentTime - 7889238000;
+	
+	$scope.defaultBatches = function () {
+		$http({
+			method : 'GET',
+			url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter,
+		}).then(function successCallback(response) {
+			$rootScope.batches = response.data;
+			console.log($rootScope.batches);
+		}, function errorCallback(response) {
+			console.log('Error in doing http request')
+		});
+	}
+	
+	$scope.getCountPerBatchTypeDefault = function(){
+		$http({
+			method : 'GET',
+			url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter + '/type'
+		}).then(function successCallback(response) {
+			// this callback will be called asynchronously
+			// when the response is available
+			var amountType = response.data;
+			console.log(response.data); 
+			$scope.labels = ["Java", "SEED", "JTA",".NET", "PEGA", "DynamicCRM", "Salesforce","Microservices","Oracle Fusion"]
+			$scope.data = [amountType.Java, amountType.SEED, amountType.JTA, amountType[".Net"], amountType.PEGA, amountType.DynamicCRM, amountType.Salesforce, amountType.Microservices, amountType["Oracle Fusion"]];
+			$scope.options = {legend : {
+				  display : true,
+				  position : 'right'}};
+		}, function errorCallback(response) {
+			// called asynchronously if an error occurs
+			// or server returns response with an error status.
+			$scope.amountType = {
+				"JTA_SDET" : "2",
+				".NET" : "3"
+			}
+		})
+	}	
+});
+
 /**
  * @class mainApp.mainCtrl
  * @memberof mainApp
@@ -198,11 +274,9 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 				method : 'GET',
 				/*
 				 * This URL will pull varying data from the REST service based
-				 * on the selectedStatus
+				 * on the statusID
 				 */
-				// TODO: update this URL with the REST service for pulling all
-				// associates 'http://localhost:8080/TrackForce/track/mapped/'+ $scope.statusID
-				url :"http://localhost:8080/TrackForce/track/clients"
+				url :'http://localhost:8080/TrackForce/track/client/'+ $scope.statusID
 			}).then(function(response) {
 				$scope.chartType='bar';
 		/**
@@ -212,7 +286,7 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 		 *  numbers for the corresponding status. 
 		 *  (Example: [{'name':'Revature', 'count':'100'},{'name':'Another','count':'100'}])
 		 */
-		var clients = [{'name':'Accenture','count':'33'},{'name':'Revature','count':'54'},{'name':'Infosys','count':'37'},{'name':'Microsoft','count':'44'}];
+		var clients = response.data;
 		/**
 		 * @member {Array} clientMappedLabels
 		 * @memberof mainApp.clientMappedCtrl
@@ -231,15 +305,13 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 		 */
 		$scope.clientMappedData = [];
 		for (let i = 0; i < clients.length; i++) {
-			/*
-			 * TODO: These variable names may need to be changed according to the JSON
-			 * (clients[].name and clients[].count)
-			 */
-			$scope.clientMappedLabels.push(clients[i].name);
-			$scope.clientMappedData.push(clients[i].count);
+			if(clients[i].count>0){
+				$scope.clientMappedLabels.push(clients[i].name);
+				$scope.clientMappedData.push(clients[i].count);
+			}
 		}
 		$scope.options = {
-			type : $scope.chartType,
+			type : $scope.chartType, xAxes:[{ticks:{autoSkip:false}}]
 		}
 		$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
@@ -253,10 +325,10 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 		//This adds on a legend if pie or polarArea are selected
 		if(selectedType=='pie'||selectedType=='polarArea'){
 			$scope.chartType=selectedType;
-			$scope.options={type:selectedType, legend:{display:true, position: 'right'}};
+			$scope.options={type:selectedType, legend:{display:true, position: 'right'}, xAxes:[{ticks:{autoSkip:false}}]};
 		} else{
 			$scope.chartType=selectedType;
-			$scope.options={type:selectedType, legend:{display:false}};
+			$scope.options={type:selectedType, legend:{display:false}, xAxes:[{ticks:{autoSkip:false}}]};
 		}
 	});
 	//TODO: URL will need to be changed
@@ -271,31 +343,30 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
  * @memberof mainApp
  * @description Controller for skillset.html
  */
-
 mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
-	/**
-	 * @member {Integer} statusID
-	 * @memberof mainApp.skillsetCtrl
-	 * @description This reflects the id used in the database to identify each marketing status.
-	 * This number is set using an if-else-if decision structure based on 
-	 * the label chosen in the Unmapped chart.
-	 */
-	$scope.statusID=0;
-	if($rootScope.selectedStatus=='Training'){
-		$scope.statusID=6;
-	} else if($rootScope.selectedStatus=='Open'){
-		$scope.statusID=7;
-	} else if ($rootScope.selectedStatus=='Selected'){
-		$scope.statusID=8;
-	} else if ($rootScope.selectedStatus=='Confirmed'){
-		$scope.statusID=9;
-	}
 	$scope.onLoad= function (){
+		/**
+		 * @member {Integer} statusID
+		 * @memberof mainApp.skillsetCtrl
+		 * @description This reflects the id used in the database to identify each marketing status.
+		 * This number is set using an if-else-if decision structure based on 
+		 * the label chosen in the Unmapped chart.
+		 */
+		$scope.statusID=0;
+		if($rootScope.selectedStatus=='Training'){
+			$scope.statusID=6;
+		} else if($rootScope.selectedStatus=='Open'){
+			$scope.statusID=7;
+		} else if ($rootScope.selectedStatus=='Selected'){
+			$scope.statusID=8;
+		} else if ($rootScope.selectedStatus=='Confirmed'){
+			$scope.statusID=9;
+		}
 	$http(
-			{ //"http://localhost:8080/TrackForce/track/unmapped/"+ $scope.statusID
+			{ 
 						
 				method : "GET",
-				url :"http://localhost:8080/TrackForce/track/clients"
+				url :"http://localhost:8080/TrackForce/track/skillset/"+ $scope.statusID
 			}).then(function(response) {
 				/**
 				 * @member {String} chartType
@@ -310,7 +381,7 @@ mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
 				 * @description Array used to store all of the skillsets and the total 
 				 * number of associates related to it.
 				 */
-				var skillsets = [{'name':'JTA','count':'33'},{'name':'Java','count':'54'},{'name':'.NET','count':'37'},{'name':'PEGA','count':'44'}];
+				var skillsets = response.data;
 				/**
 				 * @member {Array} skillsetLabels
 				 * @memberof mainApp.skillsetCtrl
@@ -326,10 +397,12 @@ mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
 				 */
 				$scope.skillsetData = [];
 				for(let i = 0 ; i < skillsets.length; i++){
-					$scope.skillsetLabels.push(skillsets[i].name);
-					$scope.skillsetData.push(skillsets[i].count);
+					if(skillsets[i].count>0){
+						$scope.skillsetLabels.push(skillsets[i].name);
+						$scope.skillsetData.push(skillsets[i].count);
+					}
 				}
-				$scope.options = {type: $scope.chartType};
+				$scope.options = {type: $scope.chartType, xAxes:[{ticks:{autoSkip:false}}]};
 				$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
 	/**
@@ -341,10 +414,10 @@ mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
 	$scope.changeChartType = (function(selectedType){
 		if(selectedType=='pie'||selectedType=='polarArea'){
 			$scope.chartType=selectedType;
-			$scope.options={type:selectedType, legend:{display:true, position: 'right'}};
+			$scope.options={type:selectedType, legend:{display:true, position: 'right'}, xAxes:[{ticks:{autoSkip:false}}]};
 		} else{
 			$scope.chartType=selectedType;
-			$scope.options={type:selectedType, legend:{display:false}};
+			$scope.options={type:selectedType, legend:{display:false}, xAxes:[{ticks:{autoSkip:false}}]};
 		}
 	});
 	
@@ -360,30 +433,11 @@ mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
  * @memberof mainApp
  * @description controller for the batch page
  */
-mainApp.controller("batchCtrl", function($scope, $http) {
-	
-	$scope.batchDetails = false; 
-	var currentTime = new Date().getTime();
-	var threeMonthsAfter = currentTime + 7889238000;
-	var threeMonthsBefore = currentTime - 7889238000;
-	
-	
-	// Simple GET request example:
-	$http({
-		method : 'GET',
-		url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter,
-		headers : {'Content-Type' : 'application/json'}
-	}).then(function successCallback(response) {
-		$scope.batches = response.data;
-		console.log($scope.batches);
-	}, function errorCallback(response) {
-		console.log('Error in doing http request')
-	});
-	
-	$scope.getBatches = (function() {
+mainApp.controller("batchCtrl", function($scope, $http) {	
+
+	$scope.getBatches = function() {
 		var fromdate = new Date($scope.fromdate);
 		var todate = new Date($scope.todate);
-
 		// Simple GET request example:
 		$http({
 			method : 'GET',
@@ -395,17 +449,21 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 		}, function errorCallback(response) {
 			console.log('Error in doing http request')
 		});
-	});
+	};
 
 	$scope.getCountPerBatchType = function() {
-		// Simple GET request example:
+		var fromdate = new Date($scope.fromdate);
+		var todate = new Date($scope.todate);
 		$http({
 			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/batches/type'
+			url : 'http://localhost:8080/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime() + '/type'
 		}).then(function successCallback(response) {
 			// this callback will be called asynchronously
 			// when the response is available
-			$scope.amountType = response.data;
+			var amountType = response.data;
+			console.log(response.data); 
+			$scope.labels = ["Java", "SEED", "JTA",".NET", "PEGA", "DynamicCRM", "Salesforce","Microservices","Oracle Fusion"]
+			$scope.data = [amountType.Java, amountType.SEED, amountType.JTA, amountType[".Net"], amountType.PEGA, amountType.DynamicCRM, amountType.Salesforce, amountType.Microservices, amountType["Oracle Fusion"]];
 		}, function errorCallback(response) {
 			// called asynchronously if an error occurs
 			// or server returns response with an error status.
@@ -670,4 +728,20 @@ mainApp.controller('databaseCtrl', function($http, $scope) {
 	$scope.refresh = function() {
 		window.location.reload();
 	}
+});
+
+mainApp.controller('associateCtrl', function($http, $scope, $routeParams) {
+	$http({
+		method : "GET",
+		url : "http://localhost:8080/TrackForce/track/associates/" + $routeParams.associateId // + $routeParams.associateId
+	}).then(function(response) {
+		$scope.associateInfo = response.data;
+	})
+	
+//	$http({
+//		method : "GET",
+//		url : "http://localhost:8080/TrackForce/track/" + $routeParam.statusId
+//	}).then(function(response) {
+//		$scope.associates = response.data;
+//	})
 });

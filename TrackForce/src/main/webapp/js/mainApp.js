@@ -176,6 +176,23 @@ mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
  */
 mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 	$scope.onLoad = function(){
+		/**
+		 * @member {Integer} statusID
+		 * @memberof mainApp.clientMappedCtrl
+		 * @description This reflects the id used in the database to identify each marketing status.
+		 * This number is set using an if-else-if decision structure based on 
+		 * the label chosen in the Mapped chart.
+		 */
+		$scope.statusID=0;
+		if($rootScope.selectedStatus=='Training'){
+			$scope.statusID=1;
+		} else if($rootScope.selectedStatus=='Reserved'){
+			$scope.statusID=2;
+		} else if ($rootScope.selectedStatus=='Selected'){
+			$scope.statusID=3;
+		} else if ($rootScope.selectedStatus=='Confirmed'){
+			$scope.statusID=4;
+		}
 	$http(
 			{
 				method : 'GET',
@@ -184,7 +201,7 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 				 * on the selectedStatus
 				 */
 				// TODO: update this URL with the REST service for pulling all
-				// associates 'http://localhost:8080/TrackForce/track/mapped/'+ $rootScope.selectedStatus
+				// associates 'http://localhost:8080/TrackForce/track/mapped/'+ $scope.statusID
 				url :"http://localhost:8080/TrackForce/track/clients"
 			}).then(function(response) {
 				$scope.chartType='bar';
@@ -195,7 +212,7 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 		 *  numbers for the corresponding status. 
 		 *  (Example: [{'name':'Revature', 'count':'100'},{'name':'Another','count':'100'}])
 		 */
-		var clients = [{'name':'JTA','count':'33'},{'name':'Java','count':'54'},{'name':'.NET','count':'37'},{'name':'PEGA','count':'44'}];
+		var clients = [{'name':'Accenture','count':'33'},{'name':'Revature','count':'54'},{'name':'Infosys','count':'37'},{'name':'Microsoft','count':'44'}];
 		/**
 		 * @member {Array} clientMappedLabels
 		 * @memberof mainApp.clientMappedCtrl
@@ -233,6 +250,7 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 	 * Removes the chart legend for charts that don't utilize it.
 	 */
 	$scope.changeChartType = (function(selectedType){
+		//This adds on a legend if pie or polarArea are selected
 		if(selectedType=='pie'||selectedType=='polarArea'){
 			$scope.chartType=selectedType;
 			$scope.options={type:selectedType, legend:{display:true, position: 'right'}};
@@ -248,19 +266,64 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 		window.location.href = "#!/associates/{{selectedSkill}}/{{selectedClient}}/{{selectedStatus}}";
 	};
 	}});
+/**
+ * @class mainApp.skillsetCtrl
+ * @memberof mainApp
+ * @description Controller for skillset.html
+ */
 
-//Controller for skillset.html
 mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
+	/**
+	 * @member {Integer} statusID
+	 * @memberof mainApp.skillsetCtrl
+	 * @description This reflects the id used in the database to identify each marketing status.
+	 * This number is set using an if-else-if decision structure based on 
+	 * the label chosen in the Unmapped chart.
+	 */
+	$scope.statusID=0;
+	if($rootScope.selectedStatus=='Training'){
+		$scope.statusID=6;
+	} else if($rootScope.selectedStatus=='Open'){
+		$scope.statusID=7;
+	} else if ($rootScope.selectedStatus=='Selected'){
+		$scope.statusID=8;
+	} else if ($rootScope.selectedStatus=='Confirmed'){
+		$scope.statusID=9;
+	}
 	$scope.onLoad= function (){
 	$http(
-			{ //"http://localhost:8080/TrackForce/track/unmapped/"+ $rootScope.selectedStatus
+			{ //"http://localhost:8080/TrackForce/track/unmapped/"+ $scope.statusID
 						
 				method : "GET",
 				url :"http://localhost:8080/TrackForce/track/clients"
 			}).then(function(response) {
+				/**
+				 * @member {String} chartType
+				 * @memberof mainApp.skillsetCtrl
+				 * @description String used to determine the type of chart displayed. 
+				 * The value of this changes based on the button clicked on skillset.html.
+				 */
 				$scope.chartType='bar';
+				/**
+				 * @member {Array} skillsets
+				 * @memberof mainApp.skillsetCtrl
+				 * @description Array used to store all of the skillsets and the total 
+				 * number of associates related to it.
+				 */
 				var skillsets = [{'name':'JTA','count':'33'},{'name':'Java','count':'54'},{'name':'.NET','count':'37'},{'name':'PEGA','count':'44'}];
+				/**
+				 * @member {Array} skillsetLabels
+				 * @memberof mainApp.skillsetCtrl
+				 * @description Array used to store the labels for the skillset chart.
+				 * This array is populated from the name attribute in the skillsets array.
+				 */
 				$scope.skillsetLabels = [];
+				/**
+				 * @member {Array} skillsetData
+				 * @memberof mainApp.skillsetData
+				 * @description Array used to store the data for the skillset chart dataset.
+				 * This array is populated from the count attribute in the skillsets array.
+				 */
 				$scope.skillsetData = [];
 				for(let i = 0 ; i < skillsets.length; i++){
 					$scope.skillsetLabels.push(skillsets[i].name);
@@ -269,7 +332,12 @@ mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
 				$scope.options = {type: $scope.chartType};
 				$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
-	
+	/**
+	 * @function changeChartType
+	 * @memberof mainApp.skillsetCtrl
+	 * @description Handles changing the chart type when the buttons are clicked.
+	 * Removes the chart legend for charts that don't utilize it.
+	 */
 	$scope.changeChartType = (function(selectedType){
 		if(selectedType=='pie'||selectedType=='polarArea'){
 			$scope.chartType=selectedType;

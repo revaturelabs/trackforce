@@ -194,30 +194,4 @@ public class BatchesService {
 		}
 		return associatesList;
     }
-
-    /**
-     * Update the marketing status or client of an associate from form data.
-     * 
-     * @param id - The ID of the associate to change
-     * @param marketingStatus - What to change the associate's marketing status to
-     * @param client - What client to change the associate to
-     * @return
-     */
-    @PUT
-	@Path("{associate}/update")
-    @Produces({ MediaType.TEXT_HTML })
-	public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus, @FormParam("client") String client) {
-	    MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
-	    TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
-	    
-	    ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
-	    TfClient tfclient = clientDaoImpl.getClient(client);
-	    
-	    BigDecimal associateID = new BigDecimal(Integer.parseInt(id));
-	    
-	    AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
-	    associateDaoHibernate.updateInfo(associateID, status, tfclient);
-	    
-	    return Response.status(Response.Status.OK).entity("Updated the associate's information").build();
-	}
 }

@@ -20,9 +20,10 @@ public class testAssociateDaoHibernate {
         ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
         MarketingStatusDaoHibernate marketingStatusDaoHibernate = new MarketingStatusDaoHibernate();
 
-        TfClient client = clientDaoImpl.getClient("Accenture");
-        TfMarketingStatus status = marketingStatusDaoHibernate.getMarketingStatus("MAPPED: DEPLOYED");
+        TfClient client = clientDaoImpl.getClient("Pitney Bowes");
+        TfMarketingStatus status = marketingStatusDaoHibernate.getMarketingStatus("MAPPED: TRAINING");
 
+        System.out.println(status + " " + client);
         associateDaoHibernate.updateInfo(new BigDecimal(266), status, client);
     }
 

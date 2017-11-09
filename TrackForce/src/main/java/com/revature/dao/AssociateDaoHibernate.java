@@ -55,22 +55,24 @@ public class AssociateDaoHibernate implements AssociateDao {
     @Override
     public void updateInfo(BigDecimal id, TfMarketingStatus marketingStatus, TfClient client) {
 
-        TfBatch batch = new TfBatch();
-
-        TfAssociate associate = new TfAssociate();
-        associate.setTfMarketingStatus(marketingStatus);
-        associate.setTfBatch(batch);
-        associate.setTfClient(client);
-
         SessionFactory factory = HibernateUtil.getSession();
         Session session = factory.openSession();
-
+        
+        TfMarketingStatus status = session.get(TfMarketingStatus.class, marketingStatus.getTfMarketingStatusId());
+        TfClient tfclient = session.get(TfClient.class, client.getTfClientId());
+        
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
+            System.out.println("Marketing status" + marketingStatus);
+            System.out.println("Client" + client);
+            TfAssociate associate = session.load(TfAssociate.class, id);
+            associate.setTfMarketingStatus(status);
+            associate.setTfClient(tfclient);
 
             session.saveOrUpdate(associate);
 
+            session.flush();
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {

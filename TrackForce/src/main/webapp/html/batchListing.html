@@ -10,8 +10,15 @@
 				<form>
 					From: <input type="date" ng-model="fromdate" value="2017-08-09" max="todate"/> 
 					To: <input type="date" ng-model="todate" value="2018-02-09" min="fromdate"/>
-					<input type="submit" value="Submit" ng-click="getBatches()"/>
+					<input type="submit" value="Submit" ng-click="getBatches(); getCountPerBatchType()"/>
 				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+			<canvas id="pie" class="chart chart-pie"
+            	chart-data="data" chart-labels="labels" chart-options="options" ng-init="getCountPerBatchTypeDefault()">
+        	</canvas>
 			</div>
 		</div>
 		<div class="row" ng-controller="batchDetailsCtrl">

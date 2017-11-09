@@ -293,8 +293,7 @@ mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
  * @description controller for the batch page
  */
 mainApp.controller("batchCtrl", function($scope, $http) {
-	
-	$scope.batchDetails = false; 
+	 
 	var currentTime = new Date().getTime();
 	var threeMonthsAfter = currentTime + 7889238000;
 	var threeMonthsBefore = currentTime - 7889238000;
@@ -315,7 +314,6 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 	$scope.getBatches = (function() {
 		var fromdate = new Date($scope.fromdate);
 		var todate = new Date($scope.todate);
-
 		// Simple GET request example:
 		$http({
 			method : 'GET',
@@ -330,14 +328,18 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 	});
 
 	$scope.getCountPerBatchType = function() {
-		// Simple GET request example:
+		var fromdate = new Date($scope.fromdate);
+		var todate = new Date($scope.todate);
 		$http({
 			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/batches/type'
+			url : 'http://localhost:8080/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime() + '/type'
 		}).then(function successCallback(response) {
 			// this callback will be called asynchronously
 			// when the response is available
-			$scope.amountType = response.data;
+			var amountType = response.data;
+			console.log(response.data); 
+			$scope.labels = ["Java", "SEED", "JTA",".NET", "PEGA", "DynamicCRM", "Salesforce","Microservices","Oracle Fusion"]
+			$scope.data = [amountType.Java, amountType.SEED, amountType.JTA, amountType[".Net"], amountType.PEGA, amountType.DynamicCRM, amountType.Salesforce, amountType.Microservices, amountType["Oracle Fusion"]];
 		}, function errorCallback(response) {
 			// called asynchronously if an error occurs
 			// or server returns response with an error status.
@@ -347,6 +349,30 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 			}
 		})
 	};
+	
+	$scope.getCountPerBatchTypeDefault = function(){
+		$http({
+			method : 'GET',
+			url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter + '/type'
+		}).then(function successCallback(response) {
+			// this callback will be called asynchronously
+			// when the response is available
+			var amountType = response.data;
+			console.log(response.data); 
+			$scope.labels = ["Java", "SEED", "JTA",".NET", "PEGA", "DynamicCRM", "Salesforce","Microservices","Oracle Fusion"]
+			$scope.data = [amountType.Java, amountType.SEED, amountType.JTA, amountType[".Net"], amountType.PEGA, amountType.DynamicCRM, amountType.Salesforce, amountType.Microservices, amountType["Oracle Fusion"]];
+			$scope.options = {legend : {
+				  display : true,
+				  position : 'right'}};
+		}, function errorCallback(response) {
+			// called asynchronously if an error occurs
+			// or server returns response with an error status.
+			$scope.amountType = {
+				"JTA_SDET" : "2",
+				".NET" : "3"
+			}
+		})
+	}
 }); 
 mainApp.controller("batchDetailsCtrl",function($scope, $http, $routeParams){ 
 		$scope.batchname = $routeParams.batchname; 

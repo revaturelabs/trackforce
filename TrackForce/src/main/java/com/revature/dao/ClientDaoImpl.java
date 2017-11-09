@@ -61,4 +61,9 @@ public class ClientDaoImpl implements ClientDao {
 
 		return client;
 	}
+
+	public void clearClients() {
+		clients.clear();
+	}
+
 }

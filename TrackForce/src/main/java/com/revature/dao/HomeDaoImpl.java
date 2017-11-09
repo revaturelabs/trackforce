@@ -34,4 +34,7 @@ public class HomeDaoImpl implements HomeDao {
 		return associates;
 	}
 
+	public void clearAssociates() {
+		associates.clear();
+	}
 }

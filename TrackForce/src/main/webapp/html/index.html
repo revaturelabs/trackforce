@@ -26,7 +26,7 @@
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.6/angular-route.js"></script>
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 <script	src="http://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
-<body ng-controller="indexCtrl" ng-init="defaultBatches(); getCountPerBatchTypeDefault()">
+<body ng-controller="indexCtrl" ng-init="defaultBatches(); getCountPerBatchTypeDefault(); onLoad()">
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -52,5 +52,14 @@
 	</nav>
 	<div ng-view></div>
 	<script src="../js/mainApp.js"></script>
+	<script src="../js/associateCtrl.js"></script>
+	<script src="../js/batchCtrl.js"></script>
+	<script src="../js/batchDetailsCtrl.js"></script>
+	<script src="../js/clientCtrl.js"></script>
+	<script src="../js/clientMappedCtrl.js"></script>
+	<script src="../js/databaseCtrl.js"></script>
+	<script src="../js/indexCtrl.js"></script>
+	<script src="../js/mainCtrl.js"></script>
+	<script src="../js/skillsetCtrl.js"></script>
 </body>
 </html>

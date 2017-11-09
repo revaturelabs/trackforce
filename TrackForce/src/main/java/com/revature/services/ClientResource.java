@@ -13,9 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
-import com.revature.dao.HomeDao;
 import com.revature.dao.HomeDaoImpl;
 import com.revature.entity.TfClient;
 import com.revature.model.StatusInfo;
@@ -24,8 +22,8 @@ import com.revature.utils.StatusInfoUtil;
 @Path("/clients")
 public class ClientResource {
 
-	private ClientDao clientDaoImpl = new ClientDaoImpl();
-	private HomeDao homeDaoImpl = new HomeDaoImpl();
+	private ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
+	private HomeDaoImpl homeDaoImpl = new HomeDaoImpl();
 
 	/**
 	 * Returns a map of all of the clients from the TfClient table as a response
@@ -86,6 +84,8 @@ public class ClientResource {
 	private void init() {
 		if (!initialized) {
 			initialized = true;
+			homeDaoImpl.clearAssociates();
+			clientDaoImpl.clearClients();
 			StatusInfoUtil.clearMaps();
 			StatusInfoUtil.updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
 		}
@@ -95,6 +95,8 @@ public class ClientResource {
 	@Path("init")
 	public void initForce() {
 		initialized = true;
+		homeDaoImpl.clearAssociates();
+		clientDaoImpl.clearClients();
 		StatusInfoUtil.clearMaps();
 		StatusInfoUtil.updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
 	}

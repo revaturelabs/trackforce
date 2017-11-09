@@ -1,4 +1,11 @@
-/**
+/**                                                     
+ *	  *   )                    )  (                          
+ *	` )  /( (       )       ( /(  )\ )       (           (   
+ *	 ( )(_)))(   ( /(   (   )\())(()/(   (   )(    (    ))\  
+ *	(_(_())(()\  )(_))  )\ ((_)\  /(_))  )\ (()\   )\  /((_) 
+ *	|_   _| ((_)((_)_  ((_)| |(_)(_) _| ((_) ((_) ((_)(_))   
+ *	  | |  | '_|/ _` |/ _| | / /  |  _|/ _ \| '_|/ _| / -_)  
+ *	  |_|  |_|  \__,_|\__| |_\_\  |_|  \___/|_|  \__| \___| 
  * @namespace mainApp
  * @description Start the main module to be used for angular app
  */
@@ -11,181 +18,225 @@ var mainApp = angular.module('mainApp', [ 'ngRoute', 'chart.js' ]);
  */
 mainApp.config(function($routeProvider) {
 	$routeProvider
-	// Home Page route
+	
+	// Home Page 
 	.when("/", {
 		templateUrl : "home.html",
 		controller : "mainCtrl"
 	})
-	// Mapped View Page route
+	
+	// Batch Listing Page
 	.when("/batchListing", {
 		templateUrl : "batchListing.html",
 		controller : "batchCtrl"
 	})
+
 	// Unmapped View Page route
 	.when("/batchDetails/:batchname", {
 		templateUrl : "batchDetails.html",
 		controller : "batchDetailsCtrl",
 		controllerAs : "batchDetails"
-	}).when("/clientDetails", {
+	})
+	
+	// Associate List Page
+	.when("/associateListing", {
+		templateUrl : "associateListing.html",
+		controller : "associateCtrl"
+	})
+	
+	// Form Page
+	.when("/form/:associateId", {
+		templateUrl : "form.html",
+		controller : "associateCtrl"
+	})
+	
+	// Client Details Page
+	.when("/clientDetails", {
 		templateUrl : "clientDetails.html",
 		controller : "clientCtrl"
-	}).when("/clientMapped", {
+	})
+	
+	// Client Mapped Page
+	.when("/clientMapped", {
 		templateUrl : "clientMapped.html",
 		controller : "clientMappedCtrl"
-	}).when("/skillset", {
+	})
+	
+	// Skillset Page
+	.when("/skillset", {
 		templateUrl : "skillset.html",
 		controller : "clientCtrl"
 	})
 });
+
+
+mainApp.controller("indexCtrl", function($scope, $http, $rootScope) {
+		
+	var currentTime = new Date().getTime();
+	var threeMonthsAfter = currentTime + 7889238000;
+	var threeMonthsBefore = currentTime - 7889238000;
+	
+	$scope.defaultBatches = function () {
+		$http({
+			method : 'GET',
+			url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter,
+		}).then(function successCallback(response) {
+			$rootScope.batches = response.data;
+			console.log($rootScope.batches);
+		}, function errorCallback(response) {
+			console.log('Error in doing http request')
+		});
+	}
+	
+})
+
 /**
  * @class mainApp.mainCtrl
  * @memberof mainApp
  * @description controller for the home page
  */
 mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
-		$http({
-			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/info',
-			headers : {
-				'Content-Type' : 'application/json'
-			}
-		}).then(function(response) {
-						/**
-						* @member {Array} UndeployedLabels
-			 			* @memberof mainApp.mainCtrl
-			 			* @description Undeployed chart shows mapped vs. unmapped 
-			 			* excluding deployed associates. This array is used for the labels of the chart
-			 			*/			
-						$scope.UndeployedLabels = [ "Mapped","Unmapped" ];
-						/**
-						 * @member {Array} UndeployedData
-						 * @memberof mainApp.mainCtrl
-						 * @description UndeployedData is an array used to populate the 
-						 * dataset of the Undeployed chart. The dataset contains two numbers:
-						 * the mapped number is the sum of all mapped associates, the unmapped number
-						 * is the sum of all unmapped associates.
-						 */
-						$scope.UndeployedData = [response.data.trainingMapped
-								+ response.data.reservedMapped
-								+ response.data.selectedMapped
-								+ response.data.confirmedMapped,
-								response.data.trainingUnmapped
-								+ response.data.openUnmapped
-								+ response.data.selectedUnmapped
-								+ response.data.confirmedUnmapped ];
-						 /**
-						  * @member {Array} MappedLabels
-						  * @memberof mainApp.mainCtrl
-						  * @description Mapped chart shows undeployed mapped associates.
-						  * This array is used to set the labels for the chart.
-						  */
-						$scope.MappedLabels = [ 'Training','Reserved', 'Selected','Confirmed' ];
-						/**
-						 * @member {Array} MappedData
-						 * @memberof mainApp.mainCtrl
-						 * @description MappedData is an array that stores the 
-						 * data for the dataset of the Mapped chart.
-						 * The dataset contains four numbers: training mapped<br>
-						 * reserved mapped <br>
-						 * selected mapped <br>
-						 * confirmed mapped<br>
-						 */
-						$scope.MappedData = [response.data.trainingMapped,
-											response.data.reservedMapped,
-											response.data.selectedMapped,
-											response.data.confirmedMapped ];
-						/**
-						  * @member {Array} UnmappedLabels
-						  * @memberof mainApp.mainCtrl
-						  * @description Unmapped chart shows undeployed unmapped associates.
-						  * This array is used to set the labels for the chart.
-						  */
-						$scope.UnmappedLabels = [ 'Training','Open', 'Selected', 'Confirmed' ];
-						/**
-						 * @member {Array} UnmappedData
-						 * @memberof mainApp.mainCtrl
-						 * @description UnmappedData is an array that stores the 
-						 * data for the dataset of the Unmapped chart.
-						 * The dataset contains four numbers: training unmapped<br>
-						 * open unmapped <br>
-						 * selected unmapped <br>
-						 * confirmed unmapped<br>
-						 */
-						$scope.UnmappedData = [response.data.trainingUnmapped,
-												response.data.openUnmapped,
-												response.data.selectedUnmapped,
-												response.data.confirmedUnmapped ];
-						/**
-						* @member {Array} DeployedLabels
-			 			* @memberof mainApp.mainCtrl
-			 			* @description Deployed chart shows mapped vs. unmapped 
-			 			* including only deployed associates. This array is used for the labels of the chart
-			 			*/	
-						$scope.DeployedLabels = [ 'Mapped','Unmapped' ];
-						/**
-						 * @member {Array} DeployedData
-						 * @memberof mainApp.mainCtrl
-						 * @description DeployedData is an array used to populate the 
-						 * dataset of the Deployed chart. The dataset contains two numbers:
-						 * the mapped number is the sum of all mapped associates, the unmapped number
-						 * is the sum of all unmapped associates. Both numbers contain only deployed associates.
-						 */
-						$scope.DeployedData = [response.data.deployedMapped,
-											response.data.deployedUnmapped ];
-						// Optional styling arrays
-						$scope.colors = [ '#e85410', '#59504c','#2d8799', '#6017a5' ];
-						$scope.colors2 = [ '#17d339','#59504c', '#2d8799', '#e85410' ];
-						$scope.options = {legend : {
-										  display : true,
-										  position : 'right'}};
-						/**
-						 * @function MappedOnClick
-						 * @memberof mainApp.mainCtrl
-						 * @description When the "Mapped" chart is clicked
-						 * the global variable selectedStatus is
-						 * set to the label of the slice
-						 * clicked. The window then loads the
-						 * clientMapped.html partial.
-						 */
-						$scope.MappedOnClick = function(points,evt) {
-							var clickedElementindex = points[0]["_index"];
-							$rootScope.selectedStatus = $scope.MappedLabels[clickedElementindex];
-							window.location.href = "#!/clientMapped";
-							};
-							/**
-							 * @function UnmappedOnClick
-							 * @memberof mainApp.mainCtrl
-							 * @description When the "Unmapped" chart is clicked
-							 * the global variable selectedStatus is
-							 * set to the label of the slice
-							 * clicked. The window then loads the
-							 * skillset.html partial.
-							 */
-						$scope.UnmappedOnClick = function(points, evt) {
-							var clickedElementindex = points[0]["_index"];
-							$rootScope.selectedStatus = $scope.UnmappedLabels[clickedElementindex];
-							window.location.href = "#!/skillset";
-							};
-						});
-				});
+
+	$http({
+		method : 'GET',
+		url : 'http://localhost:8080/TrackForce/track/info',
+		headers : {'Content-Type' : 'application/json'}
+	}).then(function(response) {
+		/**
+		* @member {Array} UndeployedLabels
+		* @memberof mainApp.mainCtrl
+		* @description Undeployed chart shows mapped vs. unmapped 
+		* excluding deployed associates. This array is used for the labels of the chart
+		*/			
+		$scope.UndeployedLabels = [ "Mapped","Unmapped" ];
+		/**
+		 * @member {Array} UndeployedData
+		 * @memberof mainApp.mainCtrl
+		 * @description UndeployedData is an array used to populate the 
+		 * dataset of the Undeployed chart. The dataset contains two numbers:
+		 * the mapped number is the sum of all mapped associates, the unmapped number
+		 * is the sum of all unmapped associates.
+		 */
+		$scope.UndeployedData = [response.data.trainingMapped
+				+ response.data.reservedMapped
+				+ response.data.selectedMapped
+				+ response.data.confirmedMapped,
+				response.data.trainingUnmapped
+				+ response.data.openUnmapped
+				+ response.data.selectedUnmapped
+				+ response.data.confirmedUnmapped ];
+		 /**
+		  * @member {Array} MappedLabels
+		  * @memberof mainApp.mainCtrl
+		  * @description Mapped chart shows undeployed mapped associates.
+		  * This array is used to set the labels for the chart.
+		  */
+		$scope.MappedLabels = [ 'Training','Reserved', 'Selected','Confirmed' ];
+		/**
+		 * @member {Array} MappedData
+		 * @memberof mainApp.mainCtrl
+		 * @description MappedData is an array that stores the 
+		 * data for the dataset of the Mapped chart.
+		 * The dataset contains four numbers: training mapped<br>
+		 * reserved mapped <br>
+		 * selected mapped <br>
+		 * confirmed mapped<br>
+		 */
+		$scope.MappedData = [response.data.trainingMapped,
+							response.data.reservedMapped,
+							response.data.selectedMapped,
+							response.data.confirmedMapped ];
+		/**
+		  * @member {Array} UnmappedLabels
+		  * @memberof mainApp.mainCtrl
+		  * @description Unmapped chart shows undeployed unmapped associates.
+		  * This array is used to set the labels for the chart.
+		  */
+		$scope.UnmappedLabels = [ 'Training','Open', 'Selected', 'Confirmed' ];
+		/**
+		 * @member {Array} UnmappedData
+		 * @memberof mainApp.mainCtrl
+		 * @description UnmappedData is an array that stores the 
+		 * data for the dataset of the Unmapped chart.
+		 * The dataset contains four numbers: training unmapped<br>
+		 * open unmapped <br>
+		 * selected unmapped <br>
+		 * confirmed unmapped<br>
+		 */
+		$scope.UnmappedData = [response.data.trainingUnmapped,
+								response.data.openUnmapped,
+								response.data.selectedUnmapped,
+								response.data.confirmedUnmapped ];
+		/**
+		* @member {Array} DeployedLabels
+		* @memberof mainApp.mainCtrl
+		* @description Deployed chart shows mapped vs. unmapped 
+		* including only deployed associates. This array is used for the labels of the chart
+		*/	
+		$scope.DeployedLabels = [ 'Mapped','Unmapped' ];
+		/**
+		 * @member {Array} DeployedData
+		 * @memberof mainApp.mainCtrl
+		 * @description DeployedData is an array used to populate the 
+		 * dataset of the Deployed chart. The dataset contains two numbers:
+		 * the mapped number is the sum of all mapped associates, the unmapped number
+		 * is the sum of all unmapped associates. Both numbers contain only deployed associates.
+		 */
+		$scope.DeployedData = [response.data.deployedMapped,
+							response.data.deployedUnmapped ];
+		// Optional styling arrays
+		$scope.colors = [ '#e85410', '#59504c','#2d8799', '#6017a5' ];
+		$scope.colors2 = [ '#17d339','#59504c', '#2d8799', '#e85410' ];
+		$scope.options = {legend : {
+						  display : true,
+						  position : 'right'}};
+		/**
+		 * @function MappedOnClick
+		 * @memberof mainApp.mainCtrl
+		 * @description When the "Mapped" chart is clicked
+		 * the global variable selectedStatus is
+		 * set to the label of the slice
+		 * clicked. The window then loads the
+		 * clientMapped.html partial.
+		 */
+		$scope.MappedOnClick = function(points,evt) {
+			var clickedElementindex = points[0]["_index"];
+			$rootScope.selectedStatus = $scope.MappedLabels[clickedElementindex];
+			window.location.href = "#!/clientMapped";
+			};
+			/**
+			 * @function UnmappedOnClick
+			 * @memberof mainApp.mainCtrl
+			 * @description When the "Unmapped" chart is clicked
+			 * the global variable selectedStatus is
+			 * set to the label of the slice
+			 * clicked. The window then loads the
+			 * skillset.html partial.
+			 */
+		$scope.UnmappedOnClick = function(points, evt) {
+			var clickedElementindex = points[0]["_index"];
+			$rootScope.selectedStatus = $scope.UnmappedLabels[clickedElementindex];
+			window.location.href = "#!/skillset";
+			};
+		});
+});
 /**
  * @class mainApp.clientMappedCtrl
  * @memberof mainApp
  * @description controller for the Client Mapped page.
  */
 mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
-	$http(
-			{
-				method : 'GET',
-				/*
-				 * This URL will pull varying data from the REST service based
-				 * on the selectedStatus
-				 */
-				// TODO: update this URL with the REST service for pulling all
-				// associates 'http://localhost:8080/TrackForce/track/mapped/'+ $rootScope.selectedStatus
-				url :"http://localhost:8080/TrackForce/track/clients"
-			}).then(function(response) {
-				$scope.chartType='bar';
+	$http({
+		method : 'GET',
+		/*
+		 * This URL will pull varying data from the REST service based
+		 * on the selectedStatus
+		 */
+		// TODO: update this URL with the REST service for pulling all
+		// associates 'http://localhost:8080/TrackForce/track/mapped/'+ $rootScope.selectedStatus
+		url :"http://localhost:8080/TrackForce/track/clients"
+	}).then(function(response) {
+		$scope.chartType='bar';
 		/**
 		 *  @member {Array} clients
 		 *  @memberof mainApp.clientMappedCtrl
@@ -292,26 +343,9 @@ mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
  * @memberof mainApp
  * @description controller for the batch page
  */
-mainApp.controller("batchCtrl", function($scope, $http) {
-	 
-	var currentTime = new Date().getTime();
-	var threeMonthsAfter = currentTime + 7889238000;
-	var threeMonthsBefore = currentTime - 7889238000;
-	
-	
-	// Simple GET request example:
-	$http({
-		method : 'GET',
-		url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter,
-		headers : {'Content-Type' : 'application/json'}
-	}).then(function successCallback(response) {
-		$scope.batches = response.data;
-		console.log($scope.batches);
-	}, function errorCallback(response) {
-		console.log('Error in doing http request')
-	});
-	
-	$scope.getBatches = (function() {
+mainApp.controller("batchCtrl", function($scope, $http) {	
+
+	$scope.getBatches = function() {
 		var fromdate = new Date($scope.fromdate);
 		var todate = new Date($scope.todate);
 		// Simple GET request example:
@@ -325,7 +359,7 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 		}, function errorCallback(response) {
 			console.log('Error in doing http request')
 		});
-	});
+	};
 
 	$scope.getCountPerBatchType = function() {
 		var fromdate = new Date($scope.fromdate);
@@ -628,4 +662,20 @@ mainApp.controller('databaseCtrl', function($http, $scope) {
 	$scope.refresh = function() {
 		window.location.reload();
 	}
+});
+
+mainApp.controller('associateCtrl', function($http, $scope, $routeParams) {
+	$http({
+		method : "GET",
+		url : "http://localhost:8080/TrackForce/track/associates/" + $routeParams.associateId // + $routeParams.associateId
+	}).then(function(response) {
+		$scope.associateInfo = response.data;
+	})
+	
+//	$http({
+//		method : "GET",
+//		url : "http://localhost:8080/TrackForce/track/" + $routeParam.statusId
+//	}).then(function(response) {
+//		$scope.associates = response.data;
+//	})
 });

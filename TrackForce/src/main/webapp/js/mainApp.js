@@ -1,4 +1,11 @@
-/**
+/**                                                     
+ *	  *   )                    )  (                          
+ *	` )  /( (       )       ( /(  )\ )       (           (   
+ *	 ( )(_)))(   ( /(   (   )\())(()/(   (   )(    (    ))\  
+ *	(_(_())(()\  )(_))  )\ ((_)\  /(_))  )\ (()\   )\  /((_) 
+ *	|_   _| ((_)((_)_  ((_)| |(_)(_) _| ((_) ((_) ((_)(_))   
+ *	  | |  | '_|/ _` |/ _| | / /  |  _|/ _ \| '_|/ _| / -_)  
+ *	  |_|  |_|  \__,_|\__| |_\_\  |_|  \___/|_|  \__| \___| 
  * @namespace mainApp
  * @description Start the main module to be used for angular app
  */
@@ -11,32 +18,101 @@ var mainApp = angular.module('mainApp', [ 'ngRoute', 'chart.js' ]);
  */
 mainApp.config(function($routeProvider) {
 	$routeProvider
-	// Home Page route
+	
+	// Home Page 
 	.when("/", {
 		templateUrl : "home.html",
 		controller : "mainCtrl"
 	})
-	// Mapped View Page route
+	
+	// Batch Listing Page
 	.when("/batchListing", {
 		templateUrl : "batchListing.html",
 		controller : "batchCtrl"
 	})
+
 	// Unmapped View Page route
 	.when("/batchDetails/:batchname", {
 		templateUrl : "batchDetails.html",
 		controller : "batchDetailsCtrl",
 		controllerAs : "batchDetails"
-	}).when("/clientDetails", {
+	})
+	
+	// Associate List Page
+	.when("/associateListing", {
+		templateUrl : "associateListing.html",
+		controller : "associateCtrl"
+	})
+	
+	// Form Page
+	.when("/form/:associateId", {
+		templateUrl : "form.html",
+		controller : "associateCtrl"
+	})
+	
+	// Client Details Page
+	.when("/clientDetails", {
 		templateUrl : "clientDetails.html",
 		controller : "clientCtrl"
-	}).when("/clientMapped", {
+	})
+	
+	// Client Mapped Page
+	.when("/clientMapped", {
 		templateUrl : "clientMapped.html",
 		controller : "clientMappedCtrl"
-	}).when("/skillset", {
+	})
+	
+	// Skillset Page
+	.when("/skillset", {
 		templateUrl : "skillset.html",
 		controller : "skillsetCtrl"
 	})
 });
+
+
+mainApp.controller("indexCtrl", function($scope, $http, $rootScope) {
+		
+	var currentTime = new Date().getTime();
+	var threeMonthsAfter = currentTime + 7889238000;
+	var threeMonthsBefore = currentTime - 7889238000;
+	
+	$scope.defaultBatches = function () {
+		$http({
+			method : 'GET',
+			url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter,
+		}).then(function successCallback(response) {
+			$rootScope.batches = response.data;
+			console.log($rootScope.batches);
+		}, function errorCallback(response) {
+			console.log('Error in doing http request')
+		});
+	}
+	
+	$scope.getCountPerBatchTypeDefault = function(){
+		$http({
+			method : 'GET',
+			url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter + '/type'
+		}).then(function successCallback(response) {
+			// this callback will be called asynchronously
+			// when the response is available
+			var amountType = response.data;
+			console.log(response.data); 
+			$scope.labels = ["Java", "SEED", "JTA",".NET", "PEGA", "DynamicCRM", "Salesforce","Microservices","Oracle Fusion"]
+			$scope.data = [amountType.Java, amountType.SEED, amountType.JTA, amountType[".Net"], amountType.PEGA, amountType.DynamicCRM, amountType.Salesforce, amountType.Microservices, amountType["Oracle Fusion"]];
+			$scope.options = {legend : {
+				  display : true,
+				  position : 'right'}};
+		}, function errorCallback(response) {
+			// called asynchronously if an error occurs
+			// or server returns response with an error status.
+			$scope.amountType = {
+				"JTA_SDET" : "2",
+				".NET" : "3"
+			}
+		})
+	}	
+});
+
 /**
  * @class mainApp.mainCtrl
  * @memberof mainApp
@@ -357,30 +433,11 @@ mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
  * @memberof mainApp
  * @description controller for the batch page
  */
-mainApp.controller("batchCtrl", function($scope, $http) {
-	
-	$scope.batchDetails = false; 
-	var currentTime = new Date().getTime();
-	var threeMonthsAfter = currentTime + 7889238000;
-	var threeMonthsBefore = currentTime - 7889238000;
-	
-	
-	// Simple GET request example:
-	$http({
-		method : 'GET',
-		url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter,
-		headers : {'Content-Type' : 'application/json'}
-	}).then(function successCallback(response) {
-		$scope.batches = response.data;
-		console.log($scope.batches);
-	}, function errorCallback(response) {
-		console.log('Error in doing http request')
-	});
-	
-	$scope.getBatches = (function() {
+mainApp.controller("batchCtrl", function($scope, $http) {	
+
+	$scope.getBatches = function() {
 		var fromdate = new Date($scope.fromdate);
 		var todate = new Date($scope.todate);
-
 		// Simple GET request example:
 		$http({
 			method : 'GET',
@@ -392,17 +449,21 @@ mainApp.controller("batchCtrl", function($scope, $http) {
 		}, function errorCallback(response) {
 			console.log('Error in doing http request')
 		});
-	});
+	};
 
 	$scope.getCountPerBatchType = function() {
-		// Simple GET request example:
+		var fromdate = new Date($scope.fromdate);
+		var todate = new Date($scope.todate);
 		$http({
 			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/batches/type'
+			url : 'http://localhost:8080/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime() + '/type'
 		}).then(function successCallback(response) {
 			// this callback will be called asynchronously
 			// when the response is available
-			$scope.amountType = response.data;
+			var amountType = response.data;
+			console.log(response.data); 
+			$scope.labels = ["Java", "SEED", "JTA",".NET", "PEGA", "DynamicCRM", "Salesforce","Microservices","Oracle Fusion"]
+			$scope.data = [amountType.Java, amountType.SEED, amountType.JTA, amountType[".Net"], amountType.PEGA, amountType.DynamicCRM, amountType.Salesforce, amountType.Microservices, amountType["Oracle Fusion"]];
 		}, function errorCallback(response) {
 			// called asynchronously if an error occurs
 			// or server returns response with an error status.
@@ -667,4 +728,20 @@ mainApp.controller('databaseCtrl', function($http, $scope) {
 	$scope.refresh = function() {
 		window.location.reload();
 	}
+});
+
+mainApp.controller('associateCtrl', function($http, $scope, $routeParams) {
+	$http({
+		method : "GET",
+		url : "http://localhost:8080/TrackForce/track/associates/" + $routeParams.associateId // + $routeParams.associateId
+	}).then(function(response) {
+		$scope.associateInfo = response.data;
+	})
+	
+//	$http({
+//		method : "GET",
+//		url : "http://localhost:8080/TrackForce/track/" + $routeParam.statusId
+//	}).then(function(response) {
+//		$scope.associates = response.data;
+//	})
 });

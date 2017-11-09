@@ -23,6 +23,7 @@ public class StatusInfo {
 	 * Default no-arg constructor for an empty StatusInfo object.
 	 */
 	public StatusInfo() {
+		this.name = "";
 	}
 	
 	/**
@@ -109,11 +110,6 @@ public class StatusInfo {
 	 * @param trainingUnmapped the number of unmapped associates who are training.
 	 */
 	public void setTrainingUnmapped(int trainingUnmapped) {
-		this.trainingUnmapped = trainingUnmapped;
-	}
-	
-	
-	public void confirmed(int trainingUnmapped) {
 		this.trainingUnmapped = trainingUnmapped;
 	}
 	

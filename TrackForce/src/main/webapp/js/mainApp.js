@@ -198,11 +198,9 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 				method : 'GET',
 				/*
 				 * This URL will pull varying data from the REST service based
-				 * on the selectedStatus
+				 * on the statusID
 				 */
-				// TODO: update this URL with the REST service for pulling all
-				// associates 'http://localhost:8080/TrackForce/track/mapped/'+ $scope.statusID
-				url :"http://localhost:8080/TrackForce/track/clients"
+				url :'http://localhost:8080/TrackForce/track/client/'+ $scope.statusID
 			}).then(function(response) {
 				$scope.chartType='bar';
 		/**
@@ -212,7 +210,7 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 		 *  numbers for the corresponding status. 
 		 *  (Example: [{'name':'Revature', 'count':'100'},{'name':'Another','count':'100'}])
 		 */
-		var clients = [{'name':'Accenture','count':'33'},{'name':'Revature','count':'54'},{'name':'Infosys','count':'37'},{'name':'Microsoft','count':'44'}];
+		var clients = response.data;
 		/**
 		 * @member {Array} clientMappedLabels
 		 * @memberof mainApp.clientMappedCtrl
@@ -231,15 +229,13 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 		 */
 		$scope.clientMappedData = [];
 		for (let i = 0; i < clients.length; i++) {
-			/*
-			 * TODO: These variable names may need to be changed according to the JSON
-			 * (clients[].name and clients[].count)
-			 */
-			$scope.clientMappedLabels.push(clients[i].name);
-			$scope.clientMappedData.push(clients[i].count);
+			if(clients[i].count>0){
+				$scope.clientMappedLabels.push(clients[i].name);
+				$scope.clientMappedData.push(clients[i].count);
+			}
 		}
 		$scope.options = {
-			type : $scope.chartType,
+			type : $scope.chartType, xAxes:[{ticks:{autoSkip:false}}]
 		}
 		$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
@@ -253,10 +249,10 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 		//This adds on a legend if pie or polarArea are selected
 		if(selectedType=='pie'||selectedType=='polarArea'){
 			$scope.chartType=selectedType;
-			$scope.options={type:selectedType, legend:{display:true, position: 'right'}};
+			$scope.options={type:selectedType, legend:{display:true, position: 'right'}, xAxes:[{ticks:{autoSkip:false}}]};
 		} else{
 			$scope.chartType=selectedType;
-			$scope.options={type:selectedType, legend:{display:false}};
+			$scope.options={type:selectedType, legend:{display:false}, xAxes:[{ticks:{autoSkip:false}}]};
 		}
 	});
 	//TODO: URL will need to be changed
@@ -271,31 +267,30 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
  * @memberof mainApp
  * @description Controller for skillset.html
  */
-
 mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
-	/**
-	 * @member {Integer} statusID
-	 * @memberof mainApp.skillsetCtrl
-	 * @description This reflects the id used in the database to identify each marketing status.
-	 * This number is set using an if-else-if decision structure based on 
-	 * the label chosen in the Unmapped chart.
-	 */
-	$scope.statusID=0;
-	if($rootScope.selectedStatus=='Training'){
-		$scope.statusID=6;
-	} else if($rootScope.selectedStatus=='Open'){
-		$scope.statusID=7;
-	} else if ($rootScope.selectedStatus=='Selected'){
-		$scope.statusID=8;
-	} else if ($rootScope.selectedStatus=='Confirmed'){
-		$scope.statusID=9;
-	}
 	$scope.onLoad= function (){
+		/**
+		 * @member {Integer} statusID
+		 * @memberof mainApp.skillsetCtrl
+		 * @description This reflects the id used in the database to identify each marketing status.
+		 * This number is set using an if-else-if decision structure based on 
+		 * the label chosen in the Unmapped chart.
+		 */
+		$scope.statusID=0;
+		if($rootScope.selectedStatus=='Training'){
+			$scope.statusID=6;
+		} else if($rootScope.selectedStatus=='Open'){
+			$scope.statusID=7;
+		} else if ($rootScope.selectedStatus=='Selected'){
+			$scope.statusID=8;
+		} else if ($rootScope.selectedStatus=='Confirmed'){
+			$scope.statusID=9;
+		}
 	$http(
-			{ //"http://localhost:8080/TrackForce/track/unmapped/"+ $scope.statusID
+			{ 
 						
 				method : "GET",
-				url :"http://localhost:8080/TrackForce/track/clients"
+				url :"http://localhost:8080/TrackForce/track/skillset/"+ $scope.statusID
 			}).then(function(response) {
 				/**
 				 * @member {String} chartType
@@ -310,7 +305,7 @@ mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
 				 * @description Array used to store all of the skillsets and the total 
 				 * number of associates related to it.
 				 */
-				var skillsets = [{'name':'JTA','count':'33'},{'name':'Java','count':'54'},{'name':'.NET','count':'37'},{'name':'PEGA','count':'44'}];
+				var skillsets = response.data;
 				/**
 				 * @member {Array} skillsetLabels
 				 * @memberof mainApp.skillsetCtrl
@@ -326,10 +321,12 @@ mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
 				 */
 				$scope.skillsetData = [];
 				for(let i = 0 ; i < skillsets.length; i++){
-					$scope.skillsetLabels.push(skillsets[i].name);
-					$scope.skillsetData.push(skillsets[i].count);
+					if(skillsets[i].count>0){
+						$scope.skillsetLabels.push(skillsets[i].name);
+						$scope.skillsetData.push(skillsets[i].count);
+					}
 				}
-				$scope.options = {type: $scope.chartType};
+				$scope.options = {type: $scope.chartType, xAxes:[{ticks:{autoSkip:false}}]};
 				$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
 	/**
@@ -341,10 +338,10 @@ mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
 	$scope.changeChartType = (function(selectedType){
 		if(selectedType=='pie'||selectedType=='polarArea'){
 			$scope.chartType=selectedType;
-			$scope.options={type:selectedType, legend:{display:true, position: 'right'}};
+			$scope.options={type:selectedType, legend:{display:true, position: 'right'}, xAxes:[{ticks:{autoSkip:false}}]};
 		} else{
 			$scope.chartType=selectedType;
-			$scope.options={type:selectedType, legend:{display:false}};
+			$scope.options={type:selectedType, legend:{display:false}, xAxes:[{ticks:{autoSkip:false}}]};
 		}
 	});
 	

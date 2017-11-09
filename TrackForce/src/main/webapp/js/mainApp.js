@@ -34,7 +34,7 @@ mainApp.config(function($routeProvider) {
 		controller : "clientMappedCtrl"
 	}).when("/skillset", {
 		templateUrl : "skillset.html",
-		controller : "clientCtrl"
+		controller : "skillsetCtrl"
 	})
 });
 /**
@@ -43,6 +43,7 @@ mainApp.config(function($routeProvider) {
  * @description controller for the home page
  */
 mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
+	$scope.onLoad = function(){
 		$http({
 			method : 'GET',
 			url : 'http://localhost:8080/TrackForce/track/info',
@@ -167,13 +168,14 @@ mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
 							window.location.href = "#!/skillset";
 							};
 						});
-				});
+	}});
 /**
  * @class mainApp.clientMappedCtrl
  * @memberof mainApp
  * @description controller for the Client Mapped page.
  */
 mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
+	$scope.onLoad = function(){
 	$http(
 			{
 				method : 'GET',
@@ -220,10 +222,7 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 			$scope.clientMappedData.push(clients[i].count);
 		}
 		$scope.options = {
-			legend : {
-				display : true,
-				position : 'right'
-			}, type : $scope.chartType
+			type : $scope.chartType,
 		}
 		$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
@@ -242,16 +241,17 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 			$scope.options={type:selectedType, legend:{display:false}};
 		}
 	});
-	//TODO: URL may need to be changed
+	//TODO: URL will need to be changed
 	$scope.skillsetClick = function(points, evt){
 		var clickedElementindex = points[0]["_index"];
 		var selectedClient = $scope.clientMappedLabels[clickedElementindex];
 		window.location.href = "#!/associates/{{selectedSkill}}/{{selectedClient}}/{{selectedStatus}}";
 	};
-});
+	}});
 
 //Controller for skillset.html
 mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
+	$scope.onLoad= function (){
 	$http(
 			{ //"http://localhost:8080/TrackForce/track/unmapped/"+ $rootScope.selectedStatus
 						
@@ -280,13 +280,13 @@ mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
 		}
 	});
 	
-	//TODO: Update this function with correct URL
+	//TODO: URL will need to be changed
 	$scope.skillsetClick = function(points, evt){
 		var clickedElementindex = points[0]["_index"];
 		var selectedSkill = $scope.skillsetLabels[clickedElementindex];
 		window.location.href = "#!/associates/{{selectedSkill}}/{{selectedClient}}/{{selectedStatus}}";
 	};
-});
+	}});
 /**
  * @class mainApp.batchCtrl
  * @memberof mainApp

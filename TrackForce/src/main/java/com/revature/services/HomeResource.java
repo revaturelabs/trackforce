@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
@@ -35,23 +36,10 @@ public class HomeResource {
 	@Path("info")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public StatusInfo getMappedAndUnmappedInfo() {
-		List<TfAssociate> associates = homeDaoImpl.getAllTfAssociates();
+		init();
 		return StatusInfoUtil.getAllAssociatesStatusInfo();
 	}
 
-	@PUT
-	@Path("init")
-	@Produces({ MediaType.APPLICATION_JSON })
-	public void init() {
-		List<TfAssociate> associates = homeDaoImpl.getAllTfAssociates();
-		List<TfClient> clients = clientDaoImpl.getAllTfClients();
-		StatusInfoUtil.clearMaps();
-		for(TfClient client : clients) {
-			StatusInfoUtil.putClientStatusInfo(client.getTfClientId().intValue(), new StatusInfo(client.getTfClientName()));
-		}
-		updateStatusInfoFromAssociates(associates);
-	}
-	
 	/**
 	 * 
 	 * @param statusid
@@ -61,34 +49,12 @@ public class HomeResource {
 	@GET
 	@Path("{statusid}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public List<TfAssociate> getAssociatesByStatus(@PathParam("statusid") int statusid) {
-		List<TfAssociate> associates = homeDaoImpl.getAllTfAssociates();
-		return associatesListByStatus(associates, statusid);
+	public Response getAssociatesByStatus(@PathParam("statusid") int statusid) {
+		StatusInfoUtil.getSpecificClientStatusInfoAsList();
+
+		return Response.ok(new Object()).build();
 	}
 
-	/**
-	 * Updates the status count for status info from all associates and the status
-	 * counts for specific clients based on the status of specific associates'
-	 * statuses.
-	 * 
-	 * @param associates
-	 * List of all associates
-	 */
-	private void updateStatusInfoFromAssociates(List<TfAssociate> associates) {
-		StatusInfo allAssociatesStatusInfo = new StatusInfo("All clients");
-		for (TfAssociate associate : associates) {
-			StatusInfoUtil.updateStatusCount(allAssociatesStatusInfo, associate);
-			TfClient tfClient = associate.getTfClient();
-			if (tfClient != null) {
-				int clientID = tfClient.getTfClientId().intValue();
-				StatusInfo clientStatusInfo = StatusInfoUtil.getClientStatusInfo(clientID);
-				StatusInfoUtil.updateStatusCount(clientStatusInfo, associate);
-				StatusInfoUtil.putClientStatusInfo(clientID, clientStatusInfo);
-			}
-		}
-		StatusInfoUtil.setAllAssociatesStatusInfo(allAssociatesStatusInfo);
-	}
-	
 	/**
 	 * This method takes a list of TfAssociates and a desired marketing status ID,
 	 * and filters the list to give back a list of only TfAssociates who are listed
@@ -108,5 +74,23 @@ public class HomeResource {
 			}
 		}
 		return assoc;
+	}
+
+	static boolean initialized = false;
+
+	private void init() {
+		if (!initialized) {
+			initialized = true;
+			StatusInfoUtil.clearMaps();
+			StatusInfoUtil.updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
+		}
+	}
+
+	@PUT
+	@Path("init")
+	public void initForce() {
+		initialized = true;
+		StatusInfoUtil.clearMaps();
+		StatusInfoUtil.updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
 	}
 }

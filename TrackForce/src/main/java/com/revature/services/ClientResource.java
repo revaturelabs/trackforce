@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -36,7 +37,6 @@ public class ClientResource {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getAllClients() {
-		init();
 		List<TfClient> clients = clientDaoImpl.getAllTfClients();
 		List<Map<String, Object>> entity = new ArrayList<>();
 		for (TfClient client : clients) {
@@ -45,7 +45,6 @@ public class ClientResource {
 			map.put("name", client.getTfClientName());
 			entity.add(map);
 		}
-
 		return Response.ok(entity).build();
 	}
 
@@ -82,60 +81,21 @@ public class ClientResource {
 			return StatusInfoUtil.getClientStatusInfo(clientid);
 	}
 
+	static boolean initialized = false;
+
 	private void init() {
-		List<TfClient> clients = clientDaoImpl.getAllTfClients();
+		if (!initialized) {
+			initialized = true;
+			StatusInfoUtil.clearMaps();
+			StatusInfoUtil.updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
+		}
+	}
+
+	@PUT
+	@Path("init")
+	public void initForce() {
+		initialized = true;
 		StatusInfoUtil.clearMaps();
-		for (TfClient client : clients) {
-			StatusInfoUtil.putClientStatusInfo(client.getTfClientId().intValue(),
-					new StatusInfo(client.getTfClientName()));
-		}
-		updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
-	}
-
-	// temporary
-	/**
-	 * Updates the status count for status info from all associates and the status
-	 * counts for specific clients based on the status of specific associates'
-	 * statuses.
-	 * 
-	 * @param associates
-	 *            List of all associates
-	 */
-	private void updateStatusInfoFromAssociates(List<TfAssociate> associates) {
-		StatusInfo allAssociatesStatusInfo = new StatusInfo("All clients");
-		for (TfAssociate associate : associates) {
-			StatusInfoUtil.updateStatusCount(allAssociatesStatusInfo, associate);
-			TfClient tfClient = associate.getTfClient();
-			if (tfClient != null) {
-				int clientID = tfClient.getTfClientId().intValue();
-				StatusInfo clientStatusInfo = StatusInfoUtil.getClientStatusInfo(clientID);
-				StatusInfoUtil.updateStatusCount(clientStatusInfo, associate);
-				StatusInfoUtil.putClientStatusInfo(clientID, clientStatusInfo);
-			}
-		}
-		StatusInfoUtil.setAllAssociatesStatusInfo(allAssociatesStatusInfo);
-	}
-
-	@GET
-	@Path("test")
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getAStatusInfo() {
-		List<TfClient> clients = clientDaoImpl.getAllTfClients();
-		List<TfAssociate> associates = homeDaoImpl.getAllTfAssociates();
-
-		Map<Integer, String> clientMap = new HashMap<>();
-		Map<Integer, Object> associateMap = new HashMap<>();
-
-		for (TfClient client : clients) {
-			clientMap.put(client.getTfClientId().intValue(), client.getTfClientName());
-		}
-		for (TfAssociate associate : associates) {
-			TfClient tfClient = associate.getTfClient();
-			System.out.println(tfClient);
-			if(tfClient != null)
-				associateMap.put(associate.getTfAssociateId().intValue(), tfClient.getTfClientName());
-		}
-
-		return Response.ok(associateMap).build();
+		StatusInfoUtil.updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
 	}
 }

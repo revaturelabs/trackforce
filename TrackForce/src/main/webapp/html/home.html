@@ -1,29 +1,27 @@
 <div class="container">
-	<div ng-controller="mainCtrl">
-		<h2 class="text-center text-primary">This is the home page</h2>
-		<div class="col-sm-6">
-		<h3 class="text-center text-primary">Mapped vs. Unmapped (Undeployed)</h3>
-		<canvas id="pie" class="chart chart-pie"
-  			 chart-data="UndeployedData" chart-colors="colors" chart-labels="UndeployedLabels" chart-options="options">
-		</canvas>
-		</div> 
-		<div class="col-sm-6">
-		<h3 class = "text-center text-primary">Mapped vs. Unmapped (Deployed)</h3>
-		<canvas id="pie" class="chart chart-pie"
-  			chart-data="DeployedData" chart-colors="colors" chart-options="options" chart-labels="DeployedLabels">
-		</canvas> 
-		</div>
-		<div class="col-sm-6">
-		<h3 class="text-center text-primary">Mapped</h3>
-		<canvas id="pie" class="chart chart-pie" chart-data="MappedData"
-			chart-labels="MappedLabels" chart-click="MappedOnClick" chart-colors="colors2" chart-options="options">
-		</canvas>
-		</div>
-		<div class="col-sm-6">
-		<h3 class="text-center text-primary">Unmapped</h3>
-		<canvas id="pie" class="chart chart-pie" chart-data="UnmappedData"
-			chart-labels="UnmappedLabels" chart-colors="colors2" chart-options="options" chart-click="UnmappedOnClick">
-		</canvas>
-		</div>
+	<h2 class="text-center text-primary">This is the home page</h2>
+	<div class="col-sm-6">
+	<h3 class="text-center text-primary">Mapped vs. Unmapped (Undeployed)</h3>
+	<canvas id="pie" class="chart chart-pie"
+ 			 chart-data="UndeployedData" chart-colors="colors" chart-labels="UndeployedLabels" chart-options="options">
+	</canvas>
+	</div> 
+	<div class="col-sm-6">
+	<h3 class = "text-center text-primary">Mapped vs. Unmapped (Deployed)</h3>
+	<canvas id="pie" class="chart chart-pie"
+ 			chart-data="DeployedData" chart-colors="colors" chart-options="options" chart-labels="DeployedLabels">
+	</canvas> 
+	</div>
+	<div class="col-sm-6">
+	<h3 class="text-center text-primary">Mapped</h3>
+	<canvas id="pie" class="chart chart-pie" chart-data="MappedData"
+		chart-labels="MappedLabels" chart-click="MappedOnClick" chart-colors="colors2" chart-options="options">
+	</canvas>
+	</div>
+	<div class="col-sm-6">
+	<h3 class="text-center text-primary">Unmapped</h3>
+	<canvas id="pie" class="chart chart-pie" chart-data="UnmappedData"
+		chart-labels="UnmappedLabels" chart-colors="colors2" chart-options="options" chart-click="UnmappedOnClick">
+	</canvas>
 	</div>
 </div>

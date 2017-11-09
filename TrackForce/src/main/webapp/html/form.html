@@ -1,43 +1,50 @@
 <div class="container">
+	<h3 class="text-default text-center">Change Associate Marketing Status</h3>
+
 	<div class="row">
 		<div class="col-sm-1"></div>
-		<div class="col-sm-10">
-			<h3 class="text-default">Associate Info</h3>
-			<div class="table-responsive">		
-				<table class="table table-hover">
+		<div class="col-sm-5">
+			<div class="table-responsive">
+				<table class="table table-hover table-bordered">
 					<thead>
 						<tr>
 							<th>Associate ID</th>
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Marketing Status</th>
-							<th>Client Name</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
 							<td>{{associateInfo.id}}</td>
+						</tr>
+						<tr>
+							<th>First Name</th>
 							<td>{{associateInfo.firstName}}</td>
+						</tr>
+						<tr>
+							<th>Last Name</th>
 							<td>{{associateInfo.lastName}}</td>
+						</tr>
+						<tr>
+							<th>Marketing Status</th>
 							<td>{{associateInfo.marketingStatus}}</td>
+						</tr>
+						<tr>
+							<th>Client Name</th>
 							<td>{{associateInfo.client}}</td>
 						</tr>
-					</tbody>
+					</thead>
 				</table>
 			</div>
+		</div>
+		<div class="col-sm-5">
 			<div class="form-group">
-				<label for="sel1">Change Associate Marketing Status:</label> <select class="form-control"
-					id="sel1">
-					<option>Mapped: Training</option>
-					<option>Mapped: Reserved</option>
-					<option>Mapped: Selected</option>
-					<option>Mapped: Confirmed</option>
-					<option>Mapped: Deployed</option>
-					<option>Unmapped: Training</option>
-					<option>Unmapped: Open</option>
-					<option>Unmapped: Selected</option>
-					<option>Unmapped: Confirmed</option>
-					<option>Unmapped: Deployed</option>
+				<label for="sel1">Choose Status:</label> <select
+					class="form-control" id="sel1">
+					<option>MAPPED: TRAINING</option>
+					<option>MAPPED: RESERVED</option>
+					<option>MAPPED: SELECTED</option>
+					<option>MAPPED: CONFIRMED</option>
+					<option>MAPPED: DEPLOYED</option>
+					<option>UNMAPPED: TRAINING</option>
+					<option>UNMAPPED: OPEN</option>
+					<option>UNMAPPED: SELECTED</option>
+					<option>UNMAPPED: CONFIRMED</option>
+					<option>UNMAPPED: DEPLOYED</option>
 				</select>
 			</div>
 		</div>

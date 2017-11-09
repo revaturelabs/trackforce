@@ -65,7 +65,7 @@ mainApp.config(function($routeProvider) {
 	// Skillset Page
 	.when("/skillset", {
 		templateUrl : "skillset.html",
-		controller : "clientCtrl"
+		controller : "skillsetCtrl"
 	})
 });
 
@@ -119,147 +119,166 @@ mainApp.controller("indexCtrl", function($scope, $http, $rootScope) {
  * @description controller for the home page
  */
 mainApp.controller("mainCtrl", function($scope, $http, $rootScope) {
-
-	$http({
-		method : 'GET',
-		url : 'http://localhost:8080/TrackForce/track/info',
-		headers : {'Content-Type' : 'application/json'}
-	}).then(function(response) {
-		/**
-		* @member {Array} UndeployedLabels
-		* @memberof mainApp.mainCtrl
-		* @description Undeployed chart shows mapped vs. unmapped 
-		* excluding deployed associates. This array is used for the labels of the chart
-		*/			
-		$scope.UndeployedLabels = [ "Mapped","Unmapped" ];
-		/**
-		 * @member {Array} UndeployedData
-		 * @memberof mainApp.mainCtrl
-		 * @description UndeployedData is an array used to populate the 
-		 * dataset of the Undeployed chart. The dataset contains two numbers:
-		 * the mapped number is the sum of all mapped associates, the unmapped number
-		 * is the sum of all unmapped associates.
-		 */
-		$scope.UndeployedData = [response.data.trainingMapped
-				+ response.data.reservedMapped
-				+ response.data.selectedMapped
-				+ response.data.confirmedMapped,
-				response.data.trainingUnmapped
-				+ response.data.openUnmapped
-				+ response.data.selectedUnmapped
-				+ response.data.confirmedUnmapped ];
-		 /**
-		  * @member {Array} MappedLabels
-		  * @memberof mainApp.mainCtrl
-		  * @description Mapped chart shows undeployed mapped associates.
-		  * This array is used to set the labels for the chart.
-		  */
-		$scope.MappedLabels = [ 'Training','Reserved', 'Selected','Confirmed' ];
-		/**
-		 * @member {Array} MappedData
-		 * @memberof mainApp.mainCtrl
-		 * @description MappedData is an array that stores the 
-		 * data for the dataset of the Mapped chart.
-		 * The dataset contains four numbers: training mapped<br>
-		 * reserved mapped <br>
-		 * selected mapped <br>
-		 * confirmed mapped<br>
-		 */
-		$scope.MappedData = [response.data.trainingMapped,
-							response.data.reservedMapped,
-							response.data.selectedMapped,
-							response.data.confirmedMapped ];
-		/**
-		  * @member {Array} UnmappedLabels
-		  * @memberof mainApp.mainCtrl
-		  * @description Unmapped chart shows undeployed unmapped associates.
-		  * This array is used to set the labels for the chart.
-		  */
-		$scope.UnmappedLabels = [ 'Training','Open', 'Selected', 'Confirmed' ];
-		/**
-		 * @member {Array} UnmappedData
-		 * @memberof mainApp.mainCtrl
-		 * @description UnmappedData is an array that stores the 
-		 * data for the dataset of the Unmapped chart.
-		 * The dataset contains four numbers: training unmapped<br>
-		 * open unmapped <br>
-		 * selected unmapped <br>
-		 * confirmed unmapped<br>
-		 */
-		$scope.UnmappedData = [response.data.trainingUnmapped,
-								response.data.openUnmapped,
-								response.data.selectedUnmapped,
-								response.data.confirmedUnmapped ];
-		/**
-		* @member {Array} DeployedLabels
-		* @memberof mainApp.mainCtrl
-		* @description Deployed chart shows mapped vs. unmapped 
-		* including only deployed associates. This array is used for the labels of the chart
-		*/	
-		$scope.DeployedLabels = [ 'Mapped','Unmapped' ];
-		/**
-		 * @member {Array} DeployedData
-		 * @memberof mainApp.mainCtrl
-		 * @description DeployedData is an array used to populate the 
-		 * dataset of the Deployed chart. The dataset contains two numbers:
-		 * the mapped number is the sum of all mapped associates, the unmapped number
-		 * is the sum of all unmapped associates. Both numbers contain only deployed associates.
-		 */
-		$scope.DeployedData = [response.data.deployedMapped,
-							response.data.deployedUnmapped ];
-		// Optional styling arrays
-		$scope.colors = [ '#e85410', '#59504c','#2d8799', '#6017a5' ];
-		$scope.colors2 = [ '#17d339','#59504c', '#2d8799', '#e85410' ];
-		$scope.options = {legend : {
-						  display : true,
-						  position : 'right'}};
-		/**
-		 * @function MappedOnClick
-		 * @memberof mainApp.mainCtrl
-		 * @description When the "Mapped" chart is clicked
-		 * the global variable selectedStatus is
-		 * set to the label of the slice
-		 * clicked. The window then loads the
-		 * clientMapped.html partial.
-		 */
-		$scope.MappedOnClick = function(points,evt) {
-			var clickedElementindex = points[0]["_index"];
-			$rootScope.selectedStatus = $scope.MappedLabels[clickedElementindex];
-			window.location.href = "#!/clientMapped";
-			};
-			/**
-			 * @function UnmappedOnClick
-			 * @memberof mainApp.mainCtrl
-			 * @description When the "Unmapped" chart is clicked
-			 * the global variable selectedStatus is
-			 * set to the label of the slice
-			 * clicked. The window then loads the
-			 * skillset.html partial.
-			 */
-		$scope.UnmappedOnClick = function(points, evt) {
-			var clickedElementindex = points[0]["_index"];
-			$rootScope.selectedStatus = $scope.UnmappedLabels[clickedElementindex];
-			window.location.href = "#!/skillset";
-			};
-		});
-});
+	$scope.onLoad = function(){
+		$http({
+			method : 'GET',
+			url : 'http://localhost:8080/TrackForce/track/info',
+			headers : {
+				'Content-Type' : 'application/json'
+			}
+		}).then(function(response) {
+						/**
+						* @member {Array} UndeployedLabels
+			 			* @memberof mainApp.mainCtrl
+			 			* @description Undeployed chart shows mapped vs. unmapped 
+			 			* excluding deployed associates. This array is used for the labels of the chart
+			 			*/			
+						$scope.UndeployedLabels = [ "Mapped","Unmapped" ];
+						/**
+						 * @member {Array} UndeployedData
+						 * @memberof mainApp.mainCtrl
+						 * @description UndeployedData is an array used to populate the 
+						 * dataset of the Undeployed chart. The dataset contains two numbers:
+						 * the mapped number is the sum of all mapped associates, the unmapped number
+						 * is the sum of all unmapped associates.
+						 */
+						$scope.UndeployedData = [response.data.trainingMapped
+								+ response.data.reservedMapped
+								+ response.data.selectedMapped
+								+ response.data.confirmedMapped,
+								response.data.trainingUnmapped
+								+ response.data.openUnmapped
+								+ response.data.selectedUnmapped
+								+ response.data.confirmedUnmapped ];
+						 /**
+						  * @member {Array} MappedLabels
+						  * @memberof mainApp.mainCtrl
+						  * @description Mapped chart shows undeployed mapped associates.
+						  * This array is used to set the labels for the chart.
+						  */
+						$scope.MappedLabels = [ 'Training','Reserved', 'Selected','Confirmed' ];
+						/**
+						 * @member {Array} MappedData
+						 * @memberof mainApp.mainCtrl
+						 * @description MappedData is an array that stores the 
+						 * data for the dataset of the Mapped chart.
+						 * The dataset contains four numbers: training mapped<br>
+						 * reserved mapped <br>
+						 * selected mapped <br>
+						 * confirmed mapped<br>
+						 */
+						$scope.MappedData = [response.data.trainingMapped,
+											response.data.reservedMapped,
+											response.data.selectedMapped,
+											response.data.confirmedMapped ];
+						/**
+						  * @member {Array} UnmappedLabels
+						  * @memberof mainApp.mainCtrl
+						  * @description Unmapped chart shows undeployed unmapped associates.
+						  * This array is used to set the labels for the chart.
+						  */
+						$scope.UnmappedLabels = [ 'Training','Open', 'Selected', 'Confirmed' ];
+						/**
+						 * @member {Array} UnmappedData
+						 * @memberof mainApp.mainCtrl
+						 * @description UnmappedData is an array that stores the 
+						 * data for the dataset of the Unmapped chart.
+						 * The dataset contains four numbers: training unmapped<br>
+						 * open unmapped <br>
+						 * selected unmapped <br>
+						 * confirmed unmapped<br>
+						 */
+						$scope.UnmappedData = [response.data.trainingUnmapped,
+												response.data.openUnmapped,
+												response.data.selectedUnmapped,
+												response.data.confirmedUnmapped ];
+						/**
+						* @member {Array} DeployedLabels
+			 			* @memberof mainApp.mainCtrl
+			 			* @description Deployed chart shows mapped vs. unmapped 
+			 			* including only deployed associates. This array is used for the labels of the chart
+			 			*/	
+						$scope.DeployedLabels = [ 'Mapped','Unmapped' ];
+						/**
+						 * @member {Array} DeployedData
+						 * @memberof mainApp.mainCtrl
+						 * @description DeployedData is an array used to populate the 
+						 * dataset of the Deployed chart. The dataset contains two numbers:
+						 * the mapped number is the sum of all mapped associates, the unmapped number
+						 * is the sum of all unmapped associates. Both numbers contain only deployed associates.
+						 */
+						$scope.DeployedData = [response.data.deployedMapped,
+											response.data.deployedUnmapped ];
+						// Optional styling arrays
+						$scope.colors = [ '#e85410', '#59504c','#2d8799', '#6017a5' ];
+						$scope.colors2 = [ '#17d339','#59504c', '#2d8799', '#e85410' ];
+						$scope.options = {legend : {
+										  display : true,
+										  position : 'right'}};
+						/**
+						 * @function MappedOnClick
+						 * @memberof mainApp.mainCtrl
+						 * @description When the "Mapped" chart is clicked
+						 * the global variable selectedStatus is
+						 * set to the label of the slice
+						 * clicked. The window then loads the
+						 * clientMapped.html partial.
+						 */
+						$scope.MappedOnClick = function(points,evt) {
+							var clickedElementindex = points[0]["_index"];
+							$rootScope.selectedStatus = $scope.MappedLabels[clickedElementindex];
+							window.location.href = "#!/clientMapped";
+							};
+							/**
+							 * @function UnmappedOnClick
+							 * @memberof mainApp.mainCtrl
+							 * @description When the "Unmapped" chart is clicked
+							 * the global variable selectedStatus is
+							 * set to the label of the slice
+							 * clicked. The window then loads the
+							 * skillset.html partial.
+							 */
+						$scope.UnmappedOnClick = function(points, evt) {
+							var clickedElementindex = points[0]["_index"];
+							$rootScope.selectedStatus = $scope.UnmappedLabels[clickedElementindex];
+							window.location.href = "#!/skillset";
+							};
+						});
+	}});
 /**
  * @class mainApp.clientMappedCtrl
  * @memberof mainApp
  * @description controller for the Client Mapped page.
  */
 mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
-	$http({
-		method : 'GET',
-		/*
-		 * This URL will pull varying data from the REST service based
-		 * on the selectedStatus
+	$scope.onLoad = function(){
+		/**
+		 * @member {Integer} statusID
+		 * @memberof mainApp.clientMappedCtrl
+		 * @description This reflects the id used in the database to identify each marketing status.
+		 * This number is set using an if-else-if decision structure based on 
+		 * the label chosen in the Mapped chart.
 		 */
-		// TODO: update this URL with the REST service for pulling all
-		// associates 'http://localhost:8080/TrackForce/track/mapped/'+ $rootScope.selectedStatus
-		url :"http://localhost:8080/TrackForce/track/clients"
-	}).then(function(response) {
-		$scope.chartType='bar';
+		$scope.statusID=0;
+		if($rootScope.selectedStatus=='Training'){
+			$scope.statusID=1;
+		} else if($rootScope.selectedStatus=='Reserved'){
+			$scope.statusID=2;
+		} else if ($rootScope.selectedStatus=='Selected'){
+			$scope.statusID=3;
+		} else if ($rootScope.selectedStatus=='Confirmed'){
+			$scope.statusID=4;
+		}
+	$http(
+			{
+				method : 'GET',
+				/*
+				 * This URL will pull varying data from the REST service based
+				 * on the statusID
+				 */
+				url :'http://localhost:8080/TrackForce/track/client/'+ $scope.statusID
+			}).then(function(response) {
+				$scope.chartType='bar';
 		/**
 		 *  @member {Array} clients
 		 *  @memberof mainApp.clientMappedCtrl
@@ -267,7 +286,7 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 		 *  numbers for the corresponding status. 
 		 *  (Example: [{'name':'Revature', 'count':'100'},{'name':'Another','count':'100'}])
 		 */
-		var clients = [{'name':'JTA','count':'33'},{'name':'Java','count':'54'},{'name':'.NET','count':'37'},{'name':'PEGA','count':'44'}];
+		var clients = response.data;
 		/**
 		 * @member {Array} clientMappedLabels
 		 * @memberof mainApp.clientMappedCtrl
@@ -286,18 +305,13 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 		 */
 		$scope.clientMappedData = [];
 		for (let i = 0; i < clients.length; i++) {
-			/*
-			 * TODO: These variable names may need to be changed according to the JSON
-			 * (clients[].name and clients[].count)
-			 */
-			$scope.clientMappedLabels.push(clients[i].name);
-			$scope.clientMappedData.push(clients[i].count);
+			if(clients[i].count>0){
+				$scope.clientMappedLabels.push(clients[i].name);
+				$scope.clientMappedData.push(clients[i].count);
+			}
 		}
 		$scope.options = {
-			legend : {
-				display : true,
-				position : 'right'
-			}, type : $scope.chartType
+			type : $scope.chartType, xAxes:[{ticks:{autoSkip:false}}]
 		}
 		$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
@@ -308,59 +322,112 @@ mainApp.controller("clientMappedCtrl", function($scope, $http, $rootScope) {
 	 * Removes the chart legend for charts that don't utilize it.
 	 */
 	$scope.changeChartType = (function(selectedType){
+		//This adds on a legend if pie or polarArea are selected
 		if(selectedType=='pie'||selectedType=='polarArea'){
 			$scope.chartType=selectedType;
-			$scope.options={type:selectedType, legend:{display:true, position: 'right'}};
+			$scope.options={type:selectedType, legend:{display:true, position: 'right'}, xAxes:[{ticks:{autoSkip:false}}]};
 		} else{
 			$scope.chartType=selectedType;
-			$scope.options={type:selectedType, legend:{display:false}};
+			$scope.options={type:selectedType, legend:{display:false}, xAxes:[{ticks:{autoSkip:false}}]};
 		}
 	});
-	//TODO: URL may need to be changed
+	//TODO: URL will need to be changed
 	$scope.skillsetClick = function(points, evt){
 		var clickedElementindex = points[0]["_index"];
 		var selectedClient = $scope.clientMappedLabels[clickedElementindex];
 		window.location.href = "#!/associates/{{selectedSkill}}/{{selectedClient}}/{{selectedStatus}}";
 	};
-});
-
-//Controller for skillset.html
+	}});
+/**
+ * @class mainApp.skillsetCtrl
+ * @memberof mainApp
+ * @description Controller for skillset.html
+ */
 mainApp.controller("skillsetCtrl", function($scope, $rootScope, $http) {
+	$scope.onLoad= function (){
+		/**
+		 * @member {Integer} statusID
+		 * @memberof mainApp.skillsetCtrl
+		 * @description This reflects the id used in the database to identify each marketing status.
+		 * This number is set using an if-else-if decision structure based on 
+		 * the label chosen in the Unmapped chart.
+		 */
+		$scope.statusID=0;
+		if($rootScope.selectedStatus=='Training'){
+			$scope.statusID=6;
+		} else if($rootScope.selectedStatus=='Open'){
+			$scope.statusID=7;
+		} else if ($rootScope.selectedStatus=='Selected'){
+			$scope.statusID=8;
+		} else if ($rootScope.selectedStatus=='Confirmed'){
+			$scope.statusID=9;
+		}
 	$http(
-			{ //"http://localhost:8080/TrackForce/track/unmapped/"+ $rootScope.selectedStatus
+			{ 
 						
 				method : "GET",
-				url :"http://localhost:8080/TrackForce/track/clients"
+				url :"http://localhost:8080/TrackForce/track/skillset/"+ $scope.statusID
 			}).then(function(response) {
+				/**
+				 * @member {String} chartType
+				 * @memberof mainApp.skillsetCtrl
+				 * @description String used to determine the type of chart displayed. 
+				 * The value of this changes based on the button clicked on skillset.html.
+				 */
 				$scope.chartType='bar';
-				var skillsets = [{'name':'JTA','count':'33'},{'name':'Java','count':'54'},{'name':'.NET','count':'37'},{'name':'PEGA','count':'44'}];
+				/**
+				 * @member {Array} skillsets
+				 * @memberof mainApp.skillsetCtrl
+				 * @description Array used to store all of the skillsets and the total 
+				 * number of associates related to it.
+				 */
+				var skillsets = response.data;
+				/**
+				 * @member {Array} skillsetLabels
+				 * @memberof mainApp.skillsetCtrl
+				 * @description Array used to store the labels for the skillset chart.
+				 * This array is populated from the name attribute in the skillsets array.
+				 */
 				$scope.skillsetLabels = [];
+				/**
+				 * @member {Array} skillsetData
+				 * @memberof mainApp.skillsetData
+				 * @description Array used to store the data for the skillset chart dataset.
+				 * This array is populated from the count attribute in the skillsets array.
+				 */
 				$scope.skillsetData = [];
 				for(let i = 0 ; i < skillsets.length; i++){
-					$scope.skillsetLabels.push(skillsets[i].name);
-					$scope.skillsetData.push(skillsets[i].count);
+					if(skillsets[i].count>0){
+						$scope.skillsetLabels.push(skillsets[i].name);
+						$scope.skillsetData.push(skillsets[i].count);
+					}
 				}
-				$scope.options = {type: $scope.chartType};
+				$scope.options = {type: $scope.chartType, xAxes:[{ticks:{autoSkip:false}}]};
 				$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
-	
+	/**
+	 * @function changeChartType
+	 * @memberof mainApp.skillsetCtrl
+	 * @description Handles changing the chart type when the buttons are clicked.
+	 * Removes the chart legend for charts that don't utilize it.
+	 */
 	$scope.changeChartType = (function(selectedType){
 		if(selectedType=='pie'||selectedType=='polarArea'){
 			$scope.chartType=selectedType;
-			$scope.options={type:selectedType, legend:{display:true, position: 'right'}};
+			$scope.options={type:selectedType, legend:{display:true, position: 'right'}, xAxes:[{ticks:{autoSkip:false}}]};
 		} else{
 			$scope.chartType=selectedType;
-			$scope.options={type:selectedType, legend:{display:false}};
+			$scope.options={type:selectedType, legend:{display:false}, xAxes:[{ticks:{autoSkip:false}}]};
 		}
 	});
 	
-	//TODO: Update this function with correct URL
+	//TODO: URL will need to be changed
 	$scope.skillsetClick = function(points, evt){
 		var clickedElementindex = points[0]["_index"];
 		var selectedSkill = $scope.skillsetLabels[clickedElementindex];
 		window.location.href = "#!/associates/{{selectedSkill}}/{{selectedClient}}/{{selectedStatus}}";
 	};
-});
+	}});
 /**
  * @class mainApp.batchCtrl
  * @memberof mainApp

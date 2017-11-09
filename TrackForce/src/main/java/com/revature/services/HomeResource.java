@@ -40,40 +40,20 @@ public class HomeResource {
 		return StatusInfoUtil.getAllAssociatesStatusInfo();
 	}
 
-	/**
-	 * 
-	 * @param statusid
-	 *            the ID of the desired associate marketing status
-	 * @return a list of TfAssociate objects filtered by marketing status ID.
-	 */
 	@GET
-	@Path("{statusid}")
+	@Path("client/{statusid}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getAssociatesByStatus(@PathParam("statusid") int statusid) {
-		StatusInfoUtil.getSpecificClientStatusInfoAsList();
-
-		return Response.ok(new Object()).build();
+	public Response getClientsByStatus(@PathParam("statusid") int statusid) {
+		init();
+		return Response.ok(StatusInfoUtil.getClientsBasedOnStatusID(statusid)).build();
 	}
 
-	/**
-	 * This method takes a list of TfAssociates and a desired marketing status ID,
-	 * and filters the list to give back a list of only TfAssociates who are listed
-	 * under that ID.
-	 * 
-	 * @param allAssociates
-	 *            the list of all TfAssociates from the database
-	 * @param id
-	 *            the marketing status ID we want to filter by
-	 * @return a list of TfAssociates filtered by the marketing status id
-	 */
-	private List<TfAssociate> associatesListByStatus(List<TfAssociate> allAssociates, int id) {
-		List<TfAssociate> assoc = new ArrayList<>();
-		for (TfAssociate associate : allAssociates) {
-			if (associate.getTfMarketingStatus().getTfMarketingStatusId().intValue() == id) {
-				assoc.add(associate);
-			}
-		}
-		return assoc;
+	@GET
+	@Path("skillset/{statusid}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getCurriculumsByStatus(@PathParam("statusid") int statusid) {
+		init();
+		return Response.ok(StatusInfoUtil.getCurriculumsBasedOnStatusID(statusid)).build();
 	}
 
 	static boolean initialized = false;

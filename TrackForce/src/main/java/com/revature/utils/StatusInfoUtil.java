@@ -48,9 +48,30 @@ public class StatusInfoUtil {
 		else
 			return new StatusInfo();
 	}
-	
-	public static Map<Integer, StatusInfo> get(int statusID){
-		
+
+	public static List<Map<String, Object>> getClientsBasedOnStatusID(int statusID) {
+		List<StatusInfo> clientStatusInfos = getSpecificClientStatusInfoAsList();
+		return getStageBasedOnStatusInfosAndStatusID(clientStatusInfos, statusID);
+	}
+
+	public static List<Map<String, Object>> getCurriculumsBasedOnStatusID(int statusID) {
+		List<StatusInfo> curriculumStatusInfos = getSpecificCurriculumStatusInfoAsList();
+		return getStageBasedOnStatusInfosAndStatusID(curriculumStatusInfos, statusID);
+	}
+
+	private static List<Map<String, Object>> getStageBasedOnStatusInfosAndStatusID(List<StatusInfo> statusInfos,
+			int statusID) {
+		List<Map<String, Object>> maps = new ArrayList<>();
+		// if valid statusID, add map for each statusInfo
+		if (statusID >= 1 && statusID <= 10) {
+			for (StatusInfo statusInfo : statusInfos) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("name", statusInfo.getName());
+				map.put("count", getStatusCount(statusInfo, statusID));
+				maps.add(map);
+			}
+		}
+		return maps;
 	}
 
 	private static void setAllAssociatesStatusInfo(StatusInfo statusInfo) {
@@ -159,6 +180,34 @@ public class StatusInfoUtil {
 			break;
 		}
 		return statusInfo;
+	}
+
+	private static int getStatusCount(StatusInfo statusInfo, int statusID) {
+		switch (statusID) {
+		case 1:
+			return statusInfo.getTrainingMapped();
+		case 2:
+			return statusInfo.getReservedMapped();
+		case 3:
+			return statusInfo.getSelectedMapped();
+		case 4:
+			return statusInfo.getConfirmedMapped();
+		case 5:
+			return statusInfo.getDeployedMapped();
+		case 6:
+			return statusInfo.getTrainingUnmapped();
+		case 7:
+			return statusInfo.getOpenUnmapped();
+		case 8:
+			return statusInfo.getSelectedUnmapped();
+		case 9:
+			return statusInfo.getConfirmedUnmapped();
+		case 10:
+			return statusInfo.getDeployedUnmapped();
+		default:
+			// not handled error case
+			return -1;
+		}
 	}
 
 	private static StatusInfo getDeepCopyOfStatusInfo(StatusInfo statusInfo) {

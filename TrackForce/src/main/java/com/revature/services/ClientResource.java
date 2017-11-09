@@ -76,9 +76,10 @@ public class ClientResource {
 	public StatusInfo getClientInfo(@PathParam("clientid") int clientid) {
 		init();
 		if (clientid < 1)
-			return new StatusInfo("");
-		else
-			return StatusInfoUtil.getClientStatusInfo(clientid);
+			return new StatusInfo();
+		else {
+			return StatusInfoUtil.getClientStatusInfo(clientid);	
+		}
 	}
 
 	static boolean initialized = false;

@@ -66,8 +66,8 @@ angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http,
 			}
 		}
 		$scope.options = {
-			type : $scope.chartType, xAxes:[{ticks:{autoSkip:false}}]
-		}
+			type : $scope.chartType, xAxes:[{ticks:{autoSkip:false}}],scales: {yAxes: [{ticks: {min: 0}}]}
+		};
 		$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
 	/**
@@ -83,7 +83,7 @@ angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http,
 			$scope.options={type:selectedType, legend:{display:true, position: 'right'}, xAxes:[{ticks:{autoSkip:false}}]};
 		} else{
 			$scope.chartType=selectedType;
-			$scope.options={type:selectedType, legend:{display:false}, xAxes:[{ticks:{autoSkip:false}}]};
+			$scope.options={type:selectedType, legend:{display:false}, xAxes:[{ticks:{autoSkip:false}}],scales: {yAxes: [{ticks: {min: 0}}]}};
 		}
 	});
 	//TODO: URL will need to be changed

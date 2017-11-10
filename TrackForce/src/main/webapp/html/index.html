@@ -41,11 +41,11 @@
 		</div>
 		<div ng-controller="databaseCtrl" class="navbar-header">
 			<ul class="nav navbar-nav">
-				<li><button ng-click="populateDB(); refresh()" class="btn btn-default">Populate
+				<li><button ng-click="populateDB()" class="btn btn-default">Populate
 						Database</button></li>
-				<li><button ng-click="deleteDB(); refresh()" class="btn btn-danger" >Empty
+				<li><button ng-click="deleteDB()" class="btn btn-danger" >Empty
 						Database, do not click this Adrian</button></li>
-				<li><button ng-click ="populateDBSF(); refresh()"class="btn btn-default">Populate Static Salesforce</button></li>
+				<li><button ng-click ="populateDBSF()"class="btn btn-default">Populate Static Salesforce</button></li>
 			</ul>
 			<p>{{dbMessage}}</p>
 

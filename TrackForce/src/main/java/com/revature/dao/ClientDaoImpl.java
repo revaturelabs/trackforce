@@ -62,6 +62,7 @@ public class ClientDaoImpl implements ClientDao {
 			for (TfClient client : clients) {
 				Hibernate.initialize(client.getTfClientId());
 				Hibernate.initialize(client.getTfClientName());
+				Hibernate.initialize(client.getTfAssociates());
 			}
 			session.close();
 		}

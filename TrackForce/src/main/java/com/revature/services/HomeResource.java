@@ -71,7 +71,7 @@ public class HomeResource {
 		return Response.ok(StatusInfoUtil.getCurriculumsBasedOnStatusID(statusid)).build();
 	}
 
-	static boolean initialized = false;
+	private static boolean initialized = false;
 
 	/**
 	 * Initializes objects needed for functionality from the StatusInfoUtil.

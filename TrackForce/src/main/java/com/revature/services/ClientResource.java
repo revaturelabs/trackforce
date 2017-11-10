@@ -79,7 +79,7 @@ public class ClientResource {
 		}
 	}
 
-	static boolean initialized = false;
+	private static boolean initialized = false;
 
 	/**
 	 * Initializes objects needed for functionality from the StatusInfoUtil.

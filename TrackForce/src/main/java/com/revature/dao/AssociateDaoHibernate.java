@@ -7,7 +7,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.apache.logging.log4j.core.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -53,6 +52,13 @@ public class AssociateDaoHibernate implements AssociateDao {
         return associate;
     }
 
+    /**
+     * Updates an associate's marketing status and client in the database.
+     * 
+     * @param id - The ID of the associate to update.
+     * @param marketingStatus - A TfMarketingStatus object with the status to change the associate to.
+     * @param client - A TfClient object with what client the associate will be mapped to.
+     */
     @Override
     public void updateInfo(BigDecimal id, TfMarketingStatus marketingStatus, TfClient client) {
 

@@ -79,14 +79,12 @@ public class ClientResource {
 		}
 	}
 
-	private static boolean initialized = false;
-
 	/**
-	 * Initializes objects needed for functionality from the StatusInfoUtil.
+	 * Initializes objects needed for functionality from the StatusInfoUtil when
+	 * maps in StatusInfoUtil are empty.
 	 */
 	private void init() {
-		if (!initialized) {
-			initialized = true;
+		if (StatusInfoUtil.mapsAreEmpty()) {
 			homeDaoImpl.clearAssociates();
 			clientDaoImpl.clearClients();
 			StatusInfoUtil.clearMaps();
@@ -101,7 +99,6 @@ public class ClientResource {
 	@PUT
 	@Path("init")
 	public void initForce() {
-		initialized = true;
 		homeDaoImpl.clearAssociates();
 		clientDaoImpl.clearClients();
 		StatusInfoUtil.clearMaps();

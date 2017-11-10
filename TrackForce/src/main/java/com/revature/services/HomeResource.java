@@ -34,15 +34,15 @@ public class HomeResource {
 	}
 
 	/**
-	 * Returns a Response object from StatusInfoUtil with a List of Map objects as an entity.
-	 * The format of the Map objects are as follows:
-	 * <br>name: (name of client)
-	 * <br>count: (count of desired status)
+	 * Returns a Response object from StatusInfoUtil with a List of Map objects as
+	 * an entity. The format of the Map objects are as follows: <br>
+	 * name: (name of client) <br>
+	 * count: (count of desired status)
 	 * 
 	 * @param statusid
-	 * Status id of the status/stage of associates that the requester wants information for.
-	 * @return
-	 * a Response object with a List of Map objects as an entity.
+	 *            Status id of the status/stage of associates that the requester
+	 *            wants information for.
+	 * @return a Response object with a List of Map objects as an entity.
 	 */
 	@GET
 	@Path("client/{statusid}")
@@ -53,15 +53,15 @@ public class HomeResource {
 	}
 
 	/**
-	 * Returns a Response object from StatusInfoUtil with a List of Map objects as an entity.
-	 * The format of the Map objects are as follows:
-	 * <br>name: (name of curriculum)
-	 * <br>count: (count of desired status)
+	 * Returns a Response object from StatusInfoUtil with a List of Map objects as
+	 * an entity. The format of the Map objects are as follows: <br>
+	 * name: (name of curriculum) <br>
+	 * count: (count of desired status)
 	 * 
 	 * @param statusid
-	 * Status id of the status/stage of associates that the requester wants information for.
-	 * @return
-	 * a Response object with a List of Map objects as an entity.
+	 *            Status id of the status/stage of associates that the requester
+	 *            wants information for.
+	 * @return a Response object with a List of Map objects as an entity.
 	 */
 	@GET
 	@Path("skillset/{statusid}")
@@ -71,14 +71,12 @@ public class HomeResource {
 		return Response.ok(StatusInfoUtil.getCurriculumsBasedOnStatusID(statusid)).build();
 	}
 
-	private static boolean initialized = false;
-
 	/**
-	 * Initializes objects needed for functionality from the StatusInfoUtil.
+	 * Initializes objects needed for functionality from the StatusInfoUtil when
+	 * maps in StatusInfoUtil are empty.
 	 */
 	private void init() {
-		if (!initialized) {
-			initialized = true;
+		if (StatusInfoUtil.mapsAreEmpty()) {
 			homeDaoImpl.clearAssociates();
 			clientDaoImpl.clearClients();
 			StatusInfoUtil.clearMaps();
@@ -93,7 +91,6 @@ public class HomeResource {
 	@PUT
 	@Path("init")
 	public void initForce() {
-		initialized = true;
 		homeDaoImpl.clearAssociates();
 		clientDaoImpl.clearClients();
 		StatusInfoUtil.clearMaps();

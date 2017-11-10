@@ -20,8 +20,8 @@ public class testAssociateDaoHibernate {
         ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
         MarketingStatusDaoHibernate marketingStatusDaoHibernate = new MarketingStatusDaoHibernate();
 
-        TfClient client = clientDaoImpl.getClient("Accenture");
-        TfMarketingStatus status = marketingStatusDaoHibernate.getMarketingStatus("MAPPED: DEPLOYED");
+        TfClient client = clientDaoImpl.getClient("Pitney Bowes");
+        TfMarketingStatus status = marketingStatusDaoHibernate.getMarketingStatus("MAPPED: TRAINING");
 
         associateDaoHibernate.updateInfo(new BigDecimal(266), status, client);
     }
@@ -31,7 +31,7 @@ public class testAssociateDaoHibernate {
         AssociateDaoHibernate associate = new AssociateDaoHibernate();
         BigDecimal d = new BigDecimal(266);
         TfAssociate associateA = associate.getAssociate(d);
-        System.out.println(associateA.toString());
+
         Assert.assertNotNull(associateA);
     }
 }

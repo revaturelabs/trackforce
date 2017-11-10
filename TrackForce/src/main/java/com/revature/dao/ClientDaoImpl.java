@@ -19,6 +19,39 @@ public class ClientDaoImpl implements ClientDao {
 
 	private static List<TfClient> clients;
 
+	/**
+	 * Get information about a singular client.
+	 * 
+	 * @param name - The name of the client to retrieve.
+	 * @return - A TfClient object with information about the client.
+	 */
+    @Override
+    public TfClient getClient(String name) {
+        SessionFactory sessionFactory = HibernateUtil.getSession();
+        Session session = sessionFactory.openSession();
+        
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
+
+        Root<TfClient> root = criteriaQuery.from(TfClient.class);
+        
+        criteriaQuery.select(root).where(builder.equal(root.get("tfClientName"), name));
+        
+        Query<TfClient> query = session.createQuery(criteriaQuery);
+        
+        TfClient client;
+        
+        try {
+            client = query.getSingleResult();
+        } catch(NoResultException nre) {
+            client = new TfClient();
+        } finally {
+            session.close();
+        }
+        
+        return client;
+    }
+    
 	@Override
 	public List<TfClient> getAllTfClients() {
 		if (clients == null || clients.isEmpty()) {
@@ -33,33 +66,6 @@ public class ClientDaoImpl implements ClientDao {
 			session.close();
 		}
 		return clients;
-	}
-
-	@Override
-	public TfClient getClient(String name) {
-		SessionFactory sessionFactory = HibernateUtil.getSession();
-		Session session = sessionFactory.openSession();
-
-		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
-
-		Root<TfClient> root = criteriaQuery.from(TfClient.class);
-
-		criteriaQuery.select(root).where(builder.equal(root.get("tfClientName"), name));
-
-		Query<TfClient> query = session.createQuery(criteriaQuery);
-
-		TfClient client;
-
-		try {
-			client = query.getSingleResult();
-		} catch (NoResultException nre) {
-			client = new TfClient();
-		} finally {
-			session.close();
-		}
-
-		return client;
 	}
 
 	/**

@@ -41,4 +41,21 @@ public class DatabaseDAOImpl {
 			session.close();
 		}
 	}
+	
+	public String populateSF() {
+		Session session = HibernateUtil.getSession().openSession();
+		String message;
+		try {
+			StoredProcedureQuery query2 = session.createStoredProcedureQuery("admin.populateAllTablesSF_PROC");
+			query2.execute();
+			System.out.println("SF - Dummy Population Executed");
+			message = "SF - Database Population Successfull";
+			return message;
+		} catch (Exception e) {
+			message = "Error: Data Exists";
+			return message;
+		} finally {
+			session.close();
+		}
+	}
 }

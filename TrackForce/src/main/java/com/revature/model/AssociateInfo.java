@@ -13,6 +13,7 @@ public class AssociateInfo {
 	private String marketingStatus;
 	private String client;
 	private String endClient;
+	private String batchName;
 
 	/**
 	 * Constructs a newly allocated BatchInfo object that represents an associate.
@@ -35,6 +36,18 @@ public class AssociateInfo {
 		this.lastName = lastName;
 		this.marketingStatus = marketingStatus;
 		this.client = client;
+	}
+
+	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client,
+			String batchName) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.marketingStatus = marketingStatus;
+		this.client = client;
+		this.endClient = "";
+		this.batchName = batchName;
 	}
 
 	public AssociateInfo() {
@@ -153,6 +166,14 @@ public class AssociateInfo {
 	 */
 	public void setEndClient(String endClient) {
 		this.endClient = endClient;
+	}
+
+	public String getBatchName() {
+		return batchName;
+	}
+
+	public void setBatchName(String batchName) {
+		this.batchName = batchName;
 	}
 
 	@Override

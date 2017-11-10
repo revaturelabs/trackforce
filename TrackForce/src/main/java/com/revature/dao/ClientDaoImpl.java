@@ -62,6 +62,9 @@ public class ClientDaoImpl implements ClientDao {
 		return client;
 	}
 
+	/**
+	 * Clears clients list in ClientDaoImpl class.
+	 */
 	public void clearClients() {
 		if (clients != null) {
 			clients.clear();

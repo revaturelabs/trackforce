@@ -75,12 +75,15 @@ public class ClientResource {
 		if (clientid < 1)
 			return new StatusInfo();
 		else {
-			return StatusInfoUtil.getClientStatusInfo(clientid);	
+			return StatusInfoUtil.getClientStatusInfo(clientid);
 		}
 	}
 
 	static boolean initialized = false;
 
+	/**
+	 * Initializes objects needed for functionality from the StatusInfoUtil.
+	 */
 	private void init() {
 		if (!initialized) {
 			initialized = true;
@@ -91,6 +94,10 @@ public class ClientResource {
 		}
 	}
 
+	/**
+	 * Forces initialization of objects needed for functionality from the
+	 * StatusInfoUtil.
+	 */
 	@PUT
 	@Path("init")
 	public void initForce() {

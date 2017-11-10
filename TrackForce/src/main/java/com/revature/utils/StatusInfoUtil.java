@@ -309,4 +309,19 @@ public class StatusInfoUtil {
 		specificClientStatusInfo.clear();
 		specificCurriculumStatusInfo.clear();
 	}
+
+	/**
+	 * If any map saved in StatusInfoUtil is null or empty, returns true.<br>
+	 * Else, returns false.
+	 * 
+	 * @return a boolean value based on maps being filled or not.
+	 */
+	public static boolean mapsAreEmpty() {
+		if (specificClientStatusInfo == null || specificCurriculumStatusInfo == null)
+			return true;
+		else if (specificClientStatusInfo.isEmpty() || specificCurriculumStatusInfo.isEmpty())
+			return true;
+		else
+			return false;
+	}
 }

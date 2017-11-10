@@ -77,10 +77,7 @@ public class HomeResource {
 	 */
 	private void init() {
 		if (StatusInfoUtil.mapsAreEmpty()) {
-			homeDaoImpl.clearAssociates();
-			clientDaoImpl.clearClients();
-			StatusInfoUtil.clearMaps();
-			StatusInfoUtil.updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
+			initForce();
 		}
 	}
 

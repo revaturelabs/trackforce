@@ -10,9 +10,17 @@ import com.revature.entity.TfBatch;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfCurriculum;
 import com.revature.model.StatusInfo;
-
+/**
+ * Helper class that compiles collections of StatusInfo objects.
+ * @author Jacob Hackel
+ * @version 1.0
+ *
+ */
 public class StatusInfoUtil {
-
+	
+	/**
+	 * Constructs a StatusInfoUtil object
+	 */
 	private StatusInfoUtil() {
 	}
 
@@ -21,18 +29,37 @@ public class StatusInfoUtil {
 	private static Map<Integer, StatusInfo> specificClientStatusInfo = new HashMap<>();
 	private static Map<Integer, StatusInfo> specificCurriculumStatusInfo = new HashMap<>();
 
+	/**
+	 * Retrieves a list of associate StatusInfo objects based on each client.
+	 * @return a list of StatusInfo objects
+	 */
 	public static List<StatusInfo> getSpecificClientStatusInfoAsList() {
 		return new ArrayList<>(specificClientStatusInfo.values());
 	}
 
+	/**
+	 * Retrieves a list of associate StatusInfo objects based on each curriculum type.
+	 * @return a list of StatusInfo objects
+	 */
 	public static List<StatusInfo> getSpecificCurriculumStatusInfoAsList() {
 		return new ArrayList<>(specificCurriculumStatusInfo.values());
 	}
-
+	
+	/**
+	 * Returns a StatusInfo object compiling the status counts for all Revature associates
+	 * across the company.
+	 * @return a StatusInfo object containing all associate information.
+	 */
 	public static StatusInfo getAllAssociatesStatusInfo() {
 		return getDeepCopyOfStatusInfo(allAssociatesStatusInfo);
 	}
 
+	/**
+	 * Returns a StatusInfo object compiling the status counts for associates
+	 * tied to a specific client.
+	 * @param clientID the unique identifier of an individual client
+	 * @return a StatusInfo object of the associates for this client
+	 */
 	public static StatusInfo getClientStatusInfo(int clientID) {
 		StatusInfo clientStatusInfo = specificClientStatusInfo.get(clientID);
 		if (clientStatusInfo != null)
@@ -41,6 +68,12 @@ public class StatusInfoUtil {
 			return new StatusInfo();
 	}
 
+	/**
+	 * Returns a StatusInfo object compiling the status counts for associates
+	 * tied to a specific curriculum (Java, Salesforce, etc).
+	 * @param curriculumID the unique identifier of a curriculum type
+	 * @return a StatusInfo object of the associates for this curriculum
+	 */
 	public static StatusInfo getCurriculumStatusInfo(int curriculumID) {
 		StatusInfo curriculumStatusInfo = specificCurriculumStatusInfo.get(curriculumID);
 		if (curriculumStatusInfo != null)
@@ -48,17 +81,39 @@ public class StatusInfoUtil {
 		else
 			return new StatusInfo();
 	}
-
+	
+	/**
+	 * Returns a list of maps. The key is the name of a client. The value is the number of
+	 * associates tied to that client, who also fall under the given marketing status.
+	 * @param statusID the ID for the desired marketing status
+	 * @return A list of client name / associate count maps
+	 */
 	public static List<Map<String, Object>> getClientsBasedOnStatusID(int statusID) {
 		List<StatusInfo> clientStatusInfos = getSpecificClientStatusInfoAsList();
 		return getStageBasedOnStatusInfosAndStatusID(clientStatusInfos, statusID);
 	}
-
+	
+	/**
+	 * Returns a list of maps. The key is the name of a curriculum. The value is the number of
+	 * associates tied to that curriculum, who also fall under the given marketing status.
+	 * @param statusID the ID for the desired marketing status
+	 * @return A list of curriculum name / associate count maps
+	 */
 	public static List<Map<String, Object>> getCurriculumsBasedOnStatusID(int statusID) {
 		List<StatusInfo> curriculumStatusInfos = getSpecificCurriculumStatusInfoAsList();
 		return getStageBasedOnStatusInfosAndStatusID(curriculumStatusInfos, statusID);
 	}
 
+	/**
+	 * This method takes a list of StatusInfo objects that pertain to a 
+	 * specific metric, such as a list for clients, or a list for curriculums.
+	 * From each StatusInfo object in the list, a map is created
+	 * comprising of a StatusInfo name, and the count of associates in a specific status.
+	 * A list of all the created maps is returned.
+	 * @param statusInfos
+	 * @param statusID
+	 * @return
+	 */
 	private static List<Map<String, Object>> getStageBasedOnStatusInfosAndStatusID(List<StatusInfo> statusInfos,
 			int statusID) {
 		List<Map<String, Object>> maps = new ArrayList<>();
@@ -73,15 +128,32 @@ public class StatusInfoUtil {
 		}
 		return maps;
 	}
-
+	
+	/**
+	 * Sets the StatusInfo object that represents counts of all Revature associates
+	 * to the given StatusInfo object.
+	 * @param statusInfo The StatusInfo object containing counts for all Revature associates
+	 */
 	private static void setAllAssociatesStatusInfo(StatusInfo statusInfo) {
 		allAssociatesStatusInfo = statusInfo;
 	}
-
+	
+	/**
+	 * Adds a mapping into the specificClientStatusInfo map with a given client,
+	 * and it's related StatusInfo object
+	 * @param clientID the unique identifier of a client
+	 * @param clientStatusInfo the StatusInfo object associated with a client
+	 */
 	private static void putClientStatusInfo(int clientID, StatusInfo clientStatusInfo) {
 		specificClientStatusInfo.put(clientID, clientStatusInfo);
 	}
-
+	
+	/**
+	 * Adds a mapping into the specificCurriculumStatusInfo map with a given curriculum,
+	 * and it's related StatusInfo object
+	 * @param curriculumID the unique identifier of a curriculum
+	 * @param curriculumStatusInfo the StatusInfo object associated with a curriculum
+	 */
 	private static void putCurriculumStatusInfo(int curriculumID, StatusInfo curriculumStatusInfo) {
 		specificCurriculumStatusInfo.put(curriculumID, curriculumStatusInfo);
 	}
@@ -181,7 +253,14 @@ public class StatusInfoUtil {
 		}
 		return statusInfo;
 	}
-
+	
+	/**
+	 * Returns the count of associates who fall under a specific marketing status
+	 * (Training/mapped, open/unmapped, deployed/mapped, etc).
+	 * @param statusInfo a StatusInfo object containing counts of associates
+	 * @param statusID the desired marketing status ID to pull a count from
+	 * @return a count of associates with a specific marketing status
+	 */
 	private static int getStatusCount(StatusInfo statusInfo, int statusID) {
 		switch (statusID) {
 		case 1:
@@ -209,7 +288,13 @@ public class StatusInfoUtil {
 			return -1;
 		}
 	}
-
+	
+	/**
+	 * Gets a deep copy of a StatusInfo object, based on it's states 
+	 * (since StatusInfo is mutable, this preserves the original)
+	 * @param statusInfo the StatusInfo object you want to copy
+	 * @return a new StatusInfo object that is a deep copy of the original
+	 */
 	private static StatusInfo getDeepCopyOfStatusInfo(StatusInfo statusInfo) {
 		return new StatusInfo(statusInfo.getName(), statusInfo.getTrainingMapped(), statusInfo.getTrainingUnmapped(),
 				statusInfo.getReservedMapped(), statusInfo.getOpenUnmapped(), statusInfo.getSelectedMapped(),
@@ -223,5 +308,20 @@ public class StatusInfoUtil {
 	public static void clearMaps() {
 		specificClientStatusInfo.clear();
 		specificCurriculumStatusInfo.clear();
+	}
+
+	/**
+	 * If any map saved in StatusInfoUtil is null or empty, returns true.<br>
+	 * Else, returns false.
+	 * 
+	 * @return a boolean value based on maps being filled or not.
+	 */
+	public static boolean mapsAreEmpty() {
+		if (specificClientStatusInfo == null || specificCurriculumStatusInfo == null)
+			return true;
+		else if (specificClientStatusInfo.isEmpty() || specificCurriculumStatusInfo.isEmpty())
+			return true;
+		else
+			return false;
 	}
 }

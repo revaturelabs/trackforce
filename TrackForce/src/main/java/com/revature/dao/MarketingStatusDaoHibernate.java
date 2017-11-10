@@ -35,7 +35,7 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
         }
 
         session.close();
-        return null;
+        return marketingStatus;
     }
 
 }

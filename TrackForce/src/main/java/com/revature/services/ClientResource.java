@@ -75,15 +75,16 @@ public class ClientResource {
 		if (clientid < 1)
 			return new StatusInfo();
 		else {
-			return StatusInfoUtil.getClientStatusInfo(clientid);	
+			return StatusInfoUtil.getClientStatusInfo(clientid);
 		}
 	}
 
-	static boolean initialized = false;
-
+	/**
+	 * Initializes objects needed for functionality from the StatusInfoUtil when
+	 * maps in StatusInfoUtil are empty.
+	 */
 	private void init() {
-		if (!initialized) {
-			initialized = true;
+		if (StatusInfoUtil.mapsAreEmpty()) {
 			homeDaoImpl.clearAssociates();
 			clientDaoImpl.clearClients();
 			StatusInfoUtil.clearMaps();
@@ -91,10 +92,13 @@ public class ClientResource {
 		}
 	}
 
+	/**
+	 * Forces initialization of objects needed for functionality from the
+	 * StatusInfoUtil.
+	 */
 	@PUT
 	@Path("init")
 	public void initForce() {
-		initialized = true;
 		homeDaoImpl.clearAssociates();
 		clientDaoImpl.clearClients();
 		StatusInfoUtil.clearMaps();

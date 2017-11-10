@@ -34,7 +34,12 @@ public class HomeDaoImpl implements HomeDao {
 		return associates;
 	}
 
+	/**
+	 * Clears associates list in HomeDaoImpl class.
+	 */
 	public void clearAssociates() {
-		associates.clear();
+		if(associates != null) {
+			associates.clear();
+		}
 	}
 }

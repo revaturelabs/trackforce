@@ -34,6 +34,22 @@ angular.module('mainApp').controller('databaseCtrl', function($http, $scope) {
 			$scope.dbMessage = response.data;
 		})
 	}
+	/**
+	 * @function populateDBSF
+	 * @memberof mainApp.databaseCtrl
+	 * @description  SF Populates the database with information from
+	 *              data script
+	 */
+	$scope.populateDBSF = function() {
+		$http({
+			method : "GET",
+			url : "http://localhost:8080/TrackForce/track/database/populateDBSF"
+		}).then(function(response) {
+			$scope.dbMessage = response.data;
+		})
+	}
+	
+	
 	$scope.refresh = function() {
 		window.location.reload();
 	}

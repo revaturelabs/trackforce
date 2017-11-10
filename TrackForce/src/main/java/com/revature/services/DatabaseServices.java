@@ -42,4 +42,17 @@ public class DatabaseServices {
 		return Response.ok(string).build();
 	}
 
+	@GET
+	@Path("populateDBSF")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response populateDBSF() {
+		System.out.println("In Services");
+
+		String string;
+		DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
+		string= dbCalls.populateSF();
+		
+		return Response.ok(string).build();
+
+	}
 }

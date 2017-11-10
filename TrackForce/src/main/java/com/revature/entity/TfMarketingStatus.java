@@ -69,4 +69,10 @@ public class TfMarketingStatus implements java.io.Serializable {
 		this.tfAssociates = tfAssociates;
 	}
 
+    @Override
+    public String toString() {
+        return "TfMarketingStatus [tfMarketingStatusId=" + tfMarketingStatusId + ", tfMarketingStatusName="
+                + tfMarketingStatusName + "]";
+    }
+
 }

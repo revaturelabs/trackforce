@@ -36,6 +36,7 @@ import com.revature.model.BatchInfo;
 @Path("batches")
 public class BatchesService {
 
+<<<<<<< HEAD
     /**
      * Gets the number of associates learning each curriculum during a given date
      * range

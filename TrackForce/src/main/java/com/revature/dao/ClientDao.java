@@ -21,7 +21,4 @@ public interface ClientDao {
 	 * @return
 	 */
     TfClient getClient(String name);
-
-	TfClient getClient(String name);
-
 }

@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.apache.logging.log4j.core.Logger;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,12 +15,12 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.utils.HibernateUtil;
 
 public class AssociateDaoHibernate implements AssociateDao {
+    
     /**
      * Get a associate from the database given its id.
      * 
@@ -82,7 +83,8 @@ public class AssociateDaoHibernate implements AssociateDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
+
+            ;
         } finally {
             session.close();
         }

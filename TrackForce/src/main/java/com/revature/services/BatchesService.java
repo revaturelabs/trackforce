@@ -87,13 +87,12 @@ public class BatchesService {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 		TfBatch batch = batchDao.getBatch(batchName);
 
-		String name = batch.getTfBatchName();
-		String curriculumName = batch.getTfCurriculum().getTfCurriculumName();
-		String batchLocation = batch.getTfBatchLocation().getTfBatchLocationName();
-		String startDate = batch.getTfBatchStartDate().toString();
-		String endDate = batch.getTfBatchEndDate().toString();
-
-		BatchInfo batchInfo = new BatchInfo(name, curriculumName, batchLocation, startDate, endDate);
+		BatchInfo batchInfo = new BatchInfo();
+		batchInfo.setBatchName(batch.getTfBatchName());
+		batchInfo.setCurriculumName(batch.getTfCurriculum().getTfCurriculumName());
+		batchInfo.setLocation(batch.getTfBatchLocation().getTfBatchLocationName());
+		batchInfo.setStartDate(batch.getTfBatchStartDate().toString());
+		batchInfo.setEndDate(batch.getTfBatchEndDate().toString());
 
 		return batchInfo;
 	}
@@ -145,24 +144,22 @@ public class BatchesService {
 	@GET
 	@Path("{fromdate}/{todate}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<BatchInfo> getBatches(@PathParam("fromdate") long fromdate, @PathParam("todate") long todate) {
+	public List<BatchInfo> getBatches(@PathParam("fromdate") long fromdate, @PathParam("todate") long todate) {
 		ArrayList<BatchInfo> batchesList = new ArrayList<BatchInfo>();
 
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 		List<TfBatch> list = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
 
 		for (TfBatch batch : list) {
-			
-			String batchName = batch.getTfBatchName();
-			String startDate = batch.getTfBatchStartDate().toString();
-			String endDate = batch.getTfBatchEndDate().toString();
 
-			BatchInfo batchDetails = new BatchInfo(batchName, startDate, endDate);
+			BatchInfo batchDetails = new BatchInfo();
+			batchDetails.setBatchName(batch.getTfBatchName());
+			batchDetails.setStartDate(batch.getTfBatchStartDate().toString());
+			batchDetails.setEndDate(batch.getTfBatchEndDate().toString());
 
 			batchesList.add(batchDetails);
 		}
 
-		System.out.println(batchesList);
 		return batchesList;
 	}
 
@@ -177,7 +174,7 @@ public class BatchesService {
 	@GET
 	@Path("{batch}/associates")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<AssociateInfo> getAssociates(@PathParam("batch") String batchName) {
+	public List<AssociateInfo> getAssociates(@PathParam("batch") String batchName) {
 		ArrayList<AssociateInfo> associatesList = new ArrayList<AssociateInfo>();
 
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
@@ -188,11 +185,12 @@ public class BatchesService {
 					|| associate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
 				continue;
 			}
-			BigDecimal id = associate.getTfAssociateId();
-			String firstName = associate.getTfAssociateFirstName();
-			String lastName = associate.getTfAssociateLastName();
-			String marketingStatus = associate.getTfMarketingStatus().getTfMarketingStatusName();
-			AssociateInfo associateDetails = new AssociateInfo(id, firstName, lastName, marketingStatus, "");
+			
+			AssociateInfo associateDetails = new AssociateInfo();
+			associateDetails.setId(associate.getTfAssociateId());
+			associateDetails.setFirstName(associate.getTfAssociateFirstName());
+			associateDetails.setLastName(associate.getTfAssociateLastName());
+			associateDetails.setMarketingStatus(associate.getTfMarketingStatus().getTfMarketingStatusName());
 
 			associatesList.add(associateDetails);
 		}

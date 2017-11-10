@@ -62,7 +62,7 @@ public class AssociateService {
      * @param id - The ID of the associate to change
      * @param marketingStatus - What to change the associate's marketing status to
      * @param client - What client to change the associate to
-     * @return
+     * @return - A http response with okay status
      */
     @PUT
     @Path("{associate}/update")

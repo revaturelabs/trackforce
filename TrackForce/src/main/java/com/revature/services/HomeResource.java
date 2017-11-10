@@ -8,9 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
-import com.revature.dao.HomeDao;
 import com.revature.dao.HomeDaoImpl;
 import com.revature.model.StatusInfo;
 import com.revature.utils.StatusInfoUtil;
@@ -18,8 +16,8 @@ import com.revature.utils.StatusInfoUtil;
 @Path("/")
 public class HomeResource {
 
-	private HomeDao homeDaoImpl = new HomeDaoImpl();
-	private ClientDao clientDaoImpl = new ClientDaoImpl();
+	private HomeDaoImpl homeDaoImpl = new HomeDaoImpl();
+	private ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
 
 	/**
 	 * Returns a StatusInfo object showing mapped and unmapped info for all of the
@@ -56,6 +54,8 @@ public class HomeResource {
 	private void init() {
 		if (!initialized) {
 			initialized = true;
+			homeDaoImpl.clearAssociates();
+			clientDaoImpl.clearClients();
 			StatusInfoUtil.clearMaps();
 			StatusInfoUtil.updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
 		}
@@ -65,6 +65,8 @@ public class HomeResource {
 	@Path("init")
 	public void initForce() {
 		initialized = true;
+		homeDaoImpl.clearAssociates();
+		clientDaoImpl.clearClients();
 		StatusInfoUtil.clearMaps();
 		StatusInfoUtil.updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
 	}

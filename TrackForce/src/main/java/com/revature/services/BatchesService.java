@@ -152,7 +152,7 @@ public class BatchesService {
 		List<TfBatch> list = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
 
 		for (TfBatch batch : list) {
-
+			
 			String batchName = batch.getTfBatchName();
 			String startDate = batch.getTfBatchStartDate().toString();
 			String endDate = batch.getTfBatchEndDate().toString();

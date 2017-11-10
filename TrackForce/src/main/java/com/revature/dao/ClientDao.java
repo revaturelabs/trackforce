@@ -13,7 +13,11 @@ public interface ClientDao {
 	 * @return A list of TfClient objects
 	 */
 	List<TfClient> getAllTfClients();
-
-	TfClient getClient(String name);
-
+	
+	/**
+	 * Returns a single TfClient object
+	 * @param name - The name of the client to get
+	 * @return
+	 */
+    TfClient getClient(String name);
 }

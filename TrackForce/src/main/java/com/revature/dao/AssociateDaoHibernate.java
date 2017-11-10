@@ -14,12 +14,12 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.utils.HibernateUtil;
 
 public class AssociateDaoHibernate implements AssociateDao {
+
 	/**
 	 * Get a associate from the database given its id.
 	 * 
@@ -52,22 +52,40 @@ public class AssociateDaoHibernate implements AssociateDao {
 		return associate;
 	}
 
+	/**
+	 * Updates an associate's marketing status and client in the database.
+	 * 
+	 * @param id
+	 *            - The ID of the associate to update.
+	 * @param marketingStatus
+	 *            - A TfMarketingStatus object with the status to change the
+	 *            associate to.
+	 * @param client
+	 *            - A TfClient object with what client the associate will be mapped
+	 *            to.
+	 */
 	@Override
 	public void updateInfo(BigDecimal id, TfMarketingStatus marketingStatus, TfClient client) {
-
-		TfBatch batch = new TfBatch();
-
-		TfAssociate associate = new TfAssociate();
-		associate.setTfMarketingStatus(marketingStatus);
-		associate.setTfBatch(batch);
-		associate.setTfClient(client);
 
 		SessionFactory factory = HibernateUtil.getSession();
 		Session session = factory.openSession();
 
+		TfMarketingStatus status = null;
+		if (marketingStatus.getTfMarketingStatusId() != null) {
+			status = session.get(TfMarketingStatus.class, marketingStatus.getTfMarketingStatusId());
+		}
+
+		TfClient tfclient = null;
+		if (client.getTfClientId() != null) {
+			tfclient = session.get(TfClient.class, client.getTfClientId());
+		}
+
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
+			TfAssociate associate = session.load(TfAssociate.class, id);
+			associate.setTfMarketingStatus(status);
+			associate.setTfClient(tfclient);
 
 			session.saveOrUpdate(associate);
 
@@ -76,6 +94,8 @@ public class AssociateDaoHibernate implements AssociateDao {
 			if (transaction != null) {
 				transaction.rollback();
 			}
+
+			;
 		} finally {
 			session.close();
 		}

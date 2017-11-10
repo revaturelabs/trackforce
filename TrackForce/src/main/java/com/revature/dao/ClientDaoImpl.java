@@ -19,22 +19,13 @@ public class ClientDaoImpl implements ClientDao {
 
 	private static List<TfClient> clients;
 
-	@Override
-	public List<TfClient> getAllTfClients() {
-		if (clients == null || clients.isEmpty()) {
-			Session session = HibernateUtil.getSession().openSession();
-			CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
-			cq.from(TfClient.class);
-			clients = session.createQuery(cq).getResultList();
-			for (TfClient client : clients) {
-				Hibernate.initialize(client.getTfClientId());
-				Hibernate.initialize(client.getTfClientName());
-			}
-			session.close();
-		}
-		return clients;
-	}
-
+	/**
+	 * Get information about a singular client.
+	 * 
+	 * @param name
+	 *            - The name of the client to retrieve.
+	 * @return - A TfClient object with information about the client.
+	 */
 	@Override
 	public TfClient getClient(String name) {
 		SessionFactory sessionFactory = HibernateUtil.getSession();
@@ -62,8 +53,26 @@ public class ClientDaoImpl implements ClientDao {
 		return client;
 	}
 
+	@Override
+	public List<TfClient> getAllTfClients() {
+		if (clients == null || clients.isEmpty()) {
+			Session session = HibernateUtil.getSession().openSession();
+			CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
+			cq.from(TfClient.class);
+			clients = session.createQuery(cq).getResultList();
+			for (TfClient client : clients) {
+				Hibernate.initialize(client.getTfClientId());
+				Hibernate.initialize(client.getTfClientName());
+			}
+			session.close();
+		}
+		return clients;
+	}
+
 	public void clearClients() {
-		clients.clear();
+		if (clients != null) {
+			clients.clear();
+		}
 	}
 
 }

@@ -91,4 +91,11 @@ public class TfEndClient implements java.io.Serializable {
 		this.tfInterviews = tfInterviews;
 	}
 
+    @Override
+    public String toString() {
+        return "TfEndClient [tfEndClientId=" + tfEndClientId + ", tfEndClientName=" + tfEndClientName
+                + ", tfAssociates=" + tfAssociates + ", tfPlacements=" + tfPlacements + ", tfInterviews=" + tfInterviews
+                + "]";
+    }
+
 }

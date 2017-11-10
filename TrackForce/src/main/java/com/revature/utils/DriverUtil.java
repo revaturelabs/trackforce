@@ -9,7 +9,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class DriverUtil {
 	
 
-
+	/**
+	 * 
+	 * @param browser
+	 * @return
+	 */
 	public static WebDriver getDriver(String browser) {
 		WebDriver driver;
 		switch (browser) {

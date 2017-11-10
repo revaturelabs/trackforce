@@ -66,8 +66,10 @@ public class StatusInfo {
 	}
 	
 	/**
-	 * This returns the name of this object.
-	 * @return this object's name.
+	 * Returns the name of this StatusInfo object.
+	 * The name specifies that this StatusInfo object contains 
+	 * status counts that may be tied to a specific client, a specific curriculum, etc.
+	 * @return the name for this StatusInfo object
 	 */
 	public String getName() {
 		return name;

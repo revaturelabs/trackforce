@@ -37,10 +37,12 @@ public class ClientResource {
 		List<TfClient> clients = clientDaoImpl.getAllTfClients();
 		List<Map<String, Object>> entity = new ArrayList<>();
 		for (TfClient client : clients) {
-			Map<String, Object> map = new HashMap<>();
-			map.put("id", client.getTfClientId());
-			map.put("name", client.getTfClientName());
-			entity.add(map);
+			if (!client.getTfAssociates().isEmpty()) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("id", client.getTfClientId());
+				map.put("name", client.getTfClientName());
+				entity.add(map);
+			}
 		}
 		return Response.ok(entity).build();
 	}
@@ -85,10 +87,7 @@ public class ClientResource {
 	 */
 	private void init() {
 		if (StatusInfoUtil.mapsAreEmpty()) {
-			homeDaoImpl.clearAssociates();
-			clientDaoImpl.clearClients();
-			StatusInfoUtil.clearMaps();
-			StatusInfoUtil.updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
+			initForce();
 		}
 	}
 

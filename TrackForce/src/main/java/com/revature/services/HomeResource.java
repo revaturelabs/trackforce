@@ -33,6 +33,17 @@ public class HomeResource {
 		return StatusInfoUtil.getAllAssociatesStatusInfo();
 	}
 
+	/**
+	 * Returns a Response object from StatusInfoUtil with a List of Map objects as
+	 * an entity. The format of the Map objects are as follows: <br>
+	 * name: (name of client) <br>
+	 * count: (count of desired status)
+	 * 
+	 * @param statusid
+	 *            Status id of the status/stage of associates that the requester
+	 *            wants information for.
+	 * @return a Response object with a List of Map objects as an entity.
+	 */
 	@GET
 	@Path("client/{statusid}")
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -41,6 +52,17 @@ public class HomeResource {
 		return Response.ok(StatusInfoUtil.getClientsBasedOnStatusID(statusid)).build();
 	}
 
+	/**
+	 * Returns a Response object from StatusInfoUtil with a List of Map objects as
+	 * an entity. The format of the Map objects are as follows: <br>
+	 * name: (name of curriculum) <br>
+	 * count: (count of desired status)
+	 * 
+	 * @param statusid
+	 *            Status id of the status/stage of associates that the requester
+	 *            wants information for.
+	 * @return a Response object with a List of Map objects as an entity.
+	 */
 	@GET
 	@Path("skillset/{statusid}")
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -49,11 +71,12 @@ public class HomeResource {
 		return Response.ok(StatusInfoUtil.getCurriculumsBasedOnStatusID(statusid)).build();
 	}
 
-	static boolean initialized = false;
-
+	/**
+	 * Initializes objects needed for functionality from the StatusInfoUtil when
+	 * maps in StatusInfoUtil are empty.
+	 */
 	private void init() {
-		if (!initialized) {
-			initialized = true;
+		if (StatusInfoUtil.mapsAreEmpty()) {
 			homeDaoImpl.clearAssociates();
 			clientDaoImpl.clearClients();
 			StatusInfoUtil.clearMaps();
@@ -61,10 +84,13 @@ public class HomeResource {
 		}
 	}
 
+	/**
+	 * Forces initialization of objects needed for functionality from the
+	 * StatusInfoUtil.
+	 */
 	@PUT
 	@Path("init")
 	public void initForce() {
-		initialized = true;
 		homeDaoImpl.clearAssociates();
 		clientDaoImpl.clearClients();
 		StatusInfoUtil.clearMaps();

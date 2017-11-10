@@ -1,12 +1,20 @@
 <div class="container">
-	<div ng-controller="PLACEHOLDER_Ctrl">
-		<h2 class="text-center text-primary">This is the home page</h2>
-		<div class="col-sm-6">
-			<h3 class="text-center text-primary" ng-model="statusName">Status
-				Name</h3>
-			<canvas id="radar" class="chart chart-radar" chart-data="data"
-				chart-colors="colors" chart-labels="labels" chart-options="options">
+	<div ng-init="onLoad()">
+	<div class="row">
+		<div class="col-lg-6">
+			<h3 class="text-center text-primary" ng-bind="selectedStatus">Status
+				Name</h3><br/>
+			<canvas id="bar" class="chart chart-bar" chart-type="chartType" chart-data="skillsetData"
+				chart-colors="colors" chart-click="skillsetClick" chart-labels="skillsetLabels" chart-options="options">
 		</canvas>
+		</div>
+		</div>
+		<div class="row">
+		<div class="col-md-6">
+		<button ng-click="changeChartType('bar')" class="btn btn-default">Bar Chart</button>
+		<button ng-click="changeChartType('pie')" class="btn btn-default">Pie Chart</button>
+		<button ng-click="changeChartType('polarArea')" class="btn btn-default">Polar Chart</button>
+		</div>
 		</div>
 	</div>
 </div>

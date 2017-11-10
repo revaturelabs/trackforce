@@ -14,27 +14,10 @@ public interface ClientDao {
 	 * A list of TfClient objects
 	 */
 	List<TfClient> getAllTfClients();
-
+	
 	/**
-	 * Returns a StatusInfo object representing the sums of each status for all clients.
-	 * 
-	 * @return
-	 * A StatusInfo object for all clients
-	 */
-	StatusInfo getAllClientInfo();
-
-	/**
-	 * Returns a StatusInfo object representing the sums of each status for a specified client.
-	 * 
-	 * @param id
-	 * the id of a TfClient record
-	 * @return
-	 * A StatusInfo object for a specified client
-	 */
-	StatusInfo getClientInfo(int id);
-
-	/**
-	 * Returns a 
+	 * Returns a single TfClient object
+	 * @param name - The name of the client to get
 	 * @return
 	 */
     TfClient getClient(String name);

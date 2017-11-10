@@ -37,10 +37,12 @@ public class ClientResource {
 		List<TfClient> clients = clientDaoImpl.getAllTfClients();
 		List<Map<String, Object>> entity = new ArrayList<>();
 		for (TfClient client : clients) {
-			Map<String, Object> map = new HashMap<>();
-			map.put("id", client.getTfClientId());
-			map.put("name", client.getTfClientName());
-			entity.add(map);
+			if (!client.getTfAssociates().isEmpty()) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("id", client.getTfClientId());
+				map.put("name", client.getTfClientName());
+				entity.add(map);
+			}
 		}
 		return Response.ok(entity).build();
 	}
@@ -75,26 +77,27 @@ public class ClientResource {
 		if (clientid < 1)
 			return new StatusInfo();
 		else {
-			return StatusInfoUtil.getClientStatusInfo(clientid);	
+			return StatusInfoUtil.getClientStatusInfo(clientid);
 		}
 	}
 
-	static boolean initialized = false;
-
+	/**
+	 * Initializes objects needed for functionality from the StatusInfoUtil when
+	 * maps in StatusInfoUtil are empty.
+	 */
 	private void init() {
-		if (!initialized) {
-			initialized = true;
-			homeDaoImpl.clearAssociates();
-			clientDaoImpl.clearClients();
-			StatusInfoUtil.clearMaps();
-			StatusInfoUtil.updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
+		if (StatusInfoUtil.mapsAreEmpty()) {
+			initForce();
 		}
 	}
 
+	/**
+	 * Forces initialization of objects needed for functionality from the
+	 * StatusInfoUtil.
+	 */
 	@PUT
 	@Path("init")
 	public void initForce() {
-		initialized = true;
 		homeDaoImpl.clearAssociates();
 		clientDaoImpl.clearClients();
 		StatusInfoUtil.clearMaps();

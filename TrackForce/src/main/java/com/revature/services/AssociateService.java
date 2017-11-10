@@ -34,19 +34,19 @@ public class AssociateService {
         associateinfo.setId(associate.getTfAssociateId());
         associateinfo.setFirstName(associate.getTfAssociateFirstName());
         associateinfo.setLastName(associate.getTfAssociateLastName());
-        
+
         if (associate.getTfMarketingStatus() != null) {
             associateinfo.setMarketingStatus(associate.getTfMarketingStatus().getTfMarketingStatusName());
         } else {
             associateinfo.setMarketingStatus("None");
         }
-        
+
         if (associate.getTfClient() != null) {
             associateinfo.setClient(associate.getTfClient().getTfClientName());
         } else {
             associateinfo.setClient("None");
         }
-        
+
         if (associate.getTfEndClient() != null) {
             associateinfo.setEndClient(associate.getTfEndClient().getTfEndClientName());
         } else {
@@ -59,26 +59,34 @@ public class AssociateService {
     /**
      * Update the marketing status or client of an associate from form data.
      * 
-     * @param id - The ID of the associate to change
-     * @param marketingStatus - What to change the associate's marketing status to
-     * @param client - What client to change the associate to
+     * @param id
+     *            - The ID of the associate to change
+     * @param marketingStatus
+     *            - What to change the associate's marketing status to
+     * @param client
+     *            - What client to change the associate to
      * @return - A http response with okay status
      */
     @PUT
     @Path("{associate}/update")
     @Produces({ MediaType.TEXT_HTML })
-    public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus, @FormParam("client") String client) {
+    public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus,
+            @FormParam("client") String client) {
         MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
         TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
-        
+
+        if (status == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid marketing status sent.").build();
+        }
+
         ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
         TfClient tfclient = clientDaoImpl.getClient(client);
-        
+
         BigDecimal associateID = new BigDecimal(Integer.parseInt(id));
-        
+
         AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
         associateDaoHibernate.updateInfo(associateID, status, tfclient);
-        
-        return Response.status(Response.Status.OK).entity("Updated the associate's information").build();
+
+        return Response.status(Response.Status.OK).entity("Updated the associate's information.").build();
     }
 }

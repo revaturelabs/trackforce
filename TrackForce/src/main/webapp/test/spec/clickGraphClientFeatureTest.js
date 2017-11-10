@@ -33,7 +33,7 @@ describe("clientMappedCtrl Test Suite", function(){
 	
 	
 	describe('Test functions for $http methods', function() {
-		it('Test getSkillsets()', function() {
+		it('Test clientMappedCtrl', function() {
 			
 			var names = [
 				"Infossy", 

@@ -67,4 +67,10 @@ angular.module('mainApp').config(function($routeProvider) {
 		templateUrl : "skillset.html",
 		controller : "skillsetCtrl"
 	})
+	
+	//Create user page
+	.when("/createUser",{
+		templateUrl: "createNewUser.html",
+		controller: "createUserCtrl"
+	})
 });

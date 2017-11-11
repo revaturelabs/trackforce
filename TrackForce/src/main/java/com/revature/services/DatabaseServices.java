@@ -15,8 +15,6 @@ public class DatabaseServices {
     @Path("populateDB")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response populateDB() {
-        System.out.println("In Services");
-
         String string;
         DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
         string = dbCalls.populate();
@@ -28,8 +26,6 @@ public class DatabaseServices {
     @Path("deleteFromDB")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response deleteDB() {
-        System.out.println("In Services");
-
         String string;
         DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
         string = dbCalls.deleteAll();
@@ -41,8 +37,6 @@ public class DatabaseServices {
     @Path("populateDBSF")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response populateDBSF() {
-        System.out.println("In Services");
-
         String string;
         DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
         string = dbCalls.populateSF();

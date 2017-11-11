@@ -8,6 +8,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class DriverUtil {
 
+    /**
+     * Hide default no-args constructor
+     */
+    private DriverUtil() {
+    }
+
     public static WebDriver getDriver(String browser) {
         WebDriver driver;
         switch (browser) {
@@ -24,7 +30,6 @@ public class DriverUtil {
 
     public static WebDriver getChromeDriver() {
         File chromeExe = new File("C:\\Automation\\chromedriver_win32\\chromedriver.exe");
-        System.out.println(chromeExe.getPath());
         System.setProperty("webdriver.chrome.driver", chromeExe.getAbsolutePath());
         return new ChromeDriver();
     }

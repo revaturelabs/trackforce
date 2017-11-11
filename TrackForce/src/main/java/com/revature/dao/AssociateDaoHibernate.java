@@ -19,12 +19,11 @@ import com.revature.entity.TfMarketingStatus;
 import com.revature.utils.HibernateUtil;
 
 public class AssociateDaoHibernate implements AssociateDao {
-    
+
     /**
      * Get a associate from the database given its id.
      * 
      * @param associateid
-     * 
      */
     @Override
     public TfAssociate getAssociate(BigDecimal associateid) {
@@ -69,7 +68,7 @@ public class AssociateDaoHibernate implements AssociateDao {
         if (marketingStatus.getTfMarketingStatusId() != null) {
             status = session.get(TfMarketingStatus.class, marketingStatus.getTfMarketingStatusId());
         }
-        
+
         TfClient tfclient = null;
         if (client.getTfClientId() != null) {
             tfclient = session.get(TfClient.class, client.getTfClientId());
@@ -90,7 +89,6 @@ public class AssociateDaoHibernate implements AssociateDao {
                 transaction.rollback();
             }
 
-            ;
         } finally {
             session.close();
         }

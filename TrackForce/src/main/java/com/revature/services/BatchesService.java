@@ -150,7 +150,6 @@ public class BatchesService {
             batchesList.add(batchDetails);
         }
 
-        System.out.println(batchesList);
         return batchesList;
     }
 

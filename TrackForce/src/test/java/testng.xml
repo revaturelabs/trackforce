@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<suite name="Suite" parallel="false">
+  <test name="Test">
+    <classes>
+      <class name="com.revature.dao.ClientDaoImplTest"/>
+      <class name="com.revature.dao.DatabaseDaoImpl"/>
+      <class name="com.revature.services.DatabaseServicesTest"/>
+      <class name="com.revature.dao.MarketingStatusDaoTest"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->

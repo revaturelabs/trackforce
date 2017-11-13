@@ -8,7 +8,6 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 	var threeMonthsBefore = currentTime - 7889238000;
 	
 	$scope.onLoad = function(){
-		console.log('hello');
 		$http({
 			method : 'GET',
 			url : 'http://localhost:8080/TrackForce/track/info',
@@ -142,7 +141,6 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 			url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter,
 		}).then(function successCallback(response) {
 			$rootScope.batches = response.data;
-			console.log($rootScope.batches);
 		}, function errorCallback(response) {
 			console.log('Error in doing http request')
 		});
@@ -156,7 +154,6 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 			// this callback will be called asynchronously
 			// when the response is available
 			var amountType = response.data;
-			console.log(response.data); 
 			$scope.labels = ["Java", "SEED", "JTA",".NET", "PEGA", "DynamicCRM", "Salesforce","Microservices","Oracle Fusion"]
 			$scope.data = [amountType.Java, amountType.SEED, amountType.JTA, amountType[".Net"], amountType.PEGA, amountType.DynamicCRM, amountType.Salesforce, amountType.Microservices, amountType["Oracle Fusion"]];
 			$scope.options = {legend : {

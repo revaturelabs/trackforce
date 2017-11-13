@@ -17,7 +17,6 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 			url : 'http://localhost:8080/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime(),
 		}).then(function successCallback(response) {
 			$scope.batches = response.data;
-			console.log($scope.batches);
 		}, function errorCallback(response) {
 			console.log('Error in doing http request')
 		});
@@ -33,7 +32,6 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 			// this callback will be called asynchronously
 			// when the response is available
 			var amountType = response.data;
-			console.log(response.data); 
 			$scope.labels = ["Java", "SEED", "JTA",".NET", "PEGA", "DynamicCRM", "Salesforce","Microservices","Oracle Fusion"]
 			$scope.data = [amountType.Java, amountType.SEED, amountType.JTA, amountType[".Net"], amountType.PEGA, amountType.DynamicCRM, amountType.Salesforce, amountType.Microservices, amountType["Oracle Fusion"]];
 		}, function errorCallback(response) {

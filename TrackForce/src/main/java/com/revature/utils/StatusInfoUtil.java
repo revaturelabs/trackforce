@@ -12,8 +12,6 @@ import com.revature.entity.TfCurriculum;
 import com.revature.model.StatusInfo;
 /**
  * Helper class that compiles collections of StatusInfo objects.
- * @author Jacob Hackel
- * @version 1.0
  *
  */
 public class StatusInfoUtil {

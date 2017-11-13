@@ -25,18 +25,22 @@ public class UserDaoImplTest {
 
 	UserDaoImpl uDao = new UserDaoImpl();
 
+    @DataProvider(name = "userName")
+    public String[] userName() {
+        return new String[] { "TestAdmin" };
+    }
 
-	@DataProvider(name = "userName")
-	public String[] userName() {
-		return new String[] { "TestAdmin" };
-	}
+    @DataProvider
+    public TfUser[] user() {
+        return new TfUser[] { new TfUser(new BigDecimal(1), new TfRole(new BigDecimal(2)), "jdoe", "password1") };
+    }
 
 
-	
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
+        assertNotNull(criteriaQuery);
 
-	@Test(dataProvider = "userName")
-	public void getUserString(String username) {
-		TfUser result = uDao.getUser(username);
-		assertNotNull(result);
-	}
+        Root<TfUser> root = criteriaQuery.from(TfUser.class);
+        criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
+        Query<TfUser> query = session.createQuery(criteriaQuery);
 }

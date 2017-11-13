@@ -36,7 +36,7 @@ public class UserResource {
 	@Produces({ MediaType.TEXT_HTML })
 	public Response submitCredentials(@FormParam("username") String username, @FormParam("password") String password) {
 		TfUser tfUser = userDaoImpl.getUser(username);
-		String hashedPassword = tfUser.getTfUserHashpassword();
+		String hashedPassword = tfUser.getTfHashpassword();
 		try {
 			if (PasswordStorage.verifyPassword(password, hashedPassword)) {
 				URI homeLocation = new URI("html/home.html");

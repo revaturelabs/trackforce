@@ -23,27 +23,12 @@ import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 
 public class UserDaoImplTest {
 
-  @DataProvider
-  public Object[][] userID() {
-    return new Object[][] {
-      new Object[] { new BigDecimal(1) }
-    };
-  }
-  
-  @DataProvider
-  public Object[][] userName() {
-    return new Object[][] {
-      new Object[] { "TestAdmin" }
-    };
-  }
-  
-  @DataProvider
-  public Object[][] user() {
-		return new Object[][] {
-			new Object[] {new TfUser( new BigDecimal(1), new TfRole(new BigDecimal(2)),
-					"jdoe", "password1")}
-		};
-  }
+	UserDAO uDao = new UserDaoImpl();
+	
+	@DataProvider(name = "userName")
+	public String[] userName() {
+		return new String[] { "TestAdmin" };
+	}
 
   /*@Test(dataProvider = "userID")
 	public void getUserBigDecimal(BigDecimal userid) {
@@ -123,4 +108,17 @@ public class UserDaoImplTest {
     String role = new String();
     assertFalse(role.isEmpty());
   }*/
+	
+
+	@Test(dataProvider = "userName")
+	public void getUserString(String username) {
+		TfUser result = uDao.getUser(username);
+		assertNotNull(result);
+	}
+
+	/*@Test(dataProvider = "user")
+	public void getUserHash(TfUser user) {
+		String result = uDao.getUserHash(user);
+		assertNotNull(result);
+	}*/
 }

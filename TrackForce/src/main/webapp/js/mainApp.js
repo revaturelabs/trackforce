@@ -19,19 +19,32 @@ angular.module('mainApp', [ 'ngRoute', 'chart.js' ]);
 angular.module('mainApp').config(function($routeProvider) {
 	$routeProvider
 	
-	// Home Page 
+	/**
+	 * @function /
+	 * @memberof mainApp.config
+	 * @description Route for the home page
+	 */
 	.when("/", {
 		templateUrl : "home.html",
 		controller : "indexCtrl"
 	})
 	
-	// Batch Listing Page
+	/**
+	 * @function /batchListing
+	 * @memberof mainApp.config
+	 * @description Route for the Batch Listing page
+	 */
 	.when("/batchListing", {
 		templateUrl : "batchListing.html",
 		controller : "batchCtrl"
 	})
 
-	// Unmapped View Page route
+	/**
+	 * @function /batchDetails/:batchname
+	 * @memberof mainApp.config
+	 * @param {
+	 * @description Route for the Batch Details page which sends batch
+	 */
 	.when("/batchDetails/:batchname", {
 		templateUrl : "batchDetails.html",
 		controller : "batchDetailsCtrl",

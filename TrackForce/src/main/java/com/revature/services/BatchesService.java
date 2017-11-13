@@ -1,9 +1,8 @@
 package com.revature.services;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,8 +43,8 @@ public class BatchesService {
 			@PathParam("todate") long todate) {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 
-		List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
-		Map<String, Integer> chartData = new Hashtable<String, Integer>();
+        List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
+        Map<String, Integer> chartData = new HashMap<>();
 
 		for (TfBatch batch : batches) {
 			String curriculumName = batch.getTfCurriculum().getTfCurriculumName();
@@ -78,75 +77,75 @@ public class BatchesService {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 		TfBatch batch = batchDao.getBatch(batchName);
 
-		String name = batch.getTfBatchName();
-		String curriculumName = batch.getTfCurriculum().getTfCurriculumName();
-		String batchLocation = batch.getTfBatchLocation().getTfBatchLocationName();
-		String startDate = batch.getTfBatchStartDate().toString();
-		String endDate = batch.getTfBatchEndDate().toString();
+		BatchInfo batchInfo = new BatchInfo();
+		batchInfo.setBatchName(batch.getTfBatchName());
+		batchInfo.setCurriculumName(batch.getTfCurriculum().getTfCurriculumName());
+		batchInfo.setLocation(batch.getTfBatchLocation().getTfBatchLocationName());
+		batchInfo.setStartDate(batch.getTfBatchStartDate().toString());
+		batchInfo.setEndDate(batch.getTfBatchEndDate().toString());
+		
+		return batchInfo;
+    }
+    
+    /**
+     * Gets the number of associates that are mapped and unmapped within a
+     * particular batch
+     * 
+     * @param batchName
+     *            - the name of a batch that is in the database
+     * @return - A map with the key being either Mapped or Unmapped and the value
+     *         being the number of associates in those statuses.
+     */
+    @GET
+    @Path("{batch}/batchChart")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Integer> getMappedData(@PathParam("batch") String batchName) {
+        Map<String, Integer> mappedChartData = new HashMap<>();
+        BatchDaoHibernate batchDao = new BatchDaoHibernate();
+        TfBatch selectedBatch = batchDao.getBatch(batchName);
+        int unmappedCount = 0;
+        int mappedCount = 0;
+        for (TfAssociate associate : selectedBatch.getTfAssociates()) {
+            if (associate.getTfMarketingStatus().getTfMarketingStatusName().contains("UNMAPPED")) {
+                unmappedCount++;
+            } else if (associate.getTfMarketingStatus().getTfMarketingStatusName().contains("TERMINATED")
+                    || associate.getTfMarketingStatus().getTfMarketingStatusName().contains("DIRECTLY")) {
+                continue;
+            } else {
+                mappedCount++;
+            }
+        }
+        mappedChartData.put("Unmapped", unmappedCount);
+        mappedChartData.put("Mapped", mappedCount);
+        return mappedChartData;
 
-		return new BatchInfo(name, curriculumName, batchLocation, startDate, endDate);
 	}
 
-	/**
-	 * Gets the number of associates that are mapped and unmapped within a
-	 * particular batch
-	 * 
-	 * @param batchName
-	 *            - the name of a batch that is in the database
-	 * @return - A map with the key being either Mapped or Unmapped and the value
-	 *         being the number of associates in those statuses.
-	 */
-	@GET
-	@Path("{batch}/batchChart")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Map<String, Integer> getMappedData(@PathParam("batch") String batchName) {
-		Map<String, Integer> mappedChartData = new Hashtable<String, Integer>();
-		BatchDaoHibernate batchDao = new BatchDaoHibernate();
-		TfBatch selectedBatch = batchDao.getBatch(batchName);
-		int unmappedCount = 0;
-		int mappedCount = 0;
-		for (TfAssociate associate : selectedBatch.getTfAssociates()) {
-			if (associate.getTfMarketingStatus().getTfMarketingStatusName().contains("UNMAPPED")) {
-				unmappedCount++;
-			} else if (associate.getTfMarketingStatus().getTfMarketingStatusName().contains("TERMINATED")
-					|| associate.getTfMarketingStatus().getTfMarketingStatusName().contains("DIRECTLY")) {
-				continue;
-			} else {
-				mappedCount++;
-			}
-		}
-		mappedChartData.put("Unmapped", unmappedCount);
-		mappedChartData.put("Mapped", mappedCount);
-		return mappedChartData;
-
-	}
-
-	/**
-	 * Gets all batches that are running within a given date range
-	 * 
-	 * @param fromdate
-	 *            - the starting date of the date range
-	 * @param todate
-	 *            - the ending date of the date range
-	 * @return - A list of the batch info. Batch info contains batch name, client
-	 *         name, batch start date, and batch end date.
-	 */
-	@GET
-	@Path("{fromdate}/{todate}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<BatchInfo> getBatches(@PathParam("fromdate") long fromdate, @PathParam("todate") long todate) {
-		ArrayList<BatchInfo> batchesList = new ArrayList<BatchInfo>();
+    /**
+     * Gets all batches that are running within a given date range
+     * 
+     * @param fromdate
+     *            - the starting date of the date range
+     * @param todate
+     *            - the ending date of the date range
+     * @return - A list of the batch info. Batch info contains batch name, client
+     *         name, batch start date, and batch end date.
+     */
+    @GET
+    @Path("{fromdate}/{todate}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<BatchInfo> getBatches(@PathParam("fromdate") long fromdate, @PathParam("todate") long todate) {
+        ArrayList<BatchInfo> batchesList = new ArrayList<>();
 
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 		List<TfBatch> list = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
 
 		for (TfBatch batch : list) {
 
-			String batchName = batch.getTfBatchName();
-			String startDate = batch.getTfBatchStartDate().toString();
-			String endDate = batch.getTfBatchEndDate().toString();
-
-			BatchInfo batchDetails = new BatchInfo(batchName, startDate, endDate);
+			BatchInfo batchDetails = new BatchInfo();
+			batchDetails.setBatchName(batch.getTfBatchName());
+			batchDetails.setStartDate(batch.getTfBatchStartDate().toString());
+			batchDetails.setEndDate(batch.getTfBatchEndDate().toString());
 
 			batchesList.add(batchDetails);
 		}
@@ -154,19 +153,19 @@ public class BatchesService {
 		return batchesList;
 	}
 
-	/**
-	 * Gets the information of the associates in a particular batch
-	 * 
-	 * @param batchName
-	 *            - the name of a batch that is in the database
-	 * @return - A list of the lists of associate info. Associate info contains id,
-	 *         first name, last name, and marketing status.
-	 */
-	@GET
-	@Path("{batch}/associates")
-	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<AssociateInfo> getAssociates(@PathParam("batch") String batchName) {
-		ArrayList<AssociateInfo> associatesList = new ArrayList<AssociateInfo>();
+    /**
+     * Gets the information of the associates in a particular batch
+     * 
+     * @param batchName
+     *            - the name of a batch that is in the database
+     * @return - A list of the lists of associate info. Associate info contains id,
+     *         first name, last name, and marketing status.
+     */
+    @GET
+    @Path("{batch}/associates")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<AssociateInfo> getAssociates(@PathParam("batch") String batchName) {
+        ArrayList<AssociateInfo> associatesList = new ArrayList<>();
 
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 		TfBatch batch = batchDao.getBatch(batchName);
@@ -176,11 +175,12 @@ public class BatchesService {
 					|| associate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
 				continue;
 			}
-			BigDecimal id = associate.getTfAssociateId();
-			String firstName = associate.getTfAssociateFirstName();
-			String lastName = associate.getTfAssociateLastName();
-			String marketingStatus = associate.getTfMarketingStatus().getTfMarketingStatusName();
-			AssociateInfo associateDetails = new AssociateInfo(id, firstName, lastName, marketingStatus, "");
+			
+			AssociateInfo associateDetails = new AssociateInfo();
+			associateDetails.setId(associate.getTfAssociateId());
+			associateDetails.setFirstName(associate.getTfAssociateFirstName());
+			associateDetails.setLastName(associate.getTfAssociateLastName());
+			associateDetails.setMarketingStatus(associate.getTfMarketingStatus().getTfMarketingStatusName());
 
 			associatesList.add(associateDetails);
 		}

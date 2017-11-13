@@ -43,7 +43,11 @@ angular.module('mainApp').config(function($routeProvider) {
 		templateUrl : "associateListing.html",
 		controller : "associateCtrl"
 	})
-	
+	//Associate List Page with params
+	.when("/associateListing/:skill/:client/:status",{
+		templateUrl:"associateListing.html",
+		controller : "associateCtrl"
+	})
 	// Form Page
 	.when("/form/:associateId", {
 		templateUrl : "form.html",

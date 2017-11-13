@@ -53,15 +53,12 @@ public class BatchesService {
 	public List<Map<String, Object>> getBatchChartInfo(@PathParam("fromdate") long fromdate,
 			@PathParam("todate") long todate) {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
-
 		List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
 		Map<String, Integer> curriculumData = new Hashtable<String, Integer>();
 		List<String> curriculums = new ArrayList<String>();
 		List<Map<String, Object>> chartData = new ArrayList<Map<String, Object>>();
-
 		for (TfBatch batch : batches) {
 			String curriculumName = batch.getTfCurriculum().getTfCurriculumName();
-
 			if (curriculumData.containsKey(curriculumName)) {
 				int moreAssociates = batch.getTfAssociates().size();
 				int totalAssociates = curriculumData.get(curriculumName) + moreAssociates;

@@ -38,7 +38,7 @@ public class UserDaoImplTest {
 
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
-        assertNotNull(criteriaQuery);
+        Assert.assertNotNull(criteriaQuery);
 
         Root<TfUser> root = criteriaQuery.from(TfUser.class);
         criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));

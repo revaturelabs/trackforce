@@ -23,7 +23,6 @@ import com.revature.model.AssociateInfo;
 
 @Path("associates")
 public class AssociateService {
-
 	private HomeDaoImpl homeDaoImpl = new HomeDaoImpl();
 
 	@GET

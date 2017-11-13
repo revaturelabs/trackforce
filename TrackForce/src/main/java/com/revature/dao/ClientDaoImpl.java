@@ -28,28 +28,25 @@ public class ClientDaoImpl implements ClientDao {
 	 */
 	@Override
 	public TfClient getClient(String name) {
-		SessionFactory sessionFactory = HibernateUtil.getSession();
-		Session session = sessionFactory.openSession();
-
-		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
-
-		Root<TfClient> root = criteriaQuery.from(TfClient.class);
-
-		criteriaQuery.select(root).where(builder.equal(root.get("tfClientName"), name));
-
-		Query<TfClient> query = session.createQuery(criteriaQuery);
-
 		TfClient client;
+		SessionFactory sessionFactory = HibernateUtil.getSession();
+		try (Session session = sessionFactory.openSession()) {
 
-		try {
-			client = query.getSingleResult();
-		} catch (NoResultException nre) {
-			client = new TfClient();
-		} finally {
-			session.close();
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
+
+			Root<TfClient> root = criteriaQuery.from(TfClient.class);
+
+			criteriaQuery.select(root).where(builder.equal(root.get("tfClientName"), name));
+
+			Query<TfClient> query = session.createQuery(criteriaQuery);
+
+			try {
+				client = query.getSingleResult();
+			} catch (NoResultException nre) {
+				client = new TfClient();
+			}
 		}
-
 		return client;
 	}
 

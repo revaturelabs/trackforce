@@ -1,44 +1,38 @@
-<div class="container">
+<div class="container" ng-init="getAllClientNames(); onLoad()">
 	<div class="table-responsive">
 		<div class="form-group">
 			<div class="row">
 				<div class="col-sm-6">
-					<label for="name"> Search By Name: </label>
-					<input type="text" class="form-control" id="name">
+					<label for="name"> Search By Text: </label>
+					<input type="text" class="form-control" id="name" ng-model="searchByName">
 				</div>
 				<div class="col-sm-2">					
 					<label for="mStatus">Marketing Status: </label>
-					<select class="form-control" id="mStatus">
-						<option>Mapped: Training</option>
-						<option>Mapped: Reserved</option>
-						<option>Mapped: Selected</option>
-						<option>Mapped: Confirmed</option>
-						<option>Mapped: Deployed</option>
-						<option>Unmapped: Training</option>
-						<option>Unmapped: Open</option>
-						<option>Unmapped: Selected</option>
-						<option>Unmapped: Confirmed</option>
-						<option>Unmapped: Deployed</option>
+					<select class="form-control" id="mStatus" ng-model="searchByStatus">
+						<option>MAPPED: TRAINING</option>
+						<option>MAPPED: RESERVED</option>
+						<option>MAPPED: SELECTED</option>
+						<option>MAPPED: CONFIRMED</option>
+						<option>MAPPED: DEPLOYED</option>
+						<option>UNMAPPED: TRAINING</option>
+						<option>UNMAPPED: OPEN</option>
+						<option>UNMAPPED: SELECTED</option>
+						<option>UNMAPPED: CONFIRMED</option>
+						<option>UNMAPPED: DEPLOYED</option>
 					</select>
 				</div>
 				<div class="col-sm-2">					
 					<label for="skill">Skill: </label>
-					<select class="form-control" id="skill">
-						<option>Skills</option>
-						<option>Skills</option>
-						<option>Skills</option>
-						<option>Skills</option>
-						<option>Skills</option>
+					<select class="form-control" id="skill" ng-model="searchBySkill">
+						<option selected="selected">None</option>
+						<option ng-repeat="curriculum in labels">{{curriculum}}</option>
 					</select>
 				</div>					
 				<div class="col-sm-2">					
 					<label for="client">Client: </label>
-					<select class="form-control" id="client">
-						<option>Client</option>
-						<option>Client</option>
-						<option>Client</option>
-						<option>Client</option>
-						<option>Client</option>
+					<select	class="form-control" id="client" ng-model="searchByClient">
+						<option selected="selected">None</option>
+						<option ng-repeat="client in clients | orderBy:'name'">{{client.name}}</option>
 					</select>
 				</div>					
 			</div>
@@ -55,13 +49,13 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="associate in associates">
-					<td>{{associate.id}}</td>
-					<td>{{associate.id}}</td>
-					<td>{{associate.id}}</td>
-					<td>{{associate.id}}</td>
-					<td>{{associate.id}}</td>
-					<td>{{associate.id}}</td>
+				<tr ng-repeat="associate in associateInfo | filter: searchByName | filter: searchByClient | filter: searchByStatus : true | filter: searchBySkill">
+					<td><a href=#!/form/{{associate.id}}>{{associate.id}}</a></td>
+					<td>{{associate.firstName}}</td>
+					<td>{{associate.lastName}}</td>
+					<td>{{associate.marketingStatus}}</td>
+					<td>{{associate.client}}</td>
+					<td><a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a></td>
 				</tr>
 			</tbody>
 		</table>

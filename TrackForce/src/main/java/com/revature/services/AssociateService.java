@@ -23,6 +23,7 @@ import com.revature.model.AssociateInfo;
 
 @Path("associates")
 public class AssociateService {
+
 	private HomeDaoImpl homeDaoImpl = new HomeDaoImpl();
 
 	@GET
@@ -31,6 +32,7 @@ public class AssociateService {
 	public AssociateInfo getAssociate(@PathParam("associateid") BigDecimal associateid) {
 		AssociateDaoHibernate associatedao = new AssociateDaoHibernate();
 		TfAssociate associate = associatedao.getAssociate(associateid);
+		System.out.println(associate.getTfMarketingStatus());
 		AssociateInfo associateinfo = new AssociateInfo();
 		associateinfo.setId(associate.getTfAssociateId());
 		associateinfo.setFirstName(associate.getTfAssociateFirstName());
@@ -56,21 +58,22 @@ public class AssociateService {
 		return associateinfo;
 	}
 
-    /**
-     * Update the marketing status or client of an associate from form data.
-     * 
-     * @param id
-     *            - The ID of the associate to change
-     * @param marketingStatus
-     *            - What to change the associate's marketing status to
-     * @param client
-     *            - What client to change the associate to
-     * @return
-     */
-    @GET
-    @Path("{associateId}/update/{marketingStatus}/{client}")
-    @Produces({ MediaType.TEXT_HTML })
-    public Response updateAssociate(@PathParam("associateId") String id, @PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client) {
+	/**
+	 * Update the marketing status or client of an associate from form data.
+	 * 
+	 * @param id
+	 *            - The ID of the associate to change
+	 * @param marketingStatus
+	 *            - What to change the associate's marketing status to
+	 * @param client
+	 *            - What client to change the associate to
+	 * @return
+	 */
+	@GET
+	@Path("{associateId}/update/{marketingStatus}/{client}")
+	@Produces({ MediaType.TEXT_HTML })
+	public Response updateAssociate(@PathParam("associateId") String id,
+			@PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client) {
 		MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
 		TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
 
@@ -96,13 +99,21 @@ public class AssociateService {
 		List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates();
 		List<AssociateInfo> associateInfos = new ArrayList<>();
 		for (TfAssociate tfAssociate : tfAssociates) {
-			associateInfos.add(new AssociateInfo(tfAssociate.getTfAssociateId(), tfAssociate.getTfAssociateFirstName(),
-					tfAssociate.getTfAssociateLastName(),
-					tfAssociate.getTfMarketingStatus() != null
-							? tfAssociate.getTfMarketingStatus().getTfMarketingStatusName()
-							: "",
-					tfAssociate.getTfClient() != null ? tfAssociate.getTfClient().getTfClientName() : "None",
-					tfAssociate.getTfBatch() != null ? tfAssociate.getTfBatch().getTfBatchName() : ""));
+			BigDecimal tfAssociateId = tfAssociate.getTfAssociateId();
+			String tfAssociateFirstName = tfAssociate.getTfAssociateFirstName();
+			String tfAssociateLastName = tfAssociate.getTfAssociateLastName();
+			String tfMarketingStatusName = tfAssociate.getTfMarketingStatus() != null
+					? tfAssociate.getTfMarketingStatus().getTfMarketingStatusName()
+					: "";
+			String tfClientName = tfAssociate.getTfClient() != null ? tfAssociate.getTfClient().getTfClientName()
+					: "None";
+			String tfBatchName = tfAssociate.getTfBatch() != null ? tfAssociate.getTfBatch().getTfBatchName() : "";
+			String tfCurriculum = tfAssociate.getTfBatch() != null ? (tfAssociate.getTfBatch().getTfCurriculum() != null
+					? tfAssociate.getTfBatch().getTfCurriculum().getTfCurriculumName()
+					: "") : "";
+
+			associateInfos.add(new AssociateInfo(tfAssociateId, tfAssociateFirstName, tfAssociateLastName,
+					tfMarketingStatusName, tfClientName, tfBatchName, tfCurriculum));
 		}
 		return Response.ok(associateInfos).build();
 	}

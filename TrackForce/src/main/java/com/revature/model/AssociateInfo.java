@@ -14,6 +14,7 @@ public class AssociateInfo {
 	private String client;
 	private String endClient;
 	private String batchName;
+	private String curriculumName;
 
 	/**
 	 * Constructs a newly allocated BatchInfo object that represents an associate.
@@ -26,8 +27,8 @@ public class AssociateInfo {
 	 *            - The associate's last name.
 	 * @param marketingStatus
 	 *            - The associate's marketing status (mapped, unmapped, etc.)
-	 * @param client
-	 *            -The clients's name.
+	 * @param clientid-The
+	 *            clients's name.
 	 */
 	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client) {
 		super();
@@ -39,7 +40,7 @@ public class AssociateInfo {
 	}
 
 	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client,
-			String batchName) {
+			String batchName, String curriculumName) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -48,10 +49,10 @@ public class AssociateInfo {
 		this.client = client;
 		this.endClient = "";
 		this.batchName = batchName;
+		this.curriculumName = curriculumName;
 	}
 
 	public AssociateInfo() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -168,7 +169,7 @@ public class AssociateInfo {
 		this.endClient = endClient;
 	}
 
-  public String getBatchName() {
+	public String getBatchName() {
 		return batchName;
 	}
 
@@ -176,11 +177,21 @@ public class AssociateInfo {
 		this.batchName = batchName;
 	}
 
+	public String getCurriculumName() {
+		return curriculumName;
+	}
+
+	public void setCurriculumName(String curriculumName) {
+		this.curriculumName = curriculumName;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((batchName == null) ? 0 : batchName.hashCode());
 		result = prime * result + ((client == null) ? 0 : client.hashCode());
+		result = prime * result + ((curriculumName == null) ? 0 : curriculumName.hashCode());
 		result = prime * result + ((endClient == null) ? 0 : endClient.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -198,10 +209,20 @@ public class AssociateInfo {
 		if (getClass() != obj.getClass())
 			return false;
 		AssociateInfo other = (AssociateInfo) obj;
+		if (batchName == null) {
+			if (other.batchName != null)
+				return false;
+		} else if (!batchName.equals(other.batchName))
+			return false;
 		if (client == null) {
 			if (other.client != null)
 				return false;
 		} else if (!client.equals(other.client))
+			return false;
+		if (curriculumName == null) {
+			if (other.curriculumName != null)
+				return false;
+		} else if (!curriculumName.equals(other.curriculumName))
 			return false;
 		if (endClient == null) {
 			if (other.endClient != null)
@@ -234,6 +255,7 @@ public class AssociateInfo {
 	@Override
 	public String toString() {
 		return "AssociateInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", marketingStatus="
-				+ marketingStatus + ", client=" + client + ", endClient=" + endClient + "]";
+				+ marketingStatus + ", client=" + client + ", endClient=" + endClient + ", batchName=" + batchName
+				+ ", curriculumName=" + curriculumName + "]";
 	}
 }

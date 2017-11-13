@@ -23,20 +23,46 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 	}
 	
 	$scope.onLoad = function (){
-		if($routeParams.client=='default'||$routeParams.client==null){
-			$scope.chartClient='';
+		if($routeParams.client=='default'||$routeParams.client==undefined){
+			$scope.searchByClient='';
 		} else {
-			$scope.chartClient=$routeParams.client;
+			$scope.searchByClient=$routeParams.client;
 		}
-		if($routeParams.skill=='default'||$routeParams.skill==null){
-			$scope.chartSkill='';
+		if($routeParams.skill=='default'||$routeParams.skill==undefined){
+			$scope.searchBySkill='';
 		} else {
-			$scope.chartSkill=$routeParams.skill;
+			$scope.searchBySkill=$routeParams.skill;
 		}
-		if($routeParams.status=='default'||$routeParams.status==null){
-			$scope.chartStatus='';
+		if($routeParams.status=='default'||$routeParams.status==undefined){
+			$scope.searchByStatus='';
 		} else {
-			$scope.chartStatus=$routeParams.status;
+			$scope.searchByStatus=$routeParams.status;
+			if($scope.searchByStatus=='Training' && ($routeParams.skill=='default'||$routeParams.skill==undefined)){
+				$scope.searchByStatus='MAPPED: TRAINING';
+			} 
+			else if($scope.searchByStatus=='Training' && ($routeParams.client=='default'||$routeParams.client==undefined)){
+				$scope.searchByStatus='UNMAPPED: TRAINING';
+			}
+			else if($scope.searchByStatus=='Reserved'){
+				$scope.searchByStatus='MAPPED: RESERVED';
+			}
+			else if($scope.searchByStatus=='Open'){
+				$scope.searchByStatus='UNMAPPED: OPEN';
+			}
+			else if($scope.searchByStatus=='Selected' &&($routeParams.skill=='default'||$routeParams.skill==undefined)){
+				$scope.searchByStatus='MAPPED: SELECTED';
+			} 
+			else if($scope.searchByStatus=='Selected' && ($routeParams.client=='default'||$routeParams.client==undefined)){
+				$scope.searchByStatus='UNMAPPED: SELECTED';
+			}
+			else if($scope.searchByStatus=='Confirmed'&& ($routeParams.skill=='default'||$routeParams.skill==undefined)){
+				$scope.searchByStatus='MAPPED: CONFIRMED';
+			} else if($scope.searchByStatus=='Confirmed' && ($routeParams.client=='default'||$routeParams.client==undefined)){
+				$scope.searchByStatus='UNMAPPED: CONFIRMED';
+			}
+			else if($scope.searchByStatus=='Deployed'&&($routeParams.skill=='default'||$routeParams.skill==undefined)){
+				$scope.searchByStatus='MAPPED: DEPLOYED';
+			} else{$scope.searchByStatus='UNMAPPED: DEPLOYED';}
 		}
 	}
 	

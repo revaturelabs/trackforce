@@ -9,10 +9,29 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 		$scope.associateInfo = response.data;
 	})
 	
-//	$http({
-//		method : "GET",
-//		url : "http://localhost:8080/TrackForce/track/" + $routeParam.statusId
-//	}).then(function(response) {
-//		$scope.associates = response.data;
-//	})
+	$scope.updateAssociate = function() {
+		$http({
+			method : "PUT",
+			url : "http://localhost:8080/TrackForce/track/associates/" + $routeParams.associateId + "/update",
+			headers : {'Content-Type' : 'application/x-www-form-urlencoded'},	
+			data : {
+				marketingStatus: $scope.associateInfo.marketingStatus,
+				client: $scope.associateInfo.client
+			}
+		}).then(function(response) {
+			$scope.message = response.data;
+			if(response.statusCode == 404) {
+				console.log("resource does not exist");
+			}
+		})
+	}
+
+	$scope.getAllClientNames = function() {
+		$http({
+			method : "GET",
+			url : "http://localhost:8080/TrackForce/track/clients"
+		}).then(function(response) {
+			$scope.clients = response.data;
+		});
+	}
 });

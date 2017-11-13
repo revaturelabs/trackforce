@@ -68,10 +68,14 @@ public class AssociateService {
      * @return
      */
     @PUT
-    @Path("{associate}/update")
+    @Path("{associateId}/update")
     @Produces({ MediaType.TEXT_HTML })
-    public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus,
+    public Response updateAssociate(@PathParam("associateId") String id, @FormParam("marketingStatus") String marketingStatus,
             @FormParam("client") String client) {
+    	System.out.println(id);
+    	System.out.println(marketingStatus);
+    	System.out.println(client);
+    	
         MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
         TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
 

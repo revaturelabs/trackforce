@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ng-init="getAllClientNames()">
 	<h3 class="text-default text-center">Change Associate Marketing Status</h3>
 
 	<div class="row">
@@ -33,20 +33,28 @@
 		</div>
 		<div class="col-sm-5">
 			<div class="form-group">
-				<label for="sel1">Choose Status:</label> <select
-					class="form-control" id="sel1">
-					<option>MAPPED: TRAINING</option>
-					<option>MAPPED: RESERVED</option>
-					<option>MAPPED: SELECTED</option>
-					<option>MAPPED: CONFIRMED</option>
-					<option>MAPPED: DEPLOYED</option>
+				<label for="mStatus">Choose Status:</label> 
+				<select class="form-control" ng-model="associateInfo.marketingStatus">
 					<option>UNMAPPED: TRAINING</option>
 					<option>UNMAPPED: OPEN</option>
 					<option>UNMAPPED: SELECTED</option>
 					<option>UNMAPPED: CONFIRMED</option>
 					<option>UNMAPPED: DEPLOYED</option>
+					<option>MAPPED: TRAINING</option>
+					<option>MAPPED: RESERVED</option>
+					<option>MAPPED: SELECTED</option>
+					<option>MAPPED: CONFIRMED</option>
+					<option>MAPPED: DEPLOYED</option>
 				</select>
+				<label for="client">Assign Client:</label> 
+				<input type="text" ng-model="searchClient" placeholder="Filter clients"/>
+				<select	class="form-control" id="client" ng-model="associateInfo.client">
+					<option selected="selected">None</option>
+					<option ng-repeat="client in clients | orderBy:'name' | filter:searchClient">{{client.name}}</option>
+				</select>
+				<input type="submit" placeholder="Submit" ng-click="updateAssociate()"/>
 			</div>
+			<h3>{{message}}</h3>
 		</div>
 	</div>
 </div>

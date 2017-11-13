@@ -52,9 +52,9 @@
 					<option selected="selected">None</option>
 					<option ng-repeat="client in clients | orderBy:'name' | filter:searchClient">{{client.name}}</option>
 				</select>
-				<input type="submit" placeholder="Submit" ng-click="updateAssociate()"/>
+				<button ng-click="updateAssociate()" class="btn btn-default btn-block">Update Status</button>
 			</div>
-			<h3>{{message}}</h3>
+			<h5 class="text-success">{{message}}</h5>
 		</div>
 	</div>
 </div>

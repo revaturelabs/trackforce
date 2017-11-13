@@ -11,13 +11,8 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 	
 	$scope.updateAssociate = function() {
 		$http({
-			method : "PUT",
-			url : "http://localhost:8080/TrackForce/track/associates/" + $routeParams.associateId + "/update",
-			headers : {'Content-Type' : 'application/x-www-form-urlencoded'},	
-			data : {
-				marketingStatus: $scope.associateInfo.marketingStatus,
-				client: $scope.associateInfo.client
-			}
+			method : "GET",
+			url : "http://localhost:8080/TrackForce/track/associates/" + $routeParams.associateId + "/update/" + $scope.associateInfo.marketingStatus + "/" + $scope.associateInfo.client
 		}).then(function(response) {
 			$scope.message = response.data;
 			if(response.statusCode == 404) {

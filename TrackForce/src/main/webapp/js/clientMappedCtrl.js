@@ -86,7 +86,6 @@ angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http,
 			$scope.options={type:selectedType, legend:{display:false}, xAxes:[{ticks:{autoSkip:false}}],scales: {yAxes: [{ticks: {min: 0}}]}};
 		}
 	});
-	//TODO: URL will need to be changed
 	$scope.skillsetClick = function(points, evt){
 		var clickedElementindex = points[0]["_index"];
 		var selectedClient = $scope.clientMappedLabels[clickedElementindex];

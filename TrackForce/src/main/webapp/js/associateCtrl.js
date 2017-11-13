@@ -21,7 +21,25 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 			}
 		})
 	}
-
+	
+	$scope.onLoad = function (){
+		if($routeParams.client=='default'||$routeParams.client==null){
+			$scope.chartClient='';
+		} else {
+			$scope.chartClient=$routeParams.client;
+		}
+		if($routeParams.skill=='default'||$routeParams.skill==null){
+			$scope.chartSkill='';
+		} else {
+			$scope.chartSkill=$routeParams.skill;
+		}
+		if($routeParams.status=='default'||$routeParams.status==null){
+			$scope.chartStatus='';
+		} else {
+			$scope.chartStatus=$routeParams.status;
+		}
+	}
+	
 	$scope.getAllClientNames = function() {
 		$http({
 			method : "GET",

@@ -26,14 +26,14 @@ public class ClientResource {
 	private HomeDaoImpl homeDaoImpl = new HomeDaoImpl();
 
 	/**
-	 * Returns a map of all of the clients from the TfClient table as a response
-	 * object.
+	 * Returns a map of all of the clients with associates from the TfClient table
+	 * as a response object.
 	 * 
-	 * @return A map of TfClients as a Response object
+	 * @return A map of TfClients with associates as a Response object
 	 */
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getAllClients() {
+	public Response getAllClientsWithAssociates() {
 		List<TfClient> clients = clientDaoImpl.getAllTfClients();
 		List<Map<String, Object>> entity = new ArrayList<>();
 		for (TfClient client : clients) {
@@ -43,6 +43,27 @@ public class ClientResource {
 				map.put("name", client.getTfClientName());
 				entity.add(map);
 			}
+		}
+		return Response.ok(entity).build();
+	}
+	
+	/**
+	 * Returns a map of all of the clients from the TfClient table as a response
+	 * object.
+	 * 
+	 * @return A map of TfClients as a Response object
+	 */
+	@GET
+	@Path("all")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getAllClients() {
+		List<TfClient> clients = clientDaoImpl.getAllTfClients();
+		List<Map<String, Object>> entity = new ArrayList<>();
+		for (TfClient client : clients) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("id", client.getTfClientId());
+			map.put("name", client.getTfClientName());
+			entity.add(map);
 		}
 		return Response.ok(entity).build();
 	}

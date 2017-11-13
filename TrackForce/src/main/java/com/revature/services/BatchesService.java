@@ -54,7 +54,7 @@ public class BatchesService {
         BatchDaoHibernate batchDao = new BatchDaoHibernate();
 
 		List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
-		Map<String, Integer> chartData = new Hashtable<String, Integer>();
+		Map<String, Object> chartData = new HashMap<>();
 
 		for (TfBatch batch : batches) {
 			String curriculumName = batch.getTfCurriculum().getTfCurriculumName();

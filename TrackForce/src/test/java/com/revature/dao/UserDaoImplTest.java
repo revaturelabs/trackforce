@@ -2,7 +2,6 @@ package com.revature.dao;
 
 import static org.testng.Assert.*;
 
-
 import java.math.BigDecimal;
 
 import javax.persistence.NoResultException;
@@ -24,106 +23,65 @@ import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 
 public class UserDaoImplTest {
 
-  @DataProvider
-  public Object[][] userID() {
-    return new Object[][] {
-      new Object[] { new BigDecimal(1) }
-    };
-  }
-  
-  @DataProvider
-  public Object[][] userName() {
-    return new Object[][] {
-      new Object[] { "TestAdmin" }
-    };
-  }
-  
-  @DataProvider
-  public Object[][] user() {
-		return new Object[][] {
-			new Object[] {new TfUser( new BigDecimal(1), new TfRole(new BigDecimal(2)),
-					"jdoe", "password1")}
-		};
-  }
+    UserDAO uDao = new UserDaoImpl();
 
-  @Test(dataProvider = "userID")
-	public void getUserBigDecimal(BigDecimal userid) {
+    @DataProvider(name = "userName")
+    public String[] userName() {
+        return new String[] { "TestAdmin" };
+    }
 
-		SessionFactory sessionFactory = HibernateUtil.getSession();
-		assertNotNull(sessionFactory);
-		Session session = sessionFactory.openSession();
-		assertNotNull(session);
+    @DataProvider
+    public TfUser[] user() {
+        return new TfUser[] { new TfUser(new BigDecimal(1), new TfRole(new BigDecimal(2)), "jdoe", "password1") };
+    }
 
-		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
-		assertNotNull(criteriaQuery);
+    @Test(dataProvider = "userName")
+    public void getUserString(String username) {
+        SessionFactory sessionFactory = HibernateUtil.getSession();
+        assertNotNull(sessionFactory);
+        Session session = sessionFactory.openSession();
+        assertNotNull(session);
 
-		Root<TfUser> root = criteriaQuery.from(TfUser.class);
-		criteriaQuery.select(root).where(builder.equal(root.get("tfUserId"), userid));
-		Query<TfUser> query = session.createQuery(criteriaQuery);
-		//assertEquals(query., TfUser.class);
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
+        assertNotNull(criteriaQuery);
 
-		TfUser user;
+        Root<TfUser> root = criteriaQuery.from(TfUser.class);
+        criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
+        Query<TfUser> query = session.createQuery(criteriaQuery);
 
-		try {
-			user = query.getSingleResult();
-		} catch (NoResultException nre) {
-			user = new TfUser();
-		} finally {
-			session.close();
-			assertFalse(session.isConnected());
-		}
+        TfUser user;
 
-		assertEquals(user.getTfUserId(), userid);
-	}
+        try {
+            user = query.getSingleResult();
+        } catch (NoResultException nre) {
+            user = new TfUser();
+        } finally {
+            session.close();
+            assertFalse(session.isConnected());
+        }
+        assertEquals(user.getTfUsername(), username);
+    }
 
-  @Test(dataProvider = "userName")
-  public void getUserString(String username) {
-	  SessionFactory sessionFactory = HibernateUtil.getSession();
-	  assertNotNull(sessionFactory);
-		Session session = sessionFactory.openSession();
-		assertNotNull(session);
+    @Test(dataProvider = "user")
+    public void getUserHash(TfUser user) {
+        // create method for hashing passwords here
 
-		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
-		assertNotNull(criteriaQuery);
+        try {
+            System.out.println("Password: " + user.getTfHashpassword() + " Hashed password: "
+                    + PasswordStorage.createHash(user.getTfHashpassword()));
+        } catch (CannotPerformOperationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-		Root<TfUser> root = criteriaQuery.from(TfUser.class);
-		criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
-		Query<TfUser> query = session.createQuery(criteriaQuery);
+        String result = new String();
+        assertFalse(result.isEmpty());
+    }
 
-		TfUser user;
-
-		try {
-			user = query.getSingleResult();
-		} catch (NoResultException nre) {
-			user = new TfUser();
-		} finally {
-			session.close();
-			assertFalse(session.isConnected());
-		}
-	  assertEquals(user.getTfUsername(), username);
-  }
-
-  @Test(dataProvider = "user")
-  public void getUserHash(TfUser user) {
-	  // create method for hashing passwords here
-	  
-	  try {
-			System.out.println("Password: " + user.getTfHashpassword() + " Hashed password: " 
-	  + PasswordStorage.createHash(user.getTfHashpassword()));
-		} catch (CannotPerformOperationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	  
-	  String result = new String();
-	  assertFalse(result.isEmpty());
-  }
-
-  @Test(dataProvider = "user")
-  public void getUserRole(TfUser user) {
-    String role = new String();
-    assertFalse(role.isEmpty());
-  }
+    @Test(dataProvider = "user")
+    public void getUserRole(TfUser user) {
+        String role = new String();
+        assertFalse(role.isEmpty());
+    }
 }

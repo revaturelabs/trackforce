@@ -22,6 +22,7 @@ public class UserResource {
 	 UserDaoImpl userDaoImpl = new UserDaoImpl();
 
 	/**
+	 * Returns a Response object with a redirect 
 	 * 
 	 * @param username
 	 *            Entered user name from a form.

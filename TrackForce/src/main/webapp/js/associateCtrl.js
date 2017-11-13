@@ -7,7 +7,7 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 		url : "http://localhost:8080/TrackForce/track/associates/all"
 	}).then(function(response) {
 		$scope.curriculum = $rootScope.curriculum; 
-		$scope.associateInfo = response.data;
+		$rootScope.associateInfo = response.data;
 	});
 	
 	$scope.updateAssociate = function() {

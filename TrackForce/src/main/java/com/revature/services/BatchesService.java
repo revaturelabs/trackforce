@@ -36,23 +36,23 @@ import com.revature.model.BatchInfo;
 @Path("batches")
 public class BatchesService {
 
-    /**
-     * Gets the number of associates learning each curriculum during a given date
-     * range
-     * 
-     * @param fromdate
-     *            - the starting date of the date range
-     * @param todate
-     *            - the ending date of the date range
-     * @return - A map of associates in each curriculum with the curriculum name as
-     *         the key and number of associates as value.
-     */
-    @GET
-    @Path("{fromdate}/{todate}/type")
-    @Produces({ MediaType.APPLICATION_JSON })
-    public List<Map<String, Object>> getBatchChartInfo(@PathParam("fromdate") long fromdate,
-            @PathParam("todate") long todate) {
-        BatchDaoHibernate batchDao = new BatchDaoHibernate();
+	/**
+	 * Gets the number of associates learning each curriculum during a given date
+	 * range
+	 * 
+	 * @param fromdate
+	 *            - the starting date of the date range
+	 * @param todate
+	 *            - the ending date of the date range
+	 * @return - A map of associates in each curriculum with the curriculum name as
+	 *         the key and number of associates as value.
+	 */
+	@GET
+	@Path("{fromdate}/{todate}/type")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<Map<String, Object>> getBatchChartInfo(@PathParam("fromdate") long fromdate,
+			@PathParam("todate") long todate) {
+		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 
 		List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
 		Map<String, Integer> curriculumData = new Hashtable<String, Integer>();
@@ -71,6 +71,12 @@ public class BatchesService {
 				curriculumData.put(curriculumName, totalAssociates);
 				curriculums.add(curriculumName);
 			}
+		}
+		for (String curriculum : curriculums) {
+			Map<String, Object> curriculumMap = new HashMap<String, Object>();
+			curriculumMap.put("curriculum", curriculum);
+			curriculumMap.put("value", curriculumData.get(curriculum));
+			chartData.add(curriculumMap);
 		}
 		return chartData;
 	}
@@ -179,8 +185,8 @@ public class BatchesService {
 	@GET
 	@Path("{batch}/associates")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<AssociateInfo> getAssociates(@PathParam("batch") String batchName) {
-		ArrayList<AssociateInfo> associatesList = new ArrayList<AssociateInfo>();
+	public List<AssociateInfo> getAssociates(@PathParam("batch") String batchName) {
+		ArrayList<AssociateInfo> associatesList = new ArrayList<>();
 
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 		TfBatch batch = batchDao.getBatch(batchName);

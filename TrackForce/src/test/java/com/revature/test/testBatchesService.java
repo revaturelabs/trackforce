@@ -119,7 +119,7 @@ public class testBatchesService {
 		  
 		  BatchesService batchesService = new BatchesService();
 		  String batchName = properties.getProperty("batch_name");
-		  ArrayList<AssociateInfo> associates = batchesService.getAssociates(batchName);
+		  ArrayList<AssociateInfo> associates = (ArrayList<AssociateInfo>) batchesService.getAssociates(batchName);
 		  
 		  Assert.assertTrue(associates.size() > new Integer( properties.getProperty("zero")).intValue());
 		  for(AssociateInfo associate : associates) {
@@ -132,7 +132,7 @@ public class testBatchesService {
 		  
 		  BatchesService batchesService = new BatchesService();
 		  String batchName = properties.getProperty("improper_batch_name");
-		  ArrayList<AssociateInfo> associates = batchesService.getAssociates(batchName);
+		  ArrayList<AssociateInfo> associates = (ArrayList<AssociateInfo>) batchesService.getAssociates(batchName);
 		  Assert.assertTrue(associates.size() == new Integer(properties.getProperty("zero")));
 	  }
 	  

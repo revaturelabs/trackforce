@@ -16,9 +16,6 @@ import com.revature.model.StatusInfo;
  */
 public class StatusInfoUtil {
 
-    /**
-     * Constructs a StatusInfoUtil object
-     */
     private StatusInfoUtil() {
     }
 

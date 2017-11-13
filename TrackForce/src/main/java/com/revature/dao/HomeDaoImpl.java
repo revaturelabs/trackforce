@@ -32,6 +32,10 @@ public class HomeDaoImpl implements HomeDao {
 					if (associate.getTfBatch() != null) {
 						Hibernate.initialize(associate.getTfBatch().getTfCurriculum());
 						Hibernate.initialize(associate.getTfBatch().getTfBatchName());
+						
+						if(associate.getTfBatch().getTfCurriculum() != null) {
+							Hibernate.initialize(associate.getTfBatch().getTfCurriculum().getTfCurriculumName());
+						}
 					}
 					if (associate.getTfMarketingStatus() != null) {
 						Hibernate.initialize(associate.getTfMarketingStatus().getTfMarketingStatusName());

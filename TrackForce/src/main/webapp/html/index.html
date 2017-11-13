@@ -32,25 +32,19 @@
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#!/">Revature Associate Tracker</a>
 			</div>
-
 			<ul class="nav navbar-nav">
 				<li><a href="#!/clientDetails">Client List</a></li>
 				<li><a href="#!/batchListing">Batch List</a></li>
 				<li><a href="#!/associateListing">Associate List</a></li>
 			</ul>
-		</div>
-		<div ng-controller="databaseCtrl" class="navbar-header">
-			<ul class="nav navbar-nav">
-				<li><button ng-click="populateDB()" class="btn btn-default">Populate
-						Database</button></li>
-				<li><button ng-click="deleteDB()" class="btn btn-danger" disabled>Empty
-						Database, do not click this Adrian</button></li>
-			</ul>
-			<p>{{dbMessage}}</p>
-
+			<ul class="nav navbar-nav navbar-right">
+				<li><img src="../resources/logo.png" height="55%" width="55%"></li>			
+		    </ul>
 		</div>
 	</nav>
+	
 	<div ng-view></div>
+
 	<script src="../js/mainApp.js"></script>
 	<script src="../js/associateCtrl.js"></script>
 	<script src="../js/batchCtrl.js"></script>

@@ -1,10 +1,8 @@
 package com.revature.dao;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 
 /**
@@ -18,12 +16,12 @@ public interface BatchDao {
      * @param todate - The ending date of the search range.
      * @return - A list of batches within the given dates.
      */
-	public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate);
-	
-	/**
-	 * Gets a singular batch of the given name.
-	 * @param batchName - The name of the batch to retrieve.
-	 * @return - A batch object that represents the retrieve batch.
-	 */
+    public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate);
+
+    /**
+     * Gets a singular batch of the given name.
+     * @param batchName - The name of the batch to retrieve.
+     * @return - A batch object that represents the retrieve batch.
+     */
     public TfBatch getBatch(String batchName);
-  }
+}

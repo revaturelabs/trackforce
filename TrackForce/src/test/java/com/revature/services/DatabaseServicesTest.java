@@ -10,23 +10,22 @@ import com.revature.dao.DatabaseDAOImpl;
 
 public class DatabaseServicesTest {
 
-	@Test
-	public void deleteDB() {
-		System.out.println("In Services");
+    @Test(enabled = false)
+    public void deleteDB() {
+        System.out.println("In Services");
 
-		String string;
-		DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
-		string = dbCalls.deleteAll();
-		assertNotNull(Response.ok(string).build());
-	}
+        String string;
+        DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
+        string = dbCalls.deleteAll();
+        assertNotNull(Response.ok(string).build());
+    }
 
-	@Test
-	public void populateDB() {
-		System.out.println("In Services");
-		String string;
-		DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
-		string = dbCalls.populate();
-		assertNotNull(Response.ok(string).build());
-	}
-
+    @Test(enabled = false)
+    public void populateDB() {
+        System.out.println("In Services");
+        String string;
+        DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
+        string = dbCalls.populate();
+        assertNotNull(Response.ok(string).build());
+    }
 }

@@ -24,74 +24,74 @@ import org.testng.annotations.AfterSuite;
 
 public class DatabaseDaoImplTest {
 
-	DatabaseDAOImpl dbDao = new DatabaseDAOImpl();
+    DatabaseDAOImpl dbDao = new DatabaseDAOImpl();
 
-	@Test
-	public void deleteTables() {
-		String message;
-		Session session = HibernateUtil.getSession().openSession();
-		assertNotNull(session);
-		try {
-			StoredProcedureQuery query2 = session.createStoredProcedureQuery("admin.truncateAllDevTeam");
-			query2.execute();
-			System.out.println("Delete All Executed");
-			message = "Database Emptied Successfully";
-		} catch (Exception e) {
-			message = "Database Empty Error";
-		} finally {
-			session.close();
-		}
-	}
+    @Test(enabled = false)
+    public void deleteTables() {
+        String message;
+        Session session = HibernateUtil.getSession().openSession();
+        assertNotNull(session);
+        try {
+            StoredProcedureQuery query2 = session.createStoredProcedureQuery("admin.truncateAllDevTeam");
+            query2.execute();
+            System.out.println("Delete All Executed");
+            message = "Database Emptied Successfully";
+        } catch (Exception e) {
+            message = "Database Empty Error";
+        } finally {
+            session.close();
+        }
+    }
 
-	@Test
-	public void populateTables() {
-		Session session = HibernateUtil.getSession().openSession();
-		assertNotNull(session);
-		String message;
-		try {
-			StoredProcedureQuery query2 = session.createStoredProcedureQuery("admin.populateAllTables_PROC");
-			query2.execute();
-			System.out.println("Dummy Population Executed");
-			message = "Database Population Successfull";
+    @Test(enabled = false)
+    public void populateTables() {
+        Session session = HibernateUtil.getSession().openSession();
+        assertNotNull(session);
+        String message;
+        try {
+            StoredProcedureQuery query2 = session.createStoredProcedureQuery("admin.populateAllTables_PROC");
+            query2.execute();
+            System.out.println("Dummy Population Executed");
+            message = "Database Population Successfull";
 
-		} catch (Exception e) {
-			message = "Error: Data Exists";
-		} finally {
-			session.close();
-		}
-	}
+        } catch (Exception e) {
+            message = "Error: Data Exists";
+        } finally {
+            session.close();
+        }
+    }
 
-	@BeforeMethod
-	public void beforeMethod() {
-	}
+    @BeforeMethod
+    public void beforeMethod() {
+    }
 
-	@AfterMethod
-	public void afterMethod() {
-	}
+    @AfterMethod
+    public void afterMethod() {
+    }
 
-	@BeforeClass
-	public void beforeClass() {
-	}
+    @BeforeClass
+    public void beforeClass() {
+    }
 
-	@AfterClass
-	public void afterClass() {
-	}
+    @AfterClass
+    public void afterClass() {
+    }
 
-	@BeforeTest
-	public void beforeTest() {
+    @BeforeTest
+    public void beforeTest() {
 
-	}
+    }
 
-	@AfterTest
-	public void afterTest() {
-	}
+    @AfterTest
+    public void afterTest() {
+    }
 
-	@BeforeSuite
-	public void beforeSuite() {
-	}
+    @BeforeSuite
+    public void beforeSuite() {
+    }
 
-	@AfterSuite
-	public void afterSuite() {
-	}
+    @AfterSuite
+    public void afterSuite() {
+    }
 
 }

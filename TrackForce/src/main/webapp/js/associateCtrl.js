@@ -7,7 +7,7 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 		url : "http://localhost:8080/TrackForce/track/associates/all"
 	}).then(function(response) {
 		$scope.curriculum = $rootScope.curriculum; 
-		$scope.associateInfo = response.data;
+		$rootScope.associateInfo = response.data;
 	});
 	
 	$scope.updateAssociate = function() {
@@ -21,7 +21,51 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 			}
 		})
 	}
-
+	
+	$scope.onLoad = function (){
+		if($routeParams.client=='default'||$routeParams.client==undefined){
+			$scope.searchByClient='';
+		} else {
+			$scope.searchByClient=$routeParams.client;
+		}
+		if($routeParams.skill=='default'||$routeParams.skill==undefined){
+			$scope.searchBySkill='';
+		} else {
+			$scope.searchBySkill=$routeParams.skill;
+		}
+		if($routeParams.status=='default'||$routeParams.status==undefined){
+			$scope.searchByStatus='';
+		} else {
+			$scope.searchByStatus=$routeParams.status;
+			if($scope.searchByStatus=='Training' && ($routeParams.skill=='default'||$routeParams.skill==undefined)){
+				$scope.searchByStatus='MAPPED: TRAINING';
+			} 
+			else if($scope.searchByStatus=='Training' && ($routeParams.client=='default'||$routeParams.client==undefined)){
+				$scope.searchByStatus='UNMAPPED: TRAINING';
+			}
+			else if($scope.searchByStatus=='Reserved'){
+				$scope.searchByStatus='MAPPED: RESERVED';
+			}
+			else if($scope.searchByStatus=='Open'){
+				$scope.searchByStatus='UNMAPPED: OPEN';
+			}
+			else if($scope.searchByStatus=='Selected' &&($routeParams.skill=='default'||$routeParams.skill==undefined)){
+				$scope.searchByStatus='MAPPED: SELECTED';
+			} 
+			else if($scope.searchByStatus=='Selected' && ($routeParams.client=='default'||$routeParams.client==undefined)){
+				$scope.searchByStatus='UNMAPPED: SELECTED';
+			}
+			else if($scope.searchByStatus=='Confirmed'&& ($routeParams.skill=='default'||$routeParams.skill==undefined)){
+				$scope.searchByStatus='MAPPED: CONFIRMED';
+			} else if($scope.searchByStatus=='Confirmed' && ($routeParams.client=='default'||$routeParams.client==undefined)){
+				$scope.searchByStatus='UNMAPPED: CONFIRMED';
+			}
+			else if($scope.searchByStatus=='Deployed'&&($routeParams.skill=='default'||$routeParams.skill==undefined)){
+				$scope.searchByStatus='MAPPED: DEPLOYED';
+			} else{$scope.searchByStatus='UNMAPPED: DEPLOYED';}
+		}
+	}
+	
 	$scope.getAllClientNames = function() {
 		$http({
 			method : "GET",

@@ -10,6 +10,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.revature.dao.UserDaoImpl;
+import com.revature.entity.TfUser;
 import com.revature.utils.PasswordStorage;
 import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 import com.revature.utils.PasswordStorage.InvalidHashException;
@@ -17,14 +19,15 @@ import com.revature.utils.PasswordStorage.InvalidHashException;
 @Path("/user")
 public class UserResource {
 
-	// UserDaoImpl userDaoImpl = new UserDaoImpl();
+	 UserDaoImpl userDaoImpl = new UserDaoImpl();
 
 	/**
+	 * Returns a Response object with a redirect 
 	 * 
 	 * @param username
-	 * Entered user name from a form.
+	 *            Entered user name from a form.
 	 * @param password
-	 * Entered password from a form.
+	 *            Entered password from a form.
 	 * 
 	 * @return
 	 */
@@ -32,20 +35,16 @@ public class UserResource {
 	@Path("submit")
 	@Produces({ MediaType.TEXT_HTML })
 	public Response submitCredentials(@FormParam("username") String username, @FormParam("password") String password) {
-		System.out.println("made it");
-		
-		// String hashedPassword = userDaoImpl.getHashedPassword(username);
-		String hashedPassword = "";
-
+		TfUser tfUser = userDaoImpl.getUser(username);
+		String hashedPassword = tfUser.getTfUserHashpassword();
 		try {
-			//if (PasswordStorage.verifyPassword(password, hashedPassword)) {
-				URI homeLocation = new URI("html/login.html");
+			if (PasswordStorage.verifyPassword(password, hashedPassword)) {
+				URI homeLocation = new URI("html/home.html");
 				return Response.temporaryRedirect(homeLocation).build();
-			//}
-		} catch (URISyntaxException e) {
+			}
+		} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {
 			e.printStackTrace();
 		}
-
 		return Response.noContent().build();
 	}
 

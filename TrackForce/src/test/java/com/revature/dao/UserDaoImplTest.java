@@ -23,7 +23,7 @@ import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 
 public class UserDaoImplTest {
 
-	UserDAO uDao = new UserDaoImpl();
+	UserDaoImpl uDao = new UserDaoImpl();
 
 
 	@DataProvider(name = "userName")
@@ -41,12 +41,6 @@ public class UserDaoImplTest {
 	@Test(dataProvider = "userName")
 	public void getUserString(String username) {
 		TfUser result = uDao.getUser(username);
-		assertNotNull(result);
-	}
-
-	@Test(dataProvider = "user")
-	public void getUserHash(TfUser user) {
-		String result = uDao.getUserHash(user);
 		assertNotNull(result);
 	}
 }

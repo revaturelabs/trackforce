@@ -23,8 +23,8 @@ public class TfUser implements java.io.Serializable {
 	private static final long serialVersionUID = 706405344864879997L;
 	private BigDecimal tfUserId;
 	private TfRole tfRole;
-	private String tfUserUsername;
-	private String tfUserHashpassword;
+	private String tfUsername;
+	private String tfHashpassword;
 
 	public TfUser() {
 	}
@@ -36,8 +36,8 @@ public class TfUser implements java.io.Serializable {
 	public TfUser(BigDecimal tfUserId, TfRole tfRole, String tfUserUsername, String tfUserHashpassword) {
 		this.tfUserId = tfUserId;
 		this.tfRole = tfRole;
-		this.tfUserUsername = tfUserUsername;
-		this.tfUserHashpassword = tfUserHashpassword;
+		this.tfUsername = tfUserUsername;
+		this.tfHashpassword = tfUserHashpassword;
 	}
 
 	@Id
@@ -61,22 +61,22 @@ public class TfUser implements java.io.Serializable {
 		this.tfRole = tfRole;
 	}
 
-	@Column(name = "TF_USER_USERNAME", length = 20)
+	@Column(name = "TF_USERNAME", length = 20)
 	public String getTfUserUsername() {
-		return this.tfUserUsername;
+		return this.tfUsername;
 	}
 
 	public void setTfUserUsername(String tfUserUsername) {
-		this.tfUserUsername = tfUserUsername;
+		this.tfUsername = tfUserUsername;
 	}
 
-	@Column(name = "TF_USER_HASHPASSWORD", length = 200)
+	@Column(name = "TF_HASHPASSWORD", length = 200)
 	public String getTfUserHashpassword() {
-		return this.tfUserHashpassword;
+		return this.tfHashpassword;
 	}
 
 	public void setTfUserHashpassword(String tfUserHashpassword) {
-		this.tfUserHashpassword = tfUserHashpassword;
+		this.tfHashpassword = tfUserHashpassword;
 	}
 
 }

@@ -45,7 +45,7 @@ public class UserDaoImplTest {
 		};
   }
 
-  @Test(dataProvider = "userID")
+  /*@Test(dataProvider = "userID")
 	public void getUserBigDecimal(BigDecimal userid) {
 
 		SessionFactory sessionFactory = HibernateUtil.getSession();
@@ -74,37 +74,35 @@ public class UserDaoImplTest {
 		}
 
 		assertEquals(user.getTfUserId(), userid);
-	}
+	}*/
 
   @Test(dataProvider = "userName")
-  public void getUserString(String username) {
+  public void getUser(String username) {
 	  SessionFactory sessionFactory = HibernateUtil.getSession();
 	  assertNotNull(sessionFactory);
-		Session session = sessionFactory.openSession();
-		assertNotNull(session);
+	  TfUser user;
+		try (Session session = sessionFactory.openSession()) {
+			assertNotNull(session);
 
-		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
-		assertNotNull(criteriaQuery);
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
+			assertNotNull(criteriaQuery);
 
-		Root<TfUser> root = criteriaQuery.from(TfUser.class);
-		criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
-		Query<TfUser> query = session.createQuery(criteriaQuery);
+			Root<TfUser> root = criteriaQuery.from(TfUser.class);
+			criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
+			Query<TfUser> query = session.createQuery(criteriaQuery);
 
-		TfUser user;
-
-		try {
-			user = query.getSingleResult();
-		} catch (NoResultException nre) {
-			user = new TfUser();
-		} finally {
-			session.close();
-			assertFalse(session.isConnected());
+			try {
+				user = query.getSingleResult();
+			} catch (NoResultException nre) {
+				user = new TfUser();
+			}
 		}
 	  assertEquals(user.getTfUserUsername(), username);
+	  System.out.println("Grabbed username: " + user.getTfUserUsername());
   }
 
-  @Test(dataProvider = "user")
+  /*@Test(dataProvider = "user")
   public void getUserHash(TfUser user) {
 	  // create method for hashing passwords here
 	  
@@ -118,11 +116,11 @@ public class UserDaoImplTest {
 	  
 	  String result = new String();
 	  assertFalse(result.isEmpty());
-  }
+  }*/
 
-  @Test(dataProvider = "user")
+  /*@Test(dataProvider = "user")
   public void getUserRole(TfUser user) {
     String role = new String();
     assertFalse(role.isEmpty());
-  }
+  }*/
 }

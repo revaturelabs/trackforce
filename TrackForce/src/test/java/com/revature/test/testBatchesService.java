@@ -32,7 +32,7 @@ public class testBatchesService {
         long secondDate = Timestamp.valueOf("2017-12-30 10:10:10.0").getTime();
 
         BatchesService batchesService = new BatchesService();
-        Map<String, Integer> results = batchesService.getBatchChartInfo(firstDate, secondDate);
+        List<Map<String, Object>> results = batchesService.getBatchChartInfo(firstDate, secondDate);
 
         System.out.println(results);
     }
@@ -44,7 +44,7 @@ public class testBatchesService {
         long secondDate = Timestamp.valueOf("2017-09-10 10:10:10.0").getTime();
 
         BatchesService batchesService = new BatchesService();
-        Map<String, Integer> results = batchesService.getBatchChartInfo(firstDate, secondDate);
+        List<Map<String, Object>> results = batchesService.getBatchChartInfo(firstDate, secondDate);
 
         System.out.println(results);
     }

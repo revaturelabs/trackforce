@@ -23,7 +23,7 @@ import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 
 public class UserDaoImplTest {
 
-    UserDAO uDao = new UserDaoImpl();
+	UserDaoImpl uDao = new UserDaoImpl();
 
     @DataProvider(name = "userName")
     public String[] userName() {
@@ -35,12 +35,6 @@ public class UserDaoImplTest {
         return new TfUser[] { new TfUser(new BigDecimal(1), new TfRole(new BigDecimal(2)), "jdoe", "password1") };
     }
 
-    @Test(dataProvider = "userName")
-    public void getUserString(String username) {
-        SessionFactory sessionFactory = HibernateUtil.getSession();
-        assertNotNull(sessionFactory);
-        Session session = sessionFactory.openSession();
-        assertNotNull(session);
 
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
@@ -49,39 +43,4 @@ public class UserDaoImplTest {
         Root<TfUser> root = criteriaQuery.from(TfUser.class);
         criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
         Query<TfUser> query = session.createQuery(criteriaQuery);
-
-        TfUser user;
-
-        try {
-            user = query.getSingleResult();
-        } catch (NoResultException nre) {
-            user = new TfUser();
-        } finally {
-            session.close();
-            assertFalse(session.isConnected());
-        }
-        assertEquals(user.getTfUsername(), username);
-    }
-
-    @Test(dataProvider = "user")
-    public void getUserHash(TfUser user) {
-        // create method for hashing passwords here
-
-        try {
-            System.out.println("Password: " + user.getTfHashpassword() + " Hashed password: "
-                    + PasswordStorage.createHash(user.getTfHashpassword()));
-        } catch (CannotPerformOperationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        String result = new String();
-        assertFalse(result.isEmpty());
-    }
-
-    @Test(dataProvider = "user")
-    public void getUserRole(TfUser user) {
-        String role = new String();
-        assertFalse(role.isEmpty());
-    }
 }

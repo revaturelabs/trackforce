@@ -13,6 +13,9 @@ test-output/
 bin/
 .project
 
+# Driver path may be different for everyone
+driver.properties
+
 target/
 pom.xml.tag
 pom.xml.releaseBackup

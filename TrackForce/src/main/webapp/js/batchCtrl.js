@@ -34,7 +34,6 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 			$scope.labels = []; 
 			$scope.data = []; 
 			var amountType = response.data;
-			
 			for(var i = 0; i < amountType.length; i++){
 				$scope.labels.push(amountType[i].curriculum);
 				$scope.data.push(amountType[i].value); 

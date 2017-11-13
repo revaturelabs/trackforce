@@ -160,7 +160,7 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 				$scope.labels.push(amountType[i].curriculum);
 				$scope.data.push(amountType[i].value);
 			} 
-			$rootScope.curriculum = $scope.labels; 
+
 			$scope.options = {legend : {
 				  display : true,
 				  position : 'right'}};

@@ -153,9 +153,14 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 		}).then(function successCallback(response) {
 			// this callback will be called asynchronously
 			// when the response is available
+			$scope.labels = [];
+			$scope.data = []; 
 			var amountType = response.data;
-			$scope.labels = ["Java", "SEED", "JTA",".NET", "PEGA", "DynamicCRM", "Salesforce","Microservices","Oracle Fusion"]
-			$scope.data = [amountType.Java, amountType.SEED, amountType.JTA, amountType[".Net"], amountType.PEGA, amountType.DynamicCRM, amountType.Salesforce, amountType.Microservices, amountType["Oracle Fusion"]];
+			for(var i = 0; i < amountType.length; i++){
+				$scope.labels.push(amountType[i].curriculum);
+				$scope.data.push(amountType[i].value);
+			} 
+
 			$scope.options = {legend : {
 				  display : true,
 				  position : 'right'}};
@@ -167,5 +172,5 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 				".NET" : "3"
 			}
 		})
-	}	
+	};	
 });

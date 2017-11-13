@@ -48,7 +48,12 @@ angular.module('mainApp').controller('databaseCtrl', function($http, $scope) {
 			$scope.dbMessage = response.data;
 		})
 	}
-	
+	$scope.InitForce = function() {
+		$http({
+			method : "PUT",
+			url : "http://localhost:8080/TrackForce/track/init"
+		})
+	}
 	
 	$scope.refresh = function() {
 		window.location.reload();

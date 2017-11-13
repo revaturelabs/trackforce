@@ -31,9 +31,13 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 		}).then(function successCallback(response) {
 			// this callback will be called asynchronously
 			// when the response is available
+			$scope.labels = []; 
+			$scope.data = []; 
 			var amountType = response.data;
-			$scope.labels = ["Java", "SEED", "JTA",".NET", "PEGA", "DynamicCRM", "Salesforce","Microservices","Oracle Fusion"]
-			$scope.data = [amountType.Java, amountType.SEED, amountType.JTA, amountType[".Net"], amountType.PEGA, amountType.DynamicCRM, amountType.Salesforce, amountType.Microservices, amountType["Oracle Fusion"]];
+			for(var i = 0; i < amountType.length; i++){
+				$scope.labels.push(amountType[i].curriculum);
+				$scope.data.push(amountType[i].value); 
+			} 
 		}, function errorCallback(response) {
 			// called asynchronously if an error occurs
 			// or server returns response with an error status.

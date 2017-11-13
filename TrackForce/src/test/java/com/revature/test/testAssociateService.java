@@ -11,10 +11,10 @@ import com.revature.services.AssociateService;
 public class testAssociateService {
 
 	@Test
-	public void testgetAssociatePositive() {	
+	public void testgetAssociatePositive() {
 		AssociateService associateservice = new AssociateService();
-		BigDecimal bigdecimal=new BigDecimal(25);
-		AssociateInfo associate=associateservice.getAssociate(bigdecimal);
+		BigDecimal bigdecimal = new BigDecimal(25);
+		AssociateInfo associate = associateservice.getAssociate(bigdecimal);
 		System.out.println(associate);
 	}
 

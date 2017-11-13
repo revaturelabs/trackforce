@@ -81,8 +81,6 @@ angular.module('mainApp').controller("skillsetCtrl", function($scope, $rootScope
 			$scope.options={type:selectedType, legend:{display:false}, xAxes:[{ticks:{autoSkip:false}}],scales: {yAxes: [{ticks: {min:0}}]}};
 		}
 	});
-	
-	//TODO: URL will need to be changed
 	$scope.skillsetClick = function(points, evt){
 		var clickedElementindex = points[0]["_index"];
 		var selectedSkill = $scope.skillsetLabels[clickedElementindex];

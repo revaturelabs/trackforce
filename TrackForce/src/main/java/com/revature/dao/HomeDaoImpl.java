@@ -28,15 +28,15 @@ public class HomeDaoImpl implements HomeDao {
 				Hibernate.initialize(associate.getTfAssociateId());
 				Hibernate.initialize(associate.getTfAssociateFirstName());
 				Hibernate.initialize(associate.getTfAssociateLastName());
-				
 				if (associate.getTfBatch() != null) {
 					Hibernate.initialize(associate.getTfBatch().getTfCurriculum());
 					Hibernate.initialize(associate.getTfBatch().getTfBatchName());
 				}
-				if(associate.getTfMarketingStatus() != null) {
+
+				if (associate.getTfMarketingStatus() != null) {
 					Hibernate.initialize(associate.getTfMarketingStatus().getTfMarketingStatusName());
 				}
-				if(associate.getTfClient() != null) {
+				if (associate.getTfClient() != null) {
 					Hibernate.initialize(associate.getTfClient().getTfClientName());
 				}
 			}
@@ -49,7 +49,7 @@ public class HomeDaoImpl implements HomeDao {
 	 * Clears associates list in HomeDaoImpl class.
 	 */
 	public void clearAssociates() {
-		if(associates != null) {
+		if (associates != null) {
 			associates.clear();
 		}
 	}

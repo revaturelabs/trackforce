@@ -26,8 +26,8 @@ public class AssociateInfo {
 	 *            - The associate's last name.
 	 * @param marketingStatus
 	 *            - The associate's marketing status (mapped, unmapped, etc.)
-	 * @param client
-	 *            -The clients's name.
+	 * @param clientid-The
+	 *            clients's name.
 	 */
 	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client) {
 		super();
@@ -168,7 +168,7 @@ public class AssociateInfo {
 		this.endClient = endClient;
 	}
 
-  public String getBatchName() {
+	public String getBatchName() {
 		return batchName;
 	}
 

@@ -22,7 +22,10 @@ public class UserResource {
 	/**
 	 * 
 	 * @param username
+	 * Entered user name from a form.
 	 * @param password
+	 * Entered password from a form.
+	 * 
 	 * @return
 	 */
 	@POST

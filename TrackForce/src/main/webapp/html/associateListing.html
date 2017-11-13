@@ -1,4 +1,4 @@
-<div class="container" ng-init="getAllClientNames()">
+<div class="container" ng-init="getAllClientNames(); onLoad()">
 	<div class="table-responsive">
 		<div class="form-group">
 			<div class="row">
@@ -24,7 +24,10 @@
 				<div class="col-sm-2">					
 					<label for="skill">Skill: </label>
 					<select class="form-control" id="skill" ng-model="searchBySkill">
+<<<<<<< HEAD
 						<option selected="selected">None</option>
+=======
+>>>>>>> af67ba8b009da28e919bae27be8bb35236cb6c16
 						<option ng-repeat="curriculum in labels">{{curriculum}}</option>
 					</select>
 				</div>					

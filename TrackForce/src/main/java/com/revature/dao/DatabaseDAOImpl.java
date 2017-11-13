@@ -30,7 +30,7 @@ public class DatabaseDAOImpl {
         try {
             StoredProcedureQuery query2 = session.createStoredProcedureQuery("admin.populateAllTables_PROC");
             query2.execute();
-            message = "Database Population Successfull";
+            message = "Database Population Successful";
             return message;
         } catch (Exception e) {
             message = "Error: Data Exists";
@@ -46,7 +46,7 @@ public class DatabaseDAOImpl {
         try {
             StoredProcedureQuery query2 = session.createStoredProcedureQuery("admin.populateAllTablesSF_PROC");
             query2.execute();
-            message = "SF - Database Population Successfull";
+            message = "SF - Database Population Successful";
             return message;
         } catch (Exception e) {
             message = "Error: Data Exists";

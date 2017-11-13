@@ -4,9 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -58,7 +56,6 @@ public class AssociateService {
 			associateinfo.setEndClient("None");
 		}
 		return associateinfo;
-
 	}
 
 	/**
@@ -72,11 +69,11 @@ public class AssociateService {
 	 *            - What client to change the associate to
 	 * @return
 	 */
-	@PUT
-	@Path("{associate}/update")
+	@GET
+	@Path("{associateId}/update/{marketingStatus}/{client}")
 	@Produces({ MediaType.TEXT_HTML })
-	public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus,
-			@FormParam("client") String client) {
+	public Response updateAssociate(@PathParam("associateId") String id,
+			@PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client) {
 		MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
 		TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
 

@@ -22,7 +22,7 @@ import com.revature.model.StatusInfo;
 public class ClientResourceTest {
 
 	@Mock
-	private ClientDao clientDaoImpl = new ClientDaoImpl();
+	private ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
 
 	@InjectMocks
 	private ClientResource clientResource = new ClientResource();
@@ -46,6 +46,6 @@ public class ClientResourceTest {
 
 	@Test
 	public void getClientInfoNegativeInt() {
-		//assertEquals(clientResource.getClientInfo(-1), new StatusInfo(""));
+		// assertEquals(clientResource.getClientInfo(-1), new StatusInfo(""));
 	}
 }

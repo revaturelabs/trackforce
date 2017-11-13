@@ -53,7 +53,6 @@ public class BatchesService {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 
         List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
-        Map<String, Integer> chartData = new HashMap<>();
 		List<String> curriculums = new ArrayList<String>();
 		List<Map<String, Object>> chartData = new ArrayList<Map<String, Object>>();
 

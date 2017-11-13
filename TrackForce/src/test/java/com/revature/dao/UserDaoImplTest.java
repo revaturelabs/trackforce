@@ -23,12 +23,28 @@ import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 
 public class UserDaoImplTest {
 
-	UserDAO uDao = new UserDaoImpl();
-	
+	UserDaoImpl uDao = new UserDaoImpl();
+
 	@DataProvider(name = "userName")
 	public String[] userName() {
 		return new String[] { "TestAdmin" };
 	}
+	
+	/*@DataProvider
+	  public Object[][] user() {
+			return new Object[][] {
+				new Object[] {new TfUser( new BigDecimal(1), new TfRole(new BigDecimal(2)),
+						"jdoe", "password1")}
+			};
+	}*/
+	
+	@DataProvider(name = "user")
+	  public Object[][] user() {
+			return new Object[][] {
+				new Object[] {new TfUser(new BigDecimal(1))}
+			};
+	}
+
 
   /*@Test(dataProvider = "userID")
 	public void getUserBigDecimal(BigDecimal userid) {
@@ -61,7 +77,7 @@ public class UserDaoImplTest {
 		assertEquals(user.getTfUserId(), userid);
 	}*/
 
-  @Test(dataProvider = "userName")
+  /*@Test(dataProvider = "userName")
   public void getUser(String username) {
 	  SessionFactory sessionFactory = HibernateUtil.getSession();
 	  assertNotNull(sessionFactory);
@@ -85,7 +101,7 @@ public class UserDaoImplTest {
 		}
 	  assertEquals(user.getTfUserUsername(), username);
 	  System.out.println("Grabbed username: " + user.getTfUserUsername());
-  }
+  }*/
 
   /*@Test(dataProvider = "user")
   public void getUserHash(TfUser user) {
@@ -104,9 +120,10 @@ public class UserDaoImplTest {
   }*/
 
   /*@Test(dataProvider = "user")
-  public void getUserRole(TfUser user) {
-    String role = new String();
-    assertFalse(role.isEmpty());
+  public void getUserHash(TfUser user) {
+    String hash = uDao.getUserHash(user);
+    System.out.println("Hash: " + hash);
+    assertFalse(hash.isEmpty());
   }*/
 	
 
@@ -114,6 +131,7 @@ public class UserDaoImplTest {
 	public void getUserString(String username) {
 		TfUser result = uDao.getUser(username);
 		assertNotNull(result);
+		System.out.println("username: " + result.getTfUserUsername());
 	}
 
 	/*@Test(dataProvider = "user")

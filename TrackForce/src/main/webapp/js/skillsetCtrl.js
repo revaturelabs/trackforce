@@ -86,6 +86,6 @@ angular.module('mainApp').controller("skillsetCtrl", function($scope, $rootScope
 	$scope.skillsetClick = function(points, evt){
 		var clickedElementindex = points[0]["_index"];
 		var selectedSkill = $scope.skillsetLabels[clickedElementindex];
-		window.location.href = "#!/associates/{{selectedSkill}}/{{selectedClient}}/{{selectedStatus}}";
+		window.location.href = '#!/associatesListing/'+selectedSkill+'/default/'+$rootScope.selectedStatus;
 	};
 }});

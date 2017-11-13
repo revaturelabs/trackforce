@@ -32,9 +32,8 @@ public class UserDaoImplTest {
 	}
 
 	@DataProvider
-	public Object[][] user() {
-		return new Object[][] {
-				new Object[] { new TfUser(new BigDecimal(1), new TfRole(new BigDecimal(2)), "jdoe", "password1") } };
+	public TfUser[] user() {
+		return new TfUser[] { new TfUser(new BigDecimal(1), new TfRole(new BigDecimal(2)), "jdoe", "password1") };
 	}
 
 	

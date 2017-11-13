@@ -33,20 +33,13 @@ public class testBatchDaoHibernate {
 		Timestamp secondDate = Timestamp.valueOf(properties.getProperty("to_date"));
 		BatchDao batchdao = new BatchDaoHibernate();
 		List<TfBatch> batchlist = batchdao.getBatchDetails(firstDate, secondDate);
-		Assert.assertNotNull(batchlist);
-		System.out.println("Test Get Batch Details Positive");
-		System.out.println(batchlist);
+		Assert.assertFalse(batchlist.isEmpty());
 	}
 
 	@Test
 	public void testGetBatch() {
 		BatchDaoHibernate batch = new BatchDaoHibernate();
 		TfBatch batchA = batch.getBatch(properties.getProperty("batch_name"));
-		System.out.println(batchA.toString());
-		System.out.println(batchA.getTfBatchStartDate());
-		for (TfAssociate asc : batchA.getTfAssociates()) {
-			System.out.println(asc.getTfAssociateFirstName());
-		}
 		Assert.assertNotNull(batchA);
 	}
 
@@ -57,9 +50,7 @@ public class testBatchDaoHibernate {
 		Timestamp secondDate = Timestamp.valueOf(properties.getProperty("from_date"));
 		BatchDao batchdao = new BatchDaoHibernate();
 		List<TfBatch> batchlist = batchdao.getBatchDetails(firstDate, secondDate);
-		Assert.assertNotNull(batchlist);
-		System.out.println("Test Get Batch Details Negative");
-		System.out.println(batchlist);
+		Assert.assertTrue(batchlist.isEmpty());
 	}
 
 	@Test
@@ -67,9 +58,6 @@ public class testBatchDaoHibernate {
 		BatchDao batchDao = new BatchDaoHibernate();
 		TfBatch batch = batchDao.getBatch("さいうえぁじぇうjp♫¥=⌐~ë");
 		Assert.assertNotNull(batch);
-		System.out.println("batch: " + batch);
-		System.out.println("object: " + new TfBatch());
-		Assert.assertSame(batch, new TfBatch());
-		System.out.println("Test Get Batch Negative");
+		Assert.assertNull(batch.getTfBatchName());
 	}
 }

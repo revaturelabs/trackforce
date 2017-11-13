@@ -24,6 +24,7 @@
 				<div class="col-sm-2">					
 					<label for="skill">Skill: </label>
 					<select class="form-control" id="skill" ng-model="searchBySkill">
+						<option selected="selected">None</option>
 						<option ng-repeat="curriculum in labels">{{curriculum}}</option>
 					</select>
 				</div>					
@@ -31,7 +32,7 @@
 					<label for="client">Client: </label>
 					<select	class="form-control" id="client" ng-model="searchByClient">
 						<option selected="selected">None</option>
-						<option ng-repeat="client in clients | orderBy:'name' | filter:searchClient">{{client.name}}</option>
+						<option ng-repeat="client in clients | orderBy:'name'">{{client.name}}</option>
 					</select>
 				</div>					
 			</div>
@@ -48,13 +49,13 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="associate in associateInfo | filter: searchByName | filter: searchByClient |filter: seachByStatus | filter: searchBySkill">
-					<td>{{associate.id}}</td>
+				<tr ng-repeat="associate in associateInfo | filter: searchByName | filter: searchByClient | filter: searchByStatus : true | filter: searchBySkill">
+					<td><a href=#!/form/{{associate.id}}>{{associate.id}}</a></td>
 					<td>{{associate.firstName}}</td>
 					<td>{{associate.lastName}}</td>
 					<td>{{associate.marketingStatus}}</td>
 					<td>{{associate.client}}</td>
-					<td>{{associate.batchName}}</td>
+					<td><a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a></td>
 				</tr>
 			</tbody>
 		</table>

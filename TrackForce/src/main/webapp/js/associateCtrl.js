@@ -16,7 +16,7 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 		}).then(function(response) {
 			$scope.message = response.data;
 			if(response.statusCode == 404) {
-				console.log("resource does not exist");
+				$scope.message = "Resource does not exist";
 			}
 		})
 	}

@@ -13,7 +13,6 @@ public class AssociateInfo {
 	private String marketingStatus;
 	private String client;
 	private String endClient;
-	private String batchName;
 
 	/**
 	 * Constructs a newly allocated BatchInfo object that represents an associate.
@@ -26,8 +25,8 @@ public class AssociateInfo {
 	 *            - The associate's last name.
 	 * @param marketingStatus
 	 *            - The associate's marketing status (mapped, unmapped, etc.)
-	 * @param clientid-The
-	 *            clients's name.
+	 * @param client
+	 *            -The clients's name.
 	 */
 	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client) {
 		super();
@@ -38,20 +37,7 @@ public class AssociateInfo {
 		this.client = client;
 	}
 
-	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client,
-			String batchName) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.marketingStatus = marketingStatus;
-		this.client = client;
-		this.endClient = "";
-		this.batchName = batchName;
-	}
-
 	public AssociateInfo() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -168,14 +154,6 @@ public class AssociateInfo {
 		this.endClient = endClient;
 	}
 
-	public String getBatchName() {
-		return batchName;
-	}
-
-	public void setBatchName(String batchName) {
-		this.batchName = batchName;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -236,5 +214,4 @@ public class AssociateInfo {
 		return "AssociateInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", marketingStatus="
 				+ marketingStatus + ", client=" + client + ", endClient=" + endClient + "]";
 	}
-
 }

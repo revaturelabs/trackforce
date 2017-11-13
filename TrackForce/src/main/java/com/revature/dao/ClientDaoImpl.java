@@ -56,16 +56,16 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public List<TfClient> getAllTfClients() {
 		if (clients == null || clients.isEmpty()) {
-			Session session = HibernateUtil.getSession().openSession();
-			CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
-			cq.from(TfClient.class);
-			clients = session.createQuery(cq).getResultList();
-			for (TfClient client : clients) {
-				Hibernate.initialize(client.getTfClientId());
-				Hibernate.initialize(client.getTfClientName());
-				Hibernate.initialize(client.getTfAssociates());
+			try (Session session = HibernateUtil.getSession().openSession()) {
+				CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
+				cq.from(TfClient.class);
+				clients = session.createQuery(cq).getResultList();
+				for (TfClient client : clients) {
+					Hibernate.initialize(client.getTfClientId());
+					Hibernate.initialize(client.getTfClientName());
+					Hibernate.initialize(client.getTfAssociates());
+				}
 			}
-			session.close();
 		}
 		return clients;
 	}
@@ -78,5 +78,4 @@ public class ClientDaoImpl implements ClientDao {
 			clients.clear();
 		}
 	}
-
 }

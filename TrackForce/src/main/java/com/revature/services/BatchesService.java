@@ -3,29 +3,19 @@ package com.revature.services;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
-import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDaoHibernate;
-import com.revature.dao.ClientDaoImpl;
-import com.revature.dao.MarketingStatusDao;
-import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
-import com.revature.entity.TfClient;
-import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
 
@@ -50,33 +40,24 @@ public class BatchesService {
 	@GET
 	@Path("{fromdate}/{todate}/type")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public List<Map<String, Object>> getBatchChartInfo(@PathParam("fromdate") long fromdate,
+	public Map<String, Integer> getBatchChartInfo(@PathParam("fromdate") long fromdate,
 			@PathParam("todate") long todate) {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 
 		List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
-		Map<String, Integer> curriculumData = new Hashtable<String, Integer>();
-		List<String> curriculums = new ArrayList<String>();
-		List<Map<String, Object>> chartData = new ArrayList<Map<String, Object>>();
+		Map<String, Integer> chartData = new Hashtable<String, Integer>();
 
 		for (TfBatch batch : batches) {
 			String curriculumName = batch.getTfCurriculum().getTfCurriculumName();
 
-			if (curriculumData.containsKey(curriculumName)) {
+			if (chartData.containsKey(curriculumName)) {
 				int moreAssociates = batch.getTfAssociates().size();
-				int totalAssociates = curriculumData.get(curriculumName) + moreAssociates;
-				curriculumData.put(curriculumName, totalAssociates);
+				int totalAssociates = chartData.get(curriculumName) + moreAssociates;
+				chartData.put(curriculumName, totalAssociates);
 			} else {
 				int totalAssociates = batch.getTfAssociates().size();
-				curriculumData.put(curriculumName, totalAssociates);
-				curriculums.add(curriculumName);
+				chartData.put(curriculumName, totalAssociates);
 			}
-		}
-		for (String curriculum : curriculums) {
-			Map<String, Object> curriculumMap = new HashMap<String, Object>();
-			curriculumMap.put("curriculum", curriculum);
-			curriculumMap.put("value", curriculumData.get(curriculum));
-			chartData.add(curriculumMap);
 		}
 		return chartData;
 	}
@@ -103,9 +84,7 @@ public class BatchesService {
 		String startDate = batch.getTfBatchStartDate().toString();
 		String endDate = batch.getTfBatchEndDate().toString();
 
-		BatchInfo batchInfo = new BatchInfo(name, curriculumName, batchLocation, startDate, endDate);
-
-		return batchInfo;
+		return new BatchInfo(name, curriculumName, batchLocation, startDate, endDate);
 	}
 
 	/**
@@ -172,7 +151,6 @@ public class BatchesService {
 			batchesList.add(batchDetails);
 		}
 
-		System.out.println(batchesList);
 		return batchesList;
 	}
 

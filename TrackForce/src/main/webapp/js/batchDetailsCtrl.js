@@ -1,7 +1,7 @@
 /**
  * http://usejsdoc.org/
  */
-angular.module('mainApp').controller("batchDetailsCtrl",function($scope, $http, $routeParams){ 
+angular.module('mainApp').controller("batchDetailsCtrl",function($scope, $http, $routeParams, $location){ 
 		$scope.batchname = $routeParams.batchname; 
 		$scope.getMapStatusBatch = function() {
 		// Simple GET request example:
@@ -57,6 +57,5 @@ angular.module('mainApp').controller("batchDetailsCtrl",function($scope, $http, 
 	$scope.showMapStatusAndAssociates = function(){
 		return $scope.batchDetails = true; 
 	};
-	
 });
 

@@ -24,7 +24,6 @@ public class AssociateDaoHibernate implements AssociateDao {
 	 * Get a associate from the database given its id.
 	 * 
 	 * @param associateid
-	 * 
 	 */
 	@Override
 	public TfAssociate getAssociate(BigDecimal associateid) {
@@ -95,7 +94,6 @@ public class AssociateDaoHibernate implements AssociateDao {
 				transaction.rollback();
 			}
 
-			;
 		} finally {
 			session.close();
 		}

@@ -15,7 +15,6 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 		$http({
 			method : 'GET',
 			url : 'http://localhost:8080/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime(),
-			headers : {'Content-Type' : 'application/json'}
 		}).then(function successCallback(response) {
 			$scope.batches = response.data;
 			console.log($scope.batches);

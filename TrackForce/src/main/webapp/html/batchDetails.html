@@ -20,9 +20,9 @@
 				<tbody>
 					<tr ng-repeat="associates in associatesBatch | orderBy:'id'">
 						<td><a href="#!/form/{{associates.id}}">{{associates.id}}</a></td>
-						<td><a href="#!/form/{{associates.id}}">{{associates.firstName}}</a></td>
-						<td><a href="#!/form/{{associates.id}}">{{associates.lastName}}</a></td>
-						<td><a href="#!/form/{{associates.id}}">{{associates.marketingStatus}}</a></td>
+						<td>{{associates.firstName}}</td>
+						<td>{{associates.lastName}}</td>
+						<td>{{associates.marketingStatus}}</td>
 					</tr>
 				</tbody>
 			</table>

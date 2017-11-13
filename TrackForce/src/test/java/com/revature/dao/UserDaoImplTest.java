@@ -31,10 +31,6 @@ public class UserDaoImplTest {
 		return new String[] { "TestAdmin" };
 	}
 
-	@DataProvider
-	public TfUser[] user() {
-		return new TfUser[] { new TfUser(new BigDecimal(1), new TfRole(new BigDecimal(2)), "jdoe", "password1") };
-	}
 
 	
 

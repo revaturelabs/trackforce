@@ -6,6 +6,7 @@
       <class name="com.revature.dao.ClientDaoImplTest"/>
       <class name="com.revature.dao.DatabaseDaoImpl"/>
       <class name="com.revature.services.DatabaseServicesTest"/>
+      <class name="com.revature.dao.MarketingStatusDaoTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

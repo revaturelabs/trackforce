@@ -8,7 +8,6 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 	var threeMonthsBefore = currentTime - 7889238000;
 	
 	$scope.onLoad = function(){
-		console.log('hello');
 		$http({
 			method : 'GET',
 			url : 'http://localhost:8080/TrackForce/track/info',
@@ -142,7 +141,6 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 			url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter,
 		}).then(function successCallback(response) {
 			$rootScope.batches = response.data;
-			console.log($rootScope.batches);
 		}, function errorCallback(response) {
 			console.log('Error in doing http request')
 		});
@@ -158,7 +156,6 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 			$scope.labels = [];
 			$scope.data = []; 
 			var amountType = response.data;
-			console.log(response.data);  
 			for(var i = 0; i < amountType.length; i++){
 				$scope.labels.push(amountType[i].curriculum);
 				$scope.data.push(amountType[i].value);

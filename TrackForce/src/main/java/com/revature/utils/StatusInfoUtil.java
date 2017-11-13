@@ -11,14 +11,12 @@ import com.revature.entity.TfClient;
 import com.revature.entity.TfCurriculum;
 import com.revature.model.StatusInfo;
 
+
 /**
  * Helper class that compiles collections of StatusInfo objects.
  */
 public class StatusInfoUtil {
 
-    /**
-     * Constructs a StatusInfoUtil object
-     */
     private StatusInfoUtil() {
     }
 

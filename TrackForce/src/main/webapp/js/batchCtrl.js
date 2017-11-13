@@ -17,7 +17,6 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 			url : 'http://localhost:8080/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime(),
 		}).then(function successCallback(response) {
 			$scope.batches = response.data;
-			console.log($scope.batches);
 		}, function errorCallback(response) {
 			console.log('Error in doing http request')
 		});
@@ -35,7 +34,6 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 			$scope.labels = []; 
 			$scope.data = []; 
 			var amountType = response.data;
-			console.log(response.data); 
 			for(var i = 0; i < amountType.length; i++){
 				$scope.labels.push(amountType[i].curriculum);
 				$scope.data.push(amountType[i].value); 

@@ -22,7 +22,6 @@ angular.module('mainApp').controller("clientCtrl", function($scope, $http) {
 			url : "http://localhost:8080/TrackForce/track/clients"
 		}).then(function(response) {
 			$scope.clients = response.data;
-			console.log(response.data);
 		});
 	}
 	/**

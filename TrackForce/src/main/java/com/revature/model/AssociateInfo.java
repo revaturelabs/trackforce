@@ -14,6 +14,7 @@ public class AssociateInfo {
 	private String client;
 	private String endClient;
 	private String batchName;
+	private String curriculumName;
 
 	/**
 	 * Constructs a newly allocated BatchInfo object that represents an associate.
@@ -39,7 +40,7 @@ public class AssociateInfo {
 	}
 
 	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client,
-			String batchName) {
+			String batchName, String curriculumName) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -48,10 +49,10 @@ public class AssociateInfo {
 		this.client = client;
 		this.endClient = "";
 		this.batchName = batchName;
+		this.curriculumName = curriculumName;
 	}
 
 	public AssociateInfo() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

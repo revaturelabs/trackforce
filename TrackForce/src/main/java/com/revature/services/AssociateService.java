@@ -23,6 +23,7 @@ import com.revature.model.AssociateInfo;
 
 @Path("associates")
 public class AssociateService {
+
 	private HomeDaoImpl homeDaoImpl = new HomeDaoImpl();
 
 	@GET
@@ -31,6 +32,7 @@ public class AssociateService {
 	public AssociateInfo getAssociate(@PathParam("associateid") BigDecimal associateid) {
 		AssociateDaoHibernate associatedao = new AssociateDaoHibernate();
 		TfAssociate associate = associatedao.getAssociate(associateid);
+		System.out.println(associate.getTfMarketingStatus());
 		AssociateInfo associateinfo = new AssociateInfo();
 		associateinfo.setId(associate.getTfAssociateId());
 		associateinfo.setFirstName(associate.getTfAssociateFirstName());

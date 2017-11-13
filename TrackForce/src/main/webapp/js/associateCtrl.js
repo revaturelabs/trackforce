@@ -1,13 +1,14 @@
 /**
  * http://usejsdoc.org/
  */
-angular.module('mainApp').controller('associateCtrl', function($http, $scope, $routeParams) {
+angular.module('mainApp').controller('associateCtrl', function($http, $scope, $routeParams, $rootScope) {
 	$http({
 		method : "GET",
 		url : "http://localhost:8080/TrackForce/track/associates/all"
 	}).then(function(response) {
+		$scope.curriculum = $rootScope.curriculum; 
 		$scope.associateInfo = response.data;
-	})
+	});
 	
 	$scope.updateAssociate = function() {
 		$http({

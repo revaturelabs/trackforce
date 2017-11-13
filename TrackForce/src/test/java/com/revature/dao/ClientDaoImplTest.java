@@ -40,5 +40,4 @@ public class ClientDaoImplTest {
 		TfClient result = cDao.getClient(client);
 		assertNotNull(result);
 	}
-
 }

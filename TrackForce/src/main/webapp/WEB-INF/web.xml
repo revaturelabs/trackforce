@@ -20,5 +20,10 @@
 		<servlet-name>Jersey Web Application</servlet-name>
 		<url-pattern>/track/*</url-pattern>
 	</servlet-mapping>
+	<listener>  
+    	<listener-class>
+        	com.revature.services.ContextListener
+    	</listener-class>
+	</listener>  
 </web-app>
 

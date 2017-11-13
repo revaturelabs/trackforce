@@ -1,4 +1,4 @@
-<div class="container" ng-init="getAllClientNames()">
+<div class="container" ng-init="getAllClientNames(); onLoad()">
 	<div class="table-responsive">
 		<div class="form-group">
 			<div class="row">
@@ -8,7 +8,7 @@
 				</div>
 				<div class="col-sm-2">					
 					<label for="mStatus">Marketing Status: </label>
-					<select class="form-control" id="mStatus">
+					<select class="form-control" id="mStatus" ng-model="searchByStatus">
 						<option>MAPPED: TRAINING</option>
 						<option>MAPPED: RESERVED</option>
 						<option>MAPPED: SELECTED</option>
@@ -23,13 +23,13 @@
 				</div>
 				<div class="col-sm-2">					
 					<label for="skill">Skill: </label>
-					<select class="form-control" id="skill">
+					<select class="form-control" id="skill" ng-model="searchBySkill">
 						<option ng-repeat="curriculum in labels">{{curriculum}}</option>
 					</select>
 				</div>					
 				<div class="col-sm-2">					
 					<label for="client">Client: </label>
-					<select	class="form-control" id="client" ng-model="associateInfo.client">
+					<select	class="form-control" id="client" ng-model="searchByClient">
 						<option selected="selected">None</option>
 						<option ng-repeat="client in clients | orderBy:'name' | filter:searchClient">{{client.name}}</option>
 					</select>
@@ -48,7 +48,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="associate in associateInfo | filter: searchByName">
+				<tr ng-repeat="associate in associateInfo | filter: searchByName | filter: searchByClient |filter: seachByStatus | filter: searchBySkill">
 					<td>{{associate.id}}</td>
 					<td>{{associate.firstName}}</td>
 					<td>{{associate.lastName}}</td>

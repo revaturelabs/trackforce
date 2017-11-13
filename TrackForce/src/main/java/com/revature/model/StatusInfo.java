@@ -16,7 +16,7 @@ public class StatusInfo {
     private int confirmedUnmapped;
     private int deployedMapped;
     private int deployedUnmapped;
-
+    
     /**
      * Default no-arg constructor for an empty StatusInfo object.
      */

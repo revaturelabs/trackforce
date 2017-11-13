@@ -1,7 +1,5 @@
 package com.revature.test;
 
-import static org.testng.AssertJUnit.assertNotNull;
-
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 import java.io.File;
@@ -29,7 +27,7 @@ public class testBatchDaoHibernate {
 		fileInput.close();
 	}
 
-	@Test
+	@Test 
 	public void testgetBatchDetails() {
 		Timestamp firstDate = Timestamp.valueOf(properties.getProperty("from_date"));
 		Timestamp secondDate = Timestamp.valueOf(properties.getProperty("to_date"));
@@ -43,7 +41,7 @@ public class testBatchDaoHibernate {
 	@Test
 	public void testGetBatch() {
 		BatchDaoHibernate batch = new BatchDaoHibernate();
-		TfBatch batchA = batch.getBatch("1709 Sept11 JTA");
+		TfBatch batchA = batch.getBatch(properties.getProperty("batch_name"));
 		System.out.println(batchA.toString());
 		System.out.println(batchA.getTfBatchStartDate());
 		for (TfAssociate asc : batchA.getTfAssociates()) {
@@ -54,8 +52,9 @@ public class testBatchDaoHibernate {
 
 	@Test
 	public void testgetBatchDetailsNegative() {
-		Timestamp firstDate = Timestamp.valueOf("2017-12-30 10:10:10.0");
-		Timestamp secondDate = Timestamp.valueOf("2017-09-10 10:10:10.0");
+		//giving the dates in opposite order - is not a date range
+		Timestamp firstDate = Timestamp.valueOf(properties.getProperty("to_date"));
+		Timestamp secondDate = Timestamp.valueOf(properties.getProperty("from_date"));
 		BatchDao batchdao = new BatchDaoHibernate();
 		List<TfBatch> batchlist = batchdao.getBatchDetails(firstDate, secondDate);
 		Assert.assertNotNull(batchlist);
@@ -67,8 +66,10 @@ public class testBatchDaoHibernate {
 	public void testGetBatchNegative() {
 		BatchDao batchDao = new BatchDaoHibernate();
 		TfBatch batch = batchDao.getBatch("さいうえぁじぇうjp♫¥=⌐~ë");
-		assertNotNull(batch);
+		Assert.assertNotNull(batch);
+		System.out.println("batch: " + batch);
+		System.out.println("object: " + new TfBatch());
+		Assert.assertSame(batch, new TfBatch());
 		System.out.println("Test Get Batch Negative");
-		System.out.println(batch);
 	}
 }

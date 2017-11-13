@@ -1,5 +1,7 @@
 package com.revature.dao;
 
+import static org.testng.Assert.assertNotNull;
+
 import java.math.BigDecimal;
 
 import org.testng.annotations.DataProvider;
@@ -20,5 +22,6 @@ public class AssociateDaoImplTest {
 	@Test(dataProvider="associateId")
 	public void getAssociate(BigDecimal id) {
 		TfAssociate result = aDao.getAssociate(id);
+		assertNotNull(result);
 	}
 }

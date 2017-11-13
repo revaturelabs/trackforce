@@ -21,26 +21,24 @@ import org.testng.annotations.DataProvider;
 
 public class ClientDaoImplTest {
 
-  @Test
-  public void getAllTfClients() {
-	  Session session = HibernateUtil.getSession().openSession();
-		assertNotNull(session);
-		CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
-		assertNotNull(cq);
-		cq.from(TfClient.class);
-		assertNotNull(cq);
-		List<TfClient> clients = session.createQuery(cq).getResultList();
-		assertFalse(clients.isEmpty());
-		for(TfClient client : clients) {
-			Hibernate.initialize(client.getTfClientId());
-			assertNotNull(client.getTfClientId());
-			Hibernate.initialize(client.getTfClientName());
-			assertNotNull(client.getTfClientName());
-		}
+	ClientDaoImpl cDao = new ClientDaoImpl();
+	
+	@DataProvider(name="Clients")
+	public String[] clients() {
+		String[] clientList = new String[]{"22nd Century Staffing Inc", "Accenture / Fannie Mae", "PepsiCo", "Toyota Financial Services"};
+		return clientList;
+	}
+	
+	@Test
+	public void getAllTfClients() {
+		List<TfClient> result = cDao.getAllTfClients();
+		assertNotNull(result);
+	}
+	
+	@Test(dataProvider="Clients")
+	public void getTfClient(String client) {
+		TfClient result = cDao.getClient(client);
+		assertNotNull(result);
+	}
 
-		session.close();
-		assertFalse(session.isConnected());
-  }
-  
-  
 }

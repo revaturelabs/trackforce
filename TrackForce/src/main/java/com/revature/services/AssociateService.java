@@ -56,6 +56,7 @@ public class AssociateService {
 			associateinfo.setEndClient("None");
 		}
 		return associateinfo;
+	}
 
     /**
      * Update the marketing status or client of an associate from form data.
@@ -70,7 +71,7 @@ public class AssociateService {
      */
     @GET
     @Path("{associateId}/update/{marketingStatus}/{client}")
-    @Produces({ MediaType.TEXT_HTML })
+    @Produces({ MediaType.TEXT_HTML})
     public Response updateAssociate(@PathParam("associateId") String id, @PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client) {
 		MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
 		TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
@@ -102,7 +103,7 @@ public class AssociateService {
 					tfAssociate.getTfMarketingStatus() != null
 							? tfAssociate.getTfMarketingStatus().getTfMarketingStatusName()
 							: "",
-					tfAssociate.getTfClient() != null ? tfAssociate.getTfClient().getTfClientName() : "",
+					tfAssociate.getTfClient() != null ? tfAssociate.getTfClient().getTfClientName() : "None",
 					tfAssociate.getTfBatch() != null ? tfAssociate.getTfBatch().getTfBatchName() : ""));
 		}
 		return Response.ok(associateInfos).build();

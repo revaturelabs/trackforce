@@ -236,5 +236,4 @@ public class AssociateInfo {
 		return "AssociateInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", marketingStatus="
 				+ marketingStatus + ", client=" + client + ", endClient=" + endClient + "]";
 	}
-
 }

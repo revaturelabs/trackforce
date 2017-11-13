@@ -90,6 +90,6 @@ angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http,
 	$scope.skillsetClick = function(points, evt){
 		var clickedElementindex = points[0]["_index"];
 		var selectedClient = $scope.clientMappedLabels[clickedElementindex];
-		window.location.href = '#!/associatesListing/default/'+ selectedClient + '/' +$rootScope.selectedStatus;
+		window.location.href = '#!/associateListing/default/'+ selectedClient + '/' +$rootScope.selectedStatus;
 	};
 }});

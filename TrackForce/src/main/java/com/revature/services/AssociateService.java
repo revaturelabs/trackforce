@@ -58,22 +58,21 @@ public class AssociateService {
 		return associateinfo;
 	}
 
-	/**
-	 * Update the marketing status or client of an associate from form data.
-	 * 
-	 * @param id
-	 *            - The ID of the associate to change
-	 * @param marketingStatus
-	 *            - What to change the associate's marketing status to
-	 * @param client
-	 *            - What client to change the associate to
-	 * @return
-	 */
-	@GET
-	@Path("{associateId}/update/{marketingStatus}/{client}")
-	@Produces({ MediaType.TEXT_HTML })
-	public Response updateAssociate(@PathParam("associateId") String id,
-			@PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client) {
+    /**
+     * Update the marketing status or client of an associate from form data.
+     * 
+     * @param id
+     *            - The ID of the associate to change
+     * @param marketingStatus
+     *            - What to change the associate's marketing status to
+     * @param client
+     *            - What client to change the associate to
+     * @return
+     */
+    @GET
+    @Path("{associateId}/update/{marketingStatus}/{client}")
+    @Produces({ MediaType.TEXT_HTML})
+    public Response updateAssociate(@PathParam("associateId") String id, @PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client) {
 		MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
 		TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
 

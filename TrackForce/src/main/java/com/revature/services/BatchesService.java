@@ -3,6 +3,7 @@ package com.revature.services;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -54,18 +55,21 @@ public class BatchesService {
         BatchDaoHibernate batchDao = new BatchDaoHibernate();
 
 		List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
-		Map<String, Object> chartData = new HashMap<>();
+		Map<String, Integer> curriculumData = new Hashtable<String, Integer>();
+		List<String> curriculums = new ArrayList<String>();
+		List<Map<String, Object>> chartData = new ArrayList<Map<String, Object>>();
 
 		for (TfBatch batch : batches) {
 			String curriculumName = batch.getTfCurriculum().getTfCurriculumName();
 
-			if (chartData.containsKey(curriculumName)) {
+			if (curriculumData.containsKey(curriculumName)) {
 				int moreAssociates = batch.getTfAssociates().size();
-				int totalAssociates = chartData.get(curriculumName) + moreAssociates;
-				chartData.put(curriculumName, totalAssociates);
+				int totalAssociates = curriculumData.get(curriculumName) + moreAssociates;
+				curriculumData.put(curriculumName, totalAssociates);
 			} else {
 				int totalAssociates = batch.getTfAssociates().size();
-				chartData.put(curriculumName, totalAssociates);
+				curriculumData.put(curriculumName, totalAssociates);
+				curriculums.add(curriculumName);
 			}
 		}
 		return chartData;

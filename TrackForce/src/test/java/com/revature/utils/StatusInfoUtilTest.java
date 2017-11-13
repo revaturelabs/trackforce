@@ -1,6 +1,8 @@
 package com.revature.utils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -25,6 +27,10 @@ public class StatusInfoUtilTest {
 	@Test
 	public void getStageBasedOnStatusInfosAndStatusIDTest() {
 		System.out.println("The method: ");
-		System.out.println(getStageBasedOnStatusInfosAndStatusIDMethod.getName());
+		try {
+			System.out.println(getStageBasedOnStatusInfosAndStatusIDMethod.invoke(null, new ArrayList<>(), 5));
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 }

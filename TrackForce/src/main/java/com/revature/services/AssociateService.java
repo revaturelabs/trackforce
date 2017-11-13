@@ -56,6 +56,7 @@ public class AssociateService {
 			associateinfo.setEndClient("None");
 		}
 		return associateinfo;
+	}
 
     /**
      * Update the marketing status or client of an associate from form data.

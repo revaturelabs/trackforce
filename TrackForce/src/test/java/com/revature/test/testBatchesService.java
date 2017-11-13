@@ -26,11 +26,11 @@ public class testBatchesService {
 			BatchesService batchesService = new BatchesService();
 
 			List<Map<String, Object>> chartInfo = batchesService.getBatchChartInfo(
-					Timestamp.valueOf(properties.getProperty("to_date")).getTime(),
-					Timestamp.valueOf(properties.getProperty("from_date")).getTime());
+					Timestamp.valueOf(properties.getProperty("from_date")).getTime(),
+					Timestamp.valueOf(properties.getProperty("to_date")).getTime());
 
 			for (Map<String, Object> curriculumData : chartInfo) {
-				Assert.assertNotNull(curriculumData.get(properties.getProperty("value_key")));
+				Assert.assertNotNull(curriculumData.get("value"));
 			}
 	  }
 	  
@@ -50,13 +50,9 @@ public class testBatchesService {
 	  @Test
 	  public void testGetBatchInfoNeg() {
 		  BatchesService batchesService = new BatchesService();
-		  BatchInfo batch = batchesService.getBatchInfo(properties.getProperty("batch_name"));
+		  BatchInfo batch = batchesService.getBatchInfo(properties.getProperty("improper_batch_name"));
 		  
-		  Assert.assertNotNull(batch.getBatchName());
-		  Assert.assertNotNull(batch.getCurriculumName());
-		  Assert.assertNotNull(batch.getLocation());
-		  Assert.assertNotNull(batch.getStartDate());
-		  Assert.assertNotNull(batch.getEndDate());
+		  Assert.assertNotEquals(batch.getBatchName(), properties.getProperty("improper_batch_name"));
 	  }
 	  
 	  @Test
@@ -72,7 +68,7 @@ public class testBatchesService {
 	  public void testGetMappedData() {
 		  BatchesService batchesService = new BatchesService();
 		  
-		  Map<String, Integer> mappedOrUnmapped = batchesService.getMappedData(properties.getProperty("batchName"));
+		  Map<String, Integer> mappedOrUnmapped = batchesService.getMappedData(properties.getProperty("batch_name"));
 		  Assert.assertTrue(mappedOrUnmapped.containsKey(properties.getProperty("mapped")));
 		  Assert.assertTrue(mappedOrUnmapped.containsKey(properties.getProperty("unmapped")));
 	  
@@ -86,7 +82,7 @@ public class testBatchesService {
 		  Map<String, Integer> mappedOrUnmapped = batchesService.getMappedData(properties.getProperty("batch_name"));
 		  
 		  for(Integer value : mappedOrUnmapped.values()) {
-			   Assert.assertFalse(value.intValue() < new Integer(properties.getProperty("zero")).intValue());
+			   Assert.assertFalse(value.intValue() < Integer.parseInt((properties.getProperty("zero"))));
 			  
 		  }
 	  

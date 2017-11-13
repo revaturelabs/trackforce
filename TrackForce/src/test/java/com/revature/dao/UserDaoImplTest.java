@@ -2,6 +2,7 @@ package com.revature.dao;
 
 import static org.testng.Assert.*;
 
+
 import java.math.BigDecimal;
 
 import javax.persistence.NoResultException;
@@ -101,7 +102,7 @@ public class UserDaoImplTest {
 			session.close();
 			assertFalse(session.isConnected());
 		}
-	  assertEquals(user.getTfUserUsername(), username);
+	  assertEquals(user.getTfUsername(), username);
   }
 
   @Test(dataProvider = "user")
@@ -109,8 +110,8 @@ public class UserDaoImplTest {
 	  // create method for hashing passwords here
 	  
 	  try {
-			System.out.println("Password: " + user.getTfUserHashpassword() + " Hashed password: " 
-	  + PasswordStorage.createHash(user.getTfUserHashpassword()));
+			System.out.println("Password: " + user.getTfHashpassword() + " Hashed password: " 
+	  + PasswordStorage.createHash(user.getTfHashpassword()));
 		} catch (CannotPerformOperationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

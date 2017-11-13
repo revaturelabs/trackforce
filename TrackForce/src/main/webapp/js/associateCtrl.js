@@ -4,7 +4,7 @@
 angular.module('mainApp').controller('associateCtrl', function($http, $scope, $routeParams) {
 	$http({
 		method : "GET",
-		url : "http://localhost:8080/TrackForce/track/associates/" + $routeParams.associateId // + $routeParams.associateId
+		url : "http://localhost:8080/TrackForce/track/associates/all"
 	}).then(function(response) {
 		$scope.associateInfo = response.data;
 	})

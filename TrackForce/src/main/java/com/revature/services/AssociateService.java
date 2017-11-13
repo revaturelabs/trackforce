@@ -69,7 +69,7 @@ public class AssociateService {
      */
     @GET
     @Path("{associateId}/update/{marketingStatus}/{client}")
-    @Produces({ MediaType.TEXT_HTML })
+    @Produces({ MediaType.TEXT_HTML})
     public Response updateAssociate(@PathParam("associateId") String id, @PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client) {
 		MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
 		TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);

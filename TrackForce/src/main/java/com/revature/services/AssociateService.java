@@ -34,7 +34,6 @@ public class AssociateService {
 	public AssociateInfo getAssociate(@PathParam("associateid") BigDecimal associateid) {
 		AssociateDaoHibernate associatedao = new AssociateDaoHibernate();
 		TfAssociate associate = associatedao.getAssociate(associateid);
-		System.out.println(associate.getTfMarketingStatus());
 		AssociateInfo associateinfo = new AssociateInfo();
 		associateinfo.setId(associate.getTfAssociateId());
 		associateinfo.setFirstName(associate.getTfAssociateFirstName());
@@ -107,6 +106,10 @@ public class AssociateService {
 		List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates();
 		List<AssociateInfo> associateInfos = new ArrayList<>();
 		for (TfAssociate tfAssociate : tfAssociates) {
+			if (tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
+                    || tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
+                continue;
+            }
 			BigDecimal tfAssociateId = tfAssociate.getTfAssociateId();
 			String tfAssociateFirstName = tfAssociate.getTfAssociateFirstName();
 			String tfAssociateLastName = tfAssociate.getTfAssociateLastName();
@@ -119,7 +122,7 @@ public class AssociateService {
 			String tfCurriculum = tfAssociate.getTfBatch() != null ? (tfAssociate.getTfBatch().getTfCurriculum() != null
 					? tfAssociate.getTfBatch().getTfCurriculum().getTfCurriculumName()
 					: "") : "";
-
+					
 			associateInfos.add(new AssociateInfo(tfAssociateId, tfAssociateFirstName, tfAssociateLastName,
 					tfMarketingStatusName, tfClientName, tfBatchName, tfCurriculum));
 		}

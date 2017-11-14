@@ -5,6 +5,8 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 	$scope.limit = 10;
 	$scope.start = -671;
 	
+	$scope.terminated = "TERMINATED";
+	
 	$scope.beginning = function() {
 		$scope.start = -671;
 	}
@@ -27,8 +29,8 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 	$scope.getAssociate = function() {
 		
 		$http({
-			method : "GET",
-			url : "http://localhost:8080/TrackForce/track/associates/" + $routeParams.associateId
+			method : 'GET',
+			url : '/TrackForce/track/associates/' + $routeParams.associateId
 	    }).then(function(response) {
 	        $scope.associate = response.data;
 	    });
@@ -37,8 +39,8 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 	$scope.getAllAssociates = function() {
 	
 		$http({
-			method : "GET",
-			url : "http://localhost:8080/TrackForce/track/associates/all"
+			method : 'GET',
+			url : '/TrackForce/track/associates/all'
 		}).then(function(response) {
 			$scope.curriculum = $rootScope.curriculum; 
 			$rootScope.associateInfo = response.data;
@@ -47,8 +49,8 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 	
 	$scope.updateAssociate = function() {
 		$http({
-			method : "GET",
-			url : "http://localhost:8080/TrackForce/track/associates/" + $routeParams.associateId + "/update/" + $scope.associate.marketingStatus + "/" + $scope.associate.client
+			method : 'GET',
+			url : '/TrackForce/track/associates/' + $routeParams.associateId + '/update/' + $scope.associate.marketingStatus + '/' + $scope.associate.client
 		}).then(function(response) {
 			$scope.message = response.data;
 			if(response.statusCode == 404) {
@@ -103,10 +105,19 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 	
 	$scope.getAllClientNames = function() {
 		$http({
-			method : "GET",
-			url : "http://localhost:8080/TrackForce/track/clients/all"
+			method : 'GET',
+			url : '/TrackForce/track/clients/all'
 		}).then(function(response) {
 			$scope.clients = response.data;
+		});
+	}
+	
+	$scope.getAvailableClients = function() {
+		$http({
+			method : 'GET',
+			url : '/TrackForce/track/clients'
+		}).then(function(response) {
+			$scope.availableClients = response.data;
 		});
 	}
 });

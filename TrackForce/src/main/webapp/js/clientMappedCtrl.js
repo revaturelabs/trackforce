@@ -31,7 +31,7 @@ angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http,
 		 * This URL will pull varying data from the REST service based
 		 * on the statusID
 		 */
-		url :'http://localhost:8080/TrackForce/track/client/'+ $scope.statusID
+		url :'/TrackForce/track/client/'+ $scope.statusID
 	}).then(function(response) {
 		$scope.chartType='bar';
 		/**

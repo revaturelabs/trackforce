@@ -49,9 +49,10 @@ public class UserResource {
 					return Response.status(Response.Status.UNAUTHORIZED).build();
 				else if (PasswordStorage.verifyPassword(password, hashedPassword)) {
 					final HttpSession session = request.getSession();
-					if (session != null)
-						session.setAttribute("rolename", tfUser.getTfRole().getTfRoleName());
-
+					if (session != null) {
+						session.setAttribute("roleid", tfUser.getTfRole().getTfRoleId());
+						session.setAttribute("user", tfUser.getTfUserUsername());
+					}
 					System.out.println("Password verified");
 					URI homeLocation = new URI("../../../../TrackForce/html/index.html");
 					System.out.println("URI: " + homeLocation);

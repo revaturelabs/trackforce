@@ -4,11 +4,11 @@ body{
 }
 
 .custom-nav{
-	background-color: #353C3F;
+	background-color: #9e9e9e;
 }
 
 .navbar-default .navbar-nav > li > a, .navbar-header > .navbar-brand {
-	color: #FF8D3F;
+	color: #000000;
 }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus{

@@ -121,7 +121,11 @@ public class AssociateService {
         List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates();
         List<AssociateInfo> associateInfos = new ArrayList<>();
         for (TfAssociate tfAssociate : tfAssociates) {
-            BigDecimal tfAssociateId = tfAssociate.getTfAssociateId();
+        	if (tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
+                    || tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
+                continue;
+            }
+        	BigDecimal tfAssociateId = tfAssociate.getTfAssociateId();
             String tfAssociateFirstName = tfAssociate.getTfAssociateFirstName();
             String tfAssociateLastName = tfAssociate.getTfAssociateLastName();
             String tfMarketingStatusName = tfAssociate.getTfMarketingStatus() != null

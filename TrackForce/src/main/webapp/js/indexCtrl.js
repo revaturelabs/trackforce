@@ -8,7 +8,7 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 		$http({method: 'GET', url: 'http://localhost:8080/TrackForce/user/name'}).then(function(response){
 			$scope.username=response.data;
 		})
-	}
+	};
 
 
 		

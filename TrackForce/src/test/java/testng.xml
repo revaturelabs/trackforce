@@ -4,7 +4,7 @@
 	<test name="Test">
 		<classes>
 			<class name="com.revature.dao.ClientDaoImplTest" />
-			<class name="com.revature.dao.DatabaseDaoImpl" />
+			<class name="com.revature.dao.DatabaseDaoImplTest" />
 			<class name="com.revature.dao.MarketingStatusDaoTest" />
 			<class name="com.revature.dao.AssociateDaoImplTest" />
 			<class name="com.revature.dao.BatchDaoImplTest"/>

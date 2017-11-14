@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>Revature Associate Tracker</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.6/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.6/angular-route.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.js"></script>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <h2 class="text-default">Revature Associate Tracker</h2> 
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <form method="POST" action="http://localhost:8080/TrackForce/track/user/submit" class="form-signin">
+                    <h4 class="form-signin-heading">Login to your account</h4>
+                    <div class="form-group">
+                        <label for="username" class="sr-only">Username: </label>
+                        <input class="form-control" type="text" placeholder="username" name="username" id="username" required/>
+                        <label for="password" class="sr-only">Password: </label>
+                        <input class="form-control" type="password" placeholder="password" name="password" id="password" required/>
+                        <button class="btn btn-sm btn-default btn-block" type="submit">Sign in</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="../js/mainApp.js"></script>
+</body>
+</html>

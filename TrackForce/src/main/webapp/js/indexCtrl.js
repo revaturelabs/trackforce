@@ -10,8 +10,7 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 		}).then(function(response){
 			$scope.username=response.data;
 		})
-	}
-		
+	};
 	$scope.logout = function() {
 		$http({
 			method : 'POST',

@@ -103,6 +103,62 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 			$scope.options = {legend : {
 							  display : true,
 							  position : 'right'}};
+			
+			//redo $scope.options to include chart titles
+			$scope.unmappedOptions = {
+				legend : {
+							display : true,
+							position : 'right'
+						 },
+				title: {
+					display: true,
+					text: "Unmapped",
+					fontSize: 24,
+					fontColor: '#121212'
+					
+				}
+			
+			};
+			$scope.mappedOptions = {
+					legend : {
+						      display : true,
+						      position : 'right'
+							 },
+					title: {
+						display: true,
+						text: 'Mapped',
+						fontSize: 24,
+						fontColor: '#121212'
+			
+					}
+			};
+			$scope.deployedOptions = {
+					legend : {
+						  		display : true,
+						  		position : 'right'
+							  },
+				    title: {
+				    	display: true,
+				    	text: 'Mapped vs. Unmapped (Deployed)',
+				    	fontSize: 24,
+				    	fontColor: '#121212'
+				    	
+				    }
+			};
+			$scope.undeployedOptions = {
+					legend : {
+				  		       display : true,
+				  		       position : 'right'
+					          },
+					title: {
+		    	              display: true,
+		    	              text: 'Mapped vs. Unmapped (Undeployed)',
+		    	              fontSize: 24,
+		    	              fontColor: '#121212'
+		    	             
+		    	          
+		                    }
+			};
 			/**
 			 * @function MappedOnClick
 			 * @memberof mainApp.mainCtrl

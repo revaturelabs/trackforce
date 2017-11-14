@@ -1,21 +1,20 @@
 /**
  * http://usejsdoc.org/
  */
-angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootScope, $window) {
-
+angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootScope, $window) {
 	
 	$scope.getUsername= function(){
-		$http({method: 'GET', url: 'http://localhost:8080/TrackForce/user/name'}).then(function(response){
+		$http({
+			method: 'GET', 
+			url: '/TrackForce/user/name'
+		}).then(function(response){
 			$scope.username=response.data;
 		})
 	};
-
-
-		
 	$scope.logout = function() {
 		$http({
 			method : 'POST',
-			url : 'http://localhost:8080/TrackForce/track/user/logout'
+			url : '/TrackForce/track/user/logout'
 		}).then(function(response) {
 			$window.location.href = 'login.html';
 		})
@@ -28,7 +27,7 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 	$scope.onLoad = function(){
 		$http({
 			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/info',
+			url : '/TrackForce/track/info',
 			headers : {
 				'Content-Type' : 'application/json'
 			}
@@ -212,7 +211,7 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 	$scope.defaultBatches = function () {
 		$http({
 			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter,
+			url : '/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter,
 		}).then(function successCallback(response) {
 			$rootScope.batches = response.data;
 		}, function errorCallback(response) {
@@ -223,7 +222,7 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 	$scope.getCountPerBatchTypeDefault = function(){
 		$http({
 			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter + '/type'
+			url : '/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter + '/type'
 		}).then(function successCallback(response) {
 			// this callback will be called asynchronously
 			// when the response is available

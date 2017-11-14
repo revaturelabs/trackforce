@@ -18,8 +18,8 @@ angular.module('mainApp').controller("clientCtrl", function($scope, $http) {
 	 */
 	$scope.getAllClientNames = function() {
 		$http({
-			method : "GET",
-			url : "http://localhost:8080/TrackForce/track/clients"
+			method : 'GET',
+			url : '/TrackForce/track/clients'
 		}).then(function(response) {
 			$scope.clients = response.data;
 		});
@@ -40,8 +40,8 @@ angular.module('mainApp').controller("clientCtrl", function($scope, $http) {
 	 */
 	$scope.getAllClients = function() {
 		$http({
-			method : "GET",
-			url : "http://localhost:8080/TrackForce/track/clients/info"
+			method : 'GET',
+			url : '/TrackForce/track/clients/info'
 		}).then(function(response) {
 			/**
 			 * @member {Client} clients
@@ -133,8 +133,8 @@ angular.module('mainApp').controller("clientCtrl", function($scope, $http) {
 	 */
 	$scope.getOneClient = function(searchValue) {
 		$http({
-			method : "GET",
-			url : "http://localhost:8080/TrackForce/track/clients/"
+			method : 'GET',
+			url : '/TrackForce/track/clients/'
 					+ searchValue
 		}).then(
 		function(response) {

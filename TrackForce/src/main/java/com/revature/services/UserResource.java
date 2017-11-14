@@ -53,11 +53,7 @@ public class UserResource {
 						session.setAttribute("roleid", tfUser.getTfRole().getTfRoleId());
 						session.setAttribute("user", tfUser.getTfUserUsername());
 					}
-					System.out.println("Password verified");
-					URI homeLocation = new URI("../../../../TrackForce/html/index.html");
-					System.out.println("URI: " + homeLocation);
-					System.out.println("username: " + username + ", password: " + password);
-					System.out.println("User role name: " + tfUser.getTfRole().getTfRoleName());
+					URI homeLocation = new URI("/TrackForce/html/index.html");
 					return Response.seeOther(homeLocation).build();
 				} else
 					return Response.status(Response.Status.UNAUTHORIZED).build();
@@ -83,7 +79,7 @@ public class UserResource {
 			if (session != null) {
 				session.invalidate();
 				try {
-					URI loginLocation = new URI("../../../../TrackForce/html/login.html");
+					URI loginLocation = new URI("/TrackForce/html/login.html");
 					return Response.temporaryRedirect(loginLocation).build();
 				} catch (URISyntaxException e) {
 					e.printStackTrace();

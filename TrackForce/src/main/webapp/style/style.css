@@ -1,0 +1,30 @@
+body{
+	background-color: #d5d6d2;
+	background-size: cover;
+}
+
+.custom-nav{
+	background-color: #353C3F;
+}
+
+.navbar-default .navbar-nav > li > a, .navbar-header > .navbar-brand {
+	color: #FF8D3F;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus{
+	color: #d5d6d2;
+}
+
+.navbar-default .navbar-brand{
+	color: #FF8D3F;
+}
+
+.navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
+    color:#d5d6d2;
+    background-color: transparent;
+}
+
+
+.clientList{
+	padding-top: 20px;
+}

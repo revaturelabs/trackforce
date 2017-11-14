@@ -58,7 +58,7 @@ public class UserResource {
 					System.out.println("URI: " + homeLocation);
 					System.out.println("username: " + username + ", password: " + password);
 					System.out.println("User role name: " + tfUser.getTfRole().getTfRoleName());
-					return Response.temporaryRedirect(homeLocation).build();
+					return Response.seeOther(homeLocation).build();
 				} else
 					return Response.status(Response.Status.UNAUTHORIZED).build();
 			} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {
@@ -76,6 +76,7 @@ public class UserResource {
 	 */
 	@POST
 	@Path("logout")
+	@Produces({ MediaType.TEXT_HTML })
 	public Response logout(@Context HttpServletRequest request) {
 		if (request != null) {
 			HttpSession session = request.getSession();

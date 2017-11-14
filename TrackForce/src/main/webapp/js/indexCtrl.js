@@ -1,8 +1,17 @@
 /**
  * http://usejsdoc.org/
  */
-angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootScope) {
+angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootScope, $window) {
 		
+	$scope.logout = function() {
+		$http({
+			method : 'POST',
+			url : 'http://localhost:8080/TrackForce/track/user/logout'
+		}).then(function(response) {
+			$window.location.href = 'login.html';
+		})
+	};
+	
 	var currentTime = new Date().getTime();
 	var threeMonthsAfter = currentTime + 7889238000;
 	var threeMonthsBefore = currentTime - 7889238000;

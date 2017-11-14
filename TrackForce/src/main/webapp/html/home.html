@@ -1,25 +1,27 @@
 <div class="container">
 	<div class="row">
-		<div class="col-sm-2"></div>
+		 <div class="col-sm-2"></div>
 		<div class="col-sm-4">
-			<h3 class="text-center text-default">Mapped vs. Unmapped (Undeployed)</h3>
-			<canvas id="pie" class="chart chart-pie" chart-data="UndeployedData" chart-colors="colors" chart-labels="UndeployedLabels" chart-options="options"></canvas>
+			
+			<canvas id="pie" class="chart chart-pie" chart-data="UndeployedData" chart-colors="mappedcolors" chart-labels="UndeployedLabels" chart-options="undeployedOptions"></canvas>
 		</div> 
 		<div class="col-sm-4">
-			<h3 class = "text-center text-default">Mapped vs. Unmapped (Deployed)</h3>
-			<canvas id="pie" class="chart chart-pie" chart-data="DeployedData" chart-colors="colors" chart-options="options" chart-labels="DeployedLabels"></canvas> 
+			
+			<canvas id="pie" class="chart chart-pie" chart-data="DeployedData" chart-colors="mappedcolors" chart-options="deployedOptions" chart-labels="DeployedLabels"></canvas> 
 		</div>
+		<div class="col-sm-2"></div>
 	</div>
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-4">
-			<h3 class="text-center text-default">Mapped</h3>
-			<canvas id="pie" class="chart chart-pie" chart-data="MappedData" chart-labels="MappedLabels" chart-click="MappedOnClick" chart-colors="colors2" chart-options="options"></canvas>
+			
+			<canvas id="pie" class="chart chart-pie" chart-data="MappedData" chart-labels="MappedLabels" chart-click="MappedOnClick" chart-colors="mainTheme" chart-options="mappedOptions"></canvas>
 		</div>
 		<div class="col-sm-4">
-			<h3 class="text-center text-default">Unmapped</h3>
-			<canvas id="pie" class="chart chart-pie" chart-data="UnmappedData" chart-labels="UnmappedLabels" chart-colors="colors2" chart-options="options" chart-click="UnmappedOnClick"></canvas>
+			
+			<canvas id="pie" class="chart chart-pie" chart-data="UnmappedData" chart-labels="UnmappedLabels" chart-colors="mainTheme" chart-options="unmappedOptions" chart-click="UnmappedOnClick"></canvas>
 		</div>
+		<div class="col-sm-2"></div>
 	</div>
 	<div ng-controller="databaseCtrl">
 		<div class="row">
@@ -35,3 +37,4 @@
 		</div>
 	</div>
 </div>
+

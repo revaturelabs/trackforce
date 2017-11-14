@@ -57,6 +57,12 @@ public class AssociateService {
 		} else {
 			associateinfo.setEndClient("None");
 		}
+		
+		if (associate.getTfBatch() != null) {
+			associateinfo.setBatchName(associate.getTfBatch().getTfBatchName());	
+		} else {
+			associateinfo.setBatchName("None");
+		}
 		return associateinfo;
 	}
 

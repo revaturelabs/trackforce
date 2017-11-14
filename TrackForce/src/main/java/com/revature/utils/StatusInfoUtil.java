@@ -21,7 +21,7 @@ public class StatusInfoUtil {
 	private StatusInfoUtil() {
 	}
 
-	private static String allAssociatesStatusInfoName = "All associates";
+	private static String allAssociatesStatusInfoName = "Marketing status for all clients";
 	private static StatusInfo allAssociatesStatusInfo = new StatusInfo(allAssociatesStatusInfoName);
 	private static Map<Integer, StatusInfo> specificClientStatusInfo = new HashMap<>();
 	private static Map<Integer, StatusInfo> specificCurriculumStatusInfo = new HashMap<>();

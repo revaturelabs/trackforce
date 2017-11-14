@@ -1,8 +1,17 @@
 /**
  * http://usejsdoc.org/
  */
-angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootScope) {
+angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootScope, $window) {
 		
+	$scope.logout = function() {
+		$http({
+			method : 'POST',
+			url : 'http://localhost:8080/TrackForce/track/user/logout'
+		}).then(function(response) {
+			$window.location.href = 'login.html';
+		})
+	};
+	
 	var currentTime = new Date().getTime();
 	var threeMonthsAfter = currentTime + 7889238000;
 	var threeMonthsBefore = currentTime - 7889238000;
@@ -103,6 +112,62 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 			$scope.options = {legend : {
 							  display : true,
 							  position : 'right'}};
+			
+			//redo $scope.options to include chart titles
+			$scope.unmappedOptions = {
+				legend : {
+							display : true,
+							position : 'right'
+						 },
+				title: {
+					display: true,
+					text: "Unmapped",
+					fontSize: 24,
+					fontColor: '#121212'
+					
+				}
+			
+			};
+			$scope.mappedOptions = {
+					legend : {
+						      display : true,
+						      position : 'right'
+							 },
+					title: {
+						display: true,
+						text: 'Mapped',
+						fontSize: 24,
+						fontColor: '#121212'
+			
+					}
+			};
+			$scope.deployedOptions = {
+					legend : {
+						  		display : true,
+						  		position : 'right'
+							  },
+				    title: {
+				    	display: true,
+				    	text: 'Mapped vs. Unmapped (Deployed)',
+				    	fontSize: 24,
+				    	fontColor: '#121212'
+				    	
+				    }
+			};
+			$scope.undeployedOptions = {
+					legend : {
+				  		       display : true,
+				  		       position : 'right'
+					          },
+					title: {
+		    	              display: true,
+		    	              text: 'Mapped vs. Unmapped (Undeployed)',
+		    	              fontSize: 24,
+		    	              fontColor: '#121212'
+		    	             
+		    	          
+		                    }
+			};
 			/**
 			 * @function MappedOnClick
 			 * @memberof mainApp.mainCtrl

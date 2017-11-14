@@ -2,18 +2,53 @@
  * http://usejsdoc.org/
  */
 angular.module('mainApp').controller('associateCtrl', function($http, $scope, $routeParams, $rootScope) {
-	$http({
-		method : "GET",
-		url : "http://localhost:8080/TrackForce/track/associates/all"
-	}).then(function(response) {
-		$scope.curriculum = $rootScope.curriculum; 
-		$rootScope.associateInfo = response.data;
-	});
+	$scope.limit = 10;
+	$scope.start = -671;
+	
+	$scope.beginning = function() {
+		$scope.start = -671;
+	}
+	
+	$scope.decrease = function() {
+		$scope.start -= $scope.limit;
+		console.log($scope.start);
+	}	
+	
+	$scope.increase = function() {
+		$scope.start += $scope.limit;
+		console.log($scope.start);
+	}
+	
+	$scope.end = function() {
+		$scope.start -= 0;
+	}
+	
+	
+	$scope.getAssociate = function() {
+		
+		$http({
+			method : "GET",
+			url : "http://localhost:8080/TrackForce/track/associates/" + $routeParams.associateId
+	    }).then(function(response) {
+	        $scope.associate = response.data;
+	    });
+	}
+	
+	$scope.getAllAssociates = function() {
+	
+		$http({
+			method : "GET",
+			url : "http://localhost:8080/TrackForce/track/associates/all"
+		}).then(function(response) {
+			$scope.curriculum = $rootScope.curriculum; 
+			$rootScope.associateInfo = response.data;
+		});
+	}
 	
 	$scope.updateAssociate = function() {
 		$http({
 			method : "GET",
-			url : "http://localhost:8080/TrackForce/track/associates/" + $routeParams.associateId + "/update/" + $scope.associateInfo.marketingStatus + "/" + $scope.associateInfo.client
+			url : "http://localhost:8080/TrackForce/track/associates/" + $routeParams.associateId + "/update/" + $scope.associate.marketingStatus + "/" + $scope.associate.client
 		}).then(function(response) {
 			$scope.message = response.data;
 			if(response.statusCode == 404) {
@@ -69,7 +104,7 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 	$scope.getAllClientNames = function() {
 		$http({
 			method : "GET",
-			url : "http://localhost:8080/TrackForce/track/clients"
+			url : "http://localhost:8080/TrackForce/track/clients/all"
 		}).then(function(response) {
 			$scope.clients = response.data;
 		});

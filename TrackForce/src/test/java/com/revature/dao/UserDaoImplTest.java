@@ -25,18 +25,25 @@ public class UserDaoImplTest {
 
 	UserDaoImpl uDao = new UserDaoImpl();
 
-
 	@DataProvider(name = "userName")
 	public String[] userName() {
 		return new String[] { "TestAdmin" };
 	}
-
-
 	
+	
+	@DataProvider(name = "user")
+	  public Object[][] user() {
+			return new Object[][] {
+				new Object[] {new TfUser(new BigDecimal(1))}
+			};
+	}
+
 
 	@Test(dataProvider = "userName")
 	public void getUserString(String username) {
 		TfUser result = uDao.getUser(username);
 		assertNotNull(result);
+		System.out.println("username: " + result.getTfUserUsername());
 	}
+
 }

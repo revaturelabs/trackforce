@@ -1,6 +1,7 @@
 package com.revature.dao;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -47,7 +48,6 @@ public class BatchDaoHibernate implements BatchDao {
 			} catch (NoResultException nre) {
 				batch = new TfBatch();
 			}
-
 			if (batch.getTfBatchId() != null) {
 				Hibernate.initialize(batch.getTfCurriculum());
 				Hibernate.initialize(batch.getTfBatchLocation());
@@ -55,11 +55,13 @@ public class BatchDaoHibernate implements BatchDao {
 
 				for (TfAssociate associate : batch.getTfAssociates()) {
 					Hibernate.initialize(associate.getTfMarketingStatus());
+					Hibernate.initialize(associate.getTfClient());
 				}
-			}
 
+			}
 			return batch;
 		}
+
 	}
 
 	/**
@@ -74,6 +76,7 @@ public class BatchDaoHibernate implements BatchDao {
 	public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate) {
 		SessionFactory sessionFactory = HibernateUtil.getSession();
 		EntityManager em = null;
+		List<TfBatch> batch = new ArrayList<>();
 		try {
 			em = sessionFactory.openSession();
 			TypedQuery<TfBatch> query = em.createQuery(
@@ -81,7 +84,7 @@ public class BatchDaoHibernate implements BatchDao {
 					TfBatch.class);
 			query.setParameter("fromdate", fromdate);
 			query.setParameter("todate", todate);
-			List<TfBatch> batch = query.getResultList();
+			batch = query.getResultList();
 
 			for (TfBatch bat : batch) {
 				Hibernate.initialize(bat.getTfBatchLocation());
@@ -93,12 +96,11 @@ public class BatchDaoHibernate implements BatchDao {
 				}
 			}
 
-			return batch;
-
 		} finally {
 			if (em != null) {
 				em.close();
 			}
 		}
+		return batch;
 	}
 }

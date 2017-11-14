@@ -41,6 +41,7 @@ public class AssociateDaoHibernate implements AssociateDao {
                 Hibernate.initialize(associate.getTfMarketingStatus());
                 Hibernate.initialize(associate.getTfClient());
                 Hibernate.initialize(associate.getTfEndClient());
+                Hibernate.initialize(associate.getTfBatch());
             } catch (NoResultException nre) {
                 associate = new TfAssociate();
             }

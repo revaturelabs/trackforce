@@ -42,56 +42,49 @@ public class BatchDaoHibernate implements BatchDao {
 			criteriaQuery.select(root).where(builder.equal(root.get("tfBatchName"), batchName));
 			Query<TfBatch> query = session.createQuery(criteriaQuery);
 
-        TfBatch batch;
-        try {
-            batch = query.getSingleResult();
-        } catch (NoResultException nre) {
-            batch = new TfBatch();
-        }
-        if(batch.getTfBatchId() != null)
-        {
-            Hibernate.initialize(batch.getTfCurriculum());
-            Hibernate.initialize(batch.getTfBatchLocation());
-            Hibernate.initialize(batch.getTfAssociates());
-            
-            for(TfAssociate associate : batch.getTfAssociates())
-            {
-                Hibernate.initialize(associate.getTfMarketingStatus());
-            }
-
+			TfBatch batch;
+			try {
+				batch = query.getSingleResult();
+			} catch (NoResultException nre) {
+				batch = new TfBatch();
+			}
 			if (batch.getTfBatchId() != null) {
 				Hibernate.initialize(batch.getTfCurriculum());
 				Hibernate.initialize(batch.getTfBatchLocation());
 				Hibernate.initialize(batch.getTfAssociates());
 
-                for (TfAssociate associate : batch.getTfAssociates()) {
-                    Hibernate.initialize(associate.getTfMarketingStatus());
-					}
+				for (TfAssociate associate : batch.getTfAssociates()) {
+					Hibernate.initialize(associate.getTfMarketingStatus());
+					Hibernate.initialize(associate.getTfClient());
 				}
-        	}
+
+			}
 			return batch;
 		}
+
 	}
 
-    /**
-     * Get a list of batches that are running within the given dates
-     * 
-     * @param fromdate
-     *            - the beginning number of the date range
-     * @param todate
-     *            - the ending date of the date range
-     */
-    @Override
-    public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate) {
-        SessionFactory sessionFactory = HibernateUtil.getSession();
-        EntityManager em = null;
-        List<TfBatch> batch = new ArrayList<>();
-        try {
-            em = sessionFactory.openSession();
-            TypedQuery<TfBatch> query = em.createQuery("from TfBatch where (tfBatchStartDate >= :fromdate) and (tfBatchEndDate <= :todate)", TfBatch.class);
-            query.setParameter("fromdate", fromdate);
-            query.setParameter("todate", todate);
-            batch = query.getResultList();
+	/**
+	 * Get a list of batches that are running within the given dates
+	 * 
+	 * @param fromdate
+	 *            - the beginning number of the date range
+	 * @param todate
+	 *            - the ending date of the date range
+	 */
+	@Override
+	public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate) {
+		SessionFactory sessionFactory = HibernateUtil.getSession();
+		EntityManager em = null;
+		List<TfBatch> batch = new ArrayList<>();
+		try {
+			em = sessionFactory.openSession();
+			TypedQuery<TfBatch> query = em.createQuery(
+					"from TfBatch where (tfBatchStartDate >= :fromdate) and (tfBatchEndDate <= :todate)",
+					TfBatch.class);
+			query.setParameter("fromdate", fromdate);
+			query.setParameter("todate", todate);
+			batch = query.getResultList();
 
 			for (TfBatch bat : batch) {
 				Hibernate.initialize(bat.getTfBatchLocation());
@@ -103,11 +96,11 @@ public class BatchDaoHibernate implements BatchDao {
 				}
 			}
 
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-        return batch;
-    }
+		} finally {
+			if (em != null) {
+				em.close();
+			}
+		}
+		return batch;
+	}
 }

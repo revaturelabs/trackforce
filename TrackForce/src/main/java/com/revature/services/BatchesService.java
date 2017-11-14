@@ -198,7 +198,11 @@ public class BatchesService {
             associateInfo.setFirstName(associate.getTfAssociateFirstName());
             associateInfo.setLastName(associate.getTfAssociateLastName());
             associateInfo.setMarketingStatus(associate.getTfMarketingStatus().getTfMarketingStatusName());
-            associateInfo.setClient(associate.getTfClient().getTfClientName());
+            try {
+            	associateInfo.setClient(associate.getTfClient().getTfClientName());
+            } catch (NullPointerException e) {
+            	associateInfo.setClient("None");
+            }
 
 			associatesList.add(associateInfo);
 		}

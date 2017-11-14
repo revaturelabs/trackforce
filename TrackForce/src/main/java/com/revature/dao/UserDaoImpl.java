@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -36,6 +37,12 @@ public class UserDaoImpl implements UserDAO {
 
 			try {
 				user = query.getSingleResult();
+				if(user.getTfRole() != null) {
+					if (user.getTfRole().getTfRoleName() != null){
+						Hibernate.initialize(user.getTfRole().getTfRoleName());
+					}
+				}
+				
 			} catch (NoResultException nre) {
 				user = new TfUser();
 			}

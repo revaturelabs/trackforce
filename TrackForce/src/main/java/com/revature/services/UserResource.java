@@ -44,6 +44,7 @@ public class UserResource {
 				URI homeLocation = new URI("../../../../webapp/html/index.html");
 				System.out.println("URI: " + homeLocation);
 				System.out.println("username: " + username + ", password: " + password);
+				System.out.println("User role ID: " + tfUser.getTfRole().getTfRoleName());
 				return Response.temporaryRedirect(homeLocation).build();
 			}
 		} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {

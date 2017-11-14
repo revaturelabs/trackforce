@@ -36,10 +36,15 @@ public class UserResource {
 	@Produces({ MediaType.TEXT_HTML })
 	public Response submitCredentials(@FormParam("username") String username, @FormParam("password") String password) {
 		TfUser tfUser = userDaoImpl.getUser(username);
-		String hashedPassword = tfUser.getTfHashpassword();
+		String hashedPassword = tfUser.getTfUserHashpassword();
 		try {
 			if (PasswordStorage.verifyPassword(password, hashedPassword)) {
-				URI homeLocation = new URI("html/home.html");
+				System.out.println("Password verified");
+				//URI homeLocation = new URI("html/index.html");
+				URI homeLocation = new URI("../../../../webapp/html/index.html");
+				System.out.println("URI: " + homeLocation);
+				System.out.println("username: " + username + ", password: " + password);
+				System.out.println("User role ID: " + tfUser.getTfRole().getTfRoleName());
 				return Response.temporaryRedirect(homeLocation).build();
 			}
 		} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {

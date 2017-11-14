@@ -33,11 +33,11 @@ public class TfUser implements java.io.Serializable {
 		this.tfUserId = tfUserId;
 	}
 
-	public TfUser(BigDecimal tfUserId, TfRole tfRole, String tfUsername, String tfHashpassword) {
+	public TfUser(BigDecimal tfUserId, TfRole tfRole, String tfUserUsername, String tfUserHashpassword) {
 		this.tfUserId = tfUserId;
 		this.tfRole = tfRole;
-		this.tfUsername = tfUsername;
-		this.tfHashpassword = tfHashpassword;
+		this.tfUsername = tfUserUsername;
+		this.tfHashpassword = tfUserHashpassword;
 	}
 
 	@Id
@@ -62,21 +62,21 @@ public class TfUser implements java.io.Serializable {
 	}
 
 	@Column(name = "TF_USERNAME", length = 20)
-	public String getTfUsername() {
+	public String getTfUserUsername() {
 		return this.tfUsername;
 	}
 
-	public void setTfUsername(String tfUsername) {
-		this.tfUsername = tfUsername;
+	public void setTfUserUsername(String tfUserUsername) {
+		this.tfUsername = tfUserUsername;
 	}
 
 	@Column(name = "TF_HASHPASSWORD", length = 200)
-	public String getTfHashpassword() {
+	public String getTfUserHashpassword() {
 		return this.tfHashpassword;
 	}
 
-	public void setTfHashpassword(String tfHashpassword) {
-		this.tfHashpassword = tfHashpassword;
+	public void setTfUserHashpassword(String tfUserHashpassword) {
+		this.tfHashpassword = tfUserHashpassword;
 	}
 
 }

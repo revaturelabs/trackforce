@@ -3,6 +3,7 @@ package com.revature.services;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -33,6 +34,7 @@ public class UserResource {
 	 */
 	@POST
 	@Path("submit")
+	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces({ MediaType.TEXT_HTML })
 	public Response submitCredentials(@FormParam("username") String username, @FormParam("password") String password) {
 		TfUser tfUser = userDaoImpl.getUser(username);
@@ -41,7 +43,7 @@ public class UserResource {
 			if (PasswordStorage.verifyPassword(password, hashedPassword)) {
 				System.out.println("Password verified");
 				//URI homeLocation = new URI("html/index.html");
-				URI homeLocation = new URI("../../../../webapp/html/index.html");
+				URI homeLocation = new URI("../../../../TrackForce/html/index.html");
 				System.out.println("URI: " + homeLocation);
 				System.out.println("username: " + username + ", password: " + password);
 				System.out.println("User role ID: " + tfUser.getTfRole().getTfRoleName());

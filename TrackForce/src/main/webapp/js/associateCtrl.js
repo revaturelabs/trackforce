@@ -2,6 +2,27 @@
  * http://usejsdoc.org/
  */
 angular.module('mainApp').controller('associateCtrl', function($http, $scope, $routeParams, $rootScope) {
+	$scope.limit = 10;
+	$scope.start = -671;
+	
+	$scope.beginning = function() {
+		$scope.start = -671;
+	}
+	
+	$scope.decrease = function() {
+		$scope.start -= $scope.limit;
+		console.log($scope.start);
+	}	
+	
+	$scope.increase = function() {
+		$scope.start += $scope.limit;
+		console.log($scope.start);
+	}
+	
+	$scope.end = function() {
+		$scope.start -= 0;
+	}
+	
 	
 	$scope.getAssociate = function() {
 		
@@ -83,7 +104,7 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 	$scope.getAllClientNames = function() {
 		$http({
 			method : "GET",
-			url : "http://localhost:8080/TrackForce/track/clients"
+			url : "http://localhost:8080/TrackForce/track/clients/all"
 		}).then(function(response) {
 			$scope.clients = response.data;
 		});

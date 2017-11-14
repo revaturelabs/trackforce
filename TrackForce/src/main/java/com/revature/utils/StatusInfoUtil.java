@@ -1,5 +1,6 @@
 package com.revature.utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfCurriculum;
+import com.revature.entity.TfMarketingStatus;
 import com.revature.model.StatusInfo;
 
 /**
@@ -129,11 +131,13 @@ public class StatusInfoUtil {
 		List<Map<String, Object>> maps = new ArrayList<>();
 		// if valid statusID, add map for each statusInfo
 		if (statusID >= 1 && statusID <= 10) {
-			for (StatusInfo statusInfo : statusInfos) {
-				Map<String, Object> map = new HashMap<>();
-				map.put("name", statusInfo.getName());
-				map.put("count", getStatusCount(statusInfo, statusID));
-				maps.add(map);
+			if (statusInfos != null) {
+				for (StatusInfo statusInfo : statusInfos) {
+					Map<String, Object> map = new HashMap<>();
+					map.put("name", statusInfo.getName());
+					map.put("count", getStatusCount(statusInfo, statusID));
+					maps.add(map);
+				}
 			}
 		}
 		return maps;
@@ -148,7 +152,8 @@ public class StatusInfoUtil {
 	 *            associates
 	 */
 	private static void setAllAssociatesStatusInfo(StatusInfo statusInfo) {
-		allAssociatesStatusInfo = statusInfo;
+		if (statusInfo != null)
+			allAssociatesStatusInfo = statusInfo;
 	}
 
 	/**
@@ -161,7 +166,8 @@ public class StatusInfoUtil {
 	 *            the StatusInfo object associated with a client
 	 */
 	private static void putClientStatusInfo(int clientID, StatusInfo clientStatusInfo) {
-		specificClientStatusInfo.put(clientID, clientStatusInfo);
+		if (clientStatusInfo != null)
+			specificClientStatusInfo.put(clientID, clientStatusInfo);
 	}
 
 	/**
@@ -174,7 +180,8 @@ public class StatusInfoUtil {
 	 *            the StatusInfo object associated with a curriculum
 	 */
 	private static void putCurriculumStatusInfo(int curriculumID, StatusInfo curriculumStatusInfo) {
-		specificCurriculumStatusInfo.put(curriculumID, curriculumStatusInfo);
+		if (curriculumStatusInfo != null)
+			specificCurriculumStatusInfo.put(curriculumID, curriculumStatusInfo);
 	}
 
 	/**
@@ -187,6 +194,10 @@ public class StatusInfoUtil {
 	 */
 	public static void updateStatusInfoFromAssociates(List<TfAssociate> associates) {
 		StatusInfo allAssociatesStatusInfo = new StatusInfo(allAssociatesStatusInfoName);
+
+		// remove all null references
+		while (associates.remove(null))
+			;
 		for (TfAssociate associate : associates) {
 			// increment allAssociatesStatusInfo for every associate
 			incrementStatusCount(allAssociatesStatusInfo, associate);
@@ -194,15 +205,26 @@ public class StatusInfoUtil {
 			// increment specificClientStatusInfo based on associates with a mapped client
 			TfClient tfClient = associate.getTfClient();
 			if (tfClient != null) {
-				int clientID = tfClient.getTfClientId().intValue();
-				StatusInfo clientStatusInfo = getClientStatusInfo(clientID);
+				BigDecimal tfClientId = tfClient.getTfClientId();
+				if (tfClientId != null) {
+					int clientID = tfClientId.intValue();
+					StatusInfo clientStatusInfo = getClientStatusInfo(clientID);
 
-				// if clientStatusInfo is not in specificClientStatusInfo map, set name
-				if (clientStatusInfo.equals(new StatusInfo())) {
-					clientStatusInfo.setName(tfClient.getTfClientName());
+					// set clientStatusInfo to new object if null
+					if (clientStatusInfo == null) {
+						clientStatusInfo = new StatusInfo();
+					}
+
+					// if clientStatusInfo is not in specificClientStatusInfo map, set name
+					if (clientStatusInfo.equals(new StatusInfo())) {
+						String tfClientName = tfClient.getTfClientName();
+						if (tfClientName != null) {
+							clientStatusInfo.setName(tfClientName);
+						}
+					}
+					incrementStatusCount(clientStatusInfo, associate);
+					putClientStatusInfo(clientID, clientStatusInfo);
 				}
-				incrementStatusCount(clientStatusInfo, associate);
-				putClientStatusInfo(clientID, clientStatusInfo);
 			}
 
 			// increment specificCurriculumStatusInfo based on associates with a curriculum
@@ -210,15 +232,24 @@ public class StatusInfoUtil {
 			if (tfBatch != null) {
 				TfCurriculum tfCurriculum = tfBatch.getTfCurriculum();
 				if (tfCurriculum != null) {
-					int curriculumID = tfCurriculum.getTfCurriculumId().intValue();
-					StatusInfo curriculumStatusInfo = getCurriculumStatusInfo(curriculumID);
+					BigDecimal tfCurriculumId = tfCurriculum.getTfCurriculumId();
+					if (tfCurriculumId != null) {
+						int curriculumID = tfCurriculumId.intValue();
+						StatusInfo curriculumStatusInfo = getCurriculumStatusInfo(curriculumID);
 
-					// if curriculumStatusInfo is not in specificCurriculumStatusInfo map, set name
-					if (curriculumStatusInfo.equals(new StatusInfo())) {
-						curriculumStatusInfo.setName(tfCurriculum.getTfCurriculumName());
+						// set curriculumStatusInfo to new object if null
+						if (curriculumStatusInfo == null) {
+							curriculumStatusInfo = new StatusInfo();
+						}
+
+						// if curriculumStatusInfo is not in specificCurriculumStatusInfo map, set name
+						if (curriculumStatusInfo.equals(new StatusInfo())) {
+							String tfCurriculumName = tfCurriculum.getTfCurriculumName();
+							curriculumStatusInfo.setName(tfCurriculumName);
+						}
+						incrementStatusCount(curriculumStatusInfo, associate);
+						putCurriculumStatusInfo(curriculumID, curriculumStatusInfo);
 					}
-					incrementStatusCount(curriculumStatusInfo, associate);
-					putCurriculumStatusInfo(curriculumID, curriculumStatusInfo);
 				}
 			}
 		}
@@ -234,41 +265,48 @@ public class StatusInfoUtil {
 	 * @return A StatusInfo object with updated counts based off of an associate
 	 */
 	private static StatusInfo incrementStatusCount(StatusInfo statusInfo, TfAssociate associate) {
-		// increment status count based on status id
-		switch (associate.getTfMarketingStatus().getTfMarketingStatusId().intValue()) {
-		case 1:
-			statusInfo.setTrainingMapped(statusInfo.getTrainingMapped() + 1);
-			break;
-		case 2:
-			statusInfo.setReservedMapped(statusInfo.getReservedMapped() + 1);
-			break;
-		case 3:
-			statusInfo.setSelectedMapped(statusInfo.getSelectedMapped() + 1);
-			break;
-		case 4:
-			statusInfo.setConfirmedMapped(statusInfo.getConfirmedMapped() + 1);
-			break;
-		case 5:
-			statusInfo.setDeployedMapped(statusInfo.getDeployedMapped() + 1);
-			break;
-		case 6:
-			statusInfo.setTrainingUnmapped(statusInfo.getTrainingUnmapped() + 1);
-			break;
-		case 7:
-			statusInfo.setOpenUnmapped(statusInfo.getOpenUnmapped() + 1);
-			break;
-		case 8:
-			statusInfo.setSelectedUnmapped(statusInfo.getSelectedUnmapped() + 1);
-			break;
-		case 9:
-			statusInfo.setConfirmedUnmapped(statusInfo.getConfirmedUnmapped() + 1);
-			break;
-		case 10:
-			statusInfo.setDeployedUnmapped(statusInfo.getDeployedUnmapped() + 1);
-			break;
-		default:
-			// unused id
-			break;
+		TfMarketingStatus tfMarketingStatus = associate.getTfMarketingStatus();
+		if (tfMarketingStatus != null) {
+			BigDecimal tfMarketingStatusId = tfMarketingStatus.getTfMarketingStatusId();
+			if (tfMarketingStatusId != null) {
+				int statusId = tfMarketingStatusId.intValue();
+				// increment status count based on status id
+				switch (statusId) {
+				case 1:
+					statusInfo.setTrainingMapped(statusInfo.getTrainingMapped() + 1);
+					break;
+				case 2:
+					statusInfo.setReservedMapped(statusInfo.getReservedMapped() + 1);
+					break;
+				case 3:
+					statusInfo.setSelectedMapped(statusInfo.getSelectedMapped() + 1);
+					break;
+				case 4:
+					statusInfo.setConfirmedMapped(statusInfo.getConfirmedMapped() + 1);
+					break;
+				case 5:
+					statusInfo.setDeployedMapped(statusInfo.getDeployedMapped() + 1);
+					break;
+				case 6:
+					statusInfo.setTrainingUnmapped(statusInfo.getTrainingUnmapped() + 1);
+					break;
+				case 7:
+					statusInfo.setOpenUnmapped(statusInfo.getOpenUnmapped() + 1);
+					break;
+				case 8:
+					statusInfo.setSelectedUnmapped(statusInfo.getSelectedUnmapped() + 1);
+					break;
+				case 9:
+					statusInfo.setConfirmedUnmapped(statusInfo.getConfirmedUnmapped() + 1);
+					break;
+				case 10:
+					statusInfo.setDeployedUnmapped(statusInfo.getDeployedUnmapped() + 1);
+					break;
+				default:
+					// unused id
+					break;
+				}
+			}
 		}
 		return statusInfo;
 	}
@@ -284,31 +322,34 @@ public class StatusInfoUtil {
 	 * @return a count of associates with a specific marketing status
 	 */
 	private static int getStatusCount(StatusInfo statusInfo, int statusID) {
-		switch (statusID) {
-		case 1:
-			return statusInfo.getTrainingMapped();
-		case 2:
-			return statusInfo.getReservedMapped();
-		case 3:
-			return statusInfo.getSelectedMapped();
-		case 4:
-			return statusInfo.getConfirmedMapped();
-		case 5:
-			return statusInfo.getDeployedMapped();
-		case 6:
-			return statusInfo.getTrainingUnmapped();
-		case 7:
-			return statusInfo.getOpenUnmapped();
-		case 8:
-			return statusInfo.getSelectedUnmapped();
-		case 9:
-			return statusInfo.getConfirmedUnmapped();
-		case 10:
-			return statusInfo.getDeployedUnmapped();
-		default:
-			// not handled error case
-			return -1;
-		}
+		if (statusInfo != null) {
+			switch (statusID) {
+			case 1:
+				return statusInfo.getTrainingMapped();
+			case 2:
+				return statusInfo.getReservedMapped();
+			case 3:
+				return statusInfo.getSelectedMapped();
+			case 4:
+				return statusInfo.getConfirmedMapped();
+			case 5:
+				return statusInfo.getDeployedMapped();
+			case 6:
+				return statusInfo.getTrainingUnmapped();
+			case 7:
+				return statusInfo.getOpenUnmapped();
+			case 8:
+				return statusInfo.getSelectedUnmapped();
+			case 9:
+				return statusInfo.getConfirmedUnmapped();
+			case 10:
+				return statusInfo.getDeployedUnmapped();
+			default:
+				// not handled error case
+				return -1;
+			}
+		} else
+			return 0;
 	}
 
 	/**
@@ -320,27 +361,32 @@ public class StatusInfoUtil {
 	 * @return a new StatusInfo object that is a deep copy of the original
 	 */
 	private static StatusInfo getDeepCopyOfStatusInfo(StatusInfo statusInfo) {
-		String name = statusInfo.getName();
-		int trainingMapped = statusInfo.getTrainingMapped();
-		int trainingUnmapped = statusInfo.getTrainingUnmapped();
-		int reservedMapped = statusInfo.getReservedMapped();
-		int openUnmapped = statusInfo.getOpenUnmapped();
-		int selectedMapped = statusInfo.getSelectedMapped();
-		int selectedUnmapped = statusInfo.getSelectedUnmapped();
-		int confirmedMapped = statusInfo.getConfirmedMapped();
-		int confirmedUnmapped = statusInfo.getConfirmedUnmapped();
-		int deployedMapped = statusInfo.getDeployedMapped();
-		int deployedUnmapped = statusInfo.getDeployedUnmapped();
-		return new StatusInfo(name, trainingMapped, trainingUnmapped, reservedMapped, openUnmapped, selectedMapped,
-				selectedUnmapped, confirmedMapped, confirmedUnmapped, deployedMapped, deployedUnmapped);
+		if (statusInfo != null) {
+			String name = statusInfo.getName();
+			int trainingMapped = statusInfo.getTrainingMapped();
+			int trainingUnmapped = statusInfo.getTrainingUnmapped();
+			int reservedMapped = statusInfo.getReservedMapped();
+			int openUnmapped = statusInfo.getOpenUnmapped();
+			int selectedMapped = statusInfo.getSelectedMapped();
+			int selectedUnmapped = statusInfo.getSelectedUnmapped();
+			int confirmedMapped = statusInfo.getConfirmedMapped();
+			int confirmedUnmapped = statusInfo.getConfirmedUnmapped();
+			int deployedMapped = statusInfo.getDeployedMapped();
+			int deployedUnmapped = statusInfo.getDeployedUnmapped();
+			return new StatusInfo(name, trainingMapped, trainingUnmapped, reservedMapped, openUnmapped, selectedMapped,
+					selectedUnmapped, confirmedMapped, confirmedUnmapped, deployedMapped, deployedUnmapped);
+		} else
+			return new StatusInfo();
 	}
 
 	/**
 	 * Convenience method to clear the static maps.
 	 */
 	public static void clearMaps() {
-		specificClientStatusInfo.clear();
-		specificCurriculumStatusInfo.clear();
+		if (specificClientStatusInfo != null)
+			specificClientStatusInfo.clear();
+		if (specificCurriculumStatusInfo != null)
+			specificCurriculumStatusInfo.clear();
 	}
 
 	/**

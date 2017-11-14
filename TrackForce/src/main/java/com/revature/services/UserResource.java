@@ -3,11 +3,14 @@ package com.revature.services;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -36,7 +39,8 @@ public class UserResource {
 	@Path("submit")
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	@Produces({ MediaType.TEXT_HTML })
-	public Response submitCredentials(@FormParam("username") String username, @FormParam("password") String password) {
+	public Response submitCredentials(@FormParam("username") String username, @FormParam("password") String password,
+			@Context HttpServletRequest request) {
 		TfUser tfUser = userDaoImpl.getUser(username);
 		if (tfUser != null) {
 			String hashedPassword = tfUser.getTfUserHashpassword();
@@ -44,6 +48,10 @@ public class UserResource {
 				if (tfUser.equals(new TfUser()))
 					return Response.status(Response.Status.UNAUTHORIZED).build();
 				else if (PasswordStorage.verifyPassword(password, hashedPassword)) {
+					final HttpSession session = request.getSession();
+					if (session != null)
+						session.setAttribute("rolename", tfUser.getTfRole().getTfRoleName());
+					
 					System.out.println("Password verified");
 					URI homeLocation = new URI("../../../../TrackForce/html/index.html");
 					System.out.println("URI: " + homeLocation);

@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="row">
-		<div class="col-sm-2"></div>
+		<div class="col-sm-1"></div>
 		<div class="col-sm-4">
 			<h3 class="text-center text-default">Mapped vs. Unmapped (Undeployed)</h3>
 			<canvas id="pie" class="chart chart-pie" chart-data="UndeployedData" chart-colors="colors" chart-labels="UndeployedLabels" chart-options="options"></canvas>
@@ -9,9 +9,19 @@
 			<h3 class = "text-center text-default">Mapped vs. Unmapped (Deployed)</h3>
 			<canvas id="pie" class="chart chart-pie" chart-data="DeployedData" chart-colors="colors" chart-options="options" chart-labels="DeployedLabels"></canvas> 
 		</div>
+		<div ng-controller="databaseCtrl">
+			<div class="col-sm-3">
+				<button ng-click="populateDB();" class="btn btn-default btn-block">Populate Database</button>
+				<button ng-click ="populateDBSF();"class="btn btn-info btn-block">Populate Static Salesforce</button>
+				<button ng-click="deleteDB(); InitForce();" class="btn btn-danger btn-block" >Empty Database</button>
+	
+	
+				<p>{{dbMessage}}</p>
+			</div>
+		</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-2"></div>
+		<div class="col-sm-1"></div>
 		<div class="col-sm-4">
 			<h3 class="text-center text-default">Mapped</h3>
 			<canvas id="pie" class="chart chart-pie" chart-data="MappedData" chart-labels="MappedLabels" chart-click="MappedOnClick" chart-colors="colors2" chart-options="options"></canvas>
@@ -19,19 +29,6 @@
 		<div class="col-sm-4">
 			<h3 class="text-center text-default">Unmapped</h3>
 			<canvas id="pie" class="chart chart-pie" chart-data="UnmappedData" chart-labels="UnmappedLabels" chart-colors="colors2" chart-options="options" chart-click="UnmappedOnClick"></canvas>
-		</div>
-	</div>
-	<div ng-controller="databaseCtrl">
-		<div class="row">
-			<div class="col-sm-9"></div>
-			<div class="col-sm-3">
-				<button ng-click="populateDB();" class="btn btn-default btn-block">Populate Database</button>
-				<button ng-click ="populateDBSF();"class="btn btn-info btn-block">Populate Static Salesforce</button>
-				<button ng-click="deleteDB(); InitForce();" class="btn btn-danger btn-block" >Empty Database</button>
-
-
-				<p>{{dbMessage}}</p>
-			</div>
 		</div>
 	</div>
 </div>

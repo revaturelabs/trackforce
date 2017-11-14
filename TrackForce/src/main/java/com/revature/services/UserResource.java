@@ -51,7 +51,7 @@ public class UserResource {
 					final HttpSession session = request.getSession();
 					if (session != null)
 						session.setAttribute("rolename", tfUser.getTfRole().getTfRoleName());
-					
+
 					System.out.println("Password verified");
 					URI homeLocation = new URI("../../../../TrackForce/html/index.html");
 					System.out.println("URI: " + homeLocation);
@@ -67,4 +67,21 @@ public class UserResource {
 		return Response.status(Response.Status.BAD_REQUEST).build();
 	}
 
+	@POST
+	@Path("logout")
+	public Response logout(@Context HttpServletRequest request) {
+		if (request != null) {
+			HttpSession session = request.getSession();
+			if (session != null) {
+				session.invalidate();
+				try {
+					URI loginLocation = new URI("../../../../TrackForce/html/login.html");
+					return Response.temporaryRedirect(loginLocation).build();
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return Response.status(Response.Status.BAD_REQUEST).build();
+	}
 }

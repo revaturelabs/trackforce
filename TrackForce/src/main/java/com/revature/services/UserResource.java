@@ -67,6 +67,12 @@ public class UserResource {
 		return Response.status(Response.Status.BAD_REQUEST).build();
 	}
 
+	/**
+	 * Invalidates the client's session and sends a redirect response if successful.
+	 * 
+	 * @param request
+	 * @return Response to redirect to login page if successfully invalidates the session.
+	 */
 	@POST
 	@Path("logout")
 	public Response logout(@Context HttpServletRequest request) {

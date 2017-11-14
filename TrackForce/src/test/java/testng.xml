@@ -10,6 +10,7 @@
 			<class name="com.revature.dao.BatchDaoImplTest"/>
 			<class name="com.revature.dao.HomeDaoImplTest"/>
 			<class name="com.revature.dao.UserDaoImplTest"/>
+			<class name="com.revature.services.AssociateServiceTest"/>
 			<class name="com.revature.services.DatabaseServicesTest" />
 		</classes>
 	</test> <!-- Test -->

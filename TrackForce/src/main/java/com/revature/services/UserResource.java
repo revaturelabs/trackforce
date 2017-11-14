@@ -39,7 +39,11 @@ public class UserResource {
 		String hashedPassword = tfUser.getTfUserHashpassword();
 		try {
 			if (PasswordStorage.verifyPassword(password, hashedPassword)) {
-				URI homeLocation = new URI("html/home.html");
+				System.out.println("Password verified");
+				//URI homeLocation = new URI("html/index.html");
+				URI homeLocation = new URI("../../../../webapp/html/index.html");
+				System.out.println("URI: " + homeLocation);
+				System.out.println("username: " + username + ", password: " + password);
 				return Response.temporaryRedirect(homeLocation).build();
 			}
 		} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {

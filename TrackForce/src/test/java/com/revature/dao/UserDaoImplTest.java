@@ -134,9 +134,4 @@ public class UserDaoImplTest {
 		System.out.println("username: " + result.getTfUserUsername());
 	}
 
-	/*@Test(dataProvider = "user")
-	public void getUserHash(TfUser user) {
-		String result = uDao.getUserHash(user);
-		assertNotNull(result);
-	}*/
 }

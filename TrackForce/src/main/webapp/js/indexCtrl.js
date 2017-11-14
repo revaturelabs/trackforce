@@ -115,6 +115,7 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 					text: "Unmapped",
 					fontSize: 24,
 					fontColor: '#121212'
+					
 				}
 			
 			};
@@ -128,6 +129,7 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 						text: 'Mapped',
 						fontSize: 24,
 						fontColor: '#121212'
+			
 					}
 			};
 			$scope.deployedOptions = {
@@ -140,6 +142,7 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 				    	text: 'Mapped vs. Unmapped (Deployed)',
 				    	fontSize: 24,
 				    	fontColor: '#121212'
+				    	
 				    }
 			};
 			$scope.undeployedOptions = {
@@ -151,8 +154,8 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 		    	              display: true,
 		    	              text: 'Mapped vs. Unmapped (Undeployed)',
 		    	              fontSize: 24,
-		    	              fontColor: '#121212',
-		    	              fontFamily: 'Tahoma'
+		    	              fontColor: '#121212'
+		    	             
 		    	          
 		                    }
 			};

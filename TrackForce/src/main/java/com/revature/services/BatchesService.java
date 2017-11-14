@@ -93,14 +93,13 @@ public class BatchesService {
 	public BatchInfo getBatchInfo(@PathParam("batch") String batchName) {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 		TfBatch batch = batchDao.getBatch(batchName);
-
-		String name = batch.getTfBatchName();
-		String curriculumName = batch.getTfCurriculum().getTfCurriculumName();
-		String batchLocation = batch.getTfBatchLocation().getTfBatchLocationName();
-		String startDate = batch.getTfBatchStartDate().toString();
-		String endDate = batch.getTfBatchEndDate().toString();
-
-        BatchInfo batchInfo = new BatchInfo(name, curriculumName, batchLocation, startDate, endDate);
+		
+		BatchInfo batchInfo = new BatchInfo();
+		batchInfo.setBatchName(batch.getTfBatchName());
+		batchInfo.setCurriculumName(batch.getTfCurriculum().getTfCurriculumName());
+		batchInfo.setLocation(batch.getTfBatchLocation().getTfBatchLocationName());
+		batchInfo.setStartDate(batch.getTfBatchStartDate().toString());
+		batchInfo.setEndDate(batch.getTfBatchEndDate().toString());
 
         return batchInfo;
     }
@@ -194,13 +193,18 @@ public class BatchesService {
                     || associate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
                 continue;
             }
-            BigDecimal id = associate.getTfAssociateId();
-            String firstName = associate.getTfAssociateFirstName();
-            String lastName = associate.getTfAssociateLastName();
-            String marketingStatus = associate.getTfMarketingStatus().getTfMarketingStatusName();
-            AssociateInfo associateDetails = new AssociateInfo(id, firstName, lastName, marketingStatus, "");
+            AssociateInfo associateInfo = new AssociateInfo();
+            associateInfo.setId(associate.getTfAssociateId());
+            associateInfo.setFirstName(associate.getTfAssociateFirstName());
+            associateInfo.setLastName(associate.getTfAssociateLastName());
+            associateInfo.setMarketingStatus(associate.getTfMarketingStatus().getTfMarketingStatusName());
+            try {
+            	associateInfo.setClient(associate.getTfClient().getTfClientName());
+            } catch (NullPointerException e) {
+            	associateInfo.setClient("None");
+            }
 
-			associatesList.add(associateDetails);
+			associatesList.add(associateInfo);
 		}
 		return associatesList;
 	}

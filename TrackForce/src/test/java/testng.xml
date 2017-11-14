@@ -7,11 +7,14 @@
 			<class name="com.revature.dao.DatabaseDaoImplTest" />
 			<class name="com.revature.dao.MarketingStatusDaoTest" />
 			<class name="com.revature.dao.AssociateDaoImplTest" />
-			<class name="com.revature.dao.BatchDaoImplTest"/>
-			<class name="com.revature.dao.HomeDaoImplTest"/>
-			<class name="com.revature.dao.UserDaoImplTest"/>
-			<class name="com.revature.services.AssociateServiceTest"/>
+			<class name="com.revature.dao.BatchDaoImplTest" />
+			<class name="com.revature.dao.HomeDaoImplTest" />
+			<class name="com.revature.dao.UserDaoImplTest" />
+			<class name="com.revature.services.AssociateServiceTest" />
 			<class name="com.revature.services.DatabaseServicesTest" />
+			<class name="com.revature.services.BatchesServiceTest" />
+			<class name="com.revature.services.HomeResourceTest" />
+			<class name="com.revature.services.ClientResourceTest" />
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->

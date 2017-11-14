@@ -9,12 +9,14 @@
 				</div>
 				<h3>Clients</h3>
 				<button ng-click="getAllClients()" class="btn btn-info">View Data for All Clients</button>
-				<ul>
-					<li ng-repeat="client in clients | filter:searchName"><a
-					    ng-click="getOneClient(client.id)">{{client.name}}</a></li>
+				<div id="clientListDiv">
+					<ul id="clientList">
+						<li ng-repeat="client in clients | filter:searchName"><a
+							ng-click="getOneClient(client.id)">{{client.name}}</a></li>
 
 
-				</ul>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div class="col-md-9">

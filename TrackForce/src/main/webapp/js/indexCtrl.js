@@ -1,12 +1,20 @@
 /**
  * http://usejsdoc.org/
  */
-angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootScope, $window) {
-		
+angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootScope, $window) {
+	
+	$scope.getUsername= function(){
+		$http({
+			method: 'GET', 
+			url: '/TrackForce/user/name'
+		}).then(function(response){
+			$scope.username=response.data;
+		})
+	};
 	$scope.logout = function() {
 		$http({
 			method : 'POST',
-			url : 'http://localhost:8080/TrackForce/track/user/logout'
+			url : '/TrackForce/track/user/logout'
 		}).then(function(response) {
 			$window.location.href = 'login.html';
 		})
@@ -19,7 +27,7 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 	$scope.onLoad = function(){
 		$http({
 			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/info',
+			url : '/TrackForce/track/info',
 			headers : {
 				'Content-Type' : 'application/json'
 			}
@@ -107,8 +115,8 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 			$scope.DeployedData = [response.data.deployedMapped,
 								response.data.deployedUnmapped ];
 			// Optional styling arrays
-			$scope.colors = [ '#e85410', '#59504c','#2d8799', '#6017a5' ];
-			$scope.colors2 = [ '#17d339','#59504c', '#2d8799', '#e85410' ];
+			$rootScope.mappedColors = ['#ff8d3f','#514f4f'];
+			$rootScope.mainTheme = [ '#68a225', '#324851', '#b3de81', '#506d2f', '#7da3a1', '#a2c523','#6e6702','#2e4600' ];
 			$scope.options = {legend : {
 							  display : true,
 							  position : 'right'}};
@@ -203,7 +211,7 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 	$scope.defaultBatches = function () {
 		$http({
 			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter,
+			url : '/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter,
 		}).then(function successCallback(response) {
 			$rootScope.batches = response.data;
 		}, function errorCallback(response) {
@@ -214,7 +222,7 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 	$scope.getCountPerBatchTypeDefault = function(){
 		$http({
 			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter + '/type'
+			url : '/TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter + '/type'
 		}).then(function successCallback(response) {
 			// this callback will be called asynchronously
 			// when the response is available

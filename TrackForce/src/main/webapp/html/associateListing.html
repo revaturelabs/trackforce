@@ -1,47 +1,48 @@
 <div class="container" ng-init="getAvailableClients(); onLoad(); getAllAssociates()">
-	<div class="well">
-		<div class="form-group">
-			<div class="row">
-				<div class="col-sm-6">
-					<label for="name"> Search By Text: </label>
-					<input type="text" class="form-control" id="name" ng-model="searchByName">
-				</div>
-				<div class="col-sm-2">					
-					<label for="mStatus">Marketing Status: </label>
-					<select class="form-control" id="mStatus" ng-model="searchByStatus">
-						<option label=" "></option>
-						<option>MAPPED: TRAINING</option>
-						<option>MAPPED: RESERVED</option>
-						<option>MAPPED: SELECTED</option>
-						<option>MAPPED: CONFIRMED</option>
-						<option>MAPPED: DEPLOYED</option>
-						<option>UNMAPPED: TRAINING</option>
-						<option>UNMAPPED: OPEN</option>
-						<option>UNMAPPED: SELECTED</option>
-						<option>UNMAPPED: CONFIRMED</option>
-						<option>UNMAPPED: DEPLOYED</option>
-					</select>
-				</div>
-				<div class="col-sm-2">					
-					<label for="skill">Skill: </label>
-					<select class="form-control" id="skill" ng-model="searchBySkill">
-						<option label=" "></option>
-						<option ng-repeat="curriculum in labels">{{curriculum}}</option>
-					</select>
-				</div>					
-				<div class="col-sm-2">					
-					<label for="client">Client: </label>
-					<select	class="form-control" id="client" ng-model="searchByClient">
-						<option label=" "></option>
-						<option selected="selected">None</option>
-						<option ng-repeat="client in availableClients | orderBy:'name'">{{client.name}}</option>
-					</select>
-				</div>					
+	<div class="form-group">
+		<div class="row">
+			<div class="col-sm-6">
+				<label for="name"> Search By Text: </label>
+				<input type="text" class="form-control" id="name" ng-model="searchByName">
 			</div>
+			<div class="col-sm-2">					
+				<label for="mStatus">Marketing Status: </label>
+				<select class="form-control" id="mStatus" ng-model="searchByStatus">
+					<option label=" "></option>
+					<option>MAPPED: TRAINING</option>
+					<option>MAPPED: RESERVED</option>
+					<option>MAPPED: SELECTED</option>
+					<option>MAPPED: CONFIRMED</option>
+					<option>MAPPED: DEPLOYED</option>
+					<option>UNMAPPED: TRAINING</option>
+					<option>UNMAPPED: OPEN</option>
+					<option>UNMAPPED: SELECTED</option>
+					<option>UNMAPPED: CONFIRMED</option>
+					<option>UNMAPPED: DEPLOYED</option>
+				</select>
+			</div>
+			<div class="col-sm-2">					
+				<label for="skill">Skill: </label>
+				<select class="form-control" id="skill" ng-model="searchBySkill">
+					<option label=" "></option>
+					<option ng-repeat="curriculum in labels">{{curriculum}}</option>
+				</select>
+			</div>					
+			<div class="col-sm-2">					
+				<label for="client">Client: </label>
+				<select	class="form-control" id="client" ng-model="searchByClient">
+					<option label=" "></option>
+					<option selected="selected">None</option>
+					<option ng-repeat="client in availableClients | orderBy:'name'">{{client.name}}</option>
+				</select>
+			</div>					
 		</div>
+	</div>
+		
+	<div class="well">
 		<h5>Show: <a><span ng-click="limit = 10">10</span></a><span> </span><a><span ng-click="limit = 50">50</span></a><span> </span><a><span ng-click="limit = 100">100</span></a></h5>
 		<div class="table-responsive">
-			<table class="table table-striped table-hover">
+			<table class="table table-striped table-hover table-bordered">
 				<thead>
 					<tr>
 						<th>Associate ID</th>
@@ -64,16 +65,15 @@
 				</tbody>
 			</table>
 		</div>
-	<div class="row">
-		<div class="col-sm-5"></div>
-		<div class="col-sm-3">
-			<span class="glyphicon glyphicon-fast-backward" ng-click="beginning()"></span>
-			<span class="glyphicon glyphicon-backward" ng-click="decrease()"></span>
-			<span class="glyphicon glyphicon-stop"></span>
-			<span class="glyphicon glyphicon-forward" ng-click="increase()"></span>
-			<span class="glyphicon glyphicon-fast-forward" ng-click="end()"></span>
+		<div class="row">
+			<div class="col-sm-5"></div>
+			<div class="col-sm-3">
+				<span class="glyphicon glyphicon-fast-backward" ng-click="beginning()"></span>
+				<span class="glyphicon glyphicon-backward" ng-click="decrease()"></span>
+				<span class="glyphicon glyphicon-stop"></span>
+				<span class="glyphicon glyphicon-forward" ng-click="increase()"></span>
+				<span class="glyphicon glyphicon-fast-forward" ng-click="end()"></span>
+			</div>
 		</div>
-	</div>
-	
 	</div>
 </div>

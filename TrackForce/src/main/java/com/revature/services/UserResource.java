@@ -62,11 +62,7 @@ public class UserResource {
 						if (tfUserName != null)
 							session.setAttribute("user", tfUserName);
 					}
-					System.out.println("Password verified");
 					URI homeLocation = new URI("../../../../TrackForce/html/index.html");
-					System.out.println("URI: " + homeLocation);
-					System.out.println("username: " + username + ", password: " + password);
-					System.out.println("User role name: " + tfUser.getTfRole().getTfRoleName());
 					return Response.temporaryRedirect(homeLocation).build();
 				} else
 					return Response.status(Response.Status.UNAUTHORIZED).build();

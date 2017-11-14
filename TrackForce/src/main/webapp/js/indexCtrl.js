@@ -98,8 +98,8 @@ angular.module('mainApp').controller("indexCtrl", function($scope, $http, $rootS
 			$scope.DeployedData = [response.data.deployedMapped,
 								response.data.deployedUnmapped ];
 			// Optional styling arrays
-			$scope.colors = [ '#e85410', '#59504c','#2d8799', '#6017a5' ];
-			$scope.colors2 = [ '#17d339','#59504c', '#2d8799', '#e85410' ];
+			$scope.mapColors = ['#ff8d3f','#514f4f']; //'#ff8d3f', '#514f4f','#d5d6d2', '#756867', '#003b46', '#07575b', '#66a5ad' ]
+			$rootScope.mainTheme = [ '#ff8d3f', '#514f4f','#d5d6d2', '#756867' ];
 			$scope.options = {legend : {
 							  display : true,
 							  position : 'right'}};

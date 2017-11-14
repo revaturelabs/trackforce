@@ -1,5 +1,5 @@
 <div class="container" ng-init="getAllClientNames(); onLoad(); getAllAssociates()">
-	<div class="table-responsive">
+	<div class="well">
 		<div class="form-group">
 			<div class="row">
 				<div class="col-sm-6">
@@ -37,29 +37,41 @@
 				</div>					
 			</div>
 		</div>
-		<table class="table table-striped table-hover">
-			<thead>
-				<tr>
-					<th>Associate ID</th>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Marketing Status</th>
-					<th>Client Name</th>
-					<th>Batch Name</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="associate in associateInfo | filter: searchByName | filter: searchByClient | filter: searchByStatus : true | filter: searchBySkill">
-					<td><a href=#!/form/{{associate.id}}>{{associate.id}}</a></td>
-					<td>{{associate.firstName}}</td>
-					<td>{{associate.lastName}}</td>
-					<td>{{associate.marketingStatus}}</td>
-					<td>{{associate.client}}</td>
-					<td><a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a></td>
-				</tr>
-			</tbody>
-		</table>
+		<h5>Show: <a><span ng-click="limit = 10">10</span></a><span> </span><a><span ng-click="limit = 50">50</span></a><span> </span><a><span ng-click="limit = 100">100</span></a></h5>
+		<div class="table-responsive">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Associate ID</th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Marketing Status</th>
+						<th>Client Name</th>
+						<th>Batch Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="associate in associateInfo | orderBy: associate.id | filter: searchByName | filter: searchByClient | filter: searchByStatus : true | filter: searchBySkill | limitTo:limit:start">
+						<td><a href=#!/form/{{associate.id}}>{{associate.id}}</a></td>
+						<td>{{associate.firstName}}</td>
+						<td>{{associate.lastName}}</td>
+						<td>{{associate.marketingStatus}}</td>
+						<td>{{associate.client}}</td>
+						<td><a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	<div class="row">
+		<div class="col-sm-5"></div>
+		<div class="col-sm-3">
+			<span class="glyphicon glyphicon-fast-backward" ng-click="beginning()"></span>
+			<span class="glyphicon glyphicon-backward" ng-click="decrease()"></span>
+			<span class="glyphicon glyphicon-stop"></span>
+			<span class="glyphicon glyphicon-forward" ng-click="increase()"></span>
+			<span class="glyphicon glyphicon-fast-forward" ng-click="end()"></span>
+		</div>
 	</div>
-
 	
+	</div>
 </div>

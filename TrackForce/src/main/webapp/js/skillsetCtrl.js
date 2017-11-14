@@ -64,7 +64,6 @@ angular.module('mainApp').controller('skillsetCtrl', function($scope, $rootScope
 			}
 		}
 		$scope.options = {type: $scope.chartType, xAxes:[{ticks:{autoSkip:false}}],scales: {yAxes: [{ticks: {min: 0}}]}};
-		$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
 	/**
 	 * @function changeChartType

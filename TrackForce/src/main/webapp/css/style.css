@@ -24,7 +24,34 @@ body{
     background-color: transparent;
 }
 
+#clientList{
+	margin-top: 20px;
+}
 
-.clientList{
-	padding-top: 20px;
+.custom-btn{
+	margin-bottom: 20px;
+	background-color: #f5f5f5;
+}
+
+li{
+	padding: 5px;	
+	margin-top: 0px;
+}
+ul{
+	margin: auto;
+	margin-top: 0px;
+	padding: 0;
+	list-style-type: none;
+}
+
+.well{
+	padding-top: 0px;
+}
+
+li > a{
+	color: #757575;
+}
+
+li > a:hover{
+	color: #121212;
 }

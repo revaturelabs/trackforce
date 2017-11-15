@@ -25,13 +25,13 @@ public class HomeResourceTest {
 		assertNotNull(result);
 	}
 
-	@Test(dataProvider="statusID")
+	@Test(enabled=false)
 	public void getClientsByStatus(int statusID) {
 		Response result = hRes.getClientsByStatus(statusID);
 		assertNotNull(result);
 	}
 	
-	@Test(dataProvider="statusID")
+	@Test(enabled=false)
 	public void getCurriculumByStatus(int statusID) {
 		Response result = hRes.getCurriculumsByStatus(statusID);
 		assertNotNull(result);

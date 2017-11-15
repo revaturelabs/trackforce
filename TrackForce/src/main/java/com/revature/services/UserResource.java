@@ -62,7 +62,7 @@ public class UserResource {
 						if (tfUserName != null)
 							session.setAttribute("user", tfUserName);
 					}
-					URI homeLocation = new URI("../../../../TrackForce/html/index.html");
+					URI homeLocation = new URI("/TrackForce/html/index.html");
 					return Response.temporaryRedirect(homeLocation).build();
 				} else
 					return Response.status(Response.Status.UNAUTHORIZED).build();
@@ -82,13 +82,14 @@ public class UserResource {
 	 */
 	@POST
 	@Path("logout")
+	@Produces({ MediaType.TEXT_HTML })
 	public Response logout(@Context HttpServletRequest request) {
 		if (request != null) {
 			HttpSession session = request.getSession();
 			if (session != null) {
 				session.invalidate();
 				try {
-					URI loginLocation = new URI("../../../../TrackForce/html/login.html");
+					URI loginLocation = new URI("/TrackForce/html/login.html");
 					return Response.temporaryRedirect(loginLocation).build();
 				} catch (URISyntaxException e) {
 					e.printStackTrace();

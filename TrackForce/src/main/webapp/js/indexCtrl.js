@@ -117,7 +117,8 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 								response.data.deployedUnmapped ];
 			// Optional styling arrays
 			$rootScope.mappedColors = ['#ff8d3f','#514f4f'];
-			$rootScope.mainTheme = [ '#68a225', '#324851', '#b3de81', '#506d2f', '#7da3a1', '#a2c523','#6e6702','#2e4600' ];
+			$rootScope.clientTheme = [ '#68a225','#506d2f', '#324851', '#b3de81',  '#7da3a1', '#a2c523','#6e6702','#2e4600' ];
+			$rootScope.skillTheme = ['#004d47', '#00cffa', '#52958b', '#008dcb', '#b2dbd5', '#6eb5c0', '#006c84','#113743'];
 			$scope.options = {legend : {
 							  display : true,
 							  position : 'right'}};
@@ -170,7 +171,7 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 					          },
 					title: {
 		    	              display: true,
-		    	              text: 'Mapped vs. Unmapped (Undeployed)',
+		    	              text: 'Mapped vs. Unmapped (Not Deployed)',
 		    	              fontSize: 24,
 		    	              fontColor: '#121212'
 		    	             

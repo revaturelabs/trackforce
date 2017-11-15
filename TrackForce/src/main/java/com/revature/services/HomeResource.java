@@ -91,7 +91,7 @@ public class HomeResource {
 	@PUT
 	@Path("init")
 	public void initForce() {
-		homeDaoImpl.clearAssociates();
+		HomeDaoImpl.clearAssociates();
 		clientDaoImpl.clearClients();
 		StatusInfoUtil.clearMaps();
 		List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates();

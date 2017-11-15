@@ -52,7 +52,7 @@ public class HomeDaoImpl implements HomeDao {
 	/**
 	 * Clears associates list in HomeDaoImpl class.
 	 */
-	public void clearAssociates() {
+	public static void clearAssociates() {
 		if (associates != null) {
 			associates.clear();
 		}

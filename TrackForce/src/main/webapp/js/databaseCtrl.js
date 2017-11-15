@@ -42,7 +42,7 @@ angular.module('mainApp').controller('databaseCtrl', function($http, $scope) {
 
 			$scope.myStatus = response.status;
 			$scope.dbMessage = response.data;
-			InitForce();
+
 		}).then(function() {
 			window.location.reload();
 		}).then(function() {

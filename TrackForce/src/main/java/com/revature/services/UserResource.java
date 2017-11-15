@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -15,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.revature.dao.UserDaoImpl;
+import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 import com.revature.utils.PasswordStorage;
 import com.revature.utils.PasswordStorage.CannotPerformOperationException;
@@ -50,11 +52,18 @@ public class UserResource {
 				else if (PasswordStorage.verifyPassword(password, hashedPassword)) {
 					final HttpSession session = request.getSession();
 					if (session != null) {
-						session.setAttribute("roleid", tfUser.getTfRole().getTfRoleId());
-						session.setAttribute("user", tfUser.getTfUserUsername());
+						TfRole tfRole = tfUser.getTfRole();
+						if (tfRole != null) {
+							BigDecimal tfRoleId = tfRole.getTfRoleId();
+							if (tfRoleId != null)
+								session.setAttribute("roleid", tfRoleId);
+						}
+						String tfUserName = tfUser.getTfUserUsername();
+						if (tfUserName != null)
+							session.setAttribute("user", tfUserName);
 					}
 					URI homeLocation = new URI("/TrackForce/html/index.html");
-					return Response.seeOther(homeLocation).build();
+					return Response.temporaryRedirect(homeLocation).build();
 				} else
 					return Response.status(Response.Status.UNAUTHORIZED).build();
 			} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {
@@ -68,7 +77,8 @@ public class UserResource {
 	 * Invalidates the client's session and sends a redirect response if successful.
 	 * 
 	 * @param request
-	 * @return Response to redirect to login page if successfully invalidates the session.
+	 * @return Response to redirect to login page if successfully invalidates the
+	 *         session.
 	 */
 	@POST
 	@Path("logout")

@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -10,6 +12,7 @@ import javax.ws.rs.core.Response;
 
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.HomeDaoImpl;
+import com.revature.entity.TfAssociate;
 import com.revature.model.StatusInfo;
 import com.revature.utils.StatusInfoUtil;
 
@@ -91,6 +94,7 @@ public class HomeResource {
 		homeDaoImpl.clearAssociates();
 		clientDaoImpl.clearClients();
 		StatusInfoUtil.clearMaps();
-		StatusInfoUtil.updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
+		List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates();
+		StatusInfoUtil.updateStatusInfoFromAssociates(tfAssociates);
 	}
 }

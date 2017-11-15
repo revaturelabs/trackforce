@@ -19,12 +19,12 @@ describe('Client Page Specs', function() {
     //Click Accenture Federal Link and Test Header Title
     accentureFederal.click();
     var headerAccenture = element(By.xpath('/html/body/div/div[1]/div[1]/div[2]/h1'));
-    expect(headerAccenture.getText()).toContain('Accenture Federal Services');
+    expect(headerAccenture.getText()).toContain('Accenture');
     
     //Click "View Data for All Clients" Button and Test Header Title
     var dataButton = element(By.xpath('/html/body/div/div[1]/div[1]/div[1]/div/button'));
     var headerAssociates = element(By.xpath('/html/body/div/div[1]/div[1]/div[2]/h1'));
     dataButton.click();
-    expect(headerAssociates.getText()).toContain('All associates');
+    expect(headerAssociates.getText()).toContain('Marketing status');
   });
 });

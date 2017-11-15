@@ -24,6 +24,7 @@ describe('Client Page Specs', function() {
     dropdownUnmappedTraining.click();
     var lastNameUnmapped = element(By.xpath('/html/body/div/div/div/div[2]/table/tbody/tr/td[3]'));
     expect(lastNameUnmapped.getText()).toContain('Kidd');   
+   
     
     //Test Select Mapped-Training
     searchBox.clear();

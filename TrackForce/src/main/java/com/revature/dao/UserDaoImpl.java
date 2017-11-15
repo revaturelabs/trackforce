@@ -12,6 +12,7 @@ import org.hibernate.query.Query;
 
 import com.revature.entity.TfUser;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 public class UserDaoImpl implements UserDAO {
 
@@ -39,6 +40,7 @@ public class UserDaoImpl implements UserDAO {
 				
 			} catch (NoResultException nre) {
 				user = new TfUser();
+				LogUtil.logger.error(nre);
 			}
 		}
 		return user;

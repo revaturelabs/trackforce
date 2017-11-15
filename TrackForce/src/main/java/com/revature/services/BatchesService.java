@@ -28,6 +28,7 @@ import com.revature.entity.TfClient;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
+import com.revature.utils.LogUtil;
 
 /**
  * Class that provides RESTful services for the batch listing and batch details
@@ -202,6 +203,7 @@ public class BatchesService {
             	associateInfo.setClient(associate.getTfClient().getTfClientName());
             } catch (NullPointerException e) {
             	associateInfo.setClient("None");
+            	LogUtil.logger.error(e);
             }
 
 			associatesList.add(associateInfo);

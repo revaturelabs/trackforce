@@ -18,6 +18,7 @@ import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.entity.TfClient;
 import com.revature.model.StatusInfo;
+import com.revature.utils.LogUtil;
 
 public class ClientResourceTest {
 
@@ -42,10 +43,5 @@ public class ClientResourceTest {
 		List<Map<String, Object>> entity = (List<Map<String, Object>>) clientResource.getAllClients().getEntity();
 		assertTrue(entity.get(0).containsKey("id"));
 		assertTrue(entity.get(0).containsKey("name"));
-	}
-
-	@Test
-	public void getClientInfoNegativeInt() {
-		// assertEquals(clientResource.getClientInfo(-1), new StatusInfo(""));
 	}
 }

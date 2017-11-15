@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 
 import com.revature.entity.TfMarketingStatus;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 
@@ -30,6 +31,7 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
                 marketingStatus = query.getSingleResult();
             } catch (NoResultException nre) {
                 marketingStatus = new TfMarketingStatus();
+                LogUtil.logger.error(nre);
             }
 
             return marketingStatus;

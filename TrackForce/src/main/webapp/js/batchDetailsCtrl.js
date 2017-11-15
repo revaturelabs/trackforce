@@ -22,6 +22,12 @@ angular.module('mainApp').controller("batchDetailsCtrl",function($scope, $http, 
 								beginAtZero : true
 							}
 						} ]
+					},
+					title: {
+						display: true,
+						text: $scope.batchname,
+						fontSize: 24,
+						fontColor: '#121212'
 					}
 				};
 		}, function errorCallback(response) {

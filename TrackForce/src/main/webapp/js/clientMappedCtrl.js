@@ -6,7 +6,7 @@
  * @memberof mainApp
  * @description controller for the Client Mapped page.
  */
-angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http, $rootScope) {
+angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http, $rootScope, $window) {
 	$scope.onLoad = function(){
 		/**
 		 * @member {Integer} statusID
@@ -88,6 +88,6 @@ angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http,
 	$scope.clientMappedClick = function(points, evt){
 		var clickedElementindex = points[0]["_index"];
 		var selectedClient = $scope.clientMappedLabels[clickedElementindex];
-		window.location.href = '#!/associateListing/default/'+ selectedClient + '/' +$rootScope.selectedStatus;
+		$window.location.href='#!/associateListing/default/'+ selectedClient + '/' +$rootScope.selectedStatus;
 	};
 }});

@@ -188,7 +188,7 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 			$scope.MappedOnClick = function(points,evt) {
 				var clickedElementindex = points[0]["_index"];
 				$rootScope.selectedStatus = $scope.MappedLabels[clickedElementindex];
-				window.location.href = "#!/clientMapped";
+				$window.location.href="#!/clientMapped";
 			};
 				/**
 				 * @function UnmappedOnClick
@@ -202,7 +202,7 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 			$scope.UnmappedOnClick = function(points, evt) {
 				var clickedElementindex = points[0]["_index"];
 				$rootScope.selectedStatus = $scope.UnmappedLabels[clickedElementindex];
-				window.location.href = "#!/skillset";
+				$window.location.href="#!/skillset";
 			};
 		});
 	};

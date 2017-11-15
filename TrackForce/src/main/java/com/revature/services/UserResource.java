@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -97,5 +98,18 @@ public class UserResource {
 			}
 		}
 		return Response.status(Response.Status.BAD_REQUEST).build();
+	}
+	
+	@GET
+	@Path("name")
+	@Produces({ MediaType.TEXT_PLAIN })
+	public Response getUserName(@Context HttpServletRequest request) {
+		final HttpSession session = request.getSession();
+		if (session != null) {
+			String userName = (String) session.getAttribute("user");
+			if (userName != null)
+				return Response.ok(userName).build();
+		}
+		return Response.status(Response.Status.NOT_FOUND).build();
 	}
 }

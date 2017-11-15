@@ -8,7 +8,9 @@ body{
 }
 
 .navbar-default .navbar-nav > li > a, .navbar-header > .navbar-brand {
-	color: #000000;
+	color: #ffffff;
+	font-size: 1.2em;
+	font-weight: bold;
 }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus{
@@ -17,6 +19,7 @@ body{
 
 .navbar-default .navbar-brand{
 	color: #FF8D3F;
+	margin-bottom: 20px;
 }
 
 .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {

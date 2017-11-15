@@ -26,7 +26,8 @@ angular.module('mainApp').config(function($routeProvider) {
 	 */
 	.when("/", {
 		templateUrl : "home.html",
-		controller : "indexCtrl"
+		controller : "indexCtrl",
+		css: 'style/style.css'
 	})
 	
 	/**

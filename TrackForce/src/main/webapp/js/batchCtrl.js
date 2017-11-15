@@ -14,7 +14,7 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 		// Simple GET request example:
 		$http({
 			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime(),
+			url : '/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime(),
 		}).then(function successCallback(response) {
 			$scope.batches = response.data;
 		}, function errorCallback(response) {
@@ -27,7 +27,7 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 		var todate = new Date($scope.todate);
 		$http({
 			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime() + '/type'
+			url : '/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime() + '/type'
 		}).then(function successCallback(response) {
 			// this callback will be called asynchronously
 			// when the response is available

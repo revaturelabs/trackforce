@@ -87,6 +87,9 @@ public class AssociateDaoHibernate implements AssociateDao {
                 session.saveOrUpdate(associate);
 
                 transaction.commit();
+                
+                //clear associates list to force update to stored list(s)
+                HomeDaoImpl.clearAssociates();
             } catch (Exception e) {
                 if (transaction != null) {
                     transaction.rollback();

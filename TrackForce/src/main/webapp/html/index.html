@@ -17,44 +17,62 @@
 <meta charset="utf-8" />
 <meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
 <title>Home Page</title>
+<link rel="apple-touch-icon" sizes="57x57" href="../resources/favicon/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="../resources/favicon/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../resources/favicon/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="../resources/favicon/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../resources/favicon/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="../resources/favicon/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="../resources/favicon/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="../resources/favicon/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../resources/favicon/apple-icon-180x180.png">
+<link rel="icon" type="image/png" sizes="192x192"  href="../resources/favicon/android-icon-192x192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../resources/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="../resources/favicon/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../resources/favicon/favicon-16x16.png">
+<link rel="manifest" href="../resources/favicon/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="../resources/favicon/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
 <script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.js"></script>
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.6/angular-route.js"></script>
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 <script	src="http://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
-<body ng-controller="indexCtrl" ng-init="defaultBatches(); getCountPerBatchTypeDefault(); onLoad()">
-	<nav class="navbar navbar-default">
+<body ng-controller="indexCtrl" ng-init="defaultBatches(); getCountPerBatchTypeDefault(); onLoad(); getUsername();">
+	<nav class="navbar navbar-default custom-nav">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#!/">Revature Associate Tracker</a>
+				<a class="navbar-brand" href="#!/"><img src="../resources/logo.png" height="30" width="100"></a>
 			</div>
 			<ul class="nav navbar-nav">
 				<li><a href="#!/clientDetails">Client List</a></li>
 				<li><a href="#!/batchListing">Batch List</a></li>
 				<li><a href="#!/associateListing">Associate List</a></li>
-				<li><a href="#" ng-click="logout()">Logout</a></li>
+				<li><a ng-click="logout()">Logout</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><img src="../resources/logo.png" height="55%" width="55%"></li>			
+				<li><a>Welcome to TrackForce, {{username}}</a></li>
 		    </ul>
 		</div>
 	</nav>
 	
 	<div ng-view></div>
 
-	<script src="../js/mainApp.js"></script>
-	<script src="../js/associateCtrl.js"></script>
-	<script src="../js/batchCtrl.js"></script>
-	<script src="../js/batchDetailsCtrl.js"></script>
-	<script src="../js/clientCtrl.js"></script>
-	<script src="../js/clientMappedCtrl.js"></script>
-	<script src="../js/databaseCtrl.js"></script>
-	<script src="../js/indexCtrl.js"></script>
-	<script src="../js/mainCtrl.js"></script>
-	<script src="../js/skillsetCtrl.js"></script>
+	<script src="/TrackForce/js/mainApp.js"></script>
+	<script src="/TrackForce/js/associateCtrl.js"></script>
+	<script src="/TrackForce/js/batchCtrl.js"></script>
+	<script src="/TrackForce/js/batchDetailsCtrl.js"></script>
+	<script src="/TrackForce/js/clientCtrl.js"></script>
+	<script src="/TrackForce/js/clientMappedCtrl.js"></script>
+	<script src="/TrackForce/js/databaseCtrl.js"></script>
+	<script src="/TrackForce/js/indexCtrl.js"></script>
+	<script src="/TrackForce/js/mainCtrl.js"></script>
+	<script src="/TrackForce/js/skillsetCtrl.js"></script>
 </body>
 </html>

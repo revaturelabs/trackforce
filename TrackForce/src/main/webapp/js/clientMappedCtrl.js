@@ -6,7 +6,7 @@
  * @memberof mainApp
  * @description controller for the Client Mapped page.
  */
-angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http, $rootScope) {
+angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http, $rootScope, $window) {
 	$scope.onLoad = function(){
 		/**
 		 * @member {Integer} statusID
@@ -31,7 +31,7 @@ angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http,
 		 * This URL will pull varying data from the REST service based
 		 * on the statusID
 		 */
-		url :'http://localhost:8080/TrackForce/track/client/'+ $scope.statusID
+		url :'/TrackForce/track/client/'+ $scope.statusID
 	}).then(function(response) {
 		$scope.chartType='bar';
 		/**
@@ -68,7 +68,6 @@ angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http,
 		$scope.options = {
 			type : $scope.chartType, xAxes:[{ticks:{autoSkip:false}}],scales: {yAxes: [{ticks: {min: 0}}]}
 		};
-		$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
 	/**
 	 * @function changeChartType
@@ -89,6 +88,6 @@ angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http,
 	$scope.clientMappedClick = function(points, evt){
 		var clickedElementindex = points[0]["_index"];
 		var selectedClient = $scope.clientMappedLabels[clickedElementindex];
-		window.location.href = '#!/associateListing/default/'+ selectedClient + '/' +$rootScope.selectedStatus;
+		$window.location.href='#!/associateListing/default/'+ selectedClient + '/' +$rootScope.selectedStatus;
 	};
 }});

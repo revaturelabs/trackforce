@@ -42,13 +42,14 @@ angular.module('mainApp').controller('databaseCtrl', function($http, $scope) {
 
 			$scope.myStatus = response.status;
 			$scope.dbMessage = response.data;
-
+			InitForce();
 		}).then(function() {
 			window.location.reload();
 		}).then(function() {
 			console.log($scope.myStatus);
 			console.log($scope.dbMessage);
 		})
+	
 	}
 	/**
 	 * @function populateDBSF
@@ -63,7 +64,7 @@ angular.module('mainApp').controller('databaseCtrl', function($http, $scope) {
 		}).then(function(response) {
 			$scope.myStatus = response.status;
 			$scope.dbMessage = response.data;
-
+		
 		}).then(function() {
 			window.location.reload();
 

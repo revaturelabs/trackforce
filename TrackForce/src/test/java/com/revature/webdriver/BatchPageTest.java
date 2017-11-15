@@ -104,7 +104,7 @@ public class BatchPageTest {
 		
 		System.out.println("Clicked Batch #1 to test link back to page");
 		
-		batchPage.firstBatchListingBack.click();
+		//batchPage.firstBatchListingBack.click();
 		
 		try {
 			Thread.sleep(2000);

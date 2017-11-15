@@ -51,7 +51,7 @@ public class BatchesServiceTest {
 	
 	@Test(dataProvider="timeStamps")
 	public void getBatches(Timestamp fromdate, Timestamp todate) {
-		ArrayList<BatchInfo> result = bServ.getBatches(fromdate.getTime(), todate.getTime());
+		List<BatchInfo> result = bServ.getBatches(fromdate.getTime(), todate.getTime());
 		assertNotNull(result);
 	}
 	

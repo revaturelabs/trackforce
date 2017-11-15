@@ -6,9 +6,10 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 	$scope.getUsername= function(){
 		$http({
 			method: 'GET', 
-			url: '/TrackForce/user/name'
+			url: '/TrackForce/track/user/name'
 		}).then(function(response){
 			$scope.username=response.data;
+			console.log($scope.username);
 		})
 	};
 	$scope.logout = function() {

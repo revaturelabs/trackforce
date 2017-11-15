@@ -6,9 +6,10 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 	$scope.getUsername= function(){
 		$http({
 			method: 'GET', 
-			url: '/TrackForce/user/name'
+			url: '/TrackForce/track/user/name'
 		}).then(function(response){
 			$scope.username=response.data;
+			console.log($scope.username);
 		})
 	};
 	$scope.logout = function() {
@@ -116,7 +117,8 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 								response.data.deployedUnmapped ];
 			// Optional styling arrays
 			$rootScope.mappedColors = ['#ff8d3f','#514f4f'];
-			$rootScope.mainTheme = [ '#68a225', '#324851', '#b3de81', '#506d2f', '#7da3a1', '#a2c523','#6e6702','#2e4600' ];
+			$rootScope.clientTheme = [ '#68a225','#506d2f', '#324851', '#b3de81',  '#7da3a1', '#a2c523','#6e6702','#2e4600' ];
+			$rootScope.skillTheme = ['#004d47', '#00cffa', '#52958b', '#008dcb', '#b2dbd5', '#6eb5c0', '#006c84','#113743'];
 			$scope.options = {legend : {
 							  display : true,
 							  position : 'right'}};
@@ -169,7 +171,7 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 					          },
 					title: {
 		    	              display: true,
-		    	              text: 'Mapped vs. Unmapped (Undeployed)',
+		    	              text: 'Mapped vs. Unmapped (Not Deployed)',
 		    	              fontSize: 24,
 		    	              fontColor: '#121212'
 		    	             
@@ -188,7 +190,7 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 			$scope.MappedOnClick = function(points,evt) {
 				var clickedElementindex = points[0]["_index"];
 				$rootScope.selectedStatus = $scope.MappedLabels[clickedElementindex];
-				window.location.href = "#!/clientMapped";
+				$window.location.href="#!/clientMapped";
 			};
 				/**
 				 * @function UnmappedOnClick
@@ -202,7 +204,7 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 			$scope.UnmappedOnClick = function(points, evt) {
 				var clickedElementindex = points[0]["_index"];
 				$rootScope.selectedStatus = $scope.UnmappedLabels[clickedElementindex];
-				window.location.href = "#!/skillset";
+				$window.location.href="#!/skillset";
 			};
 		});
 	};

@@ -3,7 +3,7 @@
 		<div class="col-md-3">
 			<div>
 				<div class="form-group">
-					<input type="text" ng-keypress="getAllClientNames()"
+					<input type="text" ng-init="getAllClientNames()" ng-keypress="getAllClientNames()"
 						ng-model="searchName" class="form-control" id="clientSearch"
 						placeholder="Search by client name...">
 				</div>
@@ -13,8 +13,6 @@
 					<ul id="clientList">
 						<li ng-repeat="client in clients | filter:searchName"><a
 							ng-click="getOneClient(client.id)">{{client.name}}</a></li>
-
-
 					</ul>
 				</div>
 			</div>

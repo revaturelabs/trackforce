@@ -6,18 +6,18 @@
 		<div class="col-sm-4">
 
 			 <div class="well">
-			    <canvas id="pie" class="chart chart-pie" chart-data="UndeployedData" chart-colors="mappedcolors" chart-labels="UndeployedLabels" chart-options="undeployedOptions"></canvas>
+			    <canvas id="pie" class="chart chart-pie" chart-data="UndeployedData" chart-colors="mappedColors" chart-labels="UndeployedLabels" chart-options="undeployedOptions"></canvas>
 		     </div>
 		</div> 
 		<div class="col-sm-4">
 			 <div class="well">
-			   <canvas id="pie" class="chart chart-pie" chart-data="DeployedData" chart-colors="mappedcolors" chart-options="deployedOptions" chart-labels="DeployedLabels"></canvas> 
+			   <canvas id="pie" class="chart chart-pie" chart-data="DeployedData" chart-colors="mappedColors" chart-options="deployedOptions" chart-labels="DeployedLabels"></canvas> 
 		     </div>
         </div>
 		<div class="col-sm-3">
 			<button ng-click="populateDB();" class="btn btn-block">Populate Database</button>
 			<button ng-click ="populateDBSF();"class="btn btn-block">Populate Static Salesforce</button>
-			<button ng-click="deleteDB(); InitForce();" class="btn btn-block" >Empty Database</button>
+			<button ng-click="deleteDB(); InitForce(); Refresh()" class="btn btn-block" >Empty Database</button>
 			<p>{{dbMessage}}</p>
 
 		</div>
@@ -27,12 +27,12 @@
 		<div class="col-sm-4">
 
 			 <div class="well">
-			   <canvas id="pie" class="chart chart-pie" chart-data="MappedData" chart-labels="MappedLabels" chart-click="MappedOnClick" chart-colors="mainTheme" chart-options="mappedOptions"></canvas>
+			   <canvas id="pie" class="chart chart-pie" chart-data="MappedData" chart-labels="MappedLabels" chart-click="MappedOnClick" chart-colors="clientTheme" chart-options="mappedOptions"></canvas>
 		     </div>
 		</div>
 		<div class="col-sm-4">
 		    <div class="well">
-			  <canvas id="pie" class="chart chart-pie" chart-data="UnmappedData" chart-labels="UnmappedLabels" chart-colors="mainTheme" chart-options="unmappedOptions" chart-click="UnmappedOnClick"></canvas>
+			  <canvas id="pie" class="chart chart-pie" chart-data="UnmappedData" chart-labels="UnmappedLabels" chart-colors="skillTheme" chart-options="unmappedOptions" chart-click="UnmappedOnClick"></canvas>
 		    </div>
 		</div>
 	</div>

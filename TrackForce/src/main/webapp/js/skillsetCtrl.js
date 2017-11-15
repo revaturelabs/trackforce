@@ -6,7 +6,7 @@
  * @memberof mainApp
  * @description Controller for skillset.html
  */
-angular.module('mainApp').controller('skillsetCtrl', function($scope, $rootScope, $http) {
+angular.module('mainApp').controller('skillsetCtrl', function($scope, $rootScope, $http, $window) {
 	$scope.onLoad= function (){
 		/**
 		 * @member {Integer} statusID
@@ -83,6 +83,6 @@ angular.module('mainApp').controller('skillsetCtrl', function($scope, $rootScope
 	$scope.skillsetClick = function(points, evt){
 		var clickedElementindex = points[0]["_index"];
 		var selectedSkill = $scope.skillsetLabels[clickedElementindex];
-		window.location.href = '#!/associateListing/'+selectedSkill+'/default/'+$rootScope.selectedStatus;
+		$window.location.href='#!/associateListing/'+selectedSkill+'/default/'+$rootScope.selectedStatus;
 	};
 }});

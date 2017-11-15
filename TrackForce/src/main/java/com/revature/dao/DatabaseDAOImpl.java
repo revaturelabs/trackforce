@@ -5,6 +5,7 @@ import javax.persistence.StoredProcedureQuery;
 import org.hibernate.Session;
 
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 public class DatabaseDAOImpl {
 	public String deleteAll() {
@@ -17,6 +18,7 @@ public class DatabaseDAOImpl {
 				message = "Database Emptied Successfully";
 				return message;
 			} catch (Exception e) {
+				LogUtil.logger.error(e);
 				message = "Database Empty Error";
 				return message;
 			}

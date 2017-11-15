@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 import com.revature.dao.UserDaoImpl;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
+import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
 import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 import com.revature.utils.PasswordStorage.InvalidHashException;
@@ -68,7 +69,7 @@ public class UserResource {
 				} else
 					return Response.status(Response.Status.UNAUTHORIZED).build();
 			} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {
-				e.printStackTrace();
+				LogUtil.logger.error(e);
 			}
 		}
 		return Response.status(Response.Status.BAD_REQUEST).build();
@@ -93,7 +94,7 @@ public class UserResource {
 					URI loginLocation = new URI("/TrackForce/html/login.html");
 					return Response.temporaryRedirect(loginLocation).build();
 				} catch (URISyntaxException e) {
-					e.printStackTrace();
+					LogUtil.logger.error(e);
 				}
 			}
 		}

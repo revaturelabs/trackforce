@@ -63,7 +63,7 @@ public class UserResource {
 							session.setAttribute("user", tfUserName);
 					}
 					URI homeLocation = new URI("/TrackForce/html/index.html");
-					return Response.temporaryRedirect(homeLocation).build();
+					return Response.seeOther(homeLocation).build();
 				} else
 					return Response.status(Response.Status.UNAUTHORIZED).build();
 			} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {

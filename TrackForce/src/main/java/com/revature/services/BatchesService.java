@@ -54,9 +54,9 @@ public class BatchesService {
 			@PathParam("todate") long todate) {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 		List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
-		Map<String, Integer> curriculumData = new Hashtable<String, Integer>();
-		List<String> curriculums = new ArrayList<String>();
-		List<Map<String, Object>> chartData = new ArrayList<Map<String, Object>>();
+		Map<String, Integer> curriculumData = new HashMap<>();
+		List<String> curriculums = new ArrayList<>();
+		List<Map<String, Object>> chartData = new ArrayList<>();
 		for (TfBatch batch : batches) {
 			String curriculumName = batch.getTfCurriculum().getTfCurriculumName();
 			if (curriculumData.containsKey(curriculumName)) {
@@ -70,7 +70,7 @@ public class BatchesService {
 			}
 		}
 		for (String curriculum : curriculums) {
-			Map<String, Object> curriculumMap = new HashMap<String, Object>();
+			Map<String, Object> curriculumMap = new HashMap<>();
 			curriculumMap.put("curriculum", curriculum);
 			curriculumMap.put("value", curriculumData.get(curriculum));
 			chartData.add(curriculumMap);
@@ -117,7 +117,7 @@ public class BatchesService {
 	@Path("{batch}/batchChart")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Map<String, Integer> getMappedData(@PathParam("batch") String batchName) {
-		Map<String, Integer> mappedChartData = new Hashtable<String, Integer>();
+		Map<String, Integer> mappedChartData = new HashMap<>();
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 		TfBatch selectedBatch = batchDao.getBatch(batchName);
 		int unmappedCount = 0;
@@ -151,8 +151,8 @@ public class BatchesService {
 	@GET
 	@Path("{fromdate}/{todate}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<BatchInfo> getBatches(@PathParam("fromdate") long fromdate, @PathParam("todate") long todate) {
-		ArrayList<BatchInfo> batchesList = new ArrayList<BatchInfo>();
+	public List<BatchInfo> getBatches(@PathParam("fromdate") long fromdate, @PathParam("todate") long todate) {
+		ArrayList<BatchInfo> batchesList = new ArrayList<>();
 
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
 		List<TfBatch> list = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));

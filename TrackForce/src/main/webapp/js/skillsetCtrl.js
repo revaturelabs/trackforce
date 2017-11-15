@@ -6,7 +6,7 @@
  * @memberof mainApp
  * @description Controller for skillset.html
  */
-angular.module('mainApp').controller("skillsetCtrl", function($scope, $rootScope, $http) {
+angular.module('mainApp').controller('skillsetCtrl', function($scope, $rootScope, $http, $window) {
 	$scope.onLoad= function (){
 		/**
 		 * @member {Integer} statusID
@@ -26,8 +26,8 @@ angular.module('mainApp').controller("skillsetCtrl", function($scope, $rootScope
 			$scope.statusID=9;
 		}
 	$http({ 	
-		method : "GET",
-		url :"http://localhost:8080/TrackForce/track/skillset/"+ $scope.statusID
+		method : 'GET',
+		url : '/TrackForce/track/skillset/'+ $scope.statusID
 	}).then(function(response) {
 		/**
 		 * @member {String} chartType
@@ -64,7 +64,6 @@ angular.module('mainApp').controller("skillsetCtrl", function($scope, $rootScope
 			}
 		}
 		$scope.options = {type: $scope.chartType, xAxes:[{ticks:{autoSkip:false}}],scales: {yAxes: [{ticks: {min: 0}}]}};
-		$scope.colors = [ '#e85410', '#59504c', '#2d8799', '#6017a5' ];
 	});
 	/**
 	 * @function changeChartType
@@ -84,6 +83,6 @@ angular.module('mainApp').controller("skillsetCtrl", function($scope, $rootScope
 	$scope.skillsetClick = function(points, evt){
 		var clickedElementindex = points[0]["_index"];
 		var selectedSkill = $scope.skillsetLabels[clickedElementindex];
-		window.location.href = '#!/associateListing/'+selectedSkill+'/default/'+$rootScope.selectedStatus;
+		$window.location.href='#!/associateListing/'+selectedSkill+'/default/'+$rootScope.selectedStatus;
 	};
 }});

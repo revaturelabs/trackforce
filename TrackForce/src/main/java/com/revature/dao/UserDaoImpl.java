@@ -65,11 +65,10 @@ public class UserDaoImpl implements UserDAO {
 
             String sql = "SELECT * FROM TF_USER WHERE TF_USER_ID=" + user.getTfUserId();
 
-            ResultSet rs = stmt.executeQuery(sql);
-
-            if (rs.next()) {
-
-                hashpass = rs.getString("TF_HASHPASSWORD");
+            try (ResultSet rs = stmt.executeQuery(sql)) {
+                if (rs.next()) {
+                    hashpass = rs.getString("TF_HASHPASSWORD");
+                }
             }
 
         } catch (SQLException e) {

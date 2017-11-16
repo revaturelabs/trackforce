@@ -79,4 +79,40 @@ public class TfUser implements java.io.Serializable {
 		this.tfHashpassword = tfUserHashpassword;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((tfHashpassword == null) ? 0 : tfHashpassword.hashCode());
+		result = prime * result + ((tfUserId == null) ? 0 : tfUserId.hashCode());
+		result = prime * result + ((tfUsername == null) ? 0 : tfUsername.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TfUser other = (TfUser) obj;
+		if (tfHashpassword == null) {
+			if (other.tfHashpassword != null)
+				return false;
+		} else if (!tfHashpassword.equals(other.tfHashpassword))
+			return false;
+		if (tfUserId == null) {
+			if (other.tfUserId != null)
+				return false;
+		} else if (!tfUserId.equals(other.tfUserId))
+			return false;
+		if (tfUsername == null) {
+			if (other.tfUsername != null)
+				return false;
+		} else if (!tfUsername.equals(other.tfUsername))
+			return false;
+		return true;
+	}
 }

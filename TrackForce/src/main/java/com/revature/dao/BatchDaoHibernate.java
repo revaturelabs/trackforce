@@ -19,6 +19,7 @@ import org.hibernate.query.Query;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 /**
  * Implementation of the BatchDao interface that uses Hibernate to retrieve
@@ -46,6 +47,7 @@ public class BatchDaoHibernate implements BatchDao {
 			try {
 				batch = query.getSingleResult();
 			} catch (NoResultException nre) {
+				LogUtil.logger.error(nre);
 				batch = new TfBatch();
 			}
 			if (batch.getTfBatchId() != null) {

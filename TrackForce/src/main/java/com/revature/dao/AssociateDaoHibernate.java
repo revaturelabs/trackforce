@@ -17,6 +17,7 @@ import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 public class AssociateDaoHibernate implements AssociateDao {
 
@@ -43,6 +44,7 @@ public class AssociateDaoHibernate implements AssociateDao {
                 Hibernate.initialize(associate.getTfEndClient());
                 Hibernate.initialize(associate.getTfBatch());
             } catch (NoResultException nre) {
+            	LogUtil.logger.error(nre);
                 associate = new TfAssociate();
             }
         }
@@ -87,7 +89,11 @@ public class AssociateDaoHibernate implements AssociateDao {
                 session.saveOrUpdate(associate);
 
                 transaction.commit();
+                
+                //clear associates list to force update to stored list(s)
+                HomeDaoImpl.clearAssociates();
             } catch (Exception e) {
+            	LogUtil.logger.error(e);
                 if (transaction != null) {
                     transaction.rollback();
                 }

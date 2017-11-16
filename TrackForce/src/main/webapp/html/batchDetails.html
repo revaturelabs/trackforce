@@ -1,14 +1,12 @@
-
 <div class="container">
 	<div class="row">
-		<div class="col-sm-4">
-			<h3>Batch Details: {{batchname}}</h3>
-			<canvas id="bar" class="chart chart-bar" chart-data="mapStatus"
-				chart-labels="mapping" chart-options="options"
+		<div class="col-sm-5">
+			<canvas id="bar" class="chart chart-bar" height="280" chart-data="mapStatus"
+				chart-labels="mapping" chart-options="options" chart-colors="mappedColors"
 				ng-init="getMapStatusBatch()">
 	       	</canvas>
 		</div>
-		<div class="col-sm-8" ng-init="getBatchAssociates()">
+		<div class="col-sm-7" ng-init="getBatchAssociates()">
 			<h3>Associates</h3>
 			<table class="table table-striped table-hover table-bordered">
 				<thead>

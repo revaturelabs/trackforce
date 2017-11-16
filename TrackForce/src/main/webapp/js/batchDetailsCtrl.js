@@ -7,7 +7,7 @@ angular.module('mainApp').controller("batchDetailsCtrl",function($scope, $http, 
 		// Simple GET request example:
 		$http({
 			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/batches/' 
+			url : '/TrackForce/track/batches/' 
 				+ $scope.batchname + '/batchChart'
 		}).then(function(response) {
 			// this callback will be called asynchronously
@@ -22,6 +22,12 @@ angular.module('mainApp').controller("batchDetailsCtrl",function($scope, $http, 
 								beginAtZero : true
 							}
 						} ]
+					},
+					title: {
+						display: true,
+						text: $scope.batchname,
+						fontSize: 24,
+						fontColor: '#121212'
 					}
 				};
 		}, function errorCallback(response) {
@@ -35,7 +41,7 @@ angular.module('mainApp').controller("batchDetailsCtrl",function($scope, $http, 
 		// Simple GET request example:
 		$http({
 			method : 'GET',
-			url : 'http://localhost:8080/TrackForce/track/batches/'
+			url : '/TrackForce/track/batches/'
 					+ $scope.batchname + '/associates'
 		}).then(function successCallback(response) {
 			// this callback will be called asynchronously

@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -15,7 +17,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.revature.dao.UserDaoImpl;
+import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
+import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
 import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 import com.revature.utils.PasswordStorage.InvalidHashException;
@@ -41,38 +45,54 @@ public class UserResource {
 	@Produces({ MediaType.TEXT_HTML })
 	public Response submitCredentials(@FormParam("username") String username, @FormParam("password") String password,
 			@Context HttpServletRequest request) {
-		TfUser tfUser = userDaoImpl.getUser(username);
-		if (tfUser != null) {
-			String hashedPassword = tfUser.getTfUserHashpassword();
-			try {
-				if (tfUser.equals(new TfUser()))
-					return Response.status(Response.Status.UNAUTHORIZED).build();
-				else if (PasswordStorage.verifyPassword(password, hashedPassword)) {
-					final HttpSession session = request.getSession();
-					if (session != null) {
-						session.setAttribute("roleid", tfUser.getTfRole().getTfRoleId());
-						session.setAttribute("user", tfUser.getTfUserUsername());
-					}
-					System.out.println("Password verified");
-					URI homeLocation = new URI("../../../../TrackForce/html/index.html");
-					System.out.println("URI: " + homeLocation);
-					System.out.println("username: " + username + ", password: " + password);
-					System.out.println("User role name: " + tfUser.getTfRole().getTfRoleName());
-					return Response.seeOther(homeLocation).build();
-				} else
-					return Response.status(Response.Status.UNAUTHORIZED).build();
-			} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {
-				e.printStackTrace();
+		try {
+			URI loginLocation = new URI("/TrackForce/html/login.html");
+
+			TfUser tfUser = userDaoImpl.getUser(username);
+			if (tfUser != null) {
+				String hashedPassword = tfUser.getTfUserHashpassword();
+				try {
+					if (tfUser.equals(new TfUser()))
+						return Response.seeOther(loginLocation).build();
+					// In the future status codes should be handled in the front end
+					// return Response.status(Response.Status.UNAUTHORIZED).build();
+					else if (PasswordStorage.verifyPassword(password, hashedPassword)) {
+						final HttpSession session = request.getSession();
+						if (session != null) {
+							TfRole tfRole = tfUser.getTfRole();
+							if (tfRole != null) {
+								BigDecimal tfRoleId = tfRole.getTfRoleId();
+								if (tfRoleId != null)
+									session.setAttribute("roleid", tfRoleId);
+							}
+							String tfUserName = tfUser.getTfUserUsername();
+							if (tfUserName != null)
+								session.setAttribute("user", tfUserName);
+						}
+						URI homeLocation = new URI("/TrackForce/html/index.html");
+						return Response.seeOther(homeLocation).build();
+					} else
+						return Response.seeOther(loginLocation).build();
+					// In the future status codes should be handled in the front end
+					// return Response.status(Response.Status.UNAUTHORIZED).build();
+				} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {
+					LogUtil.logger.error(e);
+				}
 			}
+		} catch (URISyntaxException e1) {
+			LogUtil.logger.error(e1);
 		}
-		return Response.status(Response.Status.BAD_REQUEST).build();
+		return Response.noContent().build();
+		// In the future status codes should be handled in the front end
+		// return Response.status(Response.Status.BAD_REQUEST).build();
 	}
 
 	/**
 	 * Invalidates the client's session and sends a redirect response if successful.
 	 * 
 	 * @param request
-	 * @return Response to redirect to login page if successfully invalidates the session.
+	 * @return Response to redirect to login page if successfully invalidates the
+	 *         session.
 	 */
 	@POST
 	@Path("logout")
@@ -83,13 +103,28 @@ public class UserResource {
 			if (session != null) {
 				session.invalidate();
 				try {
-					URI loginLocation = new URI("../../../../TrackForce/html/login.html");
+					URI loginLocation = new URI("/TrackForce/html/login.html");
 					return Response.temporaryRedirect(loginLocation).build();
 				} catch (URISyntaxException e) {
-					e.printStackTrace();
+					LogUtil.logger.error(e);
 				}
 			}
 		}
 		return Response.status(Response.Status.BAD_REQUEST).build();
+	}
+
+	@GET
+	@Path("name")
+	@Produces({ MediaType.TEXT_PLAIN })
+	public Response getUserName(@Context HttpServletRequest request) {
+		final HttpSession session = request.getSession();
+		if (session != null) {
+			String userName = (String) session.getAttribute("user");
+			if (userName != null)
+				return Response.ok(userName).build();
+		}
+		return Response.ok("").build();
+		// In the future status codes should be handled in the front end
+		// return Response.status(Response.Status.NOT_FOUND).build();
 	}
 }

@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.HomeDaoImpl;
+import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
 import com.revature.model.StatusInfo;
 import com.revature.utils.StatusInfoUtil;
@@ -119,9 +120,10 @@ public class ClientResource {
 	@PUT
 	@Path("init")
 	public void initForce() {
-		homeDaoImpl.clearAssociates();
+		HomeDaoImpl.clearAssociates();
 		clientDaoImpl.clearClients();
 		StatusInfoUtil.clearMaps();
-		StatusInfoUtil.updateStatusInfoFromAssociates(homeDaoImpl.getAllTfAssociates());
+		List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates();
+		StatusInfoUtil.updateStatusInfoFromAssociates(tfAssociates);
 	}
 }

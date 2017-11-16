@@ -12,7 +12,7 @@ describe("skillsetCtrl Test Suite", function(){
 	
 	beforeEach(angular.mock.inject(function($rootScope, $httpBackend) {
 		backend = $httpBackend;
-		mockscope = $rootScope.$new();
+		let mockscope = $rootScope.$new();
 		
 		backend.expect("GET", 'http://localhost:8080/TrackForce/track/unmapped/'+ mockScope.statusID).respond(
 				[

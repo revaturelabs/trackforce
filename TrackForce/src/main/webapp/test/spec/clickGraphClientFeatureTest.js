@@ -12,7 +12,7 @@ describe("clientMappedCtrl Test Suite", function(){
 	
 	beforeEach(angular.mock.inject(function($rootScope, $httpBackend) {
 		backend = $httpBackend;
-		mockscope = $rootScope.$new();
+		let mockscope = $rootScope.$new();
 		//TODO: change url to test with
 		backend.expect("GET", 'http://localhost:8080/TrackForce/track/client/' +mockScope.statusID).respond(
 				[

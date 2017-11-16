@@ -67,8 +67,7 @@ public class StatusInfoUtil {
         StatusInfo clientStatusInfo = specificClientStatusInfo.get(clientID);
         if (clientStatusInfo != null)
             return getDeepCopyOfStatusInfo(clientStatusInfo);
-        else
-            return new StatusInfo();
+        return new StatusInfo();
     }
 
     /**
@@ -83,8 +82,7 @@ public class StatusInfoUtil {
         StatusInfo curriculumStatusInfo = specificCurriculumStatusInfo.get(curriculumID);
         if (curriculumStatusInfo != null)
             return getDeepCopyOfStatusInfo(curriculumStatusInfo);
-        else
-            return new StatusInfo();
+        return new StatusInfo();
     }
 
     /**
@@ -347,8 +345,8 @@ public class StatusInfoUtil {
                     // not handled error case
                     return -1;
             }
-        } else
-            return 0;
+        }
+        return 0;
     }
 
     /**
@@ -374,8 +372,8 @@ public class StatusInfoUtil {
             int deployedUnmapped = statusInfo.getDeployedUnmapped();
             return new StatusInfo(name, trainingMapped, trainingUnmapped, reservedMapped, openUnmapped, selectedMapped, selectedUnmapped, confirmedMapped,
                     confirmedUnmapped, deployedMapped, deployedUnmapped);
-        } else
-            return new StatusInfo();
+        }
+        return new StatusInfo();
     }
 
     /**

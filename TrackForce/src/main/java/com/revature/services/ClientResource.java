@@ -98,9 +98,7 @@ public class ClientResource {
         init();
         if (clientid < 1)
             return new StatusInfo();
-        else {
-            return StatusInfoUtil.getClientStatusInfo(clientid);
-        }
+        return StatusInfoUtil.getClientStatusInfo(clientid);
     }
 
     /**

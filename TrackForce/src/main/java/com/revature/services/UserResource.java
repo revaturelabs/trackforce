@@ -45,34 +45,46 @@ public class UserResource {
 	@Produces({ MediaType.TEXT_HTML })
 	public Response submitCredentials(@FormParam("username") String username, @FormParam("password") String password,
 			@Context HttpServletRequest request) {
-		TfUser tfUser = userDaoImpl.getUser(username);
-		if (tfUser != null) {
-			String hashedPassword = tfUser.getTfUserHashpassword();
-			try {
-				if (tfUser.equals(new TfUser()))
-					return Response.status(Response.Status.UNAUTHORIZED).build();
-				else if (PasswordStorage.verifyPassword(password, hashedPassword)) {
-					final HttpSession session = request.getSession();
-					if (session != null) {
-						TfRole tfRole = tfUser.getTfRole();
-						if (tfRole != null) {
-							BigDecimal tfRoleId = tfRole.getTfRoleId();
-							if (tfRoleId != null)
-								session.setAttribute("roleid", tfRoleId);
+		try {
+			URI loginLocation = new URI("/TrackForce/html/login.html");
+
+			TfUser tfUser = userDaoImpl.getUser(username);
+			if (tfUser != null) {
+				String hashedPassword = tfUser.getTfUserHashpassword();
+				try {
+					if (tfUser.equals(new TfUser()))
+						return Response.seeOther(loginLocation).build();
+					// In the future status codes should be handled in the front end
+					// return Response.status(Response.Status.UNAUTHORIZED).build();
+					else if (PasswordStorage.verifyPassword(password, hashedPassword)) {
+						final HttpSession session = request.getSession();
+						if (session != null) {
+							TfRole tfRole = tfUser.getTfRole();
+							if (tfRole != null) {
+								BigDecimal tfRoleId = tfRole.getTfRoleId();
+								if (tfRoleId != null)
+									session.setAttribute("roleid", tfRoleId);
+							}
+							String tfUserName = tfUser.getTfUserUsername();
+							if (tfUserName != null)
+								session.setAttribute("user", tfUserName);
 						}
-						String tfUserName = tfUser.getTfUserUsername();
-						if (tfUserName != null)
-							session.setAttribute("user", tfUserName);
-					}
-					URI homeLocation = new URI("/TrackForce/html/index.html");
-					return Response.seeOther(homeLocation).build();
-				} else
-					return Response.status(Response.Status.UNAUTHORIZED).build();
-			} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {
-				LogUtil.logger.error(e);
+						URI homeLocation = new URI("/TrackForce/html/index.html");
+						return Response.seeOther(homeLocation).build();
+					} else
+						return Response.seeOther(loginLocation).build();
+					// In the future status codes should be handled in the front end
+					// return Response.status(Response.Status.UNAUTHORIZED).build();
+				} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {
+					LogUtil.logger.error(e);
+				}
 			}
+		} catch (URISyntaxException e1) {
+			LogUtil.logger.error(e1);
 		}
-		return Response.status(Response.Status.BAD_REQUEST).build();
+		return Response.noContent().build();
+		// In the future status codes should be handled in the front end
+		// return Response.status(Response.Status.BAD_REQUEST).build();
 	}
 
 	/**
@@ -100,7 +112,7 @@ public class UserResource {
 		}
 		return Response.status(Response.Status.BAD_REQUEST).build();
 	}
-	
+
 	@GET
 	@Path("name")
 	@Produces({ MediaType.TEXT_PLAIN })
@@ -111,6 +123,8 @@ public class UserResource {
 			if (userName != null)
 				return Response.ok(userName).build();
 		}
-		return Response.status(Response.Status.NOT_FOUND).build();
+		return Response.ok("").build();
+		// In the future status codes should be handled in the front end
+		// return Response.status(Response.Status.NOT_FOUND).build();
 	}
 }

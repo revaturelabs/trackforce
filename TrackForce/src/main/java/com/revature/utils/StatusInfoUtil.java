@@ -217,11 +217,6 @@ public class StatusInfoUtil {
 				int clientID = tfClientId.intValue();
 				StatusInfo clientStatusInfo = getClientStatusInfo(clientID);
 
-				// set clientStatusInfo to new object if null
-				if (clientStatusInfo == null) {
-					clientStatusInfo = new StatusInfo();
-				}
-
 				// if clientStatusInfo is not in specificClientStatusInfo map, set name
 				if (clientStatusInfo.equals(new StatusInfo())) {
 					String tfClientName = tfClient.getTfClientName();
@@ -250,11 +245,6 @@ public class StatusInfoUtil {
 				if (tfCurriculumId != null) {
 					int curriculumID = tfCurriculumId.intValue();
 					StatusInfo curriculumStatusInfo = getCurriculumStatusInfo(curriculumID);
-
-					// set curriculumStatusInfo to new object if null
-					if (curriculumStatusInfo == null) {
-						curriculumStatusInfo = new StatusInfo();
-					}
 
 					// if curriculumStatusInfo is not in specificCurriculumStatusInfo map, set name
 					if (curriculumStatusInfo.equals(new StatusInfo())) {

@@ -1,13 +1,22 @@
 /**
  * http://usejsdoc.org/
  */
+
+
 /**
  * @class mainApp.batchCtrl
  * @memberof mainApp
- * @description controller for the batch page
+ * @description This controller is used in the batch list page
+ * 				to get all batches and show meaningful information
  */
 angular.module('mainApp').controller("batchCtrl", function($scope, $http) {	
 
+	/**
+	 * @function getBatches
+	 * @memberof mainApp.batchCtrl
+	 * @description This function will return a JavaScript object that contains
+	 *              all of the batches within fromdate and todate
+	 */
 	$scope.getBatches = function() {
 		var fromdate = new Date($scope.fromdate);
 		var todate = new Date($scope.todate);
@@ -21,7 +30,13 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 			console.log('Error in doing http request')
 		});
 	};
-
+	
+	/**
+	 * @function getBatches
+	 * @memberof mainApp.batchCtrl
+	 * @description This function will return a JavaScript object that contains
+	 *              all of the batches within fromdate and todate
+	 */
 	$scope.getCountPerBatchType = function() {
 		var fromdate = new Date($scope.fromdate);
 		var todate = new Date($scope.todate);

@@ -10,10 +10,11 @@
  * @description Start the main module to be used for angular app
  */
 angular.module('mainApp', [ 'ngRoute', 'chart.js' ]);
+
 /**
  * @function config
  * @memberof mainApp
- * @param {service} routeprovider
+ * @param {service} routeProvider
  * @description Configure $routeProvider to create a Single Page Application
  */
 angular.module('mainApp').config(function($routeProvider) {
@@ -43,8 +44,8 @@ angular.module('mainApp').config(function($routeProvider) {
 	/**
 	 * @function /batchDetails/:batchname
 	 * @memberof mainApp.config
-	 * @parameter {string} batchname - route parameter to load the specific batches details
-	 * @description Route for the Batch Details page 
+	 * @parameter {string} batchname - route parameter to send batchname to batch details page
+	 * @description Route for the Batch Details page that takes in route parameters to present a specify batch's detail
 	 */
 	.when("/batchDetails/:batchname", {
 		templateUrl : "batchDetails.html",
@@ -68,7 +69,7 @@ angular.module('mainApp').config(function($routeProvider) {
 	 * @param {string} skill - route parameter to send skill for associate filter
 	 * @param {string} client - route parameter to send client for associate filter
 	 * @param {string} status - route parameter to send status for associate filter
-	 * @description Route for the Associate List page
+	 * @description Route for the Associate List page that takes in route parameters to filter the associate list
 	 */	
 	.when("/associateListing/:skill/:client/:status",{
 		templateUrl:"associateListing.html",
@@ -76,37 +77,51 @@ angular.module('mainApp').config(function($routeProvider) {
 	})
 	
 	/**
-	 * @function /associateListing/:skill/:client/:status
+	 * @function /form/:associateId
 	 * @memberof mainApp.config
-	 * @param {string} skill - route parameter to send skill for associate filter
-	 * @param {string} client - route parameter to send client for associate filter
-	 * @param {string} status - route parameter to send status for associate filter
-	 * @description Route for the Associate List page
+	 * @param {string} associateId - route parameter to send associateId to associate info page
+	 * @description Route for the Associate Info page that takes in route parameters to show a specific associates information
 	 */		
 	.when("/form/:associateId", {
 		templateUrl : "form.html",
 		controller : "associateCtrl"
 	})
 	
-	// Client Details Page
+	/**
+	 * @function /clientDetails
+	 * @memberof mainApp.config
+	 * @description Route for the Client Details Page
+	 */
 	.when("/clientDetails", {
 		templateUrl : "clientDetails.html",
 		controller : "clientCtrl"
 	})
 	
-	// Client Mapped Page
+	/**
+	 * @function /clientMapped
+	 * @memberof mainApp.config
+	 * @description Route for the Client Mapped Page
+	 */
 	.when("/clientMapped", {
 		templateUrl : "clientMapped.html",
 		controller : "clientMappedCtrl"
 	})
 	
-	// Skillset Page
+	/**
+	 * @function /skillset
+	 * @memberof mainApp.config
+	 * @description Route for the Skillset Page
+	 */
 	.when("/skillset", {
 		templateUrl : "skillset.html",
 		controller : "skillsetCtrl"
 	})
 	
-	//Create user page
+	/**
+	 * @function /createUser
+	 * @memberof mainApp.config
+	 * @description Route for the Create User Page
+	 */
 	.when("/createUser",{
 		templateUrl: "createNewUser.html",
 		controller: "createUserCtrl"

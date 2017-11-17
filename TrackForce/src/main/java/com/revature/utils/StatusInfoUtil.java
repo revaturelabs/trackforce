@@ -190,16 +190,18 @@ public class StatusInfoUtil {
 	 */
 	public static void updateStatusInfoFromAssociates(List<TfAssociate> associates) {
 		StatusInfo allAssociatesStatusInfo = new StatusInfo(allAssociatesStatusInfoName);
-		
+
 		// remove all null references
-		while (associates.remove(null))
+		while (associates.remove(null)) {
+		}
+
 		for (TfAssociate associate : associates) {
 			// increment allAssociatesStatusInfo for every associate
 			incrementStatusCount(allAssociatesStatusInfo, associate);
 			updateClientStatusInfo(associate);
 			updateCurriculumStatusInfo(associate);
 		}
-	setAllAssociatesStatusInfo(allAssociatesStatusInfo);
+		setAllAssociatesStatusInfo(allAssociatesStatusInfo);
 	}
 
 	/**

@@ -193,14 +193,13 @@ public class StatusInfoUtil {
 		
 		// remove all null references
 		while (associates.remove(null))
-			;
 		for (TfAssociate associate : associates) {
 			// increment allAssociatesStatusInfo for every associate
 			incrementStatusCount(allAssociatesStatusInfo, associate);
 			updateClientStatusInfo(associate);
 			updateCurriculumStatusInfo(associate);
 		}
-		setAllAssociatesStatusInfo(allAssociatesStatusInfo);
+	setAllAssociatesStatusInfo(allAssociatesStatusInfo);
 	}
 
 	/**

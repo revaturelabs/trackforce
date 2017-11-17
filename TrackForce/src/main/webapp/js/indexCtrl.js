@@ -1,8 +1,22 @@
 /**
  * http://usejsdoc.org/
  */
+
+
+/**
+ * @class mainApp.indexCtrl
+ * @memberof mainApp
+ * @description This controller is used for any functionality required by 
+ * 				the whole application
+ */
 angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootScope, $window) {
 	
+	/**
+	 * @function getUsername
+	 * @memberof mainApp.indexCtrl
+	 * @description This function will return a JavaScript object that contains
+	 *				the username for the current user that logs in
+	 */
 	$scope.getUsername= function(){
 		$http({
 			method: 'GET', 
@@ -12,6 +26,13 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 			console.log($scope.username);
 		})
 	};
+	
+	/**
+	 * @function logout
+	 * @memberof mainApp.indexCtrl
+	 * @description This function will call the http method to close the session
+	 * 				and redirect to the login.html page
+	 */
 	$scope.logout = function() {
 		$http({
 			method : 'POST',
@@ -25,6 +46,12 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 	var threeMonthsAfter = currentTime + 7889238000;
 	var threeMonthsBefore = currentTime - 7889238000;
 	
+	/**
+	 * @function onLoad
+	 * @memberof mainApp.indexCtrl
+	 * @description This function will call the http method to grab the information
+	 * 				from the database for the home page graphs.
+	 */
 	$scope.onLoad = function(){
 		$http({
 			method : 'GET',
@@ -115,7 +142,6 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 			 */
 			$scope.DeployedData = [response.data.deployedMapped,
 								response.data.deployedUnmapped ];
-			// Optional styling arrays
 			$rootScope.mappedColors = ['#ff8d3f','#514f4f'];
 			$rootScope.clientTheme = [ '#68a225','#506d2f', '#324851', '#b3de81',  '#7da3a1', '#a2c523','#6e6702','#2e4600' ];
 			$rootScope.skillTheme = ['#004d47', '#00cffa', '#52958b', '#008dcb', '#b2dbd5', '#6eb5c0', '#006c84','#113743'];
@@ -123,7 +149,6 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 							  display : true,
 							  position : 'right'}};
 			
-			//redo $scope.options to include chart titles
 			$scope.unmappedOptions = {
 				legend : {
 							display : true,
@@ -209,7 +234,14 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 		});
 	};
 	
-	
+	/**
+	 * @function defaultBatches
+	 * @memberof mainApp.indexCtrl
+	 * @description This function will return a JavaScript object that contains
+	 * 				all the batches between a 6 month period used in the batch list
+	 * 				page. We declare and initiate it in the index to preload this 
+	 * 				information to reduce loading on batch list page
+	 */
 	$scope.defaultBatches = function () {
 		$http({
 			method : 'GET',
@@ -221,6 +253,13 @@ angular.module('mainApp').controller('indexCtrl', function($scope, $http, $rootS
 		});
 	}
 	
+	/**
+	 * @function getCountPerBatchTypeDefault
+	 * @memberof mainApp.indexCtrl
+	 * @description This function will return a JavaScript object that contains
+	 * 				amount of associates per batch type(skillset) within a 6 month
+	 * 				period to populate graph in batch list
+	 */
 	$scope.getCountPerBatchTypeDefault = function(){
 		$http({
 			method : 'GET',

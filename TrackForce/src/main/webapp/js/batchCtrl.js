@@ -1,17 +1,25 @@
 /**
  * http://usejsdoc.org/
  */
+
+
 /**
  * @class mainApp.batchCtrl
  * @memberof mainApp
- * @description controller for the batch page
+ * @description This controller is used in the batch list page
+ * 				to get all batches and show meaningful information
  */
 angular.module('mainApp').controller("batchCtrl", function($scope, $http) {	
 
+	/**
+	 * @function getBatches
+	 * @memberof mainApp.batchCtrl
+	 * @description This function will return a JavaScript object that contains
+	 *              all of the batches within fromdate and todate
+	 */
 	$scope.getBatches = function() {
 		var fromdate = new Date($scope.fromdate);
 		var todate = new Date($scope.todate);
-		// Simple GET request example:
 		$http({
 			method : 'GET',
 			url : '/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime(),
@@ -21,7 +29,13 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 			console.log('Error in doing http request')
 		});
 	};
-
+	
+	/**
+	 * @function getBatches
+	 * @memberof mainApp.batchCtrl
+	 * @description This function will return a JavaScript object that contains
+	 *              all of the batches within fromdate and todate
+	 */
 	$scope.getCountPerBatchType = function() {
 		var fromdate = new Date($scope.fromdate);
 		var todate = new Date($scope.todate);
@@ -29,8 +43,6 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 			method : 'GET',
 			url : '/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime() + '/type'
 		}).then(function successCallback(response) {
-			// this callback will be called asynchronously
-			// when the response is available
 			$scope.labels = []; 
 			$scope.data = []; 
 			var amountType = response.data;
@@ -40,8 +52,6 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 				$scope.data.push(amountType[i].value); 
 			} 
 		}, function errorCallback(response) {
-			// called asynchronously if an error occurs
-			// or server returns response with an error status.
 			$scope.amountType = {
 				"JTA_SDET" : "2",
 				".NET" : "3"

@@ -1,17 +1,32 @@
 /**
  * http://usejsdoc.org/
  */
+/**
+ * @class mainApp.batchCtrl
+ * @memberof mainApp
+ * @description controller for the batch details page
+ */
 angular.module('mainApp').controller("batchDetailsCtrl",function($scope, $http, $routeParams, $location){ 
+		
+		/**
+		 * @member {String} batchname
+		 * @memberof mainApp.batchDetailsCtrl
+		 * @description This reflects the name of the batch in the database to pass into the url. 
+		 */
 		$scope.batchname = $routeParams.batchname; 
+		
+		/**
+		 * @function getMapStatusBatch
+		 * @memberof mainApp.batchDetailsCtrl
+		 * @description This function will return a JavaScript object that contains
+		 *              the number of mapped and unmapped associates in a specific batch
+		 */
 		$scope.getMapStatusBatch = function() {
-		// Simple GET request example:
 		$http({
 			method : 'GET',
 			url : '/TrackForce/track/batches/' 
 				+ $scope.batchname + '/batchChart'
 		}).then(function(response) {
-			// this callback will be called asynchronously
-			// when the response is available
 			var batchMapStatus = response.data;
 			$scope.mapping = ['Mapped', 'Unmapped'];
 			$scope.mapStatus = [batchMapStatus.Mapped, batchMapStatus.Unmapped];
@@ -37,6 +52,12 @@ angular.module('mainApp').controller("batchDetailsCtrl",function($scope, $http, 
 		})
 	};
 	
+	/**
+	 * @function getBatchAssociates
+	 * @memberof mainApp.batchDetailsCtrl
+	 * @description This function will return a JavaScript object that contains
+	 *              the all of the associates in a batch
+	 */
 	$scope.getBatchAssociates = function() {
 		// Simple GET request example:
 		$http({

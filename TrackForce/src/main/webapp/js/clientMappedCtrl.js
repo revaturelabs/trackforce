@@ -1,6 +1,8 @@
 /**
  * http://usejsdoc.org/
  */
+
+
 /**
  * @class mainApp.clientMappedCtrl
  * @memberof mainApp
@@ -27,10 +29,6 @@ angular.module('mainApp').controller("clientMappedCtrl", function($scope, $http,
 		}
 	$http({
 		method : 'GET',
-		/*
-		 * This URL will pull varying data from the REST service based
-		 * on the statusID
-		 */
 		url :'/TrackForce/track/client/'+ $scope.statusID
 	}).then(function(response) {
 		$scope.chartType='bar';

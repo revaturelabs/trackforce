@@ -2,16 +2,12 @@
 
 //Test Suite for Click Graph Feature
 describe("skillsetCtrl Test Suite", function(){
-	
-	var mockscope = {};
-	var controller;
-	var backend;
 
 	//Before each test it will mock the main module we are using
 	beforeEach(angular.mock.module('mainApp'));
 	
 	beforeEach(angular.mock.inject(function($rootScope, $httpBackend) {
-		backend = $httpBackend;
+		var backend = $httpBackend;
 		let mockscope = $rootScope.$new();
 		
 		backend.expect("GET", 'http://localhost:8080/TrackForce/track/unmapped/'+ mockScope.statusID).respond(
@@ -24,8 +20,8 @@ describe("skillsetCtrl Test Suite", function(){
 	
 	// Inject dependencies needed for controller
 	beforeEach(angular.mock.inject(function($rootScope, $controller, $http) {
-		mockScope = $rootScope.$new();
-		controller = $controller('skillsetCtrl', {
+		var mockScope = $rootScope.$new();
+		var controller = $controller('skillsetCtrl', {
 			$scope: mockScope,
 			$http: $http
 		});

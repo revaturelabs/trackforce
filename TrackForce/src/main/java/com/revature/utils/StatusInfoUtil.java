@@ -67,8 +67,7 @@ public class StatusInfoUtil {
 		StatusInfo clientStatusInfo = specificClientStatusInfo.get(clientID);
 		if (clientStatusInfo != null)
 			return getDeepCopyOfStatusInfo(clientStatusInfo);
-		else
-			return new StatusInfo();
+		return new StatusInfo();
 	}
 
 	/**
@@ -83,8 +82,7 @@ public class StatusInfoUtil {
 		StatusInfo curriculumStatusInfo = specificCurriculumStatusInfo.get(curriculumID);
 		if (curriculumStatusInfo != null)
 			return getDeepCopyOfStatusInfo(curriculumStatusInfo);
-		else
-			return new StatusInfo();
+		return new StatusInfo();
 	}
 
 	/**
@@ -130,14 +128,12 @@ public class StatusInfoUtil {
 			int statusID) {
 		List<Map<String, Object>> maps = new ArrayList<>();
 		// if valid statusID, add map for each statusInfo
-		if (statusID >= 1 && statusID <= 10) {
-			if (statusInfos != null) {
-				for (StatusInfo statusInfo : statusInfos) {
-					Map<String, Object> map = new HashMap<>();
-					map.put("name", statusInfo.getName());
-					map.put("count", getStatusCount(statusInfo, statusID));
-					maps.add(map);
-				}
+		if (statusID >= 1 && statusID <= 10 && statusInfos != null) {
+			for (StatusInfo statusInfo : statusInfos) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("name", statusInfo.getName());
+				map.put("count", getStatusCount(statusInfo, statusID));
+				maps.add(map);
 			}
 		}
 		return maps;
@@ -194,66 +190,82 @@ public class StatusInfoUtil {
 	 */
 	public static void updateStatusInfoFromAssociates(List<TfAssociate> associates) {
 		StatusInfo allAssociatesStatusInfo = new StatusInfo(allAssociatesStatusInfoName);
-
+		
 		// remove all null references
 		while (associates.remove(null))
 			;
 		for (TfAssociate associate : associates) {
 			// increment allAssociatesStatusInfo for every associate
 			incrementStatusCount(allAssociatesStatusInfo, associate);
+			updateClientStatusInfo(associate);
+			updateCurriculumStatusInfo(associate);
+		}
+		setAllAssociatesStatusInfo(allAssociatesStatusInfo);
+	}
 
-			// increment specificClientStatusInfo based on associates with a mapped client
-			TfClient tfClient = associate.getTfClient();
-			if (tfClient != null) {
-				BigDecimal tfClientId = tfClient.getTfClientId();
-				if (tfClientId != null) {
-					int clientID = tfClientId.intValue();
-					StatusInfo clientStatusInfo = getClientStatusInfo(clientID);
+	/**
+	 * Updates the StatusInfo object for a client based on the given associate.
+	 * 
+	 * @param associate
+	 */
+	private static void updateClientStatusInfo(TfAssociate associate) {
+		// increment specificClientStatusInfo based on associates with a mapped client
+		TfClient tfClient = associate.getTfClient();
+		if (tfClient != null) {
+			BigDecimal tfClientId = tfClient.getTfClientId();
+			if (tfClientId != null) {
+				int clientID = tfClientId.intValue();
+				StatusInfo clientStatusInfo = getClientStatusInfo(clientID);
 
-					// set clientStatusInfo to new object if null
-					if (clientStatusInfo == null) {
-						clientStatusInfo = new StatusInfo();
-					}
-
-					// if clientStatusInfo is not in specificClientStatusInfo map, set name
-					if (clientStatusInfo.equals(new StatusInfo())) {
-						String tfClientName = tfClient.getTfClientName();
-						if (tfClientName != null) {
-							clientStatusInfo.setName(tfClientName);
-						}
-					}
-					incrementStatusCount(clientStatusInfo, associate);
-					putClientStatusInfo(clientID, clientStatusInfo);
+				// set clientStatusInfo to new object if null
+				if (clientStatusInfo == null) {
+					clientStatusInfo = new StatusInfo();
 				}
-			}
 
-			// increment specificCurriculumStatusInfo based on associates with a curriculum
-			TfBatch tfBatch = associate.getTfBatch();
-			if (tfBatch != null) {
-				TfCurriculum tfCurriculum = tfBatch.getTfCurriculum();
-				if (tfCurriculum != null) {
-					BigDecimal tfCurriculumId = tfCurriculum.getTfCurriculumId();
-					if (tfCurriculumId != null) {
-						int curriculumID = tfCurriculumId.intValue();
-						StatusInfo curriculumStatusInfo = getCurriculumStatusInfo(curriculumID);
-
-						// set curriculumStatusInfo to new object if null
-						if (curriculumStatusInfo == null) {
-							curriculumStatusInfo = new StatusInfo();
-						}
-
-						// if curriculumStatusInfo is not in specificCurriculumStatusInfo map, set name
-						if (curriculumStatusInfo.equals(new StatusInfo())) {
-							String tfCurriculumName = tfCurriculum.getTfCurriculumName();
-							curriculumStatusInfo.setName(tfCurriculumName);
-						}
-						incrementStatusCount(curriculumStatusInfo, associate);
-						putCurriculumStatusInfo(curriculumID, curriculumStatusInfo);
+				// if clientStatusInfo is not in specificClientStatusInfo map, set name
+				if (clientStatusInfo.equals(new StatusInfo())) {
+					String tfClientName = tfClient.getTfClientName();
+					if (tfClientName != null) {
+						clientStatusInfo.setName(tfClientName);
 					}
+				}
+				incrementStatusCount(clientStatusInfo, associate);
+				putClientStatusInfo(clientID, clientStatusInfo);
+			}
+		}
+	}
+
+	/**
+	 * Updates the StatusInfo object for a curriculum based on the given associate.
+	 * 
+	 * @param associate
+	 */
+	private static void updateCurriculumStatusInfo(TfAssociate associate) {
+		// increment specificCurriculumStatusInfo based on associates with a curriculum
+		TfBatch tfBatch = associate.getTfBatch();
+		if (tfBatch != null) {
+			TfCurriculum tfCurriculum = tfBatch.getTfCurriculum();
+			if (tfCurriculum != null) {
+				BigDecimal tfCurriculumId = tfCurriculum.getTfCurriculumId();
+				if (tfCurriculumId != null) {
+					int curriculumID = tfCurriculumId.intValue();
+					StatusInfo curriculumStatusInfo = getCurriculumStatusInfo(curriculumID);
+
+					// set curriculumStatusInfo to new object if null
+					if (curriculumStatusInfo == null) {
+						curriculumStatusInfo = new StatusInfo();
+					}
+
+					// if curriculumStatusInfo is not in specificCurriculumStatusInfo map, set name
+					if (curriculumStatusInfo.equals(new StatusInfo())) {
+						String tfCurriculumName = tfCurriculum.getTfCurriculumName();
+						curriculumStatusInfo.setName(tfCurriculumName);
+					}
+					incrementStatusCount(curriculumStatusInfo, associate);
+					putCurriculumStatusInfo(curriculumID, curriculumStatusInfo);
 				}
 			}
 		}
-		setAllAssociatesStatusInfo(allAssociatesStatusInfo);
 	}
 
 	/**
@@ -348,8 +360,8 @@ public class StatusInfoUtil {
 				// not handled error case
 				return -1;
 			}
-		} else
-			return 0;
+		}
+		return 0;
 	}
 
 	/**
@@ -375,8 +387,8 @@ public class StatusInfoUtil {
 			int deployedUnmapped = statusInfo.getDeployedUnmapped();
 			return new StatusInfo(name, trainingMapped, trainingUnmapped, reservedMapped, openUnmapped, selectedMapped,
 					selectedUnmapped, confirmedMapped, confirmedUnmapped, deployedMapped, deployedUnmapped);
-		} else
-			return new StatusInfo();
+		}
+		return new StatusInfo();
 	}
 
 	/**

@@ -1,3 +1,18 @@
+/*
+ * @author Benjamin Kidd
+ * 
+Run the Associates Spec Test File by:
+1 - Uncomment the name of the protractor test file in the conf.js file 
+2 - Open cmd line in src/main/webapp/test/spec folder
+3 - Type protractor conf.js into cmd line
+
+Associates Protractor Test runs the following:
+1 - test functionality of search box
+2 - tests functionality of all associate mapping types
+  
+
+*/
+
 describe('Client Page Specs', function() {
   it('client page tests', function() {
     browser.get('http://localhost:8080/TrackForce/html/index.html#!/associateListing');
@@ -72,42 +87,38 @@ describe('Client Page Specs', function() {
     //Test Select UnMapped-Open 
     searchBox.clear();
     searchBox.sendKeys('Albert');
-    var dropdownMappedConfirmed = element(By.xpath('//*[@id="mStatus"]/option[7]'));
-    dropdownMappedConfirmed.click();
-    var lastNameMappedConfirmed = element(By.xpath('/html/body/div/div/div/div[2]/table/tbody/tr/td[3]'));
-    expect(lastNameMappedConfirmed.getText()).toContain('Vasilyev');
+    var dropdownMappedConfirmed2 = element(By.xpath('//*[@id="mStatus"]/option[7]'));
+    dropdownMappedConfirmed2.click();
+    var lastNameMappedConfirmed2 = element(By.xpath('/html/body/div/div/div/div[2]/table/tbody/tr/td[3]'));
+    expect(lastNameMappedConfirmed2.getText()).toContain('Vasilyev');
     
     
     //Test Select UnMapped-Selected 
     searchBox.clear();
     searchBox.sendKeys('Patrick');
-    var dropdownMappedConfirmed = element(By.xpath('//*[@id="mStatus"]/option[8]'));
-    dropdownMappedConfirmed.click();
-    var lastNameMappedConfirmed = element(By.xpath('/html/body/div/div/div/div[2]/table/tbody/tr/td[3]'));
-    expect(lastNameMappedConfirmed.getText()).toContain('Kennedy');
+    var dropdownMappedConfirmed3 = element(By.xpath('//*[@id="mStatus"]/option[8]'));
+    dropdownMappedConfirmed3.click();
+    var lastNameMappedConfirmed3 = element(By.xpath('/html/body/div/div/div/div[2]/table/tbody/tr/td[3]'));
+    expect(lastNameMappedConfirmed3.getText()).toContain('Kennedy');
     
     
     //Test Select UnMapped-Confirmed
     searchBox.clear();
     searchBox.sendKeys('John');
-    var dropdownMappedConfirmed = element(By.xpath('//*[@id="mStatus"]/option[9]'));
-    dropdownMappedConfirmed.click();
-    var lastNameMappedConfirmed = element(By.xpath('/html/body/div/div/div/div[2]/table/tbody/tr/td[3]'));
-    expect(lastNameMappedConfirmed.getText()).toContain('Villamar');
+    var dropdownMappedConfirmed4 = element(By.xpath('//*[@id="mStatus"]/option[9]'));
+    dropdownMappedConfirmed4.click();
+    var lastNameMappedConfirmed4 = element(By.xpath('/html/body/div/div/div/div[2]/table/tbody/tr/td[3]'));
+    expect(lastNameMappedConfirmed4.getText()).toContain('Villamar');
     
     
     //Test Select UnMapped-Deployed
     searchBox.clear();
     searchBox.sendKeys('Daniel');
-    var dropdownMappedConfirmed = element(By.xpath('//*[@id="mStatus"]/option[10]'));
-    dropdownMappedConfirmed.click();
-    var lastNameMappedConfirmed = element(By.xpath('/html/body/div/div/div/div[2]/table/tbody/tr/td[3]'));
-    expect(lastNameMappedConfirmed.getText()).toContain('Zorrilla');
+    var dropdownMappedConfirmed5 = element(By.xpath('//*[@id="mStatus"]/option[10]'));
+    dropdownMappedConfirmed5.click();
+    var lastNameMappedConfirmed5 = element(By.xpath('/html/body/div/div/div/div[2]/table/tbody/tr/td[3]'));
+    expect(lastNameMappedConfirmed5.getText()).toContain('Zorrilla');
    
-    
-    
-    
-    
     
   });
 });

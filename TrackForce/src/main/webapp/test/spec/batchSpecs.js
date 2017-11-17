@@ -1,3 +1,19 @@
+/*
+ * @author Benjamin Kidd
+Run the Batch Spec Test File by:
+1 - Uncomment the name of the protractor test file in the conf.js file 
+2 - Open cmd line in src/main/webapp/test/spec folder
+3 - Type protractor conf.js into cmd line
+
+Batch Protractor Test runs the following:
+1 - test functionality of batch search date input boxes
+2 - tests functionality of links on batch page
+  
+
+*/
+
+
+
 describe('Home Page Specs', function() {
   it('home page test', function() {
     browser.get('http://localhost:8080/TrackForce/html/index.html#!/batchListing');

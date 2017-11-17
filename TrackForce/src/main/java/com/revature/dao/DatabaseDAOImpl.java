@@ -5,49 +5,34 @@ import javax.persistence.StoredProcedureQuery;
 import org.hibernate.Session;
 
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 public class DatabaseDAOImpl {
 	public String deleteAll() {
-		String message;
-		try (Session session = HibernateUtil.getSession().openSession()) {
-
-			try {
-				StoredProcedureQuery query2 = session.createStoredProcedureQuery("admin.truncateAllDevTeam");
-				query2.execute();
-				message = "Database Emptied Successfully";
-				return message;
-			} catch (Exception e) {
-				message = "Database Empty Error";
-				return message;
-			}
-		}
+		return runStoredProcedure("admin.truncateAllDevTeam", "Database Emptied Successfully", "Database Empty Error");
 	}
 
 	public String populate() {
-		try (Session session = HibernateUtil.getSession().openSession()) {
-			String message;
-			try {
-				StoredProcedureQuery query2 = session.createStoredProcedureQuery("admin.populateAllTables_PROC");
-				query2.execute();
-				message = "Database Population Successful";
-				return message;
-			} catch (Exception e) {
-				message = "Error: Data Exists";
-				return message;
-			}
-		}
+		return runStoredProcedure("admin.populateAllTables_PROC", "Database Population Successful",
+				"Error: Data Exists");
 	}
 
 	public String populateSF() {
+		return runStoredProcedure("admin.populateAllTablesSF_PROC", "SF - Database Population Successful",
+				"Error: Data Exists");
+	}
+
+	private String runStoredProcedure(String queryName, String successMessage, String errorMessage) {
 		try (Session session = HibernateUtil.getSession().openSession()) {
 			String message;
 			try {
-				StoredProcedureQuery query2 = session.createStoredProcedureQuery("admin.populateAllTablesSF_PROC");
-				query2.execute();
-				message = "SF - Database Population Successful";
+				StoredProcedureQuery query = session.createStoredProcedureQuery(queryName);
+				query.execute();
+				message = successMessage;
 				return message;
 			} catch (Exception e) {
-				message = "Error: Data Exists";
+				LogUtil.logger.error(e);
+				message = errorMessage;
 				return message;
 			}
 		}

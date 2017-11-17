@@ -12,8 +12,11 @@ import javax.xml.bind.DatatypeConverter;
  */
 public class PasswordStorage {
 
+	private PasswordStorage() {
+	}
+
 	@SuppressWarnings("serial")
-	static public class InvalidHashException extends Exception {
+	public static class InvalidHashException extends Exception {
 		public InvalidHashException(String message) {
 			super(message);
 		}
@@ -24,7 +27,7 @@ public class PasswordStorage {
 	}
 
 	@SuppressWarnings("serial")
-	static public class CannotPerformOperationException extends Exception {
+	public static class CannotPerformOperationException extends Exception {
 		public CannotPerformOperationException(String message) {
 			super(message);
 		}
@@ -64,8 +67,7 @@ public class PasswordStorage {
 		int hashSize = hash.length;
 
 		// format: algorithm:iterations:hashSize:salt:hash
-		String parts = "sha1:" + PBKDF2_ITERATIONS + ":" + hashSize + ":" + toBase64(salt) + ":" + toBase64(hash);
-		return parts;
+		return "sha1:" + PBKDF2_ITERATIONS + ":" + hashSize + ":" + toBase64(salt) + ":" + toBase64(hash);
 	}
 
 	public static boolean verifyPassword(String password, String correctHash)

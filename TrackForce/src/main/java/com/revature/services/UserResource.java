@@ -19,6 +19,7 @@ import javax.ws.rs.core.Response;
 import com.revature.dao.UserDaoImpl;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
+import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
 import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 import com.revature.utils.PasswordStorage.InvalidHashException;
@@ -27,6 +28,8 @@ import com.revature.utils.PasswordStorage.InvalidHashException;
 public class UserResource {
 
 	UserDaoImpl userDaoImpl = new UserDaoImpl();
+	private String loginURL = "/TrackForce/html/login.html";
+	private String homeURL = "/TrackForce/html/index.html";
 
 	/**
 	 * Returns a Response object with a redirect
@@ -44,12 +47,13 @@ public class UserResource {
 	@Produces({ MediaType.TEXT_HTML })
 	public Response submitCredentials(@FormParam("username") String username, @FormParam("password") String password,
 			@Context HttpServletRequest request) {
-		TfUser tfUser = userDaoImpl.getUser(username);
-		if (tfUser != null) {
-			String hashedPassword = tfUser.getTfUserHashpassword();
-			try {
+		try {
+			URI loginLocation = new URI(loginURL);
+			TfUser tfUser = userDaoImpl.getUser(username);
+			if (tfUser != null) {
+				String hashedPassword = tfUser.getTfUserHashpassword();
 				if (tfUser.equals(new TfUser()))
-					return Response.status(Response.Status.UNAUTHORIZED).build();
+					return Response.seeOther(loginLocation).build();
 				else if (PasswordStorage.verifyPassword(password, hashedPassword)) {
 					final HttpSession session = request.getSession();
 					if (session != null) {
@@ -63,15 +67,15 @@ public class UserResource {
 						if (tfUserName != null)
 							session.setAttribute("user", tfUserName);
 					}
-					URI homeLocation = new URI("/TrackForce/html/index.html");
+					URI homeLocation = new URI(homeURL);
 					return Response.seeOther(homeLocation).build();
 				} else
-					return Response.status(Response.Status.UNAUTHORIZED).build();
-			} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {
-				e.printStackTrace();
+					return Response.seeOther(loginLocation).build();
 			}
+		} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {
+			LogUtil.logger.error(e);
 		}
-		return Response.status(Response.Status.BAD_REQUEST).build();
+		return Response.noContent().build();
 	}
 
 	/**
@@ -90,16 +94,16 @@ public class UserResource {
 			if (session != null) {
 				session.invalidate();
 				try {
-					URI loginLocation = new URI("/TrackForce/html/login.html");
+					URI loginLocation = new URI(loginURL);
 					return Response.temporaryRedirect(loginLocation).build();
 				} catch (URISyntaxException e) {
-					e.printStackTrace();
+					LogUtil.logger.error(e);
 				}
 			}
 		}
 		return Response.status(Response.Status.BAD_REQUEST).build();
 	}
-	
+
 	@GET
 	@Path("name")
 	@Produces({ MediaType.TEXT_PLAIN })
@@ -110,6 +114,6 @@ public class UserResource {
 			if (userName != null)
 				return Response.ok(userName).build();
 		}
-		return Response.status(Response.Status.NOT_FOUND).build();
+		return Response.ok("").build();
 	}
 }

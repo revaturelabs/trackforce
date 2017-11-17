@@ -14,6 +14,7 @@ import org.hibernate.query.Query;
 
 import com.revature.entity.TfClient;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 public class ClientDaoImpl implements ClientDao {
 
@@ -45,6 +46,7 @@ public class ClientDaoImpl implements ClientDao {
 				client = query.getSingleResult();
 			} catch (NoResultException nre) {
 				client = new TfClient();
+				LogUtil.logger.error(nre);
 			}
 		}
 		return client;

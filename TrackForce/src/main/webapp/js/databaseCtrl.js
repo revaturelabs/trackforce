@@ -44,8 +44,6 @@ angular.module('mainApp').controller('databaseCtrl', function($http, $scope) {
 			$scope.dbMessage = response.data;
 
 		}).then(function() {
-			window.location.reload();
-		}).then(function() {
 			console.log($scope.myStatus);
 			console.log($scope.dbMessage);
 		})
@@ -79,6 +77,10 @@ angular.module('mainApp').controller('databaseCtrl', function($http, $scope) {
 			method : 'PUT',
 			url : '/TrackForce/track/init'
 		})
+	}
+	
+	$scope.Refresh = function(){
+		window.location.reload();
 	}
 
 });

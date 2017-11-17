@@ -2,8 +2,6 @@ package com.revature.services;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -87,8 +85,8 @@ public class AssociateService {
     @GET
     @Path("{associateId}/update/{marketingStatus}/{client}")
     @Produces({ MediaType.TEXT_HTML })
-    public Response updateAssociate(@PathParam("associateId") String id,
-            @PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client) {
+    public Response updateAssociate(@PathParam("associateId") String id, @PathParam("marketingStatus") String marketingStatus,
+            @PathParam("client") String client) {
         MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
         TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
 
@@ -121,18 +119,15 @@ public class AssociateService {
         List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates();
         List<AssociateInfo> associateInfos = new ArrayList<>();
         for (TfAssociate tfAssociate : tfAssociates) {
-        	if (tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
+            if (tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
                     || tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
                 continue;
             }
-        	BigDecimal tfAssociateId = tfAssociate.getTfAssociateId();
+            BigDecimal tfAssociateId = tfAssociate.getTfAssociateId();
             String tfAssociateFirstName = tfAssociate.getTfAssociateFirstName();
             String tfAssociateLastName = tfAssociate.getTfAssociateLastName();
-            String tfMarketingStatusName = tfAssociate.getTfMarketingStatus() != null
-                    ? tfAssociate.getTfMarketingStatus().getTfMarketingStatusName()
-                    : "";
-            String tfClientName = tfAssociate.getTfClient() != null ? tfAssociate.getTfClient().getTfClientName()
-                    : "None";
+            String tfMarketingStatusName = tfAssociate.getTfMarketingStatus() != null ? tfAssociate.getTfMarketingStatus().getTfMarketingStatusName() : "";
+            String tfClientName = tfAssociate.getTfClient() != null ? tfAssociate.getTfClient().getTfClientName() : "None";
             String tfBatchName = tfAssociate.getTfBatch() != null ? tfAssociate.getTfBatch().getTfBatchName() : "";
 
             String tfCurriculum;
@@ -142,8 +137,8 @@ public class AssociateService {
                 tfCurriculum = "";
             }
 
-            associateInfos.add(new AssociateInfo(tfAssociateId, tfAssociateFirstName, tfAssociateLastName,
-                    tfMarketingStatusName, tfClientName, tfBatchName, tfCurriculum));
+            associateInfos.add(new AssociateInfo(tfAssociateId, tfAssociateFirstName, tfAssociateLastName, tfMarketingStatusName, tfClientName, tfBatchName,
+                    tfCurriculum));
         }
         return Response.ok(associateInfos).build();
     }

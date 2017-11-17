@@ -20,7 +20,6 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 	$scope.getBatches = function() {
 		var fromdate = new Date($scope.fromdate);
 		var todate = new Date($scope.todate);
-		// Simple GET request example:
 		$http({
 			method : 'GET',
 			url : '/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime(),
@@ -44,8 +43,6 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 			method : 'GET',
 			url : '/TrackForce/track/batches/' + fromdate.getTime() + '/' + todate.getTime() + '/type'
 		}).then(function successCallback(response) {
-			// this callback will be called asynchronously
-			// when the response is available
 			$scope.labels = []; 
 			$scope.data = []; 
 			var amountType = response.data;
@@ -55,8 +52,6 @@ angular.module('mainApp').controller("batchCtrl", function($scope, $http) {
 				$scope.data.push(amountType[i].value); 
 			} 
 		}, function errorCallback(response) {
-			// called asynchronously if an error occurs
-			// or server returns response with an error status.
 			$scope.amountType = {
 				"JTA_SDET" : "2",
 				".NET" : "3"

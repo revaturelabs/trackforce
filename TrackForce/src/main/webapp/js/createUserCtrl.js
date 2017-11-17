@@ -1,5 +1,5 @@
 /**
- * 
+ * http://usejsdoc.org/
  */
 
 angular.module('mainApp').controller("createUserCtrl", function($scope, $http){

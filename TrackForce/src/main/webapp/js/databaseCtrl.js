@@ -1,12 +1,15 @@
 /**
  * http://usejsdoc.org/
  */
+
+
 /**
  * @class mainApp.databaseCtrl
  * @memberof mainApp
  * @description controller for database population and deletion.
  */
 angular.module('mainApp').controller('databaseCtrl', function($http, $scope) {
+
 	/**
 	 * @function populateDB
 	 * @memberof mainApp.databaseCtrl
@@ -29,6 +32,7 @@ angular.module('mainApp').controller('databaseCtrl', function($http, $scope) {
 			console.log($scope.dbMessage);
 		})
 	}
+	
 	/**
 	 * @function deleteDB
 	 * @memberof mainApp.databaseCtrl
@@ -49,6 +53,7 @@ angular.module('mainApp').controller('databaseCtrl', function($http, $scope) {
 		})
 	
 	}
+	
 	/**
 	 * @function populateDBSF
 	 * @memberof mainApp.databaseCtrl
@@ -72,6 +77,11 @@ angular.module('mainApp').controller('databaseCtrl', function($http, $scope) {
 		})
 	}
 	
+	/**
+	 * @function InitForce
+	 * @memberof mainApp.databaseCtrl
+	 * @description Cleates the cache for the homepage and client page
+	 */
 	$scope.InitForce = function() {
 		$http({
 			method : 'PUT',
@@ -79,6 +89,11 @@ angular.module('mainApp').controller('databaseCtrl', function($http, $scope) {
 		})
 	}
 	
+	/**
+	 * @function Refresh
+	 * @memberof mainApp.databaseCtrl
+	 * @description Used to refresh the page for the database button functions
+	 */
 	$scope.Refresh = function(){
 		window.location.reload();
 	}

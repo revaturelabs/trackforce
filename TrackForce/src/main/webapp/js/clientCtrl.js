@@ -10,6 +10,7 @@
  *              page
  */
 angular.module('mainApp').controller("clientCtrl", function($scope, $http) {
+	
 	/**
 	 * @function getAllClientNames
 	 * @memberof mainApp.clientCtrl

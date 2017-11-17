@@ -1,6 +1,8 @@
 /**
  * http://usejsdoc.org/
  */
+
+
 /**
  * @class mainApp.associateCtrl
  * @memberof mainApp

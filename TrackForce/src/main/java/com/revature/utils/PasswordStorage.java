@@ -152,7 +152,7 @@ public class PasswordStorage {
 		}
 	}
 
-	private static byte[] fromBase64(String hex) throws IllegalArgumentException {
+	private static byte[] fromBase64(String hex){
 		return DatatypeConverter.parseBase64Binary(hex);
 	}
 

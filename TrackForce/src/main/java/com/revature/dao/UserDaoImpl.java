@@ -32,12 +32,10 @@ public class UserDaoImpl implements UserDAO {
 
 			try {
 				user = query.getSingleResult();
-				if(user.getTfRole() != null) {
-					if (user.getTfRole().getTfRoleName() != null){
-						Hibernate.initialize(user.getTfRole().getTfRoleName());
-					}
+				if (user.getTfRole() != null && user.getTfRole().getTfRoleName() != null) {
+					Hibernate.initialize(user.getTfRole().getTfRoleName());
 				}
-				
+
 			} catch (NoResultException nre) {
 				user = new TfUser();
 				LogUtil.logger.error(nre);

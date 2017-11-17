@@ -43,8 +43,8 @@ angular.module('mainApp').config(function($routeProvider) {
 	/**
 	 * @function /batchDetails/:batchname
 	 * @memberof mainApp.config
-	 * @param {
-	 * @description Route for the Batch Details page which sends batch
+	 * @parameter {string} batchname - route parameter to load the specific batches details
+	 * @description Route for the Batch Details page 
 	 */
 	.when("/batchDetails/:batchname", {
 		templateUrl : "batchDetails.html",
@@ -52,17 +52,37 @@ angular.module('mainApp').config(function($routeProvider) {
 		controllerAs : "batchDetails"
 	})
 	
-	// Associate List Page
+	/**
+	 * @function /associateListing
+	 * @memberof mainApp.config
+	 * @description Route for the Associate List page
+	 */	
 	.when("/associateListing", {
 		templateUrl : "associateListing.html",
 		controller : "associateCtrl"
 	})
-	//Associate List Page with params
+	
+	/**
+	 * @function /associateListing/:skill/:client/:status
+	 * @memberof mainApp.config
+	 * @param {string} skill - route parameter to send skill for associate filter
+	 * @param {string} client - route parameter to send client for associate filter
+	 * @param {string} status - route parameter to send status for associate filter
+	 * @description Route for the Associate List page
+	 */	
 	.when("/associateListing/:skill/:client/:status",{
 		templateUrl:"associateListing.html",
 		controller : "associateCtrl"
 	})
-	// Form Page
+	
+	/**
+	 * @function /associateListing/:skill/:client/:status
+	 * @memberof mainApp.config
+	 * @param {string} skill - route parameter to send skill for associate filter
+	 * @param {string} client - route parameter to send client for associate filter
+	 * @param {string} status - route parameter to send status for associate filter
+	 * @description Route for the Associate List page
+	 */		
 	.when("/form/:associateId", {
 		templateUrl : "form.html",
 		controller : "associateCtrl"

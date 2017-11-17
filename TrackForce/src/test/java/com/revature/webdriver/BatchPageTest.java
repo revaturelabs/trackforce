@@ -1,3 +1,10 @@
+/*
+Run this test by running this file as a TestNG test.
+
+Tests Performed:
+This file will run tests for specific tasks. These tasks are described in comments above the test.
+
+*/
 package com.revature.webdriver;
 
 import static org.testng.Assert.assertEquals;

@@ -1,3 +1,21 @@
+/*
+Run the Client Spec Test File by:
+1 - Uncomment the name of the protractor test file in the conf.js file 
+2 - Open cmd line in src/main/webapp/test/spec folder
+3 - Type protractor conf.js into cmd line
+
+Client Protractor Test runs the following:
+1 - test functionality of search box
+2 - tests functionality of links on client page
+  
+
+
+
+
+ */
+
+
+
 describe('Client Page Specs', function() {
   it('client page tests', function() {
     browser.get('http://localhost:8080/TrackForce/html/index.html#!/clientDetails');

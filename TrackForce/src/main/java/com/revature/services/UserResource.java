@@ -28,6 +28,8 @@ import com.revature.utils.PasswordStorage.InvalidHashException;
 public class UserResource {
 
 	UserDaoImpl userDaoImpl = new UserDaoImpl();
+	private String loginURL = "/TrackForce/html/login.html";
+	private String homeURL = "/TrackForce/html/index.html";
 
 	/**
 	 * Returns a Response object with a redirect
@@ -46,45 +48,34 @@ public class UserResource {
 	public Response submitCredentials(@FormParam("username") String username, @FormParam("password") String password,
 			@Context HttpServletRequest request) {
 		try {
-			URI loginLocation = new URI("/TrackForce/html/login.html");
-
+			URI loginLocation = new URI(loginURL);
 			TfUser tfUser = userDaoImpl.getUser(username);
 			if (tfUser != null) {
 				String hashedPassword = tfUser.getTfUserHashpassword();
-				try {
-					if (tfUser.equals(new TfUser()))
-						return Response.seeOther(loginLocation).build();
-					// In the future status codes should be handled in the front end
-					// return Response.status(Response.Status.UNAUTHORIZED).build();
-					else if (PasswordStorage.verifyPassword(password, hashedPassword)) {
-						final HttpSession session = request.getSession();
-						if (session != null) {
-							TfRole tfRole = tfUser.getTfRole();
-							if (tfRole != null) {
-								BigDecimal tfRoleId = tfRole.getTfRoleId();
-								if (tfRoleId != null)
-									session.setAttribute("roleid", tfRoleId);
-							}
-							String tfUserName = tfUser.getTfUserUsername();
-							if (tfUserName != null)
-								session.setAttribute("user", tfUserName);
+				if (tfUser.equals(new TfUser()))
+					return Response.seeOther(loginLocation).build();
+				else if (PasswordStorage.verifyPassword(password, hashedPassword)) {
+					final HttpSession session = request.getSession();
+					if (session != null) {
+						TfRole tfRole = tfUser.getTfRole();
+						if (tfRole != null) {
+							BigDecimal tfRoleId = tfRole.getTfRoleId();
+							if (tfRoleId != null)
+								session.setAttribute("roleid", tfRoleId);
 						}
-						URI homeLocation = new URI("/TrackForce/html/index.html");
-						return Response.seeOther(homeLocation).build();
-					} else
-						return Response.seeOther(loginLocation).build();
-					// In the future status codes should be handled in the front end
-					// return Response.status(Response.Status.UNAUTHORIZED).build();
-				} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {
-					LogUtil.logger.error(e);
-				}
+						String tfUserName = tfUser.getTfUserUsername();
+						if (tfUserName != null)
+							session.setAttribute("user", tfUserName);
+					}
+					URI homeLocation = new URI(homeURL);
+					return Response.seeOther(homeLocation).build();
+				} else
+					return Response.seeOther(loginLocation).build();
 			}
-		} catch (URISyntaxException e1) {
-			LogUtil.logger.error(e1);
+		} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {
+			LogUtil.logger.error(e);
 		}
 		return Response.noContent().build();
-		// In the future status codes should be handled in the front end
-		// return Response.status(Response.Status.BAD_REQUEST).build();
 	}
 
 	/**
@@ -103,7 +94,7 @@ public class UserResource {
 			if (session != null) {
 				session.invalidate();
 				try {
-					URI loginLocation = new URI("/TrackForce/html/login.html");
+					URI loginLocation = new URI(loginURL);
 					return Response.temporaryRedirect(loginLocation).build();
 				} catch (URISyntaxException e) {
 					LogUtil.logger.error(e);
@@ -124,7 +115,5 @@ public class UserResource {
 				return Response.ok(userName).build();
 		}
 		return Response.ok("").build();
-		// In the future status codes should be handled in the front end
-		// return Response.status(Response.Status.NOT_FOUND).build();
 	}
 }

@@ -1,31 +1,73 @@
 /**
  * http://usejsdoc.org/
  */
+/**
+ * @class mainApp.associateCtrl
+ * @memberof mainApp
+ * @description controller for the associate listing page
+ */
 angular.module('mainApp').controller('associateCtrl', function($http, $scope, $routeParams, $rootScope) {
+	
+	/**
+	 * @member {String} limit
+	 * @memberof mainApp.associateCtrl
+	 * @description This represents the initial number of associate displayed in the table. 
+	 */
 	$scope.limit = 10;
+	
+	/**
+	 * @member {String} start
+	 * @memberof mainApp.associateCtrl
+	 * @description This represents where the associates list starts from in the json array 
+	 */
 	$scope.start = -671;
 	
-	$scope.terminated = "TERMINATED";
-	
+	/**
+	 * @function beginning
+	 * @memberof mainApp.associateCtrl
+	 * @description This function sets where the table begins for the associate listing page
+	 */
 	$scope.beginning = function() {
 		$scope.start = -671;
 	}
 	
+	/**
+	 * @function decrease
+	 * @memberof mainApp.associateCtrl
+	 * @description This function helps navigate through the associates list. 
+	 */
 	$scope.decrease = function() {
 		$scope.start -= $scope.limit;
 		console.log($scope.start);
 	}	
 	
+	/**
+	 * @function increase
+	 * @memberof mainApp.associateCtrl
+	 * @description This function helps navigate through the associates list. 
+	 */
 	$scope.increase = function() {
 		$scope.start += $scope.limit;
 		console.log($scope.start);
 	}
 	
+	/**
+	 * @function end
+	 * @memberof mainApp.associateCtrl
+	 * @description This function will return a JavaScript object that contains
+	 *              the number of mapped and unmapped associates in a specific batch
+	 */
 	$scope.end = function() {
 		$scope.start -= 0;
 	}
 	
 	
+	/**
+	 * @function getAvailableClients
+	 * @memberof mainApp.associateCtrl
+	 * @description This function will return a JavaScript object that contains
+	 *              information for one associate. 
+	 */
 	$scope.getAssociate = function() {
 		
 		$http({
@@ -36,6 +78,12 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 	    });
 	}
 	
+	/**
+	 * @function getAllAssociates
+	 * @memberof mainApp.associateCtrl
+	 * @description This function will return a JavaScript object that contains
+	 *              all of the associates. 
+	 */
 	$scope.getAllAssociates = function() {
 	
 		$http({
@@ -47,6 +95,12 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 		});
 	}
 	
+	/**
+	 * @function updateAssociates
+	 * @memberof mainApp.associateCtrl
+	 * @description This function i sused to update an associates mapped or unmapped status and 
+	 * 				client. 
+	 */
 	$scope.updateAssociate = function() {
 		$http({
 			method : 'GET',
@@ -59,6 +113,12 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 		})
 	}
 	
+	/**
+	 * @function onload
+	 * @memberof mainApp.associateCtrl
+	 * @description This function will apply filters to the associates table the page has been 
+	 * 				loaded by someone has clicked on one of the graphs (mapped or unmapped, or clients graphs)
+	 */
 	$scope.onLoad = function (){
 		if($routeParams.client=='default'||$routeParams.client==undefined){
 			$scope.searchByClient='';
@@ -103,6 +163,12 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 		}
 	}
 	
+	/**
+	 * @function getAllClientsNames
+	 * @memberof mainApp.associateCtrl
+	 * @description This function will return a JavaScript object that contains
+	 *              the names of al the clients
+	 */
 	$scope.getAllClientNames = function() {
 		$http({
 			method : 'GET',
@@ -112,6 +178,12 @@ angular.module('mainApp').controller('associateCtrl', function($http, $scope, $r
 		});
 	}
 	
+	/**
+	 * @function getAvailableClients
+	 * @memberof mainApp.associateCtrl
+	 * @description This function will return a JavaScript object that contains
+	 *              the available clients. 
+	 */
 	$scope.getAvailableClients = function() {
 		$http({
 			method : 'GET',

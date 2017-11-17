@@ -1,5 +1,5 @@
 /*
-
+* @author Benjamin Kidd
 Run the Home Page Spec Test File by:
 1 - Uncomment the name of the protractor test file in the conf.js file 
 2 - Open cmd line in src/main/webapp/test/spec folder

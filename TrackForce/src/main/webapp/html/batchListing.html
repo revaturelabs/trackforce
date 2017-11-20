@@ -1,0 +1,41 @@
+<div class="container">
+	<div><title class="text-center text-primary">Batch List</title></div>
+	<div class="row">
+		<div class="col-sm-6">
+			<h3>All Batches</h3>
+			<div class="well">	
+				<div ng-controller="batchDetailsCtrl">
+					<div class="table-responsive">
+						<table class="table table-striped table-hover table-bordered">
+							<thead>
+								<tr>
+									<th>Batch Name</th>
+									<th>Start Date</th>
+									<th>End Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="batch in batches| orderBy:'startDate'">
+									<td><a href="#!/batchDetails/{{batch.batchName}}">{{batch.batchName}}</a></td>
+									<td>{{batch.startDate.substring(0, 10)}}</td>
+									<td>{{batch.endDate.substring(0, 10)}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+		<h3>Select dates:</h3>
+			<form>
+				From: <input type="date" ng-model="fromdate" max="todate"/> 
+				To: <input type="date" ng-model="todate" min="fromdate"/>
+				<input type="submit" value="Submit" ng-click="getBatches(); getCountPerBatchType()"/>
+			</form>
+			<canvas id="pie" class="chart chart-pie" chart-colors="skillTheme"
+           		chart-data="data" chart-labels="labels" chart-options="options">
+       		</canvas>
+		</div>
+	</div>
+</div>

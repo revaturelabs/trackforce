@@ -1,0 +1,65 @@
+<div class="container" ng-init="getAllClientNames(); getAssociate()">
+	<h3 class="text-default text-center">Change Associate Marketing Status</h3>
+
+	<div class="row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-5">
+			<div class="table-responsive">
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th>Associate ID</th>
+							<td>{{associate.id}}</td>
+						</tr>
+						<tr>
+							<th>First Name</th>
+							<td>{{associate.firstName}}</td>
+						</tr>
+						<tr>
+							<th>Last Name</th>
+							<td>{{associate.lastName}}</td>
+						</tr>
+						<tr>
+							<th>Marketing Status</th>
+							<td>{{associate.marketingStatus}}</td>
+						</tr>
+						<tr>
+							<th>Batch Name</th>
+							<td><a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a></td>
+						</tr>
+						<tr>
+							<th>Client Name</th>
+							<td>{{associate.client}}</td>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+		<div class="col-sm-5">
+			<div class="form-group">
+				<label for="mStatus">Choose Status:</label> 
+				<select class="form-control" ng-model="associate.marketingStatus">
+					<option>UNMAPPED: TRAINING</option>
+					<option>UNMAPPED: OPEN</option>
+					<option>UNMAPPED: SELECTED</option>
+					<option>UNMAPPED: CONFIRMED</option>
+					<option>UNMAPPED: DEPLOYED</option>
+					<option>MAPPED: TRAINING</option>
+					<option>MAPPED: RESERVED</option>
+					<option>MAPPED: SELECTED</option>
+					<option>MAPPED: CONFIRMED</option>
+					<option>MAPPED: DEPLOYED</option>
+				</select>
+				<p> </p>
+				<label for="client">Assign Client:</label> 
+				<select	class="form-control" id="client" ng-model="associate.client">
+					<option selected="selected">None</option>
+					<option ng-repeat="client in clients | orderBy:'name'">{{client.name}}</option>
+				</select>
+				<p> </p>
+				<button ng-click="updateAssociate()" class="btn btn-default" style="float: right">Update Status</button>
+				<h5 class="text-success">{{message}}</h5>
+			</div>
+		</div>
+	</div>
+</div>

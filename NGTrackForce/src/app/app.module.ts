@@ -23,11 +23,13 @@ import { AppComponent } from './app.component';
 ///
 
 import { appRoutes } from './routing/routes';
+import { AssociateListComponent } from './associate-list/associate-list.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AssociateListComponent
   ],
   imports: [
     BrowserModule,

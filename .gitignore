@@ -75,9 +75,7 @@ ehthumbs.dbThumbs.db
 
 #avoiding pushing back in mistaken file
 jdbcUtil.java
-<<<<<<< HEAD
 /.metadata/
-=======
 
 ################
 # Angular 4
@@ -113,4 +111,3 @@ jdbcUtil.java
 
 # rollup-test output
 **/modules/rollup-test/dist/
->>>>>>> 768ec42c3caf0c2fe9fdda229608f02cf575dd36

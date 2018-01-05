@@ -75,4 +75,42 @@ ehthumbs.dbThumbs.db
 
 #avoiding pushing back in mistaken file
 jdbcUtil.java
+<<<<<<< HEAD
 /.metadata/
+=======
+
+################
+# Angular 4
+################
+# DS_STORE
+
+**/dist/
+**/bazel-*
+**/e2e_test.*
+**/node_modules
+**/bower_components
+**/tools/gulp-tasks/cldr/cldr-data/
+
+# Include when developing application packages.
+**/pubspec.lock
+**/.c9
+**/.idea/
+**/.settings/
+**/*.swo
+**/modules/.settings
+**/.vscode
+**/modules/.vscode
+
+# Don't check in secret files
+**/*secret.js
+
+# Ignore npm/yarn debug log
+**/npm-debug.log
+**/yarn-error.log
+
+# build-analytics
+**/.build-analytics
+
+# rollup-test output
+**/modules/rollup-test/dist/
+>>>>>>> 768ec42c3caf0c2fe9fdda229608f02cf575dd36

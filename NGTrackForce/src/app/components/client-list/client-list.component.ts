@@ -10,6 +10,10 @@ export class ClientListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.getAllClientNames();
+  }
+  getAllClientNames(){
+
   }
 
 }

@@ -8,6 +8,10 @@ node_modules/
 # Auto generated TestNG files
 test-output/
 
+Servers/**
+
+.recommenders
+
 # Test files
 .tern-project
 
@@ -71,6 +75,7 @@ ehthumbs.dbThumbs.db
 
 #avoiding pushing back in mistaken file
 jdbcUtil.java
+/.metadata/
 
 ################
 # Angular 4

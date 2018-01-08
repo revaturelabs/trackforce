@@ -1,1 +1,8 @@
 /.metadata/
+
+# maven
+target
+
+# IDE - Intellij
+*.iml
+/.idea/

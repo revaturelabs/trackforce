@@ -33,8 +33,6 @@ export class AssociateListComponent implements OnInit {
     this.associateService.getAllAssociates().subscribe(
       data => {
         this.associates = data
-      }, err => {
-
       }
     )
   }
@@ -46,8 +44,6 @@ export class AssociateListComponent implements OnInit {
     this.clientService.getAllClientsNames().subscribe(
       data => {
         this.clients = data
-      }, err => {
-
       }
     )
   }

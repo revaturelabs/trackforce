@@ -27,7 +27,6 @@ public class HibernateUtil {
 	private static SessionFactory buildSessionFactory() {
 		Configuration conf = new Configuration().configure();
 		Properties props = new Properties();
-		System.out.println(System.getenv("" + HBM_PW_ENV));
 		props.setProperty("hibernate.connection.password", System.getenv(HBM_PW_ENV));
 		conf.addProperties(props);
 		return conf.buildSessionFactory();

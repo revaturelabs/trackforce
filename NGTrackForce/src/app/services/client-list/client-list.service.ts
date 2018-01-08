@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http/src/client';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+
+/** 
+ * @author Han Jung
+ * @description service for client-list component
+ */
 
 @Injectable()
 export class ClientListService {

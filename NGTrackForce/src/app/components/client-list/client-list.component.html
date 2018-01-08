@@ -1,22 +1,25 @@
 <div class="container">
   <div class="row align-items-center">
-    
+
     <div class="col-md-3">
       <div class="form-group">
         <input type="text" placeholder="Search by client name...">
       </div>
       <h3>Clients</h3>
       <button class="btn custom-btn">View Data for All Clients</button>
-      <div id="clientListDiv" class="well">
-        <ul id="clientList">
+      <div id="clients-content" class="well">
+        <ul id="clients-list">
           <li *ngFor="let client of clients" (click)="getOneClient(client.id)">{{client.name}}</li>
         </ul>
       </div>
     </div>
     <!-- end of col-md-3 -->
     <div class="col-md-9">
-      <h1></h1><!--ngBind clientName-->
-      <canvas></canvas>
+      <h1>{{client.name}}</h1>
+      <!--ngBind clientName-->
+      <canvas id="bar-chart" class="chart chart-bar" chart-series="clientSeries" chart-colors="clientColors" 
+        chart-data="clientData" chart-label="clientLabels" chart-options="clientOptions">
+      </canvas>
     </div>
     <!-- end of col-md-9 -->
   </div>
@@ -24,5 +27,3 @@
     <div class="col-md-3"></div>
   </div>
 </div>
-
-

@@ -23,11 +23,13 @@ import { AppComponent } from './app.component';
 ///
 
 import { appRoutes } from './routing/routes';
+import { BatchListComponent } from './components/batch-list/batch-list.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BatchListComponent
   ],
   imports: [
     BrowserModule,

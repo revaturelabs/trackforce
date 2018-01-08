@@ -25,12 +25,14 @@ import {ClientListService} from './services/client-list/client-list.service';
 
 import { appRoutes } from './routing/routes';
 import { ClientListComponent } from './components/client-list/client-list.component';
+import { ClientMappedComponent } from './components/client-mapped/client-mapped.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ClientListComponent
+    ClientListComponent,
+    ClientMappedComponent
   ],
   imports: [
     BrowserModule,

@@ -24,12 +24,14 @@ import { AppComponent } from './app.component';
 
 import { appRoutes } from './routing/routes';
 import { BatchListComponent } from './components/batch-list/batch-list.component';
+import { ClientMappedComponent } from './components/client-mapped/client-mapped.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    BatchListComponent
+    BatchListComponent,
+    ClientMappedComponent
   ],
   imports: [
     BrowserModule,

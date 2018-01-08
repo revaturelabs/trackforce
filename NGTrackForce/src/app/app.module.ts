@@ -23,11 +23,13 @@ import { AppComponent } from './app.component';
 ///
 
 import { appRoutes } from './routing/routes';
+import { SkillsetComponent } from './components/skillset/skillset.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SkillsetComponent
   ],
   imports: [
     BrowserModule,

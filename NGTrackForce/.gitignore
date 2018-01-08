@@ -9,7 +9,8 @@
 /node_modules
 
 # IDEs and editors
-/.idea
+*.iml
+/.idea/t
 .project
 .classpath
 .c9/

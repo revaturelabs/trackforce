@@ -16,6 +16,7 @@ import { AppComponent } from './app.component';
 import { AssociateListComponent } from './components/associate-list/associate-list.component';
 import { BatchListComponent } from './components/batch-list/batch-list.component';
 import { ClientMappedComponent } from './components/client-mapped/client-mapped.component';
+import { CreateUserComponent } from './components/create-user/create-user.component';
 
 ///
 //  SERVICES
@@ -35,7 +36,8 @@ import { appRoutes } from './routing/routes';
     AppComponent,
     AssociateListComponent,
     BatchListComponent,
-    ClientMappedComponent
+    ClientMappedComponent,
+    CreateUserComponent
   ],
   imports: [
     BrowserModule,

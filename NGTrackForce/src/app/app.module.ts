@@ -27,11 +27,13 @@ import { AssociateService } from '../services/associates-service';
 import { appRoutes } from './routing/routes';
 import { AssociateListComponent } from './components/associate-list/associate-list.component';
 import { ClientService } from '../services/clients-service';
+import { SearchByTextFilter } from '../pipes/searchfilter.pipes';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AssociateListComponent
+    AssociateListComponent,
+    SearchByTextFilter
   ],
   imports: [
     BrowserModule,

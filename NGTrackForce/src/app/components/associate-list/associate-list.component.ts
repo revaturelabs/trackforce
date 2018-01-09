@@ -18,9 +18,9 @@ export class AssociateListComponent implements OnInit {
 
   associates: Associate[]
   clients: Client[];
-  searchByStatus: string = "";
+  searchByStatus: string = ""; //used for  filtering
   searchByClient: string = "";
-  searchByName: string = "";
+  searchByText: string = "";
 
   constructor(private associateService: AssociateService, private clientService: ClientService) { }
 

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SkillsetComponent } from './skillset.component';
 import { SelectedStatuses } from '../../services/selectedStatuses';
-import { element, by } from 'protractor';
+import { element, by, browser } from 'protractor';
 
 describe('SkillsetComponent', () => {
   let component: SkillsetComponent;
@@ -37,8 +37,18 @@ describe('SkillsetComponent', () => {
 
   it('should have buttons that trigger changeChartType()', () => {
     // click each of the buttons
-    // TODO: implement clicking the buttons and checking that changeChartType has been called, in a way that 
-    //  doesn't break the code
+    let chartChangeButtons = fixture.nativeElement.querySelector('.btn.btn-default');
+    let i = 0;
+    for (let btn of chartChangeButtons)
+    {
+      // sanity testing the buttons to make sure they are actual buttons and not indices of some array
+      expect(btn).toBeNaN(); 
+      btn.click().then((data) => {
+        // TODO: find way to check the data itself
+        expect(component.changeChartType).toHaveBeenCalledTimes(++i);
+
+      });
+    }
     
   })
 });

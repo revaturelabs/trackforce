@@ -3,11 +3,11 @@
     <div class="row">
       <div class="col-sm-6">
         <label for="name"> Search By Text: </label>
-        <input type="text" class="form-control" id="name" ([ngModel])="searchByName">
+        <input type="text" class="form-control" id="name" [(ngModel)]="searchByName">
       </div>
       <div class="col-sm-2">
         <label for="mStatus">Marketing Status: </label>
-        <select class="form-control" id="mStatus" ([ngModel])="searchByStatus">
+        <select class="form-control" id="mStatus" [(ngModel)]="searchByStatus">
           <option label=" "></option>
           <option>MAPPED: TRAINING</option>
           <option>MAPPED: RESERVED</option>
@@ -65,16 +65,19 @@
             <th>Batch Name</th>
           </tr>
         </thead>
-        <tbody *ngIf="searchByStatus === client.marketingStatus">
-          <tr *ngFor="let associate of associates"  >
-            <td>{{associate.id}}</td>
-            <td>{{associate.firstName}}</td>
-            <td>{{associate.lastName}}</td>
-            <td>{{associate.marketingStatus}}</td>
-            <td>{{associate.client}}</td>
-            <td>
-              <a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a>
-            </td>
+        <tbody>
+          <tr *ngFor="let associate of associates">
+            <ng-container *ngIf="(searchByStatus === associate.marketingStatus || searchByStatus === '') 
+            && (searchByClient === associate.client || searchByClient === '')">
+              <td>{{associate.id}}</td>
+              <td>{{associate.firstName}}</td>
+              <td>{{associate.lastName}}</td>
+              <td>{{associate.marketingStatus}}</td>
+              <td>{{associate.client}}</td>
+              <td>
+                <a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a>
+              </td>
+            </ng-container>
           </tr>
         </tbody>
       </table>

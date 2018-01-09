@@ -8,9 +8,11 @@ import { HomeComponent } from '../components/home/home.component';
 import { ClientMappedComponent } from '../components/client-mapped/client-mapped.component';
 import { AssociateListComponent } from '../components/associate-list/associate-list.component';
 import { BatchListComponent } from '../components/batch-list/batch-list.component';
+import { ClientListComponent } from '../components/client-list/client-list.component';
+import { LoginComponent } from '../components/login/login.component';
 
 /**
- * Place paths here 
+ * Place paths here
  */
 export const appRoutes: Routes = [
     {
@@ -28,5 +30,14 @@ export const appRoutes: Routes = [
     {
         path: 'batchListing',
         component: BatchListComponent
+    },
+    {
+      path: '',
+      redirectTo: '/login',
+      pathMatch: 'full'
+    },
+    {
+      path: 'login',
+      component: LoginComponent
     }
 ]

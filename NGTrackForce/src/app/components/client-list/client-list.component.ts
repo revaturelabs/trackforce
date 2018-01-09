@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ClientListService } from '../../services/client-list/client-list.service';
+import { ClientService } from '../../../services/clients-service';
 import { Subject } from 'rxjs/Subject';
 
 /**
@@ -15,23 +15,25 @@ import { Subject } from 'rxjs/Subject';
 export class ClientListComponent implements OnInit {
 
   public clientNames;
-  private searchName = new Subject<string>();
+  private searchName;
   
   constructor(
-    private http: HttpClient,
-    private clientListService: ClientListService) { }
+    private clientService: ClientService) { }
 
   ngOnInit() {
     this.getAllClientNames();
   }
 
   getAllClientNames() {
-    this.clientListService.getAllClientsNames()
+    this.clientService.getAllClientsNames()
       .subscribe(clientNames => this.clientNames = clientNames);
-
+      console.log(this.clientNames);
   }
 
   getAllClients() {
+
+  }
+  getOneClient(){
 
   }
 

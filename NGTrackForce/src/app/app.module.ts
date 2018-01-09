@@ -7,8 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpModule, JsonpModule } from '@angular/http';
-
+import { HttpModule } from '@angular/http';
 ///
 //  COMPONENTS
 ///
@@ -22,7 +21,6 @@ import { ClientMappedComponent } from './components/client-mapped/client-mapped.
 //  SERVICES
 ///
 
-import {ClientListService} from './services/client-list/client-list.service';
 import { AssociateService } from '../services/associates-service';
 import { ClientService } from '../services/clients-service';
 
@@ -49,7 +47,7 @@ import { ClientListComponent } from './components/client-list/client-list.compon
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AssociateService, ClientListService, ClientService],
+  providers: [AssociateService, ClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

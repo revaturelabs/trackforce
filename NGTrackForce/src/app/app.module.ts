@@ -34,13 +34,10 @@ import { SkillsetComponent } from './components/skillset/skillset.component';
 @NgModule({
   declarations: [
     AppComponent,
-<<<<<<< HEAD
-    SkillsetComponent
-=======
+    SkillsetComponent,
     AssociateListComponent,
     BatchListComponent,
     ClientMappedComponent
->>>>>>> c14c785c115c37b336dbabd9f545b4c581602b05
   ],
   imports: [
     BrowserModule,

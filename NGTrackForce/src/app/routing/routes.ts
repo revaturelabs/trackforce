@@ -4,6 +4,7 @@
  */
 
 import { RouterModule, Routes } from '@angular/router';
+import { ClientListComponent } from '../components/client-list/client-list.component';
 
 import { LoginComponent } from '../components/login/login.component';
 /**
@@ -11,6 +12,10 @@ import { LoginComponent } from '../components/login/login.component';
  */
 
 export const appRoutes: Routes = [
+  {
+        path: 'client-list',
+        component: ClientListComponent,
+  },
   {
     path: '',
     redirectTo: '/login',
@@ -20,5 +25,4 @@ export const appRoutes: Routes = [
     path: 'login',
     component: LoginComponent
   }
-
 ]

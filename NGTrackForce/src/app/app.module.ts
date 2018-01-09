@@ -3,12 +3,12 @@
 ///
 
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule, JsonpModule } from '@angular/http';
 
+import { FormsModule } from '@angular/forms';
 
 ///
 //  COMPONENTS
@@ -21,22 +21,24 @@ import { ClientMappedComponent } from './components/client-mapped/client-mapped.
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { LoginComponent } from './components/login/login.component';
 import { ClientListComponent } from './components/client-list/client-list.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { HomeComponent } from './components/home/home.component';
 
 ///
 //  SERVICES
 ///
 
-import { AssociateService } from '../services/associates-service';
-import { ClientService } from '../services/clients-service';
+import { AssociateService } from './services/associates-service/associates-service';
+import { ClientService } from './services/clients-service/clients-service';
 import { ClientMappedService } from './services/client-mapped-service/client-mapped-service.service';
+import { HomeService } from './services/home-service/home-service';
 
 ///
 //  CONSTANTS
 ///
 
 import { appRoutes } from './routing/routes';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { HomeComponent } from './components/home/home.component';
+
 
 
 
@@ -47,11 +49,12 @@ import { HomeComponent } from './components/home/home.component';
     HomeComponent,
     AssociateListComponent,
     BatchListComponent,
+<<<<<<< HEAD
+=======
+    ClientMappedComponent,
+>>>>>>> 0ea29a97a86ea5e57761d25bc849bbc7d3f486d5
     ClientListComponent,
     LoginComponent,
-    AssociateListComponent,
-    BatchListComponent,
-    ClientMappedComponent,
     CreateUserComponent
   ],
   imports: [
@@ -62,7 +65,7 @@ import { HomeComponent } from './components/home/home.component';
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AssociateService, ClientService, ClientMappedService],
+  providers: [AssociateService, ClientService, ClientMappedService, HomeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

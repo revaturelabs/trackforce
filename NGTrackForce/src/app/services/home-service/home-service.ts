@@ -16,14 +16,18 @@ export class HomeService{
     }
 
     emptyDatabase(){
-        return this.http.get(environment.url + '/database/deleteFromDB');
+        this.http.get(environment.url + '/database/deleteFromDB');
     }
 
     populateDBSF(){
-        return this.http.get(environment.url + '/database/populateDBSF');
+        this.http.get(environment.url + '/database/populateDBSF');
     }
 
     populateDB(){
-        return this.http.get(environment.url + '/database/populateDB');
+        this.http.get(environment.url + '/database/populateDB');
+    }
+
+    cleanCache(){
+        this.http.put(environment.url + '/TrackForce/track/init', {});
     }
 }

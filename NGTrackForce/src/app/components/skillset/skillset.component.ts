@@ -12,12 +12,17 @@ import { SelectedStatuses } from '../../services/selectedStatuses';
  * @author : Michael Warren
  */
 export class SkillsetComponent implements OnInit {
+  /**
+   * The selected status 
+   */
   @Input() selectedStatus : string;
   /**
    * Map of selected status to skill id
    */
   static SKILL_INFO : Map<String, any>;
-
+  /**
+   * The id of skill, probably to hit the API with
+   */
   private skillID : number;
 
   
@@ -36,8 +41,14 @@ export class SkillsetComponent implements OnInit {
   
   ngOnInit(): void {
     // get skillID
-    this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus);
+    this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || 0;
 
+  }
+
+  changeChartType(type : String)
+  {
+    // it's a mock, for right now
+    return type;
   }
   
 

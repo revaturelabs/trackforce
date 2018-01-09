@@ -1,5 +1,4 @@
 <div class="container">
-	<div ng-init="onLoad()"><!-- Is this even necessary?! -->
 	<div class="row">
 		<div class="col-md-6">
 		<button ng-click="changeChartType('bar')" class="btn btn-default">Bar Chart</button>
@@ -13,8 +12,7 @@
 				Name</h3><br/>
 			<canvas id="bar" class="chart chart-bar" chart-type="chartType" chart-data="skillsetData"
 				chart-colors="skillTheme" chart-click="skillsetClick" chart-labels="skillsetLabels" chart-options="options">
-		</canvas>
-		</div>
+			</canvas>
 		</div>
 	</div>
 </div>

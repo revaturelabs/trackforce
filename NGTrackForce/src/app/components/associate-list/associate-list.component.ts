@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AssociateService } from '../../../services/associates-service';
+import { AssociateService } from '../../services/associates-service';
 import { Associate } from '../../../models/Associate';
-import { ClientService } from '../../../services/clients-service';
+import { ClientService } from '../../services/clients-service';
 import { Client } from '../../../models/Client';
 
 /**
@@ -18,9 +18,9 @@ export class AssociateListComponent implements OnInit {
 
   associates: Associate[]
   clients: Client[];
-  searchByStatus: string = "";
+  searchByStatus: string = ""; //used for  filtering
   searchByClient: string = "";
-  searchByName: string = "";
+  searchByText: string = "";
 
   constructor(private associateService: AssociateService, private clientService: ClientService) { }
 

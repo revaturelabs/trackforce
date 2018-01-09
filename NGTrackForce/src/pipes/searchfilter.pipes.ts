@@ -1,0 +1,28 @@
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'filterByText'
+})
+
+/**
+ * Pipe to filter searches based on user input
+ * @author Alex
+ */
+export class SearchByTextFilter implements PipeTransform {
+    transform(items: any[], searchText: string): any[] {
+ 
+        
+        if (!items) return [];
+        if (!searchText) return items;
+        searchText = searchText.toLowerCase();
+
+        //return results that contain firstname, lastname, status, client, ic
+        return items.filter(associate => {
+            return associate.firstName.toLowerCase().includes(searchText) 
+            || associate.lastName.toLowerCase().includes(searchText)
+            || associate.marketingStatus.toLowerCase().includes(searchText)
+            || associate.client.toLowerCase().includes(searchText)
+            || associate.id == searchText;
+        });
+    }
+}

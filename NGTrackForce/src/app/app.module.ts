@@ -7,7 +7,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule, JsonpModule } from '@angular/http';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 ///
@@ -23,19 +22,21 @@ import { ClientMappedComponent } from './components/client-mapped/client-mapped.
 //  SERVICES
 ///
 
-import { AssociateService } from '../services/associates-service';
-import { ClientService } from '../services/clients-service';
+import { AssociateService } from './services/associates-service';
+import { ClientService } from './services/clients-service';
 
 ///
 //  CONSTANTS
 ///
 
 import { appRoutes } from './routing/routes';
+import { SearchByTextFilter } from '../pipes/searchfilter.pipes';
 
 @NgModule({
   declarations: [
     AppComponent,
     AssociateListComponent,
+    SearchByTextFilter,
     BatchListComponent,
     ClientMappedComponent
   ],

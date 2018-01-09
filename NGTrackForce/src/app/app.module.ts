@@ -25,6 +25,7 @@ import { ClientListComponent } from './components/client-list/client-list.compon
 
 import { AssociateService } from '../services/associates-service';
 import { ClientService } from '../services/clients-service';
+import { ClientMappedService } from './services/client-mapped-service/client-mapped-service.service';
 
 ///
 //  CONSTANTS
@@ -50,7 +51,7 @@ import { appRoutes } from './routing/routes';
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AssociateService, ClientService],
+  providers: [AssociateService, ClientService, ClientMappedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

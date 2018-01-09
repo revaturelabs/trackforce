@@ -3,6 +3,7 @@
 ///
 
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -21,6 +22,7 @@ import { ClientMappedComponent } from './components/client-mapped/client-mapped.
 //  SERVICES
 ///
 
+import {ClientListService} from './services/client-list/client-list.service';
 import { AssociateService } from '../services/associates-service';
 import { ClientService } from '../services/clients-service';
 
@@ -29,21 +31,25 @@ import { ClientService } from '../services/clients-service';
 ///
 
 import { appRoutes } from './routing/routes';
+import { ClientListComponent } from './components/client-list/client-list.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    ClientListComponent,
     AssociateListComponent,
     BatchListComponent,
     ClientMappedComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AssociateService, ClientService],
+  providers: [AssociateService, ClientListService, ClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

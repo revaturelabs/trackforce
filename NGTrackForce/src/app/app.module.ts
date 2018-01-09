@@ -3,7 +3,6 @@
 ///
 
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -31,6 +30,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AssociateService } from './services/associates-service/associates-service';
 import { ClientService } from './services/clients-service/clients-service';
 import { ClientMappedService } from './services/client-mapped-service/client-mapped-service.service';
+import { HomeService } from './services/home-service/home-service';
 
 ///
 //  CONSTANTS
@@ -61,7 +61,7 @@ import { appRoutes } from './routing/routes';
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AssociateService, ClientService, ClientMappedService],
+  providers: [AssociateService, ClientService, ClientMappedService, HomeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

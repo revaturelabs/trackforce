@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http/src/client";
+import { environment } from "../../../environments/environment";
 
 
 @Injectable()
@@ -11,18 +12,18 @@ export class HomeService{
     }
 
     getAllData(){
-        return this.http.get(this.url + '/info');
+        return this.http.get(environment.url + '/info');
     }
 
     emptyDatabase(){
-        return this.http.get(this.url + '/database/deleteFromDB');
+        return this.http.get(environment.url + '/database/deleteFromDB');
     }
 
     populateDBSF(){
-        return this.http.get(this.url + '/database/populateDBSF');
+        return this.http.get(environment.url + '/database/populateDBSF');
     }
 
     populateDB(){
-        return this.http.get(this.url + '/database/populateDB');
+        return this.http.get(environment.url + '/database/populateDB');
     }
 }

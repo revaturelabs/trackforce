@@ -6,7 +6,7 @@ export class Associate {
     id : number
     firstName : string
     lastName : string
-    status : string
+    marketingStatus : string
     client : string
     batch : string
 }

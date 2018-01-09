@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map'
 import { Associate } from "../models/Associate";
 import { Response } from "@angular/http/src/static_response";
 
+
 @Injectable()
 export class AssociateService {
 

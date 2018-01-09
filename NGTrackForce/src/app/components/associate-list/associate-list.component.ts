@@ -17,13 +17,16 @@ import { Client } from '../../../models/Client';
 export class AssociateListComponent implements OnInit {
 
   associates: Associate[]
-  clients: Client[]
+  clients: Client[];
+  searchByStatus: string = "";
+  searchByClient: string = "";
+  searchByName: string = "";
 
   constructor(private associateService: AssociateService, private clientService: ClientService) { }
 
   ngOnInit() {
-    this.getAllAssociates()
-    this.getClientNames()
+    this.getAllAssociates();
+    this.getClientNames();
   }
 
   /**
@@ -32,7 +35,7 @@ export class AssociateListComponent implements OnInit {
   getAllAssociates() {
     this.associateService.getAllAssociates().subscribe(
       data => {
-        this.associates = data
+        this.associates = data;
       }
     )
   }
@@ -43,7 +46,7 @@ export class AssociateListComponent implements OnInit {
   getClientNames() {
     this.clientService.getAllClientsNames().subscribe(
       data => {
-        this.clients = data
+        this.clients = data;
       }
     )
   }

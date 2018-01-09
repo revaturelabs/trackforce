@@ -3,11 +3,11 @@
     <div class="row">
       <div class="col-sm-6">
         <label for="name"> Search By Text: </label>
-        <input type="text" class="form-control" id="name" ng-model="searchByName">
+        <input type="text" class="form-control" id="name" [(ngModel)]="searchByName">
       </div>
       <div class="col-sm-2">
         <label for="mStatus">Marketing Status: </label>
-        <select class="form-control" id="mStatus" ng-model="searchByStatus">
+        <select class="form-control" id="mStatus" [(ngModel)]="searchByStatus">
           <option label=" "></option>
           <option>MAPPED: TRAINING</option>
           <option>MAPPED: RESERVED</option>
@@ -30,7 +30,7 @@
       </div> -->
       <div class="col-sm-2">
         <label for="client">Client: </label>
-        <select class="form-control" id="client" ng-model="searchByClient">
+        <select class="form-control" id="client" [(ngModel)]="searchByClient">
           <option label=" "></option>
           <option selected="selected">None</option>
           <option *ngFor="let client of clients">{{client.name}}</option>
@@ -42,15 +42,15 @@
   <div class="well">
     <h5>Show:
       <a>
-        <span ng-click="limit = 10">10</span>
+        <span (click)="limit = 10">10</span>
       </a>
       <span> </span>
       <a>
-        <span ng-click="limit = 50">50</span>
+        <span (click)="limit = 50">50</span>
       </a>
       <span> </span>
       <a>
-        <span ng-click="limit = 100">100</span>
+        <span (click)="limit = 100">100</span>
       </a>
     </h5>
     <div class="table-responsive">
@@ -67,14 +67,17 @@
         </thead>
         <tbody>
           <tr *ngFor="let associate of associates">
-            <td>{{associate.id}}</td>
-            <td>{{associate.firstName}}</td>
-            <td>{{associate.lastName}}</td>
-            <td>{{associate.status}}</td>
-            <td>{{associate.client}}</td>
-            <td>
-              <a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a>
-            </td>
+            <ng-container *ngIf="(searchByStatus === associate.marketingStatus || searchByStatus === '') 
+            && (searchByClient === associate.client || searchByClient === '')">
+              <td>{{associate.id}}</td>
+              <td>{{associate.firstName}}</td>
+              <td>{{associate.lastName}}</td>
+              <td>{{associate.marketingStatus}}</td>
+              <td>{{associate.client}}</td>
+              <td>
+                <a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a>
+              </td>
+            </ng-container>
           </tr>
         </tbody>
       </table>

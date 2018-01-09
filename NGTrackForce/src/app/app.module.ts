@@ -8,6 +8,8 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule, JsonpModule } from '@angular/http';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 ///
 //  COMPONENTS
 ///
@@ -41,7 +43,9 @@ import { appRoutes } from './routing/routes';
     BrowserModule,
     HttpClientModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [AssociateService, ClientService],
   bootstrap: [AppComponent]

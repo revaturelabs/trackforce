@@ -24,8 +24,8 @@ import { ClientListComponent } from './components/client-list/client-list.compon
 //  SERVICES
 ///
 
-import { AssociateService } from '../services/associates-service';
-import { ClientService } from '../services/clients-service';
+import { AssociateService } from './services/associates-service/associates-service';
+import { ClientService } from './services/clients-service/clients-service';
 import { ClientMappedService } from './services/client-mapped-service/client-mapped-service.service';
 
 ///

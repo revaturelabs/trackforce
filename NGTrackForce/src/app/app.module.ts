@@ -16,6 +16,7 @@ import { AppComponent } from './app.component';
 import { AssociateListComponent } from './components/associate-list/associate-list.component';
 import { BatchListComponent } from './components/batch-list/batch-list.component';
 import { ClientMappedComponent } from './components/client-mapped/client-mapped.component';
+import { CreateUserComponent } from './components/create-user/create-user.component';
 import { LoginComponent } from './components/login/login.component';
 import { ClientListComponent } from './components/client-list/client-list.component';
 
@@ -42,7 +43,8 @@ import { appRoutes } from './routing/routes';
     LoginComponent,
     AssociateListComponent,
     BatchListComponent,
-    ClientMappedComponent
+    ClientMappedComponent,
+    CreateUserComponent
   ],
   imports: [
     BrowserModule,

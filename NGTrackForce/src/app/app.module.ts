@@ -7,7 +7,9 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
+import { HttpModule, JsonpModule } from '@angular/http';
+
 ///
 //  COMPONENTS
 ///
@@ -19,6 +21,8 @@ import { ClientMappedComponent } from './components/client-mapped/client-mapped.
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { LoginComponent } from './components/login/login.component';
 import { ClientListComponent } from './components/client-list/client-list.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { HomeComponent } from './components/home/home.component';
 
 ///
 //  SERVICES
@@ -36,20 +40,24 @@ import { appRoutes } from './routing/routes';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    ClientListComponent,
-    LoginComponent,
+    NavbarComponent,
+    HomeComponent,
     AssociateListComponent,
     BatchListComponent,
     ClientMappedComponent,
+    ClientListComponent,
+    LoginComponent,
     CreateUserComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],

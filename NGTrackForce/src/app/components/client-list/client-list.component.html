@@ -3,7 +3,7 @@
 
     <div class="col-md-3">
       <div class="form-group">
-        <input type="text" placeholder="Search by client name...">
+        <input type="text" [(ngModel)]="searchName" class="form-control" id="clientSearch" placeholder="Search by client name...">
       </div>
       <h3>Clients</h3>
       <button class="btn custom-btn">View Data for All Clients</button>
@@ -17,8 +17,8 @@
     <div class="col-md-9">
       <h1>{{client.name}}</h1>
       <!--ngBind clientName-->
-      <canvas id="bar-chart" class="chart chart-bar" chart-series="clientSeries" chart-colors="clientColors" 
-        chart-data="clientData" chart-label="clientLabels" chart-options="clientOptions">
+      <canvas id="bar-chart" class="chart chart-bar" chart-series="clientSeries" chart-colors="clientColors" chart-data="clientData"
+        chart-label="clientLabels" chart-options="clientOptions">
       </canvas>
     </div>
     <!-- end of col-md-9 -->

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map'
-import { Associate } from "../../../models/Associate";
+import { Associate } from "../../models/Associate";
 import { Response } from "@angular/http/src/static_response";
 import { HttpClient } from "@angular/common/http/";
 

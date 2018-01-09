@@ -1,17 +1,17 @@
 import { Injectable } from "@angular/core";
-import { Http } from '@angular/http';
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map'
 import { Associate } from "../models/Associate";
 import { Response } from "@angular/http/src/static_response";
+import { HttpClient } from "@angular/common/http/";
 
 @Injectable()
 export class ClientService {
-
+    private url: string = 'localhost:8080/TrackForce/track';
     status: string
     client: string
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
 
     }
 
@@ -19,8 +19,15 @@ export class ClientService {
      * Fetch the names of all of the clients
      */
     getAllClientsNames() {
-        let url = "http://localhost:8085/TrackForce/track/clients"
-
-        return this.http.get(url).map((response: Response) => response.json())
+        return this.http.get(this.url + '/clients');
     }
+    
+    getAllClients() {
+        return this.http.get(this.url + '/info');
+    }
+
+    getOneClient(clientName:string) {
+        return this.http.get(this.url + '/clients/' + clientName);
+    }
+
 }

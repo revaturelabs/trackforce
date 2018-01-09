@@ -38,7 +38,7 @@ import { HomeComponent } from './components/home/home.component';
   declarations: [
     AppComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
     AssociateListComponent,
     BatchListComponent,
     ClientMappedComponent

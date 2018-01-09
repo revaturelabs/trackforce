@@ -16,6 +16,8 @@ import { AppComponent } from './app.component';
 import { AssociateListComponent } from './components/associate-list/associate-list.component';
 import { BatchListComponent } from './components/batch-list/batch-list.component';
 import { ClientMappedComponent } from './components/client-mapped/client-mapped.component';
+import { LoginComponent } from './components/login/login.component';
+import { ClientListComponent } from './components/client-list/client-list.component';
 
 ///
 //  SERVICES
@@ -29,13 +31,14 @@ import { ClientService } from '../services/clients-service';
 ///
 
 import { appRoutes } from './routing/routes';
-import { ClientListComponent } from './components/client-list/client-list.component';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ClientListComponent,
+    LoginComponent,
     AssociateListComponent,
     BatchListComponent,
     ClientMappedComponent

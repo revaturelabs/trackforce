@@ -16,13 +16,11 @@ export class ClientMappedComponent implements OnInit {
     private clientMappedService: ClientMappedService,
     private http: HttpClient
   ) { }
-  // constructor() { }
 
   ngOnInit() {
     console.log("Inisde ngOnInit");
-    // this.clientMappedService.getAssociatesByStatus()
 
-    this.http.get(environment.url + 'TrackForce/track/client/'+ this.statusID).subscribe( data => {
+    this.clientMappedService.getAssociatesByStatus().subscribe( data => {
       console.log(data);
     })
   }

@@ -40,8 +40,6 @@ import { HomeService } from './services/home-service/home-service';
 import { appRoutes } from './routing/routes';
 
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,10 +47,7 @@ import { appRoutes } from './routing/routes';
     HomeComponent,
     AssociateListComponent,
     BatchListComponent,
-<<<<<<< HEAD
-=======
     ClientMappedComponent,
->>>>>>> 0ea29a97a86ea5e57761d25bc849bbc7d3f486d5
     ClientListComponent,
     LoginComponent,
     CreateUserComponent

@@ -3,6 +3,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { HomeService } from '../../services/home-service/home-service';
 
 @Component({
   selector: 'app-home',
@@ -12,8 +13,9 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   button: string;
+  data: {};
 
-  constructor() { }
+  constructor(homeService: HomeService) { }
 
   ngOnInit() {
     this.button = 'Populate Database';

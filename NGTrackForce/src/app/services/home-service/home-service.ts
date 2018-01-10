@@ -3,7 +3,7 @@
  * @author Leng Vang
  */
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http/src/client";
+import { HttpClient } from '@angular/common/http';
 import { environment } from "../../../environments/environment";
 
 
@@ -11,7 +11,7 @@ import { environment } from "../../../environments/environment";
 export class HomeService{
     private url: string = 'localhost:8080/TrackForce/track';
 
-    constructor(private http: HttpClient){
+    constructor(private http: HttpClient){ 
 
     }
 

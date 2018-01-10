@@ -8,11 +8,7 @@ module.exports = function (config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
-<<<<<<< HEAD
 	  require('karma-phantomjs-launcher'),
-=======
-      require('karma-phantomjs-launcher'),
->>>>>>> 670628564e05cf452de71ad090b384cd2a2c3ae2
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
       require('@angular/cli/plugins/karma')

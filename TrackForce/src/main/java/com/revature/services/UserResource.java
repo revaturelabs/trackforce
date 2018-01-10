@@ -55,19 +55,24 @@ public class UserResource {
 		UserJSON userjson = null;
 		
 		try {
+			//Attempts to get the user from the database based on username
 			TfUser tfUser = userDaoImpl.getUser(username);
 			if (tfUser != null) {
 				String hashedPassword = tfUser.getTfUserHashpassword();
+				//If the user object is empty, the user is invalid
 				if (tfUser.equals(new TfUser())) {
 					return Response.status(400).build();
 				}
 				else if (PasswordStorage.verifyPassword(password, hashedPassword)) {
 					TfRole tfRole = tfUser.getTfRole();
 					userjson = new UserJSON();
+					
 					if(tfRole != null) {
 						BigDecimal tfRoleId = tfRole.getTfRoleId();
 						String tfUserName = tfUser.getTfUserUsername();
+						//If the user have a valid role and username, a 200 can be returned
 						if(tfRoleId != null && tfUserName != null) {
+							//Sets the role id and username to the userjson object, which is set back to angular
 							userjson.setTfRoleId(tfRoleId);
 							userjson.setUsername(tfUserName);
 							
@@ -80,6 +85,7 @@ public class UserResource {
 		catch(CannotPerformOperationException | InvalidHashException e) {
 			LogUtil.logger.error(e);
 		}
+		//Default return is 400 for a bad request
 		return Response.status(400).build();
 	}
 

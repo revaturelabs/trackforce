@@ -15,9 +15,10 @@ import { Client } from '../../models/Client';
 })
 export class ClientListComponent implements OnInit {
   private selectedCompany: string;
+  private clientInfo: Client[];
   private clientNames: string[] = [];
-  private clients: Client[];
-  private searchName = "";
+  private client$: Client;
+  private searchName;
 
 
   constructor(
@@ -26,7 +27,6 @@ export class ClientListComponent implements OnInit {
   ngOnInit() {
     this.getAllClientNames();
     this.getAllClients();
-    this.selectedCompany = "Marketing status for all clients";
   }
 
   // get client names from data and push to clientNames string array
@@ -34,6 +34,8 @@ export class ClientListComponent implements OnInit {
     this.clientService.getAllClientsNames()
       .subscribe(
       clientNames => {
+        // save array of object Client
+        this.clientInfo = clientNames;
         // clear name list to reload list and run through filter
         this.clientNames.length = 0;
         // push list of names to an array
@@ -49,19 +51,18 @@ export class ClientListComponent implements OnInit {
     this.clientService.getAllClients()
       .subscribe(
       // assign response to this.clients
-      clients => {
-        this.clients = clients;
+      client => {
+        this.client$ = client;
+        this.selectedCompany = this.client$.name;
       }, err => {
         console.log("Failed grabbing clients");
-      }
-      )
+      });
   }
+
   getOneClient(name: string) {
     this.selectedCompany = name;
-    let oneClient;
-    console.log(this.clients);
-
-
+    let oneClient = this.clientInfo.find(item => item.name == name);
+    this.clientService.getOneClient(oneClient.id);
   }
 
 }

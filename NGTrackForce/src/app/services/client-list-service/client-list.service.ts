@@ -23,8 +23,8 @@ export class ClientListService {
   }
 
   // get first match of Client Object
-  getOneClient(clientName: string) {
-    return this.http.get(this.url + '/clients/' + clientName);
+  getOneClient(clientId: number) {
+    return this.http.get(this.url + '/clients/' + clientId);
   }
 
 }

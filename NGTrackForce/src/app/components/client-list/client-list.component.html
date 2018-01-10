@@ -6,9 +6,10 @@
         <input type="text" [(ngModel)]="searchName" (keyup) ="getAllClientNames()" class="form-control" id="clientSearch" placeholder="Search by client name...">
       </div>
       <h3>Clients</h3>
-      <button (click)="ngOnInit()" class="btn custom-btn">View Data for All Clients</button>
-      <div id="clients-content" class="well">
+      <button (click)="getAllClients()" class="btn custom-btn">View Data for All Clients</button>
+      <div id="clients-list-well" class="well">
         <ul id="clients-list">
+          <!-- populate list of company names -->
           <li *ngFor="let clientName of clientNames | searchFilter : searchName" (click)="getOneClient(clientName)">{{clientName}}</li>
 
         </ul>

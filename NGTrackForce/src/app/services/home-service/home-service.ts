@@ -3,7 +3,7 @@
  * @author Leng Vang
  */
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http/src/client";
+import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AssociateService } from '../../../services/associates-service';
+import { AssociateService } from '../../services/associates-service/associates-service';
 import { Associate } from '../../../models/Associate';
-import { ClientService } from '../../../services/clients-service';
+import { ClientService } from '../../services/clients-service/clients-service';
 import { Client } from '../../../models/Client';
 
 /**
@@ -43,7 +43,7 @@ export class AssociateListComponent implements OnInit {
   getClientNames() {
     this.clientService.getAllClientsNames().subscribe(
       data => {
-        this.clients = data
+        // this.clients = data
       }
     )
   }

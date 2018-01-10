@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ClientService } from '../../../services/clients-service';
+import { ClientService } from '../../services/clients-service/clients-service';
 import { Subject } from 'rxjs/Subject';
 
 /**

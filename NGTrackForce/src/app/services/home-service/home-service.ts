@@ -9,15 +9,17 @@ import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class HomeService{
-    private url: string = 'localhost:8080/TrackForce/track';
+    //private url: string = 'localhost:8080/TrackForce/track';
+    private url: string = 'http://ec2-54-209-164-28.compute-1.amazonaws.com:8080/TrackForce/track'
 
-    constructor(private http: HttpClient){ 
-
+    constructor(private http: HttpClient){
     }
 
     //Get all data needed regarding batches 
     getAllData(){
-        return this.http.get(environment.url + '/info');
+        //return this.http.get(environment.url + '/TrackForce/track/info');
+        console.log(this.url + '/info');
+        return this.http.get(this.url + '/info');
     }
 
     //Clear database of all data
@@ -40,3 +42,4 @@ export class HomeService{
         this.http.put(environment.url + '/TrackForce/track/init', {});
     }
 }
+

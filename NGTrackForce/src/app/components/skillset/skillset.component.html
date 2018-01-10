@@ -1,18 +1,30 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-6">
-		<button (ngClick)="changeChartType('bar')" class="btn btn-default">Bar Chart</button>
-		<button (ngClick)="changeChartType('pie')" class="btn btn-default">Pie Chart</button>
-		<button (ngClick)="changeChartType('polarArea')" class="btn btn-default">Polar Chart</button>
+		<button (click)="changeChartType('bar')" class="btn btn-default">Bar Chart</button>
+		<button (click)="changeChartType('pie')" class="btn btn-default">Pie Chart</button>
+		<button (click)="changeChartType('polarArea')" class="btn btn-default">Polar Chart</button>
 		</div>
 		</div>
 	<div class="row">
 		<div class="col-lg-6">
-			<h3 class="text-center text-primary" ng-bind="selectedStatus">Status
-				Name</h3><br/>
-			<canvas id="bar" class="chart chart-bar" chart-type="chartType" chart-data="skillsetData"
-				chart-colors="skillTheme" chart-click="skillsetClick" chart-labels="skillsetLabels" chart-options="options">
+			<h3 class="text-center text-primary">{{selectedStatus}}</h3><br/>
+			<!-- TODO: figure out how to convert this['chart-click'],this['chart-colors'] to TypeScript -->
+			<canvas *ngIf="USE_NG2_CHART; else chartJSCanvas"
+				id="bar" 
+				class="chart chart-bar"
+				[chartType]="chartType"
+				[datasets]="skillsetData"
+				chart-colors="skillTheme"
+				chart-click="skillsetClick" 
+				[labels]="skillsetLabels"
+				[options]="options">
 			</canvas>
+			<ng-template #chartJSCanvas>
+				<div *ngIf="chart">
+					<canvas id="canvas">{{ chart }}</canvas>
+				</div>
+			</ng-template>
 		</div>
 	</div>
 </div>

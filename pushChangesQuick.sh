@@ -25,6 +25,8 @@ else
 	[[ ! -z "$2" ]] && git pull origin $2 || git pull origin $FROM_BRANCH
 	# add everything
 	git add .
+	# remove this file from checkout, whatever its name
+	git rm `basename "$0"`
 	# if there was a first parameter passed into this script, use it for the message. Else, just commit
 	[[ ! -z "$1" ]] && git commit -m "$1" || git commit
 	# if there was a second parameter passed into this script, push to TO_BRANCH. Else, push to that second parameter

@@ -1,0 +1,31 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-1"></div>
+      <div class="col-sm-4">
+
+        <div class="well">
+          <canvas id="pie" class="chart chart-pie" chart-data="UndeployedData" chart-colors="mappedColors" chart-labels="UndeployedLabels" chart-options="undeployedOptions"></canvas>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="well">
+          <canvas id="pie" class="chart chart-pie" chart-data="MappedData" chart-labels="MappedLabels" chart-click="MappedOnClick" chart-colors="clientTheme" chart-options="mappedOptions"></canvas>
+        </div>
+    </div>
+          <div class="col-sm-3">
+                  <button (click)="populateDB()" class="btn btn-block">{{button}}</button>
+                  <button (click)="refresh()" class="btn btn-block" >Refresh</button>
+                  <p>{{dbMessage}}</p>
+
+          </div>
+  </div>
+  <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-4">
+              <div class="well">
+                  <canvas id="pie" class="chart chart-pie" chart-data="UnmappedData" chart-labels="UnmappedLabels" chart-colors="skillTheme" chart-options="unmappedOptions" chart-click="UnmappedOnClick"></canvas>
+               </div>
+          </div>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SelectedStatuses } from '../../services/selectedStatuses';
 import { AutoUnsubscribe } from '../../autoUnsubscribe';
+import { ChartScale } from '../chart-properties/scale.properties';
 
 @Component({
   selector: 'app-skillset',
@@ -77,6 +78,9 @@ export class SkillsetComponent implements OnInit {
 
   }
 
+  /**
+   * Changes the chart type of this component (does this really need explanation?!)
+   */
   changeChartType(type : string)
   {
     this.chartType = type;
@@ -102,16 +106,7 @@ export class SkillsetComponent implements OnInit {
           display:false
         };
         // ...but give scales...
-        this.chartOptions.scales = 
-        {
-          yAxes: [
-            {
-              ticks: {
-                min:0
-              }
-            }
-          ]
-        };
+        this.chartOptions.scales = new ChartScale();
         break;
     }
     // it's a mock, for right now

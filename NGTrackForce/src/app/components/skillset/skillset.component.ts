@@ -62,8 +62,7 @@ export class SkillsetComponent implements OnInit {
   
   constructor() {
     // setup SKILL_INFO
-    if (!SkillsetComponent.SKILL_INFO)
-    {
+    if (!SkillsetComponent.SKILL_INFO) {
       SkillsetComponent.SKILL_INFO = new Map();
       SkillsetComponent.SKILL_INFO.set(SelectedStatuses.TRAINING, 6);
       SkillsetComponent.SKILL_INFO.set(SelectedStatuses.OPEN, 7);
@@ -81,13 +80,11 @@ export class SkillsetComponent implements OnInit {
   /**
    * Changes the chart type of this component (does this really need explanation?!)
    */
-  changeChartType(type : string)
-  {
+  changeChartType(type : string) {
     this.chartType = type;
     // changing some chartOptions pre-emptively
     this.chartOptions.type = type;
-    switch (type)
-    {
+    switch (type) {
       // if type is either PIE or POLAR_AREA...
       case SkillsetComponent.chartTypes.PIE:
       case SkillsetComponent.chartTypes.POLAR_AREA:
@@ -116,8 +113,7 @@ export class SkillsetComponent implements OnInit {
   /**
    * Exposing SKILL_INFO in a safe way
    */
-  public static getSkillInfo()
-  {
+  public static getSkillInfo() {
     return SkillsetComponent.SKILL_INFO;
   }
 

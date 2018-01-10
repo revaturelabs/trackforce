@@ -43,7 +43,14 @@ export class SkillsetComponent implements OnInit {
     type : this.chartType,
     legend : {
       display : false
-    }
+    },
+    xAxes:[
+      {
+        ticks: {
+          autoSkip:false
+        }
+      }
+    ]
   };
   
   constructor() {
@@ -66,60 +73,41 @@ export class SkillsetComponent implements OnInit {
 
   changeChartType(type : string)
   {
-    // TODO: change this to actual business logic
     this.chartType = type;
+    // changing some chartOptions pre-emptively
+    this.chartOptions.type = type;
     switch (type)
     {
       case SkillsetComponent.chartTypes.PIE:
       case SkillsetComponent.chartTypes.POLAR_AREA:
-        this.chartOptions = {
-            type:type, 
-            legend: {
-                display : true,
-                position: 'right'
-            },
-            xAxes:[
-              {
-                ticks: {
-                  autoSkip:false
-                }
-              }
-            ]
+        this.chartOptions.legend = {
+          display : true,
+          position: 'right'
         };
-
+        if (this.chartOptions.scales) delete this.chartOptions.scales;
         return;
       case SkillsetComponent.chartTypes.BAR:
 
-        this.chartOptions = { 
-          type:type,
-          legend: {
-            display:false
-          },
-          xAxes:[
+        this.chartOptions.legend = {
+          display:false
+        };
+        this.chartOptions.scales = 
+        {
+          yAxes: [
             {
               ticks: {
-                autoSkip:false
+                min:0
               }
             }
-          ],
-          scales: 
-            {
-              yAxes: [
-                {
-                  ticks: {
-                    min:0
-                  }
-                }
-              ]
-            }
-          };
+          ]
+        };
         return;
     }
     // it's a mock, for right now
     return type;
   }
   
-  public getSkillInfo()
+  public static getSkillInfo()
   {
     return SkillsetComponent.SKILL_INFO;
   }

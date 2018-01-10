@@ -26,8 +26,8 @@ describe('SkillsetComponent', () => {
   });
   
   it('should have a non-empty map of skill info', () => {
-    expect(SkillsetComponent.SKILL_INFO).toBeTruthy();
-    expect(SkillsetComponent.SKILL_INFO.size).toBeGreaterThan(0);
+    expect(SkillsetComponent.getSkillInfo()).toBeTruthy();
+    expect(SkillsetComponent.getSkillInfo().size).toBeGreaterThan(0);
   });
 
   it('should have non-zero skillID', () => {

@@ -43,7 +43,7 @@ export class AssociateListComponent implements OnInit {
   getClientNames() {
     this.clientService.getAllClientsNames().subscribe(
       data => {
-        // this.clients = data;
+        // this.clients = data
       }
     )
   }

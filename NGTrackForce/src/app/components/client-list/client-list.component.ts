@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ClientService } from '../../services/clients-service/clients-service'
-import { Subject } from 'rxjs/Subject';
 
 /**
  * @author Han Jung
@@ -12,29 +10,22 @@ import { Subject } from 'rxjs/Subject';
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.css']
 })
-export class ClientListComponent implements OnInit {
 
-  public clientNames;
-  private searchName;
+export class ClientListComponent implements OnInit {
+  clientNames;
+  searchName;
   
-  constructor(
-    private clientService: ClientService) { }
+  constructor(private clientService: ClientService) {
+  }
 
   ngOnInit() {
     this.getAllClientNames();
   }
 
   getAllClientNames() {
+    var self = this;
     this.clientService.getAllClientsNames()
-      .subscribe(clientNames => this.clientNames = clientNames);
-      console.log(this.clientNames);
-  }
-
-  getAllClients() {
-
-  }
-  getOneClient(){
-
+      .subscribe(clientNames => self.clientNames = clientNames);
   }
 
 }

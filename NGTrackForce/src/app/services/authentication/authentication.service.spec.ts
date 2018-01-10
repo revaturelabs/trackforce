@@ -1,3 +1,7 @@
+/**
+ * @author Michael Tseng
+ * @description Spec for AuthenticationService testing
+ */
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';

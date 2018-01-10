@@ -1,3 +1,7 @@
+/**
+ * @author Michael Tseng
+ * @description Spec needed for testing login component
+ */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginComponent } from './login.component';

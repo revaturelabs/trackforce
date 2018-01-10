@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule, JsonpModule } from '@angular/http';
+import { ChartsModule } from 'ng2-charts';
 
 
 ///
@@ -60,7 +61,8 @@ import { appRoutes } from './routing/routes';
     HttpClientModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    ChartsModule
   ],
   providers: [AssociateService, ClientService, ClientMappedService, AuthenticationService],
   bootstrap: [AppComponent]

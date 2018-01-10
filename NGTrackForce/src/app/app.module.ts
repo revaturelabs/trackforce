@@ -28,6 +28,7 @@ import { HomeComponent } from './components/home/home.component';
 ///
 //  SERVICES
 ///
+import { RequestService } from './services/request.service';
 
 import { AssociateService } from './services/associates-service/associates-service';
 import { ClientService } from './services/clients-service/clients-service';
@@ -39,6 +40,7 @@ import { AuthenticationService } from './services/authentication/authentication.
 ///
 
 import { appRoutes } from './routing/routes';
+import { RootComponent } from './components/root/root.component';
 
 
 
@@ -53,7 +55,8 @@ import { appRoutes } from './routing/routes';
     ClientMappedComponent,
     ClientListComponent,
     LoginComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    RootComponent
   ],
   imports: [
     BrowserModule,
@@ -64,7 +67,7 @@ import { appRoutes } from './routing/routes';
     RouterModule.forRoot(appRoutes),
     ChartsModule
   ],
-  providers: [AssociateService, ClientService, ClientMappedService, AuthenticationService],
+  providers: [AssociateService, ClientService, ClientMappedService, AuthenticationService, RequestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

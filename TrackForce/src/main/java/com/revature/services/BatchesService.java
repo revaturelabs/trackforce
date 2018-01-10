@@ -21,10 +21,7 @@ import com.revature.dao.BatchDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.MarketingStatusDao;
 import com.revature.dao.MarketingStatusDaoHibernate;
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
-import com.revature.entity.TfClient;
-import com.revature.entity.TfMarketingStatus;
+import com.revature.entity.*;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
 import com.revature.utils.LogUtil;
@@ -36,6 +33,8 @@ import com.revature.utils.LogUtil;
 @Path("batches")
 public class BatchesService {
 
+    public static final String OTHER_CURRICULUM = "Other";
+
     /**
      * Gets the number of associates learning each curriculum during a given date
      * range
@@ -46,6 +45,8 @@ public class BatchesService {
      *            - the ending date of the date range
      * @return - A map of associates in each curriculum with the curriculum name as
      *         the key and number of associates as value.
+     *         the layout is as follows:
+     *
      */
     @GET
     @Path("{fromdate}/{todate}/type")
@@ -57,7 +58,8 @@ public class BatchesService {
         List<String> curriculums = new ArrayList<>();
         List<Map<String, Object>> chartData = new ArrayList<>();
         for (TfBatch batch : batches) {
-            String curriculumName = batch.getTfCurriculum().getTfCurriculumName();
+            TfCurriculum curriculum = batch.getTfCurriculum();
+            String curriculumName = (curriculum != null)? batch.getTfBatchName() : OTHER_CURRICULUM;
             if (curriculumData.containsKey(curriculumName)) {
                 int moreAssociates = batch.getTfAssociates().size();
                 int totalAssociates = curriculumData.get(curriculumName) + moreAssociates;

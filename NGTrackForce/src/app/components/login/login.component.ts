@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
   //url to REST endpoint on EC2
-  public loginUrl = 'http://ec2-54-209-164-28.compute-1.amazonaws.com:8080/TrackForce/track/user/submit';
+  public loginUrl = environment.url + 'TrackForce/track/user/submit';
 
   constructor() { }
 

@@ -24,7 +24,9 @@ export class AssociateListComponent implements OnInit {
   searchByText: string = "";
   updateStatus: string = "";
   updateClient: string = "";
-  public test:number[]; 
+  desc: boolean = false;
+  sortedColumn: string = ""
+  public test: number[];
 
   constructor(private associateService: AssociateService, private clientService: ClientService) { }
 
@@ -55,15 +57,40 @@ export class AssociateListComponent implements OnInit {
     )
   }
 
-  updateAssociates()
-  {
-    var ids:number[]= [];
-    var i=1;
-    for(i;i<=this.associates.length;i++)
-    {
-      var check=<HTMLInputElement>document.getElementById(""+i);
-      if(check.checked)
-      {
+  /**
+   * Sort the array of clients based on a given input.
+   * @param property
+   */
+  sort(property) {
+    this.desc = !this.desc;
+    let direction;
+    if (property !== this.sortedColumn) //set ascending or descending
+      direction = 1;
+    else
+      direction = this.desc ? 1 : -1;
+
+    this.sortedColumn = property;
+
+    //sort the elements
+    this.associates.sort(function (a, b) {
+      if (a[property] < b[property]) {
+        return -1 * direction;
+      }
+      else if (a[property] > b[property]) {
+        return 1 * direction;
+      }
+      else {
+        return 0;
+      }
+    });
+  }
+
+  updateAssociates() {
+    var ids: number[] = [];
+    var i = 1;
+    for (i; i <= this.associates.length; i++) {
+      var check = <HTMLInputElement>document.getElementById("" + i);
+      if (check.checked) {
         ids.push(i);
         console.log(i);
       }
@@ -71,20 +98,17 @@ export class AssociateListComponent implements OnInit {
     this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient);
   }
 
-  
-  updateAssociatesTest()
-  {
-    var ids:number[]= [];
-    var i=1;
-    for(i;i<=this.associates.length;i++)
-    {
-      var check=<HTMLInputElement>document.getElementById(""+i);
-      if(check.checked)
-      {
+
+  updateAssociatesTest() {
+    var ids: number[] = [];
+    var i = 1;
+    for (i; i <= this.associates.length; i++) {
+      var check = <HTMLInputElement>document.getElementById("" + i);
+      if (check.checked) {
         ids.push(i);
         console.log(i);
       }
     }
-    this.test=ids;
+    this.test = ids;
   }
 }

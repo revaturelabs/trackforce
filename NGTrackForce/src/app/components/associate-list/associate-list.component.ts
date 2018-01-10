@@ -16,19 +16,30 @@ import { element } from 'protractor';
 })
 
 export class AssociateListComponent implements OnInit {
-
+  //our collection of associates and clients
   associates: Associate[]
   clients: Client[];
-  searchByStatus: string = ""; //used for  filtering
+  curriculums: Set<string>; //stored unique curriculums
+
+  //used for  filtering
+  searchByStatus: string = "";
   searchByClient: string = "";
   searchByText: string = "";
+  searchByCurriculum: string = "";
+
+  //status/client to be updated
   updateStatus: string = "";
   updateClient: string = "";
+
+  //used for ordering of rows
   desc: boolean = false;
-  sortedColumn: string = ""
+  sortedColumn: string = "";
+
   public test: number[];
 
-  constructor(private associateService: AssociateService, private clientService: ClientService) { }
+  constructor(private associateService: AssociateService, private clientService: ClientService) {
+    this.curriculums = new Set<string>();
+   }
 
   ngOnInit() {
     this.getAllAssociates();
@@ -42,8 +53,15 @@ export class AssociateListComponent implements OnInit {
     this.associateService.getAllAssociates().subscribe(
       data => {
         this.associates = data;
+
+        for (let associate of this.associates) { //get our curriculums
+          this.curriculums.add(associate.curriculumName)
+        }
+        this.curriculums.delete("");
       }
     )
+
+    
   }
 
   /**

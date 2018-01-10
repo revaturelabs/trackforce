@@ -21,17 +21,17 @@
           <option>UNMAPPED: DEPLOYED</option>
         </select>
       </div>
-      <!-- <div class="col-sm-2">
-        <label for="skill">Skill: </label>
-        <select class="form-control" id="skill" [(ngModel)]="searchBySkill">
-          <option label=" "></option>
-          <option *ngFor="curriculum in labels">{{curriculum}}</option>
+      <div class="col-sm-2">
+        <label for="curriculum">Curriculum: </label>
+        <select class="form-control" id="curriculum" [(ngModel)]="searchByCurriculum">
+          <option label=""></option>
+          <option *ngFor="let curriculum of curriculums">{{curriculum}}</option>
         </select>
-      </div> -->
+      </div>
       <div class="col-sm-2">
         <label for="client">Search By Client: </label>
         <select class="form-control" id="client" [(ngModel)]="searchByClient">
-          <option label=" "></option>
+          <option label=""></option>
           <option selected="selected">None</option>
           <option *ngFor="let client of clients">{{client.name}}</option>
         </select>
@@ -46,7 +46,7 @@
       <div class="col-sm-2">
         <label for="uStatus">Update Marketing Status: </label>
         <select class="form-control" id="uStatus" [(ngModel)]="updateStatus">
-          <option label=" "></option>
+          <option label=""></option>
           <option>MAPPED: TRAINING</option>
           <option>MAPPED: RESERVED</option>
           <option>MAPPED: SELECTED</option>
@@ -62,7 +62,7 @@
       <div class="col-sm-2">
         <label for="uclient">Update Client: </label>
         <select class="form-control" id="uclient" [(ngModel)]="updateClient">
-          <option label=" "></option>
+          <option label=""></option>
           <option selected="selected">None</option>
           <option *ngFor="let client of clients">{{client.name}}</option>
         </select>
@@ -78,10 +78,8 @@
       <table class="table table-striped table-hover table-bordered">
         <thead class="pointer">
           <tr>
-              <th>Edit</th>
-            <!-- <input type="button" value="Associate ID" class="btn" (click)="sort('id')"> -->
-            
-            <th  (click)="sort('id')">Associate ID</th>
+            <th>Edit</th>
+            <th (click)="sort('id')">Associate ID</th>
             <th (click)="sort('firstName')">First Name</th>
             <th (click)="sort('lastName')">Last Name</th>
             <th (click)="sort('marketingStatus')">Marketing Status</th>
@@ -90,9 +88,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let associate of associates">
+          <tr *ngFor="let associate of associates | filterByText:searchByText">
             <ng-container *ngIf="(searchByStatus === associate.marketingStatus || searchByStatus === '') 
-            && (searchByClient === associate.client || searchByClient === '')">
+            && (searchByClient === associate.client || searchByClient === '')
+            && (searchByCurriculum === associate.curriculumName || searchByCurriculum === '')">
               <td>
                 <input type="checkbox" id={{associate.id}}>
               </td>

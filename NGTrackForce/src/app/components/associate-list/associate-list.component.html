@@ -39,11 +39,47 @@
     </div>
   </div>
 
+
+  <div class="form-group">
+      <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2">
+          <label for="uStatus">Marketing Status: </label>
+          <select class="form-control" id="uStatus" [(ngModel)]="updateStatus">
+            <option label=" "></option>
+            <option>MAPPED: TRAINING</option>
+            <option>MAPPED: RESERVED</option>
+            <option>MAPPED: SELECTED</option>
+            <option>MAPPED: CONFIRMED</option>
+            <option>MAPPED: DEPLOYED</option>
+            <option>UNMAPPED: TRAINING</option>
+            <option>UNMAPPED: OPEN</option>
+            <option>UNMAPPED: SELECTED</option>
+            <option>UNMAPPED: CONFIRMED</option>
+            <option>UNMAPPED: DEPLOYED</option>
+          </select>
+        </div>
+        <div class="col-sm-2">
+          <label for="uclient">Client: </label>
+          <select class="form-control" id="uclient" [(ngModel)]="updateClient">
+            <option label=" "></option>
+            <option selected="selected">None</option>
+            <option *ngFor="let client of clients">{{client.name}}</option>
+          </select>
+        </div>
+        <div class="col-sm-2">
+            <br>
+            <button id="submit" (click)="updateAssociates()" class="btn">Update</button>
+          </div>
+      </div>
+    </div>
+
   <div class="well">
     <div class="table-responsive">
       <table class="table table-striped table-hover table-bordered">
         <thead>
           <tr>
+            <th></th>
             <th>Associate ID</th>
             <th>First Name</th>
             <th>Last Name</th>
@@ -56,6 +92,7 @@
           <tr *ngFor="let associate of associates | filterByText : searchByText">
             <ng-container *ngIf="(searchByStatus === associate.marketingStatus || searchByStatus === '') 
             && (searchByClient === associate.client || searchByClient === '')">
+              <td><input type="checkbox" id={{associate.id}}></td>
               <td>{{associate.id}}</td>
               <td>{{associate.firstName}}</td>
               <td>{{associate.lastName}}</td>

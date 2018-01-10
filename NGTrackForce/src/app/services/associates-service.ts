@@ -29,10 +29,10 @@ export class AssociateService {
      * Update the given associates statuses/clients
      * @param ids of associates to be updated
      */
-    updateAssociates(ids: number[]) {
-        let url: string = "http://localhost:8085/TrackForce/track/associates/update/" +
-            this.status + "/" + this.client
-
+    updateAssociates(ids: number[], ustatus: string, uclient: string) {
+        console.log("service");
+        let url: string = "http://localhost:8085/TrackForce/track/associates/update/" + ustatus + "/" + uclient
+        
         return this.http.post(url, ids)
     }
 }

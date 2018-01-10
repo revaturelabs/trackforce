@@ -12,7 +12,7 @@ import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
 
-	private static final String HBM_PW_ENV = "HBM_PW_ENV";
+	private static final String HBM_PW_ENV = "AyXBhs3X5z3m2djc";
 
 	private HibernateUtil() {
 	}

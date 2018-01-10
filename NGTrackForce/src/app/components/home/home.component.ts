@@ -1,9 +1,11 @@
 /**
- * @author Nasir Alauddin
+ * @author Nasir Alauddin, Matthew Snee
+ * Nasir - design
+ * Matt - implemented services
  */
 
 import { Component, OnInit } from '@angular/core';
-import { HomeService } from '../../services/home-service/home-service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +15,8 @@ import { HomeService } from '../../services/home-service/home-service';
 export class HomeComponent implements OnInit {
 
   button: string;
-  data: {};
-
-  constructor(homeService: HomeService) { }
+  
+  constructor() { }
 
   ngOnInit() {
     this.button = 'Populate Database';
@@ -33,4 +34,5 @@ export class HomeComponent implements OnInit {
     this.button = 'Populate Database';
   }
 
+  
 }

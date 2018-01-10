@@ -8,6 +8,8 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) { }
 
+  //login service that stores a user object on local storage
+  //it will only store a user if the object itself is valid and the token is valid
   login(username: string, password: string, url: string){
     return this.http.post<any>(url, {username: username, password: password})
     .map(
@@ -19,6 +21,7 @@ export class AuthenticationService {
       });
   }
 
+  //removes user from localStorage
   logout(){
     localStorage.removeItem('currentUser');
   }

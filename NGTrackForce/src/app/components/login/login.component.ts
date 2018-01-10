@@ -20,10 +20,12 @@ export class LoginComponent implements OnInit {
     this.authService.logout();
   }
 
+  //login user service
   login(){
     this.authService.login(this.username, this.password, this.loginUrl).subscribe(
       data => {
         console.log(data)
+        //navigate to home page if return is valid
         this.router.navigate(['home']);
       },
       err => {

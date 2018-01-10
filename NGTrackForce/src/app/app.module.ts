@@ -16,6 +16,7 @@ import { AppComponent } from './app.component';
 ///
 //  SERVICES
 ///
+import { RequestService } from './services/request.service';
 
 
 ///
@@ -23,18 +24,20 @@ import { AppComponent } from './app.component';
 ///
 
 import { appRoutes } from './routing/routes';
+import { HomeComponent } from './components/home/home.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [],
+  providers: [RequestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

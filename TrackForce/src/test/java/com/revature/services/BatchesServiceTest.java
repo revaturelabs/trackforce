@@ -4,9 +4,7 @@ import static org.testng.Assert.assertNotNull;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +17,7 @@ import com.revature.model.BatchInfo;
 
 public class BatchesServiceTest {
 
-    BatchesService batchService = new BatchesService();
+	BatchesService batchService = new BatchesService();
 
     @DataProvider(name = "batchName")
     public String[] batchNames() {
@@ -80,27 +78,27 @@ public class BatchesServiceTest {
         assertNotNull(result);
     }
 
-    @Test(dataProvider = "batchName")
-    public void getBatchInfo(String batchName) {
-        BatchInfo result = batchService.getBatchInfo(batchName);
-        assertNotNull(result);
-    }
+	@Test(dataProvider="batchName")
+	public void getBatchInfo(String batchName) {
+		BatchInfo result = batchService.getBatchInfo(batchName);
+		assertNotNull(result);
+	}
 
-    @Test(dataProvider = "batchName")
-    public void getMappedData(String batchName) {
-        Map<String, Integer> result = batchService.getMappedData(batchName);
-        assertNotNull(result);
-    }
+	@Test(dataProvider="batchName")
+	public void getMappedData(String batchName) {
+		Map<String, Integer> result = batchService.getMappedData(batchName);
+		assertNotNull(result);
+	}
 
-    @Test(dataProvider = "timeStamps")
-    public void getBatches(Timestamp fromdate, Timestamp todate) {
-        List<BatchInfo> result = batchService.getBatches(fromdate.getTime(), todate.getTime());
-        assertNotNull(result);
-    }
+	@Test(dataProvider="timeStamps")
+	public void getBatches(Timestamp fromdate, Timestamp todate) {
+		List<BatchInfo> result = batchService.getBatches(fromdate.getTime(), todate.getTime());
+		assertNotNull(result);
+	}
 
-    @Test(dataProvider = "batchName")
-    public void getAssociates(String batchName) {
-        List<AssociateInfo> result = batchService.getAssociates(batchName);
-        assertNotNull(result);
-    }
+	@Test(dataProvider="batchName")
+	public void getAssociates(String batchName) {
+		List<AssociateInfo> result = batchService.getAssociates(batchName);
+		assertNotNull(result);
+	}
 }

@@ -33,7 +33,7 @@ import com.revature.utils.LogUtil;
 @Path("batches")
 public class BatchesService {
 
-    public static final String OTHER_CURRICULUM = "Other";
+    private static final String OTHER_CURRICULUM = "Other";
 
     /**
      * Gets the number of associates learning each curriculum during a given date

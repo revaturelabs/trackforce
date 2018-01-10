@@ -34,15 +34,15 @@ export const appRoutes: Routes = [
     component: LoginComponent
   },
     {
-        path: 'clientMapped',
+        path: 'client-mapped',
         component: ClientMappedComponent
     },
     {
-        path: 'associateListing',
+        path: 'associate-listing',
         component: AssociateListComponent
     },
     {
-        path: 'batchListing',
+        path: 'batch-listing',
         component: BatchListComponent
     }
 ]

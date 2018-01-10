@@ -7,7 +7,6 @@ import java.net.URISyntaxException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -19,6 +18,8 @@ import javax.ws.rs.core.Response;
 import com.revature.dao.UserDaoImpl;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
+import com.revature.model.LoginJSON;
+import com.revature.model.UserJSON;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
 import com.revature.utils.PasswordStorage.CannotPerformOperationException;
@@ -32,50 +33,54 @@ public class UserResource {
 	private String homeURL = "/TrackForce/html/index.html";
 
 	/**
-	 * Returns a Response object with a redirect
+	 * Method takes login information from front-end and verifies the 
+	 * information. If info is valid, a status code of 200 is returned,
+	 * otherwise 400 for a bad request 
 	 * 
 	 * @param username
 	 *            Entered user name from a form.
 	 * @param password
 	 *            Entered password from a form.
 	 * 
-	 * @return
+	 * @return a Response object with authentication data,
+	 * such as username, JWT token, and roleId
 	 */
 	@POST
 	@Path("submit")
-	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
-	@Produces({ MediaType.TEXT_HTML })
-	public Response submitCredentials(@FormParam("username") String username, @FormParam("password") String password,
-			@Context HttpServletRequest request) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response submitCredentials(LoginJSON login) {
+		String username = login.getUsername();
+		String password = login.getPassword();
+		UserJSON userjson = null;
+		
 		try {
-			URI loginLocation = new URI(loginURL);
 			TfUser tfUser = userDaoImpl.getUser(username);
 			if (tfUser != null) {
 				String hashedPassword = tfUser.getTfUserHashpassword();
-				if (tfUser.equals(new TfUser()))
-					return Response.seeOther(loginLocation).build();
+				if (tfUser.equals(new TfUser())) {
+					return Response.status(400).build();
+				}
 				else if (PasswordStorage.verifyPassword(password, hashedPassword)) {
-					final HttpSession session = request.getSession();
-					if (session != null) {
-						TfRole tfRole = tfUser.getTfRole();
-						if (tfRole != null) {
-							BigDecimal tfRoleId = tfRole.getTfRoleId();
-							if (tfRoleId != null)
-								session.setAttribute("roleid", tfRoleId);
-						}
+					TfRole tfRole = tfUser.getTfRole();
+					userjson = new UserJSON();
+					if(tfRole != null) {
+						BigDecimal tfRoleId = tfRole.getTfRoleId();
 						String tfUserName = tfUser.getTfUserUsername();
-						if (tfUserName != null)
-							session.setAttribute("user", tfUserName);
+						if(tfRoleId != null && tfUserName != null) {
+							userjson.setTfRoleId(tfRoleId);
+							userjson.setUsername(tfUserName);
+							
+							return Response.status(200).entity(userjson).build();
+						}
 					}
-					URI homeLocation = new URI(homeURL);
-					return Response.seeOther(homeLocation).build();
-				} else
-					return Response.seeOther(loginLocation).build();
+				} 
 			}
-		} catch (URISyntaxException | CannotPerformOperationException | InvalidHashException e) {
+		}
+		catch(CannotPerformOperationException | InvalidHashException e) {
 			LogUtil.logger.error(e);
 		}
-		return Response.noContent().build();
+		return Response.status(400).build();
 	}
 
 	/**

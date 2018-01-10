@@ -31,6 +31,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AssociateService } from './services/associates-service/associates-service';
 import { ClientService } from './services/clients-service/clients-service';
 import { ClientMappedService } from './services/client-mapped-service/client-mapped-service.service';
+import { AuthenticationService } from './services/authentication/authentication.service';
 
 ///
 //  CONSTANTS
@@ -61,7 +62,7 @@ import { appRoutes } from './routing/routes';
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AssociateService, ClientService, ClientMappedService],
+  providers: [AssociateService, ClientService, ClientMappedService, AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

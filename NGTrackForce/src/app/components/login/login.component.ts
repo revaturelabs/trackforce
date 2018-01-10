@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -7,12 +9,28 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  //url to REST endpoint on EC2
+  //url to REST endpoint
   public loginUrl = environment.url + 'TrackForce/track/user/submit';
+  public username;
+  public password;
 
-  constructor() { }
+  constructor(private authService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
+    this.authService.logout();
+  }
+
+  login(){
+    this.authService.login(this.username, this.password, this.loginUrl).subscribe(
+      data => {
+        console.log(data)
+        this.router.navigate(['home']);
+      },
+      err => {
+        console.log(err + " Error Occurred");
+        this.authService.logout();
+      }
+    );
   }
 
 }

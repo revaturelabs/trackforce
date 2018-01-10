@@ -16,17 +16,30 @@ import { element } from 'protractor';
 })
 
 export class AssociateListComponent implements OnInit {
-
+  //our collection of associates and clients
   associates: Associate[]
   clients: Client[];
-  searchByStatus: string = ""; //used for  filtering
+  curriculums: Set<string>; //stored unique curriculums
+
+  //used for  filtering
+  searchByStatus: string = "";
   searchByClient: string = "";
   searchByText: string = "";
+  searchByCurriculum: string = "";
+
+  //status/client to be updated
   updateStatus: string = "";
   updateClient: string = "";
-  public test:number[]; 
 
-  constructor(private associateService: AssociateService, private clientService: ClientService) { }
+  //used for ordering of rows
+  desc: boolean = false;
+  sortedColumn: string = "";
+
+  public test: number[];
+
+  constructor(private associateService: AssociateService, private clientService: ClientService) {
+    this.curriculums = new Set<string>();
+  }
 
   ngOnInit() {
     this.getAllAssociates();
@@ -40,6 +53,11 @@ export class AssociateListComponent implements OnInit {
     this.associateService.getAllAssociates().subscribe(
       data => {
         this.associates = data;
+
+        for (let associate of this.associates) { //get our curriculums
+          this.curriculums.add(associate.curriculumName)
+        }
+        this.curriculums.delete("");
       }
     )
   }
@@ -54,37 +72,43 @@ export class AssociateListComponent implements OnInit {
       }
     )
   }
+  
+  /**
+   * Sort the array of clients based on a given input.
+   * @param property to be sorted by
+   */
+  sort(property) {
+    this.desc = !this.desc;
+    let direction;
+    if (property !== this.sortedColumn) //set ascending or descending
+      direction = 1;
+    else
+      direction = this.desc ? 1 : -1;
 
-  updateAssociates()
-  {
-    var ids:number[]= [];
-    var i=1;
-    for(i;i<=this.associates.length;i++)
-    {
-      var check= <HTMLInputElement>document.getElementById(""+i);     
-      if(check!=null&&check.checked)
-      {
-        this.associateService.updateAssociates(i, this.updateStatus, this.updateClient);
-        console.log(i);      
-      }
-    }
+    this.sortedColumn = property;
+
+    //sort the elements
+    this.associates.sort(function (a, b) {
+      if (a[property] < b[property])
+        return -1 * direction;
+      else if (a[property] > b[property])
+        return 1 * direction;
+      else
+        return 0;
+    });
   }
 
-  
-  updateAssociatesTest()
-  {
-    var ids:number[]= [];
-    var i=1;
-    for(i;i<=this.associates.length;i++)
-    {
-      var check=<HTMLInputElement>document.getElementById(""+i);
-      if(check!=null &&check.checked)
-      {
-        this.associateService.updateAssociates(i, this.updateStatus, this.updateClient);
+  updateAssociates() {
+    var ids: number[] = [];
+    var i = 1;
+    for (i; i <= this.associates.length; i++) {
+      var check = <HTMLInputElement>document.getElementById("" + i);
+      if (check!=null&&check.checked) {
         ids.push(i);
         console.log(i);
       }
     }
-    this.test=ids;
+    this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient);
   }
+
 }

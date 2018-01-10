@@ -4,6 +4,7 @@ import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map'
 import { Associate } from "../../models/Associate";
 import { Response } from "@angular/http/src/static_response";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class ClientService {
@@ -19,7 +20,7 @@ export class ClientService {
      * Fetch the names of all of the clients
      */
     getAllClientsNames() {
-        let url = "http://localhost:8085/TrackForce/track/clients"
+        let url = environment.url + "TrackForce/track/clients"
 
         return this.http.get(url).map((response: Response) => response.json())
     }

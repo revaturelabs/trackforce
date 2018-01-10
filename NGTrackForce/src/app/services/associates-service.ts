@@ -4,6 +4,7 @@ import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map'
 import { Associate } from "../../models/Associate";
 import { Response } from "@angular/http/src/static_response";
+import { environment } from "../../environments/environment";
 
 
 @Injectable()
@@ -20,7 +21,7 @@ export class AssociateService {
      * Get all of the associates
      */
     getAllAssociates() {
-        let url: string = "http://localhost:8085/TrackForce/track/associates/all"
+        let url: string = environment.url + "TrackForce/track/associates/all"
 
         return this.http.get(url).map((response: Response) => response.json());
     }
@@ -29,10 +30,10 @@ export class AssociateService {
      * Update the given associates statuses/clients
      * @param ids of associates to be updated
      */
-    updateAssociates(id: number, ustatus: string, uclient: string) {
+    updateAssociates(ids: number[], ustatus: string, uclient: string) {
         console.log("service");
-        console.log("http://localhost:8085/TrackForce/track/associates/"+id+"/update/" + ustatus + "/" + uclient);
-        let url: string = "http://localhost:8085/TrackForce/track/associates/"+id+"/update/" + ustatus + "/" + uclient       
-        return this.http.get(url).map((response: Response) => response.json());
+        let url: string = environment.url + "TrackForce/track/associates/update/" + ustatus + "/" + uclient
+        
+        return this.http.post(url, ids)
     }
 }

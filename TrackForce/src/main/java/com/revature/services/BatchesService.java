@@ -38,15 +38,28 @@ public class BatchesService {
     /**
      * Gets the number of associates learning each curriculum during a given date
      * range
-     * 
+     *
      * @param fromdate
      *            - the starting date of the date range
      * @param todate
      *            - the ending date of the date range
      * @return - A map of associates in each curriculum with the curriculum name as
      *         the key and number of associates as value.
-     *         the layout is as follows:
      *
+     *         The returned chart data is laid out as follows:
+     *         [
+     *              {
+     *                  "curriculum" -> "1109 Sept 11 Java JTA",
+     *                  "value" -> 14
+     *              },
+     *
+     *              {
+     *                  "curriculum" -> "1109 Sept 11 Java Full Stack",
+     *                  "value" -> 16
+     *              },    *
+     *
+     *              ...
+     *         ]
      */
     @GET
     @Path("{fromdate}/{todate}/type")
@@ -82,7 +95,7 @@ public class BatchesService {
     /**
      * When given a batch name returns an object that contains all information about
      * that batch
-     * 
+     *
      * @param batchName
      *            - the name of a batch that is in the database
      * @return - A list with batch name, client name, curriculum name, batch
@@ -108,7 +121,7 @@ public class BatchesService {
     /**
      * Gets the number of associates that are mapped and unmapped within a
      * particular batch
-     * 
+     *
      * @param batchName
      *            - the name of a batch that is in the database
      * @return - A map with the key being either Mapped or Unmapped and the value
@@ -141,7 +154,7 @@ public class BatchesService {
 
     /**
      * Gets all batches that are running within a given date range
-     * 
+     *
      * @param fromdate
      *            - the starting date of the date range
      * @param todate
@@ -173,7 +186,7 @@ public class BatchesService {
 
     /**
      * Gets the information of the associates in a particular batch
-     * 
+     *
      * @param batchName
      *            - the name of a batch that is in the database
      * @return - A list of the lists of associate info. Associate info contains id,
@@ -213,7 +226,7 @@ public class BatchesService {
 
     /**
      * Update the marketing status or client of an associate from form data.
-     * 
+     *
      * @param id - The ID of the associate to change
      * @param marketingStatus - What to change the associate's marketing status to
      * @param client - What client to change the associate to

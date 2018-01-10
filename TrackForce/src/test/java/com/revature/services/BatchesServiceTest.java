@@ -53,11 +53,15 @@ public class BatchesServiceTest {
     }
 
     /**
-     * some of the batches in the given time range, have null curriculumns, and
+     * <p>
+     * Some of the batches in the given time range, have null curriculumns, and previously this
      * wasn't being properly handled; this test aims to make sure it is always handled properly
+     * </p>
+     *
      * <p>
      * assumes we're using the data created by the StaticSalesForceData.sql script as of
      * this commit
+     * </p>
      *
      * @param fromDate
      * @param toDate

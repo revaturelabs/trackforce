@@ -38,6 +38,7 @@ import { ClientMappedService } from './services/client-mapped-service/client-map
 ///
 
 import { appRoutes } from './routing/routes';
+import { RootComponent } from './components/root/root.component';
 
 
 
@@ -52,7 +53,8 @@ import { appRoutes } from './routing/routes';
     ClientMappedComponent,
     ClientListComponent,
     LoginComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    RootComponent
   ],
   imports: [
     BrowserModule,

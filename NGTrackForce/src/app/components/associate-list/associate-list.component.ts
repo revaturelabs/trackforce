@@ -61,14 +61,13 @@ export class AssociateListComponent implements OnInit {
     var i=1;
     for(i;i<=this.associates.length;i++)
     {
-      var check=<HTMLInputElement>document.getElementById(""+i);
-      if(check.checked)
+      var check= <HTMLInputElement>document.getElementById(""+i);     
+      if(check!=null&&check.checked)
       {
-        ids.push(i);
-        console.log(i);
+        this.associateService.updateAssociates(i, this.updateStatus, this.updateClient);
+        console.log(i);      
       }
     }
-    this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient);
   }
 
   
@@ -79,8 +78,9 @@ export class AssociateListComponent implements OnInit {
     for(i;i<=this.associates.length;i++)
     {
       var check=<HTMLInputElement>document.getElementById(""+i);
-      if(check.checked)
+      if(check!=null &&check.checked)
       {
+        this.associateService.updateAssociates(i, this.updateStatus, this.updateClient);
         ids.push(i);
         console.log(i);
       }

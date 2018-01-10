@@ -89,6 +89,8 @@ public class AssociateService {
     @Produces({ MediaType.TEXT_HTML })
     public Response updateAssociate(@PathParam("associateId") String id, @PathParam("marketingStatus") String marketingStatus,
             @PathParam("client") String client) {
+    	System.out.println(id);
+    	System.out.println(marketingStatus);
         MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
         TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
 
@@ -148,8 +150,10 @@ public class AssociateService {
     @POST
     @Path("/update/{marketingStatus}/{client}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAssociates(List<Integer> ids, @PathParam("marketingStatus") String marketingStatus,
-            @PathParam("client") String client) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateAssociates(List<Integer> ids, @PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client) 
+    {
+    	System.out.println("Called");
         MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
         TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
 
@@ -167,6 +171,6 @@ public class AssociateService {
         AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
         associateDaoHibernate.updateInfo(associateID, status, tfclient);
         }
-        return Response.status(Response.Status.OK).entity("Updated the associate's information.").build();
+        return Response.status(Response.Status.OK).entity("Updated the associates' information.").build();
     }
 }

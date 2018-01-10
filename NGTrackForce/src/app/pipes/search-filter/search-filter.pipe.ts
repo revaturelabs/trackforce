@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 /**
  * @author Han Jung
- * @description Filters out array of things based on search criteria
+ * @description Filters out array of strings based on search criteria
  */
 @Pipe({
   name: 'searchFilter'

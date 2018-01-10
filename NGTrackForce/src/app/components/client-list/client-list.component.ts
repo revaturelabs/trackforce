@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ClientService } from '../../services/clients-service/clients-service'
+import { ClientListService } from '../../services/client-list-service/client-list.service'
 import { Subject } from 'rxjs/Subject';
+import { Client } from '../../models/Client';
 
 /**
  * @author Han Jung
@@ -13,32 +14,53 @@ import { Subject } from 'rxjs/Subject';
   styleUrls: ['./client-list.component.css']
 })
 export class ClientListComponent implements OnInit {
+  private selectedCompany: string;
+  private clientNames: string[] = [];
+  private clients: Client[];
+  private searchName = "";
 
-  public clientNames;
-  private searchName;
 
   constructor(
-    private clientService: ClientService) { }
+    private clientService: ClientListService) { }
 
   ngOnInit() {
     this.getAllClientNames();
+    this.getAllClients();
+    this.selectedCompany = "Marketing status for all clients";
   }
 
+  // get client names from data and push to clientNames string array
   getAllClientNames() {
     this.clientService.getAllClientsNames()
       .subscribe(
       clientNames => {
-        this.clientNames = clientNames
+        // clear name list to reload list and run through filter
+        this.clientNames.length = 0;
+        // push list of names to an array
+        for (let client of clientNames) {
+          this.clientNames.push(client.name);
+        }
       }, err => {
-        console.log("error happened");
+        console.log("Failed grabbing names");
       });
-    console.log(this.clientNames);
   }
 
   getAllClients() {
-
+    this.clientService.getAllClients()
+      .subscribe(
+      // assign response to this.clients
+      clients => {
+        this.clients = clients;
+      }, err => {
+        console.log("Failed grabbing clients");
+      }
+      )
   }
-  getOneClient() {
+  getOneClient(name: string) {
+    this.selectedCompany = name;
+    let oneClient;
+    console.log(this.clients);
+
 
   }
 

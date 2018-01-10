@@ -29,7 +29,7 @@ import { HomeComponent } from './components/home/home.component';
 ///
 
 import { AssociateService } from './services/associates-service/associates-service';
-import { ClientService } from './services/clients-service/clients-service';
+import { ClientListService } from './services/client-list-service/client-list.service';
 import { ClientMappedService } from './services/client-mapped-service/client-mapped-service.service';
 
 ///
@@ -37,6 +37,7 @@ import { ClientMappedService } from './services/client-mapped-service/client-map
 ///
 
 import { appRoutes } from './routing/routes';
+import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 
 
 
@@ -51,7 +52,8 @@ import { appRoutes } from './routing/routes';
     ClientMappedComponent,
     ClientListComponent,
     LoginComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    SearchFilterPipe
   ],
   imports: [
     BrowserModule,
@@ -61,7 +63,7 @@ import { appRoutes } from './routing/routes';
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AssociateService, ClientService, ClientMappedService],
+  providers: [AssociateService, ClientListService, ClientMappedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

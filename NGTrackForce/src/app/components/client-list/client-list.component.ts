@@ -16,7 +16,7 @@ export class ClientListComponent implements OnInit {
 
   public clientNames;
   private searchName;
-  
+
   constructor(
     private clientService: ClientService) { }
 
@@ -26,14 +26,19 @@ export class ClientListComponent implements OnInit {
 
   getAllClientNames() {
     this.clientService.getAllClientsNames()
-      .subscribe(clientNames => this.clientNames = clientNames);
-      console.log(this.clientNames);
+      .subscribe(
+      clientNames => {
+        this.clientNames = clientNames
+      }, err => {
+        console.log("error happened");
+      });
+    console.log(this.clientNames);
   }
 
   getAllClients() {
 
   }
-  getOneClient(){
+  getOneClient() {
 
   }
 

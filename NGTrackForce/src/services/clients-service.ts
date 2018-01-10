@@ -8,8 +8,6 @@ import { HttpClient } from "@angular/common/http/";
 @Injectable()
 export class ClientService {
     private url: string = 'localhost:8080/TrackForce/track';
-    status: string
-    client: string
 
     constructor(private http: HttpClient) {
 
@@ -18,15 +16,15 @@ export class ClientService {
     /**
      * Fetch the names of all of the clients
      */
-    getAllClientsNames() {
+    getAllClientsNames(): Observable<any> {
         return this.http.get(this.url + '/clients');
     }
-    
-    getAllClients() {
+
+    getAllClients(): Observable<any> {
         return this.http.get(this.url + '/info');
     }
 
-    getOneClient(clientName:string) {
+    getOneClient(clientName: string) {
         return this.http.get(this.url + '/clients/' + clientName);
     }
 

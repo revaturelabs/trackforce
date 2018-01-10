@@ -55,7 +55,6 @@ import { appRoutes } from './routing/routes';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],

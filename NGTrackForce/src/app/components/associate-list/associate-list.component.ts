@@ -39,7 +39,7 @@ export class AssociateListComponent implements OnInit {
 
   constructor(private associateService: AssociateService, private clientService: ClientService) {
     this.curriculums = new Set<string>();
-   }
+  }
 
   ngOnInit() {
     this.getAllAssociates();
@@ -60,8 +60,6 @@ export class AssociateListComponent implements OnInit {
         this.curriculums.delete("");
       }
     )
-
-    
   }
 
   /**
@@ -77,7 +75,7 @@ export class AssociateListComponent implements OnInit {
 
   /**
    * Sort the array of clients based on a given input.
-   * @param property
+   * @param property to be sorted by
    */
   sort(property) {
     this.desc = !this.desc;
@@ -91,15 +89,12 @@ export class AssociateListComponent implements OnInit {
 
     //sort the elements
     this.associates.sort(function (a, b) {
-      if (a[property] < b[property]) {
+      if (a[property] < b[property])
         return -1 * direction;
-      }
-      else if (a[property] > b[property]) {
+      else if (a[property] > b[property])
         return 1 * direction;
-      }
-      else {
+      else
         return 0;
-      }
     });
   }
 

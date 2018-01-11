@@ -27,7 +27,7 @@ export class AssociateListComponent implements OnInit {
   searchByCurriculum: string = "";
 
   //status/client to be updated
-  updateShow: boolean=false;
+  updateShow: boolean = false;
   updateStatus: string = "";
   updateClient: string = "";
 
@@ -72,7 +72,7 @@ export class AssociateListComponent implements OnInit {
       }
     )
   }
-  
+
   /**
    * Sort the array of clients based on a given input.
    * @param property to be sorted by
@@ -106,7 +106,7 @@ export class AssociateListComponent implements OnInit {
     var i = 1;
     for (i; i <= this.associates.length; i++) { //grab the checked ids
       var check = <HTMLInputElement>document.getElementById("" + i);
-      if (check!=null&&check.checked) {
+      if (check != null && check.checked) {
         ids.push(i);
         console.log(i);
       }
@@ -114,14 +114,12 @@ export class AssociateListComponent implements OnInit {
     this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient);
   }
 
-  showUpdate(){
-    if(this.updateShow)
-    {
-      this.updateShow=false;
+  showUpdate() {
+    if (this.updateShow) {
+      this.updateShow = false;
     }
-    else
-    {
-      this.updateShow=true;
+    else {
+      this.updateShow = true;
     }
   }
 }

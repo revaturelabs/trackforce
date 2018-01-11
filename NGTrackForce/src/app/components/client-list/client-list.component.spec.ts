@@ -5,6 +5,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ClientListService } from '../../services/client-list-service/client-list.service';
 import { SearchFilterPipe } from '../../pipes/search-filter/search-filter.pipe';
 import { ChartsModule } from 'ng2-charts';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ClientListComponent', () => {
   let component: ClientListComponent;
@@ -12,11 +14,12 @@ describe('ClientListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ClientListComponent, SearchFilterPipe ],
+      declarations: [ ClientListComponent, SearchFilterPipe, NavbarComponent ],
       imports: [
         FormsModule,
         HttpClientTestingModule,
-        ChartsModule
+        ChartsModule,
+        RouterTestingModule
       ],
       providers: [
         ClientListService

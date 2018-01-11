@@ -4,6 +4,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ClientMappedComponent } from './client-mapped.component';
 import { ChartsModule } from 'ng2-charts';
 import { ClientMappedService } from '../../services/client-mapped-service/client-mapped-service';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ClientMappedComponent', () => {
   let component: ClientMappedComponent;
@@ -11,8 +13,8 @@ describe('ClientMappedComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ClientMappedComponent ],
-      imports: [ChartsModule, HttpClientTestingModule],
+      declarations: [ ClientMappedComponent, NavbarComponent ],
+      imports: [ChartsModule, HttpClientTestingModule, RouterTestingModule],
       providers: [ClientMappedService]
     })
     .compileComponents();

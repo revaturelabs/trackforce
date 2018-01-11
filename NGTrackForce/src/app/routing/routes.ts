@@ -22,10 +22,6 @@ export const appRoutes: Routes = [
         component: HomeComponent
     },
   {
-        path: 'client-list',
-        component: ClientListComponent,
-  },
-  {
     path: '',
     redirectTo: '/login',
     pathMatch: 'full'
@@ -51,7 +47,7 @@ export const appRoutes: Routes = [
         component: BatchListComponent
     },
     {
-        path: 'createUser',
+        path: 'create-user',
         component: CreateUserComponent
     },
     {

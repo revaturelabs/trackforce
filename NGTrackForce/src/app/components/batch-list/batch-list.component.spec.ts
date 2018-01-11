@@ -17,6 +17,8 @@ import { ClientListComponent } from '../client-list/client-list.component';
 import { CreateUserComponent } from '../create-user/create-user.component';
 import { SearchFilterPipe } from '../../pipes/search-filter/search-filter.pipe';
 import { AssociateSearchByTextFilter } from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 TestBed.configureTestingModule({
   declarations: [
@@ -28,7 +30,8 @@ TestBed.configureTestingModule({
     LoginComponent,
     CreateUserComponent,
     SearchFilterPipe,
-    AssociateSearchByTextFilter
+    AssociateSearchByTextFilter,
+    NavbarComponent
   ],
   providers: [
     BatchService,
@@ -37,6 +40,7 @@ TestBed.configureTestingModule({
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
+    RouterTestingModule,
     FormsModule,
     BrowserModule,
     HttpClientModule,

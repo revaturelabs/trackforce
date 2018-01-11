@@ -6,6 +6,8 @@ import { ClientListService } from '../../services/client-list-service/client-lis
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { AssociateSearchByTextFilter } from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 
 describe('AssociateListComponent', () => {
@@ -14,10 +16,11 @@ describe('AssociateListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AssociateListComponent, AssociateSearchByTextFilter ],
+      declarations: [ AssociateListComponent, AssociateSearchByTextFilter, NavbarComponent ],
       imports: [
         HttpClientTestingModule,
-        FormsModule
+        FormsModule,
+        RouterTestingModule
       ],
       providers: [
         AssociateService,

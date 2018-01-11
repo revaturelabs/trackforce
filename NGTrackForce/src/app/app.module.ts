@@ -32,7 +32,7 @@ import { RequestService } from './services/request.service';
 
 import { AssociateService } from './services/associates-service/associates-service';
 import { ClientListService } from './services/client-list-service/client-list.service';
-import { ClientMappedService } from './services/client-mapped-service/client-mapped-service.service';
+import { ClientMappedService } from './services/client-mapped-service/client-mapped-service';
 import { AuthenticationService } from './services/authentication/authentication.service';
 import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 

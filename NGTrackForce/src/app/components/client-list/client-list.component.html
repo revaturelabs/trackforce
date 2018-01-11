@@ -1,25 +1,33 @@
 <div class="container">
   <div class="row align-items-center">
-
+    <!-- Clients List column -->
     <div class="col-md-3">
       <div class="form-group">
-        <input type="text" [(ngModel)]="searchName" class="form-control" id="clientSearch" placeholder="Search by client name...">
+        <input type="text" [(ngModel)]="searchName" (keyup) ="getAllClientNames()" class="form-control" id="clientSearch" placeholder="Search by client name...">
       </div>
       <h3>Clients</h3>
-      <button class="btn custom-btn">View Data for All Clients</button>
-      <div id="clients-content" class="well">
+      <button (click)="getAllClients()" class="btn custom-btn">View Data for All Clients</button>
+      <div id="clients-list-well" class="well">
         <ul id="clients-list">
-          <li *ngFor="let client of clients" (click)="getOneClient(client.id)">{{client.name}}</li>
+          <!-- populate list of company names -->
+          <li *ngFor="let clientName of clientNames | searchFilter : searchName" (click)="getOneClient(clientName)">{{clientName}}</li>
+
         </ul>
       </div>
     </div>
-    <!-- end of col-md-3 -->
+    <!-- end of Client List Column -->
+    <!-- Display Client name and bar chart regarding client -->
     <div class="col-md-9">
-      <h1>{{client.name}}</h1>
-      <!--ngBind clientName-->
-      <canvas id="bar-chart" class="chart chart-bar" chart-series="clientSeries" chart-colors="clientColors" chart-data="clientData"
-        chart-label="clientLabels" chart-options="clientOptions">
-      </canvas>
+      <h1>{{selectedCompany}}</h1>
+      <canvas baseChart id="bar-chart" class="chart chart-bar" 
+      [datasets] = "barChartData"
+      [chartType]="barChartType"
+      [labels]="barChartLabel"
+      [legend]="barChartLegend"
+      [options]="barChartOptions"
+      [colors]="barChartColors"
+       ></canvas>
+     <!-- chart-series="clientSeries" -->
     </div>
     <!-- end of col-md-9 -->
   </div>

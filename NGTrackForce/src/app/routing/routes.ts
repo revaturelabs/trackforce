@@ -21,7 +21,7 @@ export const appRoutes: Routes = [
     },
     {
         path: 'clientListing',
-        component: ClientMappedComponent
+        component: ClientListComponent
     },
     {
         path: 'associateListing',

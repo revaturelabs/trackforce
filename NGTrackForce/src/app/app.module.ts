@@ -41,6 +41,7 @@ import { AuthenticationService } from './services/authentication/authentication.
 
 import { appRoutes } from './routing/routes';
 import { RootComponent } from './components/root/root.component';
+import { BatchService } from './services/batch/batch.service';
 
 
 
@@ -67,7 +68,14 @@ import { RootComponent } from './components/root/root.component';
     RouterModule.forRoot(appRoutes),
     ChartsModule
   ],
-  providers: [AssociateService, ClientService, ClientMappedService, AuthenticationService, RequestService],
+  providers: [
+    AssociateService,
+    ClientService,
+    ClientMappedService,
+    AuthenticationService,
+    RequestService,
+    BatchService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

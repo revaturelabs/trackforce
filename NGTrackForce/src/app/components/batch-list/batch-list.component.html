@@ -1,3 +1,47 @@
-<p>
-  batch-list works!
-</p>
+<!-- @Author Princewill Ibe -->
+
+<div class="container">
+  <div>
+    <title class="text-center text-primary">Batch List</title>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <h3>All Batches</h3>
+      <div class="well">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover table-bordered">
+            <thead>
+            <tr>
+              <th>Batch Name</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let batch of batches">
+              <td><a href="#!/batchDetails/{{batch.batchName}}">{{batch.batchName}}</a></td>
+              <td>{{batch.startDate}}</td>
+              <td>{{batch.endDate}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <h3>Select dates:</h3>
+      <form>
+        From: <input type="date" [(ngModel)]="startDate" name="startDate" [max]="endDate"/>
+        To: <input type="date" [(ngModel)]="endDate" name="startDate" [min]="startDate"/>
+        <input type="submit" value="Submit" (click)="applySelectedRange($event)"/>
+      </form>
+      <canvas baseChart *ngIf="curriculumNames && curriculumCounts"
+              id="pie" class="chart chart-pie"
+              [data]="curriculumCounts"
+              [labels]="curriculumNames"
+              [chartType]="pieChartType">
+              [colors]="batchColors"
+      </canvas>
+    </div>
+  </div>
+</div>

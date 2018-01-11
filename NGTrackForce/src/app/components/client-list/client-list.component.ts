@@ -31,7 +31,8 @@ export class ClientListComponent implements OnInit {
   }, '#e85410', '#e85410']
   public barChartOptions: any = {
     scaleShowVerticalLines: false,
-    responsive: true
+    responsive: true,
+    legend: { position: 'right'}
   }
   // data values initialize to 1 for animation
   public barChartData: any[] = [{ data: [1, 1, 1, 1], label: 'Mapped' }, { data: [1, 1, 1, 1], label: 'Unmapped' }];

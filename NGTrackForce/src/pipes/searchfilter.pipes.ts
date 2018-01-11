@@ -11,7 +11,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class SearchByTextFilter implements PipeTransform {
     transform(items: any[], searchText: string): any[] {
  
-        
         if (!items) return [];
         if (!searchText) return items;
         searchText = searchText.toLowerCase();
@@ -22,7 +21,7 @@ export class SearchByTextFilter implements PipeTransform {
             || associate.lastName.toLowerCase().includes(searchText)
             || associate.marketingStatus.toLowerCase().includes(searchText)
             || associate.client.toLowerCase().includes(searchText)
-            || associate.id == searchText;
+            || associate.id.toString().toLowerCase().includes(searchText);
         });
     }
 }

@@ -43,6 +43,9 @@ import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 import { appRoutes } from './routing/routes';
 import { RootComponent } from './components/root/root.component';
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
+import { BatchService } from './services/batch/batch.service';
+
+
 
 
 @NgModule({
@@ -68,7 +71,14 @@ import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-fi
     RouterModule.forRoot(appRoutes),
     ChartsModule
   ],
-  providers: [AssociateService, ClientListService, ClientMappedService, AuthenticationService, RequestService],
+  providers: [
+    AssociateService, 
+    ClientListService, 
+    ClientMappedService, 
+    AuthenticationService, 
+    RequestService, 
+    BatchService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

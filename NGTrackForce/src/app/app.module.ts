@@ -41,7 +41,6 @@ import { AuthenticationService } from './services/authentication/authentication.
 
 import { appRoutes } from './routing/routes';
 import { SearchByTextFilter } from '../pipes/searchfilter.pipes';
-import { SkillsetComponent } from './components/skillset/skillset.component';
 import { RootComponent } from './components/root/root.component';
 
 
@@ -50,7 +49,6 @@ import { RootComponent } from './components/root/root.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SkillsetComponent,
     NavbarComponent,
     HomeComponent,
     AssociateListComponent,

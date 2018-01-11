@@ -1,17 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
-
-import { RequestService } from './request.service';
+import {BatchService} from './batch.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-describe('RequestService', () => {
+describe('BatchService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [RequestService]
+      providers: [BatchService]
     });
   });
 
-  it('should be created', inject([RequestService], (service: RequestService) => {
+  it('should be created', inject([BatchService], (service: BatchService) => {
     expect(service).toBeTruthy();
   }));
 });

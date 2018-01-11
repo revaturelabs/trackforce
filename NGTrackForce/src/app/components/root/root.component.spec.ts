@@ -3,9 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RootComponent } from './root.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { HomeComponent } from '../home/home.component';
+import { RequestService } from '../../services/request-service/request.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { RequestService } from '../../services/request.service';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('RootComponent', () => {
   let component: RootComponent;
@@ -14,8 +14,8 @@ describe('RootComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RootComponent, NavbarComponent, HomeComponent ],
-      imports: [HttpClientTestingModule],
-      providers: [RequestService, AuthenticationService]
+      imports: [HttpClientTestingModule, RouterTestingModule],
+      providers: [RequestService]
     })
     .compileComponents();
   }));

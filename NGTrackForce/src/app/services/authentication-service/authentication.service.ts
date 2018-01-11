@@ -5,7 +5,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { RequestService } from '../request.service';
+import { RequestService } from '../request-service/request.service';
 
 @Injectable()
 export class AuthenticationService {

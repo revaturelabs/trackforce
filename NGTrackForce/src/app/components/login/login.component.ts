@@ -4,7 +4,7 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { Router } from '@angular/router';
 
 @Component({

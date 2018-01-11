@@ -34,14 +34,13 @@ import { AssociateService } from './services/associates-service/associates-servi
 import { ClientListService } from './services/client-list-service/client-list.service';
 import { ClientMappedService } from './services/client-mapped-service/client-mapped-service.service';
 import { AuthenticationService } from './services/authentication/authentication.service';
+import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 
 ///
 //  CONSTANTS
 ///
 
 import { appRoutes } from './routing/routes';
-import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
-import { SkillsetComponent } from './components/skillset/skillset.component';
 import { RootComponent } from './components/root/root.component';
 
 
@@ -50,7 +49,6 @@ import { RootComponent } from './components/root/root.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SkillsetComponent,
     NavbarComponent,
     HomeComponent,
     AssociateListComponent,

@@ -19,9 +19,15 @@
     <!-- Display Client name and bar chart regarding client -->
     <div class="col-md-9">
       <h1>{{selectedCompany}}</h1>
-      <canvas id="bar-chart" class="chart chart-bar" chart-series="clientSeries" chart-colors="clientColors" chart-data="clientData"
-        chart-label="clientLabels" chart-options="clientOptions">
-      </canvas>
+      <canvas baseChart id="bar-chart" class="chart chart-bar" 
+      [datasets] = "barChartData"
+      [chartType]="barChartType"
+      [labels]="barChartLabel"
+      [legend]="barChartLegend"
+      [options]="barChartOptions"
+      [colors]="barChartColors"
+       ></canvas>
+     <!-- chart-series="clientSeries" -->
     </div>
     <!-- end of col-md-9 -->
   </div>

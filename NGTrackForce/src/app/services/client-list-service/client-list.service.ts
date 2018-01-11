@@ -25,7 +25,7 @@ export class ClientListService {
   }
 
   // get first match of Client Object
-  getOneClient(clientId: number) {
+  getOneClient(clientId: number): Observable<any> {
     return this.http.get(this.url + '/clients/' + clientId);
   }
 

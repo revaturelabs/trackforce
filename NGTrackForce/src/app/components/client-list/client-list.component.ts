@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD
 import { HttpClient } from '@angular/common/http';
 import { ClientListService } from '../../services/client-list-service/client-list.service'
 import { Subject } from 'rxjs/Subject';
 import { Client } from '../../models/Client';
-=======
-import { ClientService } from '../../services/clients-service/clients-service'
->>>>>>> 482af6c2d800a179629cbd26cdcabe6ae278c2ba
 
 /**
  * @author Han Jung
@@ -21,11 +17,26 @@ export class ClientListComponent implements OnInit {
   private selectedCompany: string;
   private clientInfo: Client[];
   private clientNames: string[] = [];
-  private client$: Client;
+  private client$: any;
   private searchName;
-  private clientSeries: string[] = [ 'Mapped', 'Unmapped' ];
-  private clientLabel: string[] = ['Training', 'Reserved/Open', 'Selected', 'Confirmed', 'Deployed'];
-  
+  // chart variable
+  public barChartLabel: string[] = ['Training', 'Reserved/Open', 'Selected', 'Confirmed', 'Deployed'];
+  public barChartType: string = 'bar';
+  public barChartLegend: boolean = true;
+  public barChartColors: any = [{
+    backgroundColor: '#e85410'
+  }, {
+    backgroundColor: '#59504c'
+  }, '#e85410', '#e85410']
+  public barChartOptions: any = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  }
+  public barChartData: any[] = [
+    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Mapped' },
+    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Unmapped' }
+  ];
+
 
   constructor(
     private clientService: ClientListService) { }
@@ -61,15 +72,22 @@ export class ClientListComponent implements OnInit {
       client => {
         this.client$ = client;
         this.selectedCompany = this.client$.name;
+        this.barChartData = [this.client$.trainingMapped, ]
       }, err => {
         console.log("Failed grabbing clients");
       });
   }
 
+  // get client name and find id to request client information
   getOneClient(name: string) {
     this.selectedCompany = name;
     let oneClient = this.clientInfo.find(item => item.name == name);
-    this.clientService.getOneClient(oneClient.id);
+    this.clientService.getOneClient(oneClient.id)
+      .subscribe(
+      client => {
+        this.client$ = client;
+      }, err => {
+        console.log("Failed grabbing client");
+      });
   }
-
 }

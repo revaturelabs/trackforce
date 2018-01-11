@@ -31,7 +31,15 @@ export class RequestService {
     return this.http.delete(this.host + '/TrackForce/track/database/deleteDB');
   }
 
-  public login(username: string , password: string): Observable<any> {
-    return this.http.post<any>(this.host + 'TrackForce/track/user/submit', {username: username, password: password});
+  public login(username: string, password: string): Observable<any> {
+    return this.http.post<any>(this.host + 'TrackForce/track/user/submit', { username: username, password: password });
+  }
+
+  public getUsername() {
+    return this.http.get<any>(this.host + '/TrackForce/track/user/name');
+  }
+
+  public getBatches() {
+    return this.http.get<any>(this.host + '/TrackForce/track/batches/');
   }
 }

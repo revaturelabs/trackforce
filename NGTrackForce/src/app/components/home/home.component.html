@@ -1,16 +1,16 @@
-<!-- <div class="container">
+<div class="container">
   
     <div class="row">
        <div class="col-sm-1"></div>
       <div class="col-sm-4">
   
          <div class="well">
-            <canvas id="pie" class="chart chart-pie" chart-data="UndeployedData" chart-colors="mappedColors" chart-labels="UndeployedLabels" chart-options="undeployedOptions"></canvas>
+            <canvas baseChart id="pie" class="chart chart-pie" [data]="UndeployedData" [colors]="mappedColors" [labels]="UndeployedLabels" [options]="undeployedOptions"></canvas>
            </div>
       </div> 
       <div class="col-sm-4">
          <div class="well">
-           <canvas id="pie" class="chart chart-pie" chart-data="DeployedData" chart-colors="mappedColors" chart-options="deployedOptions" chart-labels="DeployedLabels"></canvas> 
+           <canvas baseChart id="pie" class="chart chart-pie" [data]="DeployedData" [colors]="mappedColors" [options]="deployedOptions" [labels]="DeployedLabels"></canvas> 
            </div>
           </div>
       <div class="col-sm-3">
@@ -26,13 +26,13 @@
       <div class="col-sm-4">
   
          <div class="well">
-           <canvas id="pie" class="chart chart-pie" chart-data="MappedData" chart-labels="MappedLabels" chart-click="MappedOnClick" chart-colors="clientTheme" chart-options="mappedOptions"></canvas>
+           <canvas baseChart id="pie" class="chart chart-pie" [data]="MappedData" [labels]="MappedLabels" (chartClick)="MappedOnClick($event)" [colors]="clientTheme" [options]="mappedOptions"></canvas>
            </div>
       </div>
       <div class="col-sm-4">
           <div class="well">
-          <canvas id="pie" class="chart chart-pie" chart-data="UnmappedData" chart-labels="UnmappedLabels" chart-colors="skillTheme" chart-options="unmappedOptions" chart-click="UnmappedOnClick"></canvas>
+          <canvas baseChart id="pie" class="chart chart-pie" [data]="UnmappedData" [labels]="UnmappedLabels" [colors]="skillTheme" [options]="unmappedOptions" (chartClick)="UnmappedOnClick($event)"></canvas>
           </div>
       </div>
     </div>
-  </div> -->
+  </div>

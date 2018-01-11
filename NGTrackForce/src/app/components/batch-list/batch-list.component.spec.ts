@@ -19,6 +19,7 @@ import { SearchFilterPipe } from '../../pipes/search-filter/search-filter.pipe';
 import { AssociateSearchByTextFilter } from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { RootComponent } from '../root/root.component';
 
 TestBed.configureTestingModule({
   declarations: [
@@ -31,7 +32,8 @@ TestBed.configureTestingModule({
     CreateUserComponent,
     SearchFilterPipe,
     AssociateSearchByTextFilter,
-    NavbarComponent
+    NavbarComponent,
+    RootComponent
   ],
   providers: [
     BatchService,

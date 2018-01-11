@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.hibernate.HibernateException;
 
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.HomeDaoImpl;
@@ -32,10 +35,12 @@ public class ClientResource {
      * as a response object.
      * 
      * @return A map of TfClients with associates as a Response object
+     * @throws IOException 
+     * @throws HibernateException 
      */
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    public Response getAllClientsWithAssociates() {
+    public Response getAllClientsWithAssociates() throws HibernateException, IOException {
         List<TfClient> clients = clientDaoImpl.getAllTfClients();
         List<Map<String, Object>> entity = new ArrayList<>();
         for (TfClient client : clients) {
@@ -54,11 +59,13 @@ public class ClientResource {
      * object.
      * 
      * @return A map of TfClients as a Response object
+     * @throws IOException 
+     * @throws HibernateException 
      */
     @GET
     @Path("all")
     @Produces({ MediaType.APPLICATION_JSON })
-    public Response getAllClients() {
+    public Response getAllClients() throws HibernateException, IOException {
         List<TfClient> clients = clientDaoImpl.getAllTfClients();
         List<Map<String, Object>> entity = new ArrayList<>();
         for (TfClient client : clients) {
@@ -75,11 +82,13 @@ public class ClientResource {
      * statuses.
      * 
      * @return A StatusInfo object for all clients
+     * @throws IOException 
+     * @throws HibernateException 
      */
     @GET
     @Path("info")
     @Produces({ MediaType.APPLICATION_JSON })
-    public StatusInfo getAllClientInfo() {
+    public StatusInfo getAllClientInfo() throws HibernateException, IOException {
         init();
         return StatusInfoUtil.getAllAssociatesStatusInfo();
     }
@@ -91,11 +100,13 @@ public class ClientResource {
      * @param clientid
      *            The id of the client in the TfClient table
      * @return A StatusInfo object for a specified client
+     * @throws IOException 
+     * @throws HibernateException 
      */
     @GET
     @Path("{clientid}")
     @Produces({ MediaType.APPLICATION_JSON })
-    public StatusInfo getClientInfo(@PathParam("clientid") int clientid) {
+    public StatusInfo getClientInfo(@PathParam("clientid") int clientid) throws HibernateException, IOException {
         init();
         if (clientid < 1)
             return new StatusInfo();
@@ -105,8 +116,10 @@ public class ClientResource {
     /**
      * Initializes objects needed for functionality from the StatusInfoUtil when
      * maps in StatusInfoUtil are empty.
+     * @throws IOException 
+     * @throws HibernateException 
      */
-    private void init() {
+    private void init() throws HibernateException, IOException {
         if (StatusInfoUtil.mapsAreEmpty()) {
             initForce();
         }
@@ -115,10 +128,12 @@ public class ClientResource {
     /**
      * Forces initialization of objects needed for functionality from the
      * StatusInfoUtil.
+     * @throws IOException 
+     * @throws HibernateException 
      */
     @POST
     @Path("init")
-    public void initForce() {
+    public void initForce() throws HibernateException, IOException {
         HomeDaoImpl.clearAssociates();
         clientDaoImpl.clearClients();
         StatusInfoUtil.clearMaps();

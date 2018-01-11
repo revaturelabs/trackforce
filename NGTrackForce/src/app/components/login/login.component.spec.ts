@@ -10,6 +10,10 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { RequestService } from '../../services/request-service/request.service';
+import { RootComponent } from '../root/root.component';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { HomeComponent } from '../home/home.component';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -17,8 +21,8 @@ describe('LoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginComponent ],
-      providers: [AuthenticationService],
+      declarations: [ LoginComponent, RootComponent, NavbarComponent, HomeComponent ],
+      providers: [AuthenticationService, RequestService ],
       imports: [FormsModule, HttpClientTestingModule, RouterTestingModule]
     })
     .compileComponents();

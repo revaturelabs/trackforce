@@ -14,7 +14,7 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent, RootComponent, NavbarComponent ],
+      declarations: [ HomeComponent, RootComponent, NavbarComponent, HomeComponent ],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule

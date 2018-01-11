@@ -1,5 +1,5 @@
-# Don't store Hibernate DB credentials
-hibernate.cfg.xml
+# ignore package-lock metadata
+package-lock.json
 
 # Node dependencies are inside package-lock.json 
 # To install node modules on your end run an npm install

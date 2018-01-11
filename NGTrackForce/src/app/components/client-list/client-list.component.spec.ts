@@ -22,9 +22,7 @@ describe('ClientListComponent', () => {
         ClientListService
       ]
     })
-    .compileComponents().then(() =>{
-      
-    });
+    .compileComponents();
   }));
 
 

@@ -15,11 +15,11 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./client-list.component.css']
 })
 export class ClientListComponent implements OnInit {
-  private selectedCompany: string;
-  private clientInfo: Client[];
-  private clientNames: string[] = [];
-  private client$: any;
-  private searchName;
+  public selectedCompany: string;
+  public clientInfo: Client[];
+  public clientNames: string[] = [];
+  public client$: any;
+  public searchName;
   // chart variable
   public barChartLabel: string[] = ['Training', 'Reserved/Open', 'Selected', 'Confirmed', 'Deployed'];
   public barChartType: string = 'bar';

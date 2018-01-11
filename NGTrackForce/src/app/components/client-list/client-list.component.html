@@ -10,7 +10,7 @@
       <div id="clients-list-well" class="well">
         <ul id="clients-list">
           <!-- populate list of company names -->
-          <li *ngFor="let clientName of clientNames | searchFilter : searchName" (click)="getOneClient(clientName)">{{clientName}}</li>
+          <li *ngFor="let clientName of clientNames | searchFilter : searchName" (click)="getOneClient(clientName)"><span class="client-name">{{clientName}}</span></li>
 
         </ul>
       </div>

@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.hibernate.HibernateException;
 
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
@@ -32,11 +35,12 @@ public class AssociateService {
      * @param associateid
      *            - The ID of the associate to get information about
      * @return - An AssociateInfo object that contains the associate's information.
+     * @throws IOException 
      */
     @GET
     @Path("{associateid}")
     @Produces(MediaType.APPLICATION_JSON)
-    public AssociateInfo getAssociate(@PathParam("associateid") BigDecimal associateid) {
+    public AssociateInfo getAssociate(@PathParam("associateid") BigDecimal associateid) throws IOException {
         AssociateDaoHibernate associatedao = new AssociateDaoHibernate();
         TfAssociate associate = associatedao.getAssociate(associateid);
 
@@ -81,12 +85,13 @@ public class AssociateService {
      * @param client
      *            - What client to change the associate to
      * @return
+     * @throws IOException 
      */
     @GET
     @Path("{associateId}/update/{marketingStatus}/{client}")
     @Produces({ MediaType.TEXT_HTML })
     public Response updateAssociate(@PathParam("associateId") String id, @PathParam("marketingStatus") String marketingStatus,
-            @PathParam("client") String client) {
+            @PathParam("client") String client) throws IOException {
         MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
         TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
 
@@ -111,11 +116,13 @@ public class AssociateService {
      * it with "None".
      * 
      * @return - A Response object with a list of TfAssociate objects.
+     * @throws IOException 
+     * @throws HibernateException 
      */
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllAssociates() {
+    public Response getAllAssociates() throws HibernateException, IOException {
         List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates();
         List<AssociateInfo> associateInfos = new ArrayList<>();
         for (TfAssociate tfAssociate : tfAssociates) {

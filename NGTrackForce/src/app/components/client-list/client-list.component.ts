@@ -21,7 +21,7 @@ export class ClientListComponent implements OnInit {
   public client$: any;
   public searchName;
   // chart variable
-  public barChartLabel: string[] = ['Training', 'Reserved/Open', 'Selected', 'Confirmed', 'Deployed'];
+  public barChartLabel: string[] = ['Training', 'Reserved/Open', 'Selected', 'Confirmed'];
   public barChartType: string = 'bar';
   public barChartLegend: boolean = true;
   public barChartColors: any = [{
@@ -34,7 +34,7 @@ export class ClientListComponent implements OnInit {
     responsive: true
   }
   // data values initialize to 1 for animation
-  public barChartData: any[] = [{ data: [1, 1, 1, 1, 1], label: 'Mapped' }, { data: [1, 1, 1, 1, 1], label: 'Unmapped' }];
+  public barChartData: any[] = [{ data: [1, 1, 1, 1], label: 'Mapped' }, { data: [1, 1, 1, 1], label: 'Unmapped' }];
 
 
   constructor(
@@ -102,11 +102,11 @@ export class ClientListComponent implements OnInit {
         // assign data for the chart
         this.barChartData = [
           {
-            data: [this.client$.trainingMapped, this.client$.reservedMapped, this.client$.selectedMapped, this.client$.confirmedMapped, this.client$.deployedMapped],
+            data: [this.client$.trainingMapped, this.client$.reservedMapped, this.client$.selectedMapped, this.client$.confirmedMapped],
             label: 'Mapped'
           },
           {
-            data: [this.client$.trainingUnmapped, this.client$.openUnmapped, this.client$.selectedUnmapped, this.client$.confirmedUnmapped, this.client$.deployedUnmapped],
+            data: [this.client$.trainingUnmapped, this.client$.openUnmapped, this.client$.selectedUnmapped, this.client$.confirmedUnmapped],
             label: 'Unmapped'
           }
         ]

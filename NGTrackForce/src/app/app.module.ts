@@ -3,13 +3,13 @@
 ///
 
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ChartsModule } from 'ng2-charts';
 
+import { FormsModule } from '@angular/forms';
 
 ///
 //  COMPONENTS
@@ -45,8 +45,6 @@ import { RootComponent } from './components/root/root.component';
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +64,6 @@ import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-fi
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
     ChartsModule

@@ -1,7 +1,8 @@
 /**
- * @author Antony Lulciuc
+ * @author Matt
  */
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import { User } from '../../models/User';
 
 @Component({
   selector: 'app-create-user',
@@ -9,10 +10,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-user.component.css']
 })
 export class CreateUserComponent implements OnInit {
-  // TODO : add logic
-  constructor() { }
+  
+  user: User;
 
-  ngOnInit() {
+  constructor() {
+    
   }
 
+  ngOnInit() {
+    
+  }
+
+   
 }

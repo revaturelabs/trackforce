@@ -5,6 +5,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { HomeComponent } from '../home/home.component';
 import { RequestService } from '../../services/request.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('RootComponent', () => {
   let component: RootComponent;
@@ -13,7 +14,7 @@ describe('RootComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RootComponent, NavbarComponent, HomeComponent ],
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [RequestService]
     })
     .compileComponents();

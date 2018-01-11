@@ -34,14 +34,15 @@ export class ClientListComponent implements OnInit {
     responsive: true
   }
   // data values initialize to 1 for animation
-  public barChartData: any[] =[ {data:[1,1,1,1,1], label: 'Mapped'},{data:[1,1,1,1,1],label: 'Unmapped'}];
+  public barChartData: any[] = [{ data: [1, 1, 1, 1, 1], label: 'Mapped' }, { data: [1, 1, 1, 1, 1], label: 'Unmapped' }];
 
 
   constructor(
     private clientService: ClientListService) {
-      this.getAllClients();
-     }
+    this.getAllClients();
+  }
 
+  // these are self descriptive -_-
   ngOnInit() {
     this.getAllClientNames();
     this.getAllClients();
@@ -73,6 +74,7 @@ export class ClientListComponent implements OnInit {
       client => {
         this.client$ = client;
         this.selectedCompany = this.client$.name;
+        // assign data for the chart
         this.barChartData = [
           {
             data: [this.client$.trainingMapped, this.client$.reservedMapped, this.client$.selectedMapped, this.client$.confirmedMapped, this.client$.deployedMapped],
@@ -97,6 +99,7 @@ export class ClientListComponent implements OnInit {
       .subscribe(
       client => {
         this.client$ = client;
+        // assign data for the chart
         this.barChartData = [
           {
             data: [this.client$.trainingMapped, this.client$.reservedMapped, this.client$.selectedMapped, this.client$.confirmedMapped, this.client$.deployedMapped],
@@ -107,7 +110,6 @@ export class ClientListComponent implements OnInit {
             label: 'Unmapped'
           }
         ]
-        console.log(this.barChartData);
       }, err => {
         console.log("Failed grabbing client");
       });

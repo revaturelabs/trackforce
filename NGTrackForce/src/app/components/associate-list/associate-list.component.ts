@@ -37,13 +37,9 @@ export class AssociateListComponent implements OnInit {
 
   public test: number[];
 
-<<<<<<< HEAD
-  constructor(private associateService: AssociateService, private clientService: ClientService) {
+  constructor(private associateService: AssociateService, private clientService: ClientListService) {
     this.curriculums = new Set<string>();
   }
-=======
-  constructor(private associateService: AssociateService, private clientService: ClientListService) { }
->>>>>>> 341e8eee43b52ca59d2db00c835e23640bc1a660
 
   ngOnInit() {
     this.getAllAssociates();

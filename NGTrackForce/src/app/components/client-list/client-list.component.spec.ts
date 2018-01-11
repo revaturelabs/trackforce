@@ -1,9 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ClientListComponent } from './client-list.component';
 import { FormsModule } from '@angular/forms';
-import { ClientListService } from '../../services/client-list-service/client-list.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { ClientListService } from '../../services/client-list-service/client-list.service';
 import { SearchFilterPipe } from '../../pipes/search-filter/search-filter.pipe';
+import { ChartsModule } from 'ng2-charts';
 
 describe('ClientListComponent', () => {
   let component: ClientListComponent;
@@ -14,15 +15,14 @@ describe('ClientListComponent', () => {
       declarations: [ ClientListComponent, SearchFilterPipe ],
       imports: [
         FormsModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        ChartsModule
       ],
       providers: [
         ClientListService
       ]
     })
-    .compileComponents().then(() =>{
-      
-    });
+    .compileComponents();
   }));
 
 

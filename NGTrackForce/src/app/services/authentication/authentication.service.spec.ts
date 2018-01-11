@@ -9,13 +9,14 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import 'rxjs/add/operator/map';
 
 import { AuthenticationService } from './authentication.service';
+import { RequestService } from '../request.service';
 
 
 describe('AuthenticationService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [AuthenticationService]
+      providers: [AuthenticationService, RequestService]
     });
   });
 

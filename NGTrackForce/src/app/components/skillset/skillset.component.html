@@ -10,7 +10,7 @@
 		<div class="col-lg-6">
 			<h3 class="text-center text-primary">{{selectedStatus}}</h3><br/>
 			<!-- TODO: figure out how to convert this['chart-click'],this['chart-colors'] to TypeScript -->
-			<canvas *ngIf="USE_NG2_CHART; else chartJSCanvas"
+			<!-- <canvas *ngIf="USE_NG2_CHART; else chartJSCanvas"
 				id="bar" 
 				class="chart chart-bar"
 				[chartType]="chartType"
@@ -19,7 +19,7 @@
 				chart-click="skillsetClick" 
 				[labels]="skillsetLabels"
 				[options]="options">
-			</canvas>
+			</canvas> -->
 			<ng-template #chartJSCanvas>
 				<div *ngIf="chart">
 					<canvas id="canvas">{{ chart }}</canvas>

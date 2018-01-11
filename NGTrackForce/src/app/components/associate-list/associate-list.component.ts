@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AssociateService } from '../../services/associates-service/associates-service';
 import { Associate } from '../../models/Associate';
-import { ClientService } from '../../services/clients-service/clients-service';
+import { ClientListService } from '../../services/client-list-service/client-list.service';
 import { Client } from '../../models/Client';
 
 /**
@@ -19,7 +19,7 @@ export class AssociateListComponent implements OnInit {
   associates: Associate[]
   clients: Client[]
 
-  constructor(private associateService: AssociateService, private clientService: ClientService) { }
+  constructor(private associateService: AssociateService, private clientService: ClientListService) { }
 
   ngOnInit() {
     this.getAllAssociates()

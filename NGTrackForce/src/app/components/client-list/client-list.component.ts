@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ClientListService } from '../../services/client-list-service/client-list.service'
 import { Subject } from 'rxjs/Subject';
 import { Client } from '../../models/Client';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * @author Han Jung
@@ -32,14 +33,14 @@ export class ClientListComponent implements OnInit {
     scaleShowVerticalLines: false,
     responsive: true
   }
-  public barChartData: any[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Mapped' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Unmapped' }
-  ];
+  // data values initialize to 1 for animation
+  public barChartData: any[] =[ {data:[1,1,1,1,1], label: 'Mapped'},{data:[1,1,1,1,1],label: 'Unmapped'}];
 
 
   constructor(
-    private clientService: ClientListService) { }
+    private clientService: ClientListService) {
+      this.getAllClients();
+     }
 
   ngOnInit() {
     this.getAllClientNames();
@@ -72,7 +73,17 @@ export class ClientListComponent implements OnInit {
       client => {
         this.client$ = client;
         this.selectedCompany = this.client$.name;
-        this.barChartData = [this.client$.trainingMapped, ]
+        this.barChartData = [
+          {
+            data: [this.client$.trainingMapped, this.client$.reservedMapped, this.client$.selectedMapped, this.client$.confirmedMapped, this.client$.deployedMapped],
+            label: 'Mapped'
+          },
+          {
+            data: [this.client$.trainingUnmapped, this.client$.openUnmapped, this.client$.selectedUnmapped, this.client$.confirmedUnmapped, this.client$.deployedUnmapped],
+            label: 'Unmapped'
+          }
+        ]
+        console.log(this.barChartData);
       }, err => {
         console.log("Failed grabbing clients");
       });
@@ -86,6 +97,17 @@ export class ClientListComponent implements OnInit {
       .subscribe(
       client => {
         this.client$ = client;
+        this.barChartData = [
+          {
+            data: [this.client$.trainingMapped, this.client$.reservedMapped, this.client$.selectedMapped, this.client$.confirmedMapped, this.client$.deployedMapped],
+            label: 'Mapped'
+          },
+          {
+            data: [this.client$.trainingUnmapped, this.client$.openUnmapped, this.client$.selectedUnmapped, this.client$.confirmedUnmapped, this.client$.deployedUnmapped],
+            label: 'Unmapped'
+          }
+        ]
+        console.log(this.barChartData);
       }, err => {
         console.log("Failed grabbing client");
       });

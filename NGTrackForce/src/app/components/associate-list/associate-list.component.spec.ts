@@ -2,8 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AssociateListComponent } from './associate-list.component';
 import { AssociateService } from '../../services/associates-service/associates-service';
-import { ClientService } from '../../services/clients-service/clients-service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { ClientListService } from '../../services/client-list-service/client-list.service';
 
 
 describe('AssociateListComponent', () => {
@@ -18,7 +18,7 @@ describe('AssociateListComponent', () => {
       ],
       providers: [
         AssociateService,
-        ClientService
+        ClientListService
       ]
     })
     .compileComponents();

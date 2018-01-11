@@ -1,8 +1,51 @@
 import { SearchFilterPipe } from './search-filter.pipe';
 
-describe('SearchFilterPipe', () => {
+describe('Pipe: SearchFilterPipe', () => {
+  let pipe: SearchFilterPipe;
+  let testStringArr: string[] = ['GOOGLE', 'FaCeBooK', 'appLE', 'microSoft', 'airbnb', '##^&', 'Cucumber.io', 'rev@ture'];
+  let testStringForeign: string[] = ['Газпром', '삼성', '华为'];
+
+  beforeEach(() => {
+    pipe = new SearchFilterPipe();
+  })
+
   it('create an instance', () => {
-    const pipe = new SearchFilterPipe();
     expect(pipe).toBeTruthy();
   });
+
+  it('should match same string with different capitalization', () => {
+    expect(pipe.transform(testStringArr, 'google')).toEqual(['GOOGLE']);
+    expect(pipe.transform(testStringArr, 'FACEBOOK')).toEqual(['FaCeBooK']);
+  });
+
+  it('should match names that contains search value'), () => {
+    expect(pipe.transform(testStringArr, 'oo')).toEqual(['GOOGLE', 'FaCeBooK']);
+  }
+
+  it('should return the whole array when search term is blank'), () => {
+    expect(pipe.transform(testStringArr, '')).toEqual(testStringArr);
+  }
+
+  it('should return empty array when there is no match'), () => {
+    expect(pipe.transform(testStringArr, 'Flabalaba')).toEqual([]);
+  }
+
+  it('matches special character'), () => {
+    expect(pipe.transform(testStringArr, '##^&')).toEqual(['##^&']);
+    expect(pipe.transform(testStringArr, 'Cucumber.io')).toEqual(['Cucumber.io']);
+    expect(pipe.transform(testStringArr, 'rev@ture')).toEqual(['rev@ture']);
+  }
+
+  it('matches Korean characters'), () => {
+    expect(pipe.transform(testStringForeign, '삼')).toEqual(['삼성']);
+  }
+  
+  it('matches Chinese characters'), () => {
+    expect(pipe.transform(testStringForeign, '华')).toEqual(['华为']);
+  }
+
+  it('matches Russian characters'), () => {
+    expect(pipe.transform(testStringForeign, 'ром')).toEqual(['Газпром']);
+  }
+
 });

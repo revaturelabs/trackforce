@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RootComponent } from './root.component';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { HomeComponent } from '../home/home.component';
+import { RequestService } from '../../services/request.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('RootComponent', () => {
   let component: RootComponent;
@@ -8,7 +12,9 @@ describe('RootComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RootComponent ]
+      declarations: [ RootComponent, NavbarComponent, HomeComponent ],
+      imports: [HttpClientTestingModule],
+      providers: [RequestService]
     })
     .compileComponents();
   }));

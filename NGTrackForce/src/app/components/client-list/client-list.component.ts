@@ -14,11 +14,11 @@ import { Client } from '../../models/Client';
   styleUrls: ['./client-list.component.css']
 })
 export class ClientListComponent implements OnInit {
-  private selectedCompany: string;
-  private clientInfo: Client[];
-  private clientNames: string[] = [];
-  private client$: any;
-  private searchName;
+   selectedCompany: string;
+   clientInfo: Client[];
+   clientNames: string[] = [];
+   client$: any;
+   searchName;
   // chart variable
   public barChartLabel: string[] = ['Training', 'Reserved/Open', 'Selected', 'Confirmed', 'Deployed'];
   public barChartType: string = 'bar';

@@ -2,8 +2,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AssociateListComponent } from './associate-list.component';
 import { AssociateService } from '../../services/associates-service/associates-service';
-import { ClientService } from '../../services/clients-service';
+import { ClientListService } from '../../services/client-list-service/client-list.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { FormsModule } from '@angular/forms';
+import { AssociateSearchByTextFilter } from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 
 
 describe('AssociateListComponent', () => {
@@ -12,13 +14,14 @@ describe('AssociateListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AssociateListComponent ],
+      declarations: [ AssociateListComponent, AssociateSearchByTextFilter ],
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        FormsModule
       ],
       providers: [
         AssociateService,
-        ClientService
+        ClientListService
       ]
     })
     .compileComponents();

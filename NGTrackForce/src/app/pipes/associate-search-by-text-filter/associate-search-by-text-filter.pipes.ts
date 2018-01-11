@@ -8,7 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  * Pipe to filter searches based on user input
  * @author Alex, Xavier
  */
-export class SearchByTextFilter implements PipeTransform {
+export class AssociateSearchByTextFilter implements PipeTransform {
     transform(items: any[], searchText: string): any[] {
  
         if (!items) return [];

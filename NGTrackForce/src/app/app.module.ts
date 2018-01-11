@@ -41,8 +41,8 @@ import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 ///
 
 import { appRoutes } from './routing/routes';
-import { SearchByTextFilter } from '../pipes/searchfilter.pipes';
 import { RootComponent } from './components/root/root.component';
+import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 
 
 
@@ -53,7 +53,7 @@ import { RootComponent } from './components/root/root.component';
     NavbarComponent,
     HomeComponent,
     AssociateListComponent,
-    SearchByTextFilter,
+    AssociateSearchByTextFilter,
     BatchListComponent,
     ClientMappedComponent,
     ClientListComponent,

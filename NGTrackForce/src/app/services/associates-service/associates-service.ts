@@ -37,6 +37,6 @@ export class AssociateService {
         console.log("service");
         let url: string = environment.url + "TrackForce/track/associates/update/" + ustatus + "/" + uclient
         
-        this.http.put(url, ids).subscribe()
+        return this.http.put(url, ids)
     }
 }

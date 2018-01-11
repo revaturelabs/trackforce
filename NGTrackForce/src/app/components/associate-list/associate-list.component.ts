@@ -108,10 +108,14 @@ export class AssociateListComponent implements OnInit {
       var check = <HTMLInputElement>document.getElementById("" + i);
       if (check != null && check.checked) {
         ids.push(i);
-        console.log(i);
       }
     }
-    this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient);
+    this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient).subscribe(
+      data => {
+
+      }
+    );
+
   }
 
   showUpdate() {

@@ -89,8 +89,6 @@ public class AssociateService {
 	@Produces({ MediaType.TEXT_HTML })
 	public Response updateAssociate(@PathParam("associateId") String id, @PathParam("marketingStatus") String marketingStatus,
 			@PathParam("client") String client) {
-		System.out.println(id);
-		System.out.println(marketingStatus);
 		MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
 		TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
 

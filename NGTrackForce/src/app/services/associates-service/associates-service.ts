@@ -6,6 +6,10 @@ import { Associate } from "../../models/Associate";
 import { Response } from "@angular/http/";
 import { environment } from "../../../environments/environment";
 
+/**
+ * Service for retrieving and updating data relating to associates.
+ * @author Alex, Xavier
+ */
 @Injectable()
 export class AssociateService {
 

@@ -1,11 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
-
-import { ClientMappedService } from './client-mapped-service.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { ClientMappedService } from './client-mapped-service';
 
 describe('ClientMappedServiceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ClientMappedService]
+      providers: [ClientMappedService],
+      imports: [
+        HttpClientTestingModule
+      ]
     });
   });
 

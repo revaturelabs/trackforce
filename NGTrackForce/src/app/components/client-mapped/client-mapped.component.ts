@@ -7,36 +7,27 @@ import { ClientMappedService } from '../../services/client-mapped-service/client
   styleUrls: ['./client-mapped.component.css']
 })
 export class ClientMappedComponent implements OnInit {
-  private selectedStatus='Training'; //Pass this in from the service
+  private selectedStatus='Reserved'; //Pass this in from the service
   
   private statusID = 0;
-  private chartType: String = "bar";
-  private options = {
-    type : this.chartType, xAxes:[{ticks:{autoSkip:false}}],scales: {yAxes: [{ticks: {min: 0}}]}
-  };
-  private clientMappedLabels: String[] = [];
-  private clientMappedData: Number[] = [];
+  private chartType: String = "pie";
+  // private options = {
+  //   type : this.chartType, xAxes:[{ticks:{autoSkip:false}}],scales: {yAxes: [{ticks: {min: 0}}]}
+  // };
+  public clientMappedLabels: string[] = [];
+  public clientMappedData: number[] = [];
+
+  //Sample data
+  public pieChartLabels:string[];
+  public pieChartData:number[] = [];
+
+
   constructor(
     private clientMappedService: ClientMappedService
   ) { }
 
-  // Pie
-  public pieChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail Sales'];
-  public pieChartData:number[] = [300, 500, 100];
-  public pieChartType:string = 'pie';
- 
-  // events
-  public chartClicked(e:any):void {
-    console.log(e);
-  }
- 
-  public chartHovered(e:any):void {
-    console.log(e);
-  }
-
   ngOnInit() {
     console.log("Inisde ngOnInit");
-
 
     this.statusID=0;
 		if(this.selectedStatus=='Training'){
@@ -49,22 +40,53 @@ export class ClientMappedComponent implements OnInit {
 			this.statusID=4;
 		}
 
+    console.log("about to make a http");
     this.clientMappedService.getAssociatesByStatus().subscribe( data => {
-      for(let d in data) {
-        const temp_name = data[d].name;
-        const temp_count = data[d].count;
-        if(temp_count > 0){
-          this.clientMappedLabels.push(data[d].name);
-          this.clientMappedData.push(data[d].count);
-        }
-      }
+      console.log("made http request");
+      let temp_clientMappedLabels: string[] = [];
+      let temp_clientMappedData: number[] = [];
 
-      console.log(this.clientMappedLabels);
-      console.log(this.clientMappedData); 
-      console.log(this.statusID);
-      console.log(this.selectedStatus);
+      temp_clientMappedData.push(500);
+      temp_clientMappedData.push(200);
+      temp_clientMappedData.push(300);
+      temp_clientMappedLabels.push('Download Sales'); 
+      temp_clientMappedLabels.push('In-Store Sales');
+      temp_clientMappedLabels.push('Mail Sales');
+      // for(let d in data) {
+      //   const temp_name = data[d].name;
+      //   const temp_count = data[d].count;
+      //   if(temp_count > 0){
+      //     if(data[d].name == ""){
+      //       console.log('Name is empty');
+      //       this.clientMappedLabels.push("Empty Name");
+      //     } else {
+      //       this.clientMappedLabels.push(data[d].name);
+      //     }
+      //     this.clientMappedData.push(data[d].count);
+      //   }
+      // }
+      this.pieChartData = temp_clientMappedData;
+      this.pieChartLabels = temp_clientMappedLabels;
+
+      console.log(this.pieChartData);
+      console.log(this.pieChartLabels);
     })
 
+    // console.log(this.clientMappedLabels);
+    // console.log(this.clientMappedData); 
+    // console.log(this.chartType);
+    // console.log(this.statusID);
+    // console.log(this.selectedStatus);
     
+  }
+
+
+   // events
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+ 
+  public chartHovered(e:any):void {
+    console.log(e);
   }
 }

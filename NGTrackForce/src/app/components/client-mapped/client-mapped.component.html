@@ -1,9 +1,10 @@
 <script src="node_modules/chart.js/src/chart.js"></script>
 <div style="display: block">
-  <canvas baseChart
+  <canvas baseChart *ngIf="pieChartData && pieChartLabels"
           [data]="pieChartData"
           [labels]="pieChartLabels"
-          [chartType]="pieChartType"
+          [chartType]="chartType"
           (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)"></canvas>
+          (chartClick)="chartClicked($event)">
+    </canvas>
 </div>

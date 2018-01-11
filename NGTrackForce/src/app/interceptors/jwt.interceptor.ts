@@ -3,6 +3,7 @@
 *
 *@description Intercepts all HttpRequest and appends the token into the header
 * for verification
+*Based on: http://jasonwatmore.com/post/2016/09/29/angular-2-user-registration-and-login-example-tutorial
 *
 */
 import { Injectable } from '@angular/core';

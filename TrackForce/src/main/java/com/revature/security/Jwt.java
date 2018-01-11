@@ -7,6 +7,14 @@ import java.lang.annotation.Target;
 
 import javax.ws.rs.NameBinding;
 
+/**
+ * 
+ * @author Michael Tseng
+ *
+ *This interface is used to create a custom annotations for the filter
+ *Any REST method with this annotation will be intercepted by the JwtFilter
+ *And checked for valid tokens
+ */
 @NameBinding
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(value = RetentionPolicy.RUNTIME)

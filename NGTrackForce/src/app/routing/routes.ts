@@ -10,6 +10,7 @@ import { AssociateListComponent } from '../components/associate-list/associate-l
 import { BatchListComponent } from '../components/batch-list/batch-list.component';
 import { ClientListComponent } from '../components/client-list/client-list.component';
 import { LoginComponent } from '../components/login/login.component';
+import { RootComponent } from '../components/root/root.component';
 
 /**
  * Place paths here
@@ -39,5 +40,9 @@ export const appRoutes: Routes = [
     {
       path: 'login',
       component: LoginComponent
-    }
+    },
+    {
+        path: 'root',
+        component: RootComponent
+      }
 ]

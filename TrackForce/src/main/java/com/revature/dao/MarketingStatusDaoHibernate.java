@@ -1,5 +1,7 @@
 package com.revature.dao;
 
+import java.io.IOException;
+
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -16,7 +18,7 @@ import com.revature.utils.LogUtil;
 public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 
     @Override
-    public TfMarketingStatus getMarketingStatus(String status) {
+    public TfMarketingStatus getMarketingStatus(String status) throws IOException {
         SessionFactory sessionFactory = HibernateUtil.getSession();
         try (Session session = sessionFactory.openSession()) {
 

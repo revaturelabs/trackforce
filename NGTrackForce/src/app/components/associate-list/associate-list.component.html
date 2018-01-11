@@ -2,11 +2,11 @@
   <div class="form-group">
     <div class="row">
       <div class="col-sm-6">
-        <label for="name"> Search By Text: </label>
+        <label for="name">Text: </label>
         <input type="text" class="form-control" id="name" [(ngModel)]="searchByText">
       </div>
       <div class="col-sm-2">
-        <label for="mStatus">Search By Marketing Status: </label>
+        <label for="mStatus">Marketing Status: </label>
         <select class="form-control" id="mStatus" [(ngModel)]="searchByStatus">
           <option label=" "></option>
           <option>MAPPED: TRAINING</option>
@@ -22,14 +22,14 @@
         </select>
       </div>
       <div class="col-sm-2">
-        <label for="curriculum">Search By Curriculum: </label>
+        <label for="curriculum">Curriculum: </label>
         <select class="form-control" id="curriculum" [(ngModel)]="searchByCurriculum">
           <option label=""></option>
           <option *ngFor="let curriculum of curriculums">{{curriculum}}</option>
         </select>
       </div>
       <div class="col-sm-2">
-        <label for="client">Search By Client: </label>
+        <label for="client">Client: </label>
         <select class="form-control" id="client" [(ngModel)]="searchByClient">
           <option label=""></option>
           <option selected="selected">None</option>
@@ -42,34 +42,39 @@
 
   <div class="form-group">
     <div class="row">
-      <div class="col-sm-3"></div>
-      <div class="col-sm-2">
-        <label for="uStatus">Update Marketing Status: </label>
-        <select class="form-control" id="uStatus" [(ngModel)]="updateStatus">
-          <option label=""></option>
-          <option>MAPPED: TRAINING</option>
-          <option>MAPPED: RESERVED</option>
-          <option>MAPPED: SELECTED</option>
-          <option>MAPPED: CONFIRMED</option>
-          <option>MAPPED: DEPLOYED</option>
-          <option>UNMAPPED: TRAINING</option>
-          <option>UNMAPPED: OPEN</option>
-          <option>UNMAPPED: SELECTED</option>
-          <option>UNMAPPED: CONFIRMED</option>
-          <option>UNMAPPED: DEPLOYED</option>
-        </select>
-      </div>
-      <div class="col-sm-2">
-        <label for="uclient">Update Client: </label>
-        <select class="form-control" id="uclient" [(ngModel)]="updateClient">
-          <option label=""></option>
-          <option selected="selected">None</option>
-          <option *ngFor="let client of clients">{{client.name}}</option>
-        </select>
-      </div>
       <div class="col-sm-2">
         <br>
-        <button id="submit" (click)="updateAssociates()" class="btn">Update</button>
+        <button class="btn" (click)="showUpdate()">Update Associates</button>
+      </div>
+      <div id="updateHide" *ngIf="updateShow; else hidden">
+        <div class="col-sm-2">
+          <label for="uStatus">Marketing Status: </label>
+          <select class="form-control" id="uStatus" [(ngModel)]="updateStatus">
+            <option label=""></option>
+            <option>MAPPED: TRAINING</option>
+            <option>MAPPED: RESERVED</option>
+            <option>MAPPED: SELECTED</option>
+            <option>MAPPED: CONFIRMED</option>
+            <option>MAPPED: DEPLOYED</option>
+            <option>UNMAPPED: TRAINING</option>
+            <option>UNMAPPED: OPEN</option>
+            <option>UNMAPPED: SELECTED</option>
+            <option>UNMAPPED: CONFIRMED</option>
+            <option>UNMAPPED: DEPLOYED</option>
+          </select>
+        </div>
+        <div class="col-sm-2">
+          <label for="uclient">Client: </label>
+          <select class="form-control" id="uclient" [(ngModel)]="updateClient">
+            <option label=""></option>
+            <option selected="selected">None</option>
+            <option *ngFor="let client of clients">{{client.name}}</option>
+          </select>
+        </div>
+        <div class="col-sm-2">
+          <br>
+          <button id="submit" (click)="updateAssociates()" class="btn">Update</button>
+        </div>
       </div>
     </div>
   </div>

@@ -99,12 +99,8 @@ public class BatchesService {
      *
      * @param batchName - the name of a batch that is in the database
      * @return - A list with batch name, client name, curriculum name, batch
-<<<<<<< HEAD
-     * location, batch start date, and batch end date.
-=======
      *         location, batch start date, and batch end date.
      * @throws IOException 
->>>>>>> f440d8b61d0e99f16f179fb36070cb8215017a21
      */
     @GET
     @Path("{batch}/info")
@@ -121,12 +117,8 @@ public class BatchesService {
      *
      * @param batchName - the name of a batch that is in the database
      * @return - A map with the key being either Mapped or Unmapped and the value
-<<<<<<< HEAD
-     * being the number of associates in those statuses.
-=======
      *         being the number of associates in those statuses.
      * @throws IOException 
->>>>>>> f440d8b61d0e99f16f179fb36070cb8215017a21
      */
     @GET
     @Path("{batch}/batchChart")
@@ -159,12 +151,8 @@ public class BatchesService {
      * @param fromdate - the starting date of the date range
      * @param todate   - the ending date of the date range
      * @return - A list of the batch info. Batch info contains batch name, client
-<<<<<<< HEAD
-     * name, batch start date, and batch end date.
-=======
      *         name, batch start date, and batch end date.
      * @throws IOException 
->>>>>>> f440d8b61d0e99f16f179fb36070cb8215017a21
      */
     @GET
     @Path("{fromdate}/{todate}")
@@ -187,12 +175,8 @@ public class BatchesService {
      *
      * @param batchName - the name of a batch that is in the database
      * @return - A list of the lists of associate info. Associate info contains id,
-<<<<<<< HEAD
-     * first name, last name, and marketing status.
-=======
      *         first name, last name, and marketing status.
      * @throws IOException 
->>>>>>> f440d8b61d0e99f16f179fb36070cb8215017a21
      */
     @GET
     @Path("{batch}/associates")
@@ -237,13 +221,9 @@ public class BatchesService {
      */
     @PUT
     @Path("{associate}/update")
-<<<<<<< HEAD
-    @Produces({MediaType.TEXT_HTML})
-    public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus, @FormParam("client") String client) {
-=======
+
     @Produces({ MediaType.TEXT_HTML })
     public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus, @FormParam("client") String client) throws IOException {
->>>>>>> f440d8b61d0e99f16f179fb36070cb8215017a21
         MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
         TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
 

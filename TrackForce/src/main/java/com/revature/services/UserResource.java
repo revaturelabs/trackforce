@@ -53,6 +53,7 @@ public class UserResource {
 		String username = login.getUsername();
 		String password = login.getPassword();
 		UserJSON userjson = null;
+		JWTService jwt = null;
 		
 		try {
 			//Attempts to get the user from the database based on username
@@ -75,6 +76,9 @@ public class UserResource {
 							//Sets the role id and username to the userjson object, which is set back to angular
 							userjson.setTfRoleId(tfRoleId);
 							userjson.setUsername(tfUserName);
+							//Uses JWT service to create token
+							jwt = new JWTService();
+							userjson.setToken(jwt.createToken(tfUserName));
 							
 							return Response.status(200).entity(userjson).build();
 						}

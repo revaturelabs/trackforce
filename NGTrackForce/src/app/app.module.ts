@@ -31,7 +31,7 @@ import { HomeComponent } from './components/home/home.component';
 import { RequestService } from './services/request.service';
 
 import { AssociateService } from './services/associates-service/associates-service';
-import { ClientService } from './services/clients-service/clients-service';
+import { ClientService } from './services/clients-service';
 import { ClientMappedService } from './services/client-mapped-service/client-mapped-service.service';
 import { AuthenticationService } from './services/authentication/authentication.service';
 

@@ -28,6 +28,7 @@ export class AssociateListComponent implements OnInit {
   searchByCurriculum: string = "";
 
   //status/client to be updated
+  updateShow: boolean=false;
   updateStatus: string = "";
   updateClient: string = "";
 
@@ -112,5 +113,16 @@ export class AssociateListComponent implements OnInit {
       }
     }
     this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient);
+  }
+
+  showUpdate(){
+    if(this.updateShow)
+    {
+      this.updateShow=false;
+    }
+    else
+    {
+      this.updateShow=true;
+    }
   }
 }

@@ -85,7 +85,7 @@ public class AssociateDaoHibernate implements AssociateDao {
                 TfAssociate associate = session.load(TfAssociate.class, id);
                 associate.setTfMarketingStatus(status);
                 associate.setTfClient(tfclient);
-
+                System.out.println(id);
                 session.saveOrUpdate(associate);
 
                 transaction.commit();

@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkillsetComponent } from './skillset.component';
 import { SelectedStatuses } from '../../services/selectedStatuses';
 import { element, by, browser } from 'protractor';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ChartsModule } from 'ng2-charts';
 
 describe('SkillsetComponent', () => {
   let component: SkillsetComponent;
@@ -10,7 +12,8 @@ describe('SkillsetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SkillsetComponent ]
+      declarations: [ SkillsetComponent ],
+      imports : [HttpClientTestingModule, ChartsModule]
     })
     .compileComponents();
   }));

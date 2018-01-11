@@ -44,6 +44,15 @@ export class SkillsetComponent implements OnInit {
    */
   chartType = SkillsetComponent.chartTypes.BAR;
   /**
+   * The skillset data
+   * 
+   */
+  skillsetData = [];
+  /**
+   * THe skillset labels
+   */
+  skillsetLabels = [];
+  /**
    * The chart options, as a JavaScript-style object, and pre-initialized so as to DRY up our code...
    */
   chartOptions : {[k: string]: any} = {

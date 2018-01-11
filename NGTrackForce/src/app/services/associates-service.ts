@@ -6,7 +6,10 @@ import { Associate } from "../../models/Associate";
 import { Response } from "@angular/http/src/static_response";
 import { environment } from "../../environments/environment";
 
-
+/**
+ * Service for retrieving and updating data relating to associates.
+ * @author Alex, Xavier
+ */
 @Injectable()
 export class AssociateService {
 
@@ -34,6 +37,6 @@ export class AssociateService {
         console.log("service");
         let url: string = environment.url + "TrackForce/track/associates/update/" + ustatus + "/" + uclient
         
-        return this.http.post(url, ids)
+        this.http.put(url, ids).subscribe()
     }
 }

@@ -98,10 +98,13 @@ export class AssociateListComponent implements OnInit {
     });
   }
 
+  /**
+   * Bulk edit feature to update associate's statuses and clients.
+   */
   updateAssociates() {
     var ids: number[] = [];
     var i = 1;
-    for (i; i <= this.associates.length; i++) {
+    for (i; i <= this.associates.length; i++) { //grab the checked ids
       var check = <HTMLInputElement>document.getElementById("" + i);
       if (check!=null&&check.checked) {
         ids.push(i);
@@ -110,5 +113,4 @@ export class AssociateListComponent implements OnInit {
     }
     this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient);
   }
-
 }

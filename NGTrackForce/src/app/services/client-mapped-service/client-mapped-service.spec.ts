@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { ClientMappedService } from './client-mapped-service.service';
+import { ClientMappedService } from './client-mapped-service';
 
 describe('ClientMappedServiceService', () => {
   beforeEach(() => {

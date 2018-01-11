@@ -31,9 +31,10 @@ import { HomeComponent } from './components/home/home.component';
 import { RequestService } from './services/request.service';
 
 import { AssociateService } from './services/associates-service/associates-service';
-import { ClientService } from './services/clients-service/clients-service';
+import { ClientListService } from './services/client-list-service/client-list.service';
 import { ClientMappedService } from './services/client-mapped-service/client-mapped-service.service';
 import { AuthenticationService } from './services/authentication/authentication.service';
+import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 
 ///
 //  CONSTANTS
@@ -56,6 +57,7 @@ import { RootComponent } from './components/root/root.component';
     ClientListComponent,
     LoginComponent,
     CreateUserComponent,
+    SearchFilterPipe,
     RootComponent
   ],
   imports: [
@@ -67,7 +69,7 @@ import { RootComponent } from './components/root/root.component';
     RouterModule.forRoot(appRoutes),
     ChartsModule
   ],
-  providers: [AssociateService, ClientService, ClientMappedService, AuthenticationService, RequestService],
+  providers: [AssociateService, ClientListService, ClientMappedService, AuthenticationService, RequestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

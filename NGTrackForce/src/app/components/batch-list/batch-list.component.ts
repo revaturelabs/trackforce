@@ -1,11 +1,11 @@
 /** @Author Princewill Ibe **/
 
 import {Component, OnInit} from '@angular/core';
-import {Batch} from '../../models/Batch';
-import {BatchService} from '../../services/batch/batch.service';
-import {AuthenticationService} from '../../services/authentication/authentication.service';
+import {Batch} from '../../models/batch.model';
+import {BatchService} from '../../services/batch-service/batch.service';
+import {AuthenticationService} from '../../services/authentication-service/authentication.service';
 import {Router} from '@angular/router';
-import {ThemeConstants} from '../../constants/theme-constants';
+import {ThemeConstants} from '../../constants/theme.constants';
 
 
 /**

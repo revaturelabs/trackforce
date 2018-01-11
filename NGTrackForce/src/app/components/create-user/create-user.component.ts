@@ -2,7 +2,7 @@
  * @author Matt
  */
 import {Component, OnInit} from '@angular/core';
-import { User } from '../../models/User';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-create-user',

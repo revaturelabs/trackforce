@@ -2,8 +2,8 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {BatchListComponent} from './batch-list.component';
 import {ChartsModule} from 'ng2-charts';
-import {AuthenticationService} from '../../services/authentication/authentication.service';
-import {BatchService} from '../../services/batch/batch.service';
+import {AuthenticationService} from '../../services/authentication-service/authentication.service';
+import {BatchService} from '../../services/batch-service/batch.service';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from '../../routing/routes';
 import {FormsModule} from '@angular/forms';

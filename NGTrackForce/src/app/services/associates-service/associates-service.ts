@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map'
 import { Associate } from "../../models/Associate";
-import { Response } from "@angular/http/src/static_response";
+import { Response } from "@angular/http/";
 import { environment } from "../../../environments/environment";
 
 @Injectable()
@@ -19,10 +19,10 @@ export class AssociateService {
     /**
      * Get all of the associates
      */
-    getAllAssociates() {
+    getAllAssociates(): Observable<any> {
         let url: string = environment.url + "TrackForce/track/associates/all"
 
-        return this.http.get(url).map((response: Response) => response.json());
+        return this.http.get(url)
     }
 
     /**

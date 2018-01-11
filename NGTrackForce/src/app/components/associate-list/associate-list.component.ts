@@ -68,7 +68,7 @@ export class AssociateListComponent implements OnInit {
   getClientNames() {
     this.clientService.getAllClientsNames().subscribe(
       data => {
-        this.clients = <Client[]>data
+        this.clients = data
       }
     )
   }

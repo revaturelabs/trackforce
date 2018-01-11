@@ -32,10 +32,6 @@ export const appRoutes: Routes = [
         path: 'batchListing',
         component: BatchListComponent
     },
-    { 
-        path: 'skillset',
-        component: SkillsetComponent
-    },
     {
       path: '',
       redirectTo: '/login',

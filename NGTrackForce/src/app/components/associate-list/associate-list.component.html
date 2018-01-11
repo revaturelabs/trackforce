@@ -1,7 +1,7 @@
 <div class="container" ng-init="getAvailableClients(); onLoad(); getAllAssociates()">
   <div class="form-group">
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-4">
         <label for="name">Text: </label>
         <input type="text" class="form-control" id="name" [(ngModel)]="searchByText">
       </div>
@@ -36,14 +36,16 @@
           <option *ngFor="let client of clients">{{client.name}}</option>
         </select>
       </div>
+      <div class="col-sm-2">
+          <br>
+          <button class="btn" (click)="showUpdate()">Update Associates</button>
+        </div>
     </div>
+    
   </div>
   <div class="form-group">
     <div class="row">
-      <div class="col-sm-2">
-        <br>
-        <button class="btn" (click)="showUpdate()">Update Associates</button>
-      </div>
+    <div class="col-sm-3"></div>
       <div id="updateHide" *ngIf="updateShow; else hidden">
         <div class="col-sm-2">
           <label for="uStatus">Marketing Status: </label>
@@ -111,5 +113,6 @@
         </tbody>
       </table>
     </div>
+    
   </div>
 </div>

@@ -41,7 +41,7 @@ public class AssociateService {
     public AssociateInfo getAssociate(@PathParam("associateid") BigDecimal associateid) {
         AssociateDaoHibernate associatedao = new AssociateDaoHibernate();
         TfAssociate associate = associatedao.getAssociate(associateid);
-
+        System.out.println("get associate " + associateid);
         AssociateInfo associateinfo = new AssociateInfo();
         associateinfo.setId(associate.getTfAssociateId());
         associateinfo.setFirstName(associate.getTfAssociateFirstName());

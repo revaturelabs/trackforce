@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AssociateListComponent } from './components/associate-list/associate-list.component';
 import { BatchListComponent } from './components/batch-list/batch-list.component';
+import { FormComponent } from './components/form-component/form.component';
 import { ClientMappedComponent } from './components/client-mapped/client-mapped.component';
 
 ///
@@ -38,7 +39,8 @@ import { SearchByTextFilter } from '../pipes/searchfilter.pipes';
     AssociateListComponent,
     SearchByTextFilter,
     BatchListComponent,
-    ClientMappedComponent
+    ClientMappedComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,

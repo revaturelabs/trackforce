@@ -29,6 +29,12 @@ export class AssociateService {
         return this.http.get(url).map((response: Response) => response.json());
     }
 
+    getAssociate(id: number) {
+        let url: string = environment.url + "TrackForce/track/associates/" + id
+
+        return this.http.get(url).map((response: Response) => response.json());
+    }
+
     /**
      * Update the given associates statuses/clients
      * @param ids of associates to be updated
@@ -38,5 +44,13 @@ export class AssociateService {
         let url: string = environment.url + "TrackForce/track/associates/update/" + ustatus + "/" + uclient
         
         this.http.put(url, ids).subscribe()
+    }
+
+    updateAssociate(id: number, ustatus: string, uclient: string) {
+        console.log("service");
+        let url: string = environment.url + "TrackForce/track/associates/"+id+"/update/" + ustatus + "/" + uclient;
+        console.log(url);
+        
+        this.http.get(url).subscribe()
     }
 }

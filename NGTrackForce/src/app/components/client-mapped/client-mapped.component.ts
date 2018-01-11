@@ -46,25 +46,19 @@ export class ClientMappedComponent implements OnInit {
       let temp_clientMappedLabels: string[] = [];
       let temp_clientMappedData: number[] = [];
 
-      temp_clientMappedData.push(500);
-      temp_clientMappedData.push(200);
-      temp_clientMappedData.push(300);
-      temp_clientMappedLabels.push('Download Sales'); 
-      temp_clientMappedLabels.push('In-Store Sales');
-      temp_clientMappedLabels.push('Mail Sales');
-      // for(let d in data) {
-      //   const temp_name = data[d].name;
-      //   const temp_count = data[d].count;
-      //   if(temp_count > 0){
-      //     if(data[d].name == ""){
-      //       console.log('Name is empty');
-      //       this.clientMappedLabels.push("Empty Name");
-      //     } else {
-      //       this.clientMappedLabels.push(data[d].name);
-      //     }
-      //     this.clientMappedData.push(data[d].count);
-      //   }
-      // }
+      for(let d in data) {
+        const temp_name = data[d].name;
+        const temp_count = data[d].count;
+        if(temp_count > 0){
+          if(data[d].name == ""){
+            console.log('Name is empty');
+            temp_clientMappedLabels.push("Empty Name");
+          } else {
+            temp_clientMappedLabels.push(data[d].name);
+          }
+          temp_clientMappedData.push(data[d].count);
+        }
+      }
       this.pieChartData = temp_clientMappedData;
       this.pieChartLabels = temp_clientMappedLabels;
 

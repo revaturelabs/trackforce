@@ -1,13 +1,16 @@
 import { Navbar } from './navbar.po';
+import { TestConfig } from '../configuration/test-config';
 
-describe('navbar functionality', () => {
-    let navbar: Navbar
-    let baseURL: string;
+xdescribe('navbar functionality', () => {
+    let navbar          : Navbar;
+    let testConfig      : TestConfig;
+    let baseURL         : string;
 
     beforeAll(() => {
         navbar = new Navbar();
         navbar.navigateTo();
-        baseURL = 'http://localhost:49155'
+        testConfig = new TestConfig();
+        baseURL = testConfig.getBaseURL();
     })
 
     it('should navigate to home page', () => {

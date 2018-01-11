@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { environment } from '../../../environments/environment'
+
 /**
  * @author Han Jung
  * @description methods for grabbing data from api for client list 
@@ -8,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ClientListService {
-  private url: string = 'http://localhost:3000/TrackForce/track';
+  private url: string = environment.url + 'TrackForce/track';
 
   constructor(private http: HttpClient) { }
 

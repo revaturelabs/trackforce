@@ -19,7 +19,9 @@ export class ClientListComponent implements OnInit {
   private clientNames: string[] = [];
   private client$: Client;
   private searchName;
-
+  private clientSeries: string[] = [ 'Mapped', 'Unmapped' ];
+  private clientLabel: string[] = ['Training', 'Reserved/Open', 'Selected', 'Confirmed', 'Deployed'];
+  
 
   constructor(
     private clientService: ClientListService) { }

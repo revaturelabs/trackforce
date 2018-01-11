@@ -10,6 +10,7 @@ import { LoginComponent } from '../components/login/login.component';
 import { ClientMappedComponent } from '../components/client-mapped/client-mapped.component';
 import { AssociateListComponent } from '../components/associate-list/associate-list.component';
 import { BatchListComponent } from '../components/batch-list/batch-list.component';
+import { CreateUserComponent } from '../components/create-user/create-user.component';
 
 /**
  * Place paths here
@@ -44,6 +45,19 @@ export const appRoutes: Routes = [
     {
         path: 'batch-listing',
         component: BatchListComponent
+    },
+    {
+        path: 'createUser',
+        component: CreateUserComponent
+    },
+    {
+      path: '',
+      redirectTo: '/login',
+      pathMatch: 'full'
+    },
+    {
+      path: 'login',
+      component: LoginComponent
     }
 ]
 

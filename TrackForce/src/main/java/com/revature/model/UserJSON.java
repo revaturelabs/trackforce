@@ -2,10 +2,16 @@ package com.revature.model;
 
 import java.math.BigDecimal;
 
-//This class is the Java representation of a JSON bean to be set to Angular
-//Jackson will automatically convert the Java Bean to JSON
-//This beans contains user roleId, username, JWT token
-//Produced by the REST service
+/**
+ * 
+ * @author Michael Tseng
+ * 
+ * This class is the Java representation of a JSON bean to be set to Angular
+ * Jackson will automatically convert the Java Bean to JSON
+ * This beans contains user roleId, username, JWT token
+ * Produced by the REST service
+ *
+ */
 public class UserJSON {
 	
 	private String username;

@@ -6,8 +6,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule, JsonpModule } from '@angular/http';
+
 
 
 ///
@@ -32,6 +33,11 @@ import { AssociateService } from './services/associates-service/associates-servi
 import { ClientService } from './services/clients-service/clients-service';
 import { ClientMappedService } from './services/client-mapped-service/client-mapped-service.service';
 import { AuthenticationService } from './services/authentication/authentication.service';
+
+///
+//Security
+///
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 ///
 //  CONSTANTS
@@ -62,7 +68,15 @@ import { appRoutes } from './routing/routes';
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AssociateService, ClientService, ClientMappedService, AuthenticationService],
+  providers: [AssociateService,
+    ClientService,
+    ClientMappedService,
+    AuthenticationService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true 
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

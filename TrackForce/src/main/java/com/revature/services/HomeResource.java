@@ -14,6 +14,7 @@ import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.HomeDaoImpl;
 import com.revature.entity.TfAssociate;
 import com.revature.model.StatusInfo;
+import com.revature.security.Jwt;
 import com.revature.utils.StatusInfoUtil;
 
 @Path("/")
@@ -29,6 +30,7 @@ public class HomeResource {
 	 * @return a StatusInfo object for all of the associates.
 	 */
 	@GET
+	@Jwt
 	@Path("info")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public StatusInfo getMappedAndUnmappedInfo() {

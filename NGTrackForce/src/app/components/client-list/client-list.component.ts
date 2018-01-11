@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { HttpClient } from '@angular/common/http';
 import { ClientListService } from '../../services/client-list-service/client-list.service'
 import { Subject } from 'rxjs/Subject';
 import { Client } from '../../models/Client';
+=======
+import { ClientService } from '../../services/clients-service/clients-service'
+>>>>>>> 482af6c2d800a179629cbd26cdcabe6ae278c2ba
 
 /**
  * @author Han Jung
@@ -33,6 +37,7 @@ export class ClientListComponent implements OnInit {
 
   // get client names from data and push to clientNames string array
   getAllClientNames() {
+    var self = this;
     this.clientService.getAllClientsNames()
       .subscribe(
       clientNames => {

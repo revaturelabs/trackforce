@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule, JsonpModule } from '@angular/http';
+import { ChartsModule } from 'ng2-charts';
 
 
 ///
@@ -27,10 +28,12 @@ import { HomeComponent } from './components/home/home.component';
 ///
 //  SERVICES
 ///
+import { RequestService } from './services/request.service';
 
 import { AssociateService } from './services/associates-service/associates-service';
 import { ClientListService } from './services/client-list-service/client-list.service';
 import { ClientMappedService } from './services/client-mapped-service/client-mapped-service.service';
+import { AuthenticationService } from './services/authentication/authentication.service';
 
 ///
 //  CONSTANTS
@@ -38,6 +41,8 @@ import { ClientMappedService } from './services/client-mapped-service/client-map
 
 import { appRoutes } from './routing/routes';
 import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
+import { SkillsetComponent } from './components/skillset/skillset.component';
+import { RootComponent } from './components/root/root.component';
 
 
 
@@ -45,6 +50,7 @@ import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 @NgModule({
   declarations: [
     AppComponent,
+    SkillsetComponent,
     NavbarComponent,
     HomeComponent,
     AssociateListComponent,
@@ -53,7 +59,8 @@ import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
     ClientListComponent,
     LoginComponent,
     CreateUserComponent,
-    SearchFilterPipe
+    SearchFilterPipe,
+    RootComponent
   ],
   imports: [
     BrowserModule,
@@ -61,9 +68,10 @@ import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
     HttpClientModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    ChartsModule
   ],
-  providers: [AssociateService, ClientListService, ClientMappedService],
+  providers: [AssociateService, ClientListService, ClientMappedService, AuthenticationService, RequestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

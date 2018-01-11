@@ -1,1 +1,31 @@
-.pointer {cursor: pointer;}
+.pointer {
+  cursor: pointer;
+}
+
+.edit {
+  width: 4%;
+}
+
+.id {
+  width: 10%;
+}
+
+.first {
+  width: 10%;
+}
+
+.last {
+  width: 10%;
+}
+
+.status {
+  width: 20%;
+}
+
+.client {
+  width: 20%;
+}
+
+.batch {
+  width: 20%;
+}

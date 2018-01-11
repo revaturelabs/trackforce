@@ -2,7 +2,7 @@
   <div class="form-group">
     <div class="row">
       <div class="col-sm-6">
-        <label for="name">Text: </label>
+        <label for="name">Search by Text: </label>
         <input type="text" class="form-control" id="name" [(ngModel)]="searchByText">
       </div>
       <div class="col-sm-2">
@@ -81,35 +81,37 @@
       <table class="table table-striped table-hover table-bordered">
         <thead class="pointer">
           <tr>
-            <th>Edit</th>
-            <th (click)="sort('id')">Associate ID</th>
-            <th (click)="sort('firstName')">First Name</th>
-            <th (click)="sort('lastName')">Last Name</th>
-            <th (click)="sort('marketingStatus')">Marketing Status</th>
-            <th (click)="sort('client')">Client Name</th>
-            <th (click)="sort('batch')">Batch Name</th>
+            <th class="edit">Edit</th>
+            <th class="id" (click)="sort('id')">Associate ID</th>
+            <th class="first"(click)="sort('firstName')">First Name</th>
+            <th class="last"(click)="sort('lastName')">Last Name</th>
+            <th class="status"(click)="sort('marketingStatus')">Marketing Status</th>
+            <th class="client"(click)="sort('client')">Client Name</th>
+            <th class="batch"(click)="sort('batch')">Batch Name</th>
           </tr>
         </thead>
-        <tbody>
+      </table>
+      <div class="table-responsive pre-scrollable">
+        <table class="table table-striped table-hover table-bordered">
           <tr *ngFor="let associate of associates | filterByText:searchByText">
-            <ng-container *ngIf="(searchByStatus === associate.marketingStatus || searchByStatus === '') 
-            && (searchByClient === associate.client || searchByClient === '')
-            && (searchByCurriculum === associate.curriculumName || searchByCurriculum === '')">
-              <td>
+            <ng-container *ngIf="(searchByStatus === associate.marketingStatus || searchByStatus === '')
+              && (searchByClient === associate.client || searchByClient === '')
+              && (searchByCurriculum === associate.curriculumName || searchByCurriculum === '')">
+              <td class="edit">
                 <input type="checkbox" id={{associate.id}}>
               </td>
-              <td>{{associate.id}}</td>
-              <td>{{associate.firstName}}</td>
-              <td>{{associate.lastName}}</td>
-              <td>{{associate.marketingStatus}}</td>
-              <td>{{associate.client}}</td>
-              <td>
+              <td class="id">{{associate.id}}</td>
+              <td class="first">{{associate.firstName}}</td>
+              <td class="last">{{associate.lastName}}</td>
+              <td class="status">{{associate.marketingStatus}}</td>
+              <td class="client">{{associate.client}}</td>
+              <td class="batch">
                 <a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a>
               </td>
             </ng-container>
           </tr>
-        </tbody>
-      </table>
+        </table>
+      </div>
     </div>
   </div>
 </div>

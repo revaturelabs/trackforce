@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule, JsonpModule } from '@angular/http';
+import { ChartsModule } from 'ng2-charts';
 
 
 ///
@@ -27,6 +28,7 @@ import { HomeComponent } from './components/home/home.component';
 ///
 //  SERVICES
 ///
+import { RequestService } from './services/request.service';
 
 import { AssociateService } from './services/associates-service/associates-service';
 import { ClientService } from './services/clients-service/clients-service';
@@ -39,6 +41,7 @@ import { AuthenticationService } from './services/authentication/authentication.
 
 import { appRoutes } from './routing/routes';
 import { SkillsetComponent } from './components/skillset/skillset.component';
+import { RootComponent } from './components/root/root.component';
 
 
 
@@ -54,7 +57,8 @@ import { SkillsetComponent } from './components/skillset/skillset.component';
     ClientMappedComponent,
     ClientListComponent,
     LoginComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    RootComponent
   ],
   imports: [
     BrowserModule,
@@ -62,9 +66,10 @@ import { SkillsetComponent } from './components/skillset/skillset.component';
     HttpClientModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    ChartsModule
   ],
-  providers: [AssociateService, ClientService, ClientMappedService, AuthenticationService],
+  providers: [AssociateService, ClientService, ClientMappedService, AuthenticationService, RequestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,6 +2,7 @@ package com.revature.dao;
 
 import static org.testng.Assert.*;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.persistence.NoResultException;
@@ -40,7 +41,7 @@ public class UserDaoImplTest {
 
 
 	@Test(dataProvider = "userName")
-	public void getUserString(String username) {
+	public void getUserString(String username) throws IOException {
 		TfUser result = uDao.getUser(username);
 		assertNotNull(result);
 		System.out.println("username: " + result.getTfUserUsername());

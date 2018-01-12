@@ -17,7 +17,6 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AssociateListComponent } from './components/associate-list/associate-list.component';
 import { BatchListComponent } from './components/batch-list/batch-list.component';
-import { FormComponent } from './components/form-component/form.component';
 import { ClientMappedComponent } from './components/client-mapped/client-mapped.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { LoginComponent } from './components/login/login.component';
@@ -39,7 +38,6 @@ import { BatchService } from './services/batch-service/batch.service';
 
 ///
 //  FILTERS
-/// 
 ///
 
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
@@ -52,6 +50,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 ///
 //  CONSTANTS
 ///
+
 import { appRoutes } from './routing/routes';
 import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 
@@ -64,7 +63,6 @@ import { BatchDetailsComponent } from './components/batch-details/batch-details.
     AssociateSearchByTextFilter,
     BatchListComponent,
     ClientMappedComponent,
-    FormComponent,
     ClientListComponent,
     LoginComponent,
     CreateUserComponent,

@@ -23,7 +23,14 @@ describe('SkillsetService', () => {
 
         getTestBed().compileComponents().then(() => {
             service.getSkillsetsForStatusID(1).subscribe((res) => {
-                expect(res.data).toBeTruthy();
+                let data = res.data;
+                // this service better be returning some data...
+                expect(data).toBeTruthy();
+                // ... and that data better have stuff in it...
+                expect(data.length).toBeTruthy();
+                // let's get the first record in data
+                expect(data[0]).toBeTruthy();
+                // it should be truthy...
             })
         })
     });

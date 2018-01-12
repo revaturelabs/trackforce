@@ -151,4 +151,37 @@ public class AssociateService {
         }
         return Response.ok(associateInfos).build();
     }
+    /**
+	 * Update the marketing status or client of multiple associates
+	 * @param ids to be updated
+	 * @param marketingStatus to be updated to
+	 * @param client to be updated to
+	 * @return 
+	 * @throws IOException 
+	 */
+	@PUT
+	@Path("/update/{marketingStatus}/{client}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces({ MediaType.TEXT_HTML })
+	public Response updateAssociates(int[] ids, @PathParam("marketingStatus") String marketingStatus,
+			@PathParam("client") String client) throws IOException {
+		MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
+		TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
+
+		if (status == null) {
+			return Response.status(Response.Status.BAD_REQUEST).entity("Invalid marketing status sent.").build();
+		}
+
+		ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
+		TfClient tfclient = clientDaoImpl.getClient(client);
+
+		for (int id : ids) {
+			BigDecimal associateID = new BigDecimal(id);
+
+			AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
+			associateDaoHibernate.updateInfo(associateID, status, tfclient);
+		}
+		
+		return Response.status(Response.Status.OK).entity("Updated the associate's information.").build();
+	}
 }

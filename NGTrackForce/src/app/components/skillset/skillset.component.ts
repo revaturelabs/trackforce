@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { AutoUnsubscribe } from '../../decorator/auto-unsubscribe.decorator';
 import { ChartScale } from '../../models/chart-scale.model';
+import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
 
 @Component({
   selector: 'app-skillset',
@@ -18,7 +19,7 @@ export class SkillsetComponent implements OnInit {
   /**
    * The selected status 
    */
-  @Input() selectedStatus : string;
+  @Input() selectedStatus : string = SelectedStatusConstants.TRAINING;
   /**
    * Map of selected status to skill id
    */
@@ -44,10 +45,13 @@ export class SkillsetComponent implements OnInit {
    */
   chartType = SkillsetComponent.chartTypes.BAR;
   /**
-   * The skillset data
-   * 
+   * The dummy data to compare against for our tests
    */
-  skillsetData = [{data:[1,1,1,1,1], label: 'Mapped'},{data:[1,1,1,1,1],label: 'Unmapped'}];
+  DUMMY_DATA = [{data:[1,1,1,1,1], label: 'Mapped'},{data:[1,1,1,1,1],label: 'Unmapped'}];
+  /**
+   * The skillset data
+   */
+  skillsetData = this.DUMMY_DATA;
   /**
    * THe skillset labels
    */
@@ -66,10 +70,11 @@ export class SkillsetComponent implements OnInit {
           autoSkip:false
         }
       }
-    ]
+    ],
+    scales : new ChartScale()
   };
   
-  constructor() {
+  constructor(private skillsetService : SkillsetService) {
     // setup SKILL_INFO
     if (!SkillsetComponent.SKILL_INFO) {
       SkillsetComponent.SKILL_INFO = new Map();
@@ -83,7 +88,14 @@ export class SkillsetComponent implements OnInit {
   ngOnInit(): void {
     // get skillID
     this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || 0;
-
+    // get the skillset data here
+    this.skillsetService.getSkillsetsForStatusID(this.skillID).subscribe((res) => {
+      // copy in the raw data into local variable
+      let skillsets : Array<any> = res.data;
+      // map() that variable into skillsetData,skillsetLabels
+      this.skillsetData  = skillsets.map((obj) => obj.count);
+      this.skillsetLabels= skillsets.map((obj) => obj.name);
+    });
   }
 
   /**

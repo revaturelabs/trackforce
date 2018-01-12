@@ -9,6 +9,7 @@ import { RootComponent } from '../root/root.component';
 import { HomeComponent } from '../home/home.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
 
 describe('SkillsetComponent', () => {
   let component: SkillsetComponent;
@@ -21,6 +22,9 @@ describe('SkillsetComponent', () => {
         HttpClientTestingModule, 
         ChartsModule,
         RouterTestingModule
+      ],
+      providers : [
+        SkillsetService
       ]
     })
     .compileComponents();

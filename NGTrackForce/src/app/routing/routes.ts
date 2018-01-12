@@ -54,7 +54,7 @@ export const appRoutes: Routes = [
     {
         path: 'root',
         component: RootComponent
-      }
+    }
 ]
 
 

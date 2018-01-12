@@ -37,6 +37,7 @@ import { ClientMappedService } from './services/client-mapped-service/client-map
 import { AuthenticationService } from './services/authentication-service/authentication.service';
 import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 import { BatchService } from './services/batch-service/batch.service';
+import { SkillsetService } from './services/skill-set-service/skill-set.service';
 
 ///
 //  FILTERS
@@ -79,7 +80,8 @@ import { appRoutes } from './routing/routes';
     ClientMappedService, 
     AuthenticationService, 
     RequestService, 
-    BatchService
+    BatchService,
+    SkillsetService
   ],
   bootstrap: [AppComponent]
 })

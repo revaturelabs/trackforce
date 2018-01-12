@@ -12,6 +12,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfClient;
@@ -33,7 +34,9 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public TfClient getClient(String name) throws IOException {
 		TfClient client;
-		Session session = HibernateUtil.getSession().getCurrentSession();
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		
 		try {
 
 			CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -53,6 +56,7 @@ public class ClientDaoImpl implements ClientDao {
 			}
 		} finally {
 			session.flush();
+			tx.commit();
 			session.close();
 		}
 		return client;

@@ -41,15 +41,12 @@ public class AssociateService {
 	 * @param associateid
 	 *            - The ID of the associate to get information about
 	 * @return - An AssociateInfo object that contains the associate's information.
-	 * @throws IOException 
-=======
 	 * @throws IOException
 	 */
 	@GET
 	@Path("{associateid}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public AssociateInfo getAssociate(@PathParam("associateid") BigDecimal associateid) throws IOException {
-
 		Session session = HibernateUtil.getSession().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
@@ -106,13 +103,14 @@ public class AssociateService {
 	 * @param client
 	 *            - What client to change the associate to
 	 * @return
-	 * @throws IOException 
-=======
 	 * @throws IOException
 	 */
+	@GET
+	@Path("{associateId}/update/{marketingStatus}/{client}")
+	@Produces({ MediaType.TEXT_HTML })
 	public Response updateAssociate(@PathParam("associateId") String id,
 			@PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client)
-					throws IOException {
+			throws IOException {
 		Session session = HibernateUtil.getSession().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
@@ -144,10 +142,68 @@ public class AssociateService {
 		}
 		finally {
 			session.close();
-		}
 	}
 
+	}
 
+	/**
+	 * Gets a list of all the associates. If an associate has no marketing status or
+	 * curriculum, replaces them with blanks. If associate has no client, replaces
+	 * it with "None".
+	 * 
+	 * @return - A Response object with a list of TfAssociate objects.
+	 * @throws IOException
+	 * @throws HibernateException
+	 */
+	@GET
+	@Path("all")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllAssociates() throws IOException {
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates(session);
+			List<AssociateInfo> associateInfos = new ArrayList<>();
+			for (TfAssociate tfAssociate : tfAssociates) {
+				if (tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
+						|| tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
+					continue;
+				}
+				BigDecimal tfAssociateId = tfAssociate.getTfAssociateId();
+				String tfAssociateFirstName = tfAssociate.getTfAssociateFirstName();
+				String tfAssociateLastName = tfAssociate.getTfAssociateLastName();
+				String tfMarketingStatusName = tfAssociate.getTfMarketingStatus() != null
+						? tfAssociate.getTfMarketingStatus().getTfMarketingStatusName()
+						: "";
+				String tfClientName = tfAssociate.getTfClient() != null ? tfAssociate.getTfClient().getTfClientName()
+						: "None";
+				String tfBatchName = tfAssociate.getTfBatch() != null ? tfAssociate.getTfBatch().getTfBatchName() : "";
+
+				String tfCurriculum;
+				if (tfAssociate.getTfBatch() != null && tfAssociate.getTfBatch().getTfCurriculum() != null) {
+					tfCurriculum = tfAssociate.getTfBatch().getTfCurriculum().getTfCurriculumName();
+				} else {
+					tfCurriculum = "";
+				}
+
+				associateInfos.add(new AssociateInfo(tfAssociateId, tfAssociateFirstName, tfAssociateLastName,
+						tfMarketingStatusName, tfClientName, tfBatchName, tfCurriculum));
+			}
+			
+			session.flush();
+			tx.commit();
+			return Response.ok(associateInfos).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogUtil.logger.error(e);
+			session.flush();
+			tx.rollback();
+			throw new IOException("cannot get associates", e);
+		} finally {
+			session.close();
+		}
+	}
+	
 	/**
 	 * Update the marketing status or client of associates
 	 * @param ids to be updated
@@ -179,51 +235,5 @@ public class AssociateService {
 		}
 
 		return Response.status(Response.Status.OK).entity("Updated the associate's information.").build();
-	}
-
-	public Response getAllAssociates() throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates(session);
-			List<AssociateInfo> associateInfos = new ArrayList<>();
-			for (TfAssociate tfAssociate : tfAssociates) {
-				if (tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
-						|| tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
-					continue;
-				}
-				BigDecimal tfAssociateId = tfAssociate.getTfAssociateId();
-				String tfAssociateFirstName = tfAssociate.getTfAssociateFirstName();
-				String tfAssociateLastName = tfAssociate.getTfAssociateLastName();
-				String tfMarketingStatusName = tfAssociate.getTfMarketingStatus() != null
-						? tfAssociate.getTfMarketingStatus().getTfMarketingStatusName()
-								: "";
-						String tfClientName = tfAssociate.getTfClient() != null ? tfAssociate.getTfClient().getTfClientName()
-								: "None";
-						String tfBatchName = tfAssociate.getTfBatch() != null ? tfAssociate.getTfBatch().getTfBatchName() : "";
-
-						String tfCurriculum;
-						if (tfAssociate.getTfBatch() != null && tfAssociate.getTfBatch().getTfCurriculum() != null) {
-							tfCurriculum = tfAssociate.getTfBatch().getTfCurriculum().getTfCurriculumName();
-						} else {
-							tfCurriculum = "";
-						}
-
-						associateInfos.add(new AssociateInfo(tfAssociateId, tfAssociateFirstName, tfAssociateLastName,
-								tfMarketingStatusName, tfClientName, tfBatchName, tfCurriculum));
-			}
-
-			session.flush();
-			tx.commit();
-			return Response.ok(associateInfos).build();
-		} catch (Exception e) {
-			e.printStackTrace();
-			LogUtil.logger.error(e);
-			session.flush();
-			tx.rollback();
-			throw new IOException("cannot get associates", e);
-		} finally {
-			session.close();
-		}
 	}
 }

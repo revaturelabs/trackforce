@@ -35,3 +35,8 @@
   border-width: 1px;
   border-style: solid;
 }
+
+.pre-scrollable {
+  max-height: 550px !important;
+  overflow-y: scroll;
+}

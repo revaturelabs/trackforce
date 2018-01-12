@@ -14,6 +14,7 @@ import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
   templateUrl: "./associate-list.component.html",
   styleUrls: ["./associate-list.component.css"]
 })
+
 export class AssociateListComponent implements OnInit, AfterViewInit {
   //our collection of associates and clients
   associates: Associate[];
@@ -50,7 +51,7 @@ export class AssociateListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    window.dispatchEvent(new Event("resize"));
+    // window.dispatchEvent(new Event("resize"));
   }
 
   /**
@@ -127,8 +128,11 @@ export class AssociateListComponent implements OnInit, AfterViewInit {
 
   onResize(event, form) {
     var target = event.target;
-    var height = target.innerHeight - 200;
+    var height = target.innerHeight - 0;
 
-    form.style.height = height + "px";
+    // if (target.innerWidth > 800)
+    //   form.style.height = height + "px";
+    // else
+    //   form.style.height = target.innerHeight + "px";
   }
 }

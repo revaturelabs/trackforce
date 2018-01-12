@@ -9,18 +9,18 @@ import { Client } from '../../models/client.model';
  * @author Alex, Xavier
  */
 @Component({
-  selector: 'app-associate-list',
-  templateUrl: './associate-list.component.html',
-  styleUrls: ['./associate-list.component.css']
+  selector: "app-associate-list",
+  templateUrl: "./associate-list.component.html",
+  styleUrls: ["./associate-list.component.css"]
 })
 
 export class AssociateListComponent implements OnInit {
   //our collection of associates and clients
-  associates: Associate[]
+  associates: Associate[];
   clients: Client[];
   curriculums: Set<string>; //stored unique curriculums
 
-  //used for  filtering
+  //used for filtering
   searchByStatus: string = "";
   searchByClient: string = "";
   searchByText: string = "";
@@ -37,7 +37,10 @@ export class AssociateListComponent implements OnInit {
 
   public test: number[];
 
-  constructor(private associateService: AssociateService, private clientService: ClientListService) {
+  constructor(
+    private associateService: AssociateService,
+    private clientService: ClientListService
+  ) {
     this.curriculums = new Set<string>();
   }
 
@@ -50,27 +53,24 @@ export class AssociateListComponent implements OnInit {
    * Set our array of all associates
    */
   getAllAssociates() {
-    this.associateService.getAllAssociates().subscribe(
-      data => {
-        this.associates = data;
+    this.associateService.getAllAssociates().subscribe(data => {
+      this.associates = data;
 
-        for (let associate of this.associates) { //get our curriculums
-          this.curriculums.add(associate.curriculumName)
-        }
-        this.curriculums.delete("");
+      for (let associate of this.associates) {
+        //get our curriculums
+        this.curriculums.add(associate.curriculumName);
       }
-    )
+      this.curriculums.delete("");
+    });
   }
 
   /**
    * Fetch the client names
    */
   getClientNames() {
-    this.clientService.getAllClientsNames().subscribe(
-      data => {
-        this.clients = data
-      }
-    )
+    this.clientService.getAllClientsNames().subscribe(data => {
+      this.clients = data;
+    });
   }
 
   /**
@@ -80,21 +80,18 @@ export class AssociateListComponent implements OnInit {
   sort(property) {
     this.desc = !this.desc;
     let direction;
-    if (property !== this.sortedColumn) //set ascending or descending
+    if (property !== this.sortedColumn)
+      //set ascending or descending
       direction = 1;
-    else
-      direction = this.desc ? 1 : -1;
+    else direction = this.desc ? 1 : -1;
 
     this.sortedColumn = property;
 
     //sort the elements
-    this.associates.sort(function (a, b) {
-      if (a[property] < b[property])
-        return -1 * direction;
-      else if (a[property] > b[property])
-        return 1 * direction;
-      else
-        return 0;
+    this.associates.sort(function(a, b) {
+      if (a[property] < b[property]) return -1 * direction;
+      else if (a[property] > b[property]) return 1 * direction;
+      else return 0;
     });
   }
 
@@ -104,26 +101,24 @@ export class AssociateListComponent implements OnInit {
   updateAssociates() {
     var ids: number[] = [];
     var i = 1;
-    for (i; i <= this.associates.length; i++) { //grab the checked ids
+    for (i; i <= this.associates.length; i++) {
+      //grab the checked ids
       var check = <HTMLInputElement>document.getElementById("" + i);
       if (check != null && check.checked) {
         ids.push(i);
       }
     }
-    this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient).subscribe(
-      data => {
-
-      }
-    );
-
+    this.associateService
+      .updateAssociates(ids, this.updateStatus, this.updateClient)
+      .subscribe(data => {});
   }
 
   showUpdate() {
     if (this.updateShow) {
       this.updateShow = false;
-    }
-    else {
+    } else {
       this.updateShow = true;
     }
   }
+
 }

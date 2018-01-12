@@ -11,4 +11,8 @@ export class SkillsetService {
     getSkillsetsForStatusID(statusID : number) : Observable<any> {
         return this.http.get(environment.url + '/TrackForce/track/skillset/' + statusID);
     }
+
+    /* getSkillsetsForStatusIDMock(statusID : number) : Observable<any> {
+        return Observable.
+    } */
 }

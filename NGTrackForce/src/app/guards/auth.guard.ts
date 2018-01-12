@@ -7,8 +7,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
  * Use case: on the component where you want this, in the routes.ts file, simply set the 'canActivate' property to 
  * an array that contains this
  **/
-export class AuthGuard implements CanActivate
-{
+export class AuthGuard implements CanActivate {
 	// dependency-injecting the router
     constructor(private router : Router) {}
 	/**
@@ -18,8 +17,7 @@ export class AuthGuard implements CanActivate
 	 */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         // if there is a user already logged in, this can activate
-        if (localStorage.getItem("currentUser"))
-        {
+        if (localStorage.getItem("currentUser")) {
             return true;
         }
 

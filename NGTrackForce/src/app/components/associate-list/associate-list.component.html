@@ -8,7 +8,7 @@
         <input type="text" class="form-control" id="name" [(ngModel)]="searchByText">
       </div>
       <div class="col-sm-2">
-        <label for="mStatus">Marketing Status: </label>
+        <label for="mStatus">Status: </label>
         <select class="form-control" id="mStatus" [(ngModel)]="searchByStatus">
           <option label=" "></option>
           <option>MAPPED: TRAINING</option>
@@ -58,29 +58,29 @@
           </tr>
         </thead>
       </table>
-      <div class="table-responsive pre-scrollable" id="info">
-        <table class="table table-striped table-hover table-bordered" border-width=2px>
-          <tr *ngFor="let associate of associates | filterByText:searchByText">
-            <ng-container *ngIf="(searchByStatus === associate.marketingStatus || searchByStatus === '')
+    </div>
+    <div class="table-responsive pre-scrollable" id="info">
+      <table class="table table-striped table-hover table-bordered">
+        <tr *ngFor="let associate of associates | filterByText:searchByText">
+          <ng-container *ngIf="(searchByStatus === associate.marketingStatus || searchByStatus === '')
               && (searchByClient === associate.client || searchByClient === '')
               && (searchByCurriculum === associate.curriculumName || searchByCurriculum === '')">
-              <td class="edit">
-                <input type="checkbox" id={{associate.id}}>
-              </td>
-              <td class="id">{{associate.id}}</td>
-              <td class="first">{{associate.firstName}}</td>
-              <td class="last">{{associate.lastName}}</td>
-              <td class="status">{{associate.marketingStatus}}</td>
-              <td class="client">{{associate.client}}</td>
-              <td class="batch">
-                <a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a>
-              </td>
-            </ng-container>
-          </tr>
-        </table>
-      </div>
+            <td class="edit" style="text-align:center">
+              <input type="checkbox" id={{associate.id}}>
+            </td>
+            <td class="id">{{associate.id}}</td>
+            <td class="first">{{associate.firstName}}</td>
+            <td class="last">{{associate.lastName}}</td>
+            <td class="status">{{associate.marketingStatus}}</td>
+            <td class="client">{{associate.client}}</td>
+            <td class="batch">
+              <a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a>
+            </td>
+          </ng-container>
+        </tr>
+      </table>
     </div>
-    <div class="form-group">
+    <div class="form-group" style="float:bottom">
       <div class="row">
         <div class="col-sm-4">
           <br>
@@ -109,12 +109,12 @@
           </select>
         </div>
         <div class="col-sm-2">
-          <br><br>
-          <button id="submit" (click)="updateAssociates()" class="btn">Update</button>
+          <br>
+          <br>
+          <button id="submit" (click)="updateAssociates()" class="btn-warning btn-lg">Update</button>
         </div>
         <div class="col-sm-2"></div>
       </div>
     </div>
   </div>
 </div>
-

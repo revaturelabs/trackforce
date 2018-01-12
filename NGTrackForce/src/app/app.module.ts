@@ -87,6 +87,7 @@ import { SkillsetComponent } from './components/skillset/skillset.component';
     ClientMappedService,
     AuthenticationService,
     RequestService,
+    SkillsetService,
     BatchService,
     SkillsetService,
     {

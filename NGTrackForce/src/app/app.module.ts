@@ -1,7 +1,6 @@
 ///
 //  DEPENDENCIES
 ///
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -14,7 +13,6 @@ import { FormsModule } from '@angular/forms';
 ///
 //  COMPONENTS
 ///
-
 import { AppComponent } from './app.component';
 import { AssociateListComponent } from './components/associate-list/associate-list.component';
 import { BatchListComponent } from './components/batch-list/batch-list.component';
@@ -29,7 +27,6 @@ import { RootComponent } from './components/root/root.component';
 ///
 //  SERVICES
 ///
-
 import { RequestService } from './services/request-service/request.service';
 import { AssociateService } from './services/associates-service/associates-service';
 import { ClientListService } from './services/client-list-service/client-list.service';
@@ -41,14 +38,13 @@ import { BatchService } from './services/batch-service/batch.service';
 ///
 //  FILTERS
 /// 
-
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 
 ///
 //  CONSTANTS
 ///
-
 import { appRoutes } from './routing/routes';
+import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +59,7 @@ import { appRoutes } from './routing/routes';
     LoginComponent,
     CreateUserComponent,
     SearchFilterPipe,
+    BatchDetailsComponent,
     RootComponent
   ],
   imports: [

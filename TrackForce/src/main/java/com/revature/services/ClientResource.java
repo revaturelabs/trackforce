@@ -190,7 +190,7 @@ public class ClientResource {
 			HomeDaoImpl.clearAssociates();
 			clientDaoImpl.clearClients();
 			StatusInfoUtil.clearMaps();
-			List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates();
+			List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates(session);
 			StatusInfoUtil.updateStatusInfoFromAssociates(tfAssociates);
 
 			session.flush();

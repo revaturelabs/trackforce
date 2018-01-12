@@ -67,7 +67,7 @@
               <td class="edit">
                 <input type="checkbox" id={{associate.id}}>
               </td>
-              <td class="id">{{associate.id}}</td>
+              <td class="id"><a href="/form-comp/{{associate.id}}">{{associate.id}}</a></td>
               <td class="first">{{associate.firstName}}</td>
               <td class="last">{{associate.lastName}}</td>
               <td class="status">{{associate.marketingStatus}}</td>
@@ -82,6 +82,7 @@
     </div>
     <div class="form-group">
       <div class="row">
+          <div class="col-sm-2"></div>
         <div class="col-sm-4">
           <br>
           <label for="uStatus">Update by Marketing Status: </label>
@@ -99,6 +100,7 @@
             <option>UNMAPPED: DEPLOYED</option>
           </select>
         </div>
+        
         <div class="col-sm-4">
           <br>
           <label for="uclient">Client: </label>

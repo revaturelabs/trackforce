@@ -1,6 +1,9 @@
 body{
-	background-color: #ebedea;
 	background-size: cover;
+}
+
+.bk-color {
+	background-color: rgb(234, 235, 237);	
 }
 
 .footer {

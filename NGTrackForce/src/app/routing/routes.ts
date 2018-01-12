@@ -4,6 +4,7 @@
  */
 
 import { RouterModule, Routes } from '@angular/router';
+import {FormComponent} from "../components/form-component/form.component";
 import { HomeComponent } from '../components/home/home.component';
 import { ClientListComponent } from '../components/client-list/client-list.component';
 import { LoginComponent } from '../components/login/login.component';
@@ -52,9 +53,22 @@ export const appRoutes: Routes = [
         component: CreateUserComponent
     },
     {
+<<<<<<< HEAD
+        path: 'form-comp/:id', 
+        component: FormComponent 
+    },
+    
+    {
+      path: 'login',
+      component: LoginComponent
+    }
+
+
+=======
         path: 'root',
         component: RootComponent
       }
+>>>>>>> 14bfe3fcaf71d4dcf73705ba445acd8d4c531b35
 ]
 
 

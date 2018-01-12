@@ -17,6 +17,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
@@ -25,6 +28,7 @@ import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.entity.*;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
+import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
 /**
@@ -34,222 +38,318 @@ import com.revature.utils.LogUtil;
 @Path("batches")
 public class BatchesService {
 
-    private static final String OTHER_VALUE = "Other";
-    private static final String UNKNOWN_VALUE = "null";
+	private static final String OTHER_VALUE = "Other";
+	private static final String UNKNOWN_VALUE = "null";
 
-    /**
-     * Gets the number of associates learning each curriculum during a given date
-     * range
-     *
-     * @param fromdate - the starting date of the date range
-     * @param todate   - the ending date of the date range
-     * @return - A map of associates in each curriculum with the curriculum name as
-     *         the key and number of associates as value.
-     *
-     *         The returned chart data is laid out as follows:
-     *         [
-     *              {
-     *                  "curriculum" -> "1109 Sept 11 Java JTA",
-     *                  "value" -> 14
-     *              },
-     *
-     *              {
-     *                  "curriculum" -> "1109 Sept 11 Java Full Stack",
-     *                  "value" -> 16
-     *              },    *
-     *
-     *              ...
-     *         ]
-     * @throws IOException 
-     */
-    @GET
-    @Path("{fromdate}/{todate}/type")
-    @Produces({ MediaType.APPLICATION_JSON })
-    public List<Map<String, Object>> getBatchChartInfo(@PathParam("fromdate") long fromdate, @PathParam("todate") long todate) throws IOException {
-        BatchDaoHibernate batchDao = new BatchDaoHibernate();
-        List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
-        Map<String, Integer> curriculumData = new HashMap<>();
-        List<String> curriculums = new ArrayList<>();
-        List<Map<String, Object>> chartData = new ArrayList<>();
-        for (TfBatch batch : batches) {
-            TfCurriculum curriculum = batch.getTfCurriculum();
-            String curriculumName = (curriculum != null) ? batch.getTfBatchName() : OTHER_VALUE;
-            if (curriculumData.containsKey(curriculumName)) {
-                int moreAssociates = batch.getTfAssociates().size();
-                int totalAssociates = curriculumData.get(curriculumName) + moreAssociates;
-                curriculumData.put(curriculumName, totalAssociates);
-            } else {
-                int totalAssociates = batch.getTfAssociates().size();
-                curriculumData.put(curriculumName, totalAssociates);
-                curriculums.add(curriculumName);
-            }
-        }
-        for (String curriculum : curriculums) {
-            Map<String, Object> curriculumMap = new HashMap<>();
-            curriculumMap.put("curriculum", curriculum);
-            curriculumMap.put("value", curriculumData.get(curriculum));
-            chartData.add(curriculumMap);
-        }
-        return chartData;
-    }
+	/**
+	 * Gets the number of associates learning each curriculum during a given date
+	 * range
+	 *
+	 * @param fromdate
+	 *            - the starting date of the date range
+	 * @param todate
+	 *            - the ending date of the date range
+	 * @return - A map of associates in each curriculum with the curriculum name as
+	 *         the key and number of associates as value.
+	 *
+	 *         The returned chart data is laid out as follows: [ { "curriculum" ->
+	 *         "1109 Sept 11 Java JTA", "value" -> 14 },
+	 *
+	 *         { "curriculum" -> "1109 Sept 11 Java Full Stack", "value" -> 16 }, *
+	 *
+	 *         ... ]
+	 * @throws IOException
+	 */
+	@GET
+	@Path("{fromdate}/{todate}/type")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<Map<String, Object>> getBatchChartInfo(@PathParam("fromdate") long fromdate,
+			@PathParam("todate") long todate) throws IOException {
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			BatchDaoHibernate batchDao = new BatchDaoHibernate();
+			List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
+			Map<String, Integer> curriculumData = new HashMap<>();
+			List<String> curriculums = new ArrayList<>();
+			List<Map<String, Object>> chartData = new ArrayList<>();
+			for (TfBatch batch : batches) {
+				TfCurriculum curriculum = batch.getTfCurriculum();
+				String curriculumName = (curriculum != null) ? batch.getTfBatchName() : OTHER_VALUE;
+				if (curriculumData.containsKey(curriculumName)) {
+					int moreAssociates = batch.getTfAssociates().size();
+					int totalAssociates = curriculumData.get(curriculumName) + moreAssociates;
+					curriculumData.put(curriculumName, totalAssociates);
+				} else {
+					int totalAssociates = batch.getTfAssociates().size();
+					curriculumData.put(curriculumName, totalAssociates);
+					curriculums.add(curriculumName);
+				}
+			}
+			for (String curriculum : curriculums) {
+				Map<String, Object> curriculumMap = new HashMap<>();
+				curriculumMap.put("curriculum", curriculum);
+				curriculumMap.put("value", curriculumData.get(curriculum));
+				chartData.add(curriculumMap);
+			}
 
-    /**
-     * When given a batch name returns an object that contains all information about
-     * that batch
-     *
-     * @param batchName - the name of a batch that is in the database
-     * @return - A list with batch name, client name, curriculum name, batch
-     *         location, batch start date, and batch end date.
-     * @throws IOException 
-     */
-    @GET
-    @Path("{batch}/info")
-    @Produces(MediaType.APPLICATION_JSON)
-    public BatchInfo getBatchInfo(@PathParam("batch") String batchName) throws IOException {
-        BatchDaoHibernate batchDao = new BatchDaoHibernate();
-        TfBatch batch = batchDao.getBatch(batchName);
-        return batchToInfo(batch);
-   }
+			session.flush();
+			tx.commit();
 
-    /**
-     * Gets the number of associates that are mapped and unmapped within a
-     * particular batch
-     *
-     * @param batchName - the name of a batch that is in the database
-     * @return - A map with the key being either Mapped or Unmapped and the value
-     *         being the number of associates in those statuses.
-     * @throws IOException 
-     */
-    @GET
-    @Path("{batch}/batchChart")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Integer> getMappedData(@PathParam("batch") String batchName) throws IOException {
-        Map<String, Integer> mappedChartData = new HashMap<>();
-        BatchDaoHibernate batchDao = new BatchDaoHibernate();
-        TfBatch selectedBatch = batchDao.getBatch(batchName);
-        int unmappedCount = 0;
-        int mappedCount = 0;
-        for (TfAssociate associate : selectedBatch.getTfAssociates()) {
-            if (associate.getTfMarketingStatus().getTfMarketingStatusName().contains("UNMAPPED")) {
-                unmappedCount++;
-            } else if (associate.getTfMarketingStatus().getTfMarketingStatusName().contains("TERMINATED")
-                    || associate.getTfMarketingStatus().getTfMarketingStatusName().contains("DIRECTLY")) {
-                continue;
-            } else {
-                mappedCount++;
-            }
-        }
-        mappedChartData.put("Unmapped", unmappedCount);
-        mappedChartData.put("Mapped", mappedCount);
-        return mappedChartData;
+			return chartData;
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogUtil.logger.error(e);
+			session.flush();
+			tx.rollback();
+			throw new IOException("oculd not get batch info", e);
+		}
+		 finally {
+			 session.close();
+		 }
+	}
 
-    }
+	/**
+	 * When given a batch name returns an object that contains all information about
+	 * that batch
+	 *
+	 * @param batchName
+	 *            - the name of a batch that is in the database
+	 * @return - A list with batch name, client name, curriculum name, batch
+	 *         location, batch start date, and batch end date.
+	 * @throws IOException
+	 */
+	@GET
+	@Path("{batch}/info")
+	@Produces(MediaType.APPLICATION_JSON)
+	public BatchInfo getBatchInfo(@PathParam("batch") String batchName) throws IOException {
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			BatchDaoHibernate batchDao = new BatchDaoHibernate();
+			TfBatch batch = batchDao.getBatch(batchName);
+			
+			session.flush();
+			tx.commit();
+			
+			return batchToInfo(batch);
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogUtil.logger.error(e);
+			session.flush();
+			tx.rollback();
+			throw new IOException("could not get batches", e);
+		}
+	}
 
-    /**
-     * Gets all batches that are running within a given date range
-     *
-     * @param fromdate - the starting date of the date range
-     * @param todate   - the ending date of the date range
-     * @return - A list of the batch info. Batch info contains batch name, client
-     *         name, batch start date, and batch end date.
-     * @throws IOException 
-     */
-    @GET
-    @Path("{fromdate}/{todate}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<BatchInfo> getBatches(@PathParam("fromdate") long fromdate, @PathParam("todate") long todate) throws IOException {
-        ArrayList<BatchInfo> batchesList = new ArrayList<>();
+	/**
+	 * Gets the number of associates that are mapped and unmapped within a
+	 * particular batch
+	 *
+	 * @param batchName
+	 *            - the name of a batch that is in the database
+	 * @return - A map with the key being either Mapped or Unmapped and the value
+	 *         being the number of associates in those statuses.
+	 * @throws IOException
+	 */
+	@GET
+	@Path("{batch}/batchChart")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Map<String, Integer> getMappedData(@PathParam("batch") String batchName) throws IOException {
+		Map<String, Integer> mappedChartData = new HashMap<>();
+		
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+		BatchDaoHibernate batchDao = new BatchDaoHibernate();
+		TfBatch selectedBatch = batchDao.getBatch(batchName);
+		int unmappedCount = 0;
+		int mappedCount = 0;
+		for (TfAssociate associate : selectedBatch.getTfAssociates()) {
+			if (associate.getTfMarketingStatus().getTfMarketingStatusName().contains("UNMAPPED")) {
+				unmappedCount++;
+			} else if (associate.getTfMarketingStatus().getTfMarketingStatusName().contains("TERMINATED")
+					|| associate.getTfMarketingStatus().getTfMarketingStatusName().contains("DIRECTLY")) {
+				continue;
+			} else {
+				mappedCount++;
+			}
+		}
+		mappedChartData.put("Unmapped", unmappedCount);
+		mappedChartData.put("Mapped", mappedCount);
+		
+		session.flush();
+		tx.commit();
+		return mappedChartData;
+		} catch(Exception e) {
+			e.printStackTrace();
+			LogUtil.logger.error(e);
+			session.flush();
+			tx.rollback();
+			throw new IOException("can not get mapped data", e);
+		}
 
-        BatchDaoHibernate batchDao = new BatchDaoHibernate();
-        List<TfBatch> list = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
+	}
 
-        for (TfBatch batch : list) {
-            BatchInfo info = batchToInfo(batch);
-            batchesList.add(info);
-        }
-        return batchesList;
-    }
+	/**
+	 * Gets all batches that are running within a given date range
+	 *
+	 * @param fromdate
+	 *            - the starting date of the date range
+	 * @param todate
+	 *            - the ending date of the date range
+	 * @return - A list of the batch info. Batch info contains batch name, client
+	 *         name, batch start date, and batch end date.
+	 * @throws IOException
+	 */
+	@GET
+	@Path("{fromdate}/{todate}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<BatchInfo> getBatches(@PathParam("fromdate") long fromdate, @PathParam("todate") long todate)
+			throws IOException {
+		ArrayList<BatchInfo> batchesList = new ArrayList<>();
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+		BatchDaoHibernate batchDao = new BatchDaoHibernate();
+		List<TfBatch> list = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
 
-    /**
-     * Gets the information of the associates in a particular batch
-     *
-     * @param batchName - the name of a batch that is in the database
-     * @return - A list of the lists of associate info. Associate info contains id,
-     *         first name, last name, and marketing status.
-     * @throws IOException 
-     */
-    @GET
-    @Path("{batch}/associates")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<AssociateInfo> getAssociates(@PathParam("batch") String batchName) throws IOException {
-        ArrayList<AssociateInfo> associatesList = new ArrayList<>();
+		for (TfBatch batch : list) {
+			BatchInfo info = batchToInfo(batch);
+			batchesList.add(info);
+		}
+		
+		session.flush();
+		tx.commit();
+		
+		return batchesList;
+		} catch(Exception e) {
+			e.printStackTrace();
+			LogUtil.logger.error(e);
+			session.flush();
+			tx.rollback();
+			throw new IOException("could not get batches", e);
+		} finally {
+			session.close();
+		}
+	}
 
-        BatchDaoHibernate batchDao = new BatchDaoHibernate();
-        TfBatch batch = batchDao.getBatch(batchName);
+	/**
+	 * Gets the information of the associates in a particular batch
+	 *
+	 * @param batchName
+	 *            - the name of a batch that is in the database
+	 * @return - A list of the lists of associate info. Associate info contains id,
+	 *         first name, last name, and marketing status.
+	 * @throws IOException
+	 */
+	@GET
+	@Path("{batch}/associates")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<AssociateInfo> getAssociates(@PathParam("batch") String batchName) throws IOException {
+		ArrayList<AssociateInfo> associatesList = new ArrayList<>();
 
-        for (TfAssociate associate : batch.getTfAssociates()) {
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+		BatchDaoHibernate batchDao = new BatchDaoHibernate();
+		TfBatch batch = batchDao.getBatch(batchName);
 
-            if (associate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
-                    || associate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
-                continue;
-            }
-            AssociateInfo associateInfo = new AssociateInfo();
-            associateInfo.setId(associate.getTfAssociateId());
-            associateInfo.setFirstName(associate.getTfAssociateFirstName());
-            associateInfo.setLastName(associate.getTfAssociateLastName());
-            associateInfo.setMarketingStatus(associate.getTfMarketingStatus().getTfMarketingStatusName());
-            try {
-                associateInfo.setClient(associate.getTfClient().getTfClientName());
-            } catch (NullPointerException e) {
-                associateInfo.setClient("None");
-                LogUtil.logger.error(e);
-            }
+		for (TfAssociate associate : batch.getTfAssociates()) {
 
-            associatesList.add(associateInfo);
-        }
-        return associatesList;
-    }
+			if (associate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
+					|| associate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
+				continue;
+			}
+			AssociateInfo associateInfo = new AssociateInfo();
+			associateInfo.setId(associate.getTfAssociateId());
+			associateInfo.setFirstName(associate.getTfAssociateFirstName());
+			associateInfo.setLastName(associate.getTfAssociateLastName());
+			associateInfo.setMarketingStatus(associate.getTfMarketingStatus().getTfMarketingStatusName());
+			try {
+				associateInfo.setClient(associate.getTfClient().getTfClientName());
+			} catch (NullPointerException e) {
+				associateInfo.setClient("None");
+				LogUtil.logger.error(e);
+			}
 
-    /**
-     * Update the marketing status or client of an associate from form data.
-     *
-     * @param id              - The ID of the associate to change
-     * @param marketingStatus - What to change the associate's marketing status to
-     * @param client          - What client to change the associate to
-     * @return
-     * @throws IOException 
-     */
-    @PUT
-    @Path("{associate}/update")
+			session.flush();
+			tx.commit();
+			
+			associatesList.add(associateInfo);
+		}
+		return associatesList;
+		} catch(Exception e) {
+			e.printStackTrace();
+			LogUtil.logger.error(e);
+			session.flush();
+			tx.rollback();
+			throw new IOException("coudl not get associates", e);
+		}
+		finally {
+			session.close();
+		}
+	}
 
-    @Produces({ MediaType.TEXT_HTML })
-    public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus, @FormParam("client") String client) throws IOException {
-        MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
-        TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
+	/**
+	 * Update the marketing status or client of an associate from form data.
+	 *
+	 * @param id
+	 *            - The ID of the associate to change
+	 * @param marketingStatus
+	 *            - What to change the associate's marketing status to
+	 * @param client
+	 *            - What client to change the associate to
+	 * @return
+	 * @throws IOException
+	 */
+	@PUT
+	@Path("{associate}/update")
 
-        ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
-        TfClient tfclient = clientDaoImpl.getClient(client);
+	@Produces({ MediaType.TEXT_HTML })
+	public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus,
+			@FormParam("client") String client) throws IOException {
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session .beginTransaction();
+		try {
+		MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
+		TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
 
-        BigDecimal associateID = new BigDecimal(Integer.parseInt(id));
+		ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
+		TfClient tfclient = clientDaoImpl.getClient(client);
 
-        AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
-        associateDaoHibernate.updateInfo(associateID, status, tfclient);
+		BigDecimal associateID = new BigDecimal(Integer.parseInt(id));
 
-        return Response.status(Response.Status.OK).entity("Updated the associate's information").build();
-    }
+		AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
+		associateDaoHibernate.updateInfo(associateID, status, tfclient);
+		
+		session.flush();
+		tx.commit();
+		return Response.status(Response.Status.OK).entity("Updated the associate's information").build();
+		} catch(Exception e) {
+			e.printStackTrace();
+			LogUtil.logger.error(e);
+			session.flush();
+			tx.rollback();
+			throw new IOException("could not update associates", e);
+		}
+		finally {
+			session.close();
+		}
+	}
 
-    private BatchInfo batchToInfo(TfBatch batch) {
-        String batchName = batch.getTfBatchName();
-        Timestamp start = batch.getTfBatchStartDate();
-        Timestamp end = batch.getTfBatchEndDate();
-        TfCurriculum curriculum = batch.getTfCurriculum();
-        TfBatchLocation location = batch.getTfBatchLocation();
+	private BatchInfo batchToInfo(TfBatch batch) {
+		String batchName = batch.getTfBatchName();
+		Timestamp start = batch.getTfBatchStartDate();
+		Timestamp end = batch.getTfBatchEndDate();
+		TfCurriculum curriculum = batch.getTfCurriculum();
+		TfBatchLocation location = batch.getTfBatchLocation();
 
-        String startDate = (start != null)? start.toString() : UNKNOWN_VALUE;
-        String endDate = (end!= null)? end.toString() : UNKNOWN_VALUE;
-        String curriculumName = (curriculum != null) ? curriculum.getTfCurriculumName() : OTHER_VALUE;
-        String locationName = (location != null) ? location.getTfBatchLocationName() : OTHER_VALUE;
+		String startDate = (start != null) ? start.toString() : UNKNOWN_VALUE;
+		String endDate = (end != null) ? end.toString() : UNKNOWN_VALUE;
+		String curriculumName = (curriculum != null) ? curriculum.getTfCurriculumName() : OTHER_VALUE;
+		String locationName = (location != null) ? location.getTfBatchLocationName() : OTHER_VALUE;
 
-        return new BatchInfo(batchName, curriculumName, locationName, startDate, endDate);
-    }
+		return new BatchInfo(batchName, curriculumName, locationName, startDate, endDate);
+	}
 }

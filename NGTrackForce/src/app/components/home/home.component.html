@@ -5,12 +5,12 @@
       <div class="col-sm-4">
   
          <div class="well">
-            <canvas baseChart id="pie" class="chart chart-pie" [data]="UndeployedData" [colors]="mappedColors" [labels]="UndeployedLabels" [options]="undeployedOptions"></canvas>
+            <canvas baseChart id="pie" class="chart chart-pie" [data]="getUndeployedData()" [colors]="mappedColors" [chartType]="undeployedChartType" [labels]="undeployedLabels" [options]="undeployedOptions"></canvas>
            </div>
       </div> 
       <div class="col-sm-4">
          <div class="well">
-           <canvas baseChart id="pie" class="chart chart-pie" [data]="DeployedData" [colors]="mappedColors" [options]="deployedOptions" [labels]="DeployedLabels"></canvas> 
+           <canvas baseChart id="pie" class="chart chart-pie" [data]="getDeployedData()" [colors]="mappedColors" [chartType]="deployedChartType" [options]="deployedOptions" [labels]="deployedLabels"></canvas> 
            </div>
           </div>
       <div class="col-sm-3">
@@ -26,12 +26,12 @@
       <div class="col-sm-4">
   
          <div class="well">
-           <canvas baseChart id="pie" class="chart chart-pie" [data]="MappedData" [labels]="MappedLabels" (chartClick)="MappedOnClick($event)" [colors]="clientTheme" [options]="mappedOptions"></canvas>
+           <canvas baseChart id="pie" class="chart chart-pie" [data]="getMappedData()" [labels]="mappedLabels" [chartType]="mappedChartType" (chartClick)="mappedOnClick($event)" [colors]="clientTheme" [options]="mappedOptions"></canvas>
            </div>
       </div>
       <div class="col-sm-4">
           <div class="well">
-          <canvas baseChart id="pie" class="chart chart-pie" [data]="UnmappedData" [labels]="UnmappedLabels" [colors]="skillTheme" [options]="unmappedOptions" (chartClick)="UnmappedOnClick($event)"></canvas>
+          <canvas baseChart id="pie" class="chart chart-pie" [data]="getUnmappedData()" [labels]="unmappedLabels" [chartType]="unmappedChartType" [colors]="skillTheme" [options]="unmappedOptions" (chartClick)="unmappedOnClick($event)"></canvas>
           </div>
       </div>
     </div>

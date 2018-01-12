@@ -12,11 +12,15 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.HomeDaoImpl;
 import com.revature.entity.TfAssociate;
 import com.revature.model.StatusInfo;
+import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 import com.revature.utils.StatusInfoUtil;
 
 @Path("/")
@@ -30,8 +34,8 @@ public class HomeResource {
 	 * associates.
 	 * 
 	 * @return a StatusInfo object for all of the associates.
-	 * @throws IOException 
-	 * @throws HibernateException 
+	 * @throws IOException
+	 * @throws HibernateException
 	 */
 	@GET
 	@Path("info")
@@ -51,8 +55,8 @@ public class HomeResource {
 	 *            Status id of the status/stage of associates that the requester
 	 *            wants information for.
 	 * @return a Response object with a List of Map objects as an entity.
-	 * @throws IOException 
-	 * @throws HibernateException 
+	 * @throws IOException
+	 * @throws HibernateException
 	 */
 	@GET
 	@Path("client/{statusid}")
@@ -72,8 +76,8 @@ public class HomeResource {
 	 *            Status id of the status/stage of associates that the requester
 	 *            wants information for.
 	 * @return a Response object with a List of Map objects as an entity.
-	 * @throws IOException 
-	 * @throws HibernateException 
+	 * @throws IOException
+	 * @throws HibernateException
 	 */
 	@GET
 	@Path("skillset/{statusid}")
@@ -86,8 +90,9 @@ public class HomeResource {
 	/**
 	 * Initializes objects needed for functionality from the StatusInfoUtil when
 	 * maps in StatusInfoUtil are empty.
-	 * @throws IOException 
-	 * @throws HibernateException 
+	 * 
+	 * @throws IOException
+	 * @throws HibernateException
 	 */
 	private void init() throws HibernateException, IOException {
 		if (StatusInfoUtil.mapsAreEmpty()) {
@@ -98,16 +103,30 @@ public class HomeResource {
 	/**
 	 * Forces initialization of objects needed for functionality from the
 	 * StatusInfoUtil.
-	 * @throws IOException 
-	 * @throws HibernateException 
+	 * 
+	 * @throws IOException
+	 * @throws HibernateException
 	 */
 	@PUT
 	@Path("init")
 	public void initForce() throws HibernateException, IOException {
-		HomeDaoImpl.clearAssociates();
-		clientDaoImpl.clearClients();
-		StatusInfoUtil.clearMaps();
-		List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates();
-		StatusInfoUtil.updateStatusInfoFromAssociates(tfAssociates);
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			HomeDaoImpl.clearAssociates();
+			clientDaoImpl.clearClients();
+			StatusInfoUtil.clearMaps();
+			List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates(session);
+			StatusInfoUtil.updateStatusInfoFromAssociates(tfAssociates);
+			session.flush();
+			tx.commit();
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+			e.printStackTrace();
+			session.flush();
+			tx.rollback();
+		} finally {
+			session.close();
+		}
 	}
 }

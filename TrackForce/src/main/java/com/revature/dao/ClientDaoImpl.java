@@ -33,8 +33,8 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public TfClient getClient(String name) throws IOException {
 		TfClient client;
-		SessionFactory sessionFactory = HibernateUtil.getSession();
-		try (Session session = sessionFactory.openSession()) {
+		Session session = HibernateUtil.getSession().getCurrentSession();
+		try {
 
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
@@ -51,6 +51,9 @@ public class ClientDaoImpl implements ClientDao {
 				client = new TfClient();
 				LogUtil.logger.error(nre);
 			}
+		} finally {
+			session.flush();
+			session.close();
 		}
 		return client;
 	}

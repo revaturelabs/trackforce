@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ClientListService } from '../../services/client-list-service/client-list.service'
 import { Subject } from 'rxjs/Subject';
-import { Client } from '../../models/Client';
+import { Client } from '../../models/client.model';
 import { Observable } from 'rxjs/Observable';
 
 /**

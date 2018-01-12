@@ -1,5 +1,7 @@
 package com.revature.dao;
 
+import java.io.IOException;
+
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,7 +19,7 @@ import com.revature.utils.LogUtil;
 public class UserDaoImpl implements UserDAO {
 
 	@Override
-	public TfUser getUser(String username) {
+	public TfUser getUser(String username) throws IOException {
 		TfUser user;
 		SessionFactory sessionFactory = HibernateUtil.getSession();
 		try (Session session = sessionFactory.openSession()) {

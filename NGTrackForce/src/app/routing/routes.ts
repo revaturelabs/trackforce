@@ -12,6 +12,7 @@ import { ClientMappedComponent } from '../components/client-mapped/client-mapped
 import { AssociateListComponent } from '../components/associate-list/associate-list.component';
 import { BatchListComponent } from '../components/batch-list/batch-list.component';
 import { CreateUserComponent } from '../components/create-user/create-user.component';
+import { RootComponent } from '../components/root/root.component';
 
 /**
  * Place paths here
@@ -52,6 +53,7 @@ export const appRoutes: Routes = [
         component: CreateUserComponent
     },
     {
+<<<<<<< HEAD
         path: 'form-comp/:id', 
         component: FormComponent 
     },
@@ -62,6 +64,11 @@ export const appRoutes: Routes = [
     }
 
 
+=======
+        path: 'root',
+        component: RootComponent
+      }
+>>>>>>> 14bfe3fcaf71d4dcf73705ba445acd8d4c531b35
 ]
 
 

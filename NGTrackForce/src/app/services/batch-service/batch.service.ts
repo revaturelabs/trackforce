@@ -4,7 +4,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import {Batch} from '../../models/Batch';
+import {Batch} from '../../models/batch.model';
 
 @Injectable()
 export class BatchService {

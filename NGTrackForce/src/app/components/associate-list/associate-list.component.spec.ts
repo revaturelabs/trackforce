@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { AssociateSearchByTextFilter } from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { RootComponent } from '../root/root.component';
+import { HomeComponent } from '../home/home.component';
 
 
 describe('AssociateListComponent', () => {
@@ -16,7 +18,7 @@ describe('AssociateListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AssociateListComponent, AssociateSearchByTextFilter, NavbarComponent ],
+      declarations: [ AssociateListComponent, AssociateSearchByTextFilter, NavbarComponent, RootComponent, HomeComponent ],
       imports: [
         HttpClientTestingModule,
         FormsModule,

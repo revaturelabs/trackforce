@@ -2,8 +2,8 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {BatchListComponent} from './batch-list.component';
 import {ChartsModule} from 'ng2-charts';
-import {AuthenticationService} from '../../services/authentication/authentication.service';
-import {BatchService} from '../../services/batch/batch.service';
+import {AuthenticationService} from '../../services/authentication-service/authentication.service';
+import {BatchService} from '../../services/batch-service/batch.service';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from '../../routing/routes';
 import {FormsModule} from '@angular/forms';
@@ -19,6 +19,7 @@ import { SearchFilterPipe } from '../../pipes/search-filter/search-filter.pipe';
 import { AssociateSearchByTextFilter } from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { RootComponent } from '../root/root.component';
 
 TestBed.configureTestingModule({
   declarations: [
@@ -31,7 +32,8 @@ TestBed.configureTestingModule({
     CreateUserComponent,
     SearchFilterPipe,
     AssociateSearchByTextFilter,
-    NavbarComponent
+    NavbarComponent,
+    RootComponent
   ],
   providers: [
     BatchService,

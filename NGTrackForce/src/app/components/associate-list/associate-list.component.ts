@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AssociateService } from '../../services/associates-service/associates-service';
-import { Associate } from '../../models/Associate';
+import { Associate } from '../../models/associate.model';
 import { ClientListService } from '../../services/client-list-service/client-list.service';
-import { Client } from '../../models/Client';
+import { Client } from '../../models/client.model';
 
 /**
  * Component for the Associate List page

@@ -25,29 +25,31 @@ import { LoginComponent } from './components/login/login.component';
 import { ClientListComponent } from './components/client-list/client-list.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
+import { RootComponent } from './components/root/root.component';
 
 ///
 //  SERVICES
 ///
-import { RequestService } from './services/request.service';
 
+import { RequestService } from './services/request-service/request.service';
 import { AssociateService } from './services/associates-service/associates-service';
 import { ClientListService } from './services/client-list-service/client-list.service';
 import { ClientMappedService } from './services/client-mapped-service/client-mapped-service';
-import { AuthenticationService } from './services/authentication/authentication.service';
+import { AuthenticationService } from './services/authentication-service/authentication.service';
 import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
+import { BatchService } from './services/batch-service/batch.service';
+
+///
+//  FILTERS
+/// 
+
+import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 
 ///
 //  CONSTANTS
 ///
 
 import { appRoutes } from './routing/routes';
-import { RootComponent } from './components/root/root.component';
-import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
-import { BatchService } from './services/batch/batch.service';
-
-
-
 
 @NgModule({
   declarations: [

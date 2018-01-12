@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map'
-import { Associate } from "../../models/Associate";
+import { Associate } from "../../models/associate.model";
 import { Response } from "@angular/http/";
 import { environment } from "../../../environments/environment";
 

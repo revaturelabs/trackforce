@@ -3,7 +3,6 @@ import { AssociateService } from '../../services/associates-service/associates-s
 import { Associate } from '../../models/associate.model';
 import { ClientListService } from '../../services/client-list-service/client-list.service';
 import { Client } from '../../models/client.model';
-import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 /**
  * Component for the Associate List page
@@ -15,13 +14,13 @@ import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
   styleUrls: ["./associate-list.component.css"]
 })
 
-export class AssociateListComponent implements OnInit, AfterViewInit {
+export class AssociateListComponent implements OnInit {
   //our collection of associates and clients
   associates: Associate[];
   clients: Client[];
   curriculums: Set<string>; //stored unique curriculums
 
-  //used for  filtering
+  //used for filtering
   searchByStatus: string = "";
   searchByClient: string = "";
   searchByText: string = "";
@@ -48,10 +47,6 @@ export class AssociateListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.getAllAssociates();
     this.getClientNames();
-  }
-
-  ngAfterViewInit() {
-    // window.dispatchEvent(new Event("resize"));
   }
 
   /**
@@ -126,13 +121,4 @@ export class AssociateListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onResize(event, form) {
-    var target = event.target;
-    var height = target.innerHeight - 0;
-
-    // if (target.innerWidth > 800)
-    //   form.style.height = height + "px";
-    // else
-    //   form.style.height = target.innerHeight + "px";
-  }
 }

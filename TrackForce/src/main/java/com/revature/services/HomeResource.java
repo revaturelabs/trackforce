@@ -17,6 +17,7 @@ import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.HomeDaoImpl;
 import com.revature.entity.TfAssociate;
 import com.revature.model.StatusInfo;
+import com.revature.security.Jwt;
 import com.revature.utils.StatusInfoUtil;
 
 @Path("/")
@@ -34,6 +35,7 @@ public class HomeResource {
 	 * @throws HibernateException 
 	 */
 	@GET
+	@Jwt
 	@Path("info")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public StatusInfo getMappedAndUnmappedInfo() throws HibernateException, IOException {

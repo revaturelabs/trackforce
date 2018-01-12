@@ -5,11 +5,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ChartsModule } from 'ng2-charts';
 
 import { FormsModule } from '@angular/forms';
+
 
 ///
 //  COMPONENTS
@@ -40,9 +41,14 @@ import { BatchService } from './services/batch-service/batch.service';
 
 ///
 //  FILTERS
-/// 
+///
 
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
+
+///
+//Security
+///
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 ///
 //  CONSTANTS
@@ -74,13 +80,17 @@ import { appRoutes } from './routing/routes';
     ChartsModule
   ],
   providers: [
-    AssociateService, 
-    ClientListService, 
-    ClientMappedService, 
-    AuthenticationService, 
-    RequestService, 
-    BatchService
-  ],
+    AssociateService,
+    ClientListService,
+    ClientMappedService,
+    AuthenticationService,
+    RequestService,
+    BatchService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

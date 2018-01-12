@@ -31,8 +31,7 @@ public class AssociateDaoHibernate implements AssociateDao {
     @Override
     public TfAssociate getAssociate(BigDecimal associateid) throws IOException {
         TfAssociate associate;
-        SessionFactory sessionFactory = HibernateUtil.getSession();
-        try (Session session = sessionFactory.openSession()) {
+		Session session = HibernateUtil.getSession().getCurrentSession();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<TfAssociate> criteriaQuery = builder.createQuery(TfAssociate.class);
             Root<TfAssociate> root = criteriaQuery.from(TfAssociate.class);
@@ -49,7 +48,6 @@ public class AssociateDaoHibernate implements AssociateDao {
             	LogUtil.logger.error(nre);
                 associate = new TfAssociate();
             }
-        }
         return associate;
     }
 

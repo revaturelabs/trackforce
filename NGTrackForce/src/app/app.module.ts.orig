@@ -38,7 +38,6 @@ import { BatchService } from './services/batch-service/batch.service';
 
 ///
 //  FILTERS
-/// 
 ///
 
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
@@ -51,6 +50,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 ///
 //  CONSTANTS
 ///
+
 import { appRoutes } from './routing/routes';
 import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 

@@ -115,4 +115,7 @@ export class ClientListComponent implements OnInit {
         console.log("Failed grabbing client");
       });
   }
+  chartHovered(e:any){
+    console.log(e)
+  }
 }

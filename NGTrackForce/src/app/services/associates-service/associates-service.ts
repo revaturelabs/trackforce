@@ -1,37 +1,42 @@
 import { Injectable } from "@angular/core";
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map'
-import { Associate } from "../../models/Associate";
-import { Response } from "@angular/http/src/static_response";
+import { Associate } from "../../models/associate.model";
+import { Response } from "@angular/http/";
+import { environment } from "../../../environments/environment";
 
+/**
+ * Service for retrieving and updating data relating to associates.
+ * @author Alex, Xavier
+ */
 @Injectable()
 export class AssociateService {
 
     status: string
     client: string
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
 
     }
 
     /**
      * Get all of the associates
      */
-    getAllAssociates() {
-        let url: string = "http://localhost:8085/TrackForce/track/associates/all"
+    getAllAssociates(): Observable<any> {
+        let url: string = environment.url + "TrackForce/track/associates/all"
 
-        return this.http.get(url).map((response: Response) => response.json());
+        return this.http.get(url)
     }
 
     /**
      * Update the given associates statuses/clients
      * @param ids of associates to be updated
      */
-    updateAssociates(ids: number[]) {
-        let url: string = "http://localhost:8085/TrackForce/track/associates/update/" +
-            this.status + "/" + this.client
-
-        return this.http.post(url, ids)
+    updateAssociates(ids: number[], ustatus: string, uclient: string) {
+        console.log("service");
+        let url: string = environment.url + "TrackForce/track/associates/update/" + ustatus + "/" + uclient
+        
+        return this.http.put(url, ids)
     }
 }

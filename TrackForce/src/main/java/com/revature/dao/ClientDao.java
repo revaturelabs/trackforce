@@ -1,5 +1,6 @@
 package com.revature.dao;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.revature.entity.TfClient;
@@ -12,7 +13,7 @@ public interface ClientDao {
 	 * 
 	 * @return A list of TfClient objects
 	 */
-	List<TfClient> getAllTfClients();
+	List<TfClient> getAllTfClients() throws IOException;
 
 	/**
 	 * Returns a single TfClient object
@@ -21,5 +22,5 @@ public interface ClientDao {
 	 *            - The name of the client to get
 	 * @return
 	 */
-	TfClient getClient(String name);
+	TfClient getClient(String name) throws IOException;
 }

@@ -7,6 +7,8 @@ import org.testng.annotations.Test;
 
 import com.revature.entity.TfMarketingStatus;
 
+import java.io.IOException;
+
 public class MarketingStatusDaoTest {
 
 	MarketingStatusDaoHibernate msdao = new MarketingStatusDaoHibernate();
@@ -18,7 +20,7 @@ public class MarketingStatusDaoTest {
 	}
 	
 	@Test(dataProvider="MarketingStatus")
-	public void getMarketingStatus(String marketingStatus) {
+	public void getMarketingStatus(String marketingStatus) throws IOException {
 		TfMarketingStatus tfms = msdao.getMarketingStatus(marketingStatus);
 		assertNotNull(tfms);
 	}

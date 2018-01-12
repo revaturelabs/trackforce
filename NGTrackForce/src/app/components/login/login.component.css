@@ -26,29 +26,29 @@ http://www.bootstrapzen.com/item/135/simple-login-form-logo/
 	@include box-sizing(border-box);
 	&:focus {
 	z-index:2;
+	}
 }
 
-}
-/* ../js/mainApp.js */
-body {
-	background: url("../../../assets/23.jpg") no-repeat center center
-		fixed;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
+#background {
+	position: fixed;
+	top: -50%;
+	left: -50%;
+	width: 200%;
+	height: 200%;
+	z-index: -1;
 }
 
-img.background-img {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-#background-div {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  z-index: -1;
+#background img{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	min-width: 50%;
+	min-height: 50%;
+	max-height: 100%;
+	max-width: 50%;
 }
 
 .login-form {

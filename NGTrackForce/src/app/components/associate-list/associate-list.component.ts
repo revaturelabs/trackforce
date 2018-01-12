@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AssociateService } from '../../services/associates-service/associates-service';
-import { Associate } from '../../models/Associate';
+import { Associate } from '../../models/associate.model';
 import { ClientListService } from '../../services/client-list-service/client-list.service';
-import { Client } from '../../models/Client';
+import { Client } from '../../models/client.model';
 
 /**
  * Component for the Associate List page
@@ -15,15 +15,35 @@ import { Client } from '../../models/Client';
 })
 
 export class AssociateListComponent implements OnInit {
-
+  //our collection of associates and clients
   associates: Associate[]
-  clients: Client[]
+  clients: Client[];
+  curriculums: Set<string>; //stored unique curriculums
 
-  constructor(private associateService: AssociateService, private clientService: ClientListService) { }
+  //used for  filtering
+  searchByStatus: string = "";
+  searchByClient: string = "";
+  searchByText: string = "";
+  searchByCurriculum: string = "";
+
+  //status/client to be updated
+  updateShow: boolean = false;
+  updateStatus: string = "";
+  updateClient: string = "";
+
+  //used for ordering of rows
+  desc: boolean = false;
+  sortedColumn: string = "";
+
+  public test: number[];
+
+  constructor(private associateService: AssociateService, private clientService: ClientListService) {
+    this.curriculums = new Set<string>();
+  }
 
   ngOnInit() {
-    this.getAllAssociates()
-    this.getClientNames()
+    this.getAllAssociates();
+    this.getClientNames();
   }
 
   /**
@@ -32,7 +52,12 @@ export class AssociateListComponent implements OnInit {
   getAllAssociates() {
     this.associateService.getAllAssociates().subscribe(
       data => {
-        this.associates = data
+        this.associates = data;
+
+        for (let associate of this.associates) { //get our curriculums
+          this.curriculums.add(associate.curriculumName)
+        }
+        this.curriculums.delete("");
       }
     )
   }
@@ -43,8 +68,62 @@ export class AssociateListComponent implements OnInit {
   getClientNames() {
     this.clientService.getAllClientsNames().subscribe(
       data => {
-        this.clients = <Client[]>data
+        this.clients = data
       }
     )
+  }
+
+  /**
+   * Sort the array of clients based on a given input.
+   * @param property to be sorted by
+   */
+  sort(property) {
+    this.desc = !this.desc;
+    let direction;
+    if (property !== this.sortedColumn) //set ascending or descending
+      direction = 1;
+    else
+      direction = this.desc ? 1 : -1;
+
+    this.sortedColumn = property;
+
+    //sort the elements
+    this.associates.sort(function (a, b) {
+      if (a[property] < b[property])
+        return -1 * direction;
+      else if (a[property] > b[property])
+        return 1 * direction;
+      else
+        return 0;
+    });
+  }
+
+  /**
+   * Bulk edit feature to update associate's statuses and clients.
+   */
+  updateAssociates() {
+    var ids: number[] = [];
+    var i = 1;
+    for (i; i <= this.associates.length; i++) { //grab the checked ids
+      var check = <HTMLInputElement>document.getElementById("" + i);
+      if (check != null && check.checked) {
+        ids.push(i);
+      }
+    }
+    this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient).subscribe(
+      data => {
+
+      }
+    );
+
+  }
+
+  showUpdate() {
+    if (this.updateShow) {
+      this.updateShow = false;
+    }
+    else {
+      this.updateShow = true;
+    }
   }
 }

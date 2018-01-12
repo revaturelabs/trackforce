@@ -3,13 +3,13 @@
 ///
 
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ChartsModule } from 'ng2-charts';
 
+import { FormsModule } from '@angular/forms';
 
 ///
 //  COMPONENTS
@@ -24,27 +24,31 @@ import { LoginComponent } from './components/login/login.component';
 import { ClientListComponent } from './components/client-list/client-list.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
+import { RootComponent } from './components/root/root.component';
 
 ///
 //  SERVICES
 ///
-import { RequestService } from './services/request.service';
 
+import { RequestService } from './services/request-service/request.service';
 import { AssociateService } from './services/associates-service/associates-service';
 import { ClientListService } from './services/client-list-service/client-list.service';
-import { ClientMappedService } from './services/client-mapped-service/client-mapped-service.service';
-import { AuthenticationService } from './services/authentication/authentication.service';
+import { ClientMappedService } from './services/client-mapped-service/client-mapped-service';
+import { AuthenticationService } from './services/authentication-service/authentication.service';
 import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
+import { BatchService } from './services/batch-service/batch.service';
+
+///
+//  FILTERS
+/// 
+
+import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 
 ///
 //  CONSTANTS
 ///
 
 import { appRoutes } from './routing/routes';
-import { RootComponent } from './components/root/root.component';
-
-
-
 
 @NgModule({
   declarations: [
@@ -52,6 +56,7 @@ import { RootComponent } from './components/root/root.component';
     NavbarComponent,
     HomeComponent,
     AssociateListComponent,
+    AssociateSearchByTextFilter,
     BatchListComponent,
     ClientMappedComponent,
     ClientListComponent,
@@ -64,12 +69,18 @@ import { RootComponent } from './components/root/root.component';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
     ChartsModule
   ],
-  providers: [AssociateService, ClientListService, ClientMappedService, AuthenticationService, RequestService],
+  providers: [
+    AssociateService, 
+    ClientListService, 
+    ClientMappedService, 
+    AuthenticationService, 
+    RequestService, 
+    BatchService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

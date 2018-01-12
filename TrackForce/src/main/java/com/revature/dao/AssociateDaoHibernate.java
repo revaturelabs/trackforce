@@ -1,5 +1,6 @@
 package com.revature.dao;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.persistence.NoResultException;
@@ -25,9 +26,10 @@ public class AssociateDaoHibernate implements AssociateDao {
      * Get a associate from the database given its id.
      * 
      * @param associateid
+     * @throws IOException 
      */
     @Override
-    public TfAssociate getAssociate(BigDecimal associateid) {
+    public TfAssociate getAssociate(BigDecimal associateid) throws IOException {
         TfAssociate associate;
         SessionFactory sessionFactory = HibernateUtil.getSession();
         try (Session session = sessionFactory.openSession()) {
@@ -62,9 +64,10 @@ public class AssociateDaoHibernate implements AssociateDao {
      * @param client
      *            - A TfClient object with what client the associate will be mapped
      *            to.
+     * @throws IOException 
      */
     @Override
-    public void updateInfo(BigDecimal id, TfMarketingStatus marketingStatus, TfClient client) {
+    public void updateInfo(BigDecimal id, TfMarketingStatus marketingStatus, TfClient client) throws IOException {
 
         SessionFactory factory = HibernateUtil.getSession();
         try (Session session = factory.openSession()) {
@@ -85,7 +88,7 @@ public class AssociateDaoHibernate implements AssociateDao {
                 TfAssociate associate = session.load(TfAssociate.class, id);
                 associate.setTfMarketingStatus(status);
                 associate.setTfClient(tfclient);
-
+                System.out.println(id);
                 session.saveOrUpdate(associate);
 
                 transaction.commit();

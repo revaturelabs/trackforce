@@ -8,6 +8,7 @@ import com.revature.utils.HibernateUtil;
 
 import static org.testng.Assert.*;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -30,13 +31,13 @@ public class ClientDaoImplTest {
 	}
 	
 	@Test
-	public void getAllTfClients() {
+	public void getAllTfClients() throws IOException {
 		List<TfClient> result = cDao.getAllTfClients();
 		assertNotNull(result);
 	}
 	
 	@Test(dataProvider="Clients")
-	public void getTfClient(String client) {
+	public void getTfClient(String client) throws IOException {
 		TfClient result = cDao.getClient(client);
 		assertNotNull(result);
 	}

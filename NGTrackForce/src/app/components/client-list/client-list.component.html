@@ -1,19 +1,18 @@
-<div class="client-list-page">
-  <div class="container">
-    <div class="row align-items-center">
-      <!-- Clients List column -->
-      <div class="col-md-3">
-        <div class="form-group">
-          <input type="text" [(ngModel)]="searchName" (keyup)="getAllClientNames()" class="form-control" id="clientSearch" placeholder="Search by client name...">
-        </div>
-        <h3>Clients</h3>
-        <button (click)="getAllClients()" class="btn custom-btn">View Data for All Clients</button>
-        <div id="clients-list-well" class="well">
-          <ul id="clients-list">
-            <!-- populate list of company names -->
-            <li *ngFor="let clientName of clientNames | searchFilter : searchName" (click)="getOneClient(clientName)">
-              <span class="client-name">{{clientName}}</span>
-            </li>
+<app-navbar></app-navbar>
+
+<div class="container">
+  <div class="row align-items-center">
+    <!-- Clients List column -->
+    <div class="col-md-3">
+      <div class="form-group">
+        <input type="text" [(ngModel)]="searchName" (keyup) ="getAllClientNames()" class="form-control" id="clientSearch" placeholder="Search by client name...">
+      </div>
+      <h3>Clients</h3>
+      <button (click)="getAllClients()" class="btn custom-btn">View Data for All Clients</button>
+      <div id="clients-list-well" class="well">
+        <ul id="clients-list">
+          <!-- populate list of company names -->
+          <li *ngFor="let clientName of clientNames | searchFilter : searchName" (click)="getOneClient(clientName)"><span class="client-name">{{clientName}}</span></li>
 
           </ul>
         </div>

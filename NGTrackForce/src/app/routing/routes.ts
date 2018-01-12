@@ -5,39 +5,56 @@
 
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '../components/home/home.component';
+import { ClientListComponent } from '../components/client-list/client-list.component';
+import { LoginComponent } from '../components/login/login.component';
 import { ClientMappedComponent } from '../components/client-mapped/client-mapped.component';
 import { AssociateListComponent } from '../components/associate-list/associate-list.component';
 import { BatchListComponent } from '../components/batch-list/batch-list.component';
-import { ClientListComponent } from '../components/client-list/client-list.component';
-import { LoginComponent } from '../components/login/login.component';
+import { CreateUserComponent } from '../components/create-user/create-user.component';
+import { RootComponent } from '../components/root/root.component';
 
 /**
  * Place paths here
  */
+
 export const appRoutes: Routes = [
     {
         path: 'home',
         component: HomeComponent
     },
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'client-listing',
+    component: ClientListComponent
+  },
     {
-        path: 'clientListing',
-        component: ClientListComponent
+        path: 'client-mapped',
+        component: ClientMappedComponent
     },
     {
-        path: 'associateListing',
+        path: 'associate-listing',
         component: AssociateListComponent
     },
     {
-        path: 'batchListing',
+        path: 'batch-listing',
         component: BatchListComponent
     },
     {
-      path: '',
-      redirectTo: '/login',
-      pathMatch: 'full'
+        path: 'create-user',
+        component: CreateUserComponent
     },
     {
-      path: 'login',
-      component: LoginComponent
-    }
+        path: 'root',
+        component: RootComponent
+      }
 ]
+
+

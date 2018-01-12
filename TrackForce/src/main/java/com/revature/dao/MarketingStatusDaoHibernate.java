@@ -17,26 +17,29 @@ import com.revature.utils.LogUtil;
 
 public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 
-    @Override
-    public TfMarketingStatus getMarketingStatus(String status) throws IOException {
-        SessionFactory sessionFactory = HibernateUtil.getSession();
-        try (Session session = sessionFactory.openSession()) {
+	@Override
+	public TfMarketingStatus getMarketingStatus(String status) throws IOException {
+		Session session = HibernateUtil.getSession().getCurrentSession();
+		try {
 
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<TfMarketingStatus> criteriaQuery = builder.createQuery(TfMarketingStatus.class);
-            Root<TfMarketingStatus> root = criteriaQuery.from(TfMarketingStatus.class);
-            criteriaQuery.select(root).where(builder.equal(root.get("tfMarketingStatusName"), status));
-            Query<TfMarketingStatus> query = session.createQuery(criteriaQuery);
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<TfMarketingStatus> criteriaQuery = builder.createQuery(TfMarketingStatus.class);
+			Root<TfMarketingStatus> root = criteriaQuery.from(TfMarketingStatus.class);
+			criteriaQuery.select(root).where(builder.equal(root.get("tfMarketingStatusName"), status));
+			Query<TfMarketingStatus> query = session.createQuery(criteriaQuery);
 
-            TfMarketingStatus marketingStatus;
-            try {
-                marketingStatus = query.getSingleResult();
-            } catch (NoResultException nre) {
-                marketingStatus = new TfMarketingStatus();
-                LogUtil.logger.error(nre);
-            }
+			TfMarketingStatus marketingStatus;
+			try {
+				marketingStatus = query.getSingleResult();
+			} catch (NoResultException nre) {
+				marketingStatus = new TfMarketingStatus();
+				LogUtil.logger.error(nre);
+			}
 
-            return marketingStatus;
-        }
-    }
+			return marketingStatus;
+		} finally {
+			session.flush();
+			session.close();
+		}
+	}
 }

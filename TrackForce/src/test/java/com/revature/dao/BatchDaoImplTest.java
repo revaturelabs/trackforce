@@ -2,6 +2,7 @@ package com.revature.dao;
 
 import static org.testng.Assert.assertNotNull;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -29,14 +30,13 @@ public class BatchDaoImplTest {
 	}
 	
 	@Test(dataProvider="batchName")
-	public void getBatch(String batchName) {
+	public void getBatch(String batchName) throws IOException {
 		TfBatch result = bDao.getBatch(batchName);
 		assertNotNull(result);
 	}
 	
 	@Test(dataProvider="timeStamps")
-	public void getBatchDetails(Timestamp start, Timestamp end)
-	{
+	public void getBatchDetails(Timestamp start, Timestamp end) throws IOException {
 		List<TfBatch> result = bDao.getBatchDetails(start, end);
 		assertNotNull(result);
 	}

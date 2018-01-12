@@ -9,6 +9,8 @@ import org.testng.annotations.Test;
 
 import com.revature.model.StatusInfo;
 
+import java.io.IOException;
+
 public class HomeResourceTest {
 
 	HomeResource hRes = new HomeResource();
@@ -20,19 +22,19 @@ public class HomeResourceTest {
 	}
 	
 	@Test
-	public void getMappedAndUnmappedInfo() {
+	public void getMappedAndUnmappedInfo() throws IOException {
 		StatusInfo result = hRes.getMappedAndUnmappedInfo();
 		assertNotNull(result);
 	}
 
 	@Test(enabled=false)
-	public void getClientsByStatus(int statusID) {
+	public void getClientsByStatus(int statusID) throws IOException {
 		Response result = hRes.getClientsByStatus(statusID);
 		assertNotNull(result);
 	}
 	
 	@Test(enabled=false)
-	public void getCurriculumByStatus(int statusID) {
+	public void getCurriculumByStatus(int statusID) throws IOException {
 		Response result = hRes.getCurriculumsByStatus(statusID);
 		assertNotNull(result);
 	}

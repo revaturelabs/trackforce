@@ -24,31 +24,38 @@ export class BatchListComponent implements OnInit {
   startDate: Date;
   endDate: Date;
   batches: Batch[];
-  batchColors: string[] = ThemeConstants.BATCH_COLORS;
-
   curriculumNames: string[];
   curriculumCounts: number[];
+  batchColors: string[] = ThemeConstants.BATCH_COLORS;
 
+  chartOptions = {
+    legend: {
+      position: 'bottom'
+    },
+    layout: {
+      padding: {
+        left: -100, right: -100, top: 0, bottom: 0
+      },
+      margin: {
+        left: 0, right: 0, top: 0, bottom: 0
+      }
+    },
+    responsive: false,
+    maintainAspectRatio: true
+  };
 
   constructor(private batchService: BatchService, private router: Router, private creds: AuthenticationService) {
   }
 
   ngOnInit() {
-    /*
-    if (this.creds.isLoggedIn()) {
-      this.router.navigate(['login']);
-    }
-    */
-    //else {
-      this.batchService.getAllBatches().subscribe(
-        (batches) => {
-          console.log(batches);
-          this.batches = batches;
-          this.updateCountPerCurriculum();
-        },
-        console.error
-      );
-    //}
+    this.batchService.getDefaultBatches().subscribe(
+      (batches) => {
+        console.log(batches);
+        this.batches = batches;
+        this.updateCountPerCurriculum();
+      },
+      console.error
+    );
   }
 
 
@@ -57,8 +64,10 @@ export class BatchListComponent implements OnInit {
    * and the corresponding graph accordingly
    */
   public applySelectedRange() {
-    this.updateBatches();
-    this.updateCountPerCurriculum();
+    if (this.startDate && this.endDate) {
+      this.updateBatches();
+      this.updateCountPerCurriculum();
+    }
   }
 
   /**

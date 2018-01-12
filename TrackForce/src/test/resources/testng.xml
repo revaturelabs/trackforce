@@ -1,0 +1,33 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<suite name="Suite" parallel="false">
+	<test name="Test">
+		<classes>
+			<class name="com.revature.dao.AssociateDaoImplTest" />
+			<class name="com.revature.dao.BatchDaoImplTest" />
+			<class name="com.revature.dao.ClientDaoImplTest" />
+			<class name="com.revature.dao.DatabaseDaoImplTest" />
+			<class name="com.revature.dao.HomeDaoImplTest" />
+			<class name="com.revature.dao.MarketingStatusDaoTest" />
+			<class name="com.revature.dao.UserDaoImplTest" />
+
+            <!--
+			<class name="com.revature.runner.ClientPageRunner" />
+			-->
+
+
+			<class name="com.revature.services.DatabaseServicesTest" />
+			<class name="com.revature.services.ClientResourceTest" />
+
+			<class name="com.revature.test.AssociationMappingTest" />
+			<class name="com.revature.test.BatchesTest" />
+			<class name="com.revature.test.testAssociateDaoHibernate" />
+			<class name="com.revature.test.testAssociateService" />
+			<class name="com.revature.test.testBatchDaoHibernate" />
+			<class name="com.revature.test.testBatchesService" />
+
+			<class name="com.revature.utils.StatusInfoUtilTest" />
+
+		</classes>
+	</test> <!-- Test -->
+</suite> <!-- Suite -->

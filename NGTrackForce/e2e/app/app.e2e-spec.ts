@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('ngtrack-force App', () => {
+xdescribe('ngtrack-force App', () => {
   let page: AppPage;
 
   beforeEach(() => {

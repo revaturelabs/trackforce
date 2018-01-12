@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -9,6 +10,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.hibernate.HibernateException;
 
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.HomeDaoImpl;
@@ -28,12 +31,14 @@ public class HomeResource {
 	 * associates.
 	 * 
 	 * @return a StatusInfo object for all of the associates.
+	 * @throws IOException 
+	 * @throws HibernateException 
 	 */
 	@GET
 	@Jwt
 	@Path("info")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public StatusInfo getMappedAndUnmappedInfo() {
+	public StatusInfo getMappedAndUnmappedInfo() throws HibernateException, IOException {
 		init();
 		return StatusInfoUtil.getAllAssociatesStatusInfo();
 	}
@@ -48,11 +53,13 @@ public class HomeResource {
 	 *            Status id of the status/stage of associates that the requester
 	 *            wants information for.
 	 * @return a Response object with a List of Map objects as an entity.
+	 * @throws IOException 
+	 * @throws HibernateException 
 	 */
 	@GET
 	@Path("client/{statusid}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getClientsByStatus(@PathParam("statusid") int statusid) {
+	public Response getClientsByStatus(@PathParam("statusid") int statusid) throws HibernateException, IOException {
 		init();
 		return Response.ok(StatusInfoUtil.getClientsBasedOnStatusID(statusid)).build();
 	}
@@ -67,11 +74,13 @@ public class HomeResource {
 	 *            Status id of the status/stage of associates that the requester
 	 *            wants information for.
 	 * @return a Response object with a List of Map objects as an entity.
+	 * @throws IOException 
+	 * @throws HibernateException 
 	 */
 	@GET
 	@Path("skillset/{statusid}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getCurriculumsByStatus(@PathParam("statusid") int statusid) {
+	public Response getCurriculumsByStatus(@PathParam("statusid") int statusid) throws HibernateException, IOException {
 		init();
 		return Response.ok(StatusInfoUtil.getCurriculumsBasedOnStatusID(statusid)).build();
 	}
@@ -79,8 +88,10 @@ public class HomeResource {
 	/**
 	 * Initializes objects needed for functionality from the StatusInfoUtil when
 	 * maps in StatusInfoUtil are empty.
+	 * @throws IOException 
+	 * @throws HibernateException 
 	 */
-	private void init() {
+	private void init() throws HibernateException, IOException {
 		if (StatusInfoUtil.mapsAreEmpty()) {
 			initForce();
 		}
@@ -89,10 +100,12 @@ public class HomeResource {
 	/**
 	 * Forces initialization of objects needed for functionality from the
 	 * StatusInfoUtil.
+	 * @throws IOException 
+	 * @throws HibernateException 
 	 */
 	@PUT
 	@Path("init")
-	public void initForce() {
+	public void initForce() throws HibernateException, IOException {
 		HomeDaoImpl.clearAssociates();
 		clientDaoImpl.clearClients();
 		StatusInfoUtil.clearMaps();

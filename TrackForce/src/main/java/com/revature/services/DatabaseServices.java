@@ -1,10 +1,15 @@
 package com.revature.services;
 
+import java.io.IOException;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.hibernate.HibernateException;
 
 import com.revature.dao.DatabaseDAOImpl;
 
@@ -14,7 +19,7 @@ public class DatabaseServices {
     @GET
     @Path("populateDB")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response populateDB() {
+    public Response populateDB() throws HibernateException, IOException {
         String string;
         DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
         string = dbCalls.populate();
@@ -22,10 +27,10 @@ public class DatabaseServices {
         return Response.ok(string).build();
     }
 
-    @GET
+    @DELETE
     @Path("deleteFromDB")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response deleteDB() {
+    public Response deleteDB() throws HibernateException, IOException {
         String string;
         DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
         string = dbCalls.deleteAll();
@@ -36,7 +41,7 @@ public class DatabaseServices {
     @GET
     @Path("populateDBSF")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response populateDBSF() {
+    public Response populateDBSF() throws HibernateException, IOException {
         String string;
         DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
         string = dbCalls.populateSF();

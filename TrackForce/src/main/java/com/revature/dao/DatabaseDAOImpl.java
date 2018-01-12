@@ -26,7 +26,8 @@ public class DatabaseDAOImpl {
 	}
 
 	private String runStoredProcedure(String queryName, String successMessage, String errorMessage) throws HibernateException, IOException {
-		try (Session session = HibernateUtil.getSession().openSession()) {
+		Session session = HibernateUtil.getSession().getCurrentSession();
+		try {
 			String message;
 			try {
 				StoredProcedureQuery query = session.createStoredProcedureQuery(queryName);
@@ -38,6 +39,9 @@ public class DatabaseDAOImpl {
 				message = errorMessage;
 				return message;
 			}
+		} finally {
+			session.flush();
+			session.close();
 		}
 	}
 }

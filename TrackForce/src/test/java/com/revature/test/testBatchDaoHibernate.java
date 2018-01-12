@@ -29,7 +29,7 @@ public class testBatchDaoHibernate {
 	}
 
 	@Test 
-	public void testgetBatchDetails() {
+	public void testgetBatchDetails() throws IOException {
 		Timestamp firstDate = Timestamp.valueOf(properties.getProperty("from_date"));
 		Timestamp secondDate = Timestamp.valueOf(properties.getProperty("to_date"));
 		BatchDao batchdao = new BatchDaoHibernate();
@@ -38,14 +38,14 @@ public class testBatchDaoHibernate {
 	}
 
 	@Test
-	public void testGetBatch() {
+	public void testGetBatch() throws IOException {
 		BatchDaoHibernate batch = new BatchDaoHibernate();
 		TfBatch batchA = batch.getBatch(properties.getProperty("batch_name"));
 		Assert.assertNotNull(batchA);
 	}
 
 	@Test
-	public void testgetBatchDetailsNegative() {
+	public void testgetBatchDetailsNegative() throws IOException {
 		//giving the dates in opposite order - is not a date range
 		Timestamp firstDate = Timestamp.valueOf(properties.getProperty("to_date"));
 		Timestamp secondDate = Timestamp.valueOf(properties.getProperty("from_date"));
@@ -55,7 +55,7 @@ public class testBatchDaoHibernate {
 	}
 
 	@Test
-	public void testGetBatchNegative() {
+	public void testGetBatchNegative() throws IOException {
 		BatchDao batchDao = new BatchDaoHibernate();
 		TfBatch batch = batchDao.getBatch("さいうえぁじぇうjp♫¥=⌐~ë");
 		Assert.assertNotNull(batch);

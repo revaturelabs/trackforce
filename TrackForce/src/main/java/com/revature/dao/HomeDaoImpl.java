@@ -1,10 +1,12 @@
 package com.revature.dao;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import com.revature.entity.TfAssociate;
@@ -15,7 +17,7 @@ public class HomeDaoImpl implements HomeDao {
 	private static List<TfAssociate> associates;
 
 	@Override
-	public List<TfAssociate> getAllTfAssociates() {
+	public List<TfAssociate> getAllTfAssociates() throws HibernateException, IOException {
 		if (associates == null || associates.isEmpty()) {
 			try (Session session = HibernateUtil.getSession().openSession()) {
 				CriteriaQuery<TfAssociate> cq = session.getCriteriaBuilder().createQuery(TfAssociate.class);

@@ -1,5 +1,6 @@
 package com.revature.test;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.testng.Assert;
@@ -15,7 +16,7 @@ import com.revature.entity.TfMarketingStatus;
 public class testAssociateDaoHibernate {
 
     @Test
-    public void testUpdateInfo() {
+    public void testUpdateInfo() throws IOException {
         AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
         ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
         MarketingStatusDaoHibernate marketingStatusDaoHibernate = new MarketingStatusDaoHibernate();
@@ -27,7 +28,7 @@ public class testAssociateDaoHibernate {
     }
 
     @Test (enabled=false)
-    public void testGetAssociate() {
+    public void testGetAssociate() throws IOException {
         AssociateDaoHibernate associate = new AssociateDaoHibernate();
         BigDecimal d = new BigDecimal(266);
         TfAssociate associateA = associate.getAssociate(d);

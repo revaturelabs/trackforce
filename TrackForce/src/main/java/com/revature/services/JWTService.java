@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.io.IOException;
 import java.security.Key;
 import java.util.Date;
 
@@ -125,7 +126,7 @@ public class JWTService {
 	 * 
 	 * @return true if the token is valid, otherwise false
 	 */
-	public Boolean validateToken(String token) {
+	public Boolean validateToken(String token) throws IOException {
 		Claims claims = null;
 		boolean verified = false;
 		String tokenUsername = null;

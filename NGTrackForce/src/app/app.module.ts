@@ -85,12 +85,7 @@ import { appRoutes } from './routing/routes';
     ClientMappedService,
     AuthenticationService,
     RequestService,
-    BatchService
-  ],
-  providers: [AssociateService,
-    ClientService,
-    ClientMappedService,
-    AuthenticationService,
+    BatchService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

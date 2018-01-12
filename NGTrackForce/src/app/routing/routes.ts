@@ -53,22 +53,9 @@ export const appRoutes: Routes = [
         component: CreateUserComponent
     },
     {
-<<<<<<< HEAD
-        path: 'form-comp/:id', 
-        component: FormComponent 
-    },
-    
-    {
-      path: 'login',
-      component: LoginComponent
-    }
-
-
-=======
         path: 'root',
         component: RootComponent
       }
->>>>>>> 14bfe3fcaf71d4dcf73705ba445acd8d4c531b35
 ]
 
 

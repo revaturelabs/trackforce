@@ -5,7 +5,7 @@
     <title class="text-center text-primary">Batch List</title>
   </div>
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-12 col-md-4 mcolumn">
       <h3>All Batches</h3>
       <div class="well">
         <div class="table-responsive">
@@ -20,27 +20,37 @@
             <tbody>
             <tr *ngFor="let batch of batches">
               <td><a href="#!/batchDetails/{{batch.batchName}}">{{batch.batchName}}</a></td>
-              <td>{{batch.startDate}}</td>
-              <td>{{batch.endDate}}</td>
+              <td>{{batch.startDate | date:'MM/dd/yyyy'}}</td>
+              <td>{{batch.endDate| date:'MM/dd/yyyy'}}</td>
             </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-    <div class="col-sm-6">
-      <h3>Select dates:</h3>
+    <div class="col-sm-12 col-md-8 mcolumn">
+      <h3>Select Dates:</h3>
       <form>
-        From: <input type="date" [(ngModel)]="startDate" name="startDate" [max]="endDate"/>
-        To: <input type="date" [(ngModel)]="endDate" name="startDate" [min]="startDate"/>
-        <input type="submit" value="Submit" (click)="applySelectedRange($event)"/>
+        <div>
+          <label for="startDate">From:</label>
+          <input type="date" [(ngModel)]="startDate" id="startDate" name="startDate" [max]="endDate"/>
+        </div>
+        <div>
+          <label for="endDate">To:</label>
+          <input type="date" [(ngModel)]="endDate" id="endDate" name="startDate" [min]="startDate"/>
+        </div>
+        <div>
+          <input type="submit" value="Submit" (click)="applySelectedRange($event)"/>
+        </div>
       </form>
       <canvas baseChart *ngIf="curriculumNames && curriculumCounts"
               id="pie" class="chart chart-pie"
               [data]="curriculumCounts"
               [labels]="curriculumNames"
-              [chartType]="pieChartType">
+              [chartType]="pieChartType"
               [colors]="batchColors"
+              [options]="chartOptions">
+
       </canvas>
     </div>
   </div>

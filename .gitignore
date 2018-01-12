@@ -1,5 +1,8 @@
 # ignore package-lock metadata
-package-lock.json
+**/package-lock.json
+
+# ignore config
+**/hibernate.cfg.xml
 
 # Node dependencies are inside package-lock.json 
 # To install node modules on your end run an npm install

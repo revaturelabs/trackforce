@@ -2,6 +2,7 @@ package com.revature.services;
 
 import static org.testng.Assert.assertNotNull;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -73,35 +74,37 @@ public class BatchesServiceTest {
             assertNotNull(result);
         } catch (NullPointerException ex) {
             Assert.fail("Null curriculum in batches should not result in NullPointerException");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     @Test(dataProvider = "timeStamps")
-    public void getBatchChartInfo(Timestamp fromdate, Timestamp todate) {
+    public void getBatchChartInfo(Timestamp fromdate, Timestamp todate) throws IOException {
         List<Map<String, Object>> result = batchService.getBatchChartInfo(fromdate.getTime(), todate.getTime());
         assertNotNull(result);
     }
 
 	@Test(dataProvider="batchName")
-	public void getBatchInfo(String batchName) {
+	public void getBatchInfo(String batchName) throws IOException {
 		BatchInfo result = batchService.getBatchInfo(batchName);
 		assertNotNull(result);
 	}
 
 	@Test(dataProvider="batchName")
-	public void getMappedData(String batchName) {
+	public void getMappedData(String batchName) throws IOException {
 		Map<String, Integer> result = batchService.getMappedData(batchName);
 		assertNotNull(result);
 	}
 
 	@Test(dataProvider="timeStamps")
-	public void getBatches(Timestamp fromdate, Timestamp todate) {
+	public void getBatches(Timestamp fromdate, Timestamp todate) throws IOException {
 		List<BatchInfo> result = batchService.getBatches(fromdate.getTime(), todate.getTime());
 		assertNotNull(result);
 	}
 
 	@Test(dataProvider="batchName")
-	public void getAssociates(String batchName) {
+	public void getAssociates(String batchName) throws IOException {
 		List<AssociateInfo> result = batchService.getAssociates(batchName);
 		assertNotNull(result);
 	}

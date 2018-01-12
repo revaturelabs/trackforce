@@ -1,7 +1,9 @@
 package com.revature.dao;
 
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.testng.annotations.DataProvider;
@@ -21,7 +23,11 @@ public class AssociateDaoImplTest {
 	
 	@Test(dataProvider="associateId")
 	public void getAssociate(BigDecimal id) {
-		TfAssociate result = aDao.getAssociate(id);
-		assertNotNull(result);
+        try {
+            TfAssociate result = aDao.getAssociate(id);
+            assertNotNull(result);
+        } catch (IOException e) {
+            fail("file-io exception");
+        }
 	}
 }

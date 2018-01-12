@@ -4,6 +4,7 @@ import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class ClientResourceTest {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void getAllClientsCheckMapIsOfProperForm() {
+	public void getAllClientsCheckMapIsOfProperForm() throws IOException {
 		List<TfClient> clients = new ArrayList<>();
 		clients.add(new TfClient());
 		when(clientDaoImpl.getAllTfClients()).thenReturn(clients);

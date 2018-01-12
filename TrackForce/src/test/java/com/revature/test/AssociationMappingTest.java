@@ -2,6 +2,7 @@ package com.revature.test;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.persistence.EntityManager;
@@ -16,7 +17,7 @@ import com.revature.utils.HibernateUtil;
 public class AssociationMappingTest {
 
 	@Test
-	public void test() {
+	public void test() throws IOException {
 		EntityManager em = HibernateUtil.getSession().createEntityManager();
 //		TfClient client = em.find(TfClient.class, 1);
 		

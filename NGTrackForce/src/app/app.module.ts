@@ -38,6 +38,8 @@ import { ClientMappedService } from './services/client-mapped-service/client-map
 ///
 
 import { appRoutes } from './routing/routes';
+import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
+import { ChartsModule } from 'ng2-charts';
 
 
 
@@ -52,7 +54,8 @@ import { appRoutes } from './routing/routes';
     ClientMappedComponent,
     ClientListComponent,
     LoginComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    BatchDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -60,6 +63,7 @@ import { appRoutes } from './routing/routes';
     HttpClientModule,
     FormsModule,
     HttpModule,
+    ChartsModule
     RouterModule.forRoot(appRoutes)
   ],
   providers: [AssociateService, ClientService, ClientMappedService, RequestService],

@@ -4,7 +4,6 @@
     <session-factory>
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
-        <property name="hibernate.connection.password">PASSWORD_GOES_HERE</property>
         <property name="hibernate.connection.url">jdbc:oracle:thin:@trackforcedb.chueiwozbnfz.us-east-1.rds.amazonaws.com:1521:ORCL</property>
         <property name="hibernate.connection.username">trackforcedev</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>

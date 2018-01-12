@@ -49,6 +49,10 @@ export const appRoutes: Routes = [
         component: BatchListComponent
     },
     {
+        path: 'form-comp/:id',
+        component: FormComponent
+    },
+    {
         path: 'create-user',
         component: CreateUserComponent
     },

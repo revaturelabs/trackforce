@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AssociateService } from '../../services/associates-service';
-import { Associate } from '../../../models/Associate';
-import { ClientService } from '../../services/clients-service';
-import { Client } from '../../../models/Client';
-import { element } from 'protractor';
+import { AssociateService } from '../../services/associates-service/associates-service';
+import { Associate } from '../../models/Associate';
+import { ClientListService } from '../../services/client-list-service/client-list.service';
+import { Client } from '../../models/Client';
 
 /**
  * Component for the Associate List page
@@ -28,7 +27,7 @@ export class AssociateListComponent implements OnInit {
   searchByCurriculum: string = "";
 
   //status/client to be updated
-  updateShow: boolean=false;
+  updateShow: boolean = false;
   updateStatus: string = "";
   updateClient: string = "";
 
@@ -38,7 +37,7 @@ export class AssociateListComponent implements OnInit {
 
   public test: number[];
 
-  constructor(private associateService: AssociateService, private clientService: ClientService) {
+  constructor(private associateService: AssociateService, private clientService: ClientListService) {
     this.curriculums = new Set<string>();
   }
 
@@ -69,11 +68,11 @@ export class AssociateListComponent implements OnInit {
   getClientNames() {
     this.clientService.getAllClientsNames().subscribe(
       data => {
-        this.clients = data;
+        this.clients = data
       }
     )
   }
-  
+
   /**
    * Sort the array of clients based on a given input.
    * @param property to be sorted by
@@ -107,22 +106,24 @@ export class AssociateListComponent implements OnInit {
     var i = 1;
     for (i; i <= this.associates.length; i++) { //grab the checked ids
       var check = <HTMLInputElement>document.getElementById("" + i);
-      if (check!=null&&check.checked) {
+      if (check != null && check.checked) {
         ids.push(i);
-        console.log(i);
       }
     }
-    this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient);
+    this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient).subscribe(
+      data => {
+
+      }
+    );
+
   }
 
-  showUpdate(){
-    if(this.updateShow)
-    {
-      this.updateShow=false;
+  showUpdate() {
+    if (this.updateShow) {
+      this.updateShow = false;
     }
-    else
-    {
-      this.updateShow=true;
+    else {
+      this.updateShow = true;
     }
   }
 }

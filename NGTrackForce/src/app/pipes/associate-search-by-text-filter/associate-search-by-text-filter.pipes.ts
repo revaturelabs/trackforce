@@ -8,10 +8,9 @@ import { Pipe, PipeTransform } from '@angular/core';
  * Pipe to filter searches based on user input
  * @author Alex, Xavier
  */
-export class SearchByTextFilter implements PipeTransform {
+export class AssociateSearchByTextFilter implements PipeTransform {
     transform(items: any[], searchText: string): any[] {
  
-        
         if (!items) return [];
         if (!searchText) return items;
         searchText = searchText.toLowerCase();
@@ -22,7 +21,7 @@ export class SearchByTextFilter implements PipeTransform {
             || associate.lastName.toLowerCase().includes(searchText)
             || associate.marketingStatus.toLowerCase().includes(searchText)
             || associate.client.toLowerCase().includes(searchText)
-            || String(associate.id).includes(searchText)
+            || associate.id.toString().toLowerCase().includes(searchText);
         });
     }
 }

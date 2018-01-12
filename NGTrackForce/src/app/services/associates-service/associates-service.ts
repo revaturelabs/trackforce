@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map'
 import { Associate } from "../../models/Associate";
-import { Response } from "@angular/http/src/static_response";
-import { environment } from "../../environments/environment";
+import { Response } from "@angular/http/";
+import { environment } from "../../../environments/environment";
 
 /**
  * Service for retrieving and updating data relating to associates.
@@ -16,17 +16,17 @@ export class AssociateService {
     status: string
     client: string
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
 
     }
 
     /**
      * Get all of the associates
      */
-    getAllAssociates() {
+    getAllAssociates(): Observable<any> {
         let url: string = environment.url + "TrackForce/track/associates/all"
 
-        return this.http.get(url).map((response: Response) => response.json());
+        return this.http.get(url)
     }
 
     getAssociate(id: number) {
@@ -43,7 +43,7 @@ export class AssociateService {
         console.log("service");
         let url: string = environment.url + "TrackForce/track/associates/update/" + ustatus + "/" + uclient
         
-        this.http.put(url, ids).subscribe()
+        return this.http.put(url, ids)
     }
 
     updateAssociate(id: number, ustatus: string, uclient: string) {

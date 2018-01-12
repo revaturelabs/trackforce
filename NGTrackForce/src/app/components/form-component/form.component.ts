@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AssociateService } from '../../services/associates-service';
-import { Associate } from '../../../models/Associate';
-import { ClientService } from '../../services/clients-service';
-import { Client } from '../../../models/Client';
+import { AssociateService } from '../../services/associates-service/associates-service';
+import { Associate } from '../../models/Associate';
+import { ClientListService } from '../../services/client-list-service/client-list.service';
+import { Client } from '../../models/Client';
 import { element } from 'protractor';
 import {ActivatedRoute} from "@angular/router"
 
 @Component({
-    selector: 'form',
+    selector: 'form-comp',
     templateUrl: './form.component.html',
     styleUrls: ['./form.component.css']
   })
@@ -18,8 +18,8 @@ import {ActivatedRoute} from "@angular/router"
     message: string="";
     id:number;
 
-    constructor( private associateService: AssociateService, private clientService: ClientService) {
-        var id=window.location.href.split("form/")[1];
+    constructor( private associateService: AssociateService, private clientService: ClientListService) {
+        var id=window.location.href.split("form-comp/")[1];
         this.id=Number(id);
         this.associateService.getAssociate(this.id).subscribe(data => {this.associate=data});
     }

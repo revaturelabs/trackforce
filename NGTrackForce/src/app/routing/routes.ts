@@ -52,13 +52,8 @@ export const appRoutes: Routes = [
         component: CreateUserComponent
     },
     {
-        path: 'form/:id', //The url that will trigger the injection
-        component: FormComponent //the component to be injected.
-    },
-    {
-      path: '',
-      redirectTo: '/login',
-      pathMatch: 'full'
+        path: 'form-comp/:id', 
+        component: FormComponent 
     },
     
     {

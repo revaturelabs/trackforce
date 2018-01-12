@@ -188,7 +188,7 @@ export class HomeComponent {
 */
   mappedOnClick(evt: any) {
     if (evt.active[0] != undefined)
-      this.rout.navigate([`clientMapped/${evt.active[0]._model.label}`]);
+      this.rout.navigate([`client-mapped/${evt.active[0]._model.label}`]);
   };
   /**
    * @function UnmappedOnClick

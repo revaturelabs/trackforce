@@ -2,33 +2,24 @@ package com.revature.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.service.ServiceRegistry;
-import org.jboss.logging.Logger;
 
 import com.revature.config.DataSourceConfig;
-import com.revature.entity.*;
 
 /**
  * Utility class for configurations and getting a Hibernate SessionFactory
  * object.
  */
-
 public class HibernateUtil {
 
 	private HibernateUtil() {
@@ -37,7 +28,7 @@ public class HibernateUtil {
 	private static SessionFactory sessionfact;
 
 	/**
-	 * Returns a SessionFactor objects based on hibernate.cfg.xml
+	 * Returns a SessionFactory objects based on hibernate.cfg.xml
 	 * 
 	 * @return a new SessionFactory object from hibernate.cfg.xml
 	 * @throws IOException
@@ -59,16 +50,19 @@ public class HibernateUtil {
 			Configuration conf = new Configuration().configure();
 			
 			// Register Entities
-			registerEntities(conf);
+			// registerEntities(conf);
 			
 			// initialize properties and configurations
-			conf.setProperty("hibernate.connection.password", DataSourceConfig.getHibernatePasswordEnvironmentVariable());
-		
+            conf.setProperty("hibernate.connection.url", DataSourceConfig.getUrl());
+            conf.setProperty("hibernate.connection.username", DataSourceConfig.getUsername());
+			conf.setProperty("hibernate.connection.password", DataSourceConfig.getPassword());
+
 			// set cfg properties
 			dscpi.configure(conf.getProperties());
 
 			// configure the service registry
 			builder = new StandardServiceRegistryBuilder();
+			builder.configure();    // from hibernate.cfg.xml
 			builder.addService(ConnectionProvider.class, dscpi);
 			builder.applySettings(conf.getProperties());
 			registry = builder.build();
@@ -78,18 +72,6 @@ public class HibernateUtil {
 			LogUtil.logger.info("Connection Pool configured");
 			LogUtil.logger.info("SessionFactory successfully built");
 			return sf;
-		}
-	}
-
-	// Because Configuration is ignoring the mappings in hibernate.cfg.xml for some reason
-	private static void registerEntities(Configuration conf) {
-		Class<?>[] arr = {TfAssociate.class, TfBatch.class, TfBatchLocation.class,
-						TfClient.class, TfCurriculum.class, TfEndClient.class, TfInterview.class,
-						TfInterviewType.class, TfMarketingStatus.class, TfPlacement.class,
-						TfRole.class, TfUser.class};
-		List<Class<?>> entities = Arrays.asList(arr);
-		for(Class<?> clazz : entities) {
-			conf.addAnnotatedClass(clazz);
 		}
 	}
 

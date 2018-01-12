@@ -22,7 +22,7 @@ public class testBatchesService {
 	Properties properties = new Properties();
 	
 	  @Test
-	  public void testGetBatchChartInfo() {
+	  public void testGetBatchChartInfo() throws IOException {
 			BatchesService batchesService = new BatchesService();
 
 			List<Map<String, Object>> chartInfo = batchesService.getBatchChartInfo(
@@ -35,7 +35,7 @@ public class testBatchesService {
 	  }
 	  
 	  @Test
-	  public void testGetBatchChartInfoNeg() {
+	  public void testGetBatchChartInfoNeg() throws IOException {
 		  
 			BatchesService batchesService = new BatchesService();
 			//dates given do not make a date range
@@ -48,7 +48,7 @@ public class testBatchesService {
 	  }
 		
 	  @Test (enabled = false)
-	  public void testGetBatchInfoNeg() {
+	  public void testGetBatchInfoNeg() throws IOException {
 		  BatchesService batchesService = new BatchesService();
 		  BatchInfo batch = batchesService.getBatchInfo(properties.getProperty("improper_batch_name"));
 		  
@@ -56,7 +56,7 @@ public class testBatchesService {
 	  }
 	  
 	  @Test
-	  public void testGetBatchInfo() {
+	  public void testGetBatchInfo() throws IOException {
 		  BatchesService batchesService = new BatchesService();
 		  BatchInfo batch = batchesService.getBatchInfo(properties.getProperty("batch_name"));
 		  
@@ -65,7 +65,7 @@ public class testBatchesService {
 	  
 	  
 	  @Test
-	  public void testGetMappedData() {
+	  public void testGetMappedData() throws IOException {
 		  BatchesService batchesService = new BatchesService();
 		  
 		  Map<String, Integer> mappedOrUnmapped = batchesService.getMappedData(properties.getProperty("batch_name"));
@@ -76,7 +76,7 @@ public class testBatchesService {
 	  }
 	  
 	  @Test
-	  public void testGetMappedDataNeg() {
+	  public void testGetMappedDataNeg() throws IOException {
 		  BatchesService batchesService = new BatchesService();
 		  
 		  Map<String, Integer> mappedOrUnmapped = batchesService.getMappedData(properties.getProperty("batch_name"));
@@ -91,7 +91,7 @@ public class testBatchesService {
 	  
 	  
 	  @Test
-	  public void testGetBatches() {
+	  public void testGetBatches() throws IOException {
 		  long firstDate = Timestamp.valueOf(properties.getProperty("from_date")).getTime();
 		  long secondDate = Timestamp.valueOf(properties.getProperty("to_date")).getTime();
 		  BatchesService batchesService = new BatchesService();
@@ -104,7 +104,7 @@ public class testBatchesService {
 	  }
 	  
 	  @Test
-	  public void testGetBatchesNeg() {
+	  public void testGetBatchesNeg() throws IOException {
 		  //dates in wrong order make it so it's not a date range
 		  long firstDate = Timestamp.valueOf(properties.getProperty("to_date")).getTime();
 		  long secondDate = Timestamp.valueOf(properties.getProperty("from_date")).getTime();
@@ -115,7 +115,7 @@ public class testBatchesService {
 	  }
 	  
 	  @Test
-	  public void testGetAssociates() {
+	  public void testGetAssociates() throws IOException {
 		  
 		  BatchesService batchesService = new BatchesService();
 		  List<AssociateInfo> associates = batchesService.getAssociates(properties.getProperty("batch_name"));
@@ -126,7 +126,7 @@ public class testBatchesService {
 	  }
 	  
 	  @Test
-	  public void testGetAssociatesNeg() {
+	  public void testGetAssociatesNeg() throws IOException {
 		  
 		  BatchesService batchesService = new BatchesService();
 		  String batchName = properties.getProperty("improper_batch_name");

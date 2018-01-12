@@ -39,7 +39,7 @@ describe('SkillsetComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
+
   it('should have a non-empty map of skill info', () => {
     expect(SkillsetComponent.getSkillInfo()).toBeTruthy();
     expect(SkillsetComponent.getSkillInfo().size).toBeGreaterThan(0);

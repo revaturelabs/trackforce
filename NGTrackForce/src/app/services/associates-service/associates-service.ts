@@ -32,7 +32,7 @@ export class AssociateService {
     getAssociate(id: number) {
         let url: string = environment.url + "TrackForce/track/associates/" + id
 
-        return this.http.get(url).map((response: Response) => response.json());
+        return this.http.get(url);
     }
 
     /**

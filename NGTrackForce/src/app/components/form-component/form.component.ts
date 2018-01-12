@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AssociateService } from '../../services/associates-service/associates-service';
-import { Associate } from '../../models/Associate';
+import { Associate } from '../../models/associate.model'
 import { ClientListService } from '../../services/client-list-service/client-list.service';
-import { Client } from '../../models/Client';
+import { Client } from '../../models/client.model';
 import { element } from 'protractor';
 import {ActivatedRoute} from "@angular/router"
 
@@ -20,14 +20,13 @@ import {ActivatedRoute} from "@angular/router"
 
     constructor( private associateService: AssociateService, private clientService: ClientListService) {
         var id=window.location.href.split("form-comp/")[1];
+        console.log(id);
         this.id=Number(id);
         this.associateService.getAssociate(this.id).subscribe(data => {this.associate=data});
     }
 
     ngOnInit() {
-        this.clientService.getAllClientsNames().subscribe(data => {this.clients = data});           
-        console.log("hello init");
-        
+        this.clientService.getAllClientsNames().subscribe(data => {this.clients = data});                   
     }
 
     updateAssociate(){

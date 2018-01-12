@@ -37,8 +37,8 @@ public class BatchDaoHibernate implements BatchDao {
 	 */
 	@Override
 	public TfBatch getBatch(String batchName) throws IOException {
-		SessionFactory sessionFactory = HibernateUtil.getSession();
-		try (Session session = sessionFactory.openSession()) {
+		Session session = HibernateUtil.getSession().getCurrentSession();
+		try {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<TfBatch> criteriaQuery = builder.createQuery(TfBatch.class);
 			Root<TfBatch> root = criteriaQuery.from(TfBatch.class);
@@ -64,6 +64,9 @@ public class BatchDaoHibernate implements BatchDao {
 
 			}
 			return batch;
+		} finally {
+			session.flush();
+			session.close();
 		}
 
 	}

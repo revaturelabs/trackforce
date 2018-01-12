@@ -9,6 +9,7 @@ import { RootComponent } from '../root/root.component';
 import { HomeComponent } from '../home/home.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
 
 describe('SkillsetComponent', () => {
   let component: SkillsetComponent;
@@ -21,6 +22,9 @@ describe('SkillsetComponent', () => {
         HttpClientTestingModule, 
         ChartsModule,
         RouterTestingModule
+      ],
+      providers : [
+        SkillsetService
       ]
     })
     .compileComponents();
@@ -35,7 +39,7 @@ describe('SkillsetComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  
+
   it('should have a non-empty map of skill info', () => {
     expect(SkillsetComponent.getSkillInfo()).toBeTruthy();
     expect(SkillsetComponent.getSkillInfo().size).toBeGreaterThan(0);
@@ -62,4 +66,8 @@ describe('SkillsetComponent', () => {
     }
     
   })
+
+  /* it('should not be using DUMMY_DATA', () => {
+    expect(component.skillsetData).not.toEqual(component.DUMMY_DATA);
+  }) */
 });

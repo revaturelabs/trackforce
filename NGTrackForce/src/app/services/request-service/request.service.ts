@@ -3,10 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 import { environment } from '../../../environments/environment';
 
-/**
- * @author Michael Tseng
- * @description Receives user inputs from form and submits them to the back-end for validation
- */
 @Injectable()
 export class RequestService {
 

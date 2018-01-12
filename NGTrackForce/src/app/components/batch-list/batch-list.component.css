@@ -1,0 +1,13 @@
+canvas {
+  padding: 0;
+  width: 100%;
+}
+
+form {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+form > div {
+  display: inline-block;
+}

@@ -38,9 +38,12 @@ import { BatchService } from './services/batch-service/batch.service';
 
 ///
 //  FILTERS
+<<<<<<< HEAD
 /// 
+=======
 ///
 
+>>>>>>> a12d89f8d583527857ef9b66eb5575051b32cdec
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 
 ///

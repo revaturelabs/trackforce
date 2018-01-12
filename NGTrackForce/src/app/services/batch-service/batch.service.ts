@@ -26,18 +26,22 @@ export class BatchService {
   }
 
   /**
-   * get all batches from database by selecting a sufficiently
-   * wide time range for the filter start and end date
+   * get batches within six months of current
    *
    * @returns {Observable<Batch>}
    */
-  public getAllBatches() {
+  public getDefaultBatches() {
     const now: Date = new Date();
     // all batches will be over by then
-    const yearFromNow = new Date(now.getFullYear() + 1, now.getMonth(), now.getDay());
-    const epoch = new Date(0);
-    console.log(epoch, yearFromNow);
-    return this.getBatchesByDate(epoch, yearFromNow);
+    const threeMonthsBefore = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    threeMonthsBefore.setMonth(threeMonthsBefore.getMonth() - 3);
+    const threeMonthsAfter = new Date(now.getFullYear(), now.getMonth() + 3, 28);
+    threeMonthsAfter.setMonth(threeMonthsAfter.getMonth() + 3);
+
+    console.log(threeMonthsBefore, threeMonthsAfter);
+
+    return this.getBatchesByDate(threeMonthsBefore, threeMonthsAfter);
   }
+
 
 }

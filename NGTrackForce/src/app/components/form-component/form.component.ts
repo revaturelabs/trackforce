@@ -22,7 +22,7 @@ import {ActivatedRoute} from "@angular/router"
         var id=window.location.href.split("form-comp/")[1];
         console.log(id);
         this.id=Number(id);
-        this.associateService.getAssociate(this.id).subscribe(data => {this.associate=data});
+        this.associateService.getAssociate(this.id).subscribe(data => {this.associate=<Associate>data});
     }
 
     ngOnInit() {

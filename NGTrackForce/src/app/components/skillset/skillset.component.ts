@@ -47,7 +47,7 @@ export class SkillsetComponent implements OnInit {
   /**
    * The dummy data to compare against for our tests
    */
-  DUMMY_DATA = [{data:[1,1,1,1,1], label: 'Mapped'},{data:[1,1,1,1,1],label: 'Unmapped'}];
+  readonly DUMMY_DATA = [{data:[1,1,1,1,1], label: 'Mapped'},{data:[1,1,1,1,1],label: 'Unmapped'}];
   /**
    * The skillset data
    */

@@ -36,33 +36,26 @@ public class DatabaseDaoImplTest {
 		tx.rollback();
 		session.close();
 	}
+	
+//	These tests are presumably obsolete
 
 	@Test(enabled = false)
 	public void truncateTables() throws IOException {
-		String result = dbDao.deleteAll(session);
-		assertEquals("Database Emptied Successfully", result);
-		assertNotEquals("Database Empty Error", result);
+		
 	}
 
 	@Test(enabled = false)
 	public void populateTables() throws IOException {
-		String result = dbDao.populate(session);
-		assertEquals("Database Population Successful", result);
-		assertNotEquals("Error: Data Exists", result);
+
 	}
 
 	@Test(enabled = false)
 	public void truncateTablesForSF() throws IOException {
-		String result = dbDao.deleteAll(session);
-		assertEquals("Database Emptied Successfully", result);
-		assertNotEquals("Database Empty Error", result);
+
 	}
 
 	@Test(enabled = false)
 	public void populateTablesSF() throws IOException {
-		String result = dbDao.populateSF(session);
-		assertEquals("SF - Database Population Successful", result);
-		assertNotEquals("Error: Data Exists", result);
 	}
 
 }

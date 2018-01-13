@@ -13,8 +13,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfUser;
+import com.revature.request.model.CreateUserModel;
+import com.revature.request.model.SuccessOrFailMessage;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
+import com.revature.utils.PasswordStorage;
 
 public class UserDaoImpl implements UserDAO {
 
@@ -45,4 +48,31 @@ public class UserDaoImpl implements UserDAO {
 		}
 		return user;
 	}
+	
+    public SuccessOrFailMessage createUser(CreateUserModel newUser) {
+    	
+        String password = null;
+        SessionFactory sessionFactory = null; 
+        SuccessOrFailMessage message = new SuccessOrFailMessage(); 
+        
+        try {
+            password = PasswordStorage.createHash(newUser.getPassword());
+            sessionFactory = HibernateUtil.getSession();
+        } catch (Exception e) {
+            e.printStackTrace();
+            message.setFailure();
+            return message; 
+        }
+
+        TfUser user = new TfUser(newUser.getRole(), newUser.getUsername(), password);
+        
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.save(user);
+        session.getTransaction().commit();
+        session.close();
+        message.setSuccess();
+
+        return message;
+    }
 }

@@ -24,6 +24,8 @@ import { ClientListComponent } from './components/client-list/client-list.compon
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { RootComponent } from './components/root/root.component';
+import { SkillsetComponent } from './components/skillset/skillset.component';
+import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 
 ///
 //  SERVICES
@@ -53,7 +55,6 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 //  CONSTANTS
 ///
 import { appRoutes } from './routing/routes';
-import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { BatchDetailsComponent } from './components/batch-details/batch-details.
     CreateUserComponent,
     SearchFilterPipe,
     BatchDetailsComponent,
-    RootComponent
+    RootComponent,
+    SkillsetComponent
   ],
   imports: [
     BrowserModule,
@@ -87,6 +89,7 @@ import { BatchDetailsComponent } from './components/batch-details/batch-details.
     RequestService,
     SkillsetService,
     BatchService,
+    SkillsetService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

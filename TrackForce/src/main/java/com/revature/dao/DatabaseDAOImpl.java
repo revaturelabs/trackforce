@@ -11,37 +11,33 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
 public class DatabaseDAOImpl {
-	public String deleteAll() throws HibernateException, IOException {
-		return runStoredProcedure("admin.truncateAllDevTeam", "Database Emptied Successfully", "Database Empty Error");
+	public String deleteAll(Session session) throws HibernateException, IOException {
+		return runStoredProcedure("admin.truncateAllDevTeam", "Database Emptied Successfully", "Database Empty Error",
+				session);
 	}
 
-	public String populate() throws HibernateException, IOException {
+	public String populate(Session session) throws HibernateException, IOException {
 		return runStoredProcedure("admin.populateAllTables_PROC", "Database Population Successful",
-				"Error: Data Exists");
+				"Error: Data Exists", session);
 	}
 
-	public String populateSF() throws HibernateException, IOException {
+	public String populateSF(Session session) throws HibernateException, IOException {
 		return runStoredProcedure("admin.populateAllTablesSF_PROC", "SF - Database Population Successful",
-				"Error: Data Exists");
+				"Error: Data Exists", session);
 	}
 
-	private String runStoredProcedure(String queryName, String successMessage, String errorMessage) throws HibernateException, IOException {
-		Session session = HibernateUtil.getSession().getCurrentSession();
+	private String runStoredProcedure(String queryName, String successMessage, String errorMessage, Session session)
+			throws HibernateException, IOException {
+		String message;
 		try {
-			String message;
-			try {
-				StoredProcedureQuery query = session.createStoredProcedureQuery(queryName);
-				query.execute();
-				message = successMessage;
-				return message;
-			} catch (Exception e) {
-				LogUtil.logger.error(e);
-				message = errorMessage;
-				return message;
-			}
-		} finally {
-			session.flush();
-			session.close();
+			StoredProcedureQuery query = session.createStoredProcedureQuery(queryName);
+			query.execute();
+			message = successMessage;
+			return message;
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+			message = errorMessage;
+			return message;
 		}
 	}
 }

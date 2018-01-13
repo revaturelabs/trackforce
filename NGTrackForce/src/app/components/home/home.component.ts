@@ -210,11 +210,10 @@ export class HomeComponent {
    *              data script
    */
   populateDB() {
+    console.log("HERE");
     this.rs.populateDB().map(response => {
       this.dbMessage = response.data;
       this.myStatus = response.status;
-    }).map(response => {
-      window.location.reload();
     }).subscribe(response => {
       console.log(this.myStatus);
       console.log(this.dbMessage);
@@ -246,8 +245,6 @@ export class HomeComponent {
     this.rs.populateDBSF().map(response => {
       this.myStatus = response.status;
       this.dbMessage = response.data;
-    }).map(response => {
-      window.location.reload();
     }).subscribe(response => {
       console.log(this.myStatus);
       console.log(this.dbMessage);
@@ -261,15 +258,6 @@ export class HomeComponent {
    */
   initForce() {
     this.rs.initForce();
-  }
-
-  /**
-   * @function Refresh
-   * @memberof mainApp.databaseCtrl
-   * @description Used to refresh the page for the database button functions
-   */
-  refresh() {
-    window.location.reload();
   }
 
   /**

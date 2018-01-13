@@ -36,6 +36,7 @@ import { AuthenticationService } from './services/authentication-service/authent
 import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 import { BatchService } from './services/batch-service/batch.service';
 import { SkillsetService } from './services/skill-set-service/skill-set.service';
+import { CreateUserService } from './services/create-user-service/create-user.service';
 
 ///
 //  FILTERS
@@ -87,6 +88,7 @@ import { BatchDetailsComponent } from './components/batch-details/batch-details.
     RequestService,
     SkillsetService,
     BatchService,
+    CreateUserService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

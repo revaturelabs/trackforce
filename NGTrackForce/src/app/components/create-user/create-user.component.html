@@ -1,25 +1,37 @@
 <app-navbar></app-navbar>
 
-<h3>Create New User:</h3>
 
-<form>
-  <input type="text" name="username" placeholder="Username">
-  <br><br>
-  <input type="password" name="password" placeholder="Password">
-  <br><br>
-  <input type="password" name="password2" placeholder="Confirm Password">
-  <br><br>
-  <div class="form-group">
-      <label for="RoleType">Please Select Role Type:</label><br>
-      <input type="radio" name="optradio" value="admin">Administrator<br>
-      <input type="radio" name="optradio" value="assoc">Associate<br>
-      <input type="radio" name="optradio" value="direct">Director or Manager<br>
-      <input type="radio" name="optradio" value="vp">Vice President <br>
+<div class="container">
+  <div class="col-md-6">
+    <h3>Roles</h3>
+    <label>Vice President</label>
+    <p>Can only view information.</p>
+    <label>Director or Manager</label>
+    <p>Can view information and edie associates' information</p>
+    <label>Administrator</label>
+    <p>Can do everything a director or manager can do in addition to creating a new user.</p>
   </div>
-  <br>
-  <input type="submit" value="Submit">
+  <div class="well col-md-6">
+    <h3>Create New User:</h3>
+    <form>
+      <input type="text" name="username" placeholder="Username">
+      <br><br>
+      <input type="password" name="password" placeholder="Password">
+      <br><br>
+      <input type="password" name="password2" placeholder="Confirm Password">
+      <br><br>
+      <div class="form-group">
+          <label for="RoleType">Please Select Role Type:</label><br>
+          <input type="radio" name="optradio" value="admin">Administrator<br>
+          <input type="radio" name="optradio" value="assoc">Associate<br>
+          <input type="radio" name="optradio" value="direct">Director or Manager<br>
+          <input type="radio" name="optradio" value="vp">Vice President <br>
+       </div>
+      <br>
+      <input type="submit" value="Submit">
 
-</form> 
-
+    </form> 
+  </div>
+</div>
 
 

@@ -30,6 +30,6 @@ module.exports = function (config) {
     browserNoActivityTimeout: 60000,
     autoWatch: true,
     browsers: ['PhantomJS', 'Chrome'],
-    singleRun: true
+    singleRun: false
   });
 };

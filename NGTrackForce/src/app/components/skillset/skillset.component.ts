@@ -5,6 +5,7 @@ import { ChartScale } from '../../models/chart-scale.model';
 import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
 import { NgZone } from '@angular/core';
 import { ThemeConstants } from '../../constants/theme.constants';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-skillset',
@@ -21,7 +22,7 @@ export class SkillsetComponent implements OnInit {
   /**
    * The selected status 
    */
-  @Input() selectedStatus : string = SelectedStatusConstants.TRAINING;
+  @Input() selectedStatus : string;
   /**
    * Map of selected status to skill id
    */
@@ -80,7 +81,9 @@ export class SkillsetComponent implements OnInit {
    */
   batchColors: string[] = ThemeConstants.BATCH_COLORS;
   
-  constructor(private skillsetService : SkillsetService, private zone : NgZone) {
+  constructor(private skillsetService : SkillsetService, 
+      private route : ActivatedRoute,
+      private zone : NgZone) {
     // setup SKILL_INFO
     if (!SkillsetComponent.SKILL_INFO) {
       SkillsetComponent.SKILL_INFO = new Map();
@@ -88,12 +91,17 @@ export class SkillsetComponent implements OnInit {
       SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.OPEN, 7);
       SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.SELECTED, 8);
       SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.CONFIRMED, 9);
+      SkillsetComponent.SKILL_INFO.set('', 0);
     }
   }
   
   ngOnInit(): void {
     // get skillID
     this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || 0;
+    if (!this.skillID)
+    {
+      this.route.params.subscribe(params => this.skillID = params.id);
+    }
     // get the skillset data here
     this.skillsetService.getSkillsetsForStatusID(this.skillID).subscribe((res) => {
       // copy in the raw data into local variable

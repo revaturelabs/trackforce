@@ -12,6 +12,7 @@ import { AssociateListComponent } from '../components/associate-list/associate-l
 import { BatchListComponent } from '../components/batch-list/batch-list.component';
 import { CreateUserComponent } from '../components/create-user/create-user.component';
 import { RootComponent } from '../components/root/root.component';
+import { SkillsetComponent } from '../components/skillset/skillset.component';
 
 /**
  * Place paths here
@@ -54,7 +55,12 @@ export const appRoutes: Routes = [
     {
         path: 'root',
         component: RootComponent
+    },
+    {
+        path      : 'skillset/:id',
+        component : SkillsetComponent 
     }
+
 ]
 
 

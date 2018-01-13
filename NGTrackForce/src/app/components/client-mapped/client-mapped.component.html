@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <script src="node_modules/chart.js/src/chart.js"></script>
-<div style="display: block">
+<!-- <div style="display: block">
   <canvas baseChart *ngIf="clientMappedData && clientMappedLabels"
           [data]="clientMappedData"
           [labels]="clientMappedLabels"
@@ -8,4 +8,26 @@
           (chartHover)="chartHovered($event)"
           (chartClick)="chartClicked($event)">
     </canvas>
+</div> -->
+<div class="row">
+  <div class="col-md-6">
+     <button (click)="changeChartType('bar')" class="btn btn-default">Bar Chart</button>
+     <button (click)="changeChartType('pie')" class="btn btn-default">Pie Chart</button>
+     <button (click)="changeChartType('polarArea')" class="btn btn-default">Polar Chart</button>
+  </div>
+</div>
+<div class="row">
+  <!-- Display charts for types 'pie' and 'polarArea'-->
+  <div class="col-md-6">
+    <h3 class="text-center text-primary">{{selectedStatus}}</h3>
+    <canvas baseChart *ngIf="clientMappedData && clientMappedLabels"
+          [datasets]="clientMappedDataSet"
+          [labels]="clientMappedLabels"
+          [chartType]="chartType"
+          [options]="chartOptions"
+          [legend]="chartLegend"
+          (chartHover)="chartHovered($event)"
+          (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
 </div>

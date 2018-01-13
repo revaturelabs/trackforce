@@ -34,7 +34,7 @@ public class TfUser implements java.io.Serializable {
     private TfRole tfRole;
     
     @Column(name = "TF_USERNAME", length = 20)
-    private String tfUsername;
+    private String tfUserUsername;
     
     @Column(name = "TF_HASHPASSWORD", length = 200)
     private String tfHashpassword;
@@ -49,13 +49,13 @@ public class TfUser implements java.io.Serializable {
     public TfUser(int tfUserId, TfRole tfRole, String tfUserUsername, String tfUserHashpassword) {
         this.tfUserId = tfUserId;
         this.tfRole = tfRole;
-        this.tfUsername = tfUserUsername; 
+        this.tfUserUsername = tfUserUsername; 
         this.tfHashpassword = tfUserHashpassword;
     }
     
     public TfUser(BigDecimal role, String username, String password) { 
         this.tfRole = new TfRole(role);
-        this.tfUsername = username; 
+        this.tfUserUsername = username; 
         this.tfHashpassword = password; 
     }
 
@@ -77,11 +77,11 @@ public class TfUser implements java.io.Serializable {
 
     
     public String getTfUserUsername() {
-        return this.tfUsername;
+        return this.tfUserUsername;
     }
 
     public void setTfUserUsername(String tfUserUsername) {
-        this.tfUsername = tfUserUsername;
+        this.tfUserUsername = tfUserUsername;
     }
 
     public String getTfUserHashpassword() {
@@ -97,7 +97,7 @@ public class TfUser implements java.io.Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((tfHashpassword == null) ? 0 : tfHashpassword.hashCode());
-        result = prime * result + ((tfUsername == null) ? 0 : tfUsername.hashCode());
+        result = prime * result + ((tfUserUsername == null) ? 0 : tfUserUsername.hashCode());
         return result;
     }
 
@@ -123,11 +123,11 @@ public class TfUser implements java.io.Serializable {
         if (tfUserId != other.tfUserId) {
             return false;
         }
-        if (tfUsername == null) {
-            if (other.tfUsername != null) {
+        if (tfUserUsername == null) {
+            if (other.tfUserUsername != null) {
                 return false;
             }
-        } else if (!tfUsername.equals(other.tfUsername)) {
+        } else if (!tfUserUsername.equals(other.tfUserUsername)) {
             return false;
         }
         return true;

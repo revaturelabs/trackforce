@@ -13,7 +13,10 @@
         <property name="hibernate.generate_statistics">true</property>
         <property name="connection.provider_class">org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl</property>
         <property name="hibernate.connection.release_mode">after_transaction</property>
+        <!-- Used so generated IDS > 0 -->
         <property name="hibernate.id.new_generator_mappings">false</property>
+        <property name="show_sql">true</property>
+        <property name="hibernate.hbmddl2.auto">create</property>
         <mapping class="com.revature.entity.TfAssociate"/>
         <mapping class="com.revature.entity.TfCurriculum"/>
         <mapping class="com.revature.entity.TfEndClient"/>

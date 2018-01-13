@@ -78,14 +78,14 @@ public class DataSourceConfig {
     }
 
     public static String getPassword() {
-        return props.getProperty(PASSWORD_KEY);
+        return "caleb"; 
     }
 
     public static String getUsername() {
-        return props.getProperty(USERNAME_KEY);
+        return "admin"; 
     }
 
     public static String getUrl() {
-        return props.getProperty(URL_KEY);
+        return "jdbc:oracle:thin:@localhost:1521:xe"; 
     }
 }

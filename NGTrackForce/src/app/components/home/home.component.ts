@@ -111,6 +111,11 @@ export class HomeComponent {
   constructor(private rs: RequestService, private rout: Router) { }
 
   ngOnInit() {
+    this.load();
+  }
+
+  load() {
+    console.log("LOADING...");
     this.rs.getInfo().subscribe(response => {
 
       /**
@@ -174,6 +179,7 @@ export class HomeComponent {
       let deployedArr = [response.deployedMapped,
       response.deployedUnmapped];
       this.deployedData = deployedArr;
+      console.log("LOADED");
     });
   }
 
@@ -210,13 +216,13 @@ export class HomeComponent {
    *              data script
    */
   populateDB() {
-    console.log("HERE");
-    this.rs.populateDB().map(response => {
-      this.dbMessage = response.data;
-      this.myStatus = response.status;
-    }).subscribe(response => {
-      console.log(this.myStatus);
-      console.log(this.dbMessage);
+    console.log("POPULATING DB...");
+    this.rs.populateDB().subscribe(response => {
+      console.log("POPULATED DB");
+      this.load();
+      // console.log(response.status);
+    }, err => {
+      console.log("err");
     });
   }
 
@@ -226,12 +232,13 @@ export class HomeComponent {
    * @description Truncates all the tables in the database
    */
   deleteDB() {
-    this.rs.deleteDB().map(response => {
-      this.myStatus = response.status;
-      this.dbMessage = response.data;
-    }).subscribe(response => {
-      console.log(this.myStatus);
-      console.log(this.dbMessage);
+    console.log("TRUNCATING...");
+    this.rs.deleteDB().subscribe(response => {
+      console.log("TRUNCATED");
+      this.load();
+      // console.log(response.status);
+    }, err => {
+      console.log("err");
     })
   }
 
@@ -242,13 +249,14 @@ export class HomeComponent {
    *              from data script
    */
   populateDBSF() {
-    this.rs.populateDBSF().map(response => {
-      this.myStatus = response.status;
-      this.dbMessage = response.data;
-    }).subscribe(response => {
-      console.log(this.myStatus);
-      console.log(this.dbMessage);
-    })
+    console.log("POPULATING SF...");
+    this.rs.populateDBSF().subscribe(response => {
+      console.log("POPULATED SF");
+      this.load();
+      // console.log(response.status);
+    }, err => {
+      console.log("err");
+    });
   }
 
   /**

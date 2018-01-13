@@ -1,5 +1,6 @@
 package com.revature.dao;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +33,12 @@ public class BatchDaoHibernate implements BatchDao {
 	 * 
 	 * @param batchName
 	 *            - The name of the batch to get information about
+	 * @throws IOException 
 	 */
 	@Override
-	public TfBatch getBatch(String batchName) {
-		SessionFactory sessionFactory = HibernateUtil.getSession();
-		try (Session session = sessionFactory.openSession()) {
+	public TfBatch getBatch(String batchName) throws IOException {
+		Session session = HibernateUtil.getSession().getCurrentSession();
+		try {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<TfBatch> criteriaQuery = builder.createQuery(TfBatch.class);
 			Root<TfBatch> root = criteriaQuery.from(TfBatch.class);
@@ -62,6 +64,9 @@ public class BatchDaoHibernate implements BatchDao {
 
 			}
 			return batch;
+		} finally {
+			session.flush();
+			session.close();
 		}
 
 	}
@@ -73,9 +78,10 @@ public class BatchDaoHibernate implements BatchDao {
 	 *            - the beginning number of the date range
 	 * @param todate
 	 *            - the ending date of the date range
+	 * @throws IOException 
 	 */
 	@Override
-	public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate) {
+	public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate) throws IOException {
 		SessionFactory sessionFactory = HibernateUtil.getSession();
 		EntityManager em = null;
 		List<TfBatch> batch = new ArrayList<>();

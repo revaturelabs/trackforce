@@ -1,9 +1,15 @@
 package com.revature.model;
 
-//This class is the Java representation of a JSON bean sent from Angular
-//Jackson will automatically convert the JSON consumed to a Java Bean, if the
-//attribute names match
-//Consumed by the REST service
+/**
+ * 
+ * @author Michael Tseng
+ * 
+ * This class is the Java representation of a JSON bean sent from Angular
+ * Jackson will automatically convert the JSON consumed to a Java Bean, if the
+ * attribute names match
+ * Consumed by the REST service
+ *
+ */
 public class LoginJSON {
 	
 	private String username;

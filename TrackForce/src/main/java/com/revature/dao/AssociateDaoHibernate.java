@@ -1,5 +1,6 @@
 package com.revature.dao;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.persistence.NoResultException;
@@ -21,86 +22,93 @@ import com.revature.utils.LogUtil;
 
 public class AssociateDaoHibernate implements AssociateDao {
 
-    /**
-     * Get a associate from the database given its id.
-     * 
-     * @param associateid
-     */
-    @Override
-    public TfAssociate getAssociate(BigDecimal associateid) {
-        TfAssociate associate;
-        SessionFactory sessionFactory = HibernateUtil.getSession();
-        try (Session session = sessionFactory.openSession()) {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<TfAssociate> criteriaQuery = builder.createQuery(TfAssociate.class);
-            Root<TfAssociate> root = criteriaQuery.from(TfAssociate.class);
-            criteriaQuery.select(root).where(builder.equal(root.get("tfAssociateId"), associateid));
-            Query<TfAssociate> query = session.createQuery(criteriaQuery);
-            try {
-                associate = query.getSingleResult();
+	/**
+	 * Get a associate from the database given its id.
+	 * 
+	 * @param associateid
+	 * @throws IOException 
+	 */
+	@Override
+	public TfAssociate getAssociate(BigDecimal associateid) throws IOException {
+		TfAssociate associate;
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<TfAssociate> criteriaQuery = builder.createQuery(TfAssociate.class);
+		Root<TfAssociate> root = criteriaQuery.from(TfAssociate.class);
+		criteriaQuery.select(root).where(builder.equal(root.get("tfAssociateId"), associateid));
+		Query<TfAssociate> query = session.createQuery(criteriaQuery);
+		
+		try {
+			associate = query.getSingleResult();
 
-                Hibernate.initialize(associate.getTfMarketingStatus());
-                Hibernate.initialize(associate.getTfClient());
-                Hibernate.initialize(associate.getTfEndClient());
-                Hibernate.initialize(associate.getTfBatch());
-            } catch (NoResultException nre) {
-            	LogUtil.logger.error(nre);
-                associate = new TfAssociate();
-            }
-        }
-        return associate;
-    }
+			Hibernate.initialize(associate.getTfMarketingStatus());
+			Hibernate.initialize(associate.getTfClient());
+			Hibernate.initialize(associate.getTfEndClient());
+			Hibernate.initialize(associate.getTfBatch());
+		} catch (NoResultException nre) {
+			LogUtil.logger.error(nre);
+			associate = new TfAssociate();
+		} finally {
+			session.flush();
+			tx.commit();
+			session.close();
+		}
+		return associate;
+	}
 
-    /**
-     * Updates an associate's marketing status and client in the database.
-     * 
-     * @param id
-     *            - The ID of the associate to update.
-     * @param marketingStatus
-     *            - A TfMarketingStatus object with the status to change the
-     *            associate to.
-     * @param client
-     *            - A TfClient object with what client the associate will be mapped
-     *            to.
-     */
-    @Override
-    public void updateInfo(BigDecimal id, TfMarketingStatus marketingStatus, TfClient client) {
+	/**
+	 * Updates an associate's marketing status and client in the database.
+	 * 
+	 * @param id
+	 *            - The ID of the associate to update.
+	 * @param marketingStatus
+	 *            - A TfMarketingStatus object with the status to change the
+	 *            associate to.
+	 * @param client
+	 *            - A TfClient object with what client the associate will be mapped
+	 *            to.
+	 * @throws IOException 
+	 */
+	@Override
+	public void updateInfo(BigDecimal id, TfMarketingStatus marketingStatus, TfClient client) throws IOException {
 
-        SessionFactory factory = HibernateUtil.getSession();
-        try (Session session = factory.openSession()) {
+		SessionFactory factory = HibernateUtil.getSession();
+		try (Session session = factory.openSession()) {
 
-            TfMarketingStatus status = null;
-            if (marketingStatus.getTfMarketingStatusId() != null) {
-                status = session.get(TfMarketingStatus.class, marketingStatus.getTfMarketingStatusId());
-            }
+			TfMarketingStatus status = null;
+			if (marketingStatus.getTfMarketingStatusId() != null) {
+				status = session.get(TfMarketingStatus.class, marketingStatus.getTfMarketingStatusId());
+			}
 
-            TfClient tfclient = null;
-            if (client.getTfClientId() != null) {
-                tfclient = session.get(TfClient.class, client.getTfClientId());
-            }
+			TfClient tfclient = null;
+			if (client.getTfClientId() != null) {
+				tfclient = session.get(TfClient.class, client.getTfClientId());
+			}
 
-            Transaction transaction = null;
-            try {
-                transaction = session.beginTransaction();
-                TfAssociate associate = session.load(TfAssociate.class, id);
-                associate.setTfMarketingStatus(status);
-                associate.setTfClient(tfclient);
+			Transaction transaction = null;
+			try {
+				transaction = session.beginTransaction();
+				TfAssociate associate = session.load(TfAssociate.class, id);
+				associate.setTfMarketingStatus(status);
+				associate.setTfClient(tfclient);
+				System.out.println(id);
+				session.saveOrUpdate(associate);
 
-                session.saveOrUpdate(associate);
+				transaction.commit();
 
-                transaction.commit();
-                
-                //clear associates list to force update to stored list(s)
-                HomeDaoImpl.clearAssociates();
-            } catch (Exception e) {
-            	LogUtil.logger.error(e);
-                if (transaction != null) {
-                    transaction.rollback();
-                }
+				//clear associates list to force update to stored list(s)
+				HomeDaoImpl.clearAssociates();
+			} catch (Exception e) {
+				LogUtil.logger.error(e);
+				if (transaction != null) {
+					transaction.rollback();
+				}
 
-            } finally {
-                session.close();
-            }
-        }
-    }
+			} finally {
+				session.close();
+			}
+		}
+	}
 }

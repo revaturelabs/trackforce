@@ -1,5 +1,7 @@
 package com.revature.dao;
 
+import java.io.IOException;
+
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,29 +19,29 @@ import com.revature.utils.LogUtil;
 public class UserDaoImpl implements UserDAO {
 
 	@Override
-	public TfUser getUser(String username) {
+	public TfUser getUser(String username) throws IOException {
 		TfUser user;
 		SessionFactory sessionFactory = HibernateUtil.getSession();
-		try (Session session = sessionFactory.openSession()) {
-			CriteriaBuilder builder = session.getCriteriaBuilder();
-			CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
+		Session session = sessionFactory.openSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
 
-			Root<TfUser> root = criteriaQuery.from(TfUser.class);
+		Root<TfUser> root = criteriaQuery.from(TfUser.class);
 
-			criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
+		criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
 
-			Query<TfUser> query = session.createQuery(criteriaQuery);
+		Query<TfUser> query = session.createQuery(criteriaQuery);
 
-			try {
-				user = query.getSingleResult();
-				if (user.getTfRole() != null && user.getTfRole().getTfRoleName() != null) {
-					Hibernate.initialize(user.getTfRole().getTfRoleName());
-				}
-
-			} catch (NoResultException nre) {
-				user = new TfUser();
-				LogUtil.logger.error(nre);
+		try {
+			user = query.getSingleResult();
+			if (user.getTfRole() != null && user.getTfRole().getTfRoleName() != null) {
+				Hibernate.initialize(user.getTfRole().getTfRoleName());
 			}
+
+		} catch (NoResultException nre) {
+			user = new TfUser();
+			LogUtil.logger.error(nre);
+			throw new IOException("Cannot get user", nre);
 		}
 		return user;
 	}

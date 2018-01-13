@@ -3,9 +3,9 @@
  * @description Service
  */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { RequestService } from '../request-service/request.service';
 
 @Injectable()
 export class AuthenticationService {
@@ -13,11 +13,11 @@ export class AuthenticationService {
   /**
   * @constructor
   *
-  *@param {HttpClient} http
-  * the dependency need to make http requests to REST API
+  *@param {RequestService}
+  * Service for handling all requests to the server
   *
   */
-  constructor(private http: HttpClient) { }
+  constructor(private rs: RequestService) { }
 
   /**
   *Login service that stores a user object on local storage
@@ -29,17 +29,13 @@ export class AuthenticationService {
   *@param {string} password
   *The password need to be sent to the database for checking
   *
-  *@param {string} url
-  *The login url endpoint to be hit
-  *
   *@return
   *The user object that contains the JWT, username, and role id
   */
-  login(username: string, password: string, url: string){
-    return this.http.post<any>(url, {username: username, password: password})
-    .map(
+  login(username: string, password: string){
+    return this.rs.login(username, password).map(
       user => {
-        if(user && user.token){
+        if(user){
           localStorage.setItem('currentUser', JSON.stringify(user));
         }
         return user;
@@ -53,6 +49,13 @@ export class AuthenticationService {
   */
   logout(){
     localStorage.removeItem('currentUser');
+  }
+
+  /**
+   * Check for an active session
+   */
+  getUser(): any{
+    return localStorage.getItem('currentUser');
   }
 
 }

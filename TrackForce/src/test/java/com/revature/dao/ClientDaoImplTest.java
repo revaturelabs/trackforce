@@ -18,25 +18,35 @@ import javax.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.testng.annotations.DataProvider;
 
 public class ClientDaoImplTest {
 
 	ClientDaoImpl cDao = new ClientDaoImpl();
-	
-	@DataProvider(name="Clients")
+
+	@DataProvider(name = "Clients")
 	public String[] clients() {
-		String[] clientList = new String[]{"22nd Century Staffing Inc", "Accenture / Fannie Mae", "PepsiCo", "Toyota Financial Services"};
+		String[] clientList = new String[] { "22nd Century Staffing Inc", "Accenture / Fannie Mae", "PepsiCo",
+				"Toyota Financial Services" };
 		return clientList;
 	}
-	
+
 	@Test
 	public void getAllTfClients() throws IOException {
-		List<TfClient> result = cDao.getAllTfClients();
-		assertNotNull(result);
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			List<TfClient> result = cDao.getAllTfClients(session);
+			assertNotNull(result);
+		} finally {
+			session.flush();
+			tx.rollback();
+			session.close();
+		}
 	}
-	
-	@Test(dataProvider="Clients")
+
+	@Test(dataProvider = "Clients")
 	public void getTfClient(String client) throws IOException {
 		TfClient result = cDao.getClient(client);
 		assertNotNull(result);

@@ -9,7 +9,6 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfMarketingStatus;
@@ -20,10 +19,9 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 
 	@Override
 	public TfMarketingStatus getMarketingStatus(String status) throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
-		Transaction tx = session.beginTransaction();
-		
+		Session session = HibernateUtil.getSession().getCurrentSession();
 		try {
+
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<TfMarketingStatus> criteriaQuery = builder.createQuery(TfMarketingStatus.class);
 			Root<TfMarketingStatus> root = criteriaQuery.from(TfMarketingStatus.class);
@@ -41,7 +39,6 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 			return marketingStatus;
 		} finally {
 			session.flush();
-			tx.commit();
 			session.close();
 		}
 	}

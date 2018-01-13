@@ -65,25 +65,23 @@
           <ng-container *ngIf="(searchByStatus === associate.marketingStatus || searchByStatus === '')
               && (searchByClient === associate.client || searchByClient === '')
               && (searchByCurriculum === associate.curriculumName || searchByCurriculum === '')">
-              <td class="edit">
-                <input type="checkbox" id={{associate.id}}>
-              </td>
-              <td class="id"><a href="/form-comp/{{associate.id}}">{{associate.id}}</a></td>
-              <td class="first">{{associate.firstName}}</td>
-              <td class="last">{{associate.lastName}}</td>
-              <td class="status">{{associate.marketingStatus}}</td>
-              <td class="client">{{associate.client}}</td>
-              <td class="batch">
-                <a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a>
-              </td>
-            </ng-container>
-          </tr>
-        </table>
-      </div>
+            <td class="edit" style="text-align:center">
+              <input type="checkbox" id={{associate.id}}>
+            </td>
+            <td class="id">{{associate.id}}</td>
+            <td class="first">{{associate.firstName}}</td>
+            <td class="last">{{associate.lastName}}</td>
+            <td class="status">{{associate.marketingStatus}}</td>
+            <td class="client">{{associate.client}}</td>
+            <td class="batch">
+              <a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a>
+            </td>
+          </ng-container>
+        </tr>
+      </table>
     </div>
     <div class="form-group" style="float:bottom">
       <div class="row">
-          <div class="col-sm-2"></div>
         <div class="col-sm-4">
           <br>
           <label for="uStatus">Update by Marketing Status: </label>
@@ -101,7 +99,6 @@
             <option>UNMAPPED: DEPLOYED</option>
           </select>
         </div>
-        
         <div class="col-sm-4">
           <br>
           <label for="uclient">Client: </label>

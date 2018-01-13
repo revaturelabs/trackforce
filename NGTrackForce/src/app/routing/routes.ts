@@ -4,7 +4,6 @@
  */
 
 import { RouterModule, Routes } from '@angular/router';
-import {FormComponent} from "../components/form-component/form.component";
 import { HomeComponent } from '../components/home/home.component';
 import { ClientListComponent } from '../components/client-list/client-list.component';
 import { LoginComponent } from '../components/login/login.component';
@@ -48,10 +47,6 @@ export const appRoutes: Routes = [
     {
         path: 'batch-listing',
         component: BatchListComponent
-    },
-    {
-        path: 'form-comp/:id',
-        component: FormComponent
     },
     {
         path: 'create-user',

@@ -24,6 +24,8 @@ import { ClientListComponent } from './components/client-list/client-list.compon
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { RootComponent } from './components/root/root.component';
+import { SkillsetComponent } from './components/skillset/skillset.component';
+import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 
 ///
 //  SERVICES
@@ -53,8 +55,6 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 //  CONSTANTS
 ///
 import { appRoutes } from './routing/routes';
-import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
-import { SkillsetComponent } from './components/skillset/skillset.component';
 
 @NgModule({
   declarations: [

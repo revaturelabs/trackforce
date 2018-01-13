@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestService } from '../../services/request-service/request.service';
-import { GlobalsService } from '../../services/globals-service/globals.service';
 import { ChartsModule, Color } from 'ng2-charts';
 
 import 'rxjs/add/operator/map';
@@ -193,8 +192,10 @@ export class HomeComponent {
 * clientMapped.html partial.
 */
   mappedOnClick(evt: any) {
-    if (evt.active[0] != undefined)
-      this.rout.navigate([`client-mapped/${evt.active[0]._model.label}`]);
+    if (evt.active[0] != undefined) {
+      console.log(evt.active[0]);
+      this.rout.navigate([`client-mapped/${evt.active[0]._index}`]);
+    }
   };
   /**
    * @function UnmappedOnClick
@@ -206,8 +207,10 @@ export class HomeComponent {
    * skillset.html partial.
    */
   unmappedOnClick(evt: any) {
-    if (evt.active[0] != undefined)
-      this.rout.navigate([`skillset/${evt.active[0]._model.label}`]);
+    if (evt.active[0] != undefined) {
+      console.log(evt.active[0]);
+      this.rout.navigate([`skillset/${evt.active[0]._index}`]);
+    }
   }
 
   /**

@@ -165,10 +165,11 @@ public class JWTService {
 		String key = System.getenv("KEY");
 		
 		//in case, someone forgot to set their system environments
+		//this will be the default key
 		if(key == null) {
 			key = "trackforcekey";
 		}
-		System.out.println(key);
+		
 		return key;
 	}
 }

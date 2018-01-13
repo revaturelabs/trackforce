@@ -4,6 +4,7 @@ import { AutoUnsubscribe } from '../../decorator/auto-unsubscribe.decorator';
 import { ChartScale } from '../../models/chart-scale.model';
 import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
 import { NgZone } from '@angular/core';
+import { ThemeConstants } from '../../constants/theme.constants';
 
 @Component({
   selector: 'app-skillset',
@@ -74,6 +75,10 @@ export class SkillsetComponent implements OnInit {
     ],
     scales : new ChartScale()
   };
+  /** 
+   * The color scheme for the charts of this component 
+   */
+  batchColors: string[] = ThemeConstants.BATCH_COLORS;
   
   constructor(private skillsetService : SkillsetService, private zone : NgZone) {
     // setup SKILL_INFO

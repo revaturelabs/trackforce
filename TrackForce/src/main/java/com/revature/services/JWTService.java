@@ -157,7 +157,7 @@ public class JWTService {
 	
 	/**
 	 * Gets the secret key from System environments,
-	 * under the 'key' label 
+	 * under the 'KEY' label 
 	 * 
 	 * @return key string
 	 */

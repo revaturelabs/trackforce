@@ -59,6 +59,10 @@ export const appRoutes: Routes = [
     {
         path      : 'skillset/:id',
         component : SkillsetComponent 
+    },
+    {
+        path      : '**',
+        redirectTo: '/home'
     }
 
 ]

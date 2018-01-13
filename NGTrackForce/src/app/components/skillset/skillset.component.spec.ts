@@ -67,7 +67,29 @@
     
 //   })
 
-//   /* it('should not be using DUMMY_DATA', () => {
-//     expect(component.skillsetData).not.toEqual(component.DUMMY_DATA);
-//   }) */
-// });
+/*  it('should not be using DUMMY_DATA', () => {
+    // waiting on the observable in ngOnInit() to finish ...
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.skillsetData).not.toEqual(component.DUMMY_DATA);
+    })
+    // making sure that the skillsetData is now equal to the results of the data returned from SkillsetService
+    .then(() => {
+      let service : SkillsetService = TestBed.get(SkillsetService);
+      service.getSkillsetsForStatusID(1).subscribe((res) => {
+        expect(component.skillsetData).toEqual(res.data.map((obj) => obj.count))
+      })
+      .unsubscribe()
+    })
+  });
+  
+  it('should have one-to-one relation between skillsetData and skillsetLabels', () => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.skillsetData.length).toBeTruthy();
+      expect(component.skillsetLabels.length).toBeTruthy();
+      expect(component.skillsetLabels.length).toEqual(component.skillsetData.length);
+    })    
+  })
+});
+*/

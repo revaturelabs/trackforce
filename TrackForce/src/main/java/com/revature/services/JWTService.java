@@ -27,7 +27,7 @@ import io.jsonwebtoken.SignatureException;
  */
 public class JWTService {
 	
-	private static final String SECRET_KEY = "...";
+	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 10L;
 	
 	/**
@@ -153,5 +153,22 @@ public class JWTService {
 		}
 		
 		return verified;
+	}
+	
+	/**
+	 * Gets the secret key from System environments,
+	 * under the 'key' label 
+	 * 
+	 * @return key string
+	 */
+	public static String getKey() {
+		String key = System.getenv("KEY");
+		
+		//in case, someone forgot to set their system environments
+		if(key == null) {
+			key = "trackforcekey";
+		}
+		System.out.println(key);
+		return key;
 	}
 }

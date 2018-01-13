@@ -17,11 +17,11 @@ import com.revature.services.JWTService;
  * Class made in reference to:
  * https://javapapers.com/web-service/intercept-jax-rs-request-with-jersey-containerrequestfilter/
  * 
- * Checks to made sure user has a valid token
+ * Checks to make sure user has a valid token
  *
  */
-@Provider
-@Jwt
+@Provider //denotes a filter
+@Jwt //binds it to an interface, so it can be used as an annotation
 public class JwtFilter implements ContainerRequestFilter {
 
 	/**

@@ -5,6 +5,9 @@ import { ChartsModule, Color } from 'ng2-charts';
 import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
 
+import '../../constants/selected-status.constants';
+import { SelectedStatusConstants } from '../../constants/selected-status.constants';
+
 const MONTHS_3 = 788923800;
 
 @Component({
@@ -26,10 +29,10 @@ export class HomeComponent {
   private data = [];
   private amountType: any;
 
-  private undeployedLabels = ["Mapped", "Unmapped"];
-  private mappedLabels = ['Training', 'Reserved', 'Selected', 'Confirmed'];
-  private unmappedLabels = ['Training', 'Open', 'Selected', 'Confirmed'];
-  private deployedLabels = ['Mapped', 'Unmapped'];
+  private undeployedLabels = [ SelectedStatusConstants.MAPPED, SelectedStatusConstants.UNMAPPED ];
+  private mappedLabels = [ SelectedStatusConstants.TRAINING, SelectedStatusConstants.RESERVED, SelectedStatusConstants.SELECTED, SelectedStatusConstants.CONFIRMED];
+  private unmappedLabels = [SelectedStatusConstants.TRAINING, SelectedStatusConstants.OPEN, SelectedStatusConstants.SELECTED, SelectedStatusConstants.CONFIRMED];
+  private deployedLabels = [SelectedStatusConstants.MAPPED, SelectedStatusConstants.UNMAPPED];
 
   private mappedColors: Array<Color> = [{ backgroundColor: ['#ff8d3f', '#514f4f'] }];
   private clientTheme: Array<Color> = [{ backgroundColor: ['#68a225', '#506d2f', '#324851', '#b3de81', '#7da3a1', '#a2c523', '#6e6702', '#2e4600'] }];

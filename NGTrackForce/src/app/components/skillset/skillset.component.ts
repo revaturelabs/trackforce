@@ -3,6 +3,7 @@ import { SelectedStatusConstants } from '../../constants/selected-status.constan
 import { AutoUnsubscribe } from '../../decorator/auto-unsubscribe.decorator';
 import { ChartScale } from '../../models/chart-scale.model';
 import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
+import { NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-skillset',
@@ -47,7 +48,7 @@ export class SkillsetComponent implements OnInit {
   /**
    * The dummy data to compare against for our tests
    */
-  readonly DUMMY_DATA = [{data:[1,1,1,1,1], label: 'Mapped'},{data:[1,1,1,1,1],label: 'Unmapped'}];
+  DUMMY_DATA = [{data:[1,1,1,1,1], label: 'Mapped'},{data:[1,1,1,1,1],label: 'Unmapped'}];
   /**
    * The skillset data
    */
@@ -74,7 +75,7 @@ export class SkillsetComponent implements OnInit {
     scales : new ChartScale()
   };
   
-  constructor(private skillsetService : SkillsetService) {
+  constructor(private skillsetService : SkillsetService, private zone : NgZone) {
     // setup SKILL_INFO
     if (!SkillsetComponent.SKILL_INFO) {
       SkillsetComponent.SKILL_INFO = new Map();

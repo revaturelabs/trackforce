@@ -67,7 +67,11 @@ describe('SkillsetComponent', () => {
     
   })
 
-  /* it('should not be using DUMMY_DATA', () => {
-    expect(component.skillsetData).not.toEqual(component.DUMMY_DATA);
-  }) */
+  
+  it('should not be using DUMMY_DATA', () => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.skillsetData).not.toEqual(component.DUMMY_DATA);
+    })
+  });
 });

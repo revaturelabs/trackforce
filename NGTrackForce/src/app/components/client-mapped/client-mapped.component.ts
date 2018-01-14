@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientMappedService } from '../../services/client-mapped-service/client-mapped-service';
-import { ThemeConstants } from '../../constants/theme.constants';
+import { ThemeConstants } from '../../constants/theme.constants'; //Used for colors in charts
 
 @Component({
   selector: 'app-client-mapped',
@@ -11,7 +11,7 @@ import { ThemeConstants } from '../../constants/theme.constants';
 export class ClientMappedComponent implements OnInit {
 
   /* 
-  ===========================
+  ============================
   Member variables
   ============================ 
   */
@@ -75,7 +75,7 @@ export class ClientMappedComponent implements OnInit {
   public colors: any = [{}];
 
   /* 
-  ===========================
+  ============================
   Methods
   ============================ 
   */
@@ -101,37 +101,6 @@ export class ClientMappedComponent implements OnInit {
 
     //Initialize the chart to type 'bar'
     this.changeChartType('bar');
-
-    // // hardcoded data. Backend is messed up
-    // let temp_clientMappedLabels: string[] = [];
-    // let temp_clientMappedData: number[] = [];
-    // temp_clientMappedLabels.push("Name 1"); 
-    // temp_clientMappedLabels.push("Name 2"); 
-    // temp_clientMappedLabels.push("Name 3");
-    // temp_clientMappedLabels.push("Name 4");
-    // temp_clientMappedLabels.push("Name 5");
-    // temp_clientMappedLabels.push("Name 6"); 
-    // temp_clientMappedLabels.push("Name 7");
-    // temp_clientMappedLabels.push("Name 8");
-    // temp_clientMappedLabels.push("Name 9");
-    // temp_clientMappedData.push(100); 
-    // temp_clientMappedData.push(500);
-    // temp_clientMappedData.push(300);
-    // temp_clientMappedData.push(200);
-    // temp_clientMappedData.push(400);
-    // temp_clientMappedData.push(700);
-    // temp_clientMappedData.push(300);
-    // temp_clientMappedData.push(100);
-    // temp_clientMappedData.push(200);
-    // this.clientMappedData = temp_clientMappedData;
-    // this.clientMappedLabels = temp_clientMappedLabels;
-    // this.clientMappedDataSet = [
-    //   {
-    //     data: this.clientMappedData,
-    //     backgroundColor: ThemeConstants.CLIENT_COLORS 
-    //   }
-    // ]
-
 
     // HTTP request to fetch data. See client-mapped-service 
     this.clientMappedService.getAssociatesByStatus(this.statusID).subscribe( data => {

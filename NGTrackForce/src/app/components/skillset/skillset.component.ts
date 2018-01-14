@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
-import { AutoUnsubscribe } from '../../decorator/auto-unsubscribe.decorator';
+import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartScale } from '../../models/chart-scale.model';
 import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
-import { NgZone } from '@angular/core';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
@@ -20,8 +19,9 @@ import { Router } from '@angular/router';
  */
 @AutoUnsubscribe
 export class SkillsetComponent implements OnInit {
+
   /**
-   * The selected status 
+   * The selected status
    */
   @Input() selectedStatus : string = '';
   /**
@@ -83,8 +83,8 @@ export class SkillsetComponent implements OnInit {
     ],
     scales : new ChartScale()
   };
-  /** 
-   * The color scheme for the charts of this component 
+  /**
+   * The color scheme for the charts of this component
    */
   batchColors = ThemeConstants.BATCH_COLORS;
   /**
@@ -92,7 +92,7 @@ export class SkillsetComponent implements OnInit {
    */
   public static NULL = -1;
 
-  constructor(private skillsetService : SkillsetService, 
+  constructor(private skillsetService : SkillsetService,
       private route  : ActivatedRoute,
       private router : Router) {
     // setup SKILL_INFO
@@ -114,7 +114,7 @@ export class SkillsetComponent implements OnInit {
       SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.DEPLOYED, 4);
     }
   }
-  
+
   ngOnInit(): void {
     // get skillID
     this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || SkillsetComponent.NULL;
@@ -125,7 +125,7 @@ export class SkillsetComponent implements OnInit {
       this.skillID = Number(this.route.snapshot.paramMap.get('id'));
       if (this.skillID < 6) this.skillID += 6;  // TODO: remove this
       // we now set selectedStatus
-      SkillsetComponent.SKILL_INFO.forEach((value, key) => { 
+      SkillsetComponent.SKILL_INFO.forEach((value, key) => {
         if (value === this.skillID) this.selectedStatus = key;
       })
       // if there is empty string, simply go home
@@ -142,7 +142,7 @@ export class SkillsetComponent implements OnInit {
       this.skillsetData  = skillsets.map((obj) => {if (obj.count) return obj.count}).filter(this.isNotUndefined);
       this.skillsetLabels= skillsets.map((obj) => {if (obj.count) return obj.name}).filter(this.isNotUndefined);
       this.status = (((!this.skillsetLabels) || (!this.skillsetLabels.length)) &&
-        ((!this.skillsetData) || (!this.skillsetData.length))) ? 
+        ((!this.skillsetData) || (!this.skillsetData.length))) ?
           'There is no batch data on this status...' : 'Loaded!';
     });
   }
@@ -185,7 +185,7 @@ export class SkillsetComponent implements OnInit {
     // stub for right now because I cannot see what to send the associate list component
     event.preventDefault();
   }
-  
+
   /**
    * Returns whether or not val is undefined. Used for filtering.
    * @param val The value to check for not undefined

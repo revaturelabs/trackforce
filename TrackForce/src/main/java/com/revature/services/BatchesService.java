@@ -310,18 +310,18 @@ public class BatchesService {
 	public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus,
 			@FormParam("client") String client) throws IOException {
 		Session session = HibernateUtil.getSession().openSession();
-		Transaction tx = session .beginTransaction();
+		Transaction tx = session.beginTransaction();
 		try {
 		MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
-		TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
+		TfMarketingStatus status = marketingStatusDao.getMarketingStatus(session, marketingStatus);
 
 		ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
-		TfClient tfclient = clientDaoImpl.getClient(client);
+		TfClient tfclient = clientDaoImpl.getClient(session, client);
 
 		BigDecimal associateID = new BigDecimal(Integer.parseInt(id));
 
 		AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
-		associateDaoHibernate.updateInfo(associateID, status, tfclient);
+		associateDaoHibernate.updateInfo(session, associateID, status, tfclient);
 		
 		session.flush();
 		tx.commit();
@@ -338,6 +338,13 @@ public class BatchesService {
 		}
 	}
 
+    /**
+     * map TfBatch object to format consumed by front end, properly
+     * checking for null values
+     *
+     * @param batch
+     * @return
+     */
 	private BatchInfo batchToInfo(TfBatch batch) {
 		String batchName = batch.getTfBatchName();
 		Timestamp start = batch.getTfBatchStartDate();

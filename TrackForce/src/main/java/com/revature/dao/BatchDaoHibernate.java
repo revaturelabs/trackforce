@@ -81,16 +81,6 @@ public class BatchDaoHibernate implements BatchDao {
 		query.setParameter("fromdate", fromdate);
 		query.setParameter("todate", todate);
 		batch = query.getResultList();
-
-		for (TfBatch bat : batch) {
-			bat.getTfBatchLocation();
-			bat.getTfCurriculum();
-			bat.getTfAssociates();
-
-			for (TfAssociate associate : bat.getTfAssociates()) {
-				associate.getTfMarketingStatus();
-			}
-		}
 		return batch;
 	}
 }

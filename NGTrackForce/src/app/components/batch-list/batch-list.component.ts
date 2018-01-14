@@ -33,9 +33,9 @@ export class BatchListComponent implements OnInit {
   batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
 
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
-    new SideValues(-100, -100, 0, 0),
+    new SideValues(-100,0, 0, 0),
     new SideValues(0, 0, 0, 0),
-    'bottom', false, false
+    'right', false, false
   );
 
 

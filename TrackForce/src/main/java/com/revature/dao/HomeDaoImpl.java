@@ -23,26 +23,26 @@ public class HomeDaoImpl implements HomeDao {
 			cq.from(TfAssociate.class);
 			associates = session.createQuery(cq).getResultList();
 			for (TfAssociate associate : associates) {
-				Hibernate.initialize(associate.getTfBatch());
-				Hibernate.initialize(associate.getTfMarketingStatus());
-				Hibernate.initialize(associate.getTfClient());
-				Hibernate.initialize(associate.getTfAssociateId());
-				Hibernate.initialize(associate.getTfAssociateFirstName());
-				Hibernate.initialize(associate.getTfAssociateLastName());
+				associate.getTfBatch();
+				associate.getTfMarketingStatus();
+				associate.getTfClient();
+				associate.getTfAssociateId();
+				associate.getTfAssociateFirstName();
+				associate.getTfAssociateLastName();
 
 				if (associate.getTfBatch() != null) {
-					Hibernate.initialize(associate.getTfBatch().getTfCurriculum());
-					Hibernate.initialize(associate.getTfBatch().getTfBatchName());
+					associate.getTfBatch().getTfCurriculum();
+					associate.getTfBatch().getTfBatchName();
 
 					if (associate.getTfBatch().getTfCurriculum() != null) {
-						Hibernate.initialize(associate.getTfBatch().getTfCurriculum().getTfCurriculumName());
+						associate.getTfBatch().getTfCurriculum().getTfCurriculumName();
 					}
 				}
 				if (associate.getTfMarketingStatus() != null) {
-					Hibernate.initialize(associate.getTfMarketingStatus().getTfMarketingStatusName());
+					associate.getTfMarketingStatus().getTfMarketingStatusName();
 				}
 				if (associate.getTfClient() != null) {
-					Hibernate.initialize(associate.getTfClient().getTfClientName());
+					associate.getTfClient().getTfClientName();
 				}
 			}
 

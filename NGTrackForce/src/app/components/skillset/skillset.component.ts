@@ -93,8 +93,8 @@ export class SkillsetComponent implements OnInit {
   public static NULL = -1;
 
   constructor(private skillsetService : SkillsetService,
-              private route  : ActivatedRoute,
-              private router : Router) {
+      private route  : ActivatedRoute,
+      private router : Router) {
     // setup SKILL_INFO
     if (!SkillsetComponent.SKILL_INFO) {
       SkillsetComponent.SKILL_INFO = new Map();
@@ -143,7 +143,7 @@ export class SkillsetComponent implements OnInit {
       this.skillsetLabels= skillsets.map((obj) => {if (obj.count) return obj.name}).filter(this.isNotUndefined);
       this.status = (((!this.skillsetLabels) || (!this.skillsetLabels.length)) &&
         ((!this.skillsetData) || (!this.skillsetData.length))) ?
-        'There is no batch data on this status...' : 'Loaded!';
+          'There is no batch data on this status...' : 'Loaded!';
     });
   }
 

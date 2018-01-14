@@ -5,27 +5,28 @@
     <!-- Clients List column -->
     <div class="col-md-3">
       <div class="form-group">
-        <input type="text" [(ngModel)]="searchName" (keyup) ="getAllClientNames()" class="form-control" id="clientSearch" placeholder="Search by client name...">
+        <input type="text" [(ngModel)]="searchName" (keyup)="getAllClientNames()" class="form-control" id="clientSearch" placeholder="Search by client name...">
       </div>
       <h3>Clients</h3>
       <button (click)="getAllClients()" class="btn custom-btn">View Data for All Clients</button>
       <div id="clients-list-well" class="well">
         <ul id="clients-list">
           <!-- populate list of company names -->
-          <li *ngFor="let clientName of clientNames | searchFilter : searchName" (click)="getOneClient(clientName)"><span class="client-name">{{clientName}}</span></li>
+          <li *ngFor="let clientName of clientNames | searchFilter : searchName" (click)="getOneClient(clientName)">
+            <span class="client-name">{{clientName}}</span>
+          </li>
 
-          </ul>
-        </div>
+        </ul>
       </div>
-      <!-- end of Client List Column -->
-      <!-- Display Client name and bar chart regarding client -->
-      <div class="col-md-9">
-        <h1>{{selectedCompany}}</h1>
-        <canvas baseChart id="bar-chart" class="chart chart-bar" [datasets]="barChartData" [chartType]="barChartType" [labels]="barChartLabel"
-          [legend]="barChartLegend" [options]="barChartOptions" [colors]="barChartColors" (chartHover)="chartHovered($event)"></canvas>
-        <!-- chart-series="clientSeries" -->
-      </div>
-      <!-- end of col-md-9 -->
     </div>
+    <!-- end of Client List Column -->
+    <!-- Display Client name and bar chart regarding client -->
+    <div class="col-md-9">
+      <h1>{{selectedCompany}}</h1>
+      <canvas baseChart id="bar-chart" class="chart chart-bar" [datasets]="barChartData" [chartType]="barChartType" [labels]="barChartLabel"
+        [legend]="barChartLegend" [options]="barChartOptions" [colors]="barChartColors" (chartHover)="chartHovered($event)"></canvas>
+      <!-- chart-series="clientSeries" -->
+    </div>
+    <!-- end of col-md-9 -->
   </div>
 </div>

@@ -33,13 +33,13 @@ public class AssociateDaoHibernate implements AssociateDao {
 		TfAssociate associate;
 		Session session = HibernateUtil.getSession().openSession();
 		Transaction tx = session.beginTransaction();
-		
+
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<TfAssociate> criteriaQuery = builder.createQuery(TfAssociate.class);
 		Root<TfAssociate> root = criteriaQuery.from(TfAssociate.class);
 		criteriaQuery.select(root).where(builder.equal(root.get("tfAssociateId"), associateid));
 		Query<TfAssociate> query = session.createQuery(criteriaQuery);
-		
+
 		try {
 			associate = query.getSingleResult();
 
@@ -72,43 +72,19 @@ public class AssociateDaoHibernate implements AssociateDao {
 	 * @throws IOException 
 	 */
 	@Override
-	public void updateInfo(BigDecimal id, TfMarketingStatus marketingStatus, TfClient client) throws IOException {
+	public void updateInfo(Session session, BigDecimal id, TfMarketingStatus marketingStatus, TfClient client) throws IOException {
 
-		SessionFactory factory = HibernateUtil.getSession();
-		try (Session session = factory.openSession()) {
-
-			TfMarketingStatus status = null;
-			if (marketingStatus.getTfMarketingStatusId() != null) {
-				status = session.get(TfMarketingStatus.class, marketingStatus.getTfMarketingStatusId());
-			}
-
-			TfClient tfclient = null;
-			if (client.getTfClientId() != null) {
-				tfclient = session.get(TfClient.class, client.getTfClientId());
-			}
-
-			Transaction transaction = null;
-			try {
-				transaction = session.beginTransaction();
-				TfAssociate associate = session.load(TfAssociate.class, id);
-				associate.setTfMarketingStatus(status);
-				associate.setTfClient(tfclient);
-				System.out.println(id);
-				session.saveOrUpdate(associate);
-
-				transaction.commit();
-
-				//clear associates list to force update to stored list(s)
-				HomeDaoImpl.clearAssociates();
-			} catch (Exception e) {
-				LogUtil.logger.error(e);
-				if (transaction != null) {
-					transaction.rollback();
-				}
-
-			} finally {
-				session.close();
-			}
+		TfClient tfclient = null;
+		if (client.getTfClientId() != null) {
+			tfclient = session.get(TfClient.class, client.getTfClientId());
 		}
+
+		TfAssociate associate = session.load(TfAssociate.class, id);
+		associate.setTfMarketingStatus(marketingStatus);
+		associate.setTfClient(tfclient);
+		session.saveOrUpdate(associate);
+
+		//clear associates list to force update to stored list(s)
+		HomeDaoImpl.clearAssociates();
 	}
 }

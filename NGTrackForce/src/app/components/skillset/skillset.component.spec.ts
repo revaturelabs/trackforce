@@ -83,7 +83,7 @@
     })
   });
   
-  it('should have one-to-one relation between skillsetData and skillsetLabels', () => {
+  xit('should have one-to-one relation between skillsetData and skillsetLabels', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(component.skillsetData.length).toBeTruthy();

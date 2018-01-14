@@ -7,6 +7,7 @@ export class SelectedStatusConstants {
     public static readonly MAPPED = "Mapped";
     public static readonly UNMAPPED = "Unmapped";
     public static readonly RESERVED_OPEN = "Reserved/Open";
+    public static readonly DEPLOYED = "Deployed";
 
     public static readonly TRAINING_JSON = { id: 0, name: SelectedStatusConstants.TRAINING };
     public static readonly OPEN_JSON = { id: 1, name: SelectedStatusConstants.OPEN };

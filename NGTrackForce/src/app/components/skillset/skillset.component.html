@@ -14,13 +14,17 @@
 			<canvas baseChart
 				id="skillset"
 				class="chart chart-bar"
+				*ngIf="skillsetData.length && skillsetLabels.length; else loadingScreen"
 				[chartType]="chartType"
-				[datasets]="skillsetData"
+				[data]="skillsetData"
 				[labels]="skillsetLabels"
 				[colors]="batchColors"
 				[options]="chartOptions"
 				>
 			</canvas>
+			<ng-template #loadingScreen>
+				Loading...
+			</ng-template>
 		</div>
 	</div>
 </div>

@@ -6,4 +6,3 @@ export class ThemeConstants {
   static SKILL_COLORS: Array<Color> = [{ backgroundColor: ['#004d47', '#00cffa', '#52958b', '#008dcb', '#b2dbd5', '#6eb5c0', '#006c84', '#113743'] }];
   static BATCH_COLORS: Array<Color> = [{ backgroundColor: ['#004d47', '#00cffa', '#52958b', '#008dcb', '#b2dbd5', '#6eb5c0', '#006c84', '#113743'] }];
 }
-

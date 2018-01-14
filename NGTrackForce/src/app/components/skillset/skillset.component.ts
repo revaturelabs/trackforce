@@ -23,11 +23,11 @@ export class SkillsetComponent implements OnInit {
   /**
    * The selected status 
    */
-  @Input() selectedStatus : string;
+  @Input() selectedStatus : string = '';
   /**
    * Map of selected status to skill id
    */
-  private static SKILL_INFO : Map<String, any>;
+  private static SKILL_INFO : Map<string, any>;
   /**
    * The id of skill, probably to hit the API with
    */
@@ -55,7 +55,7 @@ export class SkillsetComponent implements OnInit {
   /**
    * The skillset data
    */
-  skillsetData = this.DUMMY_DATA;
+  skillsetData = [];
   /**
    * THe skillset labels
    */
@@ -80,7 +80,7 @@ export class SkillsetComponent implements OnInit {
   /** 
    * The color scheme for the charts of this component 
    */
-  batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
+  batchColors = ThemeConstants.BATCH_COLORS;
   
   constructor(private skillsetService : SkillsetService, 
       private route : ActivatedRoute,
@@ -99,17 +99,23 @@ export class SkillsetComponent implements OnInit {
   ngOnInit(): void {
     // get skillID
     this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || 0;
+    // if we didn't get skillID from selectedStatus...
     if (!this.skillID)
     {
-      this.route.params.subscribe(params => this.skillID = params.id);
+      // we get it from the ActivatedRoute params
+      this.skillID = Number(this.route.snapshot.paramMap.get('id'));
+      // we now set selectedStatus
+      SkillsetComponent.SKILL_INFO.forEach((value, key) => { 
+        if (value === this.skillID) this.selectedStatus = key;
+      })
     }
     // get the skillset data here
     this.skillsetService.getSkillsetsForStatusID(this.skillID).subscribe((res) => {
       // copy in the raw data into local variable
       let skillsets : Array<any> = res.data;
       // map() that variable into skillsetData,skillsetLabels
-      this.skillsetData  = skillsets.map((obj) => obj.count);
-      this.skillsetLabels= skillsets.map((obj) => obj.name);
+      this.skillsetData  = skillsets.map((obj) => {if (obj.count) return obj.count}).filter((val) => val !== undefined);
+      this.skillsetLabels= skillsets.map((obj) => {if (obj.count) return obj.name}).filter((val) => val !== undefined);
     });
   }
 

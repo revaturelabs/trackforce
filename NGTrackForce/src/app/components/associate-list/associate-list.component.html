@@ -11,16 +11,16 @@
         <label for="mStatus">Marketing Status: </label>
         <select class="form-control" id="mStatus" [(ngModel)]="searchByStatus">
           <option label=" "></option>
-          <option>MAPPED: TRAINING</option>
-          <option>MAPPED: RESERVED</option>
-          <option>MAPPED: SELECTED</option>
-          <option>MAPPED: CONFIRMED</option>
-          <option>MAPPED: DEPLOYED</option>
-          <option>UNMAPPED: TRAINING</option>
-          <option>UNMAPPED: OPEN</option>
-          <option>UNMAPPED: SELECTED</option>
-          <option>UNMAPPED: CONFIRMED</option>
-          <option>UNMAPPED: DEPLOYED</option>
+          <option value="MAPPED,  TRAINING">MAPPED: TRAINING</option>
+          <option value="MAPPED,  RESERVED">MAPPED: RESERVED</option>
+          <option value="MAPPED,  SELECTED">MAPPED: SELECTED</option>
+          <option value="MAPPED,  CONFIRMED">MAPPED: CONFIRMED</option>
+          <option value="MAPPED,  DEPLOYED">MAPPED: DEPLOYED</option>
+          <option value="UNMAPPED,  TRAINING">UNMAPPED: TRAINING</option>
+          <option value="UNMAPPED,  OPEN">UNMAPPED: OPEN</option>
+          <option value="UNMAPPED,  SELECTED">UNMAPPED: SELECTED</option>
+          <option value="UNMAPPED,  CONFIRMED">UNMAPPED: CONFIRMED</option>
+          <option value="UNMAPPED,  DEPLOYED">UNMAPPED: DEPLOYED</option>
         </select>
       </div>
       <div class="col-sm-2">

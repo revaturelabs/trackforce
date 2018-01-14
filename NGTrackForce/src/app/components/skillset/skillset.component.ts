@@ -22,7 +22,7 @@ export class SkillsetComponent implements OnInit {
   /**
    * The selected status 
    */
-  @Input() selectedStatus : string;
+  @Input() selectedStatus : string = '';
   /**
    * Map of selected status to skill id
    */
@@ -100,15 +100,15 @@ export class SkillsetComponent implements OnInit {
     this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || 0;
     if (!this.skillID)
     {
-      this.route.params.subscribe(params => this.skillID = params.id);
+      this.skillID = Number(this.route.snapshot.paramMap.get('id'));
     }
     // get the skillset data here
     this.skillsetService.getSkillsetsForStatusID(this.skillID).subscribe((res) => {
       // copy in the raw data into local variable
       let skillsets : Array<any> = res.data;
       // map() that variable into skillsetData,skillsetLabels
-      this.skillsetData  = skillsets.map((obj) => obj.count);
-      this.skillsetLabels= skillsets.map((obj) => obj.name);
+      this.skillsetData  = skillsets.map((obj) => {if (obj.count) return obj.count}).filter((val) => val !== undefined);
+      this.skillsetLabels= skillsets.map((obj) => {if (obj.count) return obj.name}).filter((val) => val !== undefined);
     });
   }
 

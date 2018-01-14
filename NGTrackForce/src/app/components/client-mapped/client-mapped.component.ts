@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientMappedService } from '../../services/client-mapped-service/client-mapped-service';
+import { ThemeConstants } from '../../constants/theme.constants';
 
 @Component({
   selector: 'app-client-mapped',
   templateUrl: './client-mapped.component.html',
   styleUrls: ['./client-mapped.component.css']
 })
+
 export class ClientMappedComponent implements OnInit {
 
-  /* ===========================
+  /* 
+  ===========================
   Member variables
-  ============================ */
+  ============================ 
+  */
   /**
    * @description selectedStatus is printed above the displayed chart to indicate 
    * the marketing status for the data being displayed. 
@@ -55,9 +59,27 @@ export class ClientMappedComponent implements OnInit {
    */
   public chartOptions:any;
 
-  /* ===========================
+  /**
+   * @description clientMappedDataSet is the object used to by the view as the data input for charts
+   * This object contains an array of json objects where each json object takes a 'data' and 'backgroundcolors'
+   * field. Currently, the array should hold a single json object. 
+   * 
+   * Note: We are using the 'datasets' attribute in the view rather than the 'data' attribute to support
+   * background colors
+   */
+  public clientMappedDataSet:any;
+
+  /**
+   * @description colors is used by the html template as a placeholder. It is needed to get the
+   * background colors to display properly
+   */
+  public colors: any = [{}];
+
+  /* 
+  ===========================
   Methods
-  ============================ */
+  ============================ 
+  */
   constructor(private clientMappedService: ClientMappedService) {}
 
   //Run on initialization
@@ -87,7 +109,7 @@ export class ClientMappedComponent implements OnInit {
 
     console.log("this.statusID = " + this.statusID);
 
-    //HTTP request to fetch data. See client-mapped-service 
+    // HTTP request to fetch data. See client-mapped-service 
     this.clientMappedService.getAssociatesByStatus(this.statusID).subscribe( data => {
       console.log("made http request");
       
@@ -119,9 +141,19 @@ export class ClientMappedComponent implements OnInit {
         }
       }
 
-      //Trigger property binding
+      //Set data
       this.clientMappedData = temp_clientMappedData;
       this.clientMappedLabels = temp_clientMappedLabels;
+
+      //Initialize the object used to view the data
+      //Note: The ThemeConstants.CLIENT_COLORS is currently an array of length 8.
+      //For every element of 'data' above a count of 8, the chart color for that data item will be grey.
+      this.clientMappedDataSet = [
+        {
+          data: this.clientMappedData,
+          backgroundColor: ThemeConstants.CLIENT_COLORS 
+        }
+      ]
     })
   }
 
@@ -134,7 +166,7 @@ export class ClientMappedComponent implements OnInit {
 	public changeChartType(selectedType){
     console.log("Changing Chart Type!")
     this.chartType = selectedType;
-
+   
     if(selectedType == 'bar') {
       this.chartLegend = false;
       this.chartOptions = {

@@ -152,7 +152,6 @@ public class ClientResource {
 	@Path("{clientid}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public StatusInfo getClientInfo(@PathParam("clientid") int clientid) throws HibernateException, IOException {
-		init();
 		StatusInfo info;
 		if (clientid < 1)
 			return new StatusInfo();

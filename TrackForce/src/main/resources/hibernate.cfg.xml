@@ -13,7 +13,7 @@
         <property name="hibernate.generate_statistics">true</property>
         <property name="connection.provider_class">org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl</property>
         <property name="hibernate.connection.release_mode">after_transaction</property>
-        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.show_sql">true</property>
         <mapping class="com.revature.entity.TfAssociate"/>
         <mapping class="com.revature.entity.TfCurriculum"/>
         <mapping class="com.revature.entity.TfEndClient"/>

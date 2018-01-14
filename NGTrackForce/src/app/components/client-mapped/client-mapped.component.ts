@@ -102,83 +102,83 @@ export class ClientMappedComponent implements OnInit {
     //Initialize the chart to type 'bar'
     this.changeChartType('bar');
 
-    // hardcoded data. Backend is messed up
-    let temp_clientMappedLabels: string[] = [];
-    let temp_clientMappedData: number[] = [];
-    temp_clientMappedLabels.push("Name 1"); 
-    temp_clientMappedLabels.push("Name 2"); 
-    temp_clientMappedLabels.push("Name 3");
-    temp_clientMappedLabels.push("Name 4");
-    temp_clientMappedLabels.push("Name 5");
-    temp_clientMappedLabels.push("Name 6"); 
-    temp_clientMappedLabels.push("Name 7");
-    temp_clientMappedLabels.push("Name 8");
-    temp_clientMappedLabels.push("Name 9");
-    temp_clientMappedData.push(100); 
-    temp_clientMappedData.push(500);
-    temp_clientMappedData.push(300);
-    temp_clientMappedData.push(200);
-    temp_clientMappedData.push(400);
-    temp_clientMappedData.push(700);
-    temp_clientMappedData.push(300);
-    temp_clientMappedData.push(100);
-    temp_clientMappedData.push(200);
-    this.clientMappedData = temp_clientMappedData;
-    this.clientMappedLabels = temp_clientMappedLabels;
-    this.clientMappedDataSet = [
-      {
-        data: this.clientMappedData,
-        backgroundColor: ThemeConstants.CLIENT_COLORS 
-      }
-    ]
+    // // hardcoded data. Backend is messed up
+    // let temp_clientMappedLabels: string[] = [];
+    // let temp_clientMappedData: number[] = [];
+    // temp_clientMappedLabels.push("Name 1"); 
+    // temp_clientMappedLabels.push("Name 2"); 
+    // temp_clientMappedLabels.push("Name 3");
+    // temp_clientMappedLabels.push("Name 4");
+    // temp_clientMappedLabels.push("Name 5");
+    // temp_clientMappedLabels.push("Name 6"); 
+    // temp_clientMappedLabels.push("Name 7");
+    // temp_clientMappedLabels.push("Name 8");
+    // temp_clientMappedLabels.push("Name 9");
+    // temp_clientMappedData.push(100); 
+    // temp_clientMappedData.push(500);
+    // temp_clientMappedData.push(300);
+    // temp_clientMappedData.push(200);
+    // temp_clientMappedData.push(400);
+    // temp_clientMappedData.push(700);
+    // temp_clientMappedData.push(300);
+    // temp_clientMappedData.push(100);
+    // temp_clientMappedData.push(200);
+    // this.clientMappedData = temp_clientMappedData;
+    // this.clientMappedLabels = temp_clientMappedLabels;
+    // this.clientMappedDataSet = [
+    //   {
+    //     data: this.clientMappedData,
+    //     backgroundColor: ThemeConstants.CLIENT_COLORS 
+    //   }
+    // ]
 
 
     // HTTP request to fetch data. See client-mapped-service 
-    // this.clientMappedService.getAssociatesByStatus(this.statusID).subscribe( data => {
-    //   console.log("made http request");
+    this.clientMappedService.getAssociatesByStatus(this.statusID).subscribe( data => {
+      console.log("made http request");
       
-    //   /*
-    //   Store the data from the http request in temporary objects.
-    //   In order for the property binding refresh on clientMappedData 
-    //   and clientMappedLabels to take affect, they need to be set 
-    //   equal to an object. (i.e. clientMappedData.push(...)and 
-    //   clientMappedLabels.push(...) does not trigger property binding
-    //   and does not display data).
-    //   */
-    //   let temp_clientMappedLabels: string[] = [];
-    //   let temp_clientMappedData: number[] = [];
-    //   console.log(data);
+      /*
+      Store the data from the http request in temporary objects.
+      In order for the property binding refresh on clientMappedData 
+      and clientMappedLabels to take affect, they need to be set 
+      equal to an object. (i.e. clientMappedData.push(...)and 
+      clientMappedLabels.push(...) does not trigger property binding
+      and does not display data).
+      */
+      let temp_clientMappedLabels: string[] = [];
+      let temp_clientMappedData: number[] = [];
+      console.log(data);
 
-    //   //Loop over 'data' and extract fetched information
-    //   for(let d in data) {
-    //     const temp_name = data[d].name;
-    //     const temp_count = data[d].count;
-    //     if(temp_count > 0){
-    //       //Check if the fetched name is empty
-    //       if(data[d].name == ""){
-    //         console.log('Name is empty');
-    //         temp_clientMappedLabels.push("Empty Name");
-    //       } else {
-    //         temp_clientMappedLabels.push(data[d].name);
-    //       }
-    //       temp_clientMappedData.push(data[d].count);
-    //     }
-    //   }
+      //Loop over 'data' and extract fetched information
+      for(let d in data) {
+        const temp_name = data[d].name;
+        const temp_count = data[d].count;
+        if(temp_count > 0){
+          //Check if the fetched name is empty
+          if(data[d].name == ""){
+            console.log('Name is empty');
+            temp_clientMappedLabels.push("Empty Name");
+          } else {
+            temp_clientMappedLabels.push(data[d].name);
+          }
+          temp_clientMappedData.push(data[d].count);
+        }
+      }
 
-    //   //Set data
-    //   this.clientMappedData = temp_clientMappedData;
-    //   this.clientMappedLabels = temp_clientMappedLabels;
+      //Set data
+      this.clientMappedData = temp_clientMappedData;
+      this.clientMappedLabels = temp_clientMappedLabels;
 
-    //   //Initialize the object used to view the data
-    //   //Note: The ThemeConstants.CLIENT_COLORS is currently an array of length 8.
-    //   //For every element of 'data' above a count of 8, the chart color for that data item will be grey.
-    //   this.clientMappedDataSet = [
-    //     {
-    //       data: this.clientMappedData,
-    //       backgroundColor: ThemeConstants.CLIENT_COLORS 
-    //     }
-    //   ]
-    // })
+      //Initialize the object used to view the data
+      //Note: The ThemeConstants.CLIENT_COLORS is currently an array of length 8.
+      //For every element of 'data' above a count of 8, the chart color for that data item will be grey.
+      this.clientMappedDataSet = [
+        {
+          data: this.clientMappedData,
+          backgroundColor: ThemeConstants.CLIENT_COLORS 
+        }
+      ]
+    })
   }
 
   /**

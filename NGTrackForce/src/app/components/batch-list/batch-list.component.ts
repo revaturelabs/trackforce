@@ -6,6 +6,7 @@ import {BatchService} from '../../services/batch-service/batch.service';
 import {AuthenticationService} from '../../services/authentication-service/authentication.service';
 import {Router} from '@angular/router';
 import {ThemeConstants} from '../../constants/theme.constants';
+import { ChartsModule, Color } from 'ng2-charts';
 
 
 /**

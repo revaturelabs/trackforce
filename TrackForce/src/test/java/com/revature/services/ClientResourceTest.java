@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -19,6 +21,7 @@ import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.entity.TfClient;
 import com.revature.model.StatusInfo;
+import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
 public class ClientResourceTest {
@@ -37,12 +40,21 @@ public class ClientResourceTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void getAllClientsCheckMapIsOfProperForm() throws IOException {
-		List<TfClient> clients = new ArrayList<>();
-		clients.add(new TfClient());
-		when(clientDaoImpl.getAllTfClients()).thenReturn(clients);
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			List<TfClient> clients = new ArrayList<>();
+			clients.add(new TfClient());
+			when(clientDaoImpl.getAllTfClients(session)).thenReturn(clients);
 
-		List<Map<String, Object>> entity = (List<Map<String, Object>>) clientResource.getAllClients().getEntity();
-		assertTrue(entity.get(0).containsKey("id"));
-		assertTrue(entity.get(0).containsKey("name"));
+			List<Map<String, Object>> entity = (List<Map<String, Object>>) clientResource.getAllClients().getEntity();
+			assertTrue(entity.get(0).containsKey("id"));
+			assertTrue(entity.get(0).containsKey("name"));
+
+		} finally {
+			session.flush();
+			tx.rollback();
+			session.close();
+		}
 	}
 }

@@ -37,7 +37,7 @@ public class DatabaseDaoImplTest {
 		session.close();
 	}
 	
-//	These tests are presumably obsolete
+//	These tests are presumably obsolete, removed for Jenkins compilation
 
 	@Test(enabled = false)
 	public void truncateTables() throws IOException {

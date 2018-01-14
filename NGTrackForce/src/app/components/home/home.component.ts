@@ -6,6 +6,8 @@ import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
 import {ThemeConstants} from '../../constants/theme.constants';
 import {ChartOptions} from '../../models/ng2-charts-options.model';
+import '../../constants/selected-status.constants';
+import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 
 const MONTHS_3 = 788923800;
 
@@ -28,14 +30,14 @@ export class HomeComponent {
   private data = [];
   private amountType: any;
 
-  private undeployedLabels = ["Mapped", "Unmapped"];
-  private mappedLabels = ['Training', 'Reserved', 'Selected', 'Confirmed'];
-  private unmappedLabels = ['Training', 'Open', 'Selected', 'Confirmed'];
-  private deployedLabels = ['Mapped', 'Unmapped'];
+  private undeployedLabels = SelectedStatusConstants.UNDEPLOYED_LABELS;
+  private mappedLabels = SelectedStatusConstants.MAPPED_LABELS;
+  private unmappedLabels = SelectedStatusConstants.UNMAPPED_LABELS;
+  private deployedLabels = SelectedStatusConstants.DEPLOYED_LABELS;
 
-  clientColors: Array<Color> = ThemeConstants.CLIENT_COLORS;
-  mappedColors: Array<Color> = ThemeConstants.MAPPED_COLORS;
-  skillColors: Array<Color> = ThemeConstants.SKILL_COLORS;
+  private mappedColors: Array<Color> = ThemeConstants.MAPPED_COLORS;
+  private clientColors: Array<Color> = ThemeConstants.CLIENT_COLORS;
+  private skillColors: Array<Color> = ThemeConstants.SKILL_COLORS;
 
   deployedChartType = "pie";
   undeployedChartType = "pie";
@@ -263,15 +265,15 @@ export class HomeComponent {
    */
   getCountPerBatchTypeDefault() {
     this.rs.getBatchPerType(this.threeMonthsBefore(), this.threeMonthsAfter()).subscribe(response => {
-        // this callback will be called asynchronously
-        // when the response is available
-        this.labels = [];
-        this.data = [];
-        let amountType = response.data;
-        for (let i = 0; i < amountType.length; i++) {
-          this.labels.push(amountType[i].curriculum);
-          this.data.push(amountType[i].value);
-        }
+      // this callback will be called asynchronously
+      // when the response is available
+      this.labels = [];
+      this.data = [];
+      let amountType = response.data;
+      for (let i = 0; i < amountType.length; i++) {
+        this.labels.push(amountType[i].curriculum);
+        this.data.push(amountType[i].value);
+      }
 
         this.options = ChartOptions.createOptionsLegend('right');
       }, () => {

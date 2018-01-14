@@ -8,6 +8,36 @@ form {
   margin-bottom: 50px;
 }
 
+thead {
+  display: block;
+}
+tbody {
+  /* width: max-content; */
+  display: block;
+  overflow-y: scroll;
+  max-height: 750px !important;
+}
+
+.well {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.table-row {
+  margin-left: -70px;
+  margin-right: -70px;
+}
+
+.mcolumn.left {
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.mcolumn.right {
+  margin-right: 0px;
+  padding-right: 0px;
+}
+
 form > div {
   display: inline-block;
 }

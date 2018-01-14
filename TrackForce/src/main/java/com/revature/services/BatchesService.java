@@ -338,6 +338,13 @@ public class BatchesService {
 		}
 	}
 
+    /**
+     * map TfBatch object to format consumed by front end, properly
+     * checking for null values
+     *
+     * @param batch
+     * @return
+     */
 	private BatchInfo batchToInfo(TfBatch batch) {
 		String batchName = batch.getTfBatchName();
 		Timestamp start = batch.getTfBatchStartDate();

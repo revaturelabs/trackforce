@@ -1,14 +1,13 @@
 <!-- @Author Princewill Ibe -->
 <app-navbar></app-navbar>
-<div class="container">
+<div class="container" (window:resize)="refreshChart2()">
   <div>
     <title class="text-center text-primary">Batch List</title>
   </div>
-  <div class="row">
-    <div class="col-sm-12 col-md-4 mcolumn">
+  <div class="row table-row">
+    <div class="col-sm-12 col-md-4 mcolumn left">
       <h3>All Batches</h3>
       <div class="well">
-        <div class="table-responsive">
           <table class="table table-striped table-hover table-bordered">
             <thead>
             <tr>
@@ -26,9 +25,8 @@
             </tbody>
           </table>
         </div>
-      </div>
     </div>
-    <div class="col-sm-12 col-md-8 mcolumn">
+    <div class="col-sm-12 col-md-8 mcolumn right">
       <h3>Select Dates:</h3>
       <form>
         <div>
@@ -49,8 +47,8 @@
               [labels]="curriculumNames"
               [chartType]="pieChartType"
               [colors]="batchColors"
-              [options]="chartOptions">
-
+              [options]="chartOptions"
+              (render)="refreshChart2()">
       </canvas>
     </div>
   </div>

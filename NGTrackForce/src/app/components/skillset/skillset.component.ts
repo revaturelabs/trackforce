@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
-import { AutoUnsubscribe } from '../../decorator/auto-unsubscribe.decorator';
+import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartScale } from '../../models/chart-scale.model';
 import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
 import { NgZone } from '@angular/core';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { ActivatedRoute } from '@angular/router';
+import {Color} from 'ng2-charts';
 
 @Component({
   selector: 'app-skillset',
@@ -20,7 +21,7 @@ import { ActivatedRoute } from '@angular/router';
 @AutoUnsubscribe
 export class SkillsetComponent implements OnInit {
   /**
-   * The selected status 
+   * The selected status
    */
   @Input() selectedStatus : string;
   /**
@@ -76,12 +77,12 @@ export class SkillsetComponent implements OnInit {
     ],
     scales : new ChartScale()
   };
-  /** 
-   * The color scheme for the charts of this component 
+  /**
+   * The color scheme for the charts of this component
    */
-  batchColors: string[] = ThemeConstants.BATCH_COLORS;
-  
-  constructor(private skillsetService : SkillsetService, 
+  batchColors: Array<Color> = ThemeConstants.SKILL_COLORS;
+
+  constructor(private skillsetService : SkillsetService,
       private route : ActivatedRoute,
       private zone : NgZone) {
     // setup SKILL_INFO
@@ -94,7 +95,7 @@ export class SkillsetComponent implements OnInit {
       SkillsetComponent.SKILL_INFO.set('', 0);
     }
   }
-  
+
   ngOnInit(): void {
     // get skillID
     this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || 0;
@@ -144,7 +145,7 @@ export class SkillsetComponent implements OnInit {
     // it's a mock, for right now
     return type;
   }
-  
+
   /**
    * Exposing SKILL_INFO in a safe way
    */

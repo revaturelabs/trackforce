@@ -74,6 +74,7 @@ export class ClientListComponent implements OnInit {
 
   // get client names from data and push to clientNames string array
   getAllClientNames() {
+    this.clientNames.push('Loading ...');
     var self = this;
     this.clientService.getAllClientsNames()
       .subscribe(
@@ -109,7 +110,6 @@ export class ClientListComponent implements OnInit {
             label: 'Unmapped'
           }
         ]
-        console.log(this.barChartData);
       }, err => {
         console.log("Failed grabbing clients");
       });
@@ -138,4 +138,4 @@ export class ClientListComponent implements OnInit {
         console.log("Failed grabbing client");
       });
   }
-  
+}

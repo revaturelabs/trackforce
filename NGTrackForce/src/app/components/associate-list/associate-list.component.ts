@@ -9,18 +9,18 @@ import { Client } from '../../models/client.model';
  * @author Alex, Xavier
  */
 @Component({
-  selector: 'app-associate-list',
-  templateUrl: './associate-list.component.html',
-  styleUrls: ['./associate-list.component.css']
+  selector: "app-associate-list",
+  templateUrl: "./associate-list.component.html",
+  styleUrls: ["./associate-list.component.css"]
 })
 
 export class AssociateListComponent implements OnInit {
   //our collection of associates and clients
-  associates: Associate[]
+  associates: Associate[];
   clients: Client[];
   curriculums: Set<string>; //stored unique curriculums
 
-  //used for  filtering
+  //used for filtering
   searchByStatus: string = "";
   searchByClient: string = "";
   searchByText: string = "";
@@ -30,6 +30,7 @@ export class AssociateListComponent implements OnInit {
   updateShow: boolean = false;
   updateStatus: string = "";
   updateClient: string = "";
+  updated: boolean = false
 
   //used for ordering of rows
   desc: boolean = false;
@@ -37,7 +38,10 @@ export class AssociateListComponent implements OnInit {
 
   public test: number[];
 
-  constructor(private associateService: AssociateService, private clientService: ClientListService) {
+  constructor(
+    private associateService: AssociateService,
+    private clientService: ClientListService
+  ) {
     this.curriculums = new Set<string>();
   }
 
@@ -50,27 +54,26 @@ export class AssociateListComponent implements OnInit {
    * Set our array of all associates
    */
   getAllAssociates() {
-    this.associateService.getAllAssociates().subscribe(
-      data => {
-        this.associates = data;
+    console.log("getting the associates")
+    let self = this;
+    this.associateService.getAllAssociates().subscribe(data => {
+      this.associates = data;
 
-        for (let associate of this.associates) { //get our curriculums
-          this.curriculums.add(associate.curriculumName)
-        }
-        this.curriculums.delete("");
+      for (let associate of this.associates) {//get our curriculums
+        this.curriculums.add(associate.curriculumName);
       }
-    )
+      this.curriculums.delete("");
+      self.sort("id");
+    });
   }
 
   /**
    * Fetch the client names
    */
   getClientNames() {
-    this.clientService.getAllClientsNames().subscribe(
-      data => {
-        this.clients = data
-      }
-    )
+    this.clientService.getAllClientsNames().subscribe(data => {
+      this.clients = data;
+    });
   }
 
   /**
@@ -80,21 +83,20 @@ export class AssociateListComponent implements OnInit {
   sort(property) {
     this.desc = !this.desc;
     let direction;
-    if (property !== this.sortedColumn) //set ascending or descending
+    if (property !== this.sortedColumn || this.updated)
+      //set ascending or descending
       direction = 1;
-    else
-      direction = this.desc ? 1 : -1;
+    else direction = this.desc ? 1 : -1;
 
     this.sortedColumn = property;
 
+    if (this.updated) this.updated = false;
+
     //sort the elements
     this.associates.sort(function (a, b) {
-      if (a[property] < b[property])
-        return -1 * direction;
-      else if (a[property] > b[property])
-        return 1 * direction;
-      else
-        return 0;
+      if (a[property] < b[property]) return -1 * direction;
+      else if (a[property] > b[property]) return 1 * direction;
+      else return 0;
     });
   }
 
@@ -104,6 +106,8 @@ export class AssociateListComponent implements OnInit {
   updateAssociates() {
     var ids: number[] = [];
     var i = 1;
+    let self = this;
+
     for (i; i <= this.associates.length; i++) { //grab the checked ids
       var check = <HTMLInputElement>document.getElementById("" + i);
       if (check != null && check.checked) {
@@ -112,18 +116,10 @@ export class AssociateListComponent implements OnInit {
     }
     this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient).subscribe(
       data => {
-
+        self.getAllAssociates();
+        self.updated = true;
       }
     );
-
   }
 
-  showUpdate() {
-    if (this.updateShow) {
-      this.updateShow = false;
-    }
-    else {
-      this.updateShow = true;
-    }
-  }
 }

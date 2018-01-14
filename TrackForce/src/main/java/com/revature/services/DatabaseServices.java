@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -14,82 +15,62 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.revature.dao.DatabaseDAOImpl;
+import com.revature.utils.DBLoaderUtil;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
+import com.revature.utils.StatusInfoUtil;
 
 @Path("database") // http://localhost:8080/
 public class DatabaseServices {
+
+	static boolean updateDB = false;
 
 	@GET
 	@Path("populateDB")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response populateDB() throws IOException {
-		String string;
-		DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
-		Session session = HibernateUtil.getSession().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			string = dbCalls.populate();
-			session.flush();
-			tx.commit();
-
-			return Response.ok(string).build();
-		} catch (Exception e) {
-			LogUtil.logger.error(e);
-			e.printStackTrace();
-			tx.rollback();
-			throw new IOException("Could not populat DB", e);
-		} finally {
-			session.close();
-		}
+		DBLoaderUtil.populateDB();
+		StatusInfoUtil.clearMaps();
+		return Response.ok().build();
 	}
 
 	@DELETE
 	@Path("deleteFromDB")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response deleteDB() throws HibernateException, IOException {
-		String string;
-		DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
-		Session session = HibernateUtil.getSession().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			string = dbCalls.deleteAll();
-			session.flush();
-			tx.commit();
-
-			return Response.ok(string).build();
-		} catch (Exception e) {
-			LogUtil.logger.error(e);
-			e.printStackTrace();
-			tx.rollback();
-			throw new IOException("Could not populat DB", e);
-		} finally {
-			session.close();
-		}
+	public Response deleteDB() throws IOException {
+		DBLoaderUtil.truncateDB();
+		StatusInfoUtil.clearMaps();
+		return Response.ok().build();
 	}
 
 	@GET
 	@Path("populateDBSF")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response populateDBSF() throws HibernateException, IOException {
-		String string;
-		DatabaseDAOImpl dbCalls = new DatabaseDAOImpl();
-		Session session = HibernateUtil.getSession().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			string = dbCalls.populateSF();
+	public Response populateDBSF() throws IOException {
+		DBLoaderUtil.populateDBSF();
+		StatusInfoUtil.clearMaps();
+		return Response.ok().build();
+	}
 
-			session.flush();
-			tx.commit();
+	// Update the flag to update the DB
+	@POST
+	@Path("updateDBSF")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response updateDBSF() {
+		DatabaseServices.updateDB = true;
+		return Response.ok().build();
+	}
 
-			return Response.ok(string).build();
-		} catch (Exception e) {
-			LogUtil.logger.error(e);
-			e.printStackTrace();
-			tx.rollback();
-			throw new IOException("Could not populat DB", e);
-		} finally {
-			session.close();
+	// Check to see if it's time to update the db
+	@GET
+	@Path("checkFetch")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response checkDBSF() throws IOException {
+		DatabaseServices.updateDB = true;
+		if (DatabaseServices.updateDB) {
+			populateDBSF();
+			DatabaseServices.updateDB = false;
 		}
+		return Response.ok().build();
 	}
 }

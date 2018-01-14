@@ -11,16 +11,16 @@
         <label for="mStatus">Marketing Status: </label>
         <select class="form-control" id="mStatus" [(ngModel)]="searchByStatus">
           <option label=" "></option>
-          <option>MAPPED: TRAINING</option>
-          <option>MAPPED: RESERVED</option>
-          <option>MAPPED: SELECTED</option>
-          <option>MAPPED: CONFIRMED</option>
-          <option>MAPPED: DEPLOYED</option>
-          <option>UNMAPPED: TRAINING</option>
-          <option>UNMAPPED: OPEN</option>
-          <option>UNMAPPED: SELECTED</option>
-          <option>UNMAPPED: CONFIRMED</option>
-          <option>UNMAPPED: DEPLOYED</option>
+          <option value="MAPPED,  TRAINING">MAPPED: TRAINING</option>
+          <option value="MAPPED,  RESERVED">MAPPED: RESERVED</option>
+          <option value="MAPPED,  SELECTED">MAPPED: SELECTED</option>
+          <option value="MAPPED,  CONFIRMED">MAPPED: CONFIRMED</option>
+          <option value="MAPPED,  DEPLOYED">MAPPED: DEPLOYED</option>
+          <option value="UNMAPPED,  TRAINING">UNMAPPED: TRAINING</option>
+          <option value="UNMAPPED,  OPEN">UNMAPPED: OPEN</option>
+          <option value="UNMAPPED,  SELECTED">UNMAPPED: SELECTED</option>
+          <option value="UNMAPPED,  CONFIRMED">UNMAPPED: CONFIRMED</option>
+          <option value="UNMAPPED,  DEPLOYED">UNMAPPED: DEPLOYED</option>
         </select>
       </div>
       <div class="col-sm-2">
@@ -43,7 +43,7 @@
   </div>
 
 
-  <div class="well">
+  <div class="well" style="position:relative;">
     <div class="table-responsive">
       <table class="table table-bordered">
         <thead class="pointer">
@@ -58,7 +58,7 @@
           </tr>
         </thead>
       </table>
-      <div class="table-responsive pre-scrollable" id="info">
+      <div class="table-responsive pre-scrollable" id="info" style="overflow-x:none!important;">
         <table class="table table-striped table-hover table-bordered" border-width=2px>
           <tr *ngFor="let associate of associates | filterByText:searchByText">
             <ng-container *ngIf="(searchByStatus === associate.marketingStatus || searchByStatus === '')
@@ -80,23 +80,23 @@
         </table>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group"style="float:bottom;">
       <div class="row">
         <div class="col-sm-4">
           <br>
           <label for="uStatus">Update by Marketing Status: </label>
           <select class="form-control" id="uStatus" [(ngModel)]="updateStatus">
             <option label=""></option>
-            <option>MAPPED: TRAINING</option>
-            <option>MAPPED: RESERVED</option>
-            <option>MAPPED: SELECTED</option>
-            <option>MAPPED: CONFIRMED</option>
-            <option>MAPPED: DEPLOYED</option>
-            <option>UNMAPPED: TRAINING</option>
-            <option>UNMAPPED: OPEN</option>
-            <option>UNMAPPED: SELECTED</option>
-            <option>UNMAPPED: CONFIRMED</option>
-            <option>UNMAPPED: DEPLOYED</option>
+            <option value="1" >MAPPED: TRAINING</option>
+            <option value="2">MAPPED: RESERVED</option>
+            <option value="3">MAPPED: SELECTED</option>
+            <option value="4">MAPPED: CONFIRMED</option>
+            <option value="5">MAPPED: DEPLOYED</option>
+            <option value="6">UNMAPPED: TRAINING</option>
+            <option value="7">UNMAPPED: OPEN</option>
+            <option value="8">UNMAPPED: SELECTED</option>
+            <option value="9">UNMAPPED: CONFIRMED</option>
+            <option value="10">UNMAPPED: DEPLOYED</option>
           </select>
         </div>
         <div class="col-sm-4">
@@ -115,6 +115,4 @@
         <div class="col-sm-2"></div>
       </div>
     </div>
-  </div>
 </div>
-

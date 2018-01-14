@@ -1,34 +1,32 @@
 <!-- @Author Princewill Ibe -->
 <app-navbar></app-navbar>
-<div class="container">
+<div class="container table-width-adjust">
   <div>
     <title class="text-center text-primary">Batch List</title>
   </div>
-  <div class="row">
-    <div class="col-sm-12 col-md-4 mcolumn">
+  <div class="row ">
+    <div class="col-lg-5 col-md-12 mcolumn left">
       <h3>All Batches</h3>
       <div class="well">
-        <div class="table-responsive">
           <table class="table table-striped table-hover table-bordered">
             <thead>
-            <tr>
-              <th>Batch Name</th>
-              <th>Start Date</th>
-              <th>End Date</th>
+            <tr class="max-width">
+              <th class="name-column">Batch Name</th>
+              <th class="date-column">Start Date</th>
+              <th class="date-column">End Date</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let batch of batches">
-              <td><a href="#!/batchDetails/{{batch.batchName}}">{{batch.batchName}}</a></td>
-              <td>{{batch.startDate | date:'MM/dd/yyyy'}}</td>
-              <td>{{batch.endDate| date:'MM/dd/yyyy'}}</td>
+            <tr *ngFor="let batch of batches" class="max-width">
+              <td class="name-column"><a href="#!/batchDetails/{{batch.batchName}}">{{batch.batchName}}</a></td>
+              <td class="date-column">{{batch.startDate | date:'MM/dd/yyyy'}}</td>
+              <td class="date-column">{{batch.endDate| date:'MM/dd/yyyy'}}</td>
             </tr>
             </tbody>
           </table>
         </div>
-      </div>
     </div>
-    <div class="col-sm-12 col-md-8 mcolumn">
+    <div class="col-lg-7 col-md-12 mcolumn right">
       <h3>Select Dates:</h3>
       <form>
         <div>
@@ -49,8 +47,8 @@
               [labels]="curriculumNames"
               [chartType]="pieChartType"
               [colors]="batchColors"
-              [options]="chartOptions">
-
+              [options]="chartOptions"
+              (render)="refreshChart2()">
       </canvas>
     </div>
   </div>

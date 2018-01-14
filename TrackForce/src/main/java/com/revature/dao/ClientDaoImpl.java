@@ -12,6 +12,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfClient;
@@ -31,45 +32,38 @@ public class ClientDaoImpl implements ClientDao {
 	 * @throws IOException 
 	 */
 	@Override
-	public TfClient getClient(String name) throws IOException {
+	public TfClient getClient(Session session, String name) throws IOException {
 		TfClient client;
-		Session session = HibernateUtil.getSession().getCurrentSession();
+
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
+
+		Root<TfClient> root = criteriaQuery.from(TfClient.class);
+
+		criteriaQuery.select(root).where(builder.equal(root.get("tfClientName"), name));
+
+		Query<TfClient> query = session.createQuery(criteriaQuery);
+
 		try {
-
-			CriteriaBuilder builder = session.getCriteriaBuilder();
-			CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
-
-			Root<TfClient> root = criteriaQuery.from(TfClient.class);
-
-			criteriaQuery.select(root).where(builder.equal(root.get("tfClientName"), name));
-
-			Query<TfClient> query = session.createQuery(criteriaQuery);
-
-			try {
-				client = query.getSingleResult();
-			} catch (NoResultException nre) {
-				client = new TfClient();
-				LogUtil.logger.error(nre);
-			}
-		} finally {
-			session.flush();
-			session.close();
+			client = query.getSingleResult();
+		} catch (NoResultException nre) {
+			client = new TfClient();
+			LogUtil.logger.error(nre);
 		}
 		return client;
 	}
 
 	@Override
-	public List<TfClient> getAllTfClients() throws HibernateException, IOException {
+	public List<TfClient> getAllTfClients(Session session) throws HibernateException, IOException {
 		if (clients == null || clients.isEmpty()) {
-			try (Session session = HibernateUtil.getSession().openSession()) {
-				CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
-				cq.from(TfClient.class);
-				clients = session.createQuery(cq).getResultList();
-				for (TfClient client : clients) {
-					Hibernate.initialize(client.getTfClientId());
-					Hibernate.initialize(client.getTfClientName());
-					Hibernate.initialize(client.getTfAssociates());
-				}
+
+			CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
+			cq.from(TfClient.class);
+			clients = session.createQuery(cq).getResultList();
+			for (TfClient client : clients) {
+				client.getTfClientId();
+				client.getTfClientName();
+				client.getTfAssociates();
 			}
 		}
 		return clients;

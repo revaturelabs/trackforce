@@ -23,9 +23,16 @@
     <!-- Display Client name and bar chart regarding client -->
     <div class="col-md-9">
       <h1>{{selectedCompany}}</h1>
-      <canvas baseChart id="bar-chart" class="chart chart-bar" [datasets]="barChartData" [chartType]="barChartType" [labels]="barChartLabel"
-        [legend]="barChartLegend" [options]="barChartOptions" [colors]="barChartColors" (chartHover)="chartHovered($event)"></canvas>
-      <!-- chart-series="clientSeries" -->
+      <canvas baseChart id="bar-chart" class="chart chart-bar" 
+      *ngIf="barChartLabel && barChartLabel.length && barChartData && barChartData.length"
+      [datasets] = "barChartData"
+      [chartType]="barChartType"
+      [labels]="barChartLabel"
+      [legend]="barChartLegend"
+      [options]="barChartOptions"
+      [colors]="barChartColors"
+       ></canvas>
+     <!-- chart-series="clientSeries" -->
     </div>
     <!-- end of col-md-9 -->
   </div>

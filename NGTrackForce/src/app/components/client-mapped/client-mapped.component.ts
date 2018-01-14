@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientMappedService } from '../../services/client-mapped-service/client-mapped-service';
 import { ThemeConstants } from '../../constants/theme.constants'; //Used for colors in charts
+import { AutoUnsubscribe } from '../../decorator/auto-unsubscribe.decorator';
+import { ChartsModule, Color } from 'ng2-charts';
 
 @Component({
   selector: 'app-client-mapped',
@@ -8,6 +10,7 @@ import { ThemeConstants } from '../../constants/theme.constants'; //Used for col
   styleUrls: ['./client-mapped.component.css']
 })
 
+@AutoUnsubscribe
 export class ClientMappedComponent implements OnInit {
 
   /* 
@@ -72,7 +75,8 @@ export class ClientMappedComponent implements OnInit {
    * @description colors is used by the html template as a placeholder. It is needed to get the
    * background colors to display properly
    */
-  public colors: any = [{}];
+  // public colors: any = [{}];
+  private clientTheme: Array<Color> = ThemeConstants.CLIENT_COLORS;
 
   /* 
   ============================
@@ -108,7 +112,7 @@ export class ClientMappedComponent implements OnInit {
       
       /*
       Store the data from the http request in temporary objects.
-      In order for the property binding refresh on clientMappedData 
+      In order for the2 property binding refresh on clientMappedData 
       and clientMappedLabels to take affect, they need to be set 
       equal to an object. (i.e. clientMappedData.push(...)and 
       clientMappedLabels.push(...) does not trigger property binding
@@ -125,7 +129,6 @@ export class ClientMappedComponent implements OnInit {
         if(temp_count > 0){
           //Check if the fetched name is empty
           if(data[d].name == ""){
-            console.log('Name is empty');
             temp_clientMappedLabels.push("Empty Name");
           } else {
             temp_clientMappedLabels.push(data[d].name);
@@ -138,15 +141,16 @@ export class ClientMappedComponent implements OnInit {
       this.clientMappedData = temp_clientMappedData;
       this.clientMappedLabels = temp_clientMappedLabels;
 
+      
       //Initialize the object used to view the data
       //Note: The ThemeConstants.CLIENT_COLORS is currently an array of length 8.
       //For every element of 'data' above a count of 8, the chart color for that data item will be grey.
-      this.clientMappedDataSet = [
-        {
-          data: this.clientMappedData,
-          backgroundColor: ThemeConstants.CLIENT_COLORS 
-        }
-      ]
+      // this.clientMappedDataSet = [
+      //   {
+      //     data: this.clientMappedData,
+      //     backgroundColor: ThemeConstants.CLIENT_COLORS 
+      //   }
+      // ]
     })
   }
 
@@ -157,7 +161,6 @@ export class ClientMappedComponent implements OnInit {
    * @param selectedType string containing the type of chart to display. Should contain 'bar', 'pie', or 'polarArea'
 	 */
 	public changeChartType(selectedType){
-    console.log("Changing Chart Type!")
     this.chartType = selectedType;
 
     //For a 'bar' chart type, don't print legend
@@ -172,8 +175,7 @@ export class ClientMappedComponent implements OnInit {
           text: this.selectedStatus,
           fontSize: 24,
           fontColor: '#121212'
-        },
-        maintainAspectRatio: true
+        }
       };
     }
     //If a 'pie' or 'polarArea' chart type, print the legend
@@ -189,8 +191,7 @@ export class ClientMappedComponent implements OnInit {
           text: this.selectedStatus,
           fontSize: 24,
           fontColor: '#121212'
-        }, 
-        maintainAspectRatio: true
+        }
       }
     }
   }

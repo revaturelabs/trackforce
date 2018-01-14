@@ -19,7 +19,7 @@ export class ClientMappedComponent implements OnInit {
    * @description selectedStatus is printed above the displayed chart to indicate 
    * the marketing status for the data being displayed. 
    */
-  public selectedStatus; //Pass this in from the service
+  public selectedStatus;
   
   /**
    * @description statusID is initialized with the value stored in the URL.
@@ -34,7 +34,6 @@ export class ClientMappedComponent implements OnInit {
   public chartType: String;
 
   /**
-   * ??? Check this ???
    * @description clientMappedLabels holds the client names fetched from the database
    */
   public clientMappedLabels: string[];
@@ -84,20 +83,14 @@ export class ClientMappedComponent implements OnInit {
 
   //Run on initialization
   ngOnInit() {
-    console.log("Inisde ngOnInit");
-
     //Initialize the chart to type 'bar'
     this.changeChartType('bar');
-    
-    console.log("about to make a http");
 
     //Fetch the statusId from the URL. Used to fetch and display data 
     //For now, parse out the desired number
     //To-Do: Use "Activated Routes" to fetch the value 
     this.statusID = window.location.href.split('client-mapped/')[1];
-    console.log("selectedStatus: " + this.selectedStatus);
-    console.log("typeof(selectedStatus): " + typeof(this.statusID));
-    console.log("this.statusID == 3 = " + (this.statusID == 3));
+    
     //Initialize 'selectedStatus' to correct string. 
     if(Number(this.statusID) == 0) {
       this.selectedStatus = "Training";
@@ -106,9 +99,7 @@ export class ClientMappedComponent implements OnInit {
     } else if(Number(this.statusID) == 2) {
       this.selectedStatus = "Selected";
     } else if(Number(this.statusID) == 3) {
-      console.log("inside statusID")
       this.selectedStatus = "Confirmed";
-      console.log(this.selectedStatus);
     }
 
     let temp_clientMappedLabels: string[] = [];
@@ -139,8 +130,6 @@ export class ClientMappedComponent implements OnInit {
         backgroundColor: ThemeConstants.CLIENT_COLORS 
       }
     ]
-
-    console.log("this.statusID = " + this.statusID);
 
     // HTTP request to fetch data. See client-mapped-service 
     // this.clientMappedService.getAssociatesByStatus(this.statusID).subscribe( data => {

@@ -1,14 +1,5 @@
 <app-navbar></app-navbar>
 <script src="node_modules/chart.js/src/chart.js"></script>
-<!-- <div style="display: block">
-  <canvas baseChart *ngIf="clientMappedData && clientMappedLabels"
-          [data]="clientMappedData"
-          [labels]="clientMappedLabels"
-          [chartType]="chartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)">
-    </canvas>
-</div> -->
 <div class="row">
   <div class="col-md-6">
      <button (click)="changeChartType('bar')" class="btn btn-default">Bar Chart</button>

@@ -54,7 +54,7 @@ export class SkillsetComponent implements OnInit {
   /**
    * The skillset data
    */
-  skillsetData = this.DUMMY_DATA;
+  skillsetData = [];
   /**
    * THe skillset labels
    */

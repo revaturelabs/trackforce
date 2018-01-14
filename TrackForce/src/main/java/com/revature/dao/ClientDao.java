@@ -25,5 +25,5 @@ public interface ClientDao {
 	 *            - The name of the client to get
 	 * @return
 	 */
-	TfClient getClient(String name) throws IOException;
+	TfClient getClient(Session session, String name) throws IOException;
 }

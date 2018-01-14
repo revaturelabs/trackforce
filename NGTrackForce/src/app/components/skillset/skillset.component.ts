@@ -180,7 +180,11 @@ export class SkillsetComponent implements OnInit {
     return type;
   }
 
-  
+  public goToAssociateList(event)
+  {
+    // stub for right now because I cannot see what to send the associate list component
+    event.preventDefault();
+  }
   
   /**
    * Returns whether or not val is undefined. Used for filtering.

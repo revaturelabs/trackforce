@@ -6,6 +6,7 @@ import {BatchService} from '../../services/batch-service/batch.service';
 import {AuthenticationService} from '../../services/authentication-service/authentication.service';
 import {Router} from '@angular/router';
 import {ThemeConstants} from '../../constants/theme.constants';
+import { ChartsModule, Color } from 'ng2-charts';
 
 
 /**
@@ -26,7 +27,7 @@ export class BatchListComponent implements OnInit {
   batches: Batch[];
   curriculumNames: string[];
   curriculumCounts: number[];
-  batchColors: string[] = ThemeConstants.BATCH_COLORS;
+  batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
 
   chartOptions = {
     legend: {

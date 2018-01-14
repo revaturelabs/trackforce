@@ -6,6 +6,7 @@ import { SkillsetService } from '../../services/skill-set-service/skill-set.serv
 import { NgZone } from '@angular/core';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { ActivatedRoute } from '@angular/router';
+import { ChartsModule, Color } from 'ng2-charts';
 
 @Component({
   selector: 'app-skillset',
@@ -79,7 +80,7 @@ export class SkillsetComponent implements OnInit {
   /** 
    * The color scheme for the charts of this component 
    */
-  batchColors: string[] = ThemeConstants.BATCH_COLORS;
+  batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
   
   constructor(private skillsetService : SkillsetService, 
       private route : ActivatedRoute,

@@ -20,8 +20,8 @@ export class NavbarComponent implements OnInit {
     this.u = this.authService.getUser();
     this.user = JSON.parse(this.u);
 
-    console.log(this.user);
-    console.log(this.u);
+    //console.log(this.user);
+    //console.log(this.u);
     if(this.user.tfRoleId === 1){
       this.isAdmin = true;
     } else {

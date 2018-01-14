@@ -1,46 +1,38 @@
+/**
+ * @author Matt Snee 
+ */
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-//import { User } from '../../models/User/user.model';
-import { Response } from '@angular/http/src/static_response';
+import { RequestService } from '../request-service/request.service';
 
 @Injectable()
 export class CreateUserService {
 
-    status: string
-    user: string
-
-    constructor(private http: HttpClient) {
-
-    }
+    /**
+    * @constructor
+    * @param {RequestService} 
+    * Service for handling all requests to the server
+    */
+    constructor(private rs: RequestService) {  }
 
     /**
-     * Get logged-in user's username
-     */
-    getUserName() {
-        let url: string = "http://localhost:8085/TrackForce/track/user/name"
-        return this.http.get(url).map((response: Response) => response.json());
-    }
-
-     /**
-     * Get logged-in user's role id
-     */
-    getUserRoleId() {
-        let url: string = "http://localhost:8085/TrackForce/track/user/role"
-        return this.http.get(url).map((response: Response) => response.json());
-    }
-
-    /**
-     * Create User
-     * @param username
-     * @param password
-     * @param roleId
+     * Creates new user in database
+     * @param {string} username
+     * New user's Username
+     * 
+     * @param {string} password
+     * New user's Password
+     * 
+     * @param {number} roleId
+     * New user's Role ID 
+     *      1 Admin ----------- user has full privileges including Creating New Users
+     *      2 Manager --------- user has full privileges excluding Creating New Users
+     *      3 Vice President -- pending implementation
+     *      4 Associate ------- pending implemenation
      */
     createUser(username: string, password: string, roleId: number) {
-        let url: string = "http://localhost:8085/TrackForce/track/user/create" //Verify this end point
-
-        return this.http.post(url, { username: username, password: password, role: roleId})
+        return this.rs.createUser(username, password, roleId);
     }
 
 }

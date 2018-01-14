@@ -57,9 +57,13 @@ export class SkillsetComponent implements OnInit {
    */
   skillsetData = [];
   /**
-   * THe skillset labels
+   * The skillset labels
    */
   skillsetLabels = [];
+  /**
+   * The status of the component
+   */
+  status = "Loading...";
   /**
    * The chart options, as a JavaScript-style object, and pre-initialized so as to DRY up our code...
    */
@@ -124,6 +128,9 @@ export class SkillsetComponent implements OnInit {
       // map() that variable into skillsetData,skillsetLabels
       this.skillsetData  = skillsets.map((obj) => {if (obj.count) return obj.count}).filter((val) => val !== undefined);
       this.skillsetLabels= skillsets.map((obj) => {if (obj.count) return obj.name}).filter((val) => val !== undefined);
+      this.status = (((!this.skillsetLabels) || (!this.skillsetLabels.length)) &&
+        ((!this.skillsetData) || (!this.skillsetData.length))) ? 
+          'There is no batch data on this status...' : 'Loaded!';
     });
   }
 

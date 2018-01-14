@@ -14,7 +14,7 @@
 			<canvas baseChart
 				id="skillset"
 				class="chart chart-bar"
-				*ngIf="skillsetData.length && skillsetLabels.length; else loadingScreen"
+				*ngIf="skillsetData && skillsetData.length && skillsetLabels && skillsetLabels.length; else noData"
 				[chartType]="chartType"
 				[data]="skillsetData"
 				[labels]="skillsetLabels"
@@ -22,8 +22,11 @@
 				[options]="chartOptions"
 				>
 			</canvas>
-			<ng-template #loadingScreen>
-				Loading...
+			<ng-template #noData>
+				<div class="centerBoth">
+					{{status}}
+				</div>
+				
 			</ng-template>
 		</div>
 	</div>

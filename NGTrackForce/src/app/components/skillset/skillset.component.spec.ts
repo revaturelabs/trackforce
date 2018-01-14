@@ -40,29 +40,6 @@
 //     expect(component).toBeTruthy();
 //   });
 
-<<<<<<< HEAD
-  xit('should have a non-empty map of skill info', () => {
-    expect(SkillsetComponent.getSkillInfo()).toBeTruthy();
-    expect(SkillsetComponent.getSkillInfo().size).toBeGreaterThan(0);
-  });
-
-  xit('should have non-zero skillID', () => {
-    component.selectedStatus = SelectedStatusConstants.CONFIRMED;
-    expect(component.selectedStatus).toBeTruthy();
-  })
-
-  xit('should have buttons that trigger changeChartType()', () => {
-    // click each of the buttons
-    let chartChangeButtons = fixture.nativeElement.querySelector('.btn.btn-default');
-    let i = 0;
-    for (let btn of chartChangeButtons)
-    {
-      // sanity testing the buttons to make sure they are actual buttons and not indices of some array
-      expect(btn).toBeNaN(); 
-      btn.click().then((data) => {
-        // TODO: find way to check the data itself
-        expect(component.changeChartType).toHaveBeenCalledTimes(++i);
-=======
 //   it('should have a non-empty map of skill info', () => {
 //     expect(SkillsetComponent.getSkillInfo()).toBeTruthy();
 //     expect(SkillsetComponent.getSkillInfo().size).toBeGreaterThan(0);
@@ -84,19 +61,13 @@
 //       btn.click().then((data) => {
 //         // TODO: find way to check the data itself
 //         expect(component.changeChartType).toHaveBeenCalledTimes(++i);
->>>>>>> 993af2af5bcee41444bdade9551f266e565402f6
 
 //       });
 //     }
     
 //   })
 
-<<<<<<< HEAD
-  
-  xit('should not be using DUMMY_DATA', () => {
-=======
 /*  it('should not be using DUMMY_DATA', () => {
->>>>>>> 993af2af5bcee41444bdade9551f266e565402f6
     // waiting on the observable in ngOnInit() to finish ...
     fixture.detectChanges();
     fixture.whenStable().then(() => {

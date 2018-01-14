@@ -12,6 +12,7 @@ export class NavbarComponent implements OnInit {
 
   user: User;
   isAdmin: boolean;
+  isAssociate: boolean;
   u: string;
 
   constructor(private router: Router, private authService: AuthenticationService) { }
@@ -20,13 +21,19 @@ export class NavbarComponent implements OnInit {
     this.u = this.authService.getUser();
     this.user = JSON.parse(this.u);
 
-    //console.log(this.user);
-    //console.log(this.u);
     if(this.user.tfRoleId === 1){
       this.isAdmin = true;
     } else {
       this.isAdmin = false;
     }
+
+    if(this.user.tfRoleId === 4){
+      this.isAssociate = true;
+    } else {
+      this.isAssociate = false;
+    }
+
+
   }
 
   logout(){

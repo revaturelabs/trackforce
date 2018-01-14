@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientMappedService } from '../../services/client-mapped-service/client-mapped-service';
+import { ThemeConstants } from '../../constants/theme.constants';
 
 @Component({
   selector: 'app-client-mapped',
   templateUrl: './client-mapped.component.html',
   styleUrls: ['./client-mapped.component.css']
 })
+
 export class ClientMappedComponent implements OnInit {
 
-  /* ===========================
+  /* 
+  ===========================
   Member variables
-  ============================ */
+  ============================ 
+  */
   /**
    * @description selectedStatus is printed above the displayed chart to indicate 
    * the marketing status for the data being displayed. 
@@ -55,9 +59,27 @@ export class ClientMappedComponent implements OnInit {
    */
   public chartOptions:any;
 
-  /* ===========================
+  /**
+   * @description clientMappedDataSet is the object used to by the view as the data input for charts
+   * This object contains an array of json objects where each json object takes a 'data' and 'backgroundcolors'
+   * field. Currently, the array should hold a single json object. 
+   * 
+   * Note: We are using the 'datasets' attribute in the view rather than the 'data' attribute to support
+   * background colors
+   */
+  public clientMappedDataSet:any;
+
+  /**
+   * @description colors is used by the html template as a placeholder. It is needed to get the
+   * background colors to display properly
+   */
+  public colors: any = [{}];
+
+  /* 
+  ===========================
   Methods
-  ============================ */
+  ============================ 
+  */
   constructor(private clientMappedService: ClientMappedService) {}
 
   //Run on initialization
@@ -87,42 +109,76 @@ export class ClientMappedComponent implements OnInit {
 
     console.log("this.statusID = " + this.statusID);
 
-    //HTTP request to fetch data. See client-mapped-service 
-    this.clientMappedService.getAssociatesByStatus(this.statusID).subscribe( data => {
-      console.log("made http request");
-      
-      /*
-      Store the data from the http request in temporary objects.
-      In order for the property binding refresh on clientMappedData 
-      and clientMappedLabels to take affect, they need to be set 
-      equal to an object. (i.e. clientMappedData.push(...)and 
-      clientMappedLabels.push(...) does not trigger property binding
-      and does not display data).
-      */
-      let temp_clientMappedLabels: string[] = [];
-      let temp_clientMappedData: number[] = [];
-      console.log(data);
+    //Hardcoded data, NO http request
+    let temp_clientMappedLabels: string[] = [];
+    let temp_clientMappedData: number[] = [];
+    temp_clientMappedLabels.push("Name 1"); 
+    temp_clientMappedLabels.push("Name 2"); 
+    temp_clientMappedLabels.push("Name 3");
+    temp_clientMappedLabels.push("Name 4");
+    temp_clientMappedLabels.push("Name 5");
+    temp_clientMappedLabels.push("Name 6"); 
+    temp_clientMappedLabels.push("Name 7");
+    temp_clientMappedLabels.push("Name 8");
+    temp_clientMappedLabels.push("Name 9");
+    temp_clientMappedData.push(100); 
+    temp_clientMappedData.push(500);
+    temp_clientMappedData.push(300);
+    temp_clientMappedData.push(200);
+    temp_clientMappedData.push(400);
+    temp_clientMappedData.push(400);
+    temp_clientMappedData.push(400);
+    temp_clientMappedData.push(400);
+    temp_clientMappedData.push(400);
+    this.clientMappedData = temp_clientMappedData;
+    this.clientMappedLabels = temp_clientMappedLabels;
 
-      //Loop over 'data' and extract fetched information
-      for(let d in data) {
-        const temp_name = data[d].name;
-        const temp_count = data[d].count;
-        if(temp_count > 0){
-          //Check if the fetched name is empty
-          if(data[d].name == ""){
-            console.log('Name is empty');
-            temp_clientMappedLabels.push("Empty Name");
-          } else {
-            temp_clientMappedLabels.push(data[d].name);
-          }
-          temp_clientMappedData.push(data[d].count);
-        }
+    //Initialize the object used to view the data
+    //Note: The ThemeConstants.CLIENT_COLORS is currently an array of length 8.
+    //For every element of 'data' above a count of 8, the chart color for that data item will be grey.
+    this.clientMappedDataSet = [
+      {
+        data: this.clientMappedData,
+        backgroundColor: ThemeConstants.CLIENT_COLORS 
       }
+    ]
 
-      //Trigger property binding
-      this.clientMappedData = temp_clientMappedData;
-      this.clientMappedLabels = temp_clientMappedLabels;
-    })
+    //HTTP request to fetch data. See client-mapped-service 
+    // this.clientMappedService.getAssociatesByStatus(this.statusID).subscribe( data => {
+    //   console.log("made http request");
+      
+    //   /*
+    //   Store the data from the http request in temporary objects.
+    //   In order for the property binding refresh on clientMappedData 
+    //   and clientMappedLabels to take affect, they need to be set 
+    //   equal to an object. (i.e. clientMappedData.push(...)and 
+    //   clientMappedLabels.push(...) does not trigger property binding
+    //   and does not display data).
+    //   */
+    //   let temp_clientMappedLabels: string[] = [];
+    //   let temp_clientMappedData: number[] = [];
+    //   console.log(data);
+
+    //   //Loop over 'data' and extract fetched information
+    //   for(let d in data) {
+    //     const temp_name = data[d].name;
+    //     const temp_count = data[d].count;
+    //     if(temp_count > 0){
+    //       //Check if the fetched name is empty
+    //       if(data[d].name == ""){
+    //         console.log('Name is empty');
+    //         temp_clientMappedLabels.push("Empty Name");
+    //       } else {
+    //         temp_clientMappedLabels.push(data[d].name);
+    //       }
+    //       temp_clientMappedData.push(data[d].count);
+    //     }
+    //   }
+
+    //   //Trigger property binding
+    //   this.clientMappedData = temp_clientMappedData;
+    //   this.clientMappedLabels = temp_clientMappedLabels;
+    // })
   }
 
   /**
@@ -134,7 +190,7 @@ export class ClientMappedComponent implements OnInit {
 	public changeChartType(selectedType){
     console.log("Changing Chart Type!")
     this.chartType = selectedType;
-
+   
     if(selectedType == 'bar') {
       this.chartLegend = false;
       this.chartOptions = {

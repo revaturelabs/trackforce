@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import '../../constants/selected-status.constants';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
+import { ThemeConstants } from '../../constants/theme.constants';
 
 const MONTHS_3 = 788923800;
 
@@ -29,14 +30,14 @@ export class HomeComponent {
   private data = [];
   private amountType: any;
 
-  private undeployedLabels = [ SelectedStatusConstants.MAPPED, SelectedStatusConstants.UNMAPPED ];
-  private mappedLabels = [ SelectedStatusConstants.TRAINING, SelectedStatusConstants.RESERVED, SelectedStatusConstants.SELECTED, SelectedStatusConstants.CONFIRMED];
-  private unmappedLabels = [SelectedStatusConstants.TRAINING, SelectedStatusConstants.OPEN, SelectedStatusConstants.SELECTED, SelectedStatusConstants.CONFIRMED];
-  private deployedLabels = [SelectedStatusConstants.MAPPED, SelectedStatusConstants.UNMAPPED];
+  private undeployedLabels = SelectedStatusConstants.UNDEPLOYED_LABELS;
+  private mappedLabels = SelectedStatusConstants.MAPPED_LABELS;
+  private unmappedLabels = SelectedStatusConstants.UNMAPPED_LABELS;
+  private deployedLabels = SelectedStatusConstants.DEPLOYED_LABELS;
 
-  private mappedColors: Array<Color> = [{ backgroundColor: ['#ff8d3f', '#514f4f'] }];
-  private clientTheme: Array<Color> = [{ backgroundColor: ['#68a225', '#506d2f', '#324851', '#b3de81', '#7da3a1', '#a2c523', '#6e6702', '#2e4600'] }];
-  private skillTheme: Array<Color> = [{ backgroundColor: ['#004d47', '#00cffa', '#52958b', '#008dcb', '#b2dbd5', '#6eb5c0', '#006c84', '#113743'] }];
+  private mappedColors: Array<Color> = ThemeConstants.MAPPED_COLORS;
+  private clientTheme: Array<Color> = ThemeConstants.CLIENT_COLORS;
+  private skillTheme: Array<Color> = ThemeConstants.SKILL_COLORS;
 
   deployedChartType = "pie";
   undeployedChartType = "pie";
@@ -60,7 +61,6 @@ export class HomeComponent {
       text: "Unmapped",
       fontSize: 24,
       fontColor: '#121212'
-
     }
   };
 

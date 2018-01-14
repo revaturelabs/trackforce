@@ -28,6 +28,8 @@ export class SkillsetComponent implements OnInit {
    * Map of selected status to skill id
    */
   private static SKILL_INFO : Map<string, any>;
+  // TODO: remove this
+  private static NEW_SKILL_INFO : Map<string, any>;
   /**
    * The id of skill, probably to hit the API with
    */
@@ -96,10 +98,20 @@ export class SkillsetComponent implements OnInit {
     // setup SKILL_INFO
     if (!SkillsetComponent.SKILL_INFO) {
       SkillsetComponent.SKILL_INFO = new Map();
-      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.TRAINING, 0);
-      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.OPEN, 1);
-      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.SELECTED, 2);
-      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.CONFIRMED, 3);
+      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.TRAINING, 6);
+      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.OPEN, 7);
+      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.SELECTED, 8);
+      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.CONFIRMED, 9);
+      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.DEPLOYED, 10);
+    }
+    //TODO: remove this
+    if (!SkillsetComponent.NEW_SKILL_INFO) {
+      SkillsetComponent.NEW_SKILL_INFO = new Map();
+      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.TRAINING, 0);
+      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.OPEN, 1);
+      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.SELECTED, 2);
+      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.CONFIRMED, 3);
+      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.DEPLOYED, 4);
     }
   }
   
@@ -111,6 +123,7 @@ export class SkillsetComponent implements OnInit {
     {
       // we get it from the ActivatedRoute params
       this.skillID = Number(this.route.snapshot.paramMap.get('id'));
+      if (this.skillID < 6) this.skillID += 6;  // TODO: remove this
       // we now set selectedStatus
       SkillsetComponent.SKILL_INFO.forEach((value, key) => { 
         if (value === this.skillID) this.selectedStatus = key;
@@ -126,8 +139,8 @@ export class SkillsetComponent implements OnInit {
       // copy in the raw data into local variable
       let skillsets : Array<any> = data;
       // map() that variable into skillsetData,skillsetLabels
-      this.skillsetData  = skillsets.map((obj) => {if (obj.count) return obj.count}).filter((val) => val !== undefined);
-      this.skillsetLabels= skillsets.map((obj) => {if (obj.count) return obj.name}).filter((val) => val !== undefined);
+      this.skillsetData  = skillsets.map((obj) => {if (obj.count) return obj.count}).filter(this.isNotUndefined);
+      this.skillsetLabels= skillsets.map((obj) => {if (obj.count) return obj.name}).filter(this.isNotUndefined);
       this.status = (((!this.skillsetLabels) || (!this.skillsetLabels.length)) &&
         ((!this.skillsetData) || (!this.skillsetData.length))) ? 
           'There is no batch data on this status...' : 'Loaded!';
@@ -166,7 +179,15 @@ export class SkillsetComponent implements OnInit {
     // it's a mock, for right now
     return type;
   }
+
   
+  
+  /**
+   * Returns whether or not val is undefined. Used for filtering.
+   * @param val The value to check for not undefined
+   */
+  public isNotUndefined(val) : boolean { return val !== undefined; }
+
   /**
    * Exposing SKILL_INFO in a safe way
    */

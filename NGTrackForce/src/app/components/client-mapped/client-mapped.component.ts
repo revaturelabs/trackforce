@@ -7,9 +7,9 @@ import { ClientMappedService } from '../../services/client-mapped-service/client
   styleUrls: ['./client-mapped.component.css']
 })
 export class ClientMappedComponent implements OnInit {
-  public selectedStatus='Reserved'; //Pass this in from the service
+  public selectedStatus='Selected'; //Pass this in from the service
   
-  public statusID = 0;
+  public statusID;
   public chartType: String;
   public clientMappedLabels: string[];
   public clientMappedData: number[];
@@ -17,11 +17,9 @@ export class ClientMappedComponent implements OnInit {
   public chartLegend:boolean;
   public chartOptions:any;
 
-  
-
-  constructor(
-    private clientMappedService: ClientMappedService
-  ) { }
+  constructor(private clientMappedService: ClientMappedService) {
+    var id=window.location.href.split("form-comp/")[1];
+  }
 
   ngOnInit() {
     console.log("Inisde ngOnInit");
@@ -29,65 +27,35 @@ export class ClientMappedComponent implements OnInit {
     //Initialize the chart to type 'bar'
     this.changeChartType('bar');
     
-    this.statusID=0;
-		if(this.selectedStatus=='Training'){
-			this.statusID=1;
-		} else if(this.selectedStatus=='Reserved'){
-			this.statusID=2;
-		} else if (this.selectedStatus=='Selected'){
-			this.statusID=3;
-		} else if (this.selectedStatus=='Confirmed'){
-			this.statusID=4;
-    }
-    
-     //Hardcoded data, NO http request
-     let temp_clientMappedLabels: string[] = [];
-     let temp_clientMappedData: number[] = [];
-     temp_clientMappedLabels.push("Name 1"); 
-     temp_clientMappedLabels.push("Name 2"); 
-     temp_clientMappedLabels.push("Name 3");
-     temp_clientMappedLabels.push("Name 4");
-     temp_clientMappedData.push(100); 
-     temp_clientMappedData.push(500);
-     temp_clientMappedData.push(300);
-     temp_clientMappedData.push(200);
-     this.clientMappedData = temp_clientMappedData;
-     this.clientMappedLabels = temp_clientMappedLabels;
-     this.clientMappedDataSet = [
-       {data:temp_clientMappedData}
-     ];
-    // console.log("about to make a http");
-    // this.clientMappedService.getAssociatesByStatus().subscribe( data => {
-    //   console.log("made http request");
-    //   let temp_clientMappedLabels: string[] = [];
-    //   let temp_clientMappedData: number[] = [];
+    console.log("about to make a http");
 
-    //   //Hardcoded data
-    //   temp_clientMappedLabels.push("Name 1"); 
-    //   temp_clientMappedLabels.push("Name 2"); 
-    //   temp_clientMappedLabels.push("Name 3");
-    //   temp_clientMappedLabels.push("Name 4");
-    //   temp_clientMappedData.push(100); 
-    //   temp_clientMappedData.push(500);
-    //   temp_clientMappedData.push(300);
-    //   temp_clientMappedData.push(200);
+    //Fetch the statusId to be displayed from the URL
+    //For now, parse out the desired number
+    //To-Do: Use "Activated Routes" to fetch the value 
+    this.statusID = window.location.href.split('client-mapped/')[1];
+    console.log("this.statusID = " + this.statusID);
+    this.clientMappedService.getAssociatesByStatus(this.statusID).subscribe( data => {
+      console.log("made http request");
+      let temp_clientMappedLabels: string[] = [];
+      let temp_clientMappedData: number[] = [];
+      console.log(data);
 
-      // for(let d in data) {
-      //   const temp_name = data[d].name;
-      //   const temp_count = data[d].count;
-      //   if(temp_count > 0){
-      //     if(data[d].name == ""){
-      //       console.log('Name is empty');
-      //       temp_clientMappedLabels.push("Empty Name");
-      //     } else {
-      //       temp_clientMappedLabels.push(data[d].name);
-      //     }
-      //     temp_clientMappedData.push(data[d].count);
-      //   }
-      // }
-    //   this.clientMappedData = temp_clientMappedData;
-    //   this.clientMappedLabels = temp_clientMappedLabels;
-    // })
+      for(let d in data) {
+        const temp_name = data[d].name;
+        const temp_count = data[d].count;
+        if(temp_count > 0){
+          if(data[d].name == ""){
+            console.log('Name is empty');
+            temp_clientMappedLabels.push("Empty Name");
+          } else {
+            temp_clientMappedLabels.push(data[d].name);
+          }
+          temp_clientMappedData.push(data[d].count);
+        }
+      }
+      this.clientMappedData = temp_clientMappedData;
+      this.clientMappedLabels = temp_clientMappedLabels;
+    })
   }
 
   /**

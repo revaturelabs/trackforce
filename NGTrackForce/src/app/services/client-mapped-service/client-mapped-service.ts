@@ -6,10 +6,15 @@ import { environment}  from '../../../environments/environment'
  */
 @Injectable()
 export class ClientMappedService {
-  private statusID = 1; //Initialize to 'Trainer' for now
   constructor(private http: HttpClient) { }
 
-  getAssociatesByStatus() {
-    return this.http.get(environment.url + 'TrackForce/track/client/'+ this.statusID);
+  /**
+   * 
+   * @param statusId 
+   */
+  getAssociatesByStatus(statusId) {
+    console.log("Inside ClientMappedService");
+    console.log("statudId: " + statusId);
+    return this.http.get(environment.url + 'TrackForce/track/client/'+ statusId);
   }
 }

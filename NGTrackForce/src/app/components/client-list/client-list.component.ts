@@ -29,8 +29,6 @@ export class ClientListComponent implements OnInit {
   public barChartLegend: boolean = true;
   public barChartColors: Array<Color> = ThemeConstants.BAR_COLORS
 
-  chartsSeries = [{ '#59504c': 'Mapped' }, { '#e85410': 'Unmapped' }];
-
   public barChartOptions: any = {
     display: true,
     position: 'right',

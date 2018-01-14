@@ -166,7 +166,7 @@ public class AssociateService {
 			List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates(session);
 			Set<AssociateInfo> associateInfos = new TreeSet<>();
 			for (TfAssociate tfAssociate : tfAssociates) {
-				if (tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
+				if (tfAssociate.getTfMarketingStatus() == null || tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
 						|| tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
 					continue;
 				}

@@ -14,13 +14,20 @@
 			<canvas baseChart
 				id="skillset"
 				class="chart chart-bar"
+				*ngIf="skillsetData && skillsetData.length && skillsetLabels && skillsetLabels.length; else noData"
 				[chartType]="chartType"
-				[datasets]="skillsetData"
+				[data]="skillsetData"
 				[labels]="skillsetLabels"
 				[colors]="batchColors"
 				[options]="chartOptions"
 				>
 			</canvas>
+			<ng-template #noData>
+				<div class="centerBoth">
+					{{status}}
+				</div>
+				
+			</ng-template>
 		</div>
 	</div>
 </div>

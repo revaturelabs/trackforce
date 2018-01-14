@@ -73,7 +73,6 @@ export class BatchListComponent implements OnInit {
   public applySelectedRange() {
     if (this.startDate && this.endDate) {
       this.updateBatches();
-      this.updateCountPerCurriculum();
     }
   }
 
@@ -95,6 +94,7 @@ export class BatchListComponent implements OnInit {
             return 0;
           }
         );
+        this.updateCountPerCurriculum();
       },
       console.error
     );

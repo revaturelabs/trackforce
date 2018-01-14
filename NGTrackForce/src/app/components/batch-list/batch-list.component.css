@@ -10,6 +10,7 @@ form {
 
 thead {
   display: block;
+  overflow-y: scroll;
 }
 tbody {
   /* width: max-content; */
@@ -24,8 +25,8 @@ tbody {
 }
 
 .table-row {
-  margin-left: -70px;
-  margin-right: -70px;
+  display: flex;
+  flex-grow: 1;
 }
 
 .mcolumn.left {
@@ -40,4 +41,25 @@ tbody {
 
 form > div {
   display: inline-block;
+}
+
+.name-column {
+  width: 50%;
+}
+
+.date-column {
+  width: 25%;
+}
+
+
+@media screen and (max-width: 1000px) {
+  .table-width-adjust {
+    width: 100% !important;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
+.max-width {
+  display: flex;
 }

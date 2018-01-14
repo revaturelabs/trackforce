@@ -6,6 +6,10 @@ body{
 .footer {
 	background-color: #4b4b4b;
 	color: #aaaaaa;
+	left: 0;
+    bottom: 0;
+    width: 100%;
+    overflow:hidden;
 }
 .footer-img{
 	margin-top: 20px;
@@ -13,6 +17,11 @@ body{
 .custom-nav{
 	background-color: #ffffff;
 }
+
+.nav{
+	overflow: hidden;
+}
+
 .navbar-default .navbar-nav > li > a, .navbar-header > .navbar-brand {
 	margin-top: 20px;
 	color: #9e9e9e;

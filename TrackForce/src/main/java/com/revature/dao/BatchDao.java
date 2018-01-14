@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import com.revature.entity.TfBatch;
 
 /**
@@ -17,12 +19,14 @@ public interface BatchDao {
      * @param todate - The ending date of the search range.
      * @return - A list of batches within the given dates.
      */
-    public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate) throws IOException;
+	List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate, Session session) throws IOException;
 
     /**
      * Gets a singular batch of the given name.
      * @param batchName - The name of the batch to retrieve.
      * @return - A batch object that represents the retrieve batch.
      */
-    public TfBatch getBatch(String batchName) throws IOException;
+
+	TfBatch getBatch(String batchName, Session session) throws IOException;
+
 }

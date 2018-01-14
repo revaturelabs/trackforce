@@ -2,8 +2,9 @@ package com.revature.services;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -163,7 +164,7 @@ public class AssociateService {
 		Transaction tx = session.beginTransaction();
 		try {
 			List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates(session);
-			List<AssociateInfo> associateInfos = new ArrayList<>();
+			Set<AssociateInfo> associateInfos = new TreeSet<>();
 			for (TfAssociate tfAssociate : tfAssociates) {
 				if (tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
 						|| tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {

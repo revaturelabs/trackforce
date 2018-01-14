@@ -69,9 +69,9 @@ public class ClientDaoImpl implements ClientDao {
 				cq.from(TfClient.class);
 				clients = session.createQuery(cq).getResultList();
 				for (TfClient client : clients) {
-					Hibernate.initialize(client.getTfClientId());
-					Hibernate.initialize(client.getTfClientName());
-					Hibernate.initialize(client.getTfAssociates());
+					client.getTfClientId();
+					client.getTfClientName();
+					client.getTfAssociates();
 				}
 			}
 		return clients;

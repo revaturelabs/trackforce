@@ -83,25 +83,26 @@ export class ClientMappedComponent implements OnInit {
 
   //Run on initialization
   ngOnInit() {
-    //Initialize the chart to type 'bar'
-    this.changeChartType('bar');
-
     //Fetch the statusId from the URL. Used to fetch and display data 
     //For now, parse out the desired number
     //To-Do: Use "Activated Routes" to fetch the value 
     this.statusID = window.location.href.split('client-mapped/')[1];
-    
+    this.statusID = Number(this.statusID) + 1; //Adjust the statud id. Values passed in are off by 1.
     //Initialize 'selectedStatus' to correct string. 
-    if(Number(this.statusID) == 0) {
+    if(Number(this.statusID) == 1) {
       this.selectedStatus = "Training";
-    } else if(Number(this.statusID) == 1) {
-      this.selectedStatus = "Reserved";
     } else if(Number(this.statusID) == 2) {
-      this.selectedStatus = "Selected";
+      this.selectedStatus = "Reserved";
     } else if(Number(this.statusID) == 3) {
+      this.selectedStatus = "Selected";
+    } else if(Number(this.statusID) == 4) {
       this.selectedStatus = "Confirmed";
     }
 
+    //Initialize the chart to type 'bar'
+    this.changeChartType('bar');
+
+    // hardcoded data. Backend is messed up
     let temp_clientMappedLabels: string[] = [];
     let temp_clientMappedData: number[] = [];
     temp_clientMappedLabels.push("Name 1"); 
@@ -118,10 +119,10 @@ export class ClientMappedComponent implements OnInit {
     temp_clientMappedData.push(300);
     temp_clientMappedData.push(200);
     temp_clientMappedData.push(400);
-    temp_clientMappedData.push(400);
-    temp_clientMappedData.push(400);
-    temp_clientMappedData.push(400);
-    temp_clientMappedData.push(400);
+    temp_clientMappedData.push(700);
+    temp_clientMappedData.push(300);
+    temp_clientMappedData.push(100);
+    temp_clientMappedData.push(200);
     this.clientMappedData = temp_clientMappedData;
     this.clientMappedLabels = temp_clientMappedLabels;
     this.clientMappedDataSet = [
@@ -130,6 +131,7 @@ export class ClientMappedComponent implements OnInit {
         backgroundColor: ThemeConstants.CLIENT_COLORS 
       }
     ]
+
 
     // HTTP request to fetch data. See client-mapped-service 
     // this.clientMappedService.getAssociatesByStatus(this.statusID).subscribe( data => {
@@ -188,22 +190,42 @@ export class ClientMappedComponent implements OnInit {
 	public changeChartType(selectedType){
     console.log("Changing Chart Type!")
     this.chartType = selectedType;
-   
+
+    //For a 'bar' chart type, don't print legend
     if(selectedType == 'bar') {
-      this.chartLegend = false;
       this.chartOptions = {
         xAxes:[{ticks:{autoSkip:false}}],scales: {yAxes: [{ticks: {min: 0}}]},
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          text: this.selectedStatus,
+          fontSize: 24,
+          fontColor: '#121212'
+        },
+        maintainAspectRatio: true
       };
     }
+    //If a 'pie' or 'polarArea' chart type, print the legend
     else if(selectedType == 'pie' || selectedType == 'polarArea'){
-      this.chartLegend = true;
       this.chartOptions = {
-        xAxes:[{ticks:{autoSkip:false}}]
+        xAxes:[{ticks:{autoSkip:false}}], 
+        legend: {
+          display: true,
+          position: 'right'
+        },
+        title: {
+          display: true,
+          text: this.selectedStatus,
+          fontSize: 24,
+          fontColor: '#121212'
+        }, 
+        maintainAspectRatio: true
       }
     }
-	}
-
-
+  }
+  
   //Placeholder for events. Current application specifications does not dictate any actions
   public chartClicked(e:any):void {
     console.log(e);

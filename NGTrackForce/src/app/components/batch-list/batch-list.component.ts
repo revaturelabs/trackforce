@@ -42,24 +42,17 @@ export class BatchListComponent implements OnInit {
   constructor(private batchService: BatchService) {
   }
 
-  refreshChart2() {
-    this.curriculumCounts.slice();
-    console.log("nice");
-  }
-
-  refreshChart = function () {
-    console.log("refresh-me!!!");
-    this.refresh();   // the 'this' here references the chart object being refreshed/re-rendered
-  };
-
   /**
    * load default batches on initialization
    */
   ngOnInit() {
+    const startTime = Date.now();
     this.batchService.getDefaultBatches().subscribe(
       (batches) => {
         this.batches = batches;
         this.updateCountPerCurriculum();
+        const elapsed = Date.now() - startTime;
+        console.log("Time", elapsed / 1000.0);
       },
       console.error
     );

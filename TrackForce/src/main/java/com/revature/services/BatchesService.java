@@ -69,7 +69,7 @@ public class BatchesService {
 		Transaction tx = session.beginTransaction();
 		try {
 			BatchDaoHibernate batchDao = new BatchDaoHibernate();
-			List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
+			List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate), session);
 			Map<String, Integer> curriculumData = new HashMap<>();
 			List<String> curriculums = new ArrayList<>();
 			List<Map<String, Object>> chartData = new ArrayList<>();
@@ -127,7 +127,7 @@ public class BatchesService {
 		Transaction tx = session.beginTransaction();
 		try {
 			BatchDaoHibernate batchDao = new BatchDaoHibernate();
-			TfBatch batch = batchDao.getBatch(batchName);
+			TfBatch batch = batchDao.getBatch(batchName, session);
 			
 			session.flush();
 			tx.commit();
@@ -162,7 +162,7 @@ public class BatchesService {
 		Transaction tx = session.beginTransaction();
 		try {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
-		TfBatch selectedBatch = batchDao.getBatch(batchName);
+		TfBatch selectedBatch = batchDao.getBatch(batchName, session);
 		int unmappedCount = 0;
 		int mappedCount = 0;
 		for (TfAssociate associate : selectedBatch.getTfAssociates()) {
@@ -212,7 +212,7 @@ public class BatchesService {
 		Transaction tx = session.beginTransaction();
 		try {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
-		List<TfBatch> list = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
+		List<TfBatch> list = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate), session);
 
 		for (TfBatch batch : list) {
 			BatchInfo info = batchToInfo(batch);
@@ -253,7 +253,7 @@ public class BatchesService {
 		Transaction tx = session.beginTransaction();
 		try {
 		BatchDaoHibernate batchDao = new BatchDaoHibernate();
-		TfBatch batch = batchDao.getBatch(batchName);
+		TfBatch batch = batchDao.getBatch(batchName, session);
 
 		for (TfAssociate associate : batch.getTfAssociates()) {
 

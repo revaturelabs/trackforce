@@ -56,13 +56,14 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public List<TfClient> getAllTfClients(Session session) throws HibernateException, IOException {
 		if (clients == null || clients.isEmpty()) {
+
 			CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
 			cq.from(TfClient.class);
 			clients = session.createQuery(cq).getResultList();
 			for (TfClient client : clients) {
-				Hibernate.initialize(client.getTfClientId());
-				Hibernate.initialize(client.getTfClientName());
-				Hibernate.initialize(client.getTfAssociates());
+				client.getTfClientId();
+				client.getTfClientName();
+				client.getTfAssociates();
 			}
 		}
 		return clients;

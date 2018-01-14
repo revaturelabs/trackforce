@@ -12,6 +12,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfClient;
@@ -33,7 +34,9 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public TfClient getClient(String name) throws IOException {
 		TfClient client;
-		Session session = HibernateUtil.getSession().getCurrentSession();
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		
 		try {
 
 			CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -53,15 +56,15 @@ public class ClientDaoImpl implements ClientDao {
 			}
 		} finally {
 			session.flush();
+			tx.commit();
 			session.close();
 		}
 		return client;
 	}
 
 	@Override
-	public List<TfClient> getAllTfClients() throws HibernateException, IOException {
+	public List<TfClient> getAllTfClients(Session session) throws HibernateException, IOException {
 		if (clients == null || clients.isEmpty()) {
-			try (Session session = HibernateUtil.getSession().openSession()) {
 				CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
 				cq.from(TfClient.class);
 				clients = session.createQuery(cq).getResultList();
@@ -71,7 +74,6 @@ public class ClientDaoImpl implements ClientDao {
 					Hibernate.initialize(client.getTfAssociates());
 				}
 			}
-		}
 		return clients;
 	}
 

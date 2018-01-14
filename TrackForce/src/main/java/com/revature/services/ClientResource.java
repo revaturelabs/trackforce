@@ -48,7 +48,7 @@ public class ClientResource {
 		Session session = HibernateUtil.getSession().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			List<TfClient> clients = clientDaoImpl.getAllTfClients();
+			List<TfClient> clients = clientDaoImpl.getAllTfClients(session);
 			List<Map<String, Object>> entity = new ArrayList<>();
 			for (TfClient client : clients) {
 				if (!client.getTfAssociates().isEmpty()) {
@@ -84,10 +84,10 @@ public class ClientResource {
 	@Path("all")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getAllClients() throws IOException {
-		List<TfClient> clients = clientDaoImpl.getAllTfClients();
 		Session session = HibernateUtil.getSession().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
+			List<TfClient> clients = clientDaoImpl.getAllTfClients(session);
 			List<Map<String, Object>> entity = new ArrayList<>();
 			for (TfClient client : clients) {
 				Map<String, Object> map = new HashMap<>();

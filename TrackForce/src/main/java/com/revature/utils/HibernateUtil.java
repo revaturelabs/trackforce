@@ -6,6 +6,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.Properties;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -33,7 +34,7 @@ public class HibernateUtil {
 	 * @return a new SessionFactory object from hibernate.cfg.xml
 	 * @throws IOException
 	 */
-	private static SessionFactory buildSessionFactory() throws IOException {
+	private static SessionFactory buildSessionFactory(Configuration conf) throws IOException {
 		LogUtil.logger.info("Starting connection pool...");
 		SessionFactory sf;
 		StandardServiceRegistryBuilder builder;
@@ -45,9 +46,6 @@ public class HibernateUtil {
 
 			// initialize datasource
 			dscpi.setDataSource(DataSourceConfig.getDatasource());
-			
-			// initialize configurations
-			Configuration conf = new Configuration().configure();
 			
 			// Register Entities
 			// registerEntities(conf);
@@ -77,16 +75,37 @@ public class HibernateUtil {
 
 	/**
 	 * Returns the SessionFactory stored in the HibernateUtil class.
+	 * @param props 
+	 * 
+	 * @return the SessionFactory stored in HibernateUtil.
+	 * @throws IOException
+	 */
+	public static SessionFactory getSession(Properties props) throws IOException {
+		if (sessionfact == null) {
+			// initialize configurations
+			Configuration conf = new Configuration().configure();
+			conf.setProperties(props);
+			sessionfact = buildSessionFactory(conf);
+		}
+		return sessionfact;
+	}
+
+	/**
+	 * Returns the SessionFactory stored in the HibernateUtil class.
+	 * @param props 
 	 * 
 	 * @return the SessionFactory stored in HibernateUtil.
 	 * @throws IOException
 	 */
 	public static SessionFactory getSession() throws IOException {
-		if (sessionfact == null)
-			sessionfact = buildSessionFactory();
+		if (sessionfact == null) {
+			Configuration conf = new Configuration().configure();
+			conf.setProperty("hibernate.hbm2.ddl-auto", "validate");
+			sessionfact = buildSessionFactory(conf);
+		}
 		return sessionfact;
 	}
-
+	
 	/**
 	 * Closes the SessionFactory in HibernateUtil.
 	 * 
@@ -96,7 +115,7 @@ public class HibernateUtil {
 		if (sessionfact != null) {
 			sessionfact.close();
 			// This manually deregisters JDBC driver, which prevents Tomcat 7 from
-			// complaining about memory leaks wrto this class
+			// complaining about memory leaks to this class
 			Enumeration<Driver> drivers = DriverManager.getDrivers();
 			while (drivers.hasMoreElements()) {
 				Driver driver = drivers.nextElement();

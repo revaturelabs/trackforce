@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AssociateListComponent } from './components/associate-list/associate-list.component';
 import { BatchListComponent } from './components/batch-list/batch-list.component';
+import { FormComponent } from './components/form-component/form.component';
 import { ClientMappedComponent } from './components/client-mapped/client-mapped.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { LoginComponent } from './components/login/login.component';
@@ -24,6 +25,8 @@ import { ClientListComponent } from './components/client-list/client-list.compon
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { RootComponent } from './components/root/root.component';
+import { SkillsetComponent } from './components/skillset/skillset.component';
+import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 
 ///
 //  SERVICES
@@ -53,7 +56,6 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 //  CONSTANTS
 ///
 import { appRoutes } from './routing/routes';
-import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 
 @NgModule({
   declarations: [
@@ -64,12 +66,14 @@ import { BatchDetailsComponent } from './components/batch-details/batch-details.
     AssociateSearchByTextFilter,
     BatchListComponent,
     ClientMappedComponent,
+    FormComponent,
     ClientListComponent,
     LoginComponent,
     CreateUserComponent,
     SearchFilterPipe,
     BatchDetailsComponent,
-    RootComponent
+    RootComponent,
+    SkillsetComponent
   ],
   imports: [
     BrowserModule,
@@ -87,6 +91,7 @@ import { BatchDetailsComponent } from './components/batch-details/batch-details.
     RequestService,
     SkillsetService,
     BatchService,
+    SkillsetService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

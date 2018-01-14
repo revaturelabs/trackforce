@@ -4,6 +4,7 @@
  */
 
 import { RouterModule, Routes } from '@angular/router';
+import {FormComponent} from "../components/form-component/form.component";
 import { HomeComponent } from '../components/home/home.component';
 import { ClientListComponent } from '../components/client-list/client-list.component';
 import { LoginComponent } from '../components/login/login.component';
@@ -37,7 +38,7 @@ export const appRoutes: Routes = [
     component: ClientListComponent
   },
     {
-        path: 'client-mapped',
+        path: 'client-mapped/:id',
         component: ClientMappedComponent
     },
     {
@@ -49,6 +50,10 @@ export const appRoutes: Routes = [
         component: BatchListComponent
     },
     {
+        path: 'form-comp/:id',
+        component: FormComponent
+    },
+    {
         path: 'create-user',
         component: CreateUserComponent
     },
@@ -57,12 +62,8 @@ export const appRoutes: Routes = [
         component: RootComponent
     },
     {
-        path      : 'skillset/:id',
-        component : SkillsetComponent 
-    },
-    {
-        path      : '**',
-        redirectTo: '/home'
+        path: 'skillset/:id',
+        component: SkillsetComponent
     }
 
 ]

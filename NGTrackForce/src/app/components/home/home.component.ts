@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestService } from '../../services/request-service/request.service';
-import { GlobalsService } from '../../services/globals-service/globals.service';
 import { ChartsModule, Color } from 'ng2-charts';
 
 import 'rxjs/add/operator/map';
@@ -111,6 +110,11 @@ export class HomeComponent {
   constructor(private rs: RequestService, private rout: Router) { }
 
   ngOnInit() {
+    this.load();
+  }
+
+  load() {
+    console.log("LOADING...");
     this.rs.getInfo().subscribe(response => {
 
       /**
@@ -174,6 +178,7 @@ export class HomeComponent {
       let deployedArr = [response.deployedMapped,
       response.deployedUnmapped];
       this.deployedData = deployedArr;
+      console.log("LOADED");
     });
   }
 
@@ -187,8 +192,10 @@ export class HomeComponent {
 * clientMapped.html partial.
 */
   mappedOnClick(evt: any) {
-    if (evt.active[0] != undefined)
-      this.rout.navigate([`clientMapped/${evt.active[0]._model.label}`]);
+    if (evt.active[0] != undefined) {
+      console.log(evt.active[0]);
+      this.rout.navigate([`client-mapped/${evt.active[0]._index}`]);
+    }
   };
   /**
    * @function UnmappedOnClick
@@ -200,8 +207,10 @@ export class HomeComponent {
    * skillset.html partial.
    */
   unmappedOnClick(evt: any) {
-    if (evt.active[0] != undefined)
-      this.rout.navigate([`skillset/${evt.active[0]._model.label}`]);
+    if (evt.active[0] != undefined) {
+      console.log(evt.active[0]);
+      this.rout.navigate([`skillset/${evt.active[0]._index}`]);
+    }
   }
 
   /**
@@ -210,14 +219,13 @@ export class HomeComponent {
    *              data script
    */
   populateDB() {
-    this.rs.populateDB().map(response => {
-      this.dbMessage = response.data;
-      this.myStatus = response.status;
-    }).map(response => {
-      window.location.reload();
-    }).subscribe(response => {
-      console.log(this.myStatus);
-      console.log(this.dbMessage);
+    console.log("POPULATING DB...");
+    this.rs.populateDB().subscribe(response => {
+      console.log("POPULATED DB");
+      this.load();
+      // console.log(response.status);
+    }, err => {
+      console.log("err");
     });
   }
 
@@ -227,12 +235,13 @@ export class HomeComponent {
    * @description Truncates all the tables in the database
    */
   deleteDB() {
-    this.rs.deleteDB().map(response => {
-      this.myStatus = response.status;
-      this.dbMessage = response.data;
-    }).subscribe(response => {
-      console.log(this.myStatus);
-      console.log(this.dbMessage);
+    console.log("TRUNCATING...");
+    this.rs.deleteDB().subscribe(response => {
+      console.log("TRUNCATED");
+      this.load();
+      // console.log(response.status);
+    }, err => {
+      console.log("err");
     })
   }
 
@@ -243,15 +252,14 @@ export class HomeComponent {
    *              from data script
    */
   populateDBSF() {
-    this.rs.populateDBSF().map(response => {
-      this.myStatus = response.status;
-      this.dbMessage = response.data;
-    }).map(response => {
-      window.location.reload();
-    }).subscribe(response => {
-      console.log(this.myStatus);
-      console.log(this.dbMessage);
-    })
+    console.log("POPULATING SF...");
+    this.rs.populateDBSF().subscribe(response => {
+      console.log("POPULATED SF");
+      this.load();
+      // console.log(response.status);
+    }, err => {
+      console.log("err");
+    });
   }
 
   /**
@@ -261,15 +269,6 @@ export class HomeComponent {
    */
   initForce() {
     this.rs.initForce();
-  }
-
-  /**
-   * @function Refresh
-   * @memberof mainApp.databaseCtrl
-   * @description Used to refresh the page for the database button functions
-   */
-  refresh() {
-    window.location.reload();
   }
 
   /**

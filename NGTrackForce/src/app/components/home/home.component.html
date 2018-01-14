@@ -14,9 +14,9 @@
            </div>
           </div>
       <div class="col-sm-3">
-        <button class="btn btn-block">Populate Database</button>
-        <button (click)="populateDBSF();"class="btn btn-block">Populate Static Salesforce</button>
-        <button (click)="deleteDB(); initForce(); refresh()" class="btn btn-block" >Empty Database</button>
+        <button (click)="populateDB();;"  class="btn btn-block">Populate Database</button>
+        <button (click)="populateDBSF();;" class="btn btn-block">Populate Static Salesforce</button>
+        <button (click)="deleteDB();" class="btn btn-block" >Empty Database</button>
         <p>{{dbMessage}}</p>
   
       </div>

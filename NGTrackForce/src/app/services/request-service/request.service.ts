@@ -23,7 +23,7 @@ export class RequestService {
   }
 
   public deleteDB(): Observable<any> {
-    return this.http.delete(this.host + 'TrackForce/track/database/deleteDB');
+    return this.http.delete(this.host + 'TrackForce/track/database/deleteFromDB');
   }
 
   public login(username: string, password: string): Observable<any> {

@@ -26,7 +26,7 @@ export class BatchListComponent implements OnInit {
   batches: Batch[];
   curriculumNames: string[];
   curriculumCounts: number[];
-  batchColors: string[] = ThemeConstants.BATCH_COLORS;
+  batchColors = ThemeConstants.BATCH_COLORS;
 
   chartOptions = {
     legend: {

@@ -6,6 +6,7 @@ import { SkillsetService } from '../../services/skill-set-service/skill-set.serv
 import { NgZone } from '@angular/core';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-skillset',
@@ -80,26 +81,29 @@ export class SkillsetComponent implements OnInit {
    * The color scheme for the charts of this component 
    */
   batchColors = ThemeConstants.BATCH_COLORS;
-  
+  /**
+   * The sentry id for a status that doesn't exist
+   */
+  public static NULL = -1;
+
   constructor(private skillsetService : SkillsetService, 
-      private route : ActivatedRoute,
-      private zone : NgZone) {
+      private route  : ActivatedRoute,
+      private router : Router) {
     // setup SKILL_INFO
     if (!SkillsetComponent.SKILL_INFO) {
       SkillsetComponent.SKILL_INFO = new Map();
-      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.TRAINING, 6);
-      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.OPEN, 7);
-      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.SELECTED, 8);
-      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.CONFIRMED, 9);
-      SkillsetComponent.SKILL_INFO.set('', 0);
+      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.TRAINING, 0);
+      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.OPEN, 1);
+      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.SELECTED, 2);
+      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.CONFIRMED, 3);
     }
   }
   
   ngOnInit(): void {
     // get skillID
-    this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || 0;
+    this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || SkillsetComponent.NULL;
     // if we didn't get skillID from selectedStatus...
-    if (!this.skillID)
+    if (this.skillID === SkillsetComponent.NULL)
     {
       // we get it from the ActivatedRoute params
       this.skillID = Number(this.route.snapshot.paramMap.get('id'));
@@ -107,11 +111,16 @@ export class SkillsetComponent implements OnInit {
       SkillsetComponent.SKILL_INFO.forEach((value, key) => { 
         if (value === this.skillID) this.selectedStatus = key;
       })
+      // if there is empty string, simply go home
+      if (!this.selectedStatus)
+      {
+        // this.route.snapshot.
+      }
     }
     // get the skillset data here
-    this.skillsetService.getSkillsetsForStatusID(this.skillID).subscribe((res) => {
+    this.skillsetService.getSkillsetsForStatusID(this.skillID).subscribe((data) => {
       // copy in the raw data into local variable
-      let skillsets : Array<any> = res.data;
+      let skillsets : Array<any> = data;
       // map() that variable into skillsetData,skillsetLabels
       this.skillsetData  = skillsets.map((obj) => {if (obj.count) return obj.count}).filter((val) => val !== undefined);
       this.skillsetLabels= skillsets.map((obj) => {if (obj.count) return obj.name}).filter((val) => val !== undefined);

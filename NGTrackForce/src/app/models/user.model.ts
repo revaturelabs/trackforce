@@ -8,5 +8,5 @@
      passwordHash: String;
      tfRoleId: number;
      userId: number;
+     token: string;
  }
- 

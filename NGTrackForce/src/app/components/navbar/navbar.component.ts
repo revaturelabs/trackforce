@@ -13,13 +13,11 @@ export class NavbarComponent implements OnInit {
   user: User;
   isAdmin: boolean;
   isAssociate: boolean;
-  u: string;
 
   constructor(private router: Router, private authService: AuthenticationService) { }
 
   ngOnInit() {
-    this.u = this.authService.getUser();
-    this.user = JSON.parse(this.u);
+    this.user = this.authService.getUser();
 
     if(this.user.tfRoleId === 1){
       this.isAdmin = true;

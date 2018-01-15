@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 
-<div class="container" ng-init="getAvailableClients(); onLoad(); getAllAssociates()">
+<div class="container">
   <div class="form-group">
     <div class="row">
       <div class="col-sm-6">
@@ -67,7 +67,7 @@
               <td class="edit">
                 <input type="checkbox" id={{associate.id}}>
               </td>
-              <td class="id">{{associate.id}}</td>
+              <a href="form-comp/{{associate.id}}" class="id">{{associate.id}}</a>
               <td class="first">{{associate.firstName}}</td>
               <td class="last">{{associate.lastName}}</td>
               <td class="status">{{associate.marketingStatus}}</td>
@@ -80,14 +80,14 @@
         </table>
       </div>
     </div>
-    <div class="form-group"style="float:bottom;">
+    <div class="form-group" style="float:bottom;">
       <div class="row">
         <div class="col-sm-4">
           <br>
           <label for="uStatus">Update by Marketing Status: </label>
           <select class="form-control" id="uStatus" [(ngModel)]="updateStatus">
             <option label=""></option>
-            <option value="1" >MAPPED: TRAINING</option>
+            <option value="1">MAPPED: TRAINING</option>
             <option value="2">MAPPED: RESERVED</option>
             <option value="3">MAPPED: SELECTED</option>
             <option value="4">MAPPED: CONFIRMED</option>
@@ -109,10 +109,11 @@
           </select>
         </div>
         <div class="col-sm-2">
-          <br><br>
+          <br>
+          <br>
           <button id="submit" (click)="updateAssociates()" class="btn">Update</button>
         </div>
         <div class="col-sm-2"></div>
       </div>
     </div>
-</div>
+  </div>

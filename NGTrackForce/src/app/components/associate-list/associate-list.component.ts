@@ -3,11 +3,13 @@ import { AssociateService } from '../../services/associates-service/associates-s
 import { Associate } from '../../models/associate.model';
 import { ClientListService } from '../../services/client-list-service/client-list.service';
 import { Client } from '../../models/client.model';
+import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 
 /**
  * Component for the Associate List page
  * @author Alex, Xavier
  */
+@AutoUnsubscribe
 @Component({
   selector: "app-associate-list",
   templateUrl: "./associate-list.component.html",
@@ -54,7 +56,6 @@ export class AssociateListComponent implements OnInit {
    * Set our array of all associates
    */
   getAllAssociates() {
-    console.log("getting the associates")
     let self = this;
     this.associateService.getAllAssociates().subscribe(data => {
       this.associates = data;

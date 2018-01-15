@@ -145,7 +145,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Must be installed manually -->  
+		<!-- Must be installed manually -->
 		<dependency>
 			<groupId>com.oracle.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>

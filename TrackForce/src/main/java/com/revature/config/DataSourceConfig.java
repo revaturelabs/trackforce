@@ -64,9 +64,9 @@ public class DataSourceConfig {
     public static DataSource getDatasource() {
         DataSource ds = new DataSource();
         // these were previously set in the init function
-        ds.setUrl(props.getProperty(URL_KEY));
-        ds.setUsername(props.getProperty(USERNAME_KEY));
-        ds.setPassword(props.getProperty(PASSWORD_KEY));
+        ds.setUrl(getUrl());
+        ds.setUsername(getUsername());
+        ds.setPassword(getPassword());
 
         ds.setDriverClassName(props.getProperty("tf.driver-class"));
         ds.setMaxActive(Integer.parseInt(props.getProperty("tomcat.jdbc.max-active", "10")));
@@ -77,15 +77,23 @@ public class DataSourceConfig {
         return ds;
     }
 
+    /**
+     * gets password from already initilized prop object
+     * @return
+     */
     public static String getPassword() {
-        return "caleb"; 
+        return props.getProperty(PASSWORD_KEY); 
     }
 
+    /**
+     * gets password from
+     * @return
+     */
     public static String getUsername() {
-        return "admin"; 
+        return props.getProperty(USERNAME_KEY); 
     }
 
     public static String getUrl() {
-        return "jdbc:oracle:thin:@localhost:1521:xe"; 
+        return props.getProperty(URL_KEY); 
     }
 }

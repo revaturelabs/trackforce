@@ -3,6 +3,7 @@ package com.revature.test;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import org.hibernate.Session;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -12,6 +13,7 @@ import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfMarketingStatus;
+import com.revature.utils.HibernateUtil;
 
 public class testAssociateDaoHibernate {
 
@@ -20,11 +22,12 @@ public class testAssociateDaoHibernate {
         AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
         ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
         MarketingStatusDaoHibernate marketingStatusDaoHibernate = new MarketingStatusDaoHibernate();
+        Session session = HibernateUtil.getSession().openSession();
+        
+        TfClient client = clientDaoImpl.getClient(session, "Pitney Bowes");
+        TfMarketingStatus status = marketingStatusDaoHibernate.getMarketingStatus(session, "MAPPED: TRAINING");
 
-        TfClient client = clientDaoImpl.getClient("Pitney Bowes");
-        TfMarketingStatus status = marketingStatusDaoHibernate.getMarketingStatus("MAPPED: TRAINING");
-
-        associateDaoHibernate.updateInfo(new BigDecimal(266), status, client);
+        associateDaoHibernate.updateInfo(session, new BigDecimal(266), status, client);
     }
 
     @Test (enabled=false)

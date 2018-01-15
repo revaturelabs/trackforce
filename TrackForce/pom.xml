@@ -145,15 +145,12 @@
 			<scope>test</scope>
 		</dependency>
 
-
-		<!-- Must be installed manually 
+		<!-- Must be installed manually -->  
 		<dependency>
 			<groupId>com.oracle.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
 			<version>12.2.0.1</version>
 		</dependency>
-		-->
-
 
 		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc -->
 		<dependency>

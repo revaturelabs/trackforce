@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestService } from '../../services/request-service/request.service';
-import { GlobalsService } from '../../services/globals-service/globals.service';
 import { ChartsModule, Color } from 'ng2-charts';
 
 import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
+import {ThemeConstants} from '../../constants/theme.constants';
+import {ChartOptions} from '../../models/ng2-charts-options.model';
+import '../../constants/selected-status.constants';
+import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 
 const MONTHS_3 = 788923800;
 
@@ -27,80 +30,26 @@ export class HomeComponent {
   private data = [];
   private amountType: any;
 
-  private undeployedLabels = ["Mapped", "Unmapped"];
-  private mappedLabels = ['Training', 'Reserved', 'Selected', 'Confirmed'];
-  private unmappedLabels = ['Training', 'Open', 'Selected', 'Confirmed'];
-  private deployedLabels = ['Mapped', 'Unmapped'];
+  private undeployedLabels = SelectedStatusConstants.UNDEPLOYED_LABELS;
+  private mappedLabels = SelectedStatusConstants.MAPPED_LABELS;
+  private unmappedLabels = SelectedStatusConstants.UNMAPPED_LABELS;
+  private deployedLabels = SelectedStatusConstants.DEPLOYED_LABELS;
 
-  private mappedColors: Array<Color> = [{ backgroundColor: ['#ff8d3f', '#514f4f'] }];
-  private clientTheme: Array<Color> = [{ backgroundColor: ['#68a225', '#506d2f', '#324851', '#b3de81', '#7da3a1', '#a2c523', '#6e6702', '#2e4600'] }];
-  private skillTheme: Array<Color> = [{ backgroundColor: ['#004d47', '#00cffa', '#52958b', '#008dcb', '#b2dbd5', '#6eb5c0', '#006c84', '#113743'] }];
+  private mappedColors: Array<Color> = ThemeConstants.MAPPED_COLORS;
+  private clientColors: Array<Color> = ThemeConstants.CLIENT_COLORS;
+  private skillColors: Array<Color> = ThemeConstants.SKILL_COLORS;
 
   deployedChartType = "pie";
   undeployedChartType = "pie";
   mappedChartType = "pie";
   unmappedChartType = "pie";
 
-  private options = {
-    legend: {
-      display: true,
-      position: 'right'
-    }
-  };
+  private options = ChartOptions.createOptionsLegend('right');
 
-  private unmappedOptions = {
-    legend: {
-      display: true,
-      position: 'right'
-    },
-    title: {
-      display: true,
-      text: "Unmapped",
-      fontSize: 24,
-      fontColor: '#121212'
-
-    }
-  };
-
-  private mappedOptions = {
-    legend: {
-      display: true,
-      position: 'right'
-    },
-    title: {
-      display: true,
-      text: 'Mapped',
-      fontSize: 24,
-      fontColor: '#121212'
-    }
-  };
-
-  private deployedOptions = {
-    legend: {
-      display: true,
-      position: 'right'
-    },
-    title: {
-      display: true,
-      text: 'Mapped vs. Unmapped (Deployed)',
-      fontSize: 24,
-      fontColor: '#121212'
-
-    }
-  };
-
-  private undeployedOptions = {
-    legend: {
-      display: true,
-      position: 'right'
-    },
-    title: {
-      display: true,
-      text: 'Mapped vs. Unmapped (Not Deployed)',
-      fontSize: 24,
-      fontColor: '#121212'
-    }
-  };
+  private unmappedOptions = ChartOptions.createOptionsTitle('Unmapped', 24, '#121212', 'right');
+  private mappedOptions = ChartOptions.createOptionsTitle('Mapped', 24, '#121212', 'right');
+  private deployedOptions = ChartOptions.createOptionsTitle('Mapped vs. Unmapped (Deployed)', 24, '#121212', 'right');
+  private undeployedOptions = ChartOptions.createOptionsTitle('Mapped vs. Unmapped (Not Deployed)', 24, '#121212', 'right');
 
   // populate with dummy data to enaable chart labels by default
   private undeployedData: number[] = [0, 0];
@@ -111,12 +60,17 @@ export class HomeComponent {
   constructor(private rs: RequestService, private rout: Router) { }
 
   ngOnInit() {
+    this.load();
+  }
+
+  load() {
+    console.log("LOADING...");
     this.rs.getInfo().subscribe(response => {
 
       /**
        * @member {Array} UndeployedData
        * @memberof mainApp.mainCtrl
-       * @description UndeployedData is an array used to populate the 
+       * @description UndeployedData is an array used to populate the
        * dataset of the Undeployed chart. The dataset contains two numbers:
        * the mapped number is the sum of all mapped associates, the unmapped number
        * is the sum of all unmapped associates.
@@ -134,7 +88,7 @@ export class HomeComponent {
       /**
        * @member {Array} MappedData
        * @memberof mainApp.mainCtrl
-       * @description MappedData is an array that stores the 
+       * @description MappedData is an array that stores the
        * data for the dataset of the Mapped chart.
        * The dataset contains four numbers: training mapped<br>
        * reserved mapped <br>
@@ -150,7 +104,7 @@ export class HomeComponent {
       /**
        * @member {Array} UnmappedData
        * @memberof mainApp.mainCtrl
-       * @description UnmappedData is an array that stores the 
+       * @description UnmappedData is an array that stores the
        * data for the dataset of the Unmapped chart.
        * The dataset contains four numbers: training unmapped<br>
        * open unmapped <br>
@@ -166,7 +120,7 @@ export class HomeComponent {
       /**
        * @member {Array} DeployedData
        * @memberof mainApp.mainCtrl
-       * @description DeployedData is an array used to populate the 
+       * @description DeployedData is an array used to populate the
        * dataset of the Deployed chart. The dataset contains two numbers:
        * the mapped number is the sum of all mapped associates, the unmapped number
        * is the sum of all unmapped associates. Both numbers contain only deployed associates.
@@ -174,6 +128,7 @@ export class HomeComponent {
       let deployedArr = [response.deployedMapped,
       response.deployedUnmapped];
       this.deployedData = deployedArr;
+      console.log("LOADED");
     });
   }
 
@@ -187,8 +142,10 @@ export class HomeComponent {
 * clientMapped.html partial.
 */
   mappedOnClick(evt: any) {
-    if (evt.active[0] != undefined)
-      this.rout.navigate([`clientMapped/${evt.active[0]._model.label}`]);
+    if (evt.active[0] != undefined) {
+      console.log(evt.active[0]);
+      this.rout.navigate([`client-mapped/${evt.active[0]._index}`]);
+    }
   };
   /**
    * @function UnmappedOnClick
@@ -200,8 +157,10 @@ export class HomeComponent {
    * skillset.html partial.
    */
   unmappedOnClick(evt: any) {
-    if (evt.active[0] != undefined)
-      this.rout.navigate([`skillset/${evt.active[0]._model.label}`]);
+    if (evt.active[0] != undefined) {
+      console.log(evt.active[0]);
+      this.rout.navigate([`skillset/${evt.active[0]._index}`]);
+    }
   }
 
   /**
@@ -210,14 +169,13 @@ export class HomeComponent {
    *              data script
    */
   populateDB() {
-    this.rs.populateDB().map(response => {
-      this.dbMessage = response.data;
-      this.myStatus = response.status;
-    }).map(response => {
-      window.location.reload();
-    }).subscribe(response => {
-      console.log(this.myStatus);
-      console.log(this.dbMessage);
+    console.log("POPULATING DB...");
+    this.rs.populateDB().subscribe(response => {
+      console.log("POPULATED DB");
+      this.load();
+      // console.log(response.status);
+    }, err => {
+      console.log("err");
     });
   }
 
@@ -227,12 +185,13 @@ export class HomeComponent {
    * @description Truncates all the tables in the database
    */
   deleteDB() {
-    this.rs.deleteDB().map(response => {
-      this.myStatus = response.status;
-      this.dbMessage = response.data;
-    }).subscribe(response => {
-      console.log(this.myStatus);
-      console.log(this.dbMessage);
+    console.log("TRUNCATING...");
+    this.rs.deleteDB().subscribe(response => {
+      console.log("TRUNCATED");
+      this.load();
+      // console.log(response.status);
+    }, err => {
+      console.log("err");
     })
   }
 
@@ -243,15 +202,14 @@ export class HomeComponent {
    *              from data script
    */
   populateDBSF() {
-    this.rs.populateDBSF().map(response => {
-      this.myStatus = response.status;
-      this.dbMessage = response.data;
-    }).map(response => {
-      window.location.reload();
-    }).subscribe(response => {
-      console.log(this.myStatus);
-      console.log(this.dbMessage);
-    })
+    console.log("POPULATING SF...");
+    this.rs.populateDBSF().subscribe(response => {
+      console.log("POPULATED SF");
+      this.load();
+      // console.log(response.status);
+    }, err => {
+      console.log("err");
+    });
   }
 
   /**
@@ -261,15 +219,6 @@ export class HomeComponent {
    */
   initForce() {
     this.rs.initForce();
-  }
-
-  /**
-   * @function Refresh
-   * @memberof mainApp.databaseCtrl
-   * @description Used to refresh the page for the database button functions
-   */
-  refresh() {
-    window.location.reload();
   }
 
   /**
@@ -294,7 +243,7 @@ export class HomeComponent {
    * @memberof mainApp.indexCtrl
    * @description This function will return a JavaScript object that contains
    * 				all the batches between a 6 month period used in the batch list
-   * 				page. We declare and initiate it in the index to preload this 
+   * 				page. We declare and initiate it in the index to preload this
    * 				information to reduce loading on batch list page
    */
   defaultBatches() {
@@ -326,13 +275,8 @@ export class HomeComponent {
         this.data.push(amountType[i].value);
       }
 
-      this.options = {
-        legend: {
-          display: true,
-          position: 'right'
-        }
-      };
-    }, () => {
+        this.options = ChartOptions.createOptionsLegend('right');
+      }, () => {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
       this.amountType = {

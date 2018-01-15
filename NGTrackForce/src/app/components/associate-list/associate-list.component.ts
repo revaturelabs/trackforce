@@ -3,11 +3,13 @@ import { AssociateService } from '../../services/associates-service/associates-s
 import { Associate } from '../../models/associate.model';
 import { ClientListService } from '../../services/client-list-service/client-list.service';
 import { Client } from '../../models/client.model';
+import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 
 /**
  * Component for the Associate List page
  * @author Alex, Xavier
  */
+@AutoUnsubscribe
 @Component({
   selector: "app-associate-list",
   templateUrl: "./associate-list.component.html",
@@ -30,6 +32,7 @@ export class AssociateListComponent implements OnInit {
   updateShow: boolean = false;
   updateStatus: string = "";
   updateClient: string = "";
+  updated: boolean = false
 
   //used for ordering of rows
   desc: boolean = false;
@@ -53,14 +56,15 @@ export class AssociateListComponent implements OnInit {
    * Set our array of all associates
    */
   getAllAssociates() {
+    let self = this;
     this.associateService.getAllAssociates().subscribe(data => {
       this.associates = data;
 
-      for (let associate of this.associates) {
-        //get our curriculums
+      for (let associate of this.associates) {//get our curriculums
         this.curriculums.add(associate.curriculumName);
       }
       this.curriculums.delete("");
+      self.sort("id");
     });
   }
 
@@ -80,15 +84,17 @@ export class AssociateListComponent implements OnInit {
   sort(property) {
     this.desc = !this.desc;
     let direction;
-    if (property !== this.sortedColumn)
+    if (property !== this.sortedColumn || this.updated)
       //set ascending or descending
       direction = 1;
     else direction = this.desc ? 1 : -1;
 
     this.sortedColumn = property;
 
+    if (this.updated) this.updated = false;
+
     //sort the elements
-    this.associates.sort(function(a, b) {
+    this.associates.sort(function (a, b) {
       if (a[property] < b[property]) return -1 * direction;
       else if (a[property] > b[property]) return 1 * direction;
       else return 0;
@@ -101,24 +107,20 @@ export class AssociateListComponent implements OnInit {
   updateAssociates() {
     var ids: number[] = [];
     var i = 1;
-    for (i; i <= this.associates.length; i++) {
-      //grab the checked ids
+    let self = this;
+
+    for (i; i <= this.associates.length; i++) { //grab the checked ids
       var check = <HTMLInputElement>document.getElementById("" + i);
       if (check != null && check.checked) {
         ids.push(i);
       }
     }
-    this.associateService
-      .updateAssociates(ids, this.updateStatus, this.updateClient)
-      .subscribe(data => {});
-  }
-
-  showUpdate() {
-    if (this.updateShow) {
-      this.updateShow = false;
-    } else {
-      this.updateShow = true;
-    }
+    this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient).subscribe(
+      data => {
+        self.getAllAssociates();
+        self.updated = true;
+      }
+    );
   }
 
 }

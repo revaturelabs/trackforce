@@ -13,7 +13,7 @@ export class AuthenticationService {
   /**
   * @constructor
   *
-  *@param {RequestService} 
+  *@param {RequestService}
   * Service for handling all requests to the server
   *
   */
@@ -28,9 +28,6 @@ export class AuthenticationService {
   *
   *@param {string} password
   *The password need to be sent to the database for checking
-  *
-  *@param {string} url
-  *The login url endpoint to be hit
   *
   *@return
   *The user object that contains the JWT, username, and role id

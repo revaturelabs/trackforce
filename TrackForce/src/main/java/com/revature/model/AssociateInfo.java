@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 /**
  * Class to hold information about an associate for the batch details page.
  */
-public class AssociateInfo {
+public class AssociateInfo  implements Comparable<AssociateInfo>{
 
 	private BigDecimal id;
 	private String firstName;
@@ -257,5 +257,10 @@ public class AssociateInfo {
 		return "AssociateInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", marketingStatus="
 				+ marketingStatus + ", client=" + client + ", endClient=" + endClient + ", batchName=" + batchName
 				+ ", curriculumName=" + curriculumName + "]";
+	}
+
+	@Override
+	public int compareTo(AssociateInfo o) {
+		return this.id.subtract(o.id).intValueExact();
 	}
 }

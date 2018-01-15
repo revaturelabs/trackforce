@@ -2,8 +2,9 @@ package com.revature.services;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -105,34 +106,34 @@ public class AssociateService {
 	 * @return
 	 * @throws IOException
 	 */
-	@GET
+	@PUT
 	@Path("{associateId}/update/{marketingStatus}/{client}")
 	@Produces({ MediaType.TEXT_HTML })
 	public Response updateAssociate(@PathParam("associateId") String id,
 			@PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client)
-			throws IOException {
+					throws IOException {
 		Session session = HibernateUtil.getSession().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
-			TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
+			TfMarketingStatus status = marketingStatusDao.getMarketingStatus(session, marketingStatus);
 
 			if (status == null) {
 				return Response.status(Response.Status.BAD_REQUEST).entity("Invalid marketing status sent.").build();
 			}
 
 			ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
-			TfClient tfclient = clientDaoImpl.getClient(client);
+			TfClient tfclient = clientDaoImpl.getClient(session, client);
 
 			BigDecimal associateID = new BigDecimal(Integer.parseInt(id));
 
 			AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
-			associateDaoHibernate.updateInfo(associateID, status, tfclient);
+			associateDaoHibernate.updateInfo(session, associateID, status, tfclient);
 
 			session.flush();
 			tx.commit();
 
-			return Response.status(Response.Status.OK).entity("Updated the associate's information.").build();
+			return Response.status(Response.Status.OK).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			LogUtil.logger.error(e);
@@ -142,8 +143,7 @@ public class AssociateService {
 		}
 		finally {
 			session.close();
-	}
-
+		}
 	}
 
 	/**
@@ -163,9 +163,9 @@ public class AssociateService {
 		Transaction tx = session.beginTransaction();
 		try {
 			List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates(session);
-			List<AssociateInfo> associateInfos = new ArrayList<>();
+			Set<AssociateInfo> associateInfos = new TreeSet<>();
 			for (TfAssociate tfAssociate : tfAssociates) {
-				if (tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
+				if (tfAssociate.getTfMarketingStatus() == null || tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
 						|| tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
 					continue;
 				}
@@ -174,22 +174,22 @@ public class AssociateService {
 				String tfAssociateLastName = tfAssociate.getTfAssociateLastName();
 				String tfMarketingStatusName = tfAssociate.getTfMarketingStatus() != null
 						? tfAssociate.getTfMarketingStatus().getTfMarketingStatusName()
-						: "";
-				String tfClientName = tfAssociate.getTfClient() != null ? tfAssociate.getTfClient().getTfClientName()
-						: "None";
-				String tfBatchName = tfAssociate.getTfBatch() != null ? tfAssociate.getTfBatch().getTfBatchName() : "";
+								: "";
+						String tfClientName = tfAssociate.getTfClient() != null ? tfAssociate.getTfClient().getTfClientName()
+								: "None";
+						String tfBatchName = tfAssociate.getTfBatch() != null ? tfAssociate.getTfBatch().getTfBatchName() : "";
 
-				String tfCurriculum;
-				if (tfAssociate.getTfBatch() != null && tfAssociate.getTfBatch().getTfCurriculum() != null) {
-					tfCurriculum = tfAssociate.getTfBatch().getTfCurriculum().getTfCurriculumName();
-				} else {
-					tfCurriculum = "";
-				}
+						String tfCurriculum;
+						if (tfAssociate.getTfBatch() != null && tfAssociate.getTfBatch().getTfCurriculum() != null) {
+							tfCurriculum = tfAssociate.getTfBatch().getTfCurriculum().getTfCurriculumName();
+						} else {
+							tfCurriculum = "";
+						}
 
-				associateInfos.add(new AssociateInfo(tfAssociateId, tfAssociateFirstName, tfAssociateLastName,
-						tfMarketingStatusName, tfClientName, tfBatchName, tfCurriculum));
+						associateInfos.add(new AssociateInfo(tfAssociateId, tfAssociateFirstName, tfAssociateLastName,
+								tfMarketingStatusName, tfClientName, tfBatchName, tfCurriculum));
 			}
-			
+
 			session.flush();
 			tx.commit();
 			return Response.ok(associateInfos).build();
@@ -199,6 +199,53 @@ public class AssociateService {
 			session.flush();
 			tx.rollback();
 			throw new IOException("cannot get associates", e);
+		} finally {
+			session.close();
+		}
+	}
+
+	/**
+	 * Update the marketing status or client of associates
+	 * @param ids to be updated
+	 * @param marketingStatus updating to
+	 * @param client updating to
+	 * @return
+	 * @throws IOException 
+	 */
+	@PUT
+	@Path("/update/{marketingStatus}/{client}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response updateAssociates(int[] ids, @PathParam("marketingStatus") String marketingStatus,
+			@PathParam("client") String client) throws IOException {
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		
+		try {
+			MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
+			TfMarketingStatus status = marketingStatusDao.getMarketingStatus(session, marketingStatus);
+
+			if (status == null) {
+				return Response.status(Response.Status.BAD_REQUEST).entity("Invalid marketing status sent.").build();
+			}
+
+			ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
+			TfClient tfclient = clientDaoImpl.getClient(session, client);
+
+			for (int id : ids) {
+				BigDecimal associateID = new BigDecimal(id);
+
+				AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
+				associateDaoHibernate.updateInfo(session, associateID, status, tfclient);
+			}
+			session.flush();
+			tx.commit();
+			return Response.status(Response.Status.OK).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogUtil.logger.error(e);
+			session.flush();
+			tx.rollback();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Updated the associate's information.").build();
 		} finally {
 			session.close();
 		}

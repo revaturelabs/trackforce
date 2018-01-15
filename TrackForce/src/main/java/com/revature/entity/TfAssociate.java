@@ -76,7 +76,7 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfBatch = tfBatch;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_MARKETING_STATUS_ID")
 	public TfMarketingStatus getTfMarketingStatus() {
 		return this.tfMarketingStatus;

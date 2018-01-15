@@ -4,6 +4,9 @@ import { ClientListService } from '../../services/client-list-service/client-lis
 import { Subject } from 'rxjs/Subject';
 import { Client } from '../../models/client.model';
 import { Observable } from 'rxjs/Observable';
+import {SelectedStatusConstants} from '../../constants/selected-status.constants';
+import { ThemeConstants } from '../../constants/theme.constants';
+import { Color } from 'ng2-charts';
 
 /**
  * @author Han Jung
@@ -21,95 +24,118 @@ export class ClientListComponent implements OnInit {
   public client$: any;
   public searchName;
   // chart variable
-  public barChartLabel: string[] = ['Training', 'Reserved/Open', 'Selected', 'Confirmed', 'Deployed'];
+  public barChartLabel: string[] = SelectedStatusConstants.CLIENT_LABELS;
   public barChartType: string = 'bar';
   public barChartLegend: boolean = true;
-  public barChartColors: any = [{
-    backgroundColor: '#e85410'
-  }, {
-    backgroundColor: '#59504c'
-  }, '#e85410', '#e85410']
+  public barChartColors: Array<Color> = ThemeConstants.BAR_COLORS
+
   public barChartOptions: any = {
+    display: true,
+    position: 'right',
     scaleShowVerticalLines: false,
-    responsive: true
-  }
-  // data values initialize to 1 for animation
-  public barChartData: any[] =[ {data:[1,1,1,1,1], label: 'Mapped'},{data:[1,1,1,1,1],label: 'Unmapped'}];
-
-
-  constructor(
-    private clientService: ClientListService) {
-      this.getAllClients();
-     }
-
-  ngOnInit() {
-    this.getAllClientNames();
-    this.getAllClients();
-  }
-
-  // get client names from data and push to clientNames string array
-  getAllClientNames() {
-    var self = this;
-    this.clientService.getAllClientsNames()
-      .subscribe(
-      clientNames => {
-        // save array of object Client
-        this.clientInfo = clientNames;
-        // clear name list to reload list and run through filter
-        this.clientNames.length = 0;
-        // push list of names to an array
-        for (let client of clientNames) {
-          this.clientNames.push(client.name);
+    responsive: true,
+    scales: {
+      yAxes: [
+        {
+          id: 'y-axis-1',
+          type: 'linear',
+          display: true,
+          position: 'left',
+          ticks: {
+            beginAtZero: true
+          }
         }
-      }, err => {
-        console.log("Failed grabbing names");
-      });
-  }
+      ]
+    },
+    tooltips: {
+      mode: 'label',
+      callbacks: {
+      label: function(tooltipItem, data) { 
+        return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel;
+      },
+     }
+    },
+}
+  // data values initialize to 1 for animation
+  public barChartData: any[] = [{ data: [0, 0, 0, 0], label: 'Mapped' }, { data: [0, 0, 0, 0], label: 'Unmapped' }];
 
-  getAllClients() {
-    this.clientService.getAllClients()
-      .subscribe(
-      // assign response to this.clients
-      client => {
-        this.client$ = client;
-        this.selectedCompany = this.client$.name;
-        this.barChartData = [
-          {
-            data: [this.client$.trainingMapped, this.client$.reservedMapped, this.client$.selectedMapped, this.client$.confirmedMapped, this.client$.deployedMapped],
-            label: 'Mapped'
-          },
-          {
-            data: [this.client$.trainingUnmapped, this.client$.openUnmapped, this.client$.selectedUnmapped, this.client$.confirmedUnmapped, this.client$.deployedUnmapped],
-            label: 'Unmapped'
-          }
-        ]
-        console.log(this.barChartData);
-      }, err => {
-        console.log("Failed grabbing clients");
-      });
-  }
 
-  // get client name and find id to request client information
-  getOneClient(name: string) {
-    this.selectedCompany = name;
-    let oneClient = this.clientInfo.find(item => item.name == name);
-    this.clientService.getOneClient(oneClient.id)
-      .subscribe(
-      client => {
-        this.client$ = client;
-        this.barChartData = [
-          {
-            data: [this.client$.trainingMapped, this.client$.reservedMapped, this.client$.selectedMapped, this.client$.confirmedMapped, this.client$.deployedMapped],
-            label: 'Mapped'
-          },
-          {
-            data: [this.client$.trainingUnmapped, this.client$.openUnmapped, this.client$.selectedUnmapped, this.client$.confirmedUnmapped, this.client$.deployedUnmapped],
-            label: 'Unmapped'
-          }
-        ]
-        console.log(this.barChartData);
-      }, err => {
-        console.log("Failed grabbing client");
-      });
-  }
+constructor(
+  private clientService: ClientListService) {
+}
+
+ngOnInit() {
+  this.getAllClientNames();
+  this.getAllClients();
+}
+
+// get client names from data and push to clientNames string array
+getAllClientNames() {
+  var self = this;
+  this.clientService.getAllClientsNames()
+    .subscribe(
+    clientNames => {
+      // save array of object Client
+      this.clientInfo = clientNames;
+      // clear name list to reload list and run through filter
+      this.clientNames.length = 0;
+      // push list of names to an array
+      for (let client of clientNames) {
+        this.clientNames.push(client.name);
+      }
+    }, err => {
+      console.log("Failed grabbing names");
+    });
+}
+
+getAllClients() {
+  this.clientService.getAllClients()
+    .subscribe(
+    // assign response to this.clients
+    client => {
+      this.client$ = client;
+      this.selectedCompany = this.client$.name;
+      this.barChartData = [
+        {
+          data: [this.client$.trainingMapped, this.client$.reservedMapped, this.client$.selectedMapped, this.client$.confirmedMapped],
+          label: 'Mapped',
+        },
+        {
+          data: [this.client$.trainingUnmapped, this.client$.openUnmapped, this.client$.selectedUnmapped, this.client$.confirmedUnmapped],
+          label: 'Unmapped',
+        }
+      ]
+      console.log(this.barChartData);
+    }, err => {
+      console.log("Failed grabbing clients");
+    });
+}
+
+// get client name and find id to request client information
+getOneClient(name: string) {
+  this.selectedCompany = name;
+  let oneClient = this.clientInfo.find(item => item.name == name);
+  this.clientService.getOneClient(oneClient.id)
+    .subscribe(
+    client => {
+      this.client$ = client;
+      this.barChartData = [
+        {
+          data: [this.client$.trainingMapped, this.client$.reservedMapped, this.client$.selectedMapped, this.client$.confirmedMapped],
+          label: 'Mapped',
+          backgroundColor: "rgba(55, 160, 225, 0.7)",
+          hoverBackgroundColor: "rgba(55, 160, 225, 0.7)",
+        },
+        {
+          data: [this.client$.trainingUnmapped, this.client$.openUnmapped, this.client$.selectedUnmapped, this.client$.confirmedUnmapped],
+          label: 'Unmapped',
+          backgroundColor: "rgba(55, 160, 225, 0.7)",
+          hoverBackgroundColor: "rgba(55, 160, 225, 0.7)",
+        }
+      ]
+      console.log(this.barChartData);
+    }, err => {
+      console.log("Failed grabbing client");
+    });
+}
 }

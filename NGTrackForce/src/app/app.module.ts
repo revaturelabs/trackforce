@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpModule, JsonpModule } from '@angular/http';
 import { ChartsModule } from 'ng2-charts';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { FormsModule } from '@angular/forms';
@@ -43,7 +42,7 @@ import { SalesforceDataService } from './services/salesforce-data-service/salesf
 
 ///
 //  FILTERS
-/// 
+///
 ///
 
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
@@ -80,7 +79,6 @@ import { appRoutes } from './routing/routes';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    HttpModule,
     RouterModule.forRoot(appRoutes),
     ChartsModule,
     Ng2OrderModule

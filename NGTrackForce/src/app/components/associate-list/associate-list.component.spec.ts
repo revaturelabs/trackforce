@@ -10,6 +10,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RootComponent } from '../root/root.component';
 import { HomeComponent } from '../home/home.component';
+import {ChartsModule} from 'ng2-charts';
 
 
 describe('AssociateListComponent', () => {
@@ -18,11 +19,17 @@ describe('AssociateListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AssociateListComponent, AssociateSearchByTextFilter, NavbarComponent, RootComponent, HomeComponent ],
+      declarations: [
+        AssociateListComponent,
+        AssociateSearchByTextFilter,
+        NavbarComponent,
+        RootComponent,
+        HomeComponent ],
       imports: [
         HttpClientTestingModule,
         FormsModule,
-        RouterTestingModule
+        RouterTestingModule,
+        ChartsModule
       ],
       providers: [
         AssociateService,

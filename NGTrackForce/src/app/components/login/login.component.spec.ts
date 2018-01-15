@@ -14,6 +14,7 @@ import { RequestService } from '../../services/request-service/request.service';
 import { RootComponent } from '../root/root.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { HomeComponent } from '../home/home.component';
+import {ChartsModule} from 'ng2-charts';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -21,9 +22,22 @@ describe('LoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginComponent, RootComponent, NavbarComponent, HomeComponent ],
-      providers: [AuthenticationService, RequestService ],
-      imports: [FormsModule, HttpClientTestingModule, RouterTestingModule]
+      declarations: [
+        LoginComponent,
+        RootComponent,
+        NavbarComponent,
+        HomeComponent
+      ],
+      providers: [
+        AuthenticationService,
+        RequestService
+      ],
+      imports: [
+        FormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        ChartsModule
+      ]
     })
     .compileComponents();
   }));

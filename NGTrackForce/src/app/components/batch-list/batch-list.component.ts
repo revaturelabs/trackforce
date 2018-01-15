@@ -9,7 +9,6 @@ import {ChartOptions, SideValues} from '../../models/ng2-charts-options.model';
 import {Color} from 'ng2-charts';
 
 
-// TODO: CHART SHOULD UPDATE AFTER A SEARCH
 // TODO: LABELS SHOULD PROPERLY WRAP
 /**
  * @class BatchListComponent

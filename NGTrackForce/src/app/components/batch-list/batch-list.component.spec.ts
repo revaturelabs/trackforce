@@ -20,6 +20,8 @@ import { AssociateSearchByTextFilter } from '../../pipes/associate-search-by-tex
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RootComponent } from '../root/root.component';
+import {FormComponent} from '../form-component/form.component';
+import {SkillsetComponent} from '../skillset/skillset.component';
 
 TestBed.configureTestingModule({
   declarations: [
@@ -33,12 +35,13 @@ TestBed.configureTestingModule({
     SearchFilterPipe,
     AssociateSearchByTextFilter,
     NavbarComponent,
-    RootComponent
+    RootComponent,
+    FormComponent,
+    SkillsetComponent
   ],
   providers: [
     BatchService,
     AuthenticationService,
-    /* todo add interceptor */
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -51,7 +54,7 @@ TestBed.configureTestingModule({
 }).compileComponents()
   .then((data) => {
 
-    describe('BatchListComponent', () => {
+    describe('BatchListComponent', async() => {
       let component: BatchListComponent;
       let fixture: ComponentFixture<BatchListComponent>;
 
@@ -64,6 +67,13 @@ TestBed.configureTestingModule({
       it('should create', () => {
         expect(component).toBeTruthy();
       });
+
+      it('should generate pull some data', () => {
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(component.batches.length).toBeGreaterThan(0);
+        })
+      })
     });
 
   }, console.log);

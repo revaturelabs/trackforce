@@ -4,6 +4,7 @@ import { NavbarComponent } from './navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RootComponent } from '../root/root.component';
 import { HomeComponent } from '../home/home.component';
+import {ChartsModule} from 'ng2-charts';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
@@ -11,8 +12,15 @@ describe('NavbarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavbarComponent, RootComponent, HomeComponent ],
-      imports: [RouterTestingModule]
+      declarations: [
+        NavbarComponent,
+        RootComponent,
+        HomeComponent
+      ],
+      imports: [
+        RouterTestingModule,
+        ChartsModule
+      ]
     })
     .compileComponents();
   }));

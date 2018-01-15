@@ -16,9 +16,7 @@ export class AssociateService {
     status: string
     client: string
 
-    constructor(private http: HttpClient) {
-
-    }
+    constructor(private http: HttpClient) {}
 
     /**
      * Get all of the associates
@@ -40,17 +38,14 @@ export class AssociateService {
      * @param ids of associates to be updated
      */
     updateAssociates(ids: number[], ustatus: string, uclient: string): Observable<any> {
-        console.log("service");
         let url: string = environment.url + "TrackForce/track/associates/update/" + ustatus + "/" + uclient
 
         return this.http.put(url, ids)
     }
 
     updateAssociate(id: number, ustatus: string, uclient: string) {
-        console.log("service");
         let url: string = environment.url + "TrackForce/track/associates/"+id+"/update/" + ustatus + "/" + uclient;
-        console.log(url);
 
-        this.http.get(url).subscribe()
+        return this.http.put(url, null)
     }
 }

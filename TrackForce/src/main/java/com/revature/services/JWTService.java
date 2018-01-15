@@ -229,7 +229,7 @@ public class JWTService {
 			
 			if(tfUser != null) {
 				//makes sure the token is fresh and usernames are equal
-				// and user role is admin
+				// and user role is an associate
 				verified = (tfUser.getTfUserUsername().equals(tokenUsername) 
 						&& !isTokenExpired(token) 
 						&& tfRole.getTfRoleName().equals("Associate"));

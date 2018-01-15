@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AssociateService } from '../../services/associates-service/associates-service';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-import { AutoUnsubscribe } from '../../decorator/auto-unsubscribe.decorator';
+import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
 /**
@@ -27,6 +27,7 @@ export class AssociateViewComponent implements OnInit {
 
   ngOnInit() {
     //gets the associate id from the path
+    //the '+' coerces the parameter into a number
     let id = +this.activated.snapshot.paramMap.get('id');
     this.getAssociate(id);
   }

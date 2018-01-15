@@ -29,6 +29,8 @@ export class BatchListComponent implements OnInit {
   batches: Batch[];
   curriculumNames: string[];
   curriculumCounts: number[];
+  dataReady = false;
+  dataEmpty = false;
   batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
 
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
@@ -46,10 +48,12 @@ export class BatchListComponent implements OnInit {
    */
   ngOnInit() {
     const startTime = Date.now();
+    this.dataReady = false;
     this.batchService.getDefaultBatches().subscribe(
       (batches) => {
         this.batches = batches;
         this.updateCountPerCurriculum();
+        this.dataReady = true;
         const elapsed = Date.now() - startTime;
         console.log("Time", elapsed / 1000.0);
       },
@@ -75,8 +79,11 @@ export class BatchListComponent implements OnInit {
    *              all of the batches within startDate and endDate
    */
   public updateBatches() {
+    this.dataReady = false;
     this.batchService.getBatchesByDate(new Date(this.startDate), new Date(this.endDate)).subscribe(
       batches => {
+        // they serve as flags in template
+        this.dataReady = false;
         this.batches = batches.sort((a, b) => {
             if (a.startDate < b.startDate) {
               return -1;
@@ -87,6 +94,7 @@ export class BatchListComponent implements OnInit {
           }
         );
         this.updateCountPerCurriculum();
+        this.dataReady = true;
       },
       console.error
     );
@@ -102,6 +110,9 @@ export class BatchListComponent implements OnInit {
   public updateCountPerCurriculum() {
     this.curriculumNames = this.curriculumCounts = null;
     const curriculumCountsMap = new Map<string, number>();
+
+    this.dataEmpty = this.batches.length === 0;
+
     for (const batch of this.batches) {
       let count = curriculumCountsMap.get(batch.curriculumName);
       if (count === undefined) {
@@ -109,9 +120,11 @@ export class BatchListComponent implements OnInit {
       }
       curriculumCountsMap.set(batch.curriculumName, count + 1);
     }
+
     // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change
     this.curriculumNames = Array.from(curriculumCountsMap.keys());
     this.curriculumCounts = Array.from(curriculumCountsMap.values());
+    console.log("names", this.curriculumNames, "counts", this.curriculumCounts);
   }
 
 }

@@ -48,7 +48,8 @@ public class ClientDaoImplTest {
 
 	@Test(dataProvider = "Clients")
 	public void getTfClient(String client) throws IOException {
-		TfClient result = cDao.getClient(client);
+		Session session = HibernateUtil.getSession().openSession();
+		TfClient result = cDao.getClient(session, client);
 		assertNotNull(result);
 	}
 }

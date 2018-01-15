@@ -3,12 +3,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Batch} from '../../models/batch.model';
 import {BatchService} from '../../services/batch-service/batch.service';
-import {AuthenticationService} from '../../services/authentication-service/authentication.service';
-import {Router} from '@angular/router';
 import {ThemeConstants} from '../../constants/theme.constants';
-import { ChartsModule, Color } from 'ng2-charts';
+import {AutoUnsubscribe} from '../../decorators/auto-unsubscribe.decorator';
+import {ChartOptions, SideValues} from '../../models/ng2-charts-options.model';
+import {Color} from 'ng2-charts';
 
 
+// TODO: CHART SHOULD UPDATE AFTER A SEARCH
+// TODO: LABELS SHOULD PROPERLY WRAP
 /**
  * @class BatchListComponent
  * @description This component is the batch list page
@@ -19,6 +21,7 @@ import { ChartsModule, Color } from 'ng2-charts';
   templateUrl: './batch-list.component.html',
   styleUrls: ['./batch-list.component.css']
 })
+@AutoUnsubscribe
 export class BatchListComponent implements OnInit {
 
   pieChartType = 'pie';
@@ -29,31 +32,27 @@ export class BatchListComponent implements OnInit {
   curriculumCounts: number[];
   batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
 
-  chartOptions = {
-    legend: {
-      position: 'bottom'
-    },
-    layout: {
-      padding: {
-        left: -100, right: -100, top: 0, bottom: 0
-      },
-      margin: {
-        left: 0, right: 0, top: 0, bottom: 0
-      }
-    },
-    responsive: false,
-    maintainAspectRatio: true
-  };
+  chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
+    new SideValues(-100,0, 0, 0),
+    new SideValues(0, 0, 0, 0),
+    'right', false, false
+  );
 
-  constructor(private batchService: BatchService, private router: Router, private creds: AuthenticationService) {
+
+  constructor(private batchService: BatchService) {
   }
 
+  /**
+   * load default batches on initialization
+   */
   ngOnInit() {
+    const startTime = Date.now();
     this.batchService.getDefaultBatches().subscribe(
       (batches) => {
-        console.log(batches);
         this.batches = batches;
         this.updateCountPerCurriculum();
+        const elapsed = Date.now() - startTime;
+        console.log("Time", elapsed / 1000.0);
       },
       console.error
     );
@@ -67,7 +66,6 @@ export class BatchListComponent implements OnInit {
   public applySelectedRange() {
     if (this.startDate && this.endDate) {
       this.updateBatches();
-      this.updateCountPerCurriculum();
     }
   }
 
@@ -89,7 +87,7 @@ export class BatchListComponent implements OnInit {
             return 0;
           }
         );
-        console.log('sorted', this.batches);
+        this.updateCountPerCurriculum();
       },
       console.error
     );
@@ -115,9 +113,6 @@ export class BatchListComponent implements OnInit {
     // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change
     this.curriculumNames = Array.from(curriculumCountsMap.keys());
     this.curriculumCounts = Array.from(curriculumCountsMap.values());
-
-    console.log(curriculumCountsMap, this.curriculumNames, this.curriculumCounts);
   }
-
 
 }

@@ -1,6 +1,8 @@
 package com.revature.dao;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -19,30 +21,31 @@ import com.revature.utils.LogUtil;
 public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 
 	@Override
-	public TfMarketingStatus getMarketingStatus(String status) throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
-		Transaction tx = session.beginTransaction();
+	public TfMarketingStatus getMarketingStatus(Session session, String status) throws IOException {
+
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<TfMarketingStatus> criteriaQuery = builder.createQuery(TfMarketingStatus.class);
+		Root<TfMarketingStatus> root = criteriaQuery.from(TfMarketingStatus.class);
+		criteriaQuery.select(root).where(builder.equal(root.get("tfMarketingStatusName"), status));
+		Query<TfMarketingStatus> query = session.createQuery(criteriaQuery);
+
+		query = session.createQuery("FROM TfMarketingStatus WHERE tfMarketingStatusId = ?");
 		
+		TfMarketingStatus marketingStatus;
 		try {
-			CriteriaBuilder builder = session.getCriteriaBuilder();
-			CriteriaQuery<TfMarketingStatus> criteriaQuery = builder.createQuery(TfMarketingStatus.class);
-			Root<TfMarketingStatus> root = criteriaQuery.from(TfMarketingStatus.class);
-			criteriaQuery.select(root).where(builder.equal(root.get("tfMarketingStatusName"), status));
-			Query<TfMarketingStatus> query = session.createQuery(criteriaQuery);
-
-			TfMarketingStatus marketingStatus;
-			try {
-				marketingStatus = query.getSingleResult();
-			} catch (NoResultException nre) {
-				marketingStatus = new TfMarketingStatus();
-				LogUtil.logger.error(nre);
-			}
-
-			return marketingStatus;
-		} finally {
-			session.flush();
-			tx.commit();
-			session.close();
+			BigDecimal bd = new BigDecimal(Integer.parseInt(status));
+			query.setParameter(0, bd);
+			marketingStatus = (TfMarketingStatus) query.uniqueResult();
+			
+		} catch (NoResultException nre) {
+			LogUtil.logger.error(nre);
+			return null;
 		}
+		
+		System.out.println(marketingStatus);
+		
+		System.out.println("test");
+
+		return marketingStatus;
 	}
 }

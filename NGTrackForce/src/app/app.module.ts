@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { ChartsModule } from 'ng2-charts';
-
+import { Ng2OrderModule } from 'ng2-order-pipe';
 import { FormsModule } from '@angular/forms';
 
 
@@ -85,7 +85,8 @@ import { appRoutes } from './routing/routes';
     HttpClientModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    ChartsModule
+    ChartsModule,
+    Ng2OrderModule
   ],
   providers: [
     AssociateService,

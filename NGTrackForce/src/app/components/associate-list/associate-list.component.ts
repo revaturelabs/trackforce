@@ -30,6 +30,7 @@ export class AssociateListComponent implements OnInit {
   updateShow: boolean = false;
   updateStatus: string = "";
   updateClient: string = "";
+  updated: boolean = false
 
   //used for ordering of rows
   desc: boolean = false;
@@ -53,14 +54,16 @@ export class AssociateListComponent implements OnInit {
    * Set our array of all associates
    */
   getAllAssociates() {
+    console.log("getting the associates")
+    let self = this;
     this.associateService.getAllAssociates().subscribe(data => {
       this.associates = data;
 
-      for (let associate of this.associates) {
-        //get our curriculums
+      for (let associate of this.associates) {//get our curriculums
         this.curriculums.add(associate.curriculumName);
       }
       this.curriculums.delete("");
+      self.sort("id");
     });
   }
 
@@ -80,15 +83,17 @@ export class AssociateListComponent implements OnInit {
   sort(property) {
     this.desc = !this.desc;
     let direction;
-    if (property !== this.sortedColumn)
+    if (property !== this.sortedColumn || this.updated)
       //set ascending or descending
       direction = 1;
     else direction = this.desc ? 1 : -1;
 
     this.sortedColumn = property;
 
+    if (this.updated) this.updated = false;
+
     //sort the elements
-    this.associates.sort(function(a, b) {
+    this.associates.sort(function (a, b) {
       if (a[property] < b[property]) return -1 * direction;
       else if (a[property] > b[property]) return 1 * direction;
       else return 0;
@@ -111,7 +116,8 @@ export class AssociateListComponent implements OnInit {
     }
     this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient).subscribe(
       data => {
-          self.getAllAssociates();
+        self.getAllAssociates();
+        self.updated = true;
       }
     );
   }

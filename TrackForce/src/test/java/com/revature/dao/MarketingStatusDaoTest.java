@@ -2,10 +2,12 @@ package com.revature.dao;
 
 import static org.testng.Assert.assertNotNull;
 
+import org.hibernate.Session;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.revature.entity.TfMarketingStatus;
+import com.revature.utils.HibernateUtil;
 
 import java.io.IOException;
 
@@ -21,7 +23,8 @@ public class MarketingStatusDaoTest {
 	
 	@Test(dataProvider="MarketingStatus")
 	public void getMarketingStatus(String marketingStatus) throws IOException {
-		TfMarketingStatus tfms = msdao.getMarketingStatus(marketingStatus);
+		Session session = HibernateUtil.getSession().openSession();
+		TfMarketingStatus tfms = msdao.getMarketingStatus(session, marketingStatus);
 		assertNotNull(tfms);
 	}
 }

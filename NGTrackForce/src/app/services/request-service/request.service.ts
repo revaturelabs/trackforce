@@ -45,4 +45,10 @@ export class RequestService {
   public getBatchPerType(threeMonthsBefore: number, threeMonthsAfter: number): Observable<any> {
     return this.http.get<any>(this.host + 'TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter + '/type');
   }
+
+  public createUser(username: string, password: string, roleId: number): Observable<any> {
+    return this.http.post<any>(this.host + 'TrackForce/track/create/user', {username: username, password: password, role: roleId})
+  }
+
+
 }

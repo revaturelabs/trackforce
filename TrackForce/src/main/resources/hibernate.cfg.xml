@@ -4,8 +4,7 @@
     <session-factory>
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
-        <property name="hibernate.connection.url">jdbc:oracle:thin:@trackforcedb.chueiwozbnfz.us-east-1.rds.amazonaws.com:1521:ORCL</property>
-        <property name="hibernate.connection.username">trackforcedev</property>
+
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
         <property name="hibernate.search.autoregister_listeners">true</property>
         <property name="hibernate.validator.apply_to_ddl">false</property>
@@ -13,7 +12,10 @@
         <property name="hibernate.generate_statistics">true</property>
         <property name="connection.provider_class">org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl</property>
         <property name="hibernate.connection.release_mode">after_transaction</property>
-        <property name="hibernate.show_sql">true</property>
+
+
+        <property name="hibernate.show_sql">false</property>
+
         <mapping class="com.revature.entity.TfAssociate"/>
         <mapping class="com.revature.entity.TfCurriculum"/>
         <mapping class="com.revature.entity.TfEndClient"/>

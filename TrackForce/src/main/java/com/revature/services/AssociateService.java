@@ -106,7 +106,7 @@ public class AssociateService {
 	 * @return
 	 * @throws IOException
 	 */
-	@GET
+	@PUT
 	@Path("{associateId}/update/{marketingStatus}/{client}")
 	@Produces({ MediaType.TEXT_HTML })
 	public Response updateAssociate(@PathParam("associateId") String id,
@@ -133,7 +133,7 @@ public class AssociateService {
 			session.flush();
 			tx.commit();
 
-			return Response.status(Response.Status.OK).entity("Updated the associate's information.").build();
+			return Response.status(Response.Status.OK).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			LogUtil.logger.error(e);
@@ -144,7 +144,6 @@ public class AssociateService {
 		finally {
 			session.close();
 		}
-
 	}
 
 	/**

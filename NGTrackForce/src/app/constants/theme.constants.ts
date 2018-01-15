@@ -1,4 +1,7 @@
-import { Color } from 'ng2-charts';
+/**
+ * declares all the constants for the chart color schemes
+ */
+import {Color} from 'ng2-charts';
 
 export class ThemeConstants {
   static MAPPED_COLORS: Array<Color> = [{ backgroundColor: ['#ff8d3f', '#514f4f'] }];

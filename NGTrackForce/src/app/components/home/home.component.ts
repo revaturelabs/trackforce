@@ -4,10 +4,10 @@ import { ChartsModule, Color } from 'ng2-charts';
 
 import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
-
+import {ThemeConstants} from '../../constants/theme.constants';
+import {ChartOptions} from '../../models/ng2-charts-options.model';
 import '../../constants/selected-status.constants';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
-import { ThemeConstants } from '../../constants/theme.constants';
 
 const MONTHS_3 = 788923800;
 
@@ -36,73 +36,20 @@ export class HomeComponent {
   private deployedLabels = SelectedStatusConstants.DEPLOYED_LABELS;
 
   private mappedColors: Array<Color> = ThemeConstants.MAPPED_COLORS;
-  private clientTheme: Array<Color> = ThemeConstants.CLIENT_COLORS;
-  private skillTheme: Array<Color> = ThemeConstants.SKILL_COLORS;
+  private clientColors: Array<Color> = ThemeConstants.CLIENT_COLORS;
+  private skillColors: Array<Color> = ThemeConstants.SKILL_COLORS;
 
   deployedChartType = "pie";
   undeployedChartType = "pie";
   mappedChartType = "pie";
   unmappedChartType = "pie";
 
-  private options = {
-    legend: {
-      display: true,
-      position: 'right'
-    }
-  };
+  private options = ChartOptions.createOptionsLegend('right');
 
-  private unmappedOptions = {
-    legend: {
-      display: true,
-      position: 'right'
-    },
-    title: {
-      display: true,
-      text: "Unmapped",
-      fontSize: 24,
-      fontColor: '#121212'
-    }
-  };
-
-  private mappedOptions = {
-    legend: {
-      display: true,
-      position: 'right'
-    },
-    title: {
-      display: true,
-      text: 'Mapped',
-      fontSize: 24,
-      fontColor: '#121212'
-    }
-  };
-
-  private deployedOptions = {
-    legend: {
-      display: true,
-      position: 'right'
-    },
-    title: {
-      display: true,
-      text: 'Mapped vs. Unmapped (Deployed)',
-      fontSize: 24,
-      fontColor: '#121212'
-
-    }
-  };
-
-  private undeployedOptions = {
-    legend: {
-      display: true,
-      position: 'right'
-    },
-    title: {
-      display: true,
-      text: 'Mapped vs. Unmapped (Not Deployed)',
-      fontSize: 24,
-      fontColor: '#121212'
-    }
-  };
+  private unmappedOptions = ChartOptions.createOptionsTitle('Unmapped', 24, '#121212', 'right');
+  private mappedOptions = ChartOptions.createOptionsTitle('Mapped', 24, '#121212', 'right');
+  private deployedOptions = ChartOptions.createOptionsTitle('Mapped vs. Unmapped (Deployed)', 24, '#121212', 'right');
+  private undeployedOptions = ChartOptions.createOptionsTitle('Mapped vs. Unmapped (Not Deployed)', 24, '#121212', 'right');
 
   // populate with dummy data to enaable chart labels by default
   private undeployedData: number[] = [0, 0];
@@ -123,7 +70,7 @@ export class HomeComponent {
       /**
        * @member {Array} UndeployedData
        * @memberof mainApp.mainCtrl
-       * @description UndeployedData is an array used to populate the 
+       * @description UndeployedData is an array used to populate the
        * dataset of the Undeployed chart. The dataset contains two numbers:
        * the mapped number is the sum of all mapped associates, the unmapped number
        * is the sum of all unmapped associates.
@@ -141,7 +88,7 @@ export class HomeComponent {
       /**
        * @member {Array} MappedData
        * @memberof mainApp.mainCtrl
-       * @description MappedData is an array that stores the 
+       * @description MappedData is an array that stores the
        * data for the dataset of the Mapped chart.
        * The dataset contains four numbers: training mapped<br>
        * reserved mapped <br>
@@ -157,7 +104,7 @@ export class HomeComponent {
       /**
        * @member {Array} UnmappedData
        * @memberof mainApp.mainCtrl
-       * @description UnmappedData is an array that stores the 
+       * @description UnmappedData is an array that stores the
        * data for the dataset of the Unmapped chart.
        * The dataset contains four numbers: training unmapped<br>
        * open unmapped <br>
@@ -173,7 +120,7 @@ export class HomeComponent {
       /**
        * @member {Array} DeployedData
        * @memberof mainApp.mainCtrl
-       * @description DeployedData is an array used to populate the 
+       * @description DeployedData is an array used to populate the
        * dataset of the Deployed chart. The dataset contains two numbers:
        * the mapped number is the sum of all mapped associates, the unmapped number
        * is the sum of all unmapped associates. Both numbers contain only deployed associates.
@@ -296,7 +243,7 @@ export class HomeComponent {
    * @memberof mainApp.indexCtrl
    * @description This function will return a JavaScript object that contains
    * 				all the batches between a 6 month period used in the batch list
-   * 				page. We declare and initiate it in the index to preload this 
+   * 				page. We declare and initiate it in the index to preload this
    * 				information to reduce loading on batch list page
    */
   defaultBatches() {
@@ -328,13 +275,8 @@ export class HomeComponent {
         this.data.push(amountType[i].value);
       }
 
-      this.options = {
-        legend: {
-          display: true,
-          position: 'right'
-        }
-      };
-    }, () => {
+        this.options = ChartOptions.createOptionsLegend('right');
+      }, () => {
       // called asynchronously if an error occurs
       // or server returns response with an error status.
       this.amountType = {

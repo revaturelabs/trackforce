@@ -12,7 +12,6 @@ import { ChartsModule, Color } from 'ng2-charts';
 
 @AutoUnsubscribe
 export class ClientMappedComponent implements OnInit {
-
   /* 
   ============================
   Member variables

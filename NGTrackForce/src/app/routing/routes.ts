@@ -14,6 +14,7 @@ import { BatchListComponent } from '../components/batch-list/batch-list.componen
 import { CreateUserComponent } from '../components/create-user/create-user.component';
 import { RootComponent } from '../components/root/root.component';
 import { SkillsetComponent } from '../components/skillset/skillset.component';
+import { AssociateViewComponent } from '../components/associate-view/associate-view.component';
 
 /**
  * Place paths here
@@ -21,22 +22,23 @@ import { SkillsetComponent } from '../components/skillset/skillset.component';
 
 export const appRoutes: Routes = [
     {
+      path: '',
+      redirectTo: '/login',
+      pathMatch: 'full'
+    },
+    {
+      path: 'login',
+      component: LoginComponent
+    },
+    {
         path: 'home',
         component: HomeComponent
     },
-  {
-    path: '',
-    redirectTo: '/login',
-    pathMatch: 'full'
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: 'client-listing',
-    component: ClientListComponent
-  },
+
+    {
+      path: 'client-listing',
+      component: ClientListComponent
+    },
     {
         path: 'client-mapped/:id',
         component: ClientMappedComponent
@@ -64,8 +66,10 @@ export const appRoutes: Routes = [
     {
         path: 'skillset/:id',
         component: SkillsetComponent
+    },
+    {
+      path: 'associate-view/:id',
+      component: AssociateViewComponent
     }
 
 ]
-
-

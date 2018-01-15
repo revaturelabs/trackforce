@@ -27,6 +27,7 @@ import { HomeComponent } from './components/home/home.component';
 import { RootComponent } from './components/root/root.component';
 import { SkillsetComponent } from './components/skillset/skillset.component';
 import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
+import { AssociateViewComponent } from './components/associate-view/associate-view.component';
 
 ///
 //  SERVICES
@@ -43,7 +44,7 @@ import { SalesforceDataService } from './services/salesforce-data-service/salesf
 
 ///
 //  FILTERS
-/// 
+///
 ///
 
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
@@ -57,6 +58,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 //  CONSTANTS
 ///
 import { appRoutes } from './routing/routes';
+
 
 @NgModule({
   declarations: [
@@ -74,7 +76,8 @@ import { appRoutes } from './routing/routes';
     SearchFilterPipe,
     BatchDetailsComponent,
     RootComponent,
-    SkillsetComponent
+    SkillsetComponent,
+    AssociateViewComponent
   ],
   imports: [
     BrowserModule,

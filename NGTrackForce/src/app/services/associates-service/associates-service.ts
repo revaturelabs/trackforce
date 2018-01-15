@@ -32,7 +32,7 @@ export class AssociateService {
     getAssociate(id: number) {
         let url: string = environment.url + "TrackForce/track/associates/" + id
 
-        return this.http.get(url);
+        return this.http.get<Associate>(url);
     }
 
     /**
@@ -42,7 +42,7 @@ export class AssociateService {
     updateAssociates(ids: number[], ustatus: string, uclient: string): Observable<any> {
         console.log("service");
         let url: string = environment.url + "TrackForce/track/associates/update/" + ustatus + "/" + uclient
-        
+
         return this.http.put(url, ids)
     }
 
@@ -50,7 +50,7 @@ export class AssociateService {
         console.log("service");
         let url: string = environment.url + "TrackForce/track/associates/"+id+"/update/" + ustatus + "/" + uclient;
         console.log(url);
-        
+
         this.http.get(url).subscribe()
     }
 }

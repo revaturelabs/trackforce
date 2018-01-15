@@ -19,6 +19,8 @@ public class UserJSON {
 	private BigDecimal tfRoleId;
 	//token is the JWT token generated
 	private String token;
+	//user id
+	private BigDecimal userId;
 	
 	public UserJSON() {
 		super();
@@ -48,9 +50,18 @@ public class UserJSON {
 		this.token = token;
 	}
 
+	public BigDecimal getUserId() {
+		return userId;
+	}
+
+	public void setUserId(BigDecimal userId) {
+		this.userId = userId;
+	}
+
 	@Override
 	public String toString() {
-		return "UserJSON [username=" + username + ", tfRoleId=" + tfRoleId + ", token=" + token + "]";
+		return "UserJSON [username=" + username + ", tfRoleId=" + tfRoleId + ", token=" + token + ", userId=" + userId
+				+ "]";
 	}
 
 

@@ -13,13 +13,13 @@ import {HomeComponent} from '../home/home.component';
 import {ClientMappedComponent} from '../client-mapped/client-mapped.component';
 import {AssociateListComponent} from '../associate-list/associate-list.component';
 import {LoginComponent} from '../login/login.component';
-import { ClientListComponent } from '../client-list/client-list.component';
-import { CreateUserComponent } from '../create-user/create-user.component';
-import { SearchFilterPipe } from '../../pipes/search-filter/search-filter.pipe';
-import { AssociateSearchByTextFilter } from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
-import { NavbarComponent } from '../navbar/navbar.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { RootComponent } from '../root/root.component';
+import {ClientListComponent} from '../client-list/client-list.component';
+import {CreateUserComponent} from '../create-user/create-user.component';
+import {SearchFilterPipe} from '../../pipes/search-filter/search-filter.pipe';
+import {AssociateSearchByTextFilter} from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
+import {NavbarComponent} from '../navbar/navbar.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {RootComponent} from '../root/root.component';
 import {FormComponent} from '../form-component/form.component';
 import {SkillsetComponent} from '../skillset/skillset.component';
 
@@ -54,7 +54,7 @@ TestBed.configureTestingModule({
 }).compileComponents()
   .then((data) => {
 
-    describe('BatchListComponent', async() => {
+    describe('BatchListComponent', async () => {
       let component: BatchListComponent;
       let fixture: ComponentFixture<BatchListComponent>;
 
@@ -68,12 +68,19 @@ TestBed.configureTestingModule({
         expect(component).toBeTruthy();
       });
 
-      it('should generate pull some data', () => {
+      it('should pull some batch data on init', () => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           expect(component.batches.length).toBeGreaterThan(0);
-        })
-      })
+        });
+      });
+
+      it('should do whatever these js tests prescribe', () => {
+        it('home page test', function () {
+
+
+        });
+      });
     });
 
   }, console.log);

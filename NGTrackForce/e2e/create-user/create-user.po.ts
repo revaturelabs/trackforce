@@ -1,7 +1,7 @@
 import { browser, by, element } from 'protractor';
 import { ElementFinder } from 'protractor/built/element';
 
-export class CreateUserPage{
+export class CreateUserPo {
 
     private username            : ElementFinder;
     private password            : ElementFinder;
@@ -54,7 +54,7 @@ export class CreateUserPage{
 
     /**
      * Sends the given input string to the username element in the DOM
-     * @param input 
+     * @param input
      */
     inputUsername(input: string){
         this.username.sendKeys(input);
@@ -76,7 +76,7 @@ export class CreateUserPage{
 
     /**
      * Sends the given input string to the password element in the DOM
-     * @param input 
+     * @param input
      */
     inputPassword(input: string){
         this.password.sendKeys(input);
@@ -98,7 +98,7 @@ export class CreateUserPage{
 
     /**
      * Sends the given input string to the password confirmation element in the DOM
-     * @param input 
+     * @param input
      */
     inputPasswordConfirm(input: string){
         this.passwordConfirm.sendKeys(input);
@@ -152,7 +152,7 @@ export class CreateUserPage{
     clickDirectorRadio(){
         this.directorRadio.click();
     }
-    
+
     /**
      * Returns the vp radio button element in the DOM
      */

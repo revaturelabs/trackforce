@@ -107,41 +107,14 @@ export class ClientMappedComponent implements OnInit {
     } else if(Number(this.statusID) == 4) {
       this.selectedStatus = "Confirmed";
     }
-    console.log(this.selectedStatus);
     //Initialize the title
     this.chartOptions.title.text = this.selectedStatus;
 
     //Initialize the chart to type 'bar'
     this.changeChartType('bar');
-    
-    // hardcoded data. Backend is messed up
-    // let temp_clientMappedLabels: string[] = [];
-    // let temp_clientMappedData: number[] = [];
-    // temp_clientMappedLabels.push("Name 1"); 
-    // temp_clientMappedLabels.push("Name 2"); 
-    // temp_clientMappedLabels.push("Name 3");
-    // temp_clientMappedLabels.push("Name 4");
-    // temp_clientMappedLabels.push("Name 5");
-    // temp_clientMappedLabels.push("Name 6"); 
-    // temp_clientMappedLabels.push("Name 7");
-    // temp_clientMappedLabels.push("Name 8");
-    // temp_clientMappedLabels.push("Name 9");
-    // temp_clientMappedData.push(100); 
-    // temp_clientMappedData.push(500);
-    // temp_clientMappedData.push(300);
-    // temp_clientMappedData.push(200);
-    // temp_clientMappedData.push(400);
-    // temp_clientMappedData.push(700);
-    // temp_clientMappedData.push(300);
-    // temp_clientMappedData.push(100);
-    // temp_clientMappedData.push(200);
-    // this.clientMappedData = temp_clientMappedData;
-    // this.clientMappedLabels = temp_clientMappedLabels;
 
     // HTTP request to fetch data. See client-mapped-service 
-    this.clientMappedService.getAssociatesByStatus(this.statusID).subscribe( data => {
-      console.log("made http request");
-      
+    this.clientMappedService.getAssociatesByStatus(this.statusID).subscribe( data => {      
       /*
       Store the data from the http request in temporary objects.
       In order for the2 property binding refresh on clientMappedData 

@@ -50,7 +50,7 @@ import { SalesforceDataService } from './services/salesforce-data-service/salesf
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 
 ///
-//Security
+//  SECURITY
 ///
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 

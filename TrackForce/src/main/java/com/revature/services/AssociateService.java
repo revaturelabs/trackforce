@@ -91,8 +91,8 @@ public class AssociateService implements Delegate {
 	@Produces({ MediaType.TEXT_HTML })
 	public Response updateAssociate(@PathParam("associateId") String id,
 			@PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client)
-					throws IOException {
-		return updateAssociates(new int[]{Integer.parseInt(id)}, marketingStatus, client);
+			throws IOException {
+		return updateAssociates(new int[] { Integer.parseInt(id) }, marketingStatus, client);
 	}
 
 	/**
@@ -106,19 +106,20 @@ public class AssociateService implements Delegate {
 	 */
 	private Set<AssociateInfo> getAllAssociates() throws IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
-		if(associates == null || associates.isEmpty()) {
+		if (associates == null || associates.isEmpty()) {
 			execute();
 			return PersistentStorage.getStorage().getAssociates();
 		}
 		return associates;
 	}
-	private Map<BigDecimal, AssociateInfo> getAssociates() throws HibernateException, IOException{
+
+	private Map<BigDecimal, AssociateInfo> getAssociates() throws HibernateException, IOException {
 		Session session = HibernateUtil.getSession().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			Map<BigDecimal, AssociateInfo> tfAssociates = new AssociateDaoHibernate().getAssociates(session);
 			PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
-			
+
 			session.flush();
 			tx.commit();
 			return tfAssociates;
@@ -135,11 +136,15 @@ public class AssociateService implements Delegate {
 
 	/**
 	 * Update the marketing status or client of associates
-	 * @param ids to be updated
-	 * @param marketingStatus updating to
-	 * @param client updating to
+	 * 
+	 * @param ids
+	 *            to be updated
+	 * @param marketingStatus
+	 *            updating to
+	 * @param client
+	 *            updating to
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@PUT
 	@Path("/update/{marketingStatus}/{client}")
@@ -148,7 +153,7 @@ public class AssociateService implements Delegate {
 			@PathParam("client") String client) throws IOException {
 		Session session = HibernateUtil.getSession().openSession();
 		Transaction tx = session.beginTransaction();
-		
+
 		try {
 			int statusId = Integer.parseInt(marketingStatus);
 			int clientId = Integer.parseInt(client);
@@ -159,17 +164,17 @@ public class AssociateService implements Delegate {
 			if (msi == null) {
 				return Response.status(Response.Status.BAD_REQUEST).entity("Invalid marketing status sent.").build();
 			}
-			
+
 			Map<BigDecimal, AssociateInfo> map = new HashMap<>();
 			for (int id : ids) {
 				AssociateInfo ai = PersistentStorage.getStorage().getAssociateAsMap().get(new BigDecimal(id));
 				ClientInfo old = PersistentStorage.getStorage().getClientAsMap().get(ai.getClid());
-				
+
 				// subtract old values
 				old.getStats().subtractFromMap(ai.getMsid());
 				old.getTfAssociates().remove(ai);
 				BigDecimal oldms = ai.getMsid();
-				
+
 				// add new values
 				// since all the resources are available to us, we can update storage here
 				// without having to hit the DB
@@ -179,34 +184,34 @@ public class AssociateService implements Delegate {
 				ai.setMarketingStatus(msi.getName());
 				ai.setClid(tfclient.getId());
 				ai.setClient(tfclient.getTfClientName());
-				
 
 				// write to DB
 				AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
 				associateDaoHibernate.updateInfo(session, ai.getId(), msi, tfclient);
-				
+
 				map.put(ai.getId(), ai);
 				PersistentStorage.getStorage().getTotals().appendToMap(msi.getId());
 				PersistentStorage.getStorage().getTotals().subtractFromMap(oldms);
 			}
 			session.flush();
 			tx.commit();
-			
+
 			// update Persistent storage
 			PersistentStorage.getStorage().updateAssociates(map);
-			
+
 			return Response.status(Response.Status.OK).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			LogUtil.logger.error(e);
 			session.flush();
 			tx.rollback();
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Updated the associate's information.").build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Updated the associate's information.")
+					.build();
 		} finally {
 			session.close();
 		}
 	}
-	
+
 	/**
 	 * Returns a Response object from StatusInfoUtil with a List of Map objects as
 	 * an entity. The format of the Map objects are as follows: <br>
@@ -225,31 +230,43 @@ public class AssociateService implements Delegate {
 	@Produces({ MediaType.APPLICATION_JSON })
 	public Response getCurriculumsByStatus(@PathParam("statusid") int statusid) throws HibernateException, IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
-		CurriculumJSON curson = new CurriculumJSON();
-		if(associates == null) {
+		if (associates == null) {
 			execute();
 			associates = PersistentStorage.getStorage().getAssociates();
 		}
-		Set<AssociateInfo> assocsBySkill = new TreeSet<AssociateInfo>();
-		for(AssociateInfo ai : associates) {
+		Set<AssociateInfo> assocsByStatus = new TreeSet<AssociateInfo>();
+		for (AssociateInfo ai : associates) {
 			LogUtil.logger.info("curid: " + statusid + " assoc curid: " + ai.getCurid());
-			if(ai.getCurid() == new BigDecimal(statusid)) {
-				assocsBySkill.add(ai);
+			if (ai.getMsid().equals(new BigDecimal(statusid))) {
+				assocsByStatus.add(ai);
 			}
 		}
-		return Response.ok(assocsBySkill).build();
+
+		Map<BigDecimal, CurriculumJSON> map = new HashMap<>();
+		for (AssociateInfo ai : assocsByStatus) {
+			if (!map.containsKey(ai.getCurid())) {
+				map.put(ai.getCurid(), new CurriculumJSON());
+			}
+			if (ai.getCurriculumName() != null && !ai.getCurid().equals(new BigDecimal(-1))) {
+				map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
+				map.get(ai.getCurid()).setId(ai.getCurid().intValueExact());
+				map.get(ai.getCurid()).setName(ai.getCurriculumName());
+			}
+		}
+
+		return Response.ok(map.values()).build();
 	}
-	
+
 	// execute delegated task: fetch data from DB and cache it to storage
 	@Override
 	public synchronized void execute() throws IOException {
 		Set<AssociateInfo> ai = PersistentStorage.getStorage().getAssociates();
-		if(ai == null || ai.isEmpty())
+		if (ai == null || ai.isEmpty())
 			PersistentStorage.getStorage().setAssociates(getAssociates());
 	}
 
 	@Override
-	public <T> Set<T> read(String...args) throws IOException {
+	public <T> Set<T> read(String... args) throws IOException {
 		return (Set<T>) getAllAssociates();
 	}
 }

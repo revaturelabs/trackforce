@@ -53,7 +53,7 @@
           <tbody>
           <ng-container *ngIf="dataReady">
             <tr *ngFor="let batch of batches" class="max-width">
-              <td class="name-column"><a href="#!/batchDetails/{{batch.batchName}}">{{batch.batchName}}</a></td>
+              <td class="name-column"><a routerLink="/batch-details/{{batch.id}}">{{batch.batchName}}</a></td>
               <td class="date-column">{{batch.startDate | date:'MM/dd/yyyy'}}</td>
               <td class="date-column">{{batch.endDate| date:'MM/dd/yyyy'}}</td>
             </tr>

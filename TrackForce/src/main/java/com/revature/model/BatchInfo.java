@@ -5,6 +5,7 @@ package com.revature.model;
  */
 public class BatchInfo {
 
+    private Long id;
     private String batchName;
     private String curriculumName;
     private String location;
@@ -41,8 +42,9 @@ public class BatchInfo {
      * @param startDate - The date that this batch started.
      * @param endDate - The date that this batch graduates.
      */
-    public BatchInfo(String batchName, String curriculumName, String location, String startDate, String endDate) {
+    public BatchInfo(Long id, String batchName, String curriculumName, String location, String startDate, String endDate) {
         super();
+        this.id = id;
         this.batchName = batchName;
         this.curriculumName = curriculumName;
         this.location = location;
@@ -130,59 +132,51 @@ public class BatchInfo {
         this.endDate = endDate;
     }
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BatchInfo)) return false;
+
+        BatchInfo batchInfo = (BatchInfo) o;
+
+        if (id != null ? !id.equals(batchInfo.id) : batchInfo.id != null) return false;
+        if (batchName != null ? !batchName.equals(batchInfo.batchName) : batchInfo.batchName != null) return false;
+        if (curriculumName != null ? !curriculumName.equals(batchInfo.curriculumName) : batchInfo.curriculumName != null)
+            return false;
+        if (location != null ? !location.equals(batchInfo.location) : batchInfo.location != null) return false;
+        if (startDate != null ? !startDate.equals(batchInfo.startDate) : batchInfo.startDate != null) return false;
+        return endDate != null ? endDate.equals(batchInfo.endDate) : batchInfo.endDate == null;
+    }
+
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((batchName == null) ? 0 : batchName.hashCode());
-        result = prime * result + ((curriculumName == null) ? 0 : curriculumName.hashCode());
-        result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-        result = prime * result + ((location == null) ? 0 : location.hashCode());
-        result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (batchName != null ? batchName.hashCode() : 0);
+        result = 31 * result + (curriculumName != null ? curriculumName.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        BatchInfo other = (BatchInfo) obj;
-        if (batchName == null) {
-            if (other.batchName != null)
-                return false;
-        } else if (!batchName.equals(other.batchName))
-            return false;
-        if (curriculumName == null) {
-            if (other.curriculumName != null)
-                return false;
-        } else if (!curriculumName.equals(other.curriculumName))
-            return false;
-        if (endDate == null) {
-            if (other.endDate != null)
-                return false;
-        } else if (!endDate.equals(other.endDate))
-            return false;
-        if (location == null) {
-            if (other.location != null)
-                return false;
-        } else if (!location.equals(other.location))
-            return false;
-        if (startDate == null) {
-            if (other.startDate != null)
-                return false;
-        } else if (!startDate.equals(other.startDate))
-            return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "BatchInfo [batchName=" + batchName + ", curriculumName=" + curriculumName
-                + ", location=" + location + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+        return "BatchInfo{" +
+                "id=" + id +
+                ", batchName='" + batchName + '\'' +
+                ", curriculumName='" + curriculumName + '\'' +
+                ", location='" + location + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                '}';
     }
-
 }

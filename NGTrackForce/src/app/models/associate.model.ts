@@ -3,11 +3,12 @@
  * @author Alex, Xavier
  */
 export class Associate {
-    id: number
-    firstName: string
-    lastName: string
-    marketingStatus: string
-    client: string
-    batch: string
+    id: number;
+    firstName: string;
+    lastName: string;
+    marketingStatus: string;
+    client: string;
+    batchName: string;
+    batchId: string;
     curriculumName: string
 }

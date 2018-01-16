@@ -5,28 +5,7 @@
     <title class="text-center text-primary">Batch List</title>
   </div>
   <div class="row ">
-    <div class="col-lg-5 col-md-12 mcolumn left">
-      <h3>All Batches</h3>
-      <div class="well">
-          <table class="table table-striped table-hover table-bordered">
-            <thead>
-            <tr class="max-width">
-              <th class="name-column">Batch Name</th>
-              <th class="date-column">Start Date</th>
-              <th class="date-column">End Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let batch of batches" class="max-width">
-              <td class="name-column"><a href="#!/batchDetails/{{batch.batchName}}">{{batch.batchName}}</a></td>
-              <td class="date-column">{{batch.startDate | date:'MM/dd/yyyy'}}</td>
-              <td class="date-column">{{batch.endDate| date:'MM/dd/yyyy'}}</td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-    </div>
-    <div class="col-lg-7 col-md-12 mcolumn right">
+    <div class="col-lg-7 col-md-12 mcolumn left">
       <h3>Select Dates:</h3>
       <form>
         <div>
@@ -38,18 +17,50 @@
           <input type="date" [(ngModel)]="endDate" id="endDate" name="startDate" [min]="startDate"/>
         </div>
         <div>
-          <input type="submit" value="Submit" (click)="applySelectedRange($event)"/>
+          <input type="submit" value="Submit" (click)="applySelectedRange()"/>
         </div>
       </form>
-      <canvas baseChart *ngIf="curriculumNames && curriculumCounts"
-              id="pie" class="chart chart-pie"
-              [data]="curriculumCounts"
-              [labels]="curriculumNames"
-              [chartType]="pieChartType"
-              [colors]="batchColors"
-              [options]="chartOptions"
-              (render)="refreshChart2()">
-      </canvas>
+      <ng-container *ngIf="dataReady && !dataEmpty">
+        <canvas baseChart
+                id="pie" class="chart chart-pie"
+                [data]="curriculumCounts"
+                [labels]="curriculumNames"
+                [chartType]="pieChartType"
+                [colors]="batchColors"
+                [options]="chartOptions">
+        </canvas>
+      </ng-container>
+      <h3 class="data-status" *ngIf="dataReady && dataEmpty">
+        No Batch Found
+      </h3>
+      <h3 class="data-status" *ngIf="!dataReady">
+        Loading ...
+      </h3>
+    </div>
+
+
+    <div class="col-lg-5 col-md-12 mcolumn right">
+      <h3>All Batches</h3>
+      <div class="well">
+        <table class="table table-striped table-hover table-bordered">
+          <thead>
+          <tr class="max-width">
+            <th class="name-column">Batch Name</th>
+            <th class="date-column">Start Date</th>
+            <th class="date-column">End Date</th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngIf="dataReady">
+            <tr *ngFor="let batch of batches" class="max-width">
+              <td class="name-column"><a href="#!/batchDetails/{{batch.batchName}}">{{batch.batchName}}</a></td>
+              <td class="date-column">{{batch.startDate | date:'MM/dd/yyyy'}}</td>
+              <td class="date-column">{{batch.endDate| date:'MM/dd/yyyy'}}</td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

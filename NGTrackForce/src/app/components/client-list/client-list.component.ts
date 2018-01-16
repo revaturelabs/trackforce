@@ -17,6 +17,7 @@ import { Color } from 'ng2-charts';
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.css']
 })
+
 export class ClientListComponent implements OnInit {
   public selectedCompany: string;
   public clientInfo: Client[];

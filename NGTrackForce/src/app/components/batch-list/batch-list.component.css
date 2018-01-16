@@ -19,6 +19,10 @@ tbody {
   max-height: 750px !important;
 }
 
+.data-status {
+  text-align: center;
+}
+
 .well {
   padding-right: 0px;
   padding-left: 0px;

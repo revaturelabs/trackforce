@@ -41,26 +41,24 @@
 
     <div class="col-lg-5 col-md-12 mcolumn right">
       <h3>All Batches</h3>
-      <div class="well">
-        <table class="table table-striped table-hover table-bordered">
-          <thead>
-          <tr class="max-width">
-            <th class="name-column">Batch Name</th>
-            <th class="date-column">Start Date</th>
-            <th class="date-column">End Date</th>
+      <table class="table table-striped table-hover table-bordered">
+        <thead>
+        <tr class="max-width">
+          <th class="name-column">Batch Name</th>
+          <th class="date-column">Start Date</th>
+          <th class="date-column">End Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngIf="dataReady">
+          <tr *ngFor="let batch of batches" class="max-width">
+            <td class="name-column"><a routerLink="/batch-details/{{batch.id}}">{{batch.batchName}}</a></td>
+            <td class="date-column">{{batch.startDate | date:'MM/dd/yyyy'}}</td>
+            <td class="date-column">{{batch.endDate| date:'MM/dd/yyyy'}}</td>
           </tr>
-          </thead>
-          <tbody>
-          <ng-container *ngIf="dataReady">
-            <tr *ngFor="let batch of batches" class="max-width">
-              <td class="name-column"><a routerLink="/batch-details/{{batch.id}}">{{batch.batchName}}</a></td>
-              <td class="date-column">{{batch.startDate | date:'MM/dd/yyyy'}}</td>
-              <td class="date-column">{{batch.endDate| date:'MM/dd/yyyy'}}</td>
-            </tr>
-          </ng-container>
-          </tbody>
-        </table>
-      </div>
+        </ng-container>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

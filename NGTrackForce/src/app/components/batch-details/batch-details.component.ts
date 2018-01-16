@@ -61,11 +61,14 @@ export class BatchDetailsComponent implements OnInit {
 
             const dataSets: BarChartDataSet[] = [new BarChartDataSet("Mapped"), new BarChartDataSet("Unmapped")];
             for (const label of Array.from(statusMap.keys())) {
-              if (label.toLowerCase().indexOf("unmapped") > 0) {
-                dataSets[0].data.push(statusMap.get(label));
+              if (label.toLowerCase().indexOf("unmapped") >= 0) {
+                console.log("unmapped", label, statusMap.get(label));
+                dataSets[1].data.push(statusMap.get(label));
               }
               else {
-                dataSets[1].data.push(statusMap.get(label));
+                console.log(statusMap.get(label));
+                console.log("mapped", label, statusMap.get(label));
+                dataSets[0].data.push(statusMap.get(label));
               }
             }
             this.dataSets = dataSets;

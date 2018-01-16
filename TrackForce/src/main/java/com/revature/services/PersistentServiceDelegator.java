@@ -136,7 +136,7 @@ public class PersistentServiceDelegator {
 	}
 	
 	@GET
-	@Path("/get/client/")
+	@Path("/get/client")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<ClientInfo> getClients() throws IOException {
 		// execute the update

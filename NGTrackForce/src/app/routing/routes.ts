@@ -4,7 +4,7 @@
  */
 
 import { RouterModule, Routes } from '@angular/router';
-import {FormComponent} from "../components/form-component/form.component";
+import { FormComponent } from "../components/form-component/form.component";
 import { HomeComponent } from '../components/home/home.component';
 import { ClientListComponent } from '../components/client-list/client-list.component';
 import { LoginComponent } from '../components/login/login.component';
@@ -19,10 +19,10 @@ import { RootComponent } from '../components/root/root.component';
  */
 
 export const appRoutes: Routes = [
-    {
-        path: 'home',
-        component: HomeComponent
-    },
+  {
+    path: 'home',
+    component: HomeComponent
+  },
   {
     path: '',
     redirectTo: '/login',
@@ -36,34 +36,34 @@ export const appRoutes: Routes = [
     path: 'client-listing',
     component: ClientListComponent
   },
-    {
-        path: 'client-mapped/:id',
-        component: ClientMappedComponent
-    },
-    {
-        path: 'associate-listing',
-        component: AssociateListComponent
-    },
-    {
-        path: 'associate-listing/:mapping/:status',
-        component: AssociateListComponent
-    },
-    {
-        path: 'batch-listing',
-        component: BatchListComponent
-    },
-    {
-        path: 'form-comp/:id',
-        component: FormComponent
-    },
-    {
-        path: 'create-user',
-        component: CreateUserComponent
-    },
-    {
-        path: 'root',
-        component: RootComponent
-      }
+  {
+    path: 'client-mapped/:id',
+    component: ClientMappedComponent
+  },
+  {
+    path: 'associate-listing',
+    component: AssociateListComponent
+  },
+  {
+    path: 'associate-listing/:mapping/:status',
+    component: AssociateListComponent
+  },
+  {
+    path: 'batch-listing',
+    component: BatchListComponent
+  },
+  {
+    path: 'form-comp/:id',
+    component: FormComponent
+  },
+  {
+    path: 'create-user',
+    component: CreateUserComponent
+  },
+  {
+    path: 'root',
+    component: RootComponent
+  }
 ]
 
 

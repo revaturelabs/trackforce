@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientMappedService } from '../../services/client-mapped-service/client-mapped-service';
 import { ThemeConstants } from '../../constants/theme.constants'; //Used for colors in charts
+import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
+import { ChartsModule, Color } from 'ng2-charts';
 
 @Component({
   selector: 'app-client-mapped',
@@ -8,8 +10,8 @@ import { ThemeConstants } from '../../constants/theme.constants'; //Used for col
   styleUrls: ['./client-mapped.component.css']
 })
 
+@AutoUnsubscribe
 export class ClientMappedComponent implements OnInit {
-
   /* 
   ============================
   Member variables
@@ -56,30 +58,36 @@ export class ClientMappedComponent implements OnInit {
    * @description chartOption contians configuration options for whatever type of chart
    * is being displayed. 
    */
-  public chartOptions:any;
+  public chartOptions:any; 
 
   /**
-   * @description clientMappedDataSet is the object used to by the view as the data input for charts
-   * This object contains an array of json objects where each json object takes a 'data' and 'backgroundcolors'
-   * field. Currently, the array should hold a single json object. 
-   * 
-   * Note: We are using the 'datasets' attribute in the view rather than the 'data' attribute to support
-   * background colors
+   * @description colors used by template for charts.
+   * Note: The ThemeConstants.CLIENT_COLORS is currently an array of length 8.
+   * For every element of 'data' above a count of 8, the chart color for that data item will be grey.
    */
-  public clientMappedDataSet:any;
-
-  /**
-   * @description colors is used by the html template as a placeholder. It is needed to get the
-   * background colors to display properly
-   */
-  public colors: any = [{}];
+  private clientTheme: Array<Color> = ThemeConstants.CLIENT_COLORS;
 
   /* 
   ============================
   Methods
   ============================ 
   */
-  constructor(private clientMappedService: ClientMappedService) {}
+  constructor(private clientMappedService: ClientMappedService) {
+    this.chartOptions = {
+      xAxes:[{ticks:{autoSkip:false}}], scales: {yAxes: [{ticks: {min: 0}}]},
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: this.selectedStatus,
+        fontSize: 24,
+        fontColor: '#121212'
+      },
+      responsive: true,
+      responsiveAnimationDuration: 1000
+    };
+  }
 
   //Run on initialization
   ngOnInit() {
@@ -98,17 +106,17 @@ export class ClientMappedComponent implements OnInit {
     } else if(Number(this.statusID) == 4) {
       this.selectedStatus = "Confirmed";
     }
+    //Initialize the title
+    this.chartOptions.title.text = this.selectedStatus;
 
     //Initialize the chart to type 'bar'
     this.changeChartType('bar');
 
     // HTTP request to fetch data. See client-mapped-service 
-    this.clientMappedService.getAssociatesByStatus(this.statusID).subscribe( data => {
-      console.log("made http request");
-      
+    this.clientMappedService.getAssociatesByStatus(this.statusID).subscribe( data => {      
       /*
       Store the data from the http request in temporary objects.
-      In order for the property binding refresh on clientMappedData 
+      In order for the2 property binding refresh on clientMappedData 
       and clientMappedLabels to take affect, they need to be set 
       equal to an object. (i.e. clientMappedData.push(...)and 
       clientMappedLabels.push(...) does not trigger property binding
@@ -125,7 +133,6 @@ export class ClientMappedComponent implements OnInit {
         if(temp_count > 0){
           //Check if the fetched name is empty
           if(data[d].name == ""){
-            console.log('Name is empty');
             temp_clientMappedLabels.push("Empty Name");
           } else {
             temp_clientMappedLabels.push(data[d].name);
@@ -134,19 +141,9 @@ export class ClientMappedComponent implements OnInit {
         }
       }
 
-      //Set data
+      //Set data, trigger property binding
       this.clientMappedData = temp_clientMappedData;
       this.clientMappedLabels = temp_clientMappedLabels;
-
-      //Initialize the object used to view the data
-      //Note: The ThemeConstants.CLIENT_COLORS is currently an array of length 8.
-      //For every element of 'data' above a count of 8, the chart color for that data item will be grey.
-      this.clientMappedDataSet = [
-        {
-          data: this.clientMappedData,
-          backgroundColor: ThemeConstants.CLIENT_COLORS 
-        }
-      ]
     })
   }
 
@@ -157,40 +154,30 @@ export class ClientMappedComponent implements OnInit {
    * @param selectedType string containing the type of chart to display. Should contain 'bar', 'pie', or 'polarArea'
 	 */
 	public changeChartType(selectedType){
-    console.log("Changing Chart Type!")
     this.chartType = selectedType;
 
-    //For a 'bar' chart type, don't print legend
+    //For 'bar' charts
     if(selectedType == 'bar') {
-      this.chartOptions = {
-        xAxes:[{ticks:{autoSkip:false}}],scales: {yAxes: [{ticks: {min: 0}}]},
-        legend: {
-          display: false
-        },
-        title: {
-          display: true,
-          text: this.selectedStatus,
-          fontSize: 24,
-          fontColor: '#121212'
-        },
-        maintainAspectRatio: true
+      this.chartOptions.legend = { 
+        display: false 
       };
+      
+      //Add scales to options if it doesn't exist
+      if(!this.chartOptions.legend.scales) {
+        this.chartOptions.scales = {yAxes: [{ticks: {min: 0}}]};
+      }
     }
-    //If a 'pie' or 'polarArea' chart type, print the legend
+    //For 'pie' or 'polarArea' charts
     else if(selectedType == 'pie' || selectedType == 'polarArea'){
-      this.chartOptions = {
-        xAxes:[{ticks:{autoSkip:false}}], 
-        legend: {
-          display: true,
-          position: 'right'
-        },
-        title: {
-          display: true,
-          text: this.selectedStatus,
-          fontSize: 24,
-          fontColor: '#121212'
-        }, 
-        maintainAspectRatio: true
+      //Display legend
+      this.chartOptions.legend = { 
+        display: true, 
+        position: 'right' 
+      };
+
+      // Remove scales from options, if it exists
+      if (this.chartOptions.scales) {
+        delete this.chartOptions.scales;
       }
     }
   }

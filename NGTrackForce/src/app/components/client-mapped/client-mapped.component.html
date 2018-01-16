@@ -11,11 +11,11 @@
   <!-- Display chart -->
   <div class="col-md-10">
     <canvas baseChart *ngIf="clientMappedData && clientMappedLabels"
-          [datasets]="clientMappedDataSet"
+          [data]="clientMappedData"
           [labels]="clientMappedLabels"
           [chartType]="chartType"
           [options]="chartOptions"
-          [colors]="colors"
+          [colors]="clientTheme"
           (chartHover)="chartHovered($event)"
           (chartClick)="chartClicked($event)">
     </canvas>

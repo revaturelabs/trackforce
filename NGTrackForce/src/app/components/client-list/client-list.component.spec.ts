@@ -9,6 +9,8 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RootComponent } from '../root/root.component';
 import { HomeComponent } from '../home/home.component';
+import {AuthenticationService} from '../../services/authentication-service/authentication.service';
+import {RequestService} from '../../services/request-service/request.service';
 
 describe('ClientListComponent', () => {
   let component: ClientListComponent;
@@ -24,7 +26,9 @@ describe('ClientListComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        ClientListService
+        ClientListService,
+        AuthenticationService,
+        RequestService
       ]
     })
     .compileComponents();

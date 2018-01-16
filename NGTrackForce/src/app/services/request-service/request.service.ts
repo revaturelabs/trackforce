@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
+import {User} from '../../models/user.model';
 
 @Injectable()
 export class RequestService {
@@ -26,8 +27,8 @@ export class RequestService {
     return this.http.delete(this.host + 'TrackForce/track/database/deleteFromDB');
   }
 
-  public login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(this.host + 'TrackForce/track/user/submit', { username: username, password: password });
+  public login(username: string, password: string): Observable<User> {
+    return this.http.post<User>(this.host + 'TrackForce/track/user/submit', { username: username, password: password });
   }
 
   public getUsername(): Observable<any> {
@@ -45,4 +46,10 @@ export class RequestService {
   public getBatchPerType(threeMonthsBefore: number, threeMonthsAfter: number): Observable<any> {
     return this.http.get<any>(this.host + 'TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter + '/type');
   }
+
+  public createUser(username: string, password: string, roleId: number): Observable<any> {
+    return this.http.post<any>(this.host + 'TrackForce/track/create/user', {username: username, password: password, role: roleId})
+  }
+
+
 }

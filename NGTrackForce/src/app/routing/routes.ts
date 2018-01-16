@@ -37,7 +37,7 @@ export const appRoutes: Routes = [
     component: ClientListComponent
   },
     {
-        path: 'client-mapped',
+        path: 'client-mapped/:id',
         component: ClientMappedComponent
     },
     {

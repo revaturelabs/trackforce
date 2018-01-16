@@ -103,8 +103,8 @@ public class ClientInfo  implements Serializable, Comparable<ClientInfo> {
 			return;
 		}
 		stats.setName(getTfClientName());
-		LogUtil.logger.info(stats.getName() + ":\n" + stats.getTrainingMapped() + " " + stats.getReservedMapped() + " " + stats.getSelectedMapped() + " " + stats.getConfirmedMapped() + " " + stats.getDeployedMapped() + "\n" + 
-		stats.getTrainingUnmapped() + " " + stats.getOpenUnmapped() + " " + stats.getSelectedUnmapped() + " " + stats.getConfirmedUnmapped() + " " + stats.getDeployedUnmapped());
+		LogUtil.logger.debug(stats.getName() + ":\n" + stats.getTrainingMapped() + " " + stats.getReservedMapped() + " " + stats.getSelectedMapped() + " " + stats.getConfirmedMapped() + " " + stats.getDeployedMapped() + 
+		" " + stats.getTrainingUnmapped() + " " + stats.getOpenUnmapped() + " " + stats.getSelectedUnmapped() + " " + stats.getConfirmedUnmapped() + " " + stats.getDeployedUnmapped());
 	}
 
 	public StatusInfo getStats() {

@@ -25,6 +25,8 @@ import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
+import com.revature.model.ClientInfo;
+import com.revature.model.MarketingStatusInfo;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
@@ -66,15 +68,17 @@ public class AssociateDaoHibernate implements AssociateDao {
 	 * @throws IOException 
 	 */
 	@Override
-	public void updateInfo(Session session, BigDecimal id, TfMarketingStatus marketingStatus, TfClient client) throws IOException {
+	public void updateInfo(Session session, BigDecimal id, MarketingStatusInfo marketingStatus, ClientInfo client) throws IOException {
 
 		TfClient tfclient = null;
-		if (client.getTfClientId() != null) {
-			tfclient = session.get(TfClient.class, client.getTfClientId());
+		if (client.getId() != null) {
+			tfclient = session.get(TfClient.class, client.getId());
 		}
+		
+		TfMarketingStatus tfms = session.get(TfMarketingStatus.class, marketingStatus.getId());
 
 		TfAssociate associate = session.load(TfAssociate.class, id);
-		associate.setTfMarketingStatus(marketingStatus);
+		associate.setTfMarketingStatus(tfms);
 		associate.setTfClient(tfclient);
 		session.saveOrUpdate(associate);
 

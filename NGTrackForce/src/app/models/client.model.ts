@@ -10,8 +10,12 @@ import { StatusInfo } from './status-info.model';
 export class Client {
     id: number
     name: string
+    tfClientName: string;
     placements: Placement[];
     assicates: Associate[];
     interviews: Interview[];
     statusInfo: StatusInfo;
+
+    constructor(){
+    }
 }

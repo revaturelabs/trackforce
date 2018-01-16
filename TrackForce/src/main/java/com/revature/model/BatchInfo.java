@@ -31,6 +31,24 @@ public class BatchInfo  implements Serializable, Comparable<BatchInfo> {
     private String location;
     private String startDate;
     private String endDate;
+    private Long startLong;
+    public Long getStartLong() {
+		return startLong;
+	}
+
+	public void setStartLong(Long startLong) {
+		this.startLong = startLong;
+	}
+
+	public Long getEndLong() {
+		return endLong;
+	}
+
+	public void setEndLong(Long endLong) {
+		this.endLong = endLong;
+	}
+
+	private Long endLong;
    
     public Timestamp getStartTs() {
 		return startTs;

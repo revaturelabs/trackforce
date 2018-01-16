@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
@@ -45,6 +46,7 @@ import com.revature.utils.PersistentStorage;
  * Class that provides RESTful services for the batch listing and batch details
  * page.
  */
+@Path("batches")
 public class BatchesService implements Delegate {
 
 	/**
@@ -82,7 +84,7 @@ public class BatchesService implements Delegate {
 		try {
 			BatchDaoHibernate batchDao = new BatchDaoHibernate();
 			Map<BigDecimal, BatchInfo> map = batchDao.getBatchDetails(session);
-			
+
 			session.flush();
 			tx.commit();
 
@@ -99,55 +101,103 @@ public class BatchesService implements Delegate {
 	}
 
 	/**
-	 * Update the marketing status or client of an associate from form data.
+	 * Gets the number of associates learning each curriculum during a given date
+	 * range
 	 *
-	 * @param id
-	 *            - The ID of the associate to change
-	 * @param marketingStatus
-	 *            - What to change the associate's marketing status to
-	 * @param client
-	 *            - What client to change the associate to
-	 * @return
+	 * @param fromdate
+	 *            - the starting date of the date range
+	 * @param todate
+	 *            - the ending date of the date range
+	 * @return - A map of associates in each curriculum with the curriculum name as
+	 *         the key and number of associates as value.
+	 *
+	 *         The returned chart data is laid out as follows: [ { "curriculum" ->
+	 *         "1109 Sept 11 Java JTA", "value" -> 14 },
+	 *
+	 *         { "curriculum" -> "1109 Sept 11 Java Full Stack", "value" -> 16 }, *
+	 *
+	 *         ... ]
 	 * @throws IOException
 	 */
-	@PUT
-	@Path("{associate}/update")
-	@Produces({ MediaType.TEXT_HTML })
-	public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus,
-			@FormParam("client") String client) throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
-			TfMarketingStatus status = marketingStatusDao.getMarketingStatus(session, marketingStatus);
-
-			ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
-			TfClient tfclient = clientDaoImpl.getClient(session, client);
-
-			BigDecimal associateID = new BigDecimal(Integer.parseInt(id));
-
-			AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
-			associateDaoHibernate.updateInfo(session, associateID, status, tfclient);
-
-			session.flush();
-			tx.commit();
-			return Response.status(Response.Status.OK).entity("Updated the associate's information").build();
-		} catch (Exception e) {
-			e.printStackTrace();
-			LogUtil.logger.error(e);
-			session.flush();
-			tx.rollback();
-			throw new IOException("could not update associates", e);
-		} finally {
-			session.close();
+	@GET
+	@Path("{fromdate}/{todate}/type")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<BatchInfo> getBatchChartInfo(@PathParam("fromdate") Long fromdate, @PathParam("todate") Long todate)
+			throws IOException {
+		List<BatchInfo> batches = PersistentStorage.getStorage().getBatchesByDate();
+		List<BatchInfo> sublist = new LinkedList<BatchInfo>();
+		if (batches == null)
+			execute();
+		for (BatchInfo bi : batches) {
+			if (bi.getStartLong() != null && bi.getEndLong() != null)
+				if (todate.compareTo(bi.getStartLong()) >= 1 && todate.compareTo(bi.getEndLong()) <= 1) {
+					LogUtil.logger.info(new Timestamp(fromdate) + " <= " + new Timestamp(bi.getStartLong()) + " <= "
+							+ new Timestamp(todate));
+					LogUtil.logger.info("fromdate: " + new Timestamp(fromdate) + " todate: " + new Timestamp(todate)
+							+ " startlong: " + new Timestamp(bi.getStartLong()) + " endLong: "
+							+ new Timestamp(bi.getEndLong()));
+					sublist.add(bi);
+				} else if (fromdate.compareTo(bi.getStartLong()) <= 1 && fromdate.compareTo(bi.getEndLong()) >= 1) {
+					LogUtil.logger.info(new Timestamp(bi.getStartLong()) + " <= " + new Timestamp(fromdate) + "<="
+							+ new Timestamp(bi.getEndLong()));
+					LogUtil.logger.info("fromdate: " + new Timestamp(fromdate) + " todate: " + new Timestamp(todate)
+							+ " startlong: " + new Timestamp(bi.getStartLong()) + " endLong: "
+							+ new Timestamp(bi.getEndLong()));
+					sublist.add(bi);
+				}
 		}
+
+		return sublist;
+	}
+
+	/**
+	 * Gets all batches that are running within a given date range
+	 *
+	 * @param fromdate
+	 *            - the starting date of the date range
+	 * @param todate
+	 *            - the ending date of the date range
+	 * @return - A list of the batch info. Batch info contains batch name, client
+	 *         name, batch start date, and batch end date.
+	 * @throws IOException
+	 */
+	@GET
+	@Path("{fromdate}/{todate}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<BatchInfo> getBatches(@PathParam("fromdate") Long fromdate, @PathParam("todate") Long todate)
+			throws IOException {
+		List<BatchInfo> batches = PersistentStorage.getStorage().getBatchesByDate();
+		List<BatchInfo> sublist = new LinkedList<BatchInfo>();
+		if (batches == null)
+			execute();
+		for (BatchInfo bi : batches) {
+			if (bi.getStartLong() != null && bi.getEndLong() != null)
+				if (fromdate <= bi.getStartLong() && bi.getStartLong() <= todate) {
+					LogUtil.logger.info(new Timestamp(fromdate) + " <= " + new Timestamp(bi.getStartLong()) + " <= "
+							+ new Timestamp(todate));
+					LogUtil.logger.info("fromdate: " + new Timestamp(fromdate) + " todate: " + new Timestamp(todate)
+							+ " startlong: " + new Timestamp(bi.getStartLong()) + " endLong: "
+							+ new Timestamp(bi.getEndLong()));
+					sublist.add(bi);
+				} else if (bi.getStartLong() <= fromdate && fromdate <= bi.getEndLong()) {
+					LogUtil.logger.info(new Timestamp(bi.getStartLong()) + " <= " + new Timestamp(fromdate) + "<="
+							+ new Timestamp(bi.getEndLong()));
+					LogUtil.logger.info("fromdate: " + new Timestamp(fromdate) + " todate: " + new Timestamp(todate)
+							+ " startlong: " + new Timestamp(bi.getStartLong()) + " endLong: "
+							+ new Timestamp(bi.getEndLong()));
+					sublist.add(bi);
+				}
+		}
+
+		return sublist;
 	}
 
 	@Override
 	public synchronized void execute() throws IOException {
 		Set<BatchInfo> bi = PersistentStorage.getStorage().getBatches();
-		if(bi == null || bi.isEmpty());
-			PersistentStorage.getStorage().setBatches(getBatches());
+		if (bi == null || bi.isEmpty())
+			;
+		PersistentStorage.getStorage().setBatches(getBatches());
 	}
 
 	@Override

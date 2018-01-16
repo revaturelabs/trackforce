@@ -115,8 +115,7 @@ public class PersistentStorage {
 	}
 
 	public List<BatchInfo> getBatchesByDate() {
-		List<BatchInfo> batches = new LinkedList<BatchInfo>(this.batchesByDate.values());
-		batches.addAll(this.batchesByDate.values());
+		List<BatchInfo> batches = new LinkedList<BatchInfo>(this.batches.values());
 		Collections.sort(batches, new DateComparator());
 		return batches;
 	}
@@ -160,5 +159,29 @@ public class PersistentStorage {
 
 	public void setTotals(StatusInfo totals) {
 		this.totalStats = totals;
+	}
+
+	public Map<BigDecimal, AssociateInfo> getAssociateAsMap() {
+		return this.associates;
+	}
+	
+	public Map<BigDecimal, BatchInfo> getBatchAsMap() {
+		return this.batches;
+	}
+	
+	public Map<BigDecimal, ClientInfo> getClientAsMap() {
+		return this.clients;
+	}
+	
+	public Map<BigDecimal, CurriculumInfo> getCurriculumAsMap() {
+		return this.curriculums;
+	}
+	
+	public Map<BigDecimal, MarketingStatusInfo> getMarketingAsMap() {
+		return this.marketingStatuses;
+	}
+
+	public void updateAssociates(Map<BigDecimal, AssociateInfo> associates) {
+		this.associates.putAll(associates);
 	}
 }

@@ -32,6 +32,7 @@ import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 import com.revature.utils.StatusInfoUtil;
 
+@Path("/clients")
 public class ClientResource implements Delegate {
 
 	/**
@@ -66,6 +67,27 @@ public class ClientResource implements Delegate {
 			tx.rollback();
 			throw new IOException("could not get clients", e);
 		}
+	}
+	
+	/**
+	 * Returns a StatusInfo object representing a client's associates and their
+	 * statuses.
+	 * 
+	 * @param clientid
+	 *            The id of the client in the TfClient table
+	 * @return A StatusInfo object for a specified client
+	 * @throws IOException
+	 * @throws HibernateException
+	 */
+	@GET
+	@Path("{clientid}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public StatusInfo getClientInfo(@PathParam("clientid") int clientid) throws HibernateException, IOException {
+		Map<BigDecimal, ClientInfo> map = PersistentStorage.getStorage().getClientAsMap();
+		if(map == null || map.isEmpty()) {
+			execute();
+		}
+		return map.get(new BigDecimal(clientid)).getStats();
 	}
 
 	@Override

@@ -37,7 +37,7 @@ export class AssociateService {
      * Update the given associates statuses/clients
      * @param ids of associates to be updated
      */
-    updateAssociates(ids: number[], ustatus: string, uclient: string): Observable<any> {
+    updateAssociates(ids: number[], ustatus: string, uclient: number): Observable<any> {
         let url: string = environment.url + "TrackForce/track/associates/update/" + ustatus + "/" + uclient
         
         return this.http.put(url, ids)

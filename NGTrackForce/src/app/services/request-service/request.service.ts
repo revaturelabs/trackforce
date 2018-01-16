@@ -8,7 +8,7 @@ import {User} from '../../models/user.model';
 export class RequestService {
 
   host: string = environment.url;
-  trackPath: string = this.host + '/TrackForce/track';
+  trackPath: string = this.host + 'TrackForce/track';
   dataPath: string = this.host + 'TrackForce/track/data/get';
 
   constructor(private http: HttpClient) { }
@@ -31,6 +31,10 @@ export class RequestService {
 
   public getUsername(): Observable<any> {
     return this.http.get<any>(this.host + 'TrackForce/track/user/name');
+  }
+
+  public updateAssociates(): Observable<any>{
+    return this.http.post<any>(this.trackPath + '/data/update/associate', {});
   }
 
   public getAssociates(): Observable<any> {
@@ -73,5 +77,9 @@ export class RequestService {
     return this.http.post<any>(this.host + 'TrackForce/track/create/user', {username: username, password: password, role: roleId})
   }
 
+    // get first match of Client Object
+    getOneClient(clientId: number): Observable<any> {
+      return this.http.get(this.trackPath + '/clients/' + clientId);
+    }
 
 }

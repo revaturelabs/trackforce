@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.revature.model.*;
+import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 // PersistentServiceDelegator has two purposes:
@@ -27,6 +28,8 @@ import com.revature.utils.PersistentStorage;
 @Path("data")
 public class PersistentServiceDelegator {
 
+	private Thread phw = new PersistenceHelperWorker();
+	
 	// Observers to check for change
 	private static Delegate[] delegates = { new AssociateService(), new BatchesService(), new ClientResource(),
 			new CurriculumService(), new MarketingStatusService() };
@@ -36,11 +39,14 @@ public class PersistentServiceDelegator {
 	public Response updateAssociates() throws IOException {
 		// evict the cache
 		PersistentStorage.getStorage().evictAssociates();
-		PersistentStorage.getStorage().evictBatches();
-		PersistentStorage.getStorage().evictClients();
 		
 		// execute the update
 		delegates[0].execute();
+		
+		// update affected components
+		// We already have what we wanted for associates,
+		// so we'll go ahead and run the other updates in the background
+		phw.start();
 
 		// notify Salesforce of the response
 		return Response.ok().build();
@@ -174,5 +180,20 @@ public class PersistentServiceDelegator {
 
 		// notify client of the response
 		return set;
+	}
+	
+	private class PersistenceHelperWorker extends Thread {
+		
+		@Override
+		public void run() {
+			try {
+				updateBatches();
+				updateClients();
+			} catch (IOException e) {
+				LogUtil.logger.error("Could not update from worker");
+				LogUtil.logger.error(e);
+				e.printStackTrace();
+			}
+		}
 	}
 }

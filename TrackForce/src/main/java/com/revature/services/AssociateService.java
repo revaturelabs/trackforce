@@ -2,6 +2,7 @@ package com.revature.services;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +33,8 @@ import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
+import com.revature.model.ClientInfo;
+import com.revature.model.MarketingStatusInfo;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
@@ -87,38 +90,7 @@ public class AssociateService implements Delegate {
 	public Response updateAssociate(@PathParam("associateId") String id,
 			@PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client)
 					throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
-			TfMarketingStatus status = marketingStatusDao.getMarketingStatus(session, marketingStatus);
-
-			if (status == null) {
-				return Response.status(Response.Status.BAD_REQUEST).entity("Invalid marketing status sent.").build();
-			}
-
-			ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
-			TfClient tfclient = clientDaoImpl.getClient(session, client);
-
-			BigDecimal associateID = new BigDecimal(Integer.parseInt(id));
-
-			AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
-			associateDaoHibernate.updateInfo(session, associateID, status, tfclient);
-
-			session.flush();
-			tx.commit();
-
-			return Response.status(Response.Status.OK).build();
-		} catch (Exception e) {
-			e.printStackTrace();
-			LogUtil.logger.error(e);
-			session.flush();
-			tx.rollback();
-			throw new IOException("can not update associate", e);
-		}
-		finally {
-			session.close();
-		}
+		return updateAssociates(new int[]{Integer.parseInt(id)}, marketingStatus, client);
 	}
 
 	/**
@@ -176,24 +148,51 @@ public class AssociateService implements Delegate {
 		Transaction tx = session.beginTransaction();
 		
 		try {
-			MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
-			TfMarketingStatus status = marketingStatusDao.getMarketingStatus(session, marketingStatus);
+			int statusId = Integer.parseInt(marketingStatus);
+			int clientId = Integer.parseInt(client);
 
-			if (status == null) {
+			ClientInfo tfclient = PersistentStorage.getStorage().getClientAsMap().get(new BigDecimal(clientId));
+			MarketingStatusInfo msi = PersistentStorage.getStorage().getMarketingAsMap().get(new BigDecimal(statusId));
+
+			if (msi == null) {
 				return Response.status(Response.Status.BAD_REQUEST).entity("Invalid marketing status sent.").build();
 			}
-
-			ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
-			TfClient tfclient = clientDaoImpl.getClient(session, client);
-
+			
+			Map<BigDecimal, AssociateInfo> map = new HashMap<>();
 			for (int id : ids) {
-				BigDecimal associateID = new BigDecimal(id);
+				AssociateInfo ai = PersistentStorage.getStorage().getAssociateAsMap().get(new BigDecimal(id));
+				ClientInfo old = PersistentStorage.getStorage().getClientAsMap().get(ai.getClid());
+				
+				// subtract old values
+				old.getStats().subtractFromMap(ai.getMsid());
+				old.getTfAssociates().remove(ai);
+				BigDecimal oldms = ai.getMsid();
+				
+				// add new values
+				// since all the resources are available to us, we can update storage here
+				// without having to hit the DB
+				tfclient.getStats().appendToMap(msi.getId());
+				tfclient.getTfAssociates().add(ai);
+				ai.setMarketingStatusId(msi.getId());
+				ai.setMarketingStatus(msi.getName());
+				ai.setClid(tfclient.getId());
+				ai.setClient(tfclient.getTfClientName());
+				
 
+				// write to DB
 				AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
-				associateDaoHibernate.updateInfo(session, associateID, status, tfclient);
+				associateDaoHibernate.updateInfo(session, ai.getId(), msi, tfclient);
+				
+				map.put(ai.getId(), ai);
+				PersistentStorage.getStorage().getTotals().appendToMap(msi.getId());
+				PersistentStorage.getStorage().getTotals().subtractFromMap(oldms);
 			}
 			session.flush();
 			tx.commit();
+			
+			// update Persistent storage
+			PersistentStorage.getStorage().updateAssociates(map);
+			
 			return Response.status(Response.Status.OK).build();
 		} catch (Exception e) {
 			e.printStackTrace();

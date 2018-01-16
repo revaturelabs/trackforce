@@ -84,6 +84,10 @@ public class Dao2DoMapper {
 		String locationName = (location != null) ? location.getTfBatchLocationName() : OTHER_VALUE;
 
 		BatchInfo bi = new BatchInfo(batch.getTfBatchId(), batchName, curriculumName, locationName, startDate, endDate);
+		if(batch.getTfBatchStartDate() != null)
+			bi.setStartLong(batch.getTfBatchStartDate().getTime());
+		if(batch.getTfBatchEndDate() != null)
+			bi.setEndLong(batch.getTfBatchEndDate().getTime());
 		bi.setStartTs(batch.getTfBatchStartDate());
 		if (batch.getTfAssociates() != null)
 			for (TfAssociate tfa : batch.getTfAssociates()) {
@@ -115,13 +119,12 @@ public class Dao2DoMapper {
 			for (TfAssociate tfa : client.getTfAssociates()) {
 				cli.getTfAssociates().add(map(tfa));
 				if (tfa.getTfMarketingStatus() != null) {
-					LogUtil.logger.info(tfa.getTfAssociateFirstName() + " " + tfa.getTfAssociateLastName() + " \n"
+					LogUtil.logger.debug(tfa.getTfAssociateFirstName() + " " + tfa.getTfAssociateLastName() + " \n"
 							+ tfa.getTfMarketingStatus().getTfMarketingStatusName() + " " + tfa.getTfMarketingStatus().getTfMarketingStatusId() +
 							"\n" + tfa.getTfClient().getTfClientId() + tfa.getTfClient().getTfClientName());
 					cli.appendToMap(tfa.getTfMarketingStatus());
 				}
-				LogUtil.logger.info("Final results: " + cli.getTfClientName());
-				LogUtil.logger.info(cli.getStats());
+				LogUtil.logger.info("Final results: " + cli.getTfClientName() +" " + cli.getStats());
 			}
 		if (client.getTfInterviews() != null)
 			for (TfInterview tfi : client.getTfInterviews())

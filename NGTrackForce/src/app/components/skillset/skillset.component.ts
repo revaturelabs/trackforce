@@ -27,9 +27,8 @@ export class SkillsetComponent implements OnInit {
   /**
    * Map of selected status to skill id
    */
+  // probably a bad idea...
   private static SKILL_INFO : Map<string, any>;
-  // TODO: remove this
-  private static NEW_SKILL_INFO : Map<string, any>;
   /**
    * The id of skill, probably to hit the API with
    */
@@ -104,15 +103,6 @@ export class SkillsetComponent implements OnInit {
       SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.CONFIRMED, 9);
       SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.DEPLOYED, 10);
     }
-    //TODO: remove this
-    if (!SkillsetComponent.NEW_SKILL_INFO) {
-      SkillsetComponent.NEW_SKILL_INFO = new Map();
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.TRAINING, 0);
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.OPEN, 1);
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.SELECTED, 2);
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.CONFIRMED, 3);
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.DEPLOYED, 4);
-    }
   }
 
   ngOnInit(): void {
@@ -182,9 +172,12 @@ export class SkillsetComponent implements OnInit {
 
   public goToAssociateList(event)
   {
-    // stub for right now because I cannot see what to send the associate list component
-    if (event.event) return event.event.preventDefault();
-    event.preventDefault();
+    /* NOTE:  event.active[0]._model.label is the label for the ChartElement that has been clicked. Problem
+     * is that it's returning falsy string because the database is basically a hostage situation. 
+     * TODO: put some stub in its place in the case of it being falsy. 
+     */ 
+    this.router.navigate([
+      `/associate-listing/curriculum/${event.active[0]._model.label}/unmapped/${this.selectedStatus}`]);
   }
 
   /**
@@ -199,5 +192,10 @@ export class SkillsetComponent implements OnInit {
   public static getSkillInfo() {
     return SkillsetComponent.SKILL_INFO;
   }
+
+  /**
+   * Exposing skillID in a safe way
+   */
+  public getSkillID() : number { return this.skillID; }
 
 }

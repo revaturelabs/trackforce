@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Table(name = "TF_ASSOCIATE", schema = "ADMIN")
 public class TfAssociate implements java.io.Serializable {
 
-	/**
+	/** 
 	 * 
 	 */
 	private static final long serialVersionUID = -2324082555924677252L;

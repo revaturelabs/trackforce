@@ -55,7 +55,7 @@ public class UserDaoImplTest {
 	@DataProvider(name = "user")
 	  public Object[][] user() {
 			return new Object[][] {
-				new Object[] {new TfUser(new BigDecimal(1))}
+				new Object[] {new TfUser(1)}
 			};
 	}
 

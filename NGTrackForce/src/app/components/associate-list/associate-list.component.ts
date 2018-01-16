@@ -68,8 +68,13 @@ export class AssociateListComponent implements OnInit {
 
       for (let associate of this.associates) {//get our curriculums
         this.curriculums.add(associate.curriculumName);
+
+        if (associate.batchName === 'null') {
+          associate.batchName = 'None'
+        }
       }
       this.curriculums.delete("");
+      this.curriculums.delete("null");
       self.sort("id");
     });
   }

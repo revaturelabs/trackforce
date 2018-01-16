@@ -11,7 +11,6 @@ export class Associate {
     clid: number;
     client: string
     bid: number;
-    batch: string
     curid: number
     curriculumName: string
     ecid: number

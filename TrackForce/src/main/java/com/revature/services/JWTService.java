@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.revature.dao.UserDaoImpl;
+import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
@@ -94,12 +95,12 @@ public class JWTService {
 	 * @return the Date if it exists, otherwise null
 	 */
 	public Date getExpirationDateFromToken(String token) {
-		Date expiration;
+		Date expiration = null;
 		try {
 			final Claims claims = getClaimsFromToken(token);
 			expiration = claims.getExpiration();
 		} catch (Exception e) {
-			expiration = null;
+			e.printStackTrace();
 		}
 		return expiration;
 	}
@@ -112,11 +113,11 @@ public class JWTService {
 	 * @return Claims object, or null
 	 */
 	private Claims getClaimsFromToken(String token) {
-		Claims claims;
+		Claims claims = null;
 		try {
 			claims = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
 		} catch (Exception e) {
-			claims = null;
+			e.printStackTrace();
 		}
 		return claims;
 	}
@@ -125,9 +126,10 @@ public class JWTService {
 	 * Validates a token
 	 * 
 	 * @param token
-	 * @param username
 	 * 
 	 * @return true if the token is valid, otherwise false
+	 * @throws IOException
+	 *             because of the use of connection pools that requires some files
 	 */
 	public Boolean validateToken(String token) throws IOException {
 		Claims claims = null;
@@ -167,7 +169,116 @@ public class JWTService {
 	}
 
 	/**
-	 * Gets the secret key from System environments, under the 'KEY' label
+	 * <<<<<<< HEAD Gets the secret key from System environments, under the 'KEY'
+	 * label ======= Checks if the user is an admin
+	 * 
+	 * 
+	 * @param token
+	 * @return true if the user is an admin, otherwise false
+	 * @throws IOException
+	 *             because of the use of connection pools that requires some files
+	 */
+	public boolean isAdmin(String token) throws IOException {
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			Claims claims = null;
+			boolean verified = false;
+			String tokenUsername = null;
+			TfUser tfUser = null;
+			UserDaoImpl udi = new UserDaoImpl();
+			TfRole tfRole = null;
+
+			if (token == null) {
+				return false;
+			}
+
+			try {
+				claims = getClaimsFromToken(token);
+				tokenUsername = claims.getSubject();
+				tfUser = udi.getUser(tokenUsername, session);
+				tfRole = tfUser.getTfRole();
+
+				if (tfUser != null) {
+					// makes sure the token is fresh and usernames are equal
+					// and user role is admin
+					verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
+							&& tfRole.getTfRoleName().equals("Admin"));
+				}
+
+				session.flush();
+				tx.begin();
+				return verified;
+			} catch (SignatureException se) {
+				se.printStackTrace();
+			}
+		} catch (Exception e) {
+			session.flush();
+			tx.rollback();
+		} finally {
+			session.close();
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if the user is an associate
+	 * 
+	 * 
+	 * @param token
+	 * @return true if the user is an associate, otherwise false
+	 * @throws IOException
+	 *             because of the use of connection pools that requires some files
+	 */
+	public boolean isAssociate(String token) throws IOException {
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+		Claims claims = null;
+		boolean verified = false;
+		String tokenUsername = null;
+		TfUser tfUser = null;
+		UserDaoImpl udi = new UserDaoImpl();
+		TfRole tfRole = null;
+
+		if (token == null) {
+			return false;
+		}
+
+		try {
+			claims = getClaimsFromToken(token);
+			tokenUsername = claims.getSubject();
+			tfUser = udi.getUser(tokenUsername, session);
+			tfRole = tfUser.getTfRole();
+
+			if (tfUser != null) {
+				// makes sure the token is fresh and usernames are equal
+				// and user role is an associate
+				verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
+						&& tfRole.getTfRoleName().equals("Associate"));
+			}
+
+		} catch (SignatureException se) {
+			se.printStackTrace();
+		}
+
+		session.flush();
+		tx.commit();
+		return verified;
+		
+		} catch(Exception e) {
+			session.flush();
+			tx.rollback();
+		}
+		finally {
+			session.close();
+		}
+		return false;
+	}
+
+	/**
+	 * Gets the secret key from System environments, under the 'KEY' label >>>>>>>
+	 * a08cd25a85f2cec1a67df1180c8868a0c0b50ec7
 	 * 
 	 * @return key string
 	 */

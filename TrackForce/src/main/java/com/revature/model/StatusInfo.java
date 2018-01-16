@@ -1,9 +1,34 @@
 package com.revature.model;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+import com.revature.entity.TfMarketingStatus;
+import com.revature.utils.LogUtil;
+
 /**
  * This class models all information that pertains to mapped/unmapped statuses
  */
-public class StatusInfo {
+public class StatusInfo implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5362503104883791588L;
+	public static final int MAPPED_TRAINING = 1;
+	public static final int MAPPED_RESERVED = 2;
+	public static final int MAPPED_SELECTED = 3;
+	public static final int MAPPED_CONFIRMED = 4;
+	public static final int MAPPED_DEPLOYED = 5;
+
+	public static final int UNMAPPED_TRAINING = 6;
+	public static final int UNMAPPED_OPEN = 7;
+	public static final int UNMAPPED_SELECTED = 8;
+	public static final int UNMAPPED_CONFIRMED = 9;
+	public static final int UNMAPPED_DEPLOYED = 10;
+
+	public static final int DIRECTLY_PLACED = 11;
+	public static final int TERMINATED = 12;
 
 	private String name;
 	private int trainingMapped;
@@ -32,6 +57,20 @@ public class StatusInfo {
 	 */
 	public StatusInfo(String name) {
 		this.name = name;
+	}
+
+	public void clear() {
+		this.name = "";
+		this.trainingMapped = 0;
+		this.trainingUnmapped = 0;
+		this.reservedMapped = 0;
+		this.openUnmapped = 0;
+		this.selectedMapped = 0;
+		this.selectedUnmapped = 0;
+		this.confirmedMapped = 0;
+		this.confirmedUnmapped = 0;
+		this.deployedMapped = 0;
+		this.deployedUnmapped = 0;
 	}
 
 	/**
@@ -370,10 +409,86 @@ public class StatusInfo {
 
 	@Override
 	public String toString() {
-		return "StatusInfo  [name=" + name + ", trainingMapped=" + trainingMapped + ", trainingUnmapped="
+		return "StatusInfo [name=" + name + ", trainingMapped=" + trainingMapped + ", trainingUnmapped="
 				+ trainingUnmapped + ", reservedMapped=" + reservedMapped + ", openUnmapped=" + openUnmapped
 				+ ", selectedMapped=" + selectedMapped + ", selectedUnmapped=" + selectedUnmapped + ", confirmedMapped="
 				+ confirmedMapped + ", confirmedUnmapped=" + confirmedUnmapped + ", deployedMapped=" + deployedMapped
 				+ ", deployedUnmapped=" + deployedUnmapped + "]";
+	}
+
+	public void subtractFromMap(BigDecimal id) {
+
+		switch (id.intValueExact()) {
+		case StatusInfo.MAPPED_TRAINING:
+			setTrainingMapped(getTrainingMapped() - 1);
+			break;
+		case StatusInfo.MAPPED_RESERVED:
+			setReservedMapped(getReservedMapped() - 1);
+			break;
+		case StatusInfo.MAPPED_SELECTED:
+			setSelectedMapped(getSelectedMapped() - 1);
+			break;
+		case StatusInfo.MAPPED_CONFIRMED:
+			setConfirmedMapped(getConfirmedMapped() - 1);
+			break;
+		case StatusInfo.MAPPED_DEPLOYED:
+			setDeployedMapped(getDeployedMapped() - 1);
+			break;
+		case StatusInfo.UNMAPPED_TRAINING:
+			setTrainingUnmapped(getTrainingUnmapped() - 1);
+			break;
+		case StatusInfo.UNMAPPED_OPEN:
+			setOpenUnmapped(getOpenUnmapped() - 1);
+			break;
+		case StatusInfo.UNMAPPED_SELECTED:
+			setSelectedUnmapped(getSelectedUnmapped() - 1);
+			break;
+		case StatusInfo.UNMAPPED_CONFIRMED:
+			setConfirmedUnmapped(getConfirmedUnmapped() - 1);
+			break;
+		case StatusInfo.UNMAPPED_DEPLOYED:
+			setDeployedUnmapped(getDeployedUnmapped() - 1);
+			break;
+		default:
+			return;
+		}
+	}
+
+	public void appendToMap(BigDecimal id) {
+
+		switch (id.intValueExact()) {
+		case StatusInfo.MAPPED_TRAINING:
+			setTrainingMapped(getTrainingMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_RESERVED:
+			setReservedMapped(getReservedMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_SELECTED:
+			setSelectedMapped(getSelectedMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_CONFIRMED:
+			setConfirmedMapped(getConfirmedMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_DEPLOYED:
+			setDeployedMapped(getDeployedMapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_TRAINING:
+			setTrainingUnmapped(getTrainingUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_OPEN:
+			setOpenUnmapped(getOpenUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_SELECTED:
+			setSelectedUnmapped(getSelectedUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_CONFIRMED:
+			setConfirmedUnmapped(getConfirmedUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_DEPLOYED:
+			setDeployedUnmapped(getDeployedUnmapped() + 1);
+			break;
+		default:
+			return;
+		}
 	}
 }

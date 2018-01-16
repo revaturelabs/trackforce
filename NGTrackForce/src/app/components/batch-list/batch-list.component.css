@@ -1,0 +1,69 @@
+canvas {
+  padding: 0;
+  width: 100%;
+}
+
+form {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+thead {
+  display: block;
+  overflow-y: scroll;
+}
+tbody {
+  /* width: max-content; */
+  display: block;
+  overflow-y: scroll;
+  max-height: 750px !important;
+}
+
+.data-status {
+  text-align: center;
+}
+
+.well {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.table-row {
+  display: flex;
+  flex-grow: 1;
+}
+
+.mcolumn.left {
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.mcolumn.right {
+  margin-right: 0px;
+  padding-right: 0px;
+}
+
+form > div {
+  display: inline-block;
+}
+
+.name-column {
+  width: 50%;
+}
+
+.date-column {
+  width: 25%;
+}
+
+
+@media screen and (max-width: 1000px) {
+  .table-width-adjust {
+    width: 100% !important;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
+.max-width {
+  display: flex;
+}

@@ -131,7 +131,7 @@ export class SkillsetComponent implements OnInit {
       // if there is empty string, simply go home
       if (!this.selectedStatus)
       {
-        // this.route.snapshot.
+        this.router.navigate(['/root']);
       }
     }
     // get the skillset data here
@@ -183,6 +183,7 @@ export class SkillsetComponent implements OnInit {
   public goToAssociateList(event)
   {
     // stub for right now because I cannot see what to send the associate list component
+    if (event.event) return event.event.preventDefault();
     event.preventDefault();
   }
 

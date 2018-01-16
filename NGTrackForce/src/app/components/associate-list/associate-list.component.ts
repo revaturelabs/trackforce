@@ -48,6 +48,12 @@ export class AssociateListComponent implements OnInit {
   }
 
   ngOnInit() {
+    //get current url
+    var url = window.location.href.split("/");
+    if(url.length==6)//if values passed in, search by values
+    {
+       this.searchByStatus=url[4].toUpperCase()+",  "+url[5].toUpperCase();
+    }
     this.getAllAssociates();
     this.getClientNames();
   }

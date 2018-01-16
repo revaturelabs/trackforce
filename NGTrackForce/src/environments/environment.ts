@@ -5,6 +5,5 @@
 
 export const environment = {
   production: false,
-  // url: "http://localhost:8085/"
-  url: "http://192.168.60.155:8085/"
+  url: "http://localhost:8085/"
 };

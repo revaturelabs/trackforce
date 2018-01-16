@@ -10,8 +10,10 @@ import java.util.TreeSet;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.xml.ws.Response;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -68,26 +70,4 @@ public class CurriculumService implements Delegate {
 	public <T> Set<T> read(String...args) throws IOException {
 		return (Set<T>) getAllCurriculums();
 	}
-	
-	/**
-	 * Returns a Response object from StatusInfoUtil with a List of Map objects as
-	 * an entity. The format of the Map objects are as follows: <br>
-	 * name: (name of curriculum) <br>
-	 * count: (count of desired status)
-	 * 
-	 * @param statusid
-	 *            Status id of the status/stage of associates that the requester
-	 *            wants information for.
-	 * @return a Response object with a List of Map objects as an entity.
-	 * @throws IOException
-	 * @throws HibernateException
-	 */
-	@GET
-	@Path("{statusid}")
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getCurriculumsByStatus(@PathParam("statusid") int statusid) throws HibernateException, IOException {
-		init();
-		return Response.ok(StatusInfoUtil.getCurriculumsBasedOnStatusID(statusid)).build();
-	}
-
 }

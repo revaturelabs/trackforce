@@ -34,6 +34,8 @@ import com.revature.entity.TfClient;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientInfo;
+import com.revature.model.CurriculumInfo;
+import com.revature.model.CurriculumJSON;
 import com.revature.model.MarketingStatusInfo;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
@@ -203,6 +205,39 @@ public class AssociateService implements Delegate {
 		} finally {
 			session.close();
 		}
+	}
+	
+	/**
+	 * Returns a Response object from StatusInfoUtil with a List of Map objects as
+	 * an entity. The format of the Map objects are as follows: <br>
+	 * name: (name of curriculum) <br>
+	 * count: (count of desired status)
+	 * 
+	 * @param statusid
+	 *            Status id of the status/stage of associates that the requester
+	 *            wants information for.
+	 * @return a Response object with a List of Map objects as an entity.
+	 * @throws IOException
+	 * @throws HibernateException
+	 */
+	@GET
+	@Path("skillset/{statusid}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public Response getCurriculumsByStatus(@PathParam("statusid") int statusid) throws HibernateException, IOException {
+		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
+		CurriculumJSON curson = new CurriculumJSON();
+		if(associates == null) {
+			execute();
+			associates = PersistentStorage.getStorage().getAssociates();
+		}
+		Set<AssociateInfo> assocsBySkill = new TreeSet<AssociateInfo>();
+		for(AssociateInfo ai : associates) {
+			LogUtil.logger.info("curid: " + statusid + " assoc curid: " + ai.getCurid());
+			if(ai.getCurid() == new BigDecimal(statusid)) {
+				assocsBySkill.add(ai);
+			}
+		}
+		return Response.ok(assocsBySkill).build();
 	}
 	
 	// execute delegated task: fetch data from DB and cache it to storage

@@ -191,6 +191,28 @@ public class BatchesService implements Delegate {
 
 		return sublist;
 	}
+	
+	/**
+	 * Gets the information of the associates in a particular batch
+	 *
+	 * @param batchName
+	 *            - the name of a batch that is in the database
+	 * @return - A list of the lists of associate info. Associate info contains id,
+	 *         first name, last name, and marketing status.
+	 * @throws IOException
+	 */
+	@GET
+	@Path("{batch}/associates")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Set<AssociateInfo> getAssociates(@PathParam("batch") String batchName) throws IOException {
+		Set<AssociateInfo> associatesList = PersistentStorage.getStorage().getBatchAsMap().get(new BigDecimal(Integer.parseInt(batchName))).getAssociates();
+		if(associatesList == null) {
+			execute();
+			return PersistentStorage.getStorage().getBatchAsMap().get(new BigDecimal(Integer.parseInt(batchName))).getAssociates();
+		}
+		return associatesList;
+		
+	}
 
 	@Override
 	public synchronized void execute() throws IOException {

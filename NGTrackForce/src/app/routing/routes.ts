@@ -47,6 +47,10 @@ export const appRoutes: Routes = [
     component: AssociateListComponent
   },
   {
+    path: 'associate-listing/:mapping/:status',
+    component: AssociateListComponent
+  },
+  {
     path: 'batch-listing',
     component: BatchListComponent
   },

@@ -1,6 +1,7 @@
 package com.revature.dao;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import com.revature.entity.TfBatch;
  * Accesses various information for the batches.
  */
 public interface BatchDao {
+
+    TfBatch getBatchById(BigDecimal id, Session session) throws IOException;
 
     /**
      * Get a list of batches that are active between the given dates.

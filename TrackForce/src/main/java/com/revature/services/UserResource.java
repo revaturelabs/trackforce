@@ -2,17 +2,11 @@ package com.revature.services;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URI;
-import java.net.URISyntaxException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -27,8 +21,6 @@ import com.revature.model.UserJSON;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
-import com.revature.utils.PasswordStorage.CannotPerformOperationException;
-import com.revature.utils.PasswordStorage.InvalidHashException;
 
 @Path("/user")
 public class UserResource {

@@ -3,13 +3,16 @@ package com.revature.dao;
 import org.testng.annotations.Test;
 
 import com.revature.entity.TfClient;
+import com.revature.model.ClientInfo;
 import com.revature.model.StatusInfo;
 import com.revature.utils.HibernateUtil;
 
 import static org.testng.Assert.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -37,7 +40,7 @@ public class ClientDaoImplTest {
 		Session session = HibernateUtil.getSession().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			List<TfClient> result = cDao.getAllTfClients(session);
+			Map<BigDecimal, ClientInfo> result = cDao.getAllTfClients(session);
 			assertNotNull(result);
 		} finally {
 			session.flush();

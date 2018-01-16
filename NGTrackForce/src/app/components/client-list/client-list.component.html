@@ -5,10 +5,14 @@
     <!-- Clients List column -->
     <div class="col-md-3">
       <div class="form-group">
+<<<<<<< HEAD
         <input type="text" [(ngModel)]="searchName" (keyup)="getAllClientNames()" class="form-control" id="clientSearch" placeholder="Search by client name...">
+=======
+        <input type="text" [(ngModel)]="searchName" (keyup) ="getAllClients()" class="form-control" id="clientSearch" placeholder="Search by client name...">
+>>>>>>> 8b05bb06f8d9f27c14bd7209e8b28293713c58ab
       </div>
       <h3>Clients</h3>
-      <button (click)="getAllClients()" class="btn custom-btn">View Data for All Clients</button>
+      <button (click)="getTotalChartData()" class="btn custom-btn">View Data for All Clients</button>
       <div id="clients-list-well" class="well">
         <ul id="clients-list">
           <!-- populate list of company names -->

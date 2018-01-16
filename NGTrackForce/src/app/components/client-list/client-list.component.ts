@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ClientListService } from '../../services/client-list-service/client-list.service'
+import { RequestService } from '../../services/request-service/request.service';
 import { Subject } from 'rxjs/Subject';
 import { Client } from '../../models/client.model';
 import { Observable } from 'rxjs/Observable';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { Color } from 'ng2-charts';
+import { ClientListService } from '../../services/client-list-service/client-list.service';
 
 /**
  * @author Han Jung

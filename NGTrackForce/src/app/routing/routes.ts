@@ -14,6 +14,7 @@ import { BatchListComponent } from '../components/batch-list/batch-list.componen
 import { CreateUserComponent } from '../components/create-user/create-user.component';
 import { RootComponent } from '../components/root/root.component';
 import { SkillsetComponent } from '../components/skillset/skillset.component';
+import { BatchDetailsComponent } from '../components/batch-details/batch-details.component';
 
 /**
  * Place paths here
@@ -65,7 +66,6 @@ export const appRoutes: Routes = [
         path: 'skillset/:id',
         component: SkillsetComponent
     }
-
 ]
 
 

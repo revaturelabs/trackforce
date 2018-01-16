@@ -2,7 +2,13 @@ package com.revature.services;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -21,20 +27,20 @@ import org.hibernate.Transaction;
 
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
-import com.revature.dao.HomeDaoImpl;
 import com.revature.dao.MarketingStatusDao;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
+import com.revature.model.ClientInfo;
+import com.revature.model.MarketingStatusInfo;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
+import com.revature.utils.PersistentStorage;
 
 @Path("associates")
-public class AssociateService {
-
-	private HomeDaoImpl homeDaoImpl = new HomeDaoImpl();
+public class AssociateService implements Delegate {
 
 	/**
 	 * Retrieve information about a specific associate.
@@ -52,36 +58,8 @@ public class AssociateService {
 		Transaction tx = session.beginTransaction();
 		try {
 			AssociateDaoHibernate associatedao = new AssociateDaoHibernate();
-			TfAssociate associate = associatedao.getAssociate(associateid);
 
-			AssociateInfo associateinfo = new AssociateInfo();
-			associateinfo.setId(associate.getTfAssociateId());
-			associateinfo.setFirstName(associate.getTfAssociateFirstName());
-			associateinfo.setLastName(associate.getTfAssociateLastName());
-
-			if (associate.getTfMarketingStatus() != null) {
-				associateinfo.setMarketingStatus(associate.getTfMarketingStatus().getTfMarketingStatusName());
-			} else {
-				associateinfo.setMarketingStatus("None");
-			}
-
-			if (associate.getTfClient() != null) {
-				associateinfo.setClient(associate.getTfClient().getTfClientName());
-			} else {
-				associateinfo.setClient("None");
-			}
-
-			if (associate.getTfEndClient() != null) {
-				associateinfo.setEndClient(associate.getTfEndClient().getTfEndClientName());
-			} else {
-				associateinfo.setEndClient("None");
-			}
-
-			if (associate.getTfBatch() != null) {
-				associateinfo.setBatchName(associate.getTfBatch().getTfBatchName());
-			} else {
-				associateinfo.setBatchName("None");
-			}
+			AssociateInfo associateinfo = associatedao.getAssociate(associateid, session);
 
 			tx.commit();
 			return associateinfo;
@@ -112,38 +90,7 @@ public class AssociateService {
 	public Response updateAssociate(@PathParam("associateId") String id,
 			@PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client)
 					throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
-			TfMarketingStatus status = marketingStatusDao.getMarketingStatus(session, marketingStatus);
-
-			if (status == null) {
-				return Response.status(Response.Status.BAD_REQUEST).entity("Invalid marketing status sent.").build();
-			}
-
-			ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
-			TfClient tfclient = clientDaoImpl.getClient(session, client);
-
-			BigDecimal associateID = new BigDecimal(Integer.parseInt(id));
-
-			AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
-			associateDaoHibernate.updateInfo(session, associateID, status, tfclient);
-
-			session.flush();
-			tx.commit();
-
-			return Response.status(Response.Status.OK).build();
-		} catch (Exception e) {
-			e.printStackTrace();
-			LogUtil.logger.error(e);
-			session.flush();
-			tx.rollback();
-			throw new IOException("can not update associate", e);
-		}
-		finally {
-			session.close();
-		}
+		return updateAssociates(new int[]{Integer.parseInt(id)}, marketingStatus, client);
 	}
 
 	/**
@@ -155,44 +102,24 @@ public class AssociateService {
 	 * @throws IOException
 	 * @throws HibernateException
 	 */
-	@GET
-	@Path("all")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllAssociates() throws IOException {
+	private Set<AssociateInfo> getAllAssociates() throws IOException {
+		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
+		if(associates == null || associates.isEmpty()) {
+			execute();
+			return PersistentStorage.getStorage().getAssociates();
+		}
+		return associates;
+	}
+	private Map<BigDecimal, AssociateInfo> getAssociates() throws HibernateException, IOException{
 		Session session = HibernateUtil.getSession().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates(session);
-			Set<AssociateInfo> associateInfos = new TreeSet<>();
-			for (TfAssociate tfAssociate : tfAssociates) {
-				if (tfAssociate.getTfMarketingStatus() == null || tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
-						|| tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
-					continue;
-				}
-				BigDecimal tfAssociateId = tfAssociate.getTfAssociateId();
-				String tfAssociateFirstName = tfAssociate.getTfAssociateFirstName();
-				String tfAssociateLastName = tfAssociate.getTfAssociateLastName();
-				String tfMarketingStatusName = tfAssociate.getTfMarketingStatus() != null
-						? tfAssociate.getTfMarketingStatus().getTfMarketingStatusName()
-								: "";
-						String tfClientName = tfAssociate.getTfClient() != null ? tfAssociate.getTfClient().getTfClientName()
-								: "None";
-						String tfBatchName = tfAssociate.getTfBatch() != null ? tfAssociate.getTfBatch().getTfBatchName() : "";
-
-						String tfCurriculum;
-						if (tfAssociate.getTfBatch() != null && tfAssociate.getTfBatch().getTfCurriculum() != null) {
-							tfCurriculum = tfAssociate.getTfBatch().getTfCurriculum().getTfCurriculumName();
-						} else {
-							tfCurriculum = "";
-						}
-
-						associateInfos.add(new AssociateInfo(tfAssociateId, tfAssociateFirstName, tfAssociateLastName,
-								tfMarketingStatusName, tfClientName, tfBatchName, tfCurriculum));
-			}
-
+			Map<BigDecimal, AssociateInfo> tfAssociates = new AssociateDaoHibernate().getAssociates(session);
+			PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
+			
 			session.flush();
 			tx.commit();
-			return Response.ok(associateInfos).build();
+			return tfAssociates;
 		} catch (Exception e) {
 			e.printStackTrace();
 			LogUtil.logger.error(e);
@@ -221,24 +148,51 @@ public class AssociateService {
 		Transaction tx = session.beginTransaction();
 		
 		try {
-			MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
-			TfMarketingStatus status = marketingStatusDao.getMarketingStatus(session, marketingStatus);
+			int statusId = Integer.parseInt(marketingStatus);
+			int clientId = Integer.parseInt(client);
 
-			if (status == null) {
+			ClientInfo tfclient = PersistentStorage.getStorage().getClientAsMap().get(new BigDecimal(clientId));
+			MarketingStatusInfo msi = PersistentStorage.getStorage().getMarketingAsMap().get(new BigDecimal(statusId));
+
+			if (msi == null) {
 				return Response.status(Response.Status.BAD_REQUEST).entity("Invalid marketing status sent.").build();
 			}
-
-			ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
-			TfClient tfclient = clientDaoImpl.getClient(session, client);
-
+			
+			Map<BigDecimal, AssociateInfo> map = new HashMap<>();
 			for (int id : ids) {
-				BigDecimal associateID = new BigDecimal(id);
+				AssociateInfo ai = PersistentStorage.getStorage().getAssociateAsMap().get(new BigDecimal(id));
+				ClientInfo old = PersistentStorage.getStorage().getClientAsMap().get(ai.getClid());
+				
+				// subtract old values
+				old.getStats().subtractFromMap(ai.getMsid());
+				old.getTfAssociates().remove(ai);
+				BigDecimal oldms = ai.getMsid();
+				
+				// add new values
+				// since all the resources are available to us, we can update storage here
+				// without having to hit the DB
+				tfclient.getStats().appendToMap(msi.getId());
+				tfclient.getTfAssociates().add(ai);
+				ai.setMarketingStatusId(msi.getId());
+				ai.setMarketingStatus(msi.getName());
+				ai.setClid(tfclient.getId());
+				ai.setClient(tfclient.getTfClientName());
+				
 
+				// write to DB
 				AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
-				associateDaoHibernate.updateInfo(session, associateID, status, tfclient);
+				associateDaoHibernate.updateInfo(session, ai.getId(), msi, tfclient);
+				
+				map.put(ai.getId(), ai);
+				PersistentStorage.getStorage().getTotals().appendToMap(msi.getId());
+				PersistentStorage.getStorage().getTotals().subtractFromMap(oldms);
 			}
 			session.flush();
 			tx.commit();
+			
+			// update Persistent storage
+			PersistentStorage.getStorage().updateAssociates(map);
+			
 			return Response.status(Response.Status.OK).build();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -249,5 +203,18 @@ public class AssociateService {
 		} finally {
 			session.close();
 		}
+	}
+	
+	// execute delegated task: fetch data from DB and cache it to storage
+	@Override
+	public synchronized void execute() throws IOException {
+		Set<AssociateInfo> ai = PersistentStorage.getStorage().getAssociates();
+		if(ai == null || ai.isEmpty())
+			PersistentStorage.getStorage().setAssociates(getAssociates());
+	}
+
+	@Override
+	public <T> Set<T> read(String...args) throws IOException {
+		return (Set<T>) getAllAssociates();
 	}
 }

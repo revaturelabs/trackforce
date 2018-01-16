@@ -3,8 +3,10 @@ package com.revature.dao;
 import static org.testng.Assert.assertNotNull;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -15,6 +17,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.revature.entity.TfBatch;
+import com.revature.model.BatchInfo;
 import com.revature.utils.HibernateUtil;
 
 public class BatchDaoImplTest {
@@ -57,8 +60,8 @@ public class BatchDaoImplTest {
 	}
 	
 	@Test(dataProvider="timeStamps")
-	public void getBatchDetails(Timestamp start, Timestamp end) throws IOException {
-		List<TfBatch> result = bDao.getBatchDetails(start, end, session);
+	public void getBatchDetails() throws IOException {
+		Map<BigDecimal, BatchInfo> result = bDao.getBatchDetails(session);
 		assertNotNull(result);
 	}
 }

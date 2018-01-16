@@ -33,7 +33,7 @@ export class BatchService {
   public getDefaultBatches() {
     const now: Date = new Date();
     // all batches will be over by then
-    const monthRadius = 6;
+    const monthRadius = 3;
     const threeMonthsBefore = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     threeMonthsBefore.setMonth(threeMonthsBefore.getMonth() - monthRadius);
     const threeMonthsAfter = new Date(now.getFullYear(), now.getMonth(), 28);

@@ -1,9 +1,14 @@
 package com.revature.dao;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -19,6 +24,9 @@ import org.hibernate.query.Query;
 
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
+import com.revature.model.AssociateInfo;
+import com.revature.model.BatchInfo;
+import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
@@ -48,18 +56,18 @@ public class BatchDaoHibernate implements BatchDao {
 				batch = query.getSingleResult();
 			} catch (NoResultException nre) {
 				LogUtil.logger.error(nre);
-				batch = new TfBatch();
+				throw new IOException("could not get batch", nre);
 			}
-			if (batch.getTfBatchId() != null) {
-				Hibernate.initialize(batch.getTfCurriculum());
-				Hibernate.initialize(batch.getTfBatchLocation());
-				Hibernate.initialize(batch.getTfAssociates());
-
-				for (TfAssociate associate : batch.getTfAssociates()) {
-					Hibernate.initialize(associate.getTfMarketingStatus());
-					Hibernate.initialize(associate.getTfClient());
-				}
-			}
+//			if (batch.getTfBatchId() != null) {
+//				batch.getTfCurriculum();
+//				batch.getTfBatchLocation();
+//				batch.getTfAssociates());
+//
+//				for (TfAssociate associate : batch.getTfAssociates()) {
+//					associate.getTfMarketingStatus();
+//					associate.getTfClient();
+//				}
+//			}
 			return batch;
 		
 	}
@@ -74,13 +82,19 @@ public class BatchDaoHibernate implements BatchDao {
 	 * @throws IOException
 	 */
 	@Override
-	public List<TfBatch> getBatchDetails(Timestamp fromdate, Timestamp todate, Session session) throws IOException {
-		List<TfBatch> batch = new ArrayList<>();
-		TypedQuery<TfBatch> query = session.createQuery(
-				"from TfBatch where (tfBatchStartDate >= :fromdate) and (tfBatchEndDate <= :todate)", TfBatch.class);
-		query.setParameter("fromdate", fromdate);
-		query.setParameter("todate", todate);
-		batch = query.getResultList();
-		return batch;
+	public Map<BigDecimal, BatchInfo> getBatchDetails(Session session) throws IOException {
+		List<TfBatch> batchesEnt;
+
+		Map<BigDecimal, BatchInfo> map = new HashMap<>();
+		TypedQuery<TfBatch> tq = session.createQuery(
+				"from TfBatch", TfBatch.class);
+		
+		batchesEnt = tq.getResultList();
+		if(batchesEnt != null)
+		for(TfBatch tb : batchesEnt) {
+			map.put(tb.getTfBatchId(), Dao2DoMapper.map(tb));
+		}
+		
+		return map;
 	}
 }

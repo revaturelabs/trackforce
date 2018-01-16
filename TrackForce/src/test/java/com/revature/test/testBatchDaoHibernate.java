@@ -1,5 +1,7 @@
 package com.revature.test;
 
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import org.testng.annotations.BeforeClass;
@@ -13,13 +15,10 @@ import java.util.Properties;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.junit.After;
-import org.junit.Before;
 import org.testng.Assert;
 
 import com.revature.dao.BatchDao;
 import com.revature.dao.BatchDaoHibernate;
-import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.utils.HibernateUtil;
 
@@ -37,13 +36,13 @@ public class testBatchDaoHibernate {
 		fileInput.close();
 	}
 	
-	@Before
+	@BeforeTest
 	public void before() throws HibernateException, IOException {
 		session = HibernateUtil.getSession().openSession();
 		tx = session.beginTransaction();
 	}
 	
-	@After
+	@AfterTest
 	public void after() {
 		session.flush();
 		tx.rollback();

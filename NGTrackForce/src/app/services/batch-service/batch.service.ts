@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Batch} from '../../models/batch.model';
+import {Associate} from '../../models/associate.model';
 
 @Injectable()
 export class BatchService {
@@ -28,21 +29,28 @@ export class BatchService {
   /**
    * get batches within six months of current
    *
-   * @returns {Observable<Batch>}
+   * @returns {Observable<Batch[]>}
    */
-  public getDefaultBatches() {
+  public getDefaultBatches(): Observable<Batch[]> {
     const now: Date = new Date();
     // all batches will be over by then
-    const monthRadius = 6;
+    const monthRadius = 3;
     const threeMonthsBefore = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     threeMonthsBefore.setMonth(threeMonthsBefore.getMonth() - monthRadius);
     const threeMonthsAfter = new Date(now.getFullYear(), now.getMonth(), 28);
     threeMonthsAfter.setMonth(threeMonthsAfter.getMonth() + monthRadius);
 
-    console.log(threeMonthsBefore, threeMonthsAfter);
-
     return this.getBatchesByDate(threeMonthsBefore, threeMonthsAfter);
   }
 
+  /**
+   * as the name suggests, fetches list of associates in the batch with given id
+   * @param {number} id
+   * @returns {Observable<Associate[]>}
+   */
+  public getAssociatesForBatch(id: number): Observable<Associate[]> {
+    const url = environment.url + 'TrackForce/track/batches/' + id + '/associates';
+    return this.http.get<Associate[]>(url);
+  }
 
 }

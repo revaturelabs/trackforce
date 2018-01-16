@@ -3,7 +3,6 @@
  * @description Receives user inputs from form and submits them to the back-end for validation
  */
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { Router } from '@angular/router';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
@@ -39,8 +38,14 @@ export class LoginComponent implements OnInit {
   *
   */
   ngOnInit() {
-    if (this.authService.getUser() != null)
+    let user = this.authService.getUser();
+    if (user != null){
+      if(user.tfRoleId === 4){
+        this.router.navigate(['associate-view', user.userId]);
+      }
       this.router.navigate(['root']);
+    }
+
   }
 
   /**
@@ -54,12 +59,14 @@ export class LoginComponent implements OnInit {
   login() {
     this.authService.login(this.username, this.password).subscribe(
       data => {
-        console.log(data)
-        //navigate to home page if return is valid
+        let user = this.authService.getUser();
+        //navigate to appropriate page if return is valid
+        if(user.tfRoleId === 4){
+          this.router.navigate(['associate-view', user.userId]);
+        }
         this.router.navigate(['root']);
       },
       err => {
-        console.log(err + " Error Occurred");
         this.authService.logout();
       }
     );

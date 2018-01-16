@@ -13,7 +13,7 @@ export class SkillsetService {
 
     getSkillsetsForStatusID(statusID : number) : Observable<any> {
         return this.http.get(((this.NO_BACKEND) ? this.MOCK_API : environment.url) + 
-            'TrackForce/track/skillset/' + statusID);
+            'TrackForce/track/associates/skillset/' + statusID);
     }
 
     

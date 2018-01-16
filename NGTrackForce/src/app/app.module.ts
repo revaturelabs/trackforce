@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpModule, JsonpModule } from '@angular/http';
 import { ChartsModule } from 'ng2-charts';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { FormsModule } from '@angular/forms';
@@ -26,6 +25,7 @@ import { HomeComponent } from './components/home/home.component';
 import { RootComponent } from './components/root/root.component';
 import { SkillsetComponent } from './components/skillset/skillset.component';
 import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
+import { AssociateViewComponent } from './components/associate-view/associate-view.component';
 
 ///
 //  SERVICES
@@ -38,18 +38,18 @@ import { AuthenticationService } from './services/authentication-service/authent
 import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 import { BatchService } from './services/batch-service/batch.service';
 import { SkillsetService } from './services/skill-set-service/skill-set.service';
+import { DataSyncService } from './services/datasync-service/data-sync.service';
 import { CreateUserService } from './services/create-user-service/create-user.service';
-import { SalesforceDataService } from './services/salesforce-data-service/salesforce-data.service';
 
 ///
 //  FILTERS
-/// 
+///
 ///
 
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 
 ///
-//Security
+//  SECURITY
 ///
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
@@ -57,6 +57,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 //  CONSTANTS
 ///
 import { appRoutes } from './routing/routes';
+
 
 @NgModule({
   declarations: [
@@ -74,13 +75,13 @@ import { appRoutes } from './routing/routes';
     SearchFilterPipe,
     BatchDetailsComponent,
     RootComponent,
-    SkillsetComponent
+    SkillsetComponent,
+    AssociateViewComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    HttpModule,
     RouterModule.forRoot(appRoutes),
     ChartsModule,
     Ng2OrderModule
@@ -95,7 +96,7 @@ import { appRoutes } from './routing/routes';
     BatchService,
     CreateUserService,
     SkillsetService,
-    SalesforceDataService,
+    DataSyncService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

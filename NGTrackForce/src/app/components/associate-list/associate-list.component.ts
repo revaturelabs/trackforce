@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AssociateService } from '../../services/associates-service/associates-service';
 import { Associate } from '../../models/associate.model';
-import { ClientListService } from '../../services/client-list-service/client-list.service';
+import { RequestService } from '../../services/request-service/request.service';
 import { Client } from '../../models/client.model';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 
@@ -31,7 +31,7 @@ export class AssociateListComponent implements OnInit {
   //status/client to be updated
   updateShow: boolean = false;
   updateStatus: string = "";
-  updateClient: string = "";
+  updateClient: number;
   updated: boolean = false
 
   //used for ordering of rows
@@ -42,12 +42,18 @@ export class AssociateListComponent implements OnInit {
 
   constructor(
     private associateService: AssociateService,
-    private clientService: ClientListService
+    private rs: RequestService
   ) {
     this.curriculums = new Set<string>();
   }
 
   ngOnInit() {
+    //get current url
+    var url = window.location.href.split("/");
+    if(url.length==6)//if values passed in, search by values
+    {
+       this.searchByStatus=url[4].toUpperCase()+",  "+url[5].toUpperCase();
+    }
     this.getAllAssociates();
     this.getClientNames();
   }
@@ -57,13 +63,18 @@ export class AssociateListComponent implements OnInit {
    */
   getAllAssociates() {
     let self = this;
-    this.associateService.getAllAssociates().subscribe(data => {
+    this.rs.getAssociates().subscribe(data => {
       this.associates = data;
 
       for (let associate of this.associates) {//get our curriculums
         this.curriculums.add(associate.curriculumName);
+
+        if (associate.batchName === 'null') {
+          associate.batchName = 'None'
+        }
       }
       this.curriculums.delete("");
+      this.curriculums.delete("null");
       self.sort("id");
     });
   }
@@ -72,7 +83,7 @@ export class AssociateListComponent implements OnInit {
    * Fetch the client names
    */
   getClientNames() {
-    this.clientService.getAllClientsNames().subscribe(data => {
+    this.rs.getClients().subscribe(data => {
       this.clients = data;
     });
   }
@@ -119,8 +130,6 @@ export class AssociateListComponent implements OnInit {
       data => {
         self.getAllAssociates();
         self.updated = true;
-      }
-    );
+      })
   }
-
 }

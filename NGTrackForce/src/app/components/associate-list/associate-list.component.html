@@ -1,5 +1,4 @@
 <app-navbar></app-navbar>
-
 <div class="container">
   <div class="form-group">
     <div class="row">
@@ -35,7 +34,7 @@
         <select class="form-control" id="client" [(ngModel)]="searchByClient">
           <option label=""></option>
           <option selected="selected">None</option>
-          <option *ngFor="let client of clients">{{client.name}}</option>
+          <option *ngFor="let client of clients">{{client.tfClientName}}</option>
         </select>
       </div>
 
@@ -67,13 +66,15 @@
               <td class="edit">
                 <input type="checkbox" id={{associate.id}}>
               </td>
-              <a href="form-comp/{{associate.id}}" class="id">{{associate.id}}</a>
+              <td>
+                <a href="form-comp/{{associate.id}}" class="id">{{associate.id}}</a>
+              </td>
               <td class="first">{{associate.firstName}}</td>
               <td class="last">{{associate.lastName}}</td>
               <td class="status">{{associate.marketingStatus}}</td>
               <td class="client">{{associate.client}}</td>
               <td class="batch">
-                <a href="#!/batchDetails/{{associate.batchName}}">{{associate.batchName}}</a>
+                <a href="/batch-details/{{associate.batchId}}">{{associate.batchName}}</a>
               </td>
             </ng-container>
           </tr>
@@ -105,7 +106,7 @@
           <select class="form-control" id="uclient" [(ngModel)]="updateClient">
             <option label=""></option>
             <option selected="selected">None</option>
-            <option *ngFor="let client of clients">{{client.name}}</option>
+            <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
           </select>
         </div>
         <div class="col-sm-2">

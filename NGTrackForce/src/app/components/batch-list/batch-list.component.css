@@ -19,9 +19,8 @@ tbody {
   max-height: 750px !important;
 }
 
-.well {
-  padding-right: 0px;
-  padding-left: 0px;
+.data-status {
+  text-align: center;
 }
 
 .table-row {
@@ -31,12 +30,14 @@ tbody {
 
 .mcolumn.left {
   margin-left: 0px;
+  margin-bottom: 50px;
   padding-left: 0px;
 }
 
 .mcolumn.right {
   margin-right: 0px;
   padding-right: 0px;
+  margin-bottom: 50px;
 }
 
 form > div {
@@ -51,12 +52,11 @@ form > div {
   width: 25%;
 }
 
-
 @media screen and (max-width: 1000px) {
   .table-width-adjust {
     width: 100% !important;
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 

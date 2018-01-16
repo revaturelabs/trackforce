@@ -1,9 +1,9 @@
-import { CreateUserPage } from "./create-user.po";
+import { CreateUserPo } from "./create-user.po";
 import { TestConfig } from "../configuration/test-config";
 
 describe('create-user page input and button fields', () => {
 
-    let createUser      : CreateUserPage;
+    let createUser      : CreateUserPo;
     let testConfig      : TestConfig;
     let baseURL         : string;
     let testURL         : string;
@@ -11,7 +11,7 @@ describe('create-user page input and button fields', () => {
     let password        : string;
 
     beforeAll(() => {
-        createUser = new CreateUserPage();
+        createUser = new CreateUserPo();
         testConfig = new TestConfig();
         baseURL = testConfig.getBaseURL();
         testURL = '/createUser';

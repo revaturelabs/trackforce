@@ -141,5 +141,4 @@ public class TfAssociate implements java.io.Serializable {
 	public void setTfPlacements(Set<TfPlacement> tfPlacements) {
 		this.tfPlacements = tfPlacements;
 	}
-
 }

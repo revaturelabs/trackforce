@@ -6,8 +6,15 @@ export class Associate {
     id: number
     firstName: string
     lastName: string
+    msid: number;
     marketingStatus: string
+    clid: number;
     client: string
-    batch: string
+    bid: number;
+    curid: number
     curriculumName: string
+    ecid: number
+    endClientName: string;
+    batchName: string;
+    batchId: string;
 }

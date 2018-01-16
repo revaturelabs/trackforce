@@ -1,11 +1,15 @@
 /**
  * @author Michael Tseng
- * @description Service
+ * @description Service for authenicating users
  */
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { RequestService } from '../request-service/request.service';
+import {User} from '../../models/user.model';
+import { Router } from '@angular/router';
+
+const USER_KEY = 'currentUser';
 
 @Injectable()
 export class AuthenticationService {
@@ -17,7 +21,7 @@ export class AuthenticationService {
   * Service for handling all requests to the server
   *
   */
-  constructor(private rs: RequestService) { }
+  constructor(private rs: RequestService, private router: Router) { }
 
   /**
   *Login service that stores a user object on local storage
@@ -36,7 +40,7 @@ export class AuthenticationService {
     return this.rs.login(username, password).map(
       user => {
         if(user){
-          localStorage.setItem('currentUser', JSON.stringify(user));
+          localStorage.setItem(USER_KEY, JSON.stringify(user));
         }
         return user;
       });
@@ -44,18 +48,21 @@ export class AuthenticationService {
 
   /**
   *Removes user from localStorage
+  *And navigates back to login
   *
   *@param none
   */
   logout(){
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem(USER_KEY);
+    this.router.navigate(['login']);
   }
 
   /**
    * Check for an active session
    */
-  getUser(): any{
-    return localStorage.getItem('currentUser');
+  getUser(): User {
+    const user: User = JSON.parse(localStorage.getItem(USER_KEY));
+    return user;
   }
 
 }

@@ -1,5 +1,6 @@
 package com.revature.dao;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 import java.io.IOException;
@@ -11,8 +12,8 @@ import java.util.Map;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.junit.After;
-import org.junit.Before;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -40,13 +41,13 @@ public class BatchDaoImplTest {
 		return timeStamps;
 	}
 	
-	@Before
+	@BeforeTest
 	public void before() throws HibernateException, IOException {
 		session  = HibernateUtil.getSession().openSession();
-		tx = session.getTransaction();
+		tx = session.beginTransaction();
 	}
 	
-	@After
+	@AfterTest
 	public void after() {
 		session.flush();
 		tx.rollback();
@@ -58,6 +59,14 @@ public class BatchDaoImplTest {
 		TfBatch result = bDao.getBatch(batchName, session);
 		assertNotNull(result);
 	}
+
+	@Test
+    public void getBatchById() throws IOException {
+	    BigDecimal id = new BigDecimal(1L);
+	    TfBatch result = bDao.getBatchById(id, session);
+	    assertNotNull(result);
+	    assertEquals(1L, result.getTfBatchId().longValueExact());
+    }
 	
 	@Test(dataProvider="timeStamps")
 	public void getBatchDetails() throws IOException {

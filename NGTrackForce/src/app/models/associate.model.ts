@@ -16,4 +16,6 @@ export class Associate {
     curriculumName: string
     ecid: number
     endClientName: string;
+    batchName: string;
+    batchId: string;
 }

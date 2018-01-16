@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestService } from '../../services/request-service/request.service';
+import { DataSyncService } from '../../services/datasync-service/data-sync.service';
 import { ChartsModule, Color } from 'ng2-charts';
 
 import 'rxjs/add/operator/map';
@@ -57,7 +58,7 @@ export class HomeComponent {
   private unmappedData: number[] = [0, 0, 0, 0];
   private deployedData: number[] = [0, 0, 0, 0];
 
-  constructor(private rs: RequestService, private rout: Router) { }
+  constructor(private rs: RequestService, private ds: DataSyncService, private rout: Router) { }
 
   ngOnInit() {
     this.load();
@@ -65,8 +66,8 @@ export class HomeComponent {
 
   load() {
     console.log("LOADING...");
-    this.rs.getInfo().subscribe(response => {
-
+    this.rs.getTotals().subscribe(response => {
+    console.log(response);
       /**
        * @member {Array} UndeployedData
        * @memberof mainApp.mainCtrl
@@ -129,6 +130,10 @@ export class HomeComponent {
       response.deployedUnmapped];
       this.deployedData = deployedArr;
       console.log("LOADED");
+      console.log(this.undeployedData);
+      console.log(this.mappedData);
+      console.log(this.unmappedData);
+      console.log(this.deployedData);
     });
   }
 
@@ -210,15 +215,6 @@ export class HomeComponent {
     }, err => {
       console.log("err");
     });
-  }
-
-  /**
-   * @function InitForce
-   * @memberof mainApp.databaseCtrl
-   * @description Cleates the cache for the homepage and client page
-   */
-  initForce() {
-    this.rs.initForce();
   }
 
   /**

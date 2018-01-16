@@ -1,4 +1,9 @@
-#clientList{
+.client-list-page{
+	background-color: #ebedea;
+	padding: 20px;
+}
+
+#clients-list{
 	margin-top: 20px;
 }
 

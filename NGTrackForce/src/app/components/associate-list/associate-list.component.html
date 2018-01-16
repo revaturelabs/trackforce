@@ -34,7 +34,7 @@
         <select class="form-control" id="client" [(ngModel)]="searchByClient">
           <option label=""></option>
           <option selected="selected">None</option>
-          <option *ngFor="let client of clients">{{client.name}}</option>
+          <option *ngFor="let client of clients">{{client.tfClientName}}</option>
         </select>
       </div>
 
@@ -106,7 +106,7 @@
           <select class="form-control" id="uclient" [(ngModel)]="updateClient">
             <option label=""></option>
             <option selected="selected">None</option>
-            <option *ngFor="let client of clients">{{client.name}}</option>
+            <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
           </select>
         </div>
         <div class="col-sm-2">

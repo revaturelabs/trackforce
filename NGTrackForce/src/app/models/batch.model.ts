@@ -1,3 +1,5 @@
+import { Associate } from "./associate.model";
+
 /** @Author Princewill Ibe */
 
 /**
@@ -10,4 +12,5 @@ export class Batch {
   location: string;
   startDate: Date;
   endDate: Date;
+  associates: Associate[]
 }

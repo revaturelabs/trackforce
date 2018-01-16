@@ -38,8 +38,8 @@ import { AuthenticationService } from './services/authentication-service/authent
 import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 import { BatchService } from './services/batch-service/batch.service';
 import { SkillsetService } from './services/skill-set-service/skill-set.service';
+import { DataSyncService } from './services/datasync-service/data-sync.service';
 import { CreateUserService } from './services/create-user-service/create-user.service';
-import { SalesforceDataService } from './services/salesforce-data-service/salesforce-data.service';
 
 ///
 //  FILTERS
@@ -96,7 +96,7 @@ import { appRoutes } from './routing/routes';
     BatchService,
     CreateUserService,
     SkillsetService,
-    SalesforceDataService,
+    DataSyncService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

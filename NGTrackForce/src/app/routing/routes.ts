@@ -15,66 +15,66 @@ import {CreateUserComponent} from '../components/create-user/create-user.compone
 import {RootComponent} from '../components/root/root.component';
 import {SkillsetComponent} from '../components/skillset/skillset.component';
 import {BatchDetailsComponent} from '../components/batch-details/batch-details.component';
+import { AssociateViewComponent } from '../components/associate-view/associate-view.component';
 
 /**
  * Place paths here
  */
 
 export const appRoutes: Routes = [
-  {
-    path: 'home',
-    component: HomeComponent
-  },
-  {
-    path: '',
-    redirectTo: '/login',
-    pathMatch: 'full'
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: 'client-listing',
-    component: ClientListComponent
-  },
-  {
-    path: 'client-mapped/:id',
-    component: ClientMappedComponent
-  },
-  {
-    path: 'associate-listing',
-    component: AssociateListComponent
-  },
-  {
-    path: 'associate-listing/:mapping/:status',
-    component: AssociateListComponent
-  },
-  {
-    path: 'batch-listing',
-    component: BatchListComponent
-  },
-  {
-    path: 'batch-details/:id',
-    component: BatchDetailsComponent
-  },
-  {
-    path: 'form-comp/:id',
-    component: FormComponent
-  },
-  {
-    path: 'create-user',
-    component: CreateUserComponent
-  },
-  {
-    path: 'root',
-    component: RootComponent
-  },
-  {
-    path: 'skillset/:id',
-    component: SkillsetComponent
-  }
+    {
+      path: '',
+      redirectTo: '/login',
+      pathMatch: 'full'
+    },
+    {
+      path: 'login',
+      component: LoginComponent
+    },
+    {
+        path: 'home',
+        component: HomeComponent
+    },
 
-];
+    {
+      path: 'client-listing',
+      component: ClientListComponent
+    },
+    {
+        path: 'client-mapped/:id',
+        component: ClientMappedComponent
+    },
+    {
+        path: 'associate-listing',
+        component: AssociateListComponent
+    },
+    {
+      path: 'associate-listing/:mapping/:status',
+      component: AssociateListComponent
+    },
+    {
+        path: 'batch-listing',
+        component: BatchListComponent
+    },
+    {
+        path: 'form-comp/:id',
+        component: FormComponent
+    },
+    {
+        path: 'create-user',
+        component: CreateUserComponent
+    },
+    {
+        path: 'root',
+        component: RootComponent
+    },
+    {
+        path: 'skillset/:id',
+        component: SkillsetComponent
+    },
+    {
+      path: 'associate-view/:id',
+      component: AssociateViewComponent
+    }
 
-
+]

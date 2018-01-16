@@ -8,6 +8,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
 import com.revature.dao.UserDaoImpl;
+import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 
 import io.jsonwebtoken.Claims;
@@ -88,13 +89,13 @@ public class JWTService {
 	 * @return the Date if it exists, otherwise null
 	 */
 	public Date getExpirationDateFromToken(String token) {
-		Date expiration;
+		Date expiration = null;
 		try {
 			final Claims claims = getClaimsFromToken(token);
 			expiration = claims.getExpiration();
 		}
 		catch(Exception e) {
-			expiration = null;
+			e.printStackTrace();
 		}
 		return expiration;
 	}
@@ -108,12 +109,12 @@ public class JWTService {
 	 * @return Claims object, or null
 	 */
 	private Claims getClaimsFromToken(String token) {
-		Claims claims;
+		Claims claims = null;
 		try {
 			claims = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
 		}
 		catch(Exception e) {
-			claims = null;
+			e.printStackTrace();
 		}
 		return claims;
 	}
@@ -122,9 +123,10 @@ public class JWTService {
 	 * Validates a token
 	 * 
 	 * @param token
-	 * @param username
 	 * 
 	 * @return true if the token is valid, otherwise false
+	 * @throws IOException because of the use of connection pools
+	 * that requires some files
 	 */
 	public Boolean validateToken(String token) throws IOException {
 		Claims claims = null;
@@ -145,6 +147,92 @@ public class JWTService {
 			if(tfUser != null) {
 				//makes sure the token is fresh and usernames are equal
 				verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token));
+			}
+			
+		}
+		catch(SignatureException se) {
+			se.printStackTrace();
+		}
+		
+		return verified;
+	}
+	
+	/**
+	 * Checks if the user is an admin
+	 * 
+	 * 
+	 * @param token
+	 * @return true if the user is an admin, otherwise false
+	 * @throws IOException because of the use of connection pools
+	 * that requires some files
+	 */
+	public boolean isAdmin(String token) throws IOException {
+		Claims claims = null;
+		boolean verified = false;
+		String tokenUsername = null;
+		TfUser tfUser = null;
+		UserDaoImpl udi = new UserDaoImpl();
+		TfRole tfRole = null;
+		
+		if(token == null) {
+			return false;
+		}
+		
+		try {
+			claims = getClaimsFromToken(token);
+			tokenUsername = claims.getSubject();
+			tfUser = udi.getUser(tokenUsername);
+			tfRole = tfUser.getTfRole();
+			
+			if(tfUser != null) {
+				//makes sure the token is fresh and usernames are equal
+				// and user role is admin
+				verified = (tfUser.getTfUserUsername().equals(tokenUsername) 
+						&& !isTokenExpired(token) 
+						&& tfRole.getTfRoleName().equals("Admin"));
+			}
+			
+		}
+		catch(SignatureException se) {
+			se.printStackTrace();
+		}
+		
+		return verified;
+	}
+	
+	/**
+	 * Checks if the user is an associate
+	 * 
+	 * 
+	 * @param token
+	 * @return true if the user is an associate, otherwise false
+	 * @throws IOException because of the use of connection pools
+	 * that requires some files
+	 */
+	public boolean isAssociate(String token) throws IOException {
+		Claims claims = null;
+		boolean verified = false;
+		String tokenUsername = null;
+		TfUser tfUser = null;
+		UserDaoImpl udi = new UserDaoImpl();
+		TfRole tfRole = null;
+		
+		if(token == null) {
+			return false;
+		}
+		
+		try {
+			claims = getClaimsFromToken(token);
+			tokenUsername = claims.getSubject();
+			tfUser = udi.getUser(tokenUsername);
+			tfRole = tfUser.getTfRole();
+			
+			if(tfUser != null) {
+				//makes sure the token is fresh and usernames are equal
+				// and user role is an associate
+				verified = (tfUser.getTfUserUsername().equals(tokenUsername) 
+						&& !isTokenExpired(token) 
+						&& tfRole.getTfRoleName().equals("Associate"));
 			}
 			
 		}

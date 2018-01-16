@@ -34,6 +34,7 @@ export class ClientListComponent implements OnInit {
     position: 'right',
     scaleShowVerticalLines: false,
     responsive: true,
+    legend: { position: 'right' },
     scales: {
       yAxes: [
         {
@@ -52,9 +53,9 @@ export class ClientListComponent implements OnInit {
       callbacks: {
         label: function (tooltipItem, data) {
           return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel;
-        },
+        }
       }
-    },
+    }
   }
   // data values initialize to 1 for animation
   public barChartData: any[] = [{ data: [0, 0, 0, 0], label: 'Mapped' }, { data: [0, 0, 0, 0], label: 'Unmapped' }];

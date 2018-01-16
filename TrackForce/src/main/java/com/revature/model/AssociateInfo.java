@@ -1,19 +1,79 @@
 package com.revature.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+
+import com.revature.entity.TfMarketingStatus;
+import com.revature.utils.LogUtil;
 
 /**
  * Class to hold information about an associate for the batch details page.
  */
-public class AssociateInfo  implements Comparable<AssociateInfo>{
+public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 
+	/**
+	 * 
+	 */
+
+	private static final long serialVersionUID = 6047227506797717614L;
 	private BigDecimal id;
 	private String firstName;
 	private String lastName;
+	private static StatusInfo totals = new StatusInfo();
+
+	private BigDecimal msid;
 	private String marketingStatus;
+
+	private BigDecimal clid;
 	private String client;
+
+	private BigDecimal ecid;
 	private String endClient;
+
+	private BigDecimal bid;
 	private String batchName;
+
+	public BigDecimal getMsid() {
+		return msid;
+	}
+
+	public void setMsid(BigDecimal msid) {
+		this.msid = msid;
+	}
+
+	public BigDecimal getClid() {
+		return clid;
+	}
+
+	public void setClid(BigDecimal clid) {
+		this.clid = clid;
+	}
+
+	public BigDecimal getEcid() {
+		return ecid;
+	}
+
+	public void setEcid(BigDecimal ecid) {
+		this.ecid = ecid;
+	}
+
+	public BigDecimal getBid() {
+		return bid;
+	}
+
+	public void setBid(BigDecimal bid) {
+		this.bid = bid;
+	}
+
+	public BigDecimal getCurid() {
+		return curid;
+	}
+
+	public void setCurid(BigDecimal curid) {
+		this.curid = curid;
+	}
+
+	private BigDecimal curid;
 	private String curriculumName;
 
 	/**
@@ -148,7 +208,7 @@ public class AssociateInfo  implements Comparable<AssociateInfo>{
 	 *            -What to set the associate's client name to.
 	 */
 	public void setClient(String client) {
-		this.client = client;
+		this.client = client == null ? "None" : client;
 	}
 
 	/**
@@ -166,7 +226,7 @@ public class AssociateInfo  implements Comparable<AssociateInfo>{
 	 * @param endClient
 	 */
 	public void setEndClient(String endClient) {
-		this.endClient = endClient;
+		this.endClient = endClient == null ? "None" : endClient;
 	}
 
 	public String getBatchName() {
@@ -174,7 +234,7 @@ public class AssociateInfo  implements Comparable<AssociateInfo>{
 	}
 
 	public void setBatchName(String batchName) {
-		this.batchName = batchName;
+		this.batchName = batchName == null ? "None" : batchName;
 	}
 
 	public String getCurriculumName() {
@@ -182,7 +242,7 @@ public class AssociateInfo  implements Comparable<AssociateInfo>{
 	}
 
 	public void setCurriculumName(String curriculumName) {
-		this.curriculumName = curriculumName;
+		this.curriculumName = curriculumName == null ? "None" : curriculumName;
 	}
 
 	@Override
@@ -262,5 +322,72 @@ public class AssociateInfo  implements Comparable<AssociateInfo>{
 	@Override
 	public int compareTo(AssociateInfo o) {
 		return this.id.subtract(o.id).intValueExact();
+	}
+
+	public void setBatchId(BigDecimal tfBatchId) {
+		this.bid = tfBatchId == null ? new BigDecimal(-1) : tfBatchId;
+	}
+
+	public void setClientId(BigDecimal tfClientId) {
+		this.clid = tfClientId == null ? new BigDecimal(-1) : tfClientId;
+	}
+
+	public void setCurriculumId(BigDecimal tfCurriculumId) {
+		this.curid = tfCurriculumId == null ? new BigDecimal(-1) : tfCurriculumId;
+	}
+
+	public void setEndClientId(BigDecimal tfEndClientId) {
+		this.ecid = tfEndClientId == null ? new BigDecimal(-1) : tfEndClientId;
+	}
+
+	public void setMarketingStatusId(BigDecimal tfMarketingStatusId) {
+		this.msid = tfMarketingStatusId == null ? new BigDecimal(-1) : tfMarketingStatusId;
+	}
+
+	public static StatusInfo getTotals() {
+		return totals;
+	}
+
+	public static void appendToMap(TfMarketingStatus tfMarketingStatus) {
+		LogUtil.logger.info("Status: " + tfMarketingStatus.getTfMarketingStatusId());
+		switch (tfMarketingStatus.getTfMarketingStatusId().intValueExact()) {
+		case StatusInfo.MAPPED_TRAINING:
+			totals.setTrainingMapped(totals.getTrainingMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_RESERVED:
+			totals.setReservedMapped(totals.getReservedMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_SELECTED:
+			totals.setSelectedMapped(totals.getSelectedMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_CONFIRMED:
+			totals.setConfirmedMapped(totals.getConfirmedMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_DEPLOYED:
+			totals.setDeployedMapped(totals.getDeployedMapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_TRAINING:
+			totals.setTrainingUnmapped(totals.getTrainingUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_OPEN:
+			totals.setOpenUnmapped(totals.getOpenUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_SELECTED:
+			totals.setSelectedUnmapped(totals.getSelectedUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_CONFIRMED:
+			totals.setConfirmedUnmapped(totals.getConfirmedUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_DEPLOYED:
+			totals.setDeployedUnmapped(totals.getDeployedUnmapped() + 1);
+			break;
+		default:
+			return;
+		}
+		totals.setName("Total Associates");
+		LogUtil.logger.info(totals.getName() + ":\n" + totals.getTrainingMapped() + " " + totals.getReservedMapped() + " "
+				+ totals.getSelectedMapped() + " " + totals.getConfirmedMapped() + " " + totals.getDeployedMapped() + "\n"
+				+ totals.getTrainingUnmapped() + " " + totals.getOpenUnmapped() + " " + totals.getSelectedUnmapped() + " "
+				+ totals.getConfirmedUnmapped() + " " + totals.getDeployedUnmapped());
 	}
 }

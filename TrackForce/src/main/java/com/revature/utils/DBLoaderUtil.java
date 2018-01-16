@@ -31,7 +31,7 @@ public class DBLoaderUtil {
 		
 		// add additional configurations to update schema
 		Properties props = new Properties();
-		props.setProperty("hibernate.hbm2.ddl-auto", "update");
+		props.setProperty("hibernate.hbm2.ddl-auto", "create");
 		props.setProperty("hibernate.show_sql", "true");
 		try {
 			HibernateUtil.getSession(props);

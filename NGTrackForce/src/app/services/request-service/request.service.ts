@@ -7,6 +7,8 @@ import { environment } from '../../../environments/environment';
 export class RequestService {
 
   host: string = environment.url;
+  trackPath: string = this.host + '/TrackForce/track';
+  dataPath: string = this.host + 'TrackForce/track/data/get';
 
   constructor(private http: HttpClient) { }
 
@@ -16,10 +18,6 @@ export class RequestService {
 
   public populateDBSF(): Observable<any> {
     return this.http.get(this.host + 'TrackForce/track/database/populateDBSF');
-  }
-
-  public initForce(): Observable<any> {
-    return this.http.post(this.host + 'TrackForce/track/init/Force', {});
   }
 
   public deleteDB(): Observable<any> {
@@ -34,8 +32,32 @@ export class RequestService {
     return this.http.get<any>(this.host + 'TrackForce/track/user/name');
   }
 
-  public getInfo(): Observable<any> {
-    return this.http.get<any>(this.host + 'TrackForce/track/info');
+  public getAssociates(): Observable<any> {
+    return this.http.get(this.dataPath + '/associate');
+  }
+
+  public getBatchesSortedById(): Observable<any> {
+    return this.http.get(this.dataPath + '/batch');
+  }
+
+  public getBatchesSortedByDate(): Observable<any> {
+    return this.http.get(this.dataPath + '/batch/date');
+  }
+
+  public getClients(): Observable<any> {
+    return this.http.get(this.dataPath + '/client');
+  }
+
+  public getTotals(): Observable<any> {
+    return this.http.get(this.dataPath + '/summary');
+  }
+
+  public getSkills(): Observable<any> {
+    return this.http.get(this.dataPath + '/skills');    
+  }
+
+  public getStatuses(): Observable<any> {
+    return this.http.get(this.dataPath + '/marketing');
   }
 
   public getBatches(threeMonthsBefore: number, threeMonthsAfter: number): Observable<any> {

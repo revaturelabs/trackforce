@@ -39,7 +39,7 @@ import { AuthenticationService } from './services/authentication-service/authent
 import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 import { BatchService } from './services/batch-service/batch.service';
 import { SkillsetService } from './services/skill-set-service/skill-set.service';
-import { SalesforceDataService } from './services/salesforce-data-service/salesforce-data.service';
+import { DataSyncService } from './services/datasync-service/data-sync.service';
 
 ///
 //  FILTERS
@@ -94,7 +94,7 @@ import { appRoutes } from './routing/routes';
     SkillsetService,
     BatchService,
     SkillsetService,
-    SalesforceDataService,
+    DataSyncService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

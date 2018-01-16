@@ -1,17 +1,59 @@
 package com.revature.model;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Set;
+import java.util.TreeSet;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Class to hold information about the batch for the batch listing page.
  */
-public class BatchInfo {
+public class BatchInfo  implements Serializable, Comparable<BatchInfo> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7437353955754399023L;
+	private BigDecimal id;
     private String batchName;
-    private String curriculumName;
+    public BigDecimal getId() {
+		return id;
+	}
+
+	public void setId(BigDecimal id) {
+		this.id = id;
+	}
+
+	private String curriculumName;
     private String location;
     private String startDate;
     private String endDate;
+   
+    public Timestamp getStartTs() {
+		return startTs;
+	}
 
-    /**
+	public void setStartTs(Timestamp startTs) {
+		this.startTs = startTs;
+	}
+
+	@JsonIgnore
+	private Timestamp startTs;
+	
+    private Set<AssociateInfo> associates = new TreeSet<AssociateInfo>();
+
+    public Set<AssociateInfo> getAssociates() {
+		return associates;
+	}
+
+	public void setAssociates(Set<AssociateInfo> associates) {
+		this.associates = associates;
+	}
+
+	/**
      * Constructs a newly allocated BatchInfo object that represents an empty batch.
      */
     public BatchInfo() {
@@ -41,8 +83,9 @@ public class BatchInfo {
      * @param startDate - The date that this batch started.
      * @param endDate - The date that this batch graduates.
      */
-    public BatchInfo(String batchName, String curriculumName, String location, String startDate, String endDate) {
+    public BatchInfo(BigDecimal id, String batchName, String curriculumName, String location, String startDate, String endDate) {
         super();
+        this.id = id;
         this.batchName = batchName;
         this.curriculumName = curriculumName;
         this.location = location;
@@ -184,5 +227,10 @@ public class BatchInfo {
         return "BatchInfo [batchName=" + batchName + ", curriculumName=" + curriculumName
                 + ", location=" + location + ", startDate=" + startDate + ", endDate=" + endDate + "]";
     }
+    
+	@Override
+	public int compareTo(BatchInfo o) {
+		return this.id.subtract(o.getId()).intValueExact();
+	}
 
 }

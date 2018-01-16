@@ -19,10 +19,8 @@ import com.revature.utils.LogUtil;
 public class UserDaoImpl implements UserDAO {
 
 	@Override
-	public TfUser getUser(String username) throws IOException {
+	public TfUser getUser(String username, Session session) throws IOException {
 		TfUser user;
-		SessionFactory sessionFactory = HibernateUtil.getSession();
-		Session session = sessionFactory.openSession();
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
 
@@ -35,7 +33,7 @@ public class UserDaoImpl implements UserDAO {
 		try {
 			user = query.getSingleResult();
 			if (user.getTfRole() != null && user.getTfRole().getTfRoleName() != null) {
-				Hibernate.initialize(user.getTfRole().getTfRoleName());
+				user.getTfRole().getTfRoleName();
 			}
 
 		} catch (NoResultException nre) {

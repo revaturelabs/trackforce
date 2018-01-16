@@ -1,7 +1,12 @@
 package com.revature.dao;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -16,12 +21,13 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfClient;
+import com.revature.model.ClientInfo;
+import com.revature.model.CurriculumInfo;
+import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
 public class ClientDaoImpl implements ClientDao {
-
-	private static List<TfClient> clients;
 
 	/**
 	 * Get information about a singular client.
@@ -29,7 +35,7 @@ public class ClientDaoImpl implements ClientDao {
 	 * @param name
 	 *            - The name of the client to retrieve.
 	 * @return - A TfClient object with information about the client.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	@Override
 	public TfClient getClient(Session session, String name) throws IOException {
@@ -54,27 +60,17 @@ public class ClientDaoImpl implements ClientDao {
 	}
 
 	@Override
-	public List<TfClient> getAllTfClients(Session session) throws HibernateException, IOException {
-		if (clients == null || clients.isEmpty()) {
+	public Map<BigDecimal, ClientInfo> getAllTfClients(Session session) throws HibernateException, IOException {
 
-			CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
-			cq.from(TfClient.class);
-			clients = session.createQuery(cq).getResultList();
-			for (TfClient client : clients) {
-				client.getTfClientId();
-				client.getTfClientName();
-				client.getTfAssociates();
-			}
+		CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
+		cq.from(TfClient.class);
+		List<TfClient> clients = session.createQuery(cq).getResultList();
+		Map<BigDecimal, ClientInfo> map = new HashMap<>();
+		
+		for (TfClient client : clients) {
+			map.put(client.getTfClientId(), Dao2DoMapper.map(client));
 		}
-		return clients;
-	}
 
-	/**
-	 * Clears clients list in ClientDaoImpl class.
-	 */
-	public void clearClients() {
-		if (clients != null) {
-			clients.clear();
-		}
+		return map;
 	}
 }

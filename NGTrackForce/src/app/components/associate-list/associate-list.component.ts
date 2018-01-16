@@ -49,13 +49,22 @@ export class AssociateListComponent implements OnInit {
 
   ngOnInit() {
     //get current url
-    var url = window.location.href.split("/");
-    if(url.length==6)//if values passed in, search by values
-    {
-       this.searchByStatus=url[4].toUpperCase()+",  "+url[5].toUpperCase();
-    }
     this.getAllAssociates();
     this.getClientNames();
+
+    var url = window.location.href.split("/");
+    if(url.length==8)//if values passed in, search by values
+    {
+      if(url[4]=="client")
+      {
+        this.searchByClient=url[5];
+      }
+      else if(url[4]=="curriculum")
+      {
+        this.searchByCurriculum=url[5];
+      }
+       this.searchByStatus=url[6].toUpperCase()+",  "+url[7].toUpperCase();
+    }
   }
 
   /**

@@ -231,6 +231,7 @@ public class AssociateService {
             associateinfo.setBatchName("None");
             associateinfo.setBatchId(null);
         }
+        
         return associateinfo;
     }
 }

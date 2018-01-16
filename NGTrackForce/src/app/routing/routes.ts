@@ -47,7 +47,7 @@ export const appRoutes: Routes = [
     component: AssociateListComponent
   },
   {
-    path: 'associate-listing/:mapping/:status',
+    path: 'associate-listing/:CliOrCur/:name/:mapping/:status',
     component: AssociateListComponent
   },
   {

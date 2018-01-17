@@ -26,7 +26,7 @@
         <label for="curriculum">Curriculum: </label>
         <select class="form-control" id="curriculum" [(ngModel)]="searchByCurriculum">
           <option label=""></option>
-          <option *ngFor="let curriculum of curriculums">{{curriculum}}</option>
+          <option *ngFor="let curriculum of curriculums" value="{{curriculum}}">{{curriculum}}</option>
         </select>
       </div>
       <div class="col-sm-2">
@@ -34,7 +34,7 @@
         <select class="form-control" id="client" [(ngModel)]="searchByClient">
           <option label=""></option>
           <option selected="selected">None</option>
-          <option *ngFor="let client of clients">{{client.tfClientName}}</option>
+          <option *ngFor="let client of clients" value="{{client.name}}">{{client.name}}</option>
         </select>
       </div>
 

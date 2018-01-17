@@ -181,7 +181,7 @@ export class SkillsetComponent implements OnInit {
 
   public goToAssociateList(event) {
     if (event.active[0] != undefined) {
-      // stub for right now because I cannot see what to send the associate list component
+      this.router.navigate([`associate-listing/curriculum/${this.skillsetLabels[event.active[0]._index]}/unmapped/${this.selectedStatus}`]);
     }
   }
 

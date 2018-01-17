@@ -176,7 +176,6 @@ public class AssociateService implements Delegate {
 					if (ai.getMsid() != null)
 						old.getStats().subtractFromMap(ai.getMsid());
 					old.getTfAssociates().remove(ai);
-					BigDecimal oldms = ai.getMsid();
 				}
 
 				// add new values
@@ -196,7 +195,8 @@ public class AssociateService implements Delegate {
 
 				map.put(ai.getId(), ai);
 				PersistentStorage.getStorage().getTotals().appendToMap(msi.getId());
-				PersistentStorage.getStorage().getTotals().subtractFromMap(oldms);
+				if(oldms != null && !oldms.equals(new BigDecimal(-1)))
+					PersistentStorage.getStorage().getTotals().subtractFromMap(oldms);
 			}
 			session.flush();
 			tx.commit();

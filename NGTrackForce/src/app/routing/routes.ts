@@ -22,59 +22,62 @@ import { AssociateViewComponent } from '../components/associate-view/associate-v
  */
 
 export const appRoutes: Routes = [
-    {
-      path: '',
-      redirectTo: '/login',
-      pathMatch: 'full'
-    },
-    {
-      path: 'login',
-      component: LoginComponent
-    },
-    {
-        path: 'home',
-        component: HomeComponent
-    },
+  {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'client-listing',
+    component: ClientListComponent
+  },
+  {
+    path: 'client-mapped/:id',
+    component: ClientMappedComponent
+  },
+  {
+    path: 'associate-listing',
+    component: AssociateListComponent
+  },
+  {
+    path: 'associate-listing/:CliOrCur/:name/:mapping/:status',
+    component: AssociateListComponent
+  },
+  {
+    path: 'batch-listing',
+    component: BatchListComponent
+  },
+  {
+    path: 'batch-details/:id',
+    component: BatchDetailsComponent
+  },
+  {
+    path: 'form-comp/:id',
+    component: FormComponent
+  },
+  {
+    path: 'create-user',
+    component: CreateUserComponent
+  },
+  {
+    path: 'root',
+    component: RootComponent
+  },
+  {
+    path: 'skillset/:id',
+    component: SkillsetComponent
+  },
+  {
+    path: 'associate-view/:id',
+    component: AssociateViewComponent
+  }
 
-    {
-      path: 'client-listing',
-      component: ClientListComponent
-    },
-    {
-        path: 'client-mapped/:id',
-        component: ClientMappedComponent
-    },
-    {
-        path: 'associate-listing',
-        component: AssociateListComponent
-    },
-    {
-      path: 'associate-listing/:mapping/:status',
-      component: AssociateListComponent
-    },
-    {
-        path: 'batch-listing',
-        component: BatchListComponent
-    },
-    {
-        path: 'form-comp/:id',
-        component: FormComponent
-    },
-    {
-        path: 'create-user',
-        component: CreateUserComponent
-    },
-    {
-        path: 'root',
-        component: RootComponent
-    },
-    {
-        path: 'skillset/:id',
-        component: SkillsetComponent
-    },
-    {
-      path: 'associate-view/:id',
-      component: AssociateViewComponent
-    }
-
-]
+];

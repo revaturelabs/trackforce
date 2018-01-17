@@ -6,17 +6,18 @@ import { Client } from '../../models/client.model';
 import { element } from 'protractor';
 import { ActivatedRoute } from "@angular/router"
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
+import { RequestService } from '../../services/request-service/request.service';
 
 /**
  * Component for viewing an individual associate and editing as admin.
  */
-@AutoUnsubscribe
 @Component({
     selector: 'form-comp',
     templateUrl: './form.component.html',
     styleUrls: ['./form.component.css']
 })
 
+@AutoUnsubscribe
 export class FormComponent implements OnInit {
     associate: Associate = new Associate();
     clients: Client[];
@@ -25,14 +26,14 @@ export class FormComponent implements OnInit {
     selectedClient: string = "";
     id: number;
 
-    constructor(private associateService: AssociateService, private clientService: ClientListService) {
+    constructor(private associateService: AssociateService, private rs: RequestService) {
         var id = window.location.href.split("form-comp/")[1];
         this.id = Number(id);
         this.associateService.getAssociate(this.id).subscribe(data => { this.associate = <Associate>data });
     }
 
     ngOnInit() {
-        this.clientService.getAllClientsNames().subscribe(data => { this.clients = data });
+        this.rs.getClients().subscribe(data => { console.log(data); this.clients = data });
     }
 
     /**

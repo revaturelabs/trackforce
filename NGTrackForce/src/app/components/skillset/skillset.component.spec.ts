@@ -1,71 +1,100 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { SkillsetComponent } from './skillset.component';
-// import { SelectedStatusConstants } from '../../constants/selected-status.constants';
-// import { element, by, browser } from 'protractor';
-// import { HttpClientTestingModule } from '@angular/common/http/testing';
-// import { ChartsModule } from 'ng2-charts';
-// import { RootComponent } from '../root/root.component';
-// import { HomeComponent } from '../home/home.component';
-// import { NavbarComponent } from '../navbar/navbar.component';
-// import { RouterTestingModule } from '@angular/router/testing';
-// import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
+import { SkillsetComponent } from './skillset.component';
+import { SelectedStatusConstants } from '../../constants/selected-status.constants';
+import { element, by, browser } from 'protractor';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ChartsModule } from 'ng2-charts';
+import { RootComponent } from '../root/root.component';
+import { HomeComponent } from '../home/home.component';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
 
-// describe('SkillsetComponent', () => {
-//   let component: SkillsetComponent;
-//   let fixture: ComponentFixture<SkillsetComponent>;
+import { FormComponent } from '../form-component/form.component';
 
-//   beforeEach(async(() => {
-//     TestBed.configureTestingModule({
-//       declarations: [ SkillsetComponent, RootComponent, HomeComponent, NavbarComponent ],
-//       imports : [
-//         HttpClientTestingModule, 
-//         ChartsModule,
-//         RouterTestingModule
-//       ],
-//       providers : [
-//         SkillsetService
-//       ]
-//     })
-//     .compileComponents();
-//   }));
+import {
+  ActivatedRoute, ActivatedRouteStub, Router, RouterStub
+} from '../../testing-helpers/router-stubs';
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(SkillsetComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+describe('SkillsetComponent', () => {
+  let component: SkillsetComponent;
+  let fixture: ComponentFixture<SkillsetComponent>;
+  let activatedRoute : ActivatedRouteStub;
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
+  class SkillsetServiceSpy
+  {
 
-//   it('should have a non-empty map of skill info', () => {
-//     expect(SkillsetComponent.getSkillInfo()).toBeTruthy();
-//     expect(SkillsetComponent.getSkillInfo().size).toBeGreaterThan(0);
-//   });
+  }
 
-//   it('should have non-zero skillID', () => {
-//     component.selectedStatus = SelectedStatusConstants.CONFIRMED;
-//     expect(component.selectedStatus).toBeTruthy();
-//   })
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ SkillsetComponent, RootComponent, HomeComponent, NavbarComponent,
+        FormComponent
+      ],
+      imports : [
+        HttpClientTestingModule, 
+        ChartsModule,
+        RouterTestingModule
+      ],
+      providers : [
+        SkillsetService,
+        { provide : ActivatedRoute, useValue : activatedRoute },
+        { provide : Router,         useClass : RouterStub }
+      ]
+    })
+    .compileComponents();
+  }));
 
-//   it('should have buttons that trigger changeChartType()', () => {
-//     // click each of the buttons
-//     let chartChangeButtons = fixture.nativeElement.querySelector('.btn.btn-default');
-//     let i = 0;
-//     for (let btn of chartChangeButtons)
-//     {
-//       // sanity testing the buttons to make sure they are actual buttons and not indices of some array
-//       expect(btn).toBeNaN(); 
-//       btn.click().then((data) => {
-//         // TODO: find way to check the data itself
-//         expect(component.changeChartType).toHaveBeenCalledTimes(++i);
+  beforeEach(() => {
+    activatedRoute = new ActivatedRouteStub();
+    fixture = TestBed.createComponent(SkillsetComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-//       });
-//     }
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should have a non-empty map of skill info', () => {
+    expect(SkillsetComponent.getSkillInfo()).toBeTruthy();
+    expect(SkillsetComponent.getSkillInfo().size).toBeGreaterThan(0);
+  });
+
+  it('should have skillID that\'s in the acceptable values', () => {
+    component.selectedStatus = SelectedStatusConstants.CONFIRMED;
+    // get the values in SkillsetComponent, and search for selectedStatus. It better be in there!
+    var idFound = true; 
+    SkillsetComponent.getSkillInfo().forEach((value, key) => {
+      idFound = (value == component.getSkillID())
+    })
+    expect(idFound).toBeTruthy();
+  })
+
+  it('should redirect to home iff out-of-bounds id was received', () => { 
+    activatedRoute.testParamMap = { id: -100 };
+  })
+
+  it('should have buttons that trigger changeChartType()', () => {
+    // click each of the buttons
+    let chartChangeButtons = fixture.nativeElement.querySelector('.btn.btn-default');
+    let i = 0;
+    for (let btn of chartChangeButtons)
+    {
+      // sanity testing the buttons to make sure they are actual buttons and not indices of some array
+      expect(btn).toBeNaN(); 
+      expect(btn.click).not.toBeUndefined();
+      // clicking the buttons
+      btn.click().then((data) => {
+        // on click, changeChartType should invoke
+        // TODO: find way to check the data itself
+        expect(component.changeChartType).toHaveBeenCalledTimes(++i);
+
+      });
+    }
     
-//   })
+  })
 
 /*  it('should not be using DUMMY_DATA', () => {
     // waiting on the observable in ngOnInit() to finish ...
@@ -91,5 +120,5 @@
       expect(component.skillsetLabels.length).toEqual(component.skillsetData.length);
     })    
   })
+  */
 });
-*/

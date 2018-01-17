@@ -21,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "TF_BATCH", schema = "ADMIN")
-public class TfBatch implements java.io.Serializable {
+public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 
 	/**
 	 * 
@@ -126,6 +126,11 @@ public class TfBatch implements java.io.Serializable {
 		return "TfBatch [tfBatchId=" + tfBatchId + ", tfBatchLocation=" + tfBatchLocation + ", tfCurriculum="
 				+ tfCurriculum + ", tfBatchName=" + tfBatchName + ", tfBatchStartDate=" + tfBatchStartDate
 				+ ", tfBatchEndDate=" + tfBatchEndDate + ", tfAssociates=" + tfAssociates + "]";
+	}
+
+	@Override
+	public int compareTo(TfBatch o) {
+		return this.tfBatchId.subtract(o.getTfBatchId()).intValueExact();
 	}
 	
 	

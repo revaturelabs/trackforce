@@ -1,0 +1,18 @@
+<nav class="navbar navbar-default custom-nav">
+  <div class="container-fluid">
+          <div class="navbar-header">
+                  <a class="navbar-brand"><img src="../../../assets/logo.png" height="35" width="100"></a>
+          </div>
+          <ul class="nav navbar-nav navbar-right">
+                  <li class="pointer"><a (click)="logout()">Logout</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+                  <li><a>Welcome, {{ associate.firstName }} {{ associate.lastName}}</a></li>
+      </ul>
+  </div>
+</nav>
+<div>
+<h2> Batch: {{ associate.batchName }}</h2>
+<h2> Marketing Status: {{ associate.marketingStatus }}</h2>
+<h2> End Client: {{ associate.endClient }}</h2>
+</div>

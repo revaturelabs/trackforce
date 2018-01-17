@@ -23,28 +23,27 @@ export class SkillsetComponent implements OnInit {
   /**
    * The selected status
    */
-  @Input() selectedStatus : string = '';
+  @Input() selectedStatus: string = '';
   /**
    * Map of selected status to skill id
    */
+  // probably a bad idea...
   private static SKILL_INFO : Map<string, any>;
-  // TODO: remove this
-  private static NEW_SKILL_INFO : Map<string, any>;
   /**
    * The id of skill, probably to hit the API with
    */
-  private skillID : number;
+  private skillID: number;
   /**
    * The flag that tells Angular, and the developer, whether or not ng2_chart dependency is actually being used
    */
-  USE_NG2_CHART : boolean = true;
+  USE_NG2_CHART: boolean = true;
   /**
    * The types of charts
    */
   public static readonly chartTypes = {
-    BAR : 'bar',
-    PIE : 'pie',
-    POLAR_AREA : 'polarArea'
+    BAR: 'bar',
+    PIE: 'pie',
+    POLAR_AREA: 'polarArea'
   }
   /**
    * The type of chart
@@ -53,7 +52,7 @@ export class SkillsetComponent implements OnInit {
   /**
    * The dummy data to compare against for our tests
    */
-  DUMMY_DATA = [{data:[1,1,1,1,1], label: 'Mapped'},{data:[1,1,1,1,1],label: 'Unmapped'}];
+  DUMMY_DATA = [{ data: [1, 1, 1, 1, 1], label: 'Mapped' }, { data: [1, 1, 1, 1, 1], label: 'Unmapped' }];
   /**
    * The skillset data
    */
@@ -69,19 +68,19 @@ export class SkillsetComponent implements OnInit {
   /**
    * The chart options, as a JavaScript-style object, and pre-initialized so as to DRY up our code...
    */
-  chartOptions : {[k: string]: any} = {
-    type : this.chartType,
-    legend : {
-      display : false
+  chartOptions: { [k: string]: any } = {
+    type: this.chartType,
+    legend: {
+      display: false
     },
-    xAxes:[
+    xAxes: [
       {
         ticks: {
-          autoSkip:false
+          autoSkip: false
         }
       }
     ],
-    scales : new ChartScale()
+    scales: new ChartScale()
   };
   /**
    * The color scheme for the charts of this component
@@ -92,9 +91,9 @@ export class SkillsetComponent implements OnInit {
    */
   public static NULL = -1;
 
-  constructor(private skillsetService : SkillsetService,
-      private route  : ActivatedRoute,
-      private router : Router) {
+  constructor(private skillsetService: SkillsetService,
+    private route: ActivatedRoute,
+    private router: Router) {
     // setup SKILL_INFO
     if (!SkillsetComponent.SKILL_INFO) {
       SkillsetComponent.SKILL_INFO = new Map();
@@ -104,23 +103,13 @@ export class SkillsetComponent implements OnInit {
       SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.CONFIRMED, 9);
       SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.DEPLOYED, 10);
     }
-    //TODO: remove this
-    if (!SkillsetComponent.NEW_SKILL_INFO) {
-      SkillsetComponent.NEW_SKILL_INFO = new Map();
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.TRAINING, 0);
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.OPEN, 1);
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.SELECTED, 2);
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.CONFIRMED, 3);
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.DEPLOYED, 4);
-    }
   }
 
   ngOnInit(): void {
     // get skillID
     this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || SkillsetComponent.NULL;
     // if we didn't get skillID from selectedStatus...
-    if (this.skillID === SkillsetComponent.NULL)
-    {
+    if (this.skillID === SkillsetComponent.NULL) {
       // we get it from the ActivatedRoute params
       this.skillID = Number(this.route.snapshot.paramMap.get('id'));
       if (this.skillID < 6) this.skillID += 6;  // TODO: remove this
@@ -131,26 +120,27 @@ export class SkillsetComponent implements OnInit {
       // if there is empty string, simply go home
       if (!this.selectedStatus)
       {
-        // this.route.snapshot.
+        this.router.navigate(['/root']);
       }
     }
     // get the skillset data here
     this.skillsetService.getSkillsetsForStatusID(this.skillID).subscribe((data) => {
       // copy in the raw data into local variable
-      let skillsets : Array<any> = data;
+      let skillsets: Array<any> = data;
+      console.log(data);
       // map() that variable into skillsetData,skillsetLabels
-      this.skillsetData  = skillsets.map((obj) => {if (obj.count) return obj.count}).filter(this.isNotUndefined);
-      this.skillsetLabels= skillsets.map((obj) => {if (obj.count) return obj.name}).filter(this.isNotUndefined);
+      this.skillsetData = skillsets.map((obj) => { if (obj.count) return obj.count }).filter(this.isNotUndefined);
+      this.skillsetLabels = skillsets.map((obj) => { if (obj.count) return obj.name }).filter(this.isNotUndefined);
       this.status = (((!this.skillsetLabels) || (!this.skillsetLabels.length)) &&
         ((!this.skillsetData) || (!this.skillsetData.length))) ?
-          'There is no batch data on this status...' : 'Loaded!';
+        'There is no batch data on this status...' : 'Loaded!';
     });
   }
 
   /**
    * Changes the chart type of this component (does this really need explanation?!)
    */
-  changeChartType(type : string) {
+  changeChartType(type: string) {
     this.chartType = type;
     // changing some chartOptions pre-emptively
     this.chartOptions.type = type;
@@ -160,7 +150,7 @@ export class SkillsetComponent implements OnInit {
       case SkillsetComponent.chartTypes.POLAR_AREA:
         // ... we're displaying the chart legend and on the right of the container
         this.chartOptions.legend = {
-          display : true,
+          display: true,
           position: 'right'
         };
         // ... and getting rid of the scales ...
@@ -170,7 +160,7 @@ export class SkillsetComponent implements OnInit {
       case SkillsetComponent.chartTypes.BAR:
         // ...we give no legend...
         this.chartOptions.legend = {
-          display:false
+          display: false
         };
         // ...but give scales...
         this.chartOptions.scales = new ChartScale();
@@ -180,17 +170,22 @@ export class SkillsetComponent implements OnInit {
     return type;
   }
 
+
   public goToAssociateList(event)
   {
-    // stub for right now because I cannot see what to send the associate list component
-    event.preventDefault();
+    /* NOTE:  event.active[0]._model.label is the label for the ChartElement that has been clicked. Problem
+     * is that it's returning falsy string because the database is basically a hostage situation. 
+     * TODO: put some stub in its place in the case of it being falsy. 
+     */ 
+    this.router.navigate([
+      `/associate-listing/curriculum/${event.active[0]._model.label}/unmapped/${this.selectedStatus}`]);
   }
 
   /**
    * Returns whether or not val is undefined. Used for filtering.
    * @param val The value to check for not undefined
    */
-  public isNotUndefined(val) : boolean { return val !== undefined; }
+  public isNotUndefined(val): boolean { return val !== undefined; }
 
   /**
    * Exposing SKILL_INFO in a safe way
@@ -198,5 +193,10 @@ export class SkillsetComponent implements OnInit {
   public static getSkillInfo() {
     return SkillsetComponent.SKILL_INFO;
   }
+
+  /**
+   * Exposing skillID in a safe way
+   */
+  public getSkillID() : number { return this.skillID; }
 
 }

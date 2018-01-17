@@ -15,6 +15,7 @@ import {CreateUserComponent} from '../components/create-user/create-user.compone
 import {RootComponent} from '../components/root/root.component';
 import {SkillsetComponent} from '../components/skillset/skillset.component';
 import {BatchDetailsComponent} from '../components/batch-details/batch-details.component';
+import { AssociateViewComponent } from '../components/associate-view/associate-view.component';
 
 /**
  * Place paths here
@@ -47,7 +48,7 @@ export const appRoutes: Routes = [
     component: AssociateListComponent
   },
   {
-    path: 'associate-listing/:mapping/:status',
+    path: 'associate-listing/:CliOrCur/:name/:mapping/:status',
     component: AssociateListComponent
   },
   {
@@ -73,8 +74,11 @@ export const appRoutes: Routes = [
   {
     path: 'skillset/:id',
     component: SkillsetComponent
-  }
+  },
+    {
+      path: 'associate-view/:id',
+      component: AssociateViewComponent
+    }
 
 ];
-
 

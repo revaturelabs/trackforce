@@ -2,7 +2,13 @@ package com.revature.services;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -21,15 +27,20 @@ import org.hibernate.Transaction;
 
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
-import com.revature.dao.HomeDaoImpl;
 import com.revature.dao.MarketingStatusDao;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
+import com.revature.model.ClientInfo;
+import com.revature.model.ClientMappedJSON;
+import com.revature.model.CurriculumInfo;
+import com.revature.model.CurriculumJSON;
+import com.revature.model.MarketingStatusInfo;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
+import com.revature.utils.PersistentStorage;
 
 @Path("associates")
 public class AssociateService {
@@ -231,6 +242,7 @@ public class AssociateService {
             associateinfo.setBatchName("None");
             associateinfo.setBatchId(null);
         }
+        
         return associateinfo;
     }
 }

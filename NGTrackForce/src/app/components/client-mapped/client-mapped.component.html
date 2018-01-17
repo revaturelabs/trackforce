@@ -10,7 +10,7 @@
 <div class="row">
   <!-- Display chart -->
   <div class="col-md-10">
-    <canvas baseChart *ngIf="clientMappedData && clientMappedLabels"
+    <canvas id="the_graph" baseChart *ngIf="clientMappedData && clientMappedLabels"
           [data]="clientMappedData"
           [labels]="clientMappedLabels"
           [chartType]="chartType"

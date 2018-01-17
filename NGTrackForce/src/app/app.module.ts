@@ -58,6 +58,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 ///
 import { appRoutes } from './routing/routes';
 import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-helpers/router-stubs';
+import { FooterComponent } from './components/footer/footer/footer.component';
 
 
 @NgModule({
@@ -79,7 +80,8 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     SkillsetComponent,
     AssociateViewComponent,
     RouterLinkStubDirective,
-    RouterOutletStubComponent
+    RouterOutletStubComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

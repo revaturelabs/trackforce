@@ -16,6 +16,7 @@ import {RootComponent} from '../components/root/root.component';
 import {SkillsetComponent} from '../components/skillset/skillset.component';
 import {BatchDetailsComponent} from '../components/batch-details/batch-details.component';
 import { AssociateViewComponent } from '../components/associate-view/associate-view.component';
+import { AuthGuard } from '../guards/auth.guard';
 
 /**
  * Place paths here
@@ -37,47 +38,62 @@ export const appRoutes: Routes = [
   },
   {
     path: 'client-listing',
-    component: ClientListComponent
+    component: ClientListComponent,
+	  canActivate : [AuthGuard]
   },
   {
     path: 'client-mapped/:id',
-    component: ClientMappedComponent
+    component: ClientMappedComponent,
+    canActivate : [AuthGuard]
   },
   {
     path: 'associate-listing',
-    component: AssociateListComponent
+    component: AssociateListComponent,
+    canActivate : [AuthGuard]
   },
   {
     path: 'associate-listing/:CliOrCur/:name/:mapping/:status',
-    component: AssociateListComponent
+    component: AssociateListComponent,
+    canActivate : [AuthGuard]
   },
   {
     path: 'batch-listing',
-    component: BatchListComponent
+    component: BatchListComponent,
+    canActivate : [AuthGuard]
   },
   {
     path: 'batch-details/:id',
-    component: BatchDetailsComponent
+    component: BatchDetailsComponent,
+    canActivate : [AuthGuard]
   },
   {
     path: 'form-comp/:id',
-    component: FormComponent
+    component: FormComponent,
+    canActivate : [AuthGuard]
   },
   {
     path: 'create-user',
-    component: CreateUserComponent
+    component: CreateUserComponent,
+    canActivate : [AuthGuard]
   },
   {
     path: 'root',
-    component: RootComponent
+    component: RootComponent,
+    canActivate : [AuthGuard]
   },
   {
     path: 'skillset/:id',
-    component: SkillsetComponent
+    component: SkillsetComponent,
+    canActivate : [AuthGuard]
   },
   {
     path: 'associate-view/:id',
-    component: AssociateViewComponent
+    component: AssociateViewComponent,
+    canActivate : [AuthGuard]
+  }, 
+  {
+    path: '**',
+    redirectTo : '/root'
   }
 
 ];

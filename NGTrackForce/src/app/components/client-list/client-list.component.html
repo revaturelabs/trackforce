@@ -5,7 +5,7 @@
     <!-- Clients List column -->
     <div class="col-md-3">
       <div class="form-group">
-        <input type="text" [(ngModel)]="searchName" (keyup)="getAllClientNames()" class="form-control" id="clientSearch" placeholder="Search by client name...">
+        <input type="text" [(ngModel)]="searchName" (keyup)="getAllClients()" class="form-control" id="clientSearch" placeholder="Search by client name...">
       </div>
       <h3>Clients</h3>
       <button (click)="getTotalChartData()" class="btn custom-btn">View Data for All Clients</button>

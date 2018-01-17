@@ -85,6 +85,8 @@ export class AssociateListComponent implements OnInit {
       this.curriculums.delete("");
       this.curriculums.delete("null");
       self.sort("id");
+
+      console.log(data);
     });
   }
 

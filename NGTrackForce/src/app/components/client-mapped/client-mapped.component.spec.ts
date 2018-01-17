@@ -19,7 +19,7 @@ describe('ClientMappedComponent', () => {
   let component: ClientMappedComponent;
   let fixture: ComponentFixture<ClientMappedComponent>;
   const testClientMappedService: ClientMappedService = new ClientMappedService(null);
-  const testAuthService: AuthenticationService = new AuthenticationService(null);
+  const testAuthService: AuthenticationService = new AuthenticationService(null, null);
 
   //Setup service mocks
   beforeAll(() => {

@@ -24,7 +24,13 @@ describe('SkillsetComponent', () => {
 
   class SkillsetServiceSpy
   {
+    goBackHomeSpy : jasmine.Spy;
+    goToListSpy   : jasmine.Spy;
 
+    constructor()
+    {
+      
+    }
   }
 
   beforeEach(async(() => {

@@ -11,13 +11,13 @@ import { RequestService } from '../../services/request-service/request.service';
 /**
  * Component for viewing an individual associate and editing as admin.
  */
-@AutoUnsubscribe
 @Component({
     selector: 'form-comp',
     templateUrl: './form.component.html',
     styleUrls: ['./form.component.css']
 })
 
+@AutoUnsubscribe
 export class FormComponent implements OnInit {
     associate: Associate = new Associate();
     clients: Client[];

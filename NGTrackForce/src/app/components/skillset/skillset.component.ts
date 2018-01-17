@@ -27,9 +27,8 @@ export class SkillsetComponent implements OnInit {
   /**
    * Map of selected status to skill id
    */
-  private static SKILL_INFO: Map<string, any>;
-  // TODO: remove this
-  private static NEW_SKILL_INFO: Map<string, any>;
+  // probably a bad idea...
+  private static SKILL_INFO : Map<string, any>;
   /**
    * The id of skill, probably to hit the API with
    */
@@ -104,15 +103,6 @@ export class SkillsetComponent implements OnInit {
       SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.CONFIRMED, 9);
       SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.DEPLOYED, 10);
     }
-    //TODO: remove this
-    if (!SkillsetComponent.NEW_SKILL_INFO) {
-      SkillsetComponent.NEW_SKILL_INFO = new Map();
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.TRAINING, 0);
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.OPEN, 1);
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.SELECTED, 2);
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.CONFIRMED, 3);
-      SkillsetComponent.NEW_SKILL_INFO.set(SelectedStatusConstants.DEPLOYED, 4);
-    }
   }
 
   ngOnInit(): void {
@@ -128,8 +118,9 @@ export class SkillsetComponent implements OnInit {
         if (value === this.skillID) this.selectedStatus = key;
       })
       // if there is empty string, simply go home
-      if (!this.selectedStatus) {
-        // this.route.snapshot.
+      if (!this.selectedStatus)
+      {
+        this.router.navigate(['/root']);
       }
     }
     // get the skillset data here
@@ -197,5 +188,10 @@ export class SkillsetComponent implements OnInit {
   public static getSkillInfo() {
     return SkillsetComponent.SKILL_INFO;
   }
+
+  /**
+   * Exposing skillID in a safe way
+   */
+  public getSkillID() : number { return this.skillID; }
 
 }

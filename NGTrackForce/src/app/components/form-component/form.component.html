@@ -27,7 +27,7 @@
                         <tr>
                             <th>Batch Name</th>
                             <td>
-                                <a href="/batch-details/{{associate.batchId}}">{{associate.batchName}}</a>
+                                <a [routerLink]="['/batch-details', associate.bid]">{{associate.batchName}}</a>
                             </td>
                         </tr>
                         <tr>

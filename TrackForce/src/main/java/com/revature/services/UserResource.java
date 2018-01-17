@@ -54,7 +54,7 @@ public class UserResource {
 		Transaction tx = session.beginTransaction();
 		try {
 			// Attempts to get the user from the database based on username
-			TfUser tfUser = userDaoImpl.getUser(username);
+			TfUser tfUser = userDaoImpl.getUser(username, session);
 			if (tfUser != null) {
 				String hashedPassword = tfUser.getTfUserHashpassword();
 				// If the user object is empty, the user is invalid

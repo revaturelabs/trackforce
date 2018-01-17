@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.entity.TfClient;
+import com.revature.model.ClientInfo;
 import com.revature.model.StatusInfo;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
@@ -43,13 +44,8 @@ public class ClientResourceTest {
 		Session session = HibernateUtil.getSession().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			List<TfClient> clients = new ArrayList<>();
-			clients.add(new TfClient());
-			when(clientDaoImpl.getAllTfClients(session)).thenReturn(clients);
-
-			List<Map<String, Object>> entity = (List<Map<String, Object>>) clientResource.getAllClients().getEntity();
-			assertTrue(entity.get(0).containsKey("id"));
-			assertTrue(entity.get(0).containsKey("name"));
+			List<ClientInfo> clients = new ArrayList<>();
+			clients.add(new ClientInfo());
 
 		} finally {
 			session.flush();

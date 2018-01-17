@@ -7,6 +7,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -20,6 +21,10 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.StatusInfoUtil;
 
+
+// For all intensive purposes, this service mocks Salesforce albeit extreme
+// Salesforce would actually insert smaller data sets to be added to the cache
+// DatabaseService just wipes the entire DB or populates it
 @Path("database") // http://localhost:8080/
 public class DatabaseServices {
 
@@ -30,7 +35,7 @@ public class DatabaseServices {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response populateDB() throws IOException {
 		DBLoaderUtil.populateDB();
-		StatusInfoUtil.clearMaps();
+		update();
 		return Response.ok().build();
 	}
 
@@ -39,7 +44,7 @@ public class DatabaseServices {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response deleteDB() throws IOException {
 		DBLoaderUtil.truncateDB();
-		StatusInfoUtil.clearMaps();
+		update();
 		return Response.ok().build();
 	}
 
@@ -48,29 +53,16 @@ public class DatabaseServices {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response populateDBSF() throws IOException {
 		DBLoaderUtil.populateDBSF();
-		StatusInfoUtil.clearMaps();
-		return Response.ok().build();
+		update();
+		return Response.ok().build();	
 	}
-
-	// Update the flag to update the DB
-	@POST
-	@Path("updateDBSF")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response updateDBSF() {
-		DatabaseServices.updateDB = true;
-		return Response.ok().build();
-	}
-
-	// Check to see if it's time to update the db
-	@GET
-	@Path("checkFetch")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response checkDBSF() throws IOException {
-		DatabaseServices.updateDB = true;
-		if (DatabaseServices.updateDB) {
-			populateDBSF();
-			DatabaseServices.updateDB = false;
-		}
-		return Response.ok().build();
+	
+	public void update() throws IOException {
+		PersistentServiceDelegator psd = new PersistentServiceDelegator();
+		psd.updateAssociates();
+		psd.updateBatches();
+		psd.updateClients();
+		psd.updateCurriculums();
+		psd.updateMarketingStatus();
 	}
 }

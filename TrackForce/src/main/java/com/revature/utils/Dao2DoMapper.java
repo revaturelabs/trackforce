@@ -10,7 +10,7 @@ import com.revature.model.*;
 public class Dao2DoMapper {
 
 	private static final String OTHER_VALUE = "Other";
-	private static final String UNKNOWN_VALUE = "null";
+	private static final String UNKNOWN_VALUE = "None";
 
 	// This is the end mapper
 	public static AssociateInfo map(TfAssociate tfa) {
@@ -57,7 +57,11 @@ public class Dao2DoMapper {
 		if (tfa.getTfMarketingStatus() == null) {
 			ai.setMarketingStatusId(new BigDecimal(-1));
 			ai.setMarketingStatus(UNKNOWN_VALUE);
-		} else {
+		} else if(tfa.getTfMarketingStatus().getTfMarketingStatusId().intValueExact() >= StatusInfo.DIRECTLY_PLACED){
+			ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
+			ai.setMarketingStatus(OTHER_VALUE);
+		}
+		else {
 			ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
 			ai.setMarketingStatus(tfa.getTfMarketingStatus().getTfMarketingStatusName());
 		}

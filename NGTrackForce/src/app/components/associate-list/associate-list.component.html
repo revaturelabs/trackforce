@@ -34,7 +34,7 @@
         <select class="form-control" id="client" [(ngModel)]="searchByClient">
           <option label=""></option>
           <option selected="selected">None</option>
-          <option *ngFor="let client of clients" value="{{client.name}}">{{client.name}}</option>
+          <option *ngFor="let client of clients">{{client.tfClientName}}</option>
         </select>
       </div>
 
@@ -74,7 +74,7 @@
               <td class="status">{{associate.marketingStatus}}</td>
               <td class="client">{{associate.client}}</td>
               <td class="batch">
-                <a href="/batch-details/{{associate.batchId}}">{{associate.batchName}}</a>
+                <a [routerLink]="['/batch-details', associate.bid]">{{associate.batchName}}</a>
               </td>
             </ng-container>
           </tr>

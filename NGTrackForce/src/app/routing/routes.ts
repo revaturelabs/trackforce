@@ -75,10 +75,9 @@ export const appRoutes: Routes = [
     path: 'skillset/:id',
     component: SkillsetComponent
   },
-    {
-      path: 'associate-view/:id',
-      component: AssociateViewComponent
-    }
+  {
+    path: 'associate-view/:id',
+    component: AssociateViewComponent
+  }
 
 ];
-

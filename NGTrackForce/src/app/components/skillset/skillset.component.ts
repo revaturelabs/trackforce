@@ -170,15 +170,10 @@ export class SkillsetComponent implements OnInit {
     return type;
   }
 
-
-  public goToAssociateList(event)
-  {
-    /* NOTE:  event.active[0]._model.label is the label for the ChartElement that has been clicked. Problem
-     * is that it's returning falsy string because the database is basically a hostage situation. 
-     * TODO: put some stub in its place in the case of it being falsy. 
-     */ 
-    this.router.navigate([
-      `/associate-listing/curriculum/${event.active[0]._model.label}/unmapped/${this.selectedStatus}`]);
+  public goToAssociateList(event) {
+    if (event.active[0] != undefined) {
+      this.router.navigate([`associate-listing/curriculum/${this.skillsetLabels[event.active[0]._index]}/unmapped/${this.selectedStatus}`]);
+    }
   }
 
   /**

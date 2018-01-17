@@ -3,6 +3,7 @@ import { ClientMappedService } from '../../services/client-mapped-service/client
 import { ThemeConstants } from '../../constants/theme.constants'; //Used for colors in charts
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartsModule, Color } from 'ng2-charts';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-client-mapped',
@@ -72,7 +73,7 @@ export class ClientMappedComponent implements OnInit {
   Methods
   ============================ 
   */
-  constructor(private clientMappedService: ClientMappedService) {
+  constructor(private clientMappedService: ClientMappedService, private rout: Router) {
     this.chartOptions = {
       xAxes:[{ticks:{autoSkip:false}}], scales: {yAxes: [{ticks: {min: 0}}]},
       legend: {
@@ -185,6 +186,7 @@ export class ClientMappedComponent implements OnInit {
   //Placeholder for events. Current application specifications does not dictate any actions
   public chartClicked(e:any):void {
     console.log(e);
+    this.rout.navigate([`associate-listing/client/${this.clientMappedLabels[e.active[0]._index]}/mapped/${this.chartOptions.title.text}`]);
   }
  
   public chartHovered(e:any):void {

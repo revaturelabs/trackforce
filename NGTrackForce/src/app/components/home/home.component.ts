@@ -24,21 +24,21 @@ export class HomeComponent {
  * http://usejsdoc.org/
  */
 
-  private dbMessage: string;
-  private myStatus: string;
-  private username: string;
-  private labels = [];
-  private data = [];
-  private amountType: any;
+  dbMessage: string;
+  myStatus: string;
+  username: string;
+  labels = [];
+  data = [];
+  amountType: any;
 
-  private undeployedLabels = SelectedStatusConstants.UNDEPLOYED_LABELS;
-  private mappedLabels = SelectedStatusConstants.MAPPED_LABELS;
-  private unmappedLabels = SelectedStatusConstants.UNMAPPED_LABELS;
-  private deployedLabels = SelectedStatusConstants.DEPLOYED_LABELS;
+  undeployedLabels = SelectedStatusConstants.UNDEPLOYED_LABELS;
+  mappedLabels = SelectedStatusConstants.MAPPED_LABELS;
+  unmappedLabels = SelectedStatusConstants.UNMAPPED_LABELS;
+  deployedLabels = SelectedStatusConstants.DEPLOYED_LABELS;
 
-  private mappedColors: Array<Color> = ThemeConstants.MAPPED_COLORS;
-  private clientColors: Array<Color> = ThemeConstants.CLIENT_COLORS;
-  private skillColors: Array<Color> = ThemeConstants.SKILL_COLORS;
+  mappedColors: Array<Color> = ThemeConstants.MAPPED_COLORS;
+  clientColors: Array<Color> = ThemeConstants.CLIENT_COLORS;
+  skillColors: Array<Color> = ThemeConstants.SKILL_COLORS;
 
   deployedChartType = "pie";
   undeployedChartType = "pie";
@@ -47,10 +47,10 @@ export class HomeComponent {
 
   private options = ChartOptions.createOptionsLegend('right');
 
-  private unmappedOptions = ChartOptions.createOptionsTitle('Unmapped', 24, '#121212', 'right');
-  private mappedOptions = ChartOptions.createOptionsTitle('Mapped', 24, '#121212', 'right');
-  private deployedOptions = ChartOptions.createOptionsTitle('Mapped vs. Unmapped (Deployed)', 24, '#121212', 'right');
-  private undeployedOptions = ChartOptions.createOptionsTitle('Mapped vs. Unmapped (Not Deployed)', 24, '#121212', 'right');
+  unmappedOptions = ChartOptions.createOptionsTitle('Unmapped', 24, '#121212', 'right');
+  mappedOptions = ChartOptions.createOptionsTitle('Mapped', 24, '#121212', 'right');
+  deployedOptions = ChartOptions.createOptionsTitle('Mapped vs. Unmapped (Deployed)', 24, '#121212', 'right');
+  undeployedOptions = ChartOptions.createOptionsTitle('Mapped vs. Unmapped (Not Deployed)', 24, '#121212', 'right');
 
   // populate with dummy data to enaable chart labels by default
   private undeployedData: number[] = [0, 0];

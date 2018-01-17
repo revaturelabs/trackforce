@@ -57,6 +57,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 //  CONSTANTS
 ///
 import { appRoutes } from './routing/routes';
+import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-helpers/router-stubs';
 
 
 @NgModule({
@@ -76,7 +77,9 @@ import { appRoutes } from './routing/routes';
     BatchDetailsComponent,
     RootComponent,
     SkillsetComponent,
-    AssociateViewComponent
+    AssociateViewComponent,
+    RouterLinkStubDirective,
+    RouterOutletStubComponent
   ],
   imports: [
     BrowserModule,

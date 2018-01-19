@@ -10,5 +10,3 @@ Drop table tf_client;
 Drop table tf_end_client;
 
 ---------------------------------
-Drop table tf_user;
-Drop table tf_role;

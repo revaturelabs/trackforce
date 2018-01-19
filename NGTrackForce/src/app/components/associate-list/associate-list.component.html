@@ -67,7 +67,7 @@
                 <input type="checkbox" id={{associate.id}}>
               </td>
               <td>
-                <a href="form-comp/{{associate.id}}" class="id">{{associate.id}}</a>
+                <a [routerLink]="['/form-comp', associate.id]" class="id">{{associate.id}}</a>
               </td>
               <td class="first">{{associate.firstName}}</td>
               <td class="last">{{associate.lastName}}</td>

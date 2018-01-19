@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -73,6 +74,9 @@ public class UserResource {
 							// angular
 							userjson.setTfRoleId(tfRoleId);
 							userjson.setUsername(tfUserName);
+
+							userjson.setUserId(tfUser.getTfUserId());
+							
 							// Uses JWT service to create token
 							jwt = new JWTService();
 							userjson.setToken(jwt.createToken(tfUserName));
@@ -94,5 +98,12 @@ public class UserResource {
 		}
 		// Default return is 400 for a bad request
 		return Response.status(400).build();
+	}
+	
+	@GET
+	@Path("/test")
+	@Produces(MediaType.TEXT_PLAIN) 
+	public String testM() {
+		return "This is a test";
 	}
 }

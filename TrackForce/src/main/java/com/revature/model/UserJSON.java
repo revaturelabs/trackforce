@@ -20,7 +20,7 @@ public class UserJSON {
 	//token is the JWT token generated
 	private String token;
 	//user id
-	private BigDecimal userId;
+	private int userId;
 	
 	public UserJSON() {
 		super();
@@ -50,11 +50,11 @@ public class UserJSON {
 		this.token = token;
 	}
 
-	public BigDecimal getUserId() {
+	public int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(BigDecimal userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 

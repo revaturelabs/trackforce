@@ -21,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "TF_BATCH", schema = "ADMIN")
-public class TfBatch implements java.io.Serializable {
+public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 
 	/**
 	 * 
@@ -64,7 +64,7 @@ public class TfBatch implements java.io.Serializable {
 		this.tfBatchId = tfBatchId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_BATCH_LOCATION_ID")
 	public TfBatchLocation getTfBatchLocation() {
 		return this.tfBatchLocation;
@@ -74,7 +74,7 @@ public class TfBatch implements java.io.Serializable {
 		this.tfBatchLocation = tfBatchLocation;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_CURRICULUM_ID")
 	public TfCurriculum getTfCurriculum() {
 		return this.tfCurriculum;
@@ -112,7 +112,7 @@ public class TfBatch implements java.io.Serializable {
 		this.tfBatchEndDate = tfBatchEndDate;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfBatch")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "tfBatch")
 	public Set<TfAssociate> getTfAssociates() {
 		return this.tfAssociates;
 	}
@@ -126,6 +126,11 @@ public class TfBatch implements java.io.Serializable {
 		return "TfBatch [tfBatchId=" + tfBatchId + ", tfBatchLocation=" + tfBatchLocation + ", tfCurriculum="
 				+ tfCurriculum + ", tfBatchName=" + tfBatchName + ", tfBatchStartDate=" + tfBatchStartDate
 				+ ", tfBatchEndDate=" + tfBatchEndDate + ", tfAssociates=" + tfAssociates + "]";
+	}
+
+	@Override
+	public int compareTo(TfBatch o) {
+		return this.tfBatchId.subtract(o.getTfBatchId()).intValueExact();
 	}
 	
 	

@@ -8,24 +8,26 @@ import org.testng.annotations.Test;
 
 import com.revature.dao.DatabaseDAOImpl;
 
+import java.io.IOException;
+
 public class DatabaseServicesTest {
 
 	DatabaseServices dServ = new DatabaseServices();
 	
     @Test(enabled = false)
-    public void deleteDB() {
+    public void deleteDB() throws IOException {
         Response result = dServ.deleteDB();
         assertNotNull(result);
     }
 
     @Test(enabled = false)
-    public void populateDB() {
+    public void populateDB() throws IOException {
         Response result = dServ.populateDB();
         assertNotNull(result);
     }
     
     @Test(enabled = false)
-    public void populateDBSF() {
+    public void populateDBSF() throws IOException {
         Response result = dServ.populateDBSF();
         assertNotNull(result);
     }

@@ -1,8 +1,12 @@
 package com.revature.dao;
 
-public interface DatabaseDAO {
-	public String deleteAll();
+import java.io.IOException;
 
-	public String populate();
-	public String populateSF();
+import org.hibernate.Session;
+
+public interface DatabaseDAO {
+	public String deleteAll(Session session);
+
+	public String populate(Session session) throws IOException;
+	public String populateSF(Session session) throws IOException;
 }

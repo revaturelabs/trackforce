@@ -1,128 +1,117 @@
 package com.revature.services;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import com.revature.dao.ClientDaoImpl;
-import com.revature.dao.HomeDaoImpl;
-import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
+import com.revature.model.ClientInfo;
 import com.revature.model.StatusInfo;
+import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
+import com.revature.utils.PersistentStorage;
 import com.revature.utils.StatusInfoUtil;
 
 @Path("/clients")
-public class ClientResource {
+public class ClientResource implements Delegate {
 
-    private ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
-    private HomeDaoImpl homeDaoImpl = new HomeDaoImpl();
+	/**
+	 * Returns a map of all of the clients from the TfClient table as a response
+	 * object.
+	 * 
+	 * @return A map of TfClients as a Response object
+	 * @throws IOException
+	 * @throws HibernateException
+	 */
+	private Set<ClientInfo> getAllClients() throws IOException {
+		Set<ClientInfo> clients = PersistentStorage.getStorage().getClients();
+		if (clients == null || clients.isEmpty()) {
+			execute();
+			return PersistentStorage.getStorage().getClients();
+		}
+		return clients;
+	}
 
-    /**
-     * Returns a map of all of the clients with associates from the TfClient table
-     * as a response object.
-     * 
-     * @return A map of TfClients with associates as a Response object
-     */
-    @GET
-    @Produces({ MediaType.APPLICATION_JSON })
-    public Response getAllClientsWithAssociates() {
-        List<TfClient> clients = clientDaoImpl.getAllTfClients();
-        List<Map<String, Object>> entity = new ArrayList<>();
-        for (TfClient client : clients) {
-            if (!client.getTfAssociates().isEmpty()) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("id", client.getTfClientId());
-                map.put("name", client.getTfClientName());
-                entity.add(map);
-            }
-        }
-        return Response.ok(entity).build();
-    }
+	public Map<BigDecimal, ClientInfo> getClients() throws HibernateException, IOException {
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			Map<BigDecimal, ClientInfo> map = new ClientDaoImpl().getAllTfClients(session);
 
-    /**
-     * Returns a map of all of the clients from the TfClient table as a response
-     * object.
-     * 
-     * @return A map of TfClients as a Response object
-     */
-    @GET
-    @Path("all")
-    @Produces({ MediaType.APPLICATION_JSON })
-    public Response getAllClients() {
-        List<TfClient> clients = clientDaoImpl.getAllTfClients();
-        List<Map<String, Object>> entity = new ArrayList<>();
-        for (TfClient client : clients) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", client.getTfClientId());
-            map.put("name", client.getTfClientName());
-            entity.add(map);
-        }
-        return Response.ok(entity).build();
-    }
+			session.flush();
+			tx.commit();
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogUtil.logger.error(e);
+			tx.rollback();
+			throw new IOException("could not get clients", e);
+		}
+	}
+	
+	/**
+	 * Returns a StatusInfo object representing a client's associates and their
+	 * statuses.
+	 * 
+	 * @param clientid
+	 *            The id of the client in the TfClient table
+	 * @return A StatusInfo object for a specified client
+	 * @throws IOException
+	 * @throws HibernateException
+	 */
+	@GET
+	@Path("{clientid}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public StatusInfo getClientInfo(@PathParam("clientid") int clientid) throws HibernateException, IOException {
+		Map<BigDecimal, ClientInfo> map = PersistentStorage.getStorage().getClientAsMap();
+		if(map == null || map.isEmpty()) {
+			execute();
+		}
+		return map.get(new BigDecimal(clientid)).getStats();
+	}
 
-    /**
-     * Returns a StatusInfo object representing all clients' associates and their
-     * statuses.
-     * 
-     * @return A StatusInfo object for all clients
-     */
-    @GET
-    @Path("info")
-    @Produces({ MediaType.APPLICATION_JSON })
-    public StatusInfo getAllClientInfo() {
-        init();
-        return StatusInfoUtil.getAllAssociatesStatusInfo();
-    }
+	@Override
+	public synchronized void execute() throws IOException {
+		Set<ClientInfo> ci = PersistentStorage.getStorage().getClients();
+		if (ci == null || ci.isEmpty())
+			PersistentStorage.getStorage().setClients(getClients());
+	}
 
-    /**
-     * Returns a StatusInfo object representing a client's associates and their
-     * statuses.
-     * 
-     * @param clientid
-     *            The id of the client in the TfClient table
-     * @return A StatusInfo object for a specified client
-     */
-    @GET
-    @Path("{clientid}")
-    @Produces({ MediaType.APPLICATION_JSON })
-    public StatusInfo getClientInfo(@PathParam("clientid") int clientid) {
-        init();
-        if (clientid < 1)
-            return new StatusInfo();
-        return StatusInfoUtil.getClientStatusInfo(clientid);
-    }
+	@Override
+	public <T> Set<T> read(String... args) throws IOException {
+		if (args == null || args.length == 0)
+			return (Set<T>) getAllClients();
+		return getTotals();
+	}
 
-    /**
-     * Initializes objects needed for functionality from the StatusInfoUtil when
-     * maps in StatusInfoUtil are empty.
-     */
-    private void init() {
-        if (StatusInfoUtil.mapsAreEmpty()) {
-            initForce();
-        }
-    }
-
-    /**
-     * Forces initialization of objects needed for functionality from the
-     * StatusInfoUtil.
-     */
-    @POST
-    @Path("init")
-    public void initForce() {
-        HomeDaoImpl.clearAssociates();
-        clientDaoImpl.clearClients();
-        StatusInfoUtil.clearMaps();
-        List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates();
-        StatusInfoUtil.updateStatusInfoFromAssociates(tfAssociates);
-    }
+	private <T> Set<T> getTotals() throws IOException {
+		Set<StatusInfo> set = new HashSet<>();
+		Set<ClientInfo> ci = PersistentStorage.getStorage().getClients();
+		if(ci == null || ci.isEmpty()) {
+			execute();
+		}
+		StatusInfo si = PersistentStorage.getStorage().getTotals();
+		set.add(si);
+		return (Set<T>) set;
+	}
 }

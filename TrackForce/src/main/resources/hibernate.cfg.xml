@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
+
+        <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
+        <property name="hibernate.search.autoregister_listeners">true</property>
+        <property name="hibernate.validator.apply_to_ddl">false</property>
+        <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+        <property name="hibernate.generate_statistics">true</property>
+        <property name="connection.provider_class">org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl</property>
+        <property name="hibernate.connection.release_mode">after_transaction</property>
+
+
+        <property name="hibernate.show_sql">false</property>
+
+        <mapping class="com.revature.entity.TfAssociate"/>
+        <mapping class="com.revature.entity.TfCurriculum"/>
+        <mapping class="com.revature.entity.TfEndClient"/>
+        <mapping class="com.revature.entity.TfInterviewType"/>
+        <mapping class="com.revature.entity.TfUser"/>
+        <mapping class="com.revature.entity.TfBatchLocation"/>
+        <mapping class="com.revature.entity.TfPlacement"/>
+        <mapping class="com.revature.entity.TfRole"/>
+        <mapping class="com.revature.entity.TfMarketingStatus"/>
+        <mapping class="com.revature.entity.TfBatch"/>
+        <mapping class="com.revature.entity.TfInterview"/>
+        <mapping class="com.revature.entity.TfClient"/>
+    </session-factory>
+</hibernate-configuration>

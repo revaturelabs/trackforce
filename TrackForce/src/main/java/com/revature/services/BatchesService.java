@@ -1,11 +1,21 @@
 package com.revature.services;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -16,6 +26,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
@@ -24,229 +37,197 @@ import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.entity.*;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
+import com.revature.utils.Dao2DoMapper;
+import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
+import com.revature.utils.PersistentStorage;
 
 /**
  * Class that provides RESTful services for the batch listing and batch details
  * page.
  */
 @Path("batches")
-public class BatchesService {
+public class BatchesService implements Delegate {
 
-    private static final String OTHER_CURRICULUM = "Other";
+	/**
+	 * Gets all batches that are running within a given date range
+	 *
+	 * @param fromdate
+	 *            - the starting date of the date range
+	 * @param todate
+	 *            - the ending date of the date range
+	 * @return - A list of the batch info. Batch info contains batch name, client
+	 *         name, batch start date, and batch end date.
+	 * @throws IOException
+	 */
+	private synchronized Set<BatchInfo> getAllBatches() throws IOException {
+		Set<BatchInfo> batches = PersistentStorage.getStorage().getBatches();
+		if (batches == null || batches.isEmpty()) {
+			execute();
+			return PersistentStorage.getStorage().getBatches();
+		}
+		return batches;
+	}
 
-    /**
-     * Gets the number of associates learning each curriculum during a given date
-     * range
-     *
-     * @param fromdate
-     *            - the starting date of the date range
-     * @param todate
-     *            - the ending date of the date range
-     * @return - A map of associates in each curriculum with the curriculum name as
-     *         the key and number of associates as value.
-     *
-     *         The returned chart data is laid out as follows:
-     *         [
-     *              {
-     *                  "curriculum" -> "1109 Sept 11 Java JTA",
-     *                  "value" -> 14
-     *              },
-     *
-     *              {
-     *                  "curriculum" -> "1109 Sept 11 Java Full Stack",
-     *                  "value" -> 16
-     *              },    *
-     *
-     *              ...
-     *         ]
-     */
-    @GET
-    @Path("{fromdate}/{todate}/type")
-    @Produces({ MediaType.APPLICATION_JSON })
-    public List<Map<String, Object>> getBatchChartInfo(@PathParam("fromdate") long fromdate, @PathParam("todate") long todate) {
-        BatchDaoHibernate batchDao = new BatchDaoHibernate();
-        List<TfBatch> batches = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
-        Map<String, Integer> curriculumData = new HashMap<>();
-        List<String> curriculums = new ArrayList<>();
-        List<Map<String, Object>> chartData = new ArrayList<>();
-        for (TfBatch batch : batches) {
-            TfCurriculum curriculum = batch.getTfCurriculum();
-            String curriculumName = (curriculum != null)? batch.getTfBatchName() : OTHER_CURRICULUM;
-            if (curriculumData.containsKey(curriculumName)) {
-                int moreAssociates = batch.getTfAssociates().size();
-                int totalAssociates = curriculumData.get(curriculumName) + moreAssociates;
-                curriculumData.put(curriculumName, totalAssociates);
-            } else {
-                int totalAssociates = batch.getTfAssociates().size();
-                curriculumData.put(curriculumName, totalAssociates);
-                curriculums.add(curriculumName);
-            }
-        }
-        for (String curriculum : curriculums) {
-            Map<String, Object> curriculumMap = new HashMap<>();
-            curriculumMap.put("curriculum", curriculum);
-            curriculumMap.put("value", curriculumData.get(curriculum));
-            chartData.add(curriculumMap);
-        }
-        return chartData;
-    }
+	private List<BatchInfo> getAllBatchesSortedByDate() throws IOException {
+		List<BatchInfo> batches = PersistentStorage.getStorage().getBatchesByDate();
+		if (batches == null || batches.isEmpty()) {
+			execute();
+			return PersistentStorage.getStorage().getBatchesByDate();
+		}
+		return batches;
+	}
 
-    /**
-     * When given a batch name returns an object that contains all information about
-     * that batch
-     *
-     * @param batchName
-     *            - the name of a batch that is in the database
-     * @return - A list with batch name, client name, curriculum name, batch
-     *         location, batch start date, and batch end date.
-     */
-    @GET
-    @Path("{batch}/info")
-    @Produces(MediaType.APPLICATION_JSON)
-    public BatchInfo getBatchInfo(@PathParam("batch") String batchName) {
-        BatchDaoHibernate batchDao = new BatchDaoHibernate();
-        TfBatch batch = batchDao.getBatch(batchName);
+	private Map<BigDecimal, BatchInfo> getBatches() throws IOException {
+		Session session = HibernateUtil.getSession().openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			BatchDaoHibernate batchDao = new BatchDaoHibernate();
+			Map<BigDecimal, BatchInfo> map = batchDao.getBatchDetails(session);
 
-        BatchInfo batchInfo = new BatchInfo();
-        batchInfo.setBatchName(batch.getTfBatchName());
-        batchInfo.setCurriculumName(batch.getTfCurriculum().getTfCurriculumName());
-        batchInfo.setLocation(batch.getTfBatchLocation().getTfBatchLocationName());
-        batchInfo.setStartDate(batch.getTfBatchStartDate().toString());
-        batchInfo.setEndDate(batch.getTfBatchEndDate().toString());
+			session.flush();
+			tx.commit();
 
-        return batchInfo;
-    }
+			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogUtil.logger.error(e);
+			session.flush();
+			tx.rollback();
+			throw new IOException("could not get batches", e);
+		} finally {
+			session.close();
+		}
+	}
 
-    /**
-     * Gets the number of associates that are mapped and unmapped within a
-     * particular batch
-     *
-     * @param batchName
-     *            - the name of a batch that is in the database
-     * @return - A map with the key being either Mapped or Unmapped and the value
-     *         being the number of associates in those statuses.
-     */
-    @GET
-    @Path("{batch}/batchChart")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Integer> getMappedData(@PathParam("batch") String batchName) {
-        Map<String, Integer> mappedChartData = new HashMap<>();
-        BatchDaoHibernate batchDao = new BatchDaoHibernate();
-        TfBatch selectedBatch = batchDao.getBatch(batchName);
-        int unmappedCount = 0;
-        int mappedCount = 0;
-        for (TfAssociate associate : selectedBatch.getTfAssociates()) {
-            if (associate.getTfMarketingStatus().getTfMarketingStatusName().contains("UNMAPPED")) {
-                unmappedCount++;
-            } else if (associate.getTfMarketingStatus().getTfMarketingStatusName().contains("TERMINATED")
-                    || associate.getTfMarketingStatus().getTfMarketingStatusName().contains("DIRECTLY")) {
-                continue;
-            } else {
-                mappedCount++;
-            }
-        }
-        mappedChartData.put("Unmapped", unmappedCount);
-        mappedChartData.put("Mapped", mappedCount);
-        return mappedChartData;
+	/**
+	 * Gets the number of associates learning each curriculum during a given date
+	 * range
+	 *
+	 * @param fromdate
+	 *            - the starting date of the date range
+	 * @param todate
+	 *            - the ending date of the date range
+	 * @return - A map of associates in each curriculum with the curriculum name as
+	 *         the key and number of associates as value.
+	 *
+	 *         The returned chart data is laid out as follows: [ { "curriculum" ->
+	 *         "1109 Sept 11 Java JTA", "value" -> 14 },
+	 *
+	 *         { "curriculum" -> "1109 Sept 11 Java Full Stack", "value" -> 16 }, *
+	 *
+	 *         ... ]
+	 * @throws IOException
+	 */
+	@GET
+	@Path("{fromdate}/{todate}/type")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<BatchInfo> getBatchChartInfo(@PathParam("fromdate") Long fromdate, @PathParam("todate") Long todate)
+			throws IOException {
+		List<BatchInfo> batches = PersistentStorage.getStorage().getBatchesByDate();
+		List<BatchInfo> sublist = new LinkedList<BatchInfo>();
+		if (batches == null)
+			execute();
+		for (BatchInfo bi : batches) {
+			if (bi.getStartLong() != null && bi.getEndLong() != null)
+				if (todate.compareTo(bi.getStartLong()) >= 1 && todate.compareTo(bi.getEndLong()) <= 1) {
+					LogUtil.logger.info(new Timestamp(fromdate) + " <= " + new Timestamp(bi.getStartLong()) + " <= "
+							+ new Timestamp(todate));
+					LogUtil.logger.info("fromdate: " + new Timestamp(fromdate) + " todate: " + new Timestamp(todate)
+							+ " startlong: " + new Timestamp(bi.getStartLong()) + " endLong: "
+							+ new Timestamp(bi.getEndLong()));
+					sublist.add(bi);
+				} else if (fromdate.compareTo(bi.getStartLong()) <= 1 && fromdate.compareTo(bi.getEndLong()) >= 1) {
+					LogUtil.logger.info(new Timestamp(bi.getStartLong()) + " <= " + new Timestamp(fromdate) + "<="
+							+ new Timestamp(bi.getEndLong()));
+					LogUtil.logger.info("fromdate: " + new Timestamp(fromdate) + " todate: " + new Timestamp(todate)
+							+ " startlong: " + new Timestamp(bi.getStartLong()) + " endLong: "
+							+ new Timestamp(bi.getEndLong()));
+					sublist.add(bi);
+				}
+		}
 
-    }
+		return sublist;
+	}
 
-    /**
-     * Gets all batches that are running within a given date range
-     *
-     * @param fromdate
-     *            - the starting date of the date range
-     * @param todate
-     *            - the ending date of the date range
-     * @return - A list of the batch info. Batch info contains batch name, client
-     *         name, batch start date, and batch end date.
-     */
-    @GET
-    @Path("{fromdate}/{todate}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<BatchInfo> getBatches(@PathParam("fromdate") long fromdate, @PathParam("todate") long todate) {
-        ArrayList<BatchInfo> batchesList = new ArrayList<>();
+	/**
+	 * Gets all batches that are running within a given date range
+	 *
+	 * @param fromdate
+	 *            - the starting date of the date range
+	 * @param todate
+	 *            - the ending date of the date range
+	 * @return - A list of the batch info. Batch info contains batch name, client
+	 *         name, batch start date, and batch end date.
+	 * @throws IOException
+	 */
+	@GET
+	@Path("{fromdate}/{todate}")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<BatchInfo> getBatches(@PathParam("fromdate") Long fromdate, @PathParam("todate") Long todate)
+			throws IOException {
+		List<BatchInfo> batches = PersistentStorage.getStorage().getBatchesByDate();
+		List<BatchInfo> sublist = new LinkedList<BatchInfo>();
+		if (batches == null)
+			execute();
+		for (BatchInfo bi : batches) {
+			if (bi.getStartLong() != null && bi.getEndLong() != null)
+				if (fromdate <= bi.getStartLong() && bi.getStartLong() <= todate) {
+					LogUtil.logger.info(new Timestamp(fromdate) + " <= " + new Timestamp(bi.getStartLong()) + " <= "
+							+ new Timestamp(todate));
+					LogUtil.logger.info("fromdate: " + new Timestamp(fromdate) + " todate: " + new Timestamp(todate)
+							+ " startlong: " + new Timestamp(bi.getStartLong()) + " endLong: "
+							+ new Timestamp(bi.getEndLong()));
+					sublist.add(bi);
+				} else if (bi.getStartLong() <= fromdate && fromdate <= bi.getEndLong()) {
+					LogUtil.logger.info(new Timestamp(bi.getStartLong()) + " <= " + new Timestamp(fromdate) + "<="
+							+ new Timestamp(bi.getEndLong()));
+					LogUtil.logger.info("fromdate: " + new Timestamp(fromdate) + " todate: " + new Timestamp(todate)
+							+ " startlong: " + new Timestamp(bi.getStartLong()) + " endLong: "
+							+ new Timestamp(bi.getEndLong()));
+					sublist.add(bi);
+				}
+		}
 
-        BatchDaoHibernate batchDao = new BatchDaoHibernate();
-        List<TfBatch> list = batchDao.getBatchDetails(new Timestamp(fromdate), new Timestamp(todate));
+		return sublist;
+	}
+	
+	/**
+	 * Gets the information of the associates in a particular batch
+	 *
+	 * @param batchName
+	 *            - the name of a batch that is in the database
+	 * @return - A list of the lists of associate info. Associate info contains id,
+	 *         first name, last name, and marketing status.
+	 * @throws IOException
+	 */
+	@GET
+	@Path("{batch}/associates")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Set<AssociateInfo> getAssociates(@PathParam("batch") String batchName) throws IOException {
+		Set<AssociateInfo> associatesList = PersistentStorage.getStorage().getBatchAsMap().get(new BigDecimal(Integer.parseInt(batchName))).getAssociates();
+		if(associatesList == null) {
+			execute();
+			return PersistentStorage.getStorage().getBatchAsMap().get(new BigDecimal(Integer.parseInt(batchName))).getAssociates();
+		}
+		return associatesList;
+		
+	}
 
-        for (TfBatch batch : list) {
+	@Override
+	public synchronized void execute() throws IOException {
+		Set<BatchInfo> bi = PersistentStorage.getStorage().getBatches();
+		if (bi == null || bi.isEmpty())
+			;
+		PersistentStorage.getStorage().setBatches(getBatches());
+	}
 
-            String batchName = batch.getTfBatchName();
-            String startDate = batch.getTfBatchStartDate().toString();
-            String endDate = batch.getTfBatchEndDate().toString();
+	@Override
+	public synchronized <T> Collection<T> read(String... args) throws IOException {
+		if (args == null || args.length == 0) {
+			return (Set<T>) getAllBatches();
+		}
+		return (List<T>) getAllBatchesSortedByDate();
 
-            BatchInfo batchDetails = new BatchInfo(batchName, startDate, endDate);
-
-            batchesList.add(batchDetails);
-        }
-        return batchesList;
-    }
-
-    /**
-     * Gets the information of the associates in a particular batch
-     *
-     * @param batchName
-     *            - the name of a batch that is in the database
-     * @return - A list of the lists of associate info. Associate info contains id,
-     *         first name, last name, and marketing status.
-     */
-    @GET
-    @Path("{batch}/associates")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<AssociateInfo> getAssociates(@PathParam("batch") String batchName) {
-        ArrayList<AssociateInfo> associatesList = new ArrayList<>();
-
-        BatchDaoHibernate batchDao = new BatchDaoHibernate();
-        TfBatch batch = batchDao.getBatch(batchName);
-
-        for (TfAssociate associate : batch.getTfAssociates()) {
-
-            if (associate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
-                    || associate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
-                continue;
-            }
-            AssociateInfo associateInfo = new AssociateInfo();
-            associateInfo.setId(associate.getTfAssociateId());
-            associateInfo.setFirstName(associate.getTfAssociateFirstName());
-            associateInfo.setLastName(associate.getTfAssociateLastName());
-            associateInfo.setMarketingStatus(associate.getTfMarketingStatus().getTfMarketingStatusName());
-            try {
-                associateInfo.setClient(associate.getTfClient().getTfClientName());
-            } catch (NullPointerException e) {
-                associateInfo.setClient("None");
-                LogUtil.logger.error(e);
-            }
-
-            associatesList.add(associateInfo);
-        }
-        return associatesList;
-    }
-
-    /**
-     * Update the marketing status or client of an associate from form data.
-     *
-     * @param id - The ID of the associate to change
-     * @param marketingStatus - What to change the associate's marketing status to
-     * @param client - What client to change the associate to
-     * @return
-     */
-    @PUT
-    @Path("{associate}/update")
-    @Produces({ MediaType.TEXT_HTML })
-    public Response updateAssociate(@FormParam("id") String id, @FormParam("marketingStatus") String marketingStatus, @FormParam("client") String client) {
-        MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
-        TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
-
-        ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
-        TfClient tfclient = clientDaoImpl.getClient(client);
-
-        BigDecimal associateID = new BigDecimal(Integer.parseInt(id));
-
-        AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
-        associateDaoHibernate.updateInfo(associateID, status, tfclient);
-
-        return Response.status(Response.Status.OK).entity("Updated the associate's information").build();
-    }
+	}
 }

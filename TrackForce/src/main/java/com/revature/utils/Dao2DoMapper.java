@@ -64,6 +64,9 @@ public class Dao2DoMapper {
 		else {
 			ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
 			ai.setMarketingStatus(tfa.getTfMarketingStatus().getTfMarketingStatusName());
+		} else {
+			ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
+			ai.setMarketingStatus(OTHER_VALUE);
 		}
 		return ai;
 	}

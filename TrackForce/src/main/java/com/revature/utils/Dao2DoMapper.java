@@ -57,11 +57,10 @@ public class Dao2DoMapper {
 		if (tfa.getTfMarketingStatus() == null) {
 			ai.setMarketingStatusId(new BigDecimal(-1));
 			ai.setMarketingStatus(UNKNOWN_VALUE);
-		} else if(tfa.getTfMarketingStatus().getTfMarketingStatusId().intValueExact() >= StatusInfo.DIRECTLY_PLACED){
+		} else if (tfa.getTfMarketingStatus().getTfMarketingStatusId().intValueExact() >= StatusInfo.DIRECTLY_PLACED) {
 			ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
 			ai.setMarketingStatus(OTHER_VALUE);
-		}
-		else {
+		} else {
 			ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
 			ai.setMarketingStatus(tfa.getTfMarketingStatus().getTfMarketingStatusName());
 		}
@@ -88,9 +87,9 @@ public class Dao2DoMapper {
 		String locationName = (location != null) ? location.getTfBatchLocationName() : OTHER_VALUE;
 
 		BatchInfo bi = new BatchInfo(batch.getTfBatchId(), batchName, curriculumName, locationName, startDate, endDate);
-		if(batch.getTfBatchStartDate() != null)
+		if (batch.getTfBatchStartDate() != null)
 			bi.setStartLong(batch.getTfBatchStartDate().getTime());
-		if(batch.getTfBatchEndDate() != null)
+		if (batch.getTfBatchEndDate() != null)
 			bi.setEndLong(batch.getTfBatchEndDate().getTime());
 		bi.setStartTs(batch.getTfBatchStartDate());
 		if (batch.getTfAssociates() != null)
@@ -124,11 +123,12 @@ public class Dao2DoMapper {
 				cli.getTfAssociates().add(map(tfa));
 				if (tfa.getTfMarketingStatus() != null) {
 					LogUtil.logger.debug(tfa.getTfAssociateFirstName() + " " + tfa.getTfAssociateLastName() + " \n"
-							+ tfa.getTfMarketingStatus().getTfMarketingStatusName() + " " + tfa.getTfMarketingStatus().getTfMarketingStatusId() +
-							"\n" + tfa.getTfClient().getTfClientId() + tfa.getTfClient().getTfClientName());
+							+ tfa.getTfMarketingStatus().getTfMarketingStatusName() + " "
+							+ tfa.getTfMarketingStatus().getTfMarketingStatusId() + "\n"
+							+ tfa.getTfClient().getTfClientId() + tfa.getTfClient().getTfClientName());
 					cli.appendToMap(tfa.getTfMarketingStatus());
 				}
-				LogUtil.logger.info("Final results: " + cli.getTfClientName() +" " + cli.getStats());
+				LogUtil.logger.info("Final results: " + cli.getTfClientName() + " " + cli.getStats());
 			}
 		if (client.getTfInterviews() != null)
 			for (TfInterview tfi : client.getTfInterviews())

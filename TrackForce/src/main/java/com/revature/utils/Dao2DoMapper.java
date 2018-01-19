@@ -57,7 +57,11 @@ public class Dao2DoMapper {
 		if (tfa.getTfMarketingStatus() == null) {
 			ai.setMarketingStatusId(new BigDecimal(-1));
 			ai.setMarketingStatus(UNKNOWN_VALUE);
-		} else if (tfa.getTfMarketingStatus().getTfMarketingStatusId().intValueExact() < StatusInfo.DIRECTLY_PLACED) {
+		} else if(tfa.getTfMarketingStatus().getTfMarketingStatusId().intValueExact() >= StatusInfo.DIRECTLY_PLACED){
+			ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
+			ai.setMarketingStatus(OTHER_VALUE);
+		}
+		else {
 			ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
 			ai.setMarketingStatus(tfa.getTfMarketingStatus().getTfMarketingStatusName());
 		} else {

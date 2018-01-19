@@ -3,6 +3,8 @@ import {ActivatedRoute} from '@angular/router';
 import {BatchService} from '../../services/batch-service/batch.service';
 import {Associate} from '../../models/associate.model';
 import {AutoUnsubscribe} from '../../decorators/auto-unsubscribe.decorator';
+import { ThemeConstants } from '../../constants/theme.constants';
+import { ChartsModule, Color } from 'ng2-charts';
 
 export class BarChartDataSet {
   data: number[];
@@ -22,12 +24,40 @@ export class BarChartDataSet {
 @AutoUnsubscribe
 export class BatchDetailsComponent implements OnInit {
   chartType = "bar";
-  options;
+  public options: any = {
+    display: true,
+    position: 'right',
+    scaleShowVerticalLines: false,
+    responsive: true,
+    legend: { position: 'right' },
+    scales: {
+      yAxes: [
+        {
+          id: 'y-axis-1',
+          type: 'linear',
+          display: true,
+          position: 'left',
+          ticks: {
+            beginAtZero: true
+          }
+        }
+      ]
+    },
+    tooltips: {
+      mode: 'label',
+      callbacks: {
+        label: function (tooltipItem, data) {
+          return data.datasets[tooltipItem.datasetIndex].label + ": " + tooltipItem.yLabel;
+        }
+      }
+    }
+  };
   associates: Associate[];
-  dataSets: BarChartDataSet[];
+  dataSets: any[] = [{ data: [0], label: 'Mapped' }, { data: [0], label: 'Unmapped' }, {data: [0], label: 'Other'}];;
   statusNames: string[];
   isDataReady = false;
   isDataEmpty = false;
+  mappedColors: Array<Color> = ThemeConstants.BATCH_DETAILS_COLORS;
 
   ngOnInit() {
     this.getMapStatusBatch();
@@ -50,39 +80,52 @@ export class BatchDetailsComponent implements OnInit {
             this.associates = data;
             console.log('associates', this.associates);
 
-            const statusMap = new Map<string, number>();
+            const statusMap = new Map<number, number>();
+            statusMap.set(1, 0);
+            statusMap.set(2, 0);
+            statusMap.set(3, 0);
+            statusMap.set(4, 0);
+            statusMap.set(5, 0);
+            statusMap.set(6, 0);
+            statusMap.set(7, 0);
+            statusMap.set(8, 0);
+            statusMap.set(9, 0);
+            statusMap.set(10, 0);
+            statusMap.set(11, 0);
+            statusMap.set(12, 0);
             for (const assoc of this.associates) {
-              let statusCount = statusMap.get(assoc.marketingStatus);
+              let statusCount = statusMap.get(assoc.msid);
               if (statusCount === undefined) {
-                statusCount = 0;
+                statusCount = -1;
               }
-              statusMap.set(assoc.marketingStatus, statusCount + 1);
+              statusMap.set(assoc.msid, statusCount + 1);
             }
 
-            const dataSets: BarChartDataSet[] = [new BarChartDataSet("Mapped"), new BarChartDataSet("Unmapped")];
-            for (const label of Array.from(statusMap.keys())) {
-              if (label.toLowerCase().indexOf("unmapped") >= 0) {
-                console.log("unmapped", label, statusMap.get(label));
-                dataSets[1].data.push(statusMap.get(label));
-              }
-              else {
-                console.log(statusMap.get(label));
-                console.log("mapped", label, statusMap.get(label));
-                dataSets[0].data.push(statusMap.get(label));
-              }
-            }
-            this.dataSets = dataSets;
-            this.statusNames = Array.from(statusMap.keys());
+            let mappedCount: number = statusMap.get(1) + statusMap.get(2) + statusMap.get(3) + statusMap.get(4) + statusMap.get(5);
+            let unmappedCount: number  = statusMap.get(6) + statusMap.get(7) + statusMap.get(8) + statusMap.get(9) + statusMap.get(10);
+
+            const dataSets: BarChartDataSet[] = [new BarChartDataSet("Mapped"), new BarChartDataSet("Unmapped"), new BarChartDataSet("Other")];
+
+
+                this.dataSets = [{
+                  data: [mappedCount],
+                  label: 'Mapped'
+                },
+                {
+                  data: [unmappedCount],
+                  label: 'Unmapped'
+                },
+                {
+                  data: [statusMap.get(11) + statusMap.get(12)],
+                  label: 'Other'
+                }
+              ];             
+              
             console.log(this.dataSets);
             this.isDataEmpty = this.associates.length === 0;
             this.isDataReady = true;
 
             console.log(statusMap);
-
-            this.options = {
-              scaleShowVerticalLines: false,
-              responsive: true
-            };
           },
           console.log
         );

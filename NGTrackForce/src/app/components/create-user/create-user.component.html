@@ -6,7 +6,7 @@
     <label>Vice President</label>
     <p>Can only view information.</p>
     <label>Director or Manager</label>
-    <p>Can view information and edie associates' information</p>
+    <p>Can view information and edit associates' information</p>
     <label>Administrator</label>
     <p>Can do everything a director or manager can do in addition to creating a new user.</p>
   </div>
@@ -26,7 +26,7 @@
           <input type="radio" name="optradio" value="1" [(ngModel)]="roleId">Administrator<br>
           <input type="radio" name="optradio" value="2" [(ngModel)]="roleId">Manager<br>
           <input type="radio" name="optradio" value="3" [(ngModel)]="roleId">Vice President <br>
-          <input type="radio" name="optradio" value="4" [(ngModel)]="roleId">Associate<br>
+          <!--<input type="radio" name="optradio" value="4" [(ngModel)]="roleId">Associate<br>-->
        </div>
       <br>
       <input (click)="createUser()" type="submit" value="Submit">

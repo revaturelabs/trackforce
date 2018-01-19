@@ -1,4 +1,9 @@
 <!-- This is in essence the new app.component. Add your embedded app 
  modules here -->
-<app-navbar></app-navbar>
-<app-home></app-home>
+ <div style="height:100%;width:100%;position:relative;">
+    <app-navbar></app-navbar>
+    <app-home></app-home>
+    <div style="bottom: 0px!important; position: absolute; width:100%;">
+        <app-footer></app-footer>
+    </div>
+</div>

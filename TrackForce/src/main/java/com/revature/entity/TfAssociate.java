@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Table(name = "TF_ASSOCIATE", schema = "ADMIN")
 public class TfAssociate implements java.io.Serializable {
 
-	/**
+	/** 
 	 * 
 	 */
 	private static final long serialVersionUID = -2324082555924677252L;
@@ -76,7 +76,7 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfBatch = tfBatch;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_MARKETING_STATUS_ID")
 	public TfMarketingStatus getTfMarketingStatus() {
 		return this.tfMarketingStatus;
@@ -141,5 +141,4 @@ public class TfAssociate implements java.io.Serializable {
 	public void setTfPlacements(Set<TfPlacement> tfPlacements) {
 		this.tfPlacements = tfPlacements;
 	}
-
 }

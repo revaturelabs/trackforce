@@ -1,6 +1,6 @@
 import { LoginPage } from './login.po';
 
-describe('login page element existences', () => {
+xdescribe('login page element existences', () => {
   let page: LoginPage;
 
   beforeAll(() => {
@@ -48,5 +48,4 @@ xdescribe('confirm login navigation', () => {
 
     expect(page.getTitle()).not.toEqual('NGTrackForce');
   });
-
 });

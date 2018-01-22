@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
+import com.revature.dao.UserDAO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -36,7 +37,22 @@ public class JWTService {
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 10L;
 
-	/**
+    private UserDAO userDao;
+
+    /**
+     * injectable dependencies for easier testing
+     *
+     * @param userDao
+     */
+    public JWTService(UserDAO userDao) {
+        this.userDao = userDao;
+    }
+
+    public JWTService() {
+        this.userDao = new UserDaoImpl();
+    }
+
+    /**
 	 * Creates a token with an encoded username An expiration date has been set as
 	 * well
 	 * 
@@ -134,7 +150,7 @@ public class JWTService {
 	public Boolean validateToken(String token) throws IOException {
 		Claims claims = null;
 		boolean verified = false;
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			String tokenUsername = null;
@@ -179,7 +195,7 @@ public class JWTService {
 	 *             because of the use of connection pools that requires some files
 	 */
 	public boolean isAdmin(String token) throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			Claims claims = null;
@@ -231,14 +247,13 @@ public class JWTService {
 	 *             because of the use of connection pools that requires some files
 	 */
 	public boolean isAssociate(String token) throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 		Claims claims = null;
 		boolean verified = false;
 		String tokenUsername = null;
 		TfUser tfUser = null;
-		UserDaoImpl udi = new UserDaoImpl();
 		TfRole tfRole = null;
 
 		if (token == null) {
@@ -248,7 +263,7 @@ public class JWTService {
 		try {
 			claims = getClaimsFromToken(token);
 			tokenUsername = claims.getSubject();
-			tfUser = udi.getUser(tokenUsername, session);
+			tfUser = userDao.getUser(tokenUsername, session);
 			tfRole = tfUser.getTfRole();
 
 			if (tfUser != null) {
@@ -277,8 +292,7 @@ public class JWTService {
 	}
 
 	/**
-	 * Gets the secret key from System environments, under the 'KEY' label >>>>>>>
-	 * a08cd25a85f2cec1a67df1180c8868a0c0b50ec7
+	 * Gets the secret key from System environments, under the 'KEY' label
 	 * 
 	 * @return key string
 	 */

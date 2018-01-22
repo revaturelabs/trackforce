@@ -3,41 +3,25 @@ package com.revature.services;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
-import java.util.TreeSet;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
+import com.revature.dao.BatchDao;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDaoHibernate;
-import com.revature.dao.ClientDaoImpl;
-import com.revature.dao.MarketingStatusDao;
-import com.revature.dao.MarketingStatusDaoHibernate;
-import com.revature.entity.*;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
-import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
@@ -49,13 +33,24 @@ import com.revature.utils.PersistentStorage;
 @Path("batches")
 public class BatchesService implements Delegate {
 
-	/**
-	 * Gets all batches that are running within a given date range
-	 *
-	 * @param fromdate
-	 *            - the starting date of the date range
-	 * @param todate
-	 *            - the ending date of the date range
+    private BatchDao batchDao;
+
+    public BatchesService() {
+        this.batchDao = new BatchDaoHibernate();
+    }
+
+    /**
+     * injectable dao for easier testing
+     *
+     * @param batchDao
+     */
+    public BatchesService(BatchDao batchDao) {
+        this.batchDao = batchDao;
+    }
+
+    /**
+     * Get all batches
+     *
 	 * @return - A list of the batch info. Batch info contains batch name, client
 	 *         name, batch start date, and batch end date.
 	 * @throws IOException
@@ -79,10 +74,9 @@ public class BatchesService implements Delegate {
 	}
 
 	private Map<BigDecimal, BatchInfo> getBatches() throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			BatchDaoHibernate batchDao = new BatchDaoHibernate();
 			Map<BigDecimal, BatchInfo> map = batchDao.getBatchDetails(session);
 
 			session.flush();

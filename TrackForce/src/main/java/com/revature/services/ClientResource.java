@@ -2,38 +2,44 @@ package com.revature.services;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
-import java.util.TreeSet;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
+import com.revature.dao.ClientDao;
+import com.revature.dao.ClientDaoImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.revature.dao.ClientDaoImpl;
-import com.revature.entity.TfClient;
 import com.revature.model.ClientInfo;
 import com.revature.model.StatusInfo;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
-import com.revature.utils.StatusInfoUtil;
 
 @Path("/clients")
 public class ClientResource implements Delegate {
+
+    private ClientDao clientDao;
+
+    public ClientResource() {
+        this.clientDao = new ClientDaoImpl();
+    }
+    /**
+     * @param clientDao
+     *
+     * injectable dao for easier testing
+     */
+    public ClientResource(ClientDao clientDao) {
+        this.clientDao = clientDao;
+    }
 
 	/**
 	 * Returns a map of all of the clients from the TfClient table as a response
@@ -53,10 +59,10 @@ public class ClientResource implements Delegate {
 	}
 
 	public Map<BigDecimal, ClientInfo> getClients() throws HibernateException, IOException {
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			Map<BigDecimal, ClientInfo> map = new ClientDaoImpl().getAllTfClients(session);
+			Map<BigDecimal, ClientInfo> map = clientDao.getAllTfClients(session);
 
 			session.flush();
 			tx.commit();

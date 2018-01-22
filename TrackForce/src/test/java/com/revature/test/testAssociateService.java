@@ -11,6 +11,7 @@ import com.revature.services.AssociateService;
 
 public class testAssociateService {
 
+    /*
 	@Test
 	public void testgetAssociatePositive() throws IOException {
 		AssociateService associateservice = new AssociateService();
@@ -48,4 +49,5 @@ public class testAssociateService {
         Assert.assertNotNull(associateInfo.getMarketingStatus());
         Assert.assertEquals(associateInfo.getClient(), "None");
     }
+    */
 }

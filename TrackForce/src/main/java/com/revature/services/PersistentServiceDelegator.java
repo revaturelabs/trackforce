@@ -2,19 +2,15 @@ package com.revature.services;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.revature.dao.*;
 import com.revature.model.*;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
@@ -29,10 +25,37 @@ import com.revature.utils.PersistentStorage;
 public class PersistentServiceDelegator {
 
 	private Thread phw = new PersistenceHelperWorker();
-	
-	// Observers to check for change
-	private static Delegate[] delegates = { new AssociateService(), new BatchesService(), new ClientResource(),
-			new CurriculumService(), new MarketingStatusService() };
+
+    // Observers to check for change
+    private Delegate[] delegates;
+
+    public PersistentServiceDelegator() {
+    	delegates = new Delegate[] {
+    			new AssociateService(),
+                new BatchesService(),
+                new ClientResource(),
+                new CurriculumService(),
+                new MarketingStatusService()
+        };
+    }
+    
+    /**
+     * injectable dependencies for easier testing
+     *
+     * @param associateService
+     * @param batchService
+     * @param clientService
+     * @param curriculumService
+     * @param marketingStatusService
+     */
+    public PersistentServiceDelegator(AssociateService associateService, BatchesService batchService,
+                                      ClientResource clientService, CurriculumService curriculumService,
+                                      MarketingStatusService marketingStatusService) {
+        this.delegates = new Delegate[] {
+                associateService, batchService, clientService,
+                curriculumService, marketingStatusService
+        };
+    }
 
 	@POST
 	@Path("/update/associate")

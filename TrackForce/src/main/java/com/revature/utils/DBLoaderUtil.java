@@ -34,7 +34,6 @@ public class DBLoaderUtil {
 		props.setProperty("hibernate.hbm2.ddl-auto", "create");
 		props.setProperty("hibernate.show_sql", "true");
 		try {
-			HibernateUtil.getSession(props);
 			switch (JOptionPane.showOptionDialog(null, "Choose a population routine", "Database loader", 0,
 					JOptionPane.YES_NO_CANCEL_OPTION, null,
 					new String[] { "Populate Database", "Populate Salesforce DB", "Empty Database" }, null)) {
@@ -57,7 +56,7 @@ public class DBLoaderUtil {
 	}
 
 	public static void truncateDB() throws HibernateException, IOException {
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 
@@ -88,7 +87,7 @@ public class DBLoaderUtil {
 		// if the db method was not last run, truncate the db before run
 		truncateDB();
 			
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 
@@ -463,7 +462,7 @@ public class DBLoaderUtil {
 		// if the salesforce method was not run previously, truncate the DB before run
 		truncateDB();
 		
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 

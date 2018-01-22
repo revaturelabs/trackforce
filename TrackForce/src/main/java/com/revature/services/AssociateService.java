@@ -3,12 +3,7 @@ package com.revature.services;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -21,21 +16,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.revature.dao.AssociateDao;
+import com.revature.dao.AssociateDaoHibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.revature.dao.AssociateDaoHibernate;
-import com.revature.dao.ClientDaoImpl;
-import com.revature.dao.MarketingStatusDao;
-import com.revature.dao.MarketingStatusDaoHibernate;
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfClient;
-import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientInfo;
 import com.revature.model.ClientMappedJSON;
-import com.revature.model.CurriculumInfo;
 import com.revature.model.CurriculumJSON;
 import com.revature.model.MarketingStatusInfo;
 import com.revature.utils.HibernateUtil;
@@ -44,6 +33,21 @@ import com.revature.utils.PersistentStorage;
 
 @Path("associates")
 public class AssociateService implements Delegate {
+
+    private AssociateDao associateDao;
+
+    public AssociateService() {
+        this.associateDao = new AssociateDaoHibernate();
+    }
+
+    /**
+     * injectable dao for testing
+     *
+     * @param associateDao
+     */
+    public AssociateService(AssociateDao associateDao) {
+        this.associateDao = associateDao;
+    }
 
 	/**
 	 * Retrieve information about a specific associate.
@@ -57,12 +61,11 @@ public class AssociateService implements Delegate {
 	@Path("{associateid}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public AssociateInfo getAssociate(@PathParam("associateid") BigDecimal associateid) throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			AssociateDaoHibernate associatedao = new AssociateDaoHibernate();
 
-			AssociateInfo associateinfo = associatedao.getAssociate(associateid, session);
+			AssociateInfo associateinfo = associateDao.getAssociate(associateid, session);
 
 			tx.commit();
 			return associateinfo;
@@ -114,11 +117,18 @@ public class AssociateService implements Delegate {
 		return associates;
 	}
 
+    /**
+     * fetch associates from database
+     *
+     * @return
+     * @throws HibernateException
+     * @throws IOException
+     */
 	private Map<BigDecimal, AssociateInfo> getAssociates() throws HibernateException, IOException {
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			Map<BigDecimal, AssociateInfo> tfAssociates = new AssociateDaoHibernate().getAssociates(session);
+			Map<BigDecimal, AssociateInfo> tfAssociates = associateDao.getAssociates(session);
 			PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
 
 			session.flush();
@@ -152,7 +162,7 @@ public class AssociateService implements Delegate {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateAssociates(int[] ids, @PathParam("marketingStatus") String marketingStatus,
 			@PathParam("client") String client) throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 
 		try {
@@ -190,8 +200,7 @@ public class AssociateService implements Delegate {
 				ai.setClient(tfclient.getTfClientName());
 
 				// write to DB
-				AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
-				associateDaoHibernate.updateInfo(session, ai.getId(), msi, tfclient);
+				associateDao.updateInfo(session, ai.getId(), msi, tfclient);
 
 				map.put(ai.getId(), ai);
 				PersistentStorage.getStorage().getTotals().appendToMap(msi.getId());
@@ -296,7 +305,11 @@ public class AssociateService implements Delegate {
 		return Response.ok(map.values()).build();
 	}
 
-	// execute delegated task: fetch data from DB and cache it to storage
+    /**
+     * execute delegated task: fetch data from DB and cache it to storage
+     *
+     * @throws IOException
+     */
 	@Override
 	public synchronized void execute() throws IOException {
 		Set<AssociateInfo> ai = PersistentStorage.getStorage().getAssociates();

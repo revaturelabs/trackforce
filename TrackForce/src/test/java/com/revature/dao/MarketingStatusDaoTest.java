@@ -2,15 +2,12 @@ package com.revature.dao;
 
 import static org.testng.Assert.assertNotNull;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 import com.revature.entity.TfMarketingStatus;
-import com.revature.utils.HibernateUtil;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -21,24 +18,6 @@ public class MarketingStatusDaoTest {
 
     MarketingStatusDaoHibernate msdao;
     Session session = null;
-
-    /*
-    Session session;
-    Transaction tx;
-
-    @BeforeClass
-    public void beforeClass() throws HibernateException, IOException {
-        session = HibernateUtil.getSession().openSession();
-        tx = session.beginTransaction();
-    }
-
-    @AfterClass
-    public void afterClass() {
-        session.flush();
-        tx.rollback();
-        session.close();
-    }
-    */
 
     @BeforeTest
     public void beforeTest() {

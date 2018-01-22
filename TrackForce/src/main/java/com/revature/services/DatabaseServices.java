@@ -5,21 +5,11 @@ import java.io.IOException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import com.revature.dao.DatabaseDAOImpl;
 import com.revature.utils.DBLoaderUtil;
-import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
-import com.revature.utils.StatusInfoUtil;
 
 
 // For all intensive purposes, this service mocks Salesforce albeit extreme
@@ -28,9 +18,21 @@ import com.revature.utils.StatusInfoUtil;
 @Path("database") // http://localhost:8080/
 public class DatabaseServices {
 
-	static boolean updateDB = false;
+    private PersistentServiceDelegator psd;
 
-	@GET
+    DatabaseServices() {
+        psd = PersistentServiceDelegator.createPersistentService();
+    }
+
+    /**
+     * injectable dependencies for easier testing
+     * @param psd
+     */
+    public DatabaseServices(PersistentServiceDelegator psd) {
+        this.psd = psd;
+    }
+
+    @GET
 	@Path("populateDB")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response populateDB() throws IOException {
@@ -58,7 +60,6 @@ public class DatabaseServices {
 	}
 	
 	public void update() throws IOException {
-		PersistentServiceDelegator psd = new PersistentServiceDelegator();
 		psd.updateAssociates();
 		psd.updateBatches();
 		psd.updateClients();

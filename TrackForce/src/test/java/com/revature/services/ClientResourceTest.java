@@ -1,13 +1,8 @@
 package com.revature.services;
 
-import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -17,13 +12,9 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
-import com.revature.entity.TfClient;
 import com.revature.model.ClientInfo;
-import com.revature.model.StatusInfo;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 
 public class ClientResourceTest {
 
@@ -41,7 +32,7 @@ public class ClientResourceTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void getAllClientsCheckMapIsOfProperForm() throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			List<ClientInfo> clients = new ArrayList<>();

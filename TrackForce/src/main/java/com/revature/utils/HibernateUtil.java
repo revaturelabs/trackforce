@@ -80,7 +80,7 @@ public class HibernateUtil {
 	 * @return the SessionFactory stored in HibernateUtil.
 	 * @throws IOException
 	 */
-	public static SessionFactory getSession(Properties props) throws IOException {
+	public static SessionFactory getSessionFactory(Properties props) throws IOException {
 		if (sessionfact == null) {
 			// initialize configurations
 			Configuration conf = new Configuration().configure();
@@ -92,12 +92,11 @@ public class HibernateUtil {
 
 	/**
 	 * Returns the SessionFactory stored in the HibernateUtil class.
-	 * @param props 
-	 * 
+	 *
 	 * @return the SessionFactory stored in HibernateUtil.
 	 * @throws IOException
 	 */
-	public static SessionFactory getSession() throws IOException {
+	public static SessionFactory getSessionFactory() throws IOException {
 		if (sessionfact == null) {
 			Configuration conf = new Configuration().configure();
 			conf.setProperty("hibernate.hbm2.ddl-auto", "validate");

@@ -7,7 +7,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -55,7 +54,7 @@ public class UserDaoImpl implements UserDAO {
         
         try {
             password = PasswordStorage.createHash(newUser.getPassword());
-            sessionFactory = HibernateUtil.getSession();
+            sessionFactory = HibernateUtil.getSessionFactory();
         } catch (Exception e) {
             e.printStackTrace();
             message.setFailure();

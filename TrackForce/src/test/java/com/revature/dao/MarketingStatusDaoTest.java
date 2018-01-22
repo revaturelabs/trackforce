@@ -3,7 +3,9 @@ package com.revature.dao;
 import static org.testng.Assert.assertNotNull;
 
 import org.hibernate.Session;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -16,12 +18,13 @@ import java.util.HashSet;
 public class MarketingStatusDaoTest {
 
 
+    @Mock
     MarketingStatusDaoHibernate msdao;
     Session session = null;
 
-    @BeforeTest
-    public void beforeTest() {
-        msdao = Mockito.mock(MarketingStatusDaoHibernate.class);
+    @BeforeClass
+    public void beforeClass() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @DataProvider(name = "MarketingStatus")
@@ -43,8 +46,6 @@ public class MarketingStatusDaoTest {
 
 
         TfMarketingStatus tfms = msdao.getMarketingStatus(session, marketingStatus);
-
-        System.out.println(tfms);
         Assert.assertEquals(mockResult, tfms);
         assertNotNull(tfms);
     }

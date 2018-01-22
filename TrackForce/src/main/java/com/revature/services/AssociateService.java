@@ -117,6 +117,13 @@ public class AssociateService implements Delegate {
 		return associates;
 	}
 
+    /**
+     * fetch associates from database
+     *
+     * @return
+     * @throws HibernateException
+     * @throws IOException
+     */
 	private Map<BigDecimal, AssociateInfo> getAssociates() throws HibernateException, IOException {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -298,7 +305,11 @@ public class AssociateService implements Delegate {
 		return Response.ok(map.values()).build();
 	}
 
-	// execute delegated task: fetch data from DB and cache it to storage
+    /**
+     * execute delegated task: fetch data from DB and cache it to storage
+     *
+     * @throws IOException
+     */
 	@Override
 	public synchronized void execute() throws IOException {
 		Set<AssociateInfo> ai = PersistentStorage.getStorage().getAssociates();

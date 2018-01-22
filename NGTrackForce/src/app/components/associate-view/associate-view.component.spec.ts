@@ -1,54 +1,67 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-// import { AssociateViewComponent } from './associate-view.component';
-// import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-// import { RouterTestingModule } from '@angular/router/testing';
-// import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-// import { AssociateService } from '../../services/associates-service/associates-service';
+import {AssociateViewComponent} from './associate-view.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {AuthenticationService} from '../../services/authentication-service/authentication.service';
+import {AssociateService} from '../../services/associates-service/associates-service';
+import {ActivatedRoute} from '@angular/router';
+import {RequestService} from '../../services/request-service/request.service';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
 
-// @Injectable()
-// export class MockActivatedRoute {
-//   private _id: {};
-//   getTestId() {
-//     return this._id;
-//   }
-//   setTestId(param: {}) {
-//     this._id = param;
-//   }
+export class MockActivatedRoute {
+  static createMockRoute(tid: number): any {
+    return {
+      params: Observable.of({id: tid}),
+      snapshot: {
+        parent: {
+          params: {
+            id: 1
+          }
+        },
+        paramMap: {
+          get(name: string): string {
+            return '' + tid;
+          }
+        }
+      },
+    };
+  }
+}
 
-// }
-// describe('AssociateViewComponent', () => {
-//   let component: AssociateViewComponent;
-//   let fixture: ComponentFixture<AssociateViewComponent>;
-//   let mockRoute: MockActivatedRoute;
+describe('AssociateViewComponent', () => {
+  let component: AssociateViewComponent;
+  let fixture: ComponentFixture<AssociateViewComponent>;
 
-//   beforeEach(async(() => {
-//     mockRoute = new MockActivatedRoute();
-//     TestBed.configureTestingModule({
-//       declarations: [ AssociateViewComponent ],
-//       providers: [
-//         AuthenticationService,
-//         AssociateService,
-//         { provide: ActivatedRoute, userValue: mockRoute }
-//       ],
-//       imports: [HttpClientTestingModule, RouterTestingModule]
-//     })
-//     .compileComponents();
-//   }));
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [
+        AssociateViewComponent
+      ],
+      providers: [
+        AuthenticationService,
+        RequestService,
+        AssociateService,
+        {provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(1)}
+      ],
+      imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
+      schemas: [NO_ERRORS_SCHEMA]
+    });
+  });
 
-//   beforeEach(() => {
-//     fixture = TestBed.createComponent(AssociateViewComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AssociateViewComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-//     mockRoute.setTestId({id: '2'});
-//   });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-
-//   it('should have an associate', () => {
-//     expect(component.associate).toBeTruthy();
-//   });
-// });
+  it('should have an associate', () => {
+    expect(component.associate).toBeTruthy();
+  });
+});

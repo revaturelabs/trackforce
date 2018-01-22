@@ -8,7 +8,6 @@ import javax.servlet.ServletContextListener;
 import com.revature.utils.HibernateUtil;
 
 public class ContextListener implements ServletContextListener {
-
     PersistentServiceDelegator psd;
 
     public ContextListener(PersistentServiceDelegator psd) {
@@ -28,7 +27,6 @@ public class ContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent arg0) {
         // Cache initial data
         try {
-            HibernateUtil.getSessionFactory();
             psd.getAssociates();
             psd.getBatches();
             psd.getClients();

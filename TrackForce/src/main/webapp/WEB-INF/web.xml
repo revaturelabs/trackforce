@@ -18,7 +18,7 @@
   <listener>
     <listener-class>
         	com.revature.services.ContextListener
-    	</listener-class>
+    </listener-class>
   </listener>
   <filter>
     <filter-name>corsFilter</filter-name>

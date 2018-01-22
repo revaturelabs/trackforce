@@ -11,20 +11,20 @@ import 'rxjs/Rx';
 
 /**
  * @author Seán Vaeth
- * 
+ *
  * This component requires some documentation
  * Datasync is bootstrapped with the app. This means it will run on ng serve before components
- * that use it are initialized. It also has the benefit of being singleton across the app, 
+ * that use it are initialized. It also has the benefit of being singleton across the app,
  * as opposed to providers being prototyped.
- * 
+ *
  * The purpsoe of the datasync service is to synchronize all data across the app for all sessions
  * with the data read in from the database containing Salesforce data. DSS will quietly run in the
  * background of any component dependent on server side data and update accordingly.
  * DSS also ensures only one thread is used to hit the server side in background methods.
  * All other requests are prompted by the logged user with appropriate permissions
- * 
+ *
  * This allows the application to run faster using cached data pulled in from the server at set intervals
- * 
+ *
  */
 
 const ASSOC_TIMEOUT: number = 30000;
@@ -65,18 +65,12 @@ export class DataSyncService {
 
   /**
    * @function fetchData
-   * 
+   *
    * Fetch data from server
-   * this method populates our caches 
+   * this method populates our caches
    * and begins the data monitoring observables
    */
   private fetchData() {
-    // Initialize behaviors to empty arrays
-    // this.associateStorage = new BehaviorSubject<Associate[]>([]);
-    // this.clientStorage = new BehaviorSubject<Client[]>([]);
-    // this.batchStorageById = new BehaviorSubject<Batch[]>([]);
-    // this.batchStorageByDate = new BehaviorSubject<Batch[]>([]);
-    // this.curriculumStorage = new BehaviorSubject<Curriculum[]>([]);
 
     // get data on load
     this.fetchAssociateStorage();
@@ -153,13 +147,12 @@ export class DataSyncService {
   private setMarketingStorage(data: any) {
     this.marketingStorage = data;
     this.marketingStorage.subscribe(() => {
-        
+
     });
   }
 
   public fetchMarketingStorage() {
     this.rs.getStatuses().subscribe(data => {
-      console.log("Fetched");
       // this.setMarketingStorage(data);
     })
   }

@@ -4,6 +4,10 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import {User} from '../../models/user.model';
 
+/**
+  *Service for handling data from the back-end
+  *i.e. login data, client data, and etc
+  */
 @Injectable()
 export class RequestService {
 
@@ -11,6 +15,11 @@ export class RequestService {
   trackPath: string = this.host + 'TrackForce/track';
   dataPath: string = this.host + 'TrackForce/track/data/get';
 
+  /**
+    *@param {HttpClient} http
+    *Need to create a connection to REST endpoint
+    *And initiate Http requests
+    */
   constructor(private http: HttpClient) { }
 
   public populateDB(): Observable<any> {
@@ -25,6 +34,15 @@ export class RequestService {
     return this.http.delete(this.host + 'TrackForce/track/database/deleteFromDB');
   }
 
+  /**
+    * Function for submitting login data to the back-end
+    *@param {String} username
+    *@param {String} password
+    *
+    *@return User data from back-end if credentials are correct
+    * user data contains JWT token, username, and role
+    * If credentials are wrong, 400 is returned
+    */
   public login(username: string, password: string): Observable<User> {
     return this.http.post<User>(this.host + 'TrackForce/track/user/submit', { username: username, password: password });
   }
@@ -58,7 +76,7 @@ export class RequestService {
   }
 
   public getSkills(): Observable<any> {
-    return this.http.get(this.dataPath + '/skills');    
+    return this.http.get(this.dataPath + '/skills');
   }
 
   public getStatuses(): Observable<any> {
@@ -73,11 +91,26 @@ export class RequestService {
     return this.http.get<any>(this.host + 'TrackForce/track/batches/' + threeMonthsBefore + '/' + threeMonthsAfter + '/type');
   }
 
+  /**
+    *For the create user feature of the admin
+    *
+    *@param {String} username
+    *@param {String} password
+    *@param {number} roleId
+    *symbolizes the role of the user
+    * 1 ->  admin
+    * 2 -> manager
+    * 3 -> vp
+    * 4 -> associate
+    */
   public createUser(username: string, password: string, roleId: number): Observable<any> {
     return this.http.post<any>(this.host + 'TrackForce/track/create/user', {username: username, password: password, role: roleId})
   }
 
-    // get first match of Client Object
+    /** get first match of Client Object
+      *@param {number} clientId
+      *uses the id parameter in the router to get a specific client
+      */
     getOneClient(clientId: number): Observable<any> {
       return this.http.get(this.trackPath + '/clients/' + clientId);
     }

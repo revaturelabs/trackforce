@@ -20,8 +20,8 @@ public class DatabaseServices {
 
     private PersistentServiceDelegator psd;
 
-    DatabaseServices() {
-        psd = PersistentServiceDelegator.createPersistentService();
+    public DatabaseServices() {
+        psd = new PersistentServiceDelegator();
     }
 
     /**

@@ -16,7 +16,7 @@ public class ContextListener implements ServletContextListener {
     }
 
     public ContextListener() {
-        this.psd = PersistentServiceDelegator.createPersistentService();
+        this.psd = new PersistentServiceDelegator();
     }
 
     @Override
@@ -26,7 +26,6 @@ public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
-        // Start the connection pool
         // Cache initial data
         try {
             HibernateUtil.getSessionFactory();

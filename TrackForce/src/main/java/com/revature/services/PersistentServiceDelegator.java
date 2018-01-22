@@ -29,16 +29,16 @@ public class PersistentServiceDelegator {
     // Observers to check for change
     private Delegate[] delegates;
 
-    public static PersistentServiceDelegator createPersistentService() {
-        return new PersistentServiceDelegator(
-                new AssociateService(),
+    public PersistentServiceDelegator() {
+    	delegates = new Delegate[] {
+    			new AssociateService(),
                 new BatchesService(),
                 new ClientResource(),
                 new CurriculumService(),
                 new MarketingStatusService()
-        );
+        };
     }
-
+    
     /**
      * injectable dependencies for easier testing
      *

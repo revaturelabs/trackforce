@@ -76,7 +76,6 @@ export class ClientListComponent implements OnInit {
     this.rs.getClients()
       .subscribe(
       clientNames => {
-        console.log(clientNames);
         // save array of object Client
         this.clientInfo = clientNames;
         // clear name list to reload list and run through filter
@@ -93,7 +92,7 @@ export class ClientListComponent implements OnInit {
             this.clientNames.push(client.tfClientName);
         }
       }, err => {
-        console.log("Failed grabbing names");
+        console.error("Failed grabbing names");
       });
   }
 
@@ -102,7 +101,6 @@ export class ClientListComponent implements OnInit {
       .subscribe(
       // asign response to this.clients
       client => {
-        console.log();
         this.client$ = client;
         this.selectedCompany = this.client$.name;
         this.barChartData = [
@@ -115,9 +113,8 @@ export class ClientListComponent implements OnInit {
             label: 'Unmapped',
           }
         ]
-        console.log(this.barChartData);
       }, err => {
-        console.log("Failed grabbing clients");
+        console.error("Failed grabbing clients");
       });
   }
 
@@ -139,9 +136,8 @@ export class ClientListComponent implements OnInit {
             label: 'Unmapped',
           }
         ]
-        console.log(this.barChartData);
       }, err => {
-        console.log("Failed grabbing client");
+        console.error("Failed grabbing client");
       });
   }
 }

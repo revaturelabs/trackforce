@@ -55,9 +55,7 @@ export class BatchListComponent implements OnInit {
         this.updateCountPerCurriculum();
         this.dataReady = true;
         const elapsed = Date.now() - startTime;
-        console.log("Time", elapsed / 1000.0);
       },
-      console.error
     );
   }
 
@@ -96,7 +94,6 @@ export class BatchListComponent implements OnInit {
         this.updateCountPerCurriculum();
         this.dataReady = true;
       },
-      console.error
     );
   }
 
@@ -124,7 +121,5 @@ export class BatchListComponent implements OnInit {
     // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change
     this.curriculumNames = Array.from(curriculumCountsMap.keys());
     this.curriculumCounts = Array.from(curriculumCountsMap.values());
-    console.log("names", this.curriculumNames, "counts", this.curriculumCounts);
   }
-
 }

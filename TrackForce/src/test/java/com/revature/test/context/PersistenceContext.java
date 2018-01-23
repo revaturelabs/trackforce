@@ -18,9 +18,6 @@ public class PersistenceContext {
 	public static final String TEST_URL = "tf.test-url";
 	public static final String TEST_USER = "tf.test-user";
 	public static final String TEST_PASS = "tf.test-pass";
-	
-	public static final String TEST_USER_DEFAULT = "SA";
-	public static final String TEST_PASS_DEFAULT = "";
 
 	@BeforeSuite
 	public void beforeSuite() throws IOException {
@@ -32,8 +29,8 @@ public class PersistenceContext {
 
 			// mock environment variables for test configurations
 			props.setProperty(URL_KEY, System.getenv(props.getProperty(TEST_URL)));
-			props.setProperty(USERNAME_KEY, props.getProperty(TEST_USER, TEST_USER_DEFAULT));
-			props.setProperty(PASS_KEY, props.getProperty(TEST_PASS, TEST_PASS_DEFAULT));
+			props.setProperty(USERNAME_KEY, System.getenv(props.getProperty(TEST_USER)));
+			props.setProperty(PASS_KEY, System.getenv(props.getProperty(TEST_PASS)));
 
 			// override dialect and driver class to use hsqldb
 			props.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
@@ -46,7 +43,7 @@ public class PersistenceContext {
 			HibernateUtil.setDataSourceBuilder(new TomcatJDBCDataSourceBuilder(), props);
 			HibernateUtil.initSessionFactory(props);
 			
-			TestDBLoader.load(props.getProperty(TEST_USER, TEST_USER_DEFAULT));
+			TestDBLoader.load(props.getProperty(TEST_USER));
 
 			// Initialize persistent storages
 			PersistentServiceDelegator psd = new PersistentServiceDelegator();

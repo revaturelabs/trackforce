@@ -39,7 +39,6 @@ public class UserDaoImpl implements UserDAO {
 			}
 
 		} catch (NoResultException nre) {
-			user = new TfUser();
 			LogUtil.logger.error(nre);
 			throw new IOException("Cannot get user", nre);
 		}

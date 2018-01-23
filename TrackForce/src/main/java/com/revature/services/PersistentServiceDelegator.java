@@ -215,7 +215,6 @@ public class PersistentServiceDelegator {
 			} catch (IOException e) {
 				LogUtil.logger.error("Could not update from worker");
 				LogUtil.logger.error(e);
-				e.printStackTrace();
 			}
 		}
 	}

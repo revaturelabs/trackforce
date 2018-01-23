@@ -1,6 +1,11 @@
 package com.revature.utils;
 
+import static com.revature.config.DataSourceBuilder.Constants.PASS_KEY;
+import static com.revature.config.DataSourceBuilder.Constants.URL_KEY;
+import static com.revature.config.DataSourceBuilder.Constants.USERNAME_KEY;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -14,6 +19,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.revature.config.TomcatJDBCDataSourceBuilder;
 import com.revature.entity.*;
 
 public class DBLoaderUtil {
@@ -4284,8 +4290,8 @@ public class DBLoaderUtil {
 				session);
 	}
 
-	private static void populateBatch(Integer i, String string, LocalDate of, LocalDate of2, Integer j, Integer k,
-			Session session) throws HibernateException, IOException {
+	public static void populateBatch(Integer i, String string, LocalDate of, LocalDate of2, Integer j, Integer k,
+			Session session) {
 		TfBatch batch = new TfBatch();
 		TfCurriculum tfc = j == null ? null : session.get(TfCurriculum.class, new BigDecimal(j));
 		TfBatchLocation tfbl = k == null ? null : session.get(TfBatchLocation.class, new BigDecimal(k));
@@ -4300,8 +4306,8 @@ public class DBLoaderUtil {
 
 	}
 
-	private static void populatePlacement(Integer i, LocalDate localDate, LocalDate localDate2, Integer j, Integer k,
-			Integer l, Session session) throws HibernateException, IOException {
+	public static void populatePlacement(Integer i, LocalDate localDate, LocalDate localDate2, Integer j, Integer k,
+			Integer l, Session session) {
 		TfPlacement placement = new TfPlacement();
 		TfClient client = j == null ? null : session.get(TfClient.class, new BigDecimal(j));
 		TfEndClient ec = k == null ? null : session.get(TfEndClient.class, new BigDecimal(k));
@@ -4316,8 +4322,8 @@ public class DBLoaderUtil {
 		session.saveOrUpdate(placement);
 	}
 
-	private static void populateInterview(Integer i, LocalDateTime of, String string, Integer j, Integer k, Integer l,
-			Integer m, Session session) throws HibernateException, IOException {
+	public static void populateInterview(Integer i, LocalDateTime of, String string, Integer j, Integer k, Integer l,
+			Integer m, Session session) {
 		TfInterview tfi = new TfInterview();
 		TfClient tfc = j == null ? null : session.get(TfClient.class, new BigDecimal(j));
 		TfEndClient tfec = k == null ? null : session.get(TfEndClient.class, new BigDecimal(k));
@@ -4335,8 +4341,8 @@ public class DBLoaderUtil {
 
 	}
 
-	private static void populateAssociate(Integer i, String string, String string2, Integer j, Integer k, Integer l,
-			Integer m, Session session) throws HibernateException, IOException {
+	public static void populateAssociate(Integer i, String string, String string2, Integer j, Integer k, Integer l,
+			Integer m, Session session) {
 		TfAssociate tfa = new TfAssociate();
 		TfMarketingStatus tfms = j == null ? null : session.get(TfMarketingStatus.class, new BigDecimal(j));
 		TfClient tfc = k == null ? null : session.get(TfClient.class, new BigDecimal(k));
@@ -4354,8 +4360,7 @@ public class DBLoaderUtil {
 
 	}
 
-	private static void populateBatchLocation(Integer i, String string, Session session)
-			throws HibernateException, IOException {
+	public static void populateBatchLocation(Integer i, String string, Session session) {
 		TfBatchLocation tfbl = new TfBatchLocation();
 		tfbl.setTfBatchLocationId(i == null ? null : new BigDecimal(i));
 		tfbl.setTfBatchLocationName(string);
@@ -4363,8 +4368,7 @@ public class DBLoaderUtil {
 		session.saveOrUpdate(tfbl);
 	}
 
-	private static void populateMarketingStatus(Integer i, String string, Session session)
-			throws HibernateException, IOException {
+	public static void populateMarketingStatus(Integer i, String string, Session session){
 		TfMarketingStatus tfms = new TfMarketingStatus();
 		tfms.setTfMarketingStatusId(i == null ? null : new BigDecimal(i));
 		tfms.setTfMarketingStatusName(string);
@@ -4373,8 +4377,7 @@ public class DBLoaderUtil {
 
 	}
 
-	private static void populateCurriculum(Integer i, String string, Session session)
-			throws HibernateException, IOException {
+	public static void populateCurriculum(Integer i, String string, Session session) {
 		TfCurriculum tfc = new TfCurriculum();
 		tfc.setTfCurriculumId(i == null ? null : new BigDecimal(i));
 		tfc.setTfCurriculumName(string);
@@ -4383,8 +4386,7 @@ public class DBLoaderUtil {
 
 	}
 
-	private static void populateInterviewType(Integer i, String string, Session session)
-			throws HibernateException, IOException {
+	public static void populateInterviewType(Integer i, String string, Session session){
 		TfInterviewType tfit = new TfInterviewType();
 		tfit.setTfInterviewTypeId(i == null ? null : new BigDecimal(i));
 		tfit.setTfInterviewTypeName(string);
@@ -4392,18 +4394,15 @@ public class DBLoaderUtil {
 		session.saveOrUpdate(tfit);
 	}
 
-	private static void populateClient(Integer i, String string, Session session)
-			throws HibernateException, IOException {
+	public static void populateClient(Integer i, String string, Session session){
 		TfClient tfc = new TfClient();
 		tfc.setTfClientId(i == null ? null : new BigDecimal(i));
 		tfc.setTfClientName(string);
 
 		session.saveOrUpdate(tfc);
-
 	}
 
-	private static void populateEndClient(Integer i, String string, Session session)
-			throws HibernateException, IOException {
+	public static void populateEndClient(Integer i, String string, Session session) {
 		TfEndClient tfec = new TfEndClient();
 		tfec.setTfEndClientId(i == null ? null : new BigDecimal(i));
 		tfec.setTfEndClientName(string);

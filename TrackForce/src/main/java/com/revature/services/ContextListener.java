@@ -1,7 +1,5 @@
 package com.revature.services;
 
-import java.io.IOException;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -19,15 +17,14 @@ public class ContextListener implements ServletContextListener {
         this.psd = new PersistentServiceDelegator();
     }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent arg0) {
-        HibernateUtil.shutdown();
-    }
+	@Override
+	public void contextDestroyed(ServletContextEvent arg0) {
+		HibernateUtil.shutdown();
+	}
 
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
     	Thread worker = new Thread(new PSDCacheRunner(psd));
     	worker.start();
-  
     }
 }

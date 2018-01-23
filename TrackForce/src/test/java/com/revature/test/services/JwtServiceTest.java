@@ -1,4 +1,4 @@
-package com.revature.services;
+package com.revature.test.services;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -10,6 +10,8 @@ import java.util.Date;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import com.revature.services.JWTService;
 
 public class JwtServiceTest {
 	private static JWTService jwt;
@@ -49,7 +51,7 @@ public class JwtServiceTest {
 	  
   }
   
-  @Test(enabled=true)
+  @Test(enabled=false)
   public void isAssociateTest() {
 	  boolean status = true;
 	  
@@ -65,7 +67,7 @@ public class JwtServiceTest {
 	  
   }
   
-  @Test(enabled=true)
+  @Test(enabled=false)
   public void isTokenExpiredTest() {
 	  Date date = jwt.getExpirationDateFromToken(adminToken);
 	  

@@ -1,8 +1,16 @@
 package com.revature.runnable;
 
-import java.io.IOException;
+import static com.revature.config.DataSourceBuilder.Constants.PASS_KEY;
+import static com.revature.config.DataSourceBuilder.Constants.URL_KEY;
+import static com.revature.config.DataSourceBuilder.Constants.USERNAME_KEY;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import com.revature.config.TomcatJDBCDataSourceBuilder;
 import com.revature.services.PersistentServiceDelegator;
+import com.revature.utils.HibernateUtil;
 
 /**
  * Used to handle caching on server startup.
@@ -82,7 +90,29 @@ public class PSDCacheRunner implements Runnable {
 	 * Performs caching process
 	 */
 	private void cache() {
-		try {
+		try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("tomcat-jdbc.properties")) {
+			Properties props = new Properties();
+			String urlEnvironmentVariable;
+			String usernameEnvironmentVariable;
+			String passwordEnvironmentVariable;
+			
+			// Load propoerty data
+			props.load(is);
+			
+	        // read in the environment variables
+	        urlEnvironmentVariable = props.getProperty(URL_KEY);
+	        usernameEnvironmentVariable = props.getProperty(USERNAME_KEY);
+	        passwordEnvironmentVariable = props.getProperty(PASS_KEY);
+
+	        // replace environment variable names with their actual values
+	        props.setProperty(URL_KEY, System.getenv(urlEnvironmentVariable));
+	        props.setProperty(USERNAME_KEY, System.getenv(usernameEnvironmentVariable));
+	        props.setProperty(PASS_KEY, System.getenv(passwordEnvironmentVariable));
+	        
+	        // init data source builded 
+			HibernateUtil.setDataSourceBuilder(new TomcatJDBCDataSourceBuilder(), props); 
+
+			// perform caching 
             psd.getAssociates();
             psd.getBatches();
             psd.getClients();
@@ -91,6 +121,5 @@ public class PSDCacheRunner implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-	}
-	
+	}	
 }

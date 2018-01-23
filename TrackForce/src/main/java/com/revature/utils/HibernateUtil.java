@@ -1,7 +1,6 @@
 package com.revature.utils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,18 +14,18 @@ import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProvid
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.service.ServiceRegistry;
 
-import com.revature.config.DataSourceConfig;
+import com.revature.config.DataSourceBuilder;
 
 /**
  * Utility class for configurations and getting a Hibernate SessionFactory
  * object.
  */
 public class HibernateUtil {
+	private static DataSourceBuilder dsb;
+	private static SessionFactory sessionfact;
 
 	private HibernateUtil() {
 	}
-
-	private static SessionFactory sessionfact;
 
 	/**
 	 * Returns a SessionFactory objects based on hibernate.cfg.xml
@@ -34,53 +33,50 @@ public class HibernateUtil {
 	 * @return a new SessionFactory object from hibernate.cfg.xml
 	 * @throws IOException
 	 */
-	private static SessionFactory buildSessionFactory(Configuration conf) {
+	private static SessionFactory buildSessionFactory(Configuration conf) throws IOException{
 		LogUtil.logger.info("Starting connection pool...");
-		SessionFactory sf = null;
+		SessionFactory sf;
 		StandardServiceRegistryBuilder builder;
 		ServiceRegistry registry;
-		
+	
+		if (dsb == null)
+			throw new IOException("DataSource not configured. call setDataSource(DataSource) first");
+	
 		// we need to use this class to inject our 3rd party datasource
 		DatasourceConnectionProviderImpl dscpi = new DatasourceConnectionProviderImpl();
-		try (InputStream is = HibernateUtil.class.getClassLoader().getResourceAsStream("tomcat-jdbc.properties")) {
-			// initialize datasource
-			dscpi.setDataSource(DataSourceConfig.getDatasource());
-			
-			// initialize properties and configurations
-            conf.setProperty("hibernate.connection.url", DataSourceConfig.getUrl());
-            conf.setProperty("hibernate.connection.username", DataSourceConfig.getUsername());
-			conf.setProperty("hibernate.connection.password", DataSourceConfig.getPassword());
-
-			// set cfg properties
-			dscpi.configure(conf.getProperties());
-
-			// configure the service registry
-			builder = new StandardServiceRegistryBuilder();
-			builder.configure();    // from hibernate.cfg.xml
-			builder.addService(ConnectionProvider.class, dscpi);
-			builder.applySettings(conf.getProperties());
-			registry = builder.build();
-
-			// build the factory
-			sf = conf.buildSessionFactory(registry);
-			LogUtil.logger.info("Connection Pool configured");
-			LogUtil.logger.info("SessionFactory successfully built");
-		} catch (IOException ex) {
-			LogUtil.logger.fatal("Connection Pool failed to create, message=" + ex.getMessage());
-			sf = null;
-		}
-		
+	
+		dscpi.setDataSource(dsb.getDataSource());
+	
+		// initialize properties and configurations
+		conf.setProperty("hibernate.connection.url", dsb.getUrl());
+		conf.setProperty("hibernate.connection.username", dsb.getUsername());
+		conf.setProperty("hibernate.connection.password", dsb.getPassword());
+	
+		// set cfg properties
+		dscpi.configure(conf.getProperties());
+	
+		// configure the service registry
+		builder = new StandardServiceRegistryBuilder();
+		builder.configure(); // from hibernate.cfg.xml
+		builder.addService(ConnectionProvider.class, dscpi);
+		builder.applySettings(conf.getProperties());
+		registry = builder.build();
+	
+		// build the factory
+		sf = conf.buildSessionFactory(registry);
+		LogUtil.logger.info("Connection Pool configured");
+		LogUtil.logger.info("SessionFactory successfully built");
+	
 		return sf;
 	}
 
 	/**
 	 * Returns the SessionFactory stored in the HibernateUtil class.
 	 * @param props 
-	 * 
 	 * @return the SessionFactory stored in HibernateUtil.
 	 * @throws IOException
 	 */
-	public static SessionFactory initSessionFactory(Properties props) {
+	public static SessionFactory initSessionFactory(Properties props) throws IOException {
 		if (sessionfact == null) {
 			// initialize configurations
 			Configuration conf = new Configuration().configure();
@@ -100,15 +96,14 @@ public class HibernateUtil {
 
 	/**
 	 * Returns the SessionFactory stored in the HibernateUtil class.
-	 * @param props 
-	 * 
+	 * @param optional boolean to flag creation of singleton factory
 	 * @return the SessionFactory stored in HibernateUtil.
 	 * @throws IOException
 	 */
-	public static SessionFactory getSessionFactory() {
+	public static SessionFactory getSessionFactory() throws IOException {
 		return sessionfact == null ? initSessionFactory(null) : sessionfact;
 	}
-	
+
 	/**
 	 * Closes the SessionFactory in HibernateUtil.
 	 * 
@@ -130,5 +125,11 @@ public class HibernateUtil {
 				}
 			}
 		}
+	}
+
+	// Set the datasource builder and build the datasource
+	public static void setDataSourceBuilder(DataSourceBuilder dsb, Properties props) {
+		HibernateUtil.dsb = dsb;
+		dsb.buildDataSource(props);
 	}
 }

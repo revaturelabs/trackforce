@@ -88,6 +88,7 @@ public class AssociateService implements Delegate {
 	 * @param clientId
 	 *            - What client to change the associate to
 	 * @return
+	 * @throws NumberFormatException 
 	 * @throws IOException
 	 */
 	@PUT
@@ -95,7 +96,7 @@ public class AssociateService implements Delegate {
 	@Produces({ MediaType.TEXT_HTML })
 	public Response updateAssociate(@PathParam("associateId") String id,
                                     @PathParam("marketingStatusId") String marketingStatusId,
-                                    @PathParam("clientId") String clientId) {
+                                    @PathParam("clientId") String clientId) throws NumberFormatException, IOException {
 		return updateAssociates(new int[] { Integer.parseInt(id) }, marketingStatusId, clientId);
 	}
 
@@ -135,7 +136,6 @@ public class AssociateService implements Delegate {
 			tx.commit();
 			return tfAssociates;
 		} catch (Exception e) {
-			e.printStackTrace();
 			LogUtil.logger.error(e);
 			session.flush();
 			tx.rollback();
@@ -161,7 +161,7 @@ public class AssociateService implements Delegate {
 	@Path("/update/{marketingStatusId}/{clientId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateAssociates(int[] ids, @PathParam("marketingStatusId") String marketingStatusIdStr,
-			@PathParam("clientId") String clientIdStr) {
+			@PathParam("clientId") String clientIdStr) throws IOException {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 
@@ -289,7 +289,6 @@ public class AssociateService implements Delegate {
 		}
 
 		Map<BigDecimal, CurriculumJSON> map = new HashMap<>();
-		Set<AssociateInfo> assocsByStatus = new TreeSet<AssociateInfo>();
 		for (AssociateInfo ai : associates) {
 			if (ai.getMsid().equals(new BigDecimal(statusid))) {
 				if (!map.containsKey(ai.getCurid())) {
@@ -317,6 +316,7 @@ public class AssociateService implements Delegate {
 			PersistentStorage.getStorage().setAssociates(getAssociates());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> Set<T> read(String... args) throws IOException {
 		return (Set<T>) getAllAssociates();

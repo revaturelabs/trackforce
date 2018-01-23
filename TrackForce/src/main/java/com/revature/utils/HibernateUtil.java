@@ -34,9 +34,9 @@ public class HibernateUtil {
 	 * @return a new SessionFactory object from hibernate.cfg.xml
 	 * @throws IOException
 	 */
-	private static SessionFactory buildSessionFactory(Configuration conf) throws IOException {
+	private static SessionFactory buildSessionFactory(Configuration conf) {
 		LogUtil.logger.info("Starting connection pool...");
-		SessionFactory sf;
+		SessionFactory sf = null;
 		StandardServiceRegistryBuilder builder;
 		ServiceRegistry registry;
 		
@@ -65,8 +65,12 @@ public class HibernateUtil {
 			sf = conf.buildSessionFactory(registry);
 			LogUtil.logger.info("Connection Pool configured");
 			LogUtil.logger.info("SessionFactory successfully built");
-			return sf;
+		} catch (IOException ex) {
+			LogUtil.logger.fatal("Connection Pool failed to create, message=" + ex.getMessage());
+			sf = null;
 		}
+		
+		return sf;
 	}
 
 	/**
@@ -76,7 +80,7 @@ public class HibernateUtil {
 	 * @return the SessionFactory stored in HibernateUtil.
 	 * @throws IOException
 	 */
-	public static SessionFactory initSessionFactory(Properties props) throws IOException {
+	public static SessionFactory initSessionFactory(Properties props) {
 		if (sessionfact == null) {
 			// initialize configurations
 			Configuration conf = new Configuration().configure();
@@ -101,7 +105,7 @@ public class HibernateUtil {
 	 * @return the SessionFactory stored in HibernateUtil.
 	 * @throws IOException
 	 */
-	public static SessionFactory getSessionFactory() throws IOException {
+	public static SessionFactory getSessionFactory() {
 		return sessionfact == null ? initSessionFactory(null) : sessionfact;
 	}
 	

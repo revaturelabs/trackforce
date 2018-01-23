@@ -15,13 +15,9 @@ import com.revature.utils.HibernateUtil;
 public class DataSourceConfig {
 
     private static Properties props;
-    private static final String PASSWORD_KEY = "tf.password-env";
-    private static final String USERNAME_KEY = "tf.username-env";
-    private static final String URL_KEY = "tf.url-env";
-
-    private static final String IN_MEMORY_DB_URL = "jdbc:hsqldb:mem:testdb;shutdown=false";
-    private static final String IN_MEMORY_DB_USERNAME = "sa";
-    private static final String IN_MEMORY_DB_PASSWORD = "";
+    private static String PASSWORD_KEY = "tf.password-env";
+    private static String USERNAME_KEY = "tf.username-env";
+    private static String URL_KEY = "tf.url-env";
 
     static {
         init();
@@ -79,19 +75,6 @@ public class DataSourceConfig {
         ds.setTestOnBorrow(Boolean.parseBoolean(props.getProperty("tomcat.test-on-borrow", "true")));
         ds.setValidationInterval(Long.parseLong(props.getProperty("tomcat.validation-interval", "30000")));
         return ds;
-    }
-
-     /**
-     * returns Datasource (with connection pool) configured from previously initialized props
-     *
-     * @return
-     */
-    public static DataSource getTestDatasource() {
-        DataSource testDs = new DataSource();
-        testDs.setUrl(IN_MEMORY_DB_URL);
-        testDs.setUsername(IN_MEMORY_DB_USERNAME);
-        testDs.setPassword(IN_MEMORY_DB_PASSWORD);
-        return testDs;
     }
 
     /**

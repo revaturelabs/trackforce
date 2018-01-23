@@ -28,12 +28,14 @@ public class DBLoaderUtil {
 	// it is not the script's responsibility to reconstruct the tables
 	// these scripts should be made private after syncing to Saleforce is possible and completed
 	public static void main(String[] args) {
-		
 		// add additional configurations to update schema
 		Properties props = new Properties();
-		props.setProperty("hibernate.hbm2.ddl-auto", "create");
+		props.setProperty("hibernate.hbm2ddl.auto", "create");
 		props.setProperty("hibernate.show_sql", "true");
+		
 		try {
+			HibernateUtil.initSessionFactory(props);
+				
 			switch (JOptionPane.showOptionDialog(null, "Choose a population routine", "Database loader", 0,
 					JOptionPane.YES_NO_CANCEL_OPTION, null,
 					new String[] { "Populate Database", "Populate Salesforce DB", "Empty Database" }, null)) {

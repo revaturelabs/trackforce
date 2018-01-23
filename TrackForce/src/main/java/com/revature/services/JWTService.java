@@ -35,7 +35,7 @@ import io.jsonwebtoken.SignatureException;
 public class JWTService {
 
 	private static final String SECRET_KEY = getKey();
-	private static Long EXPIRATION = 10L;
+	private static Long EXPIRATION = 1000L;
 
     private UserDAO userDao;
 
@@ -185,8 +185,8 @@ public class JWTService {
 	}
 
 	/**
-	 * <<<<<<< HEAD Gets the secret key from System environments, under the 'KEY'
-	 * label ======= Checks if the user is an admin
+	 * Gets the secret key from System environments, under the 'KEY'
+	 * label  Checks if the user is an admin
 	 * 
 	 * 
 	 * @param token
@@ -215,7 +215,7 @@ public class JWTService {
 				tfUser = udi.getUser(tokenUsername, session);
 				tfRole = tfUser.getTfRole();
 
-				if (tfUser != null) {
+				if (tfUser != null && tfRole != null) {
 					// makes sure the token is fresh and usernames are equal
 					// and user role is admin
 					verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
@@ -231,6 +231,7 @@ public class JWTService {
 		} catch (Exception e) {
 			session.flush();
 			tx.rollback();
+			e.printStackTrace();
 		} finally {
 			session.close();
 		}

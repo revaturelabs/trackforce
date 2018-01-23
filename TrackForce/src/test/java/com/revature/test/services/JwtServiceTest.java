@@ -17,7 +17,7 @@ public class JwtServiceTest {
 	private static JWTService jwt;
 	private static String adminToken;
 	private static String vpToken;
- 
+	
   @BeforeTest
   public void beforeTest() {
 	  jwt = new JWTService();

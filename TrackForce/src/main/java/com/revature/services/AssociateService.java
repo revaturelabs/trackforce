@@ -83,20 +83,21 @@ public class AssociateService implements Delegate {
 	 * 
 	 * @param id
 	 *            - The ID of the associate to change
-	 * @param marketingStatus
+	 * @param marketingStatusId
 	 *            - What to change the associate's marketing status to
-	 * @param client
+	 * @param clientId
 	 *            - What client to change the associate to
 	 * @return
+	 * @throws NumberFormatException 
 	 * @throws IOException
 	 */
 	@PUT
-	@Path("{associateId}/update/{marketingStatus}/{client}")
+	@Path("{associateId}/update/{marketingStatusId}/{clientId}")
 	@Produces({ MediaType.TEXT_HTML })
 	public Response updateAssociate(@PathParam("associateId") String id,
-			@PathParam("marketingStatus") String marketingStatus, @PathParam("client") String client)
-			throws IOException {
-		return updateAssociates(new int[] { Integer.parseInt(id) }, marketingStatus, client);
+                                    @PathParam("marketingStatusId") String marketingStatusId,
+                                    @PathParam("clientId") String clientId) throws NumberFormatException, IOException {
+		return updateAssociates(new int[] { Integer.parseInt(id) }, marketingStatusId, clientId);
 	}
 
 	/**
@@ -149,24 +150,24 @@ public class AssociateService implements Delegate {
 	 * 
 	 * @param ids
 	 *            to be updated
-	 * @param marketingStatus
+	 * @param marketingStatusIdStr
 	 *            updating to
-	 * @param client
+	 * @param clientIdStr
 	 *            updating to
 	 * @return
 	 * @throws IOException
 	 */
 	@PUT
-	@Path("/update/{marketingStatus}/{client}")
+	@Path("/update/{marketingStatusId}/{clientId}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateAssociates(int[] ids, @PathParam("marketingStatus") String marketingStatus,
-			@PathParam("client") String client) throws IOException {
+	public Response updateAssociates(int[] ids, @PathParam("marketingStatusId") String marketingStatusIdStr,
+			@PathParam("clientId") String clientIdStr) throws IOException {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 
 		try {
-			int statusId = Integer.parseInt(marketingStatus);
-			int clientId = Integer.parseInt(client);
+			int statusId = Integer.parseInt(marketingStatusIdStr);
+			int clientId = Integer.parseInt(clientIdStr);
 
 			ClientInfo tfclient = PersistentStorage.getStorage().getClientAsMap().get(new BigDecimal(clientId));
 			MarketingStatusInfo msi = PersistentStorage.getStorage().getMarketingAsMap().get(new BigDecimal(statusId));

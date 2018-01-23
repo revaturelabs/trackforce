@@ -22,69 +22,73 @@ import com.revature.config.DataSourceBuilder;
  */
 public class HibernateUtil {
 	private static DataSourceBuilder dsb;
-
 	private static SessionFactory sessionfact;
-	
+
 	private HibernateUtil() {
-		// do nothing
 	}
 
 	/**
 	 * Returns a SessionFactory objects based on hibernate.cfg.xml
+	 * 
 	 * @return a new SessionFactory object from hibernate.cfg.xml
 	 * @throws IOException
 	 */
-	private static SessionFactory buildSessionFactory(Configuration conf) throws IOException {
+	private static SessionFactory buildSessionFactory(Configuration conf) throws IOException{
 		LogUtil.logger.info("Starting connection pool...");
 		SessionFactory sf;
 		StandardServiceRegistryBuilder builder;
 		ServiceRegistry registry;
-
-		if (dsb == null) {
+	
+		if (dsb == null)
 			throw new IOException("DataSource not configured. call setDataSource(DataSource) first");
-		}
-
+	
 		// we need to use this class to inject our 3rd party datasource
 		DatasourceConnectionProviderImpl dscpi = new DatasourceConnectionProviderImpl();
-
+	
 		dscpi.setDataSource(dsb.getDataSource());
-
+	
 		// initialize properties and configurations
 		conf.setProperty("hibernate.connection.url", dsb.getUrl());
 		conf.setProperty("hibernate.connection.username", dsb.getUsername());
 		conf.setProperty("hibernate.connection.password", dsb.getPassword());
-
+	
 		// set cfg properties
 		dscpi.configure(conf.getProperties());
-
+	
 		// configure the service registry
 		builder = new StandardServiceRegistryBuilder();
 		builder.configure(); // from hibernate.cfg.xml
 		builder.addService(ConnectionProvider.class, dscpi);
 		builder.applySettings(conf.getProperties());
 		registry = builder.build();
-
+	
 		// build the factory
 		sf = conf.buildSessionFactory(registry);
 		LogUtil.logger.info("Connection Pool configured");
 		LogUtil.logger.info("SessionFactory successfully built");
+	
 		return sf;
-
 	}
 
 	/**
 	 * Returns the SessionFactory stored in the HibernateUtil class.
-	 * 
-	 * @param props
-	 * 
+	 * @param props 
 	 * @return the SessionFactory stored in HibernateUtil.
 	 * @throws IOException
 	 */
-	public static SessionFactory getSessionFactory(Properties props) throws IOException {
+	public static SessionFactory initSessionFactory(Properties props) throws IOException {
 		if (sessionfact == null) {
 			// initialize configurations
 			Configuration conf = new Configuration().configure();
-			conf.setProperties(props);
+			
+			// If no args supplied then use default
+			if (props == null) {
+				props = new Properties();
+				props.setProperty("hibernate.hbm2ddl.auto", "validate");
+			}
+
+			// set property information 
+			conf.setProperties(props); 
 			sessionfact = buildSessionFactory(conf);
 		}
 		return sessionfact;
@@ -92,19 +96,12 @@ public class HibernateUtil {
 
 	/**
 	 * Returns the SessionFactory stored in the HibernateUtil class.
-	 * 
 	 * @param optional boolean to flag creation of singleton factory
-	 * 
 	 * @return the SessionFactory stored in HibernateUtil.
 	 * @throws IOException
 	 */
-	public static SessionFactory getSessionFactory(boolean...create) throws IOException {
-		if (sessionfact == null && (create.length == 0 || create[0])) {
-				Configuration conf = new Configuration().configure();
-				conf.setProperty("hibernate.hbm2.ddl-auto", "validate");
-				sessionfact = buildSessionFactory(conf);
-		}
-		return sessionfact;
+	public static SessionFactory getSessionFactory() throws IOException {
+		return sessionfact == null ? initSessionFactory(null) : sessionfact;
 	}
 
 	/**

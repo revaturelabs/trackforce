@@ -32,14 +32,17 @@ export class AssociateListComponent implements OnInit {
   updateShow: boolean = false;
   updateStatus: string = "";
   updateClient: number;
-  updated: boolean = false
+  updated: boolean = false;
 
   //used for ordering of rows
   desc: boolean = false;
   sortedColumn: string = "";
 
-  public test: number[];
-
+  /**
+   * Inject our services
+   * @param associateService 
+   * @param rs 
+   */
   constructor(
     private associateService: AssociateService,
     private rs: RequestService
@@ -48,22 +51,17 @@ export class AssociateListComponent implements OnInit {
   }
 
   ngOnInit() {
-    //get current url
-    this.getAllAssociates();
+    this.getAllAssociates(); //grab associates and clients from back end
     this.getClientNames();
 
-    var url = window.location.href.split("/");
-    if(url.length==8)//if values passed in, search by values
-    {
-      if(url[4]=="client")
-      {
-        this.searchByClient=url[5];
-      }
-      else if(url[4]=="curriculum")
-      {
-        this.searchByCurriculum=url[5];
-      }
-       this.searchByStatus=url[6].toUpperCase()+",  "+url[7].toUpperCase();
+    //if navigating to this page from clicking on a chart of a different page, set default filters
+    var url = window.location.href.split("/"); //get current url
+    if (url.length == 8) {//if values passed in, search by values
+      if (url[4] == "client")
+        this.searchByClient = url[5];
+      else if (url[4] == "curriculum")
+        this.searchByCurriculum = url[5];
+      this.searchByStatus = url[6].toUpperCase() + ",  " + url[7].toUpperCase();
     }
   }
 
@@ -72,10 +70,11 @@ export class AssociateListComponent implements OnInit {
    */
   getAllAssociates() {
     let self = this;
+
     this.rs.getAssociates().subscribe(data => {
       this.associates = data;
 
-      for (let associate of this.associates) {//get our curriculums
+      for (let associate of this.associates) {//get our curriculums from the associates
         this.curriculums.add(associate.curriculumName);
 
         if (associate.batchName === 'null') {
@@ -84,9 +83,7 @@ export class AssociateListComponent implements OnInit {
       }
       this.curriculums.delete("");
       this.curriculums.delete("null");
-      self.sort("id");
-
-      console.log(data);
+      self.sort("id"); //sort associates by ID
     });
   }
 
@@ -106,14 +103,14 @@ export class AssociateListComponent implements OnInit {
   sort(property) {
     this.desc = !this.desc;
     let direction;
-    if (property !== this.sortedColumn || this.updated)
-      //set ascending or descending
+    if (property !== this.sortedColumn || this.updated) //if clicking on new column sort ascending always, otherwise descending
       direction = 1;
     else direction = this.desc ? 1 : -1;
 
-    this.sortedColumn = property;
+    this.sortedColumn = property; //current column being sorted
 
-    if (this.updated) this.updated = false;
+    if (this.updated)
+      this.updated = false;
 
     //sort the elements
     this.associates.sort(function (a, b) {
@@ -133,13 +130,12 @@ export class AssociateListComponent implements OnInit {
 
     for (i; i <= this.associates.length; i++) { //grab the checked ids
       var check = <HTMLInputElement>document.getElementById("" + i);
-      if (check != null && check.checked) {
+      if (check != null && check.checked)
         ids.push(i);
-      }
     }
     this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient).subscribe(
       data => {
-        self.getAllAssociates();
+        self.getAllAssociates(); //refresh the associates to reflect the updates made on DB
         self.updated = true;
       })
   }

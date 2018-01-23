@@ -39,12 +39,11 @@ export class CreateUserComponent implements OnInit {
       } else {
         this.userService.createUser(this.username, this.password, this.roleId).subscribe(
           data => {
-            console.log(data);
             //navigate to home page if return is valid
             this.router.navigate(['root']);
           },
           err => {
-            console.log(err + " Error Occurred");
+            console.error(err + " Error Occurred");
             window.alert('Error: new user not created!');
           }
         );

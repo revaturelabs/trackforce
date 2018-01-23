@@ -24,6 +24,7 @@ export class HomeComponent {
  * http://usejsdoc.org/
  */
 
+ //Message from the back-end
   dbMessage: string;
   myStatus: string;
   username: string;
@@ -31,6 +32,7 @@ export class HomeComponent {
   data = [];
   amountType: any;
 
+  //Variables for chart settings
   undeployedLabels = SelectedStatusConstants.UNDEPLOYED_LABELS;
   mappedLabels = SelectedStatusConstants.MAPPED_LABELS;
   unmappedLabels = SelectedStatusConstants.UNMAPPED_LABELS;
@@ -51,13 +53,26 @@ export class HomeComponent {
   mappedOptions = ChartOptions.createOptionsTitle('Mapped', 24, '#121212', 'right');
   deployedOptions = ChartOptions.createOptionsTitle('Mapped vs. Unmapped (Deployed)', 24, '#121212', 'right');
   undeployedOptions = ChartOptions.createOptionsTitle('Mapped vs. Unmapped (Not Deployed)', 24, '#121212', 'right');
+  //end of chart settings
 
-  // populate with dummy data to enaable chart labels by default
+  // populate with dummy data to enable chart labels by default
   private undeployedData: number[] = [0, 0];
   private mappedData: number[] = [0, 0, 0, 0];
   private unmappedData: number[] = [0, 0, 0, 0];
   private deployedData: number[] = [0, 0, 0, 0];
 
+  /**
+    *@param {RequestService} rs
+    * Service for handling requests to the back-end
+    *
+    *@param {DataSyncService} ds
+    * Experimental service with BehaviorSubject
+    * BehaviorSubject allows for real-time update of charts
+    * Not fully implemented, so it is un-used
+    *
+    *@param {Router} rout
+    * Allows for re-direction to other components
+    */
   constructor(private rs: RequestService, private ds: DataSyncService, private rout: Router) { }
 
   ngOnInit() {
@@ -65,12 +80,9 @@ export class HomeComponent {
   }
 
   load() {
-    console.log("LOADING...");
     this.rs.getTotals().subscribe(response => {
-    console.log(response);
       /**
        * @member {Array} UndeployedData
-       * @memberof mainApp.mainCtrl
        * @description UndeployedData is an array used to populate the
        * dataset of the Undeployed chart. The dataset contains two numbers:
        * the mapped number is the sum of all mapped associates, the unmapped number
@@ -88,7 +100,6 @@ export class HomeComponent {
 
       /**
        * @member {Array} MappedData
-       * @memberof mainApp.mainCtrl
        * @description MappedData is an array that stores the
        * data for the dataset of the Mapped chart.
        * The dataset contains four numbers: training mapped<br>
@@ -104,7 +115,6 @@ export class HomeComponent {
 
       /**
        * @member {Array} UnmappedData
-       * @memberof mainApp.mainCtrl
        * @description UnmappedData is an array that stores the
        * data for the dataset of the Unmapped chart.
        * The dataset contains four numbers: training unmapped<br>
@@ -120,7 +130,6 @@ export class HomeComponent {
 
       /**
        * @member {Array} DeployedData
-       * @memberof mainApp.mainCtrl
        * @description DeployedData is an array used to populate the
        * dataset of the Deployed chart. The dataset contains two numbers:
        * the mapped number is the sum of all mapped associates, the unmapped number
@@ -129,41 +138,32 @@ export class HomeComponent {
       let deployedArr = [response.deployedMapped,
       response.deployedUnmapped];
       this.deployedData = deployedArr;
-      console.log("LOADED");
-      console.log(this.undeployedData);
-      console.log(this.mappedData);
-      console.log(this.unmappedData);
-      console.log(this.deployedData);
     });
   }
 
   /**
 * @function MappedOnClick
-* @memberof mainApp.mainCtrl
 * @description When the "Mapped" chart is clicked
 * the global variable selectedStatus is
 * set to the label of the slice
-* clicked. The window then loads the
-* clientMapped.html partial.
+* clicked.
 */
   mappedOnClick(evt: any) {
     if (evt.active[0] != undefined) {
-      console.log(evt.active[0]);
+      //navigate to client-mapped component
       this.rout.navigate([`client-mapped/${evt.active[0]._index}`]);
     }
   };
   /**
    * @function UnmappedOnClick
-   * @memberof mainApp.mainCtrl
    * @description When the "Unmapped" chart is clicked
    * the global variable selectedStatus is
    * set to the label of the slice
-   * clicked. The window then loads the
-   * skillset.html partial.
+   * clicked.
    */
   unmappedOnClick(evt: any) {
     if (evt.active[0] != undefined) {
-      console.log(evt.active[0]);
+      //navigate to skillset component
       this.rout.navigate([`skillset/${evt.active[0]._index}`]);
     }
   }
@@ -174,11 +174,8 @@ export class HomeComponent {
    *              data script
    */
   populateDB() {
-    console.log("POPULATING DB...");
     this.rs.populateDB().subscribe(response => {
-      console.log("POPULATED DB");
       this.load();
-      // console.log(response.status);
     }, err => {
       console.log("err");
     });
@@ -186,15 +183,11 @@ export class HomeComponent {
 
   /**
    * @function deleteDB
-   * @memberof mainApp.databaseCtrl
    * @description Truncates all the tables in the database
    */
   deleteDB() {
-    console.log("TRUNCATING...");
     this.rs.deleteDB().subscribe(response => {
-      console.log("TRUNCATED");
       this.load();
-      // console.log(response.status);
     }, err => {
       console.log("err");
     })
@@ -202,16 +195,13 @@ export class HomeComponent {
 
   /**
    * @function populateDBSF
-   * @memberof mainApp.databaseCtrl
    * @description SF Populates the database with information
    *              from data script
+   * For Salesforce data integration
    */
   populateDBSF() {
-    console.log("POPULATING SF...");
     this.rs.populateDBSF().subscribe(response => {
-      console.log("POPULATED SF");
       this.load();
-      // console.log(response.status);
     }, err => {
       console.log("err");
     });
@@ -223,20 +213,17 @@ export class HomeComponent {
 
   /**
    * @function getUsername
-   * @memberof mainApp.indexCtrl
    * @description This function will return a JavaScript object that contains
    *				the username for the current user that logs in
    */
   getUsername() {
     this.rs.getUsername().subscribe(response => {
       this.username = response.data;
-      console.log(this.username);
-    })
+    });
   };
 
   /**
    * @function defaultBatches
-   * @memberof mainApp.indexCtrl
    * @description This function will return a JavaScript object that contains
    * 				all the batches between a 6 month period used in the batch list
    * 				page. We declare and initiate it in the index to preload this
@@ -254,7 +241,6 @@ export class HomeComponent {
 
   /**
    * @function getCountPerBatchTypeDefault
-   * @memberof mainApp.indexCtrl
    * @description This function will return a JavaScript object that contains
    * 				amount of associates per batch type(skillset) within a 6 month
    * 				period to populate graph in batch list

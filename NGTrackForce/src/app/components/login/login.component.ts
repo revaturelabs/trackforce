@@ -12,9 +12,10 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+// Decorator for automatically unsubscribing all observables upon ngDestory()
+//Prevents memory leaks
 @AutoUnsubscribe
 export class LoginComponent implements OnInit {
-  //url to REST endpoint
   public username: string;
   public password: string;
 
@@ -32,7 +33,10 @@ export class LoginComponent implements OnInit {
 
   /**
   * Called upon component initiation
-  * Clears localStorage
+  * Checks if the user is already to logged-in
+  * If they are re-route to root
+  * If the user is an associate, route them to associate view
+  * Admins, VPs, and managers/directors are sent to root
   *
   *@param none
   *
@@ -43,7 +47,10 @@ export class LoginComponent implements OnInit {
       if(user.tfRoleId === 4){
         this.router.navigate(['associate-view', user.userId]);
       }
-      this.router.navigate(['root']);
+      else{
+        this.router.navigate(['root']);
+      }
+
     }
 
   }
@@ -61,9 +68,11 @@ export class LoginComponent implements OnInit {
       data => {
         const user = this.authService.getUser();
         //navigate to appropriate page if return is valid
+        //4 represents an associate role, who are routed to associate-view
         if(user.tfRoleId === 4){
           this.router.navigate(['associate-view', user.userId]);
         } else {
+          //otherwise, they are set to root
           this.router.navigate(['root']);
         }
       },

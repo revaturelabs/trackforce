@@ -16,7 +16,9 @@ import { RequestService } from '../../services/request-service/request.service';
     templateUrl: './form.component.html',
     styleUrls: ['./form.component.css']
 })
-
+/** Decorator for automatically unsubscribing all observables upon ngDestory()
+  *Prevents memory leaks
+  */
 @AutoUnsubscribe
 export class FormComponent implements OnInit {
     associate: Associate = new Associate();
@@ -26,21 +28,29 @@ export class FormComponent implements OnInit {
     selectedClient: string = "";
     id: number;
 
+    /**
+      *@param {AssociateService} associateService
+      * Service for grabbing associate data from the back-end
+      *@param {RequestService} rs
+      * Originally planned to have one aggregate service to handle all requests
+      *May be un-needed in this component; un-used in this particular component
+      */
     constructor(private associateService: AssociateService, private rs: RequestService) {
+        //gets id from router url parameter
         var id = window.location.href.split("form-comp/")[1];
         this.id = Number(id);
         this.associateService.getAssociate(this.id).subscribe(data => { this.associate = <Associate>data });
     }
 
     ngOnInit() {
-        this.rs.getClients().subscribe(data => { console.log(data); this.clients = data });
+        this.rs.getClients().subscribe(data => { this.clients = data; });
     }
 
     /**
      * Update the associate with the new client and/or status
      */
     updateAssociate() {
-        if (this.selectedClient !== this.associate.client 
+        if (this.selectedClient !== this.associate.client
             && this.selectedMarketingStatus !== this.associate.marketingStatus) {
             this.associateService.updateAssociate(this.id, this.selectedMarketingStatus, this.selectedClient).subscribe(
                 data => {

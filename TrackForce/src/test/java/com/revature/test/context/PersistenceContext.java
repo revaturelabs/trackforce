@@ -19,8 +19,8 @@ public class PersistenceContext {
 	public static final String TEST_USER = "tf.test-user";
 	public static final String TEST_PASS = "tf.test-pass";
 	
-	public static final String TEST_USER_DEFAULT = "user1";
-	public static final String TEST_PASS_DEFAULT = "pass1";
+	public static final String TEST_USER_DEFAULT = "SA";
+	public static final String TEST_PASS_DEFAULT = "";
 
 	@BeforeSuite
 	public void beforeSuite() throws IOException {
@@ -38,7 +38,7 @@ public class PersistenceContext {
 			// override dialect and driver class to use hsqldb
 			props.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
 			props.setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver");
-			props.setProperty("hibernate.hbm2.ddl-auto", "create-drop");
+			props.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 			props.setProperty("hibernate.show_sql", "true");
 			props.setProperty("hibernate.default_schema", "admin");
 			

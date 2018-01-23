@@ -18,7 +18,7 @@ import org.testng.annotations.Test;
 import com.revature.model.AssociateInfo;
 import com.revature.services.AssociateService;
 
-public class testAssociateService  {
+public class testAssociateService {
     private AssociateService associateservice;
     private SessionFactory factory;
     private Session session;

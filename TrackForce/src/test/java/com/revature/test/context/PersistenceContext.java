@@ -44,7 +44,7 @@ public class PersistenceContext {
 			
 			// intialize Hibernate
 			HibernateUtil.setDataSourceBuilder(new TomcatJDBCDataSourceBuilder(), props);
-			HibernateUtil.getSessionFactory(props);
+			HibernateUtil.initSessionFactory(props);
 			
 			TestDBLoader.load(props.getProperty(TEST_USER, TEST_USER_DEFAULT));
 

@@ -34,29 +34,14 @@ public class DBLoaderUtil {
 	// it is not the script's responsibility to reconstruct the tables
 	// these scripts should be made private after syncing to Saleforce is possible and completed
 	public static void main(String[] args) {
-		
 		// add additional configurations to update schema
-		try (InputStream is = DBLoaderUtil.class.getClassLoader().getResourceAsStream("tomcat-jdbc.properties")) {
-
-			Properties props = new Properties();
-			props.setProperty("hibernate.hbm2.ddl-auto", "create");
-			props.setProperty("hibernate.show_sql", "true");
+		Properties props = new Properties();
+		props.setProperty("hibernate.hbm2ddl.auto", "create");
+		props.setProperty("hibernate.show_sql", "true");
+		
+		try {
+			HibernateUtil.initSessionFactory(props);
 				
-				props = new Properties();
-				props.load(is);
-				
-		        // read in the environment variables
-		        String urlEnvironmentVariable = props.getProperty(URL_KEY);
-		        String usernameEnvironmentVariable = props.getProperty(USERNAME_KEY);
-		        String passwordEnvironmentVariable = props.getProperty(PASS_KEY);
-
-		        // replace environment variable names with their actual values
-		        props.setProperty(URL_KEY, System.getenv(urlEnvironmentVariable));
-		        props.setProperty(USERNAME_KEY, System.getenv(usernameEnvironmentVariable));
-		        props.setProperty(PASS_KEY, System.getenv(passwordEnvironmentVariable));
-		        
-			HibernateUtil.setDataSourceBuilder(new TomcatJDBCDataSourceBuilder(), props);
-			HibernateUtil.getSessionFactory(props);
 			switch (JOptionPane.showOptionDialog(null, "Choose a population routine", "Database loader", 0,
 					JOptionPane.YES_NO_CANCEL_OPTION, null,
 					new String[] { "Populate Database", "Populate Salesforce DB", "Empty Database" }, null)) {

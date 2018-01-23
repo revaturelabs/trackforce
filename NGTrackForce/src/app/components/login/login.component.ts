@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
   *
   */
   ngOnInit() {
-    let user = this.authService.getUser();
+    const user = this.authService.getUser();
     if (user != null){
       if(user.tfRoleId === 4){
         this.router.navigate(['associate-view', user.userId]);
@@ -66,8 +66,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.authService.login(this.username, this.password).subscribe(
       data => {
-        debugger;
-        let user = this.authService.getUser();
+        const user = this.authService.getUser();
         //navigate to appropriate page if return is valid
         //4 represents an associate role, who are routed to associate-view
         if(user.tfRoleId === 4){
@@ -78,7 +77,6 @@ export class LoginComponent implements OnInit {
         }
       },
       err => {
-        debugger;
         this.authService.logout();
       }
     );

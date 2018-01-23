@@ -135,7 +135,6 @@ public class AssociateService implements Delegate {
 			tx.commit();
 			return tfAssociates;
 		} catch (Exception e) {
-			e.printStackTrace();
 			LogUtil.logger.error(e);
 			session.flush();
 			tx.rollback();
@@ -289,7 +288,6 @@ public class AssociateService implements Delegate {
 		}
 
 		Map<BigDecimal, CurriculumJSON> map = new HashMap<>();
-		Set<AssociateInfo> assocsByStatus = new TreeSet<AssociateInfo>();
 		for (AssociateInfo ai : associates) {
 			if (ai.getMsid().equals(new BigDecimal(statusid))) {
 				if (!map.containsKey(ai.getCurid())) {
@@ -317,6 +315,7 @@ public class AssociateService implements Delegate {
 			PersistentStorage.getStorage().setAssociates(getAssociates());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> Set<T> read(String... args) throws IOException {
 		return (Set<T>) getAllAssociates();

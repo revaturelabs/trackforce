@@ -26,7 +26,6 @@ import com.revature.utils.PersistentStorage;
 
 @Path("/clients")
 public class ClientResource implements Delegate {
-
     private ClientDao clientDao;
 
     public ClientResource() {
@@ -58,7 +57,7 @@ public class ClientResource implements Delegate {
 		return clients;
 	}
 
-	public Map<BigDecimal, ClientInfo> getClients() throws HibernateException, IOException {
+	public Map<BigDecimal, ClientInfo> getClients() throws IOException {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
@@ -68,10 +67,11 @@ public class ClientResource implements Delegate {
 			tx.commit();
 			return map;
 		} catch (Exception e) {
-			e.printStackTrace();
 			LogUtil.logger.error(e);
 			tx.rollback();
 			throw new IOException("could not get clients", e);
+		} finally {
+			session.close();
 		}
 	}
 	
@@ -88,11 +88,13 @@ public class ClientResource implements Delegate {
 	@GET
 	@Path("{clientid}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public StatusInfo getClientInfo(@PathParam("clientid") int clientid) throws HibernateException, IOException {
+	public StatusInfo getClientInfo(@PathParam("clientid") int clientid) throws IOException {
 		Map<BigDecimal, ClientInfo> map = PersistentStorage.getStorage().getClientAsMap();
 		if(map == null || map.isEmpty()) {
 			execute();
 		}
+		if(map == null)
+			throw new IOException("Could not populate map");
 		return map.get(new BigDecimal(clientid)).getStats();
 	}
 
@@ -103,6 +105,8 @@ public class ClientResource implements Delegate {
 			PersistentStorage.getStorage().setClients(getClients());
 	}
 
+	// these are fine and tested
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> Set<T> read(String... args) throws IOException {
 		if (args == null || args.length == 0)
@@ -110,6 +114,7 @@ public class ClientResource implements Delegate {
 		return getTotals();
 	}
 
+	@SuppressWarnings("unchecked")
 	private <T> Set<T> getTotals() throws IOException {
 		Set<StatusInfo> set = new HashSet<>();
 		Set<ClientInfo> ci = PersistentStorage.getStorage().getClients();

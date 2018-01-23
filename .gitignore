@@ -1,6 +1,8 @@
 # ignore package-lock metadata
 **/package-lock.json
 
+.sonarlint
+
 # ignore config
 **/hibernate.cfg.xml
 

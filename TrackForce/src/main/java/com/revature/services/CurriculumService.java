@@ -3,18 +3,11 @@ package com.revature.services;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
-import java.util.TreeSet;
 
-import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.xml.ws.Response;
 
+import com.revature.dao.CurriculumDao;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -28,7 +21,23 @@ import com.revature.utils.PersistentStorage;
 @Path("skillset")
 public class CurriculumService implements Delegate {
 
-	private Set<CurriculumInfo> getAllCurriculums() throws HibernateException, IOException{
+
+    private CurriculumDao curriculumDao;
+
+    public CurriculumService() {
+        this.curriculumDao = new CurriculumDaoImpl();
+    }
+
+    /**
+     * injectable dao for easier testing
+     *
+     * @param curriculumDao
+     */
+    public CurriculumService(CurriculumDao curriculumDao) {
+        this.curriculumDao = curriculumDao;
+    }
+
+    private Set<CurriculumInfo> getAllCurriculums() throws HibernateException, IOException{
 		Set<CurriculumInfo> currs = PersistentStorage.getStorage().getCurriculums();
 		if(currs == null || currs.isEmpty()) {
 			execute();
@@ -39,10 +48,10 @@ public class CurriculumService implements Delegate {
 	
 	public Map<BigDecimal, CurriculumInfo> getCurriculums() throws HibernateException, IOException{
 		Map<BigDecimal, CurriculumInfo> curriculums;
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			curriculums = new CurriculumDaoImpl().fetchCurriculums(session);
+			curriculums = curriculumDao.fetchCurriculums(session);
 			
 			session.flush();
 			tx.commit();

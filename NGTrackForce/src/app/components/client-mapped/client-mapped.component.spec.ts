@@ -14,6 +14,7 @@ import { ClientMappedModel } from '../../models/clientMapped.model';
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 
 describe('ClientMappedComponent', () => {
   let component: ClientMappedComponent;
@@ -45,7 +46,6 @@ describe('ClientMappedComponent', () => {
     spyOn(testAuthService, 'getUser').and.returnValue(user);
   });
 
-  //Dependancies
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -60,9 +60,12 @@ describe('ClientMappedComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        RequestService, 
+        RequestService,
         {provide: AuthenticationService, useValue: testAuthService},
         {provide: ClientMappedService, useValue: testClientMappedService}
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
       ]
     })
   }));

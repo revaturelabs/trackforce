@@ -37,22 +37,22 @@ public class JWTService {
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 1000L;
 
-    private UserDAO userDao;
+	private UserDAO userDao;
 
-    /**
-     * injectable dependencies for easier testing
-     *
-     * @param userDao
-     */
-    public JWTService(UserDAO userDao) {
-        this.userDao = userDao;
-    }
+	/**
+	 * injectable dependencies for easier testing
+	 *
+	 * @param userDao
+	 */
+	public JWTService(UserDAO userDao) {
+		this.userDao = userDao;
+	}
 
-    public JWTService() {
-        this.userDao = new UserDaoImpl();
-    }
+	public JWTService() {
+		this.userDao = new UserDaoImpl();
+	}
 
-    /**
+	/**
 	 * Creates a token with an encoded username An expiration date has been set as
 	 * well
 	 * 
@@ -185,8 +185,8 @@ public class JWTService {
 	}
 
 	/**
-	 * Gets the secret key from System environments, under the 'KEY'
-	 * label  Checks if the user is an admin
+	 * Gets the secret key from System environments, under the 'KEY' label Checks if
+	 * the user is an admin
 	 * 
 	 * 
 	 * @param token
@@ -209,29 +209,25 @@ public class JWTService {
 				return false;
 			}
 
-			try {
-				claims = getClaimsFromToken(token);
-				tokenUsername = claims.getSubject();
-				tfUser = udi.getUser(tokenUsername, session);
-				tfRole = tfUser.getTfRole();
+			claims = getClaimsFromToken(token);
+			tokenUsername = claims.getSubject();
+			tfUser = udi.getUser(tokenUsername, session);
+			tfRole = tfUser.getTfRole();
 
-				if (tfUser != null && tfRole != null) {
-					// makes sure the token is fresh and usernames are equal
-					// and user role is admin
-					verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
-							&& tfRole.getTfRoleName().equals("Admin"));
-				}
-
-				session.flush();
-				tx.begin();
-				return verified;
-			} catch (SignatureException se) {
-				se.printStackTrace();
+			if (tfUser != null && tfRole != null) {
+				// makes sure the token is fresh and usernames are equal
+				// and user role is admin
+				verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
+						&& tfRole.getTfRoleName().equals("Admin"));
 			}
+
+			session.flush();
+			tx.commit();
+			return verified;
+
 		} catch (Exception e) {
 			session.flush();
 			tx.rollback();
-			e.printStackTrace();
 		} finally {
 			session.close();
 		}
@@ -251,42 +247,41 @@ public class JWTService {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-		Claims claims = null;
-		boolean verified = false;
-		String tokenUsername = null;
-		TfUser tfUser = null;
-		TfRole tfRole = null;
+			Claims claims = null;
+			boolean verified = false;
+			String tokenUsername = null;
+			TfUser tfUser = null;
+			TfRole tfRole = null;
 
-		if (token == null) {
-			return false;
-		}
-
-		try {
-			claims = getClaimsFromToken(token);
-			tokenUsername = claims.getSubject();
-			tfUser = userDao.getUser(tokenUsername, session);
-			tfRole = tfUser.getTfRole();
-
-			if (tfUser != null) {
-				// makes sure the token is fresh and usernames are equal
-				// and user role is an associate
-				verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
-						&& tfRole.getTfRoleName().equals("Associate"));
+			if (token == null) {
+				return false;
 			}
 
-		} catch (SignatureException se) {
-			se.printStackTrace();
-		}
+			try {
+				claims = getClaimsFromToken(token);
+				tokenUsername = claims.getSubject();
+				tfUser = userDao.getUser(tokenUsername, session);
+				tfRole = tfUser.getTfRole();
 
-		session.flush();
-		tx.commit();
-		return verified;
-		
-		} catch(Exception e) {
+				if (tfUser != null) {
+					// makes sure the token is fresh and usernames are equal
+					// and user role is an associate
+					verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
+							&& tfRole.getTfRoleName().equals("Associate"));
+				}
+
+			} catch (SignatureException se) {
+				se.printStackTrace();
+			}
+
+			session.flush();
+			tx.commit();
+			return verified;
+
+		} catch (Exception e) {
 			session.flush();
 			tx.rollback();
-		}
-		finally {
+		} finally {
 			session.close();
 		}
 		return false;

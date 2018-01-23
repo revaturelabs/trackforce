@@ -73,7 +73,7 @@ public class TestDBLoader {
 			populateRole(2, "Manager", session);
 			populateRole(3, "Vice President", session);
 			populateRole(4, "Associate", session);
-			populateUser(1, "sha1:64000:18:zBfcx3rxxYev6SuYjw/EoTzwwhDW0+5I:TE/5QDShUo2DpVtwM1wfpnmD", "TestAdmin", 1, session);
+			populateUser("sha1:64000:18:zBfcx3rxxYev6SuYjw/EoTzwwhDW0+5I:TE/5QDShUo2DpVtwM1wfpnmD", "TestAdmin", 1, session);
 			
 
 			session.flush();
@@ -88,13 +88,13 @@ public class TestDBLoader {
 		}
 	}
 
-	private static void populateUser(int i, String string, String string2, Integer j, Session session) {
+	private static void populateUser(String string, String string2, Integer j, Session session) {
 		TfUser tfu = new TfUser();
-		tfu.setTfUserId(i);
 		tfu.setTfUserHashpassword(string);
 		tfu.setTfUserUsername(string2);
 		tfu.setTfRole(j == null ? null : session.get(TfRole.class, new BigDecimal(j)));
 		
+		session.saveOrUpdate(tfu);
 	}
 
 	private static void populateRole(Integer i, String string, Session session) {

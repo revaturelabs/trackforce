@@ -114,6 +114,3 @@ jdbcUtil.java
 
 # rollup-test output
 **/modules/rollup-test/dist/
-
-#Angular package
-package-lock.json

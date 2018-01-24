@@ -12,6 +12,7 @@ import static com.revature.config.DataSourceBuilder.Constants.*;
 import com.revature.config.TomcatJDBCDataSourceBuilder;
 import com.revature.services.PersistentServiceDelegator;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 public class PersistenceContext {
 	
@@ -24,8 +25,10 @@ public class PersistenceContext {
 		
 		// Configure DataSource
 		Properties props = new Properties();
-		try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("mock-tomcat-jdbc.properties")) {
+		InputStream is = this.getClass().getClassLoader().getResourceAsStream("mock-tomcat-jdbc.properties");
 			props.load(is);
+			
+			is.close();
 
 			// mock environment variables for test configurations
 			props.setProperty(URL_KEY, System.getenv(props.getProperty(TEST_URL)));
@@ -43,7 +46,8 @@ public class PersistenceContext {
 			HibernateUtil.setDataSourceBuilder(new TomcatJDBCDataSourceBuilder(), props);
 			HibernateUtil.initSessionFactory(props);
 			
-			TestDBLoader.load(props.getProperty(TEST_USER));
+			
+			TestDBLoader.load();
 
 			// Initialize persistent storages
 			PersistentServiceDelegator psd = new PersistentServiceDelegator();
@@ -54,7 +58,6 @@ public class PersistenceContext {
 			psd.getCurriculums();
 			psd.getMarketingStatuses();
 			psd.getTotals();
-		}
 	}
 
 	@AfterSuite

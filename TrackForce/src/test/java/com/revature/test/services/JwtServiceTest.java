@@ -36,38 +36,27 @@ public class JwtServiceTest {
   }
   
   @Test(enabled=true)
-  public void isAdminTest() {
+  public void isAdminTest() throws IOException {
 	  boolean status = false;
 	  
-	  try {
 		status = jwt.isAdmin(adminToken);
-	  } 
-	  catch (IOException e) {
-		
-		e.printStackTrace();
-	  }
 	  
 	  assertTrue(status);  
 	  
   }
   
-  @Test(enabled=false)
-  public void isAssociateTest() {
+  @Test()
+  public void isAssociateTest() throws IOException {
 	  boolean status = true;
 	  
-	  try {
 		status = jwt.isAssociate(vpToken);
-	  } 
-	  catch (IOException e) {
-		
-		e.printStackTrace();
-	  }
+
 	  
 	  assertFalse(status);  
 	  
   }
   
-  @Test(enabled=false)
+  @Test()
   public void isTokenExpiredTest() {
 	  Date date = jwt.getExpirationDateFromToken(adminToken);
 	  

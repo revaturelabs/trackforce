@@ -26,7 +26,7 @@ import com.revature.utils.LogUtil;
 
 public class TestDBLoader {
 
-	public static void load(String user) throws HibernateException, IOException {
+	public static void load() throws HibernateException, IOException {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -46,7 +46,6 @@ public class TestDBLoader {
 		}
 		
 		
-		try {
 			populateEndClient(1, "Accenture", session);
 			populateEndClient(2, "Infosys", session);
 			populateClient(1, "Accenture", session);
@@ -78,14 +77,7 @@ public class TestDBLoader {
 
 			session.flush();
 			tx.commit();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			tx.rollback();
-			throw new IOException("Could not populate DB", e);
-		} finally {
 			session.close();
-		}
 	}
 
 	private static void populateUser(String string, String string2, Integer j, Session session) {

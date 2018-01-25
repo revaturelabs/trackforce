@@ -1,11 +1,6 @@
 package com.revature.utils;
 
-import static com.revature.config.DataSourceBuilder.Constants.PASS_KEY;
-import static com.revature.config.DataSourceBuilder.Constants.URL_KEY;
-import static com.revature.config.DataSourceBuilder.Constants.USERNAME_KEY;
-
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -19,7 +14,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.revature.config.TomcatJDBCDataSourceBuilder;
 import com.revature.entity.*;
 
 public class DBLoaderUtil {
@@ -34,6 +28,8 @@ public class DBLoaderUtil {
 	// it is not the script's responsibility to reconstruct the tables
 	// these scripts should be made private after syncing to Saleforce is possible and completed
 	public static void main(String[] args) {
+	    DBLoaderUtil loader = new DBLoaderUtil();
+
 		// add additional configurations to update schema
 		Properties props = new Properties();
 		props.setProperty("hibernate.hbm2ddl.auto", "create");
@@ -46,15 +42,15 @@ public class DBLoaderUtil {
 					JOptionPane.YES_NO_CANCEL_OPTION, null,
 					new String[] { "Populate Database", "Populate Salesforce DB", "Empty Database" }, null)) {
 			case JOptionPane.YES_OPTION:
-				populateDB();
+				loader.populateDB();
 				System.out.println("populateDB completed execution");
 				break;
 			case JOptionPane.NO_OPTION:
-				populateDBSF();
+				loader.populateDBSF();
 				System.out.println("populateDBSF completed execution");
 				break;
 			default:
-				truncateDB();
+				loader.truncateDB();
 				break;
 			}
 		} catch (IOException e) {
@@ -63,7 +59,7 @@ public class DBLoaderUtil {
 		}
 	}
 
-	public static void truncateDB() throws HibernateException, IOException {
+	public void truncateDB() throws HibernateException, IOException {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
@@ -86,7 +82,7 @@ public class DBLoaderUtil {
 		}
 	}
 
-	public static void populateDB() throws HibernateException, IOException {
+	public void populateDB() throws HibernateException, IOException {
 
 		// first check to see if last DB state is stored or needs to be dumped
 		if(prev == DBMode.DB)
@@ -133,17 +129,17 @@ public class DBLoaderUtil {
 			populateCurriculum(7, "Microservices", session);
 
 			// INSERT DUMMY VALUES IntegerO TF_MARKETING_STATUS
-			populateMarketingStatus(1, "MAPPED,  TRAINING", session);
-			populateMarketingStatus(2, "MAPPED,  RESERVED", session);
-			populateMarketingStatus(3, "MAPPED,  SELECTED", session);
-			populateMarketingStatus(4, "MAPPED,  CONFIRMED", session);
-			populateMarketingStatus(5, "MAPPED,  DEPLOYED", session);
+			populateMarketingStatus(1, "MAPPED: TRAINING", session);
+			populateMarketingStatus(2, "MAPPED: RESERVED", session);
+			populateMarketingStatus(3, "MAPPED: SELECTED", session);
+			populateMarketingStatus(4, "MAPPED: CONFIRMED", session);
+			populateMarketingStatus(5, "MAPPED: DEPLOYED", session);
 
-			populateMarketingStatus(6, "UNMAPPED,  TRAINING", session);
-			populateMarketingStatus(7, "UNMAPPED,  OPEN", session);
-			populateMarketingStatus(8, "UNMAPPED,  SELECTED", session);
-			populateMarketingStatus(9, "UNMAPPED,  CONFIRMED", session);
-			populateMarketingStatus(10, "UNMAPPED,  DEPLOYED", session);
+			populateMarketingStatus(6, "UNMAPPED: TRAINING", session);
+			populateMarketingStatus(7, "UNMAPPED: OPEN", session);
+			populateMarketingStatus(8, "UNMAPPED: SELECTED", session);
+			populateMarketingStatus(9, "UNMAPPED: CONFIRMED", session);
+			populateMarketingStatus(10, "UNMAPPED: DEPLOYED", session);
 			populateMarketingStatus(11, "DIRECTLY PLACED", session);
 			populateMarketingStatus(12, "TERMINATED", session);
 
@@ -461,7 +457,7 @@ public class DBLoaderUtil {
 		}
 	}
 
-	public static void populateDBSF() throws HibernateException, IOException {
+	public void populateDBSF() throws HibernateException, IOException {
 
 		// first check to see if last DB state is stored or needs to be dumped
 		if(prev == DBMode.SF)
@@ -502,17 +498,17 @@ public class DBLoaderUtil {
 			populateCurriculum(9, "Oracle Fusion", session);
 
 			// INSERT DUMMY VALUES IntegerO TF_MARKETING_STATUS
-			populateMarketingStatus(1, "MAPPED,  TRAINING", session);
-			populateMarketingStatus(2, "MAPPED,  RESERVED", session);
-			populateMarketingStatus(3, "MAPPED,  SELECTED", session);
-			populateMarketingStatus(4, "MAPPED,  CONFIRMED", session);
-			populateMarketingStatus(5, "MAPPED,  DEPLOYED", session);
+			populateMarketingStatus(1, "MAPPED: TRAINING", session);
+			populateMarketingStatus(2, "MAPPED: RESERVED", session);
+			populateMarketingStatus(3, "MAPPED: SELECTED", session);
+			populateMarketingStatus(4, "MAPPED: CONFIRMED", session);
+			populateMarketingStatus(5, "MAPPED: DEPLOYED", session);
 
-			populateMarketingStatus(6, "UNMAPPED,  TRAINING", session);
-			populateMarketingStatus(7, "UNMAPPED,  OPEN", session);
-			populateMarketingStatus(8, "UNMAPPED,  SELECTED", session);
-			populateMarketingStatus(9, "UNMAPPED,  CONFIRMED", session);
-			populateMarketingStatus(10, "UNMAPPED,  DEPLOYED", session);
+			populateMarketingStatus(6, "UNMAPPED: TRAINING", session);
+			populateMarketingStatus(7, "UNMAPPED: OPEN", session);
+			populateMarketingStatus(8, "UNMAPPED: SELECTED", session);
+			populateMarketingStatus(9, "UNMAPPED: CONFIRMED", session);
+			populateMarketingStatus(10, "UNMAPPED: DEPLOYED", session);
 			populateMarketingStatus(11, "DIRECTLY PLACED", session);
 			populateMarketingStatus(12, "TERMINATED", session);
 
@@ -1773,7 +1769,7 @@ public class DBLoaderUtil {
 	}
 
 	// Because we managed to hit the hard limit for bytes of code in one method
-	private static void populateDBSF2(Session session) throws HibernateException, IOException {
+	private  void populateDBSF2(Session session) throws HibernateException, IOException {
 		populateEndClient(0, "22nd Century Staffing Inc", session);
 		populateEndClient(1, "22nd Century Technologies", session);
 		populateEndClient(2, "3 Edge USA Group, LLC", session);
@@ -3031,7 +3027,7 @@ public class DBLoaderUtil {
 	}
 
 	// This is just to be safe
-	private static void populateDBSF3(Session session) throws HibernateException, IOException {
+	private  void populateDBSF3(Session session) throws HibernateException, IOException {
 		// batch id, name, start, end, curriculum, location
 		populateBatch(0, "1701 Jan09 Java", LocalDate.of(2017, 1, 9), LocalDate.of(2017, 3, 17), 2, 1, session);
 		populateBatch(1, "1701 Jan09 Java AP, ASU", LocalDate.of(2017, 1, 9), LocalDate.of(2017, 3, 17), 2, 4, session);
@@ -4290,7 +4286,7 @@ public class DBLoaderUtil {
 				session);
 	}
 
-	public static void populateBatch(Integer i, String string, LocalDate of, LocalDate of2, Integer j, Integer k,
+	public void populateBatch(Integer i, String string, LocalDate of, LocalDate of2, Integer j, Integer k,
 			Session session) {
 		TfBatch batch = new TfBatch();
 		TfCurriculum tfc = j == null ? null : session.get(TfCurriculum.class, new BigDecimal(j));
@@ -4306,7 +4302,7 @@ public class DBLoaderUtil {
 
 	}
 
-	public static void populatePlacement(Integer i, LocalDate localDate, LocalDate localDate2, Integer j, Integer k,
+	public void populatePlacement(Integer i, LocalDate localDate, LocalDate localDate2, Integer j, Integer k,
 			Integer l, Session session) {
 		TfPlacement placement = new TfPlacement();
 		TfClient client = j == null ? null : session.get(TfClient.class, new BigDecimal(j));
@@ -4322,7 +4318,7 @@ public class DBLoaderUtil {
 		session.saveOrUpdate(placement);
 	}
 
-	public static void populateInterview(Integer i, LocalDateTime of, String string, Integer j, Integer k, Integer l,
+	public void populateInterview(Integer i, LocalDateTime of, String string, Integer j, Integer k, Integer l,
 			Integer m, Session session) {
 		TfInterview tfi = new TfInterview();
 		TfClient tfc = j == null ? null : session.get(TfClient.class, new BigDecimal(j));
@@ -4341,7 +4337,7 @@ public class DBLoaderUtil {
 
 	}
 
-	public static void populateAssociate(Integer i, String string, String string2, Integer j, Integer k, Integer l,
+	public void populateAssociate(Integer i, String string, String string2, Integer j, Integer k, Integer l,
 			Integer m, Session session) {
 		TfAssociate tfa = new TfAssociate();
 		TfMarketingStatus tfms = j == null ? null : session.get(TfMarketingStatus.class, new BigDecimal(j));
@@ -4360,7 +4356,7 @@ public class DBLoaderUtil {
 
 	}
 
-	public static void populateBatchLocation(Integer i, String string, Session session) {
+	public void populateBatchLocation(Integer i, String string, Session session) {
 		TfBatchLocation tfbl = new TfBatchLocation();
 		tfbl.setTfBatchLocationId(i == null ? null : new BigDecimal(i));
 		tfbl.setTfBatchLocationName(string);
@@ -4368,7 +4364,7 @@ public class DBLoaderUtil {
 		session.saveOrUpdate(tfbl);
 	}
 
-	public static void populateMarketingStatus(Integer i, String string, Session session){
+	public void populateMarketingStatus(Integer i, String string, Session session){
 		TfMarketingStatus tfms = new TfMarketingStatus();
 		tfms.setTfMarketingStatusId(i == null ? null : new BigDecimal(i));
 		tfms.setTfMarketingStatusName(string);
@@ -4377,7 +4373,7 @@ public class DBLoaderUtil {
 
 	}
 
-	public static void populateCurriculum(Integer i, String string, Session session) {
+	public void populateCurriculum(Integer i, String string, Session session) {
 		TfCurriculum tfc = new TfCurriculum();
 		tfc.setTfCurriculumId(i == null ? null : new BigDecimal(i));
 		tfc.setTfCurriculumName(string);
@@ -4386,7 +4382,7 @@ public class DBLoaderUtil {
 
 	}
 
-	public static void populateInterviewType(Integer i, String string, Session session){
+	public void populateInterviewType(Integer i, String string, Session session){
 		TfInterviewType tfit = new TfInterviewType();
 		tfit.setTfInterviewTypeId(i == null ? null : new BigDecimal(i));
 		tfit.setTfInterviewTypeName(string);
@@ -4394,7 +4390,7 @@ public class DBLoaderUtil {
 		session.saveOrUpdate(tfit);
 	}
 
-	public static void populateClient(Integer i, String string, Session session){
+	public void populateClient(Integer i, String string, Session session){
 		TfClient tfc = new TfClient();
 		tfc.setTfClientId(i == null ? null : new BigDecimal(i));
 		tfc.setTfClientName(string);
@@ -4402,7 +4398,7 @@ public class DBLoaderUtil {
 		session.saveOrUpdate(tfc);
 	}
 
-	public static void populateEndClient(Integer i, String string, Session session) {
+	public void populateEndClient(Integer i, String string, Session session) {
 		TfEndClient tfec = new TfEndClient();
 		tfec.setTfEndClientId(i == null ? null : new BigDecimal(i));
 		tfec.setTfEndClientName(string);

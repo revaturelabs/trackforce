@@ -20,23 +20,27 @@ public class DatabaseServices {
 
     private PersistentServiceDelegator psd;
 
+    private DBLoaderUtil loaderUtil;
+
     public DatabaseServices() {
         psd = new PersistentServiceDelegator();
+        loaderUtil = new DBLoaderUtil();
     }
 
     /**
      * injectable dependencies for easier testing
      * @param psd
      */
-    public DatabaseServices(PersistentServiceDelegator psd) {
+    public DatabaseServices(PersistentServiceDelegator psd, DBLoaderUtil loaderUtil) {
         this.psd = psd;
+        this.loaderUtil = loaderUtil;
     }
 
     @GET
 	@Path("populateDB")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response populateDB() throws IOException {
-		DBLoaderUtil.populateDB();
+		loaderUtil.populateDB();
 		update();
 		return Response.ok().build();
 	}
@@ -45,7 +49,7 @@ public class DatabaseServices {
 	@Path("deleteFromDB")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response deleteDB() throws IOException {
-		DBLoaderUtil.truncateDB();
+		loaderUtil.truncateDB();
 		update();
 		return Response.ok().build();
 	}
@@ -54,7 +58,7 @@ public class DatabaseServices {
 	@Path("populateDBSF")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response populateDBSF() throws IOException {
-		DBLoaderUtil.populateDBSF();
+		loaderUtil.populateDBSF();
 		update();
 		return Response.ok().build();	
 	}

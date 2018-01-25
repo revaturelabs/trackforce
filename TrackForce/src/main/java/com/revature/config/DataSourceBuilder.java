@@ -15,14 +15,14 @@ import javax.sql.DataSource;
 public interface DataSourceBuilder {
 
 	// Injectable DatasSource
-	public DataSource buildDataSource(Properties props);
+	DataSource buildDataSource(Properties props);
 
-	public DataSource getDataSource();
-	public String getUrl();
-	public String getUsername();
-	public String getPassword();
+	DataSource getDataSource();
+	String getUrl();
+	String getUsername();
+	String getPassword();
 	
-	public final class Constants {
+	final class Constants {
 		
 		private Constants() {}
 	    public static final String URL_KEY = "tf.url-env";

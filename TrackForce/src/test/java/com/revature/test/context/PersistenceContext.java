@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import com.revature.utils.TestDBLoader;
 import org.testng.annotations.*;
 
 import static com.revature.config.DataSourceBuilder.Constants.*;

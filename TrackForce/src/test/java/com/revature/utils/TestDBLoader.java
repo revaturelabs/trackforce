@@ -1,4 +1,4 @@
-package com.revature.test.context;
+package com.revature.utils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -57,8 +57,8 @@ public class TestDBLoader {
 			populateCurriculum(2, "Java", session);
 			populateCurriculum(3, ".Net", session);
 			populateCurriculum(4, "PEGA", session);
-			populateMarketingStatus(1, "MAPPED,  TRAINING", session);
-			populateMarketingStatus(2, "MAPPED,  RESERVED", session);
+			populateMarketingStatus(1, "MAPPED: TRAINING", session);
+			populateMarketingStatus(2, "MAPPED: RESERVED", session);
 			populateBatchLocation(1, "Revature LLC, 11730 Plaza America Drive, 2nd Floor | Reston, VA 20190", session);
 			populateBatchLocation(2, "UMUC", session);
 			populateBatchLocation(3, "USF", session);

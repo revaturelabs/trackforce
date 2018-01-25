@@ -1,12 +1,16 @@
-package com.revature.utils;
+package com.revature.test.utils;
 
 import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import com.revature.dao.*;
 import com.revature.services.*;
+import com.revature.utils.DBUtil;
+import com.revature.utils.HibernateUtil;
+import com.revature.utils.PersistentStorage;
 import org.hibernate.Session;
 import org.mockito.*;
 import org.testng.annotations.*;
@@ -26,8 +30,8 @@ public class PersistentStorageTest {
 
 
     @BeforeClass
-    public void before() throws IOException {
-        HibernateUtil.getSessionFactory();
+    public void before() throws IOException, SQLException, ClassNotFoundException {
+        DBUtil.getTestSessionFactory();
         MockitoAnnotations.initMocks(this);
 
         Mockito.when(mockAssociateDao.getAssociates(Matchers.any(Session.class)))

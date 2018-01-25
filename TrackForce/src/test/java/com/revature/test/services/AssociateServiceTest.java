@@ -1,32 +1,32 @@
-package com.revature.test;
+package com.revature.test.services;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 
 import com.revature.services.ClientResource;
 import com.revature.services.MarketingStatusService;
-import com.revature.utils.HibernateUtil;
+import com.revature.utils.DBLoaderUtil;
+import com.revature.utils.DBUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import com.revature.model.AssociateInfo;
 import com.revature.services.AssociateService;
 
-public class testAssociateService {
+public class AssociateServiceTest {
     private AssociateService associateservice;
     private SessionFactory factory;
     private Session session;
     private Transaction transaction;
 
-    @BeforeClass
-    public void initCaches() throws IOException {
-    	factory = HibernateUtil.getSessionFactory();
+    @BeforeSuite
+    public void initCaches() throws IOException, SQLException, ClassNotFoundException {
+    	factory = DBUtil.getTestSessionFactory();
+        new DBLoaderUtil().populateDBSF();
         new AssociateService().execute();
         new ClientResource().execute();
         new MarketingStatusService().execute();

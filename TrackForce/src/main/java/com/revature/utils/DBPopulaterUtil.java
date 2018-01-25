@@ -3,167 +3,261 @@ package com.revature.utils;
 import com.revature.entity.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import javax.persistence.StoredProcedureQuery;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * Object that facilitates in quick methods to populate the various tables
+ */
 public class DBPopulaterUtil {
 
- 	public void truncateDB() throws HibernateException, IOException {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.beginTransaction();
-		try {
+    /**
+     * clear database
+     *
+     * @param session
+     * @throws HibernateException
+     */
+    public void truncateDB(Session session) throws HibernateException {
+        StoredProcedureQuery spq = session.createStoredProcedureCall("admin.truncateAllDevTeam");
+        spq.execute();
+    }
 
-			StoredProcedureQuery spq = session.createStoredProcedureCall("admin.truncateAllDevTeam");
-			spq.execute();
+    /**
+     * add a user role
+     *
+     * @param id
+     * @param name
+     * @param session
+     */
+    public void populateRole(Integer id, String name, Session session) {
+        TfRole tfr = new TfRole();
+        tfr.setTfRoleId(id == null ? null : new BigDecimal(id));
+        tfr.setTfRoleName(name);
 
-			session.flush();
-			tx.commit();
+        session.saveOrUpdate(tfr);
+    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.flush();
-			tx.rollback();
-		} finally {
+    /**
+     * add a new user
+     *
+     * @param passwordHash
+     * @param username
+     * @param roleId
+     * @param session
+     */
+    public void populateUser(String passwordHash, String username, Integer roleId, Session session) {
+        TfUser tfu = new TfUser();
+        tfu.setTfUserHashpassword(passwordHash);
+        tfu.setTfUserUsername(username);
+        tfu.setTfRole(roleId == null ? null : session.load(TfRole.class, new BigDecimal(roleId)));
 
-			session.close();
-		}
-	}
+        session.saveOrUpdate(tfu);
+    }
 
-	public void populateUser(String string, String string2, Integer j, Session session) {
-		TfUser tfu = new TfUser();
-		tfu.setTfUserHashpassword(string);
-		tfu.setTfUserUsername(string2);
-		tfu.setTfRole(j == null ? null : session.get(TfRole.class, new BigDecimal(j)));
+    /**
+     * add a new batch
+     *
+     * @param id
+     * @param name
+     * @param start
+     * @param end
+     * @param curriculumId
+     * @param batchLocationId
+     * @param session
+     */
+    public void populateBatch(Integer id, String name, LocalDate start, LocalDate end, Integer curriculumId,
+                              Integer batchLocationId, Session session) {
+        TfBatch batch = new TfBatch();
+        TfCurriculum tfc = curriculumId == null ? null : session.load(TfCurriculum.class, new BigDecimal(curriculumId));
+        TfBatchLocation tfbl = batchLocationId == null ? null : session.load(TfBatchLocation.class, new BigDecimal(batchLocationId));
+        batch.setTfBatchId(id == null ? null : new BigDecimal(id));
+        batch.setTfBatchName(name);
+        batch.setTfBatchStartDate(start == null ? null : Timestamp.valueOf(start.atStartOfDay()));
+        batch.setTfBatchEndDate(end == null ? null : Timestamp.valueOf(end.atStartOfDay()));
+        batch.setTfCurriculum(tfc);
+        batch.setTfBatchLocation(tfbl);
 
-		session.saveOrUpdate(tfu);
-	}
+        session.saveOrUpdate(batch);
+    }
 
-	public void populateRole(Integer i, String string, Session session) {
-		TfRole tfr = new TfRole();
-		tfr.setTfRoleId(i == null ? null : new BigDecimal(i));
-		tfr.setTfRoleName(string);
+    /**
+     * add new batch location
+     *
+     * @param id
+     * @param name
+     * @param session
+     */
+    public void populateBatchLocation(Integer id, String name, Session session) {
+        TfBatchLocation tfbl = new TfBatchLocation();
+        tfbl.setTfBatchLocationId(id == null ? null : new BigDecimal(id));
+        tfbl.setTfBatchLocationName(name);
 
-		session.saveOrUpdate(tfr);
-	}
+        session.saveOrUpdate(tfbl);
+    }
 
- 	public void populateBatch(Integer i, String string, LocalDate of, LocalDate of2, Integer j, Integer k,
-			Session session) {
-		TfBatch batch = new TfBatch();
-		TfCurriculum tfc = j == null ? null : session.get(TfCurriculum.class, new BigDecimal(j));
-		TfBatchLocation tfbl = k == null ? null : session.get(TfBatchLocation.class, new BigDecimal(k));
-		batch.setTfBatchId(i == null ? null : new BigDecimal(i));
-		batch.setTfBatchName(string);
-		batch.setTfBatchStartDate(of == null ? null : Timestamp.valueOf(of.atStartOfDay()));
-		batch.setTfBatchEndDate(of2 == null ? null : Timestamp.valueOf(of2.atStartOfDay()));
-		batch.setTfCurriculum(tfc);
-		batch.setTfBatchLocation(tfbl);
+    /**
+     * add new placement
+     *
+     * @param id
+     * @param start
+     * @param end
+     * @param clientId
+     * @param endClientId
+     * @param associateId
+     * @param session
+     */
+    public void populatePlacement(Integer id, LocalDate start, LocalDate end, Integer clientId, Integer endClientId,
+                                  Integer associateId, Session session) {
+        TfPlacement placement = new TfPlacement();
+        TfClient client = clientId == null ? null : session.load(TfClient.class, new BigDecimal(clientId));
+        TfEndClient ec = endClientId == null ? null : session.load(TfEndClient.class, new BigDecimal(endClientId));
+        TfAssociate assoc = associateId == null ? null : session.load(TfAssociate.class, new BigDecimal(associateId));
+        placement.setTfPlacementId(id == null ? null : new BigDecimal(id));
+        placement.setTfPlacementStartDate(start == null ? null : Timestamp.valueOf(start.atStartOfDay()));
+        placement.setTfPlacementEndDate(end == null ? null : Timestamp.valueOf(end.atStartOfDay()));
+        placement.setTfClient(client);
+        placement.setTfEndClient(ec);
+        placement.setTfAssociate(assoc);
 
-		session.saveOrUpdate(batch);
-	}
+        session.saveOrUpdate(placement);
+    }
 
-	public void populatePlacement(Integer i, LocalDate localDate, LocalDate localDate2, Integer j, Integer k,
-                                  Integer l, Session session) {
-		TfPlacement placement = new TfPlacement();
-		TfClient client = j == null ? null : session.get(TfClient.class, new BigDecimal(j));
-		TfEndClient ec = k == null ? null : session.get(TfEndClient.class, new BigDecimal(k));
-		TfAssociate assoc = l == null ? null : session.get(TfAssociate.class, new BigDecimal(l));
-		placement.setTfPlacementId(i == null ? null : new BigDecimal(i));
-		placement.setTfPlacementStartDate(localDate == null ? null : Timestamp.valueOf(localDate.atStartOfDay()));
-		placement.setTfPlacementEndDate(localDate2 == null ? null : Timestamp.valueOf(localDate2.atStartOfDay()));
-		placement.setTfClient(client);
-		placement.setTfEndClient(ec);
-		placement.setTfAssociate(assoc);
+    /**
+     * add new interview
+     *
+     * @param id
+     * @param date
+     * @param feedback
+     * @param clientId
+     * @param endClientId
+     * @param typeId
+     * @param associateId
+     * @param session
+     */
+    public void populateInterview(Integer id, LocalDateTime date, String feedback, Integer clientId,
+                                  Integer endClientId, Integer typeId, Integer associateId, Session session) {
+        TfInterview tfi = new TfInterview();
+        TfClient tfc = clientId == null ? null : session.load(TfClient.class, new BigDecimal(clientId));
+        TfEndClient tfec = endClientId == null ? null : session.load(TfEndClient.class, new BigDecimal(endClientId));
+        TfInterviewType tfit = typeId == null ? null : session.load(TfInterviewType.class, new BigDecimal(typeId));
+        TfAssociate tfa = associateId == null ? null : session.load(TfAssociate.class, new BigDecimal(associateId));
+        tfi.setTfInterviewId(id == null ? null : new BigDecimal(id));
+        tfi.setTfInterviewDate(Timestamp.valueOf(date));
+        tfi.setTfInterviewFeedback(feedback);
+        tfi.setTfClient(tfc);
+        tfi.setTfEndClient(tfec);
+        tfi.setTfInterviewType(tfit);
+        tfi.setTfAssociate(tfa);
 
-		session.saveOrUpdate(placement);
-	}
+        session.saveOrUpdate(tfi);
+    }
 
-	public void populateInterview(Integer i, LocalDateTime of, String string, Integer j, Integer k, Integer l,
-                                  Integer m, Session session) {
-		TfInterview tfi = new TfInterview();
-		TfClient tfc = j == null ? null : session.get(TfClient.class, new BigDecimal(j));
-		TfEndClient tfec = k == null ? null : session.get(TfEndClient.class, new BigDecimal(k));
-		TfInterviewType tfit = l == null ? null : session.get(TfInterviewType.class, new BigDecimal(l));
-		TfAssociate tfa = m == null ? null : session.get(TfAssociate.class, new BigDecimal(m));
-		tfi.setTfInterviewId(i == null ? null : new BigDecimal(i));
-		tfi.setTfInterviewDate(Timestamp.valueOf(of));
-		tfi.setTfInterviewFeedback(string);
-		tfi.setTfClient(tfc);
-		tfi.setTfEndClient(tfec);
-		tfi.setTfInterviewType(tfit);
-		tfi.setTfAssociate(tfa);
+    /**
+     * add new interview type
+     *
+     * @param id
+     * @param name
+     * @param session
+     */
+    public void populateInterviewType(Integer id, String name, Session session) {
+        TfInterviewType tfit = new TfInterviewType();
+        tfit.setTfInterviewTypeId(id == null ? null : new BigDecimal(id));
+        tfit.setTfInterviewTypeName(name);
 
-		session.saveOrUpdate(tfi);
-	}
+        session.saveOrUpdate(tfit);
+    }
 
-	public void populateAssociate(Integer i, String string, String string2, Integer j, Integer k, Integer l,
-			Integer m, Session session) {
-		TfAssociate tfa = new TfAssociate();
-		TfMarketingStatus tfms = j == null ? null : session.get(TfMarketingStatus.class, new BigDecimal(j));
-		TfClient tfc = k == null ? null : session.get(TfClient.class, new BigDecimal(k));
-		TfEndClient tfec = l == null ? null : session.get(TfEndClient.class, new BigDecimal(l));
-		TfBatch tfb = m == null ? null : session.get(TfBatch.class, new BigDecimal(m));
-		tfa.setTfAssociateId(i == null ? null : new BigDecimal(i));
-		tfa.setTfAssociateFirstName(string);
-		tfa.setTfAssociateLastName(string2);
-		tfa.setTfMarketingStatus(tfms);
-		tfa.setTfClient(tfc);
-		tfa.setTfEndClient(tfec);
-		tfa.setTfBatch(tfb);
+    /**
+     * add new associate
+     *
+     * @param id
+     * @param firstName
+     * @param lastName
+     * @param marketStatusId
+     * @param clientId
+     * @param endClientId
+     * @param batchId
+     * @param session
+     */
+    public void populateAssociate(Integer id, String firstName, String lastName, Integer marketStatusId,
+                                  Integer clientId, Integer endClientId, Integer batchId, Session session) {
+        TfAssociate tfa = new TfAssociate();
+        TfMarketingStatus tfms = marketStatusId == null ? null : session.load(TfMarketingStatus.class, new BigDecimal(marketStatusId));
+        TfClient tfc = clientId == null ? null : session.load(TfClient.class, new BigDecimal(clientId));
+        TfEndClient tfec = endClientId == null ? null : session.load(TfEndClient.class, new BigDecimal(endClientId));
+        TfBatch tfb = batchId == null ? null : session.load(TfBatch.class, new BigDecimal(batchId));
+        tfa.setTfAssociateId(id == null ? null : new BigDecimal(id));
+        tfa.setTfAssociateFirstName(firstName);
+        tfa.setTfAssociateLastName(lastName);
+        tfa.setTfMarketingStatus(tfms);
+        tfa.setTfClient(tfc);
+        tfa.setTfEndClient(tfec);
+        tfa.setTfBatch(tfb);
 
-		session.saveOrUpdate(tfa);
-	}
+        session.saveOrUpdate(tfa);
+    }
 
-	public void populateBatchLocation(Integer i, String string, Session session) {
-		TfBatchLocation tfbl = new TfBatchLocation();
-		tfbl.setTfBatchLocationId(i == null ? null : new BigDecimal(i));
-		tfbl.setTfBatchLocationName(string);
+    /**
+     * add new marketing status
+     *
+     * @param id
+     * @param name
+     * @param session
+     */
+    public void populateMarketingStatus(Integer id, String name, Session session) {
+        TfMarketingStatus tfms = new TfMarketingStatus();
+        tfms.setTfMarketingStatusId(id == null ? null : new BigDecimal(id));
+        tfms.setTfMarketingStatusName(name);
 
-		session.saveOrUpdate(tfbl);
-	}
+        session.saveOrUpdate(tfms);
+    }
 
-	public void populateMarketingStatus(Integer i, String string, Session session){
-		TfMarketingStatus tfms = new TfMarketingStatus();
-		tfms.setTfMarketingStatusId(i == null ? null : new BigDecimal(i));
-		tfms.setTfMarketingStatusName(string);
+    /**
+     * add new curriculum
+     *
+     * @param id
+     * @param name
+     * @param session
+     */
+    public void populateCurriculum(Integer id, String name, Session session) {
+        TfCurriculum tfc = new TfCurriculum();
+        tfc.setTfCurriculumId(id == null ? null : new BigDecimal(id));
+        tfc.setTfCurriculumName(name);
 
-		session.saveOrUpdate(tfms);
-	}
+        session.saveOrUpdate(tfc);
+    }
 
-	public void populateCurriculum(Integer i, String string, Session session) {
-		TfCurriculum tfc = new TfCurriculum();
-		tfc.setTfCurriculumId(i == null ? null : new BigDecimal(i));
-		tfc.setTfCurriculumName(string);
+    /**
+     * add new client
+     *
+     * @param id
+     * @param name
+     * @param session
+     */
+    public void populateClient(Integer id, String name, Session session) {
+        TfClient tfc = new TfClient();
+        tfc.setTfClientId(id == null ? null : new BigDecimal(id));
+        tfc.setTfClientName(name);
 
-		session.saveOrUpdate(tfc);
-	}
+        session.saveOrUpdate(tfc);
+    }
 
-	public void populateInterviewType(Integer i, String string, Session session){
-		TfInterviewType tfit = new TfInterviewType();
-		tfit.setTfInterviewTypeId(i == null ? null : new BigDecimal(i));
-		tfit.setTfInterviewTypeName(string);
+    /**
+     * add new end client
+     *
+     * @param id
+     * @param name
+     * @param session
+     */
+    public void populateEndClient(Integer id, String name, Session session) {
+        TfEndClient tfec = new TfEndClient();
+        tfec.setTfEndClientId(id == null ? null : new BigDecimal(id));
+        tfec.setTfEndClientName(name);
 
-		session.saveOrUpdate(tfit);
-	}
-
-	public void populateClient(Integer i, String string, Session session){
-		TfClient tfc = new TfClient();
-		tfc.setTfClientId(i == null ? null : new BigDecimal(i));
-		tfc.setTfClientName(string);
-
-		session.saveOrUpdate(tfc);
-	}
-
-	public void populateEndClient(Integer i, String string, Session session) {
-		TfEndClient tfec = new TfEndClient();
-		tfec.setTfEndClientId(i == null ? null : new BigDecimal(i));
-		tfec.setTfEndClientName(string);
-
-		session.saveOrUpdate(tfec);
-	}
+        session.saveOrUpdate(tfec);
+    }
 }

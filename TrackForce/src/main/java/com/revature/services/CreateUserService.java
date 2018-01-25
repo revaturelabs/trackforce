@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.revature.services;
+import com.revature.dao.UserDAO;
 import com.revature.dao.UserDaoImpl;
 import com.revature.request.model.CreateUserModel;
 import com.revature.request.model.SuccessOrFailMessage;
@@ -17,7 +18,27 @@ import java.io.IOException;
 
 @Path("/create")
 public class CreateUserService {
-    
+
+
+    private JWTService jwtService;
+    private UserDAO userDao;
+
+    public CreateUserService() throws IOException {
+        userDao = new UserDaoImpl();
+        jwtService = new JWTService();
+    }
+
+    /**
+     * injectable dependencies constructor for easier testing
+     *
+     * @param userDao
+     * @param jwtService
+     */
+    public CreateUserService(UserDAO userDao, JWTService jwtService) {
+        this.userDao = userDao;
+        this.jwtService = jwtService;
+    }
+
     /**
      * Endpoint used to create a new user in the database with a specified role, username and 
      * password
@@ -28,9 +49,7 @@ public class CreateUserService {
     @Path("/user")
     @Produces({ MediaType.APPLICATION_JSON })
     @Consumes({ MediaType.APPLICATION_JSON })
-    public SuccessOrFailMessage createUser(CreateUserModel newUser) throws IOException {
-        
-        UserDaoImpl userDao = new UserDaoImpl(); 
+    public SuccessOrFailMessage createUser(CreateUserModel newUser) {
         return userDao.createUser(newUser);
     }
     

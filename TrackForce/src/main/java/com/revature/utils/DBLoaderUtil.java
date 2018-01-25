@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class DBLoaderUtil {
@@ -18,7 +19,6 @@ public class DBLoaderUtil {
 	
 	// even better would be to get permission to store the last type of population routine to the DB itself
 	private static DBMode prev = DBMode.EMPTY;
-
 
     private DBPopulaterUtil populater;
 
@@ -36,7 +36,8 @@ public class DBLoaderUtil {
     }
 
     /**
-     * mini program to provide ui when populating database
+     * program that provides a gui for populating database
+     *
 	 * preconditions:
 	 * it is not the script's responsibility to ensure proper values are not nullable not not updatable
 	 * it is not the script's responsibility to reconstruct the tables
@@ -78,15 +79,8 @@ public class DBLoaderUtil {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-
-			StoredProcedureQuery spq = session.createStoredProcedureCall("admin.truncateAllDevTeam");
-			spq.execute();
-
-			session.flush();
-			tx.commit();
-
+		    populater.truncateDB(session);
 			prev = DBMode.EMPTY;
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.flush();

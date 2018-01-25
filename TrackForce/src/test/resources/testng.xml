@@ -10,6 +10,7 @@
 			-->
 			<class name="com.revature.test.utils.PersistentStorageTest" />
 			<class name="com.revature.test.services.JwtServiceTest" />
+            <class name="com.revature.test.utils.DBLoaderUtilTest" />
 		</classes>
 	</test>
 </suite>

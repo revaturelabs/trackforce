@@ -74,11 +74,11 @@ public class TestDBLoaderUtil {
         populater.populateBatch(1, "1712 Dec04 AP, USF", LocalDate.of(2017, 12, 4), LocalDate.of(2018, 2, 16), 2, 3, session);
         populater.populateBatch(2, "1710 Oct09 PEGA", LocalDate.of(2017, 10, 9), LocalDate.of(2017, 12, 15), 4, 1, session);
 
-        populater.populateAssociate(1, "Frank", "Hind", 1, 2, 1, 0, session);
-        populater.populateAssociate(2, "Thomas", "Page", 1, 2, 1, 0, session);
-        populater.populateAssociate(3, "Lucas", "Normand", 1, 2, 1, 0, session);
-        populater.populateAssociate(4, "Jhonnie", "Cole", 1, 2, 1, 0, session);
-        populater.populateAssociate(5, "Ramona", "Reyes", 1, 2, 1, 0, session);
+        populater.populateAssociate(1, "Frank", "Hind", 1, 2, 1, 1, session);
+        populater.populateAssociate(2, "Thomas", "Page", 1, 2, 1, 1, session);
+        populater.populateAssociate(3, "Lucas", "Normand", 1, 2, 1, 1, session);
+        populater.populateAssociate(4, "Jhonnie", "Cole", 1, 2, 1, 2, session);
+        populater.populateAssociate(5, "Ramona", "Reyes", 1, 2, 1, 2, session);
 
         populater.populateRole(1, "Admin", session);
         populater.populateRole(2, "Manager", session);

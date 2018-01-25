@@ -1,13 +1,11 @@
 package com.revature.test.utils;
 
-import com.revature.dao.*;
 import com.revature.utils.DBLoaderUtil;
 import com.revature.utils.DBPopulaterUtil;
 import com.revature.utils.TestDBUtil;
 import com.revature.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -15,116 +13,103 @@ import org.testng.annotations.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 
 public class DBLoaderUtilTest {
 
-    @Mock
-    private AssociateDaoHibernate mockAssociateDao;
+    private Session session;
+
+    private SessionFactory sessionFactory;
+
+    private DBLoaderUtil loaderUtil;
 
     @Mock
     private DBPopulaterUtil populaterUtilMock;
 
-    @Mock
-    private DBLoaderUtil loaderUtil;
-
-    private Session session;
-    private SessionFactory sessionFactory;
-
     @BeforeTest // once before any @test
     public void setupHsqlDb() throws IOException, SQLException, ClassNotFoundException {
         sessionFactory = TestDBUtil.getSessionFactory();
+
         MockitoAnnotations.initMocks(this);
-
-        Mockito.when(this.mockAssociateDao.getAssociates(Matchers.any(Session.class)))
-                .thenReturn(new HashMap<>());
-
-        /*
-        Mockito.doNothing().when(loaderUtil).populateBatch(
-                Matchers.any(Integer.class),
-        );
-        */
-
-        /*
-        public void populateBatch(Integer i, String string, LocalDate of, LocalDate of2, Integer j, Integer k,
-			Session session) {
-		*/
-
         loaderUtil = new DBLoaderUtil(populaterUtilMock);
+        // mock the populate methods to do nothing
+        Mockito.doNothing().when(populaterUtilMock).truncateDB(any(Session.class));
+        Mockito.doNothing().when(populaterUtilMock).populateUser(
+                anyString(), anyString(), any(Integer.class), any(Session.class)
+        );
+        Mockito.doNothing().when(populaterUtilMock).populateRole(
+                any(Integer.class), anyString(), any(Session.class)
+        );
+        Mockito.doNothing().when(populaterUtilMock).populateBatch(
+                any(Integer.class), anyString(), any(LocalDate.class), any(LocalDate.class),
+                any(Integer.class), any(Integer.class), any(Session.class)
+        );
+        Mockito.doNothing().when(populaterUtilMock).populatePlacement(
+                any(Integer.class), any(LocalDate.class), any(LocalDate.class),
+                any(Integer.class), any(Integer.class), any(Integer.class), any(Session.class)
+        );
+        Mockito.doNothing().when(populaterUtilMock).populateInterview(
+                any(Integer.class), any(LocalDateTime.class), anyString(), any(Integer.class),
+                any(Integer.class), any(Integer.class), any(Integer.class), any(Session.class)
+        );
         Mockito.doNothing().when(populaterUtilMock).populateAssociate(
-                Matchers.any(Integer.class), Matchers.anyString(), Matchers.anyString(), Matchers.any(Integer.class),
-                Matchers.any(Integer.class), Matchers.any(Integer.class), Matchers.any(Integer.class),
-                Matchers.any(Session.class)
+                any(Integer.class), anyString(), anyString(), any(Integer.class),
+                any(Integer.class), any(Integer.class), any(Integer.class),
+                any(Session.class)
+        );
+        Mockito.doNothing().when(populaterUtilMock).populateBatchLocation(
+                any(Integer.class), anyString(), any(Session.class)
+        );
+        Mockito.doNothing().when(populaterUtilMock).populateMarketingStatus(
+                any(Integer.class), anyString(), any(Session.class)
+        );
+        Mockito.doNothing().when(populaterUtilMock).populateCurriculum(
+                any(Integer.class), anyString(), any(Session.class)
+        );
+        Mockito.doNothing().when(populaterUtilMock).populateInterviewType(
+                any(Integer.class), anyString(), any(Session.class)
+        );
+        Mockito.doNothing().when(populaterUtilMock).populateClient(
+                any(Integer.class), anyString(), any(Session.class)
+        );
+        Mockito.doNothing().when(populaterUtilMock).populateEndClient(
+                any(Integer.class), anyString(), any(Session.class)
         );
     }
 
     @AfterTest
-    public void after() {
+    public void afterAll() {
         HibernateUtil.shutdown();
     }
 
     @BeforeMethod   // before each @test
-    public void beginTransactionToke () {
+    public void beginTransactionToke() {
         this.session = sessionFactory.openSession();
         session.beginTransaction();
     }
 
     @AfterMethod
     public void rollbackTransactionToke() {
-        //this.session.getTransaction().rollback();
+        this.session.getTransaction().rollback();
         this.session.close();
     }
 
     @Test
-    public void testTruncateDB() throws Exception {
-        mockAssociateDao.getAssociates(session);
+    public void testPopulateDB() throws IOException {
+        loaderUtil.populateDB();
     }
 
     @Test
-    public void testPopulateDB() throws Exception {
+    public void testPopulateDBSF() throws IOException {
+        loaderUtil.populateDBSF();
     }
 
-    @Test
-    public void testPopulateDBSF() throws Exception {
-    }
-
-    @Test
-    public void testPopulateBatch() throws Exception {
-    }
-
-    @Test
-    public void testPopulatePlacement() throws Exception {
-    }
-
-    @Test
-    public void testPopulateInterview() throws Exception {
-    }
-
-    @Test
-    public void testPopulateAssociate() throws Exception {
-    }
-
-    @Test
-    public void testPopulateBatchLocation() throws Exception {
-    }
-
-    @Test
-    public void testPopulateMarketingStatus() throws Exception {
-    }
-
-    @Test
-    public void testPopulateCurriculum() throws Exception {
-    }
-
-    @Test
-    public void testPopulateInterviewType() throws Exception {
-    }
-
-    @Test
-    public void testPopulateClient() throws Exception {
-    }
-
-    @Test
-    public void testPopulateEndClient() throws Exception {
+     @Test
+    public void testTruncateDB() throws IOException {
+        loaderUtil.truncateDB();
     }
 }

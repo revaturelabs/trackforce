@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 
 
 @Path("/create")
@@ -27,11 +28,10 @@ public class CreateUserService {
     @Path("/user")
     @Produces({ MediaType.APPLICATION_JSON })
     @Consumes({ MediaType.APPLICATION_JSON })
-    public SuccessOrFailMessage createUser(CreateUserModel newUser){
+    public SuccessOrFailMessage createUser(CreateUserModel newUser) throws IOException {
         
         UserDaoImpl userDao = new UserDaoImpl(); 
-        return userDao.createUser(newUser); 
-        
+        return userDao.createUser(newUser);
     }
     
 }

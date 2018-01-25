@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-public class DBUtil {
+public class TestDBUtil {
     private static SessionFactory sessionFactory;
 
     /**
@@ -21,7 +21,7 @@ public class DBUtil {
      * @throws SQLException
      * @throws ClassNotFoundException
      */
-    public static SessionFactory getTestSessionFactory() throws IOException, SQLException, ClassNotFoundException {
+    public static SessionFactory getSessionFactory() throws IOException, SQLException, ClassNotFoundException {
         if (sessionFactory == null) {
             Properties props = HsqlInMemoryDataSourceBuilder.buildDefaultProperties();
             props.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");

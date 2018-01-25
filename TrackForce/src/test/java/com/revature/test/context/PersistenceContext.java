@@ -3,9 +3,10 @@ package com.revature.test.context;
 import java.io.IOException;
 
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Properties;
 
-import com.revature.utils.TestDBLoader;
+import com.revature.utils.TestDBLoaderUtil;
 import org.testng.annotations.*;
 
 import static com.revature.config.DataSourceBuilder.Constants.*;
@@ -14,6 +15,7 @@ import com.revature.config.TomcatJDBCDataSourceBuilder;
 import com.revature.services.PersistentServiceDelegator;
 import com.revature.utils.HibernateUtil;
 
+
 public class PersistenceContext {
 	
 	public static final String TEST_URL = "tf.test-url";
@@ -21,12 +23,14 @@ public class PersistenceContext {
 	public static final String TEST_PASS = "tf.test-pass";
 
 	@BeforeSuite
-	public void beforeSuite() throws IOException {
+	public void beforeSuite() throws IOException, SQLException, ClassNotFoundException {
 		
 		// Configure DataSource
 		Properties props = new Properties();
-		try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("mock-tomcat-jdbc.properties")) {
+		InputStream is = this.getClass().getClassLoader().getResourceAsStream("mock-tomcat-jdbc.properties");
 			props.load(is);
+			
+			is.close();
 
 			// mock environment variables for test configurations
 			props.setProperty(URL_KEY, System.getenv(props.getProperty(TEST_URL)));
@@ -44,7 +48,8 @@ public class PersistenceContext {
 			HibernateUtil.setDataSourceBuilder(new TomcatJDBCDataSourceBuilder(), props);
 			HibernateUtil.initSessionFactory(props);
 			
-			TestDBLoader.load(props.getProperty(TEST_USER));
+			
+			new TestDBLoaderUtil().load();
 
 			// Initialize persistent storages
 			PersistentServiceDelegator psd = new PersistentServiceDelegator();
@@ -55,7 +60,6 @@ public class PersistenceContext {
 			psd.getCurriculums();
 			psd.getMarketingStatuses();
 			psd.getTotals();
-		}
 	}
 
 	@AfterSuite

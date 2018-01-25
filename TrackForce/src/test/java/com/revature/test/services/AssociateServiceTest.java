@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import com.revature.services.ClientResource;
 import com.revature.services.MarketingStatusService;
 import com.revature.utils.DBLoaderUtil;
-import com.revature.utils.DBUtil;
+import com.revature.utils.TestDBUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -25,8 +25,8 @@ public class AssociateServiceTest {
 
     @BeforeSuite
     public void initCaches() throws IOException, SQLException, ClassNotFoundException {
-    	factory = DBUtil.getTestSessionFactory();
-        new DBLoaderUtil().populateDBSF();
+    	factory = TestDBUtil.getSessionFactory();
+        new DBLoaderUtil().populateDBSF();  // todo: use testloader instead
         new AssociateService().execute();
         new ClientResource().execute();
         new MarketingStatusService().execute();

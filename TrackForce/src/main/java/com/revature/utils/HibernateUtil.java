@@ -96,7 +96,6 @@ public class HibernateUtil {
 
 	/**
 	 * Returns the SessionFactory stored in the HibernateUtil class.
-	 * @param optional boolean to flag creation of singleton factory
 	 * @return the SessionFactory stored in HibernateUtil.
 	 * @throws IOException
 	 */

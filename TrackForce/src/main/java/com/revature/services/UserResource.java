@@ -30,7 +30,7 @@ public class UserResource {
     private JWTService jwtService;
     private UserDAO userDao;
 
-    public UserResource() {
+    public UserResource() throws IOException {
         userDao = new UserDaoImpl();
         jwtService = new JWTService();
     }

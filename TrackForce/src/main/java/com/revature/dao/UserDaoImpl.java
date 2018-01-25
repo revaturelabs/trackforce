@@ -1,4 +1,4 @@
- package com.revature.dao;
+package com.revature.dao;
 
 import java.io.IOException;
 
@@ -20,48 +20,62 @@ import com.revature.utils.PasswordStorage;
 
 public class UserDaoImpl implements UserDAO {
 
-	@Override
-	public TfUser getUser(String username, Session session) throws IOException {
-		TfUser user;
-		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
 
-		Root<TfUser> root = criteriaQuery.from(TfUser.class);
+    private SessionFactory sessionFactory;
 
-		criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
+    /**
+     * injectable dependencies for easier testing
+     *
+     * @param sessionFactory
+     */
+    public UserDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
-		Query<TfUser> query = session.createQuery(criteriaQuery);
+    public UserDaoImpl() throws IOException {
+        this.sessionFactory = HibernateUtil.getSessionFactory();
+    }
 
-		try {
-			user = query.getSingleResult();
-			if (user.getTfRole() != null && user.getTfRole().getTfRoleName() != null) {
-				user.getTfRole().getTfRoleName();
-			}
+    @Override
+    public TfUser getUser(String username, Session session) throws IOException {
+        TfUser user;
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
 
-		} catch (NoResultException nre) {
-			LogUtil.logger.error(nre);
-			throw new IOException("Cannot get user", nre);
-		}
-		return user;
-	}
-	
+        Root<TfUser> root = criteriaQuery.from(TfUser.class);
+
+        criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
+
+        Query<TfUser> query = session.createQuery(criteriaQuery);
+
+        try {
+            user = query.getSingleResult();
+            if (user.getTfRole() != null && user.getTfRole().getTfRoleName() != null) {
+                user.getTfRole().getTfRoleName();
+            }
+
+        } catch (NoResultException nre) {
+            LogUtil.logger.error(nre);
+            throw new IOException("Cannot get user", nre);
+        }
+        return user;
+    }
+
     public SuccessOrFailMessage createUser(CreateUserModel newUser) {
-    	
+
         String password = null;
-        SessionFactory sessionFactory = null; 
-        SuccessOrFailMessage message = new SuccessOrFailMessage(); 
-        
+        SuccessOrFailMessage message = new SuccessOrFailMessage();
+
         try {
             password = PasswordStorage.createHash(newUser.getPassword());
-            sessionFactory = HibernateUtil.getSessionFactory();
         } catch (Exception e) {
             e.printStackTrace();
             message.setFailure();
-            return message; 
+            return message;
         }
 
         TfUser user = new TfUser(newUser.getRole(), newUser.getUsername(), password);
-        
+
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(user);

@@ -9,6 +9,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import com.revature.dao.UserDAO;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.revature.dao.UserDaoImpl;
@@ -37,19 +38,23 @@ public class JWTService {
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 1000L;
 
+	private SessionFactory sessionFactory;
 	private UserDAO userDao;
 
-	/**
-	 * injectable dependencies for easier testing
-	 *
-	 * @param userDao
-	 */
-	public JWTService(UserDAO userDao) {
+    /**
+     *
+     * injectable dependencies for easier testing
+     * @param userDao
+     * @param sessionFactory
+     */
+	public JWTService(UserDAO userDao, SessionFactory sessionFactory) {
 		this.userDao = userDao;
+		this.sessionFactory = sessionFactory;
 	}
 
-	public JWTService() {
-		this.userDao = new UserDaoImpl();
+	public JWTService() throws IOException {
+		this.sessionFactory = HibernateUtil.getSessionFactory();
+        this.userDao = new UserDaoImpl(sessionFactory);
 	}
 
 	/**
@@ -150,7 +155,7 @@ public class JWTService {
 	public Boolean validateToken(String token) throws IOException {
 		Claims claims = null;
 		boolean verified = false;
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			String tokenUsername = null;
@@ -195,7 +200,7 @@ public class JWTService {
 	 *             because of the use of connection pools that requires some files
 	 */
 	public boolean isAdmin(String token) throws IOException {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			Claims claims = null;
@@ -244,7 +249,7 @@ public class JWTService {
 	 *             because of the use of connection pools that requires some files
 	 */
 	public boolean isAssociate(String token) throws IOException {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			Claims claims = null;

@@ -2,7 +2,7 @@ package com.revature.test.utils;
 
 import com.revature.utils.DBLoaderUtil;
 import com.revature.utils.DBPopulaterUtil;
-import com.revature.utils.TestDBUtil;
+import com.revature.utils.TestHibernateUtil;
 import com.revature.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -31,8 +31,8 @@ public class DBLoaderUtilTest {
     private DBPopulaterUtil populaterUtilMock;
 
     @BeforeTest // once before any @test
-    public void setupHsqlDb() throws IOException, SQLException, ClassNotFoundException {
-        sessionFactory = TestDBUtil.getSessionFactory();
+    public void setupHsqlDb() throws SQLException {
+        sessionFactory = TestHibernateUtil.getSessionFactory();
 
         MockitoAnnotations.initMocks(this);
         loaderUtil = new DBLoaderUtil(populaterUtilMock);

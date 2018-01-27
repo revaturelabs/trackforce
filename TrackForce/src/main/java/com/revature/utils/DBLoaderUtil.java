@@ -5,12 +5,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Properties;
 
-import javax.persistence.StoredProcedureQuery;
+import javax.sql.DataSource;
 import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class DBLoaderUtil {
@@ -47,12 +46,13 @@ public class DBLoaderUtil {
 	    DBLoaderUtil loader = new DBLoaderUtil();
 
 		// add additional configurations to update schema
-		Properties props = new Properties();
-		props.setProperty("hibernate.hbm2ddl.auto", "create");
-		props.setProperty("hibernate.show_sql", "true");
+		Properties extraProps = new Properties();
+		extraProps.setProperty("hibernate.hbm2ddl.auto", "create");
+		extraProps.setProperty("hibernate.show_sql", "true");
 		
 		try {
-			HibernateUtil.initSessionFactory(props);
+            DataSource dataSource = new DataSourceBuilder().fromPropertiesFile("tomcat-jdbc.properties");
+			HibernateUtil.initSessionFactory(dataSource, extraProps);
 				
 			switch (JOptionPane.showOptionDialog(null, "Choose a population routine", "Database loader", 0,
 					JOptionPane.YES_NO_CANCEL_OPTION, null,
@@ -182,18 +182,18 @@ public class DBLoaderUtil {
 			// batch, session);
 
 			// 1712 Dec04 AP, USF
-			populater.populateAssociate(1, "Frank", "Hind", 1, 2, 1, 0, session);
-			populater.populateAssociate(2, "Thomas", "Page", 1, 2, 1, 0, session);
-			populater.populateAssociate(3, "Lucas", "Normand", 1, 2, 1, 0, session);
-			populater.populateAssociate(4, "Jhonnie", "Cole", 1, 2, 1, 0, session);
-			populater.populateAssociate(5, "Ramona", "Reyes", 1, 2, 1, 0, session);
-			populater.populateAssociate(6, "Grace", "Noland", 1, 2, 1, 0, session);
-			populater.populateAssociate(7, "Casey", "Morton", 1, 2, 1, 0, session);
-			populater.populateAssociate(8, "Gustavo", "Brady", 1, 2, 1, 0, session);
-			populater.populateAssociate(9, "Glen", "Holloway", 1, 2, 1, 0, session);
-			populater.populateAssociate(10, "Leeroy", "Jenkins", 1, 2, 1, 0, session);
-			populater.populateAssociate(11, "Jeanne", "Watts", 1, 2, 1, 0, session);
-			populater.populateAssociate(12, "Carol", "Ruiz", 1, 2, 1, 0, session);
+			populater.populateAssociate(1, "Frank", "Hind", 1, 2, 1, 1, session);
+			populater.populateAssociate(2, "Thomas", "Page", 1, 2, 1, 1, session);
+			populater.populateAssociate(3, "Lucas", "Normand", 1, 2, 1, 1, session);
+			populater.populateAssociate(4, "Jhonnie", "Cole", 1, 2, 1, 1, session);
+			populater.populateAssociate(5, "Ramona", "Reyes", 1, 2, 1, 1, session);
+			populater.populateAssociate(6, "Grace", "Noland", 1, 2, 1, 1, session);
+			populater.populateAssociate(7, "Casey", "Morton", 1, 2, 1, 1, session);
+			populater.populateAssociate(8, "Gustavo", "Brady", 1, 2, 1, 1, session);
+			populater.populateAssociate(9, "Glen", "Holloway", 1, 2, 1, 1, session);
+			populater.populateAssociate(10, "Leeroy", "Jenkins", 1, 2, 1, 1, session);
+			populater.populateAssociate(11, "Jeanne", "Watts", 1, 2, 1, 1, session);
+			populater.populateAssociate(12, "Carol", "Ruiz", 1, 2, 1, 1, session);
 
 			// 1710 Oct09 PEGA
 			populater.populateAssociate(13, "Trevor", "Hampton", 1, 2, 4, 1, session);
@@ -3106,20 +3106,20 @@ public class DBLoaderUtil {
 		populater.populateBatch(58, "1611 Nov28 JTA", null, null, 1, null, session);
 
 		// 1701 jan09 Java 0
-		populater.populateAssociate(0, "Jerry", "Sylveus", 11, 577, 577, 0, session);
-		populater.populateAssociate(1, "Steven", "Simmons", 5, 577, 577, 0, session);
-		populater.populateAssociate(2, "Adam", "Cox", 5, 577, 577, 0, session);
-		populater.populateAssociate(3, "Chris", "Ramos", 10, null, null, 0, session);
-		populater.populateAssociate(4, "Yvonne", "Neuland", 10, null, null, 0, session);
-		populater.populateAssociate(5, "Jack", "Cochran", 10, null, null, 0, session);
-		populater.populateAssociate(6, "Zeyang", "Zhang", 10, null, null, 0, session);
-		populater.populateAssociate(7, "Alexander", "Maynard", 10, null, null, 0, session);
-		populater.populateAssociate(8, "Luis", "Alires, Medina", 10, null, null, 0, session);
-		populater.populateAssociate(9, "Wesley", "Cotterman", 10, null, null, 0, session);
-		populater.populateAssociate(10, "Hien", "Nguyen", 10, null, null, 0, session);
-		populater.populateAssociate(11, "David", "Chang", 10, null, null, 0, session);
-		populater.populateAssociate(12, "Jadzia", "Kephart", 10, null, null, 0, session);
-		populater.populateAssociate(13, "Michael", "Despang", 10, null, null, 0, session);
+		populater.populateAssociate(0, "Jerry", "Sylveus", 11, 577, 577, 1, session);
+		populater.populateAssociate(1, "Steven", "Simmons", 5, 577, 577, 1, session);
+		populater.populateAssociate(2, "Adam", "Cox", 5, 577, 577, 1, session);
+		populater.populateAssociate(3, "Chris", "Ramos", 10, null, null, 1, session);
+		populater.populateAssociate(4, "Yvonne", "Neuland", 10, null, null,10, session);
+		populater.populateAssociate(5, "Jack", "Cochran", 10, null, null,10, session);
+		populater.populateAssociate(6, "Zeyang", "Zhang", 10, null, null,10, session);
+		populater.populateAssociate(7, "Alexander", "Maynard", 10, null, null,10, session);
+		populater.populateAssociate(8, "Luis", "Alires, Medina", 10, null, null,10, session);
+		populater.populateAssociate(9, "Wesley", "Cotterman", 10, null, null,10, session);
+		populater.populateAssociate(10, "Hien", "Nguyen", 10, null, null,10, session);
+		populater.populateAssociate(11, "David", "Chang", 10, null, null,10, session);
+		populater.populateAssociate(12, "Jadzia", "Kephart", 10, null, null,10, session);
+		populater.populateAssociate(13, "Michael", "Despang", 10, null, null,10, session);
 
 		// JAVA ap, asu , 1
 		populater.populateAssociate(14, "Madison", "Redd", 7, null, null, 1, session);

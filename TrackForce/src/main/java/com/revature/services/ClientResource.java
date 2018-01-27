@@ -16,6 +16,7 @@ import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.revature.model.ClientInfo;
@@ -27,8 +28,10 @@ import com.revature.utils.PersistentStorage;
 @Path("/clients")
 public class ClientResource implements Delegate {
     private ClientDao clientDao;
+    private SessionFactory sessionFactory;
 
     public ClientResource() {
+        this.sessionFactory = HibernateUtil.getSessionFactory();
         this.clientDao = new ClientDaoImpl();
     }
     /**
@@ -36,8 +39,9 @@ public class ClientResource implements Delegate {
      *
      * injectable dao for easier testing
      */
-    public ClientResource(ClientDao clientDao) {
+    public ClientResource(ClientDao clientDao, SessionFactory sessionFactory) {
         this.clientDao = clientDao;
+        this.sessionFactory = sessionFactory;
     }
 
 	/**
@@ -58,7 +62,7 @@ public class ClientResource implements Delegate {
 	}
 
 	public Map<BigDecimal, ClientInfo> getClients() throws IOException {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			Map<BigDecimal, ClientInfo> map = clientDao.getAllTfClients(session);

@@ -8,10 +8,7 @@
         <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
         <property name="hibernate.generate_statistics">true</property>
         <property name="hibernate.connection.release_mode">after_transaction</property>
-        <property name="hibernate.show_sql">false</property>
-		<property name="hibernate.hbm2ddl.auto">validate</property>
-		<property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
-		
+
         <mapping class="com.revature.entity.TfAssociate"/>
         <mapping class="com.revature.entity.TfCurriculum"/>
         <mapping class="com.revature.entity.TfEndClient"/>

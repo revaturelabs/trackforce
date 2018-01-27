@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -20,6 +19,7 @@ import com.revature.dao.AssociateDao;
 import com.revature.dao.AssociateDaoHibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.revature.model.AssociateInfo;
@@ -35,9 +35,11 @@ import com.revature.utils.PersistentStorage;
 public class AssociateService implements Delegate {
 
     private AssociateDao associateDao;
+    private SessionFactory sessionFactory;
 
     public AssociateService() {
         this.associateDao = new AssociateDaoHibernate();
+        this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     /**
@@ -45,8 +47,9 @@ public class AssociateService implements Delegate {
      *
      * @param associateDao
      */
-    public AssociateService(AssociateDao associateDao) {
+    public AssociateService(AssociateDao associateDao, SessionFactory sessionFactory) {
         this.associateDao = associateDao;
+        this.sessionFactory = sessionFactory;
     }
 
 	/**
@@ -61,7 +64,7 @@ public class AssociateService implements Delegate {
 	@Path("{associateid}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public AssociateInfo getAssociate(@PathParam("associateid") BigDecimal associateid) throws IOException {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 
@@ -126,7 +129,7 @@ public class AssociateService implements Delegate {
      * @throws IOException
      */
 	private Map<BigDecimal, AssociateInfo> getAssociates() throws HibernateException, IOException {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			Map<BigDecimal, AssociateInfo> tfAssociates = associateDao.getAssociates(session);
@@ -162,7 +165,7 @@ public class AssociateService implements Delegate {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateAssociates(int[] ids, @PathParam("marketingStatusId") String marketingStatusIdStr,
 			@PathParam("clientId") String clientIdStr) throws IOException {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 
 		try {

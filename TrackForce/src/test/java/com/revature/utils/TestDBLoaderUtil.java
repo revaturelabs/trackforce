@@ -33,7 +33,7 @@ public class TestDBLoaderUtil {
      */
     public void load() throws HibernateException, IOException, SQLException, ClassNotFoundException {
 
-        Session session = TestDBUtil.getSessionFactory().openSession();
+        Session session = TestHibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
 
         // session.createNativeQuery("ALTER SCHEMA PUBLIC RENAME TO ADMIN").executeUpdate();

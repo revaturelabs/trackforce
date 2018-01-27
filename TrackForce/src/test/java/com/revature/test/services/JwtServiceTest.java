@@ -12,7 +12,7 @@ import com.revature.dao.UserDAO;
 import com.revature.dao.UserDaoImpl;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.TestDBLoaderUtil;
-import com.revature.utils.TestDBUtil;
+import com.revature.utils.TestHibernateUtil;
 import org.hibernate.SessionFactory;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -27,7 +27,7 @@ public class JwtServiceTest {
 
     @BeforeTest
     public void beforeTest() throws SQLException, IOException, ClassNotFoundException {
-        SessionFactory sessionFactory = TestDBUtil.getSessionFactory();
+        SessionFactory sessionFactory = TestHibernateUtil.getSessionFactory();
         new TestDBLoaderUtil().load();
 
         UserDAO userDao = new UserDaoImpl(sessionFactory);

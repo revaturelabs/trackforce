@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.revature.dao.BatchDao;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.revature.dao.BatchDaoHibernate;
@@ -34,9 +35,11 @@ import com.revature.utils.PersistentStorage;
 public class BatchesService implements Delegate {
 
     private BatchDao batchDao;
+    private SessionFactory sessionFactory;
 
     public BatchesService() {
         this.batchDao = new BatchDaoHibernate();
+        this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     /**
@@ -44,8 +47,9 @@ public class BatchesService implements Delegate {
      *
      * @param batchDao
      */
-    public BatchesService(BatchDao batchDao) {
+    public BatchesService(BatchDao batchDao, SessionFactory sessionFactory) {
         this.batchDao = batchDao;
+        this.sessionFactory = sessionFactory;
     }
 
     /**
@@ -74,7 +78,7 @@ public class BatchesService implements Delegate {
 	}
 
 	private Map<BigDecimal, BatchInfo> getBatches() throws IOException {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			Map<BigDecimal, BatchInfo> map = batchDao.getBatchDetails(session);

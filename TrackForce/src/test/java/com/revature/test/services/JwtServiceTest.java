@@ -26,9 +26,9 @@ public class JwtServiceTest {
     private String vpToken;
 
     @BeforeTest
-    public void beforeTest() throws SQLException, IOException, ClassNotFoundException {
+    public void beforeTest() throws SQLException {
         SessionFactory sessionFactory = TestHibernateUtil.getSessionFactory();
-        new TestDBLoaderUtil().load();
+        new TestDBLoaderUtil().populate();
 
         UserDAO userDao = new UserDaoImpl(sessionFactory);
         jwt = new JWTService(userDao, sessionFactory);

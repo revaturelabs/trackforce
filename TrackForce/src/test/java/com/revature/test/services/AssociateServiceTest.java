@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 
+import com.revature.dao.AssociateDaoHibernate;
 import com.revature.services.ClientResource;
 import com.revature.services.MarketingStatusService;
-import com.revature.utils.DBLoaderUtil;
+import com.revature.utils.HibernateUtil;
+import com.revature.utils.TestDBLoaderUtil;
 import com.revature.utils.TestHibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,68 +20,77 @@ import com.revature.model.AssociateInfo;
 import com.revature.services.AssociateService;
 
 public class AssociateServiceTest {
-    private AssociateService associateservice;
-    private SessionFactory factory;
+    private AssociateService associateService;
+    private SessionFactory sessionFactory;
     private Session session;
     private Transaction transaction;
 
-    @BeforeSuite
+    @BeforeTest
     public void initCaches() throws IOException, SQLException {
-    	factory = TestHibernateUtil.getSessionFactory();
-        new DBLoaderUtil().populateDBSF();
+        sessionFactory = TestHibernateUtil.getSessionFactory();
+        new TestDBLoaderUtil().populate();
         new AssociateService().execute();
         new ClientResource().execute();
         new MarketingStatusService().execute();
     }
 
-    @BeforeTest
-    public void initAssoicateAndTransaction() {
-        session = factory.openSession();
-        transaction = session.getTransaction();
-        associateservice = new AssociateService();
-    }
-
     @AfterTest
+    public void quitHibernate() {
+        HibernateUtil.shutdown();
+    }
+
+    @BeforeMethod
+    public void openSessionInitAssocService() {
+        session = sessionFactory.openSession();
+        transaction = session.beginTransaction();
+        associateService = new AssociateService(new AssociateDaoHibernate(), sessionFactory);
+    }
+
+    @AfterMethod
     public void rollbackChanges() {
-        transaction.rollback();
-        session.close();
+        try {
+            transaction.rollback();
+        }
+        catch(Exception ignored){}
+
+        try {
+            session.close();
+        }
+        catch(Exception ignored){}
     }
 
-	@Test
-	public void testgetAssociatePositive() throws IOException {
-		BigDecimal bigdecimal = new BigDecimal(25);
-		AssociateInfo associate = associateservice.getAssociate(bigdecimal);
-		System.out.println(associate);
-	}
-
     @Test
+    public void testGetAssociatePositive() throws IOException {
+        BigDecimal id = new BigDecimal(1);
+        AssociateInfo associate = associateService.getAssociate(id);
+        Assert.assertNotNull(associate);
+    }
+
+    @Test(expectedExceptions = IOException.class)
     public void testgetAssociateNegative() throws IOException {
-        AssociateService associateservice = new AssociateService();
         BigDecimal bigdecimal = new BigDecimal(-25);
-        AssociateInfo associate = associateservice.getAssociate(bigdecimal);
-        System.out.println(associate);
+        associateService.getAssociate(bigdecimal);
     }
 
     @Test
-    public void testUpdateAssociatePositive() throws IOException {  // todo: this test fixed; now have to fix the rest to use ids instead of names
-        AssociateService associateService = new AssociateService();
-        associateService.updateAssociate("266", "1", "307");
+    public void testUpdateAssociatePositive() throws IOException {
+        associateService.updateAssociate("16", "3", "2");
 
-        AssociateInfo associateInfo = associateService.getAssociate(new BigDecimal(266));
+        AssociateInfo associateInfo = associateService.getAssociate(new BigDecimal(16));
 
-        Assert.assertEquals(associateInfo.getMsid().intValueExact(), 1);
-        Assert.assertEquals(associateInfo.getMarketingStatus(), "MAPPED: TRAINING");
-        Assert.assertEquals(associateInfo.getClient(), "Corner Bakery");
+        Assert.assertEquals(associateInfo.getMsid().intValueExact(), 3);
+        Assert.assertEquals(associateInfo.getMarketingStatus(), "MAPPED: SELECTED");
+        Assert.assertEquals(associateInfo.getClid(), new BigDecimal(2));
+        Assert.assertEquals(associateInfo.getClient(), "Infosys");
     }
-    
+
     @Test
     public void testUpdateAssociateNegative() throws IOException {
-        AssociateService associateService = new AssociateService();
-        associateService.updateAssociate("266", "Placed Tomorrow", "Petsmart");
-        
-        AssociateInfo associateInfo = associateService.getAssociate(new BigDecimal(266));
-        
+        associateService.updateAssociate("15", "-1", "-1");
+        AssociateInfo associateInfo = associateService.getAssociate(new BigDecimal(15));
+        Assert.assertEquals(associateInfo.getId().intValueExact(), 15);
+        Assert.assertTrue(associateInfo.getClid().intValueExact() > -1);
         Assert.assertNotNull(associateInfo.getMarketingStatus());
-        Assert.assertEquals(associateInfo.getClient(), "None");
+        Assert.assertNotEquals(associateInfo.getClient(), "None");
     }
 }

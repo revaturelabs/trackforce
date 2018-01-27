@@ -30,12 +30,8 @@ public class HibernateUtil {
      */
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
-            Properties extraProps = new Properties();
-            extraProps.setProperty("hibernate.connection.driver_class", "oracle.jdbc.OracleDriver");
-            extraProps.setProperty("hibernate.dialect", "org.hibernate.dialect.Oracle12cDialect");
-            extraProps.setProperty("hibernate.hbm2ddl.auto", "create");
-            extraProps.setProperty("hibernate.show_sql", "true");
             DataSource dataSource = new DataSourceBuilder().fromPropertiesFile("tomcat-jdbc.properties");
+            Properties extraProps = new Properties();   // empty = default properties
             initSessionFactory(dataSource, extraProps);
         }
         return sessionFactory;
@@ -54,8 +50,8 @@ public class HibernateUtil {
     public static SessionFactory initSessionFactory(DataSource dataSource, Properties dbProps) {
 
         Configuration config = new Configuration()
-                .addProperties(dbProps)
-                .configure();   // hibernate.cfg.xml
+                .configure()                // hibernate.cfg.xml
+                .addProperties(dbProps);    // appends/overwrites hibernate.cfg.xml
 
         // Inject datasource
         DatasourceConnectionProviderImpl dscpi = new DatasourceConnectionProviderImpl();
@@ -64,9 +60,9 @@ public class HibernateUtil {
 
         // configure the service registry
         StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder()
-                .applySettings(config.getProperties())
                 .addService(ConnectionProvider.class, dscpi)
-                .configure();   // hibernate.cfg.xml
+                .configure()                                // hibernate.cfg.xml
+                .applySettings(config.getProperties());     // appends/overwrites hibernate.cfg.xml
         ServiceRegistry registry = registryBuilder.build();
 
         // build session factory

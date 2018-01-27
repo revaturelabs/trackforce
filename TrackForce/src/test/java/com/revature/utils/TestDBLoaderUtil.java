@@ -1,12 +1,12 @@
 package com.revature.utils;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalDate;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class TestDBLoaderUtil {
     private DBPopulaterUtil populater;
@@ -31,7 +31,7 @@ public class TestDBLoaderUtil {
      * @throws HibernateException
      * @throws IOException
      */
-    public void load() throws HibernateException, IOException, SQLException, ClassNotFoundException {
+    public void populate() throws HibernateException, SQLException {
 
         Session session = TestHibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
@@ -64,8 +64,19 @@ public class TestDBLoaderUtil {
         populater.populateCurriculum(3, ".Net", session);
         populater.populateCurriculum(4, "PEGA", session);
 
+        // INSERT DUMMY VALUES IntegerO TF_MARKETING_STATUS
         populater.populateMarketingStatus(1, "MAPPED: TRAINING", session);
         populater.populateMarketingStatus(2, "MAPPED: RESERVED", session);
+        populater.populateMarketingStatus(3, "MAPPED: SELECTED", session);
+        populater.populateMarketingStatus(4, "MAPPED: CONFIRMED", session);
+        populater.populateMarketingStatus(5, "MAPPED: DEPLOYED", session);
+        populater.populateMarketingStatus(6, "UNMAPPED: TRAINING", session);
+        populater.populateMarketingStatus(7, "UNMAPPED: OPEN", session);
+        populater.populateMarketingStatus(8, "UNMAPPED: SELECTED", session);
+        populater.populateMarketingStatus(9, "UNMAPPED: CONFIRMED", session);
+        populater.populateMarketingStatus(10, "UNMAPPED: DEPLOYED", session);
+        populater.populateMarketingStatus(11, "DIRECTLY PLACED", session);
+        populater.populateMarketingStatus(12, "TERMINATED", session);
 
         populater.populateBatchLocation(1, "Revature LLC, 11730 Plaza America Drive, 2nd Floor | Reston, VA 20190", session);
         populater.populateBatchLocation(2, "UMUC", session);
@@ -74,11 +85,17 @@ public class TestDBLoaderUtil {
         populater.populateBatch(1, "1712 Dec04 AP, USF", LocalDate.of(2017, 12, 4), LocalDate.of(2018, 2, 16), 2, 3, session);
         populater.populateBatch(2, "1710 Oct09 PEGA", LocalDate.of(2017, 10, 9), LocalDate.of(2017, 12, 15), 4, 1, session);
 
-        populater.populateAssociate(1, "Frank", "Hind", 1, 2, 1, 1, session);
-        populater.populateAssociate(2, "Thomas", "Page", 1, 2, 1, 1, session);
-        populater.populateAssociate(3, "Lucas", "Normand", 1, 2, 1, 1, session);
-        populater.populateAssociate(4, "Jhonnie", "Cole", 1, 2, 1, 2, session);
-        populater.populateAssociate(5, "Ramona", "Reyes", 1, 2, 1, 2, session);
+        populater.populateAssociate(1, "Frank", "Hind", 1, 1, 1, 1, session);
+        populater.populateAssociate(2, "Thomas", "Page", 1, 1, 1, 1, session);
+        populater.populateAssociate(3, "Lucas", "Normand", 1, 1, 1, 1, session);
+        populater.populateAssociate(4, "Jhonnie", "Cole", 1, 1, 1, 1, session);
+        populater.populateAssociate(5, "Ramona", "Reyes", 1, 1, 1, 1, session);
+
+        populater.populateAssociate(13, "Trevor", "Hampton", 1, 2, 2, 2, session);
+        populater.populateAssociate(14, "Jennie", "Hudson", 1, 2, 2, 2, session);
+        populater.populateAssociate(15, "David", "Haynes", 1, 2, 2, 2, session);
+        populater.populateAssociate(16, "Ira", "Mullins", 1, 2, 2, 2, session);
+        populater.populateAssociate(17, "Alexandra", "Mitchell", 1, 2, 2, 2, session);
 
         populater.populateRole(1, "Admin", session);
         populater.populateRole(2, "Manager", session);

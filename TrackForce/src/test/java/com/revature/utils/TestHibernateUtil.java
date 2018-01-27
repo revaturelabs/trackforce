@@ -19,6 +19,7 @@ public class TestHibernateUtil {
      */
     public static SessionFactory getSessionFactory() throws SQLException {
         if (sessionFactory == null) {
+            // set/overwrite hibernate.cfg.xml with custom properties for hsql in memory db
             Properties extraProps = new Properties();
             extraProps.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
             extraProps.setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbc.JDBCDriver");

@@ -10,9 +10,12 @@ import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class DBLoaderUtil {
+
+    private SessionFactory sessionFactory;
 
     private static enum DBMode {EMPTY, DB, SF}
 
@@ -26,12 +29,14 @@ public class DBLoaderUtil {
      *
      * @param populater
      */
-    public DBLoaderUtil(DBPopulaterUtil populater) {
+    public DBLoaderUtil(SessionFactory sessionFactory, DBPopulaterUtil populater) {
         this.populater = populater;
+        this.sessionFactory = sessionFactory;
     }
 
     public DBLoaderUtil() {
-        this.populater = new DBPopulaterUtil();
+        sessionFactory = HibernateUtil.getSessionFactory();
+        populater = new DBPopulaterUtil();
     }
 
     /**
@@ -45,13 +50,7 @@ public class DBLoaderUtil {
     public static void main(String[] args) {
         DBLoaderUtil loader = new DBLoaderUtil();
 
-        // add additional configurations to update schema
-        Properties extraProps = new Properties();
-
         try {
-            DataSource dataSource = new DataSourceBuilder().fromPropertiesFile("tomcat-jdbc.properties");
-            HibernateUtil.initSessionFactory(dataSource, extraProps);
-
             switch (JOptionPane.showOptionDialog(null, "Choose a population routine", "Database loader", 0,
                     JOptionPane.YES_NO_CANCEL_OPTION, null,
                     new String[]{"Populate Database", "Populate Salesforce DB", "Empty Database"}, null)) {
@@ -73,8 +72,8 @@ public class DBLoaderUtil {
         }
     }
 
-    public void truncateDB() throws HibernateException, IOException {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+    public void truncateDB() throws HibernateException {
+        Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         try {
             populater.truncateDB(session);
@@ -98,7 +97,7 @@ public class DBLoaderUtil {
         // if the db method was not last run, truncate the db before run
         truncateDB();
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         try {
 
@@ -480,7 +479,7 @@ public class DBLoaderUtil {
         // if the salesforce method was not run previously, truncate the DB before run
         truncateDB();
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         try {
 

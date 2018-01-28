@@ -52,9 +52,9 @@ public class JWTService {
 		this.sessionFactory = sessionFactory;
 	}
 
-	public JWTService() throws IOException {
+	public JWTService() {
 		this.sessionFactory = HibernateUtil.getSessionFactory();
-        this.userDao = new UserDaoImpl(sessionFactory);
+        this.userDao = new UserDaoImpl();
 	}
 
 	/**
@@ -160,7 +160,6 @@ public class JWTService {
 		try {
 			String tokenUsername = null;
 			TfUser tfUser = null;
-			UserDaoImpl udi = new UserDaoImpl();
 
 			if (token == null) {
 				return false;
@@ -169,7 +168,7 @@ public class JWTService {
 			try {
 				claims = getClaimsFromToken(token);
 				tokenUsername = claims.getSubject();
-				tfUser = udi.getUser(tokenUsername, session);
+				tfUser = userDao.getUser(tokenUsername, session);
 
 				if (tfUser != null) {
 					// makes sure the token is fresh and usernames are equal
@@ -207,7 +206,6 @@ public class JWTService {
 			boolean verified = false;
 			String tokenUsername = null;
 			TfUser tfUser = null;
-			UserDaoImpl udi = new UserDaoImpl();
 			TfRole tfRole = null;
 
 			if (token == null) {
@@ -216,7 +214,7 @@ public class JWTService {
 
 			claims = getClaimsFromToken(token);
 			tokenUsername = claims.getSubject();
-			tfUser = udi.getUser(tokenUsername, session);
+			tfUser = userDao.getUser(tokenUsername, session);
 			tfRole = tfUser.getTfRole();
 
 			if (tfUser != null && tfRole != null) {

@@ -14,10 +14,13 @@ public class LoginJSON {
 	
 	private String username;
 	private String password;
-	
-	public LoginJSON() {
-		super();
-	}
+
+    public LoginJSON() {}
+
+    public LoginJSON(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
 	public String getUsername() {
 		return username;

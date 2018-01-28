@@ -5,49 +5,37 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Date;
 
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDaoImpl;
-import com.revature.utils.HibernateUtil;
-import com.revature.utils.TestDBLoaderUtil;
-import com.revature.utils.TestHibernateUtil;
-import org.hibernate.SessionFactory;
-import org.testng.annotations.AfterTest;
+import com.revature.test.BaseTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.revature.services.JWTService;
 
-public class JwtServiceTest {
+public class JwtServiceTest extends BaseTest {
     private JWTService jwt;
     private String adminToken;
     private String vpToken;
+    private UserDAO userDao;
 
     @BeforeTest
-    public void beforeTest() throws SQLException {
-        SessionFactory sessionFactory = TestHibernateUtil.getSessionFactory();
-        new TestDBLoaderUtil().populate();
-
-        UserDAO userDao = new UserDaoImpl(sessionFactory);
+    public void beforeTest() {
+        userDao = new UserDaoImpl();
         jwt = new JWTService(userDao, sessionFactory);
         adminToken = jwt.createToken("TestAdmin");
         vpToken = jwt.createToken("TestVicePresident");
     }
 
-    @AfterTest
-    public void afterTest() {
-        HibernateUtil.shutdown();
-    }
-
-    @Test(priority = 1)
+    @Test
     public void createTokenTest() {
         String token = jwt.createToken("Tester");
         assertNotNull(token);
     }
 
-    @Test(enabled = true)
+    @Test
     public void isAdminTest() throws IOException {
         boolean status = jwt.isAdmin(adminToken);
         assertTrue(status);

@@ -2,6 +2,7 @@ package com.revature.utils;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.io.IOException;
@@ -10,18 +11,21 @@ import java.time.LocalDate;
 
 public class TestDBLoaderUtil {
     private DBPopulaterUtil populater;
+    private SessionFactory sessionFactory;
 
     /**
      * injectable constructor for testing
      *
      * @param populater
      */
-    public TestDBLoaderUtil(DBPopulaterUtil populater) {
+    public TestDBLoaderUtil(DBPopulaterUtil populater, SessionFactory sessionFactory) {
         this.populater = populater;
+        this.sessionFactory = sessionFactory;
     }
 
-    public TestDBLoaderUtil() {
-        this.populater = new DBPopulaterUtil();
+    public TestDBLoaderUtil() throws SQLException {
+        sessionFactory = TestHibernateUtil.getSessionFactory();
+        populater = new DBPopulaterUtil();
     }
 
     /**
@@ -31,24 +35,10 @@ public class TestDBLoaderUtil {
      * @throws HibernateException
      * @throws IOException
      */
-    public void populate() throws HibernateException, SQLException {
+    public void populate() throws HibernateException {
 
-        Session session = TestHibernateUtil.getSessionFactory().openSession();
+        Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-
-        // session.createNativeQuery("ALTER SCHEMA PUBLIC RENAME TO ADMIN").executeUpdate();
-        // session.createNativeQuery("SET DATABASE SQL SYNTAX ORA TRUE").executeUpdate();
-        for (Object o : session.createNativeQuery("select * from INFORMATION_SCHEMA.SYSTEM_TABLES WHERE TABLE_SCHEM = 'ADMIN'").list()) {
-            Object[] arr = (Object[]) o;
-            System.out.print("[ ");
-            for (int i = 0; i < arr.length; i++) {
-                System.out.print(arr[i]);
-                if (i + 1 < arr.length) {
-                    System.out.print(", ");
-                }
-            }
-            System.out.println("]");
-        }
 
         populater.populateEndClient(1, "Accenture", session);
         populater.populateEndClient(2, "Infosys", session);

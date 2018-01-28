@@ -8,33 +8,15 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfUser;
 import com.revature.request.model.CreateUserModel;
 import com.revature.request.model.SuccessOrFailMessage;
-import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
 
 public class UserDaoImpl implements UserDAO {
-
-
-    private SessionFactory sessionFactory;
-
-    /**
-     * injectable dependencies for easier testing
-     *
-     * @param sessionFactory
-     */
-    public UserDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    public UserDaoImpl() throws IOException {
-        this.sessionFactory = HibernateUtil.getSessionFactory();
-    }
 
     @Override
     public TfUser getUser(String username, Session session) throws IOException {
@@ -61,9 +43,8 @@ public class UserDaoImpl implements UserDAO {
         return user;
     }
 
-    public SuccessOrFailMessage createUser(CreateUserModel newUser) {
-
-        String password = null;
+    public SuccessOrFailMessage createUser(CreateUserModel newUser, Session session) {
+        String password;
         SuccessOrFailMessage message = new SuccessOrFailMessage();
 
         try {
@@ -75,14 +56,9 @@ public class UserDaoImpl implements UserDAO {
         }
 
         TfUser user = new TfUser(newUser.getRole(), newUser.getUsername(), password);
-
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
         session.save(user);
-        session.getTransaction().commit();
-        session.close();
-        message.setSuccess();
 
+        message.setSuccess();
         return message;
     }
 }

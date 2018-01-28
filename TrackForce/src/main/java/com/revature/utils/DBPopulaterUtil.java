@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class DBPopulaterUtil {
 
     /**
-     * clear database
+     * clear database, LEAVING USERS AND ROLES ALONE; uses stored procedure
      *
      * @param session
      * @throws HibernateException
@@ -24,6 +24,27 @@ public class DBPopulaterUtil {
     public void truncateDB(Session session) throws HibernateException {
         StoredProcedureQuery spq = session.createStoredProcedureCall("admin.truncateAllDevTeam");
         spq.execute();
+    }
+
+    /**
+     * clear database; uses hibernate; does not clear user and role tables
+     * permission issues may occur
+     *
+     * @param session
+     * @throws HibernateException
+     */
+    public void clearDB(Session session) throws HibernateException {
+        session.createQuery("DELETE FROM TfAssociate").executeUpdate();
+        session.createQuery("DELETE FROM TfBatch").executeUpdate();
+        session.createQuery("DELETE FROM TfBatchLocation").executeUpdate();
+        session.createQuery("DELETE FROM TfClient").executeUpdate();
+        session.createQuery("DELETE FROM TfClient").executeUpdate();
+        session.createQuery("DELETE FROM TfEndClient").executeUpdate();
+        session.createQuery("DELETE FROM TfCurriculum").executeUpdate();
+        session.createQuery("DELETE FROM TfInterview").executeUpdate();
+        session.createQuery("DELETE FROM TfInterviewType").executeUpdate();
+        session.createQuery("DELETE FROM TfMarketingStatus").executeUpdate();
+        session.createQuery("DELETE FROM TfPlacement").executeUpdate();
     }
 
     /**

@@ -1,29 +1,24 @@
 package com.revature.test.utils;
 
+import com.revature.test.BaseTest;
 import com.revature.utils.DBLoaderUtil;
 import com.revature.utils.DBPopulaterUtil;
-import com.revature.utils.TestHibernateUtil;
-import com.revature.utils.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.*;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 
-public class DBLoaderUtilTest {
+public class DBLoaderUtilTest extends BaseTest {
 
     private Session session;
-
-    private SessionFactory sessionFactory;
 
     private DBLoaderUtil loaderUtil;
 
@@ -31,11 +26,9 @@ public class DBLoaderUtilTest {
     private DBPopulaterUtil populaterUtilMock;
 
     @BeforeTest // once before any @test
-    public void setupHsqlDb() throws SQLException {
-        sessionFactory = TestHibernateUtil.getSessionFactory();
-
+    public void setupHsqlDb() {
         MockitoAnnotations.initMocks(this);
-        loaderUtil = new DBLoaderUtil(populaterUtilMock);
+        loaderUtil = new DBLoaderUtil(sessionFactory, populaterUtilMock);
         // mock the populate methods to do nothing
         Mockito.doNothing().when(populaterUtilMock).truncateDB(any(Session.class));
         Mockito.doNothing().when(populaterUtilMock).populateUser(
@@ -79,11 +72,6 @@ public class DBLoaderUtilTest {
         Mockito.doNothing().when(populaterUtilMock).populateEndClient(
                 any(Integer.class), anyString(), any(Session.class)
         );
-    }
-
-    @AfterTest
-    public void afterAll() {
-        HibernateUtil.shutdown();
     }
 
     @BeforeMethod   // before each @test

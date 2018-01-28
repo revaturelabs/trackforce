@@ -11,15 +11,13 @@ import java.util.HashMap;
 import com.revature.dao.*;
 import com.revature.model.*;
 import com.revature.services.*;
-import com.revature.utils.TestHibernateUtil;
-import com.revature.utils.HibernateUtil;
+import com.revature.test.BaseTest;
 import com.revature.utils.PersistentStorage;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.mockito.*;
 import org.testng.annotations.*;
 
-public class PersistentStorageTest {
+public class PersistentStorageTest extends BaseTest {
 
     @Mock
     private AssociateDaoHibernate mockAssociateDao;
@@ -32,10 +30,8 @@ public class PersistentStorageTest {
     @Mock
     private MarketingStatusDaoHibernate mockMarketingStatusDao;
 
-    SessionFactory sessionFactory;
-
     @BeforeTest
-    public void beforeTests() throws IOException, SQLException, ClassNotFoundException {
+    public void beforeTests() throws IOException, SQLException {
         MockitoAnnotations.initMocks(this);
 
         HashMap<BigDecimal, AssociateInfo> associateMap = new HashMap<>();
@@ -74,7 +70,6 @@ public class PersistentStorageTest {
         Mockito.when(mockMarketingStatusDao.getMarketingStatuses(Matchers.any(Session.class)))
                 .thenReturn(marketingStatusMap);
 
-        sessionFactory = TestHibernateUtil.getSessionFactory();
         PersistentServiceDelegator serviceDelegator = new PersistentServiceDelegator(
                 new AssociateService(mockAssociateDao, sessionFactory),
                 new BatchesService(mockBatchDao, sessionFactory),
@@ -89,11 +84,6 @@ public class PersistentStorageTest {
         serviceDelegator.getClients();
         serviceDelegator.getCurriculums();
         serviceDelegator.getMarketingStatuses();
-    }
-
-    @AfterTest
-    public void afterTests() {
-        HibernateUtil.shutdown();
     }
 
     @Test

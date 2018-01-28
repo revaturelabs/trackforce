@@ -128,7 +128,7 @@ public class AssociateService implements Delegate {
      * @throws HibernateException
      * @throws IOException
      */
-	private Map<BigDecimal, AssociateInfo> getAssociates() throws HibernateException, IOException {
+	public Map<BigDecimal, AssociateInfo> getAssociates() throws HibernateException, IOException {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {

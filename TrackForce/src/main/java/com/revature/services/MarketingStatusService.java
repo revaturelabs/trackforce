@@ -36,6 +36,11 @@ public class MarketingStatusService implements Delegate {
         this.sessionFactory = sessionFactory;
     }
 
+    /**
+     * gets all marketing statuses using cache (Persistence Storage) mechanism
+     * @return
+     * @throws IOException
+     */
     private Set<MarketingStatusInfo> getAllMarketingStatuses() throws IOException {
         Set<MarketingStatusInfo> tfms = PersistentStorage.getStorage().getMarketingStatuses();
         if (tfms == null || tfms.isEmpty()) {
@@ -45,7 +50,12 @@ public class MarketingStatusService implements Delegate {
         return tfms;
     }
 
-    public Map<BigDecimal, MarketingStatusInfo> getMarketingServices() throws IOException {
+    /**
+     * fetches marketing statuses from database
+     * @return
+     * @throws IOException
+     */
+    public Map<BigDecimal, MarketingStatusInfo> getMarketingStatuses() throws IOException {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         Map<BigDecimal, MarketingStatusInfo> map;
@@ -71,7 +81,7 @@ public class MarketingStatusService implements Delegate {
     public synchronized void execute() throws IOException {
         Set<MarketingStatusInfo> msi = PersistentStorage.getStorage().getMarketingStatuses();
         if (msi == null || msi.isEmpty())
-            PersistentStorage.getStorage().setMarketingStatuses(getMarketingServices());
+            PersistentStorage.getStorage().setMarketingStatuses(getMarketingStatuses());
     }
 
     @Override

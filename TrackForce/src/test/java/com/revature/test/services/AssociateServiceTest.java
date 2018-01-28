@@ -5,58 +5,33 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 
 import com.revature.dao.AssociateDaoHibernate;
-import com.revature.services.ClientResource;
-import com.revature.services.MarketingStatusService;
-import com.revature.utils.HibernateUtil;
-import com.revature.utils.TestDBLoaderUtil;
-import com.revature.utils.TestHibernateUtil;
+import com.revature.test.BaseTest;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 import com.revature.model.AssociateInfo;
 import com.revature.services.AssociateService;
 
-public class AssociateServiceTest {
+public class AssociateServiceTest extends BaseTest {
     private AssociateService associateService;
-    private SessionFactory sessionFactory;
     private Session session;
-    private Transaction transaction;
 
     @BeforeTest
-    public void initCaches() throws IOException, SQLException {
-        sessionFactory = TestHibernateUtil.getSessionFactory();
-        new TestDBLoaderUtil().populate();
-        new AssociateService().execute();
-        new ClientResource().execute();
-        new MarketingStatusService().execute();
-    }
-
-    @AfterTest
-    public void quitHibernate() {
-        HibernateUtil.shutdown();
+    public void initDb() throws SQLException, IOException {
+        resetCaches();
     }
 
     @BeforeMethod
     public void openSessionInitAssocService() {
         session = sessionFactory.openSession();
-        transaction = session.beginTransaction();
+        session.beginTransaction();
         associateService = new AssociateService(new AssociateDaoHibernate(), sessionFactory);
     }
 
     @AfterMethod
     public void rollbackChanges() {
-        try {
-            transaction.rollback();
-        }
-        catch(Exception ignored){}
-
-        try {
-            session.close();
-        }
-        catch(Exception ignored){}
+        rollbackAndClose(session);
     }
 
     @Test

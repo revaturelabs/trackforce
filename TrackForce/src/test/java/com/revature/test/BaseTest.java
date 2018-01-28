@@ -46,4 +46,29 @@ public class BaseTest {
         PersistentStorage.getStorage().setClients(clientResource.getClients());
         PersistentStorage.getStorage().setMarketingStatuses(marketingStatusService.getMarketingStatuses());
     }
+
+
+    /**
+     * TODO: add a reset method in Delegator interface (or to the daos),
+     * so that each type of resource can reset its part of the cache
+     *
+     * allows using of injected services to reset the cache
+     *
+     * @param mockAssocService
+     * @param mockClientResource
+     * @param mockMsService
+     * @throws IOException
+     */
+    public void resetCaches(AssociateService mockAssocService, ClientResource mockClientResource, MarketingStatusService mockMsService) throws IOException {
+        if (mockAssocService == null)
+            mockAssocService = new AssociateService(new AssociateDaoHibernate(), sessionFactory);
+        if (mockClientResource == null)
+            mockClientResource = new ClientResource(new ClientDaoImpl(), sessionFactory);
+        if (mockMsService == null)
+            mockMsService = new MarketingStatusService(new MarketingStatusDaoHibernate(), sessionFactory);
+
+        PersistentStorage.getStorage().setAssociates(mockAssocService.getAssociates());
+        PersistentStorage.getStorage().setClients(mockClientResource.getClients());
+        PersistentStorage.getStorage().setMarketingStatuses(mockMsService.getMarketingStatuses());
+    }
 }

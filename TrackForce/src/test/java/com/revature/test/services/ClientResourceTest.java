@@ -39,6 +39,7 @@ public class ClientResourceTest extends BaseTest {
     private void setupMocks() throws IOException {
         MockitoAnnotations.initMocks(this);
 
+        // mock dao used by client resource to return these clients
         ClientInfo cInfo1 = new ClientInfo();
         cInfo1.setId(new BigDecimal(c1Id));
         cInfo1.setTfClientId(new BigDecimal(c1Id));
@@ -77,8 +78,9 @@ public class ClientResourceTest extends BaseTest {
          Mockito.when(clientDao.getClient(Matchers.any(Session.class), Matchers.anyString()))
                 .thenReturn(mockClient1);
 
+         // use mocked client resource dao to reset the cache
         clientResource = new ClientResource(clientDao, sessionFactory);
-        resetCaches();
+        resetCaches(null, clientResource, null);    // only mocking the clientResource
     }
 
 
@@ -87,13 +89,11 @@ public class ClientResourceTest extends BaseTest {
         setupMocks();
     }
 
-    /*  // todo why isn't the dao getting properly mocked!?
     @Test
     public void testGetClients() throws Exception {
         StatusInfo actualStatus1 = clientResource.getClientInfo(1);
         Assert.assertEquals(status1Name, actualStatus1.getName());
     }
-    */
 
     @Test
     public void testGetClientInfo() throws Exception {

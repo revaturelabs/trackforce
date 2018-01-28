@@ -5,12 +5,11 @@ import com.revature.utils.TestDBLoaderUtil;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class TestSuite extends BaseTest {
     @BeforeSuite
-    public void setupHibernate() throws IOException, SQLException {
+    public void setupHibernate() throws SQLException {
         // session factory already init in BaseTest CCtor
         new TestDBLoaderUtil().populate();
     }

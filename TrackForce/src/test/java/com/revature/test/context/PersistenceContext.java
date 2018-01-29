@@ -33,7 +33,7 @@ public class PersistenceContext {
 			// mock environment variables for test configurations
 			props.setProperty(URL_KEY, System.getenv(props.getProperty(TEST_URL)));
 			props.setProperty(USERNAME_KEY, System.getenv(props.getProperty(TEST_USER)));
-			props.setProperty(PASS_KEY, System.getenv(props.getProperty(TEST_PASS)));
+			props.setProperty(PASS_KEY, System.getenv(props.getProperty(TEST_PASS)).trim());
 
 			// override dialect and driver class to use hsqldb
 			props.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");

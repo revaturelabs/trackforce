@@ -12,6 +12,6 @@ import com.revature.request.model.SuccessOrFailMessage;
 public interface UserDAO {
 	
 	TfUser getUser(String username, Session session) throws IOException;
-	SuccessOrFailMessage createUser(CreateUserModel newUser); 
+	SuccessOrFailMessage createUser(CreateUserModel newUser, Session session);
 
 }

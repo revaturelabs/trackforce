@@ -10,7 +10,7 @@ import com.revature.services.PersistentServiceDelegator;
  * @author Antony Lulciuc
  */
 public class PSDCacheRunner implements Runnable {
-	public static final long DEFAULT_CACHE_START = 3000;   // TODO: CHANGE TO 30000
+	public static final long DEFAULT_CACHE_START = 30000;
 	private PersistentServiceDelegator psd = null;
 	private long delayedStartTime = DEFAULT_CACHE_START;
 	

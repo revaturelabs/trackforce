@@ -8,24 +8,26 @@ import java.util.Set;
 import javax.ws.rs.Path;
 
 import com.revature.dao.CurriculumDao;
+import com.revature.utils.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.revature.dao.CurriculumDaoImpl;
 import com.revature.model.CurriculumInfo;
-import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 @Path("skillset")
 public class CurriculumService implements Delegate {
 
-
     private CurriculumDao curriculumDao;
+    private SessionFactory sessionFactory;
 
     public CurriculumService() {
         this.curriculumDao = new CurriculumDaoImpl();
+        this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     /**
@@ -33,8 +35,9 @@ public class CurriculumService implements Delegate {
      *
      * @param curriculumDao
      */
-    public CurriculumService(CurriculumDao curriculumDao) {
+    public CurriculumService(CurriculumDao curriculumDao, SessionFactory sessionFactory) {
         this.curriculumDao = curriculumDao;
+        this.sessionFactory = sessionFactory;
     }
 
     private Set<CurriculumInfo> getAllCurriculums() throws HibernateException, IOException{
@@ -48,7 +51,7 @@ public class CurriculumService implements Delegate {
 	
 	public Map<BigDecimal, CurriculumInfo> getCurriculums() throws HibernateException, IOException{
 		Map<BigDecimal, CurriculumInfo> curriculums;
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			curriculums = curriculumDao.fetchCurriculums(session);

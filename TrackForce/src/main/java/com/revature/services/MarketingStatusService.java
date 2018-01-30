@@ -8,6 +8,7 @@ import java.util.Set;
 import com.revature.dao.MarketingStatusDao;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.revature.model.MarketingStatusInfo;
@@ -18,9 +19,11 @@ import com.revature.utils.PersistentStorage;
 public class MarketingStatusService implements Delegate {
 
     private MarketingStatusDao marketingStatusDao;
+    private SessionFactory sessionFactory;
 
     public MarketingStatusService() {
         this.marketingStatusDao = new MarketingStatusDaoHibernate();
+        this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     /**
@@ -28,10 +31,16 @@ public class MarketingStatusService implements Delegate {
      *
      * @param marketingStatusDao
      */
-    public MarketingStatusService(MarketingStatusDao marketingStatusDao) {
+    public MarketingStatusService(MarketingStatusDao marketingStatusDao, SessionFactory sessionFactory) {
         this.marketingStatusDao = marketingStatusDao;
+        this.sessionFactory = sessionFactory;
     }
 
+    /**
+     * gets all marketing statuses using cache (Persistence Storage) mechanism
+     * @return
+     * @throws IOException
+     */
     private Set<MarketingStatusInfo> getAllMarketingStatuses() throws IOException {
         Set<MarketingStatusInfo> tfms = PersistentStorage.getStorage().getMarketingStatuses();
         if (tfms == null || tfms.isEmpty()) {
@@ -41,8 +50,13 @@ public class MarketingStatusService implements Delegate {
         return tfms;
     }
 
-    public Map<BigDecimal, MarketingStatusInfo> getMarketingServices() throws IOException {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+    /**
+     * fetches marketing statuses from database
+     * @return
+     * @throws IOException
+     */
+    public Map<BigDecimal, MarketingStatusInfo> getMarketingStatuses() throws IOException {
+        Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         Map<BigDecimal, MarketingStatusInfo> map;
         try {
@@ -67,7 +81,7 @@ public class MarketingStatusService implements Delegate {
     public synchronized void execute() throws IOException {
         Set<MarketingStatusInfo> msi = PersistentStorage.getStorage().getMarketingStatuses();
         if (msi == null || msi.isEmpty())
-            PersistentStorage.getStorage().setMarketingStatuses(getMarketingServices());
+            PersistentStorage.getStorage().setMarketingStatuses(getMarketingStatuses());
     }
 
     @Override

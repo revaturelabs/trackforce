@@ -9,6 +9,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import com.revature.dao.UserDAO;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.revature.dao.UserDaoImpl;
@@ -37,19 +38,23 @@ public class JWTService {
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 1000L;
 
+	private SessionFactory sessionFactory;
 	private UserDAO userDao;
 
-	/**
-	 * injectable dependencies for easier testing
-	 *
-	 * @param userDao
-	 */
-	public JWTService(UserDAO userDao) {
+    /**
+     *
+     * injectable dependencies for easier testing
+     * @param userDao
+     * @param sessionFactory
+     */
+	public JWTService(UserDAO userDao, SessionFactory sessionFactory) {
 		this.userDao = userDao;
+		this.sessionFactory = sessionFactory;
 	}
 
 	public JWTService() {
-		this.userDao = new UserDaoImpl();
+		this.sessionFactory = HibernateUtil.getSessionFactory();
+        this.userDao = new UserDaoImpl();
 	}
 
 	/**
@@ -150,12 +155,11 @@ public class JWTService {
 	public Boolean validateToken(String token) throws IOException {
 		Claims claims = null;
 		boolean verified = false;
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			String tokenUsername = null;
 			TfUser tfUser = null;
-			UserDaoImpl udi = new UserDaoImpl();
 
 			if (token == null) {
 				return false;
@@ -164,7 +168,7 @@ public class JWTService {
 			try {
 				claims = getClaimsFromToken(token);
 				tokenUsername = claims.getSubject();
-				tfUser = udi.getUser(tokenUsername, session);
+				tfUser = userDao.getUser(tokenUsername, session);
 
 				if (tfUser != null) {
 					// makes sure the token is fresh and usernames are equal
@@ -195,14 +199,13 @@ public class JWTService {
 	 *             because of the use of connection pools that requires some files
 	 */
 	public boolean isAdmin(String token) throws IOException {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			Claims claims = null;
 			boolean verified = false;
 			String tokenUsername = null;
 			TfUser tfUser = null;
-			UserDaoImpl udi = new UserDaoImpl();
 			TfRole tfRole = null;
 
 			if (token == null) {
@@ -211,7 +214,7 @@ public class JWTService {
 
 			claims = getClaimsFromToken(token);
 			tokenUsername = claims.getSubject();
-			tfUser = udi.getUser(tokenUsername, session);
+			tfUser = userDao.getUser(tokenUsername, session);
 			tfRole = tfUser.getTfRole();
 
 			if (tfUser != null && tfRole != null) {
@@ -244,7 +247,7 @@ public class JWTService {
 	 *             because of the use of connection pools that requires some files
 	 */
 	public boolean isAssociate(String token) throws IOException {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			Claims claims = null;

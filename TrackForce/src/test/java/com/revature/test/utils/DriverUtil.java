@@ -11,6 +11,7 @@ public class DriverUtil {
 	private static WebDriver chromeDriver = null;
 	private static WebDriver firefoxDriver = null;
 	
+	//Make sure the paths here match your driver locations
 	private static String chromeDriverURL = "C:\\selenium\\chromedriver.exe";
 	private static String firefoxDriverURL = "C:\\selenium\\geckodriver.exe";
 	

@@ -25,11 +25,25 @@ public class BatchListTab {
 		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
 		return rows;
 	}
+	
 	public static WebElement getFirstBatchName(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
 		WebElement row = table_element.findElement(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr[1]/td[1]"));
-		System.out.println(row.getText());
 		return row;
 	}
+	
+	public static List<WebElement> getAssociateFirstNames(WebDriver wd) {
+		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
+		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
+		List<WebElement> firstNames = new ArrayList<WebElement>();
+		for (WebElement e : rows) {
+			firstNames.addAll(e.findElements(By.xpath("td[2]")));
+		}
+		for (WebElement e : firstNames) {
+			System.out.println(e.getText());
+		}
+		return firstNames;
+	}
+	
 	
 }

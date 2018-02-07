@@ -43,9 +43,12 @@ public class BatchListTest extends AdminSuite {
 	}
 	
 	@Test(priority = 3) 
+	// Clicks the first batch name, Grabs the names of all associates in the list, switches to Associate List tab, 
+	// compares the names to associates in the first batch clicked.
 	public void BatchNameTest() {
 		try {
 			BatchListCukes.the_first_batch_is_clicked(wd);
+			BatchListCukes.the_list_of_associates_is_grabbed(wd);
 		} catch (Throwable e) {
 			fail("Error: Couldn't click batch name");
 			e.printStackTrace();

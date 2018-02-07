@@ -33,7 +33,7 @@ public class BatchListCukes {
 
 	@When("^the list of associates is grabbed$")
 	public static void the_list_of_associates_is_grabbed(WebDriver wd) throws Throwable {
-	
+		BatchListTab.getAssociateFirstNames(wd);
 	}
 
 	@Then("^associates should match the associate list$")

@@ -42,6 +42,16 @@ public class BatchListTest extends AdminSuite {
 		}
 	}
 	
+	@Test(priority = 3) 
+	public void BatchNameTest() {
+		try {
+			BatchListCukes.the_first_batch_is_clicked(wd);
+		} catch (Throwable e) {
+			fail("Error: Couldn't click batch name");
+			e.printStackTrace();
+		}
+	}
+	
 
 	
 

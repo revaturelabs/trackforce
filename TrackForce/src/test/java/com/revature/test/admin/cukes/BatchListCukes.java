@@ -1,12 +1,12 @@
 package com.revature.test.admin.cukes;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+
 import com.revature.test.admin.pom.BatchListTab;
-import com.revature.test.utils.WaitToLoad;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 public class BatchListCukes {
 	@Given("^The Batch List Tab is clicked$")
@@ -24,5 +24,20 @@ public class BatchListCukes {
 			System.out.println("Failed to find All Batches header");
 			return false;
 		}
+	}
+	
+	@Given("^the first batch is clicked$")
+	public static void the_first_batch_is_clicked(WebDriver wd) throws Throwable {
+		BatchListTab.getBatchNames(wd).get(0).click();
+	}
+
+	@When("^the list of associates is grabbed$")
+	public static void the_list_of_associates_is_grabbed(WebDriver wd) throws Throwable {
+	
+	}
+
+	@Then("^associates should match the associate list$")
+	public static void associates_should_match_the_associate_list(WebDriver wd) throws Throwable {
+	
 	}
 }

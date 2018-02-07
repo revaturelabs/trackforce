@@ -20,8 +20,16 @@
 Feature: Batch List Scenarios
 
   @tag1
-  Scenario: Navigate to Batch List Tab
-    Given The Batch List Tab is clicked
+  Scenario Outline: Navigate to Batch List Tab <WebDriver>
+    Given The Batch List Tab is clicked <WebDriver>
     Then All Batches text is visible
+    
+  Examples:
+  	#| WebDriver |
+  	| WebDriver |
 
-
+	@tag2
+	Scenario: Click Batch Name List
+		Given the first batch is clicked
+		When the list of associates is grabbed
+		Then associates should match the associate list

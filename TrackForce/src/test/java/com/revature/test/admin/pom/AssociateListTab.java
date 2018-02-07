@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.revature.test.utils.WaitToLoad;
+
 public class AssociateListTab {
 
 	static WebElement element = null;
@@ -12,11 +14,12 @@ public class AssociateListTab {
 	public static boolean tab(WebDriver d) {
 		
 		try {
-			element = d
-					.findElement(By.xpath("/html/body/app/div/app-associate-list/app-navbar/nav/div/ul[1]/li[4]/a "));
-			element.click();
+			element = WaitToLoad.findDynamicElement(d, By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[4]/a"), 10);
+			element.click();                                     
+			System.out.println("Clicked Associate List tab");
 			return true;
 		} catch (Throwable e) {
+			System.out.println("Failed to click Associate List tab");
 			return false;
 		}
 	}
@@ -27,10 +30,12 @@ public class AssociateListTab {
 	public static boolean searchByTextInputField(WebDriver d) {
 
 		try {
-			element = d.findElement(By.xpath("//*[@id=\"name\"]"));
+			element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"name\"]"), 10);
 			element.sendKeys("Test Name");
+			System.out.println("Input value in Search By text input field");
 			return true;
 		} catch (Throwable e) {
+			System.out.println("Failed to Input value in Search By text input field");
 			return false;
 		}
 	}
@@ -41,10 +46,12 @@ public class AssociateListTab {
 	public static boolean marketingStatusDropDown(WebDriver d) {
 
 		try {
-			element = d.findElement(By.xpath("//*[@id=\"mStatus\"]"));
+			element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"mStatus\"]"), 10);
 			element.sendKeys("MAPPED: TRAINING");
+			System.out.println("Selected value from Marketing Status drop down");
 			return true;
 		} catch (Throwable e) {
+			System.out.println("Failed to select value from Marketing Status drop down");
 			return false;
 		}
 	}
@@ -53,10 +60,12 @@ public class AssociateListTab {
 	public static boolean curriculumDropDown(WebDriver d) {
 		
 		try {
-		element = d.findElement(By.xpath("//*[@id=\"curriculum\"]"));
+		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"curriculum\"]"), 10);
 		element.sendKeys("Java");
+		System.out.println("Selected value from Curriculum drop down");
 		return true;
 		}catch (Throwable e) {
+			System.out.println("Failed to select value from Curriculum drop down");
 			return false;
 		}
 	}
@@ -65,10 +74,12 @@ public class AssociateListTab {
 	public static boolean clientDropDown(WebDriver d) {
 		
 		try {
-		element = d.findElement(By.xpath("//*[@id=\"client\"]"));
+		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"client\"]"), 10);
 		element.sendKeys("Accenture");
+		System.out.println("Selected value from Client drop down");
 		return true;
 		}catch(Throwable e) {
+			System.out.println("Failed to select value from Client drop down");
 			return false;
 		}
 	}
@@ -77,10 +88,12 @@ public class AssociateListTab {
 	public static boolean updateByMarketingStatusDropDown(WebDriver d) {
 		
 		try {
-		element = d.findElement(By.xpath("//*[@id=\"uStatus\"]"));
+		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"uStatus\"]"), 10);
 		element.sendKeys("MAPPED: TRAINING");
+		System.out.println("Selected value from Update By Marketing Status drop down");
 		return true;
 		}catch (Throwable e) {
+			System.out.println("Failed to select value from Update By Marketing Status drop down");
 			return false;
 		}
 	}
@@ -89,10 +102,12 @@ public class AssociateListTab {
 	public static boolean clientDropDrown(WebDriver d) {
 		
 		try {
-		element = d.findElement(By.xpath("//*[@id=\"uclient\"]"));
+		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"uclient\"]"), 10);
 		element.sendKeys("Accenture");
+		System.out.println("Selected value from client drop down");
 		return true;
 		}catch (Throwable e) {
+			System.out.println("Failed to select value from client drop down");
 			return false;
 		}
 	}
@@ -103,10 +118,12 @@ public class AssociateListTab {
 	public static boolean updateButton(WebDriver d) {
 		
 		try {
-		element = d.findElement(By.xpath("//*[@id=\"submit\"] "));
+		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"submit\"] "), 10);
 		element.click();
+		System.out.println("Clicked update button");
 		return true;
 		}catch(Throwable e) {
+			System.out.println("Failed to click update button");
 		return false;
 		}
 	}

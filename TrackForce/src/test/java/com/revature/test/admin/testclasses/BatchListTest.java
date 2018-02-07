@@ -2,9 +2,12 @@ package com.revature.test.admin.testclasses;
 
 import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.fail;
+
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import com.revature.test.admin.cukes.BatchListCukes;
 import com.revature.test.admin.pom.BatchListTab;
 
 public class BatchListTest extends AdminSuite {
@@ -20,7 +23,7 @@ public class BatchListTest extends AdminSuite {
 	public void ClickBatchesTab() {
 		try {
 			// Click Batch List Tab
-			BatchListTab.clickBatchListTab(wd);
+			BatchListCukes.the_Batch_List_Tab_is_clicked(wd);
 		} catch (Throwable e) {
 			fail("Can't navigate to Batch List Tab");
 			e.printStackTrace();
@@ -31,7 +34,7 @@ public class BatchListTest extends AdminSuite {
 	// Clicks Create user Tab and looks for the "Create New User" element
 	public void GoToCreateUserTab() {
 		try {
-			assertTrue(BatchListTab.findAllBatchesHeader(wd));
+			assertTrue(BatchListCukes.all_Batches_text_is_visible(wd));
 			
 		} catch (Throwable e) {
 			fail("Error: Failed to switch to Batch List Tab");

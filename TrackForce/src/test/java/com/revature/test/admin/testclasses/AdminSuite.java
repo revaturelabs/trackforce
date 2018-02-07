@@ -1,4 +1,6 @@
-package com.revature.test.admin.testsuites;
+package com.revature.test.admin.testclasses;
+
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,13 +14,14 @@ import com.revature.test.utils.LoginUtil;
 //import cucumber.api.CucumberOptions;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 
-public class AdminSuite extends AbstractTestNGCucumberTests {
+public class AdminSuite extends AbstractTestNGCucumberTests{
 
 	public static WebDriver wd = DriverUtil.getChromeDriver();
 
 	@BeforeSuite
 	public void beforeSuite() {
 		System.out.println("================== TRACKFORCE TESTS ==================");
+		wd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		System.out.println("Logging In");
 		try {
 			wd.get("http://52.207.66.231:4200");

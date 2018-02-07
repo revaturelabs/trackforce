@@ -8,21 +8,21 @@ import com.revature.test.utils.WaitToLoad;
 import com.revature.utils.DriverUtil;
 
 public class Login {
-	public static WebDriver wd = DriverUtil.getChromeDriver();
+	public static WebDriver wd = null;
 	static WebElement e = null;
 
 	public static WebElement user(WebDriver d) {
-		e = WaitToLoad.findDynamicElement(wd, By.name("username"), 10);
+		e = d.findElement(By.id("username"));
 		return e;
 	}
 
 	public static WebElement password(WebDriver d) {
-		e = WaitToLoad.findDynamicElement(wd, By.name("password"), 10);
+		e = d.findElement(By.id("password"));
 		return e;
 	}
 
 	public static WebElement signin(WebDriver d) {
-		e = WaitToLoad.findDynamicElement(wd, By.xpath("//*[@id=\"pwd-container\"]/div[2]/section/form/button"), 10);
+		e = d.findElement(By.xpath("//button[@type='submit']"));
 		return e;
 	}
 }

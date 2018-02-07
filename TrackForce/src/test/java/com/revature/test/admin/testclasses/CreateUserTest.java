@@ -1,4 +1,4 @@
-package com.revature.test.admin.testsuites;
+package com.revature.test.admin.testclasses;
 
 import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.fail;
@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import com.revature.test.admin.pom.CreateUserTab;
 
-public class TestCreateUser extends AdminSuite {
+public class CreateUserTest extends AdminSuite {
 
 	@BeforeTest
 	public void beforeTest() {
@@ -23,15 +23,34 @@ public class TestCreateUser extends AdminSuite {
 	}
 
 	@Test(priority = 1)
-	//Clicks Create user Tab
-	public void OnCreateUserTab() {
+	// Clicks Create user Tab
+	public void GoToCreateUserTab() {
 		try {
 			assertTrue(CreateUserTab.clickCreateUserTab(wd));
 		} catch (Throwable e) {
 			System.out.println("Error clicking Create User Tab");
 			e.printStackTrace();
 		}
+		try {
+			assertTrue(CreateUserTab.onCreateUserTab(wd));
+		} catch (Throwable e) {
+			System.out.println("Not currently on Create User Tab");
+			e.printStackTrace();
+		}
 	}
+	
+	@Test(priority = 2)
+	public void DoSomething() {
+		try {
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		try {
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	@AfterTest
 	public void afterTest() {

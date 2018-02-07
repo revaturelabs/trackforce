@@ -10,15 +10,29 @@ import com.revature.utils.DriverUtil;
 public class CreateUserTab {
 	public static WebDriver wd = DriverUtil.getChromeDriver();
 	static WebElement e = null;
-	
+
 	public static boolean clickCreateUserTab(WebDriver d) {
 		try {
-			e = WaitToLoad.findDynamicElement(wd, By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[5]/a"), 10);
+			Thread.sleep(1000);
+			e = WaitToLoad.findDynamicElement(wd,
+					By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[5]"), 10);
 			e.click();
 			return true;
-		}
-		catch(Throwable e){
+		} catch (Throwable e) {
 			return false;
 		}
 	}
+
+	public static boolean onCreateUserTab(WebDriver d) {
+		try {
+			Thread.sleep(1000);
+			e = WaitToLoad.findDynamicElement(wd, By.xpath("/html/body/app/div/app-create-user/div/div[2]/h3"), 10);
+			System.out.println("OUTPUTTTTTTTTTTTTTTT " + e.getText());
+			e.getText().contains("Create New User");
+			return true;
+		} catch (Throwable e) {
+			return false;
+		}
+	}
+
 }

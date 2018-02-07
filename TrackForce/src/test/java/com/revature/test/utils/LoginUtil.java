@@ -14,7 +14,7 @@ public class LoginUtil {
 			Thread.sleep(1000);
 			Login.password(wd).sendKeys(adminPassword);
 			Thread.sleep(1000);
-			Login.signin(wd).submit();	
+			Login.signin(wd).click();	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

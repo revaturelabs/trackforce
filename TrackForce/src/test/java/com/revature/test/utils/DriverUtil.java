@@ -9,12 +9,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class DriverUtil {
 
 	private static WebDriver chromeDriver = null;
-	private static WebDriver firefoxDriver = null;
-	
-	//Make sure the paths here match your driver locations
-	private static String chromeDriverURL = "C:\\selenium\\chromedriver.exe";
-	private static String firefoxDriverURL = "C:\\selenium\\geckodriver.exe";
-	
 	
 	private DriverUtil() {
 		
@@ -22,22 +16,12 @@ public class DriverUtil {
 	
 	public static WebDriver getChromeDriver() {
 		if (chromeDriver == null) {
-			File f1 = new File(chromeDriverURL);
+			File f1 = new File("src/main/resources/chromedriver.exe");
 			System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
 			return new ChromeDriver();
 		}
 		else 
 			return chromeDriver;
-	}
-	
-	public static WebDriver getFirefoxDriver() {
-		if (firefoxDriver == null) {
-			File f1 = new File(firefoxDriverURL);
-			System.setProperty("webdriver.geckodriver.driver", f1.getAbsolutePath());
-			return new FirefoxDriver();
-		}
-		else
-			return firefoxDriver;
 	}
 	
 }

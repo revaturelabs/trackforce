@@ -49,6 +49,8 @@ public class BatchListCukes {
 	@Then("^associates should match the associate list$")
 	public static void associates_should_match_the_associate_list(WebDriver wd, List<WebElement> fName, List<WebElement> lName) throws Throwable {
 		// Switch to Associate List Tab
+		
+		// TO DO: Make it switch to Associate List
 		WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[4]"), 10).click();
 //		List<WebElement> compareFirst = BatchListTab.matchFirstNames(wd);
 //		List<WebElement> compareLast = BatchListTab.matchLastNames(wd);

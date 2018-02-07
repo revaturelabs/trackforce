@@ -6,7 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-// Implicit wait util method. Accepts webdriver as first param, the selector method, and the maximum time it will wait until it times out.
+// Implicit wait util method
+// Accepts webdriver as first param, the selector method, and the maximum time it will wait until it times out
 public class WaitToLoad {
 	public static WebElement findDynamicElement(WebDriver wd, By by, int timeOut) {
 	    WebDriverWait wait = new WebDriverWait(wd, timeOut);

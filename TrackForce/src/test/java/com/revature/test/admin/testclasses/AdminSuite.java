@@ -1,12 +1,8 @@
 package com.revature.test.admin.testclasses;
 
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-
 import com.revature.test.admin.pom.Logout;
 import com.revature.test.utils.WebDriverUtil;
 import com.revature.test.utils.LoginUtil;
@@ -35,6 +31,6 @@ public class AdminSuite extends AbstractTestNGCucumberTests{
 	public void afterSuite() {
 		System.out.println("Logging out");
 		Logout.logout(wd);
-		wd.quit();
+		//wd.quit();
 	}
 }

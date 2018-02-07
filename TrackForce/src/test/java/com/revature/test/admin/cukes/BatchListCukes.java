@@ -28,7 +28,7 @@ public class BatchListCukes {
 	
 	@Given("^the first batch is clicked$")
 	public static void the_first_batch_is_clicked(WebDriver wd) throws Throwable {
-		BatchListTab.getBatchNames(wd).get(0).click();
+		BatchListTab.getFirstBatchName(wd).click();
 	}
 
 	@When("^the list of associates is grabbed$")

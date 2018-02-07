@@ -8,7 +8,6 @@ import com.revature.test.utils.WaitToLoad;
 import com.revature.test.utils.WebDriverUtil;
 
 public class CreateUserTab {
-	public static WebDriver wd = WebDriverUtil.getChromeDriver();
 	static WebElement e = null;
 
 	public static boolean clickCreateUserTab(WebDriver d) {

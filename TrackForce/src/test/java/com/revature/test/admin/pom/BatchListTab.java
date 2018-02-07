@@ -6,6 +6,5 @@ import org.openqa.selenium.WebElement;
 import com.revature.utils.DriverUtil;
 
 public class BatchListTab {
-	public static WebDriver wd = DriverUtil.getChromeDriver();
 	static WebElement e = null;
 }

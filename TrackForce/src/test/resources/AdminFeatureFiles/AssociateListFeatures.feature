@@ -62,19 +62,19 @@ Feature: Title of your feature
     And I select a update by marketing status value from the update by marketing status drop down
     And I select a client value from the client drop down
     And I click the update button
-    Then the associates information is updated
- 
- 		    	Scenario: Sort the associate table by id in ascending order
+    Then the associate's information is updated
+    
+     Scenario: Sort the associate table by associate id in ascending order
  		Given: I want to sort the associate table by associate id in ascending order
  		When: I click the associate id heading on the associate table
  		Then: The associate table is sorted by associate id in ascending order
 
- 		Scenario: Sort the associate table by id in descending order
+ 		Scenario: Sort the associate table by associate id in descending order
  		Given: I want to sort the associate table by associate id in descending order
  		When: I click the associate id heading on the associate table
  		Then: The associate table is sorted by associate id in descending order
  		
- 	  Scenario: Sort the associate table by first name in ascending order
+ 	    Scenario: Sort the associate table by first name in ascending order
  		Given: I want to sort the associate table by first name in ascending order
  		When: I click the first name heading on the associate table
  		Then: The associate table is sorted by first name in ascending order
@@ -117,10 +117,12 @@ Feature: Title of your feature
  		Scenario: Sort the associate table by batch name in ascending order
  		Given: I want to sort the associate table by batch name in ascending order
  		When: I click the batch name heading on the associate table
- 		Then: The associate table is sorted by client name in ascending order
+ 		Then: The associate table is sorted by batch name in ascending order
  		
  		Scenario: Sort the associate table by batch name in descending order
  		Given: I want to sort the associate table by batch name in descending order
  		When: I click the batch name heading on the associate table
- 		Then: The associate table is sorted by client name in descending order
+ 		Then: The associate table is sorted by batch name in descending order
  	
+ 
+ 		

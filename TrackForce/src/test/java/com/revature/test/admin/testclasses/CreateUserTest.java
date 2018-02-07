@@ -34,7 +34,7 @@ public class CreateUserTest extends AdminSuite {
 		}
 	}
 	
-
+	
 	@AfterTest
 	public void afterTest() {
 		System.out.println("============ Create User Tests finished ===============");

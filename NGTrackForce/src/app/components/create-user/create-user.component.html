@@ -10,12 +10,11 @@
     <label>Administrator</label>
     <p>Can do everything a director or manager can do in addition to creating a new user.</p>
   </div>
-  <div class="well col-md-6">
+  <div class="well col-md-5">
     <h3>Create New User:</h3>
     <form>
       <label for="username" class="sr-only">Username: </label>
       <input class="form-control" type="text" placeholder="Username" name="username" id="username" required [(ngModel)]="username"/>
-      <br>
       <label for="password" class="sr-only">Password: </label>
       <input class="form-control" type="password" placeholder="Password" name="password" id="password" required [(ngModel)]="password"/>
       <label for="password" class="sr-only">Confirm Password: </label>
@@ -29,10 +28,7 @@
           <!--<input type="radio" name="optradio" value="4" [(ngModel)]="roleId">Associate<br>-->
        </div>
       <br>
-      <input (click)="createUser()" type="submit" value="Submit">
-
-    </form> 
+      <input (click)="createUser()" type="submit" class="btn btn-default" value="Submit">
+    </form>
   </div>
 </div>
-
-

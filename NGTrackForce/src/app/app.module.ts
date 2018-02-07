@@ -20,6 +20,7 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
 import { LoginComponent } from './components/login/login.component';
 import { ClientListComponent } from './components/client-list/client-list.component';
 import { FormComponent } from './components/form-component/form.component';
+import { FooterComponent } from './components/footer/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { RootComponent } from './components/root/root.component';
@@ -58,7 +59,6 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 ///
 import { appRoutes } from './routing/routes';
 import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-helpers/router-stubs';
-import { FooterComponent } from './components/footer/footer/footer.component';
 
 
 @NgModule({

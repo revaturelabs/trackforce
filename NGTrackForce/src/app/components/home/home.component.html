@@ -1,9 +1,7 @@
 <div class="container">
-
     <div class="row">
        <div class="col-sm-1"></div>
       <div class="col-sm-4">
-
          <div class="well">
             <canvas baseChart id="pie" class="chart chart-pie" [data]="getUndeployedData()" [colors]="mappedColors" [chartType]="undeployedChartType" [labels]="undeployedLabels" [options]="undeployedOptions"></canvas>
            </div>
@@ -18,13 +16,11 @@
         <button (click)="populateDBSF();;" class="btn btn-block">Populate Static Salesforce</button>
         <button (click)="deleteDB();" class="btn btn-block" >Empty Database</button>
         <p>{{dbMessage}}</p>
-
       </div>
     </div>
     <div class="row">
       <div class="col-sm-1"></div>
       <div class="col-sm-4">
-
          <div class="well">
            <canvas baseChart id="pie" class="chart chart-pie" [data]="getMappedData()" [labels]="mappedLabels" [chartType]="mappedChartType" (chartClick)="mappedOnClick($event)" [colors]="clientColors" [options]="mappedOptions"></canvas>
            </div>

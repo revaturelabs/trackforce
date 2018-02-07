@@ -8,7 +8,7 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
 import com.revature.test.admin.pom.Logout;
-import com.revature.test.utils.DriverUtil;
+import com.revature.test.utils.WebDriverUtil;
 import com.revature.test.utils.LoginUtil;
 
 //import cucumber.api.CucumberOptions;
@@ -16,12 +16,12 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 
 public class AdminSuite extends AbstractTestNGCucumberTests{
 
-	public static WebDriver wd = DriverUtil.getChromeDriver();
+	public static WebDriver wd = WebDriverUtil.getChromeDriver();
 
 	@BeforeSuite
 	public void beforeSuite() {
 		System.out.println("================== TRACKFORCE TESTS ==================");
-		wd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		//wd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		System.out.println("Logging In");
 		try {
 			wd.get("http://52.207.66.231:4200");
@@ -34,7 +34,7 @@ public class AdminSuite extends AbstractTestNGCucumberTests{
 	@AfterSuite
 	public void afterSuite() {
 		System.out.println("Logging out");
-		Logout.logout(wd).click();
+		Logout.logout(wd);
 		wd.quit();
 	}
 }

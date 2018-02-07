@@ -19,5 +19,4 @@ public class LoginUtil {
 			e.printStackTrace();
 		}
 	}
-	
 }

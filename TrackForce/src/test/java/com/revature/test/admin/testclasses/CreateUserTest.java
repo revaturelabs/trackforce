@@ -17,7 +17,7 @@ public class CreateUserTest extends AdminSuite {
 		try {
 
 		} catch (Throwable e) {
-			fail("Currently not in Locations Tab; Create User Tab not found or could not be clicked");
+			fail("Create User Tab not found or could not be clicked");
 			e.printStackTrace();
 		}
 	}
@@ -30,18 +30,6 @@ public class CreateUserTest extends AdminSuite {
 			assertTrue(CreateUserTab.onCreateUserTab(wd));
 		} catch (Throwable e) {
 			fail("Error: Failed to switch to Create User Tab");
-			e.printStackTrace();
-		}
-	}
-	
-	@Test(priority = 2)
-	public void DoSomething() {
-		try {
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
-		try {
-		} catch (Throwable e) {
 			e.printStackTrace();
 		}
 	}

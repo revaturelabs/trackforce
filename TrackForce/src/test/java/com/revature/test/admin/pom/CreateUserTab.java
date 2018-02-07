@@ -19,18 +19,19 @@ public class CreateUserTab {
 			e.click();
 			return true;
 		} catch (Throwable e) {
+			System.out.println("Failed to find/click Create User Tab");
 			return false;
 		}
 	}
 
 	public static boolean onCreateUserTab(WebDriver d) {
 		try {
-			Thread.sleep(1000);
+			//Thread.sleep(1000);
 			e = WaitToLoad.findDynamicElement(wd, By.xpath("/html/body/app/div/app-create-user/div/div[2]/h3"), 10);
-			System.out.println("OUTPUTTTTTTTTTTTTTTT " + e.getText());
 			e.getText().contains("Create New User");
 			return true;
 		} catch (Throwable e) {
+			System.out.println("Failed to find 'Create New User' element");
 			return false;
 		}
 	}

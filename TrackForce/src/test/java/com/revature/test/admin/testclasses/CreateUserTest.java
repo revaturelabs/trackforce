@@ -23,18 +23,13 @@ public class CreateUserTest extends AdminSuite {
 	}
 
 	@Test(priority = 1)
-	// Clicks Create user Tab
+	// Clicks Create user Tab and looks for the "Create New User" element
 	public void GoToCreateUserTab() {
 		try {
 			assertTrue(CreateUserTab.clickCreateUserTab(wd));
-		} catch (Throwable e) {
-			System.out.println("Error clicking Create User Tab");
-			e.printStackTrace();
-		}
-		try {
 			assertTrue(CreateUserTab.onCreateUserTab(wd));
 		} catch (Throwable e) {
-			System.out.println("Not currently on Create User Tab");
+			fail("Error: Failed to switch to Create User Tab");
 			e.printStackTrace();
 		}
 	}

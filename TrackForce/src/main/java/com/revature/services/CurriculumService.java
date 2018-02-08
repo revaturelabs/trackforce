@@ -20,7 +20,7 @@ import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 @Path("skillset")
-public class CurriculumService implements Delegate {
+public class CurriculumService implements Service {
 
     private CurriculumDao curriculumDao;
     private SessionFactory sessionFactory;

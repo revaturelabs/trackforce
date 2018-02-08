@@ -70,14 +70,16 @@ public class PersistentStorageTest extends BaseTest {
         Mockito.when(mockMarketingStatusDao.getMarketingStatuses(Matchers.any(Session.class)))
                 .thenReturn(marketingStatusMap);
 
-        PersistentServiceDelegator serviceDelegator = new PersistentServiceDelegator(
-                new AssociateService(mockAssociateDao, sessionFactory),
-                new BatchesService(mockBatchDao, sessionFactory),
-                new ClientResource(mockClientDao, sessionFactory),
-                new CurriculumService(mockCurriculumDao, sessionFactory),
-                new MarketingStatusService(mockMarketingStatusDao, sessionFactory)
-        );
+//        PersistentServiceDelegator serviceDelegator = new PersistentServiceDelegator(
+//                new AssociateService(mockAssociateDao, sessionFactory),
+//                new BatchesService(mockBatchDao, sessionFactory),
+//                new ClientService(mockClientDao, sessionFactory),
+//                new CurriculumService(mockCurriculumDao, sessionFactory),
+//                new MarketingStatusService(mockMarketingStatusDao, sessionFactory)
+//        );
 
+        PersistentServiceDelegator serviceDelegator = new PersistentServiceDelegator();
+        
         // pull info from *database (*results mocked in this case)
         serviceDelegator.getAssociates();
         serviceDelegator.getBatches();

@@ -8,7 +8,6 @@ import com.revature.test.utils.WaitToLoad;
 
 public class ClientListTab
 {
-	public WebDriver wd = null;
 	static WebElement e = null;
 	
 	public static WebElement getClientSearchBox(WebDriver d)

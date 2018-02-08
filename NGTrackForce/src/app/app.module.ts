@@ -27,6 +27,7 @@ import { RootComponent } from './components/root/root.component';
 import { SkillsetComponent } from './components/skillset/skillset.component';
 import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 import { AssociateViewComponent } from './components/associate-view/associate-view.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 ///
 //  SERVICES
@@ -60,7 +61,6 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { appRoutes } from './routing/routes';
 import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-helpers/router-stubs';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -81,7 +81,8 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     AssociateViewComponent,
     RouterLinkStubDirective,
     RouterOutletStubComponent,
-    FooterComponent
+    FooterComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

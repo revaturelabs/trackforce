@@ -16,7 +16,7 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
-public class MarketingStatusService implements Delegate {
+public class MarketingStatusService implements Service {
 
     private MarketingStatusDao marketingStatusDao;
     private SessionFactory sessionFactory;

@@ -57,9 +57,10 @@ export class HomeComponent {
 
   // populate with dummy data to enable chart labels by default
   private undeployedData: number[] = [0, 0];
+  private deployedData: number[] = [0, 0];
   private mappedData: number[] = [0, 0, 0, 0];
   private unmappedData: number[] = [0, 0, 0, 0];
-  private deployedData: number[] = [0, 0, 0, 0];
+  
 
   /**
     *@param {RequestService} rs

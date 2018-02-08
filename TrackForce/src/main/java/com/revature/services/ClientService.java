@@ -26,11 +26,11 @@ import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 @Path("/clients")
-public class ClientResource implements Delegate {
+public class ClientService implements Service {
     private ClientDao clientDao;
     private SessionFactory sessionFactory;
 
-    public ClientResource() {
+    public ClientService() {
         this.sessionFactory = HibernateUtil.getSessionFactory();
         this.clientDao = new ClientDaoImpl();
     }
@@ -39,7 +39,7 @@ public class ClientResource implements Delegate {
     /**
      * @param clientDao injectable dao for easier testing
      */
-    public ClientResource(ClientDao clientDao, SessionFactory sessionFactory) {
+    public ClientService(ClientDao clientDao, SessionFactory sessionFactory) {
         this.clientDao = clientDao;
         this.sessionFactory = sessionFactory;
     }

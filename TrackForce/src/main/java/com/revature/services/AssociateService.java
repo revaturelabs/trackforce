@@ -32,7 +32,7 @@ import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 @Path("associates")
-public class AssociateService implements Delegate {
+public class AssociateService implements Service {
 
     private AssociateDao associateDao;
     private SessionFactory sessionFactory;

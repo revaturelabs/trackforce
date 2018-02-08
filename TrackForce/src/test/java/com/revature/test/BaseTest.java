@@ -4,7 +4,7 @@ import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.services.AssociateService;
-import com.revature.services.ClientResource;
+import com.revature.services.ClientService;
 import com.revature.services.MarketingStatusService;
 import com.revature.utils.PersistentStorage;
 import com.revature.utils.TestHibernateUtil;
@@ -39,7 +39,7 @@ public class BaseTest {
 
     public void resetCaches() throws IOException {
         AssociateService associateService = new AssociateService(new AssociateDaoHibernate(), sessionFactory);
-        ClientResource clientResource = new ClientResource(new ClientDaoImpl(), sessionFactory);
+        ClientService clientResource = new ClientService(new ClientDaoImpl(), sessionFactory);
         MarketingStatusService marketingStatusService = new MarketingStatusService(new MarketingStatusDaoHibernate(), sessionFactory);
 
         PersistentStorage.getStorage().setAssociates(associateService.getAssociates());
@@ -59,11 +59,11 @@ public class BaseTest {
      * @param mockMsService
      * @throws IOException
      */
-    public void resetCaches(AssociateService mockAssocService, ClientResource mockClientResource, MarketingStatusService mockMsService) throws IOException {
+    public void resetCaches(AssociateService mockAssocService, ClientService mockClientResource, MarketingStatusService mockMsService) throws IOException {
         if (mockAssocService == null)
             mockAssocService = new AssociateService(new AssociateDaoHibernate(), sessionFactory);
         if (mockClientResource == null)
-            mockClientResource = new ClientResource(new ClientDaoImpl(), sessionFactory);
+            mockClientResource = new ClientService(new ClientDaoImpl(), sessionFactory);
         if (mockMsService == null)
             mockMsService = new MarketingStatusService(new MarketingStatusDaoHibernate(), sessionFactory);
 

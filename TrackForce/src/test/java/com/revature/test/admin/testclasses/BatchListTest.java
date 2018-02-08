@@ -54,9 +54,6 @@ public class BatchListTest extends AdminSuite {
 			e.printStackTrace();
 		}
 	}
-	
-
-	
 
 	@AfterTest
 	public void afterTest() {

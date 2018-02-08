@@ -59,18 +59,22 @@ public class BatchListCukes {
 		// Switch to Associate List Tab
 		WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-batch-details/app-navbar/nav/div/ul[1]/li[4]"), 10).click();
 		// Verify that the IDs grabbed from first batch are all in the correct batch by looking at the associate list
-		List<WebElement> associates = BatchListTab.grabAssociates(wd);
+		List<WebElement> associateIDs = BatchListTab.grabAssociatesIDs(wd);
+		List<WebElement> associateRows = BatchListTab.grabAssociatesBatchInfo(wd);
 		// Search through the List of Associates taken from Associate List Tab
-		for (int i = 0; i < associates.size(); i++) {
-			// If the IDs match, remove it from the map
-			if (IDs.containsKey(associates.get(i))) {
-				System.out.println(associates.get(i));
-				IDs.remove(associates.get(i));
+		for (int i = 0; i < associateIDs.size(); i++) {
+			// If the IDs match
+			if (IDs.containsKey(associateIDs.get(i).getText())) {
+				System.out.println(associateIDs.get(i).getText());
+				// and if the batch name is in the same row
+				if (associateRows.get(i).getText().contains(batchName)) {
+					System.out.println(batchName);
+					// remove it from the map
+					IDs.remove(associateIDs.get(i).getText());
+				}
 			}
 		}
 		// Return true when the map is empty; All of the IDs in the map were found in the Associate List with same batch name
 		return IDs.isEmpty();
-		
-
 	}
 }

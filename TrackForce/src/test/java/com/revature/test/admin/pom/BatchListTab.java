@@ -26,12 +26,14 @@ public class BatchListTab {
 		return rows;
 	}
 	
+	// Gets first Batch Link in Batch List Tab
 	public static WebElement getFirstBatchName(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
 		WebElement row = table_element.findElement(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr[1]/td[1]"));
 		return row;
 	}
 	
+	// Gets all Associate IDs under the first Batch List Tab
 	public static List<WebElement> getAssociatesIDs(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
 		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
@@ -42,37 +44,33 @@ public class BatchListTab {
 		return ID;
 	}
 	
-//	public static List<WebElement> getAssociateLastNames(WebDriver wd) {
-//		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
-//		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
-//		List<WebElement> lastNames = new ArrayList<WebElement>();
-//		for (WebElement e : rows) {
-//			lastNames.addAll(e.findElements(By.xpath("td[3]")));
-//		}
-//		return lastNames;
-//	}
-//	
-//	public static List<WebElement> matchFirstNames(WebDriver wd) {
-//		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-bordered']"), 30);
-//		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-bordered']/tbody/tr"));
-//		List<WebElement> fNames = new ArrayList<WebElement>();
-//		for (WebElement e : rows) {
-//			fNames.addAll(e.findElements(By.xpath("td[3]")));
-//		}
-//		return fNames;
-//	}
-	
-	public static List<WebElement> grabAssociates(WebDriver wd) {
-//		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-bordered']"), 30);
-//		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-bordered']/tbody/tr"));
+	// Gets every Associate ID from ASSOCIATE LIST TAB
+	public static List<WebElement> grabAssociatesIDs(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
 		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
-//		List<WebElement> id = new ArrayList<WebElement>();
-//		for (WebElement e : rows) {
-//			id.addAll(e.findElements(By.xpath("td[2]")));
-//		}
-		return rows;
+		List<WebElement> id = new ArrayList<WebElement>();
+		for (WebElement e : rows) {
+			id.addAll(e.findElements(By.xpath("td[2]")));
+		}
+		return id;
 	}
 	
+	// Gets every Batch Name from ASSOCIATE LIST TAB
+	public static List<WebElement> grabBatchNames(WebDriver wd) {
+		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
+		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
+		List<WebElement> batchNames = new ArrayList<WebElement>();
+		for (WebElement e : rows) {
+			batchNames.addAll(e.findElements(By.xpath("td[7]")));
+		}
+		return batchNames;
+	}
+	
+	// Gets EVERY ROW from ASSOCIATE LIST TAB
+	public static List<WebElement> grabAssociatesBatchInfo(WebDriver wd) {
+		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
+		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
+		return rows;
+	}
 	
 }

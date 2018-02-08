@@ -50,16 +50,16 @@ export class FormComponent implements OnInit {
      * Update the associate with the new client and/or status
      */
     updateAssociate() {
-        if (this.selectedClient !== this.associate.client
-            && this.selectedMarketingStatus !== this.associate.marketingStatus) {
-            this.associateService.updateAssociate(this.id, this.selectedMarketingStatus, this.selectedClient).subscribe(
-                data => {
-                    this.associateService.getAssociate(this.id).subscribe(
-                        data => {
-                            this.associate = <Associate>data
-                        });
-                }
-            )
-        }
+      if (this.selectedClient !== this.associate.client
+          && this.selectedMarketingStatus !== this.associate.marketingStatus) {
+          this.associateService.updateAssociate(this.id, this.selectedMarketingStatus, this.selectedClient).subscribe(
+              data => {
+                  this.associateService.getAssociate(this.id).subscribe(
+                      data => {
+                          this.associate = <Associate>data
+                      });
+              }
+          )
+      }
     }
 }

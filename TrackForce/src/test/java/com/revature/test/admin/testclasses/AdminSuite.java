@@ -34,6 +34,6 @@ public class AdminSuite extends AbstractTestNGCucumberTests{
 	public void afterSuite() {
 		System.out.println("Logging out");
 		//Logout.logout(wd);
-		//wd.quit();
+		wd.quit();
 	}
 }

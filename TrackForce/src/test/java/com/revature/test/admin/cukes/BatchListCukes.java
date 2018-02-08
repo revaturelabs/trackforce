@@ -23,6 +23,7 @@ public class BatchListCukes {
 	public static boolean all_Batches_text_is_visible(WebDriver wd) throws Throwable {
 
 		try {
+			// Find the Header to verify that you are in the Batch List Tab
 			BatchListTab.findAllBatchesHeader(wd);
 			return true;
 		} catch (Throwable e) {
@@ -33,28 +34,43 @@ public class BatchListCukes {
 	
 	@Given("^the first batch is clicked$")
 	public static void the_first_batch_is_clicked(WebDriver wd) throws Throwable {
+		// Click the first batch in the list
 		BatchListTab.getFirstBatchName(wd).click();
-		//System.out.println(BatchListTab.getFirstBatchName(wd).getText());
 	}
 
 	@When("^the list of associates is grabbed$")
-	public static void the_list_of_associates_is_grabbed(WebDriver wd) throws Throwable {
-		//associates_should_match_the_associate_list(wd, BatchListTab.getAssociateFirstNames(wd), BatchListTab.getAssociateLastNames(wd));
+	public static boolean the_list_of_associates_is_grabbed(WebDriver wd) throws Throwable {
+		// Grab the associates IDs to be compared
 		List<WebElement> compareID = BatchListTab.getAssociatesIDs(wd);
-		associates_should_match_the_associate_list(wd, compareID);
+		// Get the batch name to verify everyone in that batch is in correct batch
+		String batchName = BatchListTab.getFirstBatchName(wd).getText();
+		// Sends to helper function
+		return associates_should_match_the_associate_list(wd, batchName, compareID);
 	}
 
 	@Then("^associates should match the associate list$")
-	public static void associates_should_match_the_associate_list(WebDriver wd, List<WebElement> IDs) throws Throwable {
+	public static boolean associates_should_match_the_associate_list(WebDriver wd, String batchName, List<WebElement> IDs) throws Throwable {
 		// Switch to Associate List Tab
-		
-		// TO DO: Make it switch to Associate List
 		WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-batch-details/app-navbar/nav/div/ul[1]/li[4]/a"), 10).click();
-//		List<WebElement> compareFirst = BatchListTab.matchFirstNames(wd);
-//		List<WebElement> compareLast = BatchListTab.matchLastNames(wd);
-//		for (int i = 0; i < compareFirst.size(); i++) {
-//			System.out.println(compareFirst.get(i) + " " + compareLast.get(i));
-//		}
 		
+		// Verify that the IDs grabbed from first batch are all in the correct batch by looking at the associate list
+		List<WebElement> associates = BatchListTab.grabAssociates(wd);
+		// Search through the List of Associates taken from Associate List Tab
+		for (WebElement e : IDs) {
+			System.out.println(e.getText());
+			// Match the associate IDs and see if they're in the correct batch. Return false if they don't match up
+			for (int i = 0; i < associates.size(); i++) {
+				System.out.println(associates.get(i).getText());
+				// Go to the row where the ID is
+				if (associates.get(i).getText().contains(e.getText())) {
+					// If the ID is found, see if they belong in the batch that we clicked
+					if (!(associates.get(i).getText().contains(batchName))) {
+					System.out.println("Associate ID "+e+" not found in " + batchName);
+					return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 }

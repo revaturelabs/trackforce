@@ -62,14 +62,16 @@ public class BatchListTab {
 //		return fNames;
 //	}
 	
-	public static List<WebElement> matchLastNames(WebDriver wd) {
-		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-bordered']"), 30);
-		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-bordered']/tbody/tr"));
-		List<WebElement> lNames = new ArrayList<WebElement>();
-		for (WebElement e : rows) {
-			lNames.addAll(e.findElements(By.xpath("td[4]")));
-		}
-		return lNames;
+	public static List<WebElement> grabAssociates(WebDriver wd) {
+//		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-bordered']"), 30);
+//		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-bordered']/tbody/tr"));
+		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
+		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
+//		List<WebElement> id = new ArrayList<WebElement>();
+//		for (WebElement e : rows) {
+//			id.addAll(e.findElements(By.xpath("td[2]")));
+//		}
+		return rows;
 	}
 	
 	

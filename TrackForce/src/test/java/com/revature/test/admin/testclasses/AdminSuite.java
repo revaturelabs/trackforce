@@ -20,7 +20,8 @@ public class AdminSuite extends AbstractTestNGCucumberTests{
 		//wd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		System.out.println("Logging In");
 		try {
-			wd.get("http://52.207.66.231:4200");
+			//wd.get("http://52.207.66.231:4200");
+			wd.get("http://localhost:4200");
 			LoginUtil.loginAsAdmin(wd);
 		} catch (Throwable e) {
 			e.printStackTrace();

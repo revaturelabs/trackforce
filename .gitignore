@@ -27,6 +27,8 @@ bin/
 
 # Driver path may be different for everyone
 driver.properties
+**/chromedriver.exe
+**/geckodriver.exe
 
 target/
 pom.xml.tag

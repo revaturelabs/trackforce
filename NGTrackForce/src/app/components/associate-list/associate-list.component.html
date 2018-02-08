@@ -1,5 +1,6 @@
 <app-navbar></app-navbar>
 <div class="container">
+  <h3>Associates</h3>
   <div class="form-group">
     <div class="row">
       <div class="col-sm-6">
@@ -80,7 +81,7 @@
     </div>
   </div>
 
-  <div class="form-group" style="margin-top: 20px">
+  <div *ngIf="canUpdate" class="form-group" style="margin-top: 20px">
       <div class="row">
         <div class="col-sm-4">
           <label for="uStatus">Update by Marketing Status: </label>

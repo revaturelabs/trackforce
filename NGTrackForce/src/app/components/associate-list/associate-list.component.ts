@@ -4,6 +4,7 @@ import { Associate } from '../../models/associate.model';
 import { RequestService } from '../../services/request-service/request.service';
 import { Client } from '../../models/client.model';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
+import { User } from '../../models/user.model';
 
 /**
  * Component for the Associate List page
@@ -38,10 +39,14 @@ export class AssociateListComponent implements OnInit {
   desc: boolean = false;
   sortedColumn: string = "";
 
+  //user access data - controls what they can do in the app
+  user: User;
+  canUpdate: boolean = false;
+
   /**
    * Inject our services
-   * @param associateService 
-   * @param rs 
+   * @param associateService
+   * @param rs
    */
   constructor(
     private associateService: AssociateService,
@@ -51,6 +56,10 @@ export class AssociateListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem("currentUser"));
+    if(this.user.tfRoleId==1 || this.user.tfRoleId==2) {
+      this.canUpdate = true; // let the user update data if user is admin or manager
+    }
     this.getAllAssociates(); //grab associates and clients from back end
     this.getClientNames();
 
@@ -60,7 +69,7 @@ export class AssociateListComponent implements OnInit {
       if (url[4] == "client")
         this.searchByClient = url[5];
       else if (url[4] == "curriculum")
-        this.searchByCurriculum = url[5];
+      this.searchByCurriculum = url[5];
       this.searchByStatus = url[6].toUpperCase() + ",  " + url[7].toUpperCase();
     }
   }

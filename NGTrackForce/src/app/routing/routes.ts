@@ -18,6 +18,8 @@ import {BatchDetailsComponent} from '../components/batch-details/batch-details.c
 import { AssociateViewComponent } from '../components/associate-view/associate-view.component';
 import {NotFoundComponent} from '../components/not-found/not-found.component';
 
+import { AuthGuard } from '../guards/auth.guard';
+
 /**
  * Place paths here
  */
@@ -25,6 +27,7 @@ import {NotFoundComponent} from '../components/not-found/not-found.component';
 export const appRoutes: Routes = [
   {
     path: 'home',
+    canActivate: [AuthGuard],
     component: HomeComponent
   },
   {
@@ -38,46 +41,57 @@ export const appRoutes: Routes = [
   },
   {
     path: 'client-listing',
+    canActivate: [AuthGuard],
     component: ClientListComponent
   },
   {
     path: 'client-mapped/:id',
+    canActivate: [AuthGuard],
     component: ClientMappedComponent
   },
   {
     path: 'associate-listing',
+    canActivate: [AuthGuard],
     component: AssociateListComponent
   },
   {
     path: 'associate-listing/:CliOrCur/:name/:mapping/:status',
+    canActivate: [AuthGuard],
     component: AssociateListComponent
   },
   {
     path: 'batch-listing',
+    canActivate: [AuthGuard],
     component: BatchListComponent
   },
   {
     path: 'batch-details/:id',
+    canActivate: [AuthGuard],
     component: BatchDetailsComponent
   },
   {
     path: 'form-comp/:id',
+    canActivate: [AuthGuard],
     component: FormComponent
   },
   {
     path: 'create-user',
+    canActivate: [AuthGuard],
     component: CreateUserComponent
   },
   {
     path: 'root',
+    canActivate: [AuthGuard],
     component: RootComponent
   },
   {
     path: 'skillset/:id',
+    canActivate: [AuthGuard],
     component: SkillsetComponent
   },
   {
     path: 'associate-view/:id',
+    canActivate: [AuthGuard],
     component: AssociateViewComponent
   },
   {

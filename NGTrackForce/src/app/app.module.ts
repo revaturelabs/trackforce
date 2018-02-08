@@ -54,6 +54,7 @@ import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-fi
 //  SECURITY
 ///
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { AuthGuard } from './guards/auth.guard';
 
 ///
 //  CONSTANTS
@@ -103,6 +104,7 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     CreateUserService,
     SkillsetService,
     DataSyncService,
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

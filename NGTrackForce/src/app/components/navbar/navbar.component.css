@@ -1,0 +1,4 @@
+.navbar .active,
+.navbar .active:hover {
+	background-color: #eee !important;
+}

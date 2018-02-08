@@ -1,18 +1,42 @@
-<nav class="navbar navbar-default custom-nav">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand"><img src="../../../assets/logo.png" height="35" width="100"></a>
+<app-navbar [associate]="associate"></app-navbar>
+<div class="container">
+  <h3>Your Information</h3>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="table-responsive">
+        <table class="table table-hover table-bordered">
+          <tbody>
+            <tr>
+              <td>Associate ID</td>
+              <td>{{associate.id}}</td>
+            </tr>
+            <tr>
+              <td>First Name</td>
+              <td>{{associate.firstName}}</td>
+            </tr>
+            <tr>
+              <td>Last Name</td>
+              <td>{{associate.lastName}}</td>
+            </tr>
+            <tr>
+              <td>Marketing Status</td>
+              <td>{{associate.marketingStatus}}</td>
+            </tr>
+            <tr>
+              <td>Batch Name</td>
+              <td>{{associate.batchName}}</td>
+            </tr>
+            <tr>
+              <td>Client Name</td>
+              <td>{{associate.client}}</td>
+            </tr>
+            <tr>
+              <td>End Client Name</td>
+              <td>{{associate.endClientName}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <ul class="nav navbar-nav navbar-right">
-      <li class="pointer"><a (click)="logout()">Logout</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a>Welcome, {{ associate.firstName }} {{ associate.lastName}}</a></li>
-    </ul>
   </div>
-</nav>
-<div>
-  <h2> Batch: {{ associate.batchName }}</h2>
-  <h2> Marketing Status: {{ associate.marketingStatus }}</h2>
-  <h2> End Client: {{ associate.endClientName }}</h2>
 </div>

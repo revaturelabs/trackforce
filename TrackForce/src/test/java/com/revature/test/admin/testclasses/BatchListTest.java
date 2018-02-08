@@ -47,8 +47,8 @@ public class BatchListTest extends AdminSuite {
 	// compares the names to associates in the first batch clicked.
 	public void BatchNameTest() {
 		try {
-			BatchListCukes.the_first_batch_is_clicked(wd);
-			assertTrue(BatchListCukes.the_list_of_associates_is_grabbed(wd));
+			String batch = BatchListCukes.the_first_batch_is_clicked(wd);
+			assertTrue(BatchListCukes.the_list_of_associates_is_grabbed(wd, batch));
 		} catch (Throwable e) {
 			fail("Error: Batch Name Test Failed");
 			e.printStackTrace();

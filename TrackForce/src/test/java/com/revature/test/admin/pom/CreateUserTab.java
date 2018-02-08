@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import com.revature.test.utils.WaitToLoad;
 
 public class CreateUserTab {
-
 	static WebElement e = null;
 
 	// find CreateUser tab *from Home page*

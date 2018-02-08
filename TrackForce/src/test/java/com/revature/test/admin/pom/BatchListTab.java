@@ -32,35 +32,35 @@ public class BatchListTab {
 		return row;
 	}
 	
-	public static List<WebElement> getAssociateFirstNames(WebDriver wd) {
+	public static List<WebElement> getAssociatesIDs(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
 		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
-		List<WebElement> firstNames = new ArrayList<WebElement>();
+		List<WebElement> ID = new ArrayList<WebElement>();
 		for (WebElement e : rows) {
-			firstNames.addAll(e.findElements(By.xpath("td[2]")));
+			ID.addAll(e.findElements(By.xpath("td[1]")));
 		}
-		return firstNames;
+		return ID;
 	}
 	
-	public static List<WebElement> getAssociateLastNames(WebDriver wd) {
-		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
-		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
-		List<WebElement> lastNames = new ArrayList<WebElement>();
-		for (WebElement e : rows) {
-			lastNames.addAll(e.findElements(By.xpath("td[3]")));
-		}
-		return lastNames;
-	}
-	
-	public static List<WebElement> matchFirstNames(WebDriver wd) {
-		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-bordered']"), 30);
-		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-bordered']/tbody/tr"));
-		List<WebElement> fNames = new ArrayList<WebElement>();
-		for (WebElement e : rows) {
-			fNames.addAll(e.findElements(By.xpath("td[3]")));
-		}
-		return fNames;
-	}
+//	public static List<WebElement> getAssociateLastNames(WebDriver wd) {
+//		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
+//		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
+//		List<WebElement> lastNames = new ArrayList<WebElement>();
+//		for (WebElement e : rows) {
+//			lastNames.addAll(e.findElements(By.xpath("td[3]")));
+//		}
+//		return lastNames;
+//	}
+//	
+//	public static List<WebElement> matchFirstNames(WebDriver wd) {
+//		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-bordered']"), 30);
+//		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-bordered']/tbody/tr"));
+//		List<WebElement> fNames = new ArrayList<WebElement>();
+//		for (WebElement e : rows) {
+//			fNames.addAll(e.findElements(By.xpath("td[3]")));
+//		}
+//		return fNames;
+//	}
 	
 	public static List<WebElement> matchLastNames(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-bordered']"), 30);

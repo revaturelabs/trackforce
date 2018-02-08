@@ -34,24 +34,22 @@ public class BatchListCukes {
 	@Given("^the first batch is clicked$")
 	public static void the_first_batch_is_clicked(WebDriver wd) throws Throwable {
 		BatchListTab.getFirstBatchName(wd).click();
+		//System.out.println(BatchListTab.getFirstBatchName(wd).getText());
 	}
 
 	@When("^the list of associates is grabbed$")
 	public static void the_list_of_associates_is_grabbed(WebDriver wd) throws Throwable {
-		associates_should_match_the_associate_list(wd, BatchListTab.getAssociateFirstNames(wd), BatchListTab.getAssociateLastNames(wd));
-//		List<WebElement> compareFirst = BatchListTab.getAssociateFirstNames(wd);
-//		List<WebElement> compareLast = BatchListTab.getAssociateLastNames(wd);
-//		for (int i = 0; i < compareFirst.size(); i++) {
-//			System.out.println(compareFirst.get(i).getText() + " " + compareLast.get(i).getText());
-//		}
+		//associates_should_match_the_associate_list(wd, BatchListTab.getAssociateFirstNames(wd), BatchListTab.getAssociateLastNames(wd));
+		List<WebElement> compareID = BatchListTab.getAssociatesIDs(wd);
+		associates_should_match_the_associate_list(wd, compareID);
 	}
 
 	@Then("^associates should match the associate list$")
-	public static void associates_should_match_the_associate_list(WebDriver wd, List<WebElement> fName, List<WebElement> lName) throws Throwable {
+	public static void associates_should_match_the_associate_list(WebDriver wd, List<WebElement> IDs) throws Throwable {
 		// Switch to Associate List Tab
 		
 		// TO DO: Make it switch to Associate List
-		WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[4]"), 10).click();
+		WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-batch-details/app-navbar/nav/div/ul[1]/li[4]/a"), 10).click();
 //		List<WebElement> compareFirst = BatchListTab.matchFirstNames(wd);
 //		List<WebElement> compareLast = BatchListTab.matchLastNames(wd);
 //		for (int i = 0; i < compareFirst.size(); i++) {

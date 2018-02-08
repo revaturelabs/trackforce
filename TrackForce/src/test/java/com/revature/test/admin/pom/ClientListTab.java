@@ -42,12 +42,29 @@ public class ClientListTab
 		return e;
 	}
 	
+	
+
+
+	
+	
+	public static WebElement getClientBarChartHeader(WebDriver d, int index)
+	{
+		int i = index;
+		e = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"clients-list\"]/li[" + i + "]/span"), 10);
+		return e;
+	}
+	
 	public static WebElement getBarChartHeader(WebDriver d)
 	{
 		e = WaitToLoad.findDynamicElement(d, By.xpath("/html/body/app/div/app-client-list/div/div/div[2]/h1"), 10);
 		return e;
 	}
-	
+
+
+
+
+
+
 	public static WebElement getInputTextPathFromClientSearch(WebDriver d)
 	{
 		e = WaitToLoad.findDynamicElement(d, By.id("clientSearch"), 10);

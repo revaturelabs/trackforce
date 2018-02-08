@@ -2,11 +2,9 @@ package com.revature.test.admin.testclasses;
 
 import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.fail;
-
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
 import com.revature.test.admin.cukes.BatchListCukes;
 import com.revature.test.admin.pom.BatchListTab;
 
@@ -16,8 +14,8 @@ public class BatchListTest extends AdminSuite {
 	@BeforeTest
 	public void beforeTest() {
 		System.out.println("Running Batch list Tab Tests");
-		
 	}
+	
 	@Test(priority = 1)
 	// Clicks Create user Tab and looks for the "Create New User" element
 	public void ClickBatchesTab() {
@@ -54,7 +52,6 @@ public class BatchListTest extends AdminSuite {
 			e.printStackTrace();
 		}
 	}
-	
 
 	
 

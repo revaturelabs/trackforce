@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.revature.test.utils.WaitToLoad;
+import com.revature.test.utils.WebDriverUtil;
 
 public class BatchListTab {
 	static WebElement e = null;
@@ -71,6 +72,5 @@ public class BatchListTab {
 		}
 		return lNames;
 	}
-	
 	
 }

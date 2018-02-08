@@ -7,7 +7,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import com.revature.test.admin.pom.CreateUserTab;
+import com.revature.test.admin.cukes.CreateUserCukes;
 
 public class CreateUserTest extends AdminSuite {
 
@@ -26,8 +26,8 @@ public class CreateUserTest extends AdminSuite {
 	// Clicks Create user Tab and looks for the "Create New User" element
 	public void GoToCreateUserTab() {
 		try {
-			assertTrue(CreateUserTab.clickCreateUserTab(wd));
-			assertTrue(CreateUserTab.onCreateUserTab(wd));
+			assertTrue(CreateUserCukes.clickCreateUserTab(wd));
+			assertTrue(CreateUserCukes.onCreateUserTab(wd));
 		} catch (Throwable e) {
 			fail("Error: Failed to switch to Create User Tab");
 			e.printStackTrace();

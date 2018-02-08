@@ -12,7 +12,6 @@ public class AssociateListTab {
 
 	// Associate List tab on navbar
 	public static boolean tab(WebDriver d) {
-		
 		try {
 			element = WaitToLoad.findDynamicElement(d, By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[4]/a"), 10);
 			element.click();                                     
@@ -28,7 +27,6 @@ public class AssociateListTab {
 
 	// Search By Text input field
 	public static boolean searchByTextInputField(WebDriver d) {
-
 		try {
 			element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"name\"]"), 10);
 			element.sendKeys("Test Name");
@@ -44,7 +42,6 @@ public class AssociateListTab {
 
 	// Marketing Status drop down
 	public static boolean marketingStatusDropDown(WebDriver d) {
-
 		try {
 			element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"mStatus\"]"), 10);
 			element.sendKeys("MAPPED: TRAINING");
@@ -58,7 +55,6 @@ public class AssociateListTab {
 
 	// Curriculum drop down
 	public static boolean curriculumDropDown(WebDriver d) {
-		
 		try {
 		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"curriculum\"]"), 10);
 		element.sendKeys("Java");
@@ -72,7 +68,6 @@ public class AssociateListTab {
 
 	// Client drop down
 	public static boolean clientDropDown(WebDriver d) {
-		
 		try {
 		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"client\"]"), 10);
 		element.sendKeys("Accenture");

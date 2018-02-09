@@ -4,7 +4,7 @@
 import { Component, OnInit} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { User } from '../../models/user.model';
-import { CreateUserService } from '../../services/create-user-service/create-user.service';
+import { UserService } from '../../services/user-service/user.service';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { Router } from '@angular/router';
 
@@ -22,14 +22,14 @@ export class CreateUserComponent implements OnInit {
   
     constructor(private authService: AuthenticationService, 
                 private router: Router, 
-                private userService: CreateUserService) { }
+                private userService: UserService) { }
   
     ngOnInit() {
             
     }
     
     /**
-     * Wraps CreateUserService - calls createUser()
+     * Wraps UserService - calls createUser()
      * Sends new user information to service
      * 
      */

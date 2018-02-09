@@ -4,7 +4,7 @@ import {AssociateViewComponent} from './associate-view.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AuthenticationService} from '../../services/authentication-service/authentication.service';
-import {AssociateService} from '../../services/associates-service/associates-service';
+import {AssociateService} from '../../services/associate-service/associate.service';
 import {ActivatedRoute} from '@angular/router';
 import {RequestService} from '../../services/request-service/request.service';
 import {Observable} from 'rxjs/Observable';

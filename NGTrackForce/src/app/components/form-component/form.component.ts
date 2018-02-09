@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AssociateService } from '../../services/associates-service/associates-service';
+import { AssociateService } from '../../services/associate-service/associate.service';
 import { Associate } from '../../models/associate.model'
-import { ClientListService } from '../../services/client-list-service/client-list.service';
+import { ClientService } from '../../services/client-service/client.service';
 import { Client } from '../../models/client.model';
 import { element } from 'protractor';
 import { ActivatedRoute } from "@angular/router"
@@ -35,7 +35,11 @@ export class FormComponent implements OnInit {
       * Originally planned to have one aggregate service to handle all requests
       *May be un-needed in this component; un-used in this particular component
       */
-    constructor(private associateService: AssociateService, private rs: RequestService) {
+    constructor(
+      private associateService: AssociateService,
+      private clientService: ClientService,
+      private rs: RequestService
+    ) {
         //gets id from router url parameter
         var id = window.location.href.split("form-comp/")[1];
         this.id = Number(id);
@@ -43,7 +47,7 @@ export class FormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.rs.getClients().subscribe(data => { this.clients = data; });
+        this.clientService.getAllClients().subscribe(data => { this.clients = data; });
     }
 
     /**

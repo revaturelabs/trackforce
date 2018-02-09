@@ -8,6 +8,8 @@ import 'rxjs/add/operator/map';
 import { RequestService } from '../request-service/request.service';
 import {User} from '../../models/user.model';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 const USER_KEY = 'currentUser';
 
@@ -21,30 +23,40 @@ export class AuthenticationService {
   * Service for handling all requests to the server
   *
   */
-  constructor(private rs: RequestService, private router: Router) { }
+  constructor(private rs: RequestService, private router: Router, private http: HttpClient) { }
 
   /**
-  *Login service that stores a user object on local storage
-  *It will only store a user if the object itself is valid and the token is valid
-  *
-  *@param {string} username
-  * The username to be checked against the database
-  *
-  *@param {string} password
-  *The password need to be sent to the database for checking
-  *
-  *@return
-  *The user object that contains the JWT, username, and role id
-  */
-  login(username: string, password: string){
-    return this.rs.login(username, password).map(
+    * Function for submitting login data to the back-end
+    * Login service that stores a user object on local storage
+    * It will only store a user if the object itself is valid and the token is valid
+    *@param {String} username - The username to be checked against the database
+    *@param {String} password - The password need to be sent to the database for checking
+    *
+    *@return User data from back-end if credentials are correct
+    * user data contains JWT token, username, and role
+    * If credentials are wrong, 400 is returned
+    */
+  public login(username: string, password: string): Observable<User> {
+    return this.http.post<User>(environment.url + 'TrackForce/user', { username: username, password: password }).map(
       user => {
         if(user){
           localStorage.setItem(USER_KEY, JSON.stringify(user));
         }
         return user;
-      });
+      }
+    );
   }
+
+  // TODO: Delete this (it's old)
+  // login(username: string, password: string){
+  //   return this.rs.login(username, password).map(
+  //     user => {
+  //       if(user){
+  //         localStorage.setItem(USER_KEY, JSON.stringify(user));
+  //       }
+  //       return user;
+  //     });
+  // }
 
   /**
   *Removes user from localStorage

@@ -5,6 +5,10 @@ import { Batch } from '../../models/batch.model';
 import { Curriculum } from '../../models/curriculum.model';
 import { MarketingStatus } from '../../models/marketing-status.model';
 import { RequestService } from '../request-service/request.service';
+import { BatchService } from '../batch-service/batch.service';
+import { AssociateService } from '../associate-service/associate.service';
+import { ClientService } from '../client-service/client.service';
+import { SkillsetService } from '../skill-set-service/skill-set.service';
 import { Observable } from 'rxjs';
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import 'rxjs/Rx';
@@ -54,8 +58,13 @@ export class DataSyncService {
   private marketingStorage: BehaviorSubject<MarketingStatus[]>;
 
   // inject RequestService for handling requests to the server
-  constructor(private rs: RequestService) {
-
+  constructor(
+    private rs: RequestService,
+    private bs: BatchService,
+    private cs: ClientService,
+    private as: AssociateService,
+    private ss: SkillsetService
+  ) {
     // fetch data on initialization
     this.fetchData();
   }
@@ -95,7 +104,7 @@ export class DataSyncService {
   }
 
   public fetchAssociateStorage() {
-    this.rs.getAssociates().subscribe(data => {
+    this.as.getAllAssociates().subscribe(data => {
       // this.setAssociateStorage(data);
     });
   }
@@ -106,7 +115,7 @@ export class DataSyncService {
   }
 
   public fetchClientStorage() {
-    this.rs.getClients().subscribe(data => {
+    this.cs.getAllClients().subscribe(data => {
       // this.setClientStorage(data);
     })
   }
@@ -117,7 +126,7 @@ export class DataSyncService {
   }
 
   public fetchBatchStorageSortedById() {
-    this.rs.getBatchesSortedById().subscribe(data => {
+    this.bs.getBatchesSortedById().subscribe(data => {
       // this.setBatchStorageSortedById(data);
     })
   }
@@ -128,7 +137,7 @@ export class DataSyncService {
   }
 
   public fetchBatchStorageSortedByDate() {
-    this.rs.getBatchesSortedByDate().subscribe(data => {
+    this.bs.getBatchesSortedByDate().subscribe(data => {
       // this.setBatchStorageSortedByDate(data);
     })
   }
@@ -139,7 +148,7 @@ export class DataSyncService {
   }
 
   public fetchCurriculumStorage() {
-    this.rs.getSkills().subscribe(data => {
+    this.ss.getSkills().subscribe(data => {
       // this.setCurriculumStorage(data);
     })
   }

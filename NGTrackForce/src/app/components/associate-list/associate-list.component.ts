@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AssociateService } from '../../services/associates-service/associates-service';
+import { AssociateService } from '../../services/associate-service/associate.service';
 import { Associate } from '../../models/associate.model';
 import { RequestService } from '../../services/request-service/request.service';
 import { Client } from '../../models/client.model';
+import { ClientService } from '../../services/client-service/client.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { User } from '../../models/user.model';
 
@@ -50,6 +51,7 @@ export class AssociateListComponent implements OnInit {
    */
   constructor(
     private associateService: AssociateService,
+    private clientService: ClientService,
     private rs: RequestService
   ) {
     this.curriculums = new Set<string>();
@@ -80,7 +82,7 @@ export class AssociateListComponent implements OnInit {
   getAllAssociates() {
     let self = this;
 
-    this.rs.getAssociates().subscribe(data => {
+    this.associateService.getAllAssociates().subscribe(data => {
       this.associates = data;
 
       for (let associate of this.associates) {//get our curriculums from the associates
@@ -100,7 +102,7 @@ export class AssociateListComponent implements OnInit {
    * Fetch the client names
    */
   getClientNames() {
-    this.rs.getClients().subscribe(data => {
+    this.clientService.getAllClients().subscribe(data => {
       this.clients = data;
     });
   }

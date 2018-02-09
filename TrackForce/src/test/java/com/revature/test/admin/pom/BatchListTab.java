@@ -71,6 +71,9 @@ public class BatchListTab {
 	public static List<WebElement> grabAssociatesBatchInfo(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
 		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
+		for (WebElement e : rows) {
+			System.out.println(e.getText());
+		}
 		return rows;
 	}
 	

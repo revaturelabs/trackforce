@@ -29,7 +29,7 @@ public class BatchListTest extends AdminSuite {
 	
 	@Test(priority = 2)
 	// Clicks Create user Tab and looks for the "Create New User" element
-	public void GoToCreateUserTab() {
+	public void FindAllBatchesTag() {
 		try {
 			assertTrue(BatchListCukes.all_Batches_text_is_visible(wd));
 			

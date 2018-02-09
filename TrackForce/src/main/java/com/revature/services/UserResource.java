@@ -86,18 +86,7 @@ public class UserResource {
         this.jwtService = jwtService;
     }
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public void getAllUsers() {
-    	//TODO do something with getting all the TrackForce users
-    }
     
-    @GET
-    @Path("{userid}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public void getUser(@PathParam("userid") String userid){
-    	
-    }
     /**
      * Method takes login information from front-end and verifies the information.
      * If info is valid, a status code of 200 is returned, otherwise 400 for a bad

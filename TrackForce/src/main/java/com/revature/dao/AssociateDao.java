@@ -18,6 +18,7 @@ public interface AssociateDao {
 
 	public AssociateInfo getAssociate(BigDecimal associateid, Session session) throws IOException;
 	public Map<BigDecimal, AssociateInfo> getAssociates(Session session);
+	public Map<BigDecimal, AssociateInfo> getAssociates();
 	void updateInfo(Session session, BigDecimal id, MarketingStatusInfo marketingStatus, ClientInfo client)
 			throws IOException;
 }

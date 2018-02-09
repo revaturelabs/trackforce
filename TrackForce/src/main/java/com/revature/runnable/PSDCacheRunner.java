@@ -87,8 +87,8 @@ public class PSDCacheRunner implements Runnable {
 
         try {
 			// perform caching
-        	//psd.getAssociates();
         	associateDaoHib.cacheAllAssociates();
+        	//psd.getAssociates();
             psd.getBatches();
             psd.getClients();
             psd.getCurriculums();

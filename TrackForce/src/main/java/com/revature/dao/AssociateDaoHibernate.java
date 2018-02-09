@@ -141,7 +141,6 @@ public class AssociateDaoHibernate implements AssociateDao {
 	                AssociateInfo.appendToMap(tfa.getTfMarketingStatus());
 	            }
 	        }
-	
 	        return map;
         } finally {
         	session.close();
@@ -153,5 +152,6 @@ public class AssociateDaoHibernate implements AssociateDao {
      */
     public void cacheAllAssociates() {
     	PersistentStorage.getStorage().setAssociates(getAssociates());
+    	PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
     }
 }

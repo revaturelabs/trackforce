@@ -128,24 +128,26 @@ public class AssociateService implements Service {
      * @throws HibernateException
      * @throws IOException
      */
-	public Map<BigDecimal, AssociateInfo> getAssociates() throws HibernateException, IOException {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
+	public Map<BigDecimal, AssociateInfo> getAssociates() {//throws HibernateException, IOException {
+		//Session session = sessionFactory.openSession();
+		//Transaction tx = session.beginTransaction();
+		Map<BigDecimal, AssociateInfo> tfAssociates = null;
 		try {
-			Map<BigDecimal, AssociateInfo> tfAssociates = associateDao.getAssociates(session);
-			PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
+			tfAssociates = associateDao.getAssociates();
+			//PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
 
-			session.flush();
-			tx.commit();
-			return tfAssociates;
+			//session.flush();
+			//tx.commit();
+			//return tfAssociates;
 		} catch (Exception e) {
 			LogUtil.logger.error(e);
-			session.flush();
-			tx.rollback();
-			throw new IOException("cannot get associates", e);
+			//session.flush();
+			//tx.rollback();
+			//throw new IOException("cannot get associates", e);
 		} finally {
-			session.close();
+			//session.close();
 		}
+		return tfAssociates;
 	}
 
 	/**

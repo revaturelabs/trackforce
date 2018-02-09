@@ -6,20 +6,21 @@ import org.openqa.selenium.WebElement;
 
 public class Login {
 	public static WebDriver wd = null;
-	static WebElement e = null;
 
-	public static WebElement user(WebDriver d) {
-		e = d.findElement(By.id("username"));
-		return e;
+	public static WebElement getUsername(WebDriver d) {
+		return d.findElement(By.id("username"));
 	}
 
-	public static WebElement password(WebDriver d) {
-		e = d.findElement(By.id("password"));
-		return e;
+	public static WebElement getPassword(WebDriver d) {
+		return d.findElement(By.id("password"));
 	}
 
-	public static WebElement signin(WebDriver d) {
-		e = d.findElement(By.xpath("//button[@type='submit']"));
-		return e;
+	public static WebElement getSignin(WebDriver d) {
+		return d.findElement(By.xpath("//button[@type='submit']"));
 	}
+	
+	public static String getTitle(WebDriver d) {
+		return d.findElement(By.xpath("//title")).getText();
+	}
+	
 }

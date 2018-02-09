@@ -34,6 +34,48 @@ public class CreateUserTest extends AdminSuite {
 		}
 	}
 	
+	@Test(priority = 2)
+	// Fills in username, password, selects radio button, and submits
+	public void CreateAdmin() {
+		try {
+			assertTrue(CreateUserCukes.inputUsername(wd));
+			assertTrue(CreateUserCukes.inputPassword(wd));
+			assertTrue(CreateUserCukes.inputPasswordConfirm(wd));
+			assertTrue(CreateUserCukes.clickAdminRadio(wd));
+		} catch (Throwable e) {
+			fail("Error: Failed to create new Administrater");
+			e.printStackTrace();
+		}
+	}
+	
+	@Test(priority = 3)
+	// Fills in username, password, selects radio button, and submits
+	public void CreateManager() {
+		try {
+			assertTrue(CreateUserCukes.inputUsername(wd));
+			assertTrue(CreateUserCukes.inputPassword(wd));
+			assertTrue(CreateUserCukes.inputPasswordConfirm(wd));
+			assertTrue(CreateUserCukes.clickManagerRadio(wd));
+		} catch (Throwable e) {
+			fail("Error: Failed to create new Manager");
+			e.printStackTrace();
+		}
+	}
+	
+	@Test(priority = 4)
+	// Fills in username, password, selects radio button, and submits
+	public void CreateVP() {
+		try {
+			assertTrue(CreateUserCukes.inputUsername(wd));
+			assertTrue(CreateUserCukes.inputPassword(wd));
+			assertTrue(CreateUserCukes.inputPasswordConfirm(wd));
+			assertTrue(CreateUserCukes.clickVPRadio(wd));
+		} catch (Throwable e) {
+			fail("Error: Failed to create new Vice President");
+			e.printStackTrace();
+		}
+	}
+	
 	
 	@AfterTest
 	public void afterTest() {

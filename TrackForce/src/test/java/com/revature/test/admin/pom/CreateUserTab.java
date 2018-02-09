@@ -9,17 +9,41 @@ import com.revature.test.utils.WaitToLoad;
 public class CreateUserTab {
 	static WebElement e = null;
 
-	// find CreateUser tab *from Home page*
 	public static WebElement getCreateUserTab(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
 				By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[5]"), 10);
 	}
 
-	// find "Create New User" header
 	public static WebElement getCreateNewUserHeader(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d, By.xpath("/html/body/app/div/app-create-user/div/div[2]/h3"), 10);
 	}
+
+	public static WebElement getUsername(WebDriver d) {
+		return WaitToLoad.findDynamicElement(d, By.cssSelector("[name='username']"), 10);
+	}
 	
+	public static WebElement getPassword(WebDriver d) {
+		return WaitToLoad.findDynamicElement(d, By.cssSelector("[name='username']"), 10);
+	}
+
+	public static WebElement getPasswordConfirm(WebDriver d) {
+		return WaitToLoad.findDynamicElement(d, By.cssSelector("[name='password2']"), 10);
+	}
+
+	public static WebElement getAdminRadio(WebDriver d) {
+		return WaitToLoad.findDynamicElement(d, By.cssSelector("[value='1']"), 10);
+	}
 	
+	public static WebElement getManagerRadio(WebDriver d) {
+		return WaitToLoad.findDynamicElement(d, By.cssSelector("[value='2']"), 10);
+	}
+	
+	public static WebElement getVPRadio(WebDriver d) {
+		return WaitToLoad.findDynamicElement(d, By.cssSelector("[value='3']"), 10);
+	}
+
+	public static WebElement submitForm(WebDriver d) {
+		return WaitToLoad.findDynamicElement(d, By.xpath("//button"), 10);
+	}
 
 }

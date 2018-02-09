@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
@@ -25,7 +26,7 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
-@Path("/clients")
+@Path("clients")
 public class ClientService implements Service {
     private ClientDao clientDao;
     private SessionFactory sessionFactory;
@@ -34,7 +35,7 @@ public class ClientService implements Service {
         this.sessionFactory = HibernateUtil.getSessionFactory();
         this.clientDao = new ClientDaoImpl();
     }
-
+    
 
     /**
      * @param clientDao injectable dao for easier testing
@@ -55,6 +56,7 @@ public class ClientService implements Service {
      * @throws IOException
      * @throws HibernateException
      */
+    @GET
     private Set<ClientInfo> getAllClients() throws IOException {
         Set<ClientInfo> clients = PersistentStorage.getStorage().getClients();
         if (clients == null || clients.isEmpty()) {

@@ -3,6 +3,7 @@ package com.revature.services;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,6 +18,8 @@ import javax.ws.rs.core.Response;
 
 import com.revature.dao.AssociateDao;
 import com.revature.dao.AssociateDaoHibernate;
+import com.revature.entity.TfAssociate;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -131,9 +134,10 @@ public class AssociateService implements Service {
 	public Map<BigDecimal, AssociateInfo> getAssociates() {//throws HibernateException, IOException {
 		//Session session = sessionFactory.openSession();
 		//Transaction tx = session.beginTransaction();
-		Map<BigDecimal, AssociateInfo> tfAssociates = null;
+		List<TfAssociate> associateList = null;
 		try {
-			tfAssociates = associateDao.getAssociates();
+			associateList = AssociateDaoHibernate.getAllAssociates();
+			
 			//PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
 
 			//session.flush();
@@ -147,7 +151,7 @@ public class AssociateService implements Service {
 		} finally {
 			//session.close();
 		}
-		return tfAssociates;
+		return AssociateDaoHibernate.createAssociatesMap(associateList);
 	}
 
 	/**

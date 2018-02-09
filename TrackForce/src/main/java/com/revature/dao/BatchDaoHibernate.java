@@ -16,9 +16,12 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfBatch;
+import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
 import com.revature.utils.Dao2DoMapper;
+import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
+import com.revature.utils.PersistentStorage;
 
 /**
  * Implementation of the BatchDao interface that uses Hibernate to retrieve
@@ -75,4 +78,30 @@ public class BatchDaoHibernate implements BatchDao {
 		
 		return map;
 	}
+	
+	public static Map<BigDecimal, BatchInfo> getBatchDetails() {
+		List<TfBatch> batchesEnt;
+		Session session = HibernateUtil.getSession();
+		Map<BigDecimal, BatchInfo> map = new HashMap<>();
+		TypedQuery<TfBatch> tq = session.createQuery(
+				"from TfBatch", TfBatch.class);
+		
+		batchesEnt = tq.getResultList();
+		if(batchesEnt != null)
+		for(TfBatch tb : batchesEnt) {
+			map.put(tb.getTfBatchId(), Dao2DoMapper.map(tb));
+		}
+		
+		return map;
+	}
+	
+	/**
+     * Retrieves all associate records from the database and places them into the cache
+     * 
+     */
+    public static void cacheAllBatches() {
+    	
+    	PersistentStorage.getStorage().setBatches(getBatchDetails());//Look into getBatchDetails()
+    	PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
+    }
 }

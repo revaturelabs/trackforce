@@ -3,6 +3,7 @@ package com.revature.runnable;
 import java.io.IOException;
 
 import com.revature.dao.AssociateDaoHibernate;
+import com.revature.dao.BatchDaoHibernate;
 import com.revature.services.PersistentServiceDelegator;
 
 /**
@@ -14,6 +15,7 @@ public class PSDCacheRunner implements Runnable {
 	public static final long DEFAULT_CACHE_START = 30000;
 	private PersistentServiceDelegator psd = null;
 	private AssociateDaoHibernate associateDaoHib = new AssociateDaoHibernate();
+	private BatchDaoHibernate batchDaoHib = new BatchDaoHibernate();
 	private long delayedStartTime = DEFAULT_CACHE_START;
 	
 	/**
@@ -87,7 +89,8 @@ public class PSDCacheRunner implements Runnable {
 
         try {
 			// perform caching
-        	associateDaoHib.cacheAllAssociates();
+        	AssociateDaoHibernate.cacheAllAssociates();
+        	//BatchDaoHibernate.cacheAllBatches();
         	//psd.getAssociates();
             psd.getBatches();
             psd.getClients();

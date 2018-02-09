@@ -24,14 +24,37 @@ public class TfAssociate implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2324082555924677252L;
+	
+	@Id
+	@Column(name = "TF_ASSOCIATE_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private BigDecimal tfAssociateId;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "TF_BATCH_ID")
 	private TfBatch tfBatch;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "TF_MARKETING_STATUS_ID")
 	private TfMarketingStatus tfMarketingStatus;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "TF_CLIENT_ID")
 	private TfClient tfClient;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "TF_END_CLIENT_ID")
 	private TfEndClient tfEndClient;
+	
+	@Column(name = "TF_ASSOCIATE_FIRST_NAME", length = 30)
 	private String tfAssociateFirstName;
+	
+	@Column(name = "TF_ASSOCIATE_LAST_NAME", length = 30)
 	private String tfAssociateLastName;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfAssociate")
 	private Set<TfInterview> tfInterviews = new HashSet<TfInterview>(0);
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfAssociate")
 	private Set<TfPlacement> tfPlacements = new HashSet<TfPlacement>(0);
 
 	public TfAssociate() {
@@ -55,9 +78,7 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfPlacements = tfPlacements;
 	}
 
-	@Id
-
-	@Column(name = "TF_ASSOCIATE_ID", unique = true, nullable = false, precision = 22, scale = 0)
+	
 	public BigDecimal getTfAssociateId() {
 		return this.tfAssociateId;
 	}
@@ -66,8 +87,7 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfAssociateId = tfAssociateId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TF_BATCH_ID")
+	
 	public TfBatch getTfBatch() {
 		return this.tfBatch;
 	}
@@ -76,8 +96,7 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfBatch = tfBatch;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "TF_MARKETING_STATUS_ID")
+	
 	public TfMarketingStatus getTfMarketingStatus() {
 		return this.tfMarketingStatus;
 	}
@@ -86,8 +105,7 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfMarketingStatus = tfMarketingStatus;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TF_CLIENT_ID")
+	
 	public TfClient getTfClient() {
 		return this.tfClient;
 	}
@@ -96,8 +114,7 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfClient = tfClient;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TF_END_CLIENT_ID")
+	
 	public TfEndClient getTfEndClient() {
 		return this.tfEndClient;
 	}
@@ -106,7 +123,6 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfEndClient = tfEndClient;
 	}
 
-	@Column(name = "TF_ASSOCIATE_FIRST_NAME", length = 30)
 	public String getTfAssociateFirstName() {
 		return this.tfAssociateFirstName;
 	}
@@ -115,7 +131,6 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfAssociateFirstName = tfAssociateFirstName;
 	}
 
-	@Column(name = "TF_ASSOCIATE_LAST_NAME", length = 30)
 	public String getTfAssociateLastName() {
 		return this.tfAssociateLastName;
 	}
@@ -124,7 +139,6 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfAssociateLastName = tfAssociateLastName;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfAssociate")
 	public Set<TfInterview> getTfInterviews() {
 		return this.tfInterviews;
 	}
@@ -133,7 +147,6 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfInterviews = tfInterviews;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfAssociate")
 	public Set<TfPlacement> getTfPlacements() {
 		return this.tfPlacements;
 	}

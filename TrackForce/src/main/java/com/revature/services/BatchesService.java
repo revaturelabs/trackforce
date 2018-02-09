@@ -209,4 +209,15 @@ public class BatchesService implements Service {
         return (List<T>) getAllBatchesSortedByDate();
 
     }
+    
+//    @GET
+//    public void getAllBatches() throws IOException {
+//    	
+//    }
+//    
+//    @GET
+//    @Path("id")
+//    public void getBatchById(@PathParam("id") int id) throws IOException {
+//    	
+//    }
 }

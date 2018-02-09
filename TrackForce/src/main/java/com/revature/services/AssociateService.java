@@ -324,4 +324,103 @@ public class AssociateService implements Service {
 	public <T> Set<T> read(String... args) throws IOException {
 		return (Set<T>) getAllAssociates();
 	}
+	
+	
+	 //Refactored methods to match proper RESTful WS procedures
+	 
+//	 @GET
+//	 @Produces(MediaType.APPLICATION_JSON)
+//	 public Set<AssociateInfo> getAllAssociates() {
+//		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
+//		if (associates == null || associates.isEmpty()) {
+//			execute();
+//			return PersistentStorage.getStorage().getAssociates();
+//		}
+//		return associates;
+//	 }
+//	 
+//	 @PUT
+//	 @Consumes(MediaType.APPLICATION_JSON)
+//	 public Response updateAssociates(int[] ids, int statusId, int clientId) throws IOException{
+//		Session session = sessionFactory.openSession();
+//		Transaction tx = session.beginTransaction();
+//
+//			try {
+//
+//				ClientInfo tfclient = PersistentStorage.getStorage().getClientAsMap().get(new BigDecimal(clientId));
+//				MarketingStatusInfo msi = PersistentStorage.getStorage().getMarketingAsMap().get(new BigDecimal(statusId));
+//
+//				if (msi == null) {
+//					return Response.status(Response.Status.BAD_REQUEST).entity("Invalid marketing status sent.").build();
+//				}
+//
+//				Map<BigDecimal, AssociateInfo> map = new HashMap<>();
+//				for (int id : ids) {
+//					AssociateInfo ai = PersistentStorage.getStorage().getAssociateAsMap().get(new BigDecimal(id));
+//					ClientInfo old = PersistentStorage.getStorage().getClientAsMap().get(ai.getClid());
+//
+//					// subtract old values
+//					if (old != null) {
+//						if (ai.getMsid() != null)
+//							old.getStats().subtractFromMap(ai.getMsid());
+//						old.getTfAssociates().remove(ai);
+//					}
+//
+//					// add new values
+//					// since all the resources are available to us, we can update storage here
+//					// without having to hit the DB
+//					BigDecimal oldms = ai.getMsid();
+//					tfclient.getStats().appendToMap(msi.getId());
+//					tfclient.getTfAssociates().add(ai);
+//					ai.setMarketingStatusId(msi.getId());
+//					ai.setMarketingStatus(msi.getName());
+//					ai.setClid(tfclient.getId());
+//					ai.setClient(tfclient.getTfClientName());
+//
+//					// write to DB
+//					associateDao.updateInfo(session, ai.getId(), msi, tfclient);
+//
+//					map.put(ai.getId(), ai);
+//					PersistentStorage.getStorage().getTotals().appendToMap(msi.getId());
+//					if(oldms != null && !oldms.equals(new BigDecimal(-1)))
+//						PersistentStorage.getStorage().getTotals().subtractFromMap(oldms);
+//				}
+//				session.flush();
+//				tx.commit();
+//
+//				// update Persistent storage
+//				PersistentStorage.getStorage().updateAssociates(map);
+//
+//				return Response.status(Response.Status.OK).build();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				LogUtil.logger.error(e);
+//				session.flush();
+//				tx.rollback();
+//				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Updated the associate's information.")
+//						.build();
+//			} finally {
+//				session.close();
+//			}
+//	 }
+	 
+//	  @GET//with id
+//	  @Path("{associateid}")
+//	  @Produces(MediaType.APPLICATION_JSON)
+//	  public AssociateInfo getAssociateById(@PathParam("associateid") BigDecimal associateid) throws IOException{
+//	    Session session = sessionFactory.openSession();
+//	    Transaction tx = session.beginTransaction();
+//		try {
+//			AssociateInfo associateinfo = associateDao.getAssociate(associateid, session);
+//			tx.commit();
+//			return associateinfo;
+//		} catch (Exception e) {
+//			tx.rollback();
+//			e.printStackTrace();
+//			throw new IOException("Could not get associate", e);
+//		} finally {
+//			session.close();
+//		}
+//	  }
+	 
 }

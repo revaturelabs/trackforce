@@ -2,14 +2,11 @@ package com.revature.test.admin.cukes;
 
 import java.util.HashMap;
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
 import com.revature.test.admin.pom.BatchListTab;
 import com.revature.test.utils.WaitToLoad;
-
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -65,10 +62,8 @@ public class BatchListCukes {
 		for (int i = 0; i < associateIDs.size(); i++) {
 			// If the IDs match
 			if (IDs.containsKey(associateIDs.get(i).getText())) {
-				System.out.println(associateIDs.get(i).getText());
 				// and if the batch name is in the same row
 				if (associateRows.get(i).getText().contains(batchName)) {
-					System.out.println(batchName);
 					// remove it from the map
 					IDs.remove(associateIDs.get(i).getText());
 				}

@@ -12,7 +12,7 @@ import cucumber.api.CucumberOptions;
 //import cucumber.api.CucumberOptions;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 
-@CucumberOptions(features="src/test/resources/AdminFeatureFiles")
+//@CucumberOptions(features="src/test/resources/AdminFeatureFiles")
 public class AdminSuite extends AbstractTestNGCucumberTests{
 
 	public static WebDriver wd = WebDriverUtil.getChromeDriver();
@@ -34,7 +34,8 @@ public class AdminSuite extends AbstractTestNGCucumberTests{
 	@AfterSuite
 	public void afterSuite() {
 		System.out.println("Logging out");
-		Logout.logout(wd);
-		//wd.quit();
+		//Logout.logout(wd);
+		wd.quit();
+
 	}
 }

@@ -7,6 +7,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,7 +25,7 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
 
-@Path("/user")
+@Path("user")
 public class UserResource {
 
     private JWTService jwtService;
@@ -46,6 +47,18 @@ public class UserResource {
         this.jwtService = jwtService;
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public void getAllUsers() {
+    	//TODO do something with getting all the TrackForce users
+    }
+    
+    @GET
+    @Path("{userid}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void getUser(@PathParam("userid") String userid){
+    	
+    }
     /**
      * Method takes login information from front-end and verifies the information.
      * If info is valid, a status code of 200 is returned, otherwise 400 for a bad

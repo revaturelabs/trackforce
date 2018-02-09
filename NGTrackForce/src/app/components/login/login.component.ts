@@ -18,6 +18,7 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 export class LoginComponent implements OnInit {
   public username: string;
   public password: string;
+  public errMsg: any;
 
   /**
   *@constructor
@@ -64,6 +65,7 @@ export class LoginComponent implements OnInit {
   *
   */
   login() {
+    this.errMsg = "";
     this.authService.login(this.username, this.password).subscribe(
       data => {
         const user = this.authService.getUser();
@@ -78,6 +80,14 @@ export class LoginComponent implements OnInit {
       },
       err => {
         this.authService.logout();
+        console.log(err);
+        if (err.status == 500)
+          this.errMsg = "There was an error on the server";
+        else if (err.status == 400)
+          this.errMsg = "Invalid username and/or password";
+        else {
+          this.errMsg = "Unable to login";
+        }
       }
     );
   }

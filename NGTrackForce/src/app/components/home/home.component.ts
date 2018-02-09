@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { RequestService } from '../../services/request-service/request.service';
 import { DataSyncService } from '../../services/datasync-service/data-sync.service';
 import { ChartsModule, Color } from 'ng2-charts';
+import { UserService } from '../../services/user-service/user.service';
+import { ClientService } from '../../services/client-service/client.service';
+import { BatchService } from '../../services/batch-service/batch.service';
 
 import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
@@ -19,6 +22,7 @@ const MONTHS_3 = 788923800;
 })
 
 export class HomeComponent {
+  private batches: any;
 
   /**
  * http://usejsdoc.org/
@@ -60,7 +64,7 @@ export class HomeComponent {
   private deployedData: number[] = [0, 0];
   private mappedData: number[] = [0, 0, 0, 0];
   private unmappedData: number[] = [0, 0, 0, 0];
-  
+
 
   /**
     *@param {RequestService} rs
@@ -74,7 +78,14 @@ export class HomeComponent {
     *@param {Router} rout
     * Allows for re-direction to other components
     */
-  constructor(private rs: RequestService, private ds: DataSyncService, private rout: Router) { }
+  constructor(
+    private rs: RequestService,
+    private ds: DataSyncService,
+    private rout: Router,
+    private us: UserService,
+    private cs: ClientService,
+    private bs: BatchService
+  ) { }
 
   ngOnInit() {
     this.load();
@@ -218,7 +229,7 @@ export class HomeComponent {
    *				the username for the current user that logs in
    */
   getUsername() {
-    this.rs.getUsername().subscribe(response => {
+    this.us.getUsername().subscribe(response => {
       this.username = response.data;
     });
   };
@@ -231,11 +242,12 @@ export class HomeComponent {
    * 				information to reduce loading on batch list page
    */
   defaultBatches() {
-    this.rs.getBatches(this.threeMonthsBefore(), this.threeMonthsAfter()).subscribe(response => {
+    this.bs.getBatches(this.threeMonthsBefore(), this.threeMonthsAfter()).subscribe(response => {
       // try to get rid of this variable
       // fetched data should be fetched, not stored
-      // this.glo.batches = response.data;
-    }, () => {
+      this.batches = response.data;
+    }, (err) => {
+      console.log(err);
       console.log('Error in doing http request')
     });
   }
@@ -247,7 +259,7 @@ export class HomeComponent {
    * 				period to populate graph in batch list
    */
   getCountPerBatchTypeDefault() {
-    this.rs.getBatchPerType(this.threeMonthsBefore(), this.threeMonthsAfter()).subscribe(response => {
+    this.bs.getBatchByType(this.threeMonthsBefore(), this.threeMonthsAfter(),'all').subscribe(response => {
       // this callback will be called asynchronously
       // when the response is available
       this.labels = [];

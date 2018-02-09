@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RequestService } from '../../services/request-service/request.service';
+import { ClientService } from '../../services/client-service/client.service';
 import { Subject } from 'rxjs/Subject';
 import { Client } from '../../models/client.model';
 import { Observable } from 'rxjs/Observable';
@@ -62,7 +63,9 @@ export class ClientListComponent implements OnInit {
 
 
   constructor(
-    private rs: RequestService) {
+    private rs: RequestService,
+    private clientService: ClientService
+  ) {
   }
 
   ngOnInit() {
@@ -73,8 +76,7 @@ export class ClientListComponent implements OnInit {
   // get client names from data and push to clientNames string array
   getAllClients() {
     var self = this;
-    this.rs.getClients()
-      .subscribe(
+    this.clientService.getAllClients().subscribe(
       clientNames => {
         // save array of object Client
         this.clientInfo = clientNames;
@@ -86,7 +88,7 @@ export class ClientListComponent implements OnInit {
           // Hide clients who do not have associates
           let stats = client.stats;
           if (stats.trainingMapped > 0 || stats.trainingUnmapped > 0 ||
-            stats.reservedMapped > 0 || stats.openUnmapped > 0 || 
+            stats.reservedMapped > 0 || stats.openUnmapped > 0 ||
           stats.selectedMapped > 0 || stats.selectedUnmapped > 0 ||
           stats.confirmedMapped > 0 || stats.confirmedUnmapped > 0)
             this.clientNames.push(client.tfClientName);
@@ -122,7 +124,7 @@ export class ClientListComponent implements OnInit {
   getOneClient(name: string) {
     this.selectedCompany = name;
     let oneClient = this.clientInfo.find(item => item['tfClientName'] == name);
-    this.rs.getOneClient(oneClient.id)
+    this.clientService.getOneClient(oneClient.id)
       .subscribe(
       client => {
         this.client$ = client;

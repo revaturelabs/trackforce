@@ -29,5 +29,8 @@ export class SkillsetService {
             'TrackForce/track/associates/skillset/' + statusID);
     }
 
+    public getSkills(): Observable<any> {
+      return this.http.get('TrackForce/skills');
+    }
 
 }

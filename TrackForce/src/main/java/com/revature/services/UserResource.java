@@ -7,6 +7,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,7 +25,7 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
 
-@Path("/user")
+@Path("users")
 public class UserResource {
 
     private JWTService jwtService;
@@ -35,6 +36,45 @@ public class UserResource {
         jwtService = new JWTService();
     }
 
+    /**
+     * Gets every user for TrackForce
+     * @return Returns a json of all the users
+     */
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getAllUsers(){
+    	//This will produce application/json
+    	//Not sure if this will actually be needed
+    	return Response.status(501)
+    			.entity("This has not yet been implemented. There maybe future implementations")
+    			.build();
+    }
+    
+    /**
+     * Creates a user
+     * @return Returns whether the response was successful
+     */
+    @POST
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response createNewUser(){
+    	//This will produce application/json
+    	//Not sure if this will actually be needed
+    	return Response.status(501)
+    			.entity("This has not yet been implemented. There maybe future implementations")
+    			.build();
+    }
+    
+    /**
+     * Gets the user by the user's username
+     * @param username Username used to get the user
+     * @return Returns a TfUser json
+     */
+    @GET
+    @Path("{username}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public TfUser getUser(@PathParam("username") String username) {
+    	return new UserDaoImpl().getUser(username);
+    }
     /**
      * injectable dependencies constructor for easier testing
      *
@@ -57,7 +97,7 @@ public class UserResource {
      * @throws IOException
      */
     @POST
-    @Path("submit")
+    @Path("login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response submitCredentials(LoginJSON login) throws IOException {

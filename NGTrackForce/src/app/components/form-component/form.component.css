@@ -1,0 +1,12 @@
+.row {
+  margin-top: 10px;
+}
+
+table {
+  background: #fefefe;
+  border-width: 2px;
+}
+
+td:first-child {
+  font-weight: bold;
+}

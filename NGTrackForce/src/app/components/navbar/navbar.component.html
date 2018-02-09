@@ -9,7 +9,7 @@
       <li><a routerLink="/batch-listing">Batch List</a></li>
       <li><a routerLink="/associate-listing">Associate List</a></li>
       <li><a *ngIf="isAdmin" routerLink="/create-user">Create User</a></li>
-      <li><a (click)="logout()">Logout</a></li>
+      <li><a routerLink="/login" (click)="logout()">Logout</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a>Welcome, {{user.username}}</a></li>

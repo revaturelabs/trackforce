@@ -4,7 +4,7 @@ import com.revature.dao.ClientDao;
 import com.revature.entity.TfClient;
 import com.revature.model.ClientInfo;
 import com.revature.model.StatusInfo;
-import com.revature.services.ClientResource;
+import com.revature.services.ClientService;
 import com.revature.test.BaseTest;
 import org.hibernate.Session;
 import org.mockito.Matchers;
@@ -27,7 +27,7 @@ public class ClientResourceTest extends BaseTest {
     @Mock
     private ClientDao clientDao;
 
-    private ClientResource clientResource;
+    private ClientService clientResource;
 
     private Map<BigDecimal, ClientInfo> mockClientMap;
     private Set<ClientInfo> mockClients;
@@ -79,7 +79,7 @@ public class ClientResourceTest extends BaseTest {
                 .thenReturn(mockClient1);
 
          // use mocked client resource dao to reset the cache
-        clientResource = new ClientResource(clientDao, sessionFactory);
+        clientResource = new ClientService(clientDao, sessionFactory);
         resetCaches(null, clientResource, null);    // only mocking the clientResource
     }
 

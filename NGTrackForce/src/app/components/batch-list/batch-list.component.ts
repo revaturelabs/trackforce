@@ -70,6 +70,20 @@ export class BatchListComponent implements OnInit {
     }
   }
 
+  /*
+   * reset to original batches
+   */
+  public resetToDefaultBatches(){
+    this.dataReady = false;
+    this.batchService.getDefaultBatches().subscribe(
+      (batches) => {
+        this.batches = batches;
+        this.updateCountPerCurriculum();
+        this.dataReady = true;
+      },
+    );
+  }
+
   /**
    * @function updateBatches
    * @memberof BatchListComponent

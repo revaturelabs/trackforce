@@ -32,7 +32,7 @@ import com.revature.utils.PersistentStorage;
  * page.
  */
 @Path("batches")
-public class BatchesService implements Delegate {
+public class BatchesService implements Service {
 
     private BatchDao batchDao;
     private SessionFactory sessionFactory;

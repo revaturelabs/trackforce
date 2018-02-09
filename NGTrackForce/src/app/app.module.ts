@@ -20,12 +20,14 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
 import { LoginComponent } from './components/login/login.component';
 import { ClientListComponent } from './components/client-list/client-list.component';
 import { FormComponent } from './components/form-component/form.component';
+import { FooterComponent } from './components/footer/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { RootComponent } from './components/root/root.component';
 import { SkillsetComponent } from './components/skillset/skillset.component';
 import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 import { AssociateViewComponent } from './components/associate-view/associate-view.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 ///
 //  SERVICES
@@ -58,8 +60,6 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 ///
 import { appRoutes } from './routing/routes';
 import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-helpers/router-stubs';
-import { FooterComponent } from './components/footer/footer/footer.component';
-
 
 @NgModule({
   declarations: [
@@ -81,7 +81,8 @@ import { FooterComponent } from './components/footer/footer/footer.component';
     AssociateViewComponent,
     RouterLinkStubDirective,
     RouterOutletStubComponent,
-    FooterComponent
+    FooterComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

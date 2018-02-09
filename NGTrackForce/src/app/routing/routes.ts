@@ -16,6 +16,7 @@ import {RootComponent} from '../components/root/root.component';
 import {SkillsetComponent} from '../components/skillset/skillset.component';
 import {BatchDetailsComponent} from '../components/batch-details/batch-details.component';
 import { AssociateViewComponent } from '../components/associate-view/associate-view.component';
+import {NotFoundComponent} from '../components/not-found/not-found.component';
 
 /**
  * Place paths here
@@ -78,6 +79,10 @@ export const appRoutes: Routes = [
   {
     path: 'associate-view/:id',
     component: AssociateViewComponent
+  },
+  {
+    // must be LAST in this array because this matches all other paths (fallback)
+    path: '**',
+    component: NotFoundComponent
   }
-
 ];

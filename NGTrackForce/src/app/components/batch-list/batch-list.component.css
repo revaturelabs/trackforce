@@ -8,15 +8,12 @@ form {
   margin-bottom: 50px;
 }
 
-thead {
+thead, tbody {
   display: block;
   overflow-y: scroll;
 }
 tbody {
-  /* width: max-content; */
-  display: block;
-  overflow-y: scroll;
-  max-height: 750px !important;
+  max-height: 500px;
 }
 
 .data-status {
@@ -44,6 +41,10 @@ form > div {
   display: inline-block;
 }
 
+form > div:first-child {
+  margin-right: 50px;
+}
+
 .name-column {
   width: 50%;
 }
@@ -53,6 +54,9 @@ form > div {
 }
 
 @media screen and (max-width: 1000px) {
+  form > div:first-child {
+    margin-right: 0px;
+  }
   .table-width-adjust {
     width: 100% !important;
     padding-left: 20px;

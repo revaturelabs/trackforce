@@ -18,6 +18,10 @@ public class CreateUserTab {
 		return WaitToLoad.findDynamicElement(d, By.xpath("/html/body/app/div/app-create-user/div/div[2]/h3"), 10);
 	}
 
+	public static String getCurrentURL(WebDriver d) {
+		return d.getCurrentUrl();
+	}
+	
 	public static WebElement getUsername(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d, By.cssSelector("[name='username']"), 10);
 	}

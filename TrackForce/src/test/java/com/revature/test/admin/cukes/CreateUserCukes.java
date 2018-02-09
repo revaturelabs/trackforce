@@ -9,6 +9,7 @@ import cucumber.api.java.en.When;
 
 import com.revature.test.admin.pom.CreateUserTab;
 import com.revature.test.admin.testclasses.AdminSuite;
+import com.revature.test.utils.TestConfig;
 import com.revature.test.utils.WaitToLoad;
 
 public class CreateUserCukes extends AdminSuite {
@@ -16,6 +17,7 @@ public class CreateUserCukes extends AdminSuite {
 	
 	private static String user = "username";
 	private static String pass = "password";
+	
 	
 	@Given("^We are on Create User Tab$")
 	public static boolean clickCreateUserTab(WebDriver d) {
@@ -32,13 +34,19 @@ public class CreateUserCukes extends AdminSuite {
 	public static boolean onCreateUserTab(WebDriver d) {
 		try {
 			//Thread.sleep(2000);
+			if (CreateUserTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/createUser")){
+				return true;
+			}
+			//Check if page loaded the Create New User form
 			e = CreateUserTab.getCreateNewUserHeader(d);
 			if (e.getText().contains("Create New User")) {
 				return true;
 			}
+			System.out.println("Current URL does not end with /createUser");
 			System.out.println("Header did not contain 'Create New User'");
 			return false;
 		} catch (Throwable e) {
+			System.out.println("Failed to confirm current URL ends in /createUser");
 			System.out.println("Failed to find 'Create New User' element");
 			return false;
 		}

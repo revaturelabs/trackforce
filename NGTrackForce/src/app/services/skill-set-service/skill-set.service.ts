@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
 import { environment } from '../../../environments/environment';
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class SkillsetService {
@@ -26,7 +26,7 @@ export class SkillsetService {
       */
     getSkillsetsForStatusID(statusID : number) : Observable<any> {
         return this.http.get(((this.NO_BACKEND) ? this.MOCK_API : environment.url) +
-            'TrackForce/track/associates/skillset/' + statusID);
+            'TrackForce/associates/skillset?statusId=' + statusID);
     }
 
     public getSkills(): Observable<any> {

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Set;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 import com.revature.dao.CurriculumDao;
@@ -49,6 +50,7 @@ public class CurriculumService implements Service {
 		return currs;
 	}
 	
+    @GET
 	public Map<BigDecimal, CurriculumInfo> getCurriculums() throws HibernateException, IOException{
 		Map<BigDecimal, CurriculumInfo> curriculums;
 		Session session = sessionFactory.openSession();

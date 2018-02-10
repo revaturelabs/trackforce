@@ -12,8 +12,7 @@ import {User} from '../../models/user.model';
 export class RequestService {
 
   host: string = environment.url;
-  trackPath: string = this.host + 'TrackForce/track';
-  dataPath: string = this.host + 'TrackForce/track/data/get';
+  trackPath: string = this.host + 'TrackForce/';
 
   /**
     *@param {HttpClient} http
@@ -23,23 +22,23 @@ export class RequestService {
   constructor(private http: HttpClient) { }
 
   public populateDB(): Observable<any> {
-    return this.http.get(this.host + 'TrackForce/track/database/populateDB');
+    return this.http.get(this.trackPath + 'database/populateDB');
   }
 
   public populateDBSF(): Observable<any> {
-    return this.http.get(this.host + 'TrackForce/track/database/populateDBSF');
+    return this.http.get(this.trackPath + 'database/populateDBSF');
   }
 
   public deleteDB(): Observable<any> {
-    return this.http.delete(this.host + 'TrackForce/track/database/deleteFromDB');
+    return this.http.delete(this.trackPath + 'database/deleteFromDB');
   }
 
   public getTotals(): Observable<any> {
-    return this.http.get(this.dataPath + '/summary');
+    return this.http.get(this.trackPath + 'summary');
   }
 
   public getStatuses(): Observable<any> {
-    return this.http.get(this.dataPath + '/marketing');
+    return this.http.get(this.trackPath + 'marketing');
   }
 
 }

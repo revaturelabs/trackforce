@@ -24,7 +24,7 @@ public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
-    	Thread worker = new Thread(new PSDCacheRunner(psd));
-    	worker.start();
+//    	Thread worker = new Thread(new PSDCacheRunner(psd));
+//    	worker.start();
     }
 }

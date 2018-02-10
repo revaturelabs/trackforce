@@ -35,6 +35,17 @@ public class UserResource {
         userDao = new UserDaoImpl();
         jwtService = new JWTService();
     }
+    
+    /**
+     * injectable dependencies constructor for easier testing
+     *
+     * @param userDao
+     * @param jwtService
+     */
+    public UserResource(UserDAO userDao, JWTService jwtService) {
+        this.userDao = userDao;
+        this.jwtService = jwtService;
+    }
 
     /**
      * Gets every user for TrackForce
@@ -70,20 +81,10 @@ public class UserResource {
      * @return Returns a TfUser json
      */
     @GET
-    @Path("{username}")
+    @Path("/{username}")
     @Produces(MediaType.APPLICATION_JSON)
     public TfUser getUser(@PathParam("username") String username) {
     	return new UserDaoImpl().getUser(username);
-    }
-    /**
-     * injectable dependencies constructor for easier testing
-     *
-     * @param userDao
-     * @param jwtService
-     */
-    public UserResource(UserDAO userDao, JWTService jwtService) {
-        this.userDao = userDao;
-        this.jwtService = jwtService;
     }
 
     /**
@@ -123,8 +124,7 @@ public class UserResource {
                         String tfUserName = tfUser.getTfUserUsername();
                         // If the user have a valid role and username, a 200 can be returned
                         if (tfRoleId != null && tfUserName != null) {
-                            // Sets the role id and username to the userjson object, which is set back to
-                            // angular
+                            // Sets the role id and username to the userjson object, which is set back to angular
                             userjson.setTfRoleId(tfRoleId);
                             userjson.setUsername(tfUserName);
 

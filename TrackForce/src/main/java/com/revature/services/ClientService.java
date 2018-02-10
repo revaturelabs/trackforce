@@ -57,7 +57,7 @@ public class ClientService implements Service {
      * @throws HibernateException
      */
     @GET
-    private Set<ClientInfo> getAllClients() throws IOException {
+    public Set<ClientInfo> getAllClients() throws IOException {
         Set<ClientInfo> clients = PersistentStorage.getStorage().getClients();
         if (clients == null || clients.isEmpty()) {
             execute();

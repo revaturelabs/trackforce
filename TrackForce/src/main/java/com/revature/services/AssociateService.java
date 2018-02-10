@@ -115,15 +115,29 @@ public class AssociateService implements Service {
 	 * @throws IOException
 	 * @throws HibernateException
 	 */
+	
 	private Set<AssociateInfo> getAllAssociates() throws IOException {
+		System.out.println("getAllAssociates called");
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null || associates.isEmpty()) {
-			execute();
+			//execute();
 			return PersistentStorage.getStorage().getAssociates();
 		}
 		return associates;
 	}
+	
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Set<AssociateInfo> getAllOfTheAssociates(){
+		
+		try {
+			return read();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
     /**
      * fetch associates from database
      *
@@ -132,26 +146,28 @@ public class AssociateService implements Service {
      * @throws IOException
      */
 	public Map<BigDecimal, AssociateInfo> getAssociates() {//throws HibernateException, IOException {
+		System.out.println("getAssociates called");
+		return AssociateDaoHibernate.getAllAssociates();
 		//Session session = sessionFactory.openSession();
 		//Transaction tx = session.beginTransaction();
-		List<TfAssociate> associateList = null;
-		try {
-			associateList = AssociateDaoHibernate.getAllAssociates();
-			
-			//PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
-
-			//session.flush();
-			//tx.commit();
-			//return tfAssociates;
-		} catch (Exception e) {
-			LogUtil.logger.error(e);
-			//session.flush();
-			//tx.rollback();
-			//throw new IOException("cannot get associates", e);
-		} finally {
-			//session.close();
-		}
-		return AssociateDaoHibernate.createAssociatesMap(associateList);
+//		 Map<BigDecimal, AssociateInfo> associateList = null;
+//		try {
+//			associateList = AssociateDaoHibernate.getAllAssociates();
+//			
+//			//PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
+//
+//			//session.flush();
+//			//tx.commit();
+//			//return tfAssociates;
+//		} catch (Exception e) {
+//			LogUtil.logger.error(e);
+//			//session.flush();
+//			//tx.rollback();
+//			//throw new IOException("cannot get associates", e);
+//		} finally {
+//			//session.close();
+//		}
+//		return AssociateDaoHibernate.createAssociatesMap(associateList);
 	}
 
 	/**
@@ -254,7 +270,7 @@ public class AssociateService implements Service {
 	public Response getClients(@PathParam("statusid") int statusid) throws HibernateException, IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null) {
-			execute();
+			//execute();
 			associates = PersistentStorage.getStorage().getAssociates();
 		}
 
@@ -293,7 +309,7 @@ public class AssociateService implements Service {
 	public Response getCurriculumsByStatus(@PathParam("statusid") int statusid) throws HibernateException, IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null) {
-			execute();
+			//execute();
 			associates = PersistentStorage.getStorage().getAssociates();
 		}
 

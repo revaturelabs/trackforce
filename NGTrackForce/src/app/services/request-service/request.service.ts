@@ -13,7 +13,7 @@ export class RequestService {
 
   host: string = environment.url;
   trackPath: string = this.host + 'TrackForce/track';
-  dataPath: string = this.host + 'TrackForce/track/data/get';
+  dataPath: string = this.host + 'TrackForce/data';
 
   /**
     *@param {HttpClient} http
@@ -35,7 +35,7 @@ export class RequestService {
   }
 
   public getTotals(): Observable<any> {
-    return this.http.get(this.dataPath + '/summary');
+    return this.http.get(this.dataPath + '/get/summary');
   }
 
   public getStatuses(): Observable<any> {

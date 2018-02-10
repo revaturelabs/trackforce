@@ -37,7 +37,7 @@ export class AuthenticationService {
     * If credentials are wrong, 400 is returned
     */
   public login(username: string, password: string): Observable<User> {
-    return this.http.post<User>(environment.url + 'TrackForce/user', { username: username, password: password }).map(
+    return this.http.post<User>(environment.url + 'TrackForce/users/login', { username: username, password: password }).map(
       user => {
         if(user){
           localStorage.setItem(USER_KEY, JSON.stringify(user));

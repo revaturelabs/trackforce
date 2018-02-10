@@ -124,49 +124,21 @@ public class AssociateDaoHibernate implements AssociateDao {
         return map;
     }
     //This is Robin's implementation, previous implementation is getAssociates (should be right above)
-    public static List<TfAssociate> getAllAssociates(Session session) {
-        try {
-	    	List<TfAssociate> associatesEnt;
-	        CriteriaBuilder cb = session.getCriteriaBuilder();
-	        CriteriaQuery<TfAssociate> cq = cb.createQuery(TfAssociate.class);
-	        Root<TfAssociate> from = cq.from(TfAssociate.class);
-	        CriteriaQuery<TfAssociate> all = cq.select(from);
-	        Query<TfAssociate> tq = session.createQuery(all);
-	
-	        associatesEnt = tq.getResultList();
-	        return associatesEnt;
-        } finally {
-        	session.close();
-        }
-    }
-    public static List<TfAssociate> getAllAssociates() {
-    	Session session = HibernateUtil.getSession();
-        try {
-	    	List<TfAssociate> associatesEnt;
-	        CriteriaBuilder cb = session.getCriteriaBuilder();
-	        CriteriaQuery<TfAssociate> cq = cb.createQuery(TfAssociate.class);
-	        Root<TfAssociate> from = cq.from(TfAssociate.class);
-	        CriteriaQuery<TfAssociate> all = cq.select(from);
-	        Query<TfAssociate> tq = session.createQuery(all);
-	
-	        associatesEnt = tq.getResultList();
-	        return associatesEnt;
-        } finally {
-        	session.close();
-        }
+    
+    public static Map<BigDecimal, AssociateInfo> getAllAssociates() {
+    	if(PersistentStorage.getStorage().getAssociates() == null)
+    		cacheAllAssociates();
+    	return PersistentStorage.getStorage().getAssociateAsMap();
+    	
     }
     public static Map<BigDecimal, AssociateInfo> createAssociatesMap(List<TfAssociate> associateList) {
-    	Session session = HibernateUtil.getSession();
-    	try {
 	    	Map<BigDecimal, AssociateInfo> map = new HashMap<>();
 	    	for(TfAssociate tfa : associateList) {
-				map.put(tfa.getTfAssociateId(), Dao2DoMapper.map(tfa));
-	            AssociateInfo.appendToMap(tfa.getTfMarketingStatus());
-			}
+	    		map.put(tfa.getTfAssociateId(), Dao2DoMapper.map(tfa));
+	    		AssociateInfo.appendToMap(tfa.getTfMarketingStatus());
+	    	}
 	    	return map;
-    	} finally {
-    		session.close();
-    	}
+    	
     }
     /**
      * Retrieves all associate records from the database and places them into the cache
@@ -175,10 +147,16 @@ public class AssociateDaoHibernate implements AssociateDao {
     public static void cacheAllAssociates() {
     	Session session = HibernateUtil.getSession();
     	try {
-	    	List<TfAssociate> associates = getAllAssociates(session);
+	    	List<TfAssociate> associates;
+	    	CriteriaBuilder cb = session.getCriteriaBuilder();
+	        CriteriaQuery<TfAssociate> cq = cb.createQuery(TfAssociate.class);
+	        Root<TfAssociate> from = cq.from(TfAssociate.class);
+	        CriteriaQuery<TfAssociate> all = cq.select(from);
+	        Query<TfAssociate> tq = session.createQuery(all);
+	        associates = tq.getResultList(); 
 	    	Map<BigDecimal, AssociateInfo> map = new HashMap<>();
 	    	if(associates != null) {
-	    		createAssociatesMap(associates);
+	    		map = createAssociatesMap(associates);
 	    	}
     	PersistentStorage.getStorage().setAssociates(map);
     	PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());

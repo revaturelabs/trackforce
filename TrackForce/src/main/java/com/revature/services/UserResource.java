@@ -42,12 +42,13 @@ public class UserResource {
      */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public Response getAllUsers(){
+    public String getAllUsers(){
     	//This will produce application/json
     	//Not sure if this will actually be needed
-    	return Response.status(501)
-    			.entity("This has not yet been implemented. There maybe future implementations")
-    			.build();
+//    	return Response.status(501)
+//    			.entity("This has not yet been implemented. There maybe future implementations")
+//    			.build();
+    	return "This has not yet been implemented. There maybe future implementations";
     }
     
     /**

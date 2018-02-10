@@ -46,6 +46,11 @@ public class AssociateDaoHibernate implements AssociateDao {
         return Dao2DoMapper.map(associate);
     }
     
+    /**
+     * Get an associate from the database given its id
+     * Added the method without the session parameter
+     * @return Returns an AssociateInfo object
+     */
     public AssociateInfo getAssociate(BigDecimal associateid) {
         TfAssociate associate;
         Session session = HibernateUtil.getSession();
@@ -87,7 +92,18 @@ public class AssociateDaoHibernate implements AssociateDao {
 
     }
     
-    public void updateInfo(BigDecimal id, MarketingStatusInfo marketingStatus, ClientInfo client) throws IOException {
+    /**
+     * Updates an associate's marketing status and client in the database.
+     * Removed the session parameter and the throws clause.
+     *
+     * @param id              - The ID of the associate to update.
+     * @param marketingStatus - A TfMarketingStatus object with the status to change the
+     *                        associate to.
+     * @param client          - A TfClient object with what client the associate will be mapped
+     *                        to.
+     * @throws IOException
+     */
+    public void updateInfo(BigDecimal id, MarketingStatusInfo marketingStatus, ClientInfo client) {
     	Session session = HibernateUtil.getSession();
         TfClient tfclient = null;
         if (client.getId() != null) {
@@ -125,12 +141,22 @@ public class AssociateDaoHibernate implements AssociateDao {
     }
     //This is Robin's implementation, previous implementation is getAssociates (should be right above)
     
+    /**
+     * Returns data from the cache
+     * @return The cached data 
+     */
     public static Map<BigDecimal, AssociateInfo> getAllAssociates() {
     	if(PersistentStorage.getStorage().getAssociates() == null)
     		cacheAllAssociates();
     	return PersistentStorage.getStorage().getAssociateAsMap();
     	
     }
+    
+    /**
+     * Creates an AssociateInfo map to store data onto the cache
+     * @param associateList
+     * @return Returns the Map object
+     */
     public static Map<BigDecimal, AssociateInfo> createAssociatesMap(List<TfAssociate> associateList) {
 	    	Map<BigDecimal, AssociateInfo> map = new HashMap<>();
 	    	for(TfAssociate tfa : associateList) {

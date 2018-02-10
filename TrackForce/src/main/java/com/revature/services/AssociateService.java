@@ -126,12 +126,14 @@ public class AssociateService implements Service {
 		return associates;
 	}
 	
-
+	//The method used to populate all of the data onto TrackForce
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Set<AssociateInfo> getAllOfTheAssociates(){
 		
 		try {
+			//for now, must use read method in respective service class to read 
+			//data from the cache and be able to send it to Angular
 			return read();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -146,7 +148,9 @@ public class AssociateService implements Service {
      * @throws IOException
      */
 	public Map<BigDecimal, AssociateInfo> getAssociates() {//throws HibernateException, IOException {
+		//Commented lines right next to the method is previous code written
 		System.out.println("getAssociates called");
+		//Doesn't really get the data from the database
 		return AssociateDaoHibernate.getAllAssociates();
 		//Session session = sessionFactory.openSession();
 		//Transaction tx = session.beginTransaction();

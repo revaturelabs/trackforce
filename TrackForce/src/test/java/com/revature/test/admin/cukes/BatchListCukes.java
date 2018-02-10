@@ -41,6 +41,7 @@ public class BatchListCukes {
 		}
 		try {
 			BatchListTab.getFirstBatchName(wd).click();
+			//BatchListTab.executeJSClick(wd, WaitToLoad.findDynamicElement(wd, By.xpath("/html/body/app/div/app-batch-list/div/div[2]/div[1]/table/tbody/tr[1]/td[1]/a"), 30));
 		} catch (Throwable e) {
 			System.out.println("Failed to click first batch name");
 		}
@@ -88,7 +89,6 @@ public class BatchListCukes {
 				if (IDs.containsKey(associateIDs.get(i).getText())) {
 					// and if the batch name is in the same row
 					if (associateRows.get(i).getText().contains(batchName)) {
-						System.out.println(associateRows.get(i).getText());
 						IDs.remove(associateIDs.get(i).getText());
 					}
 				}

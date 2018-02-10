@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.revature.test.utils.WaitToLoad;
-import com.revature.test.utils.WebDriverUtil;
 
 public class BatchListTab {
 	static WebElement e = null;
@@ -30,7 +30,7 @@ public class BatchListTab {
 	// Gets first Batch Link in Batch List Tab
 	public static WebElement getFirstBatchName(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
-		WebElement row = table_element.findElement(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr[1]/td[1]"));
+		WebElement row = table_element.findElement(By.xpath("/html/body/app/div/app-batch-list/div/div[2]/div[1]/table/tbody/tr[1]/td[1]/a"));
 		return row;
 	}
 	
@@ -71,10 +71,6 @@ public class BatchListTab {
 	public static List<WebElement> grabAssociatesBatchInfo(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
 		List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
-		for (WebElement e : rows) {
-			System.out.println(e.getText());
-		}
 		return rows;
 	}
-	
 }

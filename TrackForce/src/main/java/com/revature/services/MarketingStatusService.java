@@ -55,10 +55,10 @@ public class MarketingStatusService implements Service {
      * @return
      * @throws IOException
      */
-    public Map<BigDecimal, MarketingStatusInfo> getMarketingStatuses() throws IOException {
+    public Map<Integer, MarketingStatusInfo> getMarketingStatuses() throws IOException {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        Map<BigDecimal, MarketingStatusInfo> map;
+        Map<Integer, MarketingStatusInfo> map;
         try {
             map = marketingStatusDao.getMarketingStatuses(session);
 

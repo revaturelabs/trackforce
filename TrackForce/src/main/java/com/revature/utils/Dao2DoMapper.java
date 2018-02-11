@@ -1,6 +1,5 @@
 package com.revature.utils;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import com.revature.entity.*;
@@ -18,15 +17,15 @@ public class Dao2DoMapper {
         ai.setId(tfa.getTfAssociateId());
 
         if (tfa.getTfBatch() == null) {
-            ai.setBatchId(new BigDecimal(-1));
+            ai.setBatchId(new Integer(-1));
             ai.setBatchName(UNKNOWN_VALUE);
-            ai.setCurriculumId(new BigDecimal(-1));
+            ai.setCurriculumId(new Integer(-1));
             ai.setCurriculumName(UNKNOWN_VALUE);
         } else {
             ai.setBatchId(tfa.getTfBatch().getTfBatchId());
             ai.setBatchName(tfa.getTfBatch().getTfBatchName());
             if (tfa.getTfBatch().getTfCurriculum() == null) {
-                ai.setCurriculumId(new BigDecimal(-1));
+                ai.setCurriculumId(new Integer(-1));
                 ai.setCurriculumName(UNKNOWN_VALUE);
             } else {
                 ai.setCurriculumId(tfa.getTfBatch().getTfCurriculum().getTfCurriculumId());
@@ -34,14 +33,14 @@ public class Dao2DoMapper {
             }
         }
         if (tfa.getTfClient() == null) {
-            ai.setClientId(new BigDecimal(-1));
+            ai.setClientId(new Integer(-1));
             ai.setClient(UNKNOWN_VALUE);
         } else {
             ai.setClientId(tfa.getTfClient().getTfClientId());
             ai.setClient(tfa.getTfClient().getTfClientName());
         }
         if (tfa.getTfEndClient() == null) {
-            ai.setEndClientId(new BigDecimal(-1));
+            ai.setEndClientId(new Integer(-1));
             ai.setEndClient(UNKNOWN_VALUE);
         } else {
             ai.setEndClientId(tfa.getTfEndClient().getTfEndClientId());
@@ -56,9 +55,9 @@ public class Dao2DoMapper {
         else
             ai.setLastName(tfa.getTfAssociateLastName());
         if (tfa.getTfMarketingStatus() == null) {
-            ai.setMarketingStatusId(new BigDecimal(-1));
+            ai.setMarketingStatusId(new Integer(-1));
             ai.setMarketingStatus(UNKNOWN_VALUE);
-        } else if (tfa.getTfMarketingStatus().getTfMarketingStatusId().intValueExact() >= StatusInfo.DIRECTLY_PLACED) {
+        } else if (tfa.getTfMarketingStatus().getTfMarketingStatusId() >= StatusInfo.DIRECTLY_PLACED) {
             ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
             ai.setMarketingStatus(OTHER_VALUE);
         }

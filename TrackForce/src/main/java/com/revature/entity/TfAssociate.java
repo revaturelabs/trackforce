@@ -1,7 +1,6 @@
 package com.revature.entity;
 // Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -24,7 +23,7 @@ public class TfAssociate implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2324082555924677252L;
-	private BigDecimal tfAssociateId;
+	private Integer tfAssociateId;
 	private TfBatch tfBatch;
 	private TfMarketingStatus tfMarketingStatus;
 	private TfClient tfClient;
@@ -37,11 +36,11 @@ public class TfAssociate implements java.io.Serializable {
 	public TfAssociate() {
 	}
 
-	public TfAssociate(BigDecimal tfAssociateId) {
+	public TfAssociate(Integer tfAssociateId) {
 		this.tfAssociateId = tfAssociateId;
 	}
 
-	public TfAssociate(BigDecimal tfAssociateId, TfBatch tfBatch, TfMarketingStatus tfMarketingStatus,
+	public TfAssociate(Integer tfAssociateId, TfBatch tfBatch, TfMarketingStatus tfMarketingStatus,
 			TfClient tfClient, TfEndClient tfEndClient, String tfAssociateFirstName, String tfAssociateLastName,
 			Set<TfInterview> tfInterviews, Set<TfPlacement> tfPlacements) {
 		this.tfAssociateId = tfAssociateId;
@@ -58,11 +57,11 @@ public class TfAssociate implements java.io.Serializable {
 	@Id
 
 	@Column(name = "TF_ASSOCIATE_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getTfAssociateId() {
+	public Integer getTfAssociateId() {
 		return this.tfAssociateId;
 	}
 
-	public void setTfAssociateId(BigDecimal tfAssociateId) {
+	public void setTfAssociateId(Integer tfAssociateId) {
 		this.tfAssociateId = tfAssociateId;
 	}
 

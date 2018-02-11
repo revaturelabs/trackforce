@@ -16,7 +16,6 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,7 +28,7 @@ public class ClientResourceTest extends BaseTest {
 
     private ClientService clientResource;
 
-    private Map<BigDecimal, ClientInfo> mockClientMap;
+    private Map<Integer, ClientInfo> mockClientMap;
     private Set<ClientInfo> mockClients;
     private String status1Name = "status1";
 
@@ -41,20 +40,20 @@ public class ClientResourceTest extends BaseTest {
 
         // mock dao used by client resource to return these clients
         ClientInfo cInfo1 = new ClientInfo();
-        cInfo1.setId(new BigDecimal(c1Id));
-        cInfo1.setTfClientId(new BigDecimal(c1Id));
+        cInfo1.setId(new Integer(c1Id));
+        cInfo1.setTfClientId(new Integer(c1Id));
         cInfo1.setTfClientName(c1Name);
         cInfo1.setStats(new StatusInfo(status1Name));
 
         ClientInfo cInfo2 = new ClientInfo();
-        cInfo2.setId(new BigDecimal(c2Id));
-        cInfo2.setTfClientId(new BigDecimal(c2Id));
+        cInfo2.setId(new Integer(c2Id));
+        cInfo2.setTfClientId(new Integer(c2Id));
         cInfo2.setTfClientName(c2Name);
         cInfo2.setStats(new StatusInfo("status2"));
 
         ClientInfo cInfo3 = new ClientInfo();
-        cInfo3.setId(new BigDecimal(c3Id));
-        cInfo3.setTfClientId(new BigDecimal(c3Id));
+        cInfo3.setId(new Integer(c3Id));
+        cInfo3.setTfClientId(new Integer(c3Id));
         cInfo3.setTfClientName(c2Name);
         cInfo3.setStats(new StatusInfo("status3"));
 
@@ -72,7 +71,7 @@ public class ClientResourceTest extends BaseTest {
                 .thenReturn(mockClientMap);
 
         TfClient mockClient1 = new TfClient();
-        mockClient1.setTfClientId(new BigDecimal(c1Id));
+        mockClient1.setTfClientId(new Integer(c1Id));
         mockClient1.setTfClientName(status1Name);
 
          Mockito.when(clientDao.getClient(Matchers.any(Session.class), Matchers.anyString()))
@@ -97,10 +96,10 @@ public class ClientResourceTest extends BaseTest {
 
     @Test
     public void testGetClientInfo() throws Exception {
-        Map<BigDecimal, ClientInfo> actualClientMap = clientResource.getClients();
+        Map<Integer, ClientInfo> actualClientMap = clientResource.getClients();
 
         Assert.assertEquals(mockClientMap.size(), actualClientMap.size());
-        for (BigDecimal id : mockClientMap.keySet()) {
+        for (Integer id : mockClientMap.keySet()) {
             ClientInfo mockVal = mockClientMap.get(id);
             ClientInfo actualVal = actualClientMap.get(id);
             Assert.assertNotNull(mockVal);

@@ -1,7 +1,6 @@
 package com.revature.dao;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +39,7 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 		
 		TfMarketingStatus marketingStatus;
 		try {
-			BigDecimal bd = new BigDecimal(Integer.parseInt(status));
+			Integer bd = new Integer(Integer.parseInt(status));
 			query.setParameter(0, bd);
 			marketingStatus = (TfMarketingStatus) query.uniqueResult();
 			
@@ -57,9 +56,9 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 	}
 
 	@Override
-	public Map<BigDecimal, MarketingStatusInfo> getMarketingStatuses(Session session) throws HibernateException, IOException{
+	public Map<Integer, MarketingStatusInfo> getMarketingStatuses(Session session) throws HibernateException, IOException{
 		List<TfMarketingStatus> marketingStatusEnts;
-		Map<BigDecimal, MarketingStatusInfo> map = new HashMap<>();
+		Map<Integer, MarketingStatusInfo> map = new HashMap<>();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<TfMarketingStatus> cq = cb.createQuery(TfMarketingStatus.class);
 		Root<TfMarketingStatus> from = cq.from(TfMarketingStatus.class);

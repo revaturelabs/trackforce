@@ -1,7 +1,6 @@
 package com.revature.services;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -63,7 +62,7 @@ public class AssociateService implements Service {
 	@GET
 	@Path("{associateid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public AssociateInfo getAssociate(@PathParam("associateid") BigDecimal associateid) throws IOException {
+	public AssociateInfo getAssociate(@PathParam("associateid") Integer associateid) throws IOException {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
@@ -128,11 +127,11 @@ public class AssociateService implements Service {
      * @throws HibernateException
      * @throws IOException
      */
-	public Map<BigDecimal, AssociateInfo> getAssociates() throws HibernateException, IOException {
+	public Map<Integer, AssociateInfo> getAssociates() throws HibernateException, IOException {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-			Map<BigDecimal, AssociateInfo> tfAssociates = associateDao.getAssociates(session);
+			Map<Integer, AssociateInfo> tfAssociates = associateDao.getAssociates(session);
 			PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
 
 			session.flush();
@@ -172,16 +171,16 @@ public class AssociateService implements Service {
 			int statusId = Integer.parseInt(marketingStatusIdStr);
 			int clientId = Integer.parseInt(clientIdStr);
 
-			ClientInfo tfclient = PersistentStorage.getStorage().getClientAsMap().get(new BigDecimal(clientId));
-			MarketingStatusInfo msi = PersistentStorage.getStorage().getMarketingAsMap().get(new BigDecimal(statusId));
+			ClientInfo tfclient = PersistentStorage.getStorage().getClientAsMap().get(new Integer(clientId));
+			MarketingStatusInfo msi = PersistentStorage.getStorage().getMarketingAsMap().get(new Integer(statusId));
 
 			if (msi == null) {
 				return Response.status(Response.Status.BAD_REQUEST).entity("Invalid marketing status sent.").build();
 			}
 
-			Map<BigDecimal, AssociateInfo> map = new HashMap<>();
+			Map<Integer, AssociateInfo> map = new HashMap<>();
 			for (int id : ids) {
-				AssociateInfo ai = PersistentStorage.getStorage().getAssociateAsMap().get(new BigDecimal(id));
+				AssociateInfo ai = PersistentStorage.getStorage().getAssociateAsMap().get(new Integer(id));
 				ClientInfo old = PersistentStorage.getStorage().getClientAsMap().get(ai.getClid());
 
 				// subtract old values
@@ -194,7 +193,7 @@ public class AssociateService implements Service {
 				// add new values
 				// since all the resources are available to us, we can update storage here
 				// without having to hit the DB
-				BigDecimal oldms = ai.getMsid();
+				Integer oldms = ai.getMsid();
 				tfclient.getStats().appendToMap(msi.getId());
 				tfclient.getTfAssociates().add(ai);
 				ai.setMarketingStatusId(msi.getId());
@@ -207,7 +206,7 @@ public class AssociateService implements Service {
 
 				map.put(ai.getId(), ai);
 				PersistentStorage.getStorage().getTotals().appendToMap(msi.getId());
-				if(oldms != null && !oldms.equals(new BigDecimal(-1)))
+				if(oldms != null && !oldms.equals(new Integer(-1)))
 					PersistentStorage.getStorage().getTotals().subtractFromMap(oldms);
 			}
 			session.flush();
@@ -252,15 +251,15 @@ public class AssociateService implements Service {
 			associates = PersistentStorage.getStorage().getAssociates();
 		}
 
-		Map<BigDecimal, ClientMappedJSON> map = new HashMap<>();
+		Map<Integer, ClientMappedJSON> map = new HashMap<>();
 		for (AssociateInfo ai : associates) {
-			if (ai.getMsid().equals(new BigDecimal(statusid))) {
+			if (ai.getMsid().equals(new Integer(statusid))) {
 				if (!map.containsKey(ai.getClid())) {
 					map.put(ai.getClid(), new ClientMappedJSON());
 				}
-				if (ai.getClient() != null && !ai.getClid().equals(new BigDecimal(-1))) {
+				if (ai.getClient() != null && !ai.getClid().equals(new Integer(-1))) {
 					map.get(ai.getClid()).setCount(map.get(ai.getClid()).getCount() + 1);
-					map.get(ai.getClid()).setId(ai.getClid().intValueExact());
+					map.get(ai.getClid()).setId(ai.getClid());
 					map.get(ai.getClid()).setName(ai.getClient());
 				}
 			}
@@ -291,15 +290,15 @@ public class AssociateService implements Service {
 			associates = PersistentStorage.getStorage().getAssociates();
 		}
 
-		Map<BigDecimal, CurriculumJSON> map = new HashMap<>();
+		Map<Integer, CurriculumJSON> map = new HashMap<>();
 		for (AssociateInfo ai : associates) {
-			if (ai.getMsid().equals(new BigDecimal(statusid))) {
+			if (ai.getMsid().equals(new Integer(statusid))) {
 				if (!map.containsKey(ai.getCurid())) {
 					map.put(ai.getCurid(), new CurriculumJSON());
 				}
-				if (ai.getCurriculumName() != null && !ai.getCurid().equals(new BigDecimal(-1))) {
+				if (ai.getCurriculumName() != null && !ai.getCurid().equals(new Integer(-1))) {
 					map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
-					map.get(ai.getCurid()).setId(ai.getCurid().intValueExact());
+					map.get(ai.getCurid()).setId(ai.getCurid());
 					map.get(ai.getCurid()).setName(ai.getCurriculumName());
 				}
 			}

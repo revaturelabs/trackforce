@@ -1,7 +1,6 @@
 package com.revature.dao;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +19,7 @@ public interface ClientDao {
 	 * 
 	 * @return A list of TfClient objects
 	 */
-	Map<BigDecimal, ClientInfo> getAllTfClients(Session session) throws HibernateException, IOException;
+	Map<Integer, ClientInfo> getAllTfClients(Session session) throws HibernateException, IOException;
 
 	/**
 	 * Returns a single TfClient object

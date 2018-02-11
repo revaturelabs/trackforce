@@ -1,7 +1,6 @@
 package com.revature.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import com.revature.entity.TfMarketingStatus;
 import com.revature.utils.LogUtil;
@@ -416,9 +415,9 @@ public class StatusInfo implements Serializable {
 				+ ", deployedUnmapped=" + deployedUnmapped + "]";
 	}
 
-	public void subtractFromMap(BigDecimal id) {
+	public void subtractFromMap(Integer id) {
 
-		switch (id.intValueExact()) {
+		switch (id) {
 		case StatusInfo.MAPPED_TRAINING:
 			setTrainingMapped(getTrainingMapped() - 1);
 			break;
@@ -454,9 +453,9 @@ public class StatusInfo implements Serializable {
 		}
 	}
 
-	public void appendToMap(BigDecimal id) {
+	public void appendToMap(Integer integer) {
 
-		switch (id.intValueExact()) {
+		switch (integer) {
 		case StatusInfo.MAPPED_TRAINING:
 			setTrainingMapped(getTrainingMapped() + 1);
 			break;

@@ -1,7 +1,6 @@
 package com.revature.dao;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -55,12 +54,12 @@ public class ClientDaoImpl implements ClientDao {
 	}
 
 	@Override
-	public Map<BigDecimal, ClientInfo> getAllTfClients(Session session) throws HibernateException, IOException {
+	public Map<Integer, ClientInfo> getAllTfClients(Session session) throws HibernateException, IOException {
 
 		CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
 		cq.from(TfClient.class);
 		List<TfClient> clients = session.createQuery(cq).getResultList();
-		Map<BigDecimal, ClientInfo> map = new HashMap<>();
+		Map<Integer, ClientInfo> map = new HashMap<>();
 		
 		for (TfClient client : clients) {
 			map.put(client.getTfClientId(), Dao2DoMapper.map(client));

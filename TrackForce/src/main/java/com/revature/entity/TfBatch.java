@@ -1,7 +1,6 @@
 package com.revature.entity;
 // Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +26,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1893469049852289417L;
-	private BigDecimal tfBatchId;
+	private Integer tfBatchId;
 	private TfBatchLocation tfBatchLocation;
 	private TfCurriculum tfCurriculum;
 	private String tfBatchName;
@@ -38,11 +37,11 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	public TfBatch() {
 	}
 
-	public TfBatch(BigDecimal tfBatchId) {
+	public TfBatch(Integer tfBatchId) {
 		this.tfBatchId = tfBatchId;
 	}
 
-	public TfBatch(BigDecimal tfBatchId, TfBatchLocation tfBatchLocation, TfCurriculum tfCurriculum, String tfBatchName,
+	public TfBatch(Integer tfBatchId, TfBatchLocation tfBatchLocation, TfCurriculum tfCurriculum, String tfBatchName,
 			Timestamp tfBatchStartDate, Timestamp tfBatchEndDate, Set<TfAssociate> tfAssociates) {
 		this.tfBatchId = tfBatchId;
 		this.tfBatchLocation = tfBatchLocation;
@@ -56,11 +55,11 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	@Id
 
 	@Column(name = "TF_BATCH_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getTfBatchId() {
+	public Integer getTfBatchId() {
 		return this.tfBatchId;
 	}
 
-	public void setTfBatchId(BigDecimal tfBatchId) {
+	public void setTfBatchId(Integer tfBatchId) {
 		this.tfBatchId = tfBatchId;
 	}
 
@@ -130,7 +129,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 
 	@Override
 	public int compareTo(TfBatch o) {
-		return this.tfBatchId.subtract(o.getTfBatchId()).intValueExact();
+		return this.tfBatchId-o.getTfBatchId();
 	}
 	
 	

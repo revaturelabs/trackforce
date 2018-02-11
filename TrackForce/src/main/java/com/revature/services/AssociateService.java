@@ -120,7 +120,7 @@ public class AssociateService implements Service {
 		System.out.println("getAllAssociates called");
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null || associates.isEmpty()) {
-			//execute();
+			execute();
 			return PersistentStorage.getStorage().getAssociates();
 		}
 		return associates;
@@ -274,7 +274,7 @@ public class AssociateService implements Service {
 	public Response getClients(@PathParam("statusid") int statusid) throws HibernateException, IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null) {
-			//execute();
+			execute();
 			associates = PersistentStorage.getStorage().getAssociates();
 		}
 

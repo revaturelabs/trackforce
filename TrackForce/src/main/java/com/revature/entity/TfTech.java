@@ -48,7 +48,7 @@ public class TfTech implements java.io.Serializable {
 	}
 	
 	
-	@Column
+	@Column(name = "TF_TECH_NAME", length = 30)
 	public String getTechName() {
 		return this.tfTechName;
 	}

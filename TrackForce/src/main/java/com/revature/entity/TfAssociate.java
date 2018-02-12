@@ -25,18 +25,6 @@ import com.revature.model.StatusInfo;
 @Table(name = "TF_ASSOCIATE", schema = "ADMIN")
 public class TfAssociate implements java.io.Serializable {
 
-<<<<<<< HEAD
-	//below includes beside them, AssociateInfo equivilant fields; many fields are not reconciled.
-	
-	private static final long serialVersionUID = -2324082555924677252L;   //the goal is to divert all model references to hibernate model and eliminate Tf Entities
-	private BigDecimal tfAssociateId;     //private BigDecimal id;
-	private TfBatch tfBatch;  //*
-	private TfMarketingStatus tfMarketingStatus; //*
-	private TfClient tfClient; //*
-	private TfEndClient tfEndClient; //*
-	private String tfAssociateFirstName; //private String firstName;
-	private String tfAssociateLastName; //private String lastName;
-=======
 	/**
 	 *
 	 */
@@ -77,7 +65,6 @@ public class TfAssociate implements java.io.Serializable {
 
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfAssociate")
->>>>>>> cf1f9ffd1d7edcd0946e584885e2661a7868ef7f
 	private Set<TfInterview> tfInterviews = new HashSet<TfInterview>(0);
 
 	@XmlElement

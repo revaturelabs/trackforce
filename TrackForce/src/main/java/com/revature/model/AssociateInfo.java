@@ -19,17 +19,13 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	 * 
 	 */
 
-<<<<<<< HEAD
-	private static final long serialVersionUID = 6047227506797717614L;   //This class and these fields must be folded back into TfAssociates, for use by the all data mthods in the application
-	private BigDecimal id;
-=======
+
 	private static final long serialVersionUID = 6047227506797717614L;
 	
 	@XmlElement
 	private Integer id;
 	
 	@XmlElement
->>>>>>> cf1f9ffd1d7edcd0946e584885e2661a7868ef7f
 	private String firstName;
 	
 	@XmlElement

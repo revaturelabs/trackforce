@@ -170,13 +170,9 @@ public class PersistentStorage {
 		this.totalStats = totals;
 	}
 
-<<<<<<< HEAD
-	public Map<BigDecimal, AssociateInfo> getAssociateAsMap() {   //track this method in Associate Services
-		return this.associates;     //returns a Hashmap tht is then stored in an AssociatesInfo variable in the Service Class
-=======
+
 	public Map<Integer, AssociateInfo> getAssociateAsMap() {
 		return this.associates;
->>>>>>> cf1f9ffd1d7edcd0946e584885e2661a7868ef7f
 	}
 	
 	public Map<Integer, BatchInfo> getBatchAsMap() {
@@ -195,11 +191,7 @@ public class PersistentStorage {
 		return this.marketingStatuses;
 	}
 
-<<<<<<< HEAD
-	public void updateAssociates(Map<BigDecimal, AssociateInfo> associates) {   //this too
-=======
 	public void updateAssociates(Map<Integer, AssociateInfo> associates) {
->>>>>>> cf1f9ffd1d7edcd0946e584885e2661a7868ef7f
 		this.associates.putAll(associates);
 	}
 }

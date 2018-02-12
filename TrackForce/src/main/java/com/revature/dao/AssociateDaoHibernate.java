@@ -81,20 +81,7 @@ public class AssociateDaoHibernate implements AssociateDao {
     @Override
     public Map<Integer, AssociateInfo> getAssociates() {
         List<TfAssociate> associatesEnt;
-<<<<<<< HEAD
-        Map<BigDecimal, AssociateInfo> map = new HashMap<>();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<TfAssociate> cq = cb.createQuery(TfAssociate.class);
-        Root<TfAssociate> from = cq.from(TfAssociate.class);
-        CriteriaQuery<TfAssociate> all = cq.select(from);
-        Query<TfAssociate> tq = session.createQuery(all);
 
-        associatesEnt = tq.getResultList();
-        if (associatesEnt != null) {
-            for (TfAssociate tfa : associatesEnt) {    //TfAssociate class found in .entity package
-                map.put(tfa.getTfAssociateId(), Dao2DoMapper.map(tfa));   //Dao2DoMapper found in utils package
-                AssociateInfo.appendToMap(tfa.getTfMarketingStatus());
-=======
         Map<Integer, AssociateInfo> map = new HashMap<>();
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
         	CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -109,7 +96,6 @@ public class AssociateDaoHibernate implements AssociateDao {
                     map.put(tfa.getTfAssociateId(), Dao2DoMapper.map(tfa));
                     AssociateInfo.appendToMap(tfa.getTfMarketingStatus());
                 }
->>>>>>> cf1f9ffd1d7edcd0946e584885e2661a7868ef7f
             }
         }
         catch(HibernateException e) {

@@ -17,6 +17,10 @@ public class PSDCacheRunner implements Runnable {
 	private AssociateDaoHibernate associateDaoHib = new AssociateDaoHibernate();
 	private BatchDaoHibernate batchDaoHib = new BatchDaoHibernate();
 	private long delayedStartTime = DEFAULT_CACHE_START;
+	private long endTime;
+	private double elapsedTime;
+	private long startTime;
+	private double total;
 	
 	/**
 	 * Constructor used to set caching mechanism and when to invoke/begin caching process

@@ -62,7 +62,7 @@ public class AssociateResource {
 	 * @return Response - 200 status if successful
 	 * @throws IOException
 	 */
-	@PUT
+	//@PUT
 	public Response updateAssociates(
 			@QueryParam("marketingStatusId") Integer marketingStatusIdStr,
 			@QueryParam("clientId") Integer clientIdStr,
@@ -96,14 +96,14 @@ public class AssociateResource {
 	 * @throws NumberFormatException 
 	 * @throws IOException
 	 */
-	@PUT
-	@Path("{associateId}")
-	public Response updateAssociate(
-			@PathParam("associateId") Integer[] ids,
-            @QueryParam("marketingStatusId") Integer marketingStatusId,
-            @QueryParam("clientId") Integer clientId) {
-		
-		service.updateAssociates(ids, marketingStatusId, clientId);
-		return Response.ok().build();
-	}
+//	@PUT
+//	@Path("{associateId}")
+//	public Response updateAssociate(
+//			@PathParam("associateId") Integer[] ids,
+//            @QueryParam("marketingStatusId") Integer marketingStatusId,
+//            @QueryParam("clientId") Integer clientId) {
+//		
+//		service.updateAssociates(ids, marketingStatusId, clientId);
+//		return Response.ok().build();
+//	}
 }

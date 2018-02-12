@@ -1,6 +1,6 @@
 package com.revature.dao;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +16,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfBatch;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
@@ -51,6 +52,35 @@ public class AssociateDaoHibernate implements AssociateDao {
      *                        to.
      * @return 
      */
+	public void updateAssociates(AssociateInfo[] associates){
+		Session session = null;
+		Transaction t = null;
+		List<TfAssociate> tfAssociateList = new ArrayList<TfAssociate>();
+		try{
+			session = HibernateUtil.getSession();
+			for (AssociateInfo associate : associates) {
+				TfAssociate tfAssociate = (TfAssociate) session.load(TfAssociate.class, associate.getId());
+				tfAssociateList.add(tfAssociate);
+			}
+				TfClient client = (TfClient) session.load(TfClient.class, associates[0].getClid());
+				TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, associates[0].getMsid());
+				TfBatch batch = (TfBatch) session.load(TfBatch.class, associates[0].getBid());
+			t = session.beginTransaction();
+			for(TfAssociate associate : tfAssociateList) {
+				associate.setTfClient(client);
+				associate.setTfMarketingStatus(status);
+				associate.setTfBatch(batch);
+			}
+			session.saveOrUpdate(associates);
+			t.commit();
+			System.out.println(associates);
+		} catch(HibernateException e) {
+			t.rollback();
+			e.printStackTrace();
+		}finally {
+			session.close();
+		}
+	}
     @Override
     public void updateAssociates(Integer[] ids, Integer marketingStatus, Integer clientid) {
     	List<TfAssociate> associates = null;

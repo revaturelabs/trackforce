@@ -72,6 +72,59 @@ public class Dao2DoMapper {
         return ai;
     }
     
+//    public static TfAssociate map(AssociateInfo ai) {
+//        TfAssociate tfa = new TfAssociate();
+//        tfa.setTfAssociateId(ai.getId());
+//
+//        if (ai.getBid() == null) {  //TF_BATCH_ID
+//            tfa.setBatchId(new Integer(-1));
+//            tfa.setBatchName(UNKNOWN_VALUE);
+//            tfa.setCurriculumId(new Integer(-1));
+//            tfa.setCurriculumName(UNKNOWN_VALUE);
+//        } else {
+//            tfa.setBatchId(ai.getTfBatch().getTfBatchId());
+//            tfa.setBatchName(ai.getTfBatch().getTfBatchName());
+//            if (ai.getTfBatch().getTfCurriculum() == null) {
+//                tfa.setCurriculumId(new Integer(-1));
+//                tfa.setCurriculumName(UNKNOWN_VALUE);
+//            } else {
+//                tfa.setCurriculumId(ai.getTfBatch().getTfCurriculum().getTfCurriculumId());
+//                tfa.setCurriculumName(ai.getTfBatch().getTfCurriculum().getTfCurriculumName());
+//            }
+//        }
+//        if (ai.getTfClient() == null) {	//TF_CLIENT_ID
+//            tfa.setClientId(new Integer(-1));
+//            tfa.setClient(UNKNOWN_VALUE);
+//        } else {
+//            tfa.setClientId(ai.getTfClient().getTfClientId());
+//            tfa.setClient(ai.getTfClient().getTfClientName());
+//        }
+//        if (ai.getTfEndClient() == null) {		//TF_END_CLIENT_ID
+//            tfa.setEndClientId(new Integer(-1));
+//            tfa.setEndClient(UNKNOWN_VALUE);
+//        } else {
+//            tfa.setEndClientId(ai.getTfEndClient().getTfEndClientId());
+//            tfa.setEndClient(ai.getTfEndClient().getTfEndClientName());
+//        }
+//        if (ai.getTfAssociateFirstName() == null)		//TF_ASSOCIATE_FIRST_NAME
+//            tfa.setFirstName(UNKNOWN_VALUE);
+//        else
+//            tfa.setFirstName(ai.getTfAssociateFirstName());
+//        if (ai.getTfAssociateLastName() == null)		//TF_ASSOCIATE_LAST_NAME
+//            tfa.setLastName(UNKNOWN_VALUE);
+//        else
+//            tfa.setLastName(ai.getTfAssociateLastName());
+// 
+//        if (ai.getTfMarketingStatus() == null) {		//TF_MARKETING_STATUS_ID
+//            tfa.setMarketingStatusId(ai.getTfMarketingStatus().getTfMarketingStatusId());
+//            tfa.setMarketingStatus(OTHER_VALUE);
+//        } else {
+//            tfa.setMarketingStatusId(ai.getTfMarketingStatus().getTfMarketingStatusId());
+//            tfa.setMarketingStatus(ai.getTfMarketingStatus().getTfMarketingStatusName());
+//        }
+//        return tfa;
+//    }
+    
     /**
      * map TfBatch object to format consumed by front end, properly checking for
      * null values

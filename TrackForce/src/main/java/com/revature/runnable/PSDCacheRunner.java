@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDaoHibernate;
+import com.revature.dao.ClientDaoImpl;
 import com.revature.services.PersistentServiceDelegator;
 
 /**
@@ -89,8 +90,8 @@ public class PSDCacheRunner implements Runnable {
 		 try {
 	            // perform caching          
 	            
-	            long startTime = System.nanoTime();         
-	            psd.getAssociates();
+	            long startTime = System.nanoTime();
+	            AssociateDaoHibernate.cacheAllAssociates();
 	            long endTime = System.nanoTime();
 	            double elapsedTime = ((double)(endTime -startTime))/1000000000,total=elapsedTime;
 	            System.out.println("Associates caching time: "+elapsedTime+" seconds"); 
@@ -101,8 +102,8 @@ public class PSDCacheRunner implements Runnable {
 	            elapsedTime = ((double)(endTime -startTime))/1000000000; total+=elapsedTime;
 	            System.out.println("Batches caching time: "+elapsedTime+" seconds");
 	            
-	            startTime = System.nanoTime();   
-	            psd.getClients();
+	            startTime = System.nanoTime();
+	            ClientDaoImpl.cacheAllClients();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
 	            System.out.println("Clients caching time: "+elapsedTime+" seconds");

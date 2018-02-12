@@ -3,12 +3,16 @@ package com.revature.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.revature.entity.TfMarketingStatus;
 import com.revature.utils.LogUtil;
 
 /**
  * Class to hold information about an associate for the batch details page.
  */
+@XmlRootElement
 public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 
 	/**
@@ -16,21 +20,41 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	 */
 
 	private static final long serialVersionUID = 6047227506797717614L;
+	
+	@XmlElement
 	private BigDecimal id;
+	
+	@XmlElement
 	private String firstName;
+	
+	@XmlElement
 	private String lastName;
+	
+	@XmlElement
 	private static StatusInfo totals = new StatusInfo();
 
+	@XmlElement
 	private BigDecimal msid;
+	
+	@XmlElement
 	private String marketingStatus;
 
+	@XmlElement
 	private BigDecimal clid;
+	
+	@XmlElement
 	private String client;
 
+	@XmlElement
 	private BigDecimal ecid;
+	
+	@XmlElement
 	private String endClient;
 
+	@XmlElement
 	private BigDecimal bid;
+	
+	@XmlElement
 	private String batchName;
 
 	public BigDecimal getMsid() {

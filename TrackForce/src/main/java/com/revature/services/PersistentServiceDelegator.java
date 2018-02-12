@@ -10,7 +10,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.revature.model.*;
+import com.revature.model.AssociateInfo;
+import com.revature.model.BatchInfo;
+import com.revature.model.ClientInfo;
+import com.revature.model.CurriculumInfo;
+import com.revature.model.MarketingStatusInfo;
+import com.revature.model.StatusInfo;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
@@ -33,6 +38,7 @@ public class PersistentServiceDelegator {
     	super();
     }
 
+    
     /**
      * injectable dependencies for easier testing
      *
@@ -45,6 +51,8 @@ public class PersistentServiceDelegator {
     public PersistentServiceDelegator(Service s) {
         this.service = s;
     }
+    
+    
 
     @POST
     @Path("/update/associate")

@@ -27,7 +27,7 @@ public class UserService {
         userDao = new UserDaoImpl();
         jwtService = new JWTService();
     }
-    
+
     /**
      * injectable dependencies constructor for easier testing
      *
@@ -45,7 +45,7 @@ public class UserService {
     public void getAllUsers(){
     	return ;
     }
-    
+
     /**
      * Creates a user
      * @return Returns whether the response was successful
@@ -61,7 +61,7 @@ public class UserService {
         }
         return msg;
     }
-    
+
     /**
      * Gets the user by the user's username
      * @param username Username used to get the user
@@ -70,6 +70,7 @@ public class UserService {
     public TfUser getUser(String username) {
     	return new UserDaoImpl().getUser(username);
     }
+
 
     /**
      * Method takes login information from front-end and verifies the information.

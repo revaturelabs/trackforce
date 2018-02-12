@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,7 +37,7 @@ public class AssociateService implements Service {
 
 	/**
 	 * Retrieve information about a specific associate.
-	 * 
+	 *
 	 * @param associateid - The ID of the associate to get information about
 	 * @return - An AssociateInfo object that contains the associate's information.
 	 * @throws IOException
@@ -48,7 +49,7 @@ public class AssociateService implements Service {
 
 	/**
 	 * Update the marketing status or client of an associate from form data.
-	 * 
+	 *
 	 * @param id - The ID of the associate to change
 	 * @param marketingStatusId - What to change the associate's marketing status to
 	 * @param clientId - What client to change the associate to
@@ -62,19 +63,48 @@ public class AssociateService implements Service {
 	 * Gets a list of all the associates. If an associate has no marketing status or
 	 * curriculum, replaces them with blanks. If associate has no client, replaces
 	 * it with "None".
-	 * 
+	 *
 	 * @return - A Response object with a list of TfAssociate objects.
 	 * @throws IOException
 	 */
-	private Set<AssociateInfo> getAllAssociates() throws IOException {
-		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
-		if (associates == null || associates.isEmpty()) {
-			execute();
-			return PersistentStorage.getStorage().getAssociates();
-		}
-		return associates;
-	}
 
+//	private Set<AssociateInfo> getAllAssociates() throws IOException {
+//		System.out.println("getAllAssociates called");
+//		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
+//		if (associates == null || associates.isEmpty()) {
+//			execute();
+//			return PersistentStorage.getStorage().getAssociates();
+//		}
+//		return associates;
+//	}
+
+	//The method used to populate all of the data onto TrackForce
+    //Doesn't work correctly at the moment
+//    @PUT
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Path("action/{marketingStatus}/{clientid}/")
+    public Response updateAssociate(@QueryParam("id") BigDecimal[] associateids,
+    		@PathParam("marketingStatus") BigDecimal marketingStatus,
+    		@PathParam("clientid") BigDecimal clientid,
+    		AssociateInfo associateinfo) {
+    	System.out.println("Got something with UpdateAssociate:" + associateinfo);
+    	associateDaoHib.updateAssociates(associateids, marketingStatus, clientid);
+    	return Response.status(200).build();
+    }
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Set<AssociateInfo> getAllAssociates(){
+
+//		try {
+			//for now, must use read method in respective service class to read
+			//data from the cache and be able to send it to Angular
+			//return read();
+			return AssociateDaoHibernate.getAllAssociates();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		//return null;
+	}
     /**
      * fetch associates from database
      *
@@ -89,7 +119,7 @@ public class AssociateService implements Service {
 
 	/**
 	 * Update the marketing status or client of associates
-	 * 
+	 *
 	 * @param ids
 	 *            to be updated
 	 * @param marketingStatusIdStr
@@ -115,7 +145,7 @@ public class AssociateService implements Service {
 	 * an entity. The format of the Map objects are as follows: <br>
 	 * name: (name of curriculum) <br>
 	 * count: (count of desired status)
-	 * 
+	 *
 	 * @param statusid - Status id of the status/stage of associates that the requester wants information for.
 	 * @return a Response object with a List of Map objects as an entity.
 	 * @throws IOException
@@ -147,7 +177,7 @@ public class AssociateService implements Service {
 	 * an entity. The format of the Map objects are as follows: <br>
 	 * name: (name of curriculum) <br>
 	 * count: (count of desired status)
-	 * 
+	 *
 	 * @param statusid
 	 *            Status id of the status/stage of associates that the requester
 	 *            wants information for.
@@ -158,7 +188,7 @@ public class AssociateService implements Service {
 	public Collection<CurriculumJSON> getCurriculumsByStatus(int statusid) throws HibernateException, IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null) {
-			execute();
+			//execute();
 			associates = PersistentStorage.getStorage().getAssociates();
 		}
 		Map<BigDecimal, CurriculumJSON> map = new HashMap<>();
@@ -184,9 +214,9 @@ public class AssociateService implements Service {
      */
 	@Override
 	public synchronized void execute() throws IOException {
-		Set<AssociateInfo> ai = PersistentStorage.getStorage().getAssociates();
-		if (ai == null || ai.isEmpty())
-			PersistentStorage.getStorage().setAssociates(getAssociates());
+//		Set<AssociateInfo> ai = PersistentStorage.getStorage().getAssociates();
+//		if (ai == null || ai.isEmpty())
+//			PersistentStorage.getStorage().setAssociates(getAssociates());
 	}
 
 	@SuppressWarnings("unchecked")

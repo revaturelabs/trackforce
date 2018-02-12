@@ -13,7 +13,7 @@ public class Dao2DoMapper {
     private static final String UNKNOWN_VALUE = "None";
 
     // This is the end mapper
-    public static AssociateInfo map(TfAssociate tfa) {
+    public static AssociateInfo map(TfAssociate tfa) {  //Associate info class found in .model package
         AssociateInfo ai = new AssociateInfo();
         ai.setId(tfa.getTfAssociateId());
 

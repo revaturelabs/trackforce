@@ -161,8 +161,8 @@ public class PersistentStorage {
 		this.totalStats = totals;
 	}
 
-	public Map<BigDecimal, AssociateInfo> getAssociateAsMap() {
-		return this.associates;
+	public Map<BigDecimal, AssociateInfo> getAssociateAsMap() {   //track this method in Associate Services
+		return this.associates;     //returns a Hashmap tht is then stored in an AssociatesInfo variable in the Service Class
 	}
 	
 	public Map<BigDecimal, BatchInfo> getBatchAsMap() {
@@ -181,7 +181,7 @@ public class PersistentStorage {
 		return this.marketingStatuses;
 	}
 
-	public void updateAssociates(Map<BigDecimal, AssociateInfo> associates) {
+	public void updateAssociates(Map<BigDecimal, AssociateInfo> associates) {   //this too
 		this.associates.putAll(associates);
 	}
 }

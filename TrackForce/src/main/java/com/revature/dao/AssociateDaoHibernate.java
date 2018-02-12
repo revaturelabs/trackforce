@@ -83,8 +83,8 @@ public class AssociateDaoHibernate implements AssociateDao {
 
         associatesEnt = tq.getResultList();
         if (associatesEnt != null) {
-            for (TfAssociate tfa : associatesEnt) {
-                map.put(tfa.getTfAssociateId(), Dao2DoMapper.map(tfa));
+            for (TfAssociate tfa : associatesEnt) {    //TfAssociate class found in .entity package
+                map.put(tfa.getTfAssociateId(), Dao2DoMapper.map(tfa));   //Dao2DoMapper found in utils package
                 AssociateInfo.appendToMap(tfa.getTfMarketingStatus());
             }
         }

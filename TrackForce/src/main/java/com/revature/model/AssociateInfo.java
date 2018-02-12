@@ -15,7 +15,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	 * 
 	 */
 
-	private static final long serialVersionUID = 6047227506797717614L;
+	private static final long serialVersionUID = 6047227506797717614L;   //This class and these fields must be folded back into TfAssociates, for use by the all data mthods in the application
 	private BigDecimal id;
 	private String firstName;
 	private String lastName;

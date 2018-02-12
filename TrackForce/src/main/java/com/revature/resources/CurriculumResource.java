@@ -1,7 +1,6 @@
 package com.revature.resources;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -29,7 +28,7 @@ public class CurriculumResource {
 	
     @GET
 	public Response getAllCurriculums() throws HibernateException, IOException{
-		Map<BigDecimal, CurriculumInfo> curriculums = service.getCurriculums();
+		Map<Integer, CurriculumInfo> curriculums = service.getCurriculums();
 		return Response.ok(curriculums).build();
 	}
 }

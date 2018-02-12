@@ -1,18 +1,18 @@
 package com.revature.test;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
 import com.revature.dao.AssociateDaoHibernate;
-import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.services.AssociateService;
 import com.revature.services.ClientService;
 import com.revature.services.MarketingStatusService;
 import com.revature.utils.PersistentStorage;
 import com.revature.utils.TestHibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-
-import java.io.IOException;
-import java.sql.SQLException;
 
 public class BaseTest {
     protected SessionFactory sessionFactory;
@@ -39,10 +39,10 @@ public class BaseTest {
 
     public void resetCaches() throws IOException {
         AssociateService associateService = new AssociateService(new AssociateDaoHibernate(), sessionFactory);
-        ClientService clientResource = new ClientService(new ClientDaoImpl(), sessionFactory);
+        ClientService clientResource = new ClientService();
         MarketingStatusService marketingStatusService = new MarketingStatusService(new MarketingStatusDaoHibernate(), sessionFactory);
 
-        PersistentStorage.getStorage().setAssociates(associateService.getAssociates());
+        //PersistentStorage.getStorage().setAssociates(associateService.getAssociates());
         PersistentStorage.getStorage().setClients(clientResource.getClients());
         PersistentStorage.getStorage().setMarketingStatuses(marketingStatusService.getMarketingStatuses());
     }
@@ -63,11 +63,11 @@ public class BaseTest {
         if (mockAssocService == null)
             mockAssocService = new AssociateService(new AssociateDaoHibernate(), sessionFactory);
         if (mockClientResource == null)
-            mockClientResource = new ClientService(new ClientDaoImpl(), sessionFactory);
+            mockClientResource = new ClientService();
         if (mockMsService == null)
             mockMsService = new MarketingStatusService(new MarketingStatusDaoHibernate(), sessionFactory);
 
-        PersistentStorage.getStorage().setAssociates(mockAssocService.getAssociates());
+        //PersistentStorage.getStorage().setAssociates(mockAssocService.getAssociates());
         PersistentStorage.getStorage().setClients(mockClientResource.getClients());
         PersistentStorage.getStorage().setMarketingStatuses(mockMsService.getMarketingStatuses());
     }

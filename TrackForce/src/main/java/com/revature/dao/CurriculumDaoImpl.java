@@ -1,11 +1,8 @@
 package com.revature.dao;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,26 +14,33 @@ import org.hibernate.query.Query;
 import com.revature.entity.TfCurriculum;
 import com.revature.model.CurriculumInfo;
 import com.revature.utils.Dao2DoMapper;
+import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 public class CurriculumDaoImpl implements CurriculumDao {
 
 	@Override
-	public Map<Integer, CurriculumInfo> fetchCurriculums(Session session) throws IOException {
-		List<TfCurriculum> curriculumsEnt;
-		Map<Integer, CurriculumInfo> curriculumsInfo = new HashMap<Integer, CurriculumInfo>();
-		CriteriaBuilder cb = session.getCriteriaBuilder();
-		CriteriaQuery<TfCurriculum> cq = cb.createQuery(TfCurriculum.class);
-		Root<TfCurriculum> from = cq.from(TfCurriculum.class);
-		CriteriaQuery<TfCurriculum> all = cq.select(from);
-		Query<TfCurriculum> tq = session.createQuery(all);
+	public Map<Integer, CurriculumInfo> getAllCurriculums() {
+		Map<Integer, CurriculumInfo> curriculums = new HashMap<Integer, CurriculumInfo>();
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+			List<TfCurriculum> curriculumsEnt;
+			CriteriaBuilder cb = session.getCriteriaBuilder();
+			CriteriaQuery<TfCurriculum> cq = cb.createQuery(TfCurriculum.class);
+			Root<TfCurriculum> from = cq.from(TfCurriculum.class);
+			CriteriaQuery<TfCurriculum> all = cq.select(from);
+			Query<TfCurriculum> tq = session.createQuery(all);
 
-		curriculumsEnt = tq.getResultList();
-		if (curriculumsEnt != null) {
-			for (TfCurriculum tfa : curriculumsEnt) {
-				curriculumsInfo.put(tfa.getTfCurriculumId(), Dao2DoMapper.map(tfa));
+			curriculumsEnt = tq.getResultList();
+			if (curriculumsEnt != null) {
+				for (TfCurriculum tfa : curriculumsEnt) {
+					curriculums.put(tfa.getTfCurriculumId(), Dao2DoMapper.map(tfa));
+				}
 			}
+			return curriculums;
+		} catch(Exception e) {
+			e.printStackTrace();
+			LogUtil.logger.error(e);
 		}
-
-		return curriculumsInfo;
+		return curriculums;
 	}
 }

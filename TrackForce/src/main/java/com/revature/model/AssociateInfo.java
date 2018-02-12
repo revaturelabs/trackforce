@@ -22,7 +22,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	private static final long serialVersionUID = 6047227506797717614L;
 	
 	@XmlElement
-	private BigDecimal id;
+	private Integer id;
 	
 	@XmlElement
 	private String firstName;
@@ -34,25 +34,25 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	private static StatusInfo totals = new StatusInfo();
 
 	@XmlElement
-	private BigDecimal msid;
+	private Integer msid;
 	
 	@XmlElement
 	private String marketingStatus;
 
 	@XmlElement
-	private BigDecimal clid;
+	private Integer clid;
 	
 	@XmlElement
 	private String client;
 
 	@XmlElement
-	private BigDecimal ecid;
+	private Integer ecid;
 	
 	@XmlElement
 	private String endClient;
 
 	@XmlElement
-	private BigDecimal bid;
+	private Integer bid;
 	
 	@XmlElement
 	private String batchName;

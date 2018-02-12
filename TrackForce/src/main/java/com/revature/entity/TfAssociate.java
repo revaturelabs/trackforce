@@ -31,7 +31,7 @@ public class TfAssociate implements java.io.Serializable {
 	@XmlElement
 	@Id
 	@Column(name = "TF_ASSOCIATE_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	private BigDecimal tfAssociateId;
+	private Integer tfAssociateId;
 
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -91,7 +91,7 @@ public class TfAssociate implements java.io.Serializable {
 	}
 
 
-	public BigDecimal getTfAssociateId() {
+	public Integer getTfAssociateId() {
 		return this.tfAssociateId;
 	}
 

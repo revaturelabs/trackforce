@@ -1,13 +1,19 @@
 package com.revature.services;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.hibernate.HibernateException;
-import org.hibernate.SessionFactory;
 
 import com.revature.dao.AssociateDao;
 import com.revature.dao.AssociateDaoHibernate;
@@ -19,18 +25,10 @@ import com.revature.utils.PersistentStorage;
 public class AssociateService implements Service {
 
     private AssociateDao associateDao;
+    private AssociateDaoHibernate associateDaoHib = new AssociateDaoHibernate();
 
     public AssociateService() {
         this.associateDao = new AssociateDaoHibernate();
-    }
-
-    /**
-     * injectable dao for testing
-     *
-     * @param associateDao
-     */
-    public AssociateService(AssociateDao associateDao, SessionFactory sessionFactory) {
-        this.associateDao = associateDao;
     }
 
 	/**
@@ -40,102 +38,34 @@ public class AssociateService implements Service {
 	 * @return - An AssociateInfo object that contains the associate's information.
 	 * @throws IOException
 	 */
-	public AssociateInfo getAssociate(BigDecimal associateid) {
+	public AssociateInfo getAssociate(Integer associateid) {
 		AssociateInfo associateinfo = associateDao.getAssociate(associateid);
 		return associateinfo;
 	}
-
-	/**
-	 * Update the marketing status or client of an associate from form data.
-	 *
-	 * @param id - The ID of the associate to change
-	 * @param marketingStatusId - What to change the associate's marketing status to
-	 * @param clientId - What client to change the associate to
-	 * @return boolean
-	 */
-	public boolean updateAssociate(int id, int marketingStatusId, int clientId) {
-		return associateDao.updateAssociate(new BigDecimal(id), marketingStatusId, clientId);
-	}
-
-	/**
-	 * Gets a list of all the associates. If an associate has no marketing status or
-	 * curriculum, replaces them with blanks. If associate has no client, replaces
-	 * it with "None".
-	 *
-	 * @return - A Response object with a list of TfAssociate objects.
-	 * @throws IOException
-	 */
-
-//	private Set<AssociateInfo> getAllAssociates() throws IOException {
-//		System.out.println("getAllAssociates called");
-//		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
-//		if (associates == null || associates.isEmpty()) {
-//			execute();
-//			return PersistentStorage.getStorage().getAssociates();
-//		}
-//		return associates;
-//	}
 
 	//The method used to populate all of the data onto TrackForce
     //Doesn't work correctly at the moment
 //    @PUT
 //    @Consumes(MediaType.APPLICATION_JSON)
 //    @Path("action/{marketingStatus}/{clientid}/")
-    public Response updateAssociate(@QueryParam("id") BigDecimal[] associateids,
-    		@PathParam("marketingStatus") BigDecimal marketingStatus,
-    		@PathParam("clientid") BigDecimal clientid,
-    		AssociateInfo associateinfo) {
-    	System.out.println("Got something with UpdateAssociate:" + associateinfo);
+    public Response updateAssociates(@QueryParam("id") Integer[] associateids,
+    		@PathParam("marketingStatus") Integer marketingStatus,
+    		@PathParam("clientid") Integer clientid) {
+    	//System.out.println("Got something with UpdateAssociate:" + associateinfo);
     	associateDaoHib.updateAssociates(associateids, marketingStatus, clientid);
     	return Response.status(200).build();
     }
+    /**
+     * 
+     * @return
+     */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Set<AssociateInfo> getAllAssociates(){
-
-//		try {
 			//for now, must use read method in respective service class to read
 			//data from the cache and be able to send it to Angular
 			//return read();
 			return AssociateDaoHibernate.getAllAssociates();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		//return null;
-	}
-    /**
-     * fetch associates from database
-     *
-     * @return
-     * @throws HibernateException
-     * @throws IOException
-     */
-	public Map<BigDecimal, AssociateInfo> getAssociates() {
-		Map<BigDecimal, AssociateInfo> map = associateDao.getAssociates();
-		return map;
-	}
-
-	/**
-	 * Update the marketing status or client of associates
-	 *
-	 * @param ids
-	 *            to be updated
-	 * @param marketingStatusIdStr
-	 *            updating to
-	 * @param clientIdStr
-	 *            updating to
-	 * @return
-	 * @throws IOException
-	 */
-	public boolean updateAssociates(int[] ids, String marketingStatusIdStr, String clientIdStr) {
-		int statusId = Integer.parseInt(marketingStatusIdStr);
-		int clientId = Integer.parseInt(clientIdStr);
-		BigDecimal[] arr = new BigDecimal[ids.length];
-		for (int i=0;i<arr.length;i++) {
-			arr[i] = new BigDecimal(ids[i]);
-		}
-		associateDao.updateAssociates(arr, statusId, clientId);
-		return true;
 	}
 
 	/**

@@ -1,9 +1,7 @@
 package com.revature.resources;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -44,15 +42,10 @@ public class AssociateResource {
 	 * @throws HibernateException
 	 */
 	@GET
-	public Response getAllAssociates(@QueryParam("batch") List<String> batchIds) throws IOException {
-		Map<BigDecimal, AssociateInfo> associatesList = null;
-		associatesList = service.getAssociates();
-		if (batchIds.isEmpty()) {
-			associatesList = service.getAssociates();
-		}
-		else {
-			associatesList= service.getAssociates();
-		}
+	public Response getAllAssociates() {
+		Set<AssociateInfo> associatesList = null;
+		associatesList = service.getAllAssociates();
+		service.getAllAssociates();
 		if (associatesList == null || associatesList.isEmpty()) {
 			// returns 404 if no associates found
 			return Response.status(Status.NOT_FOUND).build();
@@ -71,9 +64,9 @@ public class AssociateResource {
 	 */
 	@PUT
 	public Response updateAssociates(
-			@QueryParam("marketingStatusId") String marketingStatusIdStr,
-			@QueryParam("clientId") String clientIdStr,
-			int[] ids) throws IOException {
+			@QueryParam("marketingStatusId") Integer marketingStatusIdStr,
+			@QueryParam("clientId") Integer clientIdStr,
+			Integer[] ids) {
 		// marketing status & client id are given as query parameters, ids sent in body
 		service.updateAssociates(ids, marketingStatusIdStr, clientIdStr);
 		return Response.ok().build();
@@ -86,9 +79,9 @@ public class AssociateResource {
 	 * @return - An AssociateInfo object that contains the associate's information.
 	 * @throws IOException
 	 */
-	@Path("{associateid}")
 	@GET
-	public Response getAssociate(@PathParam("associateid") BigDecimal associateid) throws IOException {
+	@Path("{associateid}")
+	public Response getAssociate(@PathParam("associateid") Integer associateid) {
 		AssociateInfo associateinfo = service.getAssociate(associateid);
 		return Response.ok(associateinfo).build();
 	}
@@ -103,16 +96,14 @@ public class AssociateResource {
 	 * @throws NumberFormatException 
 	 * @throws IOException
 	 */
-	@Path("{associateId}")
 	@PUT
+	@Path("{associateId}")
 	public Response updateAssociate(
-			@PathParam("associateId") String idString,
-            @QueryParam("marketingStatusId") String marketingStatusId,
-            @QueryParam("clientId") String clientId) throws NumberFormatException, IOException {
-		int id = Integer.parseInt(idString);
-		int mkstatus = Integer.parseInt(marketingStatusId);
-		int clId = Integer.parseInt(clientId);
-		service.updateAssociate(id, mkstatus, clId);
+			@PathParam("associateId") Integer[] ids,
+            @QueryParam("marketingStatusId") Integer marketingStatusId,
+            @QueryParam("clientId") Integer clientId) {
+		
+		service.updateAssociates(ids, marketingStatusId, clientId);
 		return Response.ok().build();
 	}
 }

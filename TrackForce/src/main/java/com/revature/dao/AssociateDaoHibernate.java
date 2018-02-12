@@ -5,12 +5,14 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfAssociate;
@@ -51,18 +53,11 @@ public class AssociateDaoHibernate implements AssociateDao {
      * Added the method without the session parameter
      * @return Returns an AssociateInfo object
      */
-    public AssociateInfo getAssociate(BigDecimal associateid) {
-        TfAssociate associate;
-        Session session = HibernateUtil.getSession();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<TfAssociate> criteriaQuery = builder.createQuery(TfAssociate.class);
-        Root<TfAssociate> root = criteriaQuery.from(TfAssociate.class);
-        criteriaQuery.select(root).where(builder.equal(root.get("tfAssociateId"), associateid));
-        Query<TfAssociate> query = session.createQuery(criteriaQuery);
-
-        associate = query.getSingleResult();
-
-        return Dao2DoMapper.map(associate);
+    public AssociateInfo getAssociate(BigDecimal id) {
+       //created getAssociate to actually get data from the cache
+        return PersistentStorage.getStorage().getAssociate(id);
+        //want to write a method that gets from db if not in cache
+        //then throw exception if not found in db
     }
 
     /**
@@ -103,19 +98,29 @@ public class AssociateDaoHibernate implements AssociateDao {
      *                        to.
      * @throws IOException
      */
-    public void updateInfo(BigDecimal id, MarketingStatusInfo marketingStatus, ClientInfo client) {
-    	Session session = HibernateUtil.getSession();
-        TfClient tfclient = null;
-        if (client.getId() != null) {
-            tfclient = session.get(TfClient.class, client.getId());
-        }
-
-        TfMarketingStatus tfms = session.get(TfMarketingStatus.class, marketingStatus.getId());
-
-        TfAssociate associate = session.load(TfAssociate.class, id);
-        associate.setTfMarketingStatus(tfms);
-        associate.setTfClient(tfclient);
-        session.saveOrUpdate(associate);
+    public void updateAssociates(BigDecimal[] ids, BigDecimal marketingStatus, BigDecimal clientid) {
+    	List<TfAssociate> associates = null;
+    	Session session = null;
+		try{
+			session = HibernateUtil.getSession();
+			TfClient client = (TfClient) session.load(TfClient.class, clientid);
+			TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, marketingStatus);
+			for(BigDecimal id : ids) {
+				associates.add((TfAssociate) session.load(TfAssociate.class, id));
+			}
+			Transaction t = session.beginTransaction();
+			for(TfAssociate associate : associates) {
+				associate.setTfClient(client);
+				associate.setTfMarketingStatus(status);
+			}
+				
+			session.saveOrUpdate(associates);
+			t.commit();
+			System.out.println(associates);
+		} finally {
+			session.close();
+		}
+        
 
     }
 
@@ -145,10 +150,10 @@ public class AssociateDaoHibernate implements AssociateDao {
      * Returns data from the cache
      * @return The cached data 
      */
-    public static Map<BigDecimal, AssociateInfo> getAllAssociates() {
+    public static Set<AssociateInfo> getAllAssociates() {
     	if(PersistentStorage.getStorage().getAssociates() == null)
     		cacheAllAssociates();
-    	return PersistentStorage.getStorage().getAssociateAsMap();
+    	return PersistentStorage.getStorage().getAssociates();
     	
     }
     

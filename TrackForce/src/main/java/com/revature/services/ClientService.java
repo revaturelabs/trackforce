@@ -56,8 +56,8 @@ public class ClientService implements Service {
      * @throws IOException
      * @throws HibernateException
      */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    //@GET
+    //@Produces(MediaType.APPLICATION_JSON)
     private Set<ClientInfo> getAllClients() throws IOException {
         Set<ClientInfo> clients = PersistentStorage.getStorage().getClients();
         if (clients == null || clients.isEmpty()) {

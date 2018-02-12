@@ -18,21 +18,10 @@
 #Sample Feature Definition Template
 
 
-@tag
 Feature: Title of your feature
   I want to use this template for my feature file
   
-  Background: Logged in as VP and on the Associate List Page.
-
-  @tag1
-  Scenario:
-    Given I want to write a step with precondition
-    And some other precondition
-    When I complete action
-    And some other action
-    And yet another action
-    Then I validate the outcomes
-    And check more outcomes
+  Background Logged in as VP and on the Associate List Page.
     
    Scenario: Search by text
     Given I want to search by text
@@ -40,7 +29,7 @@ Feature: Title of your feature
     Then The item is retrieved
     
     Scenario: Marketing Status
-    Given: I want to filter by marketing status
+    Given I want to filter by marketing status
     When I select a marketing status value from the marketing status drop drown
     Then the table is filtered by that marketing status
     
@@ -58,71 +47,69 @@ Feature: Title of your feature
     
     Scenario: Edit associate status
     Given I want to edit an associates status
-    When I click an associate's checkbox
+    When I click an associate checkbox
     And I select a update by marketing status value from the update by marketing status drop down
     And I select a client value from the client drop down
     And I click the update button
-    Then the associate's information is updated
-    
-     Scenario: Sort the associate table by associate id in ascending order
- 		Given: I want to sort the associate table by associate id in ascending order
- 		When: I click the associate id heading on the associate table
- 		Then: The associate table is sorted by associate id in ascending order
+    Then the information is updated
+   
+    Scenario: Sort the associate table by associate id in ascending order
+ 		Given I want to sort the associate's table by associate id in ascending order
+ 		When I click the associate id heading on the associate table
+ 		Then The associate table is sorted by the associate's id in ascending order
 
  		Scenario: Sort the associate table by associate id in descending order
- 		Given: I want to sort the associate table by associate id in descending order
- 		When: I click the associate id heading on the associate table
- 		Then: The associate table is sorted by associate id in descending order
+ 		Given I want to sort the associate table by associate id in descending order
+ 		When I click the associate id heading on the associate table
+ 		Then The associate table is sorted by associate id in descending order
  		
- 	    Scenario: Sort the associate table by first name in ascending order
- 		Given: I want to sort the associate table by first name in ascending order
- 		When: I click the first name heading on the associate table
- 		Then: The associate table is sorted by first name in ascending order
+ 	  Scenario: Sort the associate table by first name in ascending order
+ 		Given I want to sort the associate table by first name in ascending order
+ 		When I click the first name heading on the associate table
+ 		Then The associate table is sorted by first name in ascending order
  		
  		Scenario: Sort the associate table by first name in descending order
- 		Given: I want to sort the associate table by first name in descending order
- 		When: I click the first name heading on the associate table
- 		Then: The associate table is sorted by first name in descending order
+ 		Given I want to sort the associate table by first name in descending order
+ 		When I click the first name heading on the associate table
+ 		Then The associate table is sorted by first name in descending order
  		
  		Scenario: Sort the associate table by last name in ascending order
- 		Given: I want to sort the associate table by last name in ascending order
- 		When: I click the last name heading on the associate table
- 		Then: The associate table is sorted by last name in ascending order
+ 		Given I want to sort the associate table by last name in ascending order
+ 		When I click the last name heading on the associate table
+ 		Then The associate table is sorted by last name in ascending order
  		
  		Scenario: Sort the associate table by last name in descending order
- 		Given: I want to sort the associate table by last name in descending order
- 		When: I click the last name heading on the associate table
- 		Then: The associate table is sorted by last name in descending order
+ 		Given I want to sort the associate table by last name in descending order
+ 		When I click the last name heading on the associate table
+ 		Then The associate table is sorted by last name in descending order
  		
  		Scenario: Sort the associate table by marketing status in ascending order
- 		Given: I want to sort the associate table by marketing status in ascending order
- 		When: I click the marketing status heading on the associate table
- 		Then: The associate table is sorted by marketing status in ascending order
+ 		Given I want to sort the associate table by marketing status in ascending order
+ 		When I click the marketing status heading on the associate table
+ 		Then The associate table is sorted by marketing status in ascending order
  		
  		Scenario: Sort the associate table by marketing status in descending order
- 		Given: I want to sort the associate table by marketing status in descending order
- 		When: I click the marketing status heading on the associate table
- 		Then: The associate table is sorted by marketing status in descending order
+ 		Given I want to sort the associate table by marketing status in descending order
+ 		When I click the marketing status heading on the associate table
+ 		Then The associate table is sorted by marketing status in descending order
  		
  		Scenario: Sort the associate table by client name in ascending order
- 		Given: I want to sort the associate table by client name in ascending order
- 		When: I click the client name heading on the associate table
- 		Then: The associate table is sorted by client name in ascending order
+ 		Given I want to sort the associate table by client name in ascending order
+ 		When I click the client name heading on the associate table
+ 		Then The associate table is sorted by client name in ascending order
  		
  		Scenario: Sort the associate table by client name in descending order
- 		Given: I want to sort the associate table by client name in descending order
- 		When: I click the client name heading on the associate table
- 		Then: The associate table is sorted by client name in descending order
+ 		Given I want to sort the associate table by client name in descending order
+ 		When I click the client name heading on the associate table
+ 		Then The associate table is sorted by client name in descending order
  		
  		Scenario: Sort the associate table by batch name in ascending order
- 		Given: I want to sort the associate table by batch name in ascending order
- 		When: I click the batch name heading on the associate table
- 		Then: The associate table is sorted by batch name in ascending order
+ 		Given I want to sort the associate table by batch name in ascending order
+ 		When I click the batch name heading on the associate table
+ 		Then The associate table is sorted by batch name in ascending order
  		
  		Scenario: Sort the associate table by batch name in descending order
- 		Given: I want to sort the associate table by batch name in descending order
- 		When: I click the batch name heading on the associate table
- 		Then: The associate table is sorted by batch name in descending order
- 	
- 
- 		
+ 		Given I want to sort the associate table by batch name in descending order
+ 		When I click the batch name heading on the associate table
+ 		Then The associate table is sorted by batch name in descending order
+	

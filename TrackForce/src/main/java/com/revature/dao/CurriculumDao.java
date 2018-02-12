@@ -11,5 +11,5 @@ import com.revature.model.CurriculumInfo;
 
 public interface CurriculumDao {
 
-	public Map<BigDecimal, CurriculumInfo> fetchCurriculums(Session session) throws IOException;
+	public Map<Integer, CurriculumInfo> fetchCurriculums(Session session) throws IOException;
 }

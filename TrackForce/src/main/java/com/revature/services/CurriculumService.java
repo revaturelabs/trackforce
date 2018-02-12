@@ -49,8 +49,8 @@ public class CurriculumService implements Service {
 		return currs;
 	}
 	
-	public Map<BigDecimal, CurriculumInfo> getCurriculums() throws HibernateException, IOException{
-		Map<BigDecimal, CurriculumInfo> curriculums;
+	public Map<Integer, CurriculumInfo> getCurriculums() throws HibernateException, IOException{
+		Map<Integer, CurriculumInfo> curriculums;
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {

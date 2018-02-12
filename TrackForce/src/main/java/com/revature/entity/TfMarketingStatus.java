@@ -1,7 +1,6 @@
 package com.revature.entity;
 // Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -22,18 +21,18 @@ public class TfMarketingStatus implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -1638800519652509525L;
-	private BigDecimal tfMarketingStatusId;
+	private Integer tfMarketingStatusId;
 	private String tfMarketingStatusName;
 	private Set<TfAssociate> tfAssociates = new HashSet<TfAssociate>(0);
 
 	public TfMarketingStatus() {
 	}
 
-	public TfMarketingStatus(BigDecimal tfMarketingStatusId) {
+	public TfMarketingStatus(Integer tfMarketingStatusId) {
 		this.tfMarketingStatusId = tfMarketingStatusId;
 	}
 
-	public TfMarketingStatus(BigDecimal tfMarketingStatusId, String tfMarketingStatusName,
+	public TfMarketingStatus(Integer tfMarketingStatusId, String tfMarketingStatusName,
 			Set<TfAssociate> tfAssociates) {
 		this.tfMarketingStatusId = tfMarketingStatusId;
 		this.tfMarketingStatusName = tfMarketingStatusName;
@@ -43,11 +42,11 @@ public class TfMarketingStatus implements java.io.Serializable {
 	@Id
 
 	@Column(name = "TF_MARKETING_STATUS_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getTfMarketingStatusId() {
+	public Integer getTfMarketingStatusId() {
 		return this.tfMarketingStatusId;
 	}
 
-	public void setTfMarketingStatusId(BigDecimal tfMarketingStatusId) {
+	public void setTfMarketingStatusId(Integer tfMarketingStatusId) {
 		this.tfMarketingStatusId = tfMarketingStatusId;
 	}
 

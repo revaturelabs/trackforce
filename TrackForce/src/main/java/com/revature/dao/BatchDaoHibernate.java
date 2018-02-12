@@ -1,7 +1,6 @@
 package com.revature.dao;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,10 +59,10 @@ public class BatchDaoHibernate implements BatchDao {
      * @throws IOException
      */
 	@Override
-	public Map<BigDecimal, BatchInfo> getBatchDetails(Session session) throws IOException {
+	public Map<Integer, BatchInfo> getBatchDetails(Session session) throws IOException {
 		List<TfBatch> batchesEnt;
 
-		Map<BigDecimal, BatchInfo> map = new HashMap<>();
+		Map<Integer, BatchInfo> map = new HashMap<>();
 		TypedQuery<TfBatch> tq = session.createQuery(
 				"from TfBatch", TfBatch.class);
 		

@@ -24,6 +24,6 @@ public interface BatchDao {
 
 	TfBatch getBatch(String batchName, Session session) throws IOException;
 
-	Map<BigDecimal, BatchInfo> getBatchDetails(Session session) throws IOException;
+	Map<Integer, BatchInfo> getBatchDetails(Session session) throws IOException;
 
 }

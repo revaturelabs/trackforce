@@ -1,7 +1,6 @@
 package com.revature.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 public class CurriculumInfo  implements Serializable, Comparable<CurriculumInfo> {
 
@@ -9,15 +8,15 @@ public class CurriculumInfo  implements Serializable, Comparable<CurriculumInfo>
 	 * 
 	 */
 	private static final long serialVersionUID = -3094266737602323184L;
-	private BigDecimal id;
+	private Integer id;
 	private String name;
 
-	public BigDecimal getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(BigDecimal id) {
-		this.id = id;
+	public void setId(Integer integer) {
+		this.id = integer;
 	}
 
 	public String getName() {
@@ -30,7 +29,7 @@ public class CurriculumInfo  implements Serializable, Comparable<CurriculumInfo>
 
 	@Override
 	public int compareTo(CurriculumInfo o) {
-		return this.id.subtract(o.id).intValueExact();
+		return this.id-o.id;
 	}
 
 }

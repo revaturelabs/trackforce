@@ -1,7 +1,6 @@
 package com.revature.services;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -56,11 +55,13 @@ public class ClientService implements Service {
      * @throws HibernateException
      */
     private Set<ClientInfo> getAllClients() throws IOException {
+
         Set<ClientInfo> clients = PersistentStorage.getStorage().getClients();
         if (clients == null || clients.isEmpty()) {
             execute();
             return PersistentStorage.getStorage().getClients();
         }
+
         return clients;
     }
 
@@ -71,11 +72,12 @@ public class ClientService implements Service {
      * @return
      * @throws IOException
      */
-    public Map<BigDecimal, ClientInfo> getClients() throws IOException {
+    public Map<Integer, ClientInfo> getClients() throws IOException {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
+        
         try {
-            Map<BigDecimal, ClientInfo> map = clientDao.getAllTfClients(session);
+            Map<Integer, ClientInfo> map = clientDao.getAllTfClients(session);
 
             session.flush();
             tx.commit();
@@ -85,6 +87,7 @@ public class ClientService implements Service {
             tx.rollback();
             throw new IOException("could not get clients", e);
         } finally {
+        	
             session.close();
         }
     }
@@ -103,13 +106,13 @@ public class ClientService implements Service {
     @Path("{clientid}")
     @Produces({MediaType.APPLICATION_JSON})
     public StatusInfo getClientInfo(@PathParam("clientid") int clientid) throws IOException {
-        Map<BigDecimal, ClientInfo> map = PersistentStorage.getStorage().getClientAsMap();
+        Map<Integer, ClientInfo> map = PersistentStorage.getStorage().getClientAsMap();
         if (map == null || map.isEmpty()) {
             execute();
         }
         if (map == null)
             throw new IOException("Could not populate map");
-        return map.get(new BigDecimal(clientid)).getStats();
+        return map.get(new Integer(clientid)).getStats();
     }
 
 

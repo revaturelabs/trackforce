@@ -16,8 +16,8 @@ import com.revature.model.MarketingStatusInfo;
 
 public interface AssociateDao {
 
-	public AssociateInfo getAssociate(BigDecimal associateid, Session session) throws IOException;
-	public Map<BigDecimal, AssociateInfo> getAssociates(Session session);
-	void updateInfo(Session session, BigDecimal id, MarketingStatusInfo marketingStatus, ClientInfo client)
+	public AssociateInfo getAssociate(Integer associateid, Session session) throws IOException;
+	public Map<Integer, AssociateInfo> getAssociates(Session session);
+	void updateInfo(Session session, Integer id, MarketingStatusInfo marketingStatus, ClientInfo client)
 			throws IOException;
 }

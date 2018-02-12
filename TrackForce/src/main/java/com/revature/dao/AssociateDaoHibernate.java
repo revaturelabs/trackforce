@@ -1,7 +1,6 @@
 package com.revature.dao;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,7 @@ public class AssociateDaoHibernate implements AssociateDao {
      * @throws IOException
      */
     @Override
-    public AssociateInfo getAssociate(BigDecimal associateid, Session session) {
+    public AssociateInfo getAssociate(Integer associateid, Session session) {
         TfAssociate associate;
 
         CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -55,7 +54,7 @@ public class AssociateDaoHibernate implements AssociateDao {
      * @throws IOException
      */
     @Override
-    public void updateInfo(Session session, BigDecimal id, MarketingStatusInfo marketingStatus, ClientInfo client) throws IOException {
+    public void updateInfo(Session session, Integer id, MarketingStatusInfo marketingStatus, ClientInfo client) throws IOException {
 
         TfClient tfclient = null;
         if (client.getId() != null) {
@@ -72,16 +71,17 @@ public class AssociateDaoHibernate implements AssociateDao {
     }
 
     @Override
-    public Map<BigDecimal, AssociateInfo> getAssociates(Session session) {
+    public Map<Integer, AssociateInfo> getAssociates(Session session) {
+    	         
         List<TfAssociate> associatesEnt;
-        Map<BigDecimal, AssociateInfo> map = new HashMap<>();
+        Map<Integer, AssociateInfo> map = new HashMap<>();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<TfAssociate> cq = cb.createQuery(TfAssociate.class);
         Root<TfAssociate> from = cq.from(TfAssociate.class);
         CriteriaQuery<TfAssociate> all = cq.select(from);
         Query<TfAssociate> tq = session.createQuery(all);
-
         associatesEnt = tq.getResultList();
+        
         if (associatesEnt != null) {
             for (TfAssociate tfa : associatesEnt) {
                 map.put(tfa.getTfAssociateId(), Dao2DoMapper.map(tfa));

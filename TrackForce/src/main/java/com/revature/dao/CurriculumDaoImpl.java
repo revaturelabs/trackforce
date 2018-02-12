@@ -1,7 +1,6 @@
 package com.revature.dao;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +21,9 @@ import com.revature.utils.Dao2DoMapper;
 public class CurriculumDaoImpl implements CurriculumDao {
 
 	@Override
-	public Map<BigDecimal, CurriculumInfo> fetchCurriculums(Session session) throws IOException {
+	public Map<Integer, CurriculumInfo> fetchCurriculums(Session session) throws IOException {
 		List<TfCurriculum> curriculumsEnt;
-		Map<BigDecimal, CurriculumInfo> curriculumsInfo = new HashMap<BigDecimal, CurriculumInfo>();
+		Map<Integer, CurriculumInfo> curriculumsInfo = new HashMap<Integer, CurriculumInfo>();
 		CriteriaBuilder cb = session.getCriteriaBuilder();
 		CriteriaQuery<TfCurriculum> cq = cb.createQuery(TfCurriculum.class);
 		Root<TfCurriculum> from = cq.from(TfCurriculum.class);

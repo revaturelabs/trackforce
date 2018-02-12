@@ -1,7 +1,6 @@
 package com.revature.services;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -74,15 +73,16 @@ public class BatchesService implements Service {
             execute();
             return PersistentStorage.getStorage().getBatchesByDate();
         }
+
         return batches;
     }
 
-    private Map<BigDecimal, BatchInfo> getBatches() throws IOException {
+    private Map<Integer, BatchInfo> getBatches() throws IOException {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         try {
-            Map<BigDecimal, BatchInfo> map = batchDao.getBatchDetails(session);
-
+        	
+            Map<Integer, BatchInfo> map = batchDao.getBatchDetails(session);
             session.flush();
             tx.commit();
 
@@ -94,6 +94,7 @@ public class BatchesService implements Service {
             tx.rollback();
             throw new IOException("could not get batches", e);
         } finally {
+        	
             session.close();
         }
     }
@@ -180,13 +181,13 @@ public class BatchesService implements Service {
     public Set<AssociateInfo> getAssociates(@PathParam("batch") String batchIdStr) throws IOException {
         Set<AssociateInfo> associatesList = PersistentStorage.getStorage()
                 .getBatchAsMap()
-                .get(new BigDecimal(Integer.parseInt(batchIdStr)))
+                .get(new Integer(Integer.parseInt(batchIdStr)))
                 .getAssociates();
         if (associatesList == null) {
             execute();
             return PersistentStorage.getStorage()
                     .getBatchAsMap()
-                    .get(new BigDecimal(Integer.parseInt(batchIdStr)))
+                    .get(new Integer(Integer.parseInt(batchIdStr)))
                     .getAssociates();
         }
         return associatesList;

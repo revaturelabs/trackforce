@@ -2,7 +2,7 @@ package com.revature.entity;
 // Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
 
-import java.math.BigDecimal;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +24,7 @@ public class TfClient implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3153069785231904041L;
-	private BigDecimal tfClientId;
+	private Integer tfClientId;
 	private String tfClientName;
 	private Set<TfPlacement> tfPlacements = new HashSet<TfPlacement>(0);
 	private Set<TfAssociate> tfAssociates = new HashSet<TfAssociate>(0);
@@ -33,11 +33,11 @@ public class TfClient implements java.io.Serializable {
 	public TfClient() {
 	}
 
-	public TfClient(BigDecimal tfClientId) {
+	public TfClient(Integer tfClientId) {
 		this.tfClientId = tfClientId;
 	}
 
-	public TfClient(BigDecimal tfClientId, String tfClientName, Set<TfPlacement> tfPlacements,
+	public TfClient(Integer tfClientId, String tfClientName, Set<TfPlacement> tfPlacements,
 			Set<TfAssociate> tfAssociates, Set<TfInterview> tfInterviews) {
 		this.tfClientId = tfClientId;
 		this.tfClientName = tfClientName;
@@ -49,11 +49,11 @@ public class TfClient implements java.io.Serializable {
 	@Id
 
 	@Column(name = "TF_CLIENT_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getTfClientId() {
+	public Integer getTfClientId() {
 		return this.tfClientId;
 	}
 
-	public void setTfClientId(BigDecimal tfClientId) {
+	public void setTfClientId(Integer tfClientId) {
 		this.tfClientId = tfClientId;
 	}
 

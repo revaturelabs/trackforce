@@ -32,32 +32,47 @@ public class ClientDaoImpl implements ClientDao {
 	 */
 	@Override
 	public TfClient getClient(String name) throws IOException {
-		TfClient client = null;
 		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
 			Root<TfClient> root = criteriaQuery.from(TfClient.class);
 			criteriaQuery.select(root).where(builder.equal(root.get("tfClientName"), name));
 			Query<TfClient> query = session.createQuery(criteriaQuery);
-			client = query.getSingleResult();
+			return query.getSingleResult();
 		} catch (NoResultException nre) {
 			LogUtil.logger.error(nre);
 		}
-		return client;
+		return new TfClient();
+	}
+	
+	public TfClient getClient(int id) throws IOException{
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
+			Root<TfClient> root = criteriaQuery.from(TfClient.class);
+			criteriaQuery.select(root).where(builder.equal(root.get("tfClientId"), id));
+			Query<TfClient> query = session.createQuery(criteriaQuery);
+			return query.getSingleResult();
+		} catch (NoResultException nre) {
+			LogUtil.logger.error(nre);
+		}
+		return new TfClient();
+		
 	}
 
 	@Override
-	public Map<Integer, ClientInfo> getAllTfClients(Session session) throws HibernateException, IOException {
-
-		CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
-		cq.from(TfClient.class);
-		List<TfClient> clients = session.createQuery(cq).getResultList();
+	public Map<Integer, ClientInfo> getAllTfClients() throws HibernateException, IOException {
 		Map<Integer, ClientInfo> map = new HashMap<>();
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+			CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
+			cq.from(TfClient.class);
+			List<TfClient> clients = session.createQuery(cq).getResultList();
+		
 
-		for (TfClient client : clients) {
-			map.put(client.getTfClientId(), Dao2DoMapper.map(client));
-		}	
-
+			for (TfClient client : clients) {
+				map.put(client.getTfClientId(), Dao2DoMapper.map(client));
+			}	
+		}
 		return map;
 	}
 }

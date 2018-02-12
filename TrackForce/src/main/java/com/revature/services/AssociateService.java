@@ -6,11 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.hibernate.HibernateException;
@@ -45,12 +40,10 @@ public class AssociateService implements Service {
 
 	//The method used to populate all of the data onto TrackForce
     //Doesn't work correctly at the moment
-//    @PUT
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Path("action/{marketingStatus}/{clientid}/")
-    public Response updateAssociates(@QueryParam("id") Integer[] associateids,
-    		@PathParam("marketingStatus") Integer marketingStatus,
-    		@PathParam("clientid") Integer clientid) {
+    public Response updateAssociates(
+    		Integer[] associateids,
+    		Integer marketingStatus,
+    		Integer clientid) {
     	//System.out.println("Got something with UpdateAssociate:" + associateinfo);
     	associateDaoHib.updateAssociates(associateids, marketingStatus, clientid);
     	return Response.status(200).build();
@@ -59,8 +52,6 @@ public class AssociateService implements Service {
      * 
      * @return
      */
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
 	public Set<AssociateInfo> getAllAssociates(){
 			//for now, must use read method in respective service class to read
 			//data from the cache and be able to send it to Angular

@@ -1,10 +1,8 @@
 package com.revature.dao;
 
 import java.io.IOException;
-import java.util.Map;
 
 import com.revature.entity.TfBatch;
-import com.revature.model.BatchInfo;
 
 /**
  * Accesses various information for the batches.

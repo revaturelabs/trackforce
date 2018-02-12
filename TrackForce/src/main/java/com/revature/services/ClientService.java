@@ -63,14 +63,12 @@ public class ClientService implements Service {
     	return clientSet;
     }
     
-    public Set<ClientInfo> getClientByID(int id) throws IOException{
-    	Set<ClientInfo> client = new TreeSet<>();
+    public ClientInfo getClientByID(int id) throws IOException{
     	try {
-    		client.add(clientDao.getClientFromCache(id));
+    		return clientDao.getClientFromCache(id);
     	} catch (Exception e) {
     		throw new IOException("could not get client by ID", e);
     	}
-    	return client;
     }
     
 //Replaced by getClientByID and getClientByName for versatility

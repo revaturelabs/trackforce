@@ -1,8 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AssociateListComponent} from './associate-list.component';
-import {AssociateService} from '../../services/associates-service/associates-service';
-import {ClientListService} from '../../services/client-list-service/client-list.service';
+import {AssociateService} from '../../services/associate-service/associate.service';
+import {ClientService} from '../../services/client-service/client.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {FormsModule} from '@angular/forms';
 import {AssociateSearchByTextFilter} from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
@@ -49,7 +49,7 @@ describe('AssociateListComponent', () => {
       ],
       providers: [
         AssociateService,
-        ClientListService,
+        ClientService,
         RequestService,
         {provide: AuthenticationService, useValue: testAuthService}
       ],

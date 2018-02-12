@@ -2,43 +2,26 @@ package com.revature.services;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
 
 import com.revature.dao.AssociateDao;
 import com.revature.dao.AssociateDaoHibernate;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-
 import com.revature.model.AssociateInfo;
-import com.revature.model.ClientInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumJSON;
-import com.revature.model.MarketingStatusInfo;
-import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
-@Path("associates")
 public class AssociateService implements Service {
 
     private AssociateDao associateDao;
-    private SessionFactory sessionFactory;
 
     public AssociateService() {
         this.associateDao = new AssociateDaoHibernate();
-        this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     /**
@@ -48,80 +31,78 @@ public class AssociateService implements Service {
      */
     public AssociateService(AssociateDao associateDao, SessionFactory sessionFactory) {
         this.associateDao = associateDao;
-        this.sessionFactory = sessionFactory;
     }
 
 	/**
 	 * Retrieve information about a specific associate.
-	 * 
-	 * @param associateid
-	 *            - The ID of the associate to get information about
+	 *
+	 * @param associateid - The ID of the associate to get information about
 	 * @return - An AssociateInfo object that contains the associate's information.
 	 * @throws IOException
 	 */
-	@GET
-	@Path("{associateid}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public AssociateInfo getAssociate(@PathParam("associateid") Integer associateid) throws IOException {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-
-			AssociateInfo associateinfo = associateDao.getAssociate(associateid, session);
-
-			tx.commit();
-			return associateinfo;
-		} catch (Exception e) {
-			tx.rollback();
-			e.printStackTrace();
-			throw new IOException("Could not get associate", e);
-		} finally {
-			session.close();
-		}
+	public AssociateInfo getAssociate(BigDecimal associateid) {
+		AssociateInfo associateinfo = associateDao.getAssociate(associateid);
+		return associateinfo;
 	}
 
 	/**
 	 * Update the marketing status or client of an associate from form data.
-	 * 
-	 * @param id
-	 *            - The ID of the associate to change
-	 * @param marketingStatusId
-	 *            - What to change the associate's marketing status to
-	 * @param clientId
-	 *            - What client to change the associate to
-	 * @return
-	 * @throws NumberFormatException 
-	 * @throws IOException
+	 *
+	 * @param id - The ID of the associate to change
+	 * @param marketingStatusId - What to change the associate's marketing status to
+	 * @param clientId - What client to change the associate to
+	 * @return boolean
 	 */
-	@PUT
-	@Path("{associateId}/update/{marketingStatusId}/{clientId}")
-	@Produces({ MediaType.TEXT_HTML })
-	public Response updateAssociate(@PathParam("associateId") String id,
-                                    @PathParam("marketingStatusId") String marketingStatusId,
-                                    @PathParam("clientId") String clientId) throws NumberFormatException, IOException {
-		return updateAssociates(new int[] { Integer.parseInt(id) }, marketingStatusId, clientId);
+	public boolean updateAssociate(int id, int marketingStatusId, int clientId) {
+		return associateDao.updateAssociate(new BigDecimal(id), marketingStatusId, clientId);
 	}
 
 	/**
 	 * Gets a list of all the associates. If an associate has no marketing status or
 	 * curriculum, replaces them with blanks. If associate has no client, replaces
 	 * it with "None".
-	 * 
+	 *
 	 * @return - A Response object with a list of TfAssociate objects.
 	 * @throws IOException
-	 * @throws HibernateException
 	 */
-	private Set<AssociateInfo> getAllAssociates() throws IOException {
 
-		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
-		if (associates == null || associates.isEmpty()) {
-			execute();
-			return PersistentStorage.getStorage().getAssociates();
-		}
+//	private Set<AssociateInfo> getAllAssociates() throws IOException {
+//		System.out.println("getAllAssociates called");
+//		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
+//		if (associates == null || associates.isEmpty()) {
+//			execute();
+//			return PersistentStorage.getStorage().getAssociates();
+//		}
+//		return associates;
+//	}
 
-		return associates;
+	//The method used to populate all of the data onto TrackForce
+    //Doesn't work correctly at the moment
+//    @PUT
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Path("action/{marketingStatus}/{clientid}/")
+    public Response updateAssociate(@QueryParam("id") BigDecimal[] associateids,
+    		@PathParam("marketingStatus") BigDecimal marketingStatus,
+    		@PathParam("clientid") BigDecimal clientid,
+    		AssociateInfo associateinfo) {
+    	System.out.println("Got something with UpdateAssociate:" + associateinfo);
+    	associateDaoHib.updateAssociates(associateids, marketingStatus, clientid);
+    	return Response.status(200).build();
+    }
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Set<AssociateInfo> getAllAssociates(){
+
+//		try {
+			//for now, must use read method in respective service class to read
+			//data from the cache and be able to send it to Angular
+			//return read();
+			return AssociateDaoHibernate.getAllAssociates();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		//return null;
 	}
-
     /**
      * fetch associates from database
      *
@@ -129,30 +110,14 @@ public class AssociateService implements Service {
      * @throws HibernateException
      * @throws IOException
      */
-	public Map<Integer, AssociateInfo> getAssociates() throws HibernateException, IOException {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-			
-		try {
-			Map<Integer, AssociateInfo> tfAssociates = associateDao.getAssociates(session);
-			PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
-			session.flush();
-			tx.commit();
-			return tfAssociates;
-		} catch (Exception e) {
-			LogUtil.logger.error(e);
-			session.flush();
-			tx.rollback();
-			throw new IOException("cannot get associates", e);
-		} finally {	
-			session.close();
-		}
-	
+	public Map<BigDecimal, AssociateInfo> getAssociates() {
+		Map<BigDecimal, AssociateInfo> map = associateDao.getAssociates();
+		return map;
 	}
 
 	/**
 	 * Update the marketing status or client of associates
-	 * 
+	 *
 	 * @param ids
 	 *            to be updated
 	 * @param marketingStatusIdStr
@@ -162,73 +127,15 @@ public class AssociateService implements Service {
 	 * @return
 	 * @throws IOException
 	 */
-	@PUT
-	@Path("/update/{marketingStatusId}/{clientId}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateAssociates(int[] ids, @PathParam("marketingStatusId") String marketingStatusIdStr,
-			@PathParam("clientId") String clientIdStr) throws IOException {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-
-		try {
-			int statusId = Integer.parseInt(marketingStatusIdStr);
-			int clientId = Integer.parseInt(clientIdStr);
-
-			ClientInfo tfclient = PersistentStorage.getStorage().getClientAsMap().get(new Integer(clientId));
-			MarketingStatusInfo msi = PersistentStorage.getStorage().getMarketingAsMap().get(new Integer(statusId));
-
-			if (msi == null) {
-				return Response.status(Response.Status.BAD_REQUEST).entity("Invalid marketing status sent.").build();
-			}
-
-			Map<Integer, AssociateInfo> map = new HashMap<>();
-			for (int id : ids) {
-				AssociateInfo ai = PersistentStorage.getStorage().getAssociateAsMap().get(new Integer(id));
-				ClientInfo old = PersistentStorage.getStorage().getClientAsMap().get(ai.getClid());
-
-				// subtract old values
-				if (old != null) {
-					if (ai.getMsid() != null)
-						old.getStats().subtractFromMap(ai.getMsid());
-					old.getTfAssociates().remove(ai);
-				}
-
-				// add new values
-				// since all the resources are available to us, we can update storage here
-				// without having to hit the DB
-				Integer oldms = ai.getMsid();
-				tfclient.getStats().appendToMap(msi.getId());
-				tfclient.getTfAssociates().add(ai);
-				ai.setMarketingStatusId(msi.getId());
-				ai.setMarketingStatus(msi.getName());
-				ai.setClid(tfclient.getId());
-				ai.setClient(tfclient.getTfClientName());
-
-				// write to DB
-				associateDao.updateInfo(session, ai.getId(), msi, tfclient);
-
-				map.put(ai.getId(), ai);
-				PersistentStorage.getStorage().getTotals().appendToMap(msi.getId());
-				if(oldms != null && !oldms.equals(new Integer(-1)))
-					PersistentStorage.getStorage().getTotals().subtractFromMap(oldms);
-			}
-			session.flush();
-			tx.commit();
-
-			// update Persistent storage
-			PersistentStorage.getStorage().updateAssociates(map);
-
-			return Response.status(Response.Status.OK).build();
-		} catch (Exception e) {
-			e.printStackTrace();
-			LogUtil.logger.error(e);
-			session.flush();
-			tx.rollback();
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Updated the associate's information.")
-					.build();
-		} finally {
-			session.close();
+	public boolean updateAssociates(int[] ids, String marketingStatusIdStr, String clientIdStr) {
+		int statusId = Integer.parseInt(marketingStatusIdStr);
+		int clientId = Integer.parseInt(clientIdStr);
+		BigDecimal[] arr = new BigDecimal[ids.length];
+		for (int i=0;i<arr.length;i++) {
+			arr[i] = new BigDecimal(ids[i]);
 		}
+		associateDao.updateAssociates(arr, statusId, clientId);
+		return true;
 	}
 
 	/**
@@ -236,18 +143,12 @@ public class AssociateService implements Service {
 	 * an entity. The format of the Map objects are as follows: <br>
 	 * name: (name of curriculum) <br>
 	 * count: (count of desired status)
-	 * 
-	 * @param statusid
-	 *            Status id of the status/stage of associates that the requester
-	 *            wants information for.
+	 *
+	 * @param statusid - Status id of the status/stage of associates that the requester wants information for.
 	 * @return a Response object with a List of Map objects as an entity.
 	 * @throws IOException
-	 * @throws HibernateException
 	 */
-	@GET
-	@Path("client/{statusid}")
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getClients(@PathParam("statusid") int statusid) throws HibernateException, IOException {
+	public Collection<ClientMappedJSON> getAssociatesByStatus(int statusid) throws IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null) {
 			execute();
@@ -267,7 +168,7 @@ public class AssociateService implements Service {
 				}
 			}
 		}
-		return Response.ok(map.values()).build();
+		return map.values();
 	}
 
 	/**
@@ -275,7 +176,7 @@ public class AssociateService implements Service {
 	 * an entity. The format of the Map objects are as follows: <br>
 	 * name: (name of curriculum) <br>
 	 * count: (count of desired status)
-	 * 
+	 *
 	 * @param statusid
 	 *            Status id of the status/stage of associates that the requester
 	 *            wants information for.
@@ -283,13 +184,10 @@ public class AssociateService implements Service {
 	 * @throws IOException
 	 * @throws HibernateException
 	 */
-	@GET
-	@Path("skillset/{statusid}")
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getCurriculumsByStatus(@PathParam("statusid") int statusid) throws HibernateException, IOException {
+	public Collection<CurriculumJSON> getCurriculumsByStatus(int statusid) throws HibernateException, IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null) {
-			execute();
+			//execute();
 			associates = PersistentStorage.getStorage().getAssociates();
 		}
 
@@ -306,7 +204,7 @@ public class AssociateService implements Service {
 				}
 			}
 		}
-		return Response.ok(map.values()).build();
+		return map.values();
 	}
 
     /**
@@ -316,9 +214,9 @@ public class AssociateService implements Service {
      */
 	@Override
 	public synchronized void execute() throws IOException {
-		Set<AssociateInfo> ai = PersistentStorage.getStorage().getAssociates();
-		if (ai == null || ai.isEmpty())
-			PersistentStorage.getStorage().setAssociates(getAssociates());
+//		Set<AssociateInfo> ai = PersistentStorage.getStorage().getAssociates();
+//		if (ai == null || ai.isEmpty())
+//			PersistentStorage.getStorage().setAssociates(getAssociates());
 	}
 
 	@SuppressWarnings("unchecked")

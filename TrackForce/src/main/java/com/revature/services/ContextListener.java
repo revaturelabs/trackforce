@@ -3,7 +3,6 @@ package com.revature.services;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.revature.runnable.PSDCacheRunner;
 import com.revature.utils.HibernateUtil;
 
 public class ContextListener implements ServletContextListener {
@@ -24,7 +23,7 @@ public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
-    	Thread worker = new Thread(new PSDCacheRunner(psd));
-    	worker.start();
+//    	Thread worker = new Thread(new PSDCacheRunner(psd));
+//    	worker.start();
     }
 }

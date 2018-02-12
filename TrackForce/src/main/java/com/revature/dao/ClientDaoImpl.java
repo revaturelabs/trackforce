@@ -2,10 +2,8 @@ package com.revature.dao;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -19,6 +17,7 @@ import org.hibernate.query.Query;
 import com.revature.entity.TfClient;
 import com.revature.model.ClientInfo;
 import com.revature.utils.Dao2DoMapper;
+import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
 public class ClientDaoImpl implements ClientDao {
@@ -32,22 +31,16 @@ public class ClientDaoImpl implements ClientDao {
 	 * @throws IOException
 	 */
 	@Override
-	public TfClient getClient(Session session, String name) throws IOException {
-		TfClient client;
-
-		CriteriaBuilder builder = session.getCriteriaBuilder();
-		CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
-
-		Root<TfClient> root = criteriaQuery.from(TfClient.class);
-
-		criteriaQuery.select(root).where(builder.equal(root.get("tfClientName"), name));
-
-		Query<TfClient> query = session.createQuery(criteriaQuery);
-
-		try {
+	public TfClient getClient(String name) throws IOException {
+		TfClient client = null;
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
+			Root<TfClient> root = criteriaQuery.from(TfClient.class);
+			criteriaQuery.select(root).where(builder.equal(root.get("tfClientName"), name));
+			Query<TfClient> query = session.createQuery(criteriaQuery);
 			client = query.getSingleResult();
 		} catch (NoResultException nre) {
-			client = new TfClient();
 			LogUtil.logger.error(nre);
 		}
 		return client;

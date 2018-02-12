@@ -3,10 +3,8 @@ package com.revature.dao;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
 
 import com.revature.entity.TfClient;
 import com.revature.model.ClientInfo;
@@ -24,9 +22,8 @@ public interface ClientDao {
 	/**
 	 * Returns a single TfClient object
 	 * 
-	 * @param name
-	 *            - The name of the client to get
+	 * @param name - The name of the client to get
 	 * @return
 	 */
-	TfClient getClient(Session session, String name) throws IOException;
+	TfClient getClient(String name) throws IOException;
 }

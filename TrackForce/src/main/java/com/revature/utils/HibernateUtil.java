@@ -6,14 +6,15 @@ import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.service.ServiceRegistry;
-
-import javax.sql.DataSource;
 
 /**
  * Utility class for configurations and getting a Hibernate SessionFactory
@@ -22,6 +23,14 @@ import javax.sql.DataSource;
 public class HibernateUtil {
     private static SessionFactory sessionFactory;
 
+    /**
+     * Returns a new session from the sessionFactory
+     * @return A newly created session
+     */
+    public static Session getSession() {
+    	return getSessionFactory().openSession();
+    }
+    
     /**
      * Returns the SessionFactory stored in the HibernateUtil class;
      * Initializes it if not already initialized

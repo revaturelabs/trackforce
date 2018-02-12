@@ -1,54 +1,31 @@
 package com.revature.services;
 
 import java.io.IOException;
+<<<<<<< HEAD
 import java.sql.Timestamp;
+=======
+import java.math.BigDecimal;
+>>>>>>> biz
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import com.revature.dao.BatchDao;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-
 import com.revature.dao.BatchDaoHibernate;
+import com.revature.entity.TfBatch;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
-import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
+import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.PersistentStorage;
 
-/**
- * Class that provides RESTful services for the batch listing and batch details
- * page.
- */
-@Path("batches")
 public class BatchesService implements Service {
 
     private BatchDao batchDao;
-    private SessionFactory sessionFactory;
 
     public BatchesService() {
         this.batchDao = new BatchDaoHibernate();
-        this.sessionFactory = HibernateUtil.getSessionFactory();
-    }
-
-    /**
-     * injectable dao for easier testing
-     *
-     * @param batchDao
-     */
-    public BatchesService(BatchDao batchDao, SessionFactory sessionFactory) {
-        this.batchDao = batchDao;
-        this.sessionFactory = sessionFactory;
     }
 
     /**
@@ -58,7 +35,7 @@ public class BatchesService implements Service {
      * name, batch start date, and batch end date.
      * @throws IOException
      */
-    private synchronized Set<BatchInfo> getAllBatches() throws IOException {
+    public synchronized Set<BatchInfo> getAllBatches() throws IOException {
         Set<BatchInfo> batches = PersistentStorage.getStorage().getBatches();
         if (batches == null || batches.isEmpty()) {
             execute();
@@ -67,7 +44,7 @@ public class BatchesService implements Service {
         return batches;
     }
 
-    private List<BatchInfo> getAllBatchesSortedByDate() throws IOException {
+    public List<BatchInfo> getAllBatchesSortedByDate() throws IOException {
         List<BatchInfo> batches = PersistentStorage.getStorage().getBatchesByDate();
         if (batches == null || batches.isEmpty()) {
             execute();
@@ -77,6 +54,7 @@ public class BatchesService implements Service {
         return batches;
     }
 
+<<<<<<< HEAD
     private Map<Integer, BatchInfo> getBatches() throws IOException {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
@@ -97,6 +75,11 @@ public class BatchesService implements Service {
         	
             session.close();
         }
+=======
+    public Map<BigDecimal, BatchInfo> getBatches() throws IOException {
+    	Map<BigDecimal, BatchInfo> map = batchDao.getBatchDetails();
+        return map;
+>>>>>>> biz
     }
 
     /**
@@ -116,11 +99,7 @@ public class BatchesService implements Service {
      * ... ]
      * @throws IOException
      */
-    @GET
-    @Path("{fromdate}/{todate}/type")
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<BatchInfo> getBatchChartInfo(@PathParam("fromdate") Long fromDate, @PathParam("todate") Long todate)
-            throws IOException {
+    public List<BatchInfo> getBatchChartInfo(Long fromDate, Long todate) throws IOException {
         List<BatchInfo> batches = PersistentStorage.getStorage().getBatchesByDate();
         List<BatchInfo> subList = new LinkedList<>();
         if (batches == null)
@@ -133,7 +112,6 @@ public class BatchesService implements Service {
                     subList.add(bi);
                 }
         }
-
         return subList;
     }
 
@@ -146,11 +124,7 @@ public class BatchesService implements Service {
      * name, batch start date, and batch end date.
      * @throws IOException
      */
-    @GET
-    @Path("{fromdate}/{todate}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<BatchInfo> getBatches(@PathParam("fromdate") Long fromdate, @PathParam("todate") Long todate)
-            throws IOException {
+    public List<BatchInfo> getBatches(Long fromdate, Long todate) throws IOException {
         List<BatchInfo> batches = PersistentStorage.getStorage().getBatchesByDate();
         List<BatchInfo> sublist = new LinkedList<BatchInfo>();
         if (batches == null)
@@ -166,6 +140,11 @@ public class BatchesService implements Service {
 
         return sublist;
     }
+    
+    public BatchInfo getBatchById(int id) {
+    	TfBatch batch = batchDao.getBatchById(id);
+    	return Dao2DoMapper.map(batch);
+    }
 
     /**
      * Gets the information of the associates in a particular batch
@@ -175,10 +154,7 @@ public class BatchesService implements Service {
      * first name, last name, and marketing status.
      * @throws IOException
      */
-    @GET
-    @Path("{batch}/associates")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Set<AssociateInfo> getAssociates(@PathParam("batch") String batchIdStr) throws IOException {
+    public Set<AssociateInfo> getAssociates(String batchIdStr) throws IOException {
         Set<AssociateInfo> associatesList = PersistentStorage.getStorage()
                 .getBatchAsMap()
                 .get(new Integer(Integer.parseInt(batchIdStr)))

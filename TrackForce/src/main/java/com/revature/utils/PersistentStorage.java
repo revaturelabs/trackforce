@@ -42,6 +42,11 @@ public class PersistentStorage {
 	public Set<AssociateInfo> getAssociates() {
 		return new TreeSet<AssociateInfo>(associates.values());
 	}
+	
+	//added method to actually get values from the cache
+	public AssociateInfo getAssociate(BigDecimal id) {
+		return associates.get(id);
+	}
 
 	public void setAssociates(Map<Integer, AssociateInfo> associates) {
 		if (this.associates == null)
@@ -65,6 +70,11 @@ public class PersistentStorage {
 		setBatchesByDate(this.batches);
 	}
 
+	//added method to actually get values from the cache
+	public ClientInfo getClient(BigDecimal id) {
+		return clients.get(id);
+	}
+		
 	public Set<ClientInfo> getClients() {
 		return new TreeSet<ClientInfo>(clients.values());
 	}

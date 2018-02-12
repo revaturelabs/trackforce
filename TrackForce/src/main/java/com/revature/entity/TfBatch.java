@@ -53,7 +53,6 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	}
 
 	@Id
-
 	@Column(name = "TF_BATCH_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Integer getTfBatchId() {
 		return this.tfBatchId;

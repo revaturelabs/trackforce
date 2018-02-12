@@ -12,7 +12,6 @@ import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.model.ClientInfo;
 import com.revature.model.StatusInfo;
-import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.PersistentStorage;
 
 public class ClientService implements Service {
@@ -55,7 +54,7 @@ public class ClientService implements Service {
     	Set<ClientInfo> clientSet = new TreeSet<>();
     	Map<Integer, ClientInfo> clients;
     	try {
-    		clients = clientDao.getAllTfClients();
+    		clients = clientDao.getAllClientsFromCache();
     		for(ClientInfo client: clients.values()) clientSet.add(client);
         } catch (Exception e) {
             throw new IOException("could not get clients", e);
@@ -67,23 +66,12 @@ public class ClientService implements Service {
     public Set<ClientInfo> getClientByID(int id) throws IOException{
     	Set<ClientInfo> client = new TreeSet<>();
     	try {
-    		client.add(Dao2DoMapper.map(clientDao.getClient(id)));
+    		client.add(clientDao.getClientFromCache(id));
     	} catch (Exception e) {
     		throw new IOException("could not get client by ID", e);
     	}
     	return client;
     }
-    
-    public Set<ClientInfo> getClientByName(String name) throws IOException{
-    	Set<ClientInfo> client = new TreeSet<>();
-    	try {
-    		client.add(Dao2DoMapper.map(clientDao.getClient(name)));
-    	} catch (Exception e) {
-    		throw new IOException("could not get client by ID", e);
-    	}
-    	return client;
-    } 
-    
     
 //Replaced by getClientByID and getClientByName for versatility
 //    /**

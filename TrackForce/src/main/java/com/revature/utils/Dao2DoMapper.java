@@ -11,6 +11,7 @@ public class Dao2DoMapper {
     private static final String OTHER_VALUE = "Other";
     private static final String UNKNOWN_VALUE = "None";
 
+    // This is the end mapper
     public static AssociateInfo map(TfAssociate tfa) {
         AssociateInfo ai = new AssociateInfo();
         ai.setId(tfa.getTfAssociateId());

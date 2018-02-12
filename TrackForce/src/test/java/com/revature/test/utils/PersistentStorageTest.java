@@ -58,13 +58,13 @@ public class PersistentStorageTest extends BaseTest {
         HashMap<Integer, MarketingStatusInfo> marketingStatusMap = new HashMap<>();
         marketingStatusMap.put(new Integer(-1), mInfo);
 
-        Mockito.when(mockAssociateDao.getAssociates(Matchers.any(Session.class)))
+        Mockito.when(mockAssociateDao.getAssociates())
                 .thenReturn(associateMap);
-        Mockito.when(mockBatchDao.getBatchDetails()
-                .thenReturn(batchMap);
+//        Mockito.when(mockBatchDao.getBatchDetails()
+//                .thenReturn(batchMap);
         Mockito.when(mockClientDao.getAllTfClients(Matchers.any(Session.class)))
                 .thenReturn(clientMap);
-        Mockito.when(mockCurriculumDao.fetchCurriculums(Matchers.any(Session.class)))
+        Mockito.when(mockCurriculumDao.getAllCurriculums())
                 .thenReturn(curriculumMap);
         Mockito.when(mockMarketingStatusDao.getMarketingStatuses(Matchers.any(Session.class)))
                 .thenReturn(marketingStatusMap);

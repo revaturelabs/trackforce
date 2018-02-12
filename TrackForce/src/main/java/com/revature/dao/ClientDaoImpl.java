@@ -19,6 +19,7 @@ import com.revature.model.ClientInfo;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
+import com.revature.utils.PersistentStorage;
 
 public class ClientDaoImpl implements ClientDao {
 
@@ -45,6 +46,14 @@ public class ClientDaoImpl implements ClientDao {
 		return new TfClient();
 	}
 	
+	/**
+	 * Get information about a singular client.
+	 * 
+	 * @param id
+	 *            - The id of the client to retrieve.
+	 * @return - A TfClient object with information about the client.
+	 * @throws IOException
+	 */
 	public TfClient getClient(int id) throws IOException{
 		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -60,6 +69,33 @@ public class ClientDaoImpl implements ClientDao {
 		
 	}
 
+	/**
+	 *  Gets the ClientInfo from the client cache map whose key matches the given id
+	 *  
+	 *  @param int id
+	 *  
+	 *  @return ClientInfo
+	 */
+	public ClientInfo getClientFromCache(int id) {
+		return PersistentStorage.getStorage().getClient(id);
+	}
+	
+	/**
+	 * Gets a map of all clients from the cache
+	 * 
+	 * @return Map<Integer, ClientInfo>
+	 */
+	public Map<Integer, ClientInfo> getAllClientsFromCache(){
+		return PersistentStorage.getStorage().getClientAsMap();
+	}
+	
+	/**
+	 * Get information about all clients.
+	 * 
+	 * @return - Map<Integer, ClientInfo>
+	 * 				-Integer = Client Id of the Client stored in the ClientInfo Object
+	 * @throws IOException
+	 */
 	@Override
 	public Map<Integer, ClientInfo> getAllTfClients() throws HibernateException, IOException {
 		Map<Integer, ClientInfo> map = new HashMap<>();

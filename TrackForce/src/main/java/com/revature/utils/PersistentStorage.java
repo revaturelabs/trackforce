@@ -170,6 +170,7 @@ public class PersistentStorage {
 		this.totalStats = totals;
 	}
 
+
 	public Map<Integer, AssociateInfo> getAssociateAsMap() {
 		return this.associates;
 	}

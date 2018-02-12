@@ -111,6 +111,7 @@ public class AssociateDaoHibernate implements AssociateDao {
     @Override
     public Map<Integer, AssociateInfo> getAssociates() {
         List<TfAssociate> associatesEnt;
+
         Map<Integer, AssociateInfo> map = new HashMap<>();
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
         	CriteriaBuilder cb = session.getCriteriaBuilder();

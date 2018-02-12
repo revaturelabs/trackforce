@@ -2,6 +2,7 @@ package com.revature.dao;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.HibernateException;
 
@@ -43,6 +44,6 @@ public interface ClientDao {
 	 * @return
 	 * 		Map<Integer, ClientInfo>
 	 */
-	public Map<Integer, ClientInfo> getAllClientsFromCache();
+	public Set<ClientInfo> getAllClientsFromCache();
 	
 }

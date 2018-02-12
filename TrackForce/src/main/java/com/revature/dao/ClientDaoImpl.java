@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -85,8 +86,8 @@ public class ClientDaoImpl implements ClientDao {
 	 * 
 	 * @return Map<Integer, ClientInfo>
 	 */
-	public Map<Integer, ClientInfo> getAllClientsFromCache(){
-		return PersistentStorage.getStorage().getClientAsMap();
+	public Set<ClientInfo> getAllClientsFromCache(){
+		return PersistentStorage.getStorage().getClients();
 	}
 	
 	/**

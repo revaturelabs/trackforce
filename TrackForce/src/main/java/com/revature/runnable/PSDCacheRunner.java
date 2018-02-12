@@ -17,10 +17,7 @@ public class PSDCacheRunner implements Runnable {
 	private AssociateDaoHibernate associateDaoHib = new AssociateDaoHibernate();
 	private BatchDaoHibernate batchDaoHib = new BatchDaoHibernate();
 	private long delayedStartTime = DEFAULT_CACHE_START;
-	private long endTime;
-	private double elapsedTime;
-	private long startTime;
-	private double total;
+	
 	
 	/**
 	 * Constructor used to set caching mechanism and when to invoke/begin caching process
@@ -91,36 +88,41 @@ public class PSDCacheRunner implements Runnable {
 	 */
 	private void cache() {
 
-        try {
-			// perform caching
-        	AssociateDaoHibernate.cacheAllAssociates();
-        	//BatchDaoHibernate.cacheAllBatches();
-        	//psd.getAssociates();
-            psd.getBatches();
-            endTime = System.nanoTime();
-            elapsedTime = ((double)(endTime -startTime))/1000000000; total+=elapsedTime;
-            System.out.println("Batches caching time: "+elapsedTime+" seconds");
-            
-            startTime = System.nanoTime();   
-            psd.getClients();
-            endTime = System.nanoTime();
-            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-            System.out.println("Clients caching time: "+elapsedTime+" seconds");
-            
-            startTime = System.nanoTime();   
-            psd.getCurriculums();
-            endTime = System.nanoTime();
-            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-            System.out.println("Curriculums caching time: "+elapsedTime+" seconds");
-            
-            startTime = System.nanoTime();   
-            psd.getMarketingStatuses();
-            endTime = System.nanoTime();
-            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-            System.out.println("MarketingStatuses caching time: "+elapsedTime+" seconds");
-            System.out.println("Total caching time: "+total+" seconds");
-            
-        } catch (IOException e) {
+		 try {
+	            // perform caching          
+	            
+	            long startTime = System.nanoTime();         
+	            psd.getAssociates();
+	            long endTime = System.nanoTime();
+	            double elapsedTime = ((double)(endTime -startTime))/1000000000,total=elapsedTime;
+	            System.out.println("Associates caching time: "+elapsedTime+" seconds"); 
+	            
+	            startTime = System.nanoTime();            
+	            psd.getBatches();
+	            endTime = System.nanoTime();
+	            elapsedTime = ((double)(endTime -startTime))/1000000000; total+=elapsedTime;
+	            System.out.println("Batches caching time: "+elapsedTime+" seconds");
+	            
+	            startTime = System.nanoTime();   
+	            psd.getClients();
+	            endTime = System.nanoTime();
+	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
+	            System.out.println("Clients caching time: "+elapsedTime+" seconds");
+	            
+	            startTime = System.nanoTime();   
+	            psd.getCurriculums();
+	            endTime = System.nanoTime();
+	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
+	            System.out.println("Curriculums caching time: "+elapsedTime+" seconds");
+	            
+	            startTime = System.nanoTime();   
+	            psd.getMarketingStatuses();
+	            endTime = System.nanoTime();
+	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
+	            System.out.println("MarketingStatuses caching time: "+elapsedTime+" seconds");
+	            System.out.println("Total caching time: "+total+" seconds");
+	            
+	        } catch (IOException e) {
             e.printStackTrace();
         }
 	}	

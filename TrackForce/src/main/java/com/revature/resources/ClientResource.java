@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -35,7 +36,7 @@ public class ClientResource {
      */
     @GET
     @Consumes({MediaType.APPLICATION_JSON})
-    public Response getAllClients(@QueryParam("id") int id, @QueryParam("name") String name ) throws IOException {
+    public Response getAllClients(@DefaultValue("0")@QueryParam("id") int id, @DefaultValue("")@QueryParam("name") String name ) throws IOException {
     	Set<ClientInfo> clients;
     	if(id > 0) clients = service.getClientByID(id);
     	else {

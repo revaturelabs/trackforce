@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import javax.ws.rs.PathParam;
+import java.util.TreeSet;
 
 import org.hibernate.HibernateException;
 
@@ -13,6 +12,7 @@ import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.model.ClientInfo;
 import com.revature.model.StatusInfo;
+import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.PersistentStorage;
 
 public class ClientService implements Service {
@@ -22,6 +22,7 @@ public class ClientService implements Service {
         this.clientDao = new ClientDaoImpl();
     }
 
+    //Old method
     /**
      * Returns a map of all of the clients from the TfClient table as a response
      * object.
@@ -32,7 +33,7 @@ public class ClientService implements Service {
      * @throws IOException
      * @throws HibernateException
      */
-    private Set<ClientInfo> getAllClients() throws IOException {
+    public Set<ClientInfo> getAllClients() throws IOException {
 
         Set<ClientInfo> clients = PersistentStorage.getStorage().getClients();
         if (clients == null || clients.isEmpty()) {
@@ -50,43 +51,51 @@ public class ClientService implements Service {
      * @return
      * @throws IOException
      */
-    public Map<Integer, ClientInfo> getClients() throws IOException {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        
-        try {
-            Map<Integer, ClientInfo> map = clientDao.getAllTfClients(session);
-
-            session.flush();
-            tx.commit();
-            return map;
+    public Set<ClientInfo> getClients() throws IOException {
+    	Set<ClientInfo> clientSet = new TreeSet<>();
+    	Map<Integer, ClientInfo> clients;
+    	try {
+    		clients = clientDao.getAllTfClients();
+    		for(ClientInfo client: clients.values()) clientSet.add(client);
         } catch (Exception e) {
-            LogUtil.logger.error(e);
-            tx.rollback();
             throw new IOException("could not get clients", e);
-        } finally {
-        	
-            session.close();
         }
+    	
+    	return clientSet;
     }
-
-
-    /**
-     * Returns a StatusInfo object representing a client's associates and their
-     * statuses.
-     *
-     * @param clientid The id of the client in the TfClient table
-     * @return A StatusInfo object for a specified client
-     */
-    public StatusInfo getClientInfo(@PathParam("clientid") int clientid) throws IOException {
-        Map<Integer, ClientInfo> map = PersistentStorage.getStorage().getClientAsMap();
-        if (map == null || map.isEmpty()) {
-            execute();
-        }
-        if (map == null)
-            throw new IOException("Could not populate map");
-        return map.get(new Integer(clientid)).getStats();
+    
+    public Set<ClientInfo> getClientByID(int id) throws IOException{
+    	Set<ClientInfo> client = new TreeSet<>();
+    	try {
+    		client.add(Dao2DoMapper.map(clientDao.getClient(id)));
+    	} catch (Exception e) {
+    		throw new IOException("could not get client by ID", e);
+    	}
+    	return client;
     }
+    
+    public Set<ClientInfo> getClientByName(String name) throws IOException{
+    	Set<ClientInfo> client = new TreeSet<>();
+    	try {
+    		client.add(Dao2DoMapper.map(clientDao.getClient(name)));
+    	} catch (Exception e) {
+    		throw new IOException("could not get client by ID", e);
+    	}
+    	return client;
+    } 
+    
+    
+//Replaced by getClientByID and getClientByName for versatility
+//    /**
+//     * Returns a StatusInfo object representing a client's associates and their
+//     * statuses.
+//     *
+//     * @param clientid The id of the client in the TfClient table
+//     * @return A StatusInfo object for a specified client
+//     */
+//    public StatusInfo getClientInfo(String clientName) throws IOException {
+//        return clientDao.getClient(clientName);
+//    }
 
     @SuppressWarnings("unchecked")
     private <T> Set<T> getTotals() throws IOException {
@@ -102,9 +111,10 @@ public class ClientService implements Service {
 
     @Override
     public synchronized void execute() throws IOException {
-        Set<ClientInfo> ci = PersistentStorage.getStorage().getClients();
-        if (ci == null || ci.isEmpty())
-            PersistentStorage.getStorage().setClients(getClients());
+//        Set<ClientInfo> ci = PersistentStorage.getStorage().getClients();
+//        if (ci == null || ci.isEmpty())
+//            PersistentStorage.getStorage().setClients(getClients());
+    	System.out.println("ClentService.execute not implemented");
     }
 
     // these are fine and tested

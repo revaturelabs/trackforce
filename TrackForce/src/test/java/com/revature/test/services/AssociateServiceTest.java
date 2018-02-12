@@ -25,7 +25,7 @@ public class AssociateServiceTest extends BaseTest {
     public void openSessionInitAssocService() {
         session = sessionFactory.openSession();
         session.beginTransaction();
-        associateService = new AssociateService(new AssociateDaoHibernate(), sessionFactory);
+        associateService = new AssociateService();
     }
 
     @AfterMethod
@@ -48,7 +48,7 @@ public class AssociateServiceTest extends BaseTest {
 
     @Test
     public void testUpdateAssociatePositive() throws IOException {
-        associateService.updateAssociate("16", "3", "2");
+        associateService.updateAssociates(new Integer[] {16},3,2);
 
         AssociateInfo associateInfo = associateService.getAssociate(new Integer(16));
 
@@ -60,7 +60,7 @@ public class AssociateServiceTest extends BaseTest {
 
     @Test
     public void testUpdateAssociateNegative() throws IOException {
-        associateService.updateAssociate("15", "-1", "-1");
+        associateService.updateAssociates(new Integer[] {15},-1,-1);
         AssociateInfo associateInfo = associateService.getAssociate(new Integer(15));
         Assert.assertEquals(associateInfo.getId(), new Integer(15));
         Assert.assertTrue(associateInfo.getClid() > -1);

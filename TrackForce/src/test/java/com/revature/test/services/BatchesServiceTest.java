@@ -49,17 +49,16 @@ public class BatchesServiceTest extends BaseTest {
         mockBatchMap.put(batch2.getId(), batch2);
         mockBatchMap.put(batch3.getId(), batch3);
 
-        Mockito.when(mockBatchDao.getBatchDetails(Matchers.any(Session.class)))
-                .thenReturn(mockBatchMap);
+        //Mockito.when(mockBatchDao.getBatch(null))).thenReturn(mockBatchMap);
 
         // mock init batch cache
-        new BatchesService(mockBatchDao, sessionFactory).execute();
+        new BatchesService().execute();
 
     }
 
     @BeforeMethod
     public void beforeEach() {
-        batchService = new BatchesService(mockBatchDao, sessionFactory);
+        batchService = new BatchesService();
     }
 
     @Test

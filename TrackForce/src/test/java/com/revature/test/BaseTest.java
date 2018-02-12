@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.services.AssociateService;
 import com.revature.services.ClientService;
@@ -38,7 +37,7 @@ public class BaseTest {
     }
 
     public void resetCaches() throws IOException {
-        AssociateService associateService = new AssociateService(new AssociateDaoHibernate(), sessionFactory);
+        AssociateService associateService = new AssociateService();
         ClientService clientResource = new ClientService();
         MarketingStatusService marketingStatusService = new MarketingStatusService(new MarketingStatusDaoHibernate(), sessionFactory);
 
@@ -61,11 +60,11 @@ public class BaseTest {
      */
     public void resetCaches(AssociateService mockAssocService, ClientService mockClientResource, MarketingStatusService mockMsService) throws IOException {
         if (mockAssocService == null)
-            mockAssocService = new AssociateService(new AssociateDaoHibernate(), sessionFactory);
+            mockAssocService = new AssociateService();
         if (mockClientResource == null)
             mockClientResource = new ClientService();
         if (mockMsService == null)
-            mockMsService = new MarketingStatusService(new MarketingStatusDaoHibernate(), sessionFactory);
+            mockMsService = new MarketingStatusService();
 
         //PersistentStorage.getStorage().setAssociates(mockAssocService.getAssociates());
         PersistentStorage.getStorage().setClients(mockClientResource.getClients());

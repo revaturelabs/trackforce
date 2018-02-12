@@ -1,20 +1,18 @@
 package com.revature.test.services;
 
-import com.revature.dao.UserDAO;
-import com.revature.entity.TfRole;
-import com.revature.entity.TfUser;
-import com.revature.request.model.CreateUserModel;
-import com.revature.services.CreateUserService;
-import com.revature.services.JWTService;
-import com.revature.services.UserService;
-import com.revature.test.BaseTest;
-import com.revature.utils.PasswordStorage;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.math.BigDecimal;
+import com.revature.dao.UserDAO;
+import com.revature.entity.TfRole;
+import com.revature.entity.TfUser;
+import com.revature.request.model.CreateUserModel;
+import com.revature.services.JWTService;
+import com.revature.services.UserService;
+import com.revature.test.BaseTest;
+import com.revature.utils.PasswordStorage;
 
 public class CreateUserServiceTest extends BaseTest {
 
@@ -28,14 +26,14 @@ public class CreateUserServiceTest extends BaseTest {
 
     private JWTService jwtService;
 
-    private CreateUserService userService;
+    private UserService userService;
 
     @BeforeTest
     public void setupMocks() throws Exception {
         MockitoAnnotations.initMocks(this);
 
         TfRole mockRole = new TfRole();
-        mockRole.setTfRoleId(new BigDecimal(adminRoleId));
+        mockRole.setTfRoleId(new Integer(adminRoleId));
         mockRole.setTfRoleName("Admin");
 
         mockUser = new TfUser();
@@ -46,7 +44,7 @@ public class CreateUserServiceTest extends BaseTest {
 
         jwtService = new JWTService(mockUserDao, sessionFactory);
 
-        userService = new CreateUserService(jwtService, mockUserDao, sessionFactory);
+        userService = new UserService();
     }
 
     @Test
@@ -54,9 +52,8 @@ public class CreateUserServiceTest extends BaseTest {
         CreateUserModel newUserModel = new CreateUserModel();
         newUserModel.setUsername(username);
         newUserModel.setUsername(password);
-        newUserModel.setRole(new BigDecimal(adminRoleId));
+        newUserModel.setRole(new Integer(adminRoleId));
 
-        userService.createUser(newUserModel);
-
+        userService.createNewUser(newUserModel);
     }
 }

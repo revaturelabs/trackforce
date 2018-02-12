@@ -1,25 +1,23 @@
 package com.revature.test.services;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
 import com.revature.dao.ClientDao;
 import com.revature.entity.TfClient;
 import com.revature.model.ClientInfo;
 import com.revature.model.StatusInfo;
 import com.revature.services.ClientService;
 import com.revature.test.BaseTest;
-import org.hibernate.Session;
-import org.mockito.Matchers;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class ClientResourceTest extends BaseTest {
 
@@ -67,18 +65,16 @@ public class ClientResourceTest extends BaseTest {
         mockClients.add(cInfo2);
         mockClients.add(cInfo3);
 
-        Mockito.when(clientDao.getAllTfClients(Matchers.any(Session.class)))
-                .thenReturn(mockClientMap);
+        //Mockito.when(clientDao.getAllTfClients(Matchers.any(Session.class))).thenReturn(mockClientMap);
 
         TfClient mockClient1 = new TfClient();
         mockClient1.setTfClientId(new Integer(c1Id));
         mockClient1.setTfClientName(status1Name);
 
-         Mockito.when(clientDao.getClient(Matchers.any(Session.class), Matchers.anyString()))
-                .thenReturn(mockClient1);
+        //Mockito.when(clientDao.getClient(Matchers.any(Session.class), Matchers.anyString())).thenReturn(mockClient1);
 
          // use mocked client resource dao to reset the cache
-        clientResource = new ClientService(clientDao, sessionFactory);
+        clientResource = new ClientService();
         resetCaches(null, clientResource, null);    // only mocking the clientResource
     }
 

@@ -73,6 +73,7 @@ public class BatchesService implements Service {
             execute();
             return PersistentStorage.getStorage().getBatchesByDate();
         }
+
         return batches;
     }
 
@@ -80,8 +81,8 @@ public class BatchesService implements Service {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
         try {
+        	
             Map<Integer, BatchInfo> map = batchDao.getBatchDetails(session);
-
             session.flush();
             tx.commit();
 
@@ -93,6 +94,7 @@ public class BatchesService implements Service {
             tx.rollback();
             throw new IOException("could not get batches", e);
         } finally {
+        	
             session.close();
         }
     }

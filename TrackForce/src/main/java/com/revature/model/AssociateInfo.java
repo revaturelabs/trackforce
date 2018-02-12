@@ -349,7 +349,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	}
 
 	public static void appendToMap(TfMarketingStatus tfMarketingStatus) {
-		LogUtil.logger.info("Status: " + tfMarketingStatus.getTfMarketingStatusId());
+		//LogUtil.logger.info("Status: " + tfMarketingStatus.getTfMarketingStatusId());
 		switch (tfMarketingStatus.getTfMarketingStatusId()) {
 		case StatusInfo.MAPPED_TRAINING:
 			totals.setTrainingMapped(totals.getTrainingMapped() + 1);

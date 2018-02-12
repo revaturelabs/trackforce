@@ -60,10 +60,10 @@ public class ClientDaoImpl implements ClientDao {
 		cq.from(TfClient.class);
 		List<TfClient> clients = session.createQuery(cq).getResultList();
 		Map<Integer, ClientInfo> map = new HashMap<>();
-		
+
 		for (TfClient client : clients) {
 			map.put(client.getTfClientId(), Dao2DoMapper.map(client));
-		}
+		}	
 
 		return map;
 	}

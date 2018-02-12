@@ -72,38 +72,23 @@ public class AssociateDaoHibernate implements AssociateDao {
 
     @Override
     public Map<Integer, AssociateInfo> getAssociates(Session session) {
-        /*
-    	List<TfAssociate> associatesEnt;
+    	         
+        List<TfAssociate> associatesEnt;
         Map<Integer, AssociateInfo> map = new HashMap<>();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<TfAssociate> cq = cb.createQuery(TfAssociate.class);
         Root<TfAssociate> from = cq.from(TfAssociate.class);
         CriteriaQuery<TfAssociate> all = cq.select(from);
         Query<TfAssociate> tq = session.createQuery(all);
-
         associatesEnt = tq.getResultList();
+        
         if (associatesEnt != null) {
             for (TfAssociate tfa : associatesEnt) {
                 map.put(tfa.getTfAssociateId(), Dao2DoMapper.map(tfa));
                 AssociateInfo.appendToMap(tfa.getTfMarketingStatus());
             }
         }
-		*/
-    	List<TfAssociate> associatesEnt;
-        Map<Integer, AssociateInfo> map = new HashMap<>();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<TfAssociate> cq = cb.createQuery(TfAssociate.class);
-        Root<TfAssociate> from = cq.from(TfAssociate.class);
-        CriteriaQuery<TfAssociate> all = cq.select(from);
-        Query<TfAssociate> tq = session.createQuery(all);
 
-        associatesEnt = tq.getResultList();
-        if (associatesEnt != null) {
-            for (TfAssociate tfa : associatesEnt) {
-                map.put(tfa.getTfAssociateId(), Dao2DoMapper.map(tfa));
-                AssociateInfo.appendToMap(tfa.getTfMarketingStatus());
-            }
-        }
         return map;
     }
 }

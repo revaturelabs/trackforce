@@ -84,12 +84,39 @@ public class PSDCacheRunner implements Runnable {
 	private void cache() {
 
         try {
-			// perform caching
+			// perform caching       	
+        	
+        	long startTime = System.nanoTime();	       	
             psd.getAssociates();
+            long endTime = System.nanoTime();
+            double elapsedTime = ((double)(endTime -startTime))/1000000000,total=elapsedTime;
+            System.out.println("Associates caching time: "+elapsedTime+" seconds");	
+            
+            startTime = System.nanoTime();            
             psd.getBatches();
+            endTime = System.nanoTime();
+            elapsedTime = ((double)(endTime -startTime))/1000000000; total+=elapsedTime;
+            System.out.println("Batches caching time: "+elapsedTime+" seconds");
+            
+            startTime = System.nanoTime();   
             psd.getClients();
+            endTime = System.nanoTime();
+            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
+            System.out.println("Clients caching time: "+elapsedTime+" seconds");
+            
+            startTime = System.nanoTime();   
             psd.getCurriculums();
+            endTime = System.nanoTime();
+            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
+            System.out.println("Curriculums caching time: "+elapsedTime+" seconds");
+            
+            startTime = System.nanoTime();   
             psd.getMarketingStatuses();
+            endTime = System.nanoTime();
+            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
+            System.out.println("MarketingStatuses caching time: "+elapsedTime+" seconds");
+            System.out.println("Total caching time: "+total+" seconds");
+            
         } catch (IOException e) {
             e.printStackTrace();
         }

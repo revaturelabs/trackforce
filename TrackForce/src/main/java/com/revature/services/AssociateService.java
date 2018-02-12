@@ -112,11 +112,13 @@ public class AssociateService implements Service {
 	 * @throws HibernateException
 	 */
 	private Set<AssociateInfo> getAllAssociates() throws IOException {
+
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null || associates.isEmpty()) {
 			execute();
 			return PersistentStorage.getStorage().getAssociates();
 		}
+
 		return associates;
 	}
 
@@ -130,10 +132,10 @@ public class AssociateService implements Service {
 	public Map<Integer, AssociateInfo> getAssociates() throws HibernateException, IOException {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
+			
 		try {
 			Map<Integer, AssociateInfo> tfAssociates = associateDao.getAssociates(session);
 			PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
-
 			session.flush();
 			tx.commit();
 			return tfAssociates;
@@ -142,9 +144,10 @@ public class AssociateService implements Service {
 			session.flush();
 			tx.rollback();
 			throw new IOException("cannot get associates", e);
-		} finally {
+		} finally {	
 			session.close();
 		}
+	
 	}
 
 	/**

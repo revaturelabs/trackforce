@@ -55,11 +55,13 @@ public class ClientService implements Service {
      * @throws HibernateException
      */
     private Set<ClientInfo> getAllClients() throws IOException {
+
         Set<ClientInfo> clients = PersistentStorage.getStorage().getClients();
         if (clients == null || clients.isEmpty()) {
             execute();
             return PersistentStorage.getStorage().getClients();
         }
+
         return clients;
     }
 
@@ -73,6 +75,7 @@ public class ClientService implements Service {
     public Map<Integer, ClientInfo> getClients() throws IOException {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
+        
         try {
             Map<Integer, ClientInfo> map = clientDao.getAllTfClients(session);
 
@@ -84,6 +87,7 @@ public class ClientService implements Service {
             tx.rollback();
             throw new IOException("could not get clients", e);
         } finally {
+        	
             session.close();
         }
     }

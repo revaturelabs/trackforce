@@ -1,7 +1,7 @@
 package com.revature.services;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -42,8 +42,8 @@ public class UserService {
     /**
      * Gets every user for TrackForce
      */
-    public void getAllUsers(){
-    	return ;
+    public List<TfUser> getAllUsers(){
+    	return userDao.getAllUsers();
     }
 
     /**
@@ -99,14 +99,13 @@ public class UserService {
                     userjson = new UserJSON();
 
                     if (tfRole != null) {
-                        BigDecimal tfRoleId = tfRole.getTfRoleId();
+                    	Integer tfRoleId = tfRole.getTfRoleId();
                         String tfUserName = tfUser.getTfUserUsername();
                         // If the user have a valid role and username, a 200 can be returned
                         if (tfRoleId != null && tfUserName != null) {
                             // Sets the role id and username to the userjson object, which is set back to angular
-                            userjson.setTfRoleId(tfRoleId);
+                        	userjson.setTfRoleId(tfRoleId);
                             userjson.setUsername(tfUserName);
-
                             userjson.setUserId(tfUser.getTfUserId());
 
                             // Uses JWT service to create token

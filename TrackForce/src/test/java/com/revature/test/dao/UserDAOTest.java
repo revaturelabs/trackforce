@@ -1,20 +1,19 @@
 package com.revature.test.dao;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
+import org.hibernate.Session;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDaoImpl;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 import com.revature.request.model.CreateUserModel;
 import com.revature.test.BaseTest;
-import org.hibernate.Session;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
-import java.math.BigDecimal;
-
-import static org.testng.Assert.*;
 
 public class UserDAOTest extends BaseTest {
 
@@ -35,7 +34,7 @@ public class UserDAOTest extends BaseTest {
 
     @Test
     public void testGetUser() throws Exception {
-        TfUser user = userDao.getUser("TestAdmin", session);
+        TfUser user = userDao.getUser("TestAdmin");
         TfRole role = user.getTfRole();
         assertNotNull(role);
         assertNotNull(role.getTfRoleId());
@@ -50,12 +49,12 @@ public class UserDAOTest extends BaseTest {
         int roleId = 1;
         model.setUsername(username);
         model.setPassword("testingAdmin");
-        model.setRole(new BigDecimal(roleId));   // admin role
-        userDao.createUser(model, session);
+        model.setRole(new Integer(roleId));   // admin role
+        userDao.createUser(model);
 
         // make sure we can retrieve user
-        TfUser retrieved = userDao.getUser(username, session);
+        TfUser retrieved = userDao.getUser(username);
         assertEquals(username, retrieved.getTfUserUsername());
-        assertEquals(roleId, retrieved.getTfRole().getTfRoleId().intValueExact());
+        assertEquals(roleId, retrieved.getTfRole().getTfRoleId().intValue());
     }
 }

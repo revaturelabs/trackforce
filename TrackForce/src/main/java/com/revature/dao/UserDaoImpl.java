@@ -1,6 +1,7 @@
 package com.revature.dao;
 
-import javax.persistence.NoResultException;
+import java.util.List;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -18,27 +19,16 @@ import com.revature.utils.PasswordStorage;
 public class UserDaoImpl implements UserDAO {
 
     public TfUser getUser(String username) {
-    	Session session = HibernateUtil.getSessionFactory().openSession();
         TfUser user = null;
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
-
-        Root<TfUser> root = criteriaQuery.from(TfUser.class);
-
-        criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
-
-        Query<TfUser> query = session.createQuery(criteriaQuery);
-
-        try {
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        	CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
+            Root<TfUser> root = criteriaQuery.from(TfUser.class);
+            criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
+            Query<TfUser> query = session.createQuery(criteriaQuery);
             user = query.getSingleResult();
-            if (user.getTfRole() != null && user.getTfRole().getTfRoleName() != null) {
-                user.getTfRole().getTfRoleName();
-            }
-
-        } catch (NoResultException nre) {
-            LogUtil.logger.error(nre);
-        } finally {
-        	session.close();
+        } catch(Exception e) {
+        	LogUtil.logger.error(e);
         }
         return user;
     }
@@ -59,4 +49,17 @@ public class UserDaoImpl implements UserDAO {
         }
         return false;
     }
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TfUser> getAllUsers() {
+		List<TfUser> user = null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        	List<TfUser> list = session.createQuery("from com.revature.entity.TfUser").list();
+        	return list;
+        } catch(Exception e) {
+        	LogUtil.logger.error(e);
+        }
+        return user;
+	}
 }

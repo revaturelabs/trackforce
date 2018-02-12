@@ -11,67 +11,6 @@ public class Dao2DoMapper {
     private static final String OTHER_VALUE = "Other";
     private static final String UNKNOWN_VALUE = "None";
 
-    // This is the end mapper
- /*
-    public static AssociateInfo map(TfAssociate tfa) {
-        AssociateInfo ai = new AssociateInfo();
-        ai.setId(tfa.getTfAssociateId());
-
-        if (tfa.getTfBatch() == null) {
-            ai.setBatchId(new Integer(-1));
-            ai.setBatchName(UNKNOWN_VALUE);
-            ai.setCurriculumId(new Integer(-1));
-            ai.setCurriculumName(UNKNOWN_VALUE);
-        } else {
-            ai.setBatchId(tfa.getTfBatch().getTfBatchId());
-            ai.setBatchName(tfa.getTfBatch().getTfBatchName());
-            if (tfa.getTfBatch().getTfCurriculum() == null) {
-                ai.setCurriculumId(new Integer(-1));
-                ai.setCurriculumName(UNKNOWN_VALUE);
-            } else {
-                ai.setCurriculumId(tfa.getTfBatch().getTfCurriculum().getTfCurriculumId());
-                ai.setCurriculumName(tfa.getTfBatch().getTfCurriculum().getTfCurriculumName());
-            }
-        }
-        if (tfa.getTfClient() == null) {
-            ai.setClientId(new Integer(-1));
-            ai.setClient(UNKNOWN_VALUE);
-        } else {
-            ai.setClientId(tfa.getTfClient().getTfClientId());
-            ai.setClient(tfa.getTfClient().getTfClientName());
-        }
-        if (tfa.getTfEndClient() == null) {
-            ai.setEndClientId(new Integer(-1));
-            ai.setEndClient(UNKNOWN_VALUE);
-        } else {
-            ai.setEndClientId(tfa.getTfEndClient().getTfEndClientId());
-            ai.setEndClient(tfa.getTfEndClient().getTfEndClientName());
-        }
-        if (tfa.getTfAssociateFirstName() == null)
-            ai.setFirstName(UNKNOWN_VALUE);
-        else
-            ai.setFirstName(tfa.getTfAssociateFirstName());
-        if (tfa.getTfAssociateLastName() == null)
-            ai.setLastName(UNKNOWN_VALUE);
-        else
-            ai.setLastName(tfa.getTfAssociateLastName());
-        if (tfa.getTfMarketingStatus() == null) {
-            ai.setMarketingStatusId(new Integer(-1));
-            ai.setMarketingStatus(UNKNOWN_VALUE);
-        } else if (tfa.getTfMarketingStatus().getTfMarketingStatusId() >= StatusInfo.DIRECTLY_PLACED) {
-            ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
-            ai.setMarketingStatus(OTHER_VALUE);
-        }
-        if (tfa.getTfMarketingStatus() == null) {
-            ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
-            ai.setMarketingStatus(OTHER_VALUE);
-        } else {
-            ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
-            ai.setMarketingStatus(tfa.getTfMarketingStatus().getTfMarketingStatusName());
-        }
-        return ai;
-    }
-*/
     public static AssociateInfo map(TfAssociate tfa) {
         AssociateInfo ai = new AssociateInfo();
         ai.setId(tfa.getTfAssociateId());

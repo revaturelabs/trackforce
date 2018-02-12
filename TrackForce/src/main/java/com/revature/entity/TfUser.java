@@ -1,7 +1,5 @@
 package com.revature.entity;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +19,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "TF_USER", schema="ADMIN")
 public class TfUser implements java.io.Serializable {
-
 
     private static final long serialVersionUID = 706405344864879997L;
     @Id 
@@ -55,7 +52,7 @@ public class TfUser implements java.io.Serializable {
         this.tfHashpassword = tfUserHashpassword;
     }
     
-    public TfUser(BigDecimal role, String username, String password) { 
+    public TfUser(Integer role, String username, String password) { 
         this.tfRole = new TfRole(role);
         this.tfUserUsername = username; 
         this.tfHashpassword = password; 

@@ -1,8 +1,5 @@
 package com.revature.test.services;
 
-import java.math.BigDecimal;
-
-import org.hibernate.Session;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -40,7 +37,7 @@ public class UserResourceTest extends BaseTest {
         MockitoAnnotations.initMocks(this);
 
         TfRole mockRole = new TfRole();
-        mockRole.setTfRoleId(new BigDecimal(adminRoleId));
+        mockRole.setTfRoleId(new Integer(adminRoleId));
         mockRole.setTfRoleName("Admin");
 
         mockUser = new TfUser();
@@ -56,7 +53,7 @@ public class UserResourceTest extends BaseTest {
 
     @Test
     public void testSubmitCredentialsNonExistent() throws Exception {
-        Mockito.when(mockUserDao.getUser(Matchers.anyString(), Matchers.any(Session.class)))
+        Mockito.when(mockUserDao.getUser(Matchers.anyString()))
                 .thenReturn(null);
 
         UserJSON resp = userService.submitCredentials(new LoginJSON(username, password));
@@ -65,7 +62,7 @@ public class UserResourceTest extends BaseTest {
 
     @Test
     public void testSubmitCredentialsInvalidUser() throws Exception {
-        Mockito.when(mockUserDao.getUser(Matchers.anyString(), Matchers.any(Session.class)))
+        Mockito.when(mockUserDao.getUser(Matchers.anyString()))
                 .thenReturn(new TfUser());
 
         UserJSON resp = userService.submitCredentials(new LoginJSON(username, password));
@@ -74,14 +71,13 @@ public class UserResourceTest extends BaseTest {
 
     @Test
     public void testSubmitCredentialsSuccess() throws Exception {
-        Mockito.when(mockUserDao.getUser(Matchers.anyString(), Matchers.any(Session.class)))
+        Mockito.when(mockUserDao.getUser(Matchers.anyString()))
                 .thenReturn(mockUser);
 
         UserJSON resp = userService.submitCredentials(new LoginJSON(username, password));
         Assert.assertEquals(1, 1);
-//		  UserJSON retrievedUser = (UserJSON) resp.getEntity();
-//        Assert.assertEquals(retrievedUser.getTfRoleId().intValueExact(), adminRoleId);
-//        Assert.assertEquals(retrievedUser.getUserId(), userId);
-//        Assert.assertEquals(retrievedUser.getUsername(), username);
+        Assert.assertEquals(resp.getTfRoleId().intValue(), adminRoleId);
+        Assert.assertEquals(resp.getUserId(), userId);
+        Assert.assertEquals(resp.getUsername(), username);
     }
 }

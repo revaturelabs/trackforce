@@ -1,11 +1,6 @@
 package com.revature.services;
 
 import java.io.IOException;
-<<<<<<< HEAD
-import java.sql.Timestamp;
-=======
-import java.math.BigDecimal;
->>>>>>> biz
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,32 +49,9 @@ public class BatchesService implements Service {
         return batches;
     }
 
-<<<<<<< HEAD
-    private Map<Integer, BatchInfo> getBatches() throws IOException {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-        	
-            Map<Integer, BatchInfo> map = batchDao.getBatchDetails(session);
-            session.flush();
-            tx.commit();
-
-            return map;
-        } catch (Exception e) {
-            e.printStackTrace();
-            LogUtil.logger.error(e);
-            session.flush();
-            tx.rollback();
-            throw new IOException("could not get batches", e);
-        } finally {
-        	
-            session.close();
-        }
-=======
-    public Map<BigDecimal, BatchInfo> getBatches() throws IOException {
-    	Map<BigDecimal, BatchInfo> map = batchDao.getBatchDetails();
+    public Map<Integer, BatchInfo> getBatches() throws IOException {
+    	Map<Integer, BatchInfo> map = BatchDaoHibernate.getBatchDetails();
         return map;
->>>>>>> biz
     }
 
     /**

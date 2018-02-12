@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.revature.test.admin.pom.BatchListTab;
+import com.revature.test.utils.TestConfig;
 import com.revature.test.utils.WaitToLoad;
 
 import cucumber.api.java.en.Given;
@@ -18,8 +19,19 @@ import cucumber.api.java.en.When;
 
 public class BatchListCukes {
 	@Given("^The Batch List Tab is clicked$")
-	public static void the_Batch_List_Tab_is_clicked(WebDriver wd) throws Throwable {
-		BatchListTab.clickBatchListTab(wd).click();
+	public static boolean the_Batch_List_Tab_is_clicked(WebDriver wd) throws Throwable {
+
+		try {
+			BatchListTab.clickBatchListTab(wd).click();
+            if (BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-listing")){
+                return true;
+            }
+            System.out.println("Current URL does not end with /batch-listing");
+            return false;
+        } catch (Throwable e) {
+            System.out.println("Failed to confirm current URL ends in /batch-listing");
+            return false;
+        }
 	}
 
 	@Then("^All Batches text is visible$")
@@ -77,7 +89,8 @@ public class BatchListCukes {
 	public static boolean associates_should_match_the_associate_list(WebDriver wd, String batchName, HashMap<String,String> IDs) throws Throwable {
 		try {
 			// Switch to Associate List Tab
-			WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-batch-details/app-navbar/nav/div/ul[1]/li[4]"), 10).click();
+			//WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-batch-details/app-navbar/nav/div/ul[1]/li[4]"), 10).click();
+			BatchListTab.clickAssociateListTab(wd).click();
 		} catch (Throwable e) {
 			System.out.println("Can't switch to Associate List tab");
 			return false;

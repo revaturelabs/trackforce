@@ -12,22 +12,17 @@ public class BatchListTest extends AdminSuite {
 	
 	@BeforeTest
 	public void beforeTest() {
-		System.out.println("Running Batch list Tab Tests");
-	}
-	
-	@Test(priority = 1)
-	// Clicks Create user Tab and looks for the "Create New User" element
-	public void ClickBatchesTab() {
 		try {
 			// Click Batch List Tab
-			BatchListCukes.the_Batch_List_Tab_is_clicked(wd);
+			assertTrue(BatchListCukes.the_Batch_List_Tab_is_clicked(wd));
+			
 		} catch (Throwable e) {
 			fail("Can't navigate to Batch List Tab");
 			e.printStackTrace();
 		}
 	}
 	
-	@Test(priority = 2)
+	@Test(priority = 1)
 	// Clicks Create user Tab and looks for the "Create New User" element
 	public void FindAllBatchesTag() {
 		try {
@@ -39,7 +34,7 @@ public class BatchListTest extends AdminSuite {
 		}
 	}
 	
-	@Test(priority = 3) 
+	@Test(priority = 2) 
 	// Clicks the first batch name, Grabs the names of all associates in the list, switches to Associate List tab, 
 	// compares the names to associates in the first batch clicked.
 	public void BatchNameTest() {

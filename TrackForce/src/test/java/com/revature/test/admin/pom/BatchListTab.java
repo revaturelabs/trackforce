@@ -14,11 +14,24 @@ public class BatchListTab {
 	static WebElement e = null;
 	
 	public static WebElement clickBatchListTab(WebDriver wd) {
-			return WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[3]"), 10);
+			//return WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[3]"), 10);
+		 	return WaitToLoad.findDynamicElement(wd, By.cssSelector("[href='/batch-listing']"), 10);
 	}
-	
+	public static WebElement clickAssociateListTab(WebDriver wd) {
+		//return WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[3]"), 10);
+	 	return WaitToLoad.findDynamicElement(wd, By.cssSelector("[href='/associate-listing']"), 10);
+}
+	public static String getCurrentURL(WebDriver d) {
+
+        return d.getCurrentUrl();
+
+    }
 	public static WebElement findAllBatchesHeader(WebDriver wd) {
-			return WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-batch-list/div/div[2]/div[1]/h3"), 10);
+			// Local Host XPath
+			//return WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-batch-list/div/div[2]/div[1]/h3"), 10);
+			// Static Website XPath
+			return WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/h3"), 10);
+			
 	}
 	
 	public static List<WebElement> getBatchNames(WebDriver wd) {
@@ -29,8 +42,13 @@ public class BatchListTab {
 	
 	// Gets first Batch Link in Batch List Tab
 	public static WebElement getFirstBatchName(WebDriver wd) {
+		// Local Host
+		//WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
+		//WebElement row = table_element.findElement(By.xpath("/html/body/app/div/app-batch-list/div/div[2]/div[1]/table/tbody/tr[1]/td[1]/a"));
+		
+		// Static Website
 		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
-		WebElement row = table_element.findElement(By.xpath("/html/body/app/div/app-batch-list/div/div[2]/div[1]/table/tbody/tr[1]/td[1]/a"));
+		WebElement row = table_element.findElement(By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/table/tbody/tr[1]/td[1]/a"));
 		return row;
 	}
 	

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -13,6 +14,7 @@ import com.revature.test.admin.pom.BatchListTab;
 import com.revature.test.utils.TestConfig;
 import com.revature.test.utils.WaitToLoad;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -23,15 +25,15 @@ public class BatchListCukes {
 
 		try {
 			BatchListTab.clickBatchListTab(wd).click();
-            if (BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-listing")){
-                return true;
-            }
-            System.out.println("Current URL does not end with /batch-listing");
-            return false;
-        } catch (Throwable e) {
-            System.out.println("Failed to confirm current URL ends in /batch-listing");
-            return false;
-        }
+			if (BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-listing")) {
+				return true;
+			}
+			System.out.println("Current URL does not end with /batch-listing");
+			return false;
+		} catch (Throwable e) {
+			System.out.println("Failed to confirm current URL ends in /batch-listing");
+			return false;
+		}
 	}
 
 	@Then("^All Batches text is visible$")
@@ -46,7 +48,7 @@ public class BatchListCukes {
 			return false;
 		}
 	}
-	
+
 	@Given("^the first batch is clicked$")
 	public static String the_first_batch_is_clicked(WebDriver wd) throws Throwable {
 		// Click the first batch in the list
@@ -74,22 +76,23 @@ public class BatchListCukes {
 				compareID.put(e.getText(), batchName);
 			}
 			return associates_should_match_the_associate_list(wd, batchName, compareID);
-		
+
 		} catch (Throwable e) {
 			System.out.println("Could not get Associate IDs");
 			return false;
 		}
 	}
-		
-		// Get the batch name to verify everyone in that batch is in correct batch
-		// Sends to helper function
-		
+
+	// Get the batch name to verify everyone in that batch is in correct batch
+	// Sends to helper function
 
 	@Then("^associates should match the associate list$")
-	public static boolean associates_should_match_the_associate_list(WebDriver wd, String batchName, HashMap<String,String> IDs) throws Throwable {
+	public static boolean associates_should_match_the_associate_list(WebDriver wd, String batchName,
+			HashMap<String, String> IDs) throws Throwable {
 		try {
 			// Switch to Associate List Tab
-			//WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-batch-details/app-navbar/nav/div/ul[1]/li[4]"), 10).click();
+			// WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-batch-details/app-navbar/nav/div/ul[1]/li[4]"),
+			// 10).click();
 			BatchListTab.clickAssociateListTab(wd).click();
 		} catch (Throwable e) {
 			System.out.println("Can't switch to Associate List tab");
@@ -97,7 +100,8 @@ public class BatchListCukes {
 		}
 
 		try {
-			// Verify that the IDs grabbed from first batch are all in the correct batch by looking at the associate list
+			// Verify that the IDs grabbed from first batch are all in the correct batch by
+			// looking at the associate list
 			List<WebElement> associateIDs = BatchListTab.grabAssociatesIDs(wd);
 			List<WebElement> associateRows = BatchListTab.grabAssociatesBatchInfo(wd);
 			// Search through the List of Associates taken from Associate List Tab
@@ -110,13 +114,54 @@ public class BatchListCukes {
 					}
 				}
 			}
-			// Return true when the map is empty; All of the IDs in the map were found in the Associate List with same batch name
+			// Return true when the map is empty; All of the IDs in the map were found in
+			// the Associate List with same batch name
 			return IDs.isEmpty();
-			
+
 		} catch (Throwable e) {
 			System.out.println("Can't grab associate list ID's");
 			return false;
 		}
-		
+
+	}
+
+	@Given("^the From arrow is clicked$")
+	public static boolean the_From_arrow_is_clicked(WebDriver wd) throws Throwable {
+		try {
+			// Find the Header to verify that you are in the Batch List Tab
+			BatchListTab.clickFromDateArrow(wd).click();
+			BatchListTab.clickFromDateArrow(wd).sendKeys(Keys.LEFT);
+			BatchListTab.clickFromDateArrow(wd).sendKeys(Keys.LEFT);
+			BatchListTab.clickFromDateArrow(wd).sendKeys("10");
+			BatchListTab.clickFromDateArrow(wd).sendKeys("15");
+			BatchListTab.clickFromDateArrow(wd).sendKeys("2017");
+			return true;
+		} catch (Throwable e) {
+			System.out.println("Failed to find All Batches header");
+			return false;
+		}
+	}
+
+	@Then("^a dropdown calendar should appear$")
+	public void a_dropdown_calendar_should_appear() throws Throwable {
+		// Write code here that turns the phrase above into concrete actions
+		throw new PendingException();
+	}
+
+	@Given("^the To arrow is clicked$")
+	public static boolean the_To_arrow_is_clicked(WebDriver wd) throws Throwable {
+		try {
+			// Find the Header to verify that you are in the Batch List Tab
+			BatchListTab.clickToDateArrow(wd).click();
+			BatchListTab.clickToDateArrow(wd).sendKeys(Keys.LEFT);
+			BatchListTab.clickToDateArrow(wd).sendKeys(Keys.LEFT);
+			BatchListTab.clickToDateArrow(wd).sendKeys("12");
+			BatchListTab.clickToDateArrow(wd).sendKeys("15");
+			BatchListTab.clickToDateArrow(wd).sendKeys("2018");
+			return true;
+		} catch (Throwable e) {
+			System.out.println("Failed to find All Batches header");
+			return false;
+		}
 	}
 }

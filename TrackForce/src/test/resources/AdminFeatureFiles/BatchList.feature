@@ -33,3 +33,18 @@ Feature: Batch List Scenarios
 		Given the first batch is clicked
 		When the list of associates is grabbed
 		Then associates should match the associate list
+		
+	@tag3
+	Scenario: The From date arrow is clicked
+		Given the From arrow is clicked
+		Then a dropdown calendar should appear
+
+	@tag4
+	Scenario: The To date arrow is clicked
+		Given the To arrow is clicked
+		Then a dropdown calendar should appear				
+		
+	@tag5
+	Scenario: Submit Batches Dates
+		Given the submit button is clicked
+		Then the batch list should update to show only the batches which fit the entered criteria	

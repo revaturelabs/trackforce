@@ -55,6 +55,7 @@ public class BatchListCukes {
 		// Click the first batch in the list
 		String batchName = "";
 		try {
+			// Get the batch name to verify everyone in that batch is in correct batch
 			batchName = BatchListTab.getFirstBatchName(wd).getText();
 		} catch (Throwable e) {
 			System.out.println("Failed to find first batch name");
@@ -69,81 +70,54 @@ public class BatchListCukes {
 
 	@When("^the list of associates is grabbed$")
 	public static boolean the_list_of_associates_is_grabbed(WebDriver wd, String batchName) throws Throwable {
-		// Grab the associates IDs to be compared and store in a HashMap
 		try {
-
-//			List<WebElement> ID = BatchListTab.getAssociatesIDs(wd);
-//			HashMap<String, String> compareID = new HashMap<String, String>();
-//			for (WebElement e : ID) {
-//				compareID.put(e.getText(), batchName);
-//			}
-			
-			Thread.sleep(1000);
-	        List<WebElement> associates = BatchListTab.getAssociatesInfo(wd);
+			// Gets the rows of associates and sends to helper function
+			List<WebElement> associates = BatchListTab.getAssociatesInfo(wd);
 			return associates_should_match_the_associate_list(wd, batchName, associates);
-		
+
 		} catch (Throwable e) {
 			System.out.println("Could not get Associate list");
 			return false;
 		}
 	}
 
-	// Get the batch name to verify everyone in that batch is in correct batch
-	// Sends to helper function
+
 
 	@Then("^associates should match the associate list$")
 	public static boolean associates_should_match_the_associate_list(WebDriver wd, String batchName, List<WebElement> associates) throws Throwable {
 		try {
+			// Changes format to match the associates list in order to use .contains
+			List<String> associatesList = new ArrayList<String>();
+			for (WebElement e : associates) {
+				associatesList.add(e.getText() + " " + batchName);
+			}
 			// Switch to Associate List Tab
-			// WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-batch-details/app-navbar/nav/div/ul[1]/li[4]"),
-			// 10).click();
 			BatchListTab.clickAssociateListTab(wd).click();
-		} catch (Throwable e) {
-			System.out.println("Can't switch to Associate List tab");
-			return false;
-		}
-
-		try {
-//			// Verify that the IDs grabbed from first batch are all in the correct batch by looking at the associate list
-//			List<WebElement> associateIDs = BatchListTab.grabAssociatesIDs(wd);
-//			List<WebElement> associateRows = BatchListTab.grabAssociatesBatchInfo(wd);
-//			// Search through the List of Associates taken from Associate List Tab
-//			for (int i = 0; i < associateIDs.size(); i++) {
-//				// If the IDs match
-//				if (IDs.containsKey(associateIDs.get(i).getText())) {
-//					// and if the batch name is in the same row
-//					if (associateRows.get(i).getText().contains(batchName)) {
-//						IDs.remove(associateIDs.get(i).getText());
-//					}
-//				}
-//			}
-//			// Return true when the map is empty; All of the IDs in the map were found in the Associate List with same batch name
-//			return IDs.isEmpty();
+			Thread.sleep(1500);
 			
-		    // remove potential dups
-	        // increase lookup speed to O(1)
+			// Grab the rows of associates in Associates List Tab
 			List<WebElement> associateRows = BatchListTab.grabAssociatesBatchInfo(wd);
-	        Set<String> listHash = new HashSet<String>();
-	        for (WebElement val : associateRows)
-	        {
-	            listHash.add(val.getText());
-	        }
-	        System.out.println("=============associate================");
+			// Use hashSet for faster lookup
+			Set<String> listHash = new HashSet<String>();
+			for (WebElement val : associateRows)
+			{
+				listHash.add(val.getText());
+			}
 
-	        List<String> associateInfo = new ArrayList<String>();
-	        for (WebElement e : associates) {
-	        	System.out.println(e.getText());
-	        	associateInfo.add(e.getText() + " " + batchName);
-	        }
-	        
-	       for (String info : associateInfo) {
-	    	   if (!(listHash.contains(info))) {
-	    		   System.out.println(info + " not found");
-	    		   return false;
-	    	   }
-	       }
-	        
-	        return true;
+			// Check associates list to see if the information in the Batch List matches up with information in Associate List tab
+			for (String info : associatesList) {
+				if (!(listHash.contains(info))) {
+					System.out.println(info + " not found");
+					return false;
+				}
+			}
+			// Go back to Batch List tab
+			BatchListTab.clickBatchListTab(wd).click();
+			// Verify that the page is Batch List Tab
+			if (BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-listing")) {
+				return true;
+			}
+			return true;
 		} catch (Throwable e) {
 			System.out.println("Can't grab associate list ID's");
 			return false;

@@ -14,8 +14,6 @@ import com.revature.services.PersistentServiceDelegator;
 public class PSDCacheRunner implements Runnable {
 	public static final long DEFAULT_CACHE_START = 30000;
 	private PersistentServiceDelegator psd = null;
-	private AssociateDaoHibernate associateDaoHib = new AssociateDaoHibernate();
-	private BatchDaoHibernate batchDaoHib = new BatchDaoHibernate();
 	private long delayedStartTime = DEFAULT_CACHE_START;
 	
 	

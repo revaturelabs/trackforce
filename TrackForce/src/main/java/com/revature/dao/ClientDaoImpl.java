@@ -45,6 +45,14 @@ public class ClientDaoImpl implements ClientDao {
 		return new TfClient();
 	}
 	
+	/**
+	 * Get information about a singular client.
+	 * 
+	 * @param id
+	 *            - The id of the client to retrieve.
+	 * @return - A TfClient object with information about the client.
+	 * @throws IOException
+	 */
 	public TfClient getClient(int id) throws IOException{
 		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -60,6 +68,14 @@ public class ClientDaoImpl implements ClientDao {
 		
 	}
 
+	/**
+	 * Get information about a singular client.
+	 * 
+	 * @param id
+	 *            - The id of the client to retrieve.
+	 * @return - A TfClient object with information about the client.
+	 * @throws IOException
+	 */
 	@Override
 	public Map<Integer, ClientInfo> getAllTfClients() throws HibernateException, IOException {
 		Map<Integer, ClientInfo> map = new HashMap<>();

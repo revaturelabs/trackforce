@@ -10,11 +10,11 @@ public class LoginUtil {
 	
 	public static void loginAsAdmin(WebDriver wd) {
 		try {
-			Login.user(wd).sendKeys(adminUsername);
+			Login.getUsername(wd).sendKeys(adminUsername);
 			Thread.sleep(1000);
-			Login.password(wd).sendKeys(adminPassword);
+			Login.getPassword(wd).sendKeys(adminPassword);
 			Thread.sleep(1000);
-			Login.signin(wd).click();	
+			Login.getSignin(wd).click();	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

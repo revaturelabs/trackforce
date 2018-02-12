@@ -60,7 +60,7 @@ public class PersistentStorageTest extends BaseTest {
 
         Mockito.when(mockAssociateDao.getAssociates(Matchers.any(Session.class)))
                 .thenReturn(associateMap);
-        Mockito.when(mockBatchDao.getBatchDetails(Matchers.any(Session.class)))
+        Mockito.when(mockBatchDao.getBatchDetails()
                 .thenReturn(batchMap);
         Mockito.when(mockClientDao.getAllTfClients(Matchers.any(Session.class)))
                 .thenReturn(clientMap);

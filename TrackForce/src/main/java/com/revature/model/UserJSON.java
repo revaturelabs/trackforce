@@ -1,7 +1,5 @@
 package com.revature.model;
 
-import java.math.BigDecimal;
-
 /**
  * 
  * @author Michael Tseng
@@ -16,7 +14,7 @@ public class UserJSON {
 	
 	private String username;
 	//Role Id represents the user's role (i.e. associate, manager, and etc.)
-	private BigDecimal tfRoleId;
+	private Integer tfRoleId;
 	//token is the JWT token generated
 	private String token;
 	//user id
@@ -34,11 +32,11 @@ public class UserJSON {
 		this.username = username;
 	}
 
-	public BigDecimal getTfRoleId() {
+	public Integer getTfRoleId() {
 		return tfRoleId;
 	}
 
-	public void setTfRoleId(BigDecimal tfRoleId) {
+	public void setTfRoleId(Integer tfRoleId) {
 		this.tfRoleId = tfRoleId;
 	}
 

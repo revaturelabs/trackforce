@@ -5,7 +5,6 @@
  */
 package com.revature.request.model;
 
-import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -15,10 +14,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class CreateUserModel {
 
-    private BigDecimal role;
+    private Integer role;
     private String username;
     private String password;
-
 
     /**
      * @return the username
@@ -51,14 +49,14 @@ public class CreateUserModel {
     /**
      * @return the role
      */
-    public BigDecimal getRole() {
+    public Integer getRole() {
         return role;
     }
 
     /**
      * @param role the role to set
      */
-    public void setRole(BigDecimal role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 

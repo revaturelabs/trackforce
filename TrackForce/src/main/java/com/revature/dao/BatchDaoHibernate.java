@@ -69,10 +69,10 @@ public class BatchDaoHibernate implements BatchDao {
      * @return
      * @throws IOException
      */
-	@Override
+/*	@Override 
 	public Map<Integer, BatchInfo> getBatchDetails() {
 		List<TfBatch> batchesEnt = null;
-		Map<, BatchInfo> map = new HashMap<>();
+		Map<Integer, BatchInfo> map = new HashMap<>();
 		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			TypedQuery<TfBatch> tq = session.createQuery("from TfBatch", TfBatch.class);			
 			batchesEnt = tq.getResultList();
@@ -86,7 +86,7 @@ public class BatchDaoHibernate implements BatchDao {
 			LogUtil.logger.error(e);
 		}
 		return map;
-	}
+	}*/
 	
 	public static Map<Integer, BatchInfo> getBatchDetails() {
 		List<TfBatch> batchesEnt;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AssociateService } from '../../services/associates-service/associates-service';
+import { AssociateService } from '../../services/associate-service/associate.service';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';

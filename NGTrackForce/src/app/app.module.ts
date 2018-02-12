@@ -20,26 +20,27 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
 import { LoginComponent } from './components/login/login.component';
 import { ClientListComponent } from './components/client-list/client-list.component';
 import { FormComponent } from './components/form-component/form.component';
+import { FooterComponent } from './components/footer/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { RootComponent } from './components/root/root.component';
 import { SkillsetComponent } from './components/skillset/skillset.component';
 import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 import { AssociateViewComponent } from './components/associate-view/associate-view.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 ///
 //  SERVICES
 ///
 import { RequestService } from './services/request-service/request.service';
-import { AssociateService } from './services/associates-service/associates-service';
-import { ClientListService } from './services/client-list-service/client-list.service';
-import { ClientMappedService } from './services/client-mapped-service/client-mapped-service';
+import { AssociateService } from './services/associate-service/associate.service';
+import { ClientService } from './services/client-service/client.service';
 import { AuthenticationService } from './services/authentication-service/authentication.service';
 import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 import { BatchService } from './services/batch-service/batch.service';
 import { SkillsetService } from './services/skill-set-service/skill-set.service';
 import { DataSyncService } from './services/datasync-service/data-sync.service';
-import { CreateUserService } from './services/create-user-service/create-user.service';
+import { UserService } from './services/user-service/user.service';
 
 ///
 //  FILTERS
@@ -52,14 +53,13 @@ import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-fi
 //  SECURITY
 ///
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { AuthGuard } from './guards/auth.guard';
 
 ///
 //  CONSTANTS
 ///
 import { appRoutes } from './routing/routes';
 import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-helpers/router-stubs';
-import { FooterComponent } from './components/footer/footer/footer.component';
-
 
 @NgModule({
   declarations: [
@@ -81,7 +81,8 @@ import { FooterComponent } from './components/footer/footer/footer.component';
     AssociateViewComponent,
     RouterLinkStubDirective,
     RouterOutletStubComponent,
-    FooterComponent
+    FooterComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -93,15 +94,15 @@ import { FooterComponent } from './components/footer/footer/footer.component';
   ],
   providers: [
     AssociateService,
-    ClientListService,
-    ClientMappedService,
+    ClientService,
     AuthenticationService,
     RequestService,
     SkillsetService,
     BatchService,
-    CreateUserService,
+    UserService,
     SkillsetService,
     DataSyncService,
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

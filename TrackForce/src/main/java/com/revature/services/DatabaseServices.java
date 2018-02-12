@@ -1,7 +1,10 @@
 package com.revature.services;
 
 import java.io.IOException;
+import java.sql.Connection;
 
+import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -9,7 +12,16 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.revature.utils.DBLoaderUtil;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+//import com.revature.utils.DBLoaderUtil;
+import com.revature.utils.HibernateUtil;
+
+//import com.revature.utils.DBLoaderUtil.DBMode;
 
 
 /**
@@ -21,12 +33,13 @@ import com.revature.utils.DBLoaderUtil;
 public class DatabaseServices {
 
     private PersistentServiceDelegator psd;
-
-    private DBLoaderUtil loaderUtil;
+    private SessionFactory sessionFactory;
+    private static enum DBMode {EMPTY, DB, SF}
+    private static DBMode prev = DBMode.EMPTY;
 
     public DatabaseServices() {
         psd = new PersistentServiceDelegator();
-        loaderUtil = new DBLoaderUtil();
+        sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     /**
@@ -34,26 +47,52 @@ public class DatabaseServices {
      *
      * @param psd
      */
-    public DatabaseServices(PersistentServiceDelegator psd, DBLoaderUtil loaderUtil) {
+  
+    public DatabaseServices(PersistentServiceDelegator psd, SessionFactory sessionFactory) {
         this.psd = psd;
-        this.loaderUtil = loaderUtil;
+        this.sessionFactory = sessionFactory;
     }
 
     @GET
     @Path("populateDB")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response populateDB() throws IOException {
-        loaderUtil.populateDB();
-        update();
+    public Response populateDB() throws IOException,HibernateException {
+
+    	Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.populateAllTables_PROC");
+            spq.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.flush();
+            tx.rollback();
+        } finally {
+        	update();
+            
+        }
+        session.close();
         return Response.ok().build();
     }
 
     @DELETE
     @Path("deleteFromDB")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response deleteDB() throws IOException {
-        loaderUtil.truncateDB();
-        update();
+    public Response deleteDB() throws IOException,HibernateException {
+
+    	Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.truncateAllDevTeam");
+            spq.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.flush();
+            tx.rollback();
+        } finally {
+        	update();
+            session.close();
+        }
         return Response.ok().build();
     }
 
@@ -61,8 +100,22 @@ public class DatabaseServices {
     @Path("populateDBSF")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response populateDBSF() throws IOException {
-        loaderUtil.populateDBSF();
-        update();
+    	
+    	Session session = sessionFactory.openSession();
+        Transaction tx = session.beginTransaction();
+        try {
+        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.populateAllTablesSF_PROC");
+            spq.execute();
+            prev = DBMode.SF;
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.flush();
+            tx.rollback();
+        } finally {
+        	update();
+            
+        }
+        session.close();
         return Response.ok().build();
     }
 

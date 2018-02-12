@@ -14,5 +14,5 @@ public interface MarketingStatusDao {
 
     public TfMarketingStatus getMarketingStatus(Session session, String status)  throws IOException;
 
-	Map<BigDecimal, MarketingStatusInfo> getMarketingStatuses(Session session) throws HibernateException, IOException;
+	Map<Integer, MarketingStatusInfo> getMarketingStatuses(Session session) throws HibernateException, IOException;
 }

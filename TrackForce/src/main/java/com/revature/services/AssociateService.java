@@ -1,43 +1,29 @@
 package com.revature.services;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.hibernate.HibernateException;
 
 import com.revature.dao.AssociateDao;
 import com.revature.dao.AssociateDaoHibernate;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-
 import com.revature.model.AssociateInfo;
-import com.revature.model.ClientInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumJSON;
-import com.revature.model.MarketingStatusInfo;
-import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
-@Path("associates")
-public class AssociateService implements Delegate {
+public class AssociateService implements Service {
 
     private AssociateDao associateDao;
-    private SessionFactory sessionFactory;
+    private AssociateDaoHibernate associateDaoHib = new AssociateDaoHibernate();
 
     public AssociateService() {
+<<<<<<< HEAD
         this.associateDao = new AssociateDaoHibernate();   //this is the point at which the associateDao object inherits its methods n junkz - through conversion to associateDaoHibernate
         this.sessionFactory = HibernateUtil.getSessionFactory();
     }
@@ -50,16 +36,19 @@ public class AssociateService implements Delegate {
     public AssociateService(AssociateDao associateDao, SessionFactory sessionFactory) {
         this.associateDao = associateDao;
         this.sessionFactory = sessionFactory;
+=======
+        this.associateDao = new AssociateDaoHibernate();
+>>>>>>> cf1f9ffd1d7edcd0946e584885e2661a7868ef7f
     }
 
 	/**
 	 * Retrieve information about a specific associate.
-	 * 
-	 * @param associateid
-	 *            - The ID of the associate to get information about
+	 *
+	 * @param associateid - The ID of the associate to get information about
 	 * @return - An AssociateInfo object that contains the associate's information.
 	 * @throws IOException
 	 */
+<<<<<<< HEAD
 	@GET
 	@Path("{associateid}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -118,15 +107,28 @@ public class AssociateService implements Delegate {
 			return PersistentStorage.getStorage().getAssociates();
 		}
 		return associates;
+=======
+	public AssociateInfo getAssociate(Integer associateid) {
+		AssociateInfo associateinfo = associateDao.getAssociate(associateid);
+		return associateinfo;
+>>>>>>> cf1f9ffd1d7edcd0946e584885e2661a7868ef7f
 	}
 
+	//The method used to populate all of the data onto TrackForce
+    //Doesn't work correctly at the moment
+    public Response updateAssociates(
+    		Integer[] associateids,
+    		Integer marketingStatus,
+    		Integer clientid) {
+    	//System.out.println("Got something with UpdateAssociate:" + associateinfo);
+    	associateDaoHib.updateAssociates(associateids, marketingStatus, clientid);
+    	return Response.status(200).build();
+    }
     /**
-     * fetch associates from database
-     *
+     * 
      * @return
-     * @throws HibernateException
-     * @throws IOException
      */
+<<<<<<< HEAD
 	public Map<BigDecimal, AssociateInfo> getAssociates() throws HibernateException, IOException {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -226,6 +228,13 @@ public class AssociateService implements Delegate {
 		} finally {
 			session.close();
 		}
+=======
+	public Set<AssociateInfo> getAllAssociates(){
+			//for now, must use read method in respective service class to read
+			//data from the cache and be able to send it to Angular
+			//return read();
+			return AssociateDaoHibernate.getAllAssociates();
+>>>>>>> cf1f9ffd1d7edcd0946e584885e2661a7868ef7f
 	}
 
 	/**
@@ -233,38 +242,32 @@ public class AssociateService implements Delegate {
 	 * an entity. The format of the Map objects are as follows: <br>
 	 * name: (name of curriculum) <br>
 	 * count: (count of desired status)
-	 * 
-	 * @param statusid
-	 *            Status id of the status/stage of associates that the requester
-	 *            wants information for.
+	 *
+	 * @param statusid - Status id of the status/stage of associates that the requester wants information for.
 	 * @return a Response object with a List of Map objects as an entity.
 	 * @throws IOException
-	 * @throws HibernateException
 	 */
-	@GET
-	@Path("client/{statusid}")
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getClients(@PathParam("statusid") int statusid) throws HibernateException, IOException {
+	public Collection<ClientMappedJSON> getAssociatesByStatus(int statusid) throws IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null) {
 			execute();
 			associates = PersistentStorage.getStorage().getAssociates();
 		}
 
-		Map<BigDecimal, ClientMappedJSON> map = new HashMap<>();
+		Map<Integer, ClientMappedJSON> map = new HashMap<>();
 		for (AssociateInfo ai : associates) {
-			if (ai.getMsid().equals(new BigDecimal(statusid))) {
+			if (ai.getMsid().equals(new Integer(statusid))) {
 				if (!map.containsKey(ai.getClid())) {
 					map.put(ai.getClid(), new ClientMappedJSON());
 				}
-				if (ai.getClient() != null && !ai.getClid().equals(new BigDecimal(-1))) {
+				if (ai.getClient() != null && !ai.getClid().equals(new Integer(-1))) {
 					map.get(ai.getClid()).setCount(map.get(ai.getClid()).getCount() + 1);
-					map.get(ai.getClid()).setId(ai.getClid().intValueExact());
+					map.get(ai.getClid()).setId(ai.getClid());
 					map.get(ai.getClid()).setName(ai.getClient());
 				}
 			}
 		}
-		return Response.ok(map.values()).build();
+		return map.values();
 	}
 
 	/**
@@ -272,7 +275,7 @@ public class AssociateService implements Delegate {
 	 * an entity. The format of the Map objects are as follows: <br>
 	 * name: (name of curriculum) <br>
 	 * count: (count of desired status)
-	 * 
+	 *
 	 * @param statusid
 	 *            Status id of the status/stage of associates that the requester
 	 *            wants information for.
@@ -280,30 +283,27 @@ public class AssociateService implements Delegate {
 	 * @throws IOException
 	 * @throws HibernateException
 	 */
-	@GET
-	@Path("skillset/{statusid}")
-	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getCurriculumsByStatus(@PathParam("statusid") int statusid) throws HibernateException, IOException {
+	public Collection<CurriculumJSON> getCurriculumsByStatus(int statusid) throws HibernateException, IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null) {
-			execute();
+			//execute();
 			associates = PersistentStorage.getStorage().getAssociates();
 		}
 
-		Map<BigDecimal, CurriculumJSON> map = new HashMap<>();
+		Map<Integer, CurriculumJSON> map = new HashMap<>();
 		for (AssociateInfo ai : associates) {
-			if (ai.getMsid().equals(new BigDecimal(statusid))) {
+			if (ai.getMsid().equals(new Integer(statusid))) {
 				if (!map.containsKey(ai.getCurid())) {
 					map.put(ai.getCurid(), new CurriculumJSON());
 				}
-				if (ai.getCurriculumName() != null && !ai.getCurid().equals(new BigDecimal(-1))) {
+				if (ai.getCurriculumName() != null && !ai.getCurid().equals(new Integer(-1))) {
 					map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
-					map.get(ai.getCurid()).setId(ai.getCurid().intValueExact());
+					map.get(ai.getCurid()).setId(ai.getCurid());
 					map.get(ai.getCurid()).setName(ai.getCurriculumName());
 				}
 			}
 		}
-		return Response.ok(map.values()).build();
+		return map.values();
 	}
 
     /**
@@ -313,9 +313,9 @@ public class AssociateService implements Delegate {
      */
 	@Override
 	public synchronized void execute() throws IOException {
-		Set<AssociateInfo> ai = PersistentStorage.getStorage().getAssociates();
-		if (ai == null || ai.isEmpty())
-			PersistentStorage.getStorage().setAssociates(getAssociates());
+//		Set<AssociateInfo> ai = PersistentStorage.getStorage().getAssociates();
+//		if (ai == null || ai.isEmpty())
+//			PersistentStorage.getStorage().setAssociates(getAssociates());
 	}
 
 	@SuppressWarnings("unchecked")

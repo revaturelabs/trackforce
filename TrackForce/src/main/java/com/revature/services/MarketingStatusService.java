@@ -16,7 +16,7 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
-public class MarketingStatusService implements Delegate {
+public class MarketingStatusService implements Service {
 
     private MarketingStatusDao marketingStatusDao;
     private SessionFactory sessionFactory;
@@ -55,10 +55,10 @@ public class MarketingStatusService implements Delegate {
      * @return
      * @throws IOException
      */
-    public Map<BigDecimal, MarketingStatusInfo> getMarketingStatuses() throws IOException {
+    public Map<Integer, MarketingStatusInfo> getMarketingStatuses() throws IOException {
         Session session = sessionFactory.openSession();
         Transaction tx = session.beginTransaction();
-        Map<BigDecimal, MarketingStatusInfo> map;
+        Map<Integer, MarketingStatusInfo> map;
         try {
             map = marketingStatusDao.getMarketingStatuses(session);
 

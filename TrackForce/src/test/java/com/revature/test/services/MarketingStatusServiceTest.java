@@ -14,7 +14,6 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +26,7 @@ public class MarketingStatusServiceTest extends BaseTest {
 
     MarketingStatusService msService;
 
-    Map<BigDecimal, MarketingStatusInfo> mockMsMap;
+    Map<Integer, MarketingStatusInfo> mockMsMap;
 
     @BeforeTest
     public void setupMocks() throws IOException {
@@ -36,11 +35,11 @@ public class MarketingStatusServiceTest extends BaseTest {
         mockMsMap = new HashMap<>();
 
         MarketingStatusInfo ms1 = new MarketingStatusInfo();
-        ms1.setId(new BigDecimal(1));
+        ms1.setId(new Integer(1));
         ms1.setName("ms1");
 
         MarketingStatusInfo ms2 = new MarketingStatusInfo();
-        ms2.setId(new BigDecimal(2));
+        ms2.setId(new Integer(2));
         ms2.setName("ms2");
 
         mockMsMap.put(ms1.getId(), ms1);
@@ -53,9 +52,9 @@ public class MarketingStatusServiceTest extends BaseTest {
 
     @Test
     public void testGetMarketingStatuses() throws Exception {
-        Map<BigDecimal, MarketingStatusInfo> actualMsMap =  msService.getMarketingStatuses();
+        Map<Integer, MarketingStatusInfo> actualMsMap =  msService.getMarketingStatuses();
         Assert.assertEquals(mockMsMap.size(), actualMsMap.size());
-        for (BigDecimal id : mockMsMap.keySet()) {
+        for (Integer id : mockMsMap.keySet()) {
             MarketingStatusInfo actualVal = actualMsMap.get(id);
             MarketingStatusInfo mockVal = mockMsMap.get(id);
             Assert.assertNotNull(mockVal);
@@ -66,9 +65,9 @@ public class MarketingStatusServiceTest extends BaseTest {
 
     @Test
     public void testGetAllMarketingStatuses() throws Exception {
-        Map<BigDecimal, MarketingStatusInfo> actualMsMap =  msService.getMarketingStatuses();
+        Map<Integer, MarketingStatusInfo> actualMsMap =  msService.getMarketingStatuses();
         Assert.assertEquals(mockMsMap.size(), actualMsMap.size());
-        for (BigDecimal id : mockMsMap.keySet()) {
+        for (Integer id : mockMsMap.keySet()) {
             MarketingStatusInfo actualVal = actualMsMap.get(id);
             MarketingStatusInfo mockVal = mockMsMap.get(id);
             Assert.assertNotNull(mockVal);

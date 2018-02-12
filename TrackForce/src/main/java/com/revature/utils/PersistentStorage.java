@@ -1,6 +1,5 @@
 package com.revature.utils;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -23,12 +22,12 @@ public class PersistentStorage {
 
 	private static PersistentStorage storage;
 
-	private Map<BigDecimal, AssociateInfo> associates = new HashMap<>();
-	private Map<BigDecimal, BatchInfo> batches = new HashMap<>();
-	private Map<BigDecimal, BatchInfo> batchesByDate = new HashMap<>();
-	private Map<BigDecimal, ClientInfo> clients = new HashMap<>();
-	private Map<BigDecimal, CurriculumInfo> curriculums = new HashMap<>();
-	private Map<BigDecimal, MarketingStatusInfo> marketingStatuses = new HashMap<>();
+	private Map<Integer, AssociateInfo> associates = new HashMap<>();
+	private Map<Integer, BatchInfo> batches = new HashMap<>();
+	private Map<Integer, BatchInfo> batchesByDate = new HashMap<>();
+	private Map<Integer, ClientInfo> clients = new HashMap<>();
+	private Map<Integer, CurriculumInfo> curriculums = new HashMap<>();
+	private Map<Integer, MarketingStatusInfo> marketingStatuses = new HashMap<>();
 	private StatusInfo totalStats;
 
 	private PersistentStorage() {
@@ -43,8 +42,13 @@ public class PersistentStorage {
 	public Set<AssociateInfo> getAssociates() {
 		return new TreeSet<AssociateInfo>(associates.values());
 	}
+	
+	//added method to actually get values from the cache
+	public AssociateInfo getAssociate(Integer id) {
+		return associates.get(id);
+	}
 
-	public void setAssociates(Map<BigDecimal, AssociateInfo> associates) {
+	public void setAssociates(Map<Integer, AssociateInfo> associates) {
 		if (this.associates == null)
 			this.associates = associates;
 		else {
@@ -57,7 +61,7 @@ public class PersistentStorage {
 		return new TreeSet<BatchInfo>(batches.values());
 	}
 
-	public void setBatches(Map<BigDecimal, BatchInfo> batches) {
+	public void setBatches(Map<Integer, BatchInfo> batches) {
 		if (batches == null)
 			this.batches = batches;
 		else {
@@ -66,11 +70,16 @@ public class PersistentStorage {
 		setBatchesByDate(this.batches);
 	}
 
+	//added method to actually get values from the cache
+	public ClientInfo getClient(Integer id) {
+		return clients.get(id);
+	}
+		
 	public Set<ClientInfo> getClients() {
 		return new TreeSet<ClientInfo>(clients.values());
 	}
 
-	public void setClients(Map<BigDecimal, ClientInfo> clients) {
+	public void setClients(Map<Integer, ClientInfo> clients) {
 		if (this.clients == null)
 			this.clients = clients;
 		else {
@@ -86,11 +95,11 @@ public class PersistentStorage {
 		return new TreeSet<CurriculumInfo>(curriculums.values());
 	}
 
-	public void setCurriculums(Map<BigDecimal, CurriculumInfo> curriculums) {
+	public void setCurriculums(Map<Integer, CurriculumInfo> map) {
 		if (this.curriculums == null)
-			this.curriculums = curriculums;
+			this.curriculums = map;
 		else {
-			this.curriculums.putAll(curriculums);
+			this.curriculums.putAll(map);
 		}
 	}
 
@@ -98,7 +107,7 @@ public class PersistentStorage {
 		return new TreeSet<MarketingStatusInfo>(marketingStatuses.values());
 	}
 
-	public void setMarketingStatuses(Map<BigDecimal, MarketingStatusInfo> marketingStatuses) {
+	public void setMarketingStatuses(Map<Integer, MarketingStatusInfo> marketingStatuses) {
 		if (this.marketingStatuses == null)
 			this.marketingStatuses = marketingStatuses;
 		else {
@@ -106,7 +115,7 @@ public class PersistentStorage {
 		}
 	}
 
-	private void setBatchesByDate(Map<BigDecimal, BatchInfo> batches) {
+	private void setBatchesByDate(Map<Integer, BatchInfo> batches) {
 		if (this.batchesByDate == null) {
 			this.batchesByDate = batches;
 		} else {
@@ -161,27 +170,36 @@ public class PersistentStorage {
 		this.totalStats = totals;
 	}
 
+<<<<<<< HEAD
 	public Map<BigDecimal, AssociateInfo> getAssociateAsMap() {   //track this method in Associate Services
 		return this.associates;     //returns a Hashmap tht is then stored in an AssociatesInfo variable in the Service Class
+=======
+	public Map<Integer, AssociateInfo> getAssociateAsMap() {
+		return this.associates;
+>>>>>>> cf1f9ffd1d7edcd0946e584885e2661a7868ef7f
 	}
 	
-	public Map<BigDecimal, BatchInfo> getBatchAsMap() {
+	public Map<Integer, BatchInfo> getBatchAsMap() {
 		return this.batches;
 	}
 	
-	public Map<BigDecimal, ClientInfo> getClientAsMap() {
+	public Map<Integer, ClientInfo> getClientAsMap() {
 		return this.clients;
 	}
 	
-	public Map<BigDecimal, CurriculumInfo> getCurriculumAsMap() {
+	public Map<Integer, CurriculumInfo> getCurriculumAsMap() {
 		return this.curriculums;
 	}
 	
-	public Map<BigDecimal, MarketingStatusInfo> getMarketingAsMap() {
+	public Map<Integer, MarketingStatusInfo> getMarketingAsMap() {
 		return this.marketingStatuses;
 	}
 
+<<<<<<< HEAD
 	public void updateAssociates(Map<BigDecimal, AssociateInfo> associates) {   //this too
+=======
+	public void updateAssociates(Map<Integer, AssociateInfo> associates) {
+>>>>>>> cf1f9ffd1d7edcd0946e584885e2661a7868ef7f
 		this.associates.putAll(associates);
 	}
 }

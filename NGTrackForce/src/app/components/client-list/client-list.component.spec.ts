@@ -2,7 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {ClientListComponent} from './client-list.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {ClientListService} from '../../services/client-list-service/client-list.service';
+import {ClientService} from '../../services/client-service/client.service';
 import {SearchFilterPipe} from '../../pipes/search-filter/search-filter.pipe';
 import {ChartsModule} from 'ng2-charts';
 import {NavbarComponent} from '../navbar/navbar.component';
@@ -33,7 +33,7 @@ describe('ClientListComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        ClientListService,
+        ClientService,
         AuthenticationService,
         RequestService
       ],

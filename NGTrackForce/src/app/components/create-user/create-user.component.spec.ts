@@ -10,7 +10,7 @@ import {FormsModule} from '@angular/forms';
 import {AuthenticationService} from '../../services/authentication-service/authentication.service';
 import {RequestService} from '../../services/request-service/request.service';
 import {HttpClientModule} from '@angular/common/http';
-import {CreateUserService} from '../../services/create-user-service/create-user.service';
+import {UserService} from '../../services/user-service/user.service';
 import {User} from '../../models/user.model';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 
@@ -43,7 +43,7 @@ describe('CreateUserComponent', () => {
         HttpClientModule
       ],
       providers: [
-        CreateUserService,
+        UserService,
         RequestService,
         {provide: AuthenticationService, useValue: testAuthService}
       ],

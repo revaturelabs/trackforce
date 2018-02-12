@@ -1,7 +1,6 @@
 package com.revature.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,18 +13,18 @@ public class ClientInfo  implements Serializable, Comparable<ClientInfo> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1718849365915804177L;
-	private BigDecimal id;
+	private Integer id;
 	private String tfClientName;
 	private Set<PlacementInfo> tfPlacements = new HashSet<>();
 	private Set<AssociateInfo> tfAssociates = new HashSet<>();
 	private Set<InterviewInfo> tfInterviews = new HashSet<>();
 	private StatusInfo stats = new StatusInfo();
 
-	public BigDecimal getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setTfClientId(BigDecimal tfClientId) {
+	public void setTfClientId(Integer tfClientId) {
 		this.id = tfClientId;
 	}
 
@@ -63,12 +62,12 @@ public class ClientInfo  implements Serializable, Comparable<ClientInfo> {
 
 	@Override
 	public int compareTo(ClientInfo o) {
-		return this.id.subtract(o.getId()).intValueExact();
+		return this.id-o.getId();
 	}
 
 	public void appendToMap(TfMarketingStatus tfMarketingStatus) {
 		LogUtil.logger.info("Status: " + tfMarketingStatus.getTfMarketingStatusId());
-		switch (tfMarketingStatus.getTfMarketingStatusId().intValueExact()) {
+		switch (tfMarketingStatus.getTfMarketingStatusId()) {
 		case StatusInfo.MAPPED_TRAINING:
 			stats.setTrainingMapped(stats.getTrainingMapped() + 1);
 			break;
@@ -115,7 +114,7 @@ public class ClientInfo  implements Serializable, Comparable<ClientInfo> {
 		this.stats = stats;
 	}
 
-	public void setId(BigDecimal id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 }

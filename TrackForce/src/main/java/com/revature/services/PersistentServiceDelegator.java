@@ -10,7 +10,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.revature.model.*;
+import com.revature.model.AssociateInfo;
+import com.revature.model.BatchInfo;
+import com.revature.model.ClientInfo;
+import com.revature.model.CurriculumInfo;
+import com.revature.model.MarketingStatusInfo;
+import com.revature.model.StatusInfo;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
@@ -26,20 +31,14 @@ import com.revature.utils.PersistentStorage;
 public class PersistentServiceDelegator {
 
     private Thread phw = new PersistenceHelperWorker();
-
-    // Observers to check for change
-    private Delegate[] delegates;
-
+    private ServiceLookup lookupService = new ServiceLookup();
+    private Service service;
+    
     public PersistentServiceDelegator() {
-        delegates = new Delegate[]{
-                new AssociateService(),
-                new BatchesService(),
-                new ClientResource(),
-                new CurriculumService(),
-                new MarketingStatusService()
-        };
+    	super();
     }
 
+    
     /**
      * injectable dependencies for easier testing
      *
@@ -49,14 +48,11 @@ public class PersistentServiceDelegator {
      * @param curriculumService
      * @param marketingStatusService
      */
-    public PersistentServiceDelegator(AssociateService associateService, BatchesService batchService,
-                                      ClientResource clientService, CurriculumService curriculumService,
-                                      MarketingStatusService marketingStatusService) {
-        this.delegates = new Delegate[]{
-                associateService, batchService, clientService,
-                curriculumService, marketingStatusService
-        };
+    public PersistentServiceDelegator(Service s) {
+        this.service = s;
     }
+    
+    
 
     @POST
     @Path("/update/associate")
@@ -65,7 +61,8 @@ public class PersistentServiceDelegator {
         PersistentStorage.getStorage().evictAssociates();
 
         // execute the update
-        delegates[0].execute();
+        service = lookupService.getService("associate");
+        service.execute();
 
         // update affected components
         // We already have what we wanted for associates,
@@ -83,8 +80,9 @@ public class PersistentServiceDelegator {
         PersistentStorage.getStorage().evictBatches();
 
         // execute the update
-        delegates[1].execute();
-
+        service = lookupService.getService("batch");
+        service.execute();
+        
         // notify Salesforce of the response
         return Response.ok().build();
     }
@@ -96,7 +94,8 @@ public class PersistentServiceDelegator {
         PersistentStorage.getStorage().evictClients();
 
         // execute the update
-        delegates[2].execute();
+        service = lookupService.getService("client");
+        service.execute();
 
         // notify Salesforce of the response
         return Response.ok().build();
@@ -108,7 +107,8 @@ public class PersistentServiceDelegator {
         PersistentStorage.getStorage().evictCurriculums();
 
         // execute the update
-        delegates[3].execute();
+        service = lookupService.getService("curriculum");
+        service.execute();
 
         // notify Salesforce of the response
         return Response.ok().build();
@@ -120,8 +120,9 @@ public class PersistentServiceDelegator {
         PersistentStorage.getStorage().evictMarketingStatuses();
 
         // execute the update
-        delegates[4].execute();
-
+        service = lookupService.getService("marketing");
+        service.execute();
+        
         // notify Salesforce of the response
         return Response.ok().build();
     }
@@ -131,7 +132,8 @@ public class PersistentServiceDelegator {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<AssociateInfo> getAssociates() throws IOException {
         // execute the update
-        Collection<AssociateInfo> set = delegates[0].read();
+        service = lookupService.getService("associate");
+        Collection<AssociateInfo> set = service.read();
 
         // notify client of the response
         return set;
@@ -142,7 +144,8 @@ public class PersistentServiceDelegator {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<BatchInfo> getBatches() throws IOException {
         // execute the update
-        Collection<BatchInfo> set = delegates[1].read();
+        service = lookupService.getService("batch");
+    	Collection<BatchInfo> set = service.read();
 
         // notify client of the response
         return set;
@@ -153,7 +156,8 @@ public class PersistentServiceDelegator {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<BatchInfo> getBatchesSortedByDate() throws IOException {
         // execute the update
-        Collection<BatchInfo> set = delegates[1].read("Date");
+        service = lookupService.getService("batch");
+        Collection<BatchInfo> set = service.read("Date");
 
         // notify client of the response
         return set;
@@ -164,7 +168,8 @@ public class PersistentServiceDelegator {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<ClientInfo> getClients() throws IOException {
         // execute the update
-        Collection<ClientInfo> set = delegates[2].read();
+        service = lookupService.getService("client");
+        Collection<ClientInfo> set = service.read();
 
         // notify client of the response
         return set;
@@ -175,7 +180,8 @@ public class PersistentServiceDelegator {
     @Produces(MediaType.APPLICATION_JSON)
     public StatusInfo getTotals() throws IOException {
         // execute the update
-        Collection<StatusInfo> set = delegates[2].read("summary");
+        service = lookupService.getService("client");
+        Collection<StatusInfo> set = service.read("summary");
         StatusInfo si = null;
         if (set != null && !set.isEmpty())
             si = set.iterator().next();
@@ -189,7 +195,8 @@ public class PersistentServiceDelegator {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<CurriculumInfo> getCurriculums() throws IOException {
         // execute the update
-        Collection<CurriculumInfo> set = delegates[3].read();
+        service = lookupService.getService("curriculum");
+        Collection<CurriculumInfo> set = service.read();
 
         // notify client of the response
         return set;
@@ -200,7 +207,8 @@ public class PersistentServiceDelegator {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<MarketingStatusInfo> getMarketingStatuses() throws IOException {
         // execute the update
-        Collection<MarketingStatusInfo> set = delegates[4].read();
+        service = lookupService.getService("marketing");
+        Collection<MarketingStatusInfo> set = service.read();
 
         // notify client of the response
         return set;

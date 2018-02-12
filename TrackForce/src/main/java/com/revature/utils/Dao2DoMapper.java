@@ -1,6 +1,5 @@
 package com.revature.utils;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import com.revature.entity.*;
@@ -12,57 +11,63 @@ public class Dao2DoMapper {
     private static final String OTHER_VALUE = "Other";
     private static final String UNKNOWN_VALUE = "None";
 
+<<<<<<< HEAD
     // This is the end mapper
     public static AssociateInfo map(TfAssociate tfa) {  //Associate info class found in .model package
+=======
+    public static AssociateInfo map(TfAssociate tfa) {
+>>>>>>> cf1f9ffd1d7edcd0946e584885e2661a7868ef7f
         AssociateInfo ai = new AssociateInfo();
         ai.setId(tfa.getTfAssociateId());
 
-        if (tfa.getTfBatch() == null) {
-            ai.setBatchId(new BigDecimal(-1));
+        if (tfa.getTfBatch() == null) {  //TF_BATCH_ID
+            ai.setBatchId(new Integer(-1));
             ai.setBatchName(UNKNOWN_VALUE);
-            ai.setCurriculumId(new BigDecimal(-1));
+            ai.setCurriculumId(new Integer(-1));
             ai.setCurriculumName(UNKNOWN_VALUE);
         } else {
             ai.setBatchId(tfa.getTfBatch().getTfBatchId());
             ai.setBatchName(tfa.getTfBatch().getTfBatchName());
             if (tfa.getTfBatch().getTfCurriculum() == null) {
-                ai.setCurriculumId(new BigDecimal(-1));
+                ai.setCurriculumId(new Integer(-1));
                 ai.setCurriculumName(UNKNOWN_VALUE);
             } else {
                 ai.setCurriculumId(tfa.getTfBatch().getTfCurriculum().getTfCurriculumId());
                 ai.setCurriculumName(tfa.getTfBatch().getTfCurriculum().getTfCurriculumName());
             }
         }
-        if (tfa.getTfClient() == null) {
-            ai.setClientId(new BigDecimal(-1));
+        if (tfa.getTfClient() == null) {	//TF_CLIENT_ID
+            ai.setClientId(new Integer(-1));
             ai.setClient(UNKNOWN_VALUE);
         } else {
             ai.setClientId(tfa.getTfClient().getTfClientId());
             ai.setClient(tfa.getTfClient().getTfClientName());
         }
-        if (tfa.getTfEndClient() == null) {
-            ai.setEndClientId(new BigDecimal(-1));
+        if (tfa.getTfEndClient() == null) {		//TF_END_CLIENT_ID
+            ai.setEndClientId(new Integer(-1));
             ai.setEndClient(UNKNOWN_VALUE);
         } else {
             ai.setEndClientId(tfa.getTfEndClient().getTfEndClientId());
             ai.setEndClient(tfa.getTfEndClient().getTfEndClientName());
         }
-        if (tfa.getTfAssociateFirstName() == null)
+        if (tfa.getTfAssociateFirstName() == null)		//TF_ASSOCIATE_FIRST_NAME
             ai.setFirstName(UNKNOWN_VALUE);
         else
             ai.setFirstName(tfa.getTfAssociateFirstName());
-        if (tfa.getTfAssociateLastName() == null)
+        if (tfa.getTfAssociateLastName() == null)		//TF_ASSOCIATE_LAST_NAME
             ai.setLastName(UNKNOWN_VALUE);
         else
             ai.setLastName(tfa.getTfAssociateLastName());
-        if (tfa.getTfMarketingStatus() == null) {
-            ai.setMarketingStatusId(new BigDecimal(-1));
+ /*       
+        if (tfa.getTfMarketingStatus() == null) {        //TF_MARKETING_STATUS_ID
+            ai.setMarketingStatusId(new Integer(-1));
             ai.setMarketingStatus(UNKNOWN_VALUE);
-        } else if (tfa.getTfMarketingStatus().getTfMarketingStatusId().intValueExact() >= StatusInfo.DIRECTLY_PLACED) {
+        } else if (tfa.getTfMarketingStatus().getTfMarketingStatusId() >= StatusInfo.DIRECTLY_PLACED) {
             ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
             ai.setMarketingStatus(OTHER_VALUE);
         }
-        if (tfa.getTfMarketingStatus() == null) {
+   */     
+        if (tfa.getTfMarketingStatus() == null) {		//TF_MARKETING_STATUS_ID
             ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
             ai.setMarketingStatus(OTHER_VALUE);
         } else {
@@ -71,7 +76,7 @@ public class Dao2DoMapper {
         }
         return ai;
     }
-
+    
     /**
      * map TfBatch object to format consumed by front end, properly checking for
      * null values
@@ -118,11 +123,12 @@ public class Dao2DoMapper {
         msi.setName(tfms.getTfMarketingStatusName());
         return msi;
     }
-
+/*
     public static ClientInfo map(TfClient client) {
         ClientInfo cli = new ClientInfo();
         cli.setTfClientId(client.getTfClientId());
         cli.setTfClientName(client.getTfClientName());
+        
         if (client.getTfAssociates() != null)
             for (TfAssociate tfa : client.getTfAssociates()) {
                 cli.getTfAssociates().add(map(tfa));
@@ -132,16 +138,36 @@ public class Dao2DoMapper {
                             "\n" + tfa.getTfClient().getTfClientId() + tfa.getTfClient().getTfClientName());
                     cli.appendToMap(tfa.getTfMarketingStatus());
                 }
-                LogUtil.logger.info("Final results: " + cli.getTfClientName() + " " + cli.getStats());
+               LogUtil.logger.info("Final results: " + cli.getTfClientName() + " " + cli.getStats());
             }
-        if (client.getTfInterviews() != null)
+        
+                if (client.getTfInterviews() != null)
             for (TfInterview tfi : client.getTfInterviews())
                 cli.getTfInterviews().add(map(tfi));
+ 
         if (client.getTfPlacements() != null)
             for (TfPlacement tfp : client.getTfPlacements())
                 cli.getTfPlacements().add(map(tfp));
+                
         return cli;
     }
+    */
+    
+    //Faster Implementation
+    public static ClientInfo map(TfClient client) {
+        ClientInfo cli = new ClientInfo();
+        cli.setTfClientId(client.getTfClientId());
+        cli.setTfClientName(client.getTfClientName());
+        
+        if (client.getTfAssociates() != null)
+            for (TfAssociate tfa : client.getTfAssociates()) {
+                if (tfa.getTfMarketingStatus() != null) {
+                    cli.appendToMap(tfa.getTfMarketingStatus());
+                }  
+            }
+        return cli;
+    }
+    
 
     private static PlacementInfo map(TfPlacement tfp) {
         PlacementInfo pi = new PlacementInfo();

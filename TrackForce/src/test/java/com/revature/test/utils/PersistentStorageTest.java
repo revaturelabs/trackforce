@@ -4,7 +4,6 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.AssertJUnit.assertFalse;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -34,50 +33,52 @@ public class PersistentStorageTest extends BaseTest {
     public void beforeTests() throws IOException, SQLException {
         MockitoAnnotations.initMocks(this);
 
-        HashMap<BigDecimal, AssociateInfo> associateMap = new HashMap<>();
+        HashMap<Integer, AssociateInfo> associateMap = new HashMap<>();
         AssociateInfo aInfo = new AssociateInfo();
-        aInfo.setId(new BigDecimal(-1));
-        associateMap.put(new BigDecimal(-1), aInfo);
+        aInfo.setId(new Integer(-1));
+        associateMap.put(new Integer(-1), aInfo);
 
         BatchInfo bInfo = new BatchInfo();
-        bInfo.setId(new BigDecimal(-1));
-        HashMap<BigDecimal, BatchInfo> batchMap = new HashMap<>();
-        batchMap.put(new BigDecimal(-1), bInfo);
+        bInfo.setId(new Integer(-1));
+        HashMap<Integer, BatchInfo> batchMap = new HashMap<>();
+        batchMap.put(new Integer(-1), bInfo);
 
         ClientInfo cInfo = new ClientInfo();
-        cInfo.setId(new BigDecimal(-1));
-        HashMap<BigDecimal, ClientInfo> clientMap = new HashMap<>();
-        clientMap.put(new BigDecimal(-1), cInfo);
+        cInfo.setId(new Integer(-1));
+        HashMap<Integer, ClientInfo> clientMap = new HashMap<>();
+        clientMap.put(new Integer(-1), cInfo);
 
         CurriculumInfo currInfo = new CurriculumInfo();
-        currInfo.setId(new BigDecimal(-1));
-        HashMap<BigDecimal, CurriculumInfo> curriculumMap = new HashMap<>();
-        curriculumMap.put(new BigDecimal(-1), currInfo);
+        currInfo.setId(new Integer(-1));
+        HashMap<Integer, CurriculumInfo> curriculumMap = new HashMap<>();
+        curriculumMap.put(new Integer(-1), currInfo);
 
         MarketingStatusInfo mInfo = new MarketingStatusInfo();
-        mInfo.setId(new BigDecimal(-1));
-        HashMap<BigDecimal, MarketingStatusInfo> marketingStatusMap = new HashMap<>();
-        marketingStatusMap.put(new BigDecimal(-1), mInfo);
+        mInfo.setId(new Integer(-1));
+        HashMap<Integer, MarketingStatusInfo> marketingStatusMap = new HashMap<>();
+        marketingStatusMap.put(new Integer(-1), mInfo);
 
-        Mockito.when(mockAssociateDao.getAssociates(Matchers.any(Session.class)))
+        Mockito.when(mockAssociateDao.getAssociates())
                 .thenReturn(associateMap);
-        Mockito.when(mockBatchDao.getBatchDetails(Matchers.any(Session.class)))
-                .thenReturn(batchMap);
+//        Mockito.when(mockBatchDao.getBatchDetails()
+//                .thenReturn(batchMap);
         Mockito.when(mockClientDao.getAllTfClients(Matchers.any(Session.class)))
                 .thenReturn(clientMap);
-        Mockito.when(mockCurriculumDao.fetchCurriculums(Matchers.any(Session.class)))
+        Mockito.when(mockCurriculumDao.getAllCurriculums())
                 .thenReturn(curriculumMap);
         Mockito.when(mockMarketingStatusDao.getMarketingStatuses(Matchers.any(Session.class)))
                 .thenReturn(marketingStatusMap);
 
-        PersistentServiceDelegator serviceDelegator = new PersistentServiceDelegator(
-                new AssociateService(mockAssociateDao, sessionFactory),
-                new BatchesService(mockBatchDao, sessionFactory),
-                new ClientResource(mockClientDao, sessionFactory),
-                new CurriculumService(mockCurriculumDao, sessionFactory),
-                new MarketingStatusService(mockMarketingStatusDao, sessionFactory)
-        );
+//        PersistentServiceDelegator serviceDelegator = new PersistentServiceDelegator(
+//                new AssociateService(mockAssociateDao, sessionFactory),
+//                new BatchesService(mockBatchDao, sessionFactory),
+//                new ClientService(mockClientDao, sessionFactory),
+//                new CurriculumService(mockCurriculumDao, sessionFactory),
+//                new MarketingStatusService(mockMarketingStatusDao, sessionFactory)
+//        );
 
+        PersistentServiceDelegator serviceDelegator = new PersistentServiceDelegator();
+        
         // pull info from *database (*results mocked in this case)
         serviceDelegator.getAssociates();
         serviceDelegator.getBatches();

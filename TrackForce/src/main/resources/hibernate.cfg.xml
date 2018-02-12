@@ -6,14 +6,17 @@
         <property name="hibernate.search.autoregister_listeners">true</property>
         <property name="hibernate.validator.apply_to_ddl">false</property>
         <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
-        <property name="hibernate.generate_statistics">true</property>
+        <property name="hibernate.generate_statistics">false</property>
         <property name="hibernate.connection.release_mode">after_transaction</property>
-        <property name="show_sql">true</property>
+        <property name="show_sql">false</property>
         <!--
             note all properties here are only default values; can be overwritten with
             values in dbProps passed into HibernateUtil initSessionFactory; dialect
             and driver must be overwritten for different databases (such as hsql)
         -->
+        <!-- Ofer code 
+        <property name="hibernate.current_session_context_class">thread</property>
+          -->
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
         <property name="hibernate.hbm2ddl.auto">validate</property>

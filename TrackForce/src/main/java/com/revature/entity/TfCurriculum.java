@@ -1,7 +1,7 @@
 package com.revature.entity;
 // Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
-import java.math.BigDecimal;
+
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -22,18 +22,18 @@ public class TfCurriculum implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 8213885869880424792L;
-	private BigDecimal tfCurriculumId;
+	private Integer tfCurriculumId;
 	private String tfCurriculumName;
 	private Set<TfBatch> tfBatches = new HashSet<TfBatch>(0);
 
 	public TfCurriculum() {
 	}
 
-	public TfCurriculum(BigDecimal tfCurriculumId) {
+	public TfCurriculum(Integer tfCurriculumId) {
 		this.tfCurriculumId = tfCurriculumId;
 	}
 
-	public TfCurriculum(BigDecimal tfCurriculumId, String tfCurriculumName, Set<TfBatch> tfBatches) {
+	public TfCurriculum(Integer tfCurriculumId, String tfCurriculumName, Set<TfBatch> tfBatches) {
 		this.tfCurriculumId = tfCurriculumId;
 		this.tfCurriculumName = tfCurriculumName;
 		this.tfBatches = tfBatches;
@@ -42,11 +42,11 @@ public class TfCurriculum implements java.io.Serializable {
 	@Id
 
 	@Column(name = "TF_CURRICULUM_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getTfCurriculumId() {
+	public Integer getTfCurriculumId() {
 		return this.tfCurriculumId;
 	}
 
-	public void setTfCurriculumId(BigDecimal tfCurriculumId) {
+	public void setTfCurriculumId(Integer tfCurriculumId) {
 		this.tfCurriculumId = tfCurriculumId;
 	}
 
@@ -67,8 +67,4 @@ public class TfCurriculum implements java.io.Serializable {
 	public void setTfBatches(Set<TfBatch> tfBatches) {
 		this.tfBatches = tfBatches;
 	}
-
-	
-	
-
 }

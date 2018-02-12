@@ -14,7 +14,6 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -31,7 +30,7 @@ public class BatchesServiceTest extends BaseTest {
     public void beforeAll() throws IOException {
         MockitoAnnotations.initMocks(this);
 
-        Map<BigDecimal, BatchInfo> mockBatchMap = new HashMap();
+        Map<Integer, BatchInfo> mockBatchMap = new HashMap();
 
         assoc1 = createAssocInfo(1, 1, "b1", 1, "c1", 1, "s1", 1, "c1");
         assoc2 = createAssocInfo(2, 2, "b2", 2, "c2", 2, "s2", 2, "c2");
@@ -50,17 +49,16 @@ public class BatchesServiceTest extends BaseTest {
         mockBatchMap.put(batch2.getId(), batch2);
         mockBatchMap.put(batch3.getId(), batch3);
 
-        Mockito.when(mockBatchDao.getBatchDetails(Matchers.any(Session.class)))
-                .thenReturn(mockBatchMap);
+        //Mockito.when(mockBatchDao.getBatch(null))).thenReturn(mockBatchMap);
 
         // mock init batch cache
-        new BatchesService(mockBatchDao, sessionFactory).execute();
+        new BatchesService().execute();
 
     }
 
     @BeforeMethod
     public void beforeEach() {
-        batchService = new BatchesService(mockBatchDao, sessionFactory);
+        batchService = new BatchesService();
     }
 
     @Test
@@ -88,17 +86,17 @@ public class BatchesServiceTest extends BaseTest {
     AssociateInfo createAssocInfo(int id, int batchId, String batchName, int clientId, String clientName,
                                   int msid, String msName, int currId, String currName) {
         AssociateInfo assoc = new AssociateInfo();
-        assoc.setId(new BigDecimal(id));
-        assoc.setBatchId(new BigDecimal(batchId));
+        assoc.setId(new Integer(id));
+        assoc.setBatchId(new Integer(batchId));
         assoc.setBatchName(batchName);
-        assoc.setBid(new BigDecimal(batchId));
-        assoc.setClid(new BigDecimal(clientId));
-        assoc.setClientId(new BigDecimal(clientId));
+        assoc.setBid(new Integer(batchId));
+        assoc.setClid(new Integer(clientId));
+        assoc.setClientId(new Integer(clientId));
         assoc.setClient(clientName);
-        assoc.setMarketingStatusId(new BigDecimal(msid));
-        assoc.setMsid(new BigDecimal(msid));
+        assoc.setMarketingStatusId(new Integer(msid));
+        assoc.setMsid(new Integer(msid));
         assoc.setMarketingStatus(msName);
-        assoc.setCurriculumId(new BigDecimal(currId));
+        assoc.setCurriculumId(new Integer(currId));
         assoc.setCurriculumName(currName);
 
         return assoc;
@@ -107,7 +105,7 @@ public class BatchesServiceTest extends BaseTest {
     BatchInfo createBatchInfo(int id, String name, String curriculumName, long startLong, long endLong) {
         BatchInfo info = new BatchInfo();
 
-        info.setId(new BigDecimal(id));
+        info.setId(new Integer(id));
         info.setBatchName(name);
         info.setCurriculumName(curriculumName);
         info.setStartLong(startLong);

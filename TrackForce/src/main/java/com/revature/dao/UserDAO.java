@@ -1,17 +1,14 @@
 package com.revature.dao;
 
-
-import java.io.IOException;
-
-import org.hibernate.Session;
+import java.util.List;
 
 import com.revature.entity.TfUser;
 import com.revature.request.model.CreateUserModel;
-import com.revature.request.model.SuccessOrFailMessage;
 
 public interface UserDAO {
 	
-	TfUser getUser(String username, Session session) throws IOException;
-	SuccessOrFailMessage createUser(CreateUserModel newUser, Session session);
+	TfUser getUser(String username);
+	List<TfUser> getAllUsers();
+	boolean createUser(CreateUserModel newUser);
 
 }

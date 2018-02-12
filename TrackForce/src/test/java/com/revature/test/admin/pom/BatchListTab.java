@@ -67,8 +67,18 @@ public class BatchListTab {
 				.findElement(By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/table/tbody/tr[1]/td[1]/a"));
 		return row;
 	}
-
-	// Gets all Associate IDs under the first Batch List Tab
+	
+	// Gets all rows under the first batch in Batch List Tab
+	public static List<WebElement> getAssociatesInfo(WebDriver wd) {
+		// Commented out lines are for  Local Host
+		//WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
+		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("/html/body/app/app-batch-details/div/div/div[2]/table"), 30);
+		//List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr[1]"));
+		List<WebElement> rows = table_element.findElements(By.xpath("/html/body/app/app-batch-details/div/div/div[2]/table/tbody/tr"));
+		return rows;
+	}
+	
+	// Gets all Associate IDs under the first batch in Batch List Tab
 	public static List<WebElement> getAssociatesIDs(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
 				By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
@@ -109,10 +119,11 @@ public class BatchListTab {
 
 	// Gets EVERY ROW from ASSOCIATE LIST TAB
 	public static List<WebElement> grabAssociatesBatchInfo(WebDriver wd) {
-		WebElement table_element = WaitToLoad.findDynamicElement(wd,
-				By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
-		List<WebElement> rows = table_element
-				.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
+
+		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("/html/body/app/app-associate-list/div/div[2]/div/table"), 30);
+		//WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
+		//List<WebElement> rows = table_element.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
+		List<WebElement> rows = table_element.findElements(By.xpath("/html/body/app/app-associate-list/div/div[2]/div/table/tbody/tr"));
 		return rows;
 	}
 

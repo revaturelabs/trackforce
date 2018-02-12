@@ -1,5 +1,6 @@
 package com.revature.test.admin.cukes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -70,15 +71,19 @@ public class BatchListCukes {
 	public static boolean the_list_of_associates_is_grabbed(WebDriver wd, String batchName) throws Throwable {
 		// Grab the associates IDs to be compared and store in a HashMap
 		try {
-			List<WebElement> ID = BatchListTab.getAssociatesIDs(wd);
-			HashMap<String, String> compareID = new HashMap<String, String>();
-			for (WebElement e : ID) {
-				compareID.put(e.getText(), batchName);
-			}
-			return associates_should_match_the_associate_list(wd, batchName, compareID);
 
+//			List<WebElement> ID = BatchListTab.getAssociatesIDs(wd);
+//			HashMap<String, String> compareID = new HashMap<String, String>();
+//			for (WebElement e : ID) {
+//				compareID.put(e.getText(), batchName);
+//			}
+			
+			Thread.sleep(1000);
+	        List<WebElement> associates = BatchListTab.getAssociatesInfo(wd);
+			return associates_should_match_the_associate_list(wd, batchName, associates);
+		
 		} catch (Throwable e) {
-			System.out.println("Could not get Associate IDs");
+			System.out.println("Could not get Associate list");
 			return false;
 		}
 	}
@@ -87,8 +92,7 @@ public class BatchListCukes {
 	// Sends to helper function
 
 	@Then("^associates should match the associate list$")
-	public static boolean associates_should_match_the_associate_list(WebDriver wd, String batchName,
-			HashMap<String, String> IDs) throws Throwable {
+	public static boolean associates_should_match_the_associate_list(WebDriver wd, String batchName, List<WebElement> associates) throws Throwable {
 		try {
 			// Switch to Associate List Tab
 			// WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-batch-details/app-navbar/nav/div/ul[1]/li[4]"),
@@ -100,24 +104,46 @@ public class BatchListCukes {
 		}
 
 		try {
-			// Verify that the IDs grabbed from first batch are all in the correct batch by
-			// looking at the associate list
-			List<WebElement> associateIDs = BatchListTab.grabAssociatesIDs(wd);
+//			// Verify that the IDs grabbed from first batch are all in the correct batch by looking at the associate list
+//			List<WebElement> associateIDs = BatchListTab.grabAssociatesIDs(wd);
+//			List<WebElement> associateRows = BatchListTab.grabAssociatesBatchInfo(wd);
+//			// Search through the List of Associates taken from Associate List Tab
+//			for (int i = 0; i < associateIDs.size(); i++) {
+//				// If the IDs match
+//				if (IDs.containsKey(associateIDs.get(i).getText())) {
+//					// and if the batch name is in the same row
+//					if (associateRows.get(i).getText().contains(batchName)) {
+//						IDs.remove(associateIDs.get(i).getText());
+//					}
+//				}
+//			}
+//			// Return true when the map is empty; All of the IDs in the map were found in the Associate List with same batch name
+//			return IDs.isEmpty();
+			
+		    // remove potential dups
+	        // increase lookup speed to O(1)
 			List<WebElement> associateRows = BatchListTab.grabAssociatesBatchInfo(wd);
-			// Search through the List of Associates taken from Associate List Tab
-			for (int i = 0; i < associateIDs.size(); i++) {
-				// If the IDs match
-				if (IDs.containsKey(associateIDs.get(i).getText())) {
-					// and if the batch name is in the same row
-					if (associateRows.get(i).getText().contains(batchName)) {
-						IDs.remove(associateIDs.get(i).getText());
-					}
-				}
-			}
-			// Return true when the map is empty; All of the IDs in the map were found in
-			// the Associate List with same batch name
-			return IDs.isEmpty();
+	        Set<String> listHash = new HashSet<String>();
+	        for (WebElement val : associateRows)
+	        {
+	            listHash.add(val.getText());
+	        }
+	        System.out.println("=============associate================");
 
+	        List<String> associateInfo = new ArrayList<String>();
+	        for (WebElement e : associates) {
+	        	System.out.println(e.getText());
+	        	associateInfo.add(e.getText() + " " + batchName);
+	        }
+	        
+	       for (String info : associateInfo) {
+	    	   if (!(listHash.contains(info))) {
+	    		   System.out.println(info + " not found");
+	    		   return false;
+	    	   }
+	       }
+	        
+	        return true;
 		} catch (Throwable e) {
 			System.out.println("Can't grab associate list ID's");
 			return false;

@@ -2,11 +2,7 @@ package com.revature.dao;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.List;
 import java.util.Map;
-
-import org.hibernate.Session;
 
 import com.revature.entity.TfBatch;
 import com.revature.model.BatchInfo;
@@ -22,8 +18,8 @@ public interface BatchDao {
      * @return - A batch object that represents the retrieve batch.
      */
 
-	TfBatch getBatch(String batchName, Session session) throws IOException;
-
-	Map<BigDecimal, BatchInfo> getBatchDetails(Session session) throws IOException;
+	TfBatch getBatch(String batchName) throws IOException;
+	TfBatch getBatchById(int id);
+	Map<BigDecimal, BatchInfo> getBatchDetails() throws IOException;
 
 }

@@ -18,6 +18,7 @@ import org.hibernate.query.Query;
 import com.revature.entity.TfBatch;
 import com.revature.model.BatchInfo;
 import com.revature.utils.Dao2DoMapper;
+import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
 /**
@@ -29,27 +30,35 @@ public class BatchDaoHibernate implements BatchDao {
 	/**
 	 * Get a batch from the database given its name.
 	 * 
-	 * @param batchName
-	 *            - The name of the batch to get information about
+	 * @param batchName - The name of the batch to get information about
 	 * @throws IOException
 	 */
 	@Override
-	public TfBatch getBatch(String batchName, Session session) throws IOException {
+	public TfBatch getBatch(String batchName) {
+		TfBatch batch = null;
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<TfBatch> criteriaQuery = builder.createQuery(TfBatch.class);
 			Root<TfBatch> root = criteriaQuery.from(TfBatch.class);
 			criteriaQuery.select(root).where(builder.equal(root.get("tfBatchName"), batchName));
 			Query<TfBatch> query = session.createQuery(criteriaQuery);
-
-			TfBatch batch;
-			try {
-				batch = query.getSingleResult();
-			} catch (NoResultException nre) {
-				LogUtil.logger.error(nre);
-				throw new IOException("could not get batch", nre);
-			}
+			batch = query.getSingleResult();
 			return batch;
-		
+		} catch (NoResultException nre) {
+			LogUtil.logger.error(nre);
+		}
+		return batch;
+	}
+	
+	public TfBatch getBatchById(int id) {
+		TfBatch batch = null;
+		try(Session s = HibernateUtil.getSessionFactory().openSession()) {
+			batch = s.get(TfBatch.class, id);
+			return batch;
+		} catch (NoResultException e) {
+			LogUtil.logger.error(e);
+		}
+		return batch;
 	}
 
     /**
@@ -60,19 +69,21 @@ public class BatchDaoHibernate implements BatchDao {
      * @throws IOException
      */
 	@Override
-	public Map<BigDecimal, BatchInfo> getBatchDetails(Session session) throws IOException {
-		List<TfBatch> batchesEnt;
-
+	public Map<BigDecimal, BatchInfo> getBatchDetails() {
+		List<TfBatch> batchesEnt = null;
 		Map<BigDecimal, BatchInfo> map = new HashMap<>();
-		TypedQuery<TfBatch> tq = session.createQuery(
-				"from TfBatch", TfBatch.class);
-		
-		batchesEnt = tq.getResultList();
-		if(batchesEnt != null)
-		for(TfBatch tb : batchesEnt) {
-			map.put(tb.getTfBatchId(), Dao2DoMapper.map(tb));
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+			TypedQuery<TfBatch> tq = session.createQuery("from TfBatch", TfBatch.class);			
+			batchesEnt = tq.getResultList();
+			if(batchesEnt != null) {
+				for(TfBatch tb : batchesEnt) {
+					map.put(tb.getTfBatchId(), Dao2DoMapper.map(tb));
+				}
+			}
+			return map;
+		} catch(NoResultException e) {
+			LogUtil.logger.error(e);
 		}
-		
 		return map;
 	}
 }

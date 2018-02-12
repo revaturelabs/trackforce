@@ -14,12 +14,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement 
 public class SuccessOrFailMessage {
     private String message; 
+    private int newId;
+    private boolean successful;
+    
+    public boolean getStatus() {
+    	return successful;
+    }
     
     public void setSuccess(){
+    	this.successful = true;
         setMessage("success"); 
     }
     
     public void setFailure(){
+    	this.successful = false;
         setMessage("failure"); 
     }
 
@@ -36,6 +44,12 @@ public class SuccessOrFailMessage {
     public void setMessage(String message) {
         this.message = message;
     }
-    
-    
+
+	public int getNewId() {
+		return newId;
+	}
+
+	public void setNewId(int newId) {
+		this.newId = newId;
+	}    
 }

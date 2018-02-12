@@ -168,7 +168,7 @@ public class JWTService {
 			try {
 				claims = getClaimsFromToken(token);
 				tokenUsername = claims.getSubject();
-				tfUser = userDao.getUser(tokenUsername, session);
+				tfUser = userDao.getUser(tokenUsername);
 
 				if (tfUser != null) {
 					// makes sure the token is fresh and usernames are equal
@@ -214,7 +214,7 @@ public class JWTService {
 
 			claims = getClaimsFromToken(token);
 			tokenUsername = claims.getSubject();
-			tfUser = userDao.getUser(tokenUsername, session);
+			tfUser = userDao.getUser(tokenUsername);
 			tfRole = tfUser.getTfRole();
 
 			if (tfUser != null && tfRole != null) {
@@ -263,7 +263,7 @@ public class JWTService {
 			try {
 				claims = getClaimsFromToken(token);
 				tokenUsername = claims.getSubject();
-				tfUser = userDao.getUser(tokenUsername, session);
+				tfUser = userDao.getUser(tokenUsername);
 				tfRole = tfUser.getTfRole();
 
 				if (tfUser != null) {

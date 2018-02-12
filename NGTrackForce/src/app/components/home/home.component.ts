@@ -114,7 +114,8 @@ export class HomeComponent {
        * @member {Array} MappedData
        * @description MappedData is an array that stores the
        * data for the dataset of the Mapped chart.
-       * The dataset contains four numbers: training mapped<br>
+       * The dataset contains four numbers: <br>
+       * training mapped <br>
        * reserved mapped <br>
        * selected mapped <br>
        * confirmed mapped<br>
@@ -129,7 +130,8 @@ export class HomeComponent {
        * @member {Array} UnmappedData
        * @description UnmappedData is an array that stores the
        * data for the dataset of the Unmapped chart.
-       * The dataset contains four numbers: training unmapped<br>
+       * The dataset contains four numbers: <br>
+       * training unmapped <br>
        * open unmapped <br>
        * selected unmapped <br>
        * confirmed unmapped<br>

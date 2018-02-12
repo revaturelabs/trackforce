@@ -3,9 +3,6 @@ package com.revature.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import com.revature.entity.TfMarketingStatus;
-import com.revature.utils.LogUtil;
-
 /**
  * This class models all information that pertains to mapped/unmapped statuses
  */

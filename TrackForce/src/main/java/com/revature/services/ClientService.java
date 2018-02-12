@@ -6,45 +6,22 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+
+import org.hibernate.HibernateException;
 
 import com.revature.dao.ClientDao;
 import com.revature.dao.ClientDaoImpl;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-
 import com.revature.model.ClientInfo;
 import com.revature.model.StatusInfo;
-import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
-@Path("clients")
 public class ClientService implements Service {
     private ClientDao clientDao;
-    private SessionFactory sessionFactory;
 
     public ClientService() {
-        this.sessionFactory = HibernateUtil.getSessionFactory();
         this.clientDao = new ClientDaoImpl();
     }
-    
-
-    /**
-     * @param clientDao injectable dao for easier testing
-     */
-    public ClientService(ClientDao clientDao, SessionFactory sessionFactory) {
-        this.clientDao = clientDao;
-        this.sessionFactory = sessionFactory;
-    }
-
 
     /**
      * Returns a map of all of the clients from the TfClient table as a response
@@ -56,7 +33,6 @@ public class ClientService implements Service {
      * @throws IOException
      * @throws HibernateException
      */
-    @GET
     public Set<ClientInfo> getAllClients() throws IOException {
         Set<ClientInfo> clients = PersistentStorage.getStorage().getClients();
         if (clients == null || clients.isEmpty()) {
@@ -74,21 +50,8 @@ public class ClientService implements Service {
      * @throws IOException
      */
     public Map<BigDecimal, ClientInfo> getClients() throws IOException {
-        Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-            Map<BigDecimal, ClientInfo> map = clientDao.getAllTfClients(session);
-
-            session.flush();
-            tx.commit();
-            return map;
-        } catch (Exception e) {
-            LogUtil.logger.error(e);
-            tx.rollback();
-            throw new IOException("could not get clients", e);
-        } finally {
-            session.close();
-        }
+        Map<BigDecimal, ClientInfo> map = clientDao.getAllTfClients();
+        return map;
     }
 
 
@@ -98,12 +61,7 @@ public class ClientService implements Service {
      *
      * @param clientid The id of the client in the TfClient table
      * @return A StatusInfo object for a specified client
-     * @throws IOException
-     * @throws HibernateException
      */
-    @GET
-    @Path("{clientid}")
-    @Produces({MediaType.APPLICATION_JSON})
     public StatusInfo getClientInfo(@PathParam("clientid") int clientid) throws IOException {
         Map<BigDecimal, ClientInfo> map = PersistentStorage.getStorage().getClientAsMap();
         if (map == null || map.isEmpty()) {
@@ -113,7 +71,6 @@ public class ClientService implements Service {
             throw new IOException("Could not populate map");
         return map.get(new BigDecimal(clientid)).getStats();
     }
-
 
     @SuppressWarnings("unchecked")
     private <T> Set<T> getTotals() throws IOException {

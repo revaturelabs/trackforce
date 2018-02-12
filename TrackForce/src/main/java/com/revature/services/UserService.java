@@ -3,35 +3,27 @@ package com.revature.services;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-import com.revature.dao.UserDAO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.revature.dao.UserDAO;
 import com.revature.dao.UserDaoImpl;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 import com.revature.model.LoginJSON;
 import com.revature.model.UserJSON;
+import com.revature.request.model.CreateUserModel;
+import com.revature.request.model.SuccessOrFailMessage;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
 
-@Path("users")
-public class UserResource {
+public class UserService {
 
     private JWTService jwtService;
     private UserDAO userDao;
 
-    public UserResource() {
+    public UserService() {
         userDao = new UserDaoImpl();
         jwtService = new JWTService();
     }
@@ -42,37 +34,32 @@ public class UserResource {
      * @param userDao
      * @param jwtService
      */
-    public UserResource(UserDAO userDao, JWTService jwtService) {
+    public UserService(UserDAO userDao, JWTService jwtService) {
         this.userDao = userDao;
         this.jwtService = jwtService;
     }
 
     /**
      * Gets every user for TrackForce
-     * @return Returns a json of all the users
      */
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response getAllUsers(){
-    	//This will produce application/json
-    	//Not sure if this will actually be needed
-    	return Response.status(501)
-    			.entity("This has not yet been implemented. There maybe future implementations")
-    			.build();
+    public void getAllUsers(){
+    	return ;
     }
     
     /**
      * Creates a user
      * @return Returns whether the response was successful
      */
-    @POST
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response createNewUser(){
-    	//This will produce application/json
-    	//Not sure if this will actually be needed
-    	return Response.status(501)
-    			.entity("This has not yet been implemented. There maybe future implementations")
-    			.build();
+    public SuccessOrFailMessage createNewUser(CreateUserModel newUser) {
+        SuccessOrFailMessage msg = new SuccessOrFailMessage();
+        boolean success = userDao.createUser(newUser);
+        if (success) {
+        	msg.setSuccess();
+        }
+        else {
+        	msg.setFailure();
+        }
+        return msg;
     }
     
     /**
@@ -80,28 +67,19 @@ public class UserResource {
      * @param username Username used to get the user
      * @return Returns a TfUser json
      */
-    @GET
-    @Path("/{username}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public TfUser getUser(@PathParam("username") String username) {
+    public TfUser getUser(String username) {
     	return new UserDaoImpl().getUser(username);
     }
 
     /**
      * Method takes login information from front-end and verifies the information.
-     * If info is valid, a status code of 200 is returned, otherwise 400 for a bad
-     * request
      *
      * @param login - contains login information
      * @return a Response object with authentication data, such as username, JWT
      * token, and roleId
      * @throws IOException
      */
-    @POST
-    @Path("login")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response submitCredentials(LoginJSON login) throws IOException {
+    public UserJSON submitCredentials(LoginJSON login) throws IOException {
         String username = login.getUsername();
         String password = login.getPassword();
         UserJSON userjson = null;
@@ -109,12 +87,12 @@ public class UserResource {
         Transaction tx = session.beginTransaction();
         try {
             // Attempts to get the user from the database based on username
-            TfUser tfUser = userDao.getUser(username, session);
+            TfUser tfUser = userDao.getUser(username);
             if (tfUser != null) {
                 String hashedPassword = tfUser.getTfUserHashpassword();
                 // If the user object is empty, the user is invalid
                 if (tfUser.equals(new TfUser())) {
-                    return Response.status(400).build();
+                    //return Response.status(400).build();
                 } else if (PasswordStorage.verifyPassword(password, hashedPassword)) {
                     TfRole tfRole = tfUser.getTfRole();
                     userjson = new UserJSON();
@@ -134,7 +112,7 @@ public class UserResource {
                             userjson.setToken(this.jwtService.createToken(tfUserName));
                             session.flush();
                             tx.commit();
-                            return Response.status(200).entity(userjson).build();
+                            //return Response.status(200).entity(userjson).build();
                         }
                     }
                 }
@@ -148,14 +126,7 @@ public class UserResource {
         } finally {
             session.close();
         }
-        // Default return is 400 for a bad request
-        return Response.status(400).build();
-    }
-
-    @GET
-    @Path("/test")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String testM() {
-        return "This is a test";
+        return userjson;
+        //return Response.status(400).build();
     }
 }

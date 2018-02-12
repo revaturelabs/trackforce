@@ -26,4 +26,23 @@ public interface ClientDao {
 	 */
 	TfClient getClient(String name) throws IOException;
 	TfClient getClient(int id) throws IOException;
+	
+	/**
+	 * gets a ClientInfo object from the cache whose key matches id
+	 * 
+	 * @param id
+	 * 		-int: the client id of the requested client
+	 * @return
+	 * 		-ClientInfo object
+	 */
+	public ClientInfo getClientFromCache(int id);
+	
+	/**
+	 * Gets a map of all clients from the cache
+	 * 
+	 * @return
+	 * 		Map<Integer, ClientInfo>
+	 */
+	public Map<Integer, ClientInfo> getAllClientsFromCache();
+	
 }

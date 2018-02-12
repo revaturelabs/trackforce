@@ -62,10 +62,10 @@ public class AssociateResource {
 	 * @return Response - 200 status if successful
 	 * @throws IOException
 	 */
-	@PUT
+	//@PUT
 	public Response updateAssociates(
-			Integer marketingStatusIdStr,
-			Integer clientIdStr,
+			@QueryParam("marketingStatusId") Integer marketingStatusIdStr,
+			@QueryParam("clientId") Integer clientIdStr,
 			Integer[] ids) {
 		// marketing status & client id are given as query parameters, ids sent in body
 		service.updateAssociates(ids, marketingStatusIdStr, clientIdStr);
@@ -86,16 +86,16 @@ public class AssociateResource {
 		return Response.ok(associateinfo).build();
 	}
 	
-//	/**
-//	 * Update the marketing status or client of an associate
-//	 * 
-//	 * @param id - The ID of the associate to change
-//	 * @param marketingStatusId - What to change the associate's marketing status to
-//	 * @param clientId - What client to change the associate to
-//	 * @return
-//	 * @throws NumberFormatException 
-//	 * @throws IOException
-//	 */
+	/**
+	 * Update the marketing status or client of an associate
+	 * 
+	 * @param id - The ID of the associate to change
+	 * @param marketingStatusId - What to change the associate's marketing status to
+	 * @param clientId - What client to change the associate to
+	 * @return
+	 * @throws NumberFormatException 
+	 * @throws IOException
+	 */
 //	@PUT
 //	@Path("{associateId}")
 //	public Response updateAssociate(

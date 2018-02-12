@@ -71,7 +71,7 @@ public class PersistentStorage {
 	}
 
 	//added method to actually get values from the cache
-	public ClientInfo getClient(BigDecimal id) {
+	public ClientInfo getClient(Integer id) {
 		return clients.get(id);
 	}
 		

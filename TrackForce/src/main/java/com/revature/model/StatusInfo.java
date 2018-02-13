@@ -7,9 +7,6 @@ import java.io.Serializable;
  */
 public class StatusInfo implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5362503104883791588L;
 	public static final int MAPPED_TRAINING = 1;
 	public static final int MAPPED_RESERVED = 2;

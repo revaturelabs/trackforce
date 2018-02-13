@@ -1,7 +1,6 @@
 package com.revature.resources;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,7 +11,6 @@ import javax.ws.rs.core.Response;
 
 import org.hibernate.HibernateException;
 
-import com.revature.model.CurriculumInfo;
 import com.revature.services.CurriculumService;
 
 @Path("skillset")
@@ -28,7 +26,6 @@ public class CurriculumResource {
 	
     @GET
 	public Response getAllCurriculums() throws HibernateException, IOException{
-		Map<Integer, CurriculumInfo> curriculums = service.getCurriculums();
-		return Response.ok(curriculums).build();
+		return Response.ok(service.getCurriculums()).build();
 	}
 }

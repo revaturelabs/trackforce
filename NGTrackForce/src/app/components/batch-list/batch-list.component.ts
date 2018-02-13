@@ -24,8 +24,8 @@ import {Color} from 'ng2-charts';
 export class BatchListComponent implements OnInit {
 
   pieChartType = 'pie';
-  startDate: Date;
-  endDate: Date;
+  startDate: Date = new Date();
+  endDate: Date = new Date();
   batches: Batch[];
   curriculumNames: string[];
   curriculumCounts: number[];
@@ -47,6 +47,9 @@ export class BatchListComponent implements OnInit {
    * load default batches on initialization
    */
   ngOnInit() {
+    // set default dates displayed on page
+    this.startDate.setMonth(new Date().getMonth() - 3);
+    this.endDate.setMonth(new Date().getMonth() + 3);
     const startTime = Date.now();
     this.dataReady = false;
     this.batchService.getDefaultBatches().subscribe(

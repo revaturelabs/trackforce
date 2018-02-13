@@ -12,8 +12,6 @@ public class ServiceLookup {
 				return new ClientService();
 			case "CURRICULUM":
 				return new CurriculumService();
-			case "MARKETING":
-				return new MarketingStatusService();
 			default:
 				return null;
 		}

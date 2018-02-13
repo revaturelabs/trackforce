@@ -160,7 +160,6 @@ public class AssociateDaoHibernate implements AssociateDao {
 	    		AssociateInfo.appendToMap(tfa.getTfMarketingStatus());
 	    	}
 	    	return map;
-
     }
     /**
      * Retrieves all associate records from the database and places them into the cache

@@ -22,7 +22,8 @@ export class BatchService {
    * @returns {Observable<Batch[]>}
    */
   public getBatchesByDate(startDate: Date, endDate: Date): Observable<Batch[]> {
-    const url = environment.url + this.batchPath+ `?start=${startDate.getTime()}&end=${endDate.getTime()}`;
+    //const url = environment.url + this.batchPath+ `?start=${startDate.getTime()}&end=${endDate.getTime()}`;
+    const url = environment.url + this.batchPath;
     return this.http.get<Batch[]>(url, {withCredentials: true});
   }
 
@@ -59,10 +60,6 @@ export class BatchService {
 
   public getBatchesSortedByDate(): Observable<any> {
     return this.http.get(this.batchPath + '?sorted=date');
-  }
-
-  public getBatches(threeMonthsBefore: number, threeMonthsAfter: number): Observable<any> {
-    return this.http.get<any>(this.batchPath + '?start=' + threeMonthsBefore + '&end=' + threeMonthsAfter);
   }
 
   public getBatchByType(threeMonthsBefore: number, threeMonthsAfter: number, type: string): Observable<any> {

@@ -12,9 +12,9 @@ export class Client {
     name: string
     tfClientName: string;
     placements: Placement[];
-    assicates: Associate[];
+    associates: Associate[];
     interviews: Interview[];
-    statusInfo: StatusInfo;
+    stats: StatusInfo;
 
     constructor(){
     }

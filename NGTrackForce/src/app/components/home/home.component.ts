@@ -3,6 +3,7 @@ import { RequestService } from '../../services/request-service/request.service';
 import { DataSyncService } from '../../services/datasync-service/data-sync.service';
 import { ChartsModule, Color } from 'ng2-charts';
 import { UserService } from '../../services/user-service/user.service';
+import { AssociateService } from '../../services/associate-service/associate.service';
 import { ClientService } from '../../services/client-service/client.service';
 import { BatchService } from '../../services/batch-service/batch.service';
 
@@ -22,7 +23,7 @@ const MONTHS_3 = 788923800;
 })
 
 export class HomeComponent {
-  private batches: any;
+  private associates: any;
 
   /**
  * http://usejsdoc.org/
@@ -84,7 +85,8 @@ export class HomeComponent {
     private rout: Router,
     private us: UserService,
     private cs: ClientService,
-    private bs: BatchService
+    private bs: BatchService,
+    private as: AssociateService
   ) { }
 
   ngOnInit() {
@@ -92,7 +94,35 @@ export class HomeComponent {
   }
 
   load() {
-    this.rs.getTotals().subscribe(response => {
+    this.as.getAllAssociates().subscribe(response => {
+      this.associates = response;
+      let trainingMapped = 0;
+      let trainingUnmapped = 0;
+      let reservedMapped = 0;
+      let openUnmapped = 0;
+      let selectedMapped = 0;
+      let selectedUnmapped = 0;
+      let confirmedMapped = 0;
+      let confirmedUnmapped = 0;
+      let deployedMapped = 0;
+      let deployedUnmapped = 0;
+      for (let i=0;i<this.associates.length;i++) {
+        // iterate over associates and aggregate totals
+        let associate = this.associates[i];
+        let stats = associate.msid;
+        switch(stats) {
+          case 1: trainingMapped++; break;
+          case 2: reservedMapped++; break;
+          case 3: selectedMapped++; break;
+          case 4: confirmedMapped++; break;
+          case 5: deployedMapped++; break;
+          case 6: trainingUnmapped++; break;
+          case 7: openUnmapped++; break;
+          case 8: selectedUnmapped++; break;
+          case 9: confirmedUnmapped++; break;
+          case 10: deployedUnmapped++; break;
+        }
+      }
       /**
        * @member {Array} UndeployedData
        * @description UndeployedData is an array used to populate the
@@ -100,14 +130,10 @@ export class HomeComponent {
        * the mapped number is the sum of all mapped associates, the unmapped number
        * is the sum of all unmapped associates.
        */
-      let undeployedArr: number[] = [response.trainingMapped
-        + response.reservedMapped
-        + response.selectedMapped
-        + response.confirmedMapped,
-      response.trainingUnmapped
-      + response.openUnmapped
-      + response.selectedUnmapped
-      + response.confirmedUnmapped];
+      let undeployedArr: number[] = [trainingMapped
+        + reservedMapped + selectedMapped + confirmedMapped,
+      trainingUnmapped + openUnmapped + selectedUnmapped + confirmedUnmapped];
+
       this.undeployedData = undeployedArr;
 
       /**
@@ -120,10 +146,8 @@ export class HomeComponent {
        * selected mapped <br>
        * confirmed mapped<br>
        */
-      let mappedArr: number[] = [response.trainingMapped,
-      response.reservedMapped,
-      response.selectedMapped,
-      response.confirmedMapped];
+      let mappedArr: number[] = [trainingMapped, reservedMapped, selectedMapped, confirmedMapped];
+
       this.mappedData = mappedArr;
 
       /**
@@ -136,10 +160,8 @@ export class HomeComponent {
        * selected unmapped <br>
        * confirmed unmapped<br>
        */
-      let unmappedArr: number[] = [response.trainingUnmapped,
-      response.openUnmapped,
-      response.selectedUnmapped,
-      response.confirmedUnmapped];
+      let unmappedArr: number[] = [trainingUnmapped, openUnmapped, selectedUnmapped, confirmedUnmapped];
+
       this.unmappedData = unmappedArr;
 
       /**
@@ -149,8 +171,8 @@ export class HomeComponent {
        * the mapped number is the sum of all mapped associates, the unmapped number
        * is the sum of all unmapped associates. Both numbers contain only deployed associates.
        */
-      let deployedArr = [response.deployedMapped,
-      response.deployedUnmapped];
+      let deployedArr = [deployedMapped, deployedUnmapped];
+
       this.deployedData = deployedArr;
     });
   }
@@ -233,53 +255,6 @@ export class HomeComponent {
   getUsername() {
     this.us.getUsername().subscribe(response => {
       this.username = response.data;
-    });
-  };
-
-  /**
-   * @function defaultBatches
-   * @description This function will return a JavaScript object that contains
-   * 				all the batches between a 6 month period used in the batch list
-   * 				page. We declare and initiate it in the index to preload this
-   * 				information to reduce loading on batch list page
-   */
-  defaultBatches() {
-    this.bs.getBatches(this.threeMonthsBefore(), this.threeMonthsAfter()).subscribe(response => {
-      // try to get rid of this variable
-      // fetched data should be fetched, not stored
-      this.batches = response.data;
-    }, (err) => {
-      console.log(err);
-      console.log('Error in doing http request')
-    });
-  }
-
-  /**
-   * @function getCountPerBatchTypeDefault
-   * @description This function will return a JavaScript object that contains
-   * 				amount of associates per batch type(skillset) within a 6 month
-   * 				period to populate graph in batch list
-   */
-  getCountPerBatchTypeDefault() {
-    this.bs.getBatchByType(this.threeMonthsBefore(), this.threeMonthsAfter(),'all').subscribe(response => {
-      // this callback will be called asynchronously
-      // when the response is available
-      this.labels = [];
-      this.data = [];
-      let amountType = response.data;
-      for (let i = 0; i < amountType.length; i++) {
-        this.labels.push(amountType[i].curriculum);
-        this.data.push(amountType[i].value);
-      }
-
-        this.options = ChartOptions.createOptionsLegend('right');
-      }, () => {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      this.amountType = {
-        "JTA_SDET": "2",
-        ".NET": "3"
-      }
     });
   }
 

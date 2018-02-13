@@ -21,18 +21,25 @@ Feature: Client List Tab
   I want to use this template for my feature file
 
   @tag1
-  Scenario: I search for a client
-    Given I am on the Client List Tab 
-    When I click on the Search by Client Name box
-    And Enter some valid client name
-    Then I should see only that client name in the list
+  Scenario outline: I search by client name and view their data
+    Given I click on Client List Tab
+    And Client List loads
+    And Search bar is blank
+    When I type the name of a client into the search bar
+    And I see only that client in the list
+    And I click the top client in the Clients list
+    Then The client's data should show in the graph
     
-  Scenario: I click on View Data for All Clients
-    Given I am on the Client List Tab 
+  Scenario outline: I use the View Data for All Clients button
+    Given I click on Client List Tab
+    And Client List loads
+    And Search bar is blank
     When I click on the View Data for All Clients button
-    Then I should see Total Associates at the top of the bar graph
+    Then All clients' data should show in the graph
     
-  Scenario: I click on View Data for All Clients
-    Given I am on the Client List Tab 
-    When I click on a client in the Client List
-    Then I should see that client name at the top of the bar graph
+  Scenario outline: I click on 
+    Given I click on Client List Tab
+    And Client List loads
+    And Search bar is blank
+    When I click the top client in the Clients list
+    Then The client's data should show in the graph

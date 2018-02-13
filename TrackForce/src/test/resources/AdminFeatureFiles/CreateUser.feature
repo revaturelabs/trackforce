@@ -22,7 +22,29 @@ Feature: Create User tab for Admin
   TaskForce Create User tab scenario outlines
 
   @tag1
-  Scenario Outline: Check if in Locations Tab for trainer
-    Given The Locations Tab is selected <webdriver>
-    Then I should see the Revature HQ drop down <webdriver>
-    And New York City drop down <webdriver>
+  Scenario Outline: Create new admin
+    Given I click on Create User Tab
+		And Create User Tab loads
+		When I type in a username
+		And I type in a password
+		And I confirm the password
+		And I check the Administrator role
+		Then I press submit
+		
+		Scenario Outline: Create new manager
+		Given I click on Create User Tab
+		And Create User Tab loads
+		When I type in a username
+		And I type in a password
+		And I confirm the password
+		And I check the Manager role
+		Then I press submit
+		
+		Scenario Outline: Create new VP
+		Given I click on Create User Tab
+		And Create User Tab loads
+		When I type in a username
+		And I type in a password
+		And I confirm the password
+		And I check the VP role
+		Then I press submit

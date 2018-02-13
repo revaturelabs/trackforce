@@ -12,29 +12,19 @@ import com.revature.test.admin.cukes.CreateUserCukes;
 public class CreateUserTest extends AdminSuite {
 
 	@BeforeTest
+	// Clicks Create user Tab and checks the URL
 	public void beforeTest() {
 		System.out.println("Running Create User Tab Tests");
 		try {
-
+			assertTrue(CreateUserCukes.clickCreateUserTab(wd));
+			assertTrue(CreateUserCukes.onCreateUserTab(wd));
 		} catch (Throwable e) {
-			fail("Create User Tab not found or could not be clicked");
+			fail("Error: Failed to navigate to Create User tab");
 			e.printStackTrace();
 		}
 	}
 
 	@Test(priority = 1)
-	// Clicks Create user Tab and looks for the "Create New User" element
-	public void GoToCreateUserTab() {
-		try {
-			assertTrue(CreateUserCukes.clickCreateUserTab(wd));
-			assertTrue(CreateUserCukes.onCreateUserTab(wd));
-		} catch (Throwable e) {
-			fail("Error: Failed to switch to Create User Tab");
-			e.printStackTrace();
-		}
-	}
-	
-	@Test(priority = 2)
 	// Fills in username, password, selects radio button, and submits
 	public void CreateAdmin() {
 		try {
@@ -48,7 +38,7 @@ public class CreateUserTest extends AdminSuite {
 		}
 	}
 	
-	@Test(priority = 3)
+	@Test(priority = 2)
 	// Fills in username, password, selects radio button, and submits
 	public void CreateManager() {
 		try {
@@ -62,7 +52,7 @@ public class CreateUserTest extends AdminSuite {
 		}
 	}
 	
-	@Test(priority = 4)
+	@Test(priority = 3)
 	// Fills in username, password, selects radio button, and submits
 	public void CreateVP() {
 		try {
@@ -75,7 +65,6 @@ public class CreateUserTest extends AdminSuite {
 			e.printStackTrace();
 		}
 	}
-	
 	
 	@AfterTest
 	public void afterTest() {

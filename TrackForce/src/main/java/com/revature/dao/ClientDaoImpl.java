@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -85,8 +86,8 @@ public class ClientDaoImpl implements ClientDao {
 	 * 
 	 * @return Map<Integer, ClientInfo>
 	 */
-	public Map<Integer, ClientInfo> getAllClientsFromCache(){
-		return PersistentStorage.getStorage().getClientAsMap();
+	public Set<ClientInfo> getAllClientsFromCache(){
+		return PersistentStorage.getStorage().getClients();
 	}
 	
 	/**
@@ -110,5 +111,30 @@ public class ClientDaoImpl implements ClientDao {
 			}	
 		}
 		return map;
+	}
+	
+	public static Map<Integer, ClientInfo> createClientMap(List<TfClient> clients){
+		Map<Integer, ClientInfo> map = new HashMap<>();
+		for(TfClient client: clients) {
+			map.put(client.getTfClientId(), Dao2DoMapper.map(client));
+		}
+		return map;
+	}
+	
+	public static void cacheAllClients() {
+		try(Session session = HibernateUtil.getSession()){
+			List<TfClient> clients;
+			CriteriaBuilder cb = session.getCriteriaBuilder();
+			CriteriaQuery<TfClient> cq = cb.createQuery(TfClient.class);
+			Root<TfClient> from = cq.from(TfClient.class);
+			CriteriaQuery<TfClient> all = cq.select(from);
+			Query<TfClient> tq = session.createQuery(all);
+			clients = tq.getResultList();
+			Map<Integer, ClientInfo> map = new HashMap<>();
+			if(clients != null) {
+				map = createClientMap(clients);
+			}
+			PersistentStorage.getStorage().setClients(map);
+		}
 	}
 }

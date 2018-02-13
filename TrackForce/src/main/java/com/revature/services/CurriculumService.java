@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.ws.rs.core.Response;
 
 import org.hibernate.HibernateException;
-import org.hibernate.SessionFactory;
 
 import com.revature.dao.CurriculumDao;
 import com.revature.dao.CurriculumDaoImpl;
@@ -16,17 +15,14 @@ import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumInfo;
 import com.revature.model.CurriculumJSON;
-import com.revature.utils.HibernateUtil;
 import com.revature.utils.PersistentStorage;
 
 public class CurriculumService implements Service {
 
     private CurriculumDao curriculumDao;
-    private SessionFactory sessionFactory;
 
     public CurriculumService() {
         this.curriculumDao = new CurriculumDaoImpl();
-        this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     /**
@@ -36,7 +32,6 @@ public class CurriculumService implements Service {
      */
     public CurriculumService(CurriculumDao curriculumDao) {
         this.curriculumDao = curriculumDao;
-        this.sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     private Set<CurriculumInfo> getAllCurriculums() throws HibernateException, IOException{
@@ -121,15 +116,15 @@ public class CurriculumService implements Service {
 	}
 
 
-	public Map<Integer, CurriculumInfo> getCurriculums() throws HibernateException, IOException{
-		return curriculumDao.getAllCurriculums();
+	public Set<CurriculumInfo> getCurriculums() throws HibernateException, IOException{
+		return curriculumDao.getCurriculaFromCache();
 	}
 
 	@Override
 	public synchronized void execute() throws IOException {
 		Set<CurriculumInfo> ci = PersistentStorage.getStorage().getCurriculums();
 		if(ci == null || ci.isEmpty())
-			PersistentStorage.getStorage().setCurriculums(getCurriculums());
+			PersistentStorage.getStorage().setCurriculums(curriculumDao.getAllCurriculums());
 	}
 
 	@Override

@@ -1,16 +1,5 @@
 <div class="container">
     <div class="row">
-       <div class="col-sm-1"></div>
-      <div class="col-sm-4">
-        <div class="well">
-          <canvas baseChart id="pie" class="chart chart-pie" [data]="getUndeployedData()" [colors]="mappedColors" [chartType]="undeployedChartType" [labels]="undeployedLabels" [options]="undeployedOptions"></canvas>
-        </div>
-      </div>
-      <div class="col-sm-4">
-        <div class="well">
-          <canvas baseChart id="pie" class="chart chart-pie" [data]="getDeployedData()" [colors]="mappedColors" [chartType]="deployedChartType" [options]="deployedOptions" [labels]="deployedLabels"></canvas>
-        </div>
-      </div>
       <div class="col-sm-3">
         <button (click)="populateDB()"  class="btn btn-block">Populate Database</button>
         <button (click)="populateDBSF()" class="btn btn-block">Populate Static Salesforce</button>
@@ -19,14 +8,25 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-sm-1"></div>
-      <div class="col-sm-4">
-        <div class="well">
+      <div class="col-sm-6">
+        <div class="white">
+          <canvas baseChart id="pie" class="chart chart-pie" [data]="getUndeployedData()" [colors]="mappedColors" [chartType]="undeployedChartType" [labels]="undeployedLabels" [options]="undeployedOptions"></canvas>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="white">
+          <canvas baseChart id="pie" class="chart chart-pie" [data]="getDeployedData()" [colors]="mappedColors" [chartType]="deployedChartType" [options]="deployedOptions" [labels]="deployedLabels"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="white">
           <canvas baseChart id="pie" class="chart chart-pie" [data]="getMappedData()" [labels]="mappedLabels" [chartType]="mappedChartType" (chartClick)="mappedOnClick($event)" [colors]="clientColors" [options]="mappedOptions"></canvas>
         </div>
       </div>
-      <div class="col-sm-4">
-        <div class="well">
+      <div class="col-sm-6">
+        <div class="white">
           <canvas baseChart id="pie" class="chart chart-pie" [data]="getUnmappedData()" [labels]="unmappedLabels" [chartType]="unmappedChartType" [colors]="skillColors" [options]="unmappedOptions" (chartClick)="unmappedOnClick($event)"></canvas>
         </div>
       </div>

@@ -101,7 +101,6 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
         this.techs = techs;  //reference the techs that it owns
     } 
 
-
 	@Column(name = "TF_BATCH_NAME", length = 50)
 	public String getTfBatchName() {
 		return this.tfBatchName;

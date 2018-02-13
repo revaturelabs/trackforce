@@ -52,10 +52,10 @@ export class BatchListComponent implements OnInit {
     this.endDate.setMonth(new Date().getMonth() + 3);
     const startTime = Date.now();
     this.dataReady = false;
-    this.batchService.getAllBatches().subscribe(
+    this.batchService.getDefaultBatches().subscribe(
       (batches) => {
         this.batches = batches;
-        //this.updateCountPerCurriculum();
+        this.updateCountPerCurriculum();
         this.dataReady = true;
         const elapsed = Date.now() - startTime;
       },

@@ -1,0 +1,62 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <h3>Predictions</h3>
+      <form>
+        <div class="form-group">
+          <label for="startDate">Start Date</label>
+          <input class="form-control" type="date" [ngModel]="startDate | date:'yyyy-MM-dd'" (ngModelChange)="startDate = $event" id="startDate" name="startDate" [max]="endDate"/>
+        </div>
+        <div class="form-group">
+          <label for="startDate">End Date</label>
+          <input class="form-control" type="date" [ngModel]="endDate | date:'yyyy-MM-dd'" (ngModelChange)="endDate = $event" id="endDate" name="endDate" [min]="startDate"/>
+        </div>
+        <div class="form-group">
+          <label for="number">Number of Associates Needed</label>
+          <input type="number" name="number" min=0>
+        </div>
+        <div class="form-group">
+          <label>Filter By Technologies</label>
+          <div class="multiselect">
+            <div class="selectBox" (click)="toggleCheckboxes()">
+              <select>
+                <option>Select an option</option>
+              </select>
+              <div class="overSelect"></div>
+            </div>
+            <div id="checkboxes" *ngIf="expanded">
+              <div class="input-group" *ngFor="let tech of technologies; let i=index">
+                <label for="one"> &ensp;
+                <input type="checkbox" [(ngModel)]="tech.selected" [ngModelOptions]="{standalone: true}"/>
+                &ensp;{{tech.name}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="getPrediction()">Get Prediction</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <table class="table table-striped table-hover table-bordered" *ngIf="dataReady">
+        <thead>
+          <tr>
+            <th>Technology</th>
+            <th>Requested Associates</th>
+            <th>Number of Associates Available</th>
+            <th>Difference</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let object of results">
+            <td>{{object.technology}}</td>
+            <td>{{object.requested}}</td>
+            <td>{{object.available}}</td>
+            <td>{{object.requested - object.available}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

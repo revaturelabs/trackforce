@@ -15,11 +15,6 @@ import com.revature.utils.LogUtil;
 @XmlRootElement
 public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 
-	/**
-	 * 
-	 */
-
-
 	private static final long serialVersionUID = 6047227506797717614L;
 	
 	@XmlElement

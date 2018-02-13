@@ -27,6 +27,7 @@ public class PersistentStorage {
 	private Map<Integer, BatchInfo> batchesByDate = new HashMap<>();
 	private Map<Integer, ClientInfo> clients = new HashMap<>();
 	private Map<Integer, CurriculumInfo> curriculums = new HashMap<>();
+	private Map<Integer, TechInfo> techs = new HashMap<>();
 	private Map<Integer, MarketingStatusInfo> marketingStatuses = new HashMap<>();
 	private StatusInfo totalStats;
 
@@ -91,6 +92,18 @@ public class PersistentStorage {
 		return this.totalStats;
 	}
 
+	public Set<TechInfo> getTechs() {
+		return new TreeSet<TechInfo>(techs.values());
+	}
+
+	public void setTechs(Map<Integer, TechInfo> map) {
+		if (this.techs == null)
+			this.techs = map;
+		else {
+			this.techs.putAll(map);
+		}
+	}
+	
 	public Set<CurriculumInfo> getCurriculums() {
 		return new TreeSet<CurriculumInfo>(curriculums.values());
 	}
@@ -161,6 +174,10 @@ public class PersistentStorage {
 	public void evictCurriculums() {
 		this.curriculums.clear();
 	}
+	
+	public void evictTechs() {
+		this.techs.clear();
+	}
 
 	public void evictMarketingStatuses() {
 		this.marketingStatuses.clear();
@@ -185,6 +202,10 @@ public class PersistentStorage {
 	
 	public Map<Integer, CurriculumInfo> getCurriculumAsMap() {
 		return this.curriculums;
+	}
+	
+	public Map<Integer, TechInfo> getTechsAsMap() {
+		return this.techs;
 	}
 	
 	public Map<Integer, MarketingStatusInfo> getMarketingAsMap() {

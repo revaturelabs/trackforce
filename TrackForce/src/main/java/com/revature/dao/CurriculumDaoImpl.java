@@ -3,6 +3,7 @@ package com.revature.dao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -37,6 +38,14 @@ public class CurriculumDaoImpl implements CurriculumDao {
 			LogUtil.logger.error(e);
 		}
 		return curriculums;
+	}
+	
+	public Set<CurriculumInfo> getCurriculaFromCache(){
+		return PersistentStorage.getStorage().getCurriculums();
+	}
+	
+	public CurriculumInfo getCurriculaFromCacheByID(int id) {
+		return PersistentStorage.getStorage().getCurriculumAsMap().get(new Integer(id));
 	}
 	
 	public Map<Integer, CurriculumInfo> createCurriculaMap(List<TfCurriculum> curricula){

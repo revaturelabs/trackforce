@@ -2,9 +2,7 @@ package com.revature.services;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.hibernate.HibernateException;
 
@@ -51,26 +49,19 @@ public class ClientService implements Service {
      * @throws IOException
      */
     public Set<ClientInfo> getClients() throws IOException {
-    	Set<ClientInfo> clientSet = new TreeSet<>();
-    	Map<Integer, ClientInfo> clients;
     	try {
-    		clients = clientDao.getAllClientsFromCache();
-    		for(ClientInfo client: clients.values()) clientSet.add(client);
+    		return clientDao.getAllClientsFromCache();
         } catch (Exception e) {
             throw new IOException("could not get clients", e);
         }
-    	
-    	return clientSet;
     }
     
-    public Set<ClientInfo> getClientByID(int id) throws IOException{
-    	Set<ClientInfo> client = new TreeSet<>();
+    public ClientInfo getClientByID(int id) throws IOException{
     	try {
-    		client.add(clientDao.getClientFromCache(id));
+    		return clientDao.getClientFromCache(id);
     	} catch (Exception e) {
     		throw new IOException("could not get client by ID", e);
     	}
-    	return client;
     }
     
 //Replaced by getClientByID and getClientByName for versatility

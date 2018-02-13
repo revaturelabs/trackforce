@@ -24,7 +24,7 @@ public class TfTech implements java.io.Serializable {
 	private static final long serialVersionUID = 2820002004770324793L;
 	private int tfTechId;
 	private String tfTechName;
-	private Set<TfBatch> batches = new HashSet<TfBatch>(); //used for refference with manytomany
+	private Set<TfBatch> batches; //used for refference with manytomany
 	
 	
 	public TfTech() {
@@ -48,7 +48,7 @@ public class TfTech implements java.io.Serializable {
 	}
 	
 	
-	@Column
+	@Column(name = "TF_TECH_NAME", length = 30)
 	public String getTechName() {
 		return this.tfTechName;
 	}
@@ -57,13 +57,12 @@ public class TfTech implements java.io.Serializable {
 		this.tfTechName = tfTechName;
 	}
 	
-	
+	//@ManyToMany(fetch = FetchType.LAZY, targetEntity=TfBatch.class ,mappedBy="techs")
 	public Set<TfBatch> getBatch() {
 		return this.batches;
 	}
 	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy="techs")
-	public void setBatch(HashSet<TfBatch> batches) {
+	public void setBatch(Set<TfBatch> batches) {
 			this.batches = batches;
 	}
 }

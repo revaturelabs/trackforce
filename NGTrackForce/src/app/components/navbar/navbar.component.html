@@ -1,7 +1,9 @@
 <nav class="navbar navbar-default custom-nav">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand"><img src="../../../assets/logo.png" height="35" width="100"></a>
+      <a class="navbar-brand">
+        <img src="../../../assets/logo.png" height="52" width="152">
+      </a>
     </div>
     <ul class="nav navbar-nav">
       <li><a *ngIf="isAssociate" routerLink="/associate-view/{{associate.id}}" routerLinkActive="active">Home</a></li>
@@ -12,7 +14,7 @@
       <li><a *ngIf="isAdmin" routerLink="/create-user" routerLinkActive="active">Create User</a></li>
       <li><a routerLink="/login" (click)="logout()">Logout</a></li>
     </ul>
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right visible-lg">
       <li><a>Welcome, {{user.username}}</a></li>
     </ul>
   </div>

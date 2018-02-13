@@ -7,6 +7,12 @@
 	margin-top: 20px;
 }
 
+#clients-list-well {
+	margin-top: 20px;
+	padding-top: 0px;
+	max-height: 500px;
+}
+
 li{
 	padding: 5px;
 	margin-top: 0px;
@@ -16,11 +22,6 @@ ul{
 	margin-top: 0px;
 	padding: 0;
 	list-style-type: none;
-}
-
-.well{
-	margin-top: 20px;
-	padding-top: 0px;
 }
 
 .client-name{

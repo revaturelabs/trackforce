@@ -42,7 +42,7 @@ public class BaseTest {
         MarketingStatusService marketingStatusService = new MarketingStatusService(new MarketingStatusDaoHibernate(), sessionFactory);
 
         //PersistentStorage.getStorage().setAssociates(associateService.getAssociates());
-        PersistentStorage.getStorage().setClients(clientResource.getClients());
+        //PersistentStorage.getStorage().setClients(clientResource.getClients());
         PersistentStorage.getStorage().setMarketingStatuses(marketingStatusService.getMarketingStatuses());
     }
 
@@ -67,7 +67,7 @@ public class BaseTest {
             mockMsService = new MarketingStatusService();
 
         //PersistentStorage.getStorage().setAssociates(mockAssocService.getAssociates());
-        PersistentStorage.getStorage().setClients(mockClientResource.getClients());
+        //PersistentStorage.getStorage().setClients(mockClientResource.getClients());
         PersistentStorage.getStorage().setMarketingStatuses(mockMsService.getMarketingStatuses());
     }
 }

@@ -42,11 +42,6 @@ public class PersistentStorage {
 	public Set<AssociateInfo> getAssociates() {
 		return new TreeSet<AssociateInfo>(associates.values());
 	}
-	
-	//added method to actually get values from the cache
-	public AssociateInfo getAssociate(Integer id) {
-		return associates.get(id);
-	}
 
 	public void setAssociates(Map<Integer, AssociateInfo> associates) {
 		if (this.associates == null)
@@ -57,6 +52,9 @@ public class PersistentStorage {
 		this.totalStats = AssociateInfo.getTotals();
 	}
 
+	public BatchInfo getBatch(Integer id) {
+		return batches.get(id);
+	}
 	public TreeSet<BatchInfo> getBatches() {
 		return new TreeSet<BatchInfo>(batches.values());
 	}
@@ -68,11 +66,6 @@ public class PersistentStorage {
 			this.batches.putAll(batches);
 		}
 		setBatchesByDate(this.batches);
-	}
-
-	//added method to actually get values from the cache
-	public ClientInfo getClient(Integer id) {
-		return clients.get(id);
 	}
 		
 	public Set<ClientInfo> getClients() {

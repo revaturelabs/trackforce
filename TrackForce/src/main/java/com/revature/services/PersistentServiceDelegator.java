@@ -202,16 +202,9 @@ public class PersistentServiceDelegator {
         return set;
     }
 
-    @GET
-    @Path("/get/marketing/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Collection<MarketingStatusInfo> getMarketingStatuses() throws IOException {
-        // execute the update
-        service = lookupService.getService("marketing");
-        Collection<MarketingStatusInfo> set = service.read();
-
-        // notify client of the response
-        return set;
+    public void getMarketingStatuses() throws IOException {
+        // update cache
+    	new MarketingStatusService().updateCache();
     }
 
     private class PersistenceHelperWorker extends Thread {

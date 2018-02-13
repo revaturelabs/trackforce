@@ -33,10 +33,6 @@ export class RequestService {
     return this.http.delete(this.trackPath + 'database/deleteFromDB');
   }
 
-  public getTotals(): Observable<any> {
-    return this.http.get(this.trackPath + 'summary');
-  }
-
   public getStatuses(): Observable<any> {
     return this.http.get(this.trackPath + 'marketing');
   }

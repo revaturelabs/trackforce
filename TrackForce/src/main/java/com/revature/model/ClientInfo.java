@@ -9,9 +9,6 @@ import com.revature.utils.LogUtil;
 
 public class ClientInfo  implements Serializable, Comparable<ClientInfo> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1718849365915804177L;
 	private Integer id;
 	private String tfClientName;

@@ -57,7 +57,7 @@ public class TfTech implements java.io.Serializable {
 		this.tfTechName = tfTechName;
 	}
 	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "TF_TECH")
+	//@ManyToMany(fetch = FetchType.LAZY, targetEntity=TfBatch.class ,mappedBy="techs")
 	public Set<TfBatch> getBatch() {
 		return this.batches;
 	}

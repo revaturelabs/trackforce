@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -29,8 +28,6 @@ public class AssociateResource {
     public AssociateResource() {
         this.service = new AssociateService();
     }
-    
-  //Refactored methods to match proper RESTful WS procedures
     
     /**
 	 * Gets a list of all the associates, optionally filtered by a batch id. If an associate has no marketing status or

@@ -33,7 +33,7 @@
         <mapping class="com.revature.entity.TfBatch"/>
         <mapping class="com.revature.entity.TfInterview"/>
         <mapping class="com.revature.entity.TfClient"/>
-        <mapping class="com.revature.entity.TfTech"/>
+        <!-- <mapping class="com.revature.entity.TfTech"/>  -->
     
     </session-factory>
 </hibernate-configuration>

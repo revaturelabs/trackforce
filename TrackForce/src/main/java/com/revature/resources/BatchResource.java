@@ -1,7 +1,11 @@
 package com.revature.resources;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -39,8 +43,21 @@ public class BatchResource {
 	public Response getAllBatches(
 			@QueryParam("start") Long startDate,
 			@QueryParam("end") Long endDate) throws IOException {
-		List<BatchInfo> batches = service.getBatches(startDate, endDate);
-		return Response.ok(batches).build();
+		List<BatchInfo> batches;
+		Map<Integer, BatchInfo> batchMap = new HashMap<>();
+		Set<BatchInfo> batchesSet = new HashSet<>();
+		if (startDate != null && endDate != null) {
+			batches = service.getBatches(startDate, endDate);
+//			for (BatchInfo b : batches) {
+//				batchMap.put(b.getId(), b);
+//			}
+			return Response.ok(batches).build();
+		}
+		else {
+			//batchMap = service.getBatches();
+			batchesSet = service.getAllBatches();
+			return Response.ok(batchesSet).build();
+		}
 	}
 
 	/**

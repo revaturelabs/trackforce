@@ -52,7 +52,8 @@ public class AssociateDaoHibernate implements AssociateDao {
      *                        to.
      * @return 
      */
-	public void updateAssociates(AssociateInfo[] associates){
+	@Override
+	public void updateAssociates(List<AssociateInfo> associates){
 		Session session = null;
 		Transaction t = null;
 		List<TfAssociate> tfAssociateList = new ArrayList<TfAssociate>();
@@ -62,9 +63,9 @@ public class AssociateDaoHibernate implements AssociateDao {
 				TfAssociate tfAssociate = (TfAssociate) session.load(TfAssociate.class, associate.getId());
 				tfAssociateList.add(tfAssociate);
 			}
-				TfClient client = (TfClient) session.load(TfClient.class, associates[0].getClid());
-				TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, associates[0].getMsid());
-				TfBatch batch = (TfBatch) session.load(TfBatch.class, associates[0].getBid());
+				TfClient client = (TfClient) session.load(TfClient.class, associates.get(0).getClid());
+				TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, associates.get(0).getMsid());
+				TfBatch batch = (TfBatch) session.load(TfBatch.class, associates.get(0).getBid());
 			t = session.beginTransaction();
 			for(TfAssociate associate : tfAssociateList) {
 				associate.setTfClient(client);
@@ -81,8 +82,9 @@ public class AssociateDaoHibernate implements AssociateDao {
 			session.close();
 		}
 	}
+	
     @Override
-    public void updateAssociates(Integer[] ids, Integer marketingStatus, Integer clientid) {
+    public void updateAssociates(List<Integer> ids, Integer marketingStatus, Integer clientid) {
     	List<TfAssociate> associates = null;
     	Session session = null;
 		try{

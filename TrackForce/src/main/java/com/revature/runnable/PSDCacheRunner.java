@@ -42,7 +42,7 @@ public class PSDCacheRunner implements Runnable {
 	public void run() {
 		// Check if data used for caching is valid
 		if (hasValidFields()) {
-			delay();
+			//delay();
 			cache();
 		}
 	}
@@ -90,7 +90,7 @@ public class PSDCacheRunner implements Runnable {
 	            // perform caching          
 	            
 	            long startTime = System.nanoTime();         
-	            psd.getAssociates();
+	            AssociateDaoHibernate.cacheAllAssociates();
 	            long endTime = System.nanoTime();
 	            double elapsedTime = ((double)(endTime -startTime))/1000000000,total=elapsedTime;
 	            System.out.println("Associates caching time: "+elapsedTime+" seconds"); 

@@ -36,7 +36,8 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	private Timestamp tfBatchStartDate;
 	private Timestamp tfBatchEndDate;
 	private Set<TfAssociate> tfAssociates = new HashSet<TfAssociate>(0);
-	private Set<TfTech> techs = new HashSet<TfTech>(0);  //Batch owns these Technologies
+	//Commment this out for continuing pro
+	//private Set<TfTech> techs = new HashSet<TfTech>(0);  //Batch owns these Technologies
 
 	public TfBatch() {
 	}
@@ -87,17 +88,17 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	}
 	
 	
-	//ManyToMany
-	@ManyToMany(cascade=CascadeType.ALL)  
-    @JoinTable(name="TF_BATCH_JUNCTION", joinColumns=@JoinColumn(name="TF_BATCH_ID"), inverseJoinColumns=@JoinColumn(name="TF_TECH_ID"))  
-    public Set<TfTech> getTech()  
-    {  
-        return techs;  
-    }  
-    public void setTech(Set<TfTech> techs)  
-    {  
-        this.techs = techs;  //reference the techs that it owns
-    } 
+	//ManyToMany	
+//	@ManyToMany(cascade=CascadeType.ALL)  
+//	@JoinTable(name="TF_BATCH_JUNCTION", joinColumns= {@JoinColumn(name="TF_BATCH_ID")}, inverseJoinColumns= {@JoinColumn(name="TF_TECH_ID")})  
+//    public Set<TfTech> getTech()  
+//    {  
+//        return techs;  
+//    }  
+//    public void setTech(HashSet<TfTech> techs)  
+//    {  
+//        this.techs = techs;  //reference the techs that it owns
+//    } 
 
 
 	@Column(name = "TF_BATCH_NAME", length = 50)

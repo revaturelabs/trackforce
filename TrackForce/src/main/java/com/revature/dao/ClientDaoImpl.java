@@ -78,7 +78,7 @@ public class ClientDaoImpl implements ClientDao {
 	 *  @return ClientInfo
 	 */
 	public ClientInfo getClientFromCache(int id) {
-		return PersistentStorage.getStorage().getClient(id);
+		return PersistentStorage.getStorage().getClientAsMap().get(id);
 	}
 	
 	/**

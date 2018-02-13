@@ -36,7 +36,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 	@Override
     public AssociateInfo getAssociate(Integer id) {
        //created getAssociate to actually get data from the cache
-        return PersistentStorage.getStorage().getAssociate(id);
+        return PersistentStorage.getStorage().getAssociateAsMap().get(id);
         //want to write a method that gets from db if not in cache
         //then throw exception if not found in db
     }

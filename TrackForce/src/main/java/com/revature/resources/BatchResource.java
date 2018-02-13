@@ -35,12 +35,11 @@ public class BatchResource {
 	 * @return - Response with 200 status and a List<BatchInfo> in the response body
 	 */
 	@GET
-	@Path("swag")
 	public Response getAllBatches(
 			@DefaultValue("1510549200000") @QueryParam("start") Long startDate,
 			@DefaultValue("1527480000000") @QueryParam("end") Long endDate) {
-		return Response.status(200).entity(startDate).entity(endDate).build();
-		//return Response.ok(service.getBatches(startDate, endDate)).build();
+		//return Response.status(200).entity(startDate).entity(endDate).build();
+		return Response.ok(service.getBatches(startDate, endDate)).build();
 //		List<BatchInfo> batches;
 //		Map<Integer, BatchInfo> batchMap = new HashMap<>();
 //		Set<BatchInfo> batchesSet = new HashSet<>();
@@ -58,7 +57,7 @@ public class BatchResource {
 //		}
 	}
 
-	@GET
+	//@GET
 	public Response getAllBatches() {
 		return Response.ok(service.getAllBatches()).build();
 	}

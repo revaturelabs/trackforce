@@ -35,16 +35,21 @@ Feature: Batch List Scenarios
 		Then associates should match the associate list
 		
 	@tag3
-	Scenario: The From date arrow is clicked
-		Given the From arrow is clicked
-		Then a dropdown calendar should appear
+	Scenario: The From date is entered
+		Given the From date is entered
+		Then the field should not contain default values
 
 	@tag4
-	Scenario: The To date arrow is clicked
-		Given the To arrow is clicked
-		Then a dropdown calendar should appear				
+	Scenario: The To date is entered
+		Given the To date is entered
+		Then the field should not contain default values		
 		
 	@tag5
 	Scenario: Submit Batches Dates
 		Given the submit button is clicked
 		Then the batch list should update to show only the batches which fit the entered criteria	
+		
+	@tag6
+	Scenario: Reset Batches Dates
+		Given the reset button is clicked
+		Then the batch list should show all batches	

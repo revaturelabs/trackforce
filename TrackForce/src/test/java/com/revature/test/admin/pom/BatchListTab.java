@@ -128,7 +128,8 @@ public class BatchListTab {
 	}
 
 	public static WebElement clickFromDateArrow(WebDriver wd) {
-		return WaitToLoad.findDynamicElement(wd, By.id("startDate"), 10);
+		return WaitToLoad.findDynamicElement(wd, By.xpath("//*[@id=\"startDate\"]"), 10);
+		
 	}
 
 	public static WebElement clickToDateArrow(WebDriver wd) {

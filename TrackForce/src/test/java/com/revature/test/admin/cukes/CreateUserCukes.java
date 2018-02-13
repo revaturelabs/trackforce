@@ -1,6 +1,5 @@
 package com.revature.test.admin.cukes;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import cucumber.api.java.en.Given;
@@ -10,7 +9,6 @@ import cucumber.api.java.en.When;
 import com.revature.test.admin.pom.CreateUserTab;
 import com.revature.test.admin.testclasses.AdminSuite;
 import com.revature.test.utils.TestConfig;
-import com.revature.test.utils.WaitToLoad;
 
 public class CreateUserCukes extends AdminSuite {
 	static WebElement e = null;
@@ -18,8 +16,7 @@ public class CreateUserCukes extends AdminSuite {
 	private static String user = "username";
 	private static String pass = "password";
 	
-	
-	@Given("^We are on Create User Tab$")
+	@Given("^We click on Create User Tab$")
 	public static boolean clickCreateUserTab(WebDriver d) {
 		try {
 			//Thread.sleep(5000);
@@ -31,27 +28,21 @@ public class CreateUserCukes extends AdminSuite {
 		}
 	}
 
+	@Given("^Create User Tab loads$")
 	public static boolean onCreateUserTab(WebDriver d) {
 		try {
-			//Thread.sleep(2000);
-			if (CreateUserTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/createUser")){
+			if (CreateUserTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/create-user")){
 				return true;
 			}
-			//Check if page loaded the Create New User form
-			e = CreateUserTab.getCreateNewUserHeader(d);
-			if (e.getText().contains("Create New User")) {
-				return true;
-			}
-			System.out.println("Current URL does not end with /createUser");
-			System.out.println("Header did not contain 'Create New User'");
+			System.out.println("Current URL does not end with /create-user");
 			return false;
 		} catch (Throwable e) {
-			System.out.println("Failed to confirm current URL ends in /createUser");
-			System.out.println("Failed to find 'Create New User' element");
+			System.out.println("Failed to get current URL");
 			return false;
 		}
 	}
 	
+	@When("^I type in a username$")
 	public static boolean inputUsername(WebDriver d) {
 		try {
 			CreateUserTab.getUsername(d).sendKeys(user);
@@ -62,6 +53,7 @@ public class CreateUserCukes extends AdminSuite {
 		}
 	}
 	
+	@When("^I type in a password$")
 	public static boolean inputPassword(WebDriver d) {
 		try {
 			CreateUserTab.getPassword(d).sendKeys(pass);
@@ -72,6 +64,7 @@ public class CreateUserCukes extends AdminSuite {
 		}
 	}
 
+	@When("^I confirm the password$")
 	public static boolean inputPasswordConfirm(WebDriver d) {
 		try {
 			CreateUserTab.getPasswordConfirm(d).sendKeys(user);
@@ -82,6 +75,7 @@ public class CreateUserCukes extends AdminSuite {
 		}
 	}
 	
+	@When("^I check the Administrator role$")
 	public static boolean clickAdminRadio(WebDriver d) {
 		try {
 			CreateUserTab.getAdminRadio(d).click();
@@ -92,6 +86,7 @@ public class CreateUserCukes extends AdminSuite {
 		}
 	}
 	
+	@When("^I check the Manager role$")
 	public static boolean clickManagerRadio(WebDriver d) {
 		try {
 			CreateUserTab.getManagerRadio(d).click();
@@ -102,12 +97,24 @@ public class CreateUserCukes extends AdminSuite {
 		}
 	}
 	
+	@When("^I check the VP role$")
 	public static boolean clickVPRadio(WebDriver d) {
 		try {
 			CreateUserTab.getVPRadio(d).click();
 			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to click VP radio button");
+			return false;
+		}
+	}
+	
+	@Then("^I press submit$")
+	public static boolean submitForm(WebDriver d) {
+		try {
+			CreateUserTab.getSubmit(d).click();
+			return true;
+		} catch (Throwable e) {
+			System.out.println("Failed to click submit");
 			return false;
 		}
 	}

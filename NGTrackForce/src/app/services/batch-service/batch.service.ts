@@ -9,7 +9,7 @@ import {Associate} from '../../models/associate.model';
 
 @Injectable()
 export class BatchService {
-  private batchPath: string = "Trackforce/batches";
+  private batchPath: string = "TrackForce/batches";
 
   constructor(private http: HttpClient) {}
 
@@ -22,8 +22,17 @@ export class BatchService {
    * @returns {Observable<Batch[]>}
    */
   public getBatchesByDate(startDate: Date, endDate: Date): Observable<Batch[]> {
-    const url = environment.url + this.batchPath+ `?start=${startDate.getTime()}&end=${endDate.getTime()}`;
-    return this.http.get<Batch[]>(url, {withCredentials: true});
+    const url = environment.url + this.batchPath+ `/  swag?start=${startDate.getTime()}&end=${endDate.getTime()}`;
+    //const url = environment.url + this.batchPath + '/';
+    return this.http.get<Batch[]>(url);
+  }
+
+  /**
+   * 
+   */
+  public getAllBatches(): Observable<Batch[]> {
+    const url = environment.url + this.batchPath;
+    return this.http.get<Batch[]>(url);
   }
 
   /**
@@ -59,10 +68,6 @@ export class BatchService {
 
   public getBatchesSortedByDate(): Observable<any> {
     return this.http.get(this.batchPath + '?sorted=date');
-  }
-
-  public getBatches(threeMonthsBefore: number, threeMonthsAfter: number): Observable<any> {
-    return this.http.get<any>(this.batchPath + '?start=' + threeMonthsBefore + '&end=' + threeMonthsAfter);
   }
 
   public getBatchByType(threeMonthsBefore: number, threeMonthsAfter: number, type: string): Observable<any> {

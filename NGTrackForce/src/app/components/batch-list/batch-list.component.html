@@ -32,11 +32,12 @@
       <form>
         <div>
           <label for="startDate">From:</label>
-          <input type="date" [(ngModel)]="startDate" id="startDate" name="startDate" [max]="endDate"/>
+          <!-- You have to use ngModel AND ngModelChange for proper initialization!! -->
+          <input type="date" [ngModel]="startDate | date:'yyyy-MM-dd'" (ngModelChange)="startDate = $event" id="startDate" name="startDate" [max]="endDate"/>
         </div>
         <div>
           <label for="endDate">To:</label>
-          <input type="date" [(ngModel)]="endDate" id="endDate" name="startDate" [min]="startDate"/>
+          <input type="date" [ngModel]="endDate | date:'yyyy-MM-dd'" (ngModelChange)="endDate = $event" id="endDate" name="endDate" [min]="startDate"/>
         </div>
         <div>
           <input type="submit" class="btn btn-default" value="Submit" (click)="applySelectedRange()"/>

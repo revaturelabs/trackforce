@@ -44,7 +44,7 @@ public class PSDCacheRunner implements Runnable {
 	public void run() {
 		// Check if data used for caching is valid
 		if (hasValidFields()) {
-			delay();
+			//delay();
 			cache();
 		}
 	}
@@ -64,6 +64,7 @@ public class PSDCacheRunner implements Runnable {
 	/**
 	 * Delays caching process by specified interval [0, delayedStartTime]
 	 */
+	@SuppressWarnings("unused")
 	private void delay() {
 		long current = System.currentTimeMillis();
 		long start = delayedStartTime + current;
@@ -98,7 +99,7 @@ public class PSDCacheRunner implements Runnable {
 	            System.out.println("Associates caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
-	            psd.getBatches();
+	            BatchDaoHibernate.cacheAllBatches();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000; total+=elapsedTime;
 	            System.out.println("Batches caching time: "+elapsedTime+" seconds");

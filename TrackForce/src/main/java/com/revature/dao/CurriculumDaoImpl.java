@@ -31,8 +31,7 @@ public class CurriculumDaoImpl implements CurriculumDao {
 			CriteriaQuery<TfCurriculum> all = cq.select(from);
 			Query<TfCurriculum> tq = session.createQuery(all);
 
-			createCurriculaMap(tq.getResultList());
-			return curriculums;
+			return createCurriculaMap(tq.getResultList());
 		} catch(Exception e) {
 			e.printStackTrace();
 			LogUtil.logger.error(e);

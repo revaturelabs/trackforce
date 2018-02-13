@@ -70,4 +70,8 @@ public class BatchResource {
 		BatchInfo batch = service.getBatchById(id);
 		return Response.ok(batch).build();
 	}
+	
+//	@GET
+//	@Path("test")
+//	public Response 
 }

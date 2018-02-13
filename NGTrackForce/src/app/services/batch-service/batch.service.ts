@@ -22,7 +22,7 @@ export class BatchService {
    * @returns {Observable<Batch[]>}
    */
   public getBatchesByDate(startDate: Date, endDate: Date): Observable<Batch[]> {
-    const url = environment.url + this.batchPath+ `/  swag?start=${startDate.getTime()}&end=${endDate.getTime()}`;
+    const url = environment.url + this.batchPath+ `?start=${startDate.getTime()}&end=${endDate.getTime()}`;
     //const url = environment.url + this.batchPath + '/';
     return this.http.get<Batch[]>(url);
   }

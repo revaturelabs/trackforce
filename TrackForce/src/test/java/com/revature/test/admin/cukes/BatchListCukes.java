@@ -25,6 +25,7 @@ public class BatchListCukes {
 	public static boolean the_Batch_List_Tab_is_clicked(WebDriver wd) throws Throwable {
 
 		try {
+			// Navigates to the Batch List tab and verifies the url is correct
 			BatchListTab.clickBatchListTab(wd).click();
 			if (BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-listing")) {
 				return true;
@@ -61,6 +62,7 @@ public class BatchListCukes {
 			System.out.println("Failed to find first batch name");
 		}
 		try {
+			// Click the first batch information
 			BatchListTab.getFirstBatchName(wd).click();
 		} catch (Throwable e) {
 			System.out.println("Failed to click first batch name");

@@ -13,32 +13,18 @@ public class AssociateListTab {
 	static WebElement element = null;
 
 	// Associate List tab on navbar
-	public static boolean tab(WebDriver d) {
-
-		try {                                                       
+	public static WebElement tab(WebDriver d) {
+                                                   
 			element = WaitToLoad.findDynamicElement(d, By.xpath("/html/body/app/app-root/div/app-navbar/nav/div/ul[1]/li[5]/a "), 10);
-			element.click();                                     
-			System.out.println("Clicked Associate List tab"); 
-			return true;
-		} catch (Throwable e) {
-			System.out.println("Failed to click Associate List tab");
-			return false;
-		}
+			return element;
 	}
 
 	// ********************TEXT FIELDS ************************
 
 	// Search By Text input field
-	public static boolean searchByTextInputField(WebDriver d) {
-		try {
+	public static WebElement searchByTextInputField(WebDriver d) { //*[@id="name"]
 			element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"name\"]"), 10);
-			element.sendKeys("Test Name");
-			System.out.println("Input value in Search By text input field");
-			return true;
-		} catch (Throwable e) {
-			System.out.println("Failed to Input value in Search By text input field");
-			return false;
-		}
+			return element;
 	}
 
 	// *************DROP DOWNS ****************************
@@ -142,96 +128,66 @@ public class AssociateListTab {
 
 	// ****************SORT COMPONENTS ******************************
 
-	public static boolean sortByAssociateId(WebDriver d) {
-		try {
+	public static WebElement sortByAssociateId(WebDriver d) {
+		
 		element = WaitToLoad                      
 				.findDynamicElement(d, By.xpath("//*[@id=\"info\"]/table/thead/tr/th[2]"), 10);
-		System.out.println("Clicked sort by associate id");
-		element.click();
-		return true;
-		}catch(Throwable e) {
-			System.out.println("Failed to click sort by associate id");
-			return false;
-		}
+		return element;
 	}
 
-	public static boolean sortByFirstName(WebDriver d) {
+	public static WebElement sortByFirstName(WebDriver d) {
 		
-		try {
 		element = WaitToLoad                      
 				.findDynamicElement(d, By.xpath( "//*[@id=\"info\"]/table/thead/tr/th[3]"), 10);
-		element.click();
-		System.out.println("Clicked first name heading");
-		return true;
-		}catch(Throwable e) {
-			System.out.println("Failed to click first name heading");
-			return false;
-		}
+		return element;
 	}
 
-	public static boolean sortByLastName(WebDriver d) {
-		try {
+	public static WebElement sortByLastName(WebDriver d) {
 		element = WaitToLoad                      
 				.findDynamicElement(d, By.xpath("//*[@id=\"info\"]/table/thead/tr/th[4]"), 10);
-		element.click();
-		System.out.println("Clicked last name heading");
-		return true;
-		}catch(Throwable e) {
-			System.out.println("Failed to click last name heading");
-			return false;
-		}
+		return element;
 	}
 
-	public static boolean sortByMarketingStatus(WebDriver d) {
-		try {
+	public static WebElement sortByMarketingStatus(WebDriver d) {
 		element = WaitToLoad
 				.findDynamicElement(d, By.xpath("//*[@id=\"info\"]/table/thead/tr/th[5]"), 10);
-		element.click();
-		System.out.println("Clicked marketing status");
-		return true;
-		}catch(Throwable e) {
-			System.out.println("Failed to click marketing status");
-			return false;
-		}
+		return element;
 	}
 
 
-	public static boolean sortByClient(WebDriver d) {
-		try {
+	public static WebElement sortByClient(WebDriver d) {
+	
 		element = WaitToLoad
 				.findDynamicElement(d, By.xpath("//*[@id=\"info\"]/table/thead/tr/th[6]"), 10);
-		System.out.println("Clicked client name heading");
-		element.click();            
-		return true;
-		}catch(Throwable e) {
-			System.out.println("Failed to click client name heading");
-			return false;
-		}
+		
+		return element;       
 	}
 
-	public static boolean sortByBatch(WebDriver d) {
-		try {
+	public static WebElement sortByBatch(WebDriver d) {
+		
 		element = WaitToLoad
 				.findDynamicElement(d, By.xpath("//*[@id=\"info\"]/table/thead/tr/th[7]"), 10);
-		element.click();                
-		System.out.println("Clicked batch name heading");
-		return true;
-		}catch(Throwable e) {
-			System.out.println("Failed to click batch name heading");
-			return false;
-		}
+		return element;               
 	}
 	
-	//**************** TABLE CELL VALUE
+	//**************** TABLE CELL VALUE *****************************************
 	public static String associateIdValue(WebDriver d) {
 		String val = null;
 		element = d.findElement(By.xpath("//*[@id=\"info\"]/table/tbody/tr[1]/td[2]/a "));
 		val = element.getAttribute("value");
 	
 		return val;
-	}                                   
+	}       
 	
+	public static String curriculumValue(WebDriver d) {
+		String val = null;
+		element = d.findElement(By.xpath(" "));
+		val = element.getAttribute("value");
 	
+		return val;
+	}
+	
+
 	//************* NUMBER OF ROWS IN ASSOCIATE TABLE *************************
 	public static List<WebElement> associateIdList(WebDriver d) {
 		// int size = 0;
@@ -330,7 +286,23 @@ public class AssociateListTab {
 		return list;             
 	}  
 	
-	
+	//*****************UNIQUE LIST ***********************************************
+	//Get client names from drop down
+	public static List<WebElement> uniqueClientList(WebDriver d) {
+		// int size = 0;
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		                                  
+		List<WebElement> list = d        
+				.findElements(By.xpath("//*[@id=\"client\"]/*"));
+		
+		System.out.println("Retrieved unique clinet name into list");
+		
+		return list;             
+	} 
 	
 	
 }

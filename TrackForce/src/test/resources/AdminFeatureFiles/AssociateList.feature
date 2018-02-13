@@ -21,32 +21,39 @@
 Feature: Title of your feature
   I want to use this template for my feature file
   
-  Background Logged in as VP and on the Associate List Page.
+  Background: Logged in as VP and on the Associate List Page.
     
    Scenario: Search by text
-    Given I want to search by text
+    Given I'm on the associate list page
     When I input text in the search by text input field
     Then The item is retrieved
     
-    Scenario: Marketing Status
-    Given I want to filter by marketing status
+    Scenario Outline: Filter by searching client
+    Given I'm on the the associate list page
+    And I know the clients
+    When I input the client name in the search by input field
+    Then The table is filtered by that client
+    
+    
+    Scenario: Filter by marketing Status
+    Given I'm on the associate list page
     When I select a marketing status value from the marketing status drop drown
     Then the table is filtered by that marketing status
     
-  Scenario: Search by curriculum
-   Given I want to filter by curriculum
+   Scenario: Filter by curriculum
+   Given I'm on the associate list page
    When I select a curriculum value from the curriculum drop down
    Then the table is filtered by that curriculum
 
  
-  Scenario: Search by client
-    Given I want to filter by client
+  Scenario: Filter by client
+    Given I'm on the associate list page
     When I select a client value from the client drop down
     Then the table is filtered by that client
 
     
     Scenario: Edit associate status
-    Given I want to edit an associates status
+    Given I'm on the associate list page
     When I click an associate checkbox
     And I select a update by marketing status value from the update by marketing status drop down
     And I select a client value from the client drop down
@@ -54,62 +61,62 @@ Feature: Title of your feature
     Then the information is updated
    
     Scenario: Sort the associate table by associate id in ascending order
- 		Given I want to sort the associate's table by associate id in ascending order
+ 		Given I'm on the associate list page
  		When I click the associate id heading on the associate table
  		Then The associate table is sorted by the associate's id in ascending order
 
  		Scenario: Sort the associate table by associate id in descending order
- 		Given I want to sort the associate table by associate id in descending order
+ 		Given I'm on the asssociate list page
  		When I click the associate id heading on the associate table
  		Then The associate table is sorted by associate id in descending order
  		
  	  Scenario: Sort the associate table by first name in ascending order
- 		Given I want to sort the associate table by first name in ascending order
+ 		Given I'm on the associate list page
  		When I click the first name heading on the associate table
  		Then The associate table is sorted by first name in ascending order
  		
  		Scenario: Sort the associate table by first name in descending order
- 		Given I want to sort the associate table by first name in descending order
+ 		Given I'm on the associate list page
  		When I click the first name heading on the associate table
  		Then The associate table is sorted by first name in descending order
  		
  		Scenario: Sort the associate table by last name in ascending order
- 		Given I want to sort the associate table by last name in ascending order
+ 		Given I'm on the associate list page
  		When I click the last name heading on the associate table
  		Then The associate table is sorted by last name in ascending order
  		
  		Scenario: Sort the associate table by last name in descending order
- 		Given I want to sort the associate table by last name in descending order
+ 		Given I'm on the associate list page
  		When I click the last name heading on the associate table
  		Then The associate table is sorted by last name in descending order
  		
  		Scenario: Sort the associate table by marketing status in ascending order
- 		Given I want to sort the associate table by marketing status in ascending order
+ 		Given I'm on the associate list page
  		When I click the marketing status heading on the associate table
  		Then The associate table is sorted by marketing status in ascending order
  		
  		Scenario: Sort the associate table by marketing status in descending order
- 		Given I want to sort the associate table by marketing status in descending order
+ 		Given I'm on the associate list page
  		When I click the marketing status heading on the associate table
  		Then The associate table is sorted by marketing status in descending order
  		
  		Scenario: Sort the associate table by client name in ascending order
- 		Given I want to sort the associate table by client name in ascending order
+ 		Given I'm on the associate list page
  		When I click the client name heading on the associate table
  		Then The associate table is sorted by client name in ascending order
  		
  		Scenario: Sort the associate table by client name in descending order
- 		Given I want to sort the associate table by client name in descending order
+ 		Given I'm on the associate list page
  		When I click the client name heading on the associate table
  		Then The associate table is sorted by client name in descending order
  		
  		Scenario: Sort the associate table by batch name in ascending order
- 		Given I want to sort the associate table by batch name in ascending order
+ 		Given I'm on the associate list page
  		When I click the batch name heading on the associate table
  		Then The associate table is sorted by batch name in ascending order
  		
  		Scenario: Sort the associate table by batch name in descending order
- 		Given I want to sort the associate table by batch name in descending order
+ 		Given I'm on the associate list page
  		When I click the batch name heading on the associate table
  		Then The associate table is sorted by batch name in descending order
 	

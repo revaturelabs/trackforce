@@ -3,6 +3,7 @@ package com.revature.entity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -57,12 +58,12 @@ public class TfTech implements java.io.Serializable {
 		this.tfTechName = tfTechName;
 	}
 	
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "TF_TECH")
-	public Set<TfBatch> getBatch() {
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "techs")
+	public Set<TfBatch> getBatches() {
 		return this.batches;
 	}
 	
-	public void setBatch(Set<TfBatch> batches) {
+	public void setBatches(Set<TfBatch> batches) {
 			this.batches = batches;
 	}
 }

@@ -27,6 +27,7 @@ public class PersistentStorage {
 	private Map<Integer, BatchInfo> batchesByDate = new HashMap<>();
 	private Map<Integer, ClientInfo> clients = new HashMap<>();
 	private Map<Integer, CurriculumInfo> curriculums = new HashMap<>();
+	private Map<Integer, TechInfo> techs = new HashMap<>();
 	private Map<Integer, MarketingStatusInfo> marketingStatuses = new HashMap<>();
 	private StatusInfo totalStats;
 
@@ -42,11 +43,6 @@ public class PersistentStorage {
 	public Set<AssociateInfo> getAssociates() {
 		return new TreeSet<AssociateInfo>(associates.values());
 	}
-	
-	//added method to actually get values from the cache
-	public AssociateInfo getAssociate(Integer id) {
-		return associates.get(id);
-	}
 
 	public void setAssociates(Map<Integer, AssociateInfo> associates) {
 		if (this.associates == null)
@@ -57,6 +53,9 @@ public class PersistentStorage {
 		this.totalStats = AssociateInfo.getTotals();
 	}
 
+	public BatchInfo getBatch(Integer id) {
+		return batches.get(id);
+	}
 	public TreeSet<BatchInfo> getBatches() {
 		return new TreeSet<BatchInfo>(batches.values());
 	}
@@ -68,11 +67,6 @@ public class PersistentStorage {
 			this.batches.putAll(batches);
 		}
 		setBatchesByDate(this.batches);
-	}
-
-	//added method to actually get values from the cache
-	public ClientInfo getClient(Integer id) {
-		return clients.get(id);
 	}
 		
 	public Set<ClientInfo> getClients() {
@@ -91,6 +85,18 @@ public class PersistentStorage {
 		return this.totalStats;
 	}
 
+	public Set<TechInfo> getTechs() {
+		return new TreeSet<TechInfo>(techs.values());
+	}
+
+	public void setTechs(Map<Integer, TechInfo> map) {
+		if (this.techs == null)
+			this.techs = map;
+		else {
+			this.techs.putAll(map);
+		}
+	}
+	
 	public Set<CurriculumInfo> getCurriculums() {
 		return new TreeSet<CurriculumInfo>(curriculums.values());
 	}
@@ -161,6 +167,10 @@ public class PersistentStorage {
 	public void evictCurriculums() {
 		this.curriculums.clear();
 	}
+	
+	public void evictTechs() {
+		this.techs.clear();
+	}
 
 	public void evictMarketingStatuses() {
 		this.marketingStatuses.clear();
@@ -185,6 +195,10 @@ public class PersistentStorage {
 	
 	public Map<Integer, CurriculumInfo> getCurriculumAsMap() {
 		return this.curriculums;
+	}
+	
+	public Map<Integer, TechInfo> getTechsAsMap() {
+		return this.techs;
 	}
 	
 	public Map<Integer, MarketingStatusInfo> getMarketingAsMap() {

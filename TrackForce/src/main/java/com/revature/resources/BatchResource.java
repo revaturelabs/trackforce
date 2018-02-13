@@ -1,13 +1,8 @@
 package com.revature.resources;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -41,37 +36,45 @@ public class BatchResource {
 	 */
 	@GET
 	public Response getAllBatches(
-			@QueryParam("start") Long startDate,
-			@QueryParam("end") Long endDate) throws IOException {
-		List<BatchInfo> batches;
-		Map<Integer, BatchInfo> batchMap = new HashMap<>();
-		Set<BatchInfo> batchesSet = new HashSet<>();
-		if (startDate != null && endDate != null) {
-			batches = service.getBatches(startDate, endDate);
-//			for (BatchInfo b : batches) {
-//				batchMap.put(b.getId(), b);
-//			}
-			return Response.ok(batches).build();
-		}
-		else {
-			//batchMap = service.getBatches();
-			batchesSet = service.getAllBatches();
-			return Response.ok(batchesSet).build();
-		}
+			@DefaultValue("1510549200000") @QueryParam("start") Long startDate,
+			@DefaultValue("1527480000000") @QueryParam("end") Long endDate) {
+		//return Response.status(200).entity(startDate).entity(endDate).build();
+		return Response.ok(service.getBatches(startDate, endDate)).build();
+//		List<BatchInfo> batches;
+//		Map<Integer, BatchInfo> batchMap = new HashMap<>();
+//		Set<BatchInfo> batchesSet = new HashSet<>();
+//		if (startDate != null && endDate != null) {
+//			batches = service.getBatches(startDate, endDate);
+////			for (BatchInfo b : batches) {
+////				batchMap.put(b.getId(), b);
+////			}
+//			return Response.ok(batches).build();
+//		}
+//		else {
+//			//batchMap = service.getBatches();
+//			batchesSet = service.getAllBatches();
+//			return Response.ok(batchesSet).build();
+//		}
 	}
 
+	//@GET
+	public Response getAllBatches() {
+		return Response.ok(service.getAllBatches()).build();
+	}
 	/**
 	 * Gets a batch by its id
 	 * @return - Response with 200 status and the BatchInfo object in the response body
 	 */
 	@GET
 	@Path("{id}")
-	public Response getBatchById(@PathParam("id") int id) {
+	public Response getBatchById(@PathParam("id") Integer id) {
 		BatchInfo batch = service.getBatchById(id);
 		return Response.ok(batch).build();
 	}
 	
-//	@GET
-//	@Path("test")
-//	public Response 
+	@GET
+	@Path("{id}/associates")
+	public Response getAssociatesForBatch(@PathParam("id")Integer id) {
+		return Response.ok(service.getAssociatesForBranch(id)).build();
+	}
 }

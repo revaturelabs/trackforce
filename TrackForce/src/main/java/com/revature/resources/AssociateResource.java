@@ -1,6 +1,7 @@
 package com.revature.resources;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
@@ -63,7 +64,7 @@ public class AssociateResource {
 	public Response updateAssociates(
 			@QueryParam("marketingStatusId") Integer marketingStatusIdStr,
 			@QueryParam("clientId") Integer clientIdStr,
-			Integer[] ids) {
+			List<Integer> ids) {
 		// marketing status & client id are given as query parameters, ids sent in body
 		service.updateAssociates(ids, marketingStatusIdStr, clientIdStr);
 		return Response.ok().build();

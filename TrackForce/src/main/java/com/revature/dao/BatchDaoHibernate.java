@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -36,6 +36,7 @@ public class BatchDaoHibernate implements BatchDao {
 	 */
 	@Override
 	public TfBatch getBatch(String batchName) {
+		
 		TfBatch batch = null;
 		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -51,66 +52,71 @@ public class BatchDaoHibernate implements BatchDao {
 		return batch;
 	}
 	
-	public TfBatch getBatchById(int id) {
-		TfBatch batch = null;
-		try(Session s = HibernateUtil.getSessionFactory().openSession()) {
-			batch = s.get(TfBatch.class, id);
+	@Override
+	public BatchInfo getBatchById(Integer id) {
+		BatchInfo batch = PersistentStorage.getStorage().getBatch(id);
+		if(batch != null)
 			return batch;
-		} catch (NoResultException e) {
-			LogUtil.logger.error(e);
-		}
-		return batch;
-	}
-
-    /**
-     * Get a list of batches that are running within the given dates
-     *
-     * @param session
-     * @return
-     * @throws IOException
-     */
-/*	@Override 
-	public Map<Integer, BatchInfo> getBatchDetails() {
-		List<TfBatch> batchesEnt = null;
-		Map<Integer, BatchInfo> map = new HashMap<>();
-		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-			TypedQuery<TfBatch> tq = session.createQuery("from TfBatch", TfBatch.class);			
-			batchesEnt = tq.getResultList();
-			if(batchesEnt != null) {
-				for(TfBatch tb : batchesEnt) {
-					map.put(tb.getTfBatchId(), Dao2DoMapper.map(tb));
-				}
+		else {
+			TfBatch tfBatch = null;
+			try(Session s = HibernateUtil.getSession()) {
+				tfBatch = s.get(TfBatch.class, id);
+				return Dao2DoMapper.map(tfBatch);
+			} catch (NoResultException e) {
+				LogUtil.logger.error(e);
 			}
-			return map;
-		} catch(NoResultException e) {
-			LogUtil.logger.error(e);
 		}
-		return map;
-	}*/
-	
-	public static Map<Integer, BatchInfo> getBatchDetails() {
-		List<TfBatch> batchesEnt;
-		Session session = HibernateUtil.getSession();
-		Map<Integer, BatchInfo> map = new HashMap<>();
-		TypedQuery<TfBatch> tq = session.createQuery(
-				"from TfBatch", TfBatch.class);
+		return null;
 		
-		batchesEnt = tq.getResultList();
-		if(batchesEnt != null)
-		for(TfBatch tb : batchesEnt) {
-			map.put(tb.getTfBatchId(), Dao2DoMapper.map(tb));
-		}
-		
-		return map;
 	}
+	
+	
+	@Override
+	public Set<AssociateInfo> getBatchAssociates(Integer id){
+		if(PersistentStorage.getStorage().getBatchAsMap().get(id).getAssociates() == null)
+			cacheAllBatches();
+		return PersistentStorage.getStorage().getBatchAsMap().get(id).getAssociates();
+	}
+	@Override
+	public List<BatchInfo> getBatchesSortedByDate(){
+		if(PersistentStorage.getStorage().getBatchesByDate() == null)
+			cacheAllBatches();
+		return PersistentStorage.getStorage().getBatchesByDate();
+	}
+	public static Set<BatchInfo> getAllBatches() {
+		if(PersistentStorage.getStorage().getBatches() == null)
+			cacheAllBatches();
+		return PersistentStorage.getStorage().getBatches();
+	}	
 	
 	/**
      * Retrieves all associate records from the database and places them into the cache
      * 
      */
     public static void cacheAllBatches() {
-    	
-    	PersistentStorage.getStorage().setBatches(getBatchDetails());//Look into getBatchDetails()
-    	PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
+    	Session session = HibernateUtil.getSession();
+    	try {
+	    	List<TfBatch> batches;
+	    	CriteriaBuilder cb = session.getCriteriaBuilder();
+	        CriteriaQuery<TfBatch> cq = cb.createQuery(TfBatch.class);
+	        Root<TfBatch> from = cq.from(TfBatch.class);
+	        CriteriaQuery<TfBatch> all = cq.select(from);
+	        Query<TfBatch> tq = session.createQuery(all);
+	        batches = tq.getResultList();
+	    	Map<Integer, BatchInfo> map = new HashMap<>();
+	    	if(batches != null) {
+	    		map = createBatchesMap(batches);
+	    	}
+    	PersistentStorage.getStorage().setBatches(map);
+    	} finally {
+    		session.close();
+    	}
+    }
+    public static Map<Integer, BatchInfo> createBatchesMap(List<TfBatch> batchList) {
+    	Map<Integer, BatchInfo> map = new HashMap<>();
+    	for(TfBatch tfb : batchList) {
+    		map.put(tfb.getTfBatchId(), Dao2DoMapper.map(tfb));
+    	}
+    	return map;
     }
 }

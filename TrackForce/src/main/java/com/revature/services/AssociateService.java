@@ -3,6 +3,7 @@ package com.revature.services;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +21,6 @@ import com.revature.utils.PersistentStorage;
 public class AssociateService implements Service {
 
     private AssociateDao associateDao;
-    private AssociateDaoHibernate associateDaoHib = new AssociateDaoHibernate();
 
     public AssociateService() {
 
@@ -41,15 +41,19 @@ public class AssociateService implements Service {
 		return associateinfo;
 
 	}
+	public Response updateAssociates(List<AssociateInfo> associates) {
+		associateDao.updateAssociates(associates);
+		return Response.status(200).build();
+	}
 
 	//The method used to populate all of the data onto TrackForce
     //Doesn't work correctly at the moment
     public Response updateAssociates(
-    		Integer[] associateids,
+    		List<Integer> associateids,
     		Integer marketingStatus,
     		Integer clientid) {
     	//System.out.println("Got something with UpdateAssociate:" + associateinfo);
-    	associateDaoHib.updateAssociates(associateids, marketingStatus, clientid);
+    	associateDao.updateAssociates(associateids, marketingStatus, clientid);
     	return Response.status(200).build();
     }
     /**
@@ -58,10 +62,7 @@ public class AssociateService implements Service {
      */
 
 	public Set<AssociateInfo> getAllAssociates(){
-			//for now, must use read method in respective service class to read
-			//data from the cache and be able to send it to Angular
-			//return read();
-			return AssociateDaoHibernate.getAllAssociates();
+		return AssociateDaoHibernate.getAllAssociates();
 	}
 
 	/**

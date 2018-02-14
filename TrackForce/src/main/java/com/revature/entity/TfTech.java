@@ -25,8 +25,7 @@ public class TfTech implements java.io.Serializable {
 	private static final long serialVersionUID = 2820002004770324793L;
 	private int tfTechId;
 	private String tfTechName;
-	private Set<TfBatch> batches; //used for refference with manytomany
-	
+	private Set<TfBatch> batches = new HashSet<TfBatch>(0);
 	
 	public TfTech() {
 	}

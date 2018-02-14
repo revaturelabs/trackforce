@@ -13,8 +13,6 @@ import org.openqa.selenium.WebElement;
 
 import com.revature.test.admin.pom.BatchListTab;
 import com.revature.test.utils.TestConfig;
-import com.revature.test.utils.WaitToLoad;
-
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;

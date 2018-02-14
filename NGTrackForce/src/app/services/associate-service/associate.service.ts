@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map'
 import { Associate } from "../../models/associate.model";
 import { Response } from "@angular/http/";
 import { environment } from "../../../environments/environment";
+import { forEach } from "@angular/router/src/utils/collection";
 
 /**
  * Service for retrieving and updating data relating to associates.
@@ -12,7 +13,7 @@ import { environment } from "../../../environments/environment";
  */
 @Injectable()
 export class AssociateService {
-    private associatePath: string = "TrackForce/associates/";
+    private associatePath: string = "TrackForce/associates";
 
     status: string
     client: string
@@ -31,7 +32,7 @@ export class AssociateService {
      * @param id - the id of the associate to retrieve
      */
     getAssociate(id: number) {
-        let url: string = environment.url + this.associatePath+ id;
+        let url: string = environment.url + this.associatePath + '/' + id;
         return this.http.get<Associate>(url);
     }
 
@@ -51,13 +52,18 @@ export class AssociateService {
      * Update the given associate's status/client
      * @param ids of associates to be updated
      */
-    updateAssociates(ids: number[], ustatus: string, uclient: number): Observable<any> {
-        let url: string = environment.url + this.associatePath;
-        return this.http.put(url, {
-          ids: ids,
-          status: ustatus,
-          client: uclient
-        });
+    updateAssociates(ids: number[], ustatus: number, uclient: number): Observable<any> {
+        let url: string = environment.url + this.associatePath + "?";
+        let statusUrl: string = (ustatus ? "marketingStatusId="+ustatus : "");
+        let clientUrl: string = (uclient ? "clientId="+uclient : "");
+        if(ustatus){
+            url += statusUrl + (clientUrl != "" ? "&" : "");
+        }
+
+        if (uclient) {
+            url += clientUrl;
+        }
+        return this.http.put(url, ids);
     }
 
     updateAssociate(id: number, ustatus: string, uclient: string) {

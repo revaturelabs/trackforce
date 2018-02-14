@@ -86,28 +86,29 @@ public class AssociateDaoHibernate implements AssociateDao {
 	@Override
     public void updateAssociates(List<Integer> ids, Integer marketingStatus, Integer clientid) {
     	List<TfAssociate> associates = new ArrayList<TfAssociate>();
-    	Session session = null;
-		try{
-			session = HibernateUtil.getSession();
-			TfClient client = (TfClient) session.load(TfClient.class, clientid);
-			TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, marketingStatus);
+		try(Session session = HibernateUtil.getSession();){
 			for(Integer id : ids) {
 				associates.add((TfAssociate) session.load(TfAssociate.class, id));
 			}
 			Transaction t = session.beginTransaction();
 			for(TfAssociate associate : associates) {
-				associate.setTfClient(client);
-				associate.setTfMarketingStatus(status);
+				if(clientid != 0) {
+					if(clientid != -1) {
+						TfClient client = (TfClient) session.load(TfClient.class, clientid);
+						associate.setTfClient(client);
+					}
+					else
+						associate.setTfClient(null);
+				}
+				if(marketingStatus != 0) {
+					TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, marketingStatus);
+					associate.setTfMarketingStatus(status);
+				}
 				session.saveOrUpdate(associate);
-				System.out.println(associate);
 			}
 			t.commit();
 			PersistentStorage.getStorage().setAssociates(createAssociatesMap(associates));
-		} finally {
-			session.close();
-		}
-
-
+		} 
     }
 
     @Override

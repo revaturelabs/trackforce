@@ -6,8 +6,7 @@ import static org.testng.Assert.fail;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import com.revature.test.admin.cukes.CreateUserCukes;
-import com.revature.test.admin.pom.BatchListTab;
+import com.revature.test.admin.cukes.HomeTabCukes;
 import com.revature.test.admin.pom.HomeTab;
 
 public class HomeTest extends AdminSuite {
@@ -28,13 +27,11 @@ public class HomeTest extends AdminSuite {
 	// Clicks Home Tab 
 	public void ClickBatchesTab() {
 		try {
-			Thread.sleep(2000);
-			// Click on the Pie Chart
-			HomeTab.clickHomeTab(wd).click();
 			
-			Thread.sleep(2000);
+			assertTrue(HomeTabCukes.i_am_on_the_Home_Page(wd));
+			
 		} catch (Throwable e) {
-			fail("Can't click on the Home Tab");
+			fail("Error: Failed to click on the Home Page");
 			e.printStackTrace();
 		}
 		assertTrue(true);
@@ -61,13 +58,11 @@ public class HomeTest extends AdminSuite {
 	@Test(priority = 2)
 	public void clickPhone() {
 		try {
-			Thread.sleep(2000);
-			// Click on the Pie Chart
-			HomeTab.phone(wd).click();
 			
-			Thread.sleep(2000);
+			assertTrue(HomeTabCukes.i_click_on_the_telephone_link(wd));
+			
 		} catch (Throwable e) {
-			fail("Can't click on the phone link");
+			fail("Error: Failed to click on the telephone link");
 			e.printStackTrace();
 		}
 	}
@@ -75,13 +70,11 @@ public class HomeTest extends AdminSuite {
 	@Test(priority = 3)
 	public void clickEmail() {
 		try {
-			Thread.sleep(2000);
-			// Click on the Pie Chart
-			HomeTab.email(wd).click();
 			
-			Thread.sleep(2000);
+			assertTrue(HomeTabCukes.i_click_on_the_email_link(wd));
+			
 		} catch (Throwable e) {
-			fail("Can't click on the email link");
+			fail("Error: Failed to click on the email link");
 			e.printStackTrace();
 		}
 	}
@@ -89,14 +82,49 @@ public class HomeTest extends AdminSuite {
 	@Test(priority = 4)
 	public void clickWebSite() {
 		try {
-			Thread.sleep(2000);
-			// Click on the Pie Chart
-			HomeTab.website(wd).click();
 			
-			Thread.sleep(7000);
+			assertTrue(HomeTabCukes.i_click_on_the_website_link(wd));
+			
 		} catch (Throwable e) {
-			fail("Can't click on the web site link");
+			fail("Error: Failed to click on the web site link");
 			e.printStackTrace();
 		}
 	}
+	
+	@Test(priority = 5, enabled = false)
+	public void clickPopulate() {
+		try {
+			
+			assertTrue(HomeTabCukes.i_click_on_the_populate_database_button(wd));
+			
+		} catch (Throwable e) {
+			fail("Error: Failed to click on the populate database button");
+			e.printStackTrace();
+		}
+	}
+	
+	@Test(priority = 6, enabled = false)
+	public void clickStatic() {
+		try {
+			
+			assertTrue(HomeTabCukes.i_click_on_the_populate_static_salesforce_button(wd));
+			
+		} catch (Throwable e) {
+			fail("Error: Failed to click on the populate static salesforce button");
+			e.printStackTrace();
+		}
+	}
+	
+	@Test(priority = 7, enabled = false)
+	public void clickEmpty() {
+		try {
+			
+			assertTrue(HomeTabCukes.i_click_on_the_empty_database_button(wd));
+			
+		} catch (Throwable e) {
+			fail("Error: Failed to click on the empty database button");
+			e.printStackTrace();
+		}
+	}
+	
 }

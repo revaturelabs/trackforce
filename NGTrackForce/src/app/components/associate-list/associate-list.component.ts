@@ -50,7 +50,7 @@ export class AssociateListComponent implements OnInit {
    * @param rs
    */
   constructor(
-    private associateService: AssociateService,
+    private associateService: AssociateService,//TfAssociate,
     private clientService: ClientService,
     private rs: RequestService
   ) {

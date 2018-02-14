@@ -86,7 +86,7 @@ public class AssociateDaoHibernate implements AssociateDao {
     @SuppressWarnings("null")
 	@Override
     public void updateAssociates(List<Integer> ids, Integer marketingStatus, Integer clientid) {
-    	List<TfAssociate> associates = null;
+    	List<TfAssociate> associates = new ArrayList<TfAssociate>();
     	Session session = null;
 		try{
 			session = HibernateUtil.getSession();

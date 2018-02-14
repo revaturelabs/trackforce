@@ -22,7 +22,7 @@ public class AssociateListTab {
 	// ********************TEXT FIELDS ************************
 
 	// Search By Text input field
-	public static WebElement searchByTextInputField(WebDriver d) { //*[@id="name"]
+	public static WebElement searchByTextInputField(WebDriver d) {
 			element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"name\"]"), 10);
 			return element;
 	}
@@ -168,23 +168,6 @@ public class AssociateListTab {
 		element = WaitToLoad
 				.findDynamicElement(d, By.xpath("//*[@id=\"info\"]/table/thead/tr/th[7]"), 10);
 		return element;               
-	}
-	
-	//**************** TABLE CELL VALUE *****************************************
-	public static String associateIdValue(WebDriver d) {
-		String val = null;
-		element = d.findElement(By.xpath("//*[@id=\"info\"]/table/tbody/tr[1]/td[2]/a "));
-		val = element.getAttribute("value");
-	
-		return val;
-	}       
-	
-	public static String curriculumValue(WebDriver d) {
-		String val = null;
-		element = d.findElement(By.xpath(" "));
-		val = element.getAttribute("value");
-	
-		return val;
 	}
 	
 

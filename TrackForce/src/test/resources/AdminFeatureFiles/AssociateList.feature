@@ -23,17 +23,42 @@ Feature: Title of your feature
   
   Background: Logged in as VP and on the Associate List Page.
     
-   Scenario: Search by text
-    Given I'm on the associate list page
-    When I input text in the search by text input field
-    Then The item is retrieved
-    
-    Scenario Outline: Filter by searching client
+  
+    Scenario: Filter by searching client
     Given I'm on the the associate list page
     And I know the clients
     When I input the client name in the search by input field
     Then The table is filtered by that client
     
+    Scenario: Filter by searching associate id
+    Given I'm on the the associate list page
+    And I know associates ids
+    When I input the associate id in the search by input field
+    Then The table is filtered by that associate id
+    
+    Scenario: Filter by searching first name
+    Given I'm on the the associate list page
+    And I know associates first name
+    When I input the associate first name in the search by input field
+    Then The table is filtered by that first name
+    
+    Scenario: Filter by searching last name
+    Given I'm on the the associate list page
+    And I know associates last name
+    When I input the associate last name in the search by input field
+    Then The table is filtered by that last name
+    
+    Scenario: Filter by searching marketing status
+    Given I'm on the the associate list page
+    And I know associates marketing status
+    When I input the associate marketing status in the search by input field
+    Then The table is filtered by that marketing status
+    
+    Scenario: Filter by searching batch name
+    Given I'm on the the associate list page
+    And I know associates batch name
+    When I input the associate batch in the search by input field
+    Then The table is filtered by that batch name
     
     Scenario: Filter by marketing Status
     Given I'm on the associate list page

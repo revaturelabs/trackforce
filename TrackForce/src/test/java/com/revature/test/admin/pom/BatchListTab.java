@@ -1,6 +1,10 @@
 package com.revature.test.admin.pom;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -9,6 +13,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.revature.test.utils.WaitToLoad;
+
+import cucumber.api.java.en.Then;
 
 public class BatchListTab {
 	static WebElement e = null;
@@ -128,7 +134,8 @@ public class BatchListTab {
 	}
 
 	public static WebElement clickFromDateArrow(WebDriver wd) {
-		return WaitToLoad.findDynamicElement(wd, By.id("startDate"), 10);
+		return WaitToLoad.findDynamicElement(wd, By.xpath("//*[@id=\"startDate\"]"), 10);
+		
 	}
 
 	public static WebElement clickToDateArrow(WebDriver wd) {
@@ -137,5 +144,65 @@ public class BatchListTab {
 	
 	public static WebElement clickSubmit(WebDriver wd) {
 		return WaitToLoad.findDynamicElement(wd, By.xpath("/html/body/app/app-batch-list/div/div[2]/div[2]/form/div[3]/input[1]"), 10);
+	}
+	
+	public static WebElement clickReset(WebDriver wd) {
+		return WaitToLoad.findDynamicElement(wd, By.xpath("/html/body/app/app-batch-list/div/div[2]/div[2]/form/div[3]/input[2]"), 10);
+	}
+	
+	public static List<WebElement> getStartDates(WebDriver wd) {
+		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/table"), 30);
+        List<WebElement> rows=table_element.findElements(By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/table/tbody/tr"));
+        List<WebElement> columns = new ArrayList<WebElement>();
+        
+		for (WebElement e : rows) {
+			columns.addAll(e.findElements(By.xpath("td[2]")));
+		}
+		return columns;
+	}
+	
+	public static List<WebElement> getEndDates(WebDriver wd) {
+		WebElement table_element = WaitToLoad.findDynamicElement(wd, By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/table"), 30);
+        List<WebElement> rows=table_element.findElements(By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/table/tbody/tr"));
+        List<WebElement> columns = new ArrayList<WebElement>();
+        
+		for (WebElement e : rows) {
+			columns.addAll(e.findElements(By.xpath("td[3]")));
+		}
+		return columns;
+	}
+
+	public static boolean correctResults(List<WebElement> Nfrom, List<WebElement> Nto, WebDriver wd)	throws Throwable {
+		boolean done = true;
+		List<String> start = new ArrayList<String>();
+		for (WebElement col : Nfrom) {
+			start.add(col.getText());
+		}
+		start.removeAll(Arrays.asList("", null));
+		List<String> end = new ArrayList<String>();
+		for (WebElement col : Nto) {
+			end.add(col.getText());
+		}
+		end.removeAll(Arrays.asList("", null));
+
+		SimpleDateFormat format=new SimpleDateFormat("mm. dd, yyyy");  
+		Date date = new Date();
+		System.out.println(format.format(date));
+		
+		for (int i=0; i < start.size(); i++) {
+			try {
+				Date startDate=new SimpleDateFormat("mm. dd, yyyy").parse(start.get(i));
+				Date endDate=new SimpleDateFormat("mm. dd, yyyy").parse(end.get(i));
+				Date fromDate = new SimpleDateFormat("mm. dd, yyyy").parse("9/15/2017");
+				Date toDate = new SimpleDateFormat("mm. dd, yyyy").parse("11/15/2017");
+
+				if(startDate.after(toDate) || endDate.before(fromDate)) {
+				    done = false;
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		return done;
 	}
 }

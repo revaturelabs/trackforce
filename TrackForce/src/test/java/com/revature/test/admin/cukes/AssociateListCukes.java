@@ -21,10 +21,10 @@ import cucumber.api.java.en.When;
 
 import java.util.Collections;
 
-
 public class AssociateListCukes {
 
 	static WebElement element = null;
+	static Set<String> searchValues = new TreeSet<String>();
 
 	@Given("^I'm on the asssociate list page$")
 	public static boolean i_m_on_the_asssociate_list_page(WebDriver driver) throws Throwable {
@@ -41,63 +41,317 @@ public class AssociateListCukes {
 
 	}
 
-	
-	  
-	  @Given("^I know the clients$")
-	  public static Set<String> i_know_the_clients(WebDriver driver) throws Throwable {
-			
-			WebElement e1 = null;
-			WebElement inputText = AssociateListTab.searchByTextInputField(driver);
-			Set<String> clientNames = new TreeSet<String>();
-			List<WebElement> filteredListElements = new ArrayList<>();
-			
+	// *************** FILTERING BY SEARCH ***************
 
-			filteredListElements = AssociateListTab.clientNameList(driver);
-			
-			for(WebElement fe : filteredListElements) {
-				clientNames.add(fe.getText());
+	// **************FILTER BY SEARCHING ASSOCIATE ID **********************
+	@Given("^I know the associates ids$")
+	public static void i_know_the_associates_ids(WebDriver driver) throws Throwable {
+
+		List<WebElement> filteredListElements = new ArrayList<>();
+		filteredListElements = AssociateListTab.associateIdList(driver);
+
+		for (WebElement element : filteredListElements) {
+			searchValues.add(element.getText());
+		}
+	}
+
+	@When("^I input the associate id in the search by input field$")
+	public static boolean i_input_the_associate_id_in_the_search_by_input_field(WebDriver driver) throws Throwable {
+		boolean isFiltered = false;
+		element = AssociateListTab.searchByTextInputField(driver);
+
+		i_know_the_associates_ids(driver);
+
+		try {
+			for (String id : searchValues) {
+				element.sendKeys(id);
+				System.out.println("Filter by searching id: " + id);
+				// check to see if table is filtered by id
+				isFiltered = the_table_is_filtered_by_that_associate_id(driver);
+				element.clear();
 			}
 
-			return clientNames;
-	  }
+		} catch (Throwable e) {
+			System.out.println("Failed to input id in textfield");
+		}
 
-	  @When("^I input the client name in the search by input field$")
-	  public static boolean i_input_the_client_name_in_the_search_by_input_field(WebDriver driver, String client) throws Throwable {
-		  
-		  	boolean isFiltered = false;
-			WebElement inputText = AssociateListTab.searchByTextInputField(driver);
-		  
-			try {
-					inputText.sendKeys(client);
-					isFiltered = the_table_is_filtered_by_that_client(driver, inputText);
-					inputText.clear();
-				
-			} catch (Throwable e) {
-				System.out.println("Failed to Input value in Search By text input field");
+		return isFiltered;
+	}
+
+	@Then("^The table is filtered by that associate id$")
+	public static boolean the_table_is_filtered_by_that_associate_id(WebDriver driver) throws Throwable {
+		List<WebElement> filteredClients = AssociateListTab.associateIdList(driver);
+
+		for (WebElement e : filteredClients) {
+			if (!(e.getText().contains(element.getAttribute("value")))) {
+				return false;
 			}
-			
-			return isFiltered;
-	  }
-	 
-		//Input client matches client in table
-		  @Then("^the table is filtered by that client$") public static boolean
-		  the_table_is_filtered_by_that_client(WebDriver driver, WebElement txtField) throws Throwable {
-		 
-			  List <WebElement> filteredClients = AssociateListTab.clientNameList(driver);
-			  
-			  for(WebElement e : filteredClients) {
-				  if(!txtField.getText().equals(e.getText())) {
-					  return false;
-				  }
-				 // txtField.clear();
-			  }
-			  
-			  return true;
-		 }
-		 
-	  
-	  
-	  
+		}
+
+		return true;
+	}
+
+	// ************** FILTER BY SEARCHING FIRST NAME ********************
+	@Given("^I know associates first name$")
+	public static void i_know_associates_first_name(WebDriver driver) throws Throwable {
+		List<WebElement> filteredListElements = new ArrayList<>();
+
+		filteredListElements = AssociateListTab.firstNameList(driver);
+
+		for (WebElement element : filteredListElements) {
+			// Thread.sleep(1000);
+			searchValues.add(element.getText());
+		}
+	}
+
+	@When("^I input the associate first name in the search by input field$")
+	public static boolean i_input_the_associate_first_name_in_the_search_by_input_field(WebDriver driver)
+			throws Throwable {
+		boolean isFiltered = false;
+		element = AssociateListTab.searchByTextInputField(driver);
+
+		i_know_associates_first_name(driver);
+
+		try {
+			for (String firstName : searchValues) {
+				element.sendKeys(firstName);
+				System.out.println("Filter by searching first name: " + firstName);
+				// check to see if table is filtered by first name
+				isFiltered = the_table_is_filtered_by_that_first_name(driver);
+				element.clear();
+			}
+
+		} catch (Throwable e) {
+			System.out.println("Failed to input first name in textfield");
+		}
+
+		return isFiltered;
+	}
+
+	@Then("^The table is filtered by that first name$")
+	public static boolean the_table_is_filtered_by_that_first_name(WebDriver driver) throws Throwable {
+		List<WebElement> filteredClients = AssociateListTab.firstNameList(driver);
+
+		for (WebElement e : filteredClients) {
+			if (!(e.getText().contains(element.getAttribute("value")))) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	// ************** FILTER BY SEARCHING LAST NAME ******************
+
+	@Given("^I know associates last name$")
+	public static void i_know_associates_last_name(WebDriver driver) throws Throwable {
+		List<WebElement> filteredListElements = new ArrayList<>();
+
+		filteredListElements = AssociateListTab.lastNameList(driver);
+
+		for (WebElement element : filteredListElements) {
+			// Thread.sleep(1000);
+			searchValues.add(element.getText());
+		}
+	}
+
+	@When("^I input the associate last name in the search by input field$")
+	public static boolean i_input_the_associate_last_name_in_the_search_by_input_field(WebDriver driver)
+			throws Throwable {
+		boolean isFiltered = false;
+		element = AssociateListTab.searchByTextInputField(driver);
+
+		i_know_associates_last_name(driver);
+
+		try {
+			for (String lastName : searchValues) {
+				element.sendKeys(lastName);
+				System.out.println("Filter by searching last name: " + lastName);
+				isFiltered = the_table_is_filtered_by_that_last_name(driver);
+				element.clear();
+			}
+
+		} catch (Throwable e) {
+			System.out.println("Failed to input last name in textfield");
+		}
+
+		return isFiltered;
+	}
+
+	@Then("^The table is filtered by that last name$")
+	public static boolean the_table_is_filtered_by_that_last_name(WebDriver driver) throws Throwable {
+		List<WebElement> filteredLastName = AssociateListTab.lastNameList(driver);
+
+		for (WebElement e : filteredLastName) {
+			if (!(e.getText().contains(element.getAttribute("value")))) {
+				return false;
+			}
+			System.out.println("Found last name in table");
+		}
+
+		return true;
+	}
+
+	// ************ FILTER BY SEARCHING MARKETING STATUS ******************
+
+	@Given("^I know associates marketing status$")
+	public static void i_know_associates_marketing_status(WebDriver driver) throws Throwable {
+		List<WebElement> filteredListElements = new ArrayList<>();
+
+		filteredListElements = AssociateListTab.marketingStatusList(driver);
+
+		for (WebElement element : filteredListElements) {
+			// Thread.sleep(1000);
+			searchValues.add(element.getText());
+		}
+	}
+
+	@When("^I input the associate marketing status in the search by input field$")
+	public static boolean i_input_the_associate_marketing_status_in_the_search_by_input_field(WebDriver driver)
+			throws Throwable {
+		boolean isFiltered = false;
+		element = AssociateListTab.searchByTextInputField(driver);
+
+		i_know_associates_marketing_status(driver);
+
+		try {
+			for (String status : searchValues) {
+				element.sendKeys(status);
+				System.out.println("Filter by searching marketing status: " + status);
+				isFiltered = the_table_is_filtered_by_that_marketing_status(driver);
+				element.clear();
+			}
+
+		} catch (Throwable e) {
+			System.out.println("Failed to input marketing status in textfield");
+		}
+
+		return isFiltered;
+	}
+
+	@Then("^The table is filtered by that marketing status$")
+	public static boolean the_table_is_filtered_by_that_marketing_status(WebDriver driver) throws Throwable {
+		List<WebElement> filteredStatus = AssociateListTab.marketingStatusList(driver);
+
+		for (WebElement e : filteredStatus) {
+			if (!(e.getText().contains(element.getAttribute("value")))) {
+				return false;
+			}
+			System.out.println("Found status in table");
+		}
+
+		return true;
+	}
+
+	// ************* FILTER BY SEARCHING CLIENT NAME ****************
+
+	@Given("^I know the clients$")
+	public static void i_know_the_clients(WebDriver driver) throws Throwable {
+		System.out.println("I know clients");
+
+		List<WebElement> filteredListElements = new ArrayList<>();
+
+		filteredListElements = AssociateListTab.clientNameList(driver);
+
+		for (WebElement element : filteredListElements) {
+			// Thread.sleep(1000);
+			searchValues.add(element.getText());
+		}
+	}
+
+	@When("^I input the client name in the search by input field$")
+	public static boolean i_input_the_client_name_in_the_search_by_input_field(WebDriver driver) throws Throwable {
+
+		boolean isFiltered = false;
+		element = AssociateListTab.searchByTextInputField(driver);
+
+		i_know_the_clients(driver);
+
+		try {
+			for (String client : searchValues) {
+				element.sendKeys(client);
+				System.out.println("Filter by searching client name: " + client);
+				// check to see if table is filtered by client name
+				isFiltered = the_table_is_filtered_by_that_client(driver);
+				element.clear();
+			}
+
+		} catch (Throwable e) {
+			System.out.println("Failed to input client in textfield");
+		}
+
+		return isFiltered;
+	}
+
+	@Then("^the table is filtered by that client$")
+	public static boolean the_table_is_filtered_by_that_client(WebDriver driver) throws Throwable {
+		List<WebElement> filteredClients = AssociateListTab.clientNameList(driver);
+		element = AssociateListTab.searchByTextInputField(driver);
+
+		try {
+			for (WebElement e : filteredClients) {
+
+				if (!(e.getText().contains(element.getAttribute("value")))) {
+					return false;
+				}
+
+			}
+		} catch (Throwable e) {
+
+		}
+		return true;
+	}
+
+	// ************ FILTER BY SEARCHING BATCH NAME *******************
+	@Given("^I know associates batch name$")
+	public static void i_know_associates_batch_name(WebDriver driver) throws Throwable {
+		List<WebElement> filteredListElements = new ArrayList<>();
+
+		filteredListElements = AssociateListTab.batchNameList(driver);
+
+		for (WebElement element : filteredListElements) {
+			// Thread.sleep(1000);
+			searchValues.add(element.getText());
+		}
+	}
+
+	@When("^I input the associate batch in the search by input field$")
+	public static boolean i_input_the_associate_batch_in_the_search_by_input_field(WebDriver driver) throws Throwable {
+		boolean isFiltered = false;
+		element = AssociateListTab.searchByTextInputField(driver);
+
+		i_know_associates_batch_name(driver);
+
+		try {
+			for (String batch : searchValues) {
+				element.sendKeys(batch);
+				System.out.println("Filter by searching batch name: " + batch);
+				isFiltered = the_table_is_filtered_by_that_batch_name(driver);
+				element.clear();
+			}
+
+		} catch (Throwable e) {
+			System.out.println("Failed to input batch name in textfield");
+		}
+
+		return isFiltered;
+	}
+
+	@Then("^The table is filtered by that batch name$")
+	public static boolean the_table_is_filtered_by_that_batch_name(WebDriver driver) throws Throwable {
+		List<WebElement> filteredBatch = AssociateListTab.batchNameList(driver);
+
+		for (WebElement e : filteredBatch) {
+			if (!(e.getText().contains(element.getAttribute("value")))) {
+				return false;
+			}
+			System.out.println("Found batch name in table");
+		}
+
+		return true;
+	}
+
+	// ********************************************************
 
 	@When("^I select a marketing status value from the marketing status drop drown$")
 	public static boolean i_select_a_marketing_status_value_from_the_marketing_status_drop_drown(WebDriver driver)
@@ -105,34 +359,16 @@ public class AssociateListCukes {
 		return AssociateListTab.marketingStatusDropDown(driver);
 	}
 
-	/*
-	 * @Then("^the table is filtered by that marketing status$") public static
-	 * boolean the_table_is_filtered_by_that_marketing_status(WebDriver driver)
-	 * throws Throwable {
-	 * 
-	 * 
-	 * }
-	 */
-
 	@When("^I select a curriculum value from the curriculum drop down$")
 	public static boolean i_select_a_curriculum_value_from_the_curriculum_drop_down(WebDriver driver) throws Throwable {
 		return AssociateListTab.curriculumDropDown(driver);
 	}
-
-	/*
-	 * @Then("^the table is filtered by that curriculum$") public static boolean
-	 * the_table_is_filtered_by_that_curriculum(WebDriver driver) throws Throwable {
-	 * 
-	 * }
-	 */
 
 	@When("^I select a client value from the client drop down$")
 	public static boolean i_select_a_client_value_from_the_client_drop_down(WebDriver driver) throws Throwable {
 		return AssociateListTab.clientDropDown(driver);
 
 	}
-
-
 
 	@When("^I click an associate checkbox$")
 	public static boolean i_click_an_associate_checkbox(WebDriver driver) throws Throwable {
@@ -157,7 +393,9 @@ public class AssociateListCukes {
 	 * }
 	 */
 
-	// *******************SORTING CUKES ****************************************
+	// *******************SORTING CUKES ***************************************
+	
+	// ***************** SORT BY ASSOCIATE ID (ASCENDING) ***********************
 
 	@When("^I click the associate id heading on the associate table$")
 	public static boolean i_click_the_associate_id_heading_on_the_associate_table(WebDriver driver) throws Throwable {
@@ -204,6 +442,8 @@ public class AssociateListCukes {
 
 		return true;
 	}
+	
+	//********************* SORT BY ASSOCIATE ID (DESCENDING) ***************************
 
 	@Then("^The associate table is sorted by associate id in descending order$")
 	public static boolean the_associate_table_is_sorted_by_associate_id_in_descending_order(WebDriver driver)
@@ -236,6 +476,9 @@ public class AssociateListCukes {
 		return true;
 	}
 
+
+	//****************** SORT BY FIRST NAME (ASCENDING) ******************
+	
 	@When("^I click the first name heading on the associate table$")
 	public static boolean i_click_the_first_name_heading_on_the_associate_table(WebDriver driver) throws Throwable {
 
@@ -282,6 +525,9 @@ public class AssociateListCukes {
 		return true;
 	}
 
+	
+	//***************** SORT BY FIRST NAME (DESCENDING) ***********************
+	
 	@Then("^The associate table is sorted by first name in descending order$")
 	public static boolean the_associate_table_is_sorted_by_first_name_in_descending_order(WebDriver driver)
 			throws Throwable {
@@ -314,6 +560,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
+	//**************** SORT BY LAST NAME (ASCENDING) ******************************
+	
 	@When("^I click the last name heading on the associate table$")
 	public static boolean i_click_the_last_name_heading_on_the_associate_table(WebDriver driver) throws Throwable {
 
@@ -361,6 +609,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
+	//***************** SORTED BY LAST NAME (DESCENDING) *********************
+	
 	@Then("^The associate table is sorted by last name in descending order$")
 	public static boolean the_associate_table_is_sorted_by_last_name_in_descending_order(WebDriver driver)
 			throws Throwable {
@@ -393,6 +643,8 @@ public class AssociateListCukes {
 		return true;
 
 	}
+	
+	//************* SORT BY MARKETING STATUS (ASCENDING) ************************
 
 	@When("^I click the marketing status heading on the associate table$")
 	public static boolean i_click_the_marketing_status_heading_on_the_associate_table(WebDriver driver)
@@ -441,6 +693,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
+	//***************** SORT BY MARKETING STATUS (DESCENDING) *****************
+	
 	@Then("^The associate table is sorted by marketing status in descending order$")
 	public static boolean the_associate_table_is_sorted_by_marketing_status_in_descending_order(WebDriver driver)
 			throws Throwable {
@@ -473,6 +727,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
+	//************** SORT BY CLIENT NAME (ASCENDING) *****************************
+	
 	@When("^I click the client name heading on the associate table$")
 	public static boolean i_click_the_client_name_heading_on_the_associate_table(WebDriver driver) throws Throwable {
 
@@ -519,6 +775,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
+	//************* SORT BY CLIENT NAME (DESCENDING) *********************
+	
 	@Then("^The associate table is sorted by client name in descending order$")
 	public static boolean the_associate_table_is_sorted_by_client_name_in_descending_order(WebDriver driver)
 			throws Throwable {
@@ -551,6 +809,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
+	//************** SORT BY BATCH NAME (ASCENDING) **********************
+	
 	@When("^I click the batch name heading on the associate table$")
 	public static boolean i_click_the_batch_name_heading_on_the_associate_table(WebDriver driver) throws Throwable {
 
@@ -597,6 +857,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
+	// *************** SORT BY BATCH NAME (DESCENDING) ************************
+	
 	@Then("^The associate table is sorted by batch name in descending order$")
 	public static boolean the_associate_table_is_sorted_by_batch_name_in_descending_order(WebDriver driver)
 			throws Throwable {

@@ -6,6 +6,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import com.revature.test.admin.cukes.BatchListCukes;
+import com.revature.test.admin.pom.BatchListTab;
 
 public class BatchListTest extends AdminSuite {
 	
@@ -49,10 +50,10 @@ public class BatchListTest extends AdminSuite {
 	
 	@Test(priority = 3)
 	// Clicks From date arrow
-	public void ClickFromArrow() {
+	public void ClickFromField() {
 		try {
-			// Click From date input field
-			BatchListCukes.the_From_arrow_is_clicked(wd);
+			// Click From date input field and enter data
+			BatchListCukes.the_From_date_is_entered(wd);
 		} catch (Throwable e) {
 			fail("Can't click the From date arrow");
 			e.printStackTrace();
@@ -64,13 +65,35 @@ public class BatchListTest extends AdminSuite {
 	public void ClickToArrow() {
 		try {
 			// Click Batch List Tab
-			BatchListCukes.the_To_arrow_is_clicked(wd);
+			BatchListCukes.the_To_date_is_entered(wd);
 		} catch (Throwable e) {
 			fail("Can't click the To date arrow");
 			e.printStackTrace();
 		}
 	}
 
+	@Test(priority = 5)
+	// Clicks To date input field
+	public void ClickSubmit() throws Throwable {
+		assertTrue(BatchListCukes.the_submit_button_is_clicked(wd));
+		Thread.sleep(2000);
+	}
+	
+	@Test(priority = 6)
+	// Clicks To date input field
+	public void areResultsCorrect() throws Throwable {
+		assertTrue(BatchListCukes.the_batch_list_should_update_to_show_only_the_batches_which_fit_the_entered_criteria(wd));
+		Thread.sleep(2000);
+	}
+	
+	@Test(priority = 7)
+	// Clicks To date input field
+	public void ClickReset() throws Throwable {
+		assertTrue(BatchListCukes.the_reset_button_is_clicked(wd));
+		Thread.sleep(2000);
+	}
+	
+	
 	@AfterTest
 	public void afterTest() {
 		System.out.println("============ Batch List Tests finished ===============");

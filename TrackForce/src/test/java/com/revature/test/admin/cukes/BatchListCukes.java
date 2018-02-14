@@ -1,6 +1,10 @@
 package com.revature.test.admin.cukes;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -83,10 +87,9 @@ public class BatchListCukes {
 		}
 	}
 
-
-
 	@Then("^associates should match the associate list$")
-	public static boolean associates_should_match_the_associate_list(WebDriver wd, String batchName, List<WebElement> associates) throws Throwable {
+	public static boolean associates_should_match_the_associate_list(WebDriver wd, String batchName,
+			List<WebElement> associates) throws Throwable {
 		try {
 			// Changes format to match the associates list in order to use .contains
 			List<String> associatesList = new ArrayList<String>();
@@ -96,17 +99,17 @@ public class BatchListCukes {
 			// Switch to Associate List Tab
 			BatchListTab.clickAssociateListTab(wd).click();
 			Thread.sleep(1500);
-			
+
 			// Grab the rows of associates in Associates List Tab
 			List<WebElement> associateRows = BatchListTab.grabAssociatesBatchInfo(wd);
 			// Use hashSet for faster lookup
 			Set<String> listHash = new HashSet<String>();
-			for (WebElement val : associateRows)
-			{
+			for (WebElement val : associateRows) {
 				listHash.add(val.getText());
 			}
 
-			// Check associates list to see if the information in the Batch List matches up with information in Associate List tab
+			// Check associates list to see if the information in the Batch List matches up
+			// with information in Associate List tab
 			for (String info : associatesList) {
 				if (!(listHash.contains(info))) {
 					System.out.println(info + " not found");
@@ -127,10 +130,10 @@ public class BatchListCukes {
 
 	}
 
-	@Given("^the From arrow is clicked$")
-	public static boolean the_From_arrow_is_clicked(WebDriver wd) throws Throwable {
+	@Given("^the From date is entered$")
+	public static boolean the_From_date_is_entered(WebDriver wd) throws Throwable {
 		try {
-			// Find the Header to verify that you are in the Batch List Tab
+			// Enter data into the From date field
 			BatchListTab.clickFromDateArrow(wd).click();
 			BatchListTab.clickFromDateArrow(wd).sendKeys(Keys.LEFT);
 			BatchListTab.clickFromDateArrow(wd).sendKeys(Keys.LEFT);
@@ -139,21 +142,33 @@ public class BatchListCukes {
 			BatchListTab.clickFromDateArrow(wd).sendKeys("2017");
 			return true;
 		} catch (Throwable e) {
-			System.out.println("Failed to find All Batches header");
+			System.out.println("Failed to enter data into From date field");
 			return false;
 		}
 	}
 
-	@Then("^a dropdown calendar should appear$")
-	public void a_dropdown_calendar_should_appear() throws Throwable {
-		// Write code here that turns the phrase above into concrete actions
-		throw new PendingException();
-	}
+	// @Given("^the first batch is clicked$")
+	// public static String the_first_batch_is_clicked(WebDriver wd) throws
+	// Throwable {
+	// // Click the first batch in the list
+	// String batchName = "";
+	// try {
+	// batchName = BatchListTab.getFirstBatchName(wd).getText();
+	// } catch (Throwable e) {
+	// System.out.println("Failed to find first batch name");
+	// }
+	// try {
+	// BatchListTab.getFirstBatchName(wd).click();
+	// } catch (Throwable e) {
+	// System.out.println("Failed to click first batch name");
+	// }
+	// return batchName;
+	// }
 
-	@Given("^the To arrow is clicked$")
-	public static boolean the_To_arrow_is_clicked(WebDriver wd) throws Throwable {
+	@Given("^the To date is entered$")
+	public static boolean the_To_date_is_entered(WebDriver wd) throws Throwable {
 		try {
-			// Find the Header to verify that you are in the Batch List Tab
+			// Enter data into the To date field
 			BatchListTab.clickToDateArrow(wd).click();
 			BatchListTab.clickToDateArrow(wd).sendKeys(Keys.LEFT);
 			BatchListTab.clickToDateArrow(wd).sendKeys(Keys.LEFT);
@@ -165,5 +180,38 @@ public class BatchListCukes {
 			System.out.println("Failed to find All Batches header");
 			return false;
 		}
+	}
+
+	@Given("^the submit button is clicked$")
+	public static boolean the_submit_button_is_clicked(WebDriver wd) throws Throwable {
+		try {
+			BatchListTab.clickSubmit(wd).click();
+			return true;
+		} catch (Throwable e) {
+			System.out.println("Submit button was not clicked");
+			return false;
+		}
+	}
+
+	@Then("^the batch list should update to show only the batches which fit the entered criteria$")
+	public static boolean the_batch_list_should_update_to_show_only_the_batches_which_fit_the_entered_criteria(WebDriver wd) throws Throwable {
+		return BatchListTab.correctResults(BatchListTab.getStartDates(wd), BatchListTab.getEndDates(wd), wd);
+	}
+
+	@Given("^the reset button is clicked$")
+	public static boolean the_reset_button_is_clicked(WebDriver wd) throws Throwable {
+		try {
+			BatchListTab.clickReset(wd).click();
+			return true;
+		} catch (Throwable e) {
+			System.out.println("Reset button was not clicked");
+			return false;
+		}
+	}
+
+	@Then("^the batch list should show all batches$")
+	public void the_batch_list_should_show_all_batches() throws Throwable {
+		// Write code here that turns the phrase above into concrete actions
+		throw new PendingException();
 	}
 }

@@ -10,9 +10,17 @@ public class ClientListTab {
 	static WebElement e = null;
 
 	public static WebElement getClientTab(WebDriver d) {
-		//return WaitToLoad.findDynamicElement(d,
-				//By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[2]/a"), 10);
-		return WaitToLoad.findDynamicElement(d, By.cssSelector("[href='/client-listing']"), 10);
+		try {
+			Thread.sleep(5000);
+			return WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/app-root/div/app-navbar/nav/div/ul[1]/li[3]/a"), 10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Failed XPATH FOR CLIENT LIST TAB !!!!!!!!!!!!!!!!!!!!!!!!!");
+			e.printStackTrace();
+			return WaitToLoad.findDynamicElement(d, By.cssSelector("[href='/client-listing']"), 10);
+			
+		}
+		//return WaitToLoad.findDynamicElement(d, By.cssSelector("[href='/client-listing']"), 10);
 	}
 
 	public static String getCurrentURL(WebDriver d) {

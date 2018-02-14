@@ -9,9 +9,10 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.revature.test.admin.cukes.ClientListCukes;
+import com.revature.test.admin.pom.CreateUserTab;
 
 public class ClientListTest extends AdminSuite {
-	static WebDriver e = null;
+	//static WebDriver e = null;
 
 	@BeforeTest
 	// Clicks Client List Tab and checks the URL

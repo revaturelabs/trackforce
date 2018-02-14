@@ -6,14 +6,15 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import com.revature.test.admin.cukes.BatchListCukes;
+import com.revature.test.admin.pom.BatchListTab;
 
 public class BatchListTest extends AdminSuite {
 	
 	
 	@BeforeTest
 	public void beforeTest() {
+		// Click Batch List Tab
 		try {
-			// Click Batch List Tab
 			assertTrue(BatchListCukes.the_Batch_List_Tab_is_clicked(wd));
 			
 		} catch (Throwable e) {
@@ -23,7 +24,7 @@ public class BatchListTest extends AdminSuite {
 	}
 	
 	@Test(priority = 1)
-	// Clicks Create user Tab and looks for the "Create New User" element
+	// Clicks Create user Tab and looks for the "All Batches" element
 	public void FindAllBatchesTag() {
 		try {
 			assertTrue(BatchListCukes.all_Batches_text_is_visible(wd));
@@ -48,11 +49,10 @@ public class BatchListTest extends AdminSuite {
 	}
 	
 	@Test(priority = 3)
-	// Clicks From date arrow
-	public void ClickFromArrow() {
+	// Clicks From date input field and enters data
+	public void ClickFromField() {
 		try {
-			// Click From date input field
-			BatchListCukes.the_From_arrow_is_clicked(wd);
+			BatchListCukes.the_From_date_is_entered(wd);
 		} catch (Throwable e) {
 			fail("Can't click the From date arrow");
 			e.printStackTrace();
@@ -60,17 +60,53 @@ public class BatchListTest extends AdminSuite {
 	}
 	
 	@Test(priority = 4)
-	// Clicks To date input field
-	public void ClickToArrow() {
+	// Clicks To date input field and enters data
+	public void ClickToField() {
 		try {
-			// Click Batch List Tab
-			BatchListCukes.the_To_arrow_is_clicked(wd);
+			BatchListCukes.the_To_date_is_entered(wd);
 		} catch (Throwable e) {
 			fail("Can't click the To date arrow");
 			e.printStackTrace();
 		}
 	}
 
+	@Test(priority = 5)
+	// Clicks submit button
+	public void ClickSubmit() throws Throwable {
+		assertTrue(BatchListCukes.the_submit_button_is_clicked(wd));
+	}
+	
+	@Test(priority = 6)
+	// Checks if the batch list is correct after submitting, according to the dates in the To and From fields
+	public void areResultsCorrect() throws Throwable {
+		assertTrue(BatchListCukes.the_batch_list_should_update_to_show_only_the_batches_which_fit_the_entered_criteria(wd));
+	}
+	
+	@Test(priority = 7)
+	// Clicks the reset button
+	public void ClickReset() throws Throwable {
+		assertTrue(BatchListCukes.the_reset_button_is_clicked(wd));
+	}
+	
+	@Test(priority = 8)
+	// Checks if the batch list is correct after resetting the To and From fields to default values (no restrictions)
+	public void allBatchesShowing() throws Throwable {
+		assertTrue(BatchListCukes.the_batch_list_should_show_all_batches(wd));
+		Thread.sleep(1000);
+	}
+	
+	@Test(priority = 9)
+	//possible use case
+	public void useCase1() throws Throwable {
+		assertTrue(BatchListCukes.the_From_date_is_entered(wd));
+		Thread.sleep(1000);
+		assertTrue(BatchListCukes.the_To_date_is_entered(wd));
+		Thread.sleep(1000);
+		assertTrue(BatchListCukes.the_submit_button_is_clicked(wd));
+		Thread.sleep(1000);
+		assertTrue(BatchListCukes.the_batch_list_should_show_all_batches(wd));
+	}
+	
 	@AfterTest
 	public void afterTest() {
 		System.out.println("============ Batch List Tests finished ===============");

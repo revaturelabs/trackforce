@@ -40,13 +40,16 @@ public class AssociateResource {
 	 * @throws HibernateException
 	 */
 	@GET
-	public Response getAllAssociates() {
+	public Response getAllAssociates(@QueryParam("status") int statusId) {
 		Set<AssociateInfo> associatesList = null;
-		associatesList = service.getAllAssociates();
-		service.getAllAssociates();
-		if (associatesList == null || associatesList.isEmpty()) {
-			// returns 404 if no associates found
-			return Response.status(Status.NOT_FOUND).build();
+		try {
+			if(statusId > 0) return Response.ok(service.getAssociatesByStatus(statusId)).build();
+			associatesList = service.getAllAssociates();
+			if (associatesList == null || associatesList.isEmpty()) return Response.status(Status.NOT_FOUND).build();// returns 404 if no associates found
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return Response.ok(associatesList).build();
 	}
@@ -83,6 +86,17 @@ public class AssociateResource {
 		AssociateInfo associateinfo = service.getAssociate(associateid);
 		return Response.ok(associateinfo).build();
 	}
+	
+//	@GET
+//	@Path("skillset")
+//	public Response getAssociateUnmapted(@PathParam("statusID") int statusId) {
+//		try {
+//			return 
+//		} catch(Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+//		return Response.noContent().build();
+//	}
 	
 	/**
 	 * Update the marketing status or client of an associate

@@ -133,7 +133,7 @@ public class AssociateService implements Service {
 		}
 		return map.values();
 	}
-
+	
     /**
      * execute delegated task: fetch data from DB and cache it to storage
      *

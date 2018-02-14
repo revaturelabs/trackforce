@@ -12,7 +12,7 @@ import { environment } from "../../../environments/environment";
  */
 @Injectable()
 export class AssociateService {
-    private associatePath: string = "TrackForce/associates/";
+    private associatePath: string = "TrackForce/associates";
 
     status: string
     client: string
@@ -31,7 +31,7 @@ export class AssociateService {
      * @param id - the id of the associate to retrieve
      */
     getAssociate(id: number) {
-        let url: string = environment.url + this.associatePath+ id;
+        let url: string = environment.url + this.associatePath+"/"+ id;
         return this.http.get<Associate>(url);
     }
 
@@ -44,7 +44,7 @@ export class AssociateService {
     getAssociatesByStatus(statusId: number) {
       console.log("Inside Associate Service - getFilteredAssociates");
       console.log("statusId: " + statusId);
-      return this.http.get(environment.url+this.associatePath+'associates?status='+statusId);
+      return this.http.get(environment.url+this.associatePath+'?status='+statusId);
     }
 
     /**

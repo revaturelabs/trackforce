@@ -87,16 +87,17 @@ public class AssociateResource {
 		return Response.ok(associateinfo).build();
 	}
 	
-//	@GET
-//	@Path("skillset")
-//	public Response getAssociateUnmapted(@PathParam("statusID") int statusId) {
-//		try {
-//			return 
-//		} catch(Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-//		return Response.noContent().build();
-//	}
+	@GET
+	@Path("mapped/{statusId}")
+	public Response getMappedInfo(@PathParam("statusId") int statusId) {
+		return service.getMappedInfo(statusId);
+	}
+	
+	@GET
+	@Path("unmapped/{statusId}")
+	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
+		return service.getUnmappedInfo(statusId);
+	}
 	
 	/**
 	 * Update the marketing status or client of an associate

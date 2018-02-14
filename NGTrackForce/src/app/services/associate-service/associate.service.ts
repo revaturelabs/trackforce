@@ -44,7 +44,7 @@ export class AssociateService {
     getAssociatesByStatus(statusId: number) {
       console.log("Inside Associate Service - getFilteredAssociates");
       console.log("statusId: " + statusId);
-      return this.http.get(environment.url+this.associatePath+'?status='+statusId);
+      return this.http.get(environment.url+this.associatePath+'/mapped/'+statusId);
     }
 
     /**

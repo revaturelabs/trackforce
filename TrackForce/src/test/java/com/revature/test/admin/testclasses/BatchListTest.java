@@ -13,8 +13,8 @@ public class BatchListTest extends AdminSuite {
 	
 	@BeforeTest
 	public void beforeTest() {
+		// Click Batch List Tab
 		try {
-			// Click Batch List Tab
 			assertTrue(BatchListCukes.the_Batch_List_Tab_is_clicked(wd));
 			
 		} catch (Throwable e) {
@@ -49,10 +49,9 @@ public class BatchListTest extends AdminSuite {
 	}
 	
 	@Test(priority = 3)
-	// Clicks From date arrow
+	// Clicks From date input field and enters data
 	public void ClickFromField() {
 		try {
-			// Click From date input field and enter data
 			BatchListCukes.the_From_date_is_entered(wd);
 		} catch (Throwable e) {
 			fail("Can't click the From date arrow");
@@ -61,10 +60,9 @@ public class BatchListTest extends AdminSuite {
 	}
 	
 	@Test(priority = 4)
-	// Clicks To date input field
-	public void ClickToArrow() {
+	// Clicks To date input field and enters data
+	public void ClickToField() {
 		try {
-			// Click Batch List Tab
 			BatchListCukes.the_To_date_is_entered(wd);
 		} catch (Throwable e) {
 			fail("Can't click the To date arrow");
@@ -73,26 +71,41 @@ public class BatchListTest extends AdminSuite {
 	}
 
 	@Test(priority = 5)
-	// Clicks To date input field
+	// Clicks submit button
 	public void ClickSubmit() throws Throwable {
 		assertTrue(BatchListCukes.the_submit_button_is_clicked(wd));
-		Thread.sleep(2000);
 	}
 	
 	@Test(priority = 6)
-	// Clicks To date input field
+	// Checks if the batch list is correct after submitting, according to the dates in the To and From fields
 	public void areResultsCorrect() throws Throwable {
 		assertTrue(BatchListCukes.the_batch_list_should_update_to_show_only_the_batches_which_fit_the_entered_criteria(wd));
-		Thread.sleep(2000);
 	}
 	
 	@Test(priority = 7)
-	// Clicks To date input field
+	// Clicks the reset button
 	public void ClickReset() throws Throwable {
 		assertTrue(BatchListCukes.the_reset_button_is_clicked(wd));
-		Thread.sleep(2000);
 	}
 	
+	@Test(priority = 8)
+	// Checks if the batch list is correct after resetting the To and From fields to default values (no restrictions)
+	public void allBatchesShowing() throws Throwable {
+		assertTrue(BatchListCukes.the_batch_list_should_show_all_batches(wd));
+		Thread.sleep(1000);
+	}
+	
+	@Test(priority = 9)
+	//possible use case
+	public void useCase1() throws Throwable {
+		assertTrue(BatchListCukes.the_From_date_is_entered(wd));
+		Thread.sleep(1000);
+		assertTrue(BatchListCukes.the_To_date_is_entered(wd));
+		Thread.sleep(1000);
+		assertTrue(BatchListCukes.the_submit_button_is_clicked(wd));
+		Thread.sleep(1000);
+		assertTrue(BatchListCukes.the_batch_list_should_show_all_batches(wd));
+	}
 	
 	@AfterTest
 	public void afterTest() {

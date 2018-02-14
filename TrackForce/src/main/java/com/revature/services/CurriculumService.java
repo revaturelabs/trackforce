@@ -127,6 +127,7 @@ public class CurriculumService implements Service {
 			PersistentStorage.getStorage().setCurriculums(curriculumDao.getAllCurriculums());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> Set<T> read(String...args) throws IOException {
 		return (Set<T>) getAllCurriculums();

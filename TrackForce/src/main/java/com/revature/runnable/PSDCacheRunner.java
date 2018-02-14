@@ -1,11 +1,11 @@
 package com.revature.runnable;
 
-import java.io.IOException;
 
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.CurriculumDaoImpl;
+import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.dao.TechDaoHibernate;
 import com.revature.services.PersistentServiceDelegator;
 
@@ -90,7 +90,6 @@ public class PSDCacheRunner implements Runnable {
 	 */
 	private void cache() {
 
-		 try {
 	            // perform caching
 
 	            long startTime = System.nanoTime();
@@ -118,7 +117,7 @@ public class PSDCacheRunner implements Runnable {
 	            System.out.println("Curriculums caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
-	            psd.getMarketingStatuses();
+	            MarketingStatusDaoHibernate.cacheAllMarketingStatuses();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
 	            System.out.println("MarketingStatuses caching time: "+elapsedTime+" seconds");
@@ -129,9 +128,5 @@ public class PSDCacheRunner implements Runnable {
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
 	            System.out.println("Technologies caching time: "+elapsedTime+" seconds");
 	            System.out.println("Total caching time: "+total+" seconds");
-
-	        } catch (IOException e) {
-            e.printStackTrace();
-        }
 	}
 }

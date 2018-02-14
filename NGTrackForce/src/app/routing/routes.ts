@@ -15,8 +15,9 @@ import {CreateUserComponent} from '../components/create-user/create-user.compone
 import {RootComponent} from '../components/root/root.component';
 import {SkillsetComponent} from '../components/skillset/skillset.component';
 import {BatchDetailsComponent} from '../components/batch-details/batch-details.component';
-import { AssociateViewComponent } from '../components/associate-view/associate-view.component';
+import {AssociateViewComponent } from '../components/associate-view/associate-view.component';
 import {NotFoundComponent} from '../components/not-found/not-found.component';
+import {PredictionsComponent} from '../components/predictions/predictions.component';
 
 import { AuthGuard } from '../guards/auth.guard';
 
@@ -83,6 +84,11 @@ export const appRoutes: Routes = [
     path: 'root',
     canActivate: [AuthGuard],
     component: RootComponent
+  },
+  {
+    path: 'predictions',
+    canActivate: [AuthGuard],
+    component: PredictionsComponent
   },
   {
     path: 'skillset/:id',

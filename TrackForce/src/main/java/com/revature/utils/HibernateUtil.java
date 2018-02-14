@@ -86,6 +86,7 @@ public class HibernateUtil {
      */
     public static void shutdown() {
         if (sessionFactory != null) {
+        	System.out.println("Shutting down SessionFactory...");
             sessionFactory.close();
             System.out.println("SessionFactory has been shutdown.");
             // This manually deregisters JDBC driver, which prevents Tomcat 7 from
@@ -94,13 +95,13 @@ public class HibernateUtil {
             while (drivers.hasMoreElements()) {
                 Driver driver = drivers.nextElement();
                 try {
-                	System.out.println("Deregistering Driver");
+                	System.out.println("Deregistering Driver..");
                     DriverManager.deregisterDriver(driver);
                     LogUtil.logger.info(String.format("deregistering jdbc driver: %s", driver));
-                    System.out.println("Driver has been Deregistered");
+                    System.out.println("Driver has been Deregistered.");
                 } catch (SQLException e) {
                     LogUtil.logger.fatal(String.format("Error deregistering driver %s", driver), e);
-                    System.out.println("Driver has not been Deregistered");
+                    System.out.println("Warning: driver has not been Deregistered.");
                 }
             }
         }

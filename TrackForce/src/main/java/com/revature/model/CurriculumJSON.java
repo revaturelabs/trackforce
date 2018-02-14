@@ -1,6 +1,5 @@
 package com.revature.model;
 
-import java.math.BigDecimal;
 
 public class CurriculumJSON implements Comparable<CurriculumJSON> {
 

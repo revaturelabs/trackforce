@@ -11,7 +11,6 @@ import javax.ws.rs.core.Response;
 
 import org.hibernate.HibernateException;
 
-import com.revature.services.CurriculumService;
 import com.revature.services.TechService;
 
 @Path("technologies")

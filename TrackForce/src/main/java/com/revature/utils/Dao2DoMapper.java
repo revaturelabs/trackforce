@@ -237,7 +237,8 @@ public class Dao2DoMapper {
         return pi;
     }
 
-    private static InterviewInfo map(TfInterview tfi) {
+    @SuppressWarnings("unused")
+	private static InterviewInfo map(TfInterview tfi) {
         InterviewInfo ii = new InterviewInfo();
         ii.setId(tfi.getTfInterviewId());
         if (tfi.getTfAssociate() != null)

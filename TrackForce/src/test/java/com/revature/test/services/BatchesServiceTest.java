@@ -78,7 +78,7 @@ public class BatchesServiceTest extends BaseTest {
 
     @Test
     public void testGetAssociates() throws Exception {
-        Set<AssociateInfo> assocs = batchService.getAssociates("1");
+        Set<AssociateInfo> assocs = batchService.getAssociatesForBranch(1);
         Assert.assertEquals(1, assocs.size());
         Assert.assertTrue(assocs.contains(assoc1));
     }

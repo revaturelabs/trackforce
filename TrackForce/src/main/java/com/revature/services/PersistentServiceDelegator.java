@@ -206,6 +206,8 @@ public class PersistentServiceDelegator {
         // update cache
     	new MarketingStatusService().updateCache();
     }
+    
+    
 
     private class PersistenceHelperWorker extends Thread {
 

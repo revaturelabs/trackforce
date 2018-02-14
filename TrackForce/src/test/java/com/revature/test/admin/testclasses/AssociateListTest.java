@@ -51,7 +51,7 @@ public class AssociateListTest extends AdminSuite {
 			assertTrue(AssociateListCukes.i_click_the_associate_id_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_associate_id_heading_on_the_associate_table(wd));
 
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_the_associate_s_id_in_ascending_order(wd));
 
 		} catch (Throwable e) {
@@ -66,7 +66,7 @@ public class AssociateListTest extends AdminSuite {
 			// One click sorts in descending order
 			assertTrue(AssociateListCukes.i_click_the_associate_id_heading_on_the_associate_table(wd));
 
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_associate_id_in_descending_order(wd));
 
 		} catch (Throwable e) {
@@ -81,7 +81,7 @@ public class AssociateListTest extends AdminSuite {
 		try {
 			assertTrue(AssociateListCukes.i_click_the_first_name_heading_on_the_associate_table(wd));
 			
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_first_name_in_ascending_order(wd));
 			
 		}catch(Throwable e) {
@@ -98,7 +98,7 @@ public class AssociateListTest extends AdminSuite {
 			assertTrue(AssociateListCukes.i_click_the_first_name_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_first_name_heading_on_the_associate_table(wd));
 			
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_first_name_in_descending_order(wd));
 			
 		}catch(Throwable e) {
@@ -113,7 +113,7 @@ public class AssociateListTest extends AdminSuite {
 			assertTrue(AssociateListCukes.i_click_the_last_name_heading_on_the_associate_table(wd));
 			
 			
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_last_name_in_ascending_order(wd));
 			
 		}catch(Throwable e) {
@@ -129,7 +129,7 @@ public class AssociateListTest extends AdminSuite {
 			assertTrue(AssociateListCukes.i_click_the_last_name_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_last_name_heading_on_the_associate_table(wd));
 			
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_last_name_in_descending_order(wd));
 			
 		}catch(Throwable e) {
@@ -143,7 +143,7 @@ public class AssociateListTest extends AdminSuite {
 		try {
 			assertTrue(AssociateListCukes.i_click_the_marketing_status_heading_on_the_associate_table(wd));
 			
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_marketing_status_in_ascending_order(wd));
 			
 		}catch(Throwable e) {
@@ -159,7 +159,7 @@ public class AssociateListTest extends AdminSuite {
 			assertTrue(AssociateListCukes.i_click_the_marketing_status_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_marketing_status_heading_on_the_associate_table(wd));
 			
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_marketing_status_in_descending_order(wd));
 			
 		}catch(Throwable e) {
@@ -173,7 +173,7 @@ public class AssociateListTest extends AdminSuite {
 		try {
 			assertTrue(AssociateListCukes.i_click_the_client_name_heading_on_the_associate_table(wd));
 			
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_client_name_in_ascending_order(wd));
 			
 		}catch(Throwable e) {
@@ -189,7 +189,7 @@ public class AssociateListTest extends AdminSuite {
 			assertTrue(AssociateListCukes.i_click_the_client_name_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_client_name_heading_on_the_associate_table(wd));
 			
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_client_name_in_descending_order(wd));
 			
 		}catch(Throwable e) {
@@ -203,7 +203,7 @@ public class AssociateListTest extends AdminSuite {
 		try {
 			assertTrue(AssociateListCukes.i_click_the_batch_name_heading_on_the_associate_table(wd));
 			
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_batch_name_in_ascending_order(wd));
 			
 		}catch(Throwable e) {
@@ -219,7 +219,7 @@ public class AssociateListTest extends AdminSuite {
 			assertTrue(AssociateListCukes.i_click_the_batch_name_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_batch_name_heading_on_the_associate_table(wd));
 			
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_batch_name_in_descending_order(wd));
 			
 		}catch(Throwable e) {
@@ -232,12 +232,12 @@ public class AssociateListTest extends AdminSuite {
 	//*************************** FILTER **********************************
 	
 	//Filter by client name by entering in search text
-	@Test(priority = 14, enabled = true)
+	@Test(priority = 14, enabled = false)
 	public void filterByClientNameSearch() {
 		WebElement element;
 		boolean isFiltered = false;
 		try {
-			Thread.sleep(2000);
+			//Thread.sleep(2000);
 			Set<String> clientSet = AssociateListCukes.i_know_the_clients(wd);
 			for(String s : clientSet) {
 			
@@ -249,6 +249,18 @@ public class AssociateListTest extends AdminSuite {
 			/*
 			Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_batch_name_in_descending_order(wd));*/
+			
+		}catch(Throwable e) {
+			fail("Failed to filter by searching client name");
+		}
+	}
+	
+	//Filter by client name by entering in search text
+	@Test(priority = 15, enabled = false)
+	public void filterByClientMenu() {
+		try {
+			assertTrue(AssociateListCukes.i_click_the_client_dropdown_menu(wd));
+			assertTrue(AssociateListCukes.the_associate_table_shows_all_associates_with_the_same_client_name(wd));
 			
 		}catch(Throwable e) {
 			fail("Failed to filter by searching client name");

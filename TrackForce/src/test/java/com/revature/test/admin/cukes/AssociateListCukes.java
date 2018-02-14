@@ -629,5 +629,21 @@ public class AssociateListCukes {
 
 		return true;
 	}
+	
+	@When("^I click the client dropdown menu$")
+	public static boolean i_click_the_client_dropdown_menu(WebDriver wd) throws Throwable {
+		return AssociateListTab.clientDropDown(wd);
+	}
+
+	@Then("^The associate table shows all associates with the same client name$")
+	public static boolean the_associate_table_shows_all_associates_with_the_same_client_name(WebDriver wd) throws Throwable {
+		List<WebElement> clients = AssociateListTab.clientNameList(wd);
+		for (WebElement e : clients) {
+			if (!(e.getText().equals("Accenture"))) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 }

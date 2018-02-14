@@ -119,4 +119,9 @@ Feature: Title of your feature
  		Given I'm on the associate list page
  		When I click the batch name heading on the associate table
  		Then The associate table is sorted by batch name in descending order
+ 		
+ 		Scenario: Sort the associate table by batch name in descending order
+ 		Given I'm on the associate list page
+ 		When I click the client dropdown menu
+ 		Then The associate table shows all associates with the same client name
 	

@@ -6,6 +6,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import com.revature.test.admin.cukes.BatchListCukes;
+import com.revature.test.admin.pom.BatchListTab;
 
 public class BatchListTest extends AdminSuite {
 	
@@ -71,6 +72,28 @@ public class BatchListTest extends AdminSuite {
 		}
 	}
 
+	@Test(priority = 5)
+	// Clicks To date input field
+	public void ClickSubmit() throws Throwable {
+		assertTrue(BatchListCukes.the_submit_button_is_clicked(wd));
+		Thread.sleep(2000);
+	}
+	
+	@Test(priority = 6)
+	// Clicks To date input field
+	public void areResultsCorrect() throws Throwable {
+		assertTrue(BatchListCukes.the_batch_list_should_update_to_show_only_the_batches_which_fit_the_entered_criteria(wd));
+		Thread.sleep(2000);
+	}
+	
+	@Test(priority = 7)
+	// Clicks To date input field
+	public void ClickReset() throws Throwable {
+		assertTrue(BatchListCukes.the_reset_button_is_clicked(wd));
+		Thread.sleep(2000);
+	}
+	
+	
 	@AfterTest
 	public void afterTest() {
 		System.out.println("============ Batch List Tests finished ===============");

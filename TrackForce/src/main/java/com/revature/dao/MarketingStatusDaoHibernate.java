@@ -41,6 +41,14 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 		return Dao2DoMapper.map(marketingStatus);
 	}
 	
+	public TfMarketingStatus getMarketingStatus(Integer id) {
+		TfMarketingStatus tfMarketingStatus;
+		try(Session session = HibernateUtil.getSession()){
+			tfMarketingStatus = (TfMarketingStatus) session.load(TfMarketingStatus.class, id);
+		}
+		return tfMarketingStatus;
+	}
+	
 	@Override
 	public Set<MarketingStatusInfo> getAllMarketingStatuses() {
 		if(PersistentStorage.getStorage().getMarketingStatuses() == null)

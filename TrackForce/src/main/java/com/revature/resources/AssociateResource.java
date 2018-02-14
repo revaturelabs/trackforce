@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -60,11 +61,11 @@ public class AssociateResource {
 	 * @return Response - 200 status if successful
 	 * @throws IOException
 	 */
-	//@PUT
+	@PUT
 	public Response updateAssociates(
 			@QueryParam("marketingStatusId") Integer marketingStatusIdStr,
 			@QueryParam("clientId") Integer clientIdStr,
-			List<Integer> ids) {
+			@QueryParam("id") List<Integer> ids) {
 		// marketing status & client id are given as query parameters, ids sent in body
 		service.updateAssociates(ids, marketingStatusIdStr, clientIdStr);
 		return Response.ok().build();

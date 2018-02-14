@@ -83,7 +83,6 @@ public class AssociateDaoHibernate implements AssociateDao {
 		}
 	}
 	
-    @SuppressWarnings("null")
 	@Override
     public void updateAssociates(List<Integer> ids, Integer marketingStatus, Integer clientid) {
     	List<TfAssociate> associates = new ArrayList<TfAssociate>();
@@ -99,11 +98,11 @@ public class AssociateDaoHibernate implements AssociateDao {
 			for(TfAssociate associate : associates) {
 				associate.setTfClient(client);
 				associate.setTfMarketingStatus(status);
+				session.saveOrUpdate(associate);
+				System.out.println(associate);
 			}
-
-			session.saveOrUpdate(associates);
 			t.commit();
-			System.out.println(associates);
+			PersistentStorage.getStorage().setAssociates(createAssociatesMap(associates));
 		} finally {
 			session.close();
 		}

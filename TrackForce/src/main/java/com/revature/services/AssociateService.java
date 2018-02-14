@@ -53,6 +53,7 @@ public class AssociateService implements Service {
     		Integer marketingStatus,
     		Integer clientid) {
     	//System.out.println("Got something with UpdateAssociate:" + associateinfo);
+    	System.out.println(associateids.toString());
     	associateDao.updateAssociates(associateids, marketingStatus, clientid);
     	return Response.status(200).build();
     }

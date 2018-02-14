@@ -9,12 +9,12 @@ import javax.ws.rs.core.Response;
 
 import org.hibernate.HibernateException;
 
+import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.TechDao;
 import com.revature.dao.TechDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.TechInfo;
-import com.revature.utils.PersistentStorage;
 
 public class TechService implements Service {
 
@@ -34,10 +34,12 @@ public class TechService implements Service {
     }
 
     private Set<TechInfo> getAllTechs() throws HibernateException, IOException{
-		Set<TechInfo> currs = PersistentStorage.getStorage().getTechs();
+//		Set<TechInfo> currs = PersistentStorage.getStorage().getTechs();
+    	Set<TechInfo> currs = TechDao.getTechFromCache();
 		if(currs == null || currs.isEmpty()) {
 			execute();
-			return PersistentStorage.getStorage().getTechs();
+//			return PersistentStorage.getStorage().getTechs();
+			return TechDao.getTechFromCache();
 		}
 		return currs;
 	}
@@ -56,10 +58,12 @@ public class TechService implements Service {
 	 * @throws HibernateException
 	 */
 	public Response getClients(int statusid) throws HibernateException, IOException {
-		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
+//		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
+		Set<AssociateInfo> associates = AssociateDaoHibernate.getAllAssociates();
 		if (associates == null) {
 			execute();
-			associates = PersistentStorage.getStorage().getAssociates();
+//			associates = PersistentStorage.getStorage().getAssociates();
+			associates = AssociateDaoHibernate.getAllAssociates();
 		}
 
 		Map<Integer, ClientMappedJSON> map = new HashMap<>();
@@ -85,9 +89,11 @@ public class TechService implements Service {
 
 	@Override
 	public synchronized void execute() throws IOException {
-		Set<TechInfo> ci = PersistentStorage.getStorage().getTechs();
-		if(ci == null || ci.isEmpty())
-			PersistentStorage.getStorage().setTechs(TechDao.getAllTechs());
+//		Set<TechInfo> ti = PersistentStorage.getStorage().getTechs();
+		Set<TechInfo> ti = TechDao.getTechFromCache();
+		if(ti == null || ti.isEmpty())
+//			PersistentStorage.getStorage().setTechs(TechDao.getAllTechs());
+			TechDaoHibernate.cacheAllTechs();
 	}
 
 	@SuppressWarnings("unchecked")

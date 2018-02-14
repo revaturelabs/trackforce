@@ -28,6 +28,7 @@ import { SkillsetComponent } from './components/skillset/skillset.component';
 import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 import { AssociateViewComponent } from './components/associate-view/associate-view.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { PredictionsComponent } from './components/predictions/predictions.component';
 
 ///
 //  SERVICES
@@ -82,7 +83,8 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     RouterLinkStubDirective,
     RouterOutletStubComponent,
     FooterComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    PredictionsComponent
   ],
   imports: [
     BrowserModule,

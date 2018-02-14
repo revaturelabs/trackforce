@@ -2,6 +2,8 @@ package com.revature.test.services;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.test.BaseTest;
@@ -48,7 +50,9 @@ public class AssociateServiceTest extends BaseTest {
 
     @Test
     public void testUpdateAssociatePositive() throws IOException {
-        associateService.updateAssociates(new Integer[] {16},3,2);
+    	List<Integer> associates = new ArrayList<>();
+    	associates.add(16);
+        associateService.updateAssociates(associates, 3, 2);
 
         AssociateInfo associateInfo = associateService.getAssociate(new Integer(16));
 
@@ -60,7 +64,9 @@ public class AssociateServiceTest extends BaseTest {
 
     @Test
     public void testUpdateAssociateNegative() throws IOException {
-        associateService.updateAssociates(new Integer[] {15},-1,-1);
+    	List<Integer> associates = new ArrayList<>();
+    	associates.add(15);
+        associateService.updateAssociates(associates, -1, -1);
         AssociateInfo associateInfo = associateService.getAssociate(new Integer(15));
         Assert.assertEquals(associateInfo.getId(), new Integer(15));
         Assert.assertTrue(associateInfo.getClid() > -1);

@@ -1,13 +1,11 @@
 package com.revature.services;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.Set;
 
 import com.revature.dao.MarketingStatusDao;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.model.MarketingStatusInfo;
-import com.revature.utils.PersistentStorage;
 
 public class MarketingStatusService {
 
@@ -26,13 +24,12 @@ public class MarketingStatusService {
      * @return
      * @throws IOException
      */
-    public Set<MarketingStatusInfo> getAllMarketingStatuses() throws IOException {
-        Set<MarketingStatusInfo> tfms = PersistentStorage.getStorage().getMarketingStatuses();
-        if (tfms == null || tfms.isEmpty()) {
-            updateCache();
-            tfms = PersistentStorage.getStorage().getMarketingStatuses();
-        }
-        return tfms;
+    public Set<MarketingStatusInfo> getAllMarketingStatuses() {
+        return marketingStatusDao.getAllMarketingStatuses();
+    }
+    
+    public MarketingStatusInfo getMarketingStatus(String status) {
+    	return marketingStatusDao.getMarketingStatus(status);
     }
 
     /**
@@ -40,13 +37,13 @@ public class MarketingStatusService {
      * @return
      * @throws IOException
      */
-    private Map<Integer, MarketingStatusInfo> getMarketingStatuses() throws IOException {
-        Map<Integer, MarketingStatusInfo> map = null;
-        map = marketingStatusDao.getMarketingStatuses();
-        return map;
-    }
+//    private Map<Integer, MarketingStatusInfo> getMarketingStatuses() throws IOException {
+//        Map<Integer, MarketingStatusInfo> map = null;
+//        map = marketingStatusDao.getMarketingStatuses();
+//        return map;
+//    }
 
-    public synchronized void updateCache() throws IOException {
-        PersistentStorage.getStorage().setMarketingStatuses(getMarketingStatuses());
-    }
+//    public synchronized void updateCache() throws IOException {
+//        PersistentStorage.getStorage().setMarketingStatuses(getMarketingStatuses());
+//    }
 }

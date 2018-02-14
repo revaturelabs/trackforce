@@ -14,7 +14,7 @@ import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
 import com.revature.model.ClientInfo;
 import com.revature.model.CurriculumInfo;
-import com.revature.model.MarketingStatusInfo;
+//import com.revature.model.MarketingStatusInfo;
 import com.revature.model.StatusInfo;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
@@ -202,10 +202,10 @@ public class PersistentServiceDelegator {
         return set;
     }
 
-    public void getMarketingStatuses() throws IOException {
-        // update cache
-    	new MarketingStatusService().updateCache();
-    }
+//    public void getMarketingStatuses() throws IOException {
+//        // update cache
+//    	new MarketingStatusService().updateCache();
+//    }
 
     private class PersistenceHelperWorker extends Thread {
 

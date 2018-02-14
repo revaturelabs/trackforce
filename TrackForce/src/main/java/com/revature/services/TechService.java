@@ -90,6 +90,7 @@ public class TechService implements Service {
 			PersistentStorage.getStorage().setTechs(TechDao.getAllTechs());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> Set<T> read(String...args) throws IOException {
 		return (Set<T>) getAllTechs();

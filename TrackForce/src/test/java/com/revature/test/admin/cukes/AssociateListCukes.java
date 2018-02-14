@@ -370,17 +370,19 @@ public class AssociateListCukes {
 
 	}
 
-	@When("^I click an associate checkbox$")
-	public static boolean i_click_an_associate_checkbox(WebDriver driver) throws Throwable {
-		return AssociateListTab.editCheckBox(driver);
-	}
-
 	@When("^I select a update by marketing status value from the update by marketing status drop down$")
 	public static boolean i_select_a_update_by_marketing_status_value_from_the_update_by_marketing_status_drop_down(
 			WebDriver driver) throws Throwable {
 		return AssociateListTab.updateByMarketingStatusDropDown(driver);
 	}
 
+	
+	@When("^I click an associate checkbox$")
+	public static boolean i_click_an_associate_checkbox(WebDriver driver) throws Throwable {
+		return AssociateListTab.editCheckBox(driver);
+	}
+	
+	
 	@When("^I click the update button$")
 	public static boolean i_click_the_update_button(WebDriver driver) throws Throwable {
 		return AssociateListTab.updateButton(driver);

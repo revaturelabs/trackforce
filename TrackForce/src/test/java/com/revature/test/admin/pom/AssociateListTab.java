@@ -268,24 +268,6 @@ public class AssociateListTab {
 		
 		return list;             
 	}  
-	
-	//*****************UNIQUE LIST ***********************************************
-	//Get client names from drop down
-	public static List<WebElement> uniqueClientList(WebDriver d) {
-		// int size = 0;
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		                                  
-		List<WebElement> list = d        
-				.findElements(By.xpath("//*[@id=\"client\"]/*"));
-		
-		System.out.println("Retrieved unique clinet name into list");
-		
-		return list;             
-	} 
-	
+
 	
 }

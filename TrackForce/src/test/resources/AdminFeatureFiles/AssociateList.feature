@@ -23,7 +23,6 @@ Feature: Title of your feature
   
   Background: Logged in as VP and on the Associate List Page.
     
-  
     Scenario: Filter by searching client
     Given I'm on the the associate list page
     And I know the clients
@@ -70,14 +69,12 @@ Feature: Title of your feature
    When I select a curriculum value from the curriculum drop down
    Then the table is filtered by that curriculum
 
- 
-  Scenario: Filter by client
+    Scenario: Filter by client
     Given I'm on the associate list page
     When I select a client value from the client drop down
     Then the table is filtered by that client
 
-    
-    Scenario: Edit associate status
+    Scenario: Edit associate status by marketing status and client
     Given I'm on the associate list page
     When I click an associate checkbox
     And I select a update by marketing status value from the update by marketing status drop down

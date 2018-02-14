@@ -137,7 +137,7 @@ public class BatchListCukes {
 			BatchListTab.fromDateField(wd).click();
 			BatchListTab.fromDateField(wd).sendKeys(Keys.LEFT);
 			BatchListTab.fromDateField(wd).sendKeys(Keys.LEFT);
-			BatchListTab.fromDateField(wd).sendKeys("10");
+			BatchListTab.fromDateField(wd).sendKeys("9");
 			BatchListTab.fromDateField(wd).sendKeys("15");
 			BatchListTab.fromDateField(wd).sendKeys("2017");
 			return true;
@@ -172,9 +172,9 @@ public class BatchListCukes {
 			BatchListTab.toDateField(wd).click();
 			BatchListTab.toDateField(wd).sendKeys(Keys.LEFT);
 			BatchListTab.toDateField(wd).sendKeys(Keys.LEFT);
-			BatchListTab.toDateField(wd).sendKeys("12");
+			BatchListTab.toDateField(wd).sendKeys("11");
 			BatchListTab.toDateField(wd).sendKeys("15");
-			BatchListTab.toDateField(wd).sendKeys("2018");
+			BatchListTab.toDateField(wd).sendKeys("2017");
 			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to find All Batches header");

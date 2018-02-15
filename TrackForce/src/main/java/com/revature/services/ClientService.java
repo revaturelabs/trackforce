@@ -18,6 +18,10 @@ public class ClientService implements Service {
     public ClientService() {
         this.clientDao = new ClientDaoImpl();
     }
+    
+    public ClientService(ClientDao clientDao) {
+        this.clientDao = clientDao;
+    }
 
     //Old method
     /**
@@ -64,22 +68,10 @@ public class ClientService implements Service {
     	}
     }
     
-//Replaced by getClientByID and getClientByName for versatility
-//    /**
-//     * Returns a StatusInfo object representing a client's associates and their
-//     * statuses.
-//     *
-//     * @param clientid The id of the client in the TfClient table
-//     * @return A StatusInfo object for a specified client
-//     */
-//    public StatusInfo getClientInfo(String clientName) throws IOException {
-//        return clientDao.getClient(clientName);
-//    }
-
     @SuppressWarnings("unchecked")
 	private <T> Set<T> getTotals() throws IOException {
         Set<StatusInfo> set = new HashSet<>();
-        Set<ClientInfo> ci = PersistentStorage.getStorage().getClients();
+        Set<ClientInfo> ci = clientDao.getAllClientsFromCache();
         if (ci == null || ci.isEmpty()) {
             execute();
         }
@@ -90,18 +82,14 @@ public class ClientService implements Service {
 
     @Override
     public synchronized void execute() throws IOException {
-//        Set<ClientInfo> ci = PersistentStorage.getStorage().getClients();
-//        if (ci == null || ci.isEmpty())
-//            PersistentStorage.getStorage().setClients(getClients());
-    	System.out.println("ClentService.execute not implemented");
+        Set<ClientInfo> ci = clientDao.getAllClientsFromCache();
+        if (ci == null || ci.isEmpty()) clientDao.cacheAllClients();
     }
 
-    // these are fine and tested
     @SuppressWarnings("unchecked")
     @Override
     public <T> Set<T> read(String... args) throws IOException {
-        if (args == null || args.length == 0)
-            return (Set<T>) getAllClients();
+        if (args == null || args.length == 0) return (Set<T>) getAllClients();
         return getTotals();
     }
 }

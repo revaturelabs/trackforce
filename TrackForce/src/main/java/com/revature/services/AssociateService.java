@@ -52,8 +52,6 @@ public class AssociateService implements Service {
     		List<Integer> associateids,
     		Integer marketingStatus,
     		Integer clientid) {
-    	//System.out.println("Got something with UpdateAssociate:" + associateinfo);
-    	System.out.println(associateids.toString());
     	associateDao.updateAssociates(associateids, marketingStatus, clientid);
     	return Response.status(200).build();
     }
@@ -63,7 +61,7 @@ public class AssociateService implements Service {
      */
 
 	public Set<AssociateInfo> getAllAssociates(){
-		return AssociateDaoHibernate.getAllAssociates();
+		return associateDao.getAllAssociates();
 	}
 
 	/**
@@ -135,6 +133,12 @@ public class AssociateService implements Service {
 		return map.values();
 	}
 	
+	/**
+	 * Generates statistics for the expanded view of the home page mapped chart
+	 * 
+	 * @param statusId
+	 * @return Collection<ClientMappedJSON>
+	 */
 	public Response getMappedInfo(int statusId) {
 	  try {
 		Set<AssociateInfo> associates = getAllAssociates();
@@ -163,6 +167,12 @@ public class AssociateService implements Service {
 	  }
 	}
 	
+	/**
+	 * Generates statistics for the expanded view of the home page unmapped chart
+	 * 
+	 * @param statusId
+	 * @return Collection<CurriculumJSON>
+	 */
 	public Response getUnmappedInfo(int statusId) {
 	  try {
 		Set<AssociateInfo> associates = getAllAssociates();
@@ -198,9 +208,9 @@ public class AssociateService implements Service {
      */
 	@Override
 	public synchronized void execute() throws IOException {
-		Set<AssociateInfo> ai = AssociateDaoHibernate.getAllAssociates();
+		Set<AssociateInfo> ai = associateDao.getAllAssociates();
 		if (ai == null || ai.isEmpty())
-			AssociateDaoHibernate.cacheAllAssociates();
+			associateDao.cacheAllAssociates();
 	}
 
 	@SuppressWarnings("unchecked")

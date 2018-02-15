@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 
 import org.hibernate.HibernateException;
 
+import com.revature.dao.AssociateDao;
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.TechDao;
 import com.revature.dao.TechDaoHibernate;
@@ -19,9 +20,11 @@ import com.revature.model.TechInfo;
 public class TechService implements Service {
 
     private TechDao TechDao;
+    private AssociateDao associateDao;
 
     public TechService() {
         this.TechDao = new TechDaoHibernate();
+        this.associateDao = new AssociateDaoHibernate();
     }
 
     /**
@@ -59,11 +62,11 @@ public class TechService implements Service {
 	 */
 	public Response getClients(int statusid) throws HibernateException, IOException {
 //		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
-		Set<AssociateInfo> associates = AssociateDaoHibernate.getAllAssociates();
+		Set<AssociateInfo> associates = associateDao.getAllAssociates();
 		if (associates == null) {
 			execute();
 //			associates = PersistentStorage.getStorage().getAssociates();
-			associates = AssociateDaoHibernate.getAllAssociates();
+			associates = associateDao.getAllAssociates();
 		}
 
 		Map<Integer, ClientMappedJSON> map = new HashMap<>();

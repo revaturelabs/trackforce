@@ -1,20 +1,36 @@
 package com.revature.test.utils;
 
+import static org.junit.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.AssertJUnit.assertFalse;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.TreeSet;
 
-import com.revature.dao.*;
-import com.revature.model.*;
-import com.revature.services.*;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import com.revature.dao.AssociateDaoHibernate;
+import com.revature.dao.BatchDaoHibernate;
+import com.revature.dao.ClientDaoImpl;
+import com.revature.dao.CurriculumDaoImpl;
+import com.revature.dao.MarketingStatusDaoHibernate;
+import com.revature.model.AssociateInfo;
+import com.revature.model.BatchInfo;
+import com.revature.model.ClientInfo;
+import com.revature.model.CurriculumInfo;
+import com.revature.model.MarketingStatusInfo;
+import com.revature.services.AssociateService;
 import com.revature.test.BaseTest;
 import com.revature.utils.PersistentStorage;
-import org.hibernate.Session;
-import org.mockito.*;
-import org.testng.annotations.*;
 
 public class PersistentStorageTest extends BaseTest {
 
@@ -60,31 +76,37 @@ public class PersistentStorageTest extends BaseTest {
 
         Mockito.when(mockAssociateDao.getAssociates())
                 .thenReturn(associateMap);
-//        Mockito.when(mockBatchDao.getBatchDetails()
-//                .thenReturn(batchMap);
-        Mockito.when(mockClientDao.getAllTfClients(Matchers.any(Session.class)))
+        Mockito.when(mockBatchDao.getBatchDetails())
+                .thenReturn(batchMap);
+        Mockito.when(mockClientDao.getAllTfClients())
                 .thenReturn(clientMap);
         Mockito.when(mockCurriculumDao.getAllCurriculums())
                 .thenReturn(curriculumMap);
-        Mockito.when(mockMarketingStatusDao.getMarketingStatuses(Matchers.any(Session.class)))
+        Mockito.when(mockMarketingStatusDao.getMarketingStatus())
                 .thenReturn(marketingStatusMap);
 
 //        PersistentServiceDelegator serviceDelegator = new PersistentServiceDelegator(
-//                new AssociateService(mockAssociateDao, sessionFactory),
-//                new BatchesService(mockBatchDao, sessionFactory),
-//                new ClientService(mockClientDao, sessionFactory),
-//                new CurriculumService(mockCurriculumDao, sessionFactory),
-//                new MarketingStatusService(mockMarketingStatusDao, sessionFactory)
+//                new AssociateService(),
+//                new BatchesService(),
+//                new ClientService(),
+//                new CurriculumService(),
+//                new MarketingStatusService()
 //        );
 
-        PersistentServiceDelegator serviceDelegator = new PersistentServiceDelegator();
+//        PersistentServiceDelegator serviceDelegator = new PersistentServiceDelegator();
         
         // pull info from *database (*results mocked in this case)
-        serviceDelegator.getAssociates();
-        serviceDelegator.getBatches();
-        serviceDelegator.getClients();
-        serviceDelegator.getCurriculums();
-        serviceDelegator.getMarketingStatuses();
+        	mockAssociateDao.cacheAllAssociates();
+        	mockBatchDao.cacheAllBatches();
+        	mockClientDao.cacheAllClients();
+        	mockCurriculumDao.cacheAllCurriculms();
+        	mockMarketingStatusDao.cacheAllMarketingStatuses();
+        
+//        serviceDelegator.getAssociates();
+//        serviceDelegator.getBatches();
+//        serviceDelegator.getClients();
+//        serviceDelegator.getCurriculums();
+//        serviceDelegator.getMarketingStatuses();
     }
 
     @Test
@@ -99,28 +121,33 @@ public class PersistentStorageTest extends BaseTest {
         assertFalse(PersistentStorage.getStorage().getCurriculums().isEmpty());
         assertNotNull(PersistentStorage.getStorage().getMarketingStatuses());
         assertFalse(PersistentStorage.getStorage().getMarketingStatuses().isEmpty());
+        assertNotNull(PersistentStorage.getStorage().getTechs().isEmpty());
+        assertFalse(PersistentStorage.getStorage().getTechs().isEmpty());
     }
 
     @Test
     public void updateAssociate() throws NumberFormatException, IOException {
         System.err.println(PersistentStorage.getStorage().getAssociateAsMap());
-//		AssociateInfo ai = PersistentStorage.getStorage().getAssociateAsMap();
-//		AssociateInfo copy = new AssociateInfo();
-//
-//		// We need an associate with different info to test against
-//		assertNotEquals(2, ai.getMsid());
-//		assertNotEquals(1, ai.getClid());
-//
-//		copy.setBid(ai.getBid());
-//		copy.setClid(ai.getClid());
-//		copy.setCurid(ai.getCurid());
-//		copy.setMarketingStatusId(ai.getMsid());
-//		copy.setEcid(ai.getEcid());
-//
-//		AssociateService as = new AssociateService();
-//		as.updateAssociate("1", "2", "1");
-//
-//		assertEquals(2, ai.getMsid());
-//		assertEquals(1, ai.getClid());
+        
+		TreeSet<AssociateInfo> aiSet = (TreeSet<AssociateInfo>) PersistentStorage.getStorage().getAssociates();
+		AssociateInfo ai = aiSet.first();
+		AssociateInfo copy = new AssociateInfo();
+
+		// We need an associate with different info to test against
+		Assert.assertNotEquals(2, ai.getMsid());
+		Assert.assertNotEquals(1, ai.getClid());
+
+		copy.setBid(ai.getBid());
+		copy.setClid(ai.getClid());
+		copy.setCurid(ai.getCurid());
+		copy.setMarketingStatusId(ai.getMsid());
+		copy.setEcid(ai.getEcid());
+
+		AssociateService as = new AssociateService();
+		List<Integer> associateIds = new ArrayList<>(new Integer(1));
+		as.updateAssociates(associateIds , 2, 2);
+
+		assertEquals(2, ai.getMsid());
+		Assert.assertEquals(1, ai.getClid());
     }
 }

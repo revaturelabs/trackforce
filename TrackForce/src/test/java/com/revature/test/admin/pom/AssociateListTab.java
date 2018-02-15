@@ -64,17 +64,11 @@ public class AssociateListTab {
 	}
 
 	// Update button
-	public static boolean updateButton(WebDriver d) {
+	public static WebElement updateButton(WebDriver d) {
 		
-		try {
 		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"submit\"] "), 10);
-		element.click();
-		System.out.println("Clicked update button");
-		return true;
-		}catch(Throwable e) {
-			System.out.println("Failed to click update button");
-		return false;
-		}
+		return element;
+		
 	}
 
 	// ****************** CHECKBOXES **************************
@@ -82,7 +76,14 @@ public class AssociateListTab {
 	// Edit check box for first row in the field
 	public static WebElement editCheckBox(WebDriver d) {
 		
-		element = d.findElement(By.xpath("//*[@id=\"70\"]"));
+		element = d.findElement(By.xpath("//*[@id=\"2\"]"));
+		return element;
+	}
+	
+	// ****************** MARKETINGSTATUS TEXT **************************
+	public static WebElement MarketingStatusText(WebDriver d) {
+		
+		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"info\"]/table/tbody/tr[3]/td[5]"), 10);
 		return element;
 	}
 

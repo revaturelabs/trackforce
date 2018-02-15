@@ -19,6 +19,7 @@ public class ClientListCukes extends AdminSuite {
     //	static String secondClient = ClientListTab.getClientNameFromList(wd, 2).getText();
 	static String firstClient = null;
 	static String secondClient = null;
+	static String currentClient = null; //current client that is being searched for or viewed
 	
 	@Given("^I click on Client List Tab$")
 	public static boolean click_client_list_tab(WebDriver d) {
@@ -35,19 +36,33 @@ public class ClientListCukes extends AdminSuite {
 	@Given("^Client List Tab loads$")
 	public static boolean client_list_tab_loads(WebDriver d) {
 		try {
-			// if the current url equals the base url in testConfig, return true
-			if (ClientListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/client-listing")) {
+			if (ClientListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/client-listing") ||
+					ClientListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/client-list")) {
 				return true;
 			}
-			System.out.println("Current URL does not end with /client-listing");
+			System.out.println("Current URL does not end with /client-listing or /client-list");
 			return false;
 		} catch (Throwable e) {
-			System.out.println("Failed to confirm current URL ends in /client-listing");
+			System.out.println("Failed to get current URL");
 			return false;
 		}
 	}
 
-	@Given("^Search bar is blank$")
+	@Given("^Client List panel loads$")
+	public static boolean client_list_panel_loads(WebDriver d) {
+		try {
+			firstClient = ClientListTab.getClientNameFromList(wd, 1).getText();
+			secondClient = ClientListTab.getClientNameFromList(wd, 2).getText();
+			return true;
+		} catch (Throwable e) {
+			System.out.println("Failed to get first and second client from list");
+			return false;
+		}
+	}
+	
+	
+	
+	@When("^I make sure the search bar is blank$")
 	public static boolean search_bar_is_blank(WebDriver d) {
 		try {
 			// clear the client list search box
@@ -67,12 +82,10 @@ public class ClientListCukes extends AdminSuite {
 	@When("^I type the name of a client into the search bar$")
 	public static boolean search_by_client_name(WebDriver d) {
 		try {
-			// defines secondClient variable which was declared at the top of the class, with a client name
-			secondClient = ClientListTab.getClientNameFromList(wd, 2).getText();
-			// populates the client search box with the secondClient value which was just given
-			ClientListTab.getClientSearchBox(d).sendKeys(secondClient);
-			// if the value in the client search bar matches the value of secondClient, return true
-			if (ClientListTab.getClientSearchBar(d).getAttribute("value").equals(secondClient)){
+			currentClient = secondClient;
+			ClientListTab.getClientSearchBox(d).sendKeys(currentClient);
+			Thread.sleep(500);
+			if (ClientListTab.getClientSearchBar(d).getAttribute("value").equals(currentClient)){
 				return true;
 			}
 			System.out.println("Search bar value does not equal the second client name from the list");
@@ -82,15 +95,33 @@ public class ClientListCukes extends AdminSuite {
 			return false;
 		}
 	}
+	
+	@When("^I want to enter a different client name into the search bar instead$")
+	public static boolean search_by_another_client_name(WebDriver d) {
+		try {
+			currentClient = firstClient;
+			search_bar_is_blank(d);
+			ClientListTab.getClientSearchBox(d).sendKeys(currentClient);
+			if (ClientListTab.getClientSearchBar(d).getAttribute("value").equals(currentClient)){
+				return true;
+			}
+			System.out.println("Search bar value does not equal the first client name from the list");
+			return false;
+		} catch (Throwable e) {
+			System.out.println("Failed to enter another client name into search bar");
+			return false;
+		}
+	}
+	
 
 	@When("^I see only that client in the list$")
 	public static boolean client_should_be_at_top_of_search_results(WebDriver d) {
 		try {
 			// if the client name at the top of the list matches the value of secondClient, return true
-			if (ClientListTab.getClientNameFromList(d, 1).getText().equals(secondClient)) {
+			if (ClientListTab.getClientNameFromList(d, 1).getText().equals(currentClient)) {
 				return true;
 			}
-			System.out.println("The second client name from the list did not appear at the top of the search results");
+			System.out.println("The currently searched/viewed client name from the list did not appear at the top of the search results");
 			return false;
 		} catch (Throwable e) {
 			System.out.println("Failed to get the client's name at the top of the search results");
@@ -102,6 +133,7 @@ public class ClientListCukes extends AdminSuite {
 	public static boolean click_client_in_search_results(WebDriver d) {
 		try {
 			// click the first client name from list
+			currentClient = ClientListTab.getClientNameFromList(wd, 1).getText();
 			ClientListTab.getClientNameFromList(d, 1).click();
 			return true;
 		} catch (Throwable e) {
@@ -113,9 +145,16 @@ public class ClientListCukes extends AdminSuite {
 	@Then("^The client's data should show in the graph$")
 	public static boolean client_data_shows_in_graph(WebDriver d) {
 		try {
-			// if the bar chart header matches the value of the secondClient, return true
-			if (ClientListTab.getBarChartHeader(d).getText().equals(secondClient)){
+
+			Thread.sleep(500);
+			if (ClientListTab.getBarChartHeader(d).getText().equals(currentClient)){
 				return true;
+			}
+			else { //Wait even longer, then check to see if header is updated now
+				Thread.sleep(1000);
+				if (ClientListTab.getBarChartHeader(d).getText().equals("Total Associates")) {
+					return true;
+				}
 			}
 			System.out.println("Graph is not displaying the selected client's data");
 			return false;
@@ -141,8 +180,15 @@ public class ClientListCukes extends AdminSuite {
 	public static boolean Total_Associates_header_is_visible(WebDriver d) {
 		try {
 			// if the bar chart header contains "Total Associates", return true
+			Thread.sleep(500);
 			if (ClientListTab.getBarChartHeader(d).getText().equals("Total Associates")) {
 				return true;
+			}
+			else { //Wait even longer, then check to see if header is updated now
+				Thread.sleep(1000);
+				if (ClientListTab.getBarChartHeader(d).getText().equals("Total Associates")) {
+					return true;
+				}
 			}
 			System.out.println("Graph is not displaying all clients' data");
 			return false;

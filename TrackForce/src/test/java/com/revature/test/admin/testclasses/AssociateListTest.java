@@ -3,6 +3,11 @@ package com.revature.test.admin.testclasses;
 import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
+
+import java.util.Set;
+
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -299,7 +304,7 @@ public class AssociateListTest extends AdminSuite {
 	//************** FILTER BY SELECTING DROP DOWN ***********************
 	
 	//Filter by selecting curriculum drop down value
-	@Test(priority = 20, enabled = true)
+	@Test(priority = 20, enabled = false)
 	public void filterByCurriculumDropDown() {
 		try {
 			assertTrue(AssociateListCukes.i_select_a_curriculum_value_from_the_curriculum_drop_down(wd));
@@ -308,6 +313,29 @@ public class AssociateListTest extends AdminSuite {
 			
 		}
 	}
+	
+	// ************************ UPDATE ***************************************
+		@Test(priority = 21, enabled = true)
+		public void EditAssociateInformation() {
+			
+			String marketingStatusBefore = null;
+			String marketingStatusAfter = null;
+			try {
+				marketingStatusBefore = AssociateListCukes.the_information_is_updated(wd);
+				System.out.println("Marketing Status before update: " + marketingStatusBefore);
+				assertTrue(AssociateListCukes.i_click_an_associate_checkbox(wd));
+				assertTrue(AssociateListCukes.i_select_a_update_by_marketing_status_value_from_the_update_by_marketing_status_drop_down(wd));
+				assertTrue(AssociateListCukes.i_select_a_client_value_from_the_client_drop_down(wd));
+				assertTrue(AssociateListCukes.i_click_the_update_button(wd));
+				marketingStatusAfter = AssociateListCukes.the_information_is_updated(wd);
+				System.out.println("Marketing Status after update: " + marketingStatusAfter);
+				//assertTrue(!marketingStatusBefore.equals(marketingStatusAfter));
+				
+			
+			} catch (Throwable e) {
+
+			}
+		}
 	
 	@AfterTest
 	public void close() {

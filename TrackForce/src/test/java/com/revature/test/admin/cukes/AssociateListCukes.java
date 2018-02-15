@@ -419,40 +419,78 @@ public class AssociateListCukes {
 	}
 
 	
-	
-	
-	/*
-	 * @When("^I select a client value from the client drop down$") public static
-	 * boolean i_select_a_client_value_from_the_client_drop_down(WebDriver driver)
-	 * throws Throwable { // return AssociateListTab.clientDropDown(driver);
-	 * 
-	 * }
-	 */
+	@When("^I select a client value from the client drop down$")
+	public static boolean i_select_a_client_value_from_the_client_drop_down(WebDriver driver) throws Throwable {
+		try {
+			Thread.sleep(2000);
+			element = AssociateListTab.clientUpdateDropDown(driver);
+			element.sendKeys("Revature LLC");
+			System.out.println("Selected value from Client drop down");
+			Thread.sleep(2000);
+			return true;
+		} catch (Throwable e) {
+			System.out.println("Failed to select value from Client drop down");
+			return false;
+		}
 
-	/*
-	 * @When("^I select a update by marketing status value from the update by marketing status drop down$"
-	 * ) public static boolean
-	 * i_select_a_update_by_marketing_status_value_from_the_update_by_marketing_status_drop_down(
-	 * WebDriver driver) throws Throwable { }
-	 */
+	}
 
-	/*
-	 * @When("^I click an associate checkbox$") public static boolean
-	 * i_click_an_associate_checkbox(WebDriver driver) throws Throwable { return
-	 * AssociateListTab.editCheckBox(driver); }
-	 */
+	
+	@When("^I select a update by marketing status value from the update by marketing status drop down$")
+	public static boolean i_select_a_update_by_marketing_status_value_from_the_update_by_marketing_status_drop_down(
+			WebDriver driver) throws Throwable {
+		try {
+			Thread.sleep(2000);
+			element = AssociateListTab.updateByMarketingStatusDropDown(driver);
+			element.sendKeys("MAPPED: RESERVED");
+			System.out.println("Selected value from Marketing Status drop down");
+			Thread.sleep(2000);
+			return true;
+		} catch (Throwable e) {
+			System.out.println("Failed to select value from Marketing Status drop down");
+			return false;
+		}
+	}
+
+	
+	@When("^I click an associate checkbox$")
+	public static boolean i_click_an_associate_checkbox(WebDriver driver) throws Throwable {
+		try {
+			Thread.sleep(2000);
+			element = AssociateListTab.editCheckBox(driver);
+			element.click();
+			System.out.println("Clicked on the edit associate checkbox");
+			Thread.sleep(2000);
+			return true;
+		} catch (Throwable e) {
+			System.out.println("Failed to on the edit associate checkbox");
+			return false;
+		}
+	}
+	 
 
 	@When("^I click the update button$")
 	public static boolean i_click_the_update_button(WebDriver driver) throws Throwable {
-		return AssociateListTab.updateButton(driver);
+		try {
+			Thread.sleep(2000);
+			element = AssociateListTab.updateButton(driver);
+			element.click();
+			System.out.println("Clicked update button");
+			Thread.sleep(4000);
+			return true;
+			}catch(Throwable e) {
+				System.out.println("Failed to click update button");
+			return false;
+			}
 	}
 
-	/*
-	 * @Then("^the information is updated$") public static boolean
-	 * the_information_is_updated(WebDriver driver) throws Throwable {
-	 * 
-	 * }
-	 */
+	
+	@Then("^the information is updated$")
+	public static String the_information_is_updated(WebDriver driver) throws Throwable {
+		String text =AssociateListTab.MarketingStatusText(driver).getText();
+		return text;
+		
+	}
 
 	// *******************SORTING CUKES ***************************************
 

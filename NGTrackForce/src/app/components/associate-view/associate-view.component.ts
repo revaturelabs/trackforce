@@ -17,11 +17,55 @@ import { ActivatedRoute } from '@angular/router';
 })
 @AutoUnsubscribe
 export class AssociateViewComponent implements OnInit {
-
   public associate: Associate = new Associate();
+  public interviews: Array<any> = [
+    {
+      id: 1,
+      client: "Accenture",
+      date: new Date(),
+      type: "Phone",
+      feedback: "Good"
+    },
+    {
+      id: 2,
+      client: "Revature",
+      date: new Date(),
+      type: "On-site",
+      feedback: "Bad"
+    },
+    {
+      id: 3,
+      client: "FINRA",
+      date: new Date(),
+      type: "Skype",
+      feedback: "Okay"
+    }
+  ]
+  public messages: Array<string> = ["I cleared my interview with FINRA","Please update my status"];
+  public newMessage: string = "";
+  public newInterview: any = {
+    client: null,
+    date: null,
+    type: null,
+    feedback: null
+  }
+  public selectedMarketingStatus: string;
+  public clients: Array<any> = [
+    {
+      name: "Accenture"
+    },
+    {
+      name: "Revature"
+    },
+    {
+      name: "FINRA"
+    }
+  ]
+  public selectedClient: string = "";
+  public formOpen: boolean = false;
 
-
-  constructor(private associateService: AssociateService,
+  constructor(
+    private associateService: AssociateService,
     private authService: AuthenticationService,
     private activated: ActivatedRoute) { }
 
@@ -45,16 +89,33 @@ export class AssociateViewComponent implements OnInit {
       },
       err => {
         console.log(err);
-      });
+    });
   }
 
-  /**
-  *@description
-  * for logging out the associates
-  * clears the localStorage
-  */
-  logout(){
-    this.authService.logout();
+  toggleForm() {
+    this.formOpen = !this.formOpen;
+  }
+
+  sendMessage() {
+    let tempString = new String(this.newMessage);
+    if (this.newMessage) {
+      this.messages.push(tempString.toString());
+    }
+  }
+
+  addInterview() {
+    console.log(this.newInterview);
+    let tempVar = {
+      client: this.newInterview.client,
+      type: this.newInterview.type,
+      date: this.newInterview.date,
+      feedback: this.newInterview.feedback
+    }
+    this.interviews.push(tempVar);
+    this.newInterview.client = null;
+    this.newInterview.type = null;
+    this.newInterview.date = null;
+    this.newInterview.feedback = null;
   }
 
 }

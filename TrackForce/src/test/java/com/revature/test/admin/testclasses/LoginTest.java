@@ -1,6 +1,5 @@
 package com.revature.test.admin.testclasses;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNotEquals;
 import static org.testng.Assert.fail;
 

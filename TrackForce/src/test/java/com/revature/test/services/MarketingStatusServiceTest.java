@@ -18,8 +18,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.testng.Assert.*;
-
 public class MarketingStatusServiceTest extends BaseTest {
 
     @Mock

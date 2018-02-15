@@ -3,16 +3,11 @@ package com.revature.test.admin.testclasses;
 import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import java.util.Set;
-
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.revature.test.admin.cukes.AssociateListCukes;
-import com.revature.test.admin.pom.AssociateListTab;
-import com.revature.test.admin.pom.CreateUserTab;
 
 public class AssociateListTest extends AdminSuite {
 

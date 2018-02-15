@@ -3,13 +3,11 @@ package com.revature.test.admin.testclasses;
 import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.revature.test.admin.cukes.ClientListCukes;
-import com.revature.test.admin.pom.CreateUserTab;
 
 public class ClientListTest extends AdminSuite {
 	//static WebDriver e = null;
@@ -34,6 +32,7 @@ public class ClientListTest extends AdminSuite {
 	}
 
 	@Test(priority = 1)
+	// possible use case where a client name is searched, clicked, and the graph pertaining to that data is showing 
 	public void SearchAndViewClientData() {
 		try {
 			assertTrue(ClientListCukes.search_by_client_name(wd));
@@ -47,6 +46,7 @@ public class ClientListTest extends AdminSuite {
 	}
 
 	@Test(priority = 2)
+	//clicks view data for all clients button and verifies that the correct information is being displayed
 	public void ViewAllClientData() {
 		try {
 			assertTrue(ClientListCukes.click_View_Data_for_All_Clients_button(wd));
@@ -58,6 +58,7 @@ public class ClientListTest extends AdminSuite {
 	}
 	
 	@Test(priority = 3)
+	// clicks on a client in the search results and verifies that the proper graph is displayed
 	public void ClickAndViewClientData() {
 		try {
 			assertTrue(ClientListCukes.click_client_in_search_results(wd));

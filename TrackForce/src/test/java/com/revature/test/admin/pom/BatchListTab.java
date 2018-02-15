@@ -8,13 +8,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.revature.test.utils.WaitToLoad;
-
-import cucumber.api.java.en.Then;
 
 public class BatchListTab {
 	static WebElement e = null;
@@ -200,11 +197,15 @@ public class BatchListTab {
 	// respect to the dates in the To and From fields
 	public static boolean correctResults(List<WebElement> Nfrom, List<WebElement> Nto, WebDriver wd) throws Throwable {
 		boolean done = true;
+		
+		// populates "start" arrayList with data to be used in a comparison later in this method
 		List<String> start = new ArrayList<String>();
 		for (WebElement col : Nfrom) {
 			start.add(col.getText());
 		}
 		start.removeAll(Arrays.asList("", null));
+		
+		// populates "start" arrayList with data to be used in a comparison later in this method
 		List<String> end = new ArrayList<String>();
 		for (WebElement col : Nto) {
 			end.add(col.getText());
@@ -222,6 +223,7 @@ public class BatchListTab {
 				Date fromDate = new SimpleDateFormat("mm. dd, yyyy").parse("9/15/2017");
 				Date toDate = new SimpleDateFormat("mm. dd, yyyy").parse("11/15/2017");
 
+				// if startDate is after toDate OR endDate is before fromDate, set done to false
 				if (startDate.after(toDate) || endDate.before(fromDate)) {
 					done = false;
 				}
@@ -232,13 +234,16 @@ public class BatchListTab {
 		return done;
 	}
 	
-	//gives definitions to/inserts data into start and end array lists which were declared at the top of the class
+	// gives definitions to/inserts data into start and end array lists which were declared at the top of the class
 	public static void allBatches(List<WebElement> Nfrom, List<WebElement> Nto, WebDriver wd) throws Throwable {
+		// populates the "start" arrayList with data to be used in the next method
 		List<String> start = new ArrayList<String>();
 		for (WebElement col : Nfrom) {
 			start.add(col.getText());
 		}
 		start.removeAll(Arrays.asList("", null));
+		
+		// populates the "end" arrayList with data to be used in the next method
 		List<String> end = new ArrayList<String>();
 		for (WebElement col : Nto) {
 			end.add(col.getText());
@@ -246,14 +251,16 @@ public class BatchListTab {
 		end.removeAll(Arrays.asList("", null));
 	}
 		
-	//creates an array list of the current batches list and compares it to the lists defined in the above method
-	//to ensure that they contain the same data
+	// creates an array list of the current batches list and compares it to the lists defined in the above method
+	// to ensure that they contain the same data
 	public static boolean allBatchesAfterReset(List<WebElement> Nfrom, List<WebElement> Nto, WebDriver wd) throws Throwable {
 		boolean done = true;
+		// creates array list containing the data in the From fields of the batches which are showing after resetting
 		List<String> afterReset = new ArrayList<String>();
 		for (WebElement col : Nfrom) {
 			afterReset.add(col.getText());
 		}
+		// creates array list containing the data in the From fields of the batches which are showing after resetting
 		afterReset.removeAll(Arrays.asList("", null));
 		List<String> postReset = new ArrayList<String>();
 		for (WebElement col : Nto) {
@@ -272,6 +279,7 @@ public class BatchListTab {
 				Date fromDate = new SimpleDateFormat("mm. dd, yyyy").parse(afterReset.get(i));
 				Date toDate = new SimpleDateFormat("mm. dd, yyyy").parse(postReset.get(i));
 
+				// if start and end dates match the From and To dates, then the lists match and the proper results are displayed
 				if (startDate.equals(fromDate) && endDate.equals(toDate)) {
 					done = true;
 				}

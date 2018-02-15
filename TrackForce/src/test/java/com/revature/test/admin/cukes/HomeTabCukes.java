@@ -1,7 +1,5 @@
 package com.revature.test.admin.cukes;
 
-import static org.testng.Assert.fail;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 

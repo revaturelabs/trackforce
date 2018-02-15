@@ -6,7 +6,6 @@ import com.revature.entity.TfUser;
 import com.revature.request.model.CreateUserModel;
 import com.revature.services.CreateUserService;
 import com.revature.services.JWTService;
-import com.revature.services.UserResource;
 import com.revature.test.BaseTest;
 import com.revature.utils.PasswordStorage;
 import org.mockito.Mock;

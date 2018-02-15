@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.revature.test.admin.cukes.ClientListCukes;
-import com.revature.test.admin.pom.CreateUserTab;
+import com.revature.test.admin.cukes.AssociateListCukes;
 
 public class ClientListTest extends AdminSuite {
 	//static WebDriver e = null;
@@ -18,9 +18,11 @@ public class ClientListTest extends AdminSuite {
 	// Clicks Client List Tab and checks the URL
 	public void beforeTest() {
 		System.out.println("Running Client List Tab Tests");
+		
 		try {
 			assertTrue(ClientListCukes.click_client_list_tab(wd));
 			assertTrue(ClientListCukes.client_list_tab_loads(wd));
+			assertTrue(ClientListCukes.client_list_panel_loads(wd));
 		} catch (Throwable e) {
 			fail("Error: Failed to navigate to Client List tab");
 			e.printStackTrace();
@@ -41,7 +43,7 @@ public class ClientListTest extends AdminSuite {
 			assertTrue(ClientListCukes.click_client_in_search_results(wd));
 			assertTrue(ClientListCukes.client_data_shows_in_graph(wd));
 		} catch (Throwable e) {
-			fail("Error: Failed search client by name and view their data");
+			fail("Error: Failed to search client by name and view their data");
 			e.printStackTrace();
 		}
 	}
@@ -64,6 +66,46 @@ public class ClientListTest extends AdminSuite {
 			assertTrue(ClientListCukes.client_data_shows_in_graph(wd));
 		} catch (Throwable e) {
 			fail("Error: Failed to select client from list and view their data");
+			e.printStackTrace();
+		}
+	}
+	
+	@Test(priority = 4)
+	public void SearchButSearchAnotherAndViewClientData() {
+		try {
+			assertTrue(ClientListCukes.search_by_client_name(wd));
+			assertTrue(ClientListCukes.search_by_another_client_name(wd));
+			assertTrue(ClientListCukes.client_should_be_at_top_of_search_results(wd));
+			assertTrue(ClientListCukes.click_client_in_search_results(wd));
+			assertTrue(ClientListCukes.client_data_shows_in_graph(wd));
+		} catch (Throwable e) {
+			fail("Error: Failed to search client by name but then search another client name and view their data");
+			e.printStackTrace();
+		}
+	}
+	
+	@Test(priority = 5)
+	public void SearchButClickViewAllClientData() {
+		try {
+			assertTrue(ClientListCukes.search_by_client_name(wd));
+			assertTrue(ClientListCukes.search_bar_is_blank(wd));
+			assertTrue(ClientListCukes.click_client_in_search_results(wd));
+			assertTrue(ClientListCukes.client_data_shows_in_graph(wd));
+		} catch (Throwable e) {
+			fail("Error: Failed to search client by name but then select client from list and view their data");
+			e.printStackTrace();
+		}
+	}
+	
+	@Test(priority = 6)
+	public void SearchButClickClientAndViewClientData() {
+		try {
+			assertTrue(ClientListCukes.search_by_client_name(wd));
+			assertTrue(ClientListCukes.search_bar_is_blank(wd));
+			assertTrue(ClientListCukes.click_client_in_search_results(wd));
+			assertTrue(ClientListCukes.client_data_shows_in_graph(wd));
+		} catch (Throwable e) {
+			fail("Error: Failed to search client by name but then select client from list and view their data");
 			e.printStackTrace();
 		}
 	}

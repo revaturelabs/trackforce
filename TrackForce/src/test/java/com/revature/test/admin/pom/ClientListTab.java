@@ -10,17 +10,11 @@ public class ClientListTab {
 	static WebElement e = null;
 
 	public static WebElement getClientTab(WebDriver d) {
-		try {
-			Thread.sleep(5000);
-			return WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/app-root/div/app-navbar/nav/div/ul[1]/li[3]/a"), 10);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Failed XPATH FOR CLIENT LIST TAB !!!!!!!!!!!!!!!!!!!!!!!!!");
-			e.printStackTrace();
-			return WaitToLoad.findDynamicElement(d, By.cssSelector("[href='/client-listing']"), 10);
-			
+		e = WaitToLoad.findDynamicElement(d, By.cssSelector("[href='/client-listing']"), 10);
+		if (e == null) {
+			e = WaitToLoad.findDynamicElement(d, By.cssSelector("[href='/client-list']"), 10);
 		}
-		//return WaitToLoad.findDynamicElement(d, By.cssSelector("[href='/client-listing']"), 10);
+		return e;
 	}
 
 	public static String getCurrentURL(WebDriver d) {
@@ -36,7 +30,7 @@ public class ClientListTab {
 	}
 
 	public static WebElement getViewDataForAllClientsButton(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.xpath("/html/body/app/div/app-client-list/div/div/div[1]/button"),
+		return WaitToLoad.findDynamicElement(d, By.xpath("/html/body/app/app-client-list/div/div/div[1]/button"),
 				10);
 	}
 
@@ -45,7 +39,7 @@ public class ClientListTab {
 	}
 
 	public static WebElement getBarChartHeader(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.xpath("/html/body/app/div/app-client-list/div/div/div[2]/h1"), 10);
+		return WaitToLoad.findDynamicElement(d, By.xpath("/html/body/app/app-client-list/div/div/div[2]/h1"), 10);
 	}
 
 	public static WebElement getClientSearchBar(WebDriver d) {

@@ -1,11 +1,8 @@
-package com.revature.test.services;
+package com.revature.test.dao;
 
 import com.revature.dao.MarketingStatusDao;
 import com.revature.model.MarketingStatusInfo;
-import com.revature.services.MarketingStatusService;
 import com.revature.test.BaseTest;
-import org.hibernate.Session;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -17,14 +14,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.testng.Assert.*;
 
-public class MarketingStatusServiceTest extends BaseTest {
+public class MarketingStatusDAOTest {//extends BaseTest {
 
     @Mock
     MarketingStatusDao msDao;
 
-    MarketingStatusService msService;
 
     Map<Integer, MarketingStatusInfo> mockMsMap;
 
@@ -44,15 +39,14 @@ public class MarketingStatusServiceTest extends BaseTest {
 
         mockMsMap.put(ms1.getId(), ms1);
         mockMsMap.put(ms2.getId(), ms2);
-        Mockito.when(msDao.getMarketingStatuses(Matchers.any(Session.class)))
+        Mockito.when(msDao.getMarketingStatus())
                 .thenReturn(mockMsMap);
 
-        msService = new MarketingStatusService(msDao, sessionFactory);
     }
 
     @Test
     public void testGetMarketingStatuses() throws Exception {
-        Map<Integer, MarketingStatusInfo> actualMsMap =  msService.getMarketingStatuses();
+        Map<Integer, MarketingStatusInfo> actualMsMap =  msDao.getMarketingStatus();
         Assert.assertEquals(mockMsMap.size(), actualMsMap.size());
         for (Integer id : mockMsMap.keySet()) {
             MarketingStatusInfo actualVal = actualMsMap.get(id);
@@ -65,7 +59,7 @@ public class MarketingStatusServiceTest extends BaseTest {
 
     @Test
     public void testGetAllMarketingStatuses() throws Exception {
-        Map<Integer, MarketingStatusInfo> actualMsMap =  msService.getMarketingStatuses();
+        Map<Integer, MarketingStatusInfo> actualMsMap =  msDao.getMarketingStatus();
         Assert.assertEquals(mockMsMap.size(), actualMsMap.size());
         for (Integer id : mockMsMap.keySet()) {
             MarketingStatusInfo actualVal = actualMsMap.get(id);

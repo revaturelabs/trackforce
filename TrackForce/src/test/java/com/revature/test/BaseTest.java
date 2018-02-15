@@ -6,10 +6,12 @@ import java.sql.SQLException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.revature.dao.AssociateDaoHibernate;
+import com.revature.dao.BatchDaoHibernate;
+import com.revature.dao.ClientDaoImpl;
+import com.revature.dao.CurriculumDaoImpl;
 import com.revature.dao.MarketingStatusDaoHibernate;
-import com.revature.services.AssociateService;
-import com.revature.services.ClientService;
-import com.revature.services.MarketingStatusService;
+import com.revature.dao.TechDaoHibernate;
 import com.revature.utils.PersistentStorage;
 import com.revature.utils.TestHibernateUtil;
 
@@ -36,14 +38,19 @@ public class BaseTest {
         }
     }
 
-    public void resetCaches() throws IOException {
-        AssociateService associateService = new AssociateService();
-        ClientService clientResource = new ClientService();
-        MarketingStatusService marketingStatusService = new MarketingStatusService(new MarketingStatusDaoHibernate(), sessionFactory);
-
-        //PersistentStorage.getStorage().setAssociates(associateService.getAssociates());
-        //PersistentStorage.getStorage().setClients(clientResource.getClients());
-        PersistentStorage.getStorage().setMarketingStatuses(marketingStatusService.getMarketingStatuses());
+    public void resetCaches() {
+    	PersistentStorage.getStorage().evictAssociates();
+    	PersistentStorage.getStorage().evictBatches();
+    	PersistentStorage.getStorage().evictClients();
+    	PersistentStorage.getStorage().evictCurriculums();
+    	PersistentStorage.getStorage().evictMarketingStatuses();
+    	PersistentStorage.getStorage().evictTechs();
+    	new AssociateDaoHibernate().cacheAllAssociates();
+    	new BatchDaoHibernate().cacheAllBatches();
+    	new ClientDaoImpl().cacheAllClients();
+    	new CurriculumDaoImpl().cacheAllCurriculms();
+    	new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
+    	new TechDaoHibernate().cacheAllTechs();
     }
 
 
@@ -58,16 +65,16 @@ public class BaseTest {
      * @param mockMsService
      * @throws IOException
      */
-    public void resetCaches(AssociateService mockAssocService, ClientService mockClientResource, MarketingStatusService mockMsService) throws IOException {
+    public void resetCaches(AssociateDaoHibernate mockAssocService, ClientDaoImpl mockClientResource, MarketingStatusDaoHibernate mockMsService) throws IOException {
         if (mockAssocService == null)
-            mockAssocService = new AssociateService();
+            mockAssocService = new AssociateDaoHibernate();
         if (mockClientResource == null)
-            mockClientResource = new ClientService();
+            mockClientResource = new ClientDaoImpl();
         if (mockMsService == null)
-            mockMsService = new MarketingStatusService();
+            mockMsService = new MarketingStatusDaoHibernate();
 
         //PersistentStorage.getStorage().setAssociates(mockAssocService.getAssociates());
         //PersistentStorage.getStorage().setClients(mockClientResource.getClients());
-        PersistentStorage.getStorage().setMarketingStatuses(mockMsService.getMarketingStatuses());
+        //PersistentStorage.getStorage().setMarketingStatuses(mockMsService.getMarketingStatus());
     }
 }

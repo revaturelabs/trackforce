@@ -17,4 +17,5 @@ export class Associate {
     endClientName: string;
     batchName: string;
     batchId: string;
+    startDate: Date;
 }

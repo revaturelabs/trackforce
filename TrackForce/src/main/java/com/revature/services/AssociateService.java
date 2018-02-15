@@ -133,6 +133,12 @@ public class AssociateService implements Service {
 		return map.values();
 	}
 	
+	/**
+	 * Generates statistics for the expanded view of the home page mapped chart
+	 * 
+	 * @param statusId
+	 * @return
+	 */
 	public Response getMappedInfo(int statusId) {
 	  try {
 		Set<AssociateInfo> associates = getAllAssociates();
@@ -161,6 +167,12 @@ public class AssociateService implements Service {
 	  }
 	}
 	
+	/**
+	 * Generates statistics for the expanded view of the home page unmapped chart
+	 * 
+	 * @param statusId
+	 * @return 
+	 */
 	public Response getUnmappedInfo(int statusId) {
 	  try {
 		Set<AssociateInfo> associates = getAllAssociates();

@@ -7,10 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./predictions.component.css']
 })
 export class PredictionsComponent implements OnInit {
-  private dataReady: boolean = false;
-  private startDate: Date = new Date();
-  private endDate: Date = new Date();
-  private technologies: any[] = [
+  public dataReady: boolean = false;
+  public startDate: Date = new Date();
+  public endDate: Date = new Date();
+  public technologies: any[] = [
     {
       name: "Java",
       id: 1,
@@ -22,8 +22,8 @@ export class PredictionsComponent implements OnInit {
       selected: false
     }
   ];
-  private expanded: boolean = false;
-  private results: any;
+  public expanded: boolean = false;
+  public results: any;
 
   constructor() { }
 

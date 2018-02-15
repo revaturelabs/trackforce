@@ -329,7 +329,7 @@ public class AssociateListTest extends AdminSuite {
 				assertTrue(AssociateListCukes.i_select_a_client_value_from_the_client_drop_down(wd));
 				assertTrue(AssociateListCukes.i_click_the_update_button(wd));
 				marketingStatusAfter = AssociateListCukes.the_information_is_updated(wd);
-				System.out.println("Marketing Status after update: " + marketingStatusBefore);
+				System.out.println("Marketing Status after update: " + marketingStatusAfter);
 				//assertTrue(!marketingStatusBefore.equals(marketingStatusAfter));
 				
 			

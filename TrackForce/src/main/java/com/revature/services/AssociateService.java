@@ -137,7 +137,7 @@ public class AssociateService implements Service {
 	 * Generates statistics for the expanded view of the home page mapped chart
 	 * 
 	 * @param statusId
-	 * @return
+	 * @return Collection<ClientMappedJSON>
 	 */
 	public Response getMappedInfo(int statusId) {
 	  try {
@@ -171,7 +171,7 @@ public class AssociateService implements Service {
 	 * Generates statistics for the expanded view of the home page unmapped chart
 	 * 
 	 * @param statusId
-	 * @return 
+	 * @return Collection<CurriculumJSON>
 	 */
 	public Response getUnmappedInfo(int statusId) {
 	  try {

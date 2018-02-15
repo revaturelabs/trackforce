@@ -42,17 +42,9 @@ public class AssociateResource {
 	 * @throws HibernateException
 	 */
 	@GET
-	public Response getAllAssociates(@QueryParam("status") int statusId) {
-		Set<AssociateInfo> associatesList = null;
-		try {
-			if(statusId > 0) return Response.ok(service.getAssociatesByStatus(statusId)).build();
-			associatesList = service.getAllAssociates();
-			if (associatesList == null || associatesList.isEmpty()) return Response.status(Status.NOT_FOUND).build();// returns 404 if no associates found
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public Response getAllAssociates() {
+		Set<AssociateInfo>associatesList = service.getAllAssociates();
+		if (associatesList == null || associatesList.isEmpty()) return Response.status(Status.NOT_FOUND).build();// returns 404 if no associates found
 		return Response.ok(associatesList).build();
 	}
 	

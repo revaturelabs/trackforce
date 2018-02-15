@@ -28,7 +28,7 @@ public class JunctionDaoImpl implements JunctionDao {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
         	String sql = "select a.tf_batch_name,count(p.TF_ASSOCIATE_ID) as Associate FROM ADMIN.tf_batch a left\r\n"+
         			"join ADMIN.tf_batch_junction tf on tf.tf_batch_id = a.tf_batch_id left join ADMIN.tf_tech s on s.TF_TECH_ID = tf.TF_TECH_ID left join ADMIN.tf_associate p" +
-        			"on p.TF_BATCH_ID = tf.TF_BATCH_ID where s.tf_tech_id= :tech_id group by a.TF_BATCH_NAME";
+        			"on p.TF_BATCH_ID = tf.TF_BATCH_ID where s.tf_tech_id= ? group by a.TF_BATCH_NAME";
 		    Query query = session.createNativeQuery(sql);
 		    query.setParameter(0, tech_id);
         	List query_results = query.list();
@@ -46,7 +46,7 @@ public class JunctionDaoImpl implements JunctionDao {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
         	String sql = "select a.tf_batch_name,count(p.TF_ASSOCIATE_ID) as Associate FROM ADMIN.tf_batch a left\r\n"+
         			"join ADMIN.tf_batch_junction tf on tf.tf_batch_id = a.tf_batch_id left join ADMIN.tf_tech s on s.TF_TECH_ID = tf.TF_TECH_ID left join ADMIN.tf_associate p" +
-        			"on p.TF_BATCH_ID = tf.TF_BATCH_ID where s.tf_tech_name= :techname group by a.TF_BATCH_NAME";
+        			"on p.TF_BATCH_ID = tf.TF_BATCH_ID where s.tf_tech_name= ? group by a.TF_BATCH_NAME";
 		    Query query = session.createNativeQuery(sql);
 		    query.setParameter(0, techname);
         	List query_results = query.list();
@@ -65,8 +65,8 @@ public class JunctionDaoImpl implements JunctionDao {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
         	String sql = "Select a.tf_batch_name, count(p.TF_ASSOCIATE_ID) as Associate FROM ADMIN.tf_batch a left\r\n" + 
         			"join ADMIN.tf_batch_junction tf on tf.tf_batch_id = a.tf_batch_id left join ADMIN.tf_tech s on s.TF_TECH_ID = tf.TF_TECH_ID left join ADMIN.tf_associate p\r\n" + 
-        			"on p.TF_BATCH_ID = tf.TF_BATCH_ID where TO_CHAR(a.tf_batch_end_date, 'YYYY-MM-DD') BETWEEN TO_Char(:date1, 'YYYY-MM-DD')AND TO_Char(:date2, 'YYYY-MM-DD') AND \r\n" + 
-        			"s.tf_tech_name =:techname group by a.TF_BATCH_NAME;\r\n" ; 
+        			"on p.TF_BATCH_ID = tf.TF_BATCH_ID where TO_CHAR(a.tf_batch_end_date, 'YYYY-MM-DD') BETWEEN TO_Char(?, 'YYYY-MM-DD')AND TO_Char(?, 'YYYY-MM-DD') AND \r\n" + 
+        			"s.tf_tech_name =? group by a.TF_BATCH_NAME;\r\n" ; 
         			
 		    Query query = session.createNativeQuery(sql);
 		    query.setParameter(0, date1);

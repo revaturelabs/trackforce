@@ -9,5 +9,6 @@ public interface MarketingStatusDao {
 
 	Set<MarketingStatusInfo> getAllMarketingStatuses();
 	MarketingStatusInfo getMarketingStatus(String status);
+	void cacheAllMarketingStatuses();
 
 }

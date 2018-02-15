@@ -141,7 +141,7 @@ public class AssociateDaoHibernate implements AssociateDao {
      * Returns data from the cache
      * @return The cached data
      */
-    public static Set<AssociateInfo> getAllAssociates() {
+    public Set<AssociateInfo> getAllAssociates() {
     	if(PersistentStorage.getStorage().getAssociates() == null)
     		cacheAllAssociates();
     	return PersistentStorage.getStorage().getAssociates();
@@ -153,7 +153,7 @@ public class AssociateDaoHibernate implements AssociateDao {
      * @param associateList
      * @return Returns the Map object
      */
-    public static Map<Integer, AssociateInfo> createAssociatesMap(List<TfAssociate> associateList) {
+    public Map<Integer, AssociateInfo> createAssociatesMap(List<TfAssociate> associateList) {
 	    	Map<Integer, AssociateInfo> map = new HashMap<>();
 	    	for(TfAssociate tfa : associateList) {
 	    		map.put(tfa.getTfAssociateId(), Dao2DoMapper.map(tfa));
@@ -165,22 +165,12 @@ public class AssociateDaoHibernate implements AssociateDao {
      * Retrieves all associate records from the database and places them into the cache
      *
      */
-    public static void cacheAllAssociates() {
+    public void cacheAllAssociates() {
     	Session session = HibernateUtil.getSession();
     	try {
-	    	List<TfAssociate> associates;
-	    	CriteriaBuilder cb = session.getCriteriaBuilder();
-	        CriteriaQuery<TfAssociate> cq = cb.createQuery(TfAssociate.class);
-	        Root<TfAssociate> from = cq.from(TfAssociate.class);
-	        CriteriaQuery<TfAssociate> all = cq.select(from);
-	        Query<TfAssociate> tq = session.createQuery(all);
-	        associates = tq.getResultList();
-	    	Map<Integer, AssociateInfo> map = new HashMap<>();
-	    	if(associates != null) {
-	    		map = createAssociatesMap(associates);
-	    	}
-    	PersistentStorage.getStorage().setAssociates(map);
-    	PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
+	    	Map<Integer, AssociateInfo> map = getAssociates();
+	    	PersistentStorage.getStorage().setAssociates(map);
+	    	PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
     	} finally {
     		session.close();
     	}

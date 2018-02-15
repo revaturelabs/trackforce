@@ -63,7 +63,7 @@ public class AssociateService implements Service {
      */
 
 	public Set<AssociateInfo> getAllAssociates(){
-		return AssociateDaoHibernate.getAllAssociates();
+		return associateDao.getAllAssociates();
 	}
 
 	/**
@@ -198,9 +198,9 @@ public class AssociateService implements Service {
      */
 	@Override
 	public synchronized void execute() throws IOException {
-		Set<AssociateInfo> ai = AssociateDaoHibernate.getAllAssociates();
+		Set<AssociateInfo> ai = associateDao.getAllAssociates();
 		if (ai == null || ai.isEmpty())
-			AssociateDaoHibernate.cacheAllAssociates();
+			associateDao.cacheAllAssociates();
 	}
 
 	@SuppressWarnings("unchecked")

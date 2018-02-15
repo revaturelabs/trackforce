@@ -70,6 +70,30 @@ public class BatchDaoHibernate implements BatchDao {
 		
 	}
 	
+	public Map<Integer, BatchInfo> getBatchDetails(){
+		Session session = HibernateUtil.getSession();
+		try {
+			
+			List<TfBatch> batches;
+			CriteriaBuilder cb = session.getCriteriaBuilder();
+			CriteriaQuery<TfBatch> cq = cb.createQuery(TfBatch.class);
+			Root<TfBatch> from = cq.from(TfBatch.class);
+			CriteriaQuery<TfBatch> all = cq.select(from);
+			Query<TfBatch> tq = session.createQuery(all);
+			batches = tq.getResultList();
+			HashMap<Integer, BatchInfo> map = new HashMap<>();
+			if(batches != null) {
+				map = createBatchesMap(batches);
+			}
+			return map;
+		} catch(NoResultException e) {
+			LogUtil.logger.error(e);
+		} finally {
+			session.close();
+		}
+		return new HashMap<Integer, BatchInfo>();
+		
+	}
 	
 	@Override
 	public Set<AssociateInfo> getBatchAssociates(Integer id){
@@ -83,37 +107,24 @@ public class BatchDaoHibernate implements BatchDao {
 			cacheAllBatches();
 		return PersistentStorage.getStorage().getBatchesByDate();
 	}
-	public static Set<BatchInfo> getAllBatches() {
+	public Set<BatchInfo> getAllBatches() {
 		if(PersistentStorage.getStorage().getBatches() == null)
 			cacheAllBatches();
 		return PersistentStorage.getStorage().getBatches();
-	}	
+	}
+	
+	
 	
 	/**
      * Retrieves all associate records from the database and places them into the cache
      * 
      */
-    public static void cacheAllBatches() {
-    	Session session = HibernateUtil.getSession();
-    	try {
-	    	List<TfBatch> batches;
-	    	CriteriaBuilder cb = session.getCriteriaBuilder();
-	        CriteriaQuery<TfBatch> cq = cb.createQuery(TfBatch.class);
-	        Root<TfBatch> from = cq.from(TfBatch.class);
-	        CriteriaQuery<TfBatch> all = cq.select(from);
-	        Query<TfBatch> tq = session.createQuery(all);
-	        batches = tq.getResultList();
-	    	Map<Integer, BatchInfo> map = new HashMap<>();
-	    	if(batches != null) {
-	    		map = createBatchesMap(batches);
-	    	}
-    	PersistentStorage.getStorage().setBatches(map);
-    	} finally {
-    		session.close();
-    	}
+    public void cacheAllBatches() {
+    	PersistentStorage.getStorage().setBatches(getBatchDetails());
     }
-    public static Map<Integer, BatchInfo> createBatchesMap(List<TfBatch> batchList) {
-    	Map<Integer, BatchInfo> map = new HashMap<>();
+    
+    public HashMap<Integer, BatchInfo> createBatchesMap(List<TfBatch> batchList) {
+    	HashMap<Integer, BatchInfo> map = new HashMap<>();
     	for(TfBatch tfb : batchList) {
     		map.put(tfb.getTfBatchId(), Dao2DoMapper.map(tfb));
     	}

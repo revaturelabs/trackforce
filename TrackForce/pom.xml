@@ -190,56 +190,54 @@
 	</dependencies>
 	
 	<!-- William added the below tags on 2/15/18 so that the main application can be successfully deployed -->
-	<build>
-		<plugins>
-			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-surefire-plugin</artifactId>
-			    <version>2.19.1</version>
-			    <configuration>
-			        <!-- Sets the VM argument line used when unit tests are run. -->
-			        <argLine>${surefireArgLine}</argLine>
-			        <!-- Skips unit tests if the value of skip.unit.tests property is true -->
-			        <!-- William changed the value of skipTests to true on 2/15/18 -->
-			        <!-- to see if we can successfully deploy current build of application -->
-			        <!-- this commented out <skipTests> was the original configuration -->
-			        <skipTests>${skip.unit.tests}</skipTests>
+<!-- 	<build> -->
+<!-- 		<plugins> -->
+<!-- 			<plugin> -->
+<!-- 			    <groupId>org.apache.maven.plugins</groupId> -->
+<!-- 			    <artifactId>maven-surefire-plugin</artifactId> -->
+<!-- 			    <version>2.19.1</version> -->
+<!-- 			    <configuration> -->
+<!-- 			        Sets the VM argument line used when unit tests are run. -->
+<!-- 			        <argLine>${surefireArgLine}</argLine> -->
+<!-- 			        Skips unit tests if the value of skip.unit.tests property is true -->
+<!-- 			        William changed the value of skipTests to true on 2/15/18 -->
+<!-- 			        to see if we can successfully deploy current build of application -->
+<!-- 			        this commented out <skipTests> was the original configuration -->
+<!-- 			        <skipTests>${skip.unit.tests}</skipTests> -->
 <!-- 			        <skipTests>true</skipTests> -->
-			        <!-- Excludes integration tests when unit tests are run. -->
-			        <excludes>
-			            <exclude>**/IT*.java</exclude>
-			        </excludes>
-			    </configuration>
-			</plugin>
+<!-- 			        Excludes integration tests when unit tests are run. -->
+<!-- 			        <excludes> -->
+<!-- 			            <exclude>**/IT*.java</exclude> -->
+<!-- 			        </excludes> -->
+<!-- 			    </configuration> -->
+<!-- 			</plugin> -->
 			
-			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-failsafe-plugin</artifactId>
-			    <version>2.15</version>
-			    <executions>
-			        <!-- Ensures that both integration-test and verify goals of the Failsafe Maven
-			            plugin are executed.-->
-			        <execution>
-			            <id>integration-tests</id>
-			            <goals>
-			                <goal>integration-test</goal>
-			                <goal>verify</goal>
-			            </goals>
-			            <configuration>
-			                <!-- Sets the VM argument line used when integration tests are run. -->
-			                <argLine>${failsafeArgLine}</argLine>
-			                <!--Skips integration tests if the value of skip.integration.tests property
-			                    is true -->
-			                 <!-- Skips unit tests if the value of skip.unit.tests property is true -->
-			        		 <!-- William changed the value of skipTests to true on 2/15/18 -->
-			       			 <!-- to see if we can successfully deploy current build of application -->
-			       			 <!-- this commented out <skipTests> was the original configuration -->
-			                <!-- <skipTests>${skip.integration.tests}</skipTests>  -->
-			                <skipTests>true</skipTests>
-			            </configuration>
-			        </execution>
-			    </executions>
-			</plugin>
-		</plugins>
-	</build>
+<!-- 			<plugin> -->
+<!-- 			    <groupId>org.apache.maven.plugins</groupId> -->
+<!-- 			    <artifactId>maven-failsafe-plugin</artifactId> -->
+<!-- 			    <version>2.15</version> -->
+<!-- 			    <executions> -->
+<!-- 			        Ensures that both integration-test and verify goals of the Failsafe Maven plugin are executed. -->
+<!-- 			        <execution> -->
+<!-- 			            <id>integration-tests</id> -->
+<!-- 			            <goals> -->
+<!-- 			                <goal>integration-test</goal> -->
+<!-- 			                <goal>verify</goal> -->
+<!-- 			            </goals> -->
+<!-- 			            <configuration> -->
+<!-- 			                Sets the VM argument line used when integration tests are run. -->
+<!-- 			                <argLine>${failsafeArgLine}</argLine> -->
+<!-- 			                Skips integration tests if the value of skip.integration.tests property is true -->
+<!-- 			                 Skips unit tests if the value of skip.unit.tests property is true -->
+<!-- 			        		 William changed the value of skipTests to true on 2/15/18 -->
+<!-- 			       			 to see if we can successfully deploy current build of application -->
+<!-- 			       			 this commented out <skipTests> was the original configuration -->
+<!-- 			                <skipTests>${skip.integration.tests}</skipTests>  -->
+<!-- 			                <skipTests>true</skipTests> -->
+<!-- 			            </configuration> -->
+<!-- 			        </execution> -->
+<!-- 			    </executions> -->
+<!-- 			</plugin> -->
+<!-- 		</plugins> -->
+<!-- 	</build> -->
 </project>

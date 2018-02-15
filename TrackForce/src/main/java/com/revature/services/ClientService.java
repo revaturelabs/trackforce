@@ -77,7 +77,7 @@ public class ClientService implements Service {
 //    }
 
     @SuppressWarnings("unchecked")
-    private <T> Set<T> getTotals() throws IOException {
+	private <T> Set<T> getTotals() throws IOException {
         Set<StatusInfo> set = new HashSet<>();
         Set<ClientInfo> ci = PersistentStorage.getStorage().getClients();
         if (ci == null || ci.isEmpty()) {
@@ -85,7 +85,7 @@ public class ClientService implements Service {
         }
         StatusInfo si = PersistentStorage.getStorage().getTotals();
         set.add(si);
-        return (Set<T>) set;
+        return  (Set<T>) set;
     }
 
     @Override

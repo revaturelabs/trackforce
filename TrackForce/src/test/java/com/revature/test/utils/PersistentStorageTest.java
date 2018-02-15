@@ -31,10 +31,10 @@ import com.revature.model.CurriculumInfo;
 import com.revature.model.MarketingStatusInfo;
 import com.revature.model.TechInfo;
 import com.revature.services.AssociateService;
-import com.revature.test.BaseTest;
+//import com.revature.test.BaseTest;
 import com.revature.utils.PersistentStorage;
 
-public class PersistentStorageTest extends BaseTest {
+public class PersistentStorageTest {
 
     @Mock
     private AssociateDaoHibernate mockAssociateDao;
@@ -95,50 +95,56 @@ public class PersistentStorageTest extends BaseTest {
                 .thenReturn(marketingStatusMap);
         Mockito.when(mockTechDao.getAllTechs())
         		.thenReturn(techInfoMap);
-
-//        PersistentServiceDelegator serviceDelegator = new PersistentServiceDelegator(
-//                new AssociateService(),
-//                new BatchesService(),
-//                new ClientService(),
-//                new CurriculumService(),
-//                new MarketingStatusService()
-//        );
-
-//        PersistentServiceDelegator serviceDelegator = new PersistentServiceDelegator();
         
         // pull info from *database (*results mocked in this case)
-        	mockAssociateDao.cacheAllAssociates();
-        	mockBatchDao.cacheAllBatches();
-        	mockClientDao.cacheAllClients();
-        	mockCurriculumDao.cacheAllCurriculms();
-        	mockMarketingStatusDao.cacheAllMarketingStatuses();
-        	mockTechDao.cacheAllTechs();
+        PersistentStorage.getStorage().setAssociates(mockAssociateDao.getAssociates());
+        PersistentStorage.getStorage().setBatches(mockBatchDao.getBatchDetails());
+        PersistentStorage.getStorage().setClients(mockClientDao.getAllTfClients());
+        PersistentStorage.getStorage().setCurriculums(mockCurriculumDao.getAllCurriculums());
+        PersistentStorage.getStorage().setMarketingStatuses(mockMarketingStatusDao.getMarketingStatus());
+       	PersistentStorage.getStorage().setTechs(mockTechDao.getAllTechs());
         
-//        serviceDelegator.getAssociates();
-//        serviceDelegator.getBatches();
-//        serviceDelegator.getClients();
-//        serviceDelegator.getCurriculums();
-//        serviceDelegator.getMarketingStatuses();
     }
 
-    @Test
-    public void testActualPersistence() {
+    @Test(enabled = true)
+    public void testAssociatePersistence() {
         assertNotNull(PersistentStorage.getStorage().getAssociates());
         assertFalse(PersistentStorage.getStorage().getAssociates().isEmpty());
-        assertNotNull(PersistentStorage.getStorage().getBatches());
+    }
+    
+    @Test(enabled = true)
+    public void testBatchesPersistence() {
+    	assertNotNull(PersistentStorage.getStorage().getBatches());
         assertFalse(PersistentStorage.getStorage().getBatches().isEmpty());
-        assertNotNull(PersistentStorage.getStorage().getClients());
+    }
+    
+    @Test(enabled = true)
+    public void testClientsPersistence() {
+    	assertNotNull(PersistentStorage.getStorage().getClients());
         assertFalse(PersistentStorage.getStorage().getClients().isEmpty());
-        assertNotNull(PersistentStorage.getStorage().getCurriculums());
+    }
+    
+    @Test(enabled = true)
+    public void testCurriculumsPersistence() {
+    	assertNotNull(PersistentStorage.getStorage().getCurriculums());
         assertFalse(PersistentStorage.getStorage().getCurriculums().isEmpty());
-        assertNotNull(PersistentStorage.getStorage().getMarketingStatuses());
+    }
+    
+    @Test(enabled = true)
+    public void testMarketingPersistence() {
+    	assertNotNull(PersistentStorage.getStorage().getMarketingStatuses());
         assertFalse(PersistentStorage.getStorage().getMarketingStatuses().isEmpty());
-        assertNotNull(PersistentStorage.getStorage().getTechs().isEmpty());
+    }
+    
+    @Test(enabled = true)
+    public void testTechPersistence() {
+    	assertNotNull(PersistentStorage.getStorage().getTechs().isEmpty());
         assertFalse(PersistentStorage.getStorage().getTechs().isEmpty());
     }
 
-    @Test
+    @Test(enabled = false)
     public void updateAssociate() throws NumberFormatException, IOException {
+    	System.out.println("update Associate");
         System.err.println(PersistentStorage.getStorage().getAssociateAsMap());
         
 		TreeSet<AssociateInfo> aiSet = (TreeSet<AssociateInfo>) PersistentStorage.getStorage().getAssociates();

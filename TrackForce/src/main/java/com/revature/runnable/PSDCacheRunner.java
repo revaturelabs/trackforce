@@ -129,7 +129,7 @@ public class PSDCacheRunner implements Runnable {
 	            System.out.println("MarketingStatuses caching time: "+elapsedTime+" seconds");
 	            
 	            startTime = System.nanoTime();
-	            TechDaoHibernate.cacheAllTechs();
+	            new TechDaoHibernate().cacheAllTechs();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
 	            System.out.println("Technologies caching time: "+elapsedTime+" seconds");

@@ -6,36 +6,42 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.revature.dao.ClientDao;
+import com.revature.dao.ClientDaoImpl;
 import com.revature.entity.TfClient;
 import com.revature.model.ClientInfo;
 import com.revature.model.StatusInfo;
 import com.revature.services.ClientService;
-import com.revature.test.BaseTest;
 
-public class ClientResourceTest extends BaseTest {
+public class ClientServiceTest{
 
     @Mock
-    private ClientDao clientDao;
+    private ClientDao clientDaoMock;
 
-    private ClientService clientResource;
+    private ClientService clientService;
 
     private Map<Integer, ClientInfo> mockClientMap;
     private Set<ClientInfo> mockClients;
     private String status1Name = "status1";
+    private ClientInfo mockClient;
 
     private int c1Id = 1, c2Id = 2, c3Id = 3;
-    private String c1Name = "client 1", c2Name = "client 2", c3Name = "client 3";
+    private String c1Name = "client 1", c2Name = "client 2";//, c3Name = "client 3";
 
     private void setupMocks() throws IOException {
+    	System.out.println("setupMocks");
         MockitoAnnotations.initMocks(this);
-
+        
+        clientDaoMock = Mockito.mock(ClientDao.class);
+        
         // mock dao used by client resource to return these clients
         ClientInfo cInfo1 = new ClientInfo();
         cInfo1.setId(new Integer(c1Id));
@@ -65,42 +71,54 @@ public class ClientResourceTest extends BaseTest {
         mockClients.add(cInfo2);
         mockClients.add(cInfo3);
 
-        //Mockito.when(clientDao.getAllTfClients(Matchers.any(Session.class))).thenReturn(mockClientMap);
+        Mockito.when(clientDaoMock.getAllClientsFromCache()).thenReturn(mockClients);
 
         TfClient mockClient1 = new TfClient();
         mockClient1.setTfClientId(new Integer(c1Id));
         mockClient1.setTfClientName(status1Name);
 
-        //Mockito.when(clientDao.getClient(Matchers.any(Session.class), Matchers.anyString())).thenReturn(mockClient1);
+        mockClient = cInfo1;
+        
+        Mockito.when(clientDaoMock.getClientFromCache(Matchers.anyInt())).thenReturn(mockClient);
 
          // use mocked client resource dao to reset the cache
-        clientResource = new ClientService();
-        resetCaches(null, clientResource, null);    // only mocking the clientResource
+        clientService = new ClientService();
+//        resetCaches(null, clientService, null);    // only mocking the clientResource
     }
 
 
     @BeforeTest
     public void beforeAll() throws IOException {
+    	System.out.println("Before test");
         setupMocks();
     }
 
-    @Test
+    @Test(enabled = true)
     public void testGetClients() throws Exception {
-        StatusInfo actualStatus1 = clientResource.getClientInfo(1);
-        Assert.assertEquals(status1Name, actualStatus1.getName());
+    	System.out.println("testGetClients");
+    	Set<ClientInfo> clients = clientService.getClients();
+    	Set<ClientInfo> testSet = mockClients;
+    	System.out.println("clients: "+clients.toString());
+    	System.out.println("testSet: "+testSet.toString());
+        Assert.assertEquals(testSet, clients);
     }
 
-    @Test
-    public void testGetClientInfo() throws Exception {
-        Map<Integer, ClientInfo> actualClientMap = clientResource.getClients();
+    @Test(enabled = false)
+    public void testGetClientByID() throws Exception {
+//        Map<Integer, ClientInfo> actualClientMap = clientService.getClients();
 
-        Assert.assertEquals(mockClientMap.size(), actualClientMap.size());
-        for (Integer id : mockClientMap.keySet()) {
-            ClientInfo mockVal = mockClientMap.get(id);
-            ClientInfo actualVal = actualClientMap.get(id);
-            Assert.assertNotNull(mockVal);
-            Assert.assertEquals(actualVal.getId(), mockVal.getId());
-            Assert.assertEquals(actualVal.getStats().getName(), mockVal.getStats().getName());
-        }
+//        Assert.assertEquals(mockClientMap.size(), actualClientMap.size());
+//        for (Integer id : mockClientMap.keySet()) {
+//            ClientInfo mockVal = mockClientMap.get(id);
+//            ClientInfo actualVal = actualClientMap.get(id);
+//            Assert.assertNotNull(mockVal);
+//            Assert.assertEquals(actualVal.getId(), mockVal.getId());
+//            Assert.assertEquals(actualVal.getStats().getName(), mockVal.getStats().getName());
+//        }
     }
+     @Test(enabled = false)
+     public void testGetTotals() throws Exception {
+        	Assert.assertTrue(false);
+     }
+    
 }

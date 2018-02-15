@@ -92,32 +92,38 @@ public class PSDCacheRunner implements Runnable {
 
 	            // perform caching
 
+		
+    	
+    	
+    	
+    	
+    	
 	            long startTime = System.nanoTime();
-	            AssociateDaoHibernate.cacheAllAssociates();
+	            new AssociateDaoHibernate().cacheAllAssociates();
 	            long endTime = System.nanoTime();
 	            double elapsedTime = ((double)(endTime -startTime))/1000000000,total=elapsedTime;
 	            System.out.println("Associates caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
-	            BatchDaoHibernate.cacheAllBatches();
+	            new BatchDaoHibernate().cacheAllBatches();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000; total+=elapsedTime;
 	            System.out.println("Batches caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
-	            ClientDaoImpl.cacheAllClients();
+	            new ClientDaoImpl().cacheAllClients();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
 	            System.out.println("Clients caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
-	            CurriculumDaoImpl.cacheAllCurriculms();
+	            new CurriculumDaoImpl().cacheAllCurriculms();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
 	            System.out.println("Curriculums caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
-	            MarketingStatusDaoHibernate.cacheAllMarketingStatuses();
+	            new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
 	            System.out.println("MarketingStatuses caching time: "+elapsedTime+" seconds");

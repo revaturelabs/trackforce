@@ -1,6 +1,7 @@
 package com.revature.dao;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public interface ClientDao {
 	 * 
 	 * @return A list of TfClient objects
 	 */
-	Map<Integer, ClientInfo> getAllTfClients() throws HibernateException, IOException;
+	public Map<Integer, ClientInfo> getAllTfClients() throws HibernateException, IOException;
 
 	/**
 	 * Returns a single TfClient object
@@ -25,8 +26,8 @@ public interface ClientDao {
 	 * @param name - The name of the client to get
 	 * @return
 	 */
-	TfClient getClient(String name) throws IOException;
-	TfClient getClient(int id) throws IOException;
+	public TfClient getClient(String name) throws IOException;
+	public TfClient getClient(int id) throws IOException;
 	
 	/**
 	 * gets a ClientInfo object from the cache whose key matches id
@@ -45,5 +46,8 @@ public interface ClientDao {
 	 * 		Map<Integer, ClientInfo>
 	 */
 	public Set<ClientInfo> getAllClientsFromCache();
+	
+	public Map<Integer, ClientInfo> createClientMap(List<TfClient> clients);
+	public void cacheAllClients();
 	
 }

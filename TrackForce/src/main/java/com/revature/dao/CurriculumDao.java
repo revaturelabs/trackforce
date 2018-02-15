@@ -9,4 +9,5 @@ public interface CurriculumDao {
 
 	public Map<Integer, CurriculumInfo> getAllCurriculums();
 	public Set<CurriculumInfo> getCurriculaFromCache();
+	public void cacheAllCurriculms();
 }

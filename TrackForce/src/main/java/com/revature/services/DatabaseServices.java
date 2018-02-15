@@ -120,11 +120,11 @@ public class DatabaseServices {
     }
 
     public void update() throws IOException {
-    	AssociateDaoHibernate.cacheAllAssociates();
-    	BatchDaoHibernate.cacheAllBatches();
-    	ClientDaoImpl.cacheAllClients();
-    	CurriculumDaoImpl.cacheAllCurriculms();
-    	MarketingStatusDaoHibernate.cacheAllMarketingStatuses();
+    	new AssociateDaoHibernate().cacheAllAssociates();
+    	new BatchDaoHibernate().cacheAllBatches();
+    	new ClientDaoImpl().cacheAllClients();
+    	new CurriculumDaoImpl().cacheAllCurriculms();
+    	new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
        
     }
 }

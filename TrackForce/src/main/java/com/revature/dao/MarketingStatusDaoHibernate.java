@@ -49,14 +49,7 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 		return tfMarketingStatus;
 	}
 	
-	@Override
-	public Set<MarketingStatusInfo> getAllMarketingStatuses() {
-		if(PersistentStorage.getStorage().getMarketingStatuses() == null)
-			cacheAllMarketingStatuses();
-		return PersistentStorage.getStorage().getMarketingStatuses();
-	}
-
-	public static void cacheAllMarketingStatuses() {
+	public Map<Integer, MarketingStatusInfo> getMarketingStatus() {
 		List<TfMarketingStatus> marketingStatusEnts;
 		Map<Integer, MarketingStatusInfo> map = new HashMap<>();
 		try(Session session = HibernateUtil.getSession()) {
@@ -69,8 +62,22 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 			for(TfMarketingStatus tfms : marketingStatusEnts) {
 				map.put(tfms.getTfMarketingStatusId(), Dao2DoMapper.map(tfms));
 			}
+			return map;
+		} catch(Exception e) {
+			LogUtil.logger.error(e);
 		}
-		PersistentStorage.getStorage().setMarketingStatuses(map);
+		return new HashMap<Integer, MarketingStatusInfo>();
+	}
+	
+	@Override
+	public Set<MarketingStatusInfo> getAllMarketingStatuses() {
+		if(PersistentStorage.getStorage().getMarketingStatuses() == null)
+			cacheAllMarketingStatuses();
+		return PersistentStorage.getStorage().getMarketingStatuses();
+	}
+
+	public void cacheAllMarketingStatuses() {
+		PersistentStorage.getStorage().setMarketingStatuses(getMarketingStatus());
 	}
 	
 	

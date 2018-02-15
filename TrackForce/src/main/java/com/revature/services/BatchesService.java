@@ -27,7 +27,7 @@ public class BatchesService implements Service {
      * @throws IOException
      */
     public Set<BatchInfo> getAllBatches() {
-    	return BatchDaoHibernate.getAllBatches();
+    	return batchDao.getAllBatches();
     }
 
     public List<BatchInfo> getAllBatchesSortedByDate() {

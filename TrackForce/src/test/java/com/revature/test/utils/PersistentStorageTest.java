@@ -1,6 +1,7 @@
 package com.revature.test.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.AssertJUnit.assertFalse;
 
@@ -14,7 +15,6 @@ import java.util.TreeSet;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -23,11 +23,13 @@ import com.revature.dao.BatchDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.CurriculumDaoImpl;
 import com.revature.dao.MarketingStatusDaoHibernate;
+import com.revature.dao.TechDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
 import com.revature.model.ClientInfo;
 import com.revature.model.CurriculumInfo;
 import com.revature.model.MarketingStatusInfo;
+import com.revature.model.TechInfo;
 import com.revature.services.AssociateService;
 import com.revature.test.BaseTest;
 import com.revature.utils.PersistentStorage;
@@ -44,6 +46,8 @@ public class PersistentStorageTest extends BaseTest {
     private CurriculumDaoImpl mockCurriculumDao;
     @Mock
     private MarketingStatusDaoHibernate mockMarketingStatusDao;
+    @Mock
+    private TechDaoHibernate mockTechDao;
 
     @BeforeTest
     public void beforeTests() throws IOException, SQLException {
@@ -73,6 +77,11 @@ public class PersistentStorageTest extends BaseTest {
         mInfo.setId(new Integer(-1));
         HashMap<Integer, MarketingStatusInfo> marketingStatusMap = new HashMap<>();
         marketingStatusMap.put(new Integer(-1), mInfo);
+        
+        TechInfo tInfo = new TechInfo();
+        tInfo.setId(new Integer(-1));
+        HashMap<Integer, TechInfo> techInfoMap = new HashMap<>();
+        techInfoMap.put(new Integer(-1), tInfo);
 
         Mockito.when(mockAssociateDao.getAssociates())
                 .thenReturn(associateMap);
@@ -84,6 +93,8 @@ public class PersistentStorageTest extends BaseTest {
                 .thenReturn(curriculumMap);
         Mockito.when(mockMarketingStatusDao.getMarketingStatus())
                 .thenReturn(marketingStatusMap);
+        Mockito.when(mockTechDao.getAllTechs())
+        		.thenReturn(techInfoMap);
 
 //        PersistentServiceDelegator serviceDelegator = new PersistentServiceDelegator(
 //                new AssociateService(),
@@ -101,6 +112,7 @@ public class PersistentStorageTest extends BaseTest {
         	mockClientDao.cacheAllClients();
         	mockCurriculumDao.cacheAllCurriculms();
         	mockMarketingStatusDao.cacheAllMarketingStatuses();
+        	mockTechDao.cacheAllTechs();
         
 //        serviceDelegator.getAssociates();
 //        serviceDelegator.getBatches();
@@ -134,8 +146,8 @@ public class PersistentStorageTest extends BaseTest {
 		AssociateInfo copy = new AssociateInfo();
 
 		// We need an associate with different info to test against
-		Assert.assertNotEquals(2, ai.getMsid());
-		Assert.assertNotEquals(1, ai.getClid());
+		assertNotEquals(2, ai.getMsid().intValue());
+		assertNotEquals(1, ai.getClid().intValue());
 
 		copy.setBid(ai.getBid());
 		copy.setClid(ai.getClid());
@@ -144,10 +156,10 @@ public class PersistentStorageTest extends BaseTest {
 		copy.setEcid(ai.getEcid());
 
 		AssociateService as = new AssociateService();
-		List<Integer> associateIds = new ArrayList<>(new Integer(1));
+		List<Integer> associateIds = new ArrayList<>(new Integer(ai.getId()));
 		as.updateAssociates(associateIds , 2, 2);
 
-		assertEquals(2, ai.getMsid());
-		Assert.assertEquals(1, ai.getClid());
+		assertEquals(2, ai.getMsid().intValue());
+		assertEquals(1, ai.getClid().intValue());
     }
 }

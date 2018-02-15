@@ -120,7 +120,7 @@ public class TechDaoHibernate implements TechDao{
 	
 	
 	
-	public static void cacheAllTechs(){
+	public void cacheAllTechs(){
 		PersistentStorage.getStorage().setTechs(new TechDaoHibernate().getAllTechs());			
 	}
 

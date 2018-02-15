@@ -5,12 +5,18 @@ import java.sql.SQLException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+//import org.mockito.Mock;
 
-import com.revature.dao.MarketingStatusDaoHibernate;
+//import com.revature.dao.AssociateDaoHibernate;
+//import com.revature.dao.BatchDaoHibernate;
+//import com.revature.dao.ClientDaoImpl;
+//import com.revature.dao.CurriculumDaoImpl;
+//import com.revature.dao.MarketingStatusDaoHibernate;
+//import com.revature.dao.TechDaoHibernate;
 import com.revature.services.AssociateService;
 import com.revature.services.ClientService;
 import com.revature.services.MarketingStatusService;
-import com.revature.utils.PersistentStorage;
+//import com.revature.utils.PersistentStorage;
 import com.revature.utils.TestHibernateUtil;
 
 public class BaseTest {
@@ -37,13 +43,30 @@ public class BaseTest {
     }
 
     public void resetCaches() throws IOException {
-        AssociateService associateService = new AssociateService();
-        ClientService clientResource = new ClientService();
-        MarketingStatusService marketingStatusService = new MarketingStatusService(new MarketingStatusDaoHibernate(), sessionFactory);
+    	System.out.println("not implemented");
+    	    
+//        AssociateService associateService = new AssociateService();
+//        ClientService clientResource = new ClientService();
+//        MarketingStatusService marketingStatusService = new MarketingStatusService(new MarketingStatusDaoHibernate());
 
         //PersistentStorage.getStorage().setAssociates(associateService.getAssociates());
         //PersistentStorage.getStorage().setClients(clientResource.getClients());
-        PersistentStorage.getStorage().setMarketingStatuses(marketingStatusService.getMarketingStatuses());
+        //PersistentStorage.getStorage().setMarketingStatuses(marketingStatusService.getMarketingStatuses());
+    	
+//    	AssociateDaoHibernate mockAssociateDao ;
+//	    BatchDaoHibernate mockBatchDao;
+//	    ClientDaoImpl mockClientDao;
+//	    CurriculumDaoImpl mockCurriculumDao;
+//	    MarketingStatusDaoHibernate mockMarketingStatusDao;
+//	    TechDaoHibernate mockTechDao;
+//	    
+//    	mockAssociateDao.cacheAllAssociates();
+//        mockBatchDao.cacheAllBatches();
+//        mockClientDao.cacheAllClients();
+//        mockCurriculumDao.cacheAllCurriculms();
+//        mockMarketingStatusDao.cacheAllMarketingStatuses();
+//        mockTechDao.cacheAllTechs();
+        
     }
 
 
@@ -68,6 +91,6 @@ public class BaseTest {
 
         //PersistentStorage.getStorage().setAssociates(mockAssocService.getAssociates());
         //PersistentStorage.getStorage().setClients(mockClientResource.getClients());
-        PersistentStorage.getStorage().setMarketingStatuses(mockMsService.getMarketingStatuses());
+        //PersistentStorage.getStorage().setMarketingStatuses(mockMsService.getMarketingStatuses());
     }
 }

@@ -30,100 +30,61 @@ public class AssociateListTab {
 	// *************DROP DOWNS ****************************
 
 	// Marketing Status drop down
-	public static boolean marketingStatusDropDown(WebDriver d) {
-		try {
+	public static WebElement marketingStatusDropDown(WebDriver d) {
 			element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"mStatus\"]"), 10);
-			element.sendKeys("MAPPED: TRAINING");
-			System.out.println("Selected value from Marketing Status drop down");
-			return true;
-		} catch (Throwable e) {
-			System.out.println("Failed to select value from Marketing Status drop down");
-			return false;
-		}
+			 return element;
 	}
 
 	// Curriculum drop down
-	public static boolean curriculumDropDown(WebDriver d) {
-		try {
+	public static WebElement curriculumDropDown(WebDriver d) {
 		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"curriculum\"]"), 10);
-		element.sendKeys("Java");
-		System.out.println("Selected value from Curriculum drop down");
-		return true;
-		}catch (Throwable e) {
-			System.out.println("Failed to select value from Curriculum drop down");
-			return false;
-		}
+		return element;
 	}
 
 	// Client drop down
-	public static boolean clientDropDown(WebDriver d) {
-		try {
+	public static WebElement clientDropDown(WebDriver d) {
 		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"client\"]"), 10);
-		element.sendKeys("Accenture");
-		System.out.println("Selected value from Client drop down");
-		return true;
-		}catch(Throwable e) {
-			System.out.println("Failed to select value from Client drop down");
-			return false;
-		}
+		return element;
 	}
 	
 	//************************** UPDATE COMPONENTS ************************
 
 	// Update by Marketing Status drop down
-	public static boolean updateByMarketingStatusDropDown(WebDriver d) {
+	public static WebElement updateByMarketingStatusDropDown(WebDriver d) {
 		
-		try {
 		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"uStatus\"]"), 10);
-		element.sendKeys("MAPPED: TRAINING");
-		System.out.println("Selected value from Update By Marketing Status drop down");
-		return true;
-		}catch (Throwable e) {
-			System.out.println("Failed to select value from Update By Marketing Status drop down");
-			return false;
-		}
+		return element;
 	}
 
 	// Client drop down
-	public static boolean clientUpdateDropDown(WebDriver d) {
+	public static WebElement clientUpdateDropDown(WebDriver d) {
 		
-		try {
 		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"uclient\"]"), 10);
-		element.sendKeys("Accenture");
-		System.out.println("Selected value from client drop down");
-		return true;
-		}catch (Throwable e) {
-			System.out.println("Failed to select value from client drop down");
-			return false;
-		}
+		return element;
 	}
 
 	// Update button
-	public static boolean updateButton(WebDriver d) {
+	public static WebElement updateButton(WebDriver d) {
 		
-		try {
 		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"submit\"] "), 10);
-		element.click();
-		System.out.println("Clicked update button");
-		return true;
-		}catch(Throwable e) {
-			System.out.println("Failed to click update button");
-		return false;
-		}
+		return element;
+		
 	}
 
 	// ****************** CHECKBOXES **************************
 
 	// Edit check box for first row in the field
-	public static boolean editCheckBox(WebDriver d) {
+	public static WebElement editCheckBox(WebDriver d) {
 		
-		try {
-		element = d.findElement(By.xpath("//*[@id=\"70\"]"));
-		element.click();
-		return true;
-		}catch(Throwable e) {
-		return false;
-		}
+		element = d.findElement(By.xpath("//*[@id=\"2\"]"));
+		return element;
+	}
+	
+	// ****************** MARKETINGSTATUS TEXT **************************
+	public static WebElement MarketingStatusText(WebDriver d) {
+		
+		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"info\"]/table/tbody/tr[3]/td[5]"), 10);
+		return element;
 	}
 
 	// ****************SORT COMPONENTS ******************************
@@ -268,24 +229,6 @@ public class AssociateListTab {
 		
 		return list;             
 	}  
-	
-	//*****************UNIQUE LIST ***********************************************
-	//Get client names from drop down
-	public static List<WebElement> uniqueClientList(WebDriver d) {
-		// int size = 0;
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		                                  
-		List<WebElement> list = d        
-				.findElements(By.xpath("//*[@id=\"client\"]/*"));
-		
-		System.out.println("Retrieved unique clinet name into list");
-		
-		return list;             
-	} 
-	
+
 	
 }

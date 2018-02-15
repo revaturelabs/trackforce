@@ -13,7 +13,7 @@ public class Login {
 
 	public static WebElement getPassword(WebDriver d) {
 		return d.findElement(By.id("password"));
-	}
+	}	
 
 	public static WebElement getSignin(WebDriver d) {
 		return d.findElement(By.xpath("//button[@type='submit']"));

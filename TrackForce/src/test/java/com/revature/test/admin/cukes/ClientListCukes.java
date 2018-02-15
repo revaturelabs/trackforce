@@ -15,9 +15,10 @@ public class ClientListCukes extends AdminSuite {
 	static WebElement e = null;
 	
 	//ClientListCukes requires at least 2 clients in the list to work properly
-	static String firstClient = ClientListTab.getClientNameFromList(wd, 1).getText();
-	static String secondClient = ClientListTab.getClientNameFromList(wd, 2).getText();
-
+//	static String firstClient = ClientListTab.getClientNameFromList(wd, 1).getText();
+//	static String secondClient = ClientListTab.getClientNameFromList(wd, 2).getText();
+	static String firstClient = null;
+	static String secondClient = null;
 	@Given("^I click on Client List Tab$")
 	public static boolean click_client_list_tab(WebDriver d) {
 		try {
@@ -61,6 +62,7 @@ public class ClientListCukes extends AdminSuite {
 	@When("^I type the name of a client into the search bar$")
 	public static boolean search_by_client_name(WebDriver d) {
 		try {
+			secondClient = ClientListTab.getClientNameFromList(wd, 2).getText();
 			ClientListTab.getClientSearchBox(d).sendKeys(secondClient);
 			if (ClientListTab.getClientSearchBar(d).getAttribute("value").equals(secondClient)){
 				return true;

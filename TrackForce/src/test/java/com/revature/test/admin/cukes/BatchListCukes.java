@@ -17,8 +17,6 @@ import org.openqa.selenium.WebElement;
 
 import com.revature.test.admin.pom.BatchListTab;
 import com.revature.test.utils.TestConfig;
-import com.revature.test.utils.WaitToLoad;
-
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -134,12 +132,12 @@ public class BatchListCukes {
 	public static boolean the_From_date_is_entered(WebDriver wd) throws Throwable {
 		try {
 			// Enter data into the From date field
-			BatchListTab.clickFromDateArrow(wd).click();
-			BatchListTab.clickFromDateArrow(wd).sendKeys(Keys.LEFT);
-			BatchListTab.clickFromDateArrow(wd).sendKeys(Keys.LEFT);
-			BatchListTab.clickFromDateArrow(wd).sendKeys("10");
-			BatchListTab.clickFromDateArrow(wd).sendKeys("15");
-			BatchListTab.clickFromDateArrow(wd).sendKeys("2017");
+			BatchListTab.fromDateField(wd).click();
+			BatchListTab.fromDateField(wd).sendKeys(Keys.LEFT);
+			BatchListTab.fromDateField(wd).sendKeys(Keys.LEFT);
+			BatchListTab.fromDateField(wd).sendKeys("9");
+			BatchListTab.fromDateField(wd).sendKeys("15");
+			BatchListTab.fromDateField(wd).sendKeys("2017");
 			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to enter data into From date field");
@@ -169,12 +167,12 @@ public class BatchListCukes {
 	public static boolean the_To_date_is_entered(WebDriver wd) throws Throwable {
 		try {
 			// Enter data into the To date field
-			BatchListTab.clickToDateArrow(wd).click();
-			BatchListTab.clickToDateArrow(wd).sendKeys(Keys.LEFT);
-			BatchListTab.clickToDateArrow(wd).sendKeys(Keys.LEFT);
-			BatchListTab.clickToDateArrow(wd).sendKeys("12");
-			BatchListTab.clickToDateArrow(wd).sendKeys("15");
-			BatchListTab.clickToDateArrow(wd).sendKeys("2018");
+			BatchListTab.toDateField(wd).click();
+			BatchListTab.toDateField(wd).sendKeys(Keys.LEFT);
+			BatchListTab.toDateField(wd).sendKeys(Keys.LEFT);
+			BatchListTab.toDateField(wd).sendKeys("11");
+			BatchListTab.toDateField(wd).sendKeys("15");
+			BatchListTab.toDateField(wd).sendKeys("2017");
 			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to find All Batches header");
@@ -185,7 +183,7 @@ public class BatchListCukes {
 	@Given("^the submit button is clicked$")
 	public static boolean the_submit_button_is_clicked(WebDriver wd) throws Throwable {
 		try {
-			BatchListTab.clickSubmit(wd).click();
+			BatchListTab.submitButton(wd).click();
 			return true;
 		} catch (Throwable e) {
 			System.out.println("Submit button was not clicked");
@@ -201,7 +199,7 @@ public class BatchListCukes {
 	@Given("^the reset button is clicked$")
 	public static boolean the_reset_button_is_clicked(WebDriver wd) throws Throwable {
 		try {
-			BatchListTab.clickReset(wd).click();
+			BatchListTab.resetButton(wd).click();
 			return true;
 		} catch (Throwable e) {
 			System.out.println("Reset button was not clicked");
@@ -210,8 +208,7 @@ public class BatchListCukes {
 	}
 
 	@Then("^the batch list should show all batches$")
-	public void the_batch_list_should_show_all_batches() throws Throwable {
-		// Write code here that turns the phrase above into concrete actions
-		throw new PendingException();
+	public static boolean the_batch_list_should_show_all_batches(WebDriver wd) throws Throwable {
+		return BatchListTab.allBatchesAfterReset(BatchListTab.getStartDates(wd), BatchListTab.getEndDates(wd), wd);
 	}
 }

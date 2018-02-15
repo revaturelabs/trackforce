@@ -1,11 +1,9 @@
 <app-navbar></app-navbar>
 <div class="container" ng-init="">
-  <h3 class="text-default text-center">Associate {{associate.firstName}} {{associate.lastName}} Status</h3>
-
   <div class="row">
-    <div class="col-sm-1"></div>
-    <div class="col-sm-5">
-      <div class="table-responsive">
+    <div class="col-sm-6">
+      <h3>Associate Info</h3>
+      <div class="table-responsive info">
         <table class="table table-hover table-bordered">
           <tbody>
             <tr>
@@ -35,9 +33,10 @@
           </tbody>
         </table>
       </div>
-    </div>
-    <div class="col-sm-5">
-        <div class="form-group">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3>Change Status</h3>
+          <div class="form-group">
             <label for="mStatus">Choose Status:</label>
             <select class="form-control" [(ngModel)]="selectedMarketingStatus">
                 <option value="1">UNMAPPED: TRAINING</option>
@@ -51,16 +50,39 @@
                 <option value="9">MAPPED: CONFIRMED</option>
                 <option value="10">MAPPED: DEPLOYED</option>
             </select>
-            <p> </p>
             <label for="client">Assign Client:</label>
             <select class="form-control" id="client" [(ngModel)]="selectedClient">
                 <option selected="selected">None</option>
                 <option *ngFor="let client of clients">{{client.stats.name}}</option>
             </select>
-            <p> </p>
-            <button (click)="updateAssociate()" class="btn btn-default" style="float: right">Update Status</button>
+            <button (click)="updateAssociate()" class="btn btn-warning" style="margin-top:10px">Update Status</button>
             <h5 class="text-success">{{message}}</h5>
+          </div>
         </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <h3>Interviews</h3>
+      <table class="table table-responsive table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Interview</th>
+            <th>Client</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let interview of interviews; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{interview.client}}</td>
+            <td>{{interview.date | date:'longDate'}}</td>
+            <td>{{interview.type}}</td>
+            <td>{{interview.feedback}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

@@ -7,6 +7,6 @@ table {
   border-width: 2px;
 }
 
-td:first-child {
+.info td:first-child {
   font-weight: bold;
 }

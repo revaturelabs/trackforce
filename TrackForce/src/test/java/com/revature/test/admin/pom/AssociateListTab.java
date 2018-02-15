@@ -30,72 +30,37 @@ public class AssociateListTab {
 	// *************DROP DOWNS ****************************
 
 	// Marketing Status drop down
-	public static boolean marketingStatusDropDown(WebDriver d) {
-		try {
+	public static WebElement marketingStatusDropDown(WebDriver d) {
 			element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"mStatus\"]"), 10);
-			element.sendKeys("MAPPED: TRAINING");
-			System.out.println("Selected value from Marketing Status drop down");
-			return true;
-		} catch (Throwable e) {
-			System.out.println("Failed to select value from Marketing Status drop down");
-			return false;
-		}
+			 return element;
 	}
 
 	// Curriculum drop down
-	public static boolean curriculumDropDown(WebDriver d) {
-		try {
+	public static WebElement curriculumDropDown(WebDriver d) {
 		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"curriculum\"]"), 10);
-		element.sendKeys("Java");
-		System.out.println("Selected value from Curriculum drop down");
-		return true;
-		}catch (Throwable e) {
-			System.out.println("Failed to select value from Curriculum drop down");
-			return false;
-		}
+		return element;
 	}
 
 	// Client drop down
-	public static boolean clientDropDown(WebDriver d) {
-		try {
+	public static WebElement clientDropDown(WebDriver d) {
 		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"client\"]"), 10);
-		element.sendKeys("Accenture");
-		System.out.println("Selected value from Client drop down");
-		return true;
-		}catch(Throwable e) {
-			System.out.println("Failed to select value from Client drop down");
-			return false;
-		}
+		return element;
 	}
 	
 	//************************** UPDATE COMPONENTS ************************
 
 	// Update by Marketing Status drop down
-	public static boolean updateByMarketingStatusDropDown(WebDriver d) {
+	public static WebElement updateByMarketingStatusDropDown(WebDriver d) {
 		
-		try {
 		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"uStatus\"]"), 10);
-		element.sendKeys("MAPPED: TRAINING");
-		System.out.println("Selected value from Update By Marketing Status drop down");
-		return true;
-		}catch (Throwable e) {
-			System.out.println("Failed to select value from Update By Marketing Status drop down");
-			return false;
-		}
+		return element;
 	}
 
 	// Client drop down
-	public static boolean clientUpdateDropDown(WebDriver d) {
+	public static WebElement clientUpdateDropDown(WebDriver d) {
 		
-		try {
 		element = WaitToLoad.findDynamicElement(d, By.xpath("//*[@id=\"uclient\"]"), 10);
-		element.sendKeys("Accenture");
-		System.out.println("Selected value from client drop down");
-		return true;
-		}catch (Throwable e) {
-			System.out.println("Failed to select value from client drop down");
-			return false;
-		}
+		return element;
 	}
 
 	// Update button
@@ -115,15 +80,10 @@ public class AssociateListTab {
 	// ****************** CHECKBOXES **************************
 
 	// Edit check box for first row in the field
-	public static boolean editCheckBox(WebDriver d) {
+	public static WebElement editCheckBox(WebDriver d) {
 		
-		try {
 		element = d.findElement(By.xpath("//*[@id=\"70\"]"));
-		element.click();
-		return true;
-		}catch(Throwable e) {
-		return false;
-		}
+		return element;
 	}
 
 	// ****************SORT COMPONENTS ******************************

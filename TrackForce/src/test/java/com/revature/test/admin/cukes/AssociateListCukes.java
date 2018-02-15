@@ -353,36 +353,65 @@ public class AssociateListCukes {
 
 	// ********************************************************
 
-	@When("^I select a marketing status value from the marketing status drop drown$")
-	public static boolean i_select_a_marketing_status_value_from_the_marketing_status_drop_drown(WebDriver driver)
-			throws Throwable {
-		return AssociateListTab.marketingStatusDropDown(driver);
-	}
+	/*
+	 * @When("^I select a marketing status value from the marketing status drop drown$"
+	 * ) public static boolean
+	 * i_select_a_marketing_status_value_from_the_marketing_status_drop_drown(
+	 * WebDriver driver) throws Throwable { }
+	 */
 
 	@When("^I select a curriculum value from the curriculum drop down$")
 	public static boolean i_select_a_curriculum_value_from_the_curriculum_drop_down(WebDriver driver) throws Throwable {
-		return AssociateListTab.curriculumDropDown(driver);
+
+		try {
+			element = AssociateListTab.curriculumDropDown(driver);
+			element.sendKeys(".NET");
+			return true;
+		} catch (Throwable e) {
+			return false;
+		}
+		
 	}
 
-	@When("^I select a client value from the client drop down$")
-	public static boolean i_select_a_client_value_from_the_client_drop_down(WebDriver driver) throws Throwable {
-		return AssociateListTab.clientDropDown(driver);
+	@Then("^the table is filtered by that curriculum$")
+	public static boolean the_table_is_filtered_by_that_curriculum(WebDriver driver) throws Throwable {
+		List<WebElement> filteredBatch = AssociateListTab.batchNameList(driver);
+		element = AssociateListTab.marketingStatusDropDown(driver);
+		for (WebElement e : filteredBatch) {
+			if (!(e.getText().contains(element.getAttribute("value")))) {
+				return false;
+			}
+			System.out.println("Found batch name in table");
+		}
 
-	}
-
-	@When("^I select a update by marketing status value from the update by marketing status drop down$")
-	public static boolean i_select_a_update_by_marketing_status_value_from_the_update_by_marketing_status_drop_down(
-			WebDriver driver) throws Throwable {
-		return AssociateListTab.updateByMarketingStatusDropDown(driver);
+		return true;
+		
 	}
 
 	
-	@When("^I click an associate checkbox$")
-	public static boolean i_click_an_associate_checkbox(WebDriver driver) throws Throwable {
-		return AssociateListTab.editCheckBox(driver);
-	}
 	
 	
+	/*
+	 * @When("^I select a client value from the client drop down$") public static
+	 * boolean i_select_a_client_value_from_the_client_drop_down(WebDriver driver)
+	 * throws Throwable { // return AssociateListTab.clientDropDown(driver);
+	 * 
+	 * }
+	 */
+
+	/*
+	 * @When("^I select a update by marketing status value from the update by marketing status drop down$"
+	 * ) public static boolean
+	 * i_select_a_update_by_marketing_status_value_from_the_update_by_marketing_status_drop_down(
+	 * WebDriver driver) throws Throwable { }
+	 */
+
+	/*
+	 * @When("^I click an associate checkbox$") public static boolean
+	 * i_click_an_associate_checkbox(WebDriver driver) throws Throwable { return
+	 * AssociateListTab.editCheckBox(driver); }
+	 */
+
 	@When("^I click the update button$")
 	public static boolean i_click_the_update_button(WebDriver driver) throws Throwable {
 		return AssociateListTab.updateButton(driver);
@@ -396,7 +425,7 @@ public class AssociateListCukes {
 	 */
 
 	// *******************SORTING CUKES ***************************************
-	
+
 	// ***************** SORT BY ASSOCIATE ID (ASCENDING) ***********************
 
 	@When("^I click the associate id heading on the associate table$")
@@ -444,8 +473,9 @@ public class AssociateListCukes {
 
 		return true;
 	}
-	
-	//********************* SORT BY ASSOCIATE ID (DESCENDING) ***************************
+
+	// ********************* SORT BY ASSOCIATE ID (DESCENDING)
+	// ***************************
 
 	@Then("^The associate table is sorted by associate id in descending order$")
 	public static boolean the_associate_table_is_sorted_by_associate_id_in_descending_order(WebDriver driver)
@@ -478,9 +508,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
+	// ****************** SORT BY FIRST NAME (ASCENDING) ******************
 
-	//****************** SORT BY FIRST NAME (ASCENDING) ******************
-	
 	@When("^I click the first name heading on the associate table$")
 	public static boolean i_click_the_first_name_heading_on_the_associate_table(WebDriver driver) throws Throwable {
 
@@ -527,9 +556,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
-	
-	//***************** SORT BY FIRST NAME (DESCENDING) ***********************
-	
+	// ***************** SORT BY FIRST NAME (DESCENDING) ***********************
+
 	@Then("^The associate table is sorted by first name in descending order$")
 	public static boolean the_associate_table_is_sorted_by_first_name_in_descending_order(WebDriver driver)
 			throws Throwable {
@@ -562,8 +590,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
-	//**************** SORT BY LAST NAME (ASCENDING) ******************************
-	
+	// **************** SORT BY LAST NAME (ASCENDING) ******************************
+
 	@When("^I click the last name heading on the associate table$")
 	public static boolean i_click_the_last_name_heading_on_the_associate_table(WebDriver driver) throws Throwable {
 
@@ -611,8 +639,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
-	//***************** SORTED BY LAST NAME (DESCENDING) *********************
-	
+	// ***************** SORTED BY LAST NAME (DESCENDING) *********************
+
 	@Then("^The associate table is sorted by last name in descending order$")
 	public static boolean the_associate_table_is_sorted_by_last_name_in_descending_order(WebDriver driver)
 			throws Throwable {
@@ -645,8 +673,8 @@ public class AssociateListCukes {
 		return true;
 
 	}
-	
-	//************* SORT BY MARKETING STATUS (ASCENDING) ************************
+
+	// ************* SORT BY MARKETING STATUS (ASCENDING) ************************
 
 	@When("^I click the marketing status heading on the associate table$")
 	public static boolean i_click_the_marketing_status_heading_on_the_associate_table(WebDriver driver)
@@ -695,8 +723,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
-	//***************** SORT BY MARKETING STATUS (DESCENDING) *****************
-	
+	// ***************** SORT BY MARKETING STATUS (DESCENDING) *****************
+
 	@Then("^The associate table is sorted by marketing status in descending order$")
 	public static boolean the_associate_table_is_sorted_by_marketing_status_in_descending_order(WebDriver driver)
 			throws Throwable {
@@ -729,8 +757,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
-	//************** SORT BY CLIENT NAME (ASCENDING) *****************************
-	
+	// ************** SORT BY CLIENT NAME (ASCENDING) *****************************
+
 	@When("^I click the client name heading on the associate table$")
 	public static boolean i_click_the_client_name_heading_on_the_associate_table(WebDriver driver) throws Throwable {
 
@@ -777,8 +805,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
-	//************* SORT BY CLIENT NAME (DESCENDING) *********************
-	
+	// ************* SORT BY CLIENT NAME (DESCENDING) *********************
+
 	@Then("^The associate table is sorted by client name in descending order$")
 	public static boolean the_associate_table_is_sorted_by_client_name_in_descending_order(WebDriver driver)
 			throws Throwable {
@@ -811,8 +839,8 @@ public class AssociateListCukes {
 		return true;
 	}
 
-	//************** SORT BY BATCH NAME (ASCENDING) **********************
-	
+	// ************** SORT BY BATCH NAME (ASCENDING) **********************
+
 	@When("^I click the batch name heading on the associate table$")
 	public static boolean i_click_the_batch_name_heading_on_the_associate_table(WebDriver driver) throws Throwable {
 
@@ -860,7 +888,7 @@ public class AssociateListCukes {
 	}
 
 	// *************** SORT BY BATCH NAME (DESCENDING) ************************
-	
+
 	@Then("^The associate table is sorted by batch name in descending order$")
 	public static boolean the_associate_table_is_sorted_by_batch_name_in_descending_order(WebDriver driver)
 			throws Throwable {
@@ -891,22 +919,6 @@ public class AssociateListCukes {
 			}
 		}
 
-		return true;
-	}
-	
-	@When("^I click the client dropdown menu$")
-	public static boolean i_click_the_client_dropdown_menu(WebDriver wd) throws Throwable {
-		return AssociateListTab.clientDropDown(wd);
-	}
-
-	@Then("^The associate table shows all associates with the same client name$")
-	public static boolean the_associate_table_shows_all_associates_with_the_same_client_name(WebDriver wd) throws Throwable {
-		List<WebElement> clients = AssociateListTab.clientNameList(wd);
-		for (WebElement e : clients) {
-			if (!(e.getText().equals("Accenture"))) {
-				return false;
-			}
-		}
 		return true;
 	}
 

@@ -29,6 +29,7 @@ public class AssociateListTest extends AdminSuite {
 	}
 
 	// Not finished
+	/*
 	@Test(priority = 1, enabled = false)
 	public void filterByMarketingStatus() {
 
@@ -38,7 +39,7 @@ public class AssociateListTest extends AdminSuite {
 		} catch (Throwable e) {
 
 		}
-	}
+	}*/
 
 	// ************************ SORT ***************************************
 
@@ -50,7 +51,7 @@ public class AssociateListTest extends AdminSuite {
 			assertTrue(AssociateListCukes.i_click_the_associate_id_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_associate_id_heading_on_the_associate_table(wd));
 
-			//Thread.sleep(2000);
+			Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_the_associate_s_id_in_ascending_order(wd));
 
 		} catch (Throwable e) {
@@ -65,7 +66,7 @@ public class AssociateListTest extends AdminSuite {
 			// One click sorts in descending order
 			assertTrue(AssociateListCukes.i_click_the_associate_id_heading_on_the_associate_table(wd));
 
-			//Thread.sleep(2000);
+			Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_associate_id_in_descending_order(wd));
 
 		} catch (Throwable e) {
@@ -77,9 +78,9 @@ public class AssociateListTest extends AdminSuite {
 	@Test(priority = 4, enabled = false)
 	public void sortByFirstNameInAscendingOrder() {
 		try {
-			assertTrue(AssociateListCukes.i_click_the_first_name_heading_on_the_associate_table(wd));			
-			//Thread.sleep(2000);
+			assertTrue(AssociateListCukes.i_click_the_first_name_heading_on_the_associate_table(wd));
 
+			Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_first_name_in_ascending_order(wd));
 
 		} catch (Throwable e) {
@@ -95,8 +96,8 @@ public class AssociateListTest extends AdminSuite {
 			assertTrue(AssociateListCukes.i_click_the_first_name_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_first_name_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_first_name_heading_on_the_associate_table(wd));
-			//Thread.sleep(2000);
 
+			Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_first_name_in_descending_order(wd));
 
 		} catch (Throwable e) {
@@ -109,8 +110,8 @@ public class AssociateListTest extends AdminSuite {
 	public void sortByLastNameInAscendingOrder() {
 		try {
 			assertTrue(AssociateListCukes.i_click_the_last_name_heading_on_the_associate_table(wd));
-			//Thread.sleep(2000);
 
+			Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_last_name_in_ascending_order(wd));
 
 		} catch (Throwable e) {
@@ -125,7 +126,8 @@ public class AssociateListTest extends AdminSuite {
 			assertTrue(AssociateListCukes.i_click_the_last_name_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_last_name_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_last_name_heading_on_the_associate_table(wd));
-			//Thread.sleep(2000);
+
+			Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_last_name_in_descending_order(wd));
 
 		} catch (Throwable e) {
@@ -138,9 +140,8 @@ public class AssociateListTest extends AdminSuite {
 	public void sortByMarketinStatusInAscendingOrder() {
 		try {
 			assertTrue(AssociateListCukes.i_click_the_marketing_status_heading_on_the_associate_table(wd));
-			
-			//Thread.sleep(2000);
 
+			Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_marketing_status_in_ascending_order(wd));
 
 		} catch (Throwable e) {
@@ -155,9 +156,8 @@ public class AssociateListTest extends AdminSuite {
 			assertTrue(AssociateListCukes.i_click_the_marketing_status_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_marketing_status_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_marketing_status_heading_on_the_associate_table(wd));
-			
-			//Thread.sleep(2000);
 
+			Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_marketing_status_in_descending_order(wd));
 
 		} catch (Throwable e) {
@@ -170,9 +170,8 @@ public class AssociateListTest extends AdminSuite {
 	public void sortByCientNameInAscendingOrder() {
 		try {
 			assertTrue(AssociateListCukes.i_click_the_client_name_heading_on_the_associate_table(wd));
-			
-			//Thread.sleep(2000);
 
+			Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_client_name_in_ascending_order(wd));
 
 		} catch (Throwable e) {
@@ -187,9 +186,8 @@ public class AssociateListTest extends AdminSuite {
 			assertTrue(AssociateListCukes.i_click_the_client_name_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_client_name_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_client_name_heading_on_the_associate_table(wd));
-			
-			//Thread.sleep(2000);
 
+			Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_client_name_in_descending_order(wd));
 
 		} catch (Throwable e) {
@@ -202,9 +200,8 @@ public class AssociateListTest extends AdminSuite {
 	public void sortByBatchNameInAscendingOrder() {
 		try {
 			assertTrue(AssociateListCukes.i_click_the_batch_name_heading_on_the_associate_table(wd));
-			
-			//Thread.sleep(2000);
 
+			Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_batch_name_in_ascending_order(wd));
 
 		} catch (Throwable e) {
@@ -219,9 +216,8 @@ public class AssociateListTest extends AdminSuite {
 			assertTrue(AssociateListCukes.i_click_the_batch_name_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_batch_name_heading_on_the_associate_table(wd));
 			assertTrue(AssociateListCukes.i_click_the_batch_name_heading_on_the_associate_table(wd));
-			
-			//Thread.sleep(2000);
 
+			Thread.sleep(2000);
 			assertTrue(AssociateListCukes.the_associate_table_is_sorted_by_batch_name_in_descending_order(wd));
 
 		} catch (Throwable e) {
@@ -286,6 +282,7 @@ public class AssociateListTest extends AdminSuite {
 	@Test(priority = 18, enabled = false)
 	public void filterByClientNameSearch() {
 		try {
+			
 			assertTrue(AssociateListCukes.i_input_the_client_name_in_the_search_by_input_field(wd));
 		
 		} catch (Throwable e) {
@@ -297,7 +294,6 @@ public class AssociateListTest extends AdminSuite {
 	@Test(priority = 19, enabled = false)
 	public void filterByBatchNameSearch() {
 		try {
-			
 			assertTrue(AssociateListCukes.i_input_the_associate_batch_in_the_search_by_input_field(wd));
 		
 		} catch (Throwable e) {
@@ -305,15 +301,16 @@ public class AssociateListTest extends AdminSuite {
 		}
 	}
 	
-	//Filter by client name by entering in search text
-	@Test(priority = 20, enabled = false)
-	public void filterByClientMenu() {
+	//************** FILTER BY SELECTING DROP DOWN ***********************
+	
+	//Filter by selecting curriculum drop down value
+	@Test(priority = 20, enabled = true)
+	public void filterByCurriculumDropDown() {
 		try {
-			assertTrue(AssociateListCukes.i_click_the_client_dropdown_menu(wd));
-			assertTrue(AssociateListCukes.the_associate_table_shows_all_associates_with_the_same_client_name(wd));
+			assertTrue(AssociateListCukes.i_select_a_curriculum_value_from_the_curriculum_drop_down(wd));
+			assertTrue(AssociateListCukes.the_table_is_filtered_by_that_curriculum(wd));
+		}catch (Throwable e) {
 			
-		}catch(Throwable e) {
-			fail("Failed to filter by searching client name");
 		}
 	}
 	

@@ -20,6 +20,8 @@
 }
 
 #checkboxes {
+  max-height: 200px;
+  overflow-y: scroll;
   background-color: white;
   border: 1px #dadada solid;
 }

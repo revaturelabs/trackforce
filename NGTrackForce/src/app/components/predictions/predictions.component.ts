@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TechService} from '../../services/tech-service/tech.service';
 //import {FormsComponent} from '@angular/core';
 
 @Component({
@@ -10,22 +11,12 @@ export class PredictionsComponent implements OnInit {
   public dataReady: boolean = false;
   public startDate: Date = new Date();
   public endDate: Date = new Date();
-  public technologies: any[] = [
-    {
-      name: "Java",
-      id: 1,
-      selected: false
-    },
-    {
-      name: ".NET",
-      id: 2,
-      selected: false
-    }
-  ];
+  public numAssociatesNeeded: number;
+  public technologies: any[];
   public expanded: boolean = false;
   public results: any;
 
-  constructor() { }
+  constructor(private ts: TechService) { }
 
   ngOnInit() {
     this.getListOfTechnologies();
@@ -36,45 +27,49 @@ export class PredictionsComponent implements OnInit {
   }
 
   getListOfTechnologies() {
-    // this.techService.getTechs().subscribe(
-    //   data => {
-    //     this.technologies = data;
-    //     for (let tech of data) {
-    //       this.technologies.push({
-    //         name: tech.name,
-    //         id: tech.id,
-    //         selected: false
-    //       })
-    //     }
-    //   },
-    //  err => {
-    //    console.log(err);
-    //  }
-    // );
+    this.ts.getAllTechnologies().subscribe(
+      data => {
+        console.log(data);
+        this.technologies = data;
+      },
+     err => {
+       console.log(err);
+     }
+    );
   }
 
   getPrediction() {
-    // this.techService.getPrediction().subscribe(
-    //   data => {
-    //     this.results = data;
-    //   },
-    //   err => {
-    //     console.log(err);
-    //   }
-    // );
-    this.results = [
-      {
-        technology: "Java",
-        requested: 5,
-        available: 8
-      },
-      {
-        technology: ".NET",
-        requested: 6,
-        available: 3
-      }
-    ];
-    this.dataReady = true;
+    console.log(this.technologies);
+    let selectedTechnologies = [];
+    for (let i=0;i<this.technologies.length;i++) {
+      let tech = this.technologies[i];
+      if (tech.selected)
+        selectedTechnologies.push({
+          name: tech.name,
+          id: tech.id,
+          requested: this.numAssociatesNeeded
+        });
+    }
+    console.log(selectedTechnologies);
+    let startTime = new Date(this.startDate).getTime();
+    let endTime = new Date(this.endDate).getTime();
+    console.log(startTime);
+    console.log(endTime);
+    if (startTime && endTime) {
+      this.results = this.ts.getPrediction(startTime,endTime,selectedTechnologies);
+      this.dataReady = true;
+    }
+    // if (this.startDate && this.endDate) {
+    //   this.ts.getPrediction(selectedTechnologies).subscribe(
+    //     data => {
+    //       this.results = data;
+    //       this.dataReady = true;
+    //     },
+    //     err => {
+    //       console.log(err);
+    //     }
+    //   );
+    // }
   }
 
 }

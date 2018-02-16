@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestService } from '../services/request-service/request.service';
+import {environment} from "../../environments/environment";
 
 import * as d3 from 'd3';
 
@@ -54,15 +55,15 @@ export class ClientFociD3Component implements OnInit {
         "DynamicCRM": {
              "x" : width * 3 / 4,
              "y": height / 2
-        },       
+        },
         "None": {
              "x" : width * 3 / 4,
              "y": height / 2
-        },   
+        },
 		};
 
   	d3.queue()
-  		.defer(d3.json, 'http://localhost:8085/TrackForce/data/get/associate')
+  		.defer(d3.json, environment.url + 'TrackForce/data/get/associate')
   		.await(ready)
 
   	function ready (error, d) {
@@ -78,7 +79,7 @@ export class ClientFociD3Component implements OnInit {
 			// var forceX = d3.forceX(d => foci[d.curriculumName].x);
 			// var forceY = d3.forceY(d => foci[d.curriculumName].y);
 
-  	  var nodes = 
+  	  var nodes =
   			svg.append("g")
   			.selectAll("circle")
   			.data(graph.nodes)
@@ -88,21 +89,21 @@ export class ClientFociD3Component implements OnInit {
   				.attr("fill", function(d) { return color(d.curriculumName)});
 
   		var pegaNodes = graph.nodes.filter(node => node.curriculumName == 'PEGA');
-  		var jtaNodes = graph.nodes.filter(node => node.curriculumName == 'JTA');	
+  		var jtaNodes = graph.nodes.filter(node => node.curriculumName == 'JTA');
       var javaNodes = graph.nodes.filter(node => node.curriculumName == 'Java');
-      var Nodes = graph.nodes.filter(node => node.curriculumName == 'JTA');  
+      var Nodes = graph.nodes.filter(node => node.curriculumName == 'JTA');
       pegaNodes = graph.nodes.filter(node => node.curriculumName == 'PEGA');
-      jtaNodes = graph.nodes.filter(node => node.curriculumName == 'JTA');  
+      jtaNodes = graph.nodes.filter(node => node.curriculumName == 'JTA');
 
 
       var jtaForce = d3.forceSimulation()
       .force("charge", d3.forceManyBody().strength(-0.1));
 
       var pegaForce = d3.forceSimulation()
-      .force("charge", d3.forceManyBody().strength(-0.1));   
+      .force("charge", d3.forceManyBody().strength(-0.1));
 
       var javaForce = d3.forceSimulation()
-      .force("charge", d3.forceManyBody().strength(-0.1));            
+      .force("charge", d3.forceManyBody().strength(-0.1));
 
 			jtaForce
 				// .force("center", d3.forceCenter(width / 2, height / 2))
@@ -117,7 +118,7 @@ export class ClientFociD3Component implements OnInit {
         .force('y', d3.forceY(foci['PEGA'].y))
         .force("collide", d3.forceCollide(8))
         .nodes(pegaNodes)
-        .on("tick", ticked);  
+        .on("tick", ticked);
 
       javaForce
         // .force("center", d3.forceCenter(width / 2, height / 2))
@@ -125,7 +126,7 @@ export class ClientFociD3Component implements OnInit {
         .force('y', d3.forceY(foci['Java'].y))
         .force("collide", d3.forceCollide(8))
         .nodes(javaNodes)
-        .on("tick", ticked);  
+        .on("tick", ticked);
 
       function ticked() {
         nodes
@@ -139,7 +140,7 @@ export class ClientFociD3Component implements OnInit {
 
   initGraph() {
     d3.queue()
-      .defer(d3.json, 'http://localhost:8085/TrackForce/data/get/associate')
+      .defer(d3.json, environment.url + 'TrackForce/data/get/associate')
       .await(ready)
 
     function ready (error, data) {
@@ -151,27 +152,27 @@ export class ClientFociD3Component implements OnInit {
         .attr('background', '#e3e3e3');
       var color = d3.scaleOrdinal(d3.schemeCategory20);
       // create a scale that spans the width of svg
- 
+
       var associates = [];
       var curriculums = new Set();
-      
+
       data.forEach(function(element) {
         associates.push(element);
         curriculums.add(element.curriculumName);
       })
 
       var xScale = d3.scaleLinear()
-        .domain([0, curriculums.size])    
-        .range([width / 8, width * 7 / 8]); 
+        .domain([0, curriculums.size])
+        .range([width / 8, width * 7 / 8]);
 
       var yScale = d3.scaleLinear()
-        .domain([0, curriculums.size])    
-        .range([height / 8, height * 7 / 8]); 
+        .domain([0, curriculums.size])
+        .range([height / 8, height * 7 / 8]);
 
 
 
       // var xScale = d3.scaleOrdinal([0, curriculums.size])
-      var nodes = 
+      var nodes =
         svg.append("g")
         .selectAll("circle")
         .data(associates)
@@ -205,7 +206,7 @@ export class ClientFociD3Component implements OnInit {
 
         associates.forEach(function(o, i) {
           let clusterX = xScale(curriculumsArray.indexOf(o.curriculumName));
-          let clusterY = yScale(curriculumsArray.indexOf(o.curriculumName)); 
+          let clusterY = yScale(curriculumsArray.indexOf(o.curriculumName));
           o.vx -= (o.x - clusterX) * k ;
           // o.vy -= (o.y - clusterY) * k;
         });
@@ -216,7 +217,7 @@ export class ClientFociD3Component implements OnInit {
 
         nodes
           .attr("cx", function(d) { return d.x; })
-          .attr("cy", function(d) { return d.y; });        
+          .attr("cy", function(d) { return d.y; });
       }
 
     }

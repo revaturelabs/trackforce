@@ -277,6 +277,8 @@ public class Dao2DoMapper {
         EndClientInfo eci = new EndClientInfo();
         eci.setId(tec.getTfEndClientId());
         eci.setTfEndClientName(tec.getTfEndClientName());
+        
+        /*
         if (tec.getTfAssociates() != null)
             for (TfAssociate tfa : tec.getTfAssociates()) {
                 eci.getTfAssociates().add(map(tfa));
@@ -284,7 +286,8 @@ public class Dao2DoMapper {
         if (tec.getTfPlacements() != null)
             for (TfPlacement tfp : tec.getTfPlacements()) {
                 eci.getTfPlacements().add(map(tfp));
-            }
+            }*/
+        
         return eci;
     }
 }

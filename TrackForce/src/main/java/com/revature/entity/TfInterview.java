@@ -115,5 +115,9 @@ public class TfInterview implements java.io.Serializable {
 	public void setTfInterviewFeedback(String tfInterviewFeedback) {
 		this.tfInterviewFeedback = tfInterviewFeedback;
 	}
+	
+	public void setTfEndClientName(String name) {
+		this.tfEndClient.setTfEndClientName(name);
+	}
 
 }

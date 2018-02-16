@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfInterview;
 import com.revature.model.AssociateInfo;
+import com.revature.model.InterviewInfo;
 
 public interface AssociateDao {
 
@@ -17,4 +19,6 @@ public interface AssociateDao {
 	void updateAssociates(List<AssociateInfo> associates);
 	public Map<Integer, AssociateInfo> createAssociatesMap(List<TfAssociate> associateList);
 	public void updateAssociate(Integer associateid, Long startDate);
+	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId);
+
 }

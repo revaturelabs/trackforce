@@ -66,28 +66,28 @@ export class AssociateService {
         return this.http.put(url, ids);
     }
 
-    updateAssociate(id: number, ustatus: string, uclient: string) {
+    updateAssociate(id: number, ustatus: string, uclient: string): Observable<any> {
         return this.updateAssociates([id],Number(ustatus),Number(uclient));
     }
 
-    getInterviewsForAssociate(id: number) {
-      let url: string = environment.url + this.associatePath + "/interviews";
-      //return this.http.get(url);
-      return [
-      {
-        id: 1,
-        client: "Revature",
-        type: "Phone",
-        date: new Date(),
-        feedback: "Good"
-      },
-      {
-        id: 2,
-        client: "Infosys",
-        type: "Skype",
-        date: new Date(),
-        feedback: "Bad"
-      }
-    ]
+    getInterviewsForAssociate(id: number): Observable<any> {
+      let url: string = environment.url + this.associatePath + "/"+id+"/interviews/";
+      return this.http.get(url);
+    //   return [
+    //   {
+    //     id: 1,
+    //     client: "Revature",
+    //     type: "Phone",
+    //     date: new Date(),
+    //     feedback: "Good"
+    //   },
+    //   {
+    //     id: 2,
+    //     client: "Infosys",
+    //     type: "Skype",
+    //     date: new Date(),
+    //     feedback: "Bad"
+    //   }
+    // ]
     }
 }

@@ -1,6 +1,7 @@
 package com.revature.resources;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -19,6 +20,7 @@ import javax.ws.rs.core.Response.Status;
 import org.hibernate.HibernateException;
 
 import com.revature.model.AssociateInfo;
+import com.revature.model.InterviewInfo;
 import com.revature.services.AssociateService;
 
 @Path("associates")
@@ -59,11 +61,11 @@ public class AssociateResource {
 	 */
 	@PUT
 	public Response updateAssociates(
-			@DefaultValue("0") @QueryParam("marketingStatusId") Integer marketingStatusIdStr,
-			@DefaultValue("0") @QueryParam("clientId") Integer clientIdStr,
+			@DefaultValue("0") @QueryParam("marketingStatusId") Integer marketingStatusId,
+			@DefaultValue("0") @QueryParam("clientId") Integer clientId,
 			List<Integer> ids) {
 		// marketing status & client id are given as query parameters, ids sent in body
-		service.updateAssociates(ids, marketingStatusIdStr, clientIdStr);
+		service.updateAssociates(ids, marketingStatusId, clientId);
 		return Response.ok().build();
 	}
 
@@ -107,6 +109,7 @@ public class AssociateResource {
 	@Path("{associateId}")
 	public Response updateAssociate(
 			@PathParam("associateId") Integer id,
+<<<<<<< HEAD
            // @QueryParam("marketingStatusId") Integer marketingStatusId,
           //  @QueryParam("clientId") Integer clientId,
 			@QueryParam("clientStartDate") Long startDate){
@@ -114,4 +117,21 @@ public class AssociateResource {
 		service.updateAssociate(id, startDate);
 		return Response.ok().build();
 	}
+=======
+			@DefaultValue("0") @QueryParam("marketingStatusId") Integer marketingStatusId,
+			@DefaultValue("0") @QueryParam("clientId") Integer clientId) {
+		List<Integer> list = new ArrayList<>();
+		list.add(id);
+		service.updateAssociates(list, marketingStatusId, clientId);
+		return Response.ok().build();
+	}
+	
+	@GET
+	@Path("{associateid}/interviews")
+	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid) {
+		Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
+		System.out.println(associateinfo);
+		return Response.ok(associateinfo).build();
+	}
+>>>>>>> b3ca21a94f105fa2f27a6d6583fe92419d5d8969
 }

@@ -95,8 +95,8 @@ public class TechService implements Service {
 //		Set<TechInfo> ti = PersistentStorage.getStorage().getTechs();
 		Set<TechInfo> ti = TechDao.getTechFromCache();
 		if(ti == null || ti.isEmpty())
-//			PersistentStorage.getStorage().setTechs(TechDao.getAllTechs());
-			TechDaoHibernate.cacheAllTechs();
+			PersistentStorage.getStorage().setTechs(new TechDaoHibernate().getAllTechs());	
+			//TechDaoHibernate.cacheAllTechs();
 	}
 
 	@SuppressWarnings("unchecked")

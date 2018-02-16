@@ -1,7 +1,6 @@
 package com.revature.test;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,17 +12,12 @@ import com.revature.dao.CurriculumDaoImpl;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.dao.TechDaoHibernate;
 import com.revature.utils.PersistentStorage;
-import com.revature.utils.TestHibernateUtil;
 
 public class BaseTest {
     protected SessionFactory sessionFactory;
 
     public BaseTest() {
-        try {
-            sessionFactory = TestHibernateUtil.getSessionFactory();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+       
     }
 
     public void rollbackAndClose(Session session) {

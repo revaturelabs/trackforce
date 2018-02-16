@@ -112,7 +112,7 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfAssociateLastName = tfAssociateLastName;
 		this.tfInterviews = tfInterviews;
 		this.tfPlacements = tfPlacements;
-		this.clientStartDate=clientStartDate;
+		this.clientStartDate = clientStartDate;
 	}
 
 

@@ -214,9 +214,10 @@ public class AssociateService implements Service {
 	
     /**
      * execute delegated task: fetch data from DB and cache it to storage
-     *
+     *DO NOT USE
      * @throws IOException
      */
+	@Deprecated
 	@Override
 	public synchronized void execute() throws IOException {
 		Set<AssociateInfo> ai = associateDao.getAllAssociates();
@@ -224,6 +225,7 @@ public class AssociateService implements Service {
 			associateDao.cacheAllAssociates();
 	}
 
+	@Deprecated
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> Set<T> read(String... args) throws IOException {

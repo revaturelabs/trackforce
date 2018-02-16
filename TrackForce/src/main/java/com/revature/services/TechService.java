@@ -16,6 +16,7 @@ import com.revature.dao.TechDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.TechInfo;
+import com.revature.utils.PersistentStorage;
 
 public class TechService implements Service {
 

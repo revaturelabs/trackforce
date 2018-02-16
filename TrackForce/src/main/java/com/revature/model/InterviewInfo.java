@@ -11,7 +11,7 @@ public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
 	private static final long serialVersionUID = 4737517688902246944L;
 	private Integer id;
 	private AssociateInfo tfAssociate;
-	private EndClientInfo tfEndClient;
+	private String tfClientName;
 	private Integer typeId;
 	private String typeName;
 	private Timestamp tfInterviewDate;
@@ -41,14 +41,18 @@ public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
 
 
 
-	public EndClientInfo getTfEndClient() {
-		return tfEndClient;
+	public String getTfClientName() {
+		return tfClientName;
 	}
 
 
 
-	public void setTfEndClient(EndClientInfo tfEndClient) {
-		this.tfEndClient = tfEndClient;
+	public void setTfClientName(String tfEndClient) {
+		this.tfClientName = tfEndClient;
+	}
+	
+	public void setTfEndClientName(String name) {
+		this.tfClientName = name;
 	}
 
 

@@ -21,6 +21,11 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
 public class JunctionDaoImpl implements JunctionDao {
+	
+	public static void main(String[] args) {
+		List l = new JunctionDaoImpl().GET_COUNT_OF_ALL_BATCH_PER_TECH(1);
+		System.out.println(l);
+	}
 
 	
 	@Override
@@ -30,7 +35,7 @@ public class JunctionDaoImpl implements JunctionDao {
         			"join ADMIN.tf_batch_junction tf on tf.tf_batch_id = a.tf_batch_id left join ADMIN.tf_tech s on s.TF_TECH_ID = tf.TF_TECH_ID left join ADMIN.tf_associate p" +
         			"on p.TF_BATCH_ID = tf.TF_BATCH_ID where s.tf_tech_id= ? group by a.TF_BATCH_NAME";
 		    Query query = session.createNativeQuery(sql);
-		    query.setParameter(0, tech_id);
+		    query.setParameter(1, tech_id);
         	List query_results = query.list();
             return query_results;
         } catch (NoResultException nre) {

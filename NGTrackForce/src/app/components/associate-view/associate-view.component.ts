@@ -74,6 +74,7 @@ export class AssociateViewComponent implements OnInit {
     //the '+' coerces the parameter into a number
     let id = +this.activated.snapshot.paramMap.get('id');
     this.getAssociate(id);
+    this.getInterviews(id);
   }
 
   /**
@@ -116,6 +117,26 @@ export class AssociateViewComponent implements OnInit {
     this.newInterview.type = null;
     this.newInterview.date = null;
     this.newInterview.feedback = null;
+  }
+
+  getInterviews(id: number) {
+    this.associateService.getInterviewsForAssociate(id).subscribe(
+      data => {
+        let tempArr = [];
+        for (let i=0;i<data.length;i++) {
+          let interview = data[i];
+          let intObj = {
+            id: interview.id,
+            client: interview.tfClientName,
+            date: new Date(interview.tfInterviewDate),
+            type: interview.typeName,
+            feedback: interview.tfInterviewFeedback
+          }
+          tempArr.push(intObj);
+        }
+        this.interviews = tempArr;
+      }
+    );
   }
 
 }

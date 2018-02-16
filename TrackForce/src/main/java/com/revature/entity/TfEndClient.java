@@ -44,7 +44,6 @@ public class TfEndClient implements java.io.Serializable {
 	}
 
 	@Id
-
 	@Column(name = "TF_END_CLIENT_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Integer getTfEndClientId() {
 		return this.tfEndClientId;

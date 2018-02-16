@@ -25,7 +25,7 @@ public class TechService implements Service {
 
     public TechService() {
         this.TechDao = new TechDaoHibernate();
-        this.associateDao = new AssociateDaoHibernate();
+        //this.associateDao = new AssociateDaoHibernate();
     }
 
     /**

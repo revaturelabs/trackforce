@@ -70,6 +70,14 @@ export class AssociateService {
         return this.updateAssociates([id],Number(ustatus),Number(uclient));
     }
 
+    updateAssociateStartDate(id: number, date: Date): Observable<any> {
+        let url = environment.url + this.associatePath;
+        let timedate = date.getTime();
+        return this.http.put(`${url}/${id}`, {
+            newDate: timedate
+        });
+    }
+
     getInterviewsForAssociate(id: number) {
       let url: string = environment.url + this.associatePath + "/interviews";
       //return this.http.get(url);

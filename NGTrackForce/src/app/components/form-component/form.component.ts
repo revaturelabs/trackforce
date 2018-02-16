@@ -34,7 +34,7 @@ export class FormComponent implements OnInit {
     selectedClient: string = "";
     id: number;
     formOpen: boolean;
-
+    
     /**
       *@param {AssociateService} associateService
       * Service for grabbing associate data from the back-end
@@ -105,4 +105,18 @@ export class FormComponent implements OnInit {
       this.newInterview.date = null;
       this.newInterview.feedback = null;
     }
+
+   updateStartDate() {
+   let mydate = this.associate.startDate;
+   this.associateService.updateAssociateStartDate(this.id,mydate).subscribe(
+    data => {
+      console.log(data);
+    },
+    err => {
+      console.log(err);
+    });
+ }
 }
+
+
+

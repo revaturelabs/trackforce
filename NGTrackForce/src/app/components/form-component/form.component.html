@@ -127,7 +127,19 @@
           </form>
         </div>
       </div>
+      </div>
     </div>
+    <div class ="form-group">
+    <div class ="row">
+      <div class="col-md-3">
+      <label class="control-label"> Apply Start Date to Associates</label>
+      <input type="date" class="form-control" name="date" [(ngModel)] ="associate.startDate" />
+      </div>
+    <div class="col-md-3">
+      <br/>
+      <button (click)="updateStartDate()" class="btn btn-info">Update start date</button>
+    </div>
+   </div>
   </div>
 </div>
 <app-footer></app-footer>

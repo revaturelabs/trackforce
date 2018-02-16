@@ -40,7 +40,6 @@ public class TfCurriculum implements java.io.Serializable {
 	}
 
 	@Id
-
 	@Column(name = "TF_CURRICULUM_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Integer getTfCurriculumId() {
 		return this.tfCurriculumId;

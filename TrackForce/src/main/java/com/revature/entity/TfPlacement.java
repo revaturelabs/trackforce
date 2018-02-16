@@ -48,7 +48,6 @@ public class TfPlacement implements java.io.Serializable {
 	}
 
 	@Id
-
 	@Column(name = "TF_PLACEMENT_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Integer getTfPlacementId() {
 		return this.tfPlacementId;

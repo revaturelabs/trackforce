@@ -60,6 +60,7 @@ import { AuthGuard } from './guards/auth.guard';
 ///
 import { appRoutes } from './routing/routes';
 import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-helpers/router-stubs';
+import { ClientFociD3Component } from './client-foci-d3/client-foci-d3.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     RouterLinkStubDirective,
     RouterOutletStubComponent,
     FooterComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ClientFociD3Component
   ],
   imports: [
     BrowserModule,

@@ -19,7 +19,9 @@ import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.CurriculumDaoImpl;
+import com.revature.dao.InterviewDaoHibernate;
 import com.revature.dao.MarketingStatusDaoHibernate;
+import com.revature.dao.TechDaoHibernate;
 //import com.revature.utils.DBLoaderUtil;
 import com.revature.utils.HibernateUtil;
 
@@ -125,6 +127,8 @@ public class DatabaseServices {
     	new ClientDaoImpl().cacheAllClients();
     	new CurriculumDaoImpl().cacheAllCurriculms();
     	new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
+    	new TechDaoHibernate().cacheAllTechs();
+    	new InterviewDaoHibernate().cacheAllInterviews();
        
     }
 }

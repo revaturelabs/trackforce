@@ -124,4 +124,5 @@ public class AssociateResource {
 		System.out.println(associateinfo);
 		return Response.ok(associateinfo).build();
 	}
+
 }

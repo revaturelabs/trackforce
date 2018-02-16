@@ -16,6 +16,7 @@ import com.revature.dao.InterviewDaoHibernate;
 import com.revature.dao.TechDao;
 import com.revature.dao.TechDaoHibernate;
 import com.revature.model.AssociateInfo;
+import com.revature.model.BatchInfo;
 import com.revature.model.ClientInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumInfo;
@@ -77,6 +78,11 @@ public class InterviewService implements Service {
 	public Set<InterviewInfo> getTechs() throws HibernateException, IOException{
 		return interviewDao.getInterviewFromCache();
 	}
+	/*
+	 public InterviewInfo getInterviewById(Integer id) throws IOException {
+	    	return interviewDao.getInterviewsByAssociate(id);
+	    }
+	    */
 
 	@Override
 	public synchronized void execute() throws IOException {

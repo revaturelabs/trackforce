@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="container">
+<div class="container min-height">
   <h3>Associates</h3>
   <div class="form-group">
     <div class="row">
@@ -11,16 +11,16 @@
         <label for="mStatus">Marketing Status: </label>
         <select class="form-control" id="mStatus" [(ngModel)]="searchByStatus">
           <option label=" "></option>
-          <option value="MAPPED,  TRAINING">MAPPED: TRAINING</option>
-          <option value="MAPPED,  RESERVED">MAPPED: RESERVED</option>
-          <option value="MAPPED,  SELECTED">MAPPED: SELECTED</option>
-          <option value="MAPPED,  CONFIRMED">MAPPED: CONFIRMED</option>
-          <option value="MAPPED,  DEPLOYED">MAPPED: DEPLOYED</option>
-          <option value="UNMAPPED,  TRAINING">UNMAPPED: TRAINING</option>
-          <option value="UNMAPPED,  OPEN">UNMAPPED: OPEN</option>
-          <option value="UNMAPPED,  SELECTED">UNMAPPED: SELECTED</option>
-          <option value="UNMAPPED,  CONFIRMED">UNMAPPED: CONFIRMED</option>
-          <option value="UNMAPPED,  DEPLOYED">UNMAPPED: DEPLOYED</option>
+          <option value="MAPPED: TRAINING">MAPPED: Training</option>
+          <option value="MAPPED: RESERVED">MAPPED: Reserved</option>
+          <option value="MAPPED: SELECTED">MAPPED: Selected</option>
+          <option value="MAPPED: CONFIRMED">MAPPED: Confirmed</option>
+          <option value="MAPPED: DEPLOYED">MAPPED: Deployed</option>
+          <option value="UNMAPPED: TRAINING">UNMAPPED: Training</option>
+          <option value="UNMAPPED: OPEN">UNMAPPED: Open</option>
+          <option value="UNMAPPED: SELECTED">UNMAPPED: Selected</option>
+          <option value="UNMAPPED: CONFIRMED">UNMAPPED: Confirmed</option>
+          <option value="UNMAPPED: DEPLOYED">UNMAPPED: Deployed</option>
         </select>
       </div>
       <div class="col-sm-2">
@@ -87,23 +87,25 @@
           <label for="uStatus">Update by Marketing Status: </label>
           <select class="form-control" id="uStatus" [(ngModel)]="updateStatus">
             <option label=""></option>
-            <option value="1">MAPPED: TRAINING</option>
-            <option value="2">MAPPED: RESERVED</option>
-            <option value="3">MAPPED: SELECTED</option>
-            <option value="4">MAPPED: CONFIRMED</option>
-            <option value="5">MAPPED: DEPLOYED</option>
-            <option value="6">UNMAPPED: TRAINING</option>
-            <option value="7">UNMAPPED: OPEN</option>
-            <option value="8">UNMAPPED: SELECTED</option>
-            <option value="9">UNMAPPED: CONFIRMED</option>
-            <option value="10">UNMAPPED: DEPLOYED</option>
+            <option value="1">MAPPED: Training</option>
+            <option value="2">MAPPED: Reserved</option>
+            <option value="3">MAPPED: Selected</option>
+            <option value="4">MAPPED: Confirmed</option>
+            <option value="5">MAPPED: Deployed</option>
+            <option value="6">UNMAPPED: Training</option>
+            <option value="7">UNMAPPED: Open</option>
+            <option value="8">UNMAPPED: Selected</option>
+            <option value="9">UNMAPPED: Confirmed</option>
+            <option value="10">UNMAPPED: Deployed</option>
+            <option value="11">Directly Placed</option>
+            <option value="12">TERMINATED</option>
           </select>
         </div>
         <div class="col-sm-4">
           <label for="uclient">Client: </label>
           <select class="form-control" id="uclient" [(ngModel)]="updateClient">
             <option label=""></option>
-            <option selected="selected">None</option>
+            <option selected="selected" value = -1>None</option>
             <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
           </select>
         </div>
@@ -113,3 +115,4 @@
       </div>
     </div>
 </div>
+<app-footer></app-footer>

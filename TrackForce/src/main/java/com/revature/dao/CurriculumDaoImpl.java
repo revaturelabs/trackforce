@@ -58,7 +58,7 @@ public class CurriculumDaoImpl implements CurriculumDao {
 	}
 	
 	
-	public static void cacheAllCurriculms(){
-		PersistentStorage.getStorage().setCurriculums(new CurriculumDaoImpl().getAllCurriculums());			
+	public void cacheAllCurriculms(){
+		PersistentStorage.getStorage().setCurriculums(getAllCurriculums());			
 	}
 }

@@ -27,11 +27,10 @@ public class BatchesService implements Service {
      * @throws IOException
      */
     public Set<BatchInfo> getAllBatches() {
-    	return BatchDaoHibernate.getAllBatches();
+    	return batchDao.getAllBatches();
     }
 
     public List<BatchInfo> getAllBatchesSortedByDate() {
-    	System.out.println("Attempted to get Batches by Date in the dao layer");
         List<BatchInfo> batches = batchDao.getBatchesSortedByDate();
         return batches;
     }
@@ -84,7 +83,6 @@ public class BatchesService implements Service {
      * @throws IOException
      */
     public List<BatchInfo> getBatches(Long fromdate, Long todate) {
-    	System.out.println("Attempted to get baches at Batch Service");
         List<BatchInfo> batches = getAllBatchesSortedByDate();
 		List<BatchInfo> sublist = new LinkedList<BatchInfo>();
         for (BatchInfo bi : batches) {

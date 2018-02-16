@@ -15,6 +15,7 @@ public class Dao2DoMapper {
     public static AssociateInfo map(TfAssociate tfa) {
         AssociateInfo ai = new AssociateInfo();
         ai.setId(tfa.getTfAssociateId());
+        ai.setClientStartDate(tfa.getTfClientStartDate());
 
         if (tfa.getTfBatch() == null) {  //TF_BATCH_ID
             ai.setBatchId(new Integer(-1));
@@ -237,7 +238,8 @@ public class Dao2DoMapper {
         return pi;
     }
 
-    private static InterviewInfo map(TfInterview tfi) {
+    @SuppressWarnings("unused")
+	private static InterviewInfo map(TfInterview tfi) {
         InterviewInfo ii = new InterviewInfo();
         ii.setId(tfi.getTfInterviewId());
         if (tfi.getTfAssociate() != null)

@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -41,13 +43,8 @@ public class AssociateResource {
 	 */
 	@GET
 	public Response getAllAssociates() {
-		Set<AssociateInfo> associatesList = null;
-		associatesList = service.getAllAssociates();
-		service.getAllAssociates();
-		if (associatesList == null || associatesList.isEmpty()) {
-			// returns 404 if no associates found
-			return Response.status(Status.NOT_FOUND).build();
-		}
+		Set<AssociateInfo>associatesList = service.getAllAssociates();
+		if (associatesList == null || associatesList.isEmpty()) return Response.status(Status.NOT_FOUND).build();// returns 404 if no associates found
 		return Response.ok(associatesList).build();
 	}
 	
@@ -60,10 +57,10 @@ public class AssociateResource {
 	 * @return Response - 200 status if successful
 	 * @throws IOException
 	 */
-	//@PUT
+	@PUT
 	public Response updateAssociates(
-			@QueryParam("marketingStatusId") Integer marketingStatusIdStr,
-			@QueryParam("clientId") Integer clientIdStr,
+			@DefaultValue("0") @QueryParam("marketingStatusId") Integer marketingStatusIdStr,
+			@DefaultValue("0") @QueryParam("clientId") Integer clientIdStr,
 			List<Integer> ids) {
 		// marketing status & client id are given as query parameters, ids sent in body
 		service.updateAssociates(ids, marketingStatusIdStr, clientIdStr);
@@ -82,6 +79,18 @@ public class AssociateResource {
 	public Response getAssociate(@PathParam("associateid") Integer associateid) {
 		AssociateInfo associateinfo = service.getAssociate(associateid);
 		return Response.ok(associateinfo).build();
+	}
+	
+	@GET
+	@Path("mapped/{statusId}")
+	public Response getMappedInfo(@PathParam("statusId") int statusId) {
+		return service.getMappedInfo(statusId);
+	}
+	
+	@GET
+	@Path("unmapped/{statusId}")
+	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
+		return service.getUnmappedInfo(statusId);
 	}
 	
 	/**

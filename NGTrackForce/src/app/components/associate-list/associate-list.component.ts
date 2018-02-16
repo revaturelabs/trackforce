@@ -50,7 +50,7 @@ export class AssociateListComponent implements OnInit {
    * @param rs
    */
   constructor(
-    private associateService: AssociateService,
+    private associateService: AssociateService,//TfAssociate,
     private clientService: ClientService,
     private rs: RequestService
   ) {
@@ -144,7 +144,7 @@ export class AssociateListComponent implements OnInit {
       if (check != null && check.checked)
         ids.push(i);
     }
-    this.associateService.updateAssociates(ids, this.updateStatus, this.updateClient).subscribe(
+    this.associateService.updateAssociates(ids, Number(this.updateStatus), this.updateClient).subscribe(
       data => {
         self.getAllAssociates(); //refresh the associates to reflect the updates made on DB
         self.updated = true;

@@ -1,11 +1,12 @@
 package com.revature.runnable;
 
-import java.io.IOException;
 
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.CurriculumDaoImpl;
+import com.revature.dao.MarketingStatusDaoHibernate;
+import com.revature.dao.TechDaoHibernate;
 import com.revature.services.PersistentServiceDelegator;
 
 /**
@@ -89,42 +90,49 @@ public class PSDCacheRunner implements Runnable {
 	 */
 	private void cache() {
 
-		 try {
 	            // perform caching
 
+		
+    	
+    	
+    	
+    	
+    	
 	            long startTime = System.nanoTime();
-	            AssociateDaoHibernate.cacheAllAssociates();
+	            new AssociateDaoHibernate().cacheAllAssociates();
 	            long endTime = System.nanoTime();
 	            double elapsedTime = ((double)(endTime -startTime))/1000000000,total=elapsedTime;
 	            System.out.println("Associates caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
-	            BatchDaoHibernate.cacheAllBatches();
+	            new BatchDaoHibernate().cacheAllBatches();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000; total+=elapsedTime;
 	            System.out.println("Batches caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
-	            ClientDaoImpl.cacheAllClients();
+	            new ClientDaoImpl().cacheAllClients();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
 	            System.out.println("Clients caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
-	            CurriculumDaoImpl.cacheAllCurriculms();
+	            new CurriculumDaoImpl().cacheAllCurriculms();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
 	            System.out.println("Curriculums caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
-	            psd.getMarketingStatuses();
+	            new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
 	            System.out.println("MarketingStatuses caching time: "+elapsedTime+" seconds");
+	            
+	            startTime = System.nanoTime();
+	            new TechDaoHibernate().cacheAllTechs();
+	            endTime = System.nanoTime();
+	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
+	            System.out.println("Technologies caching time: "+elapsedTime+" seconds");
 	            System.out.println("Total caching time: "+total+" seconds");
-
-	        } catch (IOException e) {
-            e.printStackTrace();
-        }
 	}
 }

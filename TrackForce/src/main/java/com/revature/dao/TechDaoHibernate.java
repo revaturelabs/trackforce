@@ -1,4 +1,4 @@
-package com.revature.dao;
+ package com.revature.dao;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -9,16 +9,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.hibernate.transform.Transformers;
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
-import com.revature.entity.TfCurriculum;
 import com.revature.entity.TfTech;
-import com.revature.model.AssociateInfo;
-import com.revature.model.CurriculumInfo;
 import com.revature.model.TechInfo;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
@@ -127,7 +120,7 @@ public class TechDaoHibernate implements TechDao{
 	
 	
 	
-	public static void cacheAllTechs(){
+	public void cacheAllTechs(){
 		PersistentStorage.getStorage().setTechs(new TechDaoHibernate().getAllTechs());			
 	}
 

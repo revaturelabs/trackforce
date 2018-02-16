@@ -6,7 +6,6 @@ import { Client } from '../../models/client.model';
 import { element } from 'protractor';
 import { ActivatedRoute } from "@angular/router"
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
-import { RequestService } from '../../services/request-service/request.service';
 
 /**
  * Component for viewing an individual associate and editing as admin.
@@ -17,37 +16,50 @@ import { RequestService } from '../../services/request-service/request.service';
     styleUrls: ['./form.component.css']
 })
 /** Decorator for automatically unsubscribing all observables upon ngDestory()
-  *Prevents memory leaks
+  * Prevents memory leaks
   */
 @AutoUnsubscribe
 export class FormComponent implements OnInit {
     associate: Associate = new Associate();
     clients: Client[];
+    interviews: any;
+    newInterview: any = {
+      client: null,
+      date: null,
+      type: null,
+      feedback: null
+    };
     message: string = "";
     selectedMarketingStatus: string = "";
     selectedClient: string = "";
     id: number;
+    formOpen: boolean;
 
     /**
       *@param {AssociateService} associateService
       * Service for grabbing associate data from the back-end
-      *@param {RequestService} rs
-      * Originally planned to have one aggregate service to handle all requests
-      *May be un-needed in this component; un-used in this particular component
       */
     constructor(
       private associateService: AssociateService,
-      private clientService: ClientService,
-      private rs: RequestService
+      private clientService: ClientService
     ) {
         //gets id from router url parameter
         var id = window.location.href.split("form-comp/")[1];
         this.id = Number(id);
-        this.associateService.getAssociate(this.id).subscribe(data => { this.associate = <Associate>data });
     }
 
     ngOnInit() {
-        this.clientService.getAllClients().subscribe(data => { this.clients = data; });
+        this.associateService.getAssociate(this.id).subscribe(
+          data => {
+            console.log(data);
+            this.associate = <Associate>data
+          });
+        this.clientService.getAllClients().subscribe(
+          data => {
+            console.log(data);
+            this.clients = data;
+          });
+        this.getInterviews();
     }
 
     /**
@@ -65,5 +77,32 @@ export class FormComponent implements OnInit {
               }
           )
       }
+    }
+
+    getInterviews(){
+      // this.associateService.getInterviewsForAssociate(this.id).subscribe(
+      //   data => {
+      //     this.interviews = data;
+      //   });
+      this.interviews = this.associateService.getInterviewsForAssociate(this.id);
+    }
+
+    toggleForm() {
+      this.formOpen = !this.formOpen;
+    }
+
+    addInterview(){
+      console.log(this.newInterview);
+      let tempVar = {
+        client: this.newInterview.client,
+        type: this.newInterview.type,
+        date: this.newInterview.date,
+        feedback: this.newInterview.feedback
+      }
+      this.interviews.push(tempVar);
+      this.newInterview.client = null;
+      this.newInterview.type = null;
+      this.newInterview.date = null;
+      this.newInterview.feedback = null;
     }
 }

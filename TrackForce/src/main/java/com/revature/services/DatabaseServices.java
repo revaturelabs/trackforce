@@ -1,10 +1,8 @@
 package com.revature.services;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 import javax.persistence.StoredProcedureQuery;
-import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,8 +14,12 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
+import com.revature.dao.AssociateDaoHibernate;
+import com.revature.dao.BatchDaoHibernate;
+import com.revature.dao.ClientDaoImpl;
+import com.revature.dao.CurriculumDaoImpl;
+import com.revature.dao.MarketingStatusDaoHibernate;
 //import com.revature.utils.DBLoaderUtil;
 import com.revature.utils.HibernateUtil;
 
@@ -32,13 +34,13 @@ import com.revature.utils.HibernateUtil;
 @Path("database")
 public class DatabaseServices {
 
-    private PersistentServiceDelegator psd;
+//    private PersistentServiceDelegator psd;
     private SessionFactory sessionFactory;
-    private static enum DBMode {EMPTY, DB, SF}
-    private static DBMode prev = DBMode.EMPTY;
+//    private static enum DBMode {EMPTY, DB, SF}
+//    private static DBMode prev = DBMode.EMPTY;
 
     public DatabaseServices() {
-        psd = new PersistentServiceDelegator();
+//        psd = new PersistentServiceDelegator();
         sessionFactory = HibernateUtil.getSessionFactory();
     }
 
@@ -49,7 +51,7 @@ public class DatabaseServices {
      */
   
     public DatabaseServices(PersistentServiceDelegator psd, SessionFactory sessionFactory) {
-        this.psd = psd;
+//        this.psd = psd;
         this.sessionFactory = sessionFactory;
     }
 
@@ -69,9 +71,8 @@ public class DatabaseServices {
             tx.rollback();
         } finally {
         	update();
-            
+        	session.close();
         }
-        session.close();
         return Response.ok().build();
     }
 
@@ -106,24 +107,24 @@ public class DatabaseServices {
         try {
         	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.populateAllTablesSF_PROC");
             spq.execute();
-            prev = DBMode.SF;
+//            prev = DBMode.SF;
         } catch (Exception e) {
             e.printStackTrace();
             session.flush();
             tx.rollback();
         } finally {
         	update();
-            
+        	session.close();
         }
-        session.close();
         return Response.ok().build();
     }
 
     public void update() throws IOException {
-        psd.updateAssociates();
-        psd.updateBatches();
-        psd.updateClients();
-        psd.updateCurriculums();
-        psd.updateMarketingStatus();
+    	new AssociateDaoHibernate().cacheAllAssociates();
+    	new BatchDaoHibernate().cacheAllBatches();
+    	new ClientDaoImpl().cacheAllClients();
+    	new CurriculumDaoImpl().cacheAllCurriculms();
+    	new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
+       
     }
 }

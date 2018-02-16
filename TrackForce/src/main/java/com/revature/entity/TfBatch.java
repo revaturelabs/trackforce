@@ -5,8 +5,6 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -90,8 +88,10 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	
 	
 	//ManyToMany
-	@ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(name="TF_BATCH_JUNCTION", joinColumns= @JoinColumn(name="TF_BATCH_ID"), inverseJoinColumns= @JoinColumn(name="TF_TECH_ID"))  
+	@ManyToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+    @JoinTable(name="TF_BATCH_JUNCTION", joinColumns=
+    {@JoinColumn(name="TF_BATCH_ID", nullable =false, updatable = false) }, 
+    inverseJoinColumns= { @JoinColumn(name="TF_TECH_ID", nullable = false, updatable = false)})  
     public Set<TfTech> getTechs()
     {  
         return techs;  
@@ -132,8 +132,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	public Set<TfAssociate> getTfAssociates() {
 		return this.tfAssociates;
 	}
-
-	public void setTfAssociates(Set<TfAssociate> tfAssociates) {
+    	public void setTfAssociates(Set<TfAssociate> tfAssociates) {
 		this.tfAssociates = tfAssociates;
 	}
 

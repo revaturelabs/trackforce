@@ -52,7 +52,6 @@ public class AssociateService implements Service {
     		List<Integer> associateids,
     		Integer marketingStatus,
     		Integer clientid) {
-    	//System.out.println("Got something with UpdateAssociate:" + associateinfo);
     	associateDao.updateAssociates(associateids, marketingStatus, clientid);
     	return Response.status(200).build();
     }
@@ -62,7 +61,7 @@ public class AssociateService implements Service {
      */
 
 	public Set<AssociateInfo> getAllAssociates(){
-		return AssociateDaoHibernate.getAllAssociates();
+		return associateDao.getAllAssociates();
 	}
 
 	/**
@@ -133,7 +132,75 @@ public class AssociateService implements Service {
 		}
 		return map.values();
 	}
+	
+	/**
+	 * Generates statistics for the expanded view of the home page mapped chart
+	 * 
+	 * @param statusId
+	 * @return Collection<ClientMappedJSON>
+	 */
+	public Response getMappedInfo(int statusId) {
+	  try {
+		Set<AssociateInfo> associates = getAllAssociates();
+		if (associates == null) {
+			execute();
+			associates = getAllAssociates();
+		}
 
+		Map<Integer, ClientMappedJSON> map = new HashMap<>();
+		for (AssociateInfo ai : associates) {
+			if (ai.getMsid().equals(new Integer(statusId))) {
+				if (!map.containsKey(ai.getClid())) {
+					map.put(ai.getClid(), new ClientMappedJSON());
+				}
+				if (ai.getClient() != null && !ai.getClid().equals(new Integer(-1))) {
+					map.get(ai.getClid()).setCount(map.get(ai.getClid()).getCount() + 1);
+					map.get(ai.getClid()).setId(ai.getClid().intValue());
+					map.get(ai.getClid()).setName(ai.getClient());
+				}
+			}
+		}
+		return Response.ok(map.values()).build();
+	  } catch(IOException e) {
+		  System.out.println(e.getMessage());
+		  return Response.status(500).build();
+	  }
+	}
+	
+	/**
+	 * Generates statistics for the expanded view of the home page unmapped chart
+	 * 
+	 * @param statusId
+	 * @return Collection<CurriculumJSON>
+	 */
+	public Response getUnmappedInfo(int statusId) {
+	  try {
+		Set<AssociateInfo> associates = getAllAssociates();
+		if (associates == null) {
+			execute();
+			associates = getAllAssociates();
+		}
+
+		Map<Integer, CurriculumJSON> map = new HashMap<>();
+		for (AssociateInfo ai : associates) {
+			if (ai.getMsid().equals(new Integer(statusId))) {
+				if (!map.containsKey(ai.getCurid())) {
+					map.put(ai.getCurid(), new CurriculumJSON());
+				}
+				if (ai.getCurriculumName() != null && !ai.getCurid().equals(new Integer(-1))) {
+					map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
+					map.get(ai.getCurid()).setId(ai.getCurid().intValue());
+					map.get(ai.getCurid()).setName(ai.getCurriculumName());
+				}
+			}
+		}
+		return Response.ok(map.values()).build();
+	  } catch(IOException e) {
+		  System.out.println(e.getMessage());
+		  return Response.status(500).build();
+	  }
+	}
+	
     /**
      * execute delegated task: fetch data from DB and cache it to storage
      *
@@ -141,9 +208,9 @@ public class AssociateService implements Service {
      */
 	@Override
 	public synchronized void execute() throws IOException {
-//		Set<AssociateInfo> ai = PersistentStorage.getStorage().getAssociates();
-//		if (ai == null || ai.isEmpty())
-//			PersistentStorage.getStorage().setAssociates(getAssociates());
+		Set<AssociateInfo> ai = associateDao.getAllAssociates();
+		if (ai == null || ai.isEmpty())
+			associateDao.cacheAllAssociates();
 	}
 
 	@SuppressWarnings("unchecked")

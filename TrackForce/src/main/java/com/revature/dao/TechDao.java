@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.revature.entity.TfTech;
-import com.revature.model.CurriculumInfo;
 import com.revature.model.TechInfo;
 public interface TechDao {
     

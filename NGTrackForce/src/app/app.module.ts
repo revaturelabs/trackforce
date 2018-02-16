@@ -28,6 +28,7 @@ import { SkillsetComponent } from './components/skillset/skillset.component';
 import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 import { AssociateViewComponent } from './components/associate-view/associate-view.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { PredictionsComponent } from './components/predictions/predictions.component';
 
 ///
 //  SERVICES
@@ -41,6 +42,7 @@ import { BatchService } from './services/batch-service/batch.service';
 import { SkillsetService } from './services/skill-set-service/skill-set.service';
 import { DataSyncService } from './services/datasync-service/data-sync.service';
 import { UserService } from './services/user-service/user.service';
+import { TechService } from './services/tech-service/tech.service';
 
 ///
 //  FILTERS
@@ -85,6 +87,7 @@ import { ClientFociD3Component } from './client-foci-d3/client-foci-d3.component
     FooterComponent,
     NotFoundComponent,
     ClientFociD3Component
+    PredictionsComponent
   ],
   imports: [
     BrowserModule,
@@ -103,6 +106,7 @@ import { ClientFociD3Component } from './client-foci-d3/client-foci-d3.component
     BatchService,
     UserService,
     SkillsetService,
+    TechService,
     DataSyncService,
     AuthGuard,
     {

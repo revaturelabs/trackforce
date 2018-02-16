@@ -15,6 +15,7 @@ public class Dao2DoMapper {
     public static AssociateInfo map(TfAssociate tfa) {
         AssociateInfo ai = new AssociateInfo();
         ai.setId(tfa.getTfAssociateId());
+        ai.setClientStartDate(tfa.getTfClientStartDate());
 
         if (tfa.getTfBatch() == null) {  //TF_BATCH_ID
             ai.setBatchId(new Integer(-1));

@@ -1,7 +1,7 @@
 package com.revature.model;
 
 import java.io.Serializable;
-
+import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -95,6 +95,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 
 	private Integer curid;
 	private String curriculumName;
+	private Timestamp clientStartDate;
 
 	/**
 	 * Constructs a newly allocated BatchInfo object that represents an associate.
@@ -263,6 +264,14 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 
 	public void setCurriculumName(String curriculumName) {
 		this.curriculumName = curriculumName == null ? "None" : curriculumName;
+	}
+	
+	public Timestamp getClientStartDate() {
+		return clientStartDate;
+	}
+
+	public void setClientStartDate(Timestamp clientStartDate) {
+		this.clientStartDate = clientStartDate;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.revature.entity;
 // Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -70,6 +71,10 @@ public class TfAssociate implements java.io.Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfAssociate")
 	private Set<TfPlacement> tfPlacements = new HashSet<TfPlacement>(0);
 	
+	@XmlElement
+	@Column(name = "TF_CLIENT_START_DATE")
+	private Timestamp clientStartDate;
+	
 	//unmapped field: private static StatusInfo totals = new StatusInfo(); -not featured
 	
 	//private BigDecimal bid;
@@ -87,10 +92,6 @@ public class TfAssociate implements java.io.Serializable {
 	//private BigDecimal curid;     -not featured
 	//private String curriculumName;  -not featured
 	
-	
-	
-	
-	
 
 	public TfAssociate() {
 	}
@@ -101,7 +102,7 @@ public class TfAssociate implements java.io.Serializable {
 
 	public TfAssociate(Integer tfAssociateId, TfBatch tfBatch, TfMarketingStatus tfMarketingStatus,
 			TfClient tfClient, TfEndClient tfEndClient, String tfAssociateFirstName, String tfAssociateLastName,
-			Set<TfInterview> tfInterviews, Set<TfPlacement> tfPlacements) {
+			Set<TfInterview> tfInterviews, Set<TfPlacement> tfPlacements, Timestamp clientStartDate) {
 		this.tfAssociateId = tfAssociateId;
 		this.tfBatch = tfBatch;
 		this.tfMarketingStatus = tfMarketingStatus;
@@ -111,6 +112,7 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfAssociateLastName = tfAssociateLastName;
 		this.tfInterviews = tfInterviews;
 		this.tfPlacements = tfPlacements;
+		this.clientStartDate=clientStartDate;
 	}
 
 
@@ -188,5 +190,13 @@ public class TfAssociate implements java.io.Serializable {
 
 	public void setTfPlacements(Set<TfPlacement> tfPlacements) {
 		this.tfPlacements = tfPlacements;
+	}
+	
+	public Timestamp getTfClientStartDate() {
+		return this.clientStartDate;
+	}
+
+	public void setTfClientStartDate(Timestamp clientStartDate) {
+		this.clientStartDate = clientStartDate;
 	}
 }

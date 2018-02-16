@@ -40,7 +40,6 @@ public class TfMarketingStatus implements java.io.Serializable {
 	}
 
 	@Id
-
 	@Column(name = "TF_MARKETING_STATUS_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Integer getTfMarketingStatusId() {
 		return this.tfMarketingStatusId;

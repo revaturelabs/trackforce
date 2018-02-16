@@ -43,21 +43,23 @@
           <div class="form-group">
             <label for="mStatus">Choose Status:</label>
             <select class="form-control" [(ngModel)]="selectedMarketingStatus">
-                <option value="1">UNMAPPED: TRAINING</option>
-                <option value="2">UNMAPPED: OPEN</option>
-                <option value="3">UNMAPPED: SELECTED</option>
-                <option value="4">UNMAPPED: CONFIRMED</option>
-                <option value="5">UNMAPPED: DEPLOYED</option>
-                <option value="6">MAPPED: TRAINING</option>
-                <option value="7">MAPPED: RESERVED</option>
-                <option value="8">MAPPED: SELECTED</option>
-                <option value="9">MAPPED: CONFIRMED</option>
-                <option value="10">MAPPED: DEPLOYED</option>
+              <option value="1">MAPPED: Training</option>
+              <option value="2">MAPPED: Reserved</option>
+              <option value="3">MAPPED: Selected</option>
+              <option value="4">MAPPED: Confirmed</option>
+              <option value="5">MAPPED: Deployed</option>
+              <option value="6">UNMAPPED: Training</option>
+              <option value="7">UNMAPPED: Open</option>
+              <option value="8">UNMAPPED: Selected</option>
+              <option value="9">UNMAPPED: Confirmed</option>
+              <option value="10">UNMAPPED: Deployed</option>
+              <option value="11">Directly Placed</option>
+              <option value="12">TERMINATED</option>
             </select>
             <label for="client">Assign Client:</label>
             <select class="form-control" id="client" [(ngModel)]="selectedClient">
                 <option selected="selected">None</option>
-                <option *ngFor="let client of clients">{{client.tfClientName}}</option>
+                <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
             </select>
             <button (click)="updateAssociate()" class="btn btn-warning" style="margin-top:10px">Update Status</button>
             <h5 class="text-success">{{message}}</h5>
@@ -111,9 +113,9 @@
                <div class="col-sm-9">
                  <select class="form-control" name="type "[(ngModel)]="newInterview.type">
                      <option value="1">Phone</option>
-                     <option value="2">Online</option>
-                     <option value="3">On-site</option>
-                     <option value="4">Skype</option>
+                     <option value="2">Skype</option>
+                     <option value="3">In person at Revature</option>
+                     <option value="4">In person at client</option>
                  </select>
                </div>
             </div>

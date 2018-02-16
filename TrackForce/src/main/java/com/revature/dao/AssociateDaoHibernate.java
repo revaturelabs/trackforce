@@ -2,6 +2,8 @@ package com.revature.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,8 +20,10 @@ import org.hibernate.query.Query;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.entity.TfClient;
+import com.revature.entity.TfInterview;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
+import com.revature.model.InterviewInfo;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.PersistentStorage;
@@ -95,13 +99,15 @@ public class AssociateDaoHibernate implements AssociateDao {
 				if(clientid != 0) {
 					if(clientid != -1) {
 						TfClient client = (TfClient) session.load(TfClient.class, clientid);
+						//client = new ClientDaoImpl().getClientFromCache(clientid);
 						associate.setTfClient(client);
 					}
 					else
 						associate.setTfClient(null);
 				}
 				if(marketingStatus != 0) {
-					TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, marketingStatus);
+					//TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, marketingStatus);
+					TfMarketingStatus status = new MarketingStatusDaoHibernate().getMarketingStatus(marketingStatus);
 					associate.setTfMarketingStatus(status);
 				}
 				session.saveOrUpdate(associate);
@@ -110,26 +116,24 @@ public class AssociateDaoHibernate implements AssociateDao {
 			PersistentStorage.getStorage().setAssociates(createAssociatesMap(associates));
 		} 
     }
+	
+	@Override
+	public void updateAssociate(Integer associateid, Long startDate) {
+		// TODO Auto-generated method stub
+		
+	}
 
     @Override
     public Map<Integer, AssociateInfo> getAssociates() {
-        List<TfAssociate> associatesEnt;
-
         Map<Integer, AssociateInfo> map = new HashMap<>();
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = HibernateUtil.getSession()) {
         	CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<TfAssociate> cq = cb.createQuery(TfAssociate.class);
             Root<TfAssociate> from = cq.from(TfAssociate.class);
             CriteriaQuery<TfAssociate> all = cq.select(from);
             Query<TfAssociate> tq = session.createQuery(all);
 
-            associatesEnt = tq.getResultList();
-            if (associatesEnt != null) {
-                for (TfAssociate tfa : associatesEnt) {
-                    map.put(tfa.getTfAssociateId(), Dao2DoMapper.map(tfa));
-                    AssociateInfo.appendToMap(tfa.getTfMarketingStatus());
-                }
-            }
+            return createAssociatesMap(tq.getResultList()); 
         }
         catch(HibernateException e) {
         	e.printStackTrace();
@@ -176,4 +180,26 @@ public class AssociateDaoHibernate implements AssociateDao {
     		session.close();
     	}
     }
+
+
+	@Override
+	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId) {
+		Set<TfInterview> setint = null;
+		Set<InterviewInfo> setInfo = null;
+    	try(Session session = HibernateUtil.getSession()) {
+	    	TfAssociate tfa = session.load(TfAssociate.class, associateId);
+	    	setint = tfa.getTfInterviews();
+	    	Iterator<TfInterview> it = setint.iterator();
+			setInfo = new HashSet<>();
+			while (it.hasNext()) {
+				InterviewInfo ii = Dao2DoMapper.map(it.next());
+				setInfo.add(ii);
+			}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+		return setInfo;
+	}
+
+	
 }

@@ -66,10 +66,11 @@ export class AssociateService {
         return this.http.put(url, ids);
     }
 
-    updateAssociate(id: number, ustatus: string, uclient: string) {
+    updateAssociate(id: number, ustatus: string, uclient: string): Observable<any> {
         return this.updateAssociates([id],Number(ustatus),Number(uclient));
     }
 
+<<<<<<< HEAD
     updateAssociateStartDate(id: number, date: Date): Observable<any> {
         let url = environment.url + this.associatePath;
         let timedate = date.getTime();
@@ -97,5 +98,26 @@ export class AssociateService {
         feedback: "Bad"
       }
     ]
+=======
+    getInterviewsForAssociate(id: number): Observable<any> {
+      let url: string = environment.url + this.associatePath + "/"+id+"/interviews/";
+      return this.http.get(url);
+    //   return [
+    //   {
+    //     id: 1,
+    //     client: "Revature",
+    //     type: "Phone",
+    //     date: new Date(),
+    //     feedback: "Good"
+    //   },
+    //   {
+    //     id: 2,
+    //     client: "Infosys",
+    //     type: "Skype",
+    //     date: new Date(),
+    //     feedback: "Bad"
+    //   }
+    // ]
+>>>>>>> 2ccc6375820d44e359a250cf253a815146b57124
     }
 }

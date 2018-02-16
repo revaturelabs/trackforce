@@ -3,6 +3,8 @@ package com.revature.services;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,9 +15,12 @@ import org.hibernate.HibernateException;
 
 import com.revature.dao.AssociateDao;
 import com.revature.dao.AssociateDaoHibernate;
+import com.revature.entity.TfInterview;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumJSON;
+import com.revature.model.InterviewInfo;
+import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateService implements Service {
@@ -46,15 +51,7 @@ public class AssociateService implements Service {
 		return Response.status(200).build();
 	}
 
-	//The method used to populate all of the data onto TrackForce
-    //Doesn't work correctly at the moment
-    public Response updateAssociates(
-    		List<Integer> associateids,
-    		Integer marketingStatus,
-    		Integer clientid) {
-    	associateDao.updateAssociates(associateids, marketingStatus, clientid);
-    	return Response.status(200).build();
-    }
+
     /**
      * 
      * @return
@@ -201,11 +198,18 @@ public class AssociateService implements Service {
 	  }
 	}
 	
+	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId) {
+		AssociateDao adao = new AssociateDaoHibernate();
+		Set<InterviewInfo> setinterviews = adao.getInterviewsByAssociate(associateId);
+		return setinterviews;
+	}
+	
     /**
      * execute delegated task: fetch data from DB and cache it to storage
-     *
+     *DO NOT USE
      * @throws IOException
      */
+	@Deprecated
 	@Override
 	public synchronized void execute() throws IOException {
 		Set<AssociateInfo> ai = associateDao.getAllAssociates();
@@ -213,9 +217,28 @@ public class AssociateService implements Service {
 			associateDao.cacheAllAssociates();
 	}
 
+	@Deprecated
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> Set<T> read(String... args) throws IOException {
 		return (Set<T>) getAllAssociates();
+	}
+	
+	//The method used to populate all of the data onto TrackForce
+    //Doesn't work correctly at the moment
+    public Response updateAssociates(
+    		List<Integer> associateids,
+    		//Integer associateids,
+    		Integer marketingStatus,
+    		Integer clientid) {
+    	associateDao.updateAssociates(associateids, marketingStatus, clientid);
+    	return Response.status(200).build();
+    }
+
+	public Response updateAssociate(Integer associateid,
+		Long startDate) {
+	associateDao.updateAssociate(associateid, startDate);
+	return Response.status(200).build();
+		
 	}
 }

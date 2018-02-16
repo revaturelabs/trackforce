@@ -55,11 +55,10 @@ export class PredictionsComponent implements OnInit {
     let endTime = new Date(this.endDate).getTime();
     console.log(startTime);
     console.log(endTime);
-    if (startTime && endTime) {
+    if (startTime && endTime && selectedTechnologies.length > 0) {
       this.results = this.ts.getPrediction(startTime,endTime,selectedTechnologies);
       this.dataReady = true;
     }
-    // if (this.startDate && this.endDate) {
     //   this.ts.getPrediction(selectedTechnologies).subscribe(
     //     data => {
     //       this.results = data;
@@ -69,7 +68,6 @@ export class PredictionsComponent implements OnInit {
     //       console.log(err);
     //     }
     //   );
-    // }
   }
 
 }

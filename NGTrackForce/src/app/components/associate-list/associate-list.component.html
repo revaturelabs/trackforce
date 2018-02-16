@@ -65,7 +65,7 @@
                 <input type="checkbox" id={{associate.id}}>
               </td>
               <td>
-                <a href="form-comp/{{associate.id}}" class="id">{{associate.id}}</a>
+                <a [routerLink]="['/form-comp',associate.id]" class="id">{{associate.id}}</a>
               </td>
               <td class="first">{{associate.firstName}}</td>
               <td class="last">{{associate.lastName}}</td>
@@ -102,7 +102,7 @@
           </select>
         </div>
         <div class="col-sm-4">
-          <label for="uclient">Client: </label>
+          <label for="uclient">Update Client: </label>
           <select class="form-control" id="uclient" [(ngModel)]="updateClient">
             <option label=""></option>
             <option selected="selected" value = -1>None</option>

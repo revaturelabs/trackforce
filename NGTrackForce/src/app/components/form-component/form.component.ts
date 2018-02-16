@@ -30,8 +30,8 @@ export class FormComponent implements OnInit {
       feedback: null
     };
     message: string = "";
-    selectedMarketingStatus: string = "";
-    selectedClient: string = "";
+    selectedMarketingStatus: string;
+    selectedClient: number;
     id: number;
     formOpen: boolean;
     
@@ -66,25 +66,36 @@ export class FormComponent implements OnInit {
      * Update the associate with the new client and/or status
      */
     updateAssociate() {
-      if (this.selectedClient !== this.associate.client
-          && this.selectedMarketingStatus !== this.associate.marketingStatus) {
-          this.associateService.updateAssociate(this.id, this.selectedMarketingStatus, this.selectedClient).subscribe(
-              data => {
-                  this.associateService.getAssociate(this.id).subscribe(
-                      data => {
-                          this.associate = <Associate>data
-                      });
-              }
-          )
-      }
-    }
+      var ids: number[] = [];
+      ids.push(this.id);
+
+        this.associateService.updateAssociates(ids, Number(this.selectedMarketingStatus), this.selectedClient).subscribe(
+            data => {
+                this.associateService.getAssociate(this.id).subscribe(
+                    data => {
+                        this.associate = <Associate>data
+                    });
+            }
+        )
 
     getInterviews(){
-      // this.associateService.getInterviewsForAssociate(this.id).subscribe(
-      //   data => {
-      //     this.interviews = data;
-      //   });
-      this.interviews = this.associateService.getInterviewsForAssociate(this.id);
+      this.associateService.getInterviewsForAssociate(this.id).subscribe(
+        data => {
+          let tempArr = [];
+          for (let i=0;i<data.length;i++) {
+            let interview = data[i];
+            let intObj = {
+              id: interview.id,
+              client: interview.tfClientName,
+              date: new Date(interview.tfInterviewDate),
+              type: interview.typeName,
+              feedback: interview.tfInterviewFeedback
+            }
+            tempArr.push(intObj);
+          }
+          this.interviews = tempArr;
+        }
+      );
     }
 
     toggleForm() {

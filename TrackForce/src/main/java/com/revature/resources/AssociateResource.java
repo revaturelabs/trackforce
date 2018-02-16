@@ -103,14 +103,15 @@ public class AssociateResource {
 	 * @throws NumberFormatException 
 	 * @throws IOException
 	 */
-//	@PUT
-//	@Path("{associateId}")
-//	public Response updateAssociate(
-//			@PathParam("associateId") Integer[] ids,
-//            @QueryParam("marketingStatusId") Integer marketingStatusId,
-//            @QueryParam("clientId") Integer clientId) {
-//		
-//		service.updateAssociates(ids, marketingStatusId, clientId);
-//		return Response.ok().build();
-//	}
+	@PUT
+	@Path("{associateId}")
+	public Response updateAssociate(
+			@PathParam("associateId") Integer id,
+           // @QueryParam("marketingStatusId") Integer marketingStatusId,
+          //  @QueryParam("clientId") Integer clientId,
+			@QueryParam("clientStartDate") Long startDate){
+		
+		service.updateAssociate(id, startDate);
+		return Response.ok().build();
+	}
 }

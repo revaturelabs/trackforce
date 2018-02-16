@@ -112,6 +112,12 @@ public class AssociateDaoHibernate implements AssociateDao {
 			PersistentStorage.getStorage().setAssociates(createAssociatesMap(associates));
 		} 
     }
+	
+	@Override
+	public void updateAssociate(Integer associateid, Long startDate) {
+		// TODO Auto-generated method stub
+		
+	}
 
     @Override
     public Map<Integer, AssociateInfo> getAssociates() {
@@ -170,4 +176,6 @@ public class AssociateDaoHibernate implements AssociateDao {
     		session.close();
     	}
     }
+
+	
 }

@@ -46,15 +46,7 @@ public class AssociateService implements Service {
 		return Response.status(200).build();
 	}
 
-	//The method used to populate all of the data onto TrackForce
-    //Doesn't work correctly at the moment
-    public Response updateAssociates(
-    		List<Integer> associateids,
-    		Integer marketingStatus,
-    		Integer clientid) {
-    	associateDao.updateAssociates(associateids, marketingStatus, clientid);
-    	return Response.status(200).build();
-    }
+
     /**
      * 
      * @return
@@ -217,5 +209,23 @@ public class AssociateService implements Service {
 	@Override
 	public <T> Set<T> read(String... args) throws IOException {
 		return (Set<T>) getAllAssociates();
+	}
+	
+	//The method used to populate all of the data onto TrackForce
+    //Doesn't work correctly at the moment
+    public Response updateAssociates(
+    		List<Integer> associateids,
+    		//Integer associateids,
+    		Integer marketingStatus,
+    		Integer clientid) {
+    	associateDao.updateAssociates(associateids, marketingStatus, clientid);
+    	return Response.status(200).build();
+    }
+
+	public Response updateAssociate(Integer associateid,
+		Long startDate) {
+	associateDao.updateAssociate(associateid, startDate);
+	return Response.status(200).build();
+		
 	}
 }

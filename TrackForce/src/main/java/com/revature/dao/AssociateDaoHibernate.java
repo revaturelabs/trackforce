@@ -95,13 +95,15 @@ public class AssociateDaoHibernate implements AssociateDao {
 				if(clientid != 0) {
 					if(clientid != -1) {
 						TfClient client = (TfClient) session.load(TfClient.class, clientid);
+						//client = new ClientDaoImpl().getClientFromCache(clientid);
 						associate.setTfClient(client);
 					}
 					else
 						associate.setTfClient(null);
 				}
 				if(marketingStatus != 0) {
-					TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, marketingStatus);
+					//TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, marketingStatus);
+					TfMarketingStatus status = new MarketingStatusDaoHibernate().getMarketingStatus(marketingStatus);
 					associate.setTfMarketingStatus(status);
 				}
 				session.saveOrUpdate(associate);
@@ -113,23 +115,15 @@ public class AssociateDaoHibernate implements AssociateDao {
 
     @Override
     public Map<Integer, AssociateInfo> getAssociates() {
-        List<TfAssociate> associatesEnt;
-
         Map<Integer, AssociateInfo> map = new HashMap<>();
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try(Session session = HibernateUtil.getSession()) {
         	CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<TfAssociate> cq = cb.createQuery(TfAssociate.class);
             Root<TfAssociate> from = cq.from(TfAssociate.class);
             CriteriaQuery<TfAssociate> all = cq.select(from);
             Query<TfAssociate> tq = session.createQuery(all);
 
-            associatesEnt = tq.getResultList();
-            if (associatesEnt != null) {
-                for (TfAssociate tfa : associatesEnt) {
-                    map.put(tfa.getTfAssociateId(), Dao2DoMapper.map(tfa));
-                    AssociateInfo.appendToMap(tfa.getTfMarketingStatus());
-                }
-            }
+            return createAssociatesMap(tq.getResultList()); 
         }
         catch(HibernateException e) {
         	e.printStackTrace();

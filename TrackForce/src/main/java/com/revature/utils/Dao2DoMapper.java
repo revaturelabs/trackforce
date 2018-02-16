@@ -15,7 +15,24 @@ public class Dao2DoMapper {
     public static AssociateInfo map(TfAssociate tfa) {
         AssociateInfo ai = new AssociateInfo();
         ai.setId(tfa.getTfAssociateId());
-
+        //ai.setClientStartDate(tfa.getTfClientStartDate());
+        
+        Timestamp start = tfa.getTfClientStartDate();
+        String startDate = (start != null) ? start.toString() : UNKNOWN_VALUE;
+        ai.setClientStartDate(startDate);
+        
+        /*
+         * 
+         *  if (batch.getTfBatchStartDate() != null)
+            bi.setStartLong(batch.getTfBatchStartDate().getTime());
+        if (batch.getTfBatchEndDate() != null)
+            bi.setEndLong(batch.getTfBatchEndDate().getTime());
+        bi.setStartTs(batch.getTfBatchStartDate());
+         * 
+        if(tfa.getTfAssociateId()==1 || tfa.getTfAssociateId()==2) {
+        	System.out.println(ai.getClientStartDate());
+        }*/
+        
         if (tfa.getTfBatch() == null) {  //TF_BATCH_ID
             ai.setBatchId(new Integer(-1));
             ai.setBatchName(UNKNOWN_VALUE);
@@ -139,6 +156,7 @@ public class Dao2DoMapper {
         Timestamp end = batch.getTfBatchEndDate();
         TfCurriculum curriculum = batch.getTfCurriculum();
         TfBatchLocation location = batch.getTfBatchLocation();
+        
 
         String startDate = (start != null) ? start.toString() : UNKNOWN_VALUE;
         String endDate = (end != null) ? end.toString() : UNKNOWN_VALUE;
@@ -238,7 +256,7 @@ public class Dao2DoMapper {
     }
 
     @SuppressWarnings("unused")
-	private static InterviewInfo map(TfInterview tfi) {
+	public static InterviewInfo map(TfInterview tfi) {
         InterviewInfo ii = new InterviewInfo();
         ii.setId(tfi.getTfInterviewId());
         if (tfi.getTfAssociate() != null)

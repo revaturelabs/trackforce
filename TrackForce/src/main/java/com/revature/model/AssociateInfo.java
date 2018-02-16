@@ -1,7 +1,7 @@
 package com.revature.model;
 
 import java.io.Serializable;
-
+import java.sql.Timestamp;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -95,6 +95,9 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 
 	private Integer curid;
 	private String curriculumName;
+	
+	//private Timestamp clientStartDate;
+	private String startDate;
 
 	/**
 	 * Constructs a newly allocated BatchInfo object that represents an associate.
@@ -120,7 +123,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	}
 
 	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client,
-			String batchName, String curriculumName) {
+			String batchName, String curriculumName, String startDate) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -130,6 +133,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 		this.endClient = "";
 		this.batchName = batchName;
 		this.curriculumName = curriculumName;
+		this.startDate = startDate;
 	}
 
 	public AssociateInfo() {
@@ -264,6 +268,14 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	public void setCurriculumName(String curriculumName) {
 		this.curriculumName = curriculumName == null ? "None" : curriculumName;
 	}
+	
+	public String getClientStartDate() {
+		return startDate;
+	}
+
+	public void setClientStartDate(String startDate) {
+		this.startDate = startDate;
+	}
 
 	@Override
 	public int hashCode() {
@@ -335,7 +347,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	@Override
 	public String toString() {
 		return "AssociateInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", marketingStatus="
-				+ marketingStatus + ", client=" + client + ", endClient=" + endClient + ", batchName=" + batchName
+				+ marketingStatus + ", startDate=" + startDate + ",client=" + client + ", endClient=" + endClient + ", batchName=" + batchName
 				+ ", curriculumName=" + curriculumName + "]";
 	}
 

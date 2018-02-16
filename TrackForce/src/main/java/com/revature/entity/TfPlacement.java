@@ -23,7 +23,7 @@ public class TfPlacement implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 6812378121809201089L;
-	private BigDecimal tfPlacementId;
+	private Integer tfPlacementId;
 	private TfAssociate tfAssociate;
 	private TfClient tfClient;
 	private TfEndClient tfEndClient;
@@ -33,11 +33,11 @@ public class TfPlacement implements java.io.Serializable {
 	public TfPlacement() {
 	}
 
-	public TfPlacement(BigDecimal tfPlacementId) {
+	public TfPlacement(Integer tfPlacementId) {
 		this.tfPlacementId = tfPlacementId;
 	}
 
-	public TfPlacement(BigDecimal tfPlacementId, TfAssociate tfAssociate, TfClient tfClient, TfEndClient tfEndClient,
+	public TfPlacement(Integer tfPlacementId, TfAssociate tfAssociate, TfClient tfClient, TfEndClient tfEndClient,
 			Timestamp tfPlacementStartDate, Timestamp tfPlacementEndDate) {
 		this.tfPlacementId = tfPlacementId;
 		this.tfAssociate = tfAssociate;
@@ -50,11 +50,11 @@ public class TfPlacement implements java.io.Serializable {
 	@Id
 
 	@Column(name = "TF_PLACEMENT_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getTfPlacementId() {
+	public Integer getTfPlacementId() {
 		return this.tfPlacementId;
 	}
 
-	public void setTfPlacementId(BigDecimal tfPlacementId) {
+	public void setTfPlacementId(Integer tfPlacementId) {
 		this.tfPlacementId = tfPlacementId;
 	}
 

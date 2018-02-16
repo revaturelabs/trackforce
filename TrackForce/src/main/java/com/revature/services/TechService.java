@@ -16,6 +16,7 @@ import com.revature.dao.TechDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.TechInfo;
+import com.revature.utils.PersistentStorage;
 
 public class TechService implements Service {
 
@@ -24,7 +25,7 @@ public class TechService implements Service {
 
     public TechService() {
         this.TechDao = new TechDaoHibernate();
-        this.associateDao = new AssociateDaoHibernate();
+        //this.associateDao = new AssociateDaoHibernate();
     }
 
     /**
@@ -95,8 +96,8 @@ public class TechService implements Service {
 //		Set<TechInfo> ti = PersistentStorage.getStorage().getTechs();
 		Set<TechInfo> ti = TechDao.getTechFromCache();
 		if(ti == null || ti.isEmpty())
-//			PersistentStorage.getStorage().setTechs(TechDao.getAllTechs());
-			new TechDaoHibernate().cacheAllTechs();
+			PersistentStorage.getStorage().setTechs(new TechDaoHibernate().getAllTechs());	
+			//TechDaoHibernate.cacheAllTechs();
 	}
 
 	@SuppressWarnings("unchecked")

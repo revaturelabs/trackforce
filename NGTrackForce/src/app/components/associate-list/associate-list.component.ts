@@ -64,15 +64,15 @@ export class AssociateListComponent implements OnInit {
     }
     this.getAllAssociates(); //grab associates and clients from back end
     this.getClientNames();
-
     //if navigating to this page from clicking on a chart of a different page, set default filters
     var url = window.location.href.split("/"); //get current url
+    console.log(url);
     if (url.length == 8) {//if values passed in, search by values
       if (url[4] == "client")
         this.searchByClient = url[5];
       else if (url[4] == "curriculum")
-      this.searchByCurriculum = url[5];
-      this.searchByStatus = url[6].toUpperCase() + ",  " + url[7].toUpperCase();
+        this.searchByCurriculum = url[5];
+      this.searchByStatus = url[6].toUpperCase() + ": " + url[7].toUpperCase();
     }
   }
 
@@ -84,6 +84,7 @@ export class AssociateListComponent implements OnInit {
 
     this.associateService.getAllAssociates().subscribe(data => {
       this.associates = data;
+      console.log(this.associates);
 
       for (let associate of this.associates) {//get our curriculums from the associates
         this.curriculums.add(associate.curriculumName);

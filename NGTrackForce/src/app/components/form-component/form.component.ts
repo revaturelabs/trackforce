@@ -59,7 +59,7 @@ export class FormComponent implements OnInit {
             console.log(data);
             this.clients = data;
           });
-        this.getInterviews();
+        this.interviews();
     }
 
     /**
@@ -76,8 +76,8 @@ export class FormComponent implements OnInit {
                         this.associate = <Associate>data
                     });
             }
-        )
-
+        )}
+/*
     getInterviews(){
       this.associateService.getInterviewsForAssociate(this.id).subscribe(
         data => {
@@ -95,9 +95,9 @@ export class FormComponent implements OnInit {
           }
           this.interviews = tempArr;
         }
-      );
+      )
     }
-
+*/
     toggleForm() {
       this.formOpen = !this.formOpen;
     }
@@ -126,8 +126,7 @@ export class FormComponent implements OnInit {
     err => {
       console.log(err);
     });
+  }
  }
-}
-
 
 

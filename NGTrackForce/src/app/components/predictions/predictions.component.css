@@ -1,3 +1,7 @@
+.min-height {
+  min-height: 100vh;
+}
+
 .multiselect {
   width: 200px;
 }
@@ -20,6 +24,8 @@
 }
 
 #checkboxes {
+  max-height: 200px;
+  overflow-y: scroll;
   background-color: white;
   border: 1px #dadada solid;
 }

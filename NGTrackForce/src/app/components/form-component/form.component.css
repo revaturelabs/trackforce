@@ -7,6 +7,15 @@ table {
   border-width: 2px;
 }
 
-td:first-child {
+.info td:first-child {
   font-weight: bold;
+}
+
+.toggledContainer {
+  min-height: 300px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-top: 5px;
+  background-color: white;
+  border: 2px solid lightgrey;
 }

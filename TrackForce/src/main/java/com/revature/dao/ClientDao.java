@@ -37,7 +37,7 @@ public interface ClientDao {
 	 * @return
 	 * 		-ClientInfo object
 	 */
-	public ClientInfo getClientFromCache(int id);
+	public ClientInfo getClientFromCache(Integer id);
 	
 	/**
 	 * Gets a map of all clients from the cache

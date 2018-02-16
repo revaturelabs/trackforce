@@ -49,6 +49,7 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 		return tfMarketingStatus;
 	}
 	
+	@Override
 	public Map<Integer, MarketingStatusInfo> getMarketingStatus() {
 		List<TfMarketingStatus> marketingStatusEnts;
 		Map<Integer, MarketingStatusInfo> map = new HashMap<>();

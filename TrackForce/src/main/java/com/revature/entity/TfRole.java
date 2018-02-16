@@ -39,7 +39,6 @@ public class TfRole implements java.io.Serializable {
 	}
 
 	@Id
-
 	@Column(name = "TF_ROLE_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Integer getTfRoleId() {
 		return this.tfRoleId;

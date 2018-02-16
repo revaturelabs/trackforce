@@ -89,7 +89,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	
 	//ManyToMany
 	@ManyToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
-    @JoinTable(name="TF_BATCH_JUNCTION", joinColumns=
+    @JoinTable(name="TF_BATCH_JUNCTION", schema="ADMIN", joinColumns=
     {@JoinColumn(name="TF_BATCH_ID", nullable =false, updatable = false) }, 
     inverseJoinColumns= { @JoinColumn(name="TF_TECH_ID", nullable = false, updatable = false)})  
     public Set<TfTech> getTechs()

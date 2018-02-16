@@ -15,7 +15,23 @@ public class Dao2DoMapper {
     public static AssociateInfo map(TfAssociate tfa) {
         AssociateInfo ai = new AssociateInfo();
         ai.setId(tfa.getTfAssociateId());
-        ai.setClientStartDate(tfa.getTfClientStartDate());
+        //ai.setClientStartDate(tfa.getTfClientStartDate());
+
+        Timestamp start = tfa.getTfClientStartDate();
+        String startDate = (start != null) ? start.toString() : UNKNOWN_VALUE;
+        ai.setClientStartDate(startDate);
+
+        /*
+         *
+         *  if (batch.getTfBatchStartDate() != null)
+            bi.setStartLong(batch.getTfBatchStartDate().getTime());
+        if (batch.getTfBatchEndDate() != null)
+            bi.setEndLong(batch.getTfBatchEndDate().getTime());
+        bi.setStartTs(batch.getTfBatchStartDate());
+         *
+        if(tfa.getTfAssociateId()==1 || tfa.getTfAssociateId()==2) {
+        	System.out.println(ai.getClientStartDate());
+        }*/
 
         if (tfa.getTfBatch() == null) {  //TF_BATCH_ID
             ai.setBatchId(new Integer(-1));
@@ -55,7 +71,7 @@ public class Dao2DoMapper {
             ai.setLastName(UNKNOWN_VALUE);
         else
             ai.setLastName(tfa.getTfAssociateLastName());
- /*       
+ /*
         if (tfa.getTfMarketingStatus() == null) {        //TF_MARKETING_STATUS_ID
             ai.setMarketingStatusId(new Integer(-1));
             ai.setMarketingStatus(UNKNOWN_VALUE);
@@ -63,7 +79,7 @@ public class Dao2DoMapper {
             ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
             ai.setMarketingStatus(OTHER_VALUE);
         }
-   */     
+   */
         if (tfa.getTfMarketingStatus() == null) {		//TF_MARKETING_STATUS_ID
             ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
             ai.setMarketingStatus(OTHER_VALUE);
@@ -73,8 +89,8 @@ public class Dao2DoMapper {
         }
         return ai;
     }
-    
-    
+
+
     /**
      * map TfBatch object to format consumed by front end, properly checking for
      * null values
@@ -88,6 +104,7 @@ public class Dao2DoMapper {
         Timestamp end = batch.getTfBatchEndDate();
         TfCurriculum curriculum = batch.getTfCurriculum();
         TfBatchLocation location = batch.getTfBatchLocation();
+
 
         String startDate = (start != null) ? start.toString() : UNKNOWN_VALUE;
         String endDate = (end != null) ? end.toString() : UNKNOWN_VALUE;
@@ -114,7 +131,7 @@ public class Dao2DoMapper {
         ci.setName(tfc.getTfCurriculumName());
         return ci;
     }
-    
+
     public static TechInfo map(TfTech tft) {
     	TechInfo ti = new TechInfo();
         ti.setId(tft.getTfTechId());
@@ -128,22 +145,22 @@ public class Dao2DoMapper {
         msi.setName(tfms.getTfMarketingStatusName());
         return msi;
     }
-   
+
     //Faster Implementation
     public static ClientInfo map(TfClient client) {
         ClientInfo cli = new ClientInfo();
         cli.setTfClientId(client.getTfClientId());
         cli.setTfClientName(client.getTfClientName());
-        
+
         if (client.getTfAssociates() != null)
             for (TfAssociate tfa : client.getTfAssociates()) {
                 if (tfa.getTfMarketingStatus() != null) {
                     cli.appendToMap(tfa.getTfMarketingStatus());
-                }  
+                }
             }
         return cli;
     }
-    
+
     public static PlacementInfo map(TfPlacement tfp) {
         PlacementInfo pi = new PlacementInfo();
         pi.setId(tfp.getTfPlacementId());
@@ -181,6 +198,8 @@ public class Dao2DoMapper {
         EndClientInfo eci = new EndClientInfo();
         eci.setId(tec.getTfEndClientId());
         eci.setTfEndClientName(tec.getTfEndClientName());
+
+        /*
         if (tec.getTfAssociates() != null)
             for (TfAssociate tfa : tec.getTfAssociates()) {
                 eci.getTfAssociates().add(map(tfa));
@@ -188,7 +207,8 @@ public class Dao2DoMapper {
         if (tec.getTfPlacements() != null)
             for (TfPlacement tfp : tec.getTfPlacements()) {
                 eci.getTfPlacements().add(map(tfp));
-            }
+            }*/
+
         return eci;
     }
 }

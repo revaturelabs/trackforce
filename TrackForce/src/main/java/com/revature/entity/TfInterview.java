@@ -49,7 +49,6 @@ public class TfInterview implements java.io.Serializable {
 	}
 
 	@Id
-
 	@Column(name = "TF_INTERVIEW_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Integer getTfInterviewId() {
 		return this.tfInterviewId;

@@ -1,20 +1,20 @@
 <app-navbar></app-navbar>
-<div class="container">
+<div class="container min-height">
   <div class="row">
     <div class="col-md-3">
       <h3>Predictions</h3>
       <form>
         <div class="form-group">
-          <label for="startDate">Start Date</label>
+          <label for="startDate">Start Date Filter</label>
           <input class="form-control" type="date" [ngModel]="startDate | date:'yyyy-MM-dd'" (ngModelChange)="startDate = $event" id="startDate" name="startDate" [max]="endDate"/>
         </div>
         <div class="form-group">
-          <label for="startDate">End Date</label>
+          <label for="startDate">End Date Filter</label>
           <input class="form-control" type="date" [ngModel]="endDate | date:'yyyy-MM-dd'" (ngModelChange)="endDate = $event" id="endDate" name="endDate" [min]="startDate"/>
         </div>
         <div class="form-group">
           <label for="number">Number of Associates Needed</label>
-          <input type="number" name="number" min=0>
+          <input type="number" name="number" [(ngModel)]="numAssociatesNeeded" min=0 />
         </div>
         <div class="form-group">
           <label>Filter By Technologies</label>
@@ -44,19 +44,23 @@
           <tr>
             <th>Technology</th>
             <th>Requested Associates</th>
-            <th>Number of Associates Available</th>
+            <th>Available Associates</th>
             <th>Difference</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let object of results">
-            <td>{{object.technology}}</td>
-            <td>{{object.requested}}</td>
-            <td>{{object.available}}</td>
-            <td>{{object.requested - object.available}}</td>
+          <tr *ngFor="let o of results">
+            <td>{{o.technology}}</td>
+            <td>{{o.requested}}</td>
+            <td>{{o.available}}</td>
+            <!-- <td [class]="o.available > o.requested ? bg-success : bg-danger">{{o.available - o.requested}}</td> -->
+            <td class="bg-success" *ngIf="o.available > o.requested">{{o.available - o.requested}}</td>
+            <td class="bg-danger" *ngIf="o.available < o.requested">{{o.available - o.requested}}</td>
+            <td *ngIf="o.available == o.requested">{{o.available - o.requested}}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
+<app-footer></app-footer>

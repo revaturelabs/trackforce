@@ -67,10 +67,27 @@ export class AssociateService {
     }
 
     updateAssociate(id: number, ustatus: string, uclient: string) {
-        let url: string = environment.url + this.associatePath + id;
-        return this.http.put(url, {
-          status: ustatus,
-          client: uclient
-        })
+        return this.updateAssociates([id],Number(ustatus),Number(uclient));
+    }
+
+    getInterviewsForAssociate(id: number) {
+      let url: string = environment.url + this.associatePath + "/interviews";
+      //return this.http.get(url);
+      return [
+      {
+        id: 1,
+        client: "Revature",
+        type: "Phone",
+        date: new Date(),
+        feedback: "Good"
+      },
+      {
+        id: 2,
+        client: "Infosys",
+        type: "Skype",
+        date: new Date(),
+        feedback: "Bad"
+      }
+    ]
     }
 }

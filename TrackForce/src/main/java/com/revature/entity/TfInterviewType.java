@@ -1,7 +1,6 @@
 package com.revature.entity;
 // Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -22,18 +21,18 @@ public class TfInterviewType implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4949282863102956521L;
-	private BigDecimal tfInterviewTypeId;
+	private Integer tfInterviewTypeId;
 	private String tfInterviewTypeName;
 	private Set<TfInterview> tfInterviews = new HashSet<TfInterview>(0);
 
 	public TfInterviewType() {
 	}
 
-	public TfInterviewType(BigDecimal tfInterviewTypeId) {
+	public TfInterviewType(Integer tfInterviewTypeId) {
 		this.tfInterviewTypeId = tfInterviewTypeId;
 	}
 
-	public TfInterviewType(BigDecimal tfInterviewTypeId, String tfInterviewTypeName, Set<TfInterview> tfInterviews) {
+	public TfInterviewType(Integer tfInterviewTypeId, String tfInterviewTypeName, Set<TfInterview> tfInterviews) {
 		this.tfInterviewTypeId = tfInterviewTypeId;
 		this.tfInterviewTypeName = tfInterviewTypeName;
 		this.tfInterviews = tfInterviews;
@@ -42,11 +41,11 @@ public class TfInterviewType implements java.io.Serializable {
 	@Id
 
 	@Column(name = "TF_INTERVIEW_TYPE_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getTfInterviewTypeId() {
+	public Integer getTfInterviewTypeId() {
 		return this.tfInterviewTypeId;
 	}
 
-	public void setTfInterviewTypeId(BigDecimal tfInterviewTypeId) {
+	public void setTfInterviewTypeId(Integer tfInterviewTypeId) {
 		this.tfInterviewTypeId = tfInterviewTypeId;
 	}
 

@@ -31,12 +31,12 @@ public class InterviewResource {
 	public Response getAllInterviews() throws HibernateException, IOException{
 		return Response.ok(interviewservice.getAllInterviews()).build();   //needs to call the function that brings up interviews given an associate id.
 	}
-    
+    /*
     @GET
 	@Path("{id}")
 	public Response getInterviewById(@PathParam("id") Integer id) {
 		InterviewInfo interview = interviewservice.getInterviewById(id);
 		return Response.ok(interview).build();
-	}
+	}*/
 
 }

@@ -109,15 +109,6 @@ public class AssociateResource {
 	@Path("{associateId}")
 	public Response updateAssociate(
 			@PathParam("associateId") Integer id,
-<<<<<<< HEAD
-           // @QueryParam("marketingStatusId") Integer marketingStatusId,
-          //  @QueryParam("clientId") Integer clientId,
-			@QueryParam("clientStartDate") Long startDate){
-		
-		service.updateAssociate(id, startDate);
-		return Response.ok().build();
-	}
-=======
 			@DefaultValue("0") @QueryParam("marketingStatusId") Integer marketingStatusId,
 			@DefaultValue("0") @QueryParam("clientId") Integer clientId) {
 		List<Integer> list = new ArrayList<>();
@@ -133,5 +124,5 @@ public class AssociateResource {
 		System.out.println(associateinfo);
 		return Response.ok(associateinfo).build();
 	}
->>>>>>> b3ca21a94f105fa2f27a6d6583fe92419d5d8969
+
 }

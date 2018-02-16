@@ -78,10 +78,11 @@ public class InterviewService implements Service {
 	public Set<InterviewInfo> getTechs() throws HibernateException, IOException{
 		return interviewDao.getInterviewFromCache();
 	}
-	
-	 public Map<Integer, InterviewInfo> getInterviewById(Integer id) throws IOException {
+	/*
+	 public InterviewInfo getInterviewById(Integer id) throws IOException {
 	    	return interviewDao.getInterviewsByAssociate(id);
 	    }
+	    */
 
 	@Override
 	public synchronized void execute() throws IOException {

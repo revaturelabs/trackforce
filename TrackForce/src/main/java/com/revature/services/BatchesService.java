@@ -18,6 +18,10 @@ public class BatchesService implements Service {
     public BatchesService() {
         this.batchDao = new BatchDaoHibernate();
     }
+    
+    public BatchesService(BatchDao batchDao) {
+    	this.batchDao = batchDao;
+    }
 
     /**
      * Get all batches
@@ -35,7 +39,7 @@ public class BatchesService implements Service {
         return batches;
     }
 
-    
+    //old 
     /**
      * Gets the number of associates learning each curriculum during a given date
      * range
@@ -53,21 +57,21 @@ public class BatchesService implements Service {
      * ... ]
      * @throws IOException
      */
-    public List<BatchInfo> getBatchChartInfo(Long fromDate, Long todate) throws IOException {
-        List<BatchInfo> batches = batchDao.getBatchesSortedByDate();
-        List<BatchInfo> subList = new LinkedList<>();
-        if (batches == null)
-            execute();
-        for (BatchInfo bi : batches) {
-            if (bi.getStartLong() != null && bi.getEndLong() != null)
-                if (todate >= bi.getStartLong() && todate <= bi.getEndLong()) {
-                    subList.add(bi);
-                } else if (fromDate >= bi.getStartLong() && fromDate <= bi.getEndLong()) {
-                    subList.add(bi);
-                }
-        }
-        return subList;
-    }
+//    public List<BatchInfo> getBatchChartInfo(Long fromDate, Long todate) throws IOException {
+//        List<BatchInfo> batches = batchDao.getBatchesSortedByDate();
+//        List<BatchInfo> subList = new LinkedList<>();
+//        if (batches == null)
+//            execute();
+//        for (BatchInfo bi : batches) {
+//            if (bi.getStartLong() != null && bi.getEndLong() != null)
+//                if (todate >= bi.getStartLong() && todate <= bi.getEndLong()) {
+//                    subList.add(bi);
+//                } else if (fromDate >= bi.getStartLong() && fromDate <= bi.getEndLong()) {
+//                    subList.add(bi);
+//                }
+//        }
+//        return subList;
+//    }
     
     public BatchInfo getBatchById(Integer id) {
     	return batchDao.getBatchById(id);
@@ -87,16 +91,9 @@ public class BatchesService implements Service {
 		List<BatchInfo> sublist = new LinkedList<BatchInfo>();
         for (BatchInfo bi : batches) {
             if (bi.getStartLong() != null && bi.getEndLong() != null) {
-            	if (bi.getStartLong() <= fromdate && fromdate <= bi.getEndLong())
-            		sublist.add(bi);
-//                if (fromdate <= bi.getStartLong() && bi.getStartLong() <= todate) {
-//                    sublist.add(bi);
-//                } else if (bi.getStartLong() <= fromdate && fromdate <= bi.getEndLong()) {
-//                    sublist.add(bi);
-//                }
+            	if (bi.getStartLong() <= fromdate && fromdate <= bi.getEndLong()) sublist.add(bi);
             }
         }
-
         return sublist;
     }
     

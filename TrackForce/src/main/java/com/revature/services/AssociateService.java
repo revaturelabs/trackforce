@@ -3,6 +3,8 @@ package com.revature.services;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,9 +15,12 @@ import org.hibernate.HibernateException;
 
 import com.revature.dao.AssociateDao;
 import com.revature.dao.AssociateDaoHibernate;
+import com.revature.entity.TfInterview;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumJSON;
+import com.revature.model.InterviewInfo;
+import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateService implements Service {
@@ -199,6 +204,12 @@ public class AssociateService implements Service {
 		  System.out.println(e.getMessage());
 		  return Response.status(500).build();
 	  }
+	}
+	
+	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId) {
+		AssociateDao adao = new AssociateDaoHibernate();
+		Set<InterviewInfo> setinterviews = adao.getInterviewsByAssociate(associateId);
+		return setinterviews;
 	}
 	
     /**

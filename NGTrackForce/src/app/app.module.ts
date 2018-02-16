@@ -86,7 +86,7 @@ import { ClientFociD3Component } from './client-foci-d3/client-foci-d3.component
     RouterOutletStubComponent,
     FooterComponent,
     NotFoundComponent,
-    ClientFociD3Component
+    ClientFociD3Component,
     PredictionsComponent
   ],
   imports: [

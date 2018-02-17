@@ -114,7 +114,7 @@ public class AssociateResource {
 	 */
 	
 	/**** OPTION 1 ****/
-	/*
+	
 	@PUT
 	@Path("{associateId}")
 	public Response updateAssociate(
@@ -125,7 +125,7 @@ public class AssociateResource {
 		list.add(id);
 		service.updateAssociates(list, marketingStatusId, clientId);
 		return Response.ok().build();
-	}*/
+	}
 
 	/*** OPTION 2 ***/
 /*	
@@ -157,7 +157,7 @@ public class AssociateResource {
 */	
 	
 	/**** OPTION 1+2****/
-	@PUT
+/*	@PUT
 	@Path("{associateId}")
 	public Response updateAssociate(
 			@PathParam("associateId") Integer id,
@@ -190,7 +190,7 @@ public class AssociateResource {
 		
 		return Response.ok().build();
 	}
-	
+*/	
 	@GET
 	@Path("{associateid}/interviews")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid) {

@@ -5,7 +5,8 @@ export class TestConfig{
      * Stores the base URL used by Jasmine for testing
      */
     constructor() {
-        this.baseURL = 'http://localhost:49155';
+        this.baseURL = 'http://localhost:4200/';
+		//this.baseURL = ' http://52.207.66.231:4200/';
     }
 
     /**

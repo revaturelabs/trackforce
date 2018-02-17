@@ -23,6 +23,7 @@ export class LoginPage {
 
   getLoginButton(){
     return element(by.xpath('//button'));
+	//return element(by.xpath("//button[@class='btn btn-lg btn-primary btn-block']"));
   }
 
   getLoginButtonText(){

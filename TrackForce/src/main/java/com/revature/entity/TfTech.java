@@ -10,7 +10,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 
-@Entity
+@Entity(name = "TfTech")
 @Table(name = "TF_TECH", schema = "ADMIN")
 public class TfTech implements java.io.Serializable {
 

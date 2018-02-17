@@ -1,5 +1,7 @@
 package com.revature.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.AssociationOverride;
 import javax.persistence.AssociationOverrides;
 import javax.persistence.EmbeddedId;
@@ -8,14 +10,24 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-@Entity
-@Table(name="TF_BATCH_TECH_JUNCTION")
-@AssociationOverrides({
-	@AssociationOverride(name="pk.TF_BATCH", joinColumns=@JoinColumn(name="TF_BATCH_ID")),
-	@AssociationOverride(name="pk.TF_TECH", joinColumns=@JoinColumn(name="TF_TECH_ID"))
-})
-public class TfBatchTechJunction {
+import com.revature.entity.TfBatch;
+import com.revature.entity.TfTech;
 
+
+@Entity
+@Table(name="TF_BATCH_TECH_JUNCTION", schema="ADMIN")
+@AssociationOverrides({
+	@AssociationOverride(name="pk.batch", joinColumns=@JoinColumn(name="TF_BATCH_ID")),
+	@AssociationOverride(name="pk.tech", joinColumns=@JoinColumn(name="TF_TECH_ID"))
+})
+public class TfBatchTechJunction implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
 	private BatchTechId pk = new BatchTechId();
 	
 	public TfBatchTechJunction() {}
@@ -31,7 +43,7 @@ public class TfBatchTechJunction {
 	
 	@Transient
 	public TfBatch getBatch() {
-		return this.getPk().getBatch();
+		return getPk().getBatch();
 	}
 	
 	public void setBatch(TfBatch batch) {
@@ -40,7 +52,7 @@ public class TfBatchTechJunction {
 	
 	@Transient
 	public TfTech getTech() {
-		return this.getPk().getTech();
+		return getPk().getTech();
 	}
 	
 	public void setTech(TfTech tech) {

@@ -30,4 +30,24 @@ public class BatchTechId implements java.io.Serializable {
 	public void setTech(TfTech tech) {
 		this.tech = tech;
 	}
+	
+	public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BatchTechId that = (BatchTechId) o;
+
+        if (batch != null ? !batch.equals(that.batch) : that.batch != null) return false;
+        if (tech != null ? !tech.equals(that.tech) : that.tech != null)
+            return false;
+
+        return true;
+    }
+
+    public int hashCode() {
+        int result;
+        result = (batch != null ? batch.hashCode() : 0);
+        result = 31 * result + (tech != null ? tech.hashCode() : 0);
+        return result;
+    }
 }

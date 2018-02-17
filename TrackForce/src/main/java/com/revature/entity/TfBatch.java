@@ -88,8 +88,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	}
 
 
-	//ManyToMany
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="pk.TF_BATCH")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="pk.batch", cascade=CascadeType.ALL)
 	public Set<TfBatchTechJunction> getBatchTechJunctions() {
        return this.batchTechs;
    	}

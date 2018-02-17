@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.revature.entity.TfBatch;
 import com.revature.entity.TfBatchTechJunction;
 
 @Entity
@@ -57,8 +56,8 @@ public class TfTech implements java.io.Serializable {
 		this.tfTechName = tfTechName;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER, mappedBy = "pk.tech", targetEntity=com.revature.entity.TfBatchTechJunction.class)
-	public Set getBatchTechJunctions() {
+	@OneToMany(fetch=FetchType.EAGER, mappedBy = "pk.tech")
+	public Set<TfBatchTechJunction> getBatchTechJunctions() {
 		return this.batchTechJunctions;
 	}
   

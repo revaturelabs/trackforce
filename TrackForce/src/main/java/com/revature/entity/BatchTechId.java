@@ -1,5 +1,6 @@
 package com.revature.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
@@ -13,7 +14,7 @@ public class BatchTechId implements java.io.Serializable {
 	private TfBatch batch;
 	private TfTech tech;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	public TfBatch getBatch() {
 		return batch;
 	}
@@ -22,7 +23,7 @@ public class BatchTechId implements java.io.Serializable {
 		this.batch = batch;
 	}
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	public TfTech getTech() {
 		return tech;
 	}

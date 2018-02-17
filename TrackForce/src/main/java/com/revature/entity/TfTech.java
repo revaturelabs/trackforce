@@ -57,8 +57,8 @@ public class TfTech implements java.io.Serializable {
 		this.tfTechName = tfTechName;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER, mappedBy = "pk.tech")
-	public Set<TfBatchTechJunction> getBatchTechJunctions() {
+	@OneToMany(fetch=FetchType.EAGER, mappedBy = "pk.tech", targetEntity=com.revature.entity.TfBatchTechJunction.class)
+	public Set getBatchTechJunctions() {
 		return this.batchTechs;
 	}
   

@@ -54,7 +54,11 @@ export class FormComponent implements OnInit {
         this.associateService.getAssociate(this.id).subscribe(
           data => {
             console.log(data);
-            this.associate = <Associate>data
+            this.associate = <Associate>data;
+            if (data.clientStartDate.toString() == "0")
+              this.associate.clientStartDate = null;
+            else
+              this.associate.clientStartDate = this.adjustDate(data.clientStartDate);
           });
         this.clientService.getAllClients().subscribe(
           data => {
@@ -64,32 +68,54 @@ export class FormComponent implements OnInit {
         this.getInterviews();
     }
 
+    adjustDate(date: Date){ // dates are off by 1 day - this corrects them
+      let ldate = new Date(date);
+      let origDate = ldate.getDate();
+      ldate.setDate(origDate+1);
+      if (ldate.getDate() < 1) {
+        ldate.setMonth(ldate.getMonth() -1)
+        ldate.setDate(origDate);
+      }
+      return ldate;
+    }
+
     /**
      * Update the associate with the new client, status, and/or start date
      */
     updateAssociate() {
       if (this.newStartDate) {
-        var dateTime: any = Number((new Date(this.newStartDate).getTime())/1000);
+        var dateTime = Number((new Date(this.newStartDate).getTime())/1000);
+      } else {
+        var dateTime = Number((new Date(this.associate.clientStartDate).getTime())/1000);
       }
-      else {
-        var dateTime = null;
+      if (this.selectedMarketingStatus) {
+        var newStatus = Number(this.selectedMarketingStatus);
+      } else {
+        var newStatus = this.associate.msid;
+      }
+      if (this.selectedClient) {
+        var newClient = this.selectedClient;
+      } else {
+        var newClient = this.associate.clid;
       }
       var newAssociate = {
         id: this.id,
-        mkStatus: this.selectedMarketingStatus,
-        clientId: this.selectedClient,
+        mkStatus: newStatus,
+        clientId: newClient,
         startDateUnixTime: dateTime
       };
       this.associateService.updateAssociate(newAssociate).subscribe(
         data => {
+          this.message = "Successfully updated associate";
           this.associateService.getAssociate(this.id).subscribe(
             data => {
               this.associate = <Associate>data;
               console.log(data.clientStartDate);
-              if (!data.clientStartDate)
+              if (data.clientStartDate.toString() == "0")
                 this.associate.clientStartDate = null;
               else
-                this.associate.clientStartDate = new Date(data.clientStartDate.getTime());
+                this.associate.clientStartDate = this.adjustDate(data.clientStartDate);
+              this.resetAllFields();
           });
         }
       )
@@ -128,9 +154,17 @@ export class FormComponent implements OnInit {
         feedback: this.newInterview.feedback
       }
       this.interviews.push(tempVar);
+      this.message = "Successfully added interview";
+      this.resetAllFields();
+    }
+
+    resetAllFields(){
+      this.formOpen = false;
       this.newInterview.client = null;
       this.newInterview.type = null;
       this.newInterview.date = null;
       this.newInterview.feedback = null;
+      this.selectedClient = null;
+      this.selectedMarketingStatus = null;
     }
  }

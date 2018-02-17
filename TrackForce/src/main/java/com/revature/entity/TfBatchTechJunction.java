@@ -16,10 +16,10 @@ import com.revature.entity.TfTech;
 
 @Entity
 @Table(name="TF_BATCH_TECH_JUNCTION", schema="ADMIN")
-@AssociationOverrides({
-	@AssociationOverride(name="pk.batch", joinColumns=@JoinColumn(name="TF_BATCH_ID")),
-	@AssociationOverride(name="pk.tech", joinColumns=@JoinColumn(name="TF_TECH_ID"))
-})
+//@AssociationOverrides({
+//	@AssociationOverride(name="pk.batch", joinColumns=@JoinColumn(name="TF_BATCH_ID")),
+//	@AssociationOverride(name="pk.tech", joinColumns=@JoinColumn(name="TF_TECH_ID"))
+//})
 public class TfBatchTechJunction implements Serializable{
 
 	/**
@@ -32,7 +32,7 @@ public class TfBatchTechJunction implements Serializable{
 	
 	public TfBatchTechJunction() {}
 
-	@EmbeddedId
+//	@EmbeddedId
 	public BatchTechId getPk() {
 		return pk;
 	}
@@ -41,7 +41,7 @@ public class TfBatchTechJunction implements Serializable{
 		this.pk = pk;
 	}
 	
-	@Transient
+//	@Transient
 	public TfBatch getBatch() {
 		return getPk().getBatch();
 	}
@@ -50,7 +50,7 @@ public class TfBatchTechJunction implements Serializable{
 		getPk().setBatch(batch);
 	}
 	
-	@Transient
+//	@Transient
 	public TfTech getTech() {
 		return getPk().getTech();
 	}

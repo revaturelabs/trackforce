@@ -65,4 +65,41 @@ public class TfTech implements java.io.Serializable {
 	public void setBatchTechJunctions(Set<TfBatchTechJunction> batchTechs) {
 		this.batchTechs = batchTechs;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((batchTechs == null) ? 0 : batchTechs.hashCode());
+		result = prime * result + tfTechId;
+		result = prime * result + ((tfTechName == null) ? 0 : tfTechName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TfTech other = (TfTech) obj;
+		if (batchTechs == null) {
+			if (other.batchTechs != null)
+				return false;
+		} else if (!batchTechs.equals(other.batchTechs))
+			return false;
+		if (tfTechId != other.tfTechId)
+			return false;
+		if (tfTechName == null) {
+			if (other.tfTechName != null)
+				return false;
+		} else if (!tfTechName.equals(other.tfTechName))
+			return false;
+		return true;
+	}
+	
+	
+	
 }

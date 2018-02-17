@@ -144,5 +144,73 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		return this.tfBatchId-o.getTfBatchId();
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((batchTechs == null) ? 0 : batchTechs.hashCode());
+		result = prime * result + ((tfAssociates == null) ? 0 : tfAssociates.hashCode());
+		result = prime * result + ((tfBatchEndDate == null) ? 0 : tfBatchEndDate.hashCode());
+		result = prime * result + ((tfBatchId == null) ? 0 : tfBatchId.hashCode());
+		result = prime * result + ((tfBatchLocation == null) ? 0 : tfBatchLocation.hashCode());
+		result = prime * result + ((tfBatchName == null) ? 0 : tfBatchName.hashCode());
+		result = prime * result + ((tfBatchStartDate == null) ? 0 : tfBatchStartDate.hashCode());
+		result = prime * result + ((tfCurriculum == null) ? 0 : tfCurriculum.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TfBatch other = (TfBatch) obj;
+		if (batchTechs == null) {
+			if (other.batchTechs != null)
+				return false;
+		} else if (!batchTechs.equals(other.batchTechs))
+			return false;
+		if (tfAssociates == null) {
+			if (other.tfAssociates != null)
+				return false;
+		} else if (!tfAssociates.equals(other.tfAssociates))
+			return false;
+		if (tfBatchEndDate == null) {
+			if (other.tfBatchEndDate != null)
+				return false;
+		} else if (!tfBatchEndDate.equals(other.tfBatchEndDate))
+			return false;
+		if (tfBatchId == null) {
+			if (other.tfBatchId != null)
+				return false;
+		} else if (!tfBatchId.equals(other.tfBatchId))
+			return false;
+		if (tfBatchLocation == null) {
+			if (other.tfBatchLocation != null)
+				return false;
+		} else if (!tfBatchLocation.equals(other.tfBatchLocation))
+			return false;
+		if (tfBatchName == null) {
+			if (other.tfBatchName != null)
+				return false;
+		} else if (!tfBatchName.equals(other.tfBatchName))
+			return false;
+		if (tfBatchStartDate == null) {
+			if (other.tfBatchStartDate != null)
+				return false;
+		} else if (!tfBatchStartDate.equals(other.tfBatchStartDate))
+			return false;
+		if (tfCurriculum == null) {
+			if (other.tfCurriculum != null)
+				return false;
+		} else if (!tfCurriculum.equals(other.tfCurriculum))
+			return false;
+		return true;
+	}
+
+	
 
 }

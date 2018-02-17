@@ -56,14 +56,14 @@ public class TfTech implements java.io.Serializable {
 		this.tfTechName = tfTechName;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER, mappedBy = "pk.tech")
-	public Set<TfBatchTechJunction> getBatchTechJunctions() {
-		return this.batchTechJunctions;
-	}
-  
-	public void setBatchTechJunctions(Set<TfBatchTechJunction> batchTechJunctions) {
-		this.batchTechJunctions = batchTechJunctions;
-	}
+//	@OneToMany(fetch=FetchType.EAGER, mappedBy = "pk.tech")
+//	public Set<TfBatchTechJunction> getBatchTechJunctions() {
+//		return this.batchTechJunctions;
+//	}
+//  
+//	public void setBatchTechJunctions(Set<TfBatchTechJunction> batchTechJunctions) {
+//		this.batchTechJunctions = batchTechJunctions;
+//	}
 
 	@Override
 	public int hashCode() {

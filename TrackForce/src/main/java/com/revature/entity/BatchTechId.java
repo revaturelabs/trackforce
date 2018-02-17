@@ -14,7 +14,7 @@ public class BatchTechId implements java.io.Serializable {
 	private TfBatch batch;
 	private TfTech tech;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+//	@ManyToOne(cascade=CascadeType.ALL)
 	public TfBatch getBatch() {
 		return batch;
 	}
@@ -23,7 +23,7 @@ public class BatchTechId implements java.io.Serializable {
 		this.batch = batch;
 	}
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+//	@ManyToOne(cascade=CascadeType.ALL)
 	public TfTech getTech() {
 		return tech;
 	}

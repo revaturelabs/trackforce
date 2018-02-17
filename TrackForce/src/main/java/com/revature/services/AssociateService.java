@@ -3,11 +3,10 @@ package com.revature.services;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.ws.rs.core.Response;
 
@@ -15,12 +14,10 @@ import org.hibernate.HibernateException;
 
 import com.revature.dao.AssociateDao;
 import com.revature.dao.AssociateDaoHibernate;
-import com.revature.entity.TfInterview;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumJSON;
 import com.revature.model.InterviewInfo;
-import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateService implements Service {
@@ -75,6 +72,7 @@ public class AssociateService implements Service {
 	 * @return a Response object with a List of Map objects as an entity.
 	 * @throws IOException
 	 */
+	@Deprecated
 	public Collection<ClientMappedJSON> getAssociatesByStatus(int statusid) throws IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null) {
@@ -175,32 +173,28 @@ public class AssociateService implements Service {
 	 * @param statusId
 	 * @return Collection<CurriculumJSON>
 	 */
-	public Response getUnmappedInfo(int statusId) {
-	  try {
-		Set<AssociateInfo> associates = getAllAssociates();
-		if (associates == null) {
-			execute();
-			associates = getAllAssociates();
-		}
+	public Set<CurriculumJSON> getUnmappedInfo(int statusId) {
+	  Set<AssociateInfo> associates = getAllAssociates();
+	if (associates == null) {
+		associateDao.cacheAllAssociates();
+		associates = getAllAssociates();
+	}
 
-		Map<Integer, CurriculumJSON> map = new HashMap<>();
-		for (AssociateInfo ai : associates) {
-			if (ai.getMsid().equals(new Integer(statusId))) {
-				if (!map.containsKey(ai.getCurid())) {
-					map.put(ai.getCurid(), new CurriculumJSON());
-				}
-				if (ai.getCurriculumName() != null && !ai.getCurid().equals(new Integer(-1))) {
-					map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
-					map.get(ai.getCurid()).setId(ai.getCurid().intValue());
-					map.get(ai.getCurid()).setName(ai.getCurriculumName());
-				}
+	Map<Integer, CurriculumJSON> map = new HashMap<>();
+	for (AssociateInfo ai : associates) {
+		if (ai.getMsid().equals(new Integer(statusId))) {
+			if (!map.containsKey(ai.getCurid())) {
+				map.put(ai.getCurid(), new CurriculumJSON());
+			}
+			if (ai.getCurriculumName() != null && !ai.getCurid().equals(new Integer(-1))) {
+				map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
+				map.get(ai.getCurid()).setId(ai.getCurid().intValue());
+				map.get(ai.getCurid()).setName(ai.getCurriculumName());
 			}
 		}
-		return Response.ok(map.values()).build();
-	  } catch(IOException e) {
-		  System.out.println(e.getMessage());
-		  return Response.status(500).build();
-	  }
+	}
+	
+	return new TreeSet<CurriculumJSON>(map.values());
 	}
 	
 	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId) {

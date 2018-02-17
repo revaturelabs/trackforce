@@ -11,52 +11,57 @@ import org.junit.Assert;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.revature.dao.AssociateDao;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
+import com.revature.model.CurriculumJSON;
 import com.revature.services.AssociateService;
+import com.revature.test.BaseTest;
 
 
 
-public class AssociateServiceTest {// extends BaseTest {
-	private AssociateInfo assoc1, assoc2, assoc3;
+public class AssociateServiceTest extends BaseTest {
+	
+	private AssociateInfo assoc1, assoc2, assoc3, assoc4, assoc5, assoc6;
 	private Map<Integer, AssociateInfo> mockAssociateMap;
 	private Set<AssociateInfo> mockAssociateSet;
 	private AssociateService associateService;
 	private Map<Integer, ClientMappedJSON> mockClientMappedJSON;
+	private Set<CurriculumJSON> mockCurriculumJSON;
 
 	@Mock
 	private AssociateDao mockAssociateDao;
 
-	// private Session session;
-
 	@BeforeTest
 	public void initDb() throws SQLException, IOException {
-		// resetCaches();
 		MockitoAnnotations.initMocks(this);
-//		mockAssociateDao = new AssociateDaoHibernate();
 		
 		System.out.println("Associates");
 		assoc1 = createAssocInfo(1, 1, "b1", 1, "c1", 1, "s1", 1, "c1");
 		assoc2 = createAssocInfo(2, 2, "b2", 2, "c2", 2, "s2", 2, "c2");
 		assoc3 = createAssocInfo(3, 3, "b3", 3, "c3", 3, "s3", 3, "c3");
+		assoc4 = createAssocInfo(1, 1, "b1", 1, "c1", 1, "s1", -1, "c1");
+		assoc5 = createAssocInfo(2, 2, "b2", 2, "c2", 2, "s2", -1, "c2");
+		assoc6 = createAssocInfo(3, 3, "b3", 3, "c3", 3, "s3", -1, "c3");
 
 		System.out.println("map");
 		mockAssociateMap = new HashMap<>();
 		mockAssociateMap.put(assoc1.getId(), assoc1);
 		mockAssociateMap.put(assoc2.getId(), assoc2);
 		mockAssociateMap.put(assoc3.getId(), assoc3);
+		mockAssociateMap.put(assoc4.getId(), assoc4);
+		mockAssociateMap.put(assoc5.getId(), assoc5);
+		mockAssociateMap.put(assoc6.getId(), assoc6);
 
 		System.out.println("cmj");
 		mockClientMappedJSON = new HashMap<>();
 		mockClientMappedJSON.put(1, createCMJ(1, "c1", 1));
-//		mockClientMappedJSON.put(2, createCMJ(2, "c2", 2));
-//		mockClientMappedJSON.put(3, createCMJ(3, "c3", 3));
+		
+		mockCurriculumJSON = new TreeSet<>();
+		mockCurriculumJSON.add(createCUJ("c1", 1, 1));
 
 		System.out.println("set");
 		mockAssociateSet = new TreeSet<>();
@@ -66,32 +71,10 @@ public class AssociateServiceTest {// extends BaseTest {
 
 		System.out.println("mockito");
 		Mockito.when(mockAssociateDao.getAllAssociates()).thenReturn(mockAssociateSet);
-		// Mockito.when(mockAssociateDao.getAssociate(Matchers.anyInt())).thenReturn(assoc1);
 
 		System.out.println("set Service");
 		associateService = new AssociateService(mockAssociateDao);
 	}
-
-	@BeforeMethod
-	public void openSessionInitAssocService() {
-		// session = sessionFactory.openSession();
-		// session.beginTransaction();
-
-		
-	}
-
-	@AfterMethod
-	public void rollbackChanges() {
-		// rollbackAndClose(session);
-	}
-
-	// Method has no logic to test
-	// @Test
-	// public void testGetAssociate() throws IOException {
-	// Integer id = new Integer(1);
-	// AssociateInfo associate = associateService.getAssociate(id);
-	// Assert.assertNotNull(associate);
-	// }
 
 	@Test
 	public void testGetMapppedInfo() {
@@ -100,46 +83,11 @@ public class AssociateServiceTest {// extends BaseTest {
 		Assert.assertTrue(testMapped.equals(mapped));
 	}
 
+	@Test
 	public void testGetUnmappedInfo() {
-
+		Set<CurriculumJSON> unmapped = associateService.getUnmappedInfo(1);
+		Assert.assertEquals(mockCurriculumJSON, unmapped);
 	}
-
-	// Method has no logic to test
-	// public void testUpdateAssocites() {
-	//
-	// }
-
-	// @Test(expectedExceptions = IOException.class)
-	// public void testgetAssociateNegative() throws IOException {
-	// Integer Integer = new Integer(-25);
-	// associateService.getAssociate(Integer);
-	// }
-
-	// @Test
-	// public void testUpdateAssociatePositive() throws IOException {
-	// List<Integer> associates = new ArrayList<>();
-	// associates.add(16);
-	// associateService.updateAssociates(associates, 3, 2);
-	//
-	// AssociateInfo associateInfo = associateService.getAssociate(new Integer(16));
-	//
-	// Assert.assertEquals(associateInfo.getMsid(), new Integer(3));
-	// Assert.assertEquals(associateInfo.getMarketingStatus(), "MAPPED: SELECTED");
-	// Assert.assertEquals(associateInfo.getClid(), new Integer(2));
-	// Assert.assertEquals(associateInfo.getClient(), "Infosys");
-	// }
-
-	// @Test
-	// public void testUpdateAssociateNegative() throws IOException {
-	// List<Integer> associates = new ArrayList<>();
-	// associates.add(15);
-	// associateService.updateAssociates(associates, -1, -1);
-	// AssociateInfo associateInfo = associateService.getAssociate(new Integer(15));
-	// Assert.assertEquals(associateInfo.getId(), new Integer(15));
-	// Assert.assertTrue(associateInfo.getClid() > -1);
-	// Assert.assertNotNull(associateInfo.getMarketingStatus());
-	// Assert.assertNotEquals(associateInfo.getClient(), "None");
-	// }
 
 	AssociateInfo createAssocInfo(int id, int batchId, String batchName, int clientId, String clientName, int msid,
 			String msName, int currId, String currName) {
@@ -166,5 +114,13 @@ public class AssociateServiceTest {// extends BaseTest {
 		cmj.setName(name);
 		cmj.setCount(count);
 		return cmj;
+	}
+	
+	CurriculumJSON createCUJ(String name, int count, int id) {
+		CurriculumJSON cuj = new CurriculumJSON();
+		cuj.setName(name);
+		cuj.setCount(count);
+		cuj.setId(id);
+		return cuj;
 	}
 }

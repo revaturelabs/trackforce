@@ -96,7 +96,7 @@ public class AssociateResource {
 	@GET
 	@Path("unmapped/{statusId}")
 	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
-		return service.getUnmappedInfo(statusId);
+		return Response.ok(service.getUnmappedInfo(statusId)).build();
 	}
 	
 	/**

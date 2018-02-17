@@ -33,6 +33,11 @@ public class AssociateService implements Service {
 
     }
 
+	public AssociateService(AssociateDao associateDao) {
+		// TODO Auto-generated constructor stub
+		this.associateDao = associateDao;
+	}
+
 	/**
 	 * Retrieve information about a specific associate.
 	 *
@@ -42,8 +47,7 @@ public class AssociateService implements Service {
 	 */
 
 	public AssociateInfo getAssociate(Integer associateid) {
-		AssociateInfo associateinfo = associateDao.getAssociate(associateid);
-		return associateinfo;
+		return associateDao.getAssociate(associateid);
 
 	}
 	public Response updateAssociates(List<AssociateInfo> associates) {
@@ -136,11 +140,11 @@ public class AssociateService implements Service {
 	 * @param statusId
 	 * @return Collection<ClientMappedJSON>
 	 */
-	public Response getMappedInfo(int statusId) {
-	  try {
+	public Map<Integer, ClientMappedJSON> getMappedInfo(int statusId) {
+	 // try {//
 		Set<AssociateInfo> associates = getAllAssociates();
 		if (associates == null) {
-			execute();
+			associateDao.cacheAllAssociates();
 			associates = getAllAssociates();
 		}
 
@@ -157,11 +161,12 @@ public class AssociateService implements Service {
 				}
 			}
 		}
-		return Response.ok(map.values()).build();
-	  } catch(IOException e) {
-		  System.out.println(e.getMessage());
-		  return Response.status(500).build();
-	  }
+		return map;
+//		return Response.ok(map.values()).build();
+//	  } catch(IOException e) {
+//		  System.out.println(e.getMessage());
+//		  return Response.status(500).build();
+//	  }
 	}
 	
 	/**

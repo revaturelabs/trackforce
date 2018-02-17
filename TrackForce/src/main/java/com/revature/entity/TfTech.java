@@ -56,6 +56,7 @@ public class TfTech implements java.io.Serializable {
 	}
 
 //	@ManyToMany(mappedBy = "techs")
+//	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "techs")
 	public Set<TfBatch> getBatches() {
 		return this.batches;
 	}

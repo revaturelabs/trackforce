@@ -15,23 +15,11 @@ public class Dao2DoMapper {
     public static AssociateInfo map(TfAssociate tfa) {
         AssociateInfo ai = new AssociateInfo();
         ai.setId(tfa.getTfAssociateId());
-        //ai.setClientStartDate(tfa.getTfClientStartDate());
-
+        if (tfa.getTfClientStartDate() != null) {
+        	ai.setClientStartDate(tfa.getTfClientStartDate().getTime());
+        }
         Timestamp start = tfa.getTfClientStartDate();
         String startDate = (start != null) ? start.toString() : UNKNOWN_VALUE;
-        ai.setClientStartDate(startDate);
-
-        /*
-         *
-         *  if (batch.getTfBatchStartDate() != null)
-            bi.setStartLong(batch.getTfBatchStartDate().getTime());
-        if (batch.getTfBatchEndDate() != null)
-            bi.setEndLong(batch.getTfBatchEndDate().getTime());
-        bi.setStartTs(batch.getTfBatchStartDate());
-         *
-        if(tfa.getTfAssociateId()==1 || tfa.getTfAssociateId()==2) {
-        	System.out.println(ai.getClientStartDate());
-        }*/
 
         if (tfa.getTfBatch() == null) {  //TF_BATCH_ID
             ai.setBatchId(new Integer(-1));
@@ -180,10 +168,6 @@ public class Dao2DoMapper {
             ii.setTfAssociate(map(tfi.getTfAssociate()));
         if (tfi.getTfClient() != null)
         	ii.setTfClientName(tfi.getTfClient().getTfClientName());
-        //if (tfi.getTfEndClient() != null)
-        	// don't want all this info! just retrieve end client name
-        	//ii.setTfEndClientName(tfi.getTfEndClient().getTfEndClientName());
-            // ii.setTfEndClient(map(tfi.getTfEndClient()));
         if (tfi.getTfInterviewDate() != null)
             ii.setTfInterviewDate(tfi.getTfInterviewDate());
         ii.setTfInterviewFeedback(tfi.getTfInterviewFeedback());
@@ -198,16 +182,6 @@ public class Dao2DoMapper {
         EndClientInfo eci = new EndClientInfo();
         eci.setId(tec.getTfEndClientId());
         eci.setTfEndClientName(tec.getTfEndClientName());
-
-        /*
-        if (tec.getTfAssociates() != null)
-            for (TfAssociate tfa : tec.getTfAssociates()) {
-                eci.getTfAssociates().add(map(tfa));
-            }
-        if (tec.getTfPlacements() != null)
-            for (TfPlacement tfp : tec.getTfPlacements()) {
-                eci.getTfPlacements().add(map(tfp));
-            }*/
 
         return eci;
     }

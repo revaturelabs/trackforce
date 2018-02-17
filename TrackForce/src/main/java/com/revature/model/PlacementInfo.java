@@ -5,9 +5,6 @@ import java.sql.Timestamp;
 
 public class PlacementInfo  implements Serializable, Comparable<PlacementInfo> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7105939432349410685L;
 	private Integer id;
 	private AssociateInfo tfAssociate;

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { Associate } from '../../models/associate.model'
 import { ClientService } from '../../services/client-service/client.service';
@@ -29,12 +30,13 @@ export class FormComponent implements OnInit {
       type: null,
       feedback: null
     };
+    newStartDate: Date;
     message: string = "";
     selectedMarketingStatus: string;
     selectedClient: number;
     id: number;
     formOpen: boolean;
-    
+
     /**
       *@param {AssociateService} associateService
       * Service for grabbing associate data from the back-end
@@ -59,26 +61,41 @@ export class FormComponent implements OnInit {
             console.log(data);
             this.clients = data;
           });
-        this.interviews();
+        this.getInterviews();
     }
 
     /**
-     * Update the associate with the new client and/or status
+     * Update the associate with the new client, status, and/or start date
      */
     updateAssociate() {
-      var ids: number[] = [];
-      ids.push(this.id);
-
-        this.associateService.updateAssociates(ids, Number(this.selectedMarketingStatus), this.selectedClient).subscribe(
+      if (this.newStartDate) {
+        var dateTime: any = Number((new Date(this.newStartDate).getTime())/1000);
+      }
+      else {
+        var dateTime = null;
+      }
+      var newAssociate = {
+        id: this.id,
+        mkStatus: this.selectedMarketingStatus,
+        clientId: this.selectedClient,
+        startDateUnixTime: dateTime
+      };
+      this.associateService.updateAssociate(newAssociate).subscribe(
+        data => {
+          this.associateService.getAssociate(this.id).subscribe(
             data => {
-                this.associateService.getAssociate(this.id).subscribe(
-                    data => {
-                        this.associate = <Associate>data
-                    });
-            }
-        )}
-/*
-    getInterviews(){
+              this.associate = <Associate>data;
+              console.log(data.clientStartDate);
+              if (!data.clientStartDate)
+                this.associate.clientStartDate = null;
+              else
+                this.associate.clientStartDate = new Date(data.clientStartDate.getTime());
+          });
+        }
+      )
+    }
+
+    getInterviews() {
       this.associateService.getInterviewsForAssociate(this.id).subscribe(
         data => {
           let tempArr = [];
@@ -97,7 +114,7 @@ export class FormComponent implements OnInit {
         }
       )
     }
-*/
+
     toggleForm() {
       this.formOpen = !this.formOpen;
     }
@@ -116,17 +133,4 @@ export class FormComponent implements OnInit {
       this.newInterview.date = null;
       this.newInterview.feedback = null;
     }
-
-   updateStartDate() {
-   let mydate = this.associate.startDate;
-   this.associateService.updateAssociateStartDate(this.id,mydate).subscribe(
-    data => {
-      console.log(data);
-    },
-    err => {
-      console.log(err);
-    });
-  }
  }
-
-

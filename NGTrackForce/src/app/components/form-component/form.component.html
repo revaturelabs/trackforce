@@ -32,7 +32,7 @@
             </tr>
             <tr>
               <td>Start Date</td>
-              <td>{{associate.startDate}}</td>
+              <td>{{associate.clientStartDate | date:'longDate'}}</td>
             </tr>
           </tbody>
         </table>
@@ -61,6 +61,8 @@
                 <option selected="selected">None</option>
                 <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
             </select>
+            <label class="control-label">Apply Start Date to Associate</label>
+            <input type="date" class="form-control" name="date" [(ngModel)] ="newStartDate" />
             <button (click)="updateAssociate()" class="btn btn-warning" style="margin-top:10px">Update Status</button>
             <h5 class="text-success">{{message}}</h5>
           </div>
@@ -129,19 +131,7 @@
           </form>
         </div>
       </div>
-      </div>
     </div>
-    <div class ="form-group">
-    <div class ="row">
-      <div class="col-md-3">
-      <label class="control-label"> Apply Start Date to Associates</label>
-      <input type="date" class="form-control" name="date" [(ngModel)] ="associate.startDate" />
-      </div>
-    <div class="col-md-3">
-      <br/>
-      <button (click)="updateStartDate()" class="btn btn-info">Update start date</button>
-    </div>
-   </div>
   </div>
 </div>
 <app-footer></app-footer>

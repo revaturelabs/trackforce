@@ -36,7 +36,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	private Timestamp tfBatchStartDate;
 	private Timestamp tfBatchEndDate;
 	private Set<TfAssociate> tfAssociates = new HashSet<TfAssociate>();
-	private Set<TfBatchTechJunction> batchTechs = new HashSet<TfBatchTechJunction>();  //Batch owns these Technologies
+	private Set<TfBatchTechJunction> batchTechJunctions = new HashSet<TfBatchTechJunction>();  //Batch owns these Technologies
 
 	public TfBatch() {
 	}
@@ -46,7 +46,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	}
 
 	public TfBatch(Integer tfBatchId, TfBatchLocation tfBatchLocation, TfCurriculum tfCurriculum, String tfBatchName,
-			Timestamp tfBatchStartDate, Timestamp tfBatchEndDate, Set<TfAssociate> tfAssociates, Set<TfBatchTechJunction> batchTechs) {
+			Timestamp tfBatchStartDate, Timestamp tfBatchEndDate, Set<TfAssociate> tfAssociates, Set<TfBatchTechJunction> batchTechJunctions) {
 		this.tfBatchId = tfBatchId;
 		this.tfBatchLocation = tfBatchLocation;
 		this.tfCurriculum = tfCurriculum;
@@ -54,7 +54,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		this.tfBatchStartDate = tfBatchStartDate;
 		this.tfBatchEndDate = tfBatchEndDate;
 		this.tfAssociates = tfAssociates;
-		this.batchTechs = batchTechs;
+		this.batchTechJunctions = batchTechJunctions;
 	}
 
 	@Id
@@ -90,11 +90,11 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="pk.batch", cascade=CascadeType.ALL, targetEntity=com.revature.entity.TfBatchTechJunction.class)
 	public Set getBatchTechJunctions() {
-       return this.batchTechs;
+       return this.batchTechJunctions;
    	}
 	
-	public void setBatchTechJunctions(Set<TfBatchTechJunction> batchTechs) {
-		this.batchTechs = batchTechs;
+	public void setBatchTechJunctions(Set<TfBatchTechJunction> batchTechJunctions) {
+		this.batchTechJunctions = batchTechJunctions;
 	}
 
 	@Column(name = "TF_BATCH_NAME", length = 50)
@@ -148,7 +148,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((batchTechs == null) ? 0 : batchTechs.hashCode());
+		result = prime * result + ((batchTechJunctions == null) ? 0 : batchTechJunctions.hashCode());
 		result = prime * result + ((tfAssociates == null) ? 0 : tfAssociates.hashCode());
 		result = prime * result + ((tfBatchEndDate == null) ? 0 : tfBatchEndDate.hashCode());
 		result = prime * result + ((tfBatchId == null) ? 0 : tfBatchId.hashCode());
@@ -168,10 +168,10 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		if (getClass() != obj.getClass())
 			return false;
 		TfBatch other = (TfBatch) obj;
-		if (batchTechs == null) {
-			if (other.batchTechs != null)
+		if (batchTechJunctions == null) {
+			if (other.batchTechJunctions != null)
 				return false;
-		} else if (!batchTechs.equals(other.batchTechs))
+		} else if (!batchTechJunctions.equals(other.batchTechJunctions))
 			return false;
 		if (tfAssociates == null) {
 			if (other.tfAssociates != null)

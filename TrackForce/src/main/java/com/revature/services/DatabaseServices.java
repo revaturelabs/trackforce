@@ -1,7 +1,9 @@
 package com.revature.services;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
+import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -76,6 +78,7 @@ public class DatabaseServices {
         	session.close();
         }
         return Response.ok().build();
+      
     }
 
     @DELETE

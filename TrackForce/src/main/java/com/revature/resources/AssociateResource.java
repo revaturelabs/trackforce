@@ -1,10 +1,13 @@
 package com.revature.resources;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -18,10 +21,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import com.revature.dao.AssociateDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
 import com.revature.services.AssociateService;
+import com.revature.utils.HibernateUtil;
 
 @Path("associates")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -105,6 +112,42 @@ public class AssociateResource {
 	 * @throws NumberFormatException 
 	 * @throws IOException
 	 */
+	
+	@PUT
+	@Path("{associateId}")
+	public Response updateAssociate(
+			@PathParam("associateId") Integer id,
+			@DefaultValue("0") @QueryParam("marketingStatusId") Integer marketingStatusId,
+			@DefaultValue("0") @QueryParam("clientId") Integer clientId,
+			String startDate) {
+		List<Integer> list = new ArrayList<>();
+		list.add(id);
+		service.updateAssociates(list, marketingStatusId, clientId);
+		
+		//This code separately updates the client start date using a stored procedure
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		 Transaction tx = session.beginTransaction();
+		// StringBuilder sb = new StringBuilder();
+	        try {
+	        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.UPDATEASSOCIATECLIENTSTARTDATE"); 
+	        	spq.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+	        	spq.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
+	        	spq.setParameter(1, id);
+	        	spq.setParameter(2, startDate);
+	        	spq.execute();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            session.flush();
+	            tx.rollback();
+	        } finally {
+	        	new AssociateDaoHibernate().cacheAllAssociates(); //refreshes the associates cache
+	            session.close();
+	        }
+		
+		return Response.ok().build();
+	}
+	
+	/*
 	@PUT
 	@Path("{associateId}")
 	public Response updateAssociate(
@@ -115,8 +158,34 @@ public class AssociateResource {
 		list.add(id);
 		service.updateAssociates(list, marketingStatusId, clientId);
 		return Response.ok().build();
+	}*/
+/*	
+	@PUT
+	@Path("{associateId}")
+	public Response updateAssociate(
+			@PathParam("associateId") Integer id,
+			String startDate) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		 Transaction tx = session.beginTransaction();
+		// StringBuilder sb = new StringBuilder();
+	        try {
+	        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.UPDATEASSOCIATECLIENTSTARTDATE"); 
+	        	spq.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+	        	spq.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
+	        	spq.setParameter(1, id);
+	        	spq.setParameter(2, startDate);
+	        	spq.execute();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            session.flush();
+	            tx.rollback();
+	        } finally {
+	        	new AssociateDaoHibernate().cacheAllAssociates();
+	            session.close();
+	        }
+	        return Response.ok().build();
 	}
-	
+*/	
 	@GET
 	@Path("{associateid}/interviews")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid) {

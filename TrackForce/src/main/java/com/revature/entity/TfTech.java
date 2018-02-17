@@ -2,11 +2,12 @@ package com.revature.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -20,16 +21,15 @@ public class TfTech implements java.io.Serializable {
 	private static final long serialVersionUID = 2820002004770324793L;
 	private int tfTechId;
 	private String tfTechName;
-	@ManyToMany(mappedBy = "techs")
-	private Set<TfBatch> batches = new HashSet<TfBatch>();
+	private Set<TfBatchTechJunction> batchTechs = new HashSet<TfBatchTechJunction>();
 
 	public TfTech() {
 	}
 
-	public TfTech(int tfTechId, String tfTechName, Set<TfBatch> batches) {
+	public TfTech(int tfTechId, String tfTechName, Set<TfBatchTechJunction> batchTechs) {
 		this.tfTechId = tfTechId;
 		this.tfTechName = tfTechName;
-		this.batches = batches;
+		this.batchTechs = batchTechs;
 
 	}
 
@@ -55,13 +55,12 @@ public class TfTech implements java.io.Serializable {
 		this.tfTechName = tfTechName;
 	}
 
-//	@ManyToMany(mappedBy = "techs")
-//	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "techs")
-	public Set<TfBatch> getBatches() {
-		return this.batches;
+	@OneToMany(fetch=FetchType.EAGER, mappedBy = "pk.TF_TECH")
+	public Set<TfBatchTechJunction> getBatchTechJunctions() {
+		return this.batchTechs;
 	}
   
-	public void setBatches(Set<TfBatch> batches) {
-	 		this.batches = batches;
+	public void setBatchTechJunctions(Set<TfBatchTechJunction> batchTechs) {
+		this.batchTechs = batchTechs;
 	}
 }

@@ -1,5 +1,8 @@
 package com.revature.resources;
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -27,4 +30,5 @@ public class BatchTechsResource {
 	public Response getAllBatchTechs() throws HibernateException, IOException{
 		return Response.ok(service.getAllBatchTechs()).build();
 	}
+    
 }

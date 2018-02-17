@@ -92,6 +92,7 @@ public class JunctionDaoImpl implements JunctionDao {
 	    String sql = "select a.tf_batch_name, a.tf_batch_end_date, s.tf_tech_name from ADMIN.tf_batch a left" + 
 	    		"join ADMIN.tf_batch_junction tf on tf.tf_batch_id = a.tf_batch_id left join ADMIN.tf_tech s on s.TF_TECH_ID "
 	    		+ "= tf.TF_TECH_ID order by a.TF_batch_NAME asc";   		
+
 		
 		Query query = session.createNativeQuery(sql);
 		List query_results = query.list();

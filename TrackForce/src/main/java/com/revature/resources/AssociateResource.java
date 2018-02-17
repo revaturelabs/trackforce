@@ -27,6 +27,7 @@ import org.hibernate.Transaction;
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
+import com.revature.request.model.AssociateFromClient;
 import com.revature.services.AssociateService;
 import com.revature.utils.HibernateUtil;
 
@@ -119,11 +120,8 @@ public class AssociateResource {
 	@Path("{associateId}")
 	public Response updateAssociate(
 			@PathParam("associateId") Integer id,
-			@DefaultValue("0") @QueryParam("marketingStatusId") Integer marketingStatusId,
-			@DefaultValue("0") @QueryParam("clientId") Integer clientId) {
-		List<Integer> list = new ArrayList<>();
-		list.add(id);
-		service.updateAssociates(list, marketingStatusId, clientId);
+			AssociateFromClient afc) {
+		service.updateAssociate(afc);
 		return Response.ok().build();
 	}
 

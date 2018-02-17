@@ -120,23 +120,23 @@ export class AssociateViewComponent implements OnInit {
   }
 
   getInterviews(id: number) {
-    this.associateService.getInterviewsForAssociate(id).subscribe(
-      data => {
-        let tempArr = [];
-        for (let i=0;i<data.length;i++) {
-          let interview = data[i];
-          let intObj = {
-            id: interview.id,
-            client: interview.tfClientName,
-            date: new Date(interview.tfInterviewDate),
-            type: interview.typeName,
-            feedback: interview.tfInterviewFeedback
-          }
-          tempArr.push(intObj);
-        }
-        this.interviews = tempArr;
-      }
-    );
+    // this.associateService.getInterviewsForAssociate(id).subscribe(
+    //   data => {
+    //     let tempArr = [];
+    //     for (let i=0;i<data.length;i++) {
+    //       let interview = data[i];
+    //       let intObj = {
+    //         id: interview.id,
+    //         client: interview.tfClientName,
+    //         date: new Date(interview.tfInterviewDate),
+    //         type: interview.typeName,
+    //         feedback: interview.tfInterviewFeedback
+    //       }
+    //       tempArr.push(intObj);
+    //     }
+    //     this.interviews = tempArr;
+    //   }
+    // );
   }
 
 }

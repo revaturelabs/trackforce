@@ -113,6 +113,50 @@ public class AssociateResource {
 	 * @throws IOException
 	 */
 	
+	/**** OPTION 1 ****/
+	/*
+	@PUT
+	@Path("{associateId}")
+	public Response updateAssociate(
+			@PathParam("associateId") Integer id,
+			@DefaultValue("0") @QueryParam("marketingStatusId") Integer marketingStatusId,
+			@DefaultValue("0") @QueryParam("clientId") Integer clientId) {
+		List<Integer> list = new ArrayList<>();
+		list.add(id);
+		service.updateAssociates(list, marketingStatusId, clientId);
+		return Response.ok().build();
+	}*/
+
+	/*** OPTION 2 ***/
+/*	
+	@PUT
+	@Path("{associateId}")
+	public Response updateAssociate(
+			@PathParam("associateId") Integer id,
+			String startDate) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		 Transaction tx = session.beginTransaction();
+		// StringBuilder sb = new StringBuilder();
+	        try {
+	        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.UPDATEASSOCIATECLIENTSTARTDATE"); 
+	        	spq.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+	        	spq.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
+	        	spq.setParameter(1, id);
+	        	spq.setParameter(2, startDate);
+	        	spq.execute();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            session.flush();
+	            tx.rollback();
+	        } finally {
+	        	new AssociateDaoHibernate().cacheAllAssociates();
+	            session.close();
+	        }
+	        return Response.ok().build();
+	}
+*/	
+	
+	/**** OPTION 1+2****/
 	@PUT
 	@Path("{associateId}")
 	public Response updateAssociate(
@@ -147,45 +191,6 @@ public class AssociateResource {
 		return Response.ok().build();
 	}
 	
-	/*
-	@PUT
-	@Path("{associateId}")
-	public Response updateAssociate(
-			@PathParam("associateId") Integer id,
-			@DefaultValue("0") @QueryParam("marketingStatusId") Integer marketingStatusId,
-			@DefaultValue("0") @QueryParam("clientId") Integer clientId) {
-		List<Integer> list = new ArrayList<>();
-		list.add(id);
-		service.updateAssociates(list, marketingStatusId, clientId);
-		return Response.ok().build();
-	}*/
-/*	
-	@PUT
-	@Path("{associateId}")
-	public Response updateAssociate(
-			@PathParam("associateId") Integer id,
-			String startDate) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		 Transaction tx = session.beginTransaction();
-		// StringBuilder sb = new StringBuilder();
-	        try {
-	        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.UPDATEASSOCIATECLIENTSTARTDATE"); 
-	        	spq.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
-	        	spq.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
-	        	spq.setParameter(1, id);
-	        	spq.setParameter(2, startDate);
-	        	spq.execute();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            session.flush();
-	            tx.rollback();
-	        } finally {
-	        	new AssociateDaoHibernate().cacheAllAssociates();
-	            session.close();
-	        }
-	        return Response.ok().build();
-	}
-*/	
 	@GET
 	@Path("{associateid}/interviews")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid) {

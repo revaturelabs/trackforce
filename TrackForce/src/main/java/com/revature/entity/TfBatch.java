@@ -90,7 +90,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 
 
 	//ManyToMany
-	@ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, targetEntity=com.revature.entity.TfTech.class)
+	@ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinTable(name="TF_BATCH_JUNCTION",
 				schema="ADMIN",
 				joinColumns={@JoinColumn(name="TF_BATCH_ID") },

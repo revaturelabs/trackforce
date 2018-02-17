@@ -52,7 +52,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	
 	@XmlElement
 	private String batchName;
-
+	
 	public Integer getMsid() {
 		return msid;
 	}

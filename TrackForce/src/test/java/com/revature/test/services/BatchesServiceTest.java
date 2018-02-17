@@ -4,10 +4,12 @@ import com.revature.dao.BatchDao;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
 import com.revature.services.BatchesService;
+
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.testng.Assert;
 import org.testng.annotations.*;
 

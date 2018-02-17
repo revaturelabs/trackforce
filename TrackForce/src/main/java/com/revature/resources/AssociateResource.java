@@ -2,6 +2,7 @@ package com.revature.resources;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.Response.Status;
 import org.hibernate.HibernateException;
 
 import com.revature.model.AssociateInfo;
+import com.revature.model.ClientMappedJSON;
 import com.revature.services.AssociateService;
 
 @Path("associates")
@@ -84,7 +86,9 @@ public class AssociateResource {
 	@GET
 	@Path("mapped/{statusId}")
 	public Response getMappedInfo(@PathParam("statusId") int statusId) {
-		return service.getMappedInfo(statusId);
+		Map<Integer, ClientMappedJSON> mappedStats = service.getMappedInfo(statusId);
+		if(mappedStats.isEmpty()) return Response.status(500).build();
+		return Response.ok(mappedStats).build();
 	}
 	
 	@GET

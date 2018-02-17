@@ -11,7 +11,7 @@ import com.revature.test.admin.cukes.ClientListCukes;
 import com.revature.test.admin.cukes.AssociateListCukes;
 
 public class ClientListTest extends AdminSuite {
-	//static WebDriver e = null;
+	// static WebDriver e = null;
 
 	@BeforeTest
 	// Clicks Client List Tab and checks the URL
@@ -49,7 +49,7 @@ public class ClientListTest extends AdminSuite {
 	}
 
 	@Test(priority = 2)
-	//clicks view data for all clients button and verifies that the correct information is being displayed
+	// possible use case where a user clicks view data for all clients button and verifies that the correct information is being displayed
 	public void ViewAllClientData() {
 		try {
 			assertTrue(ClientListCukes.click_View_Data_for_All_Clients_button(wd));
@@ -61,7 +61,7 @@ public class ClientListTest extends AdminSuite {
 	}
 	
 	@Test(priority = 3)
-	// clicks on a client in the search results and verifies that the proper graph is displayed
+	// possible use case where a user clicks on a client in the search results and verifies that the proper graph is displayed
 	public void ClickAndViewClientData() {
 		try {
 			assertTrue(ClientListCukes.click_client_in_search_results(wd));
@@ -73,6 +73,8 @@ public class ClientListTest extends AdminSuite {
 	}
 	
 	@Test(priority = 4)
+	// possible use case where a client name is searched, then another client name is searched, clicked,
+	// and the graph pertaining to that client is showing   
 	public void SearchButSearchAnotherAndViewClientData() {
 		try {
 			assertTrue(ClientListCukes.search_by_client_name(wd));
@@ -87,6 +89,8 @@ public class ClientListTest extends AdminSuite {
 	}
 	
 	@Test(priority = 5)
+	// possible use case where a client name is searched, the search bar is cleared, client is clicked, 
+	// verifies that the correct data is being shown in the graph
 	public void SearchButClickViewAllClientData() {
 		try {
 			assertTrue(ClientListCukes.search_by_client_name(wd));
@@ -100,6 +104,8 @@ public class ClientListTest extends AdminSuite {
 	}
 	
 	@Test(priority = 6)
+	// possible use case where a client is searched by name, the search bar is cleared, client is clicked, 
+	// verifies that the correct data is being shown in the graph
 	public void SearchButClickClientAndViewClientData() {
 		try {
 			assertTrue(ClientListCukes.search_by_client_name(wd));

@@ -10,7 +10,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 
-@Entity(name = "TfTech")
+@Entity
 @Table(name = "TF_TECH", schema = "ADMIN")
 public class TfTech implements java.io.Serializable {
 
@@ -20,6 +20,7 @@ public class TfTech implements java.io.Serializable {
 	private static final long serialVersionUID = 2820002004770324793L;
 	private int tfTechId;
 	private String tfTechName;
+	@ManyToMany(mappedBy = "techs")
 	private Set<TfBatch> batches = new HashSet<TfBatch>();
 
 	public TfTech() {
@@ -54,7 +55,7 @@ public class TfTech implements java.io.Serializable {
 		this.tfTechName = tfTechName;
 	}
 
-	@ManyToMany(mappedBy = "techs")
+//	@ManyToMany(mappedBy = "techs")
 	public Set<TfBatch> getBatches() {
 		return this.batches;
 	}

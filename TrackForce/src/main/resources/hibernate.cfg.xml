@@ -4,11 +4,11 @@
     <session-factory>
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.search.autoregister_listeners">true</property>
-        <property name="hibernate.validator.apply_to_ddl">false</property>
-        <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+        <property name="hibernate.validator.apply_to_ddl">true</property>
+<!--    <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
         <property name="hibernate.generate_statistics">false</property>
         <property name="hibernate.connection.release_mode">after_transaction</property>
-        <property name="show_sql">false</property> 
+        <property name="show_sql">false</property>--> 
 
         
         <property name="hibernate.search.autoregister_listeners">true</property>

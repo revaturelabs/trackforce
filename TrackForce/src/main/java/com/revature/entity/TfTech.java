@@ -20,14 +20,15 @@ public class TfTech implements java.io.Serializable {
 	private static final long serialVersionUID = 2820002004770324793L;
 	private int tfTechId;
 	private String tfTechName;
-	// private Set<TfBatch> batches = new HashSet<TfBatch>();
+	private Set<TfBatch> batches = new HashSet<TfBatch>();
 
 	public TfTech() {
 	}
 
-	public TfTech(int tfTechId, String tfTechName) {
+	public TfTech(int tfTechId, String tfTechName, Set<TfBatch> batches) {
 		this.tfTechId = tfTechId;
 		this.tfTechName = tfTechName;
+		this.batches = batches;
 
 	}
 
@@ -53,12 +54,12 @@ public class TfTech implements java.io.Serializable {
 		this.tfTechName = tfTechName;
 	}
 
-	// @ManyToMany(fetch = FetchType.LAZY, mappedBy = "techs")
-	// public Set<TfBatch> getBatches() {
-	// 	return this.batches;
-	// }
-  //
-	// public void setBatches(Set<TfBatch> batches) {
-	// 		this.batches = batches;
-	// }
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "techs")
+	public Set<TfBatch> getBatches() {
+		return this.batches;
+	}
+  
+	public void setBatches(Set<TfBatch> batches) {
+	 		this.batches = batches;
+	}
 }

@@ -36,7 +36,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	private Timestamp tfBatchStartDate;
 	private Timestamp tfBatchEndDate;
 	private Set<TfAssociate> tfAssociates = new HashSet<TfAssociate>();
-	// private Set<TfTech> techs = new HashSet<TfTech>();  //Batch owns these Technologies
+	private Set<TfTech> techs = new HashSet<TfTech>();  //Batch owns these Technologies
 
 	public TfBatch() {
 	}
@@ -46,7 +46,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	}
 
 	public TfBatch(Integer tfBatchId, TfBatchLocation tfBatchLocation, TfCurriculum tfCurriculum, String tfBatchName,
-			Timestamp tfBatchStartDate, Timestamp tfBatchEndDate, Set<TfAssociate> tfAssociates) {
+			Timestamp tfBatchStartDate, Timestamp tfBatchEndDate, Set<TfAssociate> tfAssociates, Set<TfTech> techs) {
 		this.tfBatchId = tfBatchId;
 		this.tfBatchLocation = tfBatchLocation;
 		this.tfCurriculum = tfCurriculum;
@@ -54,6 +54,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		this.tfBatchStartDate = tfBatchStartDate;
 		this.tfBatchEndDate = tfBatchEndDate;
 		this.tfAssociates = tfAssociates;
+		this.techs = techs;
 	}
 
 	@Id
@@ -88,19 +89,19 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 
 
 	//ManyToMany
-	// @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-	// @JoinTable(name="TF_BATCH_JUNCTION",
-	// 		   schema="ADMIN",
-	// 		   joinColumns={@JoinColumn(name="TF_BATCH_ID") },
-  // 			   inverseJoinColumns= { @JoinColumn(name="TF_TECH_ID")})
-  //   public Set<TfTech> getTechs()
-  //   {
-  //       return this.techs;
-  //   }
-  //   public void setTechs(Set<TfTech> techs)
-  //   {
-  //       this.techs = techs;  //reference the techs that it owns
-  //   }
+	@ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinTable(name="TF_BATCH_JUNCTION",
+				schema="ADMIN",
+				joinColumns={@JoinColumn(name="TF_BATCH_ID") },
+				inverseJoinColumns= { @JoinColumn(name="TF_TECH_ID")})
+	public Set<TfTech> getTechs()
+	{
+       return this.techs;
+   	}
+	public void setTechs(Set<TfTech> techs)
+   	{
+       this.techs = techs;  //reference the techs that it owns
+	}
 
 	@Column(name = "TF_BATCH_NAME", length = 50)
 	public String getTfBatchName() {

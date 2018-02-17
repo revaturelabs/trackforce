@@ -1,6 +1,8 @@
 package com.revature.resources;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -47,5 +49,5 @@ public class BatchTechsResource {
     		@PathParam("techname") String techname)throws IOException {
     	return Response.ok(service.getAvailableAssociatesByTech(date1, date2, techname)).build();
     }
-
 }
+

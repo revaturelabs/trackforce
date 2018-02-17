@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -94,6 +95,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 				schema="ADMIN",
 				joinColumns={@JoinColumn(name="TF_BATCH_ID") },
 				inverseJoinColumns= { @JoinColumn(name="TF_TECH_ID")})
+	@ElementCollection(targetClass=TfTech.class)
 	public Set<TfTech> getTechs()
 	{
        return this.techs;

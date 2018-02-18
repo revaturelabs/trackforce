@@ -44,13 +44,7 @@ public class AssociateService implements Service {
 	 */
 
 	public AssociateInfo getAssociate(Integer associateid) {
-<<<<<<< HEAD
 		return associateDao.getAssociate(associateid);
-=======
-		//AssociateInfo associateinfo = associateDao.getAssociate(associateid);
-		AssociateInfo associateinfo2 = associateDao.getAssociateFromDB(associateid);
-		return associateinfo2;
->>>>>>> de503e542a9d25a1591fa082eafd6aced65c4aac
 
 	}
 	public Response updateAssociates(List<AssociateInfo> associates) {

@@ -28,11 +28,8 @@ import org.hibernate.Transaction;
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
-<<<<<<< HEAD
-import com.revature.model.ClientMappedJSON;
-=======
 import com.revature.request.model.AssociateFromClient;
->>>>>>> de503e542a9d25a1591fa082eafd6aced65c4aac
+import com.revature.model.ClientMappedJSON;
 import com.revature.services.AssociateService;
 import com.revature.utils.HibernateUtil;
 

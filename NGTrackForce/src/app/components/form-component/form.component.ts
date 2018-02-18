@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { Associate } from '../../models/associate.model'
 import { ClientService } from '../../services/client-service/client.service';
@@ -29,12 +30,13 @@ export class FormComponent implements OnInit {
       type: null,
       feedback: null
     };
+    newStartDate: Date;
     message: string = "";
     selectedMarketingStatus: string;
     selectedClient: number;
     id: number;
     formOpen: boolean;
-    
+
     /**
       *@param {AssociateService} associateService
       * Service for grabbing associate data from the back-end
@@ -52,33 +54,74 @@ export class FormComponent implements OnInit {
         this.associateService.getAssociate(this.id).subscribe(
           data => {
             console.log(data);
-            this.associate = <Associate>data
+            this.associate = <Associate>data;
+            if (data.clientStartDate.toString() == "0")
+              this.associate.clientStartDate = null;
+            else
+              this.associate.clientStartDate = this.adjustDate(data.clientStartDate);
           });
         this.clientService.getAllClients().subscribe(
           data => {
             console.log(data);
             this.clients = data;
           });
-        this.interviews();
+        this.getInterviews();
+    }
+
+    adjustDate(date: Date){ // dates are off by 1 day - this corrects them
+      let ldate = new Date(date);
+      let origDate = ldate.getDate();
+      ldate.setDate(origDate+1);
+      if (ldate.getDate() < 1) {
+        ldate.setMonth(ldate.getMonth() -1)
+        ldate.setDate(origDate);
+      }
+      return ldate;
     }
 
     /**
-     * Update the associate with the new client and/or status
+     * Update the associate with the new client, status, and/or start date
      */
     updateAssociate() {
-      var ids: number[] = [];
-      ids.push(this.id);
-
-        this.associateService.updateAssociates(ids, Number(this.selectedMarketingStatus), this.selectedClient).subscribe(
+      if (this.newStartDate) {
+        var dateTime = Number((new Date(this.newStartDate).getTime())/1000);
+      } else {
+        var dateTime = Number((new Date(this.associate.clientStartDate).getTime())/1000);
+      }
+      if (this.selectedMarketingStatus) {
+        var newStatus = Number(this.selectedMarketingStatus);
+      } else {
+        var newStatus = this.associate.msid;
+      }
+      if (this.selectedClient) {
+        var newClient = this.selectedClient;
+      } else {
+        var newClient = this.associate.clid;
+      }
+      var newAssociate = {
+        id: this.id,
+        mkStatus: newStatus,
+        clientId: newClient,
+        startDateUnixTime: dateTime
+      };
+      this.associateService.updateAssociate(newAssociate).subscribe(
+        data => {
+          this.message = "Successfully updated associate";
+          this.associateService.getAssociate(this.id).subscribe(
             data => {
-                this.associateService.getAssociate(this.id).subscribe(
-                    data => {
-                        this.associate = <Associate>data
-                    });
-            }
-        )}
-/*
-    getInterviews(){
+              this.associate = <Associate>data;
+              console.log(data.clientStartDate);
+              if (data.clientStartDate.toString() == "0")
+                this.associate.clientStartDate = null;
+              else
+                this.associate.clientStartDate = this.adjustDate(data.clientStartDate);
+              this.resetAllFields();
+          });
+        }
+      )
+    }
+
+    getInterviews() {
       this.associateService.getInterviewsForAssociate(this.id).subscribe(
         data => {
           let tempArr = [];
@@ -97,7 +140,7 @@ export class FormComponent implements OnInit {
         }
       )
     }
-*/
+
     toggleForm() {
       this.formOpen = !this.formOpen;
     }
@@ -111,22 +154,17 @@ export class FormComponent implements OnInit {
         feedback: this.newInterview.feedback
       }
       this.interviews.push(tempVar);
+      this.message = "Successfully added interview";
+      this.resetAllFields();
+    }
+
+    resetAllFields(){
+      this.formOpen = false;
       this.newInterview.client = null;
       this.newInterview.type = null;
       this.newInterview.date = null;
       this.newInterview.feedback = null;
+      this.selectedClient = null;
+      this.selectedMarketingStatus = null;
     }
-
-   updateStartDate() {
-   let mydate = this.associate.startDate;
-   this.associateService.updateAssociateStartDate(this.id,mydate).subscribe(
-    data => {
-      console.log(data);
-    },
-    err => {
-      console.log(err);
-    });
-  }
  }
-
-

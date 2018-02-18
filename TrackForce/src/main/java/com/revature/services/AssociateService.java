@@ -3,8 +3,6 @@ package com.revature.services;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,12 +13,11 @@ import org.hibernate.HibernateException;
 
 import com.revature.dao.AssociateDao;
 import com.revature.dao.AssociateDaoHibernate;
-import com.revature.entity.TfInterview;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumJSON;
 import com.revature.model.InterviewInfo;
-import com.revature.utils.Dao2DoMapper;
+import com.revature.request.model.AssociateFromClient;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateService implements Service {
@@ -47,7 +44,13 @@ public class AssociateService implements Service {
 	 */
 
 	public AssociateInfo getAssociate(Integer associateid) {
+<<<<<<< HEAD
 		return associateDao.getAssociate(associateid);
+=======
+		//AssociateInfo associateinfo = associateDao.getAssociate(associateid);
+		AssociateInfo associateinfo2 = associateDao.getAssociateFromDB(associateid);
+		return associateinfo2;
+>>>>>>> de503e542a9d25a1591fa082eafd6aced65c4aac
 
 	}
 	public Response updateAssociates(List<AssociateInfo> associates) {
@@ -240,10 +243,7 @@ public class AssociateService implements Service {
     	return Response.status(200).build();
     }
 
-	public Response updateAssociate(Integer associateid,
-		Long startDate) {
-	associateDao.updateAssociate(associateid, startDate);
-	return Response.status(200).build();
-		
+	public void updateAssociate(AssociateFromClient afc) {
+		associateDao.updateAssociate(afc);
 	}
 }

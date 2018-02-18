@@ -7,6 +7,7 @@ import { TechService} from '../../services/tech-service/tech.service';
   templateUrl: './predictions.component.html',
   styleUrls: ['./predictions.component.css']
 })
+@AutoUnsubscribe
 export class PredictionsComponent implements OnInit {
   public dataReady: boolean = false;
   public startDate: Date = new Date();

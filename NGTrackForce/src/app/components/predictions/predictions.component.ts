@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TechService} from '../../services/tech-service/tech.service';
+import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 //import {FormsComponent} from '@angular/core';
 
 @Component({

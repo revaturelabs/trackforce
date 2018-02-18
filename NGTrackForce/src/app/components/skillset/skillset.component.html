@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="container min-height">
+<div class="container">
 	<div class="row">
 		<div class="col-md-6">
 			<button (click)="changeChartType('bar')" class="btn btn-default">Bar Chart</button>
@@ -8,7 +8,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-6">
+		<div class="col-lg-9">
 			<h3 class="text-center text-primary">{{selectedStatus}}</h3><br/>
 			<!-- TODO: figure out how to convert this['chart-click'],this['chart-colors'] to TypeScript -->
 			<canvas baseChart

@@ -187,6 +187,21 @@
 			<artifactId>maven-surefire-plugin</artifactId>
 			<version>2.19.1</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/io.swagger/swagger-jersey2-jaxrs -->
+		<dependency>
+		    <groupId>io.swagger</groupId>
+		    <artifactId>swagger-jersey2-jaxrs</artifactId>
+		    <version>1.5.18</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>3.7</version>
+		</dependency>
+
 	</dependencies>
 	
 	<!-- William added the below tags on 2/15/18 so that the main application can be successfully deployed -->

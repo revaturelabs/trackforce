@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TechService} from '../../services/tech-service/tech.service';
+import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 //import {FormsComponent} from '@angular/core';
 
 @Component({
@@ -7,6 +8,7 @@ import { TechService} from '../../services/tech-service/tech.service';
   templateUrl: './predictions.component.html',
   styleUrls: ['./predictions.component.css']
 })
+@AutoUnsubscribe
 export class PredictionsComponent implements OnInit {
   public dataReady: boolean = false;
   public startDate: Date = new Date();

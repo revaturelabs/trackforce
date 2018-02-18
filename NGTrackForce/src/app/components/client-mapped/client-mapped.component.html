@@ -1,6 +1,7 @@
 <app-navbar></app-navbar>
+<div class="container min-height">
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-6">
      <button (click)="changeChartType('bar')" class="btn btn-default">Bar Chart</button>
      <button (click)="changeChartType('pie')" class="btn btn-default">Pie Chart</button>
      <button (click)="changeChartType('polarArea')" class="btn btn-default">Polar Chart</button>
@@ -8,7 +9,7 @@
 </div>
 <div class="row">
   <!-- Display chart -->
-  <div class="col-md-10">
+  <div class="col-lg-6">
     <canvas id="the_graph" baseChart *ngIf="clientMappedData && clientMappedLabels"
           [data]="clientMappedData"
           [labels]="clientMappedLabels"
@@ -19,5 +20,6 @@
           (chartClick)="chartClicked($event)">
     </canvas>
   </div>
+</div>
 </div>
 <app-footer></app-footer>

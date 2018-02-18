@@ -4,7 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
-@Embeddable
+//@Embeddable
 public class BatchTechId implements java.io.Serializable {
 
 	/**

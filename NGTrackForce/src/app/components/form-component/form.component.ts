@@ -147,13 +147,25 @@ export class FormComponent implements OnInit {
 
     addInterview(){
       console.log(this.newInterview);
-      let tempVar = {
+      let interview = {
         client: this.newInterview.client,
-        type: this.newInterview.type,
-        date: this.newInterview.date,
-        feedback: this.newInterview.feedback
-      }
-      this.interviews.push(tempVar);
+        typeId: this.newInterview.type,
+        tfInterviewDate: this.newInterview.date,
+        tfInterviewFeedback: this.newInterview.feedback
+      };
+      this.associateService.addInterviewForAssociate(this.id,interview).subscribe(
+        data => {
+          this.interviews.push({
+            client: interview.client,
+            date: interview.tfInterviewDate,
+            type: interview.typeId,
+            feedback: interview.tfInterviewFeedback
+          });
+        },
+        err => {
+          console.log(err);
+        }
+      )
       this.message = "Successfully added interview";
       this.resetAllFields();
     }

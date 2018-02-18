@@ -18,6 +18,7 @@ import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumJSON;
 import com.revature.model.InterviewInfo;
+import com.revature.request.model.AssociateFromClient;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateService implements Service {
@@ -234,10 +235,7 @@ public class AssociateService implements Service {
     	return Response.status(200).build();
     }
 
-	public Response updateAssociate(Integer associateid,
-		Long startDate) {
-	associateDao.updateAssociate(associateid, startDate);
-	return Response.status(200).build();
-		
+	public void updateAssociate(AssociateFromClient afc) {
+		associateDao.updateAssociate(afc);
 	}
 }

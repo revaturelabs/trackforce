@@ -3,19 +3,19 @@
  * @author Alex, Xavier
  */
 export class Associate {
-    id: number
-    firstName: string
-    lastName: string
+    id: number;
+    firstName: string;
+    lastName: string;
     msid: number;
-    marketingStatus: string
+    marketingStatus: string;
     clid: number;
-    client: string
+    client: string;
     bid: number;
-    curid: number
-    curriculumName: string
-    ecid: number
+    curid: number;
+    curriculumName: string;
+    ecid: number;
     endClientName: string;
     batchName: string;
     batchId: string;
-    startDate: Date;
+    clientStartDate: Date;
 }

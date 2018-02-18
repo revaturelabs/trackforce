@@ -1,6 +1,9 @@
 <app-navbar></app-navbar>
 <div class="container" ng-init="">
   <div class="row">
+    <div class="alert alert-success" *ngIf="message">
+      <h5 class="text-success">{{message}}</h5>
+    </div>
     <div class="col-sm-6">
       <h3>Associate Info</h3>
       <div class="table-responsive info">
@@ -32,7 +35,7 @@
             </tr>
             <tr>
               <td>Start Date</td>
-              <td>{{associate.startDate}}</td>
+              <td>{{associate.clientStartDate | date:'longDate'}}</td>
             </tr>
           </tbody>
         </table>
@@ -43,26 +46,27 @@
           <div class="form-group">
             <label for="mStatus">Choose Status:</label>
             <select class="form-control" [(ngModel)]="selectedMarketingStatus">
-                <option value="1">UNMAPPED: TRAINING</option>
-                <option value="2">UNMAPPED: OPEN</option>
-                <option value="3">UNMAPPED: SELECTED</option>
-                <option value="4">UNMAPPED: CONFIRMED</option>
-                <option value="5">UNMAPPED: DEPLOYED</option>
-                <option value="6">MAPPED: TRAINING</option>
-                <option value="7">MAPPED: RESERVED</option>
-                <option value="8">MAPPED: SELECTED</option>
-                <option value="9">MAPPED: CONFIRMED</option>
-                <option value="10">MAPPED: DEPLOYED</option>
-                <option value="11">Directly Placed</option>
-                <option value="12">TERMINATED</option>
+              <option value="1">MAPPED: Training</option>
+              <option value="2">MAPPED: Reserved</option>
+              <option value="3">MAPPED: Selected</option>
+              <option value="4">MAPPED: Confirmed</option>
+              <option value="5">MAPPED: Deployed</option>
+              <option value="6">UNMAPPED: Training</option>
+              <option value="7">UNMAPPED: Open</option>
+              <option value="8">UNMAPPED: Selected</option>
+              <option value="9">UNMAPPED: Confirmed</option>
+              <option value="10">UNMAPPED: Deployed</option>
+              <option value="11">Directly Placed</option>
+              <option value="12">TERMINATED</option>
             </select>
             <label for="client">Assign Client:</label>
             <select class="form-control" id="client" [(ngModel)]="selectedClient">
                 <option selected="selected">None</option>
                 <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
             </select>
+            <label class="control-label">Apply Start Date to Associate</label>
+            <input type="date" class="form-control" name="date" [(ngModel)] ="newStartDate" />
             <button (click)="updateAssociate()" class="btn btn-warning" style="margin-top:10px">Update Status</button>
-            <h5 class="text-success">{{message}}</h5>
           </div>
         </div>
       </div>

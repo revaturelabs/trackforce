@@ -88,7 +88,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 //	public Set<TfBatchTechJunction> getBatchTechJunctions() {
 //       return this.batchTechJunctions;
 //   	}
-//	
+//
 //	public void setBatchTechJunctions(Set<TfBatchTechJunction> batchTechJunctions) {
 //		this.batchTechJunctions = batchTechJunctions;
 //	}
@@ -207,6 +207,6 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		return true;
 	}
 
-	
+
 
 }

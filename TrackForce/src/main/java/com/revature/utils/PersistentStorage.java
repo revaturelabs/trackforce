@@ -74,6 +74,10 @@ public class PersistentStorage {
 		return new TreeSet<ClientInfo>(clients.values());
 	}
 	
+	public ClientInfo getClient(int id) {
+		return this.clients.get(id);
+	}
+	
 	public Set<InterviewInfo> getInterviews() {
 		return new TreeSet<InterviewInfo>(interviews.values());
 	}
@@ -225,6 +229,16 @@ public class PersistentStorage {
 	public void updateAssociates(Map<Integer, AssociateInfo> associates) {
 		this.associates.putAll(associates);
 	}
-
 	
+	public void updateAssociate(Integer id, int clientId, int mkStatus, long startDateTime) {
+		AssociateInfo ai = this.associates.get(id);
+		ai.setMarketingStatusId(mkStatus);
+		Map<Integer, MarketingStatusInfo> map = getMarketingAsMap();
+		ai.setMarketingStatus(map.get(mkStatus).getName());
+		ai.setClientStartDate(startDateTime);
+		ClientInfo cl = getClient(clientId);
+		ai.setClid(clientId);
+		ai.setClient(cl.getTfClientName());
+		this.associates.put(id, ai);
+	}
 }

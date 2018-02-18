@@ -14,5 +14,5 @@ public interface InterviewDao {
 	public Map<Integer, InterviewInfo> getInterviewsByAssociate(int associateId) throws IOException;
     public Map<Integer, InterviewInfo> getAllInterviews();
     public Set<InterviewInfo> getInterviewFromCache();
-
+    public void addInterviewForAssociate(int associateid, InterviewInfo ii);
 }

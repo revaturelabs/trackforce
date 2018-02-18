@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import com.revature.entity.TfAssociate;
 import com.revature.entity.TfInterview;
 import com.revature.model.InterviewInfo;
 import com.revature.utils.Dao2DoMapper;
@@ -81,4 +82,16 @@ public class InterviewDaoHibernate implements InterviewDao {
 		PersistentStorage.getStorage().setInterviews(new InterviewDaoHibernate().getAllInterviews());			
 	}
 
+	@Override
+	public void addInterviewForAssociate(int associateid, InterviewInfo ii) {
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+			TfInterview tfi = new TfInterview();
+			tfi.setTfAssociate(session.get(TfAssociate.class, associateid));
+			tfi.setTfInterviewDate(ii.getTfInterviewDate());
+			tfi.setTfInterviewFeedback(ii.getTfInterviewFeedback());
+			session.save(tfi);
+        } catch (Exception e) {
+            LogUtil.logger.error(e);
+        }
+	}
 }

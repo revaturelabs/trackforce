@@ -1,16 +1,13 @@
 package com.revature.resources;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -21,15 +18,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import com.revature.dao.AssociateDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
 import com.revature.services.AssociateService;
-import com.revature.utils.HibernateUtil;
+import com.revature.services.InterviewService;
 
 @Path("associates")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -195,6 +189,18 @@ public class AssociateResource {
 		Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
 		System.out.println(associateinfo);
 		return Response.ok(associateinfo).build();
+	}
+	
+	@POST
+	@Path("{associateid}/interviews")
+	public Response addAssociateInterview(
+			@PathParam("associateid") Integer associateid,
+			InterviewInfo ii
+			) {
+		InterviewService is = new InterviewService();
+		is.addInterviewByAssociate(associateid, ii);
+		System.out.println(ii);
+		return Response.ok().build();
 	}
 
 }

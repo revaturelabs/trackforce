@@ -2,11 +2,9 @@ package com.revature.test.dao;
 
 import com.revature.dao.MarketingStatusDao;
 import com.revature.model.MarketingStatusInfo;
-import com.revature.test.BaseTest;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 

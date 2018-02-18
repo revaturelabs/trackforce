@@ -42,7 +42,7 @@ public class TechService implements Service {
 	}
 
 	public Set<TechInfo> getTechs() throws HibernateException, IOException{
-		return TechDao.getTechFromCache();
+		return getAllTechs();
 	}
 
 	@Override

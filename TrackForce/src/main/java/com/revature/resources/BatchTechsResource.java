@@ -1,8 +1,6 @@
 package com.revature.resources;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
-
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -11,9 +9,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.hibernate.HibernateException;
 
-import com.revature.model.ClientInfo;
+import com.revature.dao.JunctionDaoImpl;
 import com.revature.services.BatchTechsService;
 
 //import com.revature.services.BatchTechsService;
@@ -41,13 +40,15 @@ public class BatchTechsResource {
     	return Response.ok(service.getAssociateCountByTechId(techid)).build();
     }
     
-    @Path("/{date1}/{date2}/{techname}")
+    @Path("/{time1}/{time2}")
     @GET
     public Response getBatchTechInfoName(
-    		@PathParam("date1") Date date1,
-    		@PathParam("date2") Date date2,
-    		@PathParam("techname") String techname)throws IOException {
-    	return Response.ok(service.getAvailableAssociatesByTech(date1, date2, techname)).build();
+    		@PathParam("time1") long time1,
+    		@PathParam("time2") long time2
+    		)throws IOException {
+    	Date afterThis = new Date(time1);
+    	Date beforeThis = new Date(time2);
+    	return Response.ok(new JunctionDaoImpl().getTotalAssociatesByTechBetweenDates(afterThis, beforeThis)).build();
     }
 }
 

@@ -1,5 +1,7 @@
 package com.revature.dao;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,14 +26,12 @@ import com.revature.entity.TfInterview;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
+import com.revature.request.model.AssociateFromClient;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateDaoHibernate implements AssociateDao {
-	Session session;
-    
-
     /**
      * Get an associate from the database given its id
      * Added the method without the session parameter
@@ -43,6 +43,20 @@ public class AssociateDaoHibernate implements AssociateDao {
         return PersistentStorage.getStorage().getAssociateAsMap().get(id);
         //want to write a method that gets from db if not in cache
         //then throw exception if not found in db
+    }
+	
+	@Override
+    public AssociateInfo getAssociateFromDB(Integer id) {
+        Map<Integer, AssociateInfo> map = new HashMap<>();
+        try(Session session = HibernateUtil.getSession()) {
+            TfAssociate tfa = session.load(TfAssociate.class, id);
+            AssociateInfo ai = Dao2DoMapper.map(tfa);
+            return  ai;
+        }
+        catch(HibernateException e) {
+        	e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -117,10 +131,25 @@ public class AssociateDaoHibernate implements AssociateDao {
 		} 
     }
 	
-	@Override
-	public void updateAssociate(Integer associateid, Long startDate) {
-		// TODO Auto-generated method stub
-		
+	public void updateAssociate(AssociateFromClient afc) {
+		Transaction t = null;
+		try(Session session = HibernateUtil.getSession()) {
+			t = session.beginTransaction();
+			TfAssociate tfAssociate = (TfAssociate) session.load(TfAssociate.class, afc.getId());
+			TfClient client = (TfClient) session.load(TfClient.class, afc.getClientId());
+			TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, afc.getMkStatus());
+			tfAssociate.setTfClient(client);
+			tfAssociate.setTfMarketingStatus(status);
+			tfAssociate.setTfClientStartDate(Timestamp.from(Instant.ofEpochSecond(afc.getStartDateUnixTime())));
+			System.out.println(tfAssociate);
+			System.out.println(afc);
+			PersistentStorage.getStorage().updateAssociate(afc.getId(),afc.getClientId(),afc.getMkStatus(),afc.getStartDateUnixTime());
+			session.saveOrUpdate(tfAssociate);
+			t.commit();
+		} catch(HibernateException e) {
+			t.rollback();
+			e.printStackTrace();
+		}
 	}
 
     @Override
@@ -200,6 +229,5 @@ public class AssociateDaoHibernate implements AssociateDao {
     	}
 		return setInfo;
 	}
-
 	
 }

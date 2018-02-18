@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class MarketingStatusInfo  implements Serializable, Comparable<MarketingStatusInfo> {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 52811943506766514L;
 	private Integer id;
 	private String name;

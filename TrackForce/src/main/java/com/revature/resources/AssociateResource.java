@@ -1,13 +1,13 @@
 package com.revature.resources;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -21,7 +21,9 @@ import org.hibernate.HibernateException;
 
 import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
+import com.revature.request.model.AssociateFromClient;
 import com.revature.services.AssociateService;
+import com.revature.services.InterviewService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -125,24 +127,100 @@ public class AssociateResource {
 	 * @throws NumberFormatException 
 	 * @throws IOException
 	 */
+	
+	/**** OPTION 1 ****/
+	
 	@PUT
 	@Path("{associateId}")
 	public Response updateAssociate(
 			@PathParam("associateId") Integer id,
+			AssociateFromClient afc) {
+		service.updateAssociate(afc);
+		return Response.ok().build();
+	}
+
+	/*** OPTION 2 ***/
+/*	
+	@PUT
+	@Path("{associateId}")
+	public Response updateAssociate(
+			@PathParam("associateId") Integer id,
+			String startDate) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		 Transaction tx = session.beginTransaction();
+		// StringBuilder sb = new StringBuilder();
+	        try {
+	        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.UPDATEASSOCIATECLIENTSTARTDATE"); 
+	        	spq.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+	        	spq.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
+	        	spq.setParameter(1, id);
+	        	spq.setParameter(2, startDate);
+	        	spq.execute();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            session.flush();
+	            tx.rollback();
+	        } finally {
+	        	new AssociateDaoHibernate().cacheAllAssociates();
+	            session.close();
+	        }
+	        return Response.ok().build();
+	}
+*/	
+	
+	/**** OPTION 1+2****/
+/*	@PUT
+	@Path("{associateId}")
+	public Response updateAssociate(
+			@PathParam("associateId") Integer id,
 			@DefaultValue("0") @QueryParam("marketingStatusId") Integer marketingStatusId,
-			@DefaultValue("0") @QueryParam("clientId") Integer clientId) {
+			@DefaultValue("0") @QueryParam("clientId") Integer clientId,
+			String startDate) {
 		List<Integer> list = new ArrayList<>();
 		list.add(id);
 		service.updateAssociates(list, marketingStatusId, clientId);
+		
+		//This code separately updates the client start date using a stored procedure
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		 Transaction tx = session.beginTransaction();
+		// StringBuilder sb = new StringBuilder();
+	        try {
+	        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.UPDATEASSOCIATECLIENTSTARTDATE"); 
+	        	spq.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+	        	spq.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
+	        	spq.setParameter(1, id);
+	        	spq.setParameter(2, startDate);
+	        	spq.execute();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            session.flush();
+	            tx.rollback();
+	        } finally {
+	        	new AssociateDaoHibernate().cacheAllAssociates(); //refreshes the associates cache
+	            session.close();
+	        }
+		
 		return Response.ok().build();
 	}
-	
+*/	
 	@GET
 	@Path("{associateid}/interviews")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid) {
 		Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
 		System.out.println(associateinfo);
 		return Response.ok(associateinfo).build();
+	}
+	
+	@POST
+	@Path("{associateid}/interviews")
+	public Response addAssociateInterview(
+			@PathParam("associateid") Integer associateid,
+			InterviewInfo ii
+			) {
+		InterviewService is = new InterviewService();
+		is.addInterviewByAssociate(associateid, ii);
+		System.out.println(ii);
+		return Response.ok().build();
 	}
 
 }

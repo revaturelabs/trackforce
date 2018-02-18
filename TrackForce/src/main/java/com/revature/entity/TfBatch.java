@@ -94,7 +94,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
     inverseJoinColumns= { @JoinColumn(name="TF_TECH_ID", nullable = false, updatable = false)})  
     public Set<TfTech> getTechs()
     {  
-        return techs;  
+        return this.techs;  
     }  
     public void setTechs(Set<TfTech> techs)  
     {  

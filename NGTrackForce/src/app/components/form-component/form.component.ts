@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { Associate } from '../../models/associate.model'
 import { ClientService } from '../../services/client-service/client.service';
@@ -29,6 +30,7 @@ export class FormComponent implements OnInit {
       type: null,
       feedback: null
     };
+    newStartDate: Date;
     message: string = "";
     selectedMarketingStatus: string;
     selectedClient: number;
@@ -52,7 +54,11 @@ export class FormComponent implements OnInit {
         this.associateService.getAssociate(this.id).subscribe(
           data => {
             console.log(data);
-            this.associate = <Associate>data
+            this.associate = <Associate>data;
+            if (data.clientStartDate.toString() == "0")
+              this.associate.clientStartDate = null;
+            else
+              this.associate.clientStartDate = this.adjustDate(data.clientStartDate);
           });
         this.clientService.getAllClients().subscribe(
           data => {
@@ -62,24 +68,60 @@ export class FormComponent implements OnInit {
         this.getInterviews();
     }
 
-    /**
-     * Update the associate with the new client and/or status
-     */
-    updateAssociate() {
-      var ids: number[] = [];
-      ids.push(this.id);
-
-        this.associateService.updateAssociates(ids, Number(this.selectedMarketingStatus), this.selectedClient).subscribe(
-            data => {
-                this.associateService.getAssociate(this.id).subscribe(
-                    data => {
-                        this.associate = <Associate>data
-                    });
-            }
-        )
+    adjustDate(date: Date){ // dates are off by 1 day - this corrects them
+      let ldate = new Date(date);
+      let origDate = ldate.getDate();
+      ldate.setDate(origDate+1);
+      if (ldate.getDate() < 1) {
+        ldate.setMonth(ldate.getMonth() -1)
+        ldate.setDate(origDate);
+      }
+      return ldate;
     }
 
-    getInterviews(){
+    /**
+     * Update the associate with the new client, status, and/or start date
+     */
+    updateAssociate() {
+      if (this.newStartDate) {
+        var dateTime = Number((new Date(this.newStartDate).getTime())/1000);
+      } else {
+        var dateTime = Number((new Date(this.associate.clientStartDate).getTime())/1000);
+      }
+      if (this.selectedMarketingStatus) {
+        var newStatus = Number(this.selectedMarketingStatus);
+      } else {
+        var newStatus = this.associate.msid;
+      }
+      if (this.selectedClient) {
+        var newClient = this.selectedClient;
+      } else {
+        var newClient = this.associate.clid;
+      }
+      var newAssociate = {
+        id: this.id,
+        mkStatus: newStatus,
+        clientId: newClient,
+        startDateUnixTime: dateTime
+      };
+      this.associateService.updateAssociate(newAssociate).subscribe(
+        data => {
+          this.message = "Successfully updated associate";
+          this.associateService.getAssociate(this.id).subscribe(
+            data => {
+              this.associate = <Associate>data;
+              console.log(data.clientStartDate);
+              if (data.clientStartDate.toString() == "0")
+                this.associate.clientStartDate = null;
+              else
+                this.associate.clientStartDate = this.adjustDate(data.clientStartDate);
+              this.resetAllFields();
+          });
+        }
+      )
+    }
+
+    getInterviews() {
       this.associateService.getInterviewsForAssociate(this.id).subscribe(
         data => {
           let tempArr = [];
@@ -96,7 +138,7 @@ export class FormComponent implements OnInit {
           }
           this.interviews = tempArr;
         }
-      );
+      )
     }
 
     toggleForm() {
@@ -105,16 +147,36 @@ export class FormComponent implements OnInit {
 
     addInterview(){
       console.log(this.newInterview);
-      let tempVar = {
+      let interview = {
         client: this.newInterview.client,
-        type: this.newInterview.type,
-        date: this.newInterview.date,
-        feedback: this.newInterview.feedback
-      }
-      this.interviews.push(tempVar);
+        typeId: this.newInterview.type,
+        tfInterviewDate: this.newInterview.date,
+        tfInterviewFeedback: this.newInterview.feedback
+      };
+      this.associateService.addInterviewForAssociate(this.id,interview).subscribe(
+        data => {
+          this.interviews.push({
+            client: interview.client,
+            date: interview.tfInterviewDate,
+            type: interview.typeId,
+            feedback: interview.tfInterviewFeedback
+          });
+        },
+        err => {
+          console.log(err);
+        }
+      )
+      this.message = "Successfully added interview";
+      this.resetAllFields();
+    }
+
+    resetAllFields(){
+      this.formOpen = false;
       this.newInterview.client = null;
       this.newInterview.type = null;
       this.newInterview.date = null;
       this.newInterview.feedback = null;
+      this.selectedClient = null;
+      this.selectedMarketingStatus = null;
     }
-}
+ }

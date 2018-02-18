@@ -26,16 +26,6 @@ export class TechService {
 
     public getPrediction(startTime: number,endTime: number, techs: any) {
       // for each technology, retrieve the number of associates that will be available
-      //return this.http.get<any>(environment.url + this.techPath);
-      let rtn = [];
-      for (let i=0;i<techs.length;i++) {
-        let tech = techs[i];
-        rtn.push({
-          technology: tech.name,
-          requested: tech.requested,
-          available: i+1
-        });
-      }
-      return rtn;
+      return this.http.get<any>(environment.url + "TrackForce/batchtechs/"+startTime+"/"+endTime);
     }
 }

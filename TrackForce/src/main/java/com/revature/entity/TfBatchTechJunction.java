@@ -14,8 +14,8 @@ import com.revature.entity.TfBatch;
 import com.revature.entity.TfTech;
 
 
-@Entity
-@Table(name="TF_BATCH_TECH_JUNCTION", schema="ADMIN")
+//@Entity
+//@Table(name="TF_BATCH_TECH_JUNCTION", schema="ADMIN")
 //@AssociationOverrides({
 //	@AssociationOverride(name="pk.batch", joinColumns=@JoinColumn(name="TF_BATCH_ID")),
 //	@AssociationOverride(name="pk.tech", joinColumns=@JoinColumn(name="TF_TECH_ID"))

@@ -229,8 +229,8 @@
 					<!-- William changed the value of skipTests to true on 2/15/18 -->
 					<!-- to see if we can successfully deploy current build of application -->
 					<!-- this commented out <skipTests> was the original configuration -->
+					<!-- <skipTests>${skip.integration.tests}</skipTests> -->
 					<skipTests>true</skipTests>
-					<!-- <skipTests>true</skipTests>-->
 					<!-- Excludes integration tests when unit tests are run. -->
 					<excludes>
 						<exclude>**/IT*.java</exclude>
@@ -261,8 +261,8 @@
 							<!-- William changed the value of skipTests to true on 2/15/18 -->
 							<!-- to see if we can successfully deploy current build of application -->
 							<!-- this commented out <skipTests> was the original configuration -->
+							<!-- <skipTests>${skip.integration.tests}</skipTests> -->
 							<skipTests>true</skipTests>
-							<!-- <skipTests>true</skipTests>-->
 						</configuration>
 					</execution>
 				</executions>

@@ -61,7 +61,6 @@ public class PredictionDaoImpl implements PredictionDao {
 
 	}
 
-8085/TrackForce/users/test
 	@Override
 	public List GET_COUNT_OF_ALL_BATCH_PER_DATE(Date date1,Date date2, String techname) {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {

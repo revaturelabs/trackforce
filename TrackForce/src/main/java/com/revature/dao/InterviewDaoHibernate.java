@@ -1,6 +1,7 @@
 package com.revature.dao;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfAssociate;
@@ -89,20 +91,29 @@ public class InterviewDaoHibernate implements InterviewDao {
 
 	@Override
 	public void addInterviewForAssociate(int associateid, InterviewFromClient ifc) {
+		Transaction t1 = null;
 		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			System.out.println(ifc);
+			t1 = session.beginTransaction();
 			TfInterview tfi = new TfInterview();
+			String sql = "SELECT MAX(tf_interview_id) FROM admin.tf_interview";
+			Query q = session.createNativeQuery(sql);
+			BigDecimal max = (BigDecimal) q.getSingleResult();
+			System.out.println(max);
+			Integer id = Integer.parseInt(max.toBigInteger().toString()) + 1;
+			tfi.setTfInterviewId(id);
 			tfi.setTfAssociate(session.get(TfAssociate.class, associateid));
 			tfi.setTfInterviewDate(Timestamp.from(new Date(ifc.getInterviewDate()).toInstant()));
 			tfi.setTfInterviewFeedback(ifc.getInterviewFeedback());
 			tfi.setTfClient(session.get(TfClient.class, ifc.getClientId()));
-			tfi.setTfInterviewId(ifc.getTypeId());
 			tfi.setTfInterviewType(session.load(TfInterviewType.class, ifc.getTypeId()));
-			System.out.println(tfi);
+			System.out.println(tfi.getTfInterviewFeedback());
 			session.save(tfi);
+			t1.commit();
         } catch (Exception e) {
             LogUtil.logger.error(e);
             e.printStackTrace();
+            t1.rollback();
         }
 	}
 }

@@ -35,11 +35,20 @@ export class FormComponent implements OnInit {
     };
     newStartDate: Date;
     message: string = "";
-    selectedMarketingStatus: string;
+    selectedMarketingStatus: any;
     selectedClient: number;
     id: number;
     formOpen: boolean;
     isVP: boolean;
+
+    // form booleans
+    isMapped: boolean;
+    eligibleForInterview: boolean;
+    interviewScheduled: boolean;
+    clearedAllInterviews: boolean;
+    receivedEmailFromClient: boolean;
+    passedBackgroundCheck: boolean;
+    hasStartDate: boolean;
 
     /**
       *@param {AssociateService} associateService
@@ -90,6 +99,47 @@ export class FormComponent implements OnInit {
         ldate.setDate(origDate);
       }
       return ldate;
+    }
+
+    processForm() {
+      if (this.hasStartDate) {
+        if (Date.now() < new Date(this.newStartDate).getTime())
+        // if start date is before today, set status to MAPPED: DEPLOYED
+          this.selectedMarketingStatus = 10;
+        else
+        // if start date is after today, set status to MAPPED: CONFIRMED
+          this.selectedMarketingStatus = 9
+      }
+      else if (this.passedBackgroundCheck && this.hasStartDate) {
+        // if background check is passed and associate has start date, set status to MAPPED: CONFIRMED
+        this.selectedMarketingStatus = 9;
+      }
+      else if (this.clearedAllInterviews) {
+        // if interviews are cleared, set status to MAPPED: SELECTED
+        this.selectedMarketingStatus = 8;
+      }
+      else if (this.interviewScheduled) {
+        // if an interview is scheduled, set status to MAPPED: RESERVED
+        this.selectedMarketingStatus = 8;
+      }
+      else if (this.eligibleForInterview) {
+        if (this.isMapped)
+          // if associate is mapped and eligible for an interview, set status to MAPPED: TRAINING
+          this.selectedMarketingStatus = 1;
+        else
+          // if associate is NOT mapped, set status to UNMAPPED: TRAINING
+          this.selectedMarketingStatus = 6;
+      }
+      else if (this.isMapped) {
+        // if associate is mapped, set status to MAPPED: TRAINING
+        this.selectedMarketingStatus = 1;
+      }
+      else { // associate is unmapped
+        // set status to UNMAPPED: TRAINING
+        this.selectedMarketingStatus = 6;
+      }
+      // this.updateAssociate();
+      console.log(this.eligibleForInterview);
     }
 
     /**

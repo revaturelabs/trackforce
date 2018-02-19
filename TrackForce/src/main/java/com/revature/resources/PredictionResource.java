@@ -12,21 +12,21 @@ import javax.ws.rs.core.Response;
 
 import org.hibernate.HibernateException;
 
-import com.revature.dao.JunctionDaoImpl;
-import com.revature.services.BatchTechsService;
+import com.revature.dao.PredictionDaoImpl;
+import com.revature.services.PredictionService;
 
 //import com.revature.services.BatchTechsService;
 
-@Path("batchtechs")
+@Path("prediction")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class BatchTechsResource {
+public class PredictionResource {
 
 
-    private BatchTechsService service;
+    private PredictionService service;
 
-    public BatchTechsResource() {
-        this.service = new BatchTechsService();
+    public PredictionResource() {
+        this.service = new PredictionService();
     }
 
     @GET
@@ -48,6 +48,6 @@ public class BatchTechsResource {
     		)throws IOException {
     	Date afterThis = new Date(time1);
     	Date beforeThis = new Date(time2);
-    	return Response.ok(new JunctionDaoImpl().getTotalAssociatesByTechBetweenDates(afterThis, beforeThis)).build();
+    	return Response.ok(new PredictionDaoImpl().getTotalAssociatesByTechBetweenDates(afterThis, beforeThis)).build();
     }
 }

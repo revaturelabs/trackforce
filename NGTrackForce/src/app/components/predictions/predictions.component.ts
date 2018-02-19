@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TechService} from '../../services/tech-service/tech.service';
+import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
+import { PredictionService} from '../../services/prediction-service/prediction.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 //import {FormsComponent} from '@angular/core';
 
@@ -19,130 +20,27 @@ export class PredictionsComponent implements OnInit {
   public results: any;
   public message: string = "";
 
-  constructor(private ts: TechService) { }
+  constructor(private ss: SkillsetService, private ps: PredictionService) { }
 
   ngOnInit() {
-    this.getListOfTechnologies();
-    // this.technologies =
-    // [
-    //   {
-    //     id: 1,
-    //     name: "Java",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 2,
-    //     name: "SQL",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 3,
-    //     name: "HTML",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 4,
-    //     name: "Bootstrap",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 5,
-    //     name: "CSS",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 6,
-    //     name: "JavaScript",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 7,
-    //     name: "Angular",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 8,
-    //     name: "TestNG",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 9,
-    //     name: "Cucumber",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 10,
-    //     name: "Selenium",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 11,
-    //     name: "REST",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 12,
-    //     name: "Jasmine",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 13,
-    //     name: "Protractor",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 14,
-    //     name: "C#",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 15,
-    //     name: "Hibernate",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 16,
-    //     name: "Servlets",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 17,
-    //     name: "Jenkins",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 18,
-    //     name: "Amazon Web Services",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 19,
-    //     name: "JUnit",
-    //     selected: false
-    //   },
-    //   {
-    //     id: 20,
-    //     name: "Log4j",
-    //     selected: false
-    //   }
-    // ]
+    this.getListofCurricula();
   }
 
   toggleCheckboxes() {
     this.expanded = !this.expanded;
   }
 
-  getListOfTechnologies() {
-    this.ts.getAllTechnologies().subscribe(
+  getListofCurricula() {
+    this.ss.getAllCurricula().subscribe(
       data => {
         console.log(data);
         let tempArray = [];
         for (let i=0;i<data.length;i++) {
           let tech = data[i];
           let localtech = {
-            id: tech[0],
-            name: tech[1],
-            seleted: false
+            id: tech.id,
+            name: tech.name,
+            selected: false
           }
           tempArray.push(localtech);
         }
@@ -175,7 +73,7 @@ export class PredictionsComponent implements OnInit {
     console.log(endTime);
     if (startTime && endTime && selectedTechnologies.length > 0) {
       this.message = "";
-      this.ts.getPrediction(startTime,endTime,selectedTechnologies).subscribe(
+      this.ps.getPrediction(startTime,endTime,selectedTechnologies).subscribe(
         data => {
           console.log(data);
           this.results = [];

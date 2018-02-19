@@ -6,6 +6,7 @@ import { Client } from '../../models/client.model';
 import { ClientService } from '../../services/client-service/client.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { User } from '../../models/user.model';
+import { ActivatedRoute } from '@angular/router';
 
 /**
  * Component for the Associate List page
@@ -52,7 +53,8 @@ export class AssociateListComponent implements OnInit {
   constructor(
     private associateService: AssociateService,//TfAssociate,
     private clientService: ClientService,
-    private rs: RequestService
+    private rs: RequestService,
+    private activated: ActivatedRoute
   ) {
     this.curriculums = new Set<string>();
   }
@@ -65,14 +67,17 @@ export class AssociateListComponent implements OnInit {
     this.getAllAssociates(); //grab associates and clients from back end
     this.getClientNames();
     //if navigating to this page from clicking on a chart of a different page, set default filters
-    var url = window.location.href.split("/"); //get current url
-    console.log(url);
-    if (url.length == 8) {//if values passed in, search by values
-      if (url[4] == "client")
-        this.searchByClient = url[5];
-      else if (url[4] == "curriculum")
-        this.searchByCurriculum = url[5];
-      this.searchByStatus = url[6].toUpperCase() + ": " + url[7].toUpperCase();
+    let paramMap = this.activated.snapshot.paramMap;
+    let CliOrCur = paramMap.get("CliOrCur");
+    let name = paramMap.get("name");
+    let mapping = paramMap.get("mapping");
+    let status = paramMap.get("status");
+    if (CliOrCur) {//if values passed in, search by values
+      if (CliOrCur == "client")
+        this.searchByClient = name;
+      else if (CliOrCur == "curriculum")
+        this.searchByCurriculum = name;
+      this.searchByStatus = mapping.toUpperCase() + ": " + status.toUpperCase();
     }
   }
 

@@ -21,7 +21,7 @@ Feature: Client List Tab
   I want to use this template for my feature file
 
   @tag1
-  Scenario outline: I search by client name and view their data
+  Scenario Outline: I search by client name and view their data
     Given I click on Client List Tab
     And Client List loads
     And Client List panel loads
@@ -31,7 +31,7 @@ Feature: Client List Tab
     And I click the top client in the Clients list
     Then The client's data should show in the graph
     
-  Scenario outline: I use the View Data for All Clients button
+  Scenario Outline: I use the View Data for All Clients button
     Given I click on Client List Tab
     And Client List loads
     And Client List panel loads
@@ -39,7 +39,7 @@ Feature: Client List Tab
     When I click on the View Data for All Clients button
     Then All client's data should show in the graph
     
-  Scenario outline: I click on a client name and view their data
+  Scenario Outline: I click on a client name and view their data
     Given I click on Client List Tab
     And Client List loads
     And Client List panel loads
@@ -54,7 +54,7 @@ Feature: Client List Tab
 
 
 @tag2
-	Scenario outline: I search by client name but change it to another client and view their data instead
+	Scenario Outline: I search by client name but change it to another client and view their data instead
 	Given I click on Client List Tab
     And Client List loads
     And Client List panel loads
@@ -65,7 +65,7 @@ Feature: Client List Tab
     And I click the top client in the Clients list
     Then The client's data should show in the graph
     
-    Scenario outline: I search by client name but use the View Data for All Clients button instead
+    Scenario Outline: I search by client name but use the View Data for All Clients button instead
     Given I click on Client List Tab
     And Client List loads
     And Client List panel loads
@@ -74,7 +74,7 @@ Feature: Client List Tab
     But I click on the View Data for All Clients button
     Then All client's data should show in the graph
     
-    Scenario outline: I search by client name but want to clear the search bar and click on a client name instead
+    Scenario Outline: I search by client name but want to clear the search bar and click on a client name instead
 		Given I click on Client List Tab
     And Client List loads
     And Client List panel loads

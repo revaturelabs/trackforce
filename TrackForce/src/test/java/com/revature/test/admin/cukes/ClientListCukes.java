@@ -98,7 +98,9 @@ public class ClientListCukes extends AdminSuite {
 		try {
 			currentClient = firstClient;
 			search_bar_is_blank(d);
+			Thread.sleep(500);
 			ClientListTab.getClientSearchBox(d).sendKeys(currentClient);
+			Thread.sleep(500);
 			if (ClientListTab.getClientSearchBar(d).getAttribute("value").equals(currentClient)){
 				return true;
 			}
@@ -146,7 +148,7 @@ public class ClientListCukes extends AdminSuite {
 			}
 			else { //Wait even longer, then check to see if header is updated now
 				Thread.sleep(1000);
-				if (ClientListTab.getBarChartHeader(d).getText().equals("Total Associates")) {
+				if (ClientListTab.getBarChartHeader(d).getText().equals(currentClient)) {
 					return true;
 				}
 			}

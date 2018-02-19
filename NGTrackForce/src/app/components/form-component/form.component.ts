@@ -164,7 +164,7 @@ export class FormComponent implements OnInit {
         associateId: this.id,
         clientId: this.newInterview.client,
         typeId: this.newInterview.type,
-        interviewDate: this.newInterview.date,
+        interviewDate: new Date(this.newInterview.date).getTime(),
         interviewFeedback: this.newInterview.feedback
       };
       this.associateService.addInterviewForAssociate(this.id,interview).subscribe(

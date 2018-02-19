@@ -96,7 +96,7 @@
                <div class="col-sm-9">
                  <select class="form-control" name="newClient" [(ngModel)]="newInterview.client">
                      <option selected="selected">None</option>
-                     <option *ngFor="let client of clients">{{client.name}}</option>
+                     <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
                  </select>
                </div>
             </div>

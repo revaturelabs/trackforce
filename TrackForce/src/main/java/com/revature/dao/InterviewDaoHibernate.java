@@ -93,13 +93,11 @@ public class InterviewDaoHibernate implements InterviewDao {
 	public void addInterviewForAssociate(int associateid, InterviewFromClient ifc) {
 		Transaction t1 = null;
 		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-			System.out.println(ifc);
 			t1 = session.beginTransaction();
 			TfInterview tfi = new TfInterview();
 			String sql = "SELECT MAX(tf_interview_id) FROM admin.tf_interview";
 			Query q = session.createNativeQuery(sql);
 			BigDecimal max = (BigDecimal) q.getSingleResult();
-			System.out.println(max);
 			Integer id = Integer.parseInt(max.toBigInteger().toString()) + 1;
 			tfi.setTfInterviewId(id);
 			tfi.setTfAssociate(session.get(TfAssociate.class, associateid));
@@ -107,8 +105,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 			tfi.setTfInterviewFeedback(ifc.getInterviewFeedback());
 			tfi.setTfClient(session.get(TfClient.class, ifc.getClientId()));
 			tfi.setTfInterviewType(session.load(TfInterviewType.class, ifc.getTypeId()));
-			System.out.println(tfi.getTfInterviewFeedback());
-			session.save(tfi);
+			session.saveOrUpdate(tfi);
 			t1.commit();
         } catch (Exception e) {
             LogUtil.logger.error(e);

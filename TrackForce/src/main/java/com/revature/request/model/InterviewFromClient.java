@@ -2,16 +2,25 @@ package com.revature.request.model;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+@XmlRootElement
 public class InterviewFromClient implements Serializable {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5177141649099174290L;
+	
+	@XmlElement
 	private Integer associateId;
+	@XmlElement
 	private Integer clientId;
+	@XmlElement
 	private Integer typeId;
+	@XmlElement
 	private long interviewDate;
+	@XmlElement
 	private String interviewFeedback;
 	public Integer getAssociateId() {
 		return associateId;

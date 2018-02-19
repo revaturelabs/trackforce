@@ -4,6 +4,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
+import { ClientService } from '../../services/client-service/client.service';
 /**
 *@author Michael Tseng
 *
@@ -19,27 +20,27 @@ import { ActivatedRoute } from '@angular/router';
 export class AssociateViewComponent implements OnInit {
   public associate: Associate = new Associate();
   public interviews: Array<any> = [
-    {
-      id: 1,
-      client: "Accenture",
-      date: new Date(),
-      type: "Phone",
-      feedback: "Good"
-    },
-    {
-      id: 2,
-      client: "Revature",
-      date: new Date(),
-      type: "On-site",
-      feedback: "Bad"
-    },
-    {
-      id: 3,
-      client: "FINRA",
-      date: new Date(),
-      type: "Skype",
-      feedback: "Okay"
-    }
+    // {
+    //   id: 1,
+    //   client: "Accenture",
+    //   date: new Date(),
+    //   type: "Phone",
+    //   feedback: "Good"
+    // },
+    // {
+    //   id: 2,
+    //   client: "Revature",
+    //   date: new Date(),
+    //   type: "On-site",
+    //   feedback: "Bad"
+    // },
+    // {
+    //   id: 3,
+    //   client: "FINRA",
+    //   date: new Date(),
+    //   type: "Skype",
+    //   feedback: "Okay"
+    // }
   ]
   public messages: Array<string> = ["I cleared my interview with FINRA","Please update my status"];
   public newMessage: string = "";
@@ -50,24 +51,15 @@ export class AssociateViewComponent implements OnInit {
     feedback: null
   }
   public selectedMarketingStatus: string;
-  public clients: Array<any> = [
-    {
-      name: "Accenture"
-    },
-    {
-      name: "Revature"
-    },
-    {
-      name: "FINRA"
-    }
-  ]
+  public clients: Array<any> = [];
   public selectedClient: string = "";
   public formOpen: boolean = false;
 
   constructor(
     private associateService: AssociateService,
     private authService: AuthenticationService,
-    private activated: ActivatedRoute) { }
+    private activated: ActivatedRoute,
+    private clientService: ClientService) { }
 
   ngOnInit() {
     //gets the associate id from the path
@@ -75,6 +67,7 @@ export class AssociateViewComponent implements OnInit {
     let id = +this.activated.snapshot.paramMap.get('id');
     this.getAssociate(id);
     this.getInterviews(id);
+    this.getClients();
   }
 
   /**
@@ -93,6 +86,16 @@ export class AssociateViewComponent implements OnInit {
     });
   }
 
+  getClients(){
+    this.clientService.getAllClients().subscribe(
+      data => {
+        this.clients = data;
+      },
+      err => {
+        console.log(err);
+    });
+  }
+
   toggleForm() {
     this.formOpen = !this.formOpen;
   }
@@ -104,22 +107,52 @@ export class AssociateViewComponent implements OnInit {
     }
   }
 
-  addInterview() {
+  addInterview(){
     console.log(this.newInterview);
-    let tempVar = {
-      client: this.newInterview.client,
-      type: this.newInterview.type,
-      date: this.newInterview.date,
-      feedback: this.newInterview.feedback
-    }
-    this.interviews.push(tempVar);
-    this.newInterview.client = null;
-    this.newInterview.type = null;
-    this.newInterview.date = null;
-    this.newInterview.feedback = null;
+    let interview = {
+      associateId: this.associate.id,
+      clientId: this.newInterview.client,
+      typeId: this.newInterview.type,
+      interviewDate: new Date(this.newInterview.date).getTime(),
+      interviewFeedback: this.newInterview.feedback
+    };
+    this.associateService.addInterviewForAssociate(this.associate.id,interview).subscribe(
+      data => {
+        this.interviews.push({
+          client: interview.clientId,
+          date: interview.interviewDate,
+          type: interview.typeId,
+          feedback: interview.interviewFeedback
+        });
+      },
+      err => {
+        console.log(err);
+      }
+    )
+
   }
 
   getInterviews(id: number) {
+    this.associateService.getInterviewsForAssociate(id).subscribe(
+      data => {
+        let tempArr = [];
+        for (let i=0;i<data.length;i++) {
+          let interview = data[i];
+          let intObj = {
+            id: interview.id,
+            client: interview.tfClientName,
+            date: new Date(interview.tfInterviewDate),
+            type: interview.typeName,
+            feedback: interview.tfInterviewFeedback
+          }
+          tempArr.push(intObj);
+        }
+        this.interviews = tempArr;
+      }
+    )
+  }
+
+  //getInterviews(id: number) {
     // this.associateService.getInterviewsForAssociate(id).subscribe(
     //   data => {
     //     let tempArr = [];

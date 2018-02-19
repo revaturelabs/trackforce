@@ -216,7 +216,6 @@ public class AssociateResource {
 	@Path("{associateid}/interviews")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid) {
 		Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
-		System.out.println(associateinfo);
 		return Response.ok(associateinfo).build();
 	}
 	
@@ -224,11 +223,9 @@ public class AssociateResource {
 	@Path("{associateid}/interviews")
 	public Response addAssociateInterview(
 			@PathParam("associateid") Integer associateid,
-			InterviewFromClient ifc
-			) {
+			InterviewFromClient ifc) {
 		InterviewService is = new InterviewService();
 		is.addInterviewByAssociate(associateid, ifc);
-		System.out.println(ifc);
 		return Response.ok().build();
 	}
 

@@ -13,7 +13,10 @@ import org.hibernate.HibernateException;
 
 import com.revature.services.CurriculumService;
 
+import io.swagger.annotations.Api;
+
 @Path("skillset")
+@Api(value = "skillset")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class CurriculumResource {

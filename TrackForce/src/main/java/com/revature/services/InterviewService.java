@@ -22,6 +22,7 @@ import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumInfo;
 import com.revature.model.InterviewInfo;
 import com.revature.model.TechInfo;
+import com.revature.request.model.InterviewFromClient;
 import com.revature.utils.PersistentStorage;
 
 public class InterviewService implements Service {
@@ -55,34 +56,10 @@ public class InterviewService implements Service {
         return interviews;
 	}
 
-    /**
-	 * Returns a Response object from StatusInfoUtil with a List of Map objects as     //not related to this class, but left for editing later
-	 * an entity. The format of the Map objects are as follows: <br>
-	 * name: (name of Tech) <br>
-	 * count: (count of desired status)
-	 *
-	 * @param statusid
-	 *            Status id of the status/stage of associates that the requester
-	 *            wants information for.
-	 * @return a Response object with a List of Map objects as an entity.
-	 * @throws IOException
-	 * @throws HibernateException
-	 */
-/*    
-    public Map<Integer, InterviewInfo> getInterviewsByAssociate(int associateId) {
-    	//stuff!
+    
+    public void addInterviewByAssociate(int associateId, InterviewFromClient ifc) {
+    	interviewDao.addInterviewForAssociate(associateId, ifc);
     }
- */
-
-
-	public Set<InterviewInfo> getTechs() throws HibernateException, IOException{
-		return interviewDao.getInterviewFromCache();
-	}
-	/*
-	 public InterviewInfo getInterviewById(Integer id) throws IOException {
-	    	return interviewDao.getInterviewsByAssociate(id);
-	    }
-	    */
 
 	@Override
 	public synchronized void execute() throws IOException {

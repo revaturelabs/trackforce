@@ -7,6 +7,8 @@ import { Client } from '../../models/client.model';
 import { element } from 'protractor';
 import { ActivatedRoute } from "@angular/router"
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
+import { User } from '../../models/user.model';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 
 /**
  * Component for viewing an individual associate and editing as admin.
@@ -21,6 +23,7 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
   */
 @AutoUnsubscribe
 export class FormComponent implements OnInit {
+    user: User;
     associate: Associate = new Associate();
     clients: Client[];
     interviews: any;
@@ -36,6 +39,7 @@ export class FormComponent implements OnInit {
     selectedClient: number;
     id: number;
     formOpen: boolean;
+    isVP: boolean;
 
     /**
       *@param {AssociateService} associateService
@@ -43,7 +47,8 @@ export class FormComponent implements OnInit {
       */
     constructor(
       private associateService: AssociateService,
-      private clientService: ClientService
+      private clientService: ClientService,
+      private authService: AuthenticationService
     ) {
         //gets id from router url parameter
         var id = window.location.href.split("form-comp/")[1];
@@ -51,6 +56,14 @@ export class FormComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.user = this.authService.getUser();
+        //Role checks
+        if(this.user.tfRoleId === 3){
+          this.isVP = true;
+        } else {
+          this.isVP = false;
+        }
+
         this.associateService.getAssociate(this.id).subscribe(
           data => {
             console.log(data);
@@ -147,13 +160,25 @@ export class FormComponent implements OnInit {
 
     addInterview(){
       console.log(this.newInterview);
-      let tempVar = {
+      let interview = {
         client: this.newInterview.client,
-        type: this.newInterview.type,
-        date: this.newInterview.date,
-        feedback: this.newInterview.feedback
-      }
-      this.interviews.push(tempVar);
+        typeId: this.newInterview.type,
+        tfInterviewDate: this.newInterview.date,
+        tfInterviewFeedback: this.newInterview.feedback
+      };
+      this.associateService.addInterviewForAssociate(this.id,interview).subscribe(
+        data => {
+          this.interviews.push({
+            client: interview.client,
+            date: interview.tfInterviewDate,
+            type: interview.typeId,
+            feedback: interview.tfInterviewFeedback
+          });
+        },
+        err => {
+          console.log(err);
+        }
+      )
       this.message = "Successfully added interview";
       this.resetAllFields();
     }

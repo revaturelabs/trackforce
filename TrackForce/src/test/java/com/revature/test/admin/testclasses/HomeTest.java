@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.revature.test.admin.cukes.HomeTabCukes;
-import com.revature.test.admin.pom.HomeTab;
 
 public class HomeTest extends AdminSuite {
 

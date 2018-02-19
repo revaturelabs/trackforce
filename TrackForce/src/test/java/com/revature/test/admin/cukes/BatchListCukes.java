@@ -1,28 +1,22 @@
 package com.revature.test.admin.cukes;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.revature.test.admin.pom.BatchListTab;
 import com.revature.test.utils.TestConfig;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class BatchListCukes {
+
 	@Given("^The Batch List Tab is clicked$")
 	public static boolean the_Batch_List_Tab_is_clicked(WebDriver wd) throws Throwable {
 
@@ -131,12 +125,17 @@ public class BatchListCukes {
 	@Given("^the From date is entered$")
 	public static boolean the_From_date_is_entered(WebDriver wd) throws Throwable {
 		try {
-			// Enter data into the From date field
+			// click the From date field
 			BatchListTab.fromDateField(wd).click();
+			// automatically push the left arrow on the keyboard
 			BatchListTab.fromDateField(wd).sendKeys(Keys.LEFT);
+			// automatically push the left arrow on the keyboard
 			BatchListTab.fromDateField(wd).sendKeys(Keys.LEFT);
+			// enters 11 as the month value
 			BatchListTab.fromDateField(wd).sendKeys("9");
+			// enters 15 as the day value
 			BatchListTab.fromDateField(wd).sendKeys("15");
+			// enters 2017 as the year value
 			BatchListTab.fromDateField(wd).sendKeys("2017");
 			return true;
 		} catch (Throwable e) {
@@ -166,12 +165,17 @@ public class BatchListCukes {
 	@Given("^the To date is entered$")
 	public static boolean the_To_date_is_entered(WebDriver wd) throws Throwable {
 		try {
-			// Enter data into the To date field
+			// click to Date field
 			BatchListTab.toDateField(wd).click();
+			// automatically push the left arrow on the keyboard
 			BatchListTab.toDateField(wd).sendKeys(Keys.LEFT);
+			// automatically push the left arrow on the keyboard
 			BatchListTab.toDateField(wd).sendKeys(Keys.LEFT);
+			// enters 11 as the month value
 			BatchListTab.toDateField(wd).sendKeys("11");
+			// enters 15 as the day value
 			BatchListTab.toDateField(wd).sendKeys("15");
+			// enters 2017 as the year value
 			BatchListTab.toDateField(wd).sendKeys("2017");
 			return true;
 		} catch (Throwable e) {
@@ -183,6 +187,7 @@ public class BatchListCukes {
 	@Given("^the submit button is clicked$")
 	public static boolean the_submit_button_is_clicked(WebDriver wd) throws Throwable {
 		try {
+			// clicks the submit button
 			BatchListTab.submitButton(wd).click();
 			return true;
 		} catch (Throwable e) {
@@ -192,13 +197,16 @@ public class BatchListCukes {
 	}
 
 	@Then("^the batch list should update to show only the batches which fit the entered criteria$")
-	public static boolean the_batch_list_should_update_to_show_only_the_batches_which_fit_the_entered_criteria(WebDriver wd) throws Throwable {
+	public static boolean the_batch_list_should_update_to_show_only_the_batches_which_fit_the_entered_criteria(
+			WebDriver wd) throws Throwable {
+		//verifies that the correct results are being shown
 		return BatchListTab.correctResults(BatchListTab.getStartDates(wd), BatchListTab.getEndDates(wd), wd);
 	}
 
 	@Given("^the reset button is clicked$")
 	public static boolean the_reset_button_is_clicked(WebDriver wd) throws Throwable {
 		try {
+			// clicks the reset button 
 			BatchListTab.resetButton(wd).click();
 			return true;
 		} catch (Throwable e) {
@@ -209,6 +217,7 @@ public class BatchListCukes {
 
 	@Then("^the batch list should show all batches$")
 	public static boolean the_batch_list_should_show_all_batches(WebDriver wd) throws Throwable {
+		//verifies that all batches are showing 
 		return BatchListTab.allBatchesAfterReset(BatchListTab.getStartDates(wd), BatchListTab.getEndDates(wd), wd);
 	}
 }

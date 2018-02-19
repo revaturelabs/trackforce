@@ -1,7 +1,6 @@
 package com.revature.entity;
 
 import java.math.BigDecimal;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

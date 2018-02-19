@@ -1,25 +1,18 @@
 package com.revature.test.admin.cukes;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.revature.test.admin.pom.AssociateListTab;
-import com.revature.test.utils.WaitToLoad;
-
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
-import java.util.Collections;
 
 public class AssociateListCukes {
 
@@ -30,6 +23,8 @@ public class AssociateListCukes {
 	public static boolean i_m_on_the_asssociate_list_page(WebDriver driver) throws Throwable {
 
 		try {
+			// defines the static element which was declared at the top of the class
+			// navigates to the associate list tab, and clicks it
 			element = AssociateListTab.tab(driver);
 			element.click();
 			System.out.println("Clicked Associate List tab");
@@ -46,10 +41,11 @@ public class AssociateListCukes {
 	// **************FILTER BY SEARCHING ASSOCIATE ID **********************
 	@Given("^I know the associates ids$")
 	public static void i_know_the_associates_ids(WebDriver driver) throws Throwable {
-
+		// creates an arrayList of web elements and populates it with the associate ids
 		List<WebElement> filteredListElements = new ArrayList<>();
 		filteredListElements = AssociateListTab.associateIdList(driver);
 
+		// loops through the just created arrayList and gets the text associated with each element
 		for (WebElement element : filteredListElements) {
 			searchValues.add(element.getText());
 		}
@@ -58,10 +54,13 @@ public class AssociateListCukes {
 	@When("^I input the associate id in the search by input field$")
 	public static boolean i_input_the_associate_id_in_the_search_by_input_field(WebDriver driver) throws Throwable {
 		boolean isFiltered = false;
+		
+		// defines the static element which was declared at the top of the class
 		element = AssociateListTab.searchByTextInputField(driver);
 
 		i_know_the_associates_ids(driver);
 
+		// loops through each element and grabs each id, then filters by a specific id
 		try {
 			for (String id : searchValues) {
 				element.sendKeys(id);
@@ -80,8 +79,11 @@ public class AssociateListCukes {
 
 	@Then("^The table is filtered by that associate id$")
 	public static boolean the_table_is_filtered_by_that_associate_id(WebDriver driver) throws Throwable {
+		
+		// creates a list of WebElements and populates it with associate ids
 		List<WebElement> filteredClients = AssociateListTab.associateIdList(driver);
 
+		// loops through the list which was just created to check if the list contains the proper values  
 		for (WebElement e : filteredClients) {
 			if (!(e.getText().contains(element.getAttribute("value")))) {
 				return false;
@@ -94,10 +96,14 @@ public class AssociateListCukes {
 	// ************** FILTER BY SEARCHING FIRST NAME ********************
 	@Given("^I know associates first name$")
 	public static void i_know_associates_first_name(WebDriver driver) throws Throwable {
+		
+		// creates a new arrayList of WebElements
 		List<WebElement> filteredListElements = new ArrayList<>();
 
+		// populates the list with associate first names
 		filteredListElements = AssociateListTab.firstNameList(driver);
 
+		// loops through the list and adds elements which contain first names of associates
 		for (WebElement element : filteredListElements) {
 			// Thread.sleep(1000);
 			searchValues.add(element.getText());
@@ -108,11 +114,15 @@ public class AssociateListCukes {
 	public static boolean i_input_the_associate_first_name_in_the_search_by_input_field(WebDriver driver)
 			throws Throwable {
 		boolean isFiltered = false;
+		
+		// defines the static element which was declared at the top of the class
+		// accesses the search by text input field
 		element = AssociateListTab.searchByTextInputField(driver);
 
 		i_know_associates_first_name(driver);
 
 		try {
+			//loops through searchValues tree and sends the first names, then checks to see if the list is filtered properly
 			for (String firstName : searchValues) {
 				element.sendKeys(firstName);
 				System.out.println("Filter by searching first name: " + firstName);
@@ -130,8 +140,11 @@ public class AssociateListCukes {
 
 	@Then("^The table is filtered by that first name$")
 	public static boolean the_table_is_filtered_by_that_first_name(WebDriver driver) throws Throwable {
+		
+		// creates a list of WebElements and populates it with associate first names
 		List<WebElement> filteredClients = AssociateListTab.firstNameList(driver);
 
+		// loops through the filteredClients list and checks whether the table is filtered by the first name
 		for (WebElement e : filteredClients) {
 			if (!(e.getText().contains(element.getAttribute("value")))) {
 				return false;
@@ -145,10 +158,14 @@ public class AssociateListCukes {
 
 	@Given("^I know associates last name$")
 	public static void i_know_associates_last_name(WebDriver driver) throws Throwable {
+		
+		// creates a list of WebElements and populates it with associate last names
 		List<WebElement> filteredListElements = new ArrayList<>();
 
+		// populates the list with associate last names
 		filteredListElements = AssociateListTab.lastNameList(driver);
 
+		// loops through the list and adds elements which contain last names of associates
 		for (WebElement element : filteredListElements) {
 			// Thread.sleep(1000);
 			searchValues.add(element.getText());
@@ -159,11 +176,15 @@ public class AssociateListCukes {
 	public static boolean i_input_the_associate_last_name_in_the_search_by_input_field(WebDriver driver)
 			throws Throwable {
 		boolean isFiltered = false;
+		
+		// defines the static element which was declared at the top of the class
+		// accesses the search by text input field
 		element = AssociateListTab.searchByTextInputField(driver);
 
 		i_know_associates_last_name(driver);
 
 		try {
+			//loops through searchValues tree and sends the last names, then checks to see if the list is filtered properly
 			for (String lastName : searchValues) {
 				element.sendKeys(lastName);
 				System.out.println("Filter by searching last name: " + lastName);
@@ -180,8 +201,11 @@ public class AssociateListCukes {
 
 	@Then("^The table is filtered by that last name$")
 	public static boolean the_table_is_filtered_by_that_last_name(WebDriver driver) throws Throwable {
+		
+		// creates a list of WebElements and populates it with associate last names
 		List<WebElement> filteredLastName = AssociateListTab.lastNameList(driver);
 
+		// loops through the filteredClients list and checks whether the table is filtered by the last name
 		for (WebElement e : filteredLastName) {
 			if (!(e.getText().contains(element.getAttribute("value")))) {
 				return false;
@@ -196,10 +220,12 @@ public class AssociateListCukes {
 
 	@Given("^I know associates marketing status$")
 	public static void i_know_associates_marketing_status(WebDriver driver) throws Throwable {
+		// creates a list of WebElements and populates it with associate marketing status
 		List<WebElement> filteredListElements = new ArrayList<>();
 
 		filteredListElements = AssociateListTab.marketingStatusList(driver);
 
+		// loops through the list and adds elements which contain the marketing status of associates
 		for (WebElement element : filteredListElements) {
 			// Thread.sleep(1000);
 			searchValues.add(element.getText());
@@ -210,11 +236,15 @@ public class AssociateListCukes {
 	public static boolean i_input_the_associate_marketing_status_in_the_search_by_input_field(WebDriver driver)
 			throws Throwable {
 		boolean isFiltered = false;
+		
+		// defines the static element which was declared at the top of the class
+		// accesses the search by text input field
 		element = AssociateListTab.searchByTextInputField(driver);
 
 		i_know_associates_marketing_status(driver);
 
 		try {
+			//loops through searchValues tree and sends the marketing status, then checks to see if the list is filtered properly
 			for (String status : searchValues) {
 				element.sendKeys(status);
 				System.out.println("Filter by searching marketing status: " + status);

@@ -6,7 +6,6 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import com.revature.test.admin.cukes.BatchListCukes;
-import com.revature.test.admin.pom.BatchListTab;
 
 public class BatchListTest extends AdminSuite {
 	
@@ -96,7 +95,7 @@ public class BatchListTest extends AdminSuite {
 	}
 	
 	@Test(priority = 9)
-	//possible use case
+	//possible use case where a user would enter dates into the From and To fields, clicks submit, and sees the proper batches appear 
 	public void useCase1() throws Throwable {
 		assertTrue(BatchListCukes.the_From_date_is_entered(wd));
 		Thread.sleep(1000);

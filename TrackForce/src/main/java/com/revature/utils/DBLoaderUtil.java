@@ -3,9 +3,6 @@ package com.revature.utils;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Properties;
-
-import javax.sql.DataSource;
 import javax.swing.JOptionPane;
 
 import org.hibernate.HibernateException;

@@ -1,11 +1,11 @@
 import { LoginPage } from './login.po';
 
-xdescribe('login page element existences', () => {
+describe('login page element existences', () => {
   let page: LoginPage;
 
   beforeAll(() => {
-    page = new LoginPage();
-    page.navigateTo();
+   // page = new LoginPage();
+   // page.navigateTo();
   });
 
   it('should have a username input box', () => {
@@ -33,7 +33,7 @@ xdescribe('login page element existences', () => {
   });
 });
 
-xdescribe('confirm login navigation', () => {
+describe('confirm login navigation', () => {
   let page: LoginPage;
 
   beforeAll(() => {

@@ -141,7 +141,7 @@ public class AssociateListTab {
 			e.printStackTrace();
 		}
 		                                  
-		List<WebElement> list = d         //*[@id="info"]/table/tbody//td[2]/a
+		List<WebElement> list = d         // *[@id="info"]/table/tbody//td[2]/a
 				.findElements(By.xpath("//*[@id=\"info\"]/table/tbody/*/td[2]/a"));
 		
 		System.out.println("Retrieved associat id into list");

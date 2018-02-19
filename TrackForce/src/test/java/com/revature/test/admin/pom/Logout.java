@@ -1,10 +1,7 @@
 package com.revature.test.admin.pom;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import com.revature.test.utils.WaitToLoad;
 
 public class Logout {
 	static WebElement e = null;

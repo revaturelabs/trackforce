@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="container" ng-init="">
+<div class="container min-height" ng-init="">
   <div class="row">
     <div class="alert alert-success" *ngIf="message">
       <h5 class="text-success">{{message}}</h5>
@@ -40,7 +40,7 @@
           </tbody>
         </table>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="!isVP">
         <div class="col-sm-6">
           <h3>Change Status</h3>
           <div class="form-group">
@@ -93,7 +93,7 @@
           </tr>
         </tbody>
       </table>
-      <button type="button" class="btn btn-primary" (click)="toggleForm()">Toggle Create New Interview Form</button>
+      <button type="button" *ngIf="!isVP" class="btn btn-primary" (click)="toggleForm()">Toggle Create New Interview Form</button>
       <div class="row" *ngIf="formOpen" class="toggledContainer">
         <div class="col-lg-9">
           <form class="form-horizontal">

@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +42,7 @@ public class TechService implements Service {
 	}
 
 	public List<TechInfo> getTechs() throws HibernateException, IOException{
-		return TechDao.getAllTechsNative();
+		return new ArrayList<>(TechDao.getAllTechs().values());
 	}
 
 	@Override

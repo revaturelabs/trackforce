@@ -140,9 +140,9 @@ export class PredictionsComponent implements OnInit {
         for (let i=0;i<data.length;i++) {
           let tech = data[i];
           let localtech = {
-            id: tech[0],
-            name: tech[1],
-            seleted: false
+            id: tech.id,
+            name: tech.name,
+            selected: false
           }
           tempArray.push(localtech);
         }

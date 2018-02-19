@@ -103,7 +103,7 @@ public class TechDaoHibernate implements TechDao{
     }
     
     
-    public List getAllTechsNative() {
+    public List<TfTech> getAllTechsNative() {
         Map<Integer, TechInfo> techs = new HashMap<Integer, TechInfo>();
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 //            CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -113,8 +113,8 @@ public class TechDaoHibernate implements TechDao{
 //            Query<TfTech> tq = session.createQuery(all);
 //            return createTechMap(tq.getResultList());
         	String sql = "SELECT * FROM ADMIN.TF_TECH";
-    		Query query = session.createNativeQuery(sql);
-    		List query_results = query.list();
+    		Query<TfTech> query = session.createNativeQuery(sql);
+    		List<TfTech> query_results = query.list();
     		return query_results;
         } catch(Exception e) {
             e.printStackTrace();

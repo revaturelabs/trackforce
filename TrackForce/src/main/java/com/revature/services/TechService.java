@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.hibernate.HibernateException;
 
-import com.revature.dao.AssociateDao;
 import com.revature.dao.TechDao;
 import com.revature.dao.TechDaoHibernate;
 import com.revature.model.TechInfo;
@@ -15,7 +14,6 @@ import com.revature.utils.PersistentStorage;
 public class TechService implements Service {
 
     private TechDao TechDao;
-    private AssociateDao associateDao;
 
     public TechService() {
         this.TechDao = new TechDaoHibernate();
@@ -42,7 +40,7 @@ public class TechService implements Service {
 		return currs;
 	}
 
-	public List getTechs() throws HibernateException, IOException{
+	public List<TechInfo> getTechs() throws HibernateException, IOException{
 		return TechDao.getAllTechsNative();
 	}
 
@@ -52,7 +50,7 @@ public class TechService implements Service {
 		Set<TechInfo> ti = TechDao.getTechFromCache();
 		if(ti == null || ti.isEmpty())
 			PersistentStorage.getStorage().setTechs(new TechDaoHibernate().getAllTechs());	
-			//TechDaoHibernate.cacheAllTechs();
+//			TechDaoHibernate.cacheAllTechs();
 	}
 
 	@SuppressWarnings("unchecked")

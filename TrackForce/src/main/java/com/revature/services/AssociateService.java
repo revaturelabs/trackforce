@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.ws.rs.core.Response;
 
@@ -30,6 +31,11 @@ public class AssociateService implements Service {
 
     }
 
+	public AssociateService(AssociateDao associateDao) {
+		// TODO Auto-generated constructor stub
+		this.associateDao = associateDao;
+	}
+
 	/**
 	 * Retrieve information about a specific associate.
 	 *
@@ -39,9 +45,7 @@ public class AssociateService implements Service {
 	 */
 
 	public AssociateInfo getAssociate(Integer associateid) {
-		//AssociateInfo associateinfo = associateDao.getAssociate(associateid);
-		AssociateInfo associateinfo2 = associateDao.getAssociateFromDB(associateid);
-		return associateinfo2;
+		return associateDao.getAssociate(associateid);
 
 	}
 	public Response updateAssociates(List<AssociateInfo> associates) {
@@ -69,6 +73,7 @@ public class AssociateService implements Service {
 	 * @return a Response object with a List of Map objects as an entity.
 	 * @throws IOException
 	 */
+	@Deprecated
 	public Collection<ClientMappedJSON> getAssociatesByStatus(int statusid) throws IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null) {
@@ -134,11 +139,11 @@ public class AssociateService implements Service {
 	 * @param statusId
 	 * @return Collection<ClientMappedJSON>
 	 */
-	public Response getMappedInfo(int statusId) {
-	  try {
+	public Map<Integer, ClientMappedJSON> getMappedInfo(int statusId) {
+	 // try {//
 		Set<AssociateInfo> associates = getAllAssociates();
 		if (associates == null) {
-			execute();
+			associateDao.cacheAllAssociates();
 			associates = getAllAssociates();
 		}
 
@@ -155,11 +160,12 @@ public class AssociateService implements Service {
 				}
 			}
 		}
-		return Response.ok(map.values()).build();
-	  } catch(IOException e) {
-		  System.out.println(e.getMessage());
-		  return Response.status(500).build();
-	  }
+		return map;
+//		return Response.ok(map.values()).build();
+//	  } catch(IOException e) {
+//		  System.out.println(e.getMessage());
+//		  return Response.status(500).build();
+//	  }
 	}
 	
 	/**
@@ -168,32 +174,28 @@ public class AssociateService implements Service {
 	 * @param statusId
 	 * @return Collection<CurriculumJSON>
 	 */
-	public Response getUnmappedInfo(int statusId) {
-	  try {
-		Set<AssociateInfo> associates = getAllAssociates();
-		if (associates == null) {
-			execute();
-			associates = getAllAssociates();
-		}
+	public Set<CurriculumJSON> getUnmappedInfo(int statusId) {
+	  Set<AssociateInfo> associates = getAllAssociates();
+	if (associates == null) {
+		associateDao.cacheAllAssociates();
+		associates = getAllAssociates();
+	}
 
-		Map<Integer, CurriculumJSON> map = new HashMap<>();
-		for (AssociateInfo ai : associates) {
-			if (ai.getMsid().equals(new Integer(statusId))) {
-				if (!map.containsKey(ai.getCurid())) {
-					map.put(ai.getCurid(), new CurriculumJSON());
-				}
-				if (ai.getCurriculumName() != null && !ai.getCurid().equals(new Integer(-1))) {
-					map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
-					map.get(ai.getCurid()).setId(ai.getCurid().intValue());
-					map.get(ai.getCurid()).setName(ai.getCurriculumName());
-				}
+	Map<Integer, CurriculumJSON> map = new HashMap<>();
+	for (AssociateInfo ai : associates) {
+		if (ai.getMsid().equals(new Integer(statusId))) {
+			if (!map.containsKey(ai.getCurid())) {
+				map.put(ai.getCurid(), new CurriculumJSON());
+			}
+			if (ai.getCurriculumName() != null && !ai.getCurid().equals(new Integer(-1))) {
+				map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
+				map.get(ai.getCurid()).setId(ai.getCurid().intValue());
+				map.get(ai.getCurid()).setName(ai.getCurriculumName());
 			}
 		}
-		return Response.ok(map.values()).build();
-	  } catch(IOException e) {
-		  System.out.println(e.getMessage());
-		  return Response.status(500).build();
-	  }
+	}
+	
+	return new TreeSet<CurriculumJSON>(map.values());
 	}
 	
 	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId) {

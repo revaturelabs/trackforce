@@ -91,7 +91,8 @@ public class BatchesService implements Service {
 		List<BatchInfo> sublist = new LinkedList<BatchInfo>();
         for (BatchInfo bi : batches) {
             if (bi.getStartLong() != null && bi.getEndLong() != null) {
-            	if (bi.getEndLong() >= fromdate && bi.getEndLong() <= todate) sublist.add(bi);
+            	if (bi.getStartLong() >= fromdate && fromdate <= bi.getEndLong())
+            		sublist.add(bi);
             }
         }
         return sublist;

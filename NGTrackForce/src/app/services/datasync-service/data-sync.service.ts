@@ -148,7 +148,7 @@ export class DataSyncService {
   }
 
   public fetchCurriculumStorage() {
-    this.ss.getSkills().subscribe(data => {
+    this.ss.getAllCurricula().subscribe(data => {
       // this.setCurriculumStorage(data);
     })
   }

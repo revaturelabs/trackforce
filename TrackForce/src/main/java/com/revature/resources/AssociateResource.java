@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -18,13 +20,17 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import com.revature.dao.AssociateDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
 import com.revature.request.model.InterviewFromClient;
 import com.revature.services.AssociateService;
 import com.revature.services.InterviewService;
+import com.revature.utils.HibernateUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -140,13 +146,12 @@ public class AssociateResource {
 		return Response.ok().build();
 	}
 
-	/*** OPTION 2 ***/
-/*	
+	/*** OPTION 2 ***/	
 	@PUT
-	@Path("{associateId}")
+	@Path("{associateId}/{startDate}")
 	public Response updateAssociate(
 			@PathParam("associateId") Integer id,
-			String startDate) {
+			@PathParam("startDate") String startDate) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		 Transaction tx = session.beginTransaction();
 		// StringBuilder sb = new StringBuilder();
@@ -167,7 +172,7 @@ public class AssociateResource {
 	        }
 	        return Response.ok().build();
 	}
-*/	
+
 	
 	/**** OPTION 1+2****/
 /*	@PUT

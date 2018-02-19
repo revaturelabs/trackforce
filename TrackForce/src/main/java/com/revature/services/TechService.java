@@ -40,7 +40,7 @@ public class TechService implements Service {
 		return currs;
 	}
 
-	public List getTechs() throws HibernateException, IOException{
+	public List<TechInfo> getTechs() throws HibernateException, IOException{
 		return TechDao.getAllTechsNative();
 	}
 
@@ -50,7 +50,7 @@ public class TechService implements Service {
 		Set<TechInfo> ti = TechDao.getTechFromCache();
 		if(ti == null || ti.isEmpty())
 			PersistentStorage.getStorage().setTechs(new TechDaoHibernate().getAllTechs());	
-			//TechDaoHibernate.cacheAllTechs();
+//			TechDaoHibernate.cacheAllTechs();
 	}
 
 	@SuppressWarnings("unchecked")

@@ -2,6 +2,7 @@ package com.revature.resources;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.ParameterMode;
@@ -27,6 +28,7 @@ import com.revature.dao.AssociateDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
+import com.revature.model.ClientMappedJSON;
 import com.revature.request.model.InterviewFromClient;
 import com.revature.services.AssociateService;
 import com.revature.services.InterviewService;
@@ -114,13 +116,15 @@ public class AssociateResource {
 	    notes = "Returns information about a specific associate.")
 	@Path("mapped/{statusId}")
 	public Response getMappedInfo(@PathParam("statusId") int statusId) {
-		return service.getMappedInfo(statusId);
+		Map<Integer, ClientMappedJSON> mappedStats = service.getMappedInfo(statusId);
+		if(mappedStats.isEmpty()) return Response.status(500).build();
+		return Response.ok(mappedStats).build();
 	}
 	
 	@GET
 	@Path("unmapped/{statusId}")
 	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
-		return service.getUnmappedInfo(statusId);
+		return Response.ok(service.getUnmappedInfo(statusId)).build();
 	}
 	
 	/**

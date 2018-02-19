@@ -34,11 +34,11 @@ public class TechService implements Service {
     public Set<TechInfo> getAllTechs() throws HibernateException, IOException{
 //		Set<TechInfo> currs = PersistentStorage.getStorage().getTechs();
     	Set<TechInfo> currs = TechDao.getTechFromCache();
-		if(currs == null || currs.isEmpty()) {
+		/*if(currs == null || currs.isEmpty()) {
 			execute();
 //			return PersistentStorage.getStorage().getTechs();
 			return TechDao.getTechFromCache();
-		}
+		}*/
 		return currs;
 	}
 
@@ -51,8 +51,8 @@ public class TechService implements Service {
 //		Set<TechInfo> ti = PersistentStorage.getStorage().getTechs();
 		Set<TechInfo> ti = TechDao.getTechFromCache();
 		if(ti == null || ti.isEmpty())
-			PersistentStorage.getStorage().setTechs(new TechDaoHibernate().getAllTechs());	
-			//TechDaoHibernate.cacheAllTechs();
+			//PersistentStorage.getStorage().setTechs(new TechDaoHibernate().getAllTechs());	
+			TechDao.cacheAllTechs();
 	}
 
 	@SuppressWarnings("unchecked")

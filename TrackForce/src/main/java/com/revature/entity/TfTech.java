@@ -27,6 +27,11 @@ public class TfTech implements java.io.Serializable {
 	public TfTech() {
 	}
 
+	public TfTech(int tfTechId, String tfTechName) {
+		this.tfTechId = tfTechId;
+		this.tfTechName = tfTechName;
+	}
+	
 	public TfTech(int tfTechId, String tfTechName, Set<TfBatchTechJunction> batchTechJunctions) {
 		this.tfTechId = tfTechId;
 		this.tfTechName = tfTechName;

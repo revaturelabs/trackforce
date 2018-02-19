@@ -29,6 +29,6 @@ public class TechResource {
 	
     @GET
 	public Response getAllTechs() throws HibernateException, IOException{
-		return Response.ok(service.getAllTechs()).build();
+		return Response.ok(service.getTechs()).build();
 	}
 }

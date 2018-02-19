@@ -31,14 +31,14 @@ public class TechService implements Service {
         this.TechDao = TechDao;
     }
 
-    public Set<TechInfo> getAllTechs() throws HibernateException, IOException{
+    private Set<TechInfo> getAllTechs() throws HibernateException, IOException{
 //		Set<TechInfo> currs = PersistentStorage.getStorage().getTechs();
     	Set<TechInfo> currs = TechDao.getTechFromCache();
-		/*if(currs == null || currs.isEmpty()) {
+		if(currs == null || currs.isEmpty()) {
 			execute();
 //			return PersistentStorage.getStorage().getTechs();
 			return TechDao.getTechFromCache();
-		}*/
+		}
 		return currs;
 	}
 

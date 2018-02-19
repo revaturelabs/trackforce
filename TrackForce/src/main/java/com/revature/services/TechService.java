@@ -31,7 +31,7 @@ public class TechService implements Service {
         this.TechDao = TechDao;
     }
 
-    private Set<TechInfo> getAllTechs() throws HibernateException, IOException{
+    public Set<TechInfo> getAllTechs() throws HibernateException, IOException{
 //		Set<TechInfo> currs = PersistentStorage.getStorage().getTechs();
     	Set<TechInfo> currs = TechDao.getTechFromCache();
 		if(currs == null || currs.isEmpty()) {

@@ -14,10 +14,13 @@ import javax.ws.rs.core.Response;
 import com.revature.model.BatchInfo;
 import com.revature.services.BatchesService;
 
+import io.swagger.annotations.Api;
+
 /**
  * Class that provides RESTful services for the batch listing and batch details page.
  */
 @Path("batches")
+@Api(value = "batches")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BatchResource {

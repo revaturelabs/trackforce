@@ -13,7 +13,10 @@ import org.hibernate.HibernateException;
 
 import com.revature.services.TechService;
 
+import io.swagger.annotations.Api;
+
 @Path("technologies")
+@Api(value = "technologies")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class TechResource {

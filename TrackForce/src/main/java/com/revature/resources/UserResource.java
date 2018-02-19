@@ -19,7 +19,10 @@ import com.revature.request.model.CreateUserModel;
 import com.revature.request.model.SuccessOrFailMessage;
 import com.revature.services.UserService;
 
+import io.swagger.annotations.Api;
+
 @Path("users")
+@Api(value = "users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {

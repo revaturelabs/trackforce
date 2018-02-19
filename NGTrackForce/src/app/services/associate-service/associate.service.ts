@@ -75,4 +75,9 @@ export class AssociateService {
       let url: string = environment.url + this.associatePath + "/"+id+"/interviews/";
       return this.http.get(url);
     }
+
+    addInterviewForAssociate(id: number,interview: any): Observable<any> {
+      let url: string = environment.url + this.associatePath + "/"+id+"/interviews/";
+      return this.http.post(url, interview);
+    }
 }

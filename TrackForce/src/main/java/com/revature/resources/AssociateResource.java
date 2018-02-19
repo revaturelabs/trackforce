@@ -1,8 +1,6 @@
 package com.revature.resources;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,6 +10,7 @@ import javax.persistence.StoredProcedureQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -30,10 +29,19 @@ import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
 import com.revature.model.ClientMappedJSON;
+import com.revature.request.model.InterviewFromClient;
 import com.revature.services.AssociateService;
+import com.revature.services.InterviewService;
 import com.revature.utils.HibernateUtil;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.Authorization;
+
+
 @Path("associates")
+@Api(value = "associates")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AssociateResource {
@@ -54,6 +62,12 @@ public class AssociateResource {
 	 * @throws HibernateException
 	 */
 	@GET
+	 @ApiOperation(value = "Return all associates",
+	    notes = "Gets a set of all the associates, optionally filtered by a batch id. If an associate has no marketing status or\r\n" + 
+	    		" curriculum, replaces them with blanks. If associate has no client, replaces\r\n" + 
+	    		" it with \"None\".",
+	    response = AssociateInfo.class,
+	    responseContainer = "Set")
 	public Response getAllAssociates() {
 		Set<AssociateInfo>associatesList = service.getAllAssociates();
 		if (associatesList == null || associatesList.isEmpty()) return Response.status(Status.NOT_FOUND).build();// returns 404 if no associates found
@@ -70,9 +84,11 @@ public class AssociateResource {
 	 * @throws IOException
 	 */
 	@PUT
+	 @ApiOperation(value = "Batch update associates",
+	    notes = "Updates the maretking status and/or the client of one or more associates")
 	public Response updateAssociates(
-			@DefaultValue("0") @QueryParam("marketingStatusId") Integer marketingStatusId,
-			@DefaultValue("0") @QueryParam("clientId") Integer clientId,
+			@DefaultValue("0") @ApiParam(value = "marketing status id") @QueryParam("marketingStatusId") Integer marketingStatusId,
+			@DefaultValue("0") @ApiParam(value = "client id") @QueryParam("clientId") Integer clientId,
 			List<Integer> ids) {
 		// marketing status & client id are given as query parameters, ids sent in body
 		service.updateAssociates(ids, marketingStatusId, clientId);
@@ -87,13 +103,18 @@ public class AssociateResource {
 	 * @throws IOException
 	 */
 	@GET
+	 @ApiOperation(value = "Return an associate",
+	    notes = "Returns information about a specific associate.",
+	    response = AssociateInfo.class)
 	@Path("{associateid}")
-	public Response getAssociate(@PathParam("associateid") Integer associateid) {
+	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("associateid") Integer associateid) {
 		AssociateInfo associateinfo = service.getAssociate(associateid);
 		return Response.ok(associateinfo).build();
 	}
 	
 	@GET
+	 @ApiOperation(value = "Return an associate",
+	    notes = "Returns information about a specific associate.")
 	@Path("mapped/{statusId}")
 	public Response getMappedInfo(@PathParam("statusId") int statusId) {
 		Map<Integer, ClientMappedJSON> mappedStats = service.getMappedInfo(statusId);
@@ -129,13 +150,12 @@ public class AssociateResource {
 		return Response.ok().build();
 	}
 
-	/*** OPTION 2 ***/
-/*	
+	/*** OPTION 2 ***/	
 	@PUT
-	@Path("{associateId}")
+	@Path("{associateId}/{startDate}")
 	public Response updateAssociate(
 			@PathParam("associateId") Integer id,
-			String startDate) {
+			@PathParam("startDate") String startDate) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		 Transaction tx = session.beginTransaction();
 		// StringBuilder sb = new StringBuilder();
@@ -156,7 +176,7 @@ public class AssociateResource {
 	        }
 	        return Response.ok().build();
 	}
-*/	
+
 	
 	/**** OPTION 1+2****/
 /*	@PUT
@@ -199,6 +219,18 @@ public class AssociateResource {
 		Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
 		System.out.println(associateinfo);
 		return Response.ok(associateinfo).build();
+	}
+	
+	@POST
+	@Path("{associateid}/interviews")
+	public Response addAssociateInterview(
+			@PathParam("associateid") Integer associateid,
+			InterviewFromClient ifc
+			) {
+		InterviewService is = new InterviewService();
+		is.addInterviewByAssociate(associateid, ifc);
+		System.out.println(ifc);
+		return Response.ok().build();
 	}
 
 }

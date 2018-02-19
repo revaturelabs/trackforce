@@ -16,7 +16,10 @@ import org.hibernate.HibernateException;
 import com.revature.model.ClientInfo;
 import com.revature.services.ClientService;
 
+import io.swagger.annotations.Api;
+
 @Path("clients")
+@Api(value = "clients")
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
 public class ClientResource {

@@ -1,5 +1,6 @@
 package com.revature.dao;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,4 +18,5 @@ public interface TechDao {
     public TfTech getTechById(int id);
     public Map<Integer, TechInfo> getAllTechs();
     public Set<TechInfo> getTechFromCache();
+    public List getAllTechsNative();
 }

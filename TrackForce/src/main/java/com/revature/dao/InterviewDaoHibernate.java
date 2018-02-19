@@ -1,7 +1,8 @@
 package com.revature.dao;
 
 import java.io.IOException;
-
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +12,16 @@ import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfClient;
 import com.revature.entity.TfInterview;
+import com.revature.entity.TfInterviewType;
 import com.revature.model.InterviewInfo;
+import com.revature.request.model.InterviewFromClient;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
@@ -81,4 +87,22 @@ public class InterviewDaoHibernate implements InterviewDao {
 		PersistentStorage.getStorage().setInterviews(new InterviewDaoHibernate().getAllInterviews());			
 	}
 
+	@Override
+	public void addInterviewForAssociate(int associateid, InterviewFromClient ifc) {
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+			System.out.println(ifc);
+			TfInterview tfi = new TfInterview();
+			tfi.setTfAssociate(session.get(TfAssociate.class, associateid));
+			tfi.setTfInterviewDate(Timestamp.from(new Date(ifc.getInterviewDate()).toInstant()));
+			tfi.setTfInterviewFeedback(ifc.getInterviewFeedback());
+			tfi.setTfClient(session.get(TfClient.class, ifc.getClientId()));
+			tfi.setTfInterviewId(ifc.getTypeId());
+			tfi.setTfInterviewType(session.load(TfInterviewType.class, ifc.getTypeId()));
+			System.out.println(tfi);
+			session.save(tfi);
+        } catch (Exception e) {
+            LogUtil.logger.error(e);
+            e.printStackTrace();
+        }
+	}
 }

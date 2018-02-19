@@ -33,7 +33,12 @@ export class PredictionsComponent implements OnInit {
     this.ts.getAllTechnologies().subscribe(
       data => {
         console.log(data);
-        this.technologies = data;
+        let tempVar = [];
+        for (var key in data) {
+          let tech = data[key];
+          tempVar.push(tech);
+        }
+        this.technologies = tempVar;
       },
      err => {
        console.log(err);

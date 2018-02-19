@@ -31,7 +31,6 @@ public class ClientServiceTest{
     private String c1Name = "client 1", c2Name = "client 2";
 
     private void setupMocks() throws IOException {
-    	System.out.println("setupMocks");
         MockitoAnnotations.initMocks(this);
         
         // mock dao used by client resource to return these clients
@@ -70,27 +69,20 @@ public class ClientServiceTest{
 
     @BeforeTest
     public void beforeAll() throws IOException {
-    	System.out.println("Before test");
         setupMocks();
     }
 
     @Test(enabled = true)
     public void testGetClients() throws Exception {
-    	System.out.println("testGetClients");
     	Set<ClientInfo> clients = clientService.getClients();
     	Set<ClientInfo> testSet = mockClients;
-    	System.out.println("clients: "+clients.toString());
-    	System.out.println("testSet: "+testSet.toString());
         Assert.assertEquals(testSet, clients);
     }
 
     @Test(enabled = true)
     public void testGetClientByID() throws Exception {
-    	System.out.println("testGetClientByID");
     	ClientInfo client = clientService.getClientByID(1);
     	ClientInfo testClient = mockClient;
-    	System.out.println("clients: "+client.toString());
-    	System.out.println("testClient: "+testClient.toString());
         Assert.assertEquals(testClient, client);
     }
      @Test(enabled = false)

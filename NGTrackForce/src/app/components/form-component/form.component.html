@@ -93,7 +93,7 @@
           </tr>
         </tbody>
       </table>
-      <button type="button" *ngIf="!isVP" class="btn btn-primary" (click)="toggleForm()">Toggle Create New Interview Form</button>
+      <!-- <button type="button" *ngIf="!isVP" class="btn btn-primary" (click)="toggleForm()">Toggle Create New Interview Form</button> -->
       <div class="row" *ngIf="formOpen" class="toggledContainer">
         <div class="col-lg-9">
           <form class="form-horizontal">
@@ -129,7 +129,7 @@
                 <textarea type="text" class="form-control" name="feedback" rows="3" [(ngModel)]="newInterview.feedback"></textarea>
               </div>
             </div>
-            <button (click)="addInterview()" class="btn btn-warning">Add Interview</button>
+            <button type="button" (click)="addInterview()" class="btn btn-warning">Add Interview</button>
           </form>
         </div>
       </div>

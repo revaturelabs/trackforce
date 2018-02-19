@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class SkillsetService {
     MOCK_API   = "https://9a03ee58-6ed8-4d7b-8df1-60f505a77580.mock.pstmn.io/";
     NO_BACKEND = false;
+    private curriculumPath = "TrackForce/skillset";
 
     /**
       *@param {HttpClient} http
@@ -22,6 +23,7 @@ export class SkillsetService {
       *@param {number} statusID
       *id of the skillset
       *
+       @param {RequestService}
       *@return skillset data based on id
       */
     getSkillsetsForStatusID(statusID : number) : Observable<any> {
@@ -29,8 +31,8 @@ export class SkillsetService {
             'TrackForce/associates/unmapped/' + statusID);
     }
 
-    public getSkills(): Observable<any> {
-      return this.http.get('TrackForce/skills');
+    public getAllCurricula(): Observable<any> {
+      return this.http.get<any>(environment.url + this.curriculumPath);
     }
 
 }

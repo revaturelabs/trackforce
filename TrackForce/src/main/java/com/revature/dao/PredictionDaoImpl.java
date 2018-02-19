@@ -16,12 +16,12 @@ import com.revature.request.model.AssociatesWithTech;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
-public class JunctionDaoImpl implements JunctionDao {
+public class PredictionDaoImpl implements PredictionDao {
 	
 	public static void main(String[] args) {
 		Date before = new Date(2018,12,30);
 		Date after = new Date();
-		System.out.println(new JunctionDaoImpl().getTotalAssociatesByTechBetweenDates(after, before));
+		System.out.println(new PredictionDaoImpl().getTotalAssociatesByTechBetweenDates(after, before));
 	}
 
 	

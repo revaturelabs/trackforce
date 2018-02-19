@@ -12,7 +12,7 @@ import com.revature.entity.TfClient;
 import com.revature.entity.TfTech;
 import com.revature.model.ClientInfo;
 
-public interface JunctionDao {
+public interface PredictionDao {
 
 	//@return a list of batch names and technologies for each batch
   List  GET_ALL_TECH_PER_BATCH() throws IOException;

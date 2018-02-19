@@ -3,22 +3,19 @@ package com.revature.test.services;
 import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.revature.dao.TechDao;
-import com.revature.model.ClientInfo;
 import com.revature.model.TechInfo;
-import com.revature.services.ClientService;
 import com.revature.services.TechService;
 
 public class TechServiceTest{
@@ -29,7 +26,6 @@ public class TechServiceTest{
     private TechService techService;
 
     private Map<Integer,TechInfo> mockTechs;
-    private TechInfo mockTech;
 
     private void setupMocks() throws IOException {
         MockitoAnnotations.initMocks(this);
@@ -48,8 +44,6 @@ public class TechServiceTest{
         mockTechs.put(2, ti2);
 
         Mockito.when(techDaoMock.getAllTechs()).thenReturn(mockTechs);
-
-        mockTech = ti1;
         
         //Mockito.when(techDaoMock.getTechById(Matchers.anyInt())).thenReturn(mockTech);
 
@@ -63,7 +57,8 @@ public class TechServiceTest{
 
     @Test(enabled = true)
     public void testGetTechs() throws Exception {
-    	Set<TechInfo> expectedSet = techService.getTechs();
-    	assertEquals(expectedSet, mockTechs);
+    	List<TechInfo> actualList = techService.getTechs();
+    	List<TechInfo> expectedList = new ArrayList<>(mockTechs.values());
+    	assertEquals(expectedList, actualList);
     }
 }

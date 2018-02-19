@@ -18,5 +18,5 @@ public interface TechDao {
     public TfTech getTechById(int id);
     public Map<Integer, TechInfo> getAllTechs();
     public Set<TechInfo> getTechFromCache();
-    public List getAllTechsNative();
+    public List<TechInfo> getAllTechsNative();
 }

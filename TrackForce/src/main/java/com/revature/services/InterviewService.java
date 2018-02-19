@@ -22,6 +22,7 @@ import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumInfo;
 import com.revature.model.InterviewInfo;
 import com.revature.model.TechInfo;
+import com.revature.request.model.InterviewFromClient;
 import com.revature.utils.PersistentStorage;
 
 public class InterviewService implements Service {
@@ -56,8 +57,8 @@ public class InterviewService implements Service {
 	}
 
     
-    public void addInterviewByAssociate(int associateId, InterviewInfo ii) {
-    	interviewDao.addInterviewForAssociate(associateId, ii);
+    public void addInterviewByAssociate(int associateId, InterviewFromClient ifc) {
+    	interviewDao.addInterviewForAssociate(associateId, ifc);
     }
 
 	@Override

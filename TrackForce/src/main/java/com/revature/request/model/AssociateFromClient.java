@@ -1,6 +1,8 @@
 package com.revature.request.model;
 
-public class AssociateFromClient {
+import java.io.Serializable;
+
+public class AssociateFromClient implements Serializable {
 	private int id;
 	private int mkStatus;
 	private int clientId;

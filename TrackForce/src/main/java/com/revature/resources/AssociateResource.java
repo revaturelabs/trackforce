@@ -22,6 +22,7 @@ import org.hibernate.HibernateException;
 import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
+import com.revature.request.model.InterviewFromClient;
 import com.revature.services.AssociateService;
 import com.revature.services.InterviewService;
 
@@ -215,11 +216,11 @@ public class AssociateResource {
 	@Path("{associateid}/interviews")
 	public Response addAssociateInterview(
 			@PathParam("associateid") Integer associateid,
-			InterviewInfo ii
+			InterviewFromClient ifc
 			) {
 		InterviewService is = new InterviewService();
-		is.addInterviewByAssociate(associateid, ii);
-		System.out.println(ii);
+		is.addInterviewByAssociate(associateid, ifc);
+		System.out.println(ifc);
 		return Response.ok().build();
 	}
 

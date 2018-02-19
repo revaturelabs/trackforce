@@ -31,7 +31,7 @@ public class TfTech implements java.io.Serializable {
 		this.tfTechId = tfTechId;
 		this.tfTechName = tfTechName;
 	}
-	
+
 	public TfTech(int tfTechId, String tfTechName, Set<TfBatchTechJunction> batchTechJunctions) {
 		this.tfTechId = tfTechId;
 		this.tfTechName = tfTechName;
@@ -61,49 +61,12 @@ public class TfTech implements java.io.Serializable {
 		this.tfTechName = tfTechName;
 	}
 
-//	@OneToMany(fetch=FetchType.EAGER, mappedBy = "pk.tech")
-//	public Set<TfBatchTechJunction> getBatchTechJunctions() {
-//		return this.batchTechJunctions;
+//	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "techs")
+//	public Set<TfBatch> getBatches() {
+//		return this.batches;
 //	}
-//  
-//	public void setBatchTechJunctions(Set<TfBatchTechJunction> batchTechJunctions) {
-//		this.batchTechJunctions = batchTechJunctions;
+//
+//	public void setBatches(Set<TfBatch> batches) {
+//			this.batches = batches;
 //	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((batchTechJunctions == null) ? 0 : batchTechJunctions.hashCode());
-		result = prime * result + tfTechId;
-		result = prime * result + ((tfTechName == null) ? 0 : tfTechName.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TfTech other = (TfTech) obj;
-		if (batchTechJunctions == null) {
-			if (other.batchTechJunctions != null)
-				return false;
-		} else if (!batchTechJunctions.equals(other.batchTechJunctions))
-			return false;
-		if (tfTechId != other.tfTechId)
-			return false;
-		if (tfTechName == null) {
-			if (other.tfTechName != null)
-				return false;
-		} else if (!tfTechName.equals(other.tfTechName))
-			return false;
-		return true;
-	}
-	
-	
-	
 }

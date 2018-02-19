@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.hibernate.HibernateException;
 
-import com.revature.dao.AssociateDao;
 import com.revature.dao.TechDao;
 import com.revature.dao.TechDaoHibernate;
 import com.revature.model.TechInfo;
@@ -15,7 +14,6 @@ import com.revature.utils.PersistentStorage;
 public class TechService implements Service {
 
     private TechDao TechDao;
-    private AssociateDao associateDao;
 
     public TechService() {
         this.TechDao = new TechDaoHibernate();

@@ -1,34 +1,20 @@
 package com.revature.services;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.core.Response;
 
 import org.hibernate.HibernateException;
 
-import com.revature.dao.AssociateDao;
-import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.InterviewDao;
 import com.revature.dao.InterviewDaoHibernate;
-import com.revature.dao.TechDao;
-import com.revature.dao.TechDaoHibernate;
-import com.revature.model.AssociateInfo;
-import com.revature.model.BatchInfo;
-import com.revature.model.ClientInfo;
-import com.revature.model.ClientMappedJSON;
-import com.revature.model.CurriculumInfo;
 import com.revature.model.InterviewInfo;
-import com.revature.model.TechInfo;
 import com.revature.request.model.InterviewFromClient;
 import com.revature.utils.PersistentStorage;
 
 public class InterviewService implements Service {
 
     private InterviewDao interviewDao;
-    private AssociateDao associateDao;
 
     public InterviewService() {
         this.interviewDao = new InterviewDaoHibernate();

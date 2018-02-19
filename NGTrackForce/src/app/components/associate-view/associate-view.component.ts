@@ -171,5 +171,3 @@ export class AssociateViewComponent implements OnInit {
     //   }
     // );
   }
-
-}

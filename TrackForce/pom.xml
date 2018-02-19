@@ -221,7 +221,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.19.1</version>
+				<version>2.20</version>
 				<configuration>
 					<!-- Sets the VM argument line used when unit tests are run. -->
 					<argLine>${surefireArgLine}</argLine>
@@ -229,12 +229,11 @@
 					<!-- William changed the value of skipTests to true on 2/15/18 -->
 					<!-- to see if we can successfully deploy current build of application -->
 					<!-- this commented out <skipTests> was the original configuration -->
-					<skipTests>${skip.unit.tests}</skipTests>
+					<skipTests>true</skipTests>
 					<!-- <skipTests>true</skipTests>-->
 					<!-- Excludes integration tests when unit tests are run. -->
 					<excludes>
 						<exclude>**/IT*.java</exclude>
-						<exclude>**/test/admin/*.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -242,7 +241,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>2.15</version>
+				<version>2.20</version>
 				<executions>
 					<!-- Ensures that both integration-test and verify goals of the Failsafe
 						Maven plugin are executed. -->
@@ -262,7 +261,7 @@
 							<!-- William changed the value of skipTests to true on 2/15/18 -->
 							<!-- to see if we can successfully deploy current build of application -->
 							<!-- this commented out <skipTests> was the original configuration -->
-							<skipTests>${skip.integration.tests}</skipTests>
+							<skipTests>true</skipTests>
 							<!-- <skipTests>true</skipTests>-->
 						</configuration>
 					</execution>

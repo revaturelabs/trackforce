@@ -16,7 +16,10 @@ import com.revature.model.BatchInfo;
 import com.revature.model.InterviewInfo;
 import com.revature.services.InterviewService; //create a new service
 
+import io.swagger.annotations.Api;
+
 @Path("interviews")
+@Api(value = "interviews")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class InterviewResource {

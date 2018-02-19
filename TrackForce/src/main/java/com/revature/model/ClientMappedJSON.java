@@ -1,6 +1,6 @@
 package com.revature.model;
 
-public class ClientMappedJSON {
+public class ClientMappedJSON implements Comparable<ClientMappedJSON> {
 	private int id;
 	private String name;
 	private int count;
@@ -21,6 +21,11 @@ public class ClientMappedJSON {
 	}
 	public void setCount(int count) {
 		this.count = count;
+	}
+	@Override
+	public int compareTo(ClientMappedJSON arg0) {
+		// TODO Auto-generated method stub
+		return this.id-arg0.id;
 	}
 	
 	

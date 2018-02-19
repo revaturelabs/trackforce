@@ -130,14 +130,14 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
-		<!-- <dependency> <groupId>org.hibernate.validator</groupId> <artifactId>hibernate-validator</artifactId> 
+		<!-- <dependency> <groupId>org.hibernate.validator</groupId> <artifactId>hibernate-validator</artifactId>
 			<version>6.0.7.Final</version> </dependency> -->
 		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator-annotation-processor -->
-		<!-- <dependency> <groupId>org.hibernate.validator</groupId> <artifactId>hibernate-validator-annotation-processor</artifactId> 
+		<!-- <dependency> <groupId>org.hibernate.validator</groupId> <artifactId>hibernate-validator-annotation-processor</artifactId>
 			<version>6.0.7.Final</version> </dependency> -->
 
 		<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
-		<!-- <dependency> <groupId>org.hibernate.javax.persistence</groupId> <artifactId>hibernate-jpa-2.1-api</artifactId> 
+		<!-- <dependency> <groupId>org.hibernate.javax.persistence</groupId> <artifactId>hibernate-jpa-2.1-api</artifactId>
 			<version>1.0.0.Final</version> </dependency> -->
 		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
 		<dependency>
@@ -214,7 +214,7 @@
 
 	</dependencies>
 
-	<!-- William added the below tags on 2/15/18 so that the main application 
+	<!-- William added the below tags on 2/15/18 so that the main application
 		can be successfully deployed -->
 	<build>
 		<plugins>
@@ -243,7 +243,7 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.15</version>
 				<executions>
-					<!-- Ensures that both integration-test and verify goals of the Failsafe 
+					<!-- Ensures that both integration-test and verify goals of the Failsafe
 						Maven plugin are executed. -->
 					<execution>
 						<id>integration-tests</id>
@@ -254,9 +254,9 @@
 						<configuration>
 							<!-- Sets the VM argument line used when integration tests are run. -->
 							<argLine>${failsafeArgLine}</argLine>
-							<!--Skips integration tests if the value of skip.integration.tests 
+							<!--Skips integration tests if the value of skip.integration.tests
 								property is true -->
-							<!-- Skips unit tests if the value of skip.unit.tests property is 
+							<!-- Skips unit tests if the value of skip.unit.tests property is
 								true -->
 							<!-- William changed the value of skipTests to true on 2/15/18 -->
 							<!-- to see if we can successfully deploy current build of application -->
@@ -272,7 +272,7 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.0</version>
 				<executions>
-					<!--Prepares the property pointing to the JaCoCo runtime agent which 
+					<!--Prepares the property pointing to the JaCoCo runtime agent which
 						is passed as VM argument when Maven the Surefire plugin is executed. -->
 					<execution>
 						<id>pre-unit-test</id>
@@ -282,12 +282,12 @@
 						<configuration>
 							<!-- Sets the path to the file which contains the execution data. -->
 							<destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-							<!-- Sets the name of the property containing the settings for JaCoCo 
+							<!-- Sets the name of the property containing the settings for JaCoCo
 								runtime agent. -->
 							<propertyName>surefireArgLine</propertyName>
 						</configuration>
 					</execution>
-					<!--Ensures that the code coverage report for unit tests is created 
+					<!--Ensures that the code coverage report for unit tests is created
 						after unit tests have been run. -->
 					<execution>
 						<id>post-unit-test</id>
@@ -306,7 +306,7 @@
 
 
 
-					<!--Prepares the property pointing to the JaCoCo runtime agent which 
+					<!--Prepares the property pointing to the JaCoCo runtime agent which
 						is passed as VM argument when Maven the Failsafe plugin is executed. -->
 					<execution>
 						<id>pre-integration-test</id>
@@ -317,12 +317,12 @@
 						<configuration>
 							<!-- Sets the path to the file which contains the execution data. -->
 							<destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
-							<!--Sets the name of the property containing the settings for JaCoCo 
+							<!--Sets the name of the property containing the settings for JaCoCo
 								runtime agent. -->
 							<propertyName>failsafeArgLine</propertyName>
 						</configuration>
 					</execution>
-					<!--Ensures that the code coverage report for integration tests after 
+					<!--Ensures that the code coverage report for integration tests after
 						integration tests have been run. -->
 					<execution>
 						<id>post-integration-test</id>

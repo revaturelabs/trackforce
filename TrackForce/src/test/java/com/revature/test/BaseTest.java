@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+//import org.mockito.Mock;
 
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDaoHibernate;
@@ -31,6 +32,7 @@ public class BaseTest {
         } catch (Exception ignored) {
         }
     }
+
 
     public void resetCaches() {
     	PersistentStorage.getStorage().evictAssociates();

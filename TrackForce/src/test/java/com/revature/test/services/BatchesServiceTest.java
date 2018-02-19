@@ -62,7 +62,6 @@ public class BatchesServiceTest{
         associateSet = new TreeSet<>();
         associateSet.add(assoc1);
 
-        System.out.println("setting mocks");
         Mockito.when(mockBatchDao.getAllBatches()).thenReturn(batchSet);
         Mockito.when(mockBatchDao.getBatchesSortedByDate()).thenReturn(batchList);
         Mockito.when(mockBatchDao.getBatchById(Matchers.anyInt())).thenReturn(batch1);

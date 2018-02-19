@@ -199,9 +199,7 @@ public class AssociateService implements Service {
 	}
 	
 	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId) {
-		AssociateDao adao = new AssociateDaoHibernate();
-		Set<InterviewInfo> setinterviews = adao.getInterviewsByAssociate(associateId);
-		return setinterviews;
+		 return associateDao.getInterviewsByAssociate(associateId);
 	}
 	
     /**

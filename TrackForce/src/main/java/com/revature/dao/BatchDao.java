@@ -15,12 +15,12 @@ public interface BatchDao {
 
 	TfBatch getBatch(String batchName);
 	BatchInfo getBatchById(Integer id);
-	public Map<Integer, BatchInfo> getBatchDetails(); 
+	public Map<Integer, BatchInfo> getBatchDetails();
 	List<BatchInfo> getBatchesSortedByDate();
 	Set<AssociateInfo> getBatchAssociates(Integer id);
 	public Set<BatchInfo> getAllBatches();
 	public void cacheAllBatches();
-	public Map<Integer, BatchInfo> createBatchesMap(List<TfBatch> batchList); 
-	
+	public Map<Integer, BatchInfo> createBatchesMap(List<TfBatch> batchList);
+
 
 }

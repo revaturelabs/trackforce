@@ -38,15 +38,15 @@ public class CurriculumDaoImpl implements CurriculumDao {
 		}
 		return curriculums;
 	}
-	
+
 	public Set<CurriculumInfo> getCurriculaFromCache(){
 		return PersistentStorage.getStorage().getCurriculums();
 	}
-	
+
 	public CurriculumInfo getCurriculaFromCacheByID(int id) {
 		return PersistentStorage.getStorage().getCurriculumAsMap().get(new Integer(id));
 	}
-	
+
 	public Map<Integer, CurriculumInfo> createCurriculaMap(List<TfCurriculum> curricula){
 		Map<Integer, CurriculumInfo> map = new HashMap<>();
 		if (curricula != null) {
@@ -56,9 +56,9 @@ public class CurriculumDaoImpl implements CurriculumDao {
 		}
 		return map;
 	}
-	
-	
+
+
 	public void cacheAllCurriculms(){
-		PersistentStorage.getStorage().setCurriculums(getAllCurriculums());			
+		PersistentStorage.getStorage().setCurriculums(getAllCurriculums());
 	}
 }

@@ -35,7 +35,7 @@ public class BatchesService implements Service {
         return batches;
     }
 
-    
+
     /**
      * Gets the number of associates learning each curriculum during a given date
      * range
@@ -68,7 +68,7 @@ public class BatchesService implements Service {
         }
         return subList;
     }
-    
+
     public BatchInfo getBatchById(Integer id) {
     	return batchDao.getBatchById(id);
     }
@@ -99,7 +99,7 @@ public class BatchesService implements Service {
 
         return sublist;
     }
-    
+
 
     /**
      * Gets the information of the associates in a particular batch

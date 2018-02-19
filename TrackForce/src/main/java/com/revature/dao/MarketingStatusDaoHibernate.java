@@ -16,7 +16,6 @@ import org.hibernate.query.Query;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.model.MarketingStatusInfo;
 import com.revature.utils.Dao2DoMapper;
-import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 

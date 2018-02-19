@@ -21,9 +21,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class TfUser implements java.io.Serializable {
 
     private static final long serialVersionUID = 706405344864879997L;
-    @Id 
+    @Id
     @Column(name = "TF_USER_ID")
-    /* ID's 1-14 are resereved for manual insertion */ 
+    /* ID's 1-14 are resereved for manual insertion */
     @SequenceGenerator(sequenceName = "UserId_seq", name = "UserIdSeq", initialValue=15)
     @GeneratedValue(generator = "UserIdSeq", strategy = GenerationType.SEQUENCE)
     private int tfUserId;
@@ -31,10 +31,10 @@ public class TfUser implements java.io.Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TF_ROLE_ID")
     private TfRole tfRole;
-    
+
     @Column(name = "TF_USERNAME", length = 20)
     private String tfUserUsername;
-    
+
     @Column(name = "TF_HASHPASSWORD", length = 200)
     private String tfHashpassword;
 
@@ -48,14 +48,14 @@ public class TfUser implements java.io.Serializable {
     public TfUser(int tfUserId, TfRole tfRole, String tfUserUsername, String tfUserHashpassword) {
         this.tfUserId = tfUserId;
         this.tfRole = tfRole;
-        this.tfUserUsername = tfUserUsername; 
+        this.tfUserUsername = tfUserUsername;
         this.tfHashpassword = tfUserHashpassword;
     }
-    
-    public TfUser(Integer role, String username, String password) { 
+
+    public TfUser(Integer role, String username, String password) {
         this.tfRole = new TfRole(role);
-        this.tfUserUsername = username; 
-        this.tfHashpassword = password; 
+        this.tfUserUsername = username;
+        this.tfHashpassword = password;
     }
 
     public int getTfUserId() {
@@ -74,7 +74,7 @@ public class TfUser implements java.io.Serializable {
         this.tfRole = tfRole;
     }
 
-    
+
     public String getTfUserUsername() {
         return this.tfUserUsername;
     }

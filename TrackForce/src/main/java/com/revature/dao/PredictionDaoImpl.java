@@ -15,11 +15,13 @@ import com.revature.utils.LogUtil;
 
 public class PredictionDaoImpl implements PredictionDao {
 	
+	private List my_query;
+
 	@Override
 	public List getTotalAssociatesByTechBetweenDates(Date afterMe, Date beforeMe)  {
-
+		
 		try(Session session = HibernateUtil.getSessionFactory().openSession()){
-
+            
 			String sql = "SELECT TF_CURRICULUM_NAME, count(*) FROM admin.tf_associate a" + 
 					" LEFT JOIN admin.tf_batch b ON a.tf_batch_id=b.tf_batch_id" + 
 					" LEFT JOIN admin.tf_curriculum c ON b.tf_curriculum_id=c.tf_curriculum_id" + 
@@ -37,8 +39,9 @@ public class PredictionDaoImpl implements PredictionDao {
 		}
 		catch (Exception e) {
 			LogUtil.logger.error(e);
+			return my_query;
 		}
-		return null;
+		
 	}
 
 }

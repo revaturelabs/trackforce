@@ -33,6 +33,7 @@ import com.revature.request.model.InterviewFromClient;
 import com.revature.services.AssociateService;
 import com.revature.services.InterviewService;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -166,7 +167,7 @@ public class AssociateResource {
 	        	spq.setParameter(2, startDate);
 	        	spq.execute();
 	        } catch (Exception e) {
-	            e.printStackTrace();
+	        	LogUtil.logger.error(e);
 	            session.flush();
 	            tx.rollback();
 	        } finally {

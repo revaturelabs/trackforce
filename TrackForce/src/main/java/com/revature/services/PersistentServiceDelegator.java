@@ -27,7 +27,7 @@ import com.revature.utils.PersistentStorage;
  * Salesforce is assumed to be responsible for invoking the proper controllers
  * This is to optimize Trackforce and run with the data that is made available to us
  */
-
+@Deprecated
 @Path("data")
 public class PersistentServiceDelegator {
 
@@ -62,7 +62,7 @@ public class PersistentServiceDelegator {
         PersistentStorage.getStorage().evictAssociates();
 
         // execute the update
-        service = lookupService.getService("associate");
+//        service = lookupService.getService("associate");
         service.execute();
 
         // update affected components
@@ -81,7 +81,7 @@ public class PersistentServiceDelegator {
         PersistentStorage.getStorage().evictBatches();
 
         // execute the update
-        service = lookupService.getService("batch");
+//        service = lookupService.getService("batch");
         service.execute();
         
         // notify Salesforce of the response
@@ -95,7 +95,7 @@ public class PersistentServiceDelegator {
         PersistentStorage.getStorage().evictClients();
 
         // execute the update
-        service = lookupService.getService("client");
+//        service = lookupService.getService("client");
         service.execute();
 
         // notify Salesforce of the response
@@ -108,7 +108,7 @@ public class PersistentServiceDelegator {
         PersistentStorage.getStorage().evictCurriculums();
 
         // execute the update
-        service = lookupService.getService("curriculum");
+//        service = lookupService.getService("curriculum");
         service.execute();
 
         // notify Salesforce of the response
@@ -121,7 +121,7 @@ public class PersistentServiceDelegator {
         PersistentStorage.getStorage().evictMarketingStatuses();
 
         // execute the update
-        service = lookupService.getService("marketing");
+//        service = lookupService.getService("marketing");
         service.execute();
         
         // notify Salesforce of the response
@@ -133,7 +133,7 @@ public class PersistentServiceDelegator {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<AssociateInfo> getAssociates() throws IOException {
         // execute the update
-        service = lookupService.getService("associate");
+//        service = lookupService.getService("associate");
         Collection<AssociateInfo> set = service.read();
 
         // notify client of the response
@@ -145,7 +145,7 @@ public class PersistentServiceDelegator {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<BatchInfo> getBatches() throws IOException {
         // execute the update
-        service = lookupService.getService("batch");
+//        service = lookupService.getService("batch");
     	Collection<BatchInfo> set = service.read();
 
         // notify client of the response
@@ -157,7 +157,7 @@ public class PersistentServiceDelegator {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<BatchInfo> getBatchesSortedByDate() throws IOException {
         // execute the update
-        service = lookupService.getService("batch");
+//        service = lookupService.getService("batch");
         Collection<BatchInfo> set = service.read("Date");
 
         // notify client of the response
@@ -169,7 +169,7 @@ public class PersistentServiceDelegator {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<ClientInfo> getClients() throws IOException {
         // execute the update
-        service = lookupService.getService("client");
+//        service = lookupService.getService("client");
         Collection<ClientInfo> set = service.read();
 
         // notify client of the response
@@ -181,7 +181,7 @@ public class PersistentServiceDelegator {
     @Produces(MediaType.APPLICATION_JSON)
     public StatusInfo getTotals() throws IOException {
         // execute the update
-        service = lookupService.getService("client");
+//        service = lookupService.getService("client");
         Collection<StatusInfo> set = service.read("summary");
         StatusInfo si = null;
         if (set != null && !set.isEmpty())
@@ -196,7 +196,7 @@ public class PersistentServiceDelegator {
     @Produces(MediaType.APPLICATION_JSON)
     public Collection<CurriculumInfo> getCurriculums() throws IOException {
         // execute the update
-        service = lookupService.getService("curriculum");
+//        service = lookupService.getService("curriculum");
         Collection<CurriculumInfo> set = service.read();
 
         // notify client of the response

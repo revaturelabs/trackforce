@@ -62,8 +62,8 @@ public class PSDCacheRunner implements Runnable {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException ex) {
-				
 				LogUtil.logger.error(ex);
+				Thread.currentThread().interrupt();
 			}
 		}
 	}

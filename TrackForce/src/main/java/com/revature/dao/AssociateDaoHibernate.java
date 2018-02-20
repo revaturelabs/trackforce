@@ -58,47 +58,6 @@ public class AssociateDaoHibernate implements AssociateDao {
         return null;
     }
 
-    /**
-     * Updates an associate's marketing status and client in the database.
-     * Removed the session parameter and the throws clause.
-     *
-     * @param id              - The ID of the associate to update.
-     * @param marketingStatus - A TfMarketingStatus object with the status to change the
-     *                        associate to.
-     * @param client          - A TfClient object with what client the associate will be mapped
-     *                        to.
-     * @return 
-     */
-	@Deprecated
-	@Override
-	public void updateAssociates(List<AssociateInfo> associates){
-		Session session = null;
-		Transaction t = null;
-		List<TfAssociate> tfAssociateList = new ArrayList<>();
-		try{
-			session = HibernateUtil.getSession();
-			for (AssociateInfo associate : associates) {
-				TfAssociate tfAssociate = (TfAssociate) session.load(TfAssociate.class, associate.getId());
-				tfAssociateList.add(tfAssociate);
-			}
-				TfClient client = (TfClient) session.load(TfClient.class, associates.get(0).getClid());
-				TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, associates.get(0).getMsid());
-				TfBatch batch = (TfBatch) session.load(TfBatch.class, associates.get(0).getBid());
-			t = session.beginTransaction();
-			for(TfAssociate associate : tfAssociateList) {
-				associate.setTfClient(client);
-				associate.setTfMarketingStatus(status);
-				associate.setTfBatch(batch);
-			}
-			session.saveOrUpdate(associates);
-			t.commit();
-		} catch(HibernateException e) {
-			t.rollback();
-			e.printStackTrace();
-		}finally {
-			session.close();
-		}
-	}
 	
 	@Override
     public void updateAssociates(List<Integer> ids, Integer marketingStatus, Integer clientid) {

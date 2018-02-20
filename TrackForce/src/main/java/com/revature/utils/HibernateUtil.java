@@ -95,13 +95,11 @@ public class HibernateUtil {
             while (drivers.hasMoreElements()) {
                 Driver driver = drivers.nextElement();
                 try {
-                	System.out.println("Deregistering Driver..");
+                	LogUtil.logger.info(String.format("Deregistering jdbc driver: %s", driver));
                     DriverManager.deregisterDriver(driver);
-                    LogUtil.logger.info(String.format("deregistering jdbc driver: %s", driver));
-                    System.out.println("Driver has been Deregistered.");
+                	LogUtil.logger.info(String.format("%s has been deregistered."));
                 } catch (SQLException e) {
                     LogUtil.logger.fatal(String.format("Error deregistering driver %s", driver), e);
-                    System.out.println("Warning: driver has not been Deregistered.");
                 }
             }
         }

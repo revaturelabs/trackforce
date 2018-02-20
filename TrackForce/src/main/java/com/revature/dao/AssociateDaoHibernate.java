@@ -3,6 +3,7 @@ package com.revature.dao;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateDaoHibernate implements AssociateDao {
@@ -44,7 +46,7 @@ public class AssociateDaoHibernate implements AssociateDao {
         //want to write a method that gets from db if not in cache
         //then throw exception if not found in db
     }
-	
+
 	@Override
     public AssociateInfo getAssociateFromDB(Integer id) {
         try(Session session = HibernateUtil.getSession()) {
@@ -53,7 +55,7 @@ public class AssociateDaoHibernate implements AssociateDao {
             return  ai;
         }
         catch(HibernateException e) {
-        	e.printStackTrace();
+        	LogUtil.logger.error(e);
         }
         return null;
     }
@@ -90,7 +92,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 			t.rollback();
 		}
     }
-	
+
 	public void updateAssociate(AssociateFromClient afc) {
 		Transaction t = null;
 		try(Session session = HibernateUtil.getSession()) {
@@ -107,8 +109,10 @@ public class AssociateDaoHibernate implements AssociateDao {
 			session.saveOrUpdate(tfAssociate);
 			t.commit();
 		} catch(HibernateException e) {
-			t.rollback();
-			e.printStackTrace();
+			if (t != null) {
+				t.rollback();
+			}
+			LogUtil.logger.error(e);
 		}
 	}
 
@@ -122,10 +126,10 @@ public class AssociateDaoHibernate implements AssociateDao {
             CriteriaQuery<TfAssociate> all = cq.select(from);
             Query<TfAssociate> tq = session.createQuery(all);
 
-            return createAssociatesMap(tq.getResultList()); 
+            return createAssociatesMap(tq.getResultList());
         }
         catch(HibernateException e) {
-        	e.printStackTrace();
+        	LogUtil.logger.error(e);
         }
         return map;
     }
@@ -185,9 +189,9 @@ public class AssociateDaoHibernate implements AssociateDao {
 				setInfo.add(ii);
 			}
     	} catch (Exception e) {
-    		e.printStackTrace();
+    		LogUtil.logger.error(e);
     	}
 		return setInfo;
 	}
-	
+
 }

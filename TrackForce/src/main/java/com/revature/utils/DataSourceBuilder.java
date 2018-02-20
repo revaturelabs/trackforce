@@ -31,20 +31,22 @@ public class DataSourceBuilder {
         // get properties file used for this datasource
         Properties dsProps = propertiesFromFile(resourceName);
 
-        ds.setDriverClassName(dsProps.getProperty("driver-class"));
-        ds.setMaxActive(Integer.parseInt(dsProps.getProperty("jdbc.max-active", "10")));
-        ds.setMaxIdle(Integer.parseInt(dsProps.getProperty("jdbc.max-idle", "10")));
-        ds.setMaxWait(Integer.parseInt(dsProps.getProperty("max-wait", "60000")));
-        ds.setTestOnBorrow(Boolean.parseBoolean(dsProps.getProperty("test-on-borrow", "true")));
-        ds.setValidationInterval(Long.parseLong(dsProps.getProperty("validation-interval", "30000")));
-        ds.setRemoveAbandoned(Boolean.parseBoolean(dsProps.getProperty("removeAbandoned")));
-        ds.setRemoveAbandonedTimeout(Integer.parseInt(dsProps.getProperty("removeAbandonedTimeout")));
-        ds.setInitialSize(Integer.parseInt(dsProps.getProperty("initialSize")));
+        if (dsProps != null) {
+        	ds.setDriverClassName(dsProps.getProperty("driver-class"));
+            ds.setMaxActive(Integer.parseInt(dsProps.getProperty("jdbc.max-active", "10")));
+            ds.setMaxIdle(Integer.parseInt(dsProps.getProperty("jdbc.max-idle", "10")));
+            ds.setMaxWait(Integer.parseInt(dsProps.getProperty("max-wait", "60000")));
+            ds.setTestOnBorrow(Boolean.parseBoolean(dsProps.getProperty("test-on-borrow", "true")));
+            ds.setValidationInterval(Long.parseLong(dsProps.getProperty("validation-interval", "30000")));
+            ds.setRemoveAbandoned(Boolean.parseBoolean(dsProps.getProperty("removeAbandoned")));
+            ds.setRemoveAbandonedTimeout(Integer.parseInt(dsProps.getProperty("removeAbandonedTimeout")));
+            ds.setInitialSize(Integer.parseInt(dsProps.getProperty("initialSize")));
 
-        ds.setUrl(dsProps.getProperty(URL_KEY));
-        ds.setUsername(dsProps.getProperty(USERNAME_KEY));
-        ds.setPassword(dsProps.getProperty(PASS_KEY));
-
+            ds.setUrl(dsProps.getProperty(URL_KEY));
+            ds.setUsername(dsProps.getProperty(USERNAME_KEY));
+            ds.setPassword(dsProps.getProperty(PASS_KEY));
+        }
+        
         return ds;
     }
 

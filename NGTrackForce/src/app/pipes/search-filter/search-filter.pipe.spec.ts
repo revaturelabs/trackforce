@@ -18,34 +18,34 @@ describe('Pipe: SearchFilterPipe', () => {
     expect(pipe.transform(testStringArr, 'FACEBOOK')).toEqual(['FaCeBooK']);
   });
 
-  it('should match names that contains search value'), function () {
+  it('should match names that contains search value', function () {
     expect(pipe.transform(testStringArr, 'oo')).toEqual(['GOOGLE', 'FaCeBooK']);
-  }
+  });
 
-  it('should return the whole array when search term is blank'), function ()  {
+  it('should return the whole array when search term is blank', function ()  {
     expect(pipe.transform(testStringArr, '')).toEqual(testStringArr);
-  }
+  });
 
-  it('should return empty array when there is no match'), function () {
+  it('should return empty array when there is no match', function () {
     expect(pipe.transform(testStringArr, 'Flabalaba')).toEqual([]);
-  }
+  });
 
-  it('matches special character'), function () {
+  it('matches special character', function () {
     expect(pipe.transform(testStringArr, '##^&')).toEqual(['##^&']);
     expect(pipe.transform(testStringArr, 'Cucumber.io')).toEqual(['Cucumber.io']);
     expect(pipe.transform(testStringArr, 'rev@ture')).toEqual(['rev@ture']);
-  }
+  });
 
-  it('matches Korean characters'), function () {
+  it('matches Korean characters', function () {
     expect(pipe.transform(testStringForeign, '삼')).toEqual(['삼성']);
-  }
-  
-  it('matches Chinese characters'), function () {
-    expect(pipe.transform(testStringForeign, '华')).toEqual(['华为']);
-  }
+  });
 
-  it('matches Russian characters'), function () {
+  it('matches Chinese characters', function () {
+    expect(pipe.transform(testStringForeign, '华')).toEqual(['华为']);
+  });
+
+  it('matches Russian characters', function () {
     expect(pipe.transform(testStringForeign, 'ром')).toEqual(['Газпром']);
-  }
+  });
 
 });

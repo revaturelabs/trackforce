@@ -1,7 +1,6 @@
 package com.revature.services;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -11,7 +10,7 @@ import com.revature.dao.BatchDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
 
-public class BatchesService implements Service {
+public class BatchesService{// implements Service {
 
     private BatchDao batchDao;
 
@@ -39,7 +38,6 @@ public class BatchesService implements Service {
         return batches;
     }
 
-    //old 
     /**
      * Gets the number of associates learning each curriculum during a given date
      * range
@@ -57,7 +55,8 @@ public class BatchesService implements Service {
      * ... ]
      * @throws IOException
      */
-//    public List<BatchInfo> getBatchChartInfo(Long fromDate, Long todate) throws IOException {
+    @Deprecated
+    public List<BatchInfo> getBatchChartInfo(Long fromDate, Long todate) throws IOException {
 //        List<BatchInfo> batches = batchDao.getBatchesSortedByDate();
 //        List<BatchInfo> subList = new LinkedList<>();
 //        if (batches == null)
@@ -71,7 +70,8 @@ public class BatchesService implements Service {
 //                }
 //        }
 //        return subList;
-//    }
+    	return null;
+    }
     
     public BatchInfo getBatchById(Integer id) {
     	return batchDao.getBatchById(id);
@@ -112,21 +112,23 @@ public class BatchesService implements Service {
 
     }
 
-    @Override
-    public synchronized void execute() throws IOException {
+//    @Deprecated
+//    @Override
+//    public synchronized void execute() throws IOException {
 //        Set<BatchInfo> bi = PersistentStorage.getStorage().getBatches();
 //        if (bi == null || bi.isEmpty())
 //            ;
 //        PersistentStorage.getStorage().setBatches(getBatches());
-    }
-
-    @SuppressWarnings("unchecked")
-	@Override
-    public synchronized <T> Collection<T> read(String... args) throws IOException {
-        if (args == null || args.length == 0) {
-            return (Set<T>) getAllBatches();
-        }
-        return (List<T>) getAllBatchesSortedByDate();
-
-    }
+//    }
+//
+//    @Deprecated
+//    @SuppressWarnings("unchecked")
+//	@Override
+//    public synchronized <T> Collection<T> read(String... args) throws IOException {
+//        if (args == null || args.length == 0) {
+//            return (Set<T>) getAllBatches();
+//        }
+//        return (List<T>) getAllBatchesSortedByDate();
+//
+//    }
 }

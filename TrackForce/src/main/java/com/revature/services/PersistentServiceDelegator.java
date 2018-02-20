@@ -32,7 +32,7 @@ import com.revature.utils.PersistentStorage;
 public class PersistentServiceDelegator {
 
     private Thread phw = new PersistenceHelperWorker();
-    private ServiceLookup lookupService = new ServiceLookup();
+//    private ServiceLookup lookupService = new ServiceLookup();
     private Service service;
     
     public PersistentServiceDelegator() {

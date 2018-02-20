@@ -355,23 +355,23 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	}
 
 	public void setBatchId(Integer tfBatchId) {
-		this.bid = tfBatchId == null ? new Integer(-1) : tfBatchId;
+		this.bid = tfBatchId == null ? -1 : tfBatchId;
 	}
 
 	public void setClientId(Integer tfClientId) {
-		this.clid = tfClientId == null ? new Integer(-1) : tfClientId;
+		this.clid = tfClientId == null ? -1 : tfClientId;
 	}
 
 	public void setCurriculumId(Integer tfCurriculumId) {
-		this.curid = tfCurriculumId == null ? new Integer(-1) : tfCurriculumId;
+		this.curid = tfCurriculumId == null ? -1 : tfCurriculumId;
 	}
 
 	public void setEndClientId(Integer tfEndClientId) {
-		this.ecid = tfEndClientId == null ? new Integer(-1) : tfEndClientId;
+		this.ecid = tfEndClientId == null ? -1 : tfEndClientId;
 	}
 
 	public void setMarketingStatusId(Integer tfMarketingStatusId) {
-		this.msid = tfMarketingStatusId == null ? new Integer(-1) : tfMarketingStatusId;
+		this.msid = tfMarketingStatusId == null ? -1 : tfMarketingStatusId;
 	}
 
 	public static StatusInfo getTotals() {
@@ -379,7 +379,6 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	}
 
 	public static void appendToMap(TfMarketingStatus tfMarketingStatus) {
-		//LogUtil.logger.info("Status: " + tfMarketingStatus.getTfMarketingStatusId());
 		switch (tfMarketingStatus.getTfMarketingStatusId()) {
 		case StatusInfo.MAPPED_TRAINING:
 			totals.setTrainingMapped(totals.getTrainingMapped() + 1);

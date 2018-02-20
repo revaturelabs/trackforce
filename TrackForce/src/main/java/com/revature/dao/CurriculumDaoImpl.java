@@ -33,7 +33,6 @@ public class CurriculumDaoImpl implements CurriculumDao {
 
 			return createCurriculaMap(tq.getResultList());
 		} catch(Exception e) {
-			e.printStackTrace();
 			LogUtil.logger.error(e);
 		}
 		return curriculums;

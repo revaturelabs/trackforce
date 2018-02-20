@@ -3,7 +3,6 @@ package com.revature.dao;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,7 +20,6 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfInterview;
 import com.revature.entity.TfMarketingStatus;

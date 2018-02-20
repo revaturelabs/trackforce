@@ -7,14 +7,8 @@ import com.revature.runnable.PSDCacheRunner;
 import com.revature.utils.HibernateUtil;
 
 public class ContextListener implements ServletContextListener {
-    PersistentServiceDelegator psd;
-
-    public ContextListener(PersistentServiceDelegator psd) {
-        this.psd = psd;
-    }
 
     public ContextListener() {
-        this.psd = new PersistentServiceDelegator();
     }
 
 	@Override
@@ -24,7 +18,7 @@ public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
-    	Thread worker = new Thread(new PSDCacheRunner(psd));
+    	Thread worker = new Thread(new PSDCacheRunner());
     	worker.start();
     }
 }

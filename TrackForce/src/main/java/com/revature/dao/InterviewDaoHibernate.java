@@ -41,7 +41,7 @@ public class InterviewDaoHibernate implements InterviewDao {
             Query<TfInterview> tq = session.createQuery(all);
             return createInterviewMap(tq.getResultList());
         } catch(Exception e) {
-            e.printStackTrace();
+        	
             LogUtil.logger.error(e);
         }
         return techs;
@@ -107,10 +107,14 @@ public class InterviewDaoHibernate implements InterviewDao {
 			tfi.setTfInterviewType(session.load(TfInterviewType.class, ifc.getTypeId()));
 			session.saveOrUpdate(tfi);
 			t1.commit();
+        } catch (NullPointerException e) {
+            LogUtil.logger.error(e);
+           
+            t1.rollback();
         } catch (Exception e) {
             LogUtil.logger.error(e);
             e.printStackTrace();
-            t1.rollback();
+            t1.rollback();        	
         }
 	}
 }

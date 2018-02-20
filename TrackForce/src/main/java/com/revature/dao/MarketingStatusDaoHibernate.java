@@ -31,7 +31,6 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 			Root<TfMarketingStatus> root = criteriaQuery.from(TfMarketingStatus.class);
 			criteriaQuery.select(root).where(builder.equal(root.get("tfMarketingStatusName"), status));
 			Query<TfMarketingStatus> query = session.createQuery(criteriaQuery);
-			//query = session.createQuery("FROM TfMarketingStatus WHERE tfMarketingStatusId = ?");
 			Integer bd = Integer.parseInt(status);
 			query.setParameter(0, bd);
 			marketingStatus = (TfMarketingStatus) query.uniqueResult();

@@ -9,10 +9,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.hibernate.HibernateException;
-
-import com.revature.dao.PredictionDaoImpl;
 import com.revature.services.PredictionService;
 
 //import com.revature.services.BatchTechsService;
@@ -29,16 +25,7 @@ public class PredictionResource {
         this.service = new PredictionService();
     }
 
-    @GET
-	public Response getAllBatchTechs() throws HibernateException, IOException{
-		return Response.ok(service.getAllBatchTechs()).build();
-	}
 
-    @Path("/{techid}")
-    @GET
-    public Response getBatchTechInfo(@PathParam("techid") int techid) throws IOException {
-    	return Response.ok(service.getAssociateCountByTechId(techid)).build();
-    }
 
     @Path("/{time1}/{time2}")
     @GET
@@ -48,6 +35,6 @@ public class PredictionResource {
     		)throws IOException {
     	Date afterThis = new Date(time1);
     	Date beforeThis = new Date(time2);
-    	return Response.ok(new PredictionDaoImpl().getTotalAssociatesByTechBetweenDates(afterThis, beforeThis)).build();
+    	return Response.ok(service.getAvailableAssociatesByTech(afterThis, beforeThis)).build();
     }
 }

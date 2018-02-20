@@ -41,26 +41,9 @@ public class BatchResource {
 	public Response getAllBatches(
 			@DefaultValue("1510549200000") @QueryParam("start") Long startDate,
 			@DefaultValue("1527480000000") @QueryParam("end") Long endDate) {
-		//return Response.status(200).entity(startDate).entity(endDate).build();
 		return Response.ok(service.getBatches(startDate, endDate)).build();
-//		List<BatchInfo> batches;
-//		Map<Integer, BatchInfo> batchMap = new HashMap<>();
-//		Set<BatchInfo> batchesSet = new HashSet<>();
-//		if (startDate != null && endDate != null) {
-//			batches = service.getBatches(startDate, endDate);
-////			for (BatchInfo b : batches) {
-////				batchMap.put(b.getId(), b);
-////			}
-//			return Response.ok(batches).build();
-//		}
-//		else {
-//			//batchMap = service.getBatches();
-//			batchesSet = service.getAllBatches();
-//			return Response.ok(batchesSet).build();
-//		}
 	}
 
-	//@GET
 	public Response getAllBatches() {
 		return Response.ok(service.getAllBatches()).build();
 	}

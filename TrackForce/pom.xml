@@ -12,6 +12,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<skip.unit.tests>false</skip.unit.tests>
+		<skip.integration.tests>false</skip.integration.tests>
+		<surefireArgLine></surefireArgLine>
 	</properties>
 
 	<dependencies>
@@ -219,9 +222,8 @@
 					<!-- Skips unit tests if the value of skip.unit.tests property is true -->
 					<!-- William changed the value of skipTests to true on 2/15/18 -->
 					<!-- to see if we can successfully deploy current build of application -->
-					<!-- this commented out <skipTests> was the original configuration -->
+					<!-- change this n the properties at the top of the pom -->
 					<skipTests>${skip.unit.tests}</skipTests>
-					<!-- <skipTests>true</skipTests> -->
 					<!-- Excludes integration tests when unit tests are run. -->
  					<excludes>
 						<exclude>**/IT*.java</exclude>
@@ -254,9 +256,8 @@
 								true -->
 							<!-- William changed the value of skipTests to true on 2/15/18 -->
 							<!-- to see if we can successfully deploy current build of application -->
-							<!-- this commented out <skipTests> was the original configuration -->
+							<!-- change this n the properties at the top of the pom -->
 							<skipTests>${skip.integration.tests}</skipTests>
-							<!-- <skipTests>true</skipTests>-->
 							<excludes>
 					            <exclude>com/revature/test/admin/cukes/*.java</exclude>
 					            <exclude>com/revature/test/admin/pom/*.java</exclude>

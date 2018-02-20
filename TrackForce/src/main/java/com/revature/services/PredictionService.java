@@ -9,14 +9,14 @@ import com.revature.dao.PredictionDaoImpl;
 public class PredictionService{
 
 	
-    private PredictionDao PredictionDao;
+    private PredictionDao predictionDao;
 
     public PredictionService() {
-        this.PredictionDao = new PredictionDaoImpl();
+        this.predictionDao = new PredictionDaoImpl();
     }
 
     public List getAvailableAssociatesByTech(Date afterMe,Date beforeMe) {
-    	return this.PredictionDao.getTotalAssociatesByTechBetweenDates(afterMe, beforeMe);
+    	return this.predictionDao.getTotalAssociatesByTechBetweenDates(afterMe, beforeMe);
     }
     
 }

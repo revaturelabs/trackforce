@@ -224,8 +224,7 @@
 					<!-- Excludes integration tests when unit tests are run. -->
 					<excludes>
 						<exclude>**/IT*.java</exclude>
-			            <exclude>com.revature.test.admin.*</exclude>
-			            <exclude>com.revature.test.utils</exclude>
+			            <exclude>com.revature.test.admin.*, com.revature.test.utils</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -257,8 +256,7 @@
 							<!-- <skipTests>true</skipTests>-->
 							
 							<excludes>
-		           	 			<exclude>com.revature.test.admin.*</exclude>
-			            		<exclude>com.revature.test.utils</exclude>
+		           	 			<exclude>com.revature.test.admin.*, >com.revature.test.utils</exclude>
 							</excludes>
 						</configuration>
 					</execution>

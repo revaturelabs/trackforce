@@ -24,9 +24,13 @@ public class ClientMappedJSON implements Comparable<ClientMappedJSON> {
 	}
 	@Override
 	public int compareTo(ClientMappedJSON arg0) {
-		// TODO Auto-generated method stub
 		return this.id-arg0.id;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(this.equals(obj)) return true;
+		return false;
+	}
 	
 }

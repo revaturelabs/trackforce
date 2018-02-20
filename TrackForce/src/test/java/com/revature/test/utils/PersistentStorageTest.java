@@ -23,13 +23,13 @@ import com.revature.dao.BatchDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.CurriculumDaoImpl;
 import com.revature.dao.MarketingStatusDaoHibernate;
-import com.revature.dao.TechDaoHibernate;
+
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
 import com.revature.model.ClientInfo;
 import com.revature.model.CurriculumInfo;
 import com.revature.model.MarketingStatusInfo;
-import com.revature.model.TechInfo;
+
 import com.revature.services.AssociateService;
 //import com.revature.test.BaseTest;
 import com.revature.utils.PersistentStorage;
@@ -46,8 +46,7 @@ public class PersistentStorageTest {
     private CurriculumDaoImpl mockCurriculumDao;
     @Mock
     private MarketingStatusDaoHibernate mockMarketingStatusDao;
-    @Mock
-    private TechDaoHibernate mockTechDao;
+    
 
     @BeforeTest
     public void beforeTests() throws IOException, SQLException {
@@ -78,10 +77,7 @@ public class PersistentStorageTest {
         HashMap<Integer, MarketingStatusInfo> marketingStatusMap = new HashMap<>();
         marketingStatusMap.put(new Integer(-1), mInfo);
         
-        TechInfo tInfo = new TechInfo();
-        tInfo.setId(new Integer(-1));
-        HashMap<Integer, TechInfo> techInfoMap = new HashMap<>();
-        techInfoMap.put(new Integer(-1), tInfo);
+      
 
         Mockito.when(mockAssociateDao.getAssociates())
                 .thenReturn(associateMap);
@@ -93,8 +89,7 @@ public class PersistentStorageTest {
                 .thenReturn(curriculumMap);
         Mockito.when(mockMarketingStatusDao.getMarketingStatus())
                 .thenReturn(marketingStatusMap);
-        Mockito.when(mockTechDao.getAllTechs())
-        		.thenReturn(techInfoMap);
+       
         
         // pull info from *database (*results mocked in this case)
         PersistentStorage.getStorage().setAssociates(mockAssociateDao.getAssociates());
@@ -102,7 +97,6 @@ public class PersistentStorageTest {
         PersistentStorage.getStorage().setClients(mockClientDao.getAllTfClients());
         PersistentStorage.getStorage().setCurriculums(mockCurriculumDao.getAllCurriculums());
         PersistentStorage.getStorage().setMarketingStatuses(mockMarketingStatusDao.getMarketingStatus());
-       	PersistentStorage.getStorage().setTechs(mockTechDao.getAllTechs());
         
     }
 
@@ -136,11 +130,6 @@ public class PersistentStorageTest {
         assertFalse(PersistentStorage.getStorage().getMarketingStatuses().isEmpty());
     }
     
-    @Test(enabled = true)
-    public void testTechPersistence() {
-    	assertNotNull(PersistentStorage.getStorage().getTechs().isEmpty());
-        assertFalse(PersistentStorage.getStorage().getTechs().isEmpty());
-    }
 
     @Test(enabled = false)
     public void updateAssociate() throws NumberFormatException, IOException {

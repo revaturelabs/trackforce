@@ -42,7 +42,6 @@ import { BatchService } from './services/batch-service/batch.service';
 import { SkillsetService } from './services/skill-set-service/skill-set.service';
 import { DataSyncService } from './services/datasync-service/data-sync.service';
 import { UserService } from './services/user-service/user.service';
-import { TechService } from './services/tech-service/tech.service';
 import { PredictionService } from './services/prediction-service/prediction.service';
 
 
@@ -106,7 +105,6 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     BatchService,
     UserService,
     SkillsetService,
-    TechService,
     DataSyncService,
     AuthGuard,
     PredictionService,

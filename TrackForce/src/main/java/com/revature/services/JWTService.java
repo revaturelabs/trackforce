@@ -121,7 +121,7 @@ public class JWTService {
 			final Claims claims = getClaimsFromToken(token);
 			expiration = claims.getExpiration();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.logger.error(e);
 		}
 		return expiration;
 	}
@@ -180,7 +180,6 @@ public class JWTService {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			LogUtil.logger.error(e);
 			session.flush();
 			tx.rollback();

@@ -3,6 +3,7 @@ package com.revature.dao;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateDaoHibernate implements AssociateDao {
@@ -54,7 +56,7 @@ public class AssociateDaoHibernate implements AssociateDao {
             return  ai;
         }
         catch(HibernateException e) {
-        	e.printStackTrace();
+        	LogUtil.logger.error(e);
         }
         return null;
     }
@@ -95,7 +97,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 			System.out.println(associates);
 		} catch(HibernateException e) {
 			t.rollback();
-			e.printStackTrace();
+			LogUtil.logger.error(e);
 		}finally {
 			session.close();
 		}
@@ -148,7 +150,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 			t.commit();
 		} catch(HibernateException e) {
 			t.rollback();
-			e.printStackTrace();
+			LogUtil.logger.error(e);
 		}
 	}
 
@@ -165,7 +167,7 @@ public class AssociateDaoHibernate implements AssociateDao {
             return createAssociatesMap(tq.getResultList()); 
         }
         catch(HibernateException e) {
-        	e.printStackTrace();
+        	LogUtil.logger.error(e);
         }
         return map;
     }
@@ -225,7 +227,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 				setInfo.add(ii);
 			}
     	} catch (Exception e) {
-    		e.printStackTrace();
+    		LogUtil.logger.error(e);
     	}
 		return setInfo;
 	}

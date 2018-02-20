@@ -25,11 +25,6 @@ Servers/**
 bin/
 .project
 
-# Driver path may be different for everyone
-driver.properties
-**/chromedriver.exe
-**/geckodriver.exe
-
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -66,7 +61,6 @@ test-output/
 *.tar.gz
 *.rar
 *.dll
-*.exe
 
 # We have to include the OJDBC driver in the project
 !ojdbc8.jar

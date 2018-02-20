@@ -13,4 +13,5 @@ public interface InterviewDao {
     public Map<Integer, InterviewInfo> getAllInterviews();
     public Set<InterviewInfo> getInterviewFromCache();
     public void addInterviewForAssociate(int associateid, InterviewFromClient ifc);
+    public void cacheAllInterviews();
 }

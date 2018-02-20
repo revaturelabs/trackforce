@@ -47,7 +47,6 @@ public class AssociateDaoHibernate implements AssociateDao {
 	
 	@Override
     public AssociateInfo getAssociateFromDB(Integer id) {
-        Map<Integer, AssociateInfo> map = new HashMap<>();
         try(Session session = HibernateUtil.getSession()) {
             TfAssociate tfa = session.load(TfAssociate.class, id);
             AssociateInfo ai = Dao2DoMapper.map(tfa);

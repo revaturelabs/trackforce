@@ -129,16 +129,6 @@
 			<version>5.2.12.Final</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
-		<!-- <dependency> <groupId>org.hibernate.validator</groupId> <artifactId>hibernate-validator</artifactId>
-			<version>6.0.7.Final</version> </dependency> -->
-		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator-annotation-processor -->
-		<!-- <dependency> <groupId>org.hibernate.validator</groupId> <artifactId>hibernate-validator-annotation-processor</artifactId>
-			<version>6.0.7.Final</version> </dependency> -->
-
-		<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
-		<!-- <dependency> <groupId>org.hibernate.javax.persistence</groupId> <artifactId>hibernate-jpa-2.1-api</artifactId>
-			<version>1.0.0.Final</version> </dependency> -->
 		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -229,11 +219,13 @@
 					<!-- William changed the value of skipTests to true on 2/15/18 -->
 					<!-- to see if we can successfully deploy current build of application -->
 					<!-- this commented out <skipTests> was the original configuration -->
-					<!-- <skipTests>${skip.integration.tests}</skipTests> -->
+					<!-- <skipTests>${skip.unit.tests}</skipTests> -->
 					<skipTests>true</skipTests>
 					<!-- Excludes integration tests when unit tests are run. -->
 					<excludes>
 						<exclude>**/IT*.java</exclude>
+			            <exclude>com.revature.test.admin.*</exclude>
+			            <exclude>com.revature.test.utils</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -263,32 +255,37 @@
 							<!-- this commented out <skipTests> was the original configuration -->
 							<skipTests>${skip.integration.tests}</skipTests>
 							<!-- <skipTests>true</skipTests>-->
+							
+							<excludes>
+		           	 			<exclude>com.revature.test.admin.*</exclude>
+			            		<exclude>com.revature.test.utils</exclude>
+							</excludes>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-<!-- 			<plugin>
+			<plugin>
 			    <groupId>org.jacoco</groupId>
 			    <artifactId>jacoco-maven-plugin</artifactId>
 			    <version>0.8.0</version>
 			    <executions>
-			        Prepares the property pointing to the JaCoCo runtime agent which
-			            is passed as VM argument when Maven the Surefire plugin is executed.
+			        <!-- Prepares the property pointing to the JaCoCo runtime agent which
+			            is passed as VM argument when Maven the Surefire plugin is executed. -->
 			        <execution>
 			            <id>pre-unit-test</id>
 			            <goals>
 			                <goal>prepare-agent</goal>
 			            </goals>
 			            <configuration>
-			                Sets the path to the file which contains the execution data.
+			                <!-- Sets the path to the file which contains the execution data. -->
 			                <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-			                Sets the name of the property containing the settings
-			                    for JaCoCo runtime agent.
+			                <!-- Sets the name of the property containing the settings
+			                    for JaCoCo runtime agent. -->
 			                <propertyName>surefireArgLine</propertyName>
 			            </configuration>
 			        </execution>
-			        Ensures that the code coverage report for unit tests is created after
-			            unit tests have been run.
+			        <!-- Ensures that the code coverage report for unit tests is created after
+			            unit tests have been run. -->
 			        <execution>
 			            <id>post-unit-test</id>
 			            <phase>test</phase>
@@ -296,18 +293,16 @@
 			                <goal>report</goal>
 			            </goals>
 			            <configuration>
-			                Sets the path to the file which contains the execution data.
+			               <!--  Sets the path to the file which contains the execution data. -->
 			                <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
-			                Sets the output directory for the code coverage report.
+			               <!--  Sets the output directory for the code coverage report. -->
 			                <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
 			            </configuration>
 			        </execution>
-			        The Executions required by unit tests are omitted.
 
 
-
-			        Prepares the property pointing to the JaCoCo runtime agent which
-			            is passed as VM argument when Maven the Failsafe plugin is executed.
+			        <!-- Prepares the property pointing to the JaCoCo runtime agent which
+			            is passed as VM argument when Maven the Failsafe plugin is executed. -->
 			        <execution>
 			            <id>pre-integration-test</id>
 			            <phase>pre-integration-test</phase>
@@ -315,15 +310,15 @@
 			                <goal>prepare-agent</goal>
 			            </goals>
 			            <configuration>
-			                Sets the path to the file which contains the execution data.
+			               <!--  Sets the path to the file which contains the execution data. -->
 			                <destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
-			                Sets the name of the property containing the settings
-			                    for JaCoCo runtime agent.
+			                <!-- Sets the name of the property containing the settings
+			                    for JaCoCo runtime agent. -->
 			                <propertyName>failsafeArgLine</propertyName>
 			            </configuration>
 			        </execution>
-			        Ensures that the code coverage report for integration tests after
-			            integration tests have been run.
+			        <!-- Ensures that the code coverage report for integration tests after
+			            integration tests have been run. -->
 			        <execution>
 			            <id>post-integration-test</id>
 			            <phase>post-integration-test</phase>
@@ -331,14 +326,14 @@
 			                <goal>report</goal>
 			            </goals>
 			            <configuration>
-			                Sets the path to the file which contains the execution data.
+			                <!-- Sets the path to the file which contains the execution data. -->
 			                <dataFile>${project.build.directory}/coverage-reports/jacoco-it.exec</dataFile>
-			                Sets the output directory for the code coverage report.
+			                <!-- Sets the output directory for the code coverage report. -->
 			                <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
 			            </configuration>
 			        </execution>
 			    </executions>
-			</plugin> -->
+			</plugin>
 		</plugins>
 	</build>
 </project>

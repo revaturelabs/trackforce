@@ -5,6 +5,7 @@ import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 
 public class WebDriverUtil {
@@ -33,7 +34,9 @@ public class WebDriverUtil {
 				f = new File("/home/ec2-user/.jenkins/workspace/TrackForce Server/TrackForce/src/main/resources/chromedriver");
 				System.out.println("Chrome driver path: " + f.getAbsolutePath());
 				System.setProperty("webdriver.chrome.driver", f.getAbsolutePath());
-				return new ChromeDriver();
+				ChromeOptions options = new ChromeOptions();
+				options.addArguments("--headless");
+				return new ChromeDriver(options);
 			} else {
 				f = new File("src/main/resources/chromedriver.exe");
 				System.out.println("Chrome driver path:"+f.getAbsolutePath());

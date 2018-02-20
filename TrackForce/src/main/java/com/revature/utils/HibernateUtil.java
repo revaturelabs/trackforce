@@ -86,22 +86,20 @@ public class HibernateUtil {
      */
     public static void shutdown() {
         if (sessionFactory != null) {
-        	System.out.println("Shutting down SessionFactory...");
+        	LogUtil.logger.info("Shutting down SessionFactory");
             sessionFactory.close();
-            System.out.println("SessionFactory has been shutdown.");
+            LogUtil.logger.info("SessionFactory has been shutdown.");
             // This manually deregisters JDBC driver, which prevents Tomcat 7 from
             // complaining about memory leaks to this class
             Enumeration<Driver> drivers = DriverManager.getDrivers();
             while (drivers.hasMoreElements()) {
                 Driver driver = drivers.nextElement();
                 try {
-                	System.out.println("Deregistering Driver..");
+                	LogUtil.logger.info(String.format("Deregistering jdbc driver: %s", driver));
                     DriverManager.deregisterDriver(driver);
-                    LogUtil.logger.info(String.format("deregistering jdbc driver: %s", driver));
-                    System.out.println("Driver has been Deregistered.");
+                	LogUtil.logger.info(String.format("%s has been deregistered.", driver));
                 } catch (SQLException e) {
                     LogUtil.logger.fatal(String.format("Error deregistering driver %s", driver), e);
-                    System.out.println("Warning: driver has not been Deregistered.");
                 }
             }
         }

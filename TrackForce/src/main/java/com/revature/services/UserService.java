@@ -120,7 +120,6 @@ public class UserService {
         } catch (Exception e) {
             session.flush();
             tx.rollback();
-            e.printStackTrace();
             LogUtil.logger.error(e);
             throw new IOException("Could not get associate", e);
         } finally {

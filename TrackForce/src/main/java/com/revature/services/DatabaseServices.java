@@ -23,6 +23,7 @@ import com.revature.dao.InterviewDaoHibernate;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.dao.TechDaoHibernate;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 /**
  * For all intensive purposes, this service mocks Salesforce albeit extreme
@@ -59,7 +60,7 @@ public class DatabaseServices {
         	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.populateAllTables_PROC");
             spq.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+        	LogUtil.logger.error(e);
             session.flush();
             tx.rollback();
         } finally {
@@ -81,7 +82,7 @@ public class DatabaseServices {
         	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.truncateAllDevTeam");
             spq.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+        	LogUtil.logger.error(e);
             session.flush();
             tx.rollback();
         } finally {
@@ -101,9 +102,8 @@ public class DatabaseServices {
         try {
         	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.populateAllTablesSF_PROC");
             spq.execute();
-//            prev = DBMode.SF;
         } catch (Exception e) {
-            e.printStackTrace();
+        	LogUtil.logger.error(e);
             session.flush();
             tx.rollback();
         } finally {
@@ -121,6 +121,5 @@ public class DatabaseServices {
     	new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
     	new TechDaoHibernate().cacheAllTechs();
     	new InterviewDaoHibernate().cacheAllInterviews();
-       
     }
 }

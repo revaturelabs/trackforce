@@ -32,7 +32,7 @@ import com.revature.utils.PersistentStorage;
 public class InterviewDaoHibernate implements InterviewDao {
 
 	public Map<Integer, InterviewInfo> getAllInterviews() {
-        Map<Integer, InterviewInfo> techs = new HashMap<Integer, InterviewInfo>();
+        Map<Integer, InterviewInfo> techs = new HashMap<>();
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<TfInterview> cq = cb.createQuery(TfInterview.class);
@@ -41,12 +41,12 @@ public class InterviewDaoHibernate implements InterviewDao {
             Query<TfInterview> tq = session.createQuery(all);
             return createInterviewMap(tq.getResultList());
         } catch(Exception e) {
-            e.printStackTrace();
+
             LogUtil.logger.error(e);
         }
         return techs;
     }
-	
+
 	@Override
 	public Map<Integer, InterviewInfo> getInterviewsByAssociate(int associateId) throws IOException {
 		 Map<Integer, InterviewInfo> interviews = null;
@@ -56,15 +56,13 @@ public class InterviewDaoHibernate implements InterviewDao {
 	            Root<TfInterview> root = criteriaQuery.from(TfInterview.class);
 	            criteriaQuery.select(root).where(builder.equal(root.get("tfAssociate"), associateId));
 	            Query<TfInterview> query = session.createQuery(criteriaQuery);
-	           // interviews = (Map<Integer, InterviewInfo>) query.getResultList();
-	           // return interviews;
 	            return createInterviewMap(query.getResultList());
 	        } catch (NoResultException nre) {
 	            LogUtil.logger.error(nre);
 	        }
 	        return interviews;
 	}
-	
+
 	public Map<Integer, InterviewInfo> createInterviewMap(List<TfInterview> interviews){   // works in tandem with 'getInterviewByAssociate()' method
         Map<Integer, InterviewInfo> map = new HashMap<>();
         if (interviews != null) {
@@ -74,19 +72,19 @@ public class InterviewDaoHibernate implements InterviewDao {
         }
         return map;
     }
-	
+
 	public Set<InterviewInfo> getInterviewFromCache(){
 		return PersistentStorage.getStorage().getInterviews();
 	}
-	
+
 	public InterviewInfo getInterviewFromCacheByID(int id) {
 		return PersistentStorage.getStorage().getInterviewsAsMap().get(new Integer(id));
 	}
-	
-	
-	
+
+
+
 	public void cacheAllInterviews(){
-		PersistentStorage.getStorage().setInterviews(new InterviewDaoHibernate().getAllInterviews());			
+		PersistentStorage.getStorage().setInterviews(new InterviewDaoHibernate().getAllInterviews());
 	}
 
 	@Override
@@ -108,13 +106,15 @@ public class InterviewDaoHibernate implements InterviewDao {
 			session.saveOrUpdate(tfi);
 			t1.commit();
         } catch (NullPointerException e) {
-            LogUtil.logger.error(e);
-            e.printStackTrace();
-            t1.rollback();
+        	LogUtil.logger.error(e);
+        	if (t1 != null) {
+        		t1.rollback();
+        	}
         } catch (Exception e) {
-            LogUtil.logger.error(e);
-            e.printStackTrace();
-            t1.rollback();        	
+        	LogUtil.logger.error(e);
+        	if (t1 != null) {
+        		t1.rollback();
+        	}
         }
 	}
 }

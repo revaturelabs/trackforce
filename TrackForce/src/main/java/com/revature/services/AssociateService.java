@@ -47,10 +47,6 @@ public class AssociateService{
 		return associateDao.getAssociate(associateid);
 
 	}
-	public Response updateAssociates(List<AssociateInfo> associates) {
-		associateDao.updateAssociates(associates);
-		return Response.status(200).build();
-	}
 
 
     /**
@@ -78,7 +74,6 @@ public class AssociateService{
 	public Collection<CurriculumJSON> getCurriculumsByStatus(int statusid) throws HibernateException, IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null) {
-			//execute();
 			associates = PersistentStorage.getStorage().getAssociates();
 		}
 

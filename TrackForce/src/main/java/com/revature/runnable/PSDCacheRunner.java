@@ -8,6 +8,7 @@ import com.revature.dao.CurriculumDaoImpl;
 import com.revature.dao.InterviewDaoHibernate;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.dao.TechDaoHibernate;
+import com.revature.utils.LogUtil;
 
 /**
  * Used to handle caching on server startup.
@@ -18,7 +19,6 @@ public class PSDCacheRunner implements Runnable {
 	public static final long DEFAULT_CACHE_START = 30000;
 	private long delayedStartTime = DEFAULT_CACHE_START;
 	
-	public PSDCacheRunner() { };
 
 	/**
 	 * Performs caching operations for persistent data used in application
@@ -27,7 +27,6 @@ public class PSDCacheRunner implements Runnable {
 	public void run() {
 		// Check if data used for caching is valid
 		if (hasValidFields()) {
-			//delay();
 			cache();
 		}
 	}
@@ -62,7 +61,8 @@ public class PSDCacheRunner implements Runnable {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException ex) {
-				// do nothing
+				LogUtil.logger.error(ex);
+				Thread.currentThread().interrupt();
 			}
 		}
 	}
@@ -78,43 +78,43 @@ public class PSDCacheRunner implements Runnable {
 	            new AssociateDaoHibernate().cacheAllAssociates();
 	            long endTime = System.nanoTime();
 	            double elapsedTime = ((double)(endTime -startTime))/1000000000,total=elapsedTime;
-	            System.out.println("Associates caching time: "+elapsedTime+" seconds");
+	            LogUtil.logger.debug("Associates caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
 	            new BatchDaoHibernate().cacheAllBatches();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000; total+=elapsedTime;
-	            System.out.println("Batches caching time: "+elapsedTime+" seconds");
+	            LogUtil.logger.debug("Batches caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
 	            new ClientDaoImpl().cacheAllClients();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-	            System.out.println("Clients caching time: "+elapsedTime+" seconds");
+	            LogUtil.logger.debug("Clients caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
 	            new CurriculumDaoImpl().cacheAllCurriculms();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-	            System.out.println("Curriculums caching time: "+elapsedTime+" seconds");
+	            LogUtil.logger.debug("Curriculums caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
 	            new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-	            System.out.println("MarketingStatuses caching time: "+elapsedTime+" seconds");
+	            LogUtil.logger.debug("MarketingStatuses caching time: "+elapsedTime+" seconds");
 	            
 	            startTime = System.nanoTime(); // to do
                 new InterviewDaoHibernate().cacheAllInterviews();
                 endTime = System.nanoTime();
                 elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-                System.out.println("Interviews caching time: "+elapsedTime+" seconds");
+                LogUtil.logger.debug("Interviews caching time: "+elapsedTime+" seconds");
 	            
 	            startTime = System.nanoTime();
 	            new TechDaoHibernate().cacheAllTechs();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-	            System.out.println("Technologies caching time: "+elapsedTime+" seconds");
-	            System.out.println("Total caching time: "+total+" seconds");
+	            LogUtil.logger.debug("Technologies caching time: "+elapsedTime+" seconds");
+	            LogUtil.logger.debug("Total caching time: "+total+" seconds");
 	}
 }

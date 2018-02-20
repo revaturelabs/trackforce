@@ -91,33 +91,22 @@ public class TechDaoHibernate implements TechDao{
             CriteriaQuery<TfTech> all = cq.select(from);
             Query<TfTech> tq = session.createQuery(all);
             return createTechMap(tq.getResultList());
-//        	String sql = "SELECT * FROM ADMIN.TF_TECH";
-//    		Query query = session.createNativeQuery(sql);
-//    		List query_results = query.list();
-//    		return createTechMap(query_results);
         } catch(Exception e) {
-            e.printStackTrace();
             LogUtil.logger.error(e);
         }
         return techs;
     }
     
-    
+    // Using native SQL here
     public List<TfTech> getAllTechsNative() {
         Map<Integer, TechInfo> techs = new HashMap<Integer, TechInfo>();
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-//            CriteriaBuilder cb = session.getCriteriaBuilder();
-//            CriteriaQuery<TfTech> cq = cb.createQuery(TfTech.class);
-//            Root<TfTech> from = cq.from(TfTech.class);
-//            CriteriaQuery<TfTech> all = cq.select(from);
-//            Query<TfTech> tq = session.createQuery(all);
-//            return createTechMap(tq.getResultList());
         	String sql = "SELECT * FROM ADMIN.TF_TECH";
     		Query<TfTech> query = session.createNativeQuery(sql);
     		List<TfTech> query_results = query.list();
     		return query_results;
         } catch(Exception e) {
-            e.printStackTrace();
+           
             LogUtil.logger.error(e);
         }
         return null;

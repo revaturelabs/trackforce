@@ -17,7 +17,6 @@ public interface AssociateDao {
 	public Set<AssociateInfo> getAllAssociates();
 	public void cacheAllAssociates();
 	void updateAssociates(List<Integer> associateids, Integer marketingStatus, Integer clientid);
-	void updateAssociates(List<AssociateInfo> associates);
 	public Map<Integer, AssociateInfo> createAssociatesMap(List<TfAssociate> associateList);
 	public void updateAssociate(AssociateFromClient afc);
 	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId);

@@ -20,7 +20,6 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfInterview;
 import com.revature.entity.TfMarketingStatus;
@@ -29,6 +28,7 @@ import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateDaoHibernate implements AssociateDao {
@@ -44,7 +44,7 @@ public class AssociateDaoHibernate implements AssociateDao {
         //want to write a method that gets from db if not in cache
         //then throw exception if not found in db
     }
-	
+
 	@Override
     public AssociateInfo getAssociateFromDB(Integer id) {
         try(Session session = HibernateUtil.getSession()) {
@@ -53,73 +53,30 @@ public class AssociateDaoHibernate implements AssociateDao {
             return  ai;
         }
         catch(HibernateException e) {
-        	e.printStackTrace();
+        	LogUtil.logger.error(e);
         }
         return null;
     }
 
-    /**
-     * Updates an associate's marketing status and client in the database.
-     * Removed the session parameter and the throws clause.
-     *
-     * @param id              - The ID of the associate to update.
-     * @param marketingStatus - A TfMarketingStatus object with the status to change the
-     *                        associate to.
-     * @param client          - A TfClient object with what client the associate will be mapped
-     *                        to.
-     * @return 
-     */
-	@Override
-	public void updateAssociates(List<AssociateInfo> associates){
-		Session session = null;
-		Transaction t = null;
-		List<TfAssociate> tfAssociateList = new ArrayList<>();
-		try{
-			session = HibernateUtil.getSession();
-			for (AssociateInfo associate : associates) {
-				TfAssociate tfAssociate = (TfAssociate) session.load(TfAssociate.class, associate.getId());
-				tfAssociateList.add(tfAssociate);
-			}
-				TfClient client = (TfClient) session.load(TfClient.class, associates.get(0).getClid());
-				TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, associates.get(0).getMsid());
-				TfBatch batch = (TfBatch) session.load(TfBatch.class, associates.get(0).getBid());
-			t = session.beginTransaction();
-			for(TfAssociate associate : tfAssociateList) {
-				associate.setTfClient(client);
-				associate.setTfMarketingStatus(status);
-				associate.setTfBatch(batch);
-			}
-			session.saveOrUpdate(associates);
-			t.commit();
-			System.out.println(associates);
-		} catch(HibernateException e) {
-			t.rollback();
-			e.printStackTrace();
-		}finally {
-			session.close();
-		}
-	}
-	
 	@Override
     public void updateAssociates(List<Integer> ids, Integer marketingStatus, Integer clientid) {
     	List<TfAssociate> associates = new ArrayList<TfAssociate>();
-		try(Session session = HibernateUtil.getSession();){
-			for(Integer id : ids) {
+    	Session session = HibernateUtil.getSession();
+    	Transaction t = session.beginTransaction();
+		try{
+			for(Integer id : ids)
 				associates.add((TfAssociate) session.load(TfAssociate.class, id));
-			}
-			Transaction t = session.beginTransaction();
+			t = session.beginTransaction();
 			for(TfAssociate associate : associates) {
 				if(clientid != 0) {
 					if(clientid != -1) {
 						TfClient client = (TfClient) session.load(TfClient.class, clientid);
-						//client = new ClientDaoImpl().getClientFromCache(clientid);
 						associate.setTfClient(client);
 					}
 					else
 						associate.setTfClient(null);
 				}
 				if(marketingStatus != 0) {
-					//TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, marketingStatus);
 					TfMarketingStatus status = new MarketingStatusDaoHibernate().getMarketingStatus(marketingStatus);
 					associate.setTfMarketingStatus(status);
 				}
@@ -127,9 +84,12 @@ public class AssociateDaoHibernate implements AssociateDao {
 			}
 			t.commit();
 			PersistentStorage.getStorage().setAssociates(createAssociatesMap(associates));
-		} 
+		} catch (HibernateException e) {
+			 LogUtil.logger.error(e);
+			t.rollback();
+		}
     }
-	
+
 	public void updateAssociate(AssociateFromClient afc) {
 		Transaction t = null;
 		try(Session session = HibernateUtil.getSession()) {
@@ -140,14 +100,16 @@ public class AssociateDaoHibernate implements AssociateDao {
 			tfAssociate.setTfClient(client);
 			tfAssociate.setTfMarketingStatus(status);
 			tfAssociate.setTfClientStartDate(Timestamp.from(Instant.ofEpochSecond(afc.getStartDateUnixTime())));
-			System.out.println(tfAssociate);
-			System.out.println(afc);
+			LogUtil.logger.debug(tfAssociate);
+			LogUtil.logger.debug(afc);
 			PersistentStorage.getStorage().updateAssociate(afc.getId(),afc.getClientId(),afc.getMkStatus(),afc.getStartDateUnixTime());
 			session.saveOrUpdate(tfAssociate);
 			t.commit();
 		} catch(HibernateException e) {
-			t.rollback();
-			e.printStackTrace();
+			if (t != null) {
+				t.rollback();
+			}
+			LogUtil.logger.error(e);
 		}
 	}
 
@@ -161,10 +123,10 @@ public class AssociateDaoHibernate implements AssociateDao {
             CriteriaQuery<TfAssociate> all = cq.select(from);
             Query<TfAssociate> tq = session.createQuery(all);
 
-            return createAssociatesMap(tq.getResultList()); 
+            return createAssociatesMap(tq.getResultList());
         }
         catch(HibernateException e) {
-        	e.printStackTrace();
+        	LogUtil.logger.error(e);
         }
         return map;
     }
@@ -224,9 +186,9 @@ public class AssociateDaoHibernate implements AssociateDao {
 				setInfo.add(ii);
 			}
     	} catch (Exception e) {
-    		e.printStackTrace();
+    		LogUtil.logger.error(e);
     	}
 		return setInfo;
 	}
-	
+
 }

@@ -28,7 +28,6 @@ public class PersistentStorage {
 	private Map<Integer, ClientInfo> clients = new HashMap<>();
 	private Map<Integer, InterviewInfo> interviews = new HashMap<>();
 	private Map<Integer, CurriculumInfo> curriculums = new HashMap<>();
-	private Map<Integer, TechInfo> techs = new HashMap<>();
 	private Map<Integer, MarketingStatusInfo> marketingStatuses = new HashMap<>();
 	private StatusInfo totalStats;
 
@@ -42,7 +41,7 @@ public class PersistentStorage {
 	}
 
 	public Set<AssociateInfo> getAssociates() {
-		return new TreeSet<AssociateInfo>(associates.values());
+		return new TreeSet<>(associates.values());
 	}
 
 	public void setAssociates(Map<Integer, AssociateInfo> associates) {
@@ -57,8 +56,8 @@ public class PersistentStorage {
 	public BatchInfo getBatch(Integer id) {
 		return batches.get(id);
 	}
-	public TreeSet<BatchInfo> getBatches() {
-		return new TreeSet<BatchInfo>(batches.values());
+	public Set<BatchInfo> getBatches() {
+		return new TreeSet<>(batches.values());
 	}
 
 	public void setBatches(Map<Integer, BatchInfo> batches) {
@@ -71,7 +70,7 @@ public class PersistentStorage {
 	}
 		
 	public Set<ClientInfo> getClients() {
-		return new TreeSet<ClientInfo>(clients.values());
+		return new TreeSet<>(clients.values());
 	}
 	
 	public ClientInfo getClient(int id) {
@@ -79,7 +78,7 @@ public class PersistentStorage {
 	}
 	
 	public Set<InterviewInfo> getInterviews() {
-		return new TreeSet<InterviewInfo>(interviews.values());
+		return new TreeSet<>(interviews.values());
 	}
 
 	public void setClients(Map<Integer, ClientInfo> clients) {
@@ -101,18 +100,6 @@ public class PersistentStorage {
 	public StatusInfo getTotals() {
 		return this.totalStats;
 	}
-
-	public Set<TechInfo> getTechs() {
-		return new TreeSet<TechInfo>(techs.values());
-	}
-
-	public void setTechs(Map<Integer, TechInfo> map) {
-		if (this.techs == null)
-			this.techs = map;
-		else {
-			this.techs.putAll(map);
-		}
-	}
 	
 	public Set<CurriculumInfo> getCurriculums() {
 		return new TreeSet<CurriculumInfo>(curriculums.values());
@@ -127,7 +114,7 @@ public class PersistentStorage {
 	}
 
 	public Set<MarketingStatusInfo> getMarketingStatuses() {
-		return new TreeSet<MarketingStatusInfo>(marketingStatuses.values());
+		return new TreeSet<>(marketingStatuses.values());
 	}
 
 	public void setMarketingStatuses(Map<Integer, MarketingStatusInfo> marketingStatuses) {
@@ -147,9 +134,9 @@ public class PersistentStorage {
 	}
 
 	public List<BatchInfo> getBatchesByDate() {
-		List<BatchInfo> batches = new LinkedList<BatchInfo>(this.batches.values());
-		Collections.sort(batches, new DateComparator());
-		return batches;
+		List<BatchInfo> batchList = new LinkedList<BatchInfo>(this.batches.values());
+		Collections.sort(batchList, new DateComparator());
+		return batchList;
 	}
 
 	private class DateComparator implements Comparator<BatchInfo> {
@@ -185,9 +172,6 @@ public class PersistentStorage {
 		this.curriculums.clear();
 	}
 	
-	public void evictTechs() {
-		this.techs.clear();
-	}
 
 	public void evictMarketingStatuses() {
 		this.marketingStatuses.clear();
@@ -218,9 +202,6 @@ public class PersistentStorage {
 		return this.curriculums;
 	}
 	
-	public Map<Integer, TechInfo> getTechsAsMap() {
-		return this.techs;
-	}
 	
 	public Map<Integer, MarketingStatusInfo> getMarketingAsMap() {
 		return this.marketingStatuses;

@@ -94,6 +94,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 			t1 = session.beginTransaction();
 			TfInterview tfi = new TfInterview();
 			String sql = "SELECT MAX(tf_interview_id) FROM admin.tf_interview";
+			@SuppressWarnings("rawtypes")
 			Query q = session.createNativeQuery(sql);
 			BigDecimal max = (BigDecimal) q.getSingleResult();
 			Integer id = Integer.parseInt(max.toBigInteger().toString()) + 1;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.revature.dao.PredictionDao;
 import com.revature.dao.PredictionDaoImpl;
+import com.revature.request.model.AssociatesWithTech;
 
 public class PredictionService{
 
@@ -15,7 +16,7 @@ public class PredictionService{
         this.predictionDao = new PredictionDaoImpl();
     }
 
-    public List getAvailableAssociatesByTech(Date afterMe,Date beforeMe) {
+    public List<AssociatesWithTech> getAvailableAssociatesByTech(Date afterMe,Date beforeMe) {
     	return this.predictionDao.getTotalAssociatesByTechBetweenDates(afterMe, beforeMe);
     }
     

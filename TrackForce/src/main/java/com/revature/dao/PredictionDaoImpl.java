@@ -15,10 +15,10 @@ import com.revature.utils.LogUtil;
 
 public class PredictionDaoImpl implements PredictionDao {
 	
-	private List my_query;
+	private List<AssociatesWithTech> my_query;
 
 	@Override
-	public List getTotalAssociatesByTechBetweenDates(Date afterMe, Date beforeMe)  {
+	public List<AssociatesWithTech> getTotalAssociatesByTechBetweenDates(Date afterMe, Date beforeMe)  {
 		
 		try(Session session = HibernateUtil.getSessionFactory().openSession()){
             
@@ -28,13 +28,14 @@ public class PredictionDaoImpl implements PredictionDao {
 					" WHERE b.tf_batch_end_date >= TO_DATE(?, 'YYYY-MM-DD')" + 
 					" AND b.tf_batch_end_date <= TO_DATE(?, 'YYYY-MM-DD')" + 
 					" GROUP BY TF_CURRICULUM_NAME ORDER BY TF_CURRICULUM_NAME";
+			@SuppressWarnings("unchecked")
 			Query<AssociatesWithTech> query = session.createNativeQuery(sql);
 			DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 			String s1 = df.format(afterMe);
 			query.setParameter(1, s1);
 			String s2 = df.format(beforeMe);
 		    query.setParameter(2, s2);
-			List query_results = query.list();
+			List<AssociatesWithTech> query_results = query.list();
 			return query_results;
 		}
 		catch (Exception e) {

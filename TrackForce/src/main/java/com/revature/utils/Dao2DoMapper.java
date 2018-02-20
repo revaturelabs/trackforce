@@ -18,9 +18,6 @@ public class Dao2DoMapper {
         if (tfa.getTfClientStartDate() != null) {
         	ai.setClientStartDate(tfa.getTfClientStartDate().getTime());
         }
-        Timestamp start = tfa.getTfClientStartDate();
-        String startDate = (start != null) ? start.toString() : UNKNOWN_VALUE;
-
         if (tfa.getTfBatch() == null) {  //TF_BATCH_ID
             ai.setBatchId(new Integer(-1));
             ai.setBatchName(UNKNOWN_VALUE);
@@ -59,15 +56,6 @@ public class Dao2DoMapper {
             ai.setLastName(UNKNOWN_VALUE);
         else
             ai.setLastName(tfa.getTfAssociateLastName());
- /*
-        if (tfa.getTfMarketingStatus() == null) {        //TF_MARKETING_STATUS_ID
-            ai.setMarketingStatusId(new Integer(-1));
-            ai.setMarketingStatus(UNKNOWN_VALUE);
-        } else if (tfa.getTfMarketingStatus().getTfMarketingStatusId() >= StatusInfo.DIRECTLY_PLACED) {
-            ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
-            ai.setMarketingStatus(OTHER_VALUE);
-        }
-   */
         if (tfa.getTfMarketingStatus() == null) {		//TF_MARKETING_STATUS_ID
             ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
             ai.setMarketingStatus(OTHER_VALUE);

@@ -32,7 +32,7 @@ import com.revature.utils.PersistentStorage;
 public class InterviewDaoHibernate implements InterviewDao {
 
 	public Map<Integer, InterviewInfo> getAllInterviews() {
-        Map<Integer, InterviewInfo> techs = new HashMap<Integer, InterviewInfo>();
+        Map<Integer, InterviewInfo> techs = new HashMap<>();
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<TfInterview> cq = cb.createQuery(TfInterview.class);
@@ -56,8 +56,6 @@ public class InterviewDaoHibernate implements InterviewDao {
 	            Root<TfInterview> root = criteriaQuery.from(TfInterview.class);
 	            criteriaQuery.select(root).where(builder.equal(root.get("tfAssociate"), associateId));
 	            Query<TfInterview> query = session.createQuery(criteriaQuery);
-	           // interviews = (Map<Integer, InterviewInfo>) query.getResultList();
-	           // return interviews;
 	            return createInterviewMap(query.getResultList());
 	        } catch (NoResultException nre) {
 	            LogUtil.logger.error(nre);
@@ -108,17 +106,15 @@ public class InterviewDaoHibernate implements InterviewDao {
 			session.saveOrUpdate(tfi);
 			t1.commit();
         } catch (NullPointerException e) {
-            LogUtil.logger.error(e);
-            e.printStackTrace();
-            if (t1 != null) {
-							t1.rollback();
-						}
+        	LogUtil.logger.error(e);
+        	if (t1 != null) {
+        		t1.rollback();
+        	}
         } catch (Exception e) {
-            LogUtil.logger.error(e);
-            e.printStackTrace();
-            if (t1 != null) {
-							t1.rollback();
-						}
+        	LogUtil.logger.error(e);
+        	if (t1 != null) {
+        		t1.rollback();
+        	}
         }
 	}
 }

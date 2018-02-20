@@ -10,15 +10,12 @@ import com.revature.dao.InterviewDao;
 import com.revature.dao.InterviewDaoHibernate;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.InterviewFromClient;
-import com.revature.utils.PersistentStorage;
 
-public class InterviewService implements Service {
-
+public class InterviewService{
     private InterviewDao interviewDao;
 
     public InterviewService() {
         this.interviewDao = new InterviewDaoHibernate();
-        //this.associateDao = new AssociateDaoHibernate();
     }
 
     /**
@@ -32,10 +29,9 @@ public class InterviewService implements Service {
 
     public Set<InterviewInfo> getAllInterviews() throws HibernateException, IOException{
   	
-    	//Set<InterviewInfo> interviews = PersistentStorage.getStorage().getInterviews();
     	Set<InterviewInfo> interviews = interviewDao.getInterviewFromCache();
         if (interviews == null || interviews.isEmpty()) {
-            execute();
+            interviewDao.cacheAllInterviews();
             return interviewDao.getInterviewFromCache();
         }
 
@@ -47,18 +43,4 @@ public class InterviewService implements Service {
     	interviewDao.addInterviewForAssociate(associateId, ifc);
     }
 
-	@Override
-	public synchronized void execute() throws IOException {
-		Set<InterviewInfo> ti = interviewDao.getInterviewFromCache();
-		if(ti == null || ti.isEmpty()) {
-			PersistentStorage.getStorage().setInterviews(new InterviewDaoHibernate().getAllInterviews());
-			//InterviewDaoHibernate.cacheAllInterviews();
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> Set<T> read(String...args) throws IOException {
-		return (Set<T>) getAllInterviews();
-	}
 }

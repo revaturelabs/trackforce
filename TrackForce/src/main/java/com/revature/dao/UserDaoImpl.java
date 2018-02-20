@@ -42,10 +42,12 @@ public class UserDaoImpl implements UserDAO {
             TfUser user = new TfUser(newUser.getRole(), newUser.getUsername(), password);
             session.save(user);
             return true;
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
         	t1.rollback();
         	LogUtil.logger.error(e);
-            e.printStackTrace();
+        } catch (Exception e) {
+        	t1.rollback();
+        	LogUtil.logger.error(e);        	
         }
         return false;
     }
@@ -55,8 +57,7 @@ public class UserDaoImpl implements UserDAO {
 	public List<TfUser> getAllUsers() {
 		List<TfUser> user = null;
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-        	List<TfUser> list = session.createQuery("from com.revature.entity.TfUser").list();
-        	return list;
+        	return session.createQuery("from com.revature.entity.TfUser").list();
         } catch(Exception e) {
         	LogUtil.logger.error(e);
         }

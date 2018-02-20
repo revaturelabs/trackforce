@@ -38,9 +38,11 @@ public class UserServiceTest{
         ui.setUsername("username");
         
         TfUser tfu = new TfUser();
+        tfu.setTfUserId(1);
         
         List<TfUser> dummyUsers = new ArrayList<>();
         dummyUsers.add(tfu);
+        
         
         Mockito.when(userDaoMock.getAllUsers()).thenReturn(dummyUsers);
         Mockito.when(userDaoMock.getUser("username")).thenReturn(tfu);
@@ -57,12 +59,6 @@ public class UserServiceTest{
     public void testGetUsers() throws Exception {
     	List<TfUser> list = userService.getAllUsers();
     	assertEquals(list.get(0).getTfUserId(),1);
-    }
-    
-    @Test(enabled = true)
-    public void testGetInterviewForAssociate() throws Exception {
-    	String uname = "username";
-    	TfUser tfu = userService.getUser(uname);
-    	assertEquals(tfu.getTfUserUsername(),uname);
+    	
     }
 }

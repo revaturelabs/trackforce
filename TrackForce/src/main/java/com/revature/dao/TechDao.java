@@ -19,4 +19,5 @@ public interface TechDao {
     public Map<Integer, TechInfo> getAllTechs();
     public Set<TechInfo> getTechFromCache();
     public List<TfTech> getAllTechsNative();
+    public void cacheAllTechs();
 }

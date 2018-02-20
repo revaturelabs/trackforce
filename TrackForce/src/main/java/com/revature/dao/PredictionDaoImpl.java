@@ -16,12 +16,13 @@ import com.revature.request.model.AssociatesWithTech;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
-public class JunctionDaoImpl implements JunctionDao {
+public class PredictionDaoImpl implements PredictionDao {
 	
 	public static void main(String[] args) {
 		Date before = new Date(2018,12,30);
 		Date after = new Date();
-		System.out.println(new JunctionDaoImpl().getTotalAssociatesByTechBetweenDates(after, before));
+		System.out.println(new PredictionDaoImpl().getTotalAssociatesByTechBetweenDates(after, before));
+		LogUtil.logger.debug(new PredictionDaoImpl().getTotalAssociatesByTechBetweenDates(after, before));
 	}
 
 	
@@ -102,13 +103,21 @@ public class JunctionDaoImpl implements JunctionDao {
 	
 	public List getTotalAssociatesByTechBetweenDates(Date afterMe, Date beforeMe) {
 		try(Session session = HibernateUtil.getSessionFactory().openSession()){
-			String sql = "SELECT t.TF_TECH_NAME,count(*) FROM admin.tf_associate a " + 
-					"		  LEFT JOIN admin.tf_batch b ON a.tf_batch_id=b.tf_batch_id" + 
-					"		  LEFT JOIN admin.tf_batch_junction j ON j.tf_batch_id=b.tf_batch_id" + 
-					"		  LEFT JOIN admin.tf_tech t ON j.tf_tech_id = t.tf_tech_id" + 
-					"		  WHERE b.tf_batch_end_date >= TO_DATE(?, 'YYYY-MM-DD')" + 
-					"		  AND b.tf_batch_end_date <= TO_DATE(?, 'YYYY-MM-DD')" + 
-					"		  GROUP BY t.TF_TECH_NAME ORDER BY t.TF_TECH_NAME";
+			// OLD QUERY WITH BATCH/TECH JUNCTION STUFF
+//			String sql = "SELECT t.TF_TECH_NAME,count(*) FROM admin.tf_associate a " + 
+//					"		  LEFT JOIN admin.tf_batch b ON a.tf_batch_id=b.tf_batch_id" + 
+//					"		  LEFT JOIN admin.tf_batch_junction j ON j.tf_batch_id=b.tf_batch_id" + 
+//					"		  LEFT JOIN admin.tf_tech t ON j.tf_tech_id = t.tf_tech_id" + 
+//					"		  WHERE b.tf_batch_end_date >= TO_DATE(?, 'YYYY-MM-DD')" + 
+//					"		  AND b.tf_batch_end_date <= TO_DATE(?, 'YYYY-MM-DD')" + 
+//					"		  GROUP BY t.TF_TECH_NAME ORDER BY t.TF_TECH_NAME";
+			
+			String sql = "SELECT TF_CURRICULUM_NAME, count(*) FROM admin.tf_associate a" + 
+					" LEFT JOIN admin.tf_batch b ON a.tf_batch_id=b.tf_batch_id" + 
+					" LEFT JOIN admin.tf_curriculum c ON b.tf_curriculum_id=c.tf_curriculum_id" + 
+					" WHERE b.tf_batch_end_date >= TO_DATE(?, 'YYYY-MM-DD')" + 
+					" AND b.tf_batch_end_date <= TO_DATE(?, 'YYYY-MM-DD')" + 
+					" GROUP BY TF_CURRICULUM_NAME ORDER BY TF_CURRICULUM_NAME";
 			Query<AssociatesWithTech> query = session.createNativeQuery(sql);
 			DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 			String s1 = df.format(afterMe);

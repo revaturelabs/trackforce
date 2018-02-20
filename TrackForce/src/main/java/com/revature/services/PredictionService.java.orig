@@ -1,6 +1,5 @@
 package com.revature.services;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -9,8 +8,13 @@ import com.revature.dao.PredictionDaoImpl;
 
 public class PredictionService{
 
+<<<<<<< HEAD
+
+    private PredictionDao PredictionDao;
+=======
 	
     private PredictionDao predictionDao;
+>>>>>>> 1b0293314b38f15d8d8855176d52a91d3064766e
 
     public PredictionService() {
         this.predictionDao = new PredictionDaoImpl();
@@ -19,6 +23,5 @@ public class PredictionService{
     public List getAvailableAssociatesByTech(Date afterMe,Date beforeMe) {
     	return this.predictionDao.getTotalAssociatesByTechBetweenDates(afterMe, beforeMe);
     }
-    
-}
 
+}

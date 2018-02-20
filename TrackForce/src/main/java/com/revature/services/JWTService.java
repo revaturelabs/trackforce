@@ -119,7 +119,9 @@ public class JWTService {
 		Date expiration = null;
 		try {
 			final Claims claims = getClaimsFromToken(token);
-			expiration = claims.getExpiration();
+			if (claims != null) {
+				expiration = claims.getExpiration();
+			}
 		} catch (Exception e) {
 			LogUtil.logger.error(e);
 		}
@@ -138,7 +140,7 @@ public class JWTService {
 		try {
 			claims = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.logger.error(e);
 		}
 		return claims;
 	}
@@ -167,16 +169,19 @@ public class JWTService {
 
 			try {
 				claims = getClaimsFromToken(token);
-				tokenUsername = claims.getSubject();
-				tfUser = userDao.getUser(tokenUsername);
-
+				if (claims != null) {
+					tokenUsername = claims.getSubject();
+				}
+				if (tokenUsername != null) {
+					tfUser = userDao.getUser(tokenUsername);	
+				}
 				if (tfUser != null) {
 					// makes sure the token is fresh and usernames are equal
 					verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token));
 				}
 
 			} catch (SignatureException se) {
-				se.printStackTrace();
+				LogUtil.logger.error(se);
 			}
 
 		} catch (Exception e) {
@@ -212,9 +217,15 @@ public class JWTService {
 			}
 
 			claims = getClaimsFromToken(token);
-			tokenUsername = claims.getSubject();
-			tfUser = userDao.getUser(tokenUsername);
-			tfRole = tfUser.getTfRole();
+			if (claims != null) {
+				tokenUsername = claims.getSubject();
+			}
+			if (tokenUsername != null) {
+				tfUser = userDao.getUser(tokenUsername);
+			}
+			if (tfUser != null) {
+				tfRole = tfUser.getTfRole();
+			}
 
 			if (tfUser != null && tfRole != null) {
 				// makes sure the token is fresh and usernames are equal
@@ -222,11 +233,9 @@ public class JWTService {
 				verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
 						&& tfRole.getTfRoleName().equals("Admin"));
 			}
-
 			session.flush();
 			tx.commit();
 			return verified;
-
 		} catch (Exception e) {
 			session.flush();
 			tx.rollback();
@@ -261,19 +270,23 @@ public class JWTService {
 
 			try {
 				claims = getClaimsFromToken(token);
-				tokenUsername = claims.getSubject();
-				tfUser = userDao.getUser(tokenUsername);
-				tfRole = tfUser.getTfRole();
-
+				if (claims != null) {
+					tokenUsername = claims.getSubject();
+				}
+				if (tokenUsername != null) {
+					tfUser = userDao.getUser(tokenUsername);
+				}
 				if (tfUser != null) {
+					tfRole = tfUser.getTfRole();
+				}
+				if (tfUser != null && tfRole != null) {
 					// makes sure the token is fresh and usernames are equal
 					// and user role is an associate
 					verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
 							&& tfRole.getTfRoleName().equals("Associate"));
 				}
-
 			} catch (SignatureException se) {
-				se.printStackTrace();
+				LogUtil.logger.error(se);
 			}
 
 			session.flush();

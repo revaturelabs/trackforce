@@ -213,6 +213,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.20</version>
 				<configuration>
+					<!-- <forkMode>never</forkMode> -->
 					<!-- Sets the VM argument line used when unit tests are run. -->
 					<argLine>${surefireArgLine}</argLine>
 					<!-- Skips unit tests if the value of skip.unit.tests property is true -->
@@ -224,7 +225,8 @@
 					<!-- Excludes integration tests when unit tests are run. -->
 					<excludes>
 						<exclude>**/IT*.java</exclude>
-			            <exclude>com.revature.test.admin.*, com.revature.test.utils</exclude>
+			            <exclude>com/revature/test/admin/**/*.java</exclude>
+			            <exclude>com/revature/test/utils/*.java</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -256,8 +258,9 @@
 							<!-- <skipTests>true</skipTests>-->
 							
 							<excludes>
-		           	 			<exclude>com.revature.test.admin.*, >com.revature.test.utils</exclude>
-							</excludes>
+					            <exclude>com/revature/test/admin/**/*.java</exclude>
+			            		<exclude>com/revature/test/utils/*.java</exclude>
+		            		</excludes>
 						</configuration>
 					</execution>
 				</executions>

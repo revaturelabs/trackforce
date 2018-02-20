@@ -108,7 +108,7 @@ public class PSDCacheRunner implements Runnable {
                 endTime = System.nanoTime();
                 elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
                 LogUtil.logger.debug("Interviews caching time: "+elapsedTime+" seconds");
-	            
+                LogUtil.logger.debug("Total caching time: "+total+" seconds");
 	           
 	}
 }

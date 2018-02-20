@@ -31,10 +31,7 @@
         <tbody>
         <ng-container *ngIf="associates">
           <tr *ngFor="let associate of associates | orderBy:'id'">
-            <!-- <td><a [routerLink]="['/form-comp',associate.id]">{{associate.id}}</a></td> -->
-            <td>
-              <a [routerLink]="['/form-comp', associate.id]">{{associate.id}}</a>
-            </td>
+            <td><a [routerLink]="['/form-comp',associate.id]">{{associate.id}}</a></td>
             <td>{{associate.firstName}}</td>
             <td>{{associate.lastName}}</td>
             <td>{{associate.marketingStatus}}</td>

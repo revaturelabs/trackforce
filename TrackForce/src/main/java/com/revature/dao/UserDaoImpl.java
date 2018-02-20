@@ -43,10 +43,14 @@ public class UserDaoImpl implements UserDAO {
             session.save(user);
             return true;
         } catch (NullPointerException e) {
-        	t1.rollback();
+        	if (t1 != null) {
+				t1.rollback();
+			}
         	LogUtil.logger.error(e);
         } catch (Exception e) {
-        	t1.rollback();
+        	if (t1 != null) {
+				t1.rollback();
+			}
         	LogUtil.logger.error(e);        	
         }
         return false;

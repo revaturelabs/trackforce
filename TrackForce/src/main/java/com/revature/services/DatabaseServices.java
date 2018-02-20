@@ -104,7 +104,6 @@ public class DatabaseServices {
         try {
         	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.populateAllTablesSF_PROC");
             spq.execute();
-//            prev = DBMode.SF;
         } catch (Exception e) {
             e.printStackTrace();
             session.flush();
@@ -124,6 +123,5 @@ public class DatabaseServices {
     	new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
     	new TechDaoHibernate().cacheAllTechs();
     	new InterviewDaoHibernate().cacheAllInterviews();
-       
     }
 }

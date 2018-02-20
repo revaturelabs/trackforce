@@ -75,14 +75,13 @@ export class FormComponent implements OnInit {
 
         this.associateService.getAssociate(this.id).subscribe(
           data => {
-            console.log(data);
             this.associate = <Associate>data;
-            console.log(data.clientStartDate);
+            console.log("FROM BACK-END: "+data.clientStartDate);
             if (data.clientStartDate.toString() == "0")
               this.associate.clientStartDate = null;
             else
-              this.associate.clientStartDate = this.adjustDate(data.clientStartDate);
-            console.log(this.associate.clientStartDate);
+              this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate)*1000);
+            console.log("DATE STORED: "+this.associate.clientStartDate);
           });
         this.clientService.getAllClients().subscribe(
           data => {
@@ -93,7 +92,7 @@ export class FormComponent implements OnInit {
     }
 
     adjustDate(date: any){ // dates are off by 1 day - this corrects them
-      let ldate = new Date(date*1000);
+      let ldate = new Date(date);
       let origDate = ldate.getDate();
       ldate.setDate(origDate+1);
       if (ldate.getDate() < 1) {
@@ -140,6 +139,7 @@ export class FormComponent implements OnInit {
         // set status to UNMAPPED: TRAINING
         this.selectedMarketingStatus = 6;
       }
+      console.log("About to update");
       this.updateAssociate();
     }
 
@@ -147,6 +147,7 @@ export class FormComponent implements OnInit {
      * Update the associate with the new client, status, and/or start date
      */
     updateAssociate() {
+      console.log("START DATE: "+new Date(this.newStartDate).getTime());
       if (this.newStartDate) {
         var dateTime = Number((new Date(this.newStartDate).getTime())/1000);
       } else {
@@ -178,7 +179,7 @@ export class FormComponent implements OnInit {
               if (data.clientStartDate.toString() == "0")
                 this.associate.clientStartDate = null;
               else
-                this.associate.clientStartDate = this.adjustDate(data.clientStartDate);
+                this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate)*1000);
               this.resetAllFields();
           });
         }

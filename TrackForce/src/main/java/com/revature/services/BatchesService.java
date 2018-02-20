@@ -34,8 +34,7 @@ public class BatchesService{// implements Service {
     }
 
     public List<BatchInfo> getAllBatchesSortedByDate() {
-        List<BatchInfo> batches = batchDao.getBatchesSortedByDate();
-        return batches;
+        return batchDao.getBatchesSortedByDate();
     }
 
     public BatchInfo getBatchById(Integer id) {

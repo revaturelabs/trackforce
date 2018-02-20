@@ -77,10 +77,12 @@ export class FormComponent implements OnInit {
           data => {
             console.log(data);
             this.associate = <Associate>data;
+            console.log(data.clientStartDate);
             if (data.clientStartDate.toString() == "0")
               this.associate.clientStartDate = null;
             else
               this.associate.clientStartDate = this.adjustDate(data.clientStartDate);
+            console.log(this.associate.clientStartDate);
           });
         this.clientService.getAllClients().subscribe(
           data => {
@@ -90,8 +92,8 @@ export class FormComponent implements OnInit {
         this.getInterviews();
     }
 
-    adjustDate(date: Date){ // dates are off by 1 day - this corrects them
-      let ldate = new Date(date);
+    adjustDate(date: any){ // dates are off by 1 day - this corrects them
+      let ldate = new Date(date*1000);
       let origDate = ldate.getDate();
       ldate.setDate(origDate+1);
       if (ldate.getDate() < 1) {
@@ -105,22 +107,22 @@ export class FormComponent implements OnInit {
       if (this.hasStartDate) {
         if (Date.now() < new Date(this.newStartDate).getTime())
         // if start date is before today, set status to MAPPED: DEPLOYED
-          this.selectedMarketingStatus = 10;
+          this.selectedMarketingStatus = 5;
         else
         // if start date is after today, set status to MAPPED: CONFIRMED
-          this.selectedMarketingStatus = 9
+          this.selectedMarketingStatus = 4
       }
       else if (this.passedBackgroundCheck && this.hasStartDate) {
         // if background check is passed and associate has start date, set status to MAPPED: CONFIRMED
-        this.selectedMarketingStatus = 9;
+        this.selectedMarketingStatus = 4;
       }
       else if (this.clearedAllInterviews) {
         // if interviews are cleared, set status to MAPPED: SELECTED
-        this.selectedMarketingStatus = 8;
+        this.selectedMarketingStatus = 3;
       }
       else if (this.interviewScheduled) {
         // if an interview is scheduled, set status to MAPPED: RESERVED
-        this.selectedMarketingStatus = 8;
+        this.selectedMarketingStatus = 2;
       }
       else if (this.eligibleForInterview) {
         if (this.isMapped)
@@ -138,8 +140,7 @@ export class FormComponent implements OnInit {
         // set status to UNMAPPED: TRAINING
         this.selectedMarketingStatus = 6;
       }
-      // this.updateAssociate();
-      console.log(this.eligibleForInterview);
+      this.updateAssociate();
     }
 
     /**

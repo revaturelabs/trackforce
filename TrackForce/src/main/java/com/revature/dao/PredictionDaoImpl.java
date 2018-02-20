@@ -22,6 +22,7 @@ public class PredictionDaoImpl implements PredictionDao {
 		Date before = new Date(2018,12,30);
 		Date after = new Date();
 		System.out.println(new PredictionDaoImpl().getTotalAssociatesByTechBetweenDates(after, before));
+		LogUtil.logger.debug(new PredictionDaoImpl().getTotalAssociatesByTechBetweenDates(after, before));
 	}
 
 	

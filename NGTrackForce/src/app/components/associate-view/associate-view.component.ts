@@ -19,29 +19,7 @@ import { ClientService } from '../../services/client-service/client.service';
 @AutoUnsubscribe
 export class AssociateViewComponent implements OnInit {
   public associate: Associate = new Associate();
-  public interviews: Array<any> = [
-    // {
-    //   id: 1,
-    //   client: "Accenture",
-    //   date: new Date(),
-    //   type: "Phone",
-    //   feedback: "Good"
-    // },
-    // {
-    //   id: 2,
-    //   client: "Revature",
-    //   date: new Date(),
-    //   type: "On-site",
-    //   feedback: "Bad"
-    // },
-    // {
-    //   id: 3,
-    //   client: "FINRA",
-    //   date: new Date(),
-    //   type: "Skype",
-    //   feedback: "Okay"
-    // }
-  ]
+  public interviews: Array<any> = [];
   public messages: Array<string> = ["I cleared my interview with FINRA","Please update my status"];
   public newMessage: string = "";
   public newInterview: any = {
@@ -101,7 +79,7 @@ export class AssociateViewComponent implements OnInit {
   }
 
   sendMessage() {
-    let tempString = new String(this.newMessage);
+    let tempString = this.newMessage;
     if (this.newMessage) {
       this.messages.push(tempString.toString());
     }

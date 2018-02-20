@@ -35,7 +35,7 @@ export class ClientMappedComponent implements OnInit {
   /**
    * @description chartType determines the type of chart displayed to the user: bar, pie, or polarArea charts
    */
-  public chartType: String;
+  public chartType: string;
 
   /**
    * @description clientMappedLabels holds the client names fetched from the database

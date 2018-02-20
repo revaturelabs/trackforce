@@ -7,7 +7,6 @@ import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.CurriculumDaoImpl;
 import com.revature.dao.InterviewDaoHibernate;
 import com.revature.dao.MarketingStatusDaoHibernate;
-import com.revature.dao.TechDaoHibernate;
 import com.revature.utils.LogUtil;
 
 /**
@@ -110,11 +109,6 @@ public class PSDCacheRunner implements Runnable {
                 elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
                 LogUtil.logger.debug("Interviews caching time: "+elapsedTime+" seconds");
 	            
-	            startTime = System.nanoTime();
-	            new TechDaoHibernate().cacheAllTechs();
-	            endTime = System.nanoTime();
-	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-	            LogUtil.logger.debug("Technologies caching time: "+elapsedTime+" seconds");
-	            LogUtil.logger.debug("Total caching time: "+total+" seconds");
+	           
 	}
 }

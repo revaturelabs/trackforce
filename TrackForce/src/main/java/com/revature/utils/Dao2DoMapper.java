@@ -108,12 +108,6 @@ public class Dao2DoMapper {
         return ci;
     }
 
-    public static TechInfo map(TfTech tft) {
-    	TechInfo ti = new TechInfo();
-        ti.setId(tft.getTfTechId());
-        ti.setName(tft.getTechName());
-        return ti;
-    }
 
     public static MarketingStatusInfo map(TfMarketingStatus tfms) {
         MarketingStatusInfo msi = new MarketingStatusInfo();

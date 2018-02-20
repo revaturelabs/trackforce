@@ -1,14 +1,13 @@
 package com.revature.services;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import com.revature.dao.PredictionDao;
 import com.revature.dao.PredictionDaoImpl;
 
-public class PredictionService implements Service{
+public class PredictionService{
 
 	
     private PredictionDao PredictionDao;
@@ -21,17 +20,5 @@ public class PredictionService implements Service{
     	return this.PredictionDao.getTotalAssociatesByTechBetweenDates(afterMe, beforeMe);
     }
     
-	@Override
-	public void execute() throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public <T> Collection<T> read(String... args) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
 

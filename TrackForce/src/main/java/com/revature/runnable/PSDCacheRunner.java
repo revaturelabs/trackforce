@@ -8,7 +8,7 @@ import com.revature.dao.CurriculumDaoImpl;
 import com.revature.dao.InterviewDaoHibernate;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.dao.TechDaoHibernate;
-import com.revature.services.PersistentServiceDelegator;
+//import com.revature.services.PersistentServiceDelegator;
 
 /**
  * Used to handle caching on server startup.
@@ -17,27 +17,9 @@ import com.revature.services.PersistentServiceDelegator;
  */
 public class PSDCacheRunner implements Runnable {
 	public static final long DEFAULT_CACHE_START = 30000;
-	private PersistentServiceDelegator psd = null;
 	private long delayedStartTime = DEFAULT_CACHE_START;
-
-
-	/**
-	 * Constructor used to set caching mechanism and when to invoke/begin caching process
-	 * @param psd - used to perform caching operation
-	 * @param delayedStartTime - how long to wait before caching process begines
-	 */
-	public PSDCacheRunner(PersistentServiceDelegator psd, long delayedStartTime) {
-		this.psd = psd;
-		this.delayedStartTime = delayedStartTime;
-	}
-
-	/**
-	 * Constructor used to set caching operation (sets delayedStartTime=DEFAULT_CACHE_START)
-	 * @param psd- used to perform caching operation
-	 */
-	public PSDCacheRunner(PersistentServiceDelegator psd) {
-		this.psd = psd;
-	}
+	
+	public PSDCacheRunner() { };
 
 	/**
 	 * Performs caching operations for persistent data used in application
@@ -60,7 +42,7 @@ public class PSDCacheRunner implements Runnable {
 	 * @return true if delayedStartTime > -1 and psd not null else false
 	 */
 	private boolean hasValidFields() {
-		return delayedStartTime > -1 && psd != null;
+		return delayedStartTime > -1 ;
 	}
 
 	/**

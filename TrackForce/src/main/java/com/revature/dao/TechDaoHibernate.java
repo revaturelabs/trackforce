@@ -92,7 +92,6 @@ public class TechDaoHibernate implements TechDao{
             Query<TfTech> tq = session.createQuery(all);
             return createTechMap(tq.getResultList());
         } catch(Exception e) {
-            e.printStackTrace();
             LogUtil.logger.error(e);
         }
         return techs;
@@ -107,7 +106,7 @@ public class TechDaoHibernate implements TechDao{
     		List<TfTech> query_results = query.list();
     		return query_results;
         } catch(Exception e) {
-            e.printStackTrace();
+           
             LogUtil.logger.error(e);
         }
         return null;

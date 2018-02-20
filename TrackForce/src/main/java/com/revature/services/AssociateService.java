@@ -108,7 +108,7 @@ public class AssociateService{
 
 		Map<Integer, ClientMappedJSON> map = new HashMap<>();
 		for (AssociateInfo ai : associates) {
-			if (ai.getMsid().equals(new Integer(statusId))) {
+			if (ai.getMsid().equals(statusId)) {
 				if (!map.containsKey(ai.getClid())) {
 					map.put(ai.getClid(), new ClientMappedJSON());
 				}
@@ -137,7 +137,7 @@ public class AssociateService{
 
 	Map<Integer, CurriculumJSON> map = new HashMap<>();
 	for (AssociateInfo ai : associates) {
-		if (ai.getMsid().equals(new Integer(statusId))) {
+		if (ai.getMsid().equals(statusId)) {
 			if (!map.containsKey(ai.getCurid())) {
 				map.put(ai.getCurid(), new CurriculumJSON());
 			}

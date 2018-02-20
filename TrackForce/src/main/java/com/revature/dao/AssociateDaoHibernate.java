@@ -73,7 +73,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 	public void updateAssociates(List<AssociateInfo> associates){
 		Session session = null;
 		Transaction t = null;
-		List<TfAssociate> tfAssociateList = new ArrayList<TfAssociate>();
+		List<TfAssociate> tfAssociateList = new ArrayList<>();
 		try{
 			session = HibernateUtil.getSession();
 			for (AssociateInfo associate : associates) {

@@ -67,7 +67,7 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 		} catch(Exception e) {
 			LogUtil.logger.error(e);
 		}
-		return new HashMap<Integer, MarketingStatusInfo>();
+		return new HashMap<>();
 	}
 	
 	@Override

@@ -32,7 +32,6 @@ public class AssociateService{
     }
 
 	public AssociateService(AssociateDao associateDao) {
-		// TODO Auto-generated constructor stub
 		this.associateDao = associateDao;
 	}
 
@@ -89,7 +88,7 @@ public class AssociateService{
 				if (!map.containsKey(ai.getCurid())) {
 					map.put(ai.getCurid(), new CurriculumJSON());
 				}
-				if (ai.getCurriculumName() != null && !ai.getCurid().equals(new Integer(-1))) {
+				if (ai.getCurriculumName() != null && !ai.getCurid().equals(-1)) {
 					map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
 					map.get(ai.getCurid()).setId(ai.getCurid());
 					map.get(ai.getCurid()).setName(ai.getCurriculumName());
@@ -106,7 +105,6 @@ public class AssociateService{
 	 * @return Collection<ClientMappedJSON>
 	 */
 	public Map<Integer, ClientMappedJSON> getMappedInfo(int statusId) {
-	 // try {//
 		Set<AssociateInfo> associates = getAllAssociates();
 		if (associates == null) {
 			associateDao.cacheAllAssociates();
@@ -119,7 +117,7 @@ public class AssociateService{
 				if (!map.containsKey(ai.getClid())) {
 					map.put(ai.getClid(), new ClientMappedJSON());
 				}
-				if (ai.getClient() != null && !ai.getClid().equals(new Integer(-1))) {
+				if (ai.getClient() != null && !ai.getClid().equals(-1)) {
 					map.get(ai.getClid()).setCount(map.get(ai.getClid()).getCount() + 1);
 					map.get(ai.getClid()).setId(ai.getClid().intValue());
 					map.get(ai.getClid()).setName(ai.getClient());
@@ -148,7 +146,7 @@ public class AssociateService{
 			if (!map.containsKey(ai.getCurid())) {
 				map.put(ai.getCurid(), new CurriculumJSON());
 			}
-			if (ai.getCurriculumName() != null && !ai.getCurid().equals(new Integer(-1))) {
+			if (ai.getCurriculumName() != null && !ai.getCurid().equals(-1)) {
 				map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
 				map.get(ai.getCurid()).setId(ai.getCurid().intValue());
 				map.get(ai.getCurid()).setName(ai.getCurriculumName());
@@ -156,7 +154,7 @@ public class AssociateService{
 		}
 	}
 	
-	return new TreeSet<CurriculumJSON>(map.values());
+	return new TreeSet<>(map.values());
 	}
 	
 	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId) {

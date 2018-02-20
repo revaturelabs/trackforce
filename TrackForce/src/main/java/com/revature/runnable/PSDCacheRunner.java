@@ -8,7 +8,6 @@ import com.revature.dao.CurriculumDaoImpl;
 import com.revature.dao.InterviewDaoHibernate;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.dao.TechDaoHibernate;
-//import com.revature.services.PersistentServiceDelegator;
 
 /**
  * Used to handle caching on server startup.

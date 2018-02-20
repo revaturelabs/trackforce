@@ -44,7 +44,7 @@ public class CurriculumDaoImpl implements CurriculumDao {
 	}
 	
 	public CurriculumInfo getCurriculaFromCacheByID(int id) {
-		return PersistentStorage.getStorage().getCurriculumAsMap().get(new Integer(id));
+		return PersistentStorage.getStorage().getCurriculumAsMap().get(id);
 	}
 	
 	public Map<Integer, CurriculumInfo> createCurriculaMap(List<TfCurriculum> curricula){

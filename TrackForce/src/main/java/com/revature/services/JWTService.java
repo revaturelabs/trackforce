@@ -138,7 +138,7 @@ public class JWTService {
 		try {
 			claims = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.logger.error(e);
 		}
 		return claims;
 	}
@@ -176,7 +176,7 @@ public class JWTService {
 				}
 
 			} catch (SignatureException se) {
-				se.printStackTrace();
+				LogUtil.logger.error(se);
 			}
 
 		} catch (Exception e) {
@@ -273,7 +273,7 @@ public class JWTService {
 				}
 
 			} catch (SignatureException se) {
-				se.printStackTrace();
+				LogUtil.logger.error(se);
 			}
 
 			session.flush();

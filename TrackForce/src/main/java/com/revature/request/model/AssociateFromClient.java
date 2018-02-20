@@ -3,6 +3,7 @@ package com.revature.request.model;
 import java.io.Serializable;
 
 public class AssociateFromClient implements Serializable {
+	private static final long serialVersionUID = -8738760070575633823L;
 	private int id;
 	private int mkStatus;
 	private int clientId;

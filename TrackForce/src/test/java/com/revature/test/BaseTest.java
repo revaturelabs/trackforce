@@ -11,7 +11,6 @@ import com.revature.dao.BatchDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.CurriculumDaoImpl;
 import com.revature.dao.MarketingStatusDaoHibernate;
-import com.revature.dao.TechDaoHibernate;
 import com.revature.utils.PersistentStorage;
 
 public class BaseTest {
@@ -40,13 +39,11 @@ public class BaseTest {
     	PersistentStorage.getStorage().evictClients();
     	PersistentStorage.getStorage().evictCurriculums();
     	PersistentStorage.getStorage().evictMarketingStatuses();
-    	PersistentStorage.getStorage().evictTechs();
     	new AssociateDaoHibernate().cacheAllAssociates();
     	new BatchDaoHibernate().cacheAllBatches();
     	new ClientDaoImpl().cacheAllClients();
     	new CurriculumDaoImpl().cacheAllCurriculms();
     	new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
-    	new TechDaoHibernate().cacheAllTechs();
     }
 
 

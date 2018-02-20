@@ -33,7 +33,6 @@ public class CurriculumDaoImpl implements CurriculumDao {
 
 			return createCurriculaMap(tq.getResultList());
 		} catch(Exception e) {
-			e.printStackTrace();
 			LogUtil.logger.error(e);
 		}
 		return curriculums;
@@ -44,7 +43,7 @@ public class CurriculumDaoImpl implements CurriculumDao {
 	}
 
 	public CurriculumInfo getCurriculaFromCacheByID(int id) {
-		return PersistentStorage.getStorage().getCurriculumAsMap().get(new Integer(id));
+		return PersistentStorage.getStorage().getCurriculumAsMap().get(id);
 	}
 
 	public Map<Integer, CurriculumInfo> createCurriculaMap(List<TfCurriculum> curricula){

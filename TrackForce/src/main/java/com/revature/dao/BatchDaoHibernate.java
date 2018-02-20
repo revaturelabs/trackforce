@@ -81,7 +81,7 @@ public class BatchDaoHibernate implements BatchDao {
 			CriteriaQuery<TfBatch> all = cq.select(from);
 			Query<TfBatch> tq = session.createQuery(all);
 			batches = tq.getResultList();
-			HashMap<Integer, BatchInfo> map = new HashMap<>();
+			Map<Integer, BatchInfo> map = new HashMap<>();
 			if(batches != null) {
 				map = createBatchesMap(batches);
 			}
@@ -91,7 +91,7 @@ public class BatchDaoHibernate implements BatchDao {
 		} finally {
 			session.close();
 		}
-		return new HashMap<Integer, BatchInfo>();
+		return new HashMap<>();
 		
 	}
 	
@@ -123,7 +123,7 @@ public class BatchDaoHibernate implements BatchDao {
     	PersistentStorage.getStorage().setBatches(getBatchDetails());
     }
     
-    public HashMap<Integer, BatchInfo> createBatchesMap(List<TfBatch> batchList) {
+    public Map<Integer, BatchInfo> createBatchesMap(List<TfBatch> batchList) {
     	HashMap<Integer, BatchInfo> map = new HashMap<>();
     	for(TfBatch tfb : batchList) {
     		map.put(tfb.getTfBatchId(), Dao2DoMapper.map(tfb));

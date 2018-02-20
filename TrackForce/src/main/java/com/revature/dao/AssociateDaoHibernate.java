@@ -58,7 +58,6 @@ public class AssociateDaoHibernate implements AssociateDao {
         return null;
     }
 
-	
 	@Override
     public void updateAssociates(List<Integer> ids, Integer marketingStatus, Integer clientid) {
     	List<TfAssociate> associates = new ArrayList<TfAssociate>();
@@ -86,7 +85,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 			t.commit();
 			PersistentStorage.getStorage().setAssociates(createAssociatesMap(associates));
 		} catch (HibernateException e) {
-			e.printStackTrace();
+			 LogUtil.logger.error(e);
 			t.rollback();
 		}
     }
@@ -101,8 +100,8 @@ public class AssociateDaoHibernate implements AssociateDao {
 			tfAssociate.setTfClient(client);
 			tfAssociate.setTfMarketingStatus(status);
 			tfAssociate.setTfClientStartDate(Timestamp.from(Instant.ofEpochSecond(afc.getStartDateUnixTime())));
-			System.out.println(tfAssociate);
-			System.out.println(afc);
+			LogUtil.logger.debug(tfAssociate);
+			LogUtil.logger.debug(afc);
 			PersistentStorage.getStorage().updateAssociate(afc.getId(),afc.getClientId(),afc.getMkStatus(),afc.getStartDateUnixTime());
 			session.saveOrUpdate(tfAssociate);
 			t.commit();

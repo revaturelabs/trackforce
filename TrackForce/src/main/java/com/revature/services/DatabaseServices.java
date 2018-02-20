@@ -1,9 +1,7 @@
 package com.revature.services;
 
 import java.io.IOException;
-//import java.sql.Timestamp;
 
-//import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -23,8 +21,6 @@ import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.CurriculumDaoImpl;
 import com.revature.dao.InterviewDaoHibernate;
 import com.revature.dao.MarketingStatusDaoHibernate;
-import com.revature.dao.TechDaoHibernate;
-//import com.revature.utils.DBLoaderUtil;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
@@ -122,7 +118,6 @@ public class DatabaseServices {
     	new ClientDaoImpl().cacheAllClients();
     	new CurriculumDaoImpl().cacheAllCurriculms();
     	new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
-    	new TechDaoHibernate().cacheAllTechs();
     	new InterviewDaoHibernate().cacheAllInterviews();
     }
 }

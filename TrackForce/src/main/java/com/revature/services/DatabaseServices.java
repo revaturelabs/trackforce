@@ -1,9 +1,9 @@
 package com.revature.services;
 
 import java.io.IOException;
-import java.sql.Timestamp;
+//import java.sql.Timestamp;
 
-import javax.persistence.ParameterMode;
+//import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -27,9 +27,6 @@ import com.revature.dao.TechDaoHibernate;
 //import com.revature.utils.DBLoaderUtil;
 import com.revature.utils.HibernateUtil;
 
-//import com.revature.utils.DBLoaderUtil.DBMode;
-
-
 /**
  * For all intensive purposes, this service mocks Salesforce albeit extreme
  * Salesforce would actually insert smaller data sets to be added to the cache
@@ -38,13 +35,9 @@ import com.revature.utils.HibernateUtil;
 @Path("database")
 public class DatabaseServices {
 
-//    private PersistentServiceDelegator psd;
     private SessionFactory sessionFactory;
-//    private static enum DBMode {EMPTY, DB, SF}
-//    private static DBMode prev = DBMode.EMPTY;
 
     public DatabaseServices() {
-//        psd = new PersistentServiceDelegator();
         sessionFactory = HibernateUtil.getSessionFactory();
     }
 
@@ -54,8 +47,7 @@ public class DatabaseServices {
      * @param psd
      */
   
-    public DatabaseServices(PersistentServiceDelegator psd, SessionFactory sessionFactory) {
-//        this.psd = psd;
+    public DatabaseServices(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 

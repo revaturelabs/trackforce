@@ -37,41 +37,6 @@ public class BatchesService{// implements Service {
         List<BatchInfo> batches = batchDao.getBatchesSortedByDate();
         return batches;
     }
-
-    /**
-     * Gets the number of associates learning each curriculum during a given date
-     * range
-     *
-     * @param fromDate - the starting date of the date range
-     * @param todate   - the ending date of the date range
-     * @return - A map of associates in each curriculum with the curriculum name as
-     * the key and number of associates as value.
-     * <p>
-     * The returned chart data is laid out as follows: [ { "curriculum" ->
-     * "1109 Sept 11 Java JTA", "value" -> 14 },
-     * <p>
-     * { "curriculum" -> "1109 Sept 11 Java Full Stack", "value" -> 16 }, *
-     * <p>
-     * ... ]
-     * @throws IOException
-     */
-    @Deprecated
-    public List<BatchInfo> getBatchChartInfo(Long fromDate, Long todate) throws IOException {
-//        List<BatchInfo> batches = batchDao.getBatchesSortedByDate();
-//        List<BatchInfo> subList = new LinkedList<>();
-//        if (batches == null)
-//            execute();
-//        for (BatchInfo bi : batches) {
-//            if (bi.getStartLong() != null && bi.getEndLong() != null)
-//                if (todate >= bi.getStartLong() && todate <= bi.getEndLong()) {
-//                    subList.add(bi);
-//                } else if (fromDate >= bi.getStartLong() && fromDate <= bi.getEndLong()) {
-//                    subList.add(bi);
-//                }
-//        }
-//        return subList;
-    	return null;
-    }
     
     public BatchInfo getBatchById(Integer id) {
     	return batchDao.getBatchById(id);
@@ -112,23 +77,4 @@ public class BatchesService{// implements Service {
 
     }
 
-//    @Deprecated
-//    @Override
-//    public synchronized void execute() throws IOException {
-//        Set<BatchInfo> bi = PersistentStorage.getStorage().getBatches();
-//        if (bi == null || bi.isEmpty())
-//            ;
-//        PersistentStorage.getStorage().setBatches(getBatches());
-//    }
-//
-//    @Deprecated
-//    @SuppressWarnings("unchecked")
-//	@Override
-//    public synchronized <T> Collection<T> read(String... args) throws IOException {
-//        if (args == null || args.length == 0) {
-//            return (Set<T>) getAllBatches();
-//        }
-//        return (List<T>) getAllBatchesSortedByDate();
-//
-//    }
 }

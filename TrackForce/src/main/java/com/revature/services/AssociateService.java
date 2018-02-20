@@ -21,7 +21,7 @@ import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
 import com.revature.utils.PersistentStorage;
 
-public class AssociateService{// implements Service {
+public class AssociateService{
 
     private AssociateDao associateDao;
 
@@ -62,40 +62,6 @@ public class AssociateService{// implements Service {
 	public Set<AssociateInfo> getAllAssociates(){
 		return associateDao.getAllAssociates();
 	}
-
-//	/**
-//	 * Returns a Response object from StatusInfoUtil with a List of Map objects as
-//	 * an entity. The format of the Map objects are as follows: <br>
-//	 * name: (name of curriculum) <br>
-//	 * count: (count of desired status)
-//	 *
-//	 * @param statusid - Status id of the status/stage of associates that the requester wants information for.
-//	 * @return a Response object with a List of Map objects as an entity.
-//	 * @throws IOException
-//	 */
-//	@Deprecated
-//	public Collection<ClientMappedJSON> getAssociatesByStatus(int statusid) throws IOException {
-//		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
-//		if (associates == null) {
-//			execute();
-//			associates = PersistentStorage.getStorage().getAssociates();
-//		}
-//
-//		Map<Integer, ClientMappedJSON> map = new HashMap<>();
-//		for (AssociateInfo ai : associates) {
-//			if (ai.getMsid().equals(new Integer(statusid))) {
-//				if (!map.containsKey(ai.getClid())) {
-//					map.put(ai.getClid(), new ClientMappedJSON());
-//				}
-//				if (ai.getClient() != null && !ai.getClid().equals(new Integer(-1))) {
-//					map.get(ai.getClid()).setCount(map.get(ai.getClid()).getCount() + 1);
-//					map.get(ai.getClid()).setId(ai.getClid());
-//					map.get(ai.getClid()).setName(ai.getClient());
-//				}
-//			}
-//		}
-//		return map.values();
-//	}
 
 	/**
 	 * Returns a Response object from StatusInfoUtil with a List of Map objects as
@@ -161,11 +127,6 @@ public class AssociateService{// implements Service {
 			}
 		}
 		return map;
-//		return Response.ok(map.values()).build();
-//	  } catch(IOException e) {
-//		  System.out.println(e.getMessage());
-//		  return Response.status(500).build();
-//	  }
 	}
 	
 	/**
@@ -201,26 +162,6 @@ public class AssociateService{// implements Service {
 	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId) {
 		 return associateDao.getInterviewsByAssociate(associateId);
 	}
-	
-//    /**
-//     * execute delegated task: fetch data from DB and cache it to storage
-//     *DO NOT USE
-//     * @throws IOException
-//     */
-//	@Deprecated
-//	@Override
-//	public synchronized void execute() throws IOException {
-//		Set<AssociateInfo> ai = associateDao.getAllAssociates();
-//		if (ai == null || ai.isEmpty())
-//			associateDao.cacheAllAssociates();
-//	}
-//
-//	@Deprecated
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	public <T> Set<T> read(String... args) throws IOException {
-//		return (Set<T>) getAllAssociates();
-//	}
 	
 	//The method used to populate all of the data onto TrackForce
     //Doesn't work correctly at the moment

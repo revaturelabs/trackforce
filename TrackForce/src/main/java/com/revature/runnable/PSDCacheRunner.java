@@ -20,9 +20,6 @@ public class PSDCacheRunner implements Runnable {
 	public static final long DEFAULT_CACHE_START = 30000;
 	private long delayedStartTime = DEFAULT_CACHE_START;
 	
-	public PSDCacheRunner() {
-		super();
-	};
 
 	/**
 	 * Performs caching operations for persistent data used in application

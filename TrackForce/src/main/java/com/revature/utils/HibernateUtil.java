@@ -86,9 +86,9 @@ public class HibernateUtil {
      */
     public static void shutdown() {
         if (sessionFactory != null) {
-        	System.out.println("Shutting down SessionFactory...");
+        	LogUtil.logger.info("Shutting down SessionFactory");
             sessionFactory.close();
-            System.out.println("SessionFactory has been shutdown.");
+            LogUtil.logger.info("SessionFactory has been shutdown.");
             // This manually deregisters JDBC driver, which prevents Tomcat 7 from
             // complaining about memory leaks to this class
             Enumeration<Driver> drivers = DriverManager.getDrivers();

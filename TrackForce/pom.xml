@@ -223,11 +223,11 @@
 					<skipTests>${skip.unit.tests}</skipTests>
 					<!-- <skipTests>true</skipTests> -->
 					<!-- Excludes integration tests when unit tests are run. -->
-					<excludes>
+<!-- 					<excludes>
 						<exclude>**/IT*.java</exclude>
 			            <exclude>com/revature/test/admin/**/*.java</exclude>
 			            <exclude>com/revature/test/utils/*.java</exclude>
-					</excludes>
+					</excludes> -->
 				</configuration>
 			</plugin>
 
@@ -257,10 +257,10 @@
 							<skipTests>${skip.integration.tests}</skipTests>
 							<!-- <skipTests>true</skipTests>-->
 							
-							<excludes>
+<!-- 							<excludes>
 					            <exclude>com/revature/test/admin/**/*.java</exclude>
 			            		<exclude>com/revature/test/utils/*.java</exclude>
-		            		</excludes>
+		            		</excludes> -->
 						</configuration>
 					</execution>
 				</executions>

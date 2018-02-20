@@ -8,6 +8,7 @@ import com.revature.dao.CurriculumDaoImpl;
 import com.revature.dao.InterviewDaoHibernate;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.dao.TechDaoHibernate;
+import com.revature.utils.LogUtil;
 //import com.revature.services.PersistentServiceDelegator;
 
 /**
@@ -19,7 +20,9 @@ public class PSDCacheRunner implements Runnable {
 	public static final long DEFAULT_CACHE_START = 30000;
 	private long delayedStartTime = DEFAULT_CACHE_START;
 	
-	public PSDCacheRunner() { };
+	public PSDCacheRunner() {
+		super();
+	};
 
 	/**
 	 * Performs caching operations for persistent data used in application
@@ -62,7 +65,8 @@ public class PSDCacheRunner implements Runnable {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException ex) {
-				// do nothing
+				ex.printStackTrace();
+				LogUtil.logger.error(ex);
 			}
 		}
 	}

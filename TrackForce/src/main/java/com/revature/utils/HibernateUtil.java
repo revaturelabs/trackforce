@@ -97,7 +97,7 @@ public class HibernateUtil {
                 try {
                 	LogUtil.logger.info(String.format("Deregistering jdbc driver: %s", driver));
                     DriverManager.deregisterDriver(driver);
-                	LogUtil.logger.info(String.format("%s has been deregistered."));
+                	LogUtil.logger.info(String.format("%s has been deregistered.", driver));
                 } catch (SQLException e) {
                     LogUtil.logger.fatal(String.format("Error deregistering driver %s", driver), e);
                 }

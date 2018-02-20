@@ -107,10 +107,14 @@ public class InterviewDaoHibernate implements InterviewDao {
 			tfi.setTfInterviewType(session.load(TfInterviewType.class, ifc.getTypeId()));
 			session.saveOrUpdate(tfi);
 			t1.commit();
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             LogUtil.logger.error(e);
             e.printStackTrace();
             t1.rollback();
+        } catch (Exception e) {
+            LogUtil.logger.error(e);
+            e.printStackTrace();
+            t1.rollback();        	
         }
 	}
 }

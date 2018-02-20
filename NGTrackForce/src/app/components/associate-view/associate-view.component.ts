@@ -79,7 +79,7 @@ export class AssociateViewComponent implements OnInit {
   }
 
   sendMessage() {
-    let tempString = new String(this.newMessage);
+    let tempString = this.newMessage;
     if (this.newMessage) {
       this.messages.push(tempString.toString());
     }

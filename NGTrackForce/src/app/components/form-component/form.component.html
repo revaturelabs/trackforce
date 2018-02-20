@@ -85,7 +85,7 @@
             <div class="form-group">
               <label class="control-label col-sm-3">Type:</label>
                <div class="col-sm-9">
-                 <select class="form-control" name="type "[(ngModel)]="newInterview.type">
+                 <select class="form-control" name="type" [(ngModel)]="newInterview.type">
                      <option value="1">Phone</option>
                      <option value="4">Skype</option>
                      <option value="2">Online</option>
@@ -124,7 +124,7 @@
           </div>
           <div *ngIf="interviewScheduled" class="form-group">
             <label for="client">Assign Client:</label>
-            <select [(ngModel)]="selectedClient">
+            <select name="automated-selected-client" [(ngModel)]="selectedClient">
                 <option selected="selected">None</option>
                 <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
             </select>
@@ -145,7 +145,7 @@
             <input type="checkbox" [checked]="hasStartDate" (change)="hasStartDate = !hasStartDate">
             <label>Does the associate have a start date?</label>
             <br>
-            <input *ngIf="hasStartDate" type="date" [(ngModel)]="newStartDate">
+            <input *ngIf="hasStartDate" type="date" name="startdate" [(ngModel)]="newStartDate">
           </div>
           <button type="button" class="btn btn-warning" (click)="processForm()">Update Associate</button>
         </form>
@@ -157,7 +157,7 @@
       <h3>Change Status Manually</h3>
       <div class="form-group">
         <label for="mStatus">Choose Status:</label>
-        <select class="form-control" [(ngModel)]="selectedMarketingStatus">
+        <select class="form-control" name="smkst" [(ngModel)]="selectedMarketingStatus">
           <option value="1">MAPPED: Training</option>
           <option value="2">MAPPED: Reserved</option>
           <option value="3">MAPPED: Selected</option>
@@ -172,7 +172,7 @@
           <option value="12">TERMINATED</option>
         </select>
         <label for="client">Assign Client:</label>
-        <select class="form-control" [(ngModel)]="selectedClient">
+        <select class="form-control" name="selectedClient" [(ngModel)]="selectedClient">
             <option selected="selected">None</option>
             <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
         </select>

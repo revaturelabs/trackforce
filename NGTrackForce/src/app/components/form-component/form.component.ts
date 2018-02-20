@@ -219,12 +219,7 @@ export class FormComponent implements OnInit {
       };
       this.associateService.addInterviewForAssociate(this.id,interview).subscribe(
         data => {
-          this.interviews.push({
-            client: interview.clientId,
-            date: interview.interviewDate,
-            type: interview.typeId,
-            feedback: interview.interviewFeedback
-          });
+          this.getInterviews();
         },
         err => {
           console.log(err);

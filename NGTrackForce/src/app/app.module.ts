@@ -109,7 +109,7 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     TechService,
     DataSyncService,
     AuthGuard,
-    PredictionService
+    PredictionService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

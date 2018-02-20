@@ -3,6 +3,7 @@ package com.revature.dao;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,6 +30,7 @@ import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateDaoHibernate implements AssociateDao {
@@ -44,7 +46,7 @@ public class AssociateDaoHibernate implements AssociateDao {
         //want to write a method that gets from db if not in cache
         //then throw exception if not found in db
     }
-	
+
 	@Override
     public AssociateInfo getAssociateFromDB(Integer id) {
         try(Session session = HibernateUtil.getSession()) {
@@ -53,7 +55,7 @@ public class AssociateDaoHibernate implements AssociateDao {
             return  ai;
         }
         catch(HibernateException e) {
-        	e.printStackTrace();
+        	LogUtil.logger.error(e);
         }
         return null;
     }
@@ -67,13 +69,14 @@ public class AssociateDaoHibernate implements AssociateDao {
      *                        associate to.
      * @param client          - A TfClient object with what client the associate will be mapped
      *                        to.
-     * @return 
+     * @return
      */
+	@Deprecated
 	@Override
 	public void updateAssociates(List<AssociateInfo> associates){
 		Session session = null;
 		Transaction t = null;
-		List<TfAssociate> tfAssociateList = new ArrayList<TfAssociate>();
+		List<TfAssociate> tfAssociateList = new ArrayList<>();
 		try{
 			session = HibernateUtil.getSession();
 			for (AssociateInfo associate : associates) {
@@ -91,37 +94,35 @@ public class AssociateDaoHibernate implements AssociateDao {
 			}
 			session.saveOrUpdate(associates);
 			t.commit();
-			System.out.println(associates);
 		} catch(HibernateException e) {
 			if (t != null) {
 				t.rollback();
 			}
-			e.printStackTrace();
+			LogUtil.logger.error(e);
 		}finally {
 			session.close();
 		}
 	}
-	
+
 	@Override
     public void updateAssociates(List<Integer> ids, Integer marketingStatus, Integer clientid) {
     	List<TfAssociate> associates = new ArrayList<TfAssociate>();
-		try(Session session = HibernateUtil.getSession();){
-			for(Integer id : ids) {
+    	Session session = HibernateUtil.getSession();
+    	Transaction t = session.beginTransaction();
+		try{
+			for(Integer id : ids)
 				associates.add((TfAssociate) session.load(TfAssociate.class, id));
-			}
-			Transaction t = session.beginTransaction();
+			t = session.beginTransaction();
 			for(TfAssociate associate : associates) {
 				if(clientid != 0) {
 					if(clientid != -1) {
 						TfClient client = (TfClient) session.load(TfClient.class, clientid);
-						//client = new ClientDaoImpl().getClientFromCache(clientid);
 						associate.setTfClient(client);
 					}
 					else
 						associate.setTfClient(null);
 				}
 				if(marketingStatus != 0) {
-					//TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, marketingStatus);
 					TfMarketingStatus status = new MarketingStatusDaoHibernate().getMarketingStatus(marketingStatus);
 					associate.setTfMarketingStatus(status);
 				}
@@ -129,9 +130,12 @@ public class AssociateDaoHibernate implements AssociateDao {
 			}
 			t.commit();
 			PersistentStorage.getStorage().setAssociates(createAssociatesMap(associates));
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			t.rollback();
 		}
     }
-	
+
 	public void updateAssociate(AssociateFromClient afc) {
 		Transaction t = null;
 		try(Session session = HibernateUtil.getSession()) {
@@ -151,7 +155,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 			if (t != null) {
 				t.rollback();
 			}
-			e.printStackTrace();
+			LogUtil.logger.error(e);
 		}
 	}
 
@@ -165,10 +169,10 @@ public class AssociateDaoHibernate implements AssociateDao {
             CriteriaQuery<TfAssociate> all = cq.select(from);
             Query<TfAssociate> tq = session.createQuery(all);
 
-            return createAssociatesMap(tq.getResultList()); 
+            return createAssociatesMap(tq.getResultList());
         }
         catch(HibernateException e) {
-        	e.printStackTrace();
+        	LogUtil.logger.error(e);
         }
         return map;
     }
@@ -228,9 +232,9 @@ public class AssociateDaoHibernate implements AssociateDao {
 				setInfo.add(ii);
 			}
     	} catch (Exception e) {
-    		e.printStackTrace();
+    		LogUtil.logger.error(e);
     	}
 		return setInfo;
 	}
-	
+
 }

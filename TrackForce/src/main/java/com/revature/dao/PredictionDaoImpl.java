@@ -15,7 +15,9 @@ import com.revature.utils.LogUtil;
 
 public class PredictionDaoImpl implements PredictionDao {
 	
-		public List getTotalAssociatesByTechBetweenDates(Date afterMe, Date beforeMe) {
+	@Override
+	public List getTotalAssociatesByTechBetweenDates(Date afterMe, Date beforeMe)  {
+
 		try(Session session = HibernateUtil.getSessionFactory().openSession()){
 
 			String sql = "SELECT TF_CURRICULUM_NAME, count(*) FROM admin.tf_associate a" + 
@@ -38,4 +40,5 @@ public class PredictionDaoImpl implements PredictionDao {
 		}
 		return null;
 	}
+
 }

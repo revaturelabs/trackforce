@@ -41,12 +41,12 @@ public class InterviewDaoHibernate implements InterviewDao {
             Query<TfInterview> tq = session.createQuery(all);
             return createInterviewMap(tq.getResultList());
         } catch(Exception e) {
-        	
+
             LogUtil.logger.error(e);
         }
         return techs;
     }
-	
+
 	@Override
 	public Map<Integer, InterviewInfo> getInterviewsByAssociate(int associateId) throws IOException {
 		 Map<Integer, InterviewInfo> interviews = null;
@@ -64,7 +64,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 	        }
 	        return interviews;
 	}
-	
+
 	public Map<Integer, InterviewInfo> createInterviewMap(List<TfInterview> interviews){   // works in tandem with 'getInterviewByAssociate()' method
         Map<Integer, InterviewInfo> map = new HashMap<>();
         if (interviews != null) {
@@ -74,19 +74,19 @@ public class InterviewDaoHibernate implements InterviewDao {
         }
         return map;
     }
-	
+
 	public Set<InterviewInfo> getInterviewFromCache(){
 		return PersistentStorage.getStorage().getInterviews();
 	}
-	
+
 	public InterviewInfo getInterviewFromCacheByID(int id) {
 		return PersistentStorage.getStorage().getInterviewsAsMap().get(new Integer(id));
 	}
-	
-	
-	
+
+
+
 	public void cacheAllInterviews(){
-		PersistentStorage.getStorage().setInterviews(new InterviewDaoHibernate().getAllInterviews());			
+		PersistentStorage.getStorage().setInterviews(new InterviewDaoHibernate().getAllInterviews());
 	}
 
 	@Override
@@ -109,12 +109,16 @@ public class InterviewDaoHibernate implements InterviewDao {
 			t1.commit();
         } catch (NullPointerException e) {
             LogUtil.logger.error(e);
-           
-            t1.rollback();
+            e.printStackTrace();
+            if (t1 != null) {
+							t1.rollback();
+						}
         } catch (Exception e) {
             LogUtil.logger.error(e);
             e.printStackTrace();
-            t1.rollback();        	
+            if (t1 != null) {
+							t1.rollback();
+						}
         }
 	}
 }

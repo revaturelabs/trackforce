@@ -28,7 +28,6 @@ public class PSDCacheRunner implements Runnable {
 	public void run() {
 		// Check if data used for caching is valid
 		if (hasValidFields()) {
-			//delay();
 			cache();
 		}
 	}

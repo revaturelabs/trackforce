@@ -42,7 +42,7 @@ public class PersistentStorage {
 	}
 
 	public Set<AssociateInfo> getAssociates() {
-		return new TreeSet<AssociateInfo>(associates.values());
+		return new TreeSet<>(associates.values());
 	}
 
 	public void setAssociates(Map<Integer, AssociateInfo> associates) {
@@ -57,8 +57,8 @@ public class PersistentStorage {
 	public BatchInfo getBatch(Integer id) {
 		return batches.get(id);
 	}
-	public TreeSet<BatchInfo> getBatches() {
-		return new TreeSet<BatchInfo>(batches.values());
+	public Set<BatchInfo> getBatches() {
+		return new TreeSet<>(batches.values());
 	}
 
 	public void setBatches(Map<Integer, BatchInfo> batches) {
@@ -71,7 +71,7 @@ public class PersistentStorage {
 	}
 		
 	public Set<ClientInfo> getClients() {
-		return new TreeSet<ClientInfo>(clients.values());
+		return new TreeSet<>(clients.values());
 	}
 	
 	public ClientInfo getClient(int id) {
@@ -79,7 +79,7 @@ public class PersistentStorage {
 	}
 	
 	public Set<InterviewInfo> getInterviews() {
-		return new TreeSet<InterviewInfo>(interviews.values());
+		return new TreeSet<>(interviews.values());
 	}
 
 	public void setClients(Map<Integer, ClientInfo> clients) {
@@ -103,7 +103,7 @@ public class PersistentStorage {
 	}
 
 	public Set<TechInfo> getTechs() {
-		return new TreeSet<TechInfo>(techs.values());
+		return new TreeSet<>(techs.values());
 	}
 
 	public void setTechs(Map<Integer, TechInfo> map) {
@@ -127,7 +127,7 @@ public class PersistentStorage {
 	}
 
 	public Set<MarketingStatusInfo> getMarketingStatuses() {
-		return new TreeSet<MarketingStatusInfo>(marketingStatuses.values());
+		return new TreeSet<>(marketingStatuses.values());
 	}
 
 	public void setMarketingStatuses(Map<Integer, MarketingStatusInfo> marketingStatuses) {
@@ -147,9 +147,9 @@ public class PersistentStorage {
 	}
 
 	public List<BatchInfo> getBatchesByDate() {
-		List<BatchInfo> batches = new LinkedList<BatchInfo>(this.batches.values());
-		Collections.sort(batches, new DateComparator());
-		return batches;
+		List<BatchInfo> batchList = new LinkedList<BatchInfo>(this.batches.values());
+		Collections.sort(batchList, new DateComparator());
+		return batchList;
 	}
 
 	private class DateComparator implements Comparator<BatchInfo> {

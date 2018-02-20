@@ -106,17 +106,15 @@ public class InterviewDaoHibernate implements InterviewDao {
 			session.saveOrUpdate(tfi);
 			t1.commit();
         } catch (NullPointerException e) {
-            LogUtil.logger.error(e);
-            e.printStackTrace();
-            if (t1 != null) {
-							t1.rollback();
-						}
+        	LogUtil.logger.error(e);
+        	if (t1 != null) {
+        		t1.rollback();
+        	}
         } catch (Exception e) {
-            LogUtil.logger.error(e);
-            e.printStackTrace();
-            if (t1 != null) {
-							t1.rollback();
-						}
+        	LogUtil.logger.error(e);
+        	if (t1 != null) {
+        		t1.rollback();
+        	}
         }
 	}
 }

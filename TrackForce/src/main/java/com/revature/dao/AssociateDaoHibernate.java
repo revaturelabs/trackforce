@@ -93,7 +93,9 @@ public class AssociateDaoHibernate implements AssociateDao {
 			t.commit();
 			System.out.println(associates);
 		} catch(HibernateException e) {
-			t.rollback();
+			if (t != null) {
+				t.rollback();
+			}
 			e.printStackTrace();
 		}finally {
 			session.close();
@@ -127,7 +129,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 			}
 			t.commit();
 			PersistentStorage.getStorage().setAssociates(createAssociatesMap(associates));
-		} 
+		}
     }
 	
 	public void updateAssociate(AssociateFromClient afc) {
@@ -146,7 +148,9 @@ public class AssociateDaoHibernate implements AssociateDao {
 			session.saveOrUpdate(tfAssociate);
 			t.commit();
 		} catch(HibernateException e) {
-			t.rollback();
+			if (t != null) {
+				t.rollback();
+			}
 			e.printStackTrace();
 		}
 	}

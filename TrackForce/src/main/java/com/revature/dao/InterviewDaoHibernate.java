@@ -110,11 +110,15 @@ public class InterviewDaoHibernate implements InterviewDao {
         } catch (NullPointerException e) {
             LogUtil.logger.error(e);
             e.printStackTrace();
-            t1.rollback();
+            if (t1 != null) {
+				t1.rollback();
+			}
         } catch (Exception e) {
             LogUtil.logger.error(e);
             e.printStackTrace();
-            t1.rollback();        	
+            if (t1 != null) {
+				t1.rollback();
+			}        	
         }
 	}
 }

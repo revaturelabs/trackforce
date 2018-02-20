@@ -29,8 +29,7 @@ public class ClientMappedJSON implements Comparable<ClientMappedJSON> {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(this.equals(obj)) return true;
-		return false;
+		return this.equals(obj);
 	}
 	
 }

@@ -60,7 +60,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 
 	@Override
     public void updateAssociates(List<Integer> ids, Integer marketingStatus, Integer clientid) {
-    	List<TfAssociate> associates = new ArrayList<TfAssociate>();
+    	List<TfAssociate> associates = new ArrayList<>();
     	Session session = HibernateUtil.getSession();
     	Transaction t = session.beginTransaction();
 		try{

@@ -80,38 +80,38 @@ public class PSDCacheRunner implements Runnable {
 	            new AssociateDaoHibernate().cacheAllAssociates();
 	            long endTime = System.nanoTime();
 	            double elapsedTime = ((double)(endTime -startTime))/1000000000,total=elapsedTime;
-	            LogUtil.logger.debug("Associates caching time: "+elapsedTime+" seconds");
+	            LogUtil.logger.info("Associates caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
 	            new BatchDaoHibernate().cacheAllBatches();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000; total+=elapsedTime;
-	            LogUtil.logger.debug("Batches caching time: "+elapsedTime+" seconds");
+	            LogUtil.logger.info("Batches caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
 	            new ClientDaoImpl().cacheAllClients();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-	            LogUtil.logger.debug("Clients caching time: "+elapsedTime+" seconds");
+	            LogUtil.logger.info("Clients caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
 	            new CurriculumDaoImpl().cacheAllCurriculms();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-	            LogUtil.logger.debug("Curriculums caching time: "+elapsedTime+" seconds");
+	            LogUtil.logger.info("Curriculums caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
 	            new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-	            LogUtil.logger.debug("MarketingStatuses caching time: "+elapsedTime+" seconds");
+	            LogUtil.logger.info("MarketingStatuses caching time: "+elapsedTime+" seconds");
 	            
 	            startTime = System.nanoTime(); // to do
                 new InterviewDaoHibernate().cacheAllInterviews();
                 endTime = System.nanoTime();
                 elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-                LogUtil.logger.debug("Interviews caching time: "+elapsedTime+" seconds");
-                LogUtil.logger.debug("Total caching time: "+total+" seconds");
+                LogUtil.logger.info("Interviews caching time: "+elapsedTime+" seconds");
+                LogUtil.logger.info("Total caching time: "+total+" seconds");
 	           
 	}
 }

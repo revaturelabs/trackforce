@@ -63,7 +63,6 @@ public class ClientInfo  implements Serializable, Comparable<ClientInfo> {
 	}
 
 	public void appendToMap(TfMarketingStatus tfMarketingStatus) {
-		LogUtil.logger.info("Status: " + tfMarketingStatus.getTfMarketingStatusId());
 		switch (tfMarketingStatus.getTfMarketingStatusId()) {
 		case StatusInfo.MAPPED_TRAINING:
 			stats.setTrainingMapped(stats.getTrainingMapped() + 1);

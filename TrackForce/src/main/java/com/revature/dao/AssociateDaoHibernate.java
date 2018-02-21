@@ -152,7 +152,6 @@ public class AssociateDaoHibernate implements AssociateDao {
 	    	Map<Integer, AssociateInfo> map = new HashMap<>();
 	    	for(TfAssociate tfa : associateList) {
 	    		map.put(tfa.getTfAssociateId(), Dao2DoMapper.map(tfa));
-	    		AssociateInfo.appendToMap(tfa.getTfMarketingStatus());
 	    	}
 	    	return map;
     }
@@ -165,7 +164,6 @@ public class AssociateDaoHibernate implements AssociateDao {
     	try {
 	    	Map<Integer, AssociateInfo> map = getAssociates();
 	    	PersistentStorage.getStorage().setAssociates(map);
-	    	PersistentStorage.getStorage().setTotals(AssociateInfo.getTotals());
     	} finally {
     		session.close();
     	}

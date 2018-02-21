@@ -50,7 +50,6 @@ public class PersistentStorage {
 		else {
 			this.associates.putAll(associates);
 		}
-		this.totalStats = AssociateInfo.getTotals();
 	}
 
 	public BatchInfo getBatch(Integer id) {

@@ -78,7 +78,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 	}
 
 	public InterviewInfo getInterviewFromCacheByID(int id) {
-		return PersistentStorage.getStorage().getInterviewsAsMap().get(new Integer(id));
+		return PersistentStorage.getStorage().getInterviewsAsMap().get(id);
 	}
 
 

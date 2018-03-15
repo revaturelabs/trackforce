@@ -9,11 +9,11 @@
       <form>
         <div class="form-group">
           <label for="startDate">Start Date Filter</label>
-          <input class="form-control" type="date" [ngModel]="startDate | date:'yyyy-MM-dd'" (ngModelChange)="startDate = $event" id="startDate" name="startDate" [max]="endDate"/>
+          <input class="form-control" type="date" [ngModel]="startDate | date:'yyyy-MM-dd'" (ngModelChange)="start = $event" id="startDate" name="startDate" [max]="endDate"/>
         </div>
         <div class="form-group">
           <label for="startDate">End Date Filter</label>
-          <input class="form-control" type="date" [ngModel]="endDate | date:'yyyy-MM-dd'" (ngModelChange)="endDate = $event" id="endDate" name="endDate" [min]="startDate"/>
+          <input class="form-control" type="date" [ngModel]="endDate | date:'yyyy-MM-dd'" (ngModelChange)="end = $event" id="endDate" name="endDate" [min]="startDate"/>
         </div>
         <div class="form-group">
           <label for="number">Number of Associates Needed</label>
@@ -38,7 +38,7 @@
             </div>
           </div>
         </div>
-        <button type="button" class="btn btn-primary" (click)="getPrediction()">Get Prediction</button>
+        <button type="button" class="btn btn-primary" (click)="getPrediction(start,end)">Get Prediction</button>
       </form>
     </div>
     <div class="col-md-6">

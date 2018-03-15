@@ -7,7 +7,6 @@ import javax.persistence.StoredProcedureQuery;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
-import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
 public class DatabaseDAOImpl {

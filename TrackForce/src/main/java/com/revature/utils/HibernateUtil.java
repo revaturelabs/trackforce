@@ -1,13 +1,14 @@
 package com.revature.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -15,117 +16,93 @@ import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProvid
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.service.ServiceRegistry;
 
-import com.revature.config.DataSourceConfig;
-
 /**
  * Utility class for configurations and getting a Hibernate SessionFactory
  * object.
  */
 public class HibernateUtil {
+    private static SessionFactory sessionFactory;
 
-	private HibernateUtil() {
-	}
+    /**
+     * Returns a new session from the sessionFactory
+     * @return A newly created session
+     */
+    public static Session getSession() {
+    	return getSessionFactory().openSession();
+    }
+    
+    /**
+     * Returns the SessionFactory stored in the HibernateUtil class;
+     * Initializes it if not already initialized
+     *
+     * @return the SessionFactory stored in HibernateUtil.
+     */
+    public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            DataSource dataSource = new DataSourceBuilder().fromPropertiesFile("tomcat-jdbc.properties");
+            Properties extraProps = new Properties();   // empty = default properties
+            initSessionFactory(dataSource, extraProps);
+        }
+        return sessionFactory;
+    }
 
-	private static SessionFactory sessionfact;
+    /**
+     * Initializes/configures the SessionFactory.
+     * Should be called no more than once, then session factory is consequently retrieved
+     * with getSessionFactory()
+     *
+     * @param dataSource - path to properties file for DataSource
+     * @param dbProps    - properties other than those from datasource properties file,
+     *                   -- must include hibernate.connection.dialect and hibernate.driver_class
+     * @return the SessionFactory stored in HibernateUtil.
+     */
+    public static SessionFactory initSessionFactory(DataSource dataSource, Properties dbProps) {
 
-	/**
-	 * Returns a SessionFactory objects based on hibernate.cfg.xml
-	 * 
-	 * @return a new SessionFactory object from hibernate.cfg.xml
-	 * @throws IOException
-	 */
-	private static SessionFactory buildSessionFactory(Configuration conf) throws IOException {
-		LogUtil.logger.info("Starting connection pool...");
-		SessionFactory sf;
-		StandardServiceRegistryBuilder builder;
-		ServiceRegistry registry;
-		
-		// we need to use this class to inject our 3rd party datasource
-		DatasourceConnectionProviderImpl dscpi = new DatasourceConnectionProviderImpl();
-		try (InputStream is = HibernateUtil.class.getClassLoader().getResourceAsStream("tomcat-jdbc.properties")) {
+        Configuration config = new Configuration()
+                .configure()                // hibernate.cfg.xml
+                .addProperties(dbProps);    // appends/overwrites hibernate.cfg.xml
 
-			// initialize datasource
-			dscpi.setDataSource(DataSourceConfig.getDatasource());
-			
-			// Register Entities
-			// registerEntities(conf);
-			
-			// initialize properties and configurations
-            conf.setProperty("hibernate.connection.url", DataSourceConfig.getUrl());
-            conf.setProperty("hibernate.connection.username", DataSourceConfig.getUsername());
-			conf.setProperty("hibernate.connection.password", DataSourceConfig.getPassword());
+        // Inject datasource
+        DatasourceConnectionProviderImpl dscpi = new DatasourceConnectionProviderImpl();
+        dscpi.setDataSource(dataSource);
+        dscpi.configure(config.getProperties());
 
-			// set cfg properties
-			dscpi.configure(conf.getProperties());
+        // configure the service registry
+        StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder()
+                .addService(ConnectionProvider.class, dscpi)
+                .configure()                                // hibernate.cfg.xml
+                .applySettings(config.getProperties());     // appends/overwrites hibernate.cfg.xml
+        ServiceRegistry registry = registryBuilder.build();
 
-			// configure the service registry
-			builder = new StandardServiceRegistryBuilder();
-			builder.configure();    // from hibernate.cfg.xml
-			builder.addService(ConnectionProvider.class, dscpi);
-			builder.applySettings(conf.getProperties());
-			registry = builder.build();
+        // build session factory
+        sessionFactory = config.buildSessionFactory(registry);
+        LogUtil.logger.info("SessionFactory successfully built");
 
-			// build the factory
-			sf = conf.buildSessionFactory(registry);
-			LogUtil.logger.info("Connection Pool configured");
-			LogUtil.logger.info("SessionFactory successfully built");
-			return sf;
-		}
-	}
+        return sessionFactory;
+    }
 
-	/**
-	 * Returns the SessionFactory stored in the HibernateUtil class.
-	 * @param props 
-	 * 
-	 * @return the SessionFactory stored in HibernateUtil.
-	 * @throws IOException
-	 */
-	public static SessionFactory getSession(Properties props) throws IOException {
-		if (sessionfact == null) {
-			// initialize configurations
-			Configuration conf = new Configuration().configure();
-			conf.setProperties(props);
-			sessionfact = buildSessionFactory(conf);
-		}
-		return sessionfact;
-	}
+    /**
+     * Closes the SessionFactory in HibernateUtil.
+     */
+    public static void shutdown() {
+        if (sessionFactory != null) {
+        	LogUtil.logger.info("Shutting down SessionFactory");
+            sessionFactory.close();
+            LogUtil.logger.info("SessionFactory has been shutdown.");
+            // This manually deregisters JDBC driver, which prevents Tomcat 7 from
+            // complaining about memory leaks to this class
+            Enumeration<Driver> drivers = DriverManager.getDrivers();
+            while (drivers.hasMoreElements()) {
+                Driver driver = drivers.nextElement();
+                try {
+                	LogUtil.logger.info(String.format("Deregistering jdbc driver: %s", driver));
+                    DriverManager.deregisterDriver(driver);
+                	LogUtil.logger.info(String.format("%s has been deregistered.", driver));
+                } catch (SQLException e) {
+                    LogUtil.logger.fatal(String.format("Error deregistering driver %s", driver), e);
+                }
+            }
+        }
+    }
 
-	/**
-	 * Returns the SessionFactory stored in the HibernateUtil class.
-	 * @param props 
-	 * 
-	 * @return the SessionFactory stored in HibernateUtil.
-	 * @throws IOException
-	 */
-	public static SessionFactory getSession() throws IOException {
-		if (sessionfact == null) {
-			Configuration conf = new Configuration().configure();
-			conf.setProperty("hibernate.hbm2.ddl-auto", "validate");
-			sessionfact = buildSessionFactory(conf);
-		}
-		return sessionfact;
-	}
-	
-	/**
-	 * Closes the SessionFactory in HibernateUtil.
-	 * 
-	 * @throws IOException
-	 */
-	public static void shutdown() {
-		if (sessionfact != null) {
-			sessionfact.close();
-			// This manually deregisters JDBC driver, which prevents Tomcat 7 from
-			// complaining about memory leaks to this class
-			Enumeration<Driver> drivers = DriverManager.getDrivers();
-			while (drivers.hasMoreElements()) {
-				Driver driver = drivers.nextElement();
-				try {
-					DriverManager.deregisterDriver(driver);
-					LogUtil.logger.info(String.format("deregistering jdbc driver: %s", driver));
-				} catch (SQLException e) {
-					LogUtil.logger.fatal(String.format("Error deregistering driver %s", driver), e);
-				}
-			}
-		}
-	}
 }

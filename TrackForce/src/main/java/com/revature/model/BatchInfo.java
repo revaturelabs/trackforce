@@ -1,7 +1,6 @@
 package com.revature.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Set;
 import java.util.TreeSet;
@@ -17,14 +16,14 @@ public class BatchInfo  implements Serializable, Comparable<BatchInfo> {
 	 * 
 	 */
 	private static final long serialVersionUID = 7437353955754399023L;
-	private BigDecimal id;
+	private Integer id;
     private String batchName;
-    public BigDecimal getId() {
+    public Integer getId() {
 		return id;
 	}
 
-	public void setId(BigDecimal id) {
-		this.id = id;
+	public void setId(Integer integer) {
+		this.id = integer;
 	}
 
 	private String curriculumName;
@@ -101,7 +100,7 @@ public class BatchInfo  implements Serializable, Comparable<BatchInfo> {
      * @param startDate - The date that this batch started.
      * @param endDate - The date that this batch graduates.
      */
-    public BatchInfo(BigDecimal id, String batchName, String curriculumName, String location, String startDate, String endDate) {
+    public BatchInfo(Integer id, String batchName, String curriculumName, String location, String startDate, String endDate) {
         super();
         this.id = id;
         this.batchName = batchName;
@@ -248,7 +247,7 @@ public class BatchInfo  implements Serializable, Comparable<BatchInfo> {
     
 	@Override
 	public int compareTo(BatchInfo o) {
-		return this.id.subtract(o.getId()).intValueExact();
+		return this.id-o.getId();
 	}
 
 }

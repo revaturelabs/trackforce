@@ -8,14 +8,15 @@
         <input type="text" [(ngModel)]="searchName" (keyup)="getAllClients()" class="form-control" id="clientSearch" placeholder="Search by client name...">
       </div>
       <h3>Clients</h3>
-      <button (click)="getTotalChartData()" class="btn custom-btn">View Data for All Clients</button>
+      <button (click)="initChartData()" class="btn btn-primary">View Data for All Clients</button>
       <div id="clients-list-well" class="well">
+        <!-- <input type="checkbox" [checked]="showNoData" name="showNoData">
+        <label for="showNoData">Show Clients With No Associates</label> -->
         <ul id="clients-list">
           <!-- populate list of company names -->
           <li *ngFor="let clientName of clientNames | searchFilter : searchName" (click)="getOneClient(clientName)">
             <span class="client-name">{{clientName}}</span>
           </li>
-
         </ul>
       </div>
     </div>
@@ -23,7 +24,7 @@
     <!-- Display Client name and bar chart regarding client -->
     <div class="col-md-9">
       <h1>{{selectedCompany}}</h1>
-      <canvas baseChart id="bar-chart" class="chart chart-bar" 
+      <canvas baseChart id="bar-chart" class="chart chart-bar"
       *ngIf="barChartLabel && barChartLabel.length && barChartData && barChartData.length"
       [datasets] = "barChartData"
       [chartType]="barChartType"
@@ -37,3 +38,6 @@
     <!-- end of col-md-9 -->
   </div>
 </div>
+
+<app-footer></app-footer>
+

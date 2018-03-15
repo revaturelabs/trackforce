@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ClientMappedComponent } from './client-mapped.component';
 import { ChartsModule } from 'ng2-charts';
-import { ClientMappedService } from '../../services/client-mapped-service/client-mapped-service';
+import { ClientService } from '../../services/client-service/client-service';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RootComponent } from '../root/root.component';
@@ -14,11 +14,12 @@ import { ClientMappedModel } from '../../models/clientMapped.model';
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 
 describe('ClientMappedComponent', () => {
   let component: ClientMappedComponent;
   let fixture: ComponentFixture<ClientMappedComponent>;
-  const testClientMappedService: ClientMappedService = new ClientMappedService(null);
+  const testClientService: ClientService = new ClientService(null);
   const testAuthService: AuthenticationService = new AuthenticationService(null, null);
 
   //Setup service mocks
@@ -34,8 +35,8 @@ describe('ClientMappedComponent', () => {
     client3.name = "Client 3";
     client3.count = 40;
 
-    //Mock the ClientMappedService
-    spyOn(testClientMappedService, 'getAssociatesByStatus').and.returnValue(Observable.of([client1, client2, client3]));
+    //Mock the ClientService
+    spyOn(testClientService, 'getAssociatesByStatus').and.returnValue(Observable.of([client1, client2, client3]));
 
     //Mock the Authentication Service
     const user: User = new User();
@@ -45,7 +46,6 @@ describe('ClientMappedComponent', () => {
     spyOn(testAuthService, 'getUser').and.returnValue(user);
   });
 
-  //Dependancies
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -60,9 +60,12 @@ describe('ClientMappedComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        RequestService, 
+        RequestService,
         {provide: AuthenticationService, useValue: testAuthService},
-        {provide: ClientMappedService, useValue: testClientMappedService}
+        {provide: ClientService, useValue: testClientService}
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
       ]
     })
   }));

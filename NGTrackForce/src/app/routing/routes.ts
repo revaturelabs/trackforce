@@ -15,7 +15,11 @@ import {CreateUserComponent} from '../components/create-user/create-user.compone
 import {RootComponent} from '../components/root/root.component';
 import {SkillsetComponent} from '../components/skillset/skillset.component';
 import {BatchDetailsComponent} from '../components/batch-details/batch-details.component';
-import { AssociateViewComponent } from '../components/associate-view/associate-view.component';
+import {AssociateViewComponent } from '../components/associate-view/associate-view.component';
+import {NotFoundComponent} from '../components/not-found/not-found.component';
+import {PredictionsComponent} from '../components/predictions/predictions.component';
+
+import { AuthGuard } from '../guards/auth.guard';
 
 /**
  * Place paths here
@@ -24,6 +28,7 @@ import { AssociateViewComponent } from '../components/associate-view/associate-v
 export const appRoutes: Routes = [
   {
     path: 'home',
+    canActivate: [AuthGuard],
     component: HomeComponent
   },
   {
@@ -37,47 +42,67 @@ export const appRoutes: Routes = [
   },
   {
     path: 'client-listing',
+    canActivate: [AuthGuard],
     component: ClientListComponent
   },
   {
     path: 'client-mapped/:id',
+    canActivate: [AuthGuard],
     component: ClientMappedComponent
   },
   {
     path: 'associate-listing',
+    canActivate: [AuthGuard],
     component: AssociateListComponent
   },
   {
     path: 'associate-listing/:CliOrCur/:name/:mapping/:status',
+    canActivate: [AuthGuard],
     component: AssociateListComponent
   },
   {
     path: 'batch-listing',
+    canActivate: [AuthGuard],
     component: BatchListComponent
   },
   {
     path: 'batch-details/:id',
+    canActivate: [AuthGuard],
     component: BatchDetailsComponent
   },
   {
     path: 'form-comp/:id',
+    canActivate: [AuthGuard],
     component: FormComponent
   },
   {
     path: 'create-user',
+    canActivate: [AuthGuard],
     component: CreateUserComponent
   },
   {
     path: 'root',
+    canActivate: [AuthGuard],
     component: RootComponent
   },
   {
+    path: 'predictions',
+    canActivate: [AuthGuard],
+    component: PredictionsComponent
+  },
+  {
     path: 'skillset/:id',
+    canActivate: [AuthGuard],
     component: SkillsetComponent
   },
   {
     path: 'associate-view/:id',
+    canActivate: [AuthGuard],
     component: AssociateViewComponent
+  },
+  {
+    // must be LAST in this array because this matches all other paths (fallback)
+    path: '**',
+    component: NotFoundComponent
   }
-
 ];

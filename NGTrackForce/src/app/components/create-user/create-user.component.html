@@ -1,21 +1,22 @@
 <app-navbar></app-navbar>
 
-<div class="container">
+<div class="container min-height">
   <div class="col-md-6">
     <h3>Roles</h3>
+    <label>Administrator</label>
+    <p>Can do everything a director or manager can do in addition to creating a new user.</p>
     <label>Vice President</label>
     <p>Can only view information.</p>
     <label>Director or Manager</label>
     <p>Can view information and edit associates' information</p>
-    <label>Administrator</label>
-    <p>Can do everything a director or manager can do in addition to creating a new user.</p>
+    <label>Associate</label>
+    <p>Can only view own information, submit interviews, and request status update</p>
   </div>
-  <div class="well col-md-6">
+  <div class="well col-md-5">
     <h3>Create New User:</h3>
     <form>
       <label for="username" class="sr-only">Username: </label>
       <input class="form-control" type="text" placeholder="Username" name="username" id="username" required [(ngModel)]="username"/>
-      <br>
       <label for="password" class="sr-only">Password: </label>
       <input class="form-control" type="password" placeholder="Password" name="password" id="password" required [(ngModel)]="password"/>
       <label for="password" class="sr-only">Confirm Password: </label>
@@ -23,16 +24,14 @@
       <br>
       <div class="form-group">
           <label for="RoleType">Please Select Role Type:</label><br>
-          <input type="radio" name="optradio" value="1" [(ngModel)]="roleId">Administrator<br>
-          <input type="radio" name="optradio" value="2" [(ngModel)]="roleId">Manager<br>
-          <input type="radio" name="optradio" value="3" [(ngModel)]="roleId">Vice President <br>
-          <!--<input type="radio" name="optradio" value="4" [(ngModel)]="roleId">Associate<br>-->
+          <input type="radio" name="optradio" value="1" [(ngModel)]="roleId">&ensp;Administrator<br>
+          <input type="radio" name="optradio" value="2" [(ngModel)]="roleId">&ensp;Manager<br>
+          <input type="radio" name="optradio" value="3" [(ngModel)]="roleId">&ensp;Vice President <br>
+          <input type="radio" name="optradio" value="4" [(ngModel)]="roleId">&ensp;Associate<br>
        </div>
       <br>
-      <input (click)="createUser()" type="submit" value="Submit">
-
-    </form> 
+      <input (click)="createUser()" type="submit" class="btn btn-default" value="Submit">
+    </form>
   </div>
 </div>
-
-
+<app-footer></app-footer>

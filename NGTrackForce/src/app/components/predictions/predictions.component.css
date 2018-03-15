@@ -1,0 +1,43 @@
+.min-height {
+  min-height: 100vh;
+}
+
+.multiselect {
+  width: 200px;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  max-height: 200px;
+  overflow-y: scroll;
+  background-color: white;
+  border: 1px #dadada solid;
+}
+
+#checkboxes div {
+  width: 100%;
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}

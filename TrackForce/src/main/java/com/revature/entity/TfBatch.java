@@ -1,16 +1,18 @@
 package com.revature.entity;
 // Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -27,7 +29,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1893469049852289417L;
-	private BigDecimal tfBatchId;
+	private Integer tfBatchId;
 	private TfBatchLocation tfBatchLocation;
 	private TfCurriculum tfCurriculum;
 	private String tfBatchName;
@@ -38,11 +40,11 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	public TfBatch() {
 	}
 
-	public TfBatch(BigDecimal tfBatchId) {
+	public TfBatch(Integer tfBatchId) {
 		this.tfBatchId = tfBatchId;
 	}
 
-	public TfBatch(BigDecimal tfBatchId, TfBatchLocation tfBatchLocation, TfCurriculum tfCurriculum, String tfBatchName,
+	public TfBatch(Integer tfBatchId, TfBatchLocation tfBatchLocation, TfCurriculum tfCurriculum, String tfBatchName,
 			Timestamp tfBatchStartDate, Timestamp tfBatchEndDate, Set<TfAssociate> tfAssociates) {
 		this.tfBatchId = tfBatchId;
 		this.tfBatchLocation = tfBatchLocation;
@@ -54,13 +56,12 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	}
 
 	@Id
-
 	@Column(name = "TF_BATCH_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getTfBatchId() {
+	public Integer getTfBatchId() {
 		return this.tfBatchId;
 	}
 
-	public void setTfBatchId(BigDecimal tfBatchId) {
+	public void setTfBatchId(Integer tfBatchId) {
 		this.tfBatchId = tfBatchId;
 	}
 
@@ -83,7 +84,21 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	public void setTfCurriculum(TfCurriculum tfCurriculum) {
 		this.tfCurriculum = tfCurriculum;
 	}
-
+	
+	
+//	//ManyToMany
+//	@ManyToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+//    @JoinTable(name="TF_BATCH_JUNCTION", schema="ADMIN", joinColumns=
+//    {@JoinColumn(name="TF_BATCH_ID", nullable =false, updatable = false) }, 
+//    inverseJoinColumns= { @JoinColumn(name="TF_TECH_ID", nullable = false, updatable = false)})  
+//    public Set<TfTech> getTechs()
+//    {  
+//        return this.techs;  
+//    }  
+//    public void setTechs(Set<TfTech> techs)  
+//    {  
+//        this.techs = techs;  //reference the techs that it owns
+//    } 
 
 	@Column(name = "TF_BATCH_NAME", length = 50)
 	public String getTfBatchName() {
@@ -116,8 +131,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	public Set<TfAssociate> getTfAssociates() {
 		return this.tfAssociates;
 	}
-
-	public void setTfAssociates(Set<TfAssociate> tfAssociates) {
+    	public void setTfAssociates(Set<TfAssociate> tfAssociates) {
 		this.tfAssociates = tfAssociates;
 	}
 
@@ -130,7 +144,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 
 	@Override
 	public int compareTo(TfBatch o) {
-		return this.tfBatchId.subtract(o.getTfBatchId()).intValueExact();
+		return this.tfBatchId-o.getTfBatchId();
 	}
 	
 	

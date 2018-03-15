@@ -7,7 +7,9 @@ import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
+import com.revature.dao.UserDAO;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import com.revature.dao.UserDaoImpl;
@@ -34,7 +36,26 @@ import io.jsonwebtoken.SignatureException;
 public class JWTService {
 
 	private static final String SECRET_KEY = getKey();
-	private static Long EXPIRATION = 10L;
+	private static Long EXPIRATION = 1000L;
+
+	private SessionFactory sessionFactory;
+	private UserDAO userDao;
+
+    /**
+     *
+     * injectable dependencies for easier testing
+     * @param userDao
+     * @param sessionFactory
+     */
+	public JWTService(UserDAO userDao, SessionFactory sessionFactory) {
+		this.userDao = userDao;
+		this.sessionFactory = sessionFactory;
+	}
+
+	public JWTService() {
+		this.sessionFactory = HibernateUtil.getSessionFactory();
+        this.userDao = new UserDaoImpl();
+	}
 
 	/**
 	 * Creates a token with an encoded username An expiration date has been set as
@@ -98,9 +119,11 @@ public class JWTService {
 		Date expiration = null;
 		try {
 			final Claims claims = getClaimsFromToken(token);
-			expiration = claims.getExpiration();
+			if (claims != null) {
+				expiration = claims.getExpiration();
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.logger.error(e);
 		}
 		return expiration;
 	}
@@ -117,7 +140,7 @@ public class JWTService {
 		try {
 			claims = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LogUtil.logger.error(e);
 		}
 		return claims;
 	}
@@ -134,12 +157,11 @@ public class JWTService {
 	public Boolean validateToken(String token) throws IOException {
 		Claims claims = null;
 		boolean verified = false;
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			String tokenUsername = null;
 			TfUser tfUser = null;
-			UserDaoImpl udi = new UserDaoImpl();
 
 			if (token == null) {
 				return false;
@@ -147,20 +169,22 @@ public class JWTService {
 
 			try {
 				claims = getClaimsFromToken(token);
-				tokenUsername = claims.getSubject();
-				tfUser = udi.getUser(tokenUsername, session);
-
+				if (claims != null) {
+					tokenUsername = claims.getSubject();
+				}
+				if (tokenUsername != null) {
+					tfUser = userDao.getUser(tokenUsername);	
+				}
 				if (tfUser != null) {
 					// makes sure the token is fresh and usernames are equal
 					verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token));
 				}
 
 			} catch (SignatureException se) {
-				se.printStackTrace();
+				LogUtil.logger.error(se);
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
 			LogUtil.logger.error(e);
 			session.flush();
 			tx.rollback();
@@ -169,8 +193,8 @@ public class JWTService {
 	}
 
 	/**
-	 * <<<<<<< HEAD Gets the secret key from System environments, under the 'KEY'
-	 * label ======= Checks if the user is an admin
+	 * Gets the secret key from System environments, under the 'KEY' label Checks if
+	 * the user is an admin
 	 * 
 	 * 
 	 * @param token
@@ -179,39 +203,39 @@ public class JWTService {
 	 *             because of the use of connection pools that requires some files
 	 */
 	public boolean isAdmin(String token) throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
 			Claims claims = null;
 			boolean verified = false;
 			String tokenUsername = null;
 			TfUser tfUser = null;
-			UserDaoImpl udi = new UserDaoImpl();
 			TfRole tfRole = null;
 
 			if (token == null) {
 				return false;
 			}
 
-			try {
-				claims = getClaimsFromToken(token);
+			claims = getClaimsFromToken(token);
+			if (claims != null) {
 				tokenUsername = claims.getSubject();
-				tfUser = udi.getUser(tokenUsername, session);
-				tfRole = tfUser.getTfRole();
-
-				if (tfUser != null) {
-					// makes sure the token is fresh and usernames are equal
-					// and user role is admin
-					verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
-							&& tfRole.getTfRoleName().equals("Admin"));
-				}
-
-				session.flush();
-				tx.begin();
-				return verified;
-			} catch (SignatureException se) {
-				se.printStackTrace();
 			}
+			if (tokenUsername != null) {
+				tfUser = userDao.getUser(tokenUsername);
+			}
+			if (tfUser != null) {
+				tfRole = tfUser.getTfRole();
+			}
+
+			if (tfUser != null && tfRole != null) {
+				// makes sure the token is fresh and usernames are equal
+				// and user role is admin
+				verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
+						&& tfRole.getTfRoleName().equals("Admin"));
+			}
+			session.flush();
+			tx.commit();
+			return verified;
 		} catch (Exception e) {
 			session.flush();
 			tx.rollback();
@@ -231,54 +255,55 @@ public class JWTService {
 	 *             because of the use of connection pools that requires some files
 	 */
 	public boolean isAssociate(String token) throws IOException {
-		Session session = HibernateUtil.getSession().openSession();
+		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		try {
-		Claims claims = null;
-		boolean verified = false;
-		String tokenUsername = null;
-		TfUser tfUser = null;
-		UserDaoImpl udi = new UserDaoImpl();
-		TfRole tfRole = null;
+			Claims claims = null;
+			boolean verified = false;
+			String tokenUsername = null;
+			TfUser tfUser = null;
+			TfRole tfRole = null;
 
-		if (token == null) {
-			return false;
-		}
-
-		try {
-			claims = getClaimsFromToken(token);
-			tokenUsername = claims.getSubject();
-			tfUser = udi.getUser(tokenUsername, session);
-			tfRole = tfUser.getTfRole();
-
-			if (tfUser != null) {
-				// makes sure the token is fresh and usernames are equal
-				// and user role is an associate
-				verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
-						&& tfRole.getTfRoleName().equals("Associate"));
+			if (token == null) {
+				return false;
 			}
 
-		} catch (SignatureException se) {
-			se.printStackTrace();
-		}
+			try {
+				claims = getClaimsFromToken(token);
+				if (claims != null) {
+					tokenUsername = claims.getSubject();
+				}
+				if (tokenUsername != null) {
+					tfUser = userDao.getUser(tokenUsername);
+				}
+				if (tfUser != null) {
+					tfRole = tfUser.getTfRole();
+				}
+				if (tfUser != null && tfRole != null) {
+					// makes sure the token is fresh and usernames are equal
+					// and user role is an associate
+					verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
+							&& tfRole.getTfRoleName().equals("Associate"));
+				}
+			} catch (SignatureException se) {
+				LogUtil.logger.error(se);
+			}
 
-		session.flush();
-		tx.commit();
-		return verified;
-		
-		} catch(Exception e) {
+			session.flush();
+			tx.commit();
+			return verified;
+
+		} catch (Exception e) {
 			session.flush();
 			tx.rollback();
-		}
-		finally {
+		} finally {
 			session.close();
 		}
 		return false;
 	}
 
 	/**
-	 * Gets the secret key from System environments, under the 'KEY' label >>>>>>>
-	 * a08cd25a85f2cec1a67df1180c8868a0c0b50ec7
+	 * Gets the secret key from System environments, under the 'KEY' label
 	 * 
 	 * @return key string
 	 */

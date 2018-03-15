@@ -1,25 +1,18 @@
+
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<!-- <?xml version="1.0" encoding="UTF-8"?> -->
-<suite name="Suite" parallel="false">
-	<test name="Test">
+<!-- Root tag for testng.xml will always be suite. The name can be whatever 
+	you want. -->
+<suite name="TrackforcePersistenceTestSuite" parallel="false">
+	<test name="TfPersistenceTest">
 		<classes>
-
-			<class name="com.revature.dao.MarketingStatusDaoTest" />
-
-            <!--
-			<class name="com.revature.runner.ClientPageRunner" />
-			-->
-
-
-			<class name="com.revature.services.ClientResourceTest" />
-
-			<class name="com.revature.test.AssociationMappingTest" />
-			<class name="com.revature.test.BatchesTest" />
-			<class name="com.revature.test.testAssociateService" />
-			<class name="com.revature.test.testBatchesService" />
-
-			<class name="com.revature.utils.StatusInfoUtilTest" />
-
+			<class name="com.revature.test.dao.MarketingStatusDAOTest" />
+			<class name="com.revature.test.services.AssociateServiceTest"/>
+			<class name="com.revature.test.services.BatchesServiceTest"/>
+			<class name="com.revature.test.services.ClientServiceTest"/>
+			<class name="com.revature.test.services.CurriculumServicesTest" />
+			<class name="com.revature.test.services.TechServiceTest" />
+			<class name="com.revature.test.services.UserServiceTest" />
+			<class name="com.revature.test.utils.PersistentStorageTest" />
 		</classes>
-	</test> <!-- Test -->
-</suite> <!-- Suite -->
+	</test>
+</suite>

@@ -24,8 +24,8 @@ import {Color} from 'ng2-charts';
 export class BatchListComponent implements OnInit {
 
   pieChartType = 'pie';
-  startDate: Date;
-  endDate: Date;
+  startDate: Date = new Date();
+  endDate: Date = new Date();
   batches: Batch[];
   curriculumNames: string[];
   curriculumCounts: number[];
@@ -47,6 +47,9 @@ export class BatchListComponent implements OnInit {
    * load default batches on initialization
    */
   ngOnInit() {
+    // set default dates displayed on page
+    this.startDate.setMonth(new Date().getMonth() - 3);
+    this.endDate.setMonth(new Date().getMonth() + 3);
     const startTime = Date.now();
     this.dataReady = false;
     this.batchService.getDefaultBatches().subscribe(
@@ -55,9 +58,7 @@ export class BatchListComponent implements OnInit {
         this.updateCountPerCurriculum();
         this.dataReady = true;
         const elapsed = Date.now() - startTime;
-        console.log("Time", elapsed / 1000.0);
       },
-      console.error
     );
   }
 
@@ -66,10 +67,32 @@ export class BatchListComponent implements OnInit {
    * after user selects date range, this handles updating the data,
    * and the corresponding graph accordingly
    */
-  public applySelectedRange() {
+  public applySelectedRange(s,e) {
+    if(s != null){
+      console.log(s);
+      this.startDate = s;
+    }
+    if(e != null){
+      console.log(e);
+      this.endDate = e;
+    }
     if (this.startDate && this.endDate) {
       this.updateBatches();
     }
+  }
+
+  /*
+   * reset to original batches
+   */
+  public resetToDefaultBatches(){
+    this.dataReady = false;
+    this.batchService.getDefaultBatches().subscribe(
+      (batches) => {
+        this.batches = batches;
+        this.updateCountPerCurriculum();
+        this.dataReady = true;
+      },
+    );
   }
 
   /**
@@ -96,7 +119,6 @@ export class BatchListComponent implements OnInit {
         this.updateCountPerCurriculum();
         this.dataReady = true;
       },
-      console.error
     );
   }
 
@@ -124,7 +146,5 @@ export class BatchListComponent implements OnInit {
     // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change
     this.curriculumNames = Array.from(curriculumCountsMap.keys());
     this.curriculumCounts = Array.from(curriculumCountsMap.values());
-    console.log("names", this.curriculumNames, "counts", this.curriculumCounts);
   }
-
 }

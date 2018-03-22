@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
  */
 
 
+
 public final class LogUtil {
 
 	private LogUtil() {

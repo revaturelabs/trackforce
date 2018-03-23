@@ -14,12 +14,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-user.component.css']
 })
 export class CreateUserComponent implements OnInit {
-  
     username: string;
     password: string;
     password2: string;
     roleId: number;
-  
+    errMsg:any;
     constructor(private authService: AuthenticationService, 
                 private router: Router, 
                 private userService: UserService) { }
@@ -34,8 +33,9 @@ export class CreateUserComponent implements OnInit {
      * 
      */
     createUser(){
+      this.errMsg="";
       if(this.password !== this.password2){
-        window.alert('Passwords do not match!');
+        this.errMsg='Passwords do not match!';
       } else {
         this.userService.createUser(this.username, this.password, this.roleId).subscribe(
           data => {
@@ -44,7 +44,7 @@ export class CreateUserComponent implements OnInit {
           },
           err => {
             console.error(err + " Error Occurred");
-            window.alert('Error: new user not created!');
+            this.errMsg='Error: new user not created!';
           }
         );
       }

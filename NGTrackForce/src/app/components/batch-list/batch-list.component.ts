@@ -67,7 +67,15 @@ export class BatchListComponent implements OnInit {
    * after user selects date range, this handles updating the data,
    * and the corresponding graph accordingly
    */
-  public applySelectedRange() {
+  public applySelectedRange(s,e) {
+    if(s != null){
+      console.log(s);
+      this.startDate = s;
+    }
+    if(e != null){
+      console.log(e);
+      this.endDate = e;
+    }
     if (this.startDate && this.endDate) {
       this.updateBatches();
     }

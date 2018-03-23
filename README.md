@@ -1,6 +1,6 @@
 ![alt text](https://github.com/revaturelabs/trackforce/blob/dev/TrackForce/src/main/webapp/resources/logo.png)
 
-# TrackForce
+# TrackForce App
 ## Project Discription and Objectives
 
 ### Description

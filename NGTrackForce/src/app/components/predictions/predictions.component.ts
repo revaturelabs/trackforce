@@ -59,7 +59,13 @@ export class PredictionsComponent implements OnInit {
     );
   }
 
-  getPrediction() {
+  getPrediction(s,e) {
+    if(s != null){
+      this.startDate = s;
+    }
+    if(e != null){
+      this.endDate = e;
+    }
     console.log(this.technologies);
     let selectedTechnologies = [];
     for (let i=0;i<this.technologies.length;i++) {

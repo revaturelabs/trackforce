@@ -1,7 +1,6 @@
 package com.revature.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
@@ -10,21 +9,21 @@ public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
 	 * 
 	 */
 	private static final long serialVersionUID = 4737517688902246944L;
-	private BigDecimal id;
+	private Integer id;
 	private AssociateInfo tfAssociate;
-	private EndClientInfo tfEndClient;
-	private BigDecimal typeId;
+	private String tfClientName;
+	private Integer typeId;
 	private String typeName;
 	private Timestamp tfInterviewDate;
 	private String tfInterviewFeedback;
 	
-	public BigDecimal getId() {
+	public Integer getId() {
 		return id;
 	}
 
 
 
-	public void setId(BigDecimal id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -42,25 +41,29 @@ public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
 
 
 
-	public EndClientInfo getTfEndClient() {
-		return tfEndClient;
+	public String getTfClientName() {
+		return tfClientName;
 	}
 
 
 
-	public void setTfEndClient(EndClientInfo tfEndClient) {
-		this.tfEndClient = tfEndClient;
+	public void setTfClientName(String tfEndClient) {
+		this.tfClientName = tfEndClient;
+	}
+	
+	public void setTfEndClientName(String name) {
+		this.tfClientName = name;
 	}
 
 
 
-	public BigDecimal getTypeId() {
+	public Integer getTypeId() {
 		return typeId;
 	}
 
 
 
-	public void setTypeId(BigDecimal typeId) {
+	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
 	}
 
@@ -104,7 +107,7 @@ public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
 
 	@Override
 	public int compareTo(InterviewInfo o) {
-		return this.id.subtract(o.getId()).intValueExact();
+		return this.id-o.getId();
 	}
 
 	

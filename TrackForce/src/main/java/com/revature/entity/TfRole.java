@@ -1,7 +1,6 @@
 package com.revature.entity;
 // Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -22,31 +21,30 @@ public class TfRole implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 2827764589977541041L;
-	private BigDecimal tfRoleId;
+	private Integer tfRoleId;
 	private String tfRoleName;
 	private Set<TfUser> tfUsers = new HashSet<TfUser>(0);
 
 	public TfRole() {
 	}
 
-	public TfRole(BigDecimal tfRoleId) {
+	public TfRole(Integer tfRoleId) {
 		this.tfRoleId = tfRoleId;
 	}
 
-	public TfRole(BigDecimal tfRoleId, String tfRoleName, Set<TfUser> tfUsers) {
+	public TfRole(Integer tfRoleId, String tfRoleName, Set<TfUser> tfUsers) {
 		this.tfRoleId = tfRoleId;
 		this.tfRoleName = tfRoleName;
 		this.tfUsers = tfUsers;
 	}
 
 	@Id
-
 	@Column(name = "TF_ROLE_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getTfRoleId() {
+	public Integer getTfRoleId() {
 		return this.tfRoleId;
 	}
 
-	public void setTfRoleId(BigDecimal tfRoleId) {
+	public void setTfRoleId(Integer tfRoleId) {
 		this.tfRoleId = tfRoleId;
 	}
 

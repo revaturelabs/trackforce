@@ -1,23 +1,24 @@
 package com.revature.dao;
 
-import java.io.IOException;
-import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.Session;
-
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfClient;
-import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
-import com.revature.model.ClientInfo;
-import com.revature.model.MarketingStatusInfo;
+import com.revature.model.InterviewInfo;
+import com.revature.request.model.AssociateFromClient;
 
 public interface AssociateDao {
 
-	public AssociateInfo getAssociate(BigDecimal associateid, Session session) throws IOException;
-	public Map<BigDecimal, AssociateInfo> getAssociates(Session session);
-	void updateInfo(Session session, BigDecimal id, MarketingStatusInfo marketingStatus, ClientInfo client)
-			throws IOException;
+	public AssociateInfo getAssociate(Integer associateid);
+	public AssociateInfo getAssociateFromDB(Integer associateid);
+	public Map<Integer, AssociateInfo> getAssociates();
+	public Set<AssociateInfo> getAllAssociates();
+	public void cacheAllAssociates();
+	void updateAssociates(List<Integer> associateids, Integer marketingStatus, Integer clientid);
+	public Map<Integer, AssociateInfo> createAssociatesMap(List<TfAssociate> associateList);
+	public void updateAssociate(AssociateFromClient afc);
+	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId);
+
 }

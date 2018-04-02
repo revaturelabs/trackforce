@@ -7,13 +7,15 @@
 	margin-top: 20px;
 }
 
-.custom-btn{
-	margin-bottom: 20px;
-	background-color: #f5f5f5;
+#clients-list-well {
+	margin-top: 20px;
+	padding-top: 0px;
+	max-height: 350px;
+	overflow-y: scroll;
 }
 
 li{
-	padding: 5px;	
+	padding: 5px;
 	margin-top: 0px;
 }
 ul{
@@ -21,10 +23,6 @@ ul{
 	margin-top: 0px;
 	padding: 0;
 	list-style-type: none;
-}
-
-.well{
-	padding-top: 0px;
 }
 
 .client-name{
@@ -35,4 +33,3 @@ ul{
 	cursor: pointer;
 	text-decoration: underline;
 }
-

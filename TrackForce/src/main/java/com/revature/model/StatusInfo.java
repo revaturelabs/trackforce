@@ -1,19 +1,12 @@
 package com.revature.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-
-import com.revature.entity.TfMarketingStatus;
-import com.revature.utils.LogUtil;
 
 /**
  * This class models all information that pertains to mapped/unmapped statuses
  */
 public class StatusInfo implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5362503104883791588L;
 	public static final int MAPPED_TRAINING = 1;
 	public static final int MAPPED_RESERVED = 2;
@@ -51,7 +44,7 @@ public class StatusInfo implements Serializable {
 
 	/**
 	 * Constructs a StatusInfo object with a name.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the client
 	 */
@@ -75,7 +68,7 @@ public class StatusInfo implements Serializable {
 
 	/**
 	 * Constructs a StatusInfo object.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the client
 	 * @param trainingMapped
@@ -128,7 +121,7 @@ public class StatusInfo implements Serializable {
 
 	/**
 	 * This returns the name of this object.
-	 * 
+	 *
 	 * @return this object's name.
 	 */
 	public String getName() {
@@ -137,7 +130,7 @@ public class StatusInfo implements Serializable {
 
 	/**
 	 * This allows the object name to be set.
-	 * 
+	 *
 	 * @param name
 	 *            the name to set for this object.
 	 */
@@ -147,7 +140,7 @@ public class StatusInfo implements Serializable {
 
 	/**
 	 * This returns the number associates who are mapped and training.
-	 * 
+	 *
 	 * @return the number of mapped associates who are training.
 	 */
 	public int getTrainingMapped() {
@@ -156,7 +149,7 @@ public class StatusInfo implements Serializable {
 
 	/**
 	 * This allows the number of mapped associates who are training to be set
-	 * 
+	 *
 	 * @param trainingMapped
 	 *            the number of mapped associates who are training.
 	 */
@@ -166,7 +159,7 @@ public class StatusInfo implements Serializable {
 
 	/**
 	 * This returns the number of associates who are unmapped and training
-	 * 
+	 *
 	 * @return the number of unmapped associates who are training.
 	 */
 	public int getTrainingUnmapped() {
@@ -175,7 +168,7 @@ public class StatusInfo implements Serializable {
 
 	/**
 	 * This allows the number of unmapped associates who are training to be set.
-	 * 
+	 *
 	 * @param trainingUnmapped
 	 *            the number of unmapped associates who are training.
 	 */
@@ -186,7 +179,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This returns the number of associates who are mapped and finished with
 	 * training.
-	 * 
+	 *
 	 * @return the number of mapped associates who are done training.
 	 */
 	public int getReservedMapped() {
@@ -196,7 +189,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This allows the number of mapped associates who are finished training to be
 	 * set.
-	 * 
+	 *
 	 * @param reservedMapped
 	 *            the number of unmapped associates who are done training.
 	 */
@@ -207,7 +200,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This returns the number of associates who are finished training, and aren't
 	 * mapped to this object.
-	 * 
+	 *
 	 * @return The number of unmapped associates who are finished training.
 	 */
 	public int getOpenUnmapped() {
@@ -217,7 +210,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This allows the number of unmapped associates who are finished training to be
 	 * set.
-	 * 
+	 *
 	 * @param openUnmapped
 	 *            The number of unmapped associates who are finished training.
 	 */
@@ -228,7 +221,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This returns the number of mapped associates who have been selected by this
 	 * object.
-	 * 
+	 *
 	 * @return The number of mapped associates who were selected by this object.
 	 */
 	public int getSelectedMapped() {
@@ -238,7 +231,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This allows the number of mapped associates who have been selected by this
 	 * object to be set.
-	 * 
+	 *
 	 * @param selectedMapped
 	 *            The number of mapped associates who are selected by this object.
 	 */
@@ -249,7 +242,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This returns the number of associates who were selected by the object, but
 	 * weren't mapped.
-	 * 
+	 *
 	 * @return The number of unmapped associates who were selected by this object.
 	 */
 	public int getSelectedUnmapped() {
@@ -259,7 +252,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This allows the number of associates who are selected by the object, but
 	 * aren't mapped, to be set.
-	 * 
+	 *
 	 * @param selectedUnmapped
 	 *            The number of unmapped associates who are selected by this object.
 	 */
@@ -270,7 +263,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This returns the number of associates who were mapped and selected by the
 	 * object.
-	 * 
+	 *
 	 * @return The number of mapped associates who were confirmed by this object.
 	 */
 	public int getConfirmedMapped() {
@@ -280,7 +273,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This allows the number of associates who were mapped and confirmed by this
 	 * object to be set.
-	 * 
+	 *
 	 * @param confirmedMapped
 	 *            The number of mapped associates who are confirmed by this object.
 	 */
@@ -291,7 +284,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This returns the number of associates who aren't mapped, and who have been
 	 * confirmed by the object.
-	 * 
+	 *
 	 * @return The number of mapped associates who were confirmed by this object.
 	 */
 	public int getConfirmedUnmapped() {
@@ -301,7 +294,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This allows the number of associates who are not mapped, but have been
 	 * confirmed by the object, to be set.
-	 * 
+	 *
 	 * @param confirmedUnmapped
 	 *            The number of unmapped associates who are confirmed by this
 	 *            object.
@@ -313,7 +306,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This returns the number of associates who were mapped, and are deployed at a
 	 * object location.
-	 * 
+	 *
 	 * @return The number of mapped associates who are deployed with a object.
 	 */
 	public int getDeployedMapped() {
@@ -323,7 +316,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This allows the number of associates who were mapped, and are deployed at a
 	 * object location, to be set.
-	 * 
+	 *
 	 * @param deployedMapped
 	 *            The number of mapped associates who have deployed with this
 	 *            object.
@@ -335,7 +328,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This returns the number of associates who were mapped, and are deployed with
 	 * this object.
-	 * 
+	 *
 	 * @return The number of unmapped associates who are deployed with this object.
 	 */
 	public int getDeployedUnmapped() {
@@ -345,7 +338,7 @@ public class StatusInfo implements Serializable {
 	/**
 	 * This allows the number of associates who are unmapped, and are deployed with
 	 * this object, to be set.
-	 * 
+	 *
 	 * @param deployedUnmapped
 	 *            The number of unmapped associates who are deployed with this
 	 *            object.
@@ -416,9 +409,9 @@ public class StatusInfo implements Serializable {
 				+ ", deployedUnmapped=" + deployedUnmapped + "]";
 	}
 
-	public void subtractFromMap(BigDecimal id) {
+	public void subtractFromMap(Integer id) {
 
-		switch (id.intValueExact()) {
+		switch (id) {
 		case StatusInfo.MAPPED_TRAINING:
 			setTrainingMapped(getTrainingMapped() - 1);
 			break;
@@ -454,9 +447,9 @@ public class StatusInfo implements Serializable {
 		}
 	}
 
-	public void appendToMap(BigDecimal id) {
+	public void appendToMap(Integer integer) {
 
-		switch (id.intValueExact()) {
+		switch (integer) {
 		case StatusInfo.MAPPED_TRAINING:
 			setTrainingMapped(getTrainingMapped() + 1);
 			break;

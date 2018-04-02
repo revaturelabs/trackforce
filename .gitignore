@@ -1,6 +1,8 @@
 # ignore package-lock metadata
 **/package-lock.json
 
+.sonarlint
+
 # ignore config
 **/hibernate.cfg.xml
 
@@ -22,9 +24,6 @@ Servers/**
 .settings/
 bin/
 .project
-
-# Driver path may be different for everyone
-driver.properties
 
 target/
 pom.xml.tag
@@ -62,7 +61,6 @@ test-output/
 *.tar.gz
 *.rar
 *.dll
-*.exe
 
 # We have to include the OJDBC driver in the project
 !ojdbc8.jar

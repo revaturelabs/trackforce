@@ -17,26 +17,33 @@ import { Router } from '@angular/router';
  * The skillset component
  * @author : Michael Warren
  */
+/** Decorator for automatically unsubscribing all observables upon ngDestory()
+  *Prevents memory leaks
+  */
 @AutoUnsubscribe
 export class SkillsetComponent implements OnInit {
 
   /**
    * The selected status
+   *@Input() allows a parent component to send data to the child via property-binding
    */
   @Input() selectedStatus: string = '';
+
   /**
    * Map of selected status to skill id
    */
-  // probably a bad idea...
   private static SKILL_INFO : Map<string, any>;
+
   /**
    * The id of skill, probably to hit the API with
    */
   private skillID: number;
+
   /**
    * The flag that tells Angular, and the developer, whether or not ng2_chart dependency is actually being used
    */
   USE_NG2_CHART: boolean = true;
+
   /**
    * The types of charts
    */
@@ -91,6 +98,17 @@ export class SkillsetComponent implements OnInit {
    */
   public static NULL = -1;
 
+  /**
+    *@param {SkillsetService} SkillsetService
+    * service for grabbing data from the back-end or mock back-end
+    *
+    *@param {ActivatedRoute} route
+    * Allow parameters in the router url to be grabbed
+    *
+    *@param {Router} router
+    *Allows to re-routing to other components
+    *
+    */
   constructor(private skillsetService: SkillsetService,
     private route: ActivatedRoute,
     private router: Router) {

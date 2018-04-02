@@ -6,6 +6,9 @@ import {AutoUnsubscribe} from '../../decorators/auto-unsubscribe.decorator';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { ChartsModule, Color } from 'ng2-charts';
 
+/**
+ * Data relating to Batch details chart.
+ */
 export class BarChartDataSet {
   data: number[];
   label: string;
@@ -21,6 +24,10 @@ export class BarChartDataSet {
   templateUrl: './batch-details.component.html',
   styleUrls: ['./batch-details.component.css']
 })
+
+/**
+ * Initialize chart details.
+ */
 @AutoUnsubscribe
 export class BatchDetailsComponent implements OnInit {
   chartType = "bar";
@@ -72,14 +79,13 @@ export class BatchDetailsComponent implements OnInit {
   getMapStatusBatch() {
     this.route.params.subscribe(params => {
       const batchId: number = +params['id'];
-      console.log(batchId);
       this.isDataReady = false;
 
       this.batchService.getAssociatesForBatch(batchId)
         .subscribe((data: Associate[]) => {
             this.associates = data;
-            console.log('associates', this.associates);
 
+            //initiialize statuses
             const statusMap = new Map<number, number>();
             statusMap.set(1, 0);
             statusMap.set(2, 0);
@@ -119,15 +125,10 @@ export class BatchDetailsComponent implements OnInit {
                   data: [statusMap.get(11) + statusMap.get(12)],
                   label: 'Other'
                 }
-              ];             
-              
-            console.log(this.dataSets);
+              ];
             this.isDataEmpty = this.associates.length === 0;
             this.isDataReady = true;
-
-            console.log(statusMap);
           },
-          console.log
         );
     });
   }

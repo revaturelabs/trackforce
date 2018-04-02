@@ -1,7 +1,9 @@
 package com.revature.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.revature.entity.TfMarketingStatus;
 import com.revature.utils.LogUtil;
@@ -9,72 +11,91 @@ import com.revature.utils.LogUtil;
 /**
  * Class to hold information about an associate for the batch details page.
  */
+@XmlRootElement
 public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 
-	/**
-	 * 
-	 */
-
 	private static final long serialVersionUID = 6047227506797717614L;
-	private BigDecimal id;
+	
+	@XmlElement
+	private Integer id;
+	
+	@XmlElement
 	private String firstName;
+	
+	@XmlElement
 	private String lastName;
+	
+	@XmlElement
 	private static StatusInfo totals = new StatusInfo();
 
-	private BigDecimal msid;
+	@XmlElement
+	private Integer msid;
+	
+	@XmlElement
 	private String marketingStatus;
 
-	private BigDecimal clid;
+	@XmlElement
+	private Integer clid;
+	
+	@XmlElement
 	private String client;
 
-	private BigDecimal ecid;
+	@XmlElement
+	private Integer ecid;
+	
+	@XmlElement
 	private String endClient;
 
-	private BigDecimal bid;
+	@XmlElement
+	private Integer bid;
+	
+	@XmlElement
 	private String batchName;
-
-	public BigDecimal getMsid() {
+	
+	public Integer getMsid() {
 		return msid;
 	}
 
-	public void setMsid(BigDecimal msid) {
+	public void setMsid(Integer msid) {
 		this.msid = msid;
 	}
 
-	public BigDecimal getClid() {
+	public Integer getClid() {
 		return clid;
 	}
 
-	public void setClid(BigDecimal clid) {
+	public void setClid(Integer clid) {
 		this.clid = clid;
 	}
 
-	public BigDecimal getEcid() {
+	public Integer getEcid() {
 		return ecid;
 	}
 
-	public void setEcid(BigDecimal ecid) {
+	public void setEcid(Integer ecid) {
 		this.ecid = ecid;
 	}
 
-	public BigDecimal getBid() {
+	public Integer getBid() {
 		return bid;
 	}
 
-	public void setBid(BigDecimal bid) {
+	public void setBid(Integer bid) {
 		this.bid = bid;
 	}
 
-	public BigDecimal getCurid() {
+	public Integer getCurid() {
 		return curid;
 	}
 
-	public void setCurid(BigDecimal curid) {
+	public void setCurid(Integer curid) {
 		this.curid = curid;
 	}
 
-	private BigDecimal curid;
+	private Integer curid;
 	private String curriculumName;
+	
+	private long startDate;
 
 	/**
 	 * Constructs a newly allocated BatchInfo object that represents an associate.
@@ -90,7 +111,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	 * @param clientid-The
 	 *            clients's name.
 	 */
-	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client) {
+	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -99,8 +120,8 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 		this.client = client;
 	}
 
-	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client,
-			String batchName, String curriculumName) {
+	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client,
+			String batchName, String curriculumName, long startDate) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -110,6 +131,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 		this.endClient = "";
 		this.batchName = batchName;
 		this.curriculumName = curriculumName;
+		this.startDate = startDate;
 	}
 
 	public AssociateInfo() {
@@ -120,7 +142,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	 * 
 	 * @return - String with the ID of the associate
 	 */
-	public BigDecimal getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -130,7 +152,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	 * @param id
 	 *            - What to set the associate's ID to.
 	 */
-	public void setId(BigDecimal id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -244,6 +266,14 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	public void setCurriculumName(String curriculumName) {
 		this.curriculumName = curriculumName == null ? "None" : curriculumName;
 	}
+	
+	public long getClientStartDate() {
+		return startDate;
+	}
+
+	public void setClientStartDate(long startDate) {
+		this.startDate = startDate;
+	}
 
 	@Override
 	public int hashCode() {
@@ -315,33 +345,33 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	@Override
 	public String toString() {
 		return "AssociateInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", marketingStatus="
-				+ marketingStatus + ", client=" + client + ", endClient=" + endClient + ", batchName=" + batchName
+				+ marketingStatus + ", startDate=" + startDate + ",client=" + client + ", endClient=" + endClient + ", batchName=" + batchName
 				+ ", curriculumName=" + curriculumName + "]";
 	}
 
 	@Override
 	public int compareTo(AssociateInfo o) {
-		return this.id.subtract(o.id).intValueExact();
+		return this.id-o.id;
 	}
 
-	public void setBatchId(BigDecimal tfBatchId) {
-		this.bid = tfBatchId == null ? new BigDecimal(-1) : tfBatchId;
+	public void setBatchId(Integer tfBatchId) {
+		this.bid = tfBatchId == null ? -1 : tfBatchId;
 	}
 
-	public void setClientId(BigDecimal tfClientId) {
-		this.clid = tfClientId == null ? new BigDecimal(-1) : tfClientId;
+	public void setClientId(Integer tfClientId) {
+		this.clid = tfClientId == null ? -1 : tfClientId;
 	}
 
-	public void setCurriculumId(BigDecimal tfCurriculumId) {
-		this.curid = tfCurriculumId == null ? new BigDecimal(-1) : tfCurriculumId;
+	public void setCurriculumId(Integer tfCurriculumId) {
+		this.curid = tfCurriculumId == null ? -1 : tfCurriculumId;
 	}
 
-	public void setEndClientId(BigDecimal tfEndClientId) {
-		this.ecid = tfEndClientId == null ? new BigDecimal(-1) : tfEndClientId;
+	public void setEndClientId(Integer tfEndClientId) {
+		this.ecid = tfEndClientId == null ? -1 : tfEndClientId;
 	}
 
-	public void setMarketingStatusId(BigDecimal tfMarketingStatusId) {
-		this.msid = tfMarketingStatusId == null ? new BigDecimal(-1) : tfMarketingStatusId;
+	public void setMarketingStatusId(Integer tfMarketingStatusId) {
+		this.msid = tfMarketingStatusId == null ? -1 : tfMarketingStatusId;
 	}
 
 	public static StatusInfo getTotals() {
@@ -349,8 +379,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	}
 
 	public static void appendToMap(TfMarketingStatus tfMarketingStatus) {
-		LogUtil.logger.info("Status: " + tfMarketingStatus.getTfMarketingStatusId());
-		switch (tfMarketingStatus.getTfMarketingStatusId().intValueExact()) {
+		switch (tfMarketingStatus.getTfMarketingStatusId()) {
 		case StatusInfo.MAPPED_TRAINING:
 			totals.setTrainingMapped(totals.getTrainingMapped() + 1);
 			break;

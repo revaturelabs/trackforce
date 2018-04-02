@@ -1,23 +1,19 @@
 package com.revature.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 public class MarketingStatusInfo  implements Serializable, Comparable<MarketingStatusInfo> {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 52811943506766514L;
-	private BigDecimal id;
+	private Integer id;
 	private String name;
 	
-	public BigDecimal getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(BigDecimal id) {
-		this.id = id;
+	public void setId(Integer integer) {
+		this.id = integer;
 	}
 
 	public String getName() {
@@ -30,7 +26,7 @@ public class MarketingStatusInfo  implements Serializable, Comparable<MarketingS
 
 	@Override
 	public int compareTo(MarketingStatusInfo o) {
-		return this.id.subtract(o.id).intValueExact();
+		return this.id-o.id;
 	}
 	
 	

@@ -1,27 +1,23 @@
 package com.revature.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class PlacementInfo  implements Serializable, Comparable<PlacementInfo> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7105939432349410685L;
-	private BigDecimal id;
+	private Integer id;
 	private AssociateInfo tfAssociate;
 	private Timestamp tfPlacementStartDate;
 	private Timestamp tfPlacementEndDate;
 	
-	public BigDecimal getId() {
+	public Integer getId() {
 		return id;
 	}
 
 
 
-	public void setId(BigDecimal id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -65,7 +61,7 @@ public class PlacementInfo  implements Serializable, Comparable<PlacementInfo> {
 
 	@Override
 	public int compareTo(PlacementInfo o) {
-		return this.id.subtract(o.getId()).intValueExact();
+		return this.id-o.getId();
 	}
 
 }

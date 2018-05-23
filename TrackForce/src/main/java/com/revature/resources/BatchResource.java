@@ -13,8 +13,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.log4j.Logger;
+
 import com.revature.model.BatchInfo;
 import com.revature.services.BatchesService;
+import com.revature.utils.LogUtil;
 
 import io.swagger.annotations.Api;
 
@@ -28,6 +31,7 @@ import io.swagger.annotations.Api;
 @Produces(MediaType.APPLICATION_JSON)
 public class BatchResource {
 	private BatchesService service;
+	static final Logger logger = Logger.getLogger(LogUtil.class);
 
 	public BatchResource() {
 		this.service = new BatchesService();
@@ -56,11 +60,14 @@ public class BatchResource {
 	 *            name
 	 * @return set of batches for curriculum
 	 */
+	@GET
 	public Response getBatchesByCurri(@QueryParam("curriculum") String curriculum) {
 		Set<BatchInfo> batches = service.getBatchesByCurri(curriculum);
 		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		logger.info("query  = Curriculum: " + curriculum);
+		logger.info("batch size: " + batches.size());
 
-		return Response.status(status).build();
+		return Response.status(status).entity(batches).build();
 	}
 
 	/**

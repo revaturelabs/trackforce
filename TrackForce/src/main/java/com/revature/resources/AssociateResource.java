@@ -60,12 +60,14 @@ public class AssociateResource {
 		+ " curriculum, replaces them with blanks. If associate has no client, replaces\r\n"
 		+ " it with \"None\".", response = AssociateInfo.class, responseContainer = "Set")
 	public Response getAllAssociates() {
-		Set<AssociateInfo> associatesList = service.getAllAssociates();
+		Set<AssociateInfo> associateSet = service.getAllAssociates();
 
-		if (associatesList == null || associatesList.isEmpty())
-			return Response.status(Status.NO_CONTENT).build(); // returns 204 if no associates found
+		if (associateSet == null || associateSet.isEmpty())
+			return Response.status(Status.NO_CONTENT).entity(associateSet).build(); // returns 204 if no associates found
 
-		return Response.ok(associatesList).build();
+		return Response.ok(associateSet)
+//				.entity(associateSet)
+				.build();
 	}
 
 	/**

@@ -4,7 +4,8 @@
 	you want. -->
 <suite name="TrackforcePersistenceTestSuite" parallel="false">
 	<test name="TfPersistenceTest">
-		<classes>
+		<classes><!--
+			<class name="com.revature.test.dao.DaoTest" />
 			<class name="com.revature.test.dao.MarketingStatusDAOTest" />
 			<class name="com.revature.test.services.AssociateServiceTest"/>
 			<class name="com.revature.test.services.BatchesServiceTest"/>
@@ -13,6 +14,6 @@
 			<class name="com.revature.test.services.TechServiceTest" />
 			<class name="com.revature.test.services.UserServiceTest" />
 			<class name="com.revature.test.utils.PersistentStorageTest" />
-		</classes>
+		 --></classes>
 	</test>
 </suite>

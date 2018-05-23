@@ -10,11 +10,12 @@
       <class name="com.revature.test.admin.testclasses.ClientListTest"/>
       <class name="com.revature.test.admin.testclasses.AssociateListTest"/> -->
             
+      <!-- <class name="com.revature.test.dao.DaoTest"/> -->
       <class name="com.revature.test.dao.MarketingStatusDAOTest"/>
       <class name="com.revature.test.BaseTest"/>
       <class name="com.revature.test.utils.PersistentStorageTest"/>
       <class name="com.revature.test.utils.TestConfig"/>
-      <class name="com.revature.test.services.BatchesServiceTest"/>
+      <!-- <class name="com.revature.test.services.BatchesServiceTest"/>-->
       <class name="com.revature.test.services.ClientServiceTest"/>
       <class name="com.revature.test.services.AssociateServiceTest"/>
       <class name="com.revature.test.services.UserServiceTest"/>

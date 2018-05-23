@@ -22,9 +22,10 @@ import com.revature.request.model.AssociateFromClient;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateService {
-	private static AssociateDao associateDao = AssociateDaoHibernate.getInstance();
+	private AssociateDao associateDao;
 
 	public AssociateService() {
+		associateDao = AssociateDaoHibernate.getInstance();
 	}
 	
 	public AssociateService(AssociateDao dao) {		// testing purposes
@@ -38,7 +39,7 @@ public class AssociateService {
 	 * @return - An AssociateInfo object that contains the associate's information.
 	 * @throws IOException
 	 */
-	public static AssociateInfo getAssociate(int associateid) {
+	public AssociateInfo getAssociate(int associateid) {
 		return associateDao.getAssociate(associateid);
 	}
 
@@ -46,7 +47,7 @@ public class AssociateService {
 	 * 
 	 * @return
 	 */
-	public static Set<AssociateInfo> getAllAssociates() {
+	public Set<AssociateInfo> getAllAssociates() {
 		return associateDao.getAllAssociates();
 	}
 
@@ -63,7 +64,7 @@ public class AssociateService {
 	 * @throws IOException
 	 * @throws HibernateException
 	 */
-	public static Collection<CurriculumJSON> getCurriculumsByStatus(int statusid) throws HibernateException, IOException {
+	public Collection<CurriculumJSON> getCurriculumsByStatus(int statusid) throws HibernateException, IOException {
 		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
 		if (associates == null) {
 			associates = PersistentStorage.getStorage().getAssociates();
@@ -91,7 +92,7 @@ public class AssociateService {
 	 * @param statusId
 	 * @return Collection<ClientMappedJSON>
 	 */
-	public static Map<Integer, ClientMappedJSON> getMappedInfo(int statusId) {
+	public Map<Integer, ClientMappedJSON> getMappedInfo(int statusId) {
 		Set<AssociateInfo> associates = getAllAssociates();
 		if (associates == null) {
 			associateDao.cacheAllAssociates();
@@ -120,7 +121,7 @@ public class AssociateService {
 	 * @param statusId
 	 * @return Collection<CurriculumJSON>
 	 */
-	public static Set<CurriculumJSON> getUnmappedInfo(int statusId) {
+	public Set<CurriculumJSON> getUnmappedInfo(int statusId) {
 		Set<AssociateInfo> associates = getAllAssociates();
 		if (associates == null) {
 			associateDao.cacheAllAssociates();
@@ -144,20 +145,20 @@ public class AssociateService {
 		return new TreeSet<>(map.values());
 	}
 
-	public static Set<InterviewInfo> getInterviewsByAssociate(Integer associateId) {
+	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId) {
 		return associateDao.getInterviewsByAssociate(associateId);
 	}
 
 	// The method used to populate all of the data onto TrackForce
 	// Doesn't work correctly at the moment
-	public static Response updateAssociates(List<Integer> associateids,
+	public Response updateAssociates(List<Integer> associateids,
 			// Integer associateids,
 			Integer marketingStatus, Integer clientid) {
 		associateDao.updateAssociates(associateids, marketingStatus, clientid);
 		return Response.status(200).build();
 	}
 
-	public static void updateAssociate(AssociateFromClient afc) {
+	public void updateAssociate(AssociateFromClient afc) {
 		associateDao.updateAssociate(afc);
 	}
 }

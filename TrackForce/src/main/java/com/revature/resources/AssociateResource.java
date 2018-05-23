@@ -201,6 +201,7 @@ public class AssociateResource {
 	 * 
 	 * return Response.ok().build(); }
 	 */
+	
 	@GET
 	@Path("{associateid}/interviews")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid) {

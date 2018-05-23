@@ -26,9 +26,9 @@ import org.hibernate.Transaction;
 
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.model.AssociateInfo;
+import com.revature.model.ClientMappedJSON;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
-import com.revature.model.ClientMappedJSON;
 import com.revature.request.model.InterviewFromClient;
 import com.revature.services.AssociateService;
 import com.revature.services.InterviewService;
@@ -44,6 +44,8 @@ import io.swagger.annotations.ApiParam;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AssociateResource {
+	private AssociateService service = new AssociateService();
+	
 	/**
 	 * Gets a list of all the associates, optionally filtered by a batch id. If an
 	 * associate has no marketing status or curriculum, replaces them with blanks.
@@ -58,7 +60,7 @@ public class AssociateResource {
 			+ " curriculum, replaces them with blanks. If associate has no client, replaces\r\n"
 			+ " it with \"None\".", response = AssociateInfo.class, responseContainer = "Set")
 	public Response getAllAssociates() {
-		Set<AssociateInfo> associatesList = AssociateService.getAllAssociates();
+		Set<AssociateInfo> associatesList = service.getAllAssociates();
 
 		if (associatesList == null || associatesList.isEmpty())
 			return Response.status(Status.NO_CONTENT).build(); // returns 204 if no associates found
@@ -84,7 +86,7 @@ public class AssociateResource {
 			@DefaultValue("0") @ApiParam(value = "client id") @QueryParam("clientId") Integer clientId,
 			List<Integer> ids) {
 		// marketing status & client id are given as query parameters, ids sent in body
-		AssociateService.updateAssociates(ids, marketingStatusId, clientId);
+		service.updateAssociates(ids, marketingStatusId, clientId);
 		return Response.ok().build();
 	}
 
@@ -100,7 +102,7 @@ public class AssociateResource {
 	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = AssociateInfo.class)
 	@Path("{associateid}")
 	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("associateid") int associateid) {
-		AssociateInfo associateinfo = AssociateService.getAssociate(associateid);
+		AssociateInfo associateinfo = service.getAssociate(associateid);
 		Response.Status status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
 
 		return Response.status(status).entity(associateinfo).build();
@@ -110,7 +112,7 @@ public class AssociateResource {
 	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.")
 	@Path("mapped/{statusId}")
 	public Response getMappedInfo(@PathParam("statusId") int statusId) {
-		Map<Integer, ClientMappedJSON> mappedStats = AssociateService.getMappedInfo(statusId);
+		Map<Integer, ClientMappedJSON> mappedStats = service.getMappedInfo(statusId);
 		if (mappedStats.isEmpty())
 			return Response.status(500).build();
 		return Response.ok(mappedStats).build();
@@ -119,7 +121,7 @@ public class AssociateResource {
 	@GET
 	@Path("unmapped/{statusId}")
 	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
-		return Response.ok(AssociateService.getUnmappedInfo(statusId)).build();
+		return Response.ok(service.getUnmappedInfo(statusId)).build();
 	}
 
 	/**
@@ -141,7 +143,7 @@ public class AssociateResource {
 	@PUT
 	@Path("{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, AssociateFromClient afc) {
-		AssociateService.updateAssociate(afc);
+		service.updateAssociate(afc);
 		return Response.ok().build();
 	}
 
@@ -202,7 +204,7 @@ public class AssociateResource {
 	@GET
 	@Path("{associateid}/interviews")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid) {
-		Set<InterviewInfo> associateinfo = AssociateService.getInterviewsByAssociate(associateid);
+		Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
 		return Response.ok(associateinfo).build();
 	}
 

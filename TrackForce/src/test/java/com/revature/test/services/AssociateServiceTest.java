@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.revature.dao.AssociateDao;
+import com.revature.dao.AssociateDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumJSON;
@@ -70,14 +71,14 @@ public class AssociateServiceTest extends BaseTest {
 
 	@Test
 	public void testGetMapppedInfo() {
-		Set<ClientMappedJSON> mapped = new TreeSet<>(associateService.getMappedInfo(1).values());
+		Set<ClientMappedJSON> mapped = new TreeSet<>(AssociateService.getMappedInfo(1).values());
 		Set<ClientMappedJSON> testMapped = new TreeSet<>(mockClientMappedJSON.values());
 		Assert.assertTrue(testMapped.equals(mapped));
 	}
 
 	@Test
 	public void testGetUnmappedInfo() {
-		Set<CurriculumJSON> unmapped = associateService.getUnmappedInfo(1);
+		Set<CurriculumJSON> unmapped = AssociateService.getUnmappedInfo(1);
 		Assert.assertEquals(mockCurriculumJSON, unmapped);
 	}
 

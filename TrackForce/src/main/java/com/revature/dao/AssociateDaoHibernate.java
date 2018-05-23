@@ -32,6 +32,17 @@ import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateDaoHibernate implements AssociateDao {
+	private static AssociateDaoHibernate instance;
+
+	private AssociateDaoHibernate() {
+	}
+
+	public static AssociateDaoHibernate getInstance() {
+		if (instance == null) {
+			instance = new AssociateDaoHibernate();
+		}
+		return instance;
+	}
     /**
      * Get an associate from the database given its id
      * Added the method without the session parameter

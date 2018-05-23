@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
         else if (err.status == 400)
           this.errMsg = "Invalid username and/or password";
         else {
-          this.errMsg = "Unable to login";
+          this.errMsg = "The login service could not be reached";
         }
       }
     );

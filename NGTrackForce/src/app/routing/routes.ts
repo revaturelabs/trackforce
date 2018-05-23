@@ -8,6 +8,7 @@ import {FormComponent} from '../components/form-component/form.component';
 import {HomeComponent} from '../components/home/home.component';
 import {ClientListComponent} from '../components/client-list/client-list.component';
 import {LoginComponent} from '../components/login/login.component';
+import {RegisterComponent} from '../components/register/register.component';
 import {ClientMappedComponent} from '../components/client-mapped/client-mapped.component';
 import {AssociateListComponent} from '../components/associate-list/associate-list.component';
 import {BatchListComponent} from '../components/batch-list/batch-list.component';
@@ -39,6 +40,10 @@ export const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   },
   {
     path: 'client-listing',

@@ -73,30 +73,34 @@ export class LoginComponent implements OnInit {
   */
   login() {
     this.errMsg = "";
-    this.authService.login(this.username, this.password).subscribe(
-      data => {
-        const user = this.authService.getUser();
-        //navigate to appropriate page if return is valid
-        //4 represents an associate role, who are routed to associate-view
-        if(user.tfRoleId === 4){
-          this.router.navigate(['associate-view', user.userId]);
-        } else {
-          //otherwise, they are set to root
-          this.router.navigate(['root']);
+    if (this.username && this.password) {
+      this.authService.login(this.username, this.password).subscribe(
+        data => {
+          const user = this.authService.getUser();
+          //navigate to appropriate page if return is valid
+          //4 represents an associate role, who are routed to associate-view
+          if(user.tfRoleId === 4){
+            this.router.navigate(['associate-view', user.userId]);
+          } else {
+            //otherwise, they are set to root
+            this.router.navigate(['root']);
+          }
+        },
+        err => {
+          this.authService.logout();
+          console.log(err);
+          if (err.status == 500)
+            this.errMsg = "There was an error on the server";
+          else if (err.status == 400)
+            this.errMsg = "Invalid username and/or password";
+          else {
+            this.errMsg = "The login service could not be reached";
+          }
         }
-      },
-      err => {
-        this.authService.logout();
-        console.log(err);
-        if (err.status == 500)
-          this.errMsg = "There was an error on the server";
-        else if (err.status == 400)
-          this.errMsg = "Invalid username and/or password";
-        else {
-          this.errMsg = "The login service could not be reached";
-        }
-      }
-    );
+      );
+    } else {
+      this.errMsg = "Please enter a username and password";
+    }
   }
 
 }

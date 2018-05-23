@@ -15,6 +15,10 @@ static WebElement e =null;
 		return e;
 	}
 	
+	public static String getCurrentURL(WebDriver d) {
+		return d.getCurrentUrl();
+	}
+	
 	public static WebElement phone(WebDriver d) {
 		e= WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/app-root/div/app-footer/footer/div/div/div[2]/ul/li[2]/a"), 10);
 		return e;

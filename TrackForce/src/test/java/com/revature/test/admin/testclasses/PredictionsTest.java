@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import com.revature.test.admin.cukes.BatchListCukes;
 import com.revature.test.admin.cukes.PredictionsCukes;
-import com.revature.test.admin.pom.Predictions;
+
 
 public class PredictionsTest extends AdminSuite {
 	

@@ -1,50 +1,34 @@
 package com.revature.test.utils;
 
 import java.io.File;
-import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-
 
 public class WebDriverUtil {
 
 	private static WebDriver chromeDriver = null;
 	
-	private WebDriverUtil() {
+	public WebDriverUtil() {
 		
 	}
 	
-//	public static WebDriver getChromeDriver() {
-//		if (chromeDriver == null) {
-//			File f1 = new File("src/main/resources/chromedriver.exe");
-//			System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
-//			return new ChromeDriver();
-//		}
-//		else 
-//			return chromeDriver;
-//	}
-	
-	
-	public static WebDriver getChromeDriver() {
+	public WebDriver getChromeDriver() {
 		if (chromeDriver == null) {
-			File f = null;
-			if (System.getenv("PATH").contains("/home/ec2-user/")) {
-				f = new File("/home/ec2-user/.jenkins/workspace/TrackForce Server/TrackForce/src/main/resources/chromedriver");
-				System.out.println("Chrome driver path: " + f.getAbsolutePath());
-				System.setProperty("webdriver.chrome.driver", f.getAbsolutePath());
-				ChromeOptions options = new ChromeOptions();
-				options.addArguments("--headless");
-				return new ChromeDriver(options);
-			} else {
-				f = new File("src/main/resources/chromedriver.exe");
-				System.out.println("Chrome driver path:"+f.getAbsolutePath());
-				System.setProperty("webdriver.chrome.driver", f.getAbsolutePath());
-				return new ChromeDriver();
-			}
-		} else 
-			return chromeDriver;
+			//doesnt work, for some reason i have to put driver in \sts-3.9.1-RELEASE\src\main\resources
+			//some path like that
+			//like the actual installation of sts, if you get a testNG error, check the stack trace
+			// for the directory this code is looking into
+			//if you want to see what happening on the ec2-54-210-36-233.compute-1 instance
+			//you can check the logs folder in the apache installation
+			// currently there is a chromedriver in the bin/src/main/resources of the Apache folder
+			//
+			File f1 = new File("src/main/resources/chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
+			return new ChromeDriver();
 		}
+		else 
+			return chromeDriver;
+	}
 	
 }

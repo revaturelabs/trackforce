@@ -82,7 +82,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'create-user',
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     component: CreateUserComponent
   },
   {

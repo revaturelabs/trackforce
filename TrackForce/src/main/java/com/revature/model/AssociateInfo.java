@@ -9,49 +9,48 @@ import com.revature.entity.TfMarketingStatus;
 import com.revature.utils.LogUtil;
 
 /**
- * Class to hold information about an associate for the batch details page.
+ * Associate class to hold information about an associate for the batch details page.
  */
 @XmlRootElement
 public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
-
 	private static final long serialVersionUID = 6047227506797717614L;
-	
+
 	@XmlElement
 	private Integer id;
-	
+
 	@XmlElement
 	private String firstName;
-	
+
 	@XmlElement
 	private String lastName;
-	
+
 	@XmlElement
 	private static StatusInfo totals = new StatusInfo();
 
 	@XmlElement
 	private Integer msid;
-	
+
 	@XmlElement
 	private String marketingStatus;
 
 	@XmlElement
 	private Integer clid;
-	
+
 	@XmlElement
 	private String client;
 
 	@XmlElement
 	private Integer ecid;
-	
+
 	@XmlElement
 	private String endClient;
 
 	@XmlElement
 	private Integer bid;
-	
+
 	@XmlElement
 	private String batchName;
-	
+
 	public Integer getMsid() {
 		return msid;
 	}
@@ -94,7 +93,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 
 	private Integer curid;
 	private String curriculumName;
-	
+
 	private long startDate;
 
 	/**
@@ -266,7 +265,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	public void setCurriculumName(String curriculumName) {
 		this.curriculumName = curriculumName == null ? "None" : curriculumName;
 	}
-	
+
 	public long getClientStartDate() {
 		return startDate;
 	}
@@ -345,13 +344,13 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	@Override
 	public String toString() {
 		return "AssociateInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", marketingStatus="
-				+ marketingStatus + ", startDate=" + startDate + ",client=" + client + ", endClient=" + endClient + ", batchName=" + batchName
-				+ ", curriculumName=" + curriculumName + "]";
+				+ marketingStatus + ", startDate=" + startDate + ",client=" + client + ", endClient=" + endClient
+				+ ", batchName=" + batchName + ", curriculumName=" + curriculumName + "]";
 	}
 
 	@Override
 	public int compareTo(AssociateInfo o) {
-		return this.id-o.id;
+		return this.id - o.id;
 	}
 
 	public void setBatchId(Integer tfBatchId) {
@@ -414,10 +413,10 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 			return;
 		}
 		totals.setName("Total Associates");
-		LogUtil.logger.info(totals.getName() + ":\n" + totals.getTrainingMapped() + " " + totals.getReservedMapped() + " "
-				+ totals.getSelectedMapped() + " " + totals.getConfirmedMapped() + " " + totals.getDeployedMapped() + "\n"
-				+ totals.getTrainingUnmapped() + " " + totals.getOpenUnmapped() + " " + totals.getSelectedUnmapped() + " "
-				+ totals.getConfirmedUnmapped() + " " + totals.getDeployedUnmapped());
+		LogUtil.logger.info(totals.getName() + ":\n" + totals.getTrainingMapped() + " " + totals.getReservedMapped()
+				+ " " + totals.getSelectedMapped() + " " + totals.getConfirmedMapped() + " "
+				+ totals.getDeployedMapped() + "\n" + totals.getTrainingUnmapped() + " " + totals.getOpenUnmapped()
+				+ " " + totals.getSelectedUnmapped() + " " + totals.getConfirmedUnmapped() + " "
+				+ totals.getDeployedUnmapped());
 	}
 }
-

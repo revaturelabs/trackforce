@@ -57,8 +57,8 @@ public class AssociateResource {
 	 */
 	@GET
 	@ApiOperation(value = "Return all associates", notes = "Gets a set of all the associates, optionally filtered by a batch id. If an associate has no marketing status or\r\n"
-			+ " curriculum, replaces them with blanks. If associate has no client, replaces\r\n"
-			+ " it with \"None\".", response = AssociateInfo.class, responseContainer = "Set")
+		+ " curriculum, replaces them with blanks. If associate has no client, replaces\r\n"
+		+ " it with \"None\".", response = AssociateInfo.class, responseContainer = "Set")
 	public Response getAllAssociates() {
 		Set<AssociateInfo> associatesList = service.getAllAssociates();
 
@@ -82,9 +82,9 @@ public class AssociateResource {
 	@PUT
 	@ApiOperation(value = "Batch update associates", notes = "Updates the maretking status and/or the client of one or more associates")
 	public Response updateAssociates(
-			@DefaultValue("0") @ApiParam(value = "marketing status id") @QueryParam("marketingStatusId") Integer marketingStatusId,
-			@DefaultValue("0") @ApiParam(value = "client id") @QueryParam("clientId") Integer clientId,
-			List<Integer> ids) {
+		@DefaultValue("0") @ApiParam(value = "marketing status id") @QueryParam("marketingStatusId") Integer marketingStatusId,
+		@DefaultValue("0") @ApiParam(value = "client id") @QueryParam("clientId") Integer clientId,
+		List<Integer> ids) {
 		// marketing status & client id are given as query parameters, ids sent in body
 		service.updateAssociates(ids, marketingStatusId, clientId);
 		return Response.ok().build();
@@ -124,6 +124,21 @@ public class AssociateResource {
 		return Response.ok(service.getUnmappedInfo(statusId)).build();
 	}
 
+	@GET
+	@Path("{associateid}/interviews")
+	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid) {
+		Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
+		return Response.ok(associateinfo).build();
+	}
+
+	@POST
+	@Path("{associateid}/interviews")
+	public Response addAssociateInterview(@PathParam("associateid") Integer associateid, InterviewFromClient ifc) {
+		InterviewService is = new InterviewService();
+		is.addInterviewByAssociate(associateid, ifc);
+		return Response.ok().build();
+	}
+
 	/**
 	 * Update the marketing status or client of an associate
 	 * 
@@ -137,9 +152,7 @@ public class AssociateResource {
 	 * @throws NumberFormatException
 	 * @throws IOException
 	 */
-
 	/**** OPTION 1 ****/
-
 	@PUT
 	@Path("{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, AssociateFromClient afc) {
@@ -201,19 +214,4 @@ public class AssociateResource {
 	 * 
 	 * return Response.ok().build(); }
 	 */
-	@GET
-	@Path("{associateid}/interviews")
-	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid) {
-		Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
-		return Response.ok(associateinfo).build();
-	}
-
-	@POST
-	@Path("{associateid}/interviews")
-	public Response addAssociateInterview(@PathParam("associateid") Integer associateid, InterviewFromClient ifc) {
-		InterviewService is = new InterviewService();
-		is.addInterviewByAssociate(associateid, ifc);
-		return Response.ok().build();
-	}
-
 }

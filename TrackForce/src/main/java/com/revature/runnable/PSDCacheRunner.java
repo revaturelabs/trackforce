@@ -77,7 +77,7 @@ public class PSDCacheRunner implements Runnable {
 	            // perform caching
     	
 	            long startTime = System.nanoTime();
-	            new AssociateDaoHibernate().cacheAllAssociates();
+	            AssociateDaoHibernate.getInstance().cacheAllAssociates();
 	            long endTime = System.nanoTime();
 	            double elapsedTime = ((double)(endTime -startTime))/1000000000,total=elapsedTime;
 	            LogUtil.logger.info("Associates caching time: "+elapsedTime+" seconds");

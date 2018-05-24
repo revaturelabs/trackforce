@@ -18,12 +18,12 @@ import javax.persistence.Table;
 @Table(name = "TF_BATCH_LOCATION", schema = "ADMIN")
 public class TfBatchLocation implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -213863298550515723L;
+	
 	private BigDecimal tfBatchLocationId;
+
 	private String tfBatchLocationName;
+	
 	private Set<TfBatch> tfBatches = new HashSet<TfBatch>(0);
 
 	public TfBatchLocation() {

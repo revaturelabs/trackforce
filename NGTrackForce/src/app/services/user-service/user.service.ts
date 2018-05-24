@@ -26,10 +26,11 @@ export class UserService {
      * @param {string} password - New user's Password
      *
      * @param {number} roleId - New user's Role ID
-     *      1 Admin ----------- user has full privileges including Creating New Users
-     *      2 Manager --------- user has full privileges excluding Creating New Users
-     *      3 Vice President -- pending implementation
-     *      4 Associate ------- pending implementation
+     *      1	- Admin - Can do anything and everything
+     *      2 - Trainer -	Can view everything, but not edit, approve associate registration
+     *      3	- Sales/Delivery - Can view and edit everything, comment on interviews, and add feedback
+     *      4	- Staging Manager - Can view and edit everything, comment on interviews, and add feedback
+     *      5	- Associate	- Can register, view and edit their info, add and flag interviews
      */
 
     public createUser(username: string, password: string, roleId: number): Observable<any> {

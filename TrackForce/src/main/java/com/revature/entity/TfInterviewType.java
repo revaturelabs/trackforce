@@ -71,4 +71,47 @@ public class TfInterviewType implements java.io.Serializable {
 		this.tfInterviews = tfInterviews;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((tfInterviewTypeId == null) ? 0 : tfInterviewTypeId.hashCode());
+		result = prime * result + ((tfInterviewTypeName == null) ? 0 : tfInterviewTypeName.hashCode());
+		result = prime * result + ((tfInterviews == null) ? 0 : tfInterviews.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TfInterviewType other = (TfInterviewType) obj;
+		if (tfInterviewTypeId == null) {
+			if (other.tfInterviewTypeId != null)
+				return false;
+		} else if (!tfInterviewTypeId.equals(other.tfInterviewTypeId))
+			return false;
+		if (tfInterviewTypeName == null) {
+			if (other.tfInterviewTypeName != null)
+				return false;
+		} else if (!tfInterviewTypeName.equals(other.tfInterviewTypeName))
+			return false;
+		if (tfInterviews == null) {
+			if (other.tfInterviews != null)
+				return false;
+		} else if (!tfInterviews.equals(other.tfInterviews))
+			return false;
+		return true;
+	}
+
 }

@@ -5,7 +5,7 @@ import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../services/client-service/client.service';
 /**
-*@author Michael Tseng
+*@author Katherine Obioha
 *
 *@description This is the view for associates only
 *

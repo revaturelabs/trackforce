@@ -11,44 +11,19 @@ import com.revature.utils.LogUtil;
 /**
  * Associate class to hold information about an associate for the batch details page.
  */
-@XmlRootElement
 public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	private static final long serialVersionUID = 6047227506797717614L;
-
-	@XmlElement
 	private Integer id;
-
-	@XmlElement
 	private String firstName;
-
-	@XmlElement
 	private String lastName;
-
-	@XmlElement
 	private static StatusInfo totals = new StatusInfo();
-
-	@XmlElement
 	private Integer msid;
-
-	@XmlElement
 	private String marketingStatus;
-
-	@XmlElement
 	private Integer clid;
-
-	@XmlElement
 	private String client;
-
-	@XmlElement
 	private Integer ecid;
-
-	@XmlElement
 	private String endClient;
-
-	@XmlElement
 	private Integer bid;
-
-	@XmlElement
 	private String batchName;
 
 	private Integer curid;

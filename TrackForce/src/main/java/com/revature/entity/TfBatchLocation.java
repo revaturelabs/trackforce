@@ -20,15 +20,19 @@ public class TfBatchLocation implements java.io.Serializable {
 
 	private static final long serialVersionUID = -213863298550515723L;
 	
+	@Id
+	@Column(name = "TF_BATCH_LOCATION_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private BigDecimal tfBatchLocationId;
 
+	@Column(name = "TF_BATCH_LOCATION_NAME", length = 500)
 	private String tfBatchLocationName;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfBatchLocation")
 	private Set<TfBatch> tfBatches = new HashSet<TfBatch>(0);
 
 	public TfBatchLocation() {
 	}
-
+	
 	public TfBatchLocation(BigDecimal tfBatchLocationId) {
 		this.tfBatchLocationId = tfBatchLocationId;
 	}
@@ -39,9 +43,7 @@ public class TfBatchLocation implements java.io.Serializable {
 		this.tfBatches = tfBatches;
 	}
 
-	@Id
-
-	@Column(name = "TF_BATCH_LOCATION_ID", unique = true, nullable = false, precision = 22, scale = 0)
+	
 	public BigDecimal getTfBatchLocationId() {
 		return this.tfBatchLocationId;
 	}
@@ -50,7 +52,7 @@ public class TfBatchLocation implements java.io.Serializable {
 		this.tfBatchLocationId = tfBatchLocationId;
 	}
 
-	@Column(name = "TF_BATCH_LOCATION_NAME", length = 500)
+	
 	public String getTfBatchLocationName() {
 		return this.tfBatchLocationName;
 	}
@@ -59,7 +61,7 @@ public class TfBatchLocation implements java.io.Serializable {
 		this.tfBatchLocationName = tfBatchLocationName;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfBatchLocation")
+	
 	public Set<TfBatch> getTfBatches() {
 		return this.tfBatches;
 	}
@@ -68,12 +70,57 @@ public class TfBatchLocation implements java.io.Serializable {
 		this.tfBatches = tfBatches;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "TfBatchLocation [tfBatchLocationId=" + tfBatchLocationId + ", tfBatchLocationName="
-//				+ tfBatchLocationName + ", tfBatches=" + tfBatches + "]";
-//	}
-	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((tfBatchLocationId == null) ? 0 : tfBatchLocationId.hashCode());
+		result = prime * result + ((tfBatchLocationName == null) ? 0 : tfBatchLocationName.hashCode());
+		result = prime * result + ((tfBatches == null) ? 0 : tfBatches.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TfBatchLocation other = (TfBatchLocation) obj;
+		if (tfBatchLocationId == null) {
+			if (other.tfBatchLocationId != null)
+				return false;
+		} else if (!tfBatchLocationId.equals(other.tfBatchLocationId))
+			return false;
+		if (tfBatchLocationName == null) {
+			if (other.tfBatchLocationName != null)
+				return false;
+		} else if (!tfBatchLocationName.equals(other.tfBatchLocationName))
+			return false;
+		if (tfBatches == null) {
+			if (other.tfBatches != null)
+				return false;
+		} else if (!tfBatches.equals(other.tfBatches))
+			return false;
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "TfBatchLocation [tfBatchLocationId=" + tfBatchLocationId + ", tfBatchLocationName="
+				+ tfBatchLocationName + ", tfBatches=" + tfBatches + "]";
+	}
 	
 
 }

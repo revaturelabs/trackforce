@@ -19,11 +19,18 @@ export class PredictionsComponent implements OnInit {
   public expanded: boolean = false;
   public results: any;
   public message: string = "";
+  public batchesID: string[];
+  public batchNumberAssociates : number[];
+  public hello : string = "wassup";
+  public hellos :string[] = ["hello","gutentag","aloha","hola"];
+
+  
 
   constructor(private ss: SkillsetService, private ps: PredictionService) { }
 
   ngOnInit() {
     this.getListofCurricula();
+    this.hello = "sdfsdf";
   }
 
   toggleCheckboxes() {
@@ -118,5 +125,15 @@ export class PredictionsComponent implements OnInit {
       );
     }
   }
+
+
+  curriculumBatchSpecifics(){
+
+
+  
+  }
+
+
+
 
 }

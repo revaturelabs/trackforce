@@ -56,12 +56,24 @@ export class LoginComponent implements OnInit {
     }
 
   }
+  public isRegistering = false;
+  /**
+  *Function Wrapper for create-user createuser()
+  */
+  register(){
+  	this.isRegistering = true;
+  }
   /**
   *Function Wrapper for create-user createuser()
   */
   createUser(){
-  	
-  	this.router.navigate(['create-user']);
+  	this.isRegistering = true;
+  }
+  /**
+  *Function Wrapper for create-user createuser()
+  */
+  cancelRegister(){
+  	this.isRegistering = false;
   }
   /**
   * Function wrapper for AuthenticationService login()

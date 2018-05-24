@@ -12,7 +12,7 @@
               {{errMsg}}
             </div>
 			<div *ngIf='this.isRegistering' class="form-control">
-				Register an Associate
+				Register as an Associate
 			</div>
             <label for="username" class="sr-only">Username: </label>
             <input class="form-control" type="text" placeholder="Username" name="username" id="username" required class="form-control input-lg" [(ngModel)]="username"/>
@@ -28,9 +28,6 @@
 				<button class="btn btn-lg btn-primary btn-block" type="submit" (click)='createUser()'>Register new user</button>
 				<button class="btn btn-lg btn-primary btn-block" type="submit" (click)='cancelRegister()'>Cancel</button>
 		    </ng-template>
-
-            <button class="btn btn-lg btn-primary btn-block" type="submit" (click)='login()'>Sign in</button>
-            <a routerLink="../register">Register as an Associate</a>
           </form>
         </section>
       </div>

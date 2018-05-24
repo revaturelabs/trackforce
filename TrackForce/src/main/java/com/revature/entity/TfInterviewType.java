@@ -21,8 +21,15 @@ public class TfInterviewType implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4949282863102956521L;
+	
+	@Id
+	@Column(name = "TF_INTERVIEW_TYPE_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer tfInterviewTypeId;
+	
+	@Column(name = "TF_INTERVIEW_TYPE_NAME", length = 30)
 	private String tfInterviewTypeName;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfInterviewType")
 	private Set<TfInterview> tfInterviews = new HashSet<TfInterview>(0);
 
 	public TfInterviewType() {
@@ -38,8 +45,7 @@ public class TfInterviewType implements java.io.Serializable {
 		this.tfInterviews = tfInterviews;
 	}
 
-	@Id
-	@Column(name = "TF_INTERVIEW_TYPE_ID", unique = true, nullable = false, precision = 22, scale = 0)
+	
 	public Integer getTfInterviewTypeId() {
 		return this.tfInterviewTypeId;
 	}
@@ -48,7 +54,7 @@ public class TfInterviewType implements java.io.Serializable {
 		this.tfInterviewTypeId = tfInterviewTypeId;
 	}
 
-	@Column(name = "TF_INTERVIEW_TYPE_NAME", length = 30)
+	
 	public String getTfInterviewTypeName() {
 		return this.tfInterviewTypeName;
 	}
@@ -57,7 +63,6 @@ public class TfInterviewType implements java.io.Serializable {
 		this.tfInterviewTypeName = tfInterviewTypeName;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfInterviewType")
 	public Set<TfInterview> getTfInterviews() {
 		return this.tfInterviews;
 	}

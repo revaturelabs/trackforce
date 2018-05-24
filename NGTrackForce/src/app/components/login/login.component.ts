@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
   public cpassword: string;
   public ASSOCIATEROLEID: number = 4;
   public errMsg: any;
-  state:string = 'small';
   /**
   *@constructor
   *
@@ -82,7 +81,6 @@ export class LoginComponent implements OnInit {
   register(){
     this.errMsg = "";
   	this.isRegistering = true;
-	this.state='large';
   }
   /**
   *Function Wrapper for create-user createuser()
@@ -109,7 +107,6 @@ export class LoginComponent implements OnInit {
   */
   cancelRegister(){
   	this.isRegistering = false;
-	this.state='small';
   }
   /**
   * Function wrapper for AuthenticationService login()

@@ -20,9 +20,6 @@ import javax.persistence.Table;
 @Table(name = "TF_CLIENT", schema = "ADMIN")
 public class TfClient implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3153069785231904041L;
 	@Id
 	@Column(name = "TF_CLIENT_ID", unique = true, nullable = false, precision = 22, scale = 0)

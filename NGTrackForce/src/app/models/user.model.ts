@@ -7,6 +7,7 @@
      username: String;
      passwordHash: String;
      tfRoleId: number;
+     verified: boolean;
      userId: number;
      token: string;
  }

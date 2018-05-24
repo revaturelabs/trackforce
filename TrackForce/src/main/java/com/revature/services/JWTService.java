@@ -65,12 +65,12 @@ public class JWTService {
 	 * 
 	 * @return the token
 	 */
-	public String createToken(String username) {
+	public String createToken(String username, int tfroleid) {
 
 		SignatureAlgorithm signAlgorithm = SignatureAlgorithm.HS256;
 		Key key = new SecretKeySpec(getSecret(), signAlgorithm.getJcaName());
 
-		JwtBuilder token = Jwts.builder().setSubject(username).setExpiration(generateExpirationDate())
+		JwtBuilder token = Jwts.builder().setSubject(username).setSubject("tfroleid").setExpiration(generateExpirationDate())
 				.signWith(signAlgorithm, key);
 
 		return token.compact();

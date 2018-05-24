@@ -1,6 +1,9 @@
 package com.revature.resources;
 
+import static org.testng.Assert.assertEquals;
+
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,6 +13,7 @@ import javax.persistence.StoredProcedureQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -35,6 +39,13 @@ import com.revature.services.InterviewService;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -216,14 +227,37 @@ public class AssociateResource {
 	
 	@GET
 	@Path("{associateid}/interviews")
-	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid) {
-		Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
-		return Response.ok(associateinfo).build();
+	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid,@HeaderParam("Authorization") String token) {
+		String jwt = token;
+		System.out.println(token);
+		Jws<Claims> claims = null;
+		System.out.println("Before the try block");
+		try {
+			System.out.println("In the try block");
+			claims = Jwts.parser()
+			  .setSigningKey("secret".getBytes("UTF-8"))
+			  .parseClaimsJws(jwt);
+		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
+				| IllegalArgumentException | UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			System.out.println("in the catch block");
+			e.printStackTrace();
+		}
+		String scope = (String) claims.getBody().get("tfroleid");
+		System.out.println(scope);
+		
+		if (scope.equals("1")) {
+			Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
+			return Response.ok(associateinfo).build();
+		} else {
+			return Response.status(403).build();
+		}
+		
 	}
 
 	@POST
 	@Path("{associateid}/interviews")
-	public Response addAssociateInterview(@PathParam("associateid") Integer associateid, InterviewFromClient ifc) {
+	public Response addAssociateInterview(@PathParam("associateid") Integer associateid, InterviewFromClient ifc ) {
 		InterviewService is = new InterviewService();
 		is.addInterviewByAssociate(associateid, ifc);
 		return Response.status(201).build();

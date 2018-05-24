@@ -8,11 +8,26 @@ import { Router } from '@angular/router';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user-service/user.service';
+import {trigger,state,style,transition,animate,keyframes} from '@angular/animations';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  animations:[
+    trigger(
+      'enterAnimation', [
+        transition(':enter', [
+          style({opacity: 0}),
+          animate('500ms', style({ opacity: 1}))
+        ]),
+        transition(':leave', [
+          style({opacity: 1}),
+          animate('500ms', style({ opacity: 0}))
+        ])
+      ]
+    )
+  ]
 })
 // Decorator for automatically unsubscribing all observables upon ngDestory()
 //Prevents memory leaks
@@ -23,7 +38,6 @@ export class LoginComponent implements OnInit {
   public cpassword: string;
   public ASSOCIATEROLEID: number = 4;
   public errMsg: any;
-
   /**
   *@constructor
   *

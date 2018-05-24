@@ -11,7 +11,7 @@
             <div *ngIf="errMsg" class="alert alert-danger">
               {{errMsg}}
             </div>
-			<div *ngIf='this.isRegistering' class="form-control">
+			<div *ngIf='this.isRegistering' [@enterAnimation] class="form-control">
 				Register as an Associate
 			</div>
             <label for="username" class="sr-only">Username: </label>
@@ -19,14 +19,14 @@
             <label for="password" class="sr-only">Password: </label>
             <input class="form-control" type="password" placeholder="Password" name="password" id="password" required [(ngModel)]="password"/>
 			<div *ngIf='!this.isRegistering; else elseBlockZero'>
-				<button class="btn btn-lg btn-primary btn-block" type="submit" (click)='login()'>Sign in</button>
-				<button class="btn btn-lg btn-primary btn-block" type="submit" (click)='register()'>Register</button>
+				<button class="btn btn-lg btn-primary btn-block" [@enterAnimation] type="submit" (click)='login()'>Sign in</button>
+				<button class="btn btn-lg btn-primary btn-block" [@enterAnimation] type="submit" (click)='register()'>Register</button>
 			</div>
 			<ng-template #elseBlockZero>
-          <label for="cpassword" class="sr-only">Confirm Password: </label>
-          <input class="form-control" type="password" placeholder="Confirm Password" name="cpassword" id="cpassword" required [(ngModel)]="cpassword"/>
-          <button class="btn btn-lg btn-primary btn-block" type="submit" (click)='createUser()'>Register new user</button>
-          <button class="btn btn-lg btn-primary btn-block" type="submit" (click)='cancelRegister()'>Cancel</button>
+          <label [@enterAnimation] for="cpassword" class="sr-only">Confirm Password: </label>
+          <input [@enterAnimation] class="form-control" type="password" placeholder="Confirm Password" name="cpassword" id="cpassword" required [(ngModel)]="cpassword"/>
+          <button [@enterAnimation] class="btn btn-lg btn-primary btn-block" type="submit" (click)='createUser()'>Register new user</button>
+          <button [@enterAnimation] class="btn btn-lg btn-primary btn-block" type="submit" (click)='cancelRegister()'>Cancel</button>
 		   </ng-template>
        </form>
       </section>

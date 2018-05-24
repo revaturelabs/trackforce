@@ -8,7 +8,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { FormsModule } from '@angular/forms';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 ///
 //  COMPONENTS
 ///
@@ -96,7 +96,8 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     ChartsModule,
-    Ng2OrderModule
+    Ng2OrderModule,
+	BrowserAnimationsModule
   ],
   providers: [
     AssociateService,

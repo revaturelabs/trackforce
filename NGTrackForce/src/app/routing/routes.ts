@@ -18,8 +18,7 @@ import {BatchDetailsComponent} from '../components/batch-details/batch-details.c
 import {AssociateViewComponent } from '../components/associate-view/associate-view.component';
 import {NotFoundComponent} from '../components/not-found/not-found.component';
 import {PredictionsComponent} from '../components/predictions/predictions.component';
-import {MyInterviewComponent} from '../components/myinterview-view/myinterview-view.component;
-
+import {MyInterviewComponent} from '../components/myinterview-view/myinterview-view.component';
 import { AuthGuard } from '../guards/auth.guard';
 
 /**

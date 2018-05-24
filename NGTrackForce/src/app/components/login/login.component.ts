@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { Router } from '@angular/router';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
-
+import { User } from '../../models/user.model';
+import { UserService } from '../../services/user-service/user.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,8 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 export class LoginComponent implements OnInit {
   public username: string;
   public password: string;
+  public cpassword: string;
+  public ASSOCIATEROLEID: number = 4;
   public errMsg: any;
 
   /**
@@ -31,7 +34,8 @@ export class LoginComponent implements OnInit {
   * Service needed for redirecting user upon successful login
   *
   */
-  constructor(private authService: AuthenticationService, private router: Router) { }
+  constructor(private authService: AuthenticationService, private router: Router, 
+                private userService: UserService) { }
 
   /**
   * Called upon component initiation
@@ -67,7 +71,21 @@ export class LoginComponent implements OnInit {
   *Function Wrapper for create-user createuser()
   */
   createUser(){
-  	this.isRegistering = true;
+	this.errMsg="";
+      if(this.password !== this.cpassword){
+        this.errMsg='Passwords do not match!';
+      } else {
+        this.userService.createUser(this.username, this.password, this.ASSOCIATEROLEID).subscribe(
+          data => {
+            //navigate to home page if return is valid
+            this.router.navigate(['login']);
+          },
+          err => {
+            console.error(err + " Error Occurred");
+            this.errMsg='Error: new associate not created!';
+          }
+        );
+	  }
   }
   /**
   *Function Wrapper for create-user createuser()

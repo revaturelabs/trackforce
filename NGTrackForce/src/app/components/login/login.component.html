@@ -23,13 +23,13 @@
 				<button class="btn btn-lg btn-primary btn-block" type="submit" (click)='register()'>Register</button>
 			</div>
 			<ng-template #elseBlockZero>
-				<label for="cpassword" class="sr-only">Confirm Password: </label>
-				<input class="form-control" type="password" placeholder="Confirm Password" name="cpassword" id="cpassword" required [(ngModel)]="cpassword"/>
-				<button class="btn btn-lg btn-primary btn-block" type="submit" (click)='createUser()'>Register new user</button>
-				<button class="btn btn-lg btn-primary btn-block" type="submit" (click)='cancelRegister()'>Cancel</button>
-		    </ng-template>
-          </form>
-        </section>
+          <label for="cpassword" class="sr-only">Confirm Password: </label>
+          <input class="form-control" type="password" placeholder="Confirm Password" name="cpassword" id="cpassword" required [(ngModel)]="cpassword"/>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" (click)='createUser()'>Register new user</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" (click)='cancelRegister()'>Cancel</button>
+		   </ng-template>
+       </form>
+      </section>
       </div>
     </div>
 </div>

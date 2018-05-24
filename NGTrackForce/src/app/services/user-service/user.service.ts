@@ -29,7 +29,7 @@ export class UserService {
      *      1 Admin ----------- user has full privileges including Creating New Users
      *      2 Manager --------- user has full privileges excluding Creating New Users
      *      3 Vice President -- pending implementation
-     *      4 Associate ------- pending implemenation
+     *      4 Associate ------- pending implementation
      */
 
     public createUser(username: string, password: string, roleId: number): Observable<any> {

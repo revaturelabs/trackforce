@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 public class DeliveryResource {
 	
-	@POST
-	@Path("{associateid}/interviews")
-	public Response 
+//	@POST
+//	@Path("{associateid}/interviews")
+	 
 }

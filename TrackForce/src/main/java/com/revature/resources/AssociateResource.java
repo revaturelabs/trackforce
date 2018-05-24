@@ -214,7 +214,7 @@ public class AssociateResource {
 	public Response addAssociateInterview(@PathParam("associateid") Integer associateid, InterviewFromClient ifc) {
 		InterviewService is = new InterviewService();
 		is.addInterviewByAssociate(associateid, ifc);
-		return Response.ok().build();
+		return Response.status(201).build();
 	}
 
 }

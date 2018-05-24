@@ -18,7 +18,6 @@ import { BatchListComponent } from './components/batch-list/batch-list.component
 import { ClientMappedComponent } from './components/client-mapped/client-mapped.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
 import { ClientListComponent } from './components/client-list/client-list.component';
 import { FormComponent } from './components/form-component/form.component';
 import { FooterComponent } from './components/footer/footer/footer.component';
@@ -78,7 +77,6 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     FormComponent,
     ClientListComponent,
     LoginComponent,
-    RegisterComponent,
     CreateUserComponent,
     SearchFilterPipe,
     BatchDetailsComponent,

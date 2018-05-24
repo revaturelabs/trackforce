@@ -89,8 +89,6 @@ public class InterviewDaoHibernate implements InterviewDao {
 
 	@Override
 	public void addInterviewForAssociate(int associateid, InterviewFromClient ifc) {
-		//NEED TO REPLACE INTERVIEW FEEDBACK WITH Associatefeedback and Clientfeedback
-
 		Transaction t1 = null;
 		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			t1 = session.beginTransaction();
@@ -103,7 +101,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 			tfi.setTfInterviewId(id);
 			tfi.setTfAssociate(session.get(TfAssociate.class, associateid));
 			tfi.setTfInterviewDate(Timestamp.from(new Date(ifc.getInterviewDate()).toInstant()));
-			tfi.setTfClientFeedback(ifc.getInterviewFeedback());
+			tfi.setTfInterviewFeedback(ifc.getInterviewFeedback());
 			tfi.setTfClient(session.get(TfClient.class, ifc.getClientId()));
 			tfi.setTfInterviewType(session.load(TfInterviewType.class, ifc.getTypeId()));
 			session.saveOrUpdate(tfi);

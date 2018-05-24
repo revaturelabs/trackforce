@@ -5,9 +5,7 @@ import java.sql.Timestamp;
 
 public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 4737517688902246944L;
 	private Integer id;
 	private AssociateInfo tfAssociate;

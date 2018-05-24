@@ -112,3 +112,5 @@ jdbcUtil.java
 
 # rollup-test output
 **/modules/rollup-test/dist/
+package-lock.json
+TrackForceLogs/

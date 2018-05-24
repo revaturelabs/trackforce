@@ -45,7 +45,7 @@ import io.swagger.annotations.ApiParam;
 @Produces(MediaType.APPLICATION_JSON)
 public class AssociateResource {
 	private AssociateService service = new AssociateService();
-	
+
 	/**
 	 * Gets a list of all the associates, optionally filtered by a batch id. If an
 	 * associate has no marketing status or curriculum, replaces them with blanks.
@@ -60,12 +60,10 @@ public class AssociateResource {
 			+ " curriculum, replaces them with blanks. If associate has no client, replaces\r\n"
 			+ " it with \"None\".", response = AssociateInfo.class, responseContainer = "Set")
 	public Response getAllAssociates() {
-		Set<AssociateInfo> associatesList = service.getAllAssociates();
+		Set<AssociateInfo> associates = service.getAllAssociates();
+		Status status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
 
-		if (associatesList == null || associatesList.isEmpty())
-			return Response.status(Status.NO_CONTENT).build(); // returns 204 if no associates found
-
-		return Response.ok(associatesList).build();
+		return Response.status(status).entity(associates).build();
 	}
 
 	/**
@@ -118,11 +116,26 @@ public class AssociateResource {
 		return Response.ok(mappedStats).build();
 	}
 
-	@GET
-	@Path("unmapped/{statusId}")
-	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
-		return Response.ok(service.getUnmappedInfo(statusId)).build();
-	}
+//	@GET
+//	@Path("unmapped/{statusId}")
+//	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
+//		return Response.ok(service.getUnmappedInfo(statusId)).build();
+//	}
+//
+//	@GET
+//	@Path("{associateid}/interviews")
+//	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid) {
+//		Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
+//		return Response.ok(associateinfo).build();
+//	}
+//
+//	@POST
+//	@Path("{associateid}/interviews")
+//	public Response addAssociateInterview(@PathParam("associateid") Integer associateid, InterviewFromClient ifc) {
+//		InterviewService is = new InterviewService();
+//		is.addInterviewByAssociate(associateid, ifc);
+//		return Response.ok().build();
+//	}
 
 	/**
 	 * Update the marketing status or client of an associate
@@ -137,9 +150,7 @@ public class AssociateResource {
 	 * @throws NumberFormatException
 	 * @throws IOException
 	 */
-
 	/**** OPTION 1 ****/
-
 	@PUT
 	@Path("{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, AssociateFromClient afc) {
@@ -201,6 +212,7 @@ public class AssociateResource {
 	 * 
 	 * return Response.ok().build(); }
 	 */
+
 	
 	@GET
 	@Path("{associateid}/interviews")
@@ -216,5 +228,6 @@ public class AssociateResource {
 		is.addInterviewByAssociate(associateid, ifc);
 		return Response.status(201).build();
 	}
+
 
 }

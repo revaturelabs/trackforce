@@ -20,7 +20,7 @@ import { ClientService } from '../../services/client-service/client.service';
 export class AssociateViewComponent implements OnInit {
   public associate: Associate = new Associate();
   public interviews: Array<any> = [];
-  public messages: Array<string> = ["I cleared my interview with FINRA","Please update my status"];
+  public messages: Array<string> = ["I cleared my interview with FINRA","Please update my status", "I am deleting you soon :)"];
   public newMessage: string = "";
   public newInterview: any = {
     client: null,

@@ -22,13 +22,41 @@ public class TfInterview implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4148475604579144144L;
+	@Id
+	@Column(name = "TF_INTERVIEW_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer tfInterviewId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TF_ASSOCIATE_ID")
 	private TfAssociate tfAssociate;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TF_CLIENT_ID")
 	private TfClient tfClient;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TF_END_CLIENT_ID")
 	private TfEndClient tfEndClient;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TF_INTERVIEW_TYPE_ID")
 	private TfInterviewType tfInterviewType;
+	@Column(name = "TF_INTERVIEW_DATE")
 	private Timestamp tfInterviewDate;
-	private String tfInterviewFeedback;
+
+	// 1804
+	@Column(name = "TF_ASSOCIATE_FEEDBACK", length = 2000)
+	private String tfAssociateFeedback;
+	@Column(name = "TF_CLIENT_FEEDBACK", length = 2000)
+	private String tfClientFeedback;
+	@Column(name = "TF_JOB_DESCRIPTION", length = 2000)
+	private String tfJobDescription;
+	@Column(name = "TF_DATE_SALES_ISSUED")
+	private Timestamp tfDateSalesIssued;
+	@Column(name = "TF_DATE_ASSOCIATE_ISSUED")
+	private Timestamp tfDateAssociateIssued;
+	@Column(name = "TF_IS_INTERVIEW_FLAGGED")
+	private Integer tfIsInterviewFlagged;
+	@Column(name = "TF_FLAG_REASON")
+	private String tfFlagReason;
+	@Column(name = "TF_IS_CLIENT_FEEDBACK_VISIABLE")
+	private Integer tfIsClientFeedbackVisiable;
 
 	public TfInterview() {
 	}
@@ -38,18 +66,26 @@ public class TfInterview implements java.io.Serializable {
 	}
 
 	public TfInterview(Integer tfInterviewId, TfAssociate tfAssociate, TfClient tfClient, TfEndClient tfEndClient,
-			TfInterviewType tfInterviewType, Timestamp tfInterviewDate, String tfInterviewFeedback) {
+			TfInterviewType tfInterviewType, Timestamp tfInterviewDate, String associateFeedback, String clientFeedback,
+					   String jobDescription, Timestamp dateSalesIssued, Timestamp dateAssociateIssued, Integer isInterviewFlagged,
+					   String flagReason, Integer isClientFeedbackVisiable) {
 		this.tfInterviewId = tfInterviewId;
 		this.tfAssociate = tfAssociate;
 		this.tfClient = tfClient;
 		this.tfEndClient = tfEndClient;
 		this.tfInterviewType = tfInterviewType;
 		this.tfInterviewDate = tfInterviewDate;
-		this.tfInterviewFeedback = tfInterviewFeedback;
+
+		this.tfAssociateFeedback = associateFeedback;
+		this.tfClientFeedback = clientFeedback;
+		this.tfJobDescription = jobDescription;
+		this.tfDateSalesIssued = dateSalesIssued;
+		this.tfDateAssociateIssued = dateAssociateIssued;
+		this.tfIsInterviewFlagged = isInterviewFlagged;
+		this.tfFlagReason = flagReason;
+		this.tfIsClientFeedbackVisiable = isClientFeedbackVisiable;
 	}
 
-	@Id
-	@Column(name = "TF_INTERVIEW_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Integer getTfInterviewId() {
 		return this.tfInterviewId;
 	}
@@ -58,8 +94,6 @@ public class TfInterview implements java.io.Serializable {
 		this.tfInterviewId = tfInterviewId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TF_ASSOCIATE_ID")
 	public TfAssociate getTfAssociate() {
 		return this.tfAssociate;
 	}
@@ -68,8 +102,6 @@ public class TfInterview implements java.io.Serializable {
 		this.tfAssociate = tfAssociate;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TF_CLIENT_ID")
 	public TfClient getTfClient() {
 		return this.tfClient;
 	}
@@ -78,8 +110,6 @@ public class TfInterview implements java.io.Serializable {
 		this.tfClient = tfClient;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TF_END_CLIENT_ID")
 	public TfEndClient getTfEndClient() {
 		return this.tfEndClient;
 	}
@@ -88,8 +118,6 @@ public class TfInterview implements java.io.Serializable {
 		this.tfEndClient = tfEndClient;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TF_INTERVIEW_TYPE_ID")
 	public TfInterviewType getTfInterviewType() {
 		return this.tfInterviewType;
 	}
@@ -98,7 +126,6 @@ public class TfInterview implements java.io.Serializable {
 		this.tfInterviewType = tfInterviewType;
 	}
 
-	@Column(name = "TF_INTERVIEW_DATE")
 	public Timestamp getTfInterviewDate() {
 		return this.tfInterviewDate;
 	}
@@ -107,17 +134,72 @@ public class TfInterview implements java.io.Serializable {
 		this.tfInterviewDate = tfInterviewDate;
 	}
 
-	@Column(name = "TF_INTERVIEW_FEEDBACK", length = 2000)
-	public String getTfInterviewFeedback() {
-		return this.tfInterviewFeedback;
-	}
 
-	public void setTfInterviewFeedback(String tfInterviewFeedback) {
-		this.tfInterviewFeedback = tfInterviewFeedback;
-	}
-	
 	public void setTfEndClientName(String name) {
 		this.tfEndClient.setTfEndClientName(name);
 	}
 
+	public String getTfAssociateFeedback() {
+		return tfAssociateFeedback;
+	}
+
+	public void setTfAssociateFeedback(String tfassociateFeedback) {
+		this.tfAssociateFeedback = tfassociateFeedback;
+	}
+
+	public String getTfClientFeedback() {
+		return tfClientFeedback;
+	}
+
+	public void setTfClientFeedback(String tfclientFeedback) {
+		this.tfClientFeedback = tfclientFeedback;
+	}
+
+	public String getTfJobDescription() {
+		return tfJobDescription;
+	}
+
+	public void setTfJobDescription(String tfjobDescription) {
+		this.tfJobDescription = tfjobDescription;
+	}
+
+	public Timestamp getTfDateSalesIssued() {
+		return tfDateSalesIssued;
+	}
+
+	public void setTfDateSalesIssued(Timestamp tfdateSalesIssued) {
+		this.tfDateSalesIssued = tfdateSalesIssued;
+	}
+
+	public Timestamp getTfDateAssociateIssued() {
+		return tfDateAssociateIssued;
+	}
+
+	public void setTfDateAssociateIssued(Timestamp tfdateAssociateIssued) {
+		this.tfDateAssociateIssued = tfdateAssociateIssued;
+	}
+
+	public Integer getTfIsInterviewFlagged() {
+		return tfIsInterviewFlagged;
+	}
+
+	public void setTfIsInterviewFlagged(Integer tfisInterviewFlagged) {
+		this.tfIsInterviewFlagged = tfisInterviewFlagged;
+	}
+
+	public String getTfFlagReason() {
+		return tfFlagReason;
+	}
+
+	public void setTfFlagReason(String tfflagReason) {
+		this.tfFlagReason = tfflagReason;
+	}
+
+	public Integer getTfIsClientFeedbackVisiable() {
+		return tfIsClientFeedbackVisiable;
+	}
+
+	public void setTfIsClientFeedbackVisiable(Integer tfisClientFeedbackVisiable) {
+		this.tfIsClientFeedbackVisiable = tfisClientFeedbackVisiable;
+	}
 }

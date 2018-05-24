@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -39,11 +40,16 @@ public class BatchesService {
 
 	public Set<BatchInfo> getBatchesByCurri(String c) {
 		Set<BatchInfo> batches = batchDao.getAllBatches();
+		
 		// remove all batches not equal to curriculum
-		for (BatchInfo b : batches) {
-			if(! b.getCurriculumName().equals(c))
-				batches.remove(b);
+		Iterator<BatchInfo> iterator = batches.iterator();
+		while (iterator.hasNext()) {
+			BatchInfo b = iterator.next();
+			if (!b.getCurriculumName().equalsIgnoreCase(c)) {
+				iterator.remove();
+			}
 		}
+
 		return batches;
 	}
 

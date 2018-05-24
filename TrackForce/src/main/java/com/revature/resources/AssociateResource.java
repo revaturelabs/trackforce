@@ -45,7 +45,7 @@ import io.swagger.annotations.ApiParam;
 @Produces(MediaType.APPLICATION_JSON)
 public class AssociateResource {
 	private AssociateService service = new AssociateService();
-	
+
 	/**
 	 * Gets a list of all the associates, optionally filtered by a batch id. If an
 	 * associate has no marketing status or curriculum, replaces them with blanks.
@@ -57,17 +57,13 @@ public class AssociateResource {
 	 */
 	@GET
 	@ApiOperation(value = "Return all associates", notes = "Gets a set of all the associates, optionally filtered by a batch id. If an associate has no marketing status or\r\n"
-		+ " curriculum, replaces them with blanks. If associate has no client, replaces\r\n"
-		+ " it with \"None\".", response = AssociateInfo.class, responseContainer = "Set")
+			+ " curriculum, replaces them with blanks. If associate has no client, replaces\r\n"
+			+ " it with \"None\".", response = AssociateInfo.class, responseContainer = "Set")
 	public Response getAllAssociates() {
-		Set<AssociateInfo> associateSet = service.getAllAssociates();
+		Set<AssociateInfo> associates = service.getAllAssociates();
+		Status status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
 
-		if (associateSet == null || associateSet.isEmpty())
-			return Response.status(Status.NO_CONTENT).entity(associateSet).build(); // returns 204 if no associates found
-
-		return Response.ok(associateSet)
-//				.entity(associateSet)
-				.build();
+		return Response.status(status).entity(associates).build();
 	}
 
 	/**
@@ -84,9 +80,9 @@ public class AssociateResource {
 	@PUT
 	@ApiOperation(value = "Batch update associates", notes = "Updates the maretking status and/or the client of one or more associates")
 	public Response updateAssociates(
-		@DefaultValue("0") @ApiParam(value = "marketing status id") @QueryParam("marketingStatusId") Integer marketingStatusId,
-		@DefaultValue("0") @ApiParam(value = "client id") @QueryParam("clientId") Integer clientId,
-		List<Integer> ids) {
+			@DefaultValue("0") @ApiParam(value = "marketing status id") @QueryParam("marketingStatusId") Integer marketingStatusId,
+			@DefaultValue("0") @ApiParam(value = "client id") @QueryParam("clientId") Integer clientId,
+			List<Integer> ids) {
 		// marketing status & client id are given as query parameters, ids sent in body
 		service.updateAssociates(ids, marketingStatusId, clientId);
 		return Response.ok().build();

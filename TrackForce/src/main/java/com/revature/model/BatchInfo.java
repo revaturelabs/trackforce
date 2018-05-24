@@ -31,17 +31,6 @@ public class BatchInfo implements Serializable, Comparable<BatchInfo> {
 		super();
 	}
 
-	/**
-	 * Constructs a newly allocated BatchInfo object that represents a batch of
-	 * Revature assodiates without curriculum or location.
-	 * 
-	 * @param batchName
-	 *            - The name of the batch.
-	 * @param startDate
-	 *            - The date that this batch started.
-	 * @param endDate
-	 *            - The date that this batch graduates.
-	 */
 	public BatchInfo(String batchName, String startDate, String endDate) {
 		super();
 		this.batchName = batchName;
@@ -49,21 +38,6 @@ public class BatchInfo implements Serializable, Comparable<BatchInfo> {
 		this.endDate = endDate;
 	}
 
-	/**
-	 * Constructs a newly allocated BatchInfo object that represents a batch of
-	 * Revature associates.
-	 * 
-	 * @param batchName
-	 *            - The name of the batch.
-	 * @param curriculumName
-	 *            - The name of the curriculum this batch is studying.
-	 * @param location
-	 *            - The location of this batch.
-	 * @param startDate
-	 *            - The date that this batch started.
-	 * @param endDate
-	 *            - The date that this batch graduates.
-	 */
 	public BatchInfo(Integer id, String batchName, String curriculumName, String location, String startDate,
 			String endDate) {
 		super();

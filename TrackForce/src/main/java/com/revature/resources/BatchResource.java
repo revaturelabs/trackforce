@@ -1,5 +1,6 @@
 package com.revature.resources;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
@@ -46,22 +47,29 @@ public class BatchResource {
 	 */
 	@GET
 	public Response getAllBatches() {
-		return Response.ok(service.getAllBatches()).build();
-	}
+		Set<BatchInfo> batches = service.getAllBatches();
+		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
 
+		return Response.status(status).entity(batches).build();
+	}
+	
 	public Response getAllBatches(@DefaultValue("1510549200000") @QueryParam("start") Long startDate,
 			@DefaultValue("1527480000000") @QueryParam("end") Long endDate) {
-		return Response.ok(service.getBatches(startDate, endDate)).build();
+		List<BatchInfo> batches = service.getBatches(startDate, endDate);
+		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
+
+		return Response.status(status).entity(batches).build();
 	}
 
 	/**
 	 * @author Ian Buitrago
 	 * @param curriculum
 	 *            name
-	 * @return set of batches for curriculum
+	 * @return set of batches matching curriculum
 	 */
 	@GET
-	public Response getBatchesByCurri(@QueryParam("curriculum") String curriculum) {
+	@Path("curriculum/{curriculum}")
+	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum) {
 		Set<BatchInfo> batches = service.getBatchesByCurri(curriculum);
 		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		logger.info("query  = Curriculum: " + curriculum);

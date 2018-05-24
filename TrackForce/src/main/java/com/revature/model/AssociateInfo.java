@@ -51,6 +51,52 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	@XmlElement
 	private String batchName;
 
+	private Integer curid;
+	private String curriculumName;
+
+	private long startDate;
+
+
+	/**
+	 * Represents an associate.
+	 * 
+	 * @param id
+	 *            - The id of the associate.
+	 * @param firstName
+	 *            - The associate's first name.
+	 * @param lastName
+	 *            - The associate's last name.
+	 * @param marketingStatus
+	 *            - The associate's marketing status (mapped, unmapped, etc.)
+	 * @param clientid-The
+	 *            clients's name.
+	 */
+	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.marketingStatus = marketingStatus;
+		this.client = client;
+	}
+
+	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client,
+			String batchName, String curriculumName, long startDate) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.marketingStatus = marketingStatus;
+		this.client = client;
+		this.endClient = "";
+		this.batchName = batchName;
+		this.curriculumName = curriculumName;
+		this.startDate = startDate;
+	}
+
+	public AssociateInfo() {
+	}
+
 	public Integer getMsid() {
 		return msid;
 	}
@@ -90,52 +136,6 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	public void setCurid(Integer curid) {
 		this.curid = curid;
 	}
-
-	private Integer curid;
-	private String curriculumName;
-
-	private long startDate;
-
-	/**
-	 * Constructs a newly allocated BatchInfo object that represents an associate.
-	 * 
-	 * @param id
-	 *            - The id of the associate.
-	 * @param firstName
-	 *            - The associate's first name.
-	 * @param lastName
-	 *            - The associate's last name.
-	 * @param marketingStatus
-	 *            - The associate's marketing status (mapped, unmapped, etc.)
-	 * @param clientid-The
-	 *            clients's name.
-	 */
-	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.marketingStatus = marketingStatus;
-		this.client = client;
-	}
-
-	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client,
-			String batchName, String curriculumName, long startDate) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.marketingStatus = marketingStatus;
-		this.client = client;
-		this.endClient = "";
-		this.batchName = batchName;
-		this.curriculumName = curriculumName;
-		this.startDate = startDate;
-	}
-
-	public AssociateInfo() {
-	}
-
 	/**
 	 * Retrieve the associate's ID
 	 * 
@@ -274,6 +274,29 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 		this.startDate = startDate;
 	}
 
+	public void setBatchId(Integer tfBatchId) {
+		this.bid = tfBatchId == null ? -1 : tfBatchId;
+	}
+
+	public void setClientId(Integer tfClientId) {
+		this.clid = tfClientId == null ? -1 : tfClientId;
+	}
+
+	public void setCurriculumId(Integer tfCurriculumId) {
+		this.curid = tfCurriculumId == null ? -1 : tfCurriculumId;
+	}
+
+	public void setEndClientId(Integer tfEndClientId) {
+		this.ecid = tfEndClientId == null ? -1 : tfEndClientId;
+	}
+
+	public void setMarketingStatusId(Integer tfMarketingStatusId) {
+		this.msid = tfMarketingStatusId == null ? -1 : tfMarketingStatusId;
+	}
+
+	public static StatusInfo getTotals() {
+		return totals;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -353,29 +376,6 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 		return this.id - o.id;
 	}
 
-	public void setBatchId(Integer tfBatchId) {
-		this.bid = tfBatchId == null ? -1 : tfBatchId;
-	}
-
-	public void setClientId(Integer tfClientId) {
-		this.clid = tfClientId == null ? -1 : tfClientId;
-	}
-
-	public void setCurriculumId(Integer tfCurriculumId) {
-		this.curid = tfCurriculumId == null ? -1 : tfCurriculumId;
-	}
-
-	public void setEndClientId(Integer tfEndClientId) {
-		this.ecid = tfEndClientId == null ? -1 : tfEndClientId;
-	}
-
-	public void setMarketingStatusId(Integer tfMarketingStatusId) {
-		this.msid = tfMarketingStatusId == null ? -1 : tfMarketingStatusId;
-	}
-
-	public static StatusInfo getTotals() {
-		return totals;
-	}
 
 	public static void appendToMap(TfMarketingStatus tfMarketingStatus) {
 		switch (tfMarketingStatus.getTfMarketingStatusId()) {

@@ -22,11 +22,27 @@ public class TfPlacement implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 6812378121809201089L;
+	
+	@Id
+	@Column(name = "TF_PLACEMENT_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer tfPlacementId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TF_ASSOCIATE_ID")
 	private TfAssociate tfAssociate;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TF_CLIENT_ID")
 	private TfClient tfClient;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TF_END_CLIENT_ID")
 	private TfEndClient tfEndClient;
+	
+	@Column(name = "TF_PLACEMENT_START_DATE")
 	private Timestamp tfPlacementStartDate;
+	
+	@Column(name = "TF_PLACEMENT_END_DATE")
 	private Timestamp tfPlacementEndDate;
 
 	public TfPlacement() {
@@ -46,8 +62,7 @@ public class TfPlacement implements java.io.Serializable {
 		this.tfPlacementEndDate = tfPlacementEndDate;
 	}
 
-	@Id
-	@Column(name = "TF_PLACEMENT_ID", unique = true, nullable = false, precision = 22, scale = 0)
+	
 	public Integer getTfPlacementId() {
 		return this.tfPlacementId;
 	}
@@ -56,8 +71,7 @@ public class TfPlacement implements java.io.Serializable {
 		this.tfPlacementId = tfPlacementId;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TF_ASSOCIATE_ID")
+	
 	public TfAssociate getTfAssociate() {
 		return this.tfAssociate;
 	}
@@ -66,8 +80,7 @@ public class TfPlacement implements java.io.Serializable {
 		this.tfAssociate = tfAssociate;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TF_CLIENT_ID")
+	
 	public TfClient getTfClient() {
 		return this.tfClient;
 	}
@@ -76,8 +89,7 @@ public class TfPlacement implements java.io.Serializable {
 		this.tfClient = tfClient;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TF_END_CLIENT_ID")
+	
 	public TfEndClient getTfEndClient() {
 		return this.tfEndClient;
 	}
@@ -86,7 +98,7 @@ public class TfPlacement implements java.io.Serializable {
 		this.tfEndClient = tfEndClient;
 	}
 
-	@Column(name = "TF_PLACEMENT_START_DATE")
+	
 	public Timestamp getTfPlacementStartDate() {
 		return this.tfPlacementStartDate;
 	}
@@ -95,13 +107,83 @@ public class TfPlacement implements java.io.Serializable {
 		this.tfPlacementStartDate = tfPlacementStartDate;
 	}
 
-	@Column(name = "TF_PLACEMENT_END_DATE")
 	public Timestamp getTfPlacementEndDate() {
 		return this.tfPlacementEndDate;
 	}
 
 	public void setTfPlacementEndDate(Timestamp tfPlacementEndDate) {
 		this.tfPlacementEndDate = tfPlacementEndDate;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((tfAssociate == null) ? 0 : tfAssociate.hashCode());
+		result = prime * result + ((tfClient == null) ? 0 : tfClient.hashCode());
+		result = prime * result + ((tfEndClient == null) ? 0 : tfEndClient.hashCode());
+		result = prime * result + ((tfPlacementEndDate == null) ? 0 : tfPlacementEndDate.hashCode());
+		result = prime * result + ((tfPlacementId == null) ? 0 : tfPlacementId.hashCode());
+		result = prime * result + ((tfPlacementStartDate == null) ? 0 : tfPlacementStartDate.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TfPlacement other = (TfPlacement) obj;
+		if (tfAssociate == null) {
+			if (other.tfAssociate != null)
+				return false;
+		} else if (!tfAssociate.equals(other.tfAssociate))
+			return false;
+		if (tfClient == null) {
+			if (other.tfClient != null)
+				return false;
+		} else if (!tfClient.equals(other.tfClient))
+			return false;
+		if (tfEndClient == null) {
+			if (other.tfEndClient != null)
+				return false;
+		} else if (!tfEndClient.equals(other.tfEndClient))
+			return false;
+		if (tfPlacementEndDate == null) {
+			if (other.tfPlacementEndDate != null)
+				return false;
+		} else if (!tfPlacementEndDate.equals(other.tfPlacementEndDate))
+			return false;
+		if (tfPlacementId == null) {
+			if (other.tfPlacementId != null)
+				return false;
+		} else if (!tfPlacementId.equals(other.tfPlacementId))
+			return false;
+		if (tfPlacementStartDate == null) {
+			if (other.tfPlacementStartDate != null)
+				return false;
+		} else if (!tfPlacementStartDate.equals(other.tfPlacementStartDate))
+			return false;
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "TfPlacement [tfPlacementId=" + tfPlacementId + ", tfAssociate=" + tfAssociate + ", tfClient=" + tfClient
+				+ ", tfEndClient=" + tfEndClient + ", tfPlacementStartDate=" + tfPlacementStartDate
+				+ ", tfPlacementEndDate=" + tfPlacementEndDate + "]";
 	}
 
 }

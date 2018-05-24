@@ -76,8 +76,8 @@ public class TfAssociate implements java.io.Serializable {
 	private Timestamp clientStartDate;
 	
 	@XmlElement
-	@Column(name = "TF_ISAPPROVED")
-	private Integer isApproved;
+	@Column(name = "TF_ISAPPROVED", nullable = false)
+	private Integer isApproved = 0; // default is Zero not approved
 
 	
 

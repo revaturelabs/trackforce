@@ -1,71 +1,7 @@
 <app-navbar [associate]="associate"></app-navbar>
 <div class="container">
-  <div class="row">
-    <div class="col-lg-6">
-      <h3>Your Information</h3>
-      <div class="table-responsive info">
-        <table class="table table-hover table-bordered">
-          <tbody>
-            <tr>
-              <td>Associate ID</td>
-              <td>{{associate.id}}</td>
-            </tr>
-            <tr>
-              <td>First Name</td>
-              <td>{{associate.firstName}}</td>
-            </tr>
-            <tr>
-              <td>Last Name</td>
-              <td>{{associate.lastName}}</td>
-            </tr>
-            <tr>
-              <td>Marketing Status</td>
-              <td>{{associate.marketingStatus}}</td>
-            </tr>
-            <tr>
-              <td>Batch Name</td>
-              <td>{{associate.batchName}}</td>
-            </tr>
-            <tr>
-              <td>Client Name</td>
-              <td>{{associate.client}}</td>
-            </tr>
-            <tr>
-              <td>End Client Name</td>
-              <td>{{associate.endClientName}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <h3>Your Sent Messages</h3>
-      <div class="table-responsive">
-        <table class="table table-hover table-bordered">
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Message</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let message of messages; let j=index">
-              <td>{{j+1}}</td>
-              <td>{{message}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <form>
-        <h4>Send Request to Trainer</h4>
-        <div class="form-group">
-          <label for="client">Message:</label>
-          <textarea name="message" rows="4" cols="80"
-            [(ngModel)]="newMessage"
-            placeholder="Write your message here"></textarea>
-          <button (click)="sendMessage()" class="btn btn-warning">Send Request</button>
-        </div>
-      </form>
-    </div>
-    <!-- <div class="col-lg-6">
+  <div>
+     <div>
       <h3>Interviews</h3>
       <table class="table table-responsive table-hover table-bordered">
         <thead>
@@ -128,7 +64,6 @@
         </div>
       </div>
     </div>
-  </div> -->
-</div>
+  </div> 
 </div>
 <app-footer></app-footer>

@@ -18,6 +18,7 @@ import { BatchListComponent } from './components/batch-list/batch-list.component
 import { ClientMappedComponent } from './components/client-mapped/client-mapped.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 import { ClientListComponent } from './components/client-list/client-list.component';
 import { FormComponent } from './components/form-component/form.component';
 import { FooterComponent } from './components/footer/footer/footer.component';
@@ -29,6 +30,7 @@ import { BatchDetailsComponent } from './components/batch-details/batch-details.
 import { AssociateViewComponent } from './components/associate-view/associate-view.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PredictionsComponent } from './components/predictions/predictions.component';
+import { MyInterviewComponent } from './components/myinterview-view/myinterview-view.component';
 
 ///
 //  SERVICES
@@ -76,6 +78,7 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     FormComponent,
     ClientListComponent,
     LoginComponent,
+    RegisterComponent,
     CreateUserComponent,
     SearchFilterPipe,
     BatchDetailsComponent,
@@ -86,7 +89,8 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     RouterOutletStubComponent,
     FooterComponent,
     NotFoundComponent,
-    PredictionsComponent
+    PredictionsComponent,
+    MyInterviewComponent
   ],
   imports: [
     BrowserModule,

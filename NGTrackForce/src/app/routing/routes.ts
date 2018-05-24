@@ -8,6 +8,7 @@ import {FormComponent} from '../components/form-component/form.component';
 import {HomeComponent} from '../components/home/home.component';
 import {ClientListComponent} from '../components/client-list/client-list.component';
 import {LoginComponent} from '../components/login/login.component';
+import {RegisterComponent} from '../components/register/register.component';
 import {ClientMappedComponent} from '../components/client-mapped/client-mapped.component';
 import {AssociateListComponent} from '../components/associate-list/associate-list.component';
 import {BatchListComponent} from '../components/batch-list/batch-list.component';
@@ -18,7 +19,7 @@ import {BatchDetailsComponent} from '../components/batch-details/batch-details.c
 import {AssociateViewComponent } from '../components/associate-view/associate-view.component';
 import {NotFoundComponent} from '../components/not-found/not-found.component';
 import {PredictionsComponent} from '../components/predictions/predictions.component';
-
+import {MyInterviewComponent} from '../components/myinterview-view/myinterview-view.component';
 import { AuthGuard } from '../guards/auth.guard';
 
 /**
@@ -39,6 +40,10 @@ export const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   },
   {
     path: 'client-listing',
@@ -77,7 +82,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'create-user',
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     component: CreateUserComponent
   },
   {
@@ -99,6 +104,11 @@ export const appRoutes: Routes = [
     path: 'associate-view/:id',
     canActivate: [AuthGuard],
     component: AssociateViewComponent
+  },
+  {
+  	path: 'myinterview-view/:id',
+  	canActivate: [AuthGuard],
+  	component: MyInterviewComponent
   },
   {
     // must be LAST in this array because this matches all other paths (fallback)

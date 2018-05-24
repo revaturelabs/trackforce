@@ -106,6 +106,20 @@ public class TfAssociate implements java.io.Serializable {
 	}
 
 
+	/**
+	 * @return the isApproved
+	 */
+	public Integer getIsApproved() {
+		return isApproved;
+	}
+
+	/**
+	 * @param isApproved the isApproved to set
+	 */
+	public void setIsApproved(Integer isApproved) {
+		this.isApproved = isApproved;
+	}
+
 	public Integer getTfAssociateId() {
 		return this.tfAssociateId;
 	}

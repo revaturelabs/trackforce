@@ -75,23 +75,6 @@ public class TfAssociate implements java.io.Serializable {
 	@Column(name = "TF_CLIENT_START_DATE")
 	private Timestamp clientStartDate;
 	
-	//unmapped field: private static StatusInfo totals = new StatusInfo(); -not featured
-	
-	//private BigDecimal bid;
-	//private String batchName;
-	
-	//private BigDecimal msid;
-	//private String marketingStatus;
-	
-	//private BigDecimal clid;
-	//private String client;
-	
-	//private BigDecimal ecid;
-	//private String endClient;
-	
-	//private BigDecimal curid;     -not featured
-	//private String curriculumName;  -not featured
-	
 
 	public TfAssociate() {
 	}

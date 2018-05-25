@@ -11,6 +11,11 @@ exports.config = {
     './e2e/create-user/create-user.e2e-spec.ts',
     './e2e/client-list/client-list-spec.ts',
     './e2e/app/app.e2e-spec.ts',
+    './e2e/associate-list/associate-list.js', 
+    './e2e/associate-list/associate-list-search.js', 
+    './e2e/associate-list/associate-list-status.js',
+    './e2e/associate-list/associate-list-curriculum.js', 
+    './e2e/associate-list/associate-list-client'
     //'./e2e/batch-list/batch-list.e2e-spec.ts',
   ],
   capabilities: {

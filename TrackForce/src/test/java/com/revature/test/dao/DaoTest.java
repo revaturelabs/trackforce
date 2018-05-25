@@ -7,7 +7,7 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
 public class DaoTest {
-	static final Logger logger = Logger.getLogger(LogUtil.class);
+	static final Logger logger = Logger.getLogger(DaoTest.class);
 
 	@Test
 	public void daoTest() {

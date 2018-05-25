@@ -65,9 +65,9 @@ public class BatchResource {
 	 * @return
 	 */
 	public Response getAllBatches(@DefaultValue("1510549200000") @QueryParam("start") Long startDate,
-			@DefaultValue("1527480000000") @QueryParam("end") Long endDate
+		@DefaultValue("1527480000000") @QueryParam("end") Long endDate
 	// , @DefaultValue("null") @QueryParam("curriculum") String curriculum
-	) {
+		) {
 
 		logger.info("getAllBatches(): " + "");
 		List<BatchInfo> result = service.getBatches(startDate, endDate);
@@ -94,8 +94,8 @@ public class BatchResource {
 	@GET
 	@Path("curriculum/{curriculum}")
 	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum, @QueryParam("start") Long startDate,
-			@QueryParam("end") Long endDate) {
-		logger.info("Curriculum: " + curriculum);
+		@QueryParam("end") Long endDate) {
+		logger.info("getBatchesByCurriculum(): " + curriculum);
 		if (startDate != null && endDate != null) {
 			logger.info("start = " + new Timestamp(startDate));
 			logger.info("end = " + new Timestamp(endDate));
@@ -126,7 +126,7 @@ public class BatchResource {
 		return Response.ok(service.getAssociatesForBranch(id)).build();
 	}
 
-	// test method: returns ["Yuvi1804", 25]
+	// test method: returns ["Yuvi1804", 25],["wills batch", 14] every time
 	@GET
 	@Path("/adam")
 	public Response getSomeBatches() {

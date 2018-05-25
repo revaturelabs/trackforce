@@ -32,7 +32,19 @@ export class PredictionsComponent implements OnInit {
   ngOnInit() {
     this.getListofCurricula();
     //console.log(this.ps.getPrediction(1495670400000,1527258311885,[]));
-    console.log("ksjdhfkjasdhfjsdhfhsdkjfhsdjffhjhfskajff");
+    console.log("before");
+    let test = this.ps.getBatchesByCurricula(1,2,"").subscribe(data =>{
+      console.log(data);
+
+    },er =>{
+
+
+
+    });
+
+
+   // console.log(test);
+    console.log("after");
   }
 
   toggleCheckboxes() {

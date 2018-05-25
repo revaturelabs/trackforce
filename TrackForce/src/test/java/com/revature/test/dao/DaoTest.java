@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.testng.annotations.Test;
 
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 
 public class DaoTest {
 	static final Logger logger = Logger.getLogger(DaoTest.class);

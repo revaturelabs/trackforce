@@ -18,10 +18,8 @@ import org.hibernate.query.Query;
 import com.revature.entity.TfBatch;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
-import com.revature.resources.BatchResource;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 /**

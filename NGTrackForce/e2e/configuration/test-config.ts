@@ -7,7 +7,7 @@ export class TestConfig{
     constructor() {
         this.baseURL = 'http://localhost:4200/';
 		//this.baseURL = ' http://52.207.66.231:4200/';
-    }
+}
 
     /**
      * Returns the base URL used by Jasmine for testing

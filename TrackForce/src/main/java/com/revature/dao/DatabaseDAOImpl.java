@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import javax.persistence.StoredProcedureQuery;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 public class DatabaseDAOImpl {
-	static final Logger logger = Logger.getLogger(DatabaseDAOImpl.class);
+	
 	public String deleteAll(Session session) throws HibernateException, IOException {
 		return runStoredProcedure("admin.truncateAllDevTeam", "Database Emptied Successfully", "Database Empty Error",
 				session);

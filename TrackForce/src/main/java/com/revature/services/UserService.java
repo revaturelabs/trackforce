@@ -3,7 +3,7 @@ package com.revature.services;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -19,7 +19,7 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.PasswordStorage;
 
 public class UserService {
-	static final Logger logger = Logger.getLogger(UserService.class);
+	
 
     private JWTService jwtService;
     private UserDAO userDao;

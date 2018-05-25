@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -44,7 +44,7 @@ import io.swagger.annotations.ApiParam;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AssociateResource {
-	static final Logger logger = Logger.getLogger(AssociateResource.class);
+	
 	private AssociateService service = new AssociateService();
 
 	/**

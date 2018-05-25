@@ -1,7 +1,7 @@
 package com.revature.runnable;
 
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDaoHibernate;
@@ -16,7 +16,7 @@ import com.revature.dao.MarketingStatusDaoHibernate;
  * @author Antony Lulciuc
  */
 public class PSDCacheRunner implements Runnable {
-	static final Logger logger = Logger.getLogger(PSDCacheRunner.class);
+	
 	public static final long DEFAULT_CACHE_START = 30000;
 	private long delayedStartTime = DEFAULT_CACHE_START;
 	

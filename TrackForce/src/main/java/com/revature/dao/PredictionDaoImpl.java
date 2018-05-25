@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -13,7 +13,7 @@ import com.revature.request.model.AssociatesWithTech;
 import com.revature.utils.HibernateUtil;
 
 public class PredictionDaoImpl implements PredictionDao {
-	static final Logger logger = Logger.getLogger(PredictionDaoImpl.class);
+	
 	
 	private List<AssociatesWithTech> my_query;
 

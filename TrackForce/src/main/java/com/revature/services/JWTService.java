@@ -7,7 +7,7 @@ import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -34,7 +34,7 @@ import io.jsonwebtoken.SignatureException;
  *
  */
 public class JWTService {
-	static final Logger logger = Logger.getLogger(JWTService.class);
+	
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 1000L;
 

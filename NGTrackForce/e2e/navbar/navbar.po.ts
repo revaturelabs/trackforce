@@ -3,36 +3,29 @@ import { browser, by, element } from 'protractor';
 export class Navbar {
 
     navigateTo(){
-        return browser.get('');
+        return browser.get('/');
     }
 
     goToHome(){
-        element(by.css('[routerlink="/root"]')).click();
+        element(by.css('[routerlink="/home"]')).click();
     }
 
     goToClientList(){
-        element(by.css('[routerlink="/client-listing"]')).click();
+        element(by.css('[routerlink="/clientListing"]')).click();
     }
 
     goToBatchList(){
-        element(by.css('[routerlink="/batch-listing"]')).click();
+        element(by.css('[routerlink="/batchListing"]')).click();
     }
 
     goToAssociateList(){
-        element(by.css('[routerlink="/associate-listing"]')).click();
+        element(by.css('[routerlink="/associateListing"]')).click();
     }
 
     logout(){
         element(by.css('[(click)="logout()"]')).click();
     }
 
-    goToCreateUser(){
-        element(by.css('[routerlink="/create-user"]')).click();
-    }
-
-    goToPredictions(){
-        element(by.css('[routerlink="/predictions"]')).click();
-    }
     getCurrentURL(){
         console.log(browser.getCurrentUrl());
         return browser.getCurrentUrl();

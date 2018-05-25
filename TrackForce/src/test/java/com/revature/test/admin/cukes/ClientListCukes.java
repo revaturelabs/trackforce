@@ -13,9 +13,12 @@ import com.revature.test.utils.TestConfig;
 
 public class ClientListCukes extends AdminSuite {
 	static WebElement e = null;
-
-	static String firstClient = null; //first client at top of client list initially on page load
-	static String secondClient = null; //second client at top of client list initially on page load
+	
+	// ClientListCukes requires at least 2 clients in the list to work properly
+    //	static String firstClient = ClientListTab.getClientNameFromList(wd, 1).getText();
+    //	static String secondClient = ClientListTab.getClientNameFromList(wd, 2).getText();
+	static String firstClient = null;
+	static String secondClient = null;
 	static String currentClient = null; //current client that is being searched for or viewed
 	
 	@Given("^I click on Client List Tab$")
@@ -33,7 +36,6 @@ public class ClientListCukes extends AdminSuite {
 	@Given("^Client List Tab loads$")
 	public static boolean client_list_tab_loads(WebDriver d) {
 		try {
-			Thread.sleep(500);
 			if (ClientListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/client-listing") ||
 					ClientListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/client-list")) {
 				return true;
@@ -49,17 +51,16 @@ public class ClientListCukes extends AdminSuite {
 	@Given("^Client List panel loads$")
 	public static boolean client_list_panel_loads(WebDriver d) {
 		try {
-			firstClient = ClientListTab.getClientNameFromList(d, 1).getText();
-			secondClient = ClientListTab.getClientNameFromList(d, 2).getText();
-			System.out.println("Current client: " + currentClient);
-			System.out.println("First client: " + firstClient);
-			System.out.println("Second client: " + secondClient);
+			firstClient = ClientListTab.getClientNameFromList(wd, 1).getText();
+			secondClient = ClientListTab.getClientNameFromList(wd, 2).getText();
 			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to get first and second client from list");
 			return false;
 		}
 	}
+	
+	
 	
 	@When("^I make sure the search bar is blank$")
 	public static boolean search_bar_is_blank(WebDriver d) {
@@ -81,11 +82,9 @@ public class ClientListCukes extends AdminSuite {
 	@When("^I type the name of a client into the search bar$")
 	public static boolean search_by_client_name(WebDriver d) {
 		try {
-			Thread.sleep(1000);
 			currentClient = secondClient;
-			search_bar_is_blank(d);
 			ClientListTab.getClientSearchBox(d).sendKeys(currentClient);
-			Thread.sleep(1000);
+			Thread.sleep(500);
 			if (ClientListTab.getClientSearchBar(d).getAttribute("value").equals(currentClient)){
 				return true;
 			}
@@ -100,10 +99,9 @@ public class ClientListCukes extends AdminSuite {
 	@When("^I want to enter a different client name into the search bar instead$")
 	public static boolean search_by_another_client_name(WebDriver d) {
 		try {
-			Thread.sleep(1000);
-			currentClient = ClientListTab.getClientNameFromList(d, 1).getText();
+			currentClient = firstClient;
 			search_bar_is_blank(d);
-			Thread.sleep(1000);
+			Thread.sleep(500);
 			ClientListTab.getClientSearchBox(d).sendKeys(currentClient);
 			Thread.sleep(500);
 			if (ClientListTab.getClientSearchBar(d).getAttribute("value").equals(currentClient)){
@@ -121,7 +119,7 @@ public class ClientListCukes extends AdminSuite {
 	@When("^I see only that client in the list$")
 	public static boolean client_should_be_at_top_of_search_results(WebDriver d) {
 		try {
-			Thread.sleep(1000);
+			// if the client name at the top of the list matches the value of secondClient, return true
 			if (ClientListTab.getClientNameFromList(d, 1).getText().equals(currentClient)) {
 				return true;
 			}
@@ -134,10 +132,10 @@ public class ClientListCukes extends AdminSuite {
 	}
 	
 	@When("^I click the top client in the Clients list$")
-	public static boolean click_client_in_client_list(WebDriver d) {
+	public static boolean click_client_in_search_results(WebDriver d) {
 		try {
-			Thread.sleep(1000);
-			currentClient = ClientListTab.getClientNameFromList(d, 1).getText();
+			// click the first client name from list
+			currentClient = ClientListTab.getClientNameFromList(wd, 1).getText();
 			ClientListTab.getClientNameFromList(d, 1).click();
 			return true;
 		} catch (Throwable e) {
@@ -148,18 +146,17 @@ public class ClientListCukes extends AdminSuite {
 	
 	@Then("^The client's data should show in the graph$")
 	public static boolean client_data_shows_in_graph(WebDriver d) {
-		WebElement header = null;		
 		try {
-			Thread.sleep(1000);
-			header = ClientListTab.getBarChartHeader(d);
+
+			Thread.sleep(500);
 			if (ClientListTab.getBarChartHeader(d).getText().equals(currentClient)){
 				return true;
 			}
-			//This "else if" hardcodes the getBarChartHeader(d).getText() return value which is A1 KAISER, INC, 
-			//	since there is a weird problem with Selenium returning blank 
-			//	when you try to use getText() on the header
-			else if (("A1 KAISER, Inc").equals(currentClient)){
-				return true;
+			else { //Wait even longer, then check to see if header is updated now
+				Thread.sleep(1000);
+				if (ClientListTab.getBarChartHeader(d).getText().equals(currentClient)) {
+					return true;
+				}
 			}
 			System.out.println("Graph is not displaying the selected client's data");
 			return false;
@@ -182,12 +179,18 @@ public class ClientListCukes extends AdminSuite {
 	}
 	
 	@Then("^All clients' data should show in the graph$")
-	public static boolean all_client_data_shows_in_graph(WebDriver d) {
+	public static boolean Total_Associates_header_is_visible(WebDriver d) {
 		try {
+			// if the bar chart header contains "Total Associates", return true
 			Thread.sleep(500);
-			if (ClientListTab.getBarChartHeader(d).getText().equals("Total Associates") ||
-					ClientListTab.getBarChartHeader(d).getText().equals("")) {
+			if (ClientListTab.getBarChartHeader(d).getText().equals("Total Associates")) {
 				return true;
+			}
+			else { //Wait even longer, then check to see if header is updated now
+				Thread.sleep(1000);
+				if (ClientListTab.getBarChartHeader(d).getText().equals("Total Associates")) {
+					return true;
+				}
 			}
 			System.out.println("Graph is not displaying all clients' data");
 			return false;

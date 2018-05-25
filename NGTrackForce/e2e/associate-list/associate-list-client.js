@@ -34,4 +34,5 @@ describe('Testing associate list via Client Search', function() {
         }
     });
 
+    wd.quit();
 });

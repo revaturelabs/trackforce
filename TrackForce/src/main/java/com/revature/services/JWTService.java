@@ -70,7 +70,7 @@ public class JWTService {
 		SignatureAlgorithm signAlgorithm = SignatureAlgorithm.HS256;
 		Key key = new SecretKeySpec(getSecret(), signAlgorithm.getJcaName());
 
-		JwtBuilder token = Jwts.builder().setSubject(username).setSubject("tfroleid").setExpiration(generateExpirationDate())
+		JwtBuilder token = Jwts.builder().setSubject(username).setId("" + tfroleid).setExpiration(generateExpirationDate())
 				.signWith(signAlgorithm, key);
 
 		return token.compact();
@@ -135,7 +135,7 @@ public class JWTService {
 	 * 
 	 * @return Claims object, or null
 	 */
-	private Claims getClaimsFromToken(String token) {
+	public Claims getClaimsFromToken(String token) {
 		Claims claims = null;
 		try {
 			claims = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();

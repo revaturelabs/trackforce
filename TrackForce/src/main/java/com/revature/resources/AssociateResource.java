@@ -36,6 +36,7 @@ import com.revature.request.model.AssociateFromClient;
 import com.revature.request.model.InterviewFromClient;
 import com.revature.services.AssociateService;
 import com.revature.services.InterviewService;
+import com.revature.services.JWTService;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
@@ -56,6 +57,7 @@ import io.swagger.annotations.ApiParam;
 @Produces(MediaType.APPLICATION_JSON)
 public class AssociateResource {
 	private AssociateService service = new AssociateService();
+	private JWTService jService = new JWTService();
 
 	/**
 	 * Gets a list of all the associates, optionally filtered by a batch id. If an
@@ -228,31 +230,29 @@ public class AssociateResource {
 	@GET
 	@Path("{associateid}/interviews")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid,@HeaderParam("Authorization") String token) {
-		String jwt = token;
 		System.out.println(token);
-		Jws<Claims> claims = null;
+		Claims claims = null;
 		System.out.println("Before the try block");
 		try {
 			System.out.println("In the try block");
-			claims = Jwts.parser()
-			  .setSigningKey("secret".getBytes("UTF-8"))
-			  .parseClaimsJws(jwt);
+			if (token == null) {
+				throw new UnsupportedJwtException("token null");
+			}
+			claims = jService.getClaimsFromToken(token);
+			System.out.println("Print claims " + claims);
+		
 		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
-				| IllegalArgumentException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+				| IllegalArgumentException | NullPointerException e) {
 			System.out.println("in the catch block");
 			e.printStackTrace();
 		}
-		String scope = (String) claims.getBody().get("tfroleid");
-		System.out.println(scope);
 		
-		if (scope.equals("1")) {
+		if (claims.getId().equals("1")) {
 			Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
 			return Response.ok(associateinfo).build();
 		} else {
 			return Response.status(403).build();
 		}
-		
 	}
 
 	@POST

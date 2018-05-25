@@ -33,7 +33,8 @@ public class InterviewDaoHibernate implements InterviewDao {
 
 	public Map<Integer, InterviewInfo> getAllInterviews() {
         Map<Integer, InterviewInfo> techs = new HashMap<>();
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<TfInterview> cq = cb.createQuery(TfInterview.class);
             Root<TfInterview> from = cq.from(TfInterview.class);
@@ -44,13 +45,17 @@ public class InterviewDaoHibernate implements InterviewDao {
 
             LogUtil.logger.error(e);
         }
-        return techs;
+        finally {
+        	session.close();
+		}
+		return techs;
     }
 
 	@Override
 	public Map<Integer, InterviewInfo> getInterviewsByAssociate(int associateId) throws IOException {
 		 Map<Integer, InterviewInfo> interviews = null;
-	        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+	        try {
 	            CriteriaBuilder builder = session.getCriteriaBuilder();
 	            CriteriaQuery<TfInterview> criteriaQuery = builder.createQuery(TfInterview.class);
 	            Root<TfInterview> root = criteriaQuery.from(TfInterview.class);
@@ -60,7 +65,10 @@ public class InterviewDaoHibernate implements InterviewDao {
 	        } catch (NoResultException nre) {
 	            LogUtil.logger.error(nre);
 	        }
-	        return interviews;
+	        finally {
+	        	session.close();
+			}
+			return interviews;
 	}
 
 	public Map<Integer, InterviewInfo> createInterviewMap(List<TfInterview> interviews){   // works in tandem with 'getInterviewByAssociate()' method
@@ -90,7 +98,8 @@ public class InterviewDaoHibernate implements InterviewDao {
 	@Override
 	public void addInterviewForAssociate(int associateid, InterviewFromClient ifc) {
 		Transaction t1 = null;
-		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
 			t1 = session.beginTransaction();
 			TfInterview tfi = new TfInterview();
 			String sql = "SELECT MAX(tf_interview_id) FROM admin.tf_interview";
@@ -117,5 +126,8 @@ public class InterviewDaoHibernate implements InterviewDao {
         		t1.rollback();
         	}
         }
+        finally {
+			session.close();
+		}
 	}
 }

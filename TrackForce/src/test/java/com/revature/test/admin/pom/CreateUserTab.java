@@ -21,12 +21,16 @@ public class CreateUserTab {
 		return d.getCurrentUrl();
 	}
 
+	public static WebElement getTabHeader(WebDriver d) {
+		return WaitToLoad.findDynamicElement(d, By.xpath("/html/body/app/app-create-user/div/div[1]/h3"), 10);
+	}
+	
 	public static WebElement getUsername(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d, By.cssSelector("[name='username']"), 10);
 	}
 	
 	public static WebElement getPassword(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.cssSelector("[name='username']"), 10);
+		return WaitToLoad.findDynamicElement(d, By.cssSelector("[name='password']"), 10);
 	}
 
 	public static WebElement getPasswordConfirm(WebDriver d) {
@@ -45,8 +49,12 @@ public class CreateUserTab {
 		return WaitToLoad.findDynamicElement(d, By.cssSelector("[value='3']"), 10);
 	}
 
+	public static WebElement getAssociateRadio(WebDriver d) {
+		return WaitToLoad.findDynamicElement(d, By.cssSelector("[value='4']"), 10);
+	}
+	
 	public static WebElement getSubmit(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.xpath("//button"), 10);
+		return WaitToLoad.findDynamicElement(d, By.xpath("/html/body/app/app-create-user/div/div[2]/form/input[4]"), 10);
 	}
 
 }

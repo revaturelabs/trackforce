@@ -10,23 +10,22 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.revature.test.admin.pom.AssociateListTab;
+import com.revature.test.utils.TestConfig;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class AssociateListCukes {
 
-	static WebElement element = null;
+	static WebElement e = null;
 	static Set<String> searchValues = new TreeSet<String>();
 
-	@Given("^I'm on the asssociate list page$")
-	public static boolean i_m_on_the_asssociate_list_page(WebDriver driver) throws Throwable {
+	@Given("^I click on Associate List Tab$")
+	public static boolean i_am_on_the_asssociate_list_page(WebDriver driver) {
 
 		try {
-			// defines the static element which was declared at the top of the class
-			// navigates to the associate list tab, and clicks it
-			element = AssociateListTab.tab(driver);
-			element.click();
+			Thread.sleep(1500);
+			AssociateListTab.getAssociateListTab(driver).click();
 			System.out.println("Clicked Associate List tab");
 			return true;
 		} catch (Throwable e) {
@@ -36,38 +35,56 @@ public class AssociateListCukes {
 
 	}
 
+	@Given("^Associate List Tab loads$")
+	public static boolean associate_list_tab_loads(WebDriver d) {
+		try {
+			Thread.sleep(500);
+			if (AssociateListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/associate-listing")
+					|| AssociateListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/associate-list")) {
+				return true;
+			}
+			System.out.println("Current URL does not end with /associate-listing or /associate-list");
+			return false;
+		} catch (Throwable e) {
+			System.out.println("Failed to get current URL");
+			return false;
+		}
+	}
+
 	// *************** FILTERING BY SEARCH ***************
 
 	// **************FILTER BY SEARCHING ASSOCIATE ID **********************
 	@Given("^I know the associates ids$")
 	public static void i_know_the_associates_ids(WebDriver driver) throws Throwable {
-		// creates an arrayList of web elements and populates it with the associate ids
 		List<WebElement> filteredListElements = new ArrayList<>();
-		filteredListElements = AssociateListTab.associateIdList(driver);
-
-		// loops through the just created arrayList and gets the text associated with each element
-		for (WebElement element : filteredListElements) {
-			searchValues.add(element.getText());
+		try {
+			filteredListElements = AssociateListTab.associateIdList(driver);
+			for (WebElement e : filteredListElements) {
+				searchValues.add(e.getText());
+			}
 		}
+		catch (Throwable e) {
+			System.out.println("Failed to get filtered associate list");
+		}
+
+		
 	}
 
 	@When("^I input the associate id in the search by input field$")
 	public static boolean i_input_the_associate_id_in_the_search_by_input_field(WebDriver driver) throws Throwable {
 		boolean isFiltered = false;
-		
-		// defines the static element which was declared at the top of the class
-		element = AssociateListTab.searchByTextInputField(driver);
+		e = AssociateListTab.searchByTextInputField(driver);
 
 		i_know_the_associates_ids(driver);
 
 		// loops through each element and grabs each id, then filters by a specific id
 		try {
 			for (String id : searchValues) {
-				element.sendKeys(id);
+				e.sendKeys(id);
 				System.out.println("Filter by searching id: " + id);
 				// check to see if table is filtered by id
 				isFiltered = the_table_is_filtered_by_that_associate_id(driver);
-				element.clear();
+				e.clear();
 			}
 
 		} catch (Throwable e) {
@@ -85,7 +102,7 @@ public class AssociateListCukes {
 
 		// loops through the list which was just created to check if the list contains the proper values  
 		for (WebElement e : filteredClients) {
-			if (!(e.getText().contains(element.getAttribute("value")))) {
+			if (!(e.getText().contains(e.getAttribute("value")))) {
 				return false;
 			}
 		}
@@ -104,9 +121,9 @@ public class AssociateListCukes {
 		filteredListElements = AssociateListTab.firstNameList(driver);
 
 		// loops through the list and adds elements which contain first names of associates
-		for (WebElement element : filteredListElements) {
+		for (WebElement e : filteredListElements) {
 			// Thread.sleep(1000);
-			searchValues.add(element.getText());
+			searchValues.add(e.getText());
 		}
 	}
 
@@ -114,21 +131,18 @@ public class AssociateListCukes {
 	public static boolean i_input_the_associate_first_name_in_the_search_by_input_field(WebDriver driver)
 			throws Throwable {
 		boolean isFiltered = false;
-		
-		// defines the static element which was declared at the top of the class
-		// accesses the search by text input field
-		element = AssociateListTab.searchByTextInputField(driver);
+		e = AssociateListTab.searchByTextInputField(driver);
 
 		i_know_associates_first_name(driver);
 
 		try {
 			//loops through searchValues tree and sends the first names, then checks to see if the list is filtered properly
 			for (String firstName : searchValues) {
-				element.sendKeys(firstName);
+				e.sendKeys(firstName);
 				System.out.println("Filter by searching first name: " + firstName);
 				// check to see if table is filtered by first name
 				isFiltered = the_table_is_filtered_by_that_first_name(driver);
-				element.clear();
+				e.clear();
 			}
 
 		} catch (Throwable e) {
@@ -146,7 +160,7 @@ public class AssociateListCukes {
 
 		// loops through the filteredClients list and checks whether the table is filtered by the first name
 		for (WebElement e : filteredClients) {
-			if (!(e.getText().contains(element.getAttribute("value")))) {
+			if (!(e.getText().contains(e.getAttribute("value")))) {
 				return false;
 			}
 		}
@@ -165,10 +179,9 @@ public class AssociateListCukes {
 		// populates the list with associate last names
 		filteredListElements = AssociateListTab.lastNameList(driver);
 
-		// loops through the list and adds elements which contain last names of associates
-		for (WebElement element : filteredListElements) {
+		for (WebElement e : filteredListElements) {
 			// Thread.sleep(1000);
-			searchValues.add(element.getText());
+			searchValues.add(e.getText());
 		}
 	}
 
@@ -176,20 +189,17 @@ public class AssociateListCukes {
 	public static boolean i_input_the_associate_last_name_in_the_search_by_input_field(WebDriver driver)
 			throws Throwable {
 		boolean isFiltered = false;
-		
-		// defines the static element which was declared at the top of the class
-		// accesses the search by text input field
-		element = AssociateListTab.searchByTextInputField(driver);
+		e = AssociateListTab.searchByTextInputField(driver);
 
 		i_know_associates_last_name(driver);
 
 		try {
 			//loops through searchValues tree and sends the last names, then checks to see if the list is filtered properly
 			for (String lastName : searchValues) {
-				element.sendKeys(lastName);
+				e.sendKeys(lastName);
 				System.out.println("Filter by searching last name: " + lastName);
 				isFiltered = the_table_is_filtered_by_that_last_name(driver);
-				element.clear();
+				e.clear();
 			}
 
 		} catch (Throwable e) {
@@ -207,7 +217,7 @@ public class AssociateListCukes {
 
 		// loops through the filteredClients list and checks whether the table is filtered by the last name
 		for (WebElement e : filteredLastName) {
-			if (!(e.getText().contains(element.getAttribute("value")))) {
+			if (!(e.getText().contains(e.getAttribute("value")))) {
 				return false;
 			}
 			System.out.println("Found last name in table");
@@ -225,10 +235,9 @@ public class AssociateListCukes {
 
 		filteredListElements = AssociateListTab.marketingStatusList(driver);
 
-		// loops through the list and adds elements which contain the marketing status of associates
-		for (WebElement element : filteredListElements) {
+		for (WebElement e : filteredListElements) {
 			// Thread.sleep(1000);
-			searchValues.add(element.getText());
+			searchValues.add(e.getText());
 		}
 	}
 
@@ -236,20 +245,17 @@ public class AssociateListCukes {
 	public static boolean i_input_the_associate_marketing_status_in_the_search_by_input_field(WebDriver driver)
 			throws Throwable {
 		boolean isFiltered = false;
-		
-		// defines the static element which was declared at the top of the class
-		// accesses the search by text input field
-		element = AssociateListTab.searchByTextInputField(driver);
+		e = AssociateListTab.searchByTextInputField(driver);
 
 		i_know_associates_marketing_status(driver);
 
 		try {
 			//loops through searchValues tree and sends the marketing status, then checks to see if the list is filtered properly
 			for (String status : searchValues) {
-				element.sendKeys(status);
+				e.sendKeys(status);
 				System.out.println("Filter by searching marketing status: " + status);
 				isFiltered = the_table_is_filtered_by_that_marketing_status(driver);
-				element.clear();
+				e.clear();
 			}
 
 		} catch (Throwable e) {
@@ -264,7 +270,7 @@ public class AssociateListCukes {
 		List<WebElement> filteredStatus = AssociateListTab.marketingStatusList(driver);
 
 		for (WebElement e : filteredStatus) {
-			if (!(e.getText().contains(element.getAttribute("value")))) {
+			if (!(e.getText().contains(e.getAttribute("value")))) {
 				return false;
 			}
 			System.out.println("Found status in table");
@@ -283,9 +289,9 @@ public class AssociateListCukes {
 
 		filteredListElements = AssociateListTab.clientNameList(driver);
 
-		for (WebElement element : filteredListElements) {
+		for (WebElement e : filteredListElements) {
 			// Thread.sleep(1000);
-			searchValues.add(element.getText());
+			searchValues.add(e.getText());
 		}
 	}
 
@@ -293,17 +299,17 @@ public class AssociateListCukes {
 	public static boolean i_input_the_client_name_in_the_search_by_input_field(WebDriver driver) throws Throwable {
 
 		boolean isFiltered = false;
-		element = AssociateListTab.searchByTextInputField(driver);
+		e = AssociateListTab.searchByTextInputField(driver);
 
 		i_know_the_clients(driver);
 
 		try {
 			for (String client : searchValues) {
-				element.sendKeys(client);
+				e.sendKeys(client);
 				System.out.println("Filter by searching client name: " + client);
 				// check to see if table is filtered by client name
 				isFiltered = the_table_is_filtered_by_that_client(driver);
-				element.clear();
+				e.clear();
 			}
 
 		} catch (Throwable e) {
@@ -316,12 +322,12 @@ public class AssociateListCukes {
 	@Then("^the table is filtered by that client$")
 	public static boolean the_table_is_filtered_by_that_client(WebDriver driver) throws Throwable {
 		List<WebElement> filteredClients = AssociateListTab.clientNameList(driver);
-		element = AssociateListTab.searchByTextInputField(driver);
+		e = AssociateListTab.searchByTextInputField(driver);
 
 		try {
 			for (WebElement e : filteredClients) {
 
-				if (!(e.getText().contains(element.getAttribute("value")))) {
+				if (!(e.getText().contains(e.getAttribute("value")))) {
 					return false;
 				}
 
@@ -339,25 +345,25 @@ public class AssociateListCukes {
 
 		filteredListElements = AssociateListTab.batchNameList(driver);
 
-		for (WebElement element : filteredListElements) {
+		for (WebElement e : filteredListElements) {
 			// Thread.sleep(1000);
-			searchValues.add(element.getText());
+			searchValues.add(e.getText());
 		}
 	}
 
 	@When("^I input the associate batch in the search by input field$")
 	public static boolean i_input_the_associate_batch_in_the_search_by_input_field(WebDriver driver) throws Throwable {
 		boolean isFiltered = false;
-		element = AssociateListTab.searchByTextInputField(driver);
+		e = AssociateListTab.searchByTextInputField(driver);
 
 		i_know_associates_batch_name(driver);
 
 		try {
 			for (String batch : searchValues) {
-				element.sendKeys(batch);
+				e.sendKeys(batch);
 				System.out.println("Filter by searching batch name: " + batch);
 				isFiltered = the_table_is_filtered_by_that_batch_name(driver);
-				element.clear();
+				e.clear();
 			}
 
 		} catch (Throwable e) {
@@ -372,7 +378,7 @@ public class AssociateListCukes {
 		List<WebElement> filteredBatch = AssociateListTab.batchNameList(driver);
 
 		for (WebElement e : filteredBatch) {
-			if (!(e.getText().contains(element.getAttribute("value")))) {
+			if (!(e.getText().contains(e.getAttribute("value")))) {
 				return false;
 			}
 			System.out.println("Found batch name in table");
@@ -394,37 +400,36 @@ public class AssociateListCukes {
 	public static boolean i_select_a_curriculum_value_from_the_curriculum_drop_down(WebDriver driver) throws Throwable {
 
 		try {
-			element = AssociateListTab.curriculumDropDown(driver);
-			element.sendKeys(".NET");
+			e = AssociateListTab.curriculumDropDown(driver);
+			e.sendKeys(".NET");
 			return true;
 		} catch (Throwable e) {
 			return false;
 		}
-		
+
 	}
 
 	@Then("^the table is filtered by that curriculum$")
 	public static boolean the_table_is_filtered_by_that_curriculum(WebDriver driver) throws Throwable {
 		List<WebElement> filteredBatch = AssociateListTab.batchNameList(driver);
-		element = AssociateListTab.marketingStatusDropDown(driver);
+		e = AssociateListTab.marketingStatusDropDown(driver);
 		for (WebElement e : filteredBatch) {
-			if (!(e.getText().contains(element.getAttribute("value")))) {
+			if (!(e.getText().contains(e.getAttribute("value")))) {
 				return false;
 			}
 			System.out.println("Found batch name in table");
 		}
 
 		return true;
-		
+
 	}
 
-	
 	@When("^I select a client value from the client drop down$")
 	public static boolean i_select_a_client_value_from_the_client_drop_down(WebDriver driver) throws Throwable {
 		try {
 			Thread.sleep(2000);
-			element = AssociateListTab.clientUpdateDropDown(driver);
-			element.sendKeys("Revature LLC");
+			e = AssociateListTab.clientUpdateDropDown(driver);
+			e.sendKeys("Revature LLC");
 			System.out.println("Selected value from Client drop down");
 			Thread.sleep(2000);
 			return true;
@@ -435,14 +440,13 @@ public class AssociateListCukes {
 
 	}
 
-	
 	@When("^I select a update by marketing status value from the update by marketing status drop down$")
 	public static boolean i_select_a_update_by_marketing_status_value_from_the_update_by_marketing_status_drop_down(
 			WebDriver driver) throws Throwable {
 		try {
 			Thread.sleep(2000);
-			element = AssociateListTab.updateByMarketingStatusDropDown(driver);
-			element.sendKeys("MAPPED: RESERVED");
+			e = AssociateListTab.updateByMarketingStatusDropDown(driver);
+			e.sendKeys("MAPPED: RESERVED");
 			System.out.println("Selected value from Marketing Status drop down");
 			Thread.sleep(2000);
 			return true;
@@ -452,13 +456,12 @@ public class AssociateListCukes {
 		}
 	}
 
-	
 	@When("^I click an associate checkbox$")
 	public static boolean i_click_an_associate_checkbox(WebDriver driver) throws Throwable {
 		try {
 			Thread.sleep(2000);
-			element = AssociateListTab.editCheckBox(driver);
-			element.click();
+			e = AssociateListTab.editCheckBox(driver);
+			e.click();
 			System.out.println("Clicked on the edit associate checkbox");
 			Thread.sleep(2000);
 			return true;
@@ -467,29 +470,27 @@ public class AssociateListCukes {
 			return false;
 		}
 	}
-	 
 
 	@When("^I click the update button$")
 	public static boolean i_click_the_update_button(WebDriver driver) throws Throwable {
 		try {
 			Thread.sleep(2000);
-			element = AssociateListTab.updateButton(driver);
-			element.click();
+			e = AssociateListTab.updateButton(driver);
+			e.click();
 			System.out.println("Clicked update button");
 			Thread.sleep(4000);
 			return true;
-			}catch(Throwable e) {
-				System.out.println("Failed to click update button");
+		} catch (Throwable e) {
+			System.out.println("Failed to click update button");
 			return false;
-			}
+		}
 	}
 
-	
 	@Then("^the information is updated$")
 	public static String the_information_is_updated(WebDriver driver) throws Throwable {
-		String text =AssociateListTab.MarketingStatusText(driver).getText();
+		String text = AssociateListTab.MarketingStatusText(driver).getText();
 		return text;
-		
+
 	}
 
 	// *******************SORTING CUKES ***************************************
@@ -500,8 +501,8 @@ public class AssociateListCukes {
 	public static boolean i_click_the_associate_id_heading_on_the_associate_table(WebDriver driver) throws Throwable {
 
 		try {
-			element = AssociateListTab.sortByAssociateId(driver);
-			element.click();
+			e = AssociateListTab.sortByAssociateId(driver);
+			e.click();
 			System.out.println("Clicked sort by associate id");
 			return true;
 		} catch (Throwable e) {
@@ -582,8 +583,8 @@ public class AssociateListCukes {
 	public static boolean i_click_the_first_name_heading_on_the_associate_table(WebDriver driver) throws Throwable {
 
 		try {
-			element = AssociateListTab.sortByFirstName(driver);
-			element.click();
+			e = AssociateListTab.sortByFirstName(driver);
+			e.click();
 			System.out.println("Clicked first name heading");
 			return true;
 		} catch (Throwable e) {
@@ -664,8 +665,8 @@ public class AssociateListCukes {
 	public static boolean i_click_the_last_name_heading_on_the_associate_table(WebDriver driver) throws Throwable {
 
 		try {
-			element = AssociateListTab.sortByLastName(driver);
-			element.click();
+			e = AssociateListTab.sortByLastName(driver);
+			e.click();
 			System.out.println("Clicked last name heading");
 			return true;
 		} catch (Throwable e) {
@@ -749,8 +750,8 @@ public class AssociateListCukes {
 			throws Throwable {
 
 		try {
-			element = AssociateListTab.sortByMarketingStatus(driver);
-			element.click();
+			e = AssociateListTab.sortByMarketingStatus(driver);
+			e.click();
 			System.out.println("Clicked marketing status");
 			return true;
 		} catch (Throwable e) {
@@ -831,8 +832,8 @@ public class AssociateListCukes {
 	public static boolean i_click_the_client_name_heading_on_the_associate_table(WebDriver driver) throws Throwable {
 
 		try {
-			element = AssociateListTab.sortByClient(driver);
-			element.click();
+			e = AssociateListTab.sortByClient(driver);
+			e.click();
 			System.out.println("Clicked client name heading");
 			return true;
 		} catch (Throwable e) {
@@ -913,8 +914,8 @@ public class AssociateListCukes {
 	public static boolean i_click_the_batch_name_heading_on_the_associate_table(WebDriver driver) throws Throwable {
 
 		try {
-			element = AssociateListTab.sortByBatch(driver);
-			element.click();
+			e = AssociateListTab.sortByBatch(driver);
+			e.click();
 			System.out.println("Clicked batch name heading");
 			return true;
 		} catch (Throwable e) {

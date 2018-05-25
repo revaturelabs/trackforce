@@ -11,6 +11,7 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -38,7 +39,8 @@ public class InterviewResource {
 	
 	
 	@GET
-	public Response getAllInterviews() throws HibernateException, IOException {
+	public Response getAllInterviews(@QueryParam("start") Long startDate,
+			@QueryParam("end") Long endDate) throws HibernateException, IOException {
 		//TODO handle exception
 		Set<InterviewInfo> interviews = is.getAllInterviews();
 		Status status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;

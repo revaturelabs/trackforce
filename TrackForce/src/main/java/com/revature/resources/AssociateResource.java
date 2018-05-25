@@ -228,10 +228,10 @@ public class AssociateResource {
 	 */
 
 	
-	@Path("/interviews") 
-	public InterviewResource getAllInterview() {
-		return new InterviewResource();
-	}
+//	@Path("/interviews") 
+//	public InterviewResource getAllInterview() {
+//		return new InterviewResource();
+//	}
 
 	@Path("{associateid}/interviews")
 	public InterviewResource addAssociateInterview() {

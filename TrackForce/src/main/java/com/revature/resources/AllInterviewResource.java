@@ -16,7 +16,10 @@ import org.hibernate.HibernateException;
 import com.revature.model.InterviewInfo;
 import com.revature.services.InterviewService;
 
+import io.swagger.annotations.Api;
+
 @Path("interviews")
+@Api(value = "AllInterviews")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AllInterviewResource {

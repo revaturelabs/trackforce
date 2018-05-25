@@ -2,7 +2,7 @@ package com.revature.model;
 
 import java.io.Serializable;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.entity.TfMarketingStatus;
@@ -11,9 +11,6 @@ import com.revature.entity.TfMarketingStatus;
  * Associate class to hold information about an associate for the batch details page.
  */
 public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
-	@JsonIgnore
-	static final Logger logger = Logger.getLogger(AssociateInfo.class);
-	
 	private static final long serialVersionUID = 6047227506797717614L;
 	private Integer id;
 	private String firstName;

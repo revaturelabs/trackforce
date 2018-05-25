@@ -1,5 +1,7 @@
 package com.revature.resources;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,8 +19,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.log4j.Logger;
-
 import com.revature.model.BatchInfo;
 import com.revature.services.BatchesService;
 
@@ -33,7 +33,7 @@ import io.swagger.annotations.Api;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BatchResource {
-	static final Logger logger = Logger.getLogger(BatchResource.class);
+	
 	private BatchesService service;
 
 	public BatchResource() {

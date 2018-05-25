@@ -14,7 +14,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -33,7 +33,7 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateDaoHibernate implements AssociateDao {
-	static final Logger logger = Logger.getLogger(AssociateDaoHibernate.class);
+	
 	private static AssociateDaoHibernate instance;
 
 	private AssociateDaoHibernate() {

@@ -10,7 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -21,7 +21,7 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.PersistentStorage;
 
 public class MarketingStatusDaoHibernate implements MarketingStatusDao {
-	static final Logger logger = Logger.getLogger(MarketingStatusDaoHibernate.class);
+	
 	
 	@Override
 	public MarketingStatusInfo getMarketingStatus(String status) {

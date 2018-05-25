@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -33,7 +34,6 @@ import com.revature.request.model.InterviewFromClient;
 import com.revature.services.AssociateService;
 import com.revature.services.InterviewService;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,6 +44,7 @@ import io.swagger.annotations.ApiParam;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AssociateResource {
+	static final Logger logger = Logger.getLogger(AssociateResource.class);
 	private AssociateService service = new AssociateService();
 
 	/**
@@ -173,7 +174,7 @@ public class AssociateResource {
 			spq.setParameter(2, startDate);
 			spq.execute();
 		} catch (Exception e) {
-			LogUtil.logger.error(e);
+			logger.error(e);
 			session.flush();
 			tx.rollback();
 		} finally {

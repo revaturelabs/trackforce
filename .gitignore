@@ -16,6 +16,14 @@ test-output/
 Servers/**
 
 .recommenders
+/.metadata/
+
+# maven
+target
+
+# IDE - Intellij
+*.iml
+/.idea/
 
 # Test files
 .tern-project
@@ -45,6 +53,7 @@ test-output/
 *.class
 
 # Log file
+TrackForcesLogs.html
 *.log
 
 # BlueJ files

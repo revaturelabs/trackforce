@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
-import { PredictionService} from '../../services/prediction-service/prediction.service';
+import { PredictionService } from '../../services/prediction-service/prediction.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Chart } from 'chart.js';
+import { Batch } from '../../models/batch.model';
 //import {FormsComponent} from '@angular/core';
 
 @Component({
@@ -20,31 +21,18 @@ export class PredictionsComponent implements OnInit {
   public expanded: boolean = false;
   public results: any;
   public message: string = "";
-  public batchesID: string[];
-  public batchNumberAssociates : number[];
-  public hello : string = "wassup";
-  public hellos :string[] = ["hello","gutentag","aloha","hola"];
+  public batches: Batch[];
+  public batchNumberAssociates: number[];
 
-  
 
   constructor(private ss: SkillsetService, private ps: PredictionService) { }
 
   ngOnInit() {
     this.getListofCurricula();
-    //console.log(this.ps.getPrediction(1495670400000,1527258311885,[]));
-    console.log("before");
-    let test = this.ps.getBatchesByCurricula(1,2,"").subscribe(data =>{
-      console.log(data);
-
-    },er =>{
 
 
 
-    });
 
-
-   // console.log(test);
-    console.log("after");
   }
 
   toggleCheckboxes() {
@@ -56,7 +44,7 @@ export class PredictionsComponent implements OnInit {
       data => {
         console.log(data);
         let tempArray = [];
-        for (let i=0;i<data.length;i++) {
+        for (let i = 0; i < data.length; i++) {
           let tech = data[i];
           let localtech = {
             id: tech.id,
@@ -74,22 +62,22 @@ export class PredictionsComponent implements OnInit {
         // }
         // this.technologies = tempVar;
       },
-     err => {
-       console.log(err);
-     }
+      err => {
+        console.log(err);
+      }
     );
   }
 
-  getPrediction(s,e) {
-    if(s != null){
+  getPrediction(s, e) {
+    if (s != null) {
       this.startDate = s;
     }
-    if(e != null){
+    if (e != null) {
       this.endDate = e;
     }
     console.log(this.technologies);
     let selectedTechnologies = [];
-    for (let i=0;i<this.technologies.length;i++) {
+    for (let i = 0; i < this.technologies.length; i++) {
       let tech = this.technologies[i];
       if (tech.selected) selectedTechnologies.push(tech.name);
     }
@@ -100,12 +88,12 @@ export class PredictionsComponent implements OnInit {
     console.log(endTime);
     if (startTime && endTime && selectedTechnologies.length > 0) {
       this.message = "";
-      this.ps.getPrediction(startTime,endTime,selectedTechnologies).subscribe(
+      this.ps.getPrediction(startTime, endTime, selectedTechnologies).subscribe(
         data => {
           console.log(data);
           this.results = [];
           let returnedNames = [];
-          for (let i=0;i<data.length;i++) {
+          for (let i = 0; i < data.length; i++) {
             let tech = data[i];
             let techName = tech[0];
             let techNumber = tech[1];
@@ -119,7 +107,7 @@ export class PredictionsComponent implements OnInit {
               returnedNames.push(techName);
             }
           }
-          for (let i=0;i<selectedTechnologies.length;i++) {
+          for (let i = 0; i < selectedTechnologies.length; i++) {
             let selectedTech = selectedTechnologies[i];
             if (!returnedNames.includes(selectedTech)) {
               // if the list of returned technologies does not include one we selected, then it means
@@ -138,17 +126,17 @@ export class PredictionsComponent implements OnInit {
         }
       );
     }
-    let canvas : any = (document.getElementById("bar-chart-horizontal"));
+    let canvas: any = (document.getElementById("bar-chart-horizontal"));
     let ctx = canvas.getContext("2d");
-    let chart1 = new Chart (ctx, {
+    let chart1 = new Chart(ctx, {
       type: 'horizontalBar',
       data: {
         labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
         datasets: [
           {
             label: "Population (millions)",
-            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-            data: [2478,5267,734,784,433]
+            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+            data: [2478, 5267, 734, 784, 433]
           }
         ]
       },
@@ -159,19 +147,42 @@ export class PredictionsComponent implements OnInit {
           text: 'Predicted world population (millions) in 2050'
         }
       }
-  });
+    });
   }
 
 
-  curriculumBatchSpecifics(){
+  getDetails(s,e) {
+    if (s != null) {
+      this.startDate = s;
+    }
+    if (e != null) {
+      this.endDate = e;
+    }
+
     let startTime = new Date(this.startDate).getTime();
     let endTime = new Date(this.endDate).getTime();
-    let tech : string = "java";
-   // this.ps.getBathcesByCurricula(startTime,endTime,tech)
+    let tech: string = "jta";
 
-    console.log(this.ps.getBathcesByCurricula(startTime,endTime,tech));
+    console.log(startTime);
 
-  
+    let test = this.ps.getBatchesByCurricula(startTime, endTime, tech).subscribe(data => {
+
+      console.log(data);
+      this.batches = data;
+
+    }, er => {
+    });
+
+
+
+
+    
+
+
+    console.log(this.batches[1].batchName)
+    console.log(this.batches[1].associates.length)
+
+
   }
 
 

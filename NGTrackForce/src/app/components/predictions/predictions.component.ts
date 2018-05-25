@@ -31,7 +31,8 @@ export class PredictionsComponent implements OnInit {
 
   ngOnInit() {
     this.getListofCurricula();
-    this.hello = "sdfsdf";
+    //console.log(this.ps.getPrediction(1495670400000,1527258311885,[]));
+    console.log("ksjdhfkjasdhfjsdhfhsdkjfhsdjffhjhfskajff");
   }
 
   toggleCheckboxes() {
@@ -125,7 +126,7 @@ export class PredictionsComponent implements OnInit {
         }
       );
     }
-    let canvas : any = (document.getElementById("bar-chart-horizontal");
+    let canvas : any = (document.getElementById("bar-chart-horizontal"));
     let ctx = canvas.getContext("2d");
     let chart1 = new Chart (ctx, {
       type: 'horizontalBar',
@@ -151,7 +152,12 @@ export class PredictionsComponent implements OnInit {
 
 
   curriculumBatchSpecifics(){
+    let startTime = new Date(this.startDate).getTime();
+    let endTime = new Date(this.endDate).getTime();
+    let tech : string = "java";
+   // this.ps.getBathcesByCurricula(startTime,endTime,tech)
 
+    console.log(this.ps.getBathcesByCurricula(startTime,endTime,tech));
 
   
   }

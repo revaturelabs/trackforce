@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class PredictionService {
   private predictionPath = "TrackForce/prediction/";
+  private predictionGetBatches = "api/batches/curriculum/";
 
     /**
     * @constructor
@@ -19,9 +20,9 @@ export class PredictionService {
       return this.http.get<any>(environment.url + this.predictionPath + startTime + "/" + endTime);
     }
 
-    public getBathcesByTech(startTime: number,endTime: number, techs: any) {
+    public getBathcesByCurricula(startTime: number,endTime: number, curricula: any) {
       // retrieves batches by curriculum and 
-      return this.http.get<any>(environment.url + this.predictionPath + startTime + "/" + endTime);
+      return this.http.get<any>("http://localhost:8085/TrackForce/api/batches/curriculum/java?start=1483938000001&end=1489723200001");
     }
 
 

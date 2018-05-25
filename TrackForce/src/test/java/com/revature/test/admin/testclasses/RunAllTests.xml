@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Trainer Tests" parallel="false">
+
+
+
+	<test name="Test Home Tab">
+		<classes>
+			<class name="com.revature.test.admin.testclasses.HomeTest" />
+		</classes>
+	</test>
+
+	<test name="Test Client List Tab">
+		<classes>
+			<class name="com.revature.test.admin.testclasses.ClientListTest" />
+		</classes>
+	</test>
+
+	<test name="Test Batch List Tab">
+		<classes>
+			<class name="com.revature.test.admin.testclasses.BatchListTest" />
+		</classes>
+	</test>
+
+	<test name="Test Associate List Tab">
+		<classes>
+			<class name="com.revature.test.admin.testclasses.AssociateListTest" />
+		</classes>
+	</test>
+
+	<test name="Test Create User Tab">
+		<classes>
+			<class name="com.revature.test.admin.testclasses.CreateUserTest" />
+		</classes>
+	</test>
+
+</suite> <!-- Suite -->

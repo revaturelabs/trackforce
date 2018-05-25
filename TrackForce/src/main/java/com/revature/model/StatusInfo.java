@@ -1,9 +1,27 @@
 package com.revature.model;
 
+import java.io.Serializable;
+
 /**
  * This class models all information that pertains to mapped/unmapped statuses
  */
-public class StatusInfo {
+public class StatusInfo implements Serializable {
+
+	private static final long serialVersionUID = -5362503104883791588L;
+	public static final int MAPPED_TRAINING = 1;
+	public static final int MAPPED_RESERVED = 2;
+	public static final int MAPPED_SELECTED = 3;
+	public static final int MAPPED_CONFIRMED = 4;
+	public static final int MAPPED_DEPLOYED = 5;
+
+	public static final int UNMAPPED_TRAINING = 6;
+	public static final int UNMAPPED_OPEN = 7;
+	public static final int UNMAPPED_SELECTED = 8;
+	public static final int UNMAPPED_CONFIRMED = 9;
+	public static final int UNMAPPED_DEPLOYED = 10;
+
+	public static final int DIRECTLY_PLACED = 11;
+	public static final int TERMINATED = 12;
 
 	private String name;
 	private int trainingMapped;
@@ -26,7 +44,7 @@ public class StatusInfo {
 
 	/**
 	 * Constructs a StatusInfo object with a name.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the client
 	 */
@@ -34,9 +52,23 @@ public class StatusInfo {
 		this.name = name;
 	}
 
+	public void clear() {
+		this.name = "";
+		this.trainingMapped = 0;
+		this.trainingUnmapped = 0;
+		this.reservedMapped = 0;
+		this.openUnmapped = 0;
+		this.selectedMapped = 0;
+		this.selectedUnmapped = 0;
+		this.confirmedMapped = 0;
+		this.confirmedUnmapped = 0;
+		this.deployedMapped = 0;
+		this.deployedUnmapped = 0;
+	}
+
 	/**
 	 * Constructs a StatusInfo object.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the client
 	 * @param trainingMapped
@@ -89,7 +121,7 @@ public class StatusInfo {
 
 	/**
 	 * This returns the name of this object.
-	 * 
+	 *
 	 * @return this object's name.
 	 */
 	public String getName() {
@@ -98,7 +130,7 @@ public class StatusInfo {
 
 	/**
 	 * This allows the object name to be set.
-	 * 
+	 *
 	 * @param name
 	 *            the name to set for this object.
 	 */
@@ -108,7 +140,7 @@ public class StatusInfo {
 
 	/**
 	 * This returns the number associates who are mapped and training.
-	 * 
+	 *
 	 * @return the number of mapped associates who are training.
 	 */
 	public int getTrainingMapped() {
@@ -117,7 +149,7 @@ public class StatusInfo {
 
 	/**
 	 * This allows the number of mapped associates who are training to be set
-	 * 
+	 *
 	 * @param trainingMapped
 	 *            the number of mapped associates who are training.
 	 */
@@ -127,7 +159,7 @@ public class StatusInfo {
 
 	/**
 	 * This returns the number of associates who are unmapped and training
-	 * 
+	 *
 	 * @return the number of unmapped associates who are training.
 	 */
 	public int getTrainingUnmapped() {
@@ -136,7 +168,7 @@ public class StatusInfo {
 
 	/**
 	 * This allows the number of unmapped associates who are training to be set.
-	 * 
+	 *
 	 * @param trainingUnmapped
 	 *            the number of unmapped associates who are training.
 	 */
@@ -147,7 +179,7 @@ public class StatusInfo {
 	/**
 	 * This returns the number of associates who are mapped and finished with
 	 * training.
-	 * 
+	 *
 	 * @return the number of mapped associates who are done training.
 	 */
 	public int getReservedMapped() {
@@ -157,7 +189,7 @@ public class StatusInfo {
 	/**
 	 * This allows the number of mapped associates who are finished training to be
 	 * set.
-	 * 
+	 *
 	 * @param reservedMapped
 	 *            the number of unmapped associates who are done training.
 	 */
@@ -168,7 +200,7 @@ public class StatusInfo {
 	/**
 	 * This returns the number of associates who are finished training, and aren't
 	 * mapped to this object.
-	 * 
+	 *
 	 * @return The number of unmapped associates who are finished training.
 	 */
 	public int getOpenUnmapped() {
@@ -178,7 +210,7 @@ public class StatusInfo {
 	/**
 	 * This allows the number of unmapped associates who are finished training to be
 	 * set.
-	 * 
+	 *
 	 * @param openUnmapped
 	 *            The number of unmapped associates who are finished training.
 	 */
@@ -189,7 +221,7 @@ public class StatusInfo {
 	/**
 	 * This returns the number of mapped associates who have been selected by this
 	 * object.
-	 * 
+	 *
 	 * @return The number of mapped associates who were selected by this object.
 	 */
 	public int getSelectedMapped() {
@@ -199,7 +231,7 @@ public class StatusInfo {
 	/**
 	 * This allows the number of mapped associates who have been selected by this
 	 * object to be set.
-	 * 
+	 *
 	 * @param selectedMapped
 	 *            The number of mapped associates who are selected by this object.
 	 */
@@ -210,7 +242,7 @@ public class StatusInfo {
 	/**
 	 * This returns the number of associates who were selected by the object, but
 	 * weren't mapped.
-	 * 
+	 *
 	 * @return The number of unmapped associates who were selected by this object.
 	 */
 	public int getSelectedUnmapped() {
@@ -220,7 +252,7 @@ public class StatusInfo {
 	/**
 	 * This allows the number of associates who are selected by the object, but
 	 * aren't mapped, to be set.
-	 * 
+	 *
 	 * @param selectedUnmapped
 	 *            The number of unmapped associates who are selected by this object.
 	 */
@@ -231,7 +263,7 @@ public class StatusInfo {
 	/**
 	 * This returns the number of associates who were mapped and selected by the
 	 * object.
-	 * 
+	 *
 	 * @return The number of mapped associates who were confirmed by this object.
 	 */
 	public int getConfirmedMapped() {
@@ -241,7 +273,7 @@ public class StatusInfo {
 	/**
 	 * This allows the number of associates who were mapped and confirmed by this
 	 * object to be set.
-	 * 
+	 *
 	 * @param confirmedMapped
 	 *            The number of mapped associates who are confirmed by this object.
 	 */
@@ -252,7 +284,7 @@ public class StatusInfo {
 	/**
 	 * This returns the number of associates who aren't mapped, and who have been
 	 * confirmed by the object.
-	 * 
+	 *
 	 * @return The number of mapped associates who were confirmed by this object.
 	 */
 	public int getConfirmedUnmapped() {
@@ -262,7 +294,7 @@ public class StatusInfo {
 	/**
 	 * This allows the number of associates who are not mapped, but have been
 	 * confirmed by the object, to be set.
-	 * 
+	 *
 	 * @param confirmedUnmapped
 	 *            The number of unmapped associates who are confirmed by this
 	 *            object.
@@ -274,7 +306,7 @@ public class StatusInfo {
 	/**
 	 * This returns the number of associates who were mapped, and are deployed at a
 	 * object location.
-	 * 
+	 *
 	 * @return The number of mapped associates who are deployed with a object.
 	 */
 	public int getDeployedMapped() {
@@ -284,7 +316,7 @@ public class StatusInfo {
 	/**
 	 * This allows the number of associates who were mapped, and are deployed at a
 	 * object location, to be set.
-	 * 
+	 *
 	 * @param deployedMapped
 	 *            The number of mapped associates who have deployed with this
 	 *            object.
@@ -296,7 +328,7 @@ public class StatusInfo {
 	/**
 	 * This returns the number of associates who were mapped, and are deployed with
 	 * this object.
-	 * 
+	 *
 	 * @return The number of unmapped associates who are deployed with this object.
 	 */
 	public int getDeployedUnmapped() {
@@ -306,7 +338,7 @@ public class StatusInfo {
 	/**
 	 * This allows the number of associates who are unmapped, and are deployed with
 	 * this object, to be set.
-	 * 
+	 *
 	 * @param deployedUnmapped
 	 *            The number of unmapped associates who are deployed with this
 	 *            object.
@@ -370,10 +402,86 @@ public class StatusInfo {
 
 	@Override
 	public String toString() {
-		return "StatusInfo  [name=" + name + ", trainingMapped=" + trainingMapped + ", trainingUnmapped="
+		return "StatusInfo [name=" + name + ", trainingMapped=" + trainingMapped + ", trainingUnmapped="
 				+ trainingUnmapped + ", reservedMapped=" + reservedMapped + ", openUnmapped=" + openUnmapped
 				+ ", selectedMapped=" + selectedMapped + ", selectedUnmapped=" + selectedUnmapped + ", confirmedMapped="
 				+ confirmedMapped + ", confirmedUnmapped=" + confirmedUnmapped + ", deployedMapped=" + deployedMapped
 				+ ", deployedUnmapped=" + deployedUnmapped + "]";
+	}
+
+	public void subtractFromMap(Integer id) {
+
+		switch (id) {
+		case StatusInfo.MAPPED_TRAINING:
+			setTrainingMapped(getTrainingMapped() - 1);
+			break;
+		case StatusInfo.MAPPED_RESERVED:
+			setReservedMapped(getReservedMapped() - 1);
+			break;
+		case StatusInfo.MAPPED_SELECTED:
+			setSelectedMapped(getSelectedMapped() - 1);
+			break;
+		case StatusInfo.MAPPED_CONFIRMED:
+			setConfirmedMapped(getConfirmedMapped() - 1);
+			break;
+		case StatusInfo.MAPPED_DEPLOYED:
+			setDeployedMapped(getDeployedMapped() - 1);
+			break;
+		case StatusInfo.UNMAPPED_TRAINING:
+			setTrainingUnmapped(getTrainingUnmapped() - 1);
+			break;
+		case StatusInfo.UNMAPPED_OPEN:
+			setOpenUnmapped(getOpenUnmapped() - 1);
+			break;
+		case StatusInfo.UNMAPPED_SELECTED:
+			setSelectedUnmapped(getSelectedUnmapped() - 1);
+			break;
+		case StatusInfo.UNMAPPED_CONFIRMED:
+			setConfirmedUnmapped(getConfirmedUnmapped() - 1);
+			break;
+		case StatusInfo.UNMAPPED_DEPLOYED:
+			setDeployedUnmapped(getDeployedUnmapped() - 1);
+			break;
+		default:
+			return;
+		}
+	}
+
+	public void appendToMap(Integer integer) {
+
+		switch (integer) {
+		case StatusInfo.MAPPED_TRAINING:
+			setTrainingMapped(getTrainingMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_RESERVED:
+			setReservedMapped(getReservedMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_SELECTED:
+			setSelectedMapped(getSelectedMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_CONFIRMED:
+			setConfirmedMapped(getConfirmedMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_DEPLOYED:
+			setDeployedMapped(getDeployedMapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_TRAINING:
+			setTrainingUnmapped(getTrainingUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_OPEN:
+			setOpenUnmapped(getOpenUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_SELECTED:
+			setSelectedUnmapped(getSelectedUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_CONFIRMED:
+			setConfirmedUnmapped(getConfirmedUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_DEPLOYED:
+			setDeployedUnmapped(getDeployedUnmapped() + 1);
+			break;
+		default:
+			return;
+		}
 	}
 }

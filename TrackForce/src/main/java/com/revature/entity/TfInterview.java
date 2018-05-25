@@ -1,7 +1,6 @@
 package com.revature.entity;
 // Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -23,7 +22,7 @@ public class TfInterview implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4148475604579144144L;
-	private BigDecimal tfInterviewId;
+	private Integer tfInterviewId;
 	private TfAssociate tfAssociate;
 	private TfClient tfClient;
 	private TfEndClient tfEndClient;
@@ -34,11 +33,11 @@ public class TfInterview implements java.io.Serializable {
 	public TfInterview() {
 	}
 
-	public TfInterview(BigDecimal tfInterviewId) {
+	public TfInterview(Integer tfInterviewId) {
 		this.tfInterviewId = tfInterviewId;
 	}
 
-	public TfInterview(BigDecimal tfInterviewId, TfAssociate tfAssociate, TfClient tfClient, TfEndClient tfEndClient,
+	public TfInterview(Integer tfInterviewId, TfAssociate tfAssociate, TfClient tfClient, TfEndClient tfEndClient,
 			TfInterviewType tfInterviewType, Timestamp tfInterviewDate, String tfInterviewFeedback) {
 		this.tfInterviewId = tfInterviewId;
 		this.tfAssociate = tfAssociate;
@@ -50,13 +49,12 @@ public class TfInterview implements java.io.Serializable {
 	}
 
 	@Id
-
 	@Column(name = "TF_INTERVIEW_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getTfInterviewId() {
+	public Integer getTfInterviewId() {
 		return this.tfInterviewId;
 	}
 
-	public void setTfInterviewId(BigDecimal tfInterviewId) {
+	public void setTfInterviewId(Integer tfInterviewId) {
 		this.tfInterviewId = tfInterviewId;
 	}
 
@@ -116,6 +114,10 @@ public class TfInterview implements java.io.Serializable {
 
 	public void setTfInterviewFeedback(String tfInterviewFeedback) {
 		this.tfInterviewFeedback = tfInterviewFeedback;
+	}
+	
+	public void setTfEndClientName(String name) {
+		this.tfEndClient.setTfEndClientName(name);
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.revature.entity;
 // Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
@@ -22,7 +21,7 @@ public class TfEndClient implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -8077675564245631804L;
-	private BigDecimal tfEndClientId;
+	private Integer tfEndClientId;
 	private String tfEndClientName;
 	private Set<TfAssociate> tfAssociates = new HashSet<TfAssociate>(0);
 	private Set<TfPlacement> tfPlacements = new HashSet<TfPlacement>(0);
@@ -31,11 +30,11 @@ public class TfEndClient implements java.io.Serializable {
 	public TfEndClient() {
 	}
 
-	public TfEndClient(BigDecimal tfEndClientId) {
+	public TfEndClient(Integer tfEndClientId) {
 		this.tfEndClientId = tfEndClientId;
 	}
 
-	public TfEndClient(BigDecimal tfEndClientId, String tfEndClientName, Set<TfAssociate> tfAssociates,
+	public TfEndClient(Integer tfEndClientId, String tfEndClientName, Set<TfAssociate> tfAssociates,
 			Set<TfPlacement> tfPlacements, Set<TfInterview> tfInterviews) {
 		this.tfEndClientId = tfEndClientId;
 		this.tfEndClientName = tfEndClientName;
@@ -45,13 +44,12 @@ public class TfEndClient implements java.io.Serializable {
 	}
 
 	@Id
-
 	@Column(name = "TF_END_CLIENT_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	public BigDecimal getTfEndClientId() {
+	public Integer getTfEndClientId() {
 		return this.tfEndClientId;
 	}
 
-	public void setTfEndClientId(BigDecimal tfEndClientId) {
+	public void setTfEndClientId(Integer tfEndClientId) {
 		this.tfEndClientId = tfEndClientId;
 	}
 

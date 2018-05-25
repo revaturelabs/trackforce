@@ -1,145 +1,173 @@
 package com.revature.services;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.hibernate.HibernateException;
+
+import com.revature.dao.AssociateDao;
 import com.revature.dao.AssociateDaoHibernate;
-import com.revature.dao.ClientDaoImpl;
-import com.revature.dao.HomeDaoImpl;
-import com.revature.dao.MarketingStatusDao;
-import com.revature.dao.MarketingStatusDaoHibernate;
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfClient;
-import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
+import com.revature.model.ClientMappedJSON;
+import com.revature.model.CurriculumJSON;
+import com.revature.model.InterviewInfo;
+import com.revature.request.model.AssociateFromClient;
+import com.revature.utils.PersistentStorage;
 
-@Path("associates")
-public class AssociateService {
+public class AssociateService{
 
-    private HomeDaoImpl homeDaoImpl = new HomeDaoImpl();
+    private AssociateDao associateDao;
 
-    /**
-     * Retrieve information about a specific associate.
-     * 
-     * @param associateid
-     *            - The ID of the associate to get information about
-     * @return - An AssociateInfo object that contains the associate's information.
-     */
-    @GET
-    @Path("{associateid}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public AssociateInfo getAssociate(@PathParam("associateid") BigDecimal associateid) {
-        AssociateDaoHibernate associatedao = new AssociateDaoHibernate();
-        TfAssociate associate = associatedao.getAssociate(associateid);
+    public AssociateService() {
 
-        AssociateInfo associateinfo = new AssociateInfo();
-        associateinfo.setId(associate.getTfAssociateId());
-        associateinfo.setFirstName(associate.getTfAssociateFirstName());
-        associateinfo.setLastName(associate.getTfAssociateLastName());
+        this.associateDao = new AssociateDaoHibernate();
 
-        if (associate.getTfMarketingStatus() != null) {
-            associateinfo.setMarketingStatus(associate.getTfMarketingStatus().getTfMarketingStatusName());
-        } else {
-            associateinfo.setMarketingStatus("None");
-        }
-
-        if (associate.getTfClient() != null) {
-            associateinfo.setClient(associate.getTfClient().getTfClientName());
-        } else {
-            associateinfo.setClient("None");
-        }
-
-        if (associate.getTfEndClient() != null) {
-            associateinfo.setEndClient(associate.getTfEndClient().getTfEndClientName());
-        } else {
-            associateinfo.setEndClient("None");
-        }
-
-        if (associate.getTfBatch() != null) {
-            associateinfo.setBatchName(associate.getTfBatch().getTfBatchName());
-        } else {
-            associateinfo.setBatchName("None");
-        }
-        return associateinfo;
     }
 
+	public AssociateService(AssociateDao associateDao) {
+		this.associateDao = associateDao;
+	}
+
+	/**
+	 * Retrieve information about a specific associate.
+	 *
+	 * @param associateid - The ID of the associate to get information about
+	 * @return - An AssociateInfo object that contains the associate's information.
+	 * @throws IOException
+	 */
+
+	public AssociateInfo getAssociate(Integer associateid) {
+		return associateDao.getAssociate(associateid);
+
+	}
+
+
     /**
-     * Update the marketing status or client of an associate from form data.
      * 
-     * @param id
-     *            - The ID of the associate to change
-     * @param marketingStatus
-     *            - What to change the associate's marketing status to
-     * @param client
-     *            - What client to change the associate to
      * @return
      */
-    @GET
-    @Path("{associateId}/update/{marketingStatus}/{client}")
-    @Produces({ MediaType.TEXT_HTML })
-    public Response updateAssociate(@PathParam("associateId") String id, @PathParam("marketingStatus") String marketingStatus,
-            @PathParam("client") String client) {
-        MarketingStatusDao marketingStatusDao = new MarketingStatusDaoHibernate();
-        TfMarketingStatus status = marketingStatusDao.getMarketingStatus(marketingStatus);
 
-        if (status == null) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid marketing status sent.").build();
-        }
+	public Set<AssociateInfo> getAllAssociates(){
+		return associateDao.getAllAssociates();
+	}
 
-        ClientDaoImpl clientDaoImpl = new ClientDaoImpl();
-        TfClient tfclient = clientDaoImpl.getClient(client);
+	/**
+	 * Returns a Response object from StatusInfoUtil with a List of Map objects as
+	 * an entity. The format of the Map objects are as follows: <br>
+	 * name: (name of curriculum) <br>
+	 * count: (count of desired status)
+	 *
+	 * @param statusid
+	 *            Status id of the status/stage of associates that the requester
+	 *            wants information for.
+	 * @return a Response object with a List of Map objects as an entity.
+	 * @throws IOException
+	 * @throws HibernateException
+	 */
+	public Collection<CurriculumJSON> getCurriculumsByStatus(int statusid) throws HibernateException, IOException {
+		Set<AssociateInfo> associates = PersistentStorage.getStorage().getAssociates();
+		if (associates == null) {
+			associates = PersistentStorage.getStorage().getAssociates();
+		}
 
-        BigDecimal associateID = new BigDecimal(Integer.parseInt(id));
+		Map<Integer, CurriculumJSON> map = new HashMap<>();
+		for (AssociateInfo ai : associates) {
+			if (ai.getMsid().equals(new Integer(statusid))) {
+				if (!map.containsKey(ai.getCurid())) {
+					map.put(ai.getCurid(), new CurriculumJSON());
+				}
+				if (ai.getCurriculumName() != null && !ai.getCurid().equals(-1)) {
+					map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
+					map.get(ai.getCurid()).setId(ai.getCurid());
+					map.get(ai.getCurid()).setName(ai.getCurriculumName());
+				}
+			}
+		}
+		return map.values();
+	}
+	
+	/**
+	 * Generates statistics for the expanded view of the home page mapped chart
+	 * 
+	 * @param statusId
+	 * @return Collection<ClientMappedJSON>
+	 */
+	public Map<Integer, ClientMappedJSON> getMappedInfo(int statusId) {
+		Set<AssociateInfo> associates = getAllAssociates();
+		if (associates == null) {
+			associateDao.cacheAllAssociates();
+			associates = getAllAssociates();
+		}
 
-        AssociateDaoHibernate associateDaoHibernate = new AssociateDaoHibernate();
-        associateDaoHibernate.updateInfo(associateID, status, tfclient);
+		Map<Integer, ClientMappedJSON> map = new HashMap<>();
+		for (AssociateInfo ai : associates) {
+			if (ai.getMsid().equals(statusId)) {
+				if (!map.containsKey(ai.getClid())) {
+					map.put(ai.getClid(), new ClientMappedJSON());
+				}
+				if (ai.getClient() != null && !ai.getClid().equals(-1)) {
+					map.get(ai.getClid()).setCount(map.get(ai.getClid()).getCount() + 1);
+					map.get(ai.getClid()).setId(ai.getClid().intValue());
+					map.get(ai.getClid()).setName(ai.getClient());
+				}
+			}
+		}
+		return map;
+	}
+	
+	/**
+	 * Generates statistics for the expanded view of the home page unmapped chart
+	 * 
+	 * @param statusId
+	 * @return Collection<CurriculumJSON>
+	 */
+	public Set<CurriculumJSON> getUnmappedInfo(int statusId) {
+	  Set<AssociateInfo> associates = getAllAssociates();
+	if (associates == null) {
+		associateDao.cacheAllAssociates();
+		associates = getAllAssociates();
+	}
 
-        return Response.status(Response.Status.OK).entity("Updated the associate's information.").build();
+	Map<Integer, CurriculumJSON> map = new HashMap<>();
+	for (AssociateInfo ai : associates) {
+		if (ai.getMsid().equals(statusId)) {
+			if (!map.containsKey(ai.getCurid())) {
+				map.put(ai.getCurid(), new CurriculumJSON());
+			}
+			if (ai.getCurriculumName() != null && !ai.getCurid().equals(-1)) {
+				map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
+				map.get(ai.getCurid()).setId(ai.getCurid().intValue());
+				map.get(ai.getCurid()).setName(ai.getCurriculumName());
+			}
+		}
+	}
+	
+	return new TreeSet<>(map.values());
+	}
+	
+	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId) {
+		 return associateDao.getInterviewsByAssociate(associateId);
+	}
+	
+	//The method used to populate all of the data onto TrackForce
+    //Doesn't work correctly at the moment
+    public Response updateAssociates(
+    		List<Integer> associateids,
+    		//Integer associateids,
+    		Integer marketingStatus,
+    		Integer clientid) {
+    	associateDao.updateAssociates(associateids, marketingStatus, clientid);
+    	return Response.status(200).build();
     }
 
-    /**
-     * Gets a list of all the associates. If an associate has no marketing status or
-     * curriculum, replaces them with blanks. If associate has no client, replaces
-     * it with "None".
-     * 
-     * @return - A Response object with a list of TfAssociate objects.
-     */
-    @GET
-    @Path("all")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllAssociates() {
-        List<TfAssociate> tfAssociates = homeDaoImpl.getAllTfAssociates();
-        List<AssociateInfo> associateInfos = new ArrayList<>();
-        for (TfAssociate tfAssociate : tfAssociates) {
-            if (tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("TERMINATED")
-                    || tfAssociate.getTfMarketingStatus().getTfMarketingStatusName().equals("DIRECTLY PLACED")) {
-                continue;
-            }
-            BigDecimal tfAssociateId = tfAssociate.getTfAssociateId();
-            String tfAssociateFirstName = tfAssociate.getTfAssociateFirstName();
-            String tfAssociateLastName = tfAssociate.getTfAssociateLastName();
-            String tfMarketingStatusName = tfAssociate.getTfMarketingStatus() != null ? tfAssociate.getTfMarketingStatus().getTfMarketingStatusName() : "";
-            String tfClientName = tfAssociate.getTfClient() != null ? tfAssociate.getTfClient().getTfClientName() : "None";
-            String tfBatchName = tfAssociate.getTfBatch() != null ? tfAssociate.getTfBatch().getTfBatchName() : "";
-
-            String tfCurriculum;
-            if (tfAssociate.getTfBatch() != null && tfAssociate.getTfBatch().getTfCurriculum() != null) {
-                tfCurriculum = tfAssociate.getTfBatch().getTfCurriculum().getTfCurriculumName();
-            } else {
-                tfCurriculum = "";
-            }
-
-            associateInfos.add(new AssociateInfo(tfAssociateId, tfAssociateFirstName, tfAssociateLastName, tfMarketingStatusName, tfClientName, tfBatchName,
-                    tfCurriculum));
-        }
-        return Response.ok(associateInfos).build();
-    }
+	public void updateAssociate(AssociateFromClient afc) {
+		associateDao.updateAssociate(afc);
+	}
 }

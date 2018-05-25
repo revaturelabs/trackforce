@@ -1,0 +1,23 @@
+<div id="background">
+  <img src="../../../assets/23.jpg" alt="Background Image"/>
+</div>
+<div class="container">
+  <div class="row" id="pwd-container">
+    <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <section class="login-form">
+          <form class="form-signin" role="login">
+            <img src="../../../assets/logo.png" class="img-responsive" alt="Background image" />
+            <div *ngIf="errMsg" class="alert alert-danger">
+              {{errMsg}}
+            </div>
+            <label for="username" class="sr-only">Username: </label>
+            <input class="form-control" type="text" placeholder="Username" name="username" id="username" required class="form-control input-lg" [(ngModel)]="username"/>
+            <label for="password" class="sr-only">Password: </label>
+            <input class="form-control" type="password" placeholder="Password" name="password" id="password" required [(ngModel)]="password"/>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" (click)='login()'>Sign in</button>
+          </form>
+        </section>
+      </div>
+    </div>
+</div>

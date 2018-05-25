@@ -1,20 +1,101 @@
 package com.revature.model;
 
-import java.math.BigDecimal;
+import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.revature.entity.TfMarketingStatus;
+import com.revature.utils.LogUtil;
 
 /**
  * Class to hold information about an associate for the batch details page.
  */
-public class AssociateInfo {
+@XmlRootElement
+public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 
-	private BigDecimal id;
+	private static final long serialVersionUID = 6047227506797717614L;
+	
+	@XmlElement
+	private Integer id;
+	
+	@XmlElement
 	private String firstName;
+	
+	@XmlElement
 	private String lastName;
+	
+	@XmlElement
+	private static StatusInfo totals = new StatusInfo();
+
+	@XmlElement
+	private Integer msid;
+	
+	@XmlElement
 	private String marketingStatus;
+
+	@XmlElement
+	private Integer clid;
+	
+	@XmlElement
 	private String client;
+
+	@XmlElement
+	private Integer ecid;
+	
+	@XmlElement
 	private String endClient;
+
+	@XmlElement
+	private Integer bid;
+	
+	@XmlElement
 	private String batchName;
+	
+	public Integer getMsid() {
+		return msid;
+	}
+
+	public void setMsid(Integer msid) {
+		this.msid = msid;
+	}
+
+	public Integer getClid() {
+		return clid;
+	}
+
+	public void setClid(Integer clid) {
+		this.clid = clid;
+	}
+
+	public Integer getEcid() {
+		return ecid;
+	}
+
+	public void setEcid(Integer ecid) {
+		this.ecid = ecid;
+	}
+
+	public Integer getBid() {
+		return bid;
+	}
+
+	public void setBid(Integer bid) {
+		this.bid = bid;
+	}
+
+	public Integer getCurid() {
+		return curid;
+	}
+
+	public void setCurid(Integer curid) {
+		this.curid = curid;
+	}
+
+	private Integer curid;
 	private String curriculumName;
+	
+	private long startDate;
 
 	/**
 	 * Constructs a newly allocated BatchInfo object that represents an associate.
@@ -30,7 +111,7 @@ public class AssociateInfo {
 	 * @param clientid-The
 	 *            clients's name.
 	 */
-	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client) {
+	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -39,8 +120,8 @@ public class AssociateInfo {
 		this.client = client;
 	}
 
-	public AssociateInfo(BigDecimal id, String firstName, String lastName, String marketingStatus, String client,
-			String batchName, String curriculumName) {
+	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client,
+			String batchName, String curriculumName, long startDate) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -50,6 +131,7 @@ public class AssociateInfo {
 		this.endClient = "";
 		this.batchName = batchName;
 		this.curriculumName = curriculumName;
+		this.startDate = startDate;
 	}
 
 	public AssociateInfo() {
@@ -60,7 +142,7 @@ public class AssociateInfo {
 	 * 
 	 * @return - String with the ID of the associate
 	 */
-	public BigDecimal getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -70,7 +152,7 @@ public class AssociateInfo {
 	 * @param id
 	 *            - What to set the associate's ID to.
 	 */
-	public void setId(BigDecimal id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -148,7 +230,7 @@ public class AssociateInfo {
 	 *            -What to set the associate's client name to.
 	 */
 	public void setClient(String client) {
-		this.client = client;
+		this.client = client == null ? "None" : client;
 	}
 
 	/**
@@ -166,7 +248,7 @@ public class AssociateInfo {
 	 * @param endClient
 	 */
 	public void setEndClient(String endClient) {
-		this.endClient = endClient;
+		this.endClient = endClient == null ? "None" : endClient;
 	}
 
 	public String getBatchName() {
@@ -174,7 +256,7 @@ public class AssociateInfo {
 	}
 
 	public void setBatchName(String batchName) {
-		this.batchName = batchName;
+		this.batchName = batchName == null ? "None" : batchName;
 	}
 
 	public String getCurriculumName() {
@@ -182,7 +264,15 @@ public class AssociateInfo {
 	}
 
 	public void setCurriculumName(String curriculumName) {
-		this.curriculumName = curriculumName;
+		this.curriculumName = curriculumName == null ? "None" : curriculumName;
+	}
+	
+	public long getClientStartDate() {
+		return startDate;
+	}
+
+	public void setClientStartDate(long startDate) {
+		this.startDate = startDate;
 	}
 
 	@Override
@@ -255,7 +345,79 @@ public class AssociateInfo {
 	@Override
 	public String toString() {
 		return "AssociateInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", marketingStatus="
-				+ marketingStatus + ", client=" + client + ", endClient=" + endClient + ", batchName=" + batchName
+				+ marketingStatus + ", startDate=" + startDate + ",client=" + client + ", endClient=" + endClient + ", batchName=" + batchName
 				+ ", curriculumName=" + curriculumName + "]";
 	}
+
+	@Override
+	public int compareTo(AssociateInfo o) {
+		return this.id-o.id;
+	}
+
+	public void setBatchId(Integer tfBatchId) {
+		this.bid = tfBatchId == null ? -1 : tfBatchId;
+	}
+
+	public void setClientId(Integer tfClientId) {
+		this.clid = tfClientId == null ? -1 : tfClientId;
+	}
+
+	public void setCurriculumId(Integer tfCurriculumId) {
+		this.curid = tfCurriculumId == null ? -1 : tfCurriculumId;
+	}
+
+	public void setEndClientId(Integer tfEndClientId) {
+		this.ecid = tfEndClientId == null ? -1 : tfEndClientId;
+	}
+
+	public void setMarketingStatusId(Integer tfMarketingStatusId) {
+		this.msid = tfMarketingStatusId == null ? -1 : tfMarketingStatusId;
+	}
+
+	public static StatusInfo getTotals() {
+		return totals;
+	}
+
+	public static void appendToMap(TfMarketingStatus tfMarketingStatus) {
+		switch (tfMarketingStatus.getTfMarketingStatusId()) {
+		case StatusInfo.MAPPED_TRAINING:
+			totals.setTrainingMapped(totals.getTrainingMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_RESERVED:
+			totals.setReservedMapped(totals.getReservedMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_SELECTED:
+			totals.setSelectedMapped(totals.getSelectedMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_CONFIRMED:
+			totals.setConfirmedMapped(totals.getConfirmedMapped() + 1);
+			break;
+		case StatusInfo.MAPPED_DEPLOYED:
+			totals.setDeployedMapped(totals.getDeployedMapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_TRAINING:
+			totals.setTrainingUnmapped(totals.getTrainingUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_OPEN:
+			totals.setOpenUnmapped(totals.getOpenUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_SELECTED:
+			totals.setSelectedUnmapped(totals.getSelectedUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_CONFIRMED:
+			totals.setConfirmedUnmapped(totals.getConfirmedUnmapped() + 1);
+			break;
+		case StatusInfo.UNMAPPED_DEPLOYED:
+			totals.setDeployedUnmapped(totals.getDeployedUnmapped() + 1);
+			break;
+		default:
+			return;
+		}
+		totals.setName("Total Associates");
+		LogUtil.logger.info(totals.getName() + ":\n" + totals.getTrainingMapped() + " " + totals.getReservedMapped() + " "
+				+ totals.getSelectedMapped() + " " + totals.getConfirmedMapped() + " " + totals.getDeployedMapped() + "\n"
+				+ totals.getTrainingUnmapped() + " " + totals.getOpenUnmapped() + " " + totals.getSelectedUnmapped() + " "
+				+ totals.getConfirmedUnmapped() + " " + totals.getDeployedUnmapped());
+	}
 }
+

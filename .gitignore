@@ -1,5 +1,10 @@
-# Don't store Hibernate DB credentials
-hibernate.cfg.xml
+# ignore package-lock metadata
+**/package-lock.json
+
+.sonarlint
+
+# ignore config
+**/hibernate.cfg.xml
 
 # Node dependencies are inside package-lock.json 
 # To install node modules on your end run an npm install
@@ -8,6 +13,10 @@ node_modules/
 # Auto generated TestNG files
 test-output/
 
+Servers/**
+
+.recommenders
+
 # Test files
 .tern-project
 
@@ -15,9 +24,6 @@ test-output/
 .settings/
 bin/
 .project
-
-# Driver path may be different for everyone
-driver.properties
 
 target/
 pom.xml.tag
@@ -55,7 +61,6 @@ test-output/
 *.tar.gz
 *.rar
 *.dll
-*.exe
 
 # We have to include the OJDBC driver in the project
 !ojdbc8.jar
@@ -71,3 +76,39 @@ ehthumbs.dbThumbs.db
 
 #avoiding pushing back in mistaken file
 jdbcUtil.java
+/.metadata/
+
+################
+# Angular 4
+################
+# DS_STORE
+
+**/dist/
+**/bazel-*
+**/e2e_test.*
+**/node_modules
+**/bower_components
+**/tools/gulp-tasks/cldr/cldr-data/
+
+# Include when developing application packages.
+**/pubspec.lock
+**/.c9
+**/.idea/
+**/.settings/
+**/*.swo
+**/modules/.settings
+**/.vscode
+**/modules/.vscode
+
+# Don't check in secret files
+**/*secret.js
+
+# Ignore npm/yarn debug log
+**/npm-debug.log
+**/yarn-error.log
+
+# build-analytics
+**/.build-analytics
+
+# rollup-test output
+**/modules/rollup-test/dist/

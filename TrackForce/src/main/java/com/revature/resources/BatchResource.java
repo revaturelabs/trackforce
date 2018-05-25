@@ -1,5 +1,10 @@
 package com.revature.resources;
 
+import static com.revature.utils.LogUtil.logger;
+
+import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,11 +19,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.log4j.Logger;
-
 import com.revature.model.BatchInfo;
 import com.revature.services.BatchesService;
-import com.revature.utils.LogUtil;
 
 import io.swagger.annotations.Api;
 
@@ -31,8 +33,8 @@ import io.swagger.annotations.Api;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BatchResource {
+	
 	private BatchesService service;
-	static final Logger logger = Logger.getLogger(LogUtil.class);
 
 	public BatchResource() {
 		this.service = new BatchesService();
@@ -50,15 +52,29 @@ public class BatchResource {
 		Set<BatchInfo> batches = service.getAllBatches();
 		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
 
+		logger.info("getallBatches()");
+		logger.info("	batches size: " + (batches == null ? null : batches.size()));
 		return Response.status(status).entity(batches).build();
 	}
-	
-	public Response getAllBatches(@DefaultValue("1510549200000") @QueryParam("start") Long startDate,
-			@DefaultValue("1527480000000") @QueryParam("end") Long endDate) {
-		List<BatchInfo> batches = service.getBatches(startDate, endDate);
-		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
 
-		return Response.status(status).entity(batches).build();
+	/**
+	 * examples:
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param curriculum
+	 * @return
+	 */
+	public Response getAllBatches(@DefaultValue("1510549200000") @QueryParam("start") Long startDate,
+			@DefaultValue("1527480000000") @QueryParam("end") Long endDate
+	) {
+
+		logger.info("getAllBatches(): " + "");
+		List<BatchInfo> result = service.getBatches(startDate, endDate);
+
+		Status status = result == null || result.isEmpty() ? Status.NO_CONTENT : Status.OK;
+
+		return Response.status(status).entity(result).build();
 	}
 
 	/**
@@ -69,13 +85,27 @@ public class BatchResource {
 	 */
 	@GET
 	@Path("curriculum/{curriculum}")
-	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum) {
-		Set<BatchInfo> batches = service.getBatchesByCurri(curriculum);
-		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
-		logger.info("query  = Curriculum: " + curriculum);
-		logger.info("batch size: " + batches.size());
+	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum, @QueryParam("start") Long startDate,
+			@QueryParam("end") Long endDate) {
+		logger.info("getBatchesByCurriculum(): " + curriculum);
+		Collection<BatchInfo> results = new HashSet<>();
 
-		return Response.status(status).entity(batches).build();
+		if (startDate != null && endDate != null) {
+			logger.info("	start = " + new Timestamp(startDate));
+			logger.info("	end = " + new Timestamp(endDate));
+			Collection<BatchInfo> batches = service.getBatches(startDate, endDate);
+
+			for (BatchInfo b : batches) {
+				if (b.getCurriculumName() != null && b.getCurriculumName().equalsIgnoreCase(curriculum))
+					results.add(b);
+			}
+		} else {
+			results = service.getBatchesByCurri(curriculum);
+		}
+		Status status = results == null || results.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		logger.info("	batch size: " + (results == null ? null : results.size()));
+
+		return Response.status(status).entity(results).build();
 	}
 
 	/**
@@ -96,4 +126,24 @@ public class BatchResource {
 	public Response getAssociatesForBatch(@PathParam("id") Integer id) {
 		return Response.ok(service.getAssociatesForBranch(id)).build();
 	}
+
+	// test method: returns ["Yuvi1804", 25],["wills batch", 14] every time
+	@GET
+	@Path("/adam")
+	public Response getSomeBatches() {
+		Bar b = new Bar();
+		b.batchName = "Wills batch";
+		b.size = 14;
+		Set<Bar> sb = new HashSet<>();
+		sb.add(b);
+		sb.add(new Bar());
+		logger.info("getSomeBatches(): " + sb.size());
+		return Response.status(Status.OK).entity(sb).build();
+	}
+}
+
+// dummy
+class Bar {
+	public String batchName = "Yuvi1804";
+	public int size = 25;
 }

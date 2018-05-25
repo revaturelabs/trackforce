@@ -2,11 +2,10 @@ package com.revature.model;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import static com.revature.utils.LogUtil.logger;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.entity.TfMarketingStatus;
-import com.revature.utils.LogUtil;
 
 /**
  * Associate class to hold information about an associate for the batch details page.
@@ -388,7 +387,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 			return;
 		}
 		totals.setName("Total Associates");
-		LogUtil.logger.info(totals.getName() + ":\n" + totals.getTrainingMapped() + " " + totals.getReservedMapped()
+		logger.info(totals.getName() + ":\n" + totals.getTrainingMapped() + " " + totals.getReservedMapped()
 				+ " " + totals.getSelectedMapped() + " " + totals.getConfirmedMapped() + " "
 				+ totals.getDeployedMapped() + "\n" + totals.getTrainingUnmapped() + " " + totals.getOpenUnmapped()
 				+ " " + totals.getSelectedUnmapped() + " " + totals.getConfirmedUnmapped() + " "

@@ -6,13 +6,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import static com.revature.utils.LogUtil.logger;
+
 import com.revature.dao.BatchDao;
 import com.revature.dao.BatchDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
 
 public class BatchesService {
-
+	
 	private BatchDao batchDao;
 
 	public BatchesService() {
@@ -39,8 +41,9 @@ public class BatchesService {
 	}
 
 	public Set<BatchInfo> getBatchesByCurri(String c) {
+		// logger.info("getby curriculum: " + "");
 		Set<BatchInfo> batches = batchDao.getAllBatches();
-		
+
 		// remove all batches not equal to curriculum
 		Iterator<BatchInfo> iterator = batches.iterator();
 		while (iterator.hasNext()) {

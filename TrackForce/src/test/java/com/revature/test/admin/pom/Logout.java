@@ -1,18 +1,14 @@
 package com.revature.test.admin.pom;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import com.revature.test.utils.WaitToLoad;
 
 public class Logout {
 	static WebElement e = null;
 
 	public static void logout(WebDriver d) {
 		try {
-			Thread.sleep(1000);
-			WaitToLoad.findDynamicElement(d, By.cssSelector("[href='/login']"), 10);
+//			WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[6]"), 10).click();
 			d.quit();
 		} catch (Throwable e) {
 			System.out.println("Failed to log out");

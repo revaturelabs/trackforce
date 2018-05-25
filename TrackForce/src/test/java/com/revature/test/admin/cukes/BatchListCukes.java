@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
 import com.revature.test.admin.pom.BatchListTab;
 import com.revature.test.utils.TestConfig;
 import cucumber.api.java.en.Given;
@@ -19,7 +21,7 @@ public class BatchListCukes {
 	public static boolean the_Batch_List_Tab_is_clicked(WebDriver wd) throws Throwable {
 
 		try {
-			Thread.sleep(1500);
+			// Navigates to the Batch List tab and verifies the url is correct
 			BatchListTab.clickBatchListTab(wd).click();
 			if (BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-listing")) {
 				return true;
@@ -32,27 +34,10 @@ public class BatchListCukes {
 		}
 	}
 
-	@Given("^Batch List Tab loads$")
-	public static boolean batch_list_tab_loads(WebDriver d) {
-		try {
-			Thread.sleep(500);
-			if (BatchListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/batch-listing")
-					|| BatchListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/batch-list")) {
-				return true;
-			}
-			System.out.println("Current URL does not end with /batch-listing or /batch-list");
-			return false;
-		} catch (Throwable e) {
-			System.out.println("Failed to get current URL");
-			return false;
-		}
-	}
-
 	@Then("^All Batches text is visible$")
 	public static boolean all_Batches_text_is_visible(WebDriver wd) throws Throwable {
 
 		try {
-			Thread.sleep(1000);
 			// Find the Header to verify that you are in the Batch List Tab
 			BatchListTab.findAllBatchesHeader(wd);
 			return true;
@@ -137,48 +122,11 @@ public class BatchListCukes {
 
 	}
 
-	
-	public static boolean enter_From_Date(WebDriver wd) {
-		try {
-			BatchListTab.fromDateField(wd).sendKeys("9");
-			BatchListTab.fromDateField(wd).sendKeys("15");
-			BatchListTab.fromDateField(wd).sendKeys("2017");
-			if (!(BatchListTab.fromDateField(wd).getText().contains("09/15/2017"))) {
-				return false;
-			}
-			return true;
-		} catch (Throwable e) {
-			System.out.println("Failed to enter data into From date field");
-			return false;
-		}
-	}
-	
-	public static boolean enter_To_Date(WebDriver wd) {
-		try {
-			BatchListTab.toDateField(wd).sendKeys("11");
-			BatchListTab.toDateField(wd).sendKeys("15");
-			BatchListTab.toDateField(wd).sendKeys("2017");
-			if (!(BatchListTab.fromDateField(wd).getText().contains("11/15/2017"))) {
-				return false;
-			}
-			return true;
-		} catch (Throwable e) {
-			System.out.println("Failed to enter data into To date field");
-			return false;
-		}
-	}
-	
-	@When("^the From date is entered$")
+	@Given("^the From date is entered$")
 	public static boolean the_From_date_is_entered(WebDriver wd) throws Throwable {
 		try {
 			// click the From date field
 			BatchListTab.fromDateField(wd).click();
-			// !!! BUG: ENTERING 0 IN YEAR RESETS THE DATE FIELD 
-			BatchListTab.fromDateField(wd).sendKeys(Keys.RIGHT);
-			BatchListTab.fromDateField(wd).sendKeys(Keys.RIGHT);
-			BatchListTab.fromDateField(wd).sendKeys("0");		
-			// enters 2017 as the year value
-			BatchListTab.fromDateField(wd).sendKeys("2017");
 			// automatically push the left arrow on the keyboard
 			BatchListTab.fromDateField(wd).sendKeys(Keys.LEFT);
 			// automatically push the left arrow on the keyboard
@@ -187,41 +135,38 @@ public class BatchListCukes {
 			BatchListTab.fromDateField(wd).sendKeys("9");
 			// enters 15 as the day value
 			BatchListTab.fromDateField(wd).sendKeys("15");
+			// enters 2017 as the year value
+			BatchListTab.fromDateField(wd).sendKeys("2017");
 			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to enter data into From date field");
 			return false;
 		}
 	}
+
+	// @Given("^the first batch is clicked$")
+	// public static String the_first_batch_is_clicked(WebDriver wd) throws
+	// Throwable {
+	// // Click the first batch in the list
+	// String batchName = "";
+	// try {
+	// batchName = BatchListTab.getFirstBatchName(wd).getText();
+	// } catch (Throwable e) {
+	// System.out.println("Failed to find first batch name");
+	// }
+	// try {
+	// BatchListTab.getFirstBatchName(wd).click();
+	// } catch (Throwable e) {
+	// System.out.println("Failed to click first batch name");
+	// }
+	// return batchName;
+	// }
 
 	@Given("^the To date is entered$")
 	public static boolean the_To_date_is_entered(WebDriver wd) throws Throwable {
 		try {
 			// click to Date field
 			BatchListTab.toDateField(wd).click();
-			// !!! BUG: ENTERING 0 IN YEAR RESETS THE DATE FIELD 
-			BatchListTab.fromDateField(wd).sendKeys("1");	
-			BatchListTab.fromDateField(wd).sendKeys(Keys.RIGHT);
-			BatchListTab.fromDateField(wd).sendKeys(Keys.RIGHT);
-			BatchListTab.fromDateField(wd).sendKeys("0");	
-			// enters 2017 as the year value
-			BatchListTab.fromDateField(wd).sendKeys("2017");
-			// automatically push the left arrow on the keyboard
-			BatchListTab.fromDateField(wd).sendKeys(Keys.LEFT);
-			// automatically push the left arrow on the keyboard
-			BatchListTab.fromDateField(wd).sendKeys(Keys.LEFT);
-			// enters 11 as the month value
-			BatchListTab.fromDateField(wd).sendKeys("09");
-			// enters 15 as the day value
-			BatchListTab.fromDateField(wd).sendKeys("15");
-			BatchListTab.fromDateField(wd).sendKeys(Keys.TAB);
-			
-			// !!! BUG: ENTERING 0 IN YEAR RESETS THE DATE FIELD 
-			BatchListTab.toDateField(wd).sendKeys(Keys.RIGHT);
-			BatchListTab.toDateField(wd).sendKeys(Keys.RIGHT);
-			BatchListTab.toDateField(wd).sendKeys("0");	
-			// enters 2017 as the year value
-			BatchListTab.toDateField(wd).sendKeys("2017");
 			// automatically push the left arrow on the keyboard
 			BatchListTab.toDateField(wd).sendKeys(Keys.LEFT);
 			// automatically push the left arrow on the keyboard
@@ -230,7 +175,8 @@ public class BatchListCukes {
 			BatchListTab.toDateField(wd).sendKeys("11");
 			// enters 15 as the day value
 			BatchListTab.toDateField(wd).sendKeys("15");
-
+			// enters 2017 as the year value
+			BatchListTab.toDateField(wd).sendKeys("2017");
 			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to find All Batches header");
@@ -238,7 +184,7 @@ public class BatchListCukes {
 		}
 	}
 
-	@When("^the submit button is clicked$")
+	@Given("^the submit button is clicked$")
 	public static boolean the_submit_button_is_clicked(WebDriver wd) throws Throwable {
 		try {
 			// clicks the submit button
@@ -253,10 +199,11 @@ public class BatchListCukes {
 	@Then("^the batch list should update to show only the batches which fit the entered criteria$")
 	public static boolean the_batch_list_should_update_to_show_only_the_batches_which_fit_the_entered_criteria(
 			WebDriver wd) throws Throwable {
+		//verifies that the correct results are being shown
 		return BatchListTab.correctResults(BatchListTab.getStartDates(wd), BatchListTab.getEndDates(wd), wd);
 	}
 
-	@When("^the reset button is clicked$")
+	@Given("^the reset button is clicked$")
 	public static boolean the_reset_button_is_clicked(WebDriver wd) throws Throwable {
 		try {
 			// clicks the reset button 

@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
 import com.revature.test.utils.WaitToLoad;
 
 public class BatchListTab {
@@ -17,12 +19,16 @@ public class BatchListTab {
 	static List<String> end = new ArrayList<String>();
 
 	public static WebElement clickBatchListTab(WebDriver wd) {
-
+		// return
+		// WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[3]"),
+		// 10);
 		return WaitToLoad.findDynamicElement(wd, By.cssSelector("[href='/batch-listing']"), 10);
 	}
 
 	public static WebElement clickAssociateListTab(WebDriver wd) {
-
+		// return
+		// WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-root/div/app-navbar/nav/div/ul[1]/li[3]"),
+		// 10);
 		return WaitToLoad.findDynamicElement(wd, By.cssSelector("[href='/associate-listing']"), 10);
 	}
 
@@ -31,7 +37,11 @@ public class BatchListTab {
 	}
 
 	public static WebElement findAllBatchesHeader(WebDriver wd) {
-
+		// Local Host XPath
+		// return
+		// WaitToLoad.findDynamicElement(wd,By.xpath("/html/body/app/div/app-batch-list/div/div[2]/div[1]/h3"),
+		// 10);
+		// Static Website XPath
 		return WaitToLoad.findDynamicElement(wd, By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/h3"), 10);
 
 	}
@@ -46,7 +56,14 @@ public class BatchListTab {
 
 	// Gets first Batch Link in Batch List Tab
 	public static WebElement getFirstBatchName(WebDriver wd) {
+		// Local Host
+		// WebElement table_element = WaitToLoad.findDynamicElement(wd,
+		// By.xpath("//table[@class='table table-striped table-hover table-bordered']"),
+		// 30);
+		// WebElement row =
+		// table_element.findElement(By.xpath("/html/body/app/div/app-batch-list/div/div[2]/div[1]/table/tbody/tr[1]/td[1]/a"));
 
+		// Static Website
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
 				By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
 		WebElement row = table_element
@@ -56,9 +73,15 @@ public class BatchListTab {
 
 	// Gets all rows under the first batch in Batch List Tab
 	public static List<WebElement> getAssociatesInfo(WebDriver wd) {
+		// Commented out lines are for Local Host
+		// WebElement table_element = WaitToLoad.findDynamicElement(wd,
+		// By.xpath("//table[@class='table table-striped table-hover table-bordered']"),
+		// 30);
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
 				By.xpath("/html/body/app/app-batch-details/div/div/div[2]/table"), 30);
-
+		// List<WebElement> rows =
+		// table_element.findElements(By.xpath("//table[@class='table table-striped
+		// table-hover table-bordered']/tbody/tr[1]"));
 		List<WebElement> rows = table_element
 				.findElements(By.xpath("/html/body/app/app-batch-details/div/div/div[2]/table/tbody/tr"));
 		return rows;
@@ -107,6 +130,12 @@ public class BatchListTab {
 	public static List<WebElement> grabAssociatesBatchInfo(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
 				By.xpath("/html/body/app/app-associate-list/div/div[2]/div/table"), 30);
+		// WebElement table_element = WaitToLoad.findDynamicElement(wd,
+		// By.xpath("//table[@class='table table-striped table-hover table-bordered']"),
+		// 30);
+		// List<WebElement> rows =
+		// table_element.findElements(By.xpath("//table[@class='table table-striped
+		// table-hover table-bordered']/tbody/tr"));
 		List<WebElement> rows = table_element
 				.findElements(By.xpath("/html/body/app/app-associate-list/div/div[2]/div/table/tbody/tr"));
 		return rows;
@@ -119,8 +148,7 @@ public class BatchListTab {
 
 	// finds the To date field using the id
 	public static WebElement toDateField(WebDriver wd) {
-		return WaitToLoad.findDynamicElement(wd, By.xpath("//*[@id=\"endDate\"]"), 10);
-		
+		return WaitToLoad.findDynamicElement(wd, By.id("endDate"), 10);
 	}
 
 	// finds the submit button using the xpath
@@ -205,9 +233,8 @@ public class BatchListTab {
 		}
 		return done;
 	}
-
-	// gives definitions to/inserts data into start and end array lists which were
-	// declared at the top of the class
+	
+	// gives definitions to/inserts data into start and end array lists which were declared at the top of the class
 	public static void allBatches(List<WebElement> Nfrom, List<WebElement> Nto, WebDriver wd) throws Throwable {
 		// populates the "start" arrayList with data to be used in the next method
 		List<String> start = new ArrayList<String>();
@@ -223,12 +250,10 @@ public class BatchListTab {
 		}
 		end.removeAll(Arrays.asList("", null));
 	}
-
-	// creates an array list of the current batches list and compares it to the
-	// lists defined in the above method
+		
+	// creates an array list of the current batches list and compares it to the lists defined in the above method
 	// to ensure that they contain the same data
-	public static boolean allBatchesAfterReset(List<WebElement> Nfrom, List<WebElement> Nto, WebDriver wd)
-			throws Throwable {
+	public static boolean allBatchesAfterReset(List<WebElement> Nfrom, List<WebElement> Nto, WebDriver wd) throws Throwable {
 		boolean done = true;
 		// creates array list containing the data in the From fields of the batches which are showing after resetting
 		List<String> afterReset = new ArrayList<String>();
@@ -242,7 +267,7 @@ public class BatchListTab {
 			postReset.add(col.getText());
 		}
 		postReset.removeAll(Arrays.asList("", null));
-
+		
 		SimpleDateFormat format = new SimpleDateFormat("mm. dd, yyyy");
 		Date date = new Date();
 		System.out.println(format.format(date));

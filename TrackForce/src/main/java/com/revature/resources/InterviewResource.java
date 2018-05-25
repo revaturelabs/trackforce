@@ -90,6 +90,5 @@ public class InterviewResource {
 	@Path("/{interviewid}")
 	public Response getClientInterview(@PathParam("interviewid") int interviewid) {
 		return Response.status(200).build();
-	
 	}
 }

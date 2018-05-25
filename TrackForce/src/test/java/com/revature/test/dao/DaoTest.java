@@ -1,12 +1,12 @@
 package com.revature.test.dao;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.testng.annotations.Test;
 
 import com.revature.utils.HibernateUtil;
 
 public class DaoTest {
-	static final Logger logger = Logger.getLogger(DaoTest.class);
+	
 
 	@Test
 	public void daoTest() {

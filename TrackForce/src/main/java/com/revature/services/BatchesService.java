@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 
 import com.revature.dao.BatchDao;
 import com.revature.dao.BatchDaoHibernate;
@@ -14,7 +14,7 @@ import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
 
 public class BatchesService {
-	static final Logger logger = Logger.getLogger(BatchesService.class);
+	
 	private BatchDao batchDao;
 
 	public BatchesService() {
@@ -41,9 +41,9 @@ public class BatchesService {
 	}
 
 	public Set<BatchInfo> getBatchesByCurri(String c) {
-//		logger.info("getby curriculum: " + "");
+		// logger.info("getby curriculum: " + "");
 		Set<BatchInfo> batches = batchDao.getAllBatches();
-		
+
 		// remove all batches not equal to curriculum
 		Iterator<BatchInfo> iterator = batches.iterator();
 		while (iterator.hasNext()) {

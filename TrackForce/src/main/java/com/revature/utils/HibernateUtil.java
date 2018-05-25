@@ -8,7 +8,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -22,7 +22,7 @@ import org.hibernate.service.ServiceRegistry;
  * object.
  */
 public class HibernateUtil {
-	static final Logger logger = Logger.getLogger(HibernateUtil.class);
+	
     private static SessionFactory sessionFactory;
 
     /**

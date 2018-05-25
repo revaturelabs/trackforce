@@ -258,10 +258,9 @@ public class AssociateResource {
 
 	@POST
 	@Path("{associateid}/interviews")
-	public Response addAssociateInterview(@PathParam("associateid") Integer associateid, InterviewFromClient ifc ) {
-		InterviewService is = new InterviewService();
-		is.addInterviewByAssociate(associateid, ifc);
-		return Response.status(201).build();
+	public InterviewResource addAssociateInterview() {
+
+		return new InterviewResource();
 	}
 
 

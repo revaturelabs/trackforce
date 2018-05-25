@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
 import { PredictionService} from '../../services/prediction-service/prediction.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
+import { Chart } from 'chart.js';
 //import {FormsComponent} from '@angular/core';
 
 @Component({
@@ -19,11 +20,18 @@ export class PredictionsComponent implements OnInit {
   public expanded: boolean = false;
   public results: any;
   public message: string = "";
+  public batchesID: string[];
+  public batchNumberAssociates : number[];
+  public hello : string = "wassup";
+  public hellos :string[] = ["hello","gutentag","aloha","hola"];
+
+  
 
   constructor(private ss: SkillsetService, private ps: PredictionService) { }
 
   ngOnInit() {
     this.getListofCurricula();
+    this.hello = "sdfsdf";
   }
 
   toggleCheckboxes() {
@@ -117,6 +125,38 @@ export class PredictionsComponent implements OnInit {
         }
       );
     }
+    let canvas : any = (document.getElementById("bar-chart-horizontal");
+    let ctx = canvas.getContext("2d");
+    let chart1 = new Chart (ctx, {
+      type: 'horizontalBar',
+      data: {
+        labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+        datasets: [
+          {
+            label: "Population (millions)",
+            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            data: [2478,5267,734,784,433]
+          }
+        ]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: 'Predicted world population (millions) in 2050'
+        }
+      }
+  });
   }
+
+
+  curriculumBatchSpecifics(){
+
+
+  
+  }
+
+
+
 
 }

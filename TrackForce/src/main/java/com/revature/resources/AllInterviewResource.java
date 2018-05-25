@@ -25,14 +25,15 @@ public class AllInterviewResource {
 	
 	@GET
 	public Response getAllInterviews() {
-		Set<InterviewInfo> interviews = null;
-		try {
-			interviews = iservice.getAllInterviews();
-		} catch (HibernateException | IOException e) {
-			e.printStackTrace();
-		}
-		Status status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		//Set<InterviewInfo> interviews = null;
+	//	try {
+		//	interviews = iservice.getAllInterviews();
+	//	} catch (HibernateException | IOException e) {
+	//		e.printStackTrace();
+		//}
+		//Status status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
 
-		return Response.status(status).entity(interviews).build();
+		//return Response.status(status).entity(interviews).build();
+		return Response.ok().build();
 	}
 }

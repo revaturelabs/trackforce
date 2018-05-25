@@ -43,7 +43,7 @@
         </init-param>
         <init-param>
             <param-name>swagger.api.basepath</param-name>
-            <param-value>http://localhost/TrackForce</param-value>
+            <param-value>http://localhost:8085/TrackForce</param-value>
             <!--<param-value>http://54.166.255.85:8085/TrackForce</param-value>-->
         </init-param>
         <load-on-startup>2</load-on-startup>

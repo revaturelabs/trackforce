@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
 /**
@@ -15,6 +16,7 @@ import org.apache.tomcat.jdbc.pool.DataSource;
  * @author Vaeth
  */
 public class DataSourceBuilder {
+	static final Logger logger = Logger.getLogger(DataSourceBuilder.class);
     public static final String URL_KEY = "url-env";
     public static final String USERNAME_KEY = "username-env";
     public static final String PASS_KEY = "password-env";
@@ -74,7 +76,7 @@ public class DataSourceBuilder {
 
             return props;
         } catch (IOException e) {
-            LogUtil.logger.error(new IOException("Could not read properties file", e));
+            logger.error(new IOException("Could not read properties file", e));
         }
         return null;
     }

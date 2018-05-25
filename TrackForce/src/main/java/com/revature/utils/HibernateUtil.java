@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -21,6 +22,7 @@ import org.hibernate.service.ServiceRegistry;
  * object.
  */
 public class HibernateUtil {
+	static final Logger logger = Logger.getLogger(HibernateUtil.class);
     private static SessionFactory sessionFactory;
 
     /**
@@ -76,7 +78,7 @@ public class HibernateUtil {
 
         // build session factory
         sessionFactory = config.buildSessionFactory(registry);
-        LogUtil.logger.info("SessionFactory successfully built");
+        logger.info("SessionFactory successfully built");
 
         return sessionFactory;
     }
@@ -86,20 +88,20 @@ public class HibernateUtil {
      */
     public static void shutdown() {
         if (sessionFactory != null) {
-        	LogUtil.logger.info("Shutting down SessionFactory");
+        	logger.info("Shutting down SessionFactory");
             sessionFactory.close();
-            LogUtil.logger.info("SessionFactory has been shutdown.");
+            logger.info("SessionFactory has been shutdown.");
             // This manually deregisters JDBC driver, which prevents Tomcat 7 from
             // complaining about memory leaks to this class
             Enumeration<Driver> drivers = DriverManager.getDrivers();
             while (drivers.hasMoreElements()) {
                 Driver driver = drivers.nextElement();
                 try {
-                	LogUtil.logger.info(String.format("Deregistering jdbc driver: %s", driver));
+                	logger.info(String.format("Deregistering jdbc driver: %s", driver));
                     DriverManager.deregisterDriver(driver);
-                	LogUtil.logger.info(String.format("%s has been deregistered.", driver));
+                	logger.info(String.format("%s has been deregistered.", driver));
                 } catch (SQLException e) {
-                    LogUtil.logger.fatal(String.format("Error deregistering driver %s", driver), e);
+                    logger.fatal(String.format("Error deregistering driver %s", driver), e);
                 }
             }
         }

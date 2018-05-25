@@ -3,6 +3,7 @@ package com.revature.services;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -15,10 +16,10 @@ import com.revature.model.UserJSON;
 import com.revature.request.model.CreateUserModel;
 import com.revature.request.model.SuccessOrFailMessage;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
 
 public class UserService {
+	static final Logger logger = Logger.getLogger(UserService.class);
 
     private JWTService jwtService;
     private UserDAO userDao;
@@ -120,7 +121,7 @@ public class UserService {
         } catch (Exception e) {
             session.flush();
             tx.rollback();
-            LogUtil.logger.error(e);
+            logger.error(e);
             throw new IOException("Could not get associate", e);
         } finally {
             session.close();

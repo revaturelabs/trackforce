@@ -27,8 +27,8 @@ export class UserService {
      *
      * @param {number} roleId - New user's Role ID
      *      1 Admin ----------- user has full privileges including Creating New Users
-     *      2 Manager --------- user has full privileges excluding Creating New Users
-     *      3 Vice President -- pending implementation
+     *      2 Trainer --------- user has full privileges excluding Creating New Users
+     *      3 Delivery -- pending implementation
      *      4 Associate ------- pending implementation
      */
 

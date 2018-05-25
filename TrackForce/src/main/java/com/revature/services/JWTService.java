@@ -189,6 +189,9 @@ public class JWTService {
 			session.flush();
 			tx.rollback();
 		}
+		finally {
+			session.close();
+		}
 		return verified;
 	}
 

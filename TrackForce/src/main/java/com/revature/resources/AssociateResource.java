@@ -246,6 +246,7 @@ public class AssociateResource {
 				| IllegalArgumentException | NullPointerException e) {
 			System.out.println("in the catch block");
 			e.printStackTrace();
+			return Response.status(403).build();
 		}
 		
 		if (claims.getId().equals("1")) {

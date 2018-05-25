@@ -20,20 +20,19 @@ import com.revature.services.InterviewService;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AllInterviewResource {
-	
+
 	private InterviewService iservice = new InterviewService();
-	
+
 	@GET
 	public Response getAllInterviews() {
-		//Set<InterviewInfo> interviews = null;
-	//	try {
-		//	interviews = iservice.getAllInterviews();
-	//	} catch (HibernateException | IOException e) {
-	//		e.printStackTrace();
-		//}
-		//Status status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		Set<InterviewInfo> interviews = null;
+		try {
+			interviews = iservice.getAllInterviews();
+		} catch (HibernateException | IOException e) {
+			e.printStackTrace();
+		}
+		Status status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		return Response.status(status).entity(interviews).build();
 
-		//return Response.status(status).entity(interviews).build();
-		return Response.ok().build();
 	}
 }

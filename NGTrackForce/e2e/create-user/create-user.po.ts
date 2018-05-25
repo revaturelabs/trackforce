@@ -7,9 +7,10 @@ export class CreateUserPo {
     private password            : ElementFinder;
     private passwordConfirm     : ElementFinder;
     private adminRadio          : ElementFinder;
-    private associateRadio      : ElementFinder;
-    private directorRadio       : ElementFinder;
+    private managerRadio       : ElementFinder;
     private vpRadio             : ElementFinder;
+    private associateRadio      : ElementFinder;
+  
 
     /**
      * Stores each element on the Create User page:
@@ -27,7 +28,7 @@ export class CreateUserPo {
          this.passwordConfirm = this.getPasswordConfirmInput();
          this.adminRadio = this.getAdminRadio();
          this.associateRadio = this.getAssociateRadio();
-         this.directorRadio = this.getDirectorRadio();
+         this.managerRadio = this.getManagerRadio();
          this.vpRadio = this.getVPRadio();
     }
 
@@ -35,7 +36,7 @@ export class CreateUserPo {
      * Returns the Create User page
      */
     navigateTo(){
-        return browser.get('/createUser');
+        return browser.get('create-user');
     }
 
     /**
@@ -115,7 +116,8 @@ export class CreateUserPo {
      * Returns the admin radio button element in the DOM
      */
     private getAdminRadio(){
-        return element(by.css('[value="admin"]'));
+      //  return element(by.cssContainingText('optradio','admin'));
+        return element(by.css('[value="1"]'));
     }
 
     /**
@@ -129,7 +131,7 @@ export class CreateUserPo {
      * Returns the associate radio button element in the DOM
      */
     private getAssociateRadio(){
-        return element(by.css('[value="assoc"]'));
+        return element(by.css('[value="4"]'));
     }
 
     /**
@@ -140,24 +142,24 @@ export class CreateUserPo {
     }
 
     /**
-     * Returns the director radio button element in the DOM
+     * Returns the manager radio button element in the DOM
      */
-    private getDirectorRadio(){
-        return element(by.css('[value="direct"]'));
+    private getManagerRadio(){
+        return element(by.css('[value="2"]'));
     }
 
     /**
-     * Clicks the director radio button elemeing in the DOM
+     * Clicks the manager radio button elemeing in the DOM
      */
-    clickDirectorRadio(){
-        this.directorRadio.click();
+    clickManagerRadio(){
+        this.managerRadio.click();
     }
 
     /**
      * Returns the vp radio button element in the DOM
      */
     private getVPRadio(){
-        return element(by.css('[value="vp"]'));
+        return element(by.css('[value="3"]'));
     }
 
     /**

@@ -29,7 +29,7 @@ describe("Batch List Tab Protractor Test (Login)", function() {
 describe("Batch List Tab Protractor Test (Click Batch List Tab)", function() {
 	it('Should be able to switch to Batch List Tab', function() {
 		browser.driver.sleep(10000);
-		element(by.cssSelector("[href='/batch-listing']").click();
+		element(by.cssSelector("[href='/batch-listing']").click());
 		// If tab is clicked, find something to match
 		
 	});

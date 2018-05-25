@@ -13,7 +13,7 @@ describe('client-list page input and button fields', function() {
         clientList = new ClientListPo();
         testConfig = new TestConfig();
         baseURL = testConfig.getBaseURL();
-        testURL = '/clientList';
+        testURL = '/client-list';
         searchByClientName = 'searchClient';
     });
 

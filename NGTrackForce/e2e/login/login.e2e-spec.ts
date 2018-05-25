@@ -1,11 +1,13 @@
 import { LoginPage } from './login.po';
-
+/*
+Smoke test: Checks elements to be exist
+*/
 describe('login page element existences', () => {
   let page: LoginPage;
 
   beforeAll(() => {
-   // page = new LoginPage();
-   // page.navigateTo();
+    page = new LoginPage();
+    page.navigateTo();
   });
 
   it('should have a username input box', () => {

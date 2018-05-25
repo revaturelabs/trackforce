@@ -6,6 +6,7 @@
  export class User{
      username: string;
      passwordHash: string;
+     verified: boolean;
      tfRoleId: number;
      verified: boolean;
      userId: number;

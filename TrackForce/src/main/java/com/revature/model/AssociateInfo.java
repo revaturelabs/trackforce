@@ -9,49 +9,69 @@ import com.revature.entity.TfMarketingStatus;
 import com.revature.utils.LogUtil;
 
 /**
- * Class to hold information about an associate for the batch details page.
+ * Associate class to hold information about an associate for the batch details page.
  */
-@XmlRootElement
 public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
-
 	private static final long serialVersionUID = 6047227506797717614L;
-	
-	@XmlElement
 	private Integer id;
-	
-	@XmlElement
 	private String firstName;
-	
-	@XmlElement
 	private String lastName;
-	
-	@XmlElement
 	private static StatusInfo totals = new StatusInfo();
-
-	@XmlElement
 	private Integer msid;
-	
-	@XmlElement
 	private String marketingStatus;
-
-	@XmlElement
 	private Integer clid;
-	
-	@XmlElement
 	private String client;
-
-	@XmlElement
 	private Integer ecid;
-	
-	@XmlElement
 	private String endClient;
-
-	@XmlElement
 	private Integer bid;
-	
-	@XmlElement
 	private String batchName;
-	
+
+	private Integer curid;
+	private String curriculumName;
+
+	private long startDate;
+
+
+	/**
+	 * Represents an associate.
+	 * 
+	 * @param id
+	 *            - The id of the associate.
+	 * @param firstName
+	 *            - The associate's first name.
+	 * @param lastName
+	 *            - The associate's last name.
+	 * @param marketingStatus
+	 *            - The associate's marketing status (mapped, unmapped, etc.)
+	 * @param clientid-The
+	 *            clients's name.
+	 */
+	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.marketingStatus = marketingStatus;
+		this.client = client;
+	}
+
+	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client,
+			String batchName, String curriculumName, long startDate) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.marketingStatus = marketingStatus;
+		this.client = client;
+		this.endClient = "";
+		this.batchName = batchName;
+		this.curriculumName = curriculumName;
+		this.startDate = startDate;
+	}
+
+	public AssociateInfo() {
+	}
+
 	public Integer getMsid() {
 		return msid;
 	}
@@ -91,52 +111,6 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	public void setCurid(Integer curid) {
 		this.curid = curid;
 	}
-
-	private Integer curid;
-	private String curriculumName;
-	
-	private long startDate;
-
-	/**
-	 * Constructs a newly allocated BatchInfo object that represents an associate.
-	 * 
-	 * @param id
-	 *            - The id of the associate.
-	 * @param firstName
-	 *            - The associate's first name.
-	 * @param lastName
-	 *            - The associate's last name.
-	 * @param marketingStatus
-	 *            - The associate's marketing status (mapped, unmapped, etc.)
-	 * @param clientid-The
-	 *            clients's name.
-	 */
-	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.marketingStatus = marketingStatus;
-		this.client = client;
-	}
-
-	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client,
-			String batchName, String curriculumName, long startDate) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.marketingStatus = marketingStatus;
-		this.client = client;
-		this.endClient = "";
-		this.batchName = batchName;
-		this.curriculumName = curriculumName;
-		this.startDate = startDate;
-	}
-
-	public AssociateInfo() {
-	}
-
 	/**
 	 * Retrieve the associate's ID
 	 * 
@@ -266,7 +240,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	public void setCurriculumName(String curriculumName) {
 		this.curriculumName = curriculumName == null ? "None" : curriculumName;
 	}
-	
+
 	public long getClientStartDate() {
 		return startDate;
 	}
@@ -275,6 +249,29 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 		this.startDate = startDate;
 	}
 
+	public void setBatchId(Integer tfBatchId) {
+		this.bid = tfBatchId == null ? -1 : tfBatchId;
+	}
+
+	public void setClientId(Integer tfClientId) {
+		this.clid = tfClientId == null ? -1 : tfClientId;
+	}
+
+	public void setCurriculumId(Integer tfCurriculumId) {
+		this.curid = tfCurriculumId == null ? -1 : tfCurriculumId;
+	}
+
+	public void setEndClientId(Integer tfEndClientId) {
+		this.ecid = tfEndClientId == null ? -1 : tfEndClientId;
+	}
+
+	public void setMarketingStatusId(Integer tfMarketingStatusId) {
+		this.msid = tfMarketingStatusId == null ? -1 : tfMarketingStatusId;
+	}
+
+	public static StatusInfo getTotals() {
+		return totals;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -345,38 +342,15 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	@Override
 	public String toString() {
 		return "AssociateInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", marketingStatus="
-				+ marketingStatus + ", startDate=" + startDate + ",client=" + client + ", endClient=" + endClient + ", batchName=" + batchName
-				+ ", curriculumName=" + curriculumName + "]";
+				+ marketingStatus + ", startDate=" + startDate + ",client=" + client + ", endClient=" + endClient
+				+ ", batchName=" + batchName + ", curriculumName=" + curriculumName + "]";
 	}
 
 	@Override
 	public int compareTo(AssociateInfo o) {
-		return this.id-o.id;
+		return this.id - o.id;
 	}
 
-	public void setBatchId(Integer tfBatchId) {
-		this.bid = tfBatchId == null ? -1 : tfBatchId;
-	}
-
-	public void setClientId(Integer tfClientId) {
-		this.clid = tfClientId == null ? -1 : tfClientId;
-	}
-
-	public void setCurriculumId(Integer tfCurriculumId) {
-		this.curid = tfCurriculumId == null ? -1 : tfCurriculumId;
-	}
-
-	public void setEndClientId(Integer tfEndClientId) {
-		this.ecid = tfEndClientId == null ? -1 : tfEndClientId;
-	}
-
-	public void setMarketingStatusId(Integer tfMarketingStatusId) {
-		this.msid = tfMarketingStatusId == null ? -1 : tfMarketingStatusId;
-	}
-
-	public static StatusInfo getTotals() {
-		return totals;
-	}
 
 	public static void appendToMap(TfMarketingStatus tfMarketingStatus) {
 		switch (tfMarketingStatus.getTfMarketingStatusId()) {
@@ -414,10 +388,10 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 			return;
 		}
 		totals.setName("Total Associates");
-		LogUtil.logger.info(totals.getName() + ":\n" + totals.getTrainingMapped() + " " + totals.getReservedMapped() + " "
-				+ totals.getSelectedMapped() + " " + totals.getConfirmedMapped() + " " + totals.getDeployedMapped() + "\n"
-				+ totals.getTrainingUnmapped() + " " + totals.getOpenUnmapped() + " " + totals.getSelectedUnmapped() + " "
-				+ totals.getConfirmedUnmapped() + " " + totals.getDeployedUnmapped());
+		LogUtil.logger.info(totals.getName() + ":\n" + totals.getTrainingMapped() + " " + totals.getReservedMapped()
+				+ " " + totals.getSelectedMapped() + " " + totals.getConfirmedMapped() + " "
+				+ totals.getDeployedMapped() + "\n" + totals.getTrainingUnmapped() + " " + totals.getOpenUnmapped()
+				+ " " + totals.getSelectedUnmapped() + " " + totals.getConfirmedUnmapped() + " "
+				+ totals.getDeployedUnmapped());
 	}
 }
-

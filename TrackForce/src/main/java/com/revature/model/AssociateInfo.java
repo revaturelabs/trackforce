@@ -2,16 +2,18 @@ package com.revature.model;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import org.apache.log4j.Logger;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.entity.TfMarketingStatus;
-import com.revature.utils.LogUtil;
 
 /**
  * Associate class to hold information about an associate for the batch details page.
  */
 public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
+	@JsonIgnore
+	static final Logger logger = Logger.getLogger(AssociateInfo.class);
+	
 	private static final long serialVersionUID = 6047227506797717614L;
 	private Integer id;
 	private String firstName;
@@ -388,7 +390,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 			return;
 		}
 		totals.setName("Total Associates");
-		LogUtil.logger.info(totals.getName() + ":\n" + totals.getTrainingMapped() + " " + totals.getReservedMapped()
+		logger.info(totals.getName() + ":\n" + totals.getTrainingMapped() + " " + totals.getReservedMapped()
 				+ " " + totals.getSelectedMapped() + " " + totals.getConfirmedMapped() + " "
 				+ totals.getDeployedMapped() + "\n" + totals.getTrainingUnmapped() + " " + totals.getOpenUnmapped()
 				+ " " + totals.getSelectedUnmapped() + " " + totals.getConfirmedUnmapped() + " "

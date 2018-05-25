@@ -32,8 +32,8 @@ import io.swagger.annotations.Api;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BatchResource {
-	private BatchesService service;
 	static final Logger logger = Logger.getLogger(BatchResource.class);
+	private BatchesService service;
 
 	public BatchResource() {
 		this.service = new BatchesService();

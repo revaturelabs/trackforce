@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="container min-height" ng-init="">
+<div class="container min-height" ng-init="" *ngIf="!isAssociate">
   <div class="row">
     <div class="alert alert-success" *ngIf="message">
       <h5 class="text-success">{{message}}</h5>
@@ -182,5 +182,30 @@
       </div>
     </div>
   </div>
+</div>
+<div *ngIf="isAssociate">
+<div class="col-sm-6">
+      <h3>Interviews</h3>
+      <table class="table table-responsive table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Interview</th>
+            <th>Client</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let interview of interviews; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{interview.client}}</td>
+            <td>{{interview.date | date:'longDate'}}</td>
+            <td>{{interview.type}}</td>
+            <td>{{interview.feedback}}</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
 </div>
 <app-footer></app-footer>

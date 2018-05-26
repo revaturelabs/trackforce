@@ -125,7 +125,7 @@ export class PredictionsComponent implements OnInit {
         }
       );
     }
-    let canvas : any = (document.getElementById("bar-chart-horizontal");
+    let canvas : any = (document.getElementById("bar-chart-horizontal"));
     let ctx = canvas.getContext("2d");
     let chart1 = new Chart (ctx, {
       type: 'horizontalBar',

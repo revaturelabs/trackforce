@@ -40,6 +40,7 @@ export class FormComponent implements OnInit {
     id: number;
     formOpen: boolean;
     isVP: boolean;
+    isAssociate: boolean;
 
     // form booleans
     isMapped: boolean;
@@ -69,8 +70,14 @@ export class FormComponent implements OnInit {
         //Role checks
         if(this.user.tfRoleId === 3){
           this.isVP = true;
-        } else {
+        }
+        else if(this.user.tfRoleId === 4)
+        {
+         this.isAssociate = true;
+        }
+         else {
           this.isVP = false;
+          this.isAssociate = false;
         }
 
         this.associateService.getAssociate(this.id).subscribe(

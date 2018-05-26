@@ -18,6 +18,7 @@ import { ClientService } from '../../services/client-service/client.service';
 @AutoUnsubscribe
 export class MyInterviewComponent implements OnInit {
   public interviews: Array<any> = [];
+ 
   public associate: Associate = new Associate();
   public id:number = 0;
   public newInterview: any = {
@@ -69,23 +70,27 @@ export class MyInterviewComponent implements OnInit {
 
   getInterviews(id: number) {
     this.associateService.getInterviewsForAssociate(id).subscribe(
-      data => {
+     data => {
         let tempArr = [];
         for (let i=0;i<data.length;i++) {
           let interview = data[i];
           let intObj = {
             id: interview.id,
             client: interview.tfClientName,
-            date: new Date(interview.tfInterviewDate),
-            type: interview.typeName,
-            feedback: interview.tfInterviewFeedback
+           date: new Date(interview.tfInterviewDate),
+           type: interview.typeName,
+            Afeedback: interview.tfInterviewFeedback,  
+            JDescription: "Testing company applications in an agile environment",
+            DInterview: "June 22, 2018",
+            CFeedback: "Impressive interview, final decision will be made soon",
+            FlagReason: "I was told less than 24 hours before interview"      
           }
           tempArr.push(intObj);
         }
         this.interviews = tempArr;
       }
     )
-  }
+  } 
   
   
     getAssociate(id: number){
@@ -95,6 +100,6 @@ export class MyInterviewComponent implements OnInit {
       },
       err => {
         console.log(err);
-    });
+  });
   }
 }

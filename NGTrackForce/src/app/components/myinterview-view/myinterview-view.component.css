@@ -22,3 +22,10 @@ thead, tbody {
   background-color: white;
   border: 2px solid lightgrey;
 }
+.flag {
+  /* width: 4px; */
+  width: 4%;
+}
+.id {
+	text-decoration: underline;
+}

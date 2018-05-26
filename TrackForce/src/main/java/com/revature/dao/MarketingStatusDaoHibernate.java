@@ -25,7 +25,8 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 	@Override
 	public MarketingStatusInfo getMarketingStatus(String status) {
 		TfMarketingStatus marketingStatus = null;
-		try(Session session = HibernateUtil.getSession()) {
+		Session session = HibernateUtil.getSession();
+		try {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<TfMarketingStatus> criteriaQuery = builder.createQuery(TfMarketingStatus.class);
 			Root<TfMarketingStatus> root = criteriaQuery.from(TfMarketingStatus.class);
@@ -37,13 +38,20 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 		} catch (NoResultException nre) {
 			LogUtil.logger.error(nre);
 		}
+		finally {
+			session.close();
+		}
 		return Dao2DoMapper.map(marketingStatus);
 	}
 	
 	public TfMarketingStatus getMarketingStatus(Integer id) {
 		TfMarketingStatus tfMarketingStatus;
-		try(Session session = HibernateUtil.getSession()){
+		Session session = HibernateUtil.getSession();
+		try {
 			tfMarketingStatus = (TfMarketingStatus) session.load(TfMarketingStatus.class, id);
+		}
+		finally {
+			session.close();
 		}
 		return tfMarketingStatus;
 	}
@@ -52,7 +60,8 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 	public Map<Integer, MarketingStatusInfo> getMarketingStatus() {
 		List<TfMarketingStatus> marketingStatusEnts;
 		Map<Integer, MarketingStatusInfo> map = new HashMap<>();
-		try(Session session = HibernateUtil.getSession()) {
+		Session session = HibernateUtil.getSession();
+		try {
 			CriteriaBuilder cb = session.getCriteriaBuilder();
 			CriteriaQuery<TfMarketingStatus> cq = cb.createQuery(TfMarketingStatus.class);
 			Root<TfMarketingStatus> from = cq.from(TfMarketingStatus.class);
@@ -65,6 +74,9 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 			return map;
 		} catch(Exception e) {
 			LogUtil.logger.error(e);
+		}
+		finally {
+			session.close();
 		}
 		return new HashMap<>();
 	}

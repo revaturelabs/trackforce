@@ -5,7 +5,7 @@
       {{message}}
     </div>
     <div class="col-md-3">
-      <h3>Predictions</h3>
+      <h3>Predictions Testing</h3>
       <form>
         <div class="form-group">
           <label for="startDate">Start Date Filter</label>
@@ -63,7 +63,48 @@
           </tr>
         </tbody>
       </table>
+      <canvas id="bar-chart-horizontal" width="800" height="450"></canvas>
     </div>
   </div>
+
+  <div>
+
+    <h1>Prediction breakdown</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Batch ID</th>
+          <th>Available Associates</th>
+        </tr>
+        
+
+      </thead>
+
+      <tbody>
+          <tr *ngFor="let x of hellos" >
+            <td>{{x}}</td>
+            <!-- <td>{{y}}</td> -->
+
+
+
+        </tr>
+        </tbody>
+
+
+    </table>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </div>
+
+
+
 </div>
 <app-footer></app-footer>

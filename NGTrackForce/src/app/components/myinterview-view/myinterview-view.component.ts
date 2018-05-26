@@ -4,8 +4,9 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../services/client-service/client.service';
+
 /**
-*@author Michael Tseng
+*@author Katherine Obioha
 *
 *@description This is the view for associates only
 *
@@ -28,6 +29,7 @@ export class MyInterviewComponent implements OnInit {
     feedback: null
   }
   public formOpen: boolean = false;
+  public conflictingInterviews: string = "";
 
   constructor(
     private associateService: AssociateService,
@@ -41,12 +43,9 @@ export class MyInterviewComponent implements OnInit {
     this.getAssociate(this.id);
   }
 
-
-
   toggleForm() {
     this.formOpen = !this.formOpen;
   }
-
 
   addInterview(){
     console.log(this.newInterview);
@@ -93,7 +92,22 @@ export class MyInterviewComponent implements OnInit {
   } 
   
   
-    getAssociate(id: number){
+ 
+
+  /* Function to search for conflicting interviews */
+  highlightInterviewConflicts(interview: number) {
+    var checkDate = this.interviews[interview].date;
+    for (var i = 0; i < this.interviews.length; i++) {
+      if (this.interviews[i].date === checkDate && i != interview) {
+        this.conflictingInterviews = "The highlighted interviews are conflicting." +
+          "They are both scheduled at the same time!";
+        return true;
+      }
+    }
+    return false;
+  }
+
+  getAssociate(id: number){
     this.associateService.getAssociate(id).subscribe(
       data => {
         this.associate = data;

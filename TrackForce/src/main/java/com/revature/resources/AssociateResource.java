@@ -227,35 +227,11 @@ public class AssociateResource {
 	 */
 
 	
-	@GET
-	@Path("{associateid}/interviews")
-	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid,@HeaderParam("Authorization") String token) {
-		System.out.println(token);
-		Claims claims = null;
-		System.out.println("Before the try block");
-		try {
-			System.out.println("In the try block");
-			if (token == null) {
-				throw new UnsupportedJwtException("token null");
-			}
-			claims = jService.getClaimsFromToken(token);
-			System.out.println("Print claims " + claims);
-		
-		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
-				| IllegalArgumentException | NullPointerException e) {
-			System.out.println("in the catch block");
-			e.printStackTrace();
-		}
-		
-		if (claims.getId().equals("1")) {
-			Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
-			return Response.ok(associateinfo).build();
-		} else {
-			return Response.status(403).build();
-		}
-	}
+//	@Path("/interviews") 
+//	public InterviewResource getAllInterview() {
+//		return new InterviewResource();
+//	}
 
-	@POST
 	@Path("{associateid}/interviews")
 	public InterviewResource addAssociateInterview() {
 

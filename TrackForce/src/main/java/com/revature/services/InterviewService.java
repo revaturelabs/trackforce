@@ -36,6 +36,7 @@ public class InterviewService{
     public Set<InterviewInfo> getAllInterviews() throws HibernateException, IOException
     {
   	
+    	//TODO: handle exception maybe
     	Set<InterviewInfo> interviews = interviewDao.getInterviewFromCache();
         if (interviews == null || interviews.isEmpty()) 
         {

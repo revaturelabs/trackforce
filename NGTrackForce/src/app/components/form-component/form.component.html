@@ -1,14 +1,21 @@
 <app-navbar></app-navbar>
 <div class="container min-height" ng-init="" *ngIf="!isAssociate">
   <div class="row">
-    <div class="alert alert-success" *ngIf="message">
-      <h5 class="text-success">{{message}}</h5>
+    <div class="alert alert-success" *ngIf="successMessage"> 
+      <h5 class="text-success">{{successMessage}}</h5>
+    </div>
+	<div class="alert alert-danger" *ngIf="errorMessage">
+      <h5 class="text-danger">{{errorMessage}}</h5>
     </div>
     <div class="col-sm-6">
       <h3>Associate Info</h3>
       <div class="table-responsive info">
         <table class="table table-hover table-bordered">
           <tbody>
+			<tr *ngIf="!isVerified">
+              <td>This Associate has not been approved yet</td>
+              <td><a *ngIf="true" (click)="verifyAssociate()">Approve</a></td>
+            </tr>
             <tr>
               <td>Associate ID</td>
               <td>{{associate.id}}</td>

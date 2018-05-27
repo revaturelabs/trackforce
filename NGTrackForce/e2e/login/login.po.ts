@@ -33,4 +33,8 @@ export class LoginPage {
   getTitle(){
     return element(by.xpath('//title')).getText();
   }
+
+  getFailedLoginResponse() {
+    return element(by.xpath('//*[@id="pwd-container"]/div[2]/section/form/div[1]')).getText();
+  }
 }

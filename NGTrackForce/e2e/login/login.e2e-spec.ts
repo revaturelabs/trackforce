@@ -51,3 +51,23 @@ describe('confirm login navigation', () => {
     expect(page.getTitle()).not.toEqual('NGTrackForce');
   });
 });
+
+describe('Confirm login failures', () => {
+  let page: LoginPage;
+
+  beforeAll(() => {
+    page = new LoginPage();
+    page.navigateTo();
+  });
+
+  it('should fail to log in when nothing is entered', () => {
+    page.getLoginButton().click();
+    expect(page.getFailedLoginResponse()).toEqual('Please enter a username and password');
+  });
+
+  it('should fail to login when incorrect credentials are entered', () => {
+    page.getLoginButton().click();
+    expect(page.getFailedLoginResponse()).toEqual('');
+  });
+
+});

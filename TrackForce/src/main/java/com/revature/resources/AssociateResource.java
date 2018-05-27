@@ -178,7 +178,6 @@ public class AssociateResource {
 	public Response updateAssociate(@PathParam("associateId") Integer id, @PathParam("startDate") String startDate) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
-		// StringBuilder sb = new StringBuilder();
 		try {
 			StoredProcedureQuery spq = session.createStoredProcedureCall("admin.UPDATEASSOCIATECLIENTSTARTDATE");
 			spq.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);

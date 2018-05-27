@@ -1,18 +1,17 @@
 package com.revature.resources;
-
-
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
 import java.util.Set;
-
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -23,7 +22,6 @@ import com.revature.model.InterviewInfo;
 import com.revature.services.AssociateService;
 import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -31,7 +29,12 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
 
+import io.swagger.annotations.Api;
+
 @Path("/")
+@Api(value = "Interviews")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class InterviewResource {
 	
 	private AssociateService service = new AssociateService();

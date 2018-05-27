@@ -3,7 +3,6 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
@@ -19,8 +18,10 @@ import org.hibernate.HibernateException;
 
 import com.revature.model.InterviewInfo;
 import com.revature.services.InterviewService;
+import io.swagger.annotations.Api;
 
-@Path("/interviews")
+@Path("interviews")
+@Api(value = "AllInterviews")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AllInterviewResource {

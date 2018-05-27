@@ -101,11 +101,15 @@ public class InterviewDaoHibernate implements InterviewDao {
 			tfi.setTfInterviewId(id);
 			tfi.setTfAssociate(session.get(TfAssociate.class, associateid));
 			tfi.setTfInterviewDate(Timestamp.from(new Date(ifc.getInterviewDate()).toInstant()));
-			tfi.setTfInterviewFeedback(ifc.getInterviewFeedback());
 			tfi.setTfClient(session.get(TfClient.class, ifc.getClientId()));
 			tfi.setTfInterviewType(session.load(TfInterviewType.class, ifc.getTypeId()));
+			
+			//Need to add new
+			//tfi.setTfAssociateFeedback(session.get);
+			
 			session.saveOrUpdate(tfi);
 			t1.commit();
+			session.close();
         } catch (NullPointerException e) {
         	LogUtil.logger.error(e);
         	if (t1 != null) {
@@ -116,6 +120,8 @@ public class InterviewDaoHibernate implements InterviewDao {
         	if (t1 != null) {
         		t1.rollback();
         	}
+        }finally {
+        	
         }
 	}
 }

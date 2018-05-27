@@ -38,8 +38,7 @@ public class BatchDaoHibernate implements BatchDao {
 	public TfBatch getBatch(String batchName) {
 		
 		TfBatch batch = null;
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		try {
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<TfBatch> criteriaQuery = builder.createQuery(TfBatch.class);
 			Root<TfBatch> root = criteriaQuery.from(TfBatch.class);
@@ -49,9 +48,6 @@ public class BatchDaoHibernate implements BatchDao {
 			return batch;
 		} catch (NoResultException nre) {
 			LogUtil.logger.error(nre);
-		}
-		finally {
-			session.close();
 		}
 		return batch;
 	}
@@ -63,15 +59,11 @@ public class BatchDaoHibernate implements BatchDao {
 			return batch;
 		else {
 			TfBatch tfBatch = null;
-			Session session = HibernateUtil.getSession();
-			try {
-				tfBatch = session.get(TfBatch.class, id);
+			try(Session s = HibernateUtil.getSession()) {
+				tfBatch = s.get(TfBatch.class, id);
 				return Dao2DoMapper.map(tfBatch);
 			} catch (NoResultException e) {
 				LogUtil.logger.error(e);
-			}
-			finally {
-				session.close();
 			}
 		}
 		return null;

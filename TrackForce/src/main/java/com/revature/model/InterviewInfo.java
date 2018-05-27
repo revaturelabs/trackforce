@@ -16,16 +16,6 @@ public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
 	private String typeName;
 	private Timestamp tfInterviewDate;
 	private String tfInterviewFeedback;
-
-	// 1804
-	private String associateFeedback;
-	private String clientFeedback;
-	private String jobDescription;
-	private Timestamp dateSalesIssued;
-	private Timestamp dateAssociateIssued;
-	private Integer isInterviewFlagged;
-	private String flagReason;
-	private Integer isClientFeedbackVisiable;
 	
 	public Integer getId() {
 		return id;
@@ -120,68 +110,5 @@ public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
 		return this.id-o.getId();
 	}
 
-
-	public String getAssociateFeedback() {
-		return associateFeedback;
-	}
-
-	public void setAssociateFeedback(String associateFeedback) {
-		this.associateFeedback = associateFeedback;
-	}
-
-	public String getClientFeedback() {
-		return clientFeedback;
-	}
-
-	public void setClientFeedback(String clientFeedback) {
-		this.clientFeedback = clientFeedback;
-	}
-
-	public String getJobDescription() {
-		return jobDescription;
-	}
-
-	public void setJobDescription(String jobDescription) {
-		this.jobDescription = jobDescription;
-	}
-
-	public Timestamp getDateSalesIssued() {
-		return dateSalesIssued;
-	}
-
-	public void setDateSalesIssued(Timestamp dateSalesIssued) {
-		this.dateSalesIssued = dateSalesIssued;
-	}
-
-	public Timestamp getDateAssociateIssued() {
-		return dateAssociateIssued;
-	}
-
-	public void setDateAssociateIssued(Timestamp dateAssociateIssued) {
-		this.dateAssociateIssued = dateAssociateIssued;
-	}
-
-	public Integer getIsInterviewFlagged() {
-		return isInterviewFlagged;
-	}
-
-	public void setIsInterviewFlagged(Integer isInterviewFlagged) {
-		this.isInterviewFlagged = isInterviewFlagged;
-	}
-
-	public String getFlagReason() {
-		return flagReason;
-	}
-
-	public void setFlagReason(String flagReason) {
-		this.flagReason = flagReason;
-	}
-
-	public Integer getIsClientFeedbackVisiable() {
-		return isClientFeedbackVisiable;
-	}
-
-	public void setIsClientFeedbackVisiable(Integer isClientFeedbackVisiable) {
-		this.isClientFeedbackVisiable = isClientFeedbackVisiable;
-	}
+	
 }

@@ -20,8 +20,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "TF_USER", schema="ADMIN")
 public class TfUser implements java.io.Serializable {
 
-	
-	/// WOWOWOWOWOW they did the datamodel right this really funny to me 1804boi
     private static final long serialVersionUID = 706405344864879997L;
     @Id
     @Column(name = "TF_USER_ID")

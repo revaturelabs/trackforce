@@ -25,51 +25,6 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	private String endClient;
 	private Integer bid;
 	private String batchName;
-<<<<<<< HEAD
-=======
-	
-	private Integer isApproved;
-	
-	public Integer getMsid() {
-		return msid;
-	}
-
-	public void setMsid(Integer msid) {
-		this.msid = msid;
-	}
-
-	public Integer getClid() {
-		return clid;
-	}
-
-	public void setClid(Integer clid) {
-		this.clid = clid;
-	}
-
-	public Integer getEcid() {
-		return ecid;
-	}
-
-	public void setEcid(Integer ecid) {
-		this.ecid = ecid;
-	}
-
-	public Integer getBid() {
-		return bid;
-	}
-
-	public void setBid(Integer bid) {
-		this.bid = bid;
-	}
-
-	public Integer getCurid() {
-		return curid;
-	}
-
-	public void setCurid(Integer curid) {
-		this.curid = curid;
-	}
->>>>>>> 5b5e5d50ee3cf7e4833844b5d5854efb90a775ce
 
 	private Integer curid;
 	private String curriculumName;
@@ -98,11 +53,10 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 		this.lastName = lastName;
 		this.marketingStatus = marketingStatus;
 		this.client = client;
-		this.isApproved = 0; // default to not be approved anything not a zero should be approved hopefully should be 1 
 	}
 
 	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client,
-			String batchName, String curriculumName, long startDate, int isApproved) {
+			String batchName, String curriculumName, long startDate) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -113,7 +67,6 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 		this.batchName = batchName;
 		this.curriculumName = curriculumName;
 		this.startDate = startDate;
-		this.isApproved = isApproved; 
 	}
 
 	public AssociateInfo() {
@@ -295,17 +248,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	public void setClientStartDate(long startDate) {
 		this.startDate = startDate;
 	}
-	public long getIsApproved() {
-		return isApproved;
-	}
 
-	public void setIsApproved(int flag) {
-		this.isApproved = flag;
-	}
-
-	
-
-<<<<<<< HEAD
 	public void setBatchId(Integer tfBatchId) {
 		this.bid = tfBatchId == null ? -1 : tfBatchId;
 	}
@@ -329,36 +272,21 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	public static StatusInfo getTotals() {
 		return totals;
 	}
-=======
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
->>>>>>> 5b5e5d50ee3cf7e4833844b5d5854efb90a775ce
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((batchName == null) ? 0 : batchName.hashCode());
-		result = prime * result + ((bid == null) ? 0 : bid.hashCode());
-		result = prime * result + ((clid == null) ? 0 : clid.hashCode());
 		result = prime * result + ((client == null) ? 0 : client.hashCode());
-		result = prime * result + ((curid == null) ? 0 : curid.hashCode());
 		result = prime * result + ((curriculumName == null) ? 0 : curriculumName.hashCode());
-		result = prime * result + ((ecid == null) ? 0 : ecid.hashCode());
 		result = prime * result + ((endClient == null) ? 0 : endClient.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((isApproved == null) ? 0 : isApproved.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((marketingStatus == null) ? 0 : marketingStatus.hashCode());
-		result = prime * result + ((msid == null) ? 0 : msid.hashCode());
-		result = prime * result + (int) (startDate ^ (startDate >>> 32));
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -373,35 +301,15 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 				return false;
 		} else if (!batchName.equals(other.batchName))
 			return false;
-		if (bid == null) {
-			if (other.bid != null)
-				return false;
-		} else if (!bid.equals(other.bid))
-			return false;
-		if (clid == null) {
-			if (other.clid != null)
-				return false;
-		} else if (!clid.equals(other.clid))
-			return false;
 		if (client == null) {
 			if (other.client != null)
 				return false;
 		} else if (!client.equals(other.client))
 			return false;
-		if (curid == null) {
-			if (other.curid != null)
-				return false;
-		} else if (!curid.equals(other.curid))
-			return false;
 		if (curriculumName == null) {
 			if (other.curriculumName != null)
 				return false;
 		} else if (!curriculumName.equals(other.curriculumName))
-			return false;
-		if (ecid == null) {
-			if (other.ecid != null)
-				return false;
-		} else if (!ecid.equals(other.ecid))
 			return false;
 		if (endClient == null) {
 			if (other.endClient != null)
@@ -418,11 +326,6 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (isApproved == null) {
-			if (other.isApproved != null)
-				return false;
-		} else if (!isApproved.equals(other.isApproved))
-			return false;
 		if (lastName == null) {
 			if (other.lastName != null)
 				return false;
@@ -433,32 +336,14 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 				return false;
 		} else if (!marketingStatus.equals(other.marketingStatus))
 			return false;
-		if (msid == null) {
-			if (other.msid != null)
-				return false;
-		} else if (!msid.equals(other.msid))
-			return false;
-		if (startDate != other.startDate)
-			return false;
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-<<<<<<< HEAD
 		return "AssociateInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", marketingStatus="
 				+ marketingStatus + ", startDate=" + startDate + ",client=" + client + ", endClient=" + endClient
 				+ ", batchName=" + batchName + ", curriculumName=" + curriculumName + "]";
-=======
-		return "AssociateInfo [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", msid=" + msid
-				+ ", marketingStatus=" + marketingStatus + ", clid=" + clid + ", client=" + client + ", ecid=" + ecid
-				+ ", endClient=" + endClient + ", bid=" + bid + ", batchName=" + batchName + ", isApproved="
-				+ isApproved + ", curid=" + curid + ", curriculumName=" + curriculumName + ", startDate=" + startDate
-				+ "]";
->>>>>>> 5b5e5d50ee3cf7e4833844b5d5854efb90a775ce
 	}
 
 	@Override

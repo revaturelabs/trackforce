@@ -21,15 +21,8 @@ public class TfRole implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 2827764589977541041L;
-	
-	@Id
-	@Column(name = "TF_ROLE_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer tfRoleId;
-	
-	@Column(name = "TF_ROLE_NAME", length = 20)
 	private String tfRoleName;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfRole")
 	private Set<TfUser> tfUsers = new HashSet<TfUser>(0);
 
 	public TfRole() {
@@ -45,7 +38,8 @@ public class TfRole implements java.io.Serializable {
 		this.tfUsers = tfUsers;
 	}
 
-	
+	@Id
+	@Column(name = "TF_ROLE_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Integer getTfRoleId() {
 		return this.tfRoleId;
 	}
@@ -54,7 +48,7 @@ public class TfRole implements java.io.Serializable {
 		this.tfRoleId = tfRoleId;
 	}
 
-	
+	@Column(name = "TF_ROLE_NAME", length = 20)
 	public String getTfRoleName() {
 		return this.tfRoleName;
 	}
@@ -63,7 +57,7 @@ public class TfRole implements java.io.Serializable {
 		this.tfRoleName = tfRoleName;
 	}
 
-	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfRole")
 	public Set<TfUser> getTfUsers() {
 		return this.tfUsers;
 	}
@@ -71,50 +65,5 @@ public class TfRole implements java.io.Serializable {
 	public void setTfUsers(Set<TfUser> tfUsers) {
 		this.tfUsers = tfUsers;
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((tfRoleId == null) ? 0 : tfRoleId.hashCode());
-		result = prime * result + ((tfRoleName == null) ? 0 : tfRoleName.hashCode());
-		result = prime * result + ((tfUsers == null) ? 0 : tfUsers.hashCode());
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TfRole other = (TfRole) obj;
-		if (tfRoleId == null) {
-			if (other.tfRoleId != null)
-				return false;
-		} else if (!tfRoleId.equals(other.tfRoleId))
-			return false;
-		if (tfRoleName == null) {
-			if (other.tfRoleName != null)
-				return false;
-		} else if (!tfRoleName.equals(other.tfRoleName))
-			return false;
-		if (tfUsers == null) {
-			if (other.tfUsers != null)
-				return false;
-		} else if (!tfUsers.equals(other.tfUsers))
-			return false;
-		return true;
-	}
-	
-	
 
 }

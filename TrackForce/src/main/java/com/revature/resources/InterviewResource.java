@@ -38,16 +38,16 @@ public class InterviewResource {
 	private JWTService jService = new JWTService();
 	private static InterviewService is = new InterviewService();
 	
-	
-	@GET
-	public Response getAllInterviews(@QueryParam("start") Long startDate,
-			@QueryParam("end") Long endDate) throws HibernateException, IOException {
-		//TODO handle exception
-		Set<InterviewInfo> interviews = is.getAllInterviews();
-		Status status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
-		System.out.println("inside get all interviews");
-		return Response.status(status).entity(interviews).build();
-	}
+	//TODO: maybe get rid of this code
+//	@GET
+//	public Response getAllInterviews(@QueryParam("start") Long startDate,
+//			@QueryParam("end") Long endDate) throws HibernateException, IOException {
+//		//TODO handle exception
+//		Set<InterviewInfo> interviews = is.getAllInterviews();
+//		Status status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
+//		System.out.println("inside get all interviews");
+//		return Response.status(status).entity(interviews).build();
+//	}
 	
 	@GET
 	@Path("/{interviewid}")

@@ -1,6 +1,7 @@
 package com.revature.resources;
 
 import static com.revature.utils.LogUtil.logger;
+
 import java.util.Collection;
 
 import javax.ws.rs.Consumes;

@@ -127,7 +127,7 @@ public class BatchResource {
 		return Response.ok(service.getAssociatesForBranch(id)).build();
 	}
 
-	// test method: returns ["Yuvi1804", 25],["wills batch", 14] every time
+	// dummy test method: returns ["Yuvi1804", 25],["wills batch", 14] every time
 	@GET
 	@Path("/adam")
 	public Response getSomeBatches() {

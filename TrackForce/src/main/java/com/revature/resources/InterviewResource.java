@@ -35,7 +35,6 @@ import io.swagger.annotations.Api;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class InterviewResource {
-
 	private AssociateService service = new AssociateService();
 	private JWTService jService = new JWTService();
 	private static InterviewService is = new InterviewService();
@@ -87,41 +86,45 @@ public class InterviewResource {
 		return Response.status(201).build();
 	}
 
-	@GET
-	@Path("/{interviewid}")
-	public Response getClientInterview(@PathParam("interviewid") int interviewid) {
-		return Response.status(200).build();
-	}
+	// Ambiguous
+	// @GET
+	// @Path("/{interviewid}")
+	// public Response getClientInterview(@PathParam("interviewid") int interviewid)
+	// {
+	// return Response.status(200).build();
+	// }
 
 	@Path("/{interviewid}/job-description")
 	@PUT
-	Response updateJobDescription(@PathParam("associateid") int associateid,
+	public Response updateJobDescription(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
 		return Response.status(200).build();
 	}
 
 	@Path("/{interviewid}/dateSaleIssue")
 	@PUT
-	Response updateDateSalesIssue(@PathParam("associateid") int associateid,
+	public Response updateDateSalesIssue(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
 		return Response.status(200).build();
 	}
 
 	@Path("/{interviewis}/flagAlert")
 	@PUT
-	Response updateFlageAlert(@PathParam("associateid") int associateid, @PathParam("interviewid") int interviewid) {
+	public Response updateFlageAlert(@PathParam("associateid") int associateid,
+			@PathParam("interviewid") int interviewid) {
 		return Response.status(200).build();
 	}
 
 	@Path("/{interviewis}/flagReason")
 	@PUT
-	Response updateFlageReason(@PathParam("associateid") int associateid, @PathParam("interviewid") int interviewid) {
+	public Response updateFlageReason(@PathParam("associateid") int associateid,
+			@PathParam("interviewid") int interviewid) {
 		return Response.status(200).build();
 	}
 
 	@Path("/{interviewis}/dateAssociateIssue")
 	@PUT
-	Response updateDateAssociateIssue(@PathParam("associateid") int associateid,
+	public Response updateDateAssociateIssue(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
 		return Response.status(200).build();
 	}

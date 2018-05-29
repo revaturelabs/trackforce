@@ -1,6 +1,6 @@
 package com.revature.resources;
 
-import static org.testng.Assert.assertEquals;
+
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

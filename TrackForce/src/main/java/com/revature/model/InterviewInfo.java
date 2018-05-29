@@ -16,6 +16,7 @@ public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
 	private String typeName;
 	private Timestamp tfInterviewDate;
 	private String tfInterviewFeedback;
+	private Integer tfInterviewId;
 	
 	public Integer getId() {
 		return id;
@@ -109,6 +110,19 @@ public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
 	public int compareTo(InterviewInfo o) {
 		return this.id-o.getId();
 	}
+
+
+
+	public Integer getTfInterviewId() {
+		return tfInterviewId;
+	}
+
+
+
+	public void setTfInterviewId(Integer tfInterviewId) {
+		this.tfInterviewId = tfInterviewId;
+	}
+
 
 	
 }

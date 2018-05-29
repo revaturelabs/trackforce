@@ -58,7 +58,7 @@ public class InterviewResource {
 	private static InterviewService is = new InterviewService();
 
 	@GET
-	@ApiOperation(value = "Returns all interviews", notes ="Returns a list of all interviews.")
+	@ApiOperation(value = "Returns all interviews for an associate", notes ="Returns a list of all interviews.")
 	public Response getAllInterviews(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate)
 			throws HibernateException, IOException {
 		// TODO handle exception
@@ -72,6 +72,7 @@ public class InterviewResource {
 	@ApiOperation(value = "Returns an interview", notes = "Returns a specific interview by id.")
 	@Path("/{interviewid}")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid,
+			@PathParam("interviewid") Integer interviewid,
 			@HeaderParam("Authorization") String token) {
 		logger.info(token);
 		
@@ -93,7 +94,7 @@ public class InterviewResource {
 		}
 
 		if (claims.getId().equals("1")) {
-			Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
+			Set<InterviewInfo> associateinfo = service. getInterviewsByAssociateAndInterviewid(associateid, interviewid);
 			return Response.ok(associateinfo).build();
 		} else {
 			return Response.status(403).build();

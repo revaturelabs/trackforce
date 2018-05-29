@@ -102,6 +102,7 @@ public class UserService {
                     if (tfRole != null) {
                     	Integer tfRoleId = tfRole.getTfRoleId();
                         String tfUserName = tfUser.getTfUserUsername();
+                        //Integer tfRegistered = tfRegisteredFlag();
                         // If the user have a valid role and username, a 200 can be returned
                         if (tfRoleId != null && tfUserName != null) {
                             // Sets the role id and username to the userjson object, which is set back to angular

@@ -130,7 +130,7 @@ export class PredictionsComponent implements OnInit {
   }
 
 
-  getDetails(s,e,event) {
+  getDetails(s, e, event) {
     if (s != null) {
       this.startDate = s;
     }
@@ -140,33 +140,19 @@ export class PredictionsComponent implements OnInit {
 
     let startTime = new Date(this.startDate).getTime();
     let endTime = new Date(this.endDate).getTime();
+    //Access the id of the button that triggered the function, which should have the
+    //technology to be displayed
     let tech: string = event.target.id;
 
     console.log(event.target.id);
-    
+
     console.log(startTime);
 
     let test = this.ps.getBatchesByCurricula(startTime, endTime, tech).subscribe(data => {
-
       console.log(data);
       this.batches = data;
       this.detailsReady = true;
     }, er => {
     });
-
-
-
-
-    
-
-
-    // console.log(this.batches[1].batchName)
-    // console.log(this.batches[1].associates.length)
-
-
   }
-
-
-
-
 }

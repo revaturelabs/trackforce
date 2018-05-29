@@ -115,7 +115,6 @@ public class InterviewDaoHibernate implements InterviewDao {
 			tfi.setTfInterviewType(session.load(TfInterviewType.class, ifc.getTypeId()));
 			tfi.setTfInterviewDate(Timestamp.from(new Date(ifc.getInterviewDate()).toInstant()));
 
-		
 			session.saveOrUpdate(tfi);
 			t1.commit();
 		} catch (NullPointerException e) {
@@ -146,31 +145,32 @@ public class InterviewDaoHibernate implements InterviewDao {
 		try {
 			dbTransaction = session.beginTransaction();
 			TfInterview databaseRow = new TfInterview();
-			//--I think this gets the largest Interview ID and add one to that for the new Object
+			// --I think this gets the largest Interview ID and add one to that for the new
+			// Object
 			String sql = "SELECT MAX(tf_interview_id) FROM admin.tf_interview";
 			Query<?> q = session.createNativeQuery(sql);
 			BigDecimal max = (BigDecimal) q.getSingleResult();
 			Integer id = Integer.parseInt(max.toBigInteger().toString()) + 1;
-			//--End getting new Id
-			databaseRow.setTfInterviewId(id);	
-			
-			//---Start Getting Objects from other Tables
+			// --End getting new Id
+			databaseRow.setTfInterviewId(id);
+
+			// ---Start Getting Objects from other Tables
 			databaseRow.setTfAssociate(session.get(TfAssociate.class, parmInterview.getTfAssociate()));
 			databaseRow.setTfClient(session.get(TfClient.class, parmInterview.getTfClient()));
 			databaseRow.setTfEndClient(session.get(TfEndClient.class, parmInterview.getTfEndClient()));
 			databaseRow.setTfInterviewType(session.load(TfInterviewType.class, parmInterview.getTfInterviewType()));
-			//---End Geting Objects From Other Tables
-			
+			// ---End Geting Objects From Other Tables
+
 			databaseRow.setTfInterviewDate(parmInterview.getTfInterviewDate());
-			//--1804 Fields
-			databaseRow.setTfJobDescription(parmInterview.getTfJobDescription());;
+			// --1804 Fields
+			databaseRow.setTfJobDescription(parmInterview.getTfJobDescription());
 			databaseRow.setTfDateSalesIssued(parmInterview.getTfDateSalesIssued());
 			databaseRow.setTfDateAssociateIssued(parmInterview.getTfDateAssociateIssued());
 			databaseRow.setTfIsInterviewFlagged(parmInterview.getTfIsInterviewFlagged());
 			databaseRow.setTfFlagReason(parmInterview.getTfFlagReason());
 			databaseRow.setTfIsClientFeedbackVisiable(parmInterview.getTfIsClientFeedbackVisiable());
-			
-			session.saveOrUpdate(parmInterview);
+
+			session.saveOrUpdate(databaseRow);
 			dbTransaction.commit();
 			return true;
 		} catch (NullPointerException e) {
@@ -188,4 +188,59 @@ public class InterviewDaoHibernate implements InterviewDao {
 		}
 		return false;
 	}
+	/**
+	 * Send a Interview object and it gets updated in the TF_Interview table
+	 * 
+	 * @Edboi
+	 */
+
+	@Override
+	public boolean updateInterview(TfInterview parmInterview) {
+		Transaction dbTransaction = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		TfInterview tobeUpdatedInteview = new TfInterview();
+		if(parmInterview.getTfInterviewId() != null)
+			tobeUpdatedInteview.setTfInterviewId(parmInterview.getTfInterviewId());
+		if(parmInterview.getTfAssociate() != null)
+			tobeUpdatedInteview.setTfAssociate(session.get(TfAssociate.class, parmInterview.getTfAssociate()));
+		if(parmInterview.getTfClient() != null)
+			tobeUpdatedInteview.setTfClient(session.get(TfClient.class, parmInterview.getTfClient()));
+		// ---Start Getting Objects from other Tables
+		tobeUpdatedInteview.setTfAssociate(session.get(TfAssociate.class, parmInterview.getTfAssociate()));
+		tobeUpdatedInteview.setTfClient(session.get(TfClient.class, parmInterview.getTfClient()));
+		tobeUpdatedInteview.setTfEndClient(session.get(TfEndClient.class, parmInterview.getTfEndClient()));
+		tobeUpdatedInteview.setTfInterviewType(session.load(TfInterviewType.class, parmInterview.getTfInterviewType()));
+		// ---End Geting Objects From Other Tables
+
+		tobeUpdatedInteview.setTfInterviewDate(parmInterview.getTfInterviewDate());
+		// --1804 Fields
+		tobeUpdatedInteview.setTfJobDescription(parmInterview.getTfJobDescription());
+		tobeUpdatedInteview.setTfDateSalesIssued(parmInterview.getTfDateSalesIssued());
+		tobeUpdatedInteview.setTfDateAssociateIssued(parmInterview.getTfDateAssociateIssued());
+		tobeUpdatedInteview.setTfIsInterviewFlagged(parmInterview.getTfIsInterviewFlagged());
+		tobeUpdatedInteview.setTfFlagReason(parmInterview.getTfFlagReason());
+		tobeUpdatedInteview.setTfIsClientFeedbackVisiable(parmInterview.getTfIsClientFeedbackVisiable());
+
+		
+		
+		try {
+			dbTransaction = session.beginTransaction();
+			TfInterview databaseRow = new TfInterview();
+
+		} catch (NullPointerException e) {
+			LogUtil.logger.error(e);
+			if (dbTransaction != null) {
+				dbTransaction.rollback();
+			}
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+			if (dbTransaction != null) {
+				dbTransaction.rollback();
+			}
+		} finally {
+			session.close();
+		}
+		return false;
+	}
+
 }

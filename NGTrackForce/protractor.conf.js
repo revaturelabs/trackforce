@@ -3,6 +3,7 @@
 
 const { SpecReporter } = require('jasmine-spec-reporter');
 
+
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
@@ -36,5 +37,11 @@ exports.config = {
       project: 'e2e/tsconfig.e2e.json'
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
+    
+    require('jasmine-reporters');
+    jasmine.getEnv().addReporter(
+      new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));
   }
+
+
 };

@@ -20,7 +20,7 @@ public class CreateUserTest extends AdminSuite {
 	// 		to avoid duplicate account names
 	// Uses String "user" + int "ID" to create a username; int "ID"
 	// 		increments per user
-	private static String user = "TenshiHinanawi";
+	private static String user = "TestUser";
 	private static String pass = "1234";
 	private static String passMismatch = "12345";
 	

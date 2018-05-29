@@ -212,7 +212,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			dbTransaction = session.beginTransaction();
-			TfInterview tobeUpdatedInteview = new TfInterview();
+			TfInterview tobeUpdatedInteview = getInterviewById(parmInterview.getTfInterviewId());
 			
 			//The idea is you send it a new Intview Object only put the feilds want to change and leave the rest null
 			//Then just compare each feild and if not null update that fe

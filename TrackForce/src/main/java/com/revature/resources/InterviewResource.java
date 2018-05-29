@@ -33,6 +33,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Path("/")
 @Api(value = "Interviews")
@@ -44,6 +45,7 @@ public class InterviewResource {
 	private static InterviewService is = new InterviewService();
 
 	@GET
+	@ApiOperation(value = "Returns all interviews", notes ="Returns a list of all interviews.")
 	public Response getAllInterviews(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate)
 			throws HibernateException, IOException {
 		// TODO handle exception
@@ -54,6 +56,7 @@ public class InterviewResource {
 	}
 
 	@GET
+	@ApiOperation(value = "Returns an interview", notes = "Returns a specific interview by id.")
 	@Path("/{interviewid}")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid,
 			@HeaderParam("Authorization") String token) {
@@ -86,6 +89,7 @@ public class InterviewResource {
 	// TODO: change the Form params to be whatever is being sent
 	// TODO: create an InterviewFromClient object with the form param arguments
 	@POST
+	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
 	public Response createInterview(@PathParam("associateid") int associateid,
 			@HeaderParam("Authorization") String token, @FormParam("username") String username,
 			@FormParam("password") String password) {
@@ -104,6 +108,7 @@ public class InterviewResource {
 	}
 
 	@Path("/{interviewid}/job-description")
+	@ApiOperation(value = "updates interview description", notes = " Updates a specific interview's job description based on id.")
 	@PUT
 	public Response updateJobDescription(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
@@ -111,27 +116,31 @@ public class InterviewResource {
 	}
 
 	@Path("/{interviewid}/dateSalesTeamIssued")
+	@ApiOperation(value = "updates interview date", notes = " Updates when an interview was issued by the sale team.")
 	@PUT
 	public Response updateDateSalesIssue(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
 		return Response.status(204).build();
 	}
 
-	@Path("/{interviewis}/flagAlert")
+	@Path("/{interviewid}/flagAlert")
+	@ApiOperation(value = "updates interview flag", notes = " Flags a specific interview based on id.")
 	@PUT
 	public Response updateFlageAlert(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
 		return Response.status(204).build();
 	}
 
-	@Path("/{interviewis}/flagReason")
+	@Path("/{interviewid}/flagReason")
+	@ApiOperation(value = "updates interview flag", notes = " Updates the reason for why the interview is flagged.")
 	@PUT
 	public Response updateFlageReason(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
 		return Response.status(204).build();
 	}
 
-	@Path("/{interviewis}/dateAssociateIssue")
+	@Path("/{interviewid}/dateAssociateIssue")
+	@ApiOperation(value = "updates interview date", notes = " Updates when an interview is issued by the associate.")
 	@PUT
 	public Response updateDateAssociateIssue(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {

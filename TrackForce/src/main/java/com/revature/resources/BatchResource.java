@@ -23,6 +23,7 @@ import com.revature.model.BatchInfo;
 import com.revature.services.BatchesService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Class that provides RESTful services for the batch listing and batch details
@@ -48,6 +49,7 @@ public class BatchResource {
 	 * @return - Response with 200 status and a List<BatchInfo> in the response body
 	 */
 	@GET
+	@ApiOperation(value = "Returns all Batches", notes = "Returns a list of a list of all batches optionally filtered by start and end dates.")
 	public Response getAllBatches() {
 		Set<BatchInfo> batches = service.getAllBatches();
 		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
@@ -84,6 +86,7 @@ public class BatchResource {
 	 * @return set of batches matching curriculum
 	 */
 	@GET
+	@ApiOperation(value = "returns batches by curriculum", notes = "Returns a list of batches filtered by curriculum name.")
 	@Path("curriculum/{curriculum}")
 	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum, @QueryParam("start") Long startDate,
 			@QueryParam("end") Long endDate) {
@@ -115,6 +118,7 @@ public class BatchResource {
 	 *         body
 	 */
 	@GET
+	@ApiOperation(value = "Returns a batch", notes = "Returns a specific batch by id.")
 	@Path("{id}")
 	public Response getBatchById(@PathParam("id") Integer id) {
 		BatchInfo batch = service.getBatchById(id);
@@ -122,6 +126,7 @@ public class BatchResource {
 	}
 
 	@GET
+	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
 	@Path("{id}/associates")
 	public Response getAssociatesForBatch(@PathParam("id") Integer id) {
 		return Response.ok(service.getAssociatesForBranch(id)).build();

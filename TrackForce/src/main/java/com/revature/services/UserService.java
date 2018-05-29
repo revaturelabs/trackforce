@@ -105,7 +105,7 @@ public class UserService {
                         // If the user have a valid role and username, a 200 can be returned
                         if (tfRoleId != null && tfUserName != null) {
                             // Sets the role id and username to the userjson object, which is set back to angular
-                        	//userjson.setTfRoleId(tfRoleId);
+                        	userjson.setTfRoleId(tfRoleId);
                             userjson.setUsername(tfUserName);
                             userjson.setUserId(tfUser.getTfUserId());
 

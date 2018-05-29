@@ -13,6 +13,7 @@ import { Batch } from '../../models/batch.model';
 })
 @AutoUnsubscribe
 export class PredictionsComponent implements OnInit {
+  public detailsReady: boolean = false;
   public dataReady: boolean = false;
   public startDate: Date = new Date();
   public endDate: Date = new Date();
@@ -149,7 +150,7 @@ export class PredictionsComponent implements OnInit {
 
       console.log(data);
       this.batches = data;
-
+      this.detailsReady = true;
     }, er => {
     });
 

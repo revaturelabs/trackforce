@@ -21,7 +21,8 @@ public class UserDaoImpl implements UserDAO {
 
     public TfUser getUser(String username) {
         TfUser user = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
         	CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
             Root<TfUser> root = criteriaQuery.from(TfUser.class);
@@ -31,13 +32,17 @@ public class UserDaoImpl implements UserDAO {
         } catch(Exception e) {
         	logger.error(e);
         }
+        finally {
+            session.close();
+        }
         return user;
     }
     
     public boolean createUser(CreateUserModel newUser) {
         String password;
         Transaction t1 = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
         	t1 = session.beginTransaction();
             password = PasswordStorage.createHash(newUser.getPassword());
             TfUser user = new TfUser(newUser.getRole(), newUser.getUsername(), password);
@@ -54,6 +59,9 @@ public class UserDaoImpl implements UserDAO {
 			}
         	logger.error(e);        	
         }
+        finally {
+            session.close();
+        }
         return false;
     }
 
@@ -61,10 +69,14 @@ public class UserDaoImpl implements UserDAO {
 	@Override
 	public List<TfUser> getAllUsers() {
 		List<TfUser> user = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
         	return session.createQuery("from com.revature.entity.TfUser").list();
         } catch(Exception e) {
         	logger.error(e);
+        }
+        finally {
+            session.close();
         }
         return user;
 	}

@@ -19,10 +19,13 @@ import com.revature.entity.TfUser;
 import com.revature.utils.HibernateUtil;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 /**
  * 
@@ -34,7 +37,6 @@ import io.jsonwebtoken.SignatureException;
  *
  */
 public class JWTService {
-	
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 1000L;
 
@@ -81,7 +83,7 @@ public class JWTService {
 	 * 
 	 * @return byte[]
 	 */
-	private byte[] getSecret() {
+	private static byte[] getSecret() {
 		String base64Key = DatatypeConverter.printBase64Binary(SECRET_KEY.getBytes());
 
 		return DatatypeConverter.parseBase64Binary(base64Key);
@@ -129,6 +131,32 @@ public class JWTService {
 	}
 
 	/**
+	 * 
+	 * @param token
+	 * @return the payload, or null if token invalid
+	 */
+	public static Claims processToken(String token) {
+		Claims payload = null;
+
+		try {
+			logger.info("In the try block");
+			if (token == null) {
+				throw new UnsupportedJwtException("token null");
+			}
+			payload = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
+			logger.info("Print payload " + payload);
+
+		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
+				| IllegalArgumentException | NullPointerException e) {
+			logger.info("in the catch block");
+			e.printStackTrace();
+			payload = null;
+		}
+
+		return payload;
+	}
+
+	/**DEPRECIATED
 	 * Gets the claims object from the token Needed verification purposes
 	 * 
 	 * @param token

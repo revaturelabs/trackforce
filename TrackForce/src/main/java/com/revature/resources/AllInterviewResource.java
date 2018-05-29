@@ -17,6 +17,7 @@ import com.revature.model.InterviewInfo;
 import com.revature.services.InterviewService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Path("interviews")
 @Api(value = "AllInterviews")
@@ -33,6 +34,7 @@ public class AllInterviewResource {
 	 * @return
 	 */
 	@GET
+	@ApiOperation(value = "returns all interviews", notes = "Gets a list of all interviews that can be sorted in ascending or descending order based on date.")
 	public Response getAllInterviews(@QueryParam("sort") String sort) {
 		Collection<InterviewInfo> interviews = sort != null ? iservice.getAllInterviews(sort)
 				: iservice.getAllInterviews();

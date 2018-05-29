@@ -173,6 +173,7 @@ public class AssociateResource {
 	 */
 	/**** OPTION 1 ****/
 	@PUT
+	@ApiOperation(value = "updates associate values", notes = "The method updates the marketing status or client of a given associate by their id.")
 	@Path("/{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, AssociateFromClient afc) {
 		service.updateAssociate(afc);
@@ -181,6 +182,7 @@ public class AssociateResource {
 
 	/*** OPTION 2 ***/
 	@PUT
+	@ApiOperation(value = "updates associate values", notes = "The method updates start date of the client.")
 	@Path("/{associateId}/{startDate}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, @PathParam("startDate") String startDate) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -239,6 +241,7 @@ public class AssociateResource {
 //		return new InterviewResource();
 //	}
 
+	@ApiOperation(value = "returns all interviews for associate", notes= "Gets a list of all interviews for a specific associate.")
 	@Path("/{associateid}/interviews")
 	public InterviewResource addAssociateInterview() {
 		return new InterviewResource();

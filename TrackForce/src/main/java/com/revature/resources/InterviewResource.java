@@ -33,6 +33,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 
 /**
@@ -57,6 +58,7 @@ public class InterviewResource {
 	private static InterviewService is = new InterviewService();
 
 	@GET
+	@ApiOperation(value = "Returns all interviews", notes ="Returns a list of all interviews.")
 	public Response getAllInterviews(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate)
 			throws HibernateException, IOException {
 		// TODO handle exception
@@ -67,6 +69,7 @@ public class InterviewResource {
 	}
 
 	@GET
+	@ApiOperation(value = "Returns an interview", notes = "Returns a specific interview by id.")
 	@Path("/{interviewid}")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid,
 			@HeaderParam("Authorization") String token) {
@@ -100,38 +103,26 @@ public class InterviewResource {
 	// TODO: change the Form params to be whatever is being sent
 	// TODO: create an InterviewFromClient object with the form param arguments
 	@POST
+	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
 	public Response createInterview(@PathParam("associateid") int associateid,
 			@HeaderParam("Authorization") String token, @FormParam("username") String username,
 			@FormParam("password") String password) {
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
 
-		// is.addInterviewByAssociate(associateid, ifc);
-		Claims claims = null;
-
-		try {
-			logger.info("In the try block");
-			if (token == null) {
-				throw new UnsupportedJwtException("token null");
-			}
-			claims = jService.getClaimsFromToken(token);
-			logger.info("Print claims " + claims);
-
-		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
-				| IllegalArgumentException | NullPointerException e) {
-			logger.info("in the catch block");
-			e.printStackTrace();
-			return Response.status(403).build();
-		}
-
-		if (claims.getId().equals("1")) {
+		if (payload == null || !payload.getId().equals("1")) {
+			status = Status.UNAUTHORIZED;
+		} else {
 			InterviewFromClient ifc = new InterviewFromClient();
 			is.addInterviewByAssociate(associateid, ifc);
-			return Response.status(201).build();
-		} else {
-			return Response.status(403).build();
+			status = Status.CREATED;
 		}
+		
+		return Response.status(status).build();
 	}
 
 	@Path("/{interviewid}/job-description")
+	@ApiOperation(value = "updates interview description", notes = " Updates a specific interview's job description based on id.")
 	@PUT
 	public Response updateJobDescription(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
@@ -139,27 +130,31 @@ public class InterviewResource {
 	}
 
 	@Path("/{interviewid}/dateSalesTeamIssued")
+	@ApiOperation(value = "updates interview date", notes = " Updates when an interview was issued by the sale team.")
 	@PUT
 	public Response updateDateSalesIssue(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
 		return Response.status(204).build();
 	}
 
-	@Path("/{interviewis}/flagAlert")
+	@Path("/{interviewid}/flagAlert")
+	@ApiOperation(value = "updates interview flag", notes = " Flags a specific interview based on id.")
 	@PUT
 	public Response updateFlageAlert(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
 		return Response.status(204).build();
 	}
 
-	@Path("/{interviewis}/flagReason")
+	@Path("/{interviewid}/flagReason")
+	@ApiOperation(value = "updates interview flag", notes = " Updates the reason for why the interview is flagged.")
 	@PUT
 	public Response updateFlageReason(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
 		return Response.status(204).build();
 	}
 
-	@Path("/{interviewis}/dateAssociateIssue")
+	@Path("/{interviewid}/dateAssociateIssue")
+	@ApiOperation(value = "updates interview date", notes = " Updates when an interview is issued by the associate.")
 	@PUT
 	public Response updateDateAssociateIssue(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {

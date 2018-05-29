@@ -3,6 +3,7 @@ package com.revature.services;
 import java.io.IOException;
 import java.util.List;
 
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -15,10 +16,10 @@ import com.revature.model.UserJSON;
 import com.revature.request.model.CreateUserModel;
 import com.revature.request.model.SuccessOrFailMessage;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
 
 public class UserService {
+	
 
     private JWTService jwtService;
     private UserDAO userDao;
@@ -85,6 +86,8 @@ public class UserService {
         String password = login.getPassword();
         UserJSON userjson = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
+        //TODO: input a service that makes an associate if possible, if it does then grab its verified field if not 
+        //verified return a null object for the hibernate team
         Transaction tx = session.beginTransaction();
         try {
             // Attempts to get the user from the database based on username
@@ -101,6 +104,7 @@ public class UserService {
                     if (tfRole != null) {
                     	Integer tfRoleId = tfRole.getTfRoleId();
                         String tfUserName = tfUser.getTfUserUsername();
+                        //Integer tfRegistered = tfRegisteredFlag();
                         // If the user have a valid role and username, a 200 can be returned
                         if (tfRoleId != null && tfUserName != null) {
                             // Sets the role id and username to the userjson object, which is set back to angular
@@ -109,7 +113,7 @@ public class UserService {
                             userjson.setUserId(tfUser.getTfUserId());
 
                             // Uses JWT service to create token
-                            userjson.setToken(this.jwtService.createToken(tfUserName));
+                            userjson.setToken(this.jwtService.createToken(tfUserName,tfRoleId));
                             session.flush();
                             tx.commit();
                             //return Response.status(200).entity(userjson).build();
@@ -120,7 +124,7 @@ public class UserService {
         } catch (Exception e) {
             session.flush();
             tx.rollback();
-            LogUtil.logger.error(e);
+            logger.error(e);
             throw new IOException("Could not get associate", e);
         } finally {
             session.close();

@@ -15,12 +15,14 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
+import com.revature.entity.TfEndClient;
 import com.revature.entity.TfInterview;
 import com.revature.entity.TfInterviewType;
 import com.revature.model.InterviewInfo;
@@ -31,7 +33,8 @@ import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 public class InterviewDaoHibernate implements InterviewDao {
-
+	
+	
 	public Map<Integer, InterviewInfo> getAllInterviews() {
 		Map<Integer, InterviewInfo> techs = new HashMap<>();
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -108,39 +111,11 @@ public class InterviewDaoHibernate implements InterviewDao {
 			Integer id = Integer.parseInt(max.toBigInteger().toString()) + 1;
 			tfi.setTfInterviewId(id);
 			tfi.setTfAssociate(session.get(TfAssociate.class, associateid));
-			
+
 			// tfi.setTfInterviewFeedback(ifc.getInterviewFeedback());
 			tfi.setTfClient(session.get(TfClient.class, ifc.getClientId()));
 			tfi.setTfInterviewType(session.load(TfInterviewType.class, ifc.getTypeId()));
 			tfi.setTfInterviewDate(Timestamp.from(new Date(ifc.getInterviewDate()).toInstant()));
-			
-			//tfi.setTfAssociateFeedback(tfAssociateFeedback);
-			
-			
-			
-			/*
-			 * @Column(name = "TF_ASSOCIATE_FEEDBACK", length = 2000) private String
-			 * tfAssociateFeedback;
-			 * 
-			 * @Column(name = "TF_CLIENT_FEEDBACK", length = 2500) private String
-			 * tfClientFeedback;
-			 * 
-			 * @Column(name = "TF_JOB_DESCRIPTION", length = 2000) private String
-			 * tfJobDescription;
-			 * 
-			 * @Column(name = "TF_DATE_SALES_ISSUED") private Timestamp tfDateSalesIssued;
-			 * 
-			 * @Column(name = "TF_DATE_ASSOCIATE_ISSUED") private Timestamp
-			 * tfDateAssociateIssued;
-			 * 
-			 * @Column(name = "TF_IS_INTERVIEW_FLAGGED") private Integer
-			 * tfIsInterviewFlagged = 0;
-			 * 
-			 * @Column(name = "TF_FLAG_REASON", length = 300) private String tfFlagReason;
-			 * 
-			 * @Column(name = "TF_IS_CLIENT_FEEDBACK_VISIABLE") private Integer
-			 * tfIsClientFeedbackVisiable = 0;
-			 */
 
 			session.saveOrUpdate(tfi);
 			t1.commit();
@@ -158,14 +133,122 @@ public class InterviewDaoHibernate implements InterviewDao {
 			session.close();
 		}
 	}
+
 	/**
 	 * Send a Interview object and it gets put in the TF_Interview table
+	 * 
 	 * @Edboi
 	 */
 
 	@Override
 	public boolean createInterview(TfInterview parmInterview) {
-		
+		Transaction dbTransaction = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			dbTransaction = session.beginTransaction();
+			TfInterview databaseRow = new TfInterview();
+			// --I think this gets the largest Interview ID and add one to that for the new
+			// Object
+			String sql = "SELECT MAX(tf_interview_id) FROM admin.tf_interview";
+			Query<?> q = session.createNativeQuery(sql);
+			BigDecimal max = (BigDecimal) q.getSingleResult();
+			Integer id = Integer.parseInt(max.toBigInteger().toString()) + 1;
+			// --End getting new Id
+			databaseRow.setTfInterviewId(id);
+
+			// ---Start Getting Objects from other Tables
+			databaseRow.setTfAssociate(session.get(TfAssociate.class, parmInterview.getTfAssociate()));
+			databaseRow.setTfClient(session.get(TfClient.class, parmInterview.getTfClient()));
+			databaseRow.setTfEndClient(session.get(TfEndClient.class, parmInterview.getTfEndClient()));
+			databaseRow.setTfInterviewType(session.load(TfInterviewType.class, parmInterview.getTfInterviewType()));
+			// ---End Geting Objects From Other Tables
+
+			databaseRow.setTfInterviewDate(parmInterview.getTfInterviewDate());
+			// --1804 Fields
+			databaseRow.setTfJobDescription(parmInterview.getTfJobDescription());
+			databaseRow.setTfDateSalesIssued(parmInterview.getTfDateSalesIssued());
+			databaseRow.setTfDateAssociateIssued(parmInterview.getTfDateAssociateIssued());
+			databaseRow.setTfIsInterviewFlagged(parmInterview.getTfIsInterviewFlagged());
+			databaseRow.setTfFlagReason(parmInterview.getTfFlagReason());
+			databaseRow.setTfIsClientFeedbackVisiable(parmInterview.getTfIsClientFeedbackVisiable());
+
+			session.saveOrUpdate(databaseRow);
+			dbTransaction.commit();
+			return true;
+		} catch (NullPointerException e) {
+			LogUtil.logger.error(e);
+			if (dbTransaction != null) {
+				dbTransaction.rollback();
+			}
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+			if (dbTransaction != null) {
+				dbTransaction.rollback();
+			}
+		} finally {
+			session.close();
+		}
 		return false;
 	}
+
+	/**
+	 * Send a Interview object and it gets updated in the TF_Interview table
+	 * 
+	 * @Edboi
+	 */
+
+	@Override
+	public boolean updateInterview(TfInterview parmInterview) {
+		Transaction dbTransaction = null;
+		Session session = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			dbTransaction = session.beginTransaction();
+			TfInterview tobeUpdatedInteview = new TfInterview();
+			if (parmInterview.getTfInterviewId() != null)
+				tobeUpdatedInteview.setTfInterviewId(parmInterview.getTfInterviewId());
+			if (parmInterview.getTfAssociate() != null)
+				tobeUpdatedInteview.setTfAssociate(session.get(TfAssociate.class, parmInterview.getTfAssociate()));
+			if (parmInterview.getTfClient() != null)
+				tobeUpdatedInteview.setTfClient(session.get(TfClient.class, parmInterview.getTfClient()));
+			if (parmInterview.getTfEndClient() != null)
+				tobeUpdatedInteview.setTfEndClient(session.get(TfEndClient.class, parmInterview.getTfEndClient()));
+			if (parmInterview.getTfEndClient() != null)
+				tobeUpdatedInteview.setTfInterviewType(session.load(TfInterviewType.class, parmInterview.getTfInterviewType()));
+
+			if (parmInterview.getTfInterviewDate() != null)
+				tobeUpdatedInteview.setTfInterviewDate(parmInterview.getTfInterviewDate());
+			if (parmInterview.getTfJobDescription() != null)
+				tobeUpdatedInteview.setTfInterviewDate(parmInterview.getTfInterviewDate());
+			if (parmInterview.getTfDateSalesIssued() != null)
+				tobeUpdatedInteview.setTfDateSalesIssued(parmInterview.getTfDateSalesIssued());
+			if (parmInterview.getTfDateAssociateIssued() != null)
+				tobeUpdatedInteview.setTfDateAssociateIssued(parmInterview.getTfDateAssociateIssued());
+			if (parmInterview.getTfIsInterviewFlagged() != null)
+				tobeUpdatedInteview.setTfIsInterviewFlagged(parmInterview.getTfIsInterviewFlagged());
+			if (parmInterview.getTfFlagReason() != null)
+				tobeUpdatedInteview.setTfFlagReason(parmInterview.getTfFlagReason());
+			if (parmInterview.getTfIsClientFeedbackVisiable() != null)
+				tobeUpdatedInteview.setTfIsClientFeedbackVisiable(parmInterview.getTfIsClientFeedbackVisiable());
+
+			session.saveOrUpdate(tobeUpdatedInteview);
+			dbTransaction.commit();
+			return true;
+
+		} catch (NullPointerException e) {
+			LogUtil.logger.error(e);
+			if (dbTransaction != null) {
+				dbTransaction.rollback();
+			}
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+			if (dbTransaction != null) {
+				dbTransaction.rollback();
+			}
+		} finally {
+			session.close();
+		}
+		return false;
+	}
+
 }

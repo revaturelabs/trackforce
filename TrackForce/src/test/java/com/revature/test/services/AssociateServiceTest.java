@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.revature.dao.AssociateDao;
+import com.revature.dao.AssociateDaoHibernate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumJSON;
@@ -26,7 +27,7 @@ public class AssociateServiceTest extends BaseTest {
 	private AssociateInfo assoc1, assoc2, assoc3, assoc4, assoc5, assoc6;
 	private Map<Integer, AssociateInfo> mockAssociateMap;
 	private Set<AssociateInfo> mockAssociateSet;
-	private AssociateService associateService;
+	private AssociateService service;
 	private Map<Integer, ClientMappedJSON> mockClientMappedJSON;
 	private Set<CurriculumJSON> mockCurriculumJSON;
 
@@ -65,19 +66,19 @@ public class AssociateServiceTest extends BaseTest {
 
 		Mockito.when(mockAssociateDao.getAllAssociates()).thenReturn(mockAssociateSet);
 
-		associateService = new AssociateService(mockAssociateDao);
+		service = new AssociateService(mockAssociateDao);
 	}
 
 	@Test
 	public void testGetMapppedInfo() {
-		Set<ClientMappedJSON> mapped = new TreeSet<>(associateService.getMappedInfo(1).values());
+		Set<ClientMappedJSON> mapped = new TreeSet<>(service.getMappedInfo(1).values());
 		Set<ClientMappedJSON> testMapped = new TreeSet<>(mockClientMappedJSON.values());
 		Assert.assertTrue(testMapped.equals(mapped));
 	}
 
 	@Test
 	public void testGetUnmappedInfo() {
-		Set<CurriculumJSON> unmapped = associateService.getUnmappedInfo(1);
+		Set<CurriculumJSON> unmapped = service.getUnmappedInfo(1);
 		Assert.assertEquals(mockCurriculumJSON, unmapped);
 	}
 

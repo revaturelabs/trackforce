@@ -20,6 +20,7 @@ import com.revature.request.model.SuccessOrFailMessage;
 import com.revature.services.UserService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Path("users")
 @Api(value = "users")
@@ -55,6 +56,7 @@ public class UserResource {
      * @return SuccessOrFailMessage
      */
     @POST
+    @ApiOperation(value ="Creates new User", notes ="Creates a new user in the database with a specified role, username, and password.")
     public Response createNewUser(CreateUserModel newUser){
     	SuccessOrFailMessage msg = service.createNewUser(newUser);
     	if (msg.getStatus()) {
@@ -72,6 +74,7 @@ public class UserResource {
      * @return Returns a TfUser json
      */
     @GET
+    @ApiOperation(value = "Gets user", notes ="Gets a specific user by their username.")
     @Path("/{username}")
     public Response getUser(@PathParam("username") String username) {
     	TfUser user = service.getUser(username);
@@ -89,6 +92,7 @@ public class UserResource {
      * @throws IOException
      */
     @POST
+    @ApiOperation(value = "login method", notes ="The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 400 if invalid.")
     @Path("login")
     public Response submitCredentials(LoginJSON login) throws IOException {
     	UserJSON userjson = null;

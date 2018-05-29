@@ -51,7 +51,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@Path("associates")
+@Path("/associates")
 @Api(value = "associates")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -112,7 +112,7 @@ public class AssociateResource {
 	 */
 	@GET
 	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = AssociateInfo.class)
-	@Path("{associateid}")
+	@Path("/{associateid}")
 	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("associateid") int associateid) {
 		AssociateInfo associateinfo = service.getAssociate(associateid);
 		Response.Status status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
@@ -122,7 +122,7 @@ public class AssociateResource {
 
 	@GET
 	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.")
-	@Path("mapped/{statusId}")
+	@Path("/mapped/{statusId}")
 	public Response getMappedInfo(@PathParam("statusId") int statusId) {
 		Map<Integer, ClientMappedJSON> mappedStats = service.getMappedInfo(statusId);
 		if (mappedStats.isEmpty())
@@ -166,7 +166,7 @@ public class AssociateResource {
 	 */
 	/**** OPTION 1 ****/
 	@PUT
-	@Path("{associateId}")
+	@Path("/{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, AssociateFromClient afc) {
 		service.updateAssociate(afc);
 		return Response.ok().build();
@@ -174,7 +174,7 @@ public class AssociateResource {
 
 	/*** OPTION 2 ***/
 	@PUT
-	@Path("{associateId}/{startDate}")
+	@Path("/{associateId}/{startDate}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, @PathParam("startDate") String startDate) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
@@ -233,11 +233,8 @@ public class AssociateResource {
 //		return new InterviewResource();
 //	}
 
-	@Path("{associateid}/interviews")
+	@Path("/{associateid}/interviews")
 	public InterviewResource addAssociateInterview() {
-
 		return new InterviewResource();
 	}
-
-
 }

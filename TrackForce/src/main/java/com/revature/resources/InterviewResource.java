@@ -130,7 +130,7 @@ public class InterviewResource {
 	}
 
 	@Path("/{interviewid}/dateSalesTeamIssued")
-	@ApiOperation(value = "updates interview description", notes = " Updates a specific interview's job description based on id.")
+	@ApiOperation(value = "updates interview date", notes = " Updates when an interview was issued by the sale team.")
 	@PUT
 	public Response updateDateSalesIssue(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
@@ -138,7 +138,7 @@ public class InterviewResource {
 	}
 
 	@Path("/{interviewid}/flagAlert")
-	@ApiOperation(value = "updates interview flag", notes = " Updates a specific interview's job description based on id.")
+	@ApiOperation(value = "updates interview flag", notes = " Flags a specific interview based on id.")
 	@PUT
 	public Response updateFlageAlert(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
@@ -146,7 +146,7 @@ public class InterviewResource {
 	}
 
 	@Path("/{interviewid}/flagReason")
-	@ApiOperation(value = "updates interview description", notes = " Updates a specific interview's job description based on id.")
+	@ApiOperation(value = "updates interview flag", notes = " Updates the reason for why the interview is flagged.")
 	@PUT
 	public Response updateFlageReason(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {
@@ -154,7 +154,7 @@ public class InterviewResource {
 	}
 
 	@Path("/{interviewid}/dateAssociateIssue")
-	@ApiOperation(value = "updates interview description", notes = " Updates a specific interview's job description based on id.")
+	@ApiOperation(value = "updates interview date", notes = " Updates when an interview is issued by the associate.")
 	@PUT
 	public Response updateDateAssociateIssue(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid) {

@@ -20,6 +20,7 @@ import com.revature.request.model.SuccessOrFailMessage;
 import com.revature.services.UserService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Path("users")
 @Api(value = "users")
@@ -55,6 +56,7 @@ public class UserResource {
      * @return SuccessOrFailMessage
      */
     @POST
+    @ApiOperation(value ="Creates new User", notes ="Creates a new user in the database with a specified role, username, and password.")
     public Response createNewUser(CreateUserModel newUser){
     	SuccessOrFailMessage msg = service.createNewUser(newUser);
     	if (msg.getStatus()) {
@@ -72,6 +74,7 @@ public class UserResource {
      * @return Returns a TfUser json
      */
     @GET
+    @ApiOperation(value = "Gets user", notes ="Gets a specific user by their username.")
     @Path("/{username}")
     public Response getUser(@PathParam("username") String username) {
     	TfUser user = service.getUser(username);

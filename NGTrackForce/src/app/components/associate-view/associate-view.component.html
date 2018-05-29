@@ -1,7 +1,8 @@
 <app-navbar [associate]="associate"></app-navbar>
 <div class="container">
-  <div class="row">
-    <div class="col-lg-6">
+  <div class="">
+  <div>
+    <div class = "container1">
       <h3>Your Information</h3>
       <div class="table-responsive info">
         <table class="table table-hover table-bordered">
@@ -37,97 +38,8 @@
           </tbody>
         </table>
       </div>
-      <h3>Your Sent Messages</h3>
-      <div class="table-responsive">
-        <table class="table table-hover table-bordered">
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Message</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let message of messages; let j=index">
-              <td>{{j+1}}</td>
-              <td>{{message}}</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
-      <form>
-        <h4>Send Request to Trainer</h4>
-        <div class="form-group">
-          <label for="client">Message:</label>
-          <textarea name="message" rows="4" cols="80"
-            [(ngModel)]="newMessage"
-            placeholder="Write your message here"></textarea>
-          <button (click)="sendMessage()" class="btn btn-warning">Send Request</button>
-        </div>
-      </form>
-    </div>
-    <div class="col-lg-6">
-      <h3>Interviews</h3>
-      <table class="table table-responsive table-hover table-bordered">
-        <thead>
-          <tr>
-            <th>Interview</th>
-            <th>Client</th>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Feedback</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let interview of interviews; let i = index">
-            <td>{{i+1}}</td>
-            <td>{{interview.client}}</td>
-            <td>{{interview.date | date:'longDate'}}</td>
-            <td>{{interview.type}}</td>
-            <td>{{interview.feedback}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" class="btn btn-primary" (click)="toggleForm()">Toggle Create New Interview Form</button>
-      <div class="row" *ngIf="formOpen" class="toggledContainer">
-        <div class="col-lg-9">
-          <form class="form-horizontal">
-            <div class="form-group">
-              <label class="control-label col-sm-3">Client:</label>
-               <div class="col-sm-9">
-                 <select class="form-control" name="newClient" [(ngModel)]="newInterview.client">
-                     <option selected="selected">None</option>
-                     <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
-                 </select>
-               </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-3">Date:</label>
-               <div class="col-sm-9">
-                 <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" />
-               </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-3">Type:</label>
-               <div class="col-sm-9">
-                 <select class="form-control" name="type "[(ngModel)]="newInterview.type">
-                     <option value="1">Phone</option>
-                     <option value="2">Online</option>
-                     <option value="3">On-site</option>
-                     <option value="4">Skype</option>
-                 </select>
-               </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-3">Feedback:</label>
-              <div class="col-sm-9">
-                <textarea type="text" class="form-control" name="feedback" rows="3" [(ngModel)]="newInterview.feedback"></textarea>
-              </div>
-            </div>
-            <button (click)="addInterview()" class="btn btn-warning">Add Interview</button>
-          </form>
-        </div>
       </div>
-    </div>
-  </div>
+</div>
 </div>
 <app-footer></app-footer>

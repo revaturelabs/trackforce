@@ -9,6 +9,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -16,10 +17,10 @@ import com.revature.entity.TfCurriculum;
 import com.revature.model.CurriculumInfo;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 public class CurriculumDaoImpl implements CurriculumDao {
+	static final Logger logger = Logger.getLogger(CurriculumDaoImpl.class);
 
 	@Override
 	public Map<Integer, CurriculumInfo> getAllCurriculums() {
@@ -34,7 +35,7 @@ public class CurriculumDaoImpl implements CurriculumDao {
 
 			return createCurriculaMap(tq.getResultList());
 		} catch(Exception e) {
-			LogUtil.logger.error(e);
+			logger.error(e);
 		}
 		finally {
 			session.close();

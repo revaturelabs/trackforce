@@ -14,6 +14,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -26,11 +27,11 @@ import com.revature.model.InterviewInfo;
 import com.revature.request.model.InterviewFromClient;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 public class InterviewDaoHibernate implements InterviewDao {
-
+	static final Logger logger = Logger.getLogger(InterviewDaoHibernate.class);
+	
 	public Map<Integer, InterviewInfo> getAllInterviews() {
         Map<Integer, InterviewInfo> techs = new HashMap<>();
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -43,7 +44,7 @@ public class InterviewDaoHibernate implements InterviewDao {
             return createInterviewMap(tq.getResultList());
         } catch(Exception e) {
 
-            LogUtil.logger.error(e);
+            logger.error(e);
         }
         finally {
         	session.close();
@@ -63,7 +64,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 	            Query<TfInterview> query = session.createQuery(criteriaQuery);
 	            return createInterviewMap(query.getResultList());
 	        } catch (NoResultException nre) {
-	            LogUtil.logger.error(nre);
+	            logger.error(nre);
 	        }
 	        finally {
 	        	session.close();
@@ -116,12 +117,12 @@ public class InterviewDaoHibernate implements InterviewDao {
 			session.saveOrUpdate(tfi);
 			t1.commit();
         } catch (NullPointerException e) {
-        	LogUtil.logger.error(e);
+        	logger.error(e);
         	if (t1 != null) {
         		t1.rollback();
         	}
         } catch (Exception e) {
-        	LogUtil.logger.error(e);
+        	logger.error(e);
         	if (t1 != null) {
         		t1.rollback();
         	}

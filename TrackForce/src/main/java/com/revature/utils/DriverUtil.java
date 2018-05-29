@@ -5,11 +5,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class DriverUtil {
+	static final Logger logger = Logger.getLogger(DriverUtil.class);
 
 	private static Properties properties = initProperties();
 
@@ -25,7 +27,7 @@ public class DriverUtil {
 		try (FileInputStream fileInput = new FileInputStream(configFile)) {
 			properties.load(fileInput);
 		} catch (IOException ioe) {
-			LogUtil.logger.error(ioe);
+			logger.error(ioe);
 		}
 		return properties;
 	}

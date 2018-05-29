@@ -1,5 +1,16 @@
 package com.revature.utils;
 
+import java.sql.Driver;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.Properties;
+
+import javax.sql.DataSource;
+
+import org.apache.log4j.Logger;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -20,6 +31,7 @@ import java.util.Properties;
  * object.
  */
 public class HibernateUtil {
+	static final Logger logger = Logger.getLogger(HibernateUtil.class);
     private static SessionFactory sessionFactory;
     private static ServiceRegistry registry;
 
@@ -70,12 +82,18 @@ public class HibernateUtil {
             dscpi.setDataSource(dataSource);
             dscpi.configure(config.getProperties());
 
+// 
+//         // build session factory
+//         sessionFactory = config.buildSessionFactory(registry);
+//         logger.info("SessionFactory successfully built");
+// 
             // configure the service registry
             StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder()
                     .addService(ConnectionProvider.class, dscpi)
                     .configure()                                // hibernate.cfg.xml
                     .applySettings(config.getProperties());     // appends/overwrites hibernate.cfg.xml
             registry = registryBuilder.build();
+
 
             // build session factory
             sessionFactory = config.buildSessionFactory(registry);
@@ -96,9 +114,13 @@ public class HibernateUtil {
      */
     public static void shutdown() {
         if (sessionFactory != null) {
+
+        //	logger.info("Shutting down SessionFactory");
+
             LogUtil.logger.info("Shutting down SessionFactory");
+
             sessionFactory.close();
-            LogUtil.logger.info("SessionFactory has been shutdown.");
+            logger.info("SessionFactory has been shutdown.");
             // This manually deregisters JDBC driver, which prevents Tomcat 7 from
             // complaining about memory leaks to this class
 
@@ -106,11 +128,14 @@ public class HibernateUtil {
             while (drivers.hasMoreElements()) {
                 Driver driver = drivers.nextElement();
                 try {
+//                 	logger.info(String.format("Deregistering jdbc driver: %s", driver));
+//                     DriverManager.deregisterDriver(driver);
+//                 	logger.info(String.format("%s has been deregistered.", driver));
                     LogUtil.logger.info(String.format("Deregistering jdbc driver: %s", driver));
                     DriverManager.deregisterDriver(driver);
                     LogUtil.logger.info(String.format("%s has been deregistered.", driver));
                 } catch (SQLException e) {
-                    LogUtil.logger.fatal(String.format("Error deregistering driver %s", driver), e);
+                    logger.fatal(String.format("Error deregistering driver %s", driver), e);
                 }
             }
 

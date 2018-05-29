@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -18,11 +19,10 @@ import com.revature.entity.TfClient;
 import com.revature.model.ClientInfo;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 public class ClientDaoImpl implements ClientDao {
-
+	static final Logger logger = Logger.getLogger(ClientDaoImpl.class);
 	/**
 	 * Get information about a singular client.
 	 * 
@@ -42,7 +42,7 @@ public class ClientDaoImpl implements ClientDao {
 			Query<TfClient> query = session.createQuery(criteriaQuery);
 			return query.getSingleResult();
 		} catch (NoResultException nre) {
-			LogUtil.logger.error(nre);
+			logger.error(nre);
 		}
 		finally {
 			session.close();
@@ -68,7 +68,7 @@ public class ClientDaoImpl implements ClientDao {
 			Query<TfClient> query = session.createQuery(criteriaQuery);
 			return query.getSingleResult();
 		} catch (NoResultException nre) {
-			LogUtil.logger.error(nre);
+			logger.error(nre);
 		}
 		finally {
 			session.close();
@@ -119,7 +119,7 @@ public class ClientDaoImpl implements ClientDao {
 				map.put(client.getTfClientId(), Dao2DoMapper.map(client));
 			}	
 		} catch(Exception e) {
-			LogUtil.logger.error(e);
+			logger.error(e);
 		}
 		finally {
 			session.close();

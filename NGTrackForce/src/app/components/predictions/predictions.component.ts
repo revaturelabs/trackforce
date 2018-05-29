@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
-import { PredictionService} from '../../services/prediction-service/prediction.service';
+import { PredictionService } from '../../services/prediction-service/prediction.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
+import { Chart } from 'chart.js';
+import { Batch } from '../../models/batch.model';
 //import {FormsComponent} from '@angular/core';
 
 @Component({
@@ -11,6 +13,7 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 })
 @AutoUnsubscribe
 export class PredictionsComponent implements OnInit {
+  public detailsReady: boolean = false;
   public dataReady: boolean = false;
   public startDate: Date = new Date();
   public endDate: Date = new Date();
@@ -19,11 +22,18 @@ export class PredictionsComponent implements OnInit {
   public expanded: boolean = false;
   public results: any;
   public message: string = "";
+  public batches: Batch[];
+  public batchNumberAssociates: number[];
+
 
   constructor(private ss: SkillsetService, private ps: PredictionService) { }
 
   ngOnInit() {
     this.getListofCurricula();
+
+
+
+
   }
 
   toggleCheckboxes() {
@@ -35,7 +45,7 @@ export class PredictionsComponent implements OnInit {
       data => {
         console.log(data);
         let tempArray = [];
-        for (let i=0;i<data.length;i++) {
+        for (let i = 0; i < data.length; i++) {
           let tech = data[i];
           let localtech = {
             id: tech.id,
@@ -53,22 +63,22 @@ export class PredictionsComponent implements OnInit {
         // }
         // this.technologies = tempVar;
       },
-     err => {
-       console.log(err);
-     }
+      err => {
+        console.log(err);
+      }
     );
   }
 
-  getPrediction(s,e) {
-    if(s != null){
+  getPrediction(s, e) {
+    if (s != null) {
       this.startDate = s;
     }
-    if(e != null){
+    if (e != null) {
       this.endDate = e;
     }
     console.log(this.technologies);
     let selectedTechnologies = [];
-    for (let i=0;i<this.technologies.length;i++) {
+    for (let i = 0; i < this.technologies.length; i++) {
       let tech = this.technologies[i];
       if (tech.selected) selectedTechnologies.push(tech.name);
     }
@@ -79,12 +89,12 @@ export class PredictionsComponent implements OnInit {
     console.log(endTime);
     if (startTime && endTime && selectedTechnologies.length > 0) {
       this.message = "";
-      this.ps.getPrediction(startTime,endTime,selectedTechnologies).subscribe(
+      this.ps.getPrediction(startTime, endTime, selectedTechnologies).subscribe(
         data => {
           console.log(data);
           this.results = [];
           let returnedNames = [];
-          for (let i=0;i<data.length;i++) {
+          for (let i = 0; i < data.length; i++) {
             let tech = data[i];
             let techName = tech[0];
             let techNumber = tech[1];
@@ -98,7 +108,7 @@ export class PredictionsComponent implements OnInit {
               returnedNames.push(techName);
             }
           }
-          for (let i=0;i<selectedTechnologies.length;i++) {
+          for (let i = 0; i < selectedTechnologies.length; i++) {
             let selectedTech = selectedTechnologies[i];
             if (!returnedNames.includes(selectedTech)) {
               // if the list of returned technologies does not include one we selected, then it means
@@ -119,4 +129,30 @@ export class PredictionsComponent implements OnInit {
     }
   }
 
+
+  getDetails(s, e, event) {
+    if (s != null) {
+      this.startDate = s;
+    }
+    if (e != null) {
+      this.endDate = e;
+    }
+
+    let startTime = new Date(this.startDate).getTime();
+    let endTime = new Date(this.endDate).getTime();
+    //Access the id of the button that triggered the function, which should have the
+    //technology to be displayed
+    let tech: string = event.target.id;
+
+    console.log(event.target.id);
+
+    console.log(startTime);
+
+    let test = this.ps.getBatchesByCurricula(startTime, endTime, tech).subscribe(data => {
+      console.log(data);
+      this.batches = data;
+      this.detailsReady = true;
+    }, er => {
+    });
+  }
 }

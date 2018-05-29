@@ -66,6 +66,7 @@ export class AssociateListComponent implements OnInit {
     }
     this.getAllAssociates(); //grab associates and clients from back end
     this.getClientNames();
+    
     //if navigating to this page from clicking on a chart of a different page, set default filters
     let paramMap = this.activated.snapshot.paramMap;
     let CliOrCur = paramMap.get("CliOrCur");

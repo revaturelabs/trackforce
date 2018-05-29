@@ -75,7 +75,7 @@ form[role=login] input, form[role=login] button {
 	margin: 16px 0;
 }
 
-form[role=login]>div {
+form[role=login] {
 	text-align: center;
 }
 

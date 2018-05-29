@@ -70,6 +70,11 @@ export class AssociateService {
         let url: string = environment.url + this.associatePath + "/"+associate.id;
         return this.http.put(url,associate);
     }
+	
+	verifyAssociate(associateID: number) {
+		let url: string = environment.url + "/verify/" + associateID;
+		return this.http.put(url, associateID);
+	}
 
     getInterviewsForAssociate(id: number): Observable<any> {
       let url: string = environment.url + this.associatePath + "/"+id+"/interviews/";

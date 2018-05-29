@@ -69,6 +69,30 @@ public class BatchDaoHibernate implements BatchDao {
 		return null;
 		
 	}
+
+	// TODO add caching
+	public Map<Integer, BatchInfo> getBatchesByCurri(){
+		Session session = HibernateUtil.getSession();
+		try {
+			List<TfBatch> batches;
+			CriteriaBuilder cb = session.getCriteriaBuilder();
+			CriteriaQuery<TfBatch> cq = cb.createQuery(TfBatch.class);
+			Root<TfBatch> from = cq.from(TfBatch.class);
+			CriteriaQuery<TfBatch> all = cq.select(from);
+			Query<TfBatch> tq = session.createQuery(all);
+			batches = tq.getResultList();
+			Map<Integer, BatchInfo> map = new HashMap<>();
+			if(batches != null) {
+				map = createBatchesMap(batches);
+			}
+			return map;
+		} catch(NoResultException e) {
+			LogUtil.logger.error(e);
+		} finally {
+			session.close();
+		}
+		return new HashMap<>();
+	}
 	
 	public Map<Integer, BatchInfo> getBatchDetails(){
 		Session session = HibernateUtil.getSession();

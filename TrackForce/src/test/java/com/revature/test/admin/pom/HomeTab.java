@@ -14,7 +14,7 @@ public class HomeTab {
 static WebElement e =null;
 	
 	public static WebElement clickHomeTab(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/app-root/div/app-navbar/nav/div/ul[1]/li[2]/a"), 10);
+		e= WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/app-root/div/app-navbar/nav/div/ul[1]/li[3]/a"), 10);
 		return e;
 	}
 	

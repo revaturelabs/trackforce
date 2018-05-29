@@ -110,7 +110,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 			tfi.setTfInterviewId(id);
 			tfi.setTfAssociate(session.get(TfAssociate.class, associateid));
 			tfi.setTfInterviewDate(Timestamp.from(new Date(ifc.getInterviewDate()).toInstant()));
-			tfi.setTfInterviewFeedback(ifc.getInterviewFeedback());
+			//tfi.setTfInterviewFeedback(ifc.getInterviewFeedback());
 			tfi.setTfClient(session.get(TfClient.class, ifc.getClientId()));
 			tfi.setTfInterviewType(session.load(TfInterviewType.class, ifc.getTypeId()));
 			session.saveOrUpdate(tfi);

@@ -1,14 +1,15 @@
 table {
-  border-width: 1px;
+  border-width: 2px;
 }
+
 .info td:first-child {
   font-weight: bold;
 }
+
 .container{
 	margin-bottom : 90px;
-	margin-top:80px;
+	margin-top:150px;
 }
-
 thead, tbody {
   background-color: #fff;
 }
@@ -20,4 +21,11 @@ thead, tbody {
   padding-top: 5px;
   background-color: white;
   border: 2px solid lightgrey;
+}
+.flag {
+  /* width: 4px; */
+  width: 4%;
+}
+.id {
+	text-decoration: underline;
 }

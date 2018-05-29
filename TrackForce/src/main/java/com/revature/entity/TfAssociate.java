@@ -75,22 +75,10 @@ public class TfAssociate implements java.io.Serializable {
 	@Column(name = "TF_CLIENT_START_DATE")
 	private Timestamp clientStartDate;
 	
-	//unmapped field: private static StatusInfo totals = new StatusInfo(); -not featured
-	
-	//private BigDecimal bid;
-	//private String batchName;
-	
-	//private BigDecimal msid;
-	//private String marketingStatus;
-	
-	//private BigDecimal clid;
-	//private String client;
-	
-	//private BigDecimal ecid;
-	//private String endClient;
-	
-	//private BigDecimal curid;     -not featured
-	//private String curriculumName;  -not featured
+	@XmlElement
+	@Column(name = "TF_ISAPPROVED")
+	private Integer isApproved = 0; // default is Zero not approved
+
 	
 
 	public TfAssociate() {
@@ -102,7 +90,7 @@ public class TfAssociate implements java.io.Serializable {
 
 	public TfAssociate(Integer tfAssociateId, TfBatch tfBatch, TfMarketingStatus tfMarketingStatus,
 			TfClient tfClient, TfEndClient tfEndClient, String tfAssociateFirstName, String tfAssociateLastName,
-			Set<TfInterview> tfInterviews, Set<TfPlacement> tfPlacements, Timestamp clientStartDate) {
+			Set<TfInterview> tfInterviews, Set<TfPlacement> tfPlacements, Timestamp clientStartDate, Integer isApproved) {
 		this.tfAssociateId = tfAssociateId;
 		this.tfBatch = tfBatch;
 		this.tfMarketingStatus = tfMarketingStatus;
@@ -113,8 +101,24 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfInterviews = tfInterviews;
 		this.tfPlacements = tfPlacements;
 		this.clientStartDate = clientStartDate;
+		this.isApproved = isApproved;
+		
 	}
 
+
+	/**
+	 * @return the isApproved
+	 */
+	public Integer getIsApproved() {
+		return isApproved;
+	}
+
+	/**
+	 * @param isApproved the isApproved to set
+	 */
+	public void setIsApproved(Integer isApproved) {
+		this.isApproved = isApproved;
+	}
 
 	public Integer getTfAssociateId() {
 		return this.tfAssociateId;

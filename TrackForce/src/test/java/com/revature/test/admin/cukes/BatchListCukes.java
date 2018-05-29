@@ -1,69 +1,78 @@
 package com.revature.test.admin.cukes;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
 import com.revature.test.admin.pom.BatchListTab;
+import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.TestConfig;
+
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class BatchListCukes {
 
-	@Given("^The Batch List Tab is clicked$")
-	public static boolean the_Batch_List_Tab_is_clicked(WebDriver wd) throws Throwable {
-
-		try {
-			Thread.sleep(1500);
-			BatchListTab.clickBatchListTab(wd).click();
-			if (BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-listing")) {
-				return true;
-			}
-			System.out.println("Current URL does not end with /batch-listing");
-			return false;
-		} catch (Throwable e) {
-			System.out.println("Failed to confirm current URL ends in /batch-listing");
-			return false;
+	private static String baseURL = TestConfig.getBaseURL(); //gets the website URL
+	public static Alert alert = null; //creates object to interact with alerts in order to cancel pop ups
+	
+	@Given("^I am logged in$")
+	public static void I_am_logged_in() throws Throwable{
+		wd.get(baseURL);
+		LoginUtil.loginAsAdmin(wd);
+		alert = wd.switchTo().alert();
+	}
+	
+	@When("^The Batch List Tab is clicked$")
+	public static void the_Batch_List_Tab_is_clicked() throws Throwable {
+		Thread.sleep(1500);
+		BatchListTab.clickBatchListTab(wd).click();
+		if (!(wd.getCurrentUrl().contains("batch-listing"))) {
+			throw new PendingException();
 		}
 	}
 
 	@Given("^Batch List Tab loads$")
-	public static boolean batch_list_tab_loads(WebDriver d) {
+	public static void batch_list_tab_loads() {
 		try {
 			Thread.sleep(500);
-			if (BatchListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/batch-listing")
-					|| BatchListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/batch-list")) {
-				return true;
+			if (!(BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-listing")
+					|| BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-list"))) {
+				throw new PendingException();
 			}
-			System.out.println("Current URL does not end with /batch-listing or /batch-list");
-			return false;
-		} catch (Throwable e) {
-			System.out.println("Failed to get current URL");
-			return false;
+		}  catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
 	@Then("^All Batches text is visible$")
-	public static boolean all_Batches_text_is_visible(WebDriver wd) throws Throwable {
+	public static void all_Batches_text_is_visible() throws Throwable {
 
 		try {
 			Thread.sleep(1000);
 			// Find the Header to verify that you are in the Batch List Tab
-			BatchListTab.findAllBatchesHeader(wd);
-			return true;
-		} catch (Throwable e) {
-			System.out.println("Failed to find All Batches header");
-			return false;
+			if(!(wd.getPageSource().contains("All Batches"))) {
+				throw new PendingException();
+			}
+		}  catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
 	@Given("^the first batch is clicked$")
-	public static String the_first_batch_is_clicked(WebDriver wd) throws Throwable {
+	public static String the_first_batch_is_clicked() throws Throwable {
 		// Click the first batch in the list
 		String batchName = "";
 		try {
@@ -82,20 +91,19 @@ public class BatchListCukes {
 	}
 
 	@When("^the list of associates is grabbed$")
-	public static boolean the_list_of_associates_is_grabbed(WebDriver wd, String batchName) throws Throwable {
+	public static void the_list_of_associates_is_grabbed(String batchName) throws Throwable {
 		try {
 			// Gets the rows of associates and sends to helper function
 			List<WebElement> associates = BatchListTab.getAssociatesInfo(wd);
-			return associates_should_match_the_associate_list(wd, batchName, associates);
+			associates_should_match_the_associate_list(wd, batchName, associates);
 
 		} catch (Throwable e) {
 			System.out.println("Could not get Associate list");
-			return false;
 		}
 	}
 
 	@Then("^associates should match the associate list$")
-	public static boolean associates_should_match_the_associate_list(WebDriver wd, String batchName,
+	public static void associates_should_match_the_associate_list(String batchName,
 			List<WebElement> associates) throws Throwable {
 		try {
 			// Changes format to match the associates list in order to use .contains
@@ -120,56 +128,35 @@ public class BatchListCukes {
 			for (String info : associatesList) {
 				if (!(listHash.contains(info))) {
 					System.out.println(info + " not found");
-					return false;
 				}
 			}
 			// Go back to Batch List tab
 			BatchListTab.clickBatchListTab(wd).click();
 			// Verify that the page is Batch List Tab
 			if (BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-listing")) {
-				return true;
 			}
-			return true;
 		} catch (Throwable e) {
 			System.out.println("Can't grab associate list ID's");
-			return false;
 		}
-
 	}
 
 	
-	public static boolean enter_From_Date(WebDriver wd) {
-		try {
-			BatchListTab.fromDateField(wd).sendKeys("9");
-			BatchListTab.fromDateField(wd).sendKeys("15");
-			BatchListTab.fromDateField(wd).sendKeys("2017");
-			if (!(BatchListTab.fromDateField(wd).getText().contains("09/15/2017"))) {
-				return false;
-			}
-			return true;
-		} catch (Throwable e) {
-			System.out.println("Failed to enter data into From date field");
-			return false;
-		}
+	public static void enter_From_Date() {
+//		BatchListTab.fromDateField(wd).sendKeys("12");
+//		BatchListTab.fromDateField(wd).sendKeys("25");
+//		BatchListTab.fromDateField(wd).sendKeys("2017");
+		BatchListTab.fromDateField(wd).sendKeys("12252017");
 	}
 	
-	public static boolean enter_To_Date(WebDriver wd) {
-		try {
-			BatchListTab.toDateField(wd).sendKeys("11");
-			BatchListTab.toDateField(wd).sendKeys("15");
-			BatchListTab.toDateField(wd).sendKeys("2017");
-			if (!(BatchListTab.fromDateField(wd).getText().contains("11/15/2017"))) {
-				return false;
-			}
-			return true;
-		} catch (Throwable e) {
-			System.out.println("Failed to enter data into To date field");
-			return false;
-		}
+	public static void enter_To_Date() {
+//		BatchListTab.toDateField(wd).sendKeys("2");
+//		BatchListTab.toDateField(wd).sendKeys("25");
+//		BatchListTab.toDateField(wd).sendKeys("2018");
+		BatchListTab.toDateField(wd).sendKeys("2252018");
 	}
 	
 	@When("^the From date is entered$")
-	public static boolean the_From_date_is_entered(WebDriver wd) throws Throwable {
+	public static void the_From_date_is_entered() throws Throwable {
 		try {
 			// click the From date field
 			BatchListTab.fromDateField(wd).click();
@@ -183,19 +170,17 @@ public class BatchListCukes {
 			BatchListTab.fromDateField(wd).sendKeys(Keys.LEFT);
 			// automatically push the left arrow on the keyboard
 			BatchListTab.fromDateField(wd).sendKeys(Keys.LEFT);
-			// enters 11 as the month value
+			// enters 9 as the month value
 			BatchListTab.fromDateField(wd).sendKeys("9");
 			// enters 15 as the day value
 			BatchListTab.fromDateField(wd).sendKeys("15");
-			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to enter data into From date field");
-			return false;
 		}
 	}
 
 	@Given("^the To date is entered$")
-	public static boolean the_To_date_is_entered(WebDriver wd) throws Throwable {
+	public static void the_To_date_is_entered() throws Throwable {
 		try {
 			// click to Date field
 			BatchListTab.toDateField(wd).click();
@@ -210,8 +195,8 @@ public class BatchListCukes {
 			BatchListTab.fromDateField(wd).sendKeys(Keys.LEFT);
 			// automatically push the left arrow on the keyboard
 			BatchListTab.fromDateField(wd).sendKeys(Keys.LEFT);
-			// enters 11 as the month value
-			BatchListTab.fromDateField(wd).sendKeys("09");
+			// enters 9 as the month value
+			BatchListTab.fromDateField(wd).sendKeys("9");
 			// enters 15 as the day value
 			BatchListTab.fromDateField(wd).sendKeys("15");
 			BatchListTab.fromDateField(wd).sendKeys(Keys.TAB);
@@ -231,46 +216,78 @@ public class BatchListCukes {
 			// enters 15 as the day value
 			BatchListTab.toDateField(wd).sendKeys("15");
 
-			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to find All Batches header");
-			return false;
 		}
 	}
 
 	@When("^the submit button is clicked$")
-	public static boolean the_submit_button_is_clicked(WebDriver wd) throws Throwable {
+	public static void the_submit_button_is_clicked() throws Throwable {
 		try {
 			// clicks the submit button
 			BatchListTab.submitButton(wd).click();
-			return true;
 		} catch (Throwable e) {
 			System.out.println("Submit button was not clicked");
-			return false;
 		}
 	}
 
 	@Then("^the batch list should update to show only the batches which fit the entered criteria$")
-	public static boolean the_batch_list_should_update_to_show_only_the_batches_which_fit_the_entered_criteria(
-			WebDriver wd) throws Throwable {
-		return BatchListTab.correctResults(BatchListTab.getStartDates(wd), BatchListTab.getEndDates(wd), wd);
+	public static void the_batch_list_should_update_to_show_only_the_batches_which_fit_the_entered_criteria(
+			) throws Throwable {
+		BatchListTab.correctResults(BatchListTab.getStartDates(wd), BatchListTab.getEndDates(wd), wd);
 	}
 
 	@When("^the reset button is clicked$")
-	public static boolean the_reset_button_is_clicked(WebDriver wd) throws Throwable {
+	public static void the_reset_button_is_clicked() throws Throwable {
 		try {
 			// clicks the reset button 
 			BatchListTab.resetButton(wd).click();
-			return true;
 		} catch (Throwable e) {
 			System.out.println("Reset button was not clicked");
-			return false;
 		}
 	}
 
-	@Then("^the batch list should show all batches$")
-	public static boolean the_batch_list_should_show_all_batches(WebDriver wd) throws Throwable {
-		//verifies that all batches are showing 
-		return BatchListTab.allBatchesAfterReset(BatchListTab.getStartDates(wd), BatchListTab.getEndDates(wd), wd);
+	@Given("^batches are showing$")
+	public static void batches_are_showing() throws Throwable {
+	    enter_From_Date(wd);
+	    enter_To_Date(wd);
+		if (!(BatchListTab.fromDateField(wd).getText().contains("12/25/2017"))) {
+		    throw new PendingException();
+		}
+	}
+	
+	@When("^I click on a specific batch name$")
+	public static void i_click_on_a_specific_batch_name() throws Throwable {
+		wd.findElement(By.linkText("1712 Dec11 Java")).click();
+		if(!(wd.getCurrentUrl().contains("batch-details/49"))) {
+			throw new PendingException();
+		}
+	}
+	
+	@Then("^I should be taken to the appropriate details page$")
+	public static void i_should_be_taken_to_the_appropriate_details_page() throws Throwable {
+		if(!(wd.getCurrentUrl().contains("batch-details/49"))) {
+			throw new PendingException();
+		}
+	}
+	
+	@Given("^I am looking at batch details$")
+	public static void i_am_looking_at_batch_details() throws Throwable {
+	    i_should_be_taken_to_the_appropriate_details_page(wd);
+	}
+
+	@When("^I click on an associate ID$")
+	public static void i_click_on_an_associate_ID() throws Throwable {
+		wd.findElement(By.linkText("469")).click();
+		if(!(wd.getCurrentUrl().contains("form-comp/69"))) {
+			throw new PendingException();
+		}
+	}
+
+	@Then("^I should be taken to the appropriate information page$")
+	public static void i_should_be_taken_to_the_appropriate_information_page() throws Throwable {
+		if(!(wd.getCurrentUrl().contains("form-comp/69"))) {
+			throw new PendingException();
+		}
 	}
 }

@@ -121,7 +121,7 @@ public class CreateUserCukes extends AdminSuite {
 		}
 	}
 
-	@When("^I check the VP role$")
+	@When("^I check the Associate role$")
 	public static boolean clickAssociateRadio(WebDriver d) {
 		try {
 			Thread.sleep(250);

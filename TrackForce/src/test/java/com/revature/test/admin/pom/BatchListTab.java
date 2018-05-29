@@ -58,7 +58,6 @@ public class BatchListTab {
 	public static List<WebElement> getAssociatesInfo(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
 				By.xpath("/html/body/app/app-batch-details/div/div/div[2]/table"), 30);
-
 		List<WebElement> rows = table_element
 				.findElements(By.xpath("/html/body/app/app-batch-details/div/div/div[2]/table/tbody/tr"));
 		return rows;
@@ -143,7 +142,6 @@ public class BatchListTab {
 		List<WebElement> rows = table_element
 				.findElements(By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/table/tbody/tr"));
 		List<WebElement> columns = new ArrayList<WebElement>();
-
 		for (WebElement e : rows) {
 			columns.addAll(e.findElements(By.xpath("td[2]")));
 		}
@@ -158,7 +156,6 @@ public class BatchListTab {
 		List<WebElement> rows = table_element
 				.findElements(By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/table/tbody/tr"));
 		List<WebElement> columns = new ArrayList<WebElement>();
-
 		for (WebElement e : rows) {
 			columns.addAll(e.findElements(By.xpath("td[3]")));
 		}

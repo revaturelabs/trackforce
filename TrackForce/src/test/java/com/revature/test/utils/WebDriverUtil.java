@@ -13,7 +13,7 @@ public class WebDriverUtil {
 		
 	}
 	
-	public WebDriver getChromeDriver() {
+	public static WebDriver getChromeDriver() {
 		if (chromeDriver == null) {
 			//doesnt work, for some reason i have to put driver in \sts-3.9.1-RELEASE\src\main\resources
 			//some path like that
@@ -25,7 +25,8 @@ public class WebDriverUtil {
 			//
 			File f1 = new File("src/main/resources/chromedriver.exe");
 			System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
-			return new ChromeDriver();
+			chromeDriver=new ChromeDriver();
+			return chromeDriver;
 		}
 		else 
 			return chromeDriver;

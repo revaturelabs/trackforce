@@ -16,35 +16,36 @@
 #""
 ## (Comments)
 #Sample Feature Definition Template
-
-@tag
+@CreateUserTests
 Feature: Create User tab for Admin
-  TaskForce Create User tab scenario outlines
+  TaskForce Create User tab Scenarios
 
-  @tag1
+  @CreateNewAdmin
   Scenario Outline: Create new admin
     Given I click on Create User Tab
-		And Create User Tab loads
-		When I type in a username
-		And I type in a password
-		And I confirm the password
-		And I check the Administrator role
-		Then I press submit
-		
-		Scenario Outline: Create new manager
-		Given I click on Create User Tab
-		And Create User Tab loads
-		When I type in a username
-		And I type in a password
-		And I confirm the password
-		And I check the Manager role
-		Then I press submit
-		
-		Scenario Outline: Create new VP
-		Given I click on Create User Tab
-		And Create User Tab loads
-		When I type in a username
-		And I type in a password
-		And I confirm the password
-		And I check the VP role
-		Then I press submit
+    And Create User Tab loads
+    When I type in a username
+    And I type in a password
+    And I confirm the password
+    And I check the Administrator role
+    Then I press submit
+
+  @CreateNewManager
+  Scenario Outline: Create new manager
+    Given I click on Create User Tab
+    And Create User Tab loads
+    When I type in a username
+    And I type in a password
+    And I confirm the password
+    And I check the Manager role
+    Then I press submit
+
+  @CreateNewVP
+  Scenario Outline: Create new VP
+    Given I click on Create User Tab
+    And Create User Tab loads
+    When I type in a username
+    And I type in a password
+    And I confirm the password
+    And I check the VP role
+    Then I press submit

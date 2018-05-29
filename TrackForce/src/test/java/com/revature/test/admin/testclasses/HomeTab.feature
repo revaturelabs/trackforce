@@ -16,38 +16,87 @@
 #""
 ## (Comments)
 #Sample Feature Definition Template
-@tag
+@HomePageTests
 Feature: Home Page Tab
   I want to use this template for my feature file
 
-  @tag1
+  @HomeTagTest1
   Scenario Outline: I click on the Revature telephone number
     Given I am on the Home Page
     When I click on the telephone link
-    Then I should see the telephone number link open on a browser 
-  
+    Then I should see the telephone number link open on a browser
+
+  @HomeTagTest2
   Scenario Outline: I click on the Revature email
     Given I am on the Home Page
     When I click on the email link
-    Then I should see the email link open on a browser 
-  
+    Then I should see the email link open on a browser
+
+  @HomeTagTest3
   Scenario Outline: I click on the Revature website
     Given I am on the Home Page
     When I click on the website link
-    Then I should see the Revature website link open on a browser 
-   
+    Then I should see the Revature website link open on a browser
+
+  @HomeTagTest4
   Scenario Outline: I click on the Populate Database button
     Given I am on the Home Page
     When I click on the populate database button
     Then I should see a temporary blue border for the populate database button
-  
-   Scenario Outline: I click on the Populate Static Salesforce button
+
+  @HomeTagTest5
+  Scenario Outline: I click on the Populate Static Salesforce button
     Given I am on the Home Page
     When I click on the populate static salesforce button
-    Then I should see a temporary blue border for the populate static salesforce button 
-    
-    Scenario Outline: I click on the Empty Database button
+    Then I should see a temporary blue border for the populate static salesforce button
+
+  @ClickOnElementsInMappedChart
+  Scenario Outline: I click on each element in Mapped pie chart
+    Given I am on the Home Page
+    When I click on the elements in the Mapped pie chart
+    Then Should open with Mapped graphs
+
+  @ClickOnElementsInUnMappedChart
+  Scenario Outline: I click on each element in UnMapped pie chart
+    Given I am on the Home Page
+    When I click on the elements in the UnMapped pie chart
+    Then Should open with UnMapped graphs
+
+  @ClickOnElementsInMappedVsUnmappedNotDeployed
+  Scenario Outline: I click on each element in Mapped vs Unmapped Not Deployed chart
+    Given I am on the Home Page
+    When I click on the elements in the Mapped vs Unmapped Not Deployed chart
+    Then Should open with Mapped vs Unmapped Not Deployed graphs
+
+  @ClickOnElementsInMappedVsUnmappedDeployed
+  Scenario Outline: I click on each element in Mapped vs Unmapped Deployed chart
+    Given I am on the Home Page
+    When I click on the elements in the Mapped vs Unmapped Deployed chart
+    Then Should open with Mapped vs Unmapped Deployed graphs
+
+  @TestPieChartButton
+  Scenario Outline: I click Pie Chart button
+    Given I am on the Home Page
+    When I click on the elements in the Mapped pie chart
+    And I click on pie chart button
+    Then A pie chart will be shown
+
+  @TestBarChartButton
+  Scenario Outline: I click Bar Chart button
+    Given I am on the Home Page
+    When I click on the elements in the Mapped pie chart
+    And I click on bar chart button
+    Then A bar chart will be shown
+
+  @TestPolarChartButton
+  Scenario Outline: I click Polar Chart button
+    Given I am on the Home Page
+    When I click on the elements in the Mapped pie chart
+    And I click on polar chart button
+    Then A polar chart will be shown
+
+  @HomeTagTest6
+  Scenario Outline: I click on the Empty Database button
     Given I am on the Home Page
     When I click on the empty database button
-    Then I should see a temporary blue border for the empty database button   
-    
+    Then I should see a temporary blue border for the empty database button

@@ -34,6 +34,19 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.swagger.annotations.Api;
 
+
+/**
+ * 
+ * @author Mitchell H's PC
+ * 
+ * The different types of users
+ * Admin: 1
+ * Trainer: 2
+ * Sales/Delivery 3
+ * Staging Manager 4
+ * Associate 5
+ */
+
 @Path("/")
 @Api(value = "Interviews")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -58,6 +71,7 @@ public class InterviewResource {
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid,
 			@HeaderParam("Authorization") String token) {
 		logger.info(token);
+		
 		Claims claims = null;
 		logger.info("Before the try block");
 		try {

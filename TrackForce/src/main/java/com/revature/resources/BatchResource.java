@@ -115,7 +115,7 @@ public class BatchResource {
 	 *         body
 	 */
 	@GET
-	@Path("{id}")
+	@Path("/{id}")
 	public Response getBatchById(@PathParam("id") Integer id) {
 		BatchInfo batch = service.getBatchById(id);
 		return Response.ok(batch).build();

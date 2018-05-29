@@ -94,7 +94,8 @@ Feature: Home Page Tab
     When I click on the elements in the Mapped pie chart
     And I click on polar chart button
     Then A polar chart will be shown
-@TestPieChartButton
+
+  @TestPieChartButton
   Scenario: I click Chart elements to get Associate list refered to by that chart element
     Given I am on the Home Page
     When I click on the elements in the Mapped pie chart
@@ -102,6 +103,7 @@ Feature: Home Page Tab
     And I click a section of the pie chart
     Then I am on the Associate Page
     And The associate list associated with that section of the chart will be shown
+
   @HomeTagTest6
   Scenario: I click on the Empty Database button
     Given I am on the Home Page

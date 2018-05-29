@@ -65,17 +65,15 @@
           </tr>
         </tbody>
       </table>
-      <canvas id="bar-chart-horizontal" width="800" height="450"></canvas>
+     
     </div>
   </div>
 
   <div>
 
-    <button class ="btn btn-primary" name = "getDetailsBtn" (click) ="getDetails(start,end)">  Details </button>
+    <h1 *ngIf="dataReady">Prediction breakdown </h1>
 
-    <h1>Prediction breakdown</h1>
-
-    <table>
+    <table class="table table-striped table-hover table-bordered" *ngIf="dataReady">
       <thead>
         <tr>
           <th>Batch ID</th>

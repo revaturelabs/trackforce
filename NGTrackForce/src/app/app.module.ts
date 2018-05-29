@@ -8,7 +8,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { FormsModule } from '@angular/forms';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 ///
 //  COMPONENTS
 ///
@@ -18,7 +18,6 @@ import { BatchListComponent } from './components/batch-list/batch-list.component
 import { ClientMappedComponent } from './components/client-mapped/client-mapped.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
 import { ClientListComponent } from './components/client-list/client-list.component';
 import { FormComponent } from './components/form-component/form.component';
 import { FooterComponent } from './components/footer/footer/footer.component';
@@ -78,7 +77,6 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     FormComponent,
     ClientListComponent,
     LoginComponent,
-    RegisterComponent,
     CreateUserComponent,
     SearchFilterPipe,
     BatchDetailsComponent,
@@ -98,7 +96,8 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     ChartsModule,
-    Ng2OrderModule
+    Ng2OrderModule,
+	BrowserAnimationsModule
   ],
   providers: [
     AssociateService,

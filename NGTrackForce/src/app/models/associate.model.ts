@@ -8,6 +8,7 @@ export class Associate {
     lastName: string;
     msid: number;
     marketingStatus: string;
+    verified: boolean;
     clid: number;
     client: string;
     bid: number;

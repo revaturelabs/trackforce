@@ -4,8 +4,9 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../services/client-service/client.service';
+
 /**
-*@author Michael Tseng
+*@author Katherine Obioha
 *
 *@description This is the view for associates only
 *
@@ -18,6 +19,7 @@ import { ClientService } from '../../services/client-service/client.service';
 @AutoUnsubscribe
 export class MyInterviewComponent implements OnInit {
   public interviews: Array<any> = [];
+ 
   public associate: Associate = new Associate();
   public id:number = 0;
   public newInterview: any = {
@@ -27,6 +29,7 @@ export class MyInterviewComponent implements OnInit {
     feedback: null
   }
   public formOpen: boolean = false;
+  public conflictingInterviews: string = "";
 
   constructor(
     private associateService: AssociateService,
@@ -40,12 +43,9 @@ export class MyInterviewComponent implements OnInit {
     this.getAssociate(this.id);
   }
 
-
-
   toggleForm() {
     this.formOpen = !this.formOpen;
   }
-
 
   addInterview(){
     console.log(this.newInterview);
@@ -69,32 +69,51 @@ export class MyInterviewComponent implements OnInit {
 
   getInterviews(id: number) {
     this.associateService.getInterviewsForAssociate(id).subscribe(
-      data => {
+     data => {
         let tempArr = [];
         for (let i=0;i<data.length;i++) {
           let interview = data[i];
           let intObj = {
             id: interview.id,
             client: interview.tfClientName,
-            date: new Date(interview.tfInterviewDate),
-            type: interview.typeName,
-            feedback: interview.tfInterviewFeedback
+           date: new Date(interview.tfInterviewDate),
+           type: interview.typeName,
+            Afeedback: interview.tfInterviewFeedback,  
+            JDescription: "Testing company applications in an agile environment",
+            DInterview: "June 22, 2018",
+            CFeedback: "Impressive interview, final decision will be made soon",
+            FlagReason: "I was told less than 24 hours before interview"      
           }
           tempArr.push(intObj);
         }
         this.interviews = tempArr;
       }
     )
+  } 
+  
+  
+ 
+
+  /* Function to search for conflicting interviews */
+  highlightInterviewConflicts(interview: number) {
+    var checkDate = this.interviews[interview].date;
+    for (var i = 0; i < this.interviews.length; i++) {
+      if (this.interviews[i].date === checkDate && i != interview) {
+        this.conflictingInterviews = "The highlighted interviews are conflicting." +
+          "They are both scheduled at the same time!";
+        return true;
+      }
+    }
+    return false;
   }
-  
-  
-    getAssociate(id: number){
+
+  getAssociate(id: number){
     this.associateService.getAssociate(id).subscribe(
       data => {
         this.associate = data;
       },
       err => {
         console.log(err);
-    });
+  });
   }
 }

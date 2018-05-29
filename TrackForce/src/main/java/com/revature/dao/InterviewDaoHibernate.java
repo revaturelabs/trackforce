@@ -21,6 +21,7 @@ import org.hibernate.query.Query;
 
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
+import com.revature.entity.TfEndClient;
 import com.revature.entity.TfInterview;
 import com.revature.entity.TfInterviewType;
 import com.revature.model.InterviewInfo;
@@ -108,40 +109,13 @@ public class InterviewDaoHibernate implements InterviewDao {
 			Integer id = Integer.parseInt(max.toBigInteger().toString()) + 1;
 			tfi.setTfInterviewId(id);
 			tfi.setTfAssociate(session.get(TfAssociate.class, associateid));
-			
+
 			// tfi.setTfInterviewFeedback(ifc.getInterviewFeedback());
 			tfi.setTfClient(session.get(TfClient.class, ifc.getClientId()));
 			tfi.setTfInterviewType(session.load(TfInterviewType.class, ifc.getTypeId()));
 			tfi.setTfInterviewDate(Timestamp.from(new Date(ifc.getInterviewDate()).toInstant()));
-			
-			//tfi.setTfAssociateFeedback(tfAssociateFeedback);
-			
-			
-			
-			/*
-			 * @Column(name = "TF_ASSOCIATE_FEEDBACK", length = 2000) private String
-			 * tfAssociateFeedback;
-			 * 
-			 * @Column(name = "TF_CLIENT_FEEDBACK", length = 2500) private String
-			 * tfClientFeedback;
-			 * 
-			 * @Column(name = "TF_JOB_DESCRIPTION", length = 2000) private String
-			 * tfJobDescription;
-			 * 
-			 * @Column(name = "TF_DATE_SALES_ISSUED") private Timestamp tfDateSalesIssued;
-			 * 
-			 * @Column(name = "TF_DATE_ASSOCIATE_ISSUED") private Timestamp
-			 * tfDateAssociateIssued;
-			 * 
-			 * @Column(name = "TF_IS_INTERVIEW_FLAGGED") private Integer
-			 * tfIsInterviewFlagged = 0;
-			 * 
-			 * @Column(name = "TF_FLAG_REASON", length = 300) private String tfFlagReason;
-			 * 
-			 * @Column(name = "TF_IS_CLIENT_FEEDBACK_VISIABLE") private Integer
-			 * tfIsClientFeedbackVisiable = 0;
-			 */
 
+		
 			session.saveOrUpdate(tfi);
 			t1.commit();
 		} catch (NullPointerException e) {
@@ -158,14 +132,60 @@ public class InterviewDaoHibernate implements InterviewDao {
 			session.close();
 		}
 	}
+
 	/**
 	 * Send a Interview object and it gets put in the TF_Interview table
+	 * 
 	 * @Edboi
 	 */
 
 	@Override
 	public boolean createInterview(TfInterview parmInterview) {
-		
+		Transaction dbTransaction = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			dbTransaction = session.beginTransaction();
+			TfInterview databaseRow = new TfInterview();
+			//--I think this gets the largest Interview ID and add one to that for the new Object
+			String sql = "SELECT MAX(tf_interview_id) FROM admin.tf_interview";
+			Query<?> q = session.createNativeQuery(sql);
+			BigDecimal max = (BigDecimal) q.getSingleResult();
+			Integer id = Integer.parseInt(max.toBigInteger().toString()) + 1;
+			//--End getting new Id
+			databaseRow.setTfInterviewId(id);	
+			
+			//---Start Getting Objects from other Tables
+			databaseRow.setTfAssociate(session.get(TfAssociate.class, parmInterview.getTfAssociate()));
+			databaseRow.setTfClient(session.get(TfClient.class, parmInterview.getTfClient()));
+			databaseRow.setTfEndClient(session.get(TfEndClient.class, parmInterview.getTfEndClient()));
+			databaseRow.setTfInterviewType(session.load(TfInterviewType.class, parmInterview.getTfInterviewType()));
+			//---End Geting Objects From Other Tables
+			
+			databaseRow.setTfInterviewDate(parmInterview.getTfInterviewDate());
+			//--1804 Fields
+			databaseRow.setTfJobDescription(parmInterview.getTfJobDescription());;
+			databaseRow.setTfDateSalesIssued(parmInterview.getTfDateSalesIssued());
+			databaseRow.setTfDateAssociateIssued(parmInterview.getTfDateAssociateIssued());
+			databaseRow.setTfIsInterviewFlagged(parmInterview.getTfIsInterviewFlagged());
+			databaseRow.setTfFlagReason(parmInterview.getTfFlagReason());
+			databaseRow.setTfIsClientFeedbackVisiable(parmInterview.getTfIsClientFeedbackVisiable());
+			
+			session.saveOrUpdate(parmInterview);
+			dbTransaction.commit();
+			return true;
+		} catch (NullPointerException e) {
+			LogUtil.logger.error(e);
+			if (dbTransaction != null) {
+				dbTransaction.rollback();
+			}
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+			if (dbTransaction != null) {
+				dbTransaction.rollback();
+			}
+		} finally {
+			session.close();
+		}
 		return false;
 	}
 }

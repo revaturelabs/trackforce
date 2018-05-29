@@ -92,6 +92,7 @@ public class UserResource {
      * @throws IOException
      */
     @POST
+    @ApiOperation(value = "login method", notes ="The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 400 if invalid.")
     @Path("login")
     public Response submitCredentials(LoginJSON login) throws IOException {
     	UserJSON userjson = null;

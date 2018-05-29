@@ -66,7 +66,7 @@ public class TfInterview implements java.io.Serializable {
 	@Column(name = "TF_FLAG_REASON", length = 300)
 	private String tfFlagReason;
 	@Column(name = "TF_IS_CLIENT_FEEDBACK_VISIABLE")
-	private Integer tfIsClientFeedbackVisiable = 0;
+	private Integer tfIsClientFeedbackVisible = 0;
 
 	public TfInterview() {
 	}
@@ -92,13 +92,13 @@ public class TfInterview implements java.io.Serializable {
 	 * @param tfDateAssociateIssued
 	 * @param tfIsInterviewFlagged
 	 * @param tfFlagReason
-	 * @param tfIsClientFeedbackVisiable
+	 * @param tfIsClientFeedbackVisible
 	 */
 	public TfInterview(Integer tfInterviewId, TfAssociate tfAssociate, TfClient tfClient, TfEndClient tfEndClient,
 			TfInterviewType tfInterviewType, Timestamp tfInterviewDate, String tfAssociateFeedback,
 			String tfClientFeedback, String tfJobDescription, Timestamp tfDateSalesIssued,
 			Timestamp tfDateAssociateIssued, Integer tfIsInterviewFlagged, String tfFlagReason,
-			Integer tfIsClientFeedbackVisiable) {
+			Integer tfIsClientFeedbackVisible) {
 		super();
 		this.tfInterviewId = tfInterviewId;
 		this.tfAssociate = tfAssociate;
@@ -113,7 +113,7 @@ public class TfInterview implements java.io.Serializable {
 		this.tfDateAssociateIssued = tfDateAssociateIssued;
 		this.tfIsInterviewFlagged = tfIsInterviewFlagged;
 		this.tfFlagReason = tfFlagReason;
-		this.tfIsClientFeedbackVisiable = tfIsClientFeedbackVisiable;
+		this.tfIsClientFeedbackVisible = tfIsClientFeedbackVisible;
 	}
 
 	public Integer getTfInterviewId() {
@@ -265,15 +265,15 @@ public class TfInterview implements java.io.Serializable {
 	/**
 	 * @return the tfIsClientFeedbackVisiable
 	 */
-	public Integer getTfIsClientFeedbackVisiable() {
-		return tfIsClientFeedbackVisiable;
+	public Integer getTfIsClientFeedbackVisible() {
+		return tfIsClientFeedbackVisible;
 	}
 
 	/**
-	 * @param tfIsClientFeedbackVisiable the tfIsClientFeedbackVisiable to set
+	 * @param tfIsClientFeedbackVisible the tfIsClientFeedbackVisible to set
 	 */
-	public void setTfIsClientFeedbackVisiable(Integer tfIsClientFeedbackVisiable) {
-		this.tfIsClientFeedbackVisiable = tfIsClientFeedbackVisiable;
+	public void setTfIsClientFeedbackVisible(Integer tfIsClientFeedbackVisible) {
+		this.tfIsClientFeedbackVisible = tfIsClientFeedbackVisible;
 	}
 
 	/* (non-Javadoc)
@@ -294,7 +294,7 @@ public class TfInterview implements java.io.Serializable {
 		result = prime * result + ((tfInterviewDate == null) ? 0 : tfInterviewDate.hashCode());
 		result = prime * result + ((tfInterviewId == null) ? 0 : tfInterviewId.hashCode());
 		result = prime * result + ((tfInterviewType == null) ? 0 : tfInterviewType.hashCode());
-		result = prime * result + ((tfIsClientFeedbackVisiable == null) ? 0 : tfIsClientFeedbackVisiable.hashCode());
+		result = prime * result + ((tfIsClientFeedbackVisible == null) ? 0 : tfIsClientFeedbackVisible.hashCode());
 		result = prime * result + ((tfIsInterviewFlagged == null) ? 0 : tfIsInterviewFlagged.hashCode());
 		result = prime * result + ((tfJobDescription == null) ? 0 : tfJobDescription.hashCode());
 		return result;
@@ -367,10 +367,10 @@ public class TfInterview implements java.io.Serializable {
 				return false;
 		} else if (!tfInterviewType.equals(other.tfInterviewType))
 			return false;
-		if (tfIsClientFeedbackVisiable == null) {
-			if (other.tfIsClientFeedbackVisiable != null)
+		if (tfIsClientFeedbackVisible == null) {
+			if (other.tfIsClientFeedbackVisible != null)
 				return false;
-		} else if (!tfIsClientFeedbackVisiable.equals(other.tfIsClientFeedbackVisiable))
+		} else if (!tfIsClientFeedbackVisible.equals(other.tfIsClientFeedbackVisible))
 			return false;
 		if (tfIsInterviewFlagged == null) {
 			if (other.tfIsInterviewFlagged != null)
@@ -396,7 +396,7 @@ public class TfInterview implements java.io.Serializable {
 				+ tfClientFeedback + ", tfJobDescription=" + tfJobDescription + ", tfDateSalesIssued="
 				+ tfDateSalesIssued + ", tfDateAssociateIssued=" + tfDateAssociateIssued + ", tfIsInterviewFlagged="
 				+ tfIsInterviewFlagged + ", tfFlagReason=" + tfFlagReason + ", tfIsClientFeedbackVisiable="
-				+ tfIsClientFeedbackVisiable + "]";
+				+ tfIsClientFeedbackVisible + "]";
 	}
 	
 	

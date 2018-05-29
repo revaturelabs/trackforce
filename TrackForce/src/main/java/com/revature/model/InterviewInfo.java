@@ -3,185 +3,171 @@ package com.revature.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
+public class InterviewInfo implements Serializable, Comparable<InterviewInfo> {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4737517688902246944L;
-	private Integer id;
-	private AssociateInfo tfAssociate;
-	private String tfClientName;
-	private Integer typeId;
-	private String typeName;
-	private Timestamp tfInterviewDate;
-	private String tfInterviewFeedback;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 4737517688902246944L;
+    private Integer id;
+    private AssociateInfo tfAssociate;
+    private String tfClientName;
+    private Integer typeId;
+    private String typeName;
+    private Timestamp tfInterviewDate;
+    private String tfInterviewFeedback;
 
-	// 1804
-	private String associateFeedback;
-	private String clientFeedback;
-	private String jobDescription;
-	private Timestamp dateSalesIssued;
-	private Timestamp dateAssociateIssued;
-	private Integer isInterviewFlagged;
-	private String flagReason;
-	private Integer isClientFeedbackVisiable;
-	
-	public Integer getId() {
-		return id;
-	}
+    // 1804
+    private String associateFeedback;
+    private String clientFeedback;
+    private String jobDescription;
+    private Timestamp dateSalesIssued;
+    private Timestamp dateAssociateIssued;
+    private Integer isInterviewFlagged;
+    private String flagReason;
+    private Integer isClientFeedbackVisible;
 
-
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
 
-
-	public AssociateInfo getTfAssociate() {
-		return tfAssociate;
-	}
-
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
 
-	public void setTfAssociate(AssociateInfo tfAssociate) {
-		this.tfAssociate = tfAssociate;
-	}
+    public AssociateInfo getTfAssociate() {
+        return tfAssociate;
+    }
 
 
-
-	public String getTfClientName() {
-		return tfClientName;
-	}
-
+    public void setTfAssociate(AssociateInfo tfAssociate) {
+        this.tfAssociate = tfAssociate;
+    }
 
 
-	public void setTfClientName(String tfEndClient) {
-		this.tfClientName = tfEndClient;
-	}
-	
-	public void setTfEndClientName(String name) {
-		this.tfClientName = name;
-	}
+    public String getTfClientName() {
+        return tfClientName;
+    }
 
 
+    public void setTfClientName(String tfEndClient) {
+        this.tfClientName = tfEndClient;
+    }
 
-	public Integer getTypeId() {
-		return typeId;
-	}
-
-
-
-	public void setTypeId(Integer typeId) {
-		this.typeId = typeId;
-	}
+    public void setTfEndClientName(String name) {
+        this.tfClientName = name;
+    }
 
 
-
-	public String getTypeName() {
-		return typeName;
-	}
-
+    public Integer getTypeId() {
+        return typeId;
+    }
 
 
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-	}
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
+    }
 
 
-
-	public Timestamp getTfInterviewDate() {
-		return tfInterviewDate;
-	}
-
+    public String getTypeName() {
+        return typeName;
+    }
 
 
-	public void setTfInterviewDate(Timestamp tfInterviewDate) {
-		this.tfInterviewDate = tfInterviewDate;
-	}
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 
 
-
-	public String getTfInterviewFeedback() {
-		return tfInterviewFeedback;
-	}
-
+    public Timestamp getTfInterviewDate() {
+        return tfInterviewDate;
+    }
 
 
-	public void setTfInterviewFeedback(String tfInterviewFeedback) {
-		this.tfInterviewFeedback = tfInterviewFeedback;
-	}
+    public void setTfInterviewDate(Timestamp tfInterviewDate) {
+        this.tfInterviewDate = tfInterviewDate;
+    }
 
 
-
-	@Override
-	public int compareTo(InterviewInfo o) {
-		return this.id-o.getId();
-	}
+    public String getTfInterviewFeedback() {
+        return tfInterviewFeedback;
+    }
 
 
-	public String getAssociateFeedback() {
-		return associateFeedback;
-	}
+    public void setTfInterviewFeedback(String tfInterviewFeedback) {
+        this.tfInterviewFeedback = tfInterviewFeedback;
+    }
 
-	public void setAssociateFeedback(String associateFeedback) {
-		this.associateFeedback = associateFeedback;
-	}
 
-	public String getClientFeedback() {
-		return clientFeedback;
-	}
+    @Override
+    public int compareTo(InterviewInfo o) {
+        return this.id - o.getId();
+    }
 
-	public void setClientFeedback(String clientFeedback) {
-		this.clientFeedback = clientFeedback;
-	}
 
-	public String getJobDescription() {
-		return jobDescription;
-	}
+    public String getAssociateFeedback() {
+        return associateFeedback;
+    }
 
-	public void setJobDescription(String jobDescription) {
-		this.jobDescription = jobDescription;
-	}
+    public void setAssociateFeedback(String associateFeedback) {
+        this.associateFeedback = associateFeedback;
+    }
 
-	public Timestamp getDateSalesIssued() {
-		return dateSalesIssued;
-	}
+    public String getClientFeedback() {
+        return clientFeedback;
+    }
 
-	public void setDateSalesIssued(Timestamp dateSalesIssued) {
-		this.dateSalesIssued = dateSalesIssued;
-	}
+    public void setClientFeedback(String clientFeedback) {
+        this.clientFeedback = clientFeedback;
+    }
 
-	public Timestamp getDateAssociateIssued() {
-		return dateAssociateIssued;
-	}
+    public String getJobDescription() {
+        return jobDescription;
+    }
 
-	public void setDateAssociateIssued(Timestamp dateAssociateIssued) {
-		this.dateAssociateIssued = dateAssociateIssued;
-	}
+    public void setJobDescription(String jobDescription) {
+        this.jobDescription = jobDescription;
+    }
 
-	public Integer getIsInterviewFlagged() {
-		return isInterviewFlagged;
-	}
+    public Timestamp getDateSalesIssued() {
+        return dateSalesIssued;
+    }
 
-	public void setIsInterviewFlagged(Integer isInterviewFlagged) {
-		this.isInterviewFlagged = isInterviewFlagged;
-	}
+    public void setDateSalesIssued(Timestamp dateSalesIssued) {
+        this.dateSalesIssued = dateSalesIssued;
+    }
 
-	public String getFlagReason() {
-		return flagReason;
-	}
+    public Timestamp getDateAssociateIssued() {
+        return dateAssociateIssued;
+    }
 
-	public void setFlagReason(String flagReason) {
-		this.flagReason = flagReason;
-	}
+    public void setDateAssociateIssued(Timestamp dateAssociateIssued) {
+        this.dateAssociateIssued = dateAssociateIssued;
+    }
 
-	public Integer getIsClientFeedbackVisiable() {
-		return isClientFeedbackVisiable;
-	}
+    public Integer getIsInterviewFlagged() {
+        return isInterviewFlagged;
+    }
 
-	public void setIsClientFeedbackVisiable(Integer isClientFeedbackVisiable) {
-		this.isClientFeedbackVisiable = isClientFeedbackVisiable;
-	}
+    public void setIsInterviewFlagged(Integer isInterviewFlagged) {
+        this.isInterviewFlagged = isInterviewFlagged;
+    }
+
+    public String getFlagReason() {
+        return flagReason;
+    }
+
+    public void setFlagReason(String flagReason) {
+        this.flagReason = flagReason;
+    }
+
+    public Integer getIsClientFeedbackVisible() {
+        return isClientFeedbackVisible;
+    }
+
+    public void setIsClientFeedbackVisible(Integer isClientFeedbackVisible) {
+        this.isClientFeedbackVisible = isClientFeedbackVisible;
+    }
 }

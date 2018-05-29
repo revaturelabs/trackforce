@@ -29,6 +29,7 @@ import com.revature.model.InterviewInfo;
 import com.revature.request.model.InterviewFromClient;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 public class InterviewDaoHibernate implements InterviewDao {

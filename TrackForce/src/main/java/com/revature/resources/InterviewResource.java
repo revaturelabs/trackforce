@@ -89,32 +89,18 @@ public class InterviewResource {
 	public Response createInterview(@PathParam("associateid") int associateid,
 			@HeaderParam("Authorization") String token, @FormParam("username") String username,
 			@FormParam("password") String password) {
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
 
-		// is.addInterviewByAssociate(associateid, ifc);
-		Claims claims = null;
-
-		try {
-			logger.info("In the try block");
-			if (token == null) {
-				throw new UnsupportedJwtException("token null");
-			}
-			claims = jService.getClaimsFromToken(token);
-			logger.info("Print claims " + claims);
-
-		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
-				| IllegalArgumentException | NullPointerException e) {
-			logger.info("in the catch block");
-			e.printStackTrace();
-			return Response.status(403).build();
-		}
-
-		if (claims.getId().equals("1")) {
+		if (payload == null || !payload.getId().equals("1")) {
+			status = Status.UNAUTHORIZED;
+		} else {
 			InterviewFromClient ifc = new InterviewFromClient();
 			is.addInterviewByAssociate(associateid, ifc);
-			return Response.status(201).build();
-		} else {
-			return Response.status(403).build();
+			status = Status.CREATED;
 		}
+		
+		return Response.status(status).build();
 	}
 
 	@Path("/{interviewid}/job-description")

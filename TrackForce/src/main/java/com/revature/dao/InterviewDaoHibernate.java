@@ -170,7 +170,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 			databaseRow.setTfDateAssociateIssued(parmInterview.getTfDateAssociateIssued());
 			databaseRow.setTfIsInterviewFlagged(parmInterview.getTfIsInterviewFlagged());
 			databaseRow.setTfFlagReason(parmInterview.getTfFlagReason());
-			databaseRow.setTfIsClientFeedbackVisiable(parmInterview.getTfIsClientFeedbackVisiable());
+			databaseRow.setTfIsClientFeedbackVisible(parmInterview.getTfIsClientFeedbackVisible());
 
 			session.saveOrUpdate(databaseRow);
 			dbTransaction.commit();
@@ -228,8 +228,8 @@ public class InterviewDaoHibernate implements InterviewDao {
 				tobeUpdatedInteview.setTfIsInterviewFlagged(parmInterview.getTfIsInterviewFlagged());
 			if (parmInterview.getTfFlagReason() != null)
 				tobeUpdatedInteview.setTfFlagReason(parmInterview.getTfFlagReason());
-			if (parmInterview.getTfIsClientFeedbackVisiable() != null)
-				tobeUpdatedInteview.setTfIsClientFeedbackVisiable(parmInterview.getTfIsClientFeedbackVisiable());
+			if (parmInterview.getTfIsClientFeedbackVisible() != null)
+				tobeUpdatedInteview.setTfIsClientFeedbackVisible(parmInterview.getTfIsClientFeedbackVisible());
 
 			session.saveOrUpdate(tobeUpdatedInteview);
 			dbTransaction.commit();

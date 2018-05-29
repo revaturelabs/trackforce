@@ -118,8 +118,8 @@ public class BatchResource {
 	 *         body
 	 */
 	@GET
+	@Path("/{id}")
 	@ApiOperation(value = "Returns a batch", notes = "Returns a specific batch by id.")
-	@Path("{id}")
 	public Response getBatchById(@PathParam("id") Integer id) {
 		BatchInfo batch = service.getBatchById(id);
 		return Response.ok(batch).build();

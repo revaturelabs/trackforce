@@ -1,6 +1,6 @@
 package com.revature.resources;
 
-import static org.testng.Assert.assertEquals;
+
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -64,6 +64,13 @@ public class AssociateResource {
 	 * Gets a list of all the associates, optionally filtered by a batch id. If an
 	 * associate has no marketing status or curriculum, replaces them with blanks.
 	 * If associate has no client, replaces it with "None".
+	 *
+	 * The different user types and their ID's are 
+	 * Admin: 1
+	 * Trainer: 2
+	 * Sales/Delivery 3
+	 * Staging Manager 4
+	 * Associate 5
 	 * 
 	 * @return A Response object with a list of TfAssociate objects.
 	 * @throws IOException

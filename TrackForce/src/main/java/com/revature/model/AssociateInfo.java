@@ -25,7 +25,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	private Integer bid;
 	private String batchName;
 
-	private Integer isApproved;
+	private Integer isApproved = 0;
 
 	private Integer curid;
 	private String curriculumName;

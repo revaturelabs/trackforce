@@ -35,6 +35,19 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+
+/**
+ * 
+ * @author Mitchell H's PC
+ * 
+ * The different types of users
+ * Admin: 1
+ * Trainer: 2
+ * Sales/Delivery 3
+ * Staging Manager 4
+ * Associate 5
+ */
+
 @Path("/")
 @Api(value = "Interviews")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -45,7 +58,7 @@ public class InterviewResource {
 	private static InterviewService is = new InterviewService();
 
 	@GET
-	@ApiOperation(value = "Returns all interviews", notes ="Returns a list of all interviews.")
+	@ApiOperation(value = "Returns all interviews for an associate", notes ="Returns a list of all interviews.")
 	public Response getAllInterviews(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate)
 			throws HibernateException, IOException {
 		// TODO handle exception
@@ -59,8 +72,10 @@ public class InterviewResource {
 	@ApiOperation(value = "Returns an interview", notes = "Returns a specific interview by id.")
 	@Path("/{interviewid}")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid,
+			@PathParam("interviewid") Integer interviewid,
 			@HeaderParam("Authorization") String token) {
 		logger.info(token);
+		
 		Claims claims = null;
 		logger.info("Before the try block");
 		try {
@@ -79,7 +94,7 @@ public class InterviewResource {
 		}
 
 		if (claims.getId().equals("1")) {
-			Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
+			Set<InterviewInfo> associateinfo = service.getInterviewsByAssociateAndInterviewid(associateid, interviewid);
 			return Response.ok(associateinfo).build();
 		} else {
 			return Response.status(403).build();

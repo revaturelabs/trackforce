@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -320,6 +321,47 @@ public class InterviewDaoHibernate implements InterviewDao {
 		}
 		return null;
 	}
+	/**
+	 * Ask for all the Interview in the Table and you shall receive 
+	 * 
+	 * 
+	 * @Edboi
+	 * Side note I wanted to user //session.createCriteria(MyEntity.class).list(); 
+	 * but is deprecated and thus had use the way below
+	 */
+	
+	@Override
+	public ArrayList<TfInterview> getAllInterviewsInArraylist() {
+		Session session = null;
+		TfInterview temp = new TfInterview();
+		ArrayList<TfInterview> arrayListOfInterviews = new ArrayList<TfInterview>();
+		try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            //Get Criteria Builder
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+
+            //Create Criteria
+            CriteriaQuery<TfInterview> criteria = builder.createQuery(TfInterview.class);
+            Root<TfInterview> contactRoot = criteria.from(TfInterview.class);
+            criteria.select(contactRoot);
+
+            //Use criteria to query with session to fetch all contacts
+            arrayListOfInterviews = (ArrayList<TfInterview>) session.createQuery(criteria).getResultList();
+            
+            return arrayListOfInterviews;
+      
+		} catch (NullPointerException e ) {
+			LogUtil.logger.error(e);
+		
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+		
+		} finally {
+			session.close();
+		}
+		return null;
+	}
+	
 	
 
 

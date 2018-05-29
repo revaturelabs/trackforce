@@ -69,6 +69,8 @@
 
   <div>
 
+    <button class ="btn btn-primary" name = "getDetailsBtn" (click) ="getDetails(start,end)">  Details </button>
+
     <h1>Prediction breakdown</h1>
 
     <table>
@@ -82,12 +84,9 @@
       </thead>
 
       <tbody>
-          <tr *ngFor="let x of hellos" >
-            <td>{{x}}</td>
-            <!-- <td>{{y}}</td> -->
-
-
-
+          <tr *ngFor="let x of batches" >
+            <td>{{x.batchName}}</td>
+            <td>{{x.associates.length}}</td>
         </tr>
         </tbody>
 

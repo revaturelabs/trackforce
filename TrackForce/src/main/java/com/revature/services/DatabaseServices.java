@@ -10,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,7 +23,6 @@ import com.revature.dao.CurriculumDaoImpl;
 import com.revature.dao.InterviewDaoHibernate;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 
 /**
  * For all intensive purposes, this service mocks Salesforce albeit extreme
@@ -31,7 +31,8 @@ import com.revature.utils.LogUtil;
  */
 @Path("database")
 public class DatabaseServices {
-
+	static final Logger logger = Logger.getLogger(DatabaseServices.class);
+	
 	private SessionFactory sessionFactory;
 
 	public DatabaseServices() {
@@ -59,7 +60,7 @@ public class DatabaseServices {
 			StoredProcedureQuery spq = session.createStoredProcedureCall("admin.populateAllTables_PROC");
 			spq.execute();
 		} catch (Exception e) {
-			LogUtil.logger.error(e);
+			logger.error(e);
 			session.flush();
 			tx.rollback();
 		} finally {
@@ -81,7 +82,7 @@ public class DatabaseServices {
 			StoredProcedureQuery spq = session.createStoredProcedureCall("admin.truncateAllDevTeam");
 			spq.execute();
 		} catch (Exception e) {
-			LogUtil.logger.error(e);
+			logger.error(e);
 			session.flush();
 			tx.rollback();
 		} finally {
@@ -102,7 +103,7 @@ public class DatabaseServices {
 			StoredProcedureQuery spq = session.createStoredProcedureCall("admin.populateAllTablesSF_PROC");
 			spq.execute();
 		} catch (Exception e) {
-			LogUtil.logger.error(e);
+			logger.error(e);
 			session.flush();
 			tx.rollback();
 		} finally {

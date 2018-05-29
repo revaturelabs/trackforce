@@ -41,7 +41,7 @@ public class BatchesService {
 	}
 
 	public Set<BatchInfo> getBatchesByCurri(String c) {
-		logger.info("getby curriculum: " + "");
+//		logger.info("getby curriculum: " + "");
 		Set<BatchInfo> batches = batchDao.getAllBatches();
 		
 		// remove all batches not equal to curriculum

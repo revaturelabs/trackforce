@@ -18,4 +18,5 @@ public interface InterviewDao {
     public boolean updateInterview(TfInterview parmInterview);
     public void cacheAllInterviews();
     boolean isInterviewAtId(Integer parmInterviewId);
+    TfInterview getInterviewById(Integer parmInterviewId);
 }

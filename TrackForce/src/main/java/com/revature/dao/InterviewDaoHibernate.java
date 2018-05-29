@@ -273,7 +273,8 @@ public class InterviewDaoHibernate implements InterviewDao {
 		try {
             session = HibernateUtil.getSessionFactory().openSession();
             temp =  (TfInterview) session.get(TfInterview.class, parmInterviewId);
-            Hibernate.initialize(temp);
+            Hibernate.initialize(temp); // I don't think I need this, but it doesn't break anything soo...
+           // try and get an Interviw matching the Id, If I get one it will not be null simple stuff
             if (temp != null) {
                 return true;
              }else
@@ -289,6 +290,37 @@ public class InterviewDaoHibernate implements InterviewDao {
 		}
 		return false;
 	}
+	/**
+	 * Send ID of Interview
+	 * get an Interview at that ID
+	 * 
+	 * @Edboi
+	 */
+	@Override
+	public TfInterview getInterviewById(Integer parmInterviewId) {
+		Session session = null;
+		TfInterview temp = new TfInterview();
+		try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            temp =  (TfInterview) session.get(TfInterview.class, parmInterviewId);
+            Hibernate.initialize(temp); // I don't think I need this, but it doesn't break anything soo...
+          
+            if (temp != null) {
+                return temp;
+             }else
+            	 return null;
+		} catch (NullPointerException e ) {
+			LogUtil.logger.error(e);
+		
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+		
+		} finally {
+			session.close();
+		}
+		return null;
+	}
+	
 
 
 	

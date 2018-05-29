@@ -38,10 +38,10 @@ exports.config = {
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
     
-    require('jasmine-reporters');
+    /*require('jasmine-reporters');
     jasmine.getEnv().addReporter(
       new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));
-  }
+    */ }
 
 
 };

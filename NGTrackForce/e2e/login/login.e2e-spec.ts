@@ -67,6 +67,8 @@ describe('Confirm login failures', () => {
 
   it('should fail to login when incorrect credentials are entered', () => {
     page.getLoginButton().click();
+    page.getUsernameInput().sendKeys('1234');
+    page.getPasswordInput().sendKeys('password');
     expect(page.getFailedLoginResponse()).toEqual('Invalid username and/or password');
   });
 

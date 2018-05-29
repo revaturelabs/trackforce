@@ -13,6 +13,7 @@ import { Batch } from '../../models/batch.model';
 })
 @AutoUnsubscribe
 export class PredictionsComponent implements OnInit {
+  public detailsReady: boolean = false;
   public dataReady: boolean = false;
   public startDate: Date = new Date();
   public endDate: Date = new Date();
@@ -126,32 +127,10 @@ export class PredictionsComponent implements OnInit {
         }
       );
     }
-    let canvas: any = (document.getElementById("bar-chart-horizontal"));
-    let ctx = canvas.getContext("2d");
-    let chart1 = new Chart(ctx, {
-      type: 'horizontalBar',
-      data: {
-        labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-        datasets: [
-          {
-            label: "Population (millions)",
-            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
-            data: [2478, 5267, 734, 784, 433]
-          }
-        ]
-      },
-      options: {
-        legend: { display: false },
-        title: {
-          display: true,
-          text: 'Predicted world population (millions) in 2050'
-        }
-      }
-    });
   }
 
 
-  getDetails(s,e) {
+  getDetails(s, e, event) {
     if (s != null) {
       this.startDate = s;
     }
@@ -161,31 +140,19 @@ export class PredictionsComponent implements OnInit {
 
     let startTime = new Date(this.startDate).getTime();
     let endTime = new Date(this.endDate).getTime();
-    let tech: string = "jta";
+    //Access the id of the button that triggered the function, which should have the
+    //technology to be displayed
+    let tech: string = event.target.id;
+
+    console.log(event.target.id);
 
     console.log(startTime);
 
     let test = this.ps.getBatchesByCurricula(startTime, endTime, tech).subscribe(data => {
-
       console.log(data);
       this.batches = data;
-
+      this.detailsReady = true;
     }, er => {
     });
-
-
-
-
-    
-
-
-    console.log(this.batches[1].batchName)
-    console.log(this.batches[1].associates.length)
-
-
   }
-
-
-
-
 }

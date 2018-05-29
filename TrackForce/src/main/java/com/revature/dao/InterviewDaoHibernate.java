@@ -188,6 +188,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 		}
 		return false;
 	}
+
 	/**
 	 * Send a Interview object and it gets updated in the TF_Interview table
 	 * 
@@ -197,35 +198,40 @@ public class InterviewDaoHibernate implements InterviewDao {
 	@Override
 	public boolean updateInterview(TfInterview parmInterview) {
 		Transaction dbTransaction = null;
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		TfInterview tobeUpdatedInteview = new TfInterview();
-		if(parmInterview.getTfInterviewId() != null)
-			tobeUpdatedInteview.setTfInterviewId(parmInterview.getTfInterviewId());
-		if(parmInterview.getTfAssociate() != null)
-			tobeUpdatedInteview.setTfAssociate(session.get(TfAssociate.class, parmInterview.getTfAssociate()));
-		if(parmInterview.getTfClient() != null)
-			tobeUpdatedInteview.setTfClient(session.get(TfClient.class, parmInterview.getTfClient()));
-		// ---Start Getting Objects from other Tables
-		tobeUpdatedInteview.setTfAssociate(session.get(TfAssociate.class, parmInterview.getTfAssociate()));
-		tobeUpdatedInteview.setTfClient(session.get(TfClient.class, parmInterview.getTfClient()));
-		tobeUpdatedInteview.setTfEndClient(session.get(TfEndClient.class, parmInterview.getTfEndClient()));
-		tobeUpdatedInteview.setTfInterviewType(session.load(TfInterviewType.class, parmInterview.getTfInterviewType()));
-		// ---End Geting Objects From Other Tables
-
-		tobeUpdatedInteview.setTfInterviewDate(parmInterview.getTfInterviewDate());
-		// --1804 Fields
-		tobeUpdatedInteview.setTfJobDescription(parmInterview.getTfJobDescription());
-		tobeUpdatedInteview.setTfDateSalesIssued(parmInterview.getTfDateSalesIssued());
-		tobeUpdatedInteview.setTfDateAssociateIssued(parmInterview.getTfDateAssociateIssued());
-		tobeUpdatedInteview.setTfIsInterviewFlagged(parmInterview.getTfIsInterviewFlagged());
-		tobeUpdatedInteview.setTfFlagReason(parmInterview.getTfFlagReason());
-		tobeUpdatedInteview.setTfIsClientFeedbackVisiable(parmInterview.getTfIsClientFeedbackVisiable());
-
-		
-		
+		Session session = null;
 		try {
+			session = HibernateUtil.getSessionFactory().openSession();
 			dbTransaction = session.beginTransaction();
-			TfInterview databaseRow = new TfInterview();
+			TfInterview tobeUpdatedInteview = new TfInterview();
+			if (parmInterview.getTfInterviewId() != null)
+				tobeUpdatedInteview.setTfInterviewId(parmInterview.getTfInterviewId());
+			if (parmInterview.getTfAssociate() != null)
+				tobeUpdatedInteview.setTfAssociate(session.get(TfAssociate.class, parmInterview.getTfAssociate()));
+			if (parmInterview.getTfClient() != null)
+				tobeUpdatedInteview.setTfClient(session.get(TfClient.class, parmInterview.getTfClient()));
+			if (parmInterview.getTfEndClient() != null)
+				tobeUpdatedInteview.setTfEndClient(session.get(TfEndClient.class, parmInterview.getTfEndClient()));
+			if (parmInterview.getTfEndClient() != null)
+				tobeUpdatedInteview.setTfInterviewType(session.load(TfInterviewType.class, parmInterview.getTfInterviewType()));
+
+			if (parmInterview.getTfInterviewDate() != null)
+				tobeUpdatedInteview.setTfInterviewDate(parmInterview.getTfInterviewDate());
+			if (parmInterview.getTfJobDescription() != null)
+				tobeUpdatedInteview.setTfInterviewDate(parmInterview.getTfInterviewDate());
+			if (parmInterview.getTfDateSalesIssued() != null)
+				tobeUpdatedInteview.setTfDateSalesIssued(parmInterview.getTfDateSalesIssued());
+			if (parmInterview.getTfDateAssociateIssued() != null)
+				tobeUpdatedInteview.setTfDateAssociateIssued(parmInterview.getTfDateAssociateIssued());
+			if (parmInterview.getTfIsInterviewFlagged() != null)
+				tobeUpdatedInteview.setTfIsInterviewFlagged(parmInterview.getTfIsInterviewFlagged());
+			if (parmInterview.getTfFlagReason() != null)
+				tobeUpdatedInteview.setTfFlagReason(parmInterview.getTfFlagReason());
+			if (parmInterview.getTfIsClientFeedbackVisiable() != null)
+				tobeUpdatedInteview.setTfIsClientFeedbackVisiable(parmInterview.getTfIsClientFeedbackVisiable());
+
+			session.saveOrUpdate(tobeUpdatedInteview);
+			dbTransaction.commit();
+			return true;
 
 		} catch (NullPointerException e) {
 			LogUtil.logger.error(e);

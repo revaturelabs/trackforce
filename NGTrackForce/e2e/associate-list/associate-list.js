@@ -1,8 +1,11 @@
+
 describe('Open the browser and get to the website', function() {
+    var PropertiesReader = require('properties-reader');
+    var properties = PropertiesReader('../testing.properties');
     browser.ignoreSynchronization = true;
     wd = browser.driver;
     browser.waitForAngularEnabled(false);
-    wd.get('http://localhost:4200/login');
+    wd.get(properties.read('url'));
 
 });
 

@@ -86,6 +86,8 @@ public class UserService {
         String password = login.getPassword();
         UserJSON userjson = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
+        //TODO: input a service that makes an associate if possible, if it does then grab its verified field if not 
+        //verified return a null object for the hibernate team
         Transaction tx = session.beginTransaction();
         try {
             // Attempts to get the user from the database based on username

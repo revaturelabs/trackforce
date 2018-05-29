@@ -94,7 +94,7 @@ public class InterviewResource {
 		}
 
 		if (claims.getId().equals("1")) {
-			Set<InterviewInfo> associateinfo = service. getInterviewsByAssociateAndInterviewid(associateid, interviewid);
+			Set<InterviewInfo> associateinfo = service.getInterviewsByAssociateAndInterviewid(associateid, interviewid);
 			return Response.ok(associateinfo).build();
 		} else {
 			return Response.status(403).build();

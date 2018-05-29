@@ -12,7 +12,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^5.0.0",
+    "@angular/animations": "^6.0.3",
     "@angular/common": "^5.0.0",
     "@angular/compiler": "^5.0.0",
     "@angular/core": "^5.0.0",
@@ -26,6 +26,7 @@
     "core-js": "^2.4.1",
     "d3": "^4.13.0",
     "lsof": "^0.1.0",
+    "ng": "0.0.0-rc6",
     "ng2-charts": "^1.6.0",
     "ng2-order-pipe": "^0.1.5",
     "rxjs": "^5.5.2",

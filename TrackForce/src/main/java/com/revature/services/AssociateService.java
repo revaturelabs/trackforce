@@ -166,7 +166,7 @@ public class AssociateService {
 		Set<InterviewInfo> allInterviews = associateDao.getInterviewsByAssociate(associateId);
 		Set<InterviewInfo> specificInterview = new TreeSet<InterviewInfo>();
 		for (InterviewInfo x : allInterviews) {
-			if (x.getTfInterviewId() == interviewid) {
+			if (x.getId() == interviewid) {
 				specificInterview.add(x);
 				break;
 			}

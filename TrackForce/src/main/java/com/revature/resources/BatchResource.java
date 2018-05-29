@@ -1,5 +1,7 @@
 package com.revature.resources;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,12 +19,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.log4j.Logger;
-
 import com.revature.model.BatchInfo;
 import com.revature.services.BatchesService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * Class that provides RESTful services for the batch listing and batch details
@@ -33,7 +34,7 @@ import io.swagger.annotations.Api;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BatchResource {
-	static final Logger logger = Logger.getLogger(BatchResource.class);
+	
 	private BatchesService service;
 
 	public BatchResource() {
@@ -48,6 +49,7 @@ public class BatchResource {
 	 * @return - Response with 200 status and a List<BatchInfo> in the response body
 	 */
 	@GET
+	@ApiOperation(value = "Returns all Batches", notes = "Returns a list of a list of all batches optionally filtered by start and end dates.")
 	public Response getAllBatches() {
 		Set<BatchInfo> batches = service.getAllBatches();
 		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
@@ -84,6 +86,7 @@ public class BatchResource {
 	 * @return set of batches matching curriculum
 	 */
 	@GET
+	@ApiOperation(value = "returns batches by curriculum", notes = "Returns a list of batches filtered by curriculum name.")
 	@Path("curriculum/{curriculum}")
 	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum, @QueryParam("start") Long startDate,
 			@QueryParam("end") Long endDate) {
@@ -115,6 +118,7 @@ public class BatchResource {
 	 *         body
 	 */
 	@GET
+	@ApiOperation(value = "Returns a batch", notes = "Returns a specific batch by id.")
 	@Path("{id}")
 	public Response getBatchById(@PathParam("id") Integer id) {
 		BatchInfo batch = service.getBatchById(id);
@@ -122,12 +126,13 @@ public class BatchResource {
 	}
 
 	@GET
+	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
 	@Path("{id}/associates")
 	public Response getAssociatesForBatch(@PathParam("id") Integer id) {
 		return Response.ok(service.getAssociatesForBranch(id)).build();
 	}
 
-	// test method: returns ["Yuvi1804", 25],["wills batch", 14] every time
+	// dummy test method: returns ["Yuvi1804", 25],["wills batch", 14] every time
 	@GET
 	@Path("/adam")
 	public Response getSomeBatches() {

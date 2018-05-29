@@ -17,6 +17,7 @@ import com.revature.model.ClientInfo;
 import com.revature.services.ClientService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Path("clients")
 @Api(value = "clients")
@@ -37,6 +38,7 @@ public class ClientResource {
      * @throws HibernateException
      */
     @GET
+    @ApiOperation(value = "Returns all clients", notes = "Returns a map of all clients.")
     public Response getAllClients() throws IOException {
     	Set<ClientInfo> clients = service.getClients();
         return Response.ok(clients).build();
@@ -53,6 +55,7 @@ public class ClientResource {
      */
     @Path("{clientid}")
     @GET
+    @ApiOperation(value = "Returns a client", notes = "Returns a specific client based on client id.")
     public Response getClientInfo(@PathParam("clientid") int clientid) throws IOException {
     	ClientInfo client = service.getClientByID(clientid);
         return Response.ok(client).build();

@@ -7,7 +7,7 @@ import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -34,7 +34,7 @@ import io.jsonwebtoken.SignatureException;
  *
  */
 public class JWTService {
-	static final Logger logger = Logger.getLogger(JWTService.class);
+	
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 1000L;
 
@@ -65,12 +65,12 @@ public class JWTService {
 	 * 
 	 * @return the token
 	 */
-	public String createToken(String username) {
+	public String createToken(String username, int tfroleid) {
 
 		SignatureAlgorithm signAlgorithm = SignatureAlgorithm.HS256;
 		Key key = new SecretKeySpec(getSecret(), signAlgorithm.getJcaName());
 
-		JwtBuilder token = Jwts.builder().setSubject(username).setExpiration(generateExpirationDate())
+		JwtBuilder token = Jwts.builder().setSubject(username).setId("" + tfroleid).setExpiration(generateExpirationDate())
 				.signWith(signAlgorithm, key);
 
 		return token.compact();
@@ -135,7 +135,7 @@ public class JWTService {
 	 * 
 	 * @return Claims object, or null
 	 */
-	private Claims getClaimsFromToken(String token) {
+	public Claims getClaimsFromToken(String token) {
 		Claims claims = null;
 		try {
 			claims = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();

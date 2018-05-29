@@ -1,19 +1,16 @@
 package com.revature.model;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.Serializable;
 
-import org.apache.log4j.Logger;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.revature.entity.TfMarketingStatus;
 
 /**
- * Associate class to hold information about an associate for the batch details page.
+ * Associate class to hold information about an associate for the batch details
+ * page.
  */
 public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
-	@JsonIgnore
-	static final Logger logger = Logger.getLogger(AssociateInfo.class);
-	
 	private static final long serialVersionUID = 6047227506797717614L;
 	private Integer id;
 	private String firstName;
@@ -28,55 +25,12 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	private Integer bid;
 	private String batchName;
 
-	
 	private Integer isApproved;
-	
-	public Integer getMsid() {
-		return msid;
-	}
-
-	public void setMsid(Integer msid) {
-		this.msid = msid;
-	}
-
-	public Integer getClid() {
-		return clid;
-	}
-
-	public void setClid(Integer clid) {
-		this.clid = clid;
-	}
-
-	public Integer getEcid() {
-		return ecid;
-	}
-
-	public void setEcid(Integer ecid) {
-		this.ecid = ecid;
-	}
-
-	public Integer getBid() {
-		return bid;
-	}
-
-	public void setBid(Integer bid) {
-		this.bid = bid;
-	}
-
-	public Integer getCurid() {
-		return curid;
-	}
-
-	public void setCurid(Integer curid) {
-		this.curid = curid;
-	}
-
 
 	private Integer curid;
 	private String curriculumName;
 
 	private long startDate;
-
 
 	/**
 	 * Represents an associate.
@@ -99,7 +53,8 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 		this.lastName = lastName;
 		this.marketingStatus = marketingStatus;
 		this.client = client;
-		this.isApproved = 0; // default to not be approved anything not a zero should be approved hopefully should be 1 
+		this.isApproved = 0; // default to not be approved anything not a zero should be approved hopefully
+								// should be 1
 	}
 
 	public AssociateInfo(Integer id, String firstName, String lastName, String marketingStatus, String client,
@@ -114,7 +69,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 		this.batchName = batchName;
 		this.curriculumName = curriculumName;
 		this.startDate = startDate;
-		this.isApproved = isApproved; 
+		this.isApproved = isApproved;
 	}
 
 	public AssociateInfo() {
@@ -159,6 +114,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	public void setCurid(Integer curid) {
 		this.curid = curid;
 	}
+
 	/**
 	 * Retrieve the associate's ID
 	 * 
@@ -296,6 +252,7 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	public void setClientStartDate(long startDate) {
 		this.startDate = startDate;
 	}
+
 	public long getIsApproved() {
 		return isApproved;
 	}
@@ -304,7 +261,6 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 		this.isApproved = flag;
 	}
 
-	
 	public void setBatchId(Integer tfBatchId) {
 		this.bid = tfBatchId == null ? -1 : tfBatchId;
 	}
@@ -351,7 +307,9 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -438,7 +396,9 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -455,7 +415,6 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 	public int compareTo(AssociateInfo o) {
 		return this.id - o.id;
 	}
-
 
 	public static void appendToMap(TfMarketingStatus tfMarketingStatus) {
 		switch (tfMarketingStatus.getTfMarketingStatusId()) {
@@ -493,10 +452,10 @@ public class AssociateInfo implements Serializable, Comparable<AssociateInfo> {
 			return;
 		}
 		totals.setName("Total Associates");
-		logger.info(totals.getName() + ":\n" + totals.getTrainingMapped() + " " + totals.getReservedMapped()
-				+ " " + totals.getSelectedMapped() + " " + totals.getConfirmedMapped() + " "
-				+ totals.getDeployedMapped() + "\n" + totals.getTrainingUnmapped() + " " + totals.getOpenUnmapped()
-				+ " " + totals.getSelectedUnmapped() + " " + totals.getConfirmedUnmapped() + " "
+		logger.info(totals.getName() + ":\n" + totals.getTrainingMapped() + " " + totals.getReservedMapped() + " "
+				+ totals.getSelectedMapped() + " " + totals.getConfirmedMapped() + " " + totals.getDeployedMapped()
+				+ "\n" + totals.getTrainingUnmapped() + " " + totals.getOpenUnmapped() + " "
+				+ totals.getSelectedUnmapped() + " " + totals.getConfirmedUnmapped() + " "
 				+ totals.getDeployedUnmapped());
 	}
 }

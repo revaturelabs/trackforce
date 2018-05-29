@@ -14,7 +14,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -30,7 +30,7 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.PersistentStorage;
 
 public class InterviewDaoHibernate implements InterviewDao {
-	static final Logger logger = Logger.getLogger(InterviewDaoHibernate.class);
+	
 	
 	public Map<Integer, InterviewInfo> getAllInterviews() {
         Map<Integer, InterviewInfo> techs = new HashMap<>();
@@ -114,6 +114,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 			//tfi.setTfInterviewFeedback(ifc.getInterviewFeedback());
 			tfi.setTfClient(session.get(TfClient.class, ifc.getClientId()));
 			tfi.setTfInterviewType(session.load(TfInterviewType.class, ifc.getTypeId()));
+			//missing variables
 			session.saveOrUpdate(tfi);
 			t1.commit();
         } catch (NullPointerException e) {

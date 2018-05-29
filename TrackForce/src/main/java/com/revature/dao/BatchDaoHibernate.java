@@ -11,7 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -27,7 +27,7 @@ import com.revature.utils.PersistentStorage;
  * batch information from the database.
  */
 public class BatchDaoHibernate implements BatchDao {
-	static final Logger logger = Logger.getLogger(BatchDaoHibernate.class);
+	
 
 	/**
 	 * Get a batch from the database given its name.

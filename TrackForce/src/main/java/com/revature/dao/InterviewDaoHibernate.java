@@ -2,6 +2,9 @@ package com.revature.dao;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +19,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import static com.revature.utils.LogUtil.logger;
+
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -34,7 +39,8 @@ import com.revature.utils.PersistentStorage;
 
 public class InterviewDaoHibernate implements InterviewDao {
 	
-	
+	static private final String tablename = "TF_INTERVIEW";
+
 	public Map<Integer, InterviewInfo> getAllInterviews() {
 		Map<Integer, InterviewInfo> techs = new HashMap<>();
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -201,10 +207,14 @@ public class InterviewDaoHibernate implements InterviewDao {
 	public boolean updateInterview(TfInterview parmInterview) {
 		Transaction dbTransaction = null;
 		Session session = null;
+		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			dbTransaction = session.beginTransaction();
 			TfInterview tobeUpdatedInteview = new TfInterview();
+			
+			//The idea is you send it a new Intview Object only put the feilds want to change and leave the rest null
+			//Then just compare each feild and if not null update that fe
 			if (parmInterview.getTfInterviewId() != null)
 				tobeUpdatedInteview.setTfInterviewId(parmInterview.getTfInterviewId());
 			if (parmInterview.getTfAssociate() != null)
@@ -250,5 +260,37 @@ public class InterviewDaoHibernate implements InterviewDao {
 		}
 		return false;
 	}
+
+	/**
+	 * Send a Integer of a Id of a Interview and get a boolean if it really there.
+	 * 
+	 * @Edboi
+	 */
+	@Override
+	public boolean isInterviewAtId(Integer parmInterviewId) {
+		Session session = null;
+		TfInterview temp = new TfInterview();
+		try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            temp =  (TfInterview) session.get(TfInterview.class, parmInterviewId);
+            Hibernate.initialize(temp);
+            if (temp != null) {
+                return true;
+             }else
+            	 return false;
+		} catch (NullPointerException e ) {
+			LogUtil.logger.error(e);
+		
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+		
+		} finally {
+			session.close();
+		}
+		return false;
+	}
+
+
+	
 
 }

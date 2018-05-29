@@ -23,7 +23,11 @@
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>2.26</version>
 		</dependency>
-
+	<dependency>
+   		 <groupId>org.dbunit</groupId>
+    	 <artifactId>dbunit</artifactId>
+    	 <version>2.5.4</version>
+	</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
 		<dependency>
@@ -140,6 +144,12 @@
 		</dependency>
 
 		<!-- Must be installed manually -->
+		<!-- <dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc7</artifactId>
+			<version>12.1.0</version>
+		</dependency>  -->
+
 		<dependency>
 			<groupId>com.oracle.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>

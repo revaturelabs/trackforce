@@ -8,7 +8,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { FormsModule } from '@angular/forms';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 ///
 //  COMPONENTS
 ///
@@ -29,6 +29,7 @@ import { BatchDetailsComponent } from './components/batch-details/batch-details.
 import { AssociateViewComponent } from './components/associate-view/associate-view.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PredictionsComponent } from './components/predictions/predictions.component';
+import { MyInterviewComponent } from './components/myinterview-view/myinterview-view.component';
 
 ///
 //  SERVICES
@@ -86,7 +87,8 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     RouterOutletStubComponent,
     FooterComponent,
     NotFoundComponent,
-    PredictionsComponent
+    PredictionsComponent,
+    MyInterviewComponent
   ],
   imports: [
     BrowserModule,
@@ -94,7 +96,8 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     ChartsModule,
-    Ng2OrderModule
+    Ng2OrderModule,
+	BrowserAnimationsModule
   ],
   providers: [
     AssociateService,

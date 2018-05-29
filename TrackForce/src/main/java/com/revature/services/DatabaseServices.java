@@ -32,92 +32,92 @@ import com.revature.utils.LogUtil;
 @Path("database")
 public class DatabaseServices {
 
-    private SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 
-    public DatabaseServices() {
-        sessionFactory = HibernateUtil.getSessionFactory();
-    }
+	public DatabaseServices() {
+		sessionFactory = HibernateUtil.getSessionFactory();
+	}
 
-    /**
-     * injectable dependencies for easier testing
-     *
-     * @param psd
-     */
-  
-    public DatabaseServices(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+	/**
+	 * injectable dependencies for easier testing
+	 *
+	 * @param psd
+	 */
 
-    @GET
-    @Path("populateDB")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response populateDB() throws IOException,HibernateException {
+	public DatabaseServices(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 
-    	Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.populateAllTables_PROC");
-            spq.execute();
-        } catch (Exception e) {
-        	LogUtil.logger.error(e);
-            session.flush();
-            tx.rollback();
-        } finally {
-        	update();
-        	session.close();
-        }
-        return Response.ok().build();
-      
-    }
+	@GET
+	@Path("populateDB")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response populateDB() throws IOException, HibernateException {
 
-    @DELETE
-    @Path("deleteFromDB")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response deleteDB() throws IOException,HibernateException {
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			StoredProcedureQuery spq = session.createStoredProcedureCall("admin.populateAllTables_PROC");
+			spq.execute();
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+			session.flush();
+			tx.rollback();
+		} finally {
+			update();
+			session.close();
+		}
+		return Response.ok().build();
 
-    	Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.truncateAllDevTeam");
-            spq.execute();
-        } catch (Exception e) {
-        	LogUtil.logger.error(e);
-            session.flush();
-            tx.rollback();
-        } finally {
-        	update();
-            session.close();
-        }
-        return Response.ok().build();
-    }
+	}
 
-    @GET
-    @Path("populateDBSF")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response populateDBSF() throws IOException {
-    	
-    	Session session = sessionFactory.openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.populateAllTablesSF_PROC");
-            spq.execute();
-        } catch (Exception e) {
-        	LogUtil.logger.error(e);
-            session.flush();
-            tx.rollback();
-        } finally {
-        	update();
-        	session.close();
-        }
-        return Response.ok().build();
-    }
+	@DELETE
+	@Path("deleteFromDB")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response deleteDB() throws IOException, HibernateException {
 
-    public void update() throws IOException {
-    	new AssociateDaoHibernate().cacheAllAssociates();
-    	new BatchDaoHibernate().cacheAllBatches();
-    	new ClientDaoImpl().cacheAllClients();
-    	new CurriculumDaoImpl().cacheAllCurriculms();
-    	new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
-    	new InterviewDaoHibernate().cacheAllInterviews();
-    }
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			StoredProcedureQuery spq = session.createStoredProcedureCall("admin.truncateAllDevTeam");
+			spq.execute();
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+			session.flush();
+			tx.rollback();
+		} finally {
+			update();
+			session.close();
+		}
+		return Response.ok().build();
+	}
+
+	@GET
+	@Path("populateDBSF")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response populateDBSF() throws IOException {
+
+		Session session = sessionFactory.openSession();
+		Transaction tx = session.beginTransaction();
+		try {
+			StoredProcedureQuery spq = session.createStoredProcedureCall("admin.populateAllTablesSF_PROC");
+			spq.execute();
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+			session.flush();
+			tx.rollback();
+		} finally {
+			update();
+			session.close();
+		}
+		return Response.ok().build();
+	}
+
+	public void update() throws IOException {
+		AssociateDaoHibernate.getInstance().cacheAllAssociates();
+		new BatchDaoHibernate().cacheAllBatches();
+		new ClientDaoImpl().cacheAllClients();
+		new CurriculumDaoImpl().cacheAllCurriculms();
+		new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
+		new InterviewDaoHibernate().cacheAllInterviews();
+	}
 }

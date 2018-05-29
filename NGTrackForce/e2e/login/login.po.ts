@@ -2,7 +2,7 @@ import { browser, by, element } from 'protractor';
 
 export class LoginPage {
   navigateTo(){
-    return browser.get('/');
+    return browser.get('/login');
   }
 
   getUsernameInput(){
@@ -22,7 +22,7 @@ export class LoginPage {
   }
 
   getLoginButton(){
-    return element(by.xpath('//button'));
+    return element(by.buttonText('Sign in'));
 	//return element(by.xpath("//button[@class='btn btn-lg btn-primary btn-block']"));
   }
 
@@ -32,5 +32,9 @@ export class LoginPage {
 
   getTitle(){
     return element(by.xpath('//title')).getText();
+  }
+
+  getFailedLoginResponse() {
+    return element(by.xpath('//*[@id="pwd-container"]/div[2]/section/form/div[1]')).getText();
   }
 }

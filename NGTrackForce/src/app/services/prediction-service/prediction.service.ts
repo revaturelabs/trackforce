@@ -18,4 +18,14 @@ export class PredictionService {
       // for each technology, retrieve the number of associates that will be available
       return this.http.get<any>(environment.url + this.predictionPath + startTime + "/" + endTime);
     }
+
+    public getBathcesByTech(startTime: number,endTime: number, techs: any) {
+      // retrieves batches by curriculum and 
+      return this.http.get<any>(environment.url + this.predictionPath + startTime + "/" + endTime);
+    }
+
+
+
+
+
 }

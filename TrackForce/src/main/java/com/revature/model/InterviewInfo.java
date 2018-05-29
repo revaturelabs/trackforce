@@ -16,7 +16,6 @@ public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
 	private String typeName;
 	private Timestamp tfInterviewDate;
 	private String tfInterviewFeedback;
-
 	// 1804
 	private String associateFeedback;
 	private String clientFeedback;
@@ -26,6 +25,7 @@ public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
 	private Integer isInterviewFlagged;
 	private String flagReason;
 	private Integer isClientFeedbackVisiable;
+
 	
 	public Integer getId() {
 		return id;
@@ -119,7 +119,6 @@ public class InterviewInfo  implements Serializable, Comparable<InterviewInfo>{
 	public int compareTo(InterviewInfo o) {
 		return this.id-o.getId();
 	}
-
 
 	public String getAssociateFeedback() {
 		return associateFeedback;

@@ -87,7 +87,7 @@ public class AssociateResource {
 		Set<AssociateInfo> associates = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) 
+		if (payload == null || payload.getId().equals("5")) 
 		{
 			status = Status.UNAUTHORIZED;
 		} 
@@ -153,7 +153,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 		AssociateInfo associateinfo = null;
 
-		if (payload == null || !payload.getId().equals("1")) 
+		if (payload == null || payload.getId().equals("5")) 
 		{
 			status = Status.UNAUTHORIZED;
 		} 
@@ -235,7 +235,7 @@ public class AssociateResource {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) 
+		if (payload == null || payload.getId().equals("5")) 
 		{
 			status = Status.UNAUTHORIZED;
 		} 
@@ -258,7 +258,7 @@ public class AssociateResource {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) 
+		if (payload == null || payload.getId().equals("5")) 
 		{
 			status = Status.UNAUTHORIZED;
 		} 
@@ -338,7 +338,7 @@ public class AssociateResource {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) 
+		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("5")) 
 		{
 			status = Status.UNAUTHORIZED;
 			return null;

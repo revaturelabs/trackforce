@@ -182,8 +182,8 @@ public class Dao2DoMapper {
         if(tfi.getTfFlagReason() != null) {
         	ii.setFlagReason(tfi.getTfFlagReason());
         }
-        if(tfi.getTfIsClientFeedbackVisiable() != null) {
-        	ii.setIsClientFeedbackVisiable(tfi.getTfIsClientFeedbackVisiable());
+        if(tfi.getTfIsClientFeedbackVisible() != null) {
+        	ii.setIsClientFeedbackVisible(tfi.getTfIsClientFeedbackVisible());
         }
         //-       
         if (tfi.getTfInterviewType() != null) {

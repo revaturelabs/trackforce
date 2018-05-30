@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -20,8 +21,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.revature.model.BatchInfo;
+import com.revature.model.InterviewInfo;
 import com.revature.services.BatchesService;
+import com.revature.services.JWTService;
 
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -50,12 +54,26 @@ public class BatchResource {
 	 */
 	@GET
 	@ApiOperation(value = "Returns all Batches", notes = "Returns a list of a list of all batches optionally filtered by start and end dates.")
-	public Response getAllBatches() {
-		Set<BatchInfo> batches = service.getAllBatches();
-		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
+	public Response getAllBatches(@HeaderParam("Authorization") String token) 
+	{
+		Status status = null;
+		Set<BatchInfo> batches = null;
+		Claims payload = JWTService.processToken(token);
 
-		logger.info("getallBatches()");
-		logger.info("	batches size: " + (batches == null ? null : batches.size()));
+		if (payload == null || !payload.getId().equals("1")) 
+		{
+			status = Status.UNAUTHORIZED;
+		} 
+		
+		else 
+		{
+			batches = service.getAllBatches();
+			status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
+
+			logger.info("getallBatches()");
+			logger.info("	batches size: " + (batches == null ? null : batches.size()));
+		}		
+		
 		return Response.status(status).entity(batches).build();
 	}
 
@@ -67,14 +85,26 @@ public class BatchResource {
 	 * @param curriculum
 	 * @return
 	 */
-	public Response getAllBatches(@DefaultValue("1510549200000") @QueryParam("start") Long startDate,
+	public Response getAllBatches(@HeaderParam("Authorization") String token, @DefaultValue("1510549200000") @QueryParam("start") Long startDate,
 			@DefaultValue("1527480000000") @QueryParam("end") Long endDate
-	) {
+	) 
+	{
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+		List<BatchInfo> result = null;
 
-		logger.info("getAllBatches(): " + "");
-		List<BatchInfo> result = service.getBatches(startDate, endDate);
+		if (payload == null || !payload.getId().equals("1")) 
+		{
+			status = Status.UNAUTHORIZED;
+		} 
+		
+		else 
+		{
+			logger.info("getAllBatches(): " + "");
+			result = service.getBatches(startDate, endDate);
 
-		Status status = result == null || result.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			status = result == null || result.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		}		
 
 		return Response.status(status).entity(result).build();
 	}
@@ -88,25 +118,43 @@ public class BatchResource {
 	@GET
 	@ApiOperation(value = "returns batches by curriculum", notes = "Returns a list of batches filtered by curriculum name.")
 	@Path("curriculum/{curriculum}")
-	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum, @QueryParam("start") Long startDate,
-			@QueryParam("end") Long endDate) {
-		logger.info("getBatchesByCurriculum(): " + curriculum);
+	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum, @HeaderParam("Authorization") String token, @QueryParam("start") Long startDate,
+			@QueryParam("end") Long endDate) 
+	{
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
 		Collection<BatchInfo> results = new HashSet<>();
 
-		if (startDate != null && endDate != null) {
-			logger.info("	start = " + new Timestamp(startDate));
-			logger.info("	end = " + new Timestamp(endDate));
-			Collection<BatchInfo> batches = service.getBatches(startDate, endDate);
+		if (payload == null || !payload.getId().equals("1")) 
+		{
+			status = Status.UNAUTHORIZED;
+		} 
+		
+		else 
+		{
+			logger.info("getBatchesByCurriculum(): " + curriculum);
 
-			for (BatchInfo b : batches) {
-				if (b.getCurriculumName() != null && b.getCurriculumName().equalsIgnoreCase(curriculum))
-					results.add(b);
+			if (startDate != null && endDate != null) 
+			{
+				logger.info("	start = " + new Timestamp(startDate));
+				logger.info("	end = " + new Timestamp(endDate));
+				Collection<BatchInfo> batches = service.getBatches(startDate, endDate);
+
+				for (BatchInfo b : batches) 
+				{
+					if (b.getCurriculumName() != null && b.getCurriculumName().equalsIgnoreCase(curriculum))
+						results.add(b);
+				}
+			} 
+			
+			else 
+			{
+				results = service.getBatchesByCurri(curriculum);
 			}
-		} else {
-			results = service.getBatchesByCurri(curriculum);
-		}
-		Status status = results == null || results.isEmpty() ? Status.NO_CONTENT : Status.OK;
-		logger.info("	batch size: " + (results == null ? null : results.size()));
+			
+			status = results == null || results.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			logger.info("	batch size: " + (results == null ? null : results.size()));
+		}		
 
 		return Response.status(status).entity(results).build();
 	}
@@ -120,16 +168,42 @@ public class BatchResource {
 	@GET
 	@Path("/{id}")
 	@ApiOperation(value = "Returns a batch", notes = "Returns a specific batch by id.")
-	public Response getBatchById(@PathParam("id") Integer id) {
-		BatchInfo batch = service.getBatchById(id);
-		return Response.ok(batch).build();
+	public Response getBatchById(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) 
+	{
+		Status status = null;
+		BatchInfo batch = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || !payload.getId().equals("1")) 
+		{
+			status = Status.UNAUTHORIZED;
+		} 
+		
+		else 
+		{
+			 batch = service.getBatchById(id);
+		}
+		
+		return Response.status(status).entity(batch).build();
 	}
 
 	@GET
 	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
 	@Path("{id}/associates")
-	public Response getAssociatesForBatch(@PathParam("id") Integer id) {
-		return Response.ok(service.getAssociatesForBranch(id)).build();
+	public Response getAssociatesForBatch(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) 
+	{
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || !payload.getId().equals("1")) 
+		{
+			status = Status.UNAUTHORIZED;
+			return Response.status(status).build();
+		} 		
+		else 
+		{
+			return Response.ok(service.getAssociatesForBranch(id)).build();
+		}
 	}
 
 	// dummy test method: returns ["Yuvi1804", 25],["wills batch", 14] every time

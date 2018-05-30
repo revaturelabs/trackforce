@@ -7,16 +7,16 @@ import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import com.revature.dao.UserDAO;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import com.revature.dao.UserDAO;
 import com.revature.dao.UserDaoImpl;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
@@ -34,7 +34,7 @@ import io.jsonwebtoken.SignatureException;
  *
  */
 public class JWTService {
-
+	static final Logger logger = Logger.getLogger(JWTService.class);
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 1000L;
 
@@ -123,7 +123,7 @@ public class JWTService {
 				expiration = claims.getExpiration();
 			}
 		} catch (Exception e) {
-			LogUtil.logger.error(e);
+			logger.error(e);
 		}
 		return expiration;
 	}
@@ -140,7 +140,7 @@ public class JWTService {
 		try {
 			claims = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
 		} catch (Exception e) {
-			LogUtil.logger.error(e);
+			logger.error(e);
 		}
 		return claims;
 	}
@@ -181,11 +181,11 @@ public class JWTService {
 				}
 
 			} catch (SignatureException se) {
-				LogUtil.logger.error(se);
+				logger.error(se);
 			}
 
 		} catch (Exception e) {
-			LogUtil.logger.error(e);
+			logger.error(e);
 			session.flush();
 			tx.rollback();
 		}
@@ -286,7 +286,7 @@ public class JWTService {
 							&& tfRole.getTfRoleName().equals("Associate"));
 				}
 			} catch (SignatureException se) {
-				LogUtil.logger.error(se);
+				logger.error(se);
 			}
 
 			session.flush();

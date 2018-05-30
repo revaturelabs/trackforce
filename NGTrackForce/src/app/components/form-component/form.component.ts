@@ -35,7 +35,8 @@ export class FormComponent implements OnInit {
     };
    
     newStartDate: Date;
-    message: string = "";
+    successMessage: string = "";
+	errorMessage: string = "";
     selectedMarketingStatus: any;
     selectedClient: number;
     id: number;
@@ -45,6 +46,7 @@ export class FormComponent implements OnInit {
     iid: number;
 
     // form booleans
+	isVerified: boolean;
     isMapped: boolean;
     eligibleForInterview: boolean;
     interviewScheduled: boolean;
@@ -52,6 +54,7 @@ export class FormComponent implements OnInit {
     receivedEmailFromClient: boolean;
     passedBackgroundCheck: boolean;
     hasStartDate: boolean;
+	
 
     /**
       *@param {AssociateService} associateService
@@ -70,14 +73,18 @@ export class FormComponent implements OnInit {
 
     ngOnInit() {
         this.user = this.authService.getUser();
+
+		this.isVerified = this.user.verified;
+=======
        
+
         //Role checks
         if(this.user.tfRoleId === 3){
           this.isVP = true;
         }
         else if(this.user.tfRoleId === 4)
         {
-         this.isAssociate = true;
+         this.isAssociate = true;		 
         }
          else {
           this.isVP = false;
@@ -183,7 +190,7 @@ export class FormComponent implements OnInit {
       };
       this.associateService.updateAssociate(newAssociate).subscribe(
         data => {
-          this.message = "Successfully updated associate";
+          this.successMessage = "Successfully updated associate";
           this.associateService.getAssociate(this.id).subscribe(
             data => {
               this.associate = <Associate>data;
@@ -197,8 +204,20 @@ export class FormComponent implements OnInit {
         }
       )
     }
-    
-    
+
+	
+	/* Verify this Associate */
+	verifyAssociate() {
+		this.associateService.verifyAssociate(this.id).subscribe(
+        data => {
+          this.successMessage = "The Associate was successfully verified!";
+        },
+        err => {
+          this.errorMessage = "There was an error while verifying the Associate!";
+        }
+      )
+	}
+
 
     getInterviews() {
       this.associateService.getInterviewsForAssociate(this.id).subscribe(

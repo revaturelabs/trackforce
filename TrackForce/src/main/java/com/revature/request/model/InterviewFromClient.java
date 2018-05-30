@@ -21,7 +21,34 @@ public class InterviewFromClient implements Serializable {
 	@XmlElement
 	private long interviewDate;
 	@XmlElement
+	private String associateFeedback;
+	@XmlElement
 	private String interviewFeedback;
+	@XmlElement
+	private String jobDescription;
+	@XmlElement
+	private String dateSalesTeamIssued;
+	@XmlElement
+	private String dateAssociateIssued;
+	@XmlElement
+	private String flagAlert;
+	@XmlElement
+	private String reasonForFlag;
+	@XmlElement
+	private String clientFeedback;
+	@XmlElement
+	private String endClientId;
+	
+	
+	public InterviewFromClient() {
+	}
+	
+	public InterviewFromClient(Integer associateId, Integer clientId, Integer typeId) {
+		super();
+		this.associateId = associateId;
+		this.clientId = clientId;
+		this.typeId = typeId;
+	}
 	public Integer getAssociateId() {
 		return associateId;
 	}

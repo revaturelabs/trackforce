@@ -1,9 +1,12 @@
 table {
-  border-width: 2px;
+  border-width: 1px;
 }
-
 .info td:first-child {
   font-weight: bold;
+}
+.container{
+	margin-bottom : 90px;
+	margin-top:80px;
 }
 
 thead, tbody {

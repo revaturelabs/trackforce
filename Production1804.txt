@@ -1,11 +1,3 @@
 start of the fifth sprint by 1804
 Branch for Dev
-<<<<<<< HEAD
-<<<<<<< HEAD
-Testing1804
-=======
-Jersery1804
->>>>>>> Angular1804
-=======
 Hibernate Branch
->>>>>>> 5b5e5d50ee3cf7e4833844b5d5854efb90a775ce

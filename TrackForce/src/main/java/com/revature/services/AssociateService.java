@@ -161,4 +161,16 @@ public class AssociateService {
 	public void updateAssociate(AssociateFromClient afc) {
 		associateDao.updateAssociate(afc);
 	}
+	
+	public Set<InterviewInfo> getInterviewsByAssociateAndInterviewid(Integer associateId, Integer interviewid) {
+		Set<InterviewInfo> allInterviews = associateDao.getInterviewsByAssociate(associateId);
+		Set<InterviewInfo> specificInterview = new TreeSet<InterviewInfo>();
+		for (InterviewInfo x : allInterviews) {
+			if (x.getId() == interviewid) {
+				specificInterview.add(x);
+				break;
+			}
+		}
+		return specificInterview;
+	}
 }

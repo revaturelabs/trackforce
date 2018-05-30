@@ -17,7 +17,7 @@
 ## (Comments)
 #Sample Feature Definition Template
 
-@tag
+#@tag
 Feature: Client List Tab
   I want to use this template for my feature file
 

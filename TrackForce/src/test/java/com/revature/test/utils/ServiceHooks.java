@@ -23,6 +23,32 @@ public class ServiceHooks {
 		driver.quit();
 	}
 	
+	@Before("@ClientListStart")
+	public void initializeClientListTests(){
+		System.out.println("Initializing HomeTab Tests");
+		driver = WebDriverUtil.getChromeDriver();
+		driver.get(TestConfig.getBaseURL());
+		LoginUtil.loginAsAdmin(driver);
+	}
+	
+	@After("@ClientListEnd")
+	public void closeClientListTests(){
+		driver.quit();
+	}
+	
+	@Before("@AssociateListStart")
+	public void initializeAssociateTabTests(){
+		System.out.println("Initializing HomeTab Tests");
+		driver = WebDriverUtil.getChromeDriver();
+		driver.get(TestConfig.getBaseURL());
+		LoginUtil.loginAsAdmin(driver);
+	}
+	
+	@After("@AssociateListEnd")
+	public void closeAssociateListTests(){
+		driver.quit();
+	}
+	
 	@Before("@CreateNewAdmin")
 	public void initializeCreateUserTabTests(){
 		System.out.println("Initializing CreateUser Tests");

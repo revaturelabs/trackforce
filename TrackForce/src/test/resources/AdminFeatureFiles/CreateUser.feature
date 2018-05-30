@@ -21,7 +21,7 @@ Feature: Create User tab for Admin
   TaskForce Create User tab Scenarios
 
   @CreateNewAdmin
-  Scenario Outline: Create new admin
+  Scenario: Create new admin
     Given I click on Create User Tab
     And Create User Tab loads
     When I type in a username
@@ -31,7 +31,7 @@ Feature: Create User tab for Admin
     Then I press submit
 
   @CreateNewManager
-  Scenario Outline: Create new manager
+  Scenario: Create new manager
     Given I click on Create User Tab
     And Create User Tab loads
     When I type in a username
@@ -41,7 +41,7 @@ Feature: Create User tab for Admin
     Then I press submit
 
   @CreateNewVP
-  Scenario Outline: Create new VP
+  Scenario: Create new VP
     Given I click on Create User Tab
     And Create User Tab loads
     When I type in a username

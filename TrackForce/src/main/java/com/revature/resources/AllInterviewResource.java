@@ -46,7 +46,7 @@ public class AllInterviewResource {
 		Collection<InterviewInfo> interviews = null;
 		
 		
-		if (payload == null || !payload.getId().equals("1")) 
+		if (payload == null || payload.getId().equals("5")) 
 		{
 			status = Status.UNAUTHORIZED;
 		} 

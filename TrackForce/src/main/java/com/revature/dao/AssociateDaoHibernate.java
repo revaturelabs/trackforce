@@ -228,7 +228,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 		return setInfo;
 	}
 	
-	//need to check
+	
 	@Override
 	public void updateAssociateVerification(int associateid) {
 		Transaction t = null;
@@ -241,7 +241,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 			PersistentStorage.getStorage().updateAssociate(associateid);
 			session.saveOrUpdate(tfAssociate);
 			t.commit();
-			System.out.println("committed");
+			logger.info("Approved Associate with ID: "+associateid);
 		} catch(HibernateException e) {
 			if (t != null) {
 				t.rollback();

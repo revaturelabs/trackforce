@@ -223,7 +223,6 @@ public class PersistentStorage {
 		this.associates.put(id, ai);
 	}
 	
-	//needs to be checked
 	public void updateAssociate(Integer id) {
 		AssociateInfo ai = this.associates.get(id);
 		ai.setIsApproved(TfAssociate.APPROVED);

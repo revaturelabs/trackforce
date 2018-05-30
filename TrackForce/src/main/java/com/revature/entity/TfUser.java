@@ -34,10 +34,10 @@ public class TfUser implements java.io.Serializable {
     @JoinColumn(name = "TF_ROLE_ID")
     private TfRole tfRole;
 
-    @Column(name = "TF_USERNAME", length = 20)
+    @Column(name = "TF_USERNAME", length = 20, unique = true, nullable = false)
     private String tfUserUsername;
 
-    @Column(name = "TF_HASHPASSWORD", length = 200)
+    @Column(name = "TF_HASHPASSWORD", length = 200, nullable = false)
     private String tfHashpassword;
 
     public TfUser() {

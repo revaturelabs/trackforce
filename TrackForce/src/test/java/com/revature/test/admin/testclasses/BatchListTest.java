@@ -53,7 +53,7 @@ public class BatchListTest extends AdminSuite {
 	public void BatchNameTest() {
 		try {
 			String batch = BatchListCukes.the_first_batch_is_clicked();
-			BatchListCukes.the_list_of_associates_is_grabbed(, batch);
+			BatchListCukes.the_list_of_associates_is_grabbed(batch);
 		} catch (Throwable e) {
 			fail("Error: Batch Name Test Failed");
 			e.printStackTrace();

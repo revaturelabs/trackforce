@@ -19,54 +19,54 @@
 @tag
 Feature: Batch List Scenarios
 
-  @tag1
+  @batchTag1
   Scenario Outline: Navigate to Batch List Tab
   	Given I am logged in
     When The Batch List Tab is clicked
     Then All Batches text is visible
 
-  #@tag2
-  #Scenario Outline: Click Batch Name List
-    #Given The Batch List Tab is clicked
-    #And Batch List Tab loads
-    #When the list of associates is grabbed
-    #Then associates should match the associate list
+  @batchTag2
+  Scenario Outline: Click Batch Name List
+    Given The Batch List Tab is clicked
+    And Batch List Tab loads
+    When the list of associates is grabbed
+    Then associates should match the associate list
 
-  @tag3
+  @batchTag3
   Scenario Outline: The From date is entered
     Given The Batch List Tab is clicked
     And Batch List Tab loads
     When the From date is entered
     Then the field should not contain default values
 
-  @tag4
+  @batchTag4
   Scenario Outline: The To date is entered
     Given The Batch List Tab is clicked
     And Batch List Tab loads
     When the To date is entered
     Then the field should not contain default values
 
-  @tag5
+  @batchTag5
   Scenario Outline: Submit Batches Dates
     Given The Batch List Tab is clicked
     And Batch List Tab loads
     When the submit button is clicked
     Then the batch list should update to show only the batches which fit the entered criteria
 
-  @tag6
+  @batchTag6
   Scenario Outline: Reset Batches Dates
     Given The Batch List Tab is clicked
     And Batch List Tab loads
     When the reset button is clicked
     Then the batch list should be empty
 
-  @tag7
+  @batchTag7
   Scenario Outline: View Individual Batch
     Given batches are showing
     When I click on a specific batch name
     Then I should be taken to the appropriate details page
 
-  @tag8
+  @batchTag8
   Scenario Outline: Navigate to Associate
     Given I am looking at batch details
     When I click on an associate ID

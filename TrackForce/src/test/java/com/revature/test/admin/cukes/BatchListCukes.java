@@ -1,5 +1,7 @@
 package com.revature.test.admin.cukes;
 
+import static org.testng.Assert.fail;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,6 +18,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.revature.test.admin.pom.BatchListTab;
 import com.revature.test.utils.LoginUtil;
+import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
 
 import cucumber.api.PendingException;
@@ -27,6 +30,7 @@ public class BatchListCukes {
 
 	private static String baseURL = TestConfig.getBaseURL(); //gets the website URL
 	public static Alert alert = null; //creates object to interact with alerts in order to cancel pop ups
+	private static WebDriver wd = ServiceHooks.driver;
 	
 	@Given("^I am logged in$")
 	public static void I_am_logged_in() throws Throwable{
@@ -79,13 +83,13 @@ public class BatchListCukes {
 			// Get the batch name to verify everyone in that batch is in correct batch
 			batchName = BatchListTab.getFirstBatchName(wd).getText();
 		} catch (Throwable e) {
-			System.out.println("Failed to find first batch name");
+			fail("Failed to find first batch name");
 		}
 		try {
 			// Click the first batch information
 			BatchListTab.getFirstBatchName(wd).click();
 		} catch (Throwable e) {
-			System.out.println("Failed to click first batch name");
+			fail("Failed to click first batch name");
 		}
 		return batchName;
 	}
@@ -95,10 +99,10 @@ public class BatchListCukes {
 		try {
 			// Gets the rows of associates and sends to helper function
 			List<WebElement> associates = BatchListTab.getAssociatesInfo(wd);
-			associates_should_match_the_associate_list(wd, batchName, associates);
+			associates_should_match_the_associate_list(batchName, associates);
 
 		} catch (Throwable e) {
-			System.out.println("Could not get Associate list");
+			fail("Could not get Associate list");
 		}
 	}
 
@@ -136,7 +140,7 @@ public class BatchListCukes {
 			if (BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-listing")) {
 			}
 		} catch (Throwable e) {
-			System.out.println("Can't grab associate list ID's");
+			fail("Can't grab associate list ID's");
 		}
 	}
 
@@ -227,7 +231,7 @@ public class BatchListCukes {
 			// clicks the submit button
 			BatchListTab.submitButton(wd).click();
 		} catch (Throwable e) {
-			System.out.println("Submit button was not clicked");
+			fail("Submit button was not clicked");
 		}
 	}
 
@@ -249,8 +253,8 @@ public class BatchListCukes {
 
 	@Given("^batches are showing$")
 	public static void batches_are_showing() throws Throwable {
-	    enter_From_Date(wd);
-	    enter_To_Date(wd);
+	    enter_From_Date();
+	    enter_To_Date();
 		if (!(BatchListTab.fromDateField(wd).getText().contains("12/25/2017"))) {
 		    throw new PendingException();
 		}
@@ -258,10 +262,14 @@ public class BatchListCukes {
 	
 	@When("^I click on a specific batch name$")
 	public static void i_click_on_a_specific_batch_name() throws Throwable {
-		wd.findElement(By.linkText("1712 Dec11 Java")).click();
-		if(!(wd.getCurrentUrl().contains("batch-details/49"))) {
-			throw new PendingException();
+		try {
+			wd.findElement(By.linkText("1712 Dec11 Java")).click();
+		} catch(Throwable e) {
+			fail("Failed to click on batch name");
 		}
+//		if(!(wd.getCurrentUrl().contains("batch-details/49"))) {
+//			throw new PendingException();
+//		}
 	}
 	
 	@Then("^I should be taken to the appropriate details page$")
@@ -273,15 +281,19 @@ public class BatchListCukes {
 	
 	@Given("^I am looking at batch details$")
 	public static void i_am_looking_at_batch_details() throws Throwable {
-	    i_should_be_taken_to_the_appropriate_details_page(wd);
+	    i_should_be_taken_to_the_appropriate_details_page();
 	}
 
 	@When("^I click on an associate ID$")
 	public static void i_click_on_an_associate_ID() throws Throwable {
+		try {
 		wd.findElement(By.linkText("469")).click();
-		if(!(wd.getCurrentUrl().contains("form-comp/69"))) {
-			throw new PendingException();
+		} catch(Throwable e) {
+			fail("Failed to click associate ID");
 		}
+//		if(!(wd.getCurrentUrl().contains("form-comp/69"))) {
+//			throw new PendingException();
+//		}
 	}
 
 	@Then("^I should be taken to the appropriate information page$")
@@ -289,5 +301,16 @@ public class BatchListCukes {
 		if(!(wd.getCurrentUrl().contains("form-comp/69"))) {
 			throw new PendingException();
 		}
+	}
+	
+	//Enter values, click submit, ng-reflect-model changes when that happens
+	@Then("^the From field should not contain default values$")
+	public void the_From_field_should_not_contain_default_values() throws Throwable {
+	    
+	}
+
+	@Then("^the To field should not contain default values$")
+	public void the_To_field_should_not_contain_default_values() throws Throwable {
+
 	}
 }

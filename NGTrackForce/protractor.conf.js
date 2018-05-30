@@ -11,10 +11,10 @@ exports.config = {
     './e2e/create-user/create-user.e2e-spec.ts',
     './e2e/client-list/client-list-spec.ts',
     './e2e/app/app.e2e-spec.ts'
-   /* './e2e/associate-list/associate-list.js', 
-    './e2e/associate-list/associate-list-search.js', 
+   /* './e2e/associate-list/associate-list.js',
+    './e2e/associate-list/associate-list-search.js',
     './e2e/associate-list/associate-list-status.js',
-    './e2e/associate-list/associate-list-curriculum.js', 
+    './e2e/associate-list/associate-list-curriculum.js',
     './e2e/associate-list/associate-list-client'
     //'./e2e/batch-list/batch-list.e2e-spec.ts',*/
   ],
@@ -23,13 +23,8 @@ exports.config = {
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
-<<<<<<< HEAD
   // baseUrl: 'http://52.207.66.231:4200/',
 
-=======
- 
- 
->>>>>>> 08d2c70787ca0c966b10bc9e4b9ea3347364bc1d
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,

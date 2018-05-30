@@ -130,7 +130,11 @@ public class CreateUserCukes extends AdminSuite {
 	}
 
 	@When("^I check the Associate role$")
+<<<<<<< HEAD
+	public static boolean clickAssociateRadio(WebDriver d) {
+=======
 	public static void clickAssociateRadio(WebDriver d) {
+>>>>>>> a85824f84a8838f7d60c3f0812bc104c3e2e07aa
 		try {
 			Thread.sleep(250);
 			CreateUserTab.getAssociateRadio(d).click();

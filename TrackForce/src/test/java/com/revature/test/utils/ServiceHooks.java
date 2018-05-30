@@ -18,8 +18,21 @@ public class ServiceHooks {
 		driver.get(TestConfig.getBaseURL());
 		LoginUtil.loginAsAdmin(driver);
 	}
+	
 	@After("@HomeTagTest6")
 	public void closeHomeTagTests(){
+		driver.quit();
+	}
+
+	@Before("@batchTag1")
+	public void initializeBatchTabTests(){
+		System.out.println("Initializing BatchTab Tests");
+		driver = WebDriverUtil.getChromeDriver();
+		driver.get(TestConfig.getBaseURL());
+	}
+	
+	@After("@batchTag8")
+	public void closeBatchTagTests(){
 		driver.quit();
 	}
 	

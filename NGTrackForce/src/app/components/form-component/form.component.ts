@@ -33,6 +33,7 @@ export class FormComponent implements OnInit {
       type: null,
       feedback: null
     };
+   
     newStartDate: Date;
     message: string = "";
     selectedMarketingStatus: any;
@@ -41,6 +42,7 @@ export class FormComponent implements OnInit {
     formOpen: boolean;
     isVP: boolean;
     isAssociate: boolean;
+    iid: number;
 
     // form booleans
     isMapped: boolean;
@@ -63,10 +65,12 @@ export class FormComponent implements OnInit {
         //gets id from router url parameter
         var id = window.location.href.split("form-comp/")[1];
         this.id = Number(id);
+        
     }
 
     ngOnInit() {
         this.user = this.authService.getUser();
+       
         //Role checks
         if(this.user.tfRoleId === 3){
           this.isVP = true;
@@ -96,6 +100,7 @@ export class FormComponent implements OnInit {
             this.clients = data;
           });
         this.getInterviews();
+       // this.initializeassociateinterview(this.iid);
     }
 
     adjustDate(date: any){ // dates are off by 1 day - this corrects them
@@ -192,6 +197,8 @@ export class FormComponent implements OnInit {
         }
       )
     }
+    
+    
 
     getInterviews() {
       this.associateService.getInterviewsForAssociate(this.id).subscribe(

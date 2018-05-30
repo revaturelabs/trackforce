@@ -183,7 +183,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="isAssociate">
+<!-- <div *ngIf="isAssociate">
 <div class="col-sm-6">
       <h3>Interviews</h3>
       <table class="table table-responsive table-hover table-bordered">
@@ -197,15 +197,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let interview of interviews; let i = index">
-            <td>{{i+1}}</td>
-            <td>{{interview.client}}</td>
-            <td>{{interview.date | date:'longDate'}}</td>
-            <td>{{interview.type}}</td>
-            <td>{{interview.feedback}}</td>
+          <tr >
+            <td>{{currentinterview.client}}</td>
+            <td>{{currentinterview.date | date:'longDate'}}</td>
+            <td>{{currentinterview.type}}</td>
+            <td>{{currentinterview.feedback}}</td>
           </tr>
         </tbody>
       </table>
       </div>
-</div>
+</div> -->
 <app-footer></app-footer>

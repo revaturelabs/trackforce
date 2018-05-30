@@ -6,6 +6,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -13,14 +14,15 @@ import org.hibernate.query.Query;
 import com.revature.entity.TfUser;
 import com.revature.request.model.CreateUserModel;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
 
 public class UserDaoImpl implements UserDAO {
+	
 
     public TfUser getUser(String username) {
         TfUser user = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
         	CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
             Root<TfUser> root = criteriaQuery.from(TfUser.class);
@@ -28,7 +30,10 @@ public class UserDaoImpl implements UserDAO {
             Query<TfUser> query = session.createQuery(criteriaQuery);
             user = query.getSingleResult();
         } catch(Exception e) {
-        	LogUtil.logger.error(e);
+        	logger.error(e);
+        }
+        finally {
+            session.close();
         }
         return user;
     }
@@ -36,7 +41,8 @@ public class UserDaoImpl implements UserDAO {
     public boolean createUser(CreateUserModel newUser) {
         String password;
         Transaction t1 = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
         	t1 = session.beginTransaction();
             password = PasswordStorage.createHash(newUser.getPassword());
             TfUser user = new TfUser(newUser.getRole(), newUser.getUsername(), password);
@@ -46,12 +52,15 @@ public class UserDaoImpl implements UserDAO {
         	if (t1 != null) {
 				t1.rollback();
 			}
-        	LogUtil.logger.error(e);
+        	logger.error(e);
         } catch (Exception e) {
         	if (t1 != null) {
 				t1.rollback();
 			}
-        	LogUtil.logger.error(e);        	
+        	logger.error(e);        	
+        }
+        finally {
+            session.close();
         }
         return false;
     }
@@ -60,10 +69,14 @@ public class UserDaoImpl implements UserDAO {
 	@Override
 	public List<TfUser> getAllUsers() {
 		List<TfUser> user = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
         	return session.createQuery("from com.revature.entity.TfUser").list();
         } catch(Exception e) {
-        	LogUtil.logger.error(e);
+        	logger.error(e);
+        }
+        finally {
+            session.close();
         }
         return user;
 	}

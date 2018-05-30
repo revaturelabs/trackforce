@@ -4,8 +4,9 @@
  */
 
  export class User{
-     username: String;
-     passwordHash: String;
+     username: string;
+     passwordHash: string;
+     verified: boolean;
      tfRoleId: number;
      userId: number;
      token: string;

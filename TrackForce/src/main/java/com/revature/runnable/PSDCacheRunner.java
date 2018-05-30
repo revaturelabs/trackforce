@@ -1,13 +1,14 @@
 package com.revature.runnable;
 
 
+import static com.revature.utils.LogUtil.logger;
+
 import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.BatchDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
 import com.revature.dao.CurriculumDaoImpl;
 import com.revature.dao.InterviewDaoHibernate;
 import com.revature.dao.MarketingStatusDaoHibernate;
-import com.revature.utils.LogUtil;
 
 /**
  * Used to handle caching on server startup.
@@ -15,6 +16,7 @@ import com.revature.utils.LogUtil;
  * @author Antony Lulciuc
  */
 public class PSDCacheRunner implements Runnable {
+	
 	public static final long DEFAULT_CACHE_START = 30000;
 	private long delayedStartTime = DEFAULT_CACHE_START;
 	
@@ -63,7 +65,7 @@ public class PSDCacheRunner implements Runnable {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException ex) {
-				LogUtil.logger.error(ex);
+				logger.error(ex);
 				Thread.currentThread().interrupt();
 			}
 		}
@@ -77,41 +79,41 @@ public class PSDCacheRunner implements Runnable {
 	            // perform caching
     	
 	            long startTime = System.nanoTime();
-	            new AssociateDaoHibernate().cacheAllAssociates();
+	            AssociateDaoHibernate.getInstance().cacheAllAssociates();
 	            long endTime = System.nanoTime();
 	            double elapsedTime = ((double)(endTime -startTime))/1000000000,total=elapsedTime;
-	            LogUtil.logger.info("Associates caching time: "+elapsedTime+" seconds");
+	            logger.info("Associates caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
 	            new BatchDaoHibernate().cacheAllBatches();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000; total+=elapsedTime;
-	            LogUtil.logger.info("Batches caching time: "+elapsedTime+" seconds");
+	            logger.info("Batches caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
 	            new ClientDaoImpl().cacheAllClients();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-	            LogUtil.logger.info("Clients caching time: "+elapsedTime+" seconds");
+	            logger.info("Clients caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
 	            new CurriculumDaoImpl().cacheAllCurriculms();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-	            LogUtil.logger.info("Curriculums caching time: "+elapsedTime+" seconds");
+	            logger.info("Curriculums caching time: "+elapsedTime+" seconds");
 
 	            startTime = System.nanoTime();
 	            new MarketingStatusDaoHibernate().cacheAllMarketingStatuses();
 	            endTime = System.nanoTime();
 	            elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-	            LogUtil.logger.info("MarketingStatuses caching time: "+elapsedTime+" seconds");
+	            logger.info("MarketingStatuses caching time: "+elapsedTime+" seconds");
 	            
 	            startTime = System.nanoTime(); // to do
                 new InterviewDaoHibernate().cacheAllInterviews();
                 endTime = System.nanoTime();
                 elapsedTime = ((double)(endTime -startTime))/1000000000;total+=elapsedTime;
-                LogUtil.logger.info("Interviews caching time: "+elapsedTime+" seconds");
-                LogUtil.logger.info("Total caching time: "+total+" seconds");
+                logger.info("Interviews caching time: "+elapsedTime+" seconds");
+                logger.info("Total caching time: "+total+" seconds");
 	           
 	}
 }

@@ -20,6 +20,7 @@ public class UserJSON {
 	//user id
 	private int userId;
 	
+	
 	public UserJSON() {
 		super();
 	}
@@ -61,6 +62,4 @@ public class UserJSON {
 		return "UserJSON [username=" + username + ", tfRoleId=" + tfRoleId + ", token=" + token + ", userId=" + userId
 				+ "]";
 	}
-
-
 }

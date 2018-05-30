@@ -28,6 +28,11 @@ describe('navbar functionality', () => {
         expect(navbar.getCurrentURL()).toEqual(baseURL + 'batch-listing');
     });
 
+    it('should navigate to associate lising', () => {
+        navbar.goToAssociateList();
+        expect(navbar.getCurrentURL()).toEqual(baseURL + 'associate-listing');
+    });
+
     it('should navigate to predictions', () => {
         navbar.goToPredictions();
         expect(navbar.getCurrentURL()).toEqual(baseURL + 'predictions');
@@ -36,11 +41,6 @@ describe('navbar functionality', () => {
     it('should navigate to create user', () => {
         navbar.goToCreateUser();
         expect(navbar.getCurrentURL()).toEqual(baseURL + 'create-user');
-    });
-
-    it('should navigate to associate lising', () => {
-        navbar.goToAssociateList();
-        expect(navbar.getCurrentURL()).toEqual(baseURL + 'associate-listing');
     });
     
 });

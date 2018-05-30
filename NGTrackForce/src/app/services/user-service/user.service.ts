@@ -38,7 +38,9 @@ export class UserService {
     public createUser(username: string, password: string, roleId: number): Observable<any> {
       return this.http.post<any>(environment.url + this.userPath, {username: username, password: password, role: roleId});
     }
-
+	public createAssociate(username: string, password: string,fname: string, lname: string): Observable<any> {
+      return this.http.post<any>(environment.url + this.userPath, {username: username, password: password,fname: fname, lname: lname});
+    }
     public getUser(): Observable<any> {
       return this.http.get<any>(environment.url + this.userPath);
     }

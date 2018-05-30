@@ -26,7 +26,7 @@ public class BatchTests {
 	@Test
 	public void testGetAllBatches() throws IOException {
 		logger.info("Testing getAllBatches()...");
-		String URL = "http://localhost:8085/TrackForce/api/associates/1";
+		String URL = "http://localhost:8085/TrackForce/api/batches/adam";
 		HttpUriRequest request = new HttpGet(URL);
 		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 		int status = response.getStatusLine().getStatusCode();
@@ -35,7 +35,7 @@ public class BatchTests {
 
 		String jsonMimeType = "application/json";
 		String mimeType = ContentType.getOrDefault(response.getEntity()).getMimeType();
-		AssociateInfo events = new ObjectMapper().readValue(response.getEntity().getContent(), AssociateInfo.class);
+//		AssociateInfo events = new ObjectMapper().readValue(response.getEntity().getContent(), AssociateInfo.class);
 		
 //		Assert.assertEquals(jsonMimeType, mimeType);
 

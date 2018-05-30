@@ -1,4 +1,5 @@
 import { LoginPage } from './login.po';
+import { browser } from 'protractor';
 /*
 Smoke test: Checks elements to be exist
 */
@@ -52,6 +53,7 @@ describe('Confirm login failures', () => {
     page.getUsernameInput().sendKeys('1234');
     page.getPasswordInput().sendKeys('password');
     page.getLoginButton().click();
+    browser.sleep(200);
     expect(page.getFailedLoginResponse()).toEqual('Invalid username and/or password');
   });
 

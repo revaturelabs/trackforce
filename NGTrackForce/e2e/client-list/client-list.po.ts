@@ -16,6 +16,7 @@ export class ClientListPo {
     constructor() {
          this.searchByClientName = this.getSearchByClientName();
          this.viewDataForAllClients = this.getAllUsersButton();
+
     }
  
     /**
@@ -23,6 +24,10 @@ export class ClientListPo {
      */
     navigateTo(){
         return browser.get('client-listing');
+    }
+
+    logout() {
+        element(by.css('[routerlink="/login"]')).click();
     }
 
     /**
@@ -51,7 +56,8 @@ export class ClientListPo {
      * Returns the current value of the search by client name element in the DOM
      */
     getClientNameValue(){
-       return element(by.id('clientSearch')).getText();
+       return element(by.id('clientSearch')).getAttribute('ng-reflect-model');
+       
     }
 
     /**

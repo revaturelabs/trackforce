@@ -21,7 +21,6 @@ describe('Testing associate list via Client Search', function() {
         wd.findElement(by.xpath('//*[@id="client"]/option[5]')).click();
         wd.sleep(1000);
         expect(wd.findElement(by.xpath('//*[@id="client"]')).getAttribute('ng-reflect-model')).toEqual('3 S Business Corporation Inc (');
-        wd.quit();
     });
 
     it('Should select the rest', function() {
@@ -34,5 +33,7 @@ describe('Testing associate list via Client Search', function() {
         }
     });
 
-    wd.quit();
+    it('should log out', () => {
+        wd.findElement(by.css('[routerlink="/login"]')).click();
+    });
 });

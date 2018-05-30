@@ -15,7 +15,7 @@ describe('Lets do some stuff in the associates list tab...', function () {
     it('Clear the search input box', function() {
         wd.findElement(by.xpath('//*[@id="name"]')).sendKeys(protractor.Key.chord(protractor.Key.CONTROL, "a"));
         wd.findElement(by.xpath('//*[@id="name"]')).sendKeys(protractor.Key.BACK_SPACE);
-        wd.sleep(3000);
+        wd.sleep(200);
     });
 
     it('Test out search by last name',function() {
@@ -34,7 +34,7 @@ describe('Lets do some stuff in the associates list tab...', function () {
     it('Clear out search input once more', function(){
         wd.findElement(by.xpath('//*[@id="name"]')).sendKeys(protractor.Key.chord(protractor.Key.CONTROL, "a"));
         wd.findElement(by.xpath('//*[@id="name"]')).sendKeys(protractor.Key.BACK_SPACE);
-        wd.sleep(5000);
+        wd.sleep(1000);
     });
 
 });

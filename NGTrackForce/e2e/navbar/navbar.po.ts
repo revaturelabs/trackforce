@@ -23,7 +23,7 @@ export class Navbar {
     }
 
     logout(){
-        element(by.css('[(click)="logout()"]')).click();
+        element(by.css('[routerLink="/login"]')).click();
     }
 
     goToCreateUser(){

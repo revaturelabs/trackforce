@@ -35,6 +35,19 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+
+/**
+ * 
+ * @author Mitchell H's PC
+ * 
+ * The different types of users
+ * Admin: 1
+ * Trainer: 2
+ * Sales/Delivery 3
+ * Staging Manager 4
+ * Associate 5
+ */
+
 @Path("/")
 @Api(value = "Interviews")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -45,7 +58,7 @@ public class InterviewResource {
 	private static InterviewService is = new InterviewService();
 
 	@GET
-	@ApiOperation(value = "Returns all interviews", notes ="Returns a list of all interviews.")
+	@ApiOperation(value = "Returns all interviews for an associate", notes ="Returns a list of all interviews.")
 	public Response getAllInterviews(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate)
 			throws HibernateException, IOException {
 		// TODO handle exception
@@ -59,8 +72,10 @@ public class InterviewResource {
 	@ApiOperation(value = "Returns an interview", notes = "Returns a specific interview by id.")
 	@Path("/{interviewid}")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid,
+			@PathParam("interviewid") Integer interviewid,
 			@HeaderParam("Authorization") String token) {
 		logger.info(token);
+		
 		Claims claims = null;
 		logger.info("Before the try block");
 		try {
@@ -79,7 +94,7 @@ public class InterviewResource {
 		}
 
 		if (claims.getId().equals("1")) {
-			Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
+			Set<InterviewInfo> associateinfo = service.getInterviewsByAssociateAndInterviewid(associateid, interviewid);
 			return Response.ok(associateinfo).build();
 		} else {
 			return Response.status(403).build();
@@ -93,32 +108,18 @@ public class InterviewResource {
 	public Response createInterview(@PathParam("associateid") int associateid,
 			@HeaderParam("Authorization") String token, @FormParam("username") String username,
 			@FormParam("password") String password) {
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
 
-		// is.addInterviewByAssociate(associateid, ifc);
-		Claims claims = null;
-
-		try {
-			logger.info("In the try block");
-			if (token == null) {
-				throw new UnsupportedJwtException("token null");
-			}
-			claims = jService.getClaimsFromToken(token);
-			logger.info("Print claims " + claims);
-
-		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
-				| IllegalArgumentException | NullPointerException e) {
-			logger.info("in the catch block");
-			e.printStackTrace();
-			return Response.status(403).build();
-		}
-
-		if (claims.getId().equals("1")) {
+		if (payload == null || !payload.getId().equals("1")) {
+			status = Status.UNAUTHORIZED;
+		} else {
 			InterviewFromClient ifc = new InterviewFromClient();
 			is.addInterviewByAssociate(associateid, ifc);
-			return Response.status(201).build();
-		} else {
-			return Response.status(403).build();
+			status = Status.CREATED;
 		}
+		
+		return Response.status(status).build();
 	}
 
 	@Path("/{interviewid}/job-description")

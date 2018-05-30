@@ -158,9 +158,6 @@ public class InterviewInfo implements Serializable, Comparable<InterviewInfo> {
     public String getFlagReason() {
         return flagReason;
     }
-	public String getAssociateFeedback() {
-		return associateFeedback;
-	}
 
     public void setFlagReason(String flagReason) {
         this.flagReason = flagReason;

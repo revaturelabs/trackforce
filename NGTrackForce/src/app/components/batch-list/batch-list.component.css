@@ -1,0 +1,69 @@
+canvas {
+  padding: 0;
+  width: 100%;
+}
+
+form {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+thead, tbody {
+  display: block;
+  overflow-y: scroll;
+}
+tbody {
+  max-height: 500px;
+}
+
+.data-status {
+  text-align: center;
+}
+
+.table-row {
+  display: flex;
+  flex-grow: 1;
+}
+
+.mcolumn.left {
+  margin-left: 0px;
+  margin-bottom: 50px;
+  padding-left: 0px;
+}
+
+.mcolumn.right {
+  margin-right: 0px;
+  padding-right: 0px;
+  margin-bottom: 50px;
+}
+
+form > div {
+  display: inline-block;
+}
+
+form > div:first-child {
+  margin-right: 50px;
+}
+
+.name-column {
+  width: 50%;
+}
+
+.date-column {
+  width: 25%;
+}
+
+@media screen and (max-width: 1000px) {
+  form > div:first-child {
+    margin-right: 0px;
+  }
+  .table-width-adjust {
+    width: 100% !important;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+.max-width {
+  display: flex;
+}

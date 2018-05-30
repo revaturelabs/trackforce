@@ -1,0 +1,110 @@
+<app-navbar></app-navbar>
+<div class="container min-height">
+  <div class="row">
+    <div class="alert alert-danger" *ngIf="message">
+      {{message}}
+    </div>
+    <div class="col-md-3">
+      <h3>Predictions Testing</h3>
+      <form>
+        <div class="form-group">
+          <label for="startDate">Start Date Filter</label>
+          <input class="form-control" type="date" [ngModel]="startDate | date:'yyyy-MM-dd'" (ngModelChange)="start = $event" id="startDate" name="startDate" [max]="endDate"/>
+        </div>
+        <div class="form-group">
+          <label for="startDate">End Date Filter</label>
+          <input class="form-control" type="date" [ngModel]="endDate | date:'yyyy-MM-dd'" (ngModelChange)="end = $event" id="endDate" name="endDate" [min]="startDate"/>
+        </div>
+        <div class="form-group">
+          <label for="number">Number of Associates Needed</label>
+          <input type="number" name="number" [(ngModel)]="numAssociatesNeeded" min=0 />
+        </div>
+        <div class="form-group">
+          <label>Filter By Technologies</label>
+          <div class="multiselect">
+            <div class="selectBox" (click)="toggleCheckboxes()">
+              <select>
+                <option>Select an option</option>
+              </select>
+              <div class="overSelect"></div>
+            </div>
+            <div id="checkboxes" *ngIf="expanded">
+              <div class="input-group" *ngFor="let tech of technologies; let i=index">
+                <label for="one"> &ensp;
+                <input type="checkbox" [id]="'tech' + (i+1)" [(ngModel)]="tech.selected" [ngModelOptions]="{standalone: true}"/>
+                &ensp;{{tech.name}}
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary" (click)="getPrediction(start,end)">Get Prediction</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <table class="table table-striped table-hover table-bordered" *ngIf="dataReady">
+        <thead>
+          <tr>
+            <th>Technology</th>
+            <th>Requested Associates</th>
+            <th>Available Associates</th>
+            <th>Difference</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let o of results">
+            <td>{{o.technology}}</td>
+            <td>{{o.requested}}</td>
+            <td>{{o.available}}</td>
+            <!-- <td [class]="o.available > o.requested ? bg-success : bg-danger">{{o.available - o.requested}}</td> -->
+            <td class="bg-success" *ngIf="o.available > o.requested">{{o.available - o.requested}}</td>
+            <td class="bg-danger" *ngIf="o.available < o.requested">{{o.available - o.requested}}</td>
+            <td *ngIf="o.available == o.requested">{{o.available - o.requested}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <canvas id="bar-chart-horizontal" width="800" height="450"></canvas>
+    </div>
+  </div>
+
+  <div>
+
+    <h1>Prediction breakdown</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Batch ID</th>
+          <th>Available Associates</th>
+        </tr>
+        
+
+      </thead>
+
+      <tbody>
+          <tr *ngFor="let x of hellos" >
+            <td>{{x}}</td>
+            <!-- <td>{{y}}</td> -->
+
+
+
+        </tr>
+        </tbody>
+
+
+    </table>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </div>
+
+
+
+</div>
+<app-footer></app-footer>

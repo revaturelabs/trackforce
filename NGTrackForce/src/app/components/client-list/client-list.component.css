@@ -1,0 +1,35 @@
+.client-list-page{
+	background-color: #ebedea;
+	padding: 20px;
+}
+
+#clients-list{
+	margin-top: 20px;
+}
+
+#clients-list-well {
+	margin-top: 20px;
+	padding-top: 0px;
+	max-height: 350px;
+	overflow-y: scroll;
+}
+
+li{
+	padding: 5px;
+	margin-top: 0px;
+}
+ul{
+	margin: auto;
+	margin-top: 0px;
+	padding: 0;
+	list-style-type: none;
+}
+
+.client-name{
+	color: #757575;
+}
+.client-name:hover{
+	color: #121212;
+	cursor: pointer;
+	text-decoration: underline;
+}

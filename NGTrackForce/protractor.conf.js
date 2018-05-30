@@ -30,6 +30,7 @@ exports.config = {
    seleniumAddress: "http://127.0.0.1:4444/wd/hub", 
   // SELENIUM_PROMISE_MANAGER: false,
   //
+  //
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,

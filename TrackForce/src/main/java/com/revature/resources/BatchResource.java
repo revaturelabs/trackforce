@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiOperation;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BatchResource {
-	
+
 	private BatchesService service;
 
 	public BatchResource() {
@@ -42,38 +42,28 @@ public class BatchResource {
 	}
 
 	/**
-	 * Gets all batches, optionally filtered by start and end date query parameters
-	 * For example, sending a GET request to /batches?start={date1}&end={date2} will
-	 * return all batches with end dates between date 1 and date2
+	 * @author Ian Buitrago Gets all batches, optionally filtered by start and end
+	 *         date query parameters For example, sending a GET request to
+	 *         /batches?start={date1}&end={date2} will return all batches with end
+	 *         dates between date 1 and date2
 	 * 
 	 * @return - Response with 200 status and a List<BatchInfo> in the response body
 	 */
 	@GET
 	@ApiOperation(value = "Returns all Batches", notes = "Returns a list of a list of all batches optionally filtered by start and end dates.")
-	public Response getAllBatches() {
-		Set<BatchInfo> batches = service.getAllBatches();
-		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
+	public Response getAllBatches(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate) {
+		Collection<BatchInfo> result = null;
 
-		logger.info("getallBatches()");
-		logger.info("	batches size: " + (batches == null ? null : batches.size()));
-		return Response.status(status).entity(batches).build();
-	}
-
-	/**
-	 * examples:
-	 * 
-	 * @param startDate
-	 * @param endDate
-	 * @param curriculum
-	 * @return
-	 */
-	public Response getAllBatches(@DefaultValue("1510549200000") @QueryParam("start") Long startDate,
-			@DefaultValue("1527480000000") @QueryParam("end") Long endDate
-	) {
-
-		logger.info("getAllBatches(): " + "");
-		List<BatchInfo> result = service.getBatches(startDate, endDate);
-
+		if (startDate == null || endDate == null) {
+			logger.info("getAllBatches(): ");
+			result = service.getAllBatches();
+		} else {
+			logger.info("getAllBatches(start, end): ");
+			logger.info("	start = " + new Timestamp(startDate));
+			logger.info("	end = " + new Timestamp(endDate));
+			result = service.getBatches(startDate, endDate);
+		}
+		logger.info("	batches size: " + (result == null ? null : result.size()));
 		Status status = result == null || result.isEmpty() ? Status.NO_CONTENT : Status.OK;
 
 		return Response.status(status).entity(result).build();

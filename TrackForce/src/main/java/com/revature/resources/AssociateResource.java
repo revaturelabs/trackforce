@@ -316,7 +316,7 @@ public class AssociateResource {
 	// return new InterviewResource();
 	// }
 
-<<<<<<< HEAD
+
 	/**
 	 * Updates the associate status to Approved
 	 * 
@@ -336,9 +336,9 @@ public class AssociateResource {
 	
 	
 	@ApiOperation(value = "returns all interviews for associate", notes= "Gets a list of all interviews for a specific associate.")
-=======
+
 //	@ApiOperation(value = "adds an interview to associate", notes= "The method allows the associate to create an interview.")
->>>>>>> ba76b6f9d946bb518540745b800dbc855361af39
+
 	@Path("/{associateid}/interviews")
 	public InterviewResource addAssociateInterview() 
 	{

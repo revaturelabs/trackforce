@@ -19,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.apache.commons.httpclient.HttpClient;
 import org.hibernate.HibernateException;
 
 import com.revature.model.InterviewInfo;
@@ -66,6 +67,7 @@ public class InterviewResource {
 		Status status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		logger.info("inside get all interviews");
 		return Response.status(status).entity(interviews).build();
+		
 	}
 
 	@GET

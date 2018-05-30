@@ -9,6 +9,7 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user-service/user.service';
 import {trigger,state,style,transition,animate,keyframes} from '@angular/animations';
+import { AssociateService } from '../../services/associate-service/associate.service';
 
 @Component({
   selector: 'app-login',
@@ -38,6 +39,7 @@ export class LoginComponent implements OnInit {
   public cpassword: string;
   public ASSOCIATEROLEID: number = 4;
   public errMsg: any;
+  public associate:any;
   /**
   *@constructor
   *
@@ -48,7 +50,7 @@ export class LoginComponent implements OnInit {
   * Service needed for redirecting user upon successful login
   *
   */
-  constructor(private authService: AuthenticationService, private router: Router,
+  constructor(private associateService: AssociateService, private authService: AuthenticationService, private router: Router,
                 private userService: UserService) { }
 
   /**
@@ -63,11 +65,16 @@ export class LoginComponent implements OnInit {
   */
   ngOnInit() {
     const user = this.authService.getUser();
+    
+    
     if (user != null){
       if(user.tfRoleId === 4){
         this.router.navigate(['associate-view', user.userId]);
       }
       else{
+      	//console.log(user.name);
+      	this.getUser(user.userId);
+      	console.log(this.associate.firstname);
         this.router.navigate(['root']);
       }
 
@@ -78,6 +85,19 @@ export class LoginComponent implements OnInit {
   /**
   *Function Wrapper for create-user createuser()
   */
+  
+  getUser(id)
+  {
+  	
+    this.associateService.getAssociate(id).subscribe(
+      data => {
+        this.associate = data;
+      },
+      err => {
+        console.log(err);
+    });
+  
+  }
   register(){
     this.errMsg = "";
   	this.isRegistering = true;

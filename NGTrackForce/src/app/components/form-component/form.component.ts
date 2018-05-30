@@ -33,6 +33,7 @@ export class FormComponent implements OnInit {
       type: null,
       feedback: null
     };
+   
     newStartDate: Date;
     successMessage: string = "";
 	errorMessage: string = "";
@@ -42,6 +43,7 @@ export class FormComponent implements OnInit {
     formOpen: boolean;
     isVP: boolean;
     isAssociate: boolean;
+    iid: number;
 
     // form booleans
 	isVerified: boolean;
@@ -66,11 +68,16 @@ export class FormComponent implements OnInit {
         //gets id from router url parameter
         var id = window.location.href.split("form-comp/")[1];
         this.id = Number(id);
+        
     }
 
     ngOnInit() {
         this.user = this.authService.getUser();
+
 		this.isVerified = this.user.verified;
+=======
+       
+
         //Role checks
         if(this.user.tfRoleId === 3){
           this.isVP = true;
@@ -100,6 +107,7 @@ export class FormComponent implements OnInit {
             this.clients = data;
           });
         this.getInterviews();
+       // this.initializeassociateinterview(this.iid);
     }
 
     adjustDate(date: any){ // dates are off by 1 day - this corrects them
@@ -196,6 +204,7 @@ export class FormComponent implements OnInit {
         }
       )
     }
+
 	
 	/* Verify this Associate */
 	verifyAssociate() {
@@ -208,6 +217,7 @@ export class FormComponent implements OnInit {
         }
       )
 	}
+
 
     getInterviews() {
       this.associateService.getInterviewsForAssociate(this.id).subscribe(

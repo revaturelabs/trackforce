@@ -2,7 +2,11 @@ package com.revature.dao;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +20,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import static com.revature.utils.LogUtil.logger;
+
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -34,7 +40,8 @@ import com.revature.utils.PersistentStorage;
 
 public class InterviewDaoHibernate implements InterviewDao {
 	
-	
+	static private final String tablename = "TF_INTERVIEW";
+
 	public Map<Integer, InterviewInfo> getAllInterviews() {
 		Map<Integer, InterviewInfo> techs = new HashMap<>();
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -201,10 +208,14 @@ public class InterviewDaoHibernate implements InterviewDao {
 	public boolean updateInterview(TfInterview parmInterview) {
 		Transaction dbTransaction = null;
 		Session session = null;
+		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			dbTransaction = session.beginTransaction();
-			TfInterview tobeUpdatedInteview = new TfInterview();
+			TfInterview tobeUpdatedInteview = getInterviewById(parmInterview.getTfInterviewId());
+			
+			//The idea is you send it a new Intview Object only put the feilds want to change and leave the rest null
+			//Then just compare each feild and if not null update that fe
 			if (parmInterview.getTfInterviewId() != null)
 				tobeUpdatedInteview.setTfInterviewId(parmInterview.getTfInterviewId());
 			if (parmInterview.getTfAssociate() != null)
@@ -250,5 +261,110 @@ public class InterviewDaoHibernate implements InterviewDao {
 		}
 		return false;
 	}
+
+	/**
+	 * Send a Integer of a Id of a Interview and get a boolean if it really there.
+	 * 
+	 * @Edboi
+	 */
+	@Override
+	public boolean isInterviewAtId(Integer parmInterviewId) {
+		Session session = null;
+		TfInterview temp = new TfInterview();
+		try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            temp =  (TfInterview) session.get(TfInterview.class, parmInterviewId);
+            Hibernate.initialize(temp); // I don't think I need this, but it doesn't break anything soo...
+           // try and get an Interviw matching the Id, If I get one it will not be null simple stuff
+            if (temp != null) {
+                return true;
+             }else
+            	 return false;
+		} catch (NullPointerException e ) {
+			LogUtil.logger.error(e);
+		
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+		
+		} finally {
+			session.close();
+		}
+		return false;
+	}
+	/**
+	 * Send ID of Interview
+	 * get an Interview at that ID
+	 * 
+	 * @Edboi
+	 */
+	@Override
+	public TfInterview getInterviewById(Integer parmInterviewId) {
+		Session session = null;
+		TfInterview temp = new TfInterview();
+		try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            temp =  (TfInterview) session.get(TfInterview.class, parmInterviewId);
+            Hibernate.initialize(temp); // I don't think I need this, but it doesn't break anything soo...
+          
+            if (temp != null) {
+                return temp;
+             }else
+            	 return null;
+		} catch (NullPointerException e ) {
+			LogUtil.logger.error(e);
+		
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+		
+		} finally {
+			session.close();
+		}
+		return null;
+	}
+	/**
+	 * Ask for all the Interview in the Table and you shall receive 
+	 * 
+	 * 
+	 * @Edboi
+	 * Side note I wanted to user //session.createCriteria(MyEntity.class).list(); 
+	 * but is deprecated and thus had use the way below
+	 */
+	
+	@Override
+	public ArrayList<TfInterview> getAllInterviewsInArraylist() {
+		Session session = null;
+		TfInterview temp = new TfInterview();
+		ArrayList<TfInterview> arrayListOfInterviews = new ArrayList<TfInterview>();
+		try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            //Get Criteria Builder
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+
+            //Create Criteria
+            CriteriaQuery<TfInterview> criteria = builder.createQuery(TfInterview.class);
+            Root<TfInterview> contactRoot = criteria.from(TfInterview.class);
+            criteria.select(contactRoot);
+
+            //Use criteria to query with session to fetch all contacts
+            arrayListOfInterviews = (ArrayList<TfInterview>) session.createQuery(criteria).getResultList();
+            
+            return arrayListOfInterviews;
+      
+		} catch (NullPointerException e ) {
+			LogUtil.logger.error(e);
+		
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+		
+		} finally {
+			session.close();
+		}
+		return null;
+	}
+	
+	
+
+
+	
 
 }

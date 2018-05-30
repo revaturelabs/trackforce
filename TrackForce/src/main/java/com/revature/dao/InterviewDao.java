@@ -1,6 +1,7 @@
 package com.revature.dao;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,4 +18,8 @@ public interface InterviewDao {
     public boolean createInterview(TfInterview parmInterview);
     public boolean updateInterview(TfInterview parmInterview);
     public void cacheAllInterviews();
+    boolean isInterviewAtId(Integer parmInterviewId);
+    TfInterview getInterviewById(Integer parmInterviewId);
+    ArrayList<TfInterview> getAllInterviewsInArraylist();
+    
 }

@@ -39,17 +39,8 @@ exports.config = {
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
     
-<<<<<<< HEAD
     // require('jasmine-reporters');
     // jasmine.getEnv().addReporter(
     //   new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));
   }
-=======
-    /*require('jasmine-reporters');
-    jasmine.getEnv().addReporter(
-      new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));
-    */ }
->>>>>>> c99aa6aaab36ab19fb555f1eb33c6df45b1834d4
-
-
 };

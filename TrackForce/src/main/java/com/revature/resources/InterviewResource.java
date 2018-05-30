@@ -21,6 +21,8 @@ import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
 
+import com.revature.dao.InterviewDaoHibernate;
+import com.revature.entity.TfInterview;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.InterviewFromClient;
 import com.revature.services.AssociateService;
@@ -59,12 +61,26 @@ public class InterviewResource {
 
 	@GET
 	@ApiOperation(value = "Returns all interviews for an associate", notes ="Returns a list of all interviews.")
-	public Response getAllInterviews(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate)
-			throws HibernateException, IOException {
+	public Response getAllInterviews(@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate, @QueryParam("end") Long endDate)
+			throws HibernateException, IOException 
+	{
 		// TODO handle exception
-		Set<InterviewInfo> interviews = is.getAllInterviews();
-		Status status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
-		logger.info("inside get all interviews");
+		Status status = null;
+		Set<InterviewInfo> interviews = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || !payload.getId().equals("1")) 
+		{
+			status = Status.UNAUTHORIZED;
+		} 
+		
+		else 
+		{
+			interviews = is.getAllInterviews();
+			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			logger.info("inside get all interviews");
+		}
+		
 		return Response.status(status).entity(interviews).build();
 	}
 
@@ -122,43 +138,37 @@ public class InterviewResource {
 		return Response.status(status).build();
 	}
 
-	@Path("/{interviewid}/job-description")
-	@ApiOperation(value = "updates interview description", notes = " Updates a specific interview's job description based on id.")
+	@Path("/{interviewid")
+	@ApiOperation(value = "updates interview", notes = " Updates interview")
 	@PUT
-	public Response updateJobDescription(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid) {
-		return Response.status(204).build();
-	}
+	public Response updateInterview(@PathParam("associateid") int associateid,
+			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token) 
+	{
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
 
-	@Path("/{interviewid}/dateSalesTeamIssued")
-	@ApiOperation(value = "updates interview date", notes = " Updates when an interview was issued by the sale team.")
-	@PUT
-	public Response updateDateSalesIssue(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid) {
-		return Response.status(204).build();
-	}
-
-	@Path("/{interviewid}/flagAlert")
-	@ApiOperation(value = "updates interview flag", notes = " Flags a specific interview based on id.")
-	@PUT
-	public Response updateFlageAlert(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid) {
-		return Response.status(204).build();
-	}
-
-	@Path("/{interviewid}/flagReason")
-	@ApiOperation(value = "updates interview flag", notes = " Updates the reason for why the interview is flagged.")
-	@PUT
-	public Response updateFlageReason(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid) {
-		return Response.status(204).build();
-	}
-
-	@Path("/{interviewid}/dateAssociateIssue")
-	@ApiOperation(value = "updates interview date", notes = " Updates when an interview is issued by the associate.")
-	@PUT
-	public Response updateDateAssociateIssue(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid) {
+		if (payload == null || !payload.getId().equals("1"))
+		{
+			status = Status.UNAUTHORIZED;
+		} 
+		
+		else 
+		{
+			InterviewDaoHibernate hd = new InterviewDaoHibernate();
+			TfInterview changeInterview = new TfInterview();
+			changeInterview.setTfAssociateFeedback(null);
+			changeInterview.setTfClient(null);
+			changeInterview.setTfDateAssociateIssued(null);
+			changeInterview.setTfDateSalesIssued(null);
+			changeInterview.setTfEndClient(null);
+			changeInterview.setTfFlagReason(null);
+			changeInterview.setTfInterviewDate(null);
+			changeInterview.setTfInterviewType(null);
+			changeInterview.setTfJobDescription(null);
+			hd.updateInterview(changeInterview);
+			status = Status.ACCEPTED;
+		}
+		
 		return Response.status(204).build();
 	}
 }

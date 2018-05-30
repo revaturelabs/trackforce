@@ -85,31 +85,44 @@ public class BatchResource {
 	 *            name
 	 * @return set of batches matching curriculum
 	 */
-//	@GET
-//	@ApiOperation(value = "returns batches by curriculum", notes = "Returns a list of batches filtered by curriculum name.")
-//	@Path("curriculum/{curriculum}")
-//	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum, @QueryParam("start") Long startDate,
-//			@QueryParam("end") Long endDate) {
-//		logger.info("getBatchesByCurriculum(): " + curriculum);
-//		Collection<BatchInfo> results = new HashSet<>();
-//
-//		if (startDate != null && endDate != null) {
-//			logger.info("	start = " + new Timestamp(startDate));
-//			logger.info("	end = " + new Timestamp(endDate));
-//			Collection<BatchInfo> batches = service.getBatches(startDate, endDate);
-//
-//			for (BatchInfo b : batches) {
-//				if (b.getCurriculumName() != null && b.getCurriculumName().equalsIgnoreCase(curriculum))
-//					results.add(b);
-//			}
-//		} else {
-//			results = service.getBatchesByCurri(curriculum);
-//		}
-//		Status status = results == null || results.isEmpty() ? Status.NO_CONTENT : Status.OK;
-//		logger.info("	batch size: " + (results == null ? null : results.size()));
-//
-//		return Response.status(status).entity(results).build();
-//	}
+	@GET
+	@ApiOperation(value = "returns batches by curriculum", notes = "Returns a list of batches filtered by curriculum name.")
+	@Path("curriculum/{curriculum}")
+	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum,
+			@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate,
+			@QueryParam("end") Long endDate) {
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+		Collection<BatchInfo> results = new HashSet<>();
+
+		if (payload == null || payload.getId().equals("5")) {
+			status = Status.UNAUTHORIZED;
+		}
+
+		else {
+			logger.info("getBatchesByCurriculum(): " + curriculum);
+
+			if (startDate != null && endDate != null) {
+				logger.info("	start = " + new Timestamp(startDate));
+				logger.info("	end = " + new Timestamp(endDate));
+				Collection<BatchInfo> batches = service.getBatches(startDate, endDate);
+
+				for (BatchInfo b : batches) {
+					if (b.getCurriculumName() != null && b.getCurriculumName().equalsIgnoreCase(curriculum))
+						results.add(b);
+				}
+			}
+
+			else {
+				results = service.getBatchesByCurri(curriculum);
+			}
+
+			status = results == null || results.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			logger.info("	batch size: " + (results == null ? null : results.size()));
+		}
+
+		return Response.status(status).entity(results).build();
+	}
 
 	/**
 	 * Gets a batch by its id

@@ -1,5 +1,7 @@
 package com.revature.test.utils;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,5 +15,11 @@ public class WaitToLoad {
 	    WebDriverWait wait = new WebDriverWait(wd, timeOut);
 	    WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 	    return element;
+	}
+	
+	public static List<WebElement> findDynamicElements(WebDriver wd, By by, int timeOut){
+		WebDriverWait wait = new WebDriverWait(wd,timeOut);
+		List<WebElement> elements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
+		return elements;
 	}
 }

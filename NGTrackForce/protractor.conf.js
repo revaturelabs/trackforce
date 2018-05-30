@@ -3,17 +3,28 @@
 
 const { SpecReporter } = require('jasmine-spec-reporter');
 
+
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
-    './e2e/login/login.e2e-spec.ts'
+    './e2e/login/login.e2e-spec.ts',
+    './e2e/navbar/navbar.e2e-spec.ts',
+    './e2e/create-user/create-user.e2e-spec.ts',
+    './e2e/client-list/client-list-spec.ts',
+    './e2e/app/app.e2e-spec.ts'
+   /* './e2e/associate-list/associate-list.js', 
+    './e2e/associate-list/associate-list-search.js', 
+    './e2e/associate-list/associate-list-status.js',
+    './e2e/associate-list/associate-list-curriculum.js', 
+    './e2e/associate-list/associate-list-client'
+    //'./e2e/batch-list/batch-list.e2e-spec.ts',*/
   ],
   capabilities: {
     'browserName': 'chrome'
   },
   directConnect: true,
-  //baseUrl: 'http://localhost:4200/',
-  baseUrl: 'http://52.207.66.231:4200/',
+  baseUrl: 'http://localhost:4200/',
+  //baseUrl: 'http://52.207.66.231:4200/',
  
   framework: 'jasmine',
   jasmineNodeOpts: {
@@ -26,5 +37,11 @@ exports.config = {
       project: 'e2e/tsconfig.e2e.json'
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
-  }
+    
+    /*require('jasmine-reporters');
+    jasmine.getEnv().addReporter(
+      new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));
+    */ }
+
+
 };

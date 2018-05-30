@@ -1,5 +1,8 @@
 package com.revature.test.admin.pom;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,8 +14,12 @@ public class HomeTab {
 static WebElement e =null;
 	
 	public static WebElement clickHomeTab(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/app-root/div/app-navbar/nav/div/ul[1]/li[2]/a"), 10);
+		e= WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/app-root/div/app-navbar/nav/div/ul[1]/li[3]/a"), 10);
 		return e;
+	}
+	
+	public static String getCurrentURL(WebDriver d) {
+		return d.getCurrentUrl();
 	}
 	
 	public static WebElement phone(WebDriver d) {
@@ -48,13 +55,27 @@ static WebElement e =null;
 		return e;
 	}
 	
-	
 	public static WebElement pieChart(WebDriver d) {
 		e = WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/app-root/div/app-home/div/div[2]/div[2]"), 10);
 		return e;
-		
 	}
 	
+	public static WebElement getChart(WebDriver d, String str) {
+		List<WebElement> e = WaitToLoad.findDynamicElements(d, By.id("pie"), 10);
+		if(str.equals("Mapped vs. Unmapped (Not Deployed)")) {
+			return e.get(0);
+		}
+		else if(str.equals("Mapped vs. Unmapped (Deployed)")) {
+			return e.get(1);
+		}
+		else if(str.equals("Mapped")) {
+			return e.get(2);
+		}
+		else if(str.equals("Unmapped")) {
+			return e.get(3);
+		}
+		return null;
+	}
 	/*
 	public static WebElement barChart(WebDriver d) {
 		e= WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/div/app-client-mapped/div[1]/div/button[1]"), 10); 

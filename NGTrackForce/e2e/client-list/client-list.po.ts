@@ -22,7 +22,7 @@ export class ClientListPo {
      * Returns the Create List page
      */
     navigateTo(){
-        return browser.get('/clientList');
+        return browser.get('client-list');
     }
 
     /**

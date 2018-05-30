@@ -18,7 +18,7 @@ public class ClientListCukes extends AdminSuite {
 	static String secondClient = null; //second client at top of client list initially on page load
 	static String currentClient = null; //current client that is being searched for or viewed
 	
-	@Given("^I click on Client List Tab$")
+	//@Given("^I click on Client List Tab$")
 	public static boolean click_client_list_tab(WebDriver d) {
 		try {
 			// clicks the client tab
@@ -30,7 +30,7 @@ public class ClientListCukes extends AdminSuite {
 		}
 	}
 
-	@Given("^Client List Tab loads$")
+	//@Given("^Client List Tab loads$")
 	public static boolean client_list_tab_loads(WebDriver d) {
 		try {
 			Thread.sleep(500);
@@ -46,7 +46,7 @@ public class ClientListCukes extends AdminSuite {
 		}
 	}
 
-	@Given("^Client List panel loads$")
+	//@Given("^Client List panel loads$")
 	public static boolean client_list_panel_loads(WebDriver d) {
 		try {
 			firstClient = ClientListTab.getClientNameFromList(d, 1).getText();
@@ -61,7 +61,7 @@ public class ClientListCukes extends AdminSuite {
 		}
 	}
 	
-	@When("^I make sure the search bar is blank$")
+	//@When("^I make sure the search bar is blank$")
 	public static boolean search_bar_is_blank(WebDriver d) {
 		try {
 			// clear the client list search box
@@ -78,7 +78,7 @@ public class ClientListCukes extends AdminSuite {
 		}
 	}
 	
-	@When("^I type the name of a client into the search bar$")
+	//@When("^I type the name of a client into the search bar$")
 	public static boolean search_by_client_name(WebDriver d) {
 		try {
 			Thread.sleep(1000);
@@ -97,7 +97,7 @@ public class ClientListCukes extends AdminSuite {
 		}
 	}
 	
-	@When("^I want to enter a different client name into the search bar instead$")
+	//@When("^I want to enter a different client name into the search bar instead$")
 	public static boolean search_by_another_client_name(WebDriver d) {
 		try {
 			Thread.sleep(1000);
@@ -118,7 +118,7 @@ public class ClientListCukes extends AdminSuite {
 	}
 	
 
-	@When("^I see only that client in the list$")
+	//@When("^I see only that client in the list$")
 	public static boolean client_should_be_at_top_of_search_results(WebDriver d) {
 		try {
 			Thread.sleep(1000);
@@ -133,7 +133,7 @@ public class ClientListCukes extends AdminSuite {
 		}
 	}
 	
-	@When("^I click the top client in the Clients list$")
+	//@When("^I click the top client in the Clients list$")
 	public static boolean click_client_in_client_list(WebDriver d) {
 		try {
 			Thread.sleep(1000);
@@ -146,7 +146,7 @@ public class ClientListCukes extends AdminSuite {
 		}
 	}
 	
-	@Then("^The client's data should show in the graph$")
+	//@Then("^The client's data should show in the graph$")
 	public static boolean client_data_shows_in_graph(WebDriver d) {
 		WebElement header = null;		
 		try {
@@ -169,7 +169,7 @@ public class ClientListCukes extends AdminSuite {
 		}
 	}
 	
-	@When("^I click on the View Data for All Clients button$")
+	//@When("^I click on the View Data for All Clients button$")
 	public static boolean click_View_Data_for_All_Clients_button(WebDriver d) {
 		try {
 			// clicks the view data for all clients button
@@ -181,7 +181,7 @@ public class ClientListCukes extends AdminSuite {
 		}
 	}
 	
-	@Then("^All clients' data should show in the graph$")
+	//@Then("^All clients' data should show in the graph$")
 	public static boolean all_client_data_shows_in_graph(WebDriver d) {
 		try {
 			Thread.sleep(500);

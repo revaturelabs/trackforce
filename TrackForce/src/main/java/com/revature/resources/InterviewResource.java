@@ -59,12 +59,26 @@ public class InterviewResource {
 
 	@GET
 	@ApiOperation(value = "Returns all interviews for an associate", notes ="Returns a list of all interviews.")
-	public Response getAllInterviews(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate)
-			throws HibernateException, IOException {
+	public Response getAllInterviews(@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate, @QueryParam("end") Long endDate)
+			throws HibernateException, IOException 
+	{
 		// TODO handle exception
-		Set<InterviewInfo> interviews = is.getAllInterviews();
-		Status status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
-		logger.info("inside get all interviews");
+		Status status = null;
+		Set<InterviewInfo> interviews = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || !payload.getId().equals("1")) 
+		{
+			status = Status.UNAUTHORIZED;
+		} 
+		
+		else 
+		{
+			interviews = is.getAllInterviews();
+			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			logger.info("inside get all interviews");
+		}
+		
 		return Response.status(status).entity(interviews).build();
 	}
 
@@ -126,7 +140,21 @@ public class InterviewResource {
 	@ApiOperation(value = "updates interview description", notes = " Updates a specific interview's job description based on id.")
 	@PUT
 	public Response updateJobDescription(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid) {
+			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token) 
+	{
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || !payload.getId().equals("1"))
+		{
+			status = Status.UNAUTHORIZED;
+		} 
+		
+		else 
+		{
+			//TODO Method body here.
+		}
+		
 		return Response.status(204).build();
 	}
 
@@ -134,7 +162,21 @@ public class InterviewResource {
 	@ApiOperation(value = "updates interview date", notes = " Updates when an interview was issued by the sale team.")
 	@PUT
 	public Response updateDateSalesIssue(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid) {
+			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token) 
+	{
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || !payload.getId().equals("1"))
+		{
+			status = Status.UNAUTHORIZED;
+		} 
+		
+		else 
+		{
+			//TODO Method body here.
+		}
+		
 		return Response.status(204).build();
 	}
 
@@ -142,7 +184,21 @@ public class InterviewResource {
 	@ApiOperation(value = "updates interview flag", notes = " Flags a specific interview based on id.")
 	@PUT
 	public Response updateFlageAlert(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid) {
+			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token) 
+	{
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || !payload.getId().equals("1"))
+		{
+			status = Status.UNAUTHORIZED;
+		} 
+		
+		else 
+		{
+			//TODO Method body here.
+		}
+		
 		return Response.status(204).build();
 	}
 
@@ -150,7 +206,21 @@ public class InterviewResource {
 	@ApiOperation(value = "updates interview flag", notes = " Updates the reason for why the interview is flagged.")
 	@PUT
 	public Response updateFlageReason(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid) {
+			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token) 
+	{
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || !payload.getId().equals("1"))
+		{
+			status = Status.UNAUTHORIZED;
+		} 
+		
+		else 
+		{
+			//TODO Method body here.
+		}
+		
 		return Response.status(204).build();
 	}
 
@@ -158,7 +228,21 @@ public class InterviewResource {
 	@ApiOperation(value = "updates interview date", notes = " Updates when an interview is issued by the associate.")
 	@PUT
 	public Response updateDateAssociateIssue(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid) {
+			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token) 
+	{
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || !payload.getId().equals("1"))
+		{
+			status = Status.UNAUTHORIZED;
+		} 
+		
+		else 
+		{
+			//TODO Method body here.
+		}
+		
 		return Response.status(204).build();
 	}
 }

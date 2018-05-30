@@ -241,6 +241,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 			PersistentStorage.getStorage().updateAssociate(associateid);
 			session.saveOrUpdate(tfAssociate);
 			t.commit();
+			System.out.println("committed");
 		} catch(HibernateException e) {
 			if (t != null) {
 				t.rollback();

@@ -241,6 +241,15 @@ public class AssociateResource {
 //		return new InterviewResource();
 //	}
 
+	@ApiOperation(value = "updates associate verification", notes = "The method sets the verfication status to Verified of a given associate by their id.")
+	@Path("/associates/{associateid}/verify")
+	public Response updateAssociateVerification(@PathParam("associateId") Integer id) {
+		service.updateAssociateVerification(id);
+		System.out.println("success");
+		return Response.ok().build();
+		
+	}
+	
 	@ApiOperation(value = "returns all interviews for associate", notes= "Gets a list of all interviews for a specific associate.")
 	@Path("/{associateid}/interviews")
 	public InterviewResource addAssociateInterview() {

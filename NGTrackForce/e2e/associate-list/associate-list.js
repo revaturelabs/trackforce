@@ -1,4 +1,7 @@
+
 describe('Open the browser and get to the website', function() {
+    // var PropertiesReader = require('properties-reader');
+    // var properties = PropertiesReader('../testing.properties');
     browser.ignoreSynchronization = true;
     wd = browser.driver;
     browser.waitForAngularEnabled(false);
@@ -22,7 +25,7 @@ describe('Go to associate list tab', function(){
     
     it('Should be able to go to associate list tab.', function() {
         browser.manage().timeouts().implicitlyWait(5000);
-        element(by.xpath('/html/body/app/app-root/div/app-navbar/nav/div/ul[1]/li[5]/a')).click();
+        element(by.xpath('/html/body/app/app-root/div/app-navbar/nav/div/ul[1]/li[6]/a')).click();
         wd.sleep(3000);
     });
 

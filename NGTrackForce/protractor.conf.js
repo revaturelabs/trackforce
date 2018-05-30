@@ -8,16 +8,17 @@ exports.config = {
   allScriptsTimeout: 11000,
   specs: [
     './e2e/login/login.e2e-spec.ts',
-    './e2e/navbar/navbar.e2e-spec.ts',
-    './e2e/create-user/create-user.e2e-spec.ts',
+    // './e2e/navbar/navbar.e2e-spec.ts',
+    // './e2e/create-user/create-user.e2e-spec.ts',
     './e2e/client-list/client-list-spec.ts',
-    './e2e/app/app.e2e-spec.ts'
-   /* './e2e/associate-list/associate-list.js', 
-    './e2e/associate-list/associate-list-search.js', 
-    './e2e/associate-list/associate-list-status.js',
-    './e2e/associate-list/associate-list-curriculum.js', 
-    './e2e/associate-list/associate-list-client'
-    //'./e2e/batch-list/batch-list.e2e-spec.ts',*/
+    './e2e/app/app.e2e-spec.ts',
+    // './e2e/associate-list/associate-list.js', 
+    // './e2e/associate-list/associate-list-search.js', 
+    // './e2e/associate-list/associate-list-status.js',
+    // './e2e/associate-list/associate-list-curriculum.js', 
+    // './e2e/associate-list/associate-list-client',
+    // './e2e/batch-list/batch-list.e2e-spec.ts',
+    // './e2e/test-associate/homepage-spec.js'
   ],
   capabilities: {
     'browserName': 'chrome'
@@ -38,10 +39,17 @@ exports.config = {
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
     
+<<<<<<< HEAD
+    // require('jasmine-reporters');
+    // jasmine.getEnv().addReporter(
+    //   new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));
+  }
+=======
     /*require('jasmine-reporters');
     jasmine.getEnv().addReporter(
       new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));
     */ }
+>>>>>>> c99aa6aaab36ab19fb555f1eb33c6df45b1834d4
 
 
 };

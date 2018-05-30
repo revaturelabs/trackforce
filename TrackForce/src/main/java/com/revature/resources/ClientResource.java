@@ -52,7 +52,7 @@ public class ClientResource {
     	Set<ClientInfo> clients = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) 
+		if (payload == null || payload.getId().equals("5")) 
 		{
 			status = Status.UNAUTHORIZED;
 		} 
@@ -83,7 +83,7 @@ public class ClientResource {
     	ClientInfo client = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) 
+		if (payload == null || payload.getId().equals("5")) 
 		{
 			status = Status.UNAUTHORIZED;
 		} 

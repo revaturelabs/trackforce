@@ -60,7 +60,7 @@ public class BatchResource {
 		Set<BatchInfo> batches = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) 
+		if (payload == null || payload.getId().equals("5")) 
 		{
 			status = Status.UNAUTHORIZED;
 		} 
@@ -93,7 +93,7 @@ public class BatchResource {
 		Claims payload = JWTService.processToken(token);
 		List<BatchInfo> result = null;
 
-		if (payload == null || !payload.getId().equals("1")) 
+		if (payload == null || payload.getId().equals("5")) 
 		{
 			status = Status.UNAUTHORIZED;
 		} 
@@ -125,7 +125,7 @@ public class BatchResource {
 		Claims payload = JWTService.processToken(token);
 		Collection<BatchInfo> results = new HashSet<>();
 
-		if (payload == null || !payload.getId().equals("1")) 
+		if (payload == null || payload.getId().equals("5")) 
 		{
 			status = Status.UNAUTHORIZED;
 		} 
@@ -174,7 +174,7 @@ public class BatchResource {
 		BatchInfo batch = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) 
+		if (payload == null || payload.getId().equals("5")) 
 		{
 			status = Status.UNAUTHORIZED;
 		} 
@@ -195,7 +195,7 @@ public class BatchResource {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) 
+		if (payload == null || payload.getId().equals("5")) 
 		{
 			status = Status.UNAUTHORIZED;
 			return Response.status(status).build();

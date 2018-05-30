@@ -14,6 +14,7 @@ import org.hibernate.HibernateException;
 import com.revature.services.CurriculumService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Path("skillset")
 @Api(value = "skillset")
@@ -28,6 +29,7 @@ public class CurriculumResource {
     }
 	
     @GET
+    @ApiOperation(value = "Returns all curriculums", notes = "Returns a list of all curriculums.")
 	public Response getAllCurriculums() throws HibernateException, IOException{
 		return Response.ok(service.getCurriculums()).build();
 	}

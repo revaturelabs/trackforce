@@ -19,7 +19,7 @@ describe('Log into the website for associate list', function() {
 describe('Head over to the My interviews page and do something', function() {
     it('should click the Myvinterviews button', function() {
         wd.findElement(by.xpath('/html/body/app/app-associate-view/app-navbar/nav/div/ul[1]/li[2]/a')).click();
-        expect(wd.findElement(by.xpath('/html/body/app/app-myinterview-view/div/div/div/h3')).getText()).toEqual('Interviews');
+        expect(wd.findElement(by.xpath('/html/body/app/app-myinterview-view/div/div/div/h3')).getText()).toEqual('My Interviews');
     });
 
     it('should toggle the create new form button', function() {

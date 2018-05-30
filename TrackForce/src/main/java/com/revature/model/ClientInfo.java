@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.revature.utils.LogUtil.logger;
+
 import com.revature.entity.TfMarketingStatus;
-import com.revature.utils.LogUtil;
 
 public class ClientInfo  implements Serializable, Comparable<ClientInfo> {
+	
 
 	private static final long serialVersionUID = 1718849365915804177L;
 	private Integer id;
@@ -98,7 +100,7 @@ public class ClientInfo  implements Serializable, Comparable<ClientInfo> {
 			return;
 		}
 		stats.setName(getTfClientName());
-		LogUtil.logger.debug(stats.getName() + ":\n" + stats.getTrainingMapped() + " " + stats.getReservedMapped() + " " + stats.getSelectedMapped() + " " + stats.getConfirmedMapped() + " " + stats.getDeployedMapped() + 
+		logger.debug(stats.getName() + ":\n" + stats.getTrainingMapped() + " " + stats.getReservedMapped() + " " + stats.getSelectedMapped() + " " + stats.getConfirmedMapped() + " " + stats.getDeployedMapped() + 
 		" " + stats.getTrainingUnmapped() + " " + stats.getOpenUnmapped() + " " + stats.getSelectedUnmapped() + " " + stats.getConfirmedUnmapped() + " " + stats.getDeployedUnmapped());
 	}
 

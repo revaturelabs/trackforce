@@ -25,8 +25,11 @@ exports.config = {
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
-  //baseUrl: 'http://52.207.66.231:4200/',
- 
+  // baseUrl: 'http://34.227.178.103:8090/NGTrackForce/',
+ //for pipeline delpoyment
+  // seleniumAddress: "http://127.0.0.1:4444/wd/hub", 
+  // SELENIUM_PROMISE_MANAGER: false,
+  //
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
@@ -39,10 +42,8 @@ exports.config = {
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
     
-    /*require('jasmine-reporters');
-    jasmine.getEnv().addReporter(
-      new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));
-    */ }
-
-
+    // require('jasmine-reporters');
+    // jasmine.getEnv().addReporter(
+    //   new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));
+  }
 };

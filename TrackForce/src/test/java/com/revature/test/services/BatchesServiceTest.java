@@ -31,9 +31,9 @@ public class BatchesServiceTest {
 		MockitoAnnotations.initMocks(this);
 
 		// creates 3 associates
-		assoc1 = new AssociateInfo(1, "Ian", "B", "s1", "client1", "b1", "jta", 40418L);
-		assoc2 = new AssociateInfo(2, "Rich ", "Park", "s1", "client2", "b1", "jta", 40418L);
-		assoc3 = new AssociateInfo(2, "Cuong ", "Nguyen", "s1", "client3", "b1", "jta", 40418L);
+		assoc1 = new AssociateInfo(1, "Ian", "B", "s1", "client1", "b1", "jta", 40418L, 0);
+		assoc2 = new AssociateInfo(2, "Rich ", "Park", "s1", "client2", "b1", "jta", 40418L, 0);
+		assoc3 = new AssociateInfo(2, "Cuong ", "Nguyen", "s1", "client3", "b1", "jta", 40418L, 0);
 
 		associateSet = new TreeSet<>();
 		associateSet.add(assoc1);

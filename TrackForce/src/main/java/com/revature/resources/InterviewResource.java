@@ -21,6 +21,8 @@ import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
 
+import com.revature.dao.InterviewDaoHibernate;
+import com.revature.entity.TfInterview;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.InterviewFromClient;
 import com.revature.services.AssociateService;
@@ -136,10 +138,10 @@ public class InterviewResource {
 		return Response.status(status).build();
 	}
 
-	@Path("/{interviewid}/job-description")
-	@ApiOperation(value = "updates interview description", notes = " Updates a specific interview's job description based on id.")
+	@Path("/{interviewid")
+	@ApiOperation(value = "updates interview", notes = " Updates interview")
 	@PUT
-	public Response updateJobDescription(@PathParam("associateid") int associateid,
+	public Response updateInterview(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token) 
 	{
 		Status status = null;
@@ -152,95 +154,19 @@ public class InterviewResource {
 		
 		else 
 		{
-			//TODO Method body here.
-		}
-		
-		return Response.status(204).build();
-	}
-
-	@Path("/{interviewid}/dateSalesTeamIssued")
-	@ApiOperation(value = "updates interview date", notes = " Updates when an interview was issued by the sale team.")
-	@PUT
-	public Response updateDateSalesIssue(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token) 
-	{
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || !payload.getId().equals("1"))
-		{
-			status = Status.UNAUTHORIZED;
-		} 
-		
-		else 
-		{
-			//TODO Method body here.
-		}
-		
-		return Response.status(204).build();
-	}
-
-	@Path("/{interviewid}/flagAlert")
-	@ApiOperation(value = "updates interview flag", notes = " Flags a specific interview based on id.")
-	@PUT
-	public Response updateFlageAlert(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token) 
-	{
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || !payload.getId().equals("1"))
-		{
-			status = Status.UNAUTHORIZED;
-		} 
-		
-		else 
-		{
-			//TODO Method body here.
-		}
-		
-		return Response.status(204).build();
-	}
-
-	@Path("/{interviewid}/flagReason")
-	@ApiOperation(value = "updates interview flag", notes = " Updates the reason for why the interview is flagged.")
-	@PUT
-	public Response updateFlageReason(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token) 
-	{
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || !payload.getId().equals("1"))
-		{
-			status = Status.UNAUTHORIZED;
-		} 
-		
-		else 
-		{
-			//TODO Method body here.
-		}
-		
-		return Response.status(204).build();
-	}
-
-	@Path("/{interviewid}/dateAssociateIssue")
-	@ApiOperation(value = "updates interview date", notes = " Updates when an interview is issued by the associate.")
-	@PUT
-	public Response updateDateAssociateIssue(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token) 
-	{
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || !payload.getId().equals("1"))
-		{
-			status = Status.UNAUTHORIZED;
-		} 
-		
-		else 
-		{
-			//TODO Method body here.
+			InterviewDaoHibernate hd = new InterviewDaoHibernate();
+			TfInterview changeInterview = new TfInterview();
+			changeInterview.setTfAssociateFeedback(null);
+			changeInterview.setTfClient(null);
+			changeInterview.setTfDateAssociateIssued(null);
+			changeInterview.setTfDateSalesIssued(null);
+			changeInterview.setTfEndClient(null);
+			changeInterview.setTfFlagReason(null);
+			changeInterview.setTfInterviewDate(null);
+			changeInterview.setTfInterviewType(null);
+			changeInterview.setTfJobDescription(null);
+			hd.updateInterview(changeInterview);
+			status = Status.ACCEPTED;
 		}
 		
 		return Response.status(204).build();

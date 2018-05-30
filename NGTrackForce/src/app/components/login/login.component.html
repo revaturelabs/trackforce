@@ -25,9 +25,9 @@
 			</div>
 			<ng-template #elseBlockOne>
 				<label for="username" class="sr-only">First Name: </label>
-				<input [@slideInFadeOut] class="form-control" type="text" placeholder="First Name:" name="fname" id="fname" required class="form-control input-lg" [(ngModel)]="fname"/>
+				<input [@enterAnimation] class="form-control" type="text" placeholder="First Name:" name="fname" id="fname" required class="form-control input-lg" [(ngModel)]="fname"/>
 				<label for="password" class="sr-only">Last Name: </label>
-				<input [@slideInFadeOut] class="form-control" type="text" placeholder="Last Name:" name="lname" id="lname" required [(ngModel)]="lname"/>
+				<input [@enterAnimation] class="form-control" type="text" placeholder="Last Name:" name="lname" id="lname" required [(ngModel)]="lname"/>
 			</ng-template>
 			<div *ngIf='!this.isRegistering; else elseBlockZero'>
 				<button [@enterAnimation] class="btn btn-lg btn-primary btn-block" [@enterAnimation] type="submit" (click)='login()'>Sign in</button>
@@ -40,8 +40,8 @@
 				  <button [@enterAnimation] class="btn btn-lg btn-primary btn-block" type="submit" (click)='next()'>Next Page</button>
 			  </div>
 			  <ng-template #elseBlockTwo>
-				  <button [@slideInFadeOut] class="btn btn-lg btn-primary btn-block" type="submit" (click)='previous()'>Previous Page</button>
-				  <button [@slideInFadeOut] class="btn btn-lg btn-primary btn-block" type="submit" (click)='createUser()'>Register new user</button>
+				  <button [@enterAnimation] class="btn btn-lg btn-primary btn-block" type="submit" (click)='previous()'>Previous Page</button>
+				  <button [@enterAnimation] class="btn btn-lg btn-primary btn-block" type="submit" (click)='createUser()'>Register new user</button>
 			  </ng-template>
 			  <button [@enterAnimation] class="btn btn-lg btn-primary btn-block" type="button" (click)='cancelRegister()'>Cancel</button>
 		   </ng-template>

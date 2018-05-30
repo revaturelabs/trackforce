@@ -177,7 +177,7 @@ export class CreateUserPo {
     }
 
     /**
-     * Clicks the vp radio button elemeing in the DOM
+     * Clicks the trainer radio button elemeing in the DOM
      */
     clickTrainerRadio(){
         this.trainerRadio.click();

@@ -23,11 +23,11 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome'
   },
-  directConnect: true,
-  baseUrl: 'http://localhost:4200/',
-  // baseUrl: 'http://34.227.178.103:8090/NGTrackForce/',
+ // directConnect: true,
+  //baseUrl: 'http://localhost:4200/',
+ baseUrl: 'http://34.227.178.103:8090/NGTrackForce/',
  //for pipeline delpoyment
-  // seleniumAddress: "http://127.0.0.1:4444/wd/hub", 
+   seleniumAddress: "http://127.0.0.1:4444/wd/hub", 
   // SELENIUM_PROMISE_MANAGER: false,
   //
   framework: 'jasmine',

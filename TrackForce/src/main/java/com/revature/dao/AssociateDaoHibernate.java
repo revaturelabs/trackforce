@@ -227,5 +227,30 @@ public class AssociateDaoHibernate implements AssociateDao {
 		}
 		return setInfo;
 	}
+	
+	//need to check
+	@Override
+	public void updateAssociateVerification(int associateid) {
+		Transaction t = null;
+		Session session = HibernateUtil.getSession();
+		try {
+			t = session.beginTransaction();
+			TfAssociate tfAssociate = (TfAssociate) session.load(TfAssociate.class, associateid);
+			tfAssociate.setIsApproved(TfAssociate.APPROVED);
+			logger.debug(tfAssociate);
+			PersistentStorage.getStorage().updateAssociate(associateid);
+			session.saveOrUpdate(tfAssociate);
+			t.commit();
+		} catch(HibernateException e) {
+			if (t != null) {
+				t.rollback();
+			}
+			logger.error(e);
+		}
+		finally {
+			session.close();
+		}
+		
+	}
 
 }

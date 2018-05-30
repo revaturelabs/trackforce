@@ -161,4 +161,9 @@ public class AssociateService {
 	public void updateAssociate(AssociateFromClient afc) {
 		associateDao.updateAssociate(afc);
 	}
+	
+	public void updateAssociateVerification(int associateid) {
+		associateDao.updateAssociateVerification(associateid);
+	}
+	
 }

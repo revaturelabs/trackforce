@@ -10,7 +10,7 @@ describe('Testing associate list page further by changing search status.', funct
 
     it('Select mapped: reserved', function() {
         wd.findElement(by.xpath('//*[@id="mStatus"]/option[3]')).click();
-        wd.sleep(1000);
+        wd.sleep(500);
     });
 
     it('Verify mapped reserved selection', function() {
@@ -19,7 +19,7 @@ describe('Testing associate list page further by changing search status.', funct
 
     it('Select MAPPED: SELECTED', function() {
         wd.findElement(by.xpath('//*[@id="mStatus"]/option[4]')).click();
-        wd.sleep(1000);
+        wd.sleep(500);
     });
 
     it('Verify MAPPED: SELECTED selection', function() {
@@ -28,7 +28,7 @@ describe('Testing associate list page further by changing search status.', funct
 
     it('Select MAPPED: CONFIRMED', function() {
         wd.findElement(by.xpath('//*[@id="mStatus"]/option[5]')).click();
-        wd.sleep(1000);
+        wd.sleep(500);
     });
 
     it('Verify MAPPED: CONFIRMED selection', function() {
@@ -37,7 +37,7 @@ describe('Testing associate list page further by changing search status.', funct
 
     it('Select MAPPED: DEPLOYED', function() {
         wd.findElement(by.xpath('//*[@id="mStatus"]/option[6]')).click();
-        wd.sleep(1000);
+        wd.sleep(500);
     });
 
     it('Verify MAPPED: DEPLOYED selection', function() {
@@ -46,7 +46,7 @@ describe('Testing associate list page further by changing search status.', funct
 
     it('Select UNMAPPED: TRAINING', function() {
         wd.findElement(by.xpath('//*[@id="mStatus"]/option[7]')).click();
-        wd.sleep(1000);
+        wd.sleep(500);
     });
 
     it('Verify UNMAPPED: TRAINING selection', function() {
@@ -55,7 +55,7 @@ describe('Testing associate list page further by changing search status.', funct
 
     it('Select UNMAPPED: OPEN', function() {
         wd.findElement(by.xpath('//*[@id="mStatus"]/option[8]')).click();
-        wd.sleep(1000);
+        wd.sleep(500);
     });
 
     it('Verify UNMAPPED: OPEN selection', function() {
@@ -64,7 +64,7 @@ describe('Testing associate list page further by changing search status.', funct
 
     it('Select UNMAPPED: SELECTED', function() {
         wd.findElement(by.xpath('//*[@id="mStatus"]/option[9]')).click();
-        wd.sleep(1000);
+        wd.sleep(500);
     });
 
     it('Verify UNMAPPED: SELECTED selection', function() {
@@ -73,7 +73,7 @@ describe('Testing associate list page further by changing search status.', funct
 
     it('Select UNMAPPED: CONFIRMED', function() {
         wd.findElement(by.xpath('//*[@id="mStatus"]/option[10]')).click();
-        wd.sleep(1000);
+        wd.sleep(500);
     });
 
     it('Verify UNMAPPED: CONFIRMED selection', function() {
@@ -82,7 +82,7 @@ describe('Testing associate list page further by changing search status.', funct
 
     it('Select UNMAPPED: DEPLOYED', function() {
         wd.findElement(by.xpath('//*[@id="mStatus"]/option[11]')).click();
-        wd.sleep(1000);
+        wd.sleep(500);
     });
 
     it('Verify UNMAPPED: DEPLOYED selection', function() {
@@ -91,7 +91,7 @@ describe('Testing associate list page further by changing search status.', funct
     
     it('Select default', function() {
         wd.findElement(by.xpath('//*[@id="mStatus"]/option[1]')).click();
-        wd.sleep(1000);
+        wd.sleep(500);
     });
 
     it('Verify default selection', function() {

@@ -13,8 +13,8 @@ describe('client-list page input and button fields', function() {
         clientList = new ClientListPo();
         testConfig = new TestConfig();
         baseURL = testConfig.getBaseURL();
-        testURL = 'client-list';
-        searchByClientName = 'clientSearch';
+        testURL = 'client-listing';
+        searchByClientName = 'FINRA';
     });
 
     it('should navigate to the client-list page', () => {

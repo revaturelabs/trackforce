@@ -23,10 +23,13 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome'
   },
-  directConnect: true,
+  //directConnect: true,
   baseUrl: 'http://localhost:4200/',
   //baseUrl: 'http://52.207.66.231:4200/',
- 
+ //for pipeline delpoyment
+  seleniumAddress: "http://127.0.0.1:4444/wd/hub", 
+  SELENIUM_PROMISE_MANAGER: false,
+  //
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,

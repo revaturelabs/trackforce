@@ -37,6 +37,7 @@ Feature: Batch List Scenarios
     Given The Batch List Tab is clicked
     And Batch List Tab loads
     When the From date is entered
+    And the submit button is clicked
     Then the From field should not contain default values
 
   @batchTag4
@@ -44,6 +45,7 @@ Feature: Batch List Scenarios
     Given The Batch List Tab is clicked
     And Batch List Tab loads
     When the To date is entered
+    And the submit button is clicked
     Then the To field should not contain default values
 
   @batchTag5

@@ -3,9 +3,12 @@ package com.revature.test.admin.cukes;
 import static org.testng.Assert.fail;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -17,6 +20,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import com.revature.test.admin.pom.BatchListTab;
+import com.revature.test.admin.pom.Login;
 import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
@@ -31,6 +35,16 @@ public class BatchListCukes {
 	private static String baseURL = TestConfig.getBaseURL(); //gets the website URL
 	public static Alert alert = null; //creates object to interact with alerts in order to cancel pop ups
 	private static WebDriver wd = ServiceHooks.driver;
+	private static Properties prop = new Properties();
+	static {
+		InputStream locProps = Login.class.getClassLoader()
+				.getResourceAsStream("tests.properties");
+		try {
+			prop.load(locProps);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@Given("^I am logged in$")
 	public static void I_am_logged_in() throws Throwable{
@@ -51,9 +65,10 @@ public class BatchListCukes {
 	@Given("^Batch List Tab loads$")
 	public static void batch_list_tab_loads() {
 		try {
+			String url = BatchListTab.getCurrentURL(wd);
 			Thread.sleep(500);
-			if (!(BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-listing")
-					|| BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-list"))) {
+			if (!(url.equals(TestConfig.getBaseURL() + "/batch-listing")
+					|| url.equals(TestConfig.getBaseURL() + "/batch-list"))) {
 				throw new PendingException();
 			}
 		}  catch (InterruptedException e) {
@@ -144,7 +159,6 @@ public class BatchListCukes {
 		}
 	}
 
-	
 	public static void enter_From_Date() {
 //		BatchListTab.fromDateField(wd).sendKeys("12");
 //		BatchListTab.fromDateField(wd).sendKeys("25");
@@ -263,7 +277,7 @@ public class BatchListCukes {
 	@When("^I click on a specific batch name$")
 	public static void i_click_on_a_specific_batch_name() throws Throwable {
 		try {
-			wd.findElement(By.linkText("1712 Dec11 Java")).click();
+			wd.findElement(By.linkText(prop.getProperty("batchTestBatchName"))).click();
 		} catch(Throwable e) {
 			fail("Failed to click on batch name");
 		}
@@ -274,14 +288,14 @@ public class BatchListCukes {
 	
 	@Then("^I should be taken to the appropriate details page$")
 	public static void i_should_be_taken_to_the_appropriate_details_page() throws Throwable {
-		if(!(wd.getCurrentUrl().contains("batch-details/49"))) {
+		if(!(wd.getCurrentUrl().contains(prop.getProperty("batchTestBatchUrl")))) {
 			throw new PendingException();
 		}
 	}
 	
 	@Given("^I am looking at batch details$")
 	public static void i_am_looking_at_batch_details() throws Throwable {
-		if(!(wd.getCurrentUrl().contains("batch-details/49"))) {
+		if(!(wd.getCurrentUrl().contains(prop.getProperty("batchTestBatchUrl")))) {
 			throw new PendingException();
 		}
 	}
@@ -289,18 +303,15 @@ public class BatchListCukes {
 	@When("^I click on an associate ID$")
 	public static void i_click_on_an_associate_ID() throws Throwable {
 		try {
-		wd.findElement(By.linkText("469")).click();
+		wd.findElement(By.linkText(prop.getProperty("batchTestAssociateId"))).click();
 		} catch(Throwable e) {
 			fail("Failed to click associate ID");
 		}
-//		if(!(wd.getCurrentUrl().contains("form-comp/69"))) {
-//			throw new PendingException();
-//		}
 	}
 
 	@Then("^I should be taken to the appropriate information page$")
 	public static void i_should_be_taken_to_the_appropriate_information_page() throws Throwable {
-		if(!(wd.getCurrentUrl().contains("form-comp/69"))) {
+		if(!(wd.getCurrentUrl().contains(prop.getProperty("batchTestAssociateUrl")))) {
 			throw new PendingException();
 		}
 	}
@@ -308,11 +319,15 @@ public class BatchListCukes {
 	//Enter values, click submit, ng-reflect-model changes when that happens
 	@Then("^the From field should not contain default values$")
 	public void the_From_field_should_not_contain_default_values() throws Throwable {
-	    
+	    if((BatchListTab.fromDateContents(wd)) == prop.getProperty("batchDefaultStartDate")) {
+	    	throw new PendingException();
+	    }
 	}
 
 	@Then("^the To field should not contain default values$")
 	public void the_To_field_should_not_contain_default_values() throws Throwable {
-
+	    if((BatchListTab.toDateContents(wd)) == prop.getProperty("batchDefaultEndDate")) {
+	    	throw new PendingException();
+	    }
 	}
 }

@@ -127,15 +127,27 @@ public class BatchListTab {
 
 	// finds the From date field using the id
 	public static WebElement fromDateField(WebDriver wd) {
-		return WaitToLoad.findDynamicElement(wd, By.xpath(prop.getProperty("batchFromDate")), 10);
+		return WaitToLoad.findDynamicElement(wd, By.id(prop.getProperty("batchFromDate")), 10);
 	}
 
 	// finds the To date field using the id
 	public static WebElement toDateField(WebDriver wd) {
-		return WaitToLoad.findDynamicElement(wd, By.xpath(prop.getProperty("batchToDate")), 10);
+		return WaitToLoad.findDynamicElement(wd, By.id(prop.getProperty("batchToDate")), 10);
 		
 	}
 
+	// finds the contents of the "from" box
+	public static String fromDateContents(WebDriver wd) {
+		WebElement fromDate = fromDateField(wd);
+		return fromDate.getCssValue(prop.getProperty("batchDateContents"));
+	}
+
+	// finds the contents of the "to" box
+	public static String toDateContents(WebDriver wd) {
+		WebElement toDate = toDateField(wd);
+		return toDate.getCssValue(prop.getProperty("batchDateContents"));
+	}
+	
 	// finds the submit button using the xpath
 	public static WebElement submitButton(WebDriver wd) {
 		return WaitToLoad.findDynamicElement(wd,

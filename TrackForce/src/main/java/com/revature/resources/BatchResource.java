@@ -38,7 +38,6 @@ import io.swagger.annotations.ApiOperation;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BatchResource {
-
 	private BatchesService service;
 
 	public BatchResource() {
@@ -46,18 +45,17 @@ public class BatchResource {
 	}
 
 	/**
-	 * @author Ian Buitrago Gets all batches, optionally filtered by start and end
-	 *         date query parameters For example, sending a GET request to
-	 *         /batches?start={date1}&end={date2} will return all batches with end
-	 *         dates between date 1 and date2
+	 * Gets all batches, optionally filtered by start and end date query parameters
+	 * For example, sending a GET request to /batches?start={date1}&end={date2} will
+	 * return all batches with end dates between date 1 and date2
 	 * 
+	 * @author Ian Buitrago
 	 * @return - Response with 200 status and a List<BatchInfo> in the response body
 	 */
 	@GET
 	@ApiOperation(value = "Returns all Batches", notes = "Returns a list of a list of all batches optionally filtered by start and end dates.")
-	public Response getAllBatches(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate
-			, @HeaderParam("Authorization") String token
-			) {
+	public Response getAllBatches(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
+			@HeaderParam("Authorization") String token) {
 		Status status = null;
 		Collection<BatchInfo> result = null;
 		Claims payload = JWTService.processToken(token);
@@ -88,8 +86,8 @@ public class BatchResource {
 	 * @return set of batches matching curriculum
 	 */
 	@GET
-	@ApiOperation(value = "returns batches by curriculum", notes = "Returns a list of batches filtered by curriculum name.")
 	@Path("curriculum/{curriculum}")
+	@ApiOperation(value = "returns batches by curriculum", notes = "Returns a list of batches filtered by curriculum name.")
 	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum,
 			@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate,
 			@QueryParam("end") Long endDate) {
@@ -142,9 +140,7 @@ public class BatchResource {
 
 		if (payload == null || payload.getId().equals("5")) {
 			status = Status.UNAUTHORIZED;
-		}
-
-		else {
+		} else {
 			batch = service.getBatchById(id);
 		}
 
@@ -166,6 +162,9 @@ public class BatchResource {
 		}
 	}
 
+	/**
+	 * @author Ian Buitrago
+	 */
 	// dummy test method: returns ["Yuvi1804", 25],["wills batch", 14] every time
 	@GET
 	@Path("/adam")

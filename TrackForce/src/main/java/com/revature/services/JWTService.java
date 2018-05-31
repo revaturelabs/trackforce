@@ -43,12 +43,13 @@ public class JWTService {
 	private SessionFactory sessionFactory;
 	private UserDAO userDao;
 
-    /**
-     *
-     * injectable dependencies for easier testing
-     * @param userDao
-     * @param sessionFactory
-     */
+	/**
+	 *
+	 * injectable dependencies for easier testing
+	 * 
+	 * @param userDao
+	 * @param sessionFactory
+	 */
 	public JWTService(UserDAO userDao, SessionFactory sessionFactory) {
 		this.userDao = userDao;
 		this.sessionFactory = sessionFactory;
@@ -56,7 +57,7 @@ public class JWTService {
 
 	public JWTService() {
 		this.sessionFactory = HibernateUtil.getSessionFactory();
-        this.userDao = new UserDaoImpl();
+		this.userDao = new UserDaoImpl();
 	}
 
 	/**
@@ -68,68 +69,15 @@ public class JWTService {
 	 * @return the token
 	 */
 	public String createToken(String username, int tfroleid) {
-
 		SignatureAlgorithm signAlgorithm = SignatureAlgorithm.HS256;
 		Key key = new SecretKeySpec(getSecret(), signAlgorithm.getJcaName());
 
-		JwtBuilder token = Jwts.builder().setSubject(username).setId("" + tfroleid).setExpiration(generateExpirationDate())
-				.signWith(signAlgorithm, key);
+		JwtBuilder token = Jwts.builder().setSubject(username).setId("" + tfroleid)
+				.setExpiration(generateExpirationDate()).signWith(signAlgorithm, key);
 
 		return token.compact();
 	}
-
-	/**
-	 * Creates the secret byte array needed for creating a SecretKeySpec
-	 * 
-	 * @return byte[]
-	 */
-	private static byte[] getSecret() {
-		String base64Key = DatatypeConverter.printBase64Binary(SECRET_KEY.getBytes());
-
-		return DatatypeConverter.parseBase64Binary(base64Key);
-	}
-
-	/**
-	 * Creates the expiration date for the JWT
-	 * 
-	 * @return expiration Date object
-	 */
-	private Date generateExpirationDate() {
-		return new Date(System.currentTimeMillis() + EXPIRATION * 1000);
-	}
-
-	/**
-	 * Check to see if token is expired
-	 * 
-	 * @param token
-	 * 
-	 * @return true if token is expired, otherwise false
-	 */
-	private Boolean isTokenExpired(String token) {
-		final Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(new Date());
-	}
-
-	/**
-	 * Extracts the expiration date from the token
-	 * 
-	 * @param token
-	 * 
-	 * @return the Date if it exists, otherwise null
-	 */
-	public Date getExpirationDateFromToken(String token) {
-		Date expiration = null;
-		try {
-			final Claims claims = getClaimsFromToken(token);
-			if (claims != null) {
-				expiration = claims.getExpiration();
-			}
-		} catch (Exception e) {
-			logger.error(e);
-		}
-		return expiration;
-	}
-
+	
 	/**
 	 * 
 	 * @param token
@@ -155,9 +103,30 @@ public class JWTService {
 
 		return payload;
 	}
+	/**
+	 * Extracts the expiration date from the token
+	 * 
+	 * @param token
+	 * 
+	 * @return the Date if it exists, otherwise null
+	 */
+	public Date getExpirationDateFromToken(String token) {
+		Date expiration = null;
+		try {
+			final Claims claims = getClaimsFromToken(token);
+			if (claims != null) {
+				expiration = claims.getExpiration();
+			}
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		return expiration;
+	}
 
-	/**DEPRECIATED
-	 * Gets the claims object from the token Needed verification purposes
+
+	/**
+	 * DEPRECIATED Gets the claims object from the token Needed verification
+	 * purposes
 	 * 
 	 * @param token
 	 * 
@@ -201,7 +170,7 @@ public class JWTService {
 					tokenUsername = claims.getSubject();
 				}
 				if (tokenUsername != null) {
-					tfUser = userDao.getUser(tokenUsername);	
+					tfUser = userDao.getUser(tokenUsername);
 				}
 				if (tfUser != null) {
 					// makes sure the token is fresh and usernames are equal
@@ -216,8 +185,7 @@ public class JWTService {
 			logger.error(e);
 			session.flush();
 			tx.rollback();
-		}
-		finally {
+		} finally {
 			session.close();
 		}
 		return verified;
@@ -349,4 +317,37 @@ public class JWTService {
 
 		return key;
 	}
+
+	/**
+	 * Creates the secret byte array needed for creating a SecretKeySpec
+	 * 
+	 * @return byte[]
+	 */
+	private static byte[] getSecret() {
+		String base64Key = DatatypeConverter.printBase64Binary(SECRET_KEY.getBytes());
+
+		return DatatypeConverter.parseBase64Binary(base64Key);
+	}
+
+	/**
+	 * Creates the expiration date for the JWT
+	 * 
+	 * @return expiration Date object
+	 */
+	private Date generateExpirationDate() {
+		return new Date(System.currentTimeMillis() + EXPIRATION * 1000);
+	}
+
+	/**
+	 * Check to see if token is expired
+	 * 
+	 * @param token
+	 * 
+	 * @return true if token is expired, otherwise false
+	 */
+	private Boolean isTokenExpired(String token) {
+		final Date expiration = getExpirationDateFromToken(token);
+		return expiration.before(new Date());
+	}
+
 }

@@ -17,67 +17,63 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.PasswordStorage;
 
 public class UserDaoImpl implements UserDAO {
-	
 
-    public TfUser getUser(String username) {
-        TfUser user = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        try {
-        	CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
-            Root<TfUser> root = criteriaQuery.from(TfUser.class);
-            criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
-            Query<TfUser> query = session.createQuery(criteriaQuery);
-            user = query.getSingleResult();
-        } catch(Exception e) {
-        	logger.error(e);
-        }
-        finally {
-            session.close();
-        }
-        return user;
-    }
-    
-    public boolean createUser(CreateUserModel newUser) {
-        String password;
-        Transaction t1 = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        try {
-        	t1 = session.beginTransaction();
-            password = PasswordStorage.createHash(newUser.getPassword());
-            TfUser user = new TfUser(newUser.getRole(), newUser.getUsername(), password);
-            session.save(user);
-            return true;
-        } catch (NullPointerException e) {
-        	if (t1 != null) {
+	public TfUser getUser(String username) {
+		TfUser user = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<TfUser> criteriaQuery = builder.createQuery(TfUser.class);
+			Root<TfUser> root = criteriaQuery.from(TfUser.class);
+			criteriaQuery.select(root).where(builder.equal(root.get("tfUserUsername"), username));
+			Query<TfUser> query = session.createQuery(criteriaQuery);
+			user = query.getSingleResult();
+		} catch (Exception e) {
+			logger.error(e);
+		} finally {
+			session.close();
+		}
+		return user;
+	}
+
+	public boolean createUser(CreateUserModel newUser) {
+		String password;
+		Transaction t1 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			t1 = session.beginTransaction();
+			password = PasswordStorage.createHash(newUser.getPassword());
+			TfUser user = new TfUser(newUser.getRole(), newUser.getUsername(), password);
+			session.save(user);
+			return true;
+		} catch (NullPointerException e) {
+			if (t1 != null) {
 				t1.rollback();
 			}
-        	logger.error(e);
-        } catch (Exception e) {
-        	if (t1 != null) {
+			logger.error(e);
+		} catch (Exception e) {
+			if (t1 != null) {
 				t1.rollback();
 			}
-        	logger.error(e);        	
-        }
-        finally {
-            session.close();
-        }
-        return false;
-    }
+			logger.error(e);
+		} finally {
+			session.close();
+		}
+		return false;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<TfUser> getAllUsers() {
 		List<TfUser> user = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        try {
-        	return session.createQuery("from com.revature.entity.TfUser").list();
-        } catch(Exception e) {
-        	logger.error(e);
-        }
-        finally {
-            session.close();
-        }
-        return user;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			return session.createQuery("from com.revature.entity.TfUser").list();
+		} catch (Exception e) {
+			logger.error(e);
+		} finally {
+			session.close();
+		}
+		return user;
 	}
 }

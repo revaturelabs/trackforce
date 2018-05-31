@@ -25,15 +25,10 @@ export class PredictionsComponent implements OnInit {
   public batches: Batch[];
   public batchNumberAssociates: number[];
 
-
   constructor(private ss: SkillsetService, private ps: PredictionService) { }
 
   ngOnInit() {
     this.getListofCurricula();
-
-
-
-
   }
 
   toggleCheckboxes() {
@@ -124,11 +119,11 @@ export class PredictionsComponent implements OnInit {
         },
         err => {
           console.log(err);
+          this.message = "There was a problem fetching the requested data!";
         }
       );
     }
   }
-
 
   getDetails(s, e, event) {
     if (s != null) {

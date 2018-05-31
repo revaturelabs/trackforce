@@ -5,9 +5,13 @@ import { EndClient } from './end-client.model';
 export class Interview {
    id: number;
    associate: Associate;
-   endClient: EndClient;
+   client: EndClient;
    typeId: number;
-   typeName: string;
-   interviewDate: Date;
-   interviewFeedback: string;
+   type: string;
+   DInterview: Date;
+   AFeedback: string;
+   CFeedBack: string;
+   date: Date;
+   JDescription: string;
+   Flag: boolean;
 }

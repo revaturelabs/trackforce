@@ -73,10 +73,7 @@ export class FormComponent implements OnInit {
 
     ngOnInit() {
         this.user = this.authService.getUser();
-
 		this.isVerified = this.user.verified;
-
-
         //Role checks
         if(this.user.tfRoleId === 3){
           this.isVP = true;

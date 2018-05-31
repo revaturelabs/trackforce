@@ -18,12 +18,16 @@ import javax.persistence.Table;
 @Table(name = "TF_CURRICULUM", schema = "ADMIN")
 public class TfCurriculum implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8213885869880424792L;
+	
+	@Id
+	@Column(name = "TF_CURRICULUM_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer tfCurriculumId;
+	
+	@Column(name = "TF_CURRICULUM_NAME", length = 30)
 	private String tfCurriculumName;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfCurriculum")
 	private Set<TfBatch> tfBatches = new HashSet<TfBatch>(0);
 
 	public TfCurriculum() {
@@ -32,15 +36,14 @@ public class TfCurriculum implements java.io.Serializable {
 	public TfCurriculum(Integer tfCurriculumId) {
 		this.tfCurriculumId = tfCurriculumId;
 	}
-
+	
 	public TfCurriculum(Integer tfCurriculumId, String tfCurriculumName, Set<TfBatch> tfBatches) {
 		this.tfCurriculumId = tfCurriculumId;
 		this.tfCurriculumName = tfCurriculumName;
 		this.tfBatches = tfBatches;
 	}
 
-	@Id
-	@Column(name = "TF_CURRICULUM_ID", unique = true, nullable = false, precision = 22, scale = 0)
+	
 	public Integer getTfCurriculumId() {
 		return this.tfCurriculumId;
 	}
@@ -49,7 +52,7 @@ public class TfCurriculum implements java.io.Serializable {
 		this.tfCurriculumId = tfCurriculumId;
 	}
 
-	@Column(name = "TF_CURRICULUM_NAME", length = 30)
+	
 	public String getTfCurriculumName() {
 		return this.tfCurriculumName;
 	}
@@ -58,7 +61,7 @@ public class TfCurriculum implements java.io.Serializable {
 		this.tfCurriculumName = tfCurriculumName;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfCurriculum")
+	
 	public Set<TfBatch> getTfBatches() {
 		return this.tfBatches;
 	}

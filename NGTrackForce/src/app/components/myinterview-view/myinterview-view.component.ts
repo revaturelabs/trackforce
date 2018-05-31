@@ -4,6 +4,7 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../services/client-service/client.service';
+
 import { Interview } from '../../models/interview.model';
 import { InterviewService } from '../../services/interview-service/interview.service';
 
@@ -21,8 +22,9 @@ import { InterviewService } from '../../services/interview-service/interview.ser
 })
 @AutoUnsubscribe
 export class MyInterviewComponent implements OnInit {
+
   public interviews: Array<any> = [];
-  
+
  
   public associate: Associate = new Associate();
   public id:number = 0;
@@ -76,6 +78,9 @@ export class MyInterviewComponent implements OnInit {
     )
 
   }
+  
+  updateInterview(){
+  }
 
   getInterviews(id: number) {
     this.associateService.getInterviewsForAssociate(id).subscribe(
@@ -87,12 +92,13 @@ export class MyInterviewComponent implements OnInit {
           let intObj = {
             id: interview.id,
             client: interview.tfClientName,
-           date: new Date(interview.tfInterviewDate),
+           DInterview : new Date(interview.tfInterviewDate),
            type: interview.typeName,
-            Afeedback: interview.tfInterviewFeedback,  
+            AFeedback: interview.tfInterviewFeedback,  
             JDescription: "Testing company applications in an agile environment",
-            DInterview: "June 22, 2018",
+            date: "June 22, 2018",
             CFeedback: "Impressive interview, final decision will be made soon",    
+          	Flag: true,
           }
           console.log(intObj.date)
           tempArr.push(intObj);
@@ -107,9 +113,9 @@ export class MyInterviewComponent implements OnInit {
 
   /* Function to search for conflicting interviews */
   highlightInterviewConflicts(interview: number) {
-    var checkDate = this.interviews[interview].date;
+    var checkDate = this.interviews[interview].DInterview;
     for (var i = 0; i < this.interviews.length; i++) {
-      if (this.interviews[i].date === checkDate && i != interview) {
+      if (this.interviews[i].DInterview === checkDate && i != interview) {
         this.conflictingInterviews = "The highlighted interviews are conflicting." +
           "They are both scheduled at the same time!";
         return true;

@@ -11,7 +11,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -27,7 +27,7 @@ import com.revature.utils.PersistentStorage;
  * batch information from the database.
  */
 public class BatchDaoHibernate implements BatchDao {
-	static final Logger logger = Logger.getLogger(BatchDaoHibernate.class);
+	
 
 	/**
 	 * Get a batch from the database given its name.
@@ -39,7 +39,8 @@ public class BatchDaoHibernate implements BatchDao {
 	public TfBatch getBatch(String batchName) {
 		
 		TfBatch batch = null;
-		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<TfBatch> criteriaQuery = builder.createQuery(TfBatch.class);
 			Root<TfBatch> root = criteriaQuery.from(TfBatch.class);
@@ -49,6 +50,9 @@ public class BatchDaoHibernate implements BatchDao {
 			return batch;
 		} catch (NoResultException nre) {
 			logger.error(nre);
+		}
+		finally {
+			session.close();
 		}
 		return batch;
 	}
@@ -60,11 +64,15 @@ public class BatchDaoHibernate implements BatchDao {
 			return batch;
 		else {
 			TfBatch tfBatch = null;
-			try(Session s = HibernateUtil.getSession()) {
-				tfBatch = s.get(TfBatch.class, id);
+			Session session = HibernateUtil.getSession();
+			try {
+				tfBatch = session.get(TfBatch.class, id);
 				return Dao2DoMapper.map(tfBatch);
 			} catch (NoResultException e) {
 				logger.error(e);
+			}
+			finally {
+				session.close();
 			}
 		}
 		return null;

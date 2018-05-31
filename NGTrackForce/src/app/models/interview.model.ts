@@ -5,8 +5,9 @@ import { EndClient } from './end-client.model';
 export class Interview {
    id: number;
    associate: Associate;
-   endClient: EndClient;
+   client: EndClient;
    typeId: number;
+
    typeName: string;
    dateNotified: Date;
    dateOfInterview: Date;
@@ -14,5 +15,6 @@ export class Interview {
    associateFeedback: string;
    clientFeedback: string;
    questions: string;
+
 
 }

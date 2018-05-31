@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 
 import com.revature.entity.TfMarketingStatus;
 
 public class ClientInfo  implements Serializable, Comparable<ClientInfo> {
-	static final Logger logger = Logger.getLogger(ClientInfo.class);
+	
 
 	private static final long serialVersionUID = 1718849365915804177L;
 	private Integer id;

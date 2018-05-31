@@ -7,11 +7,14 @@ export class Interview {
    associate: Associate;
    client: EndClient;
    typeId: number;
-   type: string;
-   DInterview: Date;
-   AFeedback: string;
-   CFeedBack: string;
-   date: Date;
-   JDescription: string;
-   Flag: boolean;
+
+   typeName: string;
+   dateNotified: Date;
+   dateOfInterview: Date;
+   jobDescription: string;
+   associateFeedback: string;
+   clientFeedback: string;
+   questions: string;
+
+
 }

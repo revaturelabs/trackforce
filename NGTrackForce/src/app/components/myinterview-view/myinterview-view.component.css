@@ -29,3 +29,7 @@ thead, tbody {
 .id {
 	text-decoration: underline;
 }
+
+.fa{
+  display: inline;
+}

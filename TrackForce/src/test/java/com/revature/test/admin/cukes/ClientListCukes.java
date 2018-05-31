@@ -42,7 +42,6 @@ public class ClientListCukes extends AdminSuite {
 					ClientListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/client-list")) {
 				
 			}
-			System.out.println("Current URL does not end with /client-listing or /client-list");
 			
 		} catch (Throwable e) {
 			fail("Failed to get current URL");
@@ -74,7 +73,6 @@ public class ClientListCukes extends AdminSuite {
 			if (ClientListTab.getClientSearchBar(d).getAttribute("value").equals("")) {
 				
 			}
-			System.out.println("Search bar still isn't blank");
 			
 		} catch (Throwable e) {
 			fail("Failed to clear search bar");
@@ -93,7 +91,6 @@ public class ClientListCukes extends AdminSuite {
 			if (ClientListTab.getClientSearchBar(d).getAttribute("value").equals(currentClient)){
 				
 			}
-			System.out.println("Search bar value does not equal the second client name from the list");
 			
 		} catch (Throwable e) {
 			fail("Failed to type name of client into search bar");
@@ -113,7 +110,6 @@ public class ClientListCukes extends AdminSuite {
 			if (ClientListTab.getClientSearchBar(d).getAttribute("value").equals(currentClient)){
 				
 			}
-			System.out.println("Search bar value does not equal the first client name from the list");
 			
 		} catch (Throwable e) {
 			fail("Failed to enter another client name into search bar");
@@ -129,7 +125,6 @@ public class ClientListCukes extends AdminSuite {
 			if (ClientListTab.getClientNameFromList(d, 1).getText().equals(currentClient)) {
 				
 			}
-			System.out.println("The currently searched/viewed client name from the list did not appear at the top of the search results");
 			
 		} catch (Throwable e) {
 			fail("Failed to get the client's name at the top of the search results");
@@ -163,7 +158,6 @@ public class ClientListCukes extends AdminSuite {
 			else if (("A1 KAISER, Inc").equals(currentClient)){
 				
 			}
-			System.out.println("Graph is not displaying the selected client's data");
 			
 		} catch (Throwable e) {
 			fail("Failed to read the header above the graph");
@@ -191,7 +185,6 @@ public class ClientListCukes extends AdminSuite {
 					ClientListTab.getBarChartHeader(d).getText().equals("")) {
 				
 			}
-			System.out.println("Graph is not displaying all clients' data");
 			
 		} catch (Throwable e) {
 			fail("Failed to read the header above the graph");

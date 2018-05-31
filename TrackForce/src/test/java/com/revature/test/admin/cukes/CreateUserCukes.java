@@ -1,5 +1,6 @@
 package com.revature.test.admin.cukes;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
 import org.openqa.selenium.Alert;
@@ -40,10 +41,7 @@ public class CreateUserCukes extends AdminSuite {
 	public static void loadedCreateUserTab() {
 		try {
 			Thread.sleep(500);
-			if (CreateUserTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/create-user")) {
-				
-			}
-			System.out.println("Current URL does not end with /create-user");
+			assertEquals(CreateUserTab.getCurrentURL(d),TestConfig.getBaseURL()+"/create-user");
 			
 		} catch (Throwable e) {
 			System.out.println("Failed to get current URL");

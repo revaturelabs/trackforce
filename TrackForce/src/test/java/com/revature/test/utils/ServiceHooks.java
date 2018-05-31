@@ -13,51 +13,59 @@ public class ServiceHooks {
 	
 	@Before("@HomeTagTest1")
 	public void initializeHomeTabTests(){
+		if(driver==null) {
 		System.out.println("Initializing HomeTab Tests");
 		driver = WebDriverUtil.getChromeDriver();
 		driver.get(TestConfig.getBaseURL());
 		LoginUtil.loginAsAdmin(driver);
+		}
 	}
 	@After("@HomeTagTest6")
 	public void closeHomeTagTests(){
-		driver.quit();
+		//driver.close();
 	}
 	
 	@Before("@ClientListStart")
 	public void initializeClientListTests(){
-		System.out.println("Initializing HomeTab Tests");
-		driver = WebDriverUtil.getChromeDriver();
-		driver.get(TestConfig.getBaseURL());
-		LoginUtil.loginAsAdmin(driver);
+		if(driver==null) {
+			System.out.println("Initializing HomeTab Tests");
+			driver = WebDriverUtil.getChromeDriver();
+			driver.get(TestConfig.getBaseURL());
+			LoginUtil.loginAsAdmin(driver);
+			}
 	}
 	
 	@After("@ClientListEnd")
 	public void closeClientListTests(){
-		driver.quit();
+		//driver.close();
 	}
 	
 	@Before("@AssociateListStart")
 	public void initializeAssociateTabTests(){
-		System.out.println("Initializing HomeTab Tests");
-		driver = WebDriverUtil.getChromeDriver();
-		driver.get(TestConfig.getBaseURL());
-		LoginUtil.loginAsAdmin(driver);
+		if(driver==null) {
+			System.out.println("Initializing HomeTab Tests");
+			driver = WebDriverUtil.getChromeDriver();
+			driver.get(TestConfig.getBaseURL());
+			LoginUtil.loginAsAdmin(driver);
+			}
 	}
 	
 	@After("@AssociateListEnd")
 	public void closeAssociateListTests(){
-		driver.quit();
+		//driver.close();
 	}
 	
 	@Before("@CreateNewAdmin")
 	public void initializeCreateUserTabTests(){
-		System.out.println("Initializing CreateUser Tests");
-		driver = WebDriverUtil.getChromeDriver();
-		driver.get(TestConfig.getBaseURL());
-		LoginUtil.loginAsAdmin(driver);
+		if(driver==null) {
+			System.out.println("Initializing HomeTab Tests");
+			driver = WebDriverUtil.getChromeDriver();
+			driver.get(TestConfig.getBaseURL());
+			LoginUtil.loginAsAdmin(driver);
+			}
 	}
 	@After("@CreateNewVP")
 	public void closeCreateUserTagTests(){
-		driver.quit();
+		//driver.close();
 	}
 }

@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
   public errMsg: any;
   public sucMsg: string;
   public isRegistering = false;
+  public associate:any;
   public registerPage : number = 0;
   /**
   *@constructor

@@ -127,6 +127,10 @@ export class PredictionsComponent implements OnInit {
         }
       );
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> test-new-angular
   }
 
 

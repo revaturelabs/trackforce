@@ -1,20 +1,17 @@
 describe('Open the browser and get to the website', function() {
-    browser.ignoreSynchronization = true;
     wd = browser.driver;
-    browser.waitForAngularEnabled(false);
-    wd.get('http://localhost:4200/login');
+    wd.get('http://34.227.178.103:8090/NGTrackForce/login');
 
 });
 
 describe('Log into the website for associate list', function() {
     browser.manage().timeouts().implicitlyWait(50000);
-    browser.ignoreSynchronization = true;
     it('should be able to log in', function () {
         wd.findElement(by.id('username')).sendKeys('TestAssociate');
 	    wd.findElement(by.id('password')).sendKeys('TestAssociate');
         wd.findElement(by.xpath("//button[@type='submit']")).click();
         expect(wd.getTitle()).toEqual('TrackForce');
-        wd.sleep(3000);
+        wd.sleep(1000);
     });
 
 });
@@ -22,7 +19,7 @@ describe('Log into the website for associate list', function() {
 describe('Head over to the My interviews page and do something', function() {
     it('should click the Myvinterviews button', function() {
         wd.findElement(by.xpath('/html/body/app/app-associate-view/app-navbar/nav/div/ul[1]/li[2]/a')).click();
-        expect(wd.findElement(by.xpath('/html/body/app/app-myinterview-view/div/div/div/h3')).getText()).toEqual('Interviews');
+        expect(wd.findElement(by.xpath('/html/body/app/app-myinterview-view/div/div/div/h3')).getText()).toEqual('My Interviews');
     });
 
     it('should toggle the create new form button', function() {

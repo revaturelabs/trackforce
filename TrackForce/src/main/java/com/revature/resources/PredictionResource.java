@@ -11,9 +11,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import com.revature.services.PredictionService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 //import com.revature.services.BatchTechsService;
 
 @Path("prediction")
+@Api(value = "prediction")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class PredictionResource {
@@ -29,6 +33,7 @@ public class PredictionResource {
 
     @Path("/{time1}/{time2}")
     @GET
+    @ApiOperation(value = "Gets batch prediction", notes = "Gets all availiable associates by a certain tech in a certain timeframe.")
     public Response getBatchTechInfoName(
     		@PathParam("time1") long time1,
     		@PathParam("time2") long time2

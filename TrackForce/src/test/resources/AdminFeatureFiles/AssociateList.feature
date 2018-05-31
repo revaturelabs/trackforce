@@ -18,51 +18,51 @@
 #Sample Feature Definition Template
 
 
-Feature: Title of your feature
+Feature: Associate Cucumber Tests
   I want to use this template for my feature file
   
   Background: Logged in as VP and on the Associate List Page.
-    
+    @AssociateListStart
     Scenario: Filter by searching client
-    Given I'm on the the associate list page
+    Given I'm on the associate list page
     And I know the clients
     When I input the client name in the search by input field
     Then The table is filtered by that client
     
     Scenario: Filter by searching associate id
-    Given I'm on the the associate list page
-    And I know associates ids
+    Given I'm on the associate list page
+    And I know the associates ids
     When I input the associate id in the search by input field
     Then The table is filtered by that associate id
     
     Scenario: Filter by searching first name
-    Given I'm on the the associate list page
+    Given I'm on the associate list page
     And I know associates first name
     When I input the associate first name in the search by input field
     Then The table is filtered by that first name
     
     Scenario: Filter by searching last name
-    Given I'm on the the associate list page
+    Given I'm on the associate list page
     And I know associates last name
     When I input the associate last name in the search by input field
     Then The table is filtered by that last name
     
     Scenario: Filter by searching marketing status
-    Given I'm on the the associate list page
+    Given I'm on the associate list page
     And I know associates marketing status
     When I input the associate marketing status in the search by input field
     Then The table is filtered by that marketing status
     
     Scenario: Filter by searching batch name
-    Given I'm on the the associate list page
+    Given I'm on the associate list page
     And I know associates batch name
     When I input the associate batch in the search by input field
     Then The table is filtered by that batch name
     
     Scenario: Filter by marketing Status
     Given I'm on the associate list page
-    When I select a marketing status value from the marketing status drop drown
-    Then the table is filtered by that marketing status
+    When I select a update by marketing status value from the update by marketing status drop down
+    Then The table is filtered by that marketing status
     
    Scenario: Filter by curriculum
    Given I'm on the associate list page
@@ -72,7 +72,7 @@ Feature: Title of your feature
     Scenario: Filter by client
     Given I'm on the associate list page
     When I select a client value from the client drop down
-    Then the table is filtered by that client
+    Then The table is filtered by that client
 
     Scenario: Edit associate status by marketing status and client
     Given I'm on the associate list page
@@ -88,7 +88,7 @@ Feature: Title of your feature
  		Then The associate table is sorted by the associate's id in ascending order
 
  		Scenario: Sort the associate table by associate id in descending order
- 		Given I'm on the asssociate list page
+ 		Given I'm on the associate list page
  		When I click the associate id heading on the associate table
  		Then The associate table is sorted by associate id in descending order
  		
@@ -141,9 +141,9 @@ Feature: Title of your feature
  		Given I'm on the associate list page
  		When I click the batch name heading on the associate table
  		Then The associate table is sorted by batch name in descending order
- 		
+ 		@AssociateListEnd
  		Scenario: Sort the associate table by batch name in descending order
  		Given I'm on the associate list page
- 		When I click the client dropdown menu
+ 		When I select a client value from the client drop down
  		Then The associate table shows all associates with the same client name
 	

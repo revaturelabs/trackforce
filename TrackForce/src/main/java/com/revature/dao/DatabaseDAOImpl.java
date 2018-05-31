@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import javax.persistence.StoredProcedureQuery;
 
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
-import com.revature.utils.LogUtil;
-
 public class DatabaseDAOImpl {
+	
 	public String deleteAll(Session session) throws HibernateException, IOException {
 		return runStoredProcedure("admin.truncateAllDevTeam", "Database Emptied Successfully", "Database Empty Error",
 				session);
@@ -34,7 +34,7 @@ public class DatabaseDAOImpl {
 			message = successMessage;
 			return message;
 		} catch (Exception e) {
-			LogUtil.logger.error(e);
+			logger.error(e);
 			message = errorMessage;
 			return message;
 		}

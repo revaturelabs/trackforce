@@ -1,25 +1,42 @@
 <app-navbar [associate]="associate"></app-navbar>
 <div class="container">
-  <div>
+  <div class = "card-deck mb-3 text-center">
      <div>
-      <h3>Interviews</h3>
+      <h3>My Interviews</h3>
+      <div class="alert alert-danger">
+        {{conflictingInterviews}}
+      </div>
       <table class="table table-responsive table-hover table-bordered">
         <thead>
           <tr>
             <th>Interview</th>
             <th>Client</th>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Feedback</th>
+            <th>Date Recieved</th>
+            <th>Medium</th>
+            <th>Associate Feedback</th>
+            <th>Flag</th>
+            <th>Info</th>
+            <th>Job Description</th>
+            <th>Date of Interview</th>
+            <th>Client FeedBack</th>   
+            <th>Flag Reason</th>
+             
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let interview of interviews; let i = index">
             <td>{{i+1}}</td>
             <td>{{interview.client}}</td>
-            <td>{{interview.date | date:'longDate'}}</td>
+            <td [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'red':''}">{{interview.date | date:'longDate'}}</td>
             <td>{{interview.type}}</td>
-            <td>{{interview.feedback}}</td>
+            <td>{{interview.Afeedback}}</td>
+            <td class="flag"><input type="checkbox" id="flag"></td>
+            <td><a [routerLink]="['/form-comp',associate.id]" class="id">info</a></td>
+            <td>{{interview.JDescription}}</td>
+            <td>{{interview.DInterview}}</td>
+            <td>{{interview.CFeedback}}</td>
+            <td>{{interview.FlagReason}}</td>
+            
           </tr>
         </tbody>
       </table>
@@ -39,7 +56,8 @@
             <div class="form-group">
               <label class="control-label col-sm-3">Date:</label>
                <div class="col-sm-9">
-                 <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" />
+                 <!-- <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" /> -->
+                 <input type="datetime-local" class="form-control" name="date" [(ngModel)]="newInterview.date" />
                </div>
             </div>
             <div class="form-group">
@@ -64,6 +82,6 @@
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 </div>
 <app-footer></app-footer>

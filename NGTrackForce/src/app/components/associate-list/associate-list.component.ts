@@ -30,6 +30,7 @@ export class AssociateListComponent implements OnInit {
   searchByClient: string = "";
   searchByText: string = "";
   searchByCurriculum: string = "";
+  searchByVerification: string = "";
 
   //status/client to be updated
   updateShow: boolean = false;
@@ -66,6 +67,7 @@ export class AssociateListComponent implements OnInit {
     }
     this.getAllAssociates(); //grab associates and clients from back end
     this.getClientNames();
+
     //if navigating to this page from clicking on a chart of a different page, set default filters
     let paramMap = this.activated.snapshot.paramMap;
     let CliOrCur = paramMap.get("CliOrCur");
@@ -138,7 +140,7 @@ export class AssociateListComponent implements OnInit {
   }
 
   /**
-   * Bulk edit feature to update associate's statuses and clients.
+   * Bulk edit feature to update associate's verification, statuses and clients.
    */
   updateAssociates() {
     var ids: number[] = [];

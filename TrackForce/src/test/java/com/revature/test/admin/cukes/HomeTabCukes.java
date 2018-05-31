@@ -119,6 +119,7 @@ public class HomeTabCukes extends AdminSuite {
 
 	@Then("^I should see the Revature website link open on a browser$")
 	public void i_should_see_the_Revature_website_link_open_on_a_browser()  {
+		try {
 		//get window handlers as list
 		List<String> browserTabs = new ArrayList<String> (d.getWindowHandles());
 		//switch to new tab
@@ -128,6 +129,9 @@ public class HomeTabCukes extends AdminSuite {
 		//then close tab and get back
 		d.close();
 		d.switchTo().window(browserTabs.get(0));
+		}catch(Throwable e) {
+			fail("I should see Revature Website link open");
+		}
 	}
 
 	
@@ -305,7 +309,6 @@ public class HomeTabCukes extends AdminSuite {
 	
 	@When("^I click on pie chart button$")
 	public static void I_click_on_pie_chart_button() {
-		System.out.println("Clicking pie chart button");
 		try {
 		WebElement element = WaitToLoad.findDynamicElement(d, By.xpath("//*[contains(text(),'Pie Chart')]"), 5);
 		element.click();

@@ -68,12 +68,11 @@ public class AssociateResource {
 	
 	@POST
 	@ApiOperation(value = "Creates associate", notes = "Creates an associate for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
-	public Response createInterview(AssociateUserModel associateModel) {
+	public Response createAssociate(AssociateUserModel associateModel) {
 		logger.info(associateModel);
 		Status status = null;
+
 		
-		service.addAssociate(associate);
-		service.addUser(user);
 		// does service actually work?
 		status = Status.CREATED;
 		

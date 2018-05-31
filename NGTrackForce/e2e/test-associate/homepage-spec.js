@@ -1,6 +1,7 @@
 describe('Open the browser and get to the website', function() {
     wd = browser.driver;
     wd.get('http://34.227.178.103:8090/NGTrackForce/login');
+    // wd.get('http://localhost:4200/login');
 
 });
 
@@ -11,7 +12,6 @@ describe('Log into the website for associate list', function() {
 	    wd.findElement(by.id('password')).sendKeys('TestAssociate');
         wd.findElement(by.xpath("//button[@type='submit']")).click();
         expect(wd.getTitle()).toEqual('TrackForce');
-        wd.sleep(1000);
     });
 
 });
@@ -24,7 +24,6 @@ describe('Head over to the My interviews page and do something', function() {
 
     it('should toggle the create new form button', function() {
         wd.findElement(by.xpath('/html/body/app/app-myinterview-view/div/div/div/button')).click();
-        wd.sleep(2000);
     });
 
     it('should select first client in list and verify', function() {
@@ -46,7 +45,6 @@ describe('Head over to the My interviews page and do something', function() {
     
     it('should toggle the form button again to close it', function() {
         wd.findElement(by.xpath('/html/body/app/app-myinterview-view/div/div/div/button')).click();
-        wd.sleep(2000);
     });
 
     it('should log out', function() {

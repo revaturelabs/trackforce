@@ -36,7 +36,8 @@ import com.revature.utils.PersistentStorage;
 public class AssociateDaoHibernate implements AssociateDao {
 	
 	private static AssociateDaoHibernate instance;
-
+//somthing
+// FOR ANDy
 	private AssociateDaoHibernate() {
 		logger.info("AssociateDao created.");
 	}

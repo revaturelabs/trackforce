@@ -116,7 +116,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 			Query q = session.createNativeQuery(sql);
 			BigDecimal max = (BigDecimal) q.getSingleResult();
 			Integer id = Integer.parseInt(max.toBigInteger().toString()) + 1;
-			tfi.setTfInterviewId(id);
+			//tfi.setTfInterviewId();
 			tfi.setTfAssociate(session.get(TfAssociate.class, associateid));
 
 			// tfi.setTfInterviewFeedback(ifc.getInterviewFeedback());

@@ -69,17 +69,18 @@ public class InterviewResource {
 		Set<InterviewInfo> interviews = null;
 		Claims payload = JWTService.processToken(token);
 
-//		if (payload == null || !payload.getId().equals("1")) 
-//		{
-//			status = Status.UNAUTHORIZED;
-//		} 
+		if (payload == null || !payload.getId().equals("1")) 
+		{
+			status = Status.UNAUTHORIZED;
+		} 
 		
-//		else 
-//		{
+		else 
+		{
 			interviews = is.getAllInterviews();
+			logger.info(interviews);
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
 			logger.info("inside get all interviews");
-//		}
+		}
 		
 		return Response.status(status).entity(interviews).build();
 	}
@@ -123,10 +124,13 @@ public class InterviewResource {
 	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
 	public Response createInterview(@PathParam("associateid") int associateid,
 			@HeaderParam("Authorization") String token, InterviewFromClient ifc) {
+		logger.info(ifc);
 		Status status = null;
+		logger.info(token);
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("5")) {
+		if (payload == null || !(payload.getId().equals("1") || payload.getId().equals("5"))) {
+			logger.info("inside unautherorized");
 			status = Status.UNAUTHORIZED;
 		} else {
 			is.addInterviewByAssociate(associateid, ifc);

@@ -64,6 +64,11 @@ export class PredictionsComponent implements OnInit {
     );
   }
 
+  /**
+     * Update the given associate's status/client
+     * @param s The start date of the period to be searched
+     * @param e The end date of the period to be searched
+     */
   getPrediction(s, e) {
     if (s != null) {
       this.startDate = s;
@@ -125,6 +130,13 @@ export class PredictionsComponent implements OnInit {
     }
   }
 
+  /**
+     * Update the given associate's status/client
+     * @param s The start date of the period to get the deatils of a technology
+     * @param e The end date of the period to to get the deatils of a technology
+     * @param event The event object created when the button was clicked to call
+     * the function. Contains the id of the button.
+     */
   getDetails(s, e, event) {
     if (s != null) {
       this.startDate = s;
@@ -135,12 +147,10 @@ export class PredictionsComponent implements OnInit {
 
     let startTime = new Date(this.startDate).getTime();
     let endTime = new Date(this.endDate).getTime();
-    //Access the id of the button that triggered the function, which should have the
-    //technology to be displayed
+    //Get id of the button that called the function, which should have the name of the technology.
     let tech: string = event.target.id;
 
     console.log(event.target.id);
-
     console.log(startTime);
 
     let test = this.ps.getBatchesByCurricula(startTime, endTime, tech).subscribe(data => {

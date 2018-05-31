@@ -21,7 +21,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.revature.model.BatchInfo;
-import com.revature.model.InterviewInfo;
 import com.revature.services.BatchesService;
 import com.revature.services.JWTService;
 
@@ -56,25 +55,31 @@ public class BatchResource {
 	@ApiOperation(value = "Returns all Batches", notes = "Returns a list of a list of all batches optionally filtered by start and end dates.")
 	public Response getAllBatches(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
 			@HeaderParam("Authorization") String token) {
-		Status status = null;
-		Collection<BatchInfo> result = null;
 		Claims payload = JWTService.processToken(token);
+		Set<BatchInfo> batches = service.getAllBatches();
+		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
 
-		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
-		} else {
-			if (startDate == null || endDate == null) {
-				logger.info("getAllBatches(): ");
-				result = service.getAllBatches();
-			} else {
-				logger.info("getAllBatches(start, end): ");
-				logger.info("	start = " + new Timestamp(startDate));
-				logger.info("	end = " + new Timestamp(endDate));
-				result = service.getBatches(startDate, endDate);
-			}
-			logger.info("	batches size: " + (result == null ? null : result.size()));
-			status = result == null || result.isEmpty() ? Status.NO_CONTENT : Status.OK;
-		}
+		logger.info("getallBatches()");
+		logger.info("	batches size: " + (batches == null ? null : batches.size()));
+		return Response.status(status).entity(batches).build();
+	}
+
+	/**
+	 * examples:
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param curriculum
+	 * @return
+	 */
+	public Response getAllBatches(@DefaultValue("1510549200000") @QueryParam("start") Long startDate,
+			@DefaultValue("1527480000000") @QueryParam("end") Long endDate
+	) {
+
+		logger.info("getAllBatches(): " + "");
+		List<BatchInfo> result = service.getBatches(startDate, endDate);
+
+		Status status = result == null || result.isEmpty() ? Status.NO_CONTENT : Status.OK;
 
 		return Response.status(status).entity(result).build();
 	}
@@ -150,16 +155,8 @@ public class BatchResource {
 	@GET
 	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
 	@Path("{id}/associates")
-	public Response getAssociatesForBatch(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
-			return Response.status(status).build();
-		} else {
-			return Response.ok(service.getAssociatesForBranch(id)).build();
-		}
+	public Response getAssociatesForBatch(@PathParam("id") Integer id) {
+		return Response.ok(service.getAssociatesForBranch(id)).build();
 	}
 
 	/**

@@ -24,7 +24,7 @@ public class UserService {
 
 	public UserService() {
 		userDao = new UserDaoImpl();
-		jwtService = new JWTService();
+		jwtService = new JWTService(); // throws SQLException???
 	}
 
 	/**

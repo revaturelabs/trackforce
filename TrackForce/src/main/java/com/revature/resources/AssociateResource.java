@@ -13,6 +13,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -27,9 +28,13 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.revature.dao.AssociateDaoHibernate;
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfUser;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.request.model.AssociateFromClient;
+import com.revature.request.model.AssociateUserModel;
+import com.revature.request.model.InterviewFromClient;
 import com.revature.services.AssociateService;
 import com.revature.services.JWTService;
 import com.revature.utils.HibernateUtil;
@@ -59,6 +64,19 @@ public class AssociateResource {
 	 * @throws IOException
 	 * @throws HibernateException
 	 */
+
+	@POST
+	@ApiOperation(value = "Creates associate", notes = "Creates an associate for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
+	public Response createAssociate(AssociateUserModel associateModel) {
+		logger.info(associateModel);
+		Status status = null;
+
+		// does service actually work?
+		status = Status.CREATED;
+
+		return Response.status(status).build();
+	}
+
 	@GET
 	@ApiOperation(value = "Return all associates", notes = "Gets a set of all the associates, optionally filtered by a batch id. If an associate has no marketing status or\r\n"
 			+ " curriculum, replaces them with blanks. If associate has no client, replaces\r\n"
@@ -161,30 +179,13 @@ public class AssociateResource {
 		return Response.ok(mappedStats).build();
 	}
 
-	// @GET
-	// @Path("unmapped/{statusId}")
-	// public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
-	// return Response.ok(service.getUnmappedInfo(statusId)).build();
-	// }
-	//
-	// @GET
-	// @Path("{associateid}/interviews")
-	// public Response getAssociateInterviews(@PathParam("associateid") Integer
-	// associateid) {
-	// Set<InterviewInfo> associateinfo =
-	// service.getInterviewsByAssociate(associateid);
-	// return Response.ok(associateinfo).build();
-	// }
-	//
-	// @POST
-	// @Path("{associateid}/interviews")
-	// public Response addAssociateInterview(@PathParam("associateid") Integer
-	// associateid, InterviewFromClient ifc) {
-	// InterviewService is = new InterviewService();
-	// is.addInterviewByAssociate(associateid, ifc);
-	// return Response.ok().build();
-	// }
+	@GET
+	@Path("unmapped/{statusId}")
+	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
+		return Response.ok(service.getUnmappedInfo(statusId)).build();
+	}
 
+	//
 	/**
 	 * Update the marketing status or client of an associate
 	 * 
@@ -292,8 +293,23 @@ public class AssociateResource {
 	// return new InterviewResource();
 	// }
 
-	// @ApiOperation(value = "adds an interview to associate", notes= "The method
-	// allows the associate to create an interview.")
+	/**
+	 * Updates the associate status to Approved
+	 * 
+	 * @param id
+	 *            The ID of the associate to Approve
+	 * @return response 200 status if successful
+	 * 
+	 */
+	@PUT
+	@ApiOperation(value = "updates associate verification", notes = "The method sets the verfication status to Approved of a given associate by their id.")
+	@Path("/{associateId}/verify")
+	public Response updateAssociateVerification(@PathParam("associateId") Integer id) {
+		service.updateAssociateVerification(id);
+		return Response.ok().build();
+	}
+
+	@ApiOperation(value = "returns all interviews for associate", notes = "Gets a list of all interviews for a specific associate.")
 	@Path("/{associateid}/interviews")
 	public InterviewResource addAssociateInterview() {
 		return new InterviewResource();

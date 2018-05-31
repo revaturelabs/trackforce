@@ -56,7 +56,7 @@ public class JWTService {
 	}
 
 	public JWTService() {
-		this.sessionFactory = HibernateUtil.getSessionFactory();
+		this.sessionFactory = HibernateUtil.getSessionFactory(); // throws SQLException???
 		this.userDao = new UserDaoImpl();
 	}
 

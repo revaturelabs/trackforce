@@ -8,6 +8,11 @@ export class Interview {
    endClient: EndClient;
    typeId: number;
    typeName: string;
-   interviewDate: Date;
-   interviewFeedback: string;
+   dateNotified: Date;
+   dateOfInterview: Date;
+   jobDescription: string;
+   associateFeedback: string;
+   clientFeedback: string;
+   questions: string;
+
 }

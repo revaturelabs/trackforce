@@ -4,6 +4,9 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../services/client-service/client.service';
+import { Interview } from '../../models/interview.model';
+import { InterviewService } from '../../services/interview-service/interview.service';
+
 
 /**
 *@author Katherine Obioha
@@ -19,12 +22,14 @@ import { ClientService } from '../../services/client-service/client.service';
 @AutoUnsubscribe
 export class MyInterviewComponent implements OnInit {
   public interviews: Array<any> = [];
+  
  
   public associate: Associate = new Associate();
   public id:number = 0;
   public newInterview: any = {
     client: null,
     date: null,
+    dateAssigned: null,
     type: null,
     feedback: null
   }
@@ -33,7 +38,12 @@ export class MyInterviewComponent implements OnInit {
 
   constructor(
     private associateService: AssociateService,
-    private activated: ActivatedRoute) { }
+    private activated: ActivatedRoute,
+    private interviewService: InterviewService
+
+  
+  
+  ) { }
 
   ngOnInit() {
     //gets the associate id from the path
@@ -70,6 +80,7 @@ export class MyInterviewComponent implements OnInit {
   getInterviews(id: number) {
     this.associateService.getInterviewsForAssociate(id).subscribe(
      data => {
+       console.log(data);
         let tempArr = [];
         for (let i=0;i<data.length;i++) {
           let interview = data[i];
@@ -83,6 +94,7 @@ export class MyInterviewComponent implements OnInit {
             DInterview: "June 22, 2018",
             CFeedback: "Impressive interview, final decision will be made soon",    
           }
+          console.log(intObj.date)
           tempArr.push(intObj);
         }
         this.interviews = tempArr;
@@ -115,4 +127,42 @@ export class MyInterviewComponent implements OnInit {
         console.log(err);
   });
   }
+
+
+showInputDate(interview,dateVal){
+  if(!interview.isEditingAvailable){
+    interview.isEditingAvailable=true;
+  } else {
+    if(dateVal){
+      interview.DInterview=dateVal;
+    }
+    interview.isEditingAvailable=false;
+  }
+  console.log(interview.isEditingAvailable)
+}
+
+showAvailableDate(interview,dateVal){
+  if(!interview.isDateAvailable){
+    interview.isDateAvailable=true;
+  } else {
+    if(dateVal)
+      interview.date = dateVal;
+    interview.isDateAvailable=false;
+  }
+  console.log(interview.isDateAvailable)
+}
+
+
+saveInterview(interview:Interview){
+
+
+
+}
+
+addInterviewRow(){
+
+}
+
+
+
 }

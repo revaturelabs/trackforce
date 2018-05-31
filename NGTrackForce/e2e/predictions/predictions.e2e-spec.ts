@@ -1,7 +1,6 @@
 import { PredictionsPage } from "./predictions.po";
 import { Navbar } from "../navbar/navbar.po";
 import { TestConfig } from "../configuration/test-config";
-import { AfterAll } from "cucumber";
 
 // Happy Path
 describe('Successfully input valid data into predictions filter', () => {

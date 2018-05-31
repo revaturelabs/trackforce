@@ -1,103 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="0" errors="0" failures="1" tests="41" time="39.764">
- <testsuite name="login page element existences" timestamp="2018-05-31T13:33:18" hostname="localhost" time="6.173" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+<testsuites disabled="0" errors="0" failures="0" tests="33" time="60.305">
+ <testsuite name="login page element existences" timestamp="2018-05-31T16:28:46" hostname="localhost" time="7.821" errors="0" tests="6" skipped="0" disabled="0" failures="0">
   <testcase classname="login page element existences" name="should have a username input box" time="0.016" />
-  <testcase classname="login page element existences" name="should have a password input box" time="0.009" />
-  <testcase classname="login page element existences" name="should have a login button" time="0.003" />
+  <testcase classname="login page element existences" name="should have a password input box" time="0.07" />
+  <testcase classname="login page element existences" name="should have a login button" time="0.002" />
   <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.108" />
-  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.06" />
-  <testcase classname="login page element existences" name="should display proper value for button" time="0.083" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.091" />
+  <testcase classname="login page element existences" name="should display proper value for button" time="0.16" />
  </testsuite>
- <testsuite name="Confirm login failures" timestamp="2018-05-31T13:33:25" hostname="localhost" time="3.707" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.354" />
-  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.829" />
+ <testsuite name="Confirm login failures" timestamp="2018-05-31T16:28:54" hostname="localhost" time="5.16" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.509" />
+  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="1.103" />
  </testsuite>
- <testsuite name="confirm login navigation" timestamp="2018-05-31T13:33:28" hostname="localhost" time="5.921" errors="0" tests="1" skipped="0" disabled="0" failures="0">
-  <testcase classname="confirm login navigation" name="should reach the index page" time="1.789" />
+ <testsuite name="confirm login navigation" timestamp="2018-05-31T16:28:59" hostname="localhost" time="3.412" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="confirm login navigation" name="should reach the index page" time="1.223" />
  </testsuite>
- <testsuite name="create-user page input and button fields" timestamp="2018-05-31T13:33:34" hostname="localhost" time="6.556" errors="0" tests="9" skipped="0" disabled="0" failures="0">
-  <testcase classname="create-user page input and button fields" name="should navigate to the create-user page" time="4.216" />
-  <testcase classname="create-user page input and button fields" name="should accept username input" time="0.368" />
-  <testcase classname="create-user page input and button fields" name="should accept password input" time="0.279" />
-  <testcase classname="create-user page input and button fields" name="should accept password confirmation input" time="0.517" />
-  <testcase classname="create-user page input and button fields" name="should select admin radio button" time="0.362" />
-  <testcase classname="create-user page input and button fields" name="should select trainer radio button" time="0.216" />
-  <testcase classname="create-user page input and button fields" name="should select associate radio button" time="0.18" />
-  <testcase classname="create-user page input and button fields" name="should select staging manager radio button" time="0.232" />
-  <testcase classname="create-user page input and button fields" name="should select delivery radio button" time="0.183" />
+ <testsuite name="When entering valid data into predictions filter it" timestamp="2018-05-31T16:29:03" hostname="localhost" time="2.95" errors="0" tests="5" skipped="0" disabled="0" failures="0">
+  <testcase classname="When entering valid data into predictions filter it" name="should navigate to the predictions page" time="1.442" />
+  <testcase classname="When entering valid data into predictions filter it" name="should allow user to input valid data" time="1.231" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide a table with predictions" time="0.002" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide the same number of rows entered into the filter" time="0.139" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide details when the details button is pressed" time="0.133" />
  </testsuite>
- <testsuite name="Successfully input valid data into predictions filter" timestamp="2018-05-31T13:33:41" hostname="localhost" time="2.457" errors="0" tests="5" skipped="0" disabled="0" failures="0">
-  <testcase classname="Successfully input valid data into predictions filter" name="should navigate to the predictions page" time="0.816" />
-  <testcase classname="Successfully input valid data into predictions filter" name="should allow user to input valid data" time="1.362" />
-  <testcase classname="Successfully input valid data into predictions filter" name="should provide a table with predictions" time="0.001" />
-  <testcase classname="Successfully input valid data into predictions filter" name="should provide the same number of rows entered into the filter" time="0.09" />
-  <testcase classname="Successfully input valid data into predictions filter" name="should provide details when the details button is pressed" time="0.185" />
+ <testsuite name="When entering valid data using all filters it" timestamp="2018-05-31T16:29:06" hostname="localhost" time="3.491" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="When entering valid data using all filters it" name="should navigate to the predictions page" time="1.368" />
+  <testcase classname="When entering valid data using all filters it" name="should allow a user to input valid data and use all filters" time="1.86" />
+  <testcase classname="When entering valid data using all filters it" name="should provide the same number of rows entered into the filter" time="0.131" />
+  <testcase classname="When entering valid data using all filters it" name="should provide details when the details button is pressed" time="0.13" />
  </testsuite>
- <testsuite name="Successfully input valid data using all filters" timestamp="2018-05-31T13:33:43" hostname="localhost" time="3.843" errors="0" tests="4" skipped="0" disabled="0" failures="0">
-  <testcase classname="Successfully input valid data using all filters" name="should navigate to the predictions page" time="1.662" />
-  <testcase classname="Successfully input valid data using all filters" name="should allow user to input valid data and use all filters" time="1.963" />
-  <testcase classname="Successfully input valid data using all filters" name="should provide the same number of rows entered into the filter" time="0.071" />
-  <testcase classname="Successfully input valid data using all filters" name="should provide details when the details button is pressed" time="0.144" />
+ <testsuite name="When I enter a start date that is more current than the end date it" timestamp="2018-05-31T16:29:09" hostname="localhost" time="2.631" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should navigate to the predictions page" time="1.424" />
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should allow user to input a start date that is more current than the end date" time="0.968" />
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should yield 0 associates" time="0.173" />
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should have a negative amount in Difference" time="0.064" />
  </testsuite>
- <testsuite name="A start date that is more current than the end data returns 0 associates" timestamp="2018-05-31T13:33:47" hostname="localhost" time="3.051" errors="0" tests="4" skipped="0" disabled="0" failures="0">
-  <testcase classname="A start date that is more current than the end data returns 0 associates" name="should navigate to the predictions page" time="1.704" />
-  <testcase classname="A start date that is more current than the end data returns 0 associates" name="should allow user to input a start date that is more current than the end date" time="1.064" />
-  <testcase classname="A start date that is more current than the end data returns 0 associates" name="should yield 0 associates" time="0.19" />
-  <testcase classname="A start date that is more current than the end data returns 0 associates" name="should have a negative amount in Difference" time="0.071" />
+ <testsuite name="When I enter a very large numeric input it" timestamp="2018-05-31T16:29:12" hostname="localhost" time="3.316" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="When I enter a very large numeric input it" name="should navigate to the predictions page" time="1.683" />
+  <testcase classname="When I enter a very large numeric input it" name="should allow user to input a very large number" time="1.494" />
+  <testcase classname="When I enter a very large numeric input it" name="should yield some associates" time="0.082" />
+  <testcase classname="When I enter a very large numeric input it" name="should have a negative amount in Difference" time="0.056" />
  </testsuite>
- <testsuite name="The number of associates input can handle a very large numeric input" timestamp="2018-05-31T13:33:50" hostname="localhost" time="3.112" errors="0" tests="4" skipped="0" disabled="0" failures="0">
-  <testcase classname="The number of associates input can handle a very large numeric input" name="should navigate to the predictions page" time="1.584" />
-  <testcase classname="The number of associates input can handle a very large numeric input" name="should allow user to input a very large number" time="1.311" />
-  <testcase classname="The number of associates input can handle a very large numeric input" name="should yield some associates" time="0.161" />
-  <testcase classname="The number of associates input can handle a very large numeric input" name="should have a negative amount in Difference" time="0.054" />
- </testsuite>
- <testsuite name="client-list page input and button fields" timestamp="2018-05-31T13:33:53" hostname="localhost" time="3.334" errors="0" tests="3" skipped="0" disabled="0" failures="1">
-  <testcase classname="client-list page input and button fields" name="should navigate to the client-list page" time="3.121" />
-  <testcase classname="client-list page input and button fields" name="should accept username input" time="0.01">
-   <failure type="exception" message="Failed: Cannot read property &apos;sendKeys&apos; of undefined"><![CDATA[TypeError: Cannot read property 'sendKeys' of undefined
-    at ClientListPo.inputClientName (/Users/andrewmcgovern/Desktop/revature/trackforce/NGTrackForce/e2e/client-list/client-list.po.ts:54:33)
-    at UserContext.<anonymous> (/Users/andrewmcgovern/Desktop/revature/trackforce/NGTrackForce/e2e/client-list/client-list-spec.ts:26:20)
-    at /usr/local/lib/node_modules/protractor/node_modules/jasminewd2/index.js:112:25
-    at new ManagedPromise (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:1077:7)
-    at ControlFlow.promise (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:2505:12)
-    at schedulerExecute (/usr/local/lib/node_modules/protractor/node_modules/jasminewd2/index.js:95:18)
-    at TaskQueue.execute_ (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:3084:14)
-    at TaskQueue.executeNext_ (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:3067:27)
-    at asyncRun (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:2974:25)
-    at /usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:668:7
-From: Task: Run it("should accept username input") in control flow
-    at UserContext.<anonymous> (/usr/local/lib/node_modules/protractor/node_modules/jasminewd2/index.js:94:19)
-    at attempt (/usr/local/lib/node_modules/protractor/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:4297:26)
-    at QueueRunner.run (/usr/local/lib/node_modules/protractor/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:4217:20)
-    at QueueRunner.execute (/usr/local/lib/node_modules/protractor/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:4199:10)
-    at Spec.queueRunnerFactory (/usr/local/lib/node_modules/protractor/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:909:35)
-    at Spec.execute (/usr/local/lib/node_modules/protractor/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:526:10)
-    at UserContext.fn (/usr/local/lib/node_modules/protractor/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:5340:37)
-    at attempt (/usr/local/lib/node_modules/protractor/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:4297:26)
-    at QueueRunner.run (/usr/local/lib/node_modules/protractor/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:4217:20)
-    at runNext (/usr/local/lib/node_modules/protractor/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:4257:20)
-From asynchronous test: 
-Error
-    at Suite.<anonymous> (/Users/andrewmcgovern/Desktop/revature/trackforce/NGTrackForce/e2e/client-list/client-list-spec.ts:25:5)
-    at addSpecsToSuite (/usr/local/lib/node_modules/protractor/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1107:25)
-    at Env.describe (/usr/local/lib/node_modules/protractor/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:1074:7)
-    at describe (/usr/local/lib/node_modules/protractor/node_modules/jasmine-core/lib/jasmine-core/jasmine.js:4399:18)
-    at Object.<anonymous> (/Users/andrewmcgovern/Desktop/revature/trackforce/NGTrackForce/e2e/client-list/client-list-spec.ts:4:1)
-    at Module._compile (module.js:652:30)
-    at Module.m._compile (/Users/andrewmcgovern/Desktop/revature/trackforce/NGTrackForce/node_modules/ts-node/src/index.ts:422:23)
-    at Module._extensions..js (module.js:663:10)
-    at Object.require.extensions.(anonymous function) [as .ts] (/Users/andrewmcgovern/Desktop/revature/trackforce/NGTrackForce/node_modules/ts-node/src/index.ts:425:12)]]>
-   </failure>
-  </testcase>
-  <testcase classname="client-list page input and button fields" name="should logout" time="0.201" />
- </testsuite>
- <testsuite name="Open the browser and get to the website" timestamp="2018-05-31T13:33:57" hostname="localhost" time="0" errors="0" tests="0" skipped="0" disabled="0" failures="0">
- </testsuite>
- <testsuite name="Log into the website for associate list" timestamp="2018-05-31T13:33:57" hostname="localhost" time="0.771" errors="0" tests="1" skipped="0" disabled="0" failures="0">
-  <testcase classname="Log into the website for associate list" name="should be able to log in" time="0.767" />
- </testsuite>
- <testsuite name="Go to associate list tab" timestamp="2018-05-31T13:33:57" hostname="localhost" time="0.839" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="Go to associate list tab" name="Should be able to go to associate list tab." time="0.723" />
-  <testcase classname="Go to associate list tab" name="We should be on the associate tab" time="0.116" />
+ <testsuite name="When navigating to the client-list page it" timestamp="2018-05-31T16:29:15" hostname="localhost" time="31.524" errors="0" tests="7" skipped="0" disabled="0" failures="0">
+  <testcase classname="When navigating to the client-list page it" name="should navigate to the client-list page" time="3.137" />
+  <testcase classname="When navigating to the client-list page it" name="should accept username input" time="0.359" />
+  <testcase classname="When navigating to the client-list page it" name="should yield match for search input in one exists" time="6.754" />
+  <testcase classname="When navigating to the client-list page it" name="should yield a match for a search regardless of case" time="3.789" />
+  <testcase classname="When navigating to the client-list page it" name="should yield a match for search input if many results exist" time="7.028" />
+  <testcase classname="When navigating to the client-list page it" name="should yield no matches if none exist" time="10.284" />
+  <testcase classname="When navigating to the client-list page it" name="should logout" time="0.171" />
  </testsuite>
 </testsuites>

@@ -3,7 +3,7 @@ import { Navbar } from "../navbar/navbar.po";
 import { TestConfig } from "../configuration/test-config";
 
 // Happy Path
-describe('Successfully input valid data into predictions filter', () => {
+describe('When entering valid data into predictions filter it', () => {
     let predictionsPage: PredictionsPage;
     let navbar: Navbar;
     let testConfig: TestConfig;
@@ -43,7 +43,7 @@ describe('Successfully input valid data into predictions filter', () => {
     });
 });
 
-describe('Successfully input valid data using all filters', () => {
+describe('When entering valid data using all filters it', () => {
     let predictionsPage: PredictionsPage;
     let navbar: Navbar;
     let testConfig: TestConfig;
@@ -62,7 +62,7 @@ describe('Successfully input valid data using all filters', () => {
         expect(navbar.getCurrentURL()).toEqual(baseURL + 'predictions');
     });
 
-    it('should allow user to input valid data and use all filters', () => {
+    it('should allow a user to input valid data and use all filters', () => {
         predictionsPage.inputStartDate('03042016');
         predictionsPage.inputEndDate('04062018');
         predictionsPage.inputNumAssociates('5');
@@ -80,7 +80,7 @@ describe('Successfully input valid data using all filters', () => {
     });
 });
 
-describe('A start date that is more current than the end data returns 0 associates', () => {
+describe('When I enter a start date that is more current than the end date it', () => {
     let predictionsPage: PredictionsPage;
     let navbar: Navbar;
     let testConfig: TestConfig;
@@ -122,7 +122,7 @@ describe('A start date that is more current than the end data returns 0 associat
     });
 });
 
-describe('The number of associates input can handle a very large numeric input', () => {
+describe('When I enter a very large numeric input it', () => {
     let predictionsPage: PredictionsPage;
     let navbar: Navbar;
     let testConfig: TestConfig;

@@ -1,4 +1,5 @@
 import { BasePage, IdentificationType } from "../BasePage";
+import { element, by } from "protractor";
 
 const Locators = {
     predictionsTab: {
@@ -46,6 +47,10 @@ const Locators = {
         type: IdentificationType[IdentificationType.Xpath],
         value: '//tbody/tr[1]/td[3]'
     },
+    differenceInTableEntry: {
+        type: IdentificationType[IdentificationType.Xpath],
+        value: '//tbody/tr[1]/td[4]'
+    },
     predictionsTableHead: {
         type: IdentificationType[IdentificationType.Xpath],
         value: '//thead'
@@ -71,6 +76,7 @@ export class PredictionsPage extends BasePage {
     getPredictionButton = this.ElementLocator(Locators.getPredictionButton);
     predictionsTable = this.ElementLocator(Locators.predictionsTable);
     numberOfAssociatesInTableEntry = this.ElementLocator(Locators.numberOfAssociatesInTableEntry);
+    differenceInTableEntry = this.ElementLocator(Locators.differenceInTableEntry);
     predictionsTableEntries = this.ElementLocator(Locators.predictionTableEntries);
     predictionsTableHead = this.ElementLocator(Locators.predictionsTableHead);
     detailsBtn = this.ElementLocator(Locators.detailsBtn);
@@ -113,6 +119,15 @@ export class PredictionsPage extends BasePage {
 
     getPredictionsBreakdownHeader() {
         return this.predictionBreakdownHeader;
+    }
+
+    checkFirstNineBoxes() {
+        this.overSelect.click();
+        for (let i = 1 ; i <= 9 ; i++) {
+            let path = `//input[@id="tech${i}"]`
+            element(by.xpath(path)).click();
+        }
+        this.getPredictionButton.click();
     }
 
 

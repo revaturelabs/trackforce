@@ -28,6 +28,8 @@ import com.revature.services.JWTService;
 import com.revature.services.UserService;
 
 import com.revature.utils.LogUtil;
+
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -82,34 +84,34 @@ public class UserResource {
      * @param newAssociate
      * @return
      */
-    @POST
-    @ApiOperation(value ="Creates new User", notes ="Creates a new user in the database with a specified role, username, and password.")
-    public Response createNewUser(CreateUserModel newUser, @HeaderParam("Authorization") String token)
-    {
-    	Status status = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || !payload.getId().equals("1")) 
-		{
-			status = Status.UNAUTHORIZED;
-			return Response.status(status).build();
-		} 
-		
-		else 
-		{
-			SuccessOrFailMessage msg = service.createNewUser(newUser);
-	    	if (msg.getStatus()) 
-	    	{
-	    		int userId = msg.getNewId();
-	    		URI location = URI.create("/user/"+userId);
-	    		return Response.created(location).build();
-	    	} 
-	    	
-	    	else 
-	    	{
-	    		return Response.serverError().build();
-	    	}
-		}
+//    @POST
+//    @ApiOperation(value ="Creates new User", notes ="Creates a new user in the database with a specified role, username, and password.")
+//    public Response createNewUser(CreateUserModel newUser, @HeaderParam("Authorization") String token)
+//    {
+//    	Status status = null;
+//		Claims payload = JWTService.processToken(token);
+//
+//		if (payload == null || !payload.getId().equals("1")) 
+//		{
+//			status = Status.UNAUTHORIZED;
+//			return Response.status(status).build();
+//		} 
+//		
+//		else 
+//		{
+//			SuccessOrFailMessage msg = service.createNewUser(newUser);
+//	    	if (msg.getStatus()) 
+//	    	{
+//	    		int userId = msg.getNewId();
+//	    		URI location = URI.create("/user/"+userId);
+//	    		return Response.created(location).build();
+//	    	} 
+//	    	
+//	    	else 
+//	    	{
+//	    		return Response.serverError().build();
+//	    	}
+//		}
 
     @Consumes("application/json")
     @Path("/createAssociate")
@@ -118,19 +120,8 @@ public class UserResource {
         LogUtil.logger.info("createAssociate got hit");
         LogUtil.logger.info(newAssociate);
         CreateAssociateModel newguy = new CreateAssociateModel();
-        newguy.setFname("fname");
-        newguy.setLname("lname");
-        newguy.setUsername("Dude");
-        newguy.setPassword("Dude");
-//        SuccessOrFailMessage msg = service.createNewAssociate(newAssociate);
-//        if (msg.getStatus()) {
-//            int userId = msg.getNewId();
-//            URI location = URI.create("/user/"+userId);
-//            return Response.created(location).build();
-//        } else {
-//            return Response.serverError().build();
-//        }
-        service.createNewAssociate(newguy);
+
+        service.createNewAssociate(newAssociate);
         return Response.created(URI.create("/testingURIcreate")).build();
     }
 

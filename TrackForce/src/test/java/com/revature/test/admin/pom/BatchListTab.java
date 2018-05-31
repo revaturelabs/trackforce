@@ -1,11 +1,15 @@
 package com.revature.test.admin.pom;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,15 +19,25 @@ public class BatchListTab {
 	static WebElement e = null;
 	static List<String> start = new ArrayList<String>();
 	static List<String> end = new ArrayList<String>();
+	private static Properties prop = new Properties();
+	static {
+		InputStream locProps = Login.class.getClassLoader()
+				.getResourceAsStream("tests.properties");
+		try {
+			prop.load(locProps);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static WebElement clickBatchListTab(WebDriver wd) {
 
-		return WaitToLoad.findDynamicElement(wd, By.cssSelector("[href='/batch-listing']"), 10);
+		return WaitToLoad.findDynamicElement(wd, By.cssSelector(prop.getProperty("batchListTab")), 10);
 	}
 
 	public static WebElement clickAssociateListTab(WebDriver wd) {
 
-		return WaitToLoad.findDynamicElement(wd, By.cssSelector("[href='/associate-listing']"), 10);
+		return WaitToLoad.findDynamicElement(wd, By.cssSelector(prop.getProperty("associatesTab")), 10);
 	}
 
 	public static String getCurrentURL(WebDriver d) {
@@ -32,15 +46,15 @@ public class BatchListTab {
 
 	public static WebElement findAllBatchesHeader(WebDriver wd) {
 
-		return WaitToLoad.findDynamicElement(wd, By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/h3"), 10);
+		return WaitToLoad.findDynamicElement(wd, By.xpath(prop.getProperty("batchAllBatches")), 10);
 
 	}
 
 	public static List<WebElement> getBatchNames(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
-				By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
+				By.xpath(prop.getProperty("batchTable")), 30);
 		List<WebElement> rows = table_element
-				.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
+				.findElements(By.xpath(prop.getProperty("batchRows")));
 		return rows;
 	}
 
@@ -48,30 +62,30 @@ public class BatchListTab {
 	public static WebElement getFirstBatchName(WebDriver wd) {
 
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
-				By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
+				By.xpath(prop.getProperty("batchTable")), 30);
 		WebElement row = table_element
-				.findElement(By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/table/tbody/tr[1]/td[1]/a"));
+				.findElement(By.xpath(prop.getProperty("batchFirstBatchName")));
 		return row;
 	}
 
 	// Gets all rows under the first batch in Batch List Tab
 	public static List<WebElement> getAssociatesInfo(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
-				By.xpath("/html/body/app/app-batch-details/div/div/div[2]/table"), 30);
+				By.xpath(prop.getProperty("batchTableElements")), 30);
 		List<WebElement> rows = table_element
-				.findElements(By.xpath("/html/body/app/app-batch-details/div/div/div[2]/table/tbody/tr"));
+				.findElements(By.xpath(prop.getProperty("batchAssociates")));
 		return rows;
 	}
 
 	// Gets all Associate IDs under the first batch in Batch List Tab
 	public static List<WebElement> getAssociatesIDs(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
-				By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
+				By.xpath(prop.getProperty("batchTable")), 30);
 		List<WebElement> rows = table_element
-				.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
+				.findElements(By.xpath(prop.getProperty("batchRows")));
 		List<WebElement> ID = new ArrayList<WebElement>();
 		for (WebElement e : rows) {
-			ID.addAll(e.findElements(By.xpath("td[1]")));
+			ID.addAll(e.findElements(By.xpath(prop.getProperty("batchAssociateIds"))));
 		}
 		return ID;
 	}
@@ -79,12 +93,12 @@ public class BatchListTab {
 	// Gets every Associate ID from ASSOCIATE LIST TAB
 	public static List<WebElement> grabAssociatesIDs(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
-				By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
+				By.xpath(prop.getProperty("batchTable")), 30);
 		List<WebElement> rows = table_element
-				.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
+				.findElements(By.xpath(prop.getProperty("batchRows")));
 		List<WebElement> id = new ArrayList<WebElement>();
 		for (WebElement e : rows) {
-			id.addAll(e.findElements(By.xpath("td[2]")));
+			id.addAll(e.findElements(By.xpath(prop.getProperty("batchAssociateListIds"))));
 		}
 		return id;
 	}
@@ -92,12 +106,12 @@ public class BatchListTab {
 	// Gets every Batch Name from ASSOCIATE LIST TAB
 	public static List<WebElement> grabBatchNames(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
-				By.xpath("//table[@class='table table-striped table-hover table-bordered']"), 30);
+				By.xpath(prop.getProperty("batchTable")), 30);
 		List<WebElement> rows = table_element
-				.findElements(By.xpath("//table[@class='table table-striped table-hover table-bordered']/tbody/tr"));
+				.findElements(By.xpath(prop.getProperty("batchRows")));
 		List<WebElement> batchNames = new ArrayList<WebElement>();
 		for (WebElement e : rows) {
-			batchNames.addAll(e.findElements(By.xpath("td[7]")));
+			batchNames.addAll(e.findElements(By.xpath(prop.getProperty("batchAssociateBatches"))));
 		}
 		return batchNames;
 	}
@@ -105,45 +119,45 @@ public class BatchListTab {
 	// Gets EVERY ROW from ASSOCIATE LIST TAB
 	public static List<WebElement> grabAssociatesBatchInfo(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
-				By.xpath("/html/body/app/app-associate-list/div/div[2]/div/table"), 30);
+				By.xpath(prop.getProperty("batchAssociateTable")), 30);
 		List<WebElement> rows = table_element
-				.findElements(By.xpath("/html/body/app/app-associate-list/div/div[2]/div/table/tbody/tr"));
+				.findElements(By.xpath(prop.getProperty("batchAssociateRows")));
 		return rows;
 	}
 
 	// finds the From date field using the id
 	public static WebElement fromDateField(WebDriver wd) {
-		return WaitToLoad.findDynamicElement(wd, By.xpath("//*[@id=\"startDate\"]"), 10);
+		return WaitToLoad.findDynamicElement(wd, By.xpath(prop.getProperty("batchFromDate")), 10);
 	}
 
 	// finds the To date field using the id
 	public static WebElement toDateField(WebDriver wd) {
-		return WaitToLoad.findDynamicElement(wd, By.xpath("//*[@id=\"endDate\"]"), 10);
+		return WaitToLoad.findDynamicElement(wd, By.xpath(prop.getProperty("batchToDate")), 10);
 		
 	}
 
 	// finds the submit button using the xpath
 	public static WebElement submitButton(WebDriver wd) {
 		return WaitToLoad.findDynamicElement(wd,
-				By.xpath("/html/body/app/app-batch-list/div/div[2]/div[2]/form/div[3]/input[1]"), 10);
+				By.xpath(prop.getProperty("batchSubmitButton")), 10);
 	}
 
 	// finds the reset button using the xpath
 	public static WebElement resetButton(WebDriver wd) {
 		return WaitToLoad.findDynamicElement(wd,
-				By.xpath("/html/body/app/app-batch-list/div/div[2]/div[2]/form/div[3]/input[2]"), 10);
+				By.xpath(prop.getProperty("batchResetButton")), 10);
 	}
 
 	// grabs the start dates of all batches in the batch list, and stores them in a
 	// List of WebElements
 	public static List<WebElement> getStartDates(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
-				By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/table"), 30);
+				By.xpath(prop.getProperty("batchTableElement")), 30);
 		List<WebElement> rows = table_element
-				.findElements(By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/table/tbody/tr"));
+				.findElements(By.xpath(prop.getProperty("batchElements")));
 		List<WebElement> columns = new ArrayList<WebElement>();
 		for (WebElement e : rows) {
-			columns.addAll(e.findElements(By.xpath("td[2]")));
+			columns.addAll(e.findElements(By.xpath(prop.getProperty("batchStartDates"))));
 		}
 		return columns;
 	}
@@ -152,12 +166,12 @@ public class BatchListTab {
 	// List of WebElements
 	public static List<WebElement> getEndDates(WebDriver wd) {
 		WebElement table_element = WaitToLoad.findDynamicElement(wd,
-				By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/table"), 30);
+				By.xpath(prop.getProperty("batchTableElement")), 30);
 		List<WebElement> rows = table_element
-				.findElements(By.xpath("/html/body/app/app-batch-list/div/div[2]/div[1]/table/tbody/tr"));
+				.findElements(By.xpath(prop.getProperty("batchElements")));
 		List<WebElement> columns = new ArrayList<WebElement>();
 		for (WebElement e : rows) {
-			columns.addAll(e.findElements(By.xpath("td[3]")));
+			columns.addAll(e.findElements(By.xpath(prop.getProperty("batchEndDates"))));
 		}
 		return columns;
 	}
@@ -189,8 +203,8 @@ public class BatchListTab {
 			try {
 				Date startDate = new SimpleDateFormat("mm. dd, yyyy").parse(start.get(i));
 				Date endDate = new SimpleDateFormat("mm. dd, yyyy").parse(end.get(i));
-				Date fromDate = new SimpleDateFormat("mm. dd, yyyy").parse("9/15/2017");
-				Date toDate = new SimpleDateFormat("mm. dd, yyyy").parse("11/15/2017");
+				Date fromDate = new SimpleDateFormat("mm. dd, yyyy").parse(prop.getProperty("batchTestDateStart"));
+				Date toDate = new SimpleDateFormat("mm. dd, yyyy").parse(prop.getProperty("batchTestDateEnd"));
 
 				// if startDate is after toDate OR endDate is before fromDate, set done to false
 				if (startDate.after(toDate) || endDate.before(fromDate)) {

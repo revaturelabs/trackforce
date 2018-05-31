@@ -72,7 +72,7 @@ public class AssociateResource {
 		logger.info(associateModel);
 		Status status = null;
 
-		
+		 
 		// does service actually work?
 		status = Status.CREATED;
 		

@@ -12,7 +12,7 @@
 			<class name="com.revature.test.services.AssociateServiceTest" />
 			<class name="com.revature.test.services.UserServiceTest" />
 			<class name="com.revature.test.services.CurriculumServicesTest" />
-			<!-- <class name="com.revature.test.dao.DaoTest"/> -->
+			<class name="com.revature.test.dao.DaoTest"/>
 		</classes>
 	</test>
 	<test name="Resources tests">

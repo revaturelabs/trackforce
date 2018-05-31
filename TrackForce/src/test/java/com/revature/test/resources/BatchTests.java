@@ -36,22 +36,22 @@ public class BatchTests {
 
 	@BeforeClass
 	public void testinit() {
-//		try {
-//
+		try {
 			logger.info("testInit()...");
 //			uService = new UserService();		// throws SQLException???
 //			jService = new JWTService();		// throws SQLException???
 //			token = jService.createToken("Ian", 1);
 //			throw new SQLException();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void testAdam() throws IOException {
 		logger.info("Testing adam()...");
-//		String URL = "http://localhost:8085/TrackForce/api/batches/adam";
+		String URL = "http://localhost:8085/TrackForce/api/batches/adam";
+		
 //		HttpUriRequest request = new HttpGet(URL);
 //		HttpResponse response = HttpClientBuilder.create().build().execute(request);
 //		int status = response.getStatusLine().getStatusCode();

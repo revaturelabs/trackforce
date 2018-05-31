@@ -7,7 +7,7 @@ import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import org.apache.log4j.Logger;
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -19,10 +19,13 @@ import com.revature.entity.TfUser;
 import com.revature.utils.HibernateUtil;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 /**
  * 
@@ -34,7 +37,6 @@ import io.jsonwebtoken.SignatureException;
  *
  */
 public class JWTService {
-	static final Logger logger = Logger.getLogger(JWTService.class);
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 1000L;
 
@@ -65,12 +67,12 @@ public class JWTService {
 	 * 
 	 * @return the token
 	 */
-	public String createToken(String username) {
+	public String createToken(String username, int tfroleid) {
 
 		SignatureAlgorithm signAlgorithm = SignatureAlgorithm.HS256;
 		Key key = new SecretKeySpec(getSecret(), signAlgorithm.getJcaName());
 
-		JwtBuilder token = Jwts.builder().setSubject(username).setExpiration(generateExpirationDate())
+		JwtBuilder token = Jwts.builder().setSubject(username).setId("" + tfroleid).setExpiration(generateExpirationDate())
 				.signWith(signAlgorithm, key);
 
 		return token.compact();
@@ -81,7 +83,7 @@ public class JWTService {
 	 * 
 	 * @return byte[]
 	 */
-	private byte[] getSecret() {
+	private static byte[] getSecret() {
 		String base64Key = DatatypeConverter.printBase64Binary(SECRET_KEY.getBytes());
 
 		return DatatypeConverter.parseBase64Binary(base64Key);
@@ -129,13 +131,39 @@ public class JWTService {
 	}
 
 	/**
+	 * 
+	 * @param token
+	 * @return the payload, or null if token invalid
+	 */
+	public static Claims processToken(String token) {
+		Claims payload = null;
+
+		try {
+			logger.info("In the try block");
+			if (token == null) {
+				throw new UnsupportedJwtException("token null");
+			}
+			payload = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
+			logger.info("Print payload " + payload);
+
+		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
+				| IllegalArgumentException | NullPointerException e) {
+			logger.info("in the catch block");
+			e.printStackTrace();
+			payload = null;
+		}
+
+		return payload;
+	}
+
+	/**DEPRECIATED
 	 * Gets the claims object from the token Needed verification purposes
 	 * 
 	 * @param token
 	 * 
 	 * @return Claims object, or null
 	 */
-	private Claims getClaimsFromToken(String token) {
+	public Claims getClaimsFromToken(String token) {
 		Claims claims = null;
 		try {
 			claims = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();

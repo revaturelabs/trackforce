@@ -1,25 +1,34 @@
 package com.revature.resources;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.IOException;
 import java.net.URI;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.revature.entity.TfUser;
+import com.revature.model.InterviewInfo;
 import com.revature.model.LoginJSON;
 import com.revature.model.UserJSON;
 import com.revature.request.model.CreateUserModel;
 import com.revature.request.model.SuccessOrFailMessage;
+import com.revature.services.JWTService;
 import com.revature.services.UserService;
 
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Path("users")
 @Api(value = "users")
@@ -55,15 +64,34 @@ public class UserResource {
      * @return SuccessOrFailMessage
      */
     @POST
-    public Response createNewUser(CreateUserModel newUser){
-    	SuccessOrFailMessage msg = service.createNewUser(newUser);
-    	if (msg.getStatus()) {
-    		int userId = msg.getNewId();
-    		URI location = URI.create("/user/"+userId);
-    		return Response.created(location).build();
-    	} else {
-    		return Response.serverError().build();
-    	}
+    @ApiOperation(value ="Creates new User", notes ="Creates a new user in the database with a specified role, username, and password.")
+    public Response createNewUser(CreateUserModel newUser, @HeaderParam("Authorization") String token)
+    {
+    	Status status = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || !payload.getId().equals("1")) 
+		{
+			status = Status.UNAUTHORIZED;
+			return Response.status(status).build();
+		} 
+		
+		else 
+		{
+			SuccessOrFailMessage msg = service.createNewUser(newUser);
+	    	if (msg.getStatus()) 
+	    	{
+	    		int userId = msg.getNewId();
+	    		URI location = URI.create("/user/"+userId);
+	    		return Response.created(location).build();
+	    	} 
+	    	
+	    	else 
+	    	{
+	    		return Response.serverError().build();
+	    	}
+		}
+
     }
     
     /**
@@ -72,10 +100,25 @@ public class UserResource {
      * @return Returns a TfUser json
      */
     @GET
+    @ApiOperation(value = "Gets user", notes ="Gets a specific user by their username.")
     @Path("/{username}")
-    public Response getUser(@PathParam("username") String username) {
-    	TfUser user = service.getUser(username);
-    	return Response.ok(user).build();
+    public Response getUser(@PathParam("username") String username,@HeaderParam("Authorization") String token) 
+    {
+    	Status status = null;
+		TfUser user = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || !payload.getId().equals("1")) 
+		{
+			status = Status.UNAUTHORIZED;
+		} 
+		
+		else 
+		{
+			user = service.getUser(username);
+		}
+    	
+    	return Response.status(status).entity(user).build();
     }
 
     /**
@@ -89,6 +132,7 @@ public class UserResource {
      * @throws IOException
      */
     @POST
+    @ApiOperation(value = "login method", notes ="The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 400 if invalid.")
     @Path("login")
     public Response submitCredentials(LoginJSON login) throws IOException {
     	UserJSON userjson = null;

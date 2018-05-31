@@ -75,8 +75,7 @@ export class FormComponent implements OnInit {
         this.user = this.authService.getUser();
 
 		this.isVerified = this.user.verified;
-=======
-       
+
 
         //Role checks
         if(this.user.tfRoleId === 3){

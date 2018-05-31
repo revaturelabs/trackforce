@@ -69,17 +69,17 @@ public class InterviewResource {
 		Set<InterviewInfo> interviews = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) 
-		{
-			status = Status.UNAUTHORIZED;
-		} 
+//		if (payload == null || !payload.getId().equals("1")) 
+//		{
+//			status = Status.UNAUTHORIZED;
+//		} 
 		
-		else 
-		{
+//		else 
+//		{
 			interviews = is.getAllInterviews();
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
 			logger.info("inside get all interviews");
-		}
+//		}
 		
 		return Response.status(status).entity(interviews).build();
 	}
@@ -126,7 +126,7 @@ public class InterviewResource {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) {
+		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("5")) {
 			status = Status.UNAUTHORIZED;
 		} else {
 			is.addInterviewByAssociate(associateid, ifc);
@@ -211,7 +211,7 @@ public class InterviewResource {
 		}
 		return Response.status(status).build();
 	}
-	@Path("/{interviewid")
+	@Path("/{interviewid}")
 	@ApiOperation(value = "updates interview", notes = " Updates interview")
 	@PUT
 	public Response updateInterview(@PathParam("associateid") int associateid,

@@ -181,24 +181,6 @@ public class AssociateResource {
 	// return Response.ok(service.getUnmappedInfo(statusId)).build();
 	// }
 	//
-	// @GET
-	// @Path("{associateid}/interviews")
-	// public Response getAssociateInterviews(@PathParam("associateid") Integer
-	// associateid) {
-	// Set<InterviewInfo> associateinfo =
-	// service.getInterviewsByAssociate(associateid);
-	// return Response.ok(associateinfo).build();
-	// }
-	//
-	// @POST
-	// @Path("{associateid}/interviews")
-	// public Response addAssociateInterview(@PathParam("associateid") Integer
-	// associateid, InterviewFromClient ifc) {
-	// InterviewService is = new InterviewService();
-	// is.addInterviewByAssociate(associateid, ifc);
-	// return Response.ok().build();
-	// }
-
 	/**
 	 * Update the marketing status or client of an associate
 	 * 

@@ -27,7 +27,17 @@ import { AssociateService } from '../../services/associate-service/associate.ser
           animate('500ms', style({ opacity: 0}))
         ])
       ]
-    )
+    ),
+	trigger('slideInFadeOut', [
+      transition(':enter', [
+        style({transform: 'translateX(-100%)'}),
+        animate('500ms ease-in', style({transform: 'translateX(0%)'}))
+      ]),
+      transition(':leave', [
+          style({opacity: 1}),
+          animate('500ms', style({ opacity: 0}))
+      ])
+    ])
   ]
 })
 // Decorator for automatically unsubscribing all observables upon ngDestory()
@@ -37,9 +47,12 @@ export class LoginComponent implements OnInit {
   public username: string;
   public password: string;
   public cpassword: string;
-  public ASSOCIATEROLEID: number = 4;
+  public fname: string;
+  public lname: string;
   public errMsg: any;
-  public associate:any;
+  public sucMsg: string;
+  public isRegistering = false;
+  public registerPage : number = 0;
   /**
   *@constructor
   *
@@ -81,9 +94,8 @@ export class LoginComponent implements OnInit {
     }
 
   }
-  public isRegistering = false;
   /**
-  *Function Wrapper for create-user createuser()
+  * Enter the register state
   */
   
   getUser(id)
@@ -100,20 +112,24 @@ export class LoginComponent implements OnInit {
   }
   register(){
     this.errMsg = "";
+	this.sucMsg = "";
   	this.isRegistering = true;
+	this.registerPage = 0;
   }
   /**
   *Function Wrapper for create-user createuser()
   */
   createUser(){
+	this.sucMsg = "";
 	this.errMsg="";
-      if(this.password !== this.cpassword){
+      if(this.password == undefined || this.cpassword == undefined ||this.password.length==0 || this.cpassword.length ==0){
+        this.errMsg='Please enter a password and confirm password';
+      } else if(this.password !== this.cpassword){
         this.errMsg='Passwords do not match!';
       } else {
-        this.userService.createUser(this.username, this.password, this.ASSOCIATEROLEID).subscribe(
+        this.userService.createAssociate(this.username, this.password, this.fname,this.lname).subscribe(
           data => {
-            //navigate to home page if return is valid
-            this.router.navigate(['login']);
+            	this.sucMsg = "Associate account creation sucessful.";
           },
           err => {
             console.error(err + " Error Occurred");
@@ -123,10 +139,26 @@ export class LoginComponent implements OnInit {
 	  }
   }
   /**
-  *Function Wrapper for create-user createuser()
+  * Exit the register state
   */
   cancelRegister(){
+	this.sucMsg = "";
+	this.errMsg="";
   	this.isRegistering = false;
+	this.registerPage = 0;
+  }
+  /**
+   * Change the current page to the firstname lastname input form
+   */
+  next(){
+	  this.registerPage = 1;
+  }
+  
+  /**
+   * Change the current page to username and password
+   */
+  previous(){
+	  this.registerPage = 0;
   }
   /**
   * Function wrapper for AuthenticationService login()
@@ -137,7 +169,8 @@ export class LoginComponent implements OnInit {
   *
   */
   login() {
-    this.errMsg = "";
+    this.sucMsg = "";
+	this.errMsg="";
     if (this.username && this.password) {
       this.authService.login(this.username, this.password).subscribe(
         data => {
@@ -158,6 +191,8 @@ export class LoginComponent implements OnInit {
             this.errMsg = "There was an error on the server";
           else if (err.status == 400)
             this.errMsg = "Invalid username and/or password";
+          else if (err.status == 403)
+            this.errMsg = "Account not verified";
           else {
             this.errMsg = "The login service could not be reached";
           }

@@ -164,12 +164,12 @@ public class AssociateResource {
 		return Response.ok(mappedStats).build();
 	}
 
-	// @GET
-	// @Path("unmapped/{statusId}")
-	// public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
-	// return Response.ok(service.getUnmappedInfo(statusId)).build();
-	// }
-	//
+	 @GET
+	 @Path("unmapped/{statusId}")
+	 public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
+	 return Response.ok(service.getUnmappedInfo(statusId)).build();
+	 }
+	
 	// @GET
 	// @Path("{associateid}/interviews")
 	// public Response getAssociateInterviews(@PathParam("associateid") Integer

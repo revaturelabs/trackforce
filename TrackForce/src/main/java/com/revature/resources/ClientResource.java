@@ -60,6 +60,7 @@ public class ClientResource {
 		else 
 		{
 			clients = service.getClients();
+			status = Status.OK;
 		}		
     	
         return Response.status(status).entity(clients).build();

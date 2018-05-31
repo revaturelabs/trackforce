@@ -11,15 +11,15 @@
           <tr>
             <th>Interview</th>
             <th>Client</th>
-            <th>Date Recieved</th>
-            <th>Medium</th>
-            <th>Associate Feedback</th>
-            <th>Flag</th>
-            <th>Info</th>
-            <th>Job Description</th>
+            <th>Date Notified</th>
             <th>Date of Interview</th>
-            <th>Client FeedBack</th>   
-            <th>Flag Reason</th>
+            <th>Medium</th>
+      		<th>Job Description</th>
+            <th>Flag</th>
+            <th>Questions</th>    
+            <th>Associate Feedback</th>
+            <th>Client FeedBack</th>  <!-- -->   
+        
              
           </tr>
         </thead>
@@ -28,15 +28,14 @@
             <td>{{i+1}}</td>
             <td>{{interview.client}}</td>
             <td [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'red':''}">{{interview.date | date:'longDate'}}</td>
-            <td>{{interview.type}}</td>
-            <td>{{interview.Afeedback}}</td>
-            <td class="flag"><input type="checkbox" id="flag"></td>
-            <td><a [routerLink]="['/form-comp',associate.id]" class="id">info</a></td>
-            <td>{{interview.JDescription}}</td>
             <td>{{interview.DInterview}}</td>
+            <td>{{interview.type}}</td>
+            <td>{{interview.JDescription}}</td>           
+            <td class="flag"><input type="checkbox" id="flag"></td>
+            <td><a [routerLink]="['/form-comp',associate.id, i+1]" class="id">view</a></td>
+             <td>{{interview.Afeedback}}</td>
             <td>{{interview.CFeedback}}</td>
-            <td>{{interview.FlagReason}}</td>
-            
+            <!-- <td contentEditable = "true" /> -->
           </tr>
         </tbody>
       </table>

@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -21,7 +22,9 @@ import javax.ws.rs.core.Response.Status;
 
 import com.revature.model.BatchInfo;
 import com.revature.services.BatchesService;
+import com.revature.services.JWTService;
 
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -88,25 +91,38 @@ public class BatchResource {
 	@GET
 	@ApiOperation(value = "returns batches by curriculum", notes = "Returns a list of batches filtered by curriculum name.")
 	@Path("curriculum/{curriculum}")
-	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum, @QueryParam("start") Long startDate,
+	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum,
+			@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate,
 			@QueryParam("end") Long endDate) {
-		logger.info("getBatchesByCurriculum(): " + curriculum);
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
 		Collection<BatchInfo> results = new HashSet<>();
 
-		if (startDate != null && endDate != null) {
-			logger.info("	start = " + new Timestamp(startDate));
-			logger.info("	end = " + new Timestamp(endDate));
-			Collection<BatchInfo> batches = service.getBatches(startDate, endDate);
-
-			for (BatchInfo b : batches) {
-				if (b.getCurriculumName() != null && b.getCurriculumName().equalsIgnoreCase(curriculum))
-					results.add(b);
-			}
-		} else {
-			results = service.getBatchesByCurri(curriculum);
+		if (payload == null || payload.getId().equals("5")) {
+			status = Status.UNAUTHORIZED;
 		}
-		Status status = results == null || results.isEmpty() ? Status.NO_CONTENT : Status.OK;
-		logger.info("	batch size: " + (results == null ? null : results.size()));
+
+		else {
+			logger.info("getBatchesByCurriculum(): " + curriculum);
+
+			if (startDate != null && endDate != null) {
+				logger.info("	start = " + new Timestamp(startDate));
+				logger.info("	end = " + new Timestamp(endDate));
+				Collection<BatchInfo> batches = service.getBatches(startDate, endDate);
+
+				for (BatchInfo b : batches) {
+					if (b.getCurriculumName() != null && b.getCurriculumName().equalsIgnoreCase(curriculum))
+						results.add(b);
+				}
+			}
+
+			else {
+				results = service.getBatchesByCurri(curriculum);
+			}
+
+			status = results == null || results.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			logger.info("	batch size: " + (results == null ? null : results.size()));
+		}
 
 		return Response.status(status).entity(results).build();
 	}

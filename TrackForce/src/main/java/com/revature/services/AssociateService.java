@@ -173,4 +173,7 @@ public class AssociateService {
 		}
 		return specificInterview;
 	}
+	public void createAssociate(String firstname, String lastname) {
+		associateDao.createAssociate(firstname, lastname);
+	}
 }

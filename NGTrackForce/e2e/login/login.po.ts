@@ -2,7 +2,7 @@ import { browser, by, element } from 'protractor';
 
 export class LoginPage {
   navigateTo(){
-    return browser.get('/login');
+    return browser.get('/NGTrackForce/login');
   }
 
   getUsernameInput(){
@@ -23,7 +23,6 @@ export class LoginPage {
 
   getLoginButton(){
     return element(by.buttonText('Sign in'));
-	//return element(by.xpath("//button[@class='btn btn-lg btn-primary btn-block']"));
   }
 
   getLoginButtonText(){
@@ -36,5 +35,9 @@ export class LoginPage {
 
   getFailedLoginResponse() {
     return element(by.xpath('//*[@id="pwd-container"]/div[2]/section/form/div[1]')).getText();
+  }
+
+  get logoutButton() {
+    return element(by.css('a[href*="/login"]'));
   }
 }

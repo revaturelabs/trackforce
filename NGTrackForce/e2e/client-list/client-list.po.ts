@@ -16,13 +16,18 @@ export class ClientListPo {
     constructor() {
          this.searchByClientName = this.getSearchByClientName();
          this.viewDataForAllClients = this.getAllUsersButton();
+
     }
  
     /**
      * Returns the Create List page
      */
     navigateTo(){
-        return browser.get('client-list');
+        return browser.get('client-listing');
+    }
+
+    logout() {
+        element(by.css('[routerlink="/login"]')).click();
     }
 
     /**
@@ -36,7 +41,7 @@ export class ClientListPo {
      * Returns the search by client name element in the DOM
      */
     private getSearchByClientName(){
-        return element(by.id('["clientSearch"]'));
+        return element(by.id('clientSearch'));
     }
 
     /**
@@ -51,7 +56,8 @@ export class ClientListPo {
      * Returns the current value of the search by client name element in the DOM
      */
     getClientNameValue(){
-        return this.searchByClientName.getAttribute('value');
+       return element(by.id('clientSearch')).getAttribute('ng-reflect-model');
+       
     }
 
     /**

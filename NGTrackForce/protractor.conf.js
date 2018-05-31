@@ -11,21 +11,26 @@ exports.config = {
     './e2e/navbar/navbar.e2e-spec.ts',
     './e2e/create-user/create-user.e2e-spec.ts',
     './e2e/client-list/client-list-spec.ts',
-    './e2e/app/app.e2e-spec.ts'
-   /* './e2e/associate-list/associate-list.js', 
+    // './e2e/app/app.e2e-spec.ts', // this is not an acutal test
+    './e2e/associate-list/associate-list.js', 
     './e2e/associate-list/associate-list-search.js', 
     './e2e/associate-list/associate-list-status.js',
     './e2e/associate-list/associate-list-curriculum.js', 
-    './e2e/associate-list/associate-list-client'
-    //'./e2e/batch-list/batch-list.e2e-spec.ts',*/
+    './e2e/associate-list/associate-list-client.js',
+    './e2e/batch-list/batch-list.js',
+    './e2e/test-associate/homepage-spec.js'
   ],
   capabilities: {
     'browserName': 'chrome'
   },
-  directConnect: true,
-  baseUrl: 'http://localhost:4200/',
-  //baseUrl: 'http://52.207.66.231:4200/',
- 
+ // directConnect: true,
+  //baseUrl: 'http://localhost:4200/',
+ baseUrl: 'http://34.227.178.103:8090/NGTrackForce/',
+ //for pipeline delpoyment
+   seleniumAddress: "http://127.0.0.1:4444/wd/hub", 
+  // SELENIUM_PROMISE_MANAGER: false,
+  //
+  //
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
@@ -38,10 +43,8 @@ exports.config = {
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
     
-    /*require('jasmine-reporters');
-    jasmine.getEnv().addReporter(
-      new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));
-    */ }
-
-
+    // require('jasmine-reporters');
+    // jasmine.getEnv().addReporter(
+    //   new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));
+  }
 };

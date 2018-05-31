@@ -8,9 +8,9 @@ export class CreateUserPo {
     private passwordConfirm     : ElementFinder;
     private adminRadio          : ElementFinder;
     private managerRadio       : ElementFinder;
-    private vpRadio             : ElementFinder;
+    private trainerRadio             : ElementFinder;
     private associateRadio      : ElementFinder;
-  
+    private deliveryRadio       : ElementFinder;
 
     /**
      * Stores each element on the Create User page:
@@ -29,7 +29,8 @@ export class CreateUserPo {
          this.adminRadio = this.getAdminRadio();
          this.associateRadio = this.getAssociateRadio();
          this.managerRadio = this.getManagerRadio();
-         this.vpRadio = this.getVPRadio();
+         this.trainerRadio = this.getTrainerRadio();
+         this.deliveryRadio = this.getDeliveryRadio();
     }
 
     /**
@@ -131,7 +132,7 @@ export class CreateUserPo {
      * Returns the associate radio button element in the DOM
      */
     private getAssociateRadio(){
-        return element(by.css('[value="4"]'));
+        return element(by.css('[value="5"]'));
     }
 
     /**
@@ -145,7 +146,7 @@ export class CreateUserPo {
      * Returns the manager radio button element in the DOM
      */
     private getManagerRadio(){
-        return element(by.css('[value="2"]'));
+        return element(by.css('[value="4"]'));
     }
 
     /**
@@ -155,18 +156,31 @@ export class CreateUserPo {
         this.managerRadio.click();
     }
 
-    /**
-     * Returns the vp radio button element in the DOM
+     /**
+     * Returns the delivery radio button element in the DOM
      */
-    private getVPRadio(){
+    private getDeliveryRadio(){
         return element(by.css('[value="3"]'));
     }
 
     /**
-     * Clicks the vp radio button elemeing in the DOM
+     * Clicks the delivery radio button elemeing in the DOM
      */
-    clickVPRadio(){
-        this.vpRadio.click();
+    clickDeliveryRadio(){
+        this.deliveryRadio.click();
+    }
+    /**
+     * Returns the trainer radio button element in the DOM
+     */
+    private getTrainerRadio(){
+        return element(by.css('[value="2"]'));
+    }
+
+    /**
+     * Clicks the trainer radio button elemeing in the DOM
+     */
+    clickTrainerRadio(){
+        this.trainerRadio.click();
     }
 
     /**

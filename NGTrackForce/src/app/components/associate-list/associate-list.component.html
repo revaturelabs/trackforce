@@ -3,9 +3,18 @@
   <h3>Associates</h3>
   <div class="form-group">
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-4">
         <label for="name">Search by Text: </label>
         <input type="text" class="form-control" id="name" [(ngModel)]="searchByText">
+      </div>
+      <div class="col-sm-2">
+        <label for="verification">Verification Status: </label>
+        <select class="form-control" id="verification" [(ngModel)]="searchByVerification">
+          <option label=""></option>
+          <option value="Verified Only">Verified Only</option>
+          <option value="Unverified Only">Unverified Only</option>
+          <option value="Verified and Unverified">Verified and Unverified</option>
+        </select>
       </div>
       <div class="col-sm-2">
         <label for="mStatus">Marketing Status: </label>
@@ -83,7 +92,15 @@
 
   <div *ngIf="canUpdate" class="form-group" style="margin-top: 20px">
       <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
+          <label for="uclient">Update by Verification Status: </label>
+          <select class="form-control" id="uVerify" [(ngModel)]="updateVerification">
+            <option label=""></option>
+            <option value="Verified">Verified</option>
+            <option value="Unverified">Unverified</option>
+          </select>
+        </div>
+        <div class="col-sm-3">
           <label for="uStatus">Update by Marketing Status: </label>
           <select class="form-control" id="uStatus" [(ngModel)]="updateStatus">
             <option label=""></option>
@@ -101,7 +118,7 @@
             <option value="12">TERMINATED</option>
           </select>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <label for="uclient">Update Client: </label>
           <select class="form-control" id="uclient" [(ngModel)]="updateClient">
             <option label=""></option>

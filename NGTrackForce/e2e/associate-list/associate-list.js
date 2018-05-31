@@ -1,14 +1,12 @@
-describe('Open the browser and get to the website', function() {
-    browser.ignoreSynchronization = true;
-    wd = browser.driver;
-    browser.waitForAngularEnabled(false);
-    wd.get('http://localhost:4200/login');
 
+describe('Open the browser and get to the website', function() {
+    // var PropertiesReader = require('properties-reader');
+    // var properties = PropertiesReader('../testing.properties');
+    wd = browser.driver;
 });
 
 describe('Log into the website for associate list', function() {
     browser.manage().timeouts().implicitlyWait(50000);
-    browser.ignoreSynchronization = true;
     it('should be able to log in', function () {
         wd.findElement(by.id('username')).sendKeys('TestAdmin');
 	    wd.findElement(by.id('password')).sendKeys('TestAdmin');
@@ -22,8 +20,7 @@ describe('Go to associate list tab', function(){
     
     it('Should be able to go to associate list tab.', function() {
         browser.manage().timeouts().implicitlyWait(5000);
-        element(by.xpath('/html/body/app/app-root/div/app-navbar/nav/div/ul[1]/li[5]/a')).click();
-        wd.sleep(3000);
+        element(by.css('[routerlink="/associate-listing"]')).click();
     });
 
     it('We should be on the associate tab', function () {

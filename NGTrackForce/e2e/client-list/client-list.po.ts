@@ -1,9 +1,11 @@
 import { browser, by, element } from 'protractor';
 import { ElementFinder } from 'protractor/built/element';
+import { BasePage, IdentificationType } from '../BasePage';
 
 var header;
 
-export class ClientListPo {
+
+export class ClientListPo extends BasePage {
 
     private searchByClientName       : ElementFinder;
     private viewDataForAllClients    : ElementFinder;
@@ -13,11 +15,11 @@ export class ClientListPo {
      * searchByClientName - input field
      * viewDataForAllClients - button
      */
-    constructor() {
-         this.searchByClientName = this.getSearchByClientName();
-         this.viewDataForAllClients = this.getAllUsersButton();
+    // constructor() {
+    //      this.searchByClientName = this.getSearchByClientName();
+    //      this.viewDataForAllClients = this.getAllUsersButton();
 
-    }
+    // }
  
     /**
      * Returns the Create List page

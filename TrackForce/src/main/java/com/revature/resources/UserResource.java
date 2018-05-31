@@ -1,10 +1,7 @@
 package com.revature.resources;
 
-import static com.revature.utils.LogUtil.logger;
-
 import java.io.IOException;
 import java.net.URI;
-import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -18,20 +15,17 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.revature.entity.TfUser;
-import com.revature.model.InterviewInfo;
 import com.revature.model.LoginJSON;
 import com.revature.model.UserJSON;
 import com.revature.request.model.CreateAssociateModel;
-import com.revature.request.model.CreateUserModel;
-import com.revature.request.model.SuccessOrFailMessage;
 import com.revature.services.JWTService;
 import com.revature.services.UserService;
-
 import com.revature.utils.LogUtil;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import oracle.jdbc.proxy.annotation.Post;
 
 @Path("users")
 @Api(value = "users")
@@ -113,13 +107,12 @@ public class UserResource {
 //	    	}
 //		}
 
-    @Consumes("application/json")
-    @Path("/createAssociate")
+    @Post
     @ApiOperation(value="Creates new Associate", notes = "Takes username, password, fname and lname to create new user")
     public Response createNewAssociate(CreateAssociateModel newAssociate){
         LogUtil.logger.info("createAssociate got hit");
         LogUtil.logger.info(newAssociate);
-        CreateAssociateModel newguy = new CreateAssociateModel();
+      //  CreateAssociateModel newguy = new CreateAssociateModel();
 
         service.createNewAssociate(newAssociate);
         return Response.created(URI.create("/testingURIcreate")).build();

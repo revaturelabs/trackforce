@@ -1,15 +1,6 @@
 package com.revature.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -20,8 +11,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "TF_USER", schema="ADMIN")
 public class TfUser implements java.io.Serializable {
 
-	
-	/// WOWOWOWOWOW they did the datamodel right this really funny to me 1804boi
     private static final long serialVersionUID = 706405344864879997L;
     @Id
     @Column(name = "TF_USER_ID")
@@ -40,11 +29,23 @@ public class TfUser implements java.io.Serializable {
     @Column(name = "TF_HASHPASSWORD", length = 200)
     private String tfHashpassword;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "TF_ASSOCIATE_ID")
+    private TfAssociate tfAssociate;
+
     public TfUser() {
     }
 
     public TfUser(int tfUserId) {
         this.tfUserId = tfUserId;
+    }
+
+    //Constructor for createAssociate which sets a role of 5.
+    public TfUser(TfAssociate associate, String username, String password){
+        this.tfAssociate = associate;
+        this.tfUserUsername = username;
+        this.tfHashpassword = password;
+        this.tfRole = new TfRole(5);
     }
 
     public TfUser(int tfUserId, TfRole tfRole, String tfUserUsername, String tfUserHashpassword) {

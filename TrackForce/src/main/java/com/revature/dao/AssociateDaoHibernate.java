@@ -36,7 +36,7 @@ import com.revature.utils.PersistentStorage;
 public class AssociateDaoHibernate implements AssociateDao {
 	
 	private static AssociateDaoHibernate instance;
-
+// FOR ANDy
 	private AssociateDaoHibernate() {
 		logger.info("AssociateDao created.");
 	}
@@ -247,6 +247,24 @@ public class AssociateDaoHibernate implements AssociateDao {
 				t.rollback();
 			}
 			logger.error(e);
+	public void createAssociate(String firstname, String lastname){
+		Transaction tr = null;
+		Session session = HibernateUtil.getSession();
+
+		try{
+			tr = session.beginTransaction();
+			TfAssociate tfa = new TfAssociate();
+			tfa.setTfAssociateFirstName(firstname);
+			tfa.setTfAssociateLastName(lastname);
+			tfa.setIsApproved(0);
+			session.save(tfa);
+			tr.commit();
+			logger.info("Created Associate.");
+
+		}catch(HibernateException e){
+			logger.error(e);
+			if(tr != null)
+				tr.rollback();
 		}
 		finally {
 			session.close();

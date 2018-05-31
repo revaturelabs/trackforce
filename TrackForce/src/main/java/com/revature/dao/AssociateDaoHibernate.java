@@ -227,5 +227,28 @@ public class AssociateDaoHibernate implements AssociateDao {
 		}
 		return setInfo;
 	}
+	public void createAssociate(String firstname, String lastname){
+		Transaction tr = null;
+		Session session = HibernateUtil.getSession();
+
+		try{
+			tr = session.beginTransaction();
+			TfAssociate tfa = new TfAssociate();
+			tfa.setTfAssociateFirstName(firstname);
+			tfa.setTfAssociateLastName(lastname);
+			tfa.setIsApproved(0);
+			session.save(tfa);
+			tr.commit();
+			logger.info("Created Associate.");
+
+		}catch(HibernateException e){
+			logger.error(e);
+			if(tr != null)
+				tr.rollback();
+		}
+		finally {
+			session.close();
+		}
+	}
 
 }

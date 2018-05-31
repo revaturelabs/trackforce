@@ -81,8 +81,7 @@ export class MyInterviewComponent implements OnInit {
             Afeedback: interview.tfInterviewFeedback,  
             JDescription: "Testing company applications in an agile environment",
             DInterview: "June 22, 2018",
-            CFeedback: "Impressive interview, final decision will be made soon",
-            FlagReason: "I was told less than 24 hours before interview"      
+            CFeedback: "Impressive interview, final decision will be made soon",    
           }
           tempArr.push(intObj);
         }

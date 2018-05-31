@@ -4,21 +4,21 @@ public class AssociateUserModel {
 
 	private String username;
 	private String password;
-	private String f_name;
-	private String l_name;
+	private String fname;
+	private String lname;
 	
 	/**
 	 * @param username
 	 * @param password
-	 * @param f_name
-	 * @param l_name
+	 * @param fname
+	 * @param lname
 	 */
-	public AssociateUserModel(String username, String password, String f_name, String l_name) {
+	public AssociateUserModel(String username, String password, String fname, String lname) {
 		super();
 		this.username = username;
 		this.password = password;
-		this.f_name = f_name;
-		this.l_name = l_name;
+		this.fname = fname;
+		this.lname = lname;
 	}
 
 	/**
@@ -50,31 +50,31 @@ public class AssociateUserModel {
 	}
 
 	/**
-	 * @return the f_name
+	 * @return the fname
 	 */
-	public String getF_name() {
-		return f_name;
+	public String getfname() {
+		return fname;
 	}
 
 	/**
-	 * @param f_name the f_name to set
+	 * @param fname the fname to set
 	 */
-	public void setF_name(String f_name) {
-		this.f_name = f_name;
+	public void setfname(String fname) {
+		this.fname = fname;
 	}
 
 	/**
-	 * @return the l_name
+	 * @return the lname
 	 */
-	public String getL_name() {
-		return l_name;
+	public String getlname() {
+		return lname;
 	}
 
 	/**
-	 * @param l_name the l_name to set
+	 * @param lname the lname to set
 	 */
-	public void setL_name(String l_name) {
-		this.l_name = l_name;
+	public void setlname(String lname) {
+		this.lname = lname;
 	}
 
 	public AssociateUserModel() {

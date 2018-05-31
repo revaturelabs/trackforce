@@ -17,7 +17,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-
 import com.revature.model.LoginJSON;
 import com.revature.model.UserJSON;
 import com.revature.services.JWTService;
@@ -38,10 +37,10 @@ public class BatchTests {
 	public void testinit() {
 		try {
 			logger.info("testInit()...");
-//			uService = new UserService();		// throws SQLException???
-//			jService = new JWTService();		// throws SQLException???
-//			token = jService.createToken("Ian", 1);
-//			throw new SQLException();
+			uService = new UserService(); // throws SQLException???
+			jService = new JWTService(); // throws SQLException???
+			token = jService.createToken("Ian", 1);
+			logger.info("token generated: " + token);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,26 +50,25 @@ public class BatchTests {
 	public void testAdam() throws IOException {
 		logger.info("Testing adam()...");
 		String URL = "http://localhost:8085/TrackForce/api/batches/adam";
-		
-//		HttpUriRequest request = new HttpGet(URL);
-//		HttpResponse response = HttpClientBuilder.create().build().execute(request);
-//		int status = response.getStatusLine().getStatusCode();
-//
-//		Assert.assertEquals(status, HttpStatus.SC_OK);
+
+		HttpUriRequest request = new HttpGet(URL);
+		HttpResponse response = HttpClientBuilder.create().build().execute(request);
+		int status = response.getStatusLine().getStatusCode();
+
+		Assert.assertEquals(status, HttpStatus.SC_OK);
 	}
-	//
-	// @Test(enabled = true)
-	// public void testGetAllBatches1() throws ClientProtocolException, IOException
-	// {
-	// logger.info("Testing getAllBatches1()...");
-	// String URL = "http://localhost:8085/TrackForce/api/batches";
-	// HttpUriRequest request = new HttpGet(URL);
-	// request.addHeader("Authorization", token);
-	// HttpResponse response = HttpClientBuilder.create().build().execute(request);
-	// int status = response.getStatusLine().getStatusCode();
-	//
-	// Assert.assertEquals(status, HttpStatus.SC_OK);
-	// }
+
+	@Test(enabled = true)
+	public void testGetAllBatches1() throws ClientProtocolException, IOException {
+		logger.info("Testing getAllBatches1()...");
+		String URL = "http://localhost:8085/TrackForce/api/batches";
+		HttpUriRequest request = new HttpGet(URL);
+		request.addHeader("Authorization", token);
+		HttpResponse response = HttpClientBuilder.create().build().execute(request);
+		int status = response.getStatusLine().getStatusCode();
+
+		Assert.assertEquals(status, HttpStatus.SC_OK);
+	}
 
 	// @Test(enabled = false)
 	// public void testGetAllBatches() {

@@ -79,7 +79,7 @@ public class JWTService {
 	}
 	
 	/**
-	 * 
+	 * @author Ian Buitrago
 	 * @param token
 	 * @return the payload, or null if token invalid
 	 */

@@ -5,7 +5,14 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,8 +33,6 @@ public class TfAssociate implements java.io.Serializable {
 	@XmlElement
 	@Id
 	@Column(name = "TF_ASSOCIATE_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	//@SequenceGenerator(sequenceName = "AssociateId_seq1", name ="AssociateIdSeq1", initialValue=15)
-	//@GeneratedValue(generator ="AssociateIdSeq1", strategy = GenerationType.SEQUENCE)
 	private Integer tfAssociateId;
 
 	@XmlElement

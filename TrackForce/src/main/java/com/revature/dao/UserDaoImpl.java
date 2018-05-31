@@ -7,7 +7,6 @@ import com.revature.request.model.CreateUserModel;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -15,7 +14,6 @@ import org.hibernate.query.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.math.BigDecimal;
 import java.util.List;
 
 import static com.revature.utils.LogUtil.logger;
@@ -74,35 +72,19 @@ public class UserDaoImpl implements UserDAO {
         Session session = HibernateUtil.getSession();
         Transaction t1 = null;
         try {
-            password = PasswordStorage.createHash(newAssociate.getPassword());
             t1 = session.beginTransaction();
-            TfAssociate tfa = new TfAssociate();
-
-            tfa.setTfAssociateFirstName(newAssociate.getFname());
-            tfa.setTfAssociateLastName(newAssociate.getLname());
-            tfa.setIsApproved(0);
-
-            String sql = "SELECT MAX(tf_associate_id) FROM admin.tf_associate";
-            Query<?> q = session.createNativeQuery(sql);
-            BigDecimal max = (BigDecimal) q.getSingleResult();
-            Integer id = Integer.parseInt(max.toBigInteger().toString()) + 1;
-            tfa.setTfAssociateId(id);
-            session.saveOrUpdate(tfa);           //Saves current changes to not get null user in newUser creation.
-
-            TfUser newUser = new TfUser(tfa, newAssociate.getUsername(), password);
-            session.saveOrUpdate(newUser);
+            password = PasswordStorage.createHash(newAssociate.getPassword());
+            TfAssociate newGuy = new TfAssociate();
+            session.saveOrUpdate(newGuy);           //Saves current changes to not get null user in newUser creation.
+            /**
+             * BRIAN
+             */
+            TfUser newUser = new TfUser(newGuy, newAssociate.getUsername(), password);
             t1.commit();
-
+            session.saveOrUpdate(newUser);
             logger.info("Associate successfully created");
-
             return true;
-
-        } catch (HibernateException e) {
-            if (t1 != null){
-                t1.rollback();
-            }
-            LogUtil.logger.error(e);
-        }catch(Exception e){
+        } catch (Exception e) {
             if (t1 != null){
                 t1.rollback();
             }

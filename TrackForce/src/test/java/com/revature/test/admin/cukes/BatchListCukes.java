@@ -281,7 +281,9 @@ public class BatchListCukes {
 	
 	@Given("^I am looking at batch details$")
 	public static void i_am_looking_at_batch_details() throws Throwable {
-	    i_should_be_taken_to_the_appropriate_details_page();
+		if(!(wd.getCurrentUrl().contains("batch-details/49"))) {
+			throw new PendingException();
+		}
 	}
 
 	@When("^I click on an associate ID$")

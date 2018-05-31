@@ -3,8 +3,6 @@
 
 .sonarlint
 
-# ignore config
-**/hibernate.cfg.xml
 
 # Node dependencies are inside package-lock.json 
 # To install node modules on your end run an npm install

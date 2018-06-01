@@ -31,6 +31,7 @@ import com.revature.request.model.InterviewFromClient;
 import com.revature.services.AssociateService;
 import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
+import com.revature.utils.LogUtil;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -56,6 +57,28 @@ public class InterviewResource {
 	private AssociateService service = new AssociateService();
 	private JWTService jService = new JWTService();
 	private static InterviewService is = new InterviewService();
+	
+	
+	
+	@POST
+	public Response createAssociateInterview(@HeaderParam("Authorization") String token, @PathParam("associateid") Integer associateid, InterviewFromClient ifc) {
+		// TODO handle exception
+				Status status = null;
+				Claims payload = JWTService.processToken(token);
+				LogUtil.logger.info(ifc);
+				if (payload == null || !payload.getId().equals("1")) {
+					status = Status.UNAUTHORIZED;
+				} 
+				
+				else 
+				{
+					is.addInterviewByAssociate(associateid, ifc);
+					status =  Status.CREATED;
+					logger.info("inside get add interview by associate");
+				}
+
+				return Response.status(status).build();
+	}
 
 	@GET
 	@ApiOperation(value = "Returns all interviews for an associate", notes ="Returns a list of all interviews.")

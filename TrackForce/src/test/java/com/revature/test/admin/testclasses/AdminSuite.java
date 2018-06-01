@@ -1,20 +1,25 @@
 package com.revature.test.admin.testclasses;
 
+import org.junit.runner.RunWith;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-import com.revature.test.utils.WebDriverUtil;
+
 import com.revature.test.admin.pom.Logout;
 import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.TestConfig;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.Keys;
+import com.revature.test.utils.WebDriverUtil;
 
+import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
 //import cucumber.api.CucumberOptions;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 
-//@CucumberOptions(features="src/test/resources/AdminFeatureFiles")
+@RunWith(Cucumber.class)
+@CucumberOptions(features="src/test/resources/AdminFeatureFiles/Login.feature",
+				 glue="src/test/java/test/admin/cukes/LoginCukes.java")
 public class AdminSuite extends AbstractTestNGCucumberTests{
 	
 	public WebDriver wd = null;

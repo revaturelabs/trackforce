@@ -1,13 +1,28 @@
 package com.revature.test.utils;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import com.revature.test.admin.pom.Login;
+
 public class WebDriverUtil {
 
 	private static WebDriver chromeDriver = null;
+	private static Properties prop = new Properties();
+	static {
+		InputStream locProps = Login.class.getClassLoader()
+				.getResourceAsStream("tests.properties");
+		try {
+			prop.load(locProps);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public WebDriverUtil() {
 		
@@ -22,9 +37,9 @@ public class WebDriverUtil {
 			//you can check the logs folder in the apache installation
 			// currently there is a chromedriver in the bin/src/main/resources of the Apache folder
 			//
-			File f1 = new File("src/main/resources/chromedriver.exe");
+			File f1 = new File(prop.getProperty("chromeDriverPath"));
 			System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
-			chromeDriver=new ChromeDriver();
+			chromeDriver = new ChromeDriver();
 			return chromeDriver;
 	}
 	

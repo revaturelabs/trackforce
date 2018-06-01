@@ -8,7 +8,6 @@ describe('navbar functionality', () => {
 
     beforeAll(() => {
         navbar = new Navbar();
-        navbar.navigateTo();
         testConfig = new TestConfig();
         baseURL = testConfig.getBaseURL();
     });

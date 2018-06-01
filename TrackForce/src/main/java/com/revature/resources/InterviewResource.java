@@ -106,10 +106,6 @@ public class InterviewResource {
 			return Response.status(403).build();
 		}
 	}
-
-	// TODO: change the Form params to be whatever is being sent
-	// TODO: create an InterviewFromClient object with the form param arguments
-	@POST
 	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
 	public Response createInterview(@PathParam("associateid") int associateid,
 			@HeaderParam("Authorization") String token, InterviewFromClient ifc) {
@@ -129,81 +125,81 @@ public class InterviewResource {
 		
 		return Response.status(status).build();
 	}
-	@PUT
-	@Path("/{interviewid}/twentyfourFlag")
-	public Response twentyfourFlag(TfInterview flagInterview, @HeaderParam("Authorization") String token,
-			@PathParam("associateid") Integer associateid,
-			@PathParam("interviewid") Integer interviewid) {
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
-		} else {
-			InterviewDaoHibernate id = new InterviewDaoHibernate();
-			id.updateInterview(flagInterview);
-			// does service actually work?
-			status = Status.ACCEPTED;
-		}
-		return Response.status(status).build();
-	}
-	
-	@PUT
-	@Path("/{interviewid}/interview-went")
-	public Response interviewWent(TfInterview interviewWent, @HeaderParam("Authorization") String token,
-			@PathParam("associateid") Integer associateid,
-			@PathParam("interviewid") Integer interviewid) {
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
-		} else {
-			InterviewDaoHibernate id = new InterviewDaoHibernate();
-			id.updateInterview(interviewWent);
-			// does service actually work?
-			status = Status.ACCEPTED;
-		}
-		return Response.status(status).build();
-	}
-	
-	@PUT
-	@Path("/{interviewid}/client-feedback")
-	public Response clientFeedback(TfInterview clientFeedback, @HeaderParam("Authorization") String token,
-			@PathParam("associateid") Integer associateid,
-			@PathParam("interviewid") Integer interviewid) {
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("3")) {
-			status = Status.UNAUTHORIZED;
-		} else {
-			InterviewDaoHibernate id = new InterviewDaoHibernate();
-			id.updateInterview(clientFeedback);
-			// does service actually work?
-			status = Status.ACCEPTED;
-		}
-		return Response.status(status).build();
-	}
-	@GET
-	@Path("/{interviewid}/client-feedback")
-	public Response getFeedback(TfInterview feedback,
-			@HeaderParam("Authorization") String token,
-			@PathParam("associateid") Integer associateid,
-			@PathParam("interviewid") Integer interviewid) {
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("3")) {
-			status = Status.UNAUTHORIZED;
-		} else if (feedback.getTfIsClientFeedbackVisible() == 1) {
-			InterviewDaoHibernate id = new InterviewDaoHibernate();
-			id.getInterviewById(feedback.getTfInterviewId());
-			// does service actually work?
-			status = Status.ACCEPTED;
-		}
-		return Response.status(status).build();
-	}
+//	@PUT
+//	@Path("/{interviewid}/twentyfourFlag")
+//	public Response twentyfourFlag(TfInterview flagInterview, @HeaderParam("Authorization") String token,
+//			@PathParam("associateid") Integer associateid,
+//			@PathParam("interviewid") Integer interviewid) {
+//		Status status = null;
+//		Claims payload = JWTService.processToken(token);
+//
+//		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("5")) {
+//			status = Status.UNAUTHORIZED;
+//		} else {
+//			InterviewDaoHibernate id = new InterviewDaoHibernate();
+//			id.updateInterview(flagInterview);
+//			// does service actually work?
+//			status = Status.ACCEPTED;
+//		}
+//		return Response.status(status).build();
+//	}
+//	
+//	@PUT
+//	@Path("/{interviewid}/interview-went")
+//	public Response interviewWent(TfInterview interviewWent, @HeaderParam("Authorization") String token,
+//			@PathParam("associateid") Integer associateid,
+//			@PathParam("interviewid") Integer interviewid) {
+//		Status status = null;
+//		Claims payload = JWTService.processToken(token);
+//
+//		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("5")) {
+//			status = Status.UNAUTHORIZED;
+//		} else {
+//			InterviewDaoHibernate id = new InterviewDaoHibernate();
+//			id.updateInterview(interviewWent);
+//			// does service actually work?
+//			status = Status.ACCEPTED;
+//		}
+//		return Response.status(status).build();
+//	}
+//	
+//	@PUT
+//	@Path("/{interviewid}/client-feedback")
+//	public Response clientFeedback(TfInterview clientFeedback, @HeaderParam("Authorization") String token,
+//			@PathParam("associateid") Integer associateid,
+//			@PathParam("interviewid") Integer interviewid) {
+//		Status status = null;
+//		Claims payload = JWTService.processToken(token);
+//
+//		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("3")) {
+//			status = Status.UNAUTHORIZED;
+//		} else {
+//			InterviewDaoHibernate id = new InterviewDaoHibernate();
+//			id.updateInterview(clientFeedback);
+//			// does service actually work?
+//			status = Status.ACCEPTED;
+//		}
+//		return Response.status(status).build();
+//	}
+//	@GET
+//	@Path("/{interviewid}/client-feedback")
+//	public Response getFeedback(TfInterview feedback,
+//			@HeaderParam("Authorization") String token,
+//			@PathParam("associateid") Integer associateid,
+//			@PathParam("interviewid") Integer interviewid) {
+//		Status status = null;
+//		Claims payload = JWTService.processToken(token);
+//
+//		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("3")) {
+//			status = Status.UNAUTHORIZED;
+//		} else if (feedback.getTfIsClientFeedbackVisible() == 1) {
+//			InterviewDaoHibernate id = new InterviewDaoHibernate();
+//			id.getInterviewById(feedback.getTfInterviewId());
+//			// does service actually work?
+//			status = Status.ACCEPTED;
+//		}
+//		return Response.status(status).build();
+//	}
 	@Path("/{interviewid}")
 	@ApiOperation(value = "updates interview", notes = " Updates interview")
 	@PUT

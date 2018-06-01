@@ -68,7 +68,7 @@ public class CreateUserTab {
 	}
 	
 	public static WebElement getSubmit(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("createUserSubmit")), 10);
+		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("createUserSubmit")), 10);
 	}
 
 }

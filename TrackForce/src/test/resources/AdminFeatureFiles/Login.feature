@@ -20,75 +20,72 @@
 Feature: Tests for the login page
 
   @loginTag1
-  Scenario: Log in as Administrator
+  Scenario Outline: Log in as Administrator
   	Given the login page loads
   	When I enter the correct admin login information
   	And I click Submit
   	Then I should be taken to the home page
   	
   @loginTag2
-  Scenario: Log in as Staging
+  Scenario Outline: Log in as Staging
   	Given the login page loads
   	When I enter the correct admin login information
   	And I click Submit
   	Then I should be taken to the home page
   	
   @loginTag3
-  Scenario: Log in as Sales-Delivery
+  Scenario Outline: Log in as Sales-Delivery
   	Given the login page loads
   	When I enter the correct admin login information
   	And I click Submit
   	Then I should be taken to the home page
   	
   @loginTag4
-  Scenario: Log in as a Trainer
+  Scenario Outline: Log in as a Trainer
   	Given the login page loads
   	When I enter the correct admin login information
   	And I click Submit
   	Then I should be taken to the home page
   	
   @loginTag5
-  Scenario: Log in as an Associate
+  Scenario Outline: Log in as an Associate
   	Given the login page loads
   	When I enter the correct admin login information
   	And I click Submit
   	Then I should be taken to the home page 	
   	
   @loginTag6 
-	Scenario: Fail to enter username
+	Scenario Outline: Fail to enter username
   	Given the login page loads
 		When I enter a correct password without a username
 		And I click Submit
-		Then an error should appear
+		Then I should remain on the login page
 
   @loginTag7
-	Scenario: Fail to enter password
+	Scenario Outline: Fail to enter password
   	Given the login page loads
 		When I enter a correct username without a password
 		And I click Submit
-		Then an error should appear
+		Then I should remain on the login page
 
   @loginTag8
-	Scenario: Incorrect Username
+	Scenario Outline: Incorrect Username
   	Given the login page loads
 		When I enter a correct password with an incorrect password
 		And I click Submit
-		Then an error should appear
-
+		Then I should remain on the login page
+		
   @loginTag9
-	Scenario: Incorrect Password
+	Scenario Outline: Incorrect Password
   	Given the login page loads
 		When I enter a correct password with an incorrect username
 		And I click Submit
-		Then an error should appear
+		Then an I should remain on the login page
 
-  @loginTagX
-  Scenario Outline: Title of your scenario outline
-    Given I want to write a step with <name>
-    When I check for the <value> in step
-    Then I verify the <status> in step
+  @loginTag10
+	Scenario Outline: Incorrect login
+  	Given the login page loads
+		When I enter an incorrect password with an incorrect username
+		And I click Submit
+		Then I should remain on the login page
 
-    Examples: 
-      | name  | value | status  |
-      | name1 |     5 | success |
-      | name2 |     7 | Fail    |

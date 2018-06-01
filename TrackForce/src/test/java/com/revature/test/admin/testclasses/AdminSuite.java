@@ -18,8 +18,8 @@ import cucumber.api.junit.Cucumber;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features="src/test/resources/AdminFeatureFiles/BatchList.feature",
-				 glue="src/test/java/test/admin/cukes/BatchListCukes.java")
+@CucumberOptions(features="src/test/resources/AdminFeatureFiles/Login.feature",
+				 glue="src/test/java/test/admin/cukes/LoginCukes.java")
 public class AdminSuite extends AbstractTestNGCucumberTests{
 	
 	public WebDriver wd = null;

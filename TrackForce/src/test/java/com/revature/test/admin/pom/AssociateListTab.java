@@ -31,7 +31,7 @@ public class AssociateListTab {
 	}
 
 	public static WebElement getAssociateListHeader(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("associatesHeader")), 10);
+		return WaitToLoad.findDynamicElement(d, By.tagName(prop.getProperty("associatesHeader")), 10);
 	}
 
 	public static String getCurrentURL(WebDriver d) {

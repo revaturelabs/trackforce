@@ -97,13 +97,13 @@ public class BatchListCukes {
 		try {
 			// Get the batch name to verify everyone in that batch is in correct batch
 			batchName = BatchListTab.getFirstBatchName(wd).getText();
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			fail("Failed to find first batch name");
 		}
 		try {
 			// Click the first batch information
 			BatchListTab.getFirstBatchName(wd).click();
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			fail("Failed to click first batch name");
 		}
 		return batchName;
@@ -116,7 +116,7 @@ public class BatchListCukes {
 			List<WebElement> associates = BatchListTab.getAssociatesInfo(wd);
 			associates_should_match_the_associate_list(batchName, associates);
 
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			fail("Could not get Associate list");
 		}
 	}
@@ -154,7 +154,7 @@ public class BatchListCukes {
 			// Verify that the page is Batch List Tab
 			if (BatchListTab.getCurrentURL(wd).equals(TestConfig.getBaseURL() + "/batch-listing")) {
 			}
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			fail("Can't grab associate list ID's");
 		}
 	}
@@ -192,7 +192,7 @@ public class BatchListCukes {
 			BatchListTab.fromDateField(wd).sendKeys("9");
 			// enters 15 as the day value
 			BatchListTab.fromDateField(wd).sendKeys("15");
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			System.out.println("Failed to enter data into From date field");
 		}
 	}
@@ -234,7 +234,7 @@ public class BatchListCukes {
 			// enters 15 as the day value
 			BatchListTab.toDateField(wd).sendKeys("15");
 
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			System.out.println("Failed to find All Batches header");
 		}
 	}
@@ -244,7 +244,7 @@ public class BatchListCukes {
 		try {
 			// clicks the submit button
 			BatchListTab.submitButton(wd).click();
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			fail("Submit button was not clicked");
 		}
 	}
@@ -260,7 +260,7 @@ public class BatchListCukes {
 		try {
 			// clicks the reset button 
 			BatchListTab.resetButton(wd).click();
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			System.out.println("Reset button was not clicked");
 		}
 	}

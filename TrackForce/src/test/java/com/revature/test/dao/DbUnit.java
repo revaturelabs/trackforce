@@ -31,14 +31,9 @@ public class DbUnit extends JdbcBasedDBTestCase{
         System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, "trackforce" );
     }
    
-    //Connection details handled by JdbcDatabaseTester
-    /*@Override
-    protected IDatabaseConnection getConnection() throws Exception {
-		Class.forName("com.mysql.jdbc.Driver");
-        jdbcConnection =  DriverManager.getConnection(getConnectionUrl(), getUsername(), getPassword());
-		return new DatabaseConnection(jdbcConnection);
-	}*/
  
+ 
+   //hardcoded location for xml file storing front-end data
     @Override
     protected IDataSet getDataSet() throws Exception {
        String filePath ="/TrackForce/src/test/java/com/revature/test/dao/DbUnitDataset.xml";

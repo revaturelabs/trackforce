@@ -16,31 +16,50 @@ import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 
+import com.revature.services.AssociateService;
 import com.revature.test.dao.DbUnit;
 /*
  * DbUnit framework does clean insert and clean up after database testing of DAO/Hibernate methods
+ * clientSideData is grabbed using Jersey services 
+ * serverSideData is directly taken from database at time of testing
  */
-public class DaoTest {
+public class databaseTest {
 	
-	IDatabaseConnection conn;
+	IDatabaseConnection conn; //driver manager connection
 	IDatabaseTester tester;
 	DbUnit test;
-	IDataSet serverSideData;
-	IDataSet clientSideData;
+	IDataSet serverSideData; //database data
+	IDataSet clientSideData; //client side/angular data
+	
+	AssociateService aserv = new AssociateService(); //associate service test
+	
+	//get associate list count
+	public native int f();
+	
+	//load library for native methods written in javascript
+	static {
+		System.loadLibrary("NGTrackforce");
+	}
+	
 	@BeforeClass
 	public void setUp()
 	{
-		test = new DbUnit("daoTest");
+		
+		test = new DbUnit("Database Not-Only-Persistence Test");
 		Log.info("==============="+test.toString()+"STARTING==================");
 		try {
 			//Get connection for tester
 			tester=test.getDatabaseTester();
 			conn = tester.getConnection();
 			//transient test data; dirty data from previous data 
-			//Jersey services for grabbing data; store into xml; compare with database
+			
+			//grab data; store into xml; compare with database
+			
+			
 			//actual data actually does not get through database
 			//create dataset from snapshot of database
-			serverSideData=conn.createDataSet(); 
+			//Jersey response compare
+			
 
 			Log.info("DbUnit Tests: "+ test.countTestCases());
 			//tester.getConnection().createDataSet();
@@ -67,12 +86,26 @@ public class DaoTest {
 			e.printStackTrace();
 		}
 	}
-	
+
+	//util method to grab database data
+	@Test(enabled=false)
+	public void getServerData() {
+		try {
+			serverSideData=conn.createDataSet();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+	}
+	//register new associate, fails because not implemented
 	@Test
 	public void tf_associate_table_test() {
 		try {
 			System.out.println("TF_ASSOCIATE row count:" +conn.getRowCount("TF_ASSOCIATE"));
+			
+			assertEquals(aserv.getAllAssociates().size(), serverSideData.getTable("TF_ASSOCIATE").getRowCount());
+			//assertEquals(this.f(), serverSideData.getTable("TF_ASSOCIATE").getRowCount());
 			assertEquals(clientSideData.getTable("TF_ASSOCIATE").getRowCount(), serverSideData.getTable("TF_ASSOCIATE").getRowCount());
+	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (DataSetException e) {

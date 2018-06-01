@@ -31,6 +31,10 @@ export class MyInterviewComponent implements OnInit {
   public newInterview: Interview = new Interview();
   public formOpen: boolean = false;
   public conflictingInterviews: string = "";
+  public interviewDate: Date = new Date();
+  public interviewDateNotification: Date = new Date();
+
+
 
   constructor(
     private associateService: AssociateService,
@@ -54,11 +58,22 @@ export class MyInterviewComponent implements OnInit {
   }
 
   addInterview(){
-    console.log(this.newInterview);
-    console.log("test")
+    console.log(this.newInterview);  
+    console.log(this.interviewDate);
+    console.log(this.interviewDateNotification);
+    console.log(typeof(this.interviewDate));
+
+    console.log(this.interviewDate.getDay);
+    
+    console.log(this.interviewDateNotification.getTime);
+
+
  
-    this.newInterview.typeName = 30;
+    console.log(this.newInterview.clientid);
+    console.log(this.newInterview.dateOfInterview);
+    console.log(this.newInterview.dateNotified);
     console.log(this.newInterview.typeName);
+    console.log(this.newInterview.notified);
 
 
 

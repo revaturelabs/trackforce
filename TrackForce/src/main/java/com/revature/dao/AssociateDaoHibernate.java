@@ -139,7 +139,11 @@ public class AssociateDaoHibernate implements AssociateDao {
 				status = (TfMarketingStatus) session.load(TfMarketingStatus.class, afc.getMkStatus());
 			}
 			else {
+				System.out.println("tfAssociate's marketingStatusID = " 
+						+ tfAssociate.getTfMarketingStatus().getTfMarketingStatusId());
 				afc.setMkStatus(tfAssociate.getTfMarketingStatus().getTfMarketingStatusId());
+				System.out.println("UPDATED AFC");
+				System.out.println("afc's marketingStatusID = " + afc.getMkStatus());
 			}
 			
 			if(client != null && client.getTfClientId() != null) {

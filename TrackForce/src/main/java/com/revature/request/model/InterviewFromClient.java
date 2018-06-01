@@ -27,9 +27,9 @@ public class InterviewFromClient implements Serializable {
 	@XmlElement
 	private String jobDescription;
 	@XmlElement
-	private String dateSalesTeamIssued;
+	private long dateSalesTeamIssued;
 	@XmlElement
-	private String dateAssociateIssued;
+	private long dateAssociateIssued;
 	@XmlElement
 	private String flagAlert;
 	@XmlElement
@@ -38,6 +38,10 @@ public class InterviewFromClient implements Serializable {
 	private String clientFeedback;
 	@XmlElement
 	private String endClientId;
+	@XmlElement
+	private String questions;
+	@XmlElement
+	private Integer was24HRNotice;
 	
 	
 	public InterviewFromClient() {
@@ -128,5 +132,84 @@ public class InterviewFromClient implements Serializable {
 		return "InterviewFromClient [associateId=" + associateId + ", clientId=" + clientId + ", typeId="
 				+ typeId + ", interviewDate=" + interviewDate + ", interviewFeedback=" + interviewFeedback + "]";
 	}
-	
+
+	public String getJobDescription() {
+		return jobDescription;
+	}
+
+	public void setJobDescription(String jobDescription) {
+		this.jobDescription = jobDescription;
+	}
+
+	public String getAssociateFeedback() {
+		return associateFeedback;
+	}
+
+	public void setAssociateFeedback(String associateFeedback) {
+		this.associateFeedback = associateFeedback;
+	}
+
+	public long getDateSalesTeamIssued() {
+		return dateSalesTeamIssued;
+	}
+
+	public void setDateSalesTeamIssued(long dateSalesTeamIssued) {
+		this.dateSalesTeamIssued = dateSalesTeamIssued;
+	}
+
+	public long getDateAssociateIssued() {
+		return dateAssociateIssued;
+	}
+
+	public void setDateAssociateIssued(long dateAssociateIssued) {
+		this.dateAssociateIssued = dateAssociateIssued;
+	}
+
+	public String getFlagAlert() {
+		return flagAlert;
+	}
+
+	public void setFlagAlert(String flagAlert) {
+		this.flagAlert = flagAlert;
+	}
+
+	public String getReasonForFlag() {
+		return reasonForFlag;
+	}
+
+	public void setReasonForFlag(String reasonForFlag) {
+		this.reasonForFlag = reasonForFlag;
+	}
+
+	public String getClientFeedback() {
+		return clientFeedback;
+	}
+
+	public void setClientFeedback(String clientFeedback) {
+		this.clientFeedback = clientFeedback;
+	}
+
+	public String getEndClientId() {
+		return endClientId;
+	}
+
+	public void setEndClientId(String endClientId) {
+		this.endClientId = endClientId;
+	}
+
+	public String getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(String questions) {
+		this.questions = questions;
+	}
+
+	public Integer getWas24HRNotice() {
+		return was24HRNotice;
+	}
+
+	public void setWas24HRNotice(Integer was24HRNotice) {
+		this.was24HRNotice = was24HRNotice;
+	}
 }

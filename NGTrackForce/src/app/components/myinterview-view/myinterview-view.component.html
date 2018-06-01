@@ -87,7 +87,7 @@
             <div class="form-group">
               <label class="control-label col-sm-3">Type:</label>
                <div class="col-sm-9">
-                 <select class="form-control" name="type "[(ngModel)]="newInterview.type">
+                 <select class="form-control" name="type "[(ngModel)]="newInterview.typeName">
                      <option value="1">Phone</option>
                      <option value="2">Online</option>
                      <option value="3">On-site</option>
@@ -97,6 +97,8 @@
             </div>
             <div class="form-group">           
             </div>
+            <label class="control-label col-sm-3" >24 hour notice?</label>
+            <input type="checkbox" name="24hournotice" [(ngModel)]="newInterview.notified">
             <button (click)="addInterview()" class="btn btn-warning">Add Interview</button>
           </form>
         </div>

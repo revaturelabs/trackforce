@@ -202,7 +202,7 @@ public class InterviewResource {
 		return Response.status(status).build();
 	}
 
-	@Path("/{interviewid")
+	@Path("/{interviewid}")
 	@ApiOperation(value = "updates interview", notes = " Updates interview")
 	@PUT
 	public Response updateInterview(@PathParam("associateid") int associateid,

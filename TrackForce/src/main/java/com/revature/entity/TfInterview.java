@@ -77,7 +77,7 @@ public class TfInterview implements java.io.Serializable {
 	}
 	/**
 	 * @param tfInterviewId
-	 * @param tfAssociate b 
+	 * @param tfAssociate
 	 * @param tfClient
 	 * @param tfEndClient
 	 * @param tfInterviewType

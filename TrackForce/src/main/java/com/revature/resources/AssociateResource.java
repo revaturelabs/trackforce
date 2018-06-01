@@ -78,17 +78,6 @@ public class AssociateResource {
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
 
-		if (payload == null || payload.getId().equals("5")) 
-		{
-			status = Status.UNAUTHORIZED;
-		} 
-		
-		else 
-		{
-			associates = service.getAllAssociates();
-			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
-		}
-		
 		return Response.status(status).entity(associates).build();
 	}
 
@@ -150,17 +139,6 @@ public class AssociateResource {
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
 		}
 
-		if (payload == null || payload.getId().equals("5")) 
-		{
-			status = Status.UNAUTHORIZED;
-		} 
-		
-		else 
-		{
-			associateinfo = service.getAssociate(associateid);
-			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
-		}
-		
 		return Response.status(status).entity(associateinfo).build();
 	}
 

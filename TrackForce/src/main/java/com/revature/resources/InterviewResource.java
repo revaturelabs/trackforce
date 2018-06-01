@@ -201,15 +201,16 @@ public class InterviewResource {
 		}
 		return Response.status(status).build();
 	}
+
 	@Path("/{interviewid")
 	@ApiOperation(value = "updates interview", notes = " Updates interview")
 	@PUT
 	public Response updateInterview(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token,
-
-			TfInterview changeInterview) 
-	{
+			TfInterview changeInterview) {
 		Status status = null;
+		Claims payload = JWTService.processToken(token);
+
 		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("5")) {
 			status = Status.UNAUTHORIZED;
 		}
@@ -220,7 +221,6 @@ public class InterviewResource {
 			hd.updateInterview(changeInterview);
 			status = Status.ACCEPTED;
 		}
-
 
 		return Response.status(204).build();
 	}

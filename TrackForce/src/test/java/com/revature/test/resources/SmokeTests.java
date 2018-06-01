@@ -55,67 +55,46 @@ public class SmokeTests {
 		token = jService.createToken("Ian", 1);
 		logger.info("token generated: " + token);
 	}
-
+	
 	/**
-	 * Tests dummy resource. If it fails, the server may be off.
+	 * URI and Status code. 
 	 */
-	@Test
-	public void testAdam() throws IOException {
-		logger.info("Testing adam()...");
-		String URL = domain + "TrackForce/api/batches/adam";
-		logger.info("	URL = " + URL);
-
-		HttpUriRequest request = new HttpGet(URL);
-		HttpResponse response = HttpClientBuilder.create().build().execute(request);
-		int status = response.getStatusLine().getStatusCode();
-
-		Assert.assertEquals(status, HttpStatus.SC_OK);
-	}
-
 	@Test(enabled = true)
-	public void testAllBatches() {
-		logger.info("Testing getAllBatches()...");
-		String URL = domain + "TrackForce/api/batches";
-		logger.info("	URL = " + URL);
-		HttpUriRequest request = new HttpGet(URL);
-		request.addHeader("Authorization", token);
-		try {
-			HttpResponse response = HttpClientBuilder.create().build().execute(request);
-			int status = response.getStatusLine().getStatusCode();
-
-			Assert.assertEquals(status, HttpStatus.SC_OK);
-
-			// String jsonMimeType = "application/json";
-			// String mimeType =
-			// ContentType.getOrDefault(response.getEntity()).getMimeType();
-			// Assert.assertEquals(jsonMimeType, mimeType);
-
-			// body
-			BatchInfo[] batches = new ObjectMapper().readValue(response.getEntity().getContent(), BatchInfo[].class);
-			if (batches == null) {
-				return;
-			}
-			logger.info("	batches.length: " + batches.length);
-			if (batches.length < 1) {
-				return;
-			}
-			logger.info("	batches[0]: " + batches[0]);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	@Test(enabled = true)
-	public void Atest() {
+	public void getAssociatetest() {
 		logger.info("Testing getAssociate()...");
+
 		String URI = "TrackForce/api/associates/1";
-		javax.ws.rs.core.Response.Status expectedStatus = Status.OK;
-		
-		testResource(URI, expectedStatus);
+		Status expectedStatus = Status.OK;
+
+		boolean passed = testResource(URI, expectedStatus
+//				, AssociateInfo.class
+				);
+		Assert.assertTrue(passed);
 	}
 	
-	private void testResource(String URI, Status expectedStatus) {
+	@Test(enabled = true)
+	public void getAllAssociatestest() {
+		logger.info("Testing getAllAssociates()...");
+
+		String URI = "TrackForce/api/associates";
+		Status expectedStatus = Status.OK;
+
+		boolean passed = testResource(URI, expectedStatus
+//				, AssociateInfo.class
+				);
+		Assert.assertTrue(passed);
+	}
+
+	/**
+	 * 
+	 * @param URI to be tested
+	 * @param expectedStatus returned in response
+	 * @param type of object expected in body or response
+	 * @return
+	 */
+	private boolean testResource(String URI, Status expectedStatus
+//			, Class<T> type
+			) {
 		String URL = domain + "TrackForce/api/associates/1";
 		logger.info("	URL = " + URL);
 		HttpUriRequest request = new HttpGet(URL);
@@ -123,20 +102,18 @@ public class SmokeTests {
 
 		HttpResponse response = respond(request);
 		if (response == null) {
-			Assert.fail("Exception was thrown.");
-			return;
+			return false;
 		}
-		int status = response.getStatusLine().getStatusCode();
+		Status status = Status.fromStatusCode(response.getStatusLine().getStatusCode());
 
-		Assert.assertEquals(status, HttpStatus.SC_OK);
-
-		// body
-		AssociateInfo associate = mapObject(response, AssociateInfo.class);
-		if (associate == null) {
-			Assert.fail("Exception was thrown.");
-			return;
-		}
-		logger.info("	pojo: " + associate.getClass() + " = \n\t" + associate);
+		// prints body
+//		T obj = mapObject(response, type);
+//		if (obj == null) {
+//			return false;
+//		}else {
+//		logger.info("	pojo: " + obj.getClass() + " = \n\t" + obj);
+//		}
+		return status == expectedStatus;
 	}
 
 	/**
@@ -169,4 +146,54 @@ public class SmokeTests {
 			return null;
 		}
 	}
+
+	@Test(enabled = false)
+	public void testAllBatches() {
+		logger.info("Testing getAllBatches()...");
+		String URL = domain + "TrackForce/api/batches";
+		logger.info("	URL = " + URL);
+		HttpUriRequest request = new HttpGet(URL);
+		request.addHeader("Authorization", token);
+		try {
+			HttpResponse response = HttpClientBuilder.create().build().execute(request);
+			int status = response.getStatusLine().getStatusCode();
+
+			Assert.assertEquals(status, HttpStatus.SC_OK);
+
+			// String jsonMimeType = "application/json";
+			// String mimeType =
+			// ContentType.getOrDefault(response.getEntity()).getMimeType();
+			// Assert.assertEquals(jsonMimeType, mimeType);
+
+			// body
+			BatchInfo[] batches = new ObjectMapper().readValue(response.getEntity().getContent(), BatchInfo[].class);
+			if (batches == null) {
+				return;
+			}
+			logger.info("	batches.length: " + batches.length);
+			if (batches.length < 1) {
+				return;
+			}
+			logger.info("	batches[0]: " + batches[0]);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Tests dummy resource. If it fails, the server may be off.
+	 */
+	@Test
+	public void testAdam() throws IOException {
+		logger.info("Testing adam()...");
+		String URL = domain + "TrackForce/api/batches/adam";
+		logger.info("	URL = " + URL);
+
+		HttpUriRequest request = new HttpGet(URL);
+		HttpResponse response = HttpClientBuilder.create().build().execute(request);
+		int status = response.getStatusLine().getStatusCode();
+
+		Assert.assertEquals(status, HttpStatus.SC_OK);
+	}
+
 }

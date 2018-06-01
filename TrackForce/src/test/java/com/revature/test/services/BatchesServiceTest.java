@@ -1,5 +1,6 @@
 package com.revature.test.services;
 
+import static com.revature.utils.LogUtil.logger;
 import com.revature.dao.BatchDao;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
@@ -74,6 +75,7 @@ public class BatchesServiceTest {
 	 */
 	@Test(enabled = true)
 	public void testGetBatchesByCurri0() throws Exception {
+		logger.info("testGetBatchesByCurri0()...");
 		String cName = "nonexistent";
 		Set<BatchInfo> batches = batchService.getBatchesByCurri(cName);
 		Set<BatchInfo> expected = new HashSet<>();

@@ -37,6 +37,7 @@ import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
+import sun.rmi.runtime.Log;
 
 public class InterviewDaoHibernate implements InterviewDao {
 	
@@ -105,27 +106,41 @@ public class InterviewDaoHibernate implements InterviewDao {
 	}
 
 	@Override
-	public void addInterviewForAssociate(int associateid, InterviewFromClient ifc) {
+	public boolean addInterviewForAssociate(int associateid, InterviewFromClient ifc) {
 		Transaction t1 = null;
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSession();
 		try {
 			t1 = session.beginTransaction();
 			TfInterview tfi = new TfInterview();
+
+			//generates an interview ID
 			String sql = "SELECT MAX(tf_interview_id) FROM admin.tf_interview";
 			@SuppressWarnings("rawtypes")
 			Query q = session.createNativeQuery(sql);
 			BigDecimal max = (BigDecimal) q.getSingleResult();
 			Integer id = Integer.parseInt(max.toBigInteger().toString()) + 1;
-			tfi.setTfInterviewId(id);
+			//tfi.setTfInterviewId();
 			tfi.setTfAssociate(session.get(TfAssociate.class, associateid));
 
-			// tfi.setTfInterviewFeedback(ifc.getInterviewFeedback());
+
+			tfi.setTfAssociateFeedback(ifc.getAssociateFeedback());
+			tfi.setTfClientFeedback(ifc.getClientFeedback());
 			tfi.setTfClient(session.get(TfClient.class, ifc.getClientId()));
 			tfi.setTfInterviewType(session.load(TfInterviewType.class, ifc.getTypeId()));
 			tfi.setTfInterviewDate(Timestamp.from(new Date(ifc.getInterviewDate()).toInstant()));
+			tfi.setTfQuestionGiven(ifc.getQuestions());
+			tfi.setTfJobDescription(ifc.getJobDescription());
+			//Using the date the associate team issued the interview
+			tfi.setTfDateAssociateIssued(Timestamp.from(new Date(ifc.getDateAssociateIssued()).toInstant()));
+			tfi.setTfWas24HRNotice(ifc.getWas24HRNotice());
+
 
 			session.saveOrUpdate(tfi);
 			t1.commit();
+
+			LogUtil.logger.info("Successfully created interview");
+			return true;
+
 		} catch (NullPointerException e) {
 			LogUtil.logger.error(e);
 			if (t1 != null) {
@@ -139,6 +154,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 		} finally {
 			session.close();
 		}
+		return false;
 	}
 
 	/**
@@ -150,40 +166,43 @@ public class InterviewDaoHibernate implements InterviewDao {
 	@Override
 	public boolean createInterview(TfInterview parmInterview) {
 		Transaction dbTransaction = null;
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSession();
 		try {
 			dbTransaction = session.beginTransaction();
-			TfInterview databaseRow = new TfInterview();
-			// --I think this gets the largest Interview ID and add one to that for the new
+			TfInterview newInterview = new TfInterview();
 			// Object
 			String sql = "SELECT MAX(tf_interview_id) FROM admin.tf_interview";
 			Query<?> q = session.createNativeQuery(sql);
 			BigDecimal max = (BigDecimal) q.getSingleResult();
 			Integer id = Integer.parseInt(max.toBigInteger().toString()) + 1;
 			// --End getting new Id
-			databaseRow.setTfInterviewId(id);
+			newInterview.setTfInterviewId(id);
 
 			// ---Start Getting Objects from other Tables
-			databaseRow.setTfAssociate(session.get(TfAssociate.class, parmInterview.getTfAssociate()));
-			databaseRow.setTfClient(session.get(TfClient.class, parmInterview.getTfClient()));
-			databaseRow.setTfEndClient(session.get(TfEndClient.class, parmInterview.getTfEndClient()));
-			databaseRow.setTfInterviewType(session.load(TfInterviewType.class, parmInterview.getTfInterviewType()));
-			// ---End Geting Objects From Other Tables
 
-			databaseRow.setTfInterviewDate(parmInterview.getTfInterviewDate());
-			// --1804 Fields
-			databaseRow.setTfJobDescription(parmInterview.getTfJobDescription());
-			databaseRow.setTfDateSalesIssued(parmInterview.getTfDateSalesIssued());
-			databaseRow.setTfDateAssociateIssued(parmInterview.getTfDateAssociateIssued());
-			databaseRow.setTfIsInterviewFlagged(parmInterview.getTfIsInterviewFlagged());
-			databaseRow.setTfFlagReason(parmInterview.getTfFlagReason());
-			databaseRow.setTfIsClientFeedbackVisible(parmInterview.getTfIsClientFeedbackVisible());
-			//Additional requirements
-			databaseRow.setTfWas24HRNotice(parmInterview.getTfWas24HRNotice());
-			databaseRow.setTfQuestionGiven(parmInterview.getTfQuestionGiven());
+			newInterview.setTfAssociate(session.get(TfAssociate.class, parmInterview.getTfAssociate()));
+			newInterview.setTfClient(session.get(TfClient.class, parmInterview.getTfClient()));
+			newInterview.setTfEndClient(session.get(TfEndClient.class, parmInterview.getTfEndClient()));
+			newInterview.setTfInterviewType(session.load(TfInterviewType.class, parmInterview.getTfInterviewType()));
+			// ---End Getting Objects From Other Tables
 
-			session.saveOrUpdate(databaseRow);
+			newInterview.setTfInterviewDate(parmInterview.getTfInterviewDate());
+			newInterview.setTfJobDescription(parmInterview.getTfJobDescription());
+			newInterview.setTfDateSalesIssued(parmInterview.getTfDateSalesIssued());
+			newInterview.setTfDateAssociateIssued(parmInterview.getTfDateAssociateIssued());
+			newInterview.setTfIsInterviewFlagged(parmInterview.getTfIsInterviewFlagged());
+			newInterview.setTfFlagReason(parmInterview.getTfFlagReason());
+			newInterview.setTfIsClientFeedbackVisible(parmInterview.getTfIsClientFeedbackVisible());
+
+			newInterview.setTfWas24HRNotice(parmInterview.getTfWas24HRNotice());
+			newInterview.setTfQuestionGiven(parmInterview.getTfQuestionGiven());
+			
+
+
+			session.saveOrUpdate(newInterview);
 			dbTransaction.commit();
+
+			LogUtil.logger.info("Successfully created interview");
 			return true;
 		} catch (NullPointerException e) {
 			LogUtil.logger.error(e);

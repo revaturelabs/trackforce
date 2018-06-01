@@ -252,4 +252,10 @@ public class AssociateDaoHibernate implements AssociateDao {
 
 	}
 
+	@Override
+	public void updateAssociateVerification(int associateid) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

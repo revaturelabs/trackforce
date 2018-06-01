@@ -40,17 +40,12 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-
 /**
  * 
  * @author Mitchell H's PC
  * 
- * The different types of users
- * Admin: 1
- * Trainer: 2
- * Sales/Delivery 3
- * Staging Manager 4
- * Associate 5
+ *         The different types of users Admin: 1 Trainer: 2 Sales/Delivery 3
+ *         Staging Manager 4 Associate 5
  */
 
 @Path("/")
@@ -76,8 +71,7 @@ public class InterviewResource {
 		Collection<InterviewInfo> interviews = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) 
-		{
+		if (payload == null || !payload.getId().equals("1")) {
 			status = Status.UNAUTHORIZED;
 		} 
 		
@@ -88,7 +82,7 @@ public class InterviewResource {
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
 			logger.info("inside get all interviews");
 		}
-		
+
 		return Response.status(status).entity(interviews).build();
 		
 	}
@@ -127,7 +121,7 @@ public class InterviewResource {
 			// does service actually work?
 			status = Status.CREATED;
 		}
-		
+
 		return Response.status(status).build();
 	}
 //	@PUT
@@ -206,16 +200,20 @@ public class InterviewResource {
 //		return Response.status(status).build();
 //	}
 	@Path("/{interviewid}")
+
 	@ApiOperation(value = "updates interview", notes = " Updates interview")
 	@PUT
 	public Response updateInterview(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token,
+
 			TfInterview changeInterview) 
 	{
 		logger.info("hits update interview method");
+
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		logger.info(payload.getId());
+
 
 		if (payload == null || !(payload.getId().equals("1") || payload.getId().equals("5")))
 		{
@@ -230,5 +228,6 @@ public class InterviewResource {
 		}
 		logger.info("end update interview without hitting endpoint");
 		return Response.status(status).build();
+
 	}
 }

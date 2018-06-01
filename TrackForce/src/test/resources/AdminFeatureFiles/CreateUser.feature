@@ -29,6 +29,7 @@ Feature: Create User tab for Admin
     And I confirm the <password>
     And I check the Administrator role
     Then I press submit
+    And Pop Up Error should not occur
 
     Examples: 
       | username    | password |
@@ -74,6 +75,7 @@ Feature: Create User tab for Admin
     And I confirm the <password>
     And I check the Manager role
     Then I press submit
+    And Pop Up Error should not occur
 
     Examples: 
       | username      | password   |
@@ -89,6 +91,7 @@ Feature: Create User tab for Admin
     And I confirm the <password>
     And I check the Trainer role
     Then I press submit
+    And Pop Up Error should not occur
 
     Examples: 
       | username      | password  |
@@ -104,6 +107,7 @@ Feature: Create User tab for Admin
     And I confirm the <password>
     And I check the Delivary role
     Then I press submit
+    And Pop Up Error should not occur
 
     Examples: 
       | username        | password |
@@ -119,6 +123,7 @@ Feature: Create User tab for Admin
     And I confirm the <password>
     And I check the Associate role
     Then I press submit
+    And Pop Up Error should not occur
 
     Examples: 
       | username        | password    |

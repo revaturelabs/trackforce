@@ -54,6 +54,7 @@ public class CreateUserCukes extends AdminSuite {
 	public void i_type_in_a_username(String username) throws Throwable {
 		try {
 			Thread.sleep(250);
+			CreateUserTab.getUsername(d).clear();
 			CreateUserTab.getUsername(d).sendKeys(username);
 			
 		} catch (Throwable e) {
@@ -66,6 +67,7 @@ public class CreateUserCukes extends AdminSuite {
 	public void i_type_in_a_password(String password){
 		try {
 			Thread.sleep(250);
+			CreateUserTab.getPassword(d).clear();
 			CreateUserTab.getPassword(d).sendKeys(password);
 			
 		} catch (Throwable e) {
@@ -79,6 +81,7 @@ public class CreateUserCukes extends AdminSuite {
 	public void i_confirm_the(String password){
 		try {
 			Thread.sleep(250);
+			CreateUserTab.getPasswordConfirm(d).clear();
 			CreateUserTab.getPasswordConfirm(d).sendKeys(password);
 			
 		} catch (Throwable e) {
@@ -171,6 +174,17 @@ public class CreateUserCukes extends AdminSuite {
 			CreateUserTab.getPopup(d);
 		} catch (Throwable e) {
 			fail("No Pop up created");
+		}
+	}
+	
+	@Then("^Pop Up Error should not occur$")
+	public static void No_popup() {
+		try {
+			if(CreateUserTab.getPopup(d).isDisplayed()) {
+				fail("pop up was created");
+			}
+		} catch (Throwable e) {
+			fail("pop up was created");
 		}
 	}
 }

@@ -55,48 +55,63 @@ public class SmokeTests {
 		token = jService.createToken("Ian", 1);
 		logger.info("token generated: " + token);
 	}
-	
+
+	// TESTS
+	@Test(enabled = true)
+	public void getInterviewsForAssociate() {
+		String URI = "TrackForce/api/associates/1/interviews";
+		Status expectedStatus = Status.OK;
+
+		boolean passed = testResource(URI, expectedStatus
+		// , AssociateInfo.class
+		);
+		Assert.assertTrue(passed);
+	}
+
 	/**
-	 * URI and Status code. 
+	 * URI and Status code.
 	 */
 	@Test(enabled = true)
 	public void getAssociatetest() {
-		logger.info("Testing getAssociate()...");
+		// logger.info("Testing getAssociate()...");
 
 		String URI = "TrackForce/api/associates/1";
 		Status expectedStatus = Status.OK;
 
 		boolean passed = testResource(URI, expectedStatus
-//				, AssociateInfo.class
-				);
+		// , AssociateInfo.class
+		);
 		Assert.assertTrue(passed);
 	}
-	
+
 	@Test(enabled = true)
 	public void getAllAssociatestest() {
-		logger.info("Testing getAllAssociates()...");
+		// logger.info("Testing getAllAssociates()...");
 
 		String URI = "TrackForce/api/associates";
 		Status expectedStatus = Status.OK;
 
 		boolean passed = testResource(URI, expectedStatus
-//				, AssociateInfo.class
-				);
+		// , AssociateInfo.class
+		);
 		Assert.assertTrue(passed);
 	}
 
 	/**
 	 * 
-	 * @param URI to be tested
-	 * @param expectedStatus returned in response
-	 * @param type of object expected in body or response
+	 * @param URI
+	 *            to be tested
+	 * @param expectedStatus
+	 *            returned in response
+	 * @param type
+	 *            of object expected in body or response
 	 * @return
 	 */
 	private boolean testResource(String URI, Status expectedStatus
-//			, Class<T> type
-			) {
+	// , Class<T> type
+	) {
 		String URL = domain + URI;
-		logger.info("	URL = " + URL);
+		logger.info("Testing URL = " + URL);
 		HttpUriRequest request = new HttpGet(URL);
 		request.addHeader("Authorization", token);
 
@@ -108,12 +123,12 @@ public class SmokeTests {
 
 		Assert.assertEquals(status, expectedStatus);
 		// prints body
-//		T obj = mapObject(response, type);
-//		if (obj == null) {
-//			return false;
-//		}else {
-//		logger.info("	pojo: " + obj.getClass() + " = \n\t" + obj);
-//		}
+		// T obj = mapObject(response, type);
+		// if (obj == null) {
+		// return false;
+		// }else {
+		// logger.info(" pojo: " + obj.getClass() + " = \n\t" + obj);
+		// }
 		return status == expectedStatus;
 	}
 

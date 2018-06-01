@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<<<<<<< HEAD
 <testsuites disabled="0" errors="0" failures="30" tests="104" time="53.816">
  <testsuite name="login page element existences" timestamp="2018-05-31T14:54:49" hostname="localhost" time="7.43" errors="0" tests="6" skipped="0" disabled="0" failures="0">
   <testcase classname="login page element existences" name="should have a username input box" time="0.012" />
@@ -532,5 +533,56 @@ Error
   </testcase>
   <testcase classname="Head over to the My interviews page and do something" name="should toggle the form button again to close it" time="0.062" />
   <testcase classname="Head over to the My interviews page and do something" name="should log out" time="0.114" />
+=======
+<testsuites disabled="0" errors="0" failures="0" tests="33" time="57.346">
+ <testsuite name="login page element existences" timestamp="2018-06-01T13:47:43" hostname="localhost" time="5.7" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+  <testcase classname="login page element existences" name="should have a username input box" time="0.01" />
+  <testcase classname="login page element existences" name="should have a password input box" time="0.004" />
+  <testcase classname="login page element existences" name="should have a login button" time="0.002" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.09" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.059" />
+  <testcase classname="login page element existences" name="should display proper value for button" time="0.098" />
+ </testsuite>
+ <testsuite name="Confirm login failures" timestamp="2018-06-01T13:47:49" hostname="localhost" time="3.41" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.475" />
+  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.752" />
+ </testsuite>
+ <testsuite name="confirm login navigation" timestamp="2018-06-01T13:47:52" hostname="localhost" time="3.343" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="confirm login navigation" name="should reach the index page" time="1.249" />
+ </testsuite>
+ <testsuite name="When entering valid data into predictions filter it" timestamp="2018-06-01T13:47:55" hostname="localhost" time="3.042" errors="0" tests="5" skipped="0" disabled="0" failures="0">
+  <testcase classname="When entering valid data into predictions filter it" name="should navigate to the predictions page" time="1.667" />
+  <testcase classname="When entering valid data into predictions filter it" name="should allow user to input valid data" time="1.088" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide a table with predictions" time="0.002" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide the same number of rows entered into the filter" time="0.156" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide details when the details button is pressed" time="0.126" />
+ </testsuite>
+ <testsuite name="When entering valid data using all filters it" timestamp="2018-06-01T13:47:58" hostname="localhost" time="3.616" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="When entering valid data using all filters it" name="should navigate to the predictions page" time="1.557" />
+  <testcase classname="When entering valid data using all filters it" name="should allow a user to input valid data and use all filters" time="1.86" />
+  <testcase classname="When entering valid data using all filters it" name="should provide the same number of rows entered into the filter" time="0.068" />
+  <testcase classname="When entering valid data using all filters it" name="should provide details when the details button is pressed" time="0.129" />
+ </testsuite>
+ <testsuite name="When I enter a start date that is more current than the end date it" timestamp="2018-06-01T13:48:02" hostname="localhost" time="3.003" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should navigate to the predictions page" time="1.75" />
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should allow user to input a start date that is more current than the end date" time="1.007" />
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should yield 0 associates" time="0.175" />
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should have a negative amount in Difference" time="0.067" />
+ </testsuite>
+ <testsuite name="When I enter a very large numeric input it" timestamp="2018-06-01T13:48:05" hostname="localhost" time="3.201" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="When I enter a very large numeric input it" name="should navigate to the predictions page" time="1.517" />
+  <testcase classname="When I enter a very large numeric input it" name="should allow user to input a very large number" time="1.459" />
+  <testcase classname="When I enter a very large numeric input it" name="should yield some associates" time="0.167" />
+  <testcase classname="When I enter a very large numeric input it" name="should have a negative amount in Difference" time="0.057" />
+ </testsuite>
+ <testsuite name="When navigating to the client-list page it" timestamp="2018-06-01T13:48:08" hostname="localhost" time="32.031" errors="0" tests="7" skipped="0" disabled="0" failures="0">
+  <testcase classname="When navigating to the client-list page it" name="should navigate to the client-list page" time="3.455" />
+  <testcase classname="When navigating to the client-list page it" name="should accept username input" time="0.286" />
+  <testcase classname="When navigating to the client-list page it" name="should yield match for search input in one exists" time="6.705" />
+  <testcase classname="When navigating to the client-list page it" name="should yield a match for a search regardless of case" time="3.981" />
+  <testcase classname="When navigating to the client-list page it" name="should yield a match for search input if many results exist" time="7.151" />
+  <testcase classname="When navigating to the client-list page it" name="should yield no matches if none exist" time="10.24" />
+  <testcase classname="When navigating to the client-list page it" name="should logout" time="0.213" />
+>>>>>>> more-tests-andy
  </testsuite>
 </testsuites>

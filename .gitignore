@@ -82,6 +82,7 @@ hs_err_pid*
 .Spotlight-V100
 .Trashes
 ehthumbs.dbThumbs.db
+*.bak
 
 #avoiding pushing back in mistaken file
 jdbcUtil.java

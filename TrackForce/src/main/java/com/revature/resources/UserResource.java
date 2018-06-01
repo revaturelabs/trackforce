@@ -21,12 +21,13 @@ import com.revature.entity.TfUser;
 import com.revature.model.InterviewInfo;
 import com.revature.model.LoginJSON;
 import com.revature.model.UserJSON;
+import com.revature.request.model.CreateAssociateModel;
 import com.revature.request.model.CreateUserModel;
 import com.revature.request.model.SuccessOrFailMessage;
 import com.revature.services.JWTService;
 import com.revature.services.UserService;
 
-import io.jsonwebtoken.Claims;
+import com.revature.utils.LogUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -56,43 +57,49 @@ public class UserResource {
     			.build();
     }
     
+//    /**
+//     * Endpoint used to create a new user in the database with a specified role, username and
+//     * password
+//     *
+//     * @param newUser
+//     * @return SuccessOrFailMessage
+//     */
+//    @POST
+//    @ApiOperation(value ="Creates new User", notes ="Creates a new user in the database with a specified role, username, and password.")
+//    public Response createNewUser(CreateUserModel newUser){
+//    	SuccessOrFailMessage msg = service.createNewUser(newUser);
+//    	if (msg.getStatus()) {
+//    		int userId = msg.getNewId();
+//    		URI location = URI.create("/user/"+userId);
+//    		return Response.created(location).build();
+//    	} else {
+//    		return Response.serverError().build();
+//    	}
+//    }
+
     /**
-     * Endpoint used to create a new user in the database with a specified role, username and
-     * password
-     *
-     * @param newUser
-     * @return SuccessOrFailMessage
+     * MAJOR WORK FOR JERSEY TEAM. EVERYTHING IS HARDCODED TO TEST STUFF OUT
+     * @param newAssociate
+     * @return
      */
     @POST
-    @ApiOperation(value ="Creates new User", notes ="Creates a new user in the database with a specified role, username, and password.")
-    public Response createNewUser(CreateUserModel newUser, @HeaderParam("Authorization") String token)
-    {
-    	Status status = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || !payload.getId().equals("1")) 
-		{
-			status = Status.UNAUTHORIZED;
-			return Response.status(status).build();
-		} 
-		
-		else 
-		{
-			SuccessOrFailMessage msg = service.createNewUser(newUser);
-	    	if (msg.getStatus()) 
-	    	{
-	    		int userId = msg.getNewId();
-	    		URI location = URI.create("/user/"+userId);
-	    		return Response.created(location).build();
-	    	} 
-	    	
-	    	else 
-	    	{
-	    		return Response.serverError().build();
-	    	}
-		}
-
+    @Consumes("application/json")
+    @ApiOperation(value="Creates new Associate", notes = "Takes username, password, fname and lname to create new user")
+    public Response createNewAssociate(CreateAssociateModel newAssociate){
+        LogUtil.logger.info("createAssociate got hit");
+        LogUtil.logger.info(newAssociate);
+//        SuccessOrFailMessage msg = service.createNewAssociate(newAssociate);
+//        if (msg.getStatus()) {
+//            int userId = msg.getNewId();
+//            URI location = URI.create("/user/"+userId);
+//            return Response.created(location).build();
+//        } else {
+//            return Response.serverError().build();
+//        }
+        service.createNewAssociate(newAssociate);
+        return Response.created(URI.create("/testingURIcreate")).build();
     }
+
     
     /**
      * Gets the user by the user's username

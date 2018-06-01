@@ -17,7 +17,8 @@ import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.operation.DatabaseOperation;
 import java.sql.DriverManager;
 import java.sql.Connection;
-/*DbUnit testing of dao code, inherits getConnection() from DBTestCase
+/*DbUnit testing of dao/service code, inherits getConnection() from DBTestCase
+ * Only one database used here, hence only one DbUnit
 */
 public class DbUnit extends JdbcBasedDBTestCase{
    private Connection jdbcConnection;

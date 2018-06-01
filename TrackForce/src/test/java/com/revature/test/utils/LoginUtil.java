@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.revature.test.admin.pom.Login;
@@ -33,7 +34,7 @@ public class LoginUtil {
 			Login.getUsername(wd).sendKeys(adminUsername);
 			Thread.sleep(1000);
 			Login.getPassword(wd).sendKeys(adminPassword);
-			Thread.sleep(1000);
+			wd.findElement(By.tagName("button")).click();;
 			Login.getSignin(wd).click();	
 		} catch (Exception e) {
 			e.printStackTrace();

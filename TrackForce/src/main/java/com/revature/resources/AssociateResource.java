@@ -1,4 +1,3 @@
-es (237 sloc) 8.82 KB 
 
 package com.revature.resources;
 
@@ -112,10 +111,7 @@ public class AssociateResource {
 
 	private JWTService jService = new JWTService();
 
-	
-
 	//Constructor for creating resources
-
 	 public AssociateResource() {
 
 	        this.uservice = new UserService();

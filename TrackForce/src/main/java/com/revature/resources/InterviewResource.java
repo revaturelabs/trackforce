@@ -77,7 +77,7 @@ public class InterviewResource {
 		
 		else 
 		{
-			interviews = is.getInterviewsByAssociate(associateid);
+			//interviews = is.getInterviewsByAssoicateId(parmAssoicateId);
 			logger.info(interviews);
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
 			logger.info("inside get all interviews");
@@ -87,23 +87,23 @@ public class InterviewResource {
 		
 	}
 
-	@GET
-	@ApiOperation(value = "Returns an interview", notes = "Returns a specific interview by id.")
-	@Path("/{interviewid}")
-	public Response getAssociateInterview(@PathParam("associateid") Integer associateid,
-			@PathParam("interviewid") Integer interviewid,
-			@HeaderParam("Authorization") String token) throws IOException {
-		Status status = null;
-		Collection<InterviewInfo> interview = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload.getId().equals("1")) {
-			Set<InterviewInfo> interviews = is.getInterviewsByAssociateAndInterviewid(associateid, interviewid);
-			return Response.ok(interviews).build();
-		} else {
-			return Response.status(403).build();
-		}
-	}
+//	@GET
+//	@ApiOperation(value = "Returns an interview", notes = "Returns a specific interview by id.")
+//	@Path("/{interviewid}")
+//	public Response getAssociateInterview(@PathParam("associateid") Integer associateid,
+//			@PathParam("interviewid") Integer interviewid,
+//			@HeaderParam("Authorization") String token) throws IOException {
+//		Status status = null;
+//		Collection<InterviewInfo> interview = null;
+//		Claims payload = JWTService.processToken(token);
+//
+//		if (payload.getId().equals("1")) {
+//		//	Set<InterviewInfo> interviews = is.getInterviewsByAssociateAndInterviewId(associateid, interviewid);
+//		//	return Response.ok(interviews).build();
+//		} else {
+//			return Response.status(403).build();
+//		}
+//	}
 	@POST
 	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
 	public Response createInterview(@PathParam("associateid") int associateid,
@@ -223,7 +223,8 @@ public class InterviewResource {
 		else 
 		{
 		logger.info("jersey part is done");
-			//is.updateInterview(changeInterview);
+		ifc.setIntervieweId(1);
+			is.updateInterview(associateid, ifc);
 			status = Status.ACCEPTED;
 		}
 		logger.info("end update interview without hitting endpoint");

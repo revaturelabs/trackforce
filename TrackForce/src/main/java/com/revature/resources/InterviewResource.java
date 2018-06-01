@@ -68,7 +68,7 @@ public class InterviewResource {
 
 	@GET
 	@ApiOperation(value = "Returns all interviews for an associate", notes ="Returns a list of all interviews.")
-	public Response getAllInterviews(@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate, @PathParam("associateid") Integer associateid)
+	public Response getAllInterviews(@HeaderParam("Authorization") String token, @PathParam("associateid") Integer associateid)
 			throws HibernateException, IOException 
 	{
 		// TODO handle exception
@@ -104,16 +104,12 @@ public class InterviewResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload.getId().equals("1")) {
-			Set<InterviewInfo> associateinfo = is.getInterviewsByAssociateAndInterviewid(associateid, interviewid);
-			return Response.ok(associateinfo).build();
+			Set<InterviewInfo> interviews = is.getInterviewsByAssociateAndInterviewid(associateid, interviewid);
+			return Response.ok(interviews).build();
 		} else {
 			return Response.status(403).build();
 		}
 	}
-
-	// TODO: change the Form params to be whatever is being sent
-	// TODO: create an InterviewFromClient object with the form param arguments
-	@POST
 	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
 	public Response createInterview(@PathParam("associateid") int associateid,
 			@HeaderParam("Authorization") String token, InterviewFromClient ifc) {

@@ -162,6 +162,10 @@ public class AssociateService {
 		associateDao.updateAssociate(afc);
 	}
 	
+	public void updateAssociateVerification(int associateid) {
+		associateDao.updateAssociateVerification(associateid);
+	}
+	
 	public Set<InterviewInfo> getInterviewsByAssociateAndInterviewid(Integer associateId, Integer interviewid) {
 		Set<InterviewInfo> allInterviews = associateDao.getInterviewsByAssociate(associateId);
 		Set<InterviewInfo> specificInterview = new TreeSet<InterviewInfo>();
@@ -173,6 +177,7 @@ public class AssociateService {
 		}
 		return specificInterview;
 	}
+	
 	public void createAssociate(String firstname, String lastname) {
 		associateDao.createAssociate(firstname, lastname);
 	}

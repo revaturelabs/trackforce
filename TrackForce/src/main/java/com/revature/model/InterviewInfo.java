@@ -106,11 +106,6 @@ public class InterviewInfo implements Serializable, Comparable<InterviewInfo> {
         return this.id - o.getId();
     }
 
-
-    public String getAssociateFeedback() {
-        return associateFeedback;
-    }
-
     public void setAssociateFeedback(String associateFeedback) {
         this.associateFeedback = associateFeedback;
     }

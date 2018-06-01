@@ -77,16 +77,10 @@ public class UserResource {
      */
     @POST
     @Consumes("application/json")
-    @Path("/createAssociate")
     @ApiOperation(value="Creates new Associate", notes = "Takes username, password, fname and lname to create new user")
     public Response createNewAssociate(CreateAssociateModel newAssociate){
         LogUtil.logger.info("createAssociate got hit");
         LogUtil.logger.info(newAssociate);
-        CreateAssociateModel newguy = new CreateAssociateModel();
-        newguy.setFname("fname");
-        newguy.setLname("lname");
-        newguy.setUsername("Dude");
-        newguy.setPassword("Dude");
 //        SuccessOrFailMessage msg = service.createNewAssociate(newAssociate);
 //        if (msg.getStatus()) {
 //            int userId = msg.getNewId();
@@ -95,7 +89,7 @@ public class UserResource {
 //        } else {
 //            return Response.serverError().build();
 //        }
-        service.createNewAssociate(newguy);
+        service.createNewAssociate(newAssociate);
         return Response.created(URI.create("/testingURIcreate")).build();
     }
 

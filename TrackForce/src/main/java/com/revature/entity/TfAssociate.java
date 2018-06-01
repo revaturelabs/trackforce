@@ -22,6 +22,8 @@ public class TfAssociate implements java.io.Serializable {
 	 *
 	 */
 	private static final long serialVersionUID = -2324082555924677252L;
+	public static final int APPROVED = 1;
+	public static final int NOTAPPROVED = 0;
 
 	@XmlElement
 	@Id
@@ -72,7 +74,7 @@ public class TfAssociate implements java.io.Serializable {
 	//HERER LOOK HERE
 	@XmlElement
 	@Column(name = "TF_ISAPPROVED")
-	private Integer isApproved = 0; // default is Zero not approved
+	private Integer isApproved = NOTAPPROVED; // default is Zero not approved
 
 	
 

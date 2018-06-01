@@ -70,25 +70,26 @@ public class UserDaoImpl implements UserDAO {
 
     @Override
     public boolean createAssociate(CreateAssociateModel newAssociate) {
+        logger.info("Create associate hit");
         String password;
         Session session = HibernateUtil.getSession();
         Transaction t1 = null;
         try {
             password = PasswordStorage.createHash(newAssociate.getPassword());
             t1 = session.beginTransaction();
+            logger.info("Begin transaction");
             TfAssociate tfa = new TfAssociate();
-
             tfa.setTfAssociateFirstName(newAssociate.getFname());
             tfa.setTfAssociateLastName(newAssociate.getLname());
             tfa.setIsApproved(0);
-
+            logger.info("approved process");
             String sql = "SELECT MAX(tf_associate_id) FROM admin.tf_associate";
             Query<?> q = session.createNativeQuery(sql);
             BigDecimal max = (BigDecimal) q.getSingleResult();
             Integer id = Integer.parseInt(max.toBigInteger().toString()) + 1;
             tfa.setTfAssociateId(id);
             session.saveOrUpdate(tfa);           //Saves current changes to not get null user in newUser creation.
-
+            logger.info("session save");
             TfUser newUser = new TfUser(tfa, newAssociate.getUsername(), password);
             session.saveOrUpdate(newUser);
             t1.commit();
@@ -99,6 +100,7 @@ public class UserDaoImpl implements UserDAO {
 
         } catch (HibernateException e) {
             if (t1 != null){
+                logger.info("Hibernate exception");
                 t1.rollback();
             }
             LogUtil.logger.error(e);

@@ -126,6 +126,28 @@ public class AssociateResource {
 
 		return Response.ok().build();
 	}
+	
+	@PUT
+	@ApiOperation(value = "Update associate marketing status", notes = "The method sets the marketing status of the associate by id.")
+	@Path("/{associateId}/marketing")
+	public Response updateAssociateMarketingStatus(@HeaderParam("Authorization") String token, @PathParam("associateId") Integer id) {
+		logger.info("method for marketing is hit");
+	Status status = null;
+	Claims payload = JWTService.processToken(token);
+
+	if (payload == null || payload.getId().equals("5")) 
+	{
+		status = Status.UNAUTHORIZED;
+	} 
+	
+	else 
+	{
+		//service.updateAssociateMarketingStatus(id);
+		logger.info("hits update endpoint working");
+		status = Status.OK;
+	}
+	return Response.status(status).build();
+}
 
 	@POST
 	@Consumes("application/json")

@@ -56,6 +56,10 @@ public class InterviewResource {
 	private AssociateService service = new AssociateService();
 	private JWTService jService = new JWTService();
 	private static InterviewService is = new InterviewService();
+	
+	public InterviewResource() {
+		this.is = new InterviewService();
+	}
 
 	@GET
 	@ApiOperation(value = "Returns all interviews for an associate", notes ="Returns a list of all interviews.")
@@ -112,6 +116,7 @@ public class InterviewResource {
 			logger.info("inside unautherorized");
 			status = Status.UNAUTHORIZED;
 		} else {
+			logger.info("inside createInterview endpoint");
 			is.addInterviewByAssociate(associateid, ifc);
 			// does service actually work?
 			status = Status.CREATED;
@@ -200,21 +205,29 @@ public class InterviewResource {
 	@PUT
 	public Response updateInterview(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token,
-			TfInterview changeInterview) {
+
+			TfInterview changeInterview) 
+	{
+		logger.info("hits update interview method");
+
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
+		logger.info(payload.getId());
 
-		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("5")) {
+
+		if (payload == null || !(payload.getId().equals("1") || payload.getId().equals("5")))
+		{
 			status = Status.UNAUTHORIZED;
-		}
-
-		else {
-			InterviewDaoHibernate hd = new InterviewDaoHibernate();
-			// If parameter for TfInterview works,
-			hd.updateInterview(changeInterview);
+		} 
+		
+		else 
+		{
+		logger.info("jersey part is done");
+			//is.updateInterview(changeInterview);
 			status = Status.ACCEPTED;
 		}
+		logger.info("end update interview without hitting endpoint");
+		return Response.status(status).build();
 
-		return Response.status(204).build();
 	}
 }

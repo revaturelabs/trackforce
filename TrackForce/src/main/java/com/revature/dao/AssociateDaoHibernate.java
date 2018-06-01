@@ -125,11 +125,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 			t = session.beginTransaction();
 			TfAssociate tfAssociate = (TfAssociate) session.load(TfAssociate.class, afc.getId());
 			
-			TfClient client = null;
-			//TODO: NEEDS TESTING
-			if(afc.getClientId() != (Integer) null) {
-				client = (TfClient) session.load(TfClient.class, afc.getClientId());
-			}
+			TfClient client = (TfClient) session.load(TfClient.class, afc.getClientId());
 			
 			TfMarketingStatus status = null;
 			//TODO: NEEDS TESTING

@@ -11,6 +11,7 @@ import java.util.Set;
 
 import com.revature.dao.InterviewDao;
 import com.revature.dao.InterviewDaoHibernate;
+import com.revature.entity.TfInterview;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.InterviewFromClient;
 
@@ -81,8 +82,20 @@ public class InterviewService {
 			}
 
 		}
+		
+	 
 
 		return conflicts;
+	}
+	public TfInterview getInterviewById(Integer parmInterviewId) {
+		
+		return interviewDao.getInterviewById(parmInterviewId);
+		
+	}
+public List<TfInterview> getInterviewsByAssoicateId(Integer parmAssoicateId) {
+		
+		return interviewDao.getInterviewsByAssoicateId(parmAssoicateId);
+		
 	}
 
 }

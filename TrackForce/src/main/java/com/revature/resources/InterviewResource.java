@@ -3,6 +3,8 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
@@ -62,12 +64,12 @@ public class InterviewResource {
 
 	@GET
 	@ApiOperation(value = "Returns all interviews for an associate", notes ="Returns a list of all interviews.")
-	public Response getAllInterviews(@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate, @QueryParam("end") Long endDate)
+	public Response getAllInterviews(@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate, @PathParam("associateid") Integer associateid)
 			throws HibernateException, IOException 
 	{
 		// TODO handle exception
 		Status status = null;
-		Set<InterviewInfo> interviews = null;
+		Collection<InterviewInfo> interviews = null;
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null || !payload.getId().equals("1")) 
@@ -77,7 +79,7 @@ public class InterviewResource {
 		
 		else 
 		{
-			interviews = is.getAllInterviews();
+			interviews = is.getInterviewsByAssociate(associateid);
 			logger.info(interviews);
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
 			logger.info("inside get all interviews");

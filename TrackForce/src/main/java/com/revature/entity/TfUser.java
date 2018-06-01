@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -39,6 +40,12 @@ public class TfUser implements java.io.Serializable {
 
     @Column(name = "TF_HASHPASSWORD", length = 200)
     private String tfHashpassword;
+
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TF_ASSOCIATE_ID")
+    private TfAssociate tfAssociate;
+
 
     public TfUser() {
     }

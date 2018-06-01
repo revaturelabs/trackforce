@@ -389,19 +389,37 @@ public class InterviewDaoHibernate implements InterviewDao {
 		}
 		return null;
 	}
-
-	public ArrayList<TfInterview> getAllInterviewsByAssoicateId(Integer parmAssociateId) {
+	//this was geting the correct use object 
+	private static TfAssociate getAssociateById(Integer parmAssoicateId) {
 		Session session = null;
-		ArrayList<TfInterview> arrayListOfInterviews = new ArrayList<TfInterview>();
+		try {
+			 session = HibernateUtil.getSessionFactory().openSession();
+			 return  (TfAssociate) session.get(TfAssociate.class, parmAssoicateId);
+			
+		} catch (NullPointerException e) {
+			LogUtil.logger.error(e);
+
+		} catch (Exception e) {
+			LogUtil.logger.error(e);
+
+		} finally {
+			session.close();
+		}
+		return null;
+	}
+
+	@Override
+	public List<TfInterview> getInterviewsByAssoicateId(Integer parmAssociateId) {
+		Session session = null;
+		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			//session.beginTransaction();
-			
-			Criteria cr = session.createCriteria(TfInterview.class);
-			cr.add(Restrictions.eq("tfAssociate", parmAssociateId));
-			List results = cr.list();
-
-			return arrayListOfInterviews;
+			//I do not like this builder but I kept getting errors on this, so I had to use this
+			String hql = "FROM com.revature.entity.TfInterview E WHERE E.tfAssociate = " + parmAssociateId;
+			Query query = session.createQuery(hql);
+			List<TfInterview> results = query.list();
+						
+			return results;
 
 		} catch (NullPointerException e) {
 			LogUtil.logger.error(e);
@@ -414,5 +432,6 @@ public class InterviewDaoHibernate implements InterviewDao {
 		}
 		return null;
 	}
+
 
 }

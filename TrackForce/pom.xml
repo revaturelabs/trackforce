@@ -231,7 +231,7 @@
 			            <exclude>com/revature/test/admin/cukes/*.java</exclude>
 			            <exclude>com/revature/test/admin/pom/*.java</exclude>
 					</excludes> 
-							            		
+          		
        		          <suiteXmlFiles>
 			            <file>src/test/resources/surefire_test.xml</file>
 			          </suiteXmlFiles>
@@ -240,7 +240,7 @@
 			              <name>suitethreadpoolsize</name>
 			              <value>1</value>
 			            </property>
-			          </properties>
+			          </properties> 
 				</configuration>
 			</plugin>
 

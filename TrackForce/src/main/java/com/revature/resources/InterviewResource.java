@@ -59,27 +59,28 @@ public class InterviewResource {
 	private static InterviewService is = new InterviewService();
 	
 	
-	
 	@POST
-	public Response createAssociateInterview(@HeaderParam("Authorization") String token, @PathParam("associateid") Integer associateid, InterviewFromClient ifc) {
-		// TODO handle exception
-				Status status = null;
-				Claims payload = JWTService.processToken(token);
-				LogUtil.logger.info(ifc);
-				if (payload == null || !payload.getId().equals("1")) {
-					status = Status.UNAUTHORIZED;
-				} 
-				
-				else 
-				{
-					is.addInterviewByAssociate(associateid, ifc);
-					status =  Status.CREATED;
-					logger.info("inside get add interview by associate");
-				}
+	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
+	public Response createInterview(@PathParam("associateid") int associateid,
+			@HeaderParam("Authorization") String token, InterviewFromClient ifc) {
+		logger.info(ifc);
+		Status status = null;
+		logger.info(token);
+		Claims payload = JWTService.processToken(token);
 
-				return Response.status(status).build();
+		if (payload == null || !(payload.getId().equals("1") || payload.getId().equals("5"))) {
+			logger.info("inside unautherorized");
+			status = Status.UNAUTHORIZED;
+		} else {
+			logger.info("inside createInterview endpoint");
+			is.addInterviewByAssociate(associateid, ifc);
+			// does service actually work?
+			status = Status.CREATED;
+		}
 
+		return Response.status(status).build();
 	}
+	
 	public InterviewResource() {
 		this.is = new InterviewService();
 	}
@@ -126,26 +127,8 @@ public class InterviewResource {
 			return Response.status(403).build();
 		}
 	}
-	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
-	public Response createInterview(@PathParam("associateid") int associateid,
-			@HeaderParam("Authorization") String token, InterviewFromClient ifc) {
-		logger.info(ifc);
-		Status status = null;
-		logger.info(token);
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || !(payload.getId().equals("1") || payload.getId().equals("5"))) {
-			logger.info("inside unautherorized");
-			status = Status.UNAUTHORIZED;
-		} else {
-			logger.info("inside createInterview endpoint");
-			is.addInterviewByAssociate(associateid, ifc);
-			// does service actually work?
-			status = Status.CREATED;
-		}
-
-		return Response.status(status).build();
-	}
+	
+	
 //	@PUT
 //	@Path("/{interviewid}/twentyfourFlag")
 //	public Response twentyfourFlag(TfInterview flagInterview, @HeaderParam("Authorization") String token,

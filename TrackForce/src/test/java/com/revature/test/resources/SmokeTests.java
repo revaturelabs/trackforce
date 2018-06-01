@@ -10,8 +10,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -20,6 +23,7 @@ import org.testng.annotations.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
+import com.revature.request.model.InterviewFromClient;
 import com.revature.services.JWTService;
 import com.revature.services.UserService;
 
@@ -56,46 +60,68 @@ public class SmokeTests {
 		logger.info("token generated: " + token);
 	}
 
+	
 	// TESTS
-	@Test(enabled = true)
-	public void getInterviewsForAssociate() {
-		String URI = "TrackForce/api/associates/1/interviews";
+	@Test(enabled = true, priority = 1, groups = "GET")
+	public void test1GetAllAssociates() {
+		String URI = "TrackForce/api/associates";
 		Status expectedStatus = Status.OK;
 
-		boolean passed = testResource(URI, expectedStatus
+		testResource("GET", URI, expectedStatus
 		// , AssociateInfo.class
 		);
-		Assert.assertTrue(passed);
 	}
 
 	/**
 	 * URI and Status code.
 	 */
-	@Test(enabled = true)
-	public void getAssociatetest() {
-		// logger.info("Testing getAssociate()...");
-
+	@Test(enabled = true, dependsOnMethods ="test1GetAllAssociates", groups = "GET")
+	public void test2GetAssociate() {
 		String URI = "TrackForce/api/associates/1";
 		Status expectedStatus = Status.OK;
 
-		boolean passed = testResource(URI, expectedStatus
+		testResource("GET", URI, expectedStatus
 		// , AssociateInfo.class
 		);
-		Assert.assertTrue(passed);
+	}
+
+	@Test(enabled = true, groups = "GET")
+	public void test3GetInterviewFromAssociate() {
+		String URI = "TrackForce/api/associates/1/interviews";
+		Status expectedStatus = Status.OK;
+
+		testResource("GET", URI, expectedStatus);
+	}
+	
+	@Test(groups = "POST", enabled = false)
+	public void createInterview() {
+		String URI = "TrackForce/api/associates/1/interviews";
+		Status expectedStatus = Status.CREATED;
+		// InterviewFromClient interview = new InterviewFromClient(1, 1, 1);
+
+		String URL = domain + URI;
+		logger.info("Testing POST URL = " + URL);
+		HttpUriRequest request = RequestBuilder.create("POST").setUri(URL)
+				.setEntity(new StringEntity("{\"a\":1,\"b\":2}", ContentType.APPLICATION_JSON))
+				.addHeader("Authorization", token).build();
+
+		HttpResponse response = respond(request);
+		if (response == null) {
+			return;
+		}
+		Status status = Status.fromStatusCode(response.getStatusLine().getStatusCode());
+
+		Assert.assertEquals(status, expectedStatus);
 	}
 
 	@Test(enabled = true)
-	public void getAllAssociatestest() {
-		// logger.info("Testing getAllAssociates()...");
-
-		String URI = "TrackForce/api/associates";
+	public void verifyAssociate() {
+		String URI = "TrackForce/api/associates/1/verify";
 		Status expectedStatus = Status.OK;
 
-		boolean passed = testResource(URI, expectedStatus
-		// , AssociateInfo.class
-		);
-		Assert.assertTrue(passed);
+		testResource("PUT", URI, expectedStatus);
 	}
+
 
 	/**
 	 * 
@@ -107,13 +133,15 @@ public class SmokeTests {
 	 *            of object expected in body or response
 	 * @return
 	 */
-	private boolean testResource(String URI, Status expectedStatus
-	// , Class<T> type
+	private boolean testResource(String method, String URI, Status expectedStatus
+//	 , Class<T> type
 	) {
 		String URL = domain + URI;
-		logger.info("Testing URL = " + URL);
-		HttpUriRequest request = new HttpGet(URL);
-		request.addHeader("Authorization", token);
+		logger.info("Testing GET URL = " + URL);
+		HttpUriRequest request = RequestBuilder.create(method).setUri(URL)
+				// .setEntity(new StringEntity("{\"a\":1,\"b\":2}",
+				// ContentType.APPLICATION_JSON))
+				.addHeader("Authorization", token).build();
 
 		HttpResponse response = respond(request);
 		if (response == null) {
@@ -163,44 +191,11 @@ public class SmokeTests {
 		}
 	}
 
-	@Test(enabled = false)
-	public void testAllBatches() {
-		logger.info("Testing getAllBatches()...");
-		String URL = domain + "TrackForce/api/batches";
-		logger.info("	URL = " + URL);
-		HttpUriRequest request = new HttpGet(URL);
-		request.addHeader("Authorization", token);
-		try {
-			HttpResponse response = HttpClientBuilder.create().build().execute(request);
-			int status = response.getStatusLine().getStatusCode();
-
-			Assert.assertEquals(status, HttpStatus.SC_OK);
-
-			// String jsonMimeType = "application/json";
-			// String mimeType =
-			// ContentType.getOrDefault(response.getEntity()).getMimeType();
-			// Assert.assertEquals(jsonMimeType, mimeType);
-
-			// body
-			BatchInfo[] batches = new ObjectMapper().readValue(response.getEntity().getContent(), BatchInfo[].class);
-			if (batches == null) {
-				return;
-			}
-			logger.info("	batches.length: " + batches.length);
-			if (batches.length < 1) {
-				return;
-			}
-			logger.info("	batches[0]: " + batches[0]);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * Tests dummy resource. If it fails, the server may be off.
 	 */
-	@Test
-	public void testAdam() throws IOException {
+	@Test(priority = 1)
+	public void adamTest() throws IOException {
 		logger.info("Testing adam()...");
 		String URL = domain + "TrackForce/api/batches/adam";
 		logger.info("	URL = " + URL);
@@ -211,5 +206,4 @@ public class SmokeTests {
 
 		Assert.assertEquals(status, HttpStatus.SC_OK);
 	}
-
 }

@@ -42,7 +42,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 
+ * Sub Resource
  * @author Mitchell H's PC
  * 
  *         The different types of users Admin: 1 Trainer: 2 Sales/Delivery 3

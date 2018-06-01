@@ -124,11 +124,32 @@ public class AssociateDaoHibernate implements AssociateDao {
 		try {
 			t = session.beginTransaction();
 			TfAssociate tfAssociate = (TfAssociate) session.load(TfAssociate.class, afc.getId());
-			TfClient client = (TfClient) session.load(TfClient.class, afc.getClientId());
-			TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, afc.getMkStatus());
-			tfAssociate.setTfClient(client);
-			tfAssociate.setTfMarketingStatus(status);
-			tfAssociate.setTfClientStartDate(Timestamp.from(Instant.ofEpochSecond(afc.getStartDateUnixTime())));
+			
+			TfClient client = null;
+			//TODO: NEEDS TESTING
+			if(afc.getClientId() != (Integer) null) {
+				client = (TfClient) session.load(TfClient.class, afc.getClientId());
+			}
+			
+			TfMarketingStatus status = null;
+			//TODO: NEEDS TESTING
+			if(afc.getMkStatus() != (Integer) null) {
+				status = (TfMarketingStatus) session.load(TfMarketingStatus.class, afc.getMkStatus());
+			}
+			
+			if(client != null && client.getTfClientId() != null) {
+				tfAssociate.setTfClient(client);
+			}
+			if(status != null && status.getTfMarketingStatusId() != null
+					&& status.getTfMarketingStatusName() != null) {
+				tfAssociate.setTfMarketingStatus(status);
+			}
+			//TODO: NEEDS TESTING
+			if(afc.getStartDateUnixTime() != (Long) null) {
+				tfAssociate.setTfClientStartDate(Timestamp.from(Instant.ofEpochSecond(
+						afc.getStartDateUnixTime())));
+			}
+			
 			logger.debug(tfAssociate);
 			logger.debug(afc);
 			PersistentStorage.getStorage().updateAssociate(afc.getId(), afc.getClientId(), afc.getMkStatus(),

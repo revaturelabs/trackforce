@@ -97,8 +97,7 @@ public class InterviewResource {
 
 		if (payload == null || !payload.getId().equals("1")) {
 			status = Status.UNAUTHORIZED;
-		} 
-		
+		}
 		else 
 		{
 			interviews = is.getInterviewsByAssociate(associateid);

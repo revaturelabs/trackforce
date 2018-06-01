@@ -204,7 +204,7 @@ public class AssociateResource {
 		else {
 			mappedStats = service.getMappedInfo(statusId);
 			if (mappedStats.isEmpty())
-				return Response.status(500).build();
+				return Response.status(204).build();
 		}
 
 		return Response.ok(mappedStats).build();
@@ -299,9 +299,19 @@ public class AssociateResource {
 	@PUT
 	@ApiOperation(value = "updates associate verification", notes = "The method sets the verfication status to Approved of a given associate by their id.")
 	@Path("/{associateId}/verify")
-	public Response updateAssociateVerification(@PathParam("associateId") Integer id) {
-		service.updateAssociateVerification(id);
-		return Response.ok().build();
+	public Response updateAssociateVerification(@PathParam("associateId") Integer id,@HeaderParam("Authorization") String token) {
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || !payload.getId().equals("2")) {
+			status = Status.UNAUTHORIZED;
+		}
+
+		else {
+			service.updateAssociateVerification(id);	
+			status = Status.NO_CONTENT;
+		}
+		return Response.status(status).build();
 	}
 		
 	@ApiOperation(value = "returns all interviews for associate", notes= "Gets a list of all interviews for a specific associate.")

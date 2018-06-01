@@ -54,6 +54,8 @@ public class AssociateResource {
 	private UserService uservice;
 	private AssociateService service = new AssociateService();
 	private JWTService jService = new JWTService();
+	
+	//Constructor for creating resources
 	 public AssociateResource() {
 	        this.uservice = new UserService();
 	    }

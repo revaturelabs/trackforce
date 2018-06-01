@@ -129,7 +129,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 			
 			TfMarketingStatus status = null;
 			//TODO: NEEDS TESTING
-			if(afc.getMkStatus() != (Integer) null) {
+			if(afc.getMkStatus() != 0) {
 				status = (TfMarketingStatus) session.load(TfMarketingStatus.class, afc.getMkStatus());
 			}
 			

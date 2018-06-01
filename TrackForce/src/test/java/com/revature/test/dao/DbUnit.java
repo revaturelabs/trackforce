@@ -29,10 +29,10 @@ public class DbUnit extends JdbcBasedDBTestCase{
         System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, "jdbc:oracle:thin:@trackforce.chgtukwhhsrg.us-east-1.rds.amazonaws.com:1521:ORCL" );
         System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, "admin" );
         System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, "trackforce" );
+        System.setProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_SCHEMA, "admin");
     }
-   
  
- 
+    //NEED automation implementation to get XML from website
    //hardcoded location for xml file storing front-end data
     @Override
     protected IDataSet getDataSet() throws Exception {
@@ -66,10 +66,14 @@ public class DbUnit extends JdbcBasedDBTestCase{
 
     @Override
     protected JdbcDatabaseTester getDatabaseTester() throws Exception {
-    	 JdbcDatabaseTester tester = new JdbcDatabaseTester(this.getDriverClass(),this.getConnectionUrl(),this.getUsername(),this.getPassword());
+    	 JdbcDatabaseTester tester = new JdbcDatabaseTester(this.getDriverClass(),this.getConnectionUrl(),this.getUsername(),this.getPassword(),this.getSchema());
          return tester;
     }
     
+    protected String getSchema() {
+		return System.getProperty( PropertiesBasedJdbcDatabaseTester.DBUNIT_SCHEMA);
+    	
+    }
     
 
     //modify default DbUnit clean up and set up operations to clean up database after test

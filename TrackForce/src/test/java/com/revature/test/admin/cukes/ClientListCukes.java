@@ -2,6 +2,10 @@ package com.revature.test.admin.cukes;
 
 import static org.testng.Assert.fail;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -10,6 +14,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import com.revature.test.admin.pom.ClientListTab;
+import com.revature.test.admin.pom.Login;
 import com.revature.test.admin.testclasses.AdminSuite;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
@@ -21,6 +26,16 @@ public class ClientListCukes extends AdminSuite {
 	static String firstClient = null; //first client at top of client list initially on page load
 	static String secondClient = null; //second client at top of client list initially on page load
 	static String currentClient = null; //current client that is being searched for or viewed
+	private static Properties prop = new Properties();
+	static {
+		InputStream locProps = Login.class.getClassLoader()
+				.getResourceAsStream("tests.properties");
+		try {
+			prop.load(locProps);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	@Given("^I click on Client List Tab$")
 	public static void click_client_list_tab() {
@@ -37,8 +52,8 @@ public class ClientListCukes extends AdminSuite {
 	public static void client_list_tab_loads() {
 		try {
 			Thread.sleep(500);
-			if (ClientListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/client-listing") ||
-					ClientListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/client-list")) {
+			if (ClientListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + prop.getProperty("clientListingUrl")) ||
+					ClientListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + prop.getProperty("clientListUrl"))) {
 				
 			}
 			
@@ -69,7 +84,7 @@ public class ClientListCukes extends AdminSuite {
 			// clear the client list search box
 			ClientListTab.getClientSearchBox(d).clear();
 			// if client list search box is empty, return true
-			if (ClientListTab.getClientSearchBar(d).getAttribute("value").equals("")) {
+			if (ClientListTab.getClientSearchBox(d).getAttribute("value").equals("")) {
 				
 			}
 			
@@ -87,7 +102,7 @@ public class ClientListCukes extends AdminSuite {
 			search_bar_is_blank();
 			ClientListTab.getClientSearchBox(d).sendKeys(currentClient);
 			Thread.sleep(1000);
-			if (ClientListTab.getClientSearchBar(d).getAttribute("value").equals(currentClient)){
+			if (ClientListTab.getClientSearchBox(d).getAttribute("value").equals(currentClient)){
 				
 			}
 			
@@ -106,7 +121,7 @@ public class ClientListCukes extends AdminSuite {
 			Thread.sleep(1000);
 			ClientListTab.getClientSearchBox(d).sendKeys(currentClient);
 			Thread.sleep(500);
-			if (ClientListTab.getClientSearchBar(d).getAttribute("value").equals(currentClient)){
+			if (ClientListTab.getClientSearchBox(d).getAttribute("value").equals(currentClient)){
 				
 			}
 			
@@ -155,7 +170,7 @@ public class ClientListCukes extends AdminSuite {
 			//This "else if" hardcodes the getBarChartHeader(d).getText() return value which is A1 KAISER, INC, 
 			//	since there is a weird problem with Selenium returning blank 
 			//	when you try to use getText() on the header
-			else if (("A1 KAISER, Inc").equals(currentClient)){
+			else if (prop.getProperty("clientTestSubject").equals(currentClient)){
 				
 			}
 			

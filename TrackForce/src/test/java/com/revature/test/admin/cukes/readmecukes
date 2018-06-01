@@ -1,0 +1,23 @@
+The previous batch didn't use this so I'm just going to use it as a todo for the next batch
+
+-If you can, try to get the Angular team to use more id's in their elements - 
+	the properties file is reasonably robust but there were a few times I was forced
+	to use element name or even class when nothing else was available and that's 
+	really not ideal.  Previously they were just using xpath for everything and I did my
+	best to get rid of them but some elements just didn't have anything I could grab
+	
+-There's a set of feature files in com.revature.test.admin.testclasses and /another/ set in 
+	src/test/resources/AdminFeatureFiles.  The ones in test/java are actual scenarios, the ones
+	in test/resources are just scenario outlines.  I'm still not sure why the previous batch did
+	that.  Make sure to check your run configuration.
+	
+-To change whether the tests look for the localhost version of the site or the hosted version,
+	check the tests.properties file and specify in the urlBeingUsed property (line 17)
+	
+-Specific util classes for logging in as different roles still need to be implemented
+
+-Also tests for most role-specific functionality (who can and can't access what information) 
+	need implementation: most of what exists is just testing core website functionality using
+	the administrator role
+	
+-There's a known bugs list on google spreadsheets: [link]

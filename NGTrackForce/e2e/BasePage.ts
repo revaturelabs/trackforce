@@ -3,6 +3,7 @@ import { browser, element, by, protractor, $$, $ } from 'protractor';
 
 export enum IdentificationType {
     Xpath,
+    ElementsByXpath,
     Css,
     Id,
     Js,
@@ -32,6 +33,8 @@ export class BasePage {
                 return element(by.name(obj.value));
             case IdentificationType[IdentificationType.Tag]:
                 return element.all(by.tagName(obj.value));
+            case IdentificationType[IdentificationType.ElementsByXpath]:
+                return element.all(by.xpath(obj.value));
             default:
                 break;
         }

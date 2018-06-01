@@ -26,7 +26,7 @@ import com.revature.services.UserService;
 /**
  * testNG tests for the BatchResource against the a live server.
  * 
- * NOTE: server must be running
+ * NOTE: server must be runnin
  * 
  * Set system wide variable TOMCAT_PORT to eg 8085 for linux/mac
  * 

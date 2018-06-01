@@ -29,7 +29,7 @@ public class TfUser implements java.io.Serializable {
     @Column(name = "TF_HASHPASSWORD", length = 200)
     private String tfHashpassword;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TF_ASSOCIATE_ID")
     private TfAssociate tfAssociate;
 

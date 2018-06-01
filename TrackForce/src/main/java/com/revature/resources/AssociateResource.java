@@ -27,6 +27,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.revature.dao.AssociateDaoHibernate;
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfUser;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.request.model.AssociateFromClient;
@@ -60,6 +62,10 @@ public class AssociateResource {
 	 * @throws IOException
 	 * @throws HibernateException
 	 */
+	public AssociateResource() {
+		this.uservice = new UserService();
+	}
+
 	@GET
 	@ApiOperation(value = "Return all associates", notes = "Gets a set of all the associates, optionally filtered by a batch id. If an associate has no marketing status or\r\n"
 			+ " curriculum, replaces them with blanks. If associate has no client, replaces\r\n"
@@ -71,9 +77,8 @@ public class AssociateResource {
 
 		if (payload == null || payload.getId().equals("5")) {
 			status = Status.UNAUTHORIZED;
-		}
-
-		else {
+		}else {
+		
 			associates = service.getAllAssociates();
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
@@ -121,6 +126,24 @@ public class AssociateResource {
 	 * @return An AssociateInfo object with status OK, or NO_CONTENT if null
 	 * @throws IOException
 	 */
+	@POST
+	@Consumes("application/json")
+	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new user")
+	public Response createNewAssociate(CreateAssociateModel newAssociate) {
+		LogUtil.logger.info("createAssociate got hit");
+		LogUtil.logger.info(newAssociate);
+		// SuccessOrFailMessage msg = service.createNewAssociate(newAssociate);
+		// if (msg.getStatus()) {
+		// int userId = msg.getNewId();
+		// URI location = URI.create("/user/"+userId);
+		// return Response.created(location).build();
+		// } else {
+		// return Response.serverError().build();
+		// }
+		uservice.createNewAssociate(newAssociate);
+		return Response.created(URI.create("/testingURIcreate")).build();
+	}
+
 	@GET
 	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = AssociateInfo.class)
 	@Path("/{associateid}")
@@ -164,12 +187,11 @@ public class AssociateResource {
 		return Response.ok(mappedStats).build();
 	}
 
-	
-	 @GET
-	 @Path("unmapped/{statusId}")
-	 public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
-	 return Response.ok(service.getUnmappedInfo(statusId)).build();
-	 }
+	@GET
+	@Path("unmapped/{statusId}")
+	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
+		return Response.ok(service.getUnmappedInfo(statusId)).build();
+	}
 
 	/**
 	 * Update the marketing status or client of an associate
@@ -258,8 +280,8 @@ public class AssociateResource {
 		service.updateAssociateVerification(id);
 		return Response.ok().build();
 	}
-		
-	@ApiOperation(value = "returns all interviews for associate", notes= "Gets a list of all interviews for a specific associate.")
+
+	@ApiOperation(value = "returns all interviews for associate", notes = "Gets a list of all interviews for a specific associate.")
 	@Path("/{associateid}/interviews")
 	public InterviewResource addAssociateInterview() {
 		return new InterviewResource();

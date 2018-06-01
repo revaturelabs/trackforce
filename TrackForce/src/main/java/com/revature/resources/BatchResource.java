@@ -37,7 +37,6 @@ import io.swagger.annotations.ApiOperation;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BatchResource {
-	
 	private BatchesService service;
 
 	public BatchResource() {
@@ -49,11 +48,14 @@ public class BatchResource {
 	 * For example, sending a GET request to /batches?start={date1}&end={date2} will
 	 * return all batches with end dates between date 1 and date2
 	 * 
+	 * @author Ian Buitrago
 	 * @return - Response with 200 status and a List<BatchInfo> in the response body
 	 */
 	@GET
 	@ApiOperation(value = "Returns all Batches", notes = "Returns a list of a list of all batches optionally filtered by start and end dates.")
-	public Response getAllBatches() {
+	public Response getAllBatches(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
+			@HeaderParam("Authorization") String token) {
+		Claims payload = JWTService.processToken(token);
 		Set<BatchInfo> batches = service.getAllBatches();
 		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
 
@@ -63,34 +65,14 @@ public class BatchResource {
 	}
 
 	/**
-	 * examples:
-	 * 
-	 * @param startDate
-	 * @param endDate
-	 * @param curriculum
-	 * @return
-	 */
-	public Response getAllBatches(@DefaultValue("1510549200000") @QueryParam("start") Long startDate,
-			@DefaultValue("1527480000000") @QueryParam("end") Long endDate
-	) {
-
-		logger.info("getAllBatches(): " + "");
-		List<BatchInfo> result = service.getBatches(startDate, endDate);
-
-		Status status = result == null || result.isEmpty() ? Status.NO_CONTENT : Status.OK;
-
-		return Response.status(status).entity(result).build();
-	}
-
-	/**
 	 * @author Ian Buitrago
 	 * @param curriculum
 	 *            name
 	 * @return set of batches matching curriculum
 	 */
 	@GET
-	@ApiOperation(value = "returns batches by curriculum", notes = "Returns a list of batches filtered by curriculum name.")
 	@Path("curriculum/{curriculum}")
+	@ApiOperation(value = "returns batches by curriculum", notes = "Returns a list of batches filtered by curriculum name.")
 	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum,
 			@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate,
 			@QueryParam("end") Long endDate) {
@@ -136,9 +118,18 @@ public class BatchResource {
 	@GET
 	@Path("/{id}")
 	@ApiOperation(value = "Returns a batch", notes = "Returns a specific batch by id.")
-	public Response getBatchById(@PathParam("id") Integer id) {
-		BatchInfo batch = service.getBatchById(id);
-		return Response.ok(batch).build();
+	public Response getBatchById(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
+		Status status = null;
+		BatchInfo batch = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || payload.getId().equals("5")) {
+			status = Status.UNAUTHORIZED;
+		} else {
+			batch = service.getBatchById(id);
+		}
+
+		return Response.status(status).entity(batch).build();
 	}
 
 	@GET
@@ -148,6 +139,9 @@ public class BatchResource {
 		return Response.ok(service.getAssociatesForBranch(id)).build();
 	}
 
+	/**
+	 * @author Ian Buitrago
+	 */
 	// dummy test method: returns ["Yuvi1804", 25],["wills batch", 14] every time
 	@GET
 	@Path("/adam")

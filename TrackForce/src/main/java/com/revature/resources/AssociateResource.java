@@ -3,6 +3,7 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,10 +35,12 @@ import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.request.model.AssociateFromClient;
 import com.revature.request.model.AssociateUserModel;
-import com.revature.request.model.InterviewFromClient;
+import com.revature.request.model.CreateAssociateModel;
 import com.revature.services.AssociateService;
 import com.revature.services.JWTService;
+import com.revature.services.UserService;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -49,32 +52,13 @@ import io.swagger.annotations.ApiParam;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AssociateResource {
+
+	private UserService uservice;
 	private AssociateService service = new AssociateService();
 	private JWTService jService = new JWTService();
 
-	/**
-	 * Gets a list of all the associates, optionally filtered by a batch id. If an
-	 * associate has no marketing status or curriculum, replaces them with blanks.
-	 * If associate has no client, replaces it with "None".
-	 *
-	 * The different user types and their ID's are Admin: 1 Trainer: 2
-	 * Sales/Delivery 3 Staging Manager 4 Associate 5
-	 * 
-	 * @return A Response object with a list of TfAssociate objects.
-	 * @throws IOException
-	 * @throws HibernateException
-	 */
-
-	@POST
-	@ApiOperation(value = "Creates associate", notes = "Creates an associate for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
-	public Response createAssociate(AssociateUserModel associateModel) {
-		logger.info(associateModel);
-		Status status = null;
-
-		// does service actually work?
-		status = Status.CREATED;
-
-		return Response.status(status).build();
+	public AssociateResource() {
+		this.uservice = new UserService();
 	}
 
 	@GET
@@ -96,17 +80,6 @@ public class AssociateResource {
 		return Response.status(status).entity(associates).build();
 	}
 
-	/**
-	 * Update the marketing status or client of associates
-	 * 
-	 * @param ids
-	 *            list of ids to update
-	 * @param marketingStatusId
-	 *            updating to
-	 * @return clientId updating to
-	 * @return response 200 status if successful
-	 * @throws IOException
-	 */
 	@PUT
 	@ApiOperation(value = "Batch update associates", notes = "Updates the maretking status and/or the client of one or more associates")
 	public Response updateAssociates(@HeaderParam("Authorization") String token,
@@ -128,14 +101,24 @@ public class AssociateResource {
 		return Response.ok().build();
 	}
 
-	/**
-	 * Returns information about a specific associate.
-	 * 
-	 * @param associateid
-	 *            The ID of the associate to get information about
-	 * @return An AssociateInfo object with status OK, or NO_CONTENT if null
-	 * @throws IOException
-	 */
+	@POST
+	@Consumes("application/json")
+	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new user")
+	public Response createNewAssociate(CreateAssociateModel newAssociate) {
+		LogUtil.logger.info("createAssociate got hit");
+		LogUtil.logger.info(newAssociate);
+		// SuccessOrFailMessage msg = service.createNewAssociate(newAssociate);
+		// if (msg.getStatus()) {
+		// int userId = msg.getNewId();
+		// URI location = URI.create("/user/"+userId);
+		// return Response.created(location).build();
+		// } else {
+		// return Response.serverError().build();
+		// }
+		uservice.createNewAssociate(newAssociate);
+		return Response.created(URI.create("/testingURIcreate")).build();
+	}
+
 	@GET
 	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = AssociateInfo.class)
 	@Path("/{associateid}")
@@ -185,21 +168,6 @@ public class AssociateResource {
 		return Response.ok(service.getUnmappedInfo(statusId)).build();
 	}
 
-	//
-	/**
-	 * Update the marketing status or client of an associate
-	 * 
-	 * @param id
-	 *            The ID of the associate to change
-	 * @param marketingStatusId
-	 *            What to change the associate's marketing status to
-	 * @param clientId
-	 *            What client to change the associate to
-	 * @return
-	 * @throws NumberFormatException
-	 * @throws IOException
-	 */
-	/**** OPTION 1 ****/
 	@PUT
 	@ApiOperation(value = "updates associate values", notes = "The method updates the marketing status or client of a given associate by their id.")
 	@Path("/{associateId}")
@@ -220,7 +188,6 @@ public class AssociateResource {
 		return Response.status(status).build();
 	}
 
-	/*** OPTION 2 ***/
 	@PUT
 	@ApiOperation(value = "updates associate values", notes = "The method updates start date of the client.")
 	@Path("/{associateId}/{startDate}")
@@ -258,49 +225,6 @@ public class AssociateResource {
 		return Response.status(status).build();
 	}
 
-	/**** OPTION 1+2 ****/
-	/*
-	 * @PUT
-	 * 
-	 * @Path("{associateId}") public Response updateAssociate(
-	 * 
-	 * @PathParam("associateId") Integer id,
-	 * 
-	 * @DefaultValue("0") @QueryParam("marketingStatusId") Integer
-	 * marketingStatusId,
-	 * 
-	 * @DefaultValue("0") @QueryParam("clientId") Integer clientId, String
-	 * startDate) { List<Integer> list = new ArrayList<>(); list.add(id);
-	 * service.updateAssociates(list, marketingStatusId, clientId);
-	 * 
-	 * //This code separately updates the client start date using a stored procedure
-	 * Session session = HibernateUtil.getSessionFactory().openSession();
-	 * Transaction tx = session.beginTransaction(); // StringBuilder sb = new
-	 * StringBuilder(); try { StoredProcedureQuery spq =
-	 * session.createStoredProcedureCall("admin.UPDATEASSOCIATECLIENTSTARTDATE");
-	 * spq.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
-	 * spq.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
-	 * spq.setParameter(1, id); spq.setParameter(2, startDate); spq.execute(); }
-	 * catch (Exception e) { e.printStackTrace(); session.flush(); tx.rollback(); }
-	 * finally { new AssociateDaoHibernate().cacheAllAssociates(); //refreshes the
-	 * associates cache session.close(); }
-	 * 
-	 * return Response.ok().build(); }
-	 */
-
-	// @Path("/interviews")
-	// public InterviewResource getAllInterview() {
-	// return new InterviewResource();
-	// }
-
-	/**
-	 * Updates the associate status to Approved
-	 * 
-	 * @param id
-	 *            The ID of the associate to Approve
-	 * @return response 200 status if successful
-	 * 
-	 */
 	@PUT
 	@ApiOperation(value = "updates associate verification", notes = "The method sets the verfication status to Approved of a given associate by their id.")
 	@Path("/{associateId}/verify")

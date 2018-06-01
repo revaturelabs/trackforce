@@ -95,7 +95,7 @@ public class SmokeTests {
 	private boolean testResource(String URI, Status expectedStatus
 //			, Class<T> type
 			) {
-		String URL = domain + "TrackForce/api/associates/1";
+		String URL = domain + URI;
 		logger.info("	URL = " + URL);
 		HttpUriRequest request = new HttpGet(URL);
 		request.addHeader("Authorization", token);
@@ -106,6 +106,7 @@ public class SmokeTests {
 		}
 		Status status = Status.fromStatusCode(response.getStatusLine().getStatusCode());
 
+		Assert.assertEquals(status, expectedStatus);
 		// prints body
 //		T obj = mapObject(response, type);
 //		if (obj == null) {

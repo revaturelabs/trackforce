@@ -11,7 +11,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "TF_USER", schema="ADMIN")
 public class TfUser implements java.io.Serializable {
 
-	
     private static final long serialVersionUID = 706405344864879997L;
     @Id
     @Column(name = "TF_USER_ID")
@@ -30,7 +29,7 @@ public class TfUser implements java.io.Serializable {
     @Column(name = "TF_HASHPASSWORD", length = 200)
     private String tfHashpassword;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "TF_ASSOCIATE_ID")
     private TfAssociate tfAssociate;
 
@@ -39,6 +38,14 @@ public class TfUser implements java.io.Serializable {
 
     public TfUser(int tfUserId) {
         this.tfUserId = tfUserId;
+    }
+
+    //Constructor for createAssociate which sets a role of 5.
+    public TfUser(TfAssociate associate, String username, String password){
+        this.tfAssociate = associate;
+        this.tfUserUsername = username;
+        this.tfHashpassword = password;
+        this.tfRole = new TfRole(5);
     }
 
     public TfUser(int tfUserId, TfRole tfRole, String tfUserUsername, String tfUserHashpassword) {

@@ -81,10 +81,4 @@ public class AssociateUserModel {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String toString() {
-		return "AssociateUserModel [username=" + username + ", password=" + password + ", fname=" + fname + ", lname="
-				+ lname + "]";
-	}
-
 }

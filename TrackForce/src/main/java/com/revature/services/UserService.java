@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.revature.utils.LogUtil.logger;
+
+import com.revature.request.model.CreateAssociateModel;
+import com.revature.utils.LogUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -61,15 +64,51 @@ public class UserService {
 		return msg;
 	}
 
+	// /**
+	// * Creates a user
+	// * @return Returns whether the response was successful
+	// */
+	// public SuccessOrFailMessage createNewUser(CreateUserModel newUser) {
+	// SuccessOrFailMessage msg = new SuccessOrFailMessage();
+	// boolean success = userDao.createUser(newUser);
+	// if (success) {
+	// msg.setSuccess();
+	// }
+	// else {
+	// msg.setFailure();
+	// }
+	// return msg;
+	// }
 	/**
 	 * Gets the user by the user's username
 	 * 
-	 * @param username
-	 *            Username used to get the user
+	 * - * @param username Username used to get the user
+	 * 
 	 * @return Returns a TfUser json
 	 */
 	public TfUser getUser(String username) {
 		return new UserDaoImpl().getUser(username);
+	}
+
+	/**
+	 * Takes in an object that provides username, password, first name and last
+	 * name. It first creates a user with the first/last name then uses its ID to
+	 * generate a new User with associate rights.
+	 *
+	 * @param newAssociate
+	 * @return
+	 */
+	public SuccessOrFailMessage createNewAssociate(CreateAssociateModel newAssociate) {
+		LogUtil.logger.info("createNewAssociate in Service hit");
+		LogUtil.logger.info(newAssociate);
+		SuccessOrFailMessage msg = new SuccessOrFailMessage();
+		boolean success = userDao.createAssociate(newAssociate);
+		if (success) {
+			msg.setSuccess();
+		} else {
+			msg.setFailure();
+		}
+		return msg;
 	}
 
 	/**
@@ -81,7 +120,7 @@ public class UserService {
 	 *         token, and roleId
 	 * @throws IOException
 	 */
-	public UserJSON submitCredentials(LoginJSON login) { 
+	public UserJSON submitCredentials(LoginJSON login) {
 		String username = login.getUsername();
 		String password = login.getPassword();
 		UserJSON userjson = null;

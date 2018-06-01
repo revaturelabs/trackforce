@@ -37,6 +37,7 @@
                     {{interview.date | date:'short'}}<button type="button" (click)='showAvailableDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>
                     <ng-template #dateEdit2><input id="date" #date type="datetime-local"> <button type="button" (click)='showAvailableDate(interview,date.value)'> <i class="fa fa-edit" style="font-size:24px"></i></button></ng-template>
             </td>
+            <td>{{newInterview.date}}</td>
             <td> 
               <div *ngIf='!interview.isEditingAvailable; else dateEdit'> 
               {{interview.DInterview}}<button type="button" (click)='showInputDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>
@@ -74,20 +75,20 @@
               <label class="control-label col-sm-3">Date of interview:</label>
                <div class="col-sm-9">
                  <!-- <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" /> -->
-                 <input type="datetime-local" class="form-control" name="date" [(ngModel)]="newInterview.date" />
+                 <input type="datetime-local" class="form-control" name="date" [(ngModel)]="newInterview.dateOfInterview" />
                </div>
             </div>
 
             <label class="control-label col-sm-3">Date Assigned:</label>
             <div class="col-sm-9">
               <!-- <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" /> -->
-              <input type="datetime-local" class="form-control" name="date" [(ngModel)]="newInterview.dateAssigned" />
+              <input type="datetime-local" class="form-control" name="date" [(ngModel)]="newInterview.dateNotified" />
             </div>
             
             <div class="form-group">
               <label class="control-label col-sm-3">Type:</label>
                <div class="col-sm-9">
-                 <select class="form-control" name="type "[(ngModel)]="newInterview.type">
+                 <select class="form-control" name="type "[(ngModel)]="newInterview.typeId">
                      <option value="1">Phone</option>
                      <option value="2">Online</option>
                      <option value="3">On-site</option>

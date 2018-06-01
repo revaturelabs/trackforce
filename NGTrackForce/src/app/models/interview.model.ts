@@ -7,7 +7,6 @@ export class Interview {
    associate: Associate;
    client: EndClient;
    typeId: number;
-
    typeName: string;
    dateNotified: Date;
    dateOfInterview: Date;

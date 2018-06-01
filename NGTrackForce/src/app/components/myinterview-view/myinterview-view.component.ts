@@ -29,11 +29,7 @@ export class MyInterviewComponent implements OnInit {
   public associate: Associate = new Associate();
   public id:number = 0;
   public newInterview: any = {
-    client: null,
-    date: null,
-    dateAssigned: null,
-    type: null,
-    feedback: null
+  
   }
   public formOpen: boolean = false;
   public conflictingInterviews: string = "";
@@ -60,15 +56,16 @@ export class MyInterviewComponent implements OnInit {
   }
 
   addInterview(){
-    console.log(this.newInterview);
-    let interview = {
-      associateId: this.id,
-      clientId: this.newInterview.client,
-      typeId: this.newInterview.type,
-      interviewDate: new Date(this.newInterview.date).getTime(),
-      interviewFeedback: this.newInterview.feedback
-    };
-    this.associateService.addInterviewForAssociate(this.id,interview).subscribe(
+    console.log(this.newInterview.date);
+    console.log(this.newInterview.type);
+   // let interview = {
+   //   associateId: this.id,
+    //  clientId: this.newInterview.client,
+   //   typeId: this.newInterview.type,
+   //   interviewDate: new Date(this.newInterview.date).getTime(),
+   //   interviewFeedback: this.newInterview.feedback
+  //  };
+    this.associateService.addInterviewForAssociate(this.id,this.newInterview).subscribe(
       data => {
         this.getInterviews(this.id);
       },

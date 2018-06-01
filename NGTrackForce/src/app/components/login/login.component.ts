@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit {
     
     
     if (user != null){
-      if(user.tfRoleId === 4){
+      if(user.tfRoleId === 5){
         this.router.navigate(['associate-view', user.userId]);
       }
       else{
@@ -178,7 +178,7 @@ export class LoginComponent implements OnInit {
           const user = this.authService.getUser();
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
-          if(user.tfRoleId === 4){
+          if(user.tfRoleId === 5){
             this.router.navigate(['associate-view', user.userId]);
           } else {
             //otherwise, they are set to root

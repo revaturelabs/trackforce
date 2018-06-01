@@ -92,30 +92,15 @@ public class InterviewResource {
 	@GET
 	@ApiOperation(value = "Returns an interview", notes = "Returns a specific interview by id.")
 	@Path("/{interviewid}")
-	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid,
+	public Response getAssociateInterview(@PathParam("associateid") Integer associateid,
 			@PathParam("interviewid") Integer interviewid,
-			@HeaderParam("Authorization") String token) {
-		logger.info(token);
-		
-		Claims claims = null;
-		logger.info("Before the try block");
-		try {
-			logger.info("In the try block");
-			if (token == null) {
-				throw new UnsupportedJwtException("token null");
-			}
-			claims = jService.getClaimsFromToken(token);
-			logger.info("Print claims " + claims);
+			@HeaderParam("Authorization") String token) throws IOException {
+		Status status = null;
+		Collection<InterviewInfo> interview = null;
+		Claims payload = JWTService.processToken(token);
 
-		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
-				| IllegalArgumentException | NullPointerException e) {
-			logger.info("in the catch block");
-			e.printStackTrace();
-			return Response.status(403).build();
-		}
-
-		if (claims.getId().equals("1")) {
-			Set<InterviewInfo> associateinfo = service.getInterviewsByAssociateAndInterviewid(associateid, interviewid);
+		if (payload.getId().equals("1")) {
+			Set<InterviewInfo> associateinfo = is.getInterviewsByAssociateAndInterviewid(associateid, interviewid);
 			return Response.ok(associateinfo).build();
 		} else {
 			return Response.status(403).build();

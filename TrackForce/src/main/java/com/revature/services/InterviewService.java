@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import com.revature.dao.InterviewDao;
 import com.revature.dao.InterviewDaoHibernate;
@@ -88,6 +89,18 @@ public class InterviewService {
 	
 	public Collection<InterviewInfo> getInterviewsByAssociate(int associateId) throws IOException {
 		return interviewDao.getInterviewsByAssociate(associateId).values();
+	}
+	
+	public Set<InterviewInfo> getInterviewsByAssociateAndInterviewid(Integer associateId, Integer interviewid) throws IOException {
+		Collection<InterviewInfo> allInterviews = interviewDao.getInterviewsByAssociate(associateId).values();
+		Set<InterviewInfo> specificInterview = new TreeSet<InterviewInfo>();
+		for (InterviewInfo x : allInterviews) {
+			if (x.getId() == interviewid) {
+				specificInterview.add(x);
+				break;
+			}
+		}
+		return specificInterview;
 	}
 
 }

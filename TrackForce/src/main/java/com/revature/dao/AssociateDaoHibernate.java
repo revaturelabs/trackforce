@@ -34,6 +34,7 @@ import com.revature.resources.BatchResource;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.PersistentStorage;
+import com.revature.dao.MarketingStatusDaoHibernate;
 
 public class AssociateDaoHibernate implements AssociateDao {
 
@@ -165,6 +166,8 @@ public class AssociateDaoHibernate implements AssociateDao {
 			
 			logger.debug(tfAssociate);
 			logger.debug(afc);
+			PersistentStorage.getStorage().setMarketingStatuses(
+					new MarketingStatusDaoHibernate().getMarketingStatus());
 			PersistentStorage.getStorage().updateAssociate(afc.getId(), afc.getClientId(), afc.getMkStatus(),
 					afc.getStartDateUnixTime());
 			session.saveOrUpdate(tfAssociate);

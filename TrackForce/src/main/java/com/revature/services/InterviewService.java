@@ -60,6 +60,9 @@ public class InterviewService {
 	public void addInterviewByAssociate(int associateId, InterviewFromClient ifc) {
 		interviewDao.addInterviewForAssociate(associateId, ifc);
 	}
+	public void updateInterview(int associateId, InterviewFromClient ifc){
+		interviewDao.updateInterview(associateId, ifc);
+	}
 
 	public List<InterviewInfo> getInterviewConflicts(int associateId) throws IOException {
 		Map<Integer, InterviewInfo> interviews = interviewDao.getInterviewsByAssociate(associateId);

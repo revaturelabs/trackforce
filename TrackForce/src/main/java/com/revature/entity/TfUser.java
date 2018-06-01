@@ -93,6 +93,14 @@ public class TfUser implements java.io.Serializable {
     public void setTfUserHashpassword(String tfUserHashpassword) {
         this.tfHashpassword = tfUserHashpassword;
     }
+    
+    public TfAssociate getTfUserAssociate() {
+    	return this.tfAssociate;
+    }
+    
+    public void setTfUserAssociate(TfAssociate tfAssociate) {
+    	this.tfAssociate = tfAssociate;
+    }
 
     @Override
     public int hashCode() {

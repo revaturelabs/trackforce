@@ -104,6 +104,7 @@ public class InterviewResource {
 			return Response.status(403).build();
 		}
 	}
+	@POST
 	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
 	public Response createInterview(@PathParam("associateid") int associateid,
 			@HeaderParam("Authorization") String token, InterviewFromClient ifc) {
@@ -205,8 +206,7 @@ public class InterviewResource {
 	@PUT
 	public Response updateInterview(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token,
-
-			TfInterview changeInterview) 
+			InterviewFromClient ifc) 
 	{
 		logger.info("hits update interview method");
 

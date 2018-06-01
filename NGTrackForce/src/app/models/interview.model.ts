@@ -14,6 +14,8 @@ export class Interview {
    clientFeedback: string;
    questions: string;
    notified: number;
+   otherflag: number;
+
 
 
 }

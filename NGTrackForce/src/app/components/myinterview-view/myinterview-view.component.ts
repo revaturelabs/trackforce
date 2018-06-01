@@ -64,18 +64,17 @@ export class MyInterviewComponent implements OnInit {
   }
 
   addInterview(){
-    console.log(this.newInterview);  
-  
+
+    this.newInterview.associateid = this.id
     this.newInterview.dateOfInterview = new Date(this.interviewDate).getTime()
     this.newInterview.dateNotified = new Date(this.interviewDateNotification).getTime()
+    this.newInterview.jobDescription = "none available";
+    this.newInterview.otherflag = 0;
+    this.newInterview.notified = (this.newInterview.notified*1)
 
   
- 
-    console.log(this.newInterview.clientid);
-    console.log(this.newInterview.dateOfInterview);
-    console.log(this.newInterview.dateNotified);
-    console.log(this.newInterview.typeName);
-    console.log(this.newInterview.notified);
+
+    console.log(this.newInterview);  
 
 
 
@@ -183,5 +182,7 @@ getClientNames() {
     console.log(this.clients);
   });
 }
+
+
 
 }

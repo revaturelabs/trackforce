@@ -43,20 +43,21 @@ public class JWTService {
 	private SessionFactory sessionFactory;
 	private UserDAO userDao;
 
-    /**
-     *
-     * injectable dependencies for easier testing
-     * @param userDao
-     * @param sessionFactory
-     */
+	/**
+	 *
+	 * injectable dependencies for easier testing
+	 * 
+	 * @param userDao
+	 * @param sessionFactory
+	 */
 	public JWTService(UserDAO userDao, SessionFactory sessionFactory) {
 		this.userDao = userDao;
 		this.sessionFactory = sessionFactory;
 	}
 
 	public JWTService() {
-		this.sessionFactory = HibernateUtil.getSessionFactory();
-        this.userDao = new UserDaoImpl();
+		this.sessionFactory = HibernateUtil.getSessionFactory(); // throws SQLException???
+		this.userDao = new UserDaoImpl();
 	}
 
 	/**
@@ -68,48 +69,38 @@ public class JWTService {
 	 * @return the token
 	 */
 	public String createToken(String username, int tfroleid) {
-
 		SignatureAlgorithm signAlgorithm = SignatureAlgorithm.HS256;
 		Key key = new SecretKeySpec(getSecret(), signAlgorithm.getJcaName());
 
-		JwtBuilder token = Jwts.builder().setSubject(username).setId("" + tfroleid).setExpiration(generateExpirationDate())
-				.signWith(signAlgorithm, key);
+		JwtBuilder token = Jwts.builder().setSubject(username).setId("" + tfroleid)
+				.setExpiration(generateExpirationDate()).signWith(signAlgorithm, key);
 
 		return token.compact();
 	}
-
+	
 	/**
-	 * Creates the secret byte array needed for creating a SecretKeySpec
-	 * 
-	 * @return byte[]
-	 */
-	private static byte[] getSecret() {
-		String base64Key = DatatypeConverter.printBase64Binary(SECRET_KEY.getBytes());
-
-		return DatatypeConverter.parseBase64Binary(base64Key);
-	}
-
-	/**
-	 * Creates the expiration date for the JWT
-	 * 
-	 * @return expiration Date object
-	 */
-	private Date generateExpirationDate() {
-		return new Date(System.currentTimeMillis() + EXPIRATION * 1000);
-	}
-
-	/**
-	 * Check to see if token is expired
-	 * 
+	 * @author Ian Buitrago
 	 * @param token
-	 * 
-	 * @return true if token is expired, otherwise false
+	 * @return the payload, or null if token invalid
 	 */
-	private Boolean isTokenExpired(String token) {
-		final Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(new Date());
-	}
+	public static Claims processToken(String token) {
+		Claims payload = null;
 
+		try {
+			if (token == null) {
+				throw new UnsupportedJwtException("token null");
+			}
+			payload = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
+//			logger.info("Print payload " + payload);
+
+		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
+				| IllegalArgumentException | NullPointerException e) {
+			e.printStackTrace();
+			payload = null;
+		}
+
+		return payload;
+	}
 	/**
 	 * Extracts the expiration date from the token
 	 * 
@@ -130,34 +121,10 @@ public class JWTService {
 		return expiration;
 	}
 
+
 	/**
-	 * 
-	 * @param token
-	 * @return the payload, or null if token invalid
-	 */
-	public static Claims processToken(String token) {
-		Claims payload = null;
-
-		try {
-			logger.info("In the try block");
-			if (token == null) {
-				throw new UnsupportedJwtException("token null");
-			}
-			payload = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
-			logger.info("Print payload " + payload);
-
-		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
-				| IllegalArgumentException | NullPointerException e) {
-			logger.info("in the catch block");
-			e.printStackTrace();
-			payload = null;
-		}
-
-		return payload;
-	}
-
-	/**DEPRECIATED
-	 * Gets the claims object from the token Needed verification purposes
+	 * DEPRECIATED Gets the claims object from the token Needed verification
+	 * purposes
 	 * 
 	 * @param token
 	 * 
@@ -201,7 +168,7 @@ public class JWTService {
 					tokenUsername = claims.getSubject();
 				}
 				if (tokenUsername != null) {
-					tfUser = userDao.getUser(tokenUsername);	
+					tfUser = userDao.getUser(tokenUsername);
 				}
 				if (tfUser != null) {
 					// makes sure the token is fresh and usernames are equal
@@ -216,121 +183,10 @@ public class JWTService {
 			logger.error(e);
 			session.flush();
 			tx.rollback();
-		}
-		finally {
+		} finally {
 			session.close();
 		}
 		return verified;
-	}
-
-	/**
-	 * Gets the secret key from System environments, under the 'KEY' label Checks if
-	 * the user is an admin
-	 * 
-	 * 
-	 * @param token
-	 * @return true if the user is an admin, otherwise false
-	 * @throws IOException
-	 *             because of the use of connection pools that requires some files
-	 */
-	public boolean isAdmin(String token) throws IOException {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			Claims claims = null;
-			boolean verified = false;
-			String tokenUsername = null;
-			TfUser tfUser = null;
-			TfRole tfRole = null;
-
-			if (token == null) {
-				return false;
-			}
-
-			claims = getClaimsFromToken(token);
-			if (claims != null) {
-				tokenUsername = claims.getSubject();
-			}
-			if (tokenUsername != null) {
-				tfUser = userDao.getUser(tokenUsername);
-			}
-			if (tfUser != null) {
-				tfRole = tfUser.getTfRole();
-			}
-
-			if (tfUser != null && tfRole != null) {
-				// makes sure the token is fresh and usernames are equal
-				// and user role is admin
-				verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
-						&& tfRole.getTfRoleName().equals("Admin"));
-			}
-			session.flush();
-			tx.commit();
-			return verified;
-		} catch (Exception e) {
-			session.flush();
-			tx.rollback();
-		} finally {
-			session.close();
-		}
-		return false;
-	}
-
-	/**
-	 * Checks if the user is an associate
-	 * 
-	 * 
-	 * @param token
-	 * @return true if the user is an associate, otherwise false
-	 * @throws IOException
-	 *             because of the use of connection pools that requires some files
-	 */
-	public boolean isAssociate(String token) throws IOException {
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			Claims claims = null;
-			boolean verified = false;
-			String tokenUsername = null;
-			TfUser tfUser = null;
-			TfRole tfRole = null;
-
-			if (token == null) {
-				return false;
-			}
-
-			try {
-				claims = getClaimsFromToken(token);
-				if (claims != null) {
-					tokenUsername = claims.getSubject();
-				}
-				if (tokenUsername != null) {
-					tfUser = userDao.getUser(tokenUsername);
-				}
-				if (tfUser != null) {
-					tfRole = tfUser.getTfRole();
-				}
-				if (tfUser != null && tfRole != null) {
-					// makes sure the token is fresh and usernames are equal
-					// and user role is an associate
-					verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token)
-							&& tfRole.getTfRoleName().equals("Associate"));
-				}
-			} catch (SignatureException se) {
-				logger.error(se);
-			}
-
-			session.flush();
-			tx.commit();
-			return verified;
-
-		} catch (Exception e) {
-			session.flush();
-			tx.rollback();
-		} finally {
-			session.close();
-		}
-		return false;
 	}
 
 	/**
@@ -349,4 +205,37 @@ public class JWTService {
 
 		return key;
 	}
+
+	/**
+	 * Creates the secret byte array needed for creating a SecretKeySpec
+	 * 
+	 * @return byte[]
+	 */
+	private static byte[] getSecret() {
+		String base64Key = DatatypeConverter.printBase64Binary(SECRET_KEY.getBytes());
+
+		return DatatypeConverter.parseBase64Binary(base64Key);
+	}
+
+	/**
+	 * Creates the expiration date for the JWT
+	 * 
+	 * @return expiration Date object
+	 */
+	private Date generateExpirationDate() {
+		return new Date(System.currentTimeMillis() + EXPIRATION * 1000);
+	}
+
+	/**
+	 * Check to see if token is expired
+	 * 
+	 * @param token
+	 * 
+	 * @return true if token is expired, otherwise false
+	 */
+	private Boolean isTokenExpired(String token) {
+		final Date expiration = getExpirationDateFromToken(token);
+		return expiration.before(new Date());
+	}
+
 }

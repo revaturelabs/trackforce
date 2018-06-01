@@ -65,26 +65,6 @@ public class BatchResource {
 	}
 
 	/**
-	 * examples:
-	 * 
-	 * @param startDate
-	 * @param endDate
-	 * @param curriculum
-	 * @return
-	 */
-	public Response getAllBatches(@DefaultValue("1510549200000") @QueryParam("start") Long startDate,
-			@DefaultValue("1527480000000") @QueryParam("end") Long endDate
-	) {
-
-		logger.info("getAllBatches(): " + "");
-		List<BatchInfo> result = service.getBatches(startDate, endDate);
-
-		Status status = result == null || result.isEmpty() ? Status.NO_CONTENT : Status.OK;
-
-		return Response.status(status).entity(result).build();
-	}
-
-	/**
 	 * @author Ian Buitrago
 	 * @param curriculum
 	 *            name

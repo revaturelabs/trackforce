@@ -87,16 +87,14 @@ public class JWTService {
 		Claims payload = null;
 
 		try {
-			logger.info("In the try block");
 			if (token == null) {
 				throw new UnsupportedJwtException("token null");
 			}
 			payload = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
-			logger.info("Print payload " + payload);
+//			logger.info("Print payload " + payload);
 
 		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
 				| IllegalArgumentException | NullPointerException e) {
-			logger.info("in the catch block");
 			e.printStackTrace();
 			payload = null;
 		}

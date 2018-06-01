@@ -79,29 +79,26 @@ export class LoginComponent implements OnInit {
   */
   ngOnInit() {
     const user = this.authService.getUser();
-    
-    
+
+
     if (user != null){
-      if(user.tfRoleId === 4){
+      if(user.tfRoleId === 5){
         this.router.navigate(['associate-view', user.userId]);
       }
       else{
       	//console.log(user.name);
       	this.getUser(user.userId);
-      	console.log(this.associate.firstname);
         this.router.navigate(['root']);
       }
-
     }
-
   }
   /**
   * Enter the register state
   */
-  
+
   getUser(id)
   {
-  	
+
     this.associateService.getAssociate(id).subscribe(
       data => {
         this.associate = data;
@@ -109,7 +106,7 @@ export class LoginComponent implements OnInit {
       err => {
         console.log(err);
     });
-  
+
   }
   register(){
     this.errMsg = "";
@@ -154,7 +151,7 @@ export class LoginComponent implements OnInit {
   next(){
 	  this.registerPage = 1;
   }
-  
+
   /**
    * Change the current page to username and password
    */
@@ -178,7 +175,7 @@ export class LoginComponent implements OnInit {
           const user = this.authService.getUser();
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
-          if(user.tfRoleId === 4){
+          if(user.tfRoleId === 5){
             this.router.navigate(['associate-view', user.userId]);
           } else {
             //otherwise, they are set to root

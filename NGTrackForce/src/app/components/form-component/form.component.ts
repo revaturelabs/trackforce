@@ -78,7 +78,7 @@ export class FormComponent implements OnInit {
     if(this.user.tfRoleId === 3){
     this.isVP = true;
   }
-  else if(this.user.tfRoleId === 4)
+  else if(this.user.tfRoleId === 5)
   {
     this.isAssociate = true;
   }

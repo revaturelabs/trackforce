@@ -4,16 +4,15 @@ import { EndClient } from './end-client.model';
 
 export class Interview {
    id: number;
-   associate: Associate;
-   client: EndClient;
+   associateId: number;
+   clientId: number;
    typeId: number;
-   typeName: string;
-   dateNotified: Date;
-   dateOfInterview: Date;
+   dateAssociateIssued: number;
+   interviewDate: number;
    jobDescription: string;
    associateFeedback: string;
    clientFeedback: string;
    questions: string;
-
-
+   was24HRNotice: number;
+   flagAlert: number;
 }

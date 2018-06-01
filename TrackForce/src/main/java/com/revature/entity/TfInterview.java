@@ -71,12 +71,11 @@ public class TfInterview implements java.io.Serializable {
 	@Column(name = "TF_IS_CLIENT_FEEDBACK_VISIABLE")
 	private Integer tfIsClientFeedbackVisible = 0;
 
-
 	public TfInterview() {
 	}
 	/**
 	 * @param tfInterviewId
-	 * @param tfAssociate b 
+	 * @param tfAssociate
 	 * @param tfClient
 	 * @param tfEndClient
 	 * @param tfInterviewType

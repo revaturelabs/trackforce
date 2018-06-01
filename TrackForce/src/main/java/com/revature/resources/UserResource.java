@@ -1,11 +1,9 @@
 package com.revature.resources;
 
-
-
 import java.io.IOException;
 
-import java.net.URI;
 
+import java.net.URI;
 
 
 import javax.ws.rs.Consumes;
@@ -24,7 +22,7 @@ import javax.ws.rs.core.MediaType;
 
 import javax.ws.rs.core.Response;
 
-
+import com.revature.entity.TfUser;
 
 import com.revature.entity.TfUser;
 
@@ -38,9 +36,14 @@ import com.revature.request.model.CreateUserModel;
 
 import com.revature.request.model.SuccessOrFailMessage;
 
+
 import com.revature.services.UserService;
 
 
+
+import com.revature.utils.LogUtil;
+
+import com.revature.services.UserService;
 
 import com.revature.utils.LogUtil;
 
@@ -206,10 +209,9 @@ public class UserResource {
 
     @Path("/{username}")
 
+
     public Response getUser(@PathParam("username") String username) {
-
     	TfUser user = service.getUser(username);
-
     	return Response.ok(user).build();
 
     }

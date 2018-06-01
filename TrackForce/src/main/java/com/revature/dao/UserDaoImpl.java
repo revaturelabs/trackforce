@@ -2,6 +2,7 @@ package com.revature.dao;
 
 import com.revature.entity.TfAssociate;
 
+
 import com.revature.entity.TfUser;
 import com.revature.request.model.CreateAssociateModel;
 import com.revature.request.model.CreateUserModel;
@@ -18,10 +19,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static com.revature.utils.LogUtil.logger;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-
 
 public class UserDaoImpl implements UserDAO {
 

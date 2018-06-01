@@ -36,6 +36,7 @@ export class AssociateListComponent implements OnInit {
   updateShow: boolean = false;
   updateStatus: string = "";
   updateClient: number;
+  updateVerification: string;
   updated: boolean = false;
 
   //used for ordering of rows
@@ -152,7 +153,7 @@ export class AssociateListComponent implements OnInit {
       if (check != null && check.checked)
         ids.push(i);
     }
-    this.associateService.updateAssociates(ids, Number(this.updateStatus), this.updateClient).subscribe(
+    this.associateService.updateAssociates(ids, this.updateVerification, Number(this.updateStatus), this.updateClient).subscribe(
       data => {
         self.getAllAssociates(); //refresh the associates to reflect the updates made on DB
         self.updated = true;

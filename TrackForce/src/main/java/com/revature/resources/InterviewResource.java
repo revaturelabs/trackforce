@@ -3,6 +3,7 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 
+
 import java.io.IOException;
 import java.util.Set;
 
@@ -40,17 +41,12 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-
 /**
  * 
  * @author Mitchell H's PC
  * 
- * The different types of users
- * Admin: 1
- * Trainer: 2
- * Sales/Delivery 3
- * Staging Manager 4
- * Associate 5
+ *         The different types of users Admin: 1 Trainer: 2 Sales/Delivery 3
+ *         Staging Manager 4 Associate 5
  */
 
 @Path("/")
@@ -63,27 +59,24 @@ public class InterviewResource {
 	private static InterviewService is = new InterviewService();
 
 	@GET
-	@ApiOperation(value = "Returns all interviews for an associate", notes ="Returns a list of all interviews.")
-	public Response getAllInterviews(@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate, @QueryParam("end") Long endDate)
-			throws HibernateException, IOException 
-	{
+	@ApiOperation(value = "Returns all interviews for an associate", notes = "Returns a list of all interviews.")
+	public Response getAllInterviews(@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate,
+			@QueryParam("end") Long endDate) throws HibernateException, IOException {
 		// TODO handle exception
 		Status status = null;
 		Set<InterviewInfo> interviews = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) 
-		{
+		if (payload == null || !payload.getId().equals("1")) {
 			status = Status.UNAUTHORIZED;
-		} 
-		
-		else 
-		{
+		}
+
+		else {
 			interviews = is.getAllInterviews();
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
 			logger.info("inside get all interviews");
 		}
-		
+
 		return Response.status(status).entity(interviews).build();
 	}
 
@@ -91,10 +84,9 @@ public class InterviewResource {
 	@ApiOperation(value = "Returns an interview", notes = "Returns a specific interview by id.")
 	@Path("/{interviewid}")
 	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid,
-			@PathParam("interviewid") Integer interviewid,
-			@HeaderParam("Authorization") String token) {
+			@PathParam("interviewid") Integer interviewid, @HeaderParam("Authorization") String token) {
 		logger.info(token);
-		
+
 		Claims claims = null;
 		logger.info("Before the try block");
 		try {
@@ -136,14 +128,14 @@ public class InterviewResource {
 			// does service actually work?
 			status = Status.CREATED;
 		}
-		
+
 		return Response.status(status).build();
 	}
+
 	@PUT
 	@Path("/{interviewid}/twentyfourFlag")
 	public Response twentyfourFlag(TfInterview flagInterview, @HeaderParam("Authorization") String token,
-			@PathParam("associateid") Integer associateid,
-			@PathParam("interviewid") Integer interviewid) {
+			@PathParam("associateid") Integer associateid, @PathParam("interviewid") Integer interviewid) {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -157,12 +149,11 @@ public class InterviewResource {
 		}
 		return Response.status(status).build();
 	}
-	
+
 	@PUT
 	@Path("/{interviewid}/interview-went")
 	public Response interviewWent(TfInterview interviewWent, @HeaderParam("Authorization") String token,
-			@PathParam("associateid") Integer associateid,
-			@PathParam("interviewid") Integer interviewid) {
+			@PathParam("associateid") Integer associateid, @PathParam("interviewid") Integer interviewid) {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -176,12 +167,11 @@ public class InterviewResource {
 		}
 		return Response.status(status).build();
 	}
-	
+
 	@PUT
 	@Path("/{interviewid}/client-feedback")
 	public Response clientFeedback(TfInterview clientFeedback, @HeaderParam("Authorization") String token,
-			@PathParam("associateid") Integer associateid,
-			@PathParam("interviewid") Integer interviewid) {
+			@PathParam("associateid") Integer associateid, @PathParam("interviewid") Integer interviewid) {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -195,12 +185,11 @@ public class InterviewResource {
 		}
 		return Response.status(status).build();
 	}
+
 	@GET
 	@Path("/{interviewid}/client-feedback")
-	public Response getFeedback(TfInterview feedback,
-			@HeaderParam("Authorization") String token,
-			@PathParam("associateid") Integer associateid,
-			@PathParam("interviewid") Integer interviewid) {
+	public Response getFeedback(TfInterview feedback, @HeaderParam("Authorization") String token,
+			@PathParam("associateid") Integer associateid, @PathParam("interviewid") Integer interviewid) {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -220,24 +209,21 @@ public class InterviewResource {
 	@PUT
 	public Response updateInterview(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token,
-			TfInterview changeInterview) 
-	{
+			TfInterview changeInterview) {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("5"))
-		{
+		if (payload == null || !payload.getId().equals("1") || !payload.getId().equals("5")) {
 			status = Status.UNAUTHORIZED;
-		} 
-		
-		else 
-		{
+		}
+
+		else {
 			InterviewDaoHibernate hd = new InterviewDaoHibernate();
-			// If parameter for TfInterview works, 
+			// If parameter for TfInterview works,
 			hd.updateInterview(changeInterview);
 			status = Status.ACCEPTED;
 		}
-		
+
 		return Response.status(204).build();
 	}
 }

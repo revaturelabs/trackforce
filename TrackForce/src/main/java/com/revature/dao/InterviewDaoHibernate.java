@@ -178,7 +178,6 @@ public class InterviewDaoHibernate implements InterviewDao {
 			databaseRow.setTfIsInterviewFlagged(parmInterview.getTfIsInterviewFlagged());
 			databaseRow.setTfFlagReason(parmInterview.getTfFlagReason());
 			databaseRow.setTfIsClientFeedbackVisible(parmInterview.getTfIsClientFeedbackVisible());
-
 			//Additional requirements
 			databaseRow.setTfWas24HRNotice(parmInterview.getTfWas24HRNotice());
 			databaseRow.setTfQuestionGiven(parmInterview.getTfQuestionGiven());
@@ -229,7 +228,6 @@ public class InterviewDaoHibernate implements InterviewDao {
 			if (parmInterview.getTfEndClient() != null)
 				tobeUpdatedInteview.setTfEndClient(session.get(TfEndClient.class, parmInterview.getTfEndClient()));
 			if (parmInterview.getTfInterviewType() != null)
-
 				tobeUpdatedInteview.setTfInterviewType(session.load(TfInterviewType.class, parmInterview.getTfInterviewType()));
 
 			if (parmInterview.getTfInterviewDate() != null)

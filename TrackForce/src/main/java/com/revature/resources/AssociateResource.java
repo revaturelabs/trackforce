@@ -1,4 +1,3 @@
-
 package com.revature.resources;
 
 
@@ -61,13 +60,15 @@ import org.hibernate.Transaction;
 
 import com.revature.dao.AssociateDaoHibernate;
 
+import com.revature.entity.TfAssociate;
+
+import com.revature.entity.TfUser;
+
 import com.revature.model.AssociateInfo;
 
 import com.revature.model.ClientMappedJSON;
 
 import com.revature.request.model.AssociateFromClient;
-
-import com.revature.request.model.AssociateUserModel;
 
 import com.revature.request.model.CreateAssociateModel;
 
@@ -105,18 +106,23 @@ public class AssociateResource {
 
 
 
-	private UserService uservice;
-
 	private AssociateService service = new AssociateService();
 
 	private JWTService jService = new JWTService();
 
-	//Constructor for creating resources
-	 public AssociateResource() {
+	private UserService userService;
 
-	        this.uservice = new UserService();
 
-	    }
+
+	public AssociateResource() {
+
+		this.userService = new UserService();
+
+	}
+
+
+
+
 
 	/**
 
@@ -142,6 +148,8 @@ public class AssociateResource {
 
 	 */
 
+
+
 	@GET
 
 	@ApiOperation(value = "Return all associates", notes = "Gets a set of all the associates, optionally filtered by a batch id. If an associate has no marketing status or\r\n"
@@ -150,9 +158,7 @@ public class AssociateResource {
 
 			+ " it with \"None\".", response = AssociateInfo.class, responseContainer = "Set")
 
-	public Response getAllAssociates(@HeaderParam("Authorization") String token) 
-
-	{
+	public Response getAllAssociates(@HeaderParam("Authorization") String token) {
 
 		Status status = null;
 
@@ -162,19 +168,15 @@ public class AssociateResource {
 
 
 
-		if (payload == null || payload.getId().equals("5")) 
-
-		{
+		if (payload == null || payload.getId().equals("5")) {
 
 			status = Status.UNAUTHORIZED;
 
-		} 
+		}
 
-		
 
-		else 
 
-		{
+		else {
 
 			associates = service.getAllAssociates();
 
@@ -182,13 +184,35 @@ public class AssociateResource {
 
 		}
 
-		
+
 
 		return Response.status(status).entity(associates).build();
 
 	}
 
 
+
+	/**
+
+	 * Update the marketing status or client of associates
+
+	 * 
+
+	 * @param ids
+
+	 *            list of ids to update
+
+	 * @param marketingStatusId
+
+	 *            updating to
+
+	 * @return clientId updating to
+
+	 * @return response 200 status if successful
+
+	 * @throws IOException
+
+	 */
 
 	@PUT
 
@@ -200,9 +224,7 @@ public class AssociateResource {
 
 			@DefaultValue("0") @ApiParam(value = "client id") @QueryParam("clientId") Integer clientId,
 
-			List<Integer> ids) 
-
-	{
+			List<Integer> ids) {
 
 		Status status = null;
 
@@ -210,19 +232,15 @@ public class AssociateResource {
 
 
 
-		if (payload == null || !payload.getId().equals("1")) 
-
-		{
+		if (payload == null || !payload.getId().equals("1")) {
 
 			status = Status.UNAUTHORIZED;
 
-		} 
+		}
 
-		
 
-		else 
 
-		{
+		else {
 
 			// marketing status & client id are given as query parameters, ids sent in body
 
@@ -230,49 +248,93 @@ public class AssociateResource {
 
 		}
 
-		
+
 
 		return Response.ok().build();
 
 	}
 
+	
+
+	@PUT
+
+	@ApiOperation(value = "Update associate marketing status", notes = "The method sets the marketing status of the associate by id.")
+
+	@Path("/{associateId}/marketing")
+
+	public Response updateAssociateMarketingStatus(@HeaderParam("Authorization") String token, @PathParam("associateId") Integer id) {
+
+		logger.info("method for marketing is hit");
+
+	Status status = null;
+
+	Claims payload = JWTService.processToken(token);
 
 
-	 @POST
 
-	    @Consumes("application/json")
+	if (payload == null || payload.getId().equals("5")) 
 
-	    @ApiOperation(value="Creates new Associate", notes = "Takes username, password, fname and lname to create new user")
+	{
 
-	    public Response createNewAssociate(CreateAssociateModel newAssociate){
+		status = Status.UNAUTHORIZED;
 
-	        LogUtil.logger.info("createAssociate got hit");
-
-	        LogUtil.logger.info(newAssociate);
-
-//	        SuccessOrFailMessage msg = service.createNewAssociate(newAssociate);
-
-//	        if (msg.getStatus()) {
-
-//	            int userId = msg.getNewId();
-
-//	            URI location = URI.create("/user/"+userId);
-
-//	            return Response.created(location).build();
-
-//	        } else {
-
-//	            return Response.serverError().build();
-
-//	        }
-
-	        uservice.createNewAssociate(newAssociate);
-
-	        return Response.created(URI.create("/testingURIcreate")).build();
-
-	    }
+	} 
 
 	
+
+	else 
+
+	{
+
+		//service.updateAssociateMarketingStatus(id);
+
+		logger.info("hits update endpoint working");
+
+		status = Status.OK;
+
+	}
+
+	return Response.status(status).build();
+
+}
+
+
+
+	@POST
+
+	@Consumes("application/json")
+
+	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new user")
+
+	public Response createNewAssociate(CreateAssociateModel newAssociate) {
+
+		LogUtil.logger.info("createAssociate got hit");
+
+		LogUtil.logger.info(newAssociate);
+
+		// SuccessOrFailMessage msg = service.createNewAssociate(newAssociate);
+
+		// if (msg.getStatus()) {
+
+		// int userId = msg.getNewId();
+
+		// URI location = URI.create("/user/"+userId);
+
+		// return Response.created(location).build();
+
+		// } else {
+
+		// return Response.serverError().build();
+
+		// }
+
+		userService.createNewAssociate(newAssociate);
+
+		return Response.created(URI.create("/testingURIcreate")).build();
+
+	}
+
+
 
 	@GET
 
@@ -280,9 +342,9 @@ public class AssociateResource {
 
 	@Path("/{associateid}")
 
-	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("associateid") int associateid, @HeaderParam("Authorization") String token) 
+	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("associateid") int associateid,
 
-	{
+			@HeaderParam("Authorization") String token) {
 
 		Status status = null;
 
@@ -292,19 +354,15 @@ public class AssociateResource {
 
 
 
-		if (payload == null || payload.getId().equals("5")) 
-
-		{
+		if (payload == null || payload.getId().equals("5")) {
 
 			status = Status.UNAUTHORIZED;
 
-		} 
+		}
 
-		
 
-		else 
 
-		{
+		else {
 
 			associateinfo = service.getAssociate(associateid);
 
@@ -312,7 +370,7 @@ public class AssociateResource {
 
 		}
 
-		
+
 
 		return Response.status(status).entity(associateinfo).build();
 
@@ -326,9 +384,7 @@ public class AssociateResource {
 
 	@Path("/mapped/{statusId}")
 
-	public Response getMappedInfo(@PathParam("statusId") int statusId, @HeaderParam("Authorization") String token) 
-
-	{
+	public Response getMappedInfo(@PathParam("statusId") int statusId, @HeaderParam("Authorization") String token) {
 
 		Status status = null;
 
@@ -338,31 +394,27 @@ public class AssociateResource {
 
 
 
-		if (payload == null || !payload.getId().equals("1")) 
-
-		{
+		if (payload == null || !payload.getId().equals("1")) {
 
 			status = Status.UNAUTHORIZED;
 
 			return Response.status(status).build();
 
-		} 
+		}
 
-		
 
-		else 
 
-		{
+		else {
 
 			mappedStats = service.getMappedInfo(statusId);
 
 			if (mappedStats.isEmpty())
 
-				return Response.status(500).build();
+				return Response.status(204).build();
 
 		}
 
-		
+
 
 		return Response.ok(mappedStats).build();
 
@@ -370,17 +422,45 @@ public class AssociateResource {
 
 
 
-	 @GET
+	@GET
 
-	 @Path("unmapped/{statusId}")
+	@Path("unmapped/{statusId}")
 
-	 public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
+	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
 
-	 return Response.ok(service.getUnmappedInfo(statusId)).build();
+		return Response.ok(service.getUnmappedInfo(statusId)).build();
 
-	 }
+	}
 
 
+
+	/**
+
+	 * Update the marketing status or client of an associate
+
+	 * 
+
+	 * @param id
+
+	 *            The ID of the associate to change
+
+	 * @param marketingStatusId
+
+	 *            What to change the associate's marketing status to
+
+	 * @param clientId
+
+	 *            What client to change the associate to
+
+	 * @return
+
+	 * @throws NumberFormatException
+
+	 * @throws IOException
+
+	 */
+
+	/**** OPTION 1 ****/
 
 	@PUT
 
@@ -388,9 +468,9 @@ public class AssociateResource {
 
 	@Path("/{associateId}")
 
-	public Response updateAssociate(@PathParam("associateId") Integer id, AssociateFromClient afc, @HeaderParam("Authorization") String token) 
+	public Response updateAssociate(@PathParam("associateId") Integer id, AssociateFromClient afc,
 
-	{
+			@HeaderParam("Authorization") String token) {
 
 		Status status = null;
 
@@ -398,19 +478,15 @@ public class AssociateResource {
 
 
 
-		if (payload == null || payload.getId().equals("5")) 
-
-		{
+		if (payload == null || payload.getId().equals("5")) {
 
 			status = Status.UNAUTHORIZED;
 
-		} 
+		}
 
-		
 
-		else 
 
-		{
+		else {
 
 			service.updateAssociate(afc);
 
@@ -418,7 +494,7 @@ public class AssociateResource {
 
 		}
 
-		
+
 
 		return Response.status(status).build();
 
@@ -426,15 +502,17 @@ public class AssociateResource {
 
 
 
+	/*** OPTION 2 ***/
+
 	@PUT
 
 	@ApiOperation(value = "updates associate values", notes = "The method updates start date of the client.")
 
 	@Path("/{associateId}/{startDate}")
 
-	public Response updateAssociate(@PathParam("associateId") Integer id, @PathParam("startDate") String startDate, @HeaderParam("Authorization") String token) 
+	public Response updateAssociate(@PathParam("associateId") Integer id, @PathParam("startDate") String startDate,
 
-	{
+			@HeaderParam("Authorization") String token) {
 
 		Status status = null;
 
@@ -442,27 +520,21 @@ public class AssociateResource {
 
 
 
-		if (payload == null || payload.getId().equals("5")) 
-
-		{
+		if (payload == null || payload.getId().equals("5")) {
 
 			status = Status.UNAUTHORIZED;
 
-		} 
+		}
 
-		
 
-		else 
 
-		{
+		else {
 
 			Session session = HibernateUtil.getSessionFactory().openSession();
 
 			Transaction tx = session.beginTransaction();
 
-			try 
-
-			{
+			try {
 
 				StoredProcedureQuery spq = session.createStoredProcedureCall("admin.UPDATEASSOCIATECLIENTSTARTDATE");
 
@@ -476,11 +548,7 @@ public class AssociateResource {
 
 				spq.execute();
 
-			} 
-
-			catch (Exception e) 
-
-			{
+			} catch (Exception e) {
 
 				logger.error(e);
 
@@ -488,11 +556,7 @@ public class AssociateResource {
 
 				tx.rollback();
 
-			} 
-
-			finally 
-
-			{
+			} finally {
 
 				AssociateDaoHibernate.getInstance().cacheAllAssociates();
 
@@ -500,15 +564,13 @@ public class AssociateResource {
 
 			}
 
-			
+
 
 			status = Status.OK;
 
 		}
 
-		
 
-		
 
 		return Response.status(status).build();
 
@@ -516,34 +578,70 @@ public class AssociateResource {
 
 
 
+	/**
+
+	 * Updates the associate status to Approved
+
+	 * 
+
+	 * @param id
+
+	 *            The ID of the associate to Approve
+
+	 * @return response 200 status if successful
+
+	 * 
+
+	 */
+
 	@PUT
 
 	@ApiOperation(value = "updates associate verification", notes = "The method sets the verfication status to Approved of a given associate by their id.")
 
 	@Path("/{associateId}/verify")
 
-	public Response updateAssociateVerification(@PathParam("associateId") Integer id) {
+	public Response updateAssociateVerification(@PathParam("associateId") Integer id,@HeaderParam("Authorization") String token) {
 
-		service.updateAssociateVerification(id);
+		Status status = null;
 
-		return Response.ok().build();
+		Claims payload = JWTService.processToken(token);
 
-		
+
+
+		if (payload == null || !payload.getId().equals("2")) {
+
+			status = Status.UNAUTHORIZED;
+
+		}
+
+
+
+		else {
+
+			service.updateAssociateVerification(id);	
+
+			status = Status.NO_CONTENT;
+
+		}
+
+		return Response.status(status).build();
 
 	}
 
-	
+		
 
 	@ApiOperation(value = "returns all interviews for associate", notes= "Gets a list of all interviews for a specific associate.")
 
 	@Path("/{associateid}/interviews")
 
-	public InterviewResource addAssociateInterview() 
+	public InterviewResource addAssociateInterview() {
 
-	{
-
-			return new InterviewResource();
+		return new InterviewResource();
 
 	}
+
+
+
+	
 
 }

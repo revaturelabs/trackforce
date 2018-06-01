@@ -62,7 +62,7 @@
             <div class="form-group">
               <label class="control-label col-sm-3">Client:</label>
                <div class="col-sm-9">
-                 <select class="form-control" name="newClient" [(ngModel)]="newInterview.clientid">
+                 <select class="form-control" name="newClient" [(ngModel)]="newInterview.clientId">
                      <option selected="selected">None</option>
                      <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
                  </select>
@@ -87,7 +87,7 @@
             <div class="form-group">
               <label class="control-label col-sm-3">Type:</label>
                <div class="col-sm-9">
-                 <select class="form-control" name="type "[(ngModel)]="newInterview.typeName">
+                 <select class="form-control" name="type "[(ngModel)]="newInterview.typeId">
                      <option value="1">Phone</option>
                      <option value="2">Online</option>
                      <option value="3">On-site</option>
@@ -98,7 +98,7 @@
             <div class="form-group">           
             </div>
             <label class="control-label col-sm-3" >24 hour notice?</label>
-            <input type="checkbox" name="24hournotice" [(ngModel)]="newInterview.notified">
+            <input type="checkbox" name="24hournotice" [(ngModel)]="newInterview.was24HRNotice">
             <button (click)="addInterview()" class="btn btn-warning">Add Interview</button>
           </form>
         </div>

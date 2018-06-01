@@ -65,16 +65,17 @@ export class MyInterviewComponent implements OnInit {
 
   addInterview(){
 
-    this.newInterview.associateid = this.id
-    this.newInterview.dateOfInterview = new Date(this.interviewDate).getTime()
-    this.newInterview.dateNotified = new Date(this.interviewDateNotification).getTime()
+    this.newInterview.associateId = this.id
+    this.newInterview.interviewDate = new Date(this.interviewDate).getTime()
+    this.newInterview.dateAssociateIssued = new Date(this.interviewDateNotification).getTime()
     this.newInterview.jobDescription = "none available";
-    this.newInterview.otherflag = 0;
-    this.newInterview.notified = (this.newInterview.notified*1)
+    this.newInterview.flagAlert = 0;
+    this.newInterview.was24HRNotice = (this.newInterview.was24HRNotice*1)
 
   
 
-    console.log(this.newInterview);  
+    console.log(JSON.stringify(this.newInterview));  
+    console.log(this.newInterview)
 
 
 

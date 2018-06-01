@@ -62,7 +62,7 @@
             <div class="form-group">
               <label class="control-label col-sm-3">Client:</label>
                <div class="col-sm-9">
-                 <select class="form-control" name="newClient" [(ngModel)]="newInterview.client">
+                 <select class="form-control" name="newClient" [(ngModel)]="newInterview.clientid">
                      <option selected="selected">None</option>
                      <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
                  </select>

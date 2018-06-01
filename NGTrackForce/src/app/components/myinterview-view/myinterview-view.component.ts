@@ -7,6 +7,7 @@ import { ClientService } from '../../services/client-service/client.service';
 
 import { Interview } from '../../models/interview.model';
 import { InterviewService } from '../../services/interview-service/interview.service';
+import { Client } from '../../models/client.model';
 
 
 /**
@@ -33,13 +34,15 @@ export class MyInterviewComponent implements OnInit {
   public conflictingInterviews: string = "";
   public interviewDate: Date = new Date();
   public interviewDateNotification: Date = new Date();
+  public clients: Client [];
 
 
 
   constructor(
     private associateService: AssociateService,
     private activated: ActivatedRoute,
-    private interviewService: InterviewService
+    private interviewService: InterviewService,
+    private clientService: ClientService
 
   
   
@@ -51,6 +54,9 @@ export class MyInterviewComponent implements OnInit {
     this.id = +this.activated.snapshot.paramMap.get('id');
     this.getInterviews(this.id);
     this.getAssociate(this.id);
+    this.getClientNames();
+    // console.log(this.clients)
+
   }
 
   toggleForm() {
@@ -59,15 +65,11 @@ export class MyInterviewComponent implements OnInit {
 
   addInterview(){
     console.log(this.newInterview);  
-    console.log(this.interviewDate);
-    console.log(this.interviewDateNotification);
-    console.log(typeof(this.interviewDate));
+  
+    this.newInterview.dateOfInterview = new Date(this.interviewDate).getTime()
+    this.newInterview.dateNotified = new Date(this.interviewDateNotification).getTime()
 
-    console.log(this.interviewDate.getDay);
-    
-    console.log(this.interviewDateNotification.getTime);
-
-
+  
  
     console.log(this.newInterview.clientid);
     console.log(this.newInterview.dateOfInterview);
@@ -174,6 +176,12 @@ saveInterview(interview:Interview){
 
 
 }
-
+getClientNames() {
+  var self = this;
+  this.clientService.getAllClients().subscribe(data => {
+    self.clients = data;
+    console.log(this.clients);
+  });
+}
 
 }

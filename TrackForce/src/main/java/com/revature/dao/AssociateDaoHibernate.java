@@ -141,7 +141,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 				tfAssociate.setTfMarketingStatus(status);
 			}
 			//TODO: NEEDS TESTING
-			if(afc.getStartDateUnixTime() != (Long) null) {
+			if(afc.getStartDateUnixTime() != 0) {
 				tfAssociate.setTfClientStartDate(Timestamp.from(Instant.ofEpochSecond(
 						afc.getStartDateUnixTime())));
 			}

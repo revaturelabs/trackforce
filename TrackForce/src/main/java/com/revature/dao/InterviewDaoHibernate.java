@@ -178,10 +178,6 @@ public class InterviewDaoHibernate implements InterviewDao {
 			databaseRow.setTfIsInterviewFlagged(parmInterview.getTfIsInterviewFlagged());
 			databaseRow.setTfFlagReason(parmInterview.getTfFlagReason());
 			databaseRow.setTfIsClientFeedbackVisible(parmInterview.getTfIsClientFeedbackVisible());
-			//Additional requirements
-			databaseRow.setTfWas24HRNotice(parmInterview.getTfWas24HRNotice());
-			databaseRow.setTfQuestionGiven(parmInterview.getTfQuestionGiven());
-			
 
 			session.saveOrUpdate(databaseRow);
 			dbTransaction.commit();
@@ -228,7 +224,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 				tobeUpdatedInteview.setTfClient(session.get(TfClient.class, parmInterview.getTfClient()));
 			if (parmInterview.getTfEndClient() != null)
 				tobeUpdatedInteview.setTfEndClient(session.get(TfEndClient.class, parmInterview.getTfEndClient()));
-			if (parmInterview.getTfInterviewType() != null)
+			if (parmInterview.getTfEndClient() != null)
 				tobeUpdatedInteview.setTfInterviewType(session.load(TfInterviewType.class, parmInterview.getTfInterviewType()));
 
 			if (parmInterview.getTfInterviewDate() != null)
@@ -245,12 +241,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 				tobeUpdatedInteview.setTfFlagReason(parmInterview.getTfFlagReason());
 			if (parmInterview.getTfIsClientFeedbackVisible() != null)
 				tobeUpdatedInteview.setTfIsClientFeedbackVisible(parmInterview.getTfIsClientFeedbackVisible());
-			//Additional requirements
-			if (parmInterview.getTfWas24HRNotice() != null)
-				tobeUpdatedInteview.setTfWas24HRNotice(parmInterview.getTfWas24HRNotice());
-			if (parmInterview.getTfQuestionGiven() != null)
-				tobeUpdatedInteview.setTfQuestionGiven(parmInterview.getTfQuestionGiven());
-			
+
 			session.saveOrUpdate(tobeUpdatedInteview);
 			dbTransaction.commit();
 			return true;

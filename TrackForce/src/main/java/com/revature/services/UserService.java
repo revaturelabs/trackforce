@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.revature.utils.LogUtil.logger;
-
-import com.revature.request.model.CreateAssociateModel;
-import com.revature.utils.LogUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -50,40 +47,18 @@ public class UserService {
     	return userDao.getAllUsers();
     }
 
-//    /**
-//     * Creates a user
-//     * @return Returns whether the response was successful
-//     */
-//    public SuccessOrFailMessage createNewUser(CreateUserModel newUser) {
-//        SuccessOrFailMessage msg = new SuccessOrFailMessage();
-//        boolean success = userDao.createUser(newUser);
-//        if (success) {
-//        	msg.setSuccess();
-//        }
-//        else {
-//        	msg.setFailure();
-//        }
-//        return msg;
-//    }
-
     /**
-     * Takes in an object that provides username, password, first name and last name.
-     * It first creates a user with the first/last name then uses its ID to generate a new
-     * User with associate rights.
-     *
-     * @param newAssociate
-     * @return
+     * Creates a user
+     * @return Returns whether the response was successful
      */
-    public SuccessOrFailMessage createNewAssociate(CreateAssociateModel newAssociate) {
-        LogUtil.logger.info("createNewAssociate in Service hit");
-        LogUtil.logger.info(newAssociate);
+    public SuccessOrFailMessage createNewUser(CreateUserModel newUser) {
         SuccessOrFailMessage msg = new SuccessOrFailMessage();
-        boolean success = userDao.createAssociate(newAssociate);
+        boolean success = userDao.createUser(newUser);
         if (success) {
-            msg.setSuccess();
+        	msg.setSuccess();
         }
         else {
-            msg.setFailure();
+        	msg.setFailure();
         }
         return msg;
     }

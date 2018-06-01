@@ -164,12 +164,29 @@ public class AssociateResource {
 		return Response.ok(mappedStats).build();
 	}
 
-	
 	 @GET
 	 @Path("unmapped/{statusId}")
 	 public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
 	 return Response.ok(service.getUnmappedInfo(statusId)).build();
 	 }
+	
+	// @GET
+	// @Path("{associateid}/interviews")
+	// public Response getAssociateInterviews(@PathParam("associateid") Integer
+	// associateid) {
+	// Set<InterviewInfo> associateinfo =
+	// service.getInterviewsByAssociate(associateid);
+	// return Response.ok(associateinfo).build();
+	// }
+	//
+	// @POST
+	// @Path("{associateid}/interviews")
+	// public Response addAssociateInterview(@PathParam("associateid") Integer
+	// associateid, InterviewFromClient ifc) {
+	// InterviewService is = new InterviewService();
+	// is.addInterviewByAssociate(associateid, ifc);
+	// return Response.ok().build();
+	// }
 
 	/**
 	 * Update the marketing status or client of an associate
@@ -243,6 +260,48 @@ public class AssociateResource {
 		return Response.status(status).build();
 	}
 
+	/**** OPTION 1+2 ****/
+	/*
+	 * @PUT
+	 * 
+	 * @Path("{associateId}") public Response updateAssociate(
+	 * 
+	 * @PathParam("associateId") Integer id,
+	 * 
+	 * @DefaultValue("0") @QueryParam("marketingStatusId") Integer
+	 * marketingStatusId,
+	 * 
+	 * @DefaultValue("0") @QueryParam("clientId") Integer clientId, String
+	 * startDate) { List<Integer> list = new ArrayList<>(); list.add(id);
+	 * service.updateAssociates(list, marketingStatusId, clientId);
+	 * 
+	 * //This code separately updates the client start date using a stored procedure
+	 * Session session = HibernateUtil.getSessionFactory().openSession();
+	 * Transaction tx = session.beginTransaction(); // StringBuilder sb = new
+	 * StringBuilder(); try { StoredProcedureQuery spq =
+	 * session.createStoredProcedureCall("admin.UPDATEASSOCIATECLIENTSTARTDATE");
+	 * spq.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
+	 * spq.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
+	 * spq.setParameter(1, id); spq.setParameter(2, startDate); spq.execute(); }
+	 * catch (Exception e) { e.printStackTrace(); session.flush(); tx.rollback(); }
+	 * finally { new AssociateDaoHibernate().cacheAllAssociates(); //refreshes the
+	 * associates cache session.close(); }
+	 * 
+	 * return Response.ok().build(); }
+	 */
+
+	// @Path("/interviews")
+	// public InterviewResource getAllInterview() {
+	// return new InterviewResource();
+	// }
+
+	// @ApiOperation(value = "adds an interview to associate", notes= "The method
+	// allows the associate to create an interview.")
+	@Path("/{associateid}/interviews")
+	public InterviewResource addAssociateInterview() {
+		return new InterviewResource();
+	}
+
 	/**
 	 * Updates the associate status to Approved
 	 * 
@@ -257,13 +316,7 @@ public class AssociateResource {
 	public Response updateAssociateVerification(@PathParam("associateId") Integer id) {
 		service.updateAssociateVerification(id);
 		return Response.ok().build();
-	}
-		
-	@ApiOperation(value = "returns all interviews for associate", notes= "Gets a list of all interviews for a specific associate.")
-	@Path("/{associateid}/interviews")
-	public InterviewResource addAssociateInterview() {
-		return new InterviewResource();
+
 	}
 
-	
 }

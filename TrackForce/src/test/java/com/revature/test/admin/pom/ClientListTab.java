@@ -37,19 +37,19 @@ public class ClientListTab {
 		return d.getCurrentUrl();
 	}
 
-	// finds the Client Tab header using the xpath
+	// finds the Client Tab header using the header tag
 	public static WebElement getClientTabHeader(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("clientHeader")), 10);
+		return WaitToLoad.findDynamicElement(d, By.tagName(prop.getProperty("clientHeader")), 10);
 	}
 
-	// finds the client search box using the xpath
+	// finds the client search box using the search box id
 	public static WebElement getClientSearchBox(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("clientSearchBox")), 10);
+		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("clientSearchBox")), 10);
 	}
 
-	// finds the view data for all clients button using the xpath
+	// finds the view data for all clients button using the button class
 	public static WebElement getViewDataForAllClientsButton(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("clientAllClients")),
+		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("clientAllClients")),
 				10);
 	}
 
@@ -61,10 +61,5 @@ public class ClientListTab {
 	// finds the bar chart header using the xpath
 	public static WebElement getBarChartHeader(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("clientBarChartHeader")), 10);
-	}
-
-	// finds the client search bar using the id
-	public static WebElement getClientSearchBar(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.id(prop.getProperty("clientSearchBar")), 10);
 	}
 }

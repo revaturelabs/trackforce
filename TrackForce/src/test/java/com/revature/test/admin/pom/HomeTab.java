@@ -36,18 +36,18 @@ public class HomeTab {
 	}
 	
 	public static WebElement phone(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("homePhone")), 10);
+		e= WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("homePhone")), 10);
 		return e;
 	}
 	
 	public static WebElement email(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("homeEmail")), 10);
+		e= WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("homeEmail")), 10);
 		
 		return e;
 	}
 	
 	public static WebElement website(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("homeWebsite")), 10);
+		e= WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("homeWebsite")), 10);
 		return e;
 	}
 	

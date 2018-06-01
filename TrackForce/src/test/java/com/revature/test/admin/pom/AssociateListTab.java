@@ -49,17 +49,17 @@ public class AssociateListTab {
 
 	// Marketing Status drop down
 	public static WebElement marketingStatusDropDown(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("associateMarketingStatus")), 10);
+		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("associateMarketingStatus")), 10);
 	}
 
 	// Curriculum drop down
 	public static WebElement curriculumDropDown(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("associateCurriculum")), 10);
+		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("associateCurriculum")), 10);
 	}
 
 	// Client drop down
 	public static WebElement clientDropDown(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("associateClient")), 10);
+		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("associateClient")), 10);
 
 	}
 
@@ -68,21 +68,21 @@ public class AssociateListTab {
 	// Update by Marketing Status drop down
 	public static WebElement updateByMarketingStatusDropDown(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-				By.xpath(prop.getProperty("associateUpdateMarketing")), 10);
+				By.cssSelector(prop.getProperty("associateUpdateMarketing")), 10);
 	}
 
 	// Client drop down
 	public static WebElement clientUpdateDropDown(WebDriver d) {
 
 		return WaitToLoad.findDynamicElement(d, 
-				By.xpath(prop.getProperty("associateUpdateClient")), 10);
+				By.cssSelector(prop.getProperty("associateUpdateClient")), 10);
 	}
 
 	// Update button
 	public static WebElement updateButton(WebDriver d) {
 
 		return WaitToLoad.findDynamicElement(d,
-				By.xpath(prop.getProperty("associateUpdate")), 10);
+				By.cssSelector(prop.getProperty("associateUpdate")), 10);
 	}
 
 	// ****************** CHECKBOXES **************************
@@ -90,46 +90,46 @@ public class AssociateListTab {
 	// Edit check box for first row in the field
 	public static WebElement editCheckBox(WebDriver d) {
 
-		return d.findElement(By.xpath(prop.getProperty("associateEditCheckbox")));
+		return d.findElement(By.cssSelector(prop.getProperty("associateEditCheckbox")));
 	}
 
 	// ****************** MARKETINGSTATUS TEXT **************************
 	public static WebElement MarketingStatusText(WebDriver d) {
 
 		return WaitToLoad.findDynamicElement(d,
-				By.xpath(prop.getProperty("associateMarketingStatusText")), 10);
+				By.cssSelector(prop.getProperty("associateMarketingStatusText")), 10);
 	}
 
 	// ****************SORT COMPONENTS ******************************
 
 	public static WebElement sortByAssociateId(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-				By.xpath(prop.getProperty("associateIdSort")), 10);
+				By.cssSelector(prop.getProperty("associateIdSort")), 10);
 	}
 
 	public static WebElement sortByFirstName(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-				By.xpath(prop.getProperty("associateFNameSort")), 10);
+				By.cssSelector(prop.getProperty("associateFNameSort")), 10);
 	}
 
 	public static WebElement sortByLastName(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-				By.xpath(prop.getProperty("associateLNameSort")), 10);
+				By.cssSelector(prop.getProperty("associateLNameSort")), 10);
 	}
 
 	public static WebElement sortByMarketingStatus(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-				By.xpath(prop.getProperty("associateMarketingStatusSort")), 10);
+				By.cssSelector(prop.getProperty("associateMarketingStatusSort")), 10);
 	}
 
 	public static WebElement sortByClient(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-				By.xpath(prop.getProperty("associateClientSort")), 10);
+				By.cssSelector(prop.getProperty("associateClientSort")), 10);
 	}
 
 	public static WebElement sortByBatch(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d, 
-				By.xpath(prop.getProperty("associateBatchSort")), 10);
+				By.cssSelector(prop.getProperty("associateBatchSort")), 10);
 	}
 
 	// ************* NUMBER OF ROWS IN ASSOCIATE TABLE *************************

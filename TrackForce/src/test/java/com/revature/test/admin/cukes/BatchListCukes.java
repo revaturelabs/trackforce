@@ -57,7 +57,7 @@ public class BatchListCukes {
 	public static void the_Batch_List_Tab_is_clicked() throws Throwable {
 		Thread.sleep(1500);
 		BatchListTab.clickBatchListTab(wd).click();
-		if (!(wd.getCurrentUrl().contains("batch-listing"))) {
+		if (!(wd.getCurrentUrl().contains(prop.getProperty("batchListingUrl")))) {
 			throw new PendingException();
 		}
 	}
@@ -67,8 +67,8 @@ public class BatchListCukes {
 		try {
 			String url = BatchListTab.getCurrentURL(wd);
 			Thread.sleep(500);
-			if (!(url.equals(TestConfig.getBaseURL() + "/batch-listing")
-					|| url.equals(TestConfig.getBaseURL() + "/batch-list"))) {
+			if (!(url.equals(TestConfig.getBaseURL() + prop.getProperty("batchListingUrl"))
+					|| url.equals(TestConfig.getBaseURL() + prop.getProperty("batchListUrl")))) {
 				throw new PendingException();
 			}
 		}  catch (InterruptedException e) {
@@ -82,7 +82,7 @@ public class BatchListCukes {
 		try {
 			Thread.sleep(1000);
 			// Find the Header to verify that you are in the Batch List Tab
-			if(!(wd.getPageSource().contains("All Batches"))) {
+			if(!(BatchListTab.findAllBatchesHeader(wd).equals(prop.getProperty("batchHeaderText")))) {
 				throw new PendingException();
 			}
 		}  catch (InterruptedException e) {
@@ -278,7 +278,7 @@ public class BatchListCukes {
 	public static void i_click_on_a_specific_batch_name() throws Throwable {
 		try {
 			wd.findElement(By.linkText(prop.getProperty("batchTestBatchName"))).click();
-		} catch(Throwable e) {
+		} catch(Exception e) {
 			fail("Failed to click on batch name");
 		}
 //		if(!(wd.getCurrentUrl().contains("batch-details/49"))) {
@@ -304,7 +304,7 @@ public class BatchListCukes {
 	public static void i_click_on_an_associate_ID() throws Throwable {
 		try {
 		wd.findElement(By.linkText(prop.getProperty("batchTestAssociateId"))).click();
-		} catch(Throwable e) {
+		} catch(Exception e) {
 			fail("Failed to click associate ID");
 		}
 	}

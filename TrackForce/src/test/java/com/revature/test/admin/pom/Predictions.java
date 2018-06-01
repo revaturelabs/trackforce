@@ -33,11 +33,11 @@ public class Predictions {
 	}
 	
 	public static WebElement startDate(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.id(prop.getProperty("predictionsStartDate")), 10);
+		return WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("predictionsStartDate")), 10);
 	}
 	
 	public static WebElement endDate(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.id(prop.getProperty("predictionsEndDate")), 10);
+		return WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("predictionsEndDate")), 10);
 	}
 	
 	public static WebElement numberofAssociates(WebDriver d) {

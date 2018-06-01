@@ -225,7 +225,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 	 */
 
 	@Override
-	public boolean updateInterview(int) {
+	public boolean updateInterview(TfInterview parmInterview) {
 		Transaction dbTransaction = null;
 		Session session = null;
 		

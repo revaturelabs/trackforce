@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -28,6 +29,7 @@ import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
+import com.revature.request.model.CreateAssociateModel;
 import com.revature.resources.BatchResource;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
@@ -142,6 +144,37 @@ public class AssociateDaoHibernate implements AssociateDao {
 		finally {
 			session.close();
 		}
+	}
+	
+	//Overload of updateAssociate that can take a CreateAssociateModel object to update from:
+	public void updateAssociate(CreateAssociateModel cam) {
+		Transaction t = null;
+		Session session = HibernateUtil.getSession();
+		try {
+			t = session.beginTransaction();
+			TfAssociate tfAssociate = new TfAssociate(nextId(), null, new TfMarketingStatus(1), null,
+					null, cam.getFname(), cam.getFname(), null, null, null, 0);
+			logger.debug(tfAssociate);
+			logger.debug(cam);
+			PersistentStorage.getStorage().updateAssociate(tfAssociate.getTfAssociateId(), 
+					tfAssociate.getTfClient().getTfClientId(),
+					tfAssociate.getTfMarketingStatus().getTfMarketingStatusId(),
+					tfAssociate.getTfClientStartDate().getTime());
+			session.saveOrUpdate(tfAssociate);
+			t.commit();
+		} catch (HibernateException e) {
+			if(t != null) {
+				t.rollback();
+			}
+			logger.error(e);
+		} finally {
+			session.close();
+		}
+	}
+
+	public int nextId() {
+		TreeSet<AssociateInfo> allAssociates = (TreeSet<AssociateInfo>) getAllAssociates();
+		return(allAssociates.last().getId()+1);
 	}
 
     @Override

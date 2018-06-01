@@ -1,7 +1,7 @@
 #Author: your.email@your.domain.com
 #Keywords Summary :
 #Feature: List of scenarios.
-#Scenario: Business rule through list of steps with arguments.
+#Scenario Outline: Business rule through list of steps with arguments.
 #Given: Some precondition step
 #When: Some key actions
 #Then: To observe outcomes or validation
@@ -19,37 +19,55 @@
 @tag
 Feature: Batch List Scenarios
 
-  @tag1
-  Scenario Outline: Navigate to Batch List Tab <WebDriver>
-    Given The Batch List Tab is clicked <WebDriver>
+  @batchTag1
+  Scenario Outline: Navigate to Batch List Tab
+  	Given I am logged in
+    When The Batch List Tab is clicked
     Then All Batches text is visible
-    
-  Examples:
-  	#| WebDriver |
-  	| WebDriver |
 
-	@tag2
-	Scenario: Click Batch Name List
-		Given the first batch is clicked
-		When the list of associates is grabbed
-		Then associates should match the associate list
-		
-	@tag3
-	Scenario: The From date is entered
-		Given the From date is entered
-		Then the field should not contain default values
+  @batchTag2
+  Scenario Outline: Click Batch Name List
+    Given The Batch List Tab is clicked
+    And Batch List Tab loads
+    When the list of associates is grabbed
+    Then associates should match the associate list
 
-	@tag4
-	Scenario: The To date is entered
-		Given the To date is entered
-		Then the field should not contain default values		
-		
-	@tag5
-	Scenario: Submit Batches Dates
-		Given the submit button is clicked
-		Then the batch list should update to show only the batches which fit the entered criteria	
-		
-	@tag6
-	Scenario: Reset Batches Dates
-		Given the reset button is clicked
-		Then the batch list should show all batches	
+  @batchTag3
+  Scenario Outline: The From date is entered
+    Given The Batch List Tab is clicked
+    And Batch List Tab loads
+    When the From date is entered
+    Then the field should not contain default values
+
+  @batchTag4
+  Scenario Outline: The To date is entered
+    Given The Batch List Tab is clicked
+    And Batch List Tab loads
+    When the To date is entered
+    Then the field should not contain default values
+
+  @batchTag5
+  Scenario Outline: Submit Batches Dates
+    Given The Batch List Tab is clicked
+    And Batch List Tab loads
+    When the submit button is clicked
+    Then the batch list should update to show only the batches which fit the entered criteria
+
+  @batchTag6
+  Scenario Outline: Reset Batches Dates
+    Given The Batch List Tab is clicked
+    And Batch List Tab loads
+    When the reset button is clicked
+    Then the batch list should be empty
+
+  @batchTag7
+  Scenario Outline: View Individual Batch
+    Given batches are showing
+    When I click on a specific batch name
+    Then I should be taken to the appropriate details page
+
+  @batchTag8
+  Scenario Outline: Navigate to Associate
+    Given I am looking at batch details
+    When I click on an associate ID
+    Then I should be taken to the appropriate information page

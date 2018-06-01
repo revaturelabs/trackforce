@@ -20,6 +20,7 @@ public class ServiceHooks {
 		LoginUtil.loginAsAdmin(driver);
 		}
 	}
+	
 	@After("@HomeTagTest6")
 	public void closeHomeTagTests(){
 		//driver.close();
@@ -53,6 +54,18 @@ public class ServiceHooks {
 	@After("@AssociateListEnd")
 	public void closeAssociateListTests(){
 		//driver.close();
+	}
+
+	@Before("@batchTag1")
+	public void initializeBatchTabTests(){
+		System.out.println("Initializing BatchTab Tests");
+		driver = WebDriverUtil.getChromeDriver();
+		driver.get(TestConfig.getBaseURL());
+	}
+	
+	@After("@batchTag8")
+	public void closeBatchTagTests(){
+		driver.quit();
 	}
 	
 	@Before("@CreateNewAdmin")

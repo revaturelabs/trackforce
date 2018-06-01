@@ -2,6 +2,7 @@ package com.revature.resources;
 
 import static com.revature.utils.LogUtil.logger;
 
+
 import java.io.IOException;
 import java.util.Set;
 
@@ -18,6 +19,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.apache.commons.httpclient.HttpClient;
 
 import org.hibernate.HibernateException;
 
@@ -211,7 +214,8 @@ public class InterviewResource {
 		}
 		return Response.status(status).build();
 	}
-	@Path("/{interviewid")
+
+	@Path("/{interviewid}")
 	@ApiOperation(value = "updates interview", notes = " Updates interview")
 	@PUT
 	public Response updateInterview(@PathParam("associateid") int associateid,

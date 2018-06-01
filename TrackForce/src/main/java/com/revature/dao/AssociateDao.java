@@ -21,5 +21,7 @@ public interface AssociateDao {
 	public void updateAssociate(AssociateFromClient afc);
 	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId);
 	public void updateAssociateVerification(int associateid);
+	public void createAssociate(String firstname, String lastname);
+
 
 }

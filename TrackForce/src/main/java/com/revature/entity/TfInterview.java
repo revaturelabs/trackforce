@@ -52,7 +52,8 @@ public class TfInterview implements java.io.Serializable {
 	
 	@Column(name = "TF_ASSOCIATE_FEEDBACK", length = 2000)
 	private String tfAssociateFeedback;
-
+	@Column(name = "TF_QUESTION_GIVEN", length = 3500)
+	private String tfQuestionGiven;
 	@Column(name = "TF_CLIENT_FEEDBACK", length = 2500)
 	private String tfClientFeedback;
 	@Column(name = "TF_JOB_DESCRIPTION", length = 2000)
@@ -61,6 +62,8 @@ public class TfInterview implements java.io.Serializable {
 	private Timestamp tfDateSalesIssued;
 	@Column(name = "TF_DATE_ASSOCIATE_ISSUED")
 	private Timestamp tfDateAssociateIssued;
+	@Column(name = "TF_WAS_24HR_NOTICE")
+	private Integer tfWas24HRNotice;	
 	@Column(name = "TF_IS_INTERVIEW_FLAGGED")
 	private Integer tfIsInterviewFlagged = 0;
 	@Column(name = "TF_FLAG_REASON", length = 300)
@@ -68,15 +71,9 @@ public class TfInterview implements java.io.Serializable {
 	@Column(name = "TF_IS_CLIENT_FEEDBACK_VISIABLE")
 	private Integer tfIsClientFeedbackVisible = 0;
 
+
 	public TfInterview() {
 	}
-
-	public TfInterview(Integer tfInterviewId) {
-		this.tfInterviewId = tfInterviewId;
-	}
-
-	
-
 	/**
 	 * @param tfInterviewId
 	 * @param tfAssociate b 
@@ -84,20 +81,21 @@ public class TfInterview implements java.io.Serializable {
 	 * @param tfEndClient
 	 * @param tfInterviewType
 	 * @param tfInterviewDate
-	 * 
 	 * @param tfAssociateFeedback
+	 * @param tfQuestionGiven
 	 * @param tfClientFeedback
 	 * @param tfJobDescription
 	 * @param tfDateSalesIssued
 	 * @param tfDateAssociateIssued
+	 * @param tfWas24HRNotice
 	 * @param tfIsInterviewFlagged
 	 * @param tfFlagReason
 	 * @param tfIsClientFeedbackVisible
 	 */
 	public TfInterview(Integer tfInterviewId, TfAssociate tfAssociate, TfClient tfClient, TfEndClient tfEndClient,
 			TfInterviewType tfInterviewType, Timestamp tfInterviewDate, String tfAssociateFeedback,
-			String tfClientFeedback, String tfJobDescription, Timestamp tfDateSalesIssued,
-			Timestamp tfDateAssociateIssued, Integer tfIsInterviewFlagged, String tfFlagReason,
+			String tfQuestionGiven, String tfClientFeedback, String tfJobDescription, Timestamp tfDateSalesIssued,
+			Timestamp tfDateAssociateIssued, Integer tfWas24HRNotice, Integer tfIsInterviewFlagged, String tfFlagReason,
 			Integer tfIsClientFeedbackVisible) {
 		super();
 		this.tfInterviewId = tfInterviewId;
@@ -107,19 +105,28 @@ public class TfInterview implements java.io.Serializable {
 		this.tfInterviewType = tfInterviewType;
 		this.tfInterviewDate = tfInterviewDate;
 		this.tfAssociateFeedback = tfAssociateFeedback;
+		this.tfQuestionGiven = tfQuestionGiven;
 		this.tfClientFeedback = tfClientFeedback;
 		this.tfJobDescription = tfJobDescription;
 		this.tfDateSalesIssued = tfDateSalesIssued;
 		this.tfDateAssociateIssued = tfDateAssociateIssued;
+		this.tfWas24HRNotice = tfWas24HRNotice;
 		this.tfIsInterviewFlagged = tfIsInterviewFlagged;
 		this.tfFlagReason = tfFlagReason;
 		this.tfIsClientFeedbackVisible = tfIsClientFeedbackVisible;
 	}
 
+
+	public TfInterview(Integer tfInterviewId) {
+		this.tfInterviewId = tfInterviewId;
+	}
+
+
 	public Integer getTfInterviewId() {
 		return this.tfInterviewId;
 	}
 
+	
 	public void setTfInterviewId(Integer tfInterviewId) {
 		this.tfInterviewId = tfInterviewId;
 	}
@@ -274,8 +281,37 @@ public class TfInterview implements java.io.Serializable {
 	 */
 	public void setTfIsClientFeedbackVisible(Integer tfIsClientFeedbackVisible) {
 		this.tfIsClientFeedbackVisible = tfIsClientFeedbackVisible;
-	}
 
+	}
+	
+	/**
+	 * @return the tfQuestionGiven
+	 */
+	public String getTfQuestionGiven() {
+		return tfQuestionGiven;
+	}
+	/**
+	 * @param tfQuestionGiven the tfQuestionGiven to set
+	 */
+	public void setTfQuestionGiven(String tfQuestionGiven) {
+		this.tfQuestionGiven = tfQuestionGiven;
+	}
+	/**
+	 * @return the tfWas24HRNotice
+	 */
+	public Integer getTfWas24HRNotice() {
+		return tfWas24HRNotice;
+	}
+	/**
+	 * @param tfWas24HRNotice the tfWas24HRNotice to set
+	 */
+	public void setTfWas24HRNotice(Integer tfWas24HRNotice) {
+		this.tfWas24HRNotice = tfWas24HRNotice;
+
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -297,9 +333,10 @@ public class TfInterview implements java.io.Serializable {
 		result = prime * result + ((tfIsClientFeedbackVisible == null) ? 0 : tfIsClientFeedbackVisible.hashCode());
 		result = prime * result + ((tfIsInterviewFlagged == null) ? 0 : tfIsInterviewFlagged.hashCode());
 		result = prime * result + ((tfJobDescription == null) ? 0 : tfJobDescription.hashCode());
+		result = prime * result + ((tfQuestionGiven == null) ? 0 : tfQuestionGiven.hashCode());
+		result = prime * result + ((tfWas24HRNotice == null) ? 0 : tfWas24HRNotice.hashCode());
 		return result;
 	}
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -382,9 +419,18 @@ public class TfInterview implements java.io.Serializable {
 				return false;
 		} else if (!tfJobDescription.equals(other.tfJobDescription))
 			return false;
+		if (tfQuestionGiven == null) {
+			if (other.tfQuestionGiven != null)
+				return false;
+		} else if (!tfQuestionGiven.equals(other.tfQuestionGiven))
+			return false;
+		if (tfWas24HRNotice == null) {
+			if (other.tfWas24HRNotice != null)
+				return false;
+		} else if (!tfWas24HRNotice.equals(other.tfWas24HRNotice))
+			return false;
 		return true;
 	}
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -392,15 +438,13 @@ public class TfInterview implements java.io.Serializable {
 	public String toString() {
 		return "TfInterview [tfInterviewId=" + tfInterviewId + ", tfAssociate=" + tfAssociate + ", tfClient=" + tfClient
 				+ ", tfEndClient=" + tfEndClient + ", tfInterviewType=" + tfInterviewType + ", tfInterviewDate="
-				+ tfInterviewDate + ", tfAssociateFeedback=" + tfAssociateFeedback + ", tfClientFeedback="
-				+ tfClientFeedback + ", tfJobDescription=" + tfJobDescription + ", tfDateSalesIssued="
-				+ tfDateSalesIssued + ", tfDateAssociateIssued=" + tfDateAssociateIssued + ", tfIsInterviewFlagged="
-				+ tfIsInterviewFlagged + ", tfFlagReason=" + tfFlagReason + ", tfIsClientFeedbackVisiable="
-				+ tfIsClientFeedbackVisible + "]";
+				+ tfInterviewDate + ", tfAssociateFeedback=" + tfAssociateFeedback + ", tfQuestionGiven="
+				+ tfQuestionGiven + ", tfClientFeedback=" + tfClientFeedback + ", tfJobDescription=" + tfJobDescription
+				+ ", tfDateSalesIssued=" + tfDateSalesIssued + ", tfDateAssociateIssued=" + tfDateAssociateIssued
+				+ ", tfWas24HRNotice=" + tfWas24HRNotice + ", tfIsInterviewFlagged=" + tfIsInterviewFlagged
+				+ ", tfFlagReason=" + tfFlagReason + ", tfIsClientFeedbackVisible=" + tfIsClientFeedbackVisible + "]";
 	}
 	
-	
-
 
 
 }

@@ -120,10 +120,13 @@ public class InterviewResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null || !(payload.getId().equals("1") || payload.getId().equals("5"))) {
+			logger.info("inside of the get associate interview unauthorized");
+			
+			return Response.status(403).build();
+		} else {
+			logger.info("inside get associate interview else");
 			TfInterview interviews = is.getInterviewById(interviewid);
 			return Response.ok(interviews).build();
-		} else {
-			return Response.status(403).build();
 		}
 	}
 	

@@ -314,7 +314,7 @@ public class AssociateResource {
 		return Response.status(status).build();
 	}
 		
-	@ApiOperation(value = "returns all interviews for associate", notes= "Gets a list of all interviews for a specific associate.")
+	@ApiOperation(value = "-pulls our subresource interviews", notes= "pulls our subresource interviews")
 	@Path("/{associateid}/interviews")
 	public InterviewResource addAssociateInterview() {
 		return new InterviewResource();

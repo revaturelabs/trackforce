@@ -44,7 +44,9 @@ public class InterviewService {
 		return interviews;
 	}
 
-	/** Sorting should to be done by ordering in dao layer.
+	/**
+	 * Sorting should to be done by ordering in dao layer.
+	 * 
 	 * @author Ian Buitrago
 	 */
 	public ArrayList<InterviewInfo> getAllInterviews(String sort) {
@@ -65,7 +67,8 @@ public class InterviewService {
 	public void addInterviewByAssociate(int associateId, InterviewFromClient ifc) {
 		interviewDao.addInterviewForAssociate(associateId, ifc);
 	}
-	public void updateInterview(int associateId, InterviewFromClient ifc){
+
+	public void updateInterview(int associateId, InterviewFromClient ifc) {
 		interviewDao.updateInterview(associateId, ifc);
 	}
 
@@ -90,21 +93,17 @@ public class InterviewService {
 			}
 
 		}
-		
-	 
 
 		return conflicts;
 	}
 
 	public TfInterview getInterviewById(Integer parmInterviewId) {
-		
+
 		return interviewDao.getInterviewById(parmInterviewId);
-		
-	}
-public List<TfInterview> getInterviewsByAssoicateId(Integer parmAssoicateId) {
-		
-		return interviewDao.getInterviewsByAssoicateId(parmAssoicateId);
-		
+
 	}
 
+	public Collection<InterviewInfo> getInterviewsByAssociate(int associateId) throws IOException {
+		return interviewDao.getInterviewsByAssociate(associateId).values();
+	}
 }

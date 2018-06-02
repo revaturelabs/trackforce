@@ -101,7 +101,7 @@ public class SmokeTests {
 	}
 
 	@Test(enabled = true, groups = "GET")
-	public void test3GetInterviewFromAssociate() {
+	public void test3GetInterviewsFromAssociate() {
 		String URI = "TrackForce/api/associates/1/interviews";
 		Status expectedStatus = Status.OK;
 

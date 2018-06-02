@@ -93,7 +93,7 @@ public class InterviewResource {
 			throws HibernateException, IOException 
 	{
 		Status status = null;
-		Collection<TfInterview> interviews = null;
+		Collection<InterviewInfo> interviews = null;
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null || !(payload.getId().equals("1") || payload.getId().equals("5"))) {
@@ -101,7 +101,7 @@ public class InterviewResource {
 		}
 		else 
 		{
-			interviews = is.getInterviewsByAssoicateId(associateid);
+			interviews = is.getInterviewsByAssociate(associateid);
 			logger.info(interviews);
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
 			logger.info("inside get all interviews");

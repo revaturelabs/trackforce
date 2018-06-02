@@ -93,8 +93,10 @@ public class InterviewResource {
 		Collection<InterviewInfo> interviews = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !(payload.getId().equals("1") || payload.getId().equals("5"))) {
+		if (payload == null) { // invalid token
 			status = Status.UNAUTHORIZED;
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) { // wrong roleid
+			status = Status.FORBIDDEN;
 		} else {
 			interviews = is.getInterviewsByAssociate(associateid);
 			logger.info(interviews);

@@ -107,6 +107,14 @@ public class SmokeTests {
 
 		testResource("GET", URI, expectedStatus);
 	}
+
+	@Test(groups = "GET")
+	public void test3_1GetInterviewFromAssociate() {
+		String URI = "TrackForce/api/associates/1/interviews/1";
+		Status expectedStatus = Status.OK;
+
+		testResource("GET", URI, expectedStatus);
+	}
 	
 	@Test(groups = "POST", dependsOnMethods ="test2GetAssociate")
 	public void test4CreateInterview() throws JsonProcessingException {
@@ -164,6 +172,7 @@ public class SmokeTests {
 
 		Assert.assertEquals(status, expectedStatus);
 		// prints body to log files
+//		logger.info("	Body: " + prettifyJSON(interview));
 //		String body = response.getEntity().getContent();
 //		logger.debug("	response body = " + body);
 		// T obj = mapObject(response, type);

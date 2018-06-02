@@ -70,7 +70,7 @@ public class JWTService {
 		boolean verified = false;
 
 		if (token != null) {
-			claims = getClaimsFromToken(token);
+			claims = processToken(token);
 		}
 		if (claims != null) {
 			tokenUsername = claims.getSubject();
@@ -135,7 +135,7 @@ public class JWTService {
 	public static Date getExpirationDateFromToken(String token) {
 		Date expiration = null;
 		try {
-			final Claims claims = getClaimsFromToken(token);
+			final Claims claims = processToken(token);
 			if (claims != null) {
 				expiration = claims.getExpiration();
 			}
@@ -143,24 +143,6 @@ public class JWTService {
 			logger.error(e);
 		}
 		return expiration;
-	}
-
-	/**
-	 * DEPRECIATED Gets the claims object from the token Needed verification
-	 * purposes
-	 * 
-	 * @param token
-	 * 
-	 * @return Claims object, or null
-	 */
-	public static Claims getClaimsFromToken(String token) {
-		Claims claims = null;
-		try {
-			claims = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
-		} catch (Exception e) {
-			logger.error(e);
-		}
-		return claims;
 	}
 
 	/**

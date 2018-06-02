@@ -97,10 +97,9 @@ public class InterviewService {
 		return conflicts;
 	}
 
-	public TfInterview getInterviewById(Integer parmInterviewId) {
-
-		return interviewDao.getInterviewById(parmInterviewId);
-
+	public InterviewInfo getInterviewByAssociateAndInterviewid(Integer associateId, Integer interviewid)
+			throws IOException {
+		return interviewDao.getInterviewsByAssociate(associateId).get(interviewid);
 	}
 
 	public Collection<InterviewInfo> getInterviewsByAssociate(int associateId) throws IOException {

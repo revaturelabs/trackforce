@@ -20,6 +20,10 @@ import org.testng.annotations.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.revature.request.model.InterviewFromClient;
 import com.revature.services.JWTService;
 
@@ -113,7 +117,7 @@ public class SmokeTests {
 		String URL = domain + URI;
 		logger.info("Testing POST URL = " + URL);
 		
-		logger.info("	Body: " + interview);
+		logger.info("	Body: " + prettifyJSON(interview));
 		HttpUriRequest request = RequestBuilder.create("POST").setUri(URL)
 				.setEntity(new StringEntity(interview, ContentType.APPLICATION_JSON))
 				.addHeader("Authorization", token).build();
@@ -200,5 +204,13 @@ public class SmokeTests {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	private String prettifyJSON(String JSON) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(JSON);
+
+		return gson.toJson(je);
 	}
 }

@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.IOException;
 import java.security.Key;
 import java.util.Date;
@@ -7,16 +9,11 @@ import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import static com.revature.utils.LogUtil.logger;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDaoImpl;
-import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
-import com.revature.utils.HibernateUtil;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -40,8 +37,11 @@ public class JWTService {
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 1000L;
 
-	private SessionFactory sessionFactory;
 	private UserDAO userDao;
+
+	public JWTService() {
+		this.userDao = new UserDaoImpl();
+	}
 
 	/**
 	 *
@@ -52,12 +52,38 @@ public class JWTService {
 	 */
 	public JWTService(UserDAO userDao, SessionFactory sessionFactory) {
 		this.userDao = userDao;
-		this.sessionFactory = sessionFactory;
 	}
 
-	public JWTService() {
-		this.sessionFactory = HibernateUtil.getSessionFactory(); // throws SQLException???
-		this.userDao = new UserDaoImpl();
+	/**
+	 * Validates a token
+	 * 
+	 * @param token
+	 * 
+	 * @return true if the token is valid, otherwise false
+	 * @throws IOException
+	 *             because of the use of connection pools that requires some files
+	 */
+	public Boolean validateToken(String token) {
+		String tokenUsername = null;
+		TfUser tfUser = null;
+		Claims claims = null;
+		boolean verified = false;
+
+		if (token != null) {
+			claims = getClaimsFromToken(token);
+		}
+		if (claims != null) {
+			tokenUsername = claims.getSubject();
+		}
+		if (tokenUsername != null) {
+			tfUser = userDao.getUser(tokenUsername);
+		}
+		if (tfUser != null) {
+			// makes sure the token is fresh and usernames are equal
+			verified = (!isTokenExpired(token) && tfUser.getTfUserUsername().equals(tokenUsername));
+		}
+
+		return verified;
 	}
 
 	/**
@@ -68,7 +94,7 @@ public class JWTService {
 	 * 
 	 * @return the token
 	 */
-	public String createToken(String username, int tfroleid) {
+	public static String createToken(String username, int tfroleid) {
 		SignatureAlgorithm signAlgorithm = SignatureAlgorithm.HS256;
 		Key key = new SecretKeySpec(getSecret(), signAlgorithm.getJcaName());
 
@@ -77,11 +103,11 @@ public class JWTService {
 
 		return token.compact();
 	}
-	
+
 	/**
 	 * @author Ian Buitrago
 	 * @param token
-	 * @return the payload, or null if token invalid
+	 * @return the payload ie the user name and roleID, or null if token invalid
 	 */
 	public static Claims processToken(String token) {
 		Claims payload = null;
@@ -91,16 +117,14 @@ public class JWTService {
 				throw new UnsupportedJwtException("token null");
 			}
 			payload = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
-//			logger.info("Print payload " + payload);
-
 		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
 				| IllegalArgumentException | NullPointerException e) {
 			e.printStackTrace();
-			payload = null;
 		}
 
 		return payload;
 	}
+
 	/**
 	 * Extracts the expiration date from the token
 	 * 
@@ -108,7 +132,7 @@ public class JWTService {
 	 * 
 	 * @return the Date if it exists, otherwise null
 	 */
-	public Date getExpirationDateFromToken(String token) {
+	public static Date getExpirationDateFromToken(String token) {
 		Date expiration = null;
 		try {
 			final Claims claims = getClaimsFromToken(token);
@@ -121,7 +145,6 @@ public class JWTService {
 		return expiration;
 	}
 
-
 	/**
 	 * DEPRECIATED Gets the claims object from the token Needed verification
 	 * purposes
@@ -130,7 +153,7 @@ public class JWTService {
 	 * 
 	 * @return Claims object, or null
 	 */
-	public Claims getClaimsFromToken(String token) {
+	public static Claims getClaimsFromToken(String token) {
 		Claims claims = null;
 		try {
 			claims = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
@@ -138,55 +161,6 @@ public class JWTService {
 			logger.error(e);
 		}
 		return claims;
-	}
-
-	/**
-	 * Validates a token
-	 * 
-	 * @param token
-	 * 
-	 * @return true if the token is valid, otherwise false
-	 * @throws IOException
-	 *             because of the use of connection pools that requires some files
-	 */
-	public Boolean validateToken(String token) throws IOException {
-		Claims claims = null;
-		boolean verified = false;
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		try {
-			String tokenUsername = null;
-			TfUser tfUser = null;
-
-			if (token == null) {
-				return false;
-			}
-
-			try {
-				claims = getClaimsFromToken(token);
-				if (claims != null) {
-					tokenUsername = claims.getSubject();
-				}
-				if (tokenUsername != null) {
-					tfUser = userDao.getUser(tokenUsername);
-				}
-				if (tfUser != null) {
-					// makes sure the token is fresh and usernames are equal
-					verified = (tfUser.getTfUserUsername().equals(tokenUsername) && !isTokenExpired(token));
-				}
-
-			} catch (SignatureException se) {
-				logger.error(se);
-			}
-
-		} catch (Exception e) {
-			logger.error(e);
-			session.flush();
-			tx.rollback();
-		} finally {
-			session.close();
-		}
-		return verified;
 	}
 
 	/**
@@ -222,7 +196,7 @@ public class JWTService {
 	 * 
 	 * @return expiration Date object
 	 */
-	private Date generateExpirationDate() {
+	private static Date generateExpirationDate() {
 		return new Date(System.currentTimeMillis() + EXPIRATION * 1000);
 	}
 
@@ -233,7 +207,7 @@ public class JWTService {
 	 * 
 	 * @return true if token is expired, otherwise false
 	 */
-	private Boolean isTokenExpired(String token) {
+	private static Boolean isTokenExpired(String token) {
 		final Date expiration = getExpirationDateFromToken(token);
 		return expiration.before(new Date());
 	}

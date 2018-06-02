@@ -87,7 +87,7 @@ public class UserService {
 	 * @return Returns a TfUser json
 	 */
 	public TfUser getUser(String username) {
-		return new UserDaoImpl().getUser(username);
+		return userDao.getUser(username);
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class UserService {
 							userjson.setUserId(tfUser.getTfUserId());
 
 							// Uses JWT service to create token
-							userjson.setToken(this.jwtService.createToken(tfUserName, tfRoleId));
+							userjson.setToken(JWTService.createToken(tfUserName, tfRoleId));
 							session.flush();
 							tx.commit();
 						}

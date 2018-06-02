@@ -8,9 +8,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ContentType;
@@ -20,28 +18,30 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.model.AssociateInfo;
-import com.revature.model.BatchInfo;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.revature.request.model.InterviewFromClient;
 import com.revature.services.JWTService;
-import com.revature.services.UserService;
 
 /**
- * testNG tests for the BatchResource against the a live server.
+ * TestNG tests for the resource layer against the a live server.
+ * These are just a set of non-exhaustive tests that aim at ensuring that the most important functions work hence smoke test.
+ * Mostly checks the status codes of the GET resources.
  * 
- * NOTE: server must be runnin
+ * NOTE: tomcat server must be running for these tests to pass
  * 
- * Set system wide variable TOMCAT_PORT to eg 8085 for linux/mac
+ * Create environment variable TOMCAT_PORT to the port your tomcat server uses eg 8085
  * 
- * set in your IDE(STS) in testng run configuration
+ * for Linux/mac: Set in these variables in your IDE(STS) in testng run configuration
  * 
  * @author Ian Buitrago
  *
  */
 public class SmokeTests {
-	JWTService jService;
-	UserService uService;
 	String token;
 	String domain;
 
@@ -53,36 +53,51 @@ public class SmokeTests {
 		domain = "http://localhost:" + port + "/";
 		logger.info("	domain = " + domain);
 
-		uService = new UserService();
-		jService = new JWTService(); // throws SQLException???
-
-		token = jService.createToken("Ian", 1);
+		token = JWTService.createToken("Ian", 1);
 		logger.info("token generated: " + token);
 	}
-
 	
 	// TESTS
-	@Test(enabled = true, priority = 1, groups = "GET")
-	public void test1GetAllAssociates() {
-		String URI = "TrackForce/api/associates";
-		Status expectedStatus = Status.OK;
+	/**
+	 * Tests dummy resource. If it fails, the server may be off.
+	 */
+	@Test
+	public void adamTest() throws IOException {
+		logger.info("Testing adam()...");
+		String URL = domain + "TrackForce/api/batches/adam";
+		logger.info("	URL = " + URL);
 
-		testResource("GET", URI, expectedStatus
-		// , AssociateInfo.class
-		);
+		HttpUriRequest request = new HttpGet(URL);
+		HttpResponse response = HttpClientBuilder.create().build().execute(request);
+		int status = response.getStatusLine().getStatusCode();
+
+		Assert.assertEquals(status, HttpStatus.SC_OK);
 	}
 
 	/**
 	 * URI and Status code.
 	 */
-	@Test(enabled = true, dependsOnMethods ="test1GetAllAssociates", groups = "GET")
+	@Test(priority = 0, groups = {"GET"})
+	public void test1GetAllAssociates() {
+		String URI = "TrackForce/api/associates";
+		Status expectedStatus = Status.OK;
+
+		testResource("GET", URI, expectedStatus);
+	}
+	
+	@Test(groups = "GET")
 	public void test2GetAssociate() {
 		String URI = "TrackForce/api/associates/1";
 		Status expectedStatus = Status.OK;
 
-		testResource("GET", URI, expectedStatus
-		// , AssociateInfo.class
-		);
+		testResource("GET", URI, expectedStatus);
+	}
+	@Test(groups = {"GET", "negative"})
+	public void test2GetAssociateN() {
+		String URI = "TrackForce/api/associates/0";
+		Status expectedStatus = Status.NO_CONTENT;
+
+		testResource("GET", URI, expectedStatus);
 	}
 
 	@Test(enabled = true, groups = "GET")
@@ -93,16 +108,18 @@ public class SmokeTests {
 		testResource("GET", URI, expectedStatus);
 	}
 	
-	@Test(groups = "POST", enabled = false)
-	public void createInterview() {
+	@Test(groups = "POST", dependsOnMethods ="test2GetAssociate")
+	public void test4CreateInterview() throws JsonProcessingException {
 		String URI = "TrackForce/api/associates/1/interviews";
 		Status expectedStatus = Status.CREATED;
-		// InterviewFromClient interview = new InterviewFromClient(1, 1, 1);
+		String interview = new ObjectMapper().writeValueAsString(new InterviewFromClient(1, 1, 1));		// marshals interview
 
 		String URL = domain + URI;
 		logger.info("Testing POST URL = " + URL);
+		
+		logger.info("	Body: " + prettifyJSON(interview));
 		HttpUriRequest request = RequestBuilder.create("POST").setUri(URL)
-				.setEntity(new StringEntity("{\"a\":1,\"b\":2}", ContentType.APPLICATION_JSON))
+				.setEntity(new StringEntity(interview, ContentType.APPLICATION_JSON))
 				.addHeader("Authorization", token).build();
 
 		HttpResponse response = respond(request);
@@ -114,14 +131,13 @@ public class SmokeTests {
 		Assert.assertEquals(status, expectedStatus);
 	}
 
-	@Test(enabled = true)
+	@Test(enabled = true, groups = "PUT", dependsOnMethods ="test2GetAssociate")
 	public void verifyAssociate() {
 		String URI = "TrackForce/api/associates/1/verify";
-		Status expectedStatus = Status.OK;
+		Status expectedStatus = Status.NO_CONTENT;
 
 		testResource("PUT", URI, expectedStatus);
 	}
-
 
 	/**
 	 * 
@@ -132,17 +148,14 @@ public class SmokeTests {
 	 * @param type
 	 *            of object expected in body or response
 	 * @return
+	 * @throws IOException 
+	 * @throws UnsupportedOperationException 
 	 */
-	private boolean testResource(String method, String URI, Status expectedStatus
-//	 , Class<T> type
-	) {
+	private boolean testResource(String method, String URI, Status expectedStatus){
 		String URL = domain + URI;
 		logger.info("Testing GET URL = " + URL);
 		HttpUriRequest request = RequestBuilder.create(method).setUri(URL)
-				// .setEntity(new StringEntity("{\"a\":1,\"b\":2}",
-				// ContentType.APPLICATION_JSON))
 				.addHeader("Authorization", token).build();
-
 		HttpResponse response = respond(request);
 		if (response == null) {
 			return false;
@@ -150,7 +163,9 @@ public class SmokeTests {
 		Status status = Status.fromStatusCode(response.getStatusLine().getStatusCode());
 
 		Assert.assertEquals(status, expectedStatus);
-		// prints body
+		// prints body to log files
+//		String body = response.getEntity().getContent();
+//		logger.debug("	response body = " + body);
 		// T obj = mapObject(response, type);
 		// if (obj == null) {
 		// return false;
@@ -190,20 +205,12 @@ public class SmokeTests {
 			return null;
 		}
 	}
+	
+	private String prettifyJSON(String JSON) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(JSON);
 
-	/**
-	 * Tests dummy resource. If it fails, the server may be off.
-	 */
-	@Test(priority = 1)
-	public void adamTest() throws IOException {
-		logger.info("Testing adam()...");
-		String URL = domain + "TrackForce/api/batches/adam";
-		logger.info("	URL = " + URL);
-
-		HttpUriRequest request = new HttpGet(URL);
-		HttpResponse response = HttpClientBuilder.create().build().execute(request);
-		int status = response.getStatusLine().getStatusCode();
-
-		Assert.assertEquals(status, HttpStatus.SC_OK);
+		return gson.toJson(je);
 	}
 }

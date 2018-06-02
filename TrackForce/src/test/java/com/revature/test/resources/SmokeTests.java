@@ -30,9 +30,9 @@ import com.revature.services.JWTService;
  * 
  * NOTE: tomcat server must be running for these tests to pass
  * 
- * Set system wide variable TOMCAT_PORT to the port your tomcat server uses eg 8085
+ * Create environment variable TOMCAT_PORT to the port your tomcat server uses eg 8085
  * 
- * for Linux/mac: Set in these variable in your IDE(STS) in testng run configuration
+ * for Linux/mac: Set in these variables in your IDE(STS) in testng run configuration
  * 
  * @author Ian Buitrago
  *
@@ -135,7 +135,6 @@ public class SmokeTests {
 		testResource("PUT", URI, expectedStatus);
 	}
 
-
 	/**
 	 * 
 	 * @param URI
@@ -145,10 +144,10 @@ public class SmokeTests {
 	 * @param type
 	 *            of object expected in body or response
 	 * @return
+	 * @throws IOException 
+	 * @throws UnsupportedOperationException 
 	 */
-	private boolean testResource(String method, String URI, Status expectedStatus
-//	 , Class<T> type
-	) {
+	private boolean testResource(String method, String URI, Status expectedStatus){
 		String URL = domain + URI;
 		logger.info("Testing GET URL = " + URL);
 		HttpUriRequest request = RequestBuilder.create(method).setUri(URL)
@@ -160,7 +159,9 @@ public class SmokeTests {
 		Status status = Status.fromStatusCode(response.getStatusLine().getStatusCode());
 
 		Assert.assertEquals(status, expectedStatus);
-		// prints body
+		// prints body to log files
+//		String body = response.getEntity().getContent();
+//		logger.debug("	response body = " + body);
 		// T obj = mapObject(response, type);
 		// if (obj == null) {
 		// return false;

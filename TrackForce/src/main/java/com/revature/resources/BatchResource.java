@@ -56,11 +56,20 @@ public class BatchResource {
 	public Response getAllBatches(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
 			@HeaderParam("Authorization") String token) {
 		Claims payload = JWTService.processToken(token);
-		Set<BatchInfo> batches = service.getAllBatches();
-		Status status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		Set<BatchInfo> batches = null;
+		Status status = null; 
 
+		if (payload == null) {
+			status = Status.UNAUTHORIZED; // invalid token
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
+			status = Status.FORBIDDEN;
+		} else {
+			batches = service.getAllBatches();
+			status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		}
 		logger.info("getallBatches()");
 		logger.info("	batches size: " + (batches == null ? null : batches.size()));
+		
 		return Response.status(status).entity(batches).build();
 	}
 
@@ -80,11 +89,11 @@ public class BatchResource {
 		Claims payload = JWTService.processToken(token);
 		Collection<BatchInfo> results = new HashSet<>();
 
-		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
-		}
-
-		else {
+		if (payload == null) {
+			status = Status.UNAUTHORIZED; // invalid token
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
+			status = Status.FORBIDDEN;
+		} else {
 			logger.info("getBatchesByCurriculum(): " + curriculum);
 
 			if (startDate != null && endDate != null) {
@@ -92,13 +101,12 @@ public class BatchResource {
 				logger.info("	end = " + new Timestamp(endDate));
 				Collection<BatchInfo> batches = service.getBatches(startDate, endDate);
 
+				// TODO should be filtered in DAO layer
 				for (BatchInfo b : batches) {
 					if (b.getCurriculumName() != null && b.getCurriculumName().equalsIgnoreCase(curriculum))
 						results.add(b);
 				}
-			}
-
-			else {
+			} else {
 				results = service.getBatchesByCurri(curriculum);
 			}
 
@@ -123,10 +131,13 @@ public class BatchResource {
 		BatchInfo batch = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
+		if (payload == null) {
+			status = Status.UNAUTHORIZED; // invalid token
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
+			status = Status.FORBIDDEN;
 		} else {
 			batch = service.getBatchById(id);
+			status = batch == null ? Status.NO_CONTENT : Status.OK;
 		}
 
 		return Response.status(status).entity(batch).build();

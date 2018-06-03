@@ -54,76 +54,110 @@ public class SmokeTests {
 		logger.info("BatchTests.init()...");
 
 		String port = System.getenv().get("TOMCAT_PORT"); // you must create this env variable on your machine
-		domain = "http://localhost:" + port + "/";
+		domain = "http://localhost:" + port + "/TrackForce/api/";
 		logger.info("	domain = " + domain);
 
 		token = JWTService.createToken("Ian", 1);
 		logger.info("token generated: " + token);
 	}
-
+	@Test (priority = 1) public void c() {}
+	@Test (priority = 1) public void aa() {}
+	@Test (priority = 1) public void aA() {}
+	@Test (priority = 1) public void A() {}
+	@Test (priority = 1) public void a() {}	// uncomment to order tests????????
+//	@Test (priority = 1) public void a_() {}
+//	@Test(priority = 1)  public void a1() {}
+//	@Test(priority = 1)  public void a2() {}
 	// TESTS
 	/**
 	 * Tests dummy resource. If it fails, the server may be off.
 	 */
-	@Test
+	@Test(priority = 0)
 	public void adamTest() throws IOException {
-		logger.info("Testing adam()...");
-		String URL = domain + "TrackForce/api/batches/adam";
-		logger.info("	URL = " + URL);
+		String URI = "batches/adam";
+		Status expectedStatus = Status.OK;
 
-		HttpUriRequest request = new HttpGet(URL);
-		HttpResponse response = HttpClientBuilder.create().build().execute(request);
-		int status = response.getStatusLine().getStatusCode();
-
-		Assert.assertEquals(status, HttpStatus.SC_OK);
+		testResource("GET", URI, expectedStatus);
 	}
-
+	
 	/**
 	 * URI and Status code.
 	 */
-	@Test(priority = 0, groups = { "GET" })
+	@Test(priority = 0, groups = { "GET", "batch" })
+	public void testGetAllBatches() {
+		String URI = "batches";
+		Status expectedStatus = Status.OK;
+
+		testResource("GET", URI, expectedStatus);
+	}
+
+	@Test(priority = 0, groups = { "GET", "batch" })
+	public void testGetBatch() {
+		String URI = "batches/1";
+		Status expectedStatus = Status.OK;
+
+		testResource("GET", URI, expectedStatus);
+	}
+
+	@Test(priority = 0, groups = { "GET", "batch" })
+	public void testGetBatchAssociates() {
+		String URI = "batches/1/associates";
+		Status expectedStatus = Status.OK;
+
+		testResource("GET", URI, expectedStatus);
+	}
+	
+	@Test(priority = 0, groups = { "GET", "batch" })
+	public void testGetBatchByCur() {
+		String URI = "batches/curriculum/jta";
+		Status expectedStatus = Status.OK;
+
+		testResource("GET", URI, expectedStatus);
+	}
+	
+	@Test(priority = 0, groups = { "GET", "associate" })
 	public void test1GetAllAssociates() {
-		String URI = "TrackForce/api/associates";
+		String URI = "associates";
 		Status expectedStatus = Status.OK;
 
 		testResource("GET", URI, expectedStatus);
 	}
 
-	@Test(groups = "GET")
+	@Test(priority = 0, groups = { "GET", "associate" })
 	public void test2GetAssociate() {
-		String URI = "TrackForce/api/associates/1";
+		String URI = "associates/1";
 		Status expectedStatus = Status.OK;
 
 		testResource("GET", URI, expectedStatus);
 	}
 
-	@Test(groups = { "GET", "negative" })
+	@Test(priority = 0,groups = { "GET", "associate", "negative" })
 	public void test2GetAssociateN() {
-		String URI = "TrackForce/api/associates/0";
+		String URI = "associates/0";
 		Status expectedStatus = Status.NO_CONTENT;
 
 		testResource("GET", URI, expectedStatus);
 	}
 
-	@Test(enabled = true, groups = "GET")
-	public void test3GetInterviewsFromAssociate() {
-		String URI = "TrackForce/api/associates/1/interviews";
+	@Test(priority = 0, groups = { "GET", "interview" })
+	public void test3GetInterviews() {
+		String URI = "associates/1/interviews";
 		Status expectedStatus = Status.OK;
 
 		testResource("GET", URI, expectedStatus);
 	}
 
-	@Test(groups = "GET")
-	public void test3_1GetInterviewFromAssociate() {
-		String URI = "TrackForce/api/associates/1/interviews/1";
+	@Test(priority = 0, groups = { "GET", "interview" })
+	public void test3_1GetInterview() {
+		String URI = "associates/1/interviews/1";
 		Status expectedStatus = Status.OK;
 
 		testResource("GET", URI, expectedStatus);
 	}
 
-	@Test(groups = "POST", dependsOnMethods = "test2GetAssociate")
+	@Test(priority = 0, groups = "POST", dependsOnMethods = "test2GetAssociate")
 	public void test4CreateInterview() throws JsonProcessingException {
-		String URI = "TrackForce/api/associates/1/interviews";
+		String URI = "associates/1/interviews";
 		Status expectedStatus = Status.CREATED;
 		String interview = new ObjectMapper().writeValueAsString(new InterviewFromClient(1, 1, 1)); // marshals
 																									// interview
@@ -147,7 +181,7 @@ public class SmokeTests {
 
 	@Test(enabled = true, groups = "PUT", dependsOnMethods = "test2GetAssociate")
 	public void verifyAssociate() {
-		String URI = "TrackForce/api/associates/1/verify";
+		String URI = "associates/1/verify";
 		Status expectedStatus = Status.NO_CONTENT;
 
 		testResource("PUT", URI, expectedStatus);
@@ -166,8 +200,8 @@ public class SmokeTests {
 	 * @throws UnsupportedOperationException
 	 */
 	private boolean testResource(String method, String URI, Status expectedStatus) {
+		logger.info("GET " + URI);
 		String URL = domain + URI;
-		logger.info("Testing GET URL = " + URL);
 		HttpUriRequest request = RequestBuilder.create(method).setUri(URL).addHeader("Authorization", token).build();
 		HttpResponse response = respond(request);
 		if (response == null) {

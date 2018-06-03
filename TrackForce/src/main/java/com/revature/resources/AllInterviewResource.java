@@ -44,8 +44,10 @@ public class AllInterviewResource {
 		Claims payload = JWTService.processToken(token);
 		Collection<InterviewInfo> interviews = null;
 
-		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
+		if (payload == null) {
+			status = Status.UNAUTHORIZED;		// invalid token
+		}else if (payload.getId().equals("5")) {
+			status = Status.FORBIDDEN;
 		} else {
 			interviews = sort != null ? iservice.getAllInterviews(sort) : iservice.getAllInterviews();
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;

@@ -148,6 +148,14 @@ public class SmokeTests {
 	}
 
 	@Test(priority = 0, groups = { "GET", "interview" })
+	public void test3GetAllInterviews() {
+		String URI = "interviews";
+		Status expectedStatus = Status.OK;
+
+		testResource("GET", URI, expectedStatus);
+	}
+
+	@Test(priority = 0, groups = { "GET", "interview" })
 	public void test3_1GetInterview() {
 		String URI = "associates/1/interviews/1";
 		Status expectedStatus = Status.OK;

@@ -119,7 +119,8 @@ public class JWTService {
 			payload = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
 		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
 				| IllegalArgumentException | NullPointerException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			logger.info("Invalid token.");
 		}
 
 		return payload;

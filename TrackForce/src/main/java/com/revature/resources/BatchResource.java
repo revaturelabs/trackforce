@@ -3,6 +3,7 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
 import com.revature.services.BatchesService;
 import com.revature.services.JWTService;
@@ -55,21 +57,25 @@ public class BatchResource {
 	@ApiOperation(value = "Returns all Batches", notes = "Returns a list of a list of all batches optionally filtered by start and end dates.")
 	public Response getAllBatches(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
 			@HeaderParam("Authorization") String token) {
+		logger.info("getallBatches()...");
 		Claims payload = JWTService.processToken(token);
-		Set<BatchInfo> batches = null;
-		Status status = null; 
-
 		if (payload == null) {
-			status = Status.UNAUTHORIZED; // invalid token
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
-			status = Status.FORBIDDEN;
-		} else {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+
+		Set<BatchInfo> batches = null;
+		Status status = null;
+		int role = Integer.parseInt(payload.getId());
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
+
+		if (authorizedRoles.contains(role)) {
 			batches = service.getAllBatches();
 			status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		} else {
+			status = Status.FORBIDDEN;
 		}
-		logger.info("getallBatches()");
 		logger.info("	batches size: " + (batches == null ? null : batches.size()));
-		
+
 		return Response.status(status).entity(batches).build();
 	}
 
@@ -146,8 +152,21 @@ public class BatchResource {
 	@GET
 	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
 	@Path("{id}/associates")
-	public Response getBatchAssociates(@PathParam("id") Integer id) {
-		return Response.ok(service.getAssociatesForBranch(id)).build();
+	public Response getBatchAssociates(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
+		Claims payload = JWTService.processToken(token);
+		Set<AssociateInfo> associates = null;
+		Status status = null;
+
+		if (payload == null) {
+			status = Status.UNAUTHORIZED;
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
+			status = Status.FORBIDDEN;
+		} else {
+			associates = service.getAssociatesForBranch(id);
+			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		}
+
+		return Response.status(status).entity(associates).build();
 	}
 
 	/**

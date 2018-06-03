@@ -146,7 +146,7 @@ public class BatchResource {
 	@GET
 	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
 	@Path("{id}/associates")
-	public Response getAssociatesForBatch(@PathParam("id") Integer id) {
+	public Response getBatchAssociates(@PathParam("id") Integer id) {
 		return Response.ok(service.getAssociatesForBranch(id)).build();
 	}
 

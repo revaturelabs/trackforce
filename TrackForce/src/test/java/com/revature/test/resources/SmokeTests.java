@@ -155,6 +155,30 @@ public class SmokeTests {
 		testResource("GET", URI, expectedStatus);
 	}
 
+	@Test(priority = 0, groups = { "GET", "curriculum" })
+	public void test3_2GetSkills() {
+		String URI = "skillset";
+		Status expectedStatus = Status.OK;
+
+		testResource("GET", URI, expectedStatus);
+	}
+
+	@Test(priority = 0, groups = { "GET", "client" })
+	public void test3_3GetClients() {
+		String URI = "clients";
+		Status expectedStatus = Status.OK;
+
+		testResource("GET", URI, expectedStatus);
+	}
+
+	@Test(priority = 0, groups = { "GET", "client" })
+	public void test3_4GetClient() {
+		String URI = "clients/1";
+		Status expectedStatus = Status.OK;
+
+		testResource("GET", URI, expectedStatus);
+	}
+
 	@Test(priority = 0, groups = "POST", dependsOnMethods = "test2GetAssociate")
 	public void test4CreateInterview() throws JsonProcessingException {
 		String URI = "associates/1/interviews";

@@ -114,18 +114,21 @@ public class InterviewResource {
 	public Response getAssociateInterview(@PathParam("interviewid") Integer interviewid,
 			@PathParam("associateid") Integer associateid, @HeaderParam("Authorization") String token)
 			throws IOException {
-
+		Status status = null;
 		Claims payload = JWTService.processToken(token);
+		InterviewInfo interviews = null;
 
-		if (payload == null || !(payload.getId().equals("1") || payload.getId().equals("5"))) {
-			logger.info("inside of the get associate interview unauthorized");
-
-			return Response.status(403).build();
+		if (payload == null) { // invalid token
+			status = Status.UNAUTHORIZED;
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) { // wrong roleid
+			status = Status.FORBIDDEN;
 		} else {
 			logger.info("inside get associate interview else");
-			InterviewInfo interviews = is.getInterviewByAssociateAndInterviewid(associateid, interviewid);
-			return Response.ok(interviews).build();
+			interviews = is.getInterviewByAssociateAndInterviewid(associateid, interviewid);
+			status = interviews == null ? Status.NO_CONTENT : Status.OK;
 		}
+
+		return Response.status(status).entity(interviews).build();
 	}
 
 	@Path("/{interviewid}")
@@ -134,23 +137,19 @@ public class InterviewResource {
 	public Response updateInterview(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token,
 			InterviewFromClient ifc) {
-		logger.info("hits update interview method");
-
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
-		logger.info(payload.getId());
 
-		if (payload == null || !(payload.getId().equals("1") || payload.getId().equals("5"))) {
+		if (payload == null) { // invalid token
 			status = Status.UNAUTHORIZED;
-		}
-
-		else {
-			logger.info("jersey part is done");
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) { // wrong roleid
+			status = Status.FORBIDDEN;
+		} else {
 			ifc.setIntervieweId(1);
 			is.updateInterview(associateid, ifc);
 			status = Status.ACCEPTED;
 		}
-		logger.info("end update interview without hitting endpoint");
+
 		return Response.status(status).build();
 
 	}

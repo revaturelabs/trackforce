@@ -51,9 +51,7 @@ import io.swagger.annotations.ApiParam;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AssociateResource {
-
 	private AssociateService service = new AssociateService();
-	private JWTService jService = new JWTService();
 	private UserService userService;
 
 	public AssociateResource() {
@@ -310,8 +308,8 @@ public class AssociateResource {
 		}
 		return Response.status(status).build();
 	}
-		
-	@ApiOperation(value = "-pulls our subresource interviews", notes= "pulls our subresource interviews")
+
+	@ApiOperation(value = "-pulls our subresource interviews", notes = "pulls our subresource interviews")
 	@Path("/{associateid}/interviews")
 	public InterviewResource addAssociateInterview() {
 		return new InterviewResource();

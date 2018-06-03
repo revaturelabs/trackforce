@@ -3,6 +3,7 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +14,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -27,12 +29,17 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.revature.dao.AssociateDaoHibernate;
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfUser;
 import com.revature.model.AssociateInfo;
 import com.revature.model.ClientMappedJSON;
 import com.revature.request.model.AssociateFromClient;
+import com.revature.request.model.CreateAssociateModel;
 import com.revature.services.AssociateService;
 import com.revature.services.JWTService;
+import com.revature.services.UserService;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -47,6 +54,12 @@ public class AssociateResource {
 
 	private AssociateService service = new AssociateService();
 	private JWTService jService = new JWTService();
+	private UserService userService;
+
+	public AssociateResource() {
+		this.userService = new UserService();
+	}
+
 
 	/**
 	 * Gets a list of all the associates, optionally filtered by a batch id. If an
@@ -60,6 +73,7 @@ public class AssociateResource {
 	 * @throws IOException
 	 * @throws HibernateException
 	 */
+
 	@GET
 	@ApiOperation(value = "Return all associates", notes = "Gets a set of all the associates, optionally filtered by a batch id. If an associate has no marketing status or\r\n"
 			+ " curriculum, replaces them with blanks. If associate has no client, replaces\r\n"
@@ -112,15 +126,47 @@ public class AssociateResource {
 
 		return Response.ok().build();
 	}
+	
+	@PUT
+	@ApiOperation(value = "Update associate marketing status", notes = "The method sets the marketing status of the associate by id.")
+	@Path("/{associateId}/marketing")
+	public Response updateAssociateMarketingStatus(@HeaderParam("Authorization") String token, @PathParam("associateId") Integer id) {
+		logger.info("method for marketing is hit");
+	Status status = null;
+	Claims payload = JWTService.processToken(token);
 
-	/**
-	 * Returns information about a specific associate.
-	 * 
-	 * @param associateid
-	 *            The ID of the associate to get information about
-	 * @return An AssociateInfo object with status OK, or NO_CONTENT if null
-	 * @throws IOException
-	 */
+	if (payload == null || payload.getId().equals("5")) 
+	{
+		status = Status.UNAUTHORIZED;
+	} 
+	
+	else 
+	{
+		//service.updateAssociateMarketingStatus(id);
+		logger.info("hits update endpoint working");
+		status = Status.OK;
+	}
+	return Response.status(status).build();
+}
+
+	@POST
+	@Consumes("application/json")
+	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new user")
+	public Response createNewAssociate(CreateAssociateModel newAssociate) {
+		LogUtil.logger.info("createAssociate got hit");
+		LogUtil.logger.info(newAssociate);
+		// SuccessOrFailMessage msg = service.createNewAssociate(newAssociate);
+		// if (msg.getStatus()) {
+		// int userId = msg.getNewId();
+		// URI location = URI.create("/user/"+userId);
+		// return Response.created(location).build();
+		// } else {
+		// return Response.serverError().build();
+		// }
+		userService.createNewAssociate(newAssociate);
+		return Response.created(URI.create("/testingURIcreate")).build();
+	}
+
 	@GET
 	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = AssociateInfo.class)
 	@Path("/{associateid}")
@@ -164,12 +210,11 @@ public class AssociateResource {
 		return Response.ok(mappedStats).build();
 	}
 
-	
-	 @GET
-	 @Path("unmapped/{statusId}")
-	 public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
-	 return Response.ok(service.getUnmappedInfo(statusId)).build();
-	 }
+	@GET
+	@Path("unmapped/{statusId}")
+	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
+		return Response.ok(service.getUnmappedInfo(statusId)).build();
+	}
 
 	/**
 	 * Update the marketing status or client of an associate

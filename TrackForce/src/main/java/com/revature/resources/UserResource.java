@@ -1,5 +1,7 @@
 package com.revature.resources;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.IOException;
 import java.net.URI;
 
@@ -45,6 +47,7 @@ public class UserResource {
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response getAllUsers() {
+		logger.info("getAllUsers()...");
 		// This will produce application/json
 		// Not sure if this will actually be needed
 		return Response.status(501).entity("This has not yet been implemented. There maybe future implementations")
@@ -83,7 +86,7 @@ public class UserResource {
 	@Consumes("application/json")
 	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new user")
 	public Response createNewAssociate(CreateAssociateModel newAssociate) {
-		LogUtil.logger.info("createAssociate got hit");
+		logger.info("createNewAssociate()...");
 		LogUtil.logger.info(newAssociate);
 		// SuccessOrFailMessage msg = service.createNewAssociate(newAssociate);
 		// if (msg.getStatus()) {
@@ -108,6 +111,7 @@ public class UserResource {
 	@ApiOperation(value = "Gets user", notes = "Gets a specific user by their username.")
 	@Path("/{username}")
 	public Response getUser(@PathParam("username") String username) {
+		logger.info("getUser()...");
 		TfUser user = service.getUser(username);
 		return Response.ok(user).build();
 	}
@@ -126,8 +130,11 @@ public class UserResource {
 	@ApiOperation(value = "login method", notes = "The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 400 if invalid.")
 	@Path("login")
 	public Response submitCredentials(LoginJSON login) throws IOException {
+		logger.info("submitCredentials()...");
+		logger.info("	login: " + login);
 		UserJSON userjson = null;
 		userjson = service.submitCredentials(login);
+		logger.info("	user: " + userjson);
 
 		if (userjson != null) {
 			return Response.status(200).entity(userjson).build();

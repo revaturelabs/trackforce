@@ -68,9 +68,7 @@ public class InterviewResource {
 	public Response createInterview(@PathParam("associateid") int associateid,
 			@HeaderParam("Authorization") String token, InterviewFromClient ifc) {
 		logger.info("createInterview()...");
-		logger.info(ifc);
 		Status status = null;
-		logger.info(token);
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null || !(payload.getId().equals("1") || payload.getId().equals("5"))) {

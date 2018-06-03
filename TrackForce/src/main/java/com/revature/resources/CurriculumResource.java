@@ -39,10 +39,10 @@ public class CurriculumResource {
 	@ApiOperation(value = "Returns all curriculums", notes = "Returns a list of all curriculums.")
 	public Response getAllCurriculums(@HeaderParam("Authorization") String token)
 			throws HibernateException, IOException {
+		logger.info("getAllCurriculums()...");
 		Status status = null;
 		Set<CurriculumInfo> skills = null;
 		Claims payload = JWTService.processToken(token);
-		logger.info("getAllCurriculums()...");
 		
 		if (payload == null) { // invalid token
 			status = Status.UNAUTHORIZED;

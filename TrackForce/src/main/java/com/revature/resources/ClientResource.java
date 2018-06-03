@@ -17,9 +17,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
 
-import com.revature.model.BatchInfo;
 import com.revature.model.ClientInfo;
-import com.revature.model.InterviewInfo;
 import com.revature.services.ClientService;
 import com.revature.services.JWTService;
 
@@ -48,6 +46,7 @@ public class ClientResource {
 	@GET
 	@ApiOperation(value = "Returns all clients", notes = "Returns a map of all clients.")
 	public Response getAllClients(@HeaderParam("Authorization") String token) throws IOException {
+		logger.info("getAllClients()...");
 		Status status = null;
 		Set<ClientInfo> clients = null;
 		Claims payload = JWTService.processToken(token);
@@ -79,6 +78,7 @@ public class ClientResource {
 	@ApiOperation(value = "Returns a client", notes = "Returns a specific client based on client id.")
 	public Response getClientInfo(@PathParam("clientid") int clientid, @HeaderParam("Authorization") String token)
 			throws IOException {
+		logger.info("getClientInfo()...");
 		Status status = null;
 		ClientInfo client = null;
 		Claims payload = JWTService.processToken(token);

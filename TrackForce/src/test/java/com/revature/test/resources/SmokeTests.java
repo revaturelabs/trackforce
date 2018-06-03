@@ -60,15 +60,8 @@ public class SmokeTests {
 		token = JWTService.createToken("Ian", 1);
 		logger.info("token generated: " + token);
 	}
-	@Test (priority = 1) public void c() {}
-	@Test (priority = 1) public void aa() {}
-	@Test (priority = 1) public void aA() {}
-	@Test (priority = 1) public void A() {}
-	@Test (priority = 1) public void a() {}	// uncomment to order tests????????
-//	@Test (priority = 1) public void a_() {}
-//	@Test(priority = 1)  public void a1() {}
-//	@Test(priority = 1)  public void a2() {}
 	// TESTS
+
 	/**
 	 * Tests dummy resource. If it fails, the server may be off.
 	 */
@@ -79,7 +72,7 @@ public class SmokeTests {
 
 		testResource("GET", URI, expectedStatus);
 	}
-	
+
 	/**
 	 * URI and Status code.
 	 */
@@ -106,7 +99,7 @@ public class SmokeTests {
 
 		testResource("GET", URI, expectedStatus);
 	}
-	
+
 	@Test(priority = 0, groups = { "GET", "batch" })
 	public void testGetBatchByCur() {
 		String URI = "batches/curriculum/jta";
@@ -114,7 +107,7 @@ public class SmokeTests {
 
 		testResource("GET", URI, expectedStatus);
 	}
-	
+
 	@Test(priority = 0, groups = { "GET", "associate" })
 	public void test1GetAllAssociates() {
 		String URI = "associates";
@@ -131,7 +124,7 @@ public class SmokeTests {
 		testResource("GET", URI, expectedStatus);
 	}
 
-	@Test(priority = 0,groups = { "GET", "associate", "negative" })
+	@Test(priority = 0, groups = { "GET", "associate", "negative" })
 	public void test2GetAssociateN() {
 		String URI = "associates/0";
 		Status expectedStatus = Status.NO_CONTENT;
@@ -186,6 +179,30 @@ public class SmokeTests {
 
 		testResource("GET", URI, expectedStatus);
 	}
+	
+	@Test(enabled = false, priority = 0, groups = { "POST", "user" })
+	public void test4SubmitCred() {
+		String URI = "users/login";
+		Status expectedStatus = Status.OK; // interview
+		String URL = domain + URI;
+		logger.info("Testing POST URL = " + URL);
+		//TODO input appropriate string here
+		String requestBody = "LoginJSON [username=TestAdmin, password=TestAdmin]";
+
+		logger.info("	request body: " + prettifyJSON(requestBody));
+		HttpUriRequest request = RequestBuilder.create("POST").setUri(URL)
+				.setEntity(new StringEntity(requestBody, ContentType.APPLICATION_JSON))
+				.addHeader("Authorization", token).build();
+
+		HttpResponse response = respond(request);
+		if (response == null) {
+			Assert.fail("response null");
+			return;
+		}
+		Status status = Status.fromStatusCode(response.getStatusLine().getStatusCode());
+
+		Assert.assertEquals(status, expectedStatus);
+	}
 
 	@Test(priority = 0, groups = "POST", dependsOnMethods = "test2GetAssociate")
 	public void test4CreateInterview() throws JsonProcessingException {
@@ -193,7 +210,6 @@ public class SmokeTests {
 		Status expectedStatus = Status.CREATED;
 		String interview = new ObjectMapper().writeValueAsString(new InterviewFromClient(1, 1, 1)); // marshals
 																									// interview
-
 		String URL = domain + URI;
 		logger.info("Testing POST URL = " + URL);
 
@@ -302,8 +318,37 @@ public class SmokeTests {
 	private String prettifyJSON(String JSON) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		JsonParser jp = new JsonParser();
-		JsonElement je = jp.parse(JSON);
 
-		return gson.toJson(je);
+		try {
+			JsonElement je = jp.parse(JSON);
+			return gson.toJson(je);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+			return null;
+		}
 	}
+
+	@Test(priority = 1)
+	public void c() {
+	}
+
+	@Test(priority = 1)
+	public void aa() {
+	}
+
+	@Test(priority = 1)
+	public void aA() {
+	}
+
+	@Test(priority = 1)
+	public void A() {
+	}
+
+	@Test(priority = 1)
+	public void a() {
+	} // uncomment to order tests????????
+		// @Test (priority = 1) public void a_() {}
+		// @Test(priority = 1) public void a1() {}
+		// @Test(priority = 1) public void a2() {}
 }

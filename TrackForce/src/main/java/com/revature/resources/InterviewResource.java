@@ -67,16 +67,15 @@ public class InterviewResource {
 	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
 	public Response createInterview(@PathParam("associateid") int associateid,
 			@HeaderParam("Authorization") String token, InterviewFromClient ifc) {
+		logger.info("createInterview()...");
 		logger.info(ifc);
 		Status status = null;
 		logger.info(token);
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null || !(payload.getId().equals("1") || payload.getId().equals("5"))) {
-			logger.info("inside unautherorized");
 			status = Status.UNAUTHORIZED;
 		} else {
-			logger.info("inside createInterview endpoint");
 			is.addInterviewByAssociate(associateid, ifc);
 			// does service actually work?
 			status = Status.CREATED;
@@ -89,6 +88,7 @@ public class InterviewResource {
 	@ApiOperation(value = "Returns all interviews for an associate", notes = "Returns a list of all interviews.")
 	public Response getAllInterviews(@HeaderParam("Authorization") String token,
 			@PathParam("associateid") Integer associateid) throws HibernateException, IOException {
+		logger.info("getAllInterviews()...");
 		Status status = null;
 		Collection<InterviewInfo> interviews = null;
 		Claims payload = JWTService.processToken(token);
@@ -101,7 +101,6 @@ public class InterviewResource {
 			interviews = is.getInterviewsByAssociate(associateid);
 			logger.info(interviews);
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
-			logger.info("inside get all interviews");
 		}
 
 		return Response.status(status).entity(interviews).build();
@@ -114,6 +113,7 @@ public class InterviewResource {
 	public Response getAssociateInterview(@PathParam("interviewid") Integer interviewid,
 			@PathParam("associateid") Integer associateid, @HeaderParam("Authorization") String token)
 			throws IOException {
+		logger.info("getAssociateInterview()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		InterviewInfo interviews = null;
@@ -137,6 +137,7 @@ public class InterviewResource {
 	public Response updateInterview(@PathParam("associateid") int associateid,
 			@PathParam("interviewid") int interviewid, @HeaderParam("Authorization") String token,
 			InterviewFromClient ifc) {
+		logger.info("updateInterview()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -151,6 +152,5 @@ public class InterviewResource {
 		}
 
 		return Response.status(status).build();
-
 	}
 }

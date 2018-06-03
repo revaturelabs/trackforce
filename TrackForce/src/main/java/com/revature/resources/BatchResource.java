@@ -63,13 +63,19 @@ public class BatchResource {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 
-		Set<BatchInfo> batches = null;
+		Collection<BatchInfo> batches = null;
 		Status status = null;
 		int role = Integer.parseInt(payload.getId());
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
 
 		if (authorizedRoles.contains(role)) {
-			batches = service.getAllBatches();
+			if (startDate != null && endDate != null) {
+				logger.info("	start = " + new Timestamp(startDate));
+				logger.info("	end = " + new Timestamp(endDate));
+				batches = service.getBatches(startDate, endDate);
+			}else {
+				batches = service.getAllBatches();
+			}
 			status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		} else {
 			status = Status.FORBIDDEN;
@@ -91,6 +97,7 @@ public class BatchResource {
 	public Response getBatchesByCurri(@PathParam("curriculum") String curriculum,
 			@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate,
 			@QueryParam("end") Long endDate) {
+		logger.info("getBatchesByCurri()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		Collection<BatchInfo> results = new HashSet<>();
@@ -133,6 +140,7 @@ public class BatchResource {
 	@Path("/{id}")
 	@ApiOperation(value = "Returns a batch", notes = "Returns a specific batch by id.")
 	public Response getBatchById(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
+		logger.info("getBatchById()...");
 		Status status = null;
 		BatchInfo batch = null;
 		Claims payload = JWTService.processToken(token);
@@ -153,6 +161,7 @@ public class BatchResource {
 	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
 	@Path("{id}/associates")
 	public Response getBatchAssociates(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
+		logger.info("getBatchAssociates()...");
 		Claims payload = JWTService.processToken(token);
 		Set<AssociateInfo> associates = null;
 		Status status = null;
@@ -175,14 +184,14 @@ public class BatchResource {
 	// dummy test method: returns ["Yuvi1804", 25],["wills batch", 14] every time
 	@GET
 	@Path("/adam")
-	public Response getSomeBatches() {
+	public Response getAdam() {
+		logger.info("getAdam()...");
 		Bar b = new Bar();
 		b.batchName = "Wills batch";
 		b.size = 14;
 		Set<Bar> sb = new HashSet<>();
 		sb.add(b);
 		sb.add(new Bar());
-		logger.info("getSomeBatches(): " + sb.size());
 		return Response.status(Status.OK).entity(sb).build();
 	}
 }

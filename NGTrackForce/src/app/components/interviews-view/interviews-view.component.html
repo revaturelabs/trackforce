@@ -1,0 +1,48 @@
+<app-navbar [associate]="associate"></app-navbar>
+<div class="container">
+  <div class = "card-deck mb-3 text-center">
+     <div>
+      <h3>Interviews</h3>
+      <table class="table table-responsive table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Interview</th>
+            <th>Client</th>
+            <th>Date Notified</th>
+            <th>Date of Interview</th>
+            <th>Medium</th>
+      		<th>Job Description</th>
+            <th>24 hour notice?</th>
+            <th>Feedback</th>    
+            <!-- <th>Associate Feedback <i class="fa fa-edit" style="font-size:24px"></i> </th>
+            <th>Client Feedback</th>   -->
+            
+             
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let interview of interviews; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{interview.tfClientName}}</td>
+            <td>
+               {{interview.dateAssociateIssued | date:'short'}}     
+            </td>
+            <td> 
+               {{interview.tfInterviewDate | date:'short'}}     
+            </td>
+            <td><select style="width: 100%; height:100% ">
+                <option value="1">Phone</option>
+                     <option value="2">Online</option>
+                     <option value="3">On-site</option>
+                     <option value="4">Skype</option>
+              </select></td>
+            <td>{{interview.jobDescription}}</td>           
+            <td class="flag"><input type="checkbox" id="flag"></td>
+            <td><a [routerLink]="['/interviewDetails']" class="id">view</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

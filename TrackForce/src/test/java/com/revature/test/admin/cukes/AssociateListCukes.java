@@ -30,6 +30,7 @@ public class AssociateListCukes {
 
 		try {
 			Thread.sleep(500);
+
 			AssociateListTab.getAssociateListTab(d).click();
 			System.out.println("Clicked Associate List tab");
 			
@@ -43,11 +44,11 @@ public class AssociateListCukes {
 	public static void associate_list_tab_loads() {
 		try {
 			Thread.sleep(500);
-			if (AssociateListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/associate-listing")
-					|| AssociateListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/associate-list")) {
+			if (AssociateListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/NGTrackForce/associate-listing")
+					|| AssociateListTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/NGTrackForce/associate-list")) {
 				
 			}
-			
+		
 		} catch (Throwable e) {
 			fail("Failed to get current URL");
 			
@@ -459,11 +460,11 @@ public class AssociateListCukes {
 	@When("^I select a client value from the client drop down$")
 	public static void i_select_a_client_value_from_the_client_drop_down() throws Throwable {
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(200);
 			e = AssociateListTab.clientUpdateDropDown(d);
 			e.sendKeys("Revature LLC");
 			System.out.println("Selected value from Client drop down");
-			Thread.sleep(2000);
+			Thread.sleep(200);
 			
 		} catch (Throwable e) {
 			fail("Failed to select value from Client drop down");
@@ -489,11 +490,11 @@ public class AssociateListCukes {
 	public static void i_select_a_update_by_marketing_status_value_from_the_update_by_marketing_status_drop_down(
 			) throws Throwable {
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(200);
 			e = AssociateListTab.updateByMarketingStatusDropDown(d);
 			e.sendKeys("MAPPED: RESERVED");
 			System.out.println("Selected value from Marketing Status drop down");
-			Thread.sleep(2000);
+			Thread.sleep(200);
 			
 		} catch (Throwable e) {
 			fail("Failed to select value from Marketing Status drop down");
@@ -504,14 +505,14 @@ public class AssociateListCukes {
 	@When("^I click an associate checkbox$")
 	public static void i_click_an_associate_checkbox() throws Throwable {
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(200);
 			e = AssociateListTab.editCheckBox(d);
 			e.click();
 			System.out.println("Clicked on the edit associate checkbox");
-			Thread.sleep(2000);
+			Thread.sleep(200);
 			
 		} catch (Throwable e) {
-			fail("Failed to on the edit associate checkbox");
+			fail("Failed to click on the edit associate checkbox");
 			
 		}
 	}
@@ -519,11 +520,11 @@ public class AssociateListCukes {
 	@When("^I click the update button$")
 	public static void i_click_the_update_button() throws Throwable {
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(200);
 			e = AssociateListTab.updateButton(d);
 			e.click();
 			System.out.println("Clicked update button");
-			Thread.sleep(4000);
+			Thread.sleep(200);
 			
 		} catch (Throwable e) {
 			fail("Failed to click update button");

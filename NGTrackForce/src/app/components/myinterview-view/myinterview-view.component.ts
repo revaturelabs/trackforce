@@ -117,11 +117,11 @@ export class MyInterviewComponent implements OnInit {
 
             AFeedback: interview.tfInterviewFeedback,  
 
-            JDescription: "Testing company applications in an agile environment",
+            JDescription: interview.jobDescription,
 
-            date: "June 22, 2018",
-
-            CFeedback: "Impressive interview, final decision will be made soon",    
+            date: new Date(interview.dateAssociateIssued),
+           
+            CFeedback: interview.clientFeedback,    
 
           	Flag: true,
 

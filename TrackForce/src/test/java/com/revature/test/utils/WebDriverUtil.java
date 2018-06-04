@@ -29,7 +29,6 @@ public class WebDriverUtil {
 	}
 	
 	public static WebDriver getChromeDriver() {
-		if (chromeDriver == null) {
 			//doesnt work, for some reason i have to put driver in \sts-3.9.1-RELEASE\src\main\resources
 			//some path like that
 			//like the actual installation of sts, if you get a testNG error, check the stack trace
@@ -41,9 +40,6 @@ public class WebDriverUtil {
 			File f1 = new File(prop.getProperty("chromeDriverPath"));
 			System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
 			chromeDriver = new ChromeDriver();
-			return chromeDriver;
-		}
-		else 
 			return chromeDriver;
 	}
 	

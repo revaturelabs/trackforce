@@ -27,7 +27,7 @@ public class CreateUserCukes extends AdminSuite {
 	@Given("^I click on Create User Tab$")
 	public static void clickCreateUserTab() {
 		try {
-			
+			Thread.sleep(100);
 			CreateUserTab.getCreateUserTab(d).click();
 			
 		} catch (Throwable e) {
@@ -49,11 +49,12 @@ public class CreateUserCukes extends AdminSuite {
 			
 		}
 	}
-
-	@When("^I type in a username$")
-	public static void inputUsername(WebDriver d, String username) {
+	
+	@When("^I type in a \"([^\"]*)\" username$")
+	public void i_type_in_a_username(String username) throws Throwable {
 		try {
 			Thread.sleep(250);
+			CreateUserTab.getUsername(d).clear();
 			CreateUserTab.getUsername(d).sendKeys(username);
 			
 		} catch (Throwable e) {
@@ -62,10 +63,11 @@ public class CreateUserCukes extends AdminSuite {
 		}
 	}
 
-	@When("^I type in a password$")
-	public static void inputPassword(WebDriver d, String password) {
+	@When("^I type in a \"([^\"]*)\" password$")
+	public void i_type_in_a_password(String password){
 		try {
 			Thread.sleep(250);
+			CreateUserTab.getPassword(d).clear();
 			CreateUserTab.getPassword(d).sendKeys(password);
 			
 		} catch (Throwable e) {
@@ -75,10 +77,11 @@ public class CreateUserCukes extends AdminSuite {
 		}
 	}
 
-	@When("^I confirm the password$")
-	public static void inputPasswordConfirm(WebDriver d, String password) {
+	@When("^I confirm the \"([^\"]*)\"$")
+	public void i_confirm_the(String password){
 		try {
 			Thread.sleep(250);
+			CreateUserTab.getPasswordConfirm(d).clear();
 			CreateUserTab.getPasswordConfirm(d).sendKeys(password);
 			
 		} catch (Throwable e) {
@@ -87,9 +90,8 @@ public class CreateUserCukes extends AdminSuite {
 			
 		}
 	}
-
 	@When("^I check the Administrator role$")
-	public static void clickAdminRadio(WebDriver d) {
+	public static void clickAdminRadio() {
 		try {
 			Thread.sleep(250);
 			CreateUserTab.getAdminRadio(d).click();
@@ -102,7 +104,7 @@ public class CreateUserCukes extends AdminSuite {
 	}
 
 	@When("^I check the Manager role$")
-	public static void clickManagerRadio(WebDriver d) {
+	public static void clickManagerRadio() {
 		try {
 			Thread.sleep(250);
 			CreateUserTab.getManagerRadio(d).click();
@@ -114,11 +116,11 @@ public class CreateUserCukes extends AdminSuite {
 		}
 	}
 
-	@When("^I check the VP role$")
-	public static void clickVPRadio(WebDriver d) {
+	@When("^I check the Trainer role$")
+	public static void clickVPRadio() {
 		try {
 			Thread.sleep(250);
-			CreateUserTab.getVPRadio(d).click();
+			CreateUserTab.getTrainerRadio(d).click();
 			
 		} catch (Throwable e) {
 			System.out.println("Failed to click VP radio button");
@@ -128,7 +130,7 @@ public class CreateUserCukes extends AdminSuite {
 	}
 
 	@When("^I check the Associate role$")
-	public static void clickAssociateRadio(WebDriver d) {
+	public static void clickAssociateRadio() {
 		try {
 			Thread.sleep(250);
 			CreateUserTab.getAssociateRadio(d).click();
@@ -139,9 +141,22 @@ public class CreateUserCukes extends AdminSuite {
 			
 		}
 	}
-
+	
+	@When("^I check the Delivary role$")
+	public static void clickDelivaryRadio() {
+		try {
+			Thread.sleep(250);
+			CreateUserTab.getDelivaryRadio(d).click();
+			
+		} catch (Throwable e) {
+			System.out.println("Failed to click Delivary radio button");
+			fail("Failed to click Delivary radio button");
+			
+		}
+	}
+	
 	@Then("^I press submit$")
-	public static void submitForm(WebDriver d) {
+	public static void submitForm() {
 		try {
 			Thread.sleep(250);
 			CreateUserTab.getSubmit(d).click();
@@ -153,23 +168,23 @@ public class CreateUserCukes extends AdminSuite {
 		}
 	}
 
-	@Then("^Cancel the Error pop up if creating the user failed$")
-	public static void cancelAlert(WebDriver d) {
+	@Then("^Pop Up Error should occur$")
+	public static void cancelAlert() {
 		try {
-			Thread.sleep(500);
-			HomeTab.phone(d); //attempt to find the phone link to see if submit was successful and we are on home tab
-			System.out.println("No alert detected; new user creation was successful");
-			 //element click successful; no alert popped up
+			CreateUserTab.getPopup(d);
 		} catch (Throwable e) {
-			System.out.println("Alert detected; new user creation failed");
-			Alert alert = d.switchTo().alert();
-			fail("Alert detected; new user creation failed");
-			alert.dismiss();
-			
-			Actions action= new Actions(d);
-			action.sendKeys(Keys.ESCAPE).perform();
-			action.sendKeys(Keys.ESCAPE);
-			 // alert popped up saying there was error with creating a new user
+			fail("No Pop up created");
+		}
+	}
+	
+	@Then("^Pop Up Error should not occur$")
+	public static void No_popup() {
+		try {
+			if(CreateUserTab.getPopup(d).isDisplayed()) {
+				fail("pop up was created");
+			}
+		} catch (Throwable e) {
+			fail("pop up was created");
 		}
 	}
 }

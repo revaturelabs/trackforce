@@ -14,16 +14,17 @@ public class ServiceHooks {
 	@Before("@HomeTagTest1")
 	public void initializeHomeTabTests(){
 		if(driver==null) {
-		System.out.println("Initializing HomeTab Tests");
-		driver = WebDriverUtil.getChromeDriver();
-		driver.get(TestConfig.getBaseURL());
-		LoginUtil.loginAsAdmin(driver);
-		}
+			System.out.println("Initializing HomeTab Tests");
+			driver = WebDriverUtil.getChromeDriver();
+			driver.get(TestConfig.getBaseURL());
+			LoginUtil.loginAsAdmin(driver);
+			}
 	}
 	
 	@After("@HomeTagTest6")
-	public void closeHomeTagTests(){
-		//driver.close();
+	public void quitHomeTagTests(){
+		driver.quit();
+		driver=null;
 	}
 	
 	@Before("@ClientListStart")
@@ -37,8 +38,9 @@ public class ServiceHooks {
 	}
 	
 	@After("@ClientListEnd")
-	public void closeClientListTests(){
-		//driver.close();
+	public void quitClientListTests(){
+		driver.quit();
+		driver=null;
 	}
 	
 	@Before("@AssociateListStart")
@@ -52,8 +54,9 @@ public class ServiceHooks {
 	}
 	
 	@After("@AssociateListEnd")
-	public void closeAssociateListTests(){
-		//driver.close();
+	public void quitAssociateListTests(){
+		driver.quit();
+		driver=null;
 	}
 
 	@Before("@batchTag1")
@@ -71,14 +74,15 @@ public class ServiceHooks {
 	@Before("@CreateNewAdmin")
 	public void initializeCreateUserTabTests(){
 		if(driver==null) {
-			System.out.println("Initializing HomeTab Tests");
-			driver = WebDriverUtil.getChromeDriver();
-			driver.get(TestConfig.getBaseURL());
-			LoginUtil.loginAsAdmin(driver);
-			}
+		System.out.println("Initializing HomeTab Tests");
+		driver = WebDriverUtil.getChromeDriver();
+		driver.get(TestConfig.getBaseURL());
+		LoginUtil.loginAsAdmin(driver);
+		}
 	}
-	@After("@CreateNewVP")
-	public void closeCreateUserTagTests(){
-		//driver.close();
+	@After("@CreateNewAssociate")
+	public void quitCreateUserTagTests(){
+		driver.quit();
+		driver=null;
 	}
 }

@@ -28,9 +28,9 @@ import com.revature.request.model.InterviewFromClient;
 import com.revature.services.JWTService;
 
 /**
- * TestNG tests for the resource layer against the a live server. These are just
- * a set of non-exhaustive tests that aim at ensuring that the most important
- * functions work hence smoke test. Mostly checks the status codes of the GET
+ * TestNG tests for the resource layer against a live server. These are just a
+ * set of non-exhaustive tests that aim at ensuring that the most important
+ * functions work hence smoke tests. Mostly checks the status codes of the GET
  * resources.
  * 
  * NOTE: tomcat server must be running for these tests to pass
@@ -177,56 +177,26 @@ public class SmokeTests {
 
 		testResource("GET", URI, expectedStatus);
 	}
-	
+
 	@Test(enabled = true, priority = 0, groups = { "POST", "user" })
 	public void test4SubmitCred() {
 		String URI = "users/login";
-		Status expectedStatus = Status.OK; // interview
-		String URL = domain + URI;
-		logger.info("	POST URL = " + URL);
-		//TODO input appropriate string here
+		Status expectedStatus = Status.OK;
 		String requestBody = "{\"username\":\"TestAdmin\",\"password\":\"TestAdmin\"}";
 
-		logger.info("	request body: " + requestBody);
-		logger.info("	request body: " + prettifyJSON(requestBody));
-		HttpUriRequest request = RequestBuilder.create("POST").setUri(URL)
-				.setEntity(new StringEntity(requestBody, ContentType.APPLICATION_JSON))
-				.addHeader("Authorization", token).build();
-
-		HttpResponse response = respond(request);
-		if (response == null) {
-			Assert.fail("response null");
-			return;
-		}
-		Status status = Status.fromStatusCode(response.getStatusLine().getStatusCode());
-
-		Assert.assertEquals(status, expectedStatus);
+		testResource("POST", URI, expectedStatus, requestBody);
 	}
 
-	@Test(priority = 0, groups = "POST", dependsOnMethods = "test2GetAssociate")
+	@Test(priority = 0, groups = "POST", dependsOnMethods = "test3GetInterviews")
 	public void test4CreateInterview() throws JsonProcessingException {
 		String URI = "associates/1/interviews";
 		Status expectedStatus = Status.CREATED;
-		String interview = new ObjectMapper().writeValueAsString(new InterviewFromClient(1, 1, 1)); // marshals
-																									// interview
-		String URL = domain + URI;
-		logger.info("Testing POST URL = " + URL);
-
-		logger.info("	request body: " + prettifyJSON(interview));
-		HttpUriRequest request = RequestBuilder.create("POST").setUri(URL)
-				.setEntity(new StringEntity(interview, ContentType.APPLICATION_JSON)).addHeader("Authorization", token)
-				.build();
-
-		HttpResponse response = respond(request);
-		if (response == null) {
-			return;
-		}
-		Status status = Status.fromStatusCode(response.getStatusLine().getStatusCode());
-
-		Assert.assertEquals(status, expectedStatus);
+		String requestBody = new ObjectMapper().writeValueAsString(new InterviewFromClient(1, 1, 1)); // marshals
+																										// interview
+		testResource("POST", URI, expectedStatus, requestBody);
 	}
 
-	@Test(enabled = true, groups = "PUT", dependsOnMethods = "test2GetAssociate")
+	@Test(enabled = true, groups = "PUT", dependsOnMethods = "test1GetAllAssociates")
 	public void verifyAssociate() {
 		String URI = "associates/1/verify";
 		Status expectedStatus = Status.NO_CONTENT;
@@ -246,14 +216,20 @@ public class SmokeTests {
 	 * @throws IOException
 	 * @throws UnsupportedOperationException
 	 */
-	private boolean testResource(String method, String URI, Status expectedStatus) {
+	private void testResource(String method, String URI, Status expectedStatus, String requestBody) {
 		logger.info("GET " + URI);
 		String URL = domain + URI;
-		HttpUriRequest request = RequestBuilder.create(method).setUri(URL).addHeader("Authorization", token).build();
+
+		RequestBuilder rBuilder = RequestBuilder.create(method).setUri(URL).addHeader("Authorization", token);
+		if (!requestBody.equals("")) {
+			logger.info("	request body: " + prettifyJSON(requestBody));
+			rBuilder.setEntity(new StringEntity(requestBody, ContentType.APPLICATION_JSON));
+		}
+		HttpUriRequest request = rBuilder.build();
 		HttpResponse response = respond(request);
+
 		if (response == null) {
 			Assert.fail("Response is null. Possible IOException");
-			return false;
 		}
 		Status status = Status.fromStatusCode(response.getStatusLine().getStatusCode());
 
@@ -279,8 +255,11 @@ public class SmokeTests {
 		// }else {
 		// logger.info(" pojo: " + obj.getClass() + " = \n\t" + obj);
 		// }
+	}
 
-		return status == expectedStatus;
+	// optional request body
+	private void testResource(String method, String URI, Status expectedStatus) {
+		testResource(method, URI, expectedStatus, "");
 	}
 
 	/**
@@ -328,26 +307,26 @@ public class SmokeTests {
 		}
 	}
 
-//	@Test(priority = 1)
-//	public void c() {
-//	}
-//
-//	@Test(priority = 1)
-//	public void aa() {
-//	}
-//
-//	@Test(priority = 1)
-//	public void aA() {
-//	}
-//
-//	@Test(priority = 1)
-//	public void A() {
-//	}
-//
-//	@Test(priority = 1)
-//	public void a() {
-//	} // uncomment to order tests????????
-		// @Test (priority = 1) public void a_() {}
-		// @Test(priority = 1) public void a1() {}
-		// @Test(priority = 1) public void a2() {}
+	// @Test(priority = 1)
+	// public void c() {
+	// }
+	//
+	// @Test(priority = 1)
+	// public void aa() {
+	// }
+	//
+	// @Test(priority = 1)
+	// public void aA() {
+	// }
+	//
+	// @Test(priority = 1)
+	// public void A() {
+	// }
+	//
+	// @Test(priority = 1)
+	// public void a() {
+	// } // uncomment to order tests????????
+	// @Test (priority = 1) public void a_() {}
+	// @Test(priority = 1) public void a1() {}
+	// @Test(priority = 1) public void a2() {}
 }

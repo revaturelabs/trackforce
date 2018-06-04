@@ -7,9 +7,7 @@ import java.io.IOException;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.ParseException;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ContentType;
@@ -180,15 +178,16 @@ public class SmokeTests {
 		testResource("GET", URI, expectedStatus);
 	}
 	
-	@Test(enabled = false, priority = 0, groups = { "POST", "user" })
+	@Test(enabled = true, priority = 0, groups = { "POST", "user" })
 	public void test4SubmitCred() {
 		String URI = "users/login";
 		Status expectedStatus = Status.OK; // interview
 		String URL = domain + URI;
-		logger.info("Testing POST URL = " + URL);
+		logger.info("	POST URL = " + URL);
 		//TODO input appropriate string here
-		String requestBody = "LoginJSON [username=TestAdmin, password=TestAdmin]";
+		String requestBody = "{\"username\":\"TestAdmin\",\"password\":\"TestAdmin\"}";
 
+		logger.info("	request body: " + requestBody);
 		logger.info("	request body: " + prettifyJSON(requestBody));
 		HttpUriRequest request = RequestBuilder.create("POST").setUri(URL)
 				.setEntity(new StringEntity(requestBody, ContentType.APPLICATION_JSON))
@@ -329,25 +328,25 @@ public class SmokeTests {
 		}
 	}
 
-	@Test(priority = 1)
-	public void c() {
-	}
-
-	@Test(priority = 1)
-	public void aa() {
-	}
-
-	@Test(priority = 1)
-	public void aA() {
-	}
-
-	@Test(priority = 1)
-	public void A() {
-	}
-
-	@Test(priority = 1)
-	public void a() {
-	} // uncomment to order tests????????
+//	@Test(priority = 1)
+//	public void c() {
+//	}
+//
+//	@Test(priority = 1)
+//	public void aa() {
+//	}
+//
+//	@Test(priority = 1)
+//	public void aA() {
+//	}
+//
+//	@Test(priority = 1)
+//	public void A() {
+//	}
+//
+//	@Test(priority = 1)
+//	public void a() {
+//	} // uncomment to order tests????????
 		// @Test (priority = 1) public void a_() {}
 		// @Test(priority = 1) public void a1() {}
 		// @Test(priority = 1) public void a2() {}

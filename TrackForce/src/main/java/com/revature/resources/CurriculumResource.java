@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
 
-import com.revature.model.InterviewInfo;
+import com.revature.model.CurriculumInfo;
 import com.revature.services.CurriculumService;
 import com.revature.services.JWTService;
 
@@ -29,29 +29,30 @@ import io.swagger.annotations.ApiOperation;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class CurriculumResource {
+	private CurriculumService service;
 
-    private CurriculumService service;
+	public CurriculumResource() {
+		this.service = new CurriculumService();
+	}
 
-    public CurriculumResource() {
-        this.service = new CurriculumService();
-    }
-	
-    @GET
-    @ApiOperation(value = "Returns all curriculums", notes = "Returns a list of all curriculums.")
-	public Response getAllCurriculums(@HeaderParam("Authorization") String token) throws HibernateException, IOException
-    {
-    	Status status = null;
+	@GET
+	@ApiOperation(value = "Returns all curriculums", notes = "Returns a list of all curriculums.")
+	public Response getAllCurriculums(@HeaderParam("Authorization") String token)
+			throws HibernateException, IOException {
+		logger.info("getAllCurriculums()...");
+		Status status = null;
+		Set<CurriculumInfo> skills = null;
 		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || !payload.getId().equals("1")) 
-		{
-			return Response.status(status).build();
-		} 
 		
-		else 
-		{
-			return Response.ok(service.getCurriculums()).build();
+		if (payload == null) { // invalid token
+			status = Status.UNAUTHORIZED;
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("1"))) { // wrong roleid
+			status = Status.FORBIDDEN;
+		} else {
+			skills = service.getCurriculums();
+			status = skills == null || skills.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
-		
+
+		return Response.status(status).entity(skills).build();
 	}
 }

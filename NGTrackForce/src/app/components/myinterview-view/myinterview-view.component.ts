@@ -7,6 +7,7 @@ import { ClientService } from '../../services/client-service/client.service';
 
 import { Interview } from '../../models/interview.model';
 import { InterviewService } from '../../services/interview-service/interview.service';
+import { Client } from '../../models/client.model';
 
 
 /**
@@ -31,11 +32,17 @@ export class MyInterviewComponent implements OnInit {
   public newInterview: Interview = new Interview();
   public formOpen: boolean = false;
   public conflictingInterviews: string = "";
+  public interviewDate: Date = new Date();
+  public interviewDateNotification: Date = new Date();
+  public clients: Client [];
+
+
 
   constructor(
     private associateService: AssociateService,
     private activated: ActivatedRoute,
-    private interviewService: InterviewService
+    private interviewService: InterviewService,
+    private clientService: ClientService
 
   
   
@@ -47,6 +54,9 @@ export class MyInterviewComponent implements OnInit {
     this.id = +this.activated.snapshot.paramMap.get('id');
     this.getInterviews(this.id);
     this.getAssociate(this.id);
+    this.getClientNames();
+    // console.log(this.clients)
+
   }
 
   toggleForm() {
@@ -54,11 +64,18 @@ export class MyInterviewComponent implements OnInit {
   }
 
   addInterview(){
-    console.log(this.newInterview);
-    console.log("test")
- 
-    this.newInterview.typeName = 30;
-    console.log(this.newInterview.typeName);
+
+    this.newInterview.associateId = this.id
+    this.newInterview.interviewDate = new Date(this.interviewDate).getTime()
+    this.newInterview.dateAssociateIssued = new Date(this.interviewDateNotification).getTime()
+    this.newInterview.jobDescription = "none available";
+    this.newInterview.flagAlert = 0;
+    this.newInterview.was24HRNotice = (this.newInterview.was24HRNotice*1)
+
+  
+
+    console.log(JSON.stringify(this.newInterview));  
+    console.log(this.newInterview)
 
 
 
@@ -159,6 +176,14 @@ saveInterview(interview:Interview){
 
 
 }
+getClientNames() {
+  var self = this;
+  this.clientService.getAllClients().subscribe(data => {
+    self.clients = data;
+    console.log(this.clients);
+  });
+}
+
 
 
 }

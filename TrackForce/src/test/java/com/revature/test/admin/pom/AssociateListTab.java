@@ -42,7 +42,7 @@ public class AssociateListTab {
 
 	// Search By Text input field
 	public static WebElement searchByTextInputField(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("associateText")), 2);
+		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("associateText")), 2);
 	}
 
 	// *************DROP DOWNS ****************************

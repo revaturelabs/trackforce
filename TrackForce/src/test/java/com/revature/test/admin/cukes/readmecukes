@@ -9,6 +9,9 @@ The previous batch didn't use this so I'm just going to use it as a todo for the
 	but there's still too much xpath in the properties file - should be able to swap most of it
 	out for css selectors	
 	
+-Right now we're using tests.properties, which more or less entirely works with xpaths, 
+	experimentalTests.properties uses cssSelectors and is only partially working
+	
 -There's a set of feature files in com.revature.test.admin.testclasses and /another/ set in 
 	src/test/resources/AdminFeatureFiles.  The ones in test/java are actual scenarios, the ones
 	in test/resources are just scenario outlines.  I'm still not sure why the previous batch did

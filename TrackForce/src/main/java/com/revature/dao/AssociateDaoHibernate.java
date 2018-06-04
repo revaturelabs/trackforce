@@ -136,7 +136,6 @@ public class AssociateDaoHibernate implements AssociateDao {
 			}
 			
 			TfMarketingStatus status = null;
-			//TODO: NEEDS TESTING
 			if(afc.getMkStatus() != 0) {
 				status = (TfMarketingStatus) session.load(TfMarketingStatus.class, afc.getMkStatus());
 			}
@@ -159,7 +158,6 @@ public class AssociateDaoHibernate implements AssociateDao {
 					&& status.getTfMarketingStatusName() != null) {
 				tfAssociate.setTfMarketingStatus(status);
 			}
-			//TODO: NEEDS TESTING
 			if(afc.getStartDateUnixTime() != 0) {
 				tfAssociate.setTfClientStartDate(Timestamp.from(Instant.ofEpochSecond(
 						afc.getStartDateUnixTime())));

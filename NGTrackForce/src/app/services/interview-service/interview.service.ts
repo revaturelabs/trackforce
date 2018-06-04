@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Interview } from '../../models/interview.model';
-import { environment } from "../../../environments/environment";
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class InterviewService {
@@ -26,6 +26,13 @@ export class InterviewService {
     return this.http.get(url);
   }
 
+  /**
+  * Get all of the associates
+  */
+  public getAllInterviews(): Observable<any> {
+    let url: string = environment.url + '/interviews';
+    return this.http.get(url);
+  }
 
   
 

@@ -41,7 +41,9 @@ public class CreateUserCukes extends AdminSuite {
 	public static void loadedCreateUserTab() {
 		try {
 			Thread.sleep(500);
-			assertEquals(CreateUserTab.getCurrentURL(d),TestConfig.getBaseURL()+"/create-user");
+			System.out.println(CreateUserTab.getCurrentURL(d));
+			System.out.println(TestConfig.getBaseURL()+"/create-user");
+			assertEquals(CreateUserTab.getCurrentURL(d),TestConfig.getBaseURL()+"create-user");
 			
 		} catch (Throwable e) {
 			System.out.println("Failed to get current URL");

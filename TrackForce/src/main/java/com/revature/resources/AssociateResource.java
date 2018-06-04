@@ -103,7 +103,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 		AssociateInfo associateinfo = null;
 
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null || false) {
 			status = Status.UNAUTHORIZED;
 		}
 

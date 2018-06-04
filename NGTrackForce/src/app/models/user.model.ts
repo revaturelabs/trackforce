@@ -10,4 +10,5 @@
      tfRoleId: number;
      userId: number;
      token: string;
+     associateId: number;
  }

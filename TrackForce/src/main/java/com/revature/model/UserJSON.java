@@ -69,7 +69,7 @@ public class UserJSON {
 
 	@Override
 	public String toString() {
-		return "UserJSON [username=" + username + ", tfRoleId=" + tfRoleId + ", token=" + token + ", userId=" + userId
-				+ ", associateId=" + associateId + "]";
+		return "UserJSON [username=" + username + ", tfRoleId=" + tfRoleId + ", token=" + token +
+				", userId=" + userId + "]";
 	}
 }

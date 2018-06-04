@@ -1,0 +1,35 @@
+table {
+  border-width: 2px;
+}
+
+.info td:first-child {
+  font-weight: bold;
+}
+
+.container{
+	margin-bottom : 90px;
+	margin-top:150px;
+}
+thead, tbody {
+  background-color: #fff;
+}
+
+.toggledContainer {
+  min-height: 300px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-top: 5px;
+  background-color: white;
+  border: 2px solid lightgrey;
+}
+.flag {
+  /* width: 4px; */
+  width: 4%;
+}
+.id {
+	text-decoration: underline;
+}
+
+.fa{
+  display: inline;
+}

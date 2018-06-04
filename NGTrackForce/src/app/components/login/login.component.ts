@@ -81,8 +81,8 @@ export class LoginComponent implements OnInit {
   */
   ngOnInit() {
     const user = this.authService.getUser();
-    
-    
+
+
     if (user != null){
       if(user.tfRoleId === 5){
 
@@ -96,20 +96,17 @@ export class LoginComponent implements OnInit {
       else{
       	//console.log(user.name);
       	this.getUser(user.userId);
-      	console.log(this.associate.firstname);
         this.router.navigate(['root']);
       }
-
     }
-
   }
   /**
   * Enter the register state
   */
-  
+
   getUser(id)
   {
-  	
+
     this.associateService.getAssociate(id).subscribe(
       data => {
         this.associate = data;
@@ -117,7 +114,7 @@ export class LoginComponent implements OnInit {
       err => {
         console.log(err);
     });
-  
+
   }
   register(){
     this.errMsg = "";
@@ -162,7 +159,7 @@ export class LoginComponent implements OnInit {
   next(){
 	  this.registerPage = 1;
   }
-  
+
   /**
    * Change the current page to username and password
    */

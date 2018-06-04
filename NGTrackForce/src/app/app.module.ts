@@ -30,7 +30,7 @@ import { AssociateViewComponent } from './components/associate-view/associate-vi
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PredictionsComponent } from './components/predictions/predictions.component';
 import { MyInterviewComponent } from './components/myinterview-view/myinterview-view.component';
-
+import { InterviewsComponent } from './components/interviews-view/interviews-view.component';
 ///
 //  SERVICES
 ///
@@ -90,7 +90,8 @@ import { InterviewDetailsComponent } from './components/interview-details/interv
     NotFoundComponent,
     PredictionsComponent,
     MyInterviewComponent,
-    InterviewDetailsComponent
+    InterviewDetailsComponent,
+	InterviewsComponent
   ],
   imports: [
     BrowserModule,

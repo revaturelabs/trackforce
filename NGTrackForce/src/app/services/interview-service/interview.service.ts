@@ -27,7 +27,7 @@ export class InterviewService {
   * Get all of the associates
   */
   public getAllInterviews(): Observable<any> {
-    let url: string = environment.url + '/interviews';
+    let url: string = environment.url + 'TrackForce/interviews';
     return this.http.get(url);
   }
 

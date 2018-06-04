@@ -228,6 +228,27 @@ public class AssociateDaoHibernate implements AssociateDao {
 		return setInfo;
 	}
 
+	@Override
+	public void updateAssociateVerification(int associateid) {
+		Transaction t = null;
+		Session session = HibernateUtil.getSession();
+		try {
+			t = session.beginTransaction();
+			TfAssociate tfAssociate = (TfAssociate) session.load(TfAssociate.class, associateid);
+			tfAssociate.setIsApproved(TfAssociate.APPROVED);
+			logger.debug(tfAssociate);
+			PersistentStorage.getStorage().updateAssociate(associateid);
+			session.saveOrUpdate(tfAssociate);
+			t.commit();
+			logger.info("Approved Associate with ID: " + associateid);
+		} catch (HibernateException e) {
+			if (t != null) {
+				t.rollback();
+			}
+			logger.error(e);
+		}
+	}
+
 	public void createAssociate(String firstname, String lastname) {
 		Transaction tr = null;
 		Session session = HibernateUtil.getSession();
@@ -250,12 +271,6 @@ public class AssociateDaoHibernate implements AssociateDao {
 			session.close();
 		}
 
-	}
-
-	@Override
-	public void updateAssociateVerification(int associateid) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

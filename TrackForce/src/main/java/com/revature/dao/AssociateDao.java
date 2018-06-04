@@ -23,5 +23,4 @@ public interface AssociateDao {
 	public void updateAssociateVerification(int associateid);
 	public void createAssociate(String firstname, String lastname);
 
-
 }

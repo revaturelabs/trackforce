@@ -168,9 +168,7 @@ public class AssociateService {
 	
 	
 	
-
 	public void createAssociate(String firstname, String lastname) {
 		associateDao.createAssociate(firstname, lastname);
 	}
-
 }

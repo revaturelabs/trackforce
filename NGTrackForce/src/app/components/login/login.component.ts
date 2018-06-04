@@ -178,6 +178,7 @@ export class LoginComponent implements OnInit {
           const user = this.authService.getUser();
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
+          console.log(user);
           if(user.tfRoleId === 5){
             this.router.navigate(['associate-view', user.userId]);
           } else {

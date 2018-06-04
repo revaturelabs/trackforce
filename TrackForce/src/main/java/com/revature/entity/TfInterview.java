@@ -70,6 +70,8 @@ public class TfInterview implements java.io.Serializable {
 	private String tfFlagReason;
 	@Column(name = "TF_IS_CLIENT_FEEDBACK_VISIABLE")
 	private Integer tfIsClientFeedbackVisible = 0;
+	
+	
 
 	public TfInterview() {
 	}
@@ -280,7 +282,6 @@ public class TfInterview implements java.io.Serializable {
 	 */
 	public void setTfIsClientFeedbackVisible(Integer tfIsClientFeedbackVisible) {
 		this.tfIsClientFeedbackVisible = tfIsClientFeedbackVisible;
-
 	}
 	
 	/**
@@ -306,7 +307,6 @@ public class TfInterview implements java.io.Serializable {
 	 */
 	public void setTfWas24HRNotice(Integer tfWas24HRNotice) {
 		this.tfWas24HRNotice = tfWas24HRNotice;
-
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

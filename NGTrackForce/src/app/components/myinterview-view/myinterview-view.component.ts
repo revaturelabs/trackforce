@@ -106,7 +106,7 @@ export class MyInterviewComponent implements OnInit {
         for (let i=0;i<data.length;i++) {
 
           let interview = data[i];
-
+          console.log(interview);
           let intObj = {
 
             id: interview.id,

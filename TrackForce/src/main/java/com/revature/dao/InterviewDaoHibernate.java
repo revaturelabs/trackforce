@@ -179,7 +179,6 @@ public class InterviewDaoHibernate implements InterviewDao {
 			newInterview.setTfInterviewId(id);
 
 			// ---Start Getting Objects from other Tables
-
 			newInterview.setTfAssociate(session.get(TfAssociate.class, parmInterview.getTfAssociate()));
 			newInterview.setTfClient(session.get(TfClient.class, parmInterview.getTfClient()));
 			newInterview.setTfEndClient(session.get(TfEndClient.class, parmInterview.getTfEndClient()));
@@ -197,7 +196,6 @@ public class InterviewDaoHibernate implements InterviewDao {
 			newInterview.setTfWas24HRNotice(parmInterview.getTfWas24HRNotice());
 			newInterview.setTfQuestionGiven(parmInterview.getTfQuestionGiven());
 			
-
 
 			session.saveOrUpdate(newInterview);
 			dbTransaction.commit();
@@ -268,6 +266,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 				tobeUpdatedInteview.setTfWas24HRNotice(parmInterview.getTfWas24HRNotice());
 			if (parmInterview.getTfQuestionGiven() != null)
 				tobeUpdatedInteview.setTfQuestionGiven(parmInterview.getTfQuestionGiven());
+			
 			session.saveOrUpdate(tobeUpdatedInteview);
 			dbTransaction.commit();
 			return true;

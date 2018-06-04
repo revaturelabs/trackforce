@@ -26,12 +26,7 @@
         <tbody>
           <tr *ngFor="let interview of interviews; let i = index">
             <td>{{i+1}}</td>
-            <td><select style="width: 100%; height:100% ">
-              <option >Infosys</option>
-              <option >Accenture Federal Services</option>
-              <option >FINRA</option>
-              <option >Wipro</option>
-            </select></td>
+            <td>{{interview.client}}</td>
             <td [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'red':''}">
                 <div *ngIf='!interview.isDateAvailable; else dateEdit2'> 
                     {{interview.date | date:'short'}}<button type="button" (click)='showAvailableDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>
@@ -43,12 +38,7 @@
               {{interview.DInterview}}<button type="button" (click)='showInputDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>
               <ng-template #dateEdit><input id="date" #date2 type="date"> <button type="button" (click)='showInputDate(interview,date2.value)'> <i class="fa fa-edit" style="font-size:24px"></i></button></ng-template>
             </td>
-            <td><select style="width: 100%; height:100% ">
-                <option value="1">Phone</option>
-                     <option value="2">Online</option>
-                     <option value="3">On-site</option>
-                     <option value="4">Skype</option>
-              </select></td>
+            <td>{{interview.type}}</td>
             <td>{{interview.JDescription}}</td>           
             <td class="flag"><input type="checkbox" id="flag"></td>
             <td><a [routerLink]="['/interviewDetails']" class="id">view</a></td>

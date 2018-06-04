@@ -51,9 +51,7 @@ import io.swagger.annotations.ApiParam;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AssociateResource {
-
 	private AssociateService service = new AssociateService();
-	private JWTService jService = new JWTService();
 	private UserService userService;
 
 	public AssociateResource() {
@@ -78,6 +76,7 @@ public class AssociateResource {
 			+ " curriculum, replaces them with blanks. If associate has no client, replaces\r\n"
 			+ " it with \"None\".", response = AssociateInfo.class, responseContainer = "Set")
 	public Response getAllAssociates(@HeaderParam("Authorization") String token) {
+		logger.info("getAllAssociates()...");
 		Status status = null;
 		Set<AssociateInfo> associates = null;
 		Claims payload = JWTService.processToken(token);
@@ -92,6 +91,28 @@ public class AssociateResource {
 		}
 
 		return Response.status(status).entity(associates).build();
+	}
+
+	@GET
+	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = AssociateInfo.class)
+	@Path("/{associateid}")
+	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("associateid") int associateid,
+			@HeaderParam("Authorization") String token) {
+		logger.info("getAssociate()...");
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+		AssociateInfo associateinfo = null;
+
+		if (payload == null || false) {
+			status = Status.UNAUTHORIZED;
+		}
+
+		else {
+			associateinfo = service.getAssociate(associateid);
+			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
+		}
+
+		return Response.status(status).entity(associateinfo).build();
 	}
 
 	/**
@@ -111,6 +132,7 @@ public class AssociateResource {
 			@DefaultValue("0") @ApiParam(value = "marketing status id") @QueryParam("marketingStatusId") Integer marketingStatusId,
 			@DefaultValue("0") @ApiParam(value = "client id") @QueryParam("clientId") Integer clientId,
 			List<Integer> ids) {
+		logger.info("updateAssociates()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -131,7 +153,9 @@ public class AssociateResource {
 	@Path("/{associateId}/marketing")
 	public Response updateAssociateMarketingStatus(@HeaderParam("Authorization") String token,
 			@PathParam("associateId") Integer id) {
-		logger.info("method for marketing is hit");
+
+		logger.info("updateAssociateMarketingStatus()...");
+
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -151,7 +175,7 @@ public class AssociateResource {
 	@Consumes("application/json")
 	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new user")
 	public Response createNewAssociate(CreateAssociateModel newAssociate) {
-		LogUtil.logger.info("createAssociate got hit");
+		logger.info("createNewAssociate()...");
 		LogUtil.logger.info(newAssociate);
 		// SuccessOrFailMessage msg = service.createNewAssociate(newAssociate);
 		// if (msg.getStatus()) {
@@ -166,30 +190,10 @@ public class AssociateResource {
 	}
 
 	@GET
-	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = AssociateInfo.class)
-	@Path("/{associateid}")
-	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("associateid") int associateid,
-			@HeaderParam("Authorization") String token) {
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-		AssociateInfo associateinfo = null;
-
-		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
-		}
-
-		else {
-			associateinfo = service.getAssociate(associateid);
-			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
-		}
-
-		return Response.status(status).entity(associateinfo).build();
-	}
-
-	@GET
 	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.")
 	@Path("/mapped/{statusId}")
 	public Response getMappedInfo(@PathParam("statusId") int statusId, @HeaderParam("Authorization") String token) {
+		logger.info("getMappedInfo()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		Map<Integer, ClientMappedJSON> mappedStats = null;
@@ -211,6 +215,7 @@ public class AssociateResource {
 	@GET
 	@Path("unmapped/{statusId}")
 	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
+		logger.info("getUnmappedInfo()...");
 		return Response.ok(service.getUnmappedInfo(statusId)).build();
 	}
 
@@ -233,6 +238,7 @@ public class AssociateResource {
 	@Path("/{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, AssociateFromClient afc,
 			@HeaderParam("Authorization") String token) {
+		logger.info("updateAssociate()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -249,11 +255,13 @@ public class AssociateResource {
 	}
 
 	/*** OPTION 2 ***/
+	//TODO MOVE OUT HIBERNATE CODE
 	@PUT
 	@ApiOperation(value = "updates associate values", notes = "The method updates start date of the client.")
 	@Path("/{associateId}/{startDate}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, @PathParam("startDate") String startDate,
 			@HeaderParam("Authorization") String token) {
+		logger.info("updateAssociate2()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -299,6 +307,8 @@ public class AssociateResource {
 	@Path("/{associateId}/verify")
 	public Response updateAssociateVerification(@PathParam("associateId") Integer id,
 			@HeaderParam("Authorization") String token) {
+		logger.info("updateAssociateVerification()...");
+
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -311,7 +321,8 @@ public class AssociateResource {
 		return Response.status(status).build();
 	}
 
-	@ApiOperation(value = "returns all interviews for associate", notes = "Gets a list of all interviews for a specific associate.")
+
+	@ApiOperation(value = "-pulls our subresource interviews", notes = "pulls our subresource interviews")
 	@Path("/{associateid}/interviews")
 	public InterviewResource addAssociateInterview() {
 		return new InterviewResource();

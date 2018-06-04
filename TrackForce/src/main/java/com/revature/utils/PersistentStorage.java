@@ -215,7 +215,16 @@ public class PersistentStorage {
 		AssociateInfo ai = this.associates.get(id);
 		ai.setMarketingStatusId(mkStatus);
 		Map<Integer, MarketingStatusInfo> map = getMarketingAsMap();
-		ai.setMarketingStatus(map.get(mkStatus).getName());
+		
+		///////////////////////////////////////////////////////////////
+		for(int i=1; i<13; i++)
+		{
+			System.out.println("Map entry number " + i + " = " + map.get(i));
+		}
+		///////////////////////////////////////////////////////////////
+		
+		ai.setMarketingStatus(map.get(mkStatus).getName());///////////////////////////////////////////
+		
 		ai.setClientStartDate(startDateTime);
 		ClientInfo cl = getClient(clientId);
 		ai.setClid(clientId);

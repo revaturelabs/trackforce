@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="TrackForce">
-		<class>model.TfAssociate</class>
-		<class>model.TfBatch</class>
-		<class>model.TfBatchLocation</class>
-		<class>model.TfClient</class>
-		<class>model.TfCurriculum</class>
-		<class>model.TfEndClient</class>
-		<class>model.TfInterview</class>
-		<class>model.TfInterviewType</class>
-		<class>model.TfMarketingStatus</class>
-		<class>model.TfPlacement</class>
-		<class>model.TfRole</class>
-		<class>model.TfUser</class>
 	</persistence-unit>
 </persistence>

@@ -18,10 +18,10 @@
 	<test name="Resources tests" preserve-order="true">
 		<groups>
 			<run>
-				<!-- <include name="GET"  /> -->
+				<!-- <include name="GET"  />
 				<exclude name="PUT"  />
 				<exclude name="POST"  />
-				<exclude name="DELETE"  />
+				<exclude name="DELETE"  /> -->
 			</run>
 		</groups>
 		<packages>

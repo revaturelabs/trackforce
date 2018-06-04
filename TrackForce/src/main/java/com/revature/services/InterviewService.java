@@ -13,6 +13,7 @@ import java.util.TreeSet;
 
 import com.revature.dao.InterviewDao;
 import com.revature.dao.InterviewDaoHibernate;
+import com.revature.entity.TfInterview;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.InterviewFromClient;
 
@@ -43,7 +44,11 @@ public class InterviewService {
 		return interviews;
 	}
 
-	/** Sorting should to be done by ordering in dao layer.
+
+	/**
+	 * Sorting should to be done by ordering in dao layer.
+	 * 
+
 	 * @author Ian Buitrago
 	 */
 	public ArrayList<InterviewInfo> getAllInterviews(String sort) {
@@ -63,6 +68,10 @@ public class InterviewService {
 
 	public void addInterviewByAssociate(int associateId, InterviewFromClient ifc) {
 		interviewDao.addInterviewForAssociate(associateId, ifc);
+	}
+
+	public void updateInterview(int associateId, InterviewFromClient ifc) {
+		interviewDao.updateInterview(associateId, ifc);
 	}
 
 	public List<InterviewInfo> getInterviewConflicts(int associateId) throws IOException {
@@ -89,21 +98,13 @@ public class InterviewService {
 
 		return conflicts;
 	}
-	
+
+	public InterviewInfo getInterviewByAssociateAndInterviewid(Integer associateId, Integer interviewid)
+			throws IOException {
+		return interviewDao.getInterviewsByAssociate(associateId).get(interviewid);
+	}
+
 	public Collection<InterviewInfo> getInterviewsByAssociate(int associateId) throws IOException {
 		return interviewDao.getInterviewsByAssociate(associateId).values();
 	}
-	
-	public Set<InterviewInfo> getInterviewsByAssociateAndInterviewid(Integer associateId, Integer interviewid) throws IOException {
-		Collection<InterviewInfo> allInterviews = interviewDao.getInterviewsByAssociate(associateId).values();
-		Set<InterviewInfo> specificInterview = new TreeSet<InterviewInfo>();
-		for (InterviewInfo x : allInterviews) {
-			if (x.getId() == interviewid) {
-				specificInterview.add(x);
-				break;
-			}
-		}
-		return specificInterview;
-	}
-
 }

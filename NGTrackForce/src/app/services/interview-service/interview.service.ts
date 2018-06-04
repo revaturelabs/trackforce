@@ -21,6 +21,15 @@ export class InterviewService {
     // )
     ;
 
+
+
+
+
+  }
+  
+  public  getInterviews(id: number): Observable<any> {
+    let url: string = environment.url +"TrackForce/api/" + "associates" + "/"+id+"/interviews";
+    return this.http.get(url);
   }
 
   /**

@@ -5,6 +5,7 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../services/client-service/client.service';
+import { userInfo } from 'os';
 /**
 *@author Michael Tseng
 *
@@ -38,7 +39,9 @@ export class AssociateViewComponent implements OnInit {
     //gets the associate id from the path
     //the '+' coerces the parameter into a number
     let id = +this.activated.snapshot.paramMap.get('id');
-    this.getAssociate(id);
+    
+    let a = this.getAssociate(id);
+
     this.getClients();
   }
 
@@ -52,9 +55,10 @@ export class AssociateViewComponent implements OnInit {
     this.associateService.getAssociate(id).subscribe(
       data => {
         this.associate = data;
+        console.log("yes" + this.associate.firstName)
       },
       err => {
-        console.log(err);
+        console.log("bah humbug");
     });
   }
 

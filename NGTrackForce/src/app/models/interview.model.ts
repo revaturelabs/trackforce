@@ -15,7 +15,4 @@ export class Interview {
    questions: string;
    was24HRNotice: number;
    flagAlert: number;
-
-
-
 }

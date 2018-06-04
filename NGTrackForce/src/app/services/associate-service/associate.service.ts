@@ -83,12 +83,12 @@ export class AssociateService {
   }
 
   getInterviewsForAssociate(id: number): Observable<any> {
-    let url: string = environment.url + this.associatePath + "/"+id+"/interviews/";
+    let url: string = environment.url + "TrackForce/"+id;
     return this.http.get(url);
   }
 
   addInterviewForAssociate(id: number,interview: any): Observable<any> {
-    let url: string = environment.url + this.associatePath + "/"+id+"/interviews/";
+    let url: string = environment.url +"TrackForce/api/" + "associates" + "/"+id+"/interviews";
     return this.http.post(url, interview);
   }
 }

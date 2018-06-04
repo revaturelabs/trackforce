@@ -11,6 +11,8 @@ import { UserService } from '../../services/user-service/user.service';
 import {trigger,state,style,transition,animate,keyframes} from '@angular/animations';
 import { AssociateService } from '../../services/associate-service/associate.service';
 
+const associateInfo = 'associateInfo'
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -83,7 +85,13 @@ export class LoginComponent implements OnInit {
 
     if (user != null){
       if(user.tfRoleId === 5){
-        this.router.navigate(['associate-view', user.userId]);
+
+       // this.router.navigate(['associate-view', user.userId]);
+
+        localStorage.setItem(associateInfo, JSON.stringify(user));
+        console.log(user.associateId);
+        this.router.navigate(['associate-view', user.associateId]);
+
       }
       else{
       	//console.log(user.name);
@@ -175,8 +183,11 @@ export class LoginComponent implements OnInit {
           const user = this.authService.getUser();
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
+          console.log(user);
+        
           if(user.tfRoleId === 5){
-            this.router.navigate(['associate-view', user.userId]);
+            this.router.navigate(['associate-view', user.associateId]);
+
           } else {
             //otherwise, they are set to root
             this.router.navigate(['root']);

@@ -54,8 +54,7 @@ describe('Confirm login failures', () => {
     page.getUsernameInput().sendKeys('1234');
     page.getPasswordInput().sendKeys('password');
     page.getLoginButton().click();
-    browser.sleep(200);
-    expect(page.getFailedLoginResponse()).toEqual('Invalid username and/or password');
+    expect(page.getFailedLoginResponse()).toEqual('The login service could not be reached');
   });
 
 });

@@ -7,20 +7,33 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
+    './e2e/register-associate/register-associate.e2e-spec.ts',
     './e2e/login/login.e2e-spec.ts',
 
+<<<<<<< HEAD
     // './e2e/navbar/navbar.e2e-spec.ts',
+=======
+    './e2e/navbar/navbar.e2e-spec.ts',
+>>>>>>> registration-specs-andy
     './e2e/create-user/create-user.e2e-spec.ts',
     './e2e/predictions/predictions.e2e-spec.ts',
     './e2e/client-list/client-list-spec.ts',
     // './e2e/app/app.e2e-spec.ts',
     './e2e/associate-list/associate-list.js',
     './e2e/associate-list/associate-list-search.js',
+<<<<<<< HEAD
     // './e2e/associate-list/associate-list-status.js',
     // './e2e/associate-list/associate-list-curriculum.js',
     './e2e/associate-list/associate-list-client.js',
     // './e2e/batch-list/batch-list.js',
     // './e2e/test-associate/homepage-spec.js'
+=======
+    './e2e/associate-list/associate-list-status.js',
+    './e2e/associate-list/associate-list-curriculum.js',
+    './e2e/associate-list/associate-list-client.js',
+    './e2e/batch-list/batch-list.js',
+    './e2e/test-associate/homepage-spec.js'
+>>>>>>> registration-specs-andy
   ],
   capabilities: {
     'browserName': 'chrome'

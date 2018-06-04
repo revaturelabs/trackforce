@@ -37,6 +37,7 @@
                     {{interview.date | date:'short'}}<button type="button" (click)='showAvailableDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>
                     <ng-template #dateEdit2><input id="date" #date type="datetime-local"> <button type="button" (click)='showAvailableDate(interview,date.value)'> <i class="fa fa-edit" style="font-size:24px"></i></button></ng-template>
             </td>
+           
             <td> 
               <div *ngIf='!interview.isEditingAvailable; else dateEdit'> 
               {{interview.DInterview}}<button type="button" (click)='showInputDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>

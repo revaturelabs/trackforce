@@ -92,6 +92,7 @@ public class InterviewResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) { // invalid token
+
 			status = Status.UNAUTHORIZED;
 		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) { // wrong roleid
 			status = Status.FORBIDDEN;
@@ -128,6 +129,7 @@ public class InterviewResource {
 
 		return Response.status(status).entity(interviews).build();
 	}
+
 
 	@Path("/{interviewid}")
 	@ApiOperation(value = "updates interview", notes = " Updates interview")

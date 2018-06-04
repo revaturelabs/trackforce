@@ -8,7 +8,7 @@
      passwordHash: string;
      verified: string;
      tfRoleId: number;
-     userId: number;
+     userId: number; 
      token: string;
      associateId: number;
  }

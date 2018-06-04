@@ -153,7 +153,9 @@ public class AssociateResource {
 	@Path("/{associateId}/marketing")
 	public Response updateAssociateMarketingStatus(@HeaderParam("Authorization") String token,
 			@PathParam("associateId") Integer id) {
+
 		logger.info("updateAssociateMarketingStatus()...");
+
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -306,6 +308,7 @@ public class AssociateResource {
 	public Response updateAssociateVerification(@PathParam("associateId") Integer id,
 			@HeaderParam("Authorization") String token) {
 		logger.info("updateAssociateVerification()...");
+
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -317,6 +320,7 @@ public class AssociateResource {
 		}
 		return Response.status(status).build();
 	}
+
 
 	@ApiOperation(value = "-pulls our subresource interviews", notes = "pulls our subresource interviews")
 	@Path("/{associateid}/interviews")

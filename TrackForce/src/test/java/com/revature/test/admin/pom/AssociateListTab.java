@@ -49,29 +49,17 @@ public class AssociateListTab {
 
 	// Marketing Status drop down
 	public static WebElement marketingStatusDropDown(WebDriver d) {
-<<<<<<< HEAD
 		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("associateMarketingStatus")), 2);
-=======
-		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("associateMarketingStatus")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
 	}
 
 	// Curriculum drop down
 	public static WebElement curriculumDropDown(WebDriver d) {
-<<<<<<< HEAD
 		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("associateCurriculum")), 2);
-=======
-		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("associateCurriculum")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
 	}
 
 	// Client drop down
 	public static WebElement clientDropDown(WebDriver d) {
-<<<<<<< HEAD
 		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("associateClient")), 2);
-=======
-		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("associateClient")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
 
 	}
 
@@ -80,32 +68,20 @@ public class AssociateListTab {
 	// Update by Marketing Status drop down
 	public static WebElement updateByMarketingStatusDropDown(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-<<<<<<< HEAD
 				By.xpath(prop.getProperty("associateUpdateMarketing")), 2);
-=======
-				By.cssSelector(prop.getProperty("associateUpdateMarketing")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
 	}
 
 	// Client drop down
 	public static WebElement clientUpdateDropDown(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d, 
-<<<<<<< HEAD
 				By.xpath(prop.getProperty("associateUpdateClient")), 2);
-=======
-				By.cssSelector(prop.getProperty("associateUpdateClient")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
 	}
 
 	// Update button
 	public static WebElement updateButton(WebDriver d) {
 
 		return WaitToLoad.findDynamicElement(d,
-<<<<<<< HEAD
-				By.xpath(prop.getProperty("associateUpdate")), 2);
-=======
-				By.cssSelector(prop.getProperty("associateUpdate")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
+		By.xpath(prop.getProperty("associateUpdate")), 2);
 	}
 
 	// ****************** CHECKBOXES **************************
@@ -120,67 +96,39 @@ public class AssociateListTab {
 	public static WebElement MarketingStatusText(WebDriver d) {
 
 		return WaitToLoad.findDynamicElement(d,
-<<<<<<< HEAD
 				By.xpath(prop.getProperty("associateMarketingStatusText")), 2);
-=======
-				By.cssSelector(prop.getProperty("associateMarketingStatusText")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
 	}
 
 	// ****************SORT COMPONENTS ******************************
 
 	public static WebElement sortByAssociateId(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-<<<<<<< HEAD
 				By.xpath(prop.getProperty("associateIdSort")), 2);
-=======
-				By.cssSelector(prop.getProperty("associateIdSort")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
 	}
 
 	public static WebElement sortByFirstName(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-<<<<<<< HEAD
 				By.xpath(prop.getProperty("associateFNameSort")), 2);
-=======
-				By.cssSelector(prop.getProperty("associateFNameSort")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
 	}
 
 	public static WebElement sortByLastName(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-<<<<<<< HEAD
 				By.xpath(prop.getProperty("associateLNameSort")), 2);
-=======
-				By.cssSelector(prop.getProperty("associateLNameSort")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
 	}
 
 	public static WebElement sortByMarketingStatus(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-<<<<<<< HEAD
 				By.xpath(prop.getProperty("associateMarketingStatusSort")), 2);
-=======
-				By.cssSelector(prop.getProperty("associateMarketingStatusSort")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
 	}
 
 	public static WebElement sortByClient(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-<<<<<<< HEAD
 				By.xpath(prop.getProperty("associateClientSort")), 2);
-=======
-				By.cssSelector(prop.getProperty("associateClientSort")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
 	}
 
 	public static WebElement sortByBatch(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d, 
-<<<<<<< HEAD
 				By.xpath(prop.getProperty("associateBatchSort")), 2);
-=======
-				By.cssSelector(prop.getProperty("associateBatchSort")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
 	}
 
 	// ************* NUMBER OF ROWS IN ASSOCIATE TABLE *************************

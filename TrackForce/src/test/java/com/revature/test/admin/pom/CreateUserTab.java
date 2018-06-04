@@ -59,13 +59,8 @@ public class CreateUserTab {
 		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("createUserManagerRadio")), 2);
 	}
 	
-<<<<<<< HEAD
 	public static WebElement getDelivaryRadio(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("createUserVPRadio")), 10);
-=======
-	public static WebElement getVPRadio(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("createUserVPRadio")), 2);
->>>>>>> cb49ca481ec07ab41c005ee90ea88914e2a64696
 	}
 	
 	public static WebElement getTrainerRadio(WebDriver d) {
@@ -77,7 +72,7 @@ public class CreateUserTab {
 	}
 	
 	public static WebElement getSubmit(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("createUserSubmit")), 2);
+		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("createUserSubmit")), 2);
 	}
 	
 	public static WebElement getPopup(WebDriver d) {

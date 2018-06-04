@@ -9,7 +9,7 @@ import cucumber.api.junit.Cucumber;
 		features = {"src/test/resources/AdminFeatureFiles/AssociateList.feature",
 				"src/test/resources/AdminFeatureFiles/HomeTab.feature",
 				"src/test/resources/AdminFeatureFiles/CreateUser.feature",
-				"src/test/resources/AdminFeatureFiles/BatchList.feature"}
+				"src/test/resources/AdminFeatureFiles/ClientList.feature"}
 		,glue = {"com.revature.test.utils","com.revature.test.admin.cukes"}
 		)
  

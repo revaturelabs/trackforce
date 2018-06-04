@@ -453,7 +453,6 @@ public class AssociateListCukes {
 			}
 			System.out.println("Found batch name in table");
 		}
-
 		
 
 	}

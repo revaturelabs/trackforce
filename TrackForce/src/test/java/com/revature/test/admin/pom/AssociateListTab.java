@@ -42,28 +42,23 @@ public class AssociateListTab {
 
 	// Search By Text input field
 	public static WebElement searchByTextInputField(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("associateText")), 2);
+		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("associateText")), 2);
 	}
 
 	// *************DROP DOWNS ****************************
 
 	// Marketing Status drop down
 	public static WebElement marketingStatusDropDown(WebDriver d) {
-
 		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("associateMarketingStatus")), 2);
-
-
 	}
 
 	// Curriculum drop down
 	public static WebElement curriculumDropDown(WebDriver d) {
-
 		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("associateCurriculum")), 2);
 	}
 
 	// Client drop down
 	public static WebElement clientDropDown(WebDriver d) {
-
 		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("associateClient")), 2);
 	}
 
@@ -72,26 +67,20 @@ public class AssociateListTab {
 	// Update by Marketing Status drop down
 	public static WebElement updateByMarketingStatusDropDown(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-
 				By.xpath(prop.getProperty("associateUpdateMarketing")), 2);
-
 	}
 
 	// Client drop down
 	public static WebElement clientUpdateDropDown(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d, 
-
 				By.xpath(prop.getProperty("associateUpdateClient")), 2);
-
 	}
 
 	// Update button
 	public static WebElement updateButton(WebDriver d) {
 
 		return WaitToLoad.findDynamicElement(d,
-
-				By.xpath(prop.getProperty("associateUpdate")), 2);
-
+		By.xpath(prop.getProperty("associateUpdate")), 2);
 	}
 
 	// ****************** CHECKBOXES **************************
@@ -106,53 +95,39 @@ public class AssociateListTab {
 	public static WebElement MarketingStatusText(WebDriver d) {
 
 		return WaitToLoad.findDynamicElement(d,
-
 				By.xpath(prop.getProperty("associateMarketingStatusText")), 2);
-
 	}
 
 	// ****************SORT COMPONENTS ******************************
 
 	public static WebElement sortByAssociateId(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-
 				By.xpath(prop.getProperty("associateIdSort")), 2);
-
 	}
 
 	public static WebElement sortByFirstName(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-
 				By.xpath(prop.getProperty("associateFNameSort")), 2);
-
 	}
 
 	public static WebElement sortByLastName(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-
 				By.xpath(prop.getProperty("associateLNameSort")), 2);
-
 	}
 
 	public static WebElement sortByMarketingStatus(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-
-				By.xpath(prop.getProperty("associateMarketingStatusSort")), 2);
-
+			By.xpath(prop.getProperty("associateMarketingStatusSort")), 2);
 	}
 
 	public static WebElement sortByClient(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d,
-
 				By.xpath(prop.getProperty("associateClientSort")), 2);
-
 	}
 
 	public static WebElement sortByBatch(WebDriver d) {
 		return WaitToLoad.findDynamicElement(d, 
-
 				By.xpath(prop.getProperty("associateBatchSort")), 2);
-
 	}
 
 	// ************* NUMBER OF ROWS IN ASSOCIATE TABLE *************************

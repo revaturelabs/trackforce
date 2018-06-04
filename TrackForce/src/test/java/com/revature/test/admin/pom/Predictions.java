@@ -25,7 +25,7 @@ public class Predictions {
 	}
 	
 	public static WebElement clickPredictionsTab(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("predictionsTab")), 10);
+		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("predictionsTab")), 2);
 	}
 	
 	public static String getCurrentURL(WebDriver d) {
@@ -33,43 +33,43 @@ public class Predictions {
 	}
 	
 	public static WebElement startDate(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("predictionsStartDate")), 10);
+		return WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("predictionsStartDate")), 2);
 	}
 	
 	public static WebElement endDate(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("predictionsEndDate")), 10);
+		return WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("predictionsEndDate")), 2);
 	}
 	
 	public static WebElement numberofAssociates(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.name(prop.getProperty("productionsNumAssociates")), 10);
+		return WaitToLoad.findDynamicElement(d,By.name(prop.getProperty("productionsNumAssociates")), 2);
 	}
 	
 	public static WebElement filterbyTechnologies(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsFilterTechnologies")), 10);
+		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsFilterTechnologies")), 2);
 	}
 	
 	public static WebElement technologyOption(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsTechOptions")), 10);
+		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsTechOptions")), 2);
 	}
 	
 	public static WebElement buttonPrediction(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsButtonPredict")), 10);
+		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsButtonPredict")), 2);
 	}
 	
 	public static WebElement technology(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsTechnology")), 10);
+		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsTechnology")), 2);
 	}
 	
 	public static WebElement requestedAssociates(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsRequestedAssociates")), 10);
+		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsRequestedAssociates")), 2);
 	}
 	
 	public static WebElement availableAssociates(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsAvailableAssociates")), 10);
+		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsAvailableAssociates")), 2);
 	}
 	
 	public static WebElement difference(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsDifference")), 10);
+		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsDifference")), 2);
 	}
 
 }

@@ -37,8 +37,7 @@ public class AdminSuite extends AbstractTestNGCucumberTests{
 			Thread.sleep(5000);
 			wd.get(baseURL);
 			LoginUtil.loginAsAdmin(wd);
-			alert = wd.switchTo().alert(); //initialize
-			action = new Actions(wd);
+		
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

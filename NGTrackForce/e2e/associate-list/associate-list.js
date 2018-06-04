@@ -15,7 +15,7 @@ describe('Log into the website for associate list', function() {
     })
 });
 
-var rowCount;
+
 describe('Go to associate list tab', function(){
     console.log(wd.getTitle());
     
@@ -30,10 +30,7 @@ describe('Go to associate list tab', function(){
         expect(wd.findElement(by.xpath('/html/body/app/app-associate-list/div/h3')).getText()).toEqual('Associates');
     });
   
-  g
-    function f(){
-      return rowCount;
-      }
+
 });
 
 

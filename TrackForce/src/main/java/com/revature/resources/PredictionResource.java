@@ -1,4 +1,5 @@
 package com.revature.resources;
+
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
@@ -31,41 +32,31 @@ import io.swagger.annotations.ApiOperation;
 @Produces(MediaType.APPLICATION_JSON)
 public class PredictionResource {
 
+	private PredictionService service;
 
-    private PredictionService service;
+	public PredictionResource() {
+		this.service = new PredictionService();
+	}
 
-    public PredictionResource() {
-        this.service = new PredictionService();
-    }
-
-
-
-    @Path("/{time1}/{time2}")
-    @GET
-    @ApiOperation(value = "Gets batch prediction", notes = "Gets all availiable associates by a certain tech in a certain timeframe.")
-    public Response getBatchTechInfoName(
-    		@PathParam("time1") long time1,
-    		@PathParam("time2") long time2,
-    		@HeaderParam("Authorization") String token
-    		)throws IOException 
-    {
-    	Status status = null;
-		Set<InterviewInfo> interviews = null;
+	@Path("/{time1}/{time2}")
+	@GET
+	@ApiOperation(value = "Gets batch prediction", notes = "Gets all availiable associates by a certain tech in a certain timeframe.")
+	public Response getBatchTechInfoName(@PathParam("time1") long time1, @PathParam("time2") long time2,
+			@HeaderParam("Authorization") String token) throws IOException {
+		logger.info("getBatchTechInfoName()...");
+		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || !payload.getId().equals("1")) 
-		{
+		if (payload == null || !payload.getId().equals("1")) {
 			status = Status.UNAUTHORIZED;
 			return Response.status(status).build();
-		} 
-		
-		else 
-		{
-			Date afterThis = new Date(time1);
-	    	Date beforeThis = new Date(time2);
-	    	return Response.ok(service.getAvailableAssociatesByTech(afterThis, beforeThis)).build();
 		}
-    	
-    	
-    }
+
+		else {
+			Date afterThis = new Date(time1);
+			Date beforeThis = new Date(time2);
+			return Response.ok(service.getAvailableAssociatesByTech(afterThis, beforeThis)).build();
+		}
+
+	}
 }

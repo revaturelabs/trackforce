@@ -2,15 +2,18 @@ package com.revature.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import com.revature.dao.InterviewDao;
 import com.revature.dao.InterviewDaoHibernate;
+import com.revature.entity.TfInterview;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.InterviewFromClient;
 
@@ -41,6 +44,11 @@ public class InterviewService {
 		return interviews;
 	}
 
+	/**
+	 * Sorting should to be done by ordering in dao layer.
+	 * 
+	 * @author Ian Buitrago
+	 */
 	public ArrayList<InterviewInfo> getAllInterviews(String sort) {
 		ArrayList<InterviewInfo> interviews = new ArrayList<>(interviewDao.getAllInterviews().values());
 		int order = "asc".equals(sort) ? 1 : -1;
@@ -58,6 +66,10 @@ public class InterviewService {
 
 	public void addInterviewByAssociate(int associateId, InterviewFromClient ifc) {
 		interviewDao.addInterviewForAssociate(associateId, ifc);
+	}
+
+	public void updateInterview(int associateId, InterviewFromClient ifc) {
+		interviewDao.updateInterview(associateId, ifc);
 	}
 
 	public List<InterviewInfo> getInterviewConflicts(int associateId) throws IOException {
@@ -85,4 +97,12 @@ public class InterviewService {
 		return conflicts;
 	}
 
+	public InterviewInfo getInterviewByAssociateAndInterviewid(Integer associateId, Integer interviewid)
+			throws IOException {
+		return interviewDao.getInterviewsByAssociate(associateId).get(interviewid);
+	}
+
+	public Collection<InterviewInfo> getInterviewsByAssociate(int associateId) throws IOException {
+		return interviewDao.getInterviewsByAssociate(associateId).values();
+	}
 }

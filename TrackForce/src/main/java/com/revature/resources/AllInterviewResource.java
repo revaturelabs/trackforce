@@ -40,15 +40,20 @@ public class AllInterviewResource {
 	@GET
 	@ApiOperation(value = "returns all interviews", notes = "Gets a list of all interviews that can be sorted in ascending or descending order based on date.")
 	public Response getAllInterviews(@HeaderParam("Authorization") String token, @QueryParam("sort") String sort) {
+
 		logger.info("getAllInterviews()...");
+
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		Collection<InterviewInfo> interviews = null;
 
+
+		
 		if (payload == null) {
 			status = Status.UNAUTHORIZED;		// invalid token
 		}else if (payload.getId().equals("5")) {
 			status = Status.FORBIDDEN;
+
 		} else {
 			interviews = sort != null ? iservice.getAllInterviews(sort) : iservice.getAllInterviews();
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;

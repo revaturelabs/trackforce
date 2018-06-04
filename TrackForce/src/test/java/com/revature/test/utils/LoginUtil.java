@@ -35,7 +35,7 @@ public class LoginUtil {
 			Thread.sleep(1000);
 			Login.getPassword(wd).sendKeys(adminPassword);
 			wd.findElement(By.tagName("button")).click();;
-			Login.getSignin(wd).click();	
+			//Login.getSignin(wd).click();	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

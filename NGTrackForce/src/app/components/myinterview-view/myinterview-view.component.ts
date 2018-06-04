@@ -123,7 +123,7 @@ export class MyInterviewComponent implements OnInit {
            
             CFeedback: interview.clientFeedback,    
 
-          	Flag: true,
+          	Flag: interview.isInterviewFlagged,
 
           }
 

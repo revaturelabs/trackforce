@@ -15,14 +15,8 @@ export class InterviewService {
 
     // console.log(interview.associate, interview.associateFeedback, interview.clientFeedback, interview.dateNotified,
     //   interview.dateOfInterview, interview.endClient,interview.id, interview.jobDescription,
-    //   interview.questions, interview.typeId, interview.typeName
+    //   interview.questions, interview.typeId, interview.typeName)
     
-    
-    // )
-    ;
-
-
-
 
 
   }

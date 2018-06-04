@@ -34,7 +34,7 @@
             </select></td>
             <td [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'red':''}">
                 <div *ngIf='!interview.isDateAvailable; else dateEdit2'> 
-                    {{interview.date | date:'short'}}<button type="button" (click)='showAvailableDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>
+              {{interview.date | date:'short'}}<button type="button" (click)='showAvailableDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>
                     <ng-template #dateEdit2><input id="date" #date type="datetime-local"> <button type="button" (click)='showAvailableDate(interview,date.value)'> <i class="fa fa-edit" style="font-size:24px"></i></button></ng-template>
             </td>
            
@@ -50,7 +50,7 @@
                      <option value="4">Skype</option>
               </select></td>
             <td>{{interview.JDescription}}</td>           
-            <td class="flag"><input type="checkbox" id="flag"></td>
+            <td class="flag"><input type="checkbox" id="flag" [(ngModel)]="interview.Flag"></td>
             <td><a [routerLink]="['/interviewDetails']" class="id">view</a></td>
             <td> <button type= "button" class="btn btn-primary" >Save </button></td>
           </tr>

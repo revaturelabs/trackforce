@@ -60,26 +60,25 @@ export class MyInterviewComponent implements OnInit {
 
 
   addInterview(){
-    this.newInterview.associateId = this.id
+    //this.newInterview.associateId = this.id
     this.newInterview.interviewDate = new Date(this.interviewDate).getTime()
     this.newInterview.dateAssociateIssued = new Date(this.interviewDateNotification).getTime()
     this.newInterview.jobDescription = "none available";
     this.newInterview.flagAlert = 0;
-
     this.newInterview.was24HRNotice = (this.newInterview.was24HRNotice*1)
     console.log(JSON.stringify(this.newInterview));  
 
     console.log(this.newInterview)
 
-    // this.associateService.addInterviewForAssociate(this.id,this.newInterview).subscribe(
-    //   data => {
-    //     this.getInterviews(this.id);
-    //   },
-    //   err => {
-    //     console.log(err);
-    //   }
+     this.associateService.addInterviewForAssociate(this.id,this.newInterview).subscribe(
+       data => {
+         this.getInterviews(this.id);
+       },
+       err => {
+         console.log(err);
+       }
 
-    // )
+     )
 
 
 
@@ -94,7 +93,6 @@ export class MyInterviewComponent implements OnInit {
 
 
   getInterviews(id: number) {
-
     this.interviewService.getInterviews(id).subscribe(
      data => {
 
@@ -105,6 +103,7 @@ export class MyInterviewComponent implements OnInit {
         for (let i=0;i<data.length;i++) {
 
           let interview = data[i];
+          
           console.log(interview);
           let intObj = {
 

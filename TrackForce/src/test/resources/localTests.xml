@@ -15,4 +15,4 @@
 			<package name="com.revature.test.resources" />
 		</packages>
 	</test>
-</suite> <!-- Surefire suite -->
+</suite> <!-- Surefire suite --> 

@@ -95,8 +95,7 @@ export class MyInterviewComponent implements OnInit {
 
   getInterviews(id: number) {
 
-    this.associateService.getInterviewsForAssociate(id).subscribe(
-
+    this.interviewService.getInterviews(id).subscribe(
      data => {
 
        console.log(data);

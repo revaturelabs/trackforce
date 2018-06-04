@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -28,10 +29,13 @@ import com.revature.entity.TfMarketingStatus;
 import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
+import com.revature.request.model.CreateAssociateModel;
 import com.revature.resources.BatchResource;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.PersistentStorage;
+import com.revature.dao.MarketingStatusDaoHibernate;
+import com.revature.dao.ClientDaoImpl;
 
 public class AssociateDaoHibernate implements AssociateDao {
 
@@ -122,13 +126,49 @@ public class AssociateDaoHibernate implements AssociateDao {
 		try {
 			t = session.beginTransaction();
 			TfAssociate tfAssociate = (TfAssociate) session.load(TfAssociate.class, afc.getId());
-			TfClient client = (TfClient) session.load(TfClient.class, afc.getClientId());
-			TfMarketingStatus status = (TfMarketingStatus) session.load(TfMarketingStatus.class, afc.getMkStatus());
-			tfAssociate.setTfClient(client);
-			tfAssociate.setTfMarketingStatus(status);
-			tfAssociate.setTfClientStartDate(Timestamp.from(Instant.ofEpochSecond(afc.getStartDateUnixTime())));
+			
+			TfClient client = null;
+			if(afc.getClientId() != 0) {
+				client = (TfClient) session.load(TfClient.class, afc.getClientId());
+			}
+			else {
+				afc.setClientId(tfAssociate.getTfClient().getTfClientId());
+			}
+			
+			TfMarketingStatus status = null;
+			if(afc.getMkStatus() != 0) {
+				status = (TfMarketingStatus) session.load(TfMarketingStatus.class, afc.getMkStatus());
+			}
+			else {
+				System.out.println("tfAssociate's marketingStatusID = " 
+						+ tfAssociate.getTfMarketingStatus().getTfMarketingStatusId());
+				afc.setMkStatus(tfAssociate.getTfMarketingStatus().getTfMarketingStatusId());
+				System.out.println("UPDATED AFC");
+				System.out.println("afc's marketingStatusID = " + afc.getMkStatus());
+			}
+			
+			if(client != null && client.getTfClientId() != null) {
+				tfAssociate.setTfClient(client);
+			}
+			else {
+				afc.setClientId(tfAssociate.getTfClient().getTfClientId());
+			}
+			
+			if(status != null && status.getTfMarketingStatusId() != null
+					&& status.getTfMarketingStatusName() != null) {
+				tfAssociate.setTfMarketingStatus(status);
+			}
+			if(afc.getStartDateUnixTime() != 0) {
+				tfAssociate.setTfClientStartDate(Timestamp.from(Instant.ofEpochSecond(
+						afc.getStartDateUnixTime())));
+			}
+			
 			logger.debug(tfAssociate);
 			logger.debug(afc);
+			PersistentStorage.getStorage().setMarketingStatuses(
+					new MarketingStatusDaoHibernate().getMarketingStatus());
+			PersistentStorage.getStorage().setClients(
+					new ClientDaoImpl().getAllTfClients());
 			PersistentStorage.getStorage().updateAssociate(afc.getId(), afc.getClientId(), afc.getMkStatus(),
 					afc.getStartDateUnixTime());
 			session.saveOrUpdate(tfAssociate);
@@ -141,6 +181,37 @@ public class AssociateDaoHibernate implements AssociateDao {
 		} finally {
 			session.close();
 		}
+	}
+	
+	//Overload of updateAssociate that can take a CreateAssociateModel object to update from:
+	public void updateAssociate(CreateAssociateModel cam) {
+		Transaction t = null;
+		Session session = HibernateUtil.getSession();
+		try {
+			t = session.beginTransaction();
+			TfAssociate tfAssociate = new TfAssociate(nextId(), null, new TfMarketingStatus(1), null,
+					null, cam.getFname(), cam.getFname(), null, null, null, 0);
+			logger.debug(tfAssociate);
+			logger.debug(cam);
+			PersistentStorage.getStorage().updateAssociate(tfAssociate.getTfAssociateId(), 
+					tfAssociate.getTfClient().getTfClientId(),
+					tfAssociate.getTfMarketingStatus().getTfMarketingStatusId(),
+					tfAssociate.getTfClientStartDate().getTime());
+			session.saveOrUpdate(tfAssociate);
+			t.commit();
+		} catch (HibernateException e) {
+			if(t != null) {
+				t.rollback();
+			}
+			logger.error(e);
+		} finally {
+			session.close();
+		}
+	}
+
+	public int nextId() {
+		TreeSet<AssociateInfo> allAssociates = (TreeSet<AssociateInfo>) getAllAssociates();
+		return(allAssociates.last().getId()+1);
 	}
 
 	@Override

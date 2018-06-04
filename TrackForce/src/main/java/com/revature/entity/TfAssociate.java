@@ -5,14 +5,7 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -29,10 +22,14 @@ public class TfAssociate implements java.io.Serializable {
 	 *
 	 */
 	private static final long serialVersionUID = -2324082555924677252L;
+	public static final int APPROVED = 1;
+	public static final int NOTAPPROVED = 0;
 
 	@XmlElement
 	@Id
 	@Column(name = "TF_ASSOCIATE_ID", unique = true, nullable = false, precision = 22, scale = 0)
+	//@SequenceGenerator(sequenceName = "AssociateId_seq1", name ="AssociateIdSeq1", initialValue=15)
+	//@GeneratedValue(generator ="AssociateIdSeq1", strategy = GenerationType.SEQUENCE)
 	private Integer tfAssociateId;
 
 	@XmlElement
@@ -74,23 +71,11 @@ public class TfAssociate implements java.io.Serializable {
 	@XmlElement
 	@Column(name = "TF_CLIENT_START_DATE")
 	private Timestamp clientStartDate;
-	
-	//unmapped field: private static StatusInfo totals = new StatusInfo(); -not featured
-	
-	//private BigDecimal bid;
-	//private String batchName;
-	
-	//private BigDecimal msid;
-	//private String marketingStatus;
-	
-	//private BigDecimal clid;
-	//private String client;
-	
-	//private BigDecimal ecid;
-	//private String endClient;
-	
-	//private BigDecimal curid;     -not featured
-	//private String curriculumName;  -not featured
+	//HERER LOOK HERE
+	@XmlElement
+	@Column(name = "TF_ISAPPROVED")
+	private Integer isApproved = NOTAPPROVED; // default is Zero not approved
+
 	
 
 	public TfAssociate() {
@@ -102,7 +87,7 @@ public class TfAssociate implements java.io.Serializable {
 
 	public TfAssociate(Integer tfAssociateId, TfBatch tfBatch, TfMarketingStatus tfMarketingStatus,
 			TfClient tfClient, TfEndClient tfEndClient, String tfAssociateFirstName, String tfAssociateLastName,
-			Set<TfInterview> tfInterviews, Set<TfPlacement> tfPlacements, Timestamp clientStartDate) {
+			Set<TfInterview> tfInterviews, Set<TfPlacement> tfPlacements, Timestamp clientStartDate, Integer isApproved) {
 		this.tfAssociateId = tfAssociateId;
 		this.tfBatch = tfBatch;
 		this.tfMarketingStatus = tfMarketingStatus;
@@ -113,8 +98,24 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfInterviews = tfInterviews;
 		this.tfPlacements = tfPlacements;
 		this.clientStartDate = clientStartDate;
+		this.isApproved = isApproved;
+		
 	}
 
+
+	/**
+	 * @return the isApproved
+	 */
+	public Integer getIsApproved() {
+		return isApproved;
+	}
+
+	/**
+	 * @param isApproved the isApproved to set
+	 */
+	public void setIsApproved(Integer isApproved) {
+		this.isApproved = isApproved;
+	}
 
 	public Integer getTfAssociateId() {
 		return this.tfAssociateId;

@@ -39,7 +39,7 @@ public class BaseTest {
     	PersistentStorage.getStorage().evictClients();
     	PersistentStorage.getStorage().evictCurriculums();
     	PersistentStorage.getStorage().evictMarketingStatuses();
-    	new AssociateDaoHibernate().cacheAllAssociates();
+    	AssociateDaoHibernate.getInstance().cacheAllAssociates();
     	new BatchDaoHibernate().cacheAllBatches();
     	new ClientDaoImpl().cacheAllClients();
     	new CurriculumDaoImpl().cacheAllCurriculms();
@@ -60,7 +60,7 @@ public class BaseTest {
      */
     public void resetCaches(AssociateDaoHibernate mockAssocService, ClientDaoImpl mockClientResource, MarketingStatusDaoHibernate mockMsService) throws IOException {
         if (mockAssocService == null)
-            mockAssocService = new AssociateDaoHibernate();
+            mockAssocService = AssociateDaoHibernate.getInstance();
         if (mockClientResource == null)
             mockClientResource = new ClientDaoImpl();
         if (mockMsService == null)

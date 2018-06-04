@@ -1,14 +1,21 @@
 <app-navbar></app-navbar>
-<div class="container min-height" ng-init="">
+<div class="container min-height" ng-init="" *ngIf="!isAssociate">
   <div class="row">
-    <div class="alert alert-success" *ngIf="message">
-      <h5 class="text-success">{{message}}</h5>
+    <div class="alert alert-success" *ngIf="successMessage"> 
+      <h5 class="text-success">{{successMessage}}</h5>
+    </div>
+	<div class="alert alert-danger" *ngIf="errorMessage">
+      <h5 class="text-danger">{{errorMessage}}</h5>
     </div>
     <div class="col-sm-6">
       <h3>Associate Info</h3>
       <div class="table-responsive info">
         <table class="table table-hover table-bordered">
           <tbody>
+			<tr *ngIf="!isVerified">
+              <td>This Associate has not been approved yet</td>
+              <td><a *ngIf="true" (click)="verifyAssociate()">Approve</a></td>
+            </tr>
             <tr>
               <td>Associate ID</td>
               <td>{{associate.id}}</td>
@@ -183,4 +190,28 @@
     </div>
   </div>
 </div>
+<!-- <div *ngIf="isAssociate">
+<div class="col-sm-6">
+      <h3>Interviews</h3>
+      <table class="table table-responsive table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Interview</th>
+            <th>Client</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr >
+            <td>{{currentinterview.client}}</td>
+            <td>{{currentinterview.date | date:'longDate'}}</td>
+            <td>{{currentinterview.type}}</td>
+            <td>{{currentinterview.feedback}}</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+</div> -->
 <app-footer></app-footer>

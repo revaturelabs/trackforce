@@ -5,22 +5,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.revature.request.model.AssociatesWithTech;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 
 public class PredictionDaoImpl implements PredictionDao {
+	
 	
 	private List<AssociatesWithTech> my_query;
 
 	@Override
 	public List<AssociatesWithTech> getTotalAssociatesByTechBetweenDates(Date afterMe, Date beforeMe)  {
-		
-		try(Session session = HibernateUtil.getSessionFactory().openSession()){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
             
 			String sql = "SELECT TF_CURRICULUM_NAME, count(*) FROM admin.tf_associate a" + 
 					" LEFT JOIN admin.tf_batch b ON a.tf_batch_id=b.tf_batch_id" + 
@@ -39,8 +39,11 @@ public class PredictionDaoImpl implements PredictionDao {
 			return query_results;
 		}
 		catch (Exception e) {
-			LogUtil.logger.error(e);
+			logger.error(e);
 			return my_query;
+		}
+		finally {
+			session.close();
 		}
 		
 	}

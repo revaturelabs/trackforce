@@ -57,12 +57,18 @@ public class Dao2DoMapper {
         else
             ai.setLastName(tfa.getTfAssociateLastName());
         if (tfa.getTfMarketingStatus() == null) {		//TF_MARKETING_STATUS_ID
-            ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
+           // ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
             ai.setMarketingStatus(OTHER_VALUE);
         } else {
             ai.setMarketingStatusId(tfa.getTfMarketingStatus().getTfMarketingStatusId());
             ai.setMarketingStatus(tfa.getTfMarketingStatus().getTfMarketingStatusName());
         }
+        //Ed-boi
+        //if there is a null value in isApproved feild of a Associate then they are NOT Approved
+       if(tfa.getIsApproved() == null) { 
+    	   ai.setIsApproved(0); 
+       }
+       
         return ai;
     }
 
@@ -152,7 +158,34 @@ public class Dao2DoMapper {
         	ii.setTfClientName(tfi.getTfClient().getTfClientName());
         if (tfi.getTfInterviewDate() != null)
             ii.setTfInterviewDate(tfi.getTfInterviewDate());
-        ii.setTfInterviewFeedback(tfi.getTfInterviewFeedback());
+        //ed-boi | I don't undetstand the point of this why is it need to map the hibernate object that also java objects back into POJOs
+        if(tfi.getTfAssociateFeedback() != null) {
+        	ii.setAssociateFeedback(tfi.getTfAssociateFeedback());
+        }
+//        }else
+//        	ii.setAssociateFeedback(UNKNOWN_VALUE);
+        if(tfi.getTfClientFeedback() != null) {
+        	ii.setClientFeedback(tfi.getTfClientFeedback());
+        }
+        if(tfi.getTfJobDescription() != null ) {
+        	ii.setJobDescription(tfi.getTfJobDescription());
+        }
+        if(tfi.getTfDateSalesIssued() != null ) {
+        	ii.setDateSalesIssued(tfi.getTfDateSalesIssued());
+        }
+        if(tfi.getTfDateAssociateIssued() !=null) {
+        	ii.setDateAssociateIssued(tfi.getTfDateAssociateIssued());
+        }
+        if(tfi.getTfIsInterviewFlagged() != null) {
+        	ii.setIsInterviewFlagged(tfi.getTfIsInterviewFlagged());
+        }
+        if(tfi.getTfFlagReason() != null) {
+        	ii.setFlagReason(tfi.getTfFlagReason());
+        }
+        if(tfi.getTfIsClientFeedbackVisible() != null) {
+        	ii.setIsClientFeedbackVisible(tfi.getTfIsClientFeedbackVisible());
+        }
+        //-       
         if (tfi.getTfInterviewType() != null) {
             ii.setTypeId(tfi.getTfInterviewType().getTfInterviewTypeId());
             ii.setTypeName(tfi.getTfInterviewType().getTfInterviewTypeName());

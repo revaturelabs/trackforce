@@ -30,11 +30,13 @@ export class AssociateListComponent implements OnInit {
   searchByClient: string = "";
   searchByText: string = "";
   searchByCurriculum: string = "";
+  searchByVerification: string = "";
 
   //status/client to be updated
   updateShow: boolean = false;
   updateStatus: string = "";
   updateClient: number;
+  updateVerification: string;
   updated: boolean = false;
 
   //used for ordering of rows
@@ -66,6 +68,7 @@ export class AssociateListComponent implements OnInit {
     }
     this.getAllAssociates(); //grab associates and clients from back end
     this.getClientNames();
+
     //if navigating to this page from clicking on a chart of a different page, set default filters
     let paramMap = this.activated.snapshot.paramMap;
     let CliOrCur = paramMap.get("CliOrCur");
@@ -138,7 +141,7 @@ export class AssociateListComponent implements OnInit {
   }
 
   /**
-   * Bulk edit feature to update associate's statuses and clients.
+   * Bulk edit feature to update associate's verification, statuses and clients.
    */
   updateAssociates() {
     var ids: number[] = [];
@@ -150,7 +153,7 @@ export class AssociateListComponent implements OnInit {
       if (check != null && check.checked)
         ids.push(i);
     }
-    this.associateService.updateAssociates(ids, Number(this.updateStatus), this.updateClient).subscribe(
+    this.associateService.updateAssociates(ids, this.updateVerification, Number(this.updateStatus), this.updateClient).subscribe(
       data => {
         self.getAllAssociates(); //refresh the associates to reflect the updates made on DB
         self.updated = true;

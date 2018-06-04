@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.revature.entity.TfAssociate;
 import com.revature.model.*;
 
 // Cached data for faster fetching
@@ -210,15 +211,23 @@ public class PersistentStorage {
 		this.associates.putAll(associates);
 	}
 	
-	public void updateAssociate(Integer id, int clientId, int mkStatus, long startDateTime) {
+	public void updateAssociate(Integer id, int clientId, int mkStatus, long startDateTime ) {
 		AssociateInfo ai = this.associates.get(id);
 		ai.setMarketingStatusId(mkStatus);
 		Map<Integer, MarketingStatusInfo> map = getMarketingAsMap();
+		
 		ai.setMarketingStatus(map.get(mkStatus).getName());
+		
 		ai.setClientStartDate(startDateTime);
 		ClientInfo cl = getClient(clientId);
 		ai.setClid(clientId);
 		ai.setClient(cl.getTfClientName());
+		this.associates.put(id, ai);
+	}
+	
+	public void updateAssociate(Integer id) {
+		AssociateInfo ai = this.associates.get(id);
+		ai.setIsApproved(TfAssociate.APPROVED);
 		this.associates.put(id, ai);
 	}
 }

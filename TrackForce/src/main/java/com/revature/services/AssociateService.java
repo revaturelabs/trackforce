@@ -21,40 +21,33 @@ import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
 import com.revature.utils.PersistentStorage;
 
-public class AssociateService{
+public class AssociateService {
+	private AssociateDao associateDao;
 
-    private AssociateDao associateDao;
-
-    public AssociateService() {
-
-        this.associateDao = new AssociateDaoHibernate();
-
-    }
-
-	public AssociateService(AssociateDao associateDao) {
-		this.associateDao = associateDao;
+	public AssociateService() {
+		associateDao = AssociateDaoHibernate.getInstance();
 	}
-
+	
+	public AssociateService(AssociateDao dao) {		// testing purposes
+		associateDao = dao;
+	}
 	/**
 	 * Retrieve information about a specific associate.
 	 *
-	 * @param associateid - The ID of the associate to get information about
+	 * @param associateid
+	 *            - The ID of the associate to get information about
 	 * @return - An AssociateInfo object that contains the associate's information.
 	 * @throws IOException
 	 */
-
-	public AssociateInfo getAssociate(Integer associateid) {
+	public AssociateInfo getAssociate(int associateid) {
 		return associateDao.getAssociate(associateid);
-
 	}
 
-
-    /**
-     * 
-     * @return
-     */
-
-	public Set<AssociateInfo> getAllAssociates(){
+	/**
+	 * 
+	 * @return
+	 */
+	public Set<AssociateInfo> getAllAssociates() {
 		return associateDao.getAllAssociates();
 	}
 
@@ -92,7 +85,7 @@ public class AssociateService{
 		}
 		return map.values();
 	}
-	
+
 	/**
 	 * Generates statistics for the expanded view of the home page mapped chart
 	 * 
@@ -121,7 +114,7 @@ public class AssociateService{
 		}
 		return map;
 	}
-	
+
 	/**
 	 * Generates statistics for the expanded view of the home page unmapped chart
 	 * 
@@ -129,45 +122,53 @@ public class AssociateService{
 	 * @return Collection<CurriculumJSON>
 	 */
 	public Set<CurriculumJSON> getUnmappedInfo(int statusId) {
-	  Set<AssociateInfo> associates = getAllAssociates();
-	if (associates == null) {
-		associateDao.cacheAllAssociates();
-		associates = getAllAssociates();
-	}
+		Set<AssociateInfo> associates = getAllAssociates();
+		if (associates == null) {
+			associateDao.cacheAllAssociates();
+			associates = getAllAssociates();
+		}
 
-	Map<Integer, CurriculumJSON> map = new HashMap<>();
-	for (AssociateInfo ai : associates) {
-		if (ai.getMsid().equals(statusId)) {
-			if (!map.containsKey(ai.getCurid())) {
-				map.put(ai.getCurid(), new CurriculumJSON());
-			}
-			if (ai.getCurriculumName() != null && !ai.getCurid().equals(-1)) {
-				map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
-				map.get(ai.getCurid()).setId(ai.getCurid().intValue());
-				map.get(ai.getCurid()).setName(ai.getCurriculumName());
+		Map<Integer, CurriculumJSON> map = new HashMap<>();
+		for (AssociateInfo ai : associates) {
+			if (ai.getMsid().equals(statusId)) {
+				if (!map.containsKey(ai.getCurid())) {
+					map.put(ai.getCurid(), new CurriculumJSON());
+				}
+				if (ai.getCurriculumName() != null && !ai.getCurid().equals(-1)) {
+					map.get(ai.getCurid()).setCount(map.get(ai.getCurid()).getCount() + 1);
+					map.get(ai.getCurid()).setId(ai.getCurid().intValue());
+					map.get(ai.getCurid()).setName(ai.getCurriculumName());
+				}
 			}
 		}
+
+		return new TreeSet<>(map.values());
 	}
-	
-	return new TreeSet<>(map.values());
-	}
-	
+
 	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId) {
-		 return associateDao.getInterviewsByAssociate(associateId);
+		return associateDao.getInterviewsByAssociate(associateId);
 	}
-	
-	//The method used to populate all of the data onto TrackForce
-    //Doesn't work correctly at the moment
-    public Response updateAssociates(
-    		List<Integer> associateids,
-    		//Integer associateids,
-    		Integer marketingStatus,
-    		Integer clientid) {
-    	associateDao.updateAssociates(associateids, marketingStatus, clientid);
-    	return Response.status(200).build();
-    }
+
+	// The method used to populate all of the data onto TrackForce
+	// Doesn't work correctly at the moment
+	public Response updateAssociates(List<Integer> associateids,
+			// Integer associateids,
+			Integer marketingStatus, Integer clientid) {
+		associateDao.updateAssociates(associateids, marketingStatus, clientid);
+		return Response.status(200).build();
+	}
 
 	public void updateAssociate(AssociateFromClient afc) {
 		associateDao.updateAssociate(afc);
+	}
+	
+	public void updateAssociateVerification(int associateid) {
+		associateDao.updateAssociateVerification(associateid);
+	}
+	
+	
+	
+	public void createAssociate(String firstname, String lastname) {
+		associateDao.createAssociate(firstname, lastname);
 	}
 }

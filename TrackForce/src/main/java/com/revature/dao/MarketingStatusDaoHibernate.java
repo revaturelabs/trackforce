@@ -10,6 +10,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -17,15 +18,16 @@ import com.revature.entity.TfMarketingStatus;
 import com.revature.model.MarketingStatusInfo;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 
 public class MarketingStatusDaoHibernate implements MarketingStatusDao {
-
+	
+	
 	@Override
 	public MarketingStatusInfo getMarketingStatus(String status) {
 		TfMarketingStatus marketingStatus = null;
-		try(Session session = HibernateUtil.getSession()) {
+		Session session = HibernateUtil.getSession();
+		try {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<TfMarketingStatus> criteriaQuery = builder.createQuery(TfMarketingStatus.class);
 			Root<TfMarketingStatus> root = criteriaQuery.from(TfMarketingStatus.class);
@@ -35,15 +37,22 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 			query.setParameter(0, bd);
 			marketingStatus = (TfMarketingStatus) query.uniqueResult();
 		} catch (NoResultException nre) {
-			LogUtil.logger.error(nre);
+			logger.error(nre);
+		}
+		finally {
+			session.close();
 		}
 		return Dao2DoMapper.map(marketingStatus);
 	}
 	
 	public TfMarketingStatus getMarketingStatus(Integer id) {
 		TfMarketingStatus tfMarketingStatus;
-		try(Session session = HibernateUtil.getSession()){
+		Session session = HibernateUtil.getSession();
+		try {
 			tfMarketingStatus = (TfMarketingStatus) session.load(TfMarketingStatus.class, id);
+		}
+		finally {
+			session.close();
 		}
 		return tfMarketingStatus;
 	}
@@ -52,7 +61,8 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 	public Map<Integer, MarketingStatusInfo> getMarketingStatus() {
 		List<TfMarketingStatus> marketingStatusEnts;
 		Map<Integer, MarketingStatusInfo> map = new HashMap<>();
-		try(Session session = HibernateUtil.getSession()) {
+		Session session = HibernateUtil.getSession();
+		try {
 			CriteriaBuilder cb = session.getCriteriaBuilder();
 			CriteriaQuery<TfMarketingStatus> cq = cb.createQuery(TfMarketingStatus.class);
 			Root<TfMarketingStatus> from = cq.from(TfMarketingStatus.class);
@@ -64,7 +74,10 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 			}
 			return map;
 		} catch(Exception e) {
-			LogUtil.logger.error(e);
+			logger.error(e);
+		}
+		finally {
+			session.close();
 		}
 		return new HashMap<>();
 	}

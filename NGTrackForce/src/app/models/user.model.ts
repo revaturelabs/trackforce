@@ -4,9 +4,11 @@
  */
 
  export class User{
-     username: String;
-     passwordHash: String;
+     username: string;
+     passwordHash: string;
+     verified: string;
      tfRoleId: number;
-     userId: number;
+     userId: number; 
      token: string;
+     associateId: number;
  }

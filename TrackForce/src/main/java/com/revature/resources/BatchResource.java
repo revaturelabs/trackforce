@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
@@ -48,7 +47,7 @@ public class BatchResource {
 	/**
 	 * Gets all batches, optionally filtered by start and end date query parameters
 	 * For example, sending a GET request to /batches?start={date1}&end={date2} will
-	 * return all batches with end dates between date 1 and date2
+	 * return all batches with end dates between date1 and date2
 	 * 
 	 * @author Ian Buitrago
 	 * @return - Response with 200 status and a List<BatchInfo> in the response body
@@ -58,12 +57,13 @@ public class BatchResource {
 	public Response getAllBatches(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
 			@HeaderParam("Authorization") String token) {
 		logger.info("getallBatches()...");
+		Collection<BatchInfo> batches = null;
+		
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 
-		Collection<BatchInfo> batches = null;
 		Status status = null;
 		int role = Integer.parseInt(payload.getId());
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
@@ -73,7 +73,7 @@ public class BatchResource {
 				logger.info("	start = " + new Timestamp(startDate));
 				logger.info("	end = " + new Timestamp(endDate));
 				batches = service.getBatches(startDate, endDate);
-			}else {
+			} else {
 				batches = service.getAllBatches();
 			}
 			status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
@@ -98,34 +98,36 @@ public class BatchResource {
 			@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate,
 			@QueryParam("end") Long endDate) {
 		logger.info("getBatchesByCurri()...");
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
 		Collection<BatchInfo> results = new HashSet<>();
-
+		
+		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			status = Status.UNAUTHORIZED; // invalid token
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
-			status = Status.FORBIDDEN;
-		} else {
-			logger.info("getBatchesByCurriculum(): " + curriculum);
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		Status status = null;
+		int role = Integer.parseInt(payload.getId());
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
 
+		if (authorizedRoles.contains(role)) {
 			if (startDate != null && endDate != null) {
 				logger.info("	start = " + new Timestamp(startDate));
 				logger.info("	end = " + new Timestamp(endDate));
-				Collection<BatchInfo> batches = service.getBatches(startDate, endDate);
+				List<BatchInfo> batches = service.getBatches(startDate, endDate);
 
 				// TODO should be filtered in DAO layer
 				for (BatchInfo b : batches) {
 					if (b.getCurriculumName() != null && b.getCurriculumName().equalsIgnoreCase(curriculum))
 						results.add(b);
 				}
+
 			} else {
 				results = service.getBatchesByCurri(curriculum);
 			}
-
 			status = results == null || results.isEmpty() ? Status.NO_CONTENT : Status.OK;
-			logger.info("	batch size: " + (results == null ? null : results.size()));
+		} else {
+			status = Status.FORBIDDEN;
 		}
+		logger.info("	batch size: " + (results == null ? null : results.size()));
 
 		return Response.status(status).entity(results).build();
 	}
@@ -141,19 +143,22 @@ public class BatchResource {
 	@ApiOperation(value = "Returns a batch", notes = "Returns a specific batch by id.")
 	public Response getBatchById(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
 		logger.info("getBatchById()...");
-		Status status = null;
 		BatchInfo batch = null;
+		
 		Claims payload = JWTService.processToken(token);
-
 		if (payload == null) {
-			status = Status.UNAUTHORIZED; // invalid token
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
-			status = Status.FORBIDDEN;
-		} else {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		int role = Integer.parseInt(payload.getId());
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
+		Status status = null;
+
+		if (authorizedRoles.contains(role)) {
 			batch = service.getBatchById(id);
 			status = batch == null ? Status.NO_CONTENT : Status.OK;
+		} else {
+			status = Status.FORBIDDEN;
 		}
-
 		return Response.status(status).entity(batch).build();
 	}
 
@@ -162,17 +167,22 @@ public class BatchResource {
 	@Path("{id}/associates")
 	public Response getBatchAssociates(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
 		logger.info("getBatchAssociates()...");
-		Claims payload = JWTService.processToken(token);
 		Set<AssociateInfo> associates = null;
-		Status status = null;
-
+		
+		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			status = Status.UNAUTHORIZED;
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
-			status = Status.FORBIDDEN;
-		} else {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		Status status = null;
+		int role = Integer.parseInt(payload.getId());
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
+
+		if (authorizedRoles.contains(role)) {
+			// results and status set in here
 			associates = service.getAssociatesForBranch(id);
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		} else {
+			status = Status.FORBIDDEN;
 		}
 
 		return Response.status(status).entity(associates).build();

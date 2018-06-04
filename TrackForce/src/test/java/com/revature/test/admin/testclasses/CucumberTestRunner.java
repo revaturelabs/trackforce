@@ -6,6 +6,7 @@ import cucumber.api.junit.Cucumber;
  
 @RunWith(Cucumber.class)
 @CucumberOptions(
+		format={"pretty", "html:target/cucumber"},
 		features = {"src/test/resources/AdminFeatureFiles/AssociateList.feature",
 				"src/test/resources/AdminFeatureFiles/HomeTab.feature",
 				"src/test/resources/AdminFeatureFiles/CreateUser.feature",

@@ -14,7 +14,7 @@ import com.revature.test.utils.TestConfig;
 
 public class ClientListTest extends AdminSuite 
 {
-	// static WebDriver e = null;
+/*	// static WebDriver e = null;
 
 	static String firstClient = null; //first client at top of client list initially on page load
 	static String secondClient = null; //second client at top of client list initially on page load
@@ -389,13 +389,13 @@ public class ClientListTest extends AdminSuite
 	}
 	
 	
-	/* A message from 1804
+	 A message from 1804
 	 * The Previous batches (we're not sure which) did not properly implement TestNG and Cucumber. 
 	 * As far as we can tell, there is no proper runner class for the cucumber and the 'cukes' classes
 	 * are just used as methods to given functionality to the TestNg. So to get around this we are separating 
 	 * the two classes as much as possible. Below is an example of how the code used to look like. BTW the try-catch blocks 
 	 * were also their idea.  I did my best to keep the test functionality as much as possible but I didn't get to the below tests.
-	 * */
+	 * 
 	
 	
 	
@@ -463,5 +463,5 @@ public class ClientListTest extends AdminSuite
 	public void afterTest() {
 		System.out.println("============ Client List Tests finished ===============");
 		System.out.println("");
-	}
+	}*/
 }

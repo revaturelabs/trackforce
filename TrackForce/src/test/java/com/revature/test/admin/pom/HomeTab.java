@@ -27,11 +27,7 @@ public class HomeTab {
 	}
 	
 	public static WebElement clickHomeTab(WebDriver d) {
-<<<<<<< HEAD
-		e=WaitToLoad.findDynamicElement(d, By.cssSelector("[href='/NGTrackForce/root']"),2);
-=======
 		e= WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("homeTab")), 10);
->>>>>>> 7a0ff14ae4f77ffa07d3cce1e8151107b9ce164a
 		return e;
 	}
 	

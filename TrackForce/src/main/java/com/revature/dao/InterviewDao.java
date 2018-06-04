@@ -17,7 +17,7 @@ public interface InterviewDao {
     Set<InterviewInfo> getInterviewFromCache();
     boolean addInterviewForAssociate(int associateid, InterviewFromClient ifc);
     boolean createInterview(TfInterview parmInterview);
-    boolean updateInterview(TfInterview parmInterview);
+    boolean updateInterview(int associateid, InterviewFromClient ifc);
     void cacheAllInterviews();
     boolean isInterviewAtId(Integer parmInterviewId);
     

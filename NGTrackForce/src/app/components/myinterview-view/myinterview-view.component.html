@@ -15,27 +15,43 @@
             <th>Date of Interview</th>
             <th>Medium</th>
       		<th>Job Description</th>
-            <th>Flag</th>
-            <th>Questions</th>    
-            <th>Associate Feedback</th>
-            <th>Client FeedBack</th>  <!-- -->   
-        
+            <th>24 hour notice?</th>
+            <th>Feedback</th>    
+            <!-- <th>Associate Feedback <i class="fa fa-edit" style="font-size:24px"></i> </th>
+            <th>Client Feedback</th>   -->
+            
              
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let interview of interviews; let i = index">
             <td>{{i+1}}</td>
-            <td>{{interview.client}}</td>
-            <td [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'red':''}">{{interview.date | date:'longDate'}}</td>
-            <td>{{interview.DInterview}}</td>
-            <td>{{interview.type}}</td>
+            <td><select style="width: 100%; height:100% ">
+              <option >Infosys</option>
+              <option >Accenture Federal Services</option>
+              <option >FINRA</option>
+              <option >Wipro</option>
+            </select></td>
+            <td [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'red':''}">
+                <div *ngIf='!interview.isDateAvailable; else dateEdit2'> 
+                    {{interview.date | date:'short'}}<button type="button" (click)='showAvailableDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>
+                    <ng-template #dateEdit2><input id="date" #date type="datetime-local"> <button type="button" (click)='showAvailableDate(interview,date.value)'> <i class="fa fa-edit" style="font-size:24px"></i></button></ng-template>
+            </td>
+            <td> 
+              <div *ngIf='!interview.isEditingAvailable; else dateEdit'> 
+              {{interview.DInterview}}<button type="button" (click)='showInputDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>
+              <ng-template #dateEdit><input id="date" #date2 type="date"> <button type="button" (click)='showInputDate(interview,date2.value)'> <i class="fa fa-edit" style="font-size:24px"></i></button></ng-template>
+            </td>
+            <td><select style="width: 100%; height:100% ">
+                <option value="1">Phone</option>
+                     <option value="2">Online</option>
+                     <option value="3">On-site</option>
+                     <option value="4">Skype</option>
+              </select></td>
             <td>{{interview.JDescription}}</td>           
             <td class="flag"><input type="checkbox" id="flag"></td>
-            <td><a [routerLink]="['/form-comp',associate.id, i+1]" class="id">view</a></td>
-             <td>{{interview.Afeedback}}</td>
-            <td>{{interview.CFeedback}}</td>
-            <!-- <td contentEditable = "true" /> -->
+            <td><a [routerLink]="['/interviewDetails']" class="id">view</a></td>
+            <td> <button type= "button" class="btn btn-primary" >Save </button></td>
           </tr>
         </tbody>
       </table>
@@ -46,23 +62,32 @@
             <div class="form-group">
               <label class="control-label col-sm-3">Client:</label>
                <div class="col-sm-9">
-                 <select class="form-control" name="newClient" [(ngModel)]="newInterview.client">
+                 <select class="form-control" name="newClient" [(ngModel)]="newInterview.clientId">
                      <option selected="selected">None</option>
                      <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
                  </select>
                </div>
             </div>
+
+
             <div class="form-group">
-              <label class="control-label col-sm-3">Date:</label>
+              <label class="control-label col-sm-3">Date of interview:</label>
                <div class="col-sm-9">
                  <!-- <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" /> -->
-                 <input type="datetime-local" class="form-control" name="date" [(ngModel)]="newInterview.date" />
+                 <input type="datetime-local" class="form-control" name="date" [(ngModel)]="interviewDate" />
                </div>
             </div>
+
+            <label class="control-label col-sm-3">Date Assigned:</label>
+            <div class="col-sm-9">
+              <!-- <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" /> -->
+              <input type="datetime-local" class="form-control" name="date" [(ngModel)]="interviewDateNotification" />
+            </div>
+            
             <div class="form-group">
               <label class="control-label col-sm-3">Type:</label>
                <div class="col-sm-9">
-                 <select class="form-control" name="type "[(ngModel)]="newInterview.type">
+                 <select class="form-control" name="type "[(ngModel)]="newInterview.typeId">
                      <option value="1">Phone</option>
                      <option value="2">Online</option>
                      <option value="3">On-site</option>
@@ -70,12 +95,10 @@
                  </select>
                </div>
             </div>
-            <div class="form-group">
-              <label class="control-label col-sm-3">Feedback:</label>
-              <div class="col-sm-9">
-                <textarea type="text" class="form-control" name="feedback" rows="3" [(ngModel)]="newInterview.feedback"></textarea>
-              </div>
+            <div class="form-group">           
             </div>
+            <label class="control-label col-sm-3" >24 hour notice?</label>
+            <input type="checkbox" name="24hournotice" [(ngModel)]="newInterview.was24HRNotice">
             <button (click)="addInterview()" class="btn btn-warning">Add Interview</button>
           </form>
         </div>

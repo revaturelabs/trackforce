@@ -22,7 +22,6 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.PasswordStorage;
 
 public class UserService {
-	
 
     private JWTService jwtService;
     private UserDAO userDao;
@@ -166,4 +165,5 @@ public class UserService {
         return userjson;
         //return Response.status(400).build();
     }
+
 }

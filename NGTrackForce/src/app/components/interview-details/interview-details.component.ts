@@ -1,6 +1,10 @@
+
 import { Component, OnInit, Input } from '@angular/core';
 import { MyInterviewComponent } from '../../components/myinterview-view/myinterview-view.component';
 import { ActivatedRoute } from '@angular/router';
+
+import { InterviewService } from '../../services/interview-service/interview.service';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 
 @Component({
   selector: 'app-interview-details',
@@ -8,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./interview-details.component.css']
 })
 export class InterviewDetailsComponent implements OnInit {
+
 
   public interview: any = {};
    public i:number;
@@ -30,6 +35,9 @@ export class InterviewDetailsComponent implements OnInit {
       {
       this.interview = JSON.parse(sessionStorage.getItem("changedin"));
     }
+
+  //User object containing need data
+ 
   }
 
   commitchanges()
@@ -39,5 +47,6 @@ export class InterviewDetailsComponent implements OnInit {
   }
   
   
+
 
 }

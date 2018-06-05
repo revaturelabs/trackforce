@@ -1,4 +1,4 @@
-<app-navbar [associate]="associate"></app-navbar>
+<app-navbar></app-navbar>
 <div class="container">
   <div class = "card-deck mb-3 text-center">
      <div>
@@ -36,7 +36,7 @@
             <td>{{interview.jobDescription}}</td>           
             <td>
 			</td>
-			<td><a [routerLink]="['/interviewDetails']" class="id">view</a></td>
+			<td><a class="id"(click)='viewInterview(interview)'>view</a></td>
           </tr>
         </tbody>
       </table>

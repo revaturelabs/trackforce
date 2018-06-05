@@ -51,13 +51,9 @@ export class MyInterviewComponent implements OnInit {
     // console.log(this.clients)
   }
 
-
   toggleForm() {
     this.formOpen = !this.formOpen;
-
   }
-
-
 
   addInterview(){
     //this.newInterview.associateId = this.id
@@ -66,25 +62,18 @@ export class MyInterviewComponent implements OnInit {
     this.newInterview.jobDescription = "none available";
     this.newInterview.flagAlert = 0;
     this.newInterview.was24HRNotice = (this.newInterview.was24HRNotice*1)
-    console.log(JSON.stringify(this.newInterview));  
-
+    console.log(JSON.stringify(this.newInterview));
     console.log(this.newInterview)
-
-     this.associateService.addInterviewForAssociate(this.id,this.newInterview).subscribe(
-       data => {
-         this.getInterviews(this.id);
-       },
-       err => {
-         console.log(err);
-       }
-
-     )
-
-
-
+    this.associateService.addInterviewForAssociate(this.id,this.newInterview).subscribe(
+      data => {
+        this.getInterviews(this.id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
-  
 
   updateInterview(id: number){
   console.log(id);
@@ -139,197 +128,103 @@ export class MyInterviewComponent implements OnInit {
        err => {
          console.log(err);
        }
-
-     )
-        
+    );    
     
   }
 
-
-
   getInterviews(id: number) {
     this.interviewService.getInterviews(id).subscribe(
-     data => {
-
-       console.log(data);
-
+      data => {
+        console.log(data);
         let tempArr = [];
-
         for (let i=0;i<data.length;i++) {
-
           let interview = data[i];
-          
           console.log(interview);
           let intObj = {
-
             id: interview.id,
-
             client: interview.tfClientName,
-
-           DInterview : new Date(interview.tfInterviewDate),
-
-           type: interview.typeName,
-
-            AFeedback: interview.tfInterviewFeedback,  
-
+            DInterview : new Date(interview.tfInterviewDate),
+            type: interview.typeName,
+            AFeedback: interview.tfInterviewFeedback,
             JDescription: interview.jobDescription,
-
             date: new Date(interview.dateAssociateIssued),
-           
             CFeedback: interview.clientFeedback,    
-
-            typeID : interview.typeId,
-            
-          	Flag: interview.was24HRNotice ,
+            typeID : interview.typeId,            
+            Flag: interview.isInterviewFlagged,
 
           }
-
           console.log(intObj.date)
-
           tempArr.push(intObj);
-
         }
-
         this.interviews = tempArr;
+
         sessionStorage.setItem("interviews", JSON.stringify(this.interviews));
-      }
 
+      }
     )
-
-  } 
-
-  
-
-  
-
- 
-
-
-
-  /* Function to search for conflicting interviews */
-
-  highlightInterviewConflicts(interview: number) {
-
-    var checkDate = this.interviews[interview].DInterview;
-
-    for (var i = 0; i < this.interviews.length; i++) {
-
-      if (this.interviews[i].DInterview === checkDate && i != interview) {
-
-        this.conflictingInterviews = "The highlighted interviews are conflicting." +
-
-          "They are both scheduled at the same time!";
-
-        return true;
-
-      }
-
-    }
-
-    return false;
-
   }
 
-
+  /**
+   Function to search for conflicting interviews.
+   This function is called once for every row in the
+   "My Interviews" table. If it returns true, the date
+   cell is colored red to highlight the conflict.
+  */
+  highlightInterviewConflicts(interview: number) {
+    var checkDate = this.interviews[interview].DInterview;
+    for (var i = 0; i < this.interviews.length; i++) {
+      if (this.interviews[i].DInterview.getTime() === checkDate.getTime() && i != interview) {
+        this.conflictingInterviews = "The highlighted interviews are conflicting." +
+        "They are both scheduled at the same time!";
+        return true;
+      }
+    }
+    return false;
+  }
 
   getAssociate(id: number){
-
     this.associateService.getAssociate(id).subscribe(
-
       data => {
-
         this.associate = data;
-
       },
-
       err => {
-
         console.log(err);
+      });
+    }
 
-  });
+    showInputDate(interview,dateVal){
+      if(!interview.isEditingAvailable){
+        interview.isEditingAvailable=true;
+      } else {
+        if(dateVal){
+          interview.DInterview=dateVal;
+        }
+        interview.isEditingAvailable=false;
+      }
+      console.log(interview.isEditingAvailable)
+    }
 
-  }
+    showAvailableDate(interview,dateVal){
+      if(!interview.isDateAvailable){
+        interview.isDateAvailable=true;
+      } else {
+        if(dateVal)
+        interview.date = dateVal;
+        interview.isDateAvailable=false;
+      }
+      console.log(interview.isDateAvailable)
+    }
 
-
-
-
-
-showInputDate(interview,dateVal){
-
-  if(!interview.isEditingAvailable){
-
-    interview.isEditingAvailable=true;
-
-  } else {
-
-    if(dateVal){
-
-      interview.DInterview=dateVal;
+    saveInterview(interview:Interview){
 
     }
 
-    interview.isEditingAvailable=false;
+    getClientNames() {
+      var self = this;
+      this.clientService.getAllClients().subscribe(data => {
+        self.clients = data;
+        console.log(this.clients);
+      });
+    }
 
   }
-
-  console.log(interview.isEditingAvailable)
-
-}
-
-
-
-showAvailableDate(interview,dateVal){
-
-  if(!interview.isDateAvailable){
-
-    interview.isDateAvailable=true;
-
-  } else {
-
-    if(dateVal)
-
-      interview.date = dateVal;
-
-    interview.isDateAvailable=false;
-
-  }
-
-  console.log(interview.isDateAvailable)
-
-}
-
-
-
-
-
-saveInterview(interview:Interview){
-
-
-
-
-
-
-
-}
-
-getClientNames() {
-
-  var self = this;
-
-  this.clientService.getAllClients().subscribe(data => {
-
-    self.clients = data;
-
-    console.log(this.clients);
-
-  });
-
-}
-
-
-
-
-
-
-
-}

@@ -8,6 +8,9 @@ import { environment } from '../../../environments/environment';
 export class InterviewService {
 
   private associatePath: string = "TrackForce/associates";
+
+	public myInterview:any;
+
   constructor(private http: HttpClient) { }
   
 
@@ -33,7 +36,9 @@ export class InterviewService {
     let url: string = environment.url + 'TrackForce/interviews';
     return this.http.get(url);
   }
-
   
-
+  public setInterview(interview:any){
+	  this.myInterview = interview;
+  }
+  
 }

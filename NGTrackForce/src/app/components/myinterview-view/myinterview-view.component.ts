@@ -63,9 +63,7 @@ export class MyInterviewComponent implements OnInit {
     this.newInterview.flagAlert = 0;
     this.newInterview.was24HRNotice = (this.newInterview.was24HRNotice*1)
     console.log(JSON.stringify(this.newInterview));
-
     console.log(this.newInterview)
-
     this.associateService.addInterviewForAssociate(this.id,this.newInterview).subscribe(
       data => {
         this.getInterviews(this.id);
@@ -73,8 +71,7 @@ export class MyInterviewComponent implements OnInit {
       err => {
         console.log(err);
       }
-    )
-
+    );
   }
 
   updateInterview(){
@@ -108,15 +105,16 @@ export class MyInterviewComponent implements OnInit {
     )
   }
 
-  /** Function to search for conflicting interviews
-  *   This function is called once for every row in the
-  *   "My Interviews" table. If it returns true, the row
-  *   is colored red to highlight the conflict.
+  /**
+   Function to search for conflicting interviews.
+   This function is called once for every row in the
+   "My Interviews" table. If it returns true, the date
+   cell is colored red to highlight the conflict.
   */
   highlightInterviewConflicts(interview: number) {
     var checkDate = this.interviews[interview].DInterview;
     for (var i = 0; i < this.interviews.length; i++) {
-      if (this.interviews[i].DInterview === checkDate && i != interview) {
+      if (this.interviews[i].DInterview == checkDate && i != interview) {
         this.conflictingInterviews = "The highlighted interviews are conflicting." +
         "They are both scheduled at the same time!";
         return true;
@@ -157,7 +155,9 @@ export class MyInterviewComponent implements OnInit {
       }
       console.log(interview.isDateAvailable)
     }
+
     saveInterview(interview:Interview){
+
     }
 
     getClientNames() {

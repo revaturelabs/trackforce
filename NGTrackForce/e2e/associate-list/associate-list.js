@@ -5,15 +5,15 @@ describe('Open the browser and get to the website', function() {
     wd = browser.driver;
 });
 
-// describe('Log into the website for associate list', function() {
-//     browser.manage().timeouts().implicitlyWait(50000);
-//     it('should be able to log in', function () {
-//         wd.findElement(by.id('username')).sendKeys('TestAdmin');
-// 	    wd.findElement(by.id('password')).sendKeys('TestAdmin');
-//         wd.findElement(by.xpath("//button[@type='submit']")).click();
-//         expect(wd.getTitle()).toEqual('TrackForce');
-//     })
-// });
+describe('Log into the website for associate list', function() {
+    browser.manage().timeouts().implicitlyWait(50000);
+    it('should be able to log in', function () {
+        wd.findElement(by.id('username')).sendKeys('TestAdmin');
+	    wd.findElement(by.id('password')).sendKeys('TestAdmin');
+        wd.findElement(by.xpath("//button[@type='submit']")).click();
+        expect(wd.getTitle()).toEqual('TrackForce');
+    })
+});
 
 
 describe('Go to associate list tab', function(){

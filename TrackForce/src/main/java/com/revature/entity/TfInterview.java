@@ -62,7 +62,7 @@ public class TfInterview implements java.io.Serializable {
 	private Timestamp tfDateSalesIssued;
 	@Column(name = "TF_DATE_ASSOCIATE_ISSUED")
 	private Timestamp tfDateAssociateIssued;
-	@Column(name = "TF_WAS_24HR_NOTICE")
+	@Column(name = "TF_WAR_24HR_NOTICE")
 	private Integer tfWas24HRNotice;	
 	@Column(name = "TF_IS_INTERVIEW_FLAGGED")
 	private Integer tfIsInterviewFlagged = 0;

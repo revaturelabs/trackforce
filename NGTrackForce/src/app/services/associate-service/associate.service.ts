@@ -73,17 +73,17 @@ export class AssociateService {
   }
 
   updateAssociate(associate: any) {
-    let url: string = environment.url + this.associatePath + "/"+associate.id;
+    let url: string = environment.url + this.associatePath + "/" +associate.id;
     return this.http.put(url,associate);
   }
 
   verifyAssociate(associateID: number) {
-    let url: string = environment.url + "/verify/" + associateID;
+    let url: string = environment.url + this.associatePath + "/" + associateID + "/verify/";
     return this.http.put(url, associateID);
   }
 
   getInterviewsForAssociate(id: number): Observable<any> {
-    let url: string = environment.url + "TrackForce/"+id;
+    let url: string = environment.url + this.associatePath + "/" + id + "/interviews";
     return this.http.get(url);
   }
 

@@ -190,6 +190,9 @@ public class Dao2DoMapper {
             ii.setTypeId(tfi.getTfInterviewType().getTfInterviewTypeId());
             ii.setTypeName(tfi.getTfInterviewType().getTfInterviewTypeName());
         }
+        if(tfi.getTfWas24HRNotice() != null) {
+        	ii.setTfWas24HRNotice(tfi.getTfWas24HRNotice());
+        }
         return ii;
     }
 

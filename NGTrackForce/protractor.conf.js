@@ -27,7 +27,7 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome'
   },
-  directConnect: true,
+  // directConnect: true,
     //baseUrl: 'http://localhost:4200/',
    baseUrl: 'http://34.227.178.103:8090/NGTrackForce/',
    //for pipeline delpoyment

@@ -12,7 +12,7 @@ import com.revature.test.admin.cukes.HomeTabCukes;
 
 
 public class HomeTest extends AdminSuite {
-
+/*//
 	static int testNumber = 1;
 	
 	@BeforeTest
@@ -37,7 +37,7 @@ public class HomeTest extends AdminSuite {
 	}
 	
 
-	/*
+	
 	 * @Test(priority = 2) // Clicks Home Tab public void ClickPieChart() { try {
 	 * Thread.sleep(2000); // Click on the Pie Chart HomeTab.pieChart(wd).click();
 	 * 
@@ -45,7 +45,7 @@ public class HomeTest extends AdminSuite {
 	 * e.printStackTrace(); }
 	 * 
 	 * }
-	 */
+	 
 
 	@Test(priority = 1, enabled = false)
 	public void clickPhone() {
@@ -113,5 +113,5 @@ public class HomeTest extends AdminSuite {
 		System.out.println("============ Home Tests finished ===============");
 		System.out.println("");
 	}
-	
-}
+	//
+*/}

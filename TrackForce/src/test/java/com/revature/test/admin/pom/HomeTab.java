@@ -27,7 +27,7 @@ public class HomeTab {
 	}
 	
 	public static WebElement clickHomeTab(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("homeTab")), 10);
+		e= WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("homeTab")), 2);
 		return e;
 	}
 	
@@ -36,18 +36,18 @@ public class HomeTab {
 	}
 	
 	public static WebElement phone(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("homePhone")), 10);
+		e= WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("homePhone")), 2);
 		return e;
 	}
 	
 	public static WebElement email(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("homeEmail")), 10);
+		e= WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("homeEmail")), 2);
 		
 		return e;
 	}
 	
 	public static WebElement website(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.cssSelector(prop.getProperty("homeWebsite")), 10);
+		e= WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("homeWebsite")), 2);
 		return e;
 	}
 	
@@ -69,12 +69,12 @@ public class HomeTab {
 	}
 	
 	public static WebElement pieChart(WebDriver d) {
-		e = WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("homePieChart")), 10);
+		e = WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("homePieChart")), 2);
 		return e;
 	}
 	
 	public static WebElement getChart(WebDriver d, String str) {
-		List<WebElement> e = WaitToLoad.findDynamicElements(d, By.id(prop.getProperty("homePie")), 10);
+		List<WebElement> e = WaitToLoad.findDynamicElements(d, By.id(prop.getProperty("homePie")), 2);
 		if(str.equals(prop.getProperty("homeMapvUnmapNoDep"))) {
 			return e.get(0);
 		}
@@ -91,17 +91,17 @@ public class HomeTab {
 	}
 	/*
 	public static WebElement barChart(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/div/app-client-mapped/div[1]/div/button[1]"), 10); 
+		e= WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/div/app-client-mapped/div[1]/div/button[1]"), 2); 
 		return e;
 	}
 		
 	public static WebElement pieChart1(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/div/app-client-mapped/div[1]/div/button[2]"), 10);  
+		e= WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/div/app-client-mapped/div[1]/div/button[2]"), 2);  
 		return e;
 	}
 	
 	public static WebElement polarChart(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/div/app-client-mapped/div[1]/div/button[3]"), 10);
+		e= WaitToLoad.findDynamicElement(d,By.xpath("/html/body/app/div/app-client-mapped/div[1]/div/button[3]"), 2);
 		return e;
 	}
 	*/

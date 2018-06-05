@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import com.revature.test.admin.pom.Login;
 
+
 public class TestConfig {
 	private static Properties prop = new Properties();
 	static {

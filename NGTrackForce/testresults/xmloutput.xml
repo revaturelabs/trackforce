@@ -1,71 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="0" errors="0" failures="1" tests="100" time="109.493">
- <testsuite name="login page element existences" timestamp="2018-06-04T20:51:16" hostname="localhost" time="5.697" errors="0" tests="6" skipped="0" disabled="0" failures="0">
-  <testcase classname="login page element existences" name="should have a username input box" time="0.039" />
-  <testcase classname="login page element existences" name="should have a password input box" time="0.003" />
-  <testcase classname="login page element existences" name="should have a login button" time="0.003" />
-  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.25" />
-  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.069" />
-  <testcase classname="login page element existences" name="should display proper value for button" time="0.086" />
+<testsuites disabled="0" errors="0" failures="1" tests="101" time="129.637">
+ <testsuite name="Registering as a new associate" timestamp="2018-06-04T21:01:36" hostname="localhost" time="8.304" errors="0" tests="7" skipped="0" disabled="0" failures="0">
+  <testcase classname="Registering as a new associate" name="should navigate to the login page" time="2.281" />
+  <testcase classname="Registering as a new associate" name="allow user to click the register button" time="0.187" />
+  <testcase classname="Registering as a new associate" name="allow associate to enter info into input fields" time="0.437" />
+  <testcase classname="Registering as a new associate" name="should allow associate to click the next page button" time="0.182" />
+  <testcase classname="Registering as a new associate" name="should allow associate to enter first and last name" time="0.24" />
+  <testcase classname="Registering as a new associate" name="should allow associate to register as an associate by clicking register button" time="0.099" />
+  <testcase classname="Registering as a new associate" name="exit browser" time="1.595" />
  </testsuite>
- <testsuite name="Confirm login failures" timestamp="2018-06-04T20:51:21" hostname="localhost" time="2.054" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.272" />
-  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.429" />
+ <testsuite name="login page element existences" timestamp="2018-06-04T21:01:44" hostname="localhost" time="1.879" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+  <testcase classname="login page element existences" name="should have a username input box" time="0.011" />
+  <testcase classname="login page element existences" name="should have a password input box" time="0.005" />
+  <testcase classname="login page element existences" name="should have a login button" time="0.002" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.065" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.06" />
+  <testcase classname="login page element existences" name="should display proper value for button" time="0.083" />
  </testsuite>
- <testsuite name="confirm login navigation" timestamp="2018-06-04T20:51:23" hostname="localhost" time="3.34" errors="0" tests="1" skipped="0" disabled="0" failures="0">
-  <testcase classname="confirm login navigation" name="should reach the index page" time="1.932" />
+ <testsuite name="Confirm login failures" timestamp="2018-06-04T21:01:46" hostname="localhost" time="2.368" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.172" />
+  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.448" />
  </testsuite>
- <testsuite name="navbar functionality" timestamp="2018-06-04T20:51:27" hostname="localhost" time="5.09" errors="0" tests="6" skipped="0" disabled="0" failures="0">
-  <testcase classname="navbar functionality" name="should navigate to home page" time="1.498" />
-  <testcase classname="navbar functionality" name="should navigate to client list page" time="1.356" />
-  <testcase classname="navbar functionality" name="should navigate to batch list page" time="0.328" />
-  <testcase classname="navbar functionality" name="should navigate to associate lising" time="1.331" />
-  <testcase classname="navbar functionality" name="should navigate to predictions" time="0.4" />
-  <testcase classname="navbar functionality" name="should navigate to create user" time="0.176" />
+ <testsuite name="confirm login navigation" timestamp="2018-06-04T21:01:48" hostname="localhost" time="2.235" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="confirm login navigation" name="should reach the index page" time="0.741" />
  </testsuite>
- <testsuite name="create-user page input and button fields" timestamp="2018-06-04T20:51:32" hostname="localhost" time="2.485" errors="0" tests="9" skipped="0" disabled="0" failures="0">
-  <testcase classname="create-user page input and button fields" name="should navigate to the create-user page" time="1.44" />
-  <testcase classname="create-user page input and button fields" name="should accept username input" time="0.137" />
-  <testcase classname="create-user page input and button fields" name="should accept password input" time="0.146" />
-  <testcase classname="create-user page input and button fields" name="should accept password confirmation input" time="0.138" />
-  <testcase classname="create-user page input and button fields" name="should select admin radio button" time="0.171" />
-  <testcase classname="create-user page input and button fields" name="should select trainer radio button" time="0.117" />
-  <testcase classname="create-user page input and button fields" name="should select associate radio button" time="0.107" />
+ <testsuite name="navbar functionality" timestamp="2018-06-04T21:01:51" hostname="localhost" time="5.766" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+  <testcase classname="navbar functionality" name="should navigate to home page" time="1.71" />
+  <testcase classname="navbar functionality" name="should navigate to client list page" time="1.345" />
+  <testcase classname="navbar functionality" name="should navigate to batch list page" time="0.28" />
+  <testcase classname="navbar functionality" name="should navigate to associate lising" time="1.665" />
+  <testcase classname="navbar functionality" name="should navigate to predictions" time="0.593" />
+  <testcase classname="navbar functionality" name="should navigate to create user" time="0.172" />
+ </testsuite>
+ <testsuite name="create-user page input and button fields" timestamp="2018-06-04T21:01:56" hostname="localhost" time="2.801" errors="0" tests="9" skipped="0" disabled="0" failures="0">
+  <testcase classname="create-user page input and button fields" name="should navigate to the create-user page" time="1.61" />
+  <testcase classname="create-user page input and button fields" name="should accept username input" time="0.162" />
+  <testcase classname="create-user page input and button fields" name="should accept password input" time="0.208" />
+  <testcase classname="create-user page input and button fields" name="should accept password confirmation input" time="0.154" />
+  <testcase classname="create-user page input and button fields" name="should select admin radio button" time="0.156" />
+  <testcase classname="create-user page input and button fields" name="should select trainer radio button" time="0.146" />
+  <testcase classname="create-user page input and button fields" name="should select associate radio button" time="0.123" />
   <testcase classname="create-user page input and button fields" name="should select staging manager radio button" time="0.119" />
-  <testcase classname="create-user page input and button fields" name="should select delivery radio button" time="0.108" />
+  <testcase classname="create-user page input and button fields" name="should select delivery radio button" time="0.121" />
  </testsuite>
- <testsuite name="When entering valid data into predictions filter it" timestamp="2018-06-04T20:51:34" hostname="localhost" time="1.279" errors="0" tests="5" skipped="0" disabled="0" failures="0">
-  <testcase classname="When entering valid data into predictions filter it" name="should navigate to the predictions page" time="0.294" />
-  <testcase classname="When entering valid data into predictions filter it" name="should allow user to input valid data" time="0.76" />
-  <testcase classname="When entering valid data into predictions filter it" name="should provide a table with predictions" time="0.001" />
+ <testsuite name="When entering valid data into predictions filter it" timestamp="2018-06-04T21:01:59" hostname="localhost" time="4.887" errors="0" tests="5" skipped="0" disabled="0" failures="0">
+  <testcase classname="When entering valid data into predictions filter it" name="should navigate to the predictions page" time="3.85" />
+  <testcase classname="When entering valid data into predictions filter it" name="should allow user to input valid data" time="0.748" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide a table with predictions" time="0.006" />
   <testcase classname="When entering valid data into predictions filter it" name="should provide the same number of rows entered into the filter" time="0.136" />
-  <testcase classname="When entering valid data into predictions filter it" name="should provide details when the details button is pressed" time="0.084" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide details when the details button is pressed" time="0.143" />
  </testsuite>
- <testsuite name="When entering valid data using all filters it" timestamp="2018-06-04T20:51:36" hostname="localhost" time="3.028" errors="0" tests="4" skipped="0" disabled="0" failures="0">
-  <testcase classname="When entering valid data using all filters it" name="should navigate to the predictions page" time="1.594" />
-  <testcase classname="When entering valid data using all filters it" name="should allow a user to input valid data and use all filters" time="1.221" />
-  <testcase classname="When entering valid data using all filters it" name="should provide the same number of rows entered into the filter" time="0.124" />
-  <testcase classname="When entering valid data using all filters it" name="should provide details when the details button is pressed" time="0.086" />
+ <testsuite name="When entering valid data using all filters it" timestamp="2018-06-04T21:02:04" hostname="localhost" time="3.111" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="When entering valid data using all filters it" name="should navigate to the predictions page" time="1.619" />
+  <testcase classname="When entering valid data using all filters it" name="should allow a user to input valid data and use all filters" time="1.275" />
+  <testcase classname="When entering valid data using all filters it" name="should provide the same number of rows entered into the filter" time="0.123" />
+  <testcase classname="When entering valid data using all filters it" name="should provide details when the details button is pressed" time="0.092" />
  </testsuite>
- <testsuite name="When I enter a start date that is more current than the end date it" timestamp="2018-06-04T20:51:39" hostname="localhost" time="2.337" errors="0" tests="4" skipped="0" disabled="0" failures="0">
-  <testcase classname="When I enter a start date that is more current than the end date it" name="should navigate to the predictions page" time="1.538" />
-  <testcase classname="When I enter a start date that is more current than the end date it" name="should allow user to input a start date that is more current than the end date" time="0.592" />
-  <testcase classname="When I enter a start date that is more current than the end date it" name="should yield 0 associates" time="0.152" />
-  <testcase classname="When I enter a start date that is more current than the end date it" name="should have a negative amount in Difference" time="0.053" />
+ <testsuite name="When I enter a start date that is more current than the end date it" timestamp="2018-06-04T21:02:07" hostname="localhost" time="2.516" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should navigate to the predictions page" time="1.596" />
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should allow user to input a start date that is more current than the end date" time="0.68" />
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should yield 0 associates" time="0.169" />
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should have a negative amount in Difference" time="0.069" />
  </testsuite>
- <testsuite name="When I enter a very large numeric input it" timestamp="2018-06-04T20:51:41" hostname="localhost" time="2.34" errors="0" tests="4" skipped="0" disabled="0" failures="0">
-  <testcase classname="When I enter a very large numeric input it" name="should navigate to the predictions page" time="1.386" />
-  <testcase classname="When I enter a very large numeric input it" name="should allow user to input a very large number" time="0.767" />
-  <testcase classname="When I enter a very large numeric input it" name="should yield some associates" time="0.144" />
-  <testcase classname="When I enter a very large numeric input it" name="should have a negative amount in Difference" time="0.04" />
+ <testsuite name="When I enter a very large numeric input it" timestamp="2018-06-04T21:02:10" hostname="localhost" time="2.82" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="When I enter a very large numeric input it" name="should navigate to the predictions page" time="1.641" />
+  <testcase classname="When I enter a very large numeric input it" name="should allow user to input a very large number" time="0.975" />
+  <testcase classname="When I enter a very large numeric input it" name="should yield some associates" time="0.152" />
+  <testcase classname="When I enter a very large numeric input it" name="should have a negative amount in Difference" time="0.051" />
  </testsuite>
- <testsuite name="When navigating to the client-list page it" timestamp="2018-06-04T20:51:43" hostname="localhost" time="62.96" errors="0" tests="7" skipped="0" disabled="0" failures="1">
-  <testcase classname="When navigating to the client-list page it" name="should navigate to the client-list page" time="2.57" />
-  <testcase classname="When navigating to the client-list page it" name="should accept username input" time="0.145" />
-  <testcase classname="When navigating to the client-list page it" name="should yield match for search input in one exists" time="2.445" />
-  <testcase classname="When navigating to the client-list page it" name="should yield a match for a search regardless of case" time="2.092" />
-  <testcase classname="When navigating to the client-list page it" name="should yield a match for search input if many results exist" time="2.445" />
-  <testcase classname="When navigating to the client-list page it" name="should yield no matches if none exist" time="53.107">
+ <testsuite name="When navigating to the client-list page it" timestamp="2018-06-04T21:02:12" hostname="localhost" time="73.406" errors="0" tests="7" skipped="0" disabled="0" failures="1">
+  <testcase classname="When navigating to the client-list page it" name="should navigate to the client-list page" time="2.671" />
+  <testcase classname="When navigating to the client-list page it" name="should accept username input" time="0.178" />
+  <testcase classname="When navigating to the client-list page it" name="should yield match for search input in one exists" time="3.035" />
+  <testcase classname="When navigating to the client-list page it" name="should yield a match for a search regardless of case" time="1.923" />
+  <testcase classname="When navigating to the client-list page it" name="should yield a match for search input if many results exist" time="9.26" />
+  <testcase classname="When navigating to the client-list page it" name="should yield no matches if none exist" time="56.185">
    <failure type="exception" message="Error: Timeout - Async callback was not invoked within timeout specified by jasmine.DEFAULT_TIMEOUT_INTERVAL."><![CDATA[Error: Timeout - Async callback was not invoked within timeout specified by jasmine.DEFAULT_TIMEOUT_INTERVAL.
     at Timeout._onTimeout (C:\Users\Michael  Harty\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4281:23)
     at ontimeout (timers.js:482:11)
@@ -73,88 +82,80 @@
     at Timer.listOnTimeout (timers.js:277:5)]]>
    </failure>
   </testcase>
-  <testcase classname="When navigating to the client-list page it" name="should logout" time="0.154" />
+  <testcase classname="When navigating to the client-list page it" name="should logout" time="0.153" />
  </testsuite>
- <testsuite name="Open the browser and get to the website" timestamp="2018-06-04T20:52:46" hostname="localhost" time="0" errors="0" tests="0" skipped="0" disabled="0" failures="0">
+ <testsuite name="Open the browser and get to the website" timestamp="2018-06-04T21:03:26" hostname="localhost" time="0" errors="0" tests="0" skipped="0" disabled="0" failures="0">
  </testsuite>
- <testsuite name="Log into the website for associate list" timestamp="2018-06-04T20:52:46" hostname="localhost" time="0.345" errors="0" tests="1" skipped="0" disabled="0" failures="0">
-  <testcase classname="Log into the website for associate list" name="should be able to log in" time="0.345" />
+ <testsuite name="Log into the website for associate list" timestamp="2018-06-04T21:03:26" hostname="localhost" time="0.498" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="Log into the website for associate list" name="should be able to log in" time="0.498" />
  </testsuite>
- <testsuite name="Go to associate list tab" timestamp="2018-06-04T20:52:47" hostname="localhost" time="1.15" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="Go to associate list tab" name="Should be able to go to associate list tab." time="1.085" />
-  <testcase classname="Go to associate list tab" name="We should be on the associate tab" time="0.064" />
+ <testsuite name="Go to associate list tab" timestamp="2018-06-04T21:03:26" hostname="localhost" time="0.53" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="Go to associate list tab" name="Should be able to go to associate list tab." time="0.474" />
+  <testcase classname="Go to associate list tab" name="We should be on the associate tab" time="0.055" />
  </testsuite>
- <testsuite name="Now ordering by ..." timestamp="2018-06-04T20:52:48" hostname="localhost" time="0.421" errors="0" tests="6" skipped="0" disabled="0" failures="0">
-  <testcase classname="Now ordering by ..." name="should order by ID" time="0.07" />
-  <testcase classname="Now ordering by ..." name="should order by first name" time="0.071" />
-  <testcase classname="Now ordering by ..." name="should order by last name" time="0.068" />
-  <testcase classname="Now ordering by ..." name="should order by Marketing status" time="0.068" />
-  <testcase classname="Now ordering by ..." name="should order by Client name" time="0.073" />
-  <testcase classname="Now ordering by ..." name="should order by Batch name" time="0.07" />
+ <testsuite name="Lets do some stuff in the associates list tab..." timestamp="2018-06-04T21:03:27" hostname="localhost" time="3.033" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+  <testcase classname="Lets do some stuff in the associates list tab..." name="Test out search by name of associate" time="0.14" />
+  <testcase classname="Lets do some stuff in the associates list tab..." name="Check return results of entered values, with name of associate" time="0.607" />
+  <testcase classname="Lets do some stuff in the associates list tab..." name="Clear the search input box" time="1.083" />
+  <testcase classname="Lets do some stuff in the associates list tab..." name="Test out search by last name" time="0.334" />
+  <testcase classname="Lets do some stuff in the associates list tab..." name="Check results of search by associates last name" time="0.049" />
+  <testcase classname="Lets do some stuff in the associates list tab..." name="Clear out search input once more" time="0.819" />
  </testsuite>
- <testsuite name="Lets do some stuff in the associates list tab..." timestamp="2018-06-04T20:52:48" hostname="localhost" time="3.988" errors="0" tests="6" skipped="0" disabled="0" failures="0">
-  <testcase classname="Lets do some stuff in the associates list tab..." name="Test out search by name of associate" time="0.085" />
-  <testcase classname="Lets do some stuff in the associates list tab..." name="Check return results of entered values, with name of associate" time="2.175" />
-  <testcase classname="Lets do some stuff in the associates list tab..." name="Clear the search input box" time="0.767" />
-  <testcase classname="Lets do some stuff in the associates list tab..." name="Test out search by last name" time="0.285" />
-  <testcase classname="Lets do some stuff in the associates list tab..." name="Check results of search by associates last name" time="0.046" />
-  <testcase classname="Lets do some stuff in the associates list tab..." name="Clear out search input once more" time="0.629" />
+ <testsuite name="Testing associate list page further by changing search status." timestamp="2018-06-04T21:03:30" hostname="localhost" time="2.43" errors="0" tests="11" skipped="0" disabled="0" failures="0">
+  <testcase classname="Testing associate list page further by changing search status." name="Select mapped: training" time="0.309" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select mapped: reserved" time="0.123" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: SELECTED" time="0.09" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: CONFIRMED" time="0.094" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: DEPLOYED" time="0.185" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: TRAINING" time="0.487" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: OPEN" time="0.209" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: SELECTED" time="0.086" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: CONFIRMED" time="0.068" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: DEPLOYED" time="0.13" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select default" time="0.647" />
  </testsuite>
- <testsuite name="Testing associate list page further by changing search status." timestamp="2018-06-04T20:52:52" hostname="localhost" time="1.831" errors="0" tests="11" skipped="0" disabled="0" failures="0">
-  <testcase classname="Testing associate list page further by changing search status." name="Select mapped: training" time="0.231" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select mapped: reserved" time="0.105" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: SELECTED" time="0.076" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: CONFIRMED" time="0.072" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: DEPLOYED" time="0.133" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: TRAINING" time="0.279" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: OPEN" time="0.166" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: SELECTED" time="0.066" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: CONFIRMED" time="0.071" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: DEPLOYED" time="0.097" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select default" time="0.534" />
+ <testsuite name="Testing associate list by curriculum" timestamp="2018-06-04T21:03:32" hostname="localhost" time="2.178" errors="0" tests="9" skipped="0" disabled="0" failures="0">
+  <testcase classname="Testing associate list by curriculum" name="Should select Java option" time="0.261" />
+  <testcase classname="Testing associate list by curriculum" name="Should select .Net option" time="0.2" />
+  <testcase classname="Testing associate list by curriculum" name="Should select SEED option" time="0.088" />
+  <testcase classname="Testing associate list by curriculum" name="Should select Salesfoce option" time="0.138" />
+  <testcase classname="Testing associate list by curriculum" name="Should select JTA option" time="0.149" />
+  <testcase classname="Testing associate list by curriculum" name="Should select None option" time="0.319" />
+  <testcase classname="Testing associate list by curriculum" name="Should select DynamicCRM option" time="0.126" />
+  <testcase classname="Testing associate list by curriculum" name="Should select PEGA option" time="0.112" />
+  <testcase classname="Testing associate list by curriculum" name="Should select default option" time="0.783" />
  </testsuite>
- <testsuite name="Testing associate list by curriculum" timestamp="2018-06-04T20:52:54" hostname="localhost" time="1.583" errors="0" tests="9" skipped="0" disabled="0" failures="0">
-  <testcase classname="Testing associate list by curriculum" name="Should select Java option" time="0.195" />
-  <testcase classname="Testing associate list by curriculum" name="Should select .Net option" time="0.182" />
-  <testcase classname="Testing associate list by curriculum" name="Should select SEED option" time="0.092" />
-  <testcase classname="Testing associate list by curriculum" name="Should select Salesfoce option" time="0.122" />
-  <testcase classname="Testing associate list by curriculum" name="Should select JTA option" time="0.092" />
-  <testcase classname="Testing associate list by curriculum" name="Should select None option" time="0.17" />
-  <testcase classname="Testing associate list by curriculum" name="Should select DynamicCRM option" time="0.111" />
-  <testcase classname="Testing associate list by curriculum" name="Should select PEGA option" time="0.088" />
-  <testcase classname="Testing associate list by curriculum" name="Should select default option" time="0.53" />
+ <testsuite name="Testing associate list via Client Search" timestamp="2018-06-04T21:03:34" hostname="localhost" time="2.344" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+  <testcase classname="Testing associate list via Client Search" name="Should select None" time="0.244" />
+  <testcase classname="Testing associate list via Client Search" name="Should select 22nd Century Technologies" time="0.157" />
+  <testcase classname="Testing associate list via Client Search" name="Should select 3 Edge USA Group, LLC" time="0.111" />
+  <testcase classname="Testing associate list via Client Search" name="Should select 3 S Business Corporation Inc (, LLC" time="0.09" />
+  <testcase classname="Testing associate list via Client Search" name="Should select some more" time="1.376" />
+  <testcase classname="Testing associate list via Client Search" name="should log out" time="0.366" />
  </testsuite>
- <testsuite name="Testing associate list via Client Search" timestamp="2018-06-04T20:52:56" hostname="localhost" time="1.857" errors="0" tests="6" skipped="0" disabled="0" failures="0">
-  <testcase classname="Testing associate list via Client Search" name="Should select None" time="0.151" />
-  <testcase classname="Testing associate list via Client Search" name="Should select 22nd Century Technologies" time="0.128" />
-  <testcase classname="Testing associate list via Client Search" name="Should select 3 Edge USA Group, LLC" time="0.106" />
-  <testcase classname="Testing associate list via Client Search" name="Should select 3 S Business Corporation Inc (, LLC" time="0.074" />
-  <testcase classname="Testing associate list via Client Search" name="Should select some more" time="1.123" />
-  <testcase classname="Testing associate list via Client Search" name="should log out" time="0.274" />
+ <testsuite name="Batch List Tab Protractor Test (Open site from cmd): Go to site, login, click batch list tab" timestamp="2018-06-04T21:03:37" hostname="localhost" time="0.068" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="Batch List Tab Protractor Test (Open site from cmd): Go to site, login, click batch list tab" name="Should go to login page" time="0.068" />
  </testsuite>
- <testsuite name="Batch List Tab Protractor Test (Open site from cmd): Go to site, login, click batch list tab" timestamp="2018-06-04T20:52:57" hostname="localhost" time="0.037" errors="0" tests="1" skipped="0" disabled="0" failures="0">
-  <testcase classname="Batch List Tab Protractor Test (Open site from cmd): Go to site, login, click batch list tab" name="Should go to login page" time="0.036" />
+ <testsuite name="Batch List Tab Protractor Test (Login)" timestamp="2018-06-04T21:03:37" hostname="localhost" time="0.439" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="Batch List Tab Protractor Test (Login)" name="Should login" time="0.439" />
  </testsuite>
- <testsuite name="Batch List Tab Protractor Test (Login)" timestamp="2018-06-04T20:52:57" hostname="localhost" time="0.281" errors="0" tests="1" skipped="0" disabled="0" failures="0">
-  <testcase classname="Batch List Tab Protractor Test (Login)" name="Should login" time="0.281" />
+ <testsuite name="Batch List Tab Protractor Test (Click Batch List Tab)" timestamp="2018-06-04T21:03:37" hostname="localhost" time="6.288" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="Batch List Tab Protractor Test (Click Batch List Tab)" name="Should be able to switch to Batch List Tab" time="6.151" />
+  <testcase classname="Batch List Tab Protractor Test (Click Batch List Tab)" name="should log out" time="0.137" />
  </testsuite>
- <testsuite name="Batch List Tab Protractor Test (Click Batch List Tab)" timestamp="2018-06-04T20:52:58" hostname="localhost" time="6.287" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="Batch List Tab Protractor Test (Click Batch List Tab)" name="Should be able to switch to Batch List Tab" time="6.14" />
-  <testcase classname="Batch List Tab Protractor Test (Click Batch List Tab)" name="should log out" time="0.145" />
+ <testsuite name="Open the browser and get to the website" timestamp="2018-06-04T21:03:44" hostname="localhost" time="0" errors="0" tests="0" skipped="0" disabled="0" failures="0">
  </testsuite>
- <testsuite name="Open the browser and get to the website" timestamp="2018-06-04T20:53:04" hostname="localhost" time="0" errors="0" tests="0" skipped="0" disabled="0" failures="0">
+ <testsuite name="Log into the website for associate list" timestamp="2018-06-04T21:03:44" hostname="localhost" time="0.509" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="Log into the website for associate list" name="should be able to log in" time="0.509" />
  </testsuite>
- <testsuite name="Log into the website for associate list" timestamp="2018-06-04T20:53:04" hostname="localhost" time="0.283" errors="0" tests="1" skipped="0" disabled="0" failures="0">
-  <testcase classname="Log into the website for associate list" name="should be able to log in" time="0.283" />
+ <testsuite name="Should test out the navbar" timestamp="2018-06-04T21:03:44" hostname="localhost" time="1.088" errors="0" tests="5" skipped="0" disabled="0" failures="0">
+  <testcase classname="Should test out the navbar" name="Should go to client tab" time="0.45" />
+  <testcase classname="Should test out the navbar" name="Should go to batch tab" time="0.187" />
+  <testcase classname="Should test out the navbar" name="Should go to associates tab" time="0.146" />
+  <testcase classname="Should test out the navbar" name="Should go to predictions tab" time="0.146" />
+  <testcase classname="Should test out the navbar" name="should go to interviews tab" time="0.158" />
  </testsuite>
- <testsuite name="Should test out the navbar" timestamp="2018-06-04T20:53:04" hostname="localhost" time="0.72" errors="0" tests="5" skipped="0" disabled="0" failures="0">
-  <testcase classname="Should test out the navbar" name="Should go to client tab" time="0.24" />
-  <testcase classname="Should test out the navbar" name="Should go to batch tab" time="0.141" />
-  <testcase classname="Should test out the navbar" name="Should go to associates tab" time="0.116" />
-  <testcase classname="Should test out the navbar" name="Should go to predictions tab" time="0.11" />
-  <testcase classname="Should test out the navbar" name="should go to interviews tab" time="0.112" />
- </testsuite>
- <testsuite name="focused specs" timestamp="2018-06-04T20:53:05" hostname="localhost" time="0.1" errors="0" tests="1" skipped="0" disabled="0" failures="0">
-  <testcase classname="focused specs" name="should log out" time="0.093" />
+ <testsuite name="focused specs" timestamp="2018-06-04T21:03:45" hostname="localhost" time="0.139" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="focused specs" name="should log out" time="0.132" />
  </testsuite>
 </testsuites>

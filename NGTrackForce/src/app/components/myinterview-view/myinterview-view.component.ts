@@ -114,7 +114,7 @@ export class MyInterviewComponent implements OnInit {
   highlightInterviewConflicts(interview: number) {
     var checkDate = this.interviews[interview].DInterview;
     for (var i = 0; i < this.interviews.length; i++) {
-      if (this.interviews[i].DInterview == checkDate && i != interview) {
+      if (this.interviews[i].DInterview.getTime() === checkDate.getTime() && i != interview) {
         this.conflictingInterviews = "The highlighted interviews are conflicting." +
         "They are both scheduled at the same time!";
         return true;

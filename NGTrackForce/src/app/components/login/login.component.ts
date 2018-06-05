@@ -29,17 +29,7 @@ const associateInfo = 'associateInfo'
           animate('500ms', style({ opacity: 0}))
         ])
       ]
-    ),
-	trigger('slideInFadeOut', [
-      transition(':enter', [
-        style({transform: 'translateX(-100%)'}),
-        animate('500ms ease-in', style({transform: 'translateX(0%)'}))
-      ]),
-      transition(':leave', [
-          style({opacity: 1}),
-          animate('500ms', style({ opacity: 0}))
-      ])
-    ])
+    )
   ]
 })
 // Decorator for automatically unsubscribing all observables upon ngDestory()

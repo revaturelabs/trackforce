@@ -18,7 +18,7 @@ export class AssociateService {
   status: string
   client: string
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
   * Get all of the associates
@@ -45,7 +45,7 @@ export class AssociateService {
   getAssociatesByStatus(statusId: number) {
     console.log("Inside Associate Service - getFilteredAssociates");
     console.log("statusId: " + statusId);
-    return this.http.get(environment.url+this.associatePath+'/mapped/'+statusId);
+    return this.http.get(environment.url + this.associatePath + '/mapped/' + statusId);
   }
 
   /**
@@ -55,14 +55,14 @@ export class AssociateService {
   updateAssociates(ids: number[], uverify: string, ustatus: number, uclient: number): Observable<any> {
     let url: string = environment.url + this.associatePath + "?";
     let verifyUrl: string = (uverify ? "verified=" + uverify : "");
-    let statusUrl: string = (ustatus ? "marketingStatusId="+ustatus : "");
-    let clientUrl: string = (uclient ? "clientId="+uclient : "");
+    let statusUrl: string = (ustatus ? "marketingStatusId=" + ustatus : "");
+    let clientUrl: string = (uclient ? "clientId=" + uclient : "");
 
     if (uverify) {
-      url += verifyUrl + ( statusUrl != "" ? "&" : "");
+      url += verifyUrl + (statusUrl != "" ? "&" : "");
     }
 
-    if(ustatus){
+    if (ustatus) {
       url += statusUrl + (clientUrl != "" ? "&" : "");
     }
 
@@ -73,8 +73,8 @@ export class AssociateService {
   }
 
   updateAssociate(associate: any) {
-    let url: string = environment.url + this.associatePath + "/"+associate.id;
-    return this.http.put(url,associate);
+    let url: string = environment.url + this.associatePath + "/" + associate.id;
+    return this.http.put(url, associate);
   }
 
   verifyAssociate(associateID: number) {
@@ -83,12 +83,12 @@ export class AssociateService {
   }
 
   getInterviewsForAssociate(id: number): Observable<any> {
-    let url: string = environment.url + "TrackForce/"+id;
+    let url: string = environment.url + this.associatePath + "/" + id + "/interviews";
     return this.http.get(url);
   }
 
-  addInterviewForAssociate(id: number,interview: any): Observable<any> {
-    let url: string = environment.url +"TrackForce/api/" + "associates" + "/"+id+"/interviews";
+  addInterviewForAssociate(id: number, interview: any): Observable<any> {
+    let url: string = environment.url + "TrackForce/api/" + "associates" + "/" + id + "/interviews";
     return this.http.post(url, interview);
   }
 }

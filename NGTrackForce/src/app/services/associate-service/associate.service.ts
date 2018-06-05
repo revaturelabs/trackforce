@@ -78,7 +78,7 @@ export class AssociateService {
   }
 
   verifyAssociate(associateID: number) {
-    let url: string = environment.url + "/verify/" + associateID;
+    let url: string = environment.url + this.associatePath + "/"+ associateID + "/verify";
     return this.http.put(url, associateID);
   }
 

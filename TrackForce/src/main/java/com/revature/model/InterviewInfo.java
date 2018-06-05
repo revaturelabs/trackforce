@@ -3,8 +3,6 @@ package com.revature.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import com.revature.entity.TfClient;
-
 public class InterviewInfo implements Serializable, Comparable<InterviewInfo> {
 
     /**
@@ -167,11 +165,4 @@ public class InterviewInfo implements Serializable, Comparable<InterviewInfo> {
     public void setIsClientFeedbackVisible(Integer isClientFeedbackVisible) {
         this.isClientFeedbackVisible = isClientFeedbackVisible;
     }
-
-
-
-	
-
-
-	
 }

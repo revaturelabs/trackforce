@@ -7,6 +7,8 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class InterviewService {
 
+	public myInterview:any;
+
   constructor(private http: HttpClient) { }
 
 
@@ -33,7 +35,9 @@ export class InterviewService {
     let url: string = environment.url + 'TrackForce/interviews';
     return this.http.get(url);
   }
-
   
-
+  public setInterview(interview:any){
+	  this.myInterview = interview;
+  }
+  
 }

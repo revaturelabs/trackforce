@@ -71,6 +71,7 @@ export class LoginComponent implements OnInit {
   */
   ngOnInit() {
     const user = this.authService.getUser();
+	
 
 
     if (user != null){

@@ -162,7 +162,6 @@ public class Dao2DoMapper {
         if(tfi.getTfAssociateFeedback() != null) {
         	ii.setAssociateFeedback(tfi.getTfAssociateFeedback());
         }
-        
 //        }else
 //        	ii.setAssociateFeedback(UNKNOWN_VALUE);
         if(tfi.getTfClientFeedback() != null) {
@@ -190,6 +189,9 @@ public class Dao2DoMapper {
         if (tfi.getTfInterviewType() != null) {
             ii.setTypeId(tfi.getTfInterviewType().getTfInterviewTypeId());
             ii.setTypeName(tfi.getTfInterviewType().getTfInterviewTypeName());
+        }
+        if(tfi.getTfAssociateFeedback() != null) {
+        	ii.setTfInterviewFeedback(tfi.getTfAssociateFeedback());
         }
         return ii;
     }

@@ -22,6 +22,15 @@ import static com.revature.utils.LogUtil.logger;
 
 public class UserDaoImpl implements UserDAO {
 
+    private AssociateDao associateDao;
+
+    public UserDaoImpl() {
+        associateDao = AssociateDaoHibernate.getInstance();
+    }
+
+    public UserDaoImpl(AssociateDao dao) {		// testing purposes
+        associateDao = dao;
+    }
 
     public TfUser getUser(String username) {
         TfUser user = null;
@@ -94,6 +103,7 @@ public class UserDaoImpl implements UserDAO {
             session.saveOrUpdate(newUser);
             t1.commit();
 
+            associateDao.cacheAllAssociates();
             logger.info("Associate successfully created");
 
             return true;

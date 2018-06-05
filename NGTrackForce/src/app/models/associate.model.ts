@@ -19,5 +19,4 @@ export class Associate {
     batchName: string;
     batchId: string;
     clientStartDate: Date;
-    isApproved: number;
 }

@@ -22,7 +22,6 @@ import com.revature.request.model.AssociateFromClient;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateService {
-
 	private AssociateDao associateDao;
 
 	public AssociateService() {

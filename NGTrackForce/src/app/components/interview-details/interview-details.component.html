@@ -4,38 +4,21 @@
 <!-- NGMODEL Then set session and cancel session once updates calls -->
 
 <h2>Associate FeedBack</h2>
-<<<<<<< HEAD
+
 <textarea maxlength="1900" editable = "true" style="min-width: 1200px; min-height: 200px" [(ngModel)] = "interview.AFeedback">{{interview.AFeedback}}</textarea>
 
 <h2>Client FeedBack</h2>
 <textarea maxlength="1900" disabled = "true" style="min-width: 1200px; min-height: 200px">{{interview.CFeedback}}</textarea>
-=======
-<div *ngIf='!isAssociate; else elseBlockOne'>
-	<textarea maxlength="1900" disabled = "true" style="min-width: 1200px; min-height: 200px" [(ngModel)]="assoFeedback"></textarea>
-</div>
-<ng-template #elseBlockOne>
-	<textarea maxlength="1900" style="min-width: 1200px; min-height: 200px" [(ngModel)]="assoFeedback"></textarea>
-</ng-template>
 
-<h2>Client FeedBack</h2>
-<div *ngIf='isAssociate; else elseBlockTwo'>
-	<textarea maxlength="1900" disabled = "true" style="min-width: 1200px; min-height: 200px" [(ngModel)]="clientFeedback"></textarea>
-</div>
-<ng-template #elseBlockTwo>
-	<textarea maxlength="1900" style="min-width: 1200px; min-height: 200px" [(ngModel)]="clientFeedback"></textarea>
-</ng-template>
->>>>>>> ee3151798013baae1a0ef60b309469127750d410
 
 <h2>Interview questions</h2>
-<div *ngIf='!isAssociate; else elseBlockThree'>
-	<textarea maxlength="1900" disabled = "true" style="min-width: 1200px; min-height: 200px" [(ngModel)]="questionsFeedback"></textarea>
-</div>
-<ng-template #elseBlockThree>
-	<textarea maxlength="1900" style="min-width: 1200px; min-height: 200px" [(ngModel)]="questionsFeedback"></textarea>
-</ng-template>
+	<textarea maxlength="1900" editable = "true" style="min-width: 1200px; min-height: 200px"></textarea>
+
 
 <br>
+
 <button class="btn btn-primary" type="button" (click) = "commitchanges()">Commit Changes</button><br> <!-- click button commitchanges -->
 <td><a [routerLink]="['/myinterview-view', id]" class="id">Close</a></td>
+
 
 <app-footer></app-footer>

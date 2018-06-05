@@ -14,12 +14,14 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 export class InterviewDetailsComponent implements OnInit {
 
 
+
   public interview: any = {};
    public i:number;
   public associate = MyInterviewComponent.prototype.associate;
   public id: number;
   
   constructor(private activated: ActivatedRoute) { }
+
 
   ngOnInit() {
      

@@ -5,11 +5,12 @@ table {
 .info td:first-child {
   font-weight: bold;
 }
-
+/*
 .container{
 	margin-bottom : 90px;
 	margin-top:150px;
 }
+*/
 thead, tbody {
   background-color: #fff;
 }

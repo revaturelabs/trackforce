@@ -16,7 +16,9 @@ export class InterviewDetailsComponent implements OnInit {
   //User object containing need data
   user: any;
   isAssociate: boolean=false;
-  
+  commit(){
+	  
+  }
   ngOnInit() {
 	  
 	  //gets the user from localStorage

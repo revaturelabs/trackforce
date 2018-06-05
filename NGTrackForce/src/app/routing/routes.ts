@@ -108,14 +108,9 @@ export const appRoutes: Routes = [
   	component: MyInterviewComponent
   },
   {
-    path: 'interviewDetails',
+    path: 'interviewDetails/:i/:id',
     canActivate: [AuthGuard],
     component: InterviewDetailsComponent
-  },
-  {
-    path: 'interviews',
-    canActivate: [AuthGuard],
-    component: InterviewsComponent
   },
   {
     // must be LAST in this array because this matches all other paths (fallback)

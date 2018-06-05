@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, OnInit, Input } from '@angular/core';
+import { MyInterviewComponent } from '../../components/myinterview-view/myinterview-view.component';
+import { ActivatedRoute } from '@angular/router';
+
 import { InterviewService } from '../../services/interview-service/interview.service';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-
 
 @Component({
   selector: 'app-interview-details',
@@ -9,31 +12,43 @@ import { AuthenticationService } from '../../services/authentication-service/aut
   styleUrls: ['./interview-details.component.css']
 })
 export class InterviewDetailsComponent implements OnInit {
-	public assoFeedback: string;
-	public clientFeedback: string;
-	public questionsFeedback: string;
-  constructor(private interviewService: InterviewService, private authService: AuthenticationService) { }
-  //User object containing need data
-  user: any;
-  isAssociate: boolean=false;
-  commit(){
-	  
-  }
+
+
+
+  public interview: any = {};
+   public i:number;
+  public associate = MyInterviewComponent.prototype.associate;
+  public id: number;
+  
+  constructor(private activated: ActivatedRoute) { }
+
+
   ngOnInit() {
-	  
-	  //gets the user from localStorage
-	  this.user = this.authService.getUser();
-	  if(this.user.tfRoleId === 5){
-		this.isAssociate = true;
-	  } else {
-		this.isAssociate = false;
-	  }
-	  
-	  console.log(this.interviewService.myInterview);
-	  this.assoFeedback = this.interviewService.myInterview.tfInterviewFeedback;
-	  this.clientFeedback = this.interviewService.myInterview.clientFeedback;
+     
+    this.i = +this.activated.snapshot.paramMap.get('i');
+    this.id = +this.activated.snapshot.paramMap.get('id');
+    var u = JSON.parse(sessionStorage.getItem("interviews"));
+    console.log(u[this.i]);
+    if(sessionStorage.getItem("changedin") === null)
+      {
+    this.interview = u[this.i];
+    }
+    else
+      {
+      this.interview = JSON.parse(sessionStorage.getItem("changedin"));
+    }
+
+  //User object containing need data
+ 
   }
 
+  commitchanges()
+  {
+    // store session the remaining ones
+    sessionStorage.setItem("changedin", JSON.stringify(this.interview));
+  }
   
+  
+
 
 }

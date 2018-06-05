@@ -103,8 +103,9 @@ public class UserDaoImpl implements UserDAO {
             session.saveOrUpdate(newUser);
             t1.commit();
 
-            logger.info("Associate successfully created");
             associateDao.cacheAllAssociates();
+            logger.info("Associate successfully created");
+
             return true;
 
         } catch (HibernateException e) {

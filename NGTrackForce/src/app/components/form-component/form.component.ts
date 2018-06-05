@@ -75,8 +75,6 @@ export class FormComponent implements OnInit {
   ngOnInit() {
     this.user = this.authService.getUser();
     this.isVerified = this.user.verified;
-    console.log(this.id);
-
     //Role checks
     if (this.user.tfRoleId === 3) {
       this.isVP = true;
@@ -94,14 +92,13 @@ export class FormComponent implements OnInit {
         this.associate = <Associate>data;
         console.log(data);
         this.isApproved = this.associate.isApproved;
-
         console.log("FROM BACK-END: " + data.clientStartDate);
         if (data.clientStartDate.toString() == "0")
           this.associate.clientStartDate = null;
         else
           this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
         console.log("DATE STORED: " + this.associate.clientStartDate);
-        
+
       });
     this.clientService.getAllClients().subscribe(
       data => {
@@ -231,18 +228,21 @@ export class FormComponent implements OnInit {
     this.associateService.getInterviewsForAssociate(this.id).subscribe(
       data => {
         let tempArr = [];
-        for (let i = 0; i < data.length; i++) {
-          let interview = data[i];
-          let intObj = {
-            id: interview.id,
-            client: interview.tfClientName,
-            date: new Date(interview.tfInterviewDate),
-            type: interview.typeName,
-            feedback: interview.tfInterviewFeedback
+        if (data != null) {
+          for (let i = 0; i < data.length; i++) {
+            let interview = data[i];
+            let intObj = {
+              id: interview.id,
+              client: interview.tfClientName,
+              date: new Date(interview.tfInterviewDate),
+              type: interview.typeName,
+              feedback: interview.tfInterviewFeedback
+            }
+            tempArr.push(intObj);
           }
-          tempArr.push(intObj);
+          this.interviews = tempArr;
         }
-        this.interviews = tempArr;
+
       }
     )
   }

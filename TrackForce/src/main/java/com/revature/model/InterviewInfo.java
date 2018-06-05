@@ -26,24 +26,8 @@ public class InterviewInfo implements Serializable, Comparable<InterviewInfo> {
     private Integer isInterviewFlagged;
     private String flagReason;
     private Integer isClientFeedbackVisible;
-	private Integer tfWas24HRNotice;
 
-    public Integer getTfWas24HRNotice() {
-		return tfWas24HRNotice;
-	}
-
-
-	public void setTfWas24HRNotice(Integer tfWas24HRNotice) {
-		this.tfWas24HRNotice = tfWas24HRNotice;
-	}
-
-
-	public String getAssociateFeedback() {
-		return associateFeedback;
-	}
-
-
-	public Integer getId() {
+    public Integer getId() {
         return id;
     }
 

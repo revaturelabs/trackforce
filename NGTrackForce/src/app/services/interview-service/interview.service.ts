@@ -7,16 +7,15 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class InterviewService {
 
+  private associatePath: string = "TrackForce/associates";
   constructor(private http: HttpClient) { }
+  
 
 
+ public  updateinterview(interview:any, id: number){
 
- public  updateinterview(interview:Interview, id: number){
-
-    // console.log(interview.associate, interview.associateFeedback, interview.clientFeedback, interview.dateNotified,
-    //   interview.dateOfInterview, interview.endClient,interview.id, interview.jobDescription,
-    //   interview.questions, interview.typeId, interview.typeName)
-    let url: string = environment.url+ "TrackForce/api/" +id;
+  
+    let url: string = environment.url+ this.associatePath + "/" +id + "/interviews" + "/" + interview.interviewId;
     return this.http.put(url, interview);
 
 

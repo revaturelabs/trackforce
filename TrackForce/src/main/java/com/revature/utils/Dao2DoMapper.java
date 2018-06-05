@@ -162,6 +162,7 @@ public class Dao2DoMapper {
         if(tfi.getTfAssociateFeedback() != null) {
         	ii.setAssociateFeedback(tfi.getTfAssociateFeedback());
         }
+        
 //        }else
 //        	ii.setAssociateFeedback(UNKNOWN_VALUE);
         if(tfi.getTfClientFeedback() != null) {

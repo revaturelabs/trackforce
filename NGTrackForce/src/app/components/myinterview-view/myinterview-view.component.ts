@@ -104,10 +104,10 @@ export class MyInterviewComponent implements OnInit {
         jobDescription: updateinterview.JDescription,
        // tfClientName :updateinterview.client,
         interviewDate : new Date(updateinterview.DInterview).getTime,
-        was24HRNotice:updateinterview.Flag,
+        //was24HRNotice:updateinterview.Flag,
         interviewFeedback : updateinterview.AFeedback,
-        //typeName:updateinterview.type,
-       // typeId : null
+        clientId: 9,
+        typeId : updateinterview.typeID
       } 
     }
    else
@@ -120,23 +120,19 @@ export class MyInterviewComponent implements OnInit {
       var interview:any = {
         clientFeedback : updateinterview.CFeedback,
         dateAssociateIssued: new Date(updateinterview.date).getTime,
-        dateSalesTeamIssued : null,
-        reasonForFlag: null,
         interviewId :updateinterview.id,
- 
         jobDescription: updateinterview.JDescription,
-        //tfClientName :updateinterview.client,
         interviewDate : new Date(updateinterview.DInterview).getTime,
-        was24HRNotice:updateinterview.Flag,
+        //was24HRNotice:updateinterview.Flag,
         interviewFeedback : updateinterview.AFeedback,
-        //typeName:updateinterview.type,
-       // typeId : null
+        clientId : 9,
+       typeId : updateinterview.typeID
       } 
       
       sessionStorage.clear();
     }
-    
-     this.interviewService.updateinterview(interview, interview.interviewid).subscribe(
+     console.log (interview);
+     this.interviewService.updateinterview(interview, this.id).subscribe(
        data => {
          this.getInterviews(this.id);
        },
@@ -182,7 +178,9 @@ export class MyInterviewComponent implements OnInit {
            
             CFeedback: interview.clientFeedback,    
 
-          	Flag: interview.isInterviewFlagged,
+            typeID : interview.typeId,
+            
+          	Flag: interview.was24HRNotice ,
 
           }
 

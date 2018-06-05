@@ -3,7 +3,7 @@
   <div class = "card-deck mb-3 text-center">
      <div>
       <h3>My Interviews</h3>
-      <div class="alert alert-danger">
+      <div class="alert alert-danger" *ngIf="conflictingInterviews!=''">
         {{conflictingInterviews}}
       </div>
       <table class="table table-responsive table-hover table-bordered">
@@ -16,11 +16,11 @@
             <th>Medium</th>
       		<th>Job Description</th>
             <th>24 hour notice?</th>
-            <th>Feedback</th>    
+            <th>Feedback</th>
             <!-- <th>Associate Feedback <i class="fa fa-edit" style="font-size:24px"></i> </th>
             <th>Client Feedback</th>   -->
-            
-             
+
+
           </tr>
         </thead>
         <tbody>
@@ -28,18 +28,18 @@
             <td>{{i+1}}</td>
             <td>{{interview.client}}</td>
             <td [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'red':''}">
-                <div *ngIf='!interview.isDateAvailable; else dateEdit2'> 
+                <div *ngIf='!interview.isDateAvailable; else dateEdit2'>
               {{interview.date | date:'short'}}<button type="button" (click)='showAvailableDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>
                     <ng-template #dateEdit2><input id="date" #date type="datetime-local"> <button type="button" (click)='showAvailableDate(interview,date.value)'> <i class="fa fa-edit" style="font-size:24px"></i></button></ng-template>
             </td>
-           
-            <td> 
-              <div *ngIf='!interview.isEditingAvailable; else dateEdit'> 
+
+            <td>
+              <div *ngIf='!interview.isEditingAvailable; else dateEdit'>
               {{interview.DInterview}}<button type="button" (click)='showInputDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>
               <ng-template #dateEdit><input id="date" #date2 type="date"> <button type="button" (click)='showInputDate(interview,date2.value)'> <i class="fa fa-edit" style="font-size:24px"></i></button></ng-template>
             </td>
             <td>{{interview.type}}</td>
-            <td>{{interview.JDescription}}</td>           
+            <td>{{interview.JDescription}}</td>
             <td class="flag"><input type="checkbox" id="flag" [(ngModel)]="interview.Flag"></td>
             <td><a [routerLink]="['/interviewDetails']" class="id">view</a></td>
             <td> <button type= "button" class="btn btn-primary" >Save </button></td>
@@ -74,7 +74,7 @@
               <!-- <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" /> -->
               <input type="datetime-local" class="form-control" name="date" [(ngModel)]="interviewDateNotification" />
             </div>
-            
+
             <div class="form-group">
               <label class="control-label col-sm-3">Type:</label>
                <div class="col-sm-9">
@@ -86,7 +86,7 @@
                  </select>
                </div>
             </div>
-            <div class="form-group">           
+            <div class="form-group">
             </div>
             <label class="control-label col-sm-3" >24 hour notice?</label>
             <input type="checkbox" name="24hournotice" [(ngModel)]="newInterview.was24HRNotice">

@@ -48,6 +48,7 @@ export class FormComponent implements OnInit {
 
   // form booleans
   isVerified: string;
+  isApproved: number;
   isMapped: boolean;
   eligibleForInterview: boolean;
   interviewScheduled: boolean;
@@ -76,7 +77,6 @@ export class FormComponent implements OnInit {
     this.isVerified = this.user.verified;
     console.log(this.id);
 
-
     //Role checks
     if (this.user.tfRoleId === 3) {
       this.isVP = true;
@@ -93,14 +93,15 @@ export class FormComponent implements OnInit {
       data => {
         this.associate = <Associate>data;
         console.log(data);
-        
+        this.isApproved = this.associate.isApproved;
+
         console.log("FROM BACK-END: " + data.clientStartDate);
         if (data.clientStartDate.toString() == "0")
           this.associate.clientStartDate = null;
         else
           this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
         console.log("DATE STORED: " + this.associate.clientStartDate);
-
+        
       });
     this.clientService.getAllClients().subscribe(
       data => {

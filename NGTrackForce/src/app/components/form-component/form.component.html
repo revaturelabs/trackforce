@@ -12,7 +12,7 @@
       <div class="table-responsive info">
         <table class="table table-hover table-bordered">
           <tbody>
-            <tr *ngIf="!isVerified">
+            <tr *ngIf="isApproved != 1">
               <td>This Associate has not been approved yet</td>
               <td>
                 <a *ngIf="true" (click)="verifyAssociate()">Approve</a>

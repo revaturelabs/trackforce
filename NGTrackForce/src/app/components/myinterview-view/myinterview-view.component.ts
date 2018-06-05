@@ -86,8 +86,67 @@ export class MyInterviewComponent implements OnInit {
 
   
 
-  updateInterview(){
+  updateInterview(id: number){
+  console.log(id);
+   // console.log(this.interviews[id]);
+    if (sessionStorage.getItem("changedin") === null) {
+  
+  
+     const updateinterview = this.interviews[id];
+      console.log(updateinterview);
+      var interview:any = {
+        clientFeedback : updateinterview.CFeedback,
+        dateAssociateIssued: new Date(updateinterview.date).getTime,
+        dateSalesTeamIssued : null,
+        reasonForFlag: null,
+        interviewId :updateinterview.id,
+ 
+        jobDescription: updateinterview.JDescription,
+       // tfClientName :updateinterview.client,
+        interviewDate : new Date(updateinterview.DInterview).getTime,
+        was24HRNotice:updateinterview.Flag,
+        interviewFeedback : updateinterview.AFeedback,
+        //typeName:updateinterview.type,
+       // typeId : null
+      } 
+    }
+   else
+    {
+      var u = JSON.parse(sessionStorage.getItem("changedin"));
+      const updateinterview = this.interviews[id];
+      updateinterview.CFeedback = u.CFeedback;
+      updateinterview.AFeedback = u.AFeedback;
+      console.log(updateinterview);
+      var interview:any = {
+        clientFeedback : updateinterview.CFeedback,
+        dateAssociateIssued: new Date(updateinterview.date).getTime,
+        dateSalesTeamIssued : null,
+        reasonForFlag: null,
+        interviewId :updateinterview.id,
+ 
+        jobDescription: updateinterview.JDescription,
+        //tfClientName :updateinterview.client,
+        interviewDate : new Date(updateinterview.DInterview).getTime,
+        was24HRNotice:updateinterview.Flag,
+        interviewFeedback : updateinterview.AFeedback,
+        //typeName:updateinterview.type,
+       // typeId : null
+      } 
+      
+      sessionStorage.clear();
+    }
+    
+     this.interviewService.updateinterview(interview, interview.interviewid).subscribe(
+       data => {
+         this.getInterviews(this.id);
+       },
+       err => {
+         console.log(err);
+       }
 
+     )
+        
+    
   }
 
 
@@ -134,7 +193,7 @@ export class MyInterviewComponent implements OnInit {
         }
 
         this.interviews = tempArr;
-
+        sessionStorage.setItem("interviews", JSON.stringify(this.interviews));
       }
 
     )

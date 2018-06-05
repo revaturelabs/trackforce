@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { MyInterviewComponent } from '../../components/myinterview-view/myinterview-view.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-interview-details',
@@ -7,11 +9,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InterviewDetailsComponent implements OnInit {
 
-  constructor() { }
+  public interview: any = {};
+   public i:number;
+  public associate = MyInterviewComponent.prototype.associate;
+  public id: number;
+  
+  constructor(private activated: ActivatedRoute) { }
 
   ngOnInit() {
+     
+    this.i = +this.activated.snapshot.paramMap.get('i');
+    this.id = +this.activated.snapshot.paramMap.get('id');
+    var u = JSON.parse(sessionStorage.getItem("interviews"));
+    console.log(u[this.i]);
+    if(sessionStorage.getItem("changedin") === null)
+      {
+    this.interview = u[this.i];
+    }
+    else
+      {
+      this.interview = JSON.parse(sessionStorage.getItem("changedin"));
+    }
   }
 
+  commitchanges()
+  {
+    // store session the remaining ones
+    sessionStorage.setItem("changedin", JSON.stringify(this.interview));
+  }
+  
   
 
 }

@@ -11,8 +11,8 @@
           <tr>
             <th>Interview</th>
             <th>Client</th>
-            <th>Date Notified</th>
-            <th>Date of Interview</th>
+            <th> Date  Notified </th>
+            <th>Interview Date</th>
             <th>Medium</th>
       		<th>Job Description</th>
             <th>24 hour notice?</th>
@@ -27,22 +27,22 @@
           <tr *ngFor="let interview of interviews; let i = index">
             <td>{{i+1}}</td>
             <td>{{interview.client}}</td>
-            <td [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'red':''}">
+            <td [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'red':''}" >
                 <div *ngIf='!interview.isDateAvailable; else dateEdit2'> 
-              {{interview.date | date:'short'}}<button type="button" (click)='showAvailableDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>
-                    <ng-template #dateEdit2><input id="date" #date type="datetime-local"> <button type="button" (click)='showAvailableDate(interview,date.value)'> <i class="fa fa-edit" style="font-size:24px"></i></button></ng-template>
+              {{interview.date | date:'short'}} <br><button class= "icon-button" type="button" (click)='showAvailableDate(interview)'> <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i></button> </div>
+                    <ng-template #dateEdit2><input id="date" #date type="datetime-local" [(ngModel)] = "interview.date"> <button type="button" (click)='showAvailableDate(interview,date.value)'> <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i></button></ng-template>
             </td>
            
             <td> 
               <div *ngIf='!interview.isEditingAvailable; else dateEdit'> 
-              {{interview.DInterview}}<button type="button" (click)='showInputDate(interview)'> <i class="fa fa-edit" style="font-size:24px"></i></button> </div>
-              <ng-template #dateEdit><input id="date" #date2 type="date"> <button type="button" (click)='showInputDate(interview,date2.value)'> <i class="fa fa-edit" style="font-size:24px"></i></button></ng-template>
+              {{interview.DInterview |date: 'short'}}<br><button class= "icon-button" type="button" (click)='showInputDate(interview)'> <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i></button> </div>
+              <ng-template #dateEdit><input id="date" #date2 type="datetime-local" [(ngModel)] = "interview.DInterview"> <button type="button" (click)='showInputDate(interview,date2.value)'> <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i></button></ng-template>
             </td>
-            <td>{{interview.type}}</td>
+            <td >{{interview.type}}</td>
             <td>{{interview.JDescription}}</td>           
             <td class="flag"><input type="checkbox" id="flag" [(ngModel)]="interview.Flag"></td>
-            <td><a [routerLink]="['/interviewDetails']" class="id">view</a></td>
-            <td> <button type= "button" class="btn btn-primary" >Save </button></td>
+            <td><a [routerLink]="['/interviewDetails', i, id]" class="id">view</a></td>
+            <td> <button type= "button" class="btn btn-primary" (click) = 'updateInterview(i)'>Save </button></td>
           </tr>
         </tbody>
       </table>

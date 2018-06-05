@@ -11,12 +11,13 @@ export class InterviewService {
 
 
 
- public  updateinterview(interview:Interview){
+ public  updateinterview(interview:Interview, id: number){
 
     // console.log(interview.associate, interview.associateFeedback, interview.clientFeedback, interview.dateNotified,
     //   interview.dateOfInterview, interview.endClient,interview.id, interview.jobDescription,
     //   interview.questions, interview.typeId, interview.typeName)
-    
+    let url: string = environment.url+ "TrackForce/api/" +id;
+    return this.http.put(url, interview);
 
 
   }

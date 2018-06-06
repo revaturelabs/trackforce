@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit {
       this.isAdmin = false;
     }
 
-    if(this.user.tfRoleId === 4){
+    if(this.user.tfRoleId === 5){
       this.isAssociate = true;
     } else {
       this.isAssociate = false;

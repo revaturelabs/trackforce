@@ -20,6 +20,8 @@ import {NotFoundComponent} from '../components/not-found/not-found.component';
 import {PredictionsComponent} from '../components/predictions/predictions.component';
 import {MyInterviewComponent} from '../components/myinterview-view/myinterview-view.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { InterviewDetailsComponent } from '../components/interview-details/interview-details.component';
+import { InterviewsComponent } from '../components/interviews-view/interviews-view.component';
 
 /**
  * Place paths here
@@ -104,6 +106,11 @@ export const appRoutes: Routes = [
   	path: 'myinterview-view/:id',
   	canActivate: [AuthGuard],
   	component: MyInterviewComponent
+  },
+  {
+    path: 'interviewDetails/:i/:id',
+    canActivate: [AuthGuard],
+    component: InterviewDetailsComponent
   },
   {
     // must be LAST in this array because this matches all other paths (fallback)

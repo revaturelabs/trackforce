@@ -11,6 +11,8 @@ import { UserService } from '../../services/user-service/user.service';
 import {trigger,state,style,transition,animate,keyframes} from '@angular/animations';
 import { AssociateService } from '../../services/associate-service/associate.service';
 
+const associateInfo = 'associateInfo'
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -27,17 +29,7 @@ import { AssociateService } from '../../services/associate-service/associate.ser
           animate('500ms', style({ opacity: 0}))
         ])
       ]
-    ),
-	trigger('slideInFadeOut', [
-      transition(':enter', [
-        style({transform: 'translateX(-100%)'}),
-        animate('500ms ease-in', style({transform: 'translateX(0%)'}))
-      ]),
-      transition(':leave', [
-          style({opacity: 1}),
-          animate('500ms', style({ opacity: 0}))
-      ])
-    ])
+    )
   ]
 })
 // Decorator for automatically unsubscribing all observables upon ngDestory()
@@ -79,29 +71,33 @@ export class LoginComponent implements OnInit {
   */
   ngOnInit() {
     const user = this.authService.getUser();
-    
-    
+	
+
+
     if (user != null){
-      if(user.tfRoleId === 4){
-        this.router.navigate(['associate-view', user.userId]);
+      if(user.tfRoleId === 5){
+
+       // this.router.navigate(['associate-view', user.userId]);
+
+        localStorage.setItem(associateInfo, JSON.stringify(user));
+        console.log(user.associateId);
+        this.router.navigate(['associate-view', user.associateId]);
+
       }
       else{
       	//console.log(user.name);
       	this.getUser(user.userId);
-      	console.log(this.associate.firstname);
         this.router.navigate(['root']);
       }
-
     }
-
   }
   /**
   * Enter the register state
   */
-  
+
   getUser(id)
   {
-  	
+
     this.associateService.getAssociate(id).subscribe(
       data => {
         this.associate = data;
@@ -109,7 +105,7 @@ export class LoginComponent implements OnInit {
       err => {
         console.log(err);
     });
-  
+
   }
   register(){
     this.errMsg = "";
@@ -154,7 +150,7 @@ export class LoginComponent implements OnInit {
   next(){
 	  this.registerPage = 1;
   }
-  
+
   /**
    * Change the current page to username and password
    */
@@ -178,8 +174,11 @@ export class LoginComponent implements OnInit {
           const user = this.authService.getUser();
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
-          if(user.tfRoleId === 4){
-            this.router.navigate(['associate-view', user.userId]);
+          console.log(user);
+        
+          if(user.tfRoleId === 5){
+            this.router.navigate(['associate-view', user.associateId]);
+
           } else {
             //otherwise, they are set to root
             this.router.navigate(['root']);

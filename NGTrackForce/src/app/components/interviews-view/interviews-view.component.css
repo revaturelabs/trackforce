@@ -5,11 +5,12 @@ table {
 .info td:first-child {
   font-weight: bold;
 }
-
+/*
 .container{
 	margin-bottom : 90px;
 	margin-top:150px;
 }
+*/
 thead, tbody {
   background-color: #fff;
 }
@@ -30,22 +31,6 @@ thead, tbody {
 	text-decoration: underline;
 }
 
-.icon-button {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    outline: none;
-    border: 0;
-    background: transparent;
-}
-
-.spaceUnder {
-  padding-right: 1em;
-}
-.pencil {
-	color : #ff8000;
-}
-
 .fa{
-  /*display: inline;*/
+  display: inline;
 }

@@ -22,7 +22,6 @@ import com.revature.utils.HibernateUtil;
 import com.revature.utils.PasswordStorage;
 
 public class UserService {
-	
 
     private JWTService jwtService;
     private UserDAO userDao;
@@ -136,6 +135,15 @@ public class UserService {
                         	userjson.setTfRoleId(tfRoleId);
                             userjson.setUsername(tfUserName);
                             userjson.setUserId(tfUser.getTfUserId());
+                            
+                            // If the user is an associate...
+                            if(tfRoleId == 5) {
+                            	//If the user has a valid associate id...
+                            	if(tfUser.getTfUserAssociate().getTfAssociateId() != null) {
+                            		//Sets the associate id to the userjson object, which is set back to angular
+                            		userjson.setAssociateId(tfUser.getTfUserAssociate().getTfAssociateId());
+                            	}
+                            }
 
                             // Uses JWT service to create token
                             userjson.setToken(this.jwtService.createToken(tfUserName,tfRoleId));
@@ -157,4 +165,5 @@ public class UserService {
         return userjson;
         //return Response.status(400).build();
     }
+
 }

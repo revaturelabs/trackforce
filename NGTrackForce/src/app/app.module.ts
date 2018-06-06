@@ -30,7 +30,7 @@ import { AssociateViewComponent } from './components/associate-view/associate-vi
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PredictionsComponent } from './components/predictions/predictions.component';
 import { MyInterviewComponent } from './components/myinterview-view/myinterview-view.component';
-
+import { InterviewsComponent } from './components/interviews-view/interviews-view.component';
 ///
 //  SERVICES
 ///
@@ -44,7 +44,7 @@ import { SkillsetService } from './services/skill-set-service/skill-set.service'
 import { DataSyncService } from './services/datasync-service/data-sync.service';
 import { UserService } from './services/user-service/user.service';
 import { PredictionService } from './services/prediction-service/prediction.service';
-
+import { InterviewService } from './services/interview-service/interview.service'
 
 ///
 //  FILTERS
@@ -64,6 +64,7 @@ import { AuthGuard } from './guards/auth.guard';
 ///
 import { appRoutes } from './routing/routes';
 import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-helpers/router-stubs';
+import { InterviewDetailsComponent } from './components/interview-details/interview-details.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,9 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     FooterComponent,
     NotFoundComponent,
     PredictionsComponent,
-    MyInterviewComponent
+    MyInterviewComponent,
+    InterviewDetailsComponent,
+	InterviewsComponent
   ],
   imports: [
     BrowserModule,
@@ -109,6 +112,7 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     UserService,
     SkillsetService,
     DataSyncService,
+    InterviewService,
     AuthGuard,
     PredictionService,
     {

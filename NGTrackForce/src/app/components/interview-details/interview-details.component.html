@@ -1,0 +1,24 @@
+<app-navbar></app-navbar>
+
+
+<!-- NGMODEL Then set session and cancel session once updates calls -->
+
+<h2>Associate FeedBack</h2>
+
+<textarea maxlength="1900" editable = "true" style="min-width: 1200px; min-height: 200px" [(ngModel)] = "interview.AFeedback">{{interview.AFeedback}}</textarea>
+
+<h2>Client FeedBack</h2>
+<textarea maxlength="1900" disabled = "true" style="min-width: 1200px; min-height: 200px">{{interview.CFeedback}}</textarea>
+
+
+<h2>Interview questions</h2>
+	<textarea maxlength="1900" editable = "true" style="min-width: 1200px; min-height: 200px"></textarea>
+
+
+<br>
+
+<button class="btn btn-primary" type="button" (click) = "commitchanges()">Commit Changes</button><br> <!-- click button commitchanges -->
+<td><a [routerLink]="['/myinterview-view', id]" class="id">Close</a></td>
+
+
+<app-footer></app-footer>

@@ -8,7 +8,7 @@ export class Associate {
     lastName: string;
     msid: number;
     marketingStatus: string;
-    verified: boolean;
+    verified: string;
     clid: number;
     client: string;
     bid: number;
@@ -19,4 +19,5 @@ export class Associate {
     batchName: string;
     batchId: string;
     clientStartDate: Date;
+    isApproved: number;
 }

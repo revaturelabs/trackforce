@@ -19,6 +19,8 @@ public class UserJSON {
 	private String token;
 	//user id
 	private int userId;
+	//associate id:
+	private int associateId;
 	
 	
 	public UserJSON() {
@@ -56,10 +58,18 @@ public class UserJSON {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
+	
+	public int getAssociateId() {
+		return associateId;
+	}
+	
+	public void setAssociateId(int associateId) {
+		this.associateId = associateId;
+	}
 
 	@Override
 	public String toString() {
-		return "UserJSON [username=" + username + ", tfRoleId=" + tfRoleId + ", token=" + token + ", userId=" + userId
-				+ "]";
+		return "UserJSON [username=" + username + ", tfRoleId=" + tfRoleId + ", token=" + token +
+				", userId=" + userId + "]";
 	}
 }

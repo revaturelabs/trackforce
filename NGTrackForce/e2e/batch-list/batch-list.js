@@ -10,14 +10,11 @@ describe("Batch List Tab Protractor Test (Open site from cmd): "
 });
 
 describe("Batch List Tab Protractor Test (Login)", function() {
-	it("Should login",
-			function() {
-
-				browser.manage().timeouts().implicitlyWait(10000);
-				browser.ignoreSynchronization = true;
-				browser.driver.findElement(by.id('username')).sendKeys('TestAdmin');
-				driver.findElement(by.id('password')).sendKeys('TestAdmin');
-				browser.driver.findElement(by.xpath("//button[@type='submit']")).click();
+	it("Should login", function() {
+				browser.manage().timeouts().implicitlyWait(50000);
+				wd.findElement(by.id('username')).sendKeys('TestAdmin');
+				wd.findElement(by.id('password')).sendKeys('TestAdmin');
+				wd.findElement(by.xpath("//button[@type='submit']")).click();
 		
 		console.log(browser.driver.getTitle());
 		
@@ -33,4 +30,9 @@ describe("Batch List Tab Protractor Test (Click Batch List Tab)", function() {
 		// If tab is clicked, find something to match
 		
 	});
+
+	it('should log out', () => {
+	    wd.findElement(by.css('[routerlink="/login"]')).click();
+	});
 });
+

@@ -9,7 +9,9 @@ import org.testng.annotations.Test;
 import com.revature.test.admin.cukes.HomeTabCukes;
 
 public class HomeTest extends AdminSuite {
-
+/*//
+	static int testNumber = 1;
+	
 	@BeforeTest
 	public void beforeTest() {
 		System.out.println("Running HomePage Tests");
@@ -36,7 +38,7 @@ public class HomeTest extends AdminSuite {
 		assertTrue(true);
 	}
 
-	/*
+	
 	 * @Test(priority = 2) // Clicks Home Tab public void ClickPieChart() { try {
 	 * Thread.sleep(2000); // Click on the Pie Chart HomeTab.pieChart(wd).click();
 	 * 
@@ -44,7 +46,7 @@ public class HomeTest extends AdminSuite {
 	 * e.printStackTrace(); }
 	 * 
 	 * }
-	 */
+	 
 
 	@Test(priority = 2)
 	public void clickPhone() {
@@ -117,4 +119,11 @@ public class HomeTest extends AdminSuite {
 			e.printStackTrace();
 		}
 	}
-}
+	
+	@AfterTest
+	public void afterTest() {
+		System.out.println("============ Home Tests finished ===============");
+		System.out.println("");
+	}
+	//
+*/}

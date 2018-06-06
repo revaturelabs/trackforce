@@ -29,28 +29,12 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1893469049852289417L;
-	@Id
-	@Column(name = "TF_BATCH_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer tfBatchId;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "TF_BATCH_LOCATION_ID")
 	private TfBatchLocation tfBatchLocation;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "TF_CURRICULUM_ID")
 	private TfCurriculum tfCurriculum;
-	
-	@Column(name = "TF_BATCH_NAME", length = 50)
 	private String tfBatchName;
-	
-	@Column(name = "TF_BATCH_START_DATE")
 	private Timestamp tfBatchStartDate;
-	
-	@Column(name = "TF_BATCH_END_DATE")	
 	private Timestamp tfBatchEndDate;
-	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "tfBatch")
 	private Set<TfAssociate> tfAssociates = new HashSet<TfAssociate>(0);
 
 	public TfBatch() {
@@ -71,7 +55,8 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		this.tfAssociates = tfAssociates;
 	}
 
-	
+	@Id
+	@Column(name = "TF_BATCH_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Integer getTfBatchId() {
 		return this.tfBatchId;
 	}
@@ -80,7 +65,8 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		this.tfBatchId = tfBatchId;
 	}
 
-	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "TF_BATCH_LOCATION_ID")
 	public TfBatchLocation getTfBatchLocation() {
 		return this.tfBatchLocation;
 	}
@@ -89,7 +75,8 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		this.tfBatchLocation = tfBatchLocation;
 	}
 
-	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "TF_CURRICULUM_ID")
 	public TfCurriculum getTfCurriculum() {
 		return this.tfCurriculum;
 	}
@@ -98,6 +85,22 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		this.tfCurriculum = tfCurriculum;
 	}
 	
+	
+//	//ManyToMany
+//	@ManyToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+//    @JoinTable(name="TF_BATCH_JUNCTION", schema="ADMIN", joinColumns=
+//    {@JoinColumn(name="TF_BATCH_ID", nullable =false, updatable = false) }, 
+//    inverseJoinColumns= { @JoinColumn(name="TF_TECH_ID", nullable = false, updatable = false)})  
+//    public Set<TfTech> getTechs()
+//    {  
+//        return this.techs;  
+//    }  
+//    public void setTechs(Set<TfTech> techs)  
+//    {  
+//        this.techs = techs;  //reference the techs that it owns
+//    } 
+
+	@Column(name = "TF_BATCH_NAME", length = 50)
 	public String getTfBatchName() {
 		return this.tfBatchName;
 	}
@@ -106,7 +109,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		this.tfBatchName = tfBatchName;
 	}
 
-	
+	@Column(name = "TF_BATCH_START_DATE")
 	public Timestamp getTfBatchStartDate() {
 		return this.tfBatchStartDate;
 	}
@@ -115,7 +118,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		this.tfBatchStartDate = tfBatchStartDate;
 	}
 
-
+	@Column(name = "TF_BATCH_END_DATE")
 	public Timestamp getTfBatchEndDate() {
 		return this.tfBatchEndDate;
 	}
@@ -124,7 +127,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		this.tfBatchEndDate = tfBatchEndDate;
 	}
 
-	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "tfBatch")
 	public Set<TfAssociate> getTfAssociates() {
 		return this.tfAssociates;
 	}

@@ -21,21 +21,10 @@ public class TfEndClient implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -8077675564245631804L;
-	
-	@Id
-	@Column(name = "TF_END_CLIENT_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer tfEndClientId;
-	
-	@Column(name = "TF_END_CLIENT_NAME", length = 100)
 	private String tfEndClientName;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfEndClient")
 	private Set<TfAssociate> tfAssociates = new HashSet<TfAssociate>(0);
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfEndClient")
 	private Set<TfPlacement> tfPlacements = new HashSet<TfPlacement>(0);
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfEndClient")
 	private Set<TfInterview> tfInterviews = new HashSet<TfInterview>(0);
 
 	public TfEndClient() {
@@ -54,7 +43,8 @@ public class TfEndClient implements java.io.Serializable {
 		this.tfInterviews = tfInterviews;
 	}
 
-	
+	@Id
+	@Column(name = "TF_END_CLIENT_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	public Integer getTfEndClientId() {
 		return this.tfEndClientId;
 	}
@@ -63,7 +53,7 @@ public class TfEndClient implements java.io.Serializable {
 		this.tfEndClientId = tfEndClientId;
 	}
 
-	
+	@Column(name = "TF_END_CLIENT_NAME", length = 100)
 	public String getTfEndClientName() {
 		return this.tfEndClientName;
 	}
@@ -72,7 +62,7 @@ public class TfEndClient implements java.io.Serializable {
 		this.tfEndClientName = tfEndClientName;
 	}
 
-	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfEndClient")
 	public Set<TfAssociate> getTfAssociates() {
 		return this.tfAssociates;
 	}
@@ -81,7 +71,7 @@ public class TfEndClient implements java.io.Serializable {
 		this.tfAssociates = tfAssociates;
 	}
 
-	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfEndClient")
 	public Set<TfPlacement> getTfPlacements() {
 		return this.tfPlacements;
 	}
@@ -90,7 +80,7 @@ public class TfEndClient implements java.io.Serializable {
 		this.tfPlacements = tfPlacements;
 	}
 
-	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfEndClient")
 	public Set<TfInterview> getTfInterviews() {
 		return this.tfInterviews;
 	}

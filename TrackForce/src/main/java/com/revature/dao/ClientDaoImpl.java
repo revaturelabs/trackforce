@@ -33,8 +33,7 @@ public class ClientDaoImpl implements ClientDao {
 	 */
 	@Override
 	public TfClient getClient(String name) throws IOException {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		try {
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
 			Root<TfClient> root = criteriaQuery.from(TfClient.class);
@@ -43,9 +42,6 @@ public class ClientDaoImpl implements ClientDao {
 			return query.getSingleResult();
 		} catch (NoResultException nre) {
 			logger.error(nre);
-		}
-		finally {
-			session.close();
 		}
 		return new TfClient();
 	}
@@ -59,8 +55,7 @@ public class ClientDaoImpl implements ClientDao {
 	 * @throws IOException
 	 */
 	public TfClient getClient(int id) throws IOException{
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		try {
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
 			Root<TfClient> root = criteriaQuery.from(TfClient.class);
@@ -69,9 +64,6 @@ public class ClientDaoImpl implements ClientDao {
 			return query.getSingleResult();
 		} catch (NoResultException nre) {
 			logger.error(nre);
-		}
-		finally {
-			session.close();
 		}
 		return new TfClient();
 		
@@ -108,8 +100,7 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public Map<Integer, ClientInfo> getAllTfClients() {
 		Map<Integer, ClientInfo> map = new HashMap<>();
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		try {
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
 			cq.from(TfClient.class);
 			List<TfClient> clients = session.createQuery(cq).getResultList();
@@ -120,9 +111,6 @@ public class ClientDaoImpl implements ClientDao {
 			}	
 		} catch(Exception e) {
 			logger.error(e);
-		}
-		finally {
-			session.close();
 		}
 		return map;
 	}

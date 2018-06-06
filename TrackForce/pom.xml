@@ -24,7 +24,11 @@
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>2.26</version>
 		</dependency>
-
+	<dependency>
+   		 <groupId>org.dbunit</groupId>
+    	 <artifactId>dbunit</artifactId>
+    	 <version>2.5.4</version>
+	</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
 		<dependency>
@@ -224,23 +228,20 @@
 					<!-- Excludes integration tests when unit tests are run. -->
 					<excludes>
 						<exclude>**/IT*.java</exclude>
-						<exclude>com/revature/test/admin/cukes/*.java</exclude>
-						<exclude>com/revature/test/admin/pom/*.java</exclude>
-					</excludes>
-
-					<suiteXmlFiles>
-						<file>src/test/resources/surefire_test.xml</file>
-					</suiteXmlFiles>
-					<properties>
-						<property>
-							<name>suitethreadpoolsize</name>
-							<value>1</value>
-						</property>
-						<property>
-							<name>surefire.testng.verbose</name>
-							<value>0</value>
-						</property>
-					</properties>
+			            <exclude>com/revature/test/admin/cukes/*.java</exclude>
+			            <exclude>com/revature/test/admin/pom/*.java</exclude>
+					</excludes> 
+          		
+       		          <suiteXmlFiles>
+			            <file>src/test/resources/surefire_test.xml</file>
+			          </suiteXmlFiles>
+			          <properties>
+			            <property>
+			              <name>suitethreadpoolsize</name>
+						
+			              <value>1</value>
+			            </property>
+			          </properties> 
 				</configuration>
 			</plugin>
 

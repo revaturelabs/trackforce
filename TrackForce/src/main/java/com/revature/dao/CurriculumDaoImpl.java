@@ -25,8 +25,7 @@ public class CurriculumDaoImpl implements CurriculumDao {
 	@Override
 	public Map<Integer, CurriculumInfo> getAllCurriculums() {
 		Map<Integer, CurriculumInfo> curriculums = new HashMap<Integer, CurriculumInfo>();
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		try {
+		try(Session session = HibernateUtil.getSessionFactory().openSession()) {
 			CriteriaBuilder cb = session.getCriteriaBuilder();
 			CriteriaQuery<TfCurriculum> cq = cb.createQuery(TfCurriculum.class);
 			Root<TfCurriculum> from = cq.from(TfCurriculum.class);
@@ -36,9 +35,6 @@ public class CurriculumDaoImpl implements CurriculumDao {
 			return createCurriculaMap(tq.getResultList());
 		} catch(Exception e) {
 			logger.error(e);
-		}
-		finally {
-			session.close();
 		}
 		return curriculums;
 	}

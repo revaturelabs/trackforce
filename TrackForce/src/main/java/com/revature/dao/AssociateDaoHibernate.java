@@ -40,8 +40,8 @@ import com.revature.dao.ClientDaoImpl;
 public class AssociateDaoHibernate implements AssociateDao {
 
 	private static AssociateDaoHibernate instance;
-
-	// FOR ANDy
+//somthing
+// FOR ANDy
 	private AssociateDaoHibernate() {
 		logger.info("AssociateDao created.");
 	}
@@ -73,19 +73,17 @@ public class AssociateDaoHibernate implements AssociateDao {
 	}
 
 	@Override
-	public AssociateInfo getAssociateFromDB(Integer id) {
-		Session session = HibernateUtil.getSession();
-		try {
-			TfAssociate tfa = session.load(TfAssociate.class, id);
-			AssociateInfo ai = Dao2DoMapper.map(tfa);
-			return ai;
-		} catch (HibernateException e) {
-			logger.error(e);
-		} finally {
-			session.close();
-		}
-		return null;
-	}
+    public AssociateInfo getAssociateFromDB(Integer id) {
+        try(Session session = HibernateUtil.getSession()) {
+            TfAssociate tfa = session.load(TfAssociate.class, id);
+            AssociateInfo ai = Dao2DoMapper.map(tfa);
+            return  ai;
+        }
+        catch(HibernateException e) {
+        	logger.error(e);
+        }
+        return null;
+    }
 
 	@Override
 	public void updateAssociates(List<Integer> ids, Integer marketingStatus, Integer clientid) {
@@ -115,15 +113,12 @@ public class AssociateDaoHibernate implements AssociateDao {
 		} catch (HibernateException e) {
 			logger.error(e);
 			t.rollback();
-		} finally {
-			session.close();
 		}
-	}
+    }
 
 	public void updateAssociate(AssociateFromClient afc) {
 		Transaction t = null;
-		Session session = HibernateUtil.getSession();
-		try {
+		try(Session session = HibernateUtil.getSession()) {
 			t = session.beginTransaction();
 			TfAssociate tfAssociate = (TfAssociate) session.load(TfAssociate.class, afc.getId());
 			

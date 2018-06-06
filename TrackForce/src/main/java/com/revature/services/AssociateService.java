@@ -29,7 +29,7 @@ public class AssociateService {
 	}
 	
 	public AssociateService(AssociateDao dao) {		// testing purposes
-		associateDao = dao;
+		 associateDao = dao;
 	}
 	/**
 	 * Retrieve information about a specific associate.

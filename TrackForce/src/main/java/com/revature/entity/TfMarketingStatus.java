@@ -20,9 +20,17 @@ public class TfMarketingStatus implements java.io.Serializable {
 	/**
 	 * 
 	 */
+
 	private static final long serialVersionUID = -1638800519652509525L;
+	
+	@Id
+	@Column(name = "TF_MARKETING_STATUS_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer tfMarketingStatusId;
+	
+	@Column(name = "TF_MARKETING_STATUS_NAME", length = 30)
 	private String tfMarketingStatusName;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfMarketingStatus")
 	private Set<TfAssociate> tfAssociates = new HashSet<TfAssociate>(0);
 
 	public TfMarketingStatus() {
@@ -39,8 +47,7 @@ public class TfMarketingStatus implements java.io.Serializable {
 		this.tfAssociates = tfAssociates;
 	}
 
-	@Id
-	@Column(name = "TF_MARKETING_STATUS_ID", unique = true, nullable = false, precision = 22, scale = 0)
+
 	public Integer getTfMarketingStatusId() {
 		return this.tfMarketingStatusId;
 	}
@@ -49,7 +56,7 @@ public class TfMarketingStatus implements java.io.Serializable {
 		this.tfMarketingStatusId = tfMarketingStatusId;
 	}
 
-	@Column(name = "TF_MARKETING_STATUS_NAME", length = 30)
+	
 	public String getTfMarketingStatusName() {
 		return this.tfMarketingStatusName;
 	}
@@ -58,7 +65,7 @@ public class TfMarketingStatus implements java.io.Serializable {
 		this.tfMarketingStatusName = tfMarketingStatusName;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfMarketingStatus")
+	
 	public Set<TfAssociate> getTfAssociates() {
 		return this.tfAssociates;
 	}
@@ -72,5 +79,48 @@ public class TfMarketingStatus implements java.io.Serializable {
         return "TfMarketingStatus [tfMarketingStatusId=" + tfMarketingStatusId + ", tfMarketingStatusName="
                 + tfMarketingStatusName + "]";
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((tfAssociates == null) ? 0 : tfAssociates.hashCode());
+		result = prime * result + ((tfMarketingStatusId == null) ? 0 : tfMarketingStatusId.hashCode());
+		result = prime * result + ((tfMarketingStatusName == null) ? 0 : tfMarketingStatusName.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TfMarketingStatus other = (TfMarketingStatus) obj;
+		if (tfAssociates == null) {
+			if (other.tfAssociates != null)
+				return false;
+		} else if (!tfAssociates.equals(other.tfAssociates))
+			return false;
+		if (tfMarketingStatusId == null) {
+			if (other.tfMarketingStatusId != null)
+				return false;
+		} else if (!tfMarketingStatusId.equals(other.tfMarketingStatusId))
+			return false;
+		if (tfMarketingStatusName == null) {
+			if (other.tfMarketingStatusName != null)
+				return false;
+		} else if (!tfMarketingStatusName.equals(other.tfMarketingStatusName))
+			return false;
+		return true;
+	}
 
 }

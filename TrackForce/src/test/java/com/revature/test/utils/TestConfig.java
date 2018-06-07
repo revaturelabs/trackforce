@@ -1,29 +1,10 @@
 package com.revature.test.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
-import com.revature.test.admin.pom.Login;
-
-
 public class TestConfig {
-	private static Properties prop = new Properties();
-	static {
-		InputStream locProps = Login.class.getClassLoader()
-				.getResourceAsStream("tests.properties");
-		try {
-			prop.load(locProps);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/*
-	 * NOTE: to change between using local and hosted url change "urlBeingUsed" property
-	 * in tests.properties - line 17
-	 */
-	private static String baseURL = prop.getProperty("urlBeingUsed");
+
+	//private static String baseURL = "http://localhost:4200";
+	//private static String baseURL = "http://52.207.66.231:4200"; //OLD URL
+	private static String baseURL = "http://52.70.53.136:8086/angular/#/TrackForce/login";
 	
 	public static String getBaseURL() {
 		return baseURL;

@@ -1,10 +1,5 @@
 package com.revature.test.admin.cukes;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
-
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import cucumber.api.java.en.Given;
@@ -13,173 +8,114 @@ import cucumber.api.java.en.When;
 
 import com.revature.test.admin.pom.CreateUserTab;
 import com.revature.test.admin.testclasses.AdminSuite;
-import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
 
 public class CreateUserCukes extends AdminSuite {
 	static WebElement e = null;
-	static WebDriver d=ServiceHooks.driver;
 	
-	@Given("^I click on Create User Tab$")
-	public static void clickCreateUserTab() {
+	private static String user = "username";
+	private static String pass = "password";
+	
+	@Given("^We click on Create User Tab$")
+	public static boolean clickCreateUserTab(WebDriver d) {
 		try {
-			Thread.sleep(100);
+			//Thread.sleep(5000);
 			CreateUserTab.getCreateUserTab(d).click();
-			
+			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to click Create User Tab");
-			fail("Failed to click Create User Tab");
-			
+			return false;
 		}
 	}
 
 	@Given("^Create User Tab loads$")
-	public static void loadedCreateUserTab() {
+	public static boolean onCreateUserTab(WebDriver d) {
 		try {
-			Thread.sleep(500);
-			System.out.println(CreateUserTab.getCurrentURL(d));
-			System.out.println(TestConfig.getBaseURL()+"/create-user");
-			assertEquals(CreateUserTab.getCurrentURL(d),TestConfig.getBaseURL()+"create-user");
-			
+			if (CreateUserTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/create-user")){
+				return true;
+			}
+			System.out.println("Current URL does not end with /create-user");
+			return false;
 		} catch (Throwable e) {
 			System.out.println("Failed to get current URL");
-			fail("Failed to get current URL");
-			
+			return false;
 		}
 	}
 	
-	@When("^I type in a \"([^\"]*)\" username$")
-	public void i_type_in_a_username(String username) throws Throwable {
+	@When("^I type in a username$")
+	public static boolean inputUsername(WebDriver d) {
 		try {
-			Thread.sleep(250);
-			CreateUserTab.getUsername(d).clear();
-			CreateUserTab.getUsername(d).sendKeys(username);
-			
+			CreateUserTab.getUsername(d).sendKeys(user);
+			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to input username");
-			fail("Failed to input username");
+			return false;
 		}
 	}
-
-	@When("^I type in a \"([^\"]*)\" password$")
-	public void i_type_in_a_password(String password){
+	
+	@When("^I type in a password$")
+	public static boolean inputPassword(WebDriver d) {
 		try {
-			Thread.sleep(250);
-			CreateUserTab.getPassword(d).clear();
-			CreateUserTab.getPassword(d).sendKeys(password);
-			
+			CreateUserTab.getPassword(d).sendKeys(pass);
+			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to click Create User Tab");
-			fail("Failed to click Create User Tab");
-			
+			return false;
 		}
 	}
 
-	@When("^I confirm the \"([^\"]*)\"$")
-	public void i_confirm_the(String password){
+	@When("^I confirm the password$")
+	public static boolean inputPasswordConfirm(WebDriver d) {
 		try {
-			Thread.sleep(250);
-			CreateUserTab.getPasswordConfirm(d).clear();
-			CreateUserTab.getPasswordConfirm(d).sendKeys(password);
-			
+			CreateUserTab.getPasswordConfirm(d).sendKeys(user);
+			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to input username");
-			fail("Failed to input username");
-			
+			return false;
 		}
 	}
+	
 	@When("^I check the Administrator role$")
-	public static void clickAdminRadio() {
+	public static boolean clickAdminRadio(WebDriver d) {
 		try {
 			CreateUserTab.getAdminRadio(d).click();
-			
+			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to click Admin radio button");
-			fail("Failed to click Admin radio button");
-			
+			return false;
 		}
 	}
 	
 	@When("^I check the Manager role$")
-	public static void clickManagerRadio() {
+	public static boolean clickManagerRadio(WebDriver d) {
 		try {
 			CreateUserTab.getManagerRadio(d).click();
-			
+			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to click Manager radio button");
-			fail("Failed to click Manager radio button");
-			
-		}
-	}
-
-	@When("^I check the Trainer role$")
-	public static void clickVPRadio() {
-		try {
-			Thread.sleep(250);
-			CreateUserTab.getTrainerRadio(d).click();
-			
-		} catch (Throwable e) {
-			System.out.println("Failed to click VP radio button");
-			fail("Failed to click VP radio button");
-			
-		}
-	}
-
-	@When("^I check the Associate role$")
-	public static void clickAssociateRadio() {
-		try {
-			Thread.sleep(250);
-			CreateUserTab.getAssociateRadio(d).click();
-			
-		} catch (Throwable e) {
-			System.out.println("Failed to click Associate radio button");
-			fail("Failed to click Associate radio button");
-			
+			return false;
 		}
 	}
 	
-	@When("^I check the Delivary role$")
-	public static void clickDelivaryRadio() {
+	@When("^I check the VP role$")
+	public static boolean clickVPRadio(WebDriver d) {
 		try {
-			Thread.sleep(250);
-			CreateUserTab.getDelivaryRadio(d).click();
-			
+			CreateUserTab.getVPRadio(d).click();
+			return true;
 		} catch (Throwable e) {
-			System.out.println("Failed to click Delivary radio button");
-			fail("Failed to click Delivary radio button");
-			
+			System.out.println("Failed to click VP radio button");
+			return false;
 		}
 	}
 	
 	@Then("^I press submit$")
-	public static void submitForm() {
+	public static boolean submitForm(WebDriver d) {
 		try {
 			CreateUserTab.getSubmit(d).click();
-			
+			return true;
 		} catch (Throwable e) {
 			System.out.println("Failed to click submit");
-			fail("Failed to click submit");
-			
-		}
-	}
-
-	@Then("^Pop Up Error should occur$")
-	public static void cancelAlert() {
-		try {
-			CreateUserTab.getPopup(d);
-		} catch (Throwable e) {
-			fail("No Pop up created");
-		}
-	}
-	
-	@Then("^Pop Up Error should not occur$")
-	public static void No_popup() {
-		try {
-			if(CreateUserTab.getPopup(d).isDisplayed()) {
-				fail("pop up was created");
-			}
-		} catch (Throwable e) {
-			fail("pop up was created");
+			return false;
 		}
 	}
 }

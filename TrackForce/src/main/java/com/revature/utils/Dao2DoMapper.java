@@ -65,8 +65,7 @@ public class Dao2DoMapper {
         }
         //Ed-boi
         //if there is a null value in isApproved feild of a Associate then they are NOT Approved
-       //getIsApproved is ai method ,not tfa
-        if(ai.getIsApproved() == 0) { 
+       if(tfa.getIsApproved() == null) { 
     	   ai.setIsApproved(0); 
        }
        

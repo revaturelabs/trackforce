@@ -44,23 +44,18 @@ describe('create-user page input and button fields', () => {
         expect(createUser.getCheckedRadioValue()).toEqual('admin');
     });
 
-    it('should select trainer radio button', () => {
-        createUser.clickTrainerRadio();
-        expect(createUser.getCheckedRadioValue()).toEqual('2');
-    });
-
     it('should select associate radio button', () => {
         createUser.clickAssociateRadio();
-        expect(createUser.getCheckedRadioValue()).toEqual('5');
+        expect(createUser.getCheckedRadioValue()).toEqual('assoc');
     });
 
-    it('should select staging manager radio button', () => {
-        createUser.clickManagerRadio();
-        expect(createUser.getCheckedRadioValue()).toEqual('4');
+    it('should select director radio button', () => {
+        createUser.clickDirectorRadio();
+        expect(createUser.getCheckedRadioValue()).toEqual('direct');
     });
 
-    it('should select delivery radio button', () => {
-        createUser.clickDeliveryRadio();
-        expect(createUser.getCheckedRadioValue()).toEqual('3');
-    });
+    it('should select vp radio button', () => {
+        createUser.clickVPRadio();
+        expect(createUser.getCheckedRadioValue()).toEqual('vp');
+    })
 });

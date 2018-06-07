@@ -19,8 +19,8 @@ public class PredictionDaoImpl implements PredictionDao {
 
 	@Override
 	public List<AssociatesWithTech> getTotalAssociatesByTechBetweenDates(Date afterMe, Date beforeMe)  {
-		
-		try(Session session = HibernateUtil.getSessionFactory().openSession()){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
             
 			String sql = "SELECT TF_CURRICULUM_NAME, count(*) FROM admin.tf_associate a" + 
 					" LEFT JOIN admin.tf_batch b ON a.tf_batch_id=b.tf_batch_id" + 
@@ -41,6 +41,9 @@ public class PredictionDaoImpl implements PredictionDao {
 		catch (Exception e) {
 			logger.error(e);
 			return my_query;
+		}
+		finally {
+			session.close();
 		}
 		
 	}

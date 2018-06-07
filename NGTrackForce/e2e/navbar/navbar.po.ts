@@ -23,7 +23,7 @@ export class Navbar {
     }
 
     logout(){
-        element(by.css('[routerLink="/login"]')).click();
+        element(by.css('[(click)="logout()"]')).click();
     }
 
     getCurrentURL(){

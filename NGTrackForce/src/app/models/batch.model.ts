@@ -1,9 +1,8 @@
 import { Associate } from "./associate.model";
 
-/** @Author Princewill Ibe */
-
-/**
- * holds data needed by front end for a batch
+/** @author Princewill Ibe 
+ * 
+ * Holds data needed by front end for a batch
  */
 export class Batch {
   id: number;

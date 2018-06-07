@@ -43,20 +43,43 @@ export class ClientListPo extends BasePage {
 
     logout() {
         element(by.css('[routerlink="/login"]')).click();
+    private searchByClientName: ElementFinder;
+    private viewDataForAllClients: ElementFinder;
+
+    /**
+     * Stores each element on the Client list page:
+     * searchByClientName - input field
+     * viewDataForAllClients - button
+     */
+    constructor() {
+        this.searchByClientName = this.getSearchByClientName();
+        this.viewDataForAllClients = this.getAllUsersButton();
+    }
+
+    /**
+     * Returns the Create List page
+     */
+    navigateTo() {
+        return browser.get('/clientList');
     }
 
     /**
      * Returns the current URL in the browser
      */
-    getCurrentURL(){
+    getCurrentURL() {
         return browser.getCurrentUrl();
     }
 
     /**
      * Returns the search by client name element in the DOM
      */
+<<<<<<< Updated upstream
     private getSearchByClientName(){
         return this.clientSearch;
+=======
+    private getSearchByClientName() {
+        return element(by.id('["clientSearch"]'));
+>>>>>>> Stashed changes
     }
 
     /**
@@ -83,6 +106,8 @@ export class ClientListPo extends BasePage {
      */
     clickGetAllClientDataBtn(){
         this.getAllClientDataBtn().click();
+    clickGetAllUsers() {
+        this.getAllUsersButton().click();
     }
 
     /**
@@ -95,7 +120,7 @@ export class ClientListPo extends BasePage {
     /**
      * Returns the current value of the search by client name element in the DOM
      */
-    getBarChartNameValue(){
+    getBarChartNameValue() {
         header = this.getBarChartHeader().getAttribute('value');
         return header;
     }

@@ -21,7 +21,7 @@ import { userInfo } from 'os';
 export class AssociateViewComponent implements OnInit {
   public associate: Associate = new Associate();
   public interviews: Array<any> = [];
-  public messages: Array<string> = ["I cleared my interview with FINRA","Please update my status", "I am deleting you soon :)"];
+  public messages: Array<string> = ["I cleared my interview with FINRA", "Please update my status", "I am deleting you soon :)"];
   public newMessage: string = "";
 
   public selectedMarketingStatus: string;
@@ -39,7 +39,7 @@ export class AssociateViewComponent implements OnInit {
     //gets the associate id from the path
     //the '+' coerces the parameter into a number
     let id = +this.activated.snapshot.paramMap.get('id');
-    
+
     let a = this.getAssociate(id);
 
     this.getClients();
@@ -51,7 +51,7 @@ export class AssociateViewComponent implements OnInit {
   *@param {number} id
   *the id number of the associate
   */
-  getAssociate(id: number){
+  getAssociate(id: number) {
     this.associateService.getAssociate(id).subscribe(
       data => {
         this.associate = data;
@@ -59,20 +59,20 @@ export class AssociateViewComponent implements OnInit {
       },
       err => {
         console.log("bah humbug");
-    });
+      });
   }
 
-  getClients(){
+  getClients() {
     this.clientService.getAllClients().subscribe(
       data => {
         this.clients = data;
       },
       err => {
         console.log(err);
-    });
+      });
   }
 
 
- 
+
 
 }

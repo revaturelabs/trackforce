@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
   public sucMsg: string;
   public isRegistering = false;
   public associate:any;
-  public registerPage : number = 0;
+  public registerPage: number = 0;
   /**
   *@constructor
   *

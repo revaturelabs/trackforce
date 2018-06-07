@@ -21,7 +21,7 @@ import 'rxjs/Rx';
  * that use it are initialized. It also has the benefit of being singleton across the app,
  * as opposed to providers being prototyped.
  *
- * The purpsoe of the datasync service is to synchronize all data across the app for all sessions
+ * The purpose of the datasync service is to synchronize all data across the app for all sessions
  * with the data read in from the database containing Salesforce data. DSS will quietly run in the
  * background of any component dependent on server side data and update accordingly.
  * DSS also ensures only one thread is used to hit the server side in background methods.
@@ -29,6 +29,12 @@ import 'rxjs/Rx';
  *
  * This allows the application to run faster using cached data pulled in from the server at set intervals
  *
+ * 
+ * 
+ * 
+ * @author Amelia
+ * Not currently being used, but this is a good idea
+ * Note made 6/6/2018
  */
 
 const ASSOC_TIMEOUT: number = 30000;

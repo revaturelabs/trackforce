@@ -9,6 +9,7 @@ import { StatusInfo } from './status-info.model';
  */
 export class Client {
     id: number
+    // What is the difference between the name and the tfClientName
     name: string
     tfClientName: string;
     placements: Placement[];

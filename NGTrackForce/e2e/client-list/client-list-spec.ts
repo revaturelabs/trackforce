@@ -3,11 +3,11 @@ import { TestConfig } from "../configuration/test-config";
 
 describe('When navigating to the client-list page it', function() {
 
-    let clientList         : ClientListPo;
-    let testConfig         : TestConfig;
-    let baseURL            : string;
-    let testURL            : string;
-    let searchByClientName : string;
+    let clientList: ClientListPo;
+    let testConfig: TestConfig;
+    let baseURL: string;
+    let testURL: string;
+    let searchByClientName: string;
 
     beforeAll(() => {
         clientList = new ClientListPo();

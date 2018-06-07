@@ -1,3 +1,10 @@
+/**
+ * - This is being used in the client-list.component, home.component, skillset.component, 
+ * and selected-status.component
+ * - This is used in the creation of ngCharts and canvas elements
+ * Note made 6/6/2018
+ * @author Amelia 
+ */
 export class SelectedStatusConstants {
     public static readonly TRAINING = "Training";
     public static readonly OPEN = "Open";

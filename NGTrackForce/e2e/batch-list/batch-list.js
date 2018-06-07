@@ -22,9 +22,8 @@ describe("Batch List Tab Protractor Test (Login)", function() {
 
 describe("Batch List Tab Protractor Test (Click Batch List Tab)", function() {
 	it('Should be able to switch to Batch List Tab', function() {
-		wd.sleep(3000);
-		element(by.xpath('/html/body/app/app-root/div/app-navbar/nav/div/ul[1]/li[4]/a')).click();
-		wd.sleep(3000);
+		browser.driver.sleep(10000);
+		element(by.cssSelector("[href='/batch-listing']")).click();
 		// If tab is clicked, find something to match
 		
 	});

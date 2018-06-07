@@ -128,7 +128,6 @@ export class PredictionsComponent implements OnInit {
         }
       );
     }
-
   }
 
   /**

@@ -8,6 +8,7 @@ xdescribe('navbar functionality', () => {
 
     beforeAll(() => {
         navbar = new Navbar();
+        navbar.navigateTo();
         testConfig = new TestConfig();
         baseURL = testConfig.getBaseURL();
     })
@@ -27,19 +28,8 @@ xdescribe('navbar functionality', () => {
         expect(navbar.getCurrentURL()).toEqual(baseURL + '/batchListing');
     })
 
-    it('should navigate to associate lising', () => {
+    it('should navigate to home page', () => {
         navbar.goToAssociateList();
-        expect(navbar.getCurrentURL()).toEqual(baseURL + 'associate-listing');
-    });
-
-    it('should navigate to predictions', () => {
-        navbar.goToPredictions();
-        expect(navbar.getCurrentURL()).toEqual(baseURL + 'predictions');
-    });
-
-    it('should navigate to create user', () => {
-        navbar.goToCreateUser();
-        expect(navbar.getCurrentURL()).toEqual(baseURL + 'create-user');
-    });
-    
+        expect(navbar.getCurrentURL()).toEqual(baseURL + '/associateListing');
+    })
 });

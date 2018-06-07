@@ -7,10 +7,9 @@ export class CreateUserPo {
     private password            : ElementFinder;
     private passwordConfirm     : ElementFinder;
     private adminRadio          : ElementFinder;
-    private managerRadio       : ElementFinder;
-    private trainerRadio             : ElementFinder;
     private associateRadio      : ElementFinder;
-    private deliveryRadio       : ElementFinder;
+    private directorRadio       : ElementFinder;
+    private vpRadio             : ElementFinder;
 
     /**
      * Stores each element on the Create User page:
@@ -28,9 +27,8 @@ export class CreateUserPo {
          this.passwordConfirm = this.getPasswordConfirmInput();
          this.adminRadio = this.getAdminRadio();
          this.associateRadio = this.getAssociateRadio();
-         this.managerRadio = this.getManagerRadio();
-         this.trainerRadio = this.getTrainerRadio();
-         this.deliveryRadio = this.getDeliveryRadio();
+         this.directorRadio = this.getDirectorRadio();
+         this.vpRadio = this.getVPRadio();
     }
 
     /**
@@ -131,7 +129,7 @@ export class CreateUserPo {
      * Returns the associate radio button element in the DOM
      */
     private getAssociateRadio(){
-        return element(by.css('[value="5"]'));
+        return element(by.css('[value="assoc"]'));
     }
 
     /**
@@ -144,8 +142,8 @@ export class CreateUserPo {
     /**
      * Returns the director radio button element in the DOM
      */
-    private getManagerRadio(){
-        return element(by.css('[value="4"]'));
+    private getDirectorRadio(){
+        return element(by.css('[value="direct"]'));
     }
 
     /**
@@ -155,31 +153,18 @@ export class CreateUserPo {
         this.directorRadio.click();
     }
 
-     /**
-     * Returns the delivery radio button element in the DOM
+    /**
+     * Returns the vp radio button element in the DOM
      */
-    private getDeliveryRadio(){
-        return element(by.css('[value="3"]'));
+    private getVPRadio(){
+        return element(by.css('[value="vp"]'));
     }
 
     /**
-     * Clicks the delivery radio button elemeing in the DOM
+     * Clicks the vp radio button elemeing in the DOM
      */
-    clickDeliveryRadio(){
-        this.deliveryRadio.click();
-    }
-    /**
-     * Returns the trainer radio button element in the DOM
-     */
-    private getTrainerRadio(){
-        return element(by.css('[value="2"]'));
-    }
-
-    /**
-     * Clicks the trainer radio button elemeing in the DOM
-     */
-    clickTrainerRadio(){
-        this.trainerRadio.click();
+    clickVPRadio(){
+        this.vpRadio.click();
     }
 
     /**

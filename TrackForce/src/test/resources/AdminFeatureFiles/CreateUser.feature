@@ -16,35 +16,115 @@
 #""
 ## (Comments)
 #Sample Feature Definition Template
-
-@tag
+@CreateUserTests
 Feature: Create User tab for Admin
-  TaskForce Create User tab scenario outlines
+  TaskForce Create User tab Scenarios
 
-  @tag1
+  @CreateNewAdmin
   Scenario Outline: Create new admin
     Given I click on Create User Tab
-		And Create User Tab loads
-		When I type in a username
-		And I type in a password
-		And I confirm the password
-		And I check the Administrator role
-		Then I press submit
-		
-		Scenario Outline: Create new manager
-		Given I click on Create User Tab
-		And Create User Tab loads
-		When I type in a username
-		And I type in a password
-		And I confirm the password
-		And I check the Manager role
-		Then I press submit
-		
-		Scenario Outline: Create new VP
-		Given I click on Create User Tab
-		And Create User Tab loads
-		When I type in a username
-		And I type in a password
-		And I confirm the password
-		And I check the VP role
-		Then I press submit
+    And Create User Tab loads
+    When I type in a <username> username
+    And I type in a <password> password
+    And I confirm the <password>
+    And I check the Administrator role
+    Then I press submit
+    And Pop Up Error should not occur
+
+    Examples: 
+      | username    | password |
+      | "testAdmin" | "1234"   |
+      | "Admintest" | "monkey" |
+
+  @FailedtoCreate
+  Scenario Outline: Bad Entry
+    Given I click on Create User Tab
+    And Create User Tab loads
+    When I type in a <username> username
+    And I type in a <password> password
+    And I confirm the <password>
+    And I check the Administrator role
+    Then I press submit
+    And Pop Up Error should occur
+
+    Examples: 
+      | username    | password |
+      | ""          | "1234"   |
+      | "Admintest" | ""       |
+
+  @NoUserTypeSelected
+  Scenario Outline: No User Type Selected
+    Given I click on Create User Tab
+    And Create User Tab loads
+    When I type in a <username> username
+    And I type in a <password> password
+    And I confirm the <password>
+    Then I press submit
+    And Pop Up Error should occur
+
+    Examples: 
+      | username        | password        |
+      | "ValidUsername" | "ValidPassword" |
+
+  @CreateNewManager
+  Scenario Outline: Create new manager
+    Given I click on Create User Tab
+    And Create User Tab loads
+    When I type in a <username> username
+    And I type in a <password> password
+    And I confirm the <password>
+    And I check the Manager role
+    Then I press submit
+    And Pop Up Error should not occur
+
+    Examples: 
+      | username      | password   |
+      | "testManager" | "12345"    |
+      | "Managertest" | "managing" |
+
+  @CreateNewTrainer
+  Scenario Outline: Create new Trainer
+    Given I click on Create User Tab
+    And Create User Tab loads
+    When I type in a <username> username
+    And I type in a <password> password
+    And I confirm the <password>
+    And I check the Trainer role
+    Then I press submit
+    And Pop Up Error should not occur
+
+    Examples: 
+      | username      | password  |
+      | "testTrainer" | "123"     |
+      | "Trainertest" | "Trainer" |
+
+  @CreateNewDelivaryUser
+  Scenario Outline: Create new Delivary
+    Given I click on Create User Tab
+    And Create User Tab loads
+    When I type in a <username> username
+    And I type in a <password> password
+    And I confirm the <password>
+    And I check the Delivary role
+    Then I press submit
+    And Pop Up Error should not occur
+
+    Examples: 
+      | username        | password |
+      | "testDeveloper" | "123343" |
+      | "Developertest" | "Dev"    |
+
+  @CreateNewAssociate
+  Scenario Outline: Create new Associate
+    Given I click on Create User Tab
+    And Create User Tab loads
+    When I type in a <username> username
+    And I type in a <password> password
+    And I confirm the <password>
+    And I check the Associate role
+    Then I press submit
+    And Pop Up Error should not occur
+
+    Examples: 
+      | username        | password    |
+      | "Associatetest" | "Associate" |

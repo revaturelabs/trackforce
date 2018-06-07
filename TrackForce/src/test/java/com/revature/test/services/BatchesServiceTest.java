@@ -1,6 +1,5 @@
 package com.revature.test.services;
 
-import static com.revature.utils.LogUtil.logger;
 import com.revature.dao.BatchDao;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
@@ -34,7 +33,7 @@ public class BatchesServiceTest {
 		// creates 3 associates
 		assoc1 = new AssociateInfo(1, "Ian", "B", "s1", "client1", "b1", "jta", 40418L, 0);
 		assoc2 = new AssociateInfo(2, "Rich ", "Park", "s1", "client2", "b1", "jta", 40418L, 0);
-		assoc3 = new AssociateInfo(3, "Cuong ", "Nguyen", "s1", "client3", "b1", "jta", 40418L, 0);
+		assoc3 = new AssociateInfo(2, "Cuong ", "Nguyen", "s1", "client3", "b1", "jta", 40418L, 0);
 
 		associateSet = new TreeSet<>();
 		associateSet.add(assoc1);
@@ -75,7 +74,6 @@ public class BatchesServiceTest {
 	 */
 	@Test(enabled = true)
 	public void testGetBatchesByCurri0() throws Exception {
-		logger.info("testGetBatchesByCurri0()...");
 		String cName = "nonexistent";
 		Set<BatchInfo> batches = batchService.getBatchesByCurri(cName);
 		Set<BatchInfo> expected = new HashSet<>();

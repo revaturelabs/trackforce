@@ -1,23 +1,23 @@
 #Author: your.email@your.domain.com
 #Keywords Summary :
-#Feature: List of Scenario:s.
-#Scenario: Business rule through list of steps with arguments.
+#Feature: List of scenarios.
+#Scenario Outline: Business rule through list of steps with arguments.
 #Given: Some precondition step
 #When: Some key actions
 #Then: To observe outcomes or validation
 #And,But: To enumerate more Given,When,Then steps
-#Scenario: List of steps for data-driven as an Examples and <placeholder>
+#Scenario Outline: List of steps for data-driven as an Examples and <placeholder>
 #Examples: Container for s table
-#Background: List of steps run before each of the Scenario:s
+#Background: List of steps run before each of the scenarios
 #""" (Doc Strings)
 #| (Data Tables)
-#@ (Tags/Labels):To group Scenario:s
+#@ (Tags/Labels):To group Scenarios
 #<> (placeholder)
 #""
 ## (Comments)
 #Sample Feature Definition Template
 @tag
-Feature: Batch List Scenario:s
+Feature: Batch List Scenarios
 
   @batchTag1
   Scenario: Navigate to Batch List Tab
@@ -37,6 +37,7 @@ Feature: Batch List Scenario:s
     Given The Batch List Tab is clicked
     And Batch List Tab loads
     When the From date is entered
+    And the submit button is clicked
     Then the From field should not contain default values
 
   @batchTag4
@@ -44,6 +45,7 @@ Feature: Batch List Scenario:s
     Given The Batch List Tab is clicked
     And Batch List Tab loads
     When the To date is entered
+    And the submit button is clicked
     Then the To field should not contain default values
 
   @batchTag5
@@ -58,7 +60,7 @@ Feature: Batch List Scenario:s
     Given The Batch List Tab is clicked
     And Batch List Tab loads
     When the reset button is clicked
-    Then the batch list should be empty
+    Then associates should match the associate list
 
   @batchTag7
   Scenario: View Individual Batch

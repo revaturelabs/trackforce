@@ -1,11 +1,15 @@
 import { LoginPage } from './login.po';
+import { browser } from 'protractor';
+/*
+Smoke test: Checks elements to be exist
+*/
 
 describe('login page element existences', () => {
   let page: LoginPage;
 
   beforeAll(() => {
-   // page = new LoginPage();
-   // page.navigateTo();
+    page = new LoginPage();
+    page.navigateTo();
   });
 
   it('should have a username input box', () => {
@@ -33,6 +37,28 @@ describe('login page element existences', () => {
   });
 });
 
+describe('Confirm login failures', () => {
+  let page: LoginPage;
+
+  beforeAll(() => {
+    page = new LoginPage();
+    page.navigateTo();
+  });
+
+  it('should fail to log in when nothing is entered', () => {
+    page.getLoginButton().click();
+    expect(page.getFailedLoginResponse()).toEqual('Please enter a username and password');
+  });
+
+  it('should fail to login when incorrect credentials are entered', () => {
+    page.getUsernameInput().sendKeys('1234');
+    page.getPasswordInput().sendKeys('password');
+    page.getLoginButton().click();
+    expect(page.getFailedLoginResponse()).toEqual('The login service could not be reached');
+  });
+
+});
+
 describe('confirm login navigation', () => {
   let page: LoginPage;
 
@@ -48,4 +74,6 @@ describe('confirm login navigation', () => {
 
     expect(page.getTitle()).not.toEqual('NGTrackForce');
   });
+  
+  
 });

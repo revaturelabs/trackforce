@@ -73,13 +73,8 @@ export class ClientListPo extends BasePage {
     /**
      * Returns the search by client name element in the DOM
      */
-<<<<<<< Updated upstream
     private getSearchByClientName(){
         return this.clientSearch;
-=======
-    private getSearchByClientName() {
-        return element(by.id('["clientSearch"]'));
->>>>>>> Stashed changes
     }
 
     /**

@@ -6,4 +6,9 @@
 		timeToIdleSeconds="300" 
 		timeToLiveSeconds="600" 
 		overflowToDisk="false" />
+	<cache-template name="AssociateInfo">
+		<key-type>java.lang.Integer</key-type>
+		<value-type>com.revature.model.AssociateInfo</value-type>
+		<heap unit="entries">10</heap>
+	</cache-template>
 </ehcache>

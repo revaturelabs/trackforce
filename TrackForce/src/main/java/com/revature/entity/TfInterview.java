@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 /**
@@ -18,6 +20,7 @@ import org.hibernate.annotations.Type;
  */
 @Entity
 @Table(name = "TF_INTERVIEW", schema = "ADMIN")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class TfInterview implements java.io.Serializable {
 
 	/**

@@ -15,6 +15,13 @@ import org.testng.annotations.Test;
 
 import com.revature.test.admin.cukes.AssociateListCukes;
 
+/**
+ * All of these classes appear to be old tests before the previous development cycle. All of the
+ * tests are commented out, and the tests themselves redundantly call the cucumber tests.
+ * TODO delete all of these tests after verifying they are no longer needed
+ * Reviewed by Jesse
+ * @since 6.18.06.07
+ */
 public class AssociateListTest extends AdminSuite {
 
 	static int testNumber = 1;

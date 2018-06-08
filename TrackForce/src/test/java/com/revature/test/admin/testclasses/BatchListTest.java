@@ -8,6 +8,14 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import com.revature.test.admin.cukes.BatchListCukes;
 
+/**
+ * All of these tests rely on cucumber tests to run. There is no assert and these tests will
+ * pass regardless of how the cucumber test fares...
+ * TODO refactor this page or delete all of these tests, as they are not testing any actual
+ * functionality.
+ * Reviewed by Jesse
+ * @since 6.18.06.07
+ */
 public class BatchListTest extends AdminSuite {
 
 	static int testNumber = 1;

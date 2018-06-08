@@ -15,13 +15,14 @@ import { forEach } from "@angular/router/src/utils/collection";
 export class AssociateService {
   private associatePath: string = "TrackForce/associates";
 
-  status: string
-  client: string
+  status: string;
+  client: string;
 
   constructor(private http: HttpClient) { }
 
   /**
   * Get all of the associates
+  * Used in associate list and home component, and the associate and data-sync services
   */
   getAllAssociates(): Observable<any> {
     let url: string = environment.url + this.associatePath;

@@ -32,7 +32,7 @@ describe('BatchDetailsComponent', async () => {
   let component: BatchDetailsComponent;
   let fixture: ComponentFixture<BatchDetailsComponent>;
   const testBatchService: BatchService = new BatchService(null);
-  const testAuthService: AuthenticationService = new AuthenticationService(null, null);
+  const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
 
   // setup service mocks
   beforeAll(() => {

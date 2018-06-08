@@ -43,8 +43,8 @@ export class ClientListPo extends BasePage {
 
     logout() {
         element(by.css('[routerlink="/login"]')).click();
-    private searchByClientName: ElementFinder;
-    private viewDataForAllClients: ElementFinder;
+    let searchByClientName: ElementFinder;
+    let viewDataForAllClients: ElementFinder;
 
     /**
      * Stores each element on the Client list page:
@@ -101,9 +101,10 @@ export class ClientListPo extends BasePage {
      */
     clickGetAllClientDataBtn(){
         this.getAllClientDataBtn().click();
-    clickGetAllUsers() {
-        this.getAllUsersButton().click();
     }
+    // clickGetAllUsers() {
+    //     this.getAllUsersButton().click();
+    // }
 
     /**
      * Returns the search by client name element in the DOM

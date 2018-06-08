@@ -209,6 +209,19 @@
 			<version>3.7</version>
 		</dependency>
 
+	<!-- https://mvnrepository.com/artifact/org.ehcache/ehcache -->
+	<dependency>
+		<groupId>org.ehcache</groupId>
+		<artifactId>ehcache</artifactId>
+		<version>3.4.0</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+	<dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-core</artifactId>
+		<version>5.3.1.Final</version>
+	</dependency>
+
 	</dependencies>
 
 	<!-- William added the below tags on 2/15/18 so that the main application 

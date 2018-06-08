@@ -142,7 +142,14 @@ public class UserService {
                             	if(tfUser.getTfUserAssociate().getTfAssociateId() != null) {
                             		//Sets the associate id to the userjson object, which is set back to angular
                             		userjson.setAssociateId(tfUser.getTfUserAssociate().getTfAssociateId());
+                            		if(tfUser.getTfUserAssociate().getIsApproved().equals(null)) {
+                            			userjson.setIsApproved(0);
+                            		}
+                            		else {
+                            			userjson.setIsApproved(tfUser.getTfUserAssociate().getIsApproved());
+                            		}
                             	}
+                            	
                             }
 
                             // Uses JWT service to create token

@@ -12,3 +12,4 @@
 		<heap unit="entries">10</heap>
 	</cache-template>
 </ehcache>
+<!-- Hello Curtis! -->

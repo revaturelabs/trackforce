@@ -9,7 +9,11 @@ import com.revature.model.BatchInfo;
 public class BatchInfoTest {
 
 	/**
-	 * Tests all the getters 
+	 * Tests all the getters from the class
+	 * To test a new model just set a new instance variable
+	 * and use Junit methods.
+	 * @author Sonam
+	 * @since 6.18.06.07
 	 */
 	@Test
 	public void testBatchInfoGetters() {

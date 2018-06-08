@@ -48,6 +48,9 @@ export class NavbarComponent implements OnInit {
     * Removes user from localStorage and re-routes to login screen
     */
   logout(){
+    this.isAdmin = false;
+    this.isAssociate = false;
+    this.user = null;
     this.authService.logout();
     // linked to /login page directly on anchor for testing purposes
     //this.router.navigateByUrl('/login');

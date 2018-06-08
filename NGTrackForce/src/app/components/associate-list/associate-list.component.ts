@@ -63,7 +63,7 @@ export class AssociateListComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem("currentUser"));
-    if(this.user.tfRoleId==1 || this.user.tfRoleId==2) {
+    if (this.user.tfRoleId == 1 || this.user.tfRoleId == 2) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
     this.getAllAssociates(); //grab associates and clients from back end

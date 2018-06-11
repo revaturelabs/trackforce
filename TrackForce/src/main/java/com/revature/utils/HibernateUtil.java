@@ -7,11 +7,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 /**
  * Utility class for configurations and getting a Hibernate SessionFactory
@@ -21,9 +24,9 @@ public class HibernateUtil {
 
 	private HibernateUtil() {}
 	private static SessionFactory sessionFactory = buildSessionFactory();
-//	private static ServiceRegistry registry;
+	private static ServiceRegistry registry;
 
-	private static SessionFactory buildSessionFactory() {
+	private static SessionFactory buildSessionFactory(DataSource dataSource,Properties extraProps) {
 		Properties props = new Properties();
 		Configuration cfg = new Configuration();
 		try {
@@ -38,6 +41,11 @@ public class HibernateUtil {
 	}
 	
 	public static SessionFactory getSessionFactory() {
+		if (sessionFactory == null) {
+			DataSource dataSource = new DataSourceBuilder().fromPropertiesFile("tomcat-jdbc.properties");
+			Properties extraProps = new Properties(); // empty = default properties
+			buildSessionFactory(dataSource, extraProps);
+		}
 		return sessionFactory;
 	}
 	

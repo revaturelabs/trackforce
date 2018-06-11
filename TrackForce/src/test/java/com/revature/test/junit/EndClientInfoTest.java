@@ -15,7 +15,7 @@ public class EndClientInfoTest {
 	EndClientInfo eci = new EndClientInfo();
 	
 	@Before
-	public void createObjectBeforeTest() {
+	public void createObjectBeforeTest() throws Exception {
 		
 		eci.setId(1);
 		eci.setTfEndClientName("John Doe");
@@ -24,7 +24,7 @@ public class EndClientInfoTest {
 	}
 	
 	@After 
-	public void setObjectToDefault() {
+	public void setObjectToDefault() throws Exception {
 		
 		eci.setId(0);
 		eci.setTfEndClientName(null);
@@ -51,7 +51,7 @@ public class EndClientInfoTest {
 		// Sets new Value
 		eci.setId(2);
 		eci.setTfEndClientName("John Doe");
-		eci.setTfAssociates(new HashSet<AssociateInfo> ());
+		eci.setTfAssociates(new HashSet<AssociateInfo> ());		
 		eci.setTfPlacements(new HashSet<PlacementInfo> ());
 	
 		//checks if the setters were set properly
@@ -59,7 +59,7 @@ public class EndClientInfoTest {
 		assertFalse(eci.getId() == 3);
 		assertTrue(eci.getTfEndClientName().equals("John Doe"));
 		assertFalse(eci.getTfEndClientName().equals("John"));
-		assertTrue(eci.getTfAssociates() instanceof HashSet);
+		assertTrue(eci.getTfAssociates() instanceof HashSet);		
 		assertTrue(eci.getTfPlacements() instanceof HashSet);	
 	}
 	

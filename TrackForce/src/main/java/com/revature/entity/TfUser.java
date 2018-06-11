@@ -41,12 +41,12 @@ public class TfUser implements java.io.Serializable {
     }
 
     //Constructor for createAssociate which sets a role of 5.
-    public TfUser(TfAssociate associate, String username, String password){
-        this.tfAssociate = associate;
-        this.tfUserUsername = username;
-        this.tfHashpassword = password;
-        this.tfRole = new TfRole(5);
-    }
+//    public TfUser(TfAssociate associate, String username, String password){
+//        //this.tfAssociate = associate;
+//        this.tfUserUsername = username;
+//        this.tfHashpassword = password;
+//        this.tfRole = new TfRole(5);
+//    }
 
     public TfUser(int tfUserId, TfRole tfRole, String tfUserUsername, String tfUserHashpassword) {
         this.tfUserId = tfUserId;
@@ -64,7 +64,6 @@ public class TfUser implements java.io.Serializable {
     // Overloaded method to aid creating new associate.
     public TfUser(String username, String password) {
         this.tfRole = new TfRole(5);
-        this.tfAssociate = new TfAssociate();
         this.tfUserUsername = username;
         this.tfHashpassword = password;
     }
@@ -83,16 +82,7 @@ public class TfUser implements java.io.Serializable {
 		this.tfRole = tfRole;
 		this.tfUserUsername = tfUserUsername;
 		this.tfHashpassword = tfHashpassword;
-		this.tfAssociate = tfAssociate;
 	}
-
-	public TfAssociate getTfAssociate() {
-        return tfAssociate;
-    }
-
-    public void setTfAssociate(TfAssociate tfAssociate) {
-        this.tfAssociate = tfAssociate;
-    }
 
     public int getTfUserId() {
         return this.tfUserId;
@@ -127,13 +117,13 @@ public class TfUser implements java.io.Serializable {
         this.tfHashpassword = tfUserHashpassword;
     }
     
-    public TfAssociate getTfUserAssociate() {
-    	return this.tfAssociate;
-    }
-    
-    public void setTfUserAssociate(TfAssociate tfAssociate) {
-    	this.tfAssociate = tfAssociate;
-    }
+//    public TfAssociate getTfUserAssociate() {
+//    	return this.tfAssociate;
+//    }
+//    
+//    public void setTfUserAssociate(TfAssociate tfAssociate) {
+//    	this.tfAssociate = tfAssociate;
+//    }
 
     @Override
     public int hashCode() {
@@ -155,6 +145,7 @@ public class TfUser implements java.io.Serializable {
         if (tfRole != null ? !tfRole.equals(tfUser.tfRole) : tfUser.tfRole != null) return false;
         if (!tfUserUsername.equals(tfUser.tfUserUsername)) return false;
         if (!tfHashpassword.equals(tfUser.tfHashpassword)) return false;
-        return tfAssociate != null ? tfAssociate.equals(tfUser.tfAssociate) : tfUser.tfAssociate == null;
+        //return tfAssociate != null ? tfAssociate.equals(tfUser.tfAssociate) : tfUser.tfAssociate == null;
+        return false;
     }
 }

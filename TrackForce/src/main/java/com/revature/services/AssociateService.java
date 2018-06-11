@@ -19,6 +19,7 @@ import com.revature.model.ClientMappedJSON;
 import com.revature.model.CurriculumJSON;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
+import com.revature.request.model.CreateAssociateModel;
 import com.revature.utils.PersistentStorage;
 
 public class AssociateService {
@@ -170,5 +171,9 @@ public class AssociateService {
 	
 	public void createAssociate(String firstname, String lastname) {
 		associateDao.createAssociate(firstname, lastname);
+	}
+	
+	public boolean updateAssociateInfo(Integer id, CreateAssociateModel associate) {
+		return associateDao.updateAssociateInfo(id, associate);
 	}
 }

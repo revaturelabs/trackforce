@@ -32,10 +32,22 @@ public class TfAssociate implements java.io.Serializable {
 	//@GeneratedValue(generator ="AssociateIdSeq1", strategy = GenerationType.SEQUENCE)
 	private Integer tfAssociateId;
 
+	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@JoinColumn(name = "TF_USER_ID")
+	private TfUser tfUser;
+	
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_BATCH_ID")
 	private TfBatch tfBatch;
+
+	public TfUser getTfUser() {
+		return tfUser;
+	}
+
+	public void setTfUser(TfUser tfUser) {
+		this.tfUser = tfUser;
+	}
 
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)

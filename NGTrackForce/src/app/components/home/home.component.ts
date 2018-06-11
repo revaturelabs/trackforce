@@ -14,6 +14,9 @@ import {ChartOptions} from '../../models/ng2-charts-options.model';
 import '../../constants/selected-status.constants';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 
+/**
+ * What is this for???
+ */
 const MONTHS_3 = 788923800;
 
 @Component({
@@ -25,7 +28,7 @@ const MONTHS_3 = 788923800;
 export class HomeComponent {
   private associates: any;
 
-  /**
+/**
  * http://usejsdoc.org/
  */
 

@@ -9,7 +9,7 @@ import {Associate} from '../../models/associate.model';
 
 @Injectable()
 export class BatchService {
-  private batchPath: string = "TrackForce/batches";
+  private batchPath = "TrackForce/batches";
 
   constructor(private http: HttpClient) {}
 
@@ -30,7 +30,7 @@ export class BatchService {
   }
 
   /**
-   * 
+   *  This gets all of the batches
    */
   public getAllBatches(): Observable<Batch[]> {
     const url = environment.url + this.batchPath;

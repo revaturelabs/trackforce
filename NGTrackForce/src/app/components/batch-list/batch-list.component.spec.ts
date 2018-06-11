@@ -33,7 +33,7 @@ describe('BatchListComponent', async () => {
   let component: BatchListComponent;
   let fixture: ComponentFixture<BatchListComponent>;
   const testBatchService: BatchService = new BatchService(null);
-  const testAuthService: AuthenticationService = new AuthenticationService(null, null);
+  const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
 
   // setup service mocks
   beforeAll(() => {
@@ -107,7 +107,8 @@ describe('BatchListComponent', async () => {
       expect(component.batches.length).toBeGreaterThanOrEqual(0);
 
       component.startDate = component.endDate = new Date();
-      component.applySelectedRange();
+      // These arguments were added to stop a compilation error, what they are were implied by the method signature.
+      component.applySelectedRange(component.startDate, component.endDate);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const defaultBatchCount = component.batches.length;
@@ -116,7 +117,8 @@ describe('BatchListComponent', async () => {
         const now: Date = new Date();
         component.startDate = new Date(0);  // 1970, aka very far back
         component.endDate = new Date(now.getFullYear(), now.getMonth() + 6, 1); // 5-6 months in the future
-        component.applySelectedRange();
+        // These arguments were added to stop a compilation error, what they are were implied by the method signature.
+        component.applySelectedRange(component.startDate, component.endDate);
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           console.log('testing default vs wide', component.batches.length, defaultBatchCount);

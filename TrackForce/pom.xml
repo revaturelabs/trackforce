@@ -254,15 +254,15 @@
 					<!-- change this n the properties at the top of the pom -->
 					<skipTests>${skip.unit.tests}</skipTests>
 					<!-- Excludes integration tests when unit tests are run. -->
-					<excludes>
-						<exclude>**/IT*.java</exclude>
-						<exclude>com/revature/test/admin/cukes/*.java</exclude>
-						<exclude>com/revature/test/admin/pom/*.java</exclude>
-					</excludes>
+					<!--<excludes>-->
+						<!--<exclude>**/IT*.java</exclude>-->
+						<!--<exclude>com/revature/test/admin/cukes/*.java</exclude>-->
+						<!--<exclude>com/revature/test/admin/pom/*.java</exclude>-->
+					<!--</excludes>-->
 
-					<suiteXmlFiles>
-						<file>src/test/resources/surefire_test.xml</file>
-					</suiteXmlFiles>
+					<!--<suiteXmlFiles>-->
+						<!--<file>src/test/resources/surefire_test.xml</file>-->
+					<!--</suiteXmlFiles>-->
 					<properties>
 						<property>
 							<name>suitethreadpoolsize</name>

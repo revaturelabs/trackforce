@@ -26,6 +26,7 @@ import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfInterview;
 import com.revature.entity.TfMarketingStatus;
+import com.revature.entity.TfUser;
 import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
@@ -33,6 +34,7 @@ import com.revature.request.model.CreateAssociateModel;
 import com.revature.resources.BatchResource;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.PasswordStorage;
 import com.revature.utils.PersistentStorage;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
@@ -87,6 +89,20 @@ public class AssociateDaoHibernate implements AssociateDao {
 		return null;
 	}
 
+	public static TfAssociate getTfAssociate(Integer id) {
+		Session session = HibernateUtil.getSession();
+		try {
+			TfAssociate tfa = session.createQuery("from Tf_Associate tfa where tfa.user_id like :id", TfAssociate.class)
+					.setParameter("id", id).getSingleResult();
+			return tfa;
+		} catch (HibernateException e) {
+			logger.error(e);
+		} finally {
+			session.close();
+		}
+		return null;
+	}
+	
 	@Override
 	public void updateAssociates(List<Integer> ids, Integer marketingStatus, Integer clientid) {
 		List<TfAssociate> associates = new ArrayList<>();
@@ -342,6 +358,37 @@ public class AssociateDaoHibernate implements AssociateDao {
 			session.close();
 		}
 
+	}
+
+	@Override
+	public boolean updateAssociateInfo(Integer id, CreateAssociateModel associate) {
+		Session session = null;
+		Transaction t = null;
+		try {
+			//This isn't going to work. Once we switch the user/associate id, I'll update it.
+			session=HibernateUtil.getSession();
+			t=session.beginTransaction();
+			TfAssociate temp=getTfAssociate(id);
+			temp.setTfAssociateFirstName(associate.getFname());
+			temp.setTfAssociateLastName(associate.getLname());
+			temp.getTfUser().setTfUserUsername(associate.getUsername());
+			String hashed=PasswordStorage.createHash(associate.getPassword());
+			temp.getTfUser().setTfUserHashpassword(hashed);
+			session.save(temp);
+			t.commit();
+			return true;
+		} catch (HibernateException e) {
+			logger.error(e);
+			if (t != null)
+				t.rollback();
+		} catch(Exception e) {
+			logger.error(e);
+		}finally {
+			session.close();
+		}
+		return false;
+		
+		
 	}
 
 }

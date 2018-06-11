@@ -8,6 +8,7 @@ import com.revature.entity.TfAssociate;
 import com.revature.model.AssociateInfo;
 import com.revature.model.InterviewInfo;
 import com.revature.request.model.AssociateFromClient;
+import com.revature.request.model.CreateAssociateModel;
 
 public interface AssociateDao {
 
@@ -22,5 +23,6 @@ public interface AssociateDao {
 	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId);
 	public void updateAssociateVerification(int associateid);
 	public void createAssociate(String firstname, String lastname);
+	public boolean updateAssociateInfo(Integer id, CreateAssociateModel associate);
 
 }

@@ -327,5 +327,15 @@ public class AssociateResource {
 	public InterviewResource addAssociateInterview() {
 		return new InterviewResource();
 	}
+	
 
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/{associateid}/info")
+	public Response updateUserInfo(@PathParam("associateid") Integer id, CreateAssociateModel associate){
+		if(service.updateAssociateInfo(id, associate)) {
+			return Response.status(200).build();
+		}
+		else return Response.status(400).build();
+	}
 }

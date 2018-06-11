@@ -1,25 +1,25 @@
-package com.revature.services;
+ package com.revature.services;
 
 import java.io.IOException;
 import java.util.List;
 
-import static com.revature.utils.LogUtil.logger;
-
-import com.revature.request.model.CreateAssociateModel;
-import com.revature.utils.LogUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.revature.dao.AssociateDaoHibernate;
 import com.revature.dao.UserDAO;
 import com.revature.dao.UserDaoImpl;
+import com.revature.entity.TfAssociate;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 import com.revature.model.LoginJSON;
 import com.revature.model.UserJSON;
-import com.revature.request.model.CreateUserModel;
+import com.revature.request.model.CreateAssociateModel;
 import com.revature.request.model.SuccessOrFailMessage;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
+import static com.revature.utils.LogUtil.logger;
 
 public class UserService {
 
@@ -138,15 +138,17 @@ public class UserService {
                             
                             // If the user is an associate...
                             if(tfRoleId == 5) {
+                            	TfAssociate assoc=AssociateDaoHibernate.getTfAssociate(tfUser.getTfUserId());
                             	//If the user has a valid associate id...
-                            	if(tfUser.getTfUserAssociate().getTfAssociateId() != null) {
+                            	if (!assoc.equals(null)) {
+                            	//if(tfUser.getTfUserAssociate().getTfAssociateId() != null) {
                             		//Sets the associate id to the userjson object, which is set back to angular
-                            		userjson.setAssociateId(tfUser.getTfUserAssociate().getTfAssociateId());
-                            		if(tfUser.getTfUserAssociate().getIsApproved().equals(null)) {
+                            		userjson.setAssociateId(assoc.getTfAssociateId());
+                            		if(assoc.getIsApproved().equals(null)) {
                             			userjson.setIsApproved(0);
                             		}
                             		else {
-                            			userjson.setIsApproved(tfUser.getTfUserAssociate().getIsApproved());
+                            			userjson.setIsApproved(assoc.getIsApproved());
                             		}
                             	}
                             	

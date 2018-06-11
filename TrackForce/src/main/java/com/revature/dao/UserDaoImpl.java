@@ -99,7 +99,7 @@ public class UserDaoImpl implements UserDAO {
             tfa.setTfAssociateId(id);
             session.saveOrUpdate(tfa);           //Saves current changes to not get null user in newUser creation.
             logger.info("session save");
-            TfUser newUser = new TfUser(tfa, newAssociate.getUsername(), password);
+            TfUser newUser = new TfUser(newAssociate.getUsername(), password);
             session.saveOrUpdate(newUser);
             t1.commit();
 

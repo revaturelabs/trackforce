@@ -15,7 +15,7 @@ export class AssociateSearchByTextFilter implements PipeTransform {
         if (!searchText) return items;
         searchText = searchText.toLowerCase();
 
-        //return results that contain firstname, lastname, status, client, ic
+        //return results that contain firstname, lastname, status, client, id
         return items.filter(associate => {
             return associate.firstName.toLowerCase().includes(searchText) 
             || associate.lastName.toLowerCase().includes(searchText)

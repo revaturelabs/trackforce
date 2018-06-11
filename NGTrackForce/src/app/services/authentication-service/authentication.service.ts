@@ -47,16 +47,6 @@ export class AuthenticationService {
     );
   }
 
-  // TODO: Delete this (it's old)
-  // login(username: string, password: string){
-  //   return this.rs.login(username, password).map(
-  //     user => {
-  //       if(user){
-  //         localStorage.setItem(USER_KEY, JSON.stringify(user));
-  //       }
-  //       return user;
-  //     });
-  // }
 
   /**
   *Removes user from localStorage

@@ -9,6 +9,11 @@ import org.testng.annotations.Test;
 
 import com.revature.test.admin.pom.Login;
 
+/**
+ * This class contains one test which checks that the page has updated after logging in.
+ * This test needs to be run at a very specific time in order to be successful.
+ * @since 6.18.06.07
+ */
 public class LoginTest extends AdminSuite {
 
 	@BeforeTest

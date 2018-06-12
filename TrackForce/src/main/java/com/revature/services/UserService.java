@@ -21,11 +21,18 @@ import com.revature.request.model.SuccessOrFailMessage;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.PasswordStorage;
 
+/**
+ * Services for getting all users, getting a single user, creating an associate and submitting 
+ * credentials
+ * reviewed by Jesse
+ * @since 6.18.06.08
+*/
 public class UserService {
 
     private JWTService jwtService;
     private UserDAO userDao;
 
+    // Constructor
     public UserService() {
         userDao = new UserDaoImpl();
         jwtService = new JWTService();

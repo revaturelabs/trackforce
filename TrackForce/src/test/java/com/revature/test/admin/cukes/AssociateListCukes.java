@@ -26,6 +26,8 @@ public class AssociateListCukes {
 	static String searchValue=null; 
 	static Set<String> searchValues = new TreeSet<String>();
 
+	
+	// This test simply checks if the specified element can take a click
 	public static void i_am_on_the_asssociate_list_page() {
 
 		try {
@@ -41,6 +43,7 @@ public class AssociateListCukes {
 
 	}
 
+	// Tests that the URL matches what is expected on the associated list view
 	public static void associate_list_tab_loads() {
 		try {
 			Thread.sleep(500);
@@ -55,6 +58,7 @@ public class AssociateListCukes {
 		}
 	}
 	
+	// Tests that the expected table is grabbed depending on the search
 	@Then("^The table is filtered by search")
 	public static void The_table_is_filtered_by_search(){
 		try {
@@ -86,6 +90,9 @@ public class AssociateListCukes {
 			fail("The table is filtered by search incorrectly");
 		}
 	}
+	
+	// Calls above methods to ensure the proper webpage. An exception will be thrown on the
+	// wrong page
 	@Given("^I'm on the associate list page$")
 	public static void im_on_the_associate_list_page() {
 		i_am_on_the_asssociate_list_page();
@@ -94,6 +101,7 @@ public class AssociateListCukes {
 	// *************** FILTERING BY SEARCH ***************
 
 	// **************FILTER BY SEARCHING ASSOCIATE ID **********************
+	// Grabs a list of associate ids and gets their texts
 	@Given("^I know the associates ids$")
 	public static void i_know_the_associates_ids() throws Throwable {
 		List<WebElement> filteredListElements = new ArrayList<>();
@@ -110,6 +118,8 @@ public class AssociateListCukes {
 		
 	}
 
+	// Inputs the list of associate ids into the search field, throws and exception if there
+	// is any failure to input an id
 	@When("^I input the associate id in the search by input field$")
 	public static void i_input_the_associate_id_in_the_search_by_input_field() throws Throwable {
 		try {
@@ -128,6 +138,8 @@ public class AssociateListCukes {
 
 	}
 
+	// For any matching id, int i will be incremented. If i is never incremented, that means
+	// there were no matches and the filtering failed
 	@Then("^The table is filtered by that associate id$")
 	public static void the_table_is_filtered_by_that_associate_id() throws Throwable {
 		try {
@@ -154,6 +166,8 @@ public class AssociateListCukes {
 	}
 
 	// ************** FILTER BY SEARCHING FIRST NAME ********************
+	// Gets a list of firstnames. This method tests whether there is a valid list of names
+	// to retrieve or not
 	@Given("^I know associates first name$")
 	public static void i_know_associates_first_name() throws Throwable {
 		try {

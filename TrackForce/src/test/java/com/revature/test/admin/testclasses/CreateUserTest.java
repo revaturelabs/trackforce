@@ -13,6 +13,12 @@ import org.testng.annotations.Test;
 
 import com.revature.test.admin.cukes.CreateUserCukes;
 
+/**
+ * All of these tests are commented out.
+ * TODO determine if any of these methods can be used/salvaged or else just delete this class
+ * Reviewed by Jesse
+ * @since 6.18.06.07
+ */
 public class CreateUserTest extends AdminSuite {
 
 	static int testNumber = 1;

@@ -10,7 +10,13 @@ import org.testng.annotations.Test;
 
 import com.revature.test.admin.cukes.HomeTabCukes;
 
-
+/**
+ * Entirely commented page
+ * TODO Uncomment this code and see if any of it is useful/salvageable
+ * functionality.
+ * Reviewed by Jesse
+ * @since 6.18.06.07
+ */
 public class HomeTest extends AdminSuite {
 /*//
 	static int testNumber = 1;

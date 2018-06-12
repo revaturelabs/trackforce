@@ -53,6 +53,7 @@ public class InterviewService {
 	 */
 	public ArrayList<InterviewInfo> getAllInterviews(String sort) {
 		ArrayList<InterviewInfo> interviews = new ArrayList<>(interviewDao.getAllInterviews().values());
+		System.out.println(interviews.size());
 		int order = "asc".equals(sort) ? 1 : -1;
 
 		// TODO this should be sorted in the hibernate layer

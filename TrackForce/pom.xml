@@ -25,11 +25,11 @@
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>2.26</version>
 		</dependency>
-		
+
 		<dependency>
-   		 	<groupId>org.dbunit</groupId>
-    	 	 	<artifactId>dbunit</artifactId>
-    	 		<version>2.5.4</version>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+			<version>2.5.4</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
@@ -83,6 +83,14 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>3.1.0</version>
+			<scope>test</scope>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -152,7 +160,7 @@
 			<groupId>com.oracle.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
 			<version>12.2.0.1</version>
-		</dependency> 
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc -->
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
@@ -234,7 +242,12 @@
 			<groupId>org.codehaus.mojo</groupId>
 			<artifactId>cobertura-maven-plugin</artifactId>
 			<version>2.7</version>
-
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun</groupId>
+					<artifactId>tools</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 	</dependencies>

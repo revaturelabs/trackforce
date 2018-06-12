@@ -12,6 +12,13 @@ import com.revature.test.admin.cukes.ClientListCukes;
 import com.revature.test.admin.pom.ClientListTab;
 import com.revature.test.utils.TestConfig;
 
+/**
+ * Entirely commented page
+ * TODO Uncomment this code and see if any of it is useful/salvageable
+ * functionality.
+ * Reviewed by Jesse
+ * @since 6.18.06.07
+ */
 public class ClientListTest extends AdminSuite 
 {
 /*	// static WebDriver e = null;

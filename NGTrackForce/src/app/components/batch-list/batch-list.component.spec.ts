@@ -121,7 +121,6 @@ describe('BatchListComponent', async () => {
         component.applySelectedRange(component.startDate, component.endDate);
         fixture.detectChanges();
         fixture.whenStable().then(() => {
-          console.log('testing default vs wide', component.batches.length, defaultBatchCount);
           expect(component.batches.length).toBeGreaterThanOrEqual(defaultBatchCount);
         });
       });

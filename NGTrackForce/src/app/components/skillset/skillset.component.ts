@@ -145,7 +145,6 @@ export class SkillsetComponent implements OnInit {
     this.skillsetService.getSkillsetsForStatusID(this.skillID).subscribe((data) => {
       // copy in the raw data into local variable
       let skillsets: Array<any> = data;
-      console.log(data);
       // map() that variable into skillsetData,skillsetLabels
       this.skillsetData = skillsets.map((obj) => { if (obj.count) return obj.count }).filter(this.isNotUndefined);
       this.skillsetLabels = skillsets.map((obj) => { if (obj.count) return obj.name }).filter(this.isNotUndefined);

@@ -216,7 +216,6 @@ export class HomeComponent {
     this.rs.populateDB().subscribe(response => {
       this.load();
     }, err => {
-      console.log("err");
     });
   }
 
@@ -228,7 +227,6 @@ export class HomeComponent {
     this.rs.deleteDB().subscribe(response => {
       this.load();
     }, err => {
-      console.log("err");
     })
   }
 
@@ -242,7 +240,6 @@ export class HomeComponent {
     this.rs.populateDBSF().subscribe(response => {
       this.load();
     }, err => {
-      console.log("err");
     });
   }
 

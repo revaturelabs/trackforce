@@ -80,12 +80,10 @@ export class LoginComponent implements OnInit {
        // this.router.navigate(['associate-view', user.userId]);
 
         localStorage.setItem(associateInfo, JSON.stringify(user));
-        console.log(user.associateId);
         this.router.navigate(['associate-view', user.associateId]);
 
       }
       else{
-      	//console.log(user.name);
       	this.getUser(user.userId);
         this.router.navigate(['root']);
       }
@@ -103,7 +101,6 @@ export class LoginComponent implements OnInit {
         this.associate = data;
       },
       err => {
-        console.log(err);
     });
 
   }
@@ -174,7 +171,6 @@ export class LoginComponent implements OnInit {
           const user = this.authService.getUser();
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
-          console.log(user);
         
           if(user.tfRoleId === 5){
             this.router.navigate(['associate-view', user.associateId]);
@@ -186,7 +182,6 @@ export class LoginComponent implements OnInit {
         },
         err => {
           this.authService.logout();
-          console.log(err);
           if (err.status == 500)
             this.errMsg = "There was an error on the server";
           else if (err.status == 400)

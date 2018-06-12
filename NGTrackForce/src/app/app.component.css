@@ -1,0 +1,11 @@
+/**
+* NOTES ABOUT THIS CSS FILE IN FOOTER.COMPONENT.TS
+*/
+router-outlet {
+    min-height: calc(100vh-90px);
+}
+app-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+ }

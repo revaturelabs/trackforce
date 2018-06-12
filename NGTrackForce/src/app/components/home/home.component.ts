@@ -9,8 +9,8 @@ import { BatchService } from '../../services/batch-service/batch.service';
 
 import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
-import {ThemeConstants} from '../../constants/theme.constants';
-import {ChartOptions} from '../../models/ng2-charts-options.model';
+import { ThemeConstants } from '../../constants/theme.constants';
+import { ChartOptions } from '../../models/ng2-charts-options.model';
 import '../../constants/selected-status.constants';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 
@@ -25,14 +25,14 @@ const MONTHS_3 = 788923800;
   styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent {
+export class HomeComponent implements OnInit{
   private associates: any;
 
-/**
- * http://usejsdoc.org/
- */
+  /**
+   * http://usejsdoc.org/
+   */
 
- //Message from the back-end
+  //Message from the back-end
   dbMessage: string;
   myStatus: string;
   username: string;
@@ -109,11 +109,11 @@ export class HomeComponent {
       let confirmedUnmapped = 0;
       let deployedMapped = 0;
       let deployedUnmapped = 0;
-      for (let i=0;i<this.associates.length;i++) {
+      for (let i = 0; i < this.associates.length; i++) {
         // iterate over associates and aggregate totals
-        let associate = this.associates[i];
-        let stats = associate.msid;
-        switch(stats) {
+        const associate = this.associates[i];
+        const stats = associate.msid;
+        switch (stats) {
           case 1: trainingMapped++; break;
           case 2: reservedMapped++; break;
           case 3: selectedMapped++; break;
@@ -133,7 +133,7 @@ export class HomeComponent {
        * the mapped number is the sum of all mapped associates, the unmapped number
        * is the sum of all unmapped associates.
        */
-      let undeployedArr: number[] = [trainingMapped
+      const undeployedArr: number[] = [trainingMapped
         + reservedMapped + selectedMapped + confirmedMapped,
       trainingUnmapped + openUnmapped + selectedUnmapped + confirmedUnmapped];
 
@@ -149,7 +149,7 @@ export class HomeComponent {
        * selected mapped <br>
        * confirmed mapped<br>
        */
-      let mappedArr: number[] = [trainingMapped, reservedMapped, selectedMapped, confirmedMapped];
+      const mappedArr: number[] = [trainingMapped, reservedMapped, selectedMapped, confirmedMapped];
 
       this.mappedData = mappedArr;
 
@@ -163,7 +163,7 @@ export class HomeComponent {
        * selected unmapped <br>
        * confirmed unmapped<br>
        */
-      let unmappedArr: number[] = [trainingUnmapped, openUnmapped, selectedUnmapped, confirmedUnmapped];
+      const unmappedArr: number[] = [trainingUnmapped, openUnmapped, selectedUnmapped, confirmedUnmapped];
 
       this.unmappedData = unmappedArr;
 
@@ -174,7 +174,7 @@ export class HomeComponent {
        * the mapped number is the sum of all mapped associates, the unmapped number
        * is the sum of all unmapped associates. Both numbers contain only deployed associates.
        */
-      let deployedArr = [deployedMapped, deployedUnmapped];
+      const deployedArr = [deployedMapped, deployedUnmapped];
 
       this.deployedData = deployedArr;
     });
@@ -188,7 +188,7 @@ export class HomeComponent {
 * clicked.
 */
   mappedOnClick(evt: any) {
-    if (evt.active[0] != undefined) {
+    if (evt.active[0] !== undefined) {
       //navigate to client-mapped component
       this.rout.navigate([`client-mapped/${evt.active[0]._index}`]);
     }
@@ -201,7 +201,7 @@ export class HomeComponent {
    * clicked.
    */
   unmappedOnClick(evt: any) {
-    if (evt.active[0] != undefined) {
+    if (evt.active[0] !== undefined) {
       //navigate to skillset component
       this.rout.navigate([`skillset/${evt.active[0]._index}`]);
     }

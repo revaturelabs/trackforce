@@ -172,14 +172,21 @@ export class LoginComponent implements OnInit {
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
         
-          if(user.tfRoleId === 5) {
-            this.router.navigate(['associate-view', user.associateId]);
+          if(user.tfRoleId === 5){
+              if (user.isApproved) {
+                this.router.navigate(['associate-view', user.associateId]);
+              }
+              else {
+                this.authService.logout();
+                this.errMsg = "Associate not yet approved";
+              }
 
           } else {
             //otherwise, they are set to root
             this.router.navigate(['app-home']);
           }
         },
+        
         err => {
           this.authService.logout();
           if (err.status === 500) {

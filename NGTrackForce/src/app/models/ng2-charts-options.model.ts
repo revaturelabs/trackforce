@@ -1,8 +1,8 @@
 /**
  * @Author chart style for stronger typing while constructing ng2-charts options/colors
- * 
+ *
  * As a whole, this model is used in batch-list.component, home.component
- * This file contains the model for SideValues and ChartOptions, 
+ * This file contains the model for SideValues and ChartOptions,
  * as well as the methods createOptionsSpacing, createOptionsTitle, and createOptionsLegend
  * Note made 6/7/2018
  * @author Amelia
@@ -11,7 +11,7 @@
 
 /**
  * Used to represent padding and margin in chart styles
- * 
+ *
  */
 export class SideValues {
   left: number;

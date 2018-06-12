@@ -1,4 +1,4 @@
-import { Associate } from "./associate.model";
+import {Associate} from "./associate.model";
 
 /**
  * Used in the client and the end-client models
@@ -6,8 +6,8 @@ import { Associate } from "./associate.model";
  * @author Amelia
  */
 export class Placement {
-    id: number;
-    associate: Associate;
-    start: Date;
-    end: Date;
+  id: number;
+  associate: Associate;
+  start: Date;
+  end: Date;
 }

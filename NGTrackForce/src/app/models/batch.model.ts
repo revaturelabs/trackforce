@@ -1,7 +1,7 @@
-import { Associate } from "./associate.model";
+import {Associate} from "./associate.model";
 
-/** @author Princewill Ibe 
- * 
+/** @author Princewill Ibe
+ *
  * Holds data needed by front end for a batch
  */
 export class Batch {

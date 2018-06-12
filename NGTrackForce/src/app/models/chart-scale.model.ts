@@ -4,14 +4,14 @@
  * Note made 6/6/2018
  * @author Amelia
  */
-export class ChartScale{
-    yAxes: {[k: string]: any}[] = [{
-            ticks: {
-                min:0
-            }
-        }
-    ];
-
-    constructor() {     
+export class ChartScale {
+  yAxes: { [k: string]: any }[] = [{
+    ticks: {
+      min: 0
     }
+  }
+  ];
+
+  constructor() {
+  }
 }

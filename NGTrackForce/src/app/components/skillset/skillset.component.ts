@@ -149,7 +149,7 @@ export class SkillsetComponent implements OnInit {
       })
       // if there is empty string, simply go home
       if (!this.selectedStatus) {
-        this.router.navigate(['/root']);
+        this.router.navigate(['/app-home']);
       }
     }
     // get the skillset data here

@@ -1,44 +1,49 @@
 <nav class="navbar navbar-default custom-nav">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" >
+      <a class="navbar-brand">
         <img src="../../../assets/logo.png" height="52" width="152" alt="Revature Logo">
       </a>
     </div>
-    <ul *ngIf="user" class="nav navbar-nav">
+    <ul *ngIf='isAssociate' class="nav navbar-nav">
 
       <li>
-        <a *ngIf="isAssociate" routerLink="/associate-view/{{associate.id}}" routerLinkActive="active">Home</a>
+        <a routerLink="/associate-view/{{associate.id}}" routerLinkActive="active">Home</a>
       </li>
       <li>
-        <a *ngIf="isAssociate" routerLink="/myinterview-view/{{associate.id}}" routerLinkActive="active">My Interviews</a>
+        <a routerLink="/myinterview-view/{{associate.id}}" routerLinkActive="active">My Interviews</a>
+      </li>
+    </ul>
+
+    <ul *ngIf='isAdmin' class="nav navbar-nav">
+
+      <li>
+        <a routerLink="/app-home" routerLinkActive="active">Home</a>
       </li>
       <li>
-        <a *ngIf="isAdmin" routerLink="/app-home" routerLinkActive="active">Home</a>
+        <a routerLink="/client-listing" routerLinkActive="active">Client List</a>
       </li>
       <li>
-        <a *ngIf="isAdmin" routerLink="/client-listing" routerLinkActive="active">Client List</a>
+        <a routerLink="/batch-listing" routerLinkActive="active">Batch List</a>
       </li>
       <li>
-        <a *ngIf="isAdmin" routerLink="/batch-listing" routerLinkActive="active">Batch List</a>
+        <a routerLink="/associate-listing" routerLinkActive="active">Associate List</a>
       </li>
       <li>
-        <a *ngIf="isAdmin" routerLink="/associate-listing" routerLinkActive="active">Associate List</a>
+        <a routerLink="/predictions" routerLinkActive="active">Predictions</a>
       </li>
       <li>
-        <a *ngIf="isAdmin" routerLink="/predictions" routerLinkActive="active">Predictions</a>
+        <a routerLink="/interviews" routerLinkActive="active">Interviews</a>
       </li>
       <li>
-        <a *ngIf="isAdmin" routerLink="/interviews" routerLinkActive="active">Interviews</a>
+        <a routerLink="/create-user" routerLinkActive="active">Create User</a>
       </li>
-      <li>
-        <a *ngIf="isAdmin" routerLink="/create-user" routerLinkActive="active">Create User</a>
-      </li>
+    </ul>
+    <ul *ngIf='isAssociate || isAdmin' class="nav navbar-nav navbar-right visible-lg">
       <li>
         <a routerLink="/login" (click)="logout()">Logout</a>
       </li>
-    </ul>
-    <ul *ngIf="user" class="nav navbar-nav navbar-right visible-lg">
+
       <li>
         <a>Welcome, {{user.username}}</a>
       </li>

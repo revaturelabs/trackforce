@@ -48,7 +48,6 @@ import { InterviewService } from './services/interview-service/interview.service
 ///
 //  FILTERS
 ///
-///
 
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 

@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit {
       else {
         //console.log(user.name);
         this.getUser(user.userId);
-        this.router.navigate(['root']);
+        this.router.navigate(['app-home']);
       }
     }
   }

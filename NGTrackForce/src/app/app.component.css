@@ -1,6 +1,16 @@
-footer{
+/* .wrapper{
+    min-height: 100vh;
+} */
+/* #content{
+    min-height: calc(100vh - 90px);
+} */
+
+/* .footer{
     position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-}
+	clear: both;
+
+} */
+#footer {
+    align-self: flex-end;
+  }
+  

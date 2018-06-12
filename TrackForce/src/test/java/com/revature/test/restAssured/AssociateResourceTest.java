@@ -22,6 +22,7 @@ public class AssociateResourceTest {
 	@BeforeClass
 	public void beforeClass() {
 		associates = associateService.getAllAssociates();
+		System.out.println(associates.size());
 	}
 	
 	@Test(priority = 5)

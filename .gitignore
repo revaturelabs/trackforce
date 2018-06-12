@@ -19,7 +19,7 @@ test-output/
 **/.settings/
 **/.classpath
 **/.recommenders/**
-**/Servers
+**/Servers/
 **/.springBeans
 
 .recommenders

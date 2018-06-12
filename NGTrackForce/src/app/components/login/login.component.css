@@ -23,10 +23,10 @@ http://www.bootstrapzen.com/item/135/simple-login-form-logo/
 	font-size: 16px;
 	height: auto;
 	padding: 10px;
-	@include box-sizing(border-box);
+	/* @include box-sizing(border-box);
 	&:focus {
 	z-index:2;
-	}
+	} */
 }
 
 #background {
@@ -53,6 +53,7 @@ http://www.bootstrapzen.com/item/135/simple-login-form-logo/
 
 .login-form {
 	margin-top: 60px;
+	margin-bottom: 100px;
 }
 
 form[role=login] {

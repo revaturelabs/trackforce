@@ -5,7 +5,6 @@ import { SelectedStatusConstants } from '../../constants/selected-status.constan
 import { element, by, browser } from 'protractor';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ChartsModule } from 'ng2-charts';
-import { RootComponent } from '../root/root.component';
 import { HomeComponent } from '../home/home.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -29,7 +28,7 @@ describe('SkillsetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SkillsetComponent, RootComponent, HomeComponent, NavbarComponent,
+      declarations: [ SkillsetComponent, HomeComponent, NavbarComponent,
         FormComponent
       ],
       imports : [

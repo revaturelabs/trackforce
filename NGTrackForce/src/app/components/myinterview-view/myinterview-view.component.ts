@@ -48,7 +48,6 @@ export class MyInterviewComponent implements OnInit {
     this.getInterviews(this.id);
     this.getAssociate(this.id);
     this.getClientNames();
-    // console.log(this.clients)
   }
 
   toggleForm() {
@@ -62,27 +61,21 @@ export class MyInterviewComponent implements OnInit {
     this.newInterview.jobDescription = "none available";
     this.newInterview.flagAlert = 0;
     this.newInterview.was24HRNotice = (this.newInterview.was24HRNotice*1)
-    console.log(JSON.stringify(this.newInterview));
-    console.log(this.newInterview)
     this.associateService.addInterviewForAssociate(this.id,this.newInterview).subscribe(
       data => {
         this.getInterviews(this.id);
       },
       err => {
-        console.log(err);
       }
     );
   }
 
 
   updateInterview(id: number){
-  console.log(id);
-   // console.log(this.interviews[id]);
     if (sessionStorage.getItem("changedin") === null) {
   
   
      const updateinterview = this.interviews[id];
-      console.log(updateinterview);
       var interview:any = {
         clientFeedback : updateinterview.CFeedback,
         dateAssociateIssued: new Date(updateinterview.date).getTime,
@@ -105,7 +98,6 @@ export class MyInterviewComponent implements OnInit {
       const updateinterview = this.interviews[id];
       updateinterview.CFeedback = u.CFeedback;
       updateinterview.AFeedback = u.AFeedback;
-      console.log(updateinterview);
       var interview:any = {
         clientFeedback : updateinterview.CFeedback,
         dateAssociateIssued: new Date(updateinterview.date).getTime,
@@ -120,13 +112,11 @@ export class MyInterviewComponent implements OnInit {
       
       sessionStorage.clear();
     }
-     console.log (interview);
      this.interviewService.updateinterview(interview, this.id).subscribe(
        data => {
          this.getInterviews(this.id);
        },
        err => {
-         console.log(err);
        }
     );    
     
@@ -135,11 +125,9 @@ export class MyInterviewComponent implements OnInit {
   getInterviews(id: number) {
     this.interviewService.getInterviews(id).subscribe(
       data => {
-        console.log(data);
         let tempArr = [];
         for (let i=0;i<data.length;i++) {
           let interview = data[i];
-          console.log(interview);
           let intObj = {
             id: interview.id,
             client: interview.tfClientName,
@@ -153,7 +141,6 @@ export class MyInterviewComponent implements OnInit {
             Flag: interview.isInterviewFlagged,
 
           }
-          console.log(intObj.date)
           tempArr.push(intObj);
         }
         this.interviews = tempArr;
@@ -188,7 +175,6 @@ export class MyInterviewComponent implements OnInit {
         this.associate = data;
       },
       err => {
-        console.log(err);
       });
     }
 
@@ -201,7 +187,6 @@ export class MyInterviewComponent implements OnInit {
         }
         interview.isEditingAvailable=false;
       }
-      console.log(interview.isEditingAvailable)
     }
 
     showAvailableDate(interview,dateVal){
@@ -212,7 +197,6 @@ export class MyInterviewComponent implements OnInit {
         interview.date = dateVal;
         interview.isDateAvailable=false;
       }
-      console.log(interview.isDateAvailable)
     }
 
     saveInterview(interview:Interview){
@@ -223,7 +207,6 @@ export class MyInterviewComponent implements OnInit {
       var self = this;
       this.clientService.getAllClients().subscribe(data => {
         self.clients = data;
-        console.log(this.clients);
       });
     }
 

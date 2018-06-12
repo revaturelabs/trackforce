@@ -12,7 +12,6 @@ import {ClientMappedComponent} from '../components/client-mapped/client-mapped.c
 import {AssociateListComponent} from '../components/associate-list/associate-list.component';
 import {BatchListComponent} from '../components/batch-list/batch-list.component';
 import {CreateUserComponent} from '../components/create-user/create-user.component';
-import {RootComponent} from '../components/root/root.component';
 import {SkillsetComponent} from '../components/skillset/skillset.component';
 import {BatchDetailsComponent} from '../components/batch-details/batch-details.component';
 import {AssociateViewComponent } from '../components/associate-view/associate-view.component';
@@ -83,9 +82,9 @@ export const appRoutes: Routes = [
     component: CreateUserComponent
   },
   {
-    path: 'root',
+    path: 'app-home',
     canActivate: [AuthGuard],
-    component: RootComponent
+    component: HomeComponent
   },
   {
     path: 'predictions',

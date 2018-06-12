@@ -2,7 +2,6 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {NavbarComponent} from './navbar.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {RootComponent} from '../root/root.component';
 import {HomeComponent} from '../home/home.component';
 import {ChartsModule} from 'ng2-charts';
 import {AuthenticationService} from '../../services/authentication-service/authentication.service';
@@ -29,8 +28,7 @@ describe('NavbarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         NavbarComponent,
-        RootComponent,
-        HomeComponent,
+        HomeComponent
       ],
       imports: [
         HttpClientModule,

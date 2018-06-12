@@ -69,11 +69,9 @@ export class BatchListComponent implements OnInit {
    */
   public applySelectedRange(s,e) {
     if(s != null){
-      console.log(s);
       this.startDate = s;
     }
     if(e != null){
-      console.log(e);
       this.endDate = e;
     }
     if (this.startDate && this.endDate) {

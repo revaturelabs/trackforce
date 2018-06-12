@@ -130,7 +130,6 @@ export class ClientMappedComponent implements OnInit {
       */
       let temp_clientMappedLabels: string[] = [];
       let temp_clientMappedData: number[] = [];
-      console.log(data);
 
       //Loop over 'data' and extract fetched information
       for(let d in data) {
@@ -190,11 +189,9 @@ export class ClientMappedComponent implements OnInit {
 
   //Placeholder for events. Current application specifications does not dictate any actions
   public chartClicked(e:any):void {
-    console.log(e);
     this.rout.navigate([`associate-listing/client/${this.clientMappedLabels[e.active[0]._index]}/mapped/${this.chartOptions.title.text}`]);
   }
 
   public chartHovered(e:any):void {
-    console.log(e);
   }
 }

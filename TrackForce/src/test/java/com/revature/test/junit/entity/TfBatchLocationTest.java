@@ -10,6 +10,11 @@ import org.junit.Test;
 
 import com.revature.entity.TfBatchLocation;
 
+/**
+ * Tests to test basic getter and setter functionality for TfBatchLocation
+ * @author Jesse
+ * @Since 6.18.06.11
+ */
 public class TfBatchLocationTest {
 
 	TfBatchLocation batLocTest = new TfBatchLocation();

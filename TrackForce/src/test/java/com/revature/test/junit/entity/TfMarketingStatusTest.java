@@ -10,6 +10,11 @@ import org.junit.Test;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfMarketingStatus;
 
+/**
+ * Tests to test basic getter and setter functionality for TfMarketingStatus
+ * @author Jesse
+ * @Since 6.18.06.11
+ */
 public class TfMarketingStatusTest {
 
 	TfMarketingStatus tfms = new TfMarketingStatus();

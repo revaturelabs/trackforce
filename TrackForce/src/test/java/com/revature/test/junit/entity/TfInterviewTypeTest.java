@@ -10,6 +10,11 @@ import org.junit.Test;
 import com.revature.entity.TfInterview;
 import com.revature.entity.TfInterviewType;
 
+/**
+ * Tests to test basic getter and setter functionality for TfInterviewType
+ * @author Jesse
+ * @Since 6.18.06.11
+ */
 public class TfInterviewTypeTest {
 
 	TfInterviewType tfit = new TfInterviewType();

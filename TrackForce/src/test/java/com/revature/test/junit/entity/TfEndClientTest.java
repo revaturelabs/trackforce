@@ -12,6 +12,11 @@ import com.revature.entity.TfEndClient;
 import com.revature.entity.TfInterview;
 import com.revature.entity.TfPlacement;
 
+/**
+ * Tests to test basic getter and setter functionality for TfEndClient
+ * @author Jesse
+ * @Since 6.18.06.11
+ */
 public class TfEndClientTest {
 
 	TfEndClient endClient = new TfEndClient();

@@ -12,6 +12,11 @@ import com.revature.entity.TfClient;
 import com.revature.entity.TfEndClient;
 import com.revature.entity.TfPlacement;
 
+/**
+ * Tests to test basic getter and setter functionality for TfPlacement
+ * @author Jesse
+ * @Since 6.18.06.11
+ */
 public class TfPlacementTest {
 
 	TfPlacement tfplacement = new TfPlacement();

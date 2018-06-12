@@ -10,6 +10,11 @@ import org.junit.Test;
 import com.revature.entity.TfBatch;
 import com.revature.entity.TfCurriculum;
 
+/**
+ * Tests to test basic getter and setter functionality for TfCurriculum
+ * @author Jesse
+ * @Since 6.18.06.11
+ */
 public class TfCurriculumTest {
 	
 	TfCurriculum tfcur = new TfCurriculum();

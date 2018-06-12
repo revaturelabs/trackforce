@@ -13,6 +13,11 @@ import com.revature.entity.TfEndClient;
 import com.revature.entity.TfInterview;
 import com.revature.entity.TfInterviewType;
 
+/**
+ * Tests to test basic getter and setter functionality for TfInterviewTest
+ * @author Jesse
+ * @Since 6.18.06.11
+ */
 public class TfInterviewTest {
 
 	TfInterview interview = new TfInterview();

@@ -9,6 +9,11 @@ import com.revature.entity.TfAssociate;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 
+/**
+ * Tests to test basic getter and setter functionality for TfUser
+ * @author Jesse
+ * @Since 6.18.06.11
+ */
 public class TfUserTest {
 
 	TfUser tfuser = new TfUser();
@@ -46,6 +51,4 @@ public class TfUserTest {
 		assertTrue(tfuser.getTfUserUsername().equals("Penguins"));
 		assertFalse(tfuser.getTfUserUsername().equals("penguins"));
 	}
-	
-
 }

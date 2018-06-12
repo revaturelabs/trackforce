@@ -4,7 +4,7 @@ package com.revature.model;
  * 
  * @author Michael Tseng
  * 
- * This class is the Java representation of a JSON bean to be set to Angular
+ * This class is the Java representation of a JSON bean to be sent to Angular
  * Jackson will automatically convert the Java Bean to JSON
  * This beans contains user roleId, username, JWT token
  * Produced by the REST service

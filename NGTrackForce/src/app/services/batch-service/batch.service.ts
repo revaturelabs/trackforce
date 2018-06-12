@@ -9,7 +9,7 @@ import {Associate} from '../../models/associate.model';
 
 @Injectable()
 export class BatchService {
-  private batchPath: string = "TrackForce/batches";
+  private batchPath = "TrackForce/batches";
 
   constructor(private http: HttpClient) {}
 
@@ -24,13 +24,11 @@ export class BatchService {
   public getBatchesByDate(startDate: Date, endDate: Date): Observable<Batch[]> {
     const url = environment.url + this.batchPath+ `?start=${startDate.getTime()}&end=${endDate.getTime()}`;
     //const url = environment.url + this.batchPath + '/';
-    console.log(startDate.getTime());
-    console.log(endDate.getTime());
     return this.http.get<Batch[]>(url);
   }
 
   /**
-   * 
+   *  This gets all of the batches
    */
   public getAllBatches(): Observable<Batch[]> {
     const url = environment.url + this.batchPath;

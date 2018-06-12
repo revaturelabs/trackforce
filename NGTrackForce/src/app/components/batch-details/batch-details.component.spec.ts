@@ -15,7 +15,6 @@ import {SearchFilterPipe} from '../../pipes/search-filter/search-filter.pipe';
 import {AssociateSearchByTextFilter} from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 import {NavbarComponent} from '../navbar/navbar.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {RootComponent} from '../root/root.component';
 import {FormComponent} from '../form-component/form.component';
 import {SkillsetComponent} from '../skillset/skillset.component';
 import {Batch} from '../../models/batch.model';
@@ -32,7 +31,7 @@ describe('BatchDetailsComponent', async () => {
   let component: BatchDetailsComponent;
   let fixture: ComponentFixture<BatchDetailsComponent>;
   const testBatchService: BatchService = new BatchService(null);
-  const testAuthService: AuthenticationService = new AuthenticationService(null, null);
+  const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
 
   // setup service mocks
   beforeAll(() => {
@@ -63,7 +62,6 @@ describe('BatchDetailsComponent', async () => {
         SearchFilterPipe,
         AssociateSearchByTextFilter,
         NavbarComponent,
-        RootComponent,
         FormComponent,
         SkillsetComponent
       ],

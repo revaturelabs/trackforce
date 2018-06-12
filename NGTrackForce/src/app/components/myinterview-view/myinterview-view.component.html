@@ -1,6 +1,5 @@
-<app-navbar [associate]="associate"></app-navbar>
 <div class="container">
-  <div class = "card-deck mb-3 text-center">
+  <div class="card-deck mb-3 text-center">
     <div>
       <h3>My Interviews</h3>
       <div class="alert alert-danger" *ngIf="conflictingInterviews!=''">
@@ -11,7 +10,7 @@
           <tr>
             <th>Interview</th>
             <th>Client</th>
-            <th> Date  Notified </th>
+            <th> Date Notified </th>
             <th>Interview Date</th>
             <th>Medium</th>
             <th>Job Description</th>
@@ -26,22 +25,48 @@
             <td>{{i+1}}</td>
             <td>{{interview.client}}</td>
 
-            <td >
-                <div *ngIf='!interview.isDateAvailable; else dateEdit2'> 
-              {{interview.date | date:'short'}} <br><button class= "icon-button" type="button" (click)='showAvailableDate(interview)'> <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i></button> </div>
-                    <ng-template #dateEdit2><input id="date" #date type="datetime-local" [(ngModel)] = "interview.date"> <button type="button" (click)='showAvailableDate(interview,date.value)'> <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i></button></ng-template>
+            <td>
+              <div *ngIf='!interview.isDateAvailable; else dateEdit2'>
+                {{interview.date | date:'short'}}
+                <br>
+                <button class="icon-button" type="button" (click)='showAvailableDate(interview)'>
+                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
+                </button>
+              </div>
+              <ng-template #dateEdit2>
+                <input id="date" #date type="datetime-local" [(ngModel)]="interview.date">
+                <button type="button" (click)='showAvailableDate(interview,date.value)'>
+                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
+                </button>
+              </ng-template>
             </td>
-           
-            <td> 
-              <div *ngIf='!interview.isEditingAvailable; else dateEdit' [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'rgba(255,0,0,0.5)':''}"> 
-              {{interview.DInterview |date: 'short'}}<br><button class= "icon-button" type="button" (click)='showInputDate(interview)'> <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i></button> </div>
-              <ng-template #dateEdit><input id="date" #date2 type="datetime-local" [(ngModel)] = "interview.DInterview"> <button type="button" (click)='showInputDate(interview,date2.value)'> <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i></button></ng-template>
+
+            <td>
+              <div *ngIf='!interview.isEditingAvailable; else dateEdit' [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'rgba(255,0,0,0.5)':''}">
+                {{interview.DInterview |date: 'short'}}
+                <br>
+                <button class="icon-button" type="button" (click)='showInputDate(interview)'>
+                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
+                </button>
+              </div>
+              <ng-template #dateEdit>
+                <input id="date" #date2 type="datetime-local" [(ngModel)]="interview.DInterview">
+                <button type="button" (click)='showInputDate(interview,date2.value)'>
+                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
+                </button>
+              </ng-template>
             </td>
-            <td >{{interview.type}}</td>
-            <td>{{interview.JDescription}}</td>           
-            <td class="flag"><input type="checkbox" id="flag" [(ngModel)]="interview.Flag"></td>
-            <td><a [routerLink]="['/interviewDetails', i, id]" class="id">view</a></td>
-            <td> <button type= "button" class="btn btn-primary" (click) = 'updateInterview(i)'>Save </button></td>
+            <td>{{interview.type}}</td>
+            <td>{{interview.JDescription}}</td>
+            <td class="flag">
+              <input type="checkbox" id="flag" [(ngModel)]="interview.Flag">
+            </td>
+            <td>
+              <a [routerLink]="['/interviewDetails', i, id]" class="id">view</a>
+            </td>
+            <td>
+              <button type="button" class="btn btn-primary" (click)='updateInterview(i)'>Save </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -51,49 +76,49 @@
           <form class="form-horizontal">
             <div class="form-group">
               <label class="control-label col-sm-3">Client:</label>
-               <div class="col-sm-9">
-                 <select class="form-control" name="newClient" [(ngModel)]="newInterview.clientId">
-                     <option selected="selected">None</option>
-                     <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
-                 </select>
-               </div>
+              <div class="col-sm-9">
+                <select class="form-control" name="newClient" [(ngModel)]="newInterview.clientId">
+                  <option selected="selected">None</option>
+                  <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
+                </select>
+              </div>
             </div>
 
 
 
-                <div class="form-group">
-                  <label class="control-label col-sm-3">Date of interview:</label>
-                  <div class="col-sm-9">
-                    <!-- <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" /> -->
-                    <input type="datetime-local" class="form-control" name="date" [(ngModel)]="interviewDate" />
-                  </div>
-                </div>
-
-                <label class="control-label col-sm-3">Date Assigned:</label>
-                <div class="col-sm-9">
-                  <!-- <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" /> -->
-                  <input type="datetime-local" class="form-control" name="date" [(ngModel)]="interviewDateNotification" />
-                </div>
-
-                <div class="form-group">
-                  <label class="control-label col-sm-3">Type:</label>
-                  <div class="col-sm-9">
-                    <select class="form-control" name="type "[(ngModel)]="newInterview.typeId">
-                      <option value="1">Phone</option>
-                      <option value="2">Online</option>
-                      <option value="3">On-site</option>
-                      <option value="4">Skype</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="form-group">
-                </div>
-                <label class="control-label col-sm-3" >24 hour notice?</label>
-                <input type="checkbox" name="24hournotice" [(ngModel)]="newInterview.was24HRNotice">
-                <button (click)="addInterview()" class="btn btn-warning">Add Interview</button>
-              </form>
+            <div class="form-group">
+              <label class="control-label col-sm-3">Date of interview:</label>
+              <div class="col-sm-9">
+                <!-- <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" /> -->
+                <input type="datetime-local" class="form-control" name="date" [(ngModel)]="interviewDate" />
+              </div>
             </div>
-          </div>
-        
-  
-    <app-footer></app-footer>
+
+            <label class="control-label col-sm-3">Date Assigned:</label>
+            <div class="col-sm-9">
+              <!-- <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" /> -->
+              <input type="datetime-local" class="form-control" name="date" [(ngModel)]="interviewDateNotification" />
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-sm-3">Type:</label>
+              <div class="col-sm-9">
+                <select class="form-control" name="type " [(ngModel)]="newInterview.typeId">
+                  <option value="1">Phone</option>
+                  <option value="2">Online</option>
+                  <option value="3">On-site</option>
+                  <option value="4">Skype</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+            </div>
+            <label class="control-label col-sm-3">24 hour notice?</label>
+            <input type="checkbox" name="24hournotice" [(ngModel)]="newInterview.was24HRNotice">
+            <button (click)="addInterview()" class="btn btn-warning">Add Interview</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

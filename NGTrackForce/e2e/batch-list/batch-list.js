@@ -13,7 +13,6 @@ describe("Batch List Tab Protractor Test (Login)", function() {
 				wd.findElement(by.id('password')).sendKeys('TestAdmin');
 				wd.findElement(by.xpath("//button[@type='submit']")).click();
 		
-		console.log(browser.driver.getTitle());
 		
 		expect(browser.driver.getTitle()).toEqual('TrackForce');
 			});

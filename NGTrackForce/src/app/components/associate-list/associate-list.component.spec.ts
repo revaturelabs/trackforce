@@ -8,7 +8,6 @@ import {FormsModule} from '@angular/forms';
 import {AssociateSearchByTextFilter} from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 import {NavbarComponent} from '../navbar/navbar.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {RootComponent} from '../root/root.component';
 import {HomeComponent} from '../home/home.component';
 import {ChartsModule} from 'ng2-charts';
 import {AuthenticationService} from '../../services/authentication-service/authentication.service';
@@ -20,7 +19,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 describe('AssociateListComponent', () => {
   let component: AssociateListComponent;
   let fixture: ComponentFixture<AssociateListComponent>;
-  const testAuthService: AuthenticationService = new AuthenticationService(null, null);
+  const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
 
   // setup service mocks
    beforeAll(() => {
@@ -37,7 +36,6 @@ describe('AssociateListComponent', () => {
         AssociateListComponent,
         AssociateSearchByTextFilter,
         NavbarComponent,
-        RootComponent,
         HomeComponent,
         NavbarComponent
       ],

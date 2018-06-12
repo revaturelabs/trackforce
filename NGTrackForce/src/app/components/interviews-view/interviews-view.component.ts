@@ -35,7 +35,6 @@ export class InterviewsComponent implements OnInit {
   getInterviews() {
     this.interviewService.getAllInterviews().subscribe(
      data => {
-       console.log(data);
         this.interviews = data;
       }
     )

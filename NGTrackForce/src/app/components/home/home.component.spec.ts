@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
-import { RootComponent } from '../root/root.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RequestService } from '../../services/request-service/request.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -17,7 +16,7 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent, RootComponent, NavbarComponent, HomeComponent, SkillsetComponent, ClientMappedComponent ],
+      declarations: [ HomeComponent, NavbarComponent, HomeComponent, SkillsetComponent, ClientMappedComponent ],
       imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [ RequestService, AuthenticationService ]
     })

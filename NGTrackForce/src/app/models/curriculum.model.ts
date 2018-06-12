@@ -5,6 +5,9 @@
  * @author Amelia
  */
 export class Curriculum {
-    id: number
-    name: string
+  id: number;
+  name: string;
+  // Kirk: count is new. CurriculumJSON.java and CurriculumInfo have id and name
+  //       but only CurriculumJSON.java has count.
+  count: number;
 }

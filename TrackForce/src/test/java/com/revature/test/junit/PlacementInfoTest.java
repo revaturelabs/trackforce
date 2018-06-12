@@ -63,14 +63,14 @@ public class PlacementInfoTest {
 		PlacementInfo pi3 = new PlacementInfo();
 		pi3.setId(1);
 		
-		assertTrue(pi.getId() - pi2.getId() < 0);		//test negative
-		assertFalse(pi.getId() - pi2.getId() == wrongValue);
+		assertTrue(pi.compareTo(pi2) < 0 );		//test negative
+		assertFalse(pi.compareTo(pi2) == wrongValue);
 		
-		assertTrue(pi.getId() - pi3.getId() == 0);		//test equal
-		assertFalse(pi.getId() - pi3.getId() == wrongValue);
+		assertTrue(pi.compareTo(pi3) == 0);		//test equal
+		assertFalse(pi.compareTo(pi3) == wrongValue);
 		
-		assertTrue(pi2.getId() - pi.getId() > 0);		// test positive
-		assertFalse(pi2.getId() - pi2.getId() == wrongValue);
+		assertTrue(pi2.compareTo(pi) > 0);		// test positive
+		assertFalse(pi2.compareTo(pi) == wrongValue);
 			
 	}
 	

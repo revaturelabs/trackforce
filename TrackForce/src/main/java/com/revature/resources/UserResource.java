@@ -131,7 +131,7 @@ public class UserResource {
 	@Path("login")
 	public Response submitCredentials(LoginJSON login) throws IOException {
 		logger.info("submitCredentials()...");
-		logger.info("	login: " + login);
+//		logger.info("	login: " + login);
 		UserJSON userjson = null;
 		userjson = service.submitCredentials(login);
 		logger.info("	user: " + userjson);

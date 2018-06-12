@@ -11,4 +11,5 @@
      userId: number; 
      token: string;
      associateId: number;
+     isApproved: boolean;
  }

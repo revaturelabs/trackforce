@@ -80,6 +80,7 @@ export class LoginComponent implements OnInit {
        // this.router.navigate(['associate-view', user.userId]);
 
         localStorage.setItem(associateInfo, JSON.stringify(user));
+      
         console.log(user.associateId);
         this.router.navigate(['associate-view', user.associateId]);
 
@@ -177,13 +178,20 @@ export class LoginComponent implements OnInit {
           console.log(user);
         
           if(user.tfRoleId === 5){
-            this.router.navigate(['associate-view', user.associateId]);
+              if (user.isApproved) {
+                this.router.navigate(['associate-view', user.associateId]);
+              }
+              else {
+                this.authService.logout();
+                this.errMsg = "Associate not yet approved";
+              }
 
           } else {
             //otherwise, they are set to root
             this.router.navigate(['root']);
           }
         },
+        
         err => {
           this.authService.logout();
           console.log(err);

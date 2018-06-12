@@ -96,8 +96,7 @@ export class AssociateListComponent implements OnInit {
       this.associates = data;
       console.log(this.associates);
 
-      for (const associate of this.associates) {
-        //get our curriculums from the associates
+      for (let associate of this.associates) {//get our curriculums from the associates
         this.curriculums.add(associate.curriculumName);
 
         if (associate.batchName === 'null') {

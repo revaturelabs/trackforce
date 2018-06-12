@@ -26,7 +26,7 @@ export class InterviewsComponent implements OnInit {
 
   ngOnInit() {
     this.getInterviews();
-	//this.router.navigate(['root']);
+	//this.router.navigate(['app-home']);
   }
   viewInterview(inteview){
 	  this.interviewService.setInterview(inteview);

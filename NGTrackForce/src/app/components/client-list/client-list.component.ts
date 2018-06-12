@@ -142,10 +142,9 @@ export class ClientListComponent implements OnInit {
   // get client name and find id to request client information
   getOneClient(name: string) {
     this.selectedCompany = name;
-    let oneClient = this.clientInfo.find(item => item['tfClientName'] == name);
+    const oneClient = this.clientInfo.find(item => item['tfClientName'] == name);
     this.clientService.getOneClient(oneClient.id).subscribe(
       client => {
-        console.log(client);
         this.client$ = client;
         this.barChartData = [
           {

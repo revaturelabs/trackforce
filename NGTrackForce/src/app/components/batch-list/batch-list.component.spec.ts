@@ -18,7 +18,6 @@ import {SearchFilterPipe} from '../../pipes/search-filter/search-filter.pipe';
 import {AssociateSearchByTextFilter} from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 import {NavbarComponent} from '../navbar/navbar.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {RootComponent} from '../root/root.component';
 import {FormComponent} from '../form-component/form.component';
 import {SkillsetComponent} from '../skillset/skillset.component';
 import {Batch} from '../../models/batch.model';
@@ -65,7 +64,6 @@ describe('BatchListComponent', async () => {
         SearchFilterPipe,
         AssociateSearchByTextFilter,
         NavbarComponent,
-        RootComponent,
         FormComponent,
         SkillsetComponent
       ],
@@ -121,7 +119,6 @@ describe('BatchListComponent', async () => {
         component.applySelectedRange(component.startDate, component.endDate);
         fixture.detectChanges();
         fixture.whenStable().then(() => {
-          console.log('testing default vs wide', component.batches.length, defaultBatchCount);
           expect(component.batches.length).toBeGreaterThanOrEqual(defaultBatchCount);
         });
       });

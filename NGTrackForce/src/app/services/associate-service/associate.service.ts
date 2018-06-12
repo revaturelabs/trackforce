@@ -44,8 +44,6 @@ export class AssociateService {
   * @param statusId Contains the marketing status id used to fetch data
   */
   getAssociatesByStatus(statusId: number) {
-    console.log("Inside Associate Service - getFilteredAssociates");
-    console.log("statusId: " + statusId);
     return this.http.get(environment.url + this.associatePath + '/mapped/' + statusId);
   }
 

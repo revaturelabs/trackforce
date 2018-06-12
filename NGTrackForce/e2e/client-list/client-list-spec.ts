@@ -48,7 +48,6 @@ describe('When navigating to the client-list page it', function() {
     //     clientList.inputClientName(searchInput);
     //     clientList.clientListSpan.getText()
     //     .then(text => {
-    //             console.log(text);
     //             expect(text).toEqual('3 S Business Corporation Inc (BlackListed)');
     //         });  
     //     });
@@ -59,7 +58,6 @@ describe('When navigating to the client-list page it', function() {
     //     clientList.inputClientName(searchInput);
     //     clientList.clientListSpan.getText()
     //     .then(text => {
-    //         console.log('Empty text???' + text);
     //         // expect(text).toEqual('');
     //     });  
     // });

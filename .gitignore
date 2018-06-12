@@ -13,7 +13,14 @@ node_modules/
 # Auto generated TestNG files
 test-output/
 
-Servers/**
+#Eclipse
+**/.metadata
+**/.project
+**/.settings/
+**/.classpath
+**/.recommenders/**
+**/Servers
+**/.springBeans
 
 .recommenders
 /.metadata/
@@ -21,9 +28,12 @@ Servers/**
 # maven
 target
 
-# IDE - Intellij
-*.iml
-/.idea/
+#IDEA
+**/.idea/
+**/*.iml
+**/test-output/
+#AngularJS
+**/.tern-project
 
 # Test files
 .tern-project
@@ -124,3 +134,4 @@ jdbcUtil.java
 **/modules/rollup-test/dist/
 package-lock.json
 TrackForceLogs/
+**/'Pivotal tc Server Developer Edition v4.0-config'

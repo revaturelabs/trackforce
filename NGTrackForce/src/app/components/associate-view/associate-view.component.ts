@@ -22,12 +22,12 @@ export class AssociateViewComponent implements OnInit {
   public associate: Associate = new Associate();
   public interviews: Array<any> = [];
   public messages: Array<string> = ["I cleared my interview with FINRA", "Please update my status", "I am deleting you soon :)"];
-  public newMessage: string = "";
+  public newMessage = "";
 
   public selectedMarketingStatus: string;
   public clients: Array<any> = [];
-  public selectedClient: string = "";
-  public formOpen: boolean = false;
+  public selectedClient = "";
+  public formOpen = false;
 
   constructor(
     private associateService: AssociateService,
@@ -38,9 +38,9 @@ export class AssociateViewComponent implements OnInit {
   ngOnInit() {
     //gets the associate id from the path
     //the '+' coerces the parameter into a number
-    let id = +this.activated.snapshot.paramMap.get('id');
+    const id = +this.activated.snapshot.paramMap.get('id');
 
-    let a = this.getAssociate(id);
+    const a = this.getAssociate(id);
 
     this.getClients();
   }

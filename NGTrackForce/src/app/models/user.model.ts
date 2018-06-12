@@ -10,10 +10,12 @@
 export class User {
   username: string;
   passwordHash: string;
+  // Kirk: verified is not in UserJSON.java
+
+  verified: string;
   tfRoleId: number;
   userId: number;
   token: string;
   associateId: number;
-  // Kirk: verified is not in UserJSON.java
-  verified: string;
+  isApproved: boolean;
 }

@@ -15,6 +15,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import com.revature.test.utils.WaitToLoad;
 
+/**
+ * All the locations of the elements are specified in the tests.properties file
+ * in src/test/resources. Any additional elements should be specified in there and 
+ * referenced with prop.getProperty("element")
+ * @author Jesse (reviewer)
+ * @since 6.18.06.07
+ */
 public class BatchListTab {
 	static WebElement e = null;
 	static List<String> start = new ArrayList<String>();

@@ -21,11 +21,18 @@ import com.revature.request.model.SuccessOrFailMessage;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.PasswordStorage;
 
+/**
+ * Services for getting all users, getting a single user, creating an associate and submitting 
+ * credentials
+ * reviewed by Jesse
+ * @since 6.18.06.08
+*/
 public class UserService {
 
     private JWTService jwtService;
     private UserDAO userDao;
 
+    // Constructor
     public UserService() {
         userDao = new UserDaoImpl();
         jwtService = new JWTService();
@@ -142,7 +149,14 @@ public class UserService {
                             	if(tfUser.getTfUserAssociate().getTfAssociateId() != null) {
                             		//Sets the associate id to the userjson object, which is set back to angular
                             		userjson.setAssociateId(tfUser.getTfUserAssociate().getTfAssociateId());
+                            		if(tfUser.getTfUserAssociate().getIsApproved().equals(null)) {
+                            			userjson.setIsApproved(0);
+                            		}
+                            		else {
+                            			userjson.setIsApproved(tfUser.getTfUserAssociate().getIsApproved());
+                            		}
                             	}
+                            	
                             }
 
                             // Uses JWT service to create token

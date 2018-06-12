@@ -21,8 +21,18 @@ public class UserJSON {
 	private int userId;
 	//associate id:
 	private int associateId;
+	//approved?
+	private boolean isApproved;
 	
+	public void setIsApproved(int isApproved) {
+		if (isApproved==1) this.isApproved=true;
+		else this.isApproved=false;
+		
+	}
 	
+	public boolean getIsApproved() {
+		return this.isApproved;
+	}
 	public UserJSON() {
 		super();
 	}

@@ -14,9 +14,15 @@ import com.revature.test.utils.WebDriverUtil;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
-//import cucumber.api.CucumberOptions;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 
+/**
+ * This is extended by the cuke.java files. This is the runner file for all cucumber tests
+ * specified in the glue attribute. All setup before the cucumber tests should be run in the
+ * beforesuite method and all shutdown should be run in the aftersuite method
+ * @author Jesse (reviewer)
+ * @since 6.18.06.07
+ */
 @RunWith(Cucumber.class)
 @CucumberOptions(features="src/test/resources/AdminFeatureFiles/Login.feature",
 				 glue="src/test/java/test/admin/cukes/LoginCukes.java")

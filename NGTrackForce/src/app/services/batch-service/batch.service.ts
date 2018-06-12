@@ -24,8 +24,6 @@ export class BatchService {
   public getBatchesByDate(startDate: Date, endDate: Date): Observable<Batch[]> {
     const url = environment.url + this.batchPath+ `?start=${startDate.getTime()}&end=${endDate.getTime()}`;
     //const url = environment.url + this.batchPath + '/';
-    console.log(startDate.getTime());
-    console.log(endDate.getTime());
     return this.http.get<Batch[]>(url);
   }
 

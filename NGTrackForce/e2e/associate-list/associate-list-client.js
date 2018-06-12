@@ -22,7 +22,6 @@ describe('Testing associate list via Client Search', function() {
         i = 6;
         while (i < 20) {
             wd.findElement(by.xpath('//*[@id="client"]/option['+i+']')).click();
-            console.log(wd.findElement(by.xpath('//*[@id="client"]/option['+i+']')));
             i++;     
         }
     });

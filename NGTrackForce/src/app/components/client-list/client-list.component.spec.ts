@@ -7,7 +7,6 @@ import {SearchFilterPipe} from '../../pipes/search-filter/search-filter.pipe';
 import {ChartsModule} from 'ng2-charts';
 import {NavbarComponent} from '../navbar/navbar.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {RootComponent} from '../root/root.component';
 import {HomeComponent} from '../home/home.component';
 import {AuthenticationService} from '../../services/authentication-service/authentication.service';
 import {RequestService} from '../../services/request-service/request.service';
@@ -23,7 +22,6 @@ describe('ClientListComponent', () => {
         ClientListComponent,
         SearchFilterPipe,
         NavbarComponent,
-        RootComponent,
         HomeComponent
       ],
       imports: [

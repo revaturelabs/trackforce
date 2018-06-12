@@ -1,3 +1,9 @@
+/**
+ * Used in the client model and the client-list component
+ * Note made 6/7/2018
+ * @author Amelia
+ */
+
 export class StatusInfo {
   name: string;
   trainingMapped: number;

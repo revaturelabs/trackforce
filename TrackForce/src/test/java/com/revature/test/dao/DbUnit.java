@@ -37,10 +37,10 @@ public class DbUnit extends JdbcBasedDBTestCase{
    //hardcoded location for xml file storing front-end data
     @Override
     protected IDataSet getDataSet() throws Exception {
-       String filePath ="/TrackForce/src/test/java/com/revature/test/dao/DbUnitDataset.xml";
+       String filePath ="src/test/java/com/revature/test/dao/DbUnitDataset.xml";
        //  return new XmlDataSet(this.getClass().getClassLoader()
 		//		.getResourceAsStream("DbUnitDataset.xml"));
-    	IDataSet data = new XmlDataSet(new FileInputStream(new File("C:\\my_git_repos\\trackforce\\TrackForce\\src\\test\\java\\com\\revature\\test\\dao\\DbUnitDataset.xml")));
+    	IDataSet data = new XmlDataSet(new FileInputStream(new File(filePath)));
     	
         return data;
     }

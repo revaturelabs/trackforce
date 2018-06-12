@@ -20,7 +20,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 describe('AssociateListComponent', () => {
   let component: AssociateListComponent;
   let fixture: ComponentFixture<AssociateListComponent>;
-  const testAuthService: AuthenticationService = new AuthenticationService(null, null);
+  const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
 
   // setup service mocks
    beforeAll(() => {

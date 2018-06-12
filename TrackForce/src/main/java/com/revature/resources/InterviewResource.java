@@ -21,7 +21,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.commons.httpclient.HttpClient;
 import org.hibernate.HibernateException;
 
 import com.revature.dao.InterviewDaoHibernate;

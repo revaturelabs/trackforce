@@ -9,6 +9,11 @@ import com.revature.model.AssociateInfo;
 import com.revature.model.ClientInfo;
 import com.revature.model.StatusInfo;
 
+/**
+ * @author Sonam Jyapa
+ * @since 6.18.06.07 
+ */
+
 public class ClinetInfoTest {
 	
 	ClientInfo ci = new ClientInfo();

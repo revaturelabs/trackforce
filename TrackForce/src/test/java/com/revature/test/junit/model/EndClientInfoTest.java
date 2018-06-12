@@ -10,6 +10,11 @@ import com.revature.model.AssociateInfo;
 import com.revature.model.EndClientInfo;
 import com.revature.model.PlacementInfo;
 
+/**
+ * @author Sonam Jyapa
+ * @since 6.18.06.07 
+ */
+
 public class EndClientInfoTest {
 	
 	EndClientInfo eci = new EndClientInfo();

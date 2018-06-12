@@ -8,11 +8,12 @@
     <ul *ngIf='isAssociate' class="nav navbar-nav">
 
       <li>
-        <a routerLink="/associate-view/{{associate.id}}" routerLinkActive="active">Home</a>
+        <a [routerLink]="['/associate-view/', user.userId]" routerLinkActive="active">Home</a>
       </li>
       <li>
-        <a routerLink="/myinterview-view/{{associate.id}}" routerLinkActive="active">My Interviews</a>
+        <a [routerLink]="['/myinterview-view/', user.userId]" routerLinkActive="active">My Interviews</a>
       </li>
+
     </ul>
 
     <ul *ngIf='isAdmin' class="nav navbar-nav">
@@ -45,7 +46,7 @@
       </li>
 
       <li>
-        <a>Welcome, {{user.username}}</a>
+        <a>Welcome, {{username}}</a>
       </li>
     </ul>
   </div>

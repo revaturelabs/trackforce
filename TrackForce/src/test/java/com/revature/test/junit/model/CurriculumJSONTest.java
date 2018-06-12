@@ -1,4 +1,4 @@
-package com.revature.test.junit;
+package com.revature.test.junit.model;
 
 import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.assertFalse;

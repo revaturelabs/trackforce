@@ -26,26 +26,26 @@ export class AssociateListComponent implements OnInit {
   curriculums: Set<string>; //stored unique curriculums
 
   //used for filtering
-  searchByStatus: string = "";
-  searchByClient: string = "";
-  searchByText: string = "";
-  searchByCurriculum: string = "";
-  searchByVerification: string = "";
+  searchByStatus = "";
+  searchByClient = "";
+  searchByText = "";
+  searchByCurriculum = "";
+  searchByVerification = "";
 
   //status/client to be updated
-  updateShow: boolean = false;
-  updateStatus: string = "";
+  updateShow = false;
+  updateStatus = "";
   updateClient: number;
   updateVerification: string;
-  updated: boolean = false;
+  updated = false;
 
   //used for ordering of rows
-  desc: boolean = false;
-  sortedColumn: string = "";
+  desc = false;
+  sortedColumn = "";
 
   //user access data - controls what they can do in the app
   user: User;
-  canUpdate: boolean = false;
+  canUpdate = false;
 
   /**
    * Inject our services
@@ -63,23 +63,25 @@ export class AssociateListComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem("currentUser"));
-    if(this.user.tfRoleId==1 || this.user.tfRoleId==2) {
+    if (this.user.tfRoleId === 1 || this.user.tfRoleId === 2) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
     this.getAllAssociates(); //grab associates and clients from back end
     this.getClientNames();
 
     //if navigating to this page from clicking on a chart of a different page, set default filters
-    let paramMap = this.activated.snapshot.paramMap;
-    let CliOrCur = paramMap.get("CliOrCur");
-    let name = paramMap.get("name");
-    let mapping = paramMap.get("mapping");
-    let status = paramMap.get("status");
+    const paramMap = this.activated.snapshot.paramMap;
+    const CliOrCur = paramMap.get("CliOrCur");
+    const name = paramMap.get("name");
+    const mapping = paramMap.get("mapping");
+    const status = paramMap.get("status");
     if (CliOrCur) {//if values passed in, search by values
-      if (CliOrCur == "client")
+      if (CliOrCur === "client") {
         this.searchByClient = name;
-      else if (CliOrCur == "curriculum")
+      }
+      else if (CliOrCur === "curriculum") {
         this.searchByCurriculum = name;
+      }
       this.searchByStatus = mapping.toUpperCase() + ": " + status.toUpperCase();
     }
   }
@@ -88,12 +90,13 @@ export class AssociateListComponent implements OnInit {
    * Set our array of all associates
    */
   getAllAssociates() {
-    let self = this;
+    const self = this;
 
     this.associateService.getAllAssociates().subscribe(data => {
       this.associates = data;
+      console.log(this.associates);
 
-      for (let associate of this.associates) {//get our curriculums from the associates
+      for (const associate of this.associates) {//get our curriculums from the associates
         this.curriculums.add(associate.curriculumName);
 
         if (associate.batchName === 'null') {
@@ -122,20 +125,23 @@ export class AssociateListComponent implements OnInit {
   sort(property) {
     this.desc = !this.desc;
     let direction;
-    if (property !== this.sortedColumn || this.updated) //if clicking on new column sort ascending always, otherwise descending
+    if (property !== this.sortedColumn || this.updated) {
+      //if clicking on new column sort ascending always, otherwise descending
       direction = 1;
-    else direction = this.desc ? 1 : -1;
+    }
+    else { direction = this.desc ? 1 : -1; }
 
     this.sortedColumn = property; //current column being sorted
 
-    if (this.updated)
+    if (this.updated) {
       this.updated = false;
+    }
 
     //sort the elements
     this.associates.sort(function (a, b) {
-      if (a[property] < b[property]) return -1 * direction;
-      else if (a[property] > b[property]) return 1 * direction;
-      else return 0;
+      if (a[property] < b[property]) { return -1 * direction; }
+      else if (a[property] > b[property]) { return 1 * direction; }
+      else { return 0; }
     });
   }
 
@@ -143,14 +149,15 @@ export class AssociateListComponent implements OnInit {
    * Bulk edit feature to update associate's verification, statuses and clients.
    */
   updateAssociates() {
-    var ids: number[] = [];
-    var i = 1;
-    let self = this;
+    const ids: number[] = [];
+    let i = 1;
+    const self = this;
 
     for (i; i <= this.associates.length; i++) { //grab the checked ids
-      var check = <HTMLInputElement>document.getElementById("" + i);
-      if (check != null && check.checked)
+      const check = <HTMLInputElement>document.getElementById("" + i);
+      if (check != null && check.checked) {
         ids.push(i);
+      }
     }
     this.associateService.updateAssociates(ids, this.updateVerification, Number(this.updateStatus), this.updateClient).subscribe(
       data => {

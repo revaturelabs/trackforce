@@ -117,6 +117,11 @@ public class TfRole implements java.io.Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "TfRole [tfRoleId=" + tfRoleId + ", tfRoleName=" + tfRoleName + "]";
+	}
 	
 	
 

@@ -20,7 +20,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 	@Override
 	public List<TfInterview> getAllInterviews() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Interview", TfInterview.class).getResultList());
+		session.createQuery("from Tf_Interview", TfInterview.class).setCacheable(true).getResultList());
 	}
 
 	@Override

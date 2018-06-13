@@ -448,20 +448,17 @@ public class TfInterview implements java.io.Serializable {
 			return false;
 		return true;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return "TfInterview [tfInterviewId=" + tfInterviewId + ", tfAssociate=" + tfAssociate + ", tfClient=" + tfClient
-				+ ", tfEndClient=" + tfEndClient + ", tfInterviewType=" + tfInterviewType + ", tfInterviewDate="
-				+ tfInterviewDate + ", tfAssociateFeedback=" + tfAssociateFeedback + ", tfQuestionGiven="
-				+ tfQuestionGiven + ", tfClientFeedback=" + tfClientFeedback + ", tfJobDescription=" + tfJobDescription
+		return "TfInterview [tfInterviewId=" + tfInterviewId + ", tfClient=" + tfClient + ", tfEndClient=" + tfEndClient
+				+ ", tfInterviewType=" + tfInterviewType + ", tfInterviewDate=" + tfInterviewDate
+				+ ", tfAssociateFeedback=" + tfAssociateFeedback + ", tfQuestionGiven=" + tfQuestionGiven
+				+ ", tfClientFeedback=" + tfClientFeedback + ", tfJobDescription=" + tfJobDescription
 				+ ", tfDateSalesIssued=" + tfDateSalesIssued + ", tfDateAssociateIssued=" + tfDateAssociateIssued
 				+ ", tfWas24HRNotice=" + tfWas24HRNotice + ", tfIsInterviewFlagged=" + tfIsInterviewFlagged
 				+ ", tfFlagReason=" + tfFlagReason + ", tfIsClientFeedbackVisible=" + tfIsClientFeedbackVisible + "]";
 	}
 	
-
+	
 
 }

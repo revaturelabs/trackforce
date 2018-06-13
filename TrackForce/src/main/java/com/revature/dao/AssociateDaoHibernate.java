@@ -22,7 +22,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 	@Override
 	public List<TfAssociate> getAllAssociates() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Associate", TfAssociate.class).getResultList());
+		session.createQuery("from Tf_Associate", TfAssociate.class).setCacheable(true).getResultList());
 	}
 
 	@Override

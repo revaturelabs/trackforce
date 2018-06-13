@@ -180,14 +180,12 @@ public class TfPlacement implements java.io.Serializable {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
-		return "TfPlacement [tfPlacementId=" + tfPlacementId + ", tfAssociate=" + tfAssociate + ", tfClient=" + tfClient
-				+ ", tfEndClient=" + tfEndClient + ", tfPlacementStartDate=" + tfPlacementStartDate
+		return "TfPlacement [tfPlacementId=" + tfPlacementId + ", tfPlacementStartDate=" + tfPlacementStartDate
 				+ ", tfPlacementEndDate=" + tfPlacementEndDate + "]";
 	}
 
+	
+	
 }

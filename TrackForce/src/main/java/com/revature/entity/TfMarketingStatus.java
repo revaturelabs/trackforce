@@ -77,10 +77,10 @@ public class TfMarketingStatus implements java.io.Serializable {
 	}
 
     @Override
-    public String toString() {
-        return "TfMarketingStatus [tfMarketingStatusId=" + tfMarketingStatusId + ", tfMarketingStatusName="
-                + tfMarketingStatusName + "]";
-    }
+	public String toString() {
+		return "TfMarketingStatus [tfMarketingStatusId=" + tfMarketingStatusId + ", tfMarketingStatusName="
+				+ tfMarketingStatusName + "]";
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -124,5 +124,7 @@ public class TfMarketingStatus implements java.io.Serializable {
 			return false;
 		return true;
 	}
+	
+	
 
 }

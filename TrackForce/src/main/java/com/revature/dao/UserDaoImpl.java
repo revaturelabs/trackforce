@@ -19,7 +19,7 @@ public class UserDaoImpl implements UserDAO {
     @Override
 	public List<TfUser> getAllUsers() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-				session.createQuery("from Tf_User ", TfUser.class).getResultList());
+				session.createQuery("from Tf_User ", TfUser.class).setCacheable(true).getResultList());
 	}
     
 	@Override

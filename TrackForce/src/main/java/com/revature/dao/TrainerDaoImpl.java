@@ -20,7 +20,7 @@ public class TrainerDaoImpl implements TrainerDao{
 	@Override
 	public List<TfTrainer> getAllTrainers() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Trainer", TfTrainer.class).getResultList());
+		session.createQuery("from Tf_Trainer", TfTrainer.class).setCacheable(true).getResultList());
 	}
 
 	@Override

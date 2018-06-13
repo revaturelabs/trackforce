@@ -4,21 +4,39 @@
  */
 import { StatusInfo } from "./status-info.model";
 import { Batch } from "./batch.model";
+import { User } from "./user.model";
+import { Client } from "./client.model";
+import { MarketingStatus } from "./marketing-status.model";
+import { EndClient } from "./end-client.model";
+import { Interview } from "./interview.model";
+import { Placement } from "./placement.model";
 
 export class Associate {
   id: number;
   firstName: string;
   lastName: string;
-  // marketing status id
-  msid: number;
+  batch: Batch;
+  user: User;
+  marketingStatus: MarketingStatus;
+  client: Client;
+  endClient: EndClient;
+  interview: Interview;
+  placement: Placement;
+  isApproved: number;
+  clientStartDate: Date;
+
+  
+  /*These fields are commented out
+  because they are not in the Java code
+  msid: number; 
   marketingStatus: string;
   // Kirk: Verified is not in AssociateInfo.java
   verified: string;
   // Client id
   clid: number;
-  client: string;
+
   // Batch id ????
-  batch: Batch;
+
   // Curriculum id
   curid: number;
   curriculumName: string;
@@ -30,7 +48,7 @@ export class Associate {
   // I don't think this field is used at all through out the program
   batchId: string;
   // Kirk: Within ApplicationInfo.java, clientStartDate maybe correlated to startDate;
-  clientStartDate: Date;
-  // approved by the trainer ????
-  isApproved: number;
+
+  // approved by the trainer ???? */
+
 }

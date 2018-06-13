@@ -1,4 +1,5 @@
 import {Associate} from "./associate.model";
+import {Trainer} from "./trainer.model";
 
 /** @author Princewill Ibe
  *
@@ -12,4 +13,6 @@ export class Batch {
   startDate: Date;
   endDate: Date;
   associates: Associate[]
+  trainer: Trainer;
+  coTrainer: Trainer[];
 }

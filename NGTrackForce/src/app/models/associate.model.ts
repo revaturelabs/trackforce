@@ -2,7 +2,8 @@
  * Object to hold data regarding an associate.
  * @author Alex, Xavier
  */
-import {StatusInfo} from "./status-info.model";
+import { StatusInfo } from "./status-info.model";
+import { Batch } from "./batch.model";
 
 export class Associate {
   id: number;
@@ -17,7 +18,7 @@ export class Associate {
   clid: number;
   client: string;
   // Batch id ????
-  bid: number;
+  batch: Batch;
   // Curriculum id
   curid: number;
   curriculumName: string;

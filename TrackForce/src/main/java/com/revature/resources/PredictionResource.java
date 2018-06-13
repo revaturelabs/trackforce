@@ -4,7 +4,6 @@ import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -16,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.revature.model.InterviewInfo;
 import com.revature.services.JWTService;
 import com.revature.services.PredictionService;
 

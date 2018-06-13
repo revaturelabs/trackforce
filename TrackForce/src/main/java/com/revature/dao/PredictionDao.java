@@ -10,5 +10,5 @@ import com.revature.request.model.AssociatesWithTech;
 public interface PredictionDao {
 
 	
-	List<AssociatesWithTech> getTotalAssociatesByTechBetweenDates(Date afterMe, Date beforeMe);
+	public List<AssociatesWithTech> getTotalAssociatesByTechBetweenDates(Date afterMe, Date beforeMe);
 }

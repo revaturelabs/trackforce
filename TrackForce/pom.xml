@@ -24,11 +24,11 @@
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>2.26</version>
 		</dependency>
-		
+
 		<dependency>
-   		 	<groupId>org.dbunit</groupId>
-    	 	 	<artifactId>dbunit</artifactId>
-    	 		<version>2.5.4</version>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+			<version>2.5.4</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
@@ -150,7 +150,7 @@
 			<groupId>com.oracle.jdbc</groupId>
 			<artifactId>ojdbc8</artifactId>
 			<version>12.2.0.1</version>
-		</dependency> 
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc -->
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
@@ -209,6 +209,13 @@
 			<version>3.7</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.ehcache/ehcache -->
+		<dependency>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>3.4.0</version>
+		</dependency>
+		
 	</dependencies>
 
 	<!-- William added the below tags on 2/15/18 so that the main application 

@@ -7,7 +7,7 @@ import { AssociateService } from '../../services/associate-service/associate.ser
 import { ClientService } from '../../services/client-service/client.service';
 import { BatchService } from '../../services/batch-service/batch.service';
 
-import 'rxjs/add/operator/map';
+
 import { Router } from '@angular/router';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { ChartOptions } from '../../models/ng2-charts-options.model';

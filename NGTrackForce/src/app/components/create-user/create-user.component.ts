@@ -40,7 +40,7 @@ export class CreateUserComponent implements OnInit {
         this.userService.createUser(this.username, this.password, this.roleId).subscribe(
           data => {
             //navigate to home page if return is valid
-            this.router.navigate(['app-home']);
+            this.router.navigate(['root']);
           },
           err => {
             console.error(err + " Error Occurred");

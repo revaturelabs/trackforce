@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user-service/user.service';
-import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
+import {trigger,state,style,transition,animate,keyframes} from '@angular/animations';
 import { AssociateService } from '../../services/associate-service/associate.service';
 
 const associateInfo = 'associateInfo'
@@ -17,16 +17,16 @@ const associateInfo = 'associateInfo'
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  animations: [
+  animations:[
     trigger(
       'enterAnimation', [
         transition(':enter', [
-          style({ opacity: 0 }),
-          animate('500ms', style({ opacity: 1 }))
+          style({opacity: 0}),
+          animate('500ms', style({ opacity: 1}))
         ]),
         transition(':leave', [
-          style({ opacity: 1 }),
-          animate('500ms', style({ opacity: 0 }))
+          style({opacity: 1}),
+          animate('500ms', style({ opacity: 0}))
         ])
       ]
     )
@@ -44,8 +44,8 @@ export class LoginComponent implements OnInit {
   public errMsg: any;
   public sucMsg: string;
   public isRegistering = false;
-  public associate: any;
-  public registerPage = 0;
+  public associate:any;
+  public registerPage: number = 0;
   /**
   *@constructor
   *
@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
   *
   */
   constructor(private associateService: AssociateService, private authService: AuthenticationService, private router: Router,
-    private userService: UserService) { }
+                private userService: UserService) { }
 
   /**
   * Called upon component initiation
@@ -71,21 +71,23 @@ export class LoginComponent implements OnInit {
   */
   ngOnInit() {
     const user = this.authService.getUser();
+	
 
 
+    if (user != null){
+      if(user.tfRoleId === 5){
 
-    if (user != null) {
-      if (user.tfRoleId === 5) {
-
-        // this.router.navigate(['associate-view', user.userId]);
+       // this.router.navigate(['associate-view', user.userId]);
 
         localStorage.setItem(associateInfo, JSON.stringify(user));
+        console.log(user.associateId);
         this.router.navigate(['associate-view', user.associateId]);
 
       }
-      else {
-        this.getUser(user.userId);
-        this.router.navigate(['app-home']);
+      else{
+      	//console.log(user.name);
+      	this.getUser(user.userId);
+        this.router.navigate(['root']);
       }
     }
   }
@@ -93,67 +95,68 @@ export class LoginComponent implements OnInit {
   * Enter the register state
   */
 
-  getUser(id) {
+  getUser(id)
+  {
 
     this.associateService.getAssociate(id).subscribe(
       data => {
         this.associate = data;
       },
       err => {
+        console.log(err);
     });
 
   }
-  register() {
+  register(){
     this.errMsg = "";
-    this.sucMsg = "";
-    this.isRegistering = true;
-    this.registerPage = 0;
+	this.sucMsg = "";
+  	this.isRegistering = true;
+	this.registerPage = 0;
   }
   /**
   *Function Wrapper for create-user createuser()
   */
-  createUser() {
-    this.sucMsg = "";
-    this.errMsg = "";
-    if (this.password === undefined || this.cpassword === undefined || this.password.length === 0 || this.cpassword.length === 0) {
-      this.errMsg = 'Please enter a password and confirm password';
-    } else if (this.password !== this.cpassword) {
-      this.errMsg = 'Passwords do not match!';
-    } else {
-      this.userService.createAssociate(this.username, this.password, this.fname, this.lname).subscribe(
-        data => {
-          this.sucMsg = "Associate account creation sucessful.";
-        },
-        err => {
-          console.error(err + " Error Occurred");
-          this.errMsg = 'Error: new associate not created!';
-        }
-      );
-    }
+  createUser(){
+	this.sucMsg = "";
+	this.errMsg="";
+      if(this.password == undefined || this.cpassword == undefined ||this.password.length==0 || this.cpassword.length ==0){
+        this.errMsg='Please enter a password and confirm password';
+      } else if(this.password !== this.cpassword){
+        this.errMsg='Passwords do not match!';
+      } else {
+        this.userService.createAssociate(this.username, this.password, this.fname,this.lname).subscribe(
+          data => {
+            	this.sucMsg = "Associate account creation sucessful.";
+          },
+          err => {
+            console.error(err + " Error Occurred");
+            this.errMsg='Error: new associate not created!';
+          }
+        );
+	  }
   }
   /**
   * Exit the register state
   */
-  cancelRegister() {
-    this.sucMsg = "";
-    this.errMsg = "";
-    this.isRegistering = false;
-    this.registerPage = 0;
+  cancelRegister(){
+	this.sucMsg = "";
+	this.errMsg="";
+  	this.isRegistering = false;
+	this.registerPage = 0;
   }
   /**
    * Change the current page to the firstname lastname input form
    */
-  next() {
-    this.registerPage = 1;
+  next(){
+	  this.registerPage = 1;
   }
 
   /**
    * Change the current page to username and password
    */
-  previous() {
-    this.registerPage = 0;
+  previous(){
+	  this.registerPage = 0;
   }
-  
   /**
   * Function wrapper for AuthenticationService login()
   * Sends user input to service for real login
@@ -164,13 +167,14 @@ export class LoginComponent implements OnInit {
   */
   login() {
     this.sucMsg = "";
-    this.errMsg = "";
+	this.errMsg="";
     if (this.username && this.password) {
       this.authService.login(this.username, this.password).subscribe(
         data => {
           const user = this.authService.getUser();
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
+          console.log(user);
         
           if(user.tfRoleId === 5){
               // the functionallity of user.isApproved is not yet implemented on the server side
@@ -185,22 +189,18 @@ export class LoginComponent implements OnInit {
 
           } else {
             //otherwise, they are set to root
-            this.router.navigate(['app-home']);
+            this.router.navigate(['root']);
           }
         },
-        
         err => {
           this.authService.logout();
-          if (err.status === 500) {
+          console.log(err);
+          if (err.status == 500)
             this.errMsg = "There was an error on the server";
-          }
-          else if (err.status === 400) {
+          else if (err.status == 400)
             this.errMsg = "Invalid username and/or password";
-
-          }
-          else if (err.status === 403) {
+          else if (err.status == 403)
             this.errMsg = "Account not verified";
-          }
           else {
             this.errMsg = "The login service could not be reached";
           }

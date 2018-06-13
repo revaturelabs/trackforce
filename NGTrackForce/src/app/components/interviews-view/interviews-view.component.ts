@@ -26,7 +26,7 @@ export class InterviewsComponent implements OnInit {
 
   ngOnInit() {
     this.getInterviews();
-	//this.router.navigate(['app-home']);
+	//this.router.navigate(['root']);
   }
   viewInterview(inteview){
 	  this.interviewService.setInterview(inteview);
@@ -35,6 +35,7 @@ export class InterviewsComponent implements OnInit {
   getInterviews() {
     this.interviewService.getAllInterviews().subscribe(
      data => {
+       console.log(data);
         this.interviews = data;
       }
     )

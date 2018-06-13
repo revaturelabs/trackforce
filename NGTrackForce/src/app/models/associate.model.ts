@@ -25,7 +25,6 @@ export class Associate {
   isApproved: number;
   clientStartDate: Date;
 
-  
   /*These fields are commented out
   because they are not in the Java code
   msid: number; 

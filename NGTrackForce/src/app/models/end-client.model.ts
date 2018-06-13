@@ -1,5 +1,6 @@
 import {Associate} from "./associate.model";
 import {Placement} from "./placement.model";
+import { Interview } from "./interview.model";
 
 
 export class EndClient {
@@ -8,4 +9,5 @@ export class EndClient {
   name: string;
   associates: Associate[];
   placements: Placement[];
+  interviews: Interview[];
 }

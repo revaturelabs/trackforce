@@ -3,7 +3,7 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -41,11 +41,6 @@ import io.swagger.annotations.ApiOperation;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class CurriculumResource {
-	private CurriculumService service;
-
-	public CurriculumResource() {
-		this.service = new CurriculumService();
-	}
 
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
 	// This is to allow for Mokito tests, which have problems with static methods
@@ -85,10 +80,9 @@ public class CurriculumResource {
 		} else if (!(payload.getId().equals("1") || payload.getId().equals("1"))) { // wrong roleid
 			status = Status.FORBIDDEN;
 		} else {
-			skills = service.getCurriculums();
-			status = skills == null || skills.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			status = curriculum == null || curriculum.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
 
-		return Response.status(status).entity(skills).build();
+		return Response.status(status).entity(curriculum).build();
 	}
 }

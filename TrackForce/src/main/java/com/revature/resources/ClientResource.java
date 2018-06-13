@@ -3,7 +3,7 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -41,11 +41,6 @@ import io.swagger.annotations.ApiOperation;
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
 public class ClientResource {
-	private ClientService service;
-
-	public ClientResource() {
-		this.service = new ClientService();
-	}
 
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
 	// This is to allow for Mokito tests, which have problems with static methods
@@ -82,7 +77,6 @@ public class ClientResource {
 		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
 			status = Status.FORBIDDEN;
 		} else {
-			clients = service.getClients();
 			status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
 
@@ -116,7 +110,6 @@ public class ClientResource {
 		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
 			status = Status.FORBIDDEN;
 		} else {
-			client = service.getClientByID(clientid);
 			status = client == null ? Status.NO_CONTENT : Status.OK;
 		}
 

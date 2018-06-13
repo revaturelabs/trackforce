@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -22,13 +24,12 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @XmlRootElement
 @Entity
 @Table(name = "TF_PLACEMENT", schema = "ADMIN")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class TfPlacement implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6812378121809201089L;
 	
+	@XmlElement
 	@Id
 	@Column(name = "TF_PLACEMENT_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer tfPlacementId;
@@ -45,9 +46,11 @@ public class TfPlacement implements java.io.Serializable {
 	@JoinColumn(name = "TF_END_CLIENT_ID")
 	private TfEndClient tfEndClient;
 	
+	@XmlElement
 	@Column(name = "TF_PLACEMENT_START_DATE")
 	private Timestamp tfPlacementStartDate;
 	
+	@XmlElement
 	@Column(name = "TF_PLACEMENT_END_DATE")
 	private Timestamp tfPlacementEndDate;
 

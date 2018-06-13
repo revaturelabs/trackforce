@@ -1,16 +1,6 @@
 package com.revature.services;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import javax.ws.rs.core.Response;
-
-import org.hibernate.HibernateException;
 
 import com.revature.dao.AssociateDao;
 import com.revature.daoimpl.AssociateDaoImpl;
@@ -24,11 +14,6 @@ import com.revature.entity.TfAssociate;
  *
  */
 public class AssociateService {
-	private AssociateDao associateDao;
-
-	public AssociateService() {
-		associateDao = AssociateDaoHibernate.getInstance();
-	}
 	
 	private static AssociateDao dao = new AssociateDaoImpl();
 	
@@ -108,4 +93,6 @@ public class AssociateService {
 	public boolean createAssociate(TfAssociate newassociate) {
 		return dao.createAssociate(newassociate);
 	}
+
+
 }

@@ -1,6 +1,7 @@
 package com.revature.entity;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Cache;
@@ -20,9 +21,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @XmlRootElement
 @Entity
 @Table(name = "TF_USER", schema="ADMIN")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class TfUser implements java.io.Serializable {
 
     private static final long serialVersionUID = 706405344864879997L;
+    
+    @XmlElement
     @Id
     @Column(name = "TF_USER_ID")
     /* ID's 1-14 are reserved for manual insertion */
@@ -35,9 +39,11 @@ public class TfUser implements java.io.Serializable {
     @JsonIgnore
     private TfRole tfRole;
 
+    @XmlElement
     @Column(name = "TF_USERNAME", length = 20, unique = true)
     private String tfUserUsername;
 
+    @XmlElement
     @Column(name = "TF_HASHPASSWORD", length = 200)
     private String password;
     

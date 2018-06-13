@@ -9,10 +9,6 @@ import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import org.hibernate.SessionFactory;
-
-import com.revature.dao.UserDAO;
-import com.revature.dao.UserDaoImpl;
 import com.revature.entity.TfUser;
 
 import io.jsonwebtoken.Claims;
@@ -42,23 +38,6 @@ public class JWTService {
 	
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 1000L;
-
-	private UserDAO userDao;
-
-	public JWTService() {
-		this.userDao = new UserDaoImpl();
-	}
-
-	/**
-	 *
-	 * injectable dependencies for easier testing
-	 * 
-	 * @param userDao
-	 * @param sessionFactory
-	 */
-	public JWTService(UserDAO userDao, SessionFactory sessionFactory) {
-		this.userDao = userDao;
-	}
 
 	/**
 	 * Validates a token

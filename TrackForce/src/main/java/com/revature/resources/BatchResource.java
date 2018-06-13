@@ -5,7 +5,6 @@ import static com.revature.utils.LogUtil.logger;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,11 +45,6 @@ import io.swagger.annotations.ApiOperation;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class BatchResource {
-	private BatchesService service;
-
-	public BatchResource() {
-		this.service = new BatchesService();
-	}
 
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
 	// This is to allow for Mokito tests, which have problems with static methods
@@ -145,7 +139,6 @@ public class BatchResource {
 		Status status = null;
 
 		if (authorizedRoles.contains(role)) {
-			batch = service.getBatchById(id);
 			status = batch == null ? Status.NO_CONTENT : Status.OK;
 		} else {
 			status = Status.FORBIDDEN;
@@ -187,10 +180,4 @@ public class BatchResource {
 		return Response.status(status).entity(associates).build();
 	}
 
-}
-
-// dummy
-class Bar {
-	public String batchName = "Yuvi1804";
-	public int size = 25;
 }

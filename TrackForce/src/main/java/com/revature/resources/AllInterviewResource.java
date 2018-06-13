@@ -2,8 +2,7 @@ package com.revature.resources;
 
 import static com.revature.utils.LogUtil.logger;
 
-import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -72,14 +71,11 @@ public class AllInterviewResource {
 		Claims payload = JWTService.processToken(token);
 		List<TfInterview> interviews = interviewService.getAllInterviews();
 
-
-		
 		if (payload == null) {
 			status = Status.UNAUTHORIZED;		// invalid token
 		}else if (payload.getId().equals("5")) {
 			status = Status.FORBIDDEN;
 		} else {
-			interviews = sort != null ? iservice.getAllInterviews(sort) : iservice.getAllInterviews();
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
 			logger.info("	interviews.size() = " + interviews.size());
 		}

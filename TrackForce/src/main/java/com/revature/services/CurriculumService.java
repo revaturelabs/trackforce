@@ -1,10 +1,6 @@
 package com.revature.services;
 
-import java.io.IOException;
-import java.util.Set;
-
-
-import org.hibernate.HibernateException;
+import java.util.List;
 
 import com.revature.dao.CurriculumDao;
 import com.revature.daoimpl.CurriculumDaoImpl;

@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -21,17 +23,17 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @XmlRootElement
 @Entity
 @Table(name = "TF_INTERVIEW_TYPE", schema = "ADMIN")
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class TfInterviewType implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4949282863102956521L;
 	
+	@XmlElement
 	@Id
 	@Column(name = "TF_INTERVIEW_TYPE_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer tfInterviewTypeId;
 	
+	@XmlElement
 	@Column(name = "TF_INTERVIEW_TYPE_NAME", length = 30)
 	private String tfInterviewTypeName;
 	

@@ -1,8 +1,6 @@
 package com.revature.services;
 
-import java.io.IOException;
-import java.util.Set;
-
+import java.util.List;
 
 import com.revature.dao.ClientDao;
 import com.revature.daoimpl.ClientDaoImpl;

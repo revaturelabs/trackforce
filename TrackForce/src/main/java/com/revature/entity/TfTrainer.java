@@ -50,7 +50,7 @@ public class TfTrainer implements Serializable{
 	@XmlElement
 	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "TF_USER_ID")
-	private TfUser tfUser;
+	private TfUser user;
 	
 	@XmlElement
 	@Column(name="TRAINER_FIRSTNAME")
@@ -96,11 +96,11 @@ public class TfTrainer implements Serializable{
 	
 
 	public TfUser getTfUser() {
-		return tfUser;
+		return user;
 	}
 
 	public void setTfUser(TfUser tfUser) {
-		this.tfUser = tfUser;
+		this.user = tfUser;
 	}
 
 	public int getId() {
@@ -155,7 +155,7 @@ public class TfTrainer implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "TfTrainer [id=" + id + ", tfUser=" + tfUser + ", firstName=" + firstName + ", lastName=" + lastName
+		return "TfTrainer [id=" + id + ", tfUser=" + user + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", primary=" + primary + ", coTrainer=" + coTrainer + ", isApproved=" + isApproved + "]";
 	}
 	
@@ -171,7 +171,7 @@ public class TfTrainer implements Serializable{
 		result = prime * result + isApproved;
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((primary == null) ? 0 : primary.hashCode());
-		result = prime * result + ((tfUser == null) ? 0 : tfUser.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -208,10 +208,10 @@ public class TfTrainer implements Serializable{
 				return false;
 		} else if (!primary.equals(other.primary))
 			return false;
-		if (tfUser == null) {
-			if (other.tfUser != null)
+		if (user == null) {
+			if (other.user != null)
 				return false;
-		} else if (!tfUser.equals(other.tfUser))
+		} else if (!user.equals(other.user))
 			return false;
 		return true;
 	}

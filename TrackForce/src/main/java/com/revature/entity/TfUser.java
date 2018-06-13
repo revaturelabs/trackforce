@@ -25,11 +25,11 @@ public class TfUser implements java.io.Serializable {
     /* ID's 1-14 are reserved for manual insertion */
     @SequenceGenerator(sequenceName = "UserId_seq", name = "UserIdSeq", initialValue=15)
     @GeneratedValue(generator = "UserIdSeq", strategy = GenerationType.SEQUENCE)
-    private int tfUserId;
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TF_ROLE_ID")
-    private TfRole tfRole;
+    private TfRole role;
 
     @XmlElement
     @Column(name = "TF_USERNAME", length = 20, unique = true)
@@ -37,11 +37,11 @@ public class TfUser implements java.io.Serializable {
 
     @XmlElement
     @Column(name = "TF_HASHPASSWORD", length = 200)
-    private String tfHashpassword;
+    private String hashedPassword;
     
     @XmlElement
     @Column(name = "TF_ISAPPROVED")
-    private int tf_isApproved;
+    private int isApproved;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(name = "TF_ASSOCIATE_ID")
@@ -51,52 +51,52 @@ public class TfUser implements java.io.Serializable {
     }
 
     public TfUser(int tfUserId) {
-        this.tfUserId = tfUserId;
+        this.id = tfUserId;
     }
 
     public TfUser(int tfUserId, TfRole tfRole, String tfUserUsername, String tfUserHashpassword) {
-        this.tfUserId = tfUserId;
-        this.tfRole = tfRole;
+        this.id = tfUserId;
+        this.role = tfRole;
         this.username = tfUserUsername;
-        this.tfHashpassword = tfUserHashpassword;
+        this.hashedPassword = tfUserHashpassword;
     }
 
     public TfUser(Integer role, String username, String password) {
-        this.tfRole = new TfRole(role);
+        this.role = new TfRole(role);
         this.username = username;
-        this.tfHashpassword = password;
+        this.hashedPassword = password;
     }
 
     // Overloaded method to aid creating new associate.
     public TfUser(String username, String password) {
-        this.tfRole = new TfRole(5);
+        this.role = new TfRole(5);
         this.username = username;
-        this.tfHashpassword = password;
+        this.hashedPassword = password;
     }
 
 
 	public TfUser(int tfUserId, TfRole tfRole, String tfUserUsername, String tfHashpassword, TfAssociate tfAssociate) {
 		super();
-		this.tfUserId = tfUserId;
-		this.tfRole = tfRole;
+		this.id = tfUserId;
+		this.role = tfRole;
 		this.username = tfUserUsername;
-		this.tfHashpassword = tfHashpassword;
+		this.hashedPassword = tfHashpassword;
 	}
 
     public int getTfUserId() {
-        return this.tfUserId;
+        return this.id;
     }
 
     public void setTfUserId(int tfUserId) {
-        this.tfUserId = tfUserId;
+        this.id = tfUserId;
     }
 
     public TfRole getTfRole() {
-        return this.tfRole;
+        return this.role;
     }
 
     public void setTfRole(TfRole tfRole) {
-        this.tfRole = tfRole;
+        this.role = tfRole;
     }
 
 
@@ -109,19 +109,19 @@ public class TfUser implements java.io.Serializable {
     }
 
     public String getTfUserHashpassword() {
-        return this.tfHashpassword;
+        return this.hashedPassword;
     }
 
     public void setTfUserHashpassword(String tfUserHashpassword) {
-        this.tfHashpassword = tfUserHashpassword;
+        this.hashedPassword = tfUserHashpassword;
     }
 
     public int isTf_isApproved() {
-		return tf_isApproved;
+		return isApproved;
 	}
 
 	public void setTf_isApproved(int tf_isApproved) {
-		this.tf_isApproved = tf_isApproved;
+		this.isApproved = tf_isApproved;
 	}
 
 	
@@ -129,8 +129,8 @@ public class TfUser implements java.io.Serializable {
 	
 	@Override
 	public String toString() {
-		return "TfUser [tfUserId=" + tfUserId + ", tfRole=" + tfRole + ", tfUserUsername=" + username
-				+ ", tfHashpassword=" + tfHashpassword + ", tf_isApproved=" + tf_isApproved + "]";
+		return "TfUser [tfUserId=" + id + ", tfRole=" + role + ", tfUserUsername=" + username
+				+ ", tfHashpassword=" + hashedPassword + ", tf_isApproved=" + isApproved + "]";
 	}
 
 	
@@ -139,11 +139,11 @@ public class TfUser implements java.io.Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((tfHashpassword == null) ? 0 : tfHashpassword.hashCode());
-		result = prime * result + ((tfRole == null) ? 0 : tfRole.hashCode());
-		result = prime * result + tfUserId;
+		result = prime * result + ((hashedPassword == null) ? 0 : hashedPassword.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + id;
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
-		result = prime * result + tf_isApproved;
+		result = prime * result + isApproved;
 		return result;
 	}
 
@@ -156,24 +156,24 @@ public class TfUser implements java.io.Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		TfUser other = (TfUser) obj;
-		if (tfHashpassword == null) {
-			if (other.tfHashpassword != null)
+		if (hashedPassword == null) {
+			if (other.hashedPassword != null)
 				return false;
-		} else if (!tfHashpassword.equals(other.tfHashpassword))
+		} else if (!hashedPassword.equals(other.hashedPassword))
 			return false;
-		if (tfRole == null) {
-			if (other.tfRole != null)
+		if (role == null) {
+			if (other.role != null)
 				return false;
-		} else if (!tfRole.equals(other.tfRole))
+		} else if (!role.equals(other.role))
 			return false;
-		if (tfUserId != other.tfUserId)
+		if (id != other.id)
 			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
 		} else if (!username.equals(other.username))
 			return false;
-		if (tf_isApproved != other.tf_isApproved)
+		if (isApproved != other.isApproved)
 			return false;
 		return true;
 	}

@@ -26,53 +26,53 @@ public class TfRole implements java.io.Serializable {
 	@XmlElement
 	@Id
 	@Column(name = "TF_ROLE_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	private Integer tfRoleId;
+	private Integer id;
 	
 	@XmlElement
 	@Column(name = "TF_ROLE_NAME", length = 20)
-	private String tfRoleName;
+	private String name;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfRole")
-	private Set<TfUser> tfUsers = new HashSet<TfUser>(0);
+	private Set<TfUser> users = new HashSet<TfUser>(0);
 
 	public TfRole() {
 	}
 
 	public TfRole(Integer tfRoleId) {
-		this.tfRoleId = tfRoleId;
+		this.id = tfRoleId;
 	}
 
 	public TfRole(Integer tfRoleId, String tfRoleName, Set<TfUser> tfUsers) {
-		this.tfRoleId = tfRoleId;
-		this.tfRoleName = tfRoleName;
-		this.tfUsers = tfUsers;
+		this.id = tfRoleId;
+		this.name = tfRoleName;
+		this.users = tfUsers;
 	}
 
 	
 	public Integer getTfRoleId() {
-		return this.tfRoleId;
+		return this.id;
 	}
 
 	public void setTfRoleId(Integer tfRoleId) {
-		this.tfRoleId = tfRoleId;
+		this.id = tfRoleId;
 	}
 
 	
 	public String getTfRoleName() {
-		return this.tfRoleName;
+		return this.name;
 	}
 
 	public void setTfRoleName(String tfRoleName) {
-		this.tfRoleName = tfRoleName;
+		this.name = tfRoleName;
 	}
 
 	
 	public Set<TfUser> getTfUsers() {
-		return this.tfUsers;
+		return this.users;
 	}
 
 	public void setTfUsers(Set<TfUser> tfUsers) {
-		this.tfUsers = tfUsers;
+		this.users = tfUsers;
 	}
 
 	/* (non-Javadoc)
@@ -82,9 +82,9 @@ public class TfRole implements java.io.Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((tfRoleId == null) ? 0 : tfRoleId.hashCode());
-		result = prime * result + ((tfRoleName == null) ? 0 : tfRoleName.hashCode());
-		result = prime * result + ((tfUsers == null) ? 0 : tfUsers.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((users == null) ? 0 : users.hashCode());
 		return result;
 	}
 
@@ -100,27 +100,27 @@ public class TfRole implements java.io.Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		TfRole other = (TfRole) obj;
-		if (tfRoleId == null) {
-			if (other.tfRoleId != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!tfRoleId.equals(other.tfRoleId))
+		} else if (!id.equals(other.id))
 			return false;
-		if (tfRoleName == null) {
-			if (other.tfRoleName != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!tfRoleName.equals(other.tfRoleName))
+		} else if (!name.equals(other.name))
 			return false;
-		if (tfUsers == null) {
-			if (other.tfUsers != null)
+		if (users == null) {
+			if (other.users != null)
 				return false;
-		} else if (!tfUsers.equals(other.tfUsers))
+		} else if (!users.equals(other.users))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "TfRole [tfRoleId=" + tfRoleId + ", tfRoleName=" + tfRoleName + "]";
+		return "TfRole [tfRoleId=" + id + ", tfRoleName=" + name + "]";
 	}
 	
 	

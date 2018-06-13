@@ -2,8 +2,8 @@
  * @author Andrew Crenwelge
  */
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+
 import { RequestService } from '../request-service/request.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';

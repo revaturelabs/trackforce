@@ -33,14 +33,14 @@ public class AssociateDaoHibernate implements AssociateDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 			t = session.beginTransaction();
 			
-			TfAssociate temp = session.get(TfAssociate.class, associate.getTfAssociateId());
+			TfAssociate temp = session.get(TfAssociate.class, associate.getId());
 			
-			temp.setTfAssociateFirstName(associate.getTfAssociateFirstName());
-			temp.setTfAssociateLastName(associate.getTfAssociateLastName());
+			temp.setFirstName(associate.getFirstName());
+			temp.setLastName(associate.getLastName());
 			
 			session.update(temp);
 			t.commit();
-			System.out.println(associate.getTfAssociateFirstName() + " successfully updated");
+			System.out.println(associate.getFirstName() + " successfully updated");
 			return true;
 		} catch (HibernateException hbe) {
 			if (t != null) {

@@ -1,6 +1,7 @@
 package com.revature.entity;
 // Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -223,6 +224,7 @@ public class TfAssociate implements java.io.Serializable {
 				+ clientStartDate + "]";
 	}
 
-	
-	
+
+
+		
 }

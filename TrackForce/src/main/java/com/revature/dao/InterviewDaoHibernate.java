@@ -36,26 +36,26 @@ public class InterviewDaoHibernate implements InterviewDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 			t = session.beginTransaction();
 			
-			TfInterview temp = session.get(TfInterview.class, interview.getTfAssociate());
+			TfInterview temp = session.get(TfInterview.class, interview.getAssociate());
 			
-			temp.setTfAssociateFeedback(interview.getTfAssociateFeedback());
-			temp.setTfClient(interview.getTfClient());
-			temp.setTfClientFeedback(interview.getTfClientFeedback());
-			temp.setTfDateAssociateIssued(interview.getTfDateAssociateIssued());
-			temp.setTfEndClient(interview.getTfEndClient());
-			temp.setTfDateSalesIssued(interview.getTfDateAssociateIssued());
-			temp.setTfFlagReason(interview.getTfFlagReason());
-			temp.setTfInterviewDate(interview.getTfInterviewDate());
-			temp.setTfInterviewType(interview.getTfInterviewType());
-			temp.setTfIsClientFeedbackVisible(interview.getTfIsClientFeedbackVisible());
-			temp.setTfIsInterviewFlagged(interview.getTfIsInterviewFlagged());
-			temp.setTfJobDescription(interview.getTfJobDescription());
-			temp.setTfQuestionGiven(interview.getTfQuestionGiven());
-			temp.setTfWas24HRNotice(interview.getTfWas24HRNotice());
+			temp.setAssociateFeedback(interview.getAssociateFeedback());
+			temp.setClient(interview.getClient());
+			temp.setClientFeedback(interview.getClientFeedback());
+			temp.setDateAssociateIssued(interview.getDateAssociateIssued());
+			temp.setEndClient(interview.getEndClient());
+			temp.setDateSalesIssued(interview.getDateAssociateIssued());
+			temp.setFlagReason(interview.getFlagReason());
+			temp.setInterviewDate(interview.getInterviewDate());
+			temp.setInterviewType(interview.getInterviewType());
+			temp.setIsClientFeedbackVisible(interview.getIsClientFeedbackVisible());
+			temp.setIsInterviewFlagged(interview.getIsInterviewFlagged());
+			temp.setJobDescription(interview.getJobDescription());
+			temp.setQuestionGiven(interview.getQuestionGiven());
+			temp.setWas24HRNotice(interview.getWas24HRNotice());
 			
 			session.update(temp);
 			t.commit();
-			System.out.println(interview.getTfAssociate() + " interview successfully updated");
+			System.out.println(interview.getAssociate() + " interview successfully updated");
 			return true;
 		} catch (HibernateException hbe) {
 			if (t != null) {

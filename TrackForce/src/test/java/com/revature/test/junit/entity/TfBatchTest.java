@@ -24,41 +24,41 @@ public class TfBatchTest {
 	
 	@Test
 	public void test1() {
-		tfbatch.setTfAssociates(new HashSet<TfAssociate>());
-		assertTrue(tfbatch.getTfAssociates() instanceof HashSet);
+		tfbatch.setAssociates(new HashSet<TfAssociate>());
+		assertTrue(tfbatch.getAssociates() instanceof HashSet);
 	}
 	@Test
 	public void test2() {
-		tfbatch.setTfBatchEndDate(new Timestamp(1000L));
-		assertTrue(tfbatch.getTfBatchEndDate().getTime() == 1000L);
-		assertFalse(tfbatch.getTfBatchEndDate().getTime() == 2000L);
+		tfbatch.setEndDate(new Timestamp(1000L));
+		assertTrue(tfbatch.getEndDate().getTime() == 1000L);
+		assertFalse(tfbatch.getEndDate().getTime() == 2000L);
 	}
 	@Test
 	public void test3() {
-		tfbatch.setTfBatchId(1);
-		assertTrue(tfbatch.getTfBatchId() == 1);
-		assertFalse(tfbatch.getTfBatchId() == 2);
+		tfbatch.setId(1);
+		assertTrue(tfbatch.getId() == 1);
+		assertFalse(tfbatch.getId() == 2);
 	}
 	@Test
 	public void test4() {
-		tfbatch.setTfBatchLocation(new TfBatchLocation());
-		assertTrue(tfbatch.getTfBatchLocation() instanceof TfBatchLocation);
+		tfbatch.setLocation(new TfBatchLocation());
+		assertTrue(tfbatch.getLocation() instanceof TfBatchLocation);
 	}
 	@Test
 	public void test5() {
-		tfbatch.setTfBatchName("TFbatch");
-		assertTrue(tfbatch.getTfBatchName().equals("TFbatch"));
-		assertFalse(tfbatch.getTfBatchName().equals("tfbatch"));
+		tfbatch.setBatchName("TFbatch");
+		assertTrue(tfbatch.getBatchName().equals("TFbatch"));
+		assertFalse(tfbatch.getBatchName().equals("tfbatch"));
 	}
 	@Test
 	public void test6() {
-		tfbatch.setTfBatchStartDate(new Timestamp(1000L));
-		assertTrue(tfbatch.getTfBatchStartDate().getTime() == 1000L);
-		assertFalse(tfbatch.getTfBatchStartDate().getTime() == 1001L);
+		tfbatch.setStartDate(new Timestamp(1000L));
+		assertTrue(tfbatch.getStartDate().getTime() == 1000L);
+		assertFalse(tfbatch.getStartDate().getTime() == 1001L);
 	}
 	@Test
 	public void test7() {
-		tfbatch.setTfCurriculum(new TfCurriculum());
-		assertTrue(tfbatch.getTfCurriculum() instanceof TfCurriculum);
+		tfbatch.setCurriculumName(new TfCurriculum());
+		assertTrue(tfbatch.getCurriculumName() instanceof TfCurriculum);
 	}
 }

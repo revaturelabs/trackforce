@@ -56,6 +56,11 @@ public class InterviewInfo implements Serializable, Comparable<InterviewInfo> {
         this.tfClientName = tfEndClient;
     }
 
+    /***
+     * No getter for tfEndClientName, nor is it declared as a variable
+     * Reviewed by David Kim
+     * @since 6.18.06.11
+     */
     public void setTfEndClientName(String name) {
         this.tfClientName = name;
     }
@@ -105,7 +110,13 @@ public class InterviewInfo implements Serializable, Comparable<InterviewInfo> {
     public int compareTo(InterviewInfo o) {
         return this.id - o.getId();
     }
-
+    
+    /***
+     * No getter for associateFeedback
+     * Reviewed by David Kim
+     * @since 6.18.06.11
+     */
+    
     public void setAssociateFeedback(String associateFeedback) {
         this.associateFeedback = associateFeedback;
     }

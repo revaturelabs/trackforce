@@ -12,7 +12,7 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 	@Override
 	public List<TfMarketingStatus> getAllMarketingStatuses() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Marketing_Status", TfMarketingStatus.class).getResultList());
+		session.createQuery("from Tf_Marketing_Status", TfMarketingStatus.class).setCacheable(true).getResultList());
 	}
 	
 	

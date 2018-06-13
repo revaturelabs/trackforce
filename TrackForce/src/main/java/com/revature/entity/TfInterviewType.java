@@ -117,4 +117,10 @@ public class TfInterviewType implements java.io.Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "TfInterviewType [tfInterviewTypeId=" + tfInterviewTypeId + ", tfInterviewTypeName="
+				+ tfInterviewTypeName + "]";
+	}
+	
 }

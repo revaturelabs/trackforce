@@ -12,7 +12,7 @@ public class CurriculumDaoImpl implements CurriculumDao {
 	@Override
 	public List<TfCurriculum> getAllCurriculums() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Curriculum", TfCurriculum.class).getResultList());
+		session.createQuery("from Tf_Curriculum", TfCurriculum.class).setCacheable(true).getResultList());
 	}
 	
 

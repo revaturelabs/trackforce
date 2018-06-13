@@ -28,7 +28,7 @@ public class BatchDaoHibernate implements BatchDao {
 	@Override
 	public List<TfBatch> getAllBatches() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Batch", TfBatch.class).getResultList());
+		session.createQuery("from Tf_Batch", TfBatch.class).setCacheable(true).getResultList());
 	}
 	
 	

@@ -76,4 +76,11 @@ public class TfCurriculum implements java.io.Serializable {
 	public void setTfBatches(Set<TfBatch> tfBatches) {
 		this.tfBatches = tfBatches;
 	}
+
+	@Override
+	public String toString() {
+		return "TfCurriculum [tfCurriculumId=" + tfCurriculumId + ", tfCurriculumName=" + tfCurriculumName + "]";
+	}
+	
+	
 }

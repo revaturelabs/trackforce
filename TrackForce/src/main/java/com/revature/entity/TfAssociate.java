@@ -24,9 +24,6 @@ public class TfAssociate implements java.io.Serializable {
 
 
 	private static final long serialVersionUID = -2324082555924677252L;
-	
-	public static final int APPROVED = 1;
-	public static final int NOTAPPROVED = 0;
 
 	@XmlElement
 	@Id
@@ -79,11 +76,6 @@ public class TfAssociate implements java.io.Serializable {
 	@XmlElement
 	@Column(name = "TF_CLIENT_START_DATE")
 	private Timestamp clientStartDate;
-
-	@XmlElement
-	@Column(name = "TF_ISAPPROVED")
-	private Integer isApproved = NOTAPPROVED; // default is Zero not approved
-
 	
 
 	public TfAssociate() {
@@ -95,7 +87,7 @@ public class TfAssociate implements java.io.Serializable {
 
 	public TfAssociate(Integer tfAssociateId, TfBatch tfBatch, TfMarketingStatus tfMarketingStatus,
 			TfClient tfClient, TfEndClient tfEndClient, String tfAssociateFirstName, String tfAssociateLastName,
-			Set<TfInterview> tfInterviews, Set<TfPlacement> tfPlacements, Timestamp clientStartDate, Integer isApproved) {
+			Set<TfInterview> tfInterviews, Set<TfPlacement> tfPlacements, Timestamp clientStartDate) {
 		this.tfAssociateId = tfAssociateId;
 		this.tfBatch = tfBatch;
 		this.tfMarketingStatus = tfMarketingStatus;
@@ -106,7 +98,6 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfInterviews = tfInterviews;
 		this.tfPlacements = tfPlacements;
 		this.clientStartDate = clientStartDate;
-		this.isApproved = isApproved;
 		
 	}
 
@@ -119,20 +110,6 @@ public class TfAssociate implements java.io.Serializable {
 		this.tfUser = tfUser;
 	}
 	
-	
-	/**
-	 * @return the isApproved
-	 */
-	public Integer getIsApproved() {
-		return isApproved;
-	}
-
-	/**
-	 * @param isApproved the isApproved to set
-	 */
-	public void setIsApproved(Integer isApproved) {
-		this.isApproved = isApproved;
-	}
 
 	public Integer getTfAssociateId() {
 		return this.tfAssociateId;
@@ -217,4 +194,17 @@ public class TfAssociate implements java.io.Serializable {
 	public void setTfClientStartDate(Timestamp clientStartDate) {
 		this.clientStartDate = clientStartDate;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "TfAssociate [tfAssociateId=" + tfAssociateId + ", tfUser=" + tfUser + ", tfBatch=" + tfBatch
+				+ ", tfMarketingStatus=" + tfMarketingStatus + ", tfClient=" + tfClient + ", tfEndClient=" + tfEndClient
+				+ ", tfAssociateFirstName=" + tfAssociateFirstName + ", tfAssociateLastName=" + tfAssociateLastName
+				+ ", tfInterviews=" + tfInterviews + ", tfPlacements=" + tfPlacements + ", clientStartDate="
+				+ clientStartDate + "]";
+	}
+	
+	
 }

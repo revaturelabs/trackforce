@@ -32,11 +32,11 @@ public class HibernateUtil {
 		return sessionFactory;
 	}
 
-	public static void shutdown() {
-		System.out.println("Shutting down SessionFactory");
-		getSessionFactory().close();
-		System.out.println("SessionFactory closed");
-	}
+//	public static void shutdown() {
+//		System.out.println("Shutting down SessionFactory");
+//		getSessionFactory().close();
+//		System.out.println("SessionFactory closed");
+//	}
 
 	public static void closeSession(Session session) {
 		if (session != null) {
@@ -51,9 +51,6 @@ public class HibernateUtil {
 			System.out.println("Transaction rolled back");
 		}
 	}
-
-	// The code above this line to the top of the package is basically an exact copy of stuff William did in class
-	// Now we abstract further.
 
 
 	public static boolean runHibernateTransaction(Sessional<Boolean> sessional, Object ... args) {

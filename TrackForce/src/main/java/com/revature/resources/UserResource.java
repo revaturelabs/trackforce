@@ -12,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfUser;
@@ -64,39 +65,20 @@ public class UserResource {
 	 *         token, and roleId
 	 * @throws IOException
 	 */
-<<<<<<< HEAD
+
 	@POST
 	@ApiOperation(value = "login method", notes = "The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 400 if invalid.")
 	@Path("login")
-	public Response submitCredentials(LoginJSON login) throws IOException {
+	public Response submitCredentials(TfUser loginuser) {
 		logger.info("submitCredentials()...");
-//		logger.info("	login: " + login);
-		UserJSON userjson = null;
-		userjson = service.submitCredentials(login);
-		logger.info("	user: " + userjson);
+		logger.info("	login: " + loginuser);
+		TfUser user = UserService.getUser(loginuser.getTfUserUsername());
+		logger.info("	user: " + user);
 
-		if (userjson != null) {
-			return Response.status(200).entity(userjson).build();
+		if (user != null) {
+			return Response.status(200).entity(user).build();
 		} else {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 	}
-=======
-//	@POST
-//	@ApiOperation(value = "login method", notes = "The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 400 if invalid.")
-//	@Path("login")
-//	public Response submitCredentials(TfUser login) throws IOException {
-//		logger.info("submitCredentials()...");
-//		logger.info("	login: " + login);
-//		TfUser userjson = UserService.submitCredentials(login);
-//		logger.info("	user: " + userjson);
-//
-//		if (userjson != null) {
-//			return Response.status(200).entity(userjson).build();
-//		} else {
-//			return Response.status(Status.UNAUTHORIZED).build();
-//		}
-//	}
->>>>>>> 05ecb88f... major code rewrite; long night!
-
 }

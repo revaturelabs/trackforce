@@ -16,6 +16,9 @@ public class TfUser implements java.io.Serializable {
 
     private static final long serialVersionUID = 706405344864879997L;
     
+	public static final int APPROVED = 1;
+	public static final int NOTAPPROVED = 0;
+    
     @XmlElement
     @Id
     @Column(name = "TF_USER_ID")
@@ -30,7 +33,7 @@ public class TfUser implements java.io.Serializable {
 
     @XmlElement
     @Column(name = "TF_USERNAME", length = 20, unique = true)
-    private String tfUserUsername;
+    private String username;
 
     @XmlElement
     @Column(name = "TF_HASHPASSWORD", length = 200)
@@ -38,7 +41,7 @@ public class TfUser implements java.io.Serializable {
     
     @XmlElement
     @Column(name = "TF_ISAPPROVED")
-    private boolean tf_isApproved;
+    private int tf_isApproved;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(name = "TF_ASSOCIATE_ID")
@@ -54,20 +57,20 @@ public class TfUser implements java.io.Serializable {
     public TfUser(int tfUserId, TfRole tfRole, String tfUserUsername, String tfUserHashpassword) {
         this.tfUserId = tfUserId;
         this.tfRole = tfRole;
-        this.tfUserUsername = tfUserUsername;
+        this.username = tfUserUsername;
         this.tfHashpassword = tfUserHashpassword;
     }
 
     public TfUser(Integer role, String username, String password) {
         this.tfRole = new TfRole(role);
-        this.tfUserUsername = username;
+        this.username = username;
         this.tfHashpassword = password;
     }
 
     // Overloaded method to aid creating new associate.
     public TfUser(String username, String password) {
         this.tfRole = new TfRole(5);
-        this.tfUserUsername = username;
+        this.username = username;
         this.tfHashpassword = password;
     }
 
@@ -76,7 +79,7 @@ public class TfUser implements java.io.Serializable {
 		super();
 		this.tfUserId = tfUserId;
 		this.tfRole = tfRole;
-		this.tfUserUsername = tfUserUsername;
+		this.username = tfUserUsername;
 		this.tfHashpassword = tfHashpassword;
 	}
 
@@ -98,11 +101,11 @@ public class TfUser implements java.io.Serializable {
 
 
     public String getTfUserUsername() {
-        return this.tfUserUsername;
+        return this.username;
     }
 
     public void setTfUserUsername(String tfUserUsername) {
-        this.tfUserUsername = tfUserUsername;
+        this.username = tfUserUsername;
     }
 
     public String getTfUserHashpassword() {
@@ -113,22 +116,25 @@ public class TfUser implements java.io.Serializable {
         this.tfHashpassword = tfUserHashpassword;
     }
 
-    public boolean isTf_isApproved() {
+    public int isTf_isApproved() {
 		return tf_isApproved;
 	}
 
-	public void setTf_isApproved(boolean tf_isApproved) {
+	public void setTf_isApproved(int tf_isApproved) {
 		this.tf_isApproved = tf_isApproved;
 	}
 
 	
 	
+	
 	@Override
 	public String toString() {
-		return "TfUser [tfUserId=" + tfUserId + ", tfRole=" + tfRole + ", tfUserUsername=" + tfUserUsername
+		return "TfUser [tfUserId=" + tfUserId + ", tfRole=" + tfRole + ", tfUserUsername=" + username
 				+ ", tfHashpassword=" + tfHashpassword + ", tf_isApproved=" + tf_isApproved + "]";
 	}
 
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -136,8 +142,8 @@ public class TfUser implements java.io.Serializable {
 		result = prime * result + ((tfHashpassword == null) ? 0 : tfHashpassword.hashCode());
 		result = prime * result + ((tfRole == null) ? 0 : tfRole.hashCode());
 		result = prime * result + tfUserId;
-		result = prime * result + ((tfUserUsername == null) ? 0 : tfUserUsername.hashCode());
-		result = prime * result + (tf_isApproved ? 1231 : 1237);
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		result = prime * result + tf_isApproved;
 		return result;
 	}
 
@@ -162,13 +168,15 @@ public class TfUser implements java.io.Serializable {
 			return false;
 		if (tfUserId != other.tfUserId)
 			return false;
-		if (tfUserUsername == null) {
-			if (other.tfUserUsername != null)
+		if (username == null) {
+			if (other.username != null)
 				return false;
-		} else if (!tfUserUsername.equals(other.tfUserUsername))
+		} else if (!username.equals(other.username))
 			return false;
 		if (tf_isApproved != other.tf_isApproved)
 			return false;
 		return true;
 	}
+    
+    
 }

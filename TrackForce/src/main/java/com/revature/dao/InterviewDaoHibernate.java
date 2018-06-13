@@ -43,66 +43,17 @@ public class InterviewDaoHibernate implements InterviewDao {
 	
 	static private final String tablename = "TF_INTERVIEW";
 
-	public Map<Integer, InterviewInfo> getAllInterviews() {
-		Map<Integer, InterviewInfo> techs = new HashMap<>();
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		try {
-			CriteriaBuilder cb = session.getCriteriaBuilder();
-			CriteriaQuery<TfInterview> cq = cb.createQuery(TfInterview.class);
-			Root<TfInterview> from = cq.from(TfInterview.class);
-			CriteriaQuery<TfInterview> all = cq.select(from);
-			Query<TfInterview> tq = session.createQuery(all);
-			return createInterviewMap(tq.getResultList());
-		} catch (Exception e) {
-
-			LogUtil.logger.error(e);
-		} finally {
-			session.close();
-		}
-		return techs;
+	@Override
+	public List<TfInterview> getInterviewsByAssociate(int associateId) {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+		session.createQuery("from TfInterview i where i.tf_associate_id like :associateId", TfInterview.class).setParameter("associateId", associateId).getResultList());
 	}
+	
 
 	@Override
-	public Map<Integer, InterviewInfo> getInterviewsByAssociate(int associateId) throws IOException {
-		Map<Integer, InterviewInfo> interviews = null;
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		try {
-			CriteriaBuilder builder = session.getCriteriaBuilder();
-			CriteriaQuery<TfInterview> criteriaQuery = builder.createQuery(TfInterview.class);
-			Root<TfInterview> root = criteriaQuery.from(TfInterview.class);
-			criteriaQuery.select(root).where(builder.equal(root.get("tfAssociate"), associateId));
-			Query<TfInterview> query = session.createQuery(criteriaQuery);
-			return createInterviewMap(query.getResultList());
-		} catch (NoResultException nre) {
-			LogUtil.logger.error(nre);
-		} finally {
-			session.close();
-		}
-		return interviews;
-	}
-
-	public Map<Integer, InterviewInfo> createInterviewMap(List<TfInterview> interviews) { // works in tandem with
-																							// 'getInterviewByAssociate()'
-																							// method
-		Map<Integer, InterviewInfo> map = new HashMap<>();
-		if (interviews != null) {
-			for (TfInterview tfi : interviews) {
-				map.put(tfi.getTfInterviewId(), Dao2DoMapper.map(tfi));
-			}
-		}
-		return map;
-	}
-
-	public Set<InterviewInfo> getInterviewFromCache() {
-		return PersistentStorage.getStorage().getInterviews();
-	}
-
-	public InterviewInfo getInterviewFromCacheByID(int id) {
-		return PersistentStorage.getStorage().getInterviewsAsMap().get(id);
-	}
-
-	public void cacheAllInterviews() {
-		PersistentStorage.getStorage().setInterviews(new InterviewDaoHibernate().getAllInterviews());
+	public List<TfInterview> getAllInterviews() {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+		session.createQuery("from TfInterview", TfInterview.class).getResultList());
 	}
 
 	@Override

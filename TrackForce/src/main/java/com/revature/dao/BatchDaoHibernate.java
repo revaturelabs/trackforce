@@ -37,46 +37,14 @@ public class BatchDaoHibernate implements BatchDao {
 	 */
 	@Override
 	public TfBatch getBatch(String batchName) {
-		
-		TfBatch batch = null;
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		try {
-			CriteriaBuilder builder = session.getCriteriaBuilder();
-			CriteriaQuery<TfBatch> criteriaQuery = builder.createQuery(TfBatch.class);
-			Root<TfBatch> root = criteriaQuery.from(TfBatch.class);
-			criteriaQuery.select(root).where(builder.equal(root.get("tfBatchName"), batchName));
-			Query<TfBatch> query = session.createQuery(criteriaQuery);
-			batch = query.getSingleResult();
-			return batch;
-		} catch (NoResultException nre) {
-			logger.error(nre);
-		}
-		finally {
-			session.close();
-		}
-		return batch;
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+		session.createQuery("from TfBatch", TfBatch.class).getSingleResult());
 	}
 	
 	@Override
-	public BatchInfo getBatchById(Integer id) {
-		BatchInfo batch = PersistentStorage.getStorage().getBatch(id);
-		if(batch != null)
-			return batch;
-		else {
-			TfBatch tfBatch = null;
-			Session session = HibernateUtil.getSession();
-			try {
-				tfBatch = session.get(TfBatch.class, id);
-				return Dao2DoMapper.map(tfBatch);
-			} catch (NoResultException e) {
-				logger.error(e);
-			}
-			finally {
-				session.close();
-			}
-		}
-		return null;
-		
+	public TfBatch getBatchById(Integer id) {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+		session.createQuery("from TfBatch b where b.tf_batch_id like :id", TfBatch.class).setParameter("id", id).getSingleResult());
 	}
 
 	// TODO add caching
@@ -135,15 +103,9 @@ public class BatchDaoHibernate implements BatchDao {
 		return PersistentStorage.getStorage().getBatchAsMap().get(id).getAssociates();
 	}
 	@Override
-	public List<BatchInfo> getBatchesSortedByDate(){
-		if(PersistentStorage.getStorage().getBatchesByDate() == null)
-			cacheAllBatches();
-		return PersistentStorage.getStorage().getBatchesByDate();
-	}
-	public Set<BatchInfo> getAllBatches() {
-		if(PersistentStorage.getStorage().getBatches() == null)
-			cacheAllBatches();
-		return PersistentStorage.getStorage().getBatches();
+	public List<TfBatch> getAllBatches() {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+		session.createQuery("from TfBatch", TfBatch.class).setCacheable(true).getResultList());
 	}
 	
 	

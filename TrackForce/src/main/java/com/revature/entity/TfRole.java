@@ -39,6 +39,11 @@ public class TfRole implements java.io.Serializable {
 		this.tfRoleId = tfRoleId;
 	}
 
+	public TfRole(Integer tfRoleId, String tfRoleName) {
+		this.tfRoleId = tfRoleId;
+		this.tfRoleName = tfRoleName;
+	}
+
 	public TfRole(Integer tfRoleId, String tfRoleName, Set<TfUser> tfUsers) {
 		this.tfRoleId = tfRoleId;
 		this.tfRoleName = tfRoleName;

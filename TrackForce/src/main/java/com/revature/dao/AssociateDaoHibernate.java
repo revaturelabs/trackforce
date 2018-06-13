@@ -65,26 +65,15 @@ public class AssociateDaoHibernate implements AssociateDao {
 	 * @return Returns an AssociateInfo object
 	 */
 	@Override
-	public AssociateInfo getAssociate(Integer id) {
-		// created getAssociate to actually get data from the cache
-		return PersistentStorage.getStorage().getAssociateAsMap().get(id);
-		// want to write a method that gets from db if not in cache
-		// then throw exception if not found in db
+	public TfAssociate getAssociate(Integer associateid) {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+		session.createQuery("from TfAssociate a where a.tf_associate_id like :associateid", TfAssociate.class).setParameter("associateid", associateid).getSingleResult());
 	}
 
 	@Override
-	public AssociateInfo getAssociateFromDB(Integer id) {
-		Session session = HibernateUtil.getSession();
-		try {
-			TfAssociate tfa = session.load(TfAssociate.class, id);
-			AssociateInfo ai = Dao2DoMapper.map(tfa);
-			return ai;
-		} catch (HibernateException e) {
-			logger.error(e);
-		} finally {
-			session.close();
-		}
-		return null;
+	public List<TfAssociate> getAllAssociates() {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+		session.createQuery("from TfAssociate", TfAssociate.class).setCacheable(true).getResultList());
 	}
 
 	@Override

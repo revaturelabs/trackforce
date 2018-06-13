@@ -200,4 +200,17 @@ public class TfAssociate implements java.io.Serializable {
 	public void setTfClientStartDate(Timestamp clientStartDate) {
 		this.clientStartDate = clientStartDate;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "TfAssociate [tfAssociateId=" + tfAssociateId + ", tfUser=" + tfUser + ", tfMarketingStatus="
+				+ tfMarketingStatus + ", tfClient=" + tfClient + ", tfEndClient=" + tfEndClient
+				+ ", tfAssociateFirstName=" + tfAssociateFirstName + ", tfAssociateLastName=" + tfAssociateLastName
+				+ ", tfInterviews=" + tfInterviews + ", tfPlacements=" + tfPlacements + ", clientStartDate="
+				+ clientStartDate + "]";
+	}
+	
+	
 }

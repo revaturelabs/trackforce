@@ -24,25 +24,9 @@ public class MarketingStatusDaoHibernate implements MarketingStatusDao {
 	
 	
 	@Override
-	public MarketingStatusInfo getMarketingStatus(String status) {
-		TfMarketingStatus marketingStatus = null;
-		Session session = HibernateUtil.getSession();
-		try {
-			CriteriaBuilder builder = session.getCriteriaBuilder();
-			CriteriaQuery<TfMarketingStatus> criteriaQuery = builder.createQuery(TfMarketingStatus.class);
-			Root<TfMarketingStatus> root = criteriaQuery.from(TfMarketingStatus.class);
-			criteriaQuery.select(root).where(builder.equal(root.get("tfMarketingStatusName"), status));
-			Query<TfMarketingStatus> query = session.createQuery(criteriaQuery);
-			Integer bd = Integer.parseInt(status);
-			query.setParameter(0, bd);
-			marketingStatus = (TfMarketingStatus) query.uniqueResult();
-		} catch (NoResultException nre) {
-			logger.error(nre);
-		}
-		finally {
-			session.close();
-		}
-		return Dao2DoMapper.map(marketingStatus);
+	public List<TfMarketingStatus> getAllMarketingStatuses() {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+		session.createQuery("from TfMarketingStatus", TfMarketingStatus.class).setCacheable(true).getResultList());
 	}
 	
 	public TfMarketingStatus getMarketingStatus(Integer id) {

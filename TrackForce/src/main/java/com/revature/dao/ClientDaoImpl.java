@@ -32,49 +32,9 @@ public class ClientDaoImpl implements ClientDao {
 	 * @throws IOException
 	 */
 	@Override
-	public TfClient getClient(String name) throws IOException {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		try {
-			CriteriaBuilder builder = session.getCriteriaBuilder();
-			CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
-			Root<TfClient> root = criteriaQuery.from(TfClient.class);
-			criteriaQuery.select(root).where(builder.equal(root.get("tfClientName"), name));
-			Query<TfClient> query = session.createQuery(criteriaQuery);
-			return query.getSingleResult();
-		} catch (NoResultException nre) {
-			logger.error(nre);
-		}
-		finally {
-			session.close();
-		}
-		return new TfClient();
-	}
-	
-	/**
-	 * Get information about a singular client.
-	 * 
-	 * @param id
-	 *            - The id of the client to retrieve.
-	 * @return - A TfClient object with information about the client.
-	 * @throws IOException
-	 */
-	public TfClient getClient(int id) throws IOException{
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		try {
-			CriteriaBuilder builder = session.getCriteriaBuilder();
-			CriteriaQuery<TfClient> criteriaQuery = builder.createQuery(TfClient.class);
-			Root<TfClient> root = criteriaQuery.from(TfClient.class);
-			criteriaQuery.select(root).where(builder.equal(root.get("tfClientId"), id));
-			Query<TfClient> query = session.createQuery(criteriaQuery);
-			return query.getSingleResult();
-		} catch (NoResultException nre) {
-			logger.error(nre);
-		}
-		finally {
-			session.close();
-		}
-		return new TfClient();
-		
+	public List<TfClient> getAllTfClients() {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+		session.createQuery("from TfClient ", TfClient.class).setCacheable(true).getResultList());
 	}
 
 	/**
@@ -85,8 +45,9 @@ public class ClientDaoImpl implements ClientDao {
 	 *  @return ClientInfo
 	 */
 	@Override
-	public ClientInfo getClientFromCache(Integer id) {
-		return PersistentStorage.getStorage().getClientAsMap().get(id);
+	public TfClient getClient(String name) {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+		session.createQuery("from TfClient c where c.tf_client_name like :name", TfClient.class).setParameter("name", name).getSingleResult());
 	}
 	
 	/**
@@ -106,25 +67,9 @@ public class ClientDaoImpl implements ClientDao {
 	 * @throws IOException
 	 */
 	@Override
-	public Map<Integer, ClientInfo> getAllTfClients() {
-		Map<Integer, ClientInfo> map = new HashMap<>();
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		try {
-			CriteriaQuery<TfClient> cq = session.getCriteriaBuilder().createQuery(TfClient.class);
-			cq.from(TfClient.class);
-			List<TfClient> clients = session.createQuery(cq).getResultList();
-		
-
-			for (TfClient client : clients) {
-				map.put(client.getTfClientId(), Dao2DoMapper.map(client));
-			}	
-		} catch(Exception e) {
-			logger.error(e);
-		}
-		finally {
-			session.close();
-		}
-		return map;
+	public TfClient getClient(int id) {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+		session.createQuery("from TfClient c where c.tf_client_id like :id", TfClient.class).setParameter("id", id).getSingleResult());
 	}
 	
 	public Map<Integer, ClientInfo> createClientMap(List<TfClient> clients){

@@ -70,7 +70,6 @@ public class AssociateResource {
 	 * @throws IOException
 	 * @throws HibernateException
 	 */
-
 	@GET
 	@ApiOperation(value = "Return all associates", notes = "Gets a set of all the associates, optionally filtered by a batch id. If an associate has no marketing status or\r\n"
 			+ " curriculum, replaces them with blanks. If associate has no client, replaces\r\n"
@@ -84,7 +83,6 @@ public class AssociateResource {
 		if (payload == null || payload.getId().equals("5")) {
 			status = Status.UNAUTHORIZED;
 		}
-
 		else {
 			associates = service.getAllAssociates();
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;

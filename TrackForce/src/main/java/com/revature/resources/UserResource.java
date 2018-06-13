@@ -6,82 +6,57 @@ import java.io.IOException;
 import java.net.URI;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
-import com.revature.model.LoginJSON;
-import com.revature.model.UserJSON;
-import com.revature.request.model.CreateAssociateModel;
-import com.revature.request.model.CreateUserModel;
-import com.revature.request.model.SuccessOrFailMessage;
+import com.revature.services.AssociateService;
+import com.revature.services.TrainerService;
 import com.revature.services.UserService;
 
 import com.revature.utils.LogUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Path("users")
+@Path("/users")
 @Api(value = "users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-	private UserService service;
-
-	public UserResource() {
-		this.service = new UserService();
+	@Path("/newUser")
+	@POST
+	@Consumes("application/json")
+	@ApiOperation(value = "Creates new user", notes = "")
+	public Response createUser(TfUser newUser) {
+//		, @HeaderParam("Authorization") String token
+		
+//		if(newUser.getTfRole().getTfRoleId() == 1 || newUser.getTfRole().getTfRoleId() == 3 || newUser.getTfRole().getTfRoleId() == 4) {
+//			Status status = null;
+//			Claims payload = JWTService.processToken(token);
+//			
+//			if (payload == null || payload.getId().equals("5")) {
+//				status = Status.UNAUTHORIZED;
+//			}
+//			else {
+//				status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
+//			}
+//			
+//		} else {
+			logger.info("creating new user...");
+			LogUtil.logger.info(newUser);
+			UserService.insertUser(newUser);
+			return Response.created(URI.create("/testingURIcreate")).build();
+//		}
 	}
-
-	/**
-	 * Gets every user for TrackForce
-	 * 
-	 * @return Returns a json of all the users
-	 */
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response getAllUsers() {
-		logger.info("getAllUsers()...");
-		// This will produce application/json
-		// Not sure if this will actually be needed
-		return Response.status(501).entity("This has not yet been implemented. There maybe future implementations")
-				.build();
-	}
-
-	// /**
-	// * Endpoint used to create a new user in the database with a specified role,
-	// username and
-	// * password
-	// *
-	// * @param newUser
-	// * @return SuccessOrFailMessage
-	// */
-	// @POST
-	// @ApiOperation(value ="Creates new User", notes ="Creates a new user in the
-	// database with a specified role, username, and password.")
-	// public Response createNewUser(CreateUserModel newUser){
-	// SuccessOrFailMessage msg = service.createNewUser(newUser);
-	// if (msg.getStatus()) {
-	// int userId = msg.getNewId();
-	// URI location = URI.create("/user/"+userId);
-	// return Response.created(location).build();
-	// } else {
-	// return Response.serverError().build();
-	// }
-	// }
-
-	/**
-	 * MAJOR WORK FOR JERSEY TEAM. EVERYTHING IS HARDCODED TO TEST STUFF OUT
-	 * 
-	 * @param newAssociate
-	 * @return
-	 */
+	
+	@Path("/newAssociate")
 	@POST
 	@Consumes("application/json")
 	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new user")
@@ -99,37 +74,23 @@ public class UserResource {
 		service.createNewAssociate(newAssociate);
 		return Response.created(URI.create("/testingURIcreate")).build();
 	}
-
-	/**
-	 * Gets the user by the user's username
-	 * 
-	 * @param username
-	 *            Username used to get the user
-	 * @return Returns a TfUser json
-	 */
-	@GET
-	@ApiOperation(value = "Gets user", notes = "Gets a specific user by their username.")
-	@Path("/{username}")
-	public Response getUser(@PathParam("username") String username) {
-		logger.info("getUser()...");
-		TfUser user = service.getUser(username);
-		return Response.ok(user).build();
+	
+	@Path("/newTrainer")
+	@POST
+	@Consumes("application/json")
+	@ApiOperation(value = "Creates new trainer", notes = "")
+	public Response createTrainer(TfTrainer newTrainer) {
+		logger.info("creating new user...");
+		LogUtil.logger.info(newTrainer);
+		TrainerService.createTrainer(newTrainer);
+		return Response.created(URI.create("/testingURIcreate")).build();
 	}
 
-	/**
-	 * Method takes login information from front-end and verifies the information.
-	 * If info is valid, a status code of 200 is returned, otherwise invalid token
-	 *
-	 * @param login
-	 *            - contains login information
-	 * @return a Response object with authentication data, such as username, JWT
-	 *         token, and roleId
-	 * @throws IOException
-	 */
+	@Path("/login")
 	@POST
+	@Consumes("application/json")
 	@ApiOperation(value = "login method", notes = "The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 400 if invalid.")
-	@Path("login")
-	public Response submitCredentials(LoginJSON login) throws IOException {
+	public Response submitCredentials(TfUser loginuser) {
 		logger.info("submitCredentials()...");
 //		logger.info("	login: " + login);
 		UserJSON userjson = null;

@@ -3,7 +3,7 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
 
-import com.revature.model.ClientInfo;
+import com.revature.entity.TfClient;
 import com.revature.services.ClientService;
 import com.revature.services.JWTService;
 
@@ -30,11 +30,6 @@ import io.swagger.annotations.ApiOperation;
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
 public class ClientResource {
-	private ClientService service;
-
-	public ClientResource() {
-		this.service = new ClientService();
-	}
 
 	/**
 	 * Returns a map of all of the clients as a response object.
@@ -48,7 +43,7 @@ public class ClientResource {
 	public Response getAllClients(@HeaderParam("Authorization") String token) throws IOException {
 		logger.info("getAllClients()...");
 		Status status = null;
-		Set<ClientInfo> clients = null;
+		List<TfClient> clients = ClientService.getAllTfClients();
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) {
@@ -56,7 +51,6 @@ public class ClientResource {
 		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
 			status = Status.FORBIDDEN;
 		} else {
-			clients = service.getClients();
 			status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
 
@@ -80,7 +74,7 @@ public class ClientResource {
 			throws IOException {
 		logger.info("getClientInfo()...");
 		Status status = null;
-		ClientInfo client = null;
+		TfClient client = ClientService.getClient(clientid);
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) {
@@ -88,7 +82,6 @@ public class ClientResource {
 		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
 			status = Status.FORBIDDEN;
 		} else {
-			client = service.getClientByID(clientid);
 			status = client == null ? Status.NO_CONTENT : Status.OK;
 		}
 

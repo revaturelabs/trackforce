@@ -38,6 +38,7 @@ export class PredictionsComponent implements OnInit {
   getListofCurricula() {
     this.ss.getAllCurricula().subscribe(
       data => {
+        console.log(data);
         let tempArray = [];
         for (let i = 0; i < data.length; i++) {
           let tech = data[i];
@@ -58,6 +59,7 @@ export class PredictionsComponent implements OnInit {
         // this.technologies = tempVar;
       },
       err => {
+        console.log(err);
       }
     );
   }
@@ -74,17 +76,22 @@ export class PredictionsComponent implements OnInit {
     if (e != null) {
       this.endDate = e;
     }
+    console.log(this.technologies);
     let selectedTechnologies = [];
     for (let i = 0; i < this.technologies.length; i++) {
       let tech = this.technologies[i];
       if (tech.selected) selectedTechnologies.push(tech.name);
     }
+    console.log(selectedTechnologies);
     let startTime = new Date(this.startDate).getTime();
     let endTime = new Date(this.endDate).getTime();
+    console.log(startTime);
+    console.log(endTime);
     if (startTime && endTime && selectedTechnologies.length > 0) {
       this.message = "";
       this.ps.getPrediction(startTime, endTime, selectedTechnologies).subscribe(
         data => {
+          console.log(data);
           this.results = [];
           let returnedNames = [];
           for (let i = 0; i < data.length; i++) {
@@ -116,6 +123,7 @@ export class PredictionsComponent implements OnInit {
           this.dataReady = true;
         },
         err => {
+          console.log(err);
           this.message = "There was a problem fetching the requested data!";
         }
       );
@@ -142,8 +150,11 @@ export class PredictionsComponent implements OnInit {
     //Get id of the button that called the function, which should have the name of the technology.
     let tech: string = event.target.id;
 
+    console.log(event.target.id);
+    console.log(startTime);
 
     let test = this.ps.getBatchesByCurricula(startTime, endTime, tech).subscribe(data => {
+      console.log(data);
       this.batches = data;
       this.detailsReady = true;
     }, er => {

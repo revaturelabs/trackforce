@@ -90,15 +90,19 @@ export class FormComponent implements OnInit {
     this.associateService.getAssociate(this.id).subscribe(
       data => {
         this.associate = <Associate>data;
+        console.log(data);
         this.isApproved = this.associate.isApproved;
+        console.log("FROM BACK-END: " + data.clientStartDate);
         if (data.clientStartDate.toString() == "0")
           this.associate.clientStartDate = null;
         else
           this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
+        console.log("DATE STORED: " + this.associate.clientStartDate);
 
       });
     this.clientService.getAllClients().subscribe(
       data => {
+        console.log(data);
         this.clients = data;
       });
     this.getInterviews();
@@ -153,6 +157,7 @@ export class FormComponent implements OnInit {
       // set status to UNMAPPED: TRAINING
       this.selectedMarketingStatus = 6;
     }
+    console.log("About to update");
     this.updateAssociate();
   }
 
@@ -160,6 +165,7 @@ export class FormComponent implements OnInit {
   * Update the associate with the new verification status, client, status, and/or start date
   */
   updateAssociate() {
+    console.log("START DATE: " + new Date(this.newStartDate).getTime());
     if (this.newStartDate) {
       var dateTime = Number((new Date(this.newStartDate).getTime()) / 1000);
     } else {
@@ -193,6 +199,7 @@ export class FormComponent implements OnInit {
         this.associateService.getAssociate(this.id).subscribe(
           data => {
             this.associate = <Associate>data;
+            console.log(data.clientStartDate);
             if (data.clientStartDate.toString() == "0")
               this.associate.clientStartDate = null;
             else
@@ -245,6 +252,7 @@ export class FormComponent implements OnInit {
   }
 
   addInterview() {
+    console.log(this.newInterview);
     let interview = {
       associateId: this.id,
       clientId: this.newInterview.client,
@@ -257,6 +265,7 @@ export class FormComponent implements OnInit {
         this.getInterviews();
       },
       err => {
+        console.log(err);
       }
     )
     this.resetAllFields();

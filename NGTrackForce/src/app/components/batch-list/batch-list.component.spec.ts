@@ -18,6 +18,7 @@ import {SearchFilterPipe} from '../../pipes/search-filter/search-filter.pipe';
 import {AssociateSearchByTextFilter} from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 import {NavbarComponent} from '../navbar/navbar.component';
 import {RouterTestingModule} from '@angular/router/testing';
+import {RootComponent} from '../root/root.component';
 import {FormComponent} from '../form-component/form.component';
 import {SkillsetComponent} from '../skillset/skillset.component';
 import {Batch} from '../../models/batch.model';
@@ -32,7 +33,7 @@ describe('BatchListComponent', async () => {
   let component: BatchListComponent;
   let fixture: ComponentFixture<BatchListComponent>;
   const testBatchService: BatchService = new BatchService(null);
-  const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
+  const testAuthService: AuthenticationService = new AuthenticationService(null, null);
 
   // setup service mocks
   beforeAll(() => {
@@ -64,6 +65,7 @@ describe('BatchListComponent', async () => {
         SearchFilterPipe,
         AssociateSearchByTextFilter,
         NavbarComponent,
+        RootComponent,
         FormComponent,
         SkillsetComponent
       ],
@@ -105,8 +107,7 @@ describe('BatchListComponent', async () => {
       expect(component.batches.length).toBeGreaterThanOrEqual(0);
 
       component.startDate = component.endDate = new Date();
-      // These arguments were added to stop a compilation error, what they are were implied by the method signature.
-      component.applySelectedRange(component.startDate, component.endDate);
+      component.applySelectedRange();
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const defaultBatchCount = component.batches.length;
@@ -115,10 +116,10 @@ describe('BatchListComponent', async () => {
         const now: Date = new Date();
         component.startDate = new Date(0);  // 1970, aka very far back
         component.endDate = new Date(now.getFullYear(), now.getMonth() + 6, 1); // 5-6 months in the future
-        // These arguments were added to stop a compilation error, what they are were implied by the method signature.
-        component.applySelectedRange(component.startDate, component.endDate);
+        component.applySelectedRange();
         fixture.detectChanges();
         fixture.whenStable().then(() => {
+          console.log('testing default vs wide', component.batches.length, defaultBatchCount);
           expect(component.batches.length).toBeGreaterThanOrEqual(defaultBatchCount);
         });
       });

@@ -10,6 +10,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {FormsModule} from '@angular/forms';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RequestService} from '../../services/request-service/request.service';
+import {RootComponent} from '../root/root.component';
 import {NavbarComponent} from '../navbar/navbar.component';
 import {HomeComponent} from '../home/home.component';
 import {ChartsModule} from 'ng2-charts';
@@ -23,6 +24,7 @@ describe('LoginComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         LoginComponent,
+        RootComponent,
         NavbarComponent,
         HomeComponent
       ],

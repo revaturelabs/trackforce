@@ -34,6 +34,7 @@ export class Navbar {
         element(by.css('[routerlink="/predictions"]')).click();
     }
     getCurrentURL(){
+        console.log(browser.getCurrentUrl());
         return browser.getCurrentUrl();
     }
 }

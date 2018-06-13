@@ -2,7 +2,7 @@ import { browser, by, element } from 'protractor';
 import { ElementFinder } from 'protractor/built/element';
 import { BasePage, IdentificationType } from '../BasePage';
 
-let header;
+var header;
 
 const Locators = {
     clientSearch: {
@@ -33,8 +33,6 @@ export class ClientListPo extends BasePage {
     allClientsDataBtn = this.ElementLocator(Locators.allClientsDataBtn);
     barChartHeader = this.ElementLocator(Locators.barChartHeader);
     clientListSpan = this.ElementLocator(Locators.clientListSpan);
-    searchByClientName: ElementFinder;
-    viewDataForAllClients: ElementFinder;
 
     /**
      * Returns the Create List page
@@ -44,9 +42,26 @@ export class ClientListPo extends BasePage {
     }
 
     logout() {
-      element(by.css('[routerlink="/login"]')).click();
+        element(by.css('[routerlink="/login"]')).click();
+    private searchByClientName: ElementFinder;
+    private viewDataForAllClients: ElementFinder;
+
+    /**
+     * Stores each element on the Client list page:
+     * searchByClientName - input field
+     * viewDataForAllClients - button
+     */
+    constructor() {
+        this.searchByClientName = this.getSearchByClientName();
+        this.viewDataForAllClients = this.getAllUsersButton();
     }
 
+    /**
+     * Returns the Create List page
+     */
+    navigateTo() {
+        return browser.get('/clientList');
+    }
 
     /**
      * Returns the current URL in the browser
@@ -58,8 +73,13 @@ export class ClientListPo extends BasePage {
     /**
      * Returns the search by client name element in the DOM
      */
+<<<<<<< Updated upstream
     private getSearchByClientName(){
         return this.clientSearch;
+=======
+    private getSearchByClientName() {
+        return element(by.id('["clientSearch"]'));
+>>>>>>> Stashed changes
     }
 
     /**
@@ -84,10 +104,11 @@ export class ClientListPo extends BasePage {
     /**
      * Clicks the get all users button element in the DOM
      */
-    clickGetAllClientDataBtn()
-      {
+    clickGetAllClientDataBtn(){
         this.getAllClientDataBtn().click();
-      }
+    clickGetAllUsers() {
+        this.getAllUsersButton().click();
+    }
 
     /**
      * Returns the search by client name element in the DOM

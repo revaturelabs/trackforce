@@ -25,10 +25,10 @@ import { Client } from '../../models/client.model';
 export class MyInterviewComponent implements OnInit {
   public interviews: Array<any> = [];
   public associate: Associate = new Associate();
-  public id:number = 0;
+  public id = 0;
   public newInterview: Interview = new Interview();
-  public formOpen: boolean = false;
-  public conflictingInterviews: string = "";
+  public formOpen = false;
+  public conflictingInterviews = "";
   public interviewDate: Date = new Date();
   public interviewDateNotification: Date = new Date();
   public clients: Client [];

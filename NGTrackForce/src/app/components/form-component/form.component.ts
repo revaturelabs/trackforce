@@ -74,12 +74,12 @@ export class FormComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.authService.getUser();
-    this.isVerified = this.user.verified;
+    // this.isVerified = this.user.verified;
     //Role checks
-    if (this.user.tfRoleId === 3) {
+    if (this.user.role.id === 3) {
       this.isVP = true;
     }
-    else if (this.user.tfRoleId === 5) {
+    else if (this.user.role.id === 5) {
       this.isAssociate = true;
     }
     else {
@@ -91,10 +91,11 @@ export class FormComponent implements OnInit {
       data => {
         this.associate = <Associate>data;
         this.isApproved = this.associate.isApproved;
-        if (data.clientStartDate.toString() == "0")
+        if (data.clientStartDate.toString() == "0"){
           this.associate.clientStartDate = null;
-        else
+        } else{
           this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
+        }
 
       });
     this.clientService.getAllClients().subscribe(
@@ -168,17 +169,18 @@ export class FormComponent implements OnInit {
     if (this.selectedVerificationStatus) {
       var newVerificationStatus = this.selectedVerificationStatus;
     } else {
-      var newVerificationStatus = this.associate.verified;
+      // this variable was removed from the associate model
+      // var newVerificationStatus = this.associate.verified;
     }
     if (this.selectedMarketingStatus) {
       var newStatus = Number(this.selectedMarketingStatus);
     } else {
-      var newStatus = this.associate.msid;
+      var newStatus = this.associate.marketingStatus.id;
     }
     if (this.selectedClient) {
       var newClient = this.selectedClient;
     } else {
-      var newClient = this.associate.clid;
+      var newClient = this.associate.client.id;
     }
     var newAssociate = {
       id: this.id,
@@ -193,7 +195,7 @@ export class FormComponent implements OnInit {
         this.associateService.getAssociate(this.id).subscribe(
           data => {
             this.associate = <Associate>data;
-            if (data.clientStartDate.toString() == "0")
+            if (data.clientStartDate.toString() === "0")
               this.associate.clientStartDate = null;
             else
               this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);

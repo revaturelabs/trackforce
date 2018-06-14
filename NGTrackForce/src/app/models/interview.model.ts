@@ -1,5 +1,5 @@
-import {Associate} from "./associate.model";
-import {EndClient} from './end-client.model';
+import { Associate } from "./associate.model";
+import { EndClient } from './end-client.model';
 import { Client } from "./client.model";
 import { InterviewType } from "./interview-type";
 
@@ -11,8 +11,8 @@ export class Interview {
   //associateId: number;
   // Kirk: Within InterviewInfo.java, there is tfAssociate variable as a AssociateInfo object.
   associate: Associate;
-  client : Client;
-  endClient : EndClient;
+  client: Client;
+  endClient: EndClient;
   // Kirk: InterviewInfo.java has tfClientName. So adding clientName variable.
   //       Additionally, clientId is not in InterviewInfo.java.
   // Cameron: commented out because it's not in the Java entity
@@ -20,7 +20,7 @@ export class Interview {
   // clientId: number;
 
   interviewType: InterviewType;
-  interviewDate: Date;
+  interviewDate: number;
   //interviewFeedback: string; Cameron: not in Java entity
   questionGiven: string;
   associateFeedback: string;

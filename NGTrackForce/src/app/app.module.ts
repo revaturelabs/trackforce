@@ -88,7 +88,7 @@ import { InterviewDetailsComponent } from './components/interview-details/interv
     PredictionsComponent,
     MyInterviewComponent,
     InterviewDetailsComponent,
-	InterviewsComponent
+  	InterviewsComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +97,7 @@ import { InterviewDetailsComponent } from './components/interview-details/interv
     RouterModule.forRoot(appRoutes),
     ChartsModule,
     Ng2OrderModule,
-	BrowserAnimationsModule
+	  BrowserAnimationsModule
   ],
   providers: [
     AssociateService,

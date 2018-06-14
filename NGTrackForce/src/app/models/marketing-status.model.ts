@@ -8,5 +8,5 @@ import { Associate } from "./associate.model";
 export class MarketingStatus {
   id: number;
   name: string;
-  associates : Associate[];
+  associates: Associate[];
 }

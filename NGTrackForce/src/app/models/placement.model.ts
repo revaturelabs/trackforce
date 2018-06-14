@@ -1,4 +1,4 @@
-import {Associate} from "./associate.model";
+import { Associate } from "./associate.model";
 import { Client } from "./client.model";
 import { EndClient } from "./end-client.model";
 
@@ -10,8 +10,8 @@ import { EndClient } from "./end-client.model";
 export class Placement {
   id: number;
   associate: Associate;
-  client : Client;
-  endClient : EndClient;
+  client: Client;
+  endClient: EndClient;
   start: Date;
   end: Date;
 }

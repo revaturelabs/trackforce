@@ -63,7 +63,7 @@ export class AssociateListComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem("currentUser"));
-    if (this.user.tfRoleId === 1 || this.user.tfRoleId === 2) {
+    if (this.user.role.id === 1 || this.user.role.id === 2) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
     this.getAllAssociates(); //grab associates and clients from back end
@@ -96,13 +96,14 @@ export class AssociateListComponent implements OnInit {
       this.associates = data;
       console.log(this.associates);
 
-      for (let associate of this.associates) {//get our curriculums from the associates
-        this.curriculums.add(associate.curriculumName);
+      // This was commented out because the associate model changed
+      // for (let associate of this.associates) {//get our curriculums from the associates
+      //   this.curriculums.add(associate.curriculumName);
 
-        if (associate.batchName === 'null') {
-          associate.batchName = 'None'
-        }
-      }
+      //   if (associate.batchName === 'null') {
+      //     associate.batchName = 'None'
+      //   }
+      // }
       this.curriculums.delete("");
       this.curriculums.delete("null");
       self.sort("id"); //sort associates by ID

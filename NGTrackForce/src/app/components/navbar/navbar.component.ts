@@ -54,12 +54,12 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
     // only role check if there is already a user
     if (this.user !== null && this.user !== undefined) {
       this.username = this.user.username;
-      if (this.user.tfRoleId === 1) {
+      if (this.user.role.id === 1) {
         this.isAdmin = true;
       } else {
         this.isAdmin = false;
       }
-      if (this.user.tfRoleId === 5) {
+      if (this.user.role.id === 5) {
         this.isAssociate = true;
       } else {
         this.isAssociate = false;

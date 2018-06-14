@@ -90,7 +90,7 @@ public class UserService {
 					System.out.println("The found user is " + foundUser.getUsername());
 					TfRole role = foundUser.getTfRole();
 					foundUser.setToken(jwtService.createToken(foundUser.getUsername(), foundUser.getTfRole().getTfRoleId()));
-					foundUser.setRole(foundUser.getTfRole().getTfRoleId());
+					foundUser.setRole(foundUser.getRole().getTfRoleId());
 				}
 			} catch (CannotPerformOperationException e) {
 				LogUtil.logger.warn(e.getMessage());

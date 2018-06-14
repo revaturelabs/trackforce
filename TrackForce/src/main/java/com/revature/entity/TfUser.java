@@ -29,7 +29,9 @@ public class TfUser implements java.io.Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TF_ROLE_ID")
-    private TfRole role;
+    private TfRole roleId;
+
+    private Integer role;
 
     @XmlElement
     @Column(name = "TF_USERNAME", length = 20, unique = true)
@@ -99,8 +101,47 @@ public class TfUser implements java.io.Serializable {
         this.role = tfRole;
     }
 
+	public int getId() {
+		return id;
+	}
 
-    public String getTfUserUsername() {
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public TfRole getRole() {
+		return role;
+	}
+
+	public void setRole(TfRole role) {
+		this.role = role;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getHashedPassword() {
+		return hashedPassword;
+	}
+
+	public void setHashedPassword(String hashedPassword) {
+		this.hashedPassword = hashedPassword;
+	}
+
+	public int getIsApproved() {
+		return isApproved;
+	}
+
+	public void setIsApproved(int isApproved) {
+		this.isApproved = isApproved;
+	}
+
+	public String getTfUserUsername() {
         return this.username;
     }
 

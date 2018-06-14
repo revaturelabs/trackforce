@@ -91,9 +91,9 @@ export class FormComponent implements OnInit {
       data => {
         this.associate = <Associate>data;
         this.isApproved = this.associate.isApproved;
-        if (data.clientStartDate.toString() == "0"){
+        if (data.clientStartDate.toString() === "0") {
           this.associate.clientStartDate = null;
-        } else{
+        } else {
           this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
         }
 
@@ -119,14 +119,15 @@ export class FormComponent implements OnInit {
 
   processForm() {
     if (this.hasStartDate) {
-      if (Date.now() < new Date(this.newStartDate).getTime())
+      if (Date.now() < new Date(this.newStartDate).getTime()) {
         // if start date is before today, set status to MAPPED: DEPLOYED
         this.selectedMarketingStatus = 5;
-      else
+      } else {
         // if start date is after today, set status to MAPPED: CONFIRMED
         this.selectedMarketingStatus = 4
-    }
-    else if (this.passedBackgroundCheck && this.hasStartDate) {
+
+      }
+    } else if (this.passedBackgroundCheck && this.hasStartDate) {
       // if background check is passed and associate has start date, set status to MAPPED: CONFIRMED
       this.selectedMarketingStatus = 4;
     }
@@ -139,14 +140,14 @@ export class FormComponent implements OnInit {
       this.selectedMarketingStatus = 2;
     }
     else if (this.eligibleForInterview) {
-      if (this.isMapped)
+      if (this.isMapped) {
         // if associate is mapped and eligible for an interview, set status to MAPPED: TRAINING
         this.selectedMarketingStatus = 1;
-      else
+      } else {
         // if associate is NOT mapped, set status to UNMAPPED: TRAINING
         this.selectedMarketingStatus = 6;
-    }
-    else if (this.isMapped) {
+      }
+    } else if (this.isMapped) {
       // if associate is mapped, set status to MAPPED: TRAINING
       this.selectedMarketingStatus = 1;
     }
@@ -195,10 +196,13 @@ export class FormComponent implements OnInit {
         this.associateService.getAssociate(this.id).subscribe(
           data => {
             this.associate = <Associate>data;
-            if (data.clientStartDate.toString() === "0")
+            if (data.clientStartDate.toString() === "0") {
               this.associate.clientStartDate = null;
-            else
+            }
+            else{
               this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
+
+            }
             this.resetAllFields();
           });
       }

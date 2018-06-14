@@ -76,7 +76,7 @@ export class MyInterviewComponent implements OnInit {
   
   
      const updateinterview = this.interviews[id];
-      var interview:any = {
+      let interview:any = {
         clientFeedback : updateinterview.CFeedback,
         dateAssociateIssued: new Date(updateinterview.date).getTime,
         dateSalesTeamIssued : null,
@@ -94,11 +94,11 @@ export class MyInterviewComponent implements OnInit {
     }
    else
     {
-      var u = JSON.parse(sessionStorage.getItem("changedin"));
+      let u = JSON.parse(sessionStorage.getItem("changedin"));
       const updateinterview = this.interviews[id];
       updateinterview.CFeedback = u.CFeedback;
       updateinterview.AFeedback = u.AFeedback;
-      var interview:any = {
+      let interview:any = {
         clientFeedback : updateinterview.CFeedback,
         dateAssociateIssued: new Date(updateinterview.date).getTime,
         interviewId :updateinterview.id,
@@ -160,7 +160,7 @@ export class MyInterviewComponent implements OnInit {
   highlightInterviewConflicts(interview: number) {
     var checkDate = this.interviews[interview].DInterview;
     for (var i = 0; i < this.interviews.length; i++) {
-      if (this.interviews[i].DInterview.getTime() === checkDate.getTime() && i != interview) {
+      if (this.interviews[i].DInterview.getTime() === checkDate.getTime() && i !== interview) {
         this.conflictingInterviews = "The highlighted interviews are conflicting." +
         "They are both scheduled at the same time!";
         return true;
@@ -193,8 +193,10 @@ export class MyInterviewComponent implements OnInit {
       if(!interview.isDateAvailable){
         interview.isDateAvailable=true;
       } else {
-        if(dateVal)
-        interview.date = dateVal;
+        if(dateVal) {
+          interview.date = dateVal;
+
+        }
         interview.isDateAvailable=false;
       }
     }

@@ -22,7 +22,7 @@ export class Associate {
   endClient: EndClient;
   interview: Interview;
   placement: Placement;
-  isApproved: number;
+  //isApproved: number;
   clientStartDate: Date;
 
   /*These fields are commented out

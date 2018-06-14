@@ -75,16 +75,16 @@ export class LoginComponent implements OnInit {
 
 
     if (user != null) {
-      if (user.tfRoleId === 5) {
+      if (user.role.id === 5) {
 
         // this.router.navigate(['associate-view', user.userId]);
 
         localStorage.setItem(associateInfo, JSON.stringify(user));
-        this.router.navigate(['associate-view', user.associateId]);
+        this.router.navigate(['associate-view', user.id]);
 
       }
       else {
-        this.getUser(user.userId);
+        this.getUser(user.id);
         this.router.navigate(['app-home']);
       }
     }
@@ -172,11 +172,11 @@ export class LoginComponent implements OnInit {
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
         
-          if(user.tfRoleId === 5){
+          if(user.role.id === 5){
               // the functionallity of user.isApproved is not yet implemented on the server side
 
               // if (user.isApproved) {
-                this.router.navigate(['associate-view', user.associateId]);
+                this.router.navigate(['associate-view', user.id]);
               // }
               // else {
               //   this.authService.logout();

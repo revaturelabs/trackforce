@@ -100,11 +100,11 @@ export class BatchDetailsComponent implements OnInit {
             statusMap.set(11, 0);
             statusMap.set(12, 0);
             for (const assoc of this.associates) {
-              let statusCount = statusMap.get(assoc.msid);
+              let statusCount = statusMap.get(assoc.marketingStatus.id);
               if (statusCount === undefined) {
                 statusCount = -1;
               }
-              statusMap.set(assoc.msid, statusCount + 1);
+              statusMap.set(assoc.marketingStatus.id, statusCount + 1);
             }
 
             let mappedCount: number = statusMap.get(1) + statusMap.get(2) + statusMap.get(3) + statusMap.get(4) + statusMap.get(5);

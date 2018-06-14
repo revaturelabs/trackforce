@@ -15,13 +15,15 @@
           </tr>
         </thead>
         <tbody>
-        <ng-container *ngIf="dataReady">
-          <tr *ngFor="let batch of batches" class="max-width">
-            <td class="name-column"><a routerLink="/batch-details/{{batch.id}}">{{batch.batchName}}</a></td>
-            <td class="date-column">{{batch.startDate | date:'MM/dd/yyyy'}}</td>
-            <td class="date-column">{{batch.endDate| date:'MM/dd/yyyy'}}</td>
-          </tr>
-        </ng-container>
+          <ng-container *ngIf="dataReady">
+            <tr *ngFor="let batch of batches" class="max-width">
+              <td class="name-column">
+                <a routerLink="/batch-details/{{batch.id}}">{{batch.batchName}}</a>
+              </td>
+              <td class="date-column">{{batch.startDate | date:'MM/dd/yyyy'}}</td>
+              <td class="date-column">{{batch.endDate| date:'MM/dd/yyyy'}}</td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>
@@ -32,25 +34,22 @@
         <div>
           <label for="startDate">From:</label>
           <!-- You have to use ngModel AND ngModelChange for proper initialization!! -->
-          <input type="date" [ngModel]="startDate | date:'yyyy-MM-dd'" (ngModelChange)="start = $event" id="startDate" name="startDate" [max]="endDate"/>
+          <input type="date" [ngModel]="startDate | date:'yyyy-MM-dd'" (ngModelChange)="start = $event" id="startDate" name="startDate"
+            [max]="endDate" />
         </div>
         <div>
           <label for="endDate">To:</label>
-          <input type="date" [ngModel]="endDate | date:'yyyy-MM-dd'" (ngModelChange)="end = $event" id="endDate" name="endDate" [min]="startDate"/>
+          <input type="date" [ngModel]="endDate | date:'yyyy-MM-dd'" (ngModelChange)="end = $event" id="endDate" name="endDate" [min]="startDate"
+          />
         </div>
         <div>
-          <input type="submit" class="btn btn-default" value="Submit" (click)="applySelectedRange(start, end)"/>
-          <input type="submit" class="btn btn-danger" value="Reset" (click)="resetToDefaultBatches()"/>
+          <input type="submit" class="btn btn-default" value="Submit" (click)="applySelectedRange(start, end)" />
+          <input type="submit" class="btn btn-danger" value="Reset" (click)="resetToDefaultBatches()" />
         </div>
       </form>
       <ng-container *ngIf="dataReady && !dataEmpty">
-        <canvas baseChart
-                id="pie" class="chart chart-pie"
-                [data]="curriculumCounts"
-                [labels]="curriculumNames"
-                [chartType]="pieChartType"
-                [colors]="batchColors"
-                [options]="chartOptions">
+        <canvas baseChart id="pie" class="chart chart-pie" [data]="curriculumCounts" [labels]="curriculumNames" [chartType]="pieChartType"
+          [colors]="batchColors" [options]="chartOptions">
         </canvas>
       </ng-container>
       <h3 class="data-status" *ngIf="dataReady && dataEmpty">
@@ -63,19 +62,20 @@
             <table class="table table-striped table-hover table-bordered" border-width=2px>
               <thead class="pointer">
                 <tr>
-                    <th class="id" (click)="sort('id')">Batch ID</th>
-                    <th class="curriculum" (click)="sort('curriculum')">Curriculum</th>
-                    <th class="location" (click)="sort('location')">Location</th>
-                    <th class="startDate" (click)="sort('startDate')">Start Date</th>
-                    <th class="endDate" (click)="sort('endDate')">End Date</th>
-                    <th class="associates" (click)="sort('associates')">Associates</th>
-                    <th class="trainers" (click)="sort('trainers')">Trainers</th>
-                    <th class="coTrainers" (click)="sort('coTrainers')">Co-Trainers</th>
+                  <th class="id" (click)="sort('id')">Batch ID</th>
+                  <th class="curriculum" (click)="sort('curriculum')">Curriculum</th>
+                  <th class="location" (click)="sort('location')">Location</th>
+                  <th class="startDate" (click)="sort('startDate')">Start Date</th>
+                  <th class="endDate" (click)="sort('endDate')">End Date</th>
+                  <th class="associates" (click)="sort('associates')">Associates</th>
+                  <th class="trainers" (click)="sort('trainers')">Trainers</th>
+                  <th class="coTrainers" (click)="sort('coTrainers')">Co-Trainers</th>
                 </tr>
               </thead>
             </table>
+          </div>
+        </div>
       </h3>
     </div>
-
   </div>
 </div>

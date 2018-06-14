@@ -46,7 +46,7 @@ describe('BatchDetailsComponent', async () => {
     const user: User = new User();
     user.token = 'mockToken';
     user.username = 'mockUser';
-    user.tfRoleId = 1;
+    user.role.id = 1;
     spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
   });
   beforeEach(() => {

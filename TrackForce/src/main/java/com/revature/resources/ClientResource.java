@@ -15,8 +15,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.hibernate.HibernateException;
-
 import com.revature.entity.TfClient;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;

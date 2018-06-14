@@ -1,8 +1,5 @@
  package com.revature.services;
 
-import static com.revature.utils.LogUtil.logger;
-
-import java.io.IOException;
 import java.util.List;
 
 import com.revature.dao.UserDao;
@@ -13,8 +10,6 @@ import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
 import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 import com.revature.utils.PasswordStorage.InvalidHashException;
-
-import ch.qos.logback.classic.Logger;
 
 /**
  * @author Adam L. 
@@ -86,11 +81,10 @@ public class UserService {
 		LogUtil.logger.info("The found user was " + foundUser.toString());
 		if(foundUser != null) {
 			try {
-				if(PasswordStorage.verifyPassword(loginUser.getPassword(), foundUser.getPassword())) {
+				if(PasswordStorage.verifyPassword(loginUser.getHashedPassword(), foundUser.getHashedPassword())) {
 					System.out.println("The found user is " + foundUser.getUsername());
-					TfRole role = foundUser.getTfRole();
-					foundUser.setToken(jwtService.createToken(foundUser.getUsername(), foundUser.getTfRole().getTfRoleId()));
-					foundUser.setRole(foundUser.getRole().getTfRoleId());
+					TfRole role = foundUser.getRole();
+					foundUser.setToken(jwtService.createToken(foundUser.getUsername(), foundUser.getRole().getTfRoleId()));
 				}
 			} catch (CannotPerformOperationException e) {
 				LogUtil.logger.warn(e.getMessage());

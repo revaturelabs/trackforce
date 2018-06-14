@@ -29,10 +29,8 @@ public class TfUser implements java.io.Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TF_ROLE_ID")
-    private TfRole roleId;
-
-    private Integer role;
-
+    private TfRole role;
+    
     @XmlElement
     @Column(name = "TF_USERNAME", length = 20, unique = true)
     private String username;
@@ -44,10 +42,11 @@ public class TfUser implements java.io.Serializable {
     @XmlElement
     @Column(name = "TF_ISAPPROVED")
     private int isApproved;
-
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "TF_ASSOCIATE_ID")
-    private TfAssociate tfAssociate;
+    
+ // This is just used for passing around the string token while logged in - Adam 06.2018.06.13
+    @XmlElement
+    @Transient
+    private String token;
 
     public TfUser() {
     }
@@ -84,23 +83,8 @@ public class TfUser implements java.io.Serializable {
 		this.username = tfUserUsername;
 		this.hashedPassword = tfHashpassword;
 	}
-
-    public int getTfUserId() {
-        return this.id;
-    }
-
-    public void setTfUserId(int tfUserId) {
-        this.id = tfUserId;
-    }
-
-    public TfRole getTfRole() {
-        return this.role;
-    }
-
-    public void setTfRole(TfRole tfRole) {
-        this.role = tfRole;
-    }
-
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -141,33 +125,14 @@ public class TfUser implements java.io.Serializable {
 		this.isApproved = isApproved;
 	}
 
-	public String getTfUserUsername() {
-        return this.username;
-    }
-
-    public void setTfUserUsername(String tfUserUsername) {
-        this.username = tfUserUsername;
-    }
-
-    public String getTfUserHashpassword() {
-        return this.hashedPassword;
-    }
-
-    public void setTfUserHashpassword(String tfUserHashpassword) {
-        this.hashedPassword = tfUserHashpassword;
-    }
-
-    public int isTf_isApproved() {
-		return isApproved;
+	public String getToken() {
+		return token;
 	}
 
-	public void setTf_isApproved(int tf_isApproved) {
-		this.isApproved = tf_isApproved;
+	public void setToken(String token) {
+		this.token = token;
 	}
 
-	
-	
-	
 	@Override
 	public String toString() {
 		return "TfUser [tfUserId=" + id + ", tfRole=" + role + ", tfUserUsername=" + username

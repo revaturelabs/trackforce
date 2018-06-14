@@ -1,20 +1,10 @@
 package com.revature.resources;
 
-import static com.revature.utils.LogUtil.logger;
-
-import java.net.URI;
-import java.util.List;
-
 import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
-import com.revature.entity.TfBatch;
-import com.revature.entity.TfTrainer;
-import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -22,10 +12,8 @@ import com.revature.services.CurriculumService;
 import com.revature.services.InterviewService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
-import com.revature.utils.LogUtil;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 
 /**

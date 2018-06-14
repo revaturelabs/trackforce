@@ -42,7 +42,6 @@ public class TrainerDaoImpl implements TrainerDao{
 			temp.setCoTrainer(trainer.getCoTrainer());
 			temp.setFirstName(trainer.getFirstName());
 			temp.setLastName(trainer.getLastName());
-			temp.setIsApproved(trainer.getIsApproved());
 			temp.setPrimary(trainer.getPrimary());
 			
 			session.update(temp);

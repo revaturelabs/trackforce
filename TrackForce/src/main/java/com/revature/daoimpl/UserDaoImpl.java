@@ -1,5 +1,10 @@
-package com.revature.dao;
+package com.revature.daoimpl;
 
+import java.util.List;
+
+import org.hibernate.Session;
+
+import com.revature.dao.UserDAO;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfUser;
 import com.revature.request.model.CreateAssociateModel;
@@ -26,13 +31,13 @@ public class UserDaoImpl implements UserDAO {
 	@Override
 	public TfUser getUser(String username) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfUser", TfUser.class).getSingleResult());
+		session.createQuery("from TfUser u where u.username like :username", TfUser.class).setParameter("username", username).getSingleResult());
 	}
     
     @Override
 	public List<TfUser> getAllUsers() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-				session.createQuery("from TfUser ", TfUser.class).setCacheable(true).getResultList());
+				session.createQuery("from TfUser ", TfUser.class).getResultList());
 	}
     
 	@Override

@@ -19,8 +19,10 @@ import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.service.ServiceRegistry;
 
 /**
- * Utility class for configurations and getting a Hibernate SessionFactory
- * object.
+ * @author Curtis H., Adam L.
+ * <p>The abstracted methods for making Hibernate calls to the database</p>
+ * @version.date v06.2018.06.13
+ *
  */
 public class HibernateUtil {
 

@@ -1,4 +1,4 @@
-package com.revature.dao;
+package com.revature.daoimpl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +13,7 @@ import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import com.revature.dao.CurriculumDao;
 import com.revature.entity.TfCurriculum;
 import com.revature.model.CurriculumInfo;
 import com.revature.utils.Dao2DoMapper;
@@ -25,7 +26,7 @@ public class CurriculumDaoImpl implements CurriculumDao {
 	@Override
 	public List<TfCurriculum> getAllCurriculums() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfCurriculum", TfCurriculum.class).setCacheable(true).getResultList());
+		session.createQuery("from TfCurriculum", TfCurriculum.class).getResultList());
 	}
 
 	public Set<CurriculumInfo> getCurriculaFromCache(){

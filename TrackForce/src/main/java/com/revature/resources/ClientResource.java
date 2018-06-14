@@ -17,14 +17,25 @@ import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
 
-import com.revature.model.ClientInfo;
+import com.revature.entity.TfClient;
+import com.revature.services.AssociateService;
+import com.revature.services.BatchService;
 import com.revature.services.ClientService;
+import com.revature.services.CurriculumService;
+import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
+import com.revature.services.TrainerService;
+import com.revature.services.UserService;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+
+/**
+ * <p> </p>
+ * @version.date v06.2018.06.13
+ */
 @Path("clients")
 @Api(value = "clients")
 @Consumes({ MediaType.APPLICATION_JSON })
@@ -36,19 +47,34 @@ public class ClientResource {
 		this.service = new ClientService();
 	}
 
+	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
+	// This is to allow for Mokito tests, which have problems with static methods
+	// This is here for a reason! 
+	// - Adam 06.2018.06.13
+	AssociateService associateService = new AssociateService();
+	BatchService batchService = new BatchService();
+	ClientService clientService = new ClientService();
+	CurriculumService curriculumService = new CurriculumService();
+	InterviewService interviewService = new InterviewService();
+	TrainerService trainerService = new TrainerService();
+	UserService userService = new UserService();
+	
 	/**
-	 * Returns a map of all of the clients as a response object.
-	 *
-	 * @return A map of TfClients as a Response object
+	 * 
+	 * @author Adam L. 
+	 * <p>Returns a map of all of the clients as a response object.</p>
+	 * @version.date v06.2018.06.13
+	 * 
+	 * @param token
+	 * @return
 	 * @throws IOException
-	 * @throws HibernateException
 	 */
 	@GET
 	@ApiOperation(value = "Returns all clients", notes = "Returns a map of all clients.")
 	public Response getAllClients(@HeaderParam("Authorization") String token) throws IOException {
 		logger.info("getAllClients()...");
 		Status status = null;
-		Set<ClientInfo> clients = null;
+		List<TfClient> clients = clientService.getAllTfClients();
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) {
@@ -62,16 +88,18 @@ public class ClientResource {
 
 		return Response.status(status).entity(clients).build();
 	}
-
+	
 	/**
-	 * Returns a StatusInfo object representing a client's associates and their
-	 * statuses.
-	 *
+	 * 
+	 * @author Adam L. 
+	 * <p>Returns a StatusInfo object representing a client's associates and their
+	 * statuses.</p>
+	 * @version.date v06.2018.06.13
+	 * 
 	 * @param clientid
-	 *            The id of the client in the TfClient table
+	 * @param token
 	 * @return A StatusInfo object for a specified client
 	 * @throws IOException
-	 * @throws HibernateException
 	 */
 	@Path("{clientid}")
 	@GET
@@ -80,7 +108,7 @@ public class ClientResource {
 			throws IOException {
 		logger.info("getClientInfo()...");
 		Status status = null;
-		ClientInfo client = null;
+		TfClient client = clientService.getClient(clientid);
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) {

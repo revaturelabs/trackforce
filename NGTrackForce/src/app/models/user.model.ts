@@ -7,6 +7,8 @@
  * Note made 6/7/2018
  */
 
+
+
 export class User {
   username: string;
   passwordHash: string;

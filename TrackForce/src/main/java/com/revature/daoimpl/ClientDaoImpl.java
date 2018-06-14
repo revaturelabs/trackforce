@@ -1,4 +1,4 @@
-package com.revature.dao;
+package com.revature.daoimpl;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,6 +15,7 @@ import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import com.revature.dao.ClientDao;
 import com.revature.entity.TfClient;
 import com.revature.model.ClientInfo;
 import com.revature.utils.Dao2DoMapper;
@@ -34,7 +35,7 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public List<TfClient> getAllTfClients() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfClient ", TfClient.class).setCacheable(true).getResultList());
+		session.createQuery("from TfClient ", TfClient.class).getResultList());
 	}
 
 	/**

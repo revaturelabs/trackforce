@@ -1,4 +1,4 @@
-package com.revature.dao;
+package com.revature.daoimpl;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.revature.dao.TrainerDao;
 import com.revature.entity.TfTrainer;
 import com.revature.utils.HibernateUtil;
 
@@ -20,7 +21,7 @@ public class TrainerDaoImpl implements TrainerDao{
 	@Override
 	public List<TfTrainer> getAllTrainers() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfTrainer", TfTrainer.class).setCacheable(true).getResultList());
+		session.createQuery("from TfTrainer", TfTrainer.class).getResultList());
 	}
 
 	@Override

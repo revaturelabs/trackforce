@@ -1,4 +1,4 @@
-package com.revature.dao;
+package com.revature.daoimpl;
 
 import java.sql.Timestamp;
 
@@ -22,6 +22,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
+import com.revature.dao.AssociateDao;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfInterview;
@@ -37,33 +38,9 @@ import com.revature.utils.PersistentStorage;
 import com.revature.dao.MarketingStatusDaoHibernate;
 import com.revature.dao.ClientDaoImpl;
 
-public class AssociateDaoHibernate implements AssociateDao {
+public class AssociateDaoImpl implements AssociateDao {
 
-	private static AssociateDaoHibernate instance;
-
-	// FOR ANDy
-	private AssociateDaoHibernate() {
-		logger.info("AssociateDao created.");
-	}
-
-	/**
-	 * Singleton
-	 * 
-	 * @return an instance of AssociateDaoHibernate
-	 */
-	public static AssociateDaoHibernate getInstance() {
-		if (instance == null) {
-			instance = new AssociateDaoHibernate();
-		}
-		return instance;
-	}
-
-	/**
-	 * Get an associate from the database given its id Added the method without the
-	 * session parameter
-	 * 
-	 * @return Returns an AssociateInfo object
-	 */
+	
 	@Override
 	public TfAssociate getAssociate(Integer associateid) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
@@ -73,7 +50,7 @@ public class AssociateDaoHibernate implements AssociateDao {
 	@Override
 	public List<TfAssociate> getAllAssociates() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfAssociate", TfAssociate.class).setCacheable(true).getResultList());
+		session.createQuery("from TfAssociate", TfAssociate.class).getResultList());
 	}
 
 	@Override

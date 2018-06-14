@@ -1,4 +1,4 @@
-package com.revature.dao;
+package com.revature.daoimpl;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -26,9 +26,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfClient;
-import com.revature.entity.TfEndClient;
+import com.revature.dao.InterviewDao;
 import com.revature.entity.TfInterview;
 import com.revature.entity.TfInterviewType;
 import com.revature.model.InterviewInfo;
@@ -39,9 +37,7 @@ import com.revature.utils.LogUtil;
 import com.revature.utils.PersistentStorage;
 import sun.rmi.runtime.Log;
 
-public class InterviewDaoHibernate implements InterviewDao {
-	
-	static private final String tablename = "TF_INTERVIEW";
+public class InterviewDaoImpl implements InterviewDao {
 
 	@Override
 	public List<TfInterview> getInterviewsByAssociate(int associateId) {

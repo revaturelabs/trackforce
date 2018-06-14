@@ -25,12 +25,14 @@ import org.hibernate.HibernateException;
 
 import com.revature.dao.InterviewDaoHibernate;
 import com.revature.entity.TfInterview;
-import com.revature.model.InterviewInfo;
-import com.revature.request.model.InterviewFromClient;
 import com.revature.services.AssociateService;
+import com.revature.services.BatchService;
+import com.revature.services.ClientService;
+import com.revature.services.CurriculumService;
 import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
-import com.revature.utils.LogUtil;
+import com.revature.services.TrainerService;
+import com.revature.services.UserService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -40,15 +42,13 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-/**
- * Sub Resource
- * 
- * @author Mitchell H's PC
- * 
- *         The different types of users Admin: 1 Trainer: 2 Sales/Delivery 3
- *         Staging Manager 4 Associate 5
- */
 
+/**
+ * @author Mitchell H's PC, Adam L. 
+ * <p> </p>
+ * @version.date v06.2018.06.13
+ *
+ */
 @Path("/")
 @Api(value = "Interviews")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -62,6 +62,30 @@ public class InterviewResource {
 	// this.is = new InterviewService();
 	// }
 
+	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
+	// This is to allow for Mokito tests, which have problems with static methods
+	// This is here for a reason! 
+	// - Adam 06.2018.06.13
+	AssociateService associateService = new AssociateService();
+	BatchService batchService = new BatchService();
+	ClientService clientService = new ClientService();
+	CurriculumService curriculumService = new CurriculumService();
+	InterviewService interviewService = new InterviewService();
+	TrainerService trainerService = new TrainerService();
+	UserService userService = new UserService();
+	
+	
+	/**
+	 * @author Adam L. 
+	 * <p> </p>
+	 * @version.date v06.2018.06.13
+	 * 
+	 * @param associateid
+	 * @param token
+	 * @param interview
+	 * @return
+	 */
+	@Path("/{associateid}/verify")
 	@POST
 	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
 	public Response createInterview(@PathParam("associateid") int associateid,
@@ -73,21 +97,32 @@ public class InterviewResource {
 		if (payload == null || !(payload.getId().equals("1") || payload.getId().equals("5"))) {
 			status = Status.UNAUTHORIZED;
 		} else {
-			is.addInterviewByAssociate(associateid, ifc);
-			// does service actually work?
+			interviewService.createInterview(interview);
 			status = Status.CREATED;
 		}
 
 		return Response.status(status).build();
 	}
 
+	/**
+	 * @author Adam L. 
+	 * <p> </p>
+	 * @version.date v06.2018.06.13
+	 * 
+	 * @param token
+	 * @param associateId
+	 * @return
+	 * @throws HibernateException
+	 * @throws IOException
+	 */
+	@Path("/associates/{associateid}/interviews")
 	@GET
 	@ApiOperation(value = "Returns all interviews for an associate", notes = "Returns a list of all interviews.")
 	public Response getAllInterviews(@HeaderParam("Authorization") String token,
 			@PathParam("associateid") Integer associateid) throws HibernateException, IOException {
 		logger.info("getAllInterviews()...");
 		Status status = null;
-		Collection<InterviewInfo> interviews = null;
+		List<TfInterview> interviews = interviewService.getInterviewsByAssociate(associateId);
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) { // invalid token
@@ -105,6 +140,17 @@ public class InterviewResource {
 
 	}
 
+	/**
+	 * @author Adam L. 
+	 * <p> </p>
+	 * @version.date v06.2018.06.13
+	 * 
+	 * @param interviewid
+	 * @param interviewId
+	 * @param token
+	 * @return
+	 * @throws IOException
+	 */
 	@GET
 	@ApiOperation(value = "Returns an interview", notes = "Returns a specific interview by id.")
 	@Path("/{interviewid}")
@@ -114,7 +160,7 @@ public class InterviewResource {
 		logger.info("getAssociateInterview()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
-		InterviewInfo interviews = null;
+		TfInterview interview = interviewService.getInterviewById(interviewId);
 
 		if (payload == null) { // invalid token
 			status = Status.UNAUTHORIZED;
@@ -130,6 +176,17 @@ public class InterviewResource {
 	}
 
 
+	/**
+	 * @author Adam L. 
+	 * <p> </p>
+	 * @version.date v06.2018.06.13
+	 * 
+	 * @param associateid
+	 * @param interviewId
+	 * @param token
+	 * @param interview
+	 * @return
+	 */
 	@Path("/{interviewid}")
 	@ApiOperation(value = "updates interview", notes = " Updates interview")
 	@PUT
@@ -145,8 +202,7 @@ public class InterviewResource {
 		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) { // wrong roleid
 			status = Status.FORBIDDEN;
 		} else {
-			ifc.setIntervieweId(1);
-			is.updateInterview(associateid, ifc);
+			interviewService.updateInterview(interview);
 			status = Status.ACCEPTED;
 		}
 

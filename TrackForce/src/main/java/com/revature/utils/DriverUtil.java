@@ -10,6 +10,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+
+/**
+ * <p>Used for running the web driver</p>
+ *
+ */
 public class DriverUtil {
 	
 

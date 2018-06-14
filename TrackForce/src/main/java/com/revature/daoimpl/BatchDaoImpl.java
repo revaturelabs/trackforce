@@ -1,4 +1,4 @@
-package com.revature.dao;
+package com.revature.daoimpl;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,6 +15,7 @@ import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import com.revature.dao.BatchDao;
 import com.revature.entity.TfBatch;
 import com.revature.model.AssociateInfo;
 import com.revature.model.BatchInfo;
@@ -26,7 +27,7 @@ import com.revature.utils.PersistentStorage;
  * Implementation of the BatchDao interface that uses Hibernate to retrieve
  * batch information from the database.
  */
-public class BatchDaoHibernate implements BatchDao {
+public class BatchDaoImpl implements BatchDao {
 	
 
 	/**
@@ -105,7 +106,7 @@ public class BatchDaoHibernate implements BatchDao {
 	@Override
 	public List<TfBatch> getAllBatches() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfBatch", TfBatch.class).setCacheable(true).getResultList());
+		session.createQuery("from TfBatch", TfBatch.class).getResultList());
 	}
 	
 	

@@ -1,4 +1,4 @@
-package com.revature.dao;
+package com.revature.daoimpl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,19 +14,19 @@ import static com.revature.utils.LogUtil.logger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import com.revature.dao.MarketingStatusDao;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.model.MarketingStatusInfo;
 import com.revature.utils.Dao2DoMapper;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.PersistentStorage;
 
-public class MarketingStatusDaoHibernate implements MarketingStatusDao {
-	
-	
+public class MarketingStatusDaoImpl implements MarketingStatusDao {
+
 	@Override
 	public List<TfMarketingStatus> getAllMarketingStatuses() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfMarketingStatus", TfMarketingStatus.class).setCacheable(true).getResultList());
+		session.createQuery("from TfMarketingStatus", TfMarketingStatus.class).getResultList());
 	}
 	
 	public TfMarketingStatus getMarketingStatus(Integer id) {

@@ -6,7 +6,7 @@ import com.revature.entity.TfUser;
 import com.revature.request.model.CreateAssociateModel;
 import com.revature.request.model.CreateUserModel;
 
-public interface UserDAO {
+public interface UserDao {
 	
 	TfUser getUser(String username);
 	List<TfUser> getAllUsers();

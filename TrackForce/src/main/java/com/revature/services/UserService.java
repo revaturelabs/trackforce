@@ -1,18 +1,11 @@
-package com.revature.services;
+ package com.revature.services;
 
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
 import java.util.List;
 
-import static com.revature.utils.LogUtil.logger;
-
-import com.revature.request.model.CreateAssociateModel;
-import com.revature.utils.LogUtil;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import com.revature.dao.UserDAO;
+import com.revature.dao.UserDao;
 import com.revature.daoimpl.UserDaoImpl;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
@@ -31,7 +24,7 @@ import ch.qos.logback.classic.Logger;
  */
 public class UserService {
 
-	private UserDAO dao = new UserDaoImpl();
+	private UserDao dao = new UserDaoImpl();
 	
 	// public so it can be used for testing 
 	public UserService() {};

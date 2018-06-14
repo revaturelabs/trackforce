@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
-import com.revature.dao.UserDAO;
+import com.revature.dao.UserDao;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfUser;
 import com.revature.request.model.CreateAssociateModel;
@@ -25,7 +25,7 @@ import java.util.List;
 
 import static com.revature.utils.LogUtil.logger;
 
-public class UserDaoImpl implements UserDAO {
+public class UserDaoImpl implements UserDao {
 
     
 	@Override

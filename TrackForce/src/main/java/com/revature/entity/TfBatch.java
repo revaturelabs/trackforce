@@ -23,6 +23,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * <p> </p>
@@ -40,33 +42,33 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	@XmlElement
 	@Id
 	@Column(name = "TF_BATCH_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	private Integer tfBatchId;
+	private Integer id;
 	
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_BATCH_LOCATION_ID")
-	private TfBatchLocation tfBatchLocation;
+	private TfBatchLocation location;
 	
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_CURRICULUM_ID")
-	private TfCurriculum tfCurriculum;
+	private TfCurriculum curriculumName;
 	
 	@XmlElement
 	@Column(name = "TF_BATCH_NAME", length = 50)
-	private String tfBatchName;
+	private String batchName;
 	
 	@XmlElement
 	@Column(name = "TF_BATCH_START_DATE")
-	private Timestamp tfBatchStartDate;
+	private Timestamp startDate;
 	
 	@XmlElement
 	@Column(name = "TF_BATCH_END_DATE")	
-	private Timestamp tfBatchEndDate;
+	private Timestamp endDate;
 	
 	@XmlElement
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "tfBatch")
-	private Set<TfAssociate> tfAssociates = new HashSet<TfAssociate>(0);
+	private Set<TfAssociate> associates = new HashSet<TfAssociate>(0);
 
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -79,113 +81,146 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	public TfBatch() {
 	}
 
-	public TfBatch(Integer tfBatchId) {
-		this.tfBatchId = tfBatchId;
-	}
-
-	public TfBatch(Integer tfBatchId, TfBatchLocation tfBatchLocation, TfCurriculum tfCurriculum, String tfBatchName,
-			Timestamp tfBatchStartDate, Timestamp tfBatchEndDate, Set<TfAssociate> tfAssociates) {
-		this.tfBatchId = tfBatchId;
-		this.tfBatchLocation = tfBatchLocation;
-		this.tfCurriculum = tfCurriculum;
-		this.tfBatchName = tfBatchName;
-		this.tfBatchStartDate = tfBatchStartDate;
-		this.tfBatchEndDate = tfBatchEndDate;
-		this.tfAssociates = tfAssociates;
-	}
-	
 	
 
-	
+	public Integer getId() {
+		return id;
+	}
+
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+
+	public TfBatchLocation getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(TfBatchLocation location) {
+		this.location = location;
+	}
+
+
+
+	public TfCurriculum getCurriculumName() {
+		return curriculumName;
+	}
+
+
+
+	public void setCurriculumName(TfCurriculum curriculumName) {
+		this.curriculumName = curriculumName;
+	}
+
+
+
+	public String getBatchName() {
+		return batchName;
+	}
+
+
+
+	public void setBatchName(String batchName) {
+		this.batchName = batchName;
+	}
+
+
+
+	public Timestamp getStartDate() {
+		return startDate;
+	}
+
+
+
+	public void setStartDate(Timestamp startDate) {
+		this.startDate = startDate;
+	}
+
+
+
+	public Timestamp getEndDate() {
+		return endDate;
+	}
+
+
+
+	public void setEndDate(Timestamp endDate) {
+		this.endDate = endDate;
+	}
+
+
+
+	public Set<TfAssociate> getAssociates() {
+		return associates;
+	}
+
+
+
+	public void setAssociates(Set<TfAssociate> associates) {
+		this.associates = associates;
+	}
+
+
+
 	public TfTrainer getTrainer() {
 		return trainer;
 	}
+
+
 
 	public void setTrainer(TfTrainer trainer) {
 		this.trainer = trainer;
 	}
 
+
+
 	public List<TfTrainer> getCoTrainer() {
 		return coTrainer;
 	}
+
+
 
 	public void setCoTrainer(List<TfTrainer> coTrainer) {
 		this.coTrainer = coTrainer;
 	}
 
-	public Integer getTfBatchId() {
-		return this.tfBatchId;
-	}
-
-	public void setTfBatchId(Integer tfBatchId) {
-		this.tfBatchId = tfBatchId;
-	}
-
-	
-	public TfBatchLocation getTfBatchLocation() {
-		return this.tfBatchLocation;
-	}
-
-	public void setTfBatchLocation(TfBatchLocation tfBatchLocation) {
-		this.tfBatchLocation = tfBatchLocation;
-	}
-
-	
-	public TfCurriculum getTfCurriculum() {
-		return this.tfCurriculum;
-	}
-
-	public void setTfCurriculum(TfCurriculum tfCurriculum) {
-		this.tfCurriculum = tfCurriculum;
-	}
-	
-	public String getTfBatchName() {
-		return this.tfBatchName;
-	}
-
-	public void setTfBatchName(String tfBatchName) {
-		this.tfBatchName = tfBatchName;
-	}
-
-	
-	public Timestamp getTfBatchStartDate() {
-		return this.tfBatchStartDate;
-	}
-
-	public void setTfBatchStartDate(Timestamp tfBatchStartDate) {
-		this.tfBatchStartDate = tfBatchStartDate;
-	}
 
 
-	public Timestamp getTfBatchEndDate() {
-		return this.tfBatchEndDate;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	public void setTfBatchEndDate(Timestamp tfBatchEndDate) {
-		this.tfBatchEndDate = tfBatchEndDate;
+	public TfBatch(Integer id, TfBatchLocation location, TfCurriculum curriculumName, String batchName,
+			Timestamp startDate, Timestamp endDate, Set<TfAssociate> associates, TfTrainer trainer,
+			List<TfTrainer> coTrainer) {
+		super();
+		this.id = id;
+		this.location = location;
+		this.curriculumName = curriculumName;
+		this.batchName = batchName;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.associates = associates;
+		this.trainer = trainer;
+		this.coTrainer = coTrainer;
 	}
 
-	
-	public Set<TfAssociate> getTfAssociates() {
-		return this.tfAssociates;
-	}
-    	public void setTfAssociates(Set<TfAssociate> tfAssociates) {
-		this.tfAssociates = tfAssociates;
-	}
-
-    
-    	
 	@Override
 	public String toString() {
-		return "TfBatch [tfBatchId=" + tfBatchId + ", tfBatchLocation=" + tfBatchLocation + ", tfCurriculum="
-				+ tfCurriculum + ", tfBatchName=" + tfBatchName + ", tfBatchStartDate=" + tfBatchStartDate
-				+ ", tfBatchEndDate=" + tfBatchEndDate + ", tfAssociates=" + tfAssociates + ", trainer=" + trainer
-				+ ", coTrainer=" + coTrainer + "]";
+		return "TfBatch [id=" + id + ", location=" + location + ", curriculumName=" + curriculumName + ", batchName="
+				+ batchName + ", startDate=" + startDate + ", endDate=" + endDate + ", associates=" + associates
+				+ ", trainer=" + trainer + ", coTrainer=" + coTrainer + "]";
 	}
+
+
 
 	@Override
 	public int compareTo(TfBatch o) {
-		return this.tfBatchId-o.getTfBatchId();
+		return this.id-o.getId();
 	}
 	
 	

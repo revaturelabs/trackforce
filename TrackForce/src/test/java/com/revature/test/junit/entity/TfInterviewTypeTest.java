@@ -21,19 +21,19 @@ public class TfInterviewTypeTest {
 	
 	@Test
 	public void test1() {
-		tfit.setTfInterviews(new HashSet<TfInterview>());
-		assertTrue(tfit.getTfInterviews() instanceof HashSet);
+		tfit.setInterviews(new HashSet<TfInterview>());
+		assertTrue(tfit.getInterviews() instanceof HashSet);
 	}
 	@Test
 	public void test2() {
-		tfit.setTfInterviewTypeId(54);
-		assertTrue(tfit.getTfInterviewTypeId() == 54);
-		assertFalse(tfit.getTfInterviewTypeId() == 47);
+		tfit.setId(54);
+		assertTrue(tfit.getId() == 54);
+		assertFalse(tfit.getId() == 47);
 	}
 	@Test
 	public void test3() {
-		tfit.setTfInterviewTypeName("Interview");
-		assertTrue(tfit.getTfInterviewTypeName().equals("Interview"));
-		assertFalse(tfit.getTfInterviewTypeName().equals("interview"));
+		tfit.setName("Interview");
+		assertTrue(tfit.getName().equals("Interview"));
+		assertFalse(tfit.getName().equals("interview"));
 	}
 }

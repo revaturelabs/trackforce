@@ -1,6 +1,7 @@
 package com.revature.entity;
 // Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +12,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 
 
 /**
@@ -38,210 +38,206 @@ public class TfAssociate implements java.io.Serializable {
 
 
 	private static final long serialVersionUID = -2324082555924677252L;
-	
-	public static final int APPROVED = 1;
-	public static final int NOTAPPROVED = 0;
 
 	@XmlElement
 	@Id
 	@Column(name = "TF_ASSOCIATE_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	@SequenceGenerator(sequenceName = "AssociateId_seq2", name ="AssociateIdSeq2", initialValue=1000)
 	@GeneratedValue(generator ="AssociateIdSeq2", strategy = GenerationType.SEQUENCE)
-	private Integer tfAssociateId;
+	private Integer id;
 
 	@XmlElement
 	@OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "TF_USER_ID")
-	private TfUser tfUser;
+	private TfUser user;
 	
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_BATCH_ID")
-	private TfBatch tfBatch;
+	private TfBatch batch;
 
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_MARKETING_STATUS_ID")
-	private TfMarketingStatus tfMarketingStatus;
+	private TfMarketingStatus marketingStatus;
 
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_CLIENT_ID")
-	private TfClient tfClient;
+	private TfClient client;
 
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_END_CLIENT_ID")
-	private TfEndClient tfEndClient;
+	private TfEndClient endClient;
 
 	@XmlElement
 	@Column(name = "TF_ASSOCIATE_FIRST_NAME", length = 30)
-	private String tfAssociateFirstName;
+	private String firstName;
 
 	@XmlElement
 	@Column(name = "TF_ASSOCIATE_LAST_NAME", length = 30)
-	private String tfAssociateLastName;
+	private String lastName;
 
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfAssociate")
-	private Set<TfInterview> tfInterviews = new HashSet<TfInterview>(0);
+	private Set<TfInterview> interview = new HashSet<TfInterview>(0);
 
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfAssociate")
-	private Set<TfPlacement> tfPlacements = new HashSet<TfPlacement>(0);
+	private Set<TfPlacement> placement = new HashSet<TfPlacement>(0);
 	
 	@XmlElement
 	@Column(name = "TF_CLIENT_START_DATE")
 	private Timestamp clientStartDate;
-
-	@XmlElement
-	@Column(name = "TF_ISAPPROVED")
-	private Integer isApproved = NOTAPPROVED; // default is Zero not approved
-
 	
 
 	public TfAssociate() {
 	}
 
-	public TfAssociate(Integer tfAssociateId) {
-		this.tfAssociateId = tfAssociateId;
-	}
 
-	public TfAssociate(Integer tfAssociateId, TfBatch tfBatch, TfMarketingStatus tfMarketingStatus,
-			TfClient tfClient, TfEndClient tfEndClient, String tfAssociateFirstName, String tfAssociateLastName,
-			Set<TfInterview> tfInterviews, Set<TfPlacement> tfPlacements, Timestamp clientStartDate, Integer isApproved) {
-		this.tfAssociateId = tfAssociateId;
-		this.tfBatch = tfBatch;
-		this.tfMarketingStatus = tfMarketingStatus;
-		this.tfClient = tfClient;
-		this.tfEndClient = tfEndClient;
-		this.tfAssociateFirstName = tfAssociateFirstName;
-		this.tfAssociateLastName = tfAssociateLastName;
-		this.tfInterviews = tfInterviews;
-		this.tfPlacements = tfPlacements;
-		this.clientStartDate = clientStartDate;
-		this.isApproved = isApproved;
-		
-	}
-
-
-	public TfUser getTfUser() {
-		return tfUser;
-	}
-
-	public void setTfUser(TfUser tfUser) {
-		this.tfUser = tfUser;
-	}
-	
-	
-	/**
-	 * @return the isApproved
-	 */
-	public Integer getIsApproved() {
-		return isApproved;
-	}
-
-	/**
-	 * @param isApproved the isApproved to set
-	 */
-	public void setIsApproved(Integer isApproved) {
-		this.isApproved = isApproved;
-	}
-
-	public Integer getTfAssociateId() {
-		return this.tfAssociateId;
-	}
-
-	public void setTfAssociateId(Integer tfAssociateId) {
-		this.tfAssociateId = tfAssociateId;
-	}
-
-
-	public TfBatch getTfBatch() {
-		return this.tfBatch;
-	}
-
-	public void setTfBatch(TfBatch tfBatch) {
-		this.tfBatch = tfBatch;
-	}
-
-
-	public TfMarketingStatus getTfMarketingStatus() {
-		return this.tfMarketingStatus;
-	}
-
-	public void setTfMarketingStatus(TfMarketingStatus tfMarketingStatus) {
-		this.tfMarketingStatus = tfMarketingStatus;
-	}
-
-
-	public TfClient getTfClient() {
-		return this.tfClient;
-	}
-
-	public void setTfClient(TfClient tfClient) {
-		this.tfClient = tfClient;
-	}
-
-
-	public TfEndClient getTfEndClient() {
-		return this.tfEndClient;
-	}
-
-	public void setTfEndClient(TfEndClient tfEndClient) {
-		this.tfEndClient = tfEndClient;
-	}
-
-	public String getTfAssociateFirstName() {
-		return this.tfAssociateFirstName;
-	}
-
-	public void setTfAssociateFirstName(String tfAssociateFirstName) {
-		this.tfAssociateFirstName = tfAssociateFirstName;
-	}
-
-	public String getTfAssociateLastName() {
-		return this.tfAssociateLastName;
-	}
-
-	public void setTfAssociateLastName(String tfAssociateLastName) {
-		this.tfAssociateLastName = tfAssociateLastName;
-	}
-
-	public Set<TfInterview> getTfInterviews() {
-		return this.tfInterviews;
-	}
-
-	public void setTfInterviews(Set<TfInterview> tfInterviews) {
-		this.tfInterviews = tfInterviews;
-	}
-
-	public Set<TfPlacement> getTfPlacements() {
-		return this.tfPlacements;
-	}
-
-	public void setTfPlacements(Set<TfPlacement> tfPlacements) {
-		this.tfPlacements = tfPlacements;
-	}
-	
-	public Timestamp getTfClientStartDate() {
-		return this.clientStartDate;
-	}
-
-	public void setTfClientStartDate(Timestamp clientStartDate) {
+	public TfAssociate(Integer id, TfUser user, TfBatch batch, TfMarketingStatus marketingStatus, TfClient client,
+			TfEndClient endClient, String firstName, String lastName, Set<TfInterview> interview,
+			Set<TfPlacement> placement, Timestamp clientStartDate) {
+		super();
+		this.id = id;
+		this.user = user;
+		this.batch = batch;
+		this.marketingStatus = marketingStatus;
+		this.client = client;
+		this.endClient = endClient;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.interview = interview;
+		this.placement = placement;
 		this.clientStartDate = clientStartDate;
 	}
-	
-	
+
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	public TfUser getUser() {
+		return user;
+	}
+
+
+	public void setUser(TfUser user) {
+		this.user = user;
+	}
+
+
+	public TfBatch getBatch() {
+		return batch;
+	}
+
+
+	public void setBatch(TfBatch batch) {
+		this.batch = batch;
+	}
+
+
+	public TfMarketingStatus getMarketingStatus() {
+		return marketingStatus;
+	}
+
+
+	public void setMarketingStatus(TfMarketingStatus marketingStatus) {
+		this.marketingStatus = marketingStatus;
+	}
+
+
+	public TfClient getClient() {
+		return client;
+	}
+
+
+	public void setClient(TfClient client) {
+		this.client = client;
+	}
+
+
+	public TfEndClient getEndClient() {
+		return endClient;
+	}
+
+
+	public void setEndClient(TfEndClient endClient) {
+		this.endClient = endClient;
+	}
+
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+
+	public String getLastName() {
+		return lastName;
+	}
+
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+
+	public Set<TfInterview> getInterview() {
+		return interview;
+	}
+
+
+	public void setInterview(Set<TfInterview> interview) {
+		this.interview = interview;
+	}
+
+
+	public Set<TfPlacement> getPlacement() {
+		return placement;
+	}
+
+
+	public void setPlacement(Set<TfPlacement> placement) {
+		this.placement = placement;
+	}
+
+
+	public Timestamp getClientStartDate() {
+		return clientStartDate;
+	}
+
+
+	public void setClientStartDate(Timestamp clientStartDate) {
+		this.clientStartDate = clientStartDate;
+	}
+
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 
 	@Override
 	public String toString() {
-		return "TfAssociate [tfAssociateId=" + tfAssociateId + ", tfUser=" + tfUser + ", tfMarketingStatus="
-				+ tfMarketingStatus + ", tfClient=" + tfClient + ", tfEndClient=" + tfEndClient
-				+ ", tfAssociateFirstName=" + tfAssociateFirstName + ", tfAssociateLastName=" + tfAssociateLastName
-				+ ", tfInterviews=" + tfInterviews + ", tfPlacements=" + tfPlacements + ", clientStartDate="
+		return "TfAssociate [id=" + id + ", user=" + user + ", batch=" + batch + ", marketingStatus=" + marketingStatus
+				+ ", client=" + client + ", endClient=" + endClient + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", interview=" + interview + ", placement=" + placement + ", clientStartDate="
 				+ clientStartDate + "]";
 	}
-	
-	
+
+
+
+		
 }

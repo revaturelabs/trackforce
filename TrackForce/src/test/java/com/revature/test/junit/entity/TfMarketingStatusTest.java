@@ -21,20 +21,20 @@ public class TfMarketingStatusTest {
 	
 	@Test
 	public void test1() {
-		tfms.setTfAssociates(new HashSet<TfAssociate>());
-		assertTrue(tfms.getTfAssociates() instanceof HashSet);
+		tfms.setAssociates(new HashSet<TfAssociate>());
+		assertTrue(tfms.getAssociates() instanceof HashSet);
 	}
 	@Test
 	public void test2() {
-		tfms.setTfMarketingStatusId(64);
-		assertTrue(tfms.getTfMarketingStatusId() == 64);
-		assertFalse(tfms.getTfMarketingStatusId() == 123);
+		tfms.setId(64);
+		assertTrue(tfms.getId() == 64);
+		assertFalse(tfms.getId() == 123);
 	}
 	@Test
 	public void test3() {
-		tfms.setTfMarketingStatusName("MarketStatus");
-		assertTrue(tfms.getTfMarketingStatusName().equals("MarketStatus"));
-		assertFalse(tfms.getTfMarketingStatusName().equals("marketstatus"));
+		tfms.setName("MarketStatus");
+		assertTrue(tfms.getName().equals("MarketStatus"));
+		assertFalse(tfms.getName().equals("marketstatus"));
 	}
 
 }

@@ -24,109 +24,109 @@ public class TfInterviewTest {
 	
 	@Test
 	public void test1() {
-		interview.setTfAssociate(new TfAssociate());
-		assertTrue(interview.getTfAssociate() instanceof TfAssociate);
+		interview.setAssociate(new TfAssociate());
+		assertTrue(interview.getAssociate() instanceof TfAssociate);
 	}
 	
 	@Test
 	public void test2() {
-		interview.setTfAssociateFeedback("Great");
-		assertTrue(interview.getTfAssociateFeedback().equals("Great"));
-		assertFalse(interview.getTfAssociateFeedback().equals("great"));
+		interview.setAssociateFeedback("Great");
+		assertTrue(interview.getAssociateFeedback().equals("Great"));
+		assertFalse(interview.getAssociateFeedback().equals("great"));
 	}
 	
 	@Test
 	public void test3() {
-		interview.setTfClient(new TfClient());
-		assertTrue(interview.getTfClient() instanceof TfClient);
+		interview.setClient(new TfClient());
+		assertTrue(interview.getClient() instanceof TfClient);
 	}
 	
 	@Test
 	public void test4() {
-		interview.setTfClientFeedback("Great");
-		assertTrue(interview.getTfClientFeedback().equals("Great"));
-		assertFalse(interview.getTfClientFeedback().equals("great"));
+		interview.setClientFeedback("Great");
+		assertTrue(interview.getClientFeedback().equals("Great"));
+		assertFalse(interview.getClientFeedback().equals("great"));
 	}
 	
 	@Test
 	public void test5() {
-		interview.setTfDateAssociateIssued(new Timestamp(5000L));
-		assertTrue(interview.getTfDateAssociateIssued().getTime() == 5000L);
-		assertFalse(interview.getTfDateAssociateIssued().getTime() == 200L);
+		interview.setDateAssociateIssued(new Timestamp(5000L));
+		assertTrue(interview.getDateAssociateIssued().getTime() == 5000L);
+		assertFalse(interview.getDateAssociateIssued().getTime() == 200L);
 	}
 	
 	@Test
 	public void test6() {
-		interview.setTfDateSalesIssued(new Timestamp(2356L));
-		assertTrue(interview.getTfDateSalesIssued().getTime() == 2356L);
-		assertFalse(interview.getTfDateSalesIssued().getTime() == 1235L);
+		interview.setDateSalesIssued(new Timestamp(2356L));
+		assertTrue(interview.getDateSalesIssued().getTime() == 2356L);
+		assertFalse(interview.getDateSalesIssued().getTime() == 1235L);
 	}
 
 	@Test
 	public void test7() {
-		interview.setTfEndClient(new TfEndClient());
-		assertTrue(interview.getTfEndClient() instanceof TfEndClient);
+		interview.setEndClient(new TfEndClient());
+		assertTrue(interview.getEndClient() instanceof TfEndClient);
 	}
 	
 	@Test
 	public void test8() {
-		interview.setTfFlagReason("Weak");
-		assertTrue(interview.getTfFlagReason().equals("Weak"));
-		assertFalse(interview.getTfFlagReason().equals("weak"));
+		interview.setFlagReason("Weak");
+		assertTrue(interview.getFlagReason().equals("Weak"));
+		assertFalse(interview.getFlagReason().equals("weak"));
 	}
 	
 	@Test
 	public void test9() {
-		interview.setTfInterviewDate(new Timestamp(5000L));
-		assertTrue(interview.getTfInterviewDate().getTime() == 5000L);
-		assertFalse(interview.getTfInterviewDate().getTime() == 4000L);
+		interview.setInterviewDate(new Timestamp(5000L));
+		assertTrue(interview.getInterviewDate().getTime() == 5000L);
+		assertFalse(interview.getInterviewDate().getTime() == 4000L);
 	}
 	
 	@Test
 	public void test10() {
-		interview.setTfInterviewId(77);
-		assertTrue(interview.getTfInterviewId() == 77);
-		assertFalse(interview.getTfInterviewId() == 55);
+		interview.setId(77);
+		assertTrue(interview.getId() == 77);
+		assertFalse(interview.getId() == 55);
 	}
 	
 	@Test
 	public void test11() {
-		interview.setTfInterviewType(new TfInterviewType());
-		assertTrue(interview.getTfInterviewType() instanceof TfInterviewType);
+		interview.setInterviewType(new TfInterviewType());
+		assertTrue(interview.getInterviewType() instanceof TfInterviewType);
 	}
 	
 	@Test
 	public void test12() {
-		interview.setTfIsClientFeedbackVisible(1);
-		assertTrue(interview.getTfIsClientFeedbackVisible() == 1);
-		assertFalse(interview.getTfIsClientFeedbackVisible() == 0);
+		interview.setIsClientFeedbackVisible(1);
+		assertTrue(interview.getIsClientFeedbackVisible() == 1);
+		assertFalse(interview.getIsClientFeedbackVisible() == 0);
 	}
 	
 	@Test
 	public void test13() {
-		interview.setTfIsInterviewFlagged(1);
-		assertTrue(interview.getTfIsInterviewFlagged() == 1);
-		assertFalse(interview.getTfIsInterviewFlagged() == 0);
+		interview.setIsInterviewFlagged(1);
+		assertTrue(interview.getIsInterviewFlagged() == 1);
+		assertFalse(interview.getIsInterviewFlagged() == 0);
 	}
 	
 	@Test
 	public void test14() {
-		interview.setTfJobDescription("Programmer");
-		assertTrue(interview.getTfJobDescription().equals("Programmer"));
-		assertFalse(interview.getTfJobDescription().equals("programmer"));
+		interview.setJobDescription("Programmer");
+		assertTrue(interview.getJobDescription().equals("Programmer"));
+		assertFalse(interview.getJobDescription().equals("programmer"));
 	}
 	
 	@Test
 	public void test15() {
-		interview.setTfQuestionGiven("Why?");
-		assertTrue(interview.getTfQuestionGiven().equals("Why?"));
-		assertFalse(interview.getTfQuestionGiven().equals("why?"));
+		interview.setQuestionGiven("Why?");
+		assertTrue(interview.getQuestionGiven().equals("Why?"));
+		assertFalse(interview.getQuestionGiven().equals("why?"));
 	}
 	
 	@Test
 	public void test16() {
-		interview.setTfWas24HRNotice(1);
-		assertTrue(interview.getTfWas24HRNotice() == 1);
-		assertFalse(interview.getTfWas24HRNotice() == 0);
+		interview.setWas24HRNotice(1);
+		assertTrue(interview.getWas24HRNotice() == 1);
+		assertFalse(interview.getWas24HRNotice() == 0);
 	}
 }

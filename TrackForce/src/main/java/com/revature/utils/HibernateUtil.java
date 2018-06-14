@@ -34,11 +34,11 @@ public class HibernateUtil {
 		return sessionFactory;
 	}
 
-	public static void shutdown() {
-		System.out.println("Shutting down SessionFactory");
-		getSessionFactory().close();
-		System.out.println("SessionFactory closed");
-	}
+//	public static void shutdown() {
+//		System.out.println("Shutting down SessionFactory");
+//		getSessionFactory().close();
+//		System.out.println("SessionFactory closed");
+//	}
 
 	public static void closeSession(Session session) {
 		if (session != null) {

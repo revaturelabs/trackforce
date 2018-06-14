@@ -13,7 +13,7 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public List<TfClient> getAllTfClients() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Client ", TfClient.class).getResultList());
+		session.createQuery("from Tf_Client ", TfClient.class).setCacheable(true).getResultList());
 	}
 
 	@Override

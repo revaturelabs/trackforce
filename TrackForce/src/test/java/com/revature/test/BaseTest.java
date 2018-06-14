@@ -6,18 +6,18 @@
 //import org.hibernate.SessionFactory;
 ////import org.mockito.Mock;
 //
-////import com.revature.dao.AssociateDaoHibernate;
-////import com.revature.dao.BatchDaoHibernate;
+//import com.revature.dao.AssociateDaoHibernate;
+//import com.revature.dao.BatchDaoHibernate;
 //import com.revature.dao.ClientDaoImpl;
-////import com.revature.dao.CurriculumDaoImpl;
-////import com.revature.dao.MarketingStatusDaoHibernate;
-////import com.revature.utils.PersistentStorage;
+//import com.revature.dao.CurriculumDaoImpl;
+//import com.revature.dao.MarketingStatusDaoHibernate;
+//import com.revature.utils.PersistentStorage;
 //
 //public class BaseTest {
 //    protected SessionFactory sessionFactory;
 //
 //    public BaseTest() {
-//
+//       
 //    }
 //
 //    public void rollbackAndClose(Session session) {

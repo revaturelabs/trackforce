@@ -19,7 +19,7 @@ export class User {
   verified: string;
   // tfRoleId: number;
   // userId: number;
-  // token: string;
+  token: string;
   // Cameron: I don't know what the associateId does
   // it seems important and is called a couple of times
   // associateId: number;

@@ -37,7 +37,7 @@ public class TfUser implements java.io.Serializable {
 
     @XmlElement
     @Column(name = "TF_HASHPASSWORD", length = 200)
-    private String hashedPassword;
+    private String password;
     
     @XmlElement
     @Column(name = "TF_ISAPPROVED")
@@ -59,20 +59,20 @@ public class TfUser implements java.io.Serializable {
         this.id = tfUserId;
         this.role = tfRole;
         this.username = tfUserUsername;
-        this.hashedPassword = tfUserHashpassword;
+        this.password = tfUserHashpassword;
     }
 
     public TfUser(Integer role, String username, String password) {
         this.role = new TfRole(role);
         this.username = username;
-        this.hashedPassword = password;
+        this.password = password;
     }
 
     // Overloaded method to aid creating new associate.
     public TfUser(String username, String password) {
         this.role = new TfRole(5);
         this.username = username;
-        this.hashedPassword = password;
+        this.password = password;
     }
 
 
@@ -81,7 +81,7 @@ public class TfUser implements java.io.Serializable {
 		this.id = tfUserId;
 		this.role = tfRole;
 		this.username = tfUserUsername;
-		this.hashedPassword = tfHashpassword;
+		this.password = tfHashpassword;
 	}
 	
 	
@@ -110,11 +110,11 @@ public class TfUser implements java.io.Serializable {
 	}
 
 	public String getHashedPassword() {
-		return hashedPassword;
+		return password;
 	}
 
 	public void setHashedPassword(String hashedPassword) {
-		this.hashedPassword = hashedPassword;
+		this.password = hashedPassword;
 	}
 
 	public int getIsApproved() {
@@ -136,7 +136,7 @@ public class TfUser implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "TfUser [tfUserId=" + id + ", tfRole=" + role + ", tfUserUsername=" + username
-				+ ", tfHashpassword=" + hashedPassword + ", tf_isApproved=" + isApproved + "]";
+				+ ", tfHashpassword=" + password + ", tf_isApproved=" + isApproved + "]";
 	}
 
 	
@@ -145,7 +145,7 @@ public class TfUser implements java.io.Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((hashedPassword == null) ? 0 : hashedPassword.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
@@ -162,10 +162,10 @@ public class TfUser implements java.io.Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		TfUser other = (TfUser) obj;
-		if (hashedPassword == null) {
-			if (other.hashedPassword != null)
+		if (password == null) {
+			if (other.password != null)
 				return false;
-		} else if (!hashedPassword.equals(other.hashedPassword))
+		} else if (!password.equals(other.password))
 			return false;
 		if (role == null) {
 			if (other.role != null)

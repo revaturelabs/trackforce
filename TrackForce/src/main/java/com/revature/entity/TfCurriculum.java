@@ -39,7 +39,7 @@ public class TfCurriculum implements java.io.Serializable {
 	private String name;
 	
 	@XmlElement
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfCurriculum")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curriculumName")
 	private Set<TfBatch> batches = new HashSet<TfBatch>(0);
 
 	

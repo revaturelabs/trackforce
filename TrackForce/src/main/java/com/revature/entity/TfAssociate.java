@@ -24,6 +24,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * @category Integer tfAssociateId
@@ -90,12 +92,13 @@ public class TfAssociate implements java.io.Serializable {
 	@Column(name = "TF_ASSOCIATE_LAST_NAME", length = 30)
 	private String lastName;
 
+//	@JsonIgnore
 	@XmlElement
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfAssociate")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
 	private Set<TfInterview> interview = new HashSet<TfInterview>(0);
 
 	@XmlElement
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfAssociate")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
 	private Set<TfPlacement> placement = new HashSet<TfPlacement>(0);
 	
 	@XmlElement

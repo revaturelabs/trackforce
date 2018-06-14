@@ -14,9 +14,9 @@ export class Client {
   // Cameron: commented out tfClientName as it isn't in the entity
   name: string;
   //tfClientName: string;
-  placements: Placement[];
-  associates: Associate[];
-  interviews: Interview[];
+  placement: Placement[];
+  associate: Associate[];
+  interview: Interview[];
   //Cameron: stats is not in the Java entity
   stats: StatusInfo;
 

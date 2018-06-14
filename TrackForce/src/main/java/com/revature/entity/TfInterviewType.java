@@ -37,7 +37,7 @@ public class TfInterviewType implements java.io.Serializable {
 	@Column(name = "TF_INTERVIEW_TYPE_NAME", length = 30)
 	private String name;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfInterviewType")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "interviewType")
 	private Set<TfInterview> interviews = new HashSet<TfInterview>(0);
 
 	public TfInterviewType() {

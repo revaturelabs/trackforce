@@ -41,16 +41,16 @@ public class TfClient implements java.io.Serializable {
 	private String name;
 	
 	@XmlElement
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfClient")
-	private Set<TfPlacement> Placement = new HashSet<TfPlacement>(0);
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+	private Set<TfPlacement> placement = new HashSet<TfPlacement>(0);
 	
 	@XmlElement
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfClient")
-	private Set<TfAssociate> Associate = new HashSet<TfAssociate>(0);
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+	private Set<TfAssociate> associate = new HashSet<TfAssociate>(0);
 	
 	@XmlElement
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfClient")
-	private Set<TfInterview> Interview = new HashSet<TfInterview>(0);
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+	private Set<TfInterview> interview = new HashSet<TfInterview>(0);
 
 	public TfClient() {
 	}
@@ -60,9 +60,9 @@ public class TfClient implements java.io.Serializable {
 		super();
 		this.id = id;
 		this.name = name;
-		Placement = placement;
-		Associate = associate;
-		Interview = interview;
+		this.placement = placement;
+		this.associate = associate;
+		this.interview = interview;
 	}
 
 	public Integer getId() {
@@ -82,36 +82,36 @@ public class TfClient implements java.io.Serializable {
 	}
 
 	public Set<TfPlacement> getPlacement() {
-		return Placement;
+		return placement;
 	}
 
 	public void setPlacement(Set<TfPlacement> placement) {
-		Placement = placement;
+		this.placement = placement;
 	}
 
 	public Set<TfAssociate> getAssociate() {
-		return Associate;
+		return associate;
 	}
 
 	public void setAssociate(Set<TfAssociate> associate) {
-		Associate = associate;
+		this.associate = associate;
 	}
 
 	public Set<TfInterview> getInterview() {
-		return Interview;
+		return interview;
 	}
 
 	public void setInterview(Set<TfInterview> interview) {
-		Interview = interview;
+		this.interview = interview;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((Associate == null) ? 0 : Associate.hashCode());
-		result = prime * result + ((Interview == null) ? 0 : Interview.hashCode());
-		result = prime * result + ((Placement == null) ? 0 : Placement.hashCode());
+		result = prime * result + ((associate == null) ? 0 : associate.hashCode());
+		result = prime * result + ((interview == null) ? 0 : interview.hashCode());
+		result = prime * result + ((placement == null) ? 0 : placement.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
@@ -126,20 +126,20 @@ public class TfClient implements java.io.Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		TfClient other = (TfClient) obj;
-		if (Associate == null) {
-			if (other.Associate != null)
+		if (associate == null) {
+			if (other.associate != null)
 				return false;
-		} else if (!Associate.equals(other.Associate))
+		} else if (!associate.equals(other.associate))
 			return false;
-		if (Interview == null) {
-			if (other.Interview != null)
+		if (interview == null) {
+			if (other.interview != null)
 				return false;
-		} else if (!Interview.equals(other.Interview))
+		} else if (!interview.equals(other.interview))
 			return false;
-		if (Placement == null) {
-			if (other.Placement != null)
+		if (placement == null) {
+			if (other.placement != null)
 				return false;
-		} else if (!Placement.equals(other.Placement))
+		} else if (!placement.equals(other.placement))
 			return false;
 		if (id == null) {
 			if (other.id != null)

@@ -43,7 +43,7 @@ public class TfRole implements java.io.Serializable {
 	private String name;
 	
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfRole")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
 	private Set<TfUser> users = new HashSet<TfUser>(0);
 
 	public TfRole() {

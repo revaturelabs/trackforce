@@ -37,7 +37,7 @@ public class TfMarketingStatus implements java.io.Serializable {
 	@Column(name = "TF_MARKETING_STATUS_NAME", length = 30)
 	private String name;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfMarketingStatus")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "marketingStatus")
 	private Set<TfAssociate> associates = new HashSet<TfAssociate>(0);
 
 	public TfMarketingStatus() {

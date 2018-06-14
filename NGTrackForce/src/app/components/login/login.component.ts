@@ -168,7 +168,7 @@ export class LoginComponent implements OnInit {
     if (this.username && this.password) {
       this.authService.login(this.username, this.password).subscribe(
         data => {
-          const user = this.authService.getUser();
+          const user = data;
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
         

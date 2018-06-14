@@ -90,7 +90,7 @@ export class FormComponent implements OnInit {
     this.associateService.getAssociate(this.id).subscribe(
       data => {
         this.associate = <Associate>data;
-        this.isApproved = this.associate.isApproved;
+        this.isApproved = this.associate.user.isApproved;
         if (data.clientStartDate.toString() == "0")
           this.associate.clientStartDate = null;
         else

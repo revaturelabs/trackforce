@@ -20,6 +20,8 @@ export class User {
   // tfRoleId: number;
   // userId: number;
   // token: string;
+  // Cameron: I don't know what the associateId does
+  // it seems important and is called a couple of times
   // associateId: number;
-  isApproved: boolean;
+  isApproved: number;
 }

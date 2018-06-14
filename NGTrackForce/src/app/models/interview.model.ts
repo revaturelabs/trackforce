@@ -20,7 +20,7 @@ export class Interview {
   // clientId: number;
 
   interviewType: InterviewType;
-  interviewDate: Date;
+  interviewDate: number;
   //interviewFeedback: string; Cameron: not in Java entity
   questionGiven: string;
   associateFeedback: string;

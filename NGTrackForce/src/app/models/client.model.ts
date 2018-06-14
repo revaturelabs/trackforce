@@ -18,7 +18,7 @@ export class Client {
   associates: Associate[];
   interviews: Interview[];
   //Cameron: stats is not in the Java entity
-  //stats: StatusInfo;
+  stats: StatusInfo;
 
   constructor() {
   }

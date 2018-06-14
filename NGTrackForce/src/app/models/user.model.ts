@@ -16,7 +16,7 @@ export class User {
   // Kirk: verified is not in UserJSON.java
   // Cameron : the commented out fields aren't
   // in the entity
-  // verified: string;
+  verified: string;
   // tfRoleId: number;
   // userId: number;
   // token: string;

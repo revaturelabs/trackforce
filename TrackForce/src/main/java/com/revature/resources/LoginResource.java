@@ -23,8 +23,8 @@ import com.revature.services.CurriculumService;
 import com.revature.services.InterviewService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
-
 import com.revature.utils.LogUtil;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -39,10 +39,10 @@ import io.swagger.annotations.ApiOperation;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class LoginResource {
-	
+
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
 	// This is to allow for Mokito tests, which have problems with static methods
-	// This is here for a reason! 
+	// This is here for a reason!
 	// - Adam 06.2018.06.13
 	AssociateService associateService = new AssociateService();
 	BatchService batchService = new BatchService();
@@ -51,13 +51,13 @@ public class LoginResource {
 	InterviewService interviewService = new InterviewService();
 	TrainerService trainerService = new TrainerService();
 	UserService userService = new UserService();
-	
+
 
 	/**
-	 * @author Adam L. 
+	 * @author Adam L.
 	 * <p> </p>
 	 * @version.date v06.2018.06.13
-	 * 
+	 *
 	 * @param newUser
 	 * @return
 	 */
@@ -71,31 +71,31 @@ public class LoginResource {
 		userService.insertUser(newUser);
 		return Response.created(URI.create("/testingURIcreate")).build();
 	}
-	
+
 	/**
-	 * @author Adam L. 
+	 * @author Adam L.
 	 * <p> </p>
 	 * @version.date v06.2018.06.13
-	 * 
+	 *
 	 * @param newAssociate
 	 * @return
 	 */
 	@Path("/newAssociate")
 	@POST
 	@Consumes("application/json")
-	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new user")
-	public Response createNewAssociate(CreateAssociateModel newAssociate) {
+	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new associate and user")
+	public Response createNewAssociate(TfAssociate newAssociate) {
 		logger.info("createNewAssociate()...");
 		LogUtil.logger.info(newAssociate);
 		associateService.createAssociate(newAssociate);
 		return Response.created(URI.create("/testingURIcreate")).build();
 	}
-	
+
 	/**
-	 * @author Adam L. 
+	 * @author Adam L.
 	 * <p> </p>
 	 * @version.date v06.2018.06.13
-	 * 
+	 *
 	 * @param newTrainer
 	 * @return
 	 */
@@ -111,10 +111,10 @@ public class LoginResource {
 	}
 
 	/**
-	 * @author Adam L. 
+	 * @author Adam L.
 	 * <p> </p>
 	 * @version.date v06.2018.06.13
-	 * 
+	 *
 	 * @param loginUser
 	 * @return
 	 * @throws IOException
@@ -135,13 +135,7 @@ public class LoginResource {
 			logger.info("sending unauthorized response..");
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
-		
+
 	}
 
-	@GET
-	@Path("/test")
-	@Produces(MediaType.TEXT_PLAIN)
-	public String testM() {
-		return "This is a test";
-	}
 }

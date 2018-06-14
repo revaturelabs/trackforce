@@ -16,14 +16,4 @@ public class CurriculumDaoImpl implements CurriculumDao {
 		session.createQuery("from TfCurriculum", TfCurriculum.class).getResultList());
 	}
 
-	public Set<CurriculumInfo> getCurriculaFromCache(){
-		return PersistentStorage.getStorage().getCurriculums();
-	}
-
-	public CurriculumInfo getCurriculaFromCacheByID(int id) {
-		return PersistentStorage.getStorage().getCurriculumAsMap().get(id);
-	}
-	
-
-	
 }

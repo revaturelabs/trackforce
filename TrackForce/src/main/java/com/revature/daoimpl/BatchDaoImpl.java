@@ -26,11 +26,6 @@ public class BatchDaoImpl implements BatchDao {
 		session.createQuery("from TfBatch b where b.tf_batch_id like :id", TfBatch.class).setParameter("id", id).getSingleResult());
 	}
 
-	@Override
-	public TfBatch getBatchById(Integer id) {
-		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Batch b where b.tf_batch_id like :id", TfBatch.class).setParameter("id", id).getSingleResult());
-	}
 
 	@Override
 	public List<TfBatch> getAllBatches() {

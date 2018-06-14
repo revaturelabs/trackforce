@@ -24,42 +24,64 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class TfUser implements java.io.Serializable {
 
-    private static final long serialVersionUID = 706405344864879997L;
-    
-    @XmlElement
-    @Id
-    @Column(name = "TF_USER_ID")
-    /* ID's 1-14 are reserved for manual insertion */
-    @SequenceGenerator(sequenceName = "UserId_seq", name = "UserIdSeq", initialValue=15)
-    @GeneratedValue(generator = "UserIdSeq", strategy = GenerationType.SEQUENCE)
-    private int id;
-   
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "TF_ROLE_ID")
-    @JsonIgnore
-    private TfRole tfRole;
+	private static final long serialVersionUID = 706405344864879997L;
 
-    @XmlElement
-    @Column(name = "TF_USERNAME", length = 20, unique = true)
-    private String tfUserUsername;
+	public static final int APPROVED = 1;
+	public static final int NOTAPPROVED = 0;
 
-    @XmlElement
-    @Column(name = "TF_HASHPASSWORD", length = 200)
-    private String password;
-    
-    @XmlElement
-    @Column(name = "TF_ISAPPROVED")
-    private int approved;
-    
-    // This is just used for passing around the string token while logged in - Adam 06.2018.06.13
-    @XmlElement
-    @Transient
-    private String token;
-    
-    // This allows for easier transport of the role to the web application - Adam 06.2018.06.13
-    @XmlElement
-    @Transient
-    private Integer role;
+	@XmlElement
+	@Id
+	@Column(name = "TF_USER_ID")
+	/* ID's 1-14 are reserved for manual insertion */
+	@SequenceGenerator(sequenceName = "UserId_seq", name = "UserIdSeq", initialValue=15)
+	@GeneratedValue(generator = "UserIdSeq", strategy = GenerationType.SEQUENCE)
+	private int id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TF_ROLE_ID")
+	@JsonIgnore
+	private TfRole tfRole;
+
+	@XmlElement
+	@Column(name = "TF_USERNAME", length = 20, unique = true)
+	private String username;
+
+	@XmlElement
+	@Column(name = "TF_HASHPASSWORD", length = 200)
+	private String password;
+
+	@XmlElement
+	@Column(name = "TF_ISAPPROVED")
+	private int approved;
+
+	// This is just used for passing around the string token while logged in - Adam 06.2018.06.13
+	@XmlElement
+	@Transient
+	private String token;
+
+	// This allows for easier transport of the role to the web application - Adam 06.2018.06.13
+	@XmlElement
+	@Transient
+	private Integer role;
+
+
+
+	public TfUser() {}
+
+	public TfUser(TfRole tfRole, String username, String password) {
+		super();
+		this.tfRole = tfRole;
+		this.username = username;
+		this.password = password;
+	}
+
+	public TfUser(TfRole tfRole, String username, String password, int approved) {
+		super();
+		this.tfRole = tfRole;
+		this.username = username;
+		this.password = password;
+		this.approved = approved;
+	}
 
 	public String getToken() {
 		return token;
@@ -68,8 +90,6 @@ public class TfUser implements java.io.Serializable {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
-	
 
 	public TfRole getTfRole() {
 		return tfRole;
@@ -94,7 +114,7 @@ public class TfUser implements java.io.Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -161,12 +181,12 @@ public class TfUser implements java.io.Serializable {
 			return false;
 		return true;
 	}
- 
+
 	@Override
 	public String toString() {
 		return "TfUser [id=" + id + ", tfRole=" + tfRole + ", username=" + username + ", password=" + password
 				+ ", approved=" + approved + ", token=" + token + "]";
 	}
 
-    
+
 }

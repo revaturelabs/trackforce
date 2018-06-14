@@ -190,7 +190,7 @@ public class AssociateResource {
 			status = Status.UNAUTHORIZED;
 		}
 		else {
-			AssociateService.updateAssociate(associate);
+			associateService.updateAssociate(associate);
 			status = Status.OK;
 		}
 

@@ -6,13 +6,12 @@
  * (If changes are made to the DB)
  * Note made 6/7/2018
  */
-import { Role } from "./role.model";
 export class User {
   id: number;
   name: string;
   username: string;
   hashedPassword: string;
-  role: Role;
+  role: number;
   // Kirk: verified is not in UserJSON.java
   // Cameron : the commented out fields aren't
   // in the entity

@@ -76,10 +76,10 @@ export class FormComponent implements OnInit {
     this.user = this.authService.getUser();
     // this.isVerified = this.user.verified;
     //Role checks
-    if (this.user.role.id === 3) {
+    if (this.user.role === 3) {
       this.isVP = true;
     }
-    else if (this.user.role.id === 5) {
+    else if (this.user.role === 5) {
       this.isAssociate = true;
     }
     else {

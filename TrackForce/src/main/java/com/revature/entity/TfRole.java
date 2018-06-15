@@ -16,6 +16,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -41,10 +43,9 @@ public class TfRole implements java.io.Serializable {
 	@Column(name = "TF_ROLE_NAME", length = 20)
 	private String name;
 	
-//	@JsonIgnore
-//	@Fetch(value = FetchMode.SELECT)  
-	@JsonProperty(access = Access.READ_ONLY)
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "TfRole")
+	@JsonIgnore
 	private Set<TfUser> users = new HashSet<TfUser>(0);
 
 	public TfRole() {
@@ -77,11 +78,12 @@ public class TfRole implements java.io.Serializable {
 		this.name = tfRoleName;
 	}
 
-	
+	@JsonIgnore
 	public Set<TfUser> getTfUsers() {
 		return this.users;
 	}
 
+	@JsonIgnore
 	public void setTfUsers(Set<TfUser> users) {
 		this.users = users;
 	}

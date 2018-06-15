@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
     const user = this.authService.getUser();
 
     if (user != null) {
-      if (user.role.id === 5) {
+      if (user.role === 5) {
 
         // this.router.navigate(['associate-view', user.userId]);
 
@@ -173,7 +173,7 @@ export class LoginComponent implements OnInit {
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
         
-          if(user.role.id === 5){
+          if(user.role === 5){
               // the functionallity of user.isApproved is not yet implemented on the server side
 
               // if (user.isApproved) {

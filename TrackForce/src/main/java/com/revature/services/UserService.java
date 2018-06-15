@@ -81,9 +81,10 @@ public class UserService {
 		LogUtil.logger.info("The found user was " + foundUser.toString());
 		if(foundUser != null) {
 			try {
-				if(PasswordStorage.verifyPassword(loginUser.getHashedPassword(), foundUser.getHashedPassword())) {
-					TfRole role = foundUser.getRole();
-					foundUser.setToken(jwtService.createToken(foundUser.getUsername(), foundUser.getRole().getTfRoleId()));
+				if(PasswordStorage.verifyPassword(loginUser.getPassword(), foundUser.getPassword())) {
+					int role = foundUser.getTfRole().getTfRoleId();
+					foundUser.setRole(role);
+					foundUser.setToken(jwtService.createToken(foundUser.getUsername(), foundUser.getRole()));
 					LogUtil.logger.info("Password verification successful! Returning " + foundUser.toString());
 					return foundUser;
 				}

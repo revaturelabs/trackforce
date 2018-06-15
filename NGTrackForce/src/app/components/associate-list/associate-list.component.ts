@@ -64,7 +64,7 @@ export class AssociateListComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem("currentUser"));
-    if (this.user.role.id === 1 || this.user.role.id === 2) {
+    if (this.user.role === 1 || this.user.role === 2) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
     this.getAllAssociates(); //grab associates and clients from back end

@@ -14,10 +14,11 @@ import com.revature.entity.TfClient;
  */
 public class ClientService {
    
-	private static ClientDao dao = new ClientDaoImpl();
+	private ClientDao dao;
 	
 	// public so it can be used for testing 
-	public ClientService() {};
+	public ClientService() {dao = new ClientDaoImpl();};
+	public ClientService(ClientDao dao) {this.dao = dao;};
 	
 	/**
 	 * @author Adam L. 

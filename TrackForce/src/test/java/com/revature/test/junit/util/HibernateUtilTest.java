@@ -28,7 +28,7 @@ public class HibernateUtilTest {
 	public void testShutdown() {
 		try {
 			SessionFactory sf = HibernateUtil.getSessionFactory();
-			HibernateUtil.shutdown();
+			//HibernateUtil.shutdown();
 			assertTrue(sf.isClosed() == true);
 		} catch (HibernateException he) {
 			fail("Error opening session factory");

@@ -9,8 +9,7 @@ import { BatchService } from '../batch-service/batch.service';
 import { AssociateService } from '../associate-service/associate.service';
 import { ClientService } from '../client-service/client.service';
 import { SkillsetService } from '../skill-set-service/skill-set.service';
-import { Observable } from 'rxjs';
-import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import { Observable , BehaviorSubject} from 'rxjs';
 import 'rxjs/Rx';
 
 /**
@@ -29,9 +28,9 @@ import 'rxjs/Rx';
  *
  * This allows the application to run faster using cached data pulled in from the server at set intervals
  *
- * 
- * 
- * 
+ *
+ *
+ *
  * @author Amelia
  * Not currently being used, but this is a good idea
  * Note made 6/6/2018

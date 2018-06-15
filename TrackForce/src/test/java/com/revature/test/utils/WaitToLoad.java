@@ -22,4 +22,12 @@ public class WaitToLoad {
 		List<WebElement> elements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
 		return elements;
 	}
+	public static void waitForVisible(WebDriver wd,WebElement el,int timeOut) {
+		WebDriverWait wait = new WebDriverWait(wd,timeOut);
+		wait.until(ExpectedConditions.visibilityOf(el));
+	}
+	public static void waitForClickable(WebDriver wd,WebElement el,int timeOut) {
+		WebDriverWait wait = new WebDriverWait(wd,timeOut);
+		wait.until(ExpectedConditions.elementToBeClickable(el));
+	}
 }

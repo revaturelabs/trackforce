@@ -3,13 +3,14 @@
  * @description Service for authenicating users
  */
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+
 import { RequestService } from '../request-service/request.service';
 import {User} from '../../models/user.model';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import 'rxjs/Rx';
 
 const USER_KEY = 'currentUser';
 

@@ -49,11 +49,6 @@
         <load-on-startup>2</load-on-startup>
     </servlet>
 
-  <listener>
-    <listener-class>
-        	com.revature.services.ContextListener
-    </listener-class>
-  </listener>
    <filter>
     <filter-name>CorsFilter</filter-name>
     <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>

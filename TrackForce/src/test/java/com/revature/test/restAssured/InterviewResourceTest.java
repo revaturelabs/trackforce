@@ -115,22 +115,22 @@ public class InterviewResourceTest {
 
 	 @DataProvider(name = "interview")
 	 public Object[][] provideInterview(){
-		 interview.setTfInterviewId(3);
-		 interview.setTfAssociate(new TfAssociate());
-		 interview.setTfClient(new TfClient());
-		 interview.setTfEndClient(new TfEndClient());
-		 interview.setTfInterviewType(new TfInterviewType());
-		 interview.setTfInterviewDate(new Timestamp(152500500L));
-		 interview.setTfAssociateFeedback("Interviewed well");
-		 interview.setTfQuestionGiven("Start Date?");
-		 interview.setTfClientFeedback("Strong Java knowledge");
-		 interview.setTfJobDescription("SDET");
-		 interview.setTfDateSalesIssued(new Timestamp(152500500L));
-		 interview.setTfDateAssociateIssued(new Timestamp(152500500L));
-		 interview.setTfWas24HRNotice(0);
-		 interview.setTfIsInterviewFlagged(1);
-		 interview.setTfFlagReason("Alert");
-		 interview.setTfIsClientFeedbackVisible(1);
+		 interview.setId(3);
+		 interview.setAssociate(new TfAssociate());
+		 interview.setClient(new TfClient());
+		 interview.setEndClient(new TfEndClient());
+		 interview.setInterviewType(new TfInterviewType());
+		 interview.setInterviewDate(new Timestamp(152500500L));
+		 interview.setAssociateFeedback("Interviewed well");
+		 interview.setQuestionGiven("Start Date?");
+		 interview.setClientFeedback("Strong Java knowledge");
+		 interview.setJobDescription("SDET");
+		 interview.setDateSalesIssued(new Timestamp(152500500L));
+		 interview.setDateAssociateIssued(new Timestamp(152500500L));
+		 interview.setWas24HRNotice(0);
+		 interview.setIsInterviewFlagged(1);
+		 interview.setFlagReason("Alert");
+		 interview.setIsClientFeedbackVisible(1);
 	
 	 Object[][] object = new Object[1][1];
 	 object[0][0] = interview;

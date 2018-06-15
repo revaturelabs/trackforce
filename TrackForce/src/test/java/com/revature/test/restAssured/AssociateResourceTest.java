@@ -142,7 +142,7 @@ public class AssociateResourceTest {
 	//
 	// assertTrue(response.statusCode() == 401);
 	// }
-
+	
 	@Test(priority = 40)
 	public void testUpdateAssociates() {
 //		 given().header("Authorization", token).contentType("application/json").body(

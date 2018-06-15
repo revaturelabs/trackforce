@@ -54,7 +54,7 @@ public class UserServiceTest {
 
 		tfu.setId(1);
 		tfu.setUsername("TestAdmin");
-		tfu.setPassword("TestAdmin");
+		tfu.setHashedPassword("TestAdmin");
 		tfu2.setId(2);
 
 		List<TfUser> dummyUsers = new ArrayList<>();

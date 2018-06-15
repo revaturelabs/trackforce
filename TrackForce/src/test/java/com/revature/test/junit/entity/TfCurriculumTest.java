@@ -21,21 +21,21 @@ public class TfCurriculumTest {
 	
 	@Test
 	public void test1() {
-		tfcur.setTfBatches(new HashSet<TfBatch>());
-		assertTrue(tfcur.getTfBatches() instanceof HashSet);
+		tfcur.setBatches(new HashSet<TfBatch>());
+		assertTrue(tfcur.getBatches() instanceof HashSet);
 	}
 	
 	@Test
 	public void test2() {
-		tfcur.setTfCurriculumId(66);
-		assertTrue(tfcur.getTfCurriculumId() == 66);
-		assertFalse(tfcur.getTfCurriculumId() == 55);
+		tfcur.setId(66);
+		assertTrue(tfcur.getId() == 66);
+		assertFalse(tfcur.getId() == 55);
 	}
 	
 	@Test
 	public void test3() {
-		tfcur.setTfCurriculumName("Java");
-		assertTrue(tfcur.getTfCurriculumName().equals("Java"));
-		assertFalse(tfcur.getTfCurriculumName().equals("java"));
+		tfcur.setName("Java");
+		assertTrue(tfcur.getName().equals("Java"));
+		assertFalse(tfcur.getName().equals("java"));
 	}
 }

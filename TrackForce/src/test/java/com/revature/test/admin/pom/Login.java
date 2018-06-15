@@ -44,4 +44,8 @@ public class Login {
 		return d.findElement(By.xpath(prop.getProperty("loginTitle"))).getText();
 	}
 	
+	public static void login(String username, String password,WebDriver d) {
+		getUsername(d).sendKeys(username);
+		getPassword(d).sendKeys(password);
+	}
 }

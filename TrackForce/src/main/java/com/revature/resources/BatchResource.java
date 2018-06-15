@@ -95,9 +95,9 @@ public class BatchResource {
 				Date end = new Date(endDate);
 				// iterates through the list of batches and removes those that are before the start and after the end date
 				while(i < batches.size()) {
-					if(batches.get(i).getTfBatchStartDate().before(start))
+					if(batches.get(i).getStartDate().before(start))
 						batches.remove(i);
-					else if(batches.get(i).getTfBatchEndDate().after(end))
+					else if(batches.get(i).getEndDate().after(end))
 						batches.remove(i);
 					//increments ONLY if no elements were removed
 					else
@@ -160,7 +160,7 @@ public class BatchResource {
 	@Path("{id}/associates")
 	public Response getBatchAssociates(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
 		logger.info("getBatchAssociates()...");
-		Set<TfAssociate> associates = batchService.getBatchById(id).getTfAssociates();
+		Set<TfAssociate> associates = batchService.getBatchById(id).getAssociates();
 		
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {

@@ -11,7 +11,7 @@ import { UserService } from '../../services/user-service/user.service';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 import { AssociateService } from '../../services/associate-service/associate.service';
 
-const associateInfo = 'associateInfo'
+const ASSOCIATE_KEY = 'currentAssociate'
 const USER_KEY = 'currentUser';
 
 
@@ -75,15 +75,10 @@ export class LoginComponent implements OnInit {
     const user = this.authService.getUser();
 
     if (user != null) {
-<<<<<<< HEAD
-      if (user.role.id === 5) {
-=======
       if (user.role === 5) {
->>>>>>> 1fc12474cec4c9c234f601927392d638d3035973
 
         // this.router.navigate(['associate-view', user.userId]);
 
-        localStorage.setItem(associateInfo, JSON.stringify(user));
         this.router.navigate(['associate-view', user.id]);
 
       }
@@ -104,7 +99,7 @@ export class LoginComponent implements OnInit {
         this.associate = data;
       },
       err => {
-    });
+      });
 
   }
   register() {
@@ -157,7 +152,7 @@ export class LoginComponent implements OnInit {
   previous() {
     this.registerPage = 0;
   }
-  
+
   /**
   * Function wrapper for AuthenticationService login()
   * Sends user input to service for real login
@@ -172,32 +167,18 @@ export class LoginComponent implements OnInit {
     if (this.username && this.password) {
       this.authService.login(this.username, this.password).subscribe(
         data => {
-          const user: User = data;
           localStorage.setItem(USER_KEY, JSON.stringify(data));
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
-        
-<<<<<<< HEAD
-          if(user.role.id === 5){
-=======
-          if(user.role === 5){
->>>>>>> 1fc12474cec4c9c234f601927392d638d3035973
-              // the functionallity of user.isApproved is not yet implemented on the server side
 
-              // if (user.isApproved) {
-                this.router.navigate(['associate-view', user.id]);
-              // }
-              // else {
-              //   this.authService.logout();
-              //   this.errMsg = "Associate not yet approved";
-              // }
+          if (data.role === 5) {
 
           } else {
             //otherwise, they are set to root
             this.router.navigate(['app-home']);
           }
         },
-        
+
         err => {
           this.authService.logout();
           if (err.status === 500) {
@@ -218,6 +199,31 @@ export class LoginComponent implements OnInit {
     } else {
       this.errMsg = "Please enter a username and password";
     }
+  }
+
+  associateLogin(user: User) {
+    this.associateService.getAssociate(user.id).subscribe(
+      data => {
+        localStorage.setItem(ASSOCIATE_KEY, JSON.stringify(data));
+        // the functionallity of user.isApproved is not yet implemented on the server side
+
+        // if (user.isApproved) {
+        this.router.navigate(['associate-view', user.id]);
+        // }
+        // else {
+        //   this.authService.logout();
+        //   this.errMsg = "Associate not yet approved";
+        // }
+
+      },
+      err => {
+        if (err.status === 500) {
+          this.errMsg = "There was an error on the server";
+        }
+
+      }
+    )
+
   }
 
 }

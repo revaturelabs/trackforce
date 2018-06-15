@@ -6,18 +6,24 @@
       </a>
     </div>
     <ul *ngIf='isAssociate' class="nav navbar-nav">
-
       <li>
         <a [routerLink]="['/associate-view/', user.userId]" routerLinkActive="active">Home</a>
       </li>
       <li>
         <a [routerLink]="['/myinterview-view/', user.userId]" routerLinkActive="active">My Interviews</a>
       </li>
+    </ul>
 
+    <ul *ngIf='isTrainer' class="nav navbar-nav">
+      <li>
+        <a routerLink="/batch-listing" routerLinkActive="active">Batch List</a>
+      </li>
+      <li>
+        <a routerLink="/associate-listing" routerLinkActive="active">Associate List</a>
+      </li>
     </ul>
 
     <ul *ngIf='isAdmin' class="nav navbar-nav">
-
       <li>
         <a routerLink="/app-home" routerLinkActive="active">Home</a>
       </li>
@@ -40,9 +46,10 @@
         <a routerLink="/create-user" routerLinkActive="active">Create User</a>
       </li>
     </ul>
-    <ul *ngIf='isAssociate || isAdmin' class="nav navbar-nav navbar-right visible-lg">
+
+    <ul *ngIf='isLoggedIn' class="nav navbar-nav navbar-right visible-lg">
       <li>
-        <a routerLink="/login" (click)="logout()">Logout</a>
+        <a (click)="logout()">Logout</a>
       </li>
 
       <li>

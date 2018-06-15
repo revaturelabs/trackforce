@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -32,6 +33,7 @@ public class TfUser implements java.io.Serializable {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TF_ROLE_ID")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private TfRole role;
     
     @XmlElement
@@ -138,12 +140,16 @@ public class TfUser implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "TfUser [tfUserId=" + id + ", tfRole=" + role + ", tfUserUsername=" + username
-				+ ", tfHashpassword=" + password + ", tf_isApproved=" + isApproved + "]";
+		return "TfUser{" +
+				"id=" + id +
+				", role=" + role +
+				", username='" + username + '\'' +
+				", password='" + password + '\'' +
+				", isApproved=" + isApproved +
+				", token='" + token + '\'' +
+				'}';
 	}
 
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

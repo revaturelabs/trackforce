@@ -64,7 +64,7 @@ describe('SkillsetComponent', () => {
   it('should have skillID that\'s in the acceptable values', () => {
     component.selectedStatus = SelectedStatusConstants.CONFIRMED;
     // get the values in SkillsetComponent, and search for selectedStatus. It better be in there!
-    var idFound = true;
+    letidFound = true;
     SkillsetComponent.getSkillInfo().forEach((value, key) => {
       idFound = (value == component.getSkillID())
     })

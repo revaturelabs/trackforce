@@ -121,7 +121,7 @@ public class TfInterview implements java.io.Serializable {
 		this.jobDescription = jobDescription;
 		this.dateSalesIssued = dateSalesIssued;
 		this.dateAssociateIssued = dateAssociateIssued;
-		was24HRNotice = was24hrNotice;
+		this.was24HRNotice = was24hrNotice;
 		this.isInterviewFlagged = isInterviewFlagged;
 		this.flagReason = flagReason;
 		this.isClientFeedbackVisible = isClientFeedbackVisible;

@@ -25,7 +25,7 @@ import { Client } from '../../models/client.model';
 export class MyInterviewComponent implements OnInit {
   public interviews: Array<any> = [];
   public associate: Associate = new Associate();
-  public id:number = 0;
+  public id = 0;
   public newInterview: Interview = new Interview();
   public formOpen: boolean = false;
   public conflictingInterviews: string = "";
@@ -72,17 +72,18 @@ export class MyInterviewComponent implements OnInit {
 
 
   updateInterview(id: number){
+    let interview: any;
     if (sessionStorage.getItem("changedin") === null) {
-  
-  
+
+
      const updateinterview = this.interviews[id];
-      var interview:any = {
+      interview = {
         clientFeedback : updateinterview.CFeedback,
         dateAssociateIssued: new Date(updateinterview.date).getTime,
         dateSalesTeamIssued : null,
         reasonForFlag: null,
         interviewId :updateinterview.id,
- 
+
         jobDescription: updateinterview.JDescription,
        // tfClientName :updateinterview.client,
         interviewDate : new Date(updateinterview.DInterview).getTime,
@@ -90,15 +91,15 @@ export class MyInterviewComponent implements OnInit {
         interviewFeedback : updateinterview.AFeedback,
         clientId: 9,
         typeId : updateinterview.typeID
-      } 
+      }
     }
    else
     {
-      var u = JSON.parse(sessionStorage.getItem("changedin"));
+      let u = JSON.parse(sessionStorage.getItem("changedin"));
       const updateinterview = this.interviews[id];
       updateinterview.CFeedback = u.CFeedback;
       updateinterview.AFeedback = u.AFeedback;
-      var interview:any = {
+      interview = {
         clientFeedback : updateinterview.CFeedback,
         dateAssociateIssued: new Date(updateinterview.date).getTime,
         interviewId :updateinterview.id,
@@ -108,8 +109,8 @@ export class MyInterviewComponent implements OnInit {
         interviewFeedback : updateinterview.AFeedback,
         clientId : 9,
        typeId : updateinterview.typeID
-      } 
-      
+      };
+
       sessionStorage.clear();
     }
      this.interviewService.updateinterview(interview, this.id).subscribe(
@@ -118,8 +119,8 @@ export class MyInterviewComponent implements OnInit {
        },
        err => {
        }
-    );    
-    
+    );
+
   }
 
   getInterviews(id: number) {
@@ -136,11 +137,11 @@ export class MyInterviewComponent implements OnInit {
             AFeedback: interview.tfInterviewFeedback,
             JDescription: interview.jobDescription,
             date: new Date(interview.dateAssociateIssued),
-            CFeedback: interview.clientFeedback,    
-            typeID : interview.typeId,            
+            CFeedback: interview.clientFeedback,
+            typeID : interview.typeId,
             Flag: interview.isInterviewFlagged,
 
-          }
+          };
           tempArr.push(intObj);
         }
         this.interviews = tempArr;
@@ -158,8 +159,8 @@ export class MyInterviewComponent implements OnInit {
    cell is colored red to highlight the conflict.
   */
   highlightInterviewConflicts(interview: number) {
-    var checkDate = this.interviews[interview].DInterview;
-    for (var i = 0; i < this.interviews.length; i++) {
+    let checkDate = this.interviews[interview].DInterview;
+    for (let i = 0; i < this.interviews.length; i++) {
       if (this.interviews[i].DInterview.getTime() === checkDate.getTime() && i != interview) {
         this.conflictingInterviews = "The highlighted interviews are conflicting." +
         "They are both scheduled at the same time!";
@@ -193,7 +194,7 @@ export class MyInterviewComponent implements OnInit {
       if(!interview.isDateAvailable){
         interview.isDateAvailable=true;
       } else {
-        if(dateVal)
+        if (dateVal)
         interview.date = dateVal;
         interview.isDateAvailable=false;
       }
@@ -204,7 +205,7 @@ export class MyInterviewComponent implements OnInit {
     }
 
     getClientNames() {
-      var self = this;
+      const self = this;
       this.clientService.getAllClients().subscribe(data => {
         self.clients = data;
       });

@@ -51,7 +51,7 @@ export class PredictionsComponent implements OnInit {
         this.technologies = tempArray;
         // IF API RETURNS AN OBJECT INSTEAD OF ARRAY
         // let tempVar = [];
-        // for (var key in data) {
+        // for (let key in data) {
         //   let tech = data[key];
         //   tempVar.push(tech);
         // }

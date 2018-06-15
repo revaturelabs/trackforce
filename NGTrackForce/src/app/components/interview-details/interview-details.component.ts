@@ -19,15 +19,15 @@ export class InterviewDetailsComponent implements OnInit {
    public i:number;
   public associate = MyInterviewComponent.prototype.associate;
   public id: number;
-  
+
   constructor(private activated: ActivatedRoute) { }
 
 
   ngOnInit() {
-     
+
     this.i = +this.activated.snapshot.paramMap.get('i');
     this.id = +this.activated.snapshot.paramMap.get('id');
-    var u = JSON.parse(sessionStorage.getItem("interviews"));
+    let u = JSON.parse(sessionStorage.getItem("interviews"));
     if(sessionStorage.getItem("changedin") === null)
       {
     this.interview = u[this.i];
@@ -38,7 +38,7 @@ export class InterviewDetailsComponent implements OnInit {
     }
 
   //User object containing need data
- 
+
   }
 
   commitchanges()
@@ -46,8 +46,8 @@ export class InterviewDetailsComponent implements OnInit {
     // store session the remaining ones
     sessionStorage.setItem("changedin", JSON.stringify(this.interview));
   }
-  
-  
+
+
 
 
 }

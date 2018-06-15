@@ -9,6 +9,7 @@ import { ActivatedRoute } from "@angular/router"
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+import {Interview} from "../../models/interview.model";
 
 /**
 * Component for viewing an individual associate and editing as admin.
@@ -26,7 +27,7 @@ export class FormComponent implements OnInit {
   user: User;
   associate: Associate = new Associate();
   clients: Client[];
-  interviews: any;
+  interviews: Interview[];
   newInterview: any = {
     client: null,
     date: null,
@@ -67,8 +68,7 @@ export class FormComponent implements OnInit {
     private authService: AuthenticationService
   ) {
     //gets id from router url parameter
-    var id = window.location.href.split("form-comp/")[1];
-    this.id = Number(id);
+    this.id = Number(window.location.href.split("form-comp/")[1]);
 
   }
 
@@ -91,11 +91,12 @@ export class FormComponent implements OnInit {
       data => {
         this.associate = <Associate>data;
         this.isApproved = this.associate.user.isApproved;
-        if (data.clientStartDate.toString() == "0")
+        if (data.clientStartDate.toString() === "0") {
           this.associate.clientStartDate = null;
-        else
+        }
+        else {
           this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
-
+        }
       });
     this.clientService.getAllClients().subscribe(
       data => {
@@ -160,27 +161,31 @@ export class FormComponent implements OnInit {
   * Update the associate with the new verification status, client, status, and/or start date
   */
   updateAssociate() {
+    let dateTime: number;
+    let newVerificationStatus;
+    let newStatus: number;
+    let newClient: number;
     if (this.newStartDate) {
-      var dateTime = Number((new Date(this.newStartDate).getTime()) / 1000);
+      dateTime = Number((new Date(this.newStartDate).getTime()) / 1000);
     } else {
-      var dateTime = Number((new Date(this.associate.clientStartDate).getTime()) / 1000);
+      dateTime = Number((new Date(this.associate.clientStartDate).getTime()) / 1000);
     }
     if (this.selectedVerificationStatus) {
-      var newVerificationStatus = this.selectedVerificationStatus;
+      newVerificationStatus = this.selectedVerificationStatus;
     } else {
-      // var newVerificationStatus = this.associate.user.verified;
+      // letnewVerificationStatus = this.associate.user.verified;
     }
     if (this.selectedMarketingStatus) {
-      var newStatus = Number(this.selectedMarketingStatus);
+      newStatus = Number(this.selectedMarketingStatus);
     } else {
-      var newStatus = this.associate.marketingStatus.id;
+      newStatus = this.associate.marketingStatus.id;
     }
     if (this.selectedClient) {
-      var newClient = this.selectedClient;
+      newClient = this.selectedClient;
     } else {
-      var newClient = this.associate.client.id;
+      newClient = this.associate.client.id;
     }
-    var newAssociate = {
+    const newAssociate = {
       id: this.id,
       verified: newVerificationStatus,
       mkStatus: newStatus,
@@ -219,25 +224,8 @@ export class FormComponent implements OnInit {
 
   getInterviews() {
     this.associateService.getInterviewsForAssociate(this.id).subscribe(
-      data => {
-        let tempArr = [];
-        if (data != null) {
-          for (let i = 0; i < data.length; i++) {
-            let interview = data[i];
-            let intObj = {
-              id: interview.id,
-              client: interview.tfClientName,
-              date: new Date(interview.tfInterviewDate),
-              type: interview.typeName,
-              feedback: interview.tfInterviewFeedback
-            }
-            tempArr.push(intObj);
-          }
-          this.interviews = tempArr;
-        }
-
-      }
-    )
+      data => this.interviews = data
+    );
   }
 
   toggleForm() {
@@ -245,7 +233,7 @@ export class FormComponent implements OnInit {
   }
 
   addInterview() {
-    let interview = {
+    const interview = {
       associateId: this.id,
       clientId: this.newInterview.client,
       typeId: this.newInterview.type,
@@ -258,7 +246,7 @@ export class FormComponent implements OnInit {
       },
       err => {
       }
-    )
+    );
     this.resetAllFields();
   }
 

@@ -58,7 +58,7 @@ export class ClientListComponent implements OnInit {
         }
       }
     }
-  }
+  };
   // data values initialize to 1 for animation
   public barChartData: any[] = [{ data: [0, 0, 0, 0], label: 'Mapped' }, { data: [0, 0, 0, 0], label: 'Unmapped' }];
 
@@ -75,7 +75,7 @@ export class ClientListComponent implements OnInit {
 
   // get client names from data and push to clientNames string array
   getAllClients() {
-    var self = this;
+    let self = this;
     this.clientService.getAllClients().subscribe(
       clients => {
         // save array of object Client

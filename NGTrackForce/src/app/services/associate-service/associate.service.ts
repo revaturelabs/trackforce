@@ -3,9 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs";
 
 import { Associate } from "../../models/associate.model";
-import { Response } from "@angular/http/";
 import { environment } from "../../../environments/environment";
-import { forEach } from "@angular/router/src/utils/collection";
+import {Interview} from "../../models/interview.model";
 
 /**
 * Service for retrieving and updating data relating to associates.
@@ -13,7 +12,7 @@ import { forEach } from "@angular/router/src/utils/collection";
 */
 @Injectable()
 export class AssociateService {
-  private associatePath: string = "TrackForce/associates";
+  private associatePath = "TrackForce/associates";
 
   status: string;
   client: string;
@@ -81,9 +80,9 @@ export class AssociateService {
     return this.http.put(url, associateID);
   }
 
-  getInterviewsForAssociate(id: number): Observable<any> {
+  getInterviewsForAssociate(id: number): Observable<Interview[]> {
     let url: string = environment.url + this.associatePath + "/" + id + "/interviews";
-    return this.http.get(url);
+    return this.http.get<Interview[]>(url);
   }
 
   addInterviewForAssociate(id: number, interview: any): Observable<any> {

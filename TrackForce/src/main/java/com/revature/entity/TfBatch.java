@@ -22,6 +22,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * <p> </p>
  * @version.date v06.2018.06.13
@@ -64,6 +66,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	
 	@XmlElement
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "batch")
+	@JsonIgnore
 	private Set<TfAssociate> associates = new HashSet<TfAssociate>(0);
 
 	@XmlElement
@@ -72,6 +75,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	private TfTrainer trainer;
 	
 	@ManyToMany(mappedBy="coTrainer")
+	@JsonIgnore
 	private List<TfTrainer> coTrainer = new ArrayList<>();
 	
 	public TfBatch() {
@@ -149,13 +153,13 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	}
 
 
-
+	@JsonIgnore
 	public Set<TfAssociate> getAssociates() {
 		return associates;
 	}
 
 
-
+	@JsonIgnore
 	public void setAssociates(Set<TfAssociate> associates) {
 		this.associates = associates;
 	}
@@ -173,13 +177,13 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	}
 
 
-
+	@JsonIgnore
 	public List<TfTrainer> getCoTrainer() {
 		return coTrainer;
 	}
 
 
-
+	@JsonIgnore
 	public void setCoTrainer(List<TfTrainer> coTrainer) {
 		this.coTrainer = coTrainer;
 	}

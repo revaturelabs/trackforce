@@ -16,6 +16,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * <p> </p>
@@ -38,6 +40,7 @@ public class TfCurriculum implements java.io.Serializable {
 	@Column(name = "TF_CURRICULUM_NAME", length = 30)
 	private String name;
 	
+	@JsonIgnore
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curriculumName")
 	private Set<TfBatch> batches = new HashSet<TfBatch>(0);
@@ -69,10 +72,12 @@ public class TfCurriculum implements java.io.Serializable {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	public Set<TfBatch> getBatches() {
 		return batches;
 	}
 
+	@JsonIgnore
 	public void setBatches(Set<TfBatch> batches) {
 		this.batches = batches;
 	}

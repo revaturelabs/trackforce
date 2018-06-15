@@ -47,7 +47,7 @@ export class FormComponent implements OnInit {
   iid: number;
 
   // form booleans
-  isVerified: string;
+  // isVerified: string;
   isApproved: number;
   isMapped: boolean;
   eligibleForInterview: boolean;
@@ -74,7 +74,7 @@ export class FormComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.authService.getUser();
-    this.isVerified = this.user.verified;
+    // this.isVerified = this.user.verified;
     //Role checks
     if (this.user.role.id === 3) {
       this.isVP = true;
@@ -168,7 +168,7 @@ export class FormComponent implements OnInit {
     if (this.selectedVerificationStatus) {
       var newVerificationStatus = this.selectedVerificationStatus;
     } else {
-      var newVerificationStatus = this.associate.user.verified;
+      // var newVerificationStatus = this.associate.user.verified;
     }
     if (this.selectedMarketingStatus) {
       var newStatus = Number(this.selectedMarketingStatus);

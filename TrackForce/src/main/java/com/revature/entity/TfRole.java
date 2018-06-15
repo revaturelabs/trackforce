@@ -53,15 +53,9 @@ public class TfRole implements java.io.Serializable {
 		this.id = tfRoleId;
 	}
 
-	public TfRole(Integer tfRoleId, String tfRoleName) {
-		this.id = tfRoleId;
+	public TfRole(Integer roleId, String tfRoleName) {
+		this.id = roleId;
 		this.name = tfRoleName;
-	}
-
-	public TfRole(Integer tfRoleId, String tfRoleName, Set<TfUser> tfUsers) {
-		this.id = tfRoleId;
-		this.name = tfRoleName;
-		this.users = tfUsers;
 	}
 
 	
@@ -69,8 +63,8 @@ public class TfRole implements java.io.Serializable {
 		return this.id;
 	}
 
-	public void setTfRoleId(Integer tfRoleId) {
-		this.id = tfRoleId;
+	public void setTfRoleId(Integer roleId) {
+		this.id = roleId;
 	}
 
 	
@@ -87,8 +81,8 @@ public class TfRole implements java.io.Serializable {
 		return this.users;
 	}
 
-	public void setTfUsers(Set<TfUser> tfUsers) {
-		this.users = tfUsers;
+	public void setTfUsers(Set<TfUser> users) {
+		this.users = users;
 	}
 
 	/* (non-Javadoc)

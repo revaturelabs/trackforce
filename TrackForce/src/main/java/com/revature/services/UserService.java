@@ -82,9 +82,10 @@ public class UserService {
 		if(foundUser != null) {
 			try {
 				if(PasswordStorage.verifyPassword(loginUser.getHashedPassword(), foundUser.getHashedPassword())) {
-					System.out.println("The found user is " + foundUser.getUsername());
 					TfRole role = foundUser.getRole();
 					foundUser.setToken(jwtService.createToken(foundUser.getUsername(), foundUser.getRole().getTfRoleId()));
+					LogUtil.logger.info("Password verification successful! Returning " + foundUser.toString());
+					return foundUser;
 				}
 			} catch (CannotPerformOperationException e) {
 				LogUtil.logger.warn(e.getMessage());
@@ -92,9 +93,7 @@ public class UserService {
 				LogUtil.logger.warn(e.getMessage());
 			}
 		}
-		
-		return foundUser;
-		
+		return null;
 	}
 
 }

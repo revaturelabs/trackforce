@@ -168,7 +168,7 @@ export class LoginComponent implements OnInit {
     if (this.username && this.password) {
       this.authService.login(this.username, this.password).subscribe(
         data => {
-          const user = data;
+          const user = this.authService.getUser();;
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
         
@@ -194,7 +194,7 @@ export class LoginComponent implements OnInit {
           if (err.status === 500) {
             this.errMsg = "There was an error on the server";
           }
-          else if (err.status === 400) {
+          else if (err.status === 401) {
             this.errMsg = "Invalid username and/or password";
 
           }

@@ -35,7 +35,6 @@ public class TfUser implements java.io.Serializable {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TF_ROLE_ID")
-    @JsonIgnore
     private TfRole TfRole;
     
     @XmlElement

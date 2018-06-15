@@ -95,10 +95,12 @@ public class TfAssociate implements java.io.Serializable {
 //	@JsonIgnore
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
+	@JsonIgnore
 	private Set<TfInterview> interview = new HashSet<TfInterview>(0);
 
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
+	@JsonIgnore
 	private Set<TfPlacement> placement = new HashSet<TfPlacement>(0);
 	
 	@XmlElement
@@ -207,22 +209,22 @@ public class TfAssociate implements java.io.Serializable {
 		this.lastName = lastName;
 	}
 
-
+	@JsonIgnore
 	public Set<TfInterview> getInterview() {
 		return interview;
 	}
 
-
+	@JsonIgnore
 	public void setInterview(Set<TfInterview> interview) {
 		this.interview = interview;
 	}
 
-
+	@JsonIgnore
 	public Set<TfPlacement> getPlacement() {
 		return placement;
 	}
 
-
+	@JsonIgnore
 	public void setPlacement(Set<TfPlacement> placement) {
 		this.placement = placement;
 	}

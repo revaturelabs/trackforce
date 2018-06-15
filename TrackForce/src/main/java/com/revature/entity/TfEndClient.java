@@ -3,6 +3,7 @@ package com.revature.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +15,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
@@ -38,12 +41,15 @@ public class TfEndClient implements java.io.Serializable {
 	private String name;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "endClient")
+	@JsonIgnore
 	private Set<TfAssociate> associates = new HashSet<TfAssociate>(0);
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "endClient")
+	@JsonIgnore
 	private Set<TfPlacement> placements = new HashSet<TfPlacement>(0);
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "endClient")
+	@JsonIgnore
 	private Set<TfInterview> interviews = new HashSet<TfInterview>(0);
 
 	public TfEndClient() {
@@ -75,26 +81,32 @@ public class TfEndClient implements java.io.Serializable {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	public Set<TfAssociate> getAssociates() {
 		return associates;
 	}
 
+	@JsonIgnore
 	public void setAssociates(Set<TfAssociate> associates) {
 		this.associates = associates;
 	}
 
+	@JsonIgnore
 	public Set<TfPlacement> getPlacements() {
 		return placements;
 	}
 
+	@JsonIgnore
 	public void setPlacements(Set<TfPlacement> placements) {
 		this.placements = placements;
 	}
 
+	@JsonIgnore
 	public Set<TfInterview> getInterviews() {
 		return interviews;
 	}
 
+	@JsonIgnore
 	public void setInterviews(Set<TfInterview> interviews) {
 		this.interviews = interviews;
 	}

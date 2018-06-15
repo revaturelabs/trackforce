@@ -3,6 +3,7 @@ package com.revature.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +15,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
@@ -38,6 +41,7 @@ public class TfInterviewType implements java.io.Serializable {
 	private String name;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "interviewType")
+	@JsonIgnore
 	private Set<TfInterview> interviews = new HashSet<TfInterview>(0);
 
 	public TfInterviewType() {
@@ -66,10 +70,12 @@ public class TfInterviewType implements java.io.Serializable {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	public Set<TfInterview> getInterviews() {
 		return interviews;
 	}
 
+	@JsonIgnore
 	public void setInterviews(Set<TfInterview> interviews) {
 		this.interviews = interviews;
 	}

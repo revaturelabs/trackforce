@@ -1,7 +1,7 @@
 /**
  * This model is not currently being used anywhere
  * Note made 6/6/2018
- * @author Amelia
+ * Reviewed by Max
  */
 export class ClientMappedModel {
   // Kirk: id is new. ClientMappedJSON.java has id.

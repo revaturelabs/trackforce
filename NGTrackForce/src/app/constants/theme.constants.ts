@@ -5,7 +5,7 @@
  * client-mapped.component, home.component, skillset.components
  * - This declares all the constants for the chart color schemes
  * Note made 6/6/2018
- * @author Amelia
+ * Reviewed by Max
  */
 import {Color} from 'ng2-charts';
 

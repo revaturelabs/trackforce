@@ -3,7 +3,7 @@
  * and selected-status.component
  * - This is used in the creation of ngCharts and canvas elements
  * Note made 6/6/2018
- * @author Amelia
+ * Reviewed by Max
  *
  * - This maps to the MarketingStatusInfo model in Java.
  */

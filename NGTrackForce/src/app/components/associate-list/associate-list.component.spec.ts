@@ -26,7 +26,7 @@ describe('AssociateListComponent', () => {
     const user: User = new User();
     user.token = "mockToken";
     user.username = "mockUser";
-    user.role.id = 1;
+    user.role = 1;
     spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
   });
 

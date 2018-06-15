@@ -75,5 +75,4 @@ public class AssociateDaoImpl implements AssociateDao {
 	}
 
 
-
 }

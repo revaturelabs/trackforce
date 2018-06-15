@@ -39,7 +39,7 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 5)
 	public void testGetAllAssociates() {
-		Response response = given().header("Authorization", token).when().get(URL).then().extract().response();
+		Response response = given().header("Authorization", token).when().get(URL + "/allAssociates").then().extract().response();
 
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));

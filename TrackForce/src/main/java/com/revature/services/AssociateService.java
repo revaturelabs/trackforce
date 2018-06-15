@@ -15,11 +15,11 @@ import com.revature.entity.TfAssociate;
  */
 public class AssociateService {
 	
-	private static AssociateDao dao = new AssociateDaoImpl();
+	private AssociateDao dao;
 	
 	// public so it can be used for testing 
-	public AssociateService() {};
-
+	public AssociateService() {dao = new AssociateDaoImpl();};
+	public AssociateService(AssociateDao dao) {this.dao = dao;};
 	/**
 	 * @author Adam L. 
 	 * 

@@ -13,6 +13,7 @@ import { AssociateService } from '../../services/associate-service/associate.ser
 
 const ASSOCIATE_KEY = 'currentAssociate'
 const USER_KEY = 'currentUser';
+const TRAINER_KEY = 'currentTrainer';
 
 
 @Component({
@@ -172,7 +173,9 @@ export class LoginComponent implements OnInit {
           //4 represents an associate role, who are routed to associate-view
 
           if (data.role === 5) {
-
+            this.associateLogin(data);
+          } else if (data.role === 2) {
+            // this.trainerLogin(data);
           } else {
             //otherwise, they are set to root
             this.router.navigate(['app-home']);
@@ -206,24 +209,40 @@ export class LoginComponent implements OnInit {
       data => {
         localStorage.setItem(ASSOCIATE_KEY, JSON.stringify(data));
         // the functionallity of user.isApproved is not yet implemented on the server side
-
         // if (user.isApproved) {
-        this.router.navigate(['associate-view', user.id]);
+        this.router.navigate(['associate-view']);
         // }
         // else {
         //   this.authService.logout();
         //   this.errMsg = "Associate not yet approved";
         // }
-
       },
       err => {
         if (err.status === 500) {
           this.errMsg = "There was an error on the server";
         }
-
-      }
-    )
-
+      });
   }
 
+  // this function will work when the trainer service is implemented
+  //
+  // trainerLogin(user: User) {
+  //   this.trainerService.getTrainer(user.id).subscribe(
+  //     data => {
+  //       localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
+  //       // the functionallity of user.isApproved is not yet implemented on the server side
+  //       // if (user.isApproved) {
+  //       this.router.navigate(['trainer-view']);
+  //       // }
+  //       // else {
+  //       //   this.authService.logout();
+  //       //   this.errMsg = "Trainer not yet approved";
+  //       // }
+  //     },
+  //     err => {
+  //       if (err.status === 500) {
+  //         this.errMsg = "There was an error on the server";
+  //       }
+  //     });
+  // }
 }

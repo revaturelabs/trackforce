@@ -97,17 +97,17 @@ export const appRoutes: Routes = [
     component: SkillsetComponent
   },
   {
-    path: 'associate-view/:id',
+    path: 'associate-view',
     canActivate: [AuthGuard],
     component: AssociateViewComponent
   },
   {
-  	path: 'myinterview-view/:id',
+  	path: 'myinterview-view',
   	canActivate: [AuthGuard],
   	component: MyInterviewComponent
   },
   {
-    path: 'interviewDetails/:i/:id',
+    path: 'interviewDetails',
     canActivate: [AuthGuard],
     component: InterviewDetailsComponent
   },

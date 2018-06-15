@@ -7,14 +7,14 @@ import { Batch } from "./batch.model";
  * @since 6.18.6.12
  */
 
-export class Trainer{
+export class Trainer {
 
   id: number;
-  user : User;
+  user: User;
   firstName: string;
   lastName: string;
-  primary : Batch[];
-  coTrainer : Batch[];
+  primary: Batch[];
+  coTrainer: Batch[];
 
 }
 

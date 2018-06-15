@@ -67,7 +67,7 @@ export class ClientMappedComponent implements OnInit {
    * Note: The ThemeConstants.CLIENT_COLORS is currently an array of length 8.
    * For every element of 'data' above a count of 8, the chart color for that data item will be grey.
    */
-  private clientTheme: Array<Color> = ThemeConstants.CLIENT_COLORS;
+  // private clientTheme: Array<Color> = ThemeConstants.CLIENT_COLORS;
 
   /*
   ============================
@@ -75,9 +75,9 @@ export class ClientMappedComponent implements OnInit {
   ============================
   */
   constructor(
-    private ClientService: ClientService,
+    // private ClientService: ClientService,
     private rout: Router,
-    private AssociateService: AssociateService
+    private associateService: AssociateService
   ) {
     this.chartOptions = {
       xAxes:[{ticks:{autoSkip:false}}], scales: {yAxes: [{ticks: {min: 0}}]},
@@ -103,13 +103,13 @@ export class ClientMappedComponent implements OnInit {
     this.statusID = window.location.href.split('client-mapped/')[1];
     this.statusID = Number(this.statusID) + 1; //Adjust the statud id. Values passed in are off by 1.
     //Initialize 'selectedStatus' to correct string.
-    if(Number(this.statusID) == 1) {
+    if(Number(this.statusID) === 1) {
       this.selectedStatus = "Training";
-    } else if(Number(this.statusID) == 2) {
+    } else if(Number(this.statusID) === 2) {
       this.selectedStatus = "Reserved";
-    } else if(Number(this.statusID) == 3) {
+    } else if(Number(this.statusID) === 3) {
       this.selectedStatus = "Selected";
-    } else if(Number(this.statusID) == 4) {
+    } else if(Number(this.statusID) === 4) {
       this.selectedStatus = "Confirmed";
     }
     //Initialize the title
@@ -119,7 +119,7 @@ export class ClientMappedComponent implements OnInit {
     this.changeChartType('bar');
 
     // HTTP request to fetch data. See client-service
-    this.AssociateService.getAssociatesByStatus(this.statusID).subscribe( data => {
+    this.associateService.getAssociatesByStatus(this.statusID).subscribe( data => {
       /*
       Store the data from the http request in temporary objects.
       In order for the2 property binding refresh on clientMappedData
@@ -128,21 +128,21 @@ export class ClientMappedComponent implements OnInit {
       clientMappedLabels.push(...) does not trigger property binding
       and does not display data).
       */
-      let temp_clientMappedLabels: string[] = [];
-      let temp_clientMappedData: number[] = [];
+      const temp_clientMappedLabels: string[] = [];
+      const temp_clientMappedData: number[] = [];
 
       //Loop over 'data' and extract fetched information
-      for(let d in data) {
-        const temp_name = data[d].name;
-        const temp_count = data[d].count;
+      for(let d of data) {
+        const temp_name = d.name;
+        const temp_count = d.count;
         if(temp_count > 0){
           //Check if the fetched name is empty
-          if(data[d].name == ""){
+          if(d.name === ""){
             temp_clientMappedLabels.push("Empty Name");
           } else {
-            temp_clientMappedLabels.push(data[d].name);
+            temp_clientMappedLabels.push(d.name);
           }
-          temp_clientMappedData.push(data[d].count);
+          temp_clientMappedData.push(d.count);
         }
       }
 
@@ -162,7 +162,7 @@ export class ClientMappedComponent implements OnInit {
     this.chartType = selectedType;
 
     //For 'bar' charts
-    if(selectedType == 'bar') {
+    if(selectedType === 'bar') {
       this.chartOptions.legend = {
         display: false
       };
@@ -173,7 +173,7 @@ export class ClientMappedComponent implements OnInit {
       }
     }
     //For 'pie' or 'polarArea' charts
-    else if(selectedType == 'pie' || selectedType == 'polarArea'){
+    else if(selectedType === 'pie' || selectedType === 'polarArea'){
       //Display legend
       this.chartOptions.legend = {
         display: true,

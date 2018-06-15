@@ -2,8 +2,8 @@ import { SearchFilterPipe } from './search-filter.pipe';
 
 describe('Pipe: SearchFilterPipe', () => {
   let pipe: SearchFilterPipe;
-  let testStringArr: string[] = ['GOOGLE', 'FaCeBooK', 'appLE', 'microSoft', 'airbnb', '##^&', 'Cucumber.io', 'rev@ture'];
-  let testStringForeign: string[] = ['Газпром', '삼성', '华为'];
+  const testStringArr: string[] = ['GOOGLE', 'FaCeBooK', 'appLE', 'microSoft', 'airbnb', '##^&', 'Cucumber.io', 'rev@ture'];
+  const testStringForeign: string[] = ['Газпром', '삼성', '华为'];
 
   beforeEach(() => {
     pipe = new SearchFilterPipe();

@@ -27,7 +27,7 @@ export class InterviewDetailsComponent implements OnInit {
      
     this.i = +this.activated.snapshot.paramMap.get('i');
     this.id = +this.activated.snapshot.paramMap.get('id');
-    var u = JSON.parse(sessionStorage.getItem("interviews"));
+    const u = JSON.parse(sessionStorage.getItem("interviews"));
     if(sessionStorage.getItem("changedin") === null)
       {
     this.interview = u[this.i];

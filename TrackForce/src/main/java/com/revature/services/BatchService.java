@@ -13,10 +13,12 @@ import com.revature.entity.TfBatch;
  */
 public class BatchService {
 	
-	private static BatchDao dao = new BatchDaoImpl();
+	private BatchDao dao;
 	
 	// public so it can be used for testing 
-	public BatchService() {};
+	public BatchService() {dao = new BatchDaoImpl();};
+	
+	public BatchService(BatchDao dao) {this.dao = dao;};
 
 	/**
 	 * @author Adam L. 

@@ -24,6 +24,10 @@ public class UserService {
 	// public so it can be used for testing 
 	public UserService() {};
 	
+	public UserService(UserDao dao) {
+		this.dao = dao;
+	}
+	
 	// used in the submitCredentials 
 	private JWTService jwtService;
 

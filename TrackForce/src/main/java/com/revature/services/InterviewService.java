@@ -14,11 +14,15 @@ import com.revature.entity.TfInterview;
  */
 public class InterviewService {
 	
-	private static InterviewDao dao = new InterviewDaoImpl();
+	private InterviewDao dao = new InterviewDaoImpl();
 	
 	// public so it can be used for testing 
 	public InterviewService() {};
 	
+	// Constructor so allow for Mockito
+	public InterviewService(InterviewDao dao) {
+		this.dao = dao;
+	}
 	/**
 	 * 
 	 * @author Adam L. 

@@ -1,9 +1,5 @@
 package com.revature.application;
 
-import java.util.List;
-
-import com.revature.entity.TfInterview;
-import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;

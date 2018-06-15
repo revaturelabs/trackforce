@@ -33,9 +33,6 @@
 		<property name="net.sf.ehcache.configurationResourceName">/ehcache.xml</property>
         
         
-        
-       	<property name="hibernate.cache.use_second_level_cache">false</property>
-       	
        	<!-- Tells Hibernate which class to use for caching, exposed from the org.hibernate.ehcache dependency -->
 		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
 		<!-- Tells Hibernate the location of the ehcache.xml configuration file -->

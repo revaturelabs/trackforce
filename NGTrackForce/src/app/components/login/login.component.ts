@@ -12,6 +12,8 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
 import { AssociateService } from '../../services/associate-service/associate.service';
 
 const associateInfo = 'associateInfo'
+const USER_KEY = 'currentUser';
+
 
 @Component({
   selector: 'app-login',
@@ -71,8 +73,6 @@ export class LoginComponent implements OnInit {
   */
   ngOnInit() {
     const user = this.authService.getUser();
-
-
 
     if (user != null) {
       if (user.role.id === 5) {
@@ -168,7 +168,8 @@ export class LoginComponent implements OnInit {
     if (this.username && this.password) {
       this.authService.login(this.username, this.password).subscribe(
         data => {
-          const user = this.authService.getUser();;
+          const user: User = data;
+          localStorage.setItem(USER_KEY, JSON.stringify(data));
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
         

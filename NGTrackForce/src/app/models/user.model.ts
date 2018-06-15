@@ -8,11 +8,11 @@
  */
 import { Role } from "./role.model";
 export class User {
-  id : number;
-  name : string;
+  id: number;
+  name: string;
   username: string;
   hashedPassword: string;
-  role : Role;
+  role: Role;
   // Kirk: verified is not in UserJSON.java
   // Cameron : the commented out fields aren't
   // in the entity

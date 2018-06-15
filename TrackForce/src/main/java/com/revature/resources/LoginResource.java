@@ -122,6 +122,7 @@ public class LoginResource {
 	@Path("/login")
 	@POST
 	@Consumes("application/json")
+	@Produces("application/json")
 	@ApiOperation(value = "login method", notes = "The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 400 if invalid.")
 	public Response submitCredentials(TfUser loginUser) throws IOException {
 		logger.info("submitCredentials()...");

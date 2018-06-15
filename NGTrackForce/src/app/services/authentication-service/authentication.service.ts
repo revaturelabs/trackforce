@@ -39,14 +39,14 @@ export class AuthenticationService {
     */
   public login(username: string, password: string): Observable<User> {
     return this.http.post<User>(environment.url + 'TrackForce/users/login', { username: username, password: password })
-    // .map(
-    //   user => {
-    //     if(user){
-    //       localStorage.setItem(USER_KEY, JSON.stringify(user));
-    //     }
-    //     return user;
-    //   }
-    // )
+    .map(
+      user => {
+        if(user){
+          localStorage.setItem(USER_KEY, JSON.stringify(user));
+        }
+        return user;
+      }
+    )
     ;
   }
 

@@ -47,7 +47,7 @@ export class FormComponent implements OnInit {
   iid: number;
 
   // form booleans
-  isVerified: string;
+  // isVerified: string;
   isApproved: number;
   isMapped: boolean;
   eligibleForInterview: boolean;
@@ -76,10 +76,10 @@ export class FormComponent implements OnInit {
     this.user = this.authService.getUser();
     // this.isVerified = this.user.verified;
     //Role checks
-    if (this.user.role.id === 3) {
+    if (this.user.role === 3) {
       this.isVP = true;
     }
-    else if (this.user.role.id === 5) {
+    else if (this.user.role === 5) {
       this.isAssociate = true;
     }
     else {
@@ -90,7 +90,7 @@ export class FormComponent implements OnInit {
     this.associateService.getAssociate(this.id).subscribe(
       data => {
         this.associate = <Associate>data;
-        this.isApproved = this.associate.isApproved;
+        this.isApproved = this.associate.user.isApproved;
         if (data.clientStartDate.toString() === "0") {
           this.associate.clientStartDate = null;
         } else {
@@ -170,8 +170,7 @@ export class FormComponent implements OnInit {
     if (this.selectedVerificationStatus) {
       var newVerificationStatus = this.selectedVerificationStatus;
     } else {
-      // this variable was removed from the associate model
-      // var newVerificationStatus = this.associate.verified;
+      // var newVerificationStatus = this.associate.user.verified;
     }
     if (this.selectedMarketingStatus) {
       var newStatus = Number(this.selectedMarketingStatus);

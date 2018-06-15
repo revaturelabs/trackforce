@@ -12,6 +12,8 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
 import { AssociateService } from '../../services/associate-service/associate.service';
 
 const associateInfo = 'associateInfo'
+const USER_KEY = 'currentUser';
+
 
 @Component({
   selector: 'app-login',
@@ -72,10 +74,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     const user = this.authService.getUser();
 
-
-
     if (user != null) {
+<<<<<<< HEAD
       if (user.role.id === 5) {
+=======
+      if (user.role === 5) {
+>>>>>>> 1fc12474cec4c9c234f601927392d638d3035973
 
         // this.router.navigate(['associate-view', user.userId]);
 
@@ -168,11 +172,16 @@ export class LoginComponent implements OnInit {
     if (this.username && this.password) {
       this.authService.login(this.username, this.password).subscribe(
         data => {
-          const user = this.authService.getUser();
+          const user: User = data;
+          localStorage.setItem(USER_KEY, JSON.stringify(data));
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
         
+<<<<<<< HEAD
           if(user.role.id === 5){
+=======
+          if(user.role === 5){
+>>>>>>> 1fc12474cec4c9c234f601927392d638d3035973
               // the functionallity of user.isApproved is not yet implemented on the server side
 
               // if (user.isApproved) {
@@ -194,7 +203,7 @@ export class LoginComponent implements OnInit {
           if (err.status === 500) {
             this.errMsg = "There was an error on the server";
           }
-          else if (err.status === 400) {
+          else if (err.status === 401) {
             this.errMsg = "Invalid username and/or password";
 
           }

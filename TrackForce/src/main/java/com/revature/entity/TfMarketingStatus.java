@@ -15,6 +15,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+
+/**
+ * <p> </p>
+ * @version.date v06.2018.06.13
+ */
 @XmlRootElement
 @Entity
 @Table(name = "TF_MARKETING_STATUS", schema = "ADMIN")
@@ -32,7 +37,7 @@ public class TfMarketingStatus implements java.io.Serializable {
 	@Column(name = "TF_MARKETING_STATUS_NAME", length = 30)
 	private String name;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfMarketingStatus")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "marketingStatus")
 	private Set<TfAssociate> associates = new HashSet<TfAssociate>(0);
 
 	public TfMarketingStatus() {

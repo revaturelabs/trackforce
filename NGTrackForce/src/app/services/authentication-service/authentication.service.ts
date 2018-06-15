@@ -10,7 +10,7 @@ import {User} from '../../models/user.model';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import 'rxjs/Rx';
+// import 'rxjs/Rx';
 
 const USER_KEY = 'currentUser';
 
@@ -35,17 +35,19 @@ export class AuthenticationService {
     *
     *@return User data from back-end if credentials are correct
     * user data contains JWT token, username, and role
-    * If credentials are wrong, 400 is returned
+    * If credentials are wrong, 401 is returned
     */
   public login(username: string, password: string): Observable<User> {
-    return this.http.post<User>(environment.url + 'TrackForce/users/login', { username: username, password: password }).map(
-      user => {
-        if(user){
-          localStorage.setItem(USER_KEY, JSON.stringify(user));
-        }
-        return user;
-      }
-    );
+    return this.http.post<User>(environment.url + 'TrackForce/users/login', { username: username, password: password })
+    // .map(
+    //   user => {
+    //     if(user){
+    //       localStorage.setItem(USER_KEY, JSON.stringify(user));
+    //     }
+    //     return user;
+    //   }
+    // )
+    ;
   }
 
 

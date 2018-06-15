@@ -86,4 +86,26 @@ public class CreateUserTab {
 		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("createUserPopup")), 10);
 	}
 
+	/**
+	 * selects the a given role checkbox during the creation of a user
+	 * 
+	 * @param d the driver currently being used
+	 * @param role the role to be selected
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.15.18
+	 */
+	public static void selectRole(WebDriver d, String role) {
+		WebElement el = null;
+	    switch(role){
+	    case "delivery": el = CreateUserTab.getDelivaryRadio(d);
+	    case "trainer": el = CreateUserTab.getDelivaryRadio(d);
+	    case "manager": el = CreateUserTab.getDelivaryRadio(d);
+	    case "associate": el = CreateUserTab.getDelivaryRadio(d);
+	    case "admin": el = CreateUserTab.getDelivaryRadio(d);
+	    }
+	    WaitToLoad.waitForClickable(d, el, 5);
+	    el.click();
+	}
 }

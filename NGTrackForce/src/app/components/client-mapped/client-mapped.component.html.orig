@@ -1,9 +1,5 @@
 <app-navbar></app-navbar>
-<<<<<<< HEAD
-<div class="container">
-=======
 <div class="container min-height">
->>>>>>> 1b0293314b38f15d8d8855176d52a91d3064766e
 <div class="row">
   <div class="col-sm-6">
      <button (click)="changeChartType('bar')" class="btn btn-default">Bar Chart</button>
@@ -13,11 +9,7 @@
 </div>
 <div class="row">
   <!-- Display chart -->
-<<<<<<< HEAD
-  <div class="col-lg-10">
-=======
   <div class="col-md-8">
->>>>>>> 1b0293314b38f15d8d8855176d52a91d3064766e
     <canvas id="the_graph" baseChart *ngIf="clientMappedData && clientMappedLabels"
           [data]="clientMappedData"
           [labels]="clientMappedLabels"

@@ -1,93 +1,185 @@
-//package com.revature.test.services;
-//
-//import java.io.IOException;
-//import java.util.HashSet;
-//import java.util.Set;
-//
-//import org.mockito.Matchers;
-//import org.mockito.Mock;
-//import org.mockito.Mockito;
-//import org.mockito.MockitoAnnotations;
-//import org.testng.Assert;
-//import org.testng.annotations.BeforeTest;
-//import org.testng.annotations.Test;
-//
-//import com.revature.dao.ClientDao;
-//import com.revature.model.ClientInfo;
-//import com.revature.model.StatusInfo;
-//import com.revature.services.ClientService;
-//
-//public class ClientServiceTest{
-//
-//    @Mock
-//    private ClientDao clientDaoMock;
-//
-//    private ClientService clientService;
-//
-//    private Set<ClientInfo> mockClients;
-//    private ClientInfo mockClient;
-//
-//    private int c1Id = 1, c2Id = 2, c3Id = 3;
-//    private String c1Name = "client 1", c2Name = "client 2";
-//
-//    private void setupMocks() throws IOException {
-//        MockitoAnnotations.initMocks(this);
-//        
-//        // mock dao used by client resource to return these clients
-//        ClientInfo cInfo1 = new ClientInfo();
-//        cInfo1.setId(new Integer(c1Id));
-//        cInfo1.setTfClientId(new Integer(c1Id));
-//        cInfo1.setTfClientName(c1Name);
-//        cInfo1.setStats(new StatusInfo("status1"));
-//
-//        ClientInfo cInfo2 = new ClientInfo();
-//        cInfo2.setId(new Integer(c2Id));
-//        cInfo2.setTfClientId(new Integer(c2Id));
-//        cInfo2.setTfClientName(c2Name);
-//        cInfo2.setStats(new StatusInfo("status2"));
-//
-//        ClientInfo cInfo3 = new ClientInfo();
-//        cInfo3.setId(new Integer(c3Id));
-//        cInfo3.setTfClientId(new Integer(c3Id));
-//        cInfo3.setTfClientName(c2Name);
-//        cInfo3.setStats(new StatusInfo("status3"));
-//
-//
-//        mockClients = new HashSet<>();
-//        mockClients.add(cInfo1);
-//        mockClients.add(cInfo2);
-//        mockClients.add(cInfo3);
-//
-//        Mockito.when(clientDaoMock.getAllClientsFromCache()).thenReturn(mockClients);
-//
-//        mockClient = cInfo1;
-//        
-//        Mockito.when(clientDaoMock.getClientFromCache(Matchers.anyInt())).thenReturn(mockClient);
-//
-//        clientService = new ClientService(clientDaoMock);
-//    }
-//
-//    @BeforeTest
-//    public void beforeAll() throws IOException {
-//        setupMocks();
-//    }
-//
-//    @Test(enabled = true)
-//    public void testGetClients() throws Exception {
-//    	Set<ClientInfo> clients = clientService.getClients();
-//    	Set<ClientInfo> testSet = mockClients;
-//        Assert.assertEquals(testSet, clients);
-//    }
-//
-//    @Test(enabled = true)
-//    public void testGetClientByID() throws Exception {
-//    	ClientInfo client = clientService.getClientByID(1);
-//    	ClientInfo testClient = mockClient;
-//        Assert.assertEquals(testClient, client);
-//    }
-//     @Test(enabled = false)
-//     public void testGetTotals() throws Exception {
-//        	Assert.assertTrue(false);
-//     }
-//    
-//}
+package com.revature.test.services;
+
+import static org.mockito.Matchers.anyInt;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import com.revature.dao.ClientDao;
+import com.revature.entity.TfClient;
+import com.revature.services.ClientService;
+
+
+/**
+ * Tests meant to ensure proper functionality of the clientService methods
+ * 
+ * Reviewed by Daniel Lani
+ * 
+ * @since 6.06.07.18
+ */
+public class ClientServiceTest {
+	@Mock
+	private ClientDao mockClientDao;
+	@InjectMocks
+	private ClientService service;
+	private TfClient client1, client2, client3;
+	private ArrayList<TfClient> clients;
+
+	/**
+	 * initializes the client service and dao method mocks
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@BeforeClass
+	public void beforeTest(){
+		service = new ClientService(mockClientDao);
+		MockitoAnnotations.initMocks(this);
+
+		// creates three client objects
+		client1 = new TfClient();
+		client1.setId(1);
+		client1.setName("Name1");
+		client2 = new TfClient();
+		client2.setId(2);
+		client2.setName("Name2");
+		client3 = new TfClient();
+		client3.setId(3);
+		client3.setName("Name3");
+
+		Mockito.when(mockClientDao.getClient(anyInt())).thenReturn(client1);
+		Mockito.when(mockClientDao.getClient(-1)).thenReturn(null);
+		Mockito.when(mockClientDao.getClient("Name1")).thenReturn(client1);
+		Mockito.when(mockClientDao.getClient("NotAName")).thenReturn(null);
+		
+	}
+
+	
+	/**
+	 * Tests the get clientByName method under
+	 * normal conditions
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 1)
+	public void testGetclientByName(){
+		TfClient expected = service.getClient("Name1");
+		Assert.assertEquals(expected, client1);
+	}
+	
+	/**
+	 * Tests the get clientByName method when
+	 * the name provided is not the name of a client
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 2)
+	public void testGetclientByNonExistantName() {
+		TfClient expected = service.getClient("NotAName");
+		Assert.assertNull(expected);
+	}
+	
+	/**
+	 * Tests the get clientByName method when
+	 * the name provided is not the name of a client
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 3)
+	public void testGetclientsByNameNullclientName() {
+		TfClient expected = service.getClient(null);
+		Assert.assertNull(expected);
+	}
+	
+	/**
+	 * Tests the get clientById method under 
+	 * normal conditions
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 4)
+	public void testGetclientById(){
+		TfClient expected = service.getClient(1);
+		Assert.assertEquals(expected, client1);
+	}
+	
+	/**
+	 * Tests the get clientById method when 
+	 * the id provided does not match any known client
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 5)
+	public void testGetclientByNonExistantId(){
+		TfClient expected = service.getClient(-1);
+		Assert.assertNull(expected);
+	}
+	
+	/**
+	 * test the getAllclients method when
+	 * client list is null
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 6)
+	public void testGetAllclientsNullclientList() {
+		Mockito.when(mockClientDao.getAllTfClients()).thenReturn(clients);
+		List<TfClient> expected = service.getAllTfClients();
+		Assert.assertNull(expected);
+	}
+	
+	/**
+	 * test the getAllclients method when
+	 * client list is empty
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 7)
+	public void testGetAllclientsEmptyclientList() {
+		clients = new ArrayList<>();
+		Mockito.when(mockClientDao.getAllTfClients()).thenReturn(clients);
+		List<TfClient> expected = service.getAllTfClients();
+		Assert.assertEquals(expected,new ArrayList<>());
+	}
+
+	/**
+	 * test the getAllclients method under
+	 * normal conditions
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 8)
+	public void testGetAllclients() {
+		clients.add(client1);
+		clients.add(client2);
+		clients.add(client3);
+		Mockito.when(mockClientDao.getAllTfClients()).thenReturn(clients);
+		List<TfClient> expected = service.getAllTfClients();
+		Assert.assertEquals(expected,clients);
+	}
+}

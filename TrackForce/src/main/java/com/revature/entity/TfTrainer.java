@@ -25,13 +25,11 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * Created Trainer entity to be used to pull trainer information from the DB
- * @author Andy A
- * @since 6.18.06.08
- * 
+ * @author Andy A 
+ * <p>Created Trainer entity to be used to pull trainer information from the DB</p>
+ * @version.date v06.2018.06.08
  *
  */
-
 @XmlRootElement
 @Entity
 @Table(name="TF_TRAINER", schema="ADMIN")
@@ -66,12 +64,8 @@ public class TfTrainer implements Serializable{
 	
 	@XmlElement
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="COTRAINER_BATCH",joinColumns= {@JoinColumn(name="TRAINER_ID")},inverseJoinColumns = {@JoinColumn(name="BATCH_ID")})
+	@JoinTable(name="COTRAINER_BATCH",joinColumns= {@JoinColumn(name="TRAINER_ID")},inverseJoinColumns = {@JoinColumn(name="BATCH_ID")}, schema="ADMIN")
 	private List<TfBatch> coTrainer = new ArrayList<>();
-	
-	@XmlElement
-	@Column(name="TRAINER_ISAPPROVED")
-	private int isApproved = 0;
 
 	public TfTrainer() {
 		super();
@@ -82,15 +76,13 @@ public class TfTrainer implements Serializable{
 		this.id = id;
 	}
 
-	public TfTrainer(int id, String firstName, String lastName, List<TfBatch> primary, List<TfBatch> coTrainer,
-			int isApproved) {
+	public TfTrainer(int id, String firstName, String lastName, List<TfBatch> primary, List<TfBatch> coTrainer) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.primary = primary;
 		this.coTrainer = coTrainer;
-		this.isApproved = isApproved;
 	}
 	
 	
@@ -143,20 +135,12 @@ public class TfTrainer implements Serializable{
 		this.coTrainer = coTrainer;
 	}
 
-	public int getIsApproved() {
-		return isApproved;
-	}
-
-	public void setIsApproved(int isApproved) {
-		this.isApproved = isApproved;
-	}
-
 	
 	
 	@Override
 	public String toString() {
 		return "TfTrainer [id=" + id + ", tfUser=" + user + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", primary=" + primary + ", coTrainer=" + coTrainer + ", isApproved=" + isApproved + "]";
+				+ ", primary=" + primary + ", coTrainer=" + coTrainer + "]";
 	}
 	
 	
@@ -168,7 +152,6 @@ public class TfTrainer implements Serializable{
 		result = prime * result + ((coTrainer == null) ? 0 : coTrainer.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + id;
-		result = prime * result + isApproved;
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((primary == null) ? 0 : primary.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
@@ -196,8 +179,6 @@ public class TfTrainer implements Serializable{
 			return false;
 		if (id != other.id)
 			return false;
-		if (isApproved != other.isApproved)
-			return false;
 		if (lastName == null) {
 			if (other.lastName != null)
 				return false;
@@ -215,10 +196,4 @@ public class TfTrainer implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
-
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache>
 	<defaultCache 
-		maxElementsInMemory="10000" 
+		maxElementsInMemory="100000" 
 		eternal="false"
 		timeToIdleSeconds="300" 
 		timeToLiveSeconds="600" 

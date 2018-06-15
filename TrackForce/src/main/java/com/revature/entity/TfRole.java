@@ -3,6 +3,7 @@ package com.revature.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +16,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
+
+/**
+ * <p> </p>
+ * @version.date v06.2018.06.13
+ */
 @XmlRootElement
 @Entity
 @Table(name = "TF_ROLE", schema = "ADMIN")
@@ -32,7 +43,9 @@ public class TfRole implements java.io.Serializable {
 	@Column(name = "TF_ROLE_NAME", length = 20)
 	private String name;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfRole")
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "TfRole")
+	@JsonIgnore
 	private Set<TfUser> users = new HashSet<TfUser>(0);
 
 	public TfRole() {
@@ -42,10 +55,9 @@ public class TfRole implements java.io.Serializable {
 		this.id = tfRoleId;
 	}
 
-	public TfRole(Integer tfRoleId, String tfRoleName, Set<TfUser> tfUsers) {
-		this.id = tfRoleId;
+	public TfRole(Integer roleId, String tfRoleName) {
+		this.id = roleId;
 		this.name = tfRoleName;
-		this.users = tfUsers;
 	}
 
 	
@@ -53,8 +65,8 @@ public class TfRole implements java.io.Serializable {
 		return this.id;
 	}
 
-	public void setTfRoleId(Integer tfRoleId) {
-		this.id = tfRoleId;
+	public void setTfRoleId(Integer roleId) {
+		this.id = roleId;
 	}
 
 	
@@ -66,13 +78,14 @@ public class TfRole implements java.io.Serializable {
 		this.name = tfRoleName;
 	}
 
-	
+	@JsonIgnore
 	public Set<TfUser> getTfUsers() {
 		return this.users;
 	}
 
-	public void setTfUsers(Set<TfUser> tfUsers) {
-		this.users = tfUsers;
+	@JsonIgnore
+	public void setTfUsers(Set<TfUser> users) {
+		this.users = users;
 	}
 
 	/* (non-Javadoc)

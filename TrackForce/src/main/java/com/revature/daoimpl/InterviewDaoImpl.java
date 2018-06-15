@@ -1,4 +1,4 @@
-package com.revature.dao;
+package com.revature.daoimpl;
 
 import java.util.List;
 
@@ -6,21 +6,23 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.revature.dao.InterviewDao;
 import com.revature.entity.TfInterview;
 import com.revature.utils.HibernateUtil;
 
-public class InterviewDaoHibernate implements InterviewDao {
+public class InterviewDaoImpl implements InterviewDao {
 
 	@Override
 	public List<TfInterview> getInterviewsByAssociate(int associateId) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Interview i where i.tf_associate_id like :associateId", TfInterview.class).setParameter("associateId", associateId).getResultList());
+		session.createQuery("from TfInterview i where i.tf_associate_id like :associateId", TfInterview.class).setParameter("associateId", associateId).getResultList());
 	}
+	
 
 	@Override
 	public List<TfInterview> getAllInterviews() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Interview", TfInterview.class).setCacheable(true).getResultList());
+		session.createQuery("from TfInterview", TfInterview.class).getResultList());
 	}
 
 	@Override
@@ -42,7 +44,7 @@ public class InterviewDaoHibernate implements InterviewDao {
 			temp.setClient(interview.getClient());
 			temp.setClientFeedback(interview.getClientFeedback());
 			temp.setDateAssociateIssued(interview.getDateAssociateIssued());
-			temp.setEndClient(interview.getEndClient());
+			temp.setClient(interview.getClient());
 			temp.setDateSalesIssued(interview.getDateAssociateIssued());
 			temp.setFlagReason(interview.getFlagReason());
 			temp.setInterviewDate(interview.getInterviewDate());

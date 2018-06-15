@@ -3,7 +3,6 @@ package com.revature.dao;
 import java.util.List;
 
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfInterview;
 
 public interface AssociateDao {
 

@@ -16,6 +16,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+/**
+ * <p> </p>
+ * @version.date v06.2018.06.13
+ */
 @XmlRootElement
 @Entity
 @Table(name = "TF_INTERVIEW", schema = "ADMIN")
@@ -29,6 +36,7 @@ public class TfInterview implements java.io.Serializable {
 	@Column(name = "TF_INTERVIEW_ID", unique = true)
 	private Integer id;
 
+//	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "TF_ASSOCIATE_ID")
 	private TfAssociate associate;

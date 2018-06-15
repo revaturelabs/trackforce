@@ -22,8 +22,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-
-
+/**
+ * <p> </p>
+ * @version.date v06.2018.06.13
+ */
 @XmlRootElement
 @Entity
 @Table(name = "TF_BATCH", schema = "ADMIN")
@@ -61,7 +63,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	private Timestamp endDate;
 	
 	@XmlElement
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "tfBatch")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "batch")
 	private Set<TfAssociate> associates = new HashSet<TfAssociate>(0);
 
 	@XmlElement
@@ -92,7 +94,6 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	public TfBatchLocation getLocation() {
 		return location;
 	}
-
 
 
 	public void setLocation(TfBatchLocation location) {
@@ -203,8 +204,6 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		this.trainer = trainer;
 		this.coTrainer = coTrainer;
 	}
-
-
 
 	@Override
 	public String toString() {

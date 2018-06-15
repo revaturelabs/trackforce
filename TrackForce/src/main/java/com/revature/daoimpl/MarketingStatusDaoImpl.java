@@ -1,18 +1,19 @@
-package com.revature.dao;
+package com.revature.daoimpl;
 
 import java.util.List;
 
 import org.hibernate.Session;
 
+import com.revature.dao.MarketingStatusDao;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.utils.HibernateUtil;
 
-public class MarketingStatusDaoHibernate implements MarketingStatusDao {
+public class MarketingStatusDaoImpl implements MarketingStatusDao {
 
 	@Override
 	public List<TfMarketingStatus> getAllMarketingStatuses() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Marketing_Status", TfMarketingStatus.class).setCacheable(true).getResultList());
+		session.createQuery("from TfMarketingStatus", TfMarketingStatus.class).getResultList());
 	}
 	
 	

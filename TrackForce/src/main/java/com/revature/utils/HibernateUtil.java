@@ -11,8 +11,10 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 /**
- * Utility class for configurations and getting a Hibernate SessionFactory
- * object.
+ * @author Curtis H., Adam L.
+ * <p>The abstracted methods for making Hibernate calls to the database</p>
+ * @version.date v06.2018.06.13
+ *
  */
 public class HibernateUtil {
 
@@ -51,6 +53,9 @@ public class HibernateUtil {
 			System.out.println("Transaction rolled back");
 		}
 	}
+
+	// The code above this line to the top of the package is basically an exact copy of stuff William did in class
+	// Now we abstract further.
 
 
 	public static boolean runHibernateTransaction(Sessional<Boolean> sessional, Object ... args) {

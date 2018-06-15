@@ -46,7 +46,7 @@
 //    private CurriculumDaoImpl mockCurriculumDao;
 //    @Mock
 //    private MarketingStatusDaoHibernate mockMarketingStatusDao;
-//    
+//
 //
 //    @BeforeTest
 //    public void beforeTests() throws IOException, SQLException {
@@ -76,8 +76,8 @@
 //        mInfo.setId(new Integer(-1));
 //        HashMap<Integer, MarketingStatusInfo> marketingStatusMap = new HashMap<>();
 //        marketingStatusMap.put(new Integer(-1), mInfo);
-//        
-//      
+//
+//
 //
 //        Mockito.when(mockAssociateDao.getAssociates())
 //                .thenReturn(associateMap);
@@ -89,15 +89,15 @@
 //                .thenReturn(curriculumMap);
 //        Mockito.when(mockMarketingStatusDao.getMarketingStatus())
 //                .thenReturn(marketingStatusMap);
-//       
-//        
+//
+//
 //        // pull info from *database (*results mocked in this case)
 //        PersistentStorage.getStorage().setAssociates(mockAssociateDao.getAssociates());
 //        PersistentStorage.getStorage().setBatches(mockBatchDao.getBatchDetails());
 //        PersistentStorage.getStorage().setClients(mockClientDao.getAllTfClients());
 //        PersistentStorage.getStorage().setCurriculums(mockCurriculumDao.getAllCurriculums());
 //        PersistentStorage.getStorage().setMarketingStatuses(mockMarketingStatusDao.getMarketingStatus());
-//        
+//
 //    }
 //
 //    @Test(enabled = true)
@@ -105,37 +105,37 @@
 //        assertNotNull(PersistentStorage.getStorage().getAssociates());
 //        assertFalse(PersistentStorage.getStorage().getAssociates().isEmpty());
 //    }
-//    
+//
 //    @Test(enabled = true)
 //    public void testBatchesPersistence() {
 //    	assertNotNull(PersistentStorage.getStorage().getBatches());
 //        assertFalse(PersistentStorage.getStorage().getBatches().isEmpty());
 //    }
-//    
+//
 //    @Test(enabled = true)
 //    public void testClientsPersistence() {
 //    	assertNotNull(PersistentStorage.getStorage().getClients());
 //        assertFalse(PersistentStorage.getStorage().getClients().isEmpty());
 //    }
-//    
+//
 //    @Test(enabled = true)
 //    public void testCurriculumsPersistence() {
 //    	assertNotNull(PersistentStorage.getStorage().getCurriculums());
 //        assertFalse(PersistentStorage.getStorage().getCurriculums().isEmpty());
 //    }
-//    
+//
 //    @Test(enabled = true)
 //    public void testMarketingPersistence() {
 //    	assertNotNull(PersistentStorage.getStorage().getMarketingStatuses());
 //        assertFalse(PersistentStorage.getStorage().getMarketingStatuses().isEmpty());
 //    }
-//    
+//
 //
 //    @Test(enabled = false)
 //    public void updateAssociate() throws NumberFormatException, IOException {
 //    	System.out.println("update Associate");
 //        System.err.println(PersistentStorage.getStorage().getAssociateAsMap());
-//        
+//
 //		TreeSet<AssociateInfo> aiSet = (TreeSet<AssociateInfo>) PersistentStorage.getStorage().getAssociates();
 //		AssociateInfo ai = aiSet.first();
 //		AssociateInfo copy = new AssociateInfo();

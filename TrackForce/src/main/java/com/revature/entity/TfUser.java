@@ -4,8 +4,13 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @XmlRootElement
@@ -27,127 +32,106 @@ public class TfUser implements java.io.Serializable {
     @GeneratedValue(generator = "UserIdSeq", strategy = GenerationType.SEQUENCE)
     private int id;
 
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TF_ROLE_ID")
-    private TfRole role;
-
+    @JsonIgnore
+    private TfRole TfRole;
+    
     @XmlElement
     @Column(name = "TF_USERNAME", length = 20, unique = true)
     private String username;
 
     @XmlElement
     @Column(name = "TF_HASHPASSWORD", length = 200)
-    private String hashedPassword;
+    private String password;
     
     @XmlElement
     @Column(name = "TF_ISAPPROVED")
     private int isApproved;
+    
+ // This is just used for passing around the string token while logged in - Adam 06.2018.06.13
+    @XmlElement
+    @Transient
+    private String token;
+    
+    @XmlElement
+    @Transient
+    private Integer role;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-    @JoinColumn(name = "TF_ASSOCIATE_ID")
-    private TfAssociate tfAssociate;
-
-    public TfUser() {
-    }
-
-    public TfUser(int tfUserId) {
-        this.id = tfUserId;
-    }
-
-    public TfUser(int tfUserId, TfRole tfRole, String tfUserUsername, String tfUserHashpassword) {
-        this.id = tfUserId;
-        this.role = tfRole;
-        this.username = tfUserUsername;
-        this.hashedPassword = tfUserHashpassword;
-    }
-
-    public TfUser(Integer role, String username, String password) {
-        this.role = new TfRole(role);
-        this.username = username;
-        this.hashedPassword = password;
-    }
-
-    // Overloaded method to aid creating new associate.
-    public TfUser(String username, String password) {
-        this.role = new TfRole(5);
-        this.username = username;
-        this.hashedPassword = password;
-    }
-
-
-	public TfUser(int tfUserId, TfRole tfRole, String tfUserUsername, String tfHashpassword, TfAssociate tfAssociate) {
-		super();
-		this.id = tfUserId;
-		this.role = tfRole;
-		this.username = tfUserUsername;
-		this.hashedPassword = tfHashpassword;
+	public int getId() {
+		return id;
 	}
 
-    public int getTfUserId() {
-        return this.id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setTfUserId(int tfUserId) {
-        this.id = tfUserId;
-    }
+	@JsonIgnore
+	public TfRole getTfRole() {
+		return TfRole;
+	}
 
-    public TfRole getTfRole() {
-        return this.role;
-    }
+	@JsonIgnore
+	public void setTfRole(TfRole tfRole) {
+		TfRole = tfRole;
+	}
 
-    public void setTfRole(TfRole tfRole) {
-        this.role = tfRole;
-    }
+	public String getUsername() {
+		return username;
+	}
 
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getTfUserUsername() {
-        return this.username;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setTfUserUsername(String tfUserUsername) {
-        this.username = tfUserUsername;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public String getTfUserHashpassword() {
-        return this.hashedPassword;
-    }
-
-    public void setTfUserHashpassword(String tfUserHashpassword) {
-        this.hashedPassword = tfUserHashpassword;
-    }
-
-    public int isTf_isApproved() {
+	public int getIsApproved() {
 		return isApproved;
 	}
 
-	public void setTf_isApproved(int tf_isApproved) {
-		this.isApproved = tf_isApproved;
+	public void setIsApproved(int isApproved) {
+		this.isApproved = isApproved;
 	}
 
-	
-	
-	
-	@Override
-	public String toString() {
-		return "TfUser [tfUserId=" + id + ", tfRole=" + role + ", tfUserUsername=" + username
-				+ ", tfHashpassword=" + hashedPassword + ", tf_isApproved=" + isApproved + "]";
+	public String getToken() {
+		return token;
 	}
 
-	
-	
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public Integer getRole() {
+		return role;
+	}
+
+	public void setRole(Integer role) {
+		this.role = role;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((hashedPassword == null) ? 0 : hashedPassword.hashCode());
-		result = prime * result + ((role == null) ? 0 : role.hashCode());
+		result = prime * result + ((TfRole == null) ? 0 : TfRole.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		result = prime * result + isApproved;
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + role;
+		result = prime * result + ((token == null) ? 0 : token.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
-    @Override
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -156,27 +140,42 @@ public class TfUser implements java.io.Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		TfUser other = (TfUser) obj;
-		if (hashedPassword == null) {
-			if (other.hashedPassword != null)
+		if (TfRole == null) {
+			if (other.TfRole != null)
 				return false;
-		} else if (!hashedPassword.equals(other.hashedPassword))
-			return false;
-		if (role == null) {
-			if (other.role != null)
-				return false;
-		} else if (!role.equals(other.role))
+		} else if (!TfRole.equals(other.TfRole))
 			return false;
 		if (id != other.id)
+			return false;
+		if (isApproved != other.isApproved)
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (role != other.role)
+			return false;
+		if (token == null) {
+			if (other.token != null)
+				return false;
+		} else if (!token.equals(other.token))
 			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
 		} else if (!username.equals(other.username))
 			return false;
-		if (isApproved != other.isApproved)
-			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "TfUser [id=" + id + ", username=" + username + ", password=" + password + ", isApproved=" + isApproved
+				+ ", token=" + token + ", role=" + role + "]";
+	}
+
+    
     
     
 }

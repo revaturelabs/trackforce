@@ -1,4 +1,4 @@
-package com.revature.dao;
+package com.revature.daoimpl;
 
 import java.util.List;
 
@@ -6,23 +6,23 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.revature.dao.AssociateDao;
 import com.revature.entity.TfAssociate;
 import com.revature.utils.HibernateUtil;
 
-public class AssociateDaoHibernate implements AssociateDao {
+public class AssociateDaoImpl implements AssociateDao {
 
 	
-
 	@Override
 	public TfAssociate getAssociate(Integer associateid) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Associate a where a.tf_associate_id like :associateid", TfAssociate.class).setParameter("associateid", associateid).getSingleResult());
+		session.createQuery("from TfAssociate a where a.tf_associate_id like :associateid", TfAssociate.class).setParameter("associateid", associateid).getSingleResult());
 	}
 
 	@Override
 	public List<TfAssociate> getAllAssociates() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Associate", TfAssociate.class).setCacheable(true).getResultList());
+		session.createQuery("from TfAssociate", TfAssociate.class).getResultList());
 	}
 
 	@Override

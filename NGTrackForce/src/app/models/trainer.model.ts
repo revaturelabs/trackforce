@@ -15,7 +15,6 @@ export class Trainer{
   lastName: string;
   primary : Batch[];
   coTrainer : Batch[];
-  isApproved: 0;
 
 }
 

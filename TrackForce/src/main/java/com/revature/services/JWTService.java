@@ -23,13 +23,18 @@ import io.jsonwebtoken.UnsupportedJwtException;
 /**
  * 
  * @author Michael Tseng
+ * @editors Adam L. 
  * 
  *         Service for creating and verifying JWT tokens Based on the tutorial
  *         found here: https://stormpath.com/blog/jwt-java-create-verify And
  *         resources from Sean Vaeth
  *
+ *	@version.date v06.2018.06.13 
+ *			Note: made minor updates to allow continued use of these tokens
  */
 public class JWTService {
+	
+	UserService userService;
 	
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 1000L;
@@ -56,11 +61,11 @@ public class JWTService {
 			tokenUsername = claims.getSubject();
 		}
 		if (tokenUsername != null) {
-			tfUser = UserService.getUser(tokenUsername);
+			tfUser = userService.getUser(tokenUsername);
 		}
 		if (tfUser != null) {
 			// makes sure the token is fresh and usernames are equal
-			verified = (!isTokenExpired(token) && tfUser.getTfUserUsername().equals(tokenUsername));
+			verified = (!isTokenExpired(token) && tfUser.getUsername().equals(tokenUsername));
 		}
 
 		return verified;

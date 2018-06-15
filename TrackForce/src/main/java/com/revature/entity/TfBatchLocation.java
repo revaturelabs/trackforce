@@ -12,10 +12,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+
+/**
+ * <p> </p>
+ * @version.date v06.2018.06.13
+ */
 @XmlRootElement
 @Entity
 @Table(name = "TF_BATCH_LOCATION", schema = "ADMIN")
@@ -34,7 +38,7 @@ public class TfBatchLocation implements java.io.Serializable {
 	private String name;
 	
 	@XmlElement
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfBatchLocation")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "location")
 	private Set<TfBatch> batches = new HashSet<TfBatch>(0);
 
 	public TfBatchLocation() {

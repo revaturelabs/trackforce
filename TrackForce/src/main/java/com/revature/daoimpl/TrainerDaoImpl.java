@@ -1,4 +1,4 @@
-package com.revature.dao;
+package com.revature.daoimpl;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.revature.dao.TrainerDao;
 import com.revature.entity.TfTrainer;
 import com.revature.utils.HibernateUtil;
 
@@ -14,13 +15,13 @@ public class TrainerDaoImpl implements TrainerDao{
 	@Override
 	public TfTrainer getTrainer(int trainerId) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Trainer t where t.tf_trainer_id like :trainerId", TfTrainer.class).setParameter("trainerId", trainerId).getSingleResult());
+		session.createQuery("from TfTrainer t where t.tf_trainer_id like :trainerId", TfTrainer.class).setParameter("trainerId", trainerId).getSingleResult());
 	}
 
 	@Override
 	public List<TfTrainer> getAllTrainers() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from Tf_Trainer", TfTrainer.class).setCacheable(true).getResultList());
+		session.createQuery("from TfTrainer", TfTrainer.class).getResultList());
 	}
 
 	@Override
@@ -41,7 +42,6 @@ public class TrainerDaoImpl implements TrainerDao{
 			temp.setCoTrainer(trainer.getCoTrainer());
 			temp.setFirstName(trainer.getFirstName());
 			temp.setLastName(trainer.getLastName());
-			temp.setIsApproved(trainer.getIsApproved());
 			temp.setPrimary(trainer.getPrimary());
 			
 			session.update(temp);

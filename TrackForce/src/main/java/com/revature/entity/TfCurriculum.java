@@ -16,6 +16,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+
+/**
+ * <p> </p>
+ * @version.date v06.2018.06.13
+ */
 @XmlRootElement
 @Entity
 @Table(name = "TF_CURRICULUM", schema = "ADMIN")
@@ -34,7 +39,7 @@ public class TfCurriculum implements java.io.Serializable {
 	private String name;
 	
 	@XmlElement
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tfCurriculum")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curriculumName")
 	private Set<TfBatch> batches = new HashSet<TfBatch>(0);
 
 	

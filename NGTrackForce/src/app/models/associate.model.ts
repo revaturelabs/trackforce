@@ -20,9 +20,9 @@ export class Associate {
   marketingStatus: MarketingStatus;
   client: Client;
   endClient: EndClient;
-  interview: Interview;
+  interview: Interview[];
   placement: Placement;
-  isApproved: number;
+  //isApproved: number;
   clientStartDate: Date;
 
   /*These fields are commented out

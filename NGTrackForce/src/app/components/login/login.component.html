@@ -28,6 +28,7 @@
 						<input [@enterAnimation] class="form-control" type="password" placeholder="Password" name="password" id="password" required
 						 [(ngModel)]="password" />
 					</div>
+
 					<ng-template #elseBlockOne>
 						<label for="username" class="sr-only">First Name: </label>
 						<input [@enterAnimation] class="form-control" type="text" placeholder="First Name:" name="fname" id="fname" required class="form-control input-lg"
@@ -36,10 +37,12 @@
 						<input [@enterAnimation] class="form-control" type="text" placeholder="Last Name:" name="lname" id="lname" required [(ngModel)]="lname"
 						/>
 					</ng-template>
+
 					<div *ngIf='!this.isRegistering; else elseBlockZero'>
 						<button [@enterAnimation] class="btn btn-lg btn-primary btn-block" [@enterAnimation] type="submit" (click)='login()'>Sign in</button>
 						<button [@enterAnimation] class="btn btn-lg btn-primary btn-block" [@enterAnimation] type="button" (click)='register()'>Register</button>
 					</div>
+					
 					<ng-template #elseBlockZero>
 						<div *ngIf='registerPage==0; else elseBlockTwo'>
 							<label [@enterAnimation] for="cpassword" class="sr-only">Confirm Password: </label>

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { Observable } from "rxjs/Observable";
-import 'rxjs/add/operator/map'
+import { Observable } from "rxjs";
+
 import { Associate } from "../../models/associate.model";
 import { Response } from "@angular/http/";
 import { environment } from "../../../environments/environment";
@@ -25,7 +25,7 @@ export class AssociateService {
   * Used in associate list and home component, and the associate and data-sync services
   */
   getAllAssociates(): Observable<any> {
-    let url: string = environment.url + this.associatePath;
+    let url: string = environment.url + this.associatePath + '/allAssociates';
     return this.http.get(url);
   }
 

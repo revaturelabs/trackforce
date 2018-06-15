@@ -1,43 +1,56 @@
 package com.revature.services;
 
-import java.io.IOException;
-import java.util.Set;
-
+import java.util.List;
 
 import com.revature.dao.ClientDao;
-import com.revature.dao.ClientDaoImpl;
-import com.revature.model.ClientInfo;
+import com.revature.daoimpl.ClientDaoImpl;
+import com.revature.entity.TfClient;
 
+/**
+ * @author Adam L. 
+ * <p> </p>
+ * @version.date v06.2018.06.13
+ *
+ */
 public class ClientService {
-    private ClientDao clientDao;
-
-    public ClientService() {
-        this.clientDao = new ClientDaoImpl();
-    }
-    
-    public ClientService(ClientDao clientDao) {
-        this.clientDao = clientDao;
-    }
-
-    /**
-     * same as getAllClients but does not use cache mechanism
-     *
-     * @return
-     * @throws IOException
-     */
-    public Set<ClientInfo> getClients() throws IOException {
-    	try {
-    		return clientDao.getAllClientsFromCache();
-        } catch (Exception e) {
-            throw new IOException("could not get clients", e);
-        }
-    }
-    
-    public ClientInfo getClientByID(int id) throws IOException{
-    	try {
-    		return clientDao.getClientFromCache(id);
-    	} catch (Exception e) {
-    		throw new IOException("could not get client by ID", e);
-    	}
-    }
+   
+	private static ClientDao dao = new ClientDaoImpl();
+	
+	// public so it can be used for testing 
+	public ClientService() {};
+	
+	/**
+	 * @author Adam L. 
+	 * <p>Gets all the clients in the database</p>
+	 * @version.date v06.2018.06.13
+	 * 
+	 * @return List<TfClient>
+	 */
+	public List<TfClient> getAllTfClients(){
+		return dao.getAllTfClients();
+	}
+	
+	/**
+	 * @author Adam L. 
+	 * <p>Gets a client based on their name</p>
+	 * @version.date v06.2018.06.13
+	 * 
+	 * @param name
+	 * @return TfClient
+	 */
+	public TfClient getClient(String name) {
+		return dao.getClient(name);
+	}
+	
+	/**
+	 * @author Adam L. 
+	 * <p>Gets a client based on their client id</p>
+	 * @version.date v06.2018.06.13
+	 * 
+	 * @param id
+	 * @return TfClient
+	 */
+	public TfClient getClient(int id) {
+		return dao.getClient(id);
+	}
 }

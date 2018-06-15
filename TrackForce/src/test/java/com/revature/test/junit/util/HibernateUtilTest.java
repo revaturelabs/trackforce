@@ -10,19 +10,8 @@ import org.junit.Test;
 
 import com.revature.utils.HibernateUtil;
 
+// Needs more tests, HibernateUtil got updated
 public class HibernateUtilTest {
-
-	@Test
-	public void testGetSession() {
-		try {
-			Session session = HibernateUtil.getSession();
-			assertTrue(session != null);
-			session.close();
-			assertTrue(!session.isOpen());
-		} catch (HibernateException he) {
-			fail("Error opening session");
-		}
-	}
 
 	@Test
 	public void testGetSessionFactory() {

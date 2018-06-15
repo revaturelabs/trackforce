@@ -23,35 +23,35 @@ public class TfPlacementTest {
 
 	@Test
 	public void test1() {
-		tfplacement.setTfAssociate(new TfAssociate());
-		assertTrue(tfplacement.getTfAssociate() instanceof TfAssociate);
+		tfplacement.setAssociate(new TfAssociate());
+		assertTrue(tfplacement.getAssociate() instanceof TfAssociate);
 	}
 	@Test
 	public void test2() {
-		tfplacement.setTfClient(new TfClient());
-		assertTrue(tfplacement.getTfClient() instanceof TfClient);
+		tfplacement.setClient(new TfClient());
+		assertTrue(tfplacement.getClient() instanceof TfClient);
 	}
 	@Test
 	public void test3() {
-		tfplacement.setTfEndClient(new TfEndClient());
-		assertTrue(tfplacement.getTfEndClient() instanceof TfEndClient);
+		tfplacement.setEndClient(new TfEndClient());
+		assertTrue(tfplacement.getEndClient() instanceof TfEndClient);
 	}
 	@Test
 	public void test4() {
-		tfplacement.setTfPlacementEndDate(new Timestamp(1000L));
-		assertTrue(tfplacement.getTfPlacementEndDate().getTime() == 1000L);
-		assertFalse(tfplacement.getTfPlacementEndDate().getTime() == 2000L);
+		tfplacement.setEnd(new Timestamp(1000L));
+		assertTrue(tfplacement.getEnd().getTime() == 1000L);
+		assertFalse(tfplacement.getEnd().getTime() == 2000L);
 	}
 	@Test
 	public void test5() {
-		tfplacement.setTfPlacementId(99);
-		assertTrue(tfplacement.getTfPlacementId() == 99);
-		assertFalse(tfplacement.getTfPlacementId() == 1234);
+		tfplacement.setId(99);
+		assertTrue(tfplacement.getId() == 99);
+		assertFalse(tfplacement.getId() == 1234);
 	}
 	@Test
 	public void test6() {
-		tfplacement.setTfPlacementStartDate(new Timestamp(1000L));
-		assertTrue(tfplacement.getTfPlacementStartDate().getTime() == 1000L);
-		assertFalse(tfplacement.getTfPlacementStartDate().getTime() == 2000L);
+		tfplacement.setStart(new Timestamp(1000L));
+		assertTrue(tfplacement.getStart().getTime() == 1000L);
+		assertFalse(tfplacement.getStart().getTime() == 2000L);
 	}
 }

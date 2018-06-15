@@ -7,6 +7,7 @@ import { ClientService } from '../../services/client-service/client.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { User } from '../../models/user.model';
 import { ActivatedRoute } from '@angular/router';
+import { Curriculum } from '../../models/curriculum.model';
 
 /**
  * Component for the Associate List page
@@ -63,7 +64,7 @@ export class AssociateListComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem("currentUser"));
-    if (this.user.tfRoleId === 1 || this.user.tfRoleId === 2) {
+    if (this.user.role === 1 || this.user.role === 2) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
     this.getAllAssociates(); //grab associates and clients from back end
@@ -97,10 +98,10 @@ export class AssociateListComponent implements OnInit {
       console.log(this.associates);
 
       for (let associate of this.associates) {//get our curriculums from the associates
-        this.curriculums.add(associate.curriculumName);
+        this.curriculums.add(Curriculum.name);
 
-        if (associate.batchName === 'null') {
-          associate.batchName = 'None'
+        if (associate.batch.batchName === 'null') {
+          associate.batch.batchName = 'None'
         }
       }
       this.curriculums.delete("");

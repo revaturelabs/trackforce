@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeClass;
 
-import com.revature.dao.UserDAO;
+import com.revature.dao.UserDao;
 import com.revature.entity.TfUser;
 import com.revature.services.JWTService;
 
@@ -24,7 +24,7 @@ import io.jsonwebtoken.Claims;
 public class JWTServiceTest {
 
 	@Mock
-	private UserDAO userDao;
+	private UserDao userDao;
 	
 	@InjectMocks
 	private JWTService jwt = new JWTService();

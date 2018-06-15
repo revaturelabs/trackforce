@@ -9,10 +9,6 @@ import java.util.Date;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import org.hibernate.SessionFactory;
-
-import com.revature.dao.UserDAO;
-import com.revature.dao.UserDaoImpl;
 import com.revature.entity.TfUser;
 
 import io.jsonwebtoken.Claims;
@@ -27,32 +23,21 @@ import io.jsonwebtoken.UnsupportedJwtException;
 /**
  * 
  * @author Michael Tseng
+ * @editors Adam L. 
  * 
  *         Service for creating and verifying JWT tokens Based on the tutorial
  *         found here: https://stormpath.com/blog/jwt-java-create-verify And
  *         resources from Sean Vaeth
  *
+ *	@version.date v06.2018.06.13 
+ *			Note: made minor updates to allow continued use of these tokens
  */
 public class JWTService {
+	
+	UserService userService;
+	
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 1000L;
-
-	private UserDAO userDao;
-
-	public JWTService() {
-		this.userDao = new UserDaoImpl();
-	}
-
-	/**
-	 *
-	 * injectable dependencies for easier testing
-	 * 
-	 * @param userDao
-	 * @param sessionFactory
-	 */
-	public JWTService(UserDAO userDao, SessionFactory sessionFactory) {
-		this.userDao = userDao;
-	}
 
 	/**
 	 * Validates a token
@@ -76,11 +61,11 @@ public class JWTService {
 			tokenUsername = claims.getSubject();
 		}
 		if (tokenUsername != null) {
-			tfUser = userDao.getUser(tokenUsername);
+			tfUser = userService.getUser(tokenUsername);
 		}
 		if (tfUser != null) {
 			// makes sure the token is fresh and usernames are equal
-			verified = (!isTokenExpired(token) && tfUser.getTfUserUsername().equals(tokenUsername));
+			verified = (!isTokenExpired(token) && tfUser.getUsername().equals(tokenUsername));
 		}
 
 		return verified;

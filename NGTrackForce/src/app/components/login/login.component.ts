@@ -12,6 +12,8 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
 import { AssociateService } from '../../services/associate-service/associate.service';
 
 const associateInfo = 'associateInfo'
+const USER_KEY = 'currentUser';
+
 
 @Component({
   selector: 'app-login',
@@ -72,19 +74,17 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     const user = this.authService.getUser();
 
-
-
     if (user != null) {
-      if (user.tfRoleId === 5) {
+      if (user.role === 5) {
 
         // this.router.navigate(['associate-view', user.userId]);
 
         localStorage.setItem(associateInfo, JSON.stringify(user));
-        this.router.navigate(['associate-view', user.associateId]);
+        this.router.navigate(['associate-view', user.id]);
 
       }
       else {
-        this.getUser(user.userId);
+        this.getUser(user.id);
         this.router.navigate(['app-home']);
       }
     }
@@ -168,15 +168,16 @@ export class LoginComponent implements OnInit {
     if (this.username && this.password) {
       this.authService.login(this.username, this.password).subscribe(
         data => {
-          const user = this.authService.getUser();
+          const user: User = data;
+          localStorage.setItem(USER_KEY, JSON.stringify(data));
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
         
-          if(user.tfRoleId === 5){
+          if(user.role === 5){
               // the functionallity of user.isApproved is not yet implemented on the server side
 
               // if (user.isApproved) {
-                this.router.navigate(['associate-view', user.associateId]);
+                this.router.navigate(['associate-view', user.id]);
               // }
               // else {
               //   this.authService.logout();
@@ -194,7 +195,7 @@ export class LoginComponent implements OnInit {
           if (err.status === 500) {
             this.errMsg = "There was an error on the server";
           }
-          else if (err.status === 400) {
+          else if (err.status === 401) {
             this.errMsg = "Invalid username and/or password";
 
           }

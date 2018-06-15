@@ -1,3 +1,6 @@
+import { User } from "./user.model";
+import { Batch } from "./batch.model";
+
 /**
  * Model information for trainer user.
  * @author Kirk
@@ -7,9 +10,11 @@
 export class Trainer{
 
   id: number;
+  user : User;
   firstName: string;
   lastName: string;
-  isApproved: 0;
+  primary : Batch[];
+  coTrainer : Batch[];
 
 }
 

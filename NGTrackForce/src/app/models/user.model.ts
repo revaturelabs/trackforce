@@ -6,16 +6,16 @@
  * (If changes are made to the DB)
  * Note made 6/7/2018
  */
-
 export class User {
+  id: number;
+  name: string;
   username: string;
-  passwordHash: string;
+  hashedPassword: string;
+  role: number;
   // Kirk: verified is not in UserJSON.java
-
-  verified: string;
-  tfRoleId: number;
-  userId: number;
+  // Cameron : the commented out fields aren't
+  // in the entity
+  // verified: string;
   token: string;
-  associateId: number;
-  isApproved: boolean;
+  isApproved: number;
 }

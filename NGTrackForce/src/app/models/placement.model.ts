@@ -5,7 +5,7 @@ import { EndClient } from "./end-client.model";
 /**
  * Used in the client and the end-client models
  * Note made 6/7/2018
- * @author Amelia
+ * Reviewed by Max
  */
 export class Placement {
   id: number;

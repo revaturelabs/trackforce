@@ -76,7 +76,7 @@ export class MyInterviewComponent implements OnInit {
 
 
       const updateinterview = this.interviews[id];
-      let interview: any = {
+      var interview: any = {
         clientFeedback: updateinterview.CFeedback,
         dateAssociateIssued: new Date(updateinterview.date).getTime,
         dateSalesTeamIssued: null,
@@ -97,7 +97,7 @@ export class MyInterviewComponent implements OnInit {
       const updateinterview = this.interviews[id];
       updateinterview.CFeedback = u.CFeedback;
       updateinterview.AFeedback = u.AFeedback;
-      let interview: any = {
+      var interview: any = {
         clientFeedback: updateinterview.CFeedback,
         dateAssociateIssued: new Date(updateinterview.date).getTime,
         interviewId: updateinterview.id,
@@ -108,16 +108,16 @@ export class MyInterviewComponent implements OnInit {
         clientId: 9,
         typeId: updateinterview.typeID
       }
-      this.interviewService.updateinterview(interview, this.id).subscribe(
-        data => {
-          this.getInterviews(this.id);
-        },
-        err => {
-        }
-      );
 
       sessionStorage.clear();
     }
+    this.interviewService.updateinterview(interview, this.id).subscribe(
+      data => {
+        this.getInterviews(this.id);
+      },
+      err => {
+      }
+    );
 
   }
 
@@ -157,7 +157,7 @@ export class MyInterviewComponent implements OnInit {
    cell is colored red to highlight the conflict.
   */
   highlightInterviewConflicts(interview: number) {
-    let checkDate = this.interviews[interview].DInterview;
+    const checkDate = this.interviews[interview].DInterview;
     for (let i = 0; i < this.interviews.length; i++) {
       if (this.interviews[i].DInterview.getTime() === checkDate.getTime() && i !== interview) {
         this.conflictingInterviews = "The highlighted interviews are conflicting." +

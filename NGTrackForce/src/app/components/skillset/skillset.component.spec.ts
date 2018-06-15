@@ -19,30 +19,29 @@ import {
 describe('SkillsetComponent', () => {
   let component: SkillsetComponent;
   let fixture: ComponentFixture<SkillsetComponent>;
-  let activatedRoute : ActivatedRouteStub;
+  let activatedRoute: ActivatedRouteStub;
 
-  class SkillsetServiceSpy
-  {
+  class SkillsetServiceSpy {
 
   }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SkillsetComponent, HomeComponent, NavbarComponent,
+      declarations: [SkillsetComponent, HomeComponent, NavbarComponent,
         FormComponent
       ],
-      imports : [
+      imports: [
         HttpClientTestingModule,
         ChartsModule,
         RouterTestingModule
       ],
-      providers : [
+      providers: [
         SkillsetService,
-        { provide : ActivatedRoute, useValue : activatedRoute },
-        { provide : Router,         useClass : RouterStub }
+        { provide: ActivatedRoute, useValue: activatedRoute },
+        { provide: Router, useClass: RouterStub }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -64,9 +63,9 @@ describe('SkillsetComponent', () => {
   it('should have skillID that\'s in the acceptable values', () => {
     component.selectedStatus = SelectedStatusConstants.CONFIRMED;
     // get the values in SkillsetComponent, and search for selectedStatus. It better be in there!
-    var idFound = true;
+    let idFound = true;
     SkillsetComponent.getSkillInfo().forEach((value, key) => {
-      idFound = (value == component.getSkillID())
+      idFound = (value === component.getSkillID())
     })
     expect(idFound).toBeTruthy();
   })
@@ -79,8 +78,7 @@ describe('SkillsetComponent', () => {
     // click each of the buttons
     let chartChangeButtons = fixture.nativeElement.querySelector('.btn.btn-default');
     let i = 0;
-    for (let btn of chartChangeButtons)
-    {
+    for (let btn of chartChangeButtons) {
       // sanity testing the buttons to make sure they are actual buttons and not indices of some array
       expect(btn).toBeNaN();
       expect(btn.click).not.toBeUndefined();
@@ -95,20 +93,20 @@ describe('SkillsetComponent', () => {
 
   })
 
-    it('should not be using DUMMY_DATA', () => {
+  it('should not be using DUMMY_DATA', () => {
     // waiting on the observable in ngOnInit() to finish ...
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(component.skillsetData).not.toEqual(component.DUMMY_DATA);
     })
-    // making sure that the skillsetData is now equal to the results of the data returned from SkillsetService
-    .then(() => {
-      let service : SkillsetService = TestBed.get(SkillsetService);
-      service.getSkillsetsForStatusID(1).subscribe((res) => {
-        expect(component.skillsetData).toEqual(res.data.map((obj) => obj.count))
+      // making sure that the skillsetData is now equal to the results of the data returned from SkillsetService
+      .then(() => {
+        let service: SkillsetService = TestBed.get(SkillsetService);
+        service.getSkillsetsForStatusID(1).subscribe((res) => {
+          expect(component.skillsetData).toEqual(res.data.map((obj) => obj.count))
+        })
+          .unsubscribe()
       })
-      .unsubscribe()
-    })
   });
 
   xit('should have one-to-one relation between skillsetData and skillsetLabels', () => {

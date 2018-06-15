@@ -14,7 +14,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 * Component for viewing an individual associate and editing as admin.
 */
 @Component({
-  selector: 'form-comp',
+  selector: 'app-form-comp',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
@@ -35,8 +35,8 @@ export class FormComponent implements OnInit {
   };
 
   newStartDate: Date;
-  successMessage: string = "";
-  errorMessage: string = "";
+  successMessage = "";
+  errorMessage = "";
   selectedVerificationStatus: string;
   selectedMarketingStatus: any;
   selectedClient: number;
@@ -67,7 +67,7 @@ export class FormComponent implements OnInit {
     private authService: AuthenticationService
   ) {
     //gets id from router url parameter
-    var id = window.location.href.split("form-comp/")[1];
+    const id = window.location.href.split("form-comp/")[1];
     this.id = Number(id);
 
   }
@@ -96,7 +96,6 @@ export class FormComponent implements OnInit {
         } else {
           this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
         }
-
       });
     this.clientService.getAllClients().subscribe(
       data => {
@@ -107,8 +106,8 @@ export class FormComponent implements OnInit {
   }
 
   adjustDate(date: any) { // dates are off by 1 day - this corrects them
-    let ldate = new Date(date);
-    let origDate = ldate.getDate();
+    const ldate = new Date(date);
+    const origDate = ldate.getDate();
     ldate.setDate(origDate + 1);
     if (ldate.getDate() < 1) {
       ldate.setMonth(ldate.getMonth() - 1)
@@ -182,7 +181,7 @@ export class FormComponent implements OnInit {
     } else {
       var newClient = this.associate.client.id;
     }
-    var newAssociate = {
+    let newAssociate = {
       id: this.id,
       verified: newVerificationStatus,
       mkStatus: newStatus,
@@ -194,16 +193,17 @@ export class FormComponent implements OnInit {
         this.successMessage = "Successfully updated associate";
         this.associateService.getAssociate(this.id).subscribe(
           data => {
-            this.associate = <Associate>data;
+            this.associate = data;
             if (data.clientStartDate.toString() === "0") {
               this.associate.clientStartDate = null;
-            }
-            else{
+            } else {
               this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
+            } this.resetAllFields();
+          },
+          err => {
 
-            }
-            this.resetAllFields();
-          });
+          }
+        );
       }
     )
   }

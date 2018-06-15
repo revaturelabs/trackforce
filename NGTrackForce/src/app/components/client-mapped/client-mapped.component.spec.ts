@@ -46,7 +46,7 @@ describe('ClientMappedComponent', () => {
     const user: User = new User();
     user.token = "mockToken";
     user.username = "mockUser";
-    user.role.id = 1;
+    user.role = 1;
     spyOn(testAuthService, 'getUser').and.returnValue(user);
   });
 
@@ -92,10 +92,10 @@ describe('ClientMappedComponent', () => {
   //Test that chart is of type 'bar' by default
   it('should display bar chart by default', () => {
     //Variable containing the expected chart type
-    let chart_type = 'bar';
+    const chart_type = 'bar';
 
     //Grab the graph from the DOM
-    let the_graph = document.getElementById("the_graph");
+    const the_graph = document.getElementById("the_graph");
 
     //Test the chartType field in Component
     expect(component.chartType).toEqual(chart_type);

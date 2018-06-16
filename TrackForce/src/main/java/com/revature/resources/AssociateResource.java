@@ -49,7 +49,7 @@ public class AssociateResource {
 
 	
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
-	// This is to allow for Mokito tests, which have problems with static methods
+	// This is to allow for Mockito tests, which have problems with static methods
 	// This is here for a reason! 
 	// - Adam 06.18.06.13
 	AssociateService associateService = new AssociateService();

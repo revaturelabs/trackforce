@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
  * <p> </p>
  * @version.date v06.2018.06.13
  */
-@Path("interviews")
+@Path("/interviews")
 @Api(value = "AllInterviews")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -63,7 +63,7 @@ public class AllInterviewResource {
 	 */
 	@GET
 	@ApiOperation(value = "returns all interviews", notes = "Gets a list of all interviews that can be sorted in ascending or descending order based on date.")
-	public Response getAllInterviews(@HeaderParam("Authorization") String token, @QueryParam("sort") String sort) {
+	public Response getAllInterviews(@HeaderParam("Authorization") String token) {
 		
 		logger.info("getAllInterviews()...");
 

@@ -80,7 +80,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
@@ -111,7 +111,7 @@ public class AssociateResource {
 		TfAssociate associateinfo = associateService.getAssociate(associateid);
 
 		if (payload == null || false) {
-			status = Status.UNAUTHORIZED;
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
@@ -154,7 +154,7 @@ public class AssociateResource {
 		}
 
 		if (payload == null || !payload.getId().equals("1")) {
-			status = Status.UNAUTHORIZED;
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 
 		else {
@@ -187,7 +187,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
 			associateService.updateAssociate(associate);

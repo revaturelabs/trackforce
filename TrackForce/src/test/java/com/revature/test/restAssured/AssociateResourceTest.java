@@ -22,7 +22,7 @@ public class AssociateResourceTest {
 	List<TfAssociate> associates;
 	String token;
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/associates";
+	static final String URL = "http://localhost:8085/TrackForce/associates";
 
 	@BeforeClass
 	public void beforeClass() {
@@ -48,9 +48,10 @@ public class AssociateResourceTest {
 		// token).when().get(URL).then().assertThat().body("firstName",
 		// hasSize(associates.size()));
 
-		given().header("Authorization", "Bad Token").when().get(URL).then().assertThat().statusCode(401);
+		given().header("Authorization", "Bad Token").when().get(URL + "/allAssociates").then().assertThat().statusCode(401);
+		
 
-		given().header("Authorization", "Bad Token").when().get(URL + "/notAURL").then().assertThat().statusCode(404);
+		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
 	}
 
 	/**
@@ -62,25 +63,26 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 10)
 	public void testGetAssociate() {
-		Response response = given().header("Authorization", token).when().get(URL + "/" + 1).then().extract()
+		Response response = given().header("Authorization", token).when().get(URL + "/" + 900).then().extract()
 				.response();
 
+		System.out.println(response.getStatusCode());
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 
-		given().header("Authorization", token).when().get(URL + "/" + 1).then().assertThat().body("firstName",
-				equalTo("Steven"));
+		given().header("Authorization", token).when().get(URL + "/" + 900).then().assertThat().body("firstName",
+				equalTo("Cameron"));
 
-		given().header("Authorization", token).when().get(URL + "/" + 1).then().assertThat().body("marketingStatus",
-				equalTo("TERMINATED"));
+		given().header("Authorization", token).when().get(URL + "/" + 900).then().assertThat().body("marketingStatus",
+				equalTo(null));
 
-		given().header("Authorization", "Bad Token").when().get(URL + "/" + 1).then().assertThat().statusCode(401);
+		given().header("Authorization", "Bad Token").when().get(URL + "/" + 900).then().assertThat().statusCode(401);
 
 		given().header("Authorization", token).when().get(URL + "/0").then().assertThat().statusCode(204);
 
 		given().header("Authorization", token).when().get(URL + "/badURL").then().assertThat().statusCode(404);
 
-		given().header("Authorization", token).when().get(URL + "/" + 1).then().assertThat().body("address",
+		given().header("Authorization", token).when().get(URL + "/" + 900).then().assertThat().body("address",
 				equalTo(null));
 	}
 

@@ -1,5 +1,6 @@
 package com.revature.application;
 
+import com.revature.entity.TfInterview;
 import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
@@ -49,9 +50,9 @@ public class Application {
 //			System.out.println(interview);
 		
 		// test a single interview
-//		int interviewId = 215;
-//		TfInterview interview = interviewService.getInterviewById(interviewId);
-//		System.out.println(interview);
+		Integer interviewId = 215;
+		TfInterview interview = interviewService.getInterviewById(interviewId);
+		System.out.println(interview);
 		
 		// test get all associates 
 //		List<TfAssociate> associates = AssociateService.getAllAssociates();

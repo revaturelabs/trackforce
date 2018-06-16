@@ -30,7 +30,6 @@ import com.revature.services.TrainerService;
 import com.revature.services.UserService;
 
 import io.jsonwebtoken.Claims;
-import io.restassured.http.ContentType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -172,9 +171,8 @@ public class InterviewResource {
 	@Path("/{interviewid}")
 	@ApiOperation(value = "updates interview", notes = " Updates interview")
 	@PUT
-	public Response updateInterview(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewId, @HeaderParam("Authorization") String token,
-			TfInterview interview) {
+	public Response updateInterview(@PathParam("interviewid") int interviewId,
+	                                @HeaderParam("Authorization") String token, TfInterview interview) {
 		logger.info("updateInterview()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);

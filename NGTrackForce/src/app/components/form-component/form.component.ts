@@ -154,59 +154,60 @@ export class FormComponent implements OnInit {
       // set status to UNMAPPED: TRAINING
       this.selectedMarketingStatus = 6;
     }
-    this.updateAssociate();
+    // this.updateAssociate();
   }
 
   /**
   * Update the associate with the new verification status, client, status, and/or start date
   */
-  updateAssociate() {
-    if (this.newStartDate) {
-      var dateTime = Number((new Date(this.newStartDate).getTime()) / 1000);
-    } else {
-      var dateTime = Number((new Date(this.associate.clientStartDate).getTime()) / 1000);
-    }
-    if (this.selectedVerificationStatus) {
-      var newVerificationStatus = this.selectedVerificationStatus;
-    } else {
-      // var newVerificationStatus = this.associate.user.verified;
-    }
-    if (this.selectedMarketingStatus) {
-      var newStatus = Number(this.selectedMarketingStatus);
-    } else {
-      var newStatus = this.associate.marketingStatus.id;
-    }
-    if (this.selectedClient) {
-      var newClient = this.selectedClient;
-    } else {
-      var newClient = this.associate.client.id;
-    }
-    let newAssociate = {
-      id: this.id,
-      verified: newVerificationStatus,
-      mkStatus: newStatus,
-      clientId: newClient,
-      startDateUnixTime: dateTime
-    };
-    this.associateService.updateAssociate(newAssociate).subscribe(
-      data => {
-        this.successMessage = "Successfully updated associate";
-        this.associateService.getAssociate(this.id).subscribe(
-          data => {
-            this.associate = data;
-            if (data.clientStartDate.toString() === "0") {
-              this.associate.clientStartDate = null;
-            } else {
-              this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
-            } this.resetAllFields();
-          },
-          err => {
-
-          }
-        );
-      }
-    )
-  }
+  // COMMENTED OUT BECAUSE IT BROKE BECAUSE OF CHANGES WE MADE TO MODELS
+  // ALSO NEED TO UNCOMMENT OUT LINE 157 WHEN THIS WORKS
+  // updateAssociate() {
+  //   if (this.newStartDate) {
+  //     var dateTime = Number((new Date(this.newStartDate).getTime()) / 1000);
+  //   } else {
+  //     var dateTime = Number((new Date(this.associate.clientStartDate).getTime()) / 1000);
+  //   }
+  //   if (this.selectedVerificationStatus) {
+  //     var newVerificationStatus = this.selectedVerificationStatus;
+  //   } else {
+  //     // var newVerificationStatus = this.associate.user.verified;
+  //   }
+  //   if (this.selectedMarketingStatus) {
+  //     var newStatus = Number(this.selectedMarketingStatus);
+  //   } else {
+  //     var newStatus = this.associate.marketingStatus.id;
+  //   }
+  //   if (this.selectedClient) {
+  //     var newClient = this.selectedClient;
+  //   } else {
+  //     var newClient = this.associate.client.id;
+  //   }
+  //   let newAssociate = {
+  //     id: this.id,
+  //     verified: newVerificationStatus,
+  //     mkStatus: newStatus,
+  //     clientId: newClient,
+  //     startDateUnixTime: dateTime
+  //   };
+  //   this.associateService.updateAssociate(newAssociate).subscribe(
+  //     data => {
+  //       this.successMessage = "Successfully updated associate";
+  //       this.associateService.getAssociate(this.id).subscribe(
+  //         data => {
+  //           this.associate = data;
+  //           if (data.clientStartDate.toString() === "0") {
+  //             this.associate.clientStartDate = null;
+  //           } else {
+  //             this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
+  //           } this.resetAllFields();
+  //         },
+  //         err => {
+  //         }
+  //       );
+  //     }
+  //   )
+  // }
 
 
   /* Verify this Associate */

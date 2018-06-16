@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { RequestService } from '../request-service/request.service';
-import {User} from '../../models/user.model';
+import { User } from '../../models/user.model';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -43,15 +43,15 @@ export class AuthenticationService {
     */
   public login(username: string, password: string): Observable<User> {
     return this.http.post<User>(environment.url + 'TrackForce/users/login', { username: username, password: password })
-    // .map(
-    //   user => {
-    //     if(user){
-    //       localStorage.setItem(USER_KEY, JSON.stringify(user));
-    //     }
-    //     return user;
-    //   }
-    // )
-    ;
+      // .map(
+      //   user => {
+      //     if(user){
+      //       localStorage.setItem(USER_KEY, JSON.stringify(user));
+      //     }
+      //     return user;
+      //   }
+      // )
+      ;
   }
 
 
@@ -61,24 +61,42 @@ export class AuthenticationService {
   *
   *@param none
   */
-  logout(){
-    localStorage.removeItem(USER_KEY);
+  logout() {
+    localStorage.clear();
     this.router.navigate(['login']);
   }
 
   /**
+   * This method will return the User Object from local storage
    * 
+   * @param none
+   * 
+   * @author Max Dunn
    */
   getUser(): User {
     const user: User = JSON.parse(localStorage.getItem(USER_KEY));
     return user;
   }
 
+  /**
+   * This method will return the Associate Object from local storage
+   * 
+   * @param none
+   * 
+   * @author Max Dunn
+   */
   getAssociate(): Associate {
     const associate: Associate = JSON.parse(localStorage.getItem(ASSOCIATE_KEY));
-    return associate; 
+    return associate;
   }
 
+  /**
+   * This method will return the Trainer Object from local storage
+   * 
+   * @param none
+   * 
+   * @author Max Dunn 
+   */
   getTrainer(): Trainer {
     const trainer: Trainer = JSON.parse(localStorage.getItem(TRAINER_KEY));
     return trainer;

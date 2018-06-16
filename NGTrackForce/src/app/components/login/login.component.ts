@@ -12,13 +12,18 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { InterviewService } from '../../services/interview-service/interview.service';
 import { ClientService } from '../../services/client-service/client.service';
+import { BatchService } from '../../services/batch-service/batch.service';
 
 const ASSOCIATE_KEY = 'currentAssociate'
 const USER_KEY = 'currentUser';
 const TRAINER_KEY = 'currentTrainer';
 const INTERVIEWS_KEY = 'currentInterviews';
+const BATCHES_TRAINER_KEY = 'currentBatchesTrainer';
+const BATCHES_COTRAINER_KEY = 'currentBatchesCotrainer';
 const BATCHES_KEY = 'currentBatches';
 const CLIENTS_KEY = 'currentClients';
+const ASSOCIATES_KEY = 'currentAssociates';
+const TRAINERS_KEY = 'currentTrainers';
 
 
 @Component({
@@ -70,7 +75,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private interviewService: InterviewService,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private batchService: BatchService
   ) { }
 
   /**
@@ -186,9 +192,8 @@ export class LoginComponent implements OnInit {
           } else if (data.role === 2) {
             // this.trainerLogin(data);
           } else {
-
+            this.salesOrStagingLogin();
             //otherwise, they are set to root
-            this.router.navigate(['app-home']);
           }
           // } else {
           //   this.authService.logout();
@@ -219,6 +224,13 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  /**
+   * This method is called if the user signing in is an Associate.
+   * This method retrieves all of the Interview and Client data connected to the assciate.
+   * @param user - user object that was returned after sending a username and password to the server
+   * 
+   * @author Max Dunn
+   */
   associateLogin(user: User) {
     this.associateService.getAssociate(user.id).subscribe(
       data => {
@@ -226,16 +238,104 @@ export class LoginComponent implements OnInit {
         // the functionallity of user.isApproved is not yet implemented on the server side
       },
       err => {
+        console.log('error getting associate with userid');
         if (err.status === 500) {
           this.errMsg = "There was an error on the server";
+          // return;
+        } else {
+          this.router.navigate(['Error'])
+          // return;
+        }
+      });
+    const associate = this.authService.getAssociate();
+    this.interviewService.getInterviews(associate.id).subscribe(
+      data => {
+        localStorage.setItem(INTERVIEWS_KEY, JSON.stringify(data));
+      },
+      err => {
+        console.log('error getting interviews for associate');
+
+        if (err.status === 500) {
+          this.router.navigate(['ServerError'])
+          // return;
+        } else {
+          this.router.navigate(['Error'])
+          // return;
+        }
+      });
+    this.clientService.getAllClients().subscribe(
+      data => {
+        localStorage.setItem(CLIENTS_KEY, JSON.stringify(data));
+      },
+      err => {
+        console.log('error getting clients');
+
+        if (err.status === 500) {
+          this.router.navigate(['ServerError'])
+          // return;
+        } else {
+          this.router.navigate(['Error'])
+          // return;
+        }
+      });
+    this.router.navigate(['associate-view']);
+  }
+
+  // this function will work when the trainer service is implemented
+  //
+  // trainerLogin(user: User) {
+  //   this.trainerService.getTrainer(user.id).subscribe(
+  //     data => {
+  //       localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
+  //       // the functionallity of user.isApproved is not yet implemented on the server side
+  //       this.router.navigate(['trainer-view']);
+  //     },
+  //     err => {
+  //       if (err.status === 500) {
+  //         this.errMsg = "There was an error on the server";
+  //       }
+  //     });
+  //   // also add getting all the batches they are a trainer for
+  //   // also add getting all the batches they are a cotrainer for
+  //   // also add getting all the associated associated with this trainer
+  //   this.router.navigate(['trainer-view']);
+  // }
+
+  /**
+   * This method is called if the user signing in is not a trainer or associate.
+   * This method retrieves the data needed during the time this user is signed in and stores it in local storage
+   * @param none
+   * 
+   * @author Max Dunn
+   */
+  salesOrStagingLogin() {
+    this.associateService.getAllAssociates().subscribe(
+      data => {
+        localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
+      },
+      err => {
+        if (err.status === 500) {
+          this.router.navigate(['ServerError'])
           return;
         } else {
           this.router.navigate(['Error'])
           return;
         }
       });
-    const associate = this.authService.getAssociate();
-    this.interviewService.getInterviews(associate.id).subscribe(
+    this.batchService.getAllBatches().subscribe(
+      data => {
+        localStorage.setItem(BATCHES_KEY, JSON.stringify(data));
+      },
+      err => {
+        if (err.status === 500) {
+          this.router.navigate(['ServerError'])
+          return;
+        } else {
+          this.router.navigate(['Error'])
+          return;
+        }
+      });
+    this.interviewService.getAllInterviews().subscribe(
       data => {
         localStorage.setItem(INTERVIEWS_KEY, JSON.stringify(data));
       },
@@ -261,26 +361,6 @@ export class LoginComponent implements OnInit {
           return;
         }
       });
-    this.router.navigate(['associate-view']);
-  }
-
-  // this function will work when the trainer service is implemented
-  //
-  // trainerLogin(user: User) {
-  //   this.trainerService.getTrainer(user.id).subscribe(
-  //     data => {
-  //       localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
-  //       // the functionallity of user.isApproved is not yet implemented on the server side
-  //       this.router.navigate(['trainer-view']);
-  //     },
-  //     err => {
-  //       if (err.status === 500) {
-  //         this.errMsg = "There was an error on the server";
-  //       }
-  //     });
-  // }
-
-  salesOrStagingLogin() {
-    
+    this.router.navigate(['app-home']);
   }
 }

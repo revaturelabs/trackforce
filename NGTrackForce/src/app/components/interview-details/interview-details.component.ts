@@ -31,7 +31,7 @@ export class InterviewDetailsComponent implements OnInit {
     const u = JSON.parse(sessionStorage.getItem("interviews"));
     if(sessionStorage.getItem("changedin") === null)
       {
-    this.interview = u[this.i];
+    // this.interview = u[this.i];
     }
     else
       {

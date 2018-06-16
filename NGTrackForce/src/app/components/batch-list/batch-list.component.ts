@@ -134,11 +134,11 @@ export class BatchListComponent implements OnInit {
     this.dataEmpty = this.batches.length === 0;
 
     for (const batch of this.batches) {
-      let count = curriculumCountsMap.get(batch.curriculumName);
+      let count = curriculumCountsMap.get(batch.curriculumName.name);
       if (count === undefined) {
         count = 0;
       }
-      curriculumCountsMap.set(batch.curriculumName, count + 1);
+      curriculumCountsMap.set(batch.curriculumName.name, count + 1);
     }
 
     // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change

@@ -10,9 +10,13 @@ import {User} from '../../models/user.model';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { Associate } from '../../models/associate.model';
+import { Trainer } from '../../models/trainer.model';
 // import 'rxjs/Rx';
 
+const ASSOCIATE_KEY = 'currentAssociate'
 const USER_KEY = 'currentUser';
+const TRAINER_KEY = 'currentTrainer';
 
 @Injectable()
 export class AuthenticationService {
@@ -63,11 +67,21 @@ export class AuthenticationService {
   }
 
   /**
-   * Check for an active session
+   * 
    */
   getUser(): User {
     const user: User = JSON.parse(localStorage.getItem(USER_KEY));
     return user;
+  }
+
+  getAssociate(): Associate {
+    const associate: Associate = JSON.parse(localStorage.getItem(ASSOCIATE_KEY));
+    return associate; 
+  }
+
+  getTrainer(): Trainer {
+    const trainer: Trainer = JSON.parse(localStorage.getItem(TRAINER_KEY));
+    return trainer;
   }
 
 }

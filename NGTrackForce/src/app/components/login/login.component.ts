@@ -10,10 +10,15 @@ import { User } from '../../models/user.model';
 import { UserService } from '../../services/user-service/user.service';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 import { AssociateService } from '../../services/associate-service/associate.service';
+import { InterviewService } from '../../services/interview-service/interview.service';
+import { ClientService } from '../../services/client-service/client.service';
 
 const ASSOCIATE_KEY = 'currentAssociate'
 const USER_KEY = 'currentUser';
 const TRAINER_KEY = 'currentTrainer';
+const INTERVIEWS_KEY = 'currentInterviews';
+const BATCHES_KEY = 'currentBatches';
+const CLIENTS_KEY = 'currentClients';
 
 
 @Component({
@@ -44,7 +49,7 @@ export class LoginComponent implements OnInit {
   public cpassword: string;
   public fname: string;
   public lname: string;
-  public errMsg: any;
+  public errMsg: string;
   public sucMsg: string;
   public isRegistering = false;
   public associate: any;
@@ -59,8 +64,14 @@ export class LoginComponent implements OnInit {
   * Service needed for redirecting user upon successful login
   *
   */
-  constructor(private associateService: AssociateService, private authService: AuthenticationService, private router: Router,
-    private userService: UserService) { }
+  constructor(
+    private associateService: AssociateService,
+    private authService: AuthenticationService,
+    private router: Router,
+    private userService: UserService,
+    private interviewService: InterviewService,
+    private clientService: ClientService
+  ) { }
 
   /**
   * Called upon component initiation
@@ -74,35 +85,33 @@ export class LoginComponent implements OnInit {
   */
   ngOnInit() {
     const user = this.authService.getUser();
-
     if (user != null) {
       if (user.role === 5) {
-
         // this.router.navigate(['associate-view', user.userId]);
-
-        this.router.navigate(['associate-view', user.id]);
-
-      }
-      else {
-        this.getUser(user.id);
+        this.router.navigate(['associate-view']);
+        // } else if (user.role === 2) {
+        //   this.router.navigate(['trainer-view']);
+      } else {
+        // this.getUser(user.id);
         this.router.navigate(['app-home']);
       }
     }
   }
+
   /**
   * Enter the register state
   */
 
-  getUser(id) {
+  // getUser(id) {
 
-    this.associateService.getAssociate(id).subscribe(
-      data => {
-        this.associate = data;
-      },
-      err => {
-      });
+  //   this.associateService.getAssociate(id).subscribe(
+  //     data => {
+  //       this.associate = data;
+  //     },
+  //     err => {
+  //     });
 
-  }
+  // }
   register() {
     this.errMsg = "";
     this.sucMsg = "";
@@ -125,7 +134,7 @@ export class LoginComponent implements OnInit {
           this.sucMsg = "Associate account creation sucessful.";
         },
         err => {
-          console.error(err + " Error Occurred");
+          // console.error(err + " Error Occurred");
           this.errMsg = 'Error: new associate not created!';
         }
       );
@@ -171,15 +180,21 @@ export class LoginComponent implements OnInit {
           localStorage.setItem(USER_KEY, JSON.stringify(data));
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
-
+          // if (data.isApproved) {
           if (data.role === 5) {
             this.associateLogin(data);
           } else if (data.role === 2) {
             // this.trainerLogin(data);
           } else {
+
             //otherwise, they are set to root
             this.router.navigate(['app-home']);
           }
+          // } else {
+          //   this.authService.logout();
+          //   this.errMsg = "Your account has not been approved.";
+          // }
+
         },
 
         err => {
@@ -209,19 +224,44 @@ export class LoginComponent implements OnInit {
       data => {
         localStorage.setItem(ASSOCIATE_KEY, JSON.stringify(data));
         // the functionallity of user.isApproved is not yet implemented on the server side
-        // if (user.isApproved) {
-        this.router.navigate(['associate-view']);
-        // }
-        // else {
-        //   this.authService.logout();
-        //   this.errMsg = "Associate not yet approved";
-        // }
       },
       err => {
         if (err.status === 500) {
           this.errMsg = "There was an error on the server";
+          return;
+        } else {
+          this.router.navigate(['Error'])
+          return;
         }
       });
+    const associate = this.authService.getAssociate();
+    this.interviewService.getInterviews(associate.id).subscribe(
+      data => {
+        localStorage.setItem(INTERVIEWS_KEY, JSON.stringify(data));
+      },
+      err => {
+        if (err.status === 500) {
+          this.router.navigate(['ServerError'])
+          return;
+        } else {
+          this.router.navigate(['Error'])
+          return;
+        }
+      });
+    this.clientService.getAllClients().subscribe(
+      data => {
+        localStorage.setItem(CLIENTS_KEY, JSON.stringify(data));
+      },
+      err => {
+        if (err.status === 500) {
+          this.router.navigate(['ServerError'])
+          return;
+        } else {
+          this.router.navigate(['Error'])
+          return;
+        }
+      });
+    this.router.navigate(['associate-view']);
   }
 
   // this function will work when the trainer service is implemented
@@ -231,13 +271,7 @@ export class LoginComponent implements OnInit {
   //     data => {
   //       localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
   //       // the functionallity of user.isApproved is not yet implemented on the server side
-  //       // if (user.isApproved) {
   //       this.router.navigate(['trainer-view']);
-  //       // }
-  //       // else {
-  //       //   this.authService.logout();
-  //       //   this.errMsg = "Trainer not yet approved";
-  //       // }
   //     },
   //     err => {
   //       if (err.status === 500) {
@@ -245,4 +279,8 @@ export class LoginComponent implements OnInit {
   //       }
   //     });
   // }
+
+  salesOrStagingLogin() {
+    
+  }
 }

@@ -18,12 +18,12 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
   //Used for conditional display with ngIf
   //If admin, show the create user button
   //User object containing need data
-  user: User;
-  isLoggedIn: boolean;
-  isAdmin: boolean;
-  isTrainer: boolean;
-  isAssociate: boolean;
-  username = '';
+  public user: User;
+  public isLoggedIn: boolean;
+  public isAdmin: boolean;
+  public isTrainer: boolean;
+  public isAssociate: boolean;
+  public username = '';
 
   constructor(private router: Router, private authService: AuthenticationService) { }
 

@@ -7,6 +7,7 @@ import { ClientService } from '../../services/client-service/client.service';
 import { Interview } from '../../models/interview.model';
 import { InterviewService } from '../../services/interview-service/interview.service';
 import { Client } from '../../models/client.model';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 
 /**
 *@author Katherine Obioha
@@ -23,9 +24,9 @@ import { Client } from '../../models/client.model';
 
 @AutoUnsubscribe
 export class MyInterviewComponent implements OnInit {
-  public interviews: Array<any> = [];
-  public associate: Associate = new Associate();
-  public id = 0;
+  public interviews: Array<Interview>;
+  public associate: Associate;
+  // public id = 0;
   public newInterview: Interview = new Interview();
   public formOpen = false;
   public conflictingInterviews = "";
@@ -34,6 +35,7 @@ export class MyInterviewComponent implements OnInit {
   public clients: Client[];
 
   constructor(
+    private authService: AuthenticationService,
     private associateService: AssociateService,
     private activated: ActivatedRoute,
     private interviewService: InterviewService,
@@ -44,9 +46,11 @@ export class MyInterviewComponent implements OnInit {
   ngOnInit() {
     //gets the associate id from the path
     //the '+' coerces the parameter into a number
-    this.id = +this.activated.snapshot.paramMap.get('id');
-    this.getInterviews(this.id);
-    this.getAssociate(this.id);
+    // this.id = +this.activated.snapshot.paramMap.get('id');
+    this.associate = this.authService.getAssociate();
+
+    this.getInterviews(this.associate.id);
+    this.getAssociate(this.associate.id);
     this.getClientNames();
   }
 
@@ -142,8 +146,6 @@ export class MyInterviewComponent implements OnInit {
           }
           tempArr.push(intObj);
         }
-        this.interviews = tempArr;
-
         sessionStorage.setItem("interviews", JSON.stringify(this.interviews));
 
       }

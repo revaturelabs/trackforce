@@ -72,7 +72,7 @@ export class AssociateService {
     return this.http.put(url, ids);
   }
 
-  updateAssociate(associate: any) {
+  updateAssociate(associate: Associate) {
     const url: string = environment.url + this.associatePath + "/" + associate.id;
     return this.http.put(url, associate);
   }

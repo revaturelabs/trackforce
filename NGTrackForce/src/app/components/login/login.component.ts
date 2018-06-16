@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
     const user = this.authService.getUser();
     if (user != null) {
       if (user.role === 5) {
-        // this.router.navigate(['associate-view', user.userId]);
+        // this.router.navigate(['associate-view']);
         this.router.navigate(['associate-view']);
         // } else if (user.role === 2) {
         //   this.router.navigate(['trainer-view']);

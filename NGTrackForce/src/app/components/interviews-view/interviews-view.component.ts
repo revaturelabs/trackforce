@@ -30,7 +30,7 @@ export class InterviewsComponent implements OnInit {
   }
   viewInterview(inteview){
 	  this.interviewService.setInterview(inteview);
-	  this.router.navigate(['interviewDetails']);
+	  this.router.navigate(['interview-details']);
   }
   getInterviews() {
     this.interviewService.getAllInterviews().subscribe(

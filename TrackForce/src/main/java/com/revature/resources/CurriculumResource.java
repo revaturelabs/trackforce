@@ -76,9 +76,9 @@ public class CurriculumResource {
 		Claims payload = JWTService.processToken(token);
 		
 		if (payload == null) { // invalid token
-			status = Status.UNAUTHORIZED;
+			return Response.status(Status.UNAUTHORIZED).build();
 		} else if (!(payload.getId().equals("1") || payload.getId().equals("1"))) { // wrong roleid
-			status = Status.FORBIDDEN;
+			return Response.status(Status.FORBIDDEN).build();
 		} else {
 			status = curriculum == null || curriculum.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}

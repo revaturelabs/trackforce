@@ -5,6 +5,7 @@ import static com.revature.utils.LogUtil.logger;
 import java.io.IOException;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -80,7 +81,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
@@ -108,10 +109,16 @@ public class AssociateResource {
 		logger.info("getAssociate()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
-		TfAssociate associateinfo = associateService.getAssociate(associateid);
+		TfAssociate associateinfo;
+		try {
+			associateinfo = associateService.getAssociate(associateid);
+		} catch (NoResultException nre) {
+			logger.info("No associate found...");
+			return Response.status(Status.NO_CONTENT).build();
+		}
 
 		if (payload == null || false) {
-			status = Status.UNAUTHORIZED;
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
@@ -154,7 +161,7 @@ public class AssociateResource {
 		}
 
 		if (payload == null || !payload.getId().equals("1")) {
-			status = Status.UNAUTHORIZED;
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 
 		else {
@@ -187,10 +194,15 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
-			associateService.updateAssociate(associate);
+			try {
+				associateService.updateAssociate(associate);
+			} catch (NoResultException nre) {
+				logger.info("No associate found...");
+				return Response.status(Status.NO_CONTENT).build();
+			}
 			status = Status.OK;
 		}
 

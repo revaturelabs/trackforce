@@ -1,6 +1,6 @@
 package com.revature.application;
 
-import com.revature.entity.TfUser;
+import com.revature.entity.TfAssociate;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -34,8 +34,13 @@ public class Application {
 	
 	public static void main(String[] args) {
 		
-		TfUser user = userService.getUser("TestAdmin");
-		System.out.println(user);
+//		String token = JWTService.createToken("TestAdmin", 1);
+//		System.out.println(token);
+		
+		TfAssociate a = associateService.getAssociate(0);
+		
+//		TfUser user = userService.getUser("TestAdmin");
+//		System.out.println(user);
 //		
 //				
 //		List<TfUser> users = userService.getAllUsers();
@@ -48,8 +53,8 @@ public class Application {
 //		for(TfInterview interview : interviews)
 //			System.out.println(interview);
 		
-		// test a single interview
-//		int interviewId = 215;
+//		// test a single interview
+//		Integer interviewId = 215;
 //		TfInterview interview = interviewService.getInterviewById(interviewId);
 //		System.out.println(interview);
 		

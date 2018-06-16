@@ -12,17 +12,17 @@ import com.revature.utils.HibernateUtil;
 
 public class AssociateDaoImpl implements AssociateDao {
 
-	
 	@Override
 	public TfAssociate getAssociate(Integer associateid) {
-		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfAssociate a where a.associate.id like :associateid", TfAssociate.class).setParameter("associateid", associateid).getSingleResult());
+		return HibernateUtil.runHibernate((Session session, Object... args) -> session
+				.createQuery("from TfAssociate a where a.id like :associateid", TfAssociate.class)
+				.setParameter("associateid", associateid).getSingleResult());
 	}
 
 	@Override
 	public List<TfAssociate> getAllAssociates() {
-		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfAssociate", TfAssociate.class).getResultList());
+		return HibernateUtil.runHibernate((Session session, Object... args) -> session
+				.createQuery("from TfAssociate", TfAssociate.class).getResultList());
 	}
 
 	@Override
@@ -32,12 +32,12 @@ public class AssociateDaoImpl implements AssociateDao {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			t = session.beginTransaction();
-			
+
 			TfAssociate temp = session.get(TfAssociate.class, associate.getId());
-			
+
 			temp.setFirstName(associate.getFirstName());
 			temp.setLastName(associate.getLastName());
-			
+
 			session.update(temp);
 			t.commit();
 			System.out.println(associate.getFirstName() + " successfully updated");
@@ -55,25 +55,22 @@ public class AssociateDaoImpl implements AssociateDao {
 			}
 		}
 		return false;
-		
+
 	}
 
 	@Override
 	public boolean updateAssociates(List<TfAssociate> associates) {
-		for(TfAssociate a : associates) {
-			if(!updateAssociate(a)) {
+		for (TfAssociate a : associates) {
+			if (!updateAssociate(a)) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-
 	@Override
 	public boolean createAssociate(TfAssociate newassociate) {
 		return HibernateUtil.saveToDB(newassociate);
 	}
-
-
 
 }

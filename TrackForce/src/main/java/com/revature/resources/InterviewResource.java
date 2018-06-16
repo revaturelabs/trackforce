@@ -131,7 +131,6 @@ public class InterviewResource {
 	 * @version.date v06.2018.06.13
 	 * 
 	 * @param interviewid
-	 * @param interviewId
 	 * @param token
 	 * @return
 	 * @throws IOException
@@ -139,13 +138,12 @@ public class InterviewResource {
 	@GET
 	@ApiOperation(value = "Returns an interview", notes = "Returns a specific interview by id.")
 	@Path("/{interviewid}")
-	public Response getAssociateInterview(@PathParam("interviewid") Integer interviewid,
-			@PathParam("iid") Integer interviewId, @HeaderParam("Authorization") String token)
+	public Response getAssociateInterview(@PathParam("interviewid") Integer interviewid, @HeaderParam("Authorization") String token)
 			throws IOException {
 		logger.info("getAssociateInterview()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
-		TfInterview interview = interviewService.getInterviewById(interviewId);
+		TfInterview interview = interviewService.getInterviewById(interviewid);
 
 		if (payload == null) { // invalid token
 			status = Status.UNAUTHORIZED;

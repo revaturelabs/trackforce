@@ -173,7 +173,8 @@ public class LoginResourceTest {
 	}
 
 	/**
-	 * v
+	 * Unhappy path testing to ensure that verbs and URLs return the appropriate
+	 * status code
 	 * 
 	 * @author Jesse
 	 * @since 06.18.06.16

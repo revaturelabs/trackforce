@@ -33,7 +33,6 @@ public class AssociateResourceTest {
 		System.out.println(token);
 		associates = new ArrayList<>();
 		associates = associateService.getAllAssociates();
-		System.out.println(associates.size());
 		
 		associate = new TfAssociate();
 		associate.setId(910);

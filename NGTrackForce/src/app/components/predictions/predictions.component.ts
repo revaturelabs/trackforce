@@ -98,8 +98,13 @@ export class PredictionsComponent implements OnInit {
         let count=0;
           for(let associate of this.associates){
             if(associate.batch && associate.batch.curriculumName){
-              if(associate.batch.curriculumName.name==t){
-                count++;
+              console.log(associate.batch.endDate);
+              console.log(this.startDate);
+              console.log(startTime);
+              if(associate.batch.endDate>=startTime&&associate.batch.endDate<=endTime){
+                if(associate.batch.curriculumName.name==t){
+                  count++;
+                }
               }
             }
           }
@@ -112,42 +117,6 @@ export class PredictionsComponent implements OnInit {
         }
         this.dataReady=true;
       }
-      // this.ps.getPrediction(startTime, endTime, selectedTechnologies).subscribe(
-      //   data => {
-      //     this.results = [];
-      //     let returnedNames = [];
-          // for (let i = 0; i < data.length; i++) {
-          //   let tech = data[i];
-          //   let techName = tech[0];
-          //   let techNumber = tech[1];
-          //   if (selectedTechnologies.includes(techName)) {
-          //     // if techname is in the list of selected technologies, add it as a result
-          //     this.results.push({
-          //       technology: techName,
-          //       requested: this.numAssociatesNeeded,
-          //       available: techNumber
-          //     });
-          //     returnedNames.push(techName);
-          //   }
-          // }
-          // for (let i = 0; i < selectedTechnologies.length; i++) {
-          //   let selectedTech = selectedTechnologies[i];
-          //   if (!returnedNames.includes(selectedTech)) {
-          //     // if the list of returned technologies does not include one we selected, then it means
-          //     // there are 0 associates with that technology
-          //     this.results.push({
-          //       technology: selectedTech,
-          //       requested: this.numAssociatesNeeded,
-          //       available: 0
-          //     })
-          //   }
-          // }
-          // this.dataReady = true;
-        // },
-        // err => {
-        //   this.message = "There was a problem fetching the requested data!";
-        // }
-      //);
     },
     err => {
       this.message = "There was a problem fetching the requested data!";

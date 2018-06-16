@@ -12,8 +12,8 @@ export class Batch {
   batchName: string;
   curriculumName: Curriculum;
   location: BatchLocation;
-  startDate: Date;
-  endDate: Date;
+  startDate: number;
+  endDate: number;
   associates: Associate[]
   trainer: Trainer;
   coTrainer: Trainer[];

@@ -38,7 +38,7 @@ import io.swagger.annotations.ApiParam;
 
 /**
  * <p> </p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  *
  */
 @Path("/associates")
@@ -51,7 +51,7 @@ public class AssociateResource {
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
 	// This is to allow for Mokito tests, which have problems with static methods
 	// This is here for a reason! 
-	// - Adam 06.2018.06.13
+	// - Adam 06.18.06.13
 	AssociateService associateService = new AssociateService();
 	BatchService batchService = new BatchService();
 	ClientService clientService = new ClientService();
@@ -64,7 +64,7 @@ public class AssociateResource {
 	 * <p>Gets a list of all the associates, optionally filtered by a batch id. If an
 	 * associate has no marketing status or curriculum, replaces them with blanks.
 	 * If associate has no client, replaces it with "None".</p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @return A Response object with a list of TfAssociate objects.
 	 * @throws IOException
@@ -94,7 +94,7 @@ public class AssociateResource {
 	 * 
 	 * @author Adam L. 
 	 * <p> </p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @param associateid
 	 * @param token
@@ -110,7 +110,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 		TfAssociate associateinfo = associateService.getAssociate(associateid);
 
-		if (payload == null || false) {
+		if (payload == null) {
 			status = Status.UNAUTHORIZED;
 		}
 		else {
@@ -126,7 +126,7 @@ public class AssociateResource {
 	 * 
 	 * @author Adam L. 
 	 * <p>Update the marketing status or client of associates</p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @param token
 	 * @param marketingStatusId
@@ -170,7 +170,7 @@ public class AssociateResource {
 	 * 
 	 * @author Adam L. 
 	 * <p>Update the marketing status or client of an associate</p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @param id 
 	 * @param associate

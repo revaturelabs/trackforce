@@ -6,8 +6,9 @@ import com.revature.entity.TfTrainer;
 
 public interface TrainerDao {
 
-	public TfTrainer getTrainer(int id);
-	public List<TfTrainer> getAllTrainers();
-	public boolean createTrainer(TfTrainer trainer);
-	public boolean updateTrainer(TfTrainer trainer);
+	TfTrainer getTrainer(int id);
+	List<TfTrainer> getAllTrainers();
+	boolean createTrainer(TfTrainer trainer);
+	boolean updateTrainer(TfTrainer trainer);
+	TfTrainer getTrainerByUserId(int id);
 }

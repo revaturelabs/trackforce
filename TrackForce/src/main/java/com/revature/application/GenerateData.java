@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Adam L. 
  * <p>Class for generating random primitives</p>
  * <p>Could be used for quickly populating database with dummy data</p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  */
 public class GenerateData {
 	public static String getRandomString() {

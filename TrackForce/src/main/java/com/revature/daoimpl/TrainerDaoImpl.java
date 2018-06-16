@@ -1,21 +1,26 @@
 package com.revature.daoimpl;
 
-import java.util.List;
-
+import com.revature.dao.TrainerDao;
+import com.revature.entity.TfTrainer;
+import com.revature.utils.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.revature.dao.TrainerDao;
-import com.revature.entity.TfTrainer;
-import com.revature.utils.HibernateUtil;
+import java.util.List;
 
 public class TrainerDaoImpl implements TrainerDao{
 
 	@Override
 	public TfTrainer getTrainer(int trainerId) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfTrainer t where t.tf_trainer_id like :trainerId", TfTrainer.class).setParameter("trainerId", trainerId).getSingleResult());
+			session.createQuery("from TfTrainer t where t.tf_trainer_id like :trainerId", TfTrainer.class).setParameter("trainerId", trainerId).getSingleResult());
+	}
+
+	@Override
+	public TfTrainer getTrainerByUserId(int id) {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+			session.createQuery("from TfTrainer t where t.id like :id", TfTrainer.class).setParameter("id", id).getSingleResult());
 	}
 
 	@Override
@@ -62,5 +67,7 @@ public class TrainerDaoImpl implements TrainerDao{
 		}
 		return false;
 	}
+
+
 
 }

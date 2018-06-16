@@ -9,7 +9,7 @@ import com.revature.entity.TfClient;
 /**
  * @author Adam L. 
  * <p> </p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  *
  */
 public class ClientService {
@@ -23,7 +23,7 @@ public class ClientService {
 	/**
 	 * @author Adam L. 
 	 * <p>Gets all the clients in the database</p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @return List<TfClient>
 	 */
@@ -34,7 +34,7 @@ public class ClientService {
 	/**
 	 * @author Adam L. 
 	 * <p>Gets a client based on their name</p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @param name
 	 * @return TfClient
@@ -46,7 +46,7 @@ public class ClientService {
 	/**
 	 * @author Adam L. 
 	 * <p>Gets a client based on their client id</p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @param id
 	 * @return TfClient

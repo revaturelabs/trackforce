@@ -58,7 +58,7 @@ public class TfUser implements java.io.Serializable {
     @Column(name = "TF_ISAPPROVED")
     private int isApproved;
     
- // This is just used for passing around the string token while logged in - Adam 06.2018.06.13
+ // This is just used for passing around the string token while logged in - Adam 06.18.06.13
     @XmlElement
     @Transient
     private String token;

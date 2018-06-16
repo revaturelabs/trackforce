@@ -9,7 +9,7 @@ import {Batch} from "../../models/batch.model";
 @Injectable()
 export class TrainerService {
 
-  private baseURL = '${environment.url}TrackForce/trainers/';
+  private baseURL = `${environment.url}TrackForce/trainers/`;
 
   constructor(private http: HttpClient) {  }
 

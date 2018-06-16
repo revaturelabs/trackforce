@@ -160,10 +160,10 @@ export class AssociateListComponent implements OnInit {
         ids.push(i);
       }
     }
-    this.associateService.updateAssociates(ids, this.updateVerification, Number(this.updateStatus), this.updateClient).subscribe(
-      data => {
-        self.getAllAssociates(); //refresh the associates to reflect the updates made on DB
-        self.updated = true;
-      })
+    // this.associateService.updateAssociates(ids, this.updateVerification, Number(this.updateStatus), this.updateClient).subscribe(
+    //   data => {
+    //     self.getAllAssociates(); //refresh the associates to reflect the updates made on DB
+    //     self.updated = true;
+    //   });
   }
 }

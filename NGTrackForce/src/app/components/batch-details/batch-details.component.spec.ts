@@ -41,7 +41,7 @@ describe('BatchDetailsComponent', async () => {
     const batch2: Batch = new Batch();
     // batch2.curriculumName = 'Test-Curriculum-2';
     // mock batch service
-    spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
+    // spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
     spyOn(testBatchService, 'getBatchesByDate').and.returnValue(Observable.of([batch1, batch2]));
 
     const user: User = new User();

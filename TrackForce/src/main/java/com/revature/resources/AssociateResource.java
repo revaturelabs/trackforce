@@ -92,36 +92,6 @@ public class AssociateResource {
 
 	
 	/**
-	 * 
-	 * @author Adam L. 
-	 * <p> </p>
-	 * @version.date v6.18.06.13
-	 * 
-	 * @param associateid
-	 * @param token
-	 * @return
-	 */
-	@GET
-	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = TfAssociate.class)
-	@Path("/{associateid}")
-	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("associateid") int associateid,
-			@HeaderParam("Authorization") String token) {
-		logger.info("getAssociate()...");
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-		TfAssociate associateinfo = associateService.getAssociate(associateid);
-
-		if (payload == null || isPayloadAssociate(payload, associateinfo)) {
-			status = Status.UNAUTHORIZED;
-		}
-		else {
-			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
-		}
-
-		return Response.status(status).entity(associateinfo).build();
-	}
-
-	/**
 	 *
 	 * @author Curtis H.
 	 * Given a user id, returns an associate.
@@ -133,7 +103,7 @@ public class AssociateResource {
 	 */
 	@GET
 	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = TfAssociate.class)
-	@Path("/userid/{id}")
+	@Path("/{id}")
 	public Response getAssociateByUserId(@ApiParam(value = "An associate id.") @PathParam("id") int id,
 	                             @HeaderParam("Authorization") String token) {
 		logger.info("getAssociateByUserId()...");

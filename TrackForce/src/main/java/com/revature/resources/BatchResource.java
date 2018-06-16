@@ -114,37 +114,6 @@ public class BatchResource {
 	}
 
 	
-	/**
-	 * @author Adam L. 
-	 * <p>Gets a batch by its id</p>
-	 * @version.date v6.18.06.13
-	 * 
-	 * @param id
-	 * @param token
-	 * @return - Response with 200 status and the BatchInfo object in the response body
-	 */
-	@GET
-	@Path("/{id}")
-	@ApiOperation(value = "Returns a batch", notes = "Returns a specific batch by id.")
-	public Response getBatchById(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
-		logger.info("getBatchById()...");
-		TfBatch batch = batchService.getBatchById(id);
-		
-		Claims payload = JWTService.processToken(token);
-		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
-		}
-		int role = Integer.parseInt(payload.getId());
-		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
-		Status status = null;
-
-		if (authorizedRoles.contains(role)) {
-			status = batch == null ? Status.NO_CONTENT : Status.OK;
-		} else {
-			status = Status.FORBIDDEN;
-		}
-		return Response.status(status).entity(batch).build();
-	}
 
 	/**
 	 * @author Adam L. 

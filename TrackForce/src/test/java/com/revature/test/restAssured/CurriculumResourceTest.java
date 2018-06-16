@@ -14,6 +14,11 @@ import com.revature.services.JWTService;
 
 import io.restassured.response.Response;
 
+/**
+ * Rest Assured testing to ensure that this resource is functioning properly.
+ * @author Jesse
+ * @since 06.18.06.16
+ */
 public class CurriculumResourceTest {
 
 	static final String URL = "http://52.87.205.55:8086/TrackForce/skillset";
@@ -53,7 +58,10 @@ public class CurriculumResourceTest {
 		
 		given().header("Authorization", tokenAdmin).when().get(URL).then().assertThat().body("name", notNullValue());
 
-		given().header("Authorization", "Bad token").when().get(URL).then().assertThat().statusCode(401);
+		response = given().header("Authorization", "Bad token").when().get(URL).then().extract().response();
+		
+		assertTrue(response.statusCode() == 401);
+		assertTrue(response.asString().contains("401 – Unauthorized"));
 
 		given().header("Authorization", tokenAdmin).when().get(URL+"/badurl").then().assertThat().statusCode(404);
 		

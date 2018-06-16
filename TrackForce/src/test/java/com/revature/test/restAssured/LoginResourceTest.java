@@ -15,14 +15,16 @@ import com.revature.services.JWTService;
 import io.restassured.response.Response;
 
 /**
- * Rest assured tests for the login resource
+ * Rest assured tests for the login resource. Note that many of these tests are creating users
+ * so they are by default set to not run. Only run these tests if you are in a testing environment
+ * or are comfortable adding additional entries to your tables!
  * 
  * @author Jesse
  * @since 06.18.06.16
  */
 public class LoginResourceTest {
 
-	static final String URL = "http://localhost:8085/TrackForce/users";
+	static final String URL = "http://52.87.205.55:8086/TrackForce/users";
 	String token;
 	TfUser user;
 	TfAssociate associate;

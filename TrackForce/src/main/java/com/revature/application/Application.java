@@ -1,13 +1,11 @@
 package com.revature.application;
 
-import com.revature.entity.TfInterview;
-import com.revature.entity.TfUser;
+import com.revature.entity.TfAssociate;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
 import com.revature.services.CurriculumService;
 import com.revature.services.InterviewService;
-import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
 
@@ -36,8 +34,10 @@ public class Application {
 	
 	public static void main(String[] args) {
 		
-		String token = JWTService.createToken("TestAdmin", 1);
-		System.out.println(token);
+//		String token = JWTService.createToken("TestAdmin", 1);
+//		System.out.println(token);
+		
+		TfAssociate a = associateService.getAssociate(0);
 		
 //		TfUser user = userService.getUser("TestAdmin");
 //		System.out.println(user);

@@ -1,6 +1,7 @@
 package com.revature.test.restAssured;
 
 import static io.restassured.RestAssured.given;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.testng.Assert.assertTrue;
@@ -18,6 +19,11 @@ import com.revature.services.JWTService;
 
 import io.restassured.response.Response;
 
+/**
+ * Rest Assured to ensure that this resource is functioning properly.
+ * @author Jesse
+ * @since 06.18.06.16
+ */
 public class AssociateResourceTest {
 
 	AssociateService associateService = new AssociateService();
@@ -25,7 +31,7 @@ public class AssociateResourceTest {
 	String token;
 	TfAssociate associate;
 
-	static final String URL = "http://localhost:8085/TrackForce/associates";
+	static final String URL = "http://52.87.205.55:8086/TrackForce/associates";
 
 	@BeforeClass
 	public void beforeClass() {
@@ -33,7 +39,7 @@ public class AssociateResourceTest {
 		System.out.println(token);
 		associates = new ArrayList<>();
 		associates = associateService.getAllAssociates();
-		
+
 		associate = new TfAssociate();
 		associate.setId(910);
 		associate.setFirstName("Tom");
@@ -58,8 +64,11 @@ public class AssociateResourceTest {
 		given().header("Authorization", token).when().get(URL + "/allAssociates").then().assertThat().body("id",
 				hasSize(associates.size()));
 
-		given().header("Authorization", "Bad Token").when().get(URL + "/allAssociates").then().assertThat()
-				.statusCode(401);
+		response = given().header("Authorization", "Bad Token").when().get(URL + "/allAssociates").then().extract()
+				.response();
+
+		assertTrue(response.statusCode() == 401);
+		assertTrue(response.asString().contains("401 – Unauthorized"));
 
 		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
 	}
@@ -86,7 +95,10 @@ public class AssociateResourceTest {
 		given().header("Authorization", token).when().get(URL + "/" + 900).then().assertThat().body("marketingStatus",
 				equalTo(null));
 
-		given().header("Authorization", "Bad Token").when().get(URL + "/" + 900).then().assertThat().statusCode(401);
+		response = given().header("Authorization", "Bad Token").when().get(URL + "/" + 900).then().extract().response();
+
+		assertTrue(response.statusCode() == 401);
+		assertTrue(response.asString().contains("401 – Unauthorized"));
 
 		given().header("Authorization", token).when().get(URL + "/0").then().assertThat().statusCode(204);
 
@@ -95,18 +107,20 @@ public class AssociateResourceTest {
 		given().header("Authorization", token).when().get(URL + "/" + 900).then().assertThat().body("address",
 				equalTo(null));
 	}
-	
+
 	/**
-	 * Happy path testing for updateAssociate. This will check that the resource to update an
-	 * associate can be accessed properly, that the resource will update the associate, and that
-	 * the updated information is reflected by getting that particular associate.
+	 * Happy path testing for updateAssociate. This will check that the resource to
+	 * update an associate can be accessed properly, that the resource will update
+	 * the associate, and that the updated information is reflected by getting that
+	 * particular associate.
+	 * 
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
 	@Test(priority = 40, enabled = true)
-	public void testUpdateAssociates1() {
-		given().header("Authorization", token).contentType("application/json").body(associate).when().put(URL + "/" + 910)
-				.then().assertThat().statusCode(200);
+	public void testUpdateAssociate1() {
+		given().header("Authorization", token).contentType("application/json").body(associate).when()
+				.put(URL + "/" + 910).then().assertThat().statusCode(200);
 
 		Response response = given().header("Authorization", token).when().get(URL + "/" + 910).then().extract()
 				.response();
@@ -118,21 +132,28 @@ public class AssociateResourceTest {
 	}
 
 	/**
-	 * Unhappy path testing for updateAssociate. Ensure that a bad verb returns a 405, a bad URL
-	 * returns a 404, a nonexistent associate returns  204 (content not found), and that the content
-	 * type matches what is expected.
+	 * Unhappy path testing for updateAssociate. Ensure that a bad verb returns a
+	 * 405, a bad URL returns a 404, a nonexistent associate returns 200 (because
+	 * its a put request), and that the content type matches what is expected.
+	 * 
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
 	@Test(priority = 45, enabled = true)
-	public void testUpdateAssociates2() {
+	public void testUpdateAssociate2() {
 		given().header("Authorization", token).when().post(URL + "/" + 910).then().assertThat().statusCode(405);
 
-		given().header("Authorization", token).when().put(URL + "/0").then().assertThat().statusCode(204);
+		given().header("Authorization", token).contentType("application/json").body(associate).when().put(URL + "/0")
+				.then().assertThat().statusCode(200);
 
 		given().header("Authorization", token).when().get(URL + "/badURL").then().assertThat().statusCode(404);
 
 		given().header("Authorization", token).when().get(URL + "/" + 910).then().assertThat().body("address",
 				equalTo(null));
+
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + 910).then().extract().response();
+
+		assertTrue(response.statusCode() == 401);
+		assertTrue(response.asString().contains("401 – Unauthorized"));
 	}
 }

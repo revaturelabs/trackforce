@@ -4,6 +4,9 @@ import { PredictionService } from '../../services/prediction-service/prediction.
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 // import { Chart } from 'chart.js';
 import { Batch } from '../../models/batch.model';
+import { AssociateService } from '../../services/associate-service/associate.service';
+import { Associate } from '../../models/associate.model';
+import { Curriculum } from '../../models/curriculum.model';
 //import {FormsComponent} from '@angular/core';
 
 @Component({
@@ -24,8 +27,9 @@ export class PredictionsComponent implements OnInit {
   public message = "";
   public batches: Batch[];
   public batchNumberAssociates: number[];
+  public associates: Associate[];
 
-  constructor(private ss: CurriculumService, private ps: PredictionService) { }
+  constructor(private ss: CurriculumService, private ps: PredictionService, private as: AssociateService) { }
 
   ngOnInit() {
     this.getListofCurricula();
@@ -68,6 +72,11 @@ export class PredictionsComponent implements OnInit {
      * @param e The end date of the period to be searched
      */
   getPrediction(s, e) {
+    this.as.getAllAssociates().subscribe(
+      data=>{
+        this.associates=data;
+      
+    
     if (s != null) {
       this.startDate = s;
     }
@@ -85,43 +94,35 @@ export class PredictionsComponent implements OnInit {
     let endTime = new Date(this.endDate).getTime();
     if (startTime && endTime && selectedTechnologies.length > 0) {
       this.message = "";
-      this.ps.getPrediction(startTime, endTime, selectedTechnologies).subscribe(
-        data => {
-          this.results = [];
-          let returnedNames = [];
-          for (let i = 0; i < data.length; i++) {
-            let tech = data[i];
-            let techName = tech[0];
-            let techNumber = tech[1];
-            if (selectedTechnologies.includes(techName)) {
-              // if techname is in the list of selected technologies, add it as a result
-              this.results.push({
-                technology: techName,
-                requested: this.numAssociatesNeeded,
-                available: techNumber
-              });
-              returnedNames.push(techName);
+      this.results = [];
+      let returnedNames = [];
+      for(let t of selectedTechnologies){
+        let count=0;
+          for(let associate of this.associates){
+            if(associate.batch && associate.batch.curriculumName){
+              console.log(associate.batch.endDate);
+              console.log(this.startDate);
+              console.log(startTime);
+              if(associate.batch.endDate>=startTime&&associate.batch.endDate<=endTime){
+                if(associate.batch.curriculumName.name==t){
+                  count++;
+                }
+              }
             }
           }
-          for (let i = 0; i < selectedTechnologies.length; i++) {
-            let selectedTech = selectedTechnologies[i];
-            if (!returnedNames.includes(selectedTech)) {
-              // if the list of returned technologies does not include one we selected, then it means
-              // there are 0 associates with that technology
-              this.results.push({
-                technology: selectedTech,
-                requested: this.numAssociatesNeeded,
-                available: 0
-              })
-            }
-          }
-          this.dataReady = true;
-        },
-        err => {
-          this.message = "There was a problem fetching the requested data!";
+          this.results.push({
+            technology: t,
+            requested: this.numAssociatesNeeded,
+            available: count
+          })
+          returnedNames.push(t);
         }
-      );
-    }
+        this.dataReady=true;
+      }
+    },
+    err => {
+      this.message = "There was a problem fetching the requested data!";
+    })
   }
 
   /**

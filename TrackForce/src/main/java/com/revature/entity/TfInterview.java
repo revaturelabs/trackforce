@@ -37,19 +37,19 @@ public class TfInterview implements java.io.Serializable {
 	private Integer id;
 
 //	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_ASSOCIATE_ID")
 	private TfAssociate associate;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_CLIENT_ID")
 	private TfClient client;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_END_CLIENT_ID")
 	private TfEndClient endClient;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_INTERVIEW_TYPE_ID")
 	private TfInterviewType interviewType;
 

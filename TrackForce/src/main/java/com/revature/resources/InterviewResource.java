@@ -30,6 +30,7 @@ import com.revature.services.TrainerService;
 import com.revature.services.UserService;
 
 import io.jsonwebtoken.Claims;
+import io.restassured.http.ContentType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -99,8 +100,9 @@ public class InterviewResource {
 	 * @throws HibernateException
 	 * @throws IOException
 	 */
-	@Path("/associates/{associateid}/interviews")
+	@Path("/associate/{associateid}/interviews")
 	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Returns all interviews for an associate", notes = "Returns a list of all interviews.")
 	public Response getAllInterviews(@HeaderParam("Authorization") String token,
 			@PathParam("associateid") Integer associateId) throws HibernateException, IOException {
@@ -138,7 +140,7 @@ public class InterviewResource {
 	@ApiOperation(value = "Returns an interview", notes = "Returns a specific interview by id.")
 	@Path("/{interviewid}")
 	public Response getAssociateInterview(@PathParam("interviewid") Integer interviewid,
-			@PathParam("associateid") Integer interviewId, @HeaderParam("Authorization") String token)
+			@PathParam("iid") Integer interviewId, @HeaderParam("Authorization") String token)
 			throws IOException {
 		logger.info("getAssociateInterview()...");
 		Status status = null;

@@ -28,7 +28,7 @@ export class CurriculumService {
     */
   getSkillsetsForStatusID(statusID: number): Observable<any> {
     return this.http.get(((this.NO_BACKEND) ? this.MOCK_API : environment.url) +
-      'TrackForce/associates/unmapped/' + statusID);
+      'TrackForce/skillset/unmapped/' + statusID);
   }
 
   public getAllCurricula(): Observable<any> {

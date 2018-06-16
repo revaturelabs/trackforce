@@ -5,11 +5,7 @@ import static com.revature.utils.LogUtil.logger;
 import java.io.IOException;
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -84,5 +80,13 @@ public class CurriculumResource {
 		}
 
 		return Response.status(status).entity(curriculum).build();
+	}
+
+	@GET
+	@ApiOperation(value = "Gets how many unmapped are in each curriculum (excluding empties)", notes="Gets how many unmapped are in each curriculum (excluding empties)")
+	@Path("unmapped/{statusId}")
+	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
+		logger.info("getUnmappedInfo()...");
+		return Response.ok(curriculumService.getUnmappedInfo(statusId)).build();
 	}
 }

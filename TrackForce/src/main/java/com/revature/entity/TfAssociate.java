@@ -67,7 +67,7 @@ public class TfAssociate implements java.io.Serializable {
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_BATCH_ID")
-	private TfBatch batch;
+	public TfBatch batch;
 
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)

@@ -15,7 +15,7 @@ import {Interview} from "../../models/interview.model";
 * Component for viewing an individual associate and editing as admin.
 */
 @Component({
-  selector: 'form-comp',
+  selector: 'app-form-comp',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
@@ -36,8 +36,8 @@ export class FormComponent implements OnInit {
   };
 
   newStartDate: Date;
-  successMessage: string = "";
-  errorMessage: string = "";
+  successMessage = "";
+  errorMessage = "";
   selectedVerificationStatus: string;
   selectedMarketingStatus: any;
   selectedClient: number;
@@ -107,8 +107,8 @@ export class FormComponent implements OnInit {
   }
 
   adjustDate(date: any) { // dates are off by 1 day - this corrects them
-    let ldate = new Date(date);
-    let origDate = ldate.getDate();
+    const ldate = new Date(date);
+    const origDate = ldate.getDate();
     ldate.setDate(origDate + 1);
     if (ldate.getDate() < 1) {
       ldate.setMonth(ldate.getMonth() - 1)
@@ -120,11 +120,14 @@ export class FormComponent implements OnInit {
   processForm() {
     if (this.hasStartDate) {
       if (Date.now() < new Date(this.newStartDate).getTime())
-        // if start date is before today, set status to MAPPED: DEPLOYED
+      // if start date is before today, set status to MAPPED: DEPLOYED
+      {
         this.selectedMarketingStatus = 5;
-      else
-        // if start date is after today, set status to MAPPED: CONFIRMED
+      } else
+      // if start date is after today, set status to MAPPED: CONFIRMED
+      {
         this.selectedMarketingStatus = 4
+      }
     }
     else if (this.passedBackgroundCheck && this.hasStartDate) {
       // if background check is passed and associate has start date, set status to MAPPED: CONFIRMED
@@ -140,11 +143,14 @@ export class FormComponent implements OnInit {
     }
     else if (this.eligibleForInterview) {
       if (this.isMapped)
-        // if associate is mapped and eligible for an interview, set status to MAPPED: TRAINING
+      // if associate is mapped and eligible for an interview, set status to MAPPED: TRAINING
+      {
         this.selectedMarketingStatus = 1;
-      else
-        // if associate is NOT mapped, set status to UNMAPPED: TRAINING
+      } else
+      // if associate is NOT mapped, set status to UNMAPPED: TRAINING
+      {
         this.selectedMarketingStatus = 6;
+      }
     }
     else if (this.isMapped) {
       // if associate is mapped, set status to MAPPED: TRAINING
@@ -197,13 +203,17 @@ export class FormComponent implements OnInit {
         this.successMessage = "Successfully updated associate";
         this.associateService.getAssociate(this.id).subscribe(
           data => {
-            this.associate = <Associate>data;
-            if (data.clientStartDate.toString() == "0")
+            this.associate = data;
+            if (data.clientStartDate.toString() === "0") {
               this.associate.clientStartDate = null;
-            else
+            } else {
               this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
-            this.resetAllFields();
-          });
+            } this.resetAllFields();
+          },
+          err => {
+
+          }
+        );
       }
     )
   }

@@ -87,7 +87,7 @@ public class AssociateService {
 	 * <p>Creates an associate in the database.</p>
 	 * 
 	 * @version.date v6.18.06.13
-	 * @param TfAssociate
+	 * @param newassociate
 	 * @return true if successful, false otherwise
 	 */
 	public boolean createAssociate(TfAssociate newassociate) {

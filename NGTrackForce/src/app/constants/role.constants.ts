@@ -2,7 +2,7 @@
  * Currently, this class is not doing anything.
  * This class is not connected to any component or service.
  * Note made 6/6/2018
- * @author Amelia
+ * Reviewed by Max
  */
 export class RoleConstants {
 

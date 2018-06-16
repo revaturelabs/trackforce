@@ -100,7 +100,7 @@ export class SkillsetComponent implements OnInit {
    */
   batchColors = ThemeConstants.BATCH_COLORS;
   /**
-    *@param {CurriculumService} SkillsetService
+    *@param {CurriculumService} CurriculumService
     * service for grabbing data from the back-end or mock back-end
     *
     *@param {ActivatedRoute} route
@@ -110,7 +110,7 @@ export class SkillsetComponent implements OnInit {
     *Allows to re-routing to other components
     *
     */
-  constructor(private skillsetService: CurriculumService,
+  constructor(private curriculumService: CurriculumService,
     private route: ActivatedRoute,
     private router: Router) {
     // setup SKILL_INFO
@@ -153,7 +153,7 @@ export class SkillsetComponent implements OnInit {
       }
     }
     // get the skillset data here
-    this.skillsetService.getSkillsetsForStatusID(this.skillID).subscribe((data) => {
+    this.curriculumService.getSkillsetsForStatusID(this.skillID).subscribe((data) => {
       // copy in the raw data into local variable
       const skillsets: Array<any> = data;
       // map() that variable into skillsetData,skillsetLabels

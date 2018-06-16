@@ -27,11 +27,11 @@ export class MyInterviewComponent implements OnInit {
   public associate: Associate = new Associate();
   public id = 0;
   public newInterview: Interview = new Interview();
-  public formOpen: boolean = false;
-  public conflictingInterviews: string = "";
+  public formOpen = false;
+  public conflictingInterviews = "";
   public interviewDate: Date = new Date();
   public interviewDateNotification: Date = new Date();
-  public clients: Client [];
+  public clients: Client[];
 
   constructor(
     private associateService: AssociateService,
@@ -54,14 +54,14 @@ export class MyInterviewComponent implements OnInit {
     this.formOpen = !this.formOpen;
   }
 
-  addInterview(){
+  addInterview() {
     //this.newInterview.associateId = this.id
     this.newInterview.interviewDate = new Date(this.interviewDate).getTime()
     this.newInterview.dateAssociateIssued = new Date(this.interviewDateNotification).getTime()
     this.newInterview.jobDescription = "none available";
     this.newInterview.flagAlert = 0;
-    this.newInterview.was24HRNotice = (this.newInterview.was24HRNotice*1)
-    this.associateService.addInterviewForAssociate(this.id,this.newInterview).subscribe(
+    this.newInterview.was24HRNotice = (this.newInterview.was24HRNotice * 1)
+    this.associateService.addInterviewForAssociate(this.id, this.newInterview).subscribe(
       data => {
         this.getInterviews(this.id);
       },
@@ -71,54 +71,52 @@ export class MyInterviewComponent implements OnInit {
   }
 
 
-  updateInterview(id: number){
-    let interview: any;
+  updateInterview(id: number) {
     if (sessionStorage.getItem("changedin") === null) {
 
 
-     const updateinterview = this.interviews[id];
-      interview = {
-        clientFeedback : updateinterview.CFeedback,
+      const updateinterview = this.interviews[id];
+      var interview: any = {
+        clientFeedback: updateinterview.CFeedback,
         dateAssociateIssued: new Date(updateinterview.date).getTime,
-        dateSalesTeamIssued : null,
+        dateSalesTeamIssued: null,
         reasonForFlag: null,
-        interviewId :updateinterview.id,
+        interviewId: updateinterview.id,
 
         jobDescription: updateinterview.JDescription,
-       // tfClientName :updateinterview.client,
-        interviewDate : new Date(updateinterview.DInterview).getTime,
+        // tfClientName :updateinterview.client,
+        interviewDate: new Date(updateinterview.DInterview).getTime,
         //was24HRNotice:updateinterview.Flag,
-        interviewFeedback : updateinterview.AFeedback,
+        interviewFeedback: updateinterview.AFeedback,
         clientId: 9,
-        typeId : updateinterview.typeID
+        typeId: updateinterview.typeID
       }
     }
-   else
-    {
+    else {
       let u = JSON.parse(sessionStorage.getItem("changedin"));
       const updateinterview = this.interviews[id];
       updateinterview.CFeedback = u.CFeedback;
       updateinterview.AFeedback = u.AFeedback;
-      interview = {
-        clientFeedback : updateinterview.CFeedback,
+      var interview: any = {
+        clientFeedback: updateinterview.CFeedback,
         dateAssociateIssued: new Date(updateinterview.date).getTime,
-        interviewId :updateinterview.id,
+        interviewId: updateinterview.id,
         jobDescription: updateinterview.JDescription,
-        interviewDate : new Date(updateinterview.DInterview).getTime,
+        interviewDate: new Date(updateinterview.DInterview).getTime,
         //was24HRNotice:updateinterview.Flag,
-        interviewFeedback : updateinterview.AFeedback,
-        clientId : 9,
-       typeId : updateinterview.typeID
-      };
+        interviewFeedback: updateinterview.AFeedback,
+        clientId: 9,
+        typeId: updateinterview.typeID
+      }
 
       sessionStorage.clear();
     }
-     this.interviewService.updateinterview(interview, this.id).subscribe(
-       data => {
-         this.getInterviews(this.id);
-       },
-       err => {
-       }
+    this.interviewService.updateinterview(interview, this.id).subscribe(
+      data => {
+        this.getInterviews(this.id);
+      },
+      err => {
+      }
     );
 
   }
@@ -127,21 +125,21 @@ export class MyInterviewComponent implements OnInit {
     this.interviewService.getInterviews(id).subscribe(
       data => {
         let tempArr = [];
-        for (let i=0;i<data.length;i++) {
+        for (let i = 0; i < data.length; i++) {
           let interview = data[i];
           let intObj = {
             id: interview.id,
             client: interview.tfClientName,
-            DInterview : new Date(interview.tfInterviewDate),
+            DInterview: new Date(interview.tfInterviewDate),
             type: interview.typeName,
             AFeedback: interview.tfInterviewFeedback,
             JDescription: interview.jobDescription,
             date: new Date(interview.dateAssociateIssued),
             CFeedback: interview.clientFeedback,
-            typeID : interview.typeId,
+            typeID: interview.typeId,
             Flag: interview.isInterviewFlagged,
 
-          };
+          }
           tempArr.push(intObj);
         }
         this.interviews = tempArr;
@@ -159,56 +157,56 @@ export class MyInterviewComponent implements OnInit {
    cell is colored red to highlight the conflict.
   */
   highlightInterviewConflicts(interview: number) {
-    let checkDate = this.interviews[interview].DInterview;
+    const checkDate = this.interviews[interview].DInterview;
     for (let i = 0; i < this.interviews.length; i++) {
-      if (this.interviews[i].DInterview.getTime() === checkDate.getTime() && i != interview) {
+      if (this.interviews[i].DInterview.getTime() === checkDate.getTime() && i !== interview) {
         this.conflictingInterviews = "The highlighted interviews are conflicting." +
-        "They are both scheduled at the same time!";
+          "They are both scheduled at the same time!";
         return true;
       }
     }
     return false;
   }
 
-  getAssociate(id: number){
+  getAssociate(id: number) {
     this.associateService.getAssociate(id).subscribe(
       data => {
         this.associate = data;
       },
       err => {
       });
-    }
+  }
 
-    showInputDate(interview,dateVal){
-      if(!interview.isEditingAvailable){
-        interview.isEditingAvailable=true;
-      } else {
-        if(dateVal){
-          interview.DInterview=dateVal;
-        }
-        interview.isEditingAvailable=false;
+  showInputDate(interview, dateVal) {
+    if (!interview.isEditingAvailable) {
+      interview.isEditingAvailable = true;
+    } else {
+      if (dateVal) {
+        interview.DInterview = dateVal;
+      }
+      interview.isEditingAvailable = false;
+    }
+  }
+
+  showAvailableDate(interview, dateVal) {
+    if (!interview.isDateAvailable) {
+      interview.isDateAvailable = true;
+    } else {
+      if (dateVal) {
+      interview.date = dateVal;
+        interview.isDateAvailable = false;
       }
     }
+  }
 
-    showAvailableDate(interview,dateVal){
-      if(!interview.isDateAvailable){
-        interview.isDateAvailable=true;
-      } else {
-        if (dateVal)
-        interview.date = dateVal;
-        interview.isDateAvailable=false;
-      }
-    }
-
-    saveInterview(interview:Interview){
-
-    }
-
-    getClientNames() {
-      const self = this;
-      this.clientService.getAllClients().subscribe(data => {
-        self.clients = data;
-      });
-    }
+  saveInterview(interview: Interview) {
 
   }
+
+  getClientNames() {
+    this.clientService.getAllClients().subscribe(data => {
+      this.clients = data;
+    });
+  }
+
+}

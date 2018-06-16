@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 import { PredictionService } from '../../services/prediction-service/prediction.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
-import { Chart } from 'chart.js';
+// import { Chart } from 'chart.js';
 import { Batch } from '../../models/batch.model';
 //import {FormsComponent} from '@angular/core';
 
@@ -13,15 +13,15 @@ import { Batch } from '../../models/batch.model';
 })
 @AutoUnsubscribe
 export class PredictionsComponent implements OnInit {
-  public detailsReady: boolean = false;
-  public dataReady: boolean = false;
+  public detailsReady = false;
+  public dataReady = false;
   public startDate: Date = new Date();
   public endDate: Date = new Date();
   public numAssociatesNeeded: number;
   public technologies: any[];
-  public expanded: boolean = false;
+  public expanded = false;
   public results: any;
-  public message: string = "";
+  public message = "";
   public batches: Batch[];
   public batchNumberAssociates: number[];
 
@@ -38,7 +38,7 @@ export class PredictionsComponent implements OnInit {
   getListofCurricula() {
     this.ss.getAllCurricula().subscribe(
       data => {
-        let tempArray = [];
+        const tempArray = [];
         for (let i = 0; i < data.length; i++) {
           let tech = data[i];
           let localtech = {
@@ -77,7 +77,9 @@ export class PredictionsComponent implements OnInit {
     let selectedTechnologies = [];
     for (let i = 0; i < this.technologies.length; i++) {
       let tech = this.technologies[i];
-      if (tech.selected) selectedTechnologies.push(tech.name);
+      if (tech.selected) {
+        selectedTechnologies.push(tech.name);
+      }
     }
     let startTime = new Date(this.startDate).getTime();
     let endTime = new Date(this.endDate).getTime();
@@ -143,10 +145,12 @@ export class PredictionsComponent implements OnInit {
     let tech: string = event.target.id;
 
 
-    let test = this.ps.getBatchesByCurricula(startTime, endTime, tech).subscribe(data => {
-      this.batches = data;
-      this.detailsReady = true;
-    }, er => {
-    });
+    // let test = this.ps.getBatchesByCurricula(startTime, endTime, tech).subscribe(
+    //   data => {
+    //     this.batches = data;
+    //     this.detailsReady = true;
+    //   },
+    //   err => {
+    //   });
   }
 }

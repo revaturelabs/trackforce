@@ -10,7 +10,7 @@ import { AssociateService } from '../associate-service/associate.service';
 import { ClientService } from '../client-service/client.service';
 import { CurriculumService } from '../curriculum-service/curriculum.service';
 import { Observable , BehaviorSubject} from 'rxjs';
-import 'rxjs/Rx';
+// import 'rxjs/Rx';
 
 /**
  * @author Seán Vaeth
@@ -31,22 +31,22 @@ import 'rxjs/Rx';
  *
  *
  *
- * @author Amelia
+ * Reviewed by Max
  * Not currently being used, but this is a good idea
  * Note made 6/6/2018
  */
 
-const ASSOC_TIMEOUT: number = 30000;
-const BATCH_TIMEOUT: number = 30000;
-const CLIENT_TIMEOUT: number = 30000;
-const CURRI_TIMEOUT: number = 30000;
-const MARKET_TIMEOUT: number = 30000;
+const ASSOC_TIMEOUT = 30000;
+const BATCH_TIMEOUT = 30000;
+const CLIENT_TIMEOUT = 30000;
+const CURRI_TIMEOUT = 30000;
+const MARKET_TIMEOUT = 30000;
 
-const ASSOC_INT: number = 2000;
-const BATCH_INT: number = 2000;
-const CLIENT_INT: number = 2000;
-const CURRI_INT: number = 2000;
-const MARKET_INT: number = 2000;
+const ASSOC_INT = 2000;
+const BATCH_INT = 2000;
+const CLIENT_INT = 2000;
+const CURRI_INT = 2000;
+const MARKET_INT = 2000;
 
 @Injectable()
 export class DataSyncService {
@@ -104,7 +104,7 @@ export class DataSyncService {
   //
 
   private setAssociateStorage(data: any) {
-    let newStorage = this.associateStorage = data;
+    const newStorage = this.associateStorage = data;
     // this.associateStorage.next(newSt orage);
   }
 
@@ -115,7 +115,7 @@ export class DataSyncService {
   }
 
   private setClientStorage(data: any) {
-    let newStorage = this.clientStorage = data;
+    const newStorage = this.clientStorage = data;
     // this.clientStorage.next(newStorage);
   }
 
@@ -126,7 +126,7 @@ export class DataSyncService {
   }
 
   private setBatchStorageSortedById(data: any) {
-    let newStorage = this.batchStorageById = data;
+    const newStorage = this.batchStorageById = data;
     // this.batchStorageById.next(newStorage);
   }
 
@@ -137,7 +137,7 @@ export class DataSyncService {
   }
 
   private setBatchStorageSortedByDate(data: any) {
-    let newStorage = this.batchStorageByDate = data;
+    const newStorage = this.batchStorageByDate = data;
     // this.batchStorageByDate.next(newStorage);
   }
 
@@ -148,7 +148,7 @@ export class DataSyncService {
   }
 
   private setCurriculumStorage(data: any) {
-    let newStorage = this.curriculumStorage = data;
+    const newStorage = this.curriculumStorage = data;
     // this.curriculumStorage.next(newStorage);
   }
 

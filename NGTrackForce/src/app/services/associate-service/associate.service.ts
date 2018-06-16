@@ -5,6 +5,8 @@ import { Observable } from "rxjs";
 import { Associate } from "../../models/associate.model";
 import { environment } from "../../../environments/environment";
 import {Interview} from "../../models/interview.model";
+import { forEach } from "@angular/router/src/utils/collection";
+import { ClientMappedModel } from "../../models/clientMapped.model";
 
 /**
 * Service for retrieving and updating data relating to associates.
@@ -24,7 +26,7 @@ export class AssociateService {
   * Used in associate list and home component, and the associate and data-sync services
   */
   getAllAssociates(): Observable<any> {
-    let url: string = environment.url + this.associatePath + '/allAssociates';
+    const url: string = environment.url + this.associatePath + '/allAssociates';
     return this.http.get(url);
   }
 
@@ -32,7 +34,7 @@ export class AssociateService {
   * @param id - the id of the associate to retrieve
   */
   getAssociate(id: number) {
-    let url: string = environment.url + this.associatePath + '/' + id;
+    const url: string = environment.url + this.associatePath + '/' + id;
     return this.http.get<Associate>(url);
   }
 
@@ -43,7 +45,7 @@ export class AssociateService {
   * @param statusId Contains the marketing status id used to fetch data
   */
   getAssociatesByStatus(statusId: number) {
-    return this.http.get(environment.url + this.associatePath + '/mapped/' + statusId);
+    return this.http.get<ClientMappedModel[]>(environment.url + this.associatePath + '/mapped/' + statusId);
   }
 
   /**
@@ -52,16 +54,16 @@ export class AssociateService {
   */
   updateAssociates(ids: number[], uverify: string, ustatus: number, uclient: number): Observable<any> {
     let url: string = environment.url + this.associatePath + "?";
-    let verifyUrl: string = (uverify ? "verified=" + uverify : "");
-    let statusUrl: string = (ustatus ? "marketingStatusId=" + ustatus : "");
-    let clientUrl: string = (uclient ? "clientId=" + uclient : "");
+    const verifyUrl: string = (uverify ? "verified=" + uverify : "");
+    const statusUrl: string = (ustatus ? "marketingStatusId=" + ustatus : "");
+    const clientUrl: string = (uclient ? "clientId=" + uclient : "");
 
     if (uverify) {
-      url += verifyUrl + (statusUrl != "" ? "&" : "");
+      url += verifyUrl + (statusUrl !== "" ? "&" : "");
     }
 
     if (ustatus) {
-      url += statusUrl + (clientUrl != "" ? "&" : "");
+      url += statusUrl + (clientUrl !== "" ? "&" : "");
     }
 
     if (uclient) {
@@ -71,12 +73,12 @@ export class AssociateService {
   }
 
   updateAssociate(associate: any) {
-    let url: string = environment.url + this.associatePath + "/" + associate.id;
+    const url: string = environment.url + this.associatePath + "/" + associate.id;
     return this.http.put(url, associate);
   }
 
   verifyAssociate(associateID: number) {
-    let url: string = environment.url + this.associatePath + "/"+ associateID + "/verify";
+    const url: string = environment.url + this.associatePath + "/"+ associateID + "/verify";
     return this.http.put(url, associateID);
   }
 
@@ -86,7 +88,7 @@ export class AssociateService {
   }
 
   addInterviewForAssociate(id: number, interview: any): Observable<any> {
-    let url: string = environment.url + "TrackForce/api/" + "associates" + "/" + id + "/interviews";
+    const url: string = environment.url + "TrackForce/api/" + "associates" + "/" + id + "/interviews";
     return this.http.post(url, interview);
   }
 }

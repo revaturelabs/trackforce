@@ -44,7 +44,6 @@ public class TfCurriculum implements java.io.Serializable {
 	@JsonIgnore
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curriculumName")
-	@JsonIgnore
 	private Set<TfBatch> batches = new HashSet<TfBatch>(0);
 
 	

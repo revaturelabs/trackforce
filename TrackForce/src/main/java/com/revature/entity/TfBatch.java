@@ -165,11 +165,9 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	}
 
 
-
 	public TfTrainer getTrainer() {
 		return trainer;
 	}
-
 
 
 	public void setTrainer(TfTrainer trainer) {

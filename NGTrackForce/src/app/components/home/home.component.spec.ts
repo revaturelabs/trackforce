@@ -8,6 +8,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { SkillsetComponent } from '../skillset/skillset.component';
 import { ClientMappedComponent } from '../client-mapped/client-mapped.component';
+// added imports; DK
+import { ChartsModule } from 'ng2-charts';
+import { FooterComponent } from '../footer/footer.component';
+import { DataSyncService } from '../../services/datasync-service/data-sync.service';
+import { BatchService } from '../../services/batch-service/batch.service';
+import { ClientService } from '../../services/client-service/client.service';
+import { AssociateService } from '../../services/associate-service/associate.service';
+import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
+import { UserService } from '../../services/user-service/user.service';
 
 
 describe('HomeComponent', () => {
@@ -16,9 +25,9 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent, NavbarComponent, HomeComponent, SkillsetComponent, ClientMappedComponent ],
-      imports: [HttpClientTestingModule, RouterTestingModule],
-      providers: [ RequestService, AuthenticationService ]
+      declarations: [ HomeComponent, NavbarComponent, HomeComponent, SkillsetComponent, ClientMappedComponent, FooterComponent ],
+      imports: [HttpClientTestingModule, RouterTestingModule, ChartsModule],
+      providers: [ RequestService, AuthenticationService, DataSyncService, BatchService, ClientService, AssociateService, SkillsetService, UserService ]
     })
     .compileComponents();
   }));

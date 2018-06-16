@@ -14,6 +14,10 @@ import {NavbarComponent} from '../navbar/navbar.component';
 import {HomeComponent} from '../home/home.component';
 import {ChartsModule} from 'ng2-charts';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+// added imports; DK
+import{ AssociateService } from "../../services/associate-service/associate.service";
+import{ UserService } from "../../services/user-service/user.service";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -28,13 +32,16 @@ describe('LoginComponent', () => {
       ],
       providers: [
         AuthenticationService,
-        RequestService
+        RequestService, 
+        AssociateService,
+        UserService
       ],
       imports: [
         FormsModule,
         HttpClientTestingModule,
         RouterTestingModule,
-        ChartsModule
+        ChartsModule, 
+        BrowserAnimationsModule
       ],
       schemas: [
         CUSTOM_ELEMENTS_SCHEMA

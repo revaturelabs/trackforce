@@ -11,6 +11,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
 
 import { FormComponent } from '../form-component/form.component';
+// added imports; DK
+import { FormsModule } from '@angular/forms';
 
 import {
   ActivatedRoute, ActivatedRouteStub, Router, RouterStub
@@ -34,7 +36,8 @@ describe('SkillsetComponent', () => {
       imports : [
         HttpClientTestingModule,
         ChartsModule,
-        RouterTestingModule
+        RouterTestingModule, 
+        FormsModule
       ],
       providers : [
         SkillsetService,

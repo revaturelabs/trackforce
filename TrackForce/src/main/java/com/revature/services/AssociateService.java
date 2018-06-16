@@ -33,6 +33,19 @@ public class AssociateService {
 		return dao.getAssociate(associateid);
 	}
 
+	/**
+	 * @author Curtis H.
+	 *
+	 * <p>Gets the associate given by their associate Id.</p>
+	 *
+	 * @version.date v6.18.06.13
+	 * @param id
+	 * @return TfAssociate
+	 */
+	public TfAssociate getAssociateByUserId(int id) {
+		return dao.getAssociateByUserId(id);
+	}
+
 	
 	/**
 	 * @author Adam L. 

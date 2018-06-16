@@ -20,6 +20,13 @@ public class AssociateDaoImpl implements AssociateDao {
 	}
 
 	@Override
+	public TfAssociate getAssociateByUserId(int id) {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+				session.createQuery("from TfAssociate a where a.user.id like :id", TfAssociate.class).setParameter("id", id).getSingleResult());
+	}
+
+
+	@Override
 	public List<TfAssociate> getAllAssociates() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
 		session.createQuery("from TfAssociate", TfAssociate.class).getResultList());
@@ -73,6 +80,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	public boolean createAssociate(TfAssociate newassociate) {
 		return HibernateUtil.saveToDB(newassociate);
 	}
+
 
 
 

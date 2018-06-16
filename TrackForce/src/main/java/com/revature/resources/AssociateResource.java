@@ -132,7 +132,7 @@ public class AssociateResource {
 	 */
 	@GET
 	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = TfAssociate.class)
-	@Path("/{id}")
+	@Path("/userid/{id}")
 	public Response getAssociateByUserId(@ApiParam(value = "An associate id.") @PathParam("id") int id,
 	                             @HeaderParam("Authorization") String token) {
 		logger.info("getAssociateByUserId()...");

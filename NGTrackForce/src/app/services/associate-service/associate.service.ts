@@ -38,6 +38,14 @@ export class AssociateService {
     return this.http.get<Associate>(url);
   }
 
+  /** Get specific associate by id
+   * @param id - the id of the associate to retrieve
+   */
+  getAssociateByUser(id: number) {
+    const url: string = environment.url + this.associatePath + '/userid/' + id;
+    return this.http.get<Associate>(url);
+  }
+
   /**
   * @function getAssociatesByStatus
   * @description Make an http request to the /client webservice, fetching mapped associates

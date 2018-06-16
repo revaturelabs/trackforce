@@ -47,7 +47,7 @@ public class AssociateResourceTest {
 	 * what is expected, check that a bad token gives a 401, and that a bad url
 	 * gives a 404
 	 */
-	@Test(priority = 5)
+	@Test(priority = 5, enabled = true)
 	public void testGetAllAssociates() {
 		Response response = given().header("Authorization", token).when().get(URL + "/allAssociates").then().extract()
 				.response();
@@ -71,7 +71,7 @@ public class AssociateResourceTest {
 	 * 404, and a bad userId gives a 204. Check that a field not specified by the
 	 * JSON data returns null
 	 */
-	@Test(priority = 10)
+	@Test(priority = 10, enabled = true)
 	public void testGetAssociate() {
 		Response response = given().header("Authorization", token).when().get(URL + "/" + 900).then().extract()
 				.response();
@@ -103,7 +103,7 @@ public class AssociateResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(priority = 40)
+	@Test(priority = 40, enabled = true)
 	public void testUpdateAssociates1() {
 		given().header("Authorization", token).contentType("application/json").body(associate).when().put(URL + "/" + 910)
 				.then().assertThat().statusCode(200);
@@ -124,7 +124,7 @@ public class AssociateResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test
+	@Test(priority = 45, enabled = true)
 	public void testUpdateAssociates2() {
 		given().header("Authorization", token).when().post(URL + "/" + 910).then().assertThat().statusCode(405);
 

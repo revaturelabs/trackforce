@@ -22,7 +22,7 @@ import io.restassured.response.Response;
  */
 public class LoginResourceTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/users";
+	static final String URL = "http://localhost:8085/TrackForce/users";
 	String token;
 	TfUser user;
 	TfAssociate associate;
@@ -196,7 +196,7 @@ public class LoginResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void testCreateNewTrainer1() {
 		given().contentType("application/json").body(trainer).when().post(URL + "/newTrainer").then().assertThat()
 				.statusCode(201);
@@ -204,6 +204,7 @@ public class LoginResourceTest {
 		Response response = given().header("Authorization", token).when()
 				.get(URL.replaceAll("users", "trainers") + "/99").then().extract().response();
 
+		System.out.println(response.statusCode());
 		assertTrue(response.statusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 		assertTrue(response.asString().contains("RestAssuredTrainer"));
@@ -232,7 +233,7 @@ public class LoginResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void testSubmitCredentials1() {
 		given().contentType("application/json").body("{ \"username\": \"TestAdmin\", \"password\": \"TestAdmin\"}")
 				.post(URL + "/login").then().assertThat().statusCode(200);
@@ -248,7 +249,7 @@ public class LoginResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void testSubmitCredentials2() {
 		given().contentType("application/json").body("{ \"username\": \"TestAdmin\", \"password\": \"TestAdmin\"}")
 				.when().get(URL + "/login").then().assertThat().statusCode(405);

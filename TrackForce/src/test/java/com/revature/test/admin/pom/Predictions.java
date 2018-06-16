@@ -2,6 +2,9 @@ package com.revature.test.admin.pom;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.openqa.selenium.By;
@@ -21,6 +24,7 @@ public class Predictions {
 	
 	static WebElement e = null;
 	private static Properties prop = new Properties();
+	public static Map<String,String> technologies;
 	static {
 		InputStream locProps = Login.class.getClassLoader()
 				.getResourceAsStream("tests.properties");
@@ -29,10 +33,22 @@ public class Predictions {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		technologies = new HashMap<String,String>();
+		technologies.put("JTA", "tech1");
+		technologies.put("Java", "tech2");
+		technologies.put(".Net", "tech3");
+		technologies.put("PEGA", "tech4");
+		technologies.put("DynamicCRM", "tech5");
+		technologies.put("Salesforce", "tech6");
+		technologies.put("Microservices", "tech7");
+		technologies.put("SEED", "tech8");
+		technologies.put("Oracle fusion", "tech9");
+		
+		technologies = Collections.unmodifiableMap(technologies);
 	}
 	
 	public static WebElement clickPredictionsTab(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d, By.cssSelector(prop.getProperty("predictionsTab")), 2);
+		return WaitToLoad.findDynamicElement(d, By.xpath(prop.getProperty("predictionsTab")), 2);
 	}
 	
 	public static String getCurrentURL(WebDriver d) {
@@ -48,7 +64,7 @@ public class Predictions {
 	}
 	
 	public static WebElement numberofAssociates(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.name(prop.getProperty("productionsNumAssociates")), 2);
+		return WaitToLoad.findDynamicElement(d,By.name(prop.getProperty("predictionsNumAssociates")), 2);
 	}
 	
 	public static WebElement filterbyTechnologies(WebDriver d) {
@@ -60,7 +76,7 @@ public class Predictions {
 	}
 	
 	public static WebElement buttonPrediction(WebDriver d) {
-		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsButtonPredict")), 2);
+		return WaitToLoad.findDynamicElement(d,By.className(prop.getProperty("predictionsButtonPredict")), 2);
 	}
 	
 	public static WebElement technology(WebDriver d) {
@@ -79,4 +95,7 @@ public class Predictions {
 		return WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("predictionsDifference")), 2);
 	}
 
+	public static void selectFilter(WebDriver d,String tech) {
+		d.findElement(By.id(tech)).click();
+	}
 }

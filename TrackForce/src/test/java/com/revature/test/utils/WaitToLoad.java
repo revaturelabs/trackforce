@@ -30,4 +30,9 @@ public class WaitToLoad {
 		WebDriverWait wait = new WebDriverWait(wd,timeOut);
 		wait.until(ExpectedConditions.elementToBeClickable(el));
 	}
+
+	public static void AlertToBePresent(WebDriver wd,int timeOut) {
+		WebDriverWait wait = new WebDriverWait(wd,timeOut);
+		wait.until(ExpectedConditions.alertIsPresent());
+	}
 }

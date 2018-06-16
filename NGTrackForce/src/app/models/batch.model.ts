@@ -1,6 +1,7 @@
 import {Associate} from "./associate.model";
 import {Trainer} from "./trainer.model";
 import { BatchLocation } from "./batch-location.model";
+import { Curriculum } from "./curriculum.model";
 
 /** @author Princewill Ibe
  *
@@ -9,10 +10,10 @@ import { BatchLocation } from "./batch-location.model";
 export class Batch {
   id: number;
   batchName: string;
-  curriculumName: string;
+  curriculumName: Curriculum;
   location: BatchLocation;
-  startDate: Date;
-  endDate: Date;
+  startDate: number;
+  endDate: number;
   associates: Associate[]
   trainer: Trainer;
   coTrainer: Trainer[];

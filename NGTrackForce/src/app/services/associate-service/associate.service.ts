@@ -83,7 +83,7 @@ export class AssociateService {
   }
 
   getInterviewsForAssociate(id: number): Observable<Interview[]> {
-    let url: string = environment.url + this.associatePath + "/" + id + "/interviews";
+    const url: string = environment.url + this.associatePath + "/" + id + "/interviews";
     return this.http.get<Interview[]>(url);
   }
 

@@ -13,7 +13,7 @@ export class Batch {
   location: BatchLocation;
   startDate: Date;
   endDate: Date;
-  associates: Associate[]
+  associates: Associate[];
   trainer: Trainer;
   coTrainer: Trainer[];
 }

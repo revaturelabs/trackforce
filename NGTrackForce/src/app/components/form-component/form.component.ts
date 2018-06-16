@@ -161,7 +161,6 @@ export class FormComponent implements OnInit {
   /**
   * Update the associate with the new verification status, client, status, and/or start date
   */
-<<<<<<< HEAD
   // COMMENTED OUT BECAUSE IT BROKE BECAUSE OF CHANGES WE MADE TO MODELS
   // ALSO NEED TO UNCOMMENT OUT LINE 157 WHEN THIS WORKS
   // updateAssociate() {
@@ -210,59 +209,6 @@ export class FormComponent implements OnInit {
   //     }
   //   )
   // }
-=======
-  updateAssociate() {
-    let dateTime: number;
-    let newVerificationStatus;
-    let newStatus: number;
-    let newClient: number;
-    if (this.newStartDate) {
-      dateTime = Number((new Date(this.newStartDate).getTime()) / 1000);
-    } else {
-      dateTime = Number((new Date(this.associate.clientStartDate).getTime()) / 1000);
-    }
-    if (this.selectedVerificationStatus) {
-      newVerificationStatus = this.selectedVerificationStatus;
-    } else {
-      // letnewVerificationStatus = this.associate.user.verified;
-    }
-    if (this.selectedMarketingStatus) {
-      newStatus = Number(this.selectedMarketingStatus);
-    } else {
-      newStatus = this.associate.marketingStatus.id;
-    }
-    if (this.selectedClient) {
-      newClient = this.selectedClient;
-    } else {
-      newClient = this.associate.client.id;
-    }
-    const newAssociate = {
-      id: this.id,
-      verified: newVerificationStatus,
-      mkStatus: newStatus,
-      clientId: newClient,
-      startDateUnixTime: dateTime
-    };
-    this.associateService.updateAssociate(newAssociate).subscribe(
-      data => {
-        this.successMessage = "Successfully updated associate";
-        this.associateService.getAssociate(this.id).subscribe(
-          data => {
-            this.associate = data;
-            if (data.clientStartDate.toString() === "0") {
-              this.associate.clientStartDate = null;
-            } else {
-              this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
-            } this.resetAllFields();
-          },
-          err => {
-
-          }
-        );
-      }
-    )
-  }
->>>>>>> client1804-2
 
 
   /* Verify this Associate */

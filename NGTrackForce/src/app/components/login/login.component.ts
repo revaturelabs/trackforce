@@ -13,6 +13,9 @@ import { AssociateService } from '../../services/associate-service/associate.ser
 import { InterviewService } from '../../services/interview-service/interview.service';
 import { ClientService } from '../../services/client-service/client.service';
 import { BatchService } from '../../services/batch-service/batch.service';
+import { TrainerService } from '../../services/trainer-service/trainer.service';
+import { Trainer } from '../../models/trainer.model';
+import { Batch } from '../../models/batch.model';
 
 const ASSOCIATE_KEY = 'currentAssociate'
 const USER_KEY = 'currentUser';
@@ -76,7 +79,8 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private interviewService: InterviewService,
     private clientService: ClientService,
-    private batchService: BatchService
+    private batchService: BatchService,
+    private trainerService: TrainerService
   ) { }
 
   /**
@@ -189,8 +193,9 @@ export class LoginComponent implements OnInit {
           // if (data.isApproved) {
           if (data.role === 5) {
             this.associateLogin(data);
+            this.router.navigate(['associate-view']);
           } else if (data.role === 2) {
-            // this.trainerLogin(data);
+            this.trainerLogin(data);
           } else {
             this.salesOrStagingLogin();
             //otherwise, they are set to root
@@ -199,9 +204,7 @@ export class LoginComponent implements OnInit {
           //   this.authService.logout();
           //   this.errMsg = "Your account has not been approved.";
           // }
-
         },
-
         err => {
           this.authService.logout();
           if (err.status === 500) {
@@ -246,7 +249,8 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['Error'])
           // return;
         }
-      });
+      }
+    );
     const associate = this.authService.getAssociate();
     this.interviewService.getInterviews(associate.id).subscribe(
       data => {
@@ -262,7 +266,8 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['Error'])
           // return;
         }
-      });
+      }
+    );
     this.clientService.getAllClients().subscribe(
       data => {
         localStorage.setItem(CLIENTS_KEY, JSON.stringify(data));
@@ -277,34 +282,82 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['Error'])
           // return;
         }
-      });
-    this.router.navigate(['associate-view']);
+      }
+    );
+
   }
 
-  // this function will work when the trainer service is implemented
-  //
-  // trainerLogin(user: User) {
-  //   this.trainerService.getTrainer(user.id).subscribe(
-  //     data => {
-  //       localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
-  //       // the functionallity of user.isApproved is not yet implemented on the server side
-  //       this.router.navigate(['trainer-view']);
-  //     },
-  //     err => {
-  //       if (err.status === 500) {
-  //         this.errMsg = "There was an error on the server";
-  //       }
-  //     });
-  //   // also add getting all the batches they are a trainer for
-  //   // also add getting all the batches they are a cotrainer for
-  //   // also add getting all the associated associated with this trainer
-  //   this.router.navigate(['trainer-view']);
-  // }
+  /**
+   * This method retrieves all the necessary data from the server for a trainer user.
+   * @param user - this is the user that is returned upon sending the server a username and password
+   */
+  trainerLogin(user: User) {
+    this.trainerService.getBatchlessTrainer(user.id).subscribe(
+      data => {
+        localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
+        this.getPrimaryBatches(data);
+        this.getSecondaryBatches(data);
+        this.router.navigate(['trainer-view']);
+      },
+      err => {
+        if (err.status === 500) {
+          this.router.navigate(['ServerError'])
+          return;
+        } else {
+          this.router.navigate(['Error'])
+          return;
+        }
+      }
+    );
+  }
+
+  getPrimaryBatches(trainer: Trainer) {
+    // also add getting all the batches they are a trainer for
+    this.trainerService.getTrainerBatches(trainer.id).subscribe(
+      data => {
+        const batchesWithAssociates = this.getAssociatesForBatch(data, );
+        localStorage.setItem(BATCHES_TRAINER_KEY, JSON.stringify(batchesWithAssociates));
+      },
+      err => {
+        if (err.status === 500) {
+          this.router.navigate(['ServerError'])
+        } else {
+          this.router.navigate(['Error'])
+        }
+      }
+    );
+  }
+  getSecondaryBatches(trainer: Trainer) {
+    // also add getting all the batches they are a cotrainer for
+    this.trainerService.getCoTrainerBatches(trainer.id).subscribe(
+      data => {
+        const batchesWithAssociates = this.getAssociatesForBatch(data);
+        localStorage.setItem(BATCHES_COTRAINER_KEY, JSON.stringify(batchesWithAssociates));
+      },
+      err => {
+        if (err.status === 500) {
+          this.router.navigate(['ServerError'])
+        } else {
+          this.router.navigate(['Error'])
+        }
+      }
+    );
+    
+  }
+  getAssociatesForBatch(batches: Batch[]) {
+    let batch: Batch;
+    for(batch of batches) {
+      this.batchService.getAssociatesForBatch(batch.id).subscribe(
+        data => {
+          batch.associates = data;
+        }
+      );
+    }
+  }
 
   /**
    * This method is called if the user signing in is not a trainer or associate.
    * This method retrieves the data needed during the time this user is signed in and stores it in local storage
-   * @param none
    * 
    * @author Max Dunn
    */

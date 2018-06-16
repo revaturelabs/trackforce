@@ -17,30 +17,17 @@ export class InterviewDetailsComponent implements OnInit {
 
 
   public interview: any = {};
-<<<<<<< HEAD
   // public i:number;
   public associate: Associate;
   // public id: number;
   
-=======
-   public i:number;
-  public associate = MyInterviewComponent.prototype.associate;
-  public id: number;
-
->>>>>>> client1804-2
   constructor(private activated: ActivatedRoute) { }
 
 
   ngOnInit() {
-<<<<<<< HEAD
      
     // this.i = +this.activated.snapshot.paramMap.get('i');
     // this.id = +this.activated.snapshot.paramMap.get('id');
-=======
-
-    this.i = +this.activated.snapshot.paramMap.get('i');
-    this.id = +this.activated.snapshot.paramMap.get('id');
->>>>>>> client1804-2
     const u = JSON.parse(sessionStorage.getItem("interviews"));
     if(sessionStorage.getItem("changedin") === null)
       {

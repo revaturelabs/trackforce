@@ -1,6 +1,7 @@
 package com.revature.resources;
 
 import static com.revature.utils.LogUtil.logger;
+import static com.revature.utils.ResourceHelper.isPayloadAssociate;
 
 import java.io.IOException;
 import java.util.List;
@@ -110,7 +111,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 		TfAssociate associateinfo = associateService.getAssociate(associateid);
 
-		if (payload == null) {
+		if (payload == null || isPayloadAssociate(payload, associateinfo)) {
 			status = Status.UNAUTHORIZED;
 		}
 		else {
@@ -140,7 +141,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 		TfAssociate associateinfo = associateService.getAssociateByUserId(id);
 
-		if (payload == null) {
+		if (payload == null || isPayloadAssociate(payload, associateinfo)) {
 			status = Status.UNAUTHORIZED;
 		}
 		else {

@@ -14,16 +14,16 @@ import com.revature.services.UserService;
  * 
  * @author Adam L. 
  * <p>Used for a few quick simple tests to ensure hibernate is making the calls it is supposed to</p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  *
  */
 @SuppressWarnings("unused")
 public class Application {
 
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
-	// This is to allow for Mokito tests, which have problems with static methods
+	// This is to allow for Mockito tests, which have problems with static methods
 	// This is here for a reason! 
-	// - Adam 06.2018.06.13
+	// - Adam 06.18.06.13
 	static AssociateService associateService = new AssociateService();
 	static BatchService batchService = new BatchService();
 	static ClientService clientService = new ClientService();

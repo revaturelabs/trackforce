@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs";
 
 import { Associate } from "../../models/associate.model";
-import { Response } from "@angular/http/";
 import { environment } from "../../../environments/environment";
+import {Interview} from "../../models/interview.model";
 import { forEach } from "@angular/router/src/utils/collection";
 import { ClientMappedModel } from "../../models/clientMapped.model";
 
@@ -82,9 +82,9 @@ export class AssociateService {
     return this.http.put(url, associateID);
   }
 
-  getInterviewsForAssociate(id: number): Observable<any> {
-    const url: string = environment.url + this.associatePath + "/" + id + "/interviews";
-    return this.http.get(url);
+  getInterviewsForAssociate(id: number): Observable<Interview[]> {
+    let url: string = environment.url + this.associatePath + "/" + id + "/interviews";
+    return this.http.get<Interview[]>(url);
   }
 
   addInterviewForAssociate(id: number, interview: any): Observable<any> {

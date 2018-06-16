@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartScale } from '../../models/chart-scale.model';
-import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
+import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
@@ -100,7 +100,7 @@ export class SkillsetComponent implements OnInit {
    */
   batchColors = ThemeConstants.BATCH_COLORS;
   /**
-    *@param {SkillsetService} SkillsetService
+    *@param {CurriculumService} CurriculumService
     * service for grabbing data from the back-end or mock back-end
     *
     *@param {ActivatedRoute} route
@@ -110,7 +110,7 @@ export class SkillsetComponent implements OnInit {
     *Allows to re-routing to other components
     *
     */
-  constructor(private skillsetService: SkillsetService,
+  constructor(private curriculumService: CurriculumService,
     private route: ActivatedRoute,
     private router: Router) {
     // setup SKILL_INFO
@@ -153,7 +153,7 @@ export class SkillsetComponent implements OnInit {
       }
     }
     // get the skillset data here
-    this.skillsetService.getSkillsetsForStatusID(this.skillID).subscribe((data) => {
+    this.curriculumService.getSkillsetsForStatusID(this.skillID).subscribe((data) => {
       // copy in the raw data into local variable
       const skillsets: Array<any> = data;
       // map() that variable into skillsetData,skillsetLabels

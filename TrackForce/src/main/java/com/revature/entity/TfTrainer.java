@@ -24,10 +24,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author Andy A 
  * <p>Created Trainer entity to be used to pull trainer information from the DB</p>
- * @version.date v06.2018.06.08
+ * @version.date v6.18.06.08
  *
  */
 @XmlRootElement
@@ -60,11 +62,13 @@ public class TfTrainer implements Serializable{
 	
 	@XmlElement
 	@OneToMany(mappedBy = "trainer")
+	@JsonIgnore
 	private List<TfBatch> primary;
 	
 	@XmlElement
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="COTRAINER_BATCH",joinColumns= {@JoinColumn(name="TRAINER_ID")},inverseJoinColumns = {@JoinColumn(name="BATCH_ID")}, schema="ADMIN")
+	@JsonIgnore
 	private List<TfBatch> coTrainer = new ArrayList<>();
 
 	public TfTrainer() {
@@ -119,18 +123,22 @@ public class TfTrainer implements Serializable{
 		this.lastName = lastName;
 	}
 
+	@JsonIgnore
 	public List<TfBatch> getPrimary() {
 		return primary;
 	}
 
+	@JsonIgnore
 	public void setPrimary(List<TfBatch> primary) {
 		this.primary = primary;
 	}
 
+	@JsonIgnore
 	public List<TfBatch> getCoTrainer() {
 		return coTrainer;
 	}
 
+	@JsonIgnore
 	public void setCoTrainer(List<TfBatch> coTrainer) {
 		this.coTrainer = coTrainer;
 	}

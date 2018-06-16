@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * <p> </p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  *
  */
 @Path("/users")
@@ -41,9 +41,9 @@ import io.swagger.annotations.ApiOperation;
 public class LoginResource {
 
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
-	// This is to allow for Mokito tests, which have problems with static methods
+	// This is to allow for Mockito tests, which have problems with static methods
 	// This is here for a reason!
-	// - Adam 06.2018.06.13
+	// - Adam 06.18.06.13
 	AssociateService associateService = new AssociateService();
 	BatchService batchService = new BatchService();
 	ClientService clientService = new ClientService();
@@ -56,7 +56,7 @@ public class LoginResource {
 	/**
 	 * @author Adam L.
 	 * <p> </p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 *
 	 * @param newUser
 	 * @return
@@ -69,13 +69,13 @@ public class LoginResource {
 		logger.info("creating new user...");
 		LogUtil.logger.info(newUser);
 		userService.insertUser(newUser);
-		return Response.created(URI.create("/testingURIcreate")).build();
+		return Response.status(Status.CREATED).build();
 	}
 
 	/**
 	 * @author Adam L.
 	 * <p> </p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 *
 	 * @param newAssociate
 	 * @return
@@ -88,13 +88,13 @@ public class LoginResource {
 		logger.info("createNewAssociate()...");
 		LogUtil.logger.info(newAssociate);
 		associateService.createAssociate(newAssociate);
-		return Response.created(URI.create("/testingURIcreate")).build();
+		return Response.status(Status.CREATED).build();
 	}
 
 	/**
 	 * @author Adam L.
 	 * <p> </p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 *
 	 * @param newTrainer
 	 * @return
@@ -107,13 +107,13 @@ public class LoginResource {
 		logger.info("creating new user...");
 		LogUtil.logger.info(newTrainer);
 		trainerService.createTrainer(newTrainer);
-		return Response.created(URI.create("/testingURIcreate")).build();
+		return Response.status(Status.CREATED).build();
 	}
 
 	/**
 	 * @author Adam L.
 	 * <p> </p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 *
 	 * @param loginUser
 	 * @return
@@ -131,7 +131,7 @@ public class LoginResource {
 		logger.info("	user: " + user);
 		if (user != null) {
 			logger.info("sending 200 response..");
-			return Response.status(200).entity(user).build();
+			return Response.status(Status.OK).entity(user).build();
 		} else {
 			logger.info("sending unauthorized response..");
 			return Response.status(Status.UNAUTHORIZED).build();

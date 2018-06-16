@@ -58,7 +58,7 @@ export class ClientListComponent implements OnInit {
         }
       }
     }
-  }
+  };
   // data values initialize to 1 for animation
   public barChartData: any[] = [{ data: [0, 0, 0, 0], label: 'Mapped' }, { data: [0, 0, 0, 0], label: 'Unmapped' }];
 

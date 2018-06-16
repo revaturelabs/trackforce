@@ -18,10 +18,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * <p> </p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  */
 @XmlRootElement
 @Entity
@@ -42,14 +44,17 @@ public class TfClient implements java.io.Serializable {
 	
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+	@JsonIgnore
 	private Set<TfPlacement> placement = new HashSet<TfPlacement>(0);
 	
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+	@JsonIgnore
 	private Set<TfAssociate> associate = new HashSet<TfAssociate>(0);
 	
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
+	@JsonIgnore
 	private Set<TfInterview> interview = new HashSet<TfInterview>(0);
 
 	public TfClient() {
@@ -80,27 +85,33 @@ public class TfClient implements java.io.Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	@JsonIgnore
 	public Set<TfPlacement> getPlacement() {
 		return placement;
 	}
 
+	@JsonIgnore
 	public void setPlacement(Set<TfPlacement> placement) {
 		this.placement = placement;
 	}
 
+	@JsonIgnore
 	public Set<TfAssociate> getAssociate() {
 		return associate;
 	}
 
+	@JsonIgnore
 	public void setAssociate(Set<TfAssociate> associate) {
 		this.associate = associate;
 	}
 
+	@JsonIgnore
 	public Set<TfInterview> getInterview() {
 		return interview;
 	}
 
+	@JsonIgnore
 	public void setInterview(Set<TfInterview> interview) {
 		this.interview = interview;
 	}

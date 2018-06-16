@@ -39,7 +39,7 @@ import { ClientService } from './services/client-service/client.service';
 import { AuthenticationService } from './services/authentication-service/authentication.service';
 import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 import { BatchService } from './services/batch-service/batch.service';
-import { SkillsetService } from './services/skill-set-service/skill-set.service';
+import { CurriculumService } from './services/curriculum-service/curriculum.service';
 import { DataSyncService } from './services/datasync-service/data-sync.service';
 import { UserService } from './services/user-service/user.service';
 import { PredictionService } from './services/prediction-service/prediction.service';
@@ -104,10 +104,10 @@ import { InterviewDetailsComponent } from './components/interview-details/interv
     ClientService,
     AuthenticationService,
     RequestService,
-    SkillsetService,
+    CurriculumService,
     BatchService,
     UserService,
-    SkillsetService,
+    CurriculumService,
     DataSyncService,
     InterviewService,
     AuthGuard,

@@ -17,17 +17,30 @@ export class InterviewDetailsComponent implements OnInit {
 
 
   public interview: any = {};
+<<<<<<< HEAD
   // public i:number;
   public associate: Associate;
   // public id: number;
   
+=======
+   public i:number;
+  public associate = MyInterviewComponent.prototype.associate;
+  public id: number;
+
+>>>>>>> client1804-2
   constructor(private activated: ActivatedRoute) { }
 
 
   ngOnInit() {
+<<<<<<< HEAD
      
     // this.i = +this.activated.snapshot.paramMap.get('i');
     // this.id = +this.activated.snapshot.paramMap.get('id');
+=======
+
+    this.i = +this.activated.snapshot.paramMap.get('i');
+    this.id = +this.activated.snapshot.paramMap.get('id');
+>>>>>>> client1804-2
     const u = JSON.parse(sessionStorage.getItem("interviews"));
     if(sessionStorage.getItem("changedin") === null)
       {
@@ -39,7 +52,7 @@ export class InterviewDetailsComponent implements OnInit {
     }
 
   //User object containing need data
- 
+
   }
 
   commitchanges()
@@ -47,8 +60,8 @@ export class InterviewDetailsComponent implements OnInit {
     // store session the remaining ones
     sessionStorage.setItem("changedin", JSON.stringify(this.interview));
   }
-  
-  
+
+
 
 
 }

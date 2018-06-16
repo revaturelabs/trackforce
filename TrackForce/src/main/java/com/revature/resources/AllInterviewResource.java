@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * <p> </p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  */
 @Path("interviews")
 @Api(value = "AllInterviews")
@@ -40,9 +40,9 @@ import io.swagger.annotations.ApiOperation;
 public class AllInterviewResource {
 	
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
-	// This is to allow for Mokito tests, which have problems with static methods
+	// This is to allow for Mockito tests, which have problems with static methods
 	// This is here for a reason! 
-	// - Adam 06.2018.06.13
+	// - Adam 06.18.06.13
 	AssociateService associateService = new AssociateService();
 	BatchService batchService = new BatchService();
 	ClientService clientService = new ClientService();
@@ -55,7 +55,7 @@ public class AllInterviewResource {
 	 * 
 	 * @author Ian Buitrago, Adam L. 
 	 * <p> </p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @param token
 	 * @param sort

@@ -3,6 +3,7 @@ package com.revature.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,10 +16,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * <p> </p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  */
 @XmlRootElement
 @Entity
@@ -38,6 +41,7 @@ public class TfMarketingStatus implements java.io.Serializable {
 	private String name;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "marketingStatus")
+	@JsonIgnore
 	private Set<TfAssociate> associates = new HashSet<TfAssociate>(0);
 
 	public TfMarketingStatus() {
@@ -66,10 +70,12 @@ public class TfMarketingStatus implements java.io.Serializable {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	public Set<TfAssociate> getAssociates() {
 		return associates;
 	}
 
+	@JsonIgnore
 	public void setAssociates(Set<TfAssociate> associates) {
 		this.associates = associates;
 	}

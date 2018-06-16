@@ -90,7 +90,7 @@
 			<version>3.1.0</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -98,8 +98,8 @@
 			<version>1.2.17</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-		<dependency>
+	 	<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+<!-- 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.5.6</version>
@@ -109,7 +109,7 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.5.6</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- https://mvnrepository.com/artifact/info.cukes/cucumber-java -->
 		<dependency>
@@ -212,7 +212,8 @@
 			<version>3.7</version>
 		</dependency>
 
-<!-- The following four dependencies are required for running TrackForce locally on Kirk's computer(Sprint 6) -->
+		<!-- The following four dependencies are required for running TrackForce 
+			locally on Kirk's computer(Sprint 6) -->
 
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -250,13 +251,21 @@
 			</exclusions>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.ehcache/ehcache -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache -->
 		<dependency>
-			<groupId>org.ehcache</groupId>
-			<artifactId>ehcache</artifactId>
-			<version>3.4.0</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>5.2.12.Final</version>
 		</dependency>
-		
+
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>5.2.12.Final</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<!-- William added the below tags on 2/15/18 so that the main application 
@@ -281,9 +290,9 @@
 						<exclude>com/revature/test/admin/pom/*.java</exclude>
 					</excludes>
 
-					<!--<suiteXmlFiles>-->
-					<!--<file>src/test/resources/surefire_test.xml</file>-->
-					<!--</suiteXmlFiles>-->
+					<!--<suiteXmlFiles> -->
+					<!--<file>src/test/resources/surefire_test.xml</file> -->
+					<!--</suiteXmlFiles> -->
 					<properties>
 						<property>
 							<name>suitethreadpoolsize</name>
@@ -302,7 +311,7 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.20</version>
 				<executions>
-					<!-- Ensures that both integration-test and verify goals of the Failsafe
+					<!-- Ensures that both integration-test and verify goals of the Failsafe 
 						Maven plugin are executed. -->
 					<execution>
 						<id>integration-tests</id>
@@ -312,9 +321,9 @@
 						</goals>
 						<configuration>
 							<forkCount>0</forkCount>
-							<!--Skips integration tests if the value of skip.integration.tests
+							<!--Skips integration tests if the value of skip.integration.tests 
 								property is true -->
-							<!-- Skips unit tests if the value of skip.unit.tests property is
+							<!-- Skips unit tests if the value of skip.unit.tests property is 
 								true -->
 							<!-- William changed the value of skipTests to true on 2/15/18 -->
 							<!-- to see if we can successfully deploy current build of application -->

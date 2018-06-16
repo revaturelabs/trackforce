@@ -5,7 +5,6 @@ import { Observable } from "rxjs";
 import { Associate } from "../../models/associate.model";
 import { environment } from "../../../environments/environment";
 import { Interview } from "../../models/interview.model";
-import { forEach } from "@angular/router/src/utils/collection";
 import { ClientMappedModel } from "../../models/clientMapped.model";
 
 /**
@@ -68,37 +67,5 @@ export class AssociateService {
     const url: string = this.baseURL + "/" + associate.id;
     return this.http.put<boolean>(url, associate);
   }
-
-
-
-
-
-
-  /////////////////////////////////////////////////////////////////////
-  // The following code is not in the associate resource in java
-
-  /**
-   * 
-   * Make an http request to the /client webservice, fetching mapped associates
-   * with the given marketing status.
-   * @param statusId Contains the marketing status id used to fetch data
-   */
-  getAssociatesByStatus(statusId: number): Observable<ClientMappedModel[]> {
-    return this.http.get<ClientMappedModel[]>(this.baseURL + '/mapped/' + statusId);
-  }
-
-  verifyAssociate(associateID: number) {
-    const url: string = this.baseURL + "/" + associateID + "/verify";
-    return this.http.put<boolean>(url, associateID);
-  }
-
-  getInterviewsForAssociate(id: number): Observable<Interview[]> {
-    const url: string = this.baseURL + "/" + id + "/interviews";
-    return this.http.get<Interview[]>(url);
-  }
-
-  addInterviewForAssociate(id: number, interview: any): Observable<boolean> {
-    const url: string = environment.url + "TrackForce/api/" + "associates" + "/" + id + "/interviews";
-    return this.http.post<boolean>(url, interview);
-  }
+  
 }

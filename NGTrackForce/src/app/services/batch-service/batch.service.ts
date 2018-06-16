@@ -1,17 +1,17 @@
 /** @Author Princewill Ibe */
 
-import {Injectable} from '@angular/core';
-import {environment} from '../../../environments/environment';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {Batch} from '../../models/batch.model';
-import {Associate} from '../../models/associate.model';
+import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Batch } from '../../models/batch.model';
+import { Associate } from '../../models/associate.model';
 
 @Injectable()
 export class BatchService {
   private batchPath = "TrackForce/batches";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   /**
    * given start and end date, return the batches that started and completed
@@ -22,7 +22,7 @@ export class BatchService {
    * @returns {Observable<Batch[]>}
    */
   public getBatchesByDate(startDate: Date, endDate: Date): Observable<Batch[]> {
-    const url = environment.url + this.batchPath+ `?start=${startDate.getTime()}&end=${endDate.getTime()}`;
+    const url = environment.url + this.batchPath + `?start=${startDate.getTime()}&end=${endDate.getTime()}`;
     //const url = environment.url + this.batchPath + '/';
     return this.http.get<Batch[]>(url);
   }
@@ -58,7 +58,7 @@ export class BatchService {
    * @returns {Observable<Associate[]>}
    */
   public getAssociatesForBatch(id: number): Observable<Associate[]> {
-    const url = environment.url + this.batchPath+'/'+id+'/associates';
+    const url = environment.url + this.batchPath + '/' + id + '/associates';
     return this.http.get<Associate[]>(url);
   }
 
@@ -71,7 +71,7 @@ export class BatchService {
   }
 
   public getBatchByType(threeMonthsBefore: number, threeMonthsAfter: number, type: string): Observable<any> {
-    return this.http.get<any>(this.batchPath + '?start=' + threeMonthsBefore + '&end=' + threeMonthsAfter + '&type='+type);
+    return this.http.get<any>(this.batchPath + '?start=' + threeMonthsBefore + '&end=' + threeMonthsAfter + '&type=' + type);
   }
 
 }

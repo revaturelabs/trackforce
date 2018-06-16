@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class SkillsetService {
+export class CurriculumService {
   MOCK_API = "https://9a03ee58-6ed8-4d7b-8df1-60f505a77580.mock.pstmn.io/";
   NO_BACKEND = false;
   private curriculumPath = "TrackForce/skillset";

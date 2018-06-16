@@ -19,6 +19,8 @@ export class UserService {
     */
     constructor(private rs: RequestService, private http: HttpClient) {  }
 
+
+    //For neither of the two below functions do we care about what it returns, it's pass or fail. - Curtis, 6.18.06.16
     /**
      * Creates new user in database
      * @param {string} username - New user's Username
@@ -34,19 +36,11 @@ export class UserService {
      *      5	- Associate	- Can register, view and edit their info, add and flag interviews
 
      */
-
     public createUser(username: string, password: string, roleId: number): Observable<any> {
-      return this.http.post<any>(environment.url + this.userPath, {username: username, password: password, role: roleId});
+      return this.http.post(environment.url + this.userPath, {username: username, password: password, role: roleId})
     }
   	public createAssociate(username: string, password: string,fname: string, lname: string): Observable<any> {
       return this.http.post<any>(environment.url + this.userPath, {username: username, password: password,fname: fname, lname: lname});
-    }
-    public getUser(): Observable<any> {
-      return this.http.get<any>(environment.url + this.userPath);
-    }
-
-    public getUsername(): Observable<any> {
-      return this.http.get<any>(environment.url + this.userPath + '/name');
     }
 
 }

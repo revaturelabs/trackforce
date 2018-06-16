@@ -8,7 +8,7 @@ import { ChartsModule } from 'ng2-charts';
 import { HomeComponent } from '../home/home.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
+import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 
 import { FormComponent } from '../form-component/form.component';
 
@@ -37,7 +37,7 @@ describe('SkillsetComponent', () => {
         RouterTestingModule
       ],
       providers : [
-        SkillsetService,
+        CurriculumService,
         { provide : ActivatedRoute, useValue : activatedRoute },
         { provide : Router,         useClass : RouterStub }
       ]
@@ -101,9 +101,9 @@ describe('SkillsetComponent', () => {
     fixture.whenStable().then(() => {
       expect(component.skillsetData).not.toEqual(component.DUMMY_DATA);
     })
-    // making sure that the skillsetData is now equal to the results of the data returned from SkillsetService
+    // making sure that the skillsetData is now equal to the results of the data returned from CurriculumService
     .then(() => {
-      let service : SkillsetService = TestBed.get(SkillsetService);
+      let service : CurriculumService = TestBed.get(CurriculumService);
       service.getSkillsetsForStatusID(1).subscribe((res) => {
         expect(component.skillsetData).toEqual(res.data.map((obj) => obj.count))
       })

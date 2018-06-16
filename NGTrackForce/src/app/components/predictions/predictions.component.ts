@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
+import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 import { PredictionService } from '../../services/prediction-service/prediction.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Chart } from 'chart.js';
@@ -25,7 +25,7 @@ export class PredictionsComponent implements OnInit {
   public batches: Batch[];
   public batchNumberAssociates: number[];
 
-  constructor(private ss: SkillsetService, private ps: PredictionService) { }
+  constructor(private ss: CurriculumService, private ps: PredictionService) { }
 
   ngOnInit() {
     this.getListofCurricula();

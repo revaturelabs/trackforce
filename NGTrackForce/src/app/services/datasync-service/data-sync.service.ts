@@ -8,7 +8,7 @@ import { RequestService } from '../request-service/request.service';
 import { BatchService } from '../batch-service/batch.service';
 import { AssociateService } from '../associate-service/associate.service';
 import { ClientService } from '../client-service/client.service';
-import { SkillsetService } from '../skill-set-service/skill-set.service';
+import { CurriculumService } from '../curriculum-service/curriculum.service';
 import { Observable , BehaviorSubject} from 'rxjs';
 import 'rxjs/Rx';
 
@@ -68,7 +68,7 @@ export class DataSyncService {
     private bs: BatchService,
     private cs: ClientService,
     private as: AssociateService,
-    private ss: SkillsetService
+    private ss: CurriculumService
   ) {
     // fetch data on initialization
     this.fetchData();

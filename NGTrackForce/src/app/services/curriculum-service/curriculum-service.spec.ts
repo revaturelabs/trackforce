@@ -1,25 +1,25 @@
 import { TestBed, inject, getTestBed } from "@angular/core/testing";
-import { SkillsetService } from "./skill-set.service";
+import { CurriculumService } from "./curriculum.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 
 
-describe('SkillsetService', () => {
+describe('CurriculumService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers : [SkillsetService],
+            providers : [CurriculumService],
             imports   : [
                 HttpClientTestingModule
             ]
         });
     });
 
-    it('should be created', inject([SkillsetService], (service : SkillsetService) => {
+    it('should be created', inject([CurriculumService], (service : CurriculumService) => {
         expect(service).toBeTruthy();
     }));
 
     it('should return data for specified skillset id', () => {
-        let service : SkillsetService = getTestBed().get(SkillsetService);
+        let service : CurriculumService = getTestBed().get(CurriculumService);
 
         getTestBed().compileComponents().then(() => {
             service.getSkillsetsForStatusID(1).subscribe((res) => {

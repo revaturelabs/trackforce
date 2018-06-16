@@ -7,6 +7,7 @@ import com.revature.services.BatchService;
 import com.revature.services.ClientService;
 import com.revature.services.CurriculumService;
 import com.revature.services.InterviewService;
+import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
 
@@ -35,8 +36,11 @@ public class Application {
 	
 	public static void main(String[] args) {
 		
-		TfUser user = userService.getUser("TestAdmin");
-		System.out.println(user);
+		String token = JWTService.createToken("TestAdmin", 1);
+		System.out.println(token);
+		
+//		TfUser user = userService.getUser("TestAdmin");
+//		System.out.println(user);
 //		
 //				
 //		List<TfUser> users = userService.getAllUsers();
@@ -49,10 +53,10 @@ public class Application {
 //		for(TfInterview interview : interviews)
 //			System.out.println(interview);
 		
-		// test a single interview
-		Integer interviewId = 215;
-		TfInterview interview = interviewService.getInterviewById(interviewId);
-		System.out.println(interview);
+//		// test a single interview
+//		Integer interviewId = 215;
+//		TfInterview interview = interviewService.getInterviewById(interviewId);
+//		System.out.println(interview);
 		
 		// test get all associates 
 //		List<TfAssociate> associates = AssociateService.getAllAssociates();

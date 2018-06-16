@@ -5,6 +5,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.testng.Assert.assertTrue;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -21,6 +23,7 @@ public class AssociateResourceTest {
 	AssociateService associateService = new AssociateService();
 	List<TfAssociate> associates;
 	String token;
+	TfAssociate associate;
 
 	static final String URL = "http://localhost:8085/TrackForce/associates";
 
@@ -28,7 +31,15 @@ public class AssociateResourceTest {
 	public void beforeClass() {
 		token = JWTService.createToken("TestAdmin", 1);
 		System.out.println(token);
-		// associates = associateService.getAllAssociates();
+		associates = new ArrayList<>();
+		associates = associateService.getAllAssociates();
+		System.out.println(associates.size());
+		
+		associate = new TfAssociate();
+		associate.setId(910);
+		associate.setFirstName("Tom");
+		associate.setLastName("Jerry");
+		associate.setClientStartDate(new Timestamp(50000000L));
 	}
 
 	/**
@@ -39,17 +50,17 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 5)
 	public void testGetAllAssociates() {
-		Response response = given().header("Authorization", token).when().get(URL + "/allAssociates").then().extract().response();
+		Response response = given().header("Authorization", token).when().get(URL + "/allAssociates").then().extract()
+				.response();
 
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 
-		// given().header("Authorization",
-		// token).when().get(URL).then().assertThat().body("firstName",
-		// hasSize(associates.size()));
+		given().header("Authorization", token).when().get(URL + "/allAssociates").then().assertThat().body("id",
+				hasSize(associates.size()));
 
-		given().header("Authorization", "Bad Token").when().get(URL + "/allAssociates").then().assertThat().statusCode(401);
-		
+		given().header("Authorization", "Bad Token").when().get(URL + "/allAssociates").then().assertThat()
+				.statusCode(401);
 
 		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
 	}
@@ -85,74 +96,44 @@ public class AssociateResourceTest {
 		given().header("Authorization", token).when().get(URL + "/" + 900).then().assertThat().body("address",
 				equalTo(null));
 	}
-
-	// /**
-	// * Method to test that a valid response is issued when the correct path is
-	// * supplied. Additionally, should only return a 200 when the media type is
-	// valid
-	// * for updating
-	// */
-	// @Test(priority = 20)
-	// public void testUpdateAssociateMarketingStatus() {
-	// for (TfAssociate ai : associates) {
-	// Response response = given().header("Authorization", token).when()
-	// .put(URL + "/" + ai.getTfAssociateId() +
-	// "/marketing").then().extract().response();
-	//
-	// assertTrue(response.statusCode() == 200);
-	//
-	// Response response2 = given().header("Authorization",
-	// token).contentType("text/plain").when()
-	// .put(URL + "/" + ai.getTfAssociateId() +
-	// "/marketing").then().extract().response();
-	//
-	// assertTrue(response2.statusCode() == 415);
-	// break;
-	// }
-	// }
-
-	// /**
-	// * Method to test that the create user functionality works, that the new user
-	// * can be retrieved and the data values are what we would expect. Additionally
-	// * test that a token is needed for a new user to be created Commented out to
-	// * prevent too many dummy users
-	// */
-	// @Test(priority = 25, enabled = false)
-	// public void testCreateNewAssociate() {
-	// Response response = given().header("Authorization",
-	// token).contentType("application/json").body(
-	// "{\"fname\": \"Testing\", \"password\":\"password\",
-	// \"username\":\"username\", \"lname\":\"FourthUser\"}")
-	// .when().post(URL).then().extract().response();
-	//
-	// assertTrue(response.statusCode() == 200);
-	//
-	// given().header("Authorization",
-	// token).when().get(URL).then().assertThat().body("firstName",
-	// hasSize(associates.size() + 1));
-	//
-	// given().header("Authorization", token).when().get(URL + "/" +
-	// (associates.size() + 1)).then().assertThat()
-	// .body("firstName", equalTo("Testing")).and().body("lastName",
-	// equalTo("FourthUser"));
-	//
-	// Response response2 = given().header("Authorization", "Bad
-	// Token").contentType("application/json").body(
-	// "{\"fname\": \"Testing\", \"password\":\"password\",
-	// \"username\":\"username\", \"lname\":\"FourthUser\"}")
-	// .when().post(URL).then().extract().response();
-	//
-	// assertTrue(response.statusCode() == 401);
-	// }
 	
+	/**
+	 * Happy path testing for updateAssociate. This will check that the resource to update an
+	 * associate can be accessed properly, that the resource will update the associate, and that
+	 * the updated information is reflected by getting that particular associate.
+	 * @author Jesse
+	 * @since 06.18.06.16
+	 */
 	@Test(priority = 40)
-	public void testUpdateAssociates() {
-//		 given().header("Authorization", token).contentType("application/json").body(
-//		 "{\"mkStatus\": \"12\", \"id\":\"910\",\"startDateUnixTime\":\"1528156800006\", \"clientId\":\"5\"}")
-//		 .when().put(URL + "/" + ai.getId()).then().assertThat().statusCode(200);
-//
-//		 System.out.println(response.statusCode());	
-//		 assertTrue(response.statusCode() == 200);
-//		 assertTrue(response.contentType().equals("application/json"));
-		 }
+	public void testUpdateAssociates1() {
+		given().header("Authorization", token).contentType("application/json").body(associate).when().put(URL + "/" + 910)
+				.then().assertThat().statusCode(200);
+
+		Response response = given().header("Authorization", token).when().get(URL + "/" + 910).then().extract()
+				.response();
+
+		assertTrue(response.statusCode() == 200);
+		assertTrue(response.contentType().equals("application/json"));
+
+		assertTrue(response.asString().contains("Tom") && response.asString().contains("Jerry"));
+	}
+
+	/**
+	 * Unhappy path testing for updateAssociate. Ensure that a bad verb returns a 405, a bad URL
+	 * returns a 404, a nonexistent associate returns  204 (content not found), and that the content
+	 * type matches what is expected.
+	 * @author Jesse
+	 * @since 06.18.06.16
+	 */
+	@Test
+	public void testUpdateAssociates2() {
+		given().header("Authorization", token).when().post(URL + "/" + 910).then().assertThat().statusCode(405);
+
+		given().header("Authorization", token).when().put(URL + "/0").then().assertThat().statusCode(204);
+
+		given().header("Authorization", token).when().get(URL + "/badURL").then().assertThat().statusCode(404);
+
+		given().header("Authorization", token).when().get(URL + "/" + 910).then().assertThat().body("address",
+				equalTo(null));
+	}
 }

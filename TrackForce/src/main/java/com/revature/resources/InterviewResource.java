@@ -99,8 +99,9 @@ public class InterviewResource {
 	 * @throws HibernateException
 	 * @throws IOException
 	 */
-	@Path("/associates/{associateid}/interviews")
+	@Path("/associate/{associateid}/interviews")
 	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Returns all interviews for an associate", notes = "Returns a list of all interviews.")
 	public Response getAllInterviews(@HeaderParam("Authorization") String token,
 			@PathParam("associateid") Integer associateId) throws HibernateException, IOException {
@@ -129,7 +130,6 @@ public class InterviewResource {
 	 * @version.date v06.2018.06.13
 	 * 
 	 * @param interviewid
-	 * @param interviewId
 	 * @param token
 	 * @return
 	 * @throws IOException
@@ -137,13 +137,12 @@ public class InterviewResource {
 	@GET
 	@ApiOperation(value = "Returns an interview", notes = "Returns a specific interview by id.")
 	@Path("/{interviewid}")
-	public Response getAssociateInterview(@PathParam("interviewid") Integer interviewid,
-			@PathParam("associateid") Integer interviewId, @HeaderParam("Authorization") String token)
+	public Response getAssociateInterview(@PathParam("interviewid") Integer interviewid, @HeaderParam("Authorization") String token)
 			throws IOException {
 		logger.info("getAssociateInterview()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
-		TfInterview interview = interviewService.getInterviewById(interviewId);
+		TfInterview interview = interviewService.getInterviewById(interviewid);
 
 		if (payload == null) { // invalid token
 			status = Status.UNAUTHORIZED;
@@ -172,9 +171,8 @@ public class InterviewResource {
 	@Path("/{interviewid}")
 	@ApiOperation(value = "updates interview", notes = " Updates interview")
 	@PUT
-	public Response updateInterview(@PathParam("associateid") int associateid,
-			@PathParam("interviewid") int interviewId, @HeaderParam("Authorization") String token,
-			TfInterview interview) {
+	public Response updateInterview(@PathParam("interviewid") int interviewId,
+	                                @HeaderParam("Authorization") String token, TfInterview interview) {
 		logger.info("updateInterview()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);

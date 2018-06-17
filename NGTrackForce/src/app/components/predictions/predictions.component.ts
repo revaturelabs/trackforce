@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
-import { PredictionService } from '../../services/prediction-service/prediction.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 // import { Chart } from 'chart.js';
 import { Batch } from '../../models/batch.model';
@@ -29,7 +28,7 @@ export class PredictionsComponent implements OnInit {
   public batchNumberAssociates: number[];
   public associates: Associate[];
 
-  constructor(private ss: CurriculumService, private ps: PredictionService, private as: AssociateService) { }
+  constructor(private ss: CurriculumService, private as: AssociateService) { }
 
   ngOnInit() {
     this.getListofCurricula();
@@ -104,7 +103,7 @@ export class PredictionsComponent implements OnInit {
               console.log(this.startDate);
               console.log(startTime);
               if(associate.batch.endDate>=startTime&&associate.batch.endDate<=endTime){
-                if(associate.batch.curriculumName.name==t){
+                if(associate.batch.curriculumName.name===t){
                   count++;
                 }
               }

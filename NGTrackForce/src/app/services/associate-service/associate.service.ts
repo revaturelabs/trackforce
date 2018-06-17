@@ -26,23 +26,13 @@ export class AssociateService {
     return this.http.get<Associate[]>(url);
   }
 
-  /**
-   *
-   * Get specific associate by associate id
-   * @param id - the associate id of the associate to retrieve
-   */
-  getAssociateByAssociateId(id: number): Observable<Associate> {
-    const url: string = this.baseURL + '/' + id;
-    return this.http.get<Associate>(url);
-  }
-
-  /**
-   *
+  /** 
+   * 
    * Get specific associate by user id
    * @param id - the user id of the user object of an associate to retrieve
    */
   getAssociate(id: number) {
-    const url: string = this.baseURL + '/userid/' + id;
+    const url: string = this.baseURL + '/' + id;
     return this.http.get<Associate>(url);
   }
 

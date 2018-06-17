@@ -20,16 +20,7 @@ export class ClientService {
    * Get a list of all of the clients
    */
   getAllClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(this.baseURL); 
-  }
-
-  /** 
-   * 
-   * Client Object by id
-   * @param {number} clientId
-   */
-  getOneClient(clientId: number): Observable<Client> {
-    return this.http.get<Client>(this.baseURL + "/" + clientId);
+    return this.http.get<Client[]>(this.baseURL);
   }
 
 }

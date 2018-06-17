@@ -129,14 +129,14 @@ export class MyInterviewComponent implements OnInit {
           let interview = data[i];
           let intObj = {
             id: interview.id,
-            client: interview.tfClientName,
-            DInterview: new Date(interview.tfInterviewDate),
-            type: interview.typeName,
-            AFeedback: interview.tfInterviewFeedback,
+            client: interview.client,
+            DInterview: new Date(interview.interviewDate),
+            type: interview.interviewType.name,
+            AFeedback: interview.associateFeedback,
             JDescription: interview.jobDescription,
             date: new Date(interview.dateAssociateIssued),
             CFeedback: interview.clientFeedback,
-            typeID: interview.typeId,
+            typeID: interview.interviewType.id,
             Flag: interview.isInterviewFlagged,
 
           }

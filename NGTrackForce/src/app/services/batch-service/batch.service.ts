@@ -36,15 +36,6 @@ export class BatchService {
   }
 
   /**
-   * This method will get a batch given a batch id
-   * @param batchId - the id of the batch you want
-   */
-  public getBatchByBatchId(batchId: number): Observable<Batch> {
-    const url = this.baseURL + "/" + batchId;
-    return this.http.get<Batch>(url);
-  }
-
-  /**
    * This method will get a list of associates in the batch with given id
    * @param {number} id - the id of the batch you want the assciates for
    * @returns {Observable<Associate[]>}

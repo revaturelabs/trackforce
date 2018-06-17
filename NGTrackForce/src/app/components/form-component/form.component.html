@@ -80,7 +80,7 @@
             <div class="form-group">
               <label class="control-label col-sm-3">Client:</label>
               <div class="col-sm-9">
-                <select class="form-control" name="newClient" [(ngModel)]="newInterview.client">
+                <select class="form-control" name="newClient" [(ngModel)]="client">
                   <option selected="selected">None</option>
                   <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
                 </select>
@@ -89,13 +89,13 @@
             <div class="form-group">
               <label class="control-label col-sm-3">Date:</label>
               <div class="col-sm-9">
-                <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" />
+                <input type="date" class="form-control" name="date" [(ngModel)]="date" />
               </div>
             </div>
             <div class="form-group">
               <label class="control-label col-sm-3">Type:</label>
               <div class="col-sm-9">
-                <select class="form-control" name="type" [(ngModel)]="newInterview.type">
+                <select class="form-control" name="type" [(ngModel)]="type">
                   <option value="1">Phone</option>
                   <option value="4">Skype</option>
                   <option value="2">Online</option>
@@ -106,7 +106,7 @@
             <div class="form-group">
               <label class="control-label col-sm-3">Feedback:</label>
               <div class="col-sm-9">
-                <textarea type="text" class="form-control" name="feedback" rows="3" [(ngModel)]="newInterview.feedback"></textarea>
+                <textarea type="text" class="form-control" name="feedback" rows="3" [(ngModel)]="feedback"></textarea>
               </div>
             </div>
             <button type="button" (click)="addInterview()" class="btn btn-warning">Add Interview</button>

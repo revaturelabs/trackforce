@@ -40,7 +40,7 @@ describe('ClientMappedComponent', () => {
     // Note: this used to be "Mock the Client Service" with the same method.
     // That was spitting up errors because getAssociatesByStatus wasn't in Client Service,
     // so I switched it to testAssociateService
-    spyOn(testAssociateService, 'getAssociatesByStatus').and.returnValue(Observable.of([client1, client2, client3]));
+    // spyOn(testAssociateService, 'getAssociatesByStatus').and.returnValue(Observable.of([client1, client2, client3]));
 
     //Mock the Authentication Service
     const user: User = new User();

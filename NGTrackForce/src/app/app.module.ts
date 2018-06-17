@@ -42,7 +42,6 @@ import { BatchService } from './services/batch-service/batch.service';
 import { CurriculumService } from './services/curriculum-service/curriculum.service';
 import { DataSyncService } from './services/datasync-service/data-sync.service';
 import { UserService } from './services/user-service/user.service';
-import { PredictionService } from './services/prediction-service/prediction.service';
 import { InterviewService } from './services/interview-service/interview.service'
 
 ///
@@ -111,7 +110,6 @@ import { InterviewDetailsComponent } from './components/interview-details/interv
     DataSyncService,
     InterviewService,
     AuthGuard,
-    PredictionService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

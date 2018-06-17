@@ -90,7 +90,7 @@ export class ClientListComponent implements OnInit {
               stats.reservedMapped > 0 || stats.openUnmapped > 0 ||
               stats.selectedMapped > 0 || stats.selectedUnmapped > 0 ||
               stats.confirmedMapped > 0 || stats.confirmedUnmapped > 0){
-                this.clientNames.push(client.tfClientName);
+                this.clientNames.push(client.name);
               }
           //}
           // else {
@@ -141,22 +141,22 @@ export class ClientListComponent implements OnInit {
   // get client name and find id to request client information
   getOneClient(name: string) {
     this.selectedCompany = name;
-    const oneClient = this.clientInfo.find(item => item['tfClientName'] === name);
-    this.clientService.getOneClient(oneClient.id).subscribe(
-      client => {
-        this.client$ = client;
-        this.barChartData = [
-          {
-            data: [this.client$.stats.trainingMapped, this.client$.stats.reservedMapped, this.client$.stats.selectedMapped, this.client$.stats.confirmedMapped],
-            label: 'Mapped',
-          },
-          {
-            data: [this.client$.stats.trainingUnmapped, this.client$.stats.openUnmapped, this.client$.stats.selectedUnmapped, this.client$.stats.confirmedUnmapped],
-            label: 'Unmapped',
-          }
-        ]
-      }, err => {
-        console.error("Failed grabbing client");
-      });
+    const oneClient = this.clientInfo.find(item => item['name'] === name);
+    // this.clientService.getOneClient(oneClient.id).subscribe(
+    //   client => {
+    //     this.client$ = client;
+    //     this.barChartData = [
+    //       {
+    //         data: [this.client$.stats.trainingMapped, this.client$.stats.reservedMapped, this.client$.stats.selectedMapped, this.client$.stats.confirmedMapped],
+    //         label: 'Mapped',
+    //       },
+    //       {
+    //         data: [this.client$.stats.trainingUnmapped, this.client$.stats.openUnmapped, this.client$.stats.selectedUnmapped, this.client$.stats.confirmedUnmapped],
+    //         label: 'Unmapped',
+    //       }
+    //     ]
+    //   }, err => {
+    //     console.error("Failed grabbing client");
+    //   });
   }
 }

@@ -12,15 +12,9 @@ export class Batch {
   batchName: string;
   curriculumName: Curriculum;
   location: BatchLocation;
-<<<<<<< HEAD
-  startDate: Date;
-  endDate: Date;
-  associates: Associate[];
-=======
   startDate: number;
   endDate: number;
   associates: Associate[]
->>>>>>> client1804-2
   trainer: Trainer;
   coTrainer: Trainer[];
 }

@@ -101,6 +101,8 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['associate-view']);
         // } else if (user.role === 2) {
         //   this.router.navigate(['trainer-view']);
+      } else if (user.role === 2) {
+        this.router.navigate(['trainer-view']);
       } else {
         // this.getUser(user.id);
         this.router.navigate(['app-home']);
@@ -176,7 +178,7 @@ export class LoginComponent implements OnInit {
   /**
   * Function wrapper for AuthenticationService login()
   * Sends user input to service for real login
-  *Then navigates user to home if correct info is provided
+  * Then navigates user to home if correct info is provided
   *
   *@param none
   *
@@ -193,11 +195,10 @@ export class LoginComponent implements OnInit {
           // if (data.isApproved) {
           if (data.role === 5) {
             this.associateLogin(data);
-            this.router.navigate(['associate-view']);
           } else if (data.role === 2) {
             this.trainerLogin(data);
           } else {
-            this.salesOrStagingLogin();
+            this.router.navigate(['app-home']);
             //otherwise, they are set to root
           }
           // } else {
@@ -238,53 +239,17 @@ export class LoginComponent implements OnInit {
     this.associateService.getAssociate(user.id).subscribe(
       data => {
         localStorage.setItem(ASSOCIATE_KEY, JSON.stringify(data));
-        // the functionallity of user.isApproved is not yet implemented on the server side
+        this.router.navigate(['associate-view']);
       },
       err => {
         console.log('error getting associate with userid');
         if (err.status === 500) {
           this.errMsg = "There was an error on the server";
-          // return;
         } else {
           this.router.navigate(['Error'])
-          // return;
         }
       }
     );
-    const associate = this.authService.getAssociate();
-    this.interviewService.getInterviews(associate.id).subscribe(
-      data => {
-        localStorage.setItem(INTERVIEWS_KEY, JSON.stringify(data));
-      },
-      err => {
-        console.log('error getting interviews for associate');
-
-        if (err.status === 500) {
-          this.router.navigate(['ServerError'])
-          // return;
-        } else {
-          this.router.navigate(['Error'])
-          // return;
-        }
-      }
-    );
-    this.clientService.getAllClients().subscribe(
-      data => {
-        localStorage.setItem(CLIENTS_KEY, JSON.stringify(data));
-      },
-      err => {
-        console.log('error getting clients');
-
-        if (err.status === 500) {
-          this.router.navigate(['ServerError'])
-          // return;
-        } else {
-          this.router.navigate(['Error'])
-          // return;
-        }
-      }
-    );
-
   }
 
   /**
@@ -295,8 +260,6 @@ export class LoginComponent implements OnInit {
     this.trainerService.getBatchlessTrainer(user.id).subscribe(
       data => {
         localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
-        this.getPrimaryBatches(data);
-        this.getSecondaryBatches(data);
         this.router.navigate(['trainer-view']);
       },
       err => {
@@ -311,109 +274,4 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  getPrimaryBatches(trainer: Trainer) {
-    // also add getting all the batches they are a trainer for
-    this.trainerService.getTrainerBatches(trainer.id).subscribe(
-      data => {
-        const batchesWithAssociates = this.getAssociatesForBatch(data, );
-        localStorage.setItem(BATCHES_TRAINER_KEY, JSON.stringify(batchesWithAssociates));
-      },
-      err => {
-        if (err.status === 500) {
-          this.router.navigate(['ServerError'])
-        } else {
-          this.router.navigate(['Error'])
-        }
-      }
-    );
-  }
-  getSecondaryBatches(trainer: Trainer) {
-    // also add getting all the batches they are a cotrainer for
-    this.trainerService.getCoTrainerBatches(trainer.id).subscribe(
-      data => {
-        const batchesWithAssociates = this.getAssociatesForBatch(data);
-        localStorage.setItem(BATCHES_COTRAINER_KEY, JSON.stringify(batchesWithAssociates));
-      },
-      err => {
-        if (err.status === 500) {
-          this.router.navigate(['ServerError'])
-        } else {
-          this.router.navigate(['Error'])
-        }
-      }
-    );
-    
-  }
-  getAssociatesForBatch(batches: Batch[]) {
-    let batch: Batch;
-    for(batch of batches) {
-      this.batchService.getAssociatesForBatch(batch.id).subscribe(
-        data => {
-          batch.associates = data;
-        }
-      );
-    }
-  }
-
-  /**
-   * This method is called if the user signing in is not a trainer or associate.
-   * This method retrieves the data needed during the time this user is signed in and stores it in local storage
-   * 
-   * @author Max Dunn
-   */
-  salesOrStagingLogin() {
-    this.associateService.getAllAssociates().subscribe(
-      data => {
-        localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
-      },
-      err => {
-        if (err.status === 500) {
-          this.router.navigate(['ServerError'])
-          return;
-        } else {
-          this.router.navigate(['Error'])
-          return;
-        }
-      });
-    this.batchService.getAllBatches().subscribe(
-      data => {
-        localStorage.setItem(BATCHES_KEY, JSON.stringify(data));
-      },
-      err => {
-        if (err.status === 500) {
-          this.router.navigate(['ServerError'])
-          return;
-        } else {
-          this.router.navigate(['Error'])
-          return;
-        }
-      });
-    this.interviewService.getAllInterviews().subscribe(
-      data => {
-        localStorage.setItem(INTERVIEWS_KEY, JSON.stringify(data));
-      },
-      err => {
-        if (err.status === 500) {
-          this.router.navigate(['ServerError'])
-          return;
-        } else {
-          this.router.navigate(['Error'])
-          return;
-        }
-      });
-    this.clientService.getAllClients().subscribe(
-      data => {
-        localStorage.setItem(CLIENTS_KEY, JSON.stringify(data));
-      },
-      err => {
-        if (err.status === 500) {
-          this.router.navigate(['ServerError'])
-          return;
-        } else {
-          this.router.navigate(['Error'])
-          return;
-        }
-      });
-    this.router.navigate(['app-home']);
-  }
 }

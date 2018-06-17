@@ -27,8 +27,8 @@ export class CurriculumService {
    *
    * @param {number} statusID - id of the skillset
    */
-  getSkillsetsForStatusID(statusID: number): Observable<GraphCounts> {
-    return this.http.get<GraphCounts>((environment.url) +
+  getSkillsetsForStatusID(statusID: number): Observable<GraphCounts[]> {
+    return this.http.get<GraphCounts[]>((environment.url) +
       'TrackForce/skillset/unmapped/' + statusID);
   }
 

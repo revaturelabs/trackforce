@@ -8,7 +8,7 @@
  */
 export class User {
   id: number;
-  name: string;
+  // name: string;
   username: string;
   hashedPassword: string;
   role: number;
@@ -19,3 +19,4 @@ export class User {
   token: string;
   isApproved: number;
 }
+

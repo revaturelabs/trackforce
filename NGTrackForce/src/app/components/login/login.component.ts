@@ -257,7 +257,7 @@ export class LoginComponent implements OnInit {
    * @param user - this is the user that is returned upon sending the server a username and password
    */
   trainerLogin(user: User) {
-    this.trainerService.getBatchlessTrainer(user.id).subscribe(
+    this.trainerService.getTrainer(user.id).subscribe(
       data => {
         localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
         this.router.navigate(['trainer-view']);

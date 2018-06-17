@@ -5,23 +5,12 @@ import { InterviewType } from "./interview-type";
 
 
 export class Interview {
-  // Kirk: Both id and associateId is not used anywhere.
-  //       One can be removed.
   id: number;
-  //associateId: number;
-  // Kirk: Within InterviewInfo.java, there is tfAssociate variable as a AssociateInfo object.
   associate: Associate;
   client: Client;
   endClient: EndClient;
-  // Kirk: InterviewInfo.java has tfClientName. So adding clientName variable.
-  //       Additionally, clientId is not in InterviewInfo.java.
-  // Cameron: commented out because it's not in the Java entity
-  // clientName: string;
-  // clientId: number;
-
   interviewType: InterviewType;
   interviewDate: number;
-  //interviewFeedback: string; Cameron: not in Java entity
   questionGiven: string;
   associateFeedback: string;
   clientFeedback: string;
@@ -31,9 +20,41 @@ export class Interview {
   isInterviewFlagged: number;
   flagReason: string;
   isClientFeedbackVisible: number;
-
-  // Kirk: The three following is not included within InterviewInfo.java.
-  questions: string;
   was24HRNotice: number;
-  flagAlert: number;
+
+  constructor (
+    associate: Associate,
+    client: Client,
+    interviewType: InterviewType,
+    interviewDate: number,
+    questionGiven: string,
+    was24HRNotice: number,
+    jobDescription: string,
+    dateSalesIssued: number,
+    dateAssociateIssued: number,
+    isClientFeedbackVisible?: number,
+    associateFeedback?: string,
+    clientFeedback?: string,
+    isInterviewFlagged?: number,
+    flagReason?: string,
+    endClient?: EndClient,
+    id?: number
+  ) {
+    this.associate = associate;
+    this.client = client;
+    this.interviewType = interviewType;
+    this.interviewDate = interviewDate;
+    this.questionGiven = questionGiven;
+    this.was24HRNotice = was24HRNotice;
+    this.jobDescription = jobDescription;
+    this.dateSalesIssued = dateSalesIssued;
+    this.dateAssociateIssued = dateAssociateIssued;
+    this.isClientFeedbackVisible = isClientFeedbackVisible;
+    this.associateFeedback = associateFeedback;
+    this.clientFeedback = clientFeedback;
+    this.isInterviewFlagged = isInterviewFlagged;
+    this.flagReason = flagReason;
+    this.endClient = endClient;
+    this.id = id;
+  }
 }

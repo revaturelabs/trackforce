@@ -15,6 +15,8 @@ import com.revature.utils.HibernateUtil;
 import javax.persistence.criteria.*;
 import javax.transaction.Transactional;
 
+import static com.revature.utils.HibernateUtil.saveToDB;
+
 public class AssociateDaoImpl implements AssociateDao {
 
 	
@@ -49,13 +51,8 @@ public class AssociateDaoImpl implements AssociateDao {
 	};
 
 	@Override
-	public boolean updateAssociate(TfAssociate associate) {
+	public boolean updateAssociatePartial(TfAssociate associate) {
 		return HibernateUtil.runHibernateTransaction(updateAssociate);
-	}
-
-	@Override
-	public boolean updateAssociates(List<TfAssociate> associates) {
-		return HibernateUtil.multiTransaction(updateAssociate, associates);
 	}
 
 	private Sessional<Boolean> approveAssociate = (Session session, Object ... args)-> {
@@ -80,7 +77,7 @@ public class AssociateDaoImpl implements AssociateDao {
 
 	@Override
 	public boolean createAssociate(TfAssociate newassociate) {
-		return HibernateUtil.saveToDB(newassociate);
+		return saveToDB(newassociate);
 	}
 
 	@Override
@@ -103,6 +100,16 @@ public class AssociateDaoImpl implements AssociateDao {
 					return session.createQuery(query).getResultList();
 				}, id
 		);
+	}
+
+	@Override
+	public boolean updateAssociate(TfAssociate associate) {
+		return saveToDB(associate);
+	}
+
+	@Override
+	public boolean updateAssociates(List<TfAssociate> associate) {
+		return saveToDB(associate);
 	}
 
 

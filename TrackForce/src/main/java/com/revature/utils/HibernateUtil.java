@@ -5,6 +5,7 @@ import static com.revature.utils.LogUtil.logger;
 import java.util.List;
 
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfTrainer;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -65,7 +66,7 @@ public class HibernateUtil {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			transaction = session.beginTransaction();
-			boolean b = sessional.operate(session, transaction, args);
+			boolean b = sessional.operate(session, args);
 
 			if (b) {
 				logger.debug("Committing...");
@@ -129,11 +130,17 @@ public class HibernateUtil {
 		return null;
 	}
 
+	private static Sessional<Boolean> dbSave = (Session session, Object ... args) -> {
+		session.save(args[0]);
+		return true;
+	};
+
 	public static boolean saveToDB(Object o) {
-		return runHibernateTransaction((Session session, Object ... args) -> {
-			session.save(args[0]);
-			return true;
-		}, o);
+		return runHibernateTransaction(dbSave, o);
+	}
+
+	public static <T> boolean saveToDB(List<T> o) {
+		return multiTransaction(dbSave, o);
 	}
 
 }

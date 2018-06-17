@@ -7,15 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -39,6 +31,8 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	
 	@XmlElement
 	@Id
+//	@SequenceGenerator(sequenceName = "batchSeq", name ="batchSeq", initialValue=1000)
+//	@GeneratedValue
 	@Column(name = "TF_BATCH_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer id;
 	

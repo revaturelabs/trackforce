@@ -4,12 +4,7 @@ package com.revature.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -33,6 +28,7 @@ public class TfMarketingStatus implements java.io.Serializable {
 	
 	@XmlElement
 	@Id
+//	@GeneratedValue
 	@Column(name = "TF_MARKETING_STATUS_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer id;
 	

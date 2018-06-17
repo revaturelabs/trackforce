@@ -82,20 +82,20 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 10, enabled = true)
 	public void testGetAssociate() {
-		Response response = given().header("Authorization", token).when().get(URL + "/" + 900).then().extract()
+		Response response = given().header("Authorization", token).when().get(URL + "/" + 950).then().extract()
 				.response();
 
 		System.out.println(response.getStatusCode());
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 
-		given().header("Authorization", token).when().get(URL + "/" + 900).then().assertThat().body("firstName",
+		given().header("Authorization", token).when().get(URL + "/" + 950).then().assertThat().body("firstName",
 				equalTo("Cameron"));
 
-		given().header("Authorization", token).when().get(URL + "/" + 900).then().assertThat().body("marketingStatus",
+		given().header("Authorization", token).when().get(URL + "/" + 950).then().assertThat().body("marketingStatus",
 				equalTo(null));
 
-		response = given().header("Authorization", "Bad Token").when().get(URL + "/" + 900).then().extract().response();
+		response = given().header("Authorization", "Bad Token").when().get(URL + "/" + 950).then().extract().response();
 
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("401 – Unauthorized"));
@@ -104,7 +104,7 @@ public class AssociateResourceTest {
 
 		given().header("Authorization", token).when().get(URL + "/badURL").then().assertThat().statusCode(404);
 
-		given().header("Authorization", token).when().get(URL + "/" + 900).then().assertThat().body("address",
+		given().header("Authorization", token).when().get(URL + "/" + 950).then().assertThat().body("address",
 				equalTo(null));
 	}
 

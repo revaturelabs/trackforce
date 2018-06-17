@@ -1,8 +1,14 @@
 package com.revature.application;
 
-import java.util.ArrayList;
+import java.sql.Timestamp;
+import java.util.HashSet;
 
-import com.revature.entity.TfTrainer;
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfBatch;
+import com.revature.entity.TfClient;
+import com.revature.entity.TfEndClient;
+import com.revature.entity.TfMarketingStatus;
+import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
@@ -50,18 +56,42 @@ public class Application {
 //		for(TfUser u : users)
 //			System.out.println(u);
 		
-		TfTrainer t = new TfTrainer();
-		t.setFirstName("Test");
-		t.setLastName("Trainer");
-		t.setId(1);
-		t.setTfUser(new TfUser());
-		t.setCoTrainer(new ArrayList<>());
-		t.setPrimary(new ArrayList<>());
-		System.out.println(trainerService.createTrainer(t));
+//		TfTrainer t = new TfTrainer();
+//		t.setFirstName("Test");
+//		t.setLastName("Trainer");
+//		t.setId(1);
+//		t.setTfUser(new TfUser());
+//		t.setCoTrainer(new ArrayList<>());
+//		t.setPrimary(new ArrayList<>());
+//		System.out.println(trainerService.createTrainer(t));
+//		
+//		for (TfTrainer tt : trainerService.getAllTrainers()) {
+//			System.out.println(t);
+//		}
 		
-		for (TfTrainer tt : trainerService.getAllTrainers()) {
-			System.out.println(t);
-		}
+//		TfUser u = new TfUser();
+//		u.setId(925);
+//		u.setRole(5);
+//		u.setUsername("Testing");
+//		u.setPassword("Testing");
+//		u.setTfRole(new TfRole());
+//		u.setIsApproved(1);
+//		
+//		TfAssociate a = new TfAssociate();
+//		a.setFirstName("Jimbo");
+//		a.setLastName("Malone");
+//		a.setUser(u);
+//		a.setClient(new TfClient());
+//		a.setBatch(new TfBatch());
+//		a.setMarketingStatus(new TfMarketingStatus());
+//		a.setClientStartDate(new Timestamp(150000000L));
+//		a.setPlacement(new HashSet<>());
+//		a.setEndClient(new TfEndClient());
+//		a.setInterview(new HashSet<>());
+//		
+//		associateService.createAssociate(a);
+//		
+//		System.out.println(associateService.getAssociate(920));
 		
 		
 		// test get all interviews

@@ -35,15 +35,15 @@ public class LoginResourceTest {
 		token = JWTService.createToken("TestAdmin", 1);
 		System.out.println(token);
 		user = new TfUser();
-		user.setId(913);
+		user.setId(950);
 		user.setIsApproved(1);
 		user.setPassword("password");
 		user.setRole(5);
 		user.setUsername("A Very Unique Name");
 
 		associate = new TfAssociate();
-		associate.setId(915);
-		associate.setFirstName("RestAssuredFirstNameTest");
+		associate.setId(920);
+		associate.setFirstName("WasICreated?");
 		associate.setLastName("Jerry");
 
 		trainer = new TfTrainer();
@@ -147,7 +147,7 @@ public class LoginResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void testCreateNewAssociate1() {
 		given().contentType("application/json").body(associate).when().post(URL + "/newAssociate").then().assertThat()
 				.statusCode(201);
@@ -157,7 +157,7 @@ public class LoginResourceTest {
 
 		assertTrue(response.statusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
-		assertTrue(response.asString().contains("RestAssuredFirstNameTest"));
+		assertTrue(response.asString().contains("WasICreated?"));
 
 		user.setRole(4);
 		associate.setUser(user);

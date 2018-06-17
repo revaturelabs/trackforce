@@ -1,6 +1,9 @@
 package com.revature.application;
 
-import com.revature.entity.TfAssociate;
+import java.util.ArrayList;
+
+import com.revature.entity.TfTrainer;
+import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -37,7 +40,7 @@ public class Application {
 //		String token = JWTService.createToken("TestAdmin", 1);
 //		System.out.println(token);
 		
-		TfAssociate a = associateService.getAssociate(0);
+//		TfAssociate a = associateService.getAssociate(0);
 		
 //		TfUser user = userService.getUser("TestAdmin");
 //		System.out.println(user);
@@ -46,6 +49,19 @@ public class Application {
 //		List<TfUser> users = userService.getAllUsers();
 //		for(TfUser u : users)
 //			System.out.println(u);
+		
+		TfTrainer t = new TfTrainer();
+		t.setFirstName("Test");
+		t.setLastName("Trainer");
+		t.setId(1);
+		t.setTfUser(new TfUser());
+		t.setCoTrainer(new ArrayList<>());
+		t.setPrimary(new ArrayList<>());
+		System.out.println(trainerService.createTrainer(t));
+		
+		for (TfTrainer tt : trainerService.getAllTrainers()) {
+			System.out.println(t);
+		}
 		
 		
 		// test get all interviews

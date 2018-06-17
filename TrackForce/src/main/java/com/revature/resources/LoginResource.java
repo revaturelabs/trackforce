@@ -5,6 +5,7 @@ import static com.revature.utils.LogUtil.logger;
 import java.io.IOException;
 import java.net.URI;
 
+import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -130,8 +131,13 @@ public class LoginResource {
 	public Response submitCredentials(TfUser loginUser) throws IOException {
 		logger.info("submitCredentials()...");
 		logger.info("	login: " + loginUser);
-		TfUser user = userService.submitCredentials(loginUser);
-		logger.info("	user: " + user);
+		TfUser user;
+		try {
+			user = userService.submitCredentials(loginUser);
+			logger.info("	user: " + user);
+		} catch (NoResultException nre) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 		if (user != null) {
 			logger.info("sending 200 response..");
 			return Response.status(200).entity(user).build();

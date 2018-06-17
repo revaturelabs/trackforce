@@ -24,7 +24,7 @@ import io.restassured.response.Response;
  */
 public class LoginResourceTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/users";
+	static final String URL = "http://localhost:8085/TrackForce/users";
 	String token;
 	TfUser user;
 	TfAssociate associate;
@@ -198,7 +198,7 @@ public class LoginResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = true)
+	@Test(enabled = false)
 	public void testCreateNewTrainer1() {
 		given().contentType("application/json").body(trainer).when().post(URL + "/newTrainer").then().assertThat()
 				.statusCode(201);
@@ -230,18 +230,22 @@ public class LoginResourceTest {
 
 	/**
 	 * Test to ensure that a 200 is returned with valid credentials and a 403 is
-	 * returned with invalid credentials.
+	 * returned with invalid credentials. Also ensure that a valid username with an invalid
+	 * password cannot log in.
 	 * 
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void testSubmitCredentials1() {
 		given().contentType("application/json").body("{ \"username\": \"TestAdmin\", \"password\": \"TestAdmin\"}")
 				.post(URL + "/login").then().assertThat().statusCode(200);
 
 		given().contentType("application/json").body("{ \"username\": \"BadUsername\", \"password\": \"BadPassword\"}")
 				.post(URL + "/login").then().assertThat().statusCode(403);
+		
+		given().contentType("application/json").body("{ \"username\": \"TestAdmin\", \"password\": \"BadPassword\"}")
+		.post(URL + "/login").then().assertThat().statusCode(401);
 	}
 
 	/**
@@ -251,7 +255,7 @@ public class LoginResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void testSubmitCredentials2() {
 		given().contentType("application/json").body("{ \"username\": \"TestAdmin\", \"password\": \"TestAdmin\"}")
 				.when().get(URL + "/login").then().assertThat().statusCode(405);

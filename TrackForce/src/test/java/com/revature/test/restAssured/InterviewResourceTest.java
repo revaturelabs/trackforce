@@ -21,12 +21,13 @@ import io.restassured.response.Response;
 
 /**
  * Rest Assured to ensure that this resource is functioning as intended.
+ * 
  * @author Jesse
  * @since 06.18.06.16
  */
 public class InterviewResourceTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/";
+	static final String URL = "http://localhost:8085/TrackForce/";
 
 	String token;
 	TfInterview interview;
@@ -76,8 +77,7 @@ public class InterviewResourceTest {
 
 	/**
 	 * Tests that you can get an associate interview by passing in the number of the
-	 * associateId. Currently does not work and will respond with a 500 null pointer
-	 * exception
+	 * associateId. Also checks for a bad verb, a bad token and a bad url.
 	 * 
 	 * @author Jesse
 	 * @since 6.18.06.13
@@ -86,14 +86,18 @@ public class InterviewResourceTest {
 	public void testGetAllInterviews() {
 		Response response = given().header("Authorization", token).when().get(URL + 1).then().extract().response();
 
-		System.out.println(response.statusCode());
 		assertTrue(response.statusCode() == 200);
+		
+given().header("Authorization", "Bad Token").when().get(URL + 3).then().assertThat().statusCode(401);
+		
+		given().header("Authorization", token).when().get(URL + 3 + "BAD").then().assertThat().statusCode(404);
+		
+		given().header("Authorization", token).when().post(URL + 3).then().assertThat().statusCode(405);
 	}
 
 	/**
 	 * Tests that you can get an associate interview by passing in the number of the
-	 * interviewId. Currently does not work and will respond with a 500 null pointer
-	 * exception
+	 * interviewId. Also checks for a bad verb, a bad token and a bad url.
 	 * 
 	 * @author Jesse
 	 * @since 6.18.06.13
@@ -102,8 +106,13 @@ public class InterviewResourceTest {
 	public void testGetAssociateInterview() {
 		Response response = given().header("Authorization", token).when().get(URL + 3).then().extract().response();
 
-		System.out.println(response.statusCode());
 		assertTrue(response.statusCode() == 200);
+
+		given().header("Authorization", "Bad Token").when().get(URL + 3).then().assertThat().statusCode(401);
+		
+		given().header("Authorization", token).when().get(URL + 3 + "BAD").then().assertThat().statusCode(404);
+		
+		given().header("Authorization", token).when().post(URL + 3).then().assertThat().statusCode(405);
 	}
 
 	/**
@@ -137,9 +146,11 @@ public class InterviewResourceTest {
 	}
 
 	/**
-	 * Data provider build an interview and then pass that interview in where needed. This data
-	 * provider could easily be replaced in the before method since it is only being used once,
-	 * but this allows for ease of reuse for any future resource testing.
+	 * Data provider build an interview and then pass that interview in where
+	 * needed. This data provider could easily be replaced in the before method
+	 * since it is only being used once, but this allows for ease of reuse for any
+	 * future resource testing.
+	 * 
 	 * @return the interview built by the provider
 	 */
 	@DataProvider(name = "interview")

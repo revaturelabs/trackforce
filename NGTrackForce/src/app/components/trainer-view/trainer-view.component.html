@@ -10,7 +10,7 @@
         </div>
         <h3>Your Information</h3>
         <div class="table-responsive info">
-          <table class="table table-hover table-bordered">
+          <table class="table table-hover table-bordered" id="trainer-info-table">
             <tbody>
               <tr>
                 <td>Trainer ID</td>
@@ -28,15 +28,15 @@
           </table>
         </div>
 
-        <button type="button" class="btn btn-primary" (click)="toggleForm()">Update Your Info</button>
+        <button type="button" class="btn btn-primary" (click)="toggleForm()" id="update-info-btn">Update Your Info</button>
 
         <div class="container" *ngIf="formOpen" class="toggledContainer">
           <form>
             <label for="firstname">First Name:</label>
-            <input type="text" [(ngModel)]='newFirstName' required>
+            <input type="text" [(ngModel)]='newFirstName' required name="newFirstName">
             <br>
             <label for="lastname">Last Name:</label>
-            <input type="text" [(ngModel)]='newLastName' required>
+            <input type="text" [(ngModel)]='newLastName' required name="newLastName">
 
             <input type="button" value="Save" (click)='updateInfo()'>
           </form>

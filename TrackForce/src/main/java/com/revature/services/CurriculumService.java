@@ -1,13 +1,10 @@
 package com.revature.services;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
-import com.revature.criteria.UnmappedCriteriaResult;
+import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.CurriculumDao;
 import com.revature.daoimpl.CurriculumDaoImpl;
-import com.revature.entity.TfAssociate;
 import com.revature.entity.TfCurriculum;
 
 /**
@@ -42,7 +39,7 @@ public class CurriculumService{
 	 * @param statusId
 	 * @return Collection<CurriculumJSON>
 	 */
-	public List<UnmappedCriteriaResult> getUnmappedInfo(int statusId) {
+	public List<GraphedCriteriaResult> getUnmappedInfo(int statusId) {
 		return dao.getUnmapped(statusId);
 	}
 }

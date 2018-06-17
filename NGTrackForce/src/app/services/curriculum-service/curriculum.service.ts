@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Curriculum } from "../../models/curriculum.model";
+import {GraphCounts} from "../../models/graph-counts";
 
 @Injectable()
 export class CurriculumService {
@@ -12,7 +13,7 @@ export class CurriculumService {
   constructor(private http: HttpClient) { }
 
   /**
-   * 
+   *
    * Gets all of the possible curriculum objects
    * (curricula? curriculums?)
    */
@@ -21,13 +22,13 @@ export class CurriculumService {
   }
 
   /**
-   * 
+   *
    * Get skill set info from the back-end
    *
    * @param {number} statusID - id of the skillset
    */
-  getSkillsetsForStatusID(statusID: number): Observable<any> {
-    return this.http.get((environment.url) +
+  getSkillsetsForStatusID(statusID: number): Observable<GraphCounts> {
+    return this.http.get<GraphCounts>((environment.url) +
       'TrackForce/skillset/unmapped/' + statusID);
   }
 

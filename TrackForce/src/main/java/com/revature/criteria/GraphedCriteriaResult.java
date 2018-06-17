@@ -1,14 +1,14 @@
 package com.revature.criteria;
 
-public class UnmappedCriteriaResult {
+public class GraphedCriteriaResult {
 	private long count;
 	private int id;
 	private String name;
 
-	public UnmappedCriteriaResult() {
+	public GraphedCriteriaResult() {
 	}
 
-	public UnmappedCriteriaResult(long count, int id, String name) {
+	public GraphedCriteriaResult(long count, int id, String name) {
 		this.count = count;
 		this.id = id;
 		this.name = name;

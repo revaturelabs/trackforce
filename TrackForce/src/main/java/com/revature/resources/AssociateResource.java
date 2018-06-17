@@ -227,4 +227,14 @@ public class AssociateResource {
 
 		return Response.status(status).build();
 	}
+
+	@GET
+	@ApiOperation(value = "Gets how many associates are mapped to each client", notes="Gets how many associates are mapped to each client")
+	@Path("mapped/{statusId}")
+	public Response getMappedInfo(@PathParam("statusId") int statusId) {
+		logger.info("getMappedInfo()...");
+		return Response.ok(associateService.getMappedInfo(statusId)).build();
+	}
+
+
 }

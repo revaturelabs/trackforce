@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { Associate } from "../../models/associate.model";
 import { environment } from "../../../environments/environment";
 import { Interview } from "../../models/interview.model";
-import { ClientMappedModel } from "../../models/clientMapped.model";
+import {GraphCounts} from "../../models/graph-counts";
 
 /**
  * Service for retrieving and updating data relating to associates.
@@ -18,7 +18,7 @@ export class AssociateService {
   constructor(private http: HttpClient) { }
 
   /**
-   * 
+   *
    * Gets all of the associates
    */
   getAllAssociates(): Observable<Associate[]> {
@@ -26,8 +26,8 @@ export class AssociateService {
     return this.http.get<Associate[]>(url);
   }
 
-  /** 
-   * 
+  /**
+   *
    * Get specific associate by associate id
    * @param id - the associate id of the associate to retrieve
    */
@@ -36,8 +36,8 @@ export class AssociateService {
     return this.http.get<Associate>(url);
   }
 
-  /** 
-   * 
+  /**
+   *
    * Get specific associate by user id
    * @param id - the user id of the user object of an associate to retrieve
    */
@@ -47,11 +47,11 @@ export class AssociateService {
   }
 
   /**
-   * 
+   *
    * Update the given associate's status/client
    * @param ids - list of associate ids of associates to be updated
    * @param marketingStatusId - the marketing status these associates will be updated to
-   * @param clientId - the client id that the associates will be mapped to 
+   * @param clientId - the client id that the associates will be mapped to
    */
   updateAssociates(ids: number[], marketingStatusId: number, clientId: number): Observable<boolean> {
     const url: string = this.baseURL + "?marketingStatusId=" + marketingStatusId + "?clientId" + clientId;
@@ -59,7 +59,7 @@ export class AssociateService {
   }
 
   /**
-   * 
+   *
    * This method updates the associate in the database
    * @param associate - the associate object with the updated values
    */
@@ -67,7 +67,7 @@ export class AssociateService {
     const url: string = this.baseURL + "/" + associate.id;
     return this.http.put<boolean>(url, associate);
   }
-  
+
 
 
 
@@ -75,15 +75,15 @@ export class AssociateService {
   // /////////////////////////////////////////////////////////////////////
   // // The following code is not in the associate resource in java
 
-  // /**
-  //  * 
-  //  * Make an http request to the /client webservice, fetching mapped associates
-  //  * with the given marketing status.
-  //  * @param statusId Contains the marketing status id used to fetch data
-  //  */
-  // getAssociatesByStatus(statusId: number): Observable<ClientMappedModel[]> {
-  //   return this.http.get<ClientMappedModel[]>(this.baseURL + '/mapped/' + statusId);
-  // }
+  /**
+   *
+   * Make an http request to the /client webservice, fetching mapped associates
+   * with the given marketing status.
+   * @param statusId Contains the marketing status id used to fetch data
+   */
+  getAssociatesByStatus(statusId: number): Observable<GraphCounts[]> {
+    return this.http.get<GraphCounts[]>(this.baseURL + '/mapped/' + statusId);
+  }
 
   // verifyAssociate(associateID: number) {
   //   const url: string = this.baseURL + "/" + associateID + "/verify";

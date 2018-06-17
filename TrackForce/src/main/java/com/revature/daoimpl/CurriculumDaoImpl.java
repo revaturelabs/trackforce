@@ -2,7 +2,7 @@ package com.revature.daoimpl;
 
 import java.util.List;
 
-import com.revature.criteria.UnmappedCriteriaResult;
+import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.entity.TfMarketingStatus;
@@ -13,8 +13,6 @@ import com.revature.entity.TfCurriculum;
 import com.revature.utils.HibernateUtil;
 
 import javax.persistence.criteria.*;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.Metamodel;
 
 public class CurriculumDaoImpl implements CurriculumDao {
 
@@ -25,10 +23,10 @@ public class CurriculumDaoImpl implements CurriculumDao {
 	}
 
 	@Override
-	public List<UnmappedCriteriaResult> getUnmapped(int id) {
+	public List<GraphedCriteriaResult> getUnmapped(int id) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) -> {
 					CriteriaBuilder cb = session.getCriteriaBuilder();
-					CriteriaQuery<UnmappedCriteriaResult> query = cb.createQuery(UnmappedCriteriaResult.class);
+					CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);
 
 					Root<TfAssociate> root = query.from(TfAssociate.class);
 

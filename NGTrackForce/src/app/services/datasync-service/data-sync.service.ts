@@ -9,7 +9,7 @@ import { BatchService } from '../batch-service/batch.service';
 import { AssociateService } from '../associate-service/associate.service';
 import { ClientService } from '../client-service/client.service';
 import { CurriculumService } from '../curriculum-service/curriculum.service';
-import { Observable , BehaviorSubject} from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 // import 'rxjs/Rx';
 
 /**

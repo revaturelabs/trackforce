@@ -1,17 +1,17 @@
-import {Injectable} from "@angular/core";
-import {RequestService} from "../request-service/request.service";
-import {HttpClient} from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { RequestService } from "../request-service/request.service";
+import { HttpClient } from "@angular/common/http";
 import { environment } from '../../../environments/environment';
-import {Trainer} from "../../models/trainer.model";
-import {Observable} from "rxjs/Observable";
-import {Batch} from "../../models/batch.model";
+import { Trainer } from "../../models/trainer.model";
+import { Observable } from "rxjs/Observable";
+import { Batch } from "../../models/batch.model";
 
 @Injectable()
 export class TrainerService {
 
   private baseURL = `${environment.url}TrackForce/trainers/`;
 
-  constructor(private http: HttpClient) {  }
+  constructor(private http: HttpClient) { }
 
   /** 
    * 
@@ -33,7 +33,7 @@ export class TrainerService {
    * @since 6.18.06.16
    */
   public getTrainerBatches(trainerId: number): Observable<Batch[]> {
-    return this.http.get<Batch[]>(this.baseURL+trainerId+"/batch");
+    return this.http.get<Batch[]>(this.baseURL + trainerId + "/batch");
   }
 
 
@@ -45,7 +45,7 @@ export class TrainerService {
    * @since 6.18.06.16
    */
   public getCoTrainerBatches(trainerId: number): Observable<Batch[]> {
-    return this.http.get<Batch[]>(this.baseURL+trainerId+"/cotrainerbatch");
+    return this.http.get<Batch[]>(this.baseURL + trainerId + "/cotrainerbatch");
   }
 
 }

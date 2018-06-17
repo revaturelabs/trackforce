@@ -57,7 +57,7 @@ export class AssociateService {
     const url: string = this.baseURL + "/" + associate.id;
     return this.http.put<boolean>(url, associate);
   }
-  
+
 
 
 

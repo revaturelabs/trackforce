@@ -2,6 +2,7 @@ package com.revature.services;
 
 import java.util.List;
 
+import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.entity.TfAssociate;
@@ -99,7 +100,7 @@ public class AssociateService {
 	 * 
 	 * <p>Creates an associate in the database.</p>
 	 * 
-	 * @version.date v6.18.06.13
+	 * @since v6.18.06.13
 	 * @param newassociate
 	 * @return true if successful, false otherwise
 	 */
@@ -107,5 +108,12 @@ public class AssociateService {
 		return dao.createAssociate(newassociate);
 	}
 
+	/**
+	 * @author Curtis H.
+	 *
+	 * @since v6.18.06.16
+	 *
+	 */
+	public List<GraphedCriteriaResult> getMappedInfo(int status) {return dao.getMapped(status);}
 
 }

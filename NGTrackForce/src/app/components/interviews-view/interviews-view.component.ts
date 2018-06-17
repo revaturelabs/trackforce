@@ -28,10 +28,11 @@ export class InterviewsComponent implements OnInit {
     this.getInterviews();
 	//this.router.navigate(['app-home']);
   }
-  viewInterview(inteview){
-	  this.interviewService.setInterview(inteview);
-	  this.router.navigate(['interview-details']);
-  }
+  // WHAT DOES THIS EVEN DO????
+  // viewInterview(inteview){
+	//   this.interviewService.setInterview(inteview);
+	//   this.router.navigate(['interviewDetails']);
+  // }
   getInterviews() {
     this.interviewService.getAllInterviews().subscribe(
      data => {

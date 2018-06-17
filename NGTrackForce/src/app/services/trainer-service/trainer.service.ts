@@ -9,11 +9,12 @@ import { Batch } from "../../models/batch.model";
 @Injectable()
 export class TrainerService {
 
-  private baseURL = '${environment.url}TrackForce/trainers/';
+  private baseURL = `${environment.url}TrackForce/trainers/`;
 
   constructor(private http: HttpClient) { }
 
   /** 
+   * 
    * Gets a trainer from Java. As a way to prevent infinite recursion,
    * it's coming in without a batch.
    * @param userId
@@ -25,6 +26,7 @@ export class TrainerService {
   }
 
   /**
+   * 
    * Get all batches associated with a particular trainer
    * @param trainerId
    * @author Curtis H
@@ -35,7 +37,9 @@ export class TrainerService {
   }
 
 
-  /**Get all batches in which the co-trainer is represented by trainerId
+  /**
+   * 
+   * Get all batches in which the co-trainer is represented by trainerId
    * @param trainerId
    * @author Curtis H
    * @since 6.18.06.16

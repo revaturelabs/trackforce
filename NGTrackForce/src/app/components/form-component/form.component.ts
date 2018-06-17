@@ -9,7 +9,8 @@ import { ActivatedRoute } from "@angular/router"
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-import {Interview} from "../../models/interview.model";
+import { Interview } from "../../models/interview.model";
+import { InterviewService } from '../../services/interview-service/interview.service';
 
 /**
 * Component for viewing an individual associate and editing as admin.
@@ -28,12 +29,7 @@ export class FormComponent implements OnInit {
   associate: Associate = new Associate();
   clients: Client[];
   interviews: Interview[];
-  newInterview: any = {
-    client: null,
-    date: null,
-    type: null,
-    feedback: null
-  };
+  
 
   newStartDate: Date;
   successMessage = "";
@@ -65,7 +61,8 @@ export class FormComponent implements OnInit {
   constructor(
     private associateService: AssociateService,
     private clientService: ClientService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private interviewService: InterviewService
   ) {
     //gets id from router url parameter
     this.id = Number(window.location.href.split("form-comp/")[1]);
@@ -212,22 +209,26 @@ export class FormComponent implements OnInit {
 
 
   /* Verify this Associate */
-  verifyAssociate() {
-    this.associateService.verifyAssociate(this.id).subscribe(
-      data => {
-        this.successMessage = "The Associate was successfully verified!";
-      },
-      err => {
-        this.errorMessage = "There was an error while verifying the Associate!";
-      }
-    )
-  }
+  // WHAT EVEN IS THE PURPOSE OF VERIFYING AN ASSOCIATE??????
+  // verifyAssociate() {
+  //   this.associateService.verifyAssociate(this.id).subscribe(
+  //     data => {
+  //       this.successMessage = "The Associate was successfully verified!";
+  //     },
+  //     err => {
+  //       this.errorMessage = "There was an error while verifying the Associate!";
+  //     }
+  //   )
+  // }
 
 
   getInterviews() {
-    this.associateService.getInterviewsForAssociate(this.id).subscribe(
-      data => this.interviews = data
-    );
+    // GET IT FROM LOCAL STORAGE INSTEAD
+    // this.interviewService.getInterviews(this.associate.id).subscribe(
+    //   data => {
+    //     this.interviews = data
+    //   }
+    // );
   }
 
   toggleForm() {
@@ -235,29 +236,29 @@ export class FormComponent implements OnInit {
   }
 
   addInterview() {
-    const interview = {
-      associateId: this.id,
-      clientId: this.newInterview.client,
-      typeId: this.newInterview.type,
-      interviewDate: new Date(this.newInterview.date).getTime(),
-      interviewFeedback: this.newInterview.feedback
-    };
-    this.associateService.addInterviewForAssociate(this.id, interview).subscribe(
-      data => {
-        this.getInterviews();
-      },
-      err => {
-      }
-    );
+    // THIS HAS TO BE TOTALLY REWORKED AND DESERVES ITS OWN ISSUE
+    // let interview = new Interview();
+    // interview.associate = this.associate;
+    // interview.client = this.newInterview.client;
+    // interview.interviewType = this.newInterview;
+    // interview.interviewDate = new Date(this.newInterview.date).getTime();
+    // interview.associateFeedback = this.newInterview.feedback;
+    // this.interviewService.createInterview(interview, this.associate.id).subscribe(
+    //   data => {
+    //   },
+    //   err => {
+    //   }
+    // );
     this.resetAllFields();
   }
 
   resetAllFields() {
     this.formOpen = false;
-    this.newInterview.client = null;
-    this.newInterview.type = null;
-    this.newInterview.date = null;
-    this.newInterview.feedback = null;
+    // THESE NEED REFACTORING
+    // this.newInterview.client = null;
+    // this.newInterview.type = null;
+    // this.newInterview.date = null;
+    // this.newInterview.feedback = null;
     this.selectedClient = null;
     this.selectedMarketingStatus = null;
   }

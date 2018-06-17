@@ -9,7 +9,7 @@ import { BatchService } from '../batch-service/batch.service';
 import { AssociateService } from '../associate-service/associate.service';
 import { ClientService } from '../client-service/client.service';
 import { CurriculumService } from '../curriculum-service/curriculum.service';
-import { Observable , BehaviorSubject} from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 // import 'rxjs/Rx';
 
 /**
@@ -51,8 +51,6 @@ const MARKET_INT = 2000;
 @Injectable()
 export class DataSyncService {
 
-  // special auth token. This will only work as long as TestAdmin is a valid user
-  private token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUZXN0QWRtaW4iLCJleHAiOjE1MTU4ODA0NTB9.8n2K4gYpDCzIxgOASTI467f1HZtbIkGB16-eb0atSXI";
 
   // specify storage containers for Salesforce data
   private clientStorage: BehaviorSubject<Client[]>;
@@ -88,8 +86,8 @@ export class DataSyncService {
 
     // get data on load
     this.fetchAssociateStorage();
-    this.fetchBatchStorageSortedById();
-    this.fetchBatchStorageSortedByDate();
+    // this.fetchBatchStorageSortedById();
+    // this.fetchBatchStorageSortedByDate();
     this.fetchClientStorage();
     this.fetchCurriculumStorage();
     this.fetchMarketingStorage();
@@ -130,22 +128,22 @@ export class DataSyncService {
     // this.batchStorageById.next(newStorage);
   }
 
-  public fetchBatchStorageSortedById() {
-    this.bs.getBatchesSortedById().subscribe(data => {
-      // this.setBatchStorageSortedById(data);
-    })
-  }
+  // public fetchBatchStorageSortedById() {
+  //   this.bs.getBatchesSortedById().subscribe(data => {
+  //     // this.setBatchStorageSortedById(data);
+  //   });
+  // }
 
   private setBatchStorageSortedByDate(data: any) {
     const newStorage = this.batchStorageByDate = data;
     // this.batchStorageByDate.next(newStorage);
   }
 
-  public fetchBatchStorageSortedByDate() {
-    this.bs.getBatchesSortedByDate().subscribe(data => {
-      // this.setBatchStorageSortedByDate(data);
-    })
-  }
+  // public fetchBatchStorageSortedByDate() {
+  //   this.bs.getBatchesSortedByDate().subscribe(data => {
+  //     // this.setBatchStorageSortedByDate(data);
+  //   });
+  // }
 
   private setCurriculumStorage(data: any) {
     const newStorage = this.curriculumStorage = data;

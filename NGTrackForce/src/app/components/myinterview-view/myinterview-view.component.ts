@@ -67,13 +67,13 @@ export class MyInterviewComponent implements OnInit {
     this.newInterview.jobDescription = "none available";
     this.newInterview.flagAlert = 0;
     this.newInterview.was24HRNotice = (this.newInterview.was24HRNotice * 1)
-    this.associateService.addInterviewForAssociate(this.associate.id, this.newInterview).subscribe(
-      data => {
-        // this.getInterviews(this.associate.id);
-      },
-      err => {
-      }
-    );
+    // this.associateService.addInterviewForAssociate(this.associate.id, this.newInterview).subscribe(
+    //   data => {
+    //     // this.getInterviews(this.associate.id);
+    //   },
+    //   err => {
+    //   }
+    // );
   }
 
   // ========================================================================

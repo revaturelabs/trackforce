@@ -6,6 +6,7 @@ import { CurriculumService } from '../../services/curriculum-service/curriculum.
 import { ThemeConstants } from '../../constants/theme.constants';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { GraphCounts } from '../../models/graph-counts';
 
 @Component({
   selector: 'app-skillset',
@@ -155,7 +156,7 @@ export class SkillsetComponent implements OnInit {
     // get the skillset data here
     this.curriculumService.getSkillsetsForStatusID(this.skillID).subscribe((data) => {
       // copy in the raw data into local variable
-      const skillsets: Array<any> = data;
+      const skillsets: GraphCounts[] = data;
       // map() that variable into skillsetData,skillsetLabels
       this.skillsetData = skillsets.map((obj) => { if (obj.count) { return obj.count } }).filter(this.isNotUndefined);
       this.skillsetLabels = skillsets.map((obj) => { if (obj.count) { return obj.name } }).filter(this.isNotUndefined);

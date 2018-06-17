@@ -38,7 +38,7 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class LoginResource {
+public class UserResource {
 
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
 	// This is to allow for Mockito tests, which have problems with static methods

@@ -2,6 +2,7 @@ package com.revature.services;
 
 import java.util.List;
 
+import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.CurriculumDao;
 import com.revature.daoimpl.CurriculumDaoImpl;
 import com.revature.entity.TfCurriculum;
@@ -29,5 +30,16 @@ public class CurriculumService{
 	 */
 	public List<TfCurriculum> getAllCurriculums(){
 		return dao.getAllCurriculums();
+	}
+
+
+	/**
+	 * Generates statistics for the expanded view of the home page unmapped chart
+	 *
+	 * @param statusId
+	 * @return Collection<CurriculumJSON>
+	 */
+	public List<GraphedCriteriaResult> getUnmappedInfo(int statusId) {
+		return dao.getUnmapped(statusId);
 	}
 }

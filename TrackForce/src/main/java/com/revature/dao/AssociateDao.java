@@ -2,6 +2,7 @@ package com.revature.dao;
 
 import java.util.List;
 
+import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.TfAssociate;
 
 public interface AssociateDao {
@@ -15,4 +16,6 @@ public interface AssociateDao {
 	boolean createAssociate(TfAssociate newassociate);
 
 	TfAssociate getAssociateByUserId(int id);
+
+	List<GraphedCriteriaResult> getMapped(int id);
 }

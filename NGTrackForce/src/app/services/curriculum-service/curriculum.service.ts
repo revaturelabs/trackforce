@@ -3,36 +3,34 @@ import { HttpClient } from "@angular/common/http";
 
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { Curriculum } from "../../models/curriculum.model";
+import {GraphCounts} from "../../models/graph-counts";
 
 @Injectable()
 export class CurriculumService {
-  MOCK_API = "https://9a03ee58-6ed8-4d7b-8df1-60f505a77580.mock.pstmn.io/";
-  NO_BACKEND = false;
-  private curriculumPath = "TrackForce/skillset";
+  private baseURL: string = environment.url + "TrackForce/skillset";
 
-  /**
-    *@param {HttpClient} http
-    *Need to create a connection to REST endpoint
-    *And initiate Http requests
-    */
   constructor(private http: HttpClient) { }
 
   /**
-    *Get skill set info from the back-end
-    *
-    *@param {number} statusID
-    *id of the skillset
-    *
-     @param {RequestService}
-    *@return skillset data based on id
-    */
-  getSkillsetsForStatusID(statusID: number): Observable<any> {
-    return this.http.get(((this.NO_BACKEND) ? this.MOCK_API : environment.url) +
-      'TrackForce/associates/unmapped/' + statusID);
+   *
+   * Gets all of the possible curriculum objects
+   * (curricula? curriculums?)
+   */
+  public getAllCurricula(): Observable<Curriculum[]> {
+    return this.http.get<Curriculum[]>(this.baseURL);
   }
 
-  public getAllCurricula(): Observable<any> {
-    return this.http.get<any>(environment.url + this.curriculumPath);
+  /**
+   *
+   * Get skill set info from the back-end
+   *
+   * @param {number} statusID - id of the skillset
+   */
+  getSkillsetsForStatusID(statusID: number): Observable<GraphCounts[]> {
+    return this.http.get<GraphCounts[]>((environment.url) +
+      'TrackForce/skillset/unmapped/' + statusID);
   }
+
 
 }

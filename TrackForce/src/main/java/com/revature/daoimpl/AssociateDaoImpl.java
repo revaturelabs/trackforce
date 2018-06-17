@@ -2,13 +2,16 @@ package com.revature.daoimpl;
 
 import java.util.List;
 
+import com.revature.criteria.GraphedCriteriaResult;
+import com.revature.entity.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.revature.dao.AssociateDao;
-import com.revature.entity.TfAssociate;
 import com.revature.utils.HibernateUtil;
+
+import javax.persistence.criteria.*;
 
 public class AssociateDaoImpl implements AssociateDao {
 
@@ -81,7 +84,27 @@ public class AssociateDaoImpl implements AssociateDao {
 		return HibernateUtil.saveToDB(newassociate);
 	}
 
+	@Override
+	public List<GraphedCriteriaResult> getMapped(int id) {
+		return HibernateUtil.runHibernate((Session session, Object ... args) -> {
+					CriteriaBuilder cb = session.getCriteriaBuilder();
+					CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);
 
+					Root<TfAssociate> root = query.from(TfAssociate.class);
+
+					Join<TfAssociate, TfClient> clientJoin = root.join("client");
+					Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
+
+					Path clientId = clientJoin.get("id");
+					Path clientName = clientJoin.get("name");
+
+					query.where(cb.equal(msJoin.get("id"), args[0]));
+					query.groupBy(clientId, clientName);
+					query.multiselect(cb.count(root), clientId, clientName);
+					return session.createQuery(query).getResultList();
+				}, id
+		);
+	}
 
 
 }

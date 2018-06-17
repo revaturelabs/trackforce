@@ -1,6 +1,7 @@
 package com.revature.resources;
 
 import static com.revature.utils.LogUtil.logger;
+import static com.revature.utils.ResourceHelper.isPayloadAssociate;
 
 import java.io.IOException;
 import java.util.List;
@@ -91,36 +92,6 @@ public class AssociateResource {
 
 	
 	/**
-	 * 
-	 * @author Adam L. 
-	 * <p> </p>
-	 * @version.date v6.18.06.13
-	 * 
-	 * @param associateid
-	 * @param token
-	 * @return
-	 */
-	@GET
-	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = TfAssociate.class)
-	@Path("/{associateid}")
-	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("associateid") int associateid,
-			@HeaderParam("Authorization") String token) {
-		logger.info("getAssociate()...");
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-		TfAssociate associateinfo = associateService.getAssociate(associateid);
-
-		if (payload == null) {
-			status = Status.UNAUTHORIZED;
-		}
-		else {
-			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
-		}
-
-		return Response.status(status).entity(associateinfo).build();
-	}
-
-	/**
 	 *
 	 * @author Curtis H.
 	 * Given a user id, returns an associate.
@@ -140,7 +111,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 		TfAssociate associateinfo = associateService.getAssociateByUserId(id);
 
-		if (payload == null) {
+		if (payload == null || isPayloadAssociate(payload, associateinfo)) {
 			status = Status.UNAUTHORIZED;
 		}
 		else {
@@ -226,4 +197,14 @@ public class AssociateResource {
 
 		return Response.status(status).build();
 	}
+
+	@GET
+	@ApiOperation(value = "Gets how many associates are mapped to each client", notes="Gets how many associates are mapped to each client")
+	@Path("mapped/{statusId}")
+	public Response getMappedInfo(@PathParam("statusId") int statusId) {
+		logger.info("getMappedInfo()...");
+		return Response.ok(associateService.getMappedInfo(statusId)).build();
+	}
+
+
 }

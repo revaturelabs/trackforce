@@ -68,12 +68,12 @@ export class AuthenticationService {
   }
 
   /**
-   * This method will return the Associate Object from local storage
-   * 
-   * @param none
-   * 
-   * @author Max Dunn
-   */
+ * This method will return the Associate Object from local storage
+ * 
+ * @param none
+ * 
+ * @author Max Dunn
+ */
   getAssociate(): Associate {
     const associate: Associate = JSON.parse(localStorage.getItem(ASSOCIATE_KEY));
     return associate;

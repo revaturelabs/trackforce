@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Trainer } from '../../models/trainer.model';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+import { TrainerService } from '../../services/trainer-service/trainer.service';
 
 @Component({
   selector: 'app-trainer-view',
@@ -8,11 +10,34 @@ import { Trainer } from '../../models/trainer.model';
 })
 export class TrainerViewComponent implements OnInit {
 
-  public trainer: Trainer;
+  trainer: Trainer;
+  formOpen = false;
+  newFirstName: string;
+  newLastName: string;
 
-  constructor() { }
+  constructor(private authService: AuthenticationService, private trainerService: TrainerService) { }
 
   ngOnInit() {
+    this.trainer = this.authService.getTrainer();
+    this.newFirstName = this.trainer.firstName;
+    this.newLastName = this.trainer.lastName;
+  }
+
+  toggleForm() {
+    this.formOpen = !this.formOpen;
+  }
+
+  updateInfo() {
+    this.trainer.firstName = this.newFirstName;
+    this.trainer.lastName = this.newLastName; 
+    // this.trainerService.updateTrainer(this.trainer).subscribe(
+    //   data => {
+
+    //   },
+    //   err => {
+
+    //   }
+    // );
   }
 
 }

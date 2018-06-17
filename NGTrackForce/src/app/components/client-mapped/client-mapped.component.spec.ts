@@ -9,7 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HomeComponent } from '../home/home.component';
 import {AuthenticationService} from '../../services/authentication-service/authentication.service';
 import {RequestService} from '../../services/request-service/request.service';
-import { ClientMappedModel } from '../../models/clientMapped.model';
+import {GraphCounts} from "../../models/graph-counts";
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -26,13 +26,13 @@ describe('ClientMappedComponent', () => {
   //Setup service mocks
   beforeAll(() => {
     //Mock data
-    const client1: ClientMappedModel = new ClientMappedModel();
+    const client1: GraphCounts = new GraphCounts();
     client1.name = "Client 1";
     client1.count = 50;
-    const client2: ClientMappedModel = new ClientMappedModel();
+    const client2: GraphCounts = new GraphCounts();
     client2.name = "Client 2";
     client2.count = 30;
-    const client3: ClientMappedModel = new ClientMappedModel();
+    const client3: GraphCounts = new GraphCounts();
     client3.name = "Client 3";
     client3.count = 40;
 
@@ -40,13 +40,13 @@ describe('ClientMappedComponent', () => {
     // Note: this used to be "Mock the Client Service" with the same method.
     // That was spitting up errors because getAssociatesByStatus wasn't in Client Service,
     // so I switched it to testAssociateService
-    spyOn(testAssociateService, 'getAssociatesByStatus').and.returnValue(Observable.of([client1, client2, client3]));
+    // spyOn(testAssociateService, 'getAssociatesByStatus').and.returnValue(Observable.of([client1, client2, client3]));
 
     //Mock the Authentication Service
     const user: User = new User();
     user.token = "mockToken";
     user.username = "mockUser";
-    user.role.id = 1;
+    user.role = 1;
     spyOn(testAuthService, 'getUser').and.returnValue(user);
   });
 
@@ -92,10 +92,10 @@ describe('ClientMappedComponent', () => {
   //Test that chart is of type 'bar' by default
   it('should display bar chart by default', () => {
     //Variable containing the expected chart type
-    let chart_type = 'bar';
+    const chart_type = 'bar';
 
     //Grab the graph from the DOM
-    let the_graph = document.getElementById("the_graph");
+    const the_graph = document.getElementById("the_graph");
 
     //Test the chartType field in Component
     expect(component.chartType).toEqual(chart_type);

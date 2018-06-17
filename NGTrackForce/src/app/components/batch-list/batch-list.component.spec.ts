@@ -37,17 +37,18 @@ describe('BatchListComponent', async () => {
   // setup service mocks
   beforeAll(() => {
     const batch1: Batch = new Batch();
-    batch1.curriculumName = "Test-Curriculum-1";
+    // crurriculumName needs to be of type Curriculum
+    // batch1.curriculumName = "Test-Curriculum-1";
     const batch2: Batch = new Batch();
-    batch2.curriculumName = "Test-Curriculum-2";
+    // batch2.curriculumName = "Test-Curriculum-2";
     // mock batch service
-    spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
+    // spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
     spyOn(testBatchService, 'getBatchesByDate').and.returnValue(Observable.of([batch1, batch2]));
 
     const user: User = new User();
     user.token = "mockToken";
     user.username = "mockUser";
-    user.role.id = 1;
+    user.role = 1;
     spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
   });
 

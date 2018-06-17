@@ -34,10 +34,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 /**
- * <p>
- * </p>
- * 
- * @version.date v06.2018.06.13
+ * <p> </p>
+ * @version.date v6.18.06.13
  *
  */
 @Path("/trainers")
@@ -46,11 +44,10 @@ import io.swagger.annotations.ApiParam;
 @Produces(MediaType.APPLICATION_JSON)
 public class TrainerResource {
 
-	// You're probably thinking, why would you ever do this? Why not just just make
-	// the methods all static in the service class?
-	// This is to allow for Mokito tests, which have problems with static methods
-	// This is here for a reason!
-	// - Adam 06.2018.06.13
+	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
+	// This is to allow for Mockito tests, which have problems with static methods
+	// This is here for a reason! 
+	// - Adam 06.18.06.13
 	AssociateService associateService = new AssociateService();
 	BatchService batchService = new BatchService();
 	ClientService clientService = new ClientService();
@@ -112,12 +109,13 @@ public class TrainerResource {
 		return Response.status(status).entity(batches).build();
 	}
 
+	// NOTE: this used to be get a trainer by *trainer* id, so if your tests are broken that's why.
 	@Path("/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "get a trainer by its trainer id")
-	public Response getTrainer(@PathParam("id") int id, @HeaderParam("Authorization") String token) {
-		TfTrainer trainer;
+	@ApiOperation(value = "get a trainer by its user id")
+	public Response getTrainer(@PathParam("id")int id, @HeaderParam("Authorization")String token) {
+		TfTrainer trainer = trainerService.getTrainerByUserId(id);
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 		if (payload == null || payload.getId().equals("5")) {

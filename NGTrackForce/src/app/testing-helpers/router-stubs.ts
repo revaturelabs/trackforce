@@ -14,7 +14,8 @@
    }
  })
  export class RouterLinkStubDirective {
-   @Input('routerLink') linkParams: any;
+   @Input('routerLink') 
+   linkParams: any;
    navigatedTo: any = null;
  
    onClick() {

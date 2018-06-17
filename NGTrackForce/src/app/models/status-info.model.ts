@@ -1,7 +1,7 @@
 /**
  * Used in the client model and the client-list component
  * Note made 6/7/2018
- * @author Amelia
+ * Reviewed by Max
  */
 
 export class StatusInfo {

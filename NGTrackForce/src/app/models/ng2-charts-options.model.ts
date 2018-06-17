@@ -5,7 +5,7 @@
  * This file contains the model for SideValues and ChartOptions,
  * as well as the methods createOptionsSpacing, createOptionsTitle, and createOptionsLegend
  * Note made 6/7/2018
- * @author Amelia
+ * Reviewed by Max
  */
 
 

@@ -8,9 +8,9 @@ import { RequestService } from '../request-service/request.service';
 import { BatchService } from '../batch-service/batch.service';
 import { AssociateService } from '../associate-service/associate.service';
 import { ClientService } from '../client-service/client.service';
-import { SkillsetService } from '../skill-set-service/skill-set.service';
-import { Observable , BehaviorSubject} from 'rxjs';
-import 'rxjs/Rx';
+import { CurriculumService } from '../curriculum-service/curriculum.service';
+import { Observable, BehaviorSubject } from 'rxjs';
+// import 'rxjs/Rx';
 
 /**
  * @author Seán Vaeth
@@ -31,28 +31,26 @@ import 'rxjs/Rx';
  *
  *
  *
- * @author Amelia
+ * Reviewed by Max
  * Not currently being used, but this is a good idea
  * Note made 6/6/2018
  */
 
-const ASSOC_TIMEOUT: number = 30000;
-const BATCH_TIMEOUT: number = 30000;
-const CLIENT_TIMEOUT: number = 30000;
-const CURRI_TIMEOUT: number = 30000;
-const MARKET_TIMEOUT: number = 30000;
+const ASSOC_TIMEOUT = 30000;
+const BATCH_TIMEOUT = 30000;
+const CLIENT_TIMEOUT = 30000;
+const CURRI_TIMEOUT = 30000;
+const MARKET_TIMEOUT = 30000;
 
-const ASSOC_INT: number = 2000;
-const BATCH_INT: number = 2000;
-const CLIENT_INT: number = 2000;
-const CURRI_INT: number = 2000;
-const MARKET_INT: number = 2000;
+const ASSOC_INT = 2000;
+const BATCH_INT = 2000;
+const CLIENT_INT = 2000;
+const CURRI_INT = 2000;
+const MARKET_INT = 2000;
 
 @Injectable()
 export class DataSyncService {
 
-  // special auth token. This will only work as long as TestAdmin is a valid user
-  private token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUZXN0QWRtaW4iLCJleHAiOjE1MTU4ODA0NTB9.8n2K4gYpDCzIxgOASTI467f1HZtbIkGB16-eb0atSXI";
 
   // specify storage containers for Salesforce data
   private clientStorage: BehaviorSubject<Client[]>;
@@ -68,7 +66,7 @@ export class DataSyncService {
     private bs: BatchService,
     private cs: ClientService,
     private as: AssociateService,
-    private ss: SkillsetService
+    private ss: CurriculumService
   ) {
     // fetch data on initialization
     this.fetchData();
@@ -88,8 +86,8 @@ export class DataSyncService {
 
     // get data on load
     this.fetchAssociateStorage();
-    this.fetchBatchStorageSortedById();
-    this.fetchBatchStorageSortedByDate();
+    // this.fetchBatchStorageSortedById();
+    // this.fetchBatchStorageSortedByDate();
     this.fetchClientStorage();
     this.fetchCurriculumStorage();
     this.fetchMarketingStorage();
@@ -104,7 +102,7 @@ export class DataSyncService {
   //
 
   private setAssociateStorage(data: any) {
-    let newStorage = this.associateStorage = data;
+    const newStorage = this.associateStorage = data;
     // this.associateStorage.next(newSt orage);
   }
 
@@ -115,7 +113,7 @@ export class DataSyncService {
   }
 
   private setClientStorage(data: any) {
-    let newStorage = this.clientStorage = data;
+    const newStorage = this.clientStorage = data;
     // this.clientStorage.next(newStorage);
   }
 
@@ -126,29 +124,29 @@ export class DataSyncService {
   }
 
   private setBatchStorageSortedById(data: any) {
-    let newStorage = this.batchStorageById = data;
+    const newStorage = this.batchStorageById = data;
     // this.batchStorageById.next(newStorage);
   }
 
-  public fetchBatchStorageSortedById() {
-    this.bs.getBatchesSortedById().subscribe(data => {
-      // this.setBatchStorageSortedById(data);
-    })
-  }
+  // public fetchBatchStorageSortedById() {
+  //   this.bs.getBatchesSortedById().subscribe(data => {
+  //     // this.setBatchStorageSortedById(data);
+  //   });
+  // }
 
   private setBatchStorageSortedByDate(data: any) {
-    let newStorage = this.batchStorageByDate = data;
+    const newStorage = this.batchStorageByDate = data;
     // this.batchStorageByDate.next(newStorage);
   }
 
-  public fetchBatchStorageSortedByDate() {
-    this.bs.getBatchesSortedByDate().subscribe(data => {
-      // this.setBatchStorageSortedByDate(data);
-    })
-  }
+  // public fetchBatchStorageSortedByDate() {
+  //   this.bs.getBatchesSortedByDate().subscribe(data => {
+  //     // this.setBatchStorageSortedByDate(data);
+  //   });
+  // }
 
   private setCurriculumStorage(data: any) {
-    let newStorage = this.curriculumStorage = data;
+    const newStorage = this.curriculumStorage = data;
     // this.curriculumStorage.next(newStorage);
   }
 

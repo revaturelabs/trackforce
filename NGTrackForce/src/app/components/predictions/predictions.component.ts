@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
-import { PredictionService } from '../../services/prediction-service/prediction.service';
+import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
-import { Chart } from 'chart.js';
+// import { Chart } from 'chart.js';
 import { Batch } from '../../models/batch.model';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { Associate } from '../../models/associate.model';
@@ -16,20 +15,20 @@ import { Curriculum } from '../../models/curriculum.model';
 })
 @AutoUnsubscribe
 export class PredictionsComponent implements OnInit {
-  public detailsReady: boolean = false;
-  public dataReady: boolean = false;
+  public detailsReady = false;
+  public dataReady = false;
   public startDate: Date = new Date();
   public endDate: Date = new Date();
   public numAssociatesNeeded: number;
   public technologies: any[];
-  public expanded: boolean = false;
+  public expanded = false;
   public results: any;
-  public message: string = "";
+  public message = "";
   public batches: Batch[];
   public batchNumberAssociates: number[];
   public associates: Associate[];
 
-  constructor(private ss: SkillsetService, private ps: PredictionService, private as: AssociateService) { }
+  constructor(private ss: CurriculumService, private as: AssociateService) { }
 
   ngOnInit() {
     this.getListofCurricula();
@@ -42,7 +41,7 @@ export class PredictionsComponent implements OnInit {
   getListofCurricula() {
     this.ss.getAllCurricula().subscribe(
       data => {
-        let tempArray = [];
+        const tempArray = [];
         for (let i = 0; i < data.length; i++) {
           let tech = data[i];
           let localtech = {
@@ -55,7 +54,7 @@ export class PredictionsComponent implements OnInit {
         this.technologies = tempArray;
         // IF API RETURNS AN OBJECT INSTEAD OF ARRAY
         // let tempVar = [];
-        // for (var key in data) {
+        // for (let key in data) {
         //   let tech = data[key];
         //   tempVar.push(tech);
         // }
@@ -86,7 +85,9 @@ export class PredictionsComponent implements OnInit {
     let selectedTechnologies = [];
     for (let i = 0; i < this.technologies.length; i++) {
       let tech = this.technologies[i];
-      if (tech.selected) selectedTechnologies.push(tech.name);
+      if (tech.selected) {
+        selectedTechnologies.push(tech.name);
+      }
     }
     let startTime = new Date(this.startDate).getTime();
     let endTime = new Date(this.endDate).getTime();
@@ -102,7 +103,7 @@ export class PredictionsComponent implements OnInit {
               console.log(this.startDate);
               console.log(startTime);
               if(associate.batch.endDate>=startTime&&associate.batch.endDate<=endTime){
-                if(associate.batch.curriculumName.name==t){
+                if(associate.batch.curriculumName.name===t){
                   count++;
                 }
               }
@@ -144,10 +145,12 @@ export class PredictionsComponent implements OnInit {
     let tech: string = event.target.id;
 
 
-    let test = this.ps.getBatchesByCurricula(startTime, endTime, tech).subscribe(data => {
-      this.batches = data;
-      this.detailsReady = true;
-    }, er => {
-    });
+    // let test = this.ps.getBatchesByCurricula(startTime, endTime, tech).subscribe(
+    //   data => {
+    //     this.batches = data;
+    //     this.detailsReady = true;
+    //   },
+    //   err => {
+    //   });
   }
 }

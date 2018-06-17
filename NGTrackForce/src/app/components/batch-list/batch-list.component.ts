@@ -52,14 +52,14 @@ export class BatchListComponent implements OnInit {
     this.endDate.setMonth(new Date().getMonth() + 3);
     const startTime = Date.now();
     this.dataReady = false;
-    this.batchService.getDefaultBatches().subscribe(
-      (batches) => {
-        this.batches = batches;
-        this.updateCountPerCurriculum();
-        this.dataReady = true;
-        const elapsed = Date.now() - startTime;
-      },
-    );
+    // this.batchService.getDefaultBatches().subscribe(
+    //   (batches) => {
+    //     this.batches = batches;
+    //     this.updateCountPerCurriculum();
+    //     this.dataReady = true;
+    //     const elapsed = Date.now() - startTime;
+    //   },
+    // );
   }
 
 
@@ -84,13 +84,13 @@ export class BatchListComponent implements OnInit {
    */
   public resetToDefaultBatches(){
     this.dataReady = false;
-    this.batchService.getDefaultBatches().subscribe(
-      (batches) => {
-        this.batches = batches;
-        this.updateCountPerCurriculum();
-        this.dataReady = true;
-      },
-    );
+    // this.batchService.getDefaultBatches().subscribe(
+    //   (batches) => {
+    //     this.batches = batches;
+    //     this.updateCountPerCurriculum();
+    //     this.dataReady = true;
+    //   },
+    // );
   }
 
   /**

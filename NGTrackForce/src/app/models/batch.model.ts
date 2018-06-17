@@ -1,5 +1,5 @@
-import {Associate} from "./associate.model";
-import {Trainer} from "./trainer.model";
+import { Associate } from "./associate.model";
+import { Trainer } from "./trainer.model";
 import { BatchLocation } from "./batch-location.model";
 
 /** @author Princewill Ibe

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.*;
+import com.revature.utils.Sessional;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -12,6 +13,7 @@ import com.revature.dao.AssociateDao;
 import com.revature.utils.HibernateUtil;
 
 import javax.persistence.criteria.*;
+import javax.transaction.Transactional;
 
 public class AssociateDaoImpl implements AssociateDao {
 
@@ -35,49 +37,46 @@ public class AssociateDaoImpl implements AssociateDao {
 		session.createQuery("from TfAssociate", TfAssociate.class).getResultList());
 	}
 
+	private Sessional<Boolean> updateAssociate = (Session session, Object ... args)-> {
+		TfAssociate associate = (TfAssociate) args[0];
+		TfAssociate temp = session.get(TfAssociate.class, associate.getId());
+
+		temp.setFirstName(associate.getFirstName());
+		temp.setLastName(associate.getLastName());
+
+		session.update(temp);
+		return true;
+	};
+
 	@Override
 	public boolean updateAssociate(TfAssociate associate) {
-		Session session = null;
-		Transaction t = null;
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			t = session.beginTransaction();
-			
-			TfAssociate temp = session.get(TfAssociate.class, associate.getId());
-			
-			temp.setFirstName(associate.getFirstName());
-			temp.setLastName(associate.getLastName());
-			
-			session.update(temp);
-			t.commit();
-			System.out.println(associate.getFirstName() + " successfully updated");
-			return true;
-		} catch (HibernateException hbe) {
-			if (t != null) {
-				t.rollback();
-				System.out.println("Transaction successfully rolled back");
-			}
-			hbe.printStackTrace();
-		} finally {
-			if (session != null) {
-				session.close();
-				System.out.println("Session successfully closed: " + !session.isOpen());
-			}
-		}
-		return false;
-		
+		return HibernateUtil.runHibernateTransaction(updateAssociate);
 	}
 
 	@Override
 	public boolean updateAssociates(List<TfAssociate> associates) {
-		for(TfAssociate a : associates) {
-			if(!updateAssociate(a)) {
-				return false;
-			}
-		}
-		return true;
+		return HibernateUtil.multiTransaction(updateAssociate, associates);
 	}
 
+	private Sessional<Boolean> approveAssociate = (Session session, Object ... args)-> {
+		TfAssociate associate = (TfAssociate) args[0];
+		TfAssociate temp = session.get(TfAssociate.class, associate.getId());
+
+		temp.getUser().setIsApproved(TfUser.APPROVED);
+
+		session.update(temp);
+		return true;
+	};
+
+	@Override
+	public boolean approveAssociate(int associateId) {
+		return HibernateUtil.runHibernateTransaction(approveAssociate);
+	}
+
+	@Override
+	public boolean approveAssociates(List<Integer> associateIds) {
+		return HibernateUtil.multiTransaction(approveAssociate, associateIds);
+	}
 
 	@Override
 	public boolean createAssociate(TfAssociate newassociate) {

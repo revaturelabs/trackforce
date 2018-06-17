@@ -12,7 +12,11 @@ public interface AssociateDao {
 	
 	boolean updateAssociate(TfAssociate associate);
 	boolean updateAssociates(List<TfAssociate> associates);
-	
+
+	boolean approveAssociate(int associateId);
+
+	boolean approveAssociates(List<Integer> associateIds);
+
 	boolean createAssociate(TfAssociate newassociate);
 
 	TfAssociate getAssociateByUserId(int id);

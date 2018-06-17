@@ -26,8 +26,8 @@ export class AssociateService {
     return this.http.get<Associate[]>(url);
   }
 
-  /** 
-   * 
+  /**
+   *
    * Get specific associate by user id
    * @param id - the user id of the user object of an associate to retrieve
    */
@@ -75,10 +75,10 @@ export class AssociateService {
     return this.http.get<GraphCounts[]>(this.baseURL + '/mapped/' + statusId);
   }
 
-  // verifyAssociate(associateID: number) {
-  //   const url: string = this.baseURL + "/" + associateID + "/verify";
-  //   return this.http.put<boolean>(url, associateID);
-  // }
+  verifyAssociate(associateID: number) {
+    const url: string = this.baseURL + "/" + associateID + "/verify";
+    return this.http.put<boolean>(url, associateID);
+  }
 
   // getInterviewsForAssociate(id: number): Observable<Interview[]> {
   //   const url: string = this.baseURL + "/" + id + "/interviews";

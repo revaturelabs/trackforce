@@ -3,7 +3,9 @@ import { Trainer } from "./trainer.model";
 import { BatchLocation } from "./batch-location.model";
 import { Curriculum } from "./curriculum.model";
 
-/** @author Princewill Ibe
+/** 
+ * 
+ * @author Princewill Ibe
  *
  * Holds data needed by front end for a batch
  */

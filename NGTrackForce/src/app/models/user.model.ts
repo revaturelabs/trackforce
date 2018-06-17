@@ -1,3 +1,5 @@
+import { Role } from "./role.model";
+
 /**
  * Model containing information about the current user
  * @author Leng
@@ -10,14 +12,14 @@ export class User {
   id: number;
   username: string;
   hashedPassword: string;
-  role: number;
+  role: Role;
   token: string;
   isApproved: number;
 
   constructor(
     newUsername: string, 
     newPassword: string, 
-    newRole: number, 
+    newRole: Role, 
     newIsApproved: number,
     newId?: number,  
     newToken?: string

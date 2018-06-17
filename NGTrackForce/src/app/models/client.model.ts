@@ -9,15 +9,11 @@ import { StatusInfo } from './status-info.model';
  */
 export class Client {
   id: number;
-  // What is the difference between the name and the tfClientName
-  // Kirk: name is not used in NGTrackForce. name can be deleted.
-  // Cameron: commented out tfClientName as it isn't in the entity
   name: string;
-  //tfClientName: string;
   placement: Placement[];
   associate: Associate[];
   interview: Interview[];
-  //Cameron: stats is not in the Java entity
+  
   stats: StatusInfo;
 
   constructor() {

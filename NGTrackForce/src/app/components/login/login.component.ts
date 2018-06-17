@@ -96,12 +96,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     const user = this.authService.getUser();
     if (user != null) {
-      if (user.role === 5) {
+      if (user.role.id === 5) {
         // this.router.navigate(['associate-view']);
         this.router.navigate(['associate-view']);
         // } else if (user.role === 2) {
         //   this.router.navigate(['trainer-view']);
-      } else if (user.role === 2) {
+      } else if (user.role.id === 2) {
         this.router.navigate(['trainer-view']);
       } else {
         // this.getUser(user.id);
@@ -193,9 +193,9 @@ export class LoginComponent implements OnInit {
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
           // if (data.isApproved) {
-          if (data.role === 5) {
+          if (data.role.id === 5) {
             this.associateLogin(data);
-          } else if (data.role === 2) {
+          } else if (data.role.id === 2) {
             this.trainerLogin(data);
           } else {
             this.router.navigate(['app-home']);

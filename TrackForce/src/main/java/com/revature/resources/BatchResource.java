@@ -38,7 +38,7 @@ import io.swagger.annotations.ApiOperation;
 /**
  * <p>Class that provides RESTful services for the batch listing and batch details
  * page.</p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  */
 @Path("batches")
 @Api(value = "batches")
@@ -47,9 +47,9 @@ import io.swagger.annotations.ApiOperation;
 public class BatchResource {
 
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
-	// This is to allow for Mokito tests, which have problems with static methods
+	// This is to allow for Mockito tests, which have problems with static methods
 	// This is here for a reason! 
-	// - Adam 06.2018.06.13
+	// - Adam 06.18.06.13
 	AssociateService associateService = new AssociateService();
 	BatchService batchService = new BatchService();
 	ClientService clientService = new ClientService();
@@ -63,7 +63,7 @@ public class BatchResource {
 	 * <p>Gets all batches, optionally filtered by start and end date query parameters
 	 * For example, sending a GET request to /batches?start={date1}&end={date2} will
 	 * return all batches with end dates between date1 and date2</p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @param startDate
 	 * @param endDate
@@ -114,42 +114,11 @@ public class BatchResource {
 	}
 
 	
-	/**
-	 * @author Adam L. 
-	 * <p>Gets a batch by its id</p>
-	 * @version.date v06.2018.06.13
-	 * 
-	 * @param id
-	 * @param token
-	 * @return - Response with 200 status and the BatchInfo object in the response body
-	 */
-	@GET
-	@Path("/{id}")
-	@ApiOperation(value = "Returns a batch", notes = "Returns a specific batch by id.")
-	public Response getBatchById(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
-		logger.info("getBatchById()...");
-		TfBatch batch = batchService.getBatchById(id);
-		
-		Claims payload = JWTService.processToken(token);
-		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
-		}
-		int role = Integer.parseInt(payload.getId());
-		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
-		Status status = null;
-
-		if (authorizedRoles.contains(role)) {
-			status = batch == null ? Status.NO_CONTENT : Status.OK;
-		} else {
-			status = Status.FORBIDDEN;
-		}
-		return Response.status(status).entity(batch).build();
-	}
 
 	/**
 	 * @author Adam L. 
 	 * <p> </p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @param id
 	 * @param token

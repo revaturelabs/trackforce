@@ -1,6 +1,7 @@
 package com.revature.resources;
 
 import static com.revature.utils.LogUtil.logger;
+import static com.revature.utils.ResourceHelper.isPayloadAssociate;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,7 +40,7 @@ import io.swagger.annotations.ApiParam;
 
 /**
  * <p> </p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  *
  */
 @Path("/associates")
@@ -50,9 +51,9 @@ public class AssociateResource {
 
 	
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
-	// This is to allow for Mokito tests, which have problems with static methods
+	// This is to allow for Mockito tests, which have problems with static methods
 	// This is here for a reason! 
-	// - Adam 06.2018.06.13
+	// - Adam 06.18.06.13
 	AssociateService associateService = new AssociateService();
 	BatchService batchService = new BatchService();
 	ClientService clientService = new ClientService();
@@ -65,7 +66,7 @@ public class AssociateResource {
 	 * <p>Gets a list of all the associates, optionally filtered by a batch id. If an
 	 * associate has no marketing status or curriculum, replaces them with blanks.
 	 * If associate has no client, replaces it with "None".</p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @return A Response object with a list of TfAssociate objects.
 	 * @throws IOException
@@ -92,26 +93,26 @@ public class AssociateResource {
 
 	
 	/**
-	 * 
-	 * @author Adam L. 
-	 * <p> </p>
-	 * @version.date v06.2018.06.13
-	 * 
-	 * @param associateid
+	 *
+	 * @author Curtis H.
+	 * Given a user id, returns an associate.
+	 * @version.date v6.18.06.13
+	 *
+	 * @param id
 	 * @param token
 	 * @return
 	 */
 	@GET
 	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = TfAssociate.class)
-	@Path("/{associateid}")
-	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("associateid") int associateid,
-			@HeaderParam("Authorization") String token) {
-		logger.info("getAssociate()...");
+	@Path("/{id}")
+	public Response getAssociateByUserId(@ApiParam(value = "An associate id.") @PathParam("id") int id,
+	                             @HeaderParam("Authorization") String token) {
+		logger.info("getAssociateByUserId()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		TfAssociate associateinfo;
 		try {
-			associateinfo = associateService.getAssociate(associateid);
+			associateinfo = associateService.getAssociateByUserId(associateid);
 		} catch (NoResultException nre) {
 			logger.info("No associate found...");
 			return Response.status(Status.NO_CONTENT).build();
@@ -133,7 +134,7 @@ public class AssociateResource {
 	 * 
 	 * @author Adam L. 
 	 * <p>Update the marketing status or client of associates</p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @param token
 	 * @param marketingStatusId
@@ -177,7 +178,7 @@ public class AssociateResource {
 	 * 
 	 * @author Adam L. 
 	 * <p>Update the marketing status or client of an associate</p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @param id 
 	 * @param associate
@@ -208,4 +209,14 @@ public class AssociateResource {
 
 		return Response.status(status).build();
 	}
+
+	@GET
+	@ApiOperation(value = "Gets how many associates are mapped to each client", notes="Gets how many associates are mapped to each client")
+	@Path("mapped/{statusId}")
+	public Response getMappedInfo(@PathParam("statusId") int statusId) {
+		logger.info("getMappedInfo()...");
+		return Response.ok(associateService.getMappedInfo(statusId)).build();
+	}
+
+
 }

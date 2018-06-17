@@ -243,28 +243,15 @@ export class HomeComponent implements OnInit{
     });
   }
 
-  /**
-  * http://usejsdoc.org/
-  */
 
-  /**
-   * @function getUsername
-   * @description This function will return a JavaScript object that contains
-   *				the username for the current user that logs in
-   */
-  getUsername() {
-    this.us.getUsername().subscribe(response => {
-      this.username = response.data;
-    });
-  }
-
-  private threeMonthsBefore(): number {
-    return new Date().getTime() - MONTHS_3;
-  }
-
-  private threeMonthsAfter(): number {
-    return new Date().getTime() + MONTHS_3;
-  }
+  //
+  // private threeMonthsBefore(): number {
+  //   return new Date().getTime() - MONTHS_3;
+  // }
+  //
+  // private threeMonthsAfter(): number {
+  //   return new Date().getTime() + MONTHS_3;
+  // }
 
   public getUndeployedData(): number[] {
     return this.undeployedData;

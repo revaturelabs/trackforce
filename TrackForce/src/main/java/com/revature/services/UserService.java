@@ -14,7 +14,7 @@ import com.revature.utils.PasswordStorage.InvalidHashException;
 /**
  * @author Adam L. 
  * <p> </p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  *
  */
 public class UserService {
@@ -35,7 +35,7 @@ public class UserService {
 	/**
 	 * @author Adam L. 
 	 * <p> </p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @return
 	 */
@@ -46,7 +46,7 @@ public class UserService {
    /**
     * @author Adam L. 
     * <p> </p>
-    * @version.date v06.2018.06.13
+    * @version.date v6.18.06.13
     * 
     * @param username
     * @return
@@ -58,7 +58,7 @@ public class UserService {
    /**
     * @author Adam L. 
     * <p> </p>
-    * @version.date v06.2018.06.13
+    * @version.date v6.18.06.13
     * 
     * @param newUser
     * @return
@@ -74,7 +74,7 @@ public class UserService {
 	 * <p>Given the TfUser with only the username and password, find that user by the username.
 	 * If it exists, retrieve it from the database.
 	 * Given their hashed passwords match, return the user from the database.</p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @param loginUser
 	 * @return foundUser 

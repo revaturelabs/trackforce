@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @category Timestamp clientStartDate
  * 
  * @author Adam L. 
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  */
 @XmlRootElement
 @Entity
@@ -67,7 +67,7 @@ public class TfAssociate implements java.io.Serializable {
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_BATCH_ID")
-	private TfBatch batch;
+	public TfBatch batch;
 
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)

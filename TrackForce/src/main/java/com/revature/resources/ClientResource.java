@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * <p> </p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  */
 @Path("clients")
 @Api(value = "clients")
@@ -41,9 +41,9 @@ import io.swagger.annotations.ApiOperation;
 public class ClientResource {
 
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
-	// This is to allow for Mokito tests, which have problems with static methods
+	// This is to allow for Mockito tests, which have problems with static methods
 	// This is here for a reason! 
-	// - Adam 06.2018.06.13
+	// - Adam 06.18.06.13
 	AssociateService associateService = new AssociateService();
 	BatchService batchService = new BatchService();
 	ClientService clientService = new ClientService();
@@ -56,7 +56,7 @@ public class ClientResource {
 	 * 
 	 * @author Adam L. 
 	 * <p>Returns a map of all of the clients as a response object.</p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @param token
 	 * @return
@@ -81,36 +81,4 @@ public class ClientResource {
 		return Response.status(status).entity(clients).build();
 	}
 	
-	/**
-	 * 
-	 * @author Adam L. 
-	 * <p>Returns a StatusInfo object representing a client's associates and their
-	 * statuses.</p>
-	 * @version.date v06.2018.06.13
-	 * 
-	 * @param clientid
-	 * @param token
-	 * @return A StatusInfo object for a specified client
-	 * @throws IOException
-	 */
-	@Path("{clientid}")
-	@GET
-	@ApiOperation(value = "Returns a client", notes = "Returns a specific client based on client id.")
-	public Response getClientInfo(@PathParam("clientid") int clientid, @HeaderParam("Authorization") String token)
-			throws IOException {
-		logger.info("getClientInfo()...");
-		Status status = null;
-		TfClient client = clientService.getClient(clientid);
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build(); // invalid token
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
-			return Response.status(Status.FORBIDDEN).build();
-		} else {
-			status = client == null ? Status.NO_CONTENT : Status.OK;
-		}
-
-		return Response.status(status).entity(client).build();
-	}
 }

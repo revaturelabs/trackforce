@@ -7,3 +7,8 @@ export const environment = {
   production: false,
   url: "http://localhost:8085/"
 };
+
+// export const environment = {
+//   production: false,
+//   url: "http://52.87.205.55:8086/"
+// };

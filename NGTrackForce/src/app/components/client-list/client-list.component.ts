@@ -19,7 +19,7 @@ import { StatusInfo } from '../../models/status-info.model';
   styleUrls: ['./client-list.component.css']
 })
 export class ClientListComponent implements OnInit {
-  public showNoData: boolean = false;
+  public showNoData = false;
   public selectedCompany: string;
   public clientInfo: Client[];
   public clientNames: string[] = [];
@@ -27,8 +27,8 @@ export class ClientListComponent implements OnInit {
   public searchName;
   // chart variable
   public barChartLabel: string[] = SelectedStatusConstants.CLIENT_LABELS;
-  public barChartType: string = 'bar';
-  public barChartLegend: boolean = true;
+  public barChartType = 'bar';
+  public barChartLegend = true;
   public barChartColors: Array<Color> = ThemeConstants.BAR_COLORS
 
   public barChartOptions: any = {
@@ -58,7 +58,7 @@ export class ClientListComponent implements OnInit {
         }
       }
     }
-  }
+  };
   // data values initialize to 1 for animation
   public barChartData: any[] = [{ data: [0, 0, 0, 0], label: 'Mapped' }, { data: [0, 0, 0, 0], label: 'Unmapped' }];
 
@@ -75,13 +75,12 @@ export class ClientListComponent implements OnInit {
 
   // get client names from data and push to clientNames string array
   getAllClients() {
-    var self = this;
     this.clientService.getAllClients().subscribe(
       clients => {
         // save array of object Client
-        self.clientInfo = clients;
+        this.clientInfo = clients;
         // clear name list to reload list and run through filter
-        self.clientNames.length = 0;
+        this.clientNames.length = 0;
         // push list of names to an array
         for (let client of clients) {
           // Hide clients who do not have associates
@@ -90,8 +89,9 @@ export class ClientListComponent implements OnInit {
             if (stats.trainingMapped > 0 || stats.trainingUnmapped > 0 ||
               stats.reservedMapped > 0 || stats.openUnmapped > 0 ||
               stats.selectedMapped > 0 || stats.selectedUnmapped > 0 ||
-              stats.confirmedMapped > 0 || stats.confirmedUnmapped > 0)
-              this.clientNames.push(client.tfClientName);
+              stats.confirmedMapped > 0 || stats.confirmedUnmapped > 0){
+                this.clientNames.push(client.name);
+              }
           //}
           // else {
           //   this.clientNames.push(client.tfClientName);
@@ -141,22 +141,22 @@ export class ClientListComponent implements OnInit {
   // get client name and find id to request client information
   getOneClient(name: string) {
     this.selectedCompany = name;
-    const oneClient = this.clientInfo.find(item => item['tfClientName'] == name);
-    this.clientService.getOneClient(oneClient.id).subscribe(
-      client => {
-        this.client$ = client;
-        this.barChartData = [
-          {
-            data: [this.client$.stats.trainingMapped, this.client$.stats.reservedMapped, this.client$.stats.selectedMapped, this.client$.stats.confirmedMapped],
-            label: 'Mapped',
-          },
-          {
-            data: [this.client$.stats.trainingUnmapped, this.client$.stats.openUnmapped, this.client$.stats.selectedUnmapped, this.client$.stats.confirmedUnmapped],
-            label: 'Unmapped',
-          }
-        ]
-      }, err => {
-        console.error("Failed grabbing client");
-      });
+    const oneClient = this.clientInfo.find(item => item['name'] === name);
+    // this.clientService.getOneClient(oneClient.id).subscribe(
+    //   client => {
+    //     this.client$ = client;
+    //     this.barChartData = [
+    //       {
+    //         data: [this.client$.stats.trainingMapped, this.client$.stats.reservedMapped, this.client$.stats.selectedMapped, this.client$.stats.confirmedMapped],
+    //         label: 'Mapped',
+    //       },
+    //       {
+    //         data: [this.client$.stats.trainingUnmapped, this.client$.stats.openUnmapped, this.client$.stats.selectedUnmapped, this.client$.stats.confirmedUnmapped],
+    //         label: 'Unmapped',
+    //       }
+    //     ]
+    //   }, err => {
+    //     console.error("Failed grabbing client");
+    //   });
   }
 }

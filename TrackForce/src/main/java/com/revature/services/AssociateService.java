@@ -2,6 +2,7 @@ package com.revature.services;
 
 import java.util.List;
 
+import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.entity.TfAssociate;
@@ -10,7 +11,7 @@ import com.revature.entity.TfAssociate;
  * 
  * @author Adam L. 
  * <p> </p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  *
  */
 public class AssociateService {
@@ -25,12 +26,25 @@ public class AssociateService {
 	 * 
 	 * <p>Gets the associate given by their associate Id.</p>
 	 * 
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * @param associateid
 	 * @return TfAssociate
 	 */
 	public TfAssociate getAssociate(int associateid) {
 		return dao.getAssociate(associateid);
+	}
+
+	/**
+	 * @author Curtis H.
+	 *
+	 * <p>Gets the associate given by their associate Id.</p>
+	 *
+	 * @version.date v6.18.06.13
+	 * @param id
+	 * @return TfAssociate
+	 */
+	public TfAssociate getAssociateByUserId(int id) {
+		return dao.getAssociateByUserId(id);
 	}
 
 	
@@ -39,7 +53,7 @@ public class AssociateService {
 	 * 
 	 * <p>Gets all associates in the database.</p>
 	 * 
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * @return List<TfAssociate>
 	 */
 	public List<TfAssociate> getAllAssociates(){
@@ -56,7 +70,7 @@ public class AssociateService {
 	 * <p>Note: if you leave some fields empty in the TfAssociate parameter, 
 	 * 	it will be saved as such!</p>
 	 * 
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * @param associate
 	 * @return true if successful, false otherwise
 	 */
@@ -72,7 +86,7 @@ public class AssociateService {
 	 * 
 	 * <p>Note: if you leave some fields empty in the TfAssociate parameter, 
 	 * 	it will be saved as such!</p>
-	 * @version.date v06.2018.06.13
+	 * @version.date v6.18.06.13
 	 * 
 	 * @param associates
 	 * @return
@@ -86,13 +100,20 @@ public class AssociateService {
 	 * 
 	 * <p>Creates an associate in the database.</p>
 	 * 
-	 * @version.date v06.2018.06.13
-	 * @param TfAssociate
+	 * @since v6.18.06.13
+	 * @param newassociate
 	 * @return true if successful, false otherwise
 	 */
 	public boolean createAssociate(TfAssociate newassociate) {
 		return dao.createAssociate(newassociate);
 	}
 
+	/**
+	 * @author Curtis H.
+	 *
+	 * @since v6.18.06.16
+	 *
+	 */
+	public List<GraphedCriteriaResult> getMappedInfo(int status) {return dao.getMapped(status);}
 
 }

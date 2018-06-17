@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * <p> </p>
- * @version.date v06.2018.06.13
+ * @version.date v6.18.06.13
  */
 @XmlRootElement
 @Entity
@@ -121,7 +121,7 @@ public class TfInterview implements java.io.Serializable {
 		this.jobDescription = jobDescription;
 		this.dateSalesIssued = dateSalesIssued;
 		this.dateAssociateIssued = dateAssociateIssued;
-		was24HRNotice = was24hrNotice;
+		this.was24HRNotice = was24hrNotice;
 		this.isInterviewFlagged = isInterviewFlagged;
 		this.flagReason = flagReason;
 		this.isClientFeedbackVisible = isClientFeedbackVisible;

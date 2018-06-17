@@ -107,8 +107,8 @@ export class BatchDetailsComponent implements OnInit {
               statusMap.set(assoc.marketingStatus.id, statusCount + 1);
             }
 
-            let mappedCount: number = statusMap.get(1) + statusMap.get(2) + statusMap.get(3) + statusMap.get(4) + statusMap.get(5);
-            let unmappedCount: number  = statusMap.get(6) + statusMap.get(7) + statusMap.get(8) + statusMap.get(9) + statusMap.get(10);
+            const mappedCount: number = statusMap.get(1) + statusMap.get(2) + statusMap.get(3) + statusMap.get(4) + statusMap.get(5);
+            const unmappedCount: number  = statusMap.get(6) + statusMap.get(7) + statusMap.get(8) + statusMap.get(9) + statusMap.get(10);
 
             const dataSets: BarChartDataSet[] = [new BarChartDataSet("Mapped"), new BarChartDataSet("Unmapped"), new BarChartDataSet("Other")];
 

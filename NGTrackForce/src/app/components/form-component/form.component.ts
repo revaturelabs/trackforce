@@ -9,12 +9,14 @@ import { ActivatedRoute } from "@angular/router"
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+import { Interview } from "../../models/interview.model";
+import { InterviewService } from '../../services/interview-service/interview.service';
 
 /**
 * Component for viewing an individual associate and editing as admin.
 */
 @Component({
-  selector: 'form-comp',
+  selector: 'app-form-comp',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css']
 })
@@ -26,17 +28,12 @@ export class FormComponent implements OnInit {
   user: User;
   associate: Associate = new Associate();
   clients: Client[];
-  interviews: any;
-  newInterview: any = {
-    client: null,
-    date: null,
-    type: null,
-    feedback: null
-  };
+  interviews: Interview[];
+  
 
   newStartDate: Date;
-  successMessage: string = "";
-  errorMessage: string = "";
+  successMessage = "";
+  errorMessage = "";
   selectedVerificationStatus: string;
   selectedMarketingStatus: any;
   selectedClient: number;
@@ -64,11 +61,11 @@ export class FormComponent implements OnInit {
   constructor(
     private associateService: AssociateService,
     private clientService: ClientService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private interviewService: InterviewService
   ) {
     //gets id from router url parameter
-    var id = window.location.href.split("form-comp/")[1];
-    this.id = Number(id);
+    this.id = Number(window.location.href.split("form-comp/")[1]);
 
   }
 
@@ -91,11 +88,12 @@ export class FormComponent implements OnInit {
       data => {
         this.associate = <Associate>data;
         this.isApproved = this.associate.user.isApproved;
-        if (data.clientStartDate.toString() == "0")
+        if (data.clientStartDate.toString() === "0") {
           this.associate.clientStartDate = null;
-        else
+        }
+        else {
           this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
-
+        }
       });
     this.clientService.getAllClients().subscribe(
       data => {
@@ -106,8 +104,8 @@ export class FormComponent implements OnInit {
   }
 
   adjustDate(date: any) { // dates are off by 1 day - this corrects them
-    let ldate = new Date(date);
-    let origDate = ldate.getDate();
+    const ldate = new Date(date);
+    const origDate = ldate.getDate();
     ldate.setDate(origDate + 1);
     if (ldate.getDate() < 1) {
       ldate.setMonth(ldate.getMonth() - 1)
@@ -119,11 +117,14 @@ export class FormComponent implements OnInit {
   processForm() {
     if (this.hasStartDate) {
       if (Date.now() < new Date(this.newStartDate).getTime())
-        // if start date is before today, set status to MAPPED: DEPLOYED
+      // if start date is before today, set status to MAPPED: DEPLOYED
+      {
         this.selectedMarketingStatus = 5;
-      else
-        // if start date is after today, set status to MAPPED: CONFIRMED
+      } else
+      // if start date is after today, set status to MAPPED: CONFIRMED
+      {
         this.selectedMarketingStatus = 4
+      }
     }
     else if (this.passedBackgroundCheck && this.hasStartDate) {
       // if background check is passed and associate has start date, set status to MAPPED: CONFIRMED
@@ -139,11 +140,14 @@ export class FormComponent implements OnInit {
     }
     else if (this.eligibleForInterview) {
       if (this.isMapped)
-        // if associate is mapped and eligible for an interview, set status to MAPPED: TRAINING
+      // if associate is mapped and eligible for an interview, set status to MAPPED: TRAINING
+      {
         this.selectedMarketingStatus = 1;
-      else
-        // if associate is NOT mapped, set status to UNMAPPED: TRAINING
+      } else
+      // if associate is NOT mapped, set status to UNMAPPED: TRAINING
+      {
         this.selectedMarketingStatus = 6;
+      }
     }
     else if (this.isMapped) {
       // if associate is mapped, set status to MAPPED: TRAINING
@@ -160,27 +164,31 @@ export class FormComponent implements OnInit {
   * Update the associate with the new verification status, client, status, and/or start date
   */
   updateAssociate() {
+    let dateTime: number;
+    let newVerificationStatus;
+    let newStatus: number;
+    let newClient: number;
     if (this.newStartDate) {
-      var dateTime = Number((new Date(this.newStartDate).getTime()) / 1000);
+      dateTime = Number((new Date(this.newStartDate).getTime()) / 1000);
     } else {
-      var dateTime = Number((new Date(this.associate.clientStartDate).getTime()) / 1000);
+      dateTime = Number((new Date(this.associate.clientStartDate).getTime()) / 1000);
     }
     if (this.selectedVerificationStatus) {
-      var newVerificationStatus = this.selectedVerificationStatus;
+      newVerificationStatus = this.selectedVerificationStatus;
     } else {
-      // var newVerificationStatus = this.associate.user.verified;
+      // letnewVerificationStatus = this.associate.user.verified;
     }
     if (this.selectedMarketingStatus) {
-      var newStatus = Number(this.selectedMarketingStatus);
+      newStatus = Number(this.selectedMarketingStatus);
     } else {
-      var newStatus = this.associate.marketingStatus.id;
+      newStatus = this.associate.marketingStatus.id;
     }
     if (this.selectedClient) {
-      var newClient = this.selectedClient;
+      newClient = this.selectedClient;
     } else {
-      var newClient = this.associate.client.id;
+      newClient = this.associate.client.id;
     }
-    var newAssociate = {
+    const newAssociate = {
       id: this.id,
       verified: newVerificationStatus,
       mkStatus: newStatus,
@@ -192,52 +200,43 @@ export class FormComponent implements OnInit {
         this.successMessage = "Successfully updated associate";
         this.associateService.getAssociate(this.id).subscribe(
           data => {
-            this.associate = <Associate>data;
-            if (data.clientStartDate.toString() == "0")
+            this.associate = data;
+            if (data.clientStartDate.toString() === "0") {
               this.associate.clientStartDate = null;
-            else
+            } else {
               this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
-            this.resetAllFields();
-          });
+            } this.resetAllFields();
+          },
+          err => {
+
+          }
+        );
       }
     )
   }
 
 
   /* Verify this Associate */
-  verifyAssociate() {
-    this.associateService.verifyAssociate(this.id).subscribe(
-      data => {
-        this.successMessage = "The Associate was successfully verified!";
-      },
-      err => {
-        this.errorMessage = "There was an error while verifying the Associate!";
-      }
-    )
-  }
+  // WHAT EVEN IS THE PURPOSE OF VERIFYING AN ASSOCIATE??????
+  // verifyAssociate() {
+  //   this.associateService.verifyAssociate(this.id).subscribe(
+  //     data => {
+  //       this.successMessage = "The Associate was successfully verified!";
+  //     },
+  //     err => {
+  //       this.errorMessage = "There was an error while verifying the Associate!";
+  //     }
+  //   )
+  // }
 
 
   getInterviews() {
-    this.associateService.getInterviewsForAssociate(this.id).subscribe(
-      data => {
-        let tempArr = [];
-        if (data != null) {
-          for (let i = 0; i < data.length; i++) {
-            let interview = data[i];
-            let intObj = {
-              id: interview.id,
-              client: interview.tfClientName,
-              date: new Date(interview.tfInterviewDate),
-              type: interview.typeName,
-              feedback: interview.tfInterviewFeedback
-            }
-            tempArr.push(intObj);
-          }
-          this.interviews = tempArr;
-        }
-
-      }
-    )
+    // GET IT FROM LOCAL STORAGE INSTEAD
+    // this.interviewService.getInterviews(this.associate.id).subscribe(
+    //   data => {
+    //     this.interviews = data
+    //   }
+    // );
   }
 
   toggleForm() {
@@ -245,29 +244,29 @@ export class FormComponent implements OnInit {
   }
 
   addInterview() {
-    let interview = {
-      associateId: this.id,
-      clientId: this.newInterview.client,
-      typeId: this.newInterview.type,
-      interviewDate: new Date(this.newInterview.date).getTime(),
-      interviewFeedback: this.newInterview.feedback
-    };
-    this.associateService.addInterviewForAssociate(this.id, interview).subscribe(
-      data => {
-        this.getInterviews();
-      },
-      err => {
-      }
-    )
+    // THIS HAS TO BE TOTALLY REWORKED AND DESERVES ITS OWN ISSUE
+    // let interview = new Interview();
+    // interview.associate = this.associate;
+    // interview.client = this.newInterview.client;
+    // interview.interviewType = this.newInterview;
+    // interview.interviewDate = new Date(this.newInterview.date).getTime();
+    // interview.associateFeedback = this.newInterview.feedback;
+    // this.interviewService.createInterview(interview, this.associate.id).subscribe(
+    //   data => {
+    //   },
+    //   err => {
+    //   }
+    // );
     this.resetAllFields();
   }
 
   resetAllFields() {
     this.formOpen = false;
-    this.newInterview.client = null;
-    this.newInterview.type = null;
-    this.newInterview.date = null;
-    this.newInterview.feedback = null;
+    // THESE NEED REFACTORING
+    // this.newInterview.client = null;
+    // this.newInterview.type = null;
+    // this.newInterview.date = null;
+    // this.newInterview.feedback = null;
     this.selectedClient = null;
     this.selectedMarketingStatus = null;
   }

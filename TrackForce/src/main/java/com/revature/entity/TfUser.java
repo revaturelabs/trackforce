@@ -42,7 +42,7 @@ public class TfUser implements java.io.Serializable {
     private int id;
 
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TF_ROLE_ID")
     private TfRole TfRole;
     

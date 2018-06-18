@@ -1,7 +1,6 @@
 package com.revature.test.restAssured;
 
 import static io.restassured.RestAssured.given;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.testng.Assert.assertTrue;
@@ -14,6 +13,11 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfBatch;
+import com.revature.entity.TfClient;
+import com.revature.entity.TfEndClient;
+import com.revature.entity.TfMarketingStatus;
+import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.JWTService;
 
@@ -31,8 +35,12 @@ public class AssociateResourceTest {
 	List<TfAssociate> associates;
 	String token;
 	TfAssociate associate;
+	
+	int knownUserId1 = 4500;
+	int knownUserId2 = 4501;
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/associates";
+	//static final String URL = "http://52.87.205.55:8086/TrackForce/associates";
+	static final String URL = "http://localhost:8085/TrackForce/associates";
 
 	@BeforeClass
 	public void beforeClass() {
@@ -40,12 +48,24 @@ public class AssociateResourceTest {
 		System.out.println(token);
 		associates = new ArrayList<>();
 		associates = associateService.getAllAssociates();
+		
+		TfUser u = new TfUser();
+		u.setId(4501);
+		
+		TfMarketingStatus ms = new TfMarketingStatus();
+		ms.setId(4);
+		ms.setName("MAPPED: CONFIRMED");
 
 		associate = new TfAssociate();
-		associate.setId(910);
 		associate.setFirstName("Tom");
 		associate.setLastName("Jerry");
-		associate.setClientStartDate(new Timestamp(50000000L));
+		associate.setClientStartDate(new Timestamp(150000000L));
+		associate.setUser(u);
+		associate.setMarketingStatus(ms);
+		associate.setEndClient(new TfEndClient());
+		associate.setBatch(new TfBatch());
+		associate.setId(876);
+		associate.setClient(new TfClient());
 	}
 
 	/**
@@ -59,7 +79,6 @@ public class AssociateResourceTest {
 		Response response = given().header("Authorization", token).when().get(URL + "/allAssociates").then().extract()
 				.response();
 
-		System.out.println("1" + response.getStatusCode());
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 
@@ -90,28 +109,29 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 10, enabled = true)
 	public void testGetAssociate1() {
-		Response response = given().header("Authorization", token).when().get(URL + "/" + 900).then().extract()
+		Response response = given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().extract()
 				.response();
 
-		System.out.println("3" + response.getStatusCode());
 		assertTrue(response.getStatusCode() == 200 || response.getStatusCode() == 204);
 		if (response.statusCode() == 200) {
 			assertTrue(response.contentType().equals("application/json"));
 		}
 
-		given().header("Authorization", token).when().get(URL + "/" + 60402).then().assertThat().body("firstName",
-				equalTo("Roland"));
+		given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().assertThat().body("firstName",
+				equalTo("Edward"));
 
-		given().header("Authorization", token).when().get(URL + "/" + 60402).then().assertThat().body("marketingStatus",
-				equalTo(6));
+		given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().assertThat().body("marketingStatus",
+				equalTo(null));
 	}
 
+	/**
+	 * Unhappy path testing for getAssociate
+	 */
 	@Test(priority = 15)
 	public void testGetAssociate2() {
-		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + 60402).then().extract()
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId1).then().extract()
 				.response();
 
-		System.out.println("4" + response.getStatusCode());
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 
@@ -119,7 +139,7 @@ public class AssociateResourceTest {
 
 		given().header("Authorization", token).when().get(URL + "/badURL").then().assertThat().statusCode(404);
 
-		given().header("Authorization", token).when().get(URL + "/" + 60402).then().assertThat().body("address",
+		given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().assertThat().body("address",
 				equalTo(null));
 	}
 
@@ -135,16 +155,17 @@ public class AssociateResourceTest {
 	@Test(priority = 40, enabled = true)
 	public void testUpdateAssociate1() {
 		given().header("Authorization", token).contentType("application/json").body(associate).when()
-				.put(URL + "/" + 910).then().assertThat().statusCode(200);
+				.put(URL + "/" + knownUserId2).then().assertThat().statusCode(200);
 
-		Response response = given().header("Authorization", token).when().get(URL + "/" + 910).then().extract()
+		Response response = given().header("Authorization", token).when().get(URL + "/" + knownUserId2).then().extract()
 				.response();
 
-		System.out.println("5" + response.getStatusCode());
 		assertTrue(response.statusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 
 		assertTrue(response.asString().contains("Tom") && response.asString().contains("Jerry"));
+		
+		given().header("Authorization", token).when().get(URL + "/" + knownUserId2).then().assertThat().body("marketintStatus.id", equalTo(4));
 	}
 
 	/**
@@ -157,17 +178,17 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 45, enabled = true)
 	public void testUpdateAssociate2() {
-		given().header("Authorization", token).when().post(URL + "/" + 910).then().assertThat().statusCode(405);
+		given().header("Authorization", token).when().post(URL + "/" + knownUserId2).then().assertThat().statusCode(405);
 
 		given().header("Authorization", token).contentType("application/json").body(associate).when().put(URL + "/0")
 				.then().assertThat().statusCode(200);
 
 		given().header("Authorization", token).when().get(URL + "/badURL").then().assertThat().statusCode(404);
 
-		given().header("Authorization", token).when().get(URL + "/" + 910).then().assertThat().body("address",
+		given().header("Authorization", token).when().get(URL + "/" + knownUserId2).then().assertThat().body("address",
 				equalTo(null));
 
-		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + 910).then().extract()
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId2).then().extract()
 				.response();
 
 		System.out.println(response.getStatusCode());

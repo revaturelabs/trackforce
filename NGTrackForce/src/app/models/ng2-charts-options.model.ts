@@ -53,12 +53,12 @@ export class ChartOptions {
    * @returns {ChartOptions}
    */
   public static createOptionsSpacing(padding: SideValues, margin: SideValues,
-                                     legendPosition: string,
-                                     isResponsive: boolean, maintainAspectRatio: boolean): ChartOptions {
+    legendPosition: string,
+    isResponsive: boolean, maintainAspectRatio: boolean): ChartOptions {
 
     const options = new ChartOptions();
-    options.legend = {display: true, position: legendPosition};
-    options.layout = {padding: padding, margin: margin};
+    options.legend = { display: true, position: legendPosition };
+    options.layout = { padding: padding, margin: margin };
     options.responsive = isResponsive;
     options.maintainAspectRatio = maintainAspectRatio;
     return options;
@@ -75,8 +75,8 @@ export class ChartOptions {
    */
   public static createOptionsTitle(title: string, titleFontSize: number, titleColor: string, legendPosition: string): ChartOptions {
     const options = new ChartOptions();
-    options.title = {display: true, text: title, fontSize: titleFontSize, fontColor: titleColor};
-    options.legend = {display: true, position: legendPosition};
+    options.title = { display: true, text: title, fontSize: titleFontSize, fontColor: titleColor };
+    options.legend = { display: true, position: legendPosition };
     return options;
   }
 
@@ -88,7 +88,7 @@ export class ChartOptions {
    */
   public static createOptionsLegend(legendPosition: string): ChartOptions {
     const options = new ChartOptions();
-    options.legend = {display: true, position: legendPosition};
+    options.legend = { display: true, position: legendPosition };
     return options;
   }
 }

@@ -2,7 +2,6 @@
  * Object to hold data regarding an associate.
  * @author Alex, Xavier
  */
-import { StatusInfo } from "./status-info.model";
 import { Batch } from "./batch.model";
 import { User } from "./user.model";
 import { Client } from "./client.model";
@@ -22,32 +21,31 @@ export class Associate {
   endClient: EndClient;
   interview: Interview[];
   placement: Placement;
-  //isApproved: number;
-  clientStartDate: Date;
+  clientStartDate: number;
 
-  /*These fields are commented out
-  because they are not in the Java code
-  msid: number; 
-  marketingStatus: string;
-  // Kirk: Verified is not in AssociateInfo.java
-  verified: string;
-  // Client id
-  clid: number;
-
-  // Batch id ????
-
-  // Curriculum id
-  curid: number;
-  curriculumName: string;
-  // end client id
-  ecid: number;
-  // Kirk: Within ApplicationInfo.java, endClientName is endClient;
-  endClientName: string;
-  batchName: string;
-  // I don't think this field is used at all through out the program
-  batchId: string;
-  // Kirk: Within ApplicationInfo.java, clientStartDate maybe correlated to startDate;
-
-  // approved by the trainer ???? */
-
+  constructor(
+    newFirstName: string,
+    newLastName: string,
+    newUser: User,
+    newId?: number,
+    newBatch?: Batch,
+    newMarketingStatus?: MarketingStatus,
+    newClient?: Client,
+    newEndClient?: EndClient,
+    newInterview?: Interview[],
+    newPlacement?: Placement,
+    newClientStartDate?: number
+  ) {
+    this.firstName = newFirstName;
+    this.lastName = newLastName;
+    this.user = newUser;
+    this.id = newId;
+    this.batch = newBatch;
+    this.marketingStatus = newMarketingStatus;
+    this.client = newClient;
+    this.endClient = newEndClient;
+    this.interview = newInterview;
+    this.placement = newPlacement;
+    this.clientStartDate = newClientStartDate;
+  }
 }

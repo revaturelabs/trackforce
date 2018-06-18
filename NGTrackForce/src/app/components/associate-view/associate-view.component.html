@@ -1,7 +1,13 @@
 <div class="container" id="content">
   <div>
     <div>
-      <div class = "container1">
+      <div class="container">
+        <div *ngIf='errMsg' class="alert alert-danger">
+          {{errMsg}}
+        </div>
+        <div *ngIf='succMsg' class="alert alert-success">
+          {{succMsg}}
+        </div>
         <h3>Your Information</h3>
         <div class="table-responsive info">
           <table class="table table-hover table-bordered">
@@ -37,6 +43,22 @@
             </tbody>
           </table>
         </div>
+
+        <button type="button" class="btn btn-primary" (click)="toggleForm()">Update Your Info</button>
+
+        <div class="container" *ngIf="formOpen" class="toggledContainer">
+          <form>
+            <label for="firstname">First Name:</label>
+            <input type="text" [(ngModel)]='newFirstName'>
+            <br>
+            <label for="lastname">Last Name:</label>
+            <input type="text" [(ngModel)]='newLastName'>
+
+            <input type="button" value="Save" (click)='updateInfo()'>
+          </form>
+
+        </div>
+
       </div>
     </div>
   </div>

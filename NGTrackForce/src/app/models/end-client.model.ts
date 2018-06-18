@@ -1,5 +1,5 @@
-import {Associate} from "./associate.model";
-import {Placement} from "./placement.model";
+import { Associate } from "./associate.model";
+import { Placement } from "./placement.model";
 import { Interview } from "./interview.model";
 
 

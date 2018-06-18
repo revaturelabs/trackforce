@@ -26,8 +26,8 @@ export class AssociateService {
     return this.http.get<Associate[]>(url);
   }
 
-  /** 
-   * 
+  /**
+   *
    * Get specific associate by user id
    * @param id - the user id of the user object of an associate to retrieve
    */
@@ -57,37 +57,15 @@ export class AssociateService {
     const url: string = this.baseURL + "/" + associate.id;
     return this.http.put<boolean>(url, associate);
   }
-
-
-
-
-
-  // /////////////////////////////////////////////////////////////////////
-  // // The following code is not in the associate resource in java
-
-  /**
-   *
-   * Make an http request to the /client webservice, fetching mapped associates
-   * with the given marketing status.
-   * @param statusId Contains the marketing status id used to fetch data
-   */
+  
   getAssociatesByStatus(statusId: number): Observable<GraphCounts[]> {
     return this.http.get<GraphCounts[]>(this.baseURL + '/mapped/' + statusId);
   }
 
-  // verifyAssociate(associateID: number) {
-  //   const url: string = this.baseURL + "/" + associateID + "/verify";
-  //   return this.http.put<boolean>(url, associateID);
-  // }
+  approveAssociate(associateID: number) {
+    const url: string = this.baseURL + "/" + associateID + "/approve";
+    return this.http.put<boolean>(url, associateID);
+  }
 
-  // getInterviewsForAssociate(id: number): Observable<Interview[]> {
-  //   const url: string = this.baseURL + "/" + id + "/interviews";
-  //   return this.http.get<Interview[]>(url);
-  // }
-
-  // addInterviewForAssociate(id: number, interview: any): Observable<boolean> {
-  //   const url: string = environment.url + "TrackForce/api/" + "associates" + "/" + id + "/interviews";
-  //   return this.http.post<boolean>(url, interview);
-  // }
 
 }

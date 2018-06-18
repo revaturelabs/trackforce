@@ -4,7 +4,7 @@ table {
 .info td:first-child {
   font-weight: bold;
 }
-.container{
+#content{
 	margin-bottom : 90px;
   margin-top:80px;
 }

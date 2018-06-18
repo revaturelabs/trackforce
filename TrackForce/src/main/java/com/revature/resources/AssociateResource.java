@@ -197,14 +197,12 @@ public class AssociateResource {
 		if (payload == null || payload.getId().equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
+		else if (payload.getId().equals("5")) {
+			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
+
+		}
 		else {
-			try {
-				associateService.updateAssociate(associate);
-			} catch (NoResultException nre) {
-				logger.info("No associate found...");
-				return Response.status(Status.NO_CONTENT).build();
-			}
-			status = Status.OK;
+			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		}
 
 		return Response.status(status).build();

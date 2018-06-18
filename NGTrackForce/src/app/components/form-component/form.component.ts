@@ -26,7 +26,7 @@ import { InterviewService } from '../../services/interview-service/interview.ser
 @AutoUnsubscribe
 export class FormComponent implements OnInit {
   user: User;
-  associate: Associate = new Associate();
+  associate: Associate;
   clients: Client[];
   interviews: Interview[];
   
@@ -92,7 +92,7 @@ export class FormComponent implements OnInit {
           this.associate.clientStartDate = null;
         }
         else {
-          this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
+          // this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
         }
       });
     this.clientService.getAllClients().subscribe(
@@ -116,17 +116,15 @@ export class FormComponent implements OnInit {
 
   processForm() {
     if (this.hasStartDate) {
-      if (Date.now() < new Date(this.newStartDate).getTime())
-      // if start date is before today, set status to MAPPED: DEPLOYED
-      {
+      if (Date.now() < new Date(this.newStartDate).getTime()) {
+        // if start date is before today, set status to MAPPED: DEPLOYED
         this.selectedMarketingStatus = 5;
-      } else
-      // if start date is after today, set status to MAPPED: CONFIRMED
-      {
+      } else {
+        // if start date is after today, set status to MAPPED: CONFIRMED
         this.selectedMarketingStatus = 4
+
       }
-    }
-    else if (this.passedBackgroundCheck && this.hasStartDate) {
+    } else if (this.passedBackgroundCheck && this.hasStartDate) {
       // if background check is passed and associate has start date, set status to MAPPED: CONFIRMED
       this.selectedMarketingStatus = 4;
     }
@@ -139,17 +137,14 @@ export class FormComponent implements OnInit {
       this.selectedMarketingStatus = 2;
     }
     else if (this.eligibleForInterview) {
-      if (this.isMapped)
-      // if associate is mapped and eligible for an interview, set status to MAPPED: TRAINING
-      {
+      if (this.isMapped) {
+        // if associate is mapped and eligible for an interview, set status to MAPPED: TRAINING
         this.selectedMarketingStatus = 1;
-      } else
-      // if associate is NOT mapped, set status to UNMAPPED: TRAINING
-      {
+      } else {
+        // if associate is NOT mapped, set status to UNMAPPED: TRAINING
         this.selectedMarketingStatus = 6;
       }
-    }
-    else if (this.isMapped) {
+    } else if (this.isMapped) {
       // if associate is mapped, set status to MAPPED: TRAINING
       this.selectedMarketingStatus = 1;
     }
@@ -157,63 +152,60 @@ export class FormComponent implements OnInit {
       // set status to UNMAPPED: TRAINING
       this.selectedMarketingStatus = 6;
     }
-    this.updateAssociate();
+    // this.updateAssociate();
   }
 
   /**
   * Update the associate with the new verification status, client, status, and/or start date
   */
-  updateAssociate() {
-    let dateTime: number;
-    let newVerificationStatus;
-    let newStatus: number;
-    let newClient: number;
-    if (this.newStartDate) {
-      dateTime = Number((new Date(this.newStartDate).getTime()) / 1000);
-    } else {
-      dateTime = Number((new Date(this.associate.clientStartDate).getTime()) / 1000);
-    }
-    if (this.selectedVerificationStatus) {
-      newVerificationStatus = this.selectedVerificationStatus;
-    } else {
-      // letnewVerificationStatus = this.associate.user.verified;
-    }
-    if (this.selectedMarketingStatus) {
-      newStatus = Number(this.selectedMarketingStatus);
-    } else {
-      newStatus = this.associate.marketingStatus.id;
-    }
-    if (this.selectedClient) {
-      newClient = this.selectedClient;
-    } else {
-      newClient = this.associate.client.id;
-    }
-    const newAssociate = {
-      id: this.id,
-      verified: newVerificationStatus,
-      mkStatus: newStatus,
-      clientId: newClient,
-      startDateUnixTime: dateTime
-    };
-    this.associateService.updateAssociate(newAssociate).subscribe(
-      data => {
-        this.successMessage = "Successfully updated associate";
-        this.associateService.getAssociate(this.id).subscribe(
-          data => {
-            this.associate = data;
-            if (data.clientStartDate.toString() === "0") {
-              this.associate.clientStartDate = null;
-            } else {
-              this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
-            } this.resetAllFields();
-          },
-          err => {
-
-          }
-        );
-      }
-    )
-  }
+  // COMMENTED OUT BECAUSE IT BROKE BECAUSE OF CHANGES WE MADE TO MODELS
+  // ALSO NEED TO UNCOMMENT OUT LINE 157 WHEN THIS WORKS
+  // updateAssociate() {
+  //   if (this.newStartDate) {
+  //     var dateTime = Number((new Date(this.newStartDate).getTime()) / 1000);
+  //   } else {
+  //     var dateTime = Number((new Date(this.associate.clientStartDate).getTime()) / 1000);
+  //   }
+  //   if (this.selectedVerificationStatus) {
+  //     var newVerificationStatus = this.selectedVerificationStatus;
+  //   } else {
+  //     // var newVerificationStatus = this.associate.user.verified;
+  //   }
+  //   if (this.selectedMarketingStatus) {
+  //     var newStatus = Number(this.selectedMarketingStatus);
+  //   } else {
+  //     var newStatus = this.associate.marketingStatus.id;
+  //   }
+  //   if (this.selectedClient) {
+  //     var newClient = this.selectedClient;
+  //   } else {
+  //     var newClient = this.associate.client.id;
+  //   }
+  //   let newAssociate = {
+  //     id: this.id,
+  //     verified: newVerificationStatus,
+  //     mkStatus: newStatus,
+  //     clientId: newClient,
+  //     startDateUnixTime: dateTime
+  //   };
+  //   this.associateService.updateAssociate(newAssociate).subscribe(
+  //     data => {
+  //       this.successMessage = "Successfully updated associate";
+  //       this.associateService.getAssociate(this.id).subscribe(
+  //         data => {
+  //           this.associate = data;
+  //           if (data.clientStartDate.toString() === "0") {
+  //             this.associate.clientStartDate = null;
+  //           } else {
+  //             this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
+  //           } this.resetAllFields();
+  //         },
+  //         err => {
+  //         }
+  //       );
+  //     }
+  //   )
+  // }
 
 
   /* Verify this Associate */

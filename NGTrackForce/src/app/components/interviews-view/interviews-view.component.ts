@@ -7,7 +7,7 @@ import { InterviewService } from '../../services/interview-service/interview.ser
 
 
 /**
-*@description This is the view for associates only
+*@description This will be for the staging manager to provide feedback from the client
 */
 @Component({
   selector: 'app-interviews-view',

@@ -116,15 +116,16 @@ export class ClientListComponent implements OnInit {
     let confirmedUnmapped = 0;
     for (let i=0;i<this.clientInfo.length;i++) {
       let client: Client = this.clientInfo[i];
-      let stats: StatusInfo = client.stats;
-      trainingMapped += stats.trainingMapped;
-      reservedMapped += stats.reservedMapped;
-      selectedMapped += stats.selectedMapped;
-      confirmedMapped += stats.confirmedMapped;
-      trainingUnmapped += stats.trainingMapped;
-      openUnmapped += stats.openUnmapped;
-      selectedUnmapped += stats.selectedUnmapped;
-      confirmedUnmapped += stats.confirmedUnmapped;
+      // the variable stats was removed from the client model
+      // let stats: StatusInfo = client.stats;
+      // trainingMapped += stats.trainingMapped;
+      // reservedMapped += stats.reservedMapped;
+      // selectedMapped += stats.selectedMapped;
+      // confirmedMapped += stats.confirmedMapped;
+      // trainingUnmapped += stats.trainingMapped;
+      // openUnmapped += stats.openUnmapped;
+      // selectedUnmapped += stats.selectedUnmapped;
+      // confirmedUnmapped += stats.confirmedUnmapped;
     }
     this.barChartData = [
       {

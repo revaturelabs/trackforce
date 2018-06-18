@@ -43,7 +43,7 @@ describe('ClientMappedComponent', () => {
     // spyOn(testAssociateService, 'getAssociatesByStatus').and.returnValue(Observable.of([client1, client2, client3]));
 
     //Mock the Authentication Service
-    const user: User = new User();
+    let user: User;
     user.token = "mockToken";
     user.username = "mockUser";
     user.role = 1;

@@ -14,25 +14,27 @@ import { Associate } from '../../models/associate.model';
 })
 export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
 
-  //User object containing need data
-  user: User;
   // @Input() associate: Associate;
   //Used for conditional display with ngIf
   //If admin, show the create user button
-  isAdmin: boolean;
-  isAssociate: boolean;
-  username = '';
+  //User object containing need data
+  public user: User;
+  public isLoggedIn: boolean;
+  public isAdmin: boolean;
+  public isTrainer: boolean;
+  public isAssociate: boolean;
+  public username = '';
 
   constructor(private router: Router, private authService: AuthenticationService) { }
 
   ngOnInit() {
-    // this.navbarDisplay();
+    this.navbarDisplay();
   }
 
   ngOnChanges() {
-    // this.navbarDisplay();
+    this.navbarDisplay();
   }
-  ngAfterContentChecked(){
+  ngAfterContentChecked() {
     this.navbarDisplay();
   }
 
@@ -40,7 +42,9 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
     * Removes user from localStorage and re-routes to login screen
     */
   logout() {
+    this.isLoggedIn = false;
     this.isAdmin = false;
+    this.isTrainer = false;
     this.isAssociate = false;
     this.user = null;
     this.authService.logout();
@@ -53,18 +57,21 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
     //Role checks
     // only role check if there is already a user
     if (this.user !== null && this.user !== undefined) {
+      this.isLoggedIn = true;
       this.username = this.user.username;
-      if (this.user.role === 1) {
+      if (this.user.role === 1 || this.user.role === 3 || this.user.role === 4) {
         this.isAdmin = true;
-      } else {
-        this.isAdmin = false;
-      }
-      if (this.user.role === 5) {
-        this.isAssociate = true;
-      } else {
+        this.isTrainer = false;
         this.isAssociate = false;
+      } else if (this.user.role === 2){
+        this.isAdmin = false;
+        this.isTrainer = true;
+        this.isAssociate = false;
+      } else if (this.user.role === 5){
+        this.isAdmin = false;
+        this.isTrainer = false;
+        this.isAssociate = true;
       }
-
     }
 
 

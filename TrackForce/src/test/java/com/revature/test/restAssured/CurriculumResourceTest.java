@@ -61,7 +61,7 @@ public class CurriculumResourceTest {
 		response = given().header("Authorization", "Bad token").when().get(URL).then().extract().response();
 		
 		assertTrue(response.statusCode() == 401);
-		assertTrue(response.asString().contains("401 – Unauthorized"));
+		assertTrue(response.asString().contains("Unauthorized"));
 
 		given().header("Authorization", tokenAdmin).when().get(URL+"/badurl").then().assertThat().statusCode(404);
 		

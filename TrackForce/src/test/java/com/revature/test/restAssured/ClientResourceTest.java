@@ -67,7 +67,7 @@ public class ClientResourceTest {
 		response = given().header("Authorization", "Bad Token").when().get(URL).then().extract().response();
 
 		assertTrue(response.statusCode() == 401);
-		assertTrue(response.asString().contains("401 – Unauthorized"));
+		assertTrue(response.asString().contains("Unauthorized"));
 
 		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
 
@@ -98,7 +98,7 @@ public class ClientResourceTest {
 		response = given().header("Authorization", "Bad Token").when().get(URL).then().extract().response();
 
 		assertTrue(response.statusCode() == 401);
-		assertTrue(response.asString().contains("401 – Unauthorized"));
+		assertTrue(response.asString().contains("Unauthorized"));
 
 		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
 

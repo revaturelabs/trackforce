@@ -63,4 +63,24 @@ describe('AssociateListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('getAllAssociates should return all associates', () => {
+    expect(component.associates).toBeGreaterThanOrEqual(0);
+    expect(component.associates.toString).toContain("Cameron");
+    expect(component.associates.toString).toContain("Skaggs");
+  });
+
+  it('getClientNames should return the names of all the clients', () => {
+    expect(component.clients.toString).toContain("Charter Communications");
+    expect(component.clients.toString).toContain("Choice Hotels");
+    expect(component.clients.toString).not.toContain("A Fake Client");
+  });
+
+  it('sort() should sort the list into numerical order', () => {
+    //expect(component.associates.pop).toBeLessThan(component.associates.pop);
+  });
+
+  it('updateAssociates() should result in updated associates', () => {
+    // Unsure how to programmatically check this
+  })
 });

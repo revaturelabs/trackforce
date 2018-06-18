@@ -136,6 +136,7 @@ public class UserResource {
 			user = userService.submitCredentials(loginUser);
 			logger.info("	user: " + user);
 		} catch (NoResultException nre) {
+			nre.printStackTrace();
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		if (user != null) {

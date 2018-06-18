@@ -40,7 +40,7 @@ import io.swagger.annotations.ApiOperation;
  * page.</p>
  * @version.date v6.18.06.13
  */
-@Path("batches")
+@Path("/batches")
 @Api(value = "batches")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -84,7 +84,7 @@ public class BatchResource {
 
 		Status status = null;
 		int role = Integer.parseInt(payload.getId());
-		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4 }));
 
 		if (authorizedRoles.contains(role)) {
 			if (startDate != null && endDate != null) {
@@ -137,7 +137,7 @@ public class BatchResource {
 		}
 		Status status = null;
 		int role = Integer.parseInt(payload.getId());
-		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4 }));
 
 		if (authorizedRoles.contains(role)) {
 			// results and status set in here

@@ -21,6 +21,10 @@ public class CurriculumService{
 	// public so it can be used for testing 
 	public CurriculumService() {};
 	
+	public CurriculumService(CurriculumDao dao) {
+		this.dao = dao;
+	}
+	
 	/**
 	 * @author Adam L. 
 	 * <p>Gets all the curricula</p>

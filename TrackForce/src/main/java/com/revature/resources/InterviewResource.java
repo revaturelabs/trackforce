@@ -42,7 +42,7 @@ import io.swagger.annotations.ApiOperation;
  * @version.date v6.18.06.13
  *
  */
-@Path("interviews")
+@Path("/interviews")
 @Api(value = "Interviews")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)

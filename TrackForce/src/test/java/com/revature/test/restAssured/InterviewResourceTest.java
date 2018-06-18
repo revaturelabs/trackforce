@@ -27,7 +27,7 @@ import io.restassured.response.Response;
  */
 public class InterviewResourceTest {
 
-	static final String URL = "http://localhost:8085/TrackForce/";
+	static final String URL = "http://52.87.205.55:8086/TrackForce/";
 
 	String token;
 	TfInterview interview;
@@ -136,7 +136,7 @@ given().header("Authorization", "Bad Token").when().get(URL + 3).then().assertTh
 				.put(URL + 3).then().extract().response();
 
 		assertTrue(response.statusCode() == 401);
-		assertTrue(response.asString().contains("401 – Unauthorized"));
+		assertTrue(response.asString().contains("Unauthorized"));
 
 		given().header("Authorization", token).contentType("application/json").body(interview).when().put(URL + "three")
 				.then().assertThat().statusCode(404);

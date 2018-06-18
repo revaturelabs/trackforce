@@ -115,7 +115,7 @@ public class HibernateUtil {
 
 	public static boolean saveToDB(Object o) {
 		return runHibernateTransaction((Session session, Object ... args) -> {
-			session.save(args[0]);
+			session.saveOrUpdate(args[0]);
 			return true;
 		}, o);
 	}

@@ -2,9 +2,10 @@
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import com.revature.dao.UserDao;
 import com.revature.daoimpl.UserDaoImpl;
-import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
@@ -52,7 +53,11 @@ public class UserService {
     * @return
     */
     public TfUser getUser(String username) {
-    	return dao.getUser(username);
+    	try {
+        	return dao.getUser(username);
+    	} catch (NoResultException nre) {
+    		return null;
+    	}
     }
     
    /**

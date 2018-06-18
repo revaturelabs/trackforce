@@ -22,9 +22,9 @@ import io.restassured.response.Response;
  * @author Jesse
  * @since 06.18.06.16
  */
-public class LoginResourceTest {
+public class UserResourceTest {
 
-	static final String URL = "http://localhost:8085/TrackForce/users";
+	static final String URL = "http://52.87.205.55:8086/TrackForce/users";
 	String token;
 	TfUser user;
 	TfAssociate associate;
@@ -61,7 +61,7 @@ public class LoginResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void testCreateUser1() {
 		given().contentType("application/json").body(user).when().post(URL + "/newUser").then().assertThat()
 				.statusCode(403);
@@ -94,7 +94,7 @@ public class LoginResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void testCreateUser2() {
 		user.setRole(1);
 		user.setUsername("AdminRestAssuredTest");
@@ -130,7 +130,7 @@ public class LoginResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void testCreateUser3() {
 		given().contentType("application/json").body(user).when().get(URL + "/newUser").then().assertThat()
 				.statusCode(405);
@@ -181,7 +181,7 @@ public class LoginResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void testCreateNewAssociate2() {
 		given().contentType("application/json").body(user).when().get(URL + "/newAssociate").then().assertThat()
 				.statusCode(405);
@@ -198,7 +198,7 @@ public class LoginResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void testCreateNewTrainer1() {
 		given().contentType("application/json").body(trainer).when().post(URL + "/newTrainer").then().assertThat()
 				.statusCode(201);
@@ -219,7 +219,7 @@ public class LoginResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void testCreateNewTrainer2() {
 		given().contentType("application/json").body(trainer).when().get(URL + "/newTrainer").then().assertThat()
 				.statusCode(405);

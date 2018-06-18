@@ -6,6 +6,7 @@ import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.entity.TfAssociate;
+import com.revature.utils.HibernateUtil;
 
 /**
  * 
@@ -74,11 +75,17 @@ public class AssociateService {
 	 * @param associate
 	 * @return true if successful, false otherwise
 	 */
+	public boolean updateAssociatePartial(TfAssociate associate) {
+		return dao.updateAssociatePartial(associate);
+	}
+
 	public boolean updateAssociate(TfAssociate associate) {
 		return dao.updateAssociate(associate);
 	}
 
-	
+
+
+
 	/**
 	 * @author Adam L. 
 	 * <p>Updates all associates based on their individual Id, which should not change.

@@ -5,6 +5,7 @@ import java.util.List;
 import com.revature.dao.ClientDao;
 import com.revature.daoimpl.ClientDaoImpl;
 import com.revature.entity.TfClient;
+import com.revature.entity.TfEndClient;
 
 /**
  * @author Adam L. 
@@ -54,4 +55,6 @@ public class ClientService {
 	public TfClient getClient(int id) {
 		return dao.getClient(id);
 	}
+
+	public TfEndClient getEndClient(int id) {return dao.getEndClient(id);}
 }

@@ -40,7 +40,7 @@ export class InterviewService {
    * 
    * @param id - this is the associate's id
    */
-  public getInterviews(id: number): Observable<Interview[]> {
+  public getInterviewsForAssociate(id: number): Observable<Interview[]> {
     const url: string = this.baseURL + "/" + id;
     return this.http.get<Interview[]>(url);
   }

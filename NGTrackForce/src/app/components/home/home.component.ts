@@ -25,7 +25,7 @@ const MONTHS_3 = 788923800;
   styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
   private associates: any;
 
   /**
@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit{
     */
   constructor(
     private rs: RequestService,
-    private ds: DataSyncService,
+    // private ds: DataSyncService,
     private rout: Router,
     private us: UserService,
     private cs: ClientService,
@@ -207,41 +207,47 @@ export class HomeComponent implements OnInit{
     }
   }
 
-  /**
-   * @function populateDB
-   * @description Populates the database with information from
-   *              data script
-   */
-  populateDB() {
-    this.rs.populateDB().subscribe(response => {
-      this.load();
-    }, err => {
-    });
-  }
-
-  /**
-   * @function deleteDB
-   * @description Truncates all the tables in the database
-   */
-  deleteDB() {
-    this.rs.deleteDB().subscribe(response => {
-      this.load();
-    }, err => {
-    })
-  }
-
-  /**
-   * @function populateDBSF
-   * @description SF Populates the database with information
-   *              from data script
-   * For Salesforce data integration
-   */
-  populateDBSF() {
-    this.rs.populateDBSF().subscribe(response => {
-      this.load();
-    }, err => {
-    });
-  }
+  /////////////////////////////////////////////////////////////
+  // THESE FUNCTIONS ARE BEING CALLED SOMEWHERE
+  // THEY SHOULD NOT BE CALLED BECUASE THERE IS NO RESOURCE SERVER SIDE
+  // FOR THE SERVICES TO ACCESS (NO END POINTS)
+  //
+  // /**
+  //  * @function populateDB
+  //  * @description Populates the database with information from
+  //  *              data script
+  //  */
+  // populateDB() {
+  //   this.rs.populateDB().subscribe(response => {
+  //     this.load();
+  //   }, err => {
+  //   });
+  // }
+  //
+  // /**
+  //  * @function deleteDB
+  //  * @description Truncates all the tables in the database
+  //  */
+  // deleteDB() {
+  //   this.rs.deleteDB().subscribe(response => {
+  //     this.load();
+  //   }, err => {
+  //   })
+  // }
+  //
+  // /**
+  //  * @function populateDBSF
+  //  * @description SF Populates the database with information
+  //  *              from data script
+  //  * For Salesforce data integration
+  //  */
+  // populateDBSF() {
+  //   this.rs.populateDBSF().subscribe(response => {
+  //     this.load();
+  //   }, err => {
+  //   });
+  // }
+  ////////////////////////////////////////////////////////////////
 
 
   //

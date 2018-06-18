@@ -2,8 +2,13 @@ package com.revature.utils;
 
 import static com.revature.utils.LogUtil.logger;
 
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfTrainer;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -67,10 +72,16 @@ public class HibernateUtil {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			transaction = session.beginTransaction();
-			boolean b = sessional.operate(session, transaction, args);
+			boolean b = sessional.operate(session, args);
+
+			if (b) {
+				logger.debug("Committing...");
+			} else throw new HibernateException("Transaction Operation Failed!");
+
 			transaction.commit();
-			if (b) logger.info("Transaction committed!");
-			return b;
+			logger.info("Transaction committed!");
+
+			return true;
 		} catch (HibernateException | ThrownInHibernate e) {
 			HibernateUtil.rollbackTransaction(transaction);
 			logger.error(e.getMessage(), e);
@@ -79,6 +90,18 @@ public class HibernateUtil {
 			HibernateUtil.closeSession(session);
 		}
 		return false;
+	}
+
+
+	public static <T> boolean multiTransaction(Sessional<Boolean> sessional, List<T> items) {
+		return HibernateUtil.runHibernateTransaction((Session session, Object ... args) -> {
+			for (T a : items) {
+				if (!sessional.operate(session, a)) {
+					return false;
+				}
+			}
+			return true;
+		});
 	}
 
 	public static <T> T runHibernate(Sessional<T> ss, Object ... args) {
@@ -113,15 +136,26 @@ public class HibernateUtil {
 		return null;
 	}
 
+	private static Sessional<Boolean> dbSave = (Session session, Object ... args) -> {
+		session.save(args[0]);
+		return true;
+	};
+
 	public static boolean saveToDB(Object o) {
-		return runHibernateTransaction((Session session, Object ... args) -> {
-			session.saveOrUpdate(args[0]);
-			return true;
-		}, o);
+		return runHibernateTransaction(dbSave, o);
+	}
+
+	public static <T> boolean saveToDB(List<T> o) {
+		return multiTransaction(dbSave, o);
 	}
 
 
-	@SuppressWarnings("rawtypes")
-	public static Sessional ss = (Session ss, Object[] obj) -> true;
+	private static Sessional<Boolean> detachedUpdate = (Session session, Object ... args) -> {
+		session.update(args[0]);
+		return true;
+	};
+
+	public static <T> boolean updateDetached(T det) {return runHibernateTransaction(detachedUpdate, det);}
+	public static <T> boolean updateDetached(List<T> det) {return multiTransaction(detachedUpdate, det);}
 
 }

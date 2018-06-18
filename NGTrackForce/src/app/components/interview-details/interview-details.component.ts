@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { InterviewService } from '../../services/interview-service/interview.service';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+import { Associate } from '../../models/associate.model';
 
 @Component({
   selector: 'app-interview-details',
@@ -16,21 +17,21 @@ export class InterviewDetailsComponent implements OnInit {
 
 
   public interview: any = {};
-   public i:number;
-  public associate = MyInterviewComponent.prototype.associate;
-  public id: number;
-
+  // public i:number;
+  public associate: Associate;
+  // public id: number;
+  
   constructor(private activated: ActivatedRoute) { }
 
 
   ngOnInit() {
-
-    this.i = +this.activated.snapshot.paramMap.get('i');
-    this.id = +this.activated.snapshot.paramMap.get('id');
+     
+    // this.i = +this.activated.snapshot.paramMap.get('i');
+    // this.id = +this.activated.snapshot.paramMap.get('id');
     const u = JSON.parse(sessionStorage.getItem("interviews"));
     if(sessionStorage.getItem("changedin") === null)
       {
-    this.interview = u[this.i];
+    // this.interview = u[this.i];
     }
     else
       {

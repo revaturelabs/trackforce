@@ -6,6 +6,7 @@ import javax.persistence.NoResultException;
 
 import com.revature.dao.UserDao;
 import com.revature.daoimpl.UserDaoImpl;
+import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
@@ -71,6 +72,8 @@ public class UserService {
 	public boolean insertUser(TfUser newUser) {
 		return dao.insertUser(newUser);
 	}
+
+	public TfRole getRole(int roleId) {return dao.getRole(roleId);}
 	
 	/**
 	 * @author Adam L. 
@@ -97,9 +100,7 @@ public class UserService {
 					LogUtil.logger.info("Password verification successful! Returning " + foundUser.toString());
 					return foundUser;
 				}
-			} catch (CannotPerformOperationException e) {
-				LogUtil.logger.warn(e.getMessage());
-			} catch (InvalidHashException e) {
+			} catch (CannotPerformOperationException | InvalidHashException e) {
 				LogUtil.logger.warn(e.getMessage());
 			}
 		}

@@ -8,14 +8,25 @@
  */
 export class User {
   id: number;
-  name: string;
   username: string;
   hashedPassword: string;
   role: number;
-  // Kirk: verified is not in UserJSON.java
-  // Cameron : the commented out fields aren't
-  // in the entity
-  // verified: string;
   token: string;
   isApproved: number;
+
+  constructor(
+    newUsername: string,
+    newPassword: string,
+    newRole: number,
+    newIsApproved: number,
+    newId?: number,
+    newToken?: string
+  ) {
+      this.username = newUsername;
+      this.hashedPassword = newPassword;
+      this.role = newRole;
+      this.isApproved = newIsApproved;
+      this.id = newId;
+      this.token = newToken;
+    }
 }

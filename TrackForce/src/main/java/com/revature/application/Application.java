@@ -17,9 +17,10 @@ import com.revature.services.BatchService;
 import com.revature.services.ClientService;
 import com.revature.services.CurriculumService;
 import com.revature.services.InterviewService;
+import com.revature.services.MarketingStatusService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
-
+import com.revature.utils.PasswordStorage;
 
 /**
  * 
@@ -42,18 +43,56 @@ public class Application {
 	static InterviewService interviewService = new InterviewService();
 	static TrainerService trainerService = new TrainerService();
 	static UserService userService = new UserService();
-	
-	public static void main(String[] args) {
-		
-//		String token = JWTService.createToken("TestAdmin", 1);
-//		System.out.println(token);
-		
-//		TfAssociate a = associateService.getAssociate(0);
-		
-//		TfUser user = userService.getUser("TestAdmin");
-//		System.out.println(user);
-//		
+	static MarketingStatusService marketingStatusService = new MarketingStatusService();
+
+	public static void main(String[] args) throws PasswordStorage.CannotPerformOperationException {
+//
+//		TfUser u = new TfUser();
+//		u.setRole(5);
+//		u.setUsername("AssociateTest");
+//		u.setPassword(createHash("AssociateTest"));
+//		u.setTfRole(userService.getRole(5));
+//		u.setIsApproved(1);
+//		saveToDB(u);
+
+//		TfTrainer t = new TfTrainer();
+//		t.setFirstName("Ava");
+//		t.setLastName("Trains");
+//		t.setId(3);
+//		t.setTfUser(u);
+//		t.setCoTrainer(new ArrayList<>());
+//		t.setPrimary(new ArrayList<>());
+//		System.out.println(trainerService.createTrainer(t));
+
+		TfAssociate a = new TfAssociate();
+//		a.setId(233);
+		a.setFirstName("Roland");
+		a.setLastName("Deschain");
+		a.setUser(userService.getUser("AssociateTest"));
+		//a.setClient(clientService.getClient(249));
+		a.setBatch(batchService.getBatchById(3));
+		a.setMarketingStatus(marketingStatusService.getMarketingStatusById(6));
+		a.setClientStartDate(new Timestamp(150000000L));
+		//a.setPlacement(new HashSet<>());
+		//a.setEndClient(clientService.getEndClient(249));
+		//a.setInterview(new HashSet<>());
+
+//		for (TfTrainer tt : trainerService.getAllTrainers()) {
+//			System.out.println(t);
+//		}
+
+
+
+
+//		associateService.updateAssociate(a);
+		associateService.createAssociate(a);
+
+		//System.out.println(associateService.getAssociate(920));
 //				
+		
+		
+	
+		
 //		List<TfUser> users = userService.getAllUsers();
 //		for(TfUser u : users)
 //			System.out.println(u);
@@ -79,7 +118,7 @@ public class Application {
 		u.setTfRole(new TfRole());
 		u.setIsApproved(1);
 		
-		TfAssociate a = new TfAssociate();
+		TfAssociate aa = new TfAssociate();
 		a.setFirstName("Jimbo");
 		a.setLastName("Malone");
 		a.setUser(u);
@@ -128,6 +167,10 @@ public class Application {
 //		newUser.setTfUserUsername("neat");
 //		
 //		UserService.insertUser(newUser);
+		
+		// make a user to be used by max in testing login
+		
+		
 		
 	}
 }

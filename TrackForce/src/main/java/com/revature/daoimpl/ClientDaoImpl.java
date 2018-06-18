@@ -2,6 +2,7 @@ package com.revature.daoimpl;
 
 import java.util.List;
 
+import com.revature.entity.TfEndClient;
 import org.hibernate.Session;
 
 import com.revature.dao.ClientDao;
@@ -27,6 +28,12 @@ public class ClientDaoImpl implements ClientDao {
 	public TfClient getClient(int id) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
 				session.createQuery("from TfClient c where c.id like :id", TfClient.class).setParameter("id", id).getSingleResult());
+	}
+
+	@Override
+	public TfEndClient getEndClient(int id) {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+				session.createQuery("from TfEndClient c where c.tf_client_id like :id", TfEndClient.class).setParameter("id", id).getSingleResult());
 	}
 
 

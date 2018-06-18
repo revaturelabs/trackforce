@@ -1,5 +1,5 @@
  /** @Author Princewill Ibe **/
-
+ import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import {Component, OnInit} from '@angular/core';
 import {Batch} from '../../models/batch.model';
 import {BatchService} from '../../services/batch-service/batch.service';
@@ -40,26 +40,40 @@ export class BatchListComponent implements OnInit {
   );
 
 
-  constructor(private batchService: BatchService) {
+  constructor(private batchService: BatchService, private authService: AuthenticationService) {
   }
 
   /**
    * load default batches on initialization
    */
   ngOnInit() {
-    // set default dates displayed on page
-    this.startDate.setMonth(new Date().getMonth() - 3);
-    this.endDate.setMonth(new Date().getMonth() + 3);
-    const startTime = Date.now();
-    this.dataReady = false;
-    // this.batchService.getDefaultBatches().subscribe(
-    //   (batches) => {
-    //     this.batches = batches;
-    //     this.updateCountPerCurriculum();
-    //     this.dataReady = true;
-    //     const elapsed = Date.now() - startTime;
-    //   },
-    // );
+    // get current user
+    const user = this.authService.getUser();
+    console.log("user role is " + user.role);
+    //user is a trainer they can only see their batches
+    if (user.role === 2) {
+      this.dataReady = false;
+      let trainer = this.authService.getTrainer();
+      this.batches = trainer.primary;
+      this.batches = this.batches.concat(trainer.coTrainer);
+      this.updateCountPerCurriculum;
+      this.dataReady = true;
+    }
+    else {
+      // set default dates displayed on page
+      this.startDate.setMonth(new Date().getMonth() - 3);
+      this.endDate.setMonth(new Date().getMonth() + 3);
+      const startTime = Date.now();
+      this.dataReady = false;
+      this.batchService.getAllBatches().subscribe(
+        (batches) => {
+          this.batches = batches;
+          this.updateCountPerCurriculum();
+          this.dataReady = true;
+          const elapsed = Date.now() - startTime;
+        },
+      );
+    }
   }
 
 
@@ -134,11 +148,13 @@ export class BatchListComponent implements OnInit {
     this.dataEmpty = this.batches.length === 0;
 
     for (const batch of this.batches) {
-      let count = curriculumCountsMap.get(batch.curriculumName.name);
-      if (count === undefined) {
-        count = 0;
+      if (batch.curriculumName) {
+        let count = curriculumCountsMap.get(batch.curriculumName.name);
+        if (count === undefined) {
+          count = 0;
+        }
+        curriculumCountsMap.set(batch.curriculumName.name, count + 1);
       }
-      curriculumCountsMap.set(batch.curriculumName.name, count + 1);
     }
 
     // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change

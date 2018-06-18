@@ -20,7 +20,7 @@ public class TrainerDaoImpl implements TrainerDao{
 	@Override
 	public TfTrainer getTrainerByUserId(int id) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-			session.createQuery("from TfTrainer t where t.user.id like :id", TfTrainer.class).setParameter("id", id).getSingleResult());
+			session.createQuery("from TfTrainer t where t.user.id = :id", TfTrainer.class).setParameter("id", id).getSingleResult());
 	}
 
 	@Override

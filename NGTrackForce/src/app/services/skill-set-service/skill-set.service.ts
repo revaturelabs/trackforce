@@ -1,12 +1,11 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class SkillsetService {
-  MOCK_API = "https://9a03ee58-6ed8-4d7b-8df1-60f505a77580.mock.pstmn.io/";
+  MOCK_API = "https://9a03ee58-6ed8-4d7b-8df1-60f505a77580.mock.pstmn.io/"; // x-api-key missing, thus url broken. -andrew 
   NO_BACKEND = false;
   private curriculumPath = "TrackForce/skillset";
 

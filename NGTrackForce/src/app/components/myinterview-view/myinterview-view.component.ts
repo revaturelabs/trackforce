@@ -9,7 +9,7 @@ import { InterviewService } from '../../services/interview-service/interview.ser
 import { Client } from '../../models/client.model';
 
 /**
-*@author Katherine Obioha
+*@author Katherine Obioha, Andrew Ahn
 *
 *@description This is the view for associates only
 *

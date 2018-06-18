@@ -147,42 +147,12 @@ public class HibernateUtil {
 	}
 
 
+	private static Sessional<Boolean> detachedUpdate = (Session session, Object ... args) -> {
+		session.update(args[0]);
+		return true;
+	};
 
-//	public <T> Object loadData (T object_a) throws Exception{
-//
-//		Method[] gettersAndSetters = object_a.getClass().getMethods();
-//
-//		for (int i = 0; i < gettersAndSetters.length; i++) {
-//			String methodName = gettersAndSetters[i].getName();
-//			try{
-//				if(methodName.startsWith("get")){
-//					this.getClass().getMethod(methodName.replaceFirst("get", "set") , gettersAndSetters[i].getReturnType() ).invoke(this, gettersAndSetters[i].invoke(object_a, null));
-//				}else if(methodName.startsWith("is") ){
-//					this.getClass().getMethod(methodName.replaceFirst("is", "set") ,  gettersAndSetters[i].getReturnType()  ).invoke(this, gettersAndSetters[i].invoke(object_a, null));
-//				}
-//
-//			}catch (NoSuchMethodException e) {
-//				// TODO: handle exception
-//			}catch (IllegalArgumentException e) {
-//				// TODO: handle exception
-//			}
-//
-//		}
-//
-//		return null;
-//	}
-
-//	public static <T> boolean update(T input, Serializable id) {
-//		return runHibernateTransaction((Session session, Object ... args) -> {
-//			try {
-//				Object row = session.get(input.getClass(), id);
-//				BeanUtils.copyProperties(input, row);
-//				session.update(row);
-//			} catch (IllegalAccessException | InvocationTargetException e) {
-//				throw new HibernateException(e);
-//			}
-//			return true;
-//		});
-//	}
+	public static <T> boolean updateDetached(T det) {return runHibernateTransaction(detachedUpdate, det);}
+	public static <T> boolean updateDetached(List<T> det) {return multiTransaction(detachedUpdate, det);}
 
 }

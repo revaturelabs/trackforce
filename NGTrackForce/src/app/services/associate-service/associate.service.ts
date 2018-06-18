@@ -45,7 +45,7 @@ export class AssociateService {
    */
   updateAssociates(ids: number[], marketingStatusId: number, clientId: number): Observable<boolean> {
     const url: string = this.baseURL + "?marketingStatusId=" + marketingStatusId + "?clientId" + clientId;
-    return this.http.put<boolean>(url, ids);
+    return this.http.patch<boolean>(url, ids);
   }
 
   /**
@@ -57,7 +57,7 @@ export class AssociateService {
     const url: string = this.baseURL + "/" + associate.id;
     return this.http.put<boolean>(url, associate);
   }
-  
+
   getAssociatesByStatus(statusId: number): Observable<GraphCounts[]> {
     return this.http.get<GraphCounts[]>(this.baseURL + '/mapped/' + statusId);
   }

@@ -1,36 +1,23 @@
 package com.revature.resources;
 
+import static com.revature.utils.HibernateUtil.updateDetached;
 import static com.revature.utils.LogUtil.logger;
 import static com.revature.utils.ResourceHelper.isPayloadAssociate;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.revature.services.*;
 import org.hibernate.HibernateException;
 
 import com.revature.entity.TfAssociate;
-import com.revature.services.AssociateService;
-import com.revature.services.BatchService;
-import com.revature.services.ClientService;
-import com.revature.services.CurriculumService;
-import com.revature.services.InterviewService;
-import com.revature.services.JWTService;
-import com.revature.services.TrainerService;
-import com.revature.services.UserService;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -61,6 +48,7 @@ public class AssociateResource {
 	InterviewService interviewService = new InterviewService();
 	TrainerService trainerService = new TrainerService();
 	UserService userService = new UserService();
+	MarketingStatusService marketingStatusService = new MarketingStatusService();
 	
 	/**
 	 * <p>Gets a list of all the associates, optionally filtered by a batch id. If an
@@ -142,7 +130,7 @@ public class AssociateResource {
 	 * @param ids - list of ids to update
 	 * @return response 200 status if successful
 	 */
-	@PUT
+	@PATCH
 	@ApiOperation(value = "Batch update associates", notes = "Updates the marketing status and/or the client of one or more associates")
 	public Response updateAssociates(@HeaderParam("Authorization") String token,
 			@DefaultValue("0") @ApiParam(value = "marketing status id") @QueryParam("marketingStatusId") Integer marketingStatusId,
@@ -152,25 +140,23 @@ public class AssociateResource {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		
-		List<TfAssociate> associates = null;
+		List<TfAssociate> associates = new LinkedList<>();
 		TfAssociate toBeUpdated = null;
 		for(int associateId : ids) {
 			toBeUpdated = associateService.getAssociate(associateId);
-//			toBeUpdated.setTfMarketingStatus(tfMarketingStatus);
-//			toBeUpdated.setTfClient(tfClient);
+			toBeUpdated.setMarketingStatus(marketingStatusService.getMarketingStatusById(marketingStatusId));
+			toBeUpdated.setClient(clientService.getClient(clientId));
 			associates.add(toBeUpdated);
 		}
+
 
 		if (payload == null || !payload.getId().equals("1")) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
-
 		else {
 			// marketing status & client id are given as query parameters, ids sent in body
-			associateService.updateAssociates(associates);
+			return updateDetached(associates) ? Response.ok().build() : Response.serverError().build();
 		}
-
-		return Response.ok().build();
 	}
 
 

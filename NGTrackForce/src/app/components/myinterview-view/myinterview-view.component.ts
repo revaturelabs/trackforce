@@ -10,7 +10,7 @@ import { Client } from '../../models/client.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 
 /**
-*@author Katherine Obioha
+*@author Katherine Obioha, Andrew Ahn
 *
 *@description This is the view for associates only
 *

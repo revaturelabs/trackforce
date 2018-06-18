@@ -158,11 +158,6 @@ public class InterviewResource {
 		return Response.status(status).entity(interviews).build();
 
 	}
-<<<<<<< HEAD
-
-=======
-	
->>>>>>> client1804-2
 
 	/**
 	 * @author Adam L.

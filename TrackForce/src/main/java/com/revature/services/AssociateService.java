@@ -74,11 +74,17 @@ public class AssociateService {
 	 * @param associate
 	 * @return true if successful, false otherwise
 	 */
+	public boolean updateAssociatePartial(TfAssociate associate) {
+		return dao.updateAssociatePartial(associate);
+	}
+
 	public boolean updateAssociate(TfAssociate associate) {
 		return dao.updateAssociate(associate);
 	}
 
-	
+
+
+
 	/**
 	 * @author Adam L. 
 	 * <p>Updates all associates based on their individual Id, which should not change.

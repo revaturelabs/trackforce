@@ -36,36 +36,18 @@ public class TrainerDaoImpl implements TrainerDao{
 
 	@Override
 	public boolean updateTrainer(TfTrainer trainer) {
-		Session session = null;
-		Transaction t = null;
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			t = session.beginTransaction();
-			
+		return HibernateUtil.runHibernateTransaction((Session session, Object ... args)->
+		{
 			TfTrainer temp = session.get(TfTrainer.class, trainer.getId());
-			
+
 			temp.setCoTrainer(trainer.getCoTrainer());
 			temp.setFirstName(trainer.getFirstName());
 			temp.setLastName(trainer.getLastName());
 			temp.setPrimary(trainer.getPrimary());
-			
+
 			session.update(temp);
-			t.commit();
-			System.out.println(trainer.getFirstName() + " successfully updated");
 			return true;
-		} catch (HibernateException hbe) {
-			if (t != null) {
-				t.rollback();
-				System.out.println("Transaction successfully rolled back");
-			}
-			hbe.printStackTrace();
-		} finally {
-			if (session != null) {
-				session.close();
-				System.out.println("Session successfully closed: " + !session.isOpen());
-			}
-		}
-		return false;
+		});
 	}
 
 

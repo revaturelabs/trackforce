@@ -1,6 +1,6 @@
 package com.revature.application;
 
-import com.revature.entity.TfUser;
+import com.revature.entity.*;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -8,6 +8,13 @@ import com.revature.services.CurriculumService;
 import com.revature.services.InterviewService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
+
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import static com.revature.utils.HibernateUtil.saveToDB;
 
 
 /**
@@ -33,10 +40,42 @@ public class Application {
 	static UserService userService = new UserService();
 	
 	public static void main(String[] args) {
-		
-		TfUser user = userService.getUser("TestAdmin");
-		System.out.println(user);
-//		
+
+//		TfTrainer t = new TfTrainer();
+//		t.setFirstName("Test");
+//		t.setLastName("Trainer");
+//		t.setId(1);
+//		t.setTfUser(new TfUser());
+//		t.setCoTrainer(new ArrayList<>());
+//		t.setPrimary(new ArrayList<>());
+//		System.out.println(trainerService.createTrainer(t));
+//
+//		for (TfTrainer tt : trainerService.getAllTrainers()) {
+//			System.out.println(t);
+//		}
+		TfUser u = new TfUser();
+		u.setId(925);
+		u.setRole(5);
+		u.setUsername("Testing");
+		u.setPassword("Testing");
+		u.setTfRole(new TfRole());
+		u.setIsApproved(1);
+
+		TfAssociate a = new TfAssociate();
+		a.setFirstName("Jimbo");
+		a.setLastName("Malone");
+		a.setUser(u);
+		a.setClient(new TfClient());
+		a.setBatch(new TfBatch());
+		a.setMarketingStatus(new TfMarketingStatus());
+		a.setClientStartDate(new Timestamp(150000000L));
+		a.setPlacement(new HashSet<>());
+		a.setEndClient(new TfEndClient());
+		a.setInterview(new HashSet<>());
+
+		associateService.createAssociate(a);
+
+		System.out.println(associateService.getAssociate(920));
 //				
 //		List<TfUser> users = userService.getAllUsers();
 //		for(TfUser u : users)

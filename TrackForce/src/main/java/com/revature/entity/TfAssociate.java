@@ -247,10 +247,9 @@ public class TfAssociate implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "TfAssociate [id=" + id + ", user=" + user + ", batch=" + batch + ", marketingStatus=" + marketingStatus
-				+ ", client=" + client + ", endClient=" + endClient + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", interview=" + interview + ", placement=" + placement + ", clientStartDate="
-				+ clientStartDate + "]";
+		return "TfAssociate [id=" + id + ", user=" + user + ", marketingStatus=" + marketingStatus + ", client="
+				+ client + ", endClient=" + endClient + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", clientStartDate=" + clientStartDate + "]";
 	}
 
 

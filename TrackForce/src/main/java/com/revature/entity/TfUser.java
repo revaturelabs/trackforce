@@ -13,7 +13,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Cacheable
 @Entity
-@Table(name = "TF_USER", schema="ADMIN")
+@Table(
+		name = "TF_USER", 
+		schema="ADMIN"
+//		uniqueConstraints= @UniqueConstraint(columnNames= {"TF_USERNAME"})
+)
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class TfUser implements java.io.Serializable {
 

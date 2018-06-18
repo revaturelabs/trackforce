@@ -123,7 +123,7 @@ public class TfInterviewType implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "TfInterviewType [id=" + id + ", name=" + name + ", interviews=" + interviews + "]";
+		return "TfInterviewType [id=" + id + ", name=" + name + "]";
 	}
 
 	

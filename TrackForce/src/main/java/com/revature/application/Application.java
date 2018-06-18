@@ -1,12 +1,14 @@
 package com.revature.application;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfEndClient;
 import com.revature.entity.TfInterview;
 import com.revature.entity.TfInterviewType;
+import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -50,6 +52,13 @@ public class Application {
 //		u.setIsApproved(1);
 //		saveToDB(u);
 
+		List<TfUser> users = userService.getAllUsers();
+		
+		for(TfUser u : users)
+			System.out.println(u);
+
+		
+		
 //		TfTrainer t = new TfTrainer();
 //		t.setFirstName("Ava");
 //		t.setLastName("Trains");

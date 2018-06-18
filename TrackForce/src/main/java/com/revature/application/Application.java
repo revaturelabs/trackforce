@@ -1,6 +1,17 @@
 package com.revature.application;
 
-import com.revature.entity.*;
+import java.sql.Timestamp;
+import java.util.HashSet;
+
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfBatch;
+import com.revature.entity.TfClient;
+import com.revature.entity.TfEndClient;
+import com.revature.entity.TfInterview;
+import com.revature.entity.TfMarketingStatus;
+import com.revature.entity.TfPlacement;
+import com.revature.entity.TfRole;
+import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -8,13 +19,6 @@ import com.revature.services.CurriculumService;
 import com.revature.services.InterviewService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
-
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashSet;
-
-import static com.revature.utils.HibernateUtil.saveToDB;
 
 
 /**
@@ -53,30 +57,38 @@ public class Application {
 //		for (TfTrainer tt : trainerService.getAllTrainers()) {
 //			System.out.println(t);
 //		}
-		TfUser u = new TfUser();
-		u.setId(925);
-		u.setRole(5);
-		u.setUsername("Testing");
-		u.setPassword("Testing");
-		u.setTfRole(new TfRole());
-		u.setIsApproved(1);
-
-		TfAssociate a = new TfAssociate();
-		a.setFirstName("Jimbo");
-		a.setLastName("Malone");
-		a.setUser(u);
-		a.setClient(new TfClient());
-		a.setBatch(new TfBatch());
-		a.setMarketingStatus(new TfMarketingStatus());
-		a.setClientStartDate(new Timestamp(150000000L));
-		a.setPlacement(new HashSet<>());
-		a.setEndClient(new TfEndClient());
-		a.setInterview(new HashSet<>());
-
-		associateService.createAssociate(a);
-
-		System.out.println(associateService.getAssociate(920));
+		
+		
+		
+//		TfUser u = new TfUser();
+//		u.setId(1000);
+//		u.setRole(5);
+//		u.setUsername("max");
+//		u.setPassword("password");
+//		u.setTfRole(new TfRole());
+//		u.setIsApproved(1);
+//
+//		TfAssociate a = new TfAssociate();
+//		a.setFirstName("Max");
+//		a.setLastName("Dunn");
+//		a.setUser(u);
+//		a.setClient(new TfClient());
+//		a.setBatch(new TfBatch());
+//		a.setMarketingStatus(new TfMarketingStatus());
+//		a.setClientStartDate(new Timestamp(150000000L));
+//		a.setPlacement(new HashSet<TfPlacement>());
+//		a.setEndClient(new TfEndClient());
+//		a.setInterview(new HashSet<TfInterview>());
+//
+//		associateService.createAssociate(a);
+//
+//		System.out.println(associateService.getAssociate(1000));
 //				
+		
+		
+		
+		
+		
 //		List<TfUser> users = userService.getAllUsers();
 //		for(TfUser u : users)
 //			System.out.println(u);
@@ -114,6 +126,10 @@ public class Application {
 //		newUser.setTfUserUsername("neat");
 //		
 //		UserService.insertUser(newUser);
+		
+		// make a user to be used by max in testing login
+		
+		
 		
 	}
 }

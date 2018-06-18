@@ -22,7 +22,7 @@ import { userInfo } from 'os';
 export class AssociateViewComponent implements OnInit {
   public associate: Associate;
   public formOpen = false;
-  public newAssociate: Associate = new Associate();
+  public newAssociate: Associate;
   public newFirstName: string;
   public newLastName: string;
 

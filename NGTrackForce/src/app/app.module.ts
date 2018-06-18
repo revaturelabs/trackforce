@@ -110,7 +110,7 @@ import { TrainerService } from './services/trainer-service/trainer.service';
     BatchService,
     UserService,
     CurriculumService,
-    DataSyncService,
+    // DataSyncService,
     InterviewService,
     AuthGuard,
     TrainerService,

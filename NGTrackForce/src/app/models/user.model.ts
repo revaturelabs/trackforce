@@ -12,14 +12,14 @@ export class User {
   id: number;
   username: string;
   hashedPassword: string;
-  role: Role;
+  role: number;
   token: string;
   isApproved: number;
 
   constructor(
     newUsername: string, 
     newPassword: string, 
-    newRole: Role, 
+    newRole: number, 
     newIsApproved: number,
     newId?: number,  
     newToken?: string

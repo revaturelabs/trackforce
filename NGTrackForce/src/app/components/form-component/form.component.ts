@@ -26,7 +26,7 @@ import { InterviewService } from '../../services/interview-service/interview.ser
 @AutoUnsubscribe
 export class FormComponent implements OnInit {
   user: User;
-  associate: Associate = new Associate();
+  associate: Associate;
   clients: Client[];
   interviews: Interview[];
   
@@ -92,7 +92,7 @@ export class FormComponent implements OnInit {
           this.associate.clientStartDate = null;
         }
         else {
-          this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
+          // this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
         }
       });
     this.clientService.getAllClients().subscribe(

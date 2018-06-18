@@ -23,7 +23,7 @@ describe('AssociateListComponent', () => {
 
   // setup service mocks
    beforeAll(() => {
-    const user: User = new User();
+    let user: User;
     user.token = "mockToken";
     user.username = "mockUser";
     user.role = 1;

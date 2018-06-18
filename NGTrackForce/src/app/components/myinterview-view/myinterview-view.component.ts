@@ -27,7 +27,7 @@ export class MyInterviewComponent implements OnInit {
   public interviews: Array<Interview>;
   public associate: Associate;
   // public id = 0;
-  public newInterview: Interview = new Interview();
+  public newInterview: Interview;
   public formOpen = false;
   public conflictingInterviews = "";
   public interviewDate: Date = new Date();
@@ -65,7 +65,7 @@ export class MyInterviewComponent implements OnInit {
     this.newInterview.interviewDate = new Date(this.interviewDate).getTime()
     this.newInterview.dateAssociateIssued = new Date(this.interviewDateNotification).getTime()
     this.newInterview.jobDescription = "none available";
-    this.newInterview.flagAlert = 0;
+    this.newInterview.isInterviewFlagged = 0;
     this.newInterview.was24HRNotice = (this.newInterview.was24HRNotice * 1)
     // this.associateService.addInterviewForAssociate(this.associate.id, this.newInterview).subscribe(
     //   data => {

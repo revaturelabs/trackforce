@@ -96,12 +96,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     const user = this.authService.getUser();
     if (user != null) {
-      if (user.role.id === 5) {
+      if (user.role === 5) {
         // this.router.navigate(['associate-view']);
         this.router.navigate(['associate-view']);
         // } else if (user.role === 2) {
         //   this.router.navigate(['trainer-view']);
-      } else if (user.role.id === 2) {
+      } else if (user.role === 2) {
         this.router.navigate(['trainer-view']);
       } else {
         // this.getUser(user.id);
@@ -114,16 +114,6 @@ export class LoginComponent implements OnInit {
   * Enter the register state
   */
 
-  // getUser(id) {
-
-  //   this.associateService.getAssociate(id).subscribe(
-  //     data => {
-  //       this.associate = data;
-  //     },
-  //     err => {
-  //     });
-
-  // }
   register() {
     this.errMsg = "";
     this.sucMsg = "";
@@ -192,19 +182,18 @@ export class LoginComponent implements OnInit {
           localStorage.setItem(USER_KEY, JSON.stringify(data));
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
-          // if (data.isApproved) {
-          if (data.role.id === 5) {
-            this.associateLogin(data);
-          } else if (data.role.id === 2) {
-            this.trainerLogin(data);
+          if (data.isApproved) {
+            if (data.role === 5) {
+              this.associateLogin(data);
+            } else if (data.role === 2) {
+              this.trainerLogin(data);
+            } else {
+              this.router.navigate(['app-home']);
+            }
           } else {
-            this.router.navigate(['app-home']);
-            //otherwise, they are set to root
+            this.authService.logout();
+            this.errMsg = "Your account has not been approved.";
           }
-          // } else {
-          //   this.authService.logout();
-          //   this.errMsg = "Your account has not been approved.";
-          // }
         },
         err => {
           this.authService.logout();

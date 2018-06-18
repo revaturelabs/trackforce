@@ -63,6 +63,7 @@ import { appRoutes } from './routing/routes';
 import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-helpers/router-stubs';
 import { InterviewDetailsComponent } from './components/interview-details/interview-details.component';
 import { TrainerViewComponent } from './components/trainer-view/trainer-view.component';
+import { TrainerService } from './services/trainer-service/trainer.service';
 
 @NgModule({
   declarations: [
@@ -88,8 +89,8 @@ import { TrainerViewComponent } from './components/trainer-view/trainer-view.com
     PredictionsComponent,
     MyInterviewComponent,
     InterviewDetailsComponent,
-	InterviewsComponent,
-	TrainerViewComponent
+  	InterviewsComponent,
+  	TrainerViewComponent
   ],
   imports: [
     BrowserModule,
@@ -98,7 +99,7 @@ import { TrainerViewComponent } from './components/trainer-view/trainer-view.com
     RouterModule.forRoot(appRoutes),
     ChartsModule,
     Ng2OrderModule,
-	BrowserAnimationsModule
+	  BrowserAnimationsModule
   ],
   providers: [
     AssociateService,
@@ -109,9 +110,10 @@ import { TrainerViewComponent } from './components/trainer-view/trainer-view.com
     BatchService,
     UserService,
     CurriculumService,
-    DataSyncService,
+    // DataSyncService,
     InterviewService,
     AuthGuard,
+    TrainerService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

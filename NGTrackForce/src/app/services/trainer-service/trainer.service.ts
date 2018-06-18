@@ -21,7 +21,7 @@ export class TrainerService {
    * @author Curtis H
    * @since 6.18.06.16
    */
-  public getBatchlessTrainer(userId: number): Observable<Trainer> {
+  public getTrainer(userId: number): Observable<Trainer> {
     return this.http.get<Trainer>(this.baseURL + userId);
   }
 

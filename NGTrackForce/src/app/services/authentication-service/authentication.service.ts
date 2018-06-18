@@ -45,18 +45,22 @@ export class AuthenticationService {
 
 
   /**
-   * Removes user from localStorage
-   * And navigates back to login
-   *
-   * @param none
-   */
+  *Removes user from localStorage
+  *And navigates back to login
+  *
+  *@param none
+  */
   logout() {
-    localStorage.removeItem(USER_KEY);
+    localStorage.clear();
     this.router.navigate(['login']);
   }
 
   /**
-   * Check for an active session
+   * This method will return the User Object from local storage
+   * 
+   * @param none
+   * 
+   * @author Max Dunn
    */
   getUser(): User {
     const user: User = JSON.parse(localStorage.getItem(USER_KEY));
@@ -86,7 +90,5 @@ export class AuthenticationService {
     const trainer: Trainer = JSON.parse(localStorage.getItem(TRAINER_KEY));
     return trainer;
   }
-
-
 
 }

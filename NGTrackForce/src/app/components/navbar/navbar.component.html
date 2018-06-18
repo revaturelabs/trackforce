@@ -6,43 +6,53 @@
       </a>
     </div>
     <ul *ngIf='isAssociate' class="nav navbar-nav">
-
       <li>
-        <a [routerLink]="['/associate-view/', user.userId]" routerLinkActive="active">Home</a>
+        <a [routerLink]="['/associate-view']" routerLinkActive="active">Home</a>
       </li>
       <li>
-        <a [routerLink]="['/myinterview-view/', user.userId]" routerLinkActive="active">My Interviews</a>
+        <a [routerLink]="['/myinterview-view']" routerLinkActive="active">My Interviews</a>
       </li>
+    </ul>
 
+    <ul *ngIf='isTrainer' class="nav navbar-nav">
+      <li>
+        <a [routerLink]="['/trainer-view']" routerLinkActive="active">Home</a>
+      </li>
+      <li>
+        <a [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a>
+      </li>
+      <li>
+        <a [routerLink]="['/associate-listing']" routerLinkActive="active">Associate List</a>
+      </li>
     </ul>
 
     <ul *ngIf='isAdmin' class="nav navbar-nav">
-
       <li>
-        <a routerLink="/app-home" routerLinkActive="active">Home</a>
+        <a [routerLink]="['/app-home']" routerLinkActive="active">Home</a>
       </li>
       <li>
-        <a routerLink="/client-listing" routerLinkActive="active">Client List</a>
+        <a [routerLink]="['/client-listing']" routerLinkActive="active">Client List</a>
       </li>
       <li>
-        <a routerLink="/batch-listing" routerLinkActive="active">Batch List</a>
+        <a [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a>
       </li>
       <li>
-        <a routerLink="/associate-listing" routerLinkActive="active">Associate List</a>
+        <a [routerLink]="['/associate-listing']" routerLinkActive="active">Associate List</a>
       </li>
       <li>
-        <a routerLink="/predictions" routerLinkActive="active">Predictions</a>
+        <a [routerLink]="['/predictions']" routerLinkActive="active">Predictions</a>
       </li>
       <!-- <li>
         <a routerLink="/interviews" routerLinkActive="active">Interviews</a>
       </li> -->
       <li>
-        <a routerLink="/create-user" routerLinkActive="active">Create User</a>
+        <a [routerLink]="['/create-user']" routerLinkActive="active">Create User</a>
       </li>
     </ul>
-    <ul *ngIf='isAssociate || isAdmin' class="nav navbar-nav navbar-right visible-lg">
+
+    <ul *ngIf='isLoggedIn' class="nav navbar-nav navbar-right visible-lg">
       <li>
-        <a routerLink="/login" (click)="logout()">Logout</a>
+        <a (click)="logout()">Logout</a>
       </li>
 
       <li>

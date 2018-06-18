@@ -44,7 +44,7 @@ describe('BatchDetailsComponent', async () => {
     // spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
     spyOn(testBatchService, 'getBatchesByDate').and.returnValue(Observable.of([batch1, batch2]));
 
-    const user: User = new User();
+    let user: User;
     user.token = 'mockToken';
     user.username = 'mockUser';
     user.role = 1;

@@ -5,9 +5,6 @@
  */
 
 export class StatusInfo {
-
-  // Kirk: There are constants in StatusInfo.java that are not in here.
-
   name: string;
   trainingMapped: number;
   trainingUnmapped: number;

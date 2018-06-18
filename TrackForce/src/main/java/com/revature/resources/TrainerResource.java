@@ -4,17 +4,12 @@ import static com.revature.utils.LogUtil.logger;
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.entity.TfTrainer;
 import com.revature.services.AssociateService;
@@ -115,6 +110,36 @@ public class TrainerResource {
 		}
 
 		return Response.status(status).entity(trainer).build();
+	}
+
+	/**
+	 *
+	 * @author Curtis H.
+	 *  <p>Updates a trainer</p>
+	 * @version.date v6.18.06.13
+	 *
+	 * @param id
+	 * @param trainer
+	 * @param token
+	 * @return
+	 */
+	@PUT
+	@ApiOperation(value = "updates trainer values", notes = "The method updates a trainer based on their id.")
+	@Path("/{trainerId}")
+	public Response updateTrainer(@PathParam("trainerId") Integer id, TfTrainer trainer,
+	                                @HeaderParam("Authorization") String token) {
+		logger.info("updateTrainer()...");
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || payload.getId().equals("5")) {
+			status = Status.UNAUTHORIZED;
+		}
+		if (payload.getId().equals("2")) {
+			trainerService.updateTrainer(trainer);
+		}
+
+		return Response.status(status).build();
 	}
 	
 }

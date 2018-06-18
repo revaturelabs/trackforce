@@ -36,6 +36,7 @@ describe('ClientMappedComponent', () => {
     client3.name = "Client 3";
     client3.count = 40;
 
+    
     // Mock the AssociateService
     // Note: this used to be "Mock the Client Service" with the same method.
     // That was spitting up errors because getAssociatesByStatus wasn't in Client Service,
@@ -64,6 +65,7 @@ describe('ClientMappedComponent', () => {
       ],
       providers: [
         RequestService,
+        AssociateService,
         {provide: AuthenticationService, useValue: testAuthService},
         {provide: ClientService, useValue: testClientService}
       ],

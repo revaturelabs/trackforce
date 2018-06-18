@@ -26,6 +26,7 @@ import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
 /**
  * <p> </p>
  * @version.date v6.18.06.13
@@ -48,45 +49,54 @@ public class TrainerResource {
 	InterviewService interviewService = new InterviewService();
 	TrainerService trainerService = new TrainerService();
 	UserService userService = new UserService();
-	
+
 	@Path("/{id}/batch")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Displays the batch from the trainer", notes = "")
-	public Response getBatchFromTrainer(@ApiParam("Trainer id") @PathParam("id")int id,
+	public Response getBatchFromTrainer(@ApiParam("Trainer id") @PathParam("id") int id,
 			@HeaderParam("Authorization") String token) {
 		logger.info("getting batch from trainers...");
-		TfTrainer trainer = trainerService.getTrainer(id);
-		LogUtil.logger.info(trainer);
-		List<TfBatch> batches = trainer.getPrimary();
+		TfTrainer trainer;
+		List<TfBatch> batches;
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
-		}
-		else {
+			return Response.status(Status.UNAUTHORIZED).build();
+		} else {
+			try {
+				trainer = trainerService.getTrainer(id);
+				LogUtil.logger.info(trainer);
+				batches = trainer.getPrimary();
+			} catch (NoResultException nre) {
+				return Response.status(Status.NO_CONTENT).build();
+			}
 			status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
-
 		return Response.status(status).entity(batches).build();
 	}
-	
+
 	@Path("/{id}/cotrainerbatch")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Displays the batches that the trainer is cotrainer on", notes = "")
-	public Response getBatchFromCotrainer(@ApiParam("trainer id") @PathParam("id")int id,
+	public Response getBatchFromCotrainer(@ApiParam("trainer id") @PathParam("id") int id,
 			@HeaderParam("Authorization") String token) {
 		logger.info("getting batch from trainers...");
-		TfTrainer trainer = trainerService.getTrainer(id);
-		LogUtil.logger.info(trainer);
-		List<TfBatch> batches = trainer.getCoTrainer();
+		TfTrainer trainer;
+		List<TfBatch> batches;
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
-		}
-		else {
+			return Response.status(Status.UNAUTHORIZED).build();
+		} else {
+			try {
+				trainer = trainerService.getTrainer(id);
+				LogUtil.logger.info(trainer);
+				batches = trainer.getCoTrainer();
+			} catch (NoResultException nre) {
+				return Response.status(Status.NO_CONTENT).build();
+			}
 			status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
 
@@ -103,9 +113,13 @@ public class TrainerResource {
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
-		}
-		else {
+			return Response.status(Status.UNAUTHORIZED).build();
+		} else {
+			try {
+				trainer = trainerService.getTrainer(id);
+			} catch (NoResultException nre) {
+				return Response.status(Status.NO_CONTENT).build();
+			}
 			status = trainer == null ? Status.NO_CONTENT : Status.OK;
 		}
 

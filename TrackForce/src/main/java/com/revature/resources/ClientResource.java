@@ -71,9 +71,9 @@ public class ClientResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) {
-			status = Status.UNAUTHORIZED; // invalid token
+			return Response.status(Status.UNAUTHORIZED).build(); // invalid token
 		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
-			status = Status.FORBIDDEN;
+			return Response.status(Status.FORBIDDEN).build();
 		} else {
 			status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}

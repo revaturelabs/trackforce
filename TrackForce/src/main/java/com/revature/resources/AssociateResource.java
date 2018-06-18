@@ -6,6 +6,7 @@ import static com.revature.utils.ResourceHelper.isPayloadAssociate;
 import java.io.IOException;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -81,7 +82,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
@@ -109,10 +110,16 @@ public class AssociateResource {
 		logger.info("getAssociateByUserId()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
-		TfAssociate associateinfo = associateService.getAssociateByUserId(id);
+		TfAssociate associateinfo;
+		try {
+			associateinfo = associateService.getAssociateByUserId(id);
+		} catch (NoResultException nre) {
+			logger.info("No associate found...");
+			return Response.status(Status.NO_CONTENT).build();
+		}
 
-		if (payload == null || isPayloadAssociate(payload, associateinfo)) {
-			status = Status.UNAUTHORIZED;
+		if (payload == null || false) {
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
@@ -155,7 +162,7 @@ public class AssociateResource {
 		}
 
 		if (payload == null || !payload.getId().equals("1")) {
-			status = Status.UNAUTHORIZED;
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 
 		else {
@@ -188,7 +195,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else if (payload.getId().equals("5")) {
 			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;

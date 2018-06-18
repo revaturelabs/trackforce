@@ -68,6 +68,9 @@ public class UserResource {
 	public Response createUser(TfUser newUser) {
 		logger.info("creating new user...");
 		LogUtil.logger.info(newUser);
+		if (newUser.getRole() == 2 || newUser.getRole() == 5) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 		userService.insertUser(newUser);
 		return Response.status(Status.CREATED).build();
 	}
@@ -123,7 +126,7 @@ public class UserResource {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	@ApiOperation(value = "login method", notes = "The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 400 if invalid.")
+	@ApiOperation(value = "login method", notes = "The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 403 if invalid.")
 	public Response submitCredentials(TfUser loginUser) throws IOException {
 		logger.info("submitCredentials()...");
 		logger.info("	login: " + loginUser);
@@ -136,7 +139,5 @@ public class UserResource {
 			logger.info("sending unauthorized response..");
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
-
 	}
-
 }

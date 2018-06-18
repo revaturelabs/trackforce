@@ -19,7 +19,6 @@ import static com.revature.utils.HibernateUtil.saveToDB;
 
 public class AssociateDaoImpl implements AssociateDao {
 
-	
 	@Override
 	public TfAssociate getAssociate(Integer associateid) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
@@ -35,8 +34,8 @@ public class AssociateDaoImpl implements AssociateDao {
 
 	@Override
 	public List<TfAssociate> getAllAssociates() {
-		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfAssociate", TfAssociate.class).getResultList());
+		return HibernateUtil.runHibernate((Session session, Object... args) -> session
+				.createQuery("from TfAssociate", TfAssociate.class).getResultList());
 	}
 
 	private Sessional<Boolean> updateAssociate = (Session session, Object ... args)-> {

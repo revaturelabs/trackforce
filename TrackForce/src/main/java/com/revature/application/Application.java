@@ -95,8 +95,8 @@ public class Application {
 //		for(TfInterview interview : interviews)
 //			System.out.println(interview);
 		
-		// test a single interview
-//		int interviewId = 215;
+//		// test a single interview
+//		Integer interviewId = 215;
 //		TfInterview interview = interviewService.getInterviewById(interviewId);
 //		System.out.println(interview);
 		

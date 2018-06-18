@@ -14,11 +14,17 @@ import com.revature.services.JWTService;
 
 import io.restassured.response.Response;
 
+/**
+ * Rest Assured testing to ensure that this resource is functioning properly.
+ * @author Jesse
+ * @since 06.18.06.16
+ */
 public class CurriculumResourceTest {
 
 	static final String URL = "http://52.87.205.55:8086/TrackForce/skillset";
 	
-	String token;
+	String tokenAdmin;
+	String tokenAssociate;
 
 	/**
 	 * Set up before any tests. Need to generate a token
@@ -27,8 +33,9 @@ public class CurriculumResourceTest {
 	 */
 	@BeforeClass
 	public void beforeClass() throws IOException {
-		token = JWTService.createToken("TestAdmin", 1);
-		System.out.println(token);
+		tokenAdmin = JWTService.createToken("TestAdmin", 1);
+		System.out.println(tokenAdmin);
+		tokenAssociate = JWTService.createToken("TestAssociate", 5);
 	}
 	
 	/**
@@ -40,21 +47,26 @@ public class CurriculumResourceTest {
 	 */
 	@Test(priority = 5)
 	public void testGetAllCurriculums() {
-		Response response = given().header("Authorization", token).when().get(URL).then().extract().response();
+		Response response = given().header("Authorization", tokenAdmin).when().get(URL).then().extract().response();
 		
 		assertTrue(response.statusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 		
-		given().header("Authorization", token).when().get(URL).then().assertThat().body("id", hasSize(9));
+		given().header("Authorization", tokenAdmin).when().get(URL).then().assertThat().body("id", hasSize(9));
 		
-		given().header("Authorization", token).when().get(URL).then().assertThat().body("id", notNullValue());
+		given().header("Authorization", tokenAdmin).when().get(URL).then().assertThat().body("id", notNullValue());
 		
-		given().header("Authorization", token).when().get(URL).then().assertThat().body("name", notNullValue());
+		given().header("Authorization", tokenAdmin).when().get(URL).then().assertThat().body("name", notNullValue());
 
-		given().header("Authorization", "Bad token").when().get(URL).then().assertThat().statusCode(401);
-
-		given().header("Authorization", token).when().get(URL+"/badurl").then().assertThat().statusCode(404);
+		response = given().header("Authorization", "Bad token").when().get(URL).then().extract().response();
 		
-		given().header("Authorization", token).when().post(URL).then().assertThat().statusCode(405);
+		assertTrue(response.statusCode() == 401);
+		assertTrue(response.asString().contains("401 – Unauthorized"));
+
+		given().header("Authorization", tokenAdmin).when().get(URL+"/badurl").then().assertThat().statusCode(404);
+		
+		given().header("Authorization", tokenAdmin).when().post(URL).then().assertThat().statusCode(405);
+		
+		given().header("Authorization", tokenAssociate).when().get(URL).then().assertThat().statusCode(403);
 	}
 }

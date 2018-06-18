@@ -46,6 +46,14 @@ thead, tbody {
 	color : #ff8000;
 }
 
-/* .fa{
-  display: inline;
-} */
+#new-interview{
+  margin-left: 225px;
+}
+
+input[name='24hournotice']{
+  margin-left: 15px;
+}
+
+#add-interview{
+  margin-left: 215px;
+}

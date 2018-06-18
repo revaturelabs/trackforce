@@ -1,5 +1,3 @@
-import { Role } from "./role.model";
-
 /**
  * Model containing information about the current user
  * @author Leng
@@ -17,11 +15,11 @@ export class User {
   isApproved: number;
 
   constructor(
-    newUsername: string, 
-    newPassword: string, 
-    newRole: number, 
+    newUsername: string,
+    newPassword: string,
+    newRole: number,
     newIsApproved: number,
-    newId?: number,  
+    newId?: number,
     newToken?: string
   ) {
       this.username = newUsername;

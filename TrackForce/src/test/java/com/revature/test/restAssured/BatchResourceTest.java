@@ -9,7 +9,7 @@ import com.revature.services.BatchService;
 import com.revature.services.JWTService;
 import io.restassured.response.Response;
 public class BatchResourceTest {
-    static final String URL = "http://localhost:8085/TrackForce/batches";
+    static final String URL = "http://52.87.205.55:8086/TrackForce/batches";
     private String token;
     BatchService service ;
     @BeforeClass
@@ -64,9 +64,7 @@ public class BatchResourceTest {
         token = JWTService.createToken("TestAssociate", 5);
         Response response = given().header("Authorization", token).when().get(URL).then().extract()
                 .response();
-        System.out.println(response.getStatusCode());
         assertTrue(response.getStatusCode() == 403);
-        System.out.println(response.contentType());
         assertTrue(response.contentType().equals("application/json"));
         given().header("Authorization", token).when().get(URL).then().assertThat().body("batchName", Matchers.hasSize(0));
     }

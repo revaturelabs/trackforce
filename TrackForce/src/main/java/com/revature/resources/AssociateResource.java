@@ -111,17 +111,17 @@ public class AssociateResource {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		TfAssociate associateinfo;
-		try {
-			associateinfo = associateService.getAssociateByUserId(id);
-		} catch (NoResultException nre) {
-			logger.info("No associate found...");
-			return Response.status(Status.NO_CONTENT).build();
-		}
 
 		if (payload == null || false) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
+			try {
+				associateinfo = associateService.getAssociateByUserId(id);
+			} catch (NoResultException nre) {
+				logger.info("No associate found...");
+				return Response.status(Status.NO_CONTENT).build();
+			}
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
 		}
 

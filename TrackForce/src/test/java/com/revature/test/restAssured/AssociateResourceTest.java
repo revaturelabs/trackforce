@@ -21,6 +21,7 @@ import io.restassured.response.Response;
 
 /**
  * Rest Assured to ensure that this resource is functioning properly.
+ * 
  * @author Jesse
  * @since 06.18.06.16
  */
@@ -54,21 +55,27 @@ public class AssociateResourceTest {
 	 * gives a 404
 	 */
 	@Test(priority = 5, enabled = true)
-	public void testGetAllAssociates() {
+	public void testGetAllAssociates1() {
 		Response response = given().header("Authorization", token).when().get(URL + "/allAssociates").then().extract()
 				.response();
 
+		System.out.println("1" + response.getStatusCode());
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 
 		given().header("Authorization", token).when().get(URL + "/allAssociates").then().assertThat().body("id",
 				hasSize(associates.size()));
+	}
 
-		response = given().header("Authorization", "Bad Token").when().get(URL + "/allAssociates").then().extract()
-				.response();
+	/**
+	 * Unhappy path testing for getAllAssociates
+	 */
+	@Test(priority = 7, enabled = true)
+	public void testGetAllAssociates2() {
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/allAssociates").then()
+				.extract().response();
 
 		assertTrue(response.statusCode() == 401);
-		System.out.println(response.asString());
 		assertTrue(response.asString().contains("Unauthorized"));
 
 		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
@@ -82,22 +89,29 @@ public class AssociateResourceTest {
 	 * JSON data returns null
 	 */
 	@Test(priority = 10, enabled = true)
-	public void testGetAssociate() {
+	public void testGetAssociate1() {
 		Response response = given().header("Authorization", token).when().get(URL + "/" + 900).then().extract()
 				.response();
 
-		System.out.println(response.getStatusCode());
+		System.out.println("3" + response.getStatusCode());
 		assertTrue(response.getStatusCode() == 200 || response.getStatusCode() == 204);
-		assertTrue(response.contentType().equals("application/json"));
+		if (response.statusCode() == 200) {
+			assertTrue(response.contentType().equals("application/json"));
+		}
 
-		given().header("Authorization", token).when().get(URL + "/" + 900).then().assertThat().body("firstName",
-				equalTo("Cameron"));
+		given().header("Authorization", token).when().get(URL + "/" + 60402).then().assertThat().body("firstName",
+				equalTo("Roland"));
 
-		given().header("Authorization", token).when().get(URL + "/" + 900).then().assertThat().body("marketingStatus",
-				equalTo(null));
+		given().header("Authorization", token).when().get(URL + "/" + 60402).then().assertThat().body("marketingStatus",
+				equalTo(6));
+	}
 
-		response = given().header("Authorization", "Bad Token").when().get(URL + "/" + 900).then().extract().response();
+	@Test(priority = 15)
+	public void testGetAssociate2() {
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + 60402).then().extract()
+				.response();
 
+		System.out.println("4" + response.getStatusCode());
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 
@@ -105,7 +119,7 @@ public class AssociateResourceTest {
 
 		given().header("Authorization", token).when().get(URL + "/badURL").then().assertThat().statusCode(404);
 
-		given().header("Authorization", token).when().get(URL + "/" + 900).then().assertThat().body("address",
+		given().header("Authorization", token).when().get(URL + "/" + 60402).then().assertThat().body("address",
 				equalTo(null));
 	}
 
@@ -126,6 +140,7 @@ public class AssociateResourceTest {
 		Response response = given().header("Authorization", token).when().get(URL + "/" + 910).then().extract()
 				.response();
 
+		System.out.println("5" + response.getStatusCode());
 		assertTrue(response.statusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 
@@ -152,8 +167,10 @@ public class AssociateResourceTest {
 		given().header("Authorization", token).when().get(URL + "/" + 910).then().assertThat().body("address",
 				equalTo(null));
 
-		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + 910).then().extract().response();
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + 910).then().extract()
+				.response();
 
+		System.out.println(response.getStatusCode());
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 	}

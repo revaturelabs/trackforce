@@ -80,6 +80,11 @@ public class Application {
 
 		//System.out.println(associateService.getAssociate(920));
 //				
+		
+		
+		
+		
+		
 //		List<TfUser> users = userService.getAllUsers();
 //		for(TfUser u : users)
 //			System.out.println(u);
@@ -117,6 +122,10 @@ public class Application {
 //		newUser.setTfUserUsername("neat");
 //		
 //		UserService.insertUser(newUser);
+		
+		// make a user to be used by max in testing login
+		
+		
 		
 	}
 }

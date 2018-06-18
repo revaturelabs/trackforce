@@ -21,6 +21,7 @@ import { MyInterviewComponent } from '../components/myinterview-view/myinterview
 import { AuthGuard } from '../guards/auth.guard';
 import { InterviewDetailsComponent } from '../components/interview-details/interview-details.component';
 import { InterviewsComponent } from '../components/interviews-view/interviews-view.component';
+import { TrainerViewComponent } from '../components/trainer-view/trainer-view.component';
 
 /**
  * Place paths here
@@ -110,6 +111,11 @@ export const appRoutes: Routes = [
     path: 'interviewDetails/:i/:id',
     canActivate: [AuthGuard],
     component: InterviewDetailsComponent
+  },
+  {
+    path: 'trainer-view',
+    canActivate: [AuthGuard],
+    component: TrainerViewComponent
   },
   {
     // must be LAST in this array because this matches all other paths (fallback)

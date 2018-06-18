@@ -54,7 +54,7 @@ public class InterviewResourceTest {
 	 * @author Jesse
 	 * @since 6.18.06.13
 	 */
-	@Test(priority = 5, dataProvider = "interview", enabled = false)
+	@Test(priority = 5, dataProvider = "interview", enabled = true)
 	public void testCreateInterview(TfInterview interview) {
 
 		Response response = given().header("Authorization", token).contentType("application/json").body(interview)

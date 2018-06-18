@@ -5,16 +5,15 @@ import java.util.List;
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.*;
 import com.revature.utils.Sessional;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.revature.dao.AssociateDao;
 import com.revature.utils.HibernateUtil;
 
 import javax.persistence.criteria.*;
-import javax.transaction.Transactional;
 
+import static com.revature.utils.HibernateUtil.multiTransaction;
+import static com.revature.utils.HibernateUtil.runHibernateTransaction;
 import static com.revature.utils.HibernateUtil.saveToDB;
 
 public class AssociateDaoImpl implements AssociateDao {
@@ -39,7 +38,7 @@ public class AssociateDaoImpl implements AssociateDao {
 		session.createQuery("from TfAssociate", TfAssociate.class).getResultList());
 	}
 
-	private Sessional<Boolean> updateAssociate = (Session session, Object ... args)-> {
+	private Sessional<Boolean> updateAssociatePartial = (Session session, Object ... args)-> {
 		TfAssociate associate = (TfAssociate) args[0];
 		TfAssociate temp = session.get(TfAssociate.class, associate.getId());
 
@@ -52,7 +51,7 @@ public class AssociateDaoImpl implements AssociateDao {
 
 	@Override
 	public boolean updateAssociatePartial(TfAssociate associate) {
-		return HibernateUtil.runHibernateTransaction(updateAssociate);
+		return HibernateUtil.runHibernateTransaction(updateAssociatePartial);
 	}
 
 	private Sessional<Boolean> approveAssociate = (Session session, Object ... args)-> {
@@ -102,16 +101,32 @@ public class AssociateDaoImpl implements AssociateDao {
 		);
 	}
 
+	private Sessional<Boolean> updateAssociate = (Session session, Object ... args)-> {
+		TfAssociate associate = (TfAssociate) args[0];
+		TfAssociate temp = session.get(TfAssociate.class, associate.getId());
+
+		temp.setBatch(associate.getBatch());
+		temp.setMarketingStatus(associate.getMarketingStatus());
+		temp.setClient(associate.getClient());
+		temp.setEndClient(associate.getEndClient());
+		temp.setFirstName(associate.getFirstName());
+		temp.setLastName(associate.getLastName());
+		temp.setInterview(associate.getInterview());
+		temp.setPlacement(associate.getPlacement());
+		temp.setClientStartDate(associate.getClientStartDate());
+
+		session.update(temp);
+		return true;
+	};
 
 	@Override
 	public boolean updateAssociate(TfAssociate associate) {
-		return false;
-		//return HibernateUtil.update(associate, associate.getId());
+		return runHibernateTransaction(updateAssociate, associate);
 	}
 
 	@Override
-	public boolean updateAssociates(List<TfAssociate> associate) {
-		return saveToDB(associate);
+	public boolean updateAssociates(List<TfAssociate> associates) {
+		return multiTransaction(updateAssociate, associates);
 	}
 
 

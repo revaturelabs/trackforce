@@ -52,11 +52,14 @@ public class Application {
 //		u.setIsApproved(1);
 //		saveToDB(u);
 
-		List<TfUser> users = userService.getAllUsers();
-		
-		for(TfUser u : users)
-			System.out.println(u);
+//		List<TfUser> users = userService.getAllUsers();
+//		
+//		for(TfUser u : users)
+//			System.out.println(u);
 
+		List<TfInterview> interviews = interviewService.getAllInterviews();
+		for(TfInterview i : interviews)
+			System.out.println(i);
 		
 		
 //		TfTrainer t = new TfTrainer();

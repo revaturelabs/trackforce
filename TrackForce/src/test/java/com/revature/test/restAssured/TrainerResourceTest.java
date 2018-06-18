@@ -27,7 +27,8 @@ public class TrainerResourceTest {
 	List<TfTrainer> trainers;
 	String token;
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
+	//static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
+	static final String URL = "http://localhost:8085/TrackForce/trainers";
 
 	@BeforeClass
 	public void beforeClass() {
@@ -76,6 +77,7 @@ public class TrainerResourceTest {
 		Response response = given().header("Authorization", token).when().get(URL + "/" + 1).then().extract()
 				.response();
 
+		System.out.println(response.statusCode());
 		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200);
 
 		response = given().header("Authorization", "Bad Token").when().get(URL + "/" + 1).then().extract().response();

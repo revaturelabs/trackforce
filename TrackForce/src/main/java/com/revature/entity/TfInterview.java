@@ -6,9 +6,12 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,6 +37,8 @@ public class TfInterview implements java.io.Serializable {
 	@XmlElement
 	@Id
 	@Column(name = "TF_INTERVIEW_ID", unique = true)
+    @SequenceGenerator(sequenceName = "InterviewId_seq", name = "InterviewIdseq", initialValue=500)
+    @GeneratedValue(generator = "InterviewIdseq", strategy = GenerationType.SEQUENCE)
 	private Integer id;
 
 //	@JsonIgnore

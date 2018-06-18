@@ -1,17 +1,12 @@
 package com.revature.application;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashSet;
 
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfEndClient;
-import com.revature.entity.TfMarketingStatus;
-import com.revature.entity.TfRole;
-import com.revature.entity.TfTrainer;
-import com.revature.entity.TfUser;
+import com.revature.entity.TfInterview;
+import com.revature.entity.TfInterviewType;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -64,15 +59,15 @@ public class Application {
 //		t.setPrimary(new ArrayList<>());
 //		System.out.println(trainerService.createTrainer(t));
 
-		TfAssociate a = new TfAssociate();
-//		a.setId(233);
-		a.setFirstName("Roland");
-		a.setLastName("Deschain");
-		a.setUser(userService.getUser("AssociateTest"));
-		//a.setClient(clientService.getClient(249));
-		a.setBatch(batchService.getBatchById(3));
-		a.setMarketingStatus(marketingStatusService.getMarketingStatusById(6));
-		a.setClientStartDate(new Timestamp(150000000L));
+//		TfAssociate a = new TfAssociate();
+////		a.setId(233);
+//		a.setFirstName("Roland");
+//		a.setLastName("Deschain");
+//		a.setUser(userService.getUser("AssociateTest"));
+//		//a.setClient(clientService.getClient(249));
+//		a.setBatch(batchService.getBatchById(3));
+//		a.setMarketingStatus(marketingStatusService.getMarketingStatusById(6));
+//		a.setClientStartDate(new Timestamp(150000000L));
 		//a.setPlacement(new HashSet<>());
 		//a.setEndClient(clientService.getEndClient(249));
 		//a.setInterview(new HashSet<>());
@@ -82,10 +77,40 @@ public class Application {
 //		}
 
 
+		TfInterview interview = new TfInterview();
 
+		TfAssociate a = new TfAssociate();
+		a.setId(392);
+		
+		TfClient c = new TfClient();
+		a.setId(5);
+		
+		TfEndClient ec = new TfEndClient();
+		ec.setId(6);
+		
+		TfInterviewType it = new TfInterviewType();
+		it.setId(7);
+		
+		interview.setAssociate(a);
+		interview.setClient(c);
+		interview.setEndClient(ec);
+		interview.setInterviewType(it);
+		interview.setInterviewDate(new Timestamp(152500500L));
+		interview.setAssociateFeedback("Interviewed well");
+		interview.setQuestionGiven("Start Date?");
+		interview.setClientFeedback("Strong Java knowledge");
+		interview.setJobDescription("SDET");
+		interview.setDateSalesIssued(new Timestamp(152500500L));
+		interview.setDateAssociateIssued(new Timestamp(152500500L));
+		interview.setWas24HRNotice(0);
+		interview.setIsInterviewFlagged(1);
+		interview.setFlagReason("Alert");
+		interview.setIsClientFeedbackVisible(1);
+		
+		System.out.println(interviewService.createInterview(interview));
 
 //		associateService.updateAssociate(a);
-		associateService.createAssociate(a);
+
 
 		//System.out.println(associateService.getAssociate(920));
 //				
@@ -97,42 +122,42 @@ public class Application {
 //		for(TfUser u : users)
 //			System.out.println(u);
 		
-		TfTrainer t = new TfTrainer();
-		t.setFirstName("Test");
-		t.setLastName("Trainer");
-		t.setId(1);
-		t.setTfUser(new TfUser());
-		t.setCoTrainer(new ArrayList<>());
-		t.setPrimary(new ArrayList<>());
-		System.out.println(trainerService.createTrainer(t));
-		
-		for (TfTrainer tt : trainerService.getAllTrainers()) {
-			System.out.println(t);
-		}
-		
-		TfUser u = new TfUser();
-		u.setId(925);
-		u.setRole(5);
-		u.setUsername("Testing");
-		u.setPassword("Testing");
-		u.setTfRole(new TfRole());
-		u.setIsApproved(1);
-		
-		TfAssociate aa = new TfAssociate();
-		a.setFirstName("Jimbo");
-		a.setLastName("Malone");
-		a.setUser(u);
-		a.setClient(new TfClient());
-		a.setBatch(new TfBatch());
-		a.setMarketingStatus(new TfMarketingStatus());
-		a.setClientStartDate(new Timestamp(150000000L));
-		a.setPlacement(new HashSet<>());
-		a.setEndClient(new TfEndClient());
-		a.setInterview(new HashSet<>());
-		
-		associateService.createAssociate(a);
-		
-		System.out.println(associateService.getAssociate(920));
+//		TfTrainer t = new TfTrainer();
+//		t.setFirstName("Test");
+//		t.setLastName("Trainer");
+//		t.setId(1);
+//		t.setTfUser(new TfUser());
+//		t.setCoTrainer(new ArrayList<>());
+//		t.setPrimary(new ArrayList<>());
+//		System.out.println(trainerService.createTrainer(t));
+//		
+//		for (TfTrainer tt : trainerService.getAllTrainers()) {
+//			System.out.println(t);
+//		}
+//		
+//		TfUser u = new TfUser();
+//		u.setId(925);
+//		u.setRole(5);
+//		u.setUsername("Testing");
+//		u.setPassword("Testing");
+//		u.setTfRole(new TfRole());
+//		u.setIsApproved(1);
+//		
+//		TfAssociate aa = new TfAssociate();
+//		a.setFirstName("Jimbo");
+//		a.setLastName("Malone");
+//		a.setUser(u);
+//		a.setClient(new TfClient());
+//		a.setBatch(new TfBatch());
+//		a.setMarketingStatus(new TfMarketingStatus());
+//		a.setClientStartDate(new Timestamp(150000000L));
+//		a.setPlacement(new HashSet<>());
+//		a.setEndClient(new TfEndClient());
+//		a.setInterview(new HashSet<>());
+//		
+//		associateService.createAssociate(a);
+//		
+//		System.out.println(associateService.getAssociate(920));
 		
 		
 		// test get all interviews

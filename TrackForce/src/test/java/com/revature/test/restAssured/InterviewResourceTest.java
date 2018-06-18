@@ -27,7 +27,8 @@ import io.restassured.response.Response;
  */
 public class InterviewResourceTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/";
+	//static final String URL = "http://52.87.205.55:8086/TrackForce/interviews";
+	static final String URL = "http://localhost:8085/TrackForce/interviews";
 
 	String token;
 	TfInterview interview;
@@ -57,19 +58,18 @@ public class InterviewResourceTest {
 	@Test(priority = 5, dataProvider = "interview", enabled = true)
 	public void testCreateInterview(TfInterview interview) {
 
-		Response response = given().header("Authorization", token).contentType("application/json").body(interview)
-				.when().post(URL).then().extract().response();
+		given().header("Authorization", token).contentType("application/json").body(interview)
+				.when().post(URL + "/392").then().assertThat().statusCode(201);
 
-		assertTrue(response.statusCode() == 201);
+		Response response = given().header("Authorization", "Bad Token").contentType("application/json").body(interview).when()
+				.post(URL + "/392").then().extract().response();
 
-		response = given().header("Authorization", "Bad Token").contentType("application/json").body(interview).when()
-				.post(URL).then().extract().response();
-
+		System.out.println(response.statusCode());
 		assertTrue(response.statusCode() == 401);
-		assertTrue(response.asString().contains("401 – Unauthorized"));
+		assertTrue(response.asString().contains("Unauthorized"));
 
 		given().header("Authorization", token).contentType("application/json").body(interview).when()
-				.put(URL + "/badurl").then().assertThat().statusCode(405);
+				.post(URL + "/392badurl").then().assertThat().statusCode(404);
 
 		given().header("Authorization", token).contentType("application/json").body(interview).when().put(URL).then()
 				.assertThat().statusCode(405);
@@ -155,11 +155,23 @@ given().header("Authorization", "Bad Token").when().get(URL + 3).then().assertTh
 	 */
 	@DataProvider(name = "interview")
 	public Object[][] provideInterview() {
-		interview.setId(3);
-		interview.setAssociate(new TfAssociate());
-		interview.setClient(new TfClient());
-		interview.setEndClient(new TfEndClient());
-		interview.setInterviewType(new TfInterviewType());
+		
+		TfAssociate a = new TfAssociate();
+		a.setId(392);
+		
+		TfClient c = new TfClient();
+		a.setId(5);
+		
+		TfEndClient ec = new TfEndClient();
+		ec.setId(6);
+		
+		TfInterviewType it = new TfInterviewType();
+		it.setId(7);
+		
+		interview.setAssociate(a);
+		interview.setClient(c);
+		interview.setEndClient(ec);
+		interview.setInterviewType(it);
 		interview.setInterviewDate(new Timestamp(152500500L));
 		interview.setAssociateFeedback("Interviewed well");
 		interview.setQuestionGiven("Start Date?");

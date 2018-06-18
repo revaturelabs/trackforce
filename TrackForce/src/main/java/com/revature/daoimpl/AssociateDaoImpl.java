@@ -102,9 +102,11 @@ public class AssociateDaoImpl implements AssociateDao {
 		);
 	}
 
+
 	@Override
 	public boolean updateAssociate(TfAssociate associate) {
-		return saveToDB(associate);
+		return false;
+		//return HibernateUtil.update(associate, associate.getId());
 	}
 
 	@Override

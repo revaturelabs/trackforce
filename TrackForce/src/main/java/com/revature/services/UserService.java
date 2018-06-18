@@ -66,6 +66,8 @@ public class UserService {
 	public boolean insertUser(TfUser newUser) {
 		return dao.insertUser(newUser);
 	}
+
+	public TfRole getRole(int roleId) {return dao.getRole(roleId);}
 	
 	/**
 	 * @author Adam L. 
@@ -92,9 +94,7 @@ public class UserService {
 					LogUtil.logger.info("Password verification successful! Returning " + foundUser.toString());
 					return foundUser;
 				}
-			} catch (CannotPerformOperationException e) {
-				LogUtil.logger.warn(e.getMessage());
-			} catch (InvalidHashException e) {
+			} catch (CannotPerformOperationException | InvalidHashException e) {
 				LogUtil.logger.warn(e.getMessage());
 			}
 		}

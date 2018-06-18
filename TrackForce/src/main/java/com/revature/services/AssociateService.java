@@ -6,6 +6,7 @@ import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.entity.TfAssociate;
+import com.revature.utils.HibernateUtil;
 
 /**
  * 

@@ -2,6 +2,9 @@ package com.revature.utils;
 
 import static com.revature.utils.LogUtil.logger;
 
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import com.revature.entity.TfAssociate;
@@ -142,5 +145,44 @@ public class HibernateUtil {
 	public static <T> boolean saveToDB(List<T> o) {
 		return multiTransaction(dbSave, o);
 	}
+
+
+
+//	public <T> Object loadData (T object_a) throws Exception{
+//
+//		Method[] gettersAndSetters = object_a.getClass().getMethods();
+//
+//		for (int i = 0; i < gettersAndSetters.length; i++) {
+//			String methodName = gettersAndSetters[i].getName();
+//			try{
+//				if(methodName.startsWith("get")){
+//					this.getClass().getMethod(methodName.replaceFirst("get", "set") , gettersAndSetters[i].getReturnType() ).invoke(this, gettersAndSetters[i].invoke(object_a, null));
+//				}else if(methodName.startsWith("is") ){
+//					this.getClass().getMethod(methodName.replaceFirst("is", "set") ,  gettersAndSetters[i].getReturnType()  ).invoke(this, gettersAndSetters[i].invoke(object_a, null));
+//				}
+//
+//			}catch (NoSuchMethodException e) {
+//				// TODO: handle exception
+//			}catch (IllegalArgumentException e) {
+//				// TODO: handle exception
+//			}
+//
+//		}
+//
+//		return null;
+//	}
+
+//	public static <T> boolean update(T input, Serializable id) {
+//		return runHibernateTransaction((Session session, Object ... args) -> {
+//			try {
+//				Object row = session.get(input.getClass(), id);
+//				BeanUtils.copyProperties(input, row);
+//				session.update(row);
+//			} catch (IllegalAccessException | InvocationTargetException e) {
+//				throw new HibernateException(e);
+//			}
+//			return true;
+//		});
+//	}
 
 }

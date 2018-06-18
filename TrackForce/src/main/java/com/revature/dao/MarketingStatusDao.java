@@ -8,4 +8,5 @@ public interface MarketingStatusDao {
 
 	public List<TfMarketingStatus> getAllMarketingStatuses();
 
+	TfMarketingStatus getMarketingStatusById(int id);
 }

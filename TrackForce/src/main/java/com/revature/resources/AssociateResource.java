@@ -183,7 +183,7 @@ public class AssociateResource {
 	@Path("/{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, TfAssociate associate,
 			@HeaderParam("Authorization") String token) {
-		logger.info("updateAssociatePartial()...");
+		logger.info("updateAssociate()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 

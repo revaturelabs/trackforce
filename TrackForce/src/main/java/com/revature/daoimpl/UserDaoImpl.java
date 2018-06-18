@@ -2,6 +2,7 @@ package com.revature.daoimpl;
 
 import java.util.List;
 
+import com.revature.entity.TfRole;
 import org.hibernate.Session;
 
 import com.revature.dao.UserDao;
@@ -27,5 +28,12 @@ public class UserDaoImpl implements UserDao {
 	public boolean insertUser(TfUser newUser) {
 		return HibernateUtil.saveToDB(newUser);
 	}
-    
+
+	@Override
+	public TfRole getRole(int roleId) {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+				session.createQuery("from TfRole u where u.id = :id", TfRole.class).setParameter("id", roleId).getSingleResult());
+
+	}
+
 }

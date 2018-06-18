@@ -132,7 +132,7 @@
 //
 //
 //    @Test(enabled = false)
-//    public void updateAssociate() throws NumberFormatException, IOException {
+//    public void updateAssociatePartial() throws NumberFormatException, IOException {
 //    	System.out.println("update Associate");
 //        System.err.println(PersistentStorage.getStorage().getAssociateAsMap());
 //

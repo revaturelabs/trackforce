@@ -158,7 +158,6 @@ public class InterviewResource {
 		return Response.status(status).entity(interviews).build();
 
 	}
-	
 
 	/**
 	 * @author Adam L.

@@ -15,7 +15,6 @@ import java.util.List;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.matchers.Any;
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -217,7 +216,7 @@ public class AssociateServiceTest {
 	}
 	
 	/**
-	 * Tests the updateAssociate method when an empty associate
+	 * Tests the updateAssociatePartial method when an empty associate
 	 * is passed to the method
 	 * 
 	 * @author Daniel Lani
@@ -226,13 +225,13 @@ public class AssociateServiceTest {
 	 */
 	@Test(priority=8)
 	public void testUpdateAssociateWithEmpty() {
-		when(mockAssociateDao.updateAssociate(any(TfAssociate.class))).thenReturn(true);
+		when(mockAssociateDao.updateAssociatePartial(any(TfAssociate.class))).thenReturn(true);
 		Boolean actual = service.updateAssociate(new TfAssociate());
 		assertTrue(actual);
 	}
 	
 	/**
-	 * Tests the updateAssociate method under normal conditions
+	 * Tests the updateAssociatePartial method under normal conditions
 	 * 
 	 * @author Daniel Lani
 	 * 
@@ -240,13 +239,13 @@ public class AssociateServiceTest {
 	 */
 	@Test(priority=9)
 	public void testUpdateAssociate() {
-		when(mockAssociateDao.updateAssociate(assoc1)).thenReturn(true);
+		when(mockAssociateDao.updateAssociatePartial(assoc1)).thenReturn(true);
 		Boolean actual = service.updateAssociate(assoc1);
 		assertTrue(actual);
 	}
 	
 	/**
-	 * Tests the updateAssociate method when 
+	 * Tests the updateAssociatePartial method when
 	 * an associate that doesn't exist is passed for update
 	 * 
 	 * @author Daniel Lani
@@ -255,13 +254,13 @@ public class AssociateServiceTest {
 	 */
 	@Test(priority=10)
 	public void UpdateNonExistantAssociate() {
-		when(mockAssociateDao.updateAssociate(assoc4)).thenReturn(false);
+		when(mockAssociateDao.updateAssociatePartial(assoc4)).thenReturn(false);
 		Boolean actual = service.updateAssociate(assoc4);
 		assertFalse(actual);
 	}
 
 	/**
-	 * Tests the updateAssociate method when a null associate is passed
+	 * Tests the updateAssociatePartial method when a null associate is passed
 	 * 
 	 * @author Daniel Lani
 	 * 
@@ -269,7 +268,7 @@ public class AssociateServiceTest {
 	 */
 	@Test(priority=11)
 	public void testUpdateAssociateWithNull() {
-		when(mockAssociateDao.updateAssociate(null)).thenReturn(false);
+		when(mockAssociateDao.updateAssociatePartial(null)).thenReturn(false);
 		Boolean actual = service.updateAssociate(null);
 		assertFalse(actual);
 	}
@@ -290,7 +289,7 @@ public class AssociateServiceTest {
 	}
 	
 	/**
-	 * Tests the updateAssociate method when the list consists of
+	 * Tests the updateAssociatePartial method when the list consists of
 	 * both empty and valid associates
 	 * 
 	 * @author Daniel Lani
@@ -306,7 +305,7 @@ public class AssociateServiceTest {
 	}
 	
 	/**
-	 * Tests the updateAssociate method when the list consists of
+	 * Tests the updateAssociatePartial method when the list consists of
 	 * both null and valid associates
 	 * 
 	 * @author Daniel Lani

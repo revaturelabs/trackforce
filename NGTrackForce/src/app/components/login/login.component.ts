@@ -103,9 +103,11 @@ export class LoginComponent implements OnInit {
         //   this.router.navigate(['trainer-view']);
       } else if (user.role === 2) {
         this.router.navigate(['trainer-view']);
-      } else {
+      } else if (user.role === 1 || user.role === 3 || user.role === 4) {
         // this.getUser(user.id);
         this.router.navigate(['app-home']);
+      } else {
+        this.authService.logout();
       }
     }
   }
@@ -187,8 +189,11 @@ export class LoginComponent implements OnInit {
               this.associateLogin(data);
             } else if (data.role === 2) {
               this.trainerLogin(data);
-            } else {
+            } else if (data.role === 1 || data.role === 3 || data.role === 4) {
+              // this.getUser(user.id);
               this.router.navigate(['app-home']);
+            } else {
+              this.authService.logout();
             }
           } else {
             this.authService.logout();

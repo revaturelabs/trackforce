@@ -28,11 +28,11 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
   constructor(private router: Router, private authService: AuthenticationService) { }
 
   ngOnInit() {
-    // this.navbarDisplay();
+    this.navbarDisplay();
   }
 
   ngOnChanges() {
-    // this.navbarDisplay();
+    this.navbarDisplay();
   }
   ngAfterContentChecked() {
     this.navbarDisplay();
@@ -59,7 +59,7 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
     if (this.user !== null && this.user !== undefined) {
       this.isLoggedIn = true;
       this.username = this.user.username;
-      if (this.user.role === 1 || this.user.role === 4 || this.user.role === 5) {
+      if (this.user.role === 1 || this.user.role === 3 || this.user.role === 4) {
         this.isAdmin = true;
         this.isTrainer = false;
         this.isAssociate = false;
@@ -72,7 +72,6 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
         this.isTrainer = false;
         this.isAssociate = true;
       }
-
     }
 
 

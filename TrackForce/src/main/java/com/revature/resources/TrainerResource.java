@@ -4,6 +4,7 @@ import static com.revature.utils.LogUtil.logger;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

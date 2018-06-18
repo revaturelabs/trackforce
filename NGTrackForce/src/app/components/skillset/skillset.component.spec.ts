@@ -18,7 +18,7 @@ import {
   ActivatedRoute, ActivatedRouteStub, Router, RouterStub
 } from '../../testing-helpers/router-stubs';
 
-fdescribe('SkillsetComponent', () => {
+describe('SkillsetComponent', () => {
   let component: SkillsetComponent;
   let fixture: ComponentFixture<SkillsetComponent>;
   let activatedRoute : ActivatedRouteStub;

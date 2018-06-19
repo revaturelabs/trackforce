@@ -3,6 +3,7 @@ package com.revature.application;
 import com.revature.entity.*;
 import com.revature.services.*;
 import com.revature.utils.PasswordStorage;
+import net.sf.ehcache.CacheManager;
 
 
 import java.sql.Timestamp;
@@ -37,8 +38,14 @@ public class Application {
 	static MarketingStatusService marketingStatusService = new MarketingStatusService();
 
 	public static void main(String[] args) throws PasswordStorage.CannotPerformOperationException {
-//
-		System.out.println(trainerService.getTrainerByUserId(60302));
+//		clientService.getClient(1);
+//		clientService.getClient(2);
+//		int size = CacheManager.ALL_CACHE_MANAGERS.get(0)
+//				.getCache("com.revature.entity.TfClient").getSize();
+//		System.out.println("cache size is" + size);
+
+
+
 //		TfUser u = new TfUser();
 //		u.setRole(5);
 //		u.setUsername("AssociateTest");

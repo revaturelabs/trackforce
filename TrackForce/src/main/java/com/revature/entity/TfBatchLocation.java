@@ -135,7 +135,7 @@ public class TfBatchLocation implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "TfBatchLocation [tfBatchLocationId=" + id + ", tfBatchLocationName="
-				+ name + ", tfBatches=" + batches + "]";
+				+ name + "]";
 	}
 	
 

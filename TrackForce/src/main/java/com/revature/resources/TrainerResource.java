@@ -145,17 +145,18 @@ public class TrainerResource {
 	public Response updateTrainer(@PathParam("trainerId") Integer id, TfTrainer trainer,
 	                                @HeaderParam("Authorization") String token) {
 		logger.info("updateTrainer()...");
-		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
+		if (trainer == null) {
+			return Response.status(Status.NO_CONTENT).build();
 		}
-		if (payload.getId().equals("2")) {
+		else if (payload == null || payload.getId().equals("2") || payload.getId().equals("5")) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		else {
 			trainerService.updateTrainer(trainer);
+			return Response.status(Status.ACCEPTED).build();
 		}
-
-		return Response.status(status).build();
 	}
 	
 }

@@ -46,8 +46,8 @@ public class UserResourceTest {
 		System.out.println(token);
 		
 		ms = new TfMarketingStatus();
-//		ms.setId(1);
-//		ms.setName("MAPPED: TRAINING");
+		ms.setId(1);
+		ms.setName("MAPPED: TRAINING");
 		
 		user1 = new TfUser();
 		user1.setIsApproved(1);

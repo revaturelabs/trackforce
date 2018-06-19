@@ -1,6 +1,6 @@
 describe('Open the browser and get to the website', function() {
     wd = browser.driver;
-    wd.get('http://34.227.178.103:8090/NGTrackForce/login');
+    wd.get('http://34.227.178.103:8090/NGTrackForce');
     // wd.get('http://localhost:4200/login');
 
 });
@@ -8,9 +8,9 @@ describe('Open the browser and get to the website', function() {
 describe('Log into the website for associate list', function() {
     browser.manage().timeouts().implicitlyWait(50000);
     it('should be able to log in', function () {
-        wd.findElement(by.id('username')).sendKeys('TestAssociate');
-	    wd.findElement(by.id('password')).sendKeys('TestAssociate');
-        wd.findElement(by.xpath("//button[@type='submit']")).click();
+        wd.findElement(By.id('username')).sendKeys('TestAssociate');
+	    wd.findElement(By.id('password')).sendKeys('TestAssociate');
+        wd.findElement(By.xpath("//button[@type='submit']")).click();
         expect(wd.getTitle()).toEqual('TrackForce');
     });
 

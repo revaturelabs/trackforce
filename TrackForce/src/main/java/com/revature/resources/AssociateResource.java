@@ -223,11 +223,11 @@ public class AssociateResource {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else if (payload.getId().equals("5")) {
-			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.PAYMENT_REQUIRED;
+			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 
 		}
 		else {
-			status = associateService.updateAssociate(associate) ? Status.OK : Status.PAYMENT_REQUIRED;
+			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		}
 		return Response.status(status).build();
 	}

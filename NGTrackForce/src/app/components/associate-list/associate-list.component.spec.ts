@@ -64,7 +64,6 @@ describe('AssociateListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-<<<<<<< HEAD
   it('getAllAssociates should return all associates', () => {
     expect(component.associates).toBeGreaterThanOrEqual(0);
     expect(component.associates.toString).toContain("Cameron");
@@ -84,6 +83,4 @@ describe('AssociateListComponent', () => {
   it('updateAssociates() should result in updated associates', () => {
     // Unsure how to programmatically check this
   })
-=======
->>>>>>> dev1804-2
 });

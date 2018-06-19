@@ -8,7 +8,7 @@ import { ChartsModule } from 'ng2-charts';
 import { HomeComponent } from '../home/home.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
-//import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
+//import { CurriculumService } from '../../services/skill-set-service/skill-set.service';
 import {CurriculumService} from "../../services/curriculum-service/curriculum.service";
 
 import { FormComponent } from '../form-component/form.component';
@@ -24,7 +24,7 @@ describe('SkillsetComponent', () => {
   let fixture: ComponentFixture<SkillsetComponent>;
   let activatedRoute : ActivatedRouteStub;
 
-  class SkillsetServiceSpy
+  class CurriculumServiceSpy
   {
 
   }
@@ -41,7 +41,7 @@ describe('SkillsetComponent', () => {
         FormsModule
       ],
       providers : [
-        //SkillsetService,
+        CurriculumService,
         { provide : ActivatedRoute, useValue : activatedRoute },
         { provide : Router,         useClass : RouterStub }
       ]
@@ -68,9 +68,9 @@ describe('SkillsetComponent', () => {
   it('should have skillID that\'s in the acceptable values', () => {
     component.selectedStatus = SelectedStatusConstants.CONFIRMED;
     // get the values in SkillsetComponent, and search for selectedStatus. It better be in there!
-    var idFound = true;
+    let idFound = true;
     SkillsetComponent.getSkillInfo().forEach((value, key) => {
-      idFound = (value == component.getSkillID())
+      idFound = (value === component.getSkillID())
     })
     expect(idFound).toBeTruthy();
   })
@@ -100,20 +100,19 @@ describe('SkillsetComponent', () => {
   })
 
     it('should not be using DUMMY_DATA', () => {
-    // // waiting on the observable in ngOnInit() to finish ...
-    // fixture.detectChanges();
-    // fixture.whenStable().then(() => {
-    //   expect(component.skillsetData).not.toEqual(component.DUMMY_DATA);
-    // })
-    // // making sure that the skillsetData is now equal to the results of the data returned from SkillsetService
-    // .then(() => {
-    //   let service : SkillsetService = TestBed.get(SkillsetService);
-    //   service.getSkillsetsForStatusID(1).subscribe((res) => {
-    //     expect(component.skillsetData).toEqual(res.data.map((obj) => obj.count))
-    //   })
-    //   .unsubscribe()
-    // })
-    expect(true).toBe(true);
+    // waiting on the observable in ngOnInit() to finish ...
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.skillsetData).not.toEqual(component.DUMMY_DATA);
+    })
+    // making sure that the skillsetData is now equal to the results of the data returned from CurriculumService
+    .then(() => {
+      let service : CurriculumService = TestBed.get(CurriculumService);
+      service.getSkillsetsForStatusID(1).subscribe((res) => {
+        expect(component.skillsetData).toEqual(res.data.map((obj) => obj.count))
+      })
+      .unsubscribe()
+    })
   });
 
   xit('should have one-to-one relation between skillsetData and skillsetLabels', () => {

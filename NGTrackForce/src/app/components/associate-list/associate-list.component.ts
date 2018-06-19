@@ -97,10 +97,10 @@ export class AssociateListComponent implements OnInit {
       this.associates = data;
 
       for (let associate of this.associates) {//get our curriculums from the associates
-        if(associate.batch!=null){
+        if(associate.batch!=null && associate.batch.curriculumName!=null){
           this.curriculums.add(associate.batch.curriculumName.name);
         }
-        if (associate.batch.batchName === 'null') {
+        if (associate.batch && associate.batch.batchName === 'null') {
           associate.batch.batchName = 'None'
         }
       }

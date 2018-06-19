@@ -3,20 +3,24 @@ package com.revature.test.restAssured;
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+
 import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import com.revature.services.BatchService;
 import com.revature.services.JWTService;
+
 import io.restassured.response.Response;
 
 public class BatchResourceTest {
+
 
 	// static final String URL = "http://52.87.205.55:8086/TrackForce/batches";
 	static final String URL = "http://localhost:8085/TrackForce/batches";
 
 	private String token;
 	BatchService service;
+
 
 	@BeforeClass
 	public void beforeClass() {
@@ -31,6 +35,7 @@ public class BatchResourceTest {
 		Response response = given().header("Authorization", token).when().get(URL).then().extract().response();
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
+
 		given().header("Authorization", token).when().get(URL).then().assertThat().body("batchName",
 				Matchers.hasSize(size));
 
@@ -38,10 +43,12 @@ public class BatchResourceTest {
 		response = given().header("Authorization", token).when().get(URL).then().extract().response();
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
+
 		token = JWTService.createToken("TestManger", 3);
 		response = given().header("Authorization", token).when().get(URL).then().extract().response();
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
+
 		token = JWTService.createToken("TestTrainer", 4);
 		response = given().header("Authorization", token).when().get(URL).then().extract().response();
 		assertTrue(response.getStatusCode() == 200);
@@ -52,6 +59,7 @@ public class BatchResourceTest {
 	public void getAllBatchesBackwardsDateTest() {
 		Response response = given().header("Authorization", token).queryParam("start", 1600000000000L)
 				.queryParam("start", 1490000000000L).when().get(URL).then().extract().response();
+
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 	}
@@ -60,6 +68,7 @@ public class BatchResourceTest {
 	public void getBatchesInARangeTest() {
 		Response response = given().header("Authorization", token).queryParam("start", 1480000000000L)
 				.queryParam("start", 1490000000000L).when().get(URL).then().extract().response();
+
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 	}

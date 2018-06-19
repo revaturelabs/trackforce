@@ -11,7 +11,7 @@ import com.revature.entity.TfCurriculum;
  * 
  * @author Adam L. 
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 public class CurriculumService{
@@ -28,7 +28,7 @@ public class CurriculumService{
 	/**
 	 * @author Adam L. 
 	 * <p>Gets all the curricula</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @return
 	 */

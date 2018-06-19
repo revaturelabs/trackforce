@@ -9,7 +9,7 @@ import com.revature.entity.TfInterview;
 /**
  * @author Adam L. 
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 public class InterviewService {
@@ -27,7 +27,7 @@ public class InterviewService {
 	 * 
 	 * @author Adam L. 
 	 * <p>Gets all the interviews from the database that match the given associate id</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param associateId
 	 * @return
@@ -39,7 +39,7 @@ public class InterviewService {
 	/**
 	 * @author Adam L. 
 	 * <p>Gets all the interviews from the database</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @return
 	 */
@@ -50,7 +50,7 @@ public class InterviewService {
 	/**
 	 * @author Adam L. 
 	 * <p>Inserts / creates an interview in the database</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param interview
 	 * @return
@@ -65,7 +65,7 @@ public class InterviewService {
 	 * 
 	 * <p>Note: if you leave some fields empty in the TfInterview parameter, 
 	 * 	it will be saved as such!</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param interview
 	 * @return
@@ -77,7 +77,7 @@ public class InterviewService {
 	/**
 	 * @author Adam L. 
 	 * <p>Gets the interview based on it's id</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param interviewId
 	 * @return

@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @category Timestamp clientStartDate
  * 
  * @author Adam L. 
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  */
 @XmlRootElement
 @Entity
@@ -108,8 +108,7 @@ public class TfAssociate implements java.io.Serializable {
 	private Timestamp clientStartDate;
 	
 
-	public TfAssociate() {
-	}
+	public TfAssociate() {}
 
 
 	public TfAssociate(Integer id, TfUser user, TfBatch batch, TfMarketingStatus marketingStatus, TfClient client,
@@ -247,9 +246,11 @@ public class TfAssociate implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "TfAssociate [id=" + id + ", user=" + user + ", marketingStatus=" + marketingStatus + ", client="
-				+ client + ", endClient=" + endClient + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", clientStartDate=" + clientStartDate + "]";
+
+		return "TfAssociate [id=" + id + ", user=" + user + ", batch= Removed cuz stack overflow error+ " + "marketingStatus=" + marketingStatus
+				+ ", client=" + client + ", endClient=" + endClient + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", interview=" + interview + ", placement=" + placement + ", clientStartDate="
+				+ clientStartDate + "]";
 	}
 
 

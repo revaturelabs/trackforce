@@ -10,6 +10,8 @@ import {RequestService} from '../../services/request-service/request.service';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
+// added imports; DK
+import { ClientService } from '../../services/client-service/client.service';
 
 export class MockActivatedRoute {
   static createMockRoute(tid: number): any {
@@ -45,6 +47,7 @@ describe('AssociateViewComponent', () => {
         AuthenticationService,
         RequestService,
         AssociateService,
+        ClientService,
         {provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(1)}
       ],
       imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],

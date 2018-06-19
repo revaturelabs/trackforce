@@ -29,13 +29,24 @@
         
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
+<<<<<<< HEAD
         
         
         <!-- Ehcache-ing -->
        	<property name="hibernate.cache.use_second_level_cache">false</property>
        	<property name="hibernate.cache.use_query_cache">false</property>
+=======
+
+        <property name="hibernate.hbm2ddl.auto">validate</property>
+        
+        
+       	<property name="hibernate.cache.use_second_level_cache">true</property>
+
+       	<!-- Tells Hibernate which class to use for caching, exposed from the org.hibernate.ehcache dependency -->
+>>>>>>> dev1804-2
 		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
 		<property name="net.sf.ehcache.configurationResourceName">/ehcache.xml</property>
+
         
         <!-- Mapped entities -->
         <mapping class="com.revature.entity.TfAssociate"/>

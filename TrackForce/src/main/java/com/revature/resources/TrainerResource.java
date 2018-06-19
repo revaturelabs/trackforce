@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiParam;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 @Path("/trainers")
@@ -117,8 +117,9 @@ public class TrainerResource {
 			return Response.status(Status.UNAUTHORIZED).build();
 		} else {
 			try {
-				trainer = trainerService.getTrainer(id);
+				trainer = trainerService.getTrainerByUserId(id);
 			} catch (NoResultException nre) {
+				logger.debug("NoResultException!");
 				return Response.status(Status.NO_CONTENT).build();
 			}
 			status = trainer == null ? Status.NO_CONTENT : Status.OK;
@@ -131,7 +132,7 @@ public class TrainerResource {
 	 *
 	 * @author Curtis H.
 	 *  <p>Updates a trainer</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 *
 	 * @param id
 	 * @param trainer

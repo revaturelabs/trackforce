@@ -14,10 +14,10 @@ import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 import com.revature.utils.PasswordStorage.InvalidHashException;
 
 /**
- * @author Adam L.
- *         <p>
- *         </p>
- * @version.date v6.18.06.13
+
+ * @author Adam L. 
+ * <p> </p>
+ * @version v6.18.06.13
  *
  */
 public class UserService {
@@ -48,10 +48,9 @@ public class UserService {
 	}
 
 	/**
-	 * @author Adam L.
-	 *         <p>
-	 *         </p>
-	 * @version.date v6.18.06.13
+	 * @author Adam L. 
+	 * <p> </p>
+	 * @version v6.18.06.13
 	 * 
 	 * @param username
 	 * @return
@@ -63,16 +62,15 @@ public class UserService {
 			return null;
 		}
 	}
-
-	/**
-	 * @author Adam L.
-	 *         <p>
-	 *         </p>
-	 * @version.date v6.18.06.13
-	 * 
-	 * @param newUser
-	 * @return
-	 */
+    
+   /**
+    * @author Adam L. 
+    * <p> </p>
+    * @version v6.18.06.13
+    * 
+    * @param newUser
+    * @return
+    */
 	public boolean insertUser(TfUser newUser) {
 		return dao.insertUser(newUser);
 	}
@@ -88,12 +86,11 @@ public class UserService {
 	 *         password.
 	 *         </p>
 	 * 
-	 *         <p>
-	 * 		Given the TfUser with only the username and password, find that user
-	 *         by the username. If it exists, retrieve it from the database. Given
-	 *         their hashed passwords match, return the user from the database.
-	 *         </p>
-	 * @version.date v6.18.06.13
+
+	 * <p>Given the TfUser with only the username and password, find that user by the username.
+	 * If it exists, retrieve it from the database.
+	 * Given their hashed passwords match, return the user from the database.</p>
+	 * @version v6.18.06.13
 	 * 
 	 * @param loginUser
 	 * @return foundUser

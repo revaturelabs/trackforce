@@ -20,13 +20,23 @@ import com.revature.entity.TfTrainer;
 /**
  * @author Curtis H., Adam L.
  * <p>The abstracted methods for making Hibernate calls to the database</p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 public class HibernateUtil {
 
 	private HibernateUtil() {}
 	private static SessionFactory sessionFactory = buildSessionFactory();
+
+	private static void addShutdown() {
+		Runtime.getRuntime().addShutdownHook(new Thread()
+			{
+				public void run() {
+					shutdown();
+				}
+			}
+		);
+	}
 
 	private static SessionFactory buildSessionFactory() {
 		Configuration cfg = new Configuration();
@@ -36,17 +46,18 @@ public class HibernateUtil {
 		cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));
 		cfg.addAnnotatedClass(TfTrainer.class);
 
+		addShutdown();
 		return cfg.configure().buildSessionFactory();
 	}
 	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
-//	public static void shutdown() {
-//		System.out.println("Shutting down SessionFactory");
-//		getSessionFactory().close();
-//		System.out.println("SessionFactory closed");
-//	}
+	public static void shutdown() {
+		System.out.println("Shutting down SessionFactory");
+		getSessionFactory().close();
+		System.out.println("SessionFactory closed");
+	}
 
 	public static void closeSession(Session session) {
 		if (session != null) {

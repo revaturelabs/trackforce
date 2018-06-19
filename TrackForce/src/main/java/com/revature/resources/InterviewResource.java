@@ -39,7 +39,7 @@ import io.swagger.annotations.ApiOperation;
  * @author Mitchell H's PC, Adam L.
  *         <p>
  *         </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 @Path("/interviews")
@@ -66,7 +66,7 @@ public class InterviewResource {
 	 * @author Ian Buitrago, Adam L.
 	 *         <p>
 	 *         </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param token
 	 * @param sort
@@ -97,7 +97,7 @@ public class InterviewResource {
 	 * @author Adam L.
 	 *         <p>
 	 *         </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param associateid
 	 * @param token
@@ -127,7 +127,7 @@ public class InterviewResource {
 	 * @author Adam L.
 	 *         <p>
 	 *         </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param token
 	 * @param associateId
@@ -164,7 +164,7 @@ public class InterviewResource {
 	 * @author Adam L.
 	 *         <p>
 	 *         </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param associateid
 	 * @param interviewId

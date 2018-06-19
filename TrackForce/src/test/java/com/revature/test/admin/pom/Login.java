@@ -48,4 +48,40 @@ public class Login {
 		getUsername(d).sendKeys(username);
 		getPassword(d).sendKeys(password);
 	}
+	
+	public static void clickRegisterButton(WebDriver d) {
+		d.findElement(By.xpath(prop.getProperty("loginRegister"))).click();
+	}
+	
+	public static void clickNextButton(WebDriver d) {
+		d.findElement(By.xpath(prop.getProperty("registerNext"))).click();
+	}
+	
+	public static void clickRegisterNewButton(WebDriver d) {
+		d.findElement(By.xpath(prop.getProperty("registerNew"))).click();
+	}
+	
+	public static void inputRegisterUsername(WebDriver d,String username) {
+		d.findElement(By.id(prop.getProperty("registrationUsername"))).sendKeys(username);
+	}
+	
+	public static void inputRegisterPassword(WebDriver d,String password) {
+		d.findElement(By.id(prop.getProperty("registrationPassword"))).sendKeys(password);
+	}
+	
+	public static void confirmPassword(WebDriver d,String password) {
+		d.findElement(By.id(prop.getProperty("registrationPasswordConfirm"))).sendKeys(password);
+	}
+	
+	public static void inputRegisterFirstName(WebDriver d,String name) {
+		d.findElement(By.id(prop.getProperty("registrationFName"))).sendKeys(name);
+	}
+	
+	public static void inputRegisteLastName(WebDriver d,String name) {
+		d.findElement(By.id(prop.getProperty("registrationLName"))).sendKeys(name);
+	}
+	
+	public static void getPopup(WebDriver d) {
+		d.findElement(By.xpath(prop.getProperty("registerPopup")));
+	}
 }

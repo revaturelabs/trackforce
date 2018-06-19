@@ -5,7 +5,7 @@ import org.hibernate.Session;
 
 /**
  * <p>Used by the Hibernate utility class</p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  * 
  * @param <T>
  */

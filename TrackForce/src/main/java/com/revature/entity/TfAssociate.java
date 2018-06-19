@@ -107,6 +107,10 @@ public class TfAssociate implements java.io.Serializable {
 	@Column(name = "TF_CLIENT_START_DATE")
 	private Timestamp clientStartDate;
 	
+	@XmlElement
+	@Column(name = "TF_STAGING_FEEDBACK")
+	private String stagingFeedback;
+	
 
 	public TfAssociate() {}
 
@@ -126,6 +130,17 @@ public class TfAssociate implements java.io.Serializable {
 		this.interview = interview;
 		this.placement = placement;
 		this.clientStartDate = clientStartDate;
+	}
+
+	
+
+	public String getStagingFeedback() {
+		return stagingFeedback;
+	}
+
+
+	public void setStagingFeedback(String stagingFeedback) {
+		this.stagingFeedback = stagingFeedback;
 	}
 
 
@@ -243,13 +258,13 @@ public class TfAssociate implements java.io.Serializable {
 		return serialVersionUID;
 	}
 
+	
 
 	@Override
 	public String toString() {
-		return "TfAssociate [id=" + id + ", user=" + user + ", batch= Removed cuz stack overflow error+ " + "marketingStatus=" + marketingStatus
-				+ ", client=" + client + ", endClient=" + endClient + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", interview=" + interview + ", placement=" + placement + ", clientStartDate="
-				+ clientStartDate + "]";
+		return "TfAssociate [id=" + id + ", user=" + user + ", marketingStatus=" + marketingStatus + ", client="
+				+ client + ", endClient=" + endClient + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", clientStartDate=" + clientStartDate + ", stagingFeedback=" + stagingFeedback + "]";
 	}
 
 

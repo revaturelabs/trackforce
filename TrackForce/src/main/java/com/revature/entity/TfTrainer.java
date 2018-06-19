@@ -147,8 +147,7 @@ public class TfTrainer implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "TfTrainer [id=" + id + ", tfUser=" + user + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", primary=" + primary + ", coTrainer=" + coTrainer + "]";
+		return "TfTrainer [id=" + id + ", user=" + user + ", firstName=" + firstName + ", lastName=" + lastName + "]";
 	}
 	
 	

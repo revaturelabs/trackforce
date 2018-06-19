@@ -9,6 +9,7 @@ import net.sf.ehcache.CacheManager;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import static com.revature.utils.HibernateUtil.saveToDB;
 import static com.revature.utils.PasswordStorage.createHash;
@@ -38,12 +39,6 @@ public class Application {
 	static MarketingStatusService marketingStatusService = new MarketingStatusService();
 
 	public static void main(String[] args) throws PasswordStorage.CannotPerformOperationException {
-		clientService.getClient(1);
-		clientService.getClient(2);
-		int size = CacheManager.ALL_CACHE_MANAGERS.get(0)
-				.getCache("com.revature.entity.TfClient").getSize();
-		System.out.println("cache size is" + size);
-
 
 
 //		TfUser u = new TfUser();

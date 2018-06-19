@@ -177,8 +177,8 @@ public class TfPlacement implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "TfPlacement [id=" + id + ", associate=" + associate + ", client=" + client + ", endClient=" + endClient
-				+ ", start=" + start + ", end=" + end + "]";
+		return "TfPlacement [id=" + id + ", client=" + client + ", endClient=" + endClient + ", start=" + start
+				+ ", end=" + end + "]";
 	}
 	
 }

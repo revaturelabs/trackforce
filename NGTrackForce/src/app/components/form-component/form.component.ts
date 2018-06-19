@@ -66,7 +66,6 @@ export class FormComponent implements OnInit {
   ) {
     //gets id from router url parameter
     this.id = Number(window.location.href.split("form-comp/")[1]);
-
   }
 
   ngOnInit() {

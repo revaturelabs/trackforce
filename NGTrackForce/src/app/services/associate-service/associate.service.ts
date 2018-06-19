@@ -33,6 +33,7 @@ export class AssociateService {
    */
   getAssociate(id: number) {
     const url: string = this.baseURL + '/' + id;
+    console.log(url);
     return this.http.get<Associate>(url);
   }
 

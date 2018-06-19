@@ -73,7 +73,7 @@
                 <input type="checkbox" id={{associate.id}}>
               </td>
               <td>
-                <a [routerLink]="['/form-comp',associate.id]" class="id" *ngIf="associate.id">{{associate.id}}</a>
+                <a [routerLink]="['/form-comp',associate.user.id]" class="id" *ngIf="associate.id">{{associate.id}}</a>
               </td>
               <td class="first" *ngIf="associate.firstName">{{associate.firstName}}</td>
               <td class="last" *ngIf="associate.lastName">{{associate.lastName}}</td>
@@ -83,7 +83,7 @@
               </span>
               <td class="batch">
                 <span *ngIf="associate.batch">
-                  <a [routerLink]="['/batch-details', associate.bid]">{{associate.batch.batchName}}</a>
+                  <a [routerLink]="['/batch-details', associate.batch.id]">{{associate.batch.batchName}}</a>
                 </span>
               </td>
             </ng-container>

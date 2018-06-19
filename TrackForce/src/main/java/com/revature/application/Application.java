@@ -18,7 +18,7 @@ import static com.revature.utils.PasswordStorage.createHash;
  *
  * @author Adam L.
  * <p>Used for a few quick simple tests to ensure hibernate is making the calls it is supposed to</p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 @SuppressWarnings("unused")

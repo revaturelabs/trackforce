@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 @Path("/users")
@@ -51,7 +51,7 @@ public class UserResource {
 	/**
 	 * @author Adam L.
 	 * <p> </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 *
 	 * @param newUser
 	 * @return
@@ -73,7 +73,7 @@ public class UserResource {
 	/**
 	 * @author Adam L.
 	 * <p> </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 *
 	 * @param newAssociate
 	 * @return
@@ -93,7 +93,7 @@ public class UserResource {
 	/**
 	 * @author Adam L.
 	 * <p> </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 *
 	 * @param newTrainer
 	 * @return
@@ -112,7 +112,7 @@ public class UserResource {
 	/**
 	 * @author Adam L.
 	 * <p> </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 *
 	 * @param loginUser
 	 * @return

@@ -54,10 +54,23 @@ export class BatchListComponent implements OnInit {
     //user is a trainer they can only see their batches
     if (user.role === 2) {
       this.dataReady = false;
-      let trainer = this.authService.getTrainer();
-      this.batches = trainer.primary;
-      this.batches = this.batches.concat(trainer.coTrainer);
-      this.updateCountPerCurriculum;
+      this.batchService.getAllBatches().subscribe(
+        batches => {
+          // filter out batches that don't have an associated trainer
+          this.batches = batches.filter(
+            batch => {
+              console.log('batch trainer ' + batch.trainer.firstName);
+              console.log('this trainer ' + this.authService.getTrainer().firstName ) 
+              if( batch.trainer.firstName === this.authService.getTrainer().firstName) {
+                console.log('---------------------we return true------------')
+                return true;
+              }
+              if (batch.coTrainer) return batch.coTrainer.includes(this.authService.getTrainer());
+              return false;
+            }
+          );
+        }
+      );
       this.dataReady = true;
     }
     else {

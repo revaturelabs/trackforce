@@ -43,12 +43,12 @@ public class HomeTab {
 	}
 	
 	public static WebElement phone(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("homePhone")), 2);
+		e= WaitToLoad.findDynamicElement(d,By.partialLinkText(prop.getProperty("homePhone")), 2);
 		return e;
 	}
 	
 	public static WebElement email(WebDriver d) {
-		e= WaitToLoad.findDynamicElement(d,By.xpath(prop.getProperty("homeEmail")), 2);
+		e= WaitToLoad.findDynamicElement(d,By.partialLinkText(prop.getProperty("homeEmail")), 2);
 		
 		return e;
 	}

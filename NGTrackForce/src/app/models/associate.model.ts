@@ -22,6 +22,7 @@ export class Associate {
   interview: Interview[];
   placement: Placement;
   clientStartDate: number;
+  stagingFeedback: string;
 
   constructor(
     newFirstName: string,

@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  */
 @XmlRootElement
 @Entity
@@ -200,12 +200,13 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		this.trainer = trainer;
 		this.coTrainer = coTrainer;
 	}
+	
+	
 
 	@Override
 	public String toString() {
 		return "TfBatch [id=" + id + ", location=" + location + ", curriculumName=" + curriculumName + ", batchName="
-				+ batchName + ", startDate=" + startDate + ", endDate=" + endDate + ", associates=" + associates
-				+ ", trainer=" + trainer + ", coTrainer=" + coTrainer + "]";
+				+ batchName + ", startDate=" + startDate + ", endDate=" + endDate + ", associates=" + associates + "]";
 	}
 
 

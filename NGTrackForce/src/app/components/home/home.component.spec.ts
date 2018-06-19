@@ -15,7 +15,7 @@ import { DataSyncService } from '../../services/datasync-service/data-sync.servi
 import { BatchService } from '../../services/batch-service/batch.service';
 import { ClientService } from '../../services/client-service/client.service';
 import { AssociateService } from '../../services/associate-service/associate.service';
-import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
+import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 import { UserService } from '../../services/user-service/user.service';
 
 
@@ -27,7 +27,7 @@ describe('HomeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ HomeComponent, NavbarComponent, HomeComponent, SkillsetComponent, ClientMappedComponent, FooterComponent ],
       imports: [HttpClientTestingModule, RouterTestingModule, ChartsModule],
-      providers: [ RequestService, AuthenticationService, DataSyncService, BatchService, ClientService, AssociateService, SkillsetService, UserService ]
+      providers: [ RequestService, AuthenticationService, DataSyncService, BatchService, ClientService, AssociateService, CurriculumService, UserService ]
     })
     .compileComponents();
   }));

@@ -76,7 +76,7 @@ export class ClientMappedComponent implements OnInit {
   */
   constructor(
     // private ClientService: ClientService,
-    private rout: Router,
+    private router: Router,
     private associateService: AssociateService
   ) {
     this.chartOptions = {
@@ -189,9 +189,28 @@ export class ClientMappedComponent implements OnInit {
 
   //Placeholder for events. Current application specifications does not dictate any actions
   public chartClicked(e:any):void {
-    this.rout.navigate([`associate-listing/client/${this.clientMappedLabels[e.active[0]._index]}/mapped/${this.chartOptions.title.text}`]);
+    this.router.navigate([`associate-listing/client/${this.clientMappedLabels[e.active[0]._index]}/mapped/${this.chartOptions.title.text}`]);
   }
 
   public chartHovered(e:any):void {
   }
+
+  /**
+   * @function MappedOnClick
+   * @description When the "Mapped" chart is clicked
+   * the global variable selectedStatus is
+   * set to the label of the slice
+   * clicked.
+   */
+  mappedOnClick(evt: any) {
+    if (evt.active[0] !== undefined) {
+      //navigate to client-mapped component
+      this.router.navigate([`client-mapped/${evt.active[0]._index}`]);
+    }
+  };
+
+  public getMappedData(): number[] {
+    return JSON.parse(localStorage.getItem('mappedData'));
+  }
+
 }

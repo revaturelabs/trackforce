@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  */
 @XmlRootElement
 @Entity
@@ -135,7 +135,7 @@ public class TfBatchLocation implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "TfBatchLocation [tfBatchLocationId=" + id + ", tfBatchLocationName="
-				+ name + ", tfBatches=" + batches + "]";
+				+ name + "]";
 	}
 	
 

@@ -3,11 +3,13 @@ package com.revature.application;
 import com.revature.entity.*;
 import com.revature.services.*;
 import com.revature.utils.PasswordStorage;
+import net.sf.ehcache.CacheManager;
 
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import static com.revature.utils.HibernateUtil.saveToDB;
 import static com.revature.utils.PasswordStorage.createHash;
@@ -17,7 +19,7 @@ import static com.revature.utils.PasswordStorage.createHash;
  *
  * @author Adam L.
  * <p>Used for a few quick simple tests to ensure hibernate is making the calls it is supposed to</p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 @SuppressWarnings("unused")
@@ -37,8 +39,8 @@ public class Application {
 	static MarketingStatusService marketingStatusService = new MarketingStatusService();
 
 	public static void main(String[] args) throws PasswordStorage.CannotPerformOperationException {
-//
-		System.out.println(trainerService.getTrainerByUserId(60302));
+
+
 //		TfUser u = new TfUser();
 //		u.setRole(5);
 //		u.setUsername("AssociateTest");

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, AfterContentChecked, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, AfterContentChecked, Input, AfterViewInit, AfterViewChecked, DoCheck, AfterContentInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { User } from '../../models/user.model';
@@ -28,15 +28,17 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
   constructor(private router: Router, private authService: AuthenticationService) { }
 
   ngOnInit() {
-    this.navbarDisplay();
+    // this.navbarDisplay();
   }
 
   ngOnChanges() {
-    this.navbarDisplay();
+    // this.navbarDisplay();
   }
+  
   ngAfterContentChecked() {
     this.navbarDisplay();
   }
+
 
   /**
     * Removes user from localStorage and re-routes to login screen

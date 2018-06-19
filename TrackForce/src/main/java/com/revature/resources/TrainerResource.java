@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiParam;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 @Path("/trainers")
@@ -132,7 +132,7 @@ public class TrainerResource {
 	 *
 	 * @author Curtis H.
 	 *  <p>Updates a trainer</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 *
 	 * @param id
 	 * @param trainer

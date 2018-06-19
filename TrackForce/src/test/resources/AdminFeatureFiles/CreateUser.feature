@@ -1,130 +1,148 @@
-#Author: your.email@your.domain.com
-#Keywords Summary :
-#Feature: List of scenarios.
-#Scenario: Business rule through list of steps with arguments.
-#Given: Some precondition step
-#When: Some key actions
-#Then: To observe outcomes or validation
-#And,But: To enumerate more Given,When,Then steps
-#Scenario Outline: List of steps for data-driven as an Examples and <placeholder>
-#Examples: Container for s table
-#Background: List of steps run before each of the scenarios
-#""" (Doc Strings)
-#| (Data Tables)
-#@ (Tags/Labels):To group Scenarios
-#<> (placeholder)
-#""
-## (Comments)
-#Sample Feature Definition Template
-@CreateUserTests
-Feature: Create User tab for Admin
-  TaskForce Create User tab Scenarios
+Feature: Testing the creation of various forms of users
 
-  @CreateNewAdmin
-  Scenario Outline: Create new admin
-    Given I click on Create User Tab
-    And Create User Tab loads
-    When I type in a <username> username
-    And I type in a <password> password
-    And I confirm the <password>
-    And I check the Administrator role
-    Then I press submit
-    And Pop Up Error should not occur
+  Background: 
+    Given I connect to caliber
+    And I login
+    And I click on Create User Tab
+
+  Scenario Outline: Testing the forms of creating valid users
+    Given Create User Tab loads
+    When I type in a valid username "<username>"
+    And I type in a valid password"<password>"
+    And I confirm the password"<password>"
+    And I check the "<role>" role
+    And I press submit
+    Then A new User should be created
 
     Examples: 
-      | username    | password |
-      | "testAdmin" | "1234"   |
-      | "Admintest" | "monkey" |
+      | username     | password      | role      |
+      | NewAdmin     | NewAdmin!     | admin     |
+      | NewTrainer   | NewTrainer!   | trainer   |
+      | NewDelivery  | NewDelivery!  | delivery  |
+      | NewAssociate | NewAssociate! | associate |
+      | NewManager   | NewManager!   | manager   |
 
-  @FailedtoCreate
-  Scenario Outline: Bad Entry
+  Scenario Outline: Testing creating an admin with an invalid inputs
     Given I click on Create User Tab
     And Create User Tab loads
-    When I type in a <username> username
-    And I type in a <password> password
-    And I confirm the <password>
-    And I check the Administrator role
-    Then I press submit
-    And Pop Up Error should occur
+    When I type in a valid username "<username>"
+    And I type in a valid password"<password>"
+    And I confirm the password"<confPassword>"
+    And I check the "admin" role
+    And I press submit
+    Then A Pop Up Error should occur
 
     Examples: 
-      | username    | password |
-      | ""          | "1234"   |
-      | "Admintest" | ""       |
+      | username  | password  | confPassword |
+      |   0000000 | NewAdmin! | NewAdmin!    |
+      | admin     | NewAdmin! | NewAdmin!    |
+      | New Admin | NewAdmin! | NewAdmin!    |
+      | NewAdmin! | NewAdmin! | NewAdmin!    |
+      |           | NewAdmin! | NewAdmin!    |
+      | NewAdmin  | NewA!     | NewA!        |
+      | NewAdmin  | NewAdmins | NewAdmins    |
+      | NewAdmin  | newadmin! | newadmin!    |
+      | NewAdmin  | NEWADMIN! | NEWADMIN!    |
+      | NewAdmin  |           |              |
+      | NewAdmin  | NewAdmin! | Not the same |
+      | NewAdmin  | NewAdmin! |              |
 
-  @NoUserTypeSelected
-  Scenario Outline: No User Type Selected
+  Scenario Outline: Testing creating an associate with an invalid inputs
     Given I click on Create User Tab
     And Create User Tab loads
-    When I type in a <username> username
-    And I type in a <password> password
-    And I confirm the <password>
-    Then I press submit
-    And Pop Up Error should occur
+    When I type in a valid username "<username>"
+    And I type in a valid password"<password>"
+    And I confirm the password"<confPassword>"
+    And I check the "associate" role
+    And I press submit
+    Then A Pop Up Error should occur
 
     Examples: 
-      | username        | password        |
-      | "ValidUsername" | "ValidPassword" |
+      | username      | password      | confPassword  |
+      |       0000000 | NewAssociate! | NewAssociate! |
+      | assoc         | NewAssociate! | NewAssociate! |
+      | New Associate | NewAssociate! | NewAssociate! |
+      | NewAssociate! | NewAssociate! | NewAssociate! |
+      |               | NewAssociate! | NewAssociate! |
+      | NewAssociate  | NewA!         | NewA!         |
+      | NewAssociate  | NewAssoc      | NewAssoc      |
+      | NewAssociate  | newassoc!     | newassoc!     |
+      | NewAssociate  | NEWASSOC!     | NEWASSOC!     |
+      | NewAssociate  |               |               |
+      | NewAssociate  | NewAssoc!     | Not the same  |
+      | NewAssociate  | NewAssoc!     |               |
 
-  @CreateNewManager
-  Scenario Outline: Create new manager
+  Scenario Outline: Testing creating a trainer with an invalid inputs
     Given I click on Create User Tab
     And Create User Tab loads
-    When I type in a <username> username
-    And I type in a <password> password
-    And I confirm the <password>
-    And I check the Manager role
-    Then I press submit
-    And Pop Up Error should not occur
+    When I type in a valid username "<username>"
+    And I type in a valid password"<password>"
+    And I confirm the password"<confPassword>"
+    And I check the "trainer" role
+    And I press submit
+    Then A Pop Up Error should occur
 
     Examples: 
-      | username      | password   |
-      | "testManager" | "12345"    |
-      | "Managertest" | "managing" |
+      | username    | password    | confPassword |
+      |     0000000 | NewTrainer! | NewTrainer!  |
+      | trai        | NewTrainer! | NewTrainer!  |
+      | New Trainer | NewTrainer! | NewTrainer!  |
+      | NewTrainer! | NewTrainer! | NewTrainer!  |
+      |             | NewTrainer! | NewTrainer!  |
+      | NewTrainer  | NewT!       | NewT!        |
+      | NewTrainer  | NewTrainer  | NewTrainer   |
+      | NewTrainer  | newtrainer! | newtrainer!  |
+      | NewTrainer  | NEWTRAINER! | NEWTRAINER!  |
+      | NewTrainer  |             |              |
+      | NewTrainer  | NewTrainer! | Not the same |
+      | NewTrainer  | NewTrainer! |              |
 
-  @CreateNewTrainer
-  Scenario Outline: Create new Trainer
+  Scenario Outline: Testing creating an delivery team user with an invalid inputs
     Given I click on Create User Tab
     And Create User Tab loads
-    When I type in a <username> username
-    And I type in a <password> password
-    And I confirm the <password>
-    And I check the Trainer role
-    Then I press submit
-    And Pop Up Error should not occur
+    When I type in a valid username "<username>"
+    And I type in a valid password"<password>"
+    And I confirm the password"<confPassword>"
+    And I check the "delivery" role
+    And I press submit
+    Then A Pop Up Error should occur
 
     Examples: 
-      | username      | password  |
-      | "testTrainer" | "123"     |
-      | "Trainertest" | "Trainer" |
+      | username      | password     | confPassword |
+      |        000000 | NewDelivery! | NewDelivery! |
+      | deliv         | NewDelivery! | NewDelivery! |
+      | New Delilvery | NewDelivery! | NewDelivery! |
+      | NewDelivery!  | NewDelivery! | NewDelivery! |
+      |               | NewDelivery! | NewDelivery! |
+      | NewDelivery   | NewD!        | NewD!        |
+      | NewDelivery   | NewDelivery  | NewDelivery  |
+      | NewDelivery   | newdelivery! | newdelivery! |
+      | NewDelivery   | NEWDELIVERY! | NEWDELIVERY! |
+      | NewDelivery   |              |              |
+      | NewDelivery   | NewDelivery! | Not the same |
+      | NewDelivery   | NewDelivery! |              |
 
-  @CreateNewDelivaryUser
-  Scenario Outline: Create new Delivary
+  Scenario Outline: Testing creating an manager with an invalid inputs
     Given I click on Create User Tab
     And Create User Tab loads
-    When I type in a <username> username
-    And I type in a <password> password
-    And I confirm the <password>
-    And I check the Delivary role
-    Then I press submit
-    And Pop Up Error should not occur
+    When I type in a valid username "<username>"
+    And I type in a valid password"<password>"
+    And I confirm the password"<confPassword>"
+    And I check the "manager" role
+    And I press submit
+    Then A Pop Up Error should occur
 
     Examples: 
-      | username        | password |
-      | "testDeveloper" | "123343" |
-      | "Developertest" | "Dev"    |
-
-  @CreateNewAssociate
-  Scenario Outline: Create new Associate
-    Given I click on Create User Tab
-    And Create User Tab loads
-    When I type in a <username> username
-    And I type in a <password> password
-    And I confirm the <password>
-    And I check the Associate role
-    Then I press submit
-    And Pop Up Error should not occur
-
-    Examples: 
-      | username        | password    |
-      | "Associatetest" | "Associate" |
+      | username    | password    | confPassword |
+      |      000000 | NewManager! | NewManager!  |
+      | manag       | NewManager! | NewManager!  |
+      | New Manager | NewManager! | NewManager!  |
+      | NewManager! | NewManager! | NewManager!  |
+      |             | NewManager! | NewManager!  |
+      | NewManager  | NewM?       | NewM?        |
+      | NewManager  | NewManager  | NewManager   |
+      | NewManager  | newmanager! | newadmin!    |
+      | NewManager  | NEWMANAGER! | NEWMANAGER!  |
+      | NewManager  |             |              |
+      | NewManager  | NewManger!  | Not the same |
+      | NewManager  | NewManger!  |              |

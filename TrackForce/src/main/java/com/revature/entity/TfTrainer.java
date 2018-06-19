@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * @author Andy A 
  * <p>Created Trainer entity to be used to pull trainer information from the DB</p>
- * @version.date v6.18.06.08
+ * @version v6.18.06.08
  *
  */
 @XmlRootElement
@@ -147,8 +147,7 @@ public class TfTrainer implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "TfTrainer [id=" + id + ", tfUser=" + user + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", primary=" + primary + ", coTrainer=" + coTrainer + "]";
+		return "TfTrainer [id=" + id + ", user=" + user + ", firstName=" + firstName + ", lastName=" + lastName + "]";
 	}
 	
 	

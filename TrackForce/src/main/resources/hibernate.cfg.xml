@@ -22,21 +22,17 @@
           -->
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
+
         <property name="hibernate.hbm2ddl.auto">validate</property>
         
         
-       	<property name="hibernate.cache.use_second_level_cache">false</property>
-       	
+       	<property name="hibernate.cache.use_second_level_cache">true</property>
+
        	<!-- Tells Hibernate which class to use for caching, exposed from the org.hibernate.ehcache dependency -->
 		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
 		<!-- Tells Hibernate the location of the ehcache.xml configuration file -->
 		<property name="net.sf.ehcache.configurationResourceName">/ehcache.xml</property>
-        
-        
-       	<!-- Tells Hibernate which class to use for caching, exposed from the org.hibernate.ehcache dependency -->
-		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
-		<!-- Tells Hibernate the location of the ehcache.xml configuration file -->
-		<property name="net.sf.ehcache.configurationResourceName">/ehcache.xml</property>
+
         
         
         <mapping class="com.revature.entity.TfAssociate"/>

@@ -18,7 +18,7 @@ import org.hibernate.cfg.Configuration;
 /**
  * @author Curtis H., Adam L.
  * <p>The abstracted methods for making Hibernate calls to the database</p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 public class HibernateUtil {
@@ -26,24 +26,40 @@ public class HibernateUtil {
 	private HibernateUtil() {}
 	private static SessionFactory sessionFactory = buildSessionFactory();
 
-	private static SessionFactory buildSessionFactory() {
-		Configuration cfg = new Configuration();
-			
-		cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
-		cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
-		cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));
+	private static void addShutdown() {
+		Runtime.getRuntime().addShutdownHook(new Thread()
+			{
+				public void run() {
+					shutdown();
+				}
+			}
+		);
+	}
 
-		return cfg.configure().buildSessionFactory();
+	private static SessionFactory buildSessionFactory() {
+		
+		try {
+			Configuration cfg = new Configuration();
+			
+			cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
+			cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
+			cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));
+			
+			return cfg.configure().buildSessionFactory();
+			
+		} finally {
+			addShutdown();
+		}
 	}
 	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
-//	public static void shutdown() {
-//		System.out.println("Shutting down SessionFactory");
-//		getSessionFactory().close();
-//		System.out.println("SessionFactory closed");
-//	}
+	public static void shutdown() {
+		System.out.println("Shutting down SessionFactory");
+		getSessionFactory().close();
+		System.out.println("SessionFactory closed");
+	}
 
 	public static void closeSession(Session session) {
 		if (session != null) {

@@ -26,6 +26,7 @@ import javax.ws.rs.core.Response.Status;
 import org.hibernate.HibernateException;
 
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfTrainer;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -99,6 +100,13 @@ public class AssociateResource {
 						if(payload.getSubject().equals(a.getBatch().getTrainer().getTfUser().getUsername())) {
 							assoc.add(a);
 						}
+						List<TfTrainer> cotrainers=a.getBatch().getCoTrainer();
+						for(TfTrainer t:cotrainers) {
+							if(t.getTfUser().getUsername().equals(payload.getSubject())) {
+								assoc.add(a);
+							}
+						}
+
 					}
 				}
 				associates=assoc;

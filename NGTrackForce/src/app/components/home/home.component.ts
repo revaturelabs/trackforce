@@ -13,6 +13,7 @@ import { ThemeConstants } from '../../constants/theme.constants';
 import { ChartOptions } from '../../models/ng2-charts-options.model';
 import '../../constants/selected-status.constants';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
+import { Associate } from '../../models/associate.model';
 
 /**
  * What is this for???
@@ -26,11 +27,10 @@ const MONTHS_3 = 788923800;
 })
 
 export class HomeComponent implements OnInit {
-  private associates: any;
 
-  /**
-   * http://usejsdoc.org/
-   */
+  private associates: Associate[];
+  private associate: Associate;
+
 
   //Message from the back-end
   dbMessage: string;
@@ -79,17 +79,17 @@ export class HomeComponent implements OnInit {
     * BehaviorSubject allows for real-time update of charts
     * Not fully implemented, so it is un-used
     *
-    *@param {Router} rout
+    *@param {Router} router
     * Allows for re-direction to other components
     */
   constructor(
     private rs: RequestService,
     // private ds: DataSyncService,
-    private rout: Router,
-    private us: UserService,
-    private cs: ClientService,
-    private bs: BatchService,
-    private as: AssociateService
+    private router: Router,
+    private userService: UserService,
+    private clientService: ClientService,
+    private batchService: BatchService,
+    private associateService: AssociateService
   ) { }
 
   ngOnInit() {
@@ -97,8 +97,9 @@ export class HomeComponent implements OnInit {
   }
 
   load() {
-    this.as.getAllAssociates().subscribe(response => {
-      this.associates = response;
+    // this.associateService.getAllAssociates().subscribe(response => {
+      // this.associates = response;
+      this.associates = <Associate[]> JSON.parse(localStorage.getItem('currentAssociates'))
       let trainingMapped = 0;
       let trainingUnmapped = 0;
       let reservedMapped = 0;
@@ -112,20 +113,24 @@ export class HomeComponent implements OnInit {
       for (let i = 0; i < this.associates.length; i++) {
         // iterate over associates and aggregate totals
         const associate = this.associates[i];
-        const stats = associate.msid;
-        switch (stats) {
-          case 1: trainingMapped++; break;
-          case 2: reservedMapped++; break;
-          case 3: selectedMapped++; break;
-          case 4: confirmedMapped++; break;
-          case 5: deployedMapped++; break;
-          case 6: trainingUnmapped++; break;
-          case 7: openUnmapped++; break;
-          case 8: selectedUnmapped++; break;
-          case 9: confirmedUnmapped++; break;
-          case 10: deployedUnmapped++; break;
+        if (associate.marketingStatus !== null) {
+          const status = associate.marketingStatus.id;
+          switch (status) {
+            case 1: trainingMapped++; break;
+            case 2: reservedMapped++; break;
+            case 3: selectedMapped++; break;
+            case 4: confirmedMapped++; break;
+            case 5: deployedMapped++; break;
+            case 6: trainingUnmapped++; break;
+            case 7: openUnmapped++; break;
+            case 8: selectedUnmapped++; break;
+            case 9: confirmedUnmapped++; break;
+            case 10: deployedUnmapped++; break;
+          }  
         }
       }
+
+
       /**
        * @member {Array} UndeployedData
        * @description UndeployedData is an array used to populate the
@@ -138,6 +143,7 @@ export class HomeComponent implements OnInit {
       trainingUnmapped + openUnmapped + selectedUnmapped + confirmedUnmapped];
 
       this.undeployedData = undeployedArr;
+      localStorage.setItem('undeployedData', JSON.stringify(this.undeployedData))
 
       /**
        * @member {Array} MappedData
@@ -152,6 +158,7 @@ export class HomeComponent implements OnInit {
       const mappedArr: number[] = [trainingMapped, reservedMapped, selectedMapped, confirmedMapped];
 
       this.mappedData = mappedArr;
+      localStorage.setItem('mappedData', JSON.stringify(this.mappedData))
 
       /**
        * @member {Array} UnmappedData
@@ -166,6 +173,7 @@ export class HomeComponent implements OnInit {
       const unmappedArr: number[] = [trainingUnmapped, openUnmapped, selectedUnmapped, confirmedUnmapped];
 
       this.unmappedData = unmappedArr;
+      localStorage.setItem('unmappedData', JSON.stringify(this.unmappedData))
 
       /**
        * @member {Array} DeployedData
@@ -177,22 +185,24 @@ export class HomeComponent implements OnInit {
       const deployedArr = [deployedMapped, deployedUnmapped];
 
       this.deployedData = deployedArr;
-    });
+      localStorage.setItem('deployedData', JSON.stringify(this.deployedData))
+    // });
   }
 
   /**
-* @function MappedOnClick
-* @description When the "Mapped" chart is clicked
-* the global variable selectedStatus is
-* set to the label of the slice
-* clicked.
-*/
+   * @function MappedOnClick
+   * @description When the "Mapped" chart is clicked
+   * the global variable selectedStatus is
+   * set to the label of the slice
+   * clicked.
+   */
   mappedOnClick(evt: any) {
     if (evt.active[0] !== undefined) {
       //navigate to client-mapped component
-      this.rout.navigate([`client-mapped/${evt.active[0]._index}`]);
+      this.router.navigate([`client-mapped/${evt.active[0]._index}`]);
     }
   };
+
   /**
    * @function UnmappedOnClick
    * @description When the "Unmapped" chart is clicked
@@ -203,7 +213,7 @@ export class HomeComponent implements OnInit {
   unmappedOnClick(evt: any) {
     if (evt.active[0] !== undefined) {
       //navigate to skillset component
-      this.rout.navigate([`skillset/${evt.active[0]._index}`]);
+      this.router.navigate([`skillset/${evt.active[0]._index}`]);
     }
   }
 
@@ -250,14 +260,6 @@ export class HomeComponent implements OnInit {
   ////////////////////////////////////////////////////////////////
 
 
-  //
-  // private threeMonthsBefore(): number {
-  //   return new Date().getTime() - MONTHS_3;
-  // }
-  //
-  // private threeMonthsAfter(): number {
-  //   return new Date().getTime() + MONTHS_3;
-  // }
 
   public getUndeployedData(): number[] {
     return this.undeployedData;

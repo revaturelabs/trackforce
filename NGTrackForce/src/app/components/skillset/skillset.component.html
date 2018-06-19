@@ -10,10 +10,8 @@
 		<div class="col-md-8">
 			<div class="white">
 				<br/>
-				<canvas baseChart id="skillset" class="chart chart-bar" 
-				*ngIf="skillsetData && skillsetData.length && skillsetLabels && skillsetLabels.length"
-				 [chartType]="chartType" [data]="skillsetData" [labels]="skillsetLabels" [colors]="batchColors" 
-				 [options]="chartOptions"
+				<canvas baseChart id="skillset" class="chart chart-bar" *ngIf="skillsetData && skillsetData.length && skillsetLabels && skillsetLabels.length"
+				 [chartType]="chartType" [data]="skillsetData" [labels]="skillsetLabels" [colors]="batchColors" [options]="chartOptions"
 				 (chartClick)="goToAssociateList($event)">
 				</canvas>
 
@@ -24,15 +22,8 @@
 	<div class="row">
 		<div class="col-md-8">
 			<div class="white">
-				<canvas baseChart 
-					id="pie" 
-					class="chart chart-pie" 
-					[data]="unmappedData" 
-					[labels]="unmappedLabels" 
-					[chartType]="unmappedChartType"
-					[colors]="skillColors" 
-					[options]="unmappedOptions" 
-					(chartClick)="unmappedOnClick($event)">
+				<canvas baseChart id="pie" class="chart chart-pie" [data]="unmappedData" [labels]="unmappedLabels" [chartType]="unmappedChartType"
+				 [colors]="skillColors" [options]="unmappedOptions" (chartClick)="unmappedOnClick($event)">
 				</canvas>
 			</div>
 		</div>

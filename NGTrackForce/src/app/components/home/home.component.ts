@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
   mappedChartType = "pie";
   unmappedChartType = "pie";
 
-  private options = ChartOptions.createOptionsLegend('right');
+  // private options = ChartOptions.createOptionsLegend('right');
 
   unmappedOptions = ChartOptions.createOptionsTitle('Unmapped', 24, '#121212', 'right');
   mappedOptions = ChartOptions.createOptionsTitle('Mapped', 24, '#121212', 'right');
@@ -85,11 +85,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private rs: RequestService,
     // private ds: DataSyncService,
-    private router: Router,
-    private userService: UserService,
-    private clientService: ClientService,
-    private batchService: BatchService,
-    private associateService: AssociateService
+    private router: Router
   ) { }
 
   ngOnInit() {

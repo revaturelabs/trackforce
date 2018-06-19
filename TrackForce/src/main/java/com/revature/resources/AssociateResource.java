@@ -137,17 +137,17 @@ public class AssociateResource {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		TfAssociate associateinfo;
-		try {
-			associateinfo = associateService.getAssociateByUserId(id);
-		} catch (NoResultException nre) {
-			logger.info("No associate found...");
-			return Response.status(Status.NO_CONTENT).build();
-		}
 
 		if (payload == null || false) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
+			try {
+				associateinfo = associateService.getAssociateByUserId(id);
+			} catch (NoResultException nre) {
+				logger.info("No associate found...");
+				return Response.status(Status.NO_CONTENT).build();
+			}
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
 		}
 
@@ -214,6 +214,7 @@ public class AssociateResource {
 	@Path("/{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, TfAssociate associate,
 			@HeaderParam("Authorization") String token) {
+		
 		logger.info("updateAssociate()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
@@ -228,7 +229,6 @@ public class AssociateResource {
 		else {
 			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		}
-
 		return Response.status(status).build();
 	}
 

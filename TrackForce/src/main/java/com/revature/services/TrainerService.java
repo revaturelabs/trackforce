@@ -18,6 +18,10 @@ public class TrainerService {
 	
 	// public so it can be used for testing 
 	public TrainerService() {};
+	
+	public TrainerService(TrainerDao dao) {
+		this.dao = dao;
+	}
 
 	/**
 	 * @author Adam L. 
@@ -75,5 +79,4 @@ public class TrainerService {
 	public boolean updateTrainer(TfTrainer trainer) {
 		return dao.updateTrainer(trainer);
 	}
-	
 }

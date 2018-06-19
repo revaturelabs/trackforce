@@ -115,6 +115,7 @@ public class AssociateDaoImpl implements AssociateDao {
 		temp.setClientStartDate(associate.getClientStartDate());
 
 		session.update(temp);
+		System.out.println("<============================Indside Update===============================>");
 		return true;
 	};
 

@@ -114,7 +114,8 @@ export class HomeComponent implements OnInit {
         // iterate over associates and aggregate totals
         const associate = this.associates[i];
         if (associate.marketingStatus !== null) {
-          const status = associate.marketingStatus.id;
+          // if (associate.marketingStatus !== null || (associate.marketingStatus.id < 6 && associate.client === null)) {
+            const status = associate.marketingStatus.id;
           switch (status) {
             case 1: trainingMapped++; break;
             case 2: reservedMapped++; break;

@@ -26,7 +26,6 @@ const BATCHES_COTRAINER_KEY = 'currentBatchesCotrainer';
 const BATCHES_KEY = 'currentBatches';
 const CLIENTS_KEY = 'currentClients';
 const ASSOCIATES_KEY = 'currentAssociates';
-const TRAINERS_KEY = 'currentTrainers';
 
 
 @Component({
@@ -190,8 +189,8 @@ export class LoginComponent implements OnInit {
             } else if (data.role === 2) {
               this.trainerLogin(data);
             } else if (data.role === 1 || data.role === 3 || data.role === 4) {
-              // this.getUser(user.id);
-              this.router.navigate(['app-home']);
+              this.salesOrStagingLogin();
+              // this.router.navigate(['app-home']);
             } else {
               this.authService.logout();
             }
@@ -255,6 +254,24 @@ export class LoginComponent implements OnInit {
       data => {
         localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
         this.router.navigate(['trainer-view']);
+      },
+      err => {
+        if (err.status === 500) {
+          this.router.navigate(['ServerError'])
+          return;
+        } else {
+          this.router.navigate(['Error'])
+          return;
+        }
+      }
+    );
+  }
+
+  salesOrStagingLogin(){
+    this.associateService.getAllAssociates().subscribe(
+      data => {
+        localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
+        this.router.navigate(['app-home']);
       },
       err => {
         if (err.status === 500) {

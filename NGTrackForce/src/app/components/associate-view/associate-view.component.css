@@ -4,17 +4,13 @@ table {
 .info td:first-child {
   font-weight: bold;
 }
-#content{
-	margin-bottom : 90px;
-  margin-top:80px;
-}
 
 thead, tbody {
   background-color: #fff;
 }
 
 .toggledContainer {
-  min-height: 300px;
+  /* min-height: 300px; */
   margin-top: 20px;
   margin-bottom: 10px;
   padding-top: 5px;

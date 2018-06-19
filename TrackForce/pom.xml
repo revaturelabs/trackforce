@@ -258,6 +258,12 @@
 			<version>5.2.12.Final</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>3.4.0</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
 		<dependency>
 			<groupId>org.hibernate</groupId>

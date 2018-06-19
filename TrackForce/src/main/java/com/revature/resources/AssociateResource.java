@@ -2,22 +2,40 @@ package com.revature.resources;
 
 import static com.revature.utils.HibernateUtil.updateDetached;
 import static com.revature.utils.LogUtil.logger;
-import static com.revature.utils.ResourceHelper.isPayloadAssociate;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.PATCH;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.revature.services.*;
 import org.hibernate.HibernateException;
 
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfTrainer;
+import com.revature.services.AssociateService;
+import com.revature.services.BatchService;
+import com.revature.services.ClientService;
+import com.revature.services.CurriculumService;
+import com.revature.services.InterviewService;
+import com.revature.services.JWTService;
+import com.revature.services.MarketingStatusService;
+import com.revature.services.TrainerService;
+import com.revature.services.UserService;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -27,7 +45,7 @@ import io.swagger.annotations.ApiParam;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 @Path("/associates")
@@ -54,7 +72,7 @@ public class AssociateResource {
 	 * <p>Gets a list of all the associates, optionally filtered by a batch id. If an
 	 * associate has no marketing status or curriculum, replaces them with blanks.
 	 * If associate has no client, replaces it with "None".</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @return A Response object with a list of TfAssociate objects.
 	 * @throws IOException
@@ -72,7 +90,27 @@ public class AssociateResource {
 		if (payload == null || payload.getId().equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
+
+		
 		else {
+			if(payload.getId().equals("2")) {
+				List<TfAssociate> assoc=new ArrayList<TfAssociate>();
+				for(TfAssociate a:associates) {
+					if(a.getBatch()!=null) {
+						if(payload.getSubject().equals(a.getBatch().getTrainer().getTfUser().getUsername())) {
+							assoc.add(a);
+						}
+						List<TfTrainer> cotrainers=a.getBatch().getCoTrainer();
+						for(TfTrainer t:cotrainers) {
+							if(t.getTfUser().getUsername().equals(payload.getSubject())) {
+								assoc.add(a);
+							}
+						}
+
+					}
+				}
+				associates=assoc;
+			}
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
 
@@ -84,7 +122,7 @@ public class AssociateResource {
 	 *
 	 * @author Curtis H.
 	 * Given a user id, returns an associate.
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 *
 	 * @param id
 	 * @param token
@@ -99,17 +137,17 @@ public class AssociateResource {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		TfAssociate associateinfo;
-		try {
-			associateinfo = associateService.getAssociateByUserId(id);
-		} catch (NoResultException nre) {
-			logger.info("No associate found...");
-			return Response.status(Status.NO_CONTENT).build();
-		}
 
 		if (payload == null || false) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
+			try {
+				associateinfo = associateService.getAssociateByUserId(id);
+			} catch (NoResultException nre) {
+				logger.info("No associate found...");
+				return Response.status(Status.NO_CONTENT).build();
+			}
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
 		}
 
@@ -122,7 +160,7 @@ public class AssociateResource {
 	 * 
 	 * @author Adam L. 
 	 * <p>Update the marketing status or client of associates</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param token
 	 * @param marketingStatusId
@@ -176,7 +214,7 @@ public class AssociateResource {
 	 * 
 	 * @author Adam L. 
 	 * <p>Update the marketing status or client of an associate</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param id 
 	 * @param associate
@@ -188,6 +226,7 @@ public class AssociateResource {
 	@Path("/{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, TfAssociate associate,
 			@HeaderParam("Authorization") String token) {
+		
 		logger.info("updateAssociate()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
@@ -202,7 +241,6 @@ public class AssociateResource {
 		else {
 			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		}
-
 		return Response.status(status).build();
 	}
 

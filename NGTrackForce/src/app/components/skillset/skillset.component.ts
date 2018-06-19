@@ -1,12 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartScale } from '../../models/chart-scale.model';
 import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
-import { ThemeConstants } from '../../constants/theme.constants';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { GraphCounts } from '../../models/graph-counts';
+
+import { ThemeConstants } from '../../constants/theme.constants';
+import { ChartOptions } from '../../models/ng2-charts-options.model';
+import '../../constants/selected-status.constants';
+import { SelectedStatusConstants } from '../../constants/selected-status.constants';
+import { Color } from 'ng2-charts';
+
 
 @Component({
   selector: 'app-skillset',
@@ -58,15 +63,15 @@ export class SkillsetComponent implements OnInit {
    * The flag that tells Angular, and the developer, whether or not ng2_chart dependency is actually being used
    */
   USE_NG2_CHART = true;
+  /**
+   * The dummy data to compare against for our tests
+   */
+  DUMMY_DATA = [{ data: [1, 1, 1, 1, 1], label: 'Mapped' }, { data: [1, 1, 1, 1, 1], label: 'Unmapped' }];
 
   /**
    * The type of chart
    */
   chartType = SkillsetComponent.chartTypes.BAR;
-  /**
-   * The dummy data to compare against for our tests
-   */
-  DUMMY_DATA = [{ data: [1, 1, 1, 1, 1], label: 'Mapped' }, { data: [1, 1, 1, 1, 1], label: 'Unmapped' }];
   /**
    * The skillset data
    */
@@ -100,6 +105,15 @@ export class SkillsetComponent implements OnInit {
    * The color scheme for the charts of this component
    */
   batchColors = ThemeConstants.BATCH_COLORS;
+
+
+  public unmappedLabels = SelectedStatusConstants.UNMAPPED_LABELS;
+  public skillColors: Array<Color> = ThemeConstants.SKILL_COLORS;
+  public unmappedChartType = "pie";
+  public unmappedOptions = ChartOptions.createOptionsTitle('Unmapped', 24, '#121212', 'right');
+  public unmappedData: number[] = [0, 0, 0, 0];
+
+
   /**
     *@param {CurriculumService} CurriculumService
     * service for grabbing data from the back-end or mock back-end
@@ -133,6 +147,10 @@ export class SkillsetComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    this.getUnmappedData();
+    // console.log(this.unmappedData);
+
     // get skillID
     this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || SkillsetComponent.NULL;
     // if we didn't get skillID from selectedStatus...
@@ -209,11 +227,36 @@ export class SkillsetComponent implements OnInit {
    * Returns whether or not val is undefined. Used for filtering.
    * @param val The value to check for not undefined
    */
-  public isNotUndefined(val): boolean { return val !== undefined; }
+  public isNotUndefined(val): boolean {
+    return val !== undefined;
+  }
 
   /**
    * Exposing skillID in a safe way
    */
-  public getSkillID(): number { return this.skillID; }
+  public getSkillID(): number {
+    return this.skillID;
+  }
+
+  public getUnmappedData() {
+    this.unmappedData = JSON.parse(localStorage.getItem('unmappedData'));
+    // console.log(this.unmappedData);
+  }
+
+  /**
+ * @function UnmappedOnClick
+ * @description When the "Unmapped" chart is clicked
+ * the global variable selectedStatus is
+ * set to the label of the slice
+ * clicked.
+ */
+  unmappedOnClick(evt: any) {
+    if (evt.active[0] !== undefined) {
+      //navigate to skillset component
+      this.router.navigate([`skillset/${evt.active[0]._index}`]);
+      window.location.reload();
+    }
+  }
+
 
 }

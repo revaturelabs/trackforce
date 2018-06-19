@@ -13,7 +13,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Cacheable
 @Entity
-@Table(name = "TF_USER", schema="ADMIN")
+@Table(
+		name = "TF_USER", 
+		schema="ADMIN"
+//		uniqueConstraints= @UniqueConstraint(columnNames= {"TF_USERNAME"})
+)
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 public class TfUser implements java.io.Serializable {
 
@@ -30,8 +34,7 @@ public class TfUser implements java.io.Serializable {
     @GeneratedValue(generator = "UserIdSeq", strategy = GenerationType.SEQUENCE)
     private int id;
 
-    
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TF_ROLE_ID")
     private TfRole TfRole;
     

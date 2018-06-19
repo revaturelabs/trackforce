@@ -33,7 +33,7 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public TfEndClient getEndClient(int id) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-				session.createQuery("from TfEndClient c where c.tf_client_id like :id", TfEndClient.class).setParameter("id", id).getSingleResult());
+				session.createQuery("from TfEndClient c where c.id like :id", TfEndClient.class).setParameter("id", id).getSingleResult());
 	}
 
 

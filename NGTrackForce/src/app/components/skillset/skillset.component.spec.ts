@@ -8,6 +8,7 @@ import { ChartsModule } from 'ng2-charts';
 import { HomeComponent } from '../home/home.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
+//import { CurriculumService } from '../../services/skill-set-service/skill-set.service';
 import {CurriculumService} from "../../services/curriculum-service/curriculum.service";
 
 import { FormComponent } from '../form-component/form.component';
@@ -21,30 +22,31 @@ import {
 describe('SkillsetComponent', () => {
   let component: SkillsetComponent;
   let fixture: ComponentFixture<SkillsetComponent>;
-  let activatedRoute: ActivatedRouteStub;
+  let activatedRoute : ActivatedRouteStub;
 
-  class CurriculumServiceSpy {
+  class CurriculumServiceSpy
+  {
 
   }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SkillsetComponent, HomeComponent, NavbarComponent,
+      declarations: [ SkillsetComponent, HomeComponent, NavbarComponent,
         FormComponent
       ],
-      imports: [
+      imports : [
         HttpClientTestingModule,
         ChartsModule,
         RouterTestingModule, 
         FormsModule
       ],
-      providers: [
+      providers : [
         CurriculumService,
-        { provide: ActivatedRoute, useValue: activatedRoute },
-        { provide: Router, useClass: RouterStub }
+        { provide : ActivatedRoute, useValue : activatedRoute },
+        { provide : Router,         useClass : RouterStub }
       ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
@@ -73,7 +75,7 @@ describe('SkillsetComponent', () => {
     expect(idFound).toBeTruthy();
   })
 
-  it('should redirect to home iff out-of-bounds id was received', () => {
+  it('should redirect to home if out-of-bounds id was received', () => {
     activatedRoute.testParamMap = { id: -100 };
   })
 
@@ -81,7 +83,8 @@ describe('SkillsetComponent', () => {
     // click each of the buttons
     let chartChangeButtons = fixture.nativeElement.querySelector('.btn.btn-default');
     let i = 0;
-    for (let btn of chartChangeButtons) {
+    for (let btn of chartChangeButtons)
+    {
       // sanity testing the buttons to make sure they are actual buttons and not indices of some array
       expect(btn).toBeNaN();
       expect(btn.click).not.toBeUndefined();
@@ -96,20 +99,20 @@ describe('SkillsetComponent', () => {
 
   })
 
-  it('should not be using DUMMY_DATA', () => {
+    it('should not be using DUMMY_DATA', () => {
     // waiting on the observable in ngOnInit() to finish ...
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(component.skillsetData).not.toEqual(component.DUMMY_DATA);
     })
-      // making sure that the skillsetData is now equal to the results of the data returned from CurriculumService
-      .then(() => {
-        let service: CurriculumService = TestBed.get(CurriculumService);
-        service.getSkillsetsForStatusID(1).subscribe((res) => {
-          // expect(component.skillsetData).toEqual(res.data.map((obj) => obj.count))
-        })
-          .unsubscribe()
+    // making sure that the skillsetData is now equal to the results of the data returned from CurriculumService
+    .then(() => {
+      let service : CurriculumService = TestBed.get(CurriculumService);
+      service.getSkillsetsForStatusID(1).subscribe((res) => {
+        expect(component.skillsetData).toEqual(res.map((obj) => obj.count))
       })
+      .unsubscribe()
+    })
   });
 
   xit('should have one-to-one relation between skillsetData and skillsetLabels', () => {

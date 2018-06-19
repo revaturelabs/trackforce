@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  */
 @XmlRootElement
 @Entity
@@ -30,7 +30,6 @@ public class TfClient implements java.io.Serializable {
 	
 	@XmlElement
 	@Id
-//	@GeneratedValue
 	@Column(name = "TF_CLIENT_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer id;
 	
@@ -161,6 +160,8 @@ public class TfClient implements java.io.Serializable {
 		return true;
 	}
 
-
-	
+	@Override
+	public String toString() {
+		return "TfClient [id=" + id + ", name=" + name + "]";
+	}	
 }

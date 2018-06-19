@@ -15,6 +15,11 @@ export class TrainerViewComponent implements OnInit {
   newFirstName: string;
   newLastName: string;
 
+  // ADDED SO THIS COMPILES. Once you're actually making an ajax call you'll want to have these as your success
+  // and error messages.
+  errMsg = false;
+  succMsg = false;
+
   constructor(private authService: AuthenticationService, private trainerService: TrainerService) { }
 
   ngOnInit() {
@@ -29,7 +34,7 @@ export class TrainerViewComponent implements OnInit {
 
   updateInfo() {
     this.trainer.firstName = this.newFirstName;
-    this.trainer.lastName = this.newLastName; 
+    this.trainer.lastName = this.newLastName;
     // this.trainerService.updateTrainer(this.trainer).subscribe(
     //   data => {
 

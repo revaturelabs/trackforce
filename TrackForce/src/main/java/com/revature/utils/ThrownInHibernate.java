@@ -2,7 +2,7 @@ package com.revature.utils;
 
 /**
  * <p>Exception used for custom Hibernate utility class</p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  */
 public class ThrownInHibernate extends Exception {
 

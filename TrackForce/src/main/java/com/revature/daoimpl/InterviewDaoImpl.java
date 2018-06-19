@@ -27,19 +27,22 @@ public class InterviewDaoImpl implements InterviewDao {
 
 	@Override
 	public boolean createInterview(TfInterview interview) {
+		// HibernateUtil.saveToDB(interview.getAssociate());
+		// HibernateUtil.saveToDB(interview.getClient());
 		return HibernateUtil.saveToDB(interview);
 	}
 
 	@Override
 	public boolean updateInterview(TfInterview interview) {
 		return HibernateUtil.runHibernateTransaction((Session session, Object ... args) -> {
-			TfInterview temp = session.get(TfInterview.class, interview.getAssociate());
+			TfInterview temp = session.get(TfInterview.class, interview.getId());
 
+			temp.setAssociate(interview.getAssociate());
 			temp.setAssociateFeedback(interview.getAssociateFeedback());
 			temp.setClient(interview.getClient());
 			temp.setClientFeedback(interview.getClientFeedback());
 			temp.setDateAssociateIssued(interview.getDateAssociateIssued());
-			temp.setClient(interview.getClient());
+			temp.setEndClient(interview.getEndClient());
 			temp.setDateSalesIssued(interview.getDateAssociateIssued());
 			temp.setFlagReason(interview.getFlagReason());
 			temp.setInterviewDate(interview.getInterviewDate());

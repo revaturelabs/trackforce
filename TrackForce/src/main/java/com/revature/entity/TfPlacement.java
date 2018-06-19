@@ -3,6 +3,7 @@ package com.revature.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +20,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  */
 @XmlRootElement
 @Entity
@@ -177,8 +178,9 @@ public class TfPlacement implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "TfPlacement [id=" + id + ", associate=" + associate + ", client=" + client + ", endClient=" + endClient
-				+ ", start=" + start + ", end=" + end + "]";
+		return "TfPlacement [id=" + id + ", client=" + client + ", endClient=" + endClient + ", start=" + start
+				+ ", end=" + end + "]";
 	}
+	
 	
 }

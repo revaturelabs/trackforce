@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  */
 @XmlRootElement
 @Entity
@@ -123,7 +123,7 @@ public class TfInterviewType implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "TfInterviewType [id=" + id + ", name=" + name + ", interviews=" + interviews + "]";
+		return "TfInterviewType [id=" + id + ", name=" + name + "]";
 	}
 
 	

@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @category Timestamp clientStartDate
  * 
  * @author Adam L. 
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  */
 @XmlRootElement
 @Entity
@@ -55,7 +55,7 @@ public class TfAssociate implements java.io.Serializable {
 	@XmlElement
 	@Id
 	@Column(name = "TF_ASSOCIATE_ID", unique = true, nullable = false, precision = 22, scale = 0)
-	@SequenceGenerator(sequenceName = "AssociateId_seq2", name ="AssociateIdSeq2", initialValue=1000)
+	@SequenceGenerator(sequenceName = "AssociateId_seq2", name ="AssociateIdSeq2", initialValue=1000, schema= "ADMIN")
 	@GeneratedValue(generator ="AssociateIdSeq2", strategy = GenerationType.SEQUENCE)
 	private Integer id;
 
@@ -107,9 +107,12 @@ public class TfAssociate implements java.io.Serializable {
 	@Column(name = "TF_CLIENT_START_DATE")
 	private Timestamp clientStartDate;
 	
+	@XmlElement
+	@Column(name = "TF_STAGING_FEEDBACK")
+	private String stagingFeedback;
+	
 
-	public TfAssociate() {
-	}
+	public TfAssociate() {}
 
 
 	public TfAssociate(Integer id, TfUser user, TfBatch batch, TfMarketingStatus marketingStatus, TfClient client,
@@ -127,6 +130,17 @@ public class TfAssociate implements java.io.Serializable {
 		this.interview = interview;
 		this.placement = placement;
 		this.clientStartDate = clientStartDate;
+	}
+
+	
+
+	public String getStagingFeedback() {
+		return stagingFeedback;
+	}
+
+
+	public void setStagingFeedback(String stagingFeedback) {
+		this.stagingFeedback = stagingFeedback;
 	}
 
 
@@ -244,13 +258,13 @@ public class TfAssociate implements java.io.Serializable {
 		return serialVersionUID;
 	}
 
+	
 
 	@Override
 	public String toString() {
-		return "TfAssociate [id=" + id + ", user=" + user + ", batch=" + batch + ", marketingStatus=" + marketingStatus
-				+ ", client=" + client + ", endClient=" + endClient + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", interview=" + interview + ", placement=" + placement + ", clientStartDate="
-				+ clientStartDate + "]";
+		return "TfAssociate [id=" + id + ", user=" + user + ", marketingStatus=" + marketingStatus + ", client="
+				+ client + ", endClient=" + endClient + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", clientStartDate=" + clientStartDate + ", stagingFeedback=" + stagingFeedback + "]";
 	}
 
 

@@ -8,37 +8,40 @@
         <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
         <property name="hibernate.generate_statistics">false</property>
         <property name="hibernate.connection.release_mode">after_transaction</property> -->
-        <property name="show_sql">false</property>
         
-        <property name="hibernate.enable_lazy_load_no_trans">true</property>
         
+                
         <!--
             note all properties here are only default values; can be overwritten with
             values in dbProps passed into HibernateUtil initSessionFactory; dialect
             and driver must be overwritten for different databases (such as hsql)
         -->
-        <!-- Ofer code 
-        <property name="hibernate.current_session_context_class">thread</property>
-          -->
+        
+        <!-- NEVER SET TO CREATE UNLESS YOU WANT TO REMOVE ALL DATA IN DATABASE -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        
+        <!-- Used for debugging -->
+        <property name="show_sql">false</property>
+        
+        
+
+        <property name="hibernate.enable_lazy_load_no_trans">true</property>
+        
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
+
+
         <property name="hibernate.hbm2ddl.auto">validate</property>
         
         
-       	<property name="hibernate.cache.use_second_level_cache">false</property>
-       	
+       	<property name="hibernate.cache.use_second_level_cache">true</property>
+
        	<!-- Tells Hibernate which class to use for caching, exposed from the org.hibernate.ehcache dependency -->
 		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
-		<!-- Tells Hibernate the location of the ehcache.xml configuration file -->
 		<property name="net.sf.ehcache.configurationResourceName">/ehcache.xml</property>
+
         
-        
-       	<!-- Tells Hibernate which class to use for caching, exposed from the org.hibernate.ehcache dependency -->
-		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
-		<!-- Tells Hibernate the location of the ehcache.xml configuration file -->
-		<property name="net.sf.ehcache.configurationResourceName">/ehcache.xml</property>
-        
-        
+        <!-- Mapped entities -->
         <mapping class="com.revature.entity.TfAssociate"/>
         <mapping class="com.revature.entity.TfCurriculum"/>
         <mapping class="com.revature.entity.TfEndClient"/>

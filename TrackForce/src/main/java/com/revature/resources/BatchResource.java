@@ -38,9 +38,9 @@ import io.swagger.annotations.ApiOperation;
 /**
  * <p>Class that provides RESTful services for the batch listing and batch details
  * page.</p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  */
-@Path("batches")
+@Path("/batches")
 @Api(value = "batches")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -63,7 +63,7 @@ public class BatchResource {
 	 * <p>Gets all batches, optionally filtered by start and end date query parameters
 	 * For example, sending a GET request to /batches?start={date1}&end={date2} will
 	 * return all batches with end dates between date1 and date2</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param startDate
 	 * @param endDate
@@ -84,7 +84,8 @@ public class BatchResource {
 
 		Status status = null;
 		int role = Integer.parseInt(payload.getId());
-		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
+
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4 }));
 
 		if (authorizedRoles.contains(role)) {
 			if (startDate != null && endDate != null) {
@@ -113,12 +114,10 @@ public class BatchResource {
 		return Response.status(status).entity(batches).build();
 	}
 
-	
-
 	/**
 	 * @author Adam L. 
 	 * <p> </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param id
 	 * @param token
@@ -137,7 +136,9 @@ public class BatchResource {
 		}
 		Status status = null;
 		int role = Integer.parseInt(payload.getId());
-		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4, 5 }));
+
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+
 
 		if (authorizedRoles.contains(role)) {
 			// results and status set in here

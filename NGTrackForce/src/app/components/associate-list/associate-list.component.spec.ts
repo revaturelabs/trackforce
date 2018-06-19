@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, async} from '@angular/core/testing';
 
 import {AssociateListComponent} from './associate-list.component';
 import {AssociateService} from '../../services/associate-service/associate.service';
@@ -30,7 +30,7 @@ describe('AssociateListComponent', () => {
     spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
   });
 
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AssociateListComponent,
@@ -54,14 +54,27 @@ describe('AssociateListComponent', () => {
       schemas: [
         CUSTOM_ELEMENTS_SCHEMA
       ]
-    });
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(AssociateListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
+
+  it('should have a curriculums dropdown', () => {
+    expect(component.curriculums).toBeTruthy();
+  });
+
+  
+
+
+  
 
 });

@@ -111,7 +111,9 @@ public class AssociateService {
 	 * @param newassociate
 	 * @return true if successful, false otherwise
 	 */
+	UserService userService = new UserService();
 	public boolean createAssociate(TfAssociate newassociate) {
+		userService.insertUser(newassociate.getUser());
 		return dao.createAssociate(newassociate);
 	}
 

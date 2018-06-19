@@ -111,10 +111,10 @@ public class UserResource {
 				break;
 			}
 		}
-
-		
-
-		return Response.status(Status.CREATED).build();
+		if(userService.insertUser(newUser)) {
+			return Response.status(Status.CREATED).build();
+		}
+		return Response.status(Status.EXPECTATION_FAILED).build();
 	}
 
 	/**
@@ -133,8 +133,10 @@ public class UserResource {
 		logger.info("createNewAssociate()...");
 		LogUtil.logger.info(newAssociate);
 		if (newAssociate.getUser().getRole() == 5) {
-			associateService.createAssociate(newAssociate);
-			return Response.status(Status.CREATED).build();
+			if (associateService.createAssociate(newAssociate)) {
+				return Response.status(Status.CREATED).build();
+			}
+			return Response.status(Status.EXPECTATION_FAILED).build();
 		}
 		else {
 			return Response.status(Status.FORBIDDEN).build();
@@ -157,8 +159,10 @@ public class UserResource {
 		logger.info("creating new user...");
 		LogUtil.logger.info(newTrainer);
 		if (newTrainer.getTfUser().getRole() == 2) {
-			trainerService.createTrainer(newTrainer);
-			return Response.status(Status.CREATED).build();
+			if (trainerService.createTrainer(newTrainer)) {
+				return Response.status(Status.CREATED).build();
+			}
+			return Response.status(Status.EXPECTATION_FAILED).build();
 		}
 		else {
 			return Response.status(Status.FORBIDDEN).build();

@@ -27,7 +27,7 @@ import io.restassured.response.Response;
  */
 public class InterviewResourceTest {
 
-	//static final String URL = "http://52.87.205.55:8086/TrackForce/interviews";
+	// static final String URL = "http://52.87.205.55:8086/TrackForce/interviews";
 	static final String URL = "http://localhost:8085/TrackForce/interviews";
 
 	String token;
@@ -58,11 +58,11 @@ public class InterviewResourceTest {
 	@Test(priority = 5, dataProvider = "interview", enabled = true)
 	public void testCreateInterview(TfInterview interview) {
 
-		given().header("Authorization", token).contentType("application/json").body(interview)
-				.when().post(URL + "/392").then().assertThat().statusCode(201);
+		given().header("Authorization", token).contentType("application/json").body(interview).when().post(URL + "/392")
+				.then().assertThat().statusCode(201);
 
-		Response response = given().header("Authorization", "Bad Token").contentType("application/json").body(interview).when()
-				.post(URL + "/392").then().extract().response();
+		Response response = given().header("Authorization", "Bad Token").contentType("application/json").body(interview)
+				.when().post(URL + "/392").then().extract().response();
 
 		System.out.println(response.statusCode());
 		assertTrue(response.statusCode() == 401);
@@ -84,15 +84,16 @@ public class InterviewResourceTest {
 	 */
 	@Test(priority = 10)
 	public void testGetAllInterviews() {
-		Response response = given().header("Authorization", token).when().get(URL + 1).then().extract().response();
+		Response response = given().header("Authorization", token).when().get(URL + "/" + 1).then().extract()
+				.response();
 
 		assertTrue(response.statusCode() == 200);
-		
-given().header("Authorization", "Bad Token").when().get(URL + 3).then().assertThat().statusCode(401);
-		
-		given().header("Authorization", token).when().get(URL + 3 + "BAD").then().assertThat().statusCode(404);
-		
-		given().header("Authorization", token).when().post(URL + 3).then().assertThat().statusCode(405);
+
+		given().header("Authorization", "Bad Token").when().get(URL + "/" + 3).then().assertThat().statusCode(401);
+
+		given().header("Authorization", token).when().get(URL + "/" + 3 + "BAD").then().assertThat().statusCode(404);
+
+		given().header("Authorization", token).when().post(URL + "/" + 3).then().assertThat().statusCode(415);
 	}
 
 	/**
@@ -104,15 +105,15 @@ given().header("Authorization", "Bad Token").when().get(URL + 3).then().assertTh
 	 */
 	@Test(priority = 15)
 	public void testGetAssociateInterview() {
-		Response response = given().header("Authorization", token).when().get(URL + 3).then().extract().response();
+		Response response = given().header("Authorization", token).when().get(URL + "/" + 3).then().extract().response();
 
 		assertTrue(response.statusCode() == 200);
 
-		given().header("Authorization", "Bad Token").when().get(URL + 3).then().assertThat().statusCode(401);
-		
-		given().header("Authorization", token).when().get(URL + 3 + "BAD").then().assertThat().statusCode(404);
-		
-		given().header("Authorization", token).when().post(URL + 3).then().assertThat().statusCode(405);
+		given().header("Authorization", "Bad Token").when().get(URL + "/" + 3).then().assertThat().statusCode(401);
+
+		given().header("Authorization", token).when().get(URL + "/" +  3 + "BAD").then().assertThat().statusCode(404);
+
+		given().header("Authorization", token).when().post(URL + "/" +  3).then().assertThat().statusCode(415);
 	}
 
 	/**
@@ -127,8 +128,9 @@ given().header("Authorization", "Bad Token").when().get(URL + 3).then().assertTh
 	@Test(priority = 20, dataProvider = "interview", enabled = true)
 	public void testUpdateInterview(TfInterview interview) {
 		Response response = given().header("Authorization", token).contentType("application/json").body(interview)
-				.when().put(URL + 3).then().extract().response();
+				.when().put(URL + "/" +  3).then().extract().response();
 
+		System.out.println(response.statusCode());
 		assertTrue(response.statusCode() == 202);
 		System.out.println(response.asString());
 
@@ -155,19 +157,19 @@ given().header("Authorization", "Bad Token").when().get(URL + 3).then().assertTh
 	 */
 	@DataProvider(name = "interview")
 	public Object[][] provideInterview() {
-		
+
 		TfAssociate a = new TfAssociate();
 		a.setId(392);
-		
+
 		TfClient c = new TfClient();
 		a.setId(5);
-		
+
 		TfEndClient ec = new TfEndClient();
 		ec.setId(6);
-		
+
 		TfInterviewType it = new TfInterviewType();
 		it.setId(7);
-		
+
 		interview.setAssociate(a);
 		interview.setClient(c);
 		interview.setEndClient(ec);

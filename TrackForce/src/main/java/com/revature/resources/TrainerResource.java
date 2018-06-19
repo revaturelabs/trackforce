@@ -110,7 +110,7 @@ public class TrainerResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "get a trainer by its user id")
 	public Response getTrainer(@PathParam("id")int id, @HeaderParam("Authorization")String token) {
-		TfTrainer trainer = trainerService.getTrainerByUserId(id);
+		TfTrainer trainer;
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 		if (payload == null || payload.getId().equals("5")) {

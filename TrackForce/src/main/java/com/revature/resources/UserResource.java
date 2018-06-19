@@ -91,8 +91,13 @@ public class UserResource {
 	public Response createNewAssociate(TfAssociate newAssociate) {
 		logger.info("createNewAssociate()...");
 		LogUtil.logger.info(newAssociate);
-		associateService.createAssociate(newAssociate);
-		return Response.status(Status.CREATED).build();
+		if (newAssociate.getUser().getRole() == 5) {
+			associateService.createAssociate(newAssociate);
+			return Response.status(Status.CREATED).build();
+		}
+		else {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 	}
 
 	/**
@@ -110,8 +115,13 @@ public class UserResource {
 	public Response createTrainer(TfTrainer newTrainer) {
 		logger.info("creating new user...");
 		LogUtil.logger.info(newTrainer);
-		trainerService.createTrainer(newTrainer);
-		return Response.status(Status.CREATED).build();
+		if (newTrainer.getTfUser().getRole() == 2) {
+			trainerService.createTrainer(newTrainer);
+			return Response.status(Status.CREATED).build();
+		}
+		else {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 	}
 
 	/**

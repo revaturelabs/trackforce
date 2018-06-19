@@ -52,10 +52,10 @@ public class Application {
 //		u.setIsApproved(1);
 //		saveToDB(u);
 
-		List<TfUser> users = userService.getAllUsers();
-		
-		for(TfUser u : users)
-			System.out.println(u);
+//		List<TfUser> users = userService.getAllUsers();
+//		
+//		for(TfUser u : users)
+//			System.out.println(u);
 
 		
 		
@@ -86,37 +86,55 @@ public class Application {
 //		}
 
 
-		TfInterview interview = new TfInterview();
-
-		TfAssociate a = new TfAssociate();
-		a.setId(392);
+//		TfInterview interview = new TfInterview();
+//
+//		TfAssociate a = new TfAssociate();
+//		a = associateService.getAssociate(392);
+//		
+//		TfClient c = new TfClient();
+//		a.setId(5);
+//		
+//		TfEndClient ec = new TfEndClient();
+//		ec.setId(6);
+//		
+//		TfInterviewType it = new TfInterviewType();
+//		it.setId(7);
+//		
+//		interview.setAssociate(a);
+//		interview.setClient(c);
+//		interview.setEndClient(ec);
+//		interview.setInterviewType(it);
+//		interview.setInterviewDate(new Timestamp(152500500L));
+//		interview.setAssociateFeedback("Interviewed well");
+//		interview.setQuestionGiven("Start Date?");
+//		interview.setClientFeedback("Strong Java knowledge");
+//		interview.setJobDescription("SDET");
+//		interview.setDateSalesIssued(new Timestamp(152500500L));
+//		interview.setDateAssociateIssued(new Timestamp(152500500L));
+//		interview.setWas24HRNotice(0);
+//		interview.setIsInterviewFlagged(1);
+//		interview.setFlagReason("Alert");
+//		interview.setIsClientFeedbackVisible(1);
+//		
+//		System.out.println(interview);
+//		
+//		System.out.println(interviewService.updateInterview(interview));
+//		System.out.println(interviewService.createInterview(interview));
 		
-		TfClient c = new TfClient();
-		a.setId(5);
+//		TfUser user = new TfUser();
+//		user.setId(950);
+//		user.setIsApproved(1);
+//		user.setPassword("password");
+//		user.setRole(5);
+//		user.setUsername("A Very Unique Name");
+//		
+//		System.out.println(userService.insertUser(user));
 		
-		TfEndClient ec = new TfEndClient();
-		ec.setId(6);
-		
-		TfInterviewType it = new TfInterviewType();
-		it.setId(7);
-		
-		interview.setAssociate(a);
-		interview.setClient(c);
-		interview.setEndClient(ec);
-		interview.setInterviewType(it);
-		interview.setInterviewDate(new Timestamp(152500500L));
-		interview.setAssociateFeedback("Interviewed well");
-		interview.setQuestionGiven("Start Date?");
-		interview.setClientFeedback("Strong Java knowledge");
-		interview.setJobDescription("SDET");
-		interview.setDateSalesIssued(new Timestamp(152500500L));
-		interview.setDateAssociateIssued(new Timestamp(152500500L));
-		interview.setWas24HRNotice(0);
-		interview.setIsInterviewFlagged(1);
-		interview.setFlagReason("Alert");
-		interview.setIsClientFeedbackVisible(1);
-		
-		System.out.println(interviewService.createInterview(interview));
+//		TfUser u = new TfUser();
+//		u.setUsername("Bob");
+//		u.setPassword("BOB");
+//		
+//		System.out.println(userService.submitCredentials(u));
 
 //		associateService.updateAssociate(a);
 

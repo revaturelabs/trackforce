@@ -1,5 +1,5 @@
  /** @Author Princewill Ibe **/
-
+ import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import {Component, OnInit} from '@angular/core';
 import {Batch} from '../../models/batch.model';
 import {BatchService} from '../../services/batch-service/batch.service';
@@ -23,8 +23,8 @@ import {Color} from 'ng2-charts';
 @AutoUnsubscribe
 export class BatchListComponent implements OnInit {
 
-  start:any;
-  end: any;
+  start : any;
+  end : any;
   pieChartType = 'pie';
   startDate: Date = new Date();
   endDate: Date = new Date();
@@ -42,26 +42,49 @@ export class BatchListComponent implements OnInit {
   );
 
 
-  constructor(private batchService: BatchService) {
+  constructor(private batchService: BatchService, private authService: AuthenticationService) {
   }
 
   /**
    * load default batches on initialization
    */
   ngOnInit() {
-    // set default dates displayed on page
-    this.startDate.setMonth(new Date().getMonth() - 3);
-    this.endDate.setMonth(new Date().getMonth() + 3);
-    const startTime = Date.now();
-    this.dataReady = false;
-    // this.batchService.getDefaultBatches().subscribe(
-    //   (batches) => {
-    //     this.batches = batches;
-    //     this.updateCountPerCurriculum();
-    //     this.dataReady = true;
-    //     const elapsed = Date.now() - startTime;
-    //   },
-    // );
+    // get current user
+    const user = this.authService.getUser();
+    //user is a trainer they can only see their batches
+    if (user.role === 2) {
+      this.dataReady = false;
+      this.batchService.getAllBatches().subscribe(
+        batches => {
+          // filter out batches that don't have an associated trainer
+          this.batches = batches.filter(
+            batch => {
+              if( batch.trainer.firstName === this.authService.getTrainer().firstName) {
+                return true;
+              }
+              if (batch.coTrainer) return batch.coTrainer.includes(this.authService.getTrainer());
+              return false;
+            }
+          );
+        }
+      );
+      this.dataReady = true;
+    }
+    else {
+      // set default dates displayed on page
+      this.startDate.setMonth(new Date().getMonth() - 3);
+      this.endDate.setMonth(new Date().getMonth() + 3);
+      const startTime = Date.now();
+      this.dataReady = false;
+      this.batchService.getAllBatches().subscribe(
+        (batches) => {
+          this.batches = batches;
+          this.updateCountPerCurriculum();
+          this.dataReady = true;
+          const elapsed = Date.now() - startTime;
+        },
+      );
+    }
   }
 
 
@@ -70,6 +93,7 @@ export class BatchListComponent implements OnInit {
    * and the corresponding graph accordingly
    */
   public applySelectedRange(s,e) {
+    console.log('in applySelectedRange ')
     if(s != null){
       this.startDate = s;
     }
@@ -77,6 +101,7 @@ export class BatchListComponent implements OnInit {
       this.endDate = e;
     }
     if (this.startDate && this.endDate) {
+      console.log("about to updateBatches")
       this.updateBatches();
     }
   }
@@ -86,13 +111,14 @@ export class BatchListComponent implements OnInit {
    */
   public resetToDefaultBatches(){
     this.dataReady = false;
-    // this.batchService.getDefaultBatches().subscribe(
-    //   (batches) => {
-    //     this.batches = batches;
-    //     this.updateCountPerCurriculum();
-    //     this.dataReady = true;
-    //   },
-    // );
+    this.dataReady = false;
+    this.batchService.getAllBatches().subscribe(
+      (batches) => {
+        this.batches = batches;
+        this.updateCountPerCurriculum();
+        this.dataReady = true;
+      },
+    );
   }
 
   /**
@@ -103,11 +129,27 @@ export class BatchListComponent implements OnInit {
    */
   public updateBatches() {
     this.dataReady = false;
-    this.batchService.getBatchesByDate(new Date(this.startDate), new Date(this.endDate)).subscribe(
+    this.batchService.getAllBatches().subscribe(
       batches => {
         // they serve as flags in template
+        this.batches = batches.filter(
+          batch => {
+            console.log(this.startDate);
+            let dateStartDate = new Date(this.startDate);
+            let dateEndDate = new Date(this.endDate);
+            let longStartDate = dateStartDate.getTime();
+            let longEndDate = dateEndDate.getTime();
+ 
+            if (batch.startDate && batch.endDate) {
+              return batch.startDate > longStartDate && batch.endDate < longEndDate;
+            }
+            else {
+              return false;
+            }
+          }
+        );
         this.dataReady = false;
-        this.batches = batches.sort((a, b) => {
+        this.batches = this.batches.sort((a, b) => {
             if (a.startDate < b.startDate) {
               return -1;
             } else if (a.startDate > b.startDate) {
@@ -136,11 +178,13 @@ export class BatchListComponent implements OnInit {
     this.dataEmpty = this.batches.length === 0;
 
     for (const batch of this.batches) {
-      let count = curriculumCountsMap.get(batch.curriculumName.name);
-      if (count === undefined) {
-        count = 0;
+      if (batch.curriculumName) {
+        let count = curriculumCountsMap.get(batch.curriculumName.name);
+        if (count === undefined) {
+          count = 0;
+        }
+        curriculumCountsMap.set(batch.curriculumName.name, count + 1);
       }
-      curriculumCountsMap.set(batch.curriculumName.name, count + 1);
     }
 
     // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change

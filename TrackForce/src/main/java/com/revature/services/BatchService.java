@@ -9,7 +9,7 @@ import com.revature.entity.TfBatch;
 /**
  * @author Adam L. 
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  */
 public class BatchService {
 	
@@ -25,7 +25,7 @@ public class BatchService {
 	 * 
 	 * <p>Gets the batch given the batch name</p>
 	 * 
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * @param batchName 
 	 * @return TfBatch
 	 */
@@ -38,7 +38,7 @@ public class BatchService {
 	 * 
 	 * <p>Gets the batch given their batch Id</p>
 	 * 
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * @param id - the batch id
 	 * @return TfBatch
 	 */
@@ -51,7 +51,7 @@ public class BatchService {
 	 * 
 	 * <p>Gets all batches</p>
 	 * 
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * @return List<TfBatch>
 	 */
 	public List<TfBatch> getAllBatches(){

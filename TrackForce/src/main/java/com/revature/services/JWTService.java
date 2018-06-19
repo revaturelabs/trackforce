@@ -29,7 +29,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
  *         found here: https://stormpath.com/blog/jwt-java-create-verify And
  *         resources from Sean Vaeth
  *
- *	@version.date v6.18.06.13
+ *	@version v6.18.06.13
  *			Note: made minor updates to allow continued use of these tokens
  */
 public class JWTService {

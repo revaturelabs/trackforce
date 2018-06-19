@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  */
 @Path("clients")
 @Api(value = "clients")
@@ -56,7 +56,7 @@ public class ClientResource {
 	 * 
 	 * @author Adam L. 
 	 * <p>Returns a map of all of the clients as a response object.</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param token
 	 * @return

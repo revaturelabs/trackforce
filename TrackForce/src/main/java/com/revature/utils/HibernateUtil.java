@@ -18,7 +18,7 @@ import org.hibernate.cfg.Configuration;
 /**
  * @author Curtis H., Adam L.
  * <p>The abstracted methods for making Hibernate calls to the database</p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 public class HibernateUtil {

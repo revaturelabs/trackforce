@@ -9,7 +9,7 @@ import com.revature.entity.TfTrainer;
 /**
  * @author Adam L. 
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 public class TrainerService {
@@ -22,7 +22,7 @@ public class TrainerService {
 	/**
 	 * @author Adam L. 
 	 * Given a trainer id, returns a trainer.
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param id
 	 * @return
@@ -34,7 +34,7 @@ public class TrainerService {
 	/**
 	 * @author Curtis H.
 	 * Given a user id, returns a trainer.
-	 * @version.date v6.18.06.16
+	 * @version v6.18.06.16
 	 *
 	 */
 	public TfTrainer getTrainerByUserId(int id) {
@@ -44,7 +44,7 @@ public class TrainerService {
 	/**
 	 * @author Adam L. 
 	 * <p> </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @return
 	 */
@@ -55,7 +55,7 @@ public class TrainerService {
 	/**
 	 * @author Adam L. 
 	 * <p> </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param trainer
 	 * @return
@@ -67,7 +67,7 @@ public class TrainerService {
 	/**
 	 * @author Adam L. 
 	 * <p> </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param trainer
 	 * @return

@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * @author Andy A 
  * <p>Created Trainer entity to be used to pull trainer information from the DB</p>
- * @version.date v6.18.06.08
+ * @version v6.18.06.08
  *
  */
 @XmlRootElement

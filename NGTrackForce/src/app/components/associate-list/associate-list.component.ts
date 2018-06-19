@@ -95,7 +95,7 @@ export class AssociateListComponent implements OnInit {
 
     this.associateService.getAllAssociates().subscribe(data => {
       this.associates = data;
-      console.log(this.associates);
+      // console.log(this.associates);
 
       for (let associate of this.associates) {//get our curriculums from the associates
         this.curriculums.add(Curriculum.name);

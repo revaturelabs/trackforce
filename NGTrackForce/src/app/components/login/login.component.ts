@@ -16,6 +16,7 @@ import {BatchService} from '../../services/batch-service/batch.service';
 import {TrainerService} from '../../services/trainer-service/trainer.service';
 import {Trainer} from '../../models/trainer.model';
 import {Batch} from '../../models/batch.model';
+import {Associate} from "../../models/associate.model";
 
 const ASSOCIATE_KEY = 'currentAssociate';
 const USER_KEY = 'currentUser';
@@ -64,6 +65,9 @@ export class LoginComponent implements OnInit {
   public role: number;
   public usernameRestrictions = RegExp("^[a-zA-Z0-9]{6,20}$");
   public passwordRestrictions = RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#$%^&*])(?=.{8,})");
+  public newUser: User;
+  public newTrainer: Trainer;
+  public newAssociate: Associate;
 
   /**
    *@constructor
@@ -175,7 +179,10 @@ export class LoginComponent implements OnInit {
     } else {
       switch (this.role) {
         case 2:
-          this.userService.createTrainer(this.username, this.password, this.fname, this.lname).subscribe(
+          this.newUser = new User(this.username, this.password, 2, 0);
+          this.newTrainer = new Trainer(this.fname, this.lname, this.newUser);
+          console.log(JSON.stringify(this.newTrainer));
+          this.userService.createTrainer(this.newTrainer).subscribe(
             data => {
               this.sucMsg = "Trainer account creation successful.";
             },
@@ -186,7 +193,9 @@ export class LoginComponent implements OnInit {
           );
           break;
         case 5:
-          this.userService.createAssociate(this.username.trim(), this.password, this.fname, this.lname).subscribe(
+          this.newUser = new User(this.username, this.password, 5, 0);
+          this.newAssociate = new Associate(this.fname, this.lname, this.newUser);
+          this.userService.createAssociate(this.newAssociate).subscribe(
             data => {
               this.sucMsg = "Associate account creation successful.";
             },
@@ -211,20 +220,6 @@ export class LoginComponent implements OnInit {
     this.sucMsg = "";
     this.errMsg = "";
     this.isRegistering = false;
-    this.registerPage = 0;
-  }
-
-  /**
-   * Change the current page to the firstname lastname input form
-   */
-  next() {
-    this.registerPage = 1;
-  }
-
-  /**
-   * Change the current page to username and password
-   */
-  previous() {
     this.registerPage = 0;
   }
 

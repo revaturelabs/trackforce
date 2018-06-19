@@ -59,10 +59,7 @@ export class BatchListComponent implements OnInit {
           // filter out batches that don't have an associated trainer
           this.batches = batches.filter(
             batch => {
-              console.log('batch trainer ' + batch.trainer.firstName);
-              console.log('this trainer ' + this.authService.getTrainer().firstName ) 
               if( batch.trainer.firstName === this.authService.getTrainer().firstName) {
-                console.log('---------------------we return true------------')
                 return true;
               }
               if (batch.coTrainer) return batch.coTrainer.includes(this.authService.getTrainer());

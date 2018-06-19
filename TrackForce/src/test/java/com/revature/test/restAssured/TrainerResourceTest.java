@@ -26,6 +26,7 @@ public class TrainerResourceTest {
 	TrainerService TrainerService = new TrainerService();
 	List<TfTrainer> trainers;
 	String token;
+	int knownTrainerId;
 
 	//static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
 	static final String URL = "http://localhost:8085/TrackForce/trainers";
@@ -36,34 +37,8 @@ public class TrainerResourceTest {
 		System.out.println(token);
 		trainers = new ArrayList<>();
 		trainers = TrainerService.getAllTrainers();
+		knownTrainerId = 60302;
 	}
-
-	/**
-	 * This method current does not exist
-	 */
-	// @Test(priority = 1)
-	// public void testGetAllTrainers() {
-	// Response response = given().header("Authorization",
-	// token).when().get(URL).then().extract().response();
-	//
-	// System.out.println(response.statusCode());
-	// assertTrue(response.getStatusCode() == 204 || response.getStatusCode() ==
-	// 200);
-	// assertTrue(response.getContentType().equals(MediaType.APPLICATION_JSON));
-	//
-	// given().header("Authorization",
-	// token).when().get(URL).then().assertThat().body("id",
-	// hasSize(trainers.size()));
-	//
-	// response = given().header("Authorization", "Bad
-	// Token").when().get(URL).then().extract().response();
-	//
-	// assertTrue(response.statusCode() == 401);
-	// assertTrue(response.asString().contains("401 – Unauthorized"));
-	//
-	// given().header("Authorization", token).when().get(URL +
-	// "/notAURL").then().assertThat().statusCode(404);
-	// }
 
 	/**
 	 * Test that a trainer can be successfully retrieved, that a 204 is returns when
@@ -73,21 +48,31 @@ public class TrainerResourceTest {
 	 * @since 06.18.06.18
 	 */
 	@Test(priority = 2)
-	public void testGetTrainer() {
-		Response response = given().header("Authorization", token).when().get(URL + "/" + 1).then().extract()
+	public void testGetTrainer1() {
+		Response response = given().header("Authorization", token).when().get(URL + "/" + knownTrainerId).then().extract()
 				.response();
 
 		System.out.println(response.statusCode());
 		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200);
-
-		response = given().header("Authorization", "Bad Token").when().get(URL + "/" + 1).then().extract().response();
+		if(response.statusCode() == 200) {
+			assertTrue(response.asString().contains("Ava"));
+			assertTrue(response.asString().contains("Trains"));
+		}
+	}
+	
+	/**
+	 * Unhappy path testing for getTrainer
+	 */
+	@Test(priority = 3)
+	public void testGetTrainer2() {
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownTrainerId).then().extract().response();
 
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 
 		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
 
-		given().header("Authorization", token).contentType("application/json").when().post(URL + "/" + 1).then()
+		given().header("Authorization", token).contentType("application/json").when().post(URL + "/" + knownTrainerId).then()
 				.assertThat().statusCode(405);
 	}
 
@@ -99,15 +84,23 @@ public class TrainerResourceTest {
 	 * @author Jesse, Andy
 	 * @since 06.18.06.18
 	 */
-	@Test(priority = 3)
-	public void getTrainerPrimaryBatches() {
+	@Test(priority = 4)
+	public void getTrainerPrimaryBatches1() {
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
-				.post(URL + "/" + 1 + "/batch").then().extract().response();
-		System.out.println(response.statusCode());
+				.post(URL + "/" + knownTrainerId + "/batch").then().extract().response();
+		
 		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200);
-
-		System.out.println(response.statusCode());
-		response = given().header("Authorization", "Bad Token").contentType("application/json").when()
+		if (response.statusCode() == 200) {
+			//assertTrue
+		}
+	}
+	
+	/**
+	 * Unhappy path testing for getTrainerPrimaryBatches
+	 */
+	@Test(priority = 5)
+	public void getTrainerPrimaryBatches2() {
+		Response response = given().header("Authorization", "Bad Token").contentType("application/json").when()
 				.post(URL + "/" + 1 + "/batch").then().extract().response();
 
 		assertTrue(response.statusCode() == 401);
@@ -134,23 +127,23 @@ public class TrainerResourceTest {
 	@Test(priority = 4)
 	public void getTrainerCotrainerBatch() {
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
-				.post(URL + "/" + 1 + "/cotrainerbatch").then().extract().response();
+				.post(URL + "/" + knownTrainerId + "/cotrainerbatch").then().extract().response();
 		System.out.println(response.statusCode());
 		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200);
 
 		response = given().header("Authorization", "Bad Token").contentType("application/json").when()
-				.post(URL + "/" + 1 + "/cotrainerbatch").then().extract().response();
+				.post(URL + "/" + knownTrainerId + "/cotrainerbatch").then().extract().response();
 
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 
 		given().header("Authorization", token).contentType("application/json").when()
-				.post(URL + "/" + 1 + "/cotrainerbatchBAD").then().assertThat().statusCode(404);
+				.post(URL + "/" + knownTrainerId + "/cotrainerbatchBAD").then().assertThat().statusCode(404);
 
 		given().header("Authorization", token).contentType("application/json").when()
-				.put(URL + "/" + 1 + "/cotrainerbatch").then().assertThat().statusCode(405);
+				.put(URL + "/" + knownTrainerId + "/cotrainerbatch").then().assertThat().statusCode(405);
 
-		given().header("Authorization", token).when().post(URL + "/" + 1 + "/batch").then().assertThat()
+		given().header("Authorization", token).when().post(URL + "/" + knownTrainerId + "/batch").then().assertThat()
 				.statusCode(415);
 	}
 

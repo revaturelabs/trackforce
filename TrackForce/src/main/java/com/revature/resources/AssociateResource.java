@@ -214,6 +214,7 @@ public class AssociateResource {
 	@Path("/{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, TfAssociate associate,
 			@HeaderParam("Authorization") String token) {
+		
 		logger.info("updateAssociate()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
@@ -222,13 +223,12 @@ public class AssociateResource {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else if (payload.getId().equals("5")) {
-			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
+			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.PAYMENT_REQUIRED;
 
 		}
 		else {
-			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
+			status = associateService.updateAssociate(associate) ? Status.OK : Status.PAYMENT_REQUIRED;
 		}
-
 		return Response.status(status).build();
 	}
 

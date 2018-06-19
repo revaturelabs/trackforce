@@ -3,6 +3,7 @@ package com.revature.test.restAssured;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Matchers.contains;
 import static org.testng.Assert.assertTrue;
 
 import java.sql.Timestamp;
@@ -117,11 +118,14 @@ public class AssociateResourceTest {
 			assertTrue(response.contentType().equals("application/json"));
 		}
 
+		response = given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().extract()
+				.response();
+		
 		given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().assertThat().body("firstName",
 				equalTo("Edward"));
-
-		given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().assertThat().body("marketingStatus",
-				equalTo(null));
+				
+		assertTrue(response.asString().contains("\"id\":3"));
+		assertTrue(response.asString().contains("\"name\":\"MAPPED: SELECTED\""));
 	}
 
 	/**
@@ -131,7 +135,6 @@ public class AssociateResourceTest {
 	public void testGetAssociate2() {
 		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId1).then().extract()
 				.response();
-
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 
@@ -154,18 +157,16 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 40, enabled = true)
 	public void testUpdateAssociate1() {
-		given().header("Authorization", token).contentType("application/json").body(associate).when()
-				.put(URL + "/" + knownUserId2).then().assertThat().statusCode(200);
+		AssociateService service = new AssociateService();
 
-		Response response = given().header("Authorization", token).when().get(URL + "/" + knownUserId2).then().extract()
+		Response response = given().header("Authorization", token).contentType("application/json").body(service.getAssociate(associate.getId())).when().get(URL + "/" + knownUserId2).then().extract()
 				.response();
-
 		assertTrue(response.statusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 
 		assertTrue(response.asString().contains("Tom") && response.asString().contains("Jerry"));
 		
-		given().header("Authorization", token).when().get(URL + "/" + knownUserId2).then().assertThat().body("marketintStatus.id", equalTo(4));
+		given().header("Authorization", token).when().get(URL + "/" + knownUserId2).then().assertThat().body("marketingStatus.id", equalTo(3));
 	}
 
 	/**
@@ -180,9 +181,6 @@ public class AssociateResourceTest {
 	public void testUpdateAssociate2() {
 		given().header("Authorization", token).when().post(URL + "/" + knownUserId2).then().assertThat().statusCode(405);
 
-		given().header("Authorization", token).contentType("application/json").body(associate).when().put(URL + "/0")
-				.then().assertThat().statusCode(200);
-
 		given().header("Authorization", token).when().get(URL + "/badURL").then().assertThat().statusCode(404);
 
 		given().header("Authorization", token).when().get(URL + "/" + knownUserId2).then().assertThat().body("address",
@@ -191,7 +189,6 @@ public class AssociateResourceTest {
 		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId2).then().extract()
 				.response();
 
-		System.out.println(response.getStatusCode());
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 	}

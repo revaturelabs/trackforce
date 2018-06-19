@@ -4,6 +4,7 @@ package com.revature.application;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.entity.TfTrainer;
 import com.revature.services.AssociateService;
@@ -282,6 +283,10 @@ public class Application {
 		// make a user to be used by max in testing login
 
 
+TfAssociate associate = new TfAssociate();
+associate.setId(1);
+associate.setFirstName("Greg");
 
+System.out.println(associateService.updateAssociate(associate));
 	}
 }

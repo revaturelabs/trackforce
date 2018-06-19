@@ -7,8 +7,8 @@ export class CreateUserPo {
     private password            : ElementFinder;
     private passwordConfirm     : ElementFinder;
     private adminRadio          : ElementFinder;
-    private managerRadio       : ElementFinder;
-    private trainerRadio             : ElementFinder;
+    private managerRadio        : ElementFinder;
+    private trainerRadio        : ElementFinder;
     private associateRadio      : ElementFinder;
     private deliveryRadio       : ElementFinder;
 
@@ -37,7 +37,7 @@ export class CreateUserPo {
      * Returns the Create User page
      */
     navigateTo(){
-        return browser.get('create-user');
+        return browser.get('');
     }
 
     /**

@@ -22,6 +22,8 @@ import { AuthGuard } from '../guards/auth.guard';
 import { InterviewDetailsComponent } from '../components/interview-details/interview-details.component';
 import { InterviewsComponent } from '../components/interviews-view/interviews-view.component';
 import { TrainerViewComponent } from '../components/trainer-view/trainer-view.component';
+import { DeployedComponent } from '../components/deployed/deployed.component';
+import { UndeployedComponent } from '../components/undeployed/undeployed.component';
 
 /**
  * Place paths here
@@ -121,6 +123,16 @@ export const appRoutes: Routes = [
     path: 'trainer-view',
     canActivate: [AuthGuard],
     component: TrainerViewComponent
+  },
+  {
+    path: 'deployed/:id',
+    canActivate: [AuthGuard],
+    component: DeployedComponent
+  },
+  {
+    path: 'undeployed/id:',
+    canActivate: [AuthGuard],
+    component: UndeployedComponent
   },
   {
     // must be LAST in this array because this matches all other paths (fallback)

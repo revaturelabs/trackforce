@@ -218,10 +218,42 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  deployedOnClick(evt: any) {
+    if (evt.active[0] !== undefined) {
+      //navigate to skillset component
+      this.router.navigate([`deployed/${evt.active[0]._index}`]);
+    }
+  }
+
+  undeployedOnClick(evt: any) {
+    if (evt.active[0] !== undefined) {
+      //navigate to skillset component
+      this.router.navigate([`undeployed/${evt.active[0]._index}`]);
+    }
+  }
+
+
+  public getUndeployedData(): number[] {
+    return this.undeployedData;
+  }
+
+  public getDeployedData(): number[] {
+    return this.deployedData;
+  }
+
+  public getMappedData(): number[] {
+    return this.mappedData;
+  }
+
+  public getUnmappedData(): number[] {
+    return this.unmappedData;
+  }
+
   /////////////////////////////////////////////////////////////
   // THESE FUNCTIONS ARE BEING CALLED SOMEWHERE
   // THEY SHOULD NOT BE CALLED BECUASE THERE IS NO RESOURCE SERVER SIDE
   // FOR THE SERVICES TO ACCESS (NO END POINTS)
+  // But we do need to keep them for eventual SalesForce integration
   //
   // /**
   //  * @function populateDB
@@ -260,21 +292,4 @@ export class HomeComponent implements OnInit {
   // }
   ////////////////////////////////////////////////////////////////
 
-
-
-  public getUndeployedData(): number[] {
-    return this.undeployedData;
-  }
-
-  public getDeployedData(): number[] {
-    return this.deployedData;
-  }
-
-  public getMappedData(): number[] {
-    return this.mappedData;
-  }
-
-  public getUnmappedData(): number[] {
-    return this.unmappedData;
-  }
 }

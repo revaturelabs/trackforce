@@ -1,3 +1,36 @@
-<p>
-  undeployed works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <button (click)="changeChartType('bar')" class="btn btn-default">Bar Chart</button>
+      <button (click)="changeChartType('pie')" class="btn btn-default">Pie Chart</button>
+      <button (click)="changeChartType('polarArea')" class="btn btn-default">Polar Chart</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="white">
+        <canvas baseChart class="chart chart-bar" id="the_graph" *ngIf="clientMappedData && clientMappedData.length && clientMappedLabels && clientMappedLabels.length"
+          [data]="clientMappedData" [labels]="clientMappedLabels" [chartType]="chartType" 
+          [options]="chartOptions" [colors]="clientColors"
+          (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="white">
+        <canvas baseChart 
+          id="pie" 
+          class="chart chart-pie" 
+          [data]="mappedData" 
+          [labels]="mappedLabels" 
+          [chartType]="mappedChartType"
+          [colors]="clientColors" 
+          [options]="mappedOptions" 
+          (chartClick)="mappedOnClick($event)">
+        </canvas>
+      </div>
+    </div>
+  </div>

@@ -19,10 +19,10 @@ describe('create-user page input and button fields', () => {
         password = 'password'
     });
 
-    it('should navigate to the create-user page', () => {
-        createUser.navigateTo();
-        expect(createUser.getCurrentURL()).toEqual(baseURL + testURL);
-    });
+    // it('should navigate to the create-user page', () => {
+    //     createUser.navigateTo();
+    //     expect(createUser.getCurrentURL()).toEqual(baseURL + testURL);
+    // });
 
     it('should accept username input', () => {
         createUser.inputUsername(username);

@@ -156,7 +156,7 @@ describe('When I enter a very large numeric input it', () => {
     it('should yield some associates', () => {
         let numAssociates = predictionsPage.numberOfAssociatesInTableEntry.getText()
         .then(text => {
-            expect(text).toEqual('38');
+            expect(text).toEqual('0');
         });
     });
 

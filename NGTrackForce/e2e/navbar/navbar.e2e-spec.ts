@@ -14,7 +14,7 @@ describe('navbar functionality', () => {
 
     it('should navigate to home page', () => {
         navbar.goToHome();
-        expect(navbar.getCurrentURL()).toEqual(baseURL + 'root');
+        expect(navbar.getCurrentURL()).toEqual(baseURL + 'app-home');
     });
 
     it('should navigate to client list page', () => {

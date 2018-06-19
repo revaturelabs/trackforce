@@ -19,6 +19,7 @@ export class CreateUserComponent implements OnInit {
     password2: string;
     roleId: number;
     errMsg:any;
+    sucMsg:any;
     constructor(private authService: AuthenticationService, 
                 private router: Router, 
                 private userService: UserService) { }
@@ -40,7 +41,8 @@ export class CreateUserComponent implements OnInit {
         this.userService.createUser(this.username, this.password, this.roleId).subscribe(
           data => {
             //navigate to home page if return is valid
-            this.router.navigate(['app-home']);
+            // this.router.navigate(['app-home']);
+            this.sucMsg='User created!'
           },
           err => {
             console.error(err + " Error Occurred");

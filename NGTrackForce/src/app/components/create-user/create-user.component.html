@@ -23,6 +23,9 @@
       <div *ngIf="errMsg" class="alert alert-danger">
         {{errMsg}}
       </div>
+      <div *ngIf="sucMsg" class="alert alert-success">
+        {{sucMsg}}
+      </div>
       <div class="form-group">
           <label for="RoleType">Please Select Role Type:</label><br>
           <input type="radio" name="optradio" value="1" [(ngModel)]="roleId">&ensp;Administrator<br>

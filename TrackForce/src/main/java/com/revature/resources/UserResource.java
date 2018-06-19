@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfRole;
 import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
 import com.revature.services.*;
@@ -62,12 +63,57 @@ public class UserResource {
 	@Consumes("application/json")
 	@ApiOperation(value = "Creates new user", notes = "")
 	public Response createUser(TfUser newUser) {
-		logger.info("creating new user...");
-		LogUtil.logger.info(newUser);
-		if (newUser.getRole() == 2 || newUser.getRole() == 5) {
-			return Response.status(Status.FORBIDDEN).build();
+		logger.info("creating new user..." + newUser);
+		
+		// any user created by an admin is approved
+		newUser.setIsApproved(1);
+
+		// get the role being passed in 
+		int role = newUser.getRole();
+		TfRole tfrole = new TfRole();
+		
+		if(role != 0) {
+			switch(role) {
+			case 1:
+				tfrole = new TfRole(1, "Admin");
+				newUser.setTfRole(tfrole);
+				userService.insertUser(newUser);
+				break;
+			case 2:
+				tfrole = new TfRole(2, "Trainer");
+				newUser.setTfRole(tfrole);
+				TfTrainer newTrainer = new TfTrainer();
+				newTrainer.setTfUser(newUser);
+				newTrainer.setFirstName("placehold");
+				newTrainer.setLastName("placeholder");
+				logger.info("creating new trainer..." + newTrainer);
+				trainerService.createTrainer(newTrainer);
+				break;
+			case 3:
+				tfrole = new TfRole(3, "Sales-Delivery");
+				newUser.setTfRole(tfrole);
+				userService.insertUser(newUser);
+				break;
+			case 4:
+				tfrole = new TfRole(4, "Staging");
+				newUser.setTfRole(tfrole);
+				userService.insertUser(newUser);
+				break;
+			case 5:
+				tfrole = new TfRole(5, "Associate");
+				newUser.setTfRole(tfrole);
+				TfAssociate newAssociate = new TfAssociate();
+				newAssociate.setUser(newUser);
+				newAssociate.setFirstName("placehold");
+				newAssociate.setLastName("placeholder");
+				logger.info("creating new associate..." + newAssociate);
+				associateService.createAssociate(newAssociate);
+				break;
+			}
 		}
-		userService.insertUser(newUser);
+
+		
+
 		return Response.status(Status.CREATED).build();
 	}
 

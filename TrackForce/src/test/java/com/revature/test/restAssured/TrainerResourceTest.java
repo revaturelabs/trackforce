@@ -25,8 +25,9 @@ import io.restassured.response.Response;
 public class TrainerResourceTest {
 
 
-	//static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
-	static final String URL = "http://localhost:8085/TrackForce/trainers";
+	static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
+	//static final String URL = "http://localhost:8085/TrackForce/trainers";
+	
 	TrainerService trainerService = new TrainerService();
 	List<TfTrainer> trainers;
 	String token;
@@ -62,7 +63,6 @@ public class TrainerResourceTest {
 		Response response = given().header("Authorization", token).when().get(URL + "/" + knownUserId).then().extract()
 				.response();
 
-		System.out.println(response.statusCode());
 		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200);
 		if(response.statusCode() == 200) {
 			assertTrue(response.asString().contains("Ava"));
@@ -139,7 +139,6 @@ public class TrainerResourceTest {
 	public void testGetTrainerCotrainerBatch1() {
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
 				.post(URL + "/" + knownTrainerId + "/cotrainerbatch").then().extract().response();
-		System.out.println(response.statusCode());
 		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200);
 	}
 	
@@ -172,7 +171,7 @@ public class TrainerResourceTest {
 	 * @since 06.18.06.18
 	 */
 	@Test(priority = 8)
-	public void testUpdateTrainer() {
+	public void testUpdateTrainer1() {
 		Response response = given().headers("Authorization", token).contentType("application/json").body(trainer).when()
 				.put(URL + "/" + knownTrainerId).then().extract().response();
 		
@@ -186,8 +185,24 @@ public class TrainerResourceTest {
 		response = given().headers("Authorization", token).contentType("application/json").body("").when()
 				.put(URL + "/" + 1000).then().extract().response();
 		
-		System.out.println(response.statusCode());
 		assertTrue(response.statusCode() == 204);
 	}
+	
+	/**
+	 * Unhappy path testing for testUpdateTrainer
+	 */
+	@Test(priority = 9)
+	public void testUpdateTrainer2() {
+		Response response = given().headers("Authorization", "Bad Token").contentType("application/json").body(trainer).when()
+				.put(URL + "/" + knownTrainerId).then().extract().response();
 
+		assertTrue(response.statusCode() == 401);
+		assertTrue(response.asString().contains("Unauthorized"));
+
+		given().header("Authorization", token).contentType("application/json").when()
+				.put(URL + "/" + knownTrainerId + "BADURL").then().assertThat().statusCode(404);
+
+		given().header("Authorization", token).contentType("application/json").when()
+				.post(URL + "/" + knownTrainerId).then().assertThat().statusCode(405);
+	}
 }

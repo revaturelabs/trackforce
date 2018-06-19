@@ -31,6 +31,9 @@ import io.restassured.response.Response;
  */
 public class AssociateResourceTest {
 
+	static final String URL = "http://52.87.205.55:8086/TrackForce/associates";
+	//static final String URL = "http://localhost:8085/TrackForce/associates";
+	
 	AssociateService associateService = new AssociateService();
 	List<TfAssociate> associates;
 	String token;
@@ -38,9 +41,6 @@ public class AssociateResourceTest {
 	
 	int knownUserId1 = 4500;
 	int knownUserId2 = 4501;
-
-	//static final String URL = "http://52.87.205.55:8086/TrackForce/associates";
-	static final String URL = "http://localhost:8085/TrackForce/associates";
 
 	@BeforeClass
 	public void beforeClass() {

@@ -37,11 +37,12 @@ public class InterviewDaoImpl implements InterviewDao {
 		return HibernateUtil.runHibernateTransaction((Session session, Object ... args) -> {
 			TfInterview temp = session.get(TfInterview.class, interview.getId());
 
+			temp.setAssociate(interview.getAssociate());
 			temp.setAssociateFeedback(interview.getAssociateFeedback());
 			temp.setClient(interview.getClient());
 			temp.setClientFeedback(interview.getClientFeedback());
 			temp.setDateAssociateIssued(interview.getDateAssociateIssued());
-			temp.setClient(interview.getClient());
+			temp.setEndClient(interview.getEndClient());
 			temp.setDateSalesIssued(interview.getDateAssociateIssued());
 			temp.setFlagReason(interview.getFlagReason());
 			temp.setInterviewDate(interview.getInterviewDate());

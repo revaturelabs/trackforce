@@ -157,22 +157,22 @@ public class Application {
 //		
 //		System.out.println(interview);
 	
-		for (TfTrainer all : trainerService.getAllTrainers()) {
-			System.out.println(all);
-		}
-		
-		TfTrainer t = trainerService.getTrainer(24);
-		
-		List<TfBatch> list = new ArrayList<>();
-		TfBatch b = new TfBatch();
-		b.setBatchName("Java 1805");
-		b.setId(99);
-		b.setTrainer(t);
-		list.add(b);
-		
-		t.setPrimary(list);
-		
-		System.out.println(trainerService.updateTrainer(t));
+//		for (TfTrainer all : trainerService.getAllTrainers()) {
+//			System.out.println(all);
+//		}
+//		
+//		TfTrainer t = trainerService.getTrainer(24);
+//		
+//		List<TfBatch> list = new ArrayList<>();
+//		TfBatch b = new TfBatch();
+//		b.setBatchName("Java 1805");
+//		b.setId(99);
+//		b.setTrainer(t);
+//		list.add(b);
+//		
+//		t.setPrimary(list);
+//		
+//		System.out.println(trainerService.updateTrainer(t));
 
 //		System.out.println(interviewService.updateInterview(interview));
 //		System.out.println(interviewService.createInterview(interview));

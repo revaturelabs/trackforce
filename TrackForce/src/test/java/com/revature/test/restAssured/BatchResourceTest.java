@@ -15,8 +15,8 @@ import io.restassured.response.Response;
 public class BatchResourceTest {
 
 
-	// static final String URL = "http://52.87.205.55:8086/TrackForce/batches";
-	static final String URL = "http://localhost:8085/TrackForce/batches";
+	static final String URL = "http://52.87.205.55:8086/TrackForce/batches";
+	//static final String URL = "http://localhost:8085/TrackForce/batches";
 
 	private String token;
 	BatchService service;

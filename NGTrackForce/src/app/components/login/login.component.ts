@@ -2,22 +2,23 @@
  * @author Michael Tseng
  * @description Receives user inputs from form and submits them to the back-end for validation
  */
-import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-import { Router } from '@angular/router';
-import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
-import { User } from '../../models/user.model';
-import { UserService } from '../../services/user-service/user.service';
-import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
-import { AssociateService } from '../../services/associate-service/associate.service';
-import { InterviewService } from '../../services/interview-service/interview.service';
-import { ClientService } from '../../services/client-service/client.service';
-import { BatchService } from '../../services/batch-service/batch.service';
-import { TrainerService } from '../../services/trainer-service/trainer.service';
-import { Trainer } from '../../models/trainer.model';
-import { Batch } from '../../models/batch.model';
+import {Component, OnInit} from '@angular/core';
+import {AuthenticationService} from '../../services/authentication-service/authentication.service';
+import {Router} from '@angular/router';
+import {AutoUnsubscribe} from '../../decorators/auto-unsubscribe.decorator';
+import {User} from '../../models/user.model';
+import {UserService} from '../../services/user-service/user.service';
+import {trigger, state, style, transition, animate, keyframes} from '@angular/animations';
+import {AssociateService} from '../../services/associate-service/associate.service';
+import {InterviewService} from '../../services/interview-service/interview.service';
+import {ClientService} from '../../services/client-service/client.service';
+import {BatchService} from '../../services/batch-service/batch.service';
+import {TrainerService} from '../../services/trainer-service/trainer.service';
+import {Trainer} from '../../models/trainer.model';
+import {Batch} from '../../models/batch.model';
+import {Associate} from "../../models/associate.model";
 
-const ASSOCIATE_KEY = 'currentAssociate'
+const ASSOCIATE_KEY = 'currentAssociate';
 const USER_KEY = 'currentUser';
 const TRAINER_KEY = 'currentTrainer';
 const INTERVIEWS_KEY = 'currentInterviews';
@@ -36,12 +37,12 @@ const ASSOCIATES_KEY = 'currentAssociates';
     trigger(
       'enterAnimation', [
         transition(':enter', [
-          style({ opacity: 0 }),
-          animate('500ms', style({ opacity: 1 }))
+          style({opacity: 0}),
+          animate('500ms', style({opacity: 1}))
         ]),
         transition(':leave', [
-          style({ opacity: 1 }),
-          animate('500ms', style({ opacity: 0 }))
+          style({opacity: 1}),
+          animate('500ms', style({opacity: 0}))
         ])
       ]
     )
@@ -61,16 +62,26 @@ export class LoginComponent implements OnInit {
   public isRegistering = false;
   public associate: any;
   public registerPage = 0;
+  public role: number;
+  public usernameRestrictions = RegExp("^[a-zA-Z0-9]{6,20}$");
+
+  // public passwordRestrictions = RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#$%^&*])(?=.{8,})");
+  // Regex for getting 3 out of 4 restrictions
+  public passwordRestrictions = RegExp("^(?=.{8,})((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W_])|(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])|(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W_])|(?=.*[a-z])(?=.*[A-Z])(?=.*[\\W_])|(?=.*[a-z])(?=.*[0-9])(?=.*[\\W_]))");
+  public newUser: User;
+  public newTrainer: Trainer;
+  public newAssociate: Associate;
+
   /**
-  *@constructor
-  *
-  *@param {AuthenticationService} authService
-  * Service for login; provides the needed functions, such as login() and logout()
-  *
-  *@param {Router} router
-  * Service needed for redirecting user upon successful login
-  *
-  */
+   *@constructor
+   *
+   *@param {AuthenticationService} authService
+   * Service for login; provides the needed functions, such as login() and logout()
+   *
+   *@param {Router} router
+   * Service needed for redirecting user upon successful login
+   *
+   */
   constructor(
     private associateService: AssociateService,
     private authService: AuthenticationService,
@@ -80,18 +91,19 @@ export class LoginComponent implements OnInit {
     private clientService: ClientService,
     private batchService: BatchService,
     private trainerService: TrainerService
-  ) { }
+  ) {
+  }
 
   /**
-  * Called upon component initiation
-  * Checks if the user is already to logged-in
-  * If they are re-route to root
-  * If the user is an associate, route them to associate view
-  * Admins, VPs, and managers/directors are sent to root
-  *
-  *@param none
-  *
-  */
+   * Called upon component initiation
+   * Checks if the user is already to logged-in
+   * If they are re-route to root
+   * If the user is an associate, route them to associate view
+   * Admins, VPs, and managers/directors are sent to root
+   *
+   *@param none
+   *
+   */
   ngOnInit() {
     const user = this.authService.getUser();
     if (user != null) {
@@ -112,8 +124,8 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-  * Enter the register state
-  */
+   * Enter the register state
+   */
 
   register() {
     this.errMsg = "";
@@ -121,59 +133,118 @@ export class LoginComponent implements OnInit {
     this.isRegistering = true;
     this.registerPage = 0;
   }
+
   /**
-  *Function Wrapper for create-user createuser()
-  */
+   *Function Wrapper for create-user createuser()
+   */
   createUser() {
     this.sucMsg = "";
     this.errMsg = "";
+
     if (this.password === undefined || this.cpassword === undefined || this.password.length === 0 || this.cpassword.length === 0) {
-      this.errMsg = 'Please enter a password and confirm password';
+      this.errMsg = 'Please enter a password and confirm password!';
     } else if (this.password !== this.cpassword) {
       this.errMsg = 'Passwords do not match!';
+    } else if (!this.usernameRestrictions.test(this.username.trim()) && !this.passwordRestrictions.test(this.password)) {
+      this.errMsg = `Invalid username and password!<br>
+        <br>Password requirements:
+          <ul>
+            <li>• 6 - 20 alphanumeric characters.</li>
+            <li>• No spaces.</li>
+            <li>• No special characters</li>
+          </ul>
+        <br>Password requirements:
+          <ul>
+            <li>• At least, 8 characters.</li>
+            <li>• At least, 1 number.</li>
+            <li>• At least, 1 lowercase letter.</li>
+            <li>• At least, 1 uppercase letter.</li>
+            <li>• At least, 1 special character. (.!@#$%^&*)</li>
+          </ul>`;
+    } else if (!this.usernameRestrictions.test(this.username.trim())) {
+      this.errMsg = `Invalid username!<br>
+        <br>Password requirements:
+          <ul>
+            <li>• 6 - 20 characters.</li>
+            <li>• No spaces.</li>
+            <li>• No special characters</li>
+          </ul>`;
+    } else if (!this.passwordRestrictions.test(this.password)) {
+      this.errMsg = `Invalid password!<br>
+        <br>Password requirements:
+        <ul>
+          <li>• At least, 8 characters.</li>
+          <li>• At least, 1 number.</li>
+          <li>• At least, 1 lowercase letter.</li>
+          <li>• At least, 1 uppercase letter.</li>
+          <li>• At least, 1 special character. (.!@#$%^&*)</li>
+        </ul>`;
     } else {
-      this.userService.createAssociate(this.username, this.password, this.fname, this.lname).subscribe(
-        data => {
-          this.sucMsg = "Associate account creation sucessful.";
-        },
-        err => {
-          // console.error(err + " Error Occurred");
-          this.errMsg = 'Error: new associate not created!';
-        }
-      );
+      switch (this.role) {
+        case 2:
+          this.newUser = new User(this.username, this.password, 2, 0);
+          this.newTrainer = new Trainer(this.fname, this.lname, this.newUser);
+          this.resetFields();
+          this.userService.createTrainer(this.newTrainer).subscribe(
+            data => {
+              this.sucMsg = "Trainer account creation successful.";
+            },
+            err => {
+              console.error(err + "Error Occurred!");
+              this.errMsg = 'Error: New Trainer is not created!';
+            }
+          );
+          break;
+        case 5:
+          this.newUser = new User(this.username, this.password, 5, 0);
+          this.newAssociate = new Associate(this.fname, this.lname, this.newUser);
+          this.resetFields();
+          this.userService.createAssociate(this.newAssociate).subscribe(
+            data => {
+              this.sucMsg = "Associate account creation successful.";
+            },
+            err => {
+              console.error(err + " Error Occurred!");
+              this.errMsg = 'Error: New Associate is not created!';
+            }
+          );
+          break;
+        default:
+          this.errMsg = 'Please select a role!';
+          break;
+      }
+
     }
   }
+
+  resetFields() {
+    this.isRegistering = false;
+    this.username = '';
+    this.password = '';
+    this.cpassword = '';
+    this.fname = '';
+    this.lname = '';
+    this.role = undefined;
+  }
+
   /**
-  * Exit the register state
-  */
+   * Exit the register state
+   */
   cancelRegister() {
     this.sucMsg = "";
     this.errMsg = "";
     this.isRegistering = false;
     this.registerPage = 0;
   }
-  /**
-   * Change the current page to the firstname lastname input form
-   */
-  next() {
-    this.registerPage = 1;
-  }
 
   /**
-   * Change the current page to username and password
+   * Function wrapper for AuthenticationService login()
+   * Sends user input to service for real login
+   * Then navigates user to home if correct info is provided
+   *
+   *@param none
+   *
    */
-  previous() {
-    this.registerPage = 0;
-  }
-
-  /**
-  * Function wrapper for AuthenticationService login()
-  * Sends user input to service for real login
-  * Then navigates user to home if correct info is provided
-  *
-  *@param none
-  *
-  */
   login() {
     this.sucMsg = "";
     this.errMsg = "";
@@ -225,7 +296,7 @@ export class LoginComponent implements OnInit {
    * This method is called if the user signing in is an Associate.
    * This method retrieves all of the Interview and Client data connected to the assciate.
    * @param user - user object that was returned after sending a username and password to the server
-   * 
+   *
    * @author Max Dunn
    */
   associateLogin(user: User) {
@@ -235,7 +306,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['associate-view']);
       },
       err => {
-        console.log('error getting associate with userid');
+        // console.log('error getting associate with userid');
         if (err.status === 500) {
           this.errMsg = "There was an error on the server";
         } else {
@@ -257,17 +328,17 @@ export class LoginComponent implements OnInit {
       },
       err => {
         if (err.status === 500) {
-          this.router.navigate(['ServerError'])
+          this.router.navigate(['ServerError']);
           return;
         } else {
-          this.router.navigate(['Error'])
+          this.router.navigate(['Error']);
           return;
         }
       }
     );
   }
 
-  salesOrStagingLogin(){
+  salesOrStagingLogin() {
     this.associateService.getAllAssociates().subscribe(
       data => {
         localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
@@ -275,10 +346,10 @@ export class LoginComponent implements OnInit {
       },
       err => {
         if (err.status === 500) {
-          this.router.navigate(['ServerError'])
+          this.router.navigate(['ServerError']);
           return;
         } else {
-          this.router.navigate(['Error'])
+          this.router.navigate(['Error']);
           return;
         }
       }

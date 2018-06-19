@@ -131,6 +131,7 @@ public class Application {
 		TfAssociate associate = new TfAssociate();
 		associate.setFirstName("RestAssured");
 		associate.setLastName("Associate");
+		associate.setUser(user);
 		
 		System.out.println(associateService.createAssociate(associate));}}
 

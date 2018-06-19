@@ -89,7 +89,7 @@ export class ClientMappedComponent implements OnInit {
   clientColors: Array<Color> = ThemeConstants.CLIENT_COLORS;
   mappedOptions = ChartOptions.createOptionsTitle('Mapped', 24, '#121212', 'right');
   mappedChartType = "pie";
-  private mappedData: number[] = [0, 0, 0, 0];
+  mappedData: number[] = [0, 0, 0, 0];
 
 
 

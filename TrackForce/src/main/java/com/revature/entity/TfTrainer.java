@@ -43,8 +43,6 @@ public class TfTrainer implements Serializable{
 	@XmlElement
 	@Id
 	@Column(name="TRAINER_ID", unique = true, nullable = false)
-	@SequenceGenerator(name = "TRAINER_SEQ_ID", allocationSize = 1, initialValue=1)
-	@GeneratedValue(generator = "TRAINER_SEQ_ID", strategy = GenerationType.SEQUENCE)
 	private int id;
 	
 	@XmlElement

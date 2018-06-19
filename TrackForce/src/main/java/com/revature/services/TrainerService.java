@@ -74,6 +74,9 @@ public class TrainerService {
 			TfUser traineruser = trainer.getTfUser();
 			traineruser.setPassword(PasswordStorage.createHash(trainer.getTfUser().getPassword()));
 			trainer.setTfUser(traineruser);
+			List<TfTrainer> trainers = getAllTrainers();
+			int maxid = trainers.size();
+			trainer.setId(maxid);
 			LogUtil.logger.info("The trainer with hashed password is " + trainer);
 		} catch (CannotPerformOperationException e) {
 			LogUtil.logger.warn(e.getMessage());

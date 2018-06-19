@@ -6,7 +6,12 @@ import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfTrainer;
+import com.revature.entity.TfUser;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
+import com.revature.utils.PasswordStorage;
+import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 
 /**
  * 
@@ -113,7 +118,14 @@ public class AssociateService {
 	 */
 	UserService userService = new UserService();
 	public boolean createAssociate(TfAssociate newassociate) {
-		userService.insertUser(newassociate.getUser());
+		try {
+			TfUser associateuser = newassociate.getUser();
+			associateuser.setPassword(PasswordStorage.createHash(newassociate.getUser().getPassword()));
+			newassociate.setUser(associateuser);
+			LogUtil.logger.info("The associate with hashed password is " + newassociate);
+		} catch (CannotPerformOperationException e) {
+			LogUtil.logger.warn(e.getMessage());
+		}		
 		return dao.createAssociate(newassociate);
 	}
 

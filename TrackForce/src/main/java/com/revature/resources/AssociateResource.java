@@ -2,22 +2,40 @@ package com.revature.resources;
 
 import static com.revature.utils.HibernateUtil.updateDetached;
 import static com.revature.utils.LogUtil.logger;
-import static com.revature.utils.ResourceHelper.isPayloadAssociate;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.PATCH;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.revature.services.*;
 import org.hibernate.HibernateException;
 
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfTrainer;
+import com.revature.services.AssociateService;
+import com.revature.services.BatchService;
+import com.revature.services.ClientService;
+import com.revature.services.CurriculumService;
+import com.revature.services.InterviewService;
+import com.revature.services.JWTService;
+import com.revature.services.MarketingStatusService;
+import com.revature.services.TrainerService;
+import com.revature.services.UserService;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -72,7 +90,27 @@ public class AssociateResource {
 		if (payload == null || payload.getId().equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
+
+		
 		else {
+			if(payload.getId().equals("2")) {
+				List<TfAssociate> assoc=new ArrayList<TfAssociate>();
+				for(TfAssociate a:associates) {
+					if(a.getBatch()!=null) {
+						if(payload.getSubject().equals(a.getBatch().getTrainer().getTfUser().getUsername())) {
+							assoc.add(a);
+						}
+						List<TfTrainer> cotrainers=a.getBatch().getCoTrainer();
+						for(TfTrainer t:cotrainers) {
+							if(t.getTfUser().getUsername().equals(payload.getSubject())) {
+								assoc.add(a);
+							}
+						}
+
+					}
+				}
+				associates=assoc;
+			}
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
 

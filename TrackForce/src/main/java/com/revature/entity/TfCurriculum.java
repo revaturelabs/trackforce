@@ -90,7 +90,7 @@ public class TfCurriculum implements java.io.Serializable {
 	@Override
 	public String toString() {
 
-		return "TfCurriculum [id=" + id + ", name=" + name + ", batches= Removed cuz Recusion" +  "]";
+		return "TfCurriculum [id=" + id + ", name=" + name + "]";
 	}
 
 	@Override

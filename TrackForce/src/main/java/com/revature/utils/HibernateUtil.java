@@ -39,15 +39,18 @@ public class HibernateUtil {
 	}
 
 	private static SessionFactory buildSessionFactory() {
-		Configuration cfg = new Configuration();
+		
+		try {
+			Configuration cfg = new Configuration();
+			cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
+			cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
+			cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));
 			
-		cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
-		cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
-		cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));
-		cfg.addAnnotatedClass(TfTrainer.class);
-
-		addShutdown();
-		return cfg.configure().buildSessionFactory();
+			return cfg.configure().buildSessionFactory();
+			
+		} finally {
+			addShutdown();
+		}
 	}
 	public static SessionFactory getSessionFactory() {
 		return sessionFactory;

@@ -163,10 +163,5 @@ public class TfClient implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "TfClient [id=" + id + ", name=" + name + "]";
-	}
-	
-	
-
-
-	
+	}	
 }

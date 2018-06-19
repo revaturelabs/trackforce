@@ -20,8 +20,15 @@
   <div class="row">
     <div class="col-md-8">
       <div class="white">
-        <canvas baseChart id="pie" class="chart chart-pie" [data]="mappedData" [labels]="mappedLabels" [chartType]="mappedChartType"
-          [colors]="clientColors" [options]="mappedOptions" (chartClick)="mappedOnClick($event)">
+        <canvas baseChart 
+          id="pie" 
+          class="chart chart-pie" 
+          [data]="mappedData" 
+          [labels]="mappedLabels" 
+          [chartType]="mappedChartType"
+          [colors]="clientColors" 
+          [options]="mappedOptions" 
+          (chartClick)="mappedOnClick($event)">
         </canvas>
       </div>
     </div>

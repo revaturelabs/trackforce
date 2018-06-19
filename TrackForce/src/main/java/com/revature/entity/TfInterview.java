@@ -3,6 +3,7 @@ package com.revature.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -136,12 +137,6 @@ public class TfInterview implements java.io.Serializable {
 
 	public Integer getId() {
 		return id;
-	}
-
-
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 

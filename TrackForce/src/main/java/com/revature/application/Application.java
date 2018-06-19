@@ -57,9 +57,9 @@ public class Application {
 //		for(TfUser u : users)
 //			System.out.println(u);
 
-		List<TfInterview> interviews = interviewService.getAllInterviews();
-		for(TfInterview i : interviews)
-			System.out.println(i);
+//		List<TfInterview> interviews = interviewService.getAllInterviews();
+//		for(TfInterview i : interviews)
+//			System.out.println(i);
 		
 		
 //		TfTrainer t = new TfTrainer();
@@ -89,37 +89,35 @@ public class Application {
 //		}
 
 
-		TfInterview interview = new TfInterview();
-
-		TfAssociate a = new TfAssociate();
-		a.setId(392);
-		
-		TfClient c = new TfClient();
-		a.setId(5);
-		
-		TfEndClient ec = new TfEndClient();
-		ec.setId(6);
-		
-		TfInterviewType it = new TfInterviewType();
-		it.setId(7);
-		
-		interview.setAssociate(a);
-		interview.setClient(c);
-		interview.setEndClient(ec);
-		interview.setInterviewType(it);
-		interview.setInterviewDate(new Timestamp(152500500L));
-		interview.setAssociateFeedback("Interviewed well");
-		interview.setQuestionGiven("Start Date?");
-		interview.setClientFeedback("Strong Java knowledge");
-		interview.setJobDescription("SDET");
-		interview.setDateSalesIssued(new Timestamp(152500500L));
-		interview.setDateAssociateIssued(new Timestamp(152500500L));
-		interview.setWas24HRNotice(0);
-		interview.setIsInterviewFlagged(1);
-		interview.setFlagReason("Alert");
-		interview.setIsClientFeedbackVisible(1);
-		
-		System.out.println(interviewService.createInterview(interview));
+//		TfInterview interview = new TfInterview();
+//
+//		TfAssociate a = associateService.getAssociate(1);
+//		
+//		TfClient c = clientService.getClient(5);
+//		
+//		TfEndClient ec = clientService.getEndClient(250);
+//				
+//		TfInterviewType it = interviewService.getInterviewById(1).getInterviewType();
+//		
+//		interview.setAssociate(a);
+//		interview.setClient(c);
+//		interview.setEndClient(ec);
+//		interview.setInterviewType(it);
+//		interview.setInterviewDate(new Timestamp(152500500L));
+//		interview.setAssociateFeedback("Interviewed well");
+//		interview.setQuestionGiven("Start Date?");
+//		interview.setClientFeedback("Strong Java knowledge");
+//		interview.setJobDescription("SDET");
+//		interview.setDateSalesIssued(new Timestamp(152500500L));
+//		interview.setDateAssociateIssued(new Timestamp(152500500L));
+//		interview.setWas24HRNotice(0);
+//		interview.setIsInterviewFlagged(1);
+//		interview.setFlagReason("Alert");
+//		interview.setIsClientFeedbackVisible(1);
+//		
+//		System.out.println(interview);
+//		
+//		System.out.println(interviewService.createInterview(interview));
 
 //		associateService.updateAssociate(a);
 

@@ -18,7 +18,7 @@
         -->
         
         <!-- NEVER SET TO CREATE UNLESS YOU WANT TO REMOVE ALL DATA IN DATABASE -->
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">validate</property>
         
         <!-- Used for debugging -->
         <property name="show_sql">false</property>
@@ -29,9 +29,6 @@
         
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
-
-
-        <property name="hibernate.hbm2ddl.auto">validate</property>
         
         
        	<property name="hibernate.cache.use_second_level_cache">true</property>

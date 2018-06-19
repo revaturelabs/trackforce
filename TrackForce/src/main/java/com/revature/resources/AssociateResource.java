@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiParam;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 @Path("/associates")
@@ -54,7 +54,7 @@ public class AssociateResource {
 	 * <p>Gets a list of all the associates, optionally filtered by a batch id. If an
 	 * associate has no marketing status or curriculum, replaces them with blanks.
 	 * If associate has no client, replaces it with "None".</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @return A Response object with a list of TfAssociate objects.
 	 * @throws IOException
@@ -84,7 +84,7 @@ public class AssociateResource {
 	 *
 	 * @author Curtis H.
 	 * Given a user id, returns an associate.
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 *
 	 * @param id
 	 * @param token
@@ -122,7 +122,7 @@ public class AssociateResource {
 	 * 
 	 * @author Adam L. 
 	 * <p>Update the marketing status or client of associates</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param token
 	 * @param marketingStatusId
@@ -164,7 +164,7 @@ public class AssociateResource {
 	 * 
 	 * @author Adam L. 
 	 * <p>Update the marketing status or client of an associate</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param id 
 	 * @param associate

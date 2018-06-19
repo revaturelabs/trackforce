@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 @Path("skillset")
@@ -55,7 +55,7 @@ public class CurriculumResource {
 	 * 
 	 * @author Adam L. 
 	 * <p> </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param token
 	 * @return

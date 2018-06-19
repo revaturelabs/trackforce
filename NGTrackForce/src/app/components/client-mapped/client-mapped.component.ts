@@ -83,7 +83,6 @@ export class ClientMappedComponent implements OnInit {
    * Note: The ThemeConstants.CLIENT_COLORS is currently an array of length 8.
    * For every element of 'data' above a count of 8, the chart color for that data item will be grey.
    */
-  // private clientTheme: Array<Color> = ThemeConstants.CLIENT_COLORS;
 
   mappedLabels = SelectedStatusConstants.MAPPED_LABELS;
   clientColors: Array<Color> = ThemeConstants.CLIENT_COLORS;
@@ -233,19 +232,22 @@ export class ClientMappedComponent implements OnInit {
       this.clientMappedData = temp_clientMappedData;
       this.clientMappedLabels = temp_clientMappedLabels;
 
+      console.log(data);
 
       //Loop over 'data' and extract fetched information
-      for (let graphCount of data) {
+      for (const graphCount of data) {
         if (graphCount.count > 0) {
           //Check if the fetched name is empty
           if (graphCount.name === "") {
-            temp_clientMappedLabels.push("Empty Name");
+            temp_clientMappedLabels.push("Client not Specified");
           } else {
             temp_clientMappedLabels.push(graphCount.name);
           }
           temp_clientMappedData.push(graphCount.count);
         }
       }
+      console.log(temp_clientMappedData);
+      console.log(temp_clientMappedLabels);
 
       //Set data, trigger property binding
       this.clientMappedData = temp_clientMappedData;

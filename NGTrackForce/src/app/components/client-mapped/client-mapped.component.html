@@ -7,21 +7,22 @@
     </div>
   </div>
   <div class="row">
-    <!-- Display chart -->
     <div class="col-md-8">
-      <canvas id="the_graph" baseChart *ngIf="clientMappedData && clientMappedLabels" 
-        [data]="clientMappedData" [labels]="clientMappedLabels"
-        [chartType]="chartType" [options]="chartOptions" 
-        [colors]="clientTheme" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
-      </canvas>
+      <div class="white">
+        <canvas baseChart class="chart chart-bar" id="the_graph" *ngIf="clientMappedData && clientMappedData.length && clientMappedLabels && clientMappedLabels.length"
+          [data]="clientMappedData" [labels]="clientMappedLabels" [chartType]="chartType" [options]="chartOptions" [colors]="clientTheme"
+          (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+        </canvas>
+      </div>
     </div>
   </div>
+
   <div class="row">
     <div class="col-sm-6">
       <div class="white">
-        <canvas baseChart id="pie" class="chart chart-pie" [data]="getMappedData()" 
-          [labels]="mappedLabels" [chartType]="mappedChartType"
-          [colors]="clientColors" [options]="mappedOptions" (chartClick)="mappedOnClick($event)"></canvas>
+        <canvas baseChart id="pie" class="chart chart-pie" [data]="mappedData" [labels]="mappedLabels" [chartType]="mappedChartType"
+          [colors]="clientColors" [options]="mappedOptions" (chartClick)="mappedOnClick($event)">
+        </canvas>
       </div>
     </div>
   </div>

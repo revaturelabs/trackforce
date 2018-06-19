@@ -1,8 +1,14 @@
 package com.revature.test.admin.cukes;
 
+import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 import java.util.List;
+
+import javax.validation.constraints.AssertTrue;
+
+import org.openqa.selenium.WebElement;
 
 import com.revature.test.admin.pom.HomeTab;
 import com.revature.test.admin.pom.Predictions;
@@ -18,7 +24,9 @@ import cucumber.api.java.en.When;
 
 public class PredictionsCukes extends AdminSuite {
 
-	static int testNumber = 1;
+	static int testNumber = 1,beforeSize;
+	static String requestedAssociates,newTech;
+	static List<String> techs;
 
 	@Given("^Predictions Tab loads$")
 	public static void predictions_tab_loads() {
@@ -27,9 +35,9 @@ public class PredictionsCukes extends AdminSuite {
 			if (HomeTab.getCurrentURL(ServiceHooks.driver).equals(TestConfig.getBaseURL())
 					|| HomeTab.getCurrentURL(ServiceHooks.driver).equals(TestConfig.getBaseURL() + "/predictions")) {
 			}
-			System.out.println("Current URL does not equal the base URL, or does not end with /predictions");
+			fail("Current URL does not equal the base URL, or does not end with /predictions");
 		} catch (Throwable e) {
-			System.out.println("Failed to get current URL");
+			fail("Failed to get current URL");
 		}
 	}
 
@@ -45,7 +53,7 @@ public class PredictionsCukes extends AdminSuite {
 			Thread.sleep(1000);
 			Predictions.startDate(ServiceHooks.driver).sendKeys(date);
 		} catch (Throwable e) {
-			System.out.println(("Failed to input a start date"));
+			fail(("Failed to input a start date"));
 		}
 	}
 
@@ -55,7 +63,7 @@ public class PredictionsCukes extends AdminSuite {
 			Thread.sleep(1000);
 			Predictions.endDate(ServiceHooks.driver).sendKeys(date);
 		} catch (Throwable e) {
-			System.out.println(("Failed to input a end date"));
+			fail(("Failed to input a end date"));
 		}
 	}
 
@@ -65,7 +73,7 @@ public class PredictionsCukes extends AdminSuite {
 			Thread.sleep(1000);
 			Predictions.startDate(ServiceHooks.driver).sendKeys("01021990");
 		} catch (Throwable e) {
-			System.out.println(("Failed to input date"));
+			fail(("Failed to input date"));
 		}
 	}
 
@@ -75,7 +83,7 @@ public class PredictionsCukes extends AdminSuite {
 			Thread.sleep(1000);
 			Predictions.endDate(ServiceHooks.driver).sendKeys("01021990");
 		} catch (Throwable e) {
-			System.out.println(("Failed to input date"));
+			fail(("Failed to input date"));
 		}
 	}
 	
@@ -85,8 +93,9 @@ public class PredictionsCukes extends AdminSuite {
 		try {
 			Thread.sleep(1000);
 			Predictions.numberofAssociates(ServiceHooks.driver).sendKeys(numAssociates);
+			requestedAssociates = numAssociates;
 		} catch (Throwable e) {
-			System.out.println(("Failed to input the number of associates"));
+			fail(("Failed to input the number of associates"));
 
 		}
 	}
@@ -96,8 +105,9 @@ public class PredictionsCukes extends AdminSuite {
 		try {
 			Thread.sleep(1000);
 			Predictions.numberofAssociates(ServiceHooks.driver).sendKeys("100");
+			requestedAssociates = "100";
 		} catch (Throwable e) {
-			System.out.println(("Failed to input the number of associates"));
+			fail(("Failed to input the number of associates"));
 
 		}
 	}
@@ -112,7 +122,7 @@ public class PredictionsCukes extends AdminSuite {
 			Thread.sleep(1000);
 			Predictions.numberofAssociates(ServiceHooks.driver).sendKeys("-100");
 		} catch (Throwable e) {
-			System.out.println(("Failed to input the number of associates"));
+			fail(("Failed to input the number of associates"));
 
 		}
 	}
@@ -123,7 +133,7 @@ public class PredictionsCukes extends AdminSuite {
 			Thread.sleep(1000);
 			Predictions.numberofAssociates(ServiceHooks.driver).sendKeys("e");
 		} catch (Throwable e) {
-			System.out.println(("Failed to input the number of associates"));
+			fail(("Failed to input the number of associates"));
 
 		}
 	}
@@ -131,10 +141,9 @@ public class PredictionsCukes extends AdminSuite {
 	@When("^I filter by technology$")
 	public void i_filter_by_technology(DataTable select) throws Throwable {
 		List<String> selected = select.asList(String.class);
+		techs = selected;
 		try {
-			Thread.sleep(1000);
 			Predictions.filterbyTechnologies(ServiceHooks.driver).click();
-			Thread.sleep(1000);
 			for (String tech : selected) {
 				if (Predictions.technologies.containsKey(tech)) {
 					Predictions.selectFilter(ServiceHooks.driver, Predictions.technologies.get(tech));
@@ -142,7 +151,7 @@ public class PredictionsCukes extends AdminSuite {
 			}
 			Predictions.filterbyTechnologies(ServiceHooks.driver).click();
 		} catch (Throwable e) {
-			System.out.println(("Failed to select a technology"));
+			fail(("Failed to select a technology"));
 		}
 	}
 
@@ -154,14 +163,12 @@ public class PredictionsCukes extends AdminSuite {
 	public static void i_click_on_the_Prediction_button() {
 
 		try {
-			Thread.sleep(1000);
 			WaitToLoad.waitForClickable(ServiceHooks.driver, Predictions.buttonPrediction(ServiceHooks.driver), 5);
 			Predictions.buttonPrediction(ServiceHooks.driver).click();
-			Thread.sleep(1000);
 
 		} catch (Throwable e) {
-			System.out.println(e.getMessage());
-			System.out.println(("Failed to click on the Get Prediction button"));
+			fail(e.getMessage());
+			fail(("Failed to click on the Get Prediction button"));
 		}
 
 	}
@@ -176,75 +183,79 @@ public class PredictionsCukes extends AdminSuite {
 	@Then("^if i chose an additional technology$")
 	public void if_i_chose_an_additional_technology() throws Throwable {
 		Predictions.filterbyTechnologies(ServiceHooks.driver).click();
-		Predictions.selectFilter(ServiceHooks.driver, ".Net");
+			if (Predictions.technologies.containsKey("Java")) {
+				Predictions.selectFilter(ServiceHooks.driver, Predictions.technologies.get("Java"));
+			}
+		newTech = "Java";
 		Predictions.filterbyTechnologies(ServiceHooks.driver).click();
 	}
 
 	@Then("^if i remove a technology$")
 	public void if_i_remove_a_technology() throws Throwable {
+		Thread.sleep(1500);
+		beforeSize = Predictions.getTechnologies(ServiceHooks.driver).size();
 		Predictions.filterbyTechnologies(ServiceHooks.driver).click();
-		Predictions.selectFilter(ServiceHooks.driver, "JTA");
+		if (Predictions.technologies.containsKey("JTA")) {
+			Predictions.selectFilter(ServiceHooks.driver, Predictions.technologies.get("JTA"));
+		}
 		Predictions.filterbyTechnologies(ServiceHooks.driver).click();
 	}
 
 	@Then("^it should be removed$")
 	public void it_should_be_removed() throws Throwable {
-		assertEquals(Predictions.technology(ServiceHooks.driver).getText(), "PEGA");
-	}
+		Thread.sleep(10000);
+		assertTrue(beforeSize >Predictions.getTechnologies(ServiceHooks.driver).size());
+		}
 
 	@Then("^if i remove all technology$")
 	public void if_i_remove_all_technology() throws Throwable {
 		Predictions.filterbyTechnologies(ServiceHooks.driver).click();
-		Predictions.selectFilter(ServiceHooks.driver, "PEGA");
-		Predictions.selectFilter(ServiceHooks.driver, "JTA");
+		if (Predictions.technologies.containsKey("PEGA")) {
+			Predictions.selectFilter(ServiceHooks.driver, Predictions.technologies.get("PEGA"));
+		}
+		if (Predictions.technologies.containsKey("JTA")) {
+			Predictions.selectFilter(ServiceHooks.driver, Predictions.technologies.get("JTA"));
+		}
 		Predictions.filterbyTechnologies(ServiceHooks.driver).click();
 	}
 
 	@Then("^I should see a table displaying the results$")
 	public static void i_should_see_a_table_displaying_the_results() {
 		try {
-			Thread.sleep(2000);
-			System.out.println("Technology: " + Predictions.technology(ServiceHooks.driver).getText());
-			System.out
-					.println("Requested Associates: " + Predictions.requestedAssociates(ServiceHooks.driver).getText());
-			System.out
-					.println("Available Associates: " + Predictions.availableAssociates(ServiceHooks.driver).getText());
-			System.out.println("Difference: " + Predictions.difference(ServiceHooks.driver).getText());
-
-			if (Predictions.technology(ServiceHooks.driver).getText().equals(".Net")
-					|| Predictions.requestedAssociates(ServiceHooks.driver).getText().equals("15")
-					|| Predictions.availableAssociates(ServiceHooks.driver).getText().equals("0")
-					|| Predictions.difference(ServiceHooks.driver).getText().equals("-15")) {
+			Thread.sleep(15000);
+			for(int i = 0; i < techs.size();i++) {
+				assertEquals(Predictions.getTechnologies(ServiceHooks.driver).get(i).getText(),techs.get(i));
 			}
-			System.out.println(("Form values do not equal what we intended to input."));
-
+			for(int i = 0; i < techs.size();i++) {
+			assertEquals(Predictions.getRequestedAssociates(ServiceHooks.driver).get(i).getText(),requestedAssociates);
+			int difference = Integer.parseInt(Predictions.getAvailableAssociates(ServiceHooks.driver).get(i).getText()) - Integer.parseInt(Predictions.getRequestedAssociates(ServiceHooks.driver).get(i).getText());
+			assertEquals(Predictions.getDifference(ServiceHooks.driver).get(i).getText(),String.valueOf(difference));
+			}
 		} catch (Throwable e) {
-			System.out.println(("Failed to find the table results"));
+			fail("Table doesn't match expected");
 		}
 
 	}
 
 	@Then("^it should be displayed$")
 	public void it_should_be_displayed() throws Throwable {
-		assertEquals(Predictions.technology(ServiceHooks.driver).getText(), ".Net");
+		List<WebElement> techs = Predictions.getTechnologies(ServiceHooks.driver);
+			for(WebElement tech : techs) {
+				if(tech.getText().equals(newTech)) {
+					assertEquals(techs.get(techs.size()-1).getText(),newTech);
+				}
+			}
 	}
 
 	@Then("^nothing should be displayed$")
 	public void nothing_should_be_displayed() throws Throwable {
-		try {
-			assertEquals(Predictions.requestedAssociates(ServiceHooks.driver).getText(), "");
-		} catch (Exception e) {
-
-		}
+		assertEquals(Predictions.getTechnologies(ServiceHooks.driver).size(),0);
 	}
 
 	@Then("^they should all be removed$")
 	public void they_should_all_be_removed() throws Throwable {
-		try {
-			assertEquals(Predictions.requestedAssociates(ServiceHooks.driver).getText(), "");
-		} catch (Exception e) {
-
-		}
+		Thread.sleep(15000);
+		assertEquals(Predictions.getTechnologies(ServiceHooks.driver).size(),0);
 	}
 
 }

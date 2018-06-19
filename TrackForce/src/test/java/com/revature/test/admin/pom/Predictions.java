@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -96,6 +97,23 @@ public class Predictions {
 	}
 
 	public static void selectFilter(WebDriver d,String tech) {
+		WaitToLoad.waitForClickable(d, d.findElement(By.id(tech)), 10);
 		d.findElement(By.id(tech)).click();
+	}
+
+	public static List<WebElement> getTechnologies(WebDriver d){
+		return d.findElements(By.xpath(prop.getProperty("predictionsTechnologies")));
+	}
+	public static List<WebElement> getRequestedAssociates(WebDriver d){
+		return d.findElements(By.xpath(prop.getProperty("predictionsRequested")));
+	}
+	public static List<WebElement> getAvailableAssociates(WebDriver d){
+		return d.findElements(By.xpath(prop.getProperty("predictionsAvailable")));
+	}
+	public static List<WebElement> getDifference(WebDriver d){
+		return d.findElements(By.xpath(prop.getProperty("predictionsDifferences")));
+	}
+	public static List<WebElement> getDetailButtons(WebDriver d){
+		return d.findElements(By.xpath(prop.getProperty("predictionsDetails")));
 	}
 }

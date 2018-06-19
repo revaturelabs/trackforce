@@ -71,9 +71,8 @@ public class CreateUserCukes extends AdminSuite {
 
 	@When("^I confirm the password\"([^\"]*)\"$")
 	public void i_confirm_the_password(String password) throws Throwable {
-		CreateUserTab.getPassword(ServiceHooks.driver).sendKeys(password);
+		CreateUserTab.getPasswordConfirm(ServiceHooks.driver).sendKeys(password);
 	}
-
 	@When("^I check the \"([^\"]*)\" role$")
 	public void i_check_the_role(String role) throws Throwable {
 	    CreateUserTab.selectRole(ServiceHooks.driver, role);
@@ -93,7 +92,8 @@ public class CreateUserCukes extends AdminSuite {
 	}
 
 	@Then("^A Pop Up Error should occur$")
-	public static void cancelAlert() {
+	public static void cancelAlert() throws InterruptedException {
+		Thread.sleep(1500);
 		try {
 			CreateUserTab.getPopup(ServiceHooks.driver);
 		} catch (Throwable e) {
@@ -114,6 +114,7 @@ public class CreateUserCukes extends AdminSuite {
 	
 	@Then("^A new User should be created$")
 	public void a_new_User_should_be_created() throws Throwable {
-	    //creation check
+		Thread.sleep(1500);
+		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver),"http://34.227.178.103:8090/NGTrackForce/app-home");
 	}
 }

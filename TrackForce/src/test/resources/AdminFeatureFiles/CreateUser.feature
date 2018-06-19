@@ -134,7 +134,7 @@ Feature: Testing the creation of various forms of users
 
     Examples: 
       | username    | password    | confPassword |
-      |      000000 | NewManager! | NewManager!   |
+      |      000000 | NewManager! | NewManager!  |
       | manag       | NewManager! | NewManager!  |
       | New Manager | NewManager! | NewManager!  |
       | NewManager! | NewManager! | NewManager!  |

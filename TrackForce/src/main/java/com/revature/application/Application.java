@@ -6,7 +6,9 @@ import java.util.List;
 
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
+import com.revature.entity.TfRole;
 import com.revature.entity.TfTrainer;
+import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -115,6 +117,22 @@ public class Application {
 //			System.out.println(t);
 //		}
 
+		
+		TfRole role = new TfRole();
+		role = userService.getRole(1);
+		
+		TfUser user = new TfUser();
+		user.setIsApproved(1);
+		user.setPassword("password");
+		user.setUsername("TestUsername");
+		user.setTfRole(role);
+		user.setRole(1);
+		
+		TfAssociate associate = new TfAssociate();
+		associate.setFirstName("RestAssured");
+		associate.setLastName("Associate");
+		
+		System.out.println(associateService.createAssociate(associate));}}
 
 //		TfInterview interview = new TfInterview();
 //
@@ -283,10 +301,10 @@ public class Application {
 		// make a user to be used by max in testing login
 
 
-TfAssociate associate = new TfAssociate();
-associate.setId(1);
-associate.setFirstName("Greg");
-
-System.out.println(associateService.updateAssociate(associate));
-	}
-}
+//TfAssociate associate = new TfAssociate();
+//associate.setId(1);
+//associate.setFirstName("Greg");
+//
+//System.out.println(associateService.updateAssociate(associate));
+//	}
+//}

@@ -224,7 +224,6 @@ public class AssociateResource {
 		}
 		else if (payload.getId().equals("5")) {
 			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
-
 		}
 		else {
 			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;

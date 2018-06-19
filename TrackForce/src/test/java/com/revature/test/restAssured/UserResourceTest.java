@@ -112,7 +112,6 @@ public class UserResourceTest {
 	public void testCreateUser2() {
 		user.setRole(1);
 		user.getTfRole().setTfRoleId(1);
-
 		given().contentType("application/json").body(user).when().post(URL + "/newUser").then().assertThat()
 				.statusCode(201);
 		
@@ -123,7 +122,7 @@ public class UserResourceTest {
 		assertTrue(response.contentType().equals("application/json"));
 	}
 
-	@Test(enabled = true, priority = 13)
+	@Test(enabled = false, priority = 13)
 	public void testCreateUser3() {
 		user.setRole(3);
 		user.getTfRole().setTfRoleId(3);
@@ -161,7 +160,7 @@ public class UserResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false, priority = 20)
+	@Test(enabled = true, priority = 20)
 	public void testCreateNewAssociate1() {
 		user.setRole(5);
 		user.setUsername("Associate1");

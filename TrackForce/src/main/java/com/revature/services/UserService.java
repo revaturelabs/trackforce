@@ -75,6 +75,7 @@ public class UserService {
 		return dao.insertUser(newUser);
 	}
 
+
 	public TfRole getRole(int roleId) {
 		return dao.getRole(roleId);
 	}

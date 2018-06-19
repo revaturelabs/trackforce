@@ -10,7 +10,7 @@ public interface ClientDao {
 	
 	public List<TfClient> getAllTfClients();
 	public TfClient getClient(String name);
-	public TfClient getClient(int id);
+	public TfClient getClient(Integer id);
 	TfEndClient getEndClient(int id);
 
 

@@ -3,6 +3,7 @@ package com.revature.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,8 +38,8 @@ public class TfInterview implements java.io.Serializable {
 	@XmlElement
 	@Id
 	@Column(name = "TF_INTERVIEW_ID", unique = true)
-    @SequenceGenerator(sequenceName = "InterviewId_seq", name = "InterviewIdseq", initialValue=500)
-    @GeneratedValue(generator = "InterviewIdseq", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(sequenceName = "InterviewId_Seq2", name ="InterviewIdSeq2", initialValue=500, schema= "ADMIN")
+	@GeneratedValue(generator ="InterviewIdSeq2", strategy = GenerationType.SEQUENCE)
 	private Integer id;
 
 //	@JsonIgnore
@@ -136,12 +137,6 @@ public class TfInterview implements java.io.Serializable {
 
 	public Integer getId() {
 		return id;
-	}
-
-
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 

@@ -16,13 +16,7 @@ import javax.ws.rs.core.Response.Status;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
-import com.revature.services.AssociateService;
-import com.revature.services.BatchService;
-import com.revature.services.ClientService;
-import com.revature.services.CurriculumService;
-import com.revature.services.InterviewService;
-import com.revature.services.TrainerService;
-import com.revature.services.UserService;
+import com.revature.services.*;
 import com.revature.utils.LogUtil;
 
 import io.swagger.annotations.Api;
@@ -51,6 +45,7 @@ public class UserResource {
 	InterviewService interviewService = new InterviewService();
 	TrainerService trainerService = new TrainerService();
 	UserService userService = new UserService();
+	MarketingStatusService marketingStatusService = new MarketingStatusService();
 
 
 	/**
@@ -90,6 +85,7 @@ public class UserResource {
 	public Response createNewAssociate(TfAssociate newAssociate) {
 		logger.info("createNewAssociate()...");
 		LogUtil.logger.info(newAssociate);
+		newAssociate.setMarketingStatus(marketingStatusService.getMarketingStatusById(6)); // Unmapped: Training
 		associateService.createAssociate(newAssociate);
 		return Response.status(Status.CREATED).build();
 	}

@@ -1,12 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartScale } from '../../models/chart-scale.model';
 import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
-import { ThemeConstants } from '../../constants/theme.constants';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { GraphCounts } from '../../models/graph-counts';
+
+import { ThemeConstants } from '../../constants/theme.constants';
+import { ChartOptions } from '../../models/ng2-charts-options.model';
+import '../../constants/selected-status.constants';
+import { SelectedStatusConstants } from '../../constants/selected-status.constants';
+
 
 @Component({
   selector: 'app-skillset',

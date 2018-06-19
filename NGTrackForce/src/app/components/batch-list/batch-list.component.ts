@@ -72,16 +72,12 @@ export class BatchListComponent implements OnInit {
     }
     else {
       // set default dates displayed on page
-      this.startDate.setMonth(new Date().getMonth() - 3);
-      this.endDate.setMonth(new Date().getMonth() + 3);
-      const startTime = Date.now();
       this.dataReady = false;
       this.batchService.getAllBatches().subscribe(
         (batches) => {
           this.batches = batches;
           this.updateCountPerCurriculum();
           this.dataReady = true;
-          const elapsed = Date.now() - startTime;
         },
       );
     }
@@ -93,7 +89,6 @@ export class BatchListComponent implements OnInit {
    * and the corresponding graph accordingly
    */
   public applySelectedRange(s, e) {
-    console.log('in applySelectedRange ')
     if (s != null) {
       this.startDate = s;
     }
@@ -101,7 +96,6 @@ export class BatchListComponent implements OnInit {
       this.endDate = e;
     }
     if (this.startDate && this.endDate) {
-      console.log("about to updateBatches")
       this.updateBatches();
     }
   }
@@ -110,15 +104,6 @@ export class BatchListComponent implements OnInit {
    * reset to original batches
    */
   public resetToDefaultBatches() {
-    // this.dataReady = false;
-    // this.dataReady = false;
-    // this.batchService.getAllBatches().subscribe(
-    //   (batches) => {
-    //     this.batches = batches;
-    //     this.updateCountPerCurriculum();
-    //     this.dataReady = true;
-    //   },
-    // );
     this.ngOnInit();
   }
 
@@ -130,10 +115,12 @@ export class BatchListComponent implements OnInit {
    */
   public updateBatches() {
     const user = this.authService.getUser();
+    console.log('user role is ' + user.role);
     if (user.role === 2) {
       this.dataReady = false;
       this.batchService.getAllBatches().subscribe(
         batches => {
+
           // filter out batches that don't have an associated trainer
           this.batches = batches.filter(
             batch => {

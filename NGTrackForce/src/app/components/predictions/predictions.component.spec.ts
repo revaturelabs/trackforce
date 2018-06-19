@@ -5,6 +5,7 @@ import { PredictionsComponent } from './predictions.component';
 import { FormsModule } from '@angular/forms';
 import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { AssociateService } from '../../services/associate-service/associate.service';
 
 describe('PredictionsComponent', () => {
   let component: PredictionsComponent;
@@ -14,7 +15,7 @@ describe('PredictionsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ PredictionsComponent ],
       imports: [ FormsModule, HttpClientTestingModule ],
-      providers: [ CurriculumService ]
+      providers: [ CurriculumService, AssociateService ]
     })
     .compileComponents();
   }));

@@ -10,7 +10,8 @@
     <div class="col-md-8">
       <div class="white">
         <canvas baseChart class="chart chart-bar" id="the_graph" *ngIf="clientMappedData && clientMappedData.length && clientMappedLabels && clientMappedLabels.length"
-          [data]="clientMappedData" [labels]="clientMappedLabels" [chartType]="chartType" [options]="chartOptions" [colors]="clientColors"
+          [data]="clientMappedData" [labels]="clientMappedLabels" [chartType]="chartType" 
+          [options]="chartOptions" [colors]="clientColors"
           (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
         </canvas>
       </div>

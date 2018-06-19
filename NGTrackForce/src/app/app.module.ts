@@ -64,6 +64,8 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
 import { InterviewDetailsComponent } from './components/interview-details/interview-details.component';
 import { TrainerViewComponent } from './components/trainer-view/trainer-view.component';
 import { TrainerService } from './services/trainer-service/trainer.service';
+import { DeployedComponent } from './components/deployed/deployed.component';
+import { UndeployedComponent } from './components/undeployed/undeployed.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +92,9 @@ import { TrainerService } from './services/trainer-service/trainer.service';
     MyInterviewComponent,
     InterviewDetailsComponent,
   	InterviewsComponent,
-  	TrainerViewComponent
+  	TrainerViewComponent,
+  	DeployedComponent,
+  	UndeployedComponent
   ],
   imports: [
     BrowserModule,

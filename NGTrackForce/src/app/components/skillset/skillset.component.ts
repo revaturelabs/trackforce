@@ -89,7 +89,13 @@ export class SkillsetComponent implements OnInit {
    */
   chartOptions: { [k: string]: any } = {
     type: this.chartType,
-    legend: {
+    title: {
+      display: true,
+      text: this.selectedStatus,
+      fontSize: 24,
+      fontColor: '#121212'
+    },
+  legend: {
       display: false
     },
     xAxes: [
@@ -151,6 +157,8 @@ export class SkillsetComponent implements OnInit {
     this.getUnmappedData();
     // console.log(this.unmappedData);
 
+
+
     // get skillID
     this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || SkillsetComponent.NULL;
     // if we didn't get skillID from selectedStatus...
@@ -182,6 +190,9 @@ export class SkillsetComponent implements OnInit {
         ((!this.skillsetData) || (!this.skillsetData.length))) ?
         'There is no batch data on this status...' : 'Loaded!';
     });
+
+    this.chartOptions.title.text = this.selectedStatus;
+
   }
 
   /**

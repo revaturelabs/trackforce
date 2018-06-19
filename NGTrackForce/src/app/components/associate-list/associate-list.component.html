@@ -64,7 +64,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let associate of associates">
-            <ng-container *ngIf="((associate.firstName.startsWith(searchByText)||searchbyText==='')||(associate.lastName.startsWith(searchByText)))
+            <ng-container *ngIf="((associate.firstName.startsWith(searchByText)||searchbyText==='')||(associate.lastName.startsWith(searchByText))||searchbyText==='')
               && ((associate.user && searchByVerification == associate.user.isApproved) || searchByVerification==='')
               && ((associate.marketingStatus && searchByStatus === associate.marketingStatus.name) || searchByStatus === '')
               && ((associate.client && searchByClient === associate.client.name) || searchByClient === '')
@@ -100,8 +100,8 @@
         <label for="uclient">Update by Verification Status: </label>
         <select class="form-control" id="uVerify" [(ngModel)]="updateVerification">
           <option label=""></option>
-          <option value="Verified">Verified</option>
-          <option value="Unverified">Unverified</option>
+          <option value="1">Verified</option>
+          <option value="0">Unverified</option>
         </select>
       </div>
       <div class="col-sm-3">
@@ -122,14 +122,14 @@
           <option value="12">TERMINATED</option>
         </select>
       </div>
-      <!-- <div class="col-sm-3">
+      <div class="col-sm-3">
         <label for="uclient">Update Client: </label>
         <select class="form-control" id="uclient" [(ngModel)]="updateClient">
-          <option label=""></option>
-          <option selected="selected" value=- 1>None</option>
-          <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
-        </select>-->
-      <!-- </div> -->
+          <option label="" value="0"></option>
+          <option selected="selected" value="0"></option>
+          <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
+        </select>
+      </div>
       <div class="col-sm-2">
         <button id="submit" (click)="updateAssociates()" class="btn btn-info" style="margin-top:20px">Update</button>
       </div>

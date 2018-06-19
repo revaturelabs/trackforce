@@ -69,6 +69,10 @@ public class UserService {
 
 	public TfRole getRole(int roleId) {return dao.getRole(roleId);}
 	
+	public boolean updateUser(TfUser user) {
+		return dao.updateUser(user);
+	}
+	
 	/**
 	 * @author Adam L. 
 	 * <p>Allows verification that a given user exists, and has the correct password.</p>

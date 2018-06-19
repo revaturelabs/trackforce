@@ -36,7 +36,7 @@ export class AssociateListComponent implements OnInit {
   //status/client to be updated
   updateShow = false;
   updateStatus = "";
-  updateClient: number;
+  updateClient= "";
   updateVerification: string;
   updated = false;
 
@@ -95,7 +95,6 @@ export class AssociateListComponent implements OnInit {
 
     this.associateService.getAllAssociates().subscribe(data => {
       this.associates = data;
-      console.log(this.associates);
 
       for (let associate of this.associates) {//get our curriculums from the associates
         if(associate.batch!=null){
@@ -130,16 +129,19 @@ export class AssociateListComponent implements OnInit {
     let i = 1;
     const self = this;
 
-    for (i; i <= this.associates.length; i++) { //grab the checked ids
-      const check = <HTMLInputElement>document.getElementById("" + i);
+    for (let a of this.associates) { //grab the checked ids
+      const check = <HTMLInputElement>document.getElementById("" + a.id);
       if (check != null && check.checked) {
-        ids.push(i);
+        ids.push(a.id);
       }
     }
-    // this.associateService.updateAssociates(ids, this.updateVerification, Number(this.updateStatus), this.updateClient).subscribe(
-    //   data => {
-    //     self.getAllAssociates(); //refresh the associates to reflect the updates made on DB
-    //     self.updated = true;
-    //   });
+    if(this.updateVerification=="") this.updateVerification="0";
+    if(this.updateStatus=="") this.updateStatus="0";
+    if(this.updateClient=="") this.updateClient="0";
+    this.associateService.updateAssociates(ids, Number(this.updateVerification), Number(this.updateStatus), Number(this.updateClient)).subscribe(
+      data => {
+        self.getAllAssociates(); //refresh the associates to reflect the updates made on DB
+        self.updated = true;
+      });
   }
 }

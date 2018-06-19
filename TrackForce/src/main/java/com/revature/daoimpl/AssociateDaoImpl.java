@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.*;
+import com.revature.services.UserService;
 import com.revature.utils.Sessional;
 import org.hibernate.Session;
 
@@ -15,6 +16,8 @@ import javax.persistence.criteria.*;
 import static com.revature.utils.HibernateUtil.multiTransaction;
 import static com.revature.utils.HibernateUtil.runHibernateTransaction;
 import static com.revature.utils.HibernateUtil.saveToDB;
+
+import static com.revature.utils.LogUtil.logger;
 
 public class AssociateDaoImpl implements AssociateDao {
 
@@ -120,12 +123,20 @@ public class AssociateDaoImpl implements AssociateDao {
 
 	@Override
 	public boolean updateAssociate(TfAssociate associate) {
-		return runHibernateTransaction(updateAssociate, associate);
+		return runHibernateTransaction((Session session, Object ... args)->{
+			session.update(associate);
+			return true;
+		});
+		
 	}
 
 	@Override
 	public boolean updateAssociates(List<TfAssociate> associates) {
-		return multiTransaction(updateAssociate, associates);
+		
+		for(TfAssociate a:associates) {
+			updateAssociate(a);
+		}
+		return true;
 	}
 
 

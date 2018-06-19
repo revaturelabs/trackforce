@@ -1,4 +1,4 @@
-<div class="container min-height">
+<div class="container">
 	<div class="row">
 		<div class="col-md-6">
 			<button (click)="changeChartType('bar')" class="btn btn-default">Bar Chart</button>
@@ -8,25 +8,34 @@
 	</div>
 	<div class="row">
 		<div class="col-md-8">
-			<h3 class="text-center text-primary">{{selectedStatus}}</h3><br/>
-			<!-- TODO: figure out how to convert this['chart-click'],this['chart-colors'] to TypeScript -->
-			<canvas baseChart
-				id="skillset"
-				class="chart chart-bar"
-				*ngIf="skillsetData && skillsetData.length && skillsetLabels && skillsetLabels.length; else noData"
-				[chartType]="chartType"
-				[data]="skillsetData"
-				[labels]="skillsetLabels"
-				[colors]="batchColors"
-				[options]="chartOptions"
-				(chartClick)="goToAssociateList($event)"
-				>
-			</canvas>
-			<ng-template #noData>
-				<div class="centerBoth">
-					{{status}}
-				</div>
-			</ng-template>
+			<div class="white">
+				<h3 class="text-center text-primary">{{selectedStatus}}</h3>
+				<br/>
+				<canvas baseChart id="skillset" class="chart chart-bar" 
+				*ngIf="skillsetData && skillsetData.length && skillsetLabels && skillsetLabels.length"
+				 [chartType]="chartType" [data]="skillsetData" [labels]="skillsetLabels" [colors]="batchColors" [options]="chartOptions"
+				 (chartClick)="goToAssociateList($event)">
+				</canvas>
+
+			</div>
 		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-8">
+			<div class="white">
+				<canvas baseChart 
+					id="pie" 
+					class="chart chart-pie" 
+					[data]="unmappedData" 
+					[labels]="unmappedLabels" 
+					[chartType]="unmappedChartType"
+					[colors]="skillColors" 
+					[options]="unmappedOptions" 
+					(chartClick)="unmappedOnClick($event)">
+				</canvas>
+			</div>
+		</div>
+
 	</div>
 </div>

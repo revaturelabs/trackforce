@@ -83,13 +83,6 @@ public class TfInterviewTest {
 	}
 	
 	@Test
-	public void test10() {
-		interview.setId(77);
-		assertTrue(interview.getId() == 77);
-		assertFalse(interview.getId() == 55);
-	}
-	
-	@Test
 	public void test11() {
 		interview.setInterviewType(new TfInterviewType());
 		assertTrue(interview.getInterviewType() instanceof TfInterviewType);

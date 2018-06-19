@@ -5,6 +5,7 @@ import static com.revature.utils.LogUtil.logger;
 import java.io.IOException;
 import java.net.URI;
 
+import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -16,13 +17,7 @@ import javax.ws.rs.core.Response.Status;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
-import com.revature.services.AssociateService;
-import com.revature.services.BatchService;
-import com.revature.services.ClientService;
-import com.revature.services.CurriculumService;
-import com.revature.services.InterviewService;
-import com.revature.services.TrainerService;
-import com.revature.services.UserService;
+import com.revature.services.*;
 import com.revature.utils.LogUtil;
 
 import io.swagger.annotations.Api;
@@ -31,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 @Path("/users")
@@ -51,12 +46,13 @@ public class UserResource {
 	InterviewService interviewService = new InterviewService();
 	TrainerService trainerService = new TrainerService();
 	UserService userService = new UserService();
+	MarketingStatusService marketingStatusService = new MarketingStatusService();
 
 
 	/**
 	 * @author Adam L.
 	 * <p> </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 *
 	 * @param newUser
 	 * @return
@@ -78,7 +74,7 @@ public class UserResource {
 	/**
 	 * @author Adam L.
 	 * <p> </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 *
 	 * @param newAssociate
 	 * @return
@@ -90,14 +86,19 @@ public class UserResource {
 	public Response createNewAssociate(TfAssociate newAssociate) {
 		logger.info("createNewAssociate()...");
 		LogUtil.logger.info(newAssociate);
-		associateService.createAssociate(newAssociate);
-		return Response.status(Status.CREATED).build();
+		if (newAssociate.getUser().getRole() == 5) {
+			associateService.createAssociate(newAssociate);
+			return Response.status(Status.CREATED).build();
+		}
+		else {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 	}
 
 	/**
 	 * @author Adam L.
 	 * <p> </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 *
 	 * @param newTrainer
 	 * @return
@@ -109,14 +110,19 @@ public class UserResource {
 	public Response createTrainer(TfTrainer newTrainer) {
 		logger.info("creating new user...");
 		LogUtil.logger.info(newTrainer);
-		trainerService.createTrainer(newTrainer);
-		return Response.status(Status.CREATED).build();
+		if (newTrainer.getTfUser().getRole() == 2) {
+			trainerService.createTrainer(newTrainer);
+			return Response.status(Status.CREATED).build();
+		}
+		else {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 	}
 
 	/**
 	 * @author Adam L.
 	 * <p> </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 *
 	 * @param loginUser
 	 * @return
@@ -130,8 +136,14 @@ public class UserResource {
 	public Response submitCredentials(TfUser loginUser) throws IOException {
 		logger.info("submitCredentials()...");
 		logger.info("	login: " + loginUser);
-		TfUser user = userService.submitCredentials(loginUser);
-		logger.info("	user: " + user);
+		TfUser user;
+		try {
+			user = userService.submitCredentials(loginUser);
+			logger.info("	user: " + user);
+		} catch (NoResultException nre) {
+			nre.printStackTrace();
+			return Response.status(Status.FORBIDDEN).build();
+		}
 		if (user != null) {
 			logger.info("sending 200 response..");
 			return Response.status(Status.OK).entity(user).build();

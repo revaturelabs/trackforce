@@ -1,3 +1,8 @@
-.min-height {
-  min-height: 100vh;
+canvas {
+	display: block
+  }
+  
+.white {
+	background-color: white;
+	margin: 10px;
 }

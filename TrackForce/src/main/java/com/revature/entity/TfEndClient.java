@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  */
 @XmlRootElement
 @Entity
@@ -113,8 +113,7 @@ public class TfEndClient implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "TfEndClient [id=" + id + ", name=" + name + ", associates=" + associates + ", placements=" + placements
-				+ ", interviews=" + interviews + "]";
+		return "TfEndClient [id=" + id + ", name=" + name + "]";
 	}
 
 	@Override
@@ -165,5 +164,7 @@ public class TfEndClient implements java.io.Serializable {
 			return false;
 		return true;
 	}
+	
+	
 
 }

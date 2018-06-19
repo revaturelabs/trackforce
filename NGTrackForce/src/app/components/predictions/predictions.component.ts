@@ -15,6 +15,9 @@ import { Curriculum } from '../../models/curriculum.model';
 })
 @AutoUnsubscribe
 export class PredictionsComponent implements OnInit {
+
+  start:any;
+  end:any;
   public detailsReady = false;
   public dataReady = false;
   public startDate: Date = new Date();
@@ -74,8 +77,8 @@ export class PredictionsComponent implements OnInit {
     this.as.getAllAssociates().subscribe(
       data=>{
         this.associates=data;
-      
-    
+
+
     if (s != null) {
       this.startDate = s;
     }
@@ -113,7 +116,7 @@ export class PredictionsComponent implements OnInit {
             technology: t,
             requested: this.numAssociatesNeeded,
             available: count
-          })
+          });
           returnedNames.push(t);
         }
         this.dataReady=true;

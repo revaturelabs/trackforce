@@ -23,8 +23,8 @@ import {Color} from 'ng2-charts';
 @AutoUnsubscribe
 export class BatchListComponent implements OnInit {
 
-  start : any;
-  end : any;
+  start:any;
+  end: any;
   pieChartType = 'pie';
   startDate: Date = new Date();
   endDate: Date = new Date();

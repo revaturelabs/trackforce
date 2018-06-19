@@ -12,7 +12,7 @@ import com.revature.utils.HibernateUtil;
  * 
  * @author Adam L. 
  * <p> </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
 public class AssociateService {
@@ -27,7 +27,7 @@ public class AssociateService {
 	 * 
 	 * <p>Gets the associate given by their associate Id.</p>
 	 * 
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * @param associateid
 	 * @return TfAssociate
 	 */
@@ -40,7 +40,7 @@ public class AssociateService {
 	 *
 	 * <p>Gets the associate given by their associate Id.</p>
 	 *
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * @param id
 	 * @return TfAssociate
 	 */
@@ -54,7 +54,7 @@ public class AssociateService {
 	 * 
 	 * <p>Gets all associates in the database.</p>
 	 * 
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * @return List<TfAssociate>
 	 */
 	public List<TfAssociate> getAllAssociates(){
@@ -71,7 +71,7 @@ public class AssociateService {
 	 * <p>Note: if you leave some fields empty in the TfAssociate parameter, 
 	 * 	it will be saved as such!</p>
 	 * 
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * @param associate
 	 * @return true if successful, false otherwise
 	 */
@@ -93,7 +93,7 @@ public class AssociateService {
 	 * 
 	 * <p>Note: if you leave some fields empty in the TfAssociate parameter, 
 	 * 	it will be saved as such!</p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param associates
 	 * @return

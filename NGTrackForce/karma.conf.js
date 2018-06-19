@@ -28,6 +28,7 @@ module.exports = function (config) {
     browserNoActivityTimeout: 60000,
     autoWatch: true,
     browsers: ['PhantomJS', 'Chrome'],
-    singleRun: false
+    // singleRun is true so it'll work on the pipeline, please don't change it <3
+    singleRun: true
   });
 };

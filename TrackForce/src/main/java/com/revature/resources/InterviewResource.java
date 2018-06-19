@@ -39,10 +39,10 @@ import io.swagger.annotations.ApiOperation;
  * @author Mitchell H's PC, Adam L.
  *         <p>
  *         </p>
- * @version.date v6.18.06.13
+ * @version v6.18.06.13
  *
  */
-@Path("interviews")
+@Path("/interviews")
 @Api(value = "Interviews")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -66,7 +66,7 @@ public class InterviewResource {
 	 * @author Ian Buitrago, Adam L.
 	 *         <p>
 	 *         </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param token
 	 * @param sort
@@ -83,9 +83,9 @@ public class InterviewResource {
 		List<TfInterview> interviews = interviewService.getAllInterviews();
 
 		if (payload == null) {
-			status = Status.UNAUTHORIZED; // invalid token
+			return Response.status(Status.UNAUTHORIZED).build(); // invalid token
 		} else if (payload.getId().equals("5")) {
-			status = Status.FORBIDDEN;
+			return Response.status(Status.FORBIDDEN).build();
 		} else {
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
 			logger.info("	interviews.size() = " + interviews.size());
@@ -97,7 +97,7 @@ public class InterviewResource {
 	 * @author Adam L.
 	 *         <p>
 	 *         </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param associateid
 	 * @param token
@@ -127,7 +127,7 @@ public class InterviewResource {
 	 * @author Adam L.
 	 *         <p>
 	 *         </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param token
 	 * @param associateId
@@ -164,7 +164,7 @@ public class InterviewResource {
 	 * @author Adam L.
 	 *         <p>
 	 *         </p>
-	 * @version.date v6.18.06.13
+	 * @version v6.18.06.13
 	 * 
 	 * @param associateid
 	 * @param interviewId

@@ -108,8 +108,7 @@ public class TfAssociate implements java.io.Serializable {
 	private Timestamp clientStartDate;
 	
 
-	public TfAssociate() {
-	}
+	public TfAssociate() {}
 
 
 	public TfAssociate(Integer id, TfUser user, TfBatch batch, TfMarketingStatus marketingStatus, TfClient client,

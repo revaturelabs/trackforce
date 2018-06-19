@@ -1,5 +1,3 @@
-#Author: daniel lani
-
 Feature: Predictions Tab Tests
 
 	Background:
@@ -99,15 +97,15 @@ Scenario: Deselecting technologies
 	And I click on the Prediction button
 	Then it should be removed
 	
-#Scenario: Deselecting all technologies
-#	When I click on the prediction tab
-#	And I enter a valid date combination
-#	And I enter a number of associates
-#	And I filter by technology
-#	| JTA |
-#	| PEGA |
-#	And I click on the Prediction button
-#	Then I should see a table displaying the results
-#	But if i remove all technology
-#	And I click on the Prediction button
-#	Then they should all be removed		
+Scenario: Deselecting all technologies
+	When I click on the prediction tab
+	And I enter a valid date combination
+	And I enter a number of associates
+	And I filter by technology
+	| JTA |
+	| PEGA |
+	And I click on the Prediction button
+	Then I should see a table displaying the results
+	But if i remove all technology
+	And I click on the Prediction button
+	Then they should all be removed		

@@ -1,4 +1,3 @@
-#Author: nicholas.e.mccomb@gmail.com
 Feature: Tests for the login page
 
   Background: 

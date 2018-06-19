@@ -3,27 +3,19 @@ package com.revature.test.admin.cukes;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
-
-import cucumber.api.java.After;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 
 import com.revature.test.admin.pom.CreateUserTab;
 import com.revature.test.admin.pom.HomeTab;
 import com.revature.test.admin.pom.Login;
-import com.revature.test.admin.testclasses.AdminSuite;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
-import com.revature.test.utils.WaitToLoad;
 
-public class CreateUserCukes extends AdminSuite {
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+
+public class CreateUserCukes{
 	static WebElement e = null;
 
 		

@@ -1,4 +1,4 @@
-package com.revature.test.admin.testclasses;
+package com.revature.test.runner;
 
 import org.junit.runner.RunWith;
 import cucumber.api.CucumberOptions;
@@ -12,7 +12,7 @@ import cucumber.api.junit.Cucumber;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		features = {"src/test/resources/AdminFeatureFiles/Predictions.feature"}
+		features = {"src/test/resources/AdminFeatureFiles/AssociateView.feature","src/test/resources/AdminFeatureFiles/CreateUser.feature","src/test/resources/AdminFeatureFiles/HomeTab.feature","src/test/resources/AdminFeatureFiles/Login.feature","src/test/resources/AdminFeatureFiles/Prediction.feature","src/test/resources/AdminFeatureFiles/Register.feature"}
 		,glue = {"com.revature.test.utils","com.revature.test.admin.cukes"}
 		)
  

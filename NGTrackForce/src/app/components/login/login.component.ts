@@ -64,7 +64,10 @@ export class LoginComponent implements OnInit {
   public registerPage = 0;
   public role: number;
   public usernameRestrictions = RegExp("^[a-zA-Z0-9]{6,20}$");
-  public passwordRestrictions = RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#$%^&*])(?=.{8,})");
+
+  // public passwordRestrictions = RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#$%^&*])(?=.{8,})");
+  // Regex for getting 3 out of 4 restrictions
+  public passwordRestrictions = RegExp("^(?=.{8,})((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W_])|(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])|(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W_])|(?=.*[a-z])(?=.*[A-Z])(?=.*[\\W_])|(?=.*[a-z])(?=.*[0-9])(?=.*[\\W_]))");
   public newUser: User;
   public newTrainer: Trainer;
   public newAssociate: Associate;
@@ -181,7 +184,7 @@ export class LoginComponent implements OnInit {
         case 2:
           this.newUser = new User(this.username, this.password, 2, 0);
           this.newTrainer = new Trainer(this.fname, this.lname, this.newUser);
-          console.log(JSON.stringify(this.newTrainer));
+          this.resetFields();
           this.userService.createTrainer(this.newTrainer).subscribe(
             data => {
               this.sucMsg = "Trainer account creation successful.";
@@ -195,6 +198,7 @@ export class LoginComponent implements OnInit {
         case 5:
           this.newUser = new User(this.username, this.password, 5, 0);
           this.newAssociate = new Associate(this.fname, this.lname, this.newUser);
+          this.resetFields();
           this.userService.createAssociate(this.newAssociate).subscribe(
             data => {
               this.sucMsg = "Associate account creation successful.";
@@ -211,6 +215,16 @@ export class LoginComponent implements OnInit {
       }
 
     }
+  }
+
+  resetFields() {
+    this.isRegistering = false;
+    this.username = '';
+    this.password = '';
+    this.cpassword = '';
+    this.fname = '';
+    this.lname = '';
+    this.role = undefined;
   }
 
   /**

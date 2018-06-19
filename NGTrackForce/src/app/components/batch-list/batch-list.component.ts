@@ -51,7 +51,6 @@ export class BatchListComponent implements OnInit {
   ngOnInit() {
     // get current user
     const user = this.authService.getUser();
-    console.log("user role is " + user.role);
     //user is a trainer they can only see their batches
     if (user.role === 2) {
       this.dataReady = false;
@@ -102,13 +101,14 @@ export class BatchListComponent implements OnInit {
    */
   public resetToDefaultBatches(){
     this.dataReady = false;
-    // this.batchService.getDefaultBatches().subscribe(
-    //   (batches) => {
-    //     this.batches = batches;
-    //     this.updateCountPerCurriculum();
-    //     this.dataReady = true;
-    //   },
-    // );
+    this.dataReady = false;
+    this.batchService.getAllBatches().subscribe(
+      (batches) => {
+        this.batches = batches;
+        this.updateCountPerCurriculum();
+        this.dataReady = true;
+      },
+    );
   }
 
   /**
@@ -129,13 +129,8 @@ export class BatchListComponent implements OnInit {
             let dateEndDate = new Date(this.endDate);
             let longStartDate = dateStartDate.getTime();
             let longEndDate = dateEndDate.getTime();
-            console.log('date start time ' + typeof dateStartDate + ' ' + dateStartDate);
-            console.log("long start date" + longStartDate);
-            console.log("long end date " + longEndDate);
-            console.log("batch start date " + batch.startDate ); 
-            console.log("batch end date " + batch.endDate ); 
+ 
             if (batch.startDate && batch.endDate) {
-              console.log(batch.startDate > longStartDate && batch.endDate < longEndDate);
               return batch.startDate > longStartDate && batch.endDate < longEndDate;
             }
             else {

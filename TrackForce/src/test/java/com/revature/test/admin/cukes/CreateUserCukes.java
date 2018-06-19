@@ -41,9 +41,10 @@ public class CreateUserCukes extends AdminSuite {
 	}
 	
 	@Given("^I login$")
-	public static void login() {
+	public static void login() throws InterruptedException {
 		Login.login("TestAdmin","TestAdmin",ServiceHooks.driver);
 		Login.getSignin(ServiceHooks.driver).click();
+		Thread.sleep(5000);
 	}
 
 	@Given("^Create User Tab loads$")

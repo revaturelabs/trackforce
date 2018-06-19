@@ -15,11 +15,10 @@ import cucumber.api.java.en.When;
 
 import com.revature.test.admin.pom.ClientListTab;
 import com.revature.test.admin.pom.Login;
-import com.revature.test.admin.testclasses.AdminSuite;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
 
-public class ClientListCukes extends AdminSuite {
+public class ClientListCukes{
 	static WebElement e = null;
 	static WebDriver d = ServiceHooks.driver;
 

@@ -21,52 +21,49 @@ Background:
     When I click on the website link
     Then I should see the Revature website link open on a browser
 
-  @ClickOnElementsInMappedChart
+	Scenario: I view the graphs on the home page
+	Given I am on the Home Page
+	Then the graphs should be visible
+
   Scenario: I click on each element in Mapped pie chart
     Given I am on the Home Page
     When I click on the elements in the Mapped pie chart
     Then Should open with Mapped graphs
 
-  @ClickOnElementsInUnMappedChart
+  
   Scenario: I click on each element in UnMapped pie chart
     Given I am on the Home Page
     When I click on the elements in the UnMapped pie chart
     Then Should open with UnMapped graphs
 
-  @ClickOnElementsInMappedVsUnmappedNotDeployed
   Scenario: I click on each element in Mapped vs Unmapped Not Deployed chart
     Given I am on the Home Page
     When I click on the elements in the Mapped vs Unmapped Not Deployed chart
     Then Should open with Mapped vs Unmapped Not Deployed graphs
 
-  @ClickOnElementsInMappedVsUnmappedDeployed
   Scenario: I click on each element in Mapped vs Unmapped Deployed chart
     Given I am on the Home Page
     When I click on the elements in the Mapped vs Unmapped Deployed chart
     Then Should open with Mapped vs Unmapped Deployed graphs
 
-  @TestPieChartButton
   Scenario: I click Pie Chart button
     Given I am on the Home Page
     When I click on the elements in the Mapped pie chart
     And I click on pie chart button
     Then A pie chart will be shown
 
-  @TestBarChartButton
   Scenario: I click Bar Chart button
     Given I am on the Home Page
     When I click on the elements in the Mapped pie chart
     And I click on bar chart button
     Then A bar chart will be shown
 
-  @TestPolarChartButton
   Scenario: I click Polar Chart button
     Given I am on the Home Page
     When I click on the elements in the Mapped pie chart
     And I click on polar chart button
     Then A polar chart will be shown
 
-  @TestPieChartButton
   Scenario: I click Chart elements to get Associate list refered to by that chart element
     Given I am on the Home Page
     When I click on the elements in the Mapped pie chart

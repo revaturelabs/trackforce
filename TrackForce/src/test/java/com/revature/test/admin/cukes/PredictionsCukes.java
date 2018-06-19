@@ -12,7 +12,6 @@ import org.openqa.selenium.WebElement;
 
 import com.revature.test.admin.pom.HomeTab;
 import com.revature.test.admin.pom.Predictions;
-import com.revature.test.admin.testclasses.AdminSuite;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
 import com.revature.test.utils.WaitToLoad;
@@ -22,7 +21,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class PredictionsCukes extends AdminSuite {
+public class PredictionsCukes{
 
 	static int testNumber = 1,beforeSize;
 	static String requestedAssociates,newTech;

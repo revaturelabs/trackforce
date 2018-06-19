@@ -9,16 +9,15 @@
       <div class="col-sm-2">
         <label for="verification">Verification Status: </label>
         <select class="form-control" id="verification" [(ngModel)]="searchByVerification">
-          <option label=""></option>
-          <option value="Verified Only">Verified Only</option>
-          <option value="Unverified Only">Unverified Only</option>
-          <option value="Verified and Unverified">Verified and Unverified</option>
+          <option label="" value=""></option>
+          <option value="1">Verified Only</option>
+          <option value="0">Unverified Only</option>
         </select>
       </div>
       <div class="col-sm-2">
         <label for="mStatus">Marketing Status: </label>
         <select class="form-control" id="mStatus" [(ngModel)]="searchByStatus">
-          <option label=" "></option>
+          <option label="" value=""></option>
           <option value="MAPPED: TRAINING">MAPPED: Training</option>
           <option value="MAPPED: RESERVED">MAPPED: Reserved</option>
           <option value="MAPPED: SELECTED">MAPPED: Selected</option>
@@ -34,16 +33,15 @@
       <div class="col-sm-2">
         <label for="curriculum">Curriculum: </label>
         <select class="form-control" id="curriculum" [(ngModel)]="searchByCurriculum">
-          <option label=""></option>
+          <option label="" value=""></option>
           <option *ngFor="let curriculum of curriculums" value="{{curriculum}}">{{curriculum}}</option>
         </select>
       </div>
       <div class="col-sm-2">
         <label for="client">Client: </label>
         <select class="form-control" id="client" [(ngModel)]="searchByClient">
-          <option label=""></option>
-          <option selected="selected">None</option>
-          <option *ngFor="let client of clients">{{client.tfClientName}}</option>
+          <option label="" value=""></option>
+          <option *ngFor="let client of clients">{{client.name}}</option>
         </select>
       </div>
 
@@ -56,19 +54,21 @@
         <thead class="pointer">
           <tr>
             <th class="edit">Edit</th>
-            <th class="id" (click)="sort('id')">Associate ID</th>
-            <th class="first" (click)="sort('firstName')">First Name</th>
-            <th class="last" (click)="sort('lastName')">Last Name</th>
-            <th class="status" (click)="sort('marketingStatus')">Marketing Status</th>
-            <th class="client" (click)="sort('client')">Client Name</th>
-            <th class="batch" (click)="sort('batch')">Batch Name</th>
+            <th class="id">Associate ID</th>
+            <th class="first">First Name</th>
+            <th class="last">Last Name</th>
+            <th class="status">Marketing Status</th>
+            <th class="client">Client Name</th>
+            <th class="batch">Batch Name</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let associate of associates | filterByText:searchByText">
-            <ng-container *ngIf="(searchByStatus === associate.marketingStatus || searchByStatus === '')
-              && (searchByClient === associate.client || searchByClient === '')
-              && (searchByCurriculum === associate.curriculumName || searchByCurriculum === '')">
+          <tr *ngFor="let associate of associates">
+            <ng-container *ngIf="((associate.firstName.startsWith(searchByText)||searchbyText==='')||(associate.lastName.startsWith(searchByText)))
+              && ((associate.user && searchByVerification == associate.user.isApproved) || searchByVerification==='')
+              && ((associate.marketingStatus && searchByStatus === associate.marketingStatus.name) || searchByStatus === '')
+              && ((associate.client && searchByClient === associate.client.name) || searchByClient === '')
+              && ((associate.batch && searchByCurriculum === associate.batch.curriculumName.name) || searchByCurriculum === '')">
               <td class="edit">
                 <input type="checkbox" id={{associate.id}}>
               </td>
@@ -77,10 +77,14 @@
               </td>
               <td class="first">{{associate.firstName}}</td>
               <td class="last">{{associate.lastName}}</td>
-              <td class="status">{{associate.marketingStatus}}</td>
-              <td class="client">{{associate.client}}</td>
+              <td class="status">{{associate.marketingStatus.name}}</td>
+              <span *ngIf="associate.client">
+                <td class="client">{{associate.client.name}}</td>
+              </span>
               <td class="batch">
-                <a [routerLink]="['/batch-details', associate.bid]">{{associate.batchName}}</a>
+                <span *ngIf="associate.batch">
+                  <a [routerLink]="['/batch-details', associate.bid]">{{associate.batch.batchName}}</a>
+                </span>
               </td>
             </ng-container>
           </tr>
@@ -88,6 +92,7 @@
       </table>
     </div>
   </div>
+  <br>
 
   <div *ngIf="canUpdate" class="form-group" style="margin-top: 20px">
     <div class="row">
@@ -117,14 +122,14 @@
           <option value="12">TERMINATED</option>
         </select>
       </div>
-      <div class="col-sm-3">
+      <!-- <div class="col-sm-3">
         <label for="uclient">Update Client: </label>
         <select class="form-control" id="uclient" [(ngModel)]="updateClient">
           <option label=""></option>
           <option selected="selected" value=- 1>None</option>
           <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
-        </select>
-      </div>
+        </select>-->
+      <!-- </div> -->
       <div class="col-sm-2">
         <button id="submit" (click)="updateAssociates()" class="btn btn-info" style="margin-top:20px">Update</button>
       </div>

@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiOperation;
  * <p> </p>
  * @version.date v6.18.06.13
  */
-@Path("clients")
+@Path("/clients")
 @Api(value = "clients")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })
@@ -72,7 +72,7 @@ public class ClientResource {
 
 		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).build(); // invalid token
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("2")|| payload.getId().equals("5"))) {
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
 			status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;

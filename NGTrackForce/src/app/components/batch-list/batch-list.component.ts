@@ -23,6 +23,8 @@ import {Color} from 'ng2-charts';
 @AutoUnsubscribe
 export class BatchListComponent implements OnInit {
 
+  start : any;
+  end : any;
   pieChartType = 'pie';
   startDate: Date = new Date();
   endDate: Date = new Date();
@@ -82,6 +84,7 @@ export class BatchListComponent implements OnInit {
    * and the corresponding graph accordingly
    */
   public applySelectedRange(s,e) {
+    console.log('in applySelectedRange ')
     if(s != null){
       this.startDate = s;
     }
@@ -89,6 +92,7 @@ export class BatchListComponent implements OnInit {
       this.endDate = e;
     }
     if (this.startDate && this.endDate) {
+      console.log("about to updateBatches")
       this.updateBatches();
     }
   }
@@ -115,11 +119,32 @@ export class BatchListComponent implements OnInit {
    */
   public updateBatches() {
     this.dataReady = false;
-    this.batchService.getBatchesByDate(new Date(this.startDate), new Date(this.endDate)).subscribe(
+    this.batchService.getAllBatches().subscribe(
       batches => {
         // they serve as flags in template
+        this.batches = batches.filter(
+          batch => {
+            console.log(this.startDate);
+            let dateStartDate = new Date(this.startDate);
+            let dateEndDate = new Date(this.endDate);
+            let longStartDate = dateStartDate.getTime();
+            let longEndDate = dateEndDate.getTime();
+            console.log('date start time ' + typeof dateStartDate + ' ' + dateStartDate);
+            console.log("long start date" + longStartDate);
+            console.log("long end date " + longEndDate);
+            console.log("batch start date " + batch.startDate ); 
+            console.log("batch end date " + batch.endDate ); 
+            if (batch.startDate && batch.endDate) {
+              console.log(batch.startDate > longStartDate && batch.endDate < longEndDate);
+              return batch.startDate > longStartDate && batch.endDate < longEndDate;
+            }
+            else {
+              return false;
+            }
+          }
+        );
         this.dataReady = false;
-        this.batches = batches.sort((a, b) => {
+        this.batches = this.batches.sort((a, b) => {
             if (a.startDate < b.startDate) {
               return -1;
             } else if (a.startDate > b.startDate) {

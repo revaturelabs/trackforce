@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, async} from '@angular/core/testing';
 
 import {AssociateListComponent} from './associate-list.component';
 import {AssociateService} from '../../services/associate-service/associate.service';
@@ -30,7 +30,7 @@ describe('AssociateListComponent', () => {
     spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
   });
 
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AssociateListComponent,
@@ -54,33 +54,27 @@ describe('AssociateListComponent', () => {
       schemas: [
         CUSTOM_ELEMENTS_SCHEMA
       ]
-    });
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
     fixture = TestBed.createComponent(AssociateListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 
-  it('getAllAssociates should return all associates', () => {
-    expect(component.associates).toBeGreaterThanOrEqual(0);
-    expect(component.associates.toString).toContain("Cameron");
-    expect(component.associates.toString).toContain("Skaggs");
+  it('should have a curriculums dropdown', () => {
+    expect(component.curriculums).toBeTruthy();
   });
 
-  it('getClientNames should return the names of all the clients', () => {
-    expect(component.clients.toString).toContain("Charter Communications");
-    expect(component.clients.toString).toContain("Choice Hotels");
-    expect(component.clients.toString).not.toContain("A Fake Client");
-  });
+  
 
-  it('sort() should sort the list into numerical order', () => {
-    //expect(component.associates.pop).toBeLessThan(component.associates.pop);
-  });
 
-  it('updateAssociates() should result in updated associates', () => {
-    // Unsure how to programmatically check this
-  })
+  
+
 });

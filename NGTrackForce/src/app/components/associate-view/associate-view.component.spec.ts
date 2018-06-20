@@ -36,6 +36,7 @@ export class MockActivatedRoute {
 describe('AssociateViewComponent', () => {
   let component: AssociateViewComponent;
   let fixture: ComponentFixture<AssociateViewComponent>;
+  let clients: Array<any> = [];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -67,4 +68,15 @@ describe('AssociateViewComponent', () => {
   it('should have an associate', () => {
     expect(component.associate).toBeTruthy();
   });
+
+  // it('getAssociate() should return the specified associate', () => {
+  //   expect(component.getAssociate(900)).toContain("Cameron");
+  //   expect(component.getAssociate(90000)).toContain(null);
+  // });
+
+  // it('getClient() should return a list of clients', () => {
+  //   component.getClients();
+  //   expect(clients.length).toBeGreaterThanOrEqual(0);
+  //   expect(clients.toString).toContain("Ciox Health");
+  // });
 });

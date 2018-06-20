@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
  * @version v6.18.06.13
  *
  */
-@Path("skillset")
+@Path("/skillset")
 @Api(value = "skillset")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -84,9 +84,18 @@ public class CurriculumResource {
 
 	@GET
 	@ApiOperation(value = "Gets how many unmapped are in each curriculum (excluding empties)", notes="Gets how many unmapped are in each curriculum (excluding empties)")
-	@Path("unmapped/{statusId}")
-	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
-		logger.info("getUnmappedInfo()...");
-		return Response.ok(curriculumService.getUnmappedInfo(statusId)).build();
+	@Path("/unmapped/{statusId}")
+	public Response getUnmappedInfo(@HeaderParam("Authorization") String token, @PathParam("statusId") int statusId) {
+		logger.info("getUnmappedInfo()...");		
+		List<TfCurriculum> curriculum = curriculumService.getAllCurriculums();
+		Claims payload = JWTService.processToken(token);
+		
+		if (payload == null) { // invalid token
+			return Response.status(Status.UNAUTHORIZED).build();
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("1"))) { // wrong roleid
+			return Response.status(Status.FORBIDDEN).build();
+		} else {
+			return Response.ok(curriculumService.getUnmappedInfo(statusId)).build();
+		}
 	}
 }

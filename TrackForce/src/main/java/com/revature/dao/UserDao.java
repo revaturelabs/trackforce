@@ -11,5 +11,6 @@ public interface UserDao {
 	public List<TfUser> getAllUsers();
 	public boolean insertUser(TfUser newUser);
 	TfRole getRole(int roleId);
+	public boolean updateUser(TfUser user);
 
 }

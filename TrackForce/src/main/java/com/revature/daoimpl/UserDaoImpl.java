@@ -1,5 +1,7 @@
 package com.revature.daoimpl;
 
+import static com.revature.utils.HibernateUtil.runHibernateTransaction;
+
 import java.util.List;
 
 import com.revature.entity.TfRole;
@@ -34,6 +36,14 @@ public class UserDaoImpl implements UserDao {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
 				session.createQuery("from TfRole u where u.id = :id", TfRole.class).setParameter("id", roleId).getSingleResult());
 
+	}
+
+	@Override
+	public boolean updateUser(TfUser user) {
+		return runHibernateTransaction((Session session, Object ... args)->{
+			session.update(user);
+			return true;
+		});
 	}
 
 }

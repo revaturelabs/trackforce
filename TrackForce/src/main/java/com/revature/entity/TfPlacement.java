@@ -3,6 +3,7 @@ package com.revature.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -180,5 +181,6 @@ public class TfPlacement implements java.io.Serializable {
 		return "TfPlacement [id=" + id + ", client=" + client + ", endClient=" + endClient + ", start=" + start
 				+ ", end=" + end + "]";
 	}
+	
 	
 }

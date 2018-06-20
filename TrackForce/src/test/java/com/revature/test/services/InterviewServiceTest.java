@@ -38,13 +38,10 @@ public class InterviewServiceTest {
 
         // Create interviews to mock
 		TfInterview ii1 = new TfInterview();
-		ii1.setId(7);
 		ii1.setInterviewDate(new Timestamp(1000L));
 		TfInterview ii2 = new TfInterview();
-		ii2.setId(4);
 		ii2.setInterviewDate(new Timestamp(3000L));
 		TfInterview ii3 = new TfInterview();
-		ii3.setId(9);
 		ii3.setInterviewDate(new Timestamp(2000L));
 
 		// Create a list of interviews for mocking
@@ -86,7 +83,6 @@ public class InterviewServiceTest {
 	public void testGetInterviewsByAssociate() {
 		List<TfInterview> interviews = interviewService.getInterviewsByAssociate(0);
 		assertTrue(interviews.size() == 3);
-		assertTrue(interviews.get(1).getId() == 4);
 		assertTrue(interviews.get(1).getInterviewDate().getTime() == 3000L);
 		assertFalse(interviews.size() == 0);
 		List<TfInterview> interviewsEmpty = interviewServiceEmpty.getInterviewsByAssociate(0);
@@ -114,7 +110,6 @@ public class InterviewServiceTest {
 	public void testGetAllInterviews() {
 		List<TfInterview> interviews = interviewService.getAllInterviews();
 		assertTrue(interviews.size() == 3);
-		assertTrue(interviews.get(1).getId() == 4);
 		assertTrue(interviews.get(1).getInterviewDate().getTime() == 3000L);
 		assertFalse(interviews.size() == 0);
 		List<TfInterview> interviewsEmpty = interviewServiceEmpty.getInterviewsByAssociate(0);
@@ -161,18 +156,10 @@ public class InterviewServiceTest {
 	@Test(enabled = true)
 	public void testGetInterviewById() {
 		TfInterview interview = interviewService.getInterviewById(5);
-		assertTrue(interview.getId() == 7);
 		assertTrue(interview.getInterviewDate().getTime() == 1000L);
-		assertFalse(interview.getId() == 4);
 		assertFalse(interview.getInterviewDate().getTime() == 2000L);
 		interview = interviewServiceEmpty.getInterviewById(-1);
 		assertTrue(interview == null);
-		try {
-			interview.getId();
-			assertTrue(false);
-		} catch (NullPointerException npe) {
-			assertTrue(true);
-		}
 	}
 
 }

@@ -137,17 +137,17 @@ public class AssociateResource {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		TfAssociate associateinfo;
-		try {
-			associateinfo = associateService.getAssociateByUserId(id);
-		} catch (NoResultException nre) {
-			logger.info("No associate found...");
-			return Response.status(Status.NO_CONTENT).build();
-		}
 
 		if (payload == null || false) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
+			try {
+				associateinfo = associateService.getAssociateByUserId(id);
+			} catch (NoResultException nre) {
+				logger.info("No associate found...");
+				return Response.status(Status.NO_CONTENT).build();
+			}
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
 		}
 
@@ -168,13 +168,16 @@ public class AssociateResource {
 	 * @param ids - list of ids to update
 	 * @return response 200 status if successful
 	 */
-	@PATCH
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Batch update associates", notes = "Updates the marketing status and/or the client of one or more associates")
 	public Response updateAssociates(@HeaderParam("Authorization") String token,
-			@DefaultValue("0") @ApiParam(value = "marketing status id") @QueryParam("marketingStatusId") Integer marketingStatusId,
-			@DefaultValue("0") @ApiParam(value = "client id") @QueryParam("clientId") Integer clientId,
+			@DefaultValue("0") @ApiParam(value = "marketingStatusId") @QueryParam("marketingStatusId") Integer marketingStatusId,
+			@DefaultValue("0") @ApiParam(value = "clientId") @QueryParam("clientId") Integer clientId,
+			@DefaultValue("-1") @ApiParam(value="verification") @QueryParam("verification") Integer isApproved,
 			List<Integer> ids) {
 		logger.info("updateAssociates()...");
+		logger.info(ids);
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		
@@ -182,8 +185,15 @@ public class AssociateResource {
 		TfAssociate toBeUpdated = null;
 		for(int associateId : ids) {
 			toBeUpdated = associateService.getAssociate(associateId);
-			toBeUpdated.setMarketingStatus(marketingStatusService.getMarketingStatusById(marketingStatusId));
-			toBeUpdated.setClient(clientService.getClient(clientId));
+			if(marketingStatusId!=0) {
+				toBeUpdated.setMarketingStatus(marketingStatusService.getMarketingStatusById(marketingStatusId));
+			}
+			if(clientId!=0) {
+				toBeUpdated.setClient(clientService.getClient(clientId));
+			}
+			if(isApproved>=0) {
+				toBeUpdated.getUser().setIsApproved(isApproved);
+			}
 			associates.add(toBeUpdated);
 		}
 
@@ -192,8 +202,10 @@ public class AssociateResource {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
+			
 			// marketing status & client id are given as query parameters, ids sent in body
-			return updateDetached(associates) ? Response.ok().build() : Response.serverError().build();
+			AssociateService as=new AssociateService();
+			return as.updateAssociates(associates) ? Response.ok().build() : Response.serverError().build();
 		}
 	}
 
@@ -214,6 +226,7 @@ public class AssociateResource {
 	@Path("/{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, TfAssociate associate,
 			@HeaderParam("Authorization") String token) {
+		
 		logger.info("updateAssociate()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
@@ -228,7 +241,6 @@ public class AssociateResource {
 		else {
 			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		}
-
 		return Response.status(status).build();
 	}
 

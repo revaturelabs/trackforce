@@ -52,7 +52,7 @@ public class ClientService {
 	 * @param id
 	 * @return TfClient
 	 */
-	public TfClient getClient(int id) {
+	public TfClient getClient(Integer id) {
 		return dao.getClient(id);
 	}
 

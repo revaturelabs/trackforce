@@ -1,5 +1,5 @@
 /** @Author Princewill Ibe **/
-
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { Batch } from '../../models/batch.model';
 import { BatchService } from '../../services/batch-service/batch.service';
@@ -7,7 +7,6 @@ import { ThemeConstants } from '../../constants/theme.constants';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartOptions, SideValues } from '../../models/ng2-charts-options.model';
 import { Color } from 'ng2-charts';
-import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 
 
 // TODO: LABELS SHOULD PROPERLY WRAP
@@ -103,6 +102,7 @@ export class BatchListComponent implements OnInit {
       this.endDate = e;
     }
     if (this.startDate && this.endDate) {
+      console.log("about to updateBatches")
       this.updateBatches();
     }
   }
@@ -111,14 +111,16 @@ export class BatchListComponent implements OnInit {
    * reset to original batches
    */
   public resetToDefaultBatches() {
-    this.dataReady = false;
-    // this.batchService.getDefaultBatches().subscribe(
+    // this.dataReady = false;
+    // this.dataReady = false;
+    // this.batchService.getAllBatches().subscribe(
     //   (batches) => {
     //     this.batches = batches;
     //     this.updateCountPerCurriculum();
     //     this.dataReady = true;
     //   },
     // );
+    this.ngOnInit();
   }
 
   /**
@@ -197,15 +199,16 @@ export class BatchListComponent implements OnInit {
         },
       );
     }
-
   }
+
+
   /**
- * @function updateCountPerCurriculum
- * @memberof BatchListComponent
- * @description This function will return an object that contains
- *              all of the batches within startDate and endDate
- *
- */
+  * @function updateCountPerCurriculum
+  * @memberof BatchListComponent
+  * @description This function will return an object that contains
+  *              all of the batches within startDate and endDate
+  *
+  */
   updateCountPerCurriculum() {
     this.curriculumNames = this.curriculumCounts = null;
     const curriculumCountsMap = new Map<string, number>();
@@ -213,11 +216,13 @@ export class BatchListComponent implements OnInit {
     this.dataEmpty = this.batches.length === 0;
 
     for (const batch of this.batches) {
-      let count = curriculumCountsMap.get(batch.curriculumName.name);
-      if (count === undefined) {
-        count = 0;
+      if (batch.curriculumName) {
+        let count = curriculumCountsMap.get(batch.curriculumName.name);
+        if (count === undefined) {
+          count = 0;
+        }
+        curriculumCountsMap.set(batch.curriculumName.name, count + 1);
       }
-      curriculumCountsMap.set(batch.curriculumName.name, count + 1);
     }
 
     // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change

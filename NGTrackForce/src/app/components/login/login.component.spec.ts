@@ -15,9 +15,13 @@ import {HomeComponent} from '../home/home.component';
 import {ChartsModule} from 'ng2-charts';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 // added imports; DK
-import{ AssociateService } from "../../services/associate-service/associate.service";
-import{ UserService } from "../../services/user-service/user.service";
+import { AssociateService } from "../../services/associate-service/associate.service";
+import { UserService } from "../../services/user-service/user.service";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InterviewService } from '../../services/interview-service/interview.service';
+import { ClientService } from '../../services/client-service/client.service';
+import { BatchService } from '../../services/batch-service/batch.service';
+import { TrainerService } from '../../services/trainer-service/trainer.service';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -34,7 +38,11 @@ describe('LoginComponent', () => {
         AuthenticationService,
         RequestService, 
         AssociateService,
-        UserService
+        UserService,
+        InterviewService,
+        ClientService,
+        BatchService,
+        TrainerService
       ],
       imports: [
         FormsModule,

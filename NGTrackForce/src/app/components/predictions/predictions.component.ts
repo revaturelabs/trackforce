@@ -102,9 +102,9 @@ export class PredictionsComponent implements OnInit {
         let count=0;
           for(let associate of this.associates){
             if(associate.batch && associate.batch.curriculumName){
-              console.log(associate.batch.endDate);
-              console.log(this.startDate);
-              console.log(startTime);
+              // console.log(associate.batch.endDate);
+              // console.log(this.startDate);
+              // console.log(startTime);
               if(associate.batch.endDate>=startTime&&associate.batch.endDate<=endTime){
                 if(associate.batch.curriculumName.name===t){
                   count++;

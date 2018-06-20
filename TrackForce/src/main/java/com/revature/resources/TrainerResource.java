@@ -130,7 +130,7 @@ public class TrainerResource {
 		return Response.status(status).entity(trainer).build();
 	}
 	
-	@Path("/alltrainers")
+	@Path("/allTrainers")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "get all trainers")

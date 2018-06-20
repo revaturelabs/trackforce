@@ -12,7 +12,7 @@
 				<br/>
 				<canvas baseChart id="skillset" class="chart chart-bar" *ngIf="skillsetData && skillsetData.length && skillsetLabels && skillsetLabels.length"
 				 [chartType]="chartType" [data]="skillsetData" [labels]="skillsetLabels" [colors]="batchColors" [options]="chartOptions"
-				 (chartClick)="goToAssociateList($event)">
+				 >
 				</canvas>
 
 			</div>

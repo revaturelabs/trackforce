@@ -11,7 +11,7 @@
       <div class="white">
         <canvas baseChart class="chart chart-bar" id="the_graph" *ngIf="clientMappedData && clientMappedData.length && clientMappedLabels && clientMappedLabels.length"
           [data]="clientMappedData" [labels]="clientMappedLabels" [chartType]="chartType" [options]="chartOptions" [colors]="clientColors"
-          (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+          (chartHover)="chartHovered($event)">
         </canvas>
       </div>
     </div>

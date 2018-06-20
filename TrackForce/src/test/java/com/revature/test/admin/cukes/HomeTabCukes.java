@@ -1,21 +1,18 @@
 package com.revature.test.admin.cukes;
 
+import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import com.revature.test.admin.pom.AssociateListTab;
 import com.revature.test.admin.pom.HomeTab;
-import com.revature.test.admin.testclasses.AdminSuite;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
 import com.revature.test.utils.WaitToLoad;
@@ -24,7 +21,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class HomeTabCukes extends AdminSuite {
+public class HomeTabCukes{
 	
 	@Given("^I am on the Home Page$")
 	public static void i_am_on_the_Home_Page() throws InterruptedException  {
@@ -354,4 +351,14 @@ public class HomeTabCukes extends AdminSuite {
 			ServiceHooks.driver.navigate().to(TestConfig.getBaseURL()+"/root");
 		}
 	}
+	
+	@Then("^the graphs should be visible$")
+	public void the_graphs_should_be_visible() throws Throwable {
+	  assertTrue(HomeTab.getChart(ServiceHooks.driver, "Mapped vs. Unmapped (Not Deployed)").isDisplayed());
+	  assertTrue(HomeTab.getChart(ServiceHooks.driver, "Mapped vs. Unmapped (Deployed)").isDisplayed());
+	  assertTrue(HomeTab.getChart(ServiceHooks.driver, "Mapped").isDisplayed());
+	  assertTrue(HomeTab.getChart(ServiceHooks.driver, "unMapped").isDisplayed());
+	   
+	}
+
 }

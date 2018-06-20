@@ -37,7 +37,7 @@ public class Login {
 	}	
 
 	public static WebElement getSignin(WebDriver d) {
-		return d.findElement(By.cssSelector(prop.getProperty("loginSignin")));
+		return d.findElement(By.className(prop.getProperty("loginSignin")));
 	}
 	
 	public static String getTitle(WebDriver d) {

@@ -72,6 +72,12 @@ public class UserService {
     * @return
     */
 	public boolean insertUser(TfUser newUser) {
+		try {
+			newUser.setPassword(PasswordStorage.createHash(newUser.getPassword()));
+			LogUtil.logger.info("The user with hashed password is " + newUser);
+		} catch (CannotPerformOperationException e) {
+			LogUtil.logger.warn(e.getMessage());
+		}
 		return dao.insertUser(newUser);
 	}
 

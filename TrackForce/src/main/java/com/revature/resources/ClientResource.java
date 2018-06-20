@@ -29,9 +29,10 @@ import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-
 /**
- * <p> </p>
+ * <p>
+ * </p>
+ * 
  * @version v6.18.06.13
  */
 @Path("/clients")
@@ -40,9 +41,10 @@ import io.swagger.annotations.ApiOperation;
 @Produces({ MediaType.APPLICATION_JSON })
 public class ClientResource {
 
-	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
+	// You're probably thinking, why would you ever do this? Why not just just make
+	// the methods all static in the service class?
 	// This is to allow for Mockito tests, which have problems with static methods
-	// This is here for a reason! 
+	// This is here for a reason!
 	// - Adam 06.18.06.13
 	AssociateService associateService = new AssociateService();
 	BatchService batchService = new BatchService();
@@ -51,11 +53,13 @@ public class ClientResource {
 	InterviewService interviewService = new InterviewService();
 	TrainerService trainerService = new TrainerService();
 	UserService userService = new UserService();
-	
+
 	/**
 	 * 
-	 * @author Adam L. 
-	 * <p>Returns a map of all of the clients as a response object.</p>
+	 * @author Adam L.
+	 *         <p>
+	 * 		Returns a map of all of the clients as a response object.
+	 *         </p>
 	 * @version v6.18.06.13
 	 * 
 	 * @param token
@@ -71,14 +75,14 @@ public class ClientResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build(); // invalid token
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("2")|| payload.getId().equals("5"))) {
-			return Response.status(Status.FORBIDDEN).build();
-		} else {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		// invalid token
+		else {
 			status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
 
 		return Response.status(status).entity(clients).build();
 	}
-	
+
 }

@@ -82,6 +82,7 @@ public class HomeTab {
 	
 	public static WebElement getChart(WebDriver d, String str) {
 		List<WebElement> e = WaitToLoad.findDynamicElements(d, By.id(prop.getProperty("homePie")), 2);
+		System.out.println(e.size());
 		if(str.equals(prop.getProperty("homeMapvUnmapNoDep"))) {
 			return e.get(0);
 		}

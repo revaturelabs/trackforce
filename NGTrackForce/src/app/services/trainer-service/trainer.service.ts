@@ -39,6 +39,15 @@ export class TrainerService {
 
 
   /**
+   * Gets all trainers
+   * @author Adam L
+   * @since 6.19.06.16
+   */
+  getAllTrainers(): Observable<Trainer[]> {
+    return this.http.get<Trainer[]>(this.baseURL + "/allTrainers");
+  }
+
+  /**
    *
    * Get all batches in which the co-trainer is represented by trainerId
    * @param trainerId

@@ -19,6 +19,7 @@ export class CreateUserComponent implements OnInit {
   password2: string;
   roleId: number;
   errMsg: any;
+  sucMsg: any;
   newUser: User;
 
   constructor(private authService: AuthenticationService,
@@ -37,6 +38,7 @@ export class CreateUserComponent implements OnInit {
    */
   createUser() {
     this.errMsg = "";
+    this.sucMsg = "";
     if (this.password !== this.password2) {
       this.errMsg = 'Passwords do not match!';
     } else {
@@ -46,8 +48,7 @@ export class CreateUserComponent implements OnInit {
       // this.userService.createUser(this.username, this.password, this.roleId).subscribe(
       this.userService.createUser(this.newUser).subscribe(
         data => {
-          //navigate to home page if return is valid
-          this.router.navigate(['app-home']);
+          this.sucMsg = 'User created successfully'
         },
         err => {
           console.error(err + " Error Occurred");

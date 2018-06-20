@@ -204,6 +204,7 @@ export class ClientMappedComponent implements OnInit {
   }
 
   public changeSelectedStatus(statusId: number) {
+    console.log(statusId);
     if (statusId === 1) {
       this.selectedStatus = "Training";
     } else if (statusId === 2) {

@@ -12,21 +12,21 @@
         <canvas baseChart 
           class="chart chart-bar" 
           id="the_graph" 
-          *ngIf="clientMappedData && clientMappedData.length && clientMappedLabels && clientMappedLabels.length"
+          *ngIf="clientDeployedData && clientDeployedData.length && clientDeployedLabels && clientDeployedLabels.length"
           [data]="clientDeployedData" 
           [labels]="clientDeployedLabels" 
           [chartType]="chartType" 
           [options]="chartOptions" 
           [colors]="mappedColors"
-          (chartHover)="chartHovered($event)" 
-          (chartClick)="chartClicked($event)">
+          (chartClick)="chartClicked($event)"
+          >
         </canvas>
       </div>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-md-8">
       <div class="white">
         <canvas baseChart 
           id="pie" 

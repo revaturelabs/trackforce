@@ -15,12 +15,12 @@ Feature: Testing the creation of various forms of users
     Then A new User should be created
 
     Examples: 
-      | username     | password      | role      |
-      | NewAdmin     | NewAdmin!     | admin     |
-      | NewTrainer   | NewTrainer!   | trainer   |
-      | NewDelivery  | NewDelivery!  | delivery  |
-      | NewAssociate | NewAssociate! | associate |
-      | NewManager   | NewManager!   | manager   |
+      | username     | password       | role      |
+      | NewAdmin     | NewAdmin1!     | admin     |
+      | NewTrainer   | NewTrainer1!   | trainer   |
+      | NewDelivery  | NewDelivery1!  | delivery  |
+      | NewAssociate | NewAssociate1! | associate |
+      | NewManager   | NewManager1!   | manager   |
 
   Scenario Outline: Testing creating an admin with an invalid inputs
     Given I click on Create User Tab
@@ -33,19 +33,21 @@ Feature: Testing the creation of various forms of users
     Then A Pop Up Error should occur
 
     Examples: 
-      | username  | password  | confPassword |
-      |   0000000 | NewAdmin! | NewAdmin!    |
-      | admin     | NewAdmin! | NewAdmin!    |
-      | New Admin | NewAdmin! | NewAdmin!    |
-      | NewAdmin! | NewAdmin! | NewAdmin!    |
-      |           | NewAdmin! | NewAdmin!    |
-      | NewAdmin  | NewA!     | NewA!        |
-      | NewAdmin  | NewAdmins | NewAdmins    |
-      | NewAdmin  | newadmin! | newadmin!    |
-      | NewAdmin  | NEWADMIN! | NEWADMIN!    |
-      | NewAdmin  |           |              |
-      | NewAdmin  | NewAdmin! | Not the same |
-      | NewAdmin  | NewAdmin! |              |
+      | username                   | password   | confPassword |
+      |                    0000000 | NewAdmin1! | NewAdmin1!   |
+      | admin                      | NewAdmin1! | NewAdmin1!   |
+      | thisIsOverTwentyCharacters | NewAdmin1! | NewAdmin1!   |
+      | New Admin                  | NewAdmin1! | NewAdmin1!   |
+      | NewAdmin!                  | NewAdmin1! | NewAdmin1!   |
+      |                            | NewAdmin1! | NewAdmin1!   |
+      | NewAdmin                   | New1!      | New1!        |
+      | NewAdmin                   | NewAdmins1 | NewAdmins1   |
+      | NewAdmin                   | NewAdmins! | NewAdmins!   |
+      | NewAdmin                   | newadmin1! | newadmin1!   |
+      | NewAdmin                   | NEWADMIN1! | NEWADMIN1!   |
+      | NewAdmin                   |            |              |
+      | NewAdmin                   | NewAdmin1! | Not the same |
+      | NewAdmin                   | NewAdmin1! |              |
 
   Scenario Outline: Testing creating an associate with an invalid inputs
     Given I click on Create User Tab
@@ -58,19 +60,21 @@ Feature: Testing the creation of various forms of users
     Then A Pop Up Error should occur
 
     Examples: 
-      | username      | password      | confPassword  |
-      |       0000000 | NewAssociate! | NewAssociate! |
-      | assoc         | NewAssociate! | NewAssociate! |
-      | New Associate | NewAssociate! | NewAssociate! |
-      | NewAssociate! | NewAssociate! | NewAssociate! |
-      |               | NewAssociate! | NewAssociate! |
-      | NewAssociate  | NewA!         | NewA!         |
-      | NewAssociate  | NewAssoc      | NewAssoc      |
-      | NewAssociate  | newassoc!     | newassoc!     |
-      | NewAssociate  | NEWASSOC!     | NEWASSOC!     |
-      | NewAssociate  |               |               |
-      | NewAssociate  | NewAssoc!     | Not the same  |
-      | NewAssociate  | NewAssoc!     |               |
+      | username                   | password       | confPassword   |
+      |                    0000000 | NewAssociate1! | NewAssociate1! |
+      | assoc                      | NewAssociate1! | NewAssociate1! |
+      | thisIsOverTwentyCharacters | NewAssociate1! | NewAssociate1! |
+      | New Associate              | NewAssociate1! | NewAssociate1! |
+      | NewAssociate!              | NewAssociate1! | NewAssociate1! |
+      |                            | NewAssociate1! | NewAssociate1! |
+      | NewAssociate               | New1!          | New1!          |
+      | NewAssociate               | NewAssoc1      | NewAssoc1      |
+      | NewAssociate               | NewAssoc!      | NewAssoc!      |
+      | NewAssociate               | newassoc1!     | newassoc1!     |
+      | NewAssociate               | NEWASSOC1!     | NEWASSOC1!     |
+      | NewAssociate               |                |                |
+      | NewAssociate               | NewAssoc1!     | Not the same   |
+      | NewAssociate               | NewAssoc1!     |                |
 
   Scenario Outline: Testing creating a trainer with an invalid inputs
     Given I click on Create User Tab
@@ -83,19 +87,21 @@ Feature: Testing the creation of various forms of users
     Then A Pop Up Error should occur
 
     Examples: 
-      | username    | password    | confPassword |
-      |     0000000 | NewTrainer! | NewTrainer!  |
-      | trai        | NewTrainer! | NewTrainer!  |
-      | New Trainer | NewTrainer! | NewTrainer!  |
-      | NewTrainer! | NewTrainer! | NewTrainer!  |
-      |             | NewTrainer! | NewTrainer!  |
-      | NewTrainer  | NewT!       | NewT!        |
-      | NewTrainer  | NewTrainer  | NewTrainer   |
-      | NewTrainer  | newtrainer! | newtrainer!  |
-      | NewTrainer  | NEWTRAINER! | NEWTRAINER!  |
-      | NewTrainer  |             |              |
-      | NewTrainer  | NewTrainer! | Not the same |
-      | NewTrainer  | NewTrainer! |              |
+      | username                   | password     | confPassword |
+      |                    0000000 | NewTrainer1! | NewTrainer1! |
+      | trai                       | NewTrainer1! | NewTrainer1! |
+      | thisIsOverTwentyCharacters | NewTrainer1! | NewTrainer1! |
+      | New Trainer                | NewTrainer1! | NewTrainer1! |
+      | NewTrainer!                | NewTrainer1! | NewTrainer1! |
+      |                            | NewTrainer1! | NewTrainer1! |
+      | NewTrainer                 | New1!        | New1!        |
+      | NewTrainer                 | NewTrainer1  | NewTrainer1  |
+      | NewTrainer                 | NewTrainer!  | NewTrainer!  |
+      | NewTrainer                 | newtrainer1! | newtrainer1! |
+      | NewTrainer                 | NEWTRAINER1! | NEWTRAINER1! |
+      | NewTrainer                 |              |              |
+      | NewTrainer                 | NewTrainer1! | Not the same |
+      | NewTrainer                 | NewTrainer1! |              |
 
   Scenario Outline: Testing creating an delivery team user with an invalid inputs
     Given I click on Create User Tab
@@ -108,19 +114,21 @@ Feature: Testing the creation of various forms of users
     Then A Pop Up Error should occur
 
     Examples: 
-      | username      | password     | confPassword |
-      |        000000 | NewDelivery! | NewDelivery! |
-      | deliv         | NewDelivery! | NewDelivery! |
-      | New Delilvery | NewDelivery! | NewDelivery! |
-      | NewDelivery!  | NewDelivery! | NewDelivery! |
-      |               | NewDelivery! | NewDelivery! |
-      | NewDelivery   | NewD!        | NewD!        |
-      | NewDelivery   | NewDelivery  | NewDelivery  |
-      | NewDelivery   | newdelivery! | newdelivery! |
-      | NewDelivery   | NEWDELIVERY! | NEWDELIVERY! |
-      | NewDelivery   |              |              |
-      | NewDelivery   | NewDelivery! | Not the same |
-      | NewDelivery   | NewDelivery! |              |
+      | username                   | password      | confPassword  |
+      |                     000000 | NewDelivery1! | NewDelivery1! |
+      | deliv                      | NewDelivery1! | NewDelivery1! |
+      | thisIsOverTwentyCharacters | NewDelivery1! | NewDelivery!  |
+      | New Delilvery              | NewDelivery1! | NewDelivery1! |
+      | NewDelivery!               | NewDelivery1! | NewDelivery1! |
+      |                            | NewDelivery1! | NewDelivery1! |
+      | NewDelivery                | New1!         | New1!         |
+      | NewDelivery                | NewDelivery1  | NewDelivery1  |
+      | NewDelivery                | NewDelivery!  | NewDelivery!  |
+      | NewDelivery                | newdelivery1! | newdelivery1! |
+      | NewDelivery                | NEWDELIVERY1! | NEWDELIVERY1! |
+      | NewDelivery                |               |               |
+      | NewDelivery                | NewDelivery1! | Not the same  |
+      | NewDelivery                | NewDelivery1! |               |
 
   Scenario Outline: Testing creating an manager with an invalid inputs
     Given I click on Create User Tab
@@ -133,16 +141,18 @@ Feature: Testing the creation of various forms of users
     Then A Pop Up Error should occur
 
     Examples: 
-      | username    | password    | confPassword |
-      |      000000 | NewManager! | NewManager!  |
-      | manag       | NewManager! | NewManager!  |
-      | New Manager | NewManager! | NewManager!  |
-      | NewManager! | NewManager! | NewManager!  |
-      |             | NewManager! | NewManager!  |
-      | NewManager  | NewM?       | NewM?        |
-      | NewManager  | NewManager  | NewManager   |
-      | NewManager  | newmanager! | newadmin!    |
-      | NewManager  | NEWMANAGER! | NEWMANAGER!  |
-      | NewManager  |             |              |
-      | NewManager  | NewManger!  | Not the same |
-      | NewManager  | NewManger!  |              |
+      | username                   | password     | confPassword |
+      |                     000000 | NewManager1! | NewManager1! |
+      | manag                      | NewManager1! | NewManager1! |
+      | thisIsOverTwentyCharacters | NewManager1! | NewManager1! |
+      | New Manager                | NewManager1! | NewManager1! |
+      | NewManager!                | NewManager1! | NewManager1! |
+      |                            | NewManager1! | NewManager1! |
+      | NewManager                 | New1!        | New1!        |
+      | NewManager                 | NewManager1  | NewManager1  |
+      | NewManager                 | NewManager!  | NewManager!  |
+      | NewManager                 | newmanager1! | newadmin1!   |
+      | NewManager                 | NEWMANAGER1! | NEWMANAGER1! |
+      | NewManager                 |              |              |
+      | NewManager                 | NewManger1!  | Not the same |
+      | NewManager                 | NewManger1!  |              |

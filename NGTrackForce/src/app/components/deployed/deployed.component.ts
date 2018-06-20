@@ -71,7 +71,6 @@ export class DeployedComponent implements OnInit {
   }
 
   changeSelectedStatus(status: number) {
-    console.log(status);
     switch(status){
       case 1: {
         this.selectedStatus = "Mapped";
@@ -133,7 +132,6 @@ export class DeployedComponent implements OnInit {
       this.clientDeployedData = temp_clientDeployedData;
       this.clientDeployedLabels = temp_clientDeployedLabels;
 
-      console.log(data);
 
       //Loop over 'data' and extract fetched information
       for (const graphCount of data) {
@@ -147,8 +145,6 @@ export class DeployedComponent implements OnInit {
           temp_clientDeployedData.push(graphCount.count);
         }
       }
-      console.log(temp_clientDeployedData);
-      console.log(temp_clientDeployedLabels);
 
       //Set data, trigger property binding
       this.clientDeployedData = temp_clientDeployedData;

@@ -155,7 +155,6 @@ export class SkillsetComponent implements OnInit {
   ngOnInit(): void {
 
     this.getUnmappedData();
-    // console.log(this.unmappedData);
 
 
 
@@ -251,7 +250,6 @@ export class SkillsetComponent implements OnInit {
 
   public getUnmappedData() {
     this.unmappedData = JSON.parse(localStorage.getItem('unmappedData'));
-    // console.log(this.unmappedData);
   }
 
   /**

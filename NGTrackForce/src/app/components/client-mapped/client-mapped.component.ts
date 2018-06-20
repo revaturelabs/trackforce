@@ -204,7 +204,6 @@ export class ClientMappedComponent implements OnInit {
   }
 
   public changeSelectedStatus(statusId: number) {
-    console.log(statusId);
     if (statusId === 1) {
       this.selectedStatus = "Training";
     } else if (statusId === 2) {
@@ -233,7 +232,6 @@ export class ClientMappedComponent implements OnInit {
       this.clientMappedData = temp_clientMappedData;
       this.clientMappedLabels = temp_clientMappedLabels;
 
-      console.log(data);
 
       //Loop over 'data' and extract fetched information
       for (const graphCount of data) {
@@ -247,8 +245,6 @@ export class ClientMappedComponent implements OnInit {
           temp_clientMappedData.push(graphCount.count);
         }
       }
-      console.log(temp_clientMappedData);
-      console.log(temp_clientMappedLabels);
 
       //Set data, trigger property binding
       this.clientMappedData = temp_clientMappedData;

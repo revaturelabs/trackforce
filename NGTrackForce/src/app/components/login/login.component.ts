@@ -306,7 +306,6 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['associate-view']);
       },
       err => {
-        // console.log('error getting associate with userid');
         if (err.status === 500) {
           this.errMsg = "There was an error on the server";
         } else {

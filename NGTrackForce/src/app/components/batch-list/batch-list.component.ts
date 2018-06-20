@@ -102,7 +102,6 @@ export class BatchListComponent implements OnInit {
       this.endDate = e;
     }
     if (this.startDate && this.endDate) {
-      console.log("about to updateBatches")
       this.updateBatches();
     }
   }
@@ -170,7 +169,6 @@ export class BatchListComponent implements OnInit {
           // they serve as flags in template
           this.batches = batches.filter(
             batch => {
-              console.log(this.startDate);
               let dateStartDate = new Date(this.startDate);
               let dateEndDate = new Date(this.endDate);
               let longStartDate = dateStartDate.getTime();

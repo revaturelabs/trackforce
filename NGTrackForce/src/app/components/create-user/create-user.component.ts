@@ -42,11 +42,9 @@ export class CreateUserComponent implements OnInit {
     if (this.password !== this.password2) {
       this.errMsg = 'Passwords do not match!';
     } else {
-      this.errMsg = 'Hello';
-      this.newUser.username = "Penguins";
-      this.newUser.password = this.password;
-      this.newUser.role = this.roleId;
+      this.newUser = new User(this.username, this.password, this.roleId, 1);
       // this.userService.createUser(this.username, this.password, this.roleId).subscribe(
+        console.log(this.newUser);
       this.userService.createUser(this.newUser).subscribe(
         data => {
           this.sucMsg = 'User created successfully';

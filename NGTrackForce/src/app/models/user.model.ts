@@ -9,7 +9,7 @@
 export class User {
   id: number;
   username: string;
-  hashedPassword: string;
+  password: string;
   role: number;
   token: string;
   isApproved: number;
@@ -23,7 +23,7 @@ export class User {
     newToken?: string
   ) {
       this.username = newUsername;
-      this.hashedPassword = newPassword;
+      this.password = newPassword;
       this.role = newRole;
       this.isApproved = newIsApproved;
       this.id = newId;

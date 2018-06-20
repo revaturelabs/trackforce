@@ -4,6 +4,7 @@
 
 div {
     min-height: calc(100vh - 90px - 82px);
+    margin: 10px;
 }
 
 app-footer {

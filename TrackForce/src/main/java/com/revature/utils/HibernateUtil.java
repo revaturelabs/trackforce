@@ -15,6 +15,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.revature.entity.TfTrainer;
+
 /**
  * @author Curtis H., Adam L.
  * <p>The abstracted methods for making Hibernate calls to the database</p>
@@ -40,7 +42,6 @@ public class HibernateUtil {
 		
 		try {
 			Configuration cfg = new Configuration();
-			
 			cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
 			cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
 			cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));

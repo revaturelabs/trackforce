@@ -5,6 +5,7 @@ import static com.revature.utils.LogUtil.logger;
 import java.io.IOException;
 import java.net.URI;
 
+import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfRole;
 import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
 import com.revature.services.*;
@@ -61,13 +63,58 @@ public class UserResource {
 	@Consumes("application/json")
 	@ApiOperation(value = "Creates new user", notes = "")
 	public Response createUser(TfUser newUser) {
-		logger.info("creating new user...");
-		LogUtil.logger.info(newUser);
-		if (newUser.getRole() == 2 || newUser.getRole() == 5) {
-			return Response.status(Status.FORBIDDEN).build();
+		logger.info("creating new user..." + newUser);
+		
+		// any user created by an admin is approved
+		newUser.setIsApproved(1);
+
+		// get the role being passed in 
+		int role = newUser.getRole();
+		TfRole tfrole = new TfRole();
+		
+		if(role != 0) {
+			switch(role) {
+			case 1:
+				tfrole = new TfRole(1, "Admin");
+				newUser.setTfRole(tfrole);
+				userService.insertUser(newUser);
+				break;
+			case 2:
+				tfrole = new TfRole(2, "Trainer");
+				newUser.setTfRole(tfrole);
+				TfTrainer newTrainer = new TfTrainer();
+				newTrainer.setTfUser(newUser);
+				newTrainer.setFirstName("placehold");
+				newTrainer.setLastName("placeholder");
+				logger.info("creating new trainer..." + newTrainer);
+				trainerService.createTrainer(newTrainer);
+				break;
+			case 3:
+				tfrole = new TfRole(3, "Sales-Delivery");
+				newUser.setTfRole(tfrole);
+				userService.insertUser(newUser);
+				break;
+			case 4:
+				tfrole = new TfRole(4, "Staging");
+				newUser.setTfRole(tfrole);
+				userService.insertUser(newUser);
+				break;
+			case 5:
+				tfrole = new TfRole(5, "Associate");
+				newUser.setTfRole(tfrole);
+				TfAssociate newAssociate = new TfAssociate();
+				newAssociate.setUser(newUser);
+				newAssociate.setFirstName("placehold");
+				newAssociate.setLastName("placeholder");
+				logger.info("creating new associate..." + newAssociate);
+				associateService.createAssociate(newAssociate);
+				break;
+			}
 		}
-		userService.insertUser(newUser);
-		return Response.status(Status.CREATED).build();
+		if(userService.insertUser(newUser)) {
+			return Response.status(Status.CREATED).build();
+		}
+		return Response.status(Status.EXPECTATION_FAILED).build();
 	}
 
 	/**
@@ -85,9 +132,15 @@ public class UserResource {
 	public Response createNewAssociate(TfAssociate newAssociate) {
 		logger.info("createNewAssociate()...");
 		LogUtil.logger.info(newAssociate);
-		newAssociate.setMarketingStatus(marketingStatusService.getMarketingStatusById(6)); // Unmapped: Training
-		associateService.createAssociate(newAssociate);
-		return Response.status(Status.CREATED).build();
+		if (newAssociate.getUser().getRole() == 5) {
+			if (associateService.createAssociate(newAssociate)) {
+				return Response.status(Status.CREATED).build();
+			}
+			return Response.status(Status.EXPECTATION_FAILED).build();
+		}
+		else {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 	}
 
 	/**
@@ -105,8 +158,15 @@ public class UserResource {
 	public Response createTrainer(TfTrainer newTrainer) {
 		logger.info("creating new user...");
 		LogUtil.logger.info(newTrainer);
-		trainerService.createTrainer(newTrainer);
-		return Response.status(Status.CREATED).build();
+		if (newTrainer.getTfUser().getRole() == 2) {
+			if (trainerService.createTrainer(newTrainer)) {
+				return Response.status(Status.CREATED).build();
+			}
+			return Response.status(Status.EXPECTATION_FAILED).build();
+		}
+		else {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 	}
 
 	/**
@@ -126,8 +186,14 @@ public class UserResource {
 	public Response submitCredentials(TfUser loginUser) throws IOException {
 		logger.info("submitCredentials()...");
 		logger.info("	login: " + loginUser);
-		TfUser user = userService.submitCredentials(loginUser);
-		logger.info("	user: " + user);
+		TfUser user;
+		try {
+			user = userService.submitCredentials(loginUser);
+			logger.info("	user: " + user);
+		} catch (NoResultException nre) {
+			nre.printStackTrace();
+			return Response.status(Status.FORBIDDEN).build();
+		}
 		if (user != null) {
 			logger.info("sending 200 response..");
 			return Response.status(Status.OK).entity(user).build();

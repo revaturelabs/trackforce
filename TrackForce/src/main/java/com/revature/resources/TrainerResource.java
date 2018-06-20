@@ -2,6 +2,7 @@ package com.revature.resources;
 
 import static com.revature.utils.LogUtil.logger;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -12,6 +13,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
+import com.revature.entity.TfClient;
 import com.revature.entity.TfTrainer;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
@@ -110,7 +112,7 @@ public class TrainerResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "get a trainer by its user id")
 	public Response getTrainer(@PathParam("id")int id, @HeaderParam("Authorization")String token) {
-		TfTrainer trainer = trainerService.getTrainerByUserId(id);
+		TfTrainer trainer;
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 		if (payload == null || payload.getId().equals("5")) {
@@ -126,6 +128,27 @@ public class TrainerResource {
 		}
 
 		return Response.status(status).entity(trainer).build();
+	}
+	
+	@Path("/allTrainers")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "get all trainers")
+	public Response getAllTrainers(@HeaderParam("Authorization") String token) throws IOException {
+		logger.info("getAllClients()...");
+		Status status = null;
+		List<TfTrainer> trainers = trainerService.getAllTrainers();
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).build(); // invalid token
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
+			return Response.status(Status.FORBIDDEN).build();
+		} else {
+			status = trainers == null || trainers.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		}
+
+		return Response.status(status).entity(trainers).build();
 	}
 
 	/**
@@ -145,17 +168,18 @@ public class TrainerResource {
 	public Response updateTrainer(@PathParam("trainerId") Integer id, TfTrainer trainer,
 	                                @HeaderParam("Authorization") String token) {
 		logger.info("updateTrainer()...");
-		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || payload.getId().equals("5")) {
-			status = Status.UNAUTHORIZED;
+		if (trainer == null) {
+			return Response.status(Status.NO_CONTENT).build();
 		}
-		if (payload.getId().equals("2")) {
+		else if (payload == null || payload.getId().equals("2") || payload.getId().equals("5")) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		else {
 			trainerService.updateTrainer(trainer);
+			return Response.status(Status.ACCEPTED).build();
 		}
-
-		return Response.status(status).build();
 	}
 	
 }

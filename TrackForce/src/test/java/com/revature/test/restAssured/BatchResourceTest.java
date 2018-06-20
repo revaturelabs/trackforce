@@ -3,23 +3,36 @@ package com.revature.test.restAssured;
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
+import static org.hamcrest.Matchers.hasSize;
+
 
 import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import com.revature.services.BatchService;
 import com.revature.services.JWTService;
 
 import io.restassured.response.Response;
 
+/**
+ * Tests to ensure that that batches are only accessible to the right users and that all
+ * behavior is intended in relationship to date ranges
+ * 
+ * @author Daniel L.
+ * @since 06.18.06.19
+ */
 public class BatchResourceTest {
 
+
 	static final String URL = "http://52.87.205.55:8086/TrackForce/batches";
+	//static final String URL = "http://localhost:8085/TrackForce/batches";
 
 	private String token;
-	BatchService service ;
+	BatchService service;
 
+	/**
+	 * Setup to run before any test is run
+	 */
 	@BeforeClass
 	public void beforeClass() {
 		token = JWTService.createToken("TestAdmin", 1);
@@ -27,21 +40,33 @@ public class BatchResourceTest {
 		service = new BatchService();
 	}
 
+	/**
+	 * Test to ensure that each of the roles besides an associate is able to access batches.
+	 * Verify that the batches returned are what we would expect.
+	 */
 	@Test(priority = 1)
 	public void getAllBatchesTest() {
 		int size = service.getAllBatches().size();
 		Response response = given().header("Authorization", token).when().get(URL).then().extract().response();
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
-		given().header("Authorization", token).when().get(URL).then().assertThat().body("batchName", Matchers.hasSize(size));
-		
+
+		given().header("Authorization", token).when().get(URL).then().assertThat().body("batchName",
+				Matchers.hasSize(size));
+
 		token = JWTService.createToken("TestSales", 2);
 		response = given().header("Authorization", token).when().get(URL).then().extract().response();
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
-
+	}
+	
+	/**
+	 * Part two of testing getAllBatches
+	 */
+	@Test(priority = 2)
+	public void getAllBatchesTest2() {
 		token = JWTService.createToken("TestManger", 3);
-		response = given().header("Authorization", token).when().get(URL).then().extract().response();
+		Response response = given().header("Authorization", token).when().get(URL).then().extract().response();
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 
@@ -49,10 +74,12 @@ public class BatchResourceTest {
 		response = given().header("Authorization", token).when().get(URL).then().extract().response();
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
-
 	}
 
-	@Test(priority = 2)
+	/**
+	 * Test to ensure that a backwards date returns no batches
+	 */
+	@Test(priority = 3)
 	public void getAllBatchesBackwardsDateTest() {
 		Response response = given().header("Authorization", token).queryParam("start", 1600000000000L)
 				.queryParam("start", 1490000000000L).when().get(URL).then().extract().response();
@@ -61,7 +88,10 @@ public class BatchResourceTest {
 		assertTrue(response.contentType().equals("application/json"));
 	}
 
-	@Test(priority = 2)
+	/**
+	 * Test to ensure that batches from a particular time range can be successfully retrieved
+	 */
+	@Test(priority = 4)
 	public void getBatchesInARangeTest() {
 		Response response = given().header("Authorization", token).queryParam("start", 1480000000000L)
 				.queryParam("start", 1490000000000L).when().get(URL).then().extract().response();
@@ -70,114 +100,26 @@ public class BatchResourceTest {
 		assertTrue(response.contentType().equals("application/json"));
 	}
 
-	@Test(priority = 3)
+	/**
+	 * Test to ensure that an invalid token does not allow access to batches
+	 */
+	@Test(priority = 5)
 	public void getAllBatchesInvalidAuthorizationTest() {
 		Response response = given().header("Authorization", "NotAuthorization").when().get(URL).then().extract()
 				.response();
 		assertTrue(response.getStatusCode() == 401);
 	}
 
-	@Test(priority = 4)
+	/**
+	 * Test to make sure that associates do not have access to batches
+	 */
+	@Test(priority = 6)
 	public void getAllBatchesUnauthorizedTest() {
 		token = JWTService.createToken("TestAssociate", 5);
-		Response response = given().header("Authorization", token).when().get(URL).then().extract()
-				.response();
-		System.out.println(response.getStatusCode());
-		assertTrue(response.getStatusCode() == 401);
-		System.out.println(response.contentType());
-		assertFalse(response.contentType().equals("application/json"));
-		given().header("Authorization", token).when().get(URL).then().assertThat().body("batchName", Matchers.hasSize(0));
-	}
-
-	@Test(priority = 5)
-	public void getBatchByIdTest() {
-		token = JWTService.createToken("TestAdmin", 1);
-		Response response = given().header("Authorization", token).pathParam("id", "14").when().get(URL + "/{id}")
-				.then().extract().response();
-		assertTrue(response.getStatusCode() == 200);
+		Response response = given().header("Authorization", token).when().get(URL).then().extract().response();
+		assertTrue(response.getStatusCode() == 403);
 		assertTrue(response.contentType().equals("application/json"));
-		token = JWTService.createToken("TestSales", 2);
-		response = given().header("Authorization", token).pathParam("id", "14").when().get(URL + "/{id}").then()
-				.extract().response();
-		assertTrue(response.getStatusCode() == 200);
-		assertTrue(response.contentType().equals("application/json"));
-		token = JWTService.createToken("TestManger", 3);
-		response = given().header("Authorization", token).pathParam("id", "14").when().get(URL + "/{id}").then()
-				.extract().response();
-		assertTrue(response.getStatusCode() == 200);
-		assertTrue(response.contentType().equals("application/json"));
-		token = JWTService.createToken("TestTrainer", 4);
-		response = given().header("Authorization", token).pathParam("id", "14").when().get(URL + "/{id}").then()
-				.extract().response();
-		assertTrue(response.getStatusCode() == 200);
-		assertTrue(response.contentType().equals("application/json"));
-	}
-
-	@Test(priority = 6)
-	public void getBatchByBadIdTest() {
-		Response response = given().header("Authorization", token).pathParam("id", "-14").when().get(URL + "/{id}")
-				.then().extract().response();
-		assertTrue(response.getStatusCode() == 200);
-	}
-
-	@Test(priority = 7)
-	public void getBatchByIdInvalidAuthorizationTest() {
-		Response response = given().header("Authorization", "NotAuthorization").pathParam("id", "14").when()
-				.get(URL + "/{id}").then().extract().response();
-		assertTrue(response.getStatusCode() == 401);
-	}
-
-	@Test(priority = 8)
-	public void getBatchByIdUnauthorizationTest() {
-		token = JWTService.createToken("TestAssociate", 5);
-		Response response = given().header("Authorization", token).pathParam("id", "14").when()
-				.get(URL + "/{id}").then().extract().response();
-		assertTrue(response.getStatusCode() == 401);
-	}
-
-	@Test(priority = 9)
-	public void getAssociatesByBatchIdTest() {
-		token = JWTService.createToken("TestAdmin", 1);
-		Response response = given().header("Authorization", token).pathParam("id", "14").when()
-				.get(URL + "/{id}/associates").then().extract().response();
-		assertTrue(response.getStatusCode() == 200);
-		assertTrue(response.contentType().equals("application/json"));
-		token = JWTService.createToken("TestSales", 2);
-		response = given().header("Authorization", token).pathParam("id", "14").when().get(URL + "/{id}/associates")
-				.then().extract().response();
-		assertTrue(response.getStatusCode() == 200);
-		assertTrue(response.contentType().equals("application/json"));
-		token = JWTService.createToken("TestManger", 3);
-		response = given().header("Authorization", token).pathParam("id", "14").when().get(URL + "/{id}/associates")
-				.then().extract().response();
-		assertTrue(response.getStatusCode() == 200);
-		assertTrue(response.contentType().equals("application/json"));
-		token = JWTService.createToken("TestTrainer", 4);
-		response = given().header("Authorization", token).pathParam("id", "14").when().get(URL + "/{id}/associates")
-				.then().extract().response();
-		assertTrue(response.getStatusCode() == 200);
-		assertTrue(response.contentType().equals("application/json"));
-	}
-
-	@Test(priority = 10)
-	public void getAssociateByBadBatchIdTest() {
-		Response response = given().header("Authorization", token).pathParam("id", "-14").when()
-				.get(URL + "/{id}/associates").then().extract().response();
-		assertTrue(response.getStatusCode() == 200);
-	}
-
-	@Test(priority = 11)
-	public void getAssociateByBatchIdInvalidAuthorizationTest() {
-		Response response = given().header("Authorization", "NotAuthorization").pathParam("id", "14").when()
-				.get(URL + "/{id}/associates").then().extract().response();
-		assertTrue(response.getStatusCode() == 401);
-	}
-
-	@Test(priority = 8)
-	public void getAssociateByBatchIdUnauthorizationTest() {
-		token = JWTService.createToken("TestAssociate", 5);
-		Response response = given().header("Authorization", "NotAuthorization").pathParam("id", "14").when()
-				.get(URL + "/{id}/associates").then().extract().response();
-		assertTrue(response.getStatusCode() == 401);
+		given().header("Authorization", token).when().get(URL).then().assertThat().body("batchName",
+				Matchers.hasSize(service.getAllBatches().size()));
 	}
 }

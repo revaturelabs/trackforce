@@ -121,6 +121,4 @@ public class TfMarketingStatus implements java.io.Serializable {
 	public String toString() {
 		return "TfMarketingStatus [id=" + id + ", name=" + name + "]";
 	}
-	
-
 }

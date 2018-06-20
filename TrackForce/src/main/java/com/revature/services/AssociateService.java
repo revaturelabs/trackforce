@@ -139,5 +139,6 @@ public class AssociateService {
 	public List<GraphedCriteriaResult> getMappedInfo(int status) {return dao.getMapped(status);}
 
 	public List<GraphedCriteriaResult> getUndeployed(String which) {return dao.getUndeployed(which);}
+	public boolean approveAssociate(int associateId) { return dao.approveAssociate(associateId);}
 
 }

@@ -14,7 +14,7 @@
             <tr *ngIf="isApproved != 1">
               <td>This Associate has not been approved yet</td>
               <td>
-                <a *ngIf="true" (click)="approveAssociate()">Approve</a>
+                <button *ngIf="true" class="btn btn-primary" (click)="approveAssociate()">Approve</button>
               </td>
             </tr>
             <tr>
@@ -31,17 +31,17 @@
             </tr>
             <tr>
               <td>Marketing Status</td>
-              <td>{{associate.marketingStatus}}</td>
+              <td>{{associate.marketingStatus.name}}</td>
             </tr>
             <tr>
               <td>Batch Name</td>
               <td>
-                <a [routerLink]="['/batch-details', associate.bid]">{{associate.batchName}}</a>
+                <a [routerLink]="['/batch-details', associate.batch.id]">{{associate.batch.batchName}}</a>
               </td>
             </tr>
             <tr>
               <td>Client Name</td>
-              <td>{{associate.client}}</td>
+              <td>{{associate.client.name}}</td>
             </tr>
             <tr>
               <td>Start Date</td>
@@ -67,9 +67,9 @@
           <tr *ngFor="let interview of interviews; let i = index">
             <td>{{i+1}}</td>
             <td>{{interview.client}}</td>
-            <td>{{interview.date | date:'longDate'}}</td>
-            <td>{{interview.type}}</td>
-            <td>{{interview.feedback}}</td>
+            <td>{{interview.interviewDate | date:'longDate'}}</td>
+            <td>{{interview.interviewType.name}}</td>
+            <td>{{interview.clientFeedback}}</td>
           </tr>
         </tbody>
       </table>
@@ -80,9 +80,9 @@
             <div class="form-group">
               <label class="control-label col-sm-3">Client:</label>
               <div class="col-sm-9">
-                <select class="form-control" name="newClient" [(ngModel)]="client">
+                <select class="form-control" name="newClient">
                   <option selected="selected">None</option>
-                  <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
+                  <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
                 </select>
               </div>
             </div>
@@ -136,7 +136,7 @@
             <label for="client">Assign Client:</label>
             <select name="automated-selected-client" [(ngModel)]="selectedClient">
               <option selected="selected">None</option>
-              <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
+              <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
             </select>
           </div>
           <div *ngIf="interviewScheduled" class="form-group">
@@ -184,7 +184,7 @@
         <label for="client">Assign Client:</label>
         <select class="form-control" name="selectedClient" [(ngModel)]="selectedClient">
           <option selected="selected">None</option>
-          <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
+          <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
         </select>
         <label class="control-label">Apply Start Date to Associate</label>
         <input type="date" class="form-control" name="date" [(ngModel)]="newStartDate" />

@@ -259,5 +259,12 @@ public class AssociateResource {
 		logger.info("getUndeployed()...");
 		return Response.ok(associateService.getUndeployed(which)).build();
 	}
+	
+	@PUT
+	@ApiOperation(value="Approves an associate", notes="Approves an associate")
+	@Path("{assocId}/approve")
+	public Response approveAssociate(@PathParam("assocId") int associateId) {
+		return associateService.approveAssociate(associateId) ? Response.ok(true).build() : Response.serverError().entity(false).build();
+	}
 
 }

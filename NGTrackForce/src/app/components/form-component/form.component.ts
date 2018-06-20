@@ -29,7 +29,8 @@ export class FormComponent implements OnInit {
   associate: Associate;
   clients: Client[];
   interviews: Interview[];
-  
+
+
 
   newStartDate: Date;
   successMessage = "";
@@ -66,7 +67,6 @@ export class FormComponent implements OnInit {
   ) {
     //gets id from router url parameter
     this.id = Number(window.location.href.split("form-comp/")[1]);
-
   }
 
   ngOnInit() {
@@ -86,7 +86,7 @@ export class FormComponent implements OnInit {
 
     this.associateService.getAssociate(this.id).subscribe(
       data => {
-        this.associate = <Associate>data;
+        this.associate = data;
         this.isApproved = this.associate.user.isApproved;
         if (data.clientStartDate.toString() === "0") {
           this.associate.clientStartDate = null;
@@ -97,7 +97,7 @@ export class FormComponent implements OnInit {
       });
     this.clientService.getAllClients().subscribe(
       data => {
-        this.clients = data;
+        this.clients = data.sort((a: Client, b: Client) => a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1);
       });
     this.getInterviews();
     // this.initializeassociateinterview(this.iid);
@@ -108,10 +108,16 @@ export class FormComponent implements OnInit {
     const origDate = ldate.getDate();
     ldate.setDate(origDate + 1);
     if (ldate.getDate() < 1) {
-      ldate.setMonth(ldate.getMonth() - 1)
+      ldate.setMonth(ldate.getMonth() - 1);
       ldate.setDate(origDate);
     }
     return ldate;
+  }
+
+  approveAssociate() {
+    return this.associateService.approveAssociate(this.associate.id).subscribe(
+      data => this.isApproved = data ? 1 : 0
+    );
   }
 
   processForm() {

@@ -10,6 +10,7 @@ import org.hibernate.Session;
 
 import com.revature.dao.AssociateDao;
 import com.revature.utils.HibernateUtil;
+import org.openqa.selenium.InvalidArgumentException;
 
 import javax.persistence.criteria.*;
 
@@ -105,30 +106,52 @@ public class AssociateDaoImpl implements AssociateDao {
 
 	@Override
 	public List<GraphedCriteriaResult> getUndeployed(String which) {
-		return HibernateUtil.runHibernate((Session session, Object ... args) -> {
-					CriteriaBuilder cb = session.getCriteriaBuilder();
-					CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);
+		if (which.equals("mapped")) {
+			return HibernateUtil.runHibernate((Session session, Object ... args) -> {
+						CriteriaBuilder cb = session.getCriteriaBuilder();
+						CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);
 
-					Root<TfAssociate> root = query.from(TfAssociate.class);
+						Root<TfAssociate> root = query.from(TfAssociate.class);
 
-					Join<TfAssociate, TfClient> clientJoin = root.join("client");
-					Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
+						Join<TfAssociate, TfClient> clientJoin = root.join("client");
+						Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
 
-					Path clientId = clientJoin.get("id");
-					Path clientName = clientJoin.get("name");
+						Path clientId = clientJoin.get("id");
+						Path clientName = clientJoin.get("name");
 
-					if (which.equals("unmapped")) {
-						query.where(cb.lessThanOrEqualTo(msJoin.get("id"), 9));
-						query.where(cb.greaterThanOrEqualTo(msJoin.get("id"), 6));
-					} else if (which.equals("mapped")) {
 						query.where(cb.lessThanOrEqualTo(msJoin.get("id"), 4));
 						query.where(cb.greaterThanOrEqualTo(msJoin.get("id"), 1));
+
+						query.groupBy(clientId, clientName);
+						query.multiselect(cb.count(root), clientId, clientName);
+						return session.createQuery(query).getResultList();
 					}
-					query.groupBy(clientId, clientName);
-					query.multiselect(cb.count(root), clientId, clientName);
-					return session.createQuery(query).getResultList();
-				}
-		);
+			);
+		}
+		else if (which.equals("unmapped")) {
+			return HibernateUtil.runHibernate((Session session, Object ... args) -> {
+						CriteriaBuilder cb = session.getCriteriaBuilder();
+						CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);
+
+						Root<TfAssociate> root = query.from(TfAssociate.class);
+
+						Join<TfAssociate, TfBatch> batchJoin = root.join("batch");
+						Join<TfBatch, TfCurriculum> curriculumJoin = batchJoin.join("curriculumName");
+						Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
+
+						Path curriculumid = curriculumJoin.get("id");
+						Path curriculumName = curriculumJoin.get("name");
+
+						query.where(cb.lessThanOrEqualTo(msJoin.get("id"), 9 ));
+						query.where(cb.greaterThanOrEqualTo(msJoin.get("id"), 6 ));
+						query.groupBy(curriculumid, curriculumName);
+						query.multiselect(cb.count(root), curriculumid, curriculumName);
+						return session.createQuery(query).getResultList();
+					}
+			);
+		}
+		throw new InvalidArgumentException("NOT MAPPED OR UNMAPPED YOU FOOOL");
+
 	}
 
 	private Sessional<Boolean> updateAssociate = (Session session, Object ... args)-> {

@@ -5,6 +5,7 @@ import { Color } from 'ng2-charts';
 import { ChartOptions } from '../../models/ng2-charts-options.model';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { ChartScale } from '../../models/chart-scale.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-undeployed',
@@ -19,7 +20,7 @@ export class UndeployedComponent implements OnInit {
     POLAR_AREA: 'polarArea'
   };
 
-  public selectedStatus;
+  public selectedStatus: string;
   public statusID;
 
   chartType = UndeployedComponent.chartTypes.BAR;
@@ -29,6 +30,8 @@ export class UndeployedComponent implements OnInit {
   public chartLegend: boolean;
   public chartOptions: any;
 
+  undeployedColors: Array<Color> = [];
+
   undeployedLabels = SelectedStatusConstants.UNDEPLOYED_LABELS;
   mappedColors: Array<Color> = ThemeConstants.MAPPED_COLORS;
   undeployedChartType = "pie";
@@ -37,6 +40,7 @@ export class UndeployedComponent implements OnInit {
 
 
   constructor(
+    private router: Router,
     private associateService: AssociateService
   ) {
     this.chartOptions = {
@@ -63,9 +67,48 @@ export class UndeployedComponent implements OnInit {
 
     this.changeSelectedStatus(this.statusID);
     this.chartOptions.title.text = this.selectedStatus;
+    this.changeChartType('pie');
 
+    this.loadChart();
 
+  }
 
+  loadChart() {
+    this.associateService.getUndeployedAssociates(this.selectedStatus.toLowerCase()).subscribe(
+      data => {
+        console.log(data);
+        let temp_clientUndeployedLabels: string[] = [];
+        let temp_clientUndeployedData: number[] = [];
+        this.clientUndeployedData = temp_clientUndeployedData;
+        this.clientUndeployedLabels = temp_clientUndeployedLabels;
+  
+        if (this.statusID === 1) { // mapped
+          this.undeployedColors = ThemeConstants.CLIENT_COLORS;
+          for (const graphCount of data) {
+            if (graphCount.count > 0) {
+              //Check if the fetched name is empty
+              if (graphCount.name === "") {
+                temp_clientUndeployedLabels.push("Client not Specified");
+              } else {
+                temp_clientUndeployedLabels.push(graphCount.name);
+              }
+              temp_clientUndeployedData.push(graphCount.count);
+            }   
+          } 
+        } else { // unmapped
+          this.undeployedColors = ThemeConstants.SKILL_COLORS;
+          temp_clientUndeployedData = data.map((obj) => { if (obj.count) { return obj.count } }).filter(this.isNotUndefined);
+          temp_clientUndeployedLabels = data.map((obj) => { if (obj.count) { return obj.name } }).filter(this.isNotUndefined);    
+        }
+
+        this.clientUndeployedData = temp_clientUndeployedData;
+        this.clientUndeployedLabels = temp_clientUndeployedLabels;
+      }
+    );
+  }
+
+  public isNotUndefined(val): boolean {
+    return val !== undefined;
   }
 
     /**
@@ -123,6 +166,13 @@ export class UndeployedComponent implements OnInit {
     }
   }
 
+  undeployedOnClick(evt: any) {
+    if (evt.active[0] !== undefined) {
+      //navigate to skillset component
+      this.router.navigate([`undeployed/${evt.active[0]._index}`]);
+      window.location.reload();
+    }
+  }
 
 
 }

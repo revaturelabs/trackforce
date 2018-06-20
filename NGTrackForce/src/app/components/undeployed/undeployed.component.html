@@ -17,9 +17,10 @@
           [labels]="clientUndeployedLabels" 
           [chartType]="chartType" 
           [options]="chartOptions" 
-          [colors]="clientColors"
+          [colors]="undeployedColors"
           (chartHover)="chartHovered($event)" 
-          (chartClick)="chartClicked($event)">
+          (chartClick)="chartClicked($event)"
+          >
         </canvas>
       </div>
     </div>
@@ -34,7 +35,7 @@
           [data]="undeployedData" 
           [labels]="undeployedLabels" 
           [chartType]="undeployedChartType"
-          [colors]="clientColors" 
+          [colors]="mappedColors" 
           [options]="undeployedOptions" 
           (chartClick)="undeployedOnClick($event)">
         </canvas>

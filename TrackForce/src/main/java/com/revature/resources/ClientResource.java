@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
  * 
  * @version v6.18.06.13
  */
-@Path("clients")
+@Path("/clients")
 @Api(value = "clients")
 @Consumes({ MediaType.APPLICATION_JSON })
 @Produces({ MediaType.APPLICATION_JSON })

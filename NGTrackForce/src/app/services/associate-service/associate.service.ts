@@ -67,5 +67,9 @@ export class AssociateService {
     return this.http.put<boolean>(url, associateID);
   }
 
+  getUndeployedAssociates(mappedOrUnmapped: string): Observable<GraphCounts[]> {
+    const url: string = this.baseURL + "/undeployed/" + mappedOrUnmapped;
+    return this.http.get<GraphCounts[]>(url);
+  }
 
 }

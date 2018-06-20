@@ -62,7 +62,9 @@ export class BatchListComponent implements OnInit {
               if (batch.trainer.firstName === this.authService.getTrainer().firstName) {
                 return true;
               }
-              if (batch.coTrainer) return batch.coTrainer.includes(this.authService.getTrainer());
+              if (batch.coTrainer) {
+                return batch.coTrainer.includes(this.authService.getTrainer());
+              }
               return false;
             }
           );
@@ -93,7 +95,6 @@ export class BatchListComponent implements OnInit {
    * and the corresponding graph accordingly
    */
   public applySelectedRange(s, e) {
-    console.log('in applySelectedRange ')
     if (s != null) {
       this.startDate = s;
     }
@@ -101,7 +102,6 @@ export class BatchListComponent implements OnInit {
       this.endDate = e;
     }
     if (this.startDate && this.endDate) {
-      console.log("about to updateBatches")
       this.updateBatches();
     }
   }
@@ -137,7 +137,7 @@ export class BatchListComponent implements OnInit {
           // filter out batches that don't have an associated trainer
           this.batches = batches.filter(
             batch => {
-              if (batch.trainer.firstName != this.authService.getTrainer().firstName) {
+              if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
                 return false;
               }
               if (batch.coTrainer) {
@@ -169,7 +169,6 @@ export class BatchListComponent implements OnInit {
           // they serve as flags in template
           this.batches = batches.filter(
             batch => {
-              console.log(this.startDate);
               let dateStartDate = new Date(this.startDate);
               let dateEndDate = new Date(this.endDate);
               let longStartDate = dateStartDate.getTime();
@@ -200,14 +199,15 @@ export class BatchListComponent implements OnInit {
     }
   }
 
+
   /**
-   * @function updateCountPerCurriculum
-   * @memberof BatchListComponent
-   * @description This function will return an object that contains
-   *              all of the batches within startDate and endDate
-   *
-   */
-  public updateCountPerCurriculum() {
+  * @function updateCountPerCurriculum
+  * @memberof BatchListComponent
+  * @description This function will return an object that contains
+  *              all of the batches within startDate and endDate
+  *
+  */
+  updateCountPerCurriculum() {
     this.curriculumNames = this.curriculumCounts = null;
     const curriculumCountsMap = new Map<string, number>();
 
@@ -227,4 +227,5 @@ export class BatchListComponent implements OnInit {
     this.curriculumNames = Array.from(curriculumCountsMap.keys());
     this.curriculumCounts = Array.from(curriculumCountsMap.values());
   }
+
 }

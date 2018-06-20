@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
   mappedChartType = "pie";
   unmappedChartType = "pie";
 
-  private options = ChartOptions.createOptionsLegend('right');
+  // private options = ChartOptions.createOptionsLegend('right');
 
   unmappedOptions = ChartOptions.createOptionsTitle('Unmapped', 24, '#121212', 'right');
   mappedOptions = ChartOptions.createOptionsTitle('Mapped', 24, '#121212', 'right');
@@ -85,11 +85,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private rs: RequestService,
     // private ds: DataSyncService,
-    private router: Router,
-    private userService: UserService,
-    private clientService: ClientService,
-    private batchService: BatchService,
-    private associateService: AssociateService
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -99,7 +95,7 @@ export class HomeComponent implements OnInit {
   load() {
     // this.associateService.getAllAssociates().subscribe(response => {
       // this.associates = response;
-      this.associates = <Associate[]> JSON.parse(localStorage.getItem('currentAssociates'))
+      this.associates = <Associate[]> JSON.parse(localStorage.getItem('currentAssociates'));
       let trainingMapped = 0;
       let trainingUnmapped = 0;
       let reservedMapped = 0;
@@ -127,7 +123,7 @@ export class HomeComponent implements OnInit {
             case 8: selectedUnmapped++; break;
             case 9: confirmedUnmapped++; break;
             case 10: deployedUnmapped++; break;
-          }  
+          }
         }
       }
 
@@ -218,10 +214,42 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  deployedOnClick(evt: any) {
+    if (evt.active[0] !== undefined) {
+      //navigate to skillset component
+      this.router.navigate([`deployed/${evt.active[0]._index}`]);
+    }
+  }
+
+  undeployedOnClick(evt: any) {
+    if (evt.active[0] !== undefined) {
+      //navigate to skillset component
+      this.router.navigate([`undeployed/${evt.active[0]._index}`]);
+    }
+  }
+
+
+  public getUndeployedData(): number[] {
+    return this.undeployedData;
+  }
+
+  public getDeployedData(): number[] {
+    return this.deployedData;
+  }
+
+  public getMappedData(): number[] {
+    return this.mappedData;
+  }
+
+  public getUnmappedData(): number[] {
+    return this.unmappedData;
+  }
+
   /////////////////////////////////////////////////////////////
   // THESE FUNCTIONS ARE BEING CALLED SOMEWHERE
   // THEY SHOULD NOT BE CALLED BECUASE THERE IS NO RESOURCE SERVER SIDE
   // FOR THE SERVICES TO ACCESS (NO END POINTS)
+  // But we do need to keep them for eventual SalesForce integration
   //
   // /**
   //  * @function populateDB
@@ -260,21 +288,4 @@ export class HomeComponent implements OnInit {
   // }
   ////////////////////////////////////////////////////////////////
 
-
-
-  public getUndeployedData(): number[] {
-    return this.undeployedData;
-  }
-
-  public getDeployedData(): number[] {
-    return this.deployedData;
-  }
-
-  public getMappedData(): number[] {
-    return this.mappedData;
-  }
-
-  public getUnmappedData(): number[] {
-    return this.unmappedData;
-  }
 }

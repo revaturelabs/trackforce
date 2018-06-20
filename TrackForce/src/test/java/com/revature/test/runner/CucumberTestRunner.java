@@ -12,7 +12,7 @@ import cucumber.api.junit.Cucumber;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		features = {"src/test/resources/AdminFeatureFiles/AssociateView.feature","src/test/resources/AdminFeatureFiles/CreateUser.feature","src/test/resources/AdminFeatureFiles/HomeTab.feature","src/test/resources/AdminFeatureFiles/Login.feature","src/test/resources/AdminFeatureFiles/Predictions.feature","src/test/resources/AdminFeatureFiles/Register.feature","src/test/resources/AdminFeatureFiles/ClientList.feature","src/test/resources/AdminFeatureFiles/BatchList.feature","src/test/resources/AdminFeatureFiles/AssociateList.feature"}
+		features = {"src/test/resources/AdminFeatureFiles/AssociateView.feature","src/test/resources/AdminFeatureFiles/CreateUser.feature","src/test/resources/AdminFeatureFiles/HomeTab.feature","src/test/resources/AdminFeatureFiles/Login.feature","src/test/resources/AdminFeatureFiles/Predictions.feature","src/test/resources/AdminFeatureFiles/Register.feature"}
 		,glue = {"com.revature.test.utils","com.revature.test.admin.cukes"}
 		)
  

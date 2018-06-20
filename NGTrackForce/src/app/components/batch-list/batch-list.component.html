@@ -27,7 +27,6 @@
         </tbody>
       </table>
     </div>
-
     <div class="col-lg-7 col-md-12 mcolumn right">
       <h3>Select Dates</h3>
       <form>
@@ -55,6 +54,27 @@
       <h3 class="data-status" *ngIf="dataReady && dataEmpty">
         No Batch Found
       </h3>
+    </div>
+  </div>
+  <div>
+    <div class="col-lg-20 col-md-35 mcolumn right">
+      <h3>Trainer Approval</h3>
+      <table class="table table-striped table-hover table-bordered">
+        <thead>
+          <tr class="max-width">
+            <th class="name-column">Name</th>
+            <th class="btn-column">Approve</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="name-column">I hate this poject</td></tr>
+          <tr><td><input type="submit" class="btn btn-submit">Approve</td></tr>
+          <tr *ngFor="let trainer of trainers" class="max-width">
+            <td class="name-column">I hate this poject</td>
+            <td><input type="submit" class="btn btn-submit">Approve</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

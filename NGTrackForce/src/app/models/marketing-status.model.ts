@@ -9,4 +9,14 @@ export class MarketingStatus {
   id: number;
   name: string;
   associates: Associate[];
+
+  constructor(
+    id: number,
+    name: string,
+    associates?: Associate[]
+) {
+    this.id = id;
+    this.name = name;
+    this.associates = associates;
+}
 }

@@ -19,8 +19,9 @@ export class DeployedComponent implements OnInit {
     POLAR_AREA: 'polarArea'
   };
 
-  public selectedStatus;
+  public selectedStatus: string;
   public statusID;
+  public marketingStatusId: number;
 
   chartType = DeployedComponent.chartTypes.BAR;
 
@@ -74,10 +75,12 @@ export class DeployedComponent implements OnInit {
     switch(status){
       case 1: {
         this.selectedStatus = "Mapped";
+        this.marketingStatusId = 5;
         break;
       }
       case 2: {
         this.selectedStatus = "Unmapped";
+        this.marketingStatusId = 10;
         break;
       }
       default: {

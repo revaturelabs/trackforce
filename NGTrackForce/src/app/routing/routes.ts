@@ -130,7 +130,7 @@ export const appRoutes: Routes = [
     component: DeployedComponent
   },
   {
-    path: 'undeployed/id:',
+    path: 'undeployed/:id',
     canActivate: [AuthGuard],
     component: UndeployedComponent
   },

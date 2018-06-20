@@ -56,7 +56,7 @@ public class ClientResourceTest {
 	 * @since 6.18.06.13
 	 */
 	@Test(priority = 5)
-	public void testGetAllClients() {
+	public void testGetAllClients1() {
 		Response response = given().header("Authorization", token).when().get(URL).then().extract().response();
 
 		assertTrue(response.getStatusCode() == 200);
@@ -64,8 +64,14 @@ public class ClientResourceTest {
 
 		given().header("Authorization", token).when().get(URL).then().assertThat().body("name",
 				hasSize(clients.size()));
-
-		response = given().header("Authorization", "Bad Token").when().get(URL).then().extract().response();
+	}
+	
+	/**
+	 * Unhappy path testing for testGetAllClients
+	 */
+	@Test(priority = 10)
+	public void testGetAllClients2() {
+		Response response = given().header("Authorization", "Bad Token").when().get(URL).then().extract().response();
 
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
@@ -74,35 +80,4 @@ public class ClientResourceTest {
 
 		given().header("Authorization", token).when().post(URL).then().assertThat().statusCode(405);
 	}
-
-	/**
-	 * Test that the resource can be accessed properly. Check that the content type
-	 * is what is expected. Test that a bad token gives a 401. Test that a bad url
-	 * gives a 404. Test that a bad method gives a 405.
-	 * THIS RESOURCE HAS BEEN REMOVED
-	 * @author Jesse
-	 * @since 6.18.06.13
-	 */
-//	@Test(priority = 10)
-//	public void testGetClientInfo() {
-//		Response response = given().header("Authorization", token).when().get(URL + "/" + 1).then().extract()
-//				.response();
-//
-//		assertTrue(response.statusCode() == 200);
-//		assertTrue(response.contentType().equals("application/json"));
-//
-//		given().header("Authorization", token).when().get(URL + "/" + 1).then().assertThat().body("name",
-//				equalTo("22nd Century Technologies"));
-//
-//		given().header("Authorization", token).when().get(URL + "/" + 1).then().assertThat().body("id", equalTo(1));
-//
-//		response = given().header("Authorization", "Bad Token").when().get(URL).then().extract().response();
-//
-//		assertTrue(response.statusCode() == 401);
-//		assertTrue(response.asString().contains("Unauthorized"));
-//
-//		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
-//
-//		given().header("Authorization", token).when().post(URL).then().assertThat().statusCode(405);
-//	}
 }

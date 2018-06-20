@@ -192,4 +192,12 @@ public class AssociateResourceTest {
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 	}
+	
+	/**
+	 * Test to see if we can change the isApproved by updating the associate
+	 */
+	@Test(priority = 50, enabled = true)
+	public void testUpdateIsApproved() {
+		//TfAssociate myAssociate = associateService.getAssociate(associateid)
+	}
 }

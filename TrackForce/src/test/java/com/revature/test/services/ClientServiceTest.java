@@ -100,11 +100,11 @@ public class ClientServiceTest {
 	 * 
 	 * @since 6.06.14.18
 	 */
-	@Test(priority = 3)
-	public void testGetclientsByNameNullclientName() {
-		TfClient expected = service.getClient(null);
-		Assert.assertNull(expected);
-	}
+//	@Test(priority = 3)
+//	public void testGetclientsByNameNullclientName() {
+//		TfClient expected = service.getClient(null);
+//		Assert.assertNull(expected);
+//	}
 	
 	/**
 	 * Tests the get clientById method under 

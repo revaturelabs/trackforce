@@ -32,7 +32,8 @@ public class InterviewResourceTest {
 	static final String URL = "http://52.87.205.55:8086/TrackForce/interviews";
 	//static final String URL = "http://localhost:8085/TrackForce/interviews";
 
-	String token;
+	String adminToken;
+	String associateToken;
 	TfInterview interview1;
 	TfInterview interview2;
 	InterviewService interviewService;
@@ -49,8 +50,11 @@ public class InterviewResourceTest {
 		interviewService = new InterviewService();
 		associateService = new AssociateService();
 		interview1 = new TfInterview();
-		token = JWTService.createToken("TestAdmin", 1);
-		System.out.println(token);
+		
+		adminToken = JWTService.createToken("TestAdmin", 1);
+		System.out.println(adminToken);
+		associateToken = JWTService.createToken("AssociateTest", 5);
+		System.out.println(associateToken);
 		
 		knownAssociateId = 392;
 	}
@@ -58,7 +62,8 @@ public class InterviewResourceTest {
 	/**
 	 * Test that the resource can be accessed properly. Check that the content type
 	 * is what is expected. Test that a bad token gives a 401. Test that a bad url
-	 * gives a 404. Test that a bad method gives a 405.
+	 * gives a 404. Test that a bad method gives a 405. This should return a 401
+	 * as admins are not allowed to create interviews
 	 * 
 	 * @param ifc
 	 *            - an interviewFromClient object returned from the data provider
@@ -68,10 +73,26 @@ public class InterviewResourceTest {
 	@Test(priority = 5, dataProvider = "interview1", enabled = true)
 	public void testCreateInterview1(TfInterview interview) {
 
-		given().header("Authorization", token).contentType("application/json").body(interview).when().post(URL + "/" + knownAssociateId)
+		given().header("Authorization", adminToken).contentType("application/json").body(interview).when().post(URL + "/" + knownAssociateId)
+				.then().assertThat().statusCode(401);
+		
+		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
+				.when().get(URL + "/" + knownAssociateId).then().extract().response();
+		
+		assertTrue(response.asString().contains("Strong Java knowledge"));
+	}
+	
+	/**
+	 * Testing to ensure an associate can create interviews
+	 * @param interview
+	 */
+	@Test(priority = 6, dataProvider = "interview1", enabled = true)
+	public void testCreateInterview2(TfInterview interview) {
+
+		given().header("Authorization", associateToken).contentType("application/json").body(interview).when().post(URL + "/" + knownAssociateId)
 				.then().assertThat().statusCode(201);
 		
-		Response response = given().header("Authorization", token).contentType("application/json").body(interview)
+		Response response = given().header("Authorization", associateToken).contentType("application/json").body(interview)
 				.when().get(URL + "/" + knownAssociateId).then().extract().response();
 		
 		assertTrue(response.asString().contains("Strong Java knowledge"));
@@ -81,17 +102,17 @@ public class InterviewResourceTest {
 	 * Unhappy path testing for testCreateInterview
 	 */
 	@Test(priority = 7, dataProvider = "interview1", enabled = true)
-	public void testCreateInterview2(TfInterview interview) {
+	public void testCreateInterview3(TfInterview interview) {
 		Response response = given().header("Authorization", "Bad Token").contentType("application/json").body(interview)
 				.when().post(URL + "/" + knownAssociateId).then().extract().response();
 
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 
-		given().header("Authorization", token).contentType("application/json").body(interview).when()
+		given().header("Authorization", adminToken).contentType("application/json").body(interview).when()
 				.post(URL + "/" + knownAssociateId + "BADURL").then().assertThat().statusCode(404);
 
-		given().header("Authorization", token).contentType("application/json").body(interview).when().put(URL).then()
+		given().header("Authorization", adminToken).contentType("application/json").body(interview).when().put(URL).then()
 				.assertThat().statusCode(405);
 	}
 
@@ -104,16 +125,16 @@ public class InterviewResourceTest {
 	 */
 	@Test(priority = 10)
 	public void testGetAllInterviews() {
-		Response response = given().header("Authorization", token).when().get(URL + "/" + 1).then().extract()
+		Response response = given().header("Authorization", adminToken).when().get(URL + "/" + 1).then().extract()
 				.response();
 
 		assertTrue(response.statusCode() == 200);
 
 		given().header("Authorization", "Bad Token").when().get(URL + "/" + knownAssociateId).then().assertThat().statusCode(401);
 
-		given().header("Authorization", token).when().get(URL + "/" + knownAssociateId + "BAD").then().assertThat().statusCode(404);
+		given().header("Authorization", adminToken).when().get(URL + "/" + knownAssociateId + "BAD").then().assertThat().statusCode(404);
 
-		given().header("Authorization", token).when().post(URL + "/" + knownAssociateId).then().assertThat().statusCode(415);
+		given().header("Authorization", adminToken).when().post(URL + "/" + knownAssociateId).then().assertThat().statusCode(415);
 	}
 
 	/**
@@ -125,15 +146,15 @@ public class InterviewResourceTest {
 	 */
 	@Test(priority = 15)
 	public void testGetAssociateInterview() {
-		Response response = given().header("Authorization", token).when().get(URL + "/" + 3).then().extract().response();
+		Response response = given().header("Authorization", adminToken).when().get(URL + "/" + 3).then().extract().response();
 
 		assertTrue(response.statusCode() == 200);
 
 		given().header("Authorization", "Bad Token").when().get(URL + "/" + knownAssociateId).then().assertThat().statusCode(401);
 
-		given().header("Authorization", token).when().get(URL + "/" +  knownAssociateId + "BAD").then().assertThat().statusCode(404);
+		given().header("Authorization", adminToken).when().get(URL + "/" +  knownAssociateId + "BAD").then().assertThat().statusCode(404);
 
-		given().header("Authorization", token).when().post(URL + "/" +  knownAssociateId).then().assertThat().statusCode(415);
+		given().header("Authorization", adminToken).when().post(URL + "/" +  knownAssociateId).then().assertThat().statusCode(415);
 	}
 
 	/**
@@ -147,12 +168,12 @@ public class InterviewResourceTest {
 	 */
 	@Test(priority = 20, dataProvider = "interview2", enabled = true)
 	public void testUpdateInterview1(TfInterview interview) {
-		Response response = given().header("Authorization", token).contentType("application/json").body(interview)
+		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
 				.when().put(URL + "/" +  knownAssociateId).then().extract().response();
 
 		assertTrue(response.statusCode() == 202);
 		
-		response = given().header("Authorization", token).contentType("application/json").body(interview)
+		response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
 				.when().get(URL + "/" +  knownAssociateId).then().extract().response();
 		
 		assertTrue(response.asString().contains("MEME LORD"));
@@ -169,7 +190,7 @@ public class InterviewResourceTest {
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 
-		given().header("Authorization", token).contentType("application/json").body(interview).when().put(URL + "/" + "three")
+		given().header("Authorization", adminToken).contentType("application/json").body(interview).when().put(URL + "/" + "three")
 				.then().assertThat().statusCode(404);
 	}
 	

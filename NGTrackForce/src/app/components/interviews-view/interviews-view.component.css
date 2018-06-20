@@ -1,36 +1,19 @@
-table {
-  border-width: 2px;
+thead {
+  background-color: #ddd;
+  border-color: black;
 }
 
-.info td:first-child {
-  font-weight: bold;
-}
-/*
-.container{
-	margin-bottom : 90px;
-	margin-top:150px;
-}
-*/
-thead, tbody {
-  background-color: #fff;
+.pointer {
+  cursor: pointer;
 }
 
-.toggledContainer {
-  min-height: 300px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  padding-top: 5px;
-  background-color: white;
-  border: 2px solid lightgrey;
-}
-.flag {
-  /* width: 4px; */
-  width: 4%;
-}
-.id {
-	text-decoration: underline;
+#info {
+  border-color: #c8c8c8;
+  border-width: 1px;
+  border-style: solid;
 }
 
-.fa{
-  display: inline;
+.pre-scrollable {
+  max-height: 550px !important;
+  overflow-y: scroll;
 }

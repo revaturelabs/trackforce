@@ -131,10 +131,12 @@ export class AssociateListComponent implements OnInit {
       if (check != null && check.checked) {
         ids.push(a.id);
         a.user.isApproved = 1;
+        console.log(a);
       }
       associateList.push(a);
     }
     this.associates = associateList;
+    console.log(this.associates);
     localStorage.setItem("currentAssociates", JSON.stringify(this.associates));
     if(this.updateVerification==="") {this.updateVerification="0";}
     if(this.updateStatus==="") {this.updateStatus="0";}

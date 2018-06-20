@@ -49,7 +49,7 @@
             <th>Requested Associates</th>
             <th>Available Associates</th>
             <th>Difference</th>
-            <th>Details</th>
+            <!--<th>Details</th>-->
           </tr>
         </thead>
         <tbody>
@@ -61,10 +61,10 @@
             <td class="bg-success" *ngIf="o.available > o.requested">{{o.available - o.requested}}</td>
             <td class="bg-danger" *ngIf="o.available < o.requested">{{o.available - o.requested}}</td>
             <td *ngIf="o.available == o.requested">{{o.available - o.requested}}</td>
-            <td>
-              <button id="{{o.technology}}" class="btn btn-primary" name="getDetailsBtn" (click)="getDetails(start,end,$event)">
-              Details </button>
-            </td>
+            <!--<td>-->
+              <!--<button id="{{o.technology}}" class="btn btn-primary" name="getDetailsBtn" (click)="getDetails(start,end,$event)">-->
+              <!--Details </button>-->
+            <!--</td>-->
           </tr>
         </tbody>
       </table>

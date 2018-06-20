@@ -253,4 +253,11 @@ public class AssociateResource {
 	}
 
 
+	@PUT
+	@ApiOperation(value="Approves an associate", notes="Approves an associate")
+	@Path("{assocId}/approve")
+	public Response approveAssociate(@PathParam("assocId") int associateId) {
+		return associateService.approveAssociate(associateId) ? Response.ok(true).build() : Response.serverError().entity(false).build();
+	}
+
 }

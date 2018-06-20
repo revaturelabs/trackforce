@@ -57,8 +57,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	}
 
 	private Sessional<Boolean> approveAssociate = (Session session, Object ... args)-> {
-		TfAssociate associate = (TfAssociate) args[0];
-		TfAssociate temp = session.get(TfAssociate.class, associate.getId());
+		TfAssociate temp = session.get(TfAssociate.class, (Integer) args[0]);
 
 		temp.getUser().setIsApproved(TfUser.APPROVED);
 
@@ -68,7 +67,7 @@ public class AssociateDaoImpl implements AssociateDao {
 
 	@Override
 	public boolean approveAssociate(int associateId) {
-		return HibernateUtil.runHibernateTransaction(approveAssociate);
+		return HibernateUtil.runHibernateTransaction(approveAssociate, associateId);
 	}
 
 	@Override

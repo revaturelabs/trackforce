@@ -123,4 +123,6 @@ public class AssociateService {
 	 */
 	public List<GraphedCriteriaResult> getMappedInfo(int status) {return dao.getMapped(status);}
 
+	public boolean approveAssociate(int associateId) { return dao.approveAssociate(associateId);}
+
 }

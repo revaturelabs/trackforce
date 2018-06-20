@@ -2,6 +2,7 @@ package com.revature.test.restAssured;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.hasSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -204,5 +205,40 @@ public class TrainerResourceTest {
 
 		given().header("Authorization", token).contentType("application/json").when()
 				.post(URL + "/" + knownTrainerId).then().assertThat().statusCode(405);
+	}
+	
+	/**
+	 * Testing to ensure that all trainers can be successfully retrieved and that the list
+	 * is what we would expect it to be. Also test that a bad token returns a 401, a bad
+	 * verb returns a 405, and a bad URL returns a 404
+	 */
+	@Test(priority = 20)
+	public void testGetAllTrainers1() {
+		List<TfTrainer> trainers = trainerService.getAllTrainers();
+		
+		Response response = given().headers("Authorization", token).contentType("application/json").when()
+				.get(URL + "/allTrainers").then().extract().response();
+		
+		System.out.println(response.statusCode());
+		assertTrue(response.statusCode() == 200);
+		assertTrue(response.contentType().equals("application/json"));
+	
+		given().headers("Authorization", token).contentType("application/json").when()
+		.get(URL + "/allTrainers").then().assertThat().body("id", hasSize(trainers.size()));
+	}
+	
+	/**
+	 * Unhappy path testing for getAllTrainers
+	 */
+	@Test(priority = 25)
+	public void testGetAllTrainers2() {
+		given().headers("Authorization", "Bad Token").contentType("application/json").when()
+		.get(URL + "/allTrainers").then().assertThat().statusCode(401);
+		
+		given().headers("Authorization", token).contentType("application/json").when()
+		.post(URL + "/allTrainers").then().assertThat().statusCode(405);
+		
+		given().headers("Authorization", token).contentType("application/json").when()
+		.get(URL + "/allTrainersss").then().assertThat().statusCode(404);
 	}
 }

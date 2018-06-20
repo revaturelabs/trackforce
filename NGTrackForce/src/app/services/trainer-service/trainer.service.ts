@@ -44,7 +44,7 @@ export class TrainerService {
    * @since 6.19.06.16
    */
   getAllTrainers(): Observable<Trainer[]> {
-    return this.http.get<Trainer[]>(this.baseURL + "/alltrainers");
+    return this.http.get<Trainer[]>(this.baseURL + "/allTrainers");
   }
 
   /**

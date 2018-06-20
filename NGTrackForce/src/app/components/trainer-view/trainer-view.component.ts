@@ -3,6 +3,7 @@ import { Trainer } from '../../models/trainer.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { TrainerService } from '../../services/trainer-service/trainer.service';
 import { Associate } from '../../models/associate.model';
+import {AssociateService} from "../../services/associate-service/associate.service";
 
 @Component({
   selector: 'app-trainer-view',
@@ -22,37 +23,49 @@ export class TrainerViewComponent implements OnInit {
   errMsg = false;
   succMsg = false;
 
-  constructor(private authService: AuthenticationService, private trainerService: TrainerService) { }
+  constructor(
+    private authService: AuthenticationService,
+    private trainerService: TrainerService,
+    private associateService: AssociateService
+    ) { }
 
   ngOnInit() {
     this.trainer = this.authService.getTrainer();
     this.newFirstName = this.trainer.firstName;
     this.newLastName = this.trainer.lastName;
+    //this.getTrainerAssociates();
   }
 
   getTrainerAssociates() {
-    if (this.trainer.primary !== null) {
-      const primary = this.trainer.primary;
-      for (const batch of primary) {
-        if (batch.associates !== null) {
-          for (const associate of batch.associates) {
-            this.associates.push(associate);
-          }
-        }
-      }
-    }
-    if (this.trainer.coTrainer !== null) {
-      const coTrainer = this.trainer.coTrainer;
-      for (const batch of coTrainer) {
-        if (batch.associates !== null) {
-          for (const associate of batch.associates) {
-            this.associates.push(associate);
-          }
-        }
-      }
-    }
+    this.associates = [];
+    // if (this.trainer.primary) {
+    //   const primary = this.trainer.primary;
+    //   for (const batch of primary) {
+    //     if (batch.associates) {
+    //       for (const associate of batch.associates) {
+    //         this.associates.push(associate);
+    //       }
+    //     }
+    //   }
+    // }
+    // if (this.trainer.coTrainer) {
+    //   const coTrainer = this.trainer.coTrainer;
+    //   for (const batch of coTrainer) {
+    //     if (batch.associates) {
+    //       for (const associate of batch.associates) {
+    //         this.associates.push(associate);
+    //       }
+    //     }
+    //   }
+    // }
 
-    localStorage.setItem('currentAssociates', JSON.stringify(this.associates));
+    // this.associateService.getAllAssociates().subscribe(
+    //   data => {
+    //     this.associates = data;
+    //     localStorage.setItem('currentAssociates', JSON.stringify(this.associates));
+    //   }
+    // );
+
 
   }
 

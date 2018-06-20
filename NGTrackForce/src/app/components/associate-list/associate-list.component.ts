@@ -93,7 +93,7 @@ export class AssociateListComponent implements OnInit {
   getAllAssociates() {
 
       this.associates = JSON.parse(localStorage.getItem('currentAssociates'));
-
+      console.log(this.associates);
       for (const associate of this.associates) {//get our curriculums from the associates
         if(associate.batch!==null && associate.batch.curriculumName!==null){
           this.curriculums.add(associate.batch.curriculumName.name);

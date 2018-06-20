@@ -323,7 +323,12 @@ export class LoginComponent implements OnInit {
     this.trainerService.getTrainer(user.id).subscribe(
       data => {
         localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
-        this.router.navigate(['trainer-view']);
+        this.associateService.getAllAssociates().subscribe(
+          datum => {
+            localStorage.setItem('currentAssociates', JSON.stringify(datum));
+            this.router.navigate(['trainer-view']);
+          }
+        );
       },
       err => {
         if (err.status === 500) {

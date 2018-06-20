@@ -91,13 +91,11 @@ export class AssociateListComponent implements OnInit {
    * Set our array of all associates
    */
   getAllAssociates() {
-    const self = this;
 
-    this.associateService.getAllAssociates().subscribe(data => {
-      this.associates = data;
+      this.associates = JSON.parse(localStorage.getItem('currentAssociates'));
 
-      for (let associate of this.associates) {//get our curriculums from the associates
-        if(associate.batch!=null && associate.batch.curriculumName!=null){
+      for (const associate of this.associates) {//get our curriculums from the associates
+        if(associate.batch!==null && associate.batch.curriculumName!==null){
           this.curriculums.add(associate.batch.curriculumName.name);
         }
         if (associate.batch && associate.batch.batchName === 'null') {
@@ -107,7 +105,6 @@ export class AssociateListComponent implements OnInit {
       this.curriculums.delete("");
       this.curriculums.delete("null");
       
-    });
   }
 
   /**
@@ -126,18 +123,17 @@ export class AssociateListComponent implements OnInit {
    */
   updateAssociates() {
     const ids: number[] = [];
-    let i = 1;
     const self = this;
 
-    for (let a of this.associates) { //grab the checked ids
+    for (const a of this.associates) { //grab the checked ids
       const check = <HTMLInputElement>document.getElementById("" + a.id);
       if (check != null && check.checked) {
         ids.push(a.id);
       }
     }
-    if(this.updateVerification=="") this.updateVerification="0";
-    if(this.updateStatus=="") this.updateStatus="0";
-    if(this.updateClient=="") this.updateClient="0";
+    if(this.updateVerification==="") {this.updateVerification="0";}
+    if(this.updateStatus==="") {this.updateStatus="0";}
+    if(this.updateClient==="") {this.updateClient="0";}
     this.associateService.updateAssociates(ids, Number(this.updateVerification), Number(this.updateStatus), Number(this.updateClient)).subscribe(
       data => {
         self.getAllAssociates(); //refresh the associates to reflect the updates made on DB

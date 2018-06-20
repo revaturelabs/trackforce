@@ -64,7 +64,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let associate of associates">
-            <ng-container *ngIf="((associate.firstName.startsWith(searchByText)||searchbyText==='')||(associate.lastName.startsWith(searchByText))||searchbyText==='')
+            <ng-container *ngIf="(((associate.firstName && associate.firstName.startsWith(searchByText))||searchbyText==='')
+                ||((associate.lastName && associate.lastName.startsWith(searchByText)))||searchbyText==='')
               && ((associate.user && searchByVerification == associate.user.isApproved) || searchByVerification==='')
               && ((associate.marketingStatus && searchByStatus === associate.marketingStatus.name) || searchByStatus === '')
               && ((associate.client && searchByClient === associate.client.name) || searchByClient === '')

@@ -71,47 +71,47 @@ public class UserResource {
 		// get the role being passed in 
 		int role = newUser.getRole();
 		TfRole tfrole = new TfRole();
-		
+		boolean works = true;
 		if(role != 0) {
 			switch(role) {
 			case 1:
 				tfrole = new TfRole(1, "Admin");
 				newUser.setTfRole(tfrole);
-				userService.insertUser(newUser);
+				works = userService.insertUser(newUser);
 				break;
 			case 2:
 				tfrole = new TfRole(2, "Trainer");
 				newUser.setTfRole(tfrole);
 				TfTrainer newTrainer = new TfTrainer();
 				newTrainer.setTfUser(newUser);
-				newTrainer.setFirstName("placehold");
+				newTrainer.setFirstName("placeholder");
 				newTrainer.setLastName("placeholder");
 				logger.info("creating new trainer..." + newTrainer);
-				trainerService.createTrainer(newTrainer);
+				works = trainerService.createTrainer(newTrainer);
 				break;
 			case 3:
 				tfrole = new TfRole(3, "Sales-Delivery");
 				newUser.setTfRole(tfrole);
-				userService.insertUser(newUser);
+				works = userService.insertUser(newUser);
 				break;
 			case 4:
 				tfrole = new TfRole(4, "Staging");
 				newUser.setTfRole(tfrole);
-				userService.insertUser(newUser);
+				works = userService.insertUser(newUser);
 				break;
 			case 5:
 				tfrole = new TfRole(5, "Associate");
 				newUser.setTfRole(tfrole);
 				TfAssociate newAssociate = new TfAssociate();
 				newAssociate.setUser(newUser);
-				newAssociate.setFirstName("placehold");
+				newAssociate.setFirstName("placeholder");
 				newAssociate.setLastName("placeholder");
 				logger.info("creating new associate..." + newAssociate);
-				associateService.createAssociate(newAssociate);
+				works = associateService.createAssociate(newAssociate);
 				break;
 			}
 		}
-		if(userService.insertUser(newUser)) {
+		if(works) {
 			return Response.status(Status.CREATED).build();
 		}
 		return Response.status(Status.EXPECTATION_FAILED).build();
@@ -133,7 +133,16 @@ public class UserResource {
 		logger.info("createNewAssociate()...");
 		LogUtil.logger.info(newAssociate);
 		if (newAssociate.getUser().getRole() == 5) {
-			if (associateService.createAssociate(newAssociate)) {
+			boolean works = false;
+			
+			TfRole tfrole = new TfRole();
+			tfrole = new TfRole(5, "Associate");
+			newAssociate.getUser().setTfRole(tfrole);
+			logger.info(newAssociate.getUser().getTfRole());
+			logger.info("creating new associate..." + newAssociate);
+			works = associateService.createAssociate(newAssociate);
+			
+			if (works) {
 				return Response.status(Status.CREATED).build();
 			}
 			return Response.status(Status.EXPECTATION_FAILED).build();
@@ -159,7 +168,17 @@ public class UserResource {
 		logger.info("creating new user...");
 		LogUtil.logger.info(newTrainer);
 		if (newTrainer.getTfUser().getRole() == 2) {
-			if (trainerService.createTrainer(newTrainer)) {
+			boolean works = false;
+			
+			TfRole tfrole = new TfRole();
+			tfrole = new TfRole(5, "Associate");
+			newTrainer.getTfUser().setIsApproved(0);
+			newTrainer.getTfUser().setTfRole(tfrole);
+			logger.info(newTrainer.getTfUser().getTfRole());
+			logger.info("creating new trainer..." + newTrainer);
+			works = trainerService.createTrainer(newTrainer);
+			
+			if (works) {
 				return Response.status(Status.CREATED).build();
 			}
 			return Response.status(Status.EXPECTATION_FAILED).build();

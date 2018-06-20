@@ -196,7 +196,7 @@ public class AssociateResourceTest {
 	/**
 	 * Test to see if we can change the isApproved by updating the associate
 	 */
-	@Test(priority = 50, enabled = true)
+	@Test(priority = 50, enabled = false)
 	public void testUpdateIsApproved() {
 		//TfAssociate myAssociate = associateService.getAssociate(associateid)
 	}

@@ -253,4 +253,12 @@ public class AssociateResource {
 	}
 
 
+	@GET
+	@ApiOperation(value = "Gets how many associates are mapped to each client", notes="Gets how many associates are mapped to each client")
+	@Path("undeployed/{mappedOrUnmapped}")
+	public Response getUndeployed(@PathParam("mappedOrUnmapped") String which) {
+		logger.info("getUndeployed()...");
+		return Response.ok(associateService.getUndeployed(which)).build();
+	}
+
 }

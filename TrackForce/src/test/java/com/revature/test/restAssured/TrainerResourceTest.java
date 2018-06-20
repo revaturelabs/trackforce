@@ -26,8 +26,8 @@ import io.restassured.response.Response;
 public class TrainerResourceTest {
 
 
-	//static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
-	static final String URL = "http://localhost:8085/TrackForce/trainers";
+	static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
+	//static final String URL = "http://localhost:8085/TrackForce/trainers";
 	
 	TrainerService trainerService = new TrainerService();
 	List<TfTrainer> trainers;

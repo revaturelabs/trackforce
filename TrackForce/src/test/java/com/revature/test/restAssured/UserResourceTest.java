@@ -29,8 +29,8 @@ import io.restassured.response.Response;
  */
 public class UserResourceTest {
 
-	//static final String URL = "http://52.87.205.55:8086/TrackForce/users";
-	static final String URL = "http://localhost:8085/TrackForce/users";
+	static final String URL = "http://52.87.205.55:8086/TrackForce/users";
+	//static final String URL = "http://localhost:8085/TrackForce/users";
 
 	String token;
 	TfUser user;

@@ -29,8 +29,8 @@ import io.restassured.response.Response;
  */
 public class InterviewResourceTest {
 
-	//static final String URL = "http://52.87.205.55:8086/TrackForce/interviews";
-	static final String URL = "http://localhost:8085/TrackForce/interviews";
+	static final String URL = "http://52.87.205.55:8086/TrackForce/interviews";
+	//static final String URL = "http://localhost:8085/TrackForce/interviews";
 
 	String adminToken;
 	String associateToken;

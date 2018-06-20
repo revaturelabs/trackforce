@@ -24,8 +24,8 @@ import io.restassured.response.Response;
  */
 public class CurriculumResourceTest {
 
-	//static final String URL = "http://52.87.205.55:8086/TrackForce/skillset";
-	static final String URL = "http://localhost:8085/TrackForce/skillset";
+	static final String URL = "http://52.87.205.55:8086/TrackForce/skillset";
+	//static final String URL = "http://localhost:8085/TrackForce/skillset";
 
 	String tokenAdmin;
 	String tokenAssociate;

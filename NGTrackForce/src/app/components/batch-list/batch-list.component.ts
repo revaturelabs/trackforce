@@ -3,10 +3,12 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { Component, OnInit } from '@angular/core';
 import { Batch } from '../../models/batch.model';
 import { BatchService } from '../../services/batch-service/batch.service';
+import { TrainerService } from '../../services/trainer-service/trainer.service';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartOptions, SideValues } from '../../models/ng2-charts-options.model';
 import { Color } from 'ng2-charts';
+import { Trainer } from '../../models/trainer.model';
 
 
 // TODO: LABELS SHOULD PROPERLY WRAP
@@ -32,8 +34,11 @@ export class BatchListComponent implements OnInit {
   curriculumNames: string[];
   curriculumCounts: number[];
   dataReady = false;
+  trainerReady = false;
   dataEmpty = false;
   batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
+  trainers : Trainer[];
+  newTrainer : Trainer;
 
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
     new SideValues(-100, 0, 0, 0),
@@ -42,13 +47,27 @@ export class BatchListComponent implements OnInit {
   );
 
 
-  constructor(private batchService: BatchService, private authService: AuthenticationService) {
+  constructor(private batchService: BatchService, private authService: AuthenticationService,
+  private trainerService : TrainerService) {
   }
 
   /**
    * load default batches on initialization
    */
   ngOnInit() {
+    this.trainerReady = false;
+    this.trainerService.getAllTrainers().subscribe (
+      trainers => {
+        this.trainers = trainers.filter(
+          t => {
+            console.log("trainer id " + t.user.isApproved);
+            return t.user.isApproved != 1;
+          }
+        );
+      }
+    );
+    console.log(this.trainers);
+    this.trainerReady = true;
     // get current user
     const user = this.authService.getUser();
     //user is a trainer they can only see their batches
@@ -213,5 +232,20 @@ export class BatchListComponent implements OnInit {
     // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change
     this.curriculumNames = Array.from(curriculumCountsMap.keys());
     this.curriculumCounts = Array.from(curriculumCountsMap.values());
+  }
+
+  /**
+   * @function approveTrainer
+   * @memberof BatchListComponent
+   * @description This function will set the trainer's
+   *              isApproved field to 1 (approved)
+   */
+  public approveTrainer(trainer : Trainer){
+
+    console.log("trainer " +trainer.firstName);
+    console.log("trainer before" +trainer.user.isApproved);
+    trainer.user.isApproved = 1;
+    console.log("trainer after" +trainer.user.isApproved);
+    this.trainerService.updateTrainer(trainer);
   }
 }

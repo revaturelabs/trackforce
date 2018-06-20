@@ -61,19 +61,23 @@
       <h3>Trainer Approval</h3>
       <table class="table table-striped table-hover table-bordered">
         <thead>
-          <tr>
+          <tr class="max-width">
             <th class="name-column">Name</th>
             <th class="btn-column">Approve</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td class="name-column">Cameron</td>
+          <!-- <tr><td class="name-column">Cameron</td>
           <td><input value="Approve" type="submit" class="btn btn-submit" (click) ="approveTrainer()"/></td>
-          </tr>
-          <!-- <tr *ngFor="let trainer of trainers" class="max-width">
-            <td class="name-column">Cameron</td>
-            <td><input type="submit" class="btn btn-submit" (click)="approveTrainer()">Approve</td>
           </tr> -->
+          <ng-container *ngIf="trainerReady">
+            <tr *ngFor="let trainer of trainers" class="max-width">
+              <td class="name-column">{{trainer.firstName}} {{trainer.lastName}}</td>
+              <td>
+                <input type="submit" value="Approve" id={{trainer.id}} class="btn btn-submit" (click)="approveTrainer(trainer)">
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>

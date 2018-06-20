@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { Trainer } from "../../models/trainer.model";
 import { Observable } from "rxjs/Observable";
 import { Batch } from "../../models/batch.model";
+import { User } from "../../models/user.model";
 
 @Injectable()
 export class TrainerService {
@@ -23,6 +24,12 @@ export class TrainerService {
    */
   public getTrainer(userId: number): Observable<Trainer> {
     return this.http.get<Trainer>(this.baseURL + userId);
+  }
+
+  public updateTrainer(trainer: Trainer) {
+    const url: string = this.baseURL +trainer.id;
+    console.log(url);
+    this.http.put<boolean>(url, trainer);
   }
 
   //
@@ -44,7 +51,7 @@ export class TrainerService {
    * @since 6.19.06.16
    */
   getAllTrainers(): Observable<Trainer[]> {
-    return this.http.get<Trainer[]>(this.baseURL + "/allTrainers");
+    return this.http.get<Trainer[]>(this.baseURL + "allTrainers");
   }
 
   /**

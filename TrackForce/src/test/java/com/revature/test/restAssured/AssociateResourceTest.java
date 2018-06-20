@@ -32,8 +32,8 @@ import io.restassured.response.Response;
  */
 public class AssociateResourceTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/associates";
-	//static final String URL = "http://localhost:8085/TrackForce/associates";
+	//static final String URL = "http://52.87.205.55:8086/TrackForce/associates";
+	static final String URL = "http://localhost:8085/TrackForce/associates";
 	
 	AssociateService associateService = new AssociateService();
 	List<TfAssociate> associates;

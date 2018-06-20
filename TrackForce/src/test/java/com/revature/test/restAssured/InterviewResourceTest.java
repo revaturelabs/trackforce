@@ -29,8 +29,8 @@ import io.restassured.response.Response;
  */
 public class InterviewResourceTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/interviews";
-	//static final String URL = "http://localhost:8085/TrackForce/interviews";
+	//static final String URL = "http://52.87.205.55:8086/TrackForce/interviews";
+	static final String URL = "http://localhost:8085/TrackForce/interviews";
 
 	String adminToken;
 	String associateToken;
@@ -62,7 +62,8 @@ public class InterviewResourceTest {
 	/**
 	 * Test that the resource can be accessed properly. Check that the content type
 	 * is what is expected. Test that a bad token gives a 401. Test that a bad url
-	 * gives a 404. Test that a bad method gives a 405.
+	 * gives a 404. Test that a bad method gives a 405. This should return a 401
+	 * as admins are not allowed to create interviews
 	 * 
 	 * @param ifc
 	 *            - an interviewFromClient object returned from the data provider
@@ -73,7 +74,7 @@ public class InterviewResourceTest {
 	public void testCreateInterview1(TfInterview interview) {
 
 		given().header("Authorization", adminToken).contentType("application/json").body(interview).when().post(URL + "/" + knownAssociateId)
-				.then().assertThat().statusCode(201);
+				.then().assertThat().statusCode(401);
 		
 		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
 				.when().get(URL + "/" + knownAssociateId).then().extract().response();
@@ -82,7 +83,7 @@ public class InterviewResourceTest {
 	}
 	
 	/**
-	 * Testing to ensure an associate can also create interviews
+	 * Testing to ensure an associate can create interviews
 	 * @param interview
 	 */
 	@Test(priority = 6, dataProvider = "interview1", enabled = true)

@@ -40,11 +40,13 @@ public class UserResourceTest {
 	TfRole role;
 	MarketingStatusService marketService = new MarketingStatusService();
 	UserService userService = new UserService();
+	int knownTrainerId;
 
 	@BeforeClass
 	public void beforeClass() {
 		token = JWTService.createToken("TestAdmin", 1);
 		System.out.println(token);
+		knownTrainerId = 64832;
 		
 		ms = marketService.getMarketingStatusById(1);
 		
@@ -68,47 +70,13 @@ public class UserResourceTest {
 	}
 
 	/**
-	 * Unhappy path testing for create user. Because an associate/trainer should be
-	 * created with createAssociate or createTrainer, this method should not be used
-	 * to create either. This test ensures a 403 is returned when either of those
-	 * actions are attempted
-	 * 
-	 * @author Jesse
-	 * @since 06.18.06.16
-	 */
-	@Test(enabled = false, priority = 5)
-	public void testCreateUser1() {
-		user.setRole(5);;
-		given().contentType("application/json").body(user).when().post(URL + "/newUser").then().assertThat()
-				.statusCode(403);
-
-		Response response = given().header("Authorization", token).when()
-				.get(URL.replaceAll("users", "associates") + "/allAssociates").then().extract().response();
-
-		assertTrue(response.statusCode() == 200);
-		assertTrue(response.contentType().equals("application/json"));
-		assertFalse(response.asString().contains(user.getUsername()));
-
-		user.setRole(2);		
-		given().contentType("application/json").body(user).when().post(URL + "/newUser").then().assertThat()
-				.statusCode(403);
-
-		response = given().header("Authorization", token).when()
-				.get(URL.replaceAll("users", "associates") + "/allAssociates").then().extract().response();
-
-		assertTrue(response.statusCode() == 200);
-		assertTrue(response.contentType().equals("application/json"));
-		assertFalse(response.asString().contains("TestUsername2"));
-	}
-
-	/**
 	 * Happy path testing for create user. This should create an admin, staging
 	 * manager or sales user when each of those specified roles is used.
 	 * 
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false, priority = 10)
+	@Test(enabled = true, priority = 10)
 	public void testCreateUser2() {
 		user.setRole(1);
 		user.getTfRole().setTfRoleId(1);
@@ -122,7 +90,7 @@ public class UserResourceTest {
 		assertTrue(response.contentType().equals("application/json"));
 	}
 
-	@Test(enabled = false, priority = 13)
+	@Test(enabled = true, priority = 13)
 	public void testCreateUser3() {
 		user.setRole(3);
 		user.getTfRole().setTfRoleId(3);
@@ -143,7 +111,7 @@ public class UserResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false, priority = 15)
+	@Test(enabled = true, priority = 15)
 	public void testCreateUser4() {
 		given().contentType("application/json").body(user).when().get(URL + "/newUser").then().assertThat()
 				.statusCode(405);
@@ -179,10 +147,12 @@ public class UserResourceTest {
 	/**
 	 * Test that a user with a role other than 5 cannot be made into an associate
 	 */
-	@Test(enabled = false, priority = 23)
+	@Test(enabled = true, priority = 23)
 	public void testCreateNewAssociate2() {
 		user.setRole(4);
+		user.setUsername("Associate2");
 		associate.setUser(user);
+		associate.setFirstName("Carlsbad");
 		given().contentType("application/json").body(associate).when().post(URL + "/newAssociate").then().assertThat()
 				.statusCode(403);
 
@@ -201,7 +171,7 @@ public class UserResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false, priority = 25)
+	@Test(enabled = true, priority = 25)
 	public void testCreateNewAssociate3() {
 		given().contentType("application/json").body(user).when().get(URL + "/newAssociate").then().assertThat()
 				.statusCode(405);
@@ -218,25 +188,28 @@ public class UserResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false, priority = 30)
+	@Test(enabled = true, priority = 30)
 	public void testCreateNewTrainer1() {
+		user.setRole(2);
+		user.getTfRole().setTfRoleId(2);
 		trainer.setTfUser(user);
 		given().contentType("application/json").body(trainer).when().post(URL + "/newTrainer").then().assertThat()
 				.statusCode(201);
 
 		Response response = given().header("Authorization", token).when()
-				.get(URL.replaceAll("users", "trainers") + "/59").then().extract().response();
+				.get(URL.replaceAll("users", "trainers") + "/" + knownTrainerId).then().extract().response();
 
-		assertTrue(response.statusCode() == 204);
-		assertTrue(response.contentType().equals("application/json"));
-		assertTrue(response.asString().contains("RestAssuredTrainer"));
+		assertTrue(response.statusCode() == 200);
+		assertTrue(response.asString().contains("RestAssured"));
 	}
 
 	/**
 	 * Check that you cannot create a trainer with a non 2 role id
 	 */
-	@Test(enabled = false, priority = 32)
+	@Test(enabled = true, priority = 32)
 	public void testCreateNewTrainer2() {
+		user.setRole(3);
+		user.getTfRole().setTfRoleId(3);
 		trainer.setTfUser(user);
 		given().contentType("application/json").body(trainer).when().post(URL + "/newTrainer").then().assertThat()
 				.statusCode(403);
@@ -252,7 +225,7 @@ public class UserResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false, priority = 35)
+	@Test(enabled = true, priority = 35)
 	public void testCreateNewTrainer3() {
 		given().contentType("application/json").body(trainer).when().get(URL + "/newTrainer").then().assertThat()
 				.statusCode(405);
@@ -269,7 +242,7 @@ public class UserResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false, priority = 40)
+	@Test(enabled = true, priority = 40)
 	public void testSubmitCredentials1() {
 		given().contentType("application/json").body("{ \"username\": \"TestAdmin\", \"password\": \"TestAdmin\"}")
 				.post(URL + "/login").then().assertThat().statusCode(200);
@@ -288,7 +261,7 @@ public class UserResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = false, priority = 45)
+	@Test(enabled = true, priority = 45)
 	public void testSubmitCredentials2() {
 		given().contentType("application/json").body("{ \"username\": \"TestAdmin\", \"password\": \"TestAdmin\"}")
 				.when().get(URL + "/login").then().assertThat().statusCode(405);

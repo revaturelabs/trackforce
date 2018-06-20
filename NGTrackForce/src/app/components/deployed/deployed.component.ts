@@ -5,6 +5,7 @@ import { SelectedStatusConstants } from '../../constants/selected-status.constan
 import { Color } from 'ng2-charts';
 import { Router } from '@angular/router';
 import { AssociateService } from '../../services/associate-service/associate.service';
+import { ChartScale } from '../../models/chart-scale.model';
 
 @Component({
   selector: 'app-deployed',
@@ -90,35 +91,6 @@ export class DeployedComponent implements OnInit {
     }
   }
 
-  changeChartType(selectedType) {
-    this.chartType = selectedType;
-
-    //For 'bar' charts
-    if (selectedType === 'bar') {
-      this.chartOptions.legend = {
-        display: false
-      };
-
-      //Add scales to options if it doesn't exist
-      if (!this.chartOptions.legend.scales) {
-        this.chartOptions.scales = { yAxes: [{ ticks: { min: 0 } }] };
-      }
-    }
-    //For 'pie' or 'polarArea' charts
-    else if (selectedType === 'pie' || selectedType === 'polarArea') {
-      //Display legend
-      this.chartOptions.legend = {
-        display: true,
-        position: 'right'
-      };
-
-      // Remove scales from options, if it exists
-      if (this.chartOptions.scales) {
-        delete this.chartOptions.scales;
-      }
-    }
-  }
-
 
   loadChart() {
     this.associateService.getAssociatesByStatus(6).subscribe(data => {
@@ -171,5 +143,39 @@ export class DeployedComponent implements OnInit {
   getDeployedData() {
     this.deployedData = JSON.parse(localStorage.getItem('deployedData'));
   }
+
+    /**
+   * Changes the chart type of this component (does this really need explanation?!)
+   */
+  changeChartType(type: string) {
+    this.chartType = type;
+    // changing some chartOptions pre-emptively
+    this.chartOptions.type = type;
+    switch (type) {
+      // if type is either PIE or POLAR_AREA...
+      case DeployedComponent.chartTypes.PIE:
+      case DeployedComponent.chartTypes.POLAR_AREA:
+        // ... we're displaying the chart legend and on the right of the container
+        this.chartOptions.legend = {
+          display: true,
+          position: 'right'
+        };
+        // ... and getting rid of the scales ...
+        if (this.chartOptions.scales) { delete this.chartOptions.scales; }
+        break;
+      // otherwise, for BAR charts...
+      case DeployedComponent.chartTypes.BAR:
+        // ...we give no legend...
+        this.chartOptions.legend = {
+          display: false
+        };
+        // ...but give scales...
+        this.chartOptions.scales = new ChartScale();
+        break;
+    }
+    // it's a mock, for right now
+    return type;
+  }
+
 
 }

@@ -3,6 +3,8 @@ import { SelectedStatusConstants } from '../../constants/selected-status.constan
 import { ThemeConstants } from '../../constants/theme.constants';
 import { Color } from 'ng2-charts';
 import { ChartOptions } from '../../models/ng2-charts-options.model';
+import { AssociateService } from '../../services/associate-service/associate.service';
+import { ChartScale } from '../../models/chart-scale.model';
 
 @Component({
   selector: 'app-undeployed',
@@ -34,7 +36,9 @@ export class UndeployedComponent implements OnInit {
   undeployedData: number[] = [0, 0];
 
 
-  constructor() {
+  constructor(
+    private associateService: AssociateService
+  ) {
     this.chartOptions = {
       xAxes: [{ ticks: { autoSkip: false } }], scales: { yAxes: [{ ticks: { min: 0 } }] },
       legend: {
@@ -61,7 +65,42 @@ export class UndeployedComponent implements OnInit {
     this.chartOptions.title.text = this.selectedStatus;
 
 
+
   }
+
+    /**
+   * Changes the chart type of this component (does this really need explanation?!)
+   */
+  changeChartType(type: string) {
+    this.chartType = type;
+    // changing some chartOptions pre-emptively
+    this.chartOptions.type = type;
+    switch (type) {
+      // if type is either PIE or POLAR_AREA...
+      case UndeployedComponent.chartTypes.PIE:
+      case UndeployedComponent.chartTypes.POLAR_AREA:
+        // ... we're displaying the chart legend and on the right of the container
+        this.chartOptions.legend = {
+          display: true,
+          position: 'right'
+        };
+        // ... and getting rid of the scales ...
+        if (this.chartOptions.scales) { delete this.chartOptions.scales; }
+        break;
+      // otherwise, for BAR charts...
+      case UndeployedComponent.chartTypes.BAR:
+        // ...we give no legend...
+        this.chartOptions.legend = {
+          display: false
+        };
+        // ...but give scales...
+        this.chartOptions.scales = new ChartScale();
+        break;
+    }
+    // it's a mock, for right now
+    return type;
+  }
+
 
   getUndeployedData() {
     this.undeployedData = JSON.parse(localStorage.getItem('undeployedData'));

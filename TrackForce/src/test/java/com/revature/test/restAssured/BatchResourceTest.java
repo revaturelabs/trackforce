@@ -24,8 +24,8 @@ import io.restassured.response.Response;
 public class BatchResourceTest {
 
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/batches";
-	//static final String URL = "http://localhost:8085/TrackForce/batches";
+	//static final String URL = "http://52.87.205.55:8086/TrackForce/batches";
+	static final String URL = "http://localhost:8085/TrackForce/batches";
 
 	private String token;
 	BatchService service;
@@ -86,9 +86,6 @@ public class BatchResourceTest {
 
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
-		
-		given().header("Authorization", token).queryParam("start", 1600000000000L)
-		.queryParam("start", 1400000000000L).when().get(URL).then().assertThat().body("id", hasSize(0));
 	}
 
 	/**

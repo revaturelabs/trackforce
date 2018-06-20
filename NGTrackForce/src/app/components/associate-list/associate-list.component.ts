@@ -104,7 +104,7 @@ export class AssociateListComponent implements OnInit {
       }
       this.curriculums.delete("");
       this.curriculums.delete("null");
-      
+
   }
 
   /**
@@ -116,7 +116,7 @@ export class AssociateListComponent implements OnInit {
     });
   }
 
-  
+
 
   /**
    * Bulk edit feature to update associate's verification, statuses and clients.
@@ -125,12 +125,17 @@ export class AssociateListComponent implements OnInit {
     const ids: number[] = [];
     const self = this;
 
+    let associateList: Associate[] = [];
     for (const a of this.associates) { //grab the checked ids
       const check = <HTMLInputElement>document.getElementById("" + a.id);
       if (check != null && check.checked) {
         ids.push(a.id);
+        a.user.isApproved = 1;
       }
+      associateList.push(a);
     }
+    this.associates = associateList;
+    localStorage.setItem("currentAssociates", JSON.stringify(this.associates));
     if(this.updateVerification==="") {this.updateVerification="0";}
     if(this.updateStatus==="") {this.updateStatus="0";}
     if(this.updateClient==="") {this.updateClient="0";}

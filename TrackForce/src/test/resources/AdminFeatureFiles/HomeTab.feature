@@ -1,10 +1,9 @@
-
 Feature: Home Page Tab
   I want to use this template for my feature file
 
-Background:
-	Given I connect to caliber
-	And I login
+  Background: 
+    Given I connect to caliber
+    And I login
 
   Scenario: I click on the Revature telephone number
     Given I am on the Home Page
@@ -21,16 +20,15 @@ Background:
     When I click on the website link
     Then I should see the Revature website link open on a browser
 
-	Scenario: I view the graphs on the home page
-	Given I am on the Home Page
-	Then the graphs should be visible
+  Scenario: I view the graphs on the home page
+    Given I am on the Home Page
+    Then the graphs should be visible
 
   Scenario: I click on each element in Mapped pie chart
     Given I am on the Home Page
     When I click on the elements in the Mapped pie chart
     Then Should open with Mapped graphs
 
-  
   Scenario: I click on each element in UnMapped pie chart
     Given I am on the Home Page
     When I click on the elements in the UnMapped pie chart

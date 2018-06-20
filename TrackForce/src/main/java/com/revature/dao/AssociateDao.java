@@ -22,6 +22,8 @@ public interface AssociateDao {
 
 	List<GraphedCriteriaResult> getMapped(int id);
 
+	List<GraphedCriteriaResult> getUndeployed(String s);
+
 	boolean updateAssociate(TfAssociate associate);
 
 	boolean updateAssociates(List<TfAssociate> associate);

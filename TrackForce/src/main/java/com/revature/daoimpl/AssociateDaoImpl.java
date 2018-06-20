@@ -103,6 +103,34 @@ public class AssociateDaoImpl implements AssociateDao {
 		);
 	}
 
+	@Override
+	public List<GraphedCriteriaResult> getUndeployed(String which) {
+		return HibernateUtil.runHibernate((Session session, Object ... args) -> {
+					CriteriaBuilder cb = session.getCriteriaBuilder();
+					CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);
+
+					Root<TfAssociate> root = query.from(TfAssociate.class);
+
+					Join<TfAssociate, TfClient> clientJoin = root.join("client");
+					Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
+
+					Path clientId = clientJoin.get("id");
+					Path clientName = clientJoin.get("name");
+
+					if (which.equals("unmapped")) {
+						query.where(cb.lessThanOrEqualTo(msJoin.get("id"), 9));
+						query.where(cb.greaterThanOrEqualTo(msJoin.get("id"), 6));
+					} else if (which.equals("mapped")) {
+						query.where(cb.lessThanOrEqualTo(msJoin.get("id"), 4));
+						query.where(cb.greaterThanOrEqualTo(msJoin.get("id"), 1));
+					}
+					query.groupBy(clientId, clientName);
+					query.multiselect(cb.count(root), clientId, clientName);
+					return session.createQuery(query).getResultList();
+				}
+		);
+	}
+
 	private Sessional<Boolean> updateAssociate = (Session session, Object ... args)-> {
 		TfAssociate associate = (TfAssociate) args[0];
 		TfAssociate temp = session.get(TfAssociate.class, associate.getId());

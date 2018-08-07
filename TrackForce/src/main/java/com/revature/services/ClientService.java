@@ -29,6 +29,7 @@ public class ClientService {
 	 * @return List<TfClient>
 	 */
 	public List<TfClient> getAllTfClients(){
+		System.out.println(dao.getAllTfClients());
 		return dao.getAllTfClients();
 	}
 	

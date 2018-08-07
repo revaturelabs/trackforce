@@ -1,24 +1,30 @@
 package com.revature.dao;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
+import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.TfAssociate;
-import com.revature.model.AssociateInfo;
-import com.revature.model.InterviewInfo;
-import com.revature.request.model.AssociateFromClient;
 
 public interface AssociateDao {
 
-	public AssociateInfo getAssociate(Integer associateid);
-	public AssociateInfo getAssociateFromDB(Integer associateid);
-	public Map<Integer, AssociateInfo> getAssociates();
-	public Set<AssociateInfo> getAllAssociates();
-	public void cacheAllAssociates();
-	void updateAssociates(List<Integer> associateids, Integer marketingStatus, Integer clientid);
-	public Map<Integer, AssociateInfo> createAssociatesMap(List<TfAssociate> associateList);
-	public void updateAssociate(AssociateFromClient afc);
-	public Set<InterviewInfo> getInterviewsByAssociate(Integer associateId);
+	TfAssociate getAssociate(Integer associateid);
+	List<TfAssociate> getAllAssociates();
+	
+	boolean updateAssociatePartial(TfAssociate associate);
 
+	boolean approveAssociate(int associateId);
+
+	boolean approveAssociates(List<Integer> associateIds);
+
+	boolean createAssociate(TfAssociate newassociate);
+
+	TfAssociate getAssociateByUserId(int id);
+
+	List<GraphedCriteriaResult> getMapped(int id);
+
+	List<GraphedCriteriaResult> getUndeployed(String s);
+
+	boolean updateAssociate(TfAssociate associate);
+
+	boolean updateAssociates(List<TfAssociate> associate);
 }

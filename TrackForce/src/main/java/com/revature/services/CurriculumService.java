@@ -1,33 +1,49 @@
 package com.revature.services;
 
-import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
-
-import org.hibernate.HibernateException;
-
+import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.CurriculumDao;
-import com.revature.dao.CurriculumDaoImpl;
-import com.revature.model.CurriculumInfo;
+import com.revature.daoimpl.CurriculumDaoImpl;
+import com.revature.entity.TfCurriculum;
 
+/**
+ * 
+ * @author Adam L. 
+ * <p> </p>
+ * @version v6.18.06.13
+ *
+ */
 public class CurriculumService{
 
-    private CurriculumDao curriculumDao;
+	private static CurriculumDao dao = new CurriculumDaoImpl();
+	
+	// public so it can be used for testing 
+	public CurriculumService() {};
+	
+	public CurriculumService(CurriculumDao dao) {
+		this.dao = dao;
+	}
+	
+	/**
+	 * @author Adam L. 
+	 * <p>Gets all the curricula</p>
+	 * @version v6.18.06.13
+	 * 
+	 * @return
+	 */
+	public List<TfCurriculum> getAllCurriculums(){
+		return dao.getAllCurriculums();
+	}
 
-    public CurriculumService() {
-        this.curriculumDao = new CurriculumDaoImpl();
-    }
 
-    /**
-     * injectable dao for easier testing
-     *
-     * @param curriculumDao
-     */
-    public CurriculumService(CurriculumDao curriculumDao) {
-        this.curriculumDao = curriculumDao;
-    }
-
-	public Set<CurriculumInfo> getCurriculums() throws HibernateException, IOException{
-		return curriculumDao.getCurriculaFromCache();
+	/**
+	 * Generates statistics for the expanded view of the home page unmapped chart
+	 *
+	 * @param statusId
+	 * @return Collection<CurriculumJSON>
+	 */
+	public List<GraphedCriteriaResult> getUnmappedInfo(int statusId) {
+		return dao.getUnmapped(statusId);
 	}
 }

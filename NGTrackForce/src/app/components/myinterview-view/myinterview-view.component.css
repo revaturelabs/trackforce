@@ -1,0 +1,55 @@
+table {
+  border-width: 2px;
+}
+
+.info td:first-child {
+  font-weight: bold;
+}
+
+thead, tbody {
+  background-color: #fff;
+}
+
+.toggledContainer {
+  min-height: 300px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-top: 5px;
+  background-color: white;
+  border: 2px solid lightgrey;
+}
+.flag {
+  /* width: 4px; */
+  width: 4%;
+}
+.id {
+	text-decoration: underline;
+}
+
+.icon-button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    border: 0;
+    background: transparent;
+}
+
+.spaceUnder {
+  padding-right: 1em;
+}
+.pencil {
+	color : #ff8000;
+}
+
+#new-interview{
+  margin-left: 225px;
+}
+
+input[name='24hournotice']{
+  margin-left: 15px;
+}
+
+#add-interview{
+  margin-left: 215px;
+}

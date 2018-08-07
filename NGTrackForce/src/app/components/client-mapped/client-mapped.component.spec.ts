@@ -3,46 +3,51 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ClientMappedComponent } from './client-mapped.component';
 import { ChartsModule } from 'ng2-charts';
-import { ClientService } from '../../services/client-service/client-service';
+import { ClientService} from "../../services/client-service/client.service";
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RootComponent } from '../root/root.component';
 import { HomeComponent } from '../home/home.component';
 import {AuthenticationService} from '../../services/authentication-service/authentication.service';
 import {RequestService} from '../../services/request-service/request.service';
-import { ClientMappedModel } from '../../models/clientMapped.model';
+import {GraphCounts} from "../../models/graph-counts";
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import {AssociateService} from "../../services/associate-service/associate.service";
 
 describe('ClientMappedComponent', () => {
   let component: ClientMappedComponent;
   let fixture: ComponentFixture<ClientMappedComponent>;
   const testClientService: ClientService = new ClientService(null);
-  const testAuthService: AuthenticationService = new AuthenticationService(null, null);
+  const testAssociateService = new AssociateService(null);
+  const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
 
   //Setup service mocks
   beforeAll(() => {
     //Mock data
-    const client1: ClientMappedModel = new ClientMappedModel();
+    const client1: GraphCounts = new GraphCounts();
     client1.name = "Client 1";
     client1.count = 50;
-    const client2: ClientMappedModel = new ClientMappedModel();
+    const client2: GraphCounts = new GraphCounts();
     client2.name = "Client 2";
     client2.count = 30;
-    const client3: ClientMappedModel = new ClientMappedModel();
+    const client3: GraphCounts = new GraphCounts();
     client3.name = "Client 3";
     client3.count = 40;
 
-    //Mock the ClientService
-    spyOn(testClientService, 'getAssociatesByStatus').and.returnValue(Observable.of([client1, client2, client3]));
+    
+    // Mock the AssociateService
+    // Note: this used to be "Mock the Client Service" with the same method.
+    // That was spitting up errors because getAssociatesByStatus wasn't in Client Service,
+    // so I switched it to testAssociateService
+    // spyOn(testAssociateService, 'getAssociatesByStatus').and.returnValue(Observable.of([client1, client2, client3]));
 
     //Mock the Authentication Service
-    const user: User = new User();
+    let user: User;
     user.token = "mockToken";
     user.username = "mockUser";
-    user.tfRoleId = 1;
+    user.role = 1;
     spyOn(testAuthService, 'getUser').and.returnValue(user);
   });
 
@@ -51,7 +56,6 @@ describe('ClientMappedComponent', () => {
       declarations: [
         ClientMappedComponent,
         NavbarComponent,
-        RootComponent,
         HomeComponent
       ],
       imports: [
@@ -61,6 +65,7 @@ describe('ClientMappedComponent', () => {
       ],
       providers: [
         RequestService,
+        AssociateService,
         {provide: AuthenticationService, useValue: testAuthService},
         {provide: ClientService, useValue: testClientService}
       ],
@@ -89,10 +94,10 @@ describe('ClientMappedComponent', () => {
   //Test that chart is of type 'bar' by default
   it('should display bar chart by default', () => {
     //Variable containing the expected chart type
-    let chart_type = 'bar';
+    const chart_type = 'bar';
 
     //Grab the graph from the DOM
-    let the_graph = document.getElementById("the_graph");
+    const the_graph = document.getElementById("the_graph");
 
     //Test the chartType field in Component
     expect(component.chartType).toEqual(chart_type);

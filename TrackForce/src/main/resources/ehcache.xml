@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+	<defaultCache 
+    maxElementsInMemory="10000"
+    eternal="false"
+    timeToIdleSeconds="120"
+    timeToLiveSeconds="120"
+    overflowToDisk="true"
+    diskPersistent="false"
+    diskExpiryThreadIntervalSeconds="120"
+    memoryStoreEvictionPolicy="LRU"/>
+</ehcache>
+
+<!-- 
+maxElementsInMemory => States how much cache you will allow
+eternal => Do you want the data cached permanently
+timeToIdleSeconds => How long until the data becomes stale
+timeToLiveSeconds => How long until the data is deleted from cache
+overflowToDisk => Do you want cache data to overflow outside of the project?
+For more information, visit 
+	https://www.journaldev.com/2980/hibernate-ehcache-hibernate-second-level-cache
+	http://www.ehcache.org/documentation/2.7/integrations/hibernate.html
+ -->

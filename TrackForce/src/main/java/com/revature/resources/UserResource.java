@@ -1,111 +1,224 @@
 package com.revature.resources;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.IOException;
 import java.net.URI;
 
+import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfRole;
+import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
-import com.revature.model.LoginJSON;
-import com.revature.model.UserJSON;
-import com.revature.request.model.CreateUserModel;
-import com.revature.request.model.SuccessOrFailMessage;
-import com.revature.services.UserService;
+import com.revature.services.*;
+import com.revature.utils.LogUtil;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
-@Path("users")
+
+/**
+ * <p> </p>
+ * @version v6.18.06.13
+ *
+ */
+@Path("/users")
 @Api(value = "users")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-    private UserService service;
+	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
+	// This is to allow for Mockito tests, which have problems with static methods
+	// This is here for a reason!
+	// - Adam 06.18.06.13
+	AssociateService associateService = new AssociateService();
+	BatchService batchService = new BatchService();
+	ClientService clientService = new ClientService();
+	CurriculumService curriculumService = new CurriculumService();
+	InterviewService interviewService = new InterviewService();
+	TrainerService trainerService = new TrainerService();
+	UserService userService = new UserService();
+	MarketingStatusService marketingStatusService = new MarketingStatusService();
 
-    public UserResource() {
-        this.service = new UserService();
-    }
-    
-    /**
-     * Gets every user for TrackForce
-     * @return Returns a json of all the users
-     */
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response getAllUsers(){
-    	//This will produce application/json
-    	//Not sure if this will actually be needed
-    	return Response.status(501)
-    			.entity("This has not yet been implemented. There maybe future implementations")
-    			.build();
-    }
-    
-    /**
-     * Endpoint used to create a new user in the database with a specified role, username and
-     * password
-     *
-     * @param newUser
-     * @return SuccessOrFailMessage
-     */
-    @POST
-    public Response createNewUser(CreateUserModel newUser){
-    	SuccessOrFailMessage msg = service.createNewUser(newUser);
-    	if (msg.getStatus()) {
-    		int userId = msg.getNewId();
-    		URI location = URI.create("/user/"+userId);
-    		return Response.created(location).build();
-    	} else {
-    		return Response.serverError().build();
-    	}
-    }
-    
-    /**
-     * Gets the user by the user's username
-     * @param username Username used to get the user
-     * @return Returns a TfUser json
-     */
-    @GET
-    @Path("/{username}")
-    public Response getUser(@PathParam("username") String username) {
-    	TfUser user = service.getUser(username);
-    	return Response.ok(user).build();
-    }
 
-    /**
-     * Method takes login information from front-end and verifies the information.
-     * If info is valid, a status code of 200 is returned, otherwise 400 for a bad
-     * request
-     *
-     * @param login - contains login information
-     * @return a Response object with authentication data, such as username, JWT
-     * token, and roleId
-     * @throws IOException
-     */
-    @POST
-    @Path("login")
-    public Response submitCredentials(LoginJSON login) throws IOException {
-    	UserJSON userjson = null;
-    	userjson = service.submitCredentials(login);
-    	if (userjson != null) {
-    		return Response.status(200).entity(userjson).build();
-    	}
-    	else {
-    		// Default return is 400 for a bad request
-    	    return Response.status(400).build();
-    	}
-    }
+	/**
+	 * @author Adam L.
+	 * <p> </p>
+	 * @version v6.18.06.13
+	 *
+	 * @param newUser
+	 * @return
+	 */
+	@Path("/newUser")
+	@POST
+	@Consumes("application/json")
+	@ApiOperation(value = "Creates new user", notes = "")
+	public Response createUser(TfUser newUser) {
+		logger.info("creating new user..." + newUser);
+		
+		// any user created by an admin is approved
+		newUser.setIsApproved(1);
 
-    @GET
-    @Path("/test")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String testM() {
-        return "This is a test";
-    }
+		// get the role being passed in 
+		int role = newUser.getRole();
+		TfRole tfrole = new TfRole();
+		boolean works = true;
+		if(role != 0) {
+			switch(role) {
+			case 1:
+				tfrole = new TfRole(1, "Admin");
+				newUser.setTfRole(tfrole);
+				works = userService.insertUser(newUser);
+				break;
+			case 2:
+				tfrole = new TfRole(2, "Trainer");
+				newUser.setTfRole(tfrole);
+				TfTrainer newTrainer = new TfTrainer();
+				newTrainer.setTfUser(newUser);
+				newTrainer.setFirstName("placeholder");
+				newTrainer.setLastName("placeholder");
+				logger.info("creating new trainer..." + newTrainer);
+				works = trainerService.createTrainer(newTrainer);
+				break;
+			case 3:
+				tfrole = new TfRole(3, "Sales-Delivery");
+				newUser.setTfRole(tfrole);
+				works = userService.insertUser(newUser);
+				break;
+			case 4:
+				tfrole = new TfRole(4, "Staging");
+				newUser.setTfRole(tfrole);
+				works = userService.insertUser(newUser);
+				break;
+			case 5:
+				tfrole = new TfRole(5, "Associate");
+				newUser.setTfRole(tfrole);
+				TfAssociate newAssociate = new TfAssociate();
+				newAssociate.setUser(newUser);
+				newAssociate.setFirstName("placeholder");
+				newAssociate.setLastName("placeholder");
+				logger.info("creating new associate..." + newAssociate);
+				works = associateService.createAssociate(newAssociate);
+				break;
+			}
+		}
+		if(works) {
+			return Response.status(Status.CREATED).build();
+		}
+		return Response.status(Status.EXPECTATION_FAILED).build();
+	}
+
+	/**
+	 * @author Adam L.
+	 * <p> </p>
+	 * @version v6.18.06.13
+	 *
+	 * @param newAssociate
+	 * @return
+	 */
+	@Path("/newAssociate")
+	@POST
+	@Consumes("application/json")
+	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new associate and user")
+	public Response createNewAssociate(TfAssociate newAssociate) {
+		logger.info("createNewAssociate()...");
+		LogUtil.logger.info(newAssociate);
+		if (newAssociate.getUser().getRole() == 5) {
+			boolean works = false;
+			
+			TfRole tfrole = new TfRole();
+			tfrole = new TfRole(5, "Associate");
+			newAssociate.getUser().setTfRole(tfrole);
+			logger.info(newAssociate.getUser().getTfRole());
+			logger.info("creating new associate..." + newAssociate);
+			works = associateService.createAssociate(newAssociate);
+			
+			if (works) {
+				return Response.status(Status.CREATED).build();
+			}
+			return Response.status(Status.EXPECTATION_FAILED).build();
+		}
+		else {
+			return Response.status(Status.FORBIDDEN).build();
+		}
+	}
+
+	/**
+	 * @author Adam L.
+	 * <p> </p>
+	 * @version v6.18.06.13
+	 *
+	 * @param newTrainer
+	 * @return
+	 */
+	@Path("/newTrainer")
+	@POST
+	@Consumes("application/json")
+	@ApiOperation(value = "Creates new trainer", notes = "")
+	public Response createTrainer(TfTrainer newTrainer) {
+		logger.info("creating new user...");
+		LogUtil.logger.info(newTrainer);
+		if (newTrainer.getTfUser().getRole() == 2) {
+			boolean works = false;
+			
+			TfRole tfrole = new TfRole();
+			tfrole = new TfRole(5, "Associate");
+			newTrainer.getTfUser().setIsApproved(0);
+			newTrainer.getTfUser().setTfRole(tfrole);
+			logger.info(newTrainer.getTfUser().getTfRole());
+			logger.info("creating new trainer..." + newTrainer);
+			works = trainerService.createTrainer(newTrainer);
+			
+			if (works) {
+				return Response.status(Status.CREATED).build();
+			}
+			return Response.status(Status.EXPECTATION_FAILED).build();
+		}
+		else {
+			return Response.status(Status.FORBIDDEN).build();
+		}
+	}
+
+	/**
+	 * @author Adam L.
+	 * <p> </p>
+	 * @version v6.18.06.13
+	 *
+	 * @param loginUser
+	 * @return
+	 * @throws IOException
+	 */
+	@Path("/login")
+	@POST
+	@Consumes("application/json")
+	@Produces("application/json")
+	@ApiOperation(value = "login method", notes = "The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 403 if invalid.")
+	public Response submitCredentials(TfUser loginUser) throws IOException {
+		logger.info("submitCredentials()...");
+		logger.info("	login: " + loginUser);
+		TfUser user;
+		try {
+			user = userService.submitCredentials(loginUser);
+			logger.info("	user: " + user);
+		} catch (NoResultException nre) {
+			nre.printStackTrace();
+			return Response.status(Status.FORBIDDEN).build();
+		}
+		if (user != null) {
+			logger.info("sending 200 response..");
+			return Response.status(Status.OK).entity(user).build();
+		} else {
+			logger.info("sending unauthorized response..");
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+	}
 }

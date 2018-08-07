@@ -5,6 +5,7 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../services/client-service/client.service';
+import { userInfo } from 'os';
 /**
 *@author Michael Tseng
 *
@@ -16,22 +17,29 @@ import { ClientService } from '../../services/client-service/client.service';
   templateUrl: './associate-view.component.html',
   styleUrls: ['./associate-view.component.css']
 })
+
 @AutoUnsubscribe
 export class AssociateViewComponent implements OnInit {
-  public associate: Associate = new Associate();
-  public interviews: Array<any> = [];
-  public messages: Array<string> = ["I cleared my interview with FINRA","Please update my status"];
-  public newMessage: string = "";
-  public newInterview: any = {
-    client: null,
-    date: null,
-    type: null,
-    feedback: null
-  }
-  public selectedMarketingStatus: string;
-  public clients: Array<any> = [];
-  public selectedClient: string = "";
-  public formOpen: boolean = false;
+  public associate: Associate;
+  public formOpen = false;
+  public newAssociate: Associate;
+  public newFirstName: string;
+  public newLastName: string;
+
+  public errMsg: string;
+  public succMsg: string;
+
+
+
+  // THESE WERE HERE BUT DOING NOTHING
+  // -MAX
+  // public interviews: Array<any> = [];
+  // public messages: Array<string> = ["I cleared my interview with FINRA", "Please update my status", "I am deleting you soon :)"];
+  // public newMessage = "";
+  // public selectedMarketingStatus: string;
+  // public clients: Array<any> = [];
+  // public selectedClient = "";
+
 
   constructor(
     private associateService: AssociateService,
@@ -40,88 +48,68 @@ export class AssociateViewComponent implements OnInit {
     private clientService: ClientService) { }
 
   ngOnInit() {
+    this.associate = this.authService.getAssociate();
+    this.newFirstName = this.associate.firstName;
+    this.newLastName = this.associate.lastName;
+
     //gets the associate id from the path
     //the '+' coerces the parameter into a number
-    let id = +this.activated.snapshot.paramMap.get('id');
-    this.getAssociate(id);
-    this.getInterviews(id);
-    this.getClients();
-  }
 
-  /**
-  *@description Wraps the associate service to get associate info
-  *
-  *@param {number} id
-  *the id number of the associate
-  */
-  getAssociate(id: number){
-    this.associateService.getAssociate(id).subscribe(
-      data => {
-        this.associate = data;
-      },
-      err => {
-        console.log(err);
-    });
-  }
-
-  getClients(){
-    this.clientService.getAllClients().subscribe(
-      data => {
-        this.clients = data;
-      },
-      err => {
-        console.log(err);
-    });
+    // this.getClients();
   }
 
   toggleForm() {
     this.formOpen = !this.formOpen;
   }
 
-  sendMessage() {
-    let tempString = this.newMessage;
-    if (this.newMessage) {
-      this.messages.push(tempString.toString());
-    }
-  }
+  updateInfo() {
+    this.associate.firstName = this.newFirstName;
+    this.associate.lastName = this.newLastName;
 
-  addInterview(){
-    console.log(this.newInterview);
-    let interview = {
-      associateId: this.associate.id,
-      clientId: this.newInterview.client,
-      typeId: this.newInterview.type,
-      interviewDate: new Date(this.newInterview.date).getTime(),
-      interviewFeedback: this.newInterview.feedback
-    };
-    this.associateService.addInterviewForAssociate(this.associate.id,interview).subscribe(
-      data => {
-        this.getInterviews(this.associate.id);
+    this.associateService.updateAssociate(this.associate).subscribe(
+      success => {
+        this.succMsg = "Information updated"
       },
       err => {
-        console.log(err);
-      }
-    )
-
-  }
-
-  getInterviews(id: number) {
-    this.associateService.getInterviewsForAssociate(id).subscribe(
-      data => {
-        let tempArr = [];
-        for (let i=0;i<data.length;i++) {
-          let interview = data[i];
-          let intObj = {
-            id: interview.id,
-            client: interview.tfClientName,
-            date: new Date(interview.tfInterviewDate),
-            type: interview.typeName,
-            feedback: interview.tfInterviewFeedback
-          }
-          tempArr.push(intObj);
+        if (err.status === 500) {
+          this.errMsg = "There was an error with the server."
+        } else {
+          this.errMsg = "Something went wrong, your information was not updated."
         }
-        this.interviews = tempArr;
       }
-    )
+    );
   }
+
+
+  // THIS FUNCTION WAS REPLACED WITH GETTING ASSOCIATE FROM AUTH SERVICE
+  // -MAX
+  // /**
+  // *@description Wraps the associate service to get associate info
+  // *
+  // *@param {number} id
+  // *the id number of the associate
+  // */
+  // getAssociate(id: number) {
+  //   this.associateService.getAssociate(id).subscribe(
+  //     data => {
+  //       this.associate = data;
+  //     },
+  //     err => {
+  //     });
+  // }
+
+  // IT MAKES NO SENSE WHY THIS FUNCTION WAS IN HERE
+  // -MAX
+  // getClients() {
+  //   this.clientService.getAllClients().subscribe(
+  //     data => {
+  //       this.clients = data;
+  //     },
+  //     err => {
+  //     });
+  // }
+
+
+
+
 }

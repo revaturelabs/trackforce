@@ -1,11 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartScale } from '../../models/chart-scale.model';
-import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
-import { ThemeConstants } from '../../constants/theme.constants';
+import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { GraphCounts } from '../../models/graph-counts';
+
+import { ThemeConstants } from '../../constants/theme.constants';
+import { ChartOptions } from '../../models/ng2-charts-options.model';
+import '../../constants/selected-status.constants';
+import { SelectedStatusConstants } from '../../constants/selected-status.constants';
+import { Color } from 'ng2-charts';
+
 
 @Component({
   selector: 'app-skillset',
@@ -24,25 +30,9 @@ import { Router } from '@angular/router';
 export class SkillsetComponent implements OnInit {
 
   /**
-   * The selected status
-   *@Input() allows a parent component to send data to the child via property-binding
-   */
-  @Input() selectedStatus: string = '';
-
-  /**
    * Map of selected status to skill id
    */
-  private static SKILL_INFO : Map<string, any>;
-
-  /**
-   * The id of skill, probably to hit the API with
-   */
-  private skillID: number;
-
-  /**
-   * The flag that tells Angular, and the developer, whether or not ng2_chart dependency is actually being used
-   */
-  USE_NG2_CHART: boolean = true;
+  private static SKILL_INFO: Map<string, any>;
 
   /**
    * The types of charts
@@ -52,14 +42,36 @@ export class SkillsetComponent implements OnInit {
     PIE: 'pie',
     POLAR_AREA: 'polarArea'
   }
+
   /**
-   * The type of chart
+ * The sentry id for a status that doesn't exist
+ */
+  public static NULL = -1;
+
+  /**
+   * The selected status
+   *@Input() allows a parent component to send data to the child via property-binding
    */
-  chartType = SkillsetComponent.chartTypes.BAR;
+  @Input() selectedStatus = '';
+
+  /**
+   * The id of skill, probably to hit the API with
+   */
+  private skillID: number;
+
+  /**
+   * The flag that tells Angular, and the developer, whether or not ng2_chart dependency is actually being used
+   */
+  USE_NG2_CHART = true;
   /**
    * The dummy data to compare against for our tests
    */
   DUMMY_DATA = [{ data: [1, 1, 1, 1, 1], label: 'Mapped' }, { data: [1, 1, 1, 1, 1], label: 'Unmapped' }];
+
+  /**
+   * The type of chart
+   */
+  chartType = SkillsetComponent.chartTypes.BAR;
   /**
    * The skillset data
    */
@@ -77,7 +89,13 @@ export class SkillsetComponent implements OnInit {
    */
   chartOptions: { [k: string]: any } = {
     type: this.chartType,
-    legend: {
+    title: {
+      display: true,
+      text: this.selectedStatus,
+      fontSize: 24,
+      fontColor: '#121212'
+    },
+  legend: {
       display: false
     },
     xAxes: [
@@ -93,13 +111,17 @@ export class SkillsetComponent implements OnInit {
    * The color scheme for the charts of this component
    */
   batchColors = ThemeConstants.BATCH_COLORS;
-  /**
-   * The sentry id for a status that doesn't exist
-   */
-  public static NULL = -1;
+
+
+  public unmappedLabels = SelectedStatusConstants.UNMAPPED_LABELS;
+  public skillColors: Array<Color> = ThemeConstants.SKILL_COLORS;
+  public unmappedChartType = "pie";
+  public unmappedOptions = ChartOptions.createOptionsTitle('Unmapped', 24, '#121212', 'right');
+  public unmappedData: number[] = [0, 0, 0, 0];
+
 
   /**
-    *@param {SkillsetService} SkillsetService
+    *@param {CurriculumService} CurriculumService
     * service for grabbing data from the back-end or mock back-end
     *
     *@param {ActivatedRoute} route
@@ -109,7 +131,7 @@ export class SkillsetComponent implements OnInit {
     *Allows to re-routing to other components
     *
     */
-  constructor(private skillsetService: SkillsetService,
+  constructor(private curriculumService: CurriculumService,
     private route: ActivatedRoute,
     private router: Router) {
     // setup SKILL_INFO
@@ -123,36 +145,53 @@ export class SkillsetComponent implements OnInit {
     }
   }
 
+  /**
+   * Exposing SKILL_INFO in a safe way
+   */
+  public static getSkillInfo() {
+    return SkillsetComponent.SKILL_INFO;
+  }
+
   ngOnInit(): void {
+
+    this.getUnmappedData();
+
+
+
     // get skillID
     this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || SkillsetComponent.NULL;
     // if we didn't get skillID from selectedStatus...
     if (this.skillID === SkillsetComponent.NULL) {
       // we get it from the ActivatedRoute params
       this.skillID = Number(this.route.snapshot.paramMap.get('id'));
-      if (this.skillID < 6) this.skillID += 6;  // TODO: remove this
+      if (this.skillID < 6) {
+        this.skillID += 6;  // TODO: remove this
+      }
       // we now set selectedStatus
       SkillsetComponent.SKILL_INFO.forEach((value, key) => {
-        if (value === this.skillID) this.selectedStatus = key;
+        if (value === this.skillID) {
+          this.selectedStatus = key;
+        }
       })
       // if there is empty string, simply go home
-      if (!this.selectedStatus)
-      {
-        this.router.navigate(['/root']);
+      if (!this.selectedStatus) {
+        this.router.navigate(['/app-home']);
       }
     }
     // get the skillset data here
-    this.skillsetService.getSkillsetsForStatusID(this.skillID).subscribe((data) => {
+    this.curriculumService.getSkillsetsForStatusID(this.skillID).subscribe((data) => {
       // copy in the raw data into local variable
-      let skillsets: Array<any> = data;
-      console.log(data);
+      const skillsets: GraphCounts[] = data;
       // map() that variable into skillsetData,skillsetLabels
-      this.skillsetData = skillsets.map((obj) => { if (obj.count) return obj.count }).filter(this.isNotUndefined);
-      this.skillsetLabels = skillsets.map((obj) => { if (obj.count) return obj.name }).filter(this.isNotUndefined);
+      this.skillsetData = skillsets.map((obj) => { if (obj.count) { return obj.count } }).filter(this.isNotUndefined);
+      this.skillsetLabels = skillsets.map((obj) => { if (obj.count) { return obj.name } }).filter(this.isNotUndefined);
       this.status = (((!this.skillsetLabels) || (!this.skillsetLabels.length)) &&
         ((!this.skillsetData) || (!this.skillsetData.length))) ?
         'There is no batch data on this status...' : 'Loaded!';
     });
+
+    this.chartOptions.title.text = this.selectedStatus;
+
   }
 
   /**
@@ -172,7 +211,7 @@ export class SkillsetComponent implements OnInit {
           position: 'right'
         };
         // ... and getting rid of the scales ...
-        if (this.chartOptions.scales) delete this.chartOptions.scales;
+        if (this.chartOptions.scales) { delete this.chartOptions.scales; }
         break;
       // otherwise, for BAR charts...
       case SkillsetComponent.chartTypes.BAR:
@@ -189,7 +228,7 @@ export class SkillsetComponent implements OnInit {
   }
 
   public goToAssociateList(event) {
-    if (event.active[0] != undefined) {
+    if (event.active[0] !== undefined) {
       this.router.navigate([`associate-listing/curriculum/${this.skillsetLabels[event.active[0]._index]}/unmapped/${this.selectedStatus}`]);
     }
   }
@@ -198,18 +237,35 @@ export class SkillsetComponent implements OnInit {
    * Returns whether or not val is undefined. Used for filtering.
    * @param val The value to check for not undefined
    */
-  public isNotUndefined(val): boolean { return val !== undefined; }
-
-  /**
-   * Exposing SKILL_INFO in a safe way
-   */
-  public static getSkillInfo() {
-    return SkillsetComponent.SKILL_INFO;
+  public isNotUndefined(val): boolean {
+    return val !== undefined;
   }
 
   /**
    * Exposing skillID in a safe way
    */
-  public getSkillID() : number { return this.skillID; }
+  public getSkillID(): number {
+    return this.skillID;
+  }
+
+  public getUnmappedData() {
+    this.unmappedData = JSON.parse(localStorage.getItem('unmappedData'));
+  }
+
+  /**
+ * @function UnmappedOnClick
+ * @description When the "Unmapped" chart is clicked
+ * the global variable selectedStatus is
+ * set to the label of the slice
+ * clicked.
+ */
+  unmappedOnClick(evt: any) {
+    if (evt.active[0] !== undefined) {
+      //navigate to skillset component
+      this.router.navigate([`skillset/${evt.active[0]._index}`]);
+      window.location.reload();
+    }
+  }
+
 
 }

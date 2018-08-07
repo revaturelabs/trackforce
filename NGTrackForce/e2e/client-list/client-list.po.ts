@@ -1,34 +1,57 @@
 import { browser, by, element } from 'protractor';
 import { ElementFinder } from 'protractor/built/element';
+import { BasePage, IdentificationType } from '../BasePage';
 
-var header;
+let header;
 
-export class ClientListPo {
-
-    private searchByClientName       : ElementFinder;
-    private viewDataForAllClients    : ElementFinder;
-
-    /**
-     * Stores each element on the Client list page:
-     * searchByClientName - input field
-     * viewDataForAllClients - button
-     */
-    constructor() {
-         this.searchByClientName = this.getSearchByClientName();
-         this.viewDataForAllClients = this.getAllUsersButton();
+const Locators = {
+    clientSearch: {
+        type: IdentificationType[IdentificationType.Xpath],
+        value: '//input[@id="clientSearch"]'
+    },
+    clientResultList: {
+        type: IdentificationType[IdentificationType.ElementsByXpath],
+        value: '//ul[@id="clients-list"]/li'
+    },
+    allClientsDataBtn: {
+        type: IdentificationType[IdentificationType.Xpath],
+        value: '//button[contains(text(), "lients")]'
+    },
+    barChartHeader: {
+        type: IdentificationType[IdentificationType.Xpath],
+        value: '/html/body/app/app-client-list/div/div/div[2]/h1'
+    },
+    clientListSpan: {
+        type: IdentificationType[IdentificationType.Xpath],
+        value: '//ul[@id="clients-list"]/li[1]/span'
     }
- 
+}
+
+export class ClientListPo extends BasePage {
+    clientSearch = this.ElementLocator(Locators.clientSearch);
+    clientResultList = this.ElementLocator(Locators.clientResultList);
+    allClientsDataBtn = this.ElementLocator(Locators.allClientsDataBtn);
+    barChartHeader = this.ElementLocator(Locators.barChartHeader);
+    clientListSpan = this.ElementLocator(Locators.clientListSpan);
+    searchByClientName: ElementFinder;
+    viewDataForAllClients: ElementFinder;
+
     /**
      * Returns the Create List page
      */
     navigateTo(){
-        return browser.get('/clientList');
+        return browser.get('client-listing');
     }
+
+    logout() {
+      element(by.css('[routerlink="/login"]')).click();
+    }
+
 
     /**
      * Returns the current URL in the browser
      */
-    getCurrentURL(){
+    getCurrentURL() {
         return browser.getCurrentUrl();
     }
 
@@ -36,7 +59,7 @@ export class ClientListPo {
      * Returns the search by client name element in the DOM
      */
     private getSearchByClientName(){
-        return element(by.id('["clientSearch"]'));
+        return this.clientSearch;
     }
 
     /**
@@ -44,41 +67,39 @@ export class ClientListPo {
      * @param input
      */
     inputClientName(input: string){
-        this.searchByClientName.sendKeys(input);
+        this.clientSearch.sendKeys(input);
     }
 
-    /**
-     * Returns the current value of the search by client name element in the DOM
-     */
-    getClientNameValue(){
-        return this.searchByClientName.getAttribute('value');
+    getClientResultListCount() {
+        return this.clientResultList.count();
     }
 
     /**
      * Returns the get all users button element in the DOM
      */
-    private getAllUsersButton(){
-        return element(by.css('body > app > app-client-list > div > div > div.col-md-3 > button'));
+    private getAllClientDataBtn(){
+        return this.allClientsDataBtn;
     }
 
     /**
      * Clicks the get all users button element in the DOM
      */
-    clickGetAllUsers(){
-        this.getAllUsersButton().click();
-    }
+    clickGetAllClientDataBtn()
+      {
+        this.getAllClientDataBtn().click();
+      }
 
     /**
      * Returns the search by client name element in the DOM
      */
     public getBarChartHeader(){
-        return element(by.xpath('/html/body/app/app-client-list/div/div/div[2]/h1'));
+        return this.barChartHeader;
     }
 
     /**
      * Returns the current value of the search by client name element in the DOM
      */
-    getBarChartNameValue(){
+    getBarChartNameValue() {
         header = this.getBarChartHeader().getAttribute('value');
         return header;
     }
@@ -87,7 +108,7 @@ export class ClientListPo {
      * Returns true if the current value of the bar chart header is equal to 'Total Associates', and false if it doesn't
      */
     checkBarChartHeader(){
-        var shouldBe = 'Total Associates'
+        let shouldBe = 'Total Associates'
         if(header.equals(shouldBe)){
             return true;
         }

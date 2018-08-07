@@ -5,13 +5,15 @@ import { SelectedStatusConstants } from '../../constants/selected-status.constan
 import { element, by, browser } from 'protractor';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ChartsModule } from 'ng2-charts';
-import { RootComponent } from '../root/root.component';
 import { HomeComponent } from '../home/home.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SkillsetService } from '../../services/skill-set-service/skill-set.service';
+//import { CurriculumService } from '../../services/skill-set-service/skill-set.service';
+import {CurriculumService} from "../../services/curriculum-service/curriculum.service";
 
 import { FormComponent } from '../form-component/form.component';
+// added imports; DK
+import { FormsModule } from '@angular/forms';
 
 import {
   ActivatedRoute, ActivatedRouteStub, Router, RouterStub
@@ -22,23 +24,24 @@ describe('SkillsetComponent', () => {
   let fixture: ComponentFixture<SkillsetComponent>;
   let activatedRoute : ActivatedRouteStub;
 
-  class SkillsetServiceSpy
+  class CurriculumServiceSpy
   {
 
   }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SkillsetComponent, RootComponent, HomeComponent, NavbarComponent,
+      declarations: [ SkillsetComponent, HomeComponent, NavbarComponent,
         FormComponent
       ],
       imports : [
         HttpClientTestingModule,
         ChartsModule,
-        RouterTestingModule
+        RouterTestingModule, 
+        FormsModule
       ],
       providers : [
-        SkillsetService,
+        CurriculumService,
         { provide : ActivatedRoute, useValue : activatedRoute },
         { provide : Router,         useClass : RouterStub }
       ]
@@ -65,14 +68,14 @@ describe('SkillsetComponent', () => {
   it('should have skillID that\'s in the acceptable values', () => {
     component.selectedStatus = SelectedStatusConstants.CONFIRMED;
     // get the values in SkillsetComponent, and search for selectedStatus. It better be in there!
-    var idFound = true;
+    let idFound = true;
     SkillsetComponent.getSkillInfo().forEach((value, key) => {
-      idFound = (value == component.getSkillID())
+      idFound = (value === component.getSkillID())
     })
     expect(idFound).toBeTruthy();
   })
 
-  it('should redirect to home iff out-of-bounds id was received', () => {
+  it('should redirect to home if out-of-bounds id was received', () => {
     activatedRoute.testParamMap = { id: -100 };
   })
 
@@ -102,11 +105,11 @@ describe('SkillsetComponent', () => {
     fixture.whenStable().then(() => {
       expect(component.skillsetData).not.toEqual(component.DUMMY_DATA);
     })
-    // making sure that the skillsetData is now equal to the results of the data returned from SkillsetService
+    // making sure that the skillsetData is now equal to the results of the data returned from CurriculumService
     .then(() => {
-      let service : SkillsetService = TestBed.get(SkillsetService);
+      let service : CurriculumService = TestBed.get(CurriculumService);
       service.getSkillsetsForStatusID(1).subscribe((res) => {
-        expect(component.skillsetData).toEqual(res.data.map((obj) => obj.count))
+        expect(component.skillsetData).toEqual(res.map((obj) => obj.count))
       })
       .unsubscribe()
     })

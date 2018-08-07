@@ -8,7 +8,9 @@ import java.security.spec.InvalidKeySpecException;
 import javax.xml.bind.DatatypeConverter;
 
 /**
- * Copyright (c) 2016, Taylor Hornby All rights reserved.
+ * Taylor Hornby
+ * 
+ * <p>Used to hash the password of a user.</p>
  */
 public class PasswordStorage {
 

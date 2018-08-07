@@ -1,7 +1,7 @@
 ![alt text](https://github.com/revaturelabs/trackforce/blob/dev/TrackForce/src/main/webapp/resources/logo.png)
 
 # TrackForce App
-## Project Discription and Objectives
+## Project Description and Objectives
 
 ### Description
 TrackForce is a system that allows Revature management to track the lifecycle of an associate as they move through different stages such as training, selected, confirmed, and deployed. The mapped and unmapped metrics in this application allow for management to differentiate the number of associates that are mapped to a particular client from those whom are still available to be paired with a client. Within this applicattion management can also view statistics on the skill sets of associates, the number of associates sent to a particular client, and how many associates in a training batch are not mapped to a client. 

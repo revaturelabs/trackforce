@@ -1,14 +1,22 @@
-<app-navbar></app-navbar>
-<div class="container min-height" ng-init="">
+<div class="container" ng-init="" *ngIf="!isAssociate">
   <div class="row">
-    <div class="alert alert-success" *ngIf="message">
-      <h5 class="text-success">{{message}}</h5>
+    <div class="alert alert-success" *ngIf="successMessage">
+      <h5 class="text-success">{{successMessage}}</h5>
+    </div>
+    <div class="alert alert-danger" *ngIf="errorMessage">
+      <h5 class="text-danger">{{errorMessage}}</h5>
     </div>
     <div class="col-sm-6">
       <h3>Associate Info</h3>
       <div class="table-responsive info">
         <table class="table table-hover table-bordered">
           <tbody>
+            <tr *ngIf="isApproved != 1">
+              <td>This Associate has not been approved yet</td>
+              <td>
+                <button *ngIf="true" class="btn btn-primary" (click)="approveAssociate()">Approve</button>
+              </td>
+            </tr>
             <tr>
               <td>Associate ID</td>
               <td>{{associate.id}}</td>
@@ -23,15 +31,17 @@
             </tr>
             <tr>
               <td>Marketing Status</td>
-              <td>{{associate.marketingStatus}}</td>
+              <td>{{associate.marketingStatus.name}}</td>
             </tr>
             <tr>
               <td>Batch Name</td>
-              <td><a [routerLink]="['/batch-details', associate.bid]">{{associate.batchName}}</a></td>
+              <td>
+                <a [routerLink]="['/batch-details', associate.batch.id]">{{associate.batch.batchName}}</a>
+              </td>
             </tr>
             <tr>
               <td>Client Name</td>
-              <td>{{associate.client}}</td>
+              <td>{{associate.client.name}}</td>
             </tr>
             <tr>
               <td>Start Date</td>
@@ -57,46 +67,46 @@
           <tr *ngFor="let interview of interviews; let i = index">
             <td>{{i+1}}</td>
             <td>{{interview.client}}</td>
-            <td>{{interview.date | date:'longDate'}}</td>
-            <td>{{interview.type}}</td>
-            <td>{{interview.feedback}}</td>
+            <td>{{interview.interviewDate | date:'longDate'}}</td>
+            <td>{{interview.interviewType.name}}</td>
+            <td>{{interview.clientFeedback}}</td>
           </tr>
         </tbody>
       </table>
-       <button type="button" *ngIf="!isVP" class="btn btn-primary" (click)="toggleForm()">Toggle Create New Interview Form</button>
+      <button type="button" *ngIf="!isVP" class="btn btn-primary" (click)="toggleForm()">Toggle Create New Interview Form</button>
       <div class="row" *ngIf="formOpen" class="toggledContainer">
         <div class="col-lg-9">
           <form class="form-horizontal">
             <div class="form-group">
               <label class="control-label col-sm-3">Client:</label>
               <div class="col-sm-9">
-                <select class="form-control" name="newClient" [(ngModel)]="newInterview.client">
+                <select class="form-control" name="newClient">
                   <option selected="selected">None</option>
-                  <option *ngFor="let client of clients" [value] ="client.id">{{client.tfClientName}}</option>
+                  <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
                 </select>
-             </div>
+              </div>
             </div>
             <div class="form-group">
               <label class="control-label col-sm-3">Date:</label>
-               <div class="col-sm-9">
-                 <input type="date" class="form-control" name="date" [(ngModel)]="newInterview.date" />
-               </div>
+              <div class="col-sm-9">
+                <input type="date" class="form-control" name="date" [(ngModel)]="date" />
+              </div>
             </div>
             <div class="form-group">
               <label class="control-label col-sm-3">Type:</label>
-               <div class="col-sm-9">
-                 <select class="form-control" name="type" [(ngModel)]="newInterview.type">
-                     <option value="1">Phone</option>
-                     <option value="4">Skype</option>
-                     <option value="2">Online</option>
-                     <option value="3">On-site</option>
-                 </select>
-               </div>
+              <div class="col-sm-9">
+                <select class="form-control" name="type" [(ngModel)]="type">
+                  <option value="1">Phone</option>
+                  <option value="4">Skype</option>
+                  <option value="2">Online</option>
+                  <option value="3">On-site</option>
+                </select>
+              </div>
             </div>
             <div class="form-group">
               <label class="control-label col-sm-3">Feedback:</label>
               <div class="col-sm-9">
-                <textarea type="text" class="form-control" name="feedback" rows="3" [(ngModel)]="newInterview.feedback"></textarea>
+                <textarea type="text" class="form-control" name="feedback" rows="3" [(ngModel)]="feedback"></textarea>
               </div>
             </div>
             <button type="button" (click)="addInterview()" class="btn btn-warning">Add Interview</button>
@@ -125,8 +135,8 @@
           <div *ngIf="interviewScheduled" class="form-group">
             <label for="client">Assign Client:</label>
             <select name="automated-selected-client" [(ngModel)]="selectedClient">
-                <option selected="selected">None</option>
-                <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
+              <option selected="selected">None</option>
+              <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
             </select>
           </div>
           <div *ngIf="interviewScheduled" class="form-group">
@@ -173,14 +183,37 @@
         </select>
         <label for="client">Assign Client:</label>
         <select class="form-control" name="selectedClient" [(ngModel)]="selectedClient">
-            <option selected="selected">None</option>
-            <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
+          <option selected="selected">None</option>
+          <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
         </select>
         <label class="control-label">Apply Start Date to Associate</label>
-        <input type="date" class="form-control" name="date" [(ngModel)] ="newStartDate" />
+        <input type="date" class="form-control" name="date" [(ngModel)]="newStartDate" />
         <button (click)="updateAssociate()" class="btn btn-warning" style="margin-top:10px">Update Status</button>
       </div>
     </div>
   </div>
 </div>
-<app-footer></app-footer>
+<!-- <div *ngIf="isAssociate">
+<div class="col-sm-6">
+      <h3>Interviews</h3>
+      <table class="table table-responsive table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Interview</th>
+            <th>Client</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Feedback</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr >
+            <td>{{currentinterview.client}}</td>
+            <td>{{currentinterview.date | date:'longDate'}}</td>
+            <td>{{currentinterview.type}}</td>
+            <td>{{currentinterview.feedback}}</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+</div> -->

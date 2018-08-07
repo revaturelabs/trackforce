@@ -20,12 +20,9 @@ describe('ClientService', () => {
   it('should grab values for all clients', inject([ClientService], (service: ClientService) => {
     expect(service.getAllClients()).toBeTruthy();
   }));
-  it('should grab values for all client\'s name', inject([ClientService], (service: ClientService) => {
-    expect(service.getAllClientsNames()).toBeTruthy();
-  }));
-  it('should grab value by client ID', inject([ClientService], (service: ClientService) => {
-    expect(service.getOneClient(1)).toBeTruthy();
-    expect(service.getOneClient(2)).toBeTruthy();
-    expect(service.getOneClient(3)).toBeTruthy();
-  }));
+  // it('should grab value by client ID', inject([ClientService], (service: ClientService) => {
+  //   expect(service.getOneClient(1)).toBeTruthy();
+  //   expect(service.getOneClient(2)).toBeTruthy();
+  //   expect(service.getOneClient(3)).toBeTruthy();
+  // }));
 });

@@ -13,9 +13,27 @@ node_modules/
 # Auto generated TestNG files
 test-output/
 
-Servers/**
+#Eclipse
+**/.metadata
+**/.project
+**/.settings/
+**/.classpath
+**/.recommenders/**
+TrackForce/Servers/
+**/.springBeans
 
 .recommenders
+/.metadata/
+
+# maven
+target
+
+#IDEA
+**/.idea/
+**/*.iml
+**/test-output/
+#AngularJS
+**/.tern-project
 
 # Test files
 .tern-project
@@ -45,6 +63,7 @@ test-output/
 *.class
 
 # Log file
+TrackForcesLogs.html
 *.log
 
 # BlueJ files
@@ -73,6 +92,7 @@ hs_err_pid*
 .Spotlight-V100
 .Trashes
 ehthumbs.dbThumbs.db
+*.bak
 
 #avoiding pushing back in mistaken file
 jdbcUtil.java
@@ -112,3 +132,10 @@ jdbcUtil.java
 
 # rollup-test output
 **/modules/rollup-test/dist/
+package-lock.json
+TrackForceLogs/
+**/'Pivotal tc Server Developer Edition v4.0-config'
+
+**/Servers/**
+Servers/*
+Servers

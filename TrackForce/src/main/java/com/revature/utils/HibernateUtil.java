@@ -1,108 +1,175 @@
 package com.revature.utils;
 
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Enumeration;
-import java.util.Properties;
+import static com.revature.utils.LogUtil.logger;
 
-import javax.sql.DataSource;
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.List;
 
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfTrainer;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl;
-import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
-import org.hibernate.service.ServiceRegistry;
+
+import com.revature.entity.TfTrainer;
 
 /**
- * Utility class for configurations and getting a Hibernate SessionFactory
- * object.
+ * @author Curtis H., Adam L.
+ * <p>The abstracted methods for making Hibernate calls to the database</p>
+ * @version v6.18.06.13
+ *
  */
 public class HibernateUtil {
-    private static SessionFactory sessionFactory;
 
-    /**
-     * Returns a new session from the sessionFactory
-     * @return A newly created session
-     */
-    public static Session getSession() {
-    	return getSessionFactory().openSession();
-    }
-    
-    /**
-     * Returns the SessionFactory stored in the HibernateUtil class;
-     * Initializes it if not already initialized
-     *
-     * @return the SessionFactory stored in HibernateUtil.
-     */
-    public static SessionFactory getSessionFactory() {
-        if (sessionFactory == null) {
-            DataSource dataSource = new DataSourceBuilder().fromPropertiesFile("tomcat-jdbc.properties");
-            Properties extraProps = new Properties();   // empty = default properties
-            initSessionFactory(dataSource, extraProps);
-        }
-        return sessionFactory;
-    }
+	private HibernateUtil() {}
+	private static SessionFactory sessionFactory = buildSessionFactory();
 
-    /**
-     * Initializes/configures the SessionFactory.
-     * Should be called no more than once, then session factory is consequently retrieved
-     * with getSessionFactory()
-     *
-     * @param dataSource - path to properties file for DataSource
-     * @param dbProps    - properties other than those from datasource properties file,
-     *                   -- must include hibernate.connection.dialect and hibernate.driver_class
-     * @return the SessionFactory stored in HibernateUtil.
-     */
-    public static SessionFactory initSessionFactory(DataSource dataSource, Properties dbProps) {
+	private static void addShutdown() {
+		Runtime.getRuntime().addShutdownHook(new Thread()
+			{
+				public void run() {
+					shutdown();
+				}
+			}
+		);
+	}
 
-        Configuration config = new Configuration()
-                .configure()                // hibernate.cfg.xml
-                .addProperties(dbProps);    // appends/overwrites hibernate.cfg.xml
+	private static SessionFactory buildSessionFactory() {
+		
+		try {
+			Configuration cfg = new Configuration();
+			cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
+			cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
+			cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));
+			
+			return cfg.configure().buildSessionFactory();
+			
+		} finally {
+			addShutdown();
+		}
+	}
+	public static SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
 
-        // Inject datasource
-        DatasourceConnectionProviderImpl dscpi = new DatasourceConnectionProviderImpl();
-        dscpi.setDataSource(dataSource);
-        dscpi.configure(config.getProperties());
+	public static void shutdown() {
+		System.out.println("Shutting down SessionFactory");
+		getSessionFactory().close();
+		System.out.println("SessionFactory closed");
+	}
 
-        // configure the service registry
-        StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder()
-                .addService(ConnectionProvider.class, dscpi)
-                .configure()                                // hibernate.cfg.xml
-                .applySettings(config.getProperties());     // appends/overwrites hibernate.cfg.xml
-        ServiceRegistry registry = registryBuilder.build();
+	public static void closeSession(Session session) {
+		if (session != null) {
+			session.close();
+			System.out.println("Session is" + (session.isOpen() ? " open" : " closed"));
+		}
+	}
 
-        // build session factory
-        sessionFactory = config.buildSessionFactory(registry);
-        LogUtil.logger.info("SessionFactory successfully built");
+	public static void rollbackTransaction(Transaction transaction) {
+		if (transaction != null) {
+			transaction.rollback();
+			System.out.println("Transaction rolled back");
+		}
+	}
 
-        return sessionFactory;
-    }
+	// The code above this line to the top of the package is basically an exact copy of stuff William did in class
+	// Now we abstract further.
 
-    /**
-     * Closes the SessionFactory in HibernateUtil.
-     */
-    public static void shutdown() {
-        if (sessionFactory != null) {
-        	LogUtil.logger.info("Shutting down SessionFactory");
-            sessionFactory.close();
-            LogUtil.logger.info("SessionFactory has been shutdown.");
-            // This manually deregisters JDBC driver, which prevents Tomcat 7 from
-            // complaining about memory leaks to this class
-            Enumeration<Driver> drivers = DriverManager.getDrivers();
-            while (drivers.hasMoreElements()) {
-                Driver driver = drivers.nextElement();
-                try {
-                	LogUtil.logger.info(String.format("Deregistering jdbc driver: %s", driver));
-                    DriverManager.deregisterDriver(driver);
-                	LogUtil.logger.info(String.format("%s has been deregistered.", driver));
-                } catch (SQLException e) {
-                    LogUtil.logger.fatal(String.format("Error deregistering driver %s", driver), e);
-                }
-            }
-        }
-    }
+
+	public static boolean runHibernateTransaction(Sessional<Boolean> sessional, Object ... args) {
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			boolean b = sessional.operate(session, args);
+
+			if (b) {
+				logger.debug("Committing...");
+			} else throw new HibernateException("Transaction Operation Failed!");
+
+			transaction.commit();
+			logger.info("Transaction committed!");
+
+			return true;
+		} catch (HibernateException | ThrownInHibernate e) {
+			HibernateUtil.rollbackTransaction(transaction);
+			logger.error(e.getMessage(), e);
+		}
+		finally {
+			HibernateUtil.closeSession(session);
+		}
+		return false;
+	}
+
+
+	public static <T> boolean multiTransaction(Sessional<Boolean> sessional, List<T> items) {
+		return HibernateUtil.runHibernateTransaction((Session session, Object ... args) -> {
+			for (T a : items) {
+				if (!sessional.operate(session, a)) {
+					return false;
+				}
+			}
+			return true;
+		});
+	}
+
+	public static <T> T runHibernate(Sessional<T> ss, Object ... args) {
+		Session session = null;
+		Throwable t = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			return ss.operate(session, args);
+		} catch (ThrownInHibernate | HibernateException e) {
+			logger.error(e.getMessage(), e);
+			t = e;
+		}
+		finally {
+			HibernateUtil.closeSession(session);
+		}
+		throw new HibernateException(t);
+	}
+
+
+
+	public static <T> List<T> runHibernate(ListOp<T> ss,  Object ... args) {
+		Session session = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			return ss.operate(session, args);
+		} catch (ThrownInHibernate | HibernateException e) {
+			logger.error(e.getMessage(), e);
+		}
+		finally {
+			HibernateUtil.closeSession(session);
+		}
+		return null;
+	}
+
+	private static Sessional<Boolean> dbSave = (Session session, Object ... args) -> {
+		session.save(args[0]);
+		return true;
+	};
+
+	public static boolean saveToDB(Object o) {
+		return runHibernateTransaction(dbSave, o);
+	}
+
+	public static <T> boolean saveToDB(List<T> o) {
+		return multiTransaction(dbSave, o);
+	}
+
+
+	private static Sessional<Boolean> detachedUpdate = (Session session, Object ... args) -> {
+		session.update(args[0]);
+		return true;
+	};
+
+	public static <T> boolean updateDetached(T det) {return runHibernateTransaction(detachedUpdate, det);}
+	public static <T> boolean updateDetached(List<T> det) {return multiTransaction(detachedUpdate, det);}
 
 }

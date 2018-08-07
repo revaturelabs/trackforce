@@ -7,6 +7,7 @@ import { ClientService } from '../../services/client-service/client.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { User } from '../../models/user.model';
 import { ActivatedRoute } from '@angular/router';
+import { Curriculum } from '../../models/curriculum.model';
 
 /**
  * Component for the Associate List page
@@ -21,29 +22,31 @@ import { ActivatedRoute } from '@angular/router';
 
 export class AssociateListComponent implements OnInit {
   //our collection of associates and clients
-  associates: Associate[];
-  clients: Client[];
+  public associates: Associate[];
+  public clients: Client[];
   curriculums: Set<string>; //stored unique curriculums
 
   //used for filtering
-  searchByStatus: string = "";
-  searchByClient: string = "";
-  searchByText: string = "";
-  searchByCurriculum: string = "";
+  searchByStatus = "";
+  searchByClient = "";
+  searchByText = "";
+  searchByCurriculum = "";
+  searchByVerification = "";
 
   //status/client to be updated
-  updateShow: boolean = false;
-  updateStatus: string = "";
-  updateClient: number;
-  updated: boolean = false;
+  updateShow = false;
+  updateStatus = "";
+  updateClient= "";
+  updateVerification: string;
+  updated = false;
 
   //used for ordering of rows
-  desc: boolean = false;
-  sortedColumn: string = "";
+  desc = false;
+  sortedColumn = "";
 
   //user access data - controls what they can do in the app
   user: User;
-  canUpdate: boolean = false;
+  canUpdate = false;
 
   /**
    * Inject our services
@@ -61,22 +64,25 @@ export class AssociateListComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem("currentUser"));
-    if(this.user.tfRoleId==1 || this.user.tfRoleId==2) {
+    if (this.user.role === 1 || this.user.role === 3 ||this.user.role===4) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
     this.getAllAssociates(); //grab associates and clients from back end
     this.getClientNames();
+
     //if navigating to this page from clicking on a chart of a different page, set default filters
-    let paramMap = this.activated.snapshot.paramMap;
-    let CliOrCur = paramMap.get("CliOrCur");
-    let name = paramMap.get("name");
-    let mapping = paramMap.get("mapping");
-    let status = paramMap.get("status");
+    const paramMap = this.activated.snapshot.paramMap;
+    const CliOrCur = paramMap.get("CliOrCur");
+    const name = paramMap.get("name");
+    const mapping = paramMap.get("mapping");
+    const status = paramMap.get("status");
     if (CliOrCur) {//if values passed in, search by values
-      if (CliOrCur == "client")
+      if (CliOrCur === "client") {
         this.searchByClient = name;
-      else if (CliOrCur == "curriculum")
+      }
+      else if (CliOrCur === "curriculum") {
         this.searchByCurriculum = name;
+      }
       this.searchByStatus = mapping.toUpperCase() + ": " + status.toUpperCase();
     }
   }
@@ -85,23 +91,20 @@ export class AssociateListComponent implements OnInit {
    * Set our array of all associates
    */
   getAllAssociates() {
-    let self = this;
 
-    this.associateService.getAllAssociates().subscribe(data => {
-      this.associates = data;
+      this.associates = JSON.parse(localStorage.getItem('currentAssociates'));
       console.log(this.associates);
-
-      for (let associate of this.associates) {//get our curriculums from the associates
-        this.curriculums.add(associate.curriculumName);
-
-        if (associate.batchName === 'null') {
-          associate.batchName = 'None'
+      for (const associate of this.associates) {//get our curriculums from the associates
+        if(associate.batch!==null && associate.batch.curriculumName!==null){
+          this.curriculums.add(associate.batch.curriculumName.name);
+        }
+        if (associate.batch && associate.batch.batchName === 'null') {
+          associate.batch.batchName = 'None'
         }
       }
       this.curriculums.delete("");
       this.curriculums.delete("null");
-      self.sort("id"); //sort associates by ID
-    });
+
   }
 
   /**
@@ -113,47 +116,35 @@ export class AssociateListComponent implements OnInit {
     });
   }
 
-  /**
-   * Sort the array of clients based on a given input.
-   * @param property to be sorted by
-   */
-  sort(property) {
-    this.desc = !this.desc;
-    let direction;
-    if (property !== this.sortedColumn || this.updated) //if clicking on new column sort ascending always, otherwise descending
-      direction = 1;
-    else direction = this.desc ? 1 : -1;
 
-    this.sortedColumn = property; //current column being sorted
-
-    if (this.updated)
-      this.updated = false;
-
-    //sort the elements
-    this.associates.sort(function (a, b) {
-      if (a[property] < b[property]) return -1 * direction;
-      else if (a[property] > b[property]) return 1 * direction;
-      else return 0;
-    });
-  }
 
   /**
-   * Bulk edit feature to update associate's statuses and clients.
+   * Bulk edit feature to update associate's verification, statuses and clients.
    */
   updateAssociates() {
-    var ids: number[] = [];
-    var i = 1;
-    let self = this;
+    const ids: number[] = [];
+    const self = this;
 
-    for (i; i <= this.associates.length; i++) { //grab the checked ids
-      var check = <HTMLInputElement>document.getElementById("" + i);
-      if (check != null && check.checked)
-        ids.push(i);
+    let associateList: Associate[] = [];
+    for (const a of this.associates) { //grab the checked ids
+      const check = <HTMLInputElement>document.getElementById("" + a.id);
+      if (check != null && check.checked) {
+        ids.push(a.id);
+        a.user.isApproved = 1;
+        console.log(a);
+      }
+      associateList.push(a);
     }
-    this.associateService.updateAssociates(ids, Number(this.updateStatus), this.updateClient).subscribe(
+    this.associates = associateList;
+    console.log(this.associates);
+    localStorage.setItem("currentAssociates", JSON.stringify(this.associates));
+    if(this.updateVerification==="") {this.updateVerification="0";}
+    if(this.updateStatus==="") {this.updateStatus="0";}
+    if(this.updateClient==="") {this.updateClient="0";}
+    this.associateService.updateAssociates(ids, Number(this.updateVerification), Number(this.updateStatus), Number(this.updateClient)).subscribe(
       data => {
         self.getAllAssociates(); //refresh the associates to reflect the updates made on DB
         self.updated = true;
-      })
+      });
   }
 }

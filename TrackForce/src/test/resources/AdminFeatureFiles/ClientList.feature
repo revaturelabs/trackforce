@@ -20,8 +20,8 @@
 Feature: Client List Tab
   I want to use this template for my feature file
 
-  @tag1
-  Scenario Outline: I search by client name and view their data
+  @ClientListStart
+  Scenario: I search by client name and view their data
     Given I click on Client List Tab
     And Client List loads
     And Client List panel loads
@@ -30,16 +30,16 @@ Feature: Client List Tab
     And I see only that client in the list
     And I click the top client in the Clients list
     Then The client's data should show in the graph
-    
-  Scenario Outline: I use the View Data for All Clients button
+
+  Scenario: I use the View Data for All Clients button
     Given I click on Client List Tab
     And Client List loads
     And Client List panel loads
     When I make sure the search bar is blank
     When I click on the View Data for All Clients button
     Then All client's data should show in the graph
-    
-  Scenario Outline: I click on a client name and view their data
+
+  Scenario: I click on a client name and view their data
     Given I click on Client List Tab
     And Client List loads
     And Client List panel loads
@@ -47,15 +47,8 @@ Feature: Client List Tab
     When I click the top client in the Clients list
     Then The client's data should show in the graph
 
-
-
-
-
-
-
-@tag2
-	Scenario Outline: I search by client name but change it to another client and view their data instead
-	Given I click on Client List Tab
+  Scenario: I search by client name but change it to another client and view their data instead
+    Given I click on Client List Tab
     And Client List loads
     And Client List panel loads
     When I make sure the search bar is blank
@@ -64,8 +57,8 @@ Feature: Client List Tab
     And I see only that client in the list
     And I click the top client in the Clients list
     Then The client's data should show in the graph
-    
-    Scenario Outline: I search by client name but use the View Data for All Clients button instead
+
+  Scenario: I search by client name but use the View Data for All Clients button instead
     Given I click on Client List Tab
     And Client List loads
     And Client List panel loads
@@ -73,9 +66,10 @@ Feature: Client List Tab
     And I type the name of a client into the search bar
     But I click on the View Data for All Clients button
     Then All client's data should show in the graph
-    
-    Scenario Outline: I search by client name but want to clear the search bar and click on a client name instead
-		Given I click on Client List Tab
+
+  @ClientListEnd
+  Scenario: I search by client name but want to clear the search bar and click on a client name instead
+    Given I click on Client List Tab
     And Client List loads
     And Client List panel loads
     When I make sure the search bar is blank

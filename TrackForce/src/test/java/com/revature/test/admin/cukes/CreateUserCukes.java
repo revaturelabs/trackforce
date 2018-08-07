@@ -1,121 +1,113 @@
 package com.revature.test.admin.cukes;
 
-import org.openqa.selenium.WebDriver;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
+
 import org.openqa.selenium.WebElement;
+
+import com.revature.test.admin.pom.CreateUserTab;
+import com.revature.test.admin.pom.HomeTab;
+import com.revature.test.admin.pom.Login;
+import com.revature.test.utils.ServiceHooks;
+import com.revature.test.utils.TestConfig;
+
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-import com.revature.test.admin.pom.CreateUserTab;
-import com.revature.test.admin.testclasses.AdminSuite;
-import com.revature.test.utils.TestConfig;
-
-public class CreateUserCukes extends AdminSuite {
+public class CreateUserCukes{
 	static WebElement e = null;
+
+		
 	
-	private static String user = "username";
-	private static String pass = "password";
-	
-	@Given("^We click on Create User Tab$")
-	public static boolean clickCreateUserTab(WebDriver d) {
+	@Given("^I click on Create User Tab$")
+	public static void clickCreateUserTab() {
 		try {
-			//Thread.sleep(5000);
-			CreateUserTab.getCreateUserTab(d).click();
-			return true;
+			Thread.sleep(100);
+			CreateUserTab.getCreateUserTab(ServiceHooks.driver).click();
+			
 		} catch (Throwable e) {
-			System.out.println("Failed to click Create User Tab");
-			return false;
+			fail("Failed to click Create User Tab");
+			
 		}
+	}
+	
+	@Given("^I login$")
+	public static void login() throws InterruptedException {
+		Login.login("TestAdmin","TestAdmin",ServiceHooks.driver);
+		Login.getSignin(ServiceHooks.driver).click();
+		Thread.sleep(5000);
 	}
 
 	@Given("^Create User Tab loads$")
-	public static boolean onCreateUserTab(WebDriver d) {
+	public static void loadedCreateUserTab() {
 		try {
-			if (CreateUserTab.getCurrentURL(d).equals(TestConfig.getBaseURL() + "/create-user")){
-				return true;
-			}
-			System.out.println("Current URL does not end with /create-user");
-			return false;
+			Thread.sleep(500);
+			assertEquals(CreateUserTab.getCurrentURL(ServiceHooks.driver),TestConfig.getBaseURL()+"create-user");
+			
 		} catch (Throwable e) {
 			System.out.println("Failed to get current URL");
-			return false;
+			fail("Failed to get current URL");
+			
 		}
 	}
 	
-	@When("^I type in a username$")
-	public static boolean inputUsername(WebDriver d) {
-		try {
-			CreateUserTab.getUsername(d).sendKeys(user);
-			return true;
-		} catch (Throwable e) {
-			System.out.println("Failed to input username");
-			return false;
-		}
+	@When("^I type in a valid username \"([^\"]*)\"$")
+	public void i_type_in_a_valid_username(String username) {
+		CreateUserTab.getUsername(ServiceHooks.driver).sendKeys(username);
+	}
+
+	@When("^I type in a valid password\"([^\"]*)\"$")
+	public void i_type_in_a_valid_password(String password){
+		CreateUserTab.getPassword(ServiceHooks.driver).sendKeys(password);
+	}
+
+	@When("^I confirm the password\"([^\"]*)\"$")
+	public void i_confirm_the_password(String password) throws Throwable {
+		CreateUserTab.getPasswordConfirm(ServiceHooks.driver).sendKeys(password);
+	}
+	@When("^I check the \"([^\"]*)\" role$")
+	public void i_check_the_role(String role) throws Throwable {
+	    CreateUserTab.selectRole(ServiceHooks.driver, role);
 	}
 	
-	@When("^I type in a password$")
-	public static boolean inputPassword(WebDriver d) {
+	@When("^I press submit$")
+	public static void submitForm() {
 		try {
-			CreateUserTab.getPassword(d).sendKeys(pass);
-			return true;
+			Thread.sleep(250);
+			CreateUserTab.getSubmit(ServiceHooks.driver).click();
+			
 		} catch (Throwable e) {
-			System.out.println("Failed to click Create User Tab");
-			return false;
+			System.out.println("Failed to click submit");
+			fail("Failed to click submit");
+			
 		}
 	}
 
-	@When("^I confirm the password$")
-	public static boolean inputPasswordConfirm(WebDriver d) {
+	@Then("^A Pop Up Error should occur$")
+	public static void cancelAlert() throws InterruptedException {
+		Thread.sleep(1500);
 		try {
-			CreateUserTab.getPasswordConfirm(d).sendKeys(user);
-			return true;
+			CreateUserTab.getPopup(ServiceHooks.driver);
 		} catch (Throwable e) {
-			System.out.println("Failed to input username");
-			return false;
+			fail("No Pop up created");
 		}
 	}
 	
-	@When("^I check the Administrator role$")
-	public static boolean clickAdminRadio(WebDriver d) {
+	@Then("^Pop Up Error should not occur$")
+	public static void No_popup() {
 		try {
-			CreateUserTab.getAdminRadio(d).click();
-			return true;
+			if(CreateUserTab.getPopup(ServiceHooks.driver).isDisplayed()) {
+				fail("pop up was created");
+			}
 		} catch (Throwable e) {
-			System.out.println("Failed to click Admin radio button");
-			return false;
+			fail("pop up was created");
 		}
 	}
 	
-	@When("^I check the Manager role$")
-	public static boolean clickManagerRadio(WebDriver d) {
-		try {
-			CreateUserTab.getManagerRadio(d).click();
-			return true;
-		} catch (Throwable e) {
-			System.out.println("Failed to click Manager radio button");
-			return false;
-		}
-	}
-	
-	@When("^I check the VP role$")
-	public static boolean clickVPRadio(WebDriver d) {
-		try {
-			CreateUserTab.getVPRadio(d).click();
-			return true;
-		} catch (Throwable e) {
-			System.out.println("Failed to click VP radio button");
-			return false;
-		}
-	}
-	
-	@Then("^I press submit$")
-	public static boolean submitForm(WebDriver d) {
-		try {
-			CreateUserTab.getSubmit(d).click();
-			return true;
-		} catch (Throwable e) {
-			System.out.println("Failed to click submit");
-			return false;
-		}
+	@Then("^A new User should be created$")
+	public void a_new_User_should_be_created() throws Throwable {
+		Thread.sleep(1500);
+		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver),"http://34.227.178.103:8090/NGTrackForce/app-home");
 	}
 }

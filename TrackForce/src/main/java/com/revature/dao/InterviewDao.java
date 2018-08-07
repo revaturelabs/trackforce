@@ -1,17 +1,15 @@
 package com.revature.dao;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
-import com.revature.model.InterviewInfo;
-import com.revature.request.model.InterviewFromClient;
+import com.revature.entity.TfInterview;
 
 public interface InterviewDao {
 	
-	public Map<Integer, InterviewInfo> getInterviewsByAssociate(int associateId) throws IOException;
-    public Map<Integer, InterviewInfo> getAllInterviews();
-    public Set<InterviewInfo> getInterviewFromCache();
-    public void addInterviewForAssociate(int associateid, InterviewFromClient ifc);
-    public void cacheAllInterviews();
+	public List<TfInterview> getInterviewsByAssociate(int associateId);
+	public List<TfInterview> getAllInterviews();
+	public boolean createInterview(TfInterview interview);
+	public boolean updateInterview(	TfInterview interview);
+	public TfInterview getInterviewById(int interviewId);
+        
 }

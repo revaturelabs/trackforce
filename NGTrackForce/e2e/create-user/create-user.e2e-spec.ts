@@ -14,15 +14,15 @@ describe('create-user page input and button fields', () => {
         createUser = new CreateUserPo();
         testConfig = new TestConfig();
         baseURL = testConfig.getBaseURL();
-        testURL = '/createUser';
+        testURL = 'create-user';
         username = 'user';
         password = 'password'
     });
 
-    it('should navigate to the create-user page', () => {
-        createUser.navigateTo();
-        expect(createUser.getCurrentURL()).toEqual(baseURL + testURL);
-    });
+    // it('should navigate to the create-user page', () => {
+    //     createUser.navigateTo();
+    //     expect(createUser.getCurrentURL()).toEqual(baseURL + testURL);
+    // });
 
     it('should accept username input', () => {
         createUser.inputUsername(username);
@@ -41,21 +41,26 @@ describe('create-user page input and button fields', () => {
 
     it('should select admin radio button', () => {
         createUser.clickAdminRadio();
-        expect(createUser.getCheckedRadioValue()).toEqual('admin');
+        expect(createUser.getCheckedRadioValue()).toEqual('1');
+    });
+
+    it('should select trainer radio button', () => {
+        createUser.clickTrainerRadio();
+        expect(createUser.getCheckedRadioValue()).toEqual('2');
     });
 
     it('should select associate radio button', () => {
         createUser.clickAssociateRadio();
-        expect(createUser.getCheckedRadioValue()).toEqual('assoc');
+        expect(createUser.getCheckedRadioValue()).toEqual('5');
     });
 
-    it('should select director radio button', () => {
-        createUser.clickDirectorRadio();
-        expect(createUser.getCheckedRadioValue()).toEqual('direct');
+    it('should select staging manager radio button', () => {
+        createUser.clickManagerRadio();
+        expect(createUser.getCheckedRadioValue()).toEqual('4');
     });
 
-    it('should select vp radio button', () => {
-        createUser.clickVPRadio();
-        expect(createUser.getCheckedRadioValue()).toEqual('vp');
-    })
+    it('should select delivery radio button', () => {
+        createUser.clickDeliveryRadio();
+        expect(createUser.getCheckedRadioValue()).toEqual('3');
+    });
 });

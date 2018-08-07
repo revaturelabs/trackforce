@@ -1,3 +1,12 @@
+/**
+ * - This is being used in the client-list.component, home.component, skillset.component,
+ * and selected-status.component
+ * - This is used in the creation of ngCharts and canvas elements
+ * Note made 6/6/2018
+ * Reviewed by Max
+ *
+ * - This maps to the MarketingStatusInfo model in Java.
+ */
 export class SelectedStatusConstants {
     public static readonly TRAINING = "Training";
     public static readonly OPEN = "Open";

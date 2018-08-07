@@ -1,148 +1,187 @@
 package com.revature.test.services;
 
-import com.revature.dao.BatchDao;
-import com.revature.model.AssociateInfo;
-import com.revature.model.BatchInfo;
-import com.revature.services.BatchesService;
+import static org.mockito.Matchers.anyInt;
 
-import org.mockito.Matchers;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.*;
+import com.revature.dao.BatchDao;
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfBatch;
+import com.revature.services.BatchService;
 
-public class BatchesServiceTest{
 
-    @Mock
-    private BatchDao mockBatchDao;
+/**
+ * Tests meant to ensure proper functionality of the BatchService methods
+ * 
+ * Reviewed by Daniel Lani
+ * 
+ * @since 6.06.07.18
+ */
+public class BatchesServiceTest {
+	@Mock
+	private BatchDao mockBatchDao;
+	@InjectMocks
+	private BatchService service;
+	private TfBatch batch1, batch2, batch3;
+	private ArrayList<TfBatch> batches;
 
-    private BatchesService batchService;
-    private AssociateInfo assoc1, assoc2, assoc3;
-    private BatchInfo batch1, batch2, batch3;
-    private Set<BatchInfo> batchSet;
-    private List<BatchInfo> batchList;
-    private Set<AssociateInfo> associateSet;
+	/**
+	 * initializes the batch service and dao method mocks
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@BeforeClass
+	public void beforeTest(){
+		service = new BatchService(mockBatchDao);
+		MockitoAnnotations.initMocks(this);
 
-    @BeforeTest
-    public void beforeAll() throws IOException {
-        MockitoAnnotations.initMocks(this);
+		// creates three batch objects
+		batch1 = new TfBatch();
+		batch1.setId(1);
+		batch1.setBatchName("Name1");
+		batch2 = new TfBatch();
+		batch2.setId(2);
+		batch2.setBatchName("Name2");
+		batch3 = new TfBatch();
+		batch3.setId(3);
+		batch3.setBatchName("Name3");
 
-//        Map<Integer, BatchInfo> mockBatchMap = new HashMap();
-        assoc1 = createAssocInfo(1, 1, "b1", 1, "c1", 1, "s1", 1, "c1");
-        assoc2 = createAssocInfo(2, 2, "b2", 2, "c2", 2, "s2", 2, "c2");
-        assoc3 = createAssocInfo(3, 3, "b3", 3, "c3", 3, "s3", 3, "c3");
+		Mockito.when(mockBatchDao.getBatchById(anyInt())).thenReturn(batch1);
+		Mockito.when(mockBatchDao.getBatchById(-1)).thenReturn(null);
+		Mockito.when(mockBatchDao.getBatch("Name1")).thenReturn(batch1);
+		Mockito.when(mockBatchDao.getBatch("NotAName")).thenReturn(null);
+		
+	}
 
-        batch1 = createBatchInfo(1, "b1", "c1", 0, 100);
-        batch1.setAssociates(new HashSet<>(Arrays.asList(assoc1)));
+	
+	/**
+	 * Tests the get BatchByName method under
+	 * normal conditions
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 1)
+	public void testGetBatchByName(){
+		TfBatch expected = service.getBatch("Name1");
+		Assert.assertEquals(expected, batch1);
+	}
+	
+	/**
+	 * Tests the get BatchByName method when
+	 * the name provided is not the name of a batch
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 2)
+	public void testGetBatchByNonExistantName() {
+		TfBatch expected = service.getBatch("NotAName");
+		Assert.assertNull(expected);
+	}
+	
+	/**
+	 * Tests the get BatchByName method when
+	 * the name provided is not the name of a batch
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 3)
+	public void testGetBatchesByNameNullBatchName() {
+		TfBatch expected = service.getBatch(null);
+		Assert.assertNull(expected);
+	}
+	
+	/**
+	 * Tests the get BatchById method under 
+	 * normal conditions
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 4)
+	public void testGetBatchById(){
+		TfBatch expected = service.getBatchById(1);
+		Assert.assertEquals(expected, batch1);
+	}
+	
+	/**
+	 * Tests the get BatchById method when 
+	 * the id provided does not match any known batch
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 5)
+	public void testGetBatchByNonExistantId(){
+		TfBatch expected = service.getBatchById(-1);
+		Assert.assertNull(expected);
+	}
+	
+	/**
+	 * test the getAllBatches method when
+	 * batch list is null
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 6)
+	public void testGetAllBatchesNullBatchList() {
+		Mockito.when(mockBatchDao.getAllBatches()).thenReturn(batches);
+		List<TfBatch> expected = service.getAllBatches();
+		Assert.assertNull(expected);
+	}
+	
+	/**
+	 * test the getAllBatches method when
+	 * batch list is empty
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 7)
+	public void testGetAllBatchesEmptyBatchList() {
+		batches = new ArrayList<>();
+		Mockito.when(mockBatchDao.getAllBatches()).thenReturn(batches);
+		List<TfBatch> expected = service.getAllBatches();
+		Assert.assertEquals(expected,new ArrayList<>());
+	}
 
-        batch2 = createBatchInfo(2, "b2", "c2", 100, 200);
-        batch2.setAssociates(new HashSet<>(Arrays.asList(assoc2)));
-
-        batch3 = createBatchInfo(3, "b3", "c3", 200, 300);
-        batch3.setAssociates(new HashSet<>(Arrays.asList(assoc3)));
-
-//        mockBatchMap.put(batch1.getId(), batch1);
-//        mockBatchMap.put(batch2.getId(), batch2);
-//        mockBatchMap.put(batch3.getId(), batch3);
-        
-        batchSet = new TreeSet<>();
-        batchSet.add(batch1);
-        
-        batchList = new ArrayList<>();
-        batchList.add(batch1);
-        batchList.add(batch2);
-        batchList.add(batch3);
-        
-        associateSet = new TreeSet<>();
-        associateSet.add(assoc1);
-
-        Mockito.when(mockBatchDao.getAllBatches()).thenReturn(batchSet);
-        Mockito.when(mockBatchDao.getBatchesSortedByDate()).thenReturn(batchList);
-        Mockito.when(mockBatchDao.getBatchById(Matchers.anyInt())).thenReturn(batch1);
-        Mockito.when(mockBatchDao.getBatchAssociates(Matchers.anyInt())).thenReturn(associateSet);
-        
-
-    }
-
-    @BeforeMethod
-    public void beforeEach() {
-        batchService = new BatchesService(mockBatchDao);
-    }
-
-    //old test for a method that isn't used
-//    @Test(enabled = false)
-//    public void testGetBatchChartInfo() throws Exception {
-//        List<BatchInfo> actualChartInfo = batchService.getBatchChartInfo(0L, 1L);
-//        Assert.assertEquals(actualChartInfo.size(), 1);
-//        Assert.assertTrue(actualChartInfo.contains(batch1));
-//    }
-
-    @Test(enabled = true)
-    public void testGetBatches() throws Exception {
-        List<BatchInfo> results = batchService.getBatches(new Long(50), new Long(250));
-        List<BatchInfo> comparator = new ArrayList<>();
-        comparator.add(batch1);
-        comparator.add(batch2);
-        Assert.assertEquals(comparator, results);
-    }
-
-    
-//These method have no logic. They just call a method and return the result
-//Are they worth implementing tests?
-    
-//    public void testGetAllBatches() throws Exception {
-//    	
-//    }
-//    
-//    public void getAllBatchesSortedByDate() throws Exception {
-//    	
-//    }
-//    
-//    public void getBatchById() throws Exception {
-//    	
-//    }
-//    
-//    @Test(enabled = false)
-//    public void testGetAssociatesForBranch() throws Exception {
-//        Set<AssociateInfo> associates = batchService.getAssociatesForBranch(1);
-//        Assert.assertTrue(associateSet, associates);
-//    }
-
-    AssociateInfo createAssocInfo(int id, int batchId, String batchName, int clientId, String clientName,
-                                  int msid, String msName, int currId, String currName) {
-        AssociateInfo assoc = new AssociateInfo();
-        assoc.setId(new Integer(id));
-        assoc.setBatchId(new Integer(batchId));
-        assoc.setBatchName(batchName);
-        assoc.setBid(new Integer(batchId));
-        assoc.setClid(new Integer(clientId));
-        assoc.setClientId(new Integer(clientId));
-        assoc.setClient(clientName);
-        assoc.setMarketingStatusId(new Integer(msid));
-        assoc.setMsid(new Integer(msid));
-        assoc.setMarketingStatus(msName);
-        assoc.setCurriculumId(new Integer(currId));
-        assoc.setCurriculumName(currName);
-
-        return assoc;
-    }
-
-    BatchInfo createBatchInfo(int id, String name, String curriculumName, long startLong, long endLong) {
-        BatchInfo info = new BatchInfo();
-
-        info.setId(new Integer(id));
-        info.setBatchName(name);
-        info.setCurriculumName(curriculumName);
-        info.setStartLong(startLong);
-        info.setStartTs(new Timestamp(startLong));
-        info.setEndLong(endLong);
-
-        return info;
-    }
+	/**
+	 * test the getAllBatches method under
+	 * normal conditions
+	 * 
+	 * @author Daniel Lani
+	 * 
+	 * @since 6.06.14.18
+	 */
+	@Test(priority = 8)
+	public void testGetAllBatches() {
+		batches.add(batch1);
+		batches.add(batch2);
+		batches.add(batch3);
+		Mockito.when(mockBatchDao.getAllBatches()).thenReturn(batches);
+		List<TfBatch> expected = service.getAllBatches();
+		Assert.assertEquals(expected,batches);
+	}
 }

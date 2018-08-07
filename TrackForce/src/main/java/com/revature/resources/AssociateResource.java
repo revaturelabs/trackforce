@@ -1,16 +1,19 @@
 package com.revature.resources;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import static com.revature.utils.HibernateUtil.updateDetached;
+import static com.revature.utils.LogUtil.logger;
 
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureQuery;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -21,213 +24,247 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import com.revature.dao.AssociateDaoHibernate;
-import com.revature.model.AssociateInfo;
-import com.revature.model.InterviewInfo;
-import com.revature.request.model.AssociateFromClient;
-import com.revature.model.ClientMappedJSON;
-import com.revature.request.model.InterviewFromClient;
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfTrainer;
 import com.revature.services.AssociateService;
+import com.revature.services.BatchService;
+import com.revature.services.ClientService;
+import com.revature.services.CurriculumService;
 import com.revature.services.InterviewService;
-import com.revature.utils.HibernateUtil;
-import com.revature.utils.LogUtil;
+import com.revature.services.JWTService;
+import com.revature.services.MarketingStatusService;
+import com.revature.services.TrainerService;
+import com.revature.services.UserService;
 
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 
-@Path("associates")
+/**
+ * <p> </p>
+ * @version v6.18.06.13
+ *
+ */
+@Path("/associates")
 @Api(value = "associates")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class AssociateResource {
-	
-	private AssociateService service;
 
-    public AssociateResource() {
-        this.service = new AssociateService();
-    }
-    
-    /**
-	 * Gets a list of all the associates, optionally filtered by a batch id. If an associate has no marketing status or
-	 * curriculum, replaces them with blanks. If associate has no client, replaces
-	 * it with "None".
+	
+	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
+	// This is to allow for Mockito tests, which have problems with static methods
+	// This is here for a reason! 
+	// - Adam 06.18.06.13
+	AssociateService associateService = new AssociateService();
+	BatchService batchService = new BatchService();
+	ClientService clientService = new ClientService();
+	CurriculumService curriculumService = new CurriculumService();
+	InterviewService interviewService = new InterviewService();
+	TrainerService trainerService = new TrainerService();
+	UserService userService = new UserService();
+	MarketingStatusService marketingStatusService = new MarketingStatusService();
+	
+	/**
+	 * <p>Gets a list of all the associates, optionally filtered by a batch id. If an
+	 * associate has no marketing status or curriculum, replaces them with blanks.
+	 * If associate has no client, replaces it with "None".</p>
+	 * @version v6.18.06.13
 	 * 
-	 * @return - A Response object with a list of TfAssociate objects.
+	 * @return A Response object with a list of TfAssociate objects.
 	 * @throws IOException
 	 * @throws HibernateException
 	 */
+	@Path("/allAssociates")
 	@GET
-	 @ApiOperation(value = "Return all associates",
-	    notes = "Gets a set of all the associates, optionally filtered by a batch id. If an associate has no marketing status or\r\n" + 
-	    		" curriculum, replaces them with blanks. If associate has no client, replaces\r\n" + 
-	    		" it with \"None\".",
-	    response = AssociateInfo.class,
-	    responseContainer = "Set")
-	public Response getAllAssociates() {
-		Set<AssociateInfo>associatesList = service.getAllAssociates();
-		if (associatesList == null || associatesList.isEmpty()) return Response.status(Status.NOT_FOUND).build();// returns 404 if no associates found
-		return Response.ok(associatesList).build();
-	}
-	
-	/**
-	 * Update the marketing status or client of associates
-	 * 
-	 * @param ids - to be updated
-	 * @param marketingStatusIdStr - updating to
-	 * @param clientIdStr - updating to
-	 * @return Response - 200 status if successful
-	 * @throws IOException
-	 */
-	@PUT
-	 @ApiOperation(value = "Batch update associates",
-	    notes = "Updates the maretking status and/or the client of one or more associates")
-	public Response updateAssociates(
-			@DefaultValue("0") @ApiParam(value = "marketing status id") @QueryParam("marketingStatusId") Integer marketingStatusId,
-			@DefaultValue("0") @ApiParam(value = "client id") @QueryParam("clientId") Integer clientId,
-			List<Integer> ids) {
-		// marketing status & client id are given as query parameters, ids sent in body
-		service.updateAssociates(ids, marketingStatusId, clientId);
-		return Response.ok().build();
+	@ApiOperation(value = "Return all associates", notes = "Gets a set of all the associates,", response = TfAssociate.class, responseContainer = "Set")
+	public Response getAllAssociates(@HeaderParam("Authorization") String token) {
+		logger.info("getAllAssociates()...");
+		Status status = null;
+		List<TfAssociate> associates = associateService.getAllAssociates();
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || payload.getId().equals("5")) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+
+		
+		else {
+			if(payload.getId().equals("2")) {
+				List<TfAssociate> assoc=new ArrayList<TfAssociate>();
+				for(TfAssociate a:associates) {
+					if(a.getBatch()!=null) {
+						if(payload.getSubject().equals(a.getBatch().getTrainer().getTfUser().getUsername())) {
+							assoc.add(a);
+						}
+						List<TfTrainer> cotrainers=a.getBatch().getCoTrainer();
+						for(TfTrainer t:cotrainers) {
+							if(t.getTfUser().getUsername().equals(payload.getSubject())) {
+								assoc.add(a);
+							}
+						}
+
+					}
+				}
+				associates=assoc;
+			}
+			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		}
+
+		return Response.status(status).entity(associates).build();
 	}
 
+	
 	/**
-	 * Returns information about a specific associate.
-	 * 
-	 * @param associateid - The ID of the associate to get information about
-	 * @return - An AssociateInfo object that contains the associate's information.
-	 * @throws IOException
+	 *
+	 * @author Curtis H.
+	 * Given a user id, returns an associate.
+	 * @version v6.18.06.13
+	 *
+	 * @param id
+	 * @param token
+	 * @return
 	 */
 	@GET
-	 @ApiOperation(value = "Return an associate",
-	    notes = "Returns information about a specific associate.",
-	    response = AssociateInfo.class)
-	@Path("{associateid}")
-	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("associateid") Integer associateid) {
-		AssociateInfo associateinfo = service.getAssociate(associateid);
-		return Response.ok(associateinfo).build();
+	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = TfAssociate.class)
+	@Path("/{id}")
+	public Response getAssociateByUserId(@ApiParam(value = "An associate id.") @PathParam("id") int id,
+	                             @HeaderParam("Authorization") String token) {
+		logger.info("getAssociateByUserId()...");
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+		TfAssociate associateinfo;
+
+		if (payload == null || false) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		else {
+			try {
+				associateinfo = associateService.getAssociateByUserId(id);
+			} catch (NoResultException nre) {
+				logger.info("No associate found...");
+				return Response.status(Status.NO_CONTENT).build();
+			}
+			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
+		}
+
+		return Response.status(status).entity(associateinfo).build();
 	}
 	
+	/**
+	 * 
+	 * ------------- NEEDS WORK -------------
+	 * 
+	 * @author Adam L. 
+	 * <p>Update the marketing status or client of associates</p>
+	 * @version v6.18.06.13
+	 * 
+	 * @param token
+	 * @param marketingStatusId
+	 * @param clientId
+	 * @param ids - list of ids to update
+	 * @return response 200 status if successful
+	 */
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Batch update associates", notes = "Updates the marketing status and/or the client of one or more associates")
+	public Response updateAssociates(@HeaderParam("Authorization") String token,
+			@DefaultValue("0") @ApiParam(value = "marketingStatusId") @QueryParam("marketingStatusId") Integer marketingStatusId,
+			@DefaultValue("0") @ApiParam(value = "clientId") @QueryParam("clientId") Integer clientId,
+			@DefaultValue("-1") @ApiParam(value="verification") @QueryParam("verification") Integer isApproved,
+			List<Integer> ids) {
+		logger.info("updateAssociates()...");
+		logger.info(ids);
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+		
+		List<TfAssociate> associates = new LinkedList<>();
+		TfAssociate toBeUpdated = null;
+		for(int associateId : ids) {
+			toBeUpdated = associateService.getAssociate(associateId);
+			if(marketingStatusId!=0) {
+				toBeUpdated.setMarketingStatus(marketingStatusService.getMarketingStatusById(marketingStatusId));
+			}
+			if(clientId!=0) {
+				toBeUpdated.setClient(clientService.getClient(clientId));
+			}
+			if(isApproved>=0) {
+				toBeUpdated.getUser().setIsApproved(isApproved);
+			}
+			associates.add(toBeUpdated);
+		}
+
+
+		if (payload == null || !payload.getId().equals("1")) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		else {
+			
+			// marketing status & client id are given as query parameters, ids sent in body
+			AssociateService as=new AssociateService();
+			return as.updateAssociates(associates) ? Response.ok().build() : Response.serverError().build();
+		}
+	}
+
+
+	/**
+	 * 
+	 * @author Adam L. 
+	 * <p>Update the marketing status or client of an associate</p>
+	 * @version v6.18.06.13
+	 * 
+	 * @param id 
+	 * @param associate
+	 * @param token
+	 * @return
+	 */
+	@PUT
+	@ApiOperation(value = "updates associate values", notes = "The method updates the marketing status or client of a given associate by their id.")
+	@Path("/{associateId}")
+	public Response updateAssociate(@PathParam("associateId") Integer id, TfAssociate associate,
+			@HeaderParam("Authorization") String token) {
+		
+		logger.info("updateAssociate()...");
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null || payload.getId().equals("5")) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		else if (payload.getId().equals("5")) {
+			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
+		}
+		else {
+			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
+		}
+		return Response.status(status).build();
+	}
+
 	@GET
-	 @ApiOperation(value = "Return an associate",
-	    notes = "Returns information about a specific associate.")
+	@ApiOperation(value = "Gets how many associates are mapped to each client", notes="Gets how many associates are mapped to each client")
 	@Path("mapped/{statusId}")
 	public Response getMappedInfo(@PathParam("statusId") int statusId) {
-		Map<Integer, ClientMappedJSON> mappedStats = service.getMappedInfo(statusId);
-		if(mappedStats.isEmpty()) return Response.status(500).build();
-		return Response.ok(mappedStats).build();
-	}
-	
-	@GET
-	@Path("unmapped/{statusId}")
-	public Response getUnmappedInfo(@PathParam("statusId") int statusId) {
-		return Response.ok(service.getUnmappedInfo(statusId)).build();
-	}
-	
-	/**
-	 * Update the marketing status or client of an associate
-	 * 
-	 * @param id - The ID of the associate to change
-	 * @param marketingStatusId - What to change the associate's marketing status to
-	 * @param clientId - What client to change the associate to
-	 * @return
-	 * @throws NumberFormatException 
-	 * @throws IOException
-	 */
-	
-	/**** OPTION 1 ****/
-	
-	@PUT
-	@Path("{associateId}")
-	public Response updateAssociate(
-			@PathParam("associateId") Integer id,
-			AssociateFromClient afc) {
-		service.updateAssociate(afc);
-		return Response.ok().build();
+		logger.info("getMappedInfo()...");
+		return Response.ok(associateService.getMappedInfo(statusId)).build();
 	}
 
-	/*** OPTION 2 ***/	
-	@PUT
-	@Path("{associateId}/{startDate}")
-	public Response updateAssociate(
-			@PathParam("associateId") Integer id,
-			@PathParam("startDate") String startDate) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		 Transaction tx = session.beginTransaction();
-		// StringBuilder sb = new StringBuilder();
-	        try {
-	        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.UPDATEASSOCIATECLIENTSTARTDATE"); 
-	        	spq.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
-	        	spq.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
-	        	spq.setParameter(1, id);
-	        	spq.setParameter(2, startDate);
-	        	spq.execute();
-	        } catch (Exception e) {
-	        	LogUtil.logger.error(e);
-	            session.flush();
-	            tx.rollback();
-	        } finally {
-	        	new AssociateDaoHibernate().cacheAllAssociates();
-	            session.close();
-	        }
-	        return Response.ok().build();
-	}
 
-	
-	/**** OPTION 1+2****/
-/*	@PUT
-	@Path("{associateId}")
-	public Response updateAssociate(
-			@PathParam("associateId") Integer id,
-			@DefaultValue("0") @QueryParam("marketingStatusId") Integer marketingStatusId,
-			@DefaultValue("0") @QueryParam("clientId") Integer clientId,
-			String startDate) {
-		List<Integer> list = new ArrayList<>();
-		list.add(id);
-		service.updateAssociates(list, marketingStatusId, clientId);
-		
-		//This code separately updates the client start date using a stored procedure
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		 Transaction tx = session.beginTransaction();
-		// StringBuilder sb = new StringBuilder();
-	        try {
-	        	StoredProcedureQuery spq = session.createStoredProcedureCall("admin.UPDATEASSOCIATECLIENTSTARTDATE"); 
-	        	spq.registerStoredProcedureParameter(1, Integer.class, ParameterMode.IN);
-	        	spq.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
-	        	spq.setParameter(1, id);
-	        	spq.setParameter(2, startDate);
-	        	spq.execute();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            session.flush();
-	            tx.rollback();
-	        } finally {
-	        	new AssociateDaoHibernate().cacheAllAssociates(); //refreshes the associates cache
-	            session.close();
-	        }
-		
-		return Response.ok().build();
-	}
-*/	
 	@GET
-	@Path("{associateid}/interviews")
-	public Response getAssociateInterviews(@PathParam("associateid") Integer associateid) {
-		Set<InterviewInfo> associateinfo = service.getInterviewsByAssociate(associateid);
-		return Response.ok(associateinfo).build();
+	@ApiOperation(value = "Gets how many associates are mapped to each client", notes="Gets how many associates are mapped to each client")
+	@Path("undeployed/{mappedOrUnmapped}")
+	public Response getUndeployed(@PathParam("mappedOrUnmapped") String which) {
+		logger.info("getUndeployed()...");
+		return Response.ok(associateService.getUndeployed(which)).build();
 	}
 	
-	@POST
-	@Path("{associateid}/interviews")
-	public Response addAssociateInterview(
-			@PathParam("associateid") Integer associateid,
-			InterviewFromClient ifc) {
-		InterviewService is = new InterviewService();
-		is.addInterviewByAssociate(associateid, ifc);
-		return Response.ok().build();
+	@PUT
+	@ApiOperation(value="Approves an associate", notes="Approves an associate")
+	@Path("{assocId}/approve")
+	public Response approveAssociate(@PathParam("assocId") int associateId) {
+		return associateService.approveAssociate(associateId) ? Response.ok(true).build() : Response.serverError().entity(false).build();
 	}
 
 }

@@ -8,14 +8,14 @@ import { StatusInfo } from './status-info.model';
  * @author Alex, Xavier
  */
 export class Client {
-    id: number
-    name: string
-    tfClientName: string;
-    placements: Placement[];
-    associates: Associate[];
-    interviews: Interview[];
-    stats: StatusInfo;
+  id: number;
+  name: string;
+  placement: Placement[];
+  associate: Associate[];
+  interview: Interview[];
+  
+  stats: StatusInfo;
 
-    constructor(){
-    }
+  constructor() {
+  }
 }

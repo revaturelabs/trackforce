@@ -1,9 +1,17 @@
 import { Associate } from "./associate.model";
+import { Client } from "./client.model";
+import { EndClient } from "./end-client.model";
 
-
+/**
+ * Used in the client and the end-client models
+ * Note made 6/7/2018
+ * Reviewed by Max
+ */
 export class Placement {
-    id: number;
-    associate: Associate;
-    start: Date;
-    end: Date;
+  id: number;
+  associate: Associate;
+  client: Client;
+  endClient: EndClient;
+  start: Date;
+  end: Date;
 }

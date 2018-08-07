@@ -8,7 +8,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { FormsModule } from '@angular/forms';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 ///
 //  COMPONENTS
 ///
@@ -20,16 +20,16 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
 import { LoginComponent } from './components/login/login.component';
 import { ClientListComponent } from './components/client-list/client-list.component';
 import { FormComponent } from './components/form-component/form.component';
-import { FooterComponent } from './components/footer/footer/footer.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
-import { RootComponent } from './components/root/root.component';
 import { SkillsetComponent } from './components/skillset/skillset.component';
 import { BatchDetailsComponent } from './components/batch-details/batch-details.component';
 import { AssociateViewComponent } from './components/associate-view/associate-view.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PredictionsComponent } from './components/predictions/predictions.component';
-
+import { MyInterviewComponent } from './components/myinterview-view/myinterview-view.component';
+import { InterviewsComponent } from './components/interviews-view/interviews-view.component';
 ///
 //  SERVICES
 ///
@@ -39,15 +39,13 @@ import { ClientService } from './services/client-service/client.service';
 import { AuthenticationService } from './services/authentication-service/authentication.service';
 import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 import { BatchService } from './services/batch-service/batch.service';
-import { SkillsetService } from './services/skill-set-service/skill-set.service';
+import { CurriculumService } from './services/curriculum-service/curriculum.service';
 import { DataSyncService } from './services/datasync-service/data-sync.service';
 import { UserService } from './services/user-service/user.service';
-import { PredictionService } from './services/prediction-service/prediction.service';
-
+import { InterviewService } from './services/interview-service/interview.service'
 
 ///
 //  FILTERS
-///
 ///
 
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
@@ -63,6 +61,11 @@ import { AuthGuard } from './guards/auth.guard';
 ///
 import { appRoutes } from './routing/routes';
 import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-helpers/router-stubs';
+import { InterviewDetailsComponent } from './components/interview-details/interview-details.component';
+import { TrainerViewComponent } from './components/trainer-view/trainer-view.component';
+import { TrainerService } from './services/trainer-service/trainer.service';
+import { DeployedComponent } from './components/deployed/deployed.component';
+import { UndeployedComponent } from './components/undeployed/undeployed.component';
 
 @NgModule({
   declarations: [
@@ -79,14 +82,19 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     CreateUserComponent,
     SearchFilterPipe,
     BatchDetailsComponent,
-    RootComponent,
     SkillsetComponent,
     AssociateViewComponent,
     RouterLinkStubDirective,
     RouterOutletStubComponent,
     FooterComponent,
     NotFoundComponent,
-    PredictionsComponent
+    PredictionsComponent,
+    MyInterviewComponent,
+    InterviewDetailsComponent,
+  	InterviewsComponent,
+  	TrainerViewComponent,
+  	DeployedComponent,
+  	UndeployedComponent
   ],
   imports: [
     BrowserModule,
@@ -94,20 +102,22 @@ import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-he
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
     ChartsModule,
-    Ng2OrderModule
+    Ng2OrderModule,
+	  BrowserAnimationsModule
   ],
   providers: [
     AssociateService,
     ClientService,
     AuthenticationService,
     RequestService,
-    SkillsetService,
+    CurriculumService,
     BatchService,
     UserService,
-    SkillsetService,
-    DataSyncService,
+    CurriculumService,
+    // DataSyncService,
+    InterviewService,
     AuthGuard,
-    PredictionService,
+    TrainerService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

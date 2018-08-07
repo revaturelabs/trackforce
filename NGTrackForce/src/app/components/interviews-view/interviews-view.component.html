@@ -1,0 +1,95 @@
+<!-- <div class="container">
+  <div class = "card-deck mb-3 text-center">
+     <div>
+      <h3>Interviews</h3>
+      <table class="table table-responsive table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Interview</th>
+			      <th>Associate</th>
+            <th>Client</th>
+            <th>End Client</th>
+            <th>Date Notified</th>
+            <th>Date of Interview</th>
+            <th>Medium</th>
+      		  <th>Job Description</th>
+            <th>Client Feedback</th>    
+            <!-- <th>Associate Feedback <i class="fa fa-edit" style="font-size:24px"></i> </th>
+            <th>Client Feedback</th>  
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let interview of interviews; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{interview.associate.firstName}} {{interview.associate.lastName}}</td>
+            <td>{{interview.client}}</td>
+            <td>{{interview.endClient}}</td>
+            <td>{{interview.dateAssociateIssued | date:'short'}}</td>
+            <td>{{interview.tfInterviewDate | date:'short'}}</td>
+            <td>{{interview.interviewType.name}}</td>
+            <td>{{interview.jobDescription}}</td>           
+            <td>{{interview.clientFeedback}}</td>
+			    <td><a class="id"(click)='viewInterview(interview)'>view</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div> -->
+
+<div class="container">
+  <h3>Interviews</h3>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-4">
+        <label for="name">Search by Text: </label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="searchByText">
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="position:relative;">
+    <div class="table-responsive pre-scrollable" id="info" style="overflow-x:none!important;">
+      <table class="table table-striped table-hover table-bordered" border-width=2px>
+        <thead class="pointer">
+          <tr>
+              <th class="edit">Edit</th>
+              <th class="id">Interview ID</th>
+              <th class="name">Associate</th>
+              <th class="associate">Client Name</th>
+              <th class="endClient">End Client</th>
+              <th class="dateAssociateIssued">Date Notified</th>
+              <th class="interviewDate">Date of Interview</th>
+              <th class="interviewType">Medium</th>
+              <th class="jobDescription">Job Description</th>
+              <th class="clientFeedback">Client Feedback</th>   
+              <th class="isClientFeedbackVisible">Feedback Visible?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let interview of interviews">
+            <ng-container *ngIf="((interview.associate.firstName && (interview.associate.firstName.startsWith(searchByText)||searchByText===''))||(interview.associate.lastName && (interview.associate.lastName.startsWith(searchByText)||searchByText==='')))">
+                <td class="edit">
+                    <input type="checkbox" id={{interview.id}}>
+                  </td>
+              <td class="id">{{interview.id}}</td>
+              <td class="name">{{interview.associate.firstName}} {{interview.associate.lastName}}</td>
+              <td class="client" *ngIf="interview.client">{{interview.client.name}}</td>
+              <td class="endClient"><span *ngIf="interview.endClient">{{interview.endClient.name}}</span></td>
+              <td class="dateAssociateIssued">{{interview.dateAssociateIssued | date:'short'}}</td>
+              <td class="interviewDate">{{interview.interviewDate | date:'short'}}</td>
+              <td class="interviewType">{{interview.interviewType.name}}</td>
+              <td class="jobDescription">{{interview.jobDescription}}</td>
+              <td class="clientFeedback">{{interview.clientFeedback}}</td>
+              <td class="isClientFeedbackVisible"><span *ngIf="interview.isClientFeedbackVisible==1; else no">Yes</span>
+                <ng-template #no>
+                    No
+                </ng-template>
+              </td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

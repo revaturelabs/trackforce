@@ -1,61 +1,88 @@
 package com.revature.resources;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
-import org.hibernate.HibernateException;
-
-import com.revature.model.ClientInfo;
+import com.revature.entity.TfClient;
+import com.revature.services.AssociateService;
+import com.revature.services.BatchService;
 import com.revature.services.ClientService;
+import com.revature.services.CurriculumService;
+import com.revature.services.InterviewService;
+import com.revature.services.JWTService;
+import com.revature.services.TrainerService;
+import com.revature.services.UserService;
 
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
-@Path("clients")
+/**
+ * <p>
+ * </p>
+ * 
+ * @version v6.18.06.13
+ */
+@Path("/clients")
 @Api(value = "clients")
-@Consumes({MediaType.APPLICATION_JSON})
-@Produces({MediaType.APPLICATION_JSON})
+@Consumes({ MediaType.APPLICATION_JSON })
+@Produces({ MediaType.APPLICATION_JSON })
 public class ClientResource {
-    private ClientService service;
 
-    public ClientResource() {
-        this.service = new ClientService();
-    }
+	// You're probably thinking, why would you ever do this? Why not just just make
+	// the methods all static in the service class?
+	// This is to allow for Mockito tests, which have problems with static methods
+	// This is here for a reason!
+	// - Adam 06.18.06.13
+	AssociateService associateService = new AssociateService();
+	BatchService batchService = new BatchService();
+	ClientService clientService = new ClientService();
+	CurriculumService curriculumService = new CurriculumService();
+	InterviewService interviewService = new InterviewService();
+	TrainerService trainerService = new TrainerService();
+	UserService userService = new UserService();
 
-    /**
-     * Returns a map of all of the clients as a response object.
-     *
-     * @return A map of TfClients as a Response object
-     * @throws IOException
-     * @throws HibernateException
-     */
-    @GET
-    public Response getAllClients() throws IOException {
-    	Set<ClientInfo> clients = service.getClients();
-        return Response.ok(clients).build();
-    }
+	/**
+	 * 
+	 * @author Adam L.
+	 *         <p>
+	 * 		Returns a map of all of the clients as a response object.
+	 *         </p>
+	 * @version v6.18.06.13
+	 * 
+	 * @param token
+	 * @return
+	 * @throws IOException
+	 */
+	@GET
+	@ApiOperation(value = "Returns all clients", notes = "Returns a map of all clients.")
+	public Response getAllClients(@HeaderParam("Authorization") String token) throws IOException {
+		logger.info("getAllClients()...");
+		Status status = null;
+		List<TfClient> clients = clientService.getAllTfClients();
+		Claims payload = JWTService.processToken(token);
 
-    /**
-     * Returns a StatusInfo object representing a client's associates and their
-     * statuses.
-     *
-     * @param clientid The id of the client in the TfClient table
-     * @return A StatusInfo object for a specified client
-     * @throws IOException
-     * @throws HibernateException
-     */
-    @Path("{clientid}")
-    @GET
-    public Response getClientInfo(@PathParam("clientid") int clientid) throws IOException {
-    	ClientInfo client = service.getClientByID(clientid);
-        return Response.ok(client).build();
-    }
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		// invalid token
+		else {
+			status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		}
+
+		return Response.status(status).entity(clients).build();
+	}
+
 }
-

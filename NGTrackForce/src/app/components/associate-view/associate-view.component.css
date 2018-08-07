@@ -1,7 +1,6 @@
 table {
-  border-width: 2px;
+  border-width: 1px;
 }
-
 .info td:first-child {
   font-weight: bold;
 }
@@ -11,7 +10,7 @@ thead, tbody {
 }
 
 .toggledContainer {
-  min-height: 300px;
+  /* min-height: 300px; */
   margin-top: 20px;
   margin-bottom: 10px;
   padding-top: 5px;

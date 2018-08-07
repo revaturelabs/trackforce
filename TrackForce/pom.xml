@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.revature</groupId>
@@ -17,6 +18,7 @@
 	</properties>
 
 	<dependencies>
+
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.containers/jersey-container-servlet -->
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
@@ -24,6 +26,11 @@
 			<version>2.26</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+			<version>2.5.4</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
 		<dependency>
@@ -38,6 +45,7 @@
 			<artifactId>jersey-hk2</artifactId>
 			<version>2.26</version>
 		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-jackson -->
 		<dependency>
@@ -75,6 +83,14 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>3.1.0</version>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
 		<dependency>
 			<groupId>log4j</groupId>
@@ -82,18 +98,18 @@
 			<version>1.2.17</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
- 		<dependency>
+	 	<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+<!-- 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.5.6</version>
-		</dependency> 
+		</dependency>
 
- 		<dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.5.6</version>
-		</dependency>
+		</dependency> -->
 
 		<!-- https://mvnrepository.com/artifact/info.cukes/cucumber-java -->
 		<dependency>
@@ -145,7 +161,6 @@
 			<artifactId>ojdbc8</artifactId>
 			<version>12.2.0.1</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-jdbc -->
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
@@ -183,13 +198,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
-		<dependency>
-			<groupId>org.jacoco</groupId>
-			<artifactId>jacoco-maven-plugin</artifactId>
-			<version>0.8.0</version>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/io.swagger/swagger-jersey2-jaxrs -->
 		<dependency>
 			<groupId>io.swagger</groupId>
@@ -204,9 +212,69 @@
 			<version>3.7</version>
 		</dependency>
 
+		<!-- The following four dependencies are required for running TrackForce 
+			locally on Kirk's computer(Sprint 6) -->
+
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-core</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>cobertura-maven-plugin</artifactId>
+			<version>2.7</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.sun</groupId>
+					<artifactId>tools</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>5.2.12.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>3.4.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>5.2.12.Final</version>
+		</dependency>
+
+
 	</dependencies>
 
-	<!-- William added the below tags on 2/15/18 so that the main application
+	<!-- William added the below tags on 2/15/18 so that the main application 
 		can be successfully deployed -->
 	<build>
 		<plugins>
@@ -222,21 +290,25 @@
 					<!-- change this n the properties at the top of the pom -->
 					<skipTests>${skip.unit.tests}</skipTests>
 					<!-- Excludes integration tests when unit tests are run. -->
- 					<excludes>
+					<excludes>
 						<exclude>**/IT*.java</exclude>
-			            <exclude>com/revature/test/admin/cukes/*.java</exclude>
-			            <exclude>com/revature/test/admin/pom/*.java</exclude>
-					</excludes> 
-							            		
-       		          <suiteXmlFiles>
-			            <file>src/test/resources/surefire_test.xml</file>
-			          </suiteXmlFiles>
-			          <properties>
-			            <property>
-			              <name>suitethreadpoolsize</name>
-			              <value>1</value>
-			            </property>
-			          </properties>
+						<exclude>com/revature/test/admin/cukes/*.java</exclude>
+						<exclude>com/revature/test/admin/pom/*.java</exclude>
+					</excludes>
+
+					<!--<suiteXmlFiles> -->
+					<!--<file>src/test/resources/surefire_test.xml</file> -->
+					<!--</suiteXmlFiles> -->
+					<properties>
+						<property>
+							<name>suitethreadpoolsize</name>
+							<value>1</value>
+						</property>
+						<property>
+							<name>surefire.testng.verbose</name>
+							<value>0</value>
+						</property>
+					</properties>
 				</configuration>
 			</plugin>
 
@@ -245,7 +317,7 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>2.20</version>
 				<executions>
-					<!-- Ensures that both integration-test and verify goals of the Failsafe
+					<!-- Ensures that both integration-test and verify goals of the Failsafe 
 						Maven plugin are executed. -->
 					<execution>
 						<id>integration-tests</id>
@@ -255,93 +327,38 @@
 						</goals>
 						<configuration>
 							<forkCount>0</forkCount>
-							<!--Skips integration tests if the value of skip.integration.tests
+							<!--Skips integration tests if the value of skip.integration.tests 
 								property is true -->
-							<!-- Skips unit tests if the value of skip.unit.tests property is
+							<!-- Skips unit tests if the value of skip.unit.tests property is 
 								true -->
 							<!-- William changed the value of skipTests to true on 2/15/18 -->
 							<!-- to see if we can successfully deploy current build of application -->
 							<!-- change this n the properties at the top of the pom -->
 							<skipTests>${skip.integration.tests}</skipTests>
 							<excludes>
-					            <exclude>com/revature/test/admin/cukes/*.java</exclude>
-					            <exclude>com/revature/test/admin/pom/*.java</exclude>
-		            		</excludes> 
+								<exclude>com/revature/test/admin/cukes/*.java</exclude>
+								<exclude>com/revature/test/admin/pom/*.java</exclude>
+							</excludes>
 						</configuration>
-						
+
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-			    <groupId>org.jacoco</groupId>
-			    <artifactId>jacoco-maven-plugin</artifactId>
-			    <version>0.8.0</version>
-			    <executions>
-			        <!-- Prepares the property pointing to the JaCoCo runtime agent which
-			            is passed as VM argument when Maven the Surefire plugin is executed. -->
-			        <execution>
-			            <id>pre-unit-test</id>
-			            <goals>
-			                <goal>prepare-agent</goal>
-			            </goals>
-			            <configuration>
-			                <!-- Sets the path to the file which contains the execution data. -->
-			                <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-			                <!-- Sets the name of the property containing the settings
-			                    for JaCoCo runtime agent. -->
-			                <propertyName>surefireArgLine</propertyName>
-			            </configuration>
-			        </execution>
-			        <!-- Ensures that the code coverage report for unit tests is created after
-			            unit tests have been run. -->
-			        <execution>
-			            <id>post-unit-test</id>
-			            <phase>test</phase>
-			            <goals>
-			                <goal>report</goal>
-			            </goals>
-			            <configuration>
-			               <!--  Sets the path to the file which contains the execution data. -->
-			                <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
-			               <!--  Sets the output directory for the code coverage report. -->
-			                <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
-			            </configuration>
-			        </execution>
-
-
-			        <!-- Prepares the property pointing to the JaCoCo runtime agent which
-			            is passed as VM argument when Maven the Failsafe plugin is executed. -->
-			        <execution>
-			            <id>pre-integration-test</id>
-			            <phase>pre-integration-test</phase>
-			            <goals>
-			                <goal>prepare-agent</goal>
-			            </goals>
-			            <configuration>
-			               <!--  Sets the path to the file which contains the execution data. -->
-			                <destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
-			                <!-- Sets the name of the property containing the settings
-			                    for JaCoCo runtime agent. -->
-			                <propertyName>failsafeArgLine</propertyName>
-			            </configuration>
-			        </execution>
-			        <!-- Ensures that the code coverage report for integration tests after
-			            integration tests have been run. -->
-			        <execution>
-			            <id>post-integration-test</id>
-			            <phase>post-integration-test</phase>
-			            <goals>
-			                <goal>report</goal>
-			            </goals>
-			            <configuration>
-			                <!-- Sets the path to the file which contains the execution data. -->
-			                <dataFile>${project.build.directory}/coverage-reports/jacoco-it.exec</dataFile>
-			                <!-- Sets the output directory for the code coverage report. -->
-			                <outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
-			            </configuration>
-			        </execution>
-			    </executions>
-			</plugin>
 		</plugins>
 	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+
+				<configuration>
+					<formats>
+						<format>xml</format>
+					</formats>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>

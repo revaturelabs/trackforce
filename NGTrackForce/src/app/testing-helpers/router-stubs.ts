@@ -14,7 +14,8 @@
    }
  })
  export class RouterLinkStubDirective {
-   @Input('routerLink') linkParams: any;
+   @Input('routerLink') 
+   linkParams: any;
    navigatedTo: any = null;
  
    onClick() {
@@ -32,7 +33,7 @@
  
  
  // Only implements params and part of snapshot.paramMap
- import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+ import { BehaviorSubject } from 'rxjs';
  import { convertToParamMap, ParamMap } from '@angular/router';
  
  @Injectable()

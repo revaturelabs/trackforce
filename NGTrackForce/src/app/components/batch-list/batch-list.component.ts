@@ -34,6 +34,7 @@ export class BatchListComponent implements OnInit {
   dataReady = false;
   dataEmpty = false;
   batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
+  counter = 0;
 
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
     new SideValues(-100, 0, 0, 0),
@@ -68,6 +69,11 @@ export class BatchListComponent implements OnInit {
               return false;
             }
           );
+        },
+        error => {
+          console.log("========ERROR==========");
+          console.log(error);
+          console.log("=======================");
         }
       );
       this.dataReady = true;
@@ -78,13 +84,31 @@ export class BatchListComponent implements OnInit {
       this.endDate.setMonth(new Date().getMonth() + 3);
       const startTime = Date.now();
       this.dataReady = false;
+
+
       this.batchService.getAllBatches().subscribe(
         (batches) => {
-          this.batches = batches;
+          this.batches = [];
+          for ( var bat in batches ) 
+          {
+            if ( batches[bat]['startDate'] != null && 
+                 batches[bat]['endDate'] != null && 
+                 batches[bat]['location'] != null && 
+                 batches[bat]['curriculumName'] != null )
+            {
+              this.batches[this.counter] = batches[bat];
+              this.counter++;
+            }
+            else
+            {
+
+            }
+          }
+
           this.updateCountPerCurriculum();
           this.dataReady = true;
           const elapsed = Date.now() - startTime;
-        },
+        }
       );
     }
   }

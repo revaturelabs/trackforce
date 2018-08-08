@@ -8,8 +8,9 @@ import com.revature.entity.TfAssociate;
 public interface AssociateDao {
 
 	TfAssociate getAssociate(Integer associateid);
+
 	List<TfAssociate> getAllAssociates();
-	
+
 	boolean updateAssociatePartial(TfAssociate associate);
 
 	boolean approveAssociate(int associateId);
@@ -27,4 +28,6 @@ public interface AssociateDao {
 	boolean updateAssociate(TfAssociate associate);
 
 	boolean updateAssociates(List<TfAssociate> associate);
+
+	<T> T countAssociatesByValue(String column, T value);
 }

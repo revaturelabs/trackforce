@@ -9,7 +9,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -84,5 +83,10 @@ public class ClientResource {
 
 		return Response.status(status).entity(clients).build();
 	}
-
+	
+	@GET
+	@Path("/get/(client_id)")
+	public Response getMappedAssociatesByClientId(@HeaderParam("client_id") Integer client_id) {
+		return Response.status(200).entity(associateService.getMappedAssociateCountByClientId(client_id)).build();
+	}
 }

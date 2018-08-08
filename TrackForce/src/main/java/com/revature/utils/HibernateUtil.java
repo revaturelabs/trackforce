@@ -2,56 +2,52 @@ package com.revature.utils;
 
 import static com.revature.utils.LogUtil.logger;
 
-import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfTrainer;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-import com.revature.entity.TfTrainer;
-
 /**
  * @author Curtis H., Adam L.
- * <p>The abstracted methods for making Hibernate calls to the database</p>
+ *         <p>
+ *         The abstracted methods for making Hibernate calls to the database
+ *         </p>
  * @version v6.18.06.13
  *
  */
 public class HibernateUtil {
 
-	private HibernateUtil() {}
+	private HibernateUtil() {
+	}
+
 	private static SessionFactory sessionFactory = buildSessionFactory();
 
 	private static void addShutdown() {
-		Runtime.getRuntime().addShutdownHook(new Thread()
-			{
-				public void run() {
-					shutdown();
-				}
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run() {
+				shutdown();
 			}
-		);
+		});
 	}
 
 	private static SessionFactory buildSessionFactory() {
-		
+
 		try {
 			Configuration cfg = new Configuration();
 			cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
 			cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
 			cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));
-			
+
 			return cfg.configure().buildSessionFactory();
-			
+
 		} finally {
 			addShutdown();
 		}
 	}
+
 	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -76,11 +72,11 @@ public class HibernateUtil {
 		}
 	}
 
-	// The code above this line to the top of the package is basically an exact copy of stuff William did in class
+	// The code above this line to the top of the package is basically an exact copy
+	// of stuff William did in class
 	// Now we abstract further.
 
-
-	public static boolean runHibernateTransaction(Sessional<Boolean> sessional, Object ... args) {
+	public static boolean runHibernateTransaction(Sessional<Boolean> sessional, Object... args) {
 		Session session = null;
 		Transaction transaction = null;
 		try {
@@ -90,7 +86,8 @@ public class HibernateUtil {
 
 			if (b) {
 				logger.debug("Committing...");
-			} else throw new HibernateException("Transaction Operation Failed!");
+			} else
+				throw new HibernateException("Transaction Operation Failed!");
 
 			transaction.commit();
 			logger.info("Transaction committed!");
@@ -99,16 +96,15 @@ public class HibernateUtil {
 		} catch (HibernateException | ThrownInHibernate e) {
 			HibernateUtil.rollbackTransaction(transaction);
 			logger.error(e.getMessage(), e);
-		}
-		finally {
-			HibernateUtil.closeSession(session);
+		} finally {
+			if (session != null)
+				session.close();
 		}
 		return false;
 	}
 
-
 	public static <T> boolean multiTransaction(Sessional<Boolean> sessional, List<T> items) {
-		return HibernateUtil.runHibernateTransaction((Session session, Object ... args) -> {
+		return HibernateUtil.runHibernateTransaction((Session session, Object... args) -> {
 			for (T a : items) {
 				if (!sessional.operate(session, a)) {
 					return false;
@@ -118,7 +114,7 @@ public class HibernateUtil {
 		});
 	}
 
-	public static <T> T runHibernate(Sessional<T> ss, Object ... args) {
+	public static <T> T runHibernate(Sessional<T> ss, Object... args) {
 		Session session = null;
 		Throwable t = null;
 		try {
@@ -127,30 +123,28 @@ public class HibernateUtil {
 		} catch (ThrownInHibernate | HibernateException e) {
 			logger.error(e.getMessage(), e);
 			t = e;
-		}
-		finally {
-			HibernateUtil.closeSession(session);
+		} finally {
+			if (session != null)
+				session.close();
 		}
 		throw new HibernateException(t);
 	}
 
-
-
-	public static <T> List<T> runHibernate(ListOp<T> ss,  Object ... args) {
+	public static <T> List<T> runHibernate(ListOp<T> ss, Object... args) {
 		Session session = null;
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			return ss.operate(session, args);
 		} catch (ThrownInHibernate | HibernateException e) {
 			logger.error(e.getMessage(), e);
-		}
-		finally {
-			HibernateUtil.closeSession(session);
+		} finally {
+			if (session != null)
+				session.close();
 		}
 		return null;
 	}
 
-	private static Sessional<Boolean> dbSave = (Session session, Object ... args) -> {
+	private static Sessional<Boolean> dbSave = (Session session, Object... args) -> {
 		session.save(args[0]);
 		return true;
 	};
@@ -163,13 +157,17 @@ public class HibernateUtil {
 		return multiTransaction(dbSave, o);
 	}
 
-
-	private static Sessional<Boolean> detachedUpdate = (Session session, Object ... args) -> {
+	private static Sessional<Boolean> detachedUpdate = (Session session, Object... args) -> {
 		session.update(args[0]);
 		return true;
 	};
 
-	public static <T> boolean updateDetached(T det) {return runHibernateTransaction(detachedUpdate, det);}
-	public static <T> boolean updateDetached(List<T> det) {return multiTransaction(detachedUpdate, det);}
+	public static <T> boolean updateDetached(T det) {
+		return runHibernateTransaction(detachedUpdate, det);
+	}
+
+	public static <T> boolean updateDetached(List<T> det) {
+		return multiTransaction(detachedUpdate, det);
+	}
 
 }

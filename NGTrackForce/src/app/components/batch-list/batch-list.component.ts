@@ -63,6 +63,8 @@ export class BatchListComponent implements OnInit {
           // filter out batches that don't have an associated trainer
           this.batches = batches.filter(
             batch => {
+              console.log(batch.trainer.firstName);
+              console.log(this.authService.getTrainer().firstName);
               if (batch.trainer.firstName === this.authService.getTrainer().firstName) {
                 return true;
               }
@@ -74,9 +76,7 @@ export class BatchListComponent implements OnInit {
           );
         },
         error => {
-          console.log("========ERROR==========");
           console.log(error);
-          console.log("=======================");
         }
       );
       this.dataReady = true;
@@ -85,7 +85,6 @@ export class BatchListComponent implements OnInit {
       // set default dates displayed on page
       this.startDate.setMonth(new Date().getMonth() - 3);
       this.endDate.setMonth(new Date().getMonth() + 3);
-      const startTime = Date.now();
       this.dataReady = false;
       this.batchService.getAllBatches().subscribe(
         (batches) => {
@@ -108,10 +107,8 @@ export class BatchListComponent implements OnInit {
 
           this.updateCountPerCurriculum();
           this.dataReady = true;
-          const elapsed = Date.now() - startTime;
         }
       );
-      //this.resetToDefaultBatches();
      
     }
   }
@@ -158,6 +155,7 @@ export class BatchListComponent implements OnInit {
     this.endDate.setMonth(new Date().getMonth() + 3);
     const startTime = Date.now();
     this.dataReady = false;
+    this.counter = 0;
     this.batchService.getAllBatches().subscribe(
       (batches) => {
         this.batches = [];
@@ -179,8 +177,7 @@ export class BatchListComponent implements OnInit {
 
         this.updateCountPerCurriculum();
         this.dataReady = true;
-        const elapsed = Date.now() - startTime;
-      },
+      }
     );
  
   }

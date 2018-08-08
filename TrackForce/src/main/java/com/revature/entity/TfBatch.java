@@ -73,6 +73,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	private List<TfTrainer> coTrainer = new ArrayList<>();
 	
 	public TfBatch() {
+		super();
 	}
 
 	
@@ -200,8 +201,6 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 		this.trainer = trainer;
 		this.coTrainer = coTrainer;
 	}
-	
-	
 
 	@Override
 	public String toString() {

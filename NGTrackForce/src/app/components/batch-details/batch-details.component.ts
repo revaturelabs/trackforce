@@ -84,6 +84,7 @@ export class BatchDetailsComponent implements OnInit {
       this.batchService.getAssociatesForBatch(batchId)
         .subscribe((data: Associate[]) => {
             this.associates = data;
+            console.log(data);
 
             //initiialize statuses
             const statusMap = new Map<number, number>();

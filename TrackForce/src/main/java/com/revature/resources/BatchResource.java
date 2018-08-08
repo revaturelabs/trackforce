@@ -4,6 +4,7 @@ import static com.revature.utils.LogUtil.logger;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +20,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
@@ -150,4 +154,42 @@ public class BatchResource {
 		return Response.status(status).entity(associates).build();
 	}
 
+	@GET
+	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
+	@Path("details")
+	public Response getBatchDetails(@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate, @QueryParam("end") Long endDate, @QueryParam("courseName") int courseName) {
+		logger.info("getBatchAssociates()...");
+		System.out.println("=================================");
+		Claims payload = JWTService.processToken(token);
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		Status status = null;
+		status = Status.OK;
+		int role = Integer.parseInt(payload.getId());
+
+//		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+//
+//
+//		if (authorizedRoles.contains(role)) {
+//			// results and status set in here
+//			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
+//		} else {
+//			status = Status.FORBIDDEN;
+//		}
+		
+		JSONObject batchDetails = new JSONObject();
+		JSONArray batches = new JSONArray();
+		
+		for(int i = 0; i < 10; i++) {
+			JSONObject b = new JSONObject();
+			b.put("batchName", "batchName"+i);
+			b.put("aCount", Timestamp.valueOf(LocalDateTime.now()).getTime());
+			b.put("endTime", Timestamp.valueOf(LocalDateTime.now()).getTime());
+			batches.put(b);
+		}
+		batchDetails.put("courseBatches", batches);
+		
+		return Response.status(status).entity(batchDetails.toString()).build();
+	}
 }

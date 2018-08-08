@@ -1,3 +1,4 @@
+import { BatchService } from './../../services/batch-service/batch.service';
 import { Component, OnInit } from '@angular/core';
 import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
@@ -25,11 +26,11 @@ export class PredictionsComponent implements OnInit {
   public expanded = false;
   public results: any;
   public message = "";
-  public batches: Batch[];
+  public batches: Object;
   public batchNumberAssociates: number[];
   public associates: Associate[];
 
-  constructor(private ss: CurriculumService, private as: AssociateService) { }
+  constructor(private ss: CurriculumService, private as: AssociateService, private bs: BatchService) { }
 
   ngOnInit() {
     this.getListofCurricula();
@@ -140,9 +141,8 @@ export class PredictionsComponent implements OnInit {
     let startTime = new Date(this.startDate).getTime();
     let endTime = new Date(this.endDate).getTime();
     //Get id of the button that called the function, which should have the name of the technology.
-    let tech: string = event.target.id;
-
-
+    let tech: string = event.target.attributes.id;
+    
     // let test = this.ps.getBatchesByCurricula(startTime, endTime, tech).subscribe(
     //   data => {
     //     this.batches = data;
@@ -150,5 +150,23 @@ export class PredictionsComponent implements OnInit {
     //   },
     //   err => {
     //   });
+
+    /*
+      1806_Andrew_H
+      This method populates the batches object using a json object.
+      The json object is an array with each element containing info on the batch name,
+      number of associates in the batch, and the batch's end date.
+    */
+    this.bs.getBatchDetails( new Date(this.startDate), new Date(this.endDate),tech).subscribe(
+      data => {
+        this.batches = data;
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      });
+
+
+
   }
 }

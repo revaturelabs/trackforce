@@ -29,5 +29,5 @@ public interface AssociateDao {
 
 	boolean updateAssociates(List<TfAssociate> associate);
 
-	<T> T countAssociatesByValue(String column, T value);
+	<T> T countMappedAssociatesByValue(String column, T value, Integer mappedStatus);
 }

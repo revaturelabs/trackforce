@@ -74,6 +74,7 @@ export class PredictionsComponent implements OnInit {
      * @param e The end date of the period to be searched
      */
   getPrediction(s, e) {
+    this.results = [];
     this.as.getAllAssociates().subscribe(
       data=>{
         this.associates=data;
@@ -96,7 +97,6 @@ export class PredictionsComponent implements OnInit {
     let endTime = new Date(this.endDate).getTime();
     if (startTime && endTime && selectedTechnologies.length > 0) {
       this.message = "";
-      this.results = [];
       let returnedNames = [];
       for(let t of selectedTechnologies){
         let count=0;

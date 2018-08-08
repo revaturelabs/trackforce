@@ -41,11 +41,11 @@
               <div class="overSelect"></div>
             </div>
             <div id="checkboxes" *ngIf="expanded">
-              <div class="input-group" *ngFor="let tech of technologies; let i=index">
+              <!--<div class="input-group" *ngFor="let tech of technologies; let i=index">
                 <label for="one"> &ensp;
                   <input type="checkbox" [id]="'tech' + (i+1)" [(ngModel)]="tech.selected" [ngModelOptions]="{standalone: true}" /> &ensp;{{tech.name}}
                 </label>
-              </div>
+              </div>-->
             </div>
           </div>
         </div>

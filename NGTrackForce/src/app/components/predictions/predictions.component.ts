@@ -159,7 +159,7 @@ export class PredictionsComponent implements OnInit {
       The json object is an array with each element containing info on the batch name,
       number of associates in the batch, and the batch's end date.
     */
-    this.bs.getBatchDetails(this.startDate,this.endDate,tech).subscribe(
+    this.bs.getBatchDetails( new Date(this.startDate), new Date(this.endDate),tech).subscribe(
       data => {
         this.batches = data;
         console.log(data);

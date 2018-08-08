@@ -158,13 +158,17 @@ public class BatchResource {
 	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
 	@Path("details")
 	public Response getBatchDetails(@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate, @QueryParam("end") Long endDate, @QueryParam("courseName") int courseName) {
+
 		logger.info("getBatchDetails()...");
-		
+
+		System.out.println("=================================");
+
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		Status status = null;
+		status = Status.OK;
 		int role = Integer.parseInt(payload.getId());
 
 //		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
@@ -189,8 +193,6 @@ public class BatchResource {
 		}
 		batchDetails.put("courseBatches", batches);
 		
-		
-		
-		return Response.status(status).entity(batchDetails).build();
+		return Response.status(status).entity(batchDetails.toString()).build();
 	}
 }

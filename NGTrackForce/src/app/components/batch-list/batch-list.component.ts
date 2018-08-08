@@ -35,6 +35,9 @@ export class BatchListComponent implements OnInit {
   dataEmpty = false;
   batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
 
+  dateRangeMessage: string;
+  showDateRangeError = false;
+
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
     new SideValues(-100, 0, 0, 0),
     new SideValues(0, 0, 0, 0),
@@ -94,16 +97,31 @@ export class BatchListComponent implements OnInit {
    * after user selects date range, this handles updating the data,
    * and the corresponding graph accordingly
    */
-  public applySelectedRange(s, e) {
-    if (s != null) {
-      this.startDate = s;
-    }
-    if (e != null) {
-      this.endDate = e;
-    }
+  public applySelectedRange() {
+    let dateStartDate = new Date(this.startDate);
+    let dateEndDate = new Date(this.endDate);
+
+    let longStartDate: number;
+    let longEndDate: number;
+
+    this.resetFormWarnings();
+
     if (this.startDate && this.endDate) {
-      this.updateBatches();
+      longStartDate = dateStartDate.getTime();
+      longEndDate = dateEndDate.getTime();
+
+      if (longStartDate > longEndDate){
+        this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
+        this.showDateRangeError = true;
+      } else {
+        this.updateBatches();
+      }
     }
+  }
+
+  public resetFormWarnings(){
+    if(this.showDateRangeError == true)
+      this.showDateRangeError = false;
   }
 
   /*

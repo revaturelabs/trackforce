@@ -35,3 +35,18 @@
 .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
     color:#000000;
 }
+
+.navbar span
+{
+	display: inline-block;
+	color: black;
+	font-size: 1.2em;
+	font-weight: bold;
+	margin: 15px;
+	margin-top: 20px
+}
+
+.navbar button
+{
+	margin: 15px;
+}

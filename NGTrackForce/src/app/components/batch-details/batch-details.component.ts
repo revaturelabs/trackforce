@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {BatchService} from '../../services/batch-service/batch.service';
-import {Associate} from '../../models/associate.model';
-import {AutoUnsubscribe} from '../../decorators/auto-unsubscribe.decorator';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { BatchService } from '../../services/batch-service/batch.service';
+import { Associate } from '../../models/associate.model';
+import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { ChartsModule, Color } from 'ng2-charts';
+import { Client } from '../../models/client.model';
 
 /**
  * Data relating to Batch details chart.
@@ -60,7 +61,7 @@ export class BatchDetailsComponent implements OnInit {
     }
   };
   associates: Associate[];
-  dataSets: any[] = [{ data: [0], label: 'Mapped' }, { data: [0], label: 'Unmapped' }, {data: [0], label: 'Other'}];;
+  dataSets: any[] = [{ data: [0], label: 'Mapped' }, { data: [0], label: 'Unmapped' }, { data: [0], label: 'Other' }];;
   statusNames: string[];
   isDataReady = false;
   isDataEmpty = false;
@@ -83,8 +84,10 @@ export class BatchDetailsComponent implements OnInit {
 
       this.batchService.getAssociatesForBatch(batchId)
         .subscribe((data: Associate[]) => {
-            this.associates = data;
+          this.associates = data;
 
+          if ( this.associates != null )
+          {
             //initiialize statuses
             const statusMap = new Map<number, number>();
             statusMap.set(1, 0);
@@ -108,28 +111,46 @@ export class BatchDetailsComponent implements OnInit {
             }
 
             const mappedCount: number = statusMap.get(1) + statusMap.get(2) + statusMap.get(3) + statusMap.get(4) + statusMap.get(5);
-            const unmappedCount: number  = statusMap.get(6) + statusMap.get(7) + statusMap.get(8) + statusMap.get(9) + statusMap.get(10);
+            const unmappedCount: number = statusMap.get(6) + statusMap.get(7) + statusMap.get(8) + statusMap.get(9) + statusMap.get(10);
 
             const dataSets: BarChartDataSet[] = [new BarChartDataSet("Mapped"), new BarChartDataSet("Unmapped"), new BarChartDataSet("Other")];
 
+            this.dataSets = [{
+              data: [mappedCount],
+              label: 'Mapped'
+            },
+            {
+              data: [unmappedCount],
+              label: 'Unmapped'
+            },
+            {
+              data: [statusMap.get(11) + statusMap.get(12)],
+              label: 'Other'
+            }
+            ];
 
-                this.dataSets = [{
-                  data: [mappedCount],
-                  label: 'Mapped'
-                },
-                {
-                  data: [unmappedCount],
-                  label: 'Unmapped'
-                },
-                {
-                  data: [statusMap.get(11) + statusMap.get(12)],
-                  label: 'Other'
-                }
-              ];
+            //initialize null clients to defualt value to fixe errors
+            //in the frontend
+            for (let assoc of this.associates){
+              if (assoc.client == null){
+                assoc.client = new Client();
+              }
+            }
+
             this.isDataEmpty = this.associates.length === 0;
             this.isDataReady = true;
-          },
-        );
+          }
+          else
+          {
+            if ( this.associates == null )
+            {
+              this.isDataEmpty = true;
+            }
+            this.isDataReady = true;
+          }
+
+        },
+      );
     });
   }
 }

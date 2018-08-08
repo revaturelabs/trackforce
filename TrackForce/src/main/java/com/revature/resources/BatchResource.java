@@ -156,8 +156,9 @@ public class BatchResource {
 
 	@GET
 	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
-	@Path("details")
-	public Response getBatchDetails(@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate, @QueryParam("end") Long endDate, @QueryParam("courseName") int courseName) {
+	@Path("/details")
+	public Response getBatchDetails(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
+							@QueryParam("courseName") String courseName, @HeaderParam("Authorization") String token) {
 		logger.info("getBatchAssociates()...");
 		System.out.println("=================================");
 		Claims payload = JWTService.processToken(token);

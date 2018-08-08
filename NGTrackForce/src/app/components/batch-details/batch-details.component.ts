@@ -86,57 +86,69 @@ export class BatchDetailsComponent implements OnInit {
         .subscribe((data: Associate[]) => {
           this.associates = data;
 
-          //initiialize statuses
-          const statusMap = new Map<number, number>();
-          statusMap.set(1, 0);
-          statusMap.set(2, 0);
-          statusMap.set(3, 0);
-          statusMap.set(4, 0);
-          statusMap.set(5, 0);
-          statusMap.set(6, 0);
-          statusMap.set(7, 0);
-          statusMap.set(8, 0);
-          statusMap.set(9, 0);
-          statusMap.set(10, 0);
-          statusMap.set(11, 0);
-          statusMap.set(12, 0);
-          for (const assoc of this.associates) {
-            let statusCount = statusMap.get(assoc.marketingStatus.id);
-            if (statusCount === undefined) {
-              statusCount = -1;
-            }
-            statusMap.set(assoc.marketingStatus.id, statusCount + 1);
-          }
-
-          const mappedCount: number = statusMap.get(1) + statusMap.get(2) + statusMap.get(3) + statusMap.get(4) + statusMap.get(5);
-          const unmappedCount: number = statusMap.get(6) + statusMap.get(7) + statusMap.get(8) + statusMap.get(9) + statusMap.get(10);
-
-          const dataSets: BarChartDataSet[] = [new BarChartDataSet("Mapped"), new BarChartDataSet("Unmapped"), new BarChartDataSet("Other")];
-
-          this.dataSets = [{
-            data: [mappedCount],
-            label: 'Mapped'
-          },
+          if ( this.associates != null )
           {
-            data: [unmappedCount],
-            label: 'Unmapped'
-          },
-          {
-            data: [statusMap.get(11) + statusMap.get(12)],
-            label: 'Other'
-          }
-          ];
-
-          //initialize null clients to defualt value to fixe errors
-          //in the frontend
-          for (let assoc of this.associates){
-            if (assoc.client == null){
-              assoc.client = new Client();
+            //initiialize statuses
+            const statusMap = new Map<number, number>();
+            statusMap.set(1, 0);
+            statusMap.set(2, 0);
+            statusMap.set(3, 0);
+            statusMap.set(4, 0);
+            statusMap.set(5, 0);
+            statusMap.set(6, 0);
+            statusMap.set(7, 0);
+            statusMap.set(8, 0);
+            statusMap.set(9, 0);
+            statusMap.set(10, 0);
+            statusMap.set(11, 0);
+            statusMap.set(12, 0);
+            for (const assoc of this.associates) {
+              let statusCount = statusMap.get(assoc.marketingStatus.id);
+              if (statusCount === undefined) {
+                statusCount = -1;
+              }
+              statusMap.set(assoc.marketingStatus.id, statusCount + 1);
             }
+
+            const mappedCount: number = statusMap.get(1) + statusMap.get(2) + statusMap.get(3) + statusMap.get(4) + statusMap.get(5);
+            const unmappedCount: number = statusMap.get(6) + statusMap.get(7) + statusMap.get(8) + statusMap.get(9) + statusMap.get(10);
+
+            const dataSets: BarChartDataSet[] = [new BarChartDataSet("Mapped"), new BarChartDataSet("Unmapped"), new BarChartDataSet("Other")];
+
+            this.dataSets = [{
+              data: [mappedCount],
+              label: 'Mapped'
+            },
+            {
+              data: [unmappedCount],
+              label: 'Unmapped'
+            },
+            {
+              data: [statusMap.get(11) + statusMap.get(12)],
+              label: 'Other'
+            }
+            ];
+
+            //initialize null clients to defualt value to fixe errors
+            //in the frontend
+            for (let assoc of this.associates){
+              if (assoc.client == null){
+                assoc.client = new Client();
+              }
+            }
+
+            this.isDataEmpty = this.associates.length === 0;
+            this.isDataReady = true;
+          }
+          else
+          {
+            if ( this.associates == null )
+            {
+              this.isDataEmpty = true;
+            }
+            this.isDataReady = true;
           }
 
-          this.isDataEmpty = this.associates.length === 0;
-          this.isDataReady = true;
         },
       );
     });

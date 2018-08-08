@@ -215,6 +215,7 @@
 		<!-- The following four dependencies are required for running TrackForce 
 			locally on Kirk's computer(Sprint 6) -->
 
+<!-- 
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
@@ -238,6 +239,7 @@
 			<artifactId>activation</artifactId>
 			<version>1.1.1</version>
 		</dependency>
+ -->
 
 		<dependency>
 			<groupId>org.codehaus.mojo</groupId>

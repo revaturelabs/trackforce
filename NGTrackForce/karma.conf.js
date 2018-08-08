@@ -20,15 +20,15 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, 'coverage'), reports: [ 'html', 'lcovonly' ],
       fixWebpackSourcePaths: true
     },
-    
+
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     browserNoActivityTimeout: 60000,
     autoWatch: true,
-    browsers: ['PhantomJS', 'Chrome'],
+    browsers: ['Chrome'],   //'PhantomJS',
     // singleRun is true so it'll work on the pipeline, please don't change it <3
-    singleRun: true
+    singleRun: false    //TODO: change this back to true before deploying.
   });
 };

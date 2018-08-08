@@ -64,7 +64,8 @@ export class AssociateListComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem("currentUser"));
-    if (this.user.role === 1 || this.user.role === 3 ||this.user.role===4) {
+    //EDIT EricS 8/8/18: added 'this.user &&' below to prevent null pointers in Jasmine Test. It would appear that this.user = null during testing.
+    if (this.user && (this.user.role === 1 || this.user.role === 3 ||this.user.role===4)) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
     this.getAllAssociates(); //grab associates and clients from back end
@@ -91,8 +92,9 @@ export class AssociateListComponent implements OnInit {
    * Set our array of all associates
    */
   getAllAssociates() {
-
+      console.log(localStorage.getAllItems());
       this.associates = JSON.parse(localStorage.getItem('currentAssociates'));
+      console.log("Hey now.");
       console.log(this.associates);
       for (const associate of this.associates) {//get our curriculums from the associates
         if(associate.batch!==null && associate.batch.curriculumName!==null){

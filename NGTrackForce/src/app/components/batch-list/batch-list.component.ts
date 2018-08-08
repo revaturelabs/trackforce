@@ -7,6 +7,7 @@ import { ThemeConstants } from '../../constants/theme.constants';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartOptions, SideValues } from '../../models/ng2-charts-options.model';
 import { Color } from 'ng2-charts';
+import 'rxjs/add/observable/from';
 
 
 // TODO: LABELS SHOULD PROPERLY WRAP
@@ -58,13 +59,12 @@ export class BatchListComponent implements OnInit {
     //user is a trainer they can only see their batches
     if (user.role === 2) {
       this.dataReady = false;
+
       this.batchService.getAllBatches().subscribe(
         batches => {
           // filter out batches that don't have an associated trainer
           this.batches = batches.filter(
             batch => {
-              console.log(batch.trainer.firstName);
-              console.log(this.authService.getTrainer().firstName);
               if (batch.trainer.firstName === this.authService.getTrainer().firstName) {
                 return true;
               }
@@ -74,12 +74,13 @@ export class BatchListComponent implements OnInit {
               return false;
             }
           );
+          this.updateCountPerCurriculum();
+          this.dataReady = true;
         },
         error => {
           console.log(error);
         }
       );
-      this.dataReady = true;
     }
     else {
       // set default dates displayed on page
@@ -89,27 +90,24 @@ export class BatchListComponent implements OnInit {
       this.batchService.getAllBatches().subscribe(
         (batches) => {
           this.batches = [];
-          for ( var bat in batches ) 
-          {
-            if ( batches[bat]['startDate'] != null && 
-                 batches[bat]['endDate'] != null && 
-                 batches[bat]['location'] != null && 
-                 batches[bat]['curriculumName'] != null )
-            {
+          for (var bat in batches) {
+            if (batches[bat]['startDate'] != null &&
+              batches[bat]['endDate'] != null &&
+              batches[bat]['location'] != null &&
+              batches[bat]['curriculumName'] != null) {
               this.batches[this.counter] = batches[bat];
               this.counter++;
             }
-            else
-            {
+            else {
 
             }
           }
 
-          this.updateCountPerCurriculum();
+          this.updateCountPerCurriculum(); //1
           this.dataReady = true;
         }
       );
-     
+
     }
   }
 
@@ -131,7 +129,7 @@ export class BatchListComponent implements OnInit {
       longStartDate = dateStartDate.getTime();
       longEndDate = dateEndDate.getTime();
 
-      if (longStartDate > longEndDate){
+      if (longStartDate > longEndDate) {
         this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
         this.showDateRangeError = true;
       } else {
@@ -140,8 +138,8 @@ export class BatchListComponent implements OnInit {
     }
   }
 
-  public resetFormWarnings(){
-    if(this.showDateRangeError == true)
+  public resetFormWarnings() {
+    if (this.showDateRangeError == true)
       this.showDateRangeError = false;
   }
 
@@ -159,18 +157,15 @@ export class BatchListComponent implements OnInit {
     this.batchService.getAllBatches().subscribe(
       (batches) => {
         this.batches = [];
-        for ( var bat in batches ) 
-        {
-          if ( batches[bat]['startDate'] != null && 
-               batches[bat]['endDate'] != null && 
-               batches[bat]['location'] != null && 
-               batches[bat]['curriculumName'] != null )
-          {
+        for (var bat in batches) {
+          if (batches[bat]['startDate'] != null &&
+            batches[bat]['endDate'] != null &&
+            batches[bat]['location'] != null &&
+            batches[bat]['curriculumName'] != null) {
             this.batches[this.counter] = batches[bat];
             this.counter++;
           }
-          else
-          {
+          else {
 
           }
         }
@@ -179,7 +174,7 @@ export class BatchListComponent implements OnInit {
         this.dataReady = true;
       }
     );
- 
+
   }
 
   /**
@@ -252,7 +247,7 @@ export class BatchListComponent implements OnInit {
             return 0;
           }
           );
-          this.updateCountPerCurriculum();
+          this.updateCountPerCurriculum(); //2
           this.dataReady = true;
         },
       );
@@ -271,21 +266,23 @@ export class BatchListComponent implements OnInit {
     this.curriculumNames = this.curriculumCounts = null;
     const curriculumCountsMap = new Map<string, number>();
 
-    this.dataEmpty = this.batches.length === 0;
+    if (this.batches != null) {
+      this.dataEmpty = this.batches.length === 0;
 
-    for (const batch of this.batches) {
-      if (batch.curriculumName) {
-        let count = curriculumCountsMap.get(batch.curriculumName.name);
-        if (count === undefined) {
-          count = 0;
+      for (const batch of this.batches) {
+        if (batch.curriculumName) {
+          let count = curriculumCountsMap.get(batch.curriculumName.name);
+          if (count === undefined) {
+            count = 0;
+          }
+          curriculumCountsMap.set(batch.curriculumName.name, count + 1);
         }
-        curriculumCountsMap.set(batch.curriculumName.name, count + 1);
       }
+  
+      // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change
+      this.curriculumNames = Array.from(curriculumCountsMap.keys());
+      this.curriculumCounts = Array.from(curriculumCountsMap.values());
     }
-
-    // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change
-    this.curriculumNames = Array.from(curriculumCountsMap.keys());
-    this.curriculumCounts = Array.from(curriculumCountsMap.values());
   }
 
 }

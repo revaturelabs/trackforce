@@ -24,6 +24,7 @@ import javax.ws.rs.core.Response.Status;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.revature.daoimpl.BatchDaoImpl;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.services.AssociateService;
@@ -179,17 +180,23 @@ public class BatchResource {
 //			status = Status.FORBIDDEN;
 //		}
 		
-		JSONObject batchDetails = new JSONObject();
-		JSONArray batches = new JSONArray();
 		
-		for(int i = 0; i < 10; i++) {
+		JSONObject batchDetails = new JSONObject();
+		JSONArray batchesJ = new JSONArray();
+
+		BatchDaoImpl bd = new BatchDaoImpl();
+		List<TfBatch> batches = bd.getBatchesForPredictions(courseName, Timestamp.valueOf(startDate.toString()), Timestamp.valueOf(endDate.toString()));
+		
+		for (TfBatch batch : batches) {
+
 			JSONObject b = new JSONObject();
-			b.put("batchName", "batchName"+i);
-			b.put("aCount", Timestamp.valueOf(LocalDateTime.now()).getTime());
-			b.put("endTime", Timestamp.valueOf(LocalDateTime.now()).getTime());
-			batches.put(b);
+			b.put("batchName", batch.getBatchName());
+			b.put("startDate", batch.getStartDate());
+			b.put("endDate", batch.getEndDate());
+			b.put("associateCount", batch.getAssociates().size());
+			batchesJ.put(b);
 		}
-		batchDetails.put("courseBatches", batches);
+		batchDetails.put("courseBatches", batchesJ);
 		
 		return Response.status(status).entity(batchDetails.toString()).build();
 	}

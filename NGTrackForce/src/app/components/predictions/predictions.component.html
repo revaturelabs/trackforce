@@ -18,7 +18,11 @@
         </div>
         <div class="form-group">
           <label for="number">Number of Associates Needed</label>
-          <input type="number" name="number" [(ngModel)]="numAssociatesNeeded" min=0 />
+          <input type="number" name="number" [(ngModel)]="numAssociatesNeeded"  
+                          onkeypress="return (event.charCode == 0 || event.charCode == 8 || event.charCode == 13) ? 
+                          null : event.charCode >= 48 && event.charCode <= 57"/>
+        <!-- The first set of event.charcode == X is to handle BACKSPACE, DELETE and ENTER (Needed for Firefox. May not be required anymore with new versions of Firefox, but better safe than sorry.) -->
+        <!-- The second set is to only allow numeric values. Specifically prevents 'e' from being entered since 'e' is used for scientific notation-->
         </div>
         <div class="form-group">
           <label>Filter By Technologies</label>

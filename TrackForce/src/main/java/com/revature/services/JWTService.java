@@ -37,7 +37,7 @@ public class JWTService {
 	UserService userService;
 	
 	private static final String SECRET_KEY = getKey();
-	private static Long EXPIRATION = 1000L;
+	private static Long EXPIRATION = 120L; //expiration time in minutes
 
 	/**
 	 * Validates a token
@@ -167,7 +167,7 @@ public class JWTService {
 	 * @return expiration Date object
 	 */
 	private static Date generateExpirationDate() {
-		return new Date(System.currentTimeMillis() + EXPIRATION * 1000);
+		return new Date(System.currentTimeMillis() + EXPIRATION * 1000 * 60);
 	}
 
 	/**

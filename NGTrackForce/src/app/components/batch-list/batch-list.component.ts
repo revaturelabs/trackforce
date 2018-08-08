@@ -34,6 +34,10 @@ export class BatchListComponent implements OnInit {
   dataReady = false;
   dataEmpty = false;
   batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
+  counter = 0;
+
+  dateRangeMessage: string;
+  showDateRangeError = false;
 
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
     new SideValues(-100, 0, 0, 0),
@@ -68,6 +72,11 @@ export class BatchListComponent implements OnInit {
               return false;
             }
           );
+        },
+        error => {
+          console.log("========ERROR==========");
+          console.log(error);
+          console.log("=======================");
         }
       );
       this.dataReady = true;
@@ -78,14 +87,34 @@ export class BatchListComponent implements OnInit {
       this.endDate.setMonth(new Date().getMonth() + 3);
       const startTime = Date.now();
       this.dataReady = false;
+
+
       this.batchService.getAllBatches().subscribe(
         (batches) => {
-          this.batches = batches;
+          this.batches = [];
+          for ( var bat in batches ) 
+          {
+            if ( batches[bat]['startDate'] != null && 
+                 batches[bat]['endDate'] != null && 
+                 batches[bat]['location'] != null && 
+                 batches[bat]['curriculumName'] != null )
+            {
+              this.batches[this.counter] = batches[bat];
+              this.counter++;
+            }
+            else
+            {
+
+            }
+          }
+
           this.updateCountPerCurriculum();
           this.dataReady = true;
           const elapsed = Date.now() - startTime;
-        },
+        }
       );
+      this.resetToDefaultBatches();
+     
     }
   }
 
@@ -94,32 +123,52 @@ export class BatchListComponent implements OnInit {
    * after user selects date range, this handles updating the data,
    * and the corresponding graph accordingly
    */
-  public applySelectedRange(s, e) {
-    if (s != null) {
-      this.startDate = s;
-    }
-    if (e != null) {
-      this.endDate = e;
-    }
+  public applySelectedRange() {
+    let dateStartDate = new Date(this.startDate);
+    let dateEndDate = new Date(this.endDate);
+
+    let longStartDate: number;
+    let longEndDate: number;
+
+    this.resetFormWarnings();
+
     if (this.startDate && this.endDate) {
-      this.updateBatches();
+      longStartDate = dateStartDate.getTime();
+      longEndDate = dateEndDate.getTime();
+
+      if (longStartDate > longEndDate){
+        this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
+        this.showDateRangeError = true;
+      } else {
+        this.updateBatches();
+      }
     }
+  }
+
+  public resetFormWarnings(){
+    if(this.showDateRangeError == true)
+      this.showDateRangeError = false;
   }
 
   /*
    * reset to original batches
    */
   public resetToDefaultBatches() {
-    // this.dataReady = false;
-    // this.dataReady = false;
-    // this.batchService.getAllBatches().subscribe(
-    //   (batches) => {
-    //     this.batches = batches;
-    //     this.updateCountPerCurriculum();
-    //     this.dataReady = true;
-    //   },
-    // );
-    this.ngOnInit();
+    this.startDate = new Date();
+    this.startDate.setMonth(new Date().getMonth() - 3);
+    this.endDate = new Date();
+    this.endDate.setMonth(new Date().getMonth() + 3);
+    const startTime = Date.now();
+    this.dataReady = false;
+    this.batchService.getAllBatches().subscribe(
+      (batches) => {
+        this.batches = batches;
+        this.updateCountPerCurriculum();
+        this.dataReady = true;
+        const elapsed = Date.now() - startTime;
+      },
+    );
+ 
   }
 
   /**

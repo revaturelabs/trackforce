@@ -88,8 +88,8 @@ public class ClientResource {
 	@GET
 	@Path("/get/{client_id}&{status}")
 	public Response getMappedAssociatesByClientId(
-			@PathParam("client_id") Integer client_id, 
-			@PathParam("status") Integer mappedStatus)
+			@PathParam("client_id") Long client_id, 
+			@PathParam("status") Long mappedStatus)
 	{
 		return Response.status(200)
 				.entity(associateService

@@ -86,8 +86,11 @@ public class AssociateService {
 		return dao.updateAssociate(associate);
 	}
 
-	public Integer getMappedAssociateCountByClientId(Integer client_id, Integer mappedStatus) {
-		return dao.countMappedAssociatesByValue("TF_CLIENT_ID", client_id, mappedStatus);
+	public Long getMappedAssociateCountByClientId(Long client_id, Long mappedStatus) {
+		return dao.countMappedAssociatesByValue(
+				"TF_CLIENT_ID",
+				client_id,
+				mappedStatus);
 	}
 
 

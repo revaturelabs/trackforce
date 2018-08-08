@@ -194,18 +194,17 @@ public class AssociateDaoImpl implements AssociateDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T countMappedAssociatesByValue(String column, T value, Integer mappedStatus) {
+	public <T> T countMappedAssociatesByValue(String column, T value, Long mappedStatus) {
 		Sessional<T> ss = (Session session, Object... args) -> {
-			String hql = "SELECT COUNT(TF_ASSOCIATE_ID) FROM ADMIN.TF_ASSOCIATE "
-					+ "WHERE :column = ':value' AND TF_MARKETING_STATUS_ID = :status";
+			String hql = "SELECT COUNT(TF_ASSOCIATE_ID) FROM TfAssociate " + "WHERE "
+					+ column + " = :value AND TF_MARKETING_STATUS_ID = :status";
 			return (T) session.createQuery(hql)
-					.setParameter("column", args[0].toString())
-					.setParameter("value", args[1])
-					.setParameter("status", args[2])
+					.setParameter("value", args[0])
+					.setParameter("status", args[1])
 					.uniqueResult();
 		};
 
-		return HibernateUtil.runHibernate(ss, column, value, mappedStatus);
+		return HibernateUtil.runHibernate(ss, value, mappedStatus);
 	}
 
 }

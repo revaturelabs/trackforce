@@ -23,10 +23,10 @@ describe('AssociateListComponent', () => {
 
   // setup service mocks
    beforeAll(() => {
-    let user: User;
-    user.token = "mockToken";
-    user.username = "mockUser";
-    user.role = 1;
+    let user = new User("mockUser", "mockPassword", 1, 0, 0, "mockToken");
+    // user.token = "mockToken";
+    // user.username = "mockUser";
+    // user.role = 1;
     spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
   });
 
@@ -72,9 +72,9 @@ describe('AssociateListComponent', () => {
     expect(component.curriculums).toBeTruthy();
   });
 
-  
 
 
-  
+
+
 
 });

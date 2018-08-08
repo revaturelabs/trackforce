@@ -12,6 +12,7 @@ import { Client } from '../../models/client.model';
 @Injectable()
 export class ClientService {
   private baseURL: string = environment.url + 'TrackForce/clients';
+  private clientUrl = environment.url + 'TrackForce/clients/get/'
 
   constructor(private http: HttpClient) { }
 
@@ -21,6 +22,10 @@ export class ClientService {
    */
   getAllClients(): Observable<Client[]> {
     return this.http.get<Client[]>(this.baseURL);
+  }
+
+  getClientCount(clientId: number, status: number): Observable<number>{
+    return this.http.get<number>(this.clientUrl + clientId + '&' + status);
   }
 
 }

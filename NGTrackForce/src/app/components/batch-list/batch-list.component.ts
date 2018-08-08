@@ -113,6 +113,8 @@ export class BatchListComponent implements OnInit {
           const elapsed = Date.now() - startTime;
         }
       );
+      this.resetToDefaultBatches();
+     
     }
   }
 
@@ -152,16 +154,21 @@ export class BatchListComponent implements OnInit {
    * reset to original batches
    */
   public resetToDefaultBatches() {
-    // this.dataReady = false;
-    // this.dataReady = false;
-    // this.batchService.getAllBatches().subscribe(
-    //   (batches) => {
-    //     this.batches = batches;
-    //     this.updateCountPerCurriculum();
-    //     this.dataReady = true;
-    //   },
-    // );
-    this.ngOnInit();
+    this.startDate = new Date();
+    this.startDate.setMonth(new Date().getMonth() - 3);
+    this.endDate = new Date();
+    this.endDate.setMonth(new Date().getMonth() + 3);
+    const startTime = Date.now();
+    this.dataReady = false;
+    this.batchService.getAllBatches().subscribe(
+      (batches) => {
+        this.batches = batches;
+        this.updateCountPerCurriculum();
+        this.dataReady = true;
+        const elapsed = Date.now() - startTime;
+      },
+    );
+ 
   }
 
   /**

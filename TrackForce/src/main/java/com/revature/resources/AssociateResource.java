@@ -134,23 +134,28 @@ public class AssociateResource {
 	public Response getAssociateByUserId(@ApiParam(value = "An associate id.") @PathParam("id") int id,
 	                             @HeaderParam("Authorization") String token) {
 		logger.info("getAssociateByUserId()...");
+		System.out.println(id);
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		TfAssociate associateinfo;
 
 		if (payload == null || false) {
+			System.out.println("We are in IF");
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
 			try {
+				System.out.println("We are in ELSE");
 				associateinfo = associateService.getAssociateByUserId(id);
+				System.out.println("Dao is ok");
 			} catch (NoResultException nre) {
 				logger.info("No associate found...");
 				return Response.status(Status.NO_CONTENT).build();
 			}
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
 		}
-
+		System.out.println(status);
+		System.out.println(associateinfo);
 		return Response.status(status).entity(associateinfo).build();
 	}
 	

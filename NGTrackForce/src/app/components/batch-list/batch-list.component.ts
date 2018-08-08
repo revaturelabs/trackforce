@@ -110,6 +110,8 @@ export class BatchListComponent implements OnInit {
           const elapsed = Date.now() - startTime;
         }
       );
+      this.resetToDefaultBatches();
+     
     }
   }
 
@@ -120,10 +122,12 @@ export class BatchListComponent implements OnInit {
    */
   public applySelectedRange(s, e) {
     if (s != null) {
-      this.startDate = s;
+      this.startDate = new Date(s);
+      console.log(this.startDate);
     }
     if (e != null) {
-      this.endDate = e;
+      this.endDate = new Date(e);
+      console.log(this.endDate);
     }
     if (this.startDate && this.endDate) {
       this.updateBatches();
@@ -134,16 +138,21 @@ export class BatchListComponent implements OnInit {
    * reset to original batches
    */
   public resetToDefaultBatches() {
-    // this.dataReady = false;
-    // this.dataReady = false;
-    // this.batchService.getAllBatches().subscribe(
-    //   (batches) => {
-    //     this.batches = batches;
-    //     this.updateCountPerCurriculum();
-    //     this.dataReady = true;
-    //   },
-    // );
-    this.ngOnInit();
+    this.startDate = new Date();
+    this.startDate.setMonth(new Date().getMonth() - 3);
+    this.endDate = new Date();
+    this.endDate.setMonth(new Date().getMonth() + 3);
+    const startTime = Date.now();
+    this.dataReady = false;
+    this.batchService.getAllBatches().subscribe(
+      (batches) => {
+        this.batches = batches;
+        this.updateCountPerCurriculum();
+        this.dataReady = true;
+        const elapsed = Date.now() - startTime;
+      },
+    );
+ 
   }
 
   /**

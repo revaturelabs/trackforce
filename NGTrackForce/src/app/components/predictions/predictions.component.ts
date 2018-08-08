@@ -2,12 +2,10 @@ import { BatchService } from './../../services/batch-service/batch.service';
 import { Component, OnInit } from '@angular/core';
 import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
-// import { Chart } from 'chart.js';
 import { Batch } from '../../models/batch.model';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { Associate } from '../../models/associate.model';
 import { Curriculum } from '../../models/curriculum.model';
-//import {FormsComponent} from '@angular/core';
 
 @Component({
   selector: 'app-predictions',

@@ -92,17 +92,16 @@ export class AssociateListComponent implements OnInit {
    * Set our array of all associates
    */
   getAllAssociates() {
-      console.log(localStorage.getAllItems());
       this.associates = JSON.parse(localStorage.getItem('currentAssociates'));
-      console.log("Hey now.");
-      console.log(this.associates);
-      for (const associate of this.associates) {//get our curriculums from the associates
-        if(associate.batch!==null && associate.batch.curriculumName!==null){
-          this.curriculums.add(associate.batch.curriculumName.name);
-        }
-        if (associate.batch && associate.batch.batchName === 'null') {
-          associate.batch.batchName = 'None'
-        }
+      if (this.associates){     //EDIT EricS 8/8/18 Added this if statement so that the foreach loop doesn't call .length on a null value.
+          for (const associate of this.associates) {//get our curriculums from the associates
+            if(associate.batch!==null && associate.batch.curriculumName!==null){
+              this.curriculums.add(associate.batch.curriculumName.name);
+            }
+            if (associate.batch && associate.batch.batchName === 'null') {
+              associate.batch.batchName = 'None'
+            }
+          }
       }
       this.curriculums.delete("");
       this.curriculums.delete("null");

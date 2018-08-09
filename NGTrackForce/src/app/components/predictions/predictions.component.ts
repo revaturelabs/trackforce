@@ -163,7 +163,6 @@ export class PredictionsComponent implements OnInit {
       data => {
         this.batches = data;
         this.detailsReady = true;
-        console.log(data);
       },
       error => {
         console.log(error);

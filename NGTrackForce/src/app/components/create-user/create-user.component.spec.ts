@@ -20,10 +20,7 @@ describe('CreateUserComponent', () => {
 
   // setup service mocks
   beforeAll(() => {
-    let user: User;
-    user.token = 'mockToken';
-    user.username = 'mockUser';
-    user.role = 1;
+    let user = new User("mockUser", "mockPassword", 1, 0, 0, "mockToken");
     spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
   });
 

@@ -150,7 +150,8 @@ public class UserResource {
 	
 	@Path("/checkUsername")
 	@POST
-	@Consumes("application/json")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response checkUsername(String username) {
 		JsonObject json = new JsonObject();
 		if(userService.getUser(username) == null) {

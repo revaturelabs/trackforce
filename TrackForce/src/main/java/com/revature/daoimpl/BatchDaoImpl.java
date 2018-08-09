@@ -44,13 +44,13 @@ public class BatchDaoImpl implements BatchDao {
 		setParameter("name", name).setParameter("startdate", startDate).setParameter("enddate", endDate).getResultList());
 	}
 	
-	// TODO 1806-Chris_P add
-	public Object getBatchCountsForPredictions(String name, Timestamp startDate, Timestamp endDate) {
-		Object sumAssociates = null;
+	// TODO 1806-Chris_P add to DAO Interface
+	public Integer getBatchCountsForPredictions(String name, Timestamp startDate, Timestamp endDate) {
+		Integer sumAssociates = null;
 		Query sumAssociate = HibernateUtil.runHibernate((Session session, Object ... args) ->
 		session.createQuery("SELECT SUM(associates.size()) from TfBatch b WHERE b.curriculumName.name = :name AND b.startDate >= :startdate AND b.endDate <= :enddate", TfBatch.class).
 		setParameter("name", name).setParameter("startdate", startDate).setParameter("enddate", endDate));
-		return sumAssociates = sumAssociate.getSingleResult();
+		return sumAssociates = (Integer)sumAssociate.getSingleResult();
 	}
 	
 

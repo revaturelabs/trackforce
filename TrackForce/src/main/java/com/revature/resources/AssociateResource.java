@@ -234,8 +234,8 @@ public class AssociateResource {
 			associates.add(toBeUpdated);
 		}
 
-
-		if (payload == null || !payload.getId().equals("1")) {
+		// If there is no payload or the currentUser is a Trainer or an Associate, then throw 401 in console
+		if (payload == null || payload.getId().equals("2") || payload.getId().equals("5") ) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {

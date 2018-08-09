@@ -27,11 +27,13 @@ import {RequestService} from '../../services/request-service/request.service';
 import {User} from '../../models/user.model';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 
+import {HttpClient} from '@angular/common/http';
+
 
 describe('BatchListComponent', async () => {
   let component: BatchListComponent;
   let fixture: ComponentFixture<BatchListComponent>;
-  const testBatchService: BatchService = new BatchService(null);
+  const testBatchService: BatchService = new BatchService(new HttpClient(null));
   const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
 
   // setup service mocks
@@ -45,10 +47,7 @@ describe('BatchListComponent', async () => {
     // spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
     spyOn(testBatchService, 'getBatchesByDate').and.returnValue(Observable.of([batch1, batch2]));
 
-    let user: User;
-    user.token = "mockToken";
-    user.username = "mockUser";
-    user.role = 1;
+    let user = new User("mockUser", "mockPassword", 1, 0, null, "mockToken");
     spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
   });
 
@@ -128,4 +127,3 @@ describe('BatchListComponent', async () => {
   });
 
 });
-

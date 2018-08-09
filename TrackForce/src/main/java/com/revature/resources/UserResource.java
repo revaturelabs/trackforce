@@ -152,11 +152,14 @@ public class UserResource {
 	@POST
 	@Consumes("application/json")
 	public Response checkUsername(String username) {
+		JsonObject json = new JsonObject();
 		if(userService.getUser(username) == null) {
-			return Response.ok("Username exists").build();
+			json.addProperty("result", "Username Exists");
+			return Response.ok(json).build();
 		}
 		else {
-			return Response.ok("Username is free").build();
+			json.addProperty("result", "Username Doesn't Exist");
+			return Response.ok(json).build();
 		}
 	}
 	/**

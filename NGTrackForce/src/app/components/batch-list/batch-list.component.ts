@@ -216,7 +216,6 @@ export class BatchListComponent implements OnInit {
           this.dataReady = true;
         }
       );
-      
     }
     else {
       this.dataReady = false;

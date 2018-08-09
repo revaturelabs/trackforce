@@ -68,7 +68,7 @@ public class ClientResource {
 	 */
 	@GET
 	@ApiOperation(value = "Returns all clients", notes = "Returns a map of all clients.")
-	public Response getAllClients(@HeaderParam("Authorization") String token) throws IOException {
+	public Response getAllClients(@HeaderParam("Authorization") String token) {
 		logger.info("getAllClients()...");
 		Status status = null;
 		List<TfClient> clients = clientService.getAllTfClients();

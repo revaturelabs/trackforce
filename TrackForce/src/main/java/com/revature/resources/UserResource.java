@@ -3,7 +3,6 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
-import java.net.URI;
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
@@ -18,15 +17,23 @@ import com.revature.entity.TfAssociate;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
-import com.revature.services.*;
+import com.revature.services.AssociateService;
+import com.revature.services.BatchService;
+import com.revature.services.ClientService;
+import com.revature.services.CurriculumService;
+import com.revature.services.InterviewService;
+import com.revature.services.MarketingStatusService;
+import com.revature.services.TrainerService;
+import com.revature.services.UserService;
 import com.revature.utils.LogUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-
 /**
- * <p> </p>
+ * <p>
+ * </p>
+ * 
  * @version v6.18.06.13
  *
  */
@@ -36,7 +43,8 @@ import io.swagger.annotations.ApiOperation;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
+	// You're probably thinking, why would you ever do this? Why not just just make
+	// the methods all static in the service class?
 	// This is to allow for Mockito tests, which have problems with static methods
 	// This is here for a reason!
 	// - Adam 06.18.06.13
@@ -49,10 +57,13 @@ public class UserResource {
 	UserService userService = new UserService();
 	MarketingStatusService marketingStatusService = new MarketingStatusService();
 
-
+	private static final String TEMP = "placeholder"; 
+	private static final String ASSC = "Associate";
+	
 	/**
 	 * @author Adam L.
-	 * <p> </p>
+	 *         <p>
+	 *         </p>
 	 * @version v6.18.06.13
 	 *
 	 * @param newUser
@@ -64,62 +75,68 @@ public class UserResource {
 	@ApiOperation(value = "Creates new user", notes = "")
 	public Response createUser(TfUser newUser) {
 		logger.info("creating new user..." + newUser);
-		
+
 		// any user created by an admin is approved
 		newUser.setIsApproved(1);
 
-		// get the role being passed in 
-		int role = newUser.getRole();
-		TfRole tfrole = new TfRole();
+		// get the role being passed in
 		boolean works = true;
-		if(role != 0) {
-			switch(role) {
-			case 1:
-				tfrole = new TfRole(1, "Admin");
-				newUser.setTfRole(tfrole);
-				works = userService.insertUser(newUser);
-				break;
-			case 2:
-				tfrole = new TfRole(2, "Trainer");
-				newUser.setTfRole(tfrole);
-				TfTrainer newTrainer = new TfTrainer();
-				newTrainer.setTfUser(newUser);
-				newTrainer.setFirstName("placeholder");
-				newTrainer.setLastName("placeholder");
-				logger.info("creating new trainer..." + newTrainer);
-				works = trainerService.createTrainer(newTrainer);
-				break;
-			case 3:
-				tfrole = new TfRole(3, "Sales-Delivery");
-				newUser.setTfRole(tfrole);
-				works = userService.insertUser(newUser);
-				break;
-			case 4:
-				tfrole = new TfRole(4, "Staging");
-				newUser.setTfRole(tfrole);
-				works = userService.insertUser(newUser);
-				break;
-			case 5:
-				tfrole = new TfRole(5, "Associate");
-				newUser.setTfRole(tfrole);
-				TfAssociate newAssociate = new TfAssociate();
-				newAssociate.setUser(newUser);
-				newAssociate.setFirstName("placeholder");
-				newAssociate.setLastName("placeholder");
-				logger.info("creating new associate..." + newAssociate);
-				works = associateService.createAssociate(newAssociate);
-				break;
-			}
+		int role = newUser.getRole();
+
+		TfRole tfrole = null;
+
+		switch (role) {
+		case 1:
+			tfrole = new TfRole(1, "Admin");
+			newUser.setTfRole(tfrole);
+			works = userService.insertUser(newUser);
+			break;
+		case 2:
+			tfrole = new TfRole(2, "Trainer");
+			newUser.setTfRole(tfrole);
+			TfTrainer newTrainer = new TfTrainer();
+			newTrainer.setTfUser(newUser);
+			newTrainer.setFirstName(TEMP);
+			newTrainer.setLastName(TEMP);
+			logger.info("creating new trainer..." + newTrainer);
+			works = trainerService.createTrainer(newTrainer);
+			break;
+		case 3:
+			tfrole = new TfRole(3, "Sales-Delivery");
+			newUser.setTfRole(tfrole);
+			works = userService.insertUser(newUser);
+			break;
+		case 4:
+			tfrole = new TfRole(4, "Staging");
+			newUser.setTfRole(tfrole);
+			works = userService.insertUser(newUser);
+			break;
+		case 5:
+			tfrole = new TfRole(5, ASSC);
+			newUser.setTfRole(tfrole);
+			TfAssociate newAssociate = new TfAssociate();
+			newAssociate.setUser(newUser);
+			newAssociate.setFirstName(TEMP);
+			newAssociate.setLastName(TEMP);
+			logger.info("creating new associate..." + newAssociate);
+			works = associateService.createAssociate(newAssociate);
+			break;
+		default:
+			logger.warn("Role is zero");
+			break;
 		}
-		if(works) {
+
+		if (works) {
 			return Response.status(Status.CREATED).build();
+		} else {
+			return Response.status(Status.EXPECTATION_FAILED).build();
 		}
-		return Response.status(Status.EXPECTATION_FAILED).build();
 	}
 
 	/**
 	 * @author Adam L.
-	 * <p> </p>
+	 *         <p>
+	 *         </p>
 	 * @version v6.18.06.13
 	 *
 	 * @param newAssociate
@@ -134,27 +151,27 @@ public class UserResource {
 		LogUtil.logger.info(newAssociate);
 		if (newAssociate.getUser().getRole() == 5) {
 			boolean works = false;
-			
-			TfRole tfrole = new TfRole();
-			tfrole = new TfRole(5, "Associate");
+
+			TfRole tfrole = null;
+			tfrole = new TfRole(5, ASSC);
 			newAssociate.getUser().setTfRole(tfrole);
 			logger.info(newAssociate.getUser().getTfRole());
 			logger.info("creating new associate..." + newAssociate);
 			works = associateService.createAssociate(newAssociate);
-			
+
 			if (works) {
 				return Response.status(Status.CREATED).build();
 			}
 			return Response.status(Status.EXPECTATION_FAILED).build();
-		}
-		else {
+		} else {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 	}
 
 	/**
 	 * @author Adam L.
-	 * <p> </p>
+	 *         <p>
+	 *         </p>
 	 * @version v6.18.06.13
 	 *
 	 * @param newTrainer
@@ -169,28 +186,28 @@ public class UserResource {
 		LogUtil.logger.info(newTrainer);
 		if (newTrainer.getTfUser().getRole() == 2) {
 			boolean works = false;
-			
-			TfRole tfrole = new TfRole();
-			tfrole = new TfRole(5, "Associate");
+
+			TfRole tfrole = null;
+			tfrole = new TfRole(5, ASSC);
 			newTrainer.getTfUser().setIsApproved(0);
 			newTrainer.getTfUser().setTfRole(tfrole);
 			logger.info(newTrainer.getTfUser().getTfRole());
 			logger.info("creating new trainer..." + newTrainer);
 			works = trainerService.createTrainer(newTrainer);
-			
+
 			if (works) {
 				return Response.status(Status.CREATED).build();
 			}
 			return Response.status(Status.EXPECTATION_FAILED).build();
-		}
-		else {
+		} else {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 	}
 
 	/**
 	 * @author Adam L.
-	 * <p> </p>
+	 *         <p>
+	 *         </p>
 	 * @version v6.18.06.13
 	 *
 	 * @param loginUser
@@ -202,7 +219,7 @@ public class UserResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	@ApiOperation(value = "login method", notes = "The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 403 if invalid.")
-	public Response submitCredentials(TfUser loginUser) throws IOException {
+	public Response submitCredentials(TfUser loginUser) {
 		logger.info("submitCredentials()...");
 		logger.info("	login: " + loginUser);
 		TfUser user;
@@ -210,7 +227,7 @@ public class UserResource {
 			user = userService.submitCredentials(loginUser);
 			logger.info("	user: " + user);
 		} catch (NoResultException nre) {
-			nre.printStackTrace();
+			logger.error(nre);
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		if (user != null) {

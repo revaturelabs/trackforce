@@ -33,4 +33,8 @@ export class CurriculumService {
   }
 
 
+  getAssociateCountByCurriculum(startDate: Date, endDate: Date){
+    return this.http.get<Object>(this.baseURL + 
+      `/countby?start=${startDate.getTime()}&end=${endDate.getTime()}`);
+  }
 }

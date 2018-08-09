@@ -23,17 +23,19 @@ export class PredictionsComponent implements OnInit {
   public endDate: Date = new Date();
   public numAssociatesNeeded: number;
   public technologies: any[];
-  public expanded = false;
+  public expanded = true;
   public results: any;
   public message = "";
   public batches: Object;
   public batchNumberAssociates: number[];
   public associates: Associate[];
+  public techNeeded: number[];
 
   constructor(private ss: CurriculumService, private as: AssociateService, private bs: BatchService) { }
 
   ngOnInit() {
     this.getListofCurricula();
+    this.techNeeded = [];
   }
 
   toggleCheckboxes() {
@@ -43,6 +45,7 @@ export class PredictionsComponent implements OnInit {
   getListofCurricula() {
     this.ss.getAllCurricula().subscribe(
       data => {
+        console.log("curricula", data);
         const tempArray = [];
         for (let i = 0; i < data.length; i++) {
           let tech = data[i];
@@ -73,54 +76,61 @@ export class PredictionsComponent implements OnInit {
      * @param e The end date of the period to be searched
      */
   getPrediction(s, e) {
-    this.results = [];
-    this.as.getAllAssociates().subscribe(
-      data=>{
-        this.associates=data;
+    console.log("techNeeded", this.techNeeded);
+
+    this.ss.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate)).subscribe(
+      data => console.log(data),
+      err => err
+    );
+    //****LEGACY CODE****?!?!?!?!?!?!?!?!?!?!?!?
+    // this.results = [];
+    // this.as.getAllAssociates().subscribe(
+    //   data=>{
+    //     this.associates=data;
 
 
-    if (s != null) {
-      this.startDate = s;
-    }
-    if (e != null) {
-      this.endDate = e;
-    }
-    let selectedTechnologies = [];
-    for (let i = 0; i < this.technologies.length; i++) {
-      let tech = this.technologies[i];
-      if (tech.selected) {
-        selectedTechnologies.push(tech.name);
-      }
-    }
-    let startTime = new Date(this.startDate).getTime();
-    let endTime = new Date(this.endDate).getTime();
-    if (startTime && endTime && selectedTechnologies.length > 0) {
-      this.message = "";
-      let returnedNames = [];
-      for(let t of selectedTechnologies){
-        let count=0;
-          for(let associate of this.associates){
-            if(associate.batch && associate.batch.curriculumName){
-              if(associate.batch.endDate>=startTime&&associate.batch.endDate<=endTime){
-                if(associate.batch.curriculumName.name===t){
-                  count++;
-                }
-              }
-            }
-          }
-          this.results.push({
-            technology: t,
-            requested: this.numAssociatesNeeded,
-            available: count
-          });
-          returnedNames.push(t);
-        }
-        this.dataReady=true;
-      }
-    },
-    err => {
-      this.message = "There was a problem fetching the requested data!";
-    })
+    // if (s != null) {
+    //   this.startDate = s;
+    // }
+    // if (e != null) {
+    //   this.endDate = e;
+    // }
+    // let selectedTechnologies = [];
+    // for (let i = 0; i < this.technologies.length; i++) {
+    //   let tech = this.technologies[i];
+    //   if (tech.selected) {
+    //     selectedTechnologies.push(tech.name);
+    //   }
+    // }
+    // let startTime = new Date(this.startDate).getTime();
+    // let endTime = new Date(this.endDate).getTime();
+    // if (startTime && endTime && selectedTechnologies.length > 0) {
+    //   this.message = "";
+    //   let returnedNames = [];
+    //   for(let t of selectedTechnologies){
+    //     let count=0;
+    //       for(let associate of this.associates){
+    //         if(associate.batch && associate.batch.curriculumName){
+    //           if(associate.batch.endDate>=startTime&&associate.batch.endDate<=endTime){
+    //             if(associate.batch.curriculumName.name===t){
+    //               count++;
+    //             }
+    //           }
+    //         }
+    //       }
+    //       this.results.push({
+    //         technology: t,
+    //         requested: this.numAssociatesNeeded,
+    //         available: count
+    //       });
+    //       returnedNames.push(t);
+    //     }
+    //     this.dataReady=true;
+    //   }
+    // },
+    // err => {
+    //   this.message = "There was a problem fetching the requested data!";
+    // })
   }
 
   /**

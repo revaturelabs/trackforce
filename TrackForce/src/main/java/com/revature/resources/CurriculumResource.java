@@ -3,15 +3,23 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
 
+import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.TfCurriculum;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
@@ -87,7 +95,7 @@ public class CurriculumResource {
 	@Path("/unmapped/{statusId}")
 	public Response getUnmappedInfo(@HeaderParam("Authorization") String token, @PathParam("statusId") int statusId) {
 		logger.info("getUnmappedInfo()...");		
-		List<TfCurriculum> curriculum = curriculumService.getAllCurriculums();
+
 		Claims payload = JWTService.processToken(token);
 		
 		if (payload == null) { // invalid token
@@ -97,5 +105,27 @@ public class CurriculumResource {
 		} else {
 			return Response.ok(curriculumService.getUnmappedInfo(statusId)).build();
 		}
+	}
+	
+	@GET
+	@ApiOperation(value = "Gets how many unmapped are in each curriculum (excluding empties)", notes="Gets how many unmapped are in each curriculum (excluding empties)")
+	@Path("/countby")
+	public Response getAssociateCountByCurriculum(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate, @HeaderParam("Authorization") String token) {
+		logger.info("getAssociateCountByCurriculum()...");		
+		
+//		Claims payload = JWTService.processToken(token);
+//		
+//		if (payload == null) { // invalid token
+//			return Response.status(Status.UNAUTHORIZED).build();
+//		} else if (!(payload.getId().equals("1") || payload.getId().equals("1"))) { // wrong roleid
+//			return Response.status(Status.FORBIDDEN).build();
+//		}
+//			
+		List<GraphedCriteriaResult> graphedCriteria = curriculumService.getAssociateCountByCurriculum(new Timestamp(startDate), new Timestamp(endDate));
+		
+		System.err.println(graphedCriteria);
+		
+		return Response.ok(graphedCriteria).build();
+		
 	}
 }

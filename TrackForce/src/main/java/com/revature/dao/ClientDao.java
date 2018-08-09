@@ -13,6 +13,7 @@ public interface ClientDao {
 	public TfClient getClient(Integer id);
 	TfEndClient getEndClient(int id);
 	public List<TfClient> getAllTfClients(String[] columns);
+	public List<TfClient> getAllClientsWithMappedAssociates();
 
 
 }

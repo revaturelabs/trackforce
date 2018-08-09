@@ -40,17 +40,17 @@ public class TfClient implements java.io.Serializable {
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
 	@JsonIgnore
-	private Set<TfPlacement> placement = new HashSet<TfPlacement>(0);
+	private Set<TfPlacement> placement = new HashSet<>(0);
 	
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
 	@JsonIgnore
-	private Set<TfAssociate> associate = new HashSet<TfAssociate>(0);
+	private Set<TfAssociate> associate = new HashSet<>(0);
 	
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
 	@JsonIgnore
-	private Set<TfInterview> interview = new HashSet<TfInterview>(0);
+	private Set<TfInterview> interview = new HashSet<>(0);
 
 	public TfClient() {
 		super();
@@ -126,18 +126,13 @@ public class TfClient implements java.io.Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
 		TfClient other = (TfClient) obj;
 		if (associate == null) {
-			if (other.associate != null)
-				return false;
-		} else if (!associate.equals(other.associate))
-			return false;
+			if (other.associate != null) return false;
+		} else if (!associate.equals(other.associate)) return false;
 		if (interview == null) {
 			if (other.interview != null)
 				return false;

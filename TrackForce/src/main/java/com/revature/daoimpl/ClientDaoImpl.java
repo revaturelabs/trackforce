@@ -14,10 +14,21 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public List<TfClient> getAllTfClients() {
 		return HibernateUtil.runHibernate((Session session, Object ...args) -> session
-				.createNativeQuery("SELECT * FROM TfClient LIMIT 15", TfClient.class)
+				.createQuery("from TfClient ", TfClient.class)
 				.getResultList());
 	}
 
+	@Override
+	public List<TfClient> getAllClientsWithMappedAssociates(){
+		return HibernateUtil.runHibernate((Session session, Object ...args) -> 
+			session.createQuery(
+					  "FROM TfClient WHERE "
+					+ "(SELECT COUNT(tf_associate_id) FROM tf_associate "
+					+ "WHERE tf_client_id = Tf_Client.tf_client_id AND tf_marketing_status_id < 5) > 0", 
+			TfClient.class).getResultList()
+		);
+	}
+	
 	@Override
 	public List<TfClient> getAllTfClients(String[] columns) {
 		return HibernateUtil.runHibernate((Session session, Object ...args) -> session

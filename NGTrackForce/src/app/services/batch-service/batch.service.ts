@@ -57,6 +57,10 @@ export class BatchService {
     return this.http.get<Object>(url);
   }
 
+  public getAssociateCountByCurriculum(startDate: Date, endDate: Date): Observable<Object>{
+    return this.http.get<Object>(this.baseURL + 
+      `/countby?start=${startDate.getTime()}&end=${endDate.getTime()}`);
+  }
 
   // // ============================================================================
   // // Not in the batch resource

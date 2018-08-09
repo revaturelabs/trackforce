@@ -106,26 +106,4 @@ public class CurriculumResource {
 			return Response.ok(curriculumService.getUnmappedInfo(statusId)).build();
 		}
 	}
-	
-	@GET
-	@ApiOperation(value = "Gets how many unmapped are in each curriculum (excluding empties)", notes="Gets how many unmapped are in each curriculum (excluding empties)")
-	@Path("/countby")
-	public Response getAssociateCountByCurriculum(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate, @HeaderParam("Authorization") String token) {
-		logger.info("getAssociateCountByCurriculum()...");		
-		
-//		Claims payload = JWTService.processToken(token);
-//		
-//		if (payload == null) { // invalid token
-//			return Response.status(Status.UNAUTHORIZED).build();
-//		} else if (!(payload.getId().equals("1") || payload.getId().equals("1"))) { // wrong roleid
-//			return Response.status(Status.FORBIDDEN).build();
-//		}
-//			
-		List<GraphedCriteriaResult> graphedCriteria = curriculumService.getAssociateCountByCurriculum(new Timestamp(startDate), new Timestamp(endDate));
-		
-		System.err.println(graphedCriteria);
-		
-		return Response.ok(graphedCriteria).build();
-		
-	}
 }

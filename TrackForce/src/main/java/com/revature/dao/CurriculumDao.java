@@ -9,5 +9,4 @@ import com.revature.entity.TfCurriculum;
 public interface CurriculumDao {
 	public List<TfCurriculum> getAllCurriculums();
 	public List<GraphedCriteriaResult> getUnmapped(int id);
-	public List<GraphedCriteriaResult> getAssociateCountByCurriculum(Timestamp start, Timestamp end);
 }

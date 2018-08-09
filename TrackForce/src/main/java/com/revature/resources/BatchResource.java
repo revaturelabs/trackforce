@@ -201,4 +201,51 @@ public class BatchResource {
 		
 		return Response.status(status).entity(batchDetails.toString()).build();
 	}
+	
+	@GET
+	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
+	@Path("/countby")
+	public Response getAssociateCounts(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
+							@QueryParam("courseName") String courseName, @HeaderParam("Authorization") String token) {
+		logger.info("getBatchAssociates()...");
+		System.out.println("=================================");
+
+		Claims payload = JWTService.processToken(token);
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		Status status = null;
+		status = Status.OK;
+		int role = Integer.parseInt(payload.getId());
+
+//		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+//
+//
+//		if (authorizedRoles.contains(role)) {
+//			// results and status set in here
+//			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
+//		} else {
+//			status = Status.FORBIDDEN;
+//		}
+		
+		
+		JSONObject batchDetails = new JSONObject();
+		JSONArray batchesJ = new JSONArray();
+
+		BatchDaoImpl bd = new BatchDaoImpl();
+		List<TfBatch> batches = bd.getBatchesForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
+		
+		for (TfBatch batch : batches) {
+
+			JSONObject b = new JSONObject();
+			b.put("batchName", batch.getBatchName());
+			b.put("startDate", (Long)batch.getStartDate().getTime());
+			b.put("endDate", (Long)batch.getEndDate().getTime());
+			b.put("associateCount", batch.getAssociates().size());
+			batchesJ.put(b);
+		}
+		batchDetails.put("courseBatches", batchesJ);
+		
+		return Response.status(status).entity(batchDetails.toString()).build();
+	}
 }

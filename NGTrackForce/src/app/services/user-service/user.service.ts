@@ -55,4 +55,9 @@ export class UserService {
       newTrainer);
   }
 
+  //EDIT EricS 8/9/18 Added this service to fix nonunique username bug (Issue 273)
+  public checkUniqueUsername(username: string): Observable<boolean> {
+      return this.http:post<boolean>(this.baseUrl + '/checkUsername', username);
+  }
+
 }

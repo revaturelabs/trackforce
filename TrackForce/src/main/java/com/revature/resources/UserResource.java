@@ -64,7 +64,6 @@ public class UserResource {
 	@ApiOperation(value = "Creates new user", notes = "")
 	public Response createUser(TfUser newUser) {
 		logger.info("creating new user..." + newUser);
-		
 		// any user created by an admin is approved
 		newUser.setIsApproved(1);
 

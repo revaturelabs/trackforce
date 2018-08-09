@@ -21,6 +21,7 @@ export class CreateUserComponent implements OnInit {
   errMsg: any;
   sucMsg: any;
   newUser: User;
+  displayErrorUsername: string;
 
   constructor(private authService: AuthenticationService,
               private router: Router,
@@ -28,7 +29,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   ngOnInit() {
-
+      this.displayErrorUsername = 'none';
   }
 
   /**
@@ -56,5 +57,18 @@ export class CreateUserComponent implements OnInit {
       );
     }
   }
+
+  onBlur_username() {
+      this.displayErrorUsername = 'block';
+      // this.userService.checkUniqueUsername(this.username).subscribe(
+      //     data => {
+      //         console.log(data);
+      //         //TODO: based on results, set this.displayErrorUsername to 'none' or 'block'
+      //     }, err => {
+      //         console.log("Error, see next line: ")
+      //         console.log(err)}
+      // );
+  }
+
 
 }

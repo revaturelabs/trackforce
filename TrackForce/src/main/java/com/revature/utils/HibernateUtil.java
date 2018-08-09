@@ -2,6 +2,7 @@ package com.revature.utils;
 
 import static com.revature.utils.LogUtil.logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -27,6 +28,7 @@ public class HibernateUtil {
 
 	private static void addShutdown() {
 		Runtime.getRuntime().addShutdownHook(new Thread() {
+			@Override
 			public void run() {
 				shutdown();
 			}
@@ -53,22 +55,22 @@ public class HibernateUtil {
 	}
 
 	public static void shutdown() {
-		System.out.println("Shutting down SessionFactory");
+		logger.info("Shutting down SessionFactory");
 		getSessionFactory().close();
-		System.out.println("SessionFactory closed");
+		logger.info("SessionFactory closed");
 	}
 
 	public static void closeSession(Session session) {
 		if (session != null) {
 			session.close();
-			System.out.println("Session is" + (session.isOpen() ? " open" : " closed"));
+			logger.info("Session is" + (session.isOpen() ? " open" : " closed"));
 		}
 	}
 
 	public static void rollbackTransaction(Transaction transaction) {
 		if (transaction != null) {
 			transaction.rollback();
-			System.out.println("Transaction rolled back");
+			logger.warn("Transaction rolled back");
 		}
 	}
 
@@ -86,9 +88,9 @@ public class HibernateUtil {
 
 			if (b) {
 				logger.debug("Committing...");
-			} else
+			} else {
 				throw new HibernateException("Transaction Operation Failed!");
-
+			}
 			transaction.commit();
 			logger.info("Transaction committed!");
 
@@ -141,7 +143,7 @@ public class HibernateUtil {
 			if (session != null)
 				session.close();
 		}
-		return null;
+		return new ArrayList<>();
 	}
 
 	private static Sessional<Boolean> dbSave = (Session session, Object... args) -> {

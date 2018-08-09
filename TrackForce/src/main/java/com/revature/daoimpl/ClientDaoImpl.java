@@ -14,7 +14,7 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public List<TfClient> getAllTfClients() {
 		return HibernateUtil.runHibernate((Session session, Object ...args) -> session
-				.createQuery("from TfClient ", TfClient.class)
+				.createNativeQuery("SELECT * FROM TfClient LIMIT 15", TfClient.class)
 				.getResultList());
 	}
 

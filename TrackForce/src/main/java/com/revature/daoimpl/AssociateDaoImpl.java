@@ -99,8 +99,8 @@ public class AssociateDaoImpl implements AssociateDao {
 			Join<TfAssociate, TfClient> clientJoin = root.join("client");
 			Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
 
-			Path clientId = clientJoin.get("id");
-			Path clientName = clientJoin.get("name");
+			Path<?> clientId = clientJoin.get("id");
+			Path<?> clientName = clientJoin.get("name");
 
 			query.where(cb.equal(msJoin.get("id"), args[0]));
 			query.groupBy(clientId, clientName);
@@ -121,8 +121,8 @@ public class AssociateDaoImpl implements AssociateDao {
 				Join<TfAssociate, TfClient> clientJoin = root.join("client");
 				Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
 
-				Path clientId = clientJoin.get("id");
-				Path clientName = clientJoin.get("name");
+				Path<?> clientId = clientJoin.get("id");
+				Path<?> clientName = clientJoin.get("name");
 
 				query.where(cb.lessThanOrEqualTo(msJoin.get("id"), 4));
 				query.where(cb.greaterThanOrEqualTo(msJoin.get("id"), 1));
@@ -142,8 +142,8 @@ public class AssociateDaoImpl implements AssociateDao {
 				Join<TfBatch, TfCurriculum> curriculumJoin = batchJoin.join("curriculumName");
 				Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
 
-				Path curriculumid = curriculumJoin.get("id");
-				Path curriculumName = curriculumJoin.get("name");
+				Path<?> curriculumid = curriculumJoin.get("id");
+				Path<?> curriculumName = curriculumJoin.get("name");
 
 				query.where(cb.lessThanOrEqualTo(msJoin.get("id"), 9));
 				query.where(cb.greaterThanOrEqualTo(msJoin.get("id"), 6));
@@ -156,24 +156,6 @@ public class AssociateDaoImpl implements AssociateDao {
 		throw new InvalidArgumentException("NOT MAPPED OR UNMAPPED YOU FOOOL");
 	}
 
-	private Sessional<Boolean> updateAssociate = (Session session, Object... args) -> {
-		TfAssociate associate = (TfAssociate) args[0];
-		TfAssociate temp = session.get(TfAssociate.class, associate.getId());
-
-		temp.setBatch(associate.getBatch());
-		temp.setMarketingStatus(associate.getMarketingStatus());
-		temp.setClient(associate.getClient());
-		temp.setEndClient(associate.getEndClient());
-		temp.setFirstName(associate.getFirstName());
-		temp.setLastName(associate.getLastName());
-		temp.setInterview(associate.getInterview());
-		temp.setPlacement(associate.getPlacement());
-		temp.setClientStartDate(associate.getClientStartDate());
-
-		session.update(temp);
-		System.out.println("<============================Indside Update===============================>");
-		return true;
-	};
 
 	@Override
 	public boolean updateAssociate(TfAssociate associate) {
@@ -202,12 +184,11 @@ public class AssociateDaoImpl implements AssociateDao {
 			} else {
 				condition = "";
 			}
-			
-			Query query = session.createQuery("SELECT COUNT(TF_ASSOCIATE_ID) FROM TfAssociate WHERE "
-					+ condition + "TF_MARKETING_STATUS_ID = :status");
+			String hql = "SELECT COUNT(TF_ASSOCIATE_ID) FROM TfAssociate WHERE "
+					+ condition + "TF_MARKETING_STATUS_ID = :status";
+			Query query = session.createQuery(hql);
 			
 			return (T) query
-					.setParameter("client_condition", condition)
 					.setParameter("status", args[1])
 					.getSingleResult();
 		};

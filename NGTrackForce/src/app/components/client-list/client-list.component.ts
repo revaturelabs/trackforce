@@ -82,7 +82,6 @@ export class ClientListComponent implements OnInit {
       clients => {
         // save array of object Client
         this.clientInfo = clients;
-        console.log(clients);
         // clear name list to reload list and run through filter
         this.clientNames.length = 0;
         for(let client of clients){
@@ -102,7 +101,6 @@ export class ClientListComponent implements OnInit {
 
     this.clientService.getClientCount(-1).subscribe(
       count => {
-        console.log(count);
         stat.trainingMapped = count[0];
         stat.reservedMapped = count[1];
         stat.selectedMapped = count[2];
@@ -139,7 +137,6 @@ export class ClientListComponent implements OnInit {
         stat.selectedMapped = count[2];
         stat.confirmedMapped = count[3];
         oneClient.stats = stat;
-        console.log(oneClient);
 
         this.barChartData = [
           {

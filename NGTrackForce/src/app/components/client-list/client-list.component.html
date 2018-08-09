@@ -8,8 +8,7 @@
       <h3>Clients</h3>
       <button (click)="initChartData()" class="btn btn-primary">View Data for All Clients</button>
       <div id="clients-list-well" class="well">
-        <!-- <input type="checkbox" [checked]="showNoData" name="showNoData">
-        <label for="showNoData">Show Clients With No Associates</label> -->
+        <!-- <input type="checkbox">Show Clients with Mapped Associates -->
         <ul *ngIf=!loading id="clients-list">
           <!-- populate list of company names -->
           <li *ngFor="let clientName of clientNames | searchFilter : searchName" (click)="getOneClient(clientName)">

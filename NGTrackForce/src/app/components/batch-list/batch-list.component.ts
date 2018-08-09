@@ -7,6 +7,7 @@ import { ThemeConstants } from '../../constants/theme.constants';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartOptions, SideValues } from '../../models/ng2-charts-options.model';
 import { Color } from 'ng2-charts';
+import 'rxjs/add/observable/from';
 
 
 // TODO: LABELS SHOULD PROPERLY WRAP
@@ -58,63 +59,54 @@ export class BatchListComponent implements OnInit {
     //user is a trainer they can only see their batches
     if (user.role === 2) {
       this.dataReady = false;
+
       this.batchService.getAllBatches().subscribe(
         batches => {
           // filter out batches that don't have an associated trainer
           this.batches = batches.filter(
             batch => {
-              if (batch.trainer.firstName === this.authService.getTrainer().firstName) {
-                return true;
+              if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
+                return false;
               }
               if (batch.coTrainer) {
                 return batch.coTrainer.includes(this.authService.getTrainer());
               }
-              return false;
+              return true;
             }
           );
+          this.updateCountPerCurriculum();
+          this.dataReady = true;
         },
         error => {
-          console.log("========ERROR==========");
           console.log(error);
-          console.log("=======================");
-        }
+        } 
       );
-      this.dataReady = true;
     }
     else {
       // set default dates displayed on page
       this.startDate.setMonth(new Date().getMonth() - 3);
       this.endDate.setMonth(new Date().getMonth() + 3);
-      const startTime = Date.now();
       this.dataReady = false;
-
-
+      
       this.batchService.getAllBatches().subscribe(
-        (batches) => {
-          this.batches = [];
-          for ( var bat in batches ) 
-          {
-            if ( batches[bat]['startDate'] != null && 
-                 batches[bat]['endDate'] != null && 
-                 batches[bat]['location'] != null && 
-                 batches[bat]['curriculumName'] != null )
-            {
-              this.batches[this.counter] = batches[bat];
-              this.counter++;
+        batches => {
+          // filter out batches that don't have an associated trainer
+          this.batches = batches.filter(
+            batch => {
+              if(batch.startDate != null && batch.endDate != null 
+                && batch.location != null && batch.curriculumName != null)
+                return true;
+              return false;
             }
-            else
-            {
-
-            }
-          }
-
+          );
           this.updateCountPerCurriculum();
           this.dataReady = true;
-          const elapsed = Date.now() - startTime;
-        }
+        },
+        error => {
+          console.log(error);
+        } 
       );
-      this.resetToDefaultBatches();
-     
+
     }
   }
 
@@ -136,7 +128,7 @@ export class BatchListComponent implements OnInit {
       longStartDate = dateStartDate.getTime();
       longEndDate = dateEndDate.getTime();
 
-      if (longStartDate > longEndDate){
+      if (longStartDate > longEndDate) {
         this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
         this.showDateRangeError = true;
       } else {
@@ -145,8 +137,8 @@ export class BatchListComponent implements OnInit {
     }
   }
 
-  public resetFormWarnings(){
-    if(this.showDateRangeError == true)
+  public resetFormWarnings() {
+    if (this.showDateRangeError == true)
       this.showDateRangeError = false;
   }
 
@@ -160,15 +152,28 @@ export class BatchListComponent implements OnInit {
     this.endDate.setMonth(new Date().getMonth() + 3);
     const startTime = Date.now();
     this.dataReady = false;
+    this.counter = 0;
     this.batchService.getAllBatches().subscribe(
       (batches) => {
-        this.batches = batches;
+        this.batches = [];
+        for (var bat in batches) {
+          if (batches[bat]['startDate'] != null &&
+            batches[bat]['endDate'] != null &&
+            batches[bat]['location'] != null &&
+            batches[bat]['curriculumName'] != null) {
+            this.batches[this.counter] = batches[bat];
+            this.counter++;
+          }
+          else {
+
+          }
+        }
+
         this.updateCountPerCurriculum();
         this.dataReady = true;
-        const elapsed = Date.now() - startTime;
-      },
+      }
     );
- 
+
   }
 
   /**
@@ -207,9 +212,10 @@ export class BatchListComponent implements OnInit {
               }
             }
           );
+          this.updateCountPerCurriculum();
+          this.dataReady = true;
         }
       );
-      this.dataReady = true;
     }
     else {
       this.dataReady = false;
@@ -241,7 +247,7 @@ export class BatchListComponent implements OnInit {
             return 0;
           }
           );
-          this.updateCountPerCurriculum();
+          this.updateCountPerCurriculum(); //2
           this.dataReady = true;
         },
       );
@@ -262,19 +268,22 @@ export class BatchListComponent implements OnInit {
 
     this.dataEmpty = this.batches.length === 0;
 
-    for (const batch of this.batches) {
-      if (batch.curriculumName) {
-        let count = curriculumCountsMap.get(batch.curriculumName.name);
-        if (count === undefined) {
-          count = 0;
-        }
-        curriculumCountsMap.set(batch.curriculumName.name, count + 1);
-      }
-    }
+    if (this.batches != null) {
 
-    // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change
-    this.curriculumNames = Array.from(curriculumCountsMap.keys());
-    this.curriculumCounts = Array.from(curriculumCountsMap.values());
+      for (const batch of this.batches) {
+        if (batch.curriculumName) {
+          let count = curriculumCountsMap.get(batch.curriculumName.name);
+          if (count === undefined) {
+            count = 0;
+          }
+          curriculumCountsMap.set(batch.curriculumName.name, count + 1);
+        }
+      }
+  
+      // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change
+      this.curriculumNames = Array.from(curriculumCountsMap.keys());
+      this.curriculumCounts = Array.from(curriculumCountsMap.values());
+    }
   }
 
 }

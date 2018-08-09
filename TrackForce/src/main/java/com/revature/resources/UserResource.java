@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @Path("/users")
 @Api(value = "users")
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes({MediaType.APPLICATION_JSON})
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 

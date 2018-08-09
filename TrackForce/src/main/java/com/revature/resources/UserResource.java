@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.google.gson.JsonObject;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfTrainer;
@@ -64,6 +65,7 @@ public class UserResource {
 	@ApiOperation(value = "Creates new user", notes = "")
 	public Response createUser(TfUser newUser) {
 		logger.info("creating new user..." + newUser);
+		
 		// any user created by an admin is approved
 		newUser.setIsApproved(1);
 
@@ -76,7 +78,12 @@ public class UserResource {
 			case 1:
 				tfrole = new TfRole(1, "Admin");
 				newUser.setTfRole(tfrole);
-				works = userService.insertUser(newUser);
+				if(userService.getUser(newUser.getUsername()) != null) {
+					works = userService.insertUser(newUser);
+				}
+				else {
+					works = false;
+				}
 				break;
 			case 2:
 				tfrole = new TfRole(2, "Trainer");
@@ -86,17 +93,35 @@ public class UserResource {
 				newTrainer.setFirstName("placeholder");
 				newTrainer.setLastName("placeholder");
 				logger.info("creating new trainer..." + newTrainer);
-				works = trainerService.createTrainer(newTrainer);
+				
+				if(userService.getUser(newUser.getUsername()) != null) {
+					works = trainerService.createTrainer(newTrainer);
+				}
+				else {
+					works = false;
+				}
 				break;
 			case 3:
 				tfrole = new TfRole(3, "Sales-Delivery");
 				newUser.setTfRole(tfrole);
-				works = userService.insertUser(newUser);
+				
+				if(userService.getUser(newUser.getUsername()) != null) {
+					works = userService.insertUser(newUser);
+				}
+				else {
+					works = false;
+				}
 				break;
 			case 4:
 				tfrole = new TfRole(4, "Staging");
 				newUser.setTfRole(tfrole);
-				works = userService.insertUser(newUser);
+				
+				if(userService.getUser(newUser.getUsername()) != null) {
+					works = userService.insertUser(newUser);
+				}
+				else {
+					works = false;
+				}
 				break;
 			case 5:
 				tfrole = new TfRole(5, "Associate");
@@ -106,7 +131,13 @@ public class UserResource {
 				newAssociate.setFirstName("placeholder");
 				newAssociate.setLastName("placeholder");
 				logger.info("creating new associate..." + newAssociate);
-				works = associateService.createAssociate(newAssociate);
+				
+				if(userService.getUser(newUser.getUsername()) != null) {
+					works = associateService.createAssociate(newAssociate);
+				}
+				else {
+					works = false;
+				}
 				break;
 			}
 		}
@@ -116,6 +147,18 @@ public class UserResource {
 		return Response.status(Status.EXPECTATION_FAILED).build();
 	}
 
+	
+	@Path("/checkUsername")
+	@POST
+	@Consumes("application/json")
+	public Response checkUsername(String username) {
+		if(userService.getUser(username) == null) {
+			return Response.ok("Username exists").build();
+		}
+		else {
+			return Response.ok("Username is free").build();
+		}
+	}
 	/**
 	 * @author Adam L.
 	 * <p> </p>

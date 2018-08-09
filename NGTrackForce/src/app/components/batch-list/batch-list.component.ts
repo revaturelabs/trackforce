@@ -79,7 +79,7 @@ export class BatchListComponent implements OnInit {
         },
         error => {
           console.log(error);
-        }
+        } 
       );
     }
     else {
@@ -87,25 +87,24 @@ export class BatchListComponent implements OnInit {
       this.startDate.setMonth(new Date().getMonth() - 3);
       this.endDate.setMonth(new Date().getMonth() + 3);
       this.dataReady = false;
+      
       this.batchService.getAllBatches().subscribe(
-        (batches) => {
-          this.batches = [];
-          for (var bat in batches) {
-            if (batches[bat]['startDate'] != null &&
-              batches[bat]['endDate'] != null &&
-              batches[bat]['location'] != null &&
-              batches[bat]['curriculumName'] != null) {
-              this.batches[this.counter] = batches[bat];
-              this.counter++;
+        batches => {
+          // filter out batches that don't have an associated trainer
+          this.batches = batches.filter(
+            batch => {
+              if(batch.startDate != null && batch.endDate != null 
+                && batch.location != null && batch.curriculumName != null)
+                return true;
+              return false;
             }
-            else {
-
-            }
-          }
-
-          this.updateCountPerCurriculum(); //1
+          );
+          this.updateCountPerCurriculum();
           this.dataReady = true;
-        }
+        },
+        error => {
+          console.log(error);
+        } 
       );
 
     }

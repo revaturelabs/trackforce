@@ -90,7 +90,7 @@ public class ClientResource {
 	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id) {
 		Long[] response = new Long[4];
 		for (Integer i = 0; i < response.length; i++) {
-			response[i] = associateService.getMappedAssociateCountByClientId(client_id, i+1);
+			response[i] = associateService.getMappedAssociateCountByClientId(client_id, i + 1);
 		}
 		return Response.status(200).entity(response).build();
 	}

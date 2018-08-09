@@ -85,11 +85,12 @@ public class ClientResource {
 		return Response.status(status).entity(clients).build();
 	}
 
+	@GET
 	@Path("/get/{client_id}")
 	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id) {
 		Long[] response = new Long[4];
 		for (Integer i = 0; i < response.length; i++) {
-			response[i] = associateService.getMappedAssociateCountByClientId(client_id, i);
+			response[i] = associateService.getMappedAssociateCountByClientId(client_id, i+1);
 		}
 		return Response.status(200).entity(response).build();
 	}

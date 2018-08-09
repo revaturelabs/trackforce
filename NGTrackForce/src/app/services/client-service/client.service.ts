@@ -24,8 +24,8 @@ export class ClientService {
     return this.http.get<Client[]>(this.baseURL);
   }
 
-  getClientCount(clientId: number, status: number): Observable<number>{
-    return this.http.get<number>(this.clientUrl + clientId + '&' + status);
+  getClientCount(clientId: number): Observable<number>{
+    return this.http.get<number>(this.clientUrl + clientId);
   }
 
 }

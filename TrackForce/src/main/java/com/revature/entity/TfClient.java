@@ -53,6 +53,7 @@ public class TfClient implements java.io.Serializable {
 	private Set<TfInterview> interview = new HashSet<TfInterview>(0);
 
 	public TfClient() {
+		super();
 	}
 
 	public TfClient(Integer id, String name, Set<TfPlacement> placement, Set<TfAssociate> associate,

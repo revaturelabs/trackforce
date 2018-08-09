@@ -16,6 +16,19 @@ export class Client {
   
   stats: StatusInfo;
 
-  constructor() {
+  constructor(
+    newId?: number,
+    newName?: string,
+    newPlacements?: Placement[],
+    newAssociates?: Associate[],
+    newInterviews?: Interview[],
+    newStats?: StatusInfo
+  ) {
+    this.id = newId;
+    this.name = newName;
+    this.placement = newPlacements;
+    this.associate = newAssociates;
+    this.interview = newInterviews;
+    this.stats = newStats;
   }
 }

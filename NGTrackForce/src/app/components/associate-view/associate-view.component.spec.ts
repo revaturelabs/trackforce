@@ -12,6 +12,8 @@ import 'rxjs/add/observable/of';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 // added imports; DK
 import { ClientService } from '../../services/client-service/client.service';
+import { Associate } from '../../models/associate.model';
+import { User } from '../../models/user.model';
 
 export class MockActivatedRoute {
   static createMockRoute(tid: number): any {
@@ -34,9 +36,22 @@ export class MockActivatedRoute {
 }
 
 describe('AssociateViewComponent', () => {
-  let component: AssociateViewComponent;
+  const mockAssociateService: AssociateService = new AssociateService(null);
+  const mockAuthService: AuthenticationService = new AuthenticationService(null, null, null);
+  let component: AssociateViewComponent = new AssociateViewComponent(mockAssociateService, mockAuthService, null, null);
   let fixture: ComponentFixture<AssociateViewComponent>;
   let clients: Array<any> = [];
+
+  beforeAll(() => {
+    const mockUser: User = new User('mockuser', 'mockPassword', 1, 0);
+    const mockAssociate = new Associate('firstName', 'lastName', mockUser);
+    const mockAssociates: Associate[] = [mockAssociate];
+    
+    spyOn(mockAssociateService, 'getAllAssociates').and.returnValue(Observable.of(mockAssociates));
+    spyOn(mockAssociateService, 'getAssociate').and.returnValue(mockAssociate);
+    spyOn(mockAuthService, 'getAssociate').and.returnValue(mockAssociate);
+    spyOn(mockAssociateService, 'updateAssociate').and.returnValue(mockAssociate);
+  });
 
   beforeEach(() => {
     TestBed.configureTestingModule({

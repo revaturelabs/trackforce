@@ -40,7 +40,8 @@ export class CreateUserComponent implements OnInit {
   createUser() {
     this.errMsg = "";
     this.sucMsg = "";
-    if (this.password !== this.password2) {
+    //EDIT EricS 8/9/18 Added '!this.password ||' to stop submission if password is null
+    if (!this.password || this.password !== this.password2) {
       this.errMsg = 'Passwords do not match!';
     } else {
       this.newUser = new User(this.username, this.password, this.roleId, 1);
@@ -58,16 +59,19 @@ export class CreateUserComponent implements OnInit {
     }
   }
 
+  //EDIT: EricS 8/9/18 Added method to display error if username is nonunique
   onBlur_username() {
-      this.displayErrorUsername = 'block';
-      // this.userService.checkUniqueUsername(this.username).subscribe(
-      //     data => {
-      //         console.log(data);
-      //         //TODO: based on results, set this.displayErrorUsername to 'none' or 'block'
-      //     }, err => {
-      //         console.log("Error, see next line: ")
-      //         console.log(err)}
-      // );
+      this.displayErrorUsername = 'none';
+      this.userService.checkUniqueUsername(this.username).subscribe(
+          data => {
+              console.log(data);
+              if (data.result == 'false') this.displayErrorUsername = 'block'; //if 'false', then username is NOT unique.
+              //TODO: based on results, set this.displayErrorUsername to 'none' or 'block'
+          }, err => {
+              console.log("Error, see next line: ");
+              console.log(err);
+          }
+      );
   }
 
 

@@ -105,9 +105,6 @@ export class AssociateListComponent implements OnInit {
         }
         this.curriculums.delete("");
         this.curriculums.delete("null");
-      },
-      error => {
-        console.log(error);
       }
     );
   }

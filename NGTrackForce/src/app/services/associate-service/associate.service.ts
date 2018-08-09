@@ -53,20 +53,8 @@ export class AssociateService {
    * @param marketingStatusId - the marketing status these associates will be updated to
    * @param clientId - the client id that the associates will be mapped to
    */
-  updateAssociates(
-    ids: number[],
-    verification: number,
-    marketingStatusId: number,
-    clientId: number
-  ): Observable<boolean> {
-    const url: string =
-      this.baseURL +
-      '?marketingStatusId=' +
-      marketingStatusId +
-      '&clientId=' +
-      clientId +
-      '&verification=' +
-      verification;
+  updateAssociates(ids: number[], verification: number, marketingStatusId: number, clientId: number): Observable<boolean> {
+    const url: string = this.baseURL + '?marketingStatusId=' + marketingStatusId + '&clientId=' + clientId + '&verification=' + verification;
     return this.http.put<boolean>(url, ids);
   }
 

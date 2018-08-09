@@ -21,13 +21,30 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {FormComponent} from '../form-component/form.component';
 import {SkillsetComponent} from '../skillset/skillset.component';
 import {Batch} from '../../models/batch.model';
+import {BatchLocation} from '../../models/batch-location.model';
+import {Curriculum} from '../../models/curriculum.model';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import {RequestService} from '../../services/request-service/request.service';
 import {User} from '../../models/user.model';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import { Associate } from '../../models/associate.model';
+import { Trainer } from '../../models/trainer.model';
+/*
+import { getTestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule,
+         platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
+declare const require : any;
 
+getTestBed().initTestEnvironment(
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting()
+);
+
+const context = require.context('./', true, /batch-list\.spec\.ts$/);
+context.keys().map(context);
+*/
 describe('BatchListComponent', async () => {
   let component: BatchListComponent;
   let fixture: ComponentFixture<BatchListComponent>;
@@ -36,7 +53,36 @@ describe('BatchListComponent', async () => {
 
   // setup service mocks
   beforeAll(() => {
+    const mockCurriculum: Curriculum = new Curriculum();
+    mockCurriculum.id = 2;
+    mockCurriculum.name = 'mockCurriculum';
+
+    const mockLocation: BatchLocation = new BatchLocation(700,'Massachusetts');
+
+    const mockUser: User = new User('mockUser', 'password', 0, 0); 
+    const trainerUser: User = new User('mockTrainer', 'password', 0, 0);
+
+    const mockAssociate: Associate = new Associate('FirstName', 'LastName', mockUser, 101010, null, null, null, null, null, null, null);
+    
+    const mockAssociates: Associate[] = [mockAssociate];
+
     const batch1: Batch = new Batch();
+
+    const mockTrainer: Trainer = new Trainer('Trainer', 'T.', trainerUser);
+    
+    batch1.id = 1;
+    batch1.batchName = 'mockBatch';
+    batch1.curriculumName = mockCurriculum;
+    batch1.location = mockLocation;
+    batch1.startDate = 0;
+    batch1.endDate = 1;
+    batch1.associates = mockAssociates;
+    batch1.trainer = mockTrainer;
+
+    const batches: Batch[] = [batch1];
+
+    spyOn(testBatchService, 'getAllBatches').and.returnValue(Observable.of(batches));
+
     // crurriculumName needs to be of type Curriculum
     // batch1.curriculumName = "Test-Curriculum-1";
     const batch2: Batch = new Batch();
@@ -45,7 +91,8 @@ describe('BatchListComponent', async () => {
     // spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
     spyOn(testBatchService, 'getBatchesByDate').and.returnValue(Observable.of([batch1, batch2]));
 
-    let user: User;
+    // 8/8/2018 Nathan : added User constructor.
+    let user = new User('mockUser', 'mockPassword', 1, 1, 1, 'mockId');
     user.token = "mockToken";
     user.username = "mockUser";
     user.role = 1;
@@ -87,12 +134,14 @@ describe('BatchListComponent', async () => {
 
     fixture = TestBed.createComponent(BatchListComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    
 
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    // expect(component).toBeTruthy();
+    fixture.detectChanges();
+    expect(component.dataReady).toBeTruthy();
   });
 
   it('should pull some batch data on init', () => {

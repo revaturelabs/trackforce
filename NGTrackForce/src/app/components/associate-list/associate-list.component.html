@@ -6,14 +6,15 @@
         <label for="name">Search by Text: </label>
         <input type="text" class="form-control" id="name" [(ngModel)]="searchByText">
       </div>
-      <div class="col-sm-2">
+      <!--Verification Status is not associated with associate here-->
+      <!-- <div class="col-sm-2">
         <label for="verification">Verification Status: </label>
         <select class="form-control" id="verification" [(ngModel)]="searchByVerification">
           <option label="" value=""></option>
           <option value="1">Verified Only</option>
           <option value="0">Unverified Only</option>
         </select>
-      </div>
+      </div> -->
       <div class="col-sm-2">
         <label for="mStatus">Marketing Status: </label>
         <select class="form-control" id="mStatus" [(ngModel)]="searchByStatus">
@@ -30,18 +31,19 @@
           <option value="UNMAPPED: DEPLOYED">UNMAPPED: Deployed</option>
         </select>
       </div>
-      <div class="col-sm-2">
+       <!--Curriculum is not associated with associate here-->
+      <!-- <div class="col-sm-2">
         <label for="curriculum">Curriculum: </label>
         <select class="form-control" id="curriculum" [(ngModel)]="searchByCurriculum">
           <option label="" value=""></option>
           <option *ngFor="let curriculum of curriculums" value="{{curriculum}}">{{curriculum}}</option>
         </select>
-      </div>
+      </div> -->
       <div class="col-sm-2">
         <label for="client">Client: </label>
         <select class="form-control" id="client" [(ngModel)]="searchByClient">
           <option label="" value=""></option>
-          <option *ngFor="let client of clients">{{client.name}}</option>
+          <option *ngFor="let client of clients" value={{client.name}}>{{client.name}}</option>
         </select>
       </div>
 
@@ -63,31 +65,22 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let associate of associates">
-            <ng-container *ngIf="(((associate.firstName && associate.firstName.startsWith(searchByText))||searchbyText==='')
-                ||((associate.lastName && associate.lastName.startsWith(searchByText)))||searchbyText==='')
-              && ((associate.user && searchByVerification == associate.user.isApproved) || searchByVerification==='')
-              && ((associate.marketingStatus && searchByStatus === associate.marketingStatus.name) || searchByStatus === '')
-              && ((associate.client && searchByClient === associate.client.name) || searchByClient === '')
-              && ((associate.batch && associate.batch.curriculumName && searchByCurriculum === associate.batch.curriculumName.name) || searchByCurriculum === '')">
-              <td class="edit" *ngIf="associate.id">
-                <input type="checkbox" id={{associate.id}}>
-              </td>
-              <td>
-                <a [routerLink]="['/form-comp',associate.user.id]" class="id" *ngIf="associate.id">{{associate.id}}</a>
-              </td>
-              <td class="first" *ngIf="associate.firstName">{{associate.firstName}}</td>
-              <td class="last" *ngIf="associate.lastName">{{associate.lastName}}</td>
-              <td class="status" *ngIf="associate.marketingStatus">{{associate.marketingStatus.name}}</td>
-              <span *ngIf="associate.client">
-                <td class="client">{{associate.client.name}}</td>
+          <tr *ngFor="let associate of associates | filterByText : searchByText | pipeByStatus: searchByStatus | pipeByClient: searchByClient">
+            <input type="checkbox" id={{associate.id}}>
+            <td> <a [routerLink]="['/form-comp',associate.user.id]" class="id" *ngIf="associate.id">{{associate.id}}</a> </td>
+            <td class="first" *ngIf="associate.firstName">{{associate.firstName}}</td>
+            <td class="last" *ngIf="associate.lastName">{{associate.lastName}}</td>
+            <td class="status" *ngIf="associate.marketingStatus">{{associate.marketingStatus.name}}</td>
+            
+            <span *ngIf="associate.client"> 
+              <td class="client">{{associate.client.name}}</td> 
+            </span>
+
+            <td class="batch">
+              <span *ngIf="associate.batch">
+                <a [routerLink]="['/batch-details', associate.batch.id]">{{associate.batch.batchName}}</a>
               </span>
-              <td class="batch">
-                <span *ngIf="associate.batch">
-                  <a [routerLink]="['/batch-details', associate.batch.id]">{{associate.batch.batchName}}</a>
-                </span>
-              </td>
-            </ng-container>
+            </td>
           </tr>
         </tbody>
       </table>

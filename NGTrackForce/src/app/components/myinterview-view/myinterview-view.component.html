@@ -78,18 +78,18 @@
         <tbody>
           <tr *ngFor="let interview of interviews; let i = index">
             <td>{{i+1}}</td>
-            <td>{{interview.client}}</td>
+            <td>{{ (interview.client && interview.client.name) ? interview.client.name : ""}}</td>
 
             <td>
               <div *ngIf='!interview.isDateAvailable; else dateEdit2'>
-                {{interview.date | date:'short'}}
+                {{ interview.dateAssociateIssued | date:'MM/dd/yyyy, hh:mm a'}}
                 <br>
                 <button class="icon-button" type="button" (click)='showAvailableDate(interview)'>
                   <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
                 </button>
               </div>
               <ng-template #dateEdit2>
-                <input id="date" #date type="datetime-local" [(ngModel)]="interview.date">
+                <input id="date" #date type="datetime-local" [ngModel]="interview.dateAssociateIssued | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="interview.dateAssociateIssued=$event">
                 <button type="button" (click)='showAvailableDate(interview,date.value)'>
                   <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
                 </button>
@@ -98,7 +98,7 @@
 
             <td>
               <div *ngIf='!interview.isEditingAvailable; else dateEdit' [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'rgba(255,0,0,0.5)':''}">
-                {{interview.DInterview |date: 'short'}}
+                {{ interview.interviewDate | date:'MM/dd/yyyy, hh:mm a'}}
                 <br>
                 <button class="icon-button" type="button" (click)='showInputDate(interview)'>
                   <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
@@ -106,7 +106,7 @@
               </div>
 
               <ng-template #dateEdit>
-                <input id="date" #date2 type="datetime-local" [(ngModel)]="interview.DInterview">
+                <input id="date" #date2 type="datetime-local" [ngModel]="interview.interviewDate | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="interview.interviewDate=$event">
                 <button type="button" (click)='showInputDate(interview,date2.value)'>
                   <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
                 </button>
@@ -114,12 +114,12 @@
 
             </td>
 
-            <td>{{interview.type}}</td>
+            <td>{{ (interview.interviewType && interview.interviewType.name) ? interview.interviewType.name : "" }}</td>
 
-            <td>{{interview.JDescription}}</td>
+            <td>{{ (interview.jobDescription) ? interview.jobDescription : "" }}</td>
 
             <td class="flag">
-              <input type="checkbox" id="flag" [(ngModel)]="interview.Flag">
+              <input type="checkbox" id="flag" [(ngModel)]="interview.was24HRNotice" [disabled]=true>
             </td>
 
             <td>

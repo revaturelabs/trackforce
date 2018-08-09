@@ -25,7 +25,7 @@ import { InterviewType } from '../../models/interview-type';
 })
 @AutoUnsubscribe
 export class MyInterviewComponent implements OnInit {
-  public interviews: Array<Interview>;
+  public interviews: Interview[];
   public associate: Associate;
   // public id = 0;
   public newInterview: Interview;
@@ -63,15 +63,16 @@ export class MyInterviewComponent implements OnInit {
         this.associate = data;
         console.log(this.id);
         console.log(this.associate);
+        this.getAssociateInterviews(this.associate.id);
       },
       error => {
         console.log('error');
       }
     );
 
-    this.interviews = <Interview[]>(
+    /* this.interviews = <Interview[]>(
       JSON.parse(localStorage.getItem('currentInterviews'))
-    );
+    ); */
 
     this.clientService.getAllClients().subscribe(
       data => {
@@ -255,6 +256,18 @@ export class MyInterviewComponent implements OnInit {
       }
       interview.isDateAvailable = false;
     }
+  }
+
+  getAssociateInterviews(id: number) {
+    this.interviewService.getInterviewsForAssociate(id).subscribe(
+      data => {
+        this.interviews = data;
+        console.log(this.interviews);
+      },
+      error => {
+        console.log('error');
+      }
+    );
   }
 
   // ===========================================

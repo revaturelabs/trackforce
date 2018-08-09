@@ -70,9 +70,6 @@
             <th>Job Description</th>
             <th>24 hour notice?</th>
             <th>Feedback</th>
-            <!-- <th>Associate Feedback <i class="fa fa-edit" style="font-size:24px"></i> </th>
-            <th>Client Feedback</th>   -->
-            <th> </th>
           </tr>
         </thead>
         <tbody>
@@ -83,35 +80,13 @@
             <td>
               <div *ngIf='!interview.isDateAvailable; else dateEdit2'>
                 {{ interview.dateAssociateIssued | date:'MM/dd/yyyy, hh:mm a'}}
-                <br>
-                <button class="icon-button" type="button" (click)='showAvailableDate(interview)'>
-                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
-                </button>
               </div>
-              <ng-template #dateEdit2>
-                <input id="date" #date type="datetime-local" [ngModel]="interview.dateAssociateIssued | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="interview.dateAssociateIssued=$event">
-                <button type="button" (click)='showAvailableDate(interview,date.value)'>
-                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
-                </button>
-              </ng-template>
             </td>
 
             <td>
               <div *ngIf='!interview.isEditingAvailable; else dateEdit' [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'rgba(255,0,0,0.5)':''}">
                 {{ interview.interviewDate | date:'MM/dd/yyyy, hh:mm a'}}
-                <br>
-                <button class="icon-button" type="button" (click)='showInputDate(interview)'>
-                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
-                </button>
               </div>
-
-              <ng-template #dateEdit>
-                <input id="date" #date2 type="datetime-local" [ngModel]="interview.interviewDate | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="interview.interviewDate=$event">
-                <button type="button" (click)='showInputDate(interview,date2.value)'>
-                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
-                </button>
-              </ng-template>
-
             </td>
 
             <td>{{ (interview.interviewType && interview.interviewType.name) ? interview.interviewType.name : "" }}</td>
@@ -124,10 +99,6 @@
 
             <td>
               <a [routerLink]="['/interview-details']" class="id">view</a>
-            </td>
-
-            <td>
-              <button type="button" class="btn btn-primary" (click)='updateInterview(i)'>Save </button>
             </td>
 
           </tr>

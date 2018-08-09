@@ -61,8 +61,6 @@ export class MyInterviewComponent implements OnInit {
     this.associateService.getByAssociateId(this.id).subscribe(
       data => {
         this.associate = data;
-        console.log(this.id);
-        console.log(this.associate);
         this.getAssociateInterviews(this.associate.id);
       },
       error => {
@@ -97,7 +95,7 @@ export class MyInterviewComponent implements OnInit {
         this.interviewType = new InterviewType(2, 'Online');
         break;
       case 3:
-        this.interviewType = new InterviewType(3, 'On, Site');
+        this.interviewType = new InterviewType(3, 'On Site');
         break;
       case 4:
         this.interviewType = new InterviewType(4, 'Skype');
@@ -123,7 +121,7 @@ export class MyInterviewComponent implements OnInit {
       .createInterview(this.newInterview, this.associate.id)
       .subscribe();
 
-    //location.reload();
+    location.reload();
   }
 
   // ========================================================================
@@ -207,7 +205,7 @@ export class MyInterviewComponent implements OnInit {
    "My Interviews" table. If it returns true, the date
    cell is colored red to highlight the conflict.
 
-   THIS FUNCTION IS VERY USEFUL BUT IT IS NOT BEING USED
+   THIS FUNCTION IS VERY USEFUL BUT IT IS NOT BEING USED // Fixed by batch 1806
   */
   highlightInterviewConflicts(interview: number) {
     const checkDate = new Date(this.interviews[interview].interviewDate);
@@ -262,7 +260,6 @@ export class MyInterviewComponent implements OnInit {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
       data => {
         this.interviews = data;
-        console.log(this.interviews);
       },
       error => {
         console.log('error');

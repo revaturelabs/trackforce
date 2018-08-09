@@ -185,14 +185,14 @@ public class BatchResource {
 		JSONArray batchesJ = new JSONArray();
 
 		BatchDaoImpl bd = new BatchDaoImpl();
-		List<TfBatch> batches = bd.getBatchesForPredictions(courseName,Timestamp.valueOf(startDate.toString()), Timestamp.valueOf(endDate.toString()));
+		List<TfBatch> batches = bd.getBatchesForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
 		
 		for (TfBatch batch : batches) {
 
 			JSONObject b = new JSONObject();
-			b.put("batchName", batch.getCurriculumName().getName());
-			b.put("startDate", batch.getStartDate());
-			b.put("endDate", batch.getEndDate());
+			b.put("batchName", batch.getBatchName());
+			b.put("startDate", Long.parseLong(batch.getStartDate().toString()));
+			b.put("endDate", Long.parseLong(batch.getEndDate().toString()));
 			b.put("associateCount", batch.getAssociates().size());
 			batchesJ.put(b);
 		}

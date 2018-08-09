@@ -138,7 +138,7 @@ describe('BatchListComponent', async () => {
 
       component.startDate = component.endDate = new Date();
       // These arguments were added to stop a compilation error, what they are were implied by the method signature.
-      component.applySelectedRange(component.startDate, component.endDate);
+      component.applySelectedRange();
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         const defaultBatchCount = component.batches.length;
@@ -148,7 +148,7 @@ describe('BatchListComponent', async () => {
         component.startDate = new Date(0);  // 1970, aka very far back
         component.endDate = new Date(now.getFullYear(), now.getMonth() + 6, 1); // 5-6 months in the future
         // These arguments were added to stop a compilation error, what they are were implied by the method signature.
-        component.applySelectedRange(component.startDate, component.endDate);
+        component.applySelectedRange();
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           expect(component.batches.length).toBeGreaterThanOrEqual(defaultBatchCount);

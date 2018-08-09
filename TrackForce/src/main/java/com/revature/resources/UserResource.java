@@ -151,17 +151,24 @@ public class UserResource {
 	
 	@Path("/checkUsername")
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
 	public Response checkUsername(String username) {
+		System.out.println("==============================");
+		System.out.println(username);
+		System.out.println("==============================");
 		JsonObject json = new JsonObject();
+		
+		String message;
 		if(userService.getUser(username) == null) {
-			json.addProperty("result", "Username Exists");
-			return Response.ok(JSON.class,"Username Exists").build();
+			json.addProperty("result", "Username is available");
+			message = json.toString();
+			return Response.ok(message,MediaType.TEXT_PLAIN).build();
 		}
 		else {
-			json.addProperty("result", "Username Doesn't Exist");
-			return Response.ok(JSON.class, "Username Doesn't Exist").build();
+			json.addProperty("result", "Username is unavailable");
+			message = json.toString();
+			return Response.ok(message,MediaType.TEXT_PLAIN).build();
 		}
 	}
 	/**

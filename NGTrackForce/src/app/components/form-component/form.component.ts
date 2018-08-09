@@ -78,7 +78,7 @@ export class FormComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.id = +params['id']; // (+) converts string 'id' to a number
-      this.associateService.getAssociate(this.id).subscribe(
+      this.associateService.getByAssociateId(this.id).subscribe(
         data => {
           this.associate = data;
           console.log(this.id);

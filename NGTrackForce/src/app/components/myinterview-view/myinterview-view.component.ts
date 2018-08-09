@@ -42,6 +42,8 @@ export class MyInterviewComponent implements OnInit {
   public clientSelected: any;
   public interviewType: InterviewType;
   public clientId: Client;
+  public openDateNotified: boolean;
+  public openInterviewDate: boolean;
 
   constructor(
     private authService: AuthenticationService,
@@ -56,9 +58,12 @@ export class MyInterviewComponent implements OnInit {
     //the '+' coerces the parameter into a number
     // this.id = +this.activated.snapshot.paramMap.get('id');
 
+    this.openDateNotified = false;
+    this.openDateNotified = false;
+
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.id = this.user.id;
-    this.associateService.getByAssociateId(this.id).subscribe(
+    this.associateService.getAssociate(this.id).subscribe(
       data => {
         this.associate = data;
         this.getAssociateInterviews(this.associate.id);
@@ -125,15 +130,19 @@ export class MyInterviewComponent implements OnInit {
   }
 
   updateInterview(interview: Interview) {
+    console.log(interview);
     interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
     interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
-    interview.dateAssociateIssued = new Date(
+    interview.dateSalesIssued = new Date(
       interview.dateAssociateIssued
     ).getTime(); // convert into timestamp
+    interview.dateAssociateIssued = new Date(
+      interview.dateAssociateIssued
+    ).getTime();
     this.interviewService
       .updateInterview(interview, this.associate.id)
       .subscribe();
-    location.reload();
+    // location.reload();
   }
 
   /**
@@ -171,26 +180,12 @@ export class MyInterviewComponent implements OnInit {
   //     });
   // }
 
-  showInputDate(interview, dateVal) {
-    if (!interview.isInterviewFlagged) {
-      interview.isInterviewFlagged = true;
-    } else {
-      if (dateVal) {
-        interview.DInterview = dateVal;
-      }
-      interview.isInterviewFlagged = false;
-    }
+  showDateNotified() {
+    this.openDateNotified = !this.openDateNotified;
   }
 
-  showAvailableDate(interview, dateVal) {
-    if (!interview.isDateAvailable) {
-      interview.isDateAvailable = true;
-    } else {
-      if (dateVal) {
-        interview.date = dateVal;
-      }
-      interview.isDateAvailable = false;
-    }
+  showInterviewDate() {
+    this.openInterviewDate = !this.openInterviewDate;
   }
 
   getAssociateInterviews(id: number) {

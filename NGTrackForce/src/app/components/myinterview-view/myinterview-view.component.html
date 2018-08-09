@@ -79,32 +79,32 @@
             <td>{{ (interview.client && interview.client.name) ? interview.client.name : ""}}</td>
 
             <td>
-              <div *ngIf='!interview.isDateAvailable; else dateEdit2'>
+              <div *ngIf='!openDateNotified; else dateEdit2'>
                 {{ interview.dateAssociateIssued | date:'MM/dd/yyyy, hh:mm a'}}
                 <br>
-                <button class="icon-button" type="button" (click)='showAvailableDate(interview)'>
+                <button class="icon-button" type="button" (click)='showDateNotified()'>
                   <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
                 </button>
               </div>
               <ng-template #dateEdit2>
                 <input id="date" #date type="datetime-local" [ngModel]="interview.dateAssociateIssued | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="interview.dateAssociateIssued=$event">
-                <button type="button" (click)='showAvailableDate(interview,date.value)'>
+                <button type="button" (click)='showDateNotified()'>
                   <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
                 </button>
               </ng-template>
             </td>
 
             <td>
-              <div *ngIf='!interview.isInterviewFlagged; else dateEdit' [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'rgba(255,0,0,0.5)':''}">
+              <div *ngIf='!openInterviewDate; else dateEdit' [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'rgba(255,0,0,0.5)':''}">
                 {{ interview.interviewDate | date:'MM/dd/yyyy, hh:mm a'}}
                 <br>
-                <button class="icon-button" type="button" (click)='showInputDate(interview)'>
+                <button class="icon-button" type="button" (click)='showInterviewDate()'>
                   <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
                 </button>
               </div>
               <ng-template #dateEdit>
                 <input id="date" #date2 type="datetime-local" [ngModel]="interview.interviewDate | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="interview.interviewDate=$event">
-                <button type="button" (click)='showInputDate(interview,date2.value)'>
+                <button type="button" (click)='showInterviewDate()'>
                   <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
                 </button>
               </ng-template>

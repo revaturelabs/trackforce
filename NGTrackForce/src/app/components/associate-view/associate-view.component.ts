@@ -41,7 +41,7 @@ export class AssociateViewComponent implements OnInit {
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.id = this.user.id;
-    this.associateService.getByAssociateId(this.id).subscribe(
+    this.associateService.getAssociate(this.id).subscribe(
       data => {
         this.associate = data;
       },

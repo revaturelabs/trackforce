@@ -202,7 +202,7 @@ public class AssociateDaoImpl implements AssociateDao {
 
 			Query query = session.createQuery("SELECT COUNT(TF_ASSOCIATE_ID) FROM TfAssociate WHERE "
 					+ ":client_condition TF_MARKETING_STATUS_ID = :status");
-			if (mappedStatus != -1) {
+			if (Integer.valueOf(value.toString()) != -1) {
 				condition = column + " = " + args[0] + " AND ";
 			} else {
 				condition = "";

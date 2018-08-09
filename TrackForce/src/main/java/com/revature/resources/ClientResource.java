@@ -85,25 +85,12 @@ public class ClientResource {
 		return Response.status(status).entity(clients).build();
 	}
 
-	@GET
-<<<<<<< Updated upstream
-	@Path("/get/{client_id}&{status}")
-	public Response getMappedAssociatesByClientId(
-			@PathParam("client_id") Long client_id, 
-			@PathParam("status") Long mappedStatus)
-	{
-		return Response.status(200)
-				.entity(associateService
-						.getMappedAssociateCountByClientId(client_id, mappedStatus))
-				.build();
-=======
 	@Path("/get/{client_id}")
-	public Response getMappedAssociatesByClientId(@PathParam("client_id") Integer client_id) {
-		Integer[] response = new Integer[4];
-		for (int i = 0; i < response.length; i++) {
+	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id) {
+		Long[] response = new Long[4];
+		for (Integer i = 0; i < response.length; i++) {
 			response[i] = associateService.getMappedAssociateCountByClientId(client_id, i);
 		}
 		return Response.status(200).entity(response).build();
->>>>>>> Stashed changes
 	}
 }

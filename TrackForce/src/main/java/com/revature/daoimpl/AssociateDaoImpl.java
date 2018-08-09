@@ -194,7 +194,7 @@ public class AssociateDaoImpl implements AssociateDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T countMappedAssociatesByValue(String column, T value, Long mappedStatus) {
+	public <T> T countMappedAssociatesByValue(String column, T value, Integer mappedStatus) {
 		Sessional<T> ss = (Session session, Object... args) -> {
 			String hql = "SELECT COUNT(TF_ASSOCIATE_ID) FROM TfAssociate " + "WHERE "
 					+ column + " = :value AND TF_MARKETING_STATUS_ID = :status";

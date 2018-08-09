@@ -77,15 +77,7 @@ describe('BatchListComponent', async () => {
     // spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
     spyOn(testBatchService, 'getBatchesByDate').and.returnValue(Observable.of([batch1, batch2]));
 
-<<<<<<< HEAD
     let user = new User("mockUser", "mockPassword", 1, 0, null, "mockToken");
-=======
-    // 8/8/2018 Nathan : added User constructor.
-    let user = new User('mockUser', 'mockPassword', 1, 1, 1, 'mockId');
-    user.token = "mockToken";
-    user.username = "mockUser";
-    user.role = 1;
->>>>>>> 1ec95aa63d7940942a17269a801c98892ab5f650
     spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
   });
 

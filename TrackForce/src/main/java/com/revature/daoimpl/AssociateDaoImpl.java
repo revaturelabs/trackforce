@@ -41,20 +41,15 @@ public class AssociateDaoImpl implements AssociateDao {
 				.createQuery("from TfAssociate", TfAssociate.class).getResultList());
 	}
 
-	private Sessional<Boolean> updateAssociatePartial = (Session session, Object ... args)-> {
-		TfAssociate associate = (TfAssociate) args[0];
-		TfAssociate temp = session.get(TfAssociate.class, associate.getId());
-
-		temp.setFirstName(associate.getFirstName());
-		temp.setLastName(associate.getLastName());
-
-		session.update(temp);
-		return true;
-	};
-
 	@Override
 	public boolean updateAssociatePartial(TfAssociate associate) {
-		return HibernateUtil.runHibernateTransaction(updateAssociatePartial);
+		return HibernateUtil.runHibernateTransaction((Session session, Object ... args)-> {
+			TfAssociate temp = session.get(TfAssociate.class, associate.getId());
+			temp.setFirstName(associate.getFirstName());
+			temp.setLastName(associate.getLastName());
+			session.update(temp);
+			return true;
+		});
 	}
 
 	private Sessional<Boolean> approveAssociate = (Session session, Object ... args)-> {

@@ -7,21 +7,22 @@ import { ClientService } from '../../services/client-service/client.service';
 import { Interview } from '../../models/interview.model';
 import { InterviewService } from '../../services/interview-service/interview.service';
 import { Client } from '../../models/client.model';
+import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+import { InterviewType } from '../../models/interview-type';
 
 /**
-*@author Katherine Obioha, Andrew Ahn
-*
-*@description This is the view for associates only
-*
-*/
+ *@author Katherine Obioha, Andrew Ahn
+ *
+ *@description This is the view for associates only
+ *
+ */
 
 @Component({
   selector: 'app-myinterview-view',
   templateUrl: './myinterview-view.component.html',
   styleUrls: ['./myinterview-view.component.css']
 })
-
 @AutoUnsubscribe
 export class MyInterviewComponent implements OnInit {
   public interviews: Array<Interview>;
@@ -29,10 +30,18 @@ export class MyInterviewComponent implements OnInit {
   // public id = 0;
   public newInterview: Interview;
   public formOpen = false;
-  public conflictingInterviews = "";
+  public conflictingInterviews = '';
   public interviewDate: Date = new Date();
-  public interviewDateNotification: Date = new Date();
+  public interviewAssigned: Date = new Date();
   public clients: Client[];
+  public typeId: number;
+  public was24HRNotice: any;
+  public associateId: Associate;
+  public user: User;
+  public id: number;
+  public clientSelected: any;
+  public interviewType: InterviewType;
+  public clientId: Client;
 
   constructor(
     private authService: AuthenticationService,
@@ -40,20 +49,38 @@ export class MyInterviewComponent implements OnInit {
     private activated: ActivatedRoute,
     private interviewService: InterviewService,
     private clientService: ClientService
-  ) { }
-
+  ) {}
 
   ngOnInit() {
     //gets the associate id from the path
     //the '+' coerces the parameter into a number
     // this.id = +this.activated.snapshot.paramMap.get('id');
-    this.associate = this.authService.getAssociate();
-    this.interviews = <Interview[]> JSON.parse(localStorage.getItem('currentInterviews'));
-    this.clients = <Client[]> JSON.parse(localStorage.getItem('currentCliets'));
 
-    // this.getInterviews(this.associate.id);
-    // this.getAssociate(this.associate.id);
-    // this.getClientNames();
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.id = this.user.id;
+    this.associateService.getByAssociateId(this.id).subscribe(
+      data => {
+        this.associate = data;
+        console.log(this.id);
+        console.log(this.associate);
+      },
+      error => {
+        console.log('error');
+      }
+    );
+
+    this.interviews = <Interview[]>(
+      JSON.parse(localStorage.getItem('currentInterviews'))
+    );
+
+    this.clientService.getAllClients().subscribe(
+      data => {
+        this.clients = data;
+      },
+      error => {
+        console.log('error');
+      }
+    );
   }
 
   toggleForm() {
@@ -61,24 +88,46 @@ export class MyInterviewComponent implements OnInit {
   }
 
   addInterview() {
-    //this.newInterview.associateId = this.id
-    this.newInterview.interviewDate = new Date(this.interviewDate).getTime()
-    this.newInterview.dateAssociateIssued = new Date(this.interviewDateNotification).getTime()
-    this.newInterview.jobDescription = "none available";
-    this.newInterview.isInterviewFlagged = 0;
-    this.newInterview.was24HRNotice = (this.newInterview.was24HRNotice * 1)
-    // this.associateService.addInterviewForAssociate(this.associate.id, this.newInterview).subscribe(
-    //   data => {
-    //     // this.getInterviews(this.associate.id);
-    //   },
-    //   err => {
-    //   }
-    // );
+    switch (+this.typeId) {
+      case 1:
+        this.interviewType = new InterviewType(1, 'Phone');
+        break;
+      case 2:
+        this.interviewType = new InterviewType(2, 'Online');
+        break;
+      case 3:
+        this.interviewType = new InterviewType(3, 'On, Site');
+        break;
+      case 4:
+        this.interviewType = new InterviewType(4, 'Skype');
+        break;
+      default:
+        this.interviewType = new InterviewType(5, 'Other');
+        break;
+    }
+
+    this.newInterview = new Interview(
+      this.associate,
+      this.clientId,
+      this.interviewType,
+      new Date(this.interviewDate).getTime(),
+      null,
+      this.was24HRNotice ? 1 : 0,
+      null,
+      new Date(this.interviewAssigned).getTime(),
+      new Date(this.interviewAssigned).getTime()
+    );
+
+    this.interviewService
+      .createInterview(this.newInterview, this.associate.id)
+      .subscribe();
+
+    //location.reload();
   }
 
   // ========================================================================
   // COMMENTED OUT BECAUSE AFTER REFACTORING THE MODELS THIS BROKE
-  // FIX THIS 
+  // FIX THIS
   // ========================================================================
   // updateInterview(id: number) {
   //   if (sessionStorage.getItem("changedin") === null) {
@@ -125,13 +174,6 @@ export class MyInterviewComponent implements OnInit {
   //   );
   // }
 
-
-
-
-
-
-
-
   // THIS FUNCTION IS REPLACED BY STORING ALL INTERVIEWS FOR THE LOGGED IN ASSOCIATE IN LOCAL STORAGE
   // getInterviews(id: number) {
   //   this.interviewService.getInterviews(id).subscribe(
@@ -169,9 +211,14 @@ export class MyInterviewComponent implements OnInit {
   highlightInterviewConflicts(interview: number) {
     const checkDate = new Date(this.interviews[interview].interviewDate);
     for (let i = 0; i < this.interviews.length; i++) {
-      if (new Date(this.interviews[i].interviewDate).getTime() === checkDate.getTime() && i !== interview) {
-        this.conflictingInterviews = "The highlighted interviews are conflicting." +
-          "They are both scheduled at the same time!";
+      if (
+        new Date(this.interviews[i].interviewDate).getTime() ===
+          checkDate.getTime() &&
+        i !== interview
+      ) {
+        this.conflictingInterviews =
+          'The highlighted interviews are conflicting.' +
+          'They are both scheduled at the same time!';
         return true;
       }
     }
@@ -213,9 +260,7 @@ export class MyInterviewComponent implements OnInit {
   // ===========================================
   // THIS NEEDS TO BE IMPLEMENTED
   // ============================================
-  saveInterview(interview: Interview) {
-
-  }
+  saveInterview(interview: Interview) {}
 
   // THIS METHOD IS REPLACED BY STORING THE CLIENTS IN LOCAL STORAGE
   // getClientNames() {
@@ -223,5 +268,4 @@ export class MyInterviewComponent implements OnInit {
   //     this.clients = data;
   //   });
   // }
-
 }

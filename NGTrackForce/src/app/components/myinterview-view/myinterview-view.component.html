@@ -7,12 +7,13 @@
         <div class="form-group">
           <label class="control-label col-sm-3">Client:</label>
           <div class="col-sm-3">
-            <select class="form-control" name="newClient" [(ngModel)]="newInterview.clientId">
+            <select class="form-control" name="newClient" [(ngModel)]="clientId">
               <option selected="selected">None</option>
-              <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
+              <option *ngFor="let client of clients" [ngValue]="client">{{client.name}}</option>
             </select>
           </div>
-        </div> <!-- form-group end-->
+        </div>
+        <!-- form-group end-->
 
         <div class="form-group">
           <label class="control-label col-sm-3">Date of interview:</label>
@@ -22,17 +23,17 @@
         </div>
 
         <div class='form-group'>
-            <label class="control-label col-sm-3">Date Assigned:</label>
-            <div class="col-sm-3">
-              <input type="datetime-local" class="form-control" name="date" [(ngModel)]="interviewDateNotification" />
-            </div>
+          <label class="control-label col-sm-3">Date Assigned:</label>
+          <div class="col-sm-3">
+            <input type="datetime-local" class="form-control" name="date" [(ngModel)]="interviewAssigned" />
+          </div>
         </div>
 
 
         <div class="form-group">
           <label class="control-label col-sm-3">Type:</label>
           <div class="col-sm-3">
-            <select class="form-control" name="type " [(ngModel)]="newInterview.typeId">
+            <select class="form-control" name="type" [(ngModel)]="typeId">
               <option value="1">Phone</option>
               <option value="2">Online</option>
               <option value="3">On-site</option>
@@ -42,8 +43,8 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-sm-3">24 hour notice?</label>
-            <input type="checkbox" name="24hournotice" [(ngModel)]="newInterview.was24HRNotice">
+          <label class="control-label col-sm-3">24 hour notice?</label>
+          <input type="checkbox" name="24hournotice" [(ngModel)]="was24HRNotice">
         </div>
 
         <button id='add-interview' (click)="addInterview()" class="btn btn-success">Add Interview</button>
@@ -51,7 +52,7 @@
       </form>
     </div>
   </div>
-  
+
   <div class="card-deck mb-3 text-center">
     <div>
       <h3>My Interviews</h3>

@@ -134,20 +134,52 @@ public class AssociateResource {
 	public Response getAssociateByUserId(@ApiParam(value = "An associate id.") @PathParam("id") int id,
 	                             @HeaderParam("Authorization") String token) {
 		logger.info("getAssociateByUserId()...");
-		System.out.println(id);
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		TfAssociate associateinfo;
 
 		if (payload == null || false) {
-			System.out.println("We are in IF");
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
 			try {
-				System.out.println("We are in ELSE");
 				associateinfo = associateService.getAssociateByUserId(id);
-				System.out.println("Dao is ok");
+			} catch (NoResultException nre) {
+				logger.info("No associate found...");
+				return Response.status(Status.NO_CONTENT).build();
+			}
+			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
+		}
+		return Response.status(status).entity(associateinfo).build();
+	}
+	
+	
+	/**
+	 *
+	 * @author 
+	 * Given a associate id, returns an associate.
+	 * @version v6.18.06.13
+	 *
+	 * @param id
+	 * @param token
+	 * @return
+	 */
+	@GET
+	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = TfAssociate.class)
+	@Path("/associates/{id}")
+	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("id") int id,
+	                             @HeaderParam("Authorization") String token) {
+		logger.info("getAssociate()...");
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+		TfAssociate associateinfo;
+
+		if (payload == null || false) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		else {
+			try {
+				associateinfo = associateService.getAssociate(id);
 			} catch (NoResultException nre) {
 				logger.info("No associate found...");
 				return Response.status(Status.NO_CONTENT).build();

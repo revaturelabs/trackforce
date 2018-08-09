@@ -23,9 +23,9 @@ import static com.revature.utils.LogUtil.logger;
 public class AssociateDaoImpl implements AssociateDao {
 
 	@Override
-	public TfAssociate getAssociate(Integer associateid) {
+	public TfAssociate getAssociate(Integer id) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfAssociate a where a.id like :associateid", TfAssociate.class).setParameter("associateid", associateid).getSingleResult());
+		session.createQuery("from TfAssociate where user.id = :id", TfAssociate.class).setParameter("id", id).getSingleResult());
 	}
 
 	@Override

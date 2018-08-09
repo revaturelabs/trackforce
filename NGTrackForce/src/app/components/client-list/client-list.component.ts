@@ -7,9 +7,7 @@ import { Client } from '../../models/client.model';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { Color } from 'ng2-charts';
-import { StatusInfo } from '../../models/status-info.model';
-import { AssociateService } from '../../services/associate-service/associate.service';
-import { Associate } from '../../models/associate.model';
+import { StatusInfo } from '../../models/status-info.model'
 
 /**
  * @author Han Jung
@@ -22,12 +20,12 @@ import { Associate } from '../../models/associate.model';
 })
 export class ClientListComponent implements OnInit {
   public showNoData = false;
+  public loading = true;
   public selectedCompany: string;
   public clientInfo: Client[];
   public clientNames: string[] = [];
   public client$: any;
   public searchName;
-  public assos: Associate[];
   // chart variable
   public barChartLabel: string[] = SelectedStatusConstants.CLIENT_LABELS;
   public barChartType = 'bar';
@@ -69,8 +67,7 @@ export class ClientListComponent implements OnInit {
 
   constructor(
     private rs: RequestService,
-    private clientService: ClientService,
-    private as: AssociateService
+    private clientService: ClientService
   ) {
   }
 
@@ -78,6 +75,7 @@ export class ClientListComponent implements OnInit {
     this.getAllClients();
   }
 
+  
   // get client names from data and push to clientNames string array
   getAllClients() {
     this.clientService.getAllClients().subscribe(
@@ -90,36 +88,12 @@ export class ClientListComponent implements OnInit {
         for(let client of clients){
           this.clientNames.push(client.name);
         }
-        // push list of names to an array
-        // for (let client of clients) {
-        //   // Hide clients who do not have associates
-        //   let stats = client.stats;
-        //   // if (!this.showNoData) {
-        //     if (stats.trainingMapped > 0 || stats.trainingUnmapped > 0 ||
-        //       stats.reservedMapped > 0 || stats.openUnmapped > 0 ||
-        //       stats.selectedMapped > 0 || stats.selectedUnmapped > 0 ||
-        //       stats.confirmedMapped > 0 || stats.confirmedUnmapped > 0){
-        //         this.clientNames.push(client.name);
-        //       }
-        //   //}
-        //   // else {
-        //   //   this.clientNames.push(client.tfClientName);
-        //   // }
-        // }
-        // this.initChartData();
+        this.loading = false;
       }, err => {
         console.error("Failed grabbing names");
       });
   }
 
-  getAssociates(){
-    this.as.getAllAssociates().subscribe(
-      associates => {
-        this.assos = associates;
-        console.log(this.assos);
-      }
-    )
-  }
 
   initChartData() {
     this.selectedCompany = "";
@@ -132,19 +106,19 @@ export class ClientListComponent implements OnInit {
     let openUnmapped = 100;
     let selectedUnmapped = 100;
     let confirmedUnmapped = 100;
-    for (let i=0;i<this.clientInfo.length;i++) {
-      let client: Client = this.clientInfo[i];
-      // the variable stats was removed from the client model
-      // let stats: StatusInfo = client.stats;
-      // trainingMapped += stats.trainingMapped;
-      // reservedMapped += stats.reservedMapped;
-      // selectedMapped += stats.selectedMapped;
-      // confirmedMapped += stats.confirmedMapped;
-      // trainingUnmapped += stats.trainingMapped;
-      // openUnmapped += stats.openUnmapped;
-      // selectedUnmapped += stats.selectedUnmapped;
-      // confirmedUnmapped += stats.confirmedUnmapped;
-    }
+    // for (let i=0;i<this.clientInfo.length;i++) {
+    //   let client: Client = this.clientInfo[i];
+    //   // the variable stats was removed from the client model
+    //   // let stats: StatusInfo = client.stats;
+    //   // trainingMapped += stats.trainingMapped;
+    //   // reservedMapped += stats.reservedMapped;
+    //   // selectedMapped += stats.selectedMapped;
+    //   // confirmedMapped += stats.confirmedMapped;
+    //   // trainingUnmapped += stats.trainingMapped;
+    //   // openUnmapped += stats.openUnmapped;
+    //   // selectedUnmapped += stats.selectedUnmapped;
+    //   // confirmedUnmapped += stats.confirmedUnmapped;
+    // }
     this.barChartData = [
       {
         data: [trainingMapped, reservedMapped, selectedMapped, confirmedMapped],
@@ -161,20 +135,25 @@ export class ClientListComponent implements OnInit {
   getOneClient(name: string) {
     this.selectedCompany = name;
     const oneClient = this.clientInfo.find(item => item['name'] === name);
-    let index : number = 1;
 
     let stat = new StatusInfo;
 
-    this.clientService.getClientCount(oneClient.id, index).subscribe(
+    this.clientService.getClientCount(oneClient.id).subscribe(
       count => {
         console.log(count);
-        stat.trainingMapped = count;
+        stat.trainingMapped = count[0];
+        stat.reservedMapped = count[1];
+        stat.selectedMapped = count[2];
+        stat.confirmedMapped = count[3];
         oneClient.stats = stat;
         console.log(oneClient);
 
         this.barChartData = [
           {
-            data: [oneClient.stats.trainingMapped,0,0,0],
+            data: [oneClient.stats.trainingMapped, 
+              oneClient.stats.reservedMapped, 
+              oneClient.stats.selectedMapped,
+              oneClient.stats.confirmedMapped],
             label: 'Mapped'
           }
           // {

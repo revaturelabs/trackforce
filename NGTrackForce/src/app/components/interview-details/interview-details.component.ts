@@ -14,12 +14,8 @@ import { Associate } from '../../models/associate.model';
 })
 export class InterviewDetailsComponent implements OnInit {
 
-
-
   public interview: any = {};
-  // public i:number;
   public associate: Associate;
-  // public id: number;
   
   constructor(private activated: ActivatedRoute) { }
 
@@ -44,7 +40,7 @@ export class InterviewDetailsComponent implements OnInit {
 
   commitchanges()
   {
-    // store session the remaining ones
+    this
     sessionStorage.setItem("changedin", JSON.stringify(this.interview));
   }
 

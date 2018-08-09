@@ -54,7 +54,7 @@ export class InterviewService {
    * @param interview - this is the updated interview object
    * @param id - this is the id of the associate
    */
-  public updateinterview(interview: any, id: number): Observable<boolean> {
+  public updateInterview(interview: any, id: number): Observable<boolean> {
     const url: string = this.baseURL + "/" + id + "/interviews" + "/" + interview.interviewId;
     return this.http.put<boolean>(url, interview);
   }

@@ -116,8 +116,6 @@ export class AssociateListComponent implements OnInit {
     });
   }
 
-
-
   /**
    * Bulk edit feature to update associate's verification, statuses and clients.
    */

@@ -58,7 +58,7 @@ public class ClientResource {
 	 * 
 	 * @author Adam L.
 	 *         <p>
-	 * 		Returns a map of all of the clients as a response object.
+	 *         Returns a map of all of the clients as a response object.
 	 *         </p>
 	 * @version v6.18.06.13
 	 * 
@@ -84,8 +84,9 @@ public class ClientResource {
 
 		return Response.status(status).entity(clients).build();
 	}
-	
+
 	@GET
+<<<<<<< Updated upstream
 	@Path("/get/{client_id}&{status}")
 	public Response getMappedAssociatesByClientId(
 			@PathParam("client_id") Long client_id, 
@@ -95,5 +96,14 @@ public class ClientResource {
 				.entity(associateService
 						.getMappedAssociateCountByClientId(client_id, mappedStatus))
 				.build();
+=======
+	@Path("/get/{client_id}")
+	public Response getMappedAssociatesByClientId(@PathParam("client_id") Integer client_id) {
+		Integer[] response = new Integer[4];
+		for (int i = 0; i < response.length; i++) {
+			response[i] = associateService.getMappedAssociateCountByClientId(client_id, i);
+		}
+		return Response.status(200).entity(response).build();
+>>>>>>> Stashed changes
 	}
 }

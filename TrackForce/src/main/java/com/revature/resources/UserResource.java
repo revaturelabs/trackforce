@@ -24,6 +24,7 @@ import com.revature.utils.LogUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.mortbay.util.ajax.JSON;
 
 
 /**
@@ -156,11 +157,11 @@ public class UserResource {
 		JsonObject json = new JsonObject();
 		if(userService.getUser(username) == null) {
 			json.addProperty("result", "Username Exists");
-			return Response.ok(json).build();
+			return Response.ok(JSON.class,"Username Exists").build();
 		}
 		else {
 			json.addProperty("result", "Username Doesn't Exist");
-			return Response.ok(json).build();
+			return Response.ok(JSON.class, "Username Doesn't Exist").build();
 		}
 	}
 	/**

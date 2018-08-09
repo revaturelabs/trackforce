@@ -48,8 +48,8 @@ public class CurriculumService{
 		return dao.getUnmapped(statusId);
 	}
 
-	public List<GraphedCriteriaResult> getAssociateCountByCurriculum(Timestamp timestamp, Timestamp timestamp2) {
-
-		return dao.getAssociateCountByCurriculum(timestamp, timestamp2);
-	}
+//	public List<GraphedCriteriaResult> getAssociateCountByCurriculum(Timestamp timestamp, Timestamp timestamp2) {
+//
+//		return dao.getAssociateCountByCurriculum(timestamp, timestamp2);
+//	}
 }

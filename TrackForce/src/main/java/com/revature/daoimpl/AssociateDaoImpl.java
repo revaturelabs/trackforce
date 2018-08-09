@@ -207,7 +207,6 @@ public class AssociateDaoImpl implements AssociateDao {
 					+ condition + "TF_MARKETING_STATUS_ID = :status");
 			
 			return (T) query
-					.setParameter("client_condition", condition)
 					.setParameter("status", args[1])
 					.getSingleResult();
 		};

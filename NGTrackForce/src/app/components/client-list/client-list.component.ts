@@ -29,7 +29,7 @@ export class ClientListComponent implements OnInit {
   // chart variable
   public barChartLabel: string[] = SelectedStatusConstants.CLIENT_LABELS;
   public barChartType = 'bar';
-  public barChartLegend = true;
+  public barChartLegend = false;
   public barChartColors: Array<Color> = ThemeConstants.BAR_COLORS
 
   public barChartOptions: any = {
@@ -62,7 +62,6 @@ export class ClientListComponent implements OnInit {
   };
   // data values initialize to 1 for animation
   public barChartData: any[] = [{ data: [0, 0, 0, 0], label: 'Mapped' }];
-    // , { data: [0, 0, 0, 0], label: 'Unmapped' }];
 
 
   constructor(
@@ -73,6 +72,7 @@ export class ClientListComponent implements OnInit {
 
   ngOnInit() {
     this.getAllClients();
+    this.initChartData();
   }
 
   
@@ -96,39 +96,32 @@ export class ClientListComponent implements OnInit {
 
 
   initChartData() {
-    this.selectedCompany = "";
-    // aggregate client info into overall statistics
-    let trainingMapped = 100;
-    let reservedMapped = 100;
-    let selectedMapped = 100;
-    let confirmedMapped = 100;
-    let trainingUnmapped = 100;
-    let openUnmapped = 100;
-    let selectedUnmapped = 100;
-    let confirmedUnmapped = 100;
-    // for (let i=0;i<this.clientInfo.length;i++) {
-    //   let client: Client = this.clientInfo[i];
-    //   // the variable stats was removed from the client model
-    //   // let stats: StatusInfo = client.stats;
-    //   // trainingMapped += stats.trainingMapped;
-    //   // reservedMapped += stats.reservedMapped;
-    //   // selectedMapped += stats.selectedMapped;
-    //   // confirmedMapped += stats.confirmedMapped;
-    //   // trainingUnmapped += stats.trainingMapped;
-    //   // openUnmapped += stats.openUnmapped;
-    //   // selectedUnmapped += stats.selectedUnmapped;
-    //   // confirmedUnmapped += stats.confirmedUnmapped;
-    // }
-    this.barChartData = [
-      {
-        data: [trainingMapped, reservedMapped, selectedMapped, confirmedMapped],
-        label: 'Mapped',
+    this.selectedCompany = "All Client Data";
+
+    let stat = new StatusInfo;
+
+    this.clientService.getClientCount(-1).subscribe(
+      count => {
+        console.log(count);
+        stat.trainingMapped = count[0];
+        stat.reservedMapped = count[1];
+        stat.selectedMapped = count[2];
+        stat.confirmedMapped = count[3];
+
+        this.barChartData = [
+          {
+            data: [stat.trainingMapped, 
+              stat.reservedMapped, 
+              stat.selectedMapped,
+              stat.confirmedMapped],
+            label: 'Mapped'
+          }
+        ]
       },
-      {
-        data: [trainingUnmapped, openUnmapped, selectedUnmapped, confirmedUnmapped],
-        label: 'Unmapped',
+      err => {
+        console.log('Something went wrong');
       }
-    ]
+    );
   }
 
   // get client name and find id to request client information
@@ -156,34 +149,11 @@ export class ClientListComponent implements OnInit {
               oneClient.stats.confirmedMapped],
             label: 'Mapped'
           }
-          // {
-          //   data: [10, 10, 10, 10],
-          //   label: 'Unmapped',
-          // }
         ]
       },
       err => {
         console.log('Something went wrong');
       }
     );
-
-    
-    
-    // this.clientService.getOneClient(oneClient.id).subscribe(
-    //   client => {
-    //     this.client$ = client;
-    //     this.barChartData = [
-    //       {
-    //         data: [this.client$.stats.trainingMapped, this.client$.stats.reservedMapped, this.client$.stats.selectedMapped, this.client$.stats.confirmedMapped],
-    //         label: 'Mapped',
-    //       },
-    //       {
-    //         data: [this.client$.stats.trainingUnmapped, this.client$.stats.openUnmapped, this.client$.stats.selectedUnmapped, this.client$.stats.confirmedUnmapped],
-    //         label: 'Unmapped',
-    //       }
-    //     ]
-    //   }, err => {
-    //     console.error("Failed grabbing client");
-    //   });
   }
 }

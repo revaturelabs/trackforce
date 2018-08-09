@@ -5,6 +5,7 @@ import static com.revature.utils.HibernateUtil.saveToDB;
 
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -195,13 +196,22 @@ public class AssociateDaoImpl implements AssociateDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T countMappedAssociatesByValue(String column, T value, Integer mappedStatus) {
+
 		Sessional<T> ss = (Session session, Object... args) -> {
-			String hql = "SELECT COUNT(TF_ASSOCIATE_ID) FROM TfAssociate " + "WHERE "
-					+ column + " = :value AND TF_MARKETING_STATUS_ID = :status";
-			return (T) session.createQuery(hql)
-					.setParameter("value", args[0])
+			String condition = null;
+
+			Query query = session.createQuery("SELECT COUNT(TF_ASSOCIATE_ID) FROM TfAssociate WHERE "
+					+ ":client_condition TF_MARKETING_STATUS_ID = :status");
+			if (mappedStatus != -1) {
+				condition = column + " = " + args[0] + " AND ";
+			} else {
+				condition = "";
+			}
+			
+			return (T) query
+					.setParameter("client_condition", condition)
 					.setParameter("status", args[1])
-					.uniqueResult();
+					.getSingleResult();
 		};
 
 		return HibernateUtil.runHibernate(ss, value, mappedStatus);

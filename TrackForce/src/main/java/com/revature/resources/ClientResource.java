@@ -85,6 +85,7 @@ public class ClientResource {
 		return Response.status(status).entity(clients).build();
 	}
 
+	@GET
 	@Path("/get/{client_id}")
 	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id) {
 		Long[] response = new Long[4];

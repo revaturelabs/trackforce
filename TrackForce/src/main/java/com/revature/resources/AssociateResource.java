@@ -150,44 +150,7 @@ public class AssociateResource {
 			}
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
 		}
-		return Response.status(status).entity(associateinfo).build();
-	}
-	
-	
-	/**
-	 *
-	 * @author 
-	 * Given a associate id, returns an associate.
-	 * @version v6.18.06.13
-	 *
-	 * @param id
-	 * @param token
-	 * @return
-	 */
-	@GET
-	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = TfAssociate.class)
-	@Path("/associates/{id}")
-	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("id") int id,
-	                             @HeaderParam("Authorization") String token) {
-		logger.info("getAssociate()...");
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-		TfAssociate associateinfo;
 
-		if (payload == null || false) {
-			return Response.status(Status.UNAUTHORIZED).build();
-		}
-		else {
-			try {
-				associateinfo = associateService.getAssociate(id);
-			} catch (NoResultException nre) {
-				logger.info("No associate found...");
-				return Response.status(Status.NO_CONTENT).build();
-			}
-			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
-		}
-		System.out.println(status);
-		System.out.println(associateinfo);
 		return Response.status(status).entity(associateinfo).build();
 	}
 	
@@ -234,8 +197,8 @@ public class AssociateResource {
 			associates.add(toBeUpdated);
 		}
 
-		// If there is no payload or the currentUser is a Trainer or an Associate, then throw 401 in console
-		if (payload == null || payload.getId().equals("2") || payload.getId().equals("5") ) {
+
+		if (payload == null || payload.getId().equals("2") || payload.getId().equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else {
@@ -268,7 +231,7 @@ public class AssociateResource {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null) {
+		if (payload == null || payload.getId().equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		else if (payload.getId().equals("5")) {

@@ -152,8 +152,8 @@ public class AssociateDaoImpl implements AssociateDao {
 				return session.createQuery(query).getResultList();
 			});
 		}
+		
 		throw new InvalidArgumentException("NOT MAPPED OR UNMAPPED YOU FOOOL");
-
 	}
 
 	private Sessional<Boolean> updateAssociate = (Session session, Object... args) -> {
@@ -186,10 +186,7 @@ public class AssociateDaoImpl implements AssociateDao {
 
 	@Override
 	public boolean updateAssociates(List<TfAssociate> associates) {
-
-		for (TfAssociate a : associates) {
-			updateAssociate(a);
-		}
+		associates.forEach(this::updateAssociate);
 		return true;
 	}
 
@@ -200,13 +197,14 @@ public class AssociateDaoImpl implements AssociateDao {
 		Sessional<T> ss = (Session session, Object... args) -> {
 			String condition = null;
 
-			Query query = session.createQuery("SELECT COUNT(TF_ASSOCIATE_ID) FROM TfAssociate WHERE "
-					+ ":client_condition TF_MARKETING_STATUS_ID = :status");
 			if (Integer.valueOf(value.toString()) != -1) {
 				condition = column + " = " + args[0] + " AND ";
 			} else {
 				condition = "";
 			}
+			
+			Query query = session.createQuery("SELECT COUNT(TF_ASSOCIATE_ID) FROM TfAssociate WHERE "
+					+ condition + "TF_MARKETING_STATUS_ID = :status");
 			
 			return (T) query
 					.setParameter("client_condition", condition)

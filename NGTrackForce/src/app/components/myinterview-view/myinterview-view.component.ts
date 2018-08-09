@@ -124,80 +124,17 @@ export class MyInterviewComponent implements OnInit {
     location.reload();
   }
 
-  // ========================================================================
-  // COMMENTED OUT BECAUSE AFTER REFACTORING THE MODELS THIS BROKE
-  // FIX THIS
-  // ========================================================================
-  // updateInterview(id: number) {
-  //   if (sessionStorage.getItem("changedin") === null) {
-  //     const updateinterview = this.interviews[id];
-  //     var interview: any = {
-  //       clientFeedback: updateinterview.clientFeedback,
-  //       dateAssociateIssued: new Date(updateinterview.dateAssociateIssued).getTime,
-  //       dateSalesTeamIssued: null,
-  //       reasonForFlag: null,
-  //       interviewId: updateinterview.id,
-  //       jobDescription: updateinterview.jobDescription,
-  //       // tfClientName :updateinterview.client,
-  //       interviewDate: new Date(updateinterview.interviewDate).getTime,
-  //       //was24HRNotice:updateinterview.Flag,
-  //       interviewFeedback: updateinterview.interviewFeedback,
-  //       clientId: 9,
-  //       typeId: updateinterview.typeId
-  //     }
-  //   }
-  //   else {
-  //     let u = JSON.parse(sessionStorage.getItem("changedin"));
-  //     const updateinterview = this.interviews[id];
-  //     updateinterview.clientFeedback = u.CFeedback;
-  //     updateinterview.associateFeedback = u.AFeedback;
-  //     var interview: any = {
-  //       clientFeedback: updateinterview.CFeedback,
-  //       dateAssociateIssued: new Date(updateinterview.date).getTime,
-  //       interviewId: updateinterview.id,
-  //       jobDescription: updateinterview.JDescription,
-  //       interviewDate: new Date(updateinterview.DInterview).getTime,
-  //       //was24HRNotice:updateinterview.Flag,
-  //       interviewFeedback: updateinterview.AFeedback,
-  //       clientId: 9,
-  //       typeId: updateinterview.typeID
-  //     }
-  //     sessionStorage.clear();
-  //   }
-  //   this.interviewService.updateinterview(interview, this.associate.id).subscribe(
-  //     data => {
-  //       // this.getInterviews(this.id);
-  //     },
-  //     err => {
-  //     }
-  //   );
-  // }
-
-  // THIS FUNCTION IS REPLACED BY STORING ALL INTERVIEWS FOR THE LOGGED IN ASSOCIATE IN LOCAL STORAGE
-  // getInterviews(id: number) {
-  //   this.interviewService.getInterviews(id).subscribe(
-  //     data => {
-  //       let tempArr = [];
-  //       for (let i = 0; i < data.length; i++) {
-  //         let interview = data[i];
-  //         let intObj = {
-  //           id: interview.id,
-  //           client: interview.tfClientName,
-  //           DInterview: new Date(interview.tfInterviewDate),
-  //           type: interview.typeName,
-  //           AFeedback: interview.tfInterviewFeedback,
-  //           JDescription: interview.jobDescription,
-  //           date: new Date(interview.dateAssociateIssued),
-  //           CFeedback: interview.clientFeedback,
-  //           typeID: interview.typeId,
-  //           Flag: interview.isInterviewFlagged,
-  //         }
-  //         tempArr.push(intObj);
-  //       }
-  //       sessionStorage.setItem("interviews", JSON.stringify(this.interviews));
-  //     }
-  //   )
-  // }
+  updateInterview(interview: Interview) {
+    interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
+    interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
+    interview.dateAssociateIssued = new Date(
+      interview.dateAssociateIssued
+    ).getTime(); // convert into timestamp
+    this.interviewService
+      .updateInterview(interview, this.associate.id)
+      .subscribe();
+    location.reload();
+  }
 
   /**
    Function to search for conflicting interviews.
@@ -235,13 +172,13 @@ export class MyInterviewComponent implements OnInit {
   // }
 
   showInputDate(interview, dateVal) {
-    if (!interview.isEditingAvailable) {
-      interview.isEditingAvailable = true;
+    if (!interview.isInterviewFlagged) {
+      interview.isInterviewFlagged = true;
     } else {
       if (dateVal) {
         interview.DInterview = dateVal;
       }
-      interview.isEditingAvailable = false;
+      interview.isInterviewFlagged = false;
     }
   }
 

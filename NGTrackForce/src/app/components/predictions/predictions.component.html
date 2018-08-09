@@ -80,14 +80,16 @@
           <tr>
             <th>Batch ID</th>
             <th>Available Associates</th>
+            <th>Start Date</th>
             <th>End Date</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let x of batches['courseBatches']">
             <td>{{x['batchName']}}</td>
-            <td>{{x['aCount']}}</td>
-            <td>{{x['endTime'] | date}}</td>
+            <td>{{x['associateCount']}}</td>
+            <td>{{x['startDate'] | date}}</td>
+            <td>{{x['endDate'] | date}}</td>
           </tr>
         </tbody>
       </table>

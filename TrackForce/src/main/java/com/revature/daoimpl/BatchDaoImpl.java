@@ -38,7 +38,7 @@ public class BatchDaoImpl implements BatchDao {
 	//TODO add to DAO Interface once it works
 	public List<TfBatch> getBatchesForPredictions(String name, Timestamp startDate, Timestamp endDate) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfBatch b WHERE b.curriculumName.getName() = :name AND b.startDate >= :startdate AND b.endDate <= :enddate", TfBatch.class).
+		session.createQuery("from TfBatch b WHERE b.curriculumName.name = :name AND b.startDate >= :startdate AND b.endDate <= :enddate", TfBatch.class).
 		setParameter("name", name).setParameter("startdate", startDate).setParameter("enddate", endDate).getResultList());
 	}
 	

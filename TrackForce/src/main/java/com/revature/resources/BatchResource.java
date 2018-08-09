@@ -191,8 +191,8 @@ public class BatchResource {
 
 			JSONObject b = new JSONObject();
 			b.put("batchName", batch.getBatchName());
-			b.put("startDate", Long.parseLong(batch.getStartDate().toString()));
-			b.put("endDate", Long.parseLong(batch.getEndDate().toString()));
+			b.put("startDate", (Long)batch.getStartDate().getTime());
+			b.put("endDate", (Long)batch.getEndDate().getTime());
 			b.put("associateCount", batch.getAssociates().size());
 			batchesJ.put(b);
 		}

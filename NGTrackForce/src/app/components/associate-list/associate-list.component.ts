@@ -134,7 +134,7 @@ export class AssociateListComponent implements OnInit {
         ids.push(a.id);
         // This line USED to be used to automatically approve an account.
         // Logan commented this out 08/09/2018 to check how this functionality should be implemented. 
-        a.user.isApproved = 1;
+        //a.user.isApproved = 1;
         associateList.push(a);
       }
     }

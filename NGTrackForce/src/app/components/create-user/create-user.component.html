@@ -28,7 +28,7 @@
       </div>
       <div class="form-group">
           <label for="RoleType">Please Select Role Type:</label><br>
-          <input type="radio" name="optradio" value="1" [(ngModel)]="roleId">&ensp;Administrator<br>
+          <input [disabled]="this.loggedIn.role !== 1" type="radio" name="optradio" value="1" [(ngModel)]="roleId">&ensp;Administrator<br>
           <input type="radio" name="optradio" value="2" [(ngModel)]="roleId">&ensp;Trainer<br>
           <input type="radio" name="optradio" value="3" [(ngModel)]="roleId">&ensp;Delivery/Sales<br>
           <input type="radio" name="optradio" value="4" [(ngModel)]="roleId">&ensp;Staging Manager <br>

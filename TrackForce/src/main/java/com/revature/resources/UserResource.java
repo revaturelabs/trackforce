@@ -17,6 +17,7 @@ import com.revature.entity.TfAssociate;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
+import com.revature.entity.TfUserAndCreatorRoleContainer;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -73,11 +74,16 @@ public class UserResource {
 	@POST
 	@Consumes("application/json")
 	@ApiOperation(value = "Creates new user", notes = "")
-	public Response createUser(TfUser newUser) {
+	public Response createUser(TfUserAndCreatorRoleContainer container) {
+		TfUser newUser = container.getUser();
+		int creatorRole = container.getCreatorRole();
 		logger.info("creating new user..." + newUser);
 
 		// any user created by an admin is approved
-		newUser.setIsApproved(1);
+		if(creatorRole == 1)
+			newUser.setIsApproved(1);
+		else if (creatorRole > 4)
+			return Response.status(Status.EXPECTATION_FAILED).build();
 
 		// get the role being passed in
 		boolean works = true;

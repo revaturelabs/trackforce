@@ -65,13 +65,13 @@ export class BatchListComponent implements OnInit {
           // filter out batches that don't have an associated trainer
           this.batches = batches.filter(
             batch => {
-              if (batch.trainer.firstName === this.authService.getTrainer().firstName) {
-                return true;
+              if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
+                return false;
               }
               if (batch.coTrainer) {
                 return batch.coTrainer.includes(this.authService.getTrainer());
               }
-              return false;
+              return true;
             }
           );
           this.updateCountPerCurriculum();
@@ -212,9 +212,11 @@ export class BatchListComponent implements OnInit {
               }
             }
           );
+          this.updateCountPerCurriculum();
+          this.dataReady = true;
         }
       );
-      this.dataReady = true;
+      
     }
     else {
       this.dataReady = false;
@@ -265,8 +267,9 @@ export class BatchListComponent implements OnInit {
     this.curriculumNames = this.curriculumCounts = null;
     const curriculumCountsMap = new Map<string, number>();
 
+    this.dataEmpty = this.batches.length === 0;
+
     if (this.batches != null) {
-      this.dataEmpty = this.batches.length === 0;
 
       for (const batch of this.batches) {
         if (batch.curriculumName) {

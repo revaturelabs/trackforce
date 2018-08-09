@@ -151,15 +151,7 @@ export class PredictionsComponent implements OnInit {
     let startTime = new Date(this.startDate).getTime();
     let endTime = new Date(this.endDate).getTime();
     //Get id of the button that called the function, which should have the name of the technology.
-    let tech: string = event.target.attributes.id;
-    
-    // let test = this.ps.getBatchesByCurricula(startTime, endTime, tech).subscribe(
-    //   data => {
-    //     this.batches = data;
-    //     this.detailsReady = true;
-    //   },
-    //   err => {
-    //   });
+    let tech: string = event.target.attributes.id.value;
 
     /*
       1806_Andrew_H
@@ -170,6 +162,7 @@ export class PredictionsComponent implements OnInit {
     this.bs.getBatchDetails( new Date(this.startDate), new Date(this.endDate),tech).subscribe(
       data => {
         this.batches = data;
+        this.detailsReady = true;
         console.log(data);
       },
       error => {

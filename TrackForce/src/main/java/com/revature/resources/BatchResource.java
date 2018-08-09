@@ -24,6 +24,7 @@ import javax.ws.rs.core.Response.Status;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.revature.daoimpl.BatchDaoImpl;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.services.AssociateService;
@@ -156,11 +157,10 @@ public class BatchResource {
 
 	@GET
 	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
-	@Path("details")
-	public Response getBatchDetails(@HeaderParam("Authorization") String token, @QueryParam("start") Long startDate, @QueryParam("end") Long endDate, @QueryParam("courseName") int courseName) {
-
-		logger.info("getBatchDetails()...");
-
+	@Path("/details")
+	public Response getBatchDetails(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
+							@QueryParam("courseName") String courseName, @HeaderParam("Authorization") String token) {
+		logger.info("getBatchAssociates()...");
 		System.out.println("=================================");
 
 		Claims payload = JWTService.processToken(token);
@@ -181,17 +181,23 @@ public class BatchResource {
 //			status = Status.FORBIDDEN;
 //		}
 		
-		JSONObject batchDetails = new JSONObject();
-		JSONArray batches = new JSONArray();
 		
-		for(int i = 0; i < 10; i++) {
+		JSONObject batchDetails = new JSONObject();
+		JSONArray batchesJ = new JSONArray();
+
+		BatchDaoImpl bd = new BatchDaoImpl();
+		List<TfBatch> batches = bd.getBatchesForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
+		
+		for (TfBatch batch : batches) {
+
 			JSONObject b = new JSONObject();
-			b.put("batchName", "batchName"+i);
-			b.put("aCount", Timestamp.valueOf(LocalDateTime.now()).getTime());
-			b.put("endTime", Timestamp.valueOf(LocalDateTime.now()).getTime());
-			batches.put(b);
+			b.put("batchName", batch.getBatchName());
+			b.put("startDate", (Long)batch.getStartDate().getTime());
+			b.put("endDate", (Long)batch.getEndDate().getTime());
+			b.put("associateCount", batch.getAssociates().size());
+			batchesJ.put(b);
 		}
-		batchDetails.put("courseBatches", batches);
+		batchDetails.put("courseBatches", batchesJ);
 		
 		return Response.status(status).entity(batchDetails.toString()).build();
 	}

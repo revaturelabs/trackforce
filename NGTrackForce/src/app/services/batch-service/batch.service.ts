@@ -53,7 +53,7 @@ export class BatchService {
   */
   public getBatchDetails(startDate: Date, endDate: Date, CourseName: string):Observable<Object>{
     const url = this.baseURL + 
-            `/details?start=${startDate.getTime()}&?end=${endDate.getTime()}&?courseName=${CourseName}`;
+            `/details?start=${startDate.getTime()}&end=${endDate.getTime()}&courseName=${CourseName}`;
     return this.http.get<Object>(url);
   }
 

@@ -2,9 +2,9 @@ package com.revature.resources;
 
 import static com.revature.utils.LogUtil.logger;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -236,9 +236,26 @@ public class BatchResource {
 		
 		JSONObject associateCount = new JSONObject();
 		BatchDaoImpl bd = new BatchDaoImpl();
-		Integer count = bd.getBatchCountsForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
+		Long associateAmount = 0L;
 		
-		associateCount.put("associateCount", count);
+		/*List<TfBatch> batches = bd.getBatchesForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
+		
+		for (TfBatch batch : batches) {
+
+			associateAmount += batch.getAssociates().size();
+			System.out.println(associateAmount);
+		}
+		
+		associateCount.put("associateCount", associateAmount);
+		return Response.status(status).entity(associateCount.toString()).build();
+		*/
+		
+		// TODO: 1806_Chris_P: Delete the stuff below here if we can't find a solution *****
+		Long count = (Long)bd.getBatchCountsForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
+		System.out.println("===================== count is: " + count);
+		
+		Long lCount = Long.valueOf(count.toString());
+		associateCount.put("associateCount", lCount);
 		return Response.status(status).entity(associateCount.toString()).build();
 	}
 }

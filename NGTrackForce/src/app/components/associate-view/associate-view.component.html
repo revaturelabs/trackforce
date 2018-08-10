@@ -26,19 +26,20 @@
               </tr>
               <tr>
                 <td>Marketing Status</td>
-                <td>{{ (associate && associate.marketingStatus) ? associate.marketingStatus : ""}}</td>
+                <td>{{ (associate && associate.marketingStatus && associate.marketingStatus.name ) ? associate.marketingStatus.name
+                  : ""}}</td>
               </tr>
               <tr>
                 <td>Batch Name</td>
-                <td>{{ (associate && associate.batch) ? associate.batch : ""}}</td>
+                <td>{{ (associate && associate.batch && associate.batchName) ? associate.batch.batchName : ""}}</td>
               </tr>
               <tr>
                 <td>Client Name</td>
-                <td>{{ (associate && associate.client) ? associate.client : ""}}</td>
+                <td>{{ (associate && associate.client && associate.client.name) ? associate.client.name : ""}}</td>
               </tr>
               <tr>
                 <td>End Client Name</td>
-                <td>{{ (associate && associate.endClient) ? associate.endClient : ""}}</td>
+                <td>{{ (associate && associate.endClient && associate.endClient.name ) ? associate.endClient.name : ""}}</td>
               </tr>
             </tbody>
           </table>

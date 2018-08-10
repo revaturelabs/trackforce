@@ -247,7 +247,6 @@ export class FormComponent implements OnInit {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
       data => {
         this.interviews = data;
-        console.log(this.interviews);
       },
       error => {
         console.log('Failed to get interviews.');
@@ -260,9 +259,7 @@ export class FormComponent implements OnInit {
   }
 
   updateInterviewFeedback() {
-    console.log(this.interviewSelected);
     this.interviewSelected.clientFeedback = this.feedback;
-    console.log(this.interviewSelected);
     this.interviewService.updateInterview(this.interviewSelected).subscribe();
   }
 

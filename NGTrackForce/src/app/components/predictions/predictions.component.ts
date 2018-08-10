@@ -122,7 +122,7 @@ export class PredictionsComponent implements OnInit {
                   technologyIndex: techIndex,
                   technology: techName,
                   requested: this.techNeeded[techIndex],
-                  available: 0
+                  available: data["associateCount"]
                 });
         this.results.sort((o1,o2) => o1['technologyIndex'] - o2['technologyIndex'])
       },

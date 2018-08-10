@@ -29,6 +29,6 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],   //'PhantomJS',
     // singleRun is true so it'll work on the pipeline, please don't change it <3
-    singleRun: true    //TODO: change this back to true before deploying.
+    singleRun: false    //TODO: change this back to true before deploying.
   });
 };

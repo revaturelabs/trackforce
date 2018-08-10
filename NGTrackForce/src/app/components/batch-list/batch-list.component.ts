@@ -36,6 +36,9 @@ export class BatchListComponent implements OnInit {
   batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
   counter = 0;
 
+  stringStart: string;
+  stringEnd: string;
+
   dateRangeMessage: string;
   showDateRangeError = false;
 
@@ -88,6 +91,9 @@ export class BatchListComponent implements OnInit {
       const startTime = Date.now();
       this.dataReady = false;
 
+      this.stringStart = this.startDate.toJSON().substring(0, 10);
+      this.stringEnd = this.endDate.toJSON().substring(0, 10);
+
 
       this.batchService.getAllBatches().subscribe(
         (batches) => {
@@ -124,8 +130,11 @@ export class BatchListComponent implements OnInit {
    * and the corresponding graph accordingly
    */
   public applySelectedRange() {
-    let dateStartDate = new Date(this.startDate);
-    let dateEndDate = new Date(this.endDate);
+
+    let dateStartDate = new Date(this.stringStart);
+    let dateEndDate = new Date(this.stringEnd);
+
+
 
     let longStartDate: number;
     let longEndDate: number;
@@ -135,6 +144,11 @@ export class BatchListComponent implements OnInit {
     if (this.startDate && this.endDate) {
       longStartDate = dateStartDate.getTime();
       longEndDate = dateEndDate.getTime();
+      console.log("=======================================");
+      console.log(longStartDate);
+      console.log(longEndDate);
+      console.log("=======================================");
+
 
       if (longStartDate > longEndDate){
         this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
@@ -276,5 +290,4 @@ export class BatchListComponent implements OnInit {
     this.curriculumNames = Array.from(curriculumCountsMap.keys());
     this.curriculumCounts = Array.from(curriculumCountsMap.values());
   }
-
 }

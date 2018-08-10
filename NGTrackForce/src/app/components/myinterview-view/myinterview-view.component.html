@@ -56,7 +56,7 @@
   <div class="card-deck mb-3 text-center">
     <div>
       <h3>My Interviews</h3>
-      <div class="alert alert-danger">
+      <div *ngIf="conflictingInterview" class="alert alert-danger">
         {{conflictingInterviews}}
       </div>
       <table class="table table-responsive table-hover table-bordered">

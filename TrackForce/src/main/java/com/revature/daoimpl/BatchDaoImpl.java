@@ -73,8 +73,8 @@ public class BatchDaoImpl implements BatchDao {
 				"    AND b.tf_batch_end_date <= TO_TIMESTAMP(:endDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
 				")"
 				).setParameter("curriculumName", name)
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate)
+				.setParameter("startDate", startDate.toString())
+				.setParameter("endDate", endDate.toString())
 				.getSingleResult();
 		System.out.println("OMGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG tacobell equals : " + tacobell.toString());
 		return tacobell;

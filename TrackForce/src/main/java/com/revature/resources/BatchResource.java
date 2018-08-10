@@ -251,7 +251,7 @@ public class BatchResource {
 		*/
 		
 		// TODO: 1806_Chris_P: Delete the stuff below here if we can't find a solution *****
-		Long count = (Long)bd.getBatchCountsForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
+		Object count = bd.getBatchCountsForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
 		System.out.println("===================== count is: " + count);
 		
 		Long lCount = Long.valueOf(count.toString());

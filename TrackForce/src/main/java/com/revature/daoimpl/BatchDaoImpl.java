@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureParameter;
+import javax.persistence.TemporalType;
 
 import org.hibernate.Session;
 
@@ -52,6 +53,9 @@ public class BatchDaoImpl implements BatchDao {
 	// TODO 1806-Chris_P: add to DAO Interface
 	public Object getBatchCountsForPredictions(String name, Timestamp startDate, Timestamp endDate) {
 		Session session = null;
+		System.out.println("startDate:" + startDate.toString());
+		System.out.println("endDate:" + endDate.toString());
+
 		session = HibernateUtil.getSessionFactory().openSession();
 		Object tacobell = session.createNativeQuery(
 				"select count(a.tf_associate_id) " + 
@@ -65,14 +69,14 @@ public class BatchDaoImpl implements BatchDao {
 				"        from admin.tf_curriculum c " + 
 				"        where c.tf_curriculum_name = :curriculumName " +
 				"    )" + 
-				"    AND b.tf_batch_start_date >= :startDate" +
-				"    AND b.tf_batch_end_date <= :endDate" +
+				"    AND b.tf_batch_start_date >= TO_TIMESTAMP(:startDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
+				"    AND b.tf_batch_end_date <= TO_TIMESTAMP(:endDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
 				")"
 				).setParameter("curriculumName", name)
-				.setParameter("startDate",startDate)
-				.setParameter("endDate", endDate)  
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate)
 				.getSingleResult();
-		System.out.println("OMGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG tacobell equals : " + tacobell);
+		System.out.println("OMGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG tacobell equals : " + tacobell.toString());
 		return tacobell;
 	}
 

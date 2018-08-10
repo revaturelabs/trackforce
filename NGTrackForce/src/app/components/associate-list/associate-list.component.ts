@@ -67,7 +67,7 @@ export class AssociateListComponent implements OnInit {
     if (this.user.role === 1 || this.user.role === 3 ||this.user.role===4) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
-    this.getAllAssociates(); //grab associates and clients from back end
+    this.getAllAssociates(); //TODO: change method to not use local storage
     this.getClientNames();
 
     //if navigating to this page from clicking on a chart of a different page, set default filters

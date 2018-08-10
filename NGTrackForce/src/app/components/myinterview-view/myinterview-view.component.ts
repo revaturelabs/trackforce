@@ -44,6 +44,7 @@ export class MyInterviewComponent implements OnInit {
   public clientId: Client;
   public openDateNotified: boolean;
   public openInterviewDate: boolean;
+  public conflictingInterview: boolean;
 
   constructor(
     private authService: AuthenticationService,
@@ -60,6 +61,7 @@ export class MyInterviewComponent implements OnInit {
 
     this.openDateNotified = false;
     this.openDateNotified = false;
+    this.conflictingInterview = false;
 
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.id = this.user.id;
@@ -139,10 +141,8 @@ export class MyInterviewComponent implements OnInit {
     interview.dateAssociateIssued = new Date(
       interview.dateAssociateIssued
     ).getTime();
-    this.interviewService
-      .updateInterview(interview)
-      .subscribe();
-    // location.reload();
+    this.interviewService.updateInterview(interview).subscribe();
+    location.reload();
   }
 
   /**
@@ -164,6 +164,7 @@ export class MyInterviewComponent implements OnInit {
         this.conflictingInterviews =
           'The highlighted interviews are conflicting.' +
           'They are both scheduled at the same time!';
+        this.conflictingInterview = true;
         return true;
       }
     }

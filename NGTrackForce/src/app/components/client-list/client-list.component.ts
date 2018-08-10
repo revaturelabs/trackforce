@@ -92,6 +92,21 @@ export class ClientListComponent implements OnInit {
         console.error("Failed grabbing names");
       });
   }
+  //This method was meant to return all clients with mapped associates.
+  //But is currently not used due to incorrect query in the back-end.
+  getMappedClients(){
+    this.clientService.getAllClientsWithAssoc().subscribe(
+      clients => {
+        this.mappedClientInfo = clients;
+        console.log(clients);
+        this.clientNames.length = 0;
+
+        for(let client of clients){
+          this.clientNames.push(client.name);
+        }
+      }
+    )
+  }
 
   //show data for all clients
   initChartData() {

@@ -22,9 +22,9 @@ public class ClientDaoImpl implements ClientDao {
 	public List<TfClient> getAllClientsWithMappedAssociates(){
 		return HibernateUtil.runHibernate((Session session, Object ...args) -> 
 			session.createQuery(
-					  "FROM TfClient WHERE "
-					+ "(SELECT COUNT(tf_associate_id) FROM tf_associate "
-					+ "WHERE tf_client_id = Tf_Client.tf_client_id AND tf_marketing_status_id < 5) > 0", 
+					  "FROM TfClient c WHERE "
+					+ "(SELECT COUNT(tf_associate_id) FROM TfAssociate a "
+					+ "WHERE a.client.id = c.id AND a.marketingStatus.id < 5) > 0", 
 			TfClient.class).getResultList()
 		);
 	}

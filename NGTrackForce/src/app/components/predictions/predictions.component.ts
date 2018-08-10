@@ -45,6 +45,7 @@ export class PredictionsComponent implements OnInit {
   }
 
   /**
+   * 1806_Austin_M
    * Get a list of curriculum from backend end to generate input fields
    */
   getListofCurricula() {
@@ -68,6 +69,7 @@ export class PredictionsComponent implements OnInit {
   }
 
   /**
+   * 1806_Austin_M
    * Gets the current date and sets the strings bound to the date inputs.
    * End date is the current date, start date is the first of the current year.
    */
@@ -80,6 +82,7 @@ export class PredictionsComponent implements OnInit {
   }
 
   /**
+   * 1806_Austin_M
    * Parses the date string to a date object.
    * Done onchange of date fields.
    */
@@ -89,6 +92,7 @@ export class PredictionsComponent implements OnInit {
   }
 
   /**
+   * 1806_Austin_M
    * Performs a query for each requested that has input 
    * (tech without input is skipped within the getPredicton() method). 
    * 
@@ -105,6 +109,7 @@ export class PredictionsComponent implements OnInit {
   }
 
   /**
+   * 1806_Austin_M
    * Fetch details for a single technology, filters previous results to prevent 
    * duplicate entries and sorts results by index on return
    * 
@@ -143,6 +148,7 @@ export class PredictionsComponent implements OnInit {
 
   
 /**
+ * 1806_Andrew_H_Austin_M
  * Fetches details of a selected curriculum. The details include all batches 
  * That start and end within the given time span. Resets previous data so that
  * old information is not present while loading.

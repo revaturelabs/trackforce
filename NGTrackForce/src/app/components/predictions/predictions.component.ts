@@ -21,7 +21,6 @@ export class PredictionsComponent implements OnInit {
   public dataReady = false;
   public startDate: Date = new Date();
   public endDate: Date = new Date();
-  public numAssociatesNeeded: number;
   public technologies: any[];
   public expanded = true;
   public results: any;
@@ -76,12 +75,32 @@ export class PredictionsComponent implements OnInit {
      * @param e The end date of the period to be searched
      */
   getPrediction(s, e) {
-    console.log("techNeeded", this.techNeeded);
+    
+    let actualTechNeeded = [];
 
-    this.ss.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate)).subscribe(
-      data => console.log(data),
-      err => err
-    );
+    for(let k in this.techNeeded){
+      console.log(k, this.technologies[k]["name"]);
+      this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate), this.technologies[k]["name"]).subscribe(
+        data => console.log(data),
+        err => err
+      )
+    }
+    
+    // for(let i = 0; i < this.techNeeded.keys.length; i++){
+    //   let t = this.techNeeded.keys[i];
+    //   console.log(t);
+    //   if(t != undefined && t > 0){
+    //     actualTechNeeded.push(this.technologies[t]["name"]);
+    //   }
+    // }
+    console.log("tech",  this.techNeeded);
+    console.log("fetching tech", actualTechNeeded);
+
+
+    // this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate)).subscribe(
+    //   data => console.log(data),
+    //   err => err
+    // );
     //****LEGACY CODE****?!?!?!?!?!?!?!?!?!?!?!?
     // this.results = [];
     // this.as.getAllAssociates().subscribe(
@@ -131,6 +150,10 @@ export class PredictionsComponent implements OnInit {
     // err => {
     //   this.message = "There was a problem fetching the requested data!";
     // })
+  }
+
+  fetchPredictions(curriculum: number){
+
   }
 
   /**

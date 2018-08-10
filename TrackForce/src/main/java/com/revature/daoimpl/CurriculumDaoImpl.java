@@ -46,27 +46,5 @@ public class CurriculumDaoImpl implements CurriculumDao {
 		);
 	}
 	
-	@Override
-	public List<GraphedCriteriaResult> getAssociateCountByCurriculum(Timestamp start, Timestamp end) {
-		return HibernateUtil.runHibernate((Session session, Object ... args) -> {
-					CriteriaBuilder cb = session.getCriteriaBuilder();
-					CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);
-
-					Root<TfAssociate> root = query.from(TfAssociate.class);
-
-					Join<TfAssociate, TfBatch> batchJoin = root.join("batch");
-					Join<TfBatch, TfCurriculum> curriculumJoin = batchJoin.join("curriculumName");
-
-					Path curriculumid = curriculumJoin.get("id");
-					Path curriculumName = curriculumJoin.get("name");
-
-					query.where(cb.between(curriculumJoin.get("endDate"), start, end));
-					query.groupBy(curriculumid, curriculumName);
-					query.multiselect(cb.count(root), curriculumid, curriculumName);
-					
-					return session.createQuery(query).getResultList();
-				}
-		);
-	}
-
+	
 }

@@ -45,10 +45,12 @@ import { UserService } from './services/user-service/user.service';
 import { InterviewService } from './services/interview-service/interview.service'
 
 ///
-//  FILTERS
+//  FILTERS/PIPES
 ///
 
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
+import { AssociateSearchByStatusPipe } from './pipes/associate-search-by-status-pipe/status-pipe.pipe';
+import { AssociateSearchByClientPipe } from './pipes/associate-search-by-client-pipe/client-pipe.pipe';
 
 ///
 //  SECURITY
@@ -94,7 +96,9 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
   	InterviewsComponent,
   	TrainerViewComponent,
   	DeployedComponent,
-  	UndeployedComponent
+    UndeployedComponent,
+    AssociateSearchByStatusPipe,
+    AssociateSearchByClientPipe
   ],
   imports: [
     BrowserModule,

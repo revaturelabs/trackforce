@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.google.gson.JsonObject;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfTrainer;
@@ -30,6 +31,7 @@ import com.revature.utils.LogUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.mortbay.util.ajax.JSON;
 
 /**
  * <p>
@@ -40,7 +42,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @Path("/users")
 @Api(value = "users")
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes({MediaType.APPLICATION_JSON})
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
@@ -87,6 +89,7 @@ public class UserResource {
 
 		// get the role being passed in
 		boolean works = true;
+    
 		int role = newUser.getRole();
 
 		TfRole tfrole = null;
@@ -139,6 +142,27 @@ public class UserResource {
 		}
 	}
 
+	
+	@Path("/checkUsername")
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response checkUsername(String username) {
+		final String varName = "result";
+		JsonObject json = new JsonObject();
+		
+		String message;
+		if(userService.getUser(username) == null) {
+			json.addProperty(varName, "true");
+			message = json.toString();
+			return Response.ok(message,MediaType.TEXT_PLAIN).build();
+		}
+		else {
+			json.addProperty(varName, "false");
+			message = json.toString();
+			return Response.ok(message,MediaType.TEXT_PLAIN).build();
+		}
+	}
 	/**
 	 * @author Adam L.
 	 *         <p>

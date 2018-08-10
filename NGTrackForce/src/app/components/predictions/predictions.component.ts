@@ -16,6 +16,8 @@ export class PredictionsComponent implements OnInit {
   start:any;
   end:any;
   public detailsReady = false;
+  public startDateString: string;
+  public endDateString: string;
   public startDate: Date = new Date();
   public endDate: Date = new Date();
   public technologies: any[];
@@ -36,8 +38,12 @@ export class PredictionsComponent implements OnInit {
     this.techNeeded = [];
     this.results = [];
     this.noBatches = false;
+
+    this.setInitialDates();
+    this.generateDates();
   }
 
+  
   toggleCheckboxes() {
     this.expanded = !this.expanded;
   }
@@ -63,6 +69,19 @@ export class PredictionsComponent implements OnInit {
       err => {
       }
     );
+  }
+
+  setInitialDates(){
+    let now = new Date(Date.now());
+    this.endDateString= now.toJSON().substring(0,10);
+    now.setMonth(0);
+    now.setDate(1);
+    this.startDateString = now.toJSON().substring(0,10);
+  }
+
+  generateDates(){
+    this.startDate = new Date(this.startDateString);
+    this.endDate = new Date(this.endDateString);
   }
 
   /**
@@ -94,7 +113,7 @@ export class PredictionsComponent implements OnInit {
     if(this.techNeeded[techIndex] == undefined || this.techNeeded[techIndex] <= 0)
       return;
 
-    console.log("date for count", this.startDate, this.endDate);
+      console.log("date for count", this.startDate, this.endDate);
 
     this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate), techName).subscribe(
       data => {

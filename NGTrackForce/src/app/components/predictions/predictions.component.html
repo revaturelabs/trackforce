@@ -11,10 +11,8 @@
           <th>End Date</th>
         </tr>
         <tr>
-          <td><input class="form-control" type="date" [ngModel]="startDate | date:'yyyy-MM-dd'" (ngModelChange)="startDate = $event" id="startDate"
-            name="startDate" [max]="endDate" (blur)="getAllPredictions()"/></td>
-          <td><input class="form-control" type="date" [ngModel]="endDate | date:'yyyy-MM-dd'" (ngModelChange)="endDate = $event" id="endDate"
-            name="endDate" [min]="startDate" (blur)="getAllPredictions()"/></td>
+          <td><input class="form-control" type="date" [(ngModel)]="startDateString" (change)="generateDates()" (blur)="getAllPredictions()"/></td>
+          <td><input class="form-control" type="date" [(ngModel)]="endDateString" (change)="generateDates()" (blur)="getAllPredictions()"/></td>
         </tr>
       </table>
     </div>

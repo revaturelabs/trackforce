@@ -7,6 +7,7 @@ import { RequestService } from '../../services/request-service/request.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TrainerService } from '../../services/trainer-service/trainer.service';
+import { AssociateService } from '../../services/associate-service/associate.service';
 
 
 describe('TrainerViewComponent', () => {
@@ -17,7 +18,7 @@ describe('TrainerViewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ TrainerViewComponent ],
       imports: [ FormsModule, HttpClientTestingModule, RouterTestingModule ],
-      providers: [ AuthenticationService, RequestService, TrainerService ]
+      providers: [ AuthenticationService, RequestService, TrainerService, AssociateService ]
     })
     .compileComponents();
   }));

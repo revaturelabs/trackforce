@@ -3,15 +3,23 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
 
+import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.TfCurriculum;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
@@ -87,7 +95,7 @@ public class CurriculumResource {
 	@Path("/unmapped/{statusId}")
 	public Response getUnmappedInfo(@HeaderParam("Authorization") String token, @PathParam("statusId") int statusId) {
 		logger.info("getUnmappedInfo()...");		
-		List<TfCurriculum> curriculum = curriculumService.getAllCurriculums();
+
 		Claims payload = JWTService.processToken(token);
 		
 		if (payload == null) { // invalid token

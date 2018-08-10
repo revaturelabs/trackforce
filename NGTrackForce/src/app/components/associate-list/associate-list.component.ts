@@ -93,8 +93,7 @@ export class AssociateListComponent implements OnInit {
   getAllAssociates() {
     this.associateService.getAllAssociates().subscribe(
       data => {
-        localStorage.setItem('currentAssociates', JSON.stringify(data));
-        this.associates = JSON.parse(localStorage.getItem('currentAssociates'));
+        this.associates = data;
         for (const associate of this.associates) {//get our curriculums from the associates
           if(associate.batch!==null && associate.batch.curriculumName!==null){
             this.curriculums.add(associate.batch.curriculumName.name);
@@ -136,8 +135,6 @@ export class AssociateListComponent implements OnInit {
       }
     }
 
-    localStorage.removeItem('currentAssociates');
-    localStorage.setItem('currentAssociates', JSON.stringify(associateList));
     if(this.updateVerification==="") {this.updateVerification="0";}
     if(this.updateStatus==="") {this.updateStatus="0";}
     if(this.updateClient==="") {this.updateClient="0";}

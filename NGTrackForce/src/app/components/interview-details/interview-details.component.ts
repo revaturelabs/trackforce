@@ -1,6 +1,6 @@
 
 import { Component, OnInit, Input } from '@angular/core';
-import { MyInterviewComponent } from '../../components/myinterview-view/myinterview-view.component';
+import { MyInterviewComponent } from '../myinterview-view/myinterview-view.component';
 import { ActivatedRoute } from '@angular/router';
 
 import { InterviewService } from '../../services/interview-service/interview.service';

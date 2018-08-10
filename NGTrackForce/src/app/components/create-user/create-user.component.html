@@ -14,7 +14,8 @@
     <h3>Create New User:</h3>
     <form id="NewUserForm">
       <label for="username" class="sr-only">Username: </label>
-      <input class="form-control" type="text" placeholder="Username" name="username" id="username" required [(ngModel)]="username"/>
+      <input class="form-control" type="text" placeholder="Username" name="username" id="username" required [(ngModel)]="username" (blur)="onBlur_username()"/>
+      <div class="alert alert-danger form-control" *ngIf=displayErrorUsername id="error-username">Username already taken.</div>
       <label for="password" class="sr-only">Password: </label>
       <input class="form-control" type="password" placeholder="Password" name="password" id="password" required [(ngModel)]="password"/>
       <label for="password" class="sr-only">Confirm Password: </label>

@@ -25,9 +25,17 @@ import com.revature.entity.TfMarketingStatus;
 import com.revature.entity.TfUser;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.Sessional;
-
+/**
+ * Data Access Object implementation to access the associate entity from the
+ * Database
+ */
 public class AssociateDaoImpl implements AssociateDao {
-
+	
+	/**
+	 * Gets a single associate with an id
+	 * 
+	 * @param Integer associateId
+	 */
 	@Override
 	public TfAssociate getAssociate(Integer associateid) {
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
@@ -35,19 +43,31 @@ public class AssociateDaoImpl implements AssociateDao {
 				.setParameter("associateid", associateid).getSingleResult());
 	}
 
+	/**
+	 * Gets an associate by an associated user id
+	 * 
+	 * @param int userId
+	 */
 	@Override
-	public TfAssociate getAssociateByUserId(int id) {
+	public TfAssociate getAssociateByUserId(int userId) {
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
-				.createQuery("from TfAssociate a where a.user.id like :id", TfAssociate.class).setParameter("id", id)
+				.createQuery("from TfAssociate a where a.user.id = :id", TfAssociate.class).setParameter("id", userId)
 				.getSingleResult());
 	}
 
+	/**
+	 * Gets all associates
+	 */
 	@Override
 	public List<TfAssociate> getAllAssociates() {
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
 				.createQuery("from TfAssociate", TfAssociate.class).getResultList());
 	}
 
+	/**
+	 * sessional containing instructions on how to partially update an associate's first and
+	 * last name
+	 */
 	private Sessional<Boolean> updateAssociatePartial = (Session session, Object... args) -> {
 		TfAssociate associate = (TfAssociate) args[0];
 		TfAssociate temp = session.get(TfAssociate.class, associate.getId());
@@ -59,11 +79,17 @@ public class AssociateDaoImpl implements AssociateDao {
 		return true;
 	};
 
+	/**
+	 * Partially updates associate
+	 */
 	@Override
 	public boolean updateAssociatePartial(TfAssociate associate) {
 		return HibernateUtil.runHibernateTransaction(updateAssociatePartial);
 	}
 
+	/**
+	 * Sessional with instructions on how to approve an associate
+	 */
 	private Sessional<Boolean> approveAssociate = (Session session, Object... args) -> {
 		TfAssociate temp = session.get(TfAssociate.class, (Integer) args[0]);
 
@@ -73,21 +99,39 @@ public class AssociateDaoImpl implements AssociateDao {
 		return true;
 	};
 
+	/**
+	 * approves given associate
+	 * 
+	 * @param int associateId
+	 */
 	@Override
 	public boolean approveAssociate(int associateId) {
 		return HibernateUtil.runHibernateTransaction(approveAssociate, associateId);
 	}
 
+	/**
+	 * approves many given associates
+	 * 
+	 * @param List<Integer> contains associate ids
+	 */
 	@Override
 	public boolean approveAssociates(List<Integer> associateIds) {
 		return HibernateUtil.multiTransaction(approveAssociate, associateIds);
 	}
 
+	/**
+	 * Creates new associate with a given associate object.
+	 * 
+	 * @param TfAssociate the new associate you wish to persist
+	 */
 	@Override
 	public boolean createAssociate(TfAssociate newassociate) {
 		return saveToDB(newassociate);
 	}
 
+	/**
+	 * Does something
+	 */
 	@Override
 	public List<GraphedCriteriaResult> getMapped(int id) {
 		return HibernateUtil.runHibernate((Session session, Object... args) -> {

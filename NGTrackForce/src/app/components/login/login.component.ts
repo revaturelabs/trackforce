@@ -356,13 +356,7 @@ export class LoginComponent implements OnInit {
   salesOrStagingLogin() {
     this.associateService.getAllAssociates().subscribe(
       data => {
-
-        /*
-          PROBLEM
-          should load the admin/sales/staging information
-          SHOULDNT load all associates information
-        */
-        localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
+        // localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
         this.router.navigate(['app-home']);
       },
       err => {

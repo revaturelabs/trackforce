@@ -35,8 +35,8 @@ public class CurriculumDaoImpl implements CurriculumDao {
 					Join<TfBatch, TfCurriculum> curriculumJoin = batchJoin.join("curriculumName");
 					Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
 
-					Path curriculumid = curriculumJoin.get("id");
-					Path curriculumName = curriculumJoin.get("name");
+					Path<?> curriculumid = curriculumJoin.get("id");
+					Path<?> curriculumName = curriculumJoin.get("name");
 
 					query.where(cb.equal(msJoin.get("id"), args[0]));
 					query.groupBy(curriculumid, curriculumName);

@@ -16,6 +16,8 @@ import {ClientListComponent} from '../client-list/client-list.component';
 import {CreateUserComponent} from '../create-user/create-user.component';
 import {SearchFilterPipe} from '../../pipes/search-filter/search-filter.pipe';
 import {AssociateSearchByTextFilter} from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
+import { AssociateSearchByClientPipe } from '../../pipes/associate-search-by-client-pipe/client-pipe.pipe';
+import { AssociateSearchByStatusPipe } from '../../pipes/associate-search-by-status-pipe/status-pipe.pipe';
 import {NavbarComponent} from '../navbar/navbar.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormComponent} from '../form-component/form.component';
@@ -107,6 +109,8 @@ describe('BatchListComponent', async () => {
         CreateUserComponent,
         SearchFilterPipe,
         AssociateSearchByTextFilter,
+        AssociateSearchByClientPipe,
+        AssociateSearchByStatusPipe,
         NavbarComponent,
         FormComponent,
         SkillsetComponent

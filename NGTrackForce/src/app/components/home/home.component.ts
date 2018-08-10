@@ -18,7 +18,7 @@ import { Associate } from '../../models/associate.model';
 /**
  * What is this for???
  */
-// const MONTHS_3 = 788923800;
+const MONTHS_3 = 788923800;
 
 @Component({
   selector: 'app-home',
@@ -29,7 +29,7 @@ import { Associate } from '../../models/associate.model';
 export class HomeComponent implements OnInit {
 
   private associates: Associate[];
-  // private associate: Associate;
+  private associate: Associate;
 
 
   //Message from the back-end
@@ -141,7 +141,6 @@ export class HomeComponent implements OnInit {
 
       this.undeployedData = undeployedArr;
       localStorage.setItem('undeployedData', JSON.stringify(this.undeployedData))
-      //console.log(localStorage.getItem('undeployedData'));
 
       /**
        * @member {Array} MappedData

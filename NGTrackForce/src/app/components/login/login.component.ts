@@ -21,11 +21,11 @@ import {Associate} from "../../models/associate.model";
 const ASSOCIATE_KEY = 'currentAssociate';
 const USER_KEY = 'currentUser';
 const TRAINER_KEY = 'currentTrainer';
-// const INTERVIEWS_KEY = 'currentInterviews';
-// const BATCHES_TRAINER_KEY = 'currentBatchesTrainer';
-// const BATCHES_COTRAINER_KEY = 'currentBatchesCotrainer';
-// const BATCHES_KEY = 'currentBatches';
-// const CLIENTS_KEY = 'currentClients';
+const INTERVIEWS_KEY = 'currentInterviews';
+const BATCHES_TRAINER_KEY = 'currentBatchesTrainer';
+const BATCHES_COTRAINER_KEY = 'currentBatchesCotrainer';
+const BATCHES_KEY = 'currentBatches';
+const CLIENTS_KEY = 'currentClients';
 
 /* 
   PROBLEM
@@ -93,9 +93,9 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationService,
     private router: Router,
     private userService: UserService,
-    // private interviewService: InterviewService,
-    // private clientService: ClientService,
-    // private batchService: BatchService,
+    private interviewService: InterviewService,
+    private clientService: ClientService,
+    private batchService: BatchService,
     private trainerService: TrainerService
   ) {
   }

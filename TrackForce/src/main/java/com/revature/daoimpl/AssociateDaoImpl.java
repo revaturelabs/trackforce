@@ -37,10 +37,10 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * @param Integer associateId
 	 */
 	@Override
-	public TfAssociate getAssociate(Integer associateid) {
-		return HibernateUtil.runHibernate((Session session, Object... args) -> session
-				.createQuery("from TfAssociate a where a.id like :associateid", TfAssociate.class)
-				.setParameter("associateid", associateid).getSingleResult());
+	public TfAssociate getAssociate(Integer id) {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+		session.createQuery("from TfAssociate a where a.id = :id", TfAssociate.class).setParameter("id", id).getSingleResult());
+
 	}
 
 	/**
@@ -49,10 +49,10 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * @param int userId
 	 */
 	@Override
-	public TfAssociate getAssociateByUserId(int userId) {
-		return HibernateUtil.runHibernate((Session session, Object... args) -> session
-				.createQuery("from TfAssociate a where a.user.id = :id", TfAssociate.class).setParameter("id", userId)
-				.getSingleResult());
+	public TfAssociate getAssociateByUserId(int id) {
+		return HibernateUtil.runHibernate((Session session, Object ... args) ->
+				session.createQuery("from TfAssociate where user.id = :id", TfAssociate.class).setParameter("id", id).getSingleResult());
+
 	}
 
 	/**
@@ -64,27 +64,15 @@ public class AssociateDaoImpl implements AssociateDao {
 				.createQuery("from TfAssociate", TfAssociate.class).getResultList());
 	}
 
-	/**
-	 * sessional containing instructions on how to partially update an associate's first and
-	 * last name
-	 */
-	private Sessional<Boolean> updateAssociatePartial = (Session session, Object... args) -> {
-		TfAssociate associate = (TfAssociate) args[0];
-		TfAssociate temp = session.get(TfAssociate.class, associate.getId());
-
-		temp.setFirstName(associate.getFirstName());
-		temp.setLastName(associate.getLastName());
-
-		session.update(temp);
-		return true;
-	};
-
-	/**
-	 * Partially updates associate
-	 */
 	@Override
 	public boolean updateAssociatePartial(TfAssociate associate) {
-		return HibernateUtil.runHibernateTransaction(updateAssociatePartial);
+		return HibernateUtil.runHibernateTransaction((Session session, Object ... args)-> {
+			TfAssociate temp = session.get(TfAssociate.class, associate.getId());
+			temp.setFirstName(associate.getFirstName());
+			temp.setLastName(associate.getLastName());
+			session.update(temp);
+			return true;
+		});
 	}
 
 	/**

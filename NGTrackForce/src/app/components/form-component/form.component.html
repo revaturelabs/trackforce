@@ -6,57 +6,58 @@
     <div class="alert alert-danger" *ngIf="errorMessage">
       <h5 class="text-danger">{{errorMessage}}</h5>
     </div>
-    <div class="col-sm-6">
+    <div class="col-12">
       <h3>Associate Info</h3>
       <div class="table-responsive info">
         <table class="table table-hover table-bordered">
           <tbody>
-            <tr *ngIf="isApproved != 1">
+            <tr *ngIf="(associate && associate.user && associate.user.isApproved) ? associate.user.isApproved != true : true">
               <td>This Associate has not been approved yet</td>
               <td>
-                <button *ngIf="true" class="btn btn-primary" (click)="approveAssociate()">Approve</button>
+                <button class="btn btn-primary" (click)="approveAssociate()">Approve</button>
               </td>
             </tr>
             <tr>
               <td>Associate ID</td>
-              <td>{{associate.id}}</td>
+              <td>{{(associate && associate.id) ? associate.id : ""}}</td>
             </tr>
             <tr>
               <td>First Name</td>
-              <td>{{associate.firstName}}</td>
+              <td>{{(associate && associate.firstName) ? associate.firstName : ""}}</td>
             </tr>
             <tr>
               <td>Last Name</td>
-              <td>{{associate.lastName}}</td>
+              <td>{{(associate && associate.lastName) ? associate.lastName : ""}}</td>
             </tr>
             <tr>
               <td>Marketing Status</td>
-              <td>{{associate.marketingStatus.name}}</td>
+              <td>{{(associate && associate.marketingStatus && associate.marketingStatus.name) ? associate.marketingStatus.name
+                : ""}}</td>
             </tr>
             <tr>
               <td>Batch Name</td>
               <td>
-                <a [routerLink]="['/batch-details', associate.batch.id]">{{associate.batch.batchName}}</a>
+                <a [routerLink]="['/batch-details', (associate && associate.batch && associate.batch.id) ? associate.batch.id : '#']">{{(associate && associate.batch && associate.batch.batchName) ? associate.batch.batchName : ""}}</a>
               </td>
             </tr>
             <tr>
               <td>Client Name</td>
-              <td>{{associate.client.name}}</td>
+              <td>{{(associate && associate.client && associate.client.name) ? associate.client.name : ""}}</td>
             </tr>
             <tr>
               <td>Start Date</td>
-              <td>{{associate.clientStartDate | date:'longDate'}}</td>
+              <td>{{(associate && associate.clientStartDate) ? (associate.clientStartDate | date:'longDate') : ""}}</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-12">
       <h3>Interviews</h3>
       <table class="table table-responsive table-hover table-bordered">
         <thead>
           <tr>
-            <th>Interview</th>
+            <th>Interview ID</th>
             <th>Client</th>
             <th>Date</th>
             <th>Type</th>
@@ -65,41 +66,24 @@
         </thead>
         <tbody>
           <tr *ngFor="let interview of interviews; let i = index">
-            <td>{{i+1}}</td>
-            <td>{{interview.client}}</td>
-            <td>{{interview.interviewDate | date:'longDate'}}</td>
-            <td>{{interview.interviewType.name}}</td>
-            <td>{{interview.clientFeedback}}</td>
+            <td>{{(interview && interview.id) ? interview.id : ""}}</td>
+            <td>{{(interview.client && interview.client.name) ? interview.client.name : ""}}</td>
+            <td>{{(interview && interview.interviewDate) ? (interview.interviewDate | date:'longDate') : "" }}</td>
+            <td>{{(interview && interview.interviewType && interview.interviewType.name) ?interview.interviewType.name : ""}}</td>
+            <td>{{(interview && interview.clientFeedback) ? interview.clientFeedback : ""}}</td>
           </tr>
         </tbody>
       </table>
-      <button type="button" *ngIf="!isVP" class="btn btn-primary" (click)="toggleForm()">Toggle Create New Interview Form</button>
+      <button type="button" *ngIf="!isVP" class="btn btn-primary" (click)="toggleForm()">Toggle Update Interview Feedback Form</button>
       <div class="row" *ngIf="formOpen" class="toggledContainer">
         <div class="col-lg-9">
           <form class="form-horizontal">
             <div class="form-group">
-              <label class="control-label col-sm-3">Client:</label>
+              <label class="control-label col-sm-3">Interview ID:</label>
               <div class="col-sm-9">
-                <select class="form-control" name="newClient">
+                <select class="form-control" name="type" [(ngModel)]="interviewSelected">
                   <option selected="selected">None</option>
-                  <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-3">Date:</label>
-              <div class="col-sm-9">
-                <input type="date" class="form-control" name="date" [(ngModel)]="date" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-3">Type:</label>
-              <div class="col-sm-9">
-                <select class="form-control" name="type" [(ngModel)]="type">
-                  <option value="1">Phone</option>
-                  <option value="4">Skype</option>
-                  <option value="2">Online</option>
-                  <option value="3">On-site</option>
+                  <option *ngFor="let interview of interviews" [ngValue]="interview">{{interview.id}}</option>
                 </select>
               </div>
             </div>
@@ -109,7 +93,7 @@
                 <textarea type="text" class="form-control" name="feedback" rows="3" [(ngModel)]="feedback"></textarea>
               </div>
             </div>
-            <button type="button" (click)="addInterview()" class="btn btn-warning">Add Interview</button>
+            <button type="button" (click)="updateInterviewFeedback(interview)" class="btn btn-warning">Update Feedback</button>
           </form>
         </div>
       </div>

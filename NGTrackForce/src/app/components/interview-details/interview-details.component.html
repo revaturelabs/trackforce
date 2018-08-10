@@ -3,25 +3,37 @@
 
 	<h2>Associate FeedBack</h2>
 
-	<textarea maxlength="1900" editable="true" style="min-width: 1200px; min-height: 200px" [(ngModel)]="interview.AFeedback">{{interview.AFeedback}}</textarea>
+	<textarea maxlength="1900" editable="true" style="min-width: 1200px; min-height: 200px" [value]="interview?.associateFeedback"
+	 [ngModel]="interview?.associateFeedback" [ngModelOptions]="{standalone: true}" (ngModelChange)="interview.associateFeedback = $event">
+		</textarea>
 
 	<h2>Client FeedBack</h2>
-	<textarea maxlength="1900" disabled="true" style="min-width: 1200px; min-height: 200px">{{interview.CFeedback}}</textarea>
+	<textarea maxlength="1900" disabled="true" style="min-width: 1200px; min-height: 200px">{{interview?.clientFeedback}}</textarea>
 
 
 	<h2>Interview questions</h2>
-	<textarea maxlength="1900" editable="true" style="min-width: 1200px; min-height: 200px"></textarea>
+	<textarea maxlength="1900" editable="true" style="min-width: 1200px; min-height: 200px" [value]="interview?.questionGiven"
+	 [ngModel]="interview?.questionGiven" [ngModelOptions]="{standalone: true}" (ngModelChange)="interview.questionGiven = $event">{{interview?.questionGiven}}</textarea>
 
 
 	<br>
 
-	<button class="btn btn-primary" type="button" (click)="commitchanges()">Save Changes</button>
-	<br>
-	<!-- click button commitchanges -->
-	<td>
-		<a [routerLink]="['/myinterview-view']" class="id">Close</a>
-	</td>
+	<div class="container-fluid">
+		<div class="row"*ngIf="promptToggle">
+			<div class={{promptClassName}} role="alert">
+				{{promptMessage}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-1">
+				<button type="button" [routerLink]="['/myinterview-view']" class="btn btn-primary">Close</button>
+			</div>
+			<div class="col-sm-2">
+				<button class="btn btn-primary" type="button" (click)="commitchanges()">
+					Save Changes
+				</button>
+			</div>
 
-
-
+		</div>
+	</div>
 </div>

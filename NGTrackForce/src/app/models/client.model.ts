@@ -13,22 +13,21 @@ export class Client {
   placement: Placement[];
   associate: Associate[];
   interview: Interview[];
-  
-  stats: StatusInfo;
+  stats?: StatusInfo;
 
   constructor(
-    newId?: number,
-    newName?: string,
-    newPlacements?: Placement[],
-    newAssociates?: Associate[],
-    newInterviews?: Interview[],
-    newStats?: StatusInfo
+    id: number,
+    name: string,
+    placement: Placement[],
+    associate: Associate[],
+    interview: Interview[],
+    stats?: StatusInfo
   ) {
-    this.id = newId;
-    this.name = newName;
-    this.placement = newPlacements;
-    this.associate = newAssociates;
-    this.interview = newInterviews;
-    this.stats = newStats;
+    this.id = id;
+    this.name = name;
+    this.placement = placement;
+    this.associate = associate;
+    this.stats = stats;
+    this.interview = interview;
   }
 }

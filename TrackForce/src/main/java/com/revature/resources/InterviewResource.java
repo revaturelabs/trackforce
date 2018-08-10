@@ -158,6 +158,43 @@ public class InterviewResource {
 		return Response.status(status).entity(interviews).build();
 
 	}
+	
+	/**
+	 * @author RayR
+	 *         <p>
+	 *         </p>
+	 * @version v6.18.06.13
+	 * 
+	 * @param token
+	 * @param interviewId
+	 * @return
+	 * @throws HibernateException
+	 * @throws IOException
+	 */
+	@Path("/getInterviewById/{interviewId}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Returns an interview by id", notes = "Returns an interview.")
+	public Response getInterviewById(@HeaderParam("Authorization") String token,
+			@PathParam("interviewId") Integer interviewId) throws HibernateException, IOException {
+		logger.info("getInterviewById()...");
+		Status status = null;
+		TfInterview interview = interviewService.getInterviewById(interviewId);
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null) { // invalid token
+
+			status = Status.UNAUTHORIZED;
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) { // wrong roleid
+			status = Status.FORBIDDEN;
+		} else {
+			logger.info(interview);
+			status = interview == null ? Status.NO_CONTENT : Status.OK;
+		}
+
+		return Response.status(status).entity(interview).build();
+
+	}
 
 	/**
 	 * @author Adam L.

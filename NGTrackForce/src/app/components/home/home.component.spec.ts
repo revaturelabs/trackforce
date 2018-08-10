@@ -40,6 +40,7 @@ describe('HomeComponent', () => {
 
   beforeEach(() => {
     let mockUser:User = new User('mockUser','pass',0,0);
+    
     let associate1:Associate = new Associate('first','last',mockUser);
     let associate2:Associate = new Associate('first','last',mockUser);
     let associate3:Associate = new Associate('first','last',mockUser);

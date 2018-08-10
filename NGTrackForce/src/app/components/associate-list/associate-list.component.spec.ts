@@ -14,7 +14,10 @@ import {AuthenticationService} from '../../services/authentication-service/authe
 import {RequestService} from '../../services/request-service/request.service';
 import {User} from '../../models/user.model';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-
+import { Curriculum } from '../../models/curriculum.model';
+import { Batch } from '../../models/batch.model';
+import { Associate } from '../../models/associate.model';
+import { MarketingStatus } from '../../models/marketing-status.model';
 
 describe('AssociateListComponent', () => {
   let component: AssociateListComponent;
@@ -59,6 +62,56 @@ describe('AssociateListComponent', () => {
   }));
 
   beforeEach(() => {
+    let mockBatch:Batch = new Batch();
+    mockBatch.id = 100;
+    mockBatch.batchName = 'mockBatchName';
+    
+    let batches:Batch[] = [mockBatch];
+    let mockUser:User = new User('mockUser', 'pass', 0, 0);
+
+
+    let mockCurriculum:Curriculum = new Curriculum();
+    mockCurriculum.id = 100;
+    mockCurriculum.name = 'JTA'; 
+    mockCurriculum.batches = batches;
+
+    mockBatch.curriculumName = mockCurriculum;
+
+    let associate1:Associate = new Associate('first','last',mockUser);
+    let associate2:Associate = new Associate('first','last',mockUser);
+    let associate3:Associate = new Associate('first','last',mockUser);
+    
+    let marketingStatus:MarketingStatus = new MarketingStatus(1, 'status');
+    
+    associate1.marketingStatus = marketingStatus;
+    associate2.marketingStatus = marketingStatus;
+    associate3.marketingStatus = marketingStatus;
+
+    let mockBatch1:Batch = new Batch();
+    let mockBatch2:Batch = new Batch();
+    let mockBatch3:Batch = new Batch();
+
+    let curriculum1:Curriculum = new Curriculum();
+    let curriculum2:Curriculum = new Curriculum();
+    let curriculum3:Curriculum = new Curriculum();
+
+    curriculum1.name = 'mockCurriculum';
+    curriculum2.name = 'mockCurriculum';
+    curriculum3.name = 'mockCurriculum';
+
+    mockBatch1.curriculumName = curriculum1;
+    mockBatch2.curriculumName = curriculum2;
+    mockBatch3.curriculumName = curriculum3;
+
+    associate1.batch = mockBatch1;
+    associate2.batch = mockBatch2;
+    associate3.batch = mockBatch3;
+
+    let associates:Associate[] = [associate1,associate2,associate3];
+
+    localStorage.setItem('currentUser', JSON.stringify(mockUser));
+    localStorage.setItem('currentAssociates', JSON.stringify(associates));
+
     fixture = TestBed.createComponent(AssociateListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

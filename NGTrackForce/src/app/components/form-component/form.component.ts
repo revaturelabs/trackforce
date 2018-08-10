@@ -58,6 +58,9 @@ export class FormComponent implements OnInit {
   associateId: number;
   private sub: any;
 
+  public interviewSelected: Interview;
+  public feedback: string;
+
   /**
    *@param {AssociateService} associateService
    * Service for grabbing associate data from the back-end
@@ -83,6 +86,7 @@ export class FormComponent implements OnInit {
           this.associate = data;
           console.log(this.id);
           console.log(this.associate);
+          this.getAssociateInterviews(this.associate.id);
         },
         error => {
           console.log('error');
@@ -117,8 +121,6 @@ export class FormComponent implements OnInit {
           a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
       );
     });
-    this.getInterviews();
-    // this.initializeassociateinterview(this.iid);
   }
 
   adjustDate(date: any) {
@@ -241,34 +243,24 @@ export class FormComponent implements OnInit {
   //   )
   // }
 
-  getInterviews() {
-    // GET IT FROM LOCAL STORAGE INSTEAD
-    // this.interviewService.getInterviews(this.associate.id).subscribe(
-    //   data => {
-    //     this.interviews = data
-    //   }
-    // );
+  getAssociateInterviews(id) {
+    this.interviewService.getInterviewsForAssociate(id).subscribe(
+      data => {
+        this.interviews = data;
+      },
+      error => {
+        console.log('Failed to get interviews.');
+      }
+    );
   }
 
   toggleForm() {
     this.formOpen = !this.formOpen;
   }
 
-  addInterview() {
-    // THIS HAS TO BE TOTALLY REWORKED AND DESERVES ITS OWN ISSUE
-    // let interview = new Interview();
-    // interview.associate = this.associate;
-    // interview.client = this.newInterview.client;
-    // interview.interviewType = this.newInterview;
-    // interview.interviewDate = new Date(this.newInterview.date).getTime();
-    // interview.associateFeedback = this.newInterview.feedback;
-    // this.interviewService.createInterview(interview, this.associate.id).subscribe(
-    //   data => {
-    //   },
-    //   err => {
-    //   }
-    // );
-    this.resetAllFields();
+  updateInterviewFeedback() {
+    this.interviewSelected.clientFeedback = this.feedback;
+    this.interviewService.updateInterview(this.interviewSelected).subscribe();
   }
 
   resetAllFields() {

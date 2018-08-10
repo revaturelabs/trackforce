@@ -91,11 +91,15 @@ describe('BatchListComponent', async () => {
     // spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
     spyOn(testBatchService, 'getBatchesByDate').and.returnValue(Observable.of([batch1, batch2]));
 
+<<<<<<< HEAD
     // 8/8/2018 Nathan : added User constructor.
     let user = new User('mockUser', 'mockPassword', 1, 1, 1, 'mockId');
     user.token = "mockToken";
     user.username = "mockUser";
     user.role = 1;
+=======
+    let user = new User("mockUser", "mockPassword", 1, 0, null, "mockToken");
+>>>>>>> f8050ba596880f59c8c4c8293aa3e62fcd913b23
     spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
   });
 
@@ -162,6 +166,18 @@ describe('BatchListComponent', async () => {
         const defaultBatchCount = component.batches.length;
         expect(defaultBatchCount).toBeGreaterThanOrEqual(0);
 
+<<<<<<< HEAD
+=======
+        const now: Date = new Date();
+        component.startDate = new Date(0);  // 1970, aka very far back
+        component.endDate = new Date(now.getFullYear(), now.getMonth() + 6, 1); // 5-6 months in the future
+        // These arguments were added to stop a compilation error, what they are were implied by the method signature.
+        component.applySelectedRange();
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(component.batches.length).toBeGreaterThanOrEqual(defaultBatchCount);
+        });
+>>>>>>> f8050ba596880f59c8c4c8293aa3e62fcd913b23
       });
     });
 

@@ -20,7 +20,7 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, 'coverage'), reports: [ 'html', 'lcovonly' ],
       fixWebpackSourcePaths: true
     },
-    
+
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
@@ -29,6 +29,6 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],   //'PhantomJS',
     // singleRun is true so it'll work on the pipeline, please don't change it <3
-    singleRun: false    //TODO: change this back to true before deploying.
+    singleRun: true    //TODO: change this back to true before deploying.
   });
 };

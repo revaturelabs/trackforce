@@ -59,17 +59,17 @@ describe('BatchListComponent', async () => {
 
     const mockLocation: BatchLocation = new BatchLocation(700,'Massachusetts');
 
-    const mockUser: User = new User('mockUser', 'password', 0, 0); 
+    const mockUser: User = new User('mockUser', 'password', 0, 0);
     const trainerUser: User = new User('mockTrainer', 'password', 0, 0);
 
     const mockAssociate: Associate = new Associate('FirstName', 'LastName', mockUser, 101010, null, null, null, null, null, null, null);
-    
+
     const mockAssociates: Associate[] = [mockAssociate];
 
     const batch1: Batch = new Batch();
 
     const mockTrainer: Trainer = new Trainer('Trainer', 'T.', trainerUser);
-    
+
     batch1.id = 1;
     batch1.batchName = 'mockBatch';
     batch1.curriculumName = mockCurriculum;
@@ -130,7 +130,7 @@ describe('BatchListComponent', async () => {
 
     fixture = TestBed.createComponent(BatchListComponent);
     component = fixture.componentInstance;
-    
+
 
   });
 
@@ -173,4 +173,3 @@ describe('BatchListComponent', async () => {
   });
 
 });
-

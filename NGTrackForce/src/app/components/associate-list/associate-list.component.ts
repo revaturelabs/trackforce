@@ -67,7 +67,7 @@ export class AssociateListComponent implements OnInit {
     if (this.user.role === 1 || this.user.role === 3 ||this.user.role===4) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
-    this.getAllAssociates(); //grab associates and clients from back end
+    this.getAllAssociates(); //TODO: change method to not use local storage
     this.getClientNames();
 
     //if navigating to this page from clicking on a chart of a different page, set default filters
@@ -92,18 +92,21 @@ export class AssociateListComponent implements OnInit {
    */
   getAllAssociates() {
 
-      this.associates = JSON.parse(localStorage.getItem('currentAssociates'));
-      for (const associate of this.associates) {//get our curriculums from the associates
-        if(associate.batch!==null && associate.batch.curriculumName!==null){
-          this.curriculums.add(associate.batch.curriculumName.name);
+    this.associateService.getAllAssociates().subscribe(
+      data => {
+        this.associates = data;
+        for (const associate of this.associates) {//get our curriculums from the associates
+          if(associate.batch!==null && associate.batch.curriculumName!==null){
+            this.curriculums.add(associate.batch.curriculumName.name);
+          }
+          if (associate.batch && associate.batch.batchName === 'null') {
+            associate.batch.batchName = 'None'
+          }
         }
-        if (associate.batch && associate.batch.batchName === 'null') {
-          associate.batch.batchName = 'None'
-        }
+        this.curriculums.delete("");
+        this.curriculums.delete("null");
       }
-      this.curriculums.delete("");
-      this.curriculums.delete("null");
-
+    );
   }
 
   /**
@@ -115,33 +118,36 @@ export class AssociateListComponent implements OnInit {
     });
   }
 
-
-
   /**
    * Bulk edit feature to update associate's verification, statuses and clients.
    */
   updateAssociates() {
     const ids: number[] = [];
-    const self = this;
 
     let associateList: Associate[] = [];
     for (const a of this.associates) { //grab the checked ids
       const check = <HTMLInputElement>document.getElementById("" + a.id);
       if (check != null && check.checked) {
         ids.push(a.id);
-        a.user.isApproved = 1;
+
+        // This line USED to be used to automatically approve an account.
+        // Logan commented this out 08/09/2018 to check how this functionality should be implemented. 
+        //a.user.isApproved = 1;
+        associateList.push(a);
+
       }
-      associateList.push(a);
     }
-    this.associates = associateList;
-    localStorage.setItem("currentAssociates", JSON.stringify(this.associates));
+
+    localStorage.removeItem('currentAssociates');
+    localStorage.setItem('currentAssociates', JSON.stringify(associateList));
+
     if(this.updateVerification==="") {this.updateVerification="0";}
     if(this.updateStatus==="") {this.updateStatus="0";}
     if(this.updateClient==="") {this.updateClient="0";}
     this.associateService.updateAssociates(ids, Number(this.updateVerification), Number(this.updateStatus), Number(this.updateClient)).subscribe(
       data => {
-        self.getAllAssociates(); //refresh the associates to reflect the updates made on DB
-        self.updated = true;
+        this.getAllAssociates(); //refresh the associates to reflect the updates made on DB
+        this.updated = true;
       });
   }
 }

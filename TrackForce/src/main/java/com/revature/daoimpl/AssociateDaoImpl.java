@@ -23,15 +23,15 @@ import static com.revature.utils.LogUtil.logger;
 public class AssociateDaoImpl implements AssociateDao {
 
 	@Override
-	public TfAssociate getAssociate(Integer associateid) {
+	public TfAssociate getAssociate(Integer id) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfAssociate a where a.id like :associateid", TfAssociate.class).setParameter("associateid", associateid).getSingleResult());
+		session.createQuery("from TfAssociate a where a.id = :id", TfAssociate.class).setParameter("id", id).getSingleResult());
 	}
 
 	@Override
 	public TfAssociate getAssociateByUserId(int id) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-				session.createQuery("from TfAssociate a where a.user.id like :id", TfAssociate.class).setParameter("id", id).getSingleResult());
+				session.createQuery("from TfAssociate where user.id = :id", TfAssociate.class).setParameter("id", id).getSingleResult());
 	}
 
 
@@ -41,20 +41,15 @@ public class AssociateDaoImpl implements AssociateDao {
 				.createQuery("from TfAssociate", TfAssociate.class).getResultList());
 	}
 
-	private Sessional<Boolean> updateAssociatePartial = (Session session, Object ... args)-> {
-		TfAssociate associate = (TfAssociate) args[0];
-		TfAssociate temp = session.get(TfAssociate.class, associate.getId());
-
-		temp.setFirstName(associate.getFirstName());
-		temp.setLastName(associate.getLastName());
-
-		session.update(temp);
-		return true;
-	};
-
 	@Override
 	public boolean updateAssociatePartial(TfAssociate associate) {
-		return HibernateUtil.runHibernateTransaction(updateAssociatePartial);
+		return HibernateUtil.runHibernateTransaction((Session session, Object ... args)-> {
+			TfAssociate temp = session.get(TfAssociate.class, associate.getId());
+			temp.setFirstName(associate.getFirstName());
+			temp.setLastName(associate.getLastName());
+			session.update(temp);
+			return true;
+		});
 	}
 
 	private Sessional<Boolean> approveAssociate = (Session session, Object ... args)-> {

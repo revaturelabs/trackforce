@@ -110,7 +110,7 @@ export const appRoutes: Routes = [
     component: MyInterviewComponent
   },
   {
-    path: 'interview-details',
+    path: 'interview-details/:id',
     canActivate: [AuthGuard],
     component: InterviewDetailsComponent
   },

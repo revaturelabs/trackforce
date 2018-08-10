@@ -42,6 +42,7 @@ public class TfUser implements java.io.Serializable {
     @Column(name = "TF_USERNAME", length = 20, unique = true)
     private String username;
 
+    @JsonIgnore
     @XmlElement
     @Column(name = "TF_HASHPASSWORD", length = 200)
     private String password;
@@ -85,6 +86,7 @@ public class TfUser implements java.io.Serializable {
 		this.username = username;
 	}
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
@@ -171,7 +173,7 @@ public class TfUser implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "TfUser [id=" + id + ", username=" + username + ", password=" + password + ", isApproved=" + isApproved
+		return "TfUser [id=" + id + ", username=" + username + /*", password=" + password +*/ ", isApproved=" + isApproved
 				+ ", token=" + token + ", role=" + role + "]";
 	}
 

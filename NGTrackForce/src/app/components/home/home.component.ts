@@ -141,7 +141,7 @@ export class HomeComponent implements OnInit {
 
       this.undeployedData = undeployedArr;
       localStorage.setItem('undeployedData', JSON.stringify(this.undeployedData))
-      console.log(localStorage.getItem('undeployedData'));
+      //console.log(localStorage.getItem('undeployedData'));
 
       /**
        * @member {Array} MappedData

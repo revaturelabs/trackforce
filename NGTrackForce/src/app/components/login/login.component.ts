@@ -258,7 +258,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.username, this.password).subscribe(
         data => {
           localStorage.setItem(USER_KEY, JSON.stringify(data));
-          // console.log(localStorage.getItem(USER_KEY));
+          console.log(localStorage.getItem(USER_KEY));
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
           if (data.isApproved) {
@@ -367,7 +367,6 @@ export class LoginComponent implements OnInit {
           SHOULDNT load all associates information
         */
         localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
-        // console.log(localStorage.getItem(ASSOCIATES_KEY));
         this.router.navigate(['app-home']);
       },
       err => {

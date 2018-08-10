@@ -22,6 +22,7 @@ export class CreateUserComponent implements OnInit {
   sucMsg: any;
   newUser: User;
   displayErrorUsername: boolean;
+  loggedIn: User;
 
   constructor(private authService: AuthenticationService,
               private router: Router,
@@ -29,7 +30,10 @@ export class CreateUserComponent implements OnInit {
   }
 
   ngOnInit() {
+
       this.displayErrorUsername = false;
+      this.loggedIn = this.authService.getUser();
+
   }
 
   /**
@@ -47,12 +51,12 @@ export class CreateUserComponent implements OnInit {
       this.newUser = new User(this.username, this.password, this.roleId, 1);
       // this.userService.createUser(this.username, this.password, this.roleId).subscribe(
         console.log(this.newUser);
-      this.userService.createUser(this.newUser).subscribe(
+      this.userService.createUser(this.newUser, this.loggedIn.role).subscribe(
         data => {
           this.sucMsg = 'User created successfully';
         },
         err => {
-          console.error(err + " Error Occurred");
+          console.error("Error Occured", err);
           this.errMsg = 'Error: new user not created!';
         }
       );

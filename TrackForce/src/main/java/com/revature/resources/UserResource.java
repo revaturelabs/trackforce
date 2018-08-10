@@ -3,7 +3,6 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
-import java.net.URI;
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
@@ -19,7 +18,15 @@ import com.revature.entity.TfAssociate;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
-import com.revature.services.*;
+import com.revature.entity.TfUserAndCreatorRoleContainer;
+import com.revature.services.AssociateService;
+import com.revature.services.BatchService;
+import com.revature.services.ClientService;
+import com.revature.services.CurriculumService;
+import com.revature.services.InterviewService;
+import com.revature.services.MarketingStatusService;
+import com.revature.services.TrainerService;
+import com.revature.services.UserService;
 import com.revature.utils.LogUtil;
 
 import io.swagger.annotations.Api;
@@ -64,11 +71,16 @@ public class UserResource {
 	@POST
 	@Consumes("application/json")
 	@ApiOperation(value = "Creates new user", notes = "")
-	public Response createUser(TfUser newUser) {
+	public Response createUser(TfUserAndCreatorRoleContainer container) {
+		TfUser newUser = container.getUser();
+		int creatorRole = container.getCreatorRole();
 		logger.info("creating new user..." + newUser);
 		
 		// any user created by an admin is approved
-		newUser.setIsApproved(1);
+		if(creatorRole == 1)
+			newUser.setIsApproved(1);
+		else if (creatorRole > 4)
+			return Response.status(Status.EXPECTATION_FAILED).build();
 
 		// get the role being passed in 
 		int role = newUser.getRole();
@@ -79,6 +91,8 @@ public class UserResource {
 			System.out.println("Inside.");
 			switch(role) {
 			case 1:
+				if (creatorRole != 1)
+					return Response.status(Status.EXPECTATION_FAILED).build();
 				tfrole = new TfRole(1, "Admin");
 				newUser.setTfRole(tfrole);
 				if(userService.getUser(newUser.getUsername()) != null) {

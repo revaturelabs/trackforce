@@ -15,12 +15,15 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {AssociateService} from "../../services/associate-service/associate.service";
+import { Associate } from '../../models/associate.model';
+import { HttpClient } from '../../../../node_modules/@angular/common/http';
 
 describe('ClientMappedComponent', () => {
   let component: ClientMappedComponent;
   let fixture: ComponentFixture<ClientMappedComponent>;
+  let httpMock: HttpTestingController;
   const testClientService: ClientService = new ClientService(null);
-  const testAssociateService = new AssociateService(null);
+  const testAssociateService = new AssociateService(new HttpClient(null));
   const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
 
   //Setup service mocks
@@ -36,6 +39,14 @@ describe('ClientMappedComponent', () => {
     client3.name = "Client 3";
     client3.count = 40;
 
+
+    let user: User = new User('mockUser','mockPassword',1,0);
+    user.token = "mockToken";
+    let associate1: Associate = new Associate('first1','last1',user);
+    let associate2: Associate = new Associate('first2','last2',user);
+    let associate3: Associate = new Associate('first3','last3',user);
+
+    let associates: Associate[] = [associate1, associate2, associate3];
     
     // Mock the AssociateService
     // Note: this used to be "Mock the Client Service" with the same method.
@@ -43,12 +54,10 @@ describe('ClientMappedComponent', () => {
     // so I switched it to testAssociateService
     // spyOn(testAssociateService, 'getAssociatesByStatus').and.returnValue(Observable.of([client1, client2, client3]));
 
-    //Mock the Authentication Service
-    let user: User;
-    user.token = "mockToken";
-    user.username = "mockUser";
-    user.role = 1;
+    // Mock the Authentication Service
+    
     spyOn(testAuthService, 'getUser').and.returnValue(user);
+    spyOn(testAssociateService, 'getAllAssociates').and.returnValue(Observable.of(associates));
   });
 
   beforeEach(async(() => {
@@ -72,13 +81,40 @@ describe('ClientMappedComponent', () => {
       schemas: [
         CUSTOM_ELEMENTS_SCHEMA
       ]
-    })
+    });
+
+    httpMock = TestBed.get(HttpTestingController);    
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ClientMappedComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+
+        // Mock local storage
+        let store = {};
+        const mockLocalStorage = {
+          getItem: (key: string): string => {
+            return key in store ? store[key] : null;
+          },
+          setItem: (key: string, value: String) => {
+            store[key] = `${value}`;
+          },
+          removeItem: (key: string) => {
+            delete store[key];
+          },
+          clear: () => {
+            store = {};
+          }
+        };
+    
+        mockLocalStorage.setItem('mappedData',JSON.stringify([1,2,3,4]));
+        
+        spyOn(localStorage, 'getItem').and.callFake(mockLocalStorage.getItem);
+        spyOn(localStorage, 'setItem').and.callFake(mockLocalStorage.setItem);
+        spyOn(localStorage,'removeItem').and.callFake(mockLocalStorage.removeItem);
+        spyOn(localStorage, 'clear').and.callFake(mockLocalStorage.clear);
+
+        fixture = TestBed.createComponent(ClientMappedComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
   });
 
   //Smoke test. Check the component is created

@@ -16,12 +16,15 @@ export class PredictionsComponent implements OnInit {
   start:any;
   end:any;
   public detailsReady = false;
+  public startDateString: string;
+  public endDateString: string;
   public startDate: Date = new Date();
   public endDate: Date = new Date();
   public technologies: any[];
   public expanded = true;
   public results: any[];
   public message = "";
+  public selectedBatch: number;
   public noBatches: boolean;
   public batches: Object;
   public batchNumberAssociates: number[];
@@ -36,12 +39,15 @@ export class PredictionsComponent implements OnInit {
     this.techNeeded = [];
     this.results = [];
     this.noBatches = false;
+
+    this.setInitialDates();
+    this.generateDates();
   }
 
-  toggleCheckboxes() {
-    this.expanded = !this.expanded;
-  }
-
+  /**
+   * 1806_Austin_M
+   * Get a list of curriculum from backend end to generate input fields
+   */
   getListofCurricula() {
     this.ss.getAllCurricula().subscribe(
       data => {
@@ -52,7 +58,6 @@ export class PredictionsComponent implements OnInit {
           let localtech = {
             id: tech.id,
             name: tech.name,
-            selected: false
           }
           tempArray.push(localtech);
         }
@@ -64,91 +69,37 @@ export class PredictionsComponent implements OnInit {
   }
 
   /**
-     * Update the given associate's status/client
-     * @param s The start date of the period to be searched
-     * @param e The end date of the period to be searched
-     */
-  getPrediction(k: number, isUpdate: boolean) {
-    //tech needed value corresponds to index in the technologies array, not the pk
-    if(isUpdate)
-      this.results = this.results.filter(o => o['technologyIndex'] != k);
-
-    let t = this.technologies[k]["name"];
-    if(this.techNeeded[k] == undefined || this.techNeeded[k] <= 0)
-      return;
-
-    this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate), t).subscribe(
-      data => {
-        console.log(data)
-        this.results.push({
-                  technologyIndex: k,
-                  technology: t,
-                  requested: this.techNeeded[k],
-                  available: 0
-                });
-        this.results.sort((o1,o2) => o1['technologyIndex'] - o2['technologyIndex'])
-      },
-
-      err => err
-    )
-
-
-    // this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate)).subscribe(
-    //   data => console.log(data),
-    //   err => err
-    // );
-    //****LEGACY CODE****?!?!?!?!?!?!?!?!?!?!?!?
-    // this.results = [];
-    // this.as.getAllAssociates().subscribe(
-    //   data=>{
-    //     this.associates=data;
-
-
-    // if (s != null) {
-    //   this.startDate = s;
-    // }
-    // if (e != null) {
-    //   this.endDate = e;
-    // }
-    // let selectedTechnologies = [];
-    // for (let i = 0; i < this.technologies.length; i++) {
-    //   let tech = this.technologies[i];
-    //   if (tech.selected) {
-    //     selectedTechnologies.push(tech.name);
-    //   }
-    // }
-    // let startTime = new Date(this.startDate).getTime();
-    // let endTime = new Date(this.endDate).getTime();
-    // if (startTime && endTime && selectedTechnologies.length > 0) {
-    //   this.message = "";
-    //   let returnedNames = [];
-    //   for(let t of selectedTechnologies){
-    //     let count=0;
-    //       for(let associate of this.associates){
-    //         if(associate.batch && associate.batch.curriculumName){
-    //           if(associate.batch.endDate>=startTime&&associate.batch.endDate<=endTime){
-    //             if(associate.batch.curriculumName.name===t){
-    //               count++;
-    //             }
-    //           }
-    //         }
-    //       }
-    //       this.results.push({
-    //         technology: t,
-    //         requested: this.numAssociatesNeeded,
-    //         available: count
-    //       });
-    //       returnedNames.push(t);
-    //     }
-    //     this.dataReady=true;
-    //   }
-    // },
-    // err => {
-    //   this.message = "There was a problem fetching the requested data!";
-    // })
+   * 1806_Austin_M
+   * Gets the current date and sets the strings bound to the date inputs.
+   * End date is the current date, start date is the first of the current year.
+   */
+  setInitialDates(){
+    let now = new Date(Date.now());
+    this.endDateString= now.toJSON().substring(0,10);
+    now.setMonth(0);
+    now.setDate(1);
+    this.startDateString = now.toJSON().substring(0,10);
   }
 
-  getAllPredictions(curriculum: number){
+  /**
+   * 1806_Austin_M
+   * Parses the date string to a date object.
+   * Done onchange of date fields.
+   */
+  generateDates(){
+    this.startDate = new Date(this.startDateString);
+    this.endDate = new Date(this.endDateString);
+  }
+
+  /**
+   * 1806_Austin_M
+   * Performs a query for each requested that has input 
+   * (tech without input is skipped within the getPredicton() method). 
+   * 
+   * NOTE: that this will make connection to the DB FOR EACH TECHNOLOGY WITH INPUT 
+   * should be changed to a single query in back end
+   */
+  getAllPredictions(){
     console.log("get all predictions");
     this.results = [];
     for(let k in this.techNeeded){
@@ -158,19 +109,52 @@ export class PredictionsComponent implements OnInit {
   }
 
   /**
-     * Update the given associate's status/client
-     * @param s The start date of the period to get the deatils of a technology
-     * @param e The end date of the period to to get the deatils of a technology
-     * @param event The event object created when the button was clicked to call
-     * the function. Contains the id of the button.
-     */
-  getDetails(s, e, tech) {
-    if (s != null) {
-      this.startDate = s;
-    }
-    if (e != null) {
-      this.endDate = e;
-    }
+   * 1806_Austin_M
+   * Fetch details for a single technology, filters previous results to prevent 
+   * duplicate entries and sorts results by index on return
+   * 
+   * @param techIndex index in technologies array to fetch predictions for
+   * @param isUpdate true if part of single fetch; false when part of a batch
+   */
+  getPrediction(techIndex: number, isUpdate: boolean) {
+
+    this.detailsReady = false;
+    this.noBatches = false;
+
+    if(isUpdate)
+      this.results = this.results.filter(o => o['technologyIndex'] != techIndex);
+
+    let techName = this.technologies[techIndex]["name"];
+    if(this.techNeeded[techIndex] == undefined || this.techNeeded[techIndex] <= 0)
+      return;
+
+      console.log("date for count", this.startDate, this.endDate);
+
+    this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate), techName).subscribe(
+      data => {
+        console.log(data)
+        this.results.push({
+                  technologyIndex: techIndex,
+                  technology: techName,
+                  requested: this.techNeeded[techIndex],
+                  available: data["associateCount"]
+                });
+        this.results.sort((o1,o2) => o1['technologyIndex'] - o2['technologyIndex'])
+      },
+
+      err => err
+    )
+  }
+
+  
+/**
+ * 1806_Andrew_H_Austin_M
+ * Fetches details of a selected curriculum. The details include all batches 
+ * That start and end within the given time span. Resets previous data so that
+ * old information is not present while loading.
+ * @param tech 
+ */
+  getDetails(tech) {
 
     let startTime = new Date(this.startDate);
     let endTime = new Date(this.endDate);
@@ -178,6 +162,7 @@ export class PredictionsComponent implements OnInit {
     this.detailsReady = false;
     this.noBatches = false;
 
+    this.selectedBatch = tech;
     /*
       1806_Andrew_H
       This method populates the batches object using a json object.

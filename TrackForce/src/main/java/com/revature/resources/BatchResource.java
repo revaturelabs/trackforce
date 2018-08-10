@@ -224,7 +224,7 @@ public class BatchResource {
 		Status status = null;
 		status = Status.OK;
 		int role = Integer.parseInt(payload.getId());
-
+		
 //		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
 //		if (authorizedRoles.contains(role)) {
 //			// results and status set in here

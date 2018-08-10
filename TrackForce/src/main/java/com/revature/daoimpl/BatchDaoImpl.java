@@ -1,15 +1,9 @@
 package com.revature.daoimpl;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
-import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureParameter;
-import javax.persistence.TemporalType;
-
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import com.revature.dao.BatchDao;
@@ -64,34 +58,40 @@ public class BatchDaoImpl implements BatchDao {
 	public Object getBatchCountsForPredictions(String name, Timestamp startDate, Timestamp endDate) {
 		//1806_Chris_P: Setup the session
 		Session session = null;
-		session = HibernateUtil.getSessionFactory().openSession();
+		Object tacobell = null;
 		
 		//1806_Chris_P: So, this monster here was a nightmare to get to work
 		// but it works like a charm. :) Due to the TfBatch returning a set of TfAssociates
 		// getting the actual count of all of those associates was a bit tricky. A for-loop could have been used,
 		// but handling it through a single query seemed like a better idea at the time.
 		// Credit also goes to Andrew H, Cyril M, Austin D and Austin M for their assistance in making this thing finally work
-		Object associateCount = session.createNativeQuery( // Using a Native Query because this was a bit much to handle with hibernate
-				"select count(a.tf_associate_id) " +       // without having some really complex joins and whatnot. If you want to take on the challenge, by all means go for it!
-				"from admin.tf_associate a where a.tf_batch_id IN " + 
-				"(" + 
-				"    select b.tf_batch_id " + 
-				"    from admin.tf_batch b " + 
-				"    where b.tf_curriculum_id IN " + 
-				"    (" + 
-				"        select c.tf_curriculum_id " + 
-				"        from admin.tf_curriculum c " + 
-				"        where c.tf_curriculum_name = :curriculumName " +
-				"    )" + 
-				"    AND b.tf_batch_start_date >= TO_TIMESTAMP(:startDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
-				"    AND b.tf_batch_end_date <= TO_TIMESTAMP(:endDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
-				")"
-				).setParameter("curriculumName", name)
-				.setParameter("startDate", startDate.toString()) // This needs to be a string. It acts weird otherwise
-				.setParameter("endDate", endDate.toString()) // This needs to be a string. It acts weird otherwise
-				.getSingleResult();
-		
-		return associateCount;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			tacobell = session.createNativeQuery(
+					"select count(a.tf_associate_id) " + 
+					"from admin.tf_associate a where a.tf_batch_id IN " + 
+					"(" + 
+					"    select b.tf_batch_id " + 
+					"    from admin.tf_batch b " + 
+					"    where b.tf_curriculum_id IN " + 
+					"    (" + 
+					"        select c.tf_curriculum_id " + 
+					"        from admin.tf_curriculum c " + 
+					"        where c.tf_curriculum_name = :curriculumName " +
+					"    )" + 
+					"    AND b.tf_batch_start_date >= TO_TIMESTAMP(:startDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
+					"    AND b.tf_batch_end_date <= TO_TIMESTAMP(:endDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
+					")"
+					).setParameter("curriculumName", name)
+					.setParameter("startDate", startDate.toString())
+					.setParameter("endDate", endDate.toString())
+					.getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			session.close();
+		}
+		return tacobell;
 	}
 
 }

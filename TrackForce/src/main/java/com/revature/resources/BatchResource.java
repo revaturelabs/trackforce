@@ -2,9 +2,9 @@ package com.revature.resources;
 
 import static com.revature.utils.LogUtil.logger;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -155,8 +155,12 @@ public class BatchResource {
 		return Response.status(status).entity(associates).build();
 	}
 
+	/**
+	 * 1806_Chris_P
+	 * Returns a list of batches related to a selected ciriculum/technology on the Predictions page.
+	 */
 	@GET
-	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
+	@ApiOperation(value = "Returns associates for batch", notes = "Returns list.")
 	@Path("/details")
 	public Response getBatchDetails(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
 							@QueryParam("courseName") String courseName, @HeaderParam("Authorization") String token) {
@@ -201,14 +205,18 @@ public class BatchResource {
 		
 		return Response.status(status).entity(batchDetails.toString()).build();
 	}
-	
+
+	/**
+	 * 1806_Chris_P
+	 * Super similar to the previous method, except that this one only returns the aggregate count of all associates in
+	 * a particular curiculum selected from the Predictions Page.
+	 */
 	@GET
 	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
 	@Path("/countby")
-	public Response getAssociateCounts(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
+	public Response getBatchCounts(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
 							@QueryParam("courseName") String courseName, @HeaderParam("Authorization") String token) {
-		logger.info("getBatchAssociates()...");
-		System.out.println("=================================");
+		logger.info("getBatchAssociateCounts...");
 
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
@@ -219,8 +227,6 @@ public class BatchResource {
 		int role = Integer.parseInt(payload.getId());
 
 //		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
-//
-//
 //		if (authorizedRoles.contains(role)) {
 //			// results and status set in here
 //			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
@@ -228,24 +234,28 @@ public class BatchResource {
 //			status = Status.FORBIDDEN;
 //		}
 		
-		
-		JSONObject batchDetails = new JSONObject();
-		JSONArray batchesJ = new JSONArray();
-
+		JSONObject associateCount = new JSONObject();
 		BatchDaoImpl bd = new BatchDaoImpl();
-		List<TfBatch> batches = bd.getBatchesForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
+		Long associateAmount = 0L;
+		
+		/*List<TfBatch> batches = bd.getBatchesForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
 		
 		for (TfBatch batch : batches) {
 
-			JSONObject b = new JSONObject();
-			b.put("batchName", batch.getBatchName());
-			b.put("startDate", (Long)batch.getStartDate().getTime());
-			b.put("endDate", (Long)batch.getEndDate().getTime());
-			b.put("associateCount", batch.getAssociates().size());
-			batchesJ.put(b);
+			associateAmount += batch.getAssociates().size();
+			System.out.println(associateAmount);
 		}
-		batchDetails.put("courseBatches", batchesJ);
 		
-		return Response.status(status).entity(batchDetails.toString()).build();
+		associateCount.put("associateCount", associateAmount);
+		return Response.status(status).entity(associateCount.toString()).build();
+		*/
+		
+		// TODO: 1806_Chris_P: Delete the stuff below here if we can't find a solution *****
+		Long count = (Long)bd.getBatchCountsForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
+		System.out.println("===================== count is: " + count);
+		
+		Long lCount = Long.valueOf(count.toString());
+		associateCount.put("associateCount", lCount);
+		return Response.status(status).entity(associateCount.toString()).build();
 	}
 }

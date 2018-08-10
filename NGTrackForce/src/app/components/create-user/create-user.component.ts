@@ -29,7 +29,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loggedIn = this.authService.getUser();
+      
   }
 
   /**
@@ -57,5 +57,6 @@ export class CreateUserComponent implements OnInit {
       );
     }
   }
+
 
 }

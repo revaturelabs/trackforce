@@ -139,8 +139,6 @@ export class AssociateListComponent implements OnInit {
     }
 
     localStorage.removeItem('currentAssociates');
-    localStorage.setItem('currentAssociates', JSON.stringify(associateList));
-
     if(this.updateVerification==="") {this.updateVerification="0";}
     if(this.updateStatus==="") {this.updateStatus="0";}
     if(this.updateClient==="") {this.updateClient="0";}

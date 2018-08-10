@@ -29,8 +29,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.displayErrorUsername = 'none';
-      this.loggedIn = this.authService.getuser();
+      
   }
 
   /**
@@ -57,21 +56,6 @@ export class CreateUserComponent implements OnInit {
         }
       );
     }
-  }
-
-  //EDIT: EricS 8/9/18 Added method to display error if username is nonunique
-  onBlur_username() {
-      this.displayErrorUsername = 'none';
-      this.userService.checkUniqueUsername(this.username).subscribe(
-          data => {
-              console.log(data);
-              if (data["result"] == 'false') this.displayErrorUsername = 'block'; //if 'false', then username is NOT unique.
-              //TODO: based on results, set this.displayErrorUsername to 'none' or 'block'
-          }, err => {
-              console.log("Error, see next line: ");
-              console.log(err);
-          }
-      );
   }
 
 

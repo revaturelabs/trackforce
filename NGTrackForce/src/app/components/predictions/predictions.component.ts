@@ -18,12 +18,11 @@ export class PredictionsComponent implements OnInit {
   start:any;
   end:any;
   public detailsReady = false;
-  public dataReady = false;
   public startDate: Date = new Date();
   public endDate: Date = new Date();
   public technologies: any[];
   public expanded = true;
-  public results: any;
+  public results: any[];
   public message = "";
   public batches: Object;
   public batchNumberAssociates: number[];
@@ -35,6 +34,7 @@ export class PredictionsComponent implements OnInit {
   ngOnInit() {
     this.getListofCurricula();
     this.techNeeded = [];
+    this.results = [];
   }
 
   toggleCheckboxes() {
@@ -74,27 +74,30 @@ export class PredictionsComponent implements OnInit {
      * @param s The start date of the period to be searched
      * @param e The end date of the period to be searched
      */
-  getPrediction(s, e) {
-    
-    let actualTechNeeded = [];
+  getPrediction(k: number, isUpdate: boolean) {
+    //tech needed value corresponds to index in the technologies array, not the pk
+    if(isUpdate)
+      this.results = this.results.filter(o => o['technologyIndex'] != k);
 
-    for(let k in this.techNeeded){
-      console.log(k, this.technologies[k]["name"]);
-      this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate), this.technologies[k]["name"]).subscribe(
-        data => console.log(data),
-        err => err
-      )
-    }
-    
-    // for(let i = 0; i < this.techNeeded.keys.length; i++){
-    //   let t = this.techNeeded.keys[i];
-    //   console.log(t);
-    //   if(t != undefined && t > 0){
-    //     actualTechNeeded.push(this.technologies[t]["name"]);
-    //   }
-    // }
-    console.log("tech",  this.techNeeded);
-    console.log("fetching tech", actualTechNeeded);
+    let t = this.technologies[k]["name"];
+    if(this.techNeeded[k] == undefined || this.techNeeded[k] <= 0)
+      return;
+
+    this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate), t).subscribe(
+      data => {
+        console.log(data)
+        this.results.push({
+                  technologyIndex: k,
+                  technology: t,
+                  requested: this.techNeeded[k],
+                  available: 0
+                });
+        if(isUpdate)
+          this.results.sort((o1,o2) => o1['technologyIndex'] - o2['technologyIndex'])
+      },
+
+      err => err
+    )
 
 
     // this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate)).subscribe(
@@ -152,8 +155,13 @@ export class PredictionsComponent implements OnInit {
     // })
   }
 
-  fetchPredictions(curriculum: number){
-
+  getAllPredictions(curriculum: number){
+    console.log("get all predictions");
+    this.results = [];
+    for(let k in this.techNeeded){
+      this.getPrediction(+k, false);
+    }
+    this.results.sort((o1,o2) => o1['technologyIndex'] - o2['technologyIndex'])
   }
 
   /**
@@ -163,7 +171,7 @@ export class PredictionsComponent implements OnInit {
      * @param event The event object created when the button was clicked to call
      * the function. Contains the id of the button.
      */
-  getDetails(s, e, event) {
+  getDetails(s, e, tech) {
     if (s != null) {
       this.startDate = s;
     }
@@ -174,7 +182,7 @@ export class PredictionsComponent implements OnInit {
     let startTime = new Date(this.startDate).getTime();
     let endTime = new Date(this.endDate).getTime();
     //Get id of the button that called the function, which should have the name of the technology.
-    let tech: string = event.target.attributes.id.value;
+    //let tech: string = event.target.attributes.id.value;
 
     /*
       1806_Andrew_H

@@ -38,28 +38,19 @@
   background-color: #1e90ff;
 }
 
-
-
 .borderless td, .borderless th {
   border: none;
-  padding: 2px;
-  max-width: 120px;
-}
-.borderless input{
-  max-width: 80px;
 }
 
-.borderless {
-  max-width: 320px;
-}
+
 
 .scrollbar {
   overflow-y: scroll;
   margin-bottom: 25px;
 }
 
-.force-overflow {
-  min-height: 200px;
+.nopadding-table td, .nopadding-table th, .nopadding-table row{
+  padding: 2px 4px;
 }
 
 .scrollbar-primary::-webkit-scrollbar {
@@ -74,3 +65,29 @@ box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
   background-color: #4285F4; 
 }
 
+.scrollable-table thead, 
+.scrollable-table tbody, 
+.scrollable-table tr, 
+.scrollable-table td, 
+.scrollable-table th { display: block; }
+
+.scrollable-table  tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+.scrollable-table tbody {
+  overflow-y: auto;
+}
+
+
+.col-2-table tbody td, .col-2-table thead th {
+  width: 50%;
+  float: left;
+}
+
+.col-5-table tbody td, .col-5-table thead th {
+  width: 25%;
+  float: left;
+}

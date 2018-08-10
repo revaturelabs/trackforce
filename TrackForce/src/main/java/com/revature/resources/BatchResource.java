@@ -164,9 +164,7 @@ public class BatchResource {
 	@Path("/details")
 	public Response getBatchDetails(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
 							@QueryParam("courseName") String courseName, @HeaderParam("Authorization") String token) {
-		logger.info("getBatchAssociates()...");
-		System.out.println("=================================");
-
+		logger.info("getBatchDetails()...");
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).build();

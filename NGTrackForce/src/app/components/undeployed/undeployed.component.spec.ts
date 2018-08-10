@@ -3,7 +3,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {ChartsModule} from 'ng2-charts';
 import { UndeployedComponent } from './undeployed.component';
 
-fdescribe('UndeployedComponent', () => {
+describe('UndeployedComponent', () => {
   let component: UndeployedComponent;
   let fixture: ComponentFixture<UndeployedComponent>;
 

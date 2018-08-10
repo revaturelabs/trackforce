@@ -21,6 +21,7 @@ export class CreateUserComponent implements OnInit {
   errMsg: any;
   sucMsg: any;
   newUser: User;
+  displayErrorUsername: boolean;
   loggedIn: User;
 
   constructor(private authService: AuthenticationService,
@@ -29,7 +30,10 @@ export class CreateUserComponent implements OnInit {
   }
 
   ngOnInit() {
-      
+
+      this.displayErrorUsername = false;
+      this.loggedIn = this.authService.getUser();
+
   }
 
   /**
@@ -40,7 +44,8 @@ export class CreateUserComponent implements OnInit {
   createUser() {
     this.errMsg = "";
     this.sucMsg = "";
-    if (this.password !== this.password2) {
+    //EDIT EricS 8/9/18 Added '!this.password ||' to stop submission if password is null
+    if (!this.password || this.password !== this.password2) {
       this.errMsg = 'Passwords do not match!';
     } else {
       this.newUser = new User(this.username, this.password, this.roleId, 1);
@@ -56,6 +61,20 @@ export class CreateUserComponent implements OnInit {
         }
       );
     }
+  }
+
+  //EDIT: EricS 8/9/18 Added method to display error if username is nonunique
+  onBlur_username() {
+      this.displayErrorUsername = false;
+      this.userService.checkUniqueUsername(this.username).subscribe(
+          data => {
+              console.log(data);
+              if (data["result"] == 'false') this.displayErrorUsername = true; //if 'false', then username is NOT unique.
+          }, err => {
+              console.log("Error, see next line: ");
+              console.log(err);
+          }
+      );
   }
 
 

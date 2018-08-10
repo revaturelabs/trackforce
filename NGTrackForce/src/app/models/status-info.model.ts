@@ -16,4 +16,5 @@ export class StatusInfo {
   confirmedUnmapped: number;
   deployedMapped: number;
   deployedUnmapped: number;
+  constructor() { }
 }

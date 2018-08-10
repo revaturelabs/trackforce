@@ -9,14 +9,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -94,12 +91,12 @@ public class TfAssociate implements java.io.Serializable {
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate", cascade = {CascadeType.ALL})
 	@JsonIgnore
-	private Set<TfInterview> interview = new HashSet<TfInterview>(0);
+	private Set<TfInterview> interview = new HashSet<>(0);
 
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate", cascade = {CascadeType.ALL})
 	@JsonIgnore
-	private Set<TfPlacement> placement = new HashSet<TfPlacement>(0);
+	private Set<TfPlacement> placement = new HashSet<>(0);
 	
 	@XmlElement
 	@Column(name = "TF_CLIENT_START_DATE")

@@ -18,6 +18,8 @@ import { Curriculum } from '../../models/curriculum.model';
 import { Batch } from '../../models/batch.model';
 import { Associate } from '../../models/associate.model';
 import { MarketingStatus } from '../../models/marketing-status.model';
+import { pipeByClient } from '../../pipes/associate-search-by-client-pipe';
+import { pipeByStatus } from '../../pipes/associate-search-by-status-pipe';
 
 describe('AssociateListComponent', () => {
   let component: AssociateListComponent;
@@ -40,7 +42,9 @@ describe('AssociateListComponent', () => {
         AssociateSearchByTextFilter,
         NavbarComponent,
         HomeComponent,
-        NavbarComponent
+        NavbarComponent,
+        pipeByClient,
+        pipeByStatus
       ],
       imports: [
         HttpClientTestingModule,

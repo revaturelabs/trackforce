@@ -37,12 +37,12 @@
         <div>
           <label for="startDate">From:</label>
           <!-- You have to use ngModel AND ngModelChange for proper initialization!! -->
-          <input type="date" [ngModel]="startDate | date:'yyyy-MM-dd'" (ngModelChange)="startDate = $event" id="startDate" name="startDate"
-            [max]="endDate" />
+          <input type="date" [ngModel]="stringStart" (ngModelChange)="stringStart = $event" id="startDate" name="stringStart"
+             />
         </div>
         <div>
           <label for="endDate">To:</label>
-          <input type="date" [ngModel]="endDate | date:'yyyy-MM-dd'" (ngModelChange)="endDate = $event" id="endDate" name="endDate" [min]="startDate"
+          <input type="date" [ngModel]="stringEnd | date:'yyyy-MM-dd'" (ngModelChange)="stringEnd = $event" id="endDate" name="stringEnd"
           />
         </div>
         <div>

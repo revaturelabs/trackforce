@@ -47,9 +47,7 @@ export class MockAuthenticationService extends AuthenticationService {
     
     let batches:Batch[] = [mockBatch];
 
-    let client:Client = new Client();
-    client.name = 'client';
-
+    let client:Client = new Client(0,'client',null,null,null);
     let endClient:EndClient = new EndClient();
     endClient.name = 'none';
 

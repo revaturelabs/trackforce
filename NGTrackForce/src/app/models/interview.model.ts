@@ -1,8 +1,7 @@
-import { Associate } from "./associate.model";
+import { Associate } from './associate.model';
 import { EndClient } from './end-client.model';
-import { Client } from "./client.model";
-import { InterviewType } from "./interview-type";
-
+import { Client } from './client.model';
+import { InterviewType } from './interview-type';
 
 export class Interview {
   id: number;
@@ -22,7 +21,7 @@ export class Interview {
   isClientFeedbackVisible: number;
   was24HRNotice: number;
 
-  constructor (
+  constructor(
     associate: Associate,
     client: Client,
     interviewType: InterviewType,

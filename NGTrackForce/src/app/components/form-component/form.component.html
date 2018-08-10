@@ -11,7 +11,7 @@
       <div class="table-responsive info">
         <table class="table table-hover table-bordered">
           <tbody>
-            <tr *ngIf="isApproved != 1">
+            <tr *ngIf="associate.isApproved != 1">
               <td>This Associate has not been approved yet</td>
               <td>
                 <button *ngIf="true" class="btn btn-primary" (click)="approveAssociate()">Approve</button>
@@ -67,9 +67,9 @@
           <tr *ngFor="let interview of interviews; let i = index">
             <td>{{(interview && interview.id) ? interview.id : ""}}</td>
             <td>{{(interview.client && interview.client.name) ? interview.client.name : ""}}</td>
-            <td>{{interview.interviewDate | date:'longDate'}}</td>
-            <td>{{interview.interviewType.name}}</td>
-            <td>{{interview.clientFeedback}}</td>
+            <td>{{(interview && interview.interviewDate) ? (interview.interviewDate | date:'longDate') : "" }}</td>
+            <td>{{(interview && interview.interviewType && interview.interviewType.name) ?interview.interviewType.name : ""}}</td>
+            <td>{{(interview && interview.clientFeedback) ? interview.clientFeedback : ""}}</td>
           </tr>
         </tbody>
       </table>

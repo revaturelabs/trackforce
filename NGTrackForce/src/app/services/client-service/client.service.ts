@@ -12,7 +12,8 @@ import { Client } from '../../models/client.model';
 @Injectable()
 export class ClientService {
   private baseURL: string = environment.url + 'TrackForce/clients';
-  private clientUrl = environment.url + 'TrackForce/clients/get/'
+  private mappedClientUrl = environment.url + 'TrackForce/clients/get/'
+  private clientUrl = environment.url + 'TrackForce/clients/associates/get/'
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +23,10 @@ export class ClientService {
    */
   getAllClients(): Observable<Client[]> {
     return this.http.get<Client[]>(this.baseURL);
+  }
+
+  getAllClientsWithAssoc(): Observable<Client[]>{
+    return this.http.get<Client[]>(this.mappedClientUrl);
   }
 
   getClientCount(clientId: number): Observable<number>{

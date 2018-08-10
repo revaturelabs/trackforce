@@ -23,8 +23,8 @@ export class ClientListComponent implements OnInit {
   public loading = true;
   public selectedCompany: string;
   public clientInfo: Client[];
+  public mappedClientInfo: Client[];
   public clientNames: string[] = [];
-  public client$: any;
   public searchName;
   // chart variable
   public barChartLabel: string[] = SelectedStatusConstants.CLIENT_LABELS;
@@ -93,7 +93,7 @@ export class ClientListComponent implements OnInit {
       });
   }
 
-
+  //show data for all clients
   initChartData() {
     this.selectedCompany = "All Client Data";
 

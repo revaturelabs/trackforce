@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.google.gson.JsonObject;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfTrainer;
@@ -30,6 +31,7 @@ import com.revature.utils.LogUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.mortbay.util.ajax.JSON;
 
 
 /**
@@ -39,7 +41,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @Path("/users")
 @Api(value = "users")
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes({MediaType.APPLICATION_JSON})
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
@@ -84,14 +86,21 @@ public class UserResource {
 		int role = newUser.getRole();
 		TfRole tfrole = new TfRole();
 		boolean works = true;
-		if(role != 0) {
+		//EDIT EricS 8/9/18	Added '&& userService.getUser(newUser.getUsername()) == null' to check if username is unique
+		if(role != 0 && userService.getUser(newUser.getUsername()) == null) {
+			System.out.println("Inside.");
 			switch(role) {
 			case 1:
 				if (creatorRole != 1)
 					return Response.status(Status.EXPECTATION_FAILED).build();
 				tfrole = new TfRole(1, "Admin");
 				newUser.setTfRole(tfrole);
-				works = userService.insertUser(newUser);
+				if(userService.getUser(newUser.getUsername()) != null) {
+					works = userService.insertUser(newUser);
+				}
+				else {
+					works = false;
+				}
 				break;
 			case 2:
 				tfrole = new TfRole(2, "Trainer");
@@ -101,17 +110,35 @@ public class UserResource {
 				newTrainer.setFirstName("placeholder");
 				newTrainer.setLastName("placeholder");
 				logger.info("creating new trainer..." + newTrainer);
-				works = trainerService.createTrainer(newTrainer);
+				
+				if(userService.getUser(newUser.getUsername()) != null) {
+					works = trainerService.createTrainer(newTrainer);
+				}
+				else {
+					works = false;
+				}
 				break;
 			case 3:
 				tfrole = new TfRole(3, "Sales-Delivery");
 				newUser.setTfRole(tfrole);
-				works = userService.insertUser(newUser);
+				
+				if(userService.getUser(newUser.getUsername()) != null) {
+					works = userService.insertUser(newUser);
+				}
+				else {
+					works = false;
+				}
 				break;
 			case 4:
 				tfrole = new TfRole(4, "Staging");
 				newUser.setTfRole(tfrole);
-				works = userService.insertUser(newUser);
+				
+				if(userService.getUser(newUser.getUsername()) != null) {
+					works = userService.insertUser(newUser);
+				}
+				else {
+					works = false;
+				}
 				break;
 			case 5:
 				tfrole = new TfRole(5, "Associate");
@@ -121,16 +148,44 @@ public class UserResource {
 				newAssociate.setFirstName("placeholder");
 				newAssociate.setLastName("placeholder");
 				logger.info("creating new associate..." + newAssociate);
-				works = associateService.createAssociate(newAssociate);
+				
+				if(userService.getUser(newUser.getUsername()) != null) {
+					works = associateService.createAssociate(newAssociate);
+				}
+				else {
+					works = false;
+				}
 				break;
 			}
 		}
+		else works = false;
 		if(works) {
 			return Response.status(Status.CREATED).build();
 		}
 		return Response.status(Status.EXPECTATION_FAILED).build();
 	}
 
+	
+	@Path("/checkUsername")
+	@POST
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response checkUsername(String username) {
+		final String varName = "result";
+		JsonObject json = new JsonObject();
+		
+		String message;
+		if(userService.getUser(username) == null) {
+			json.addProperty(varName, "true");
+			message = json.toString();
+			return Response.ok(message,MediaType.TEXT_PLAIN).build();
+		}
+		else {
+			json.addProperty(varName, "false");
+			message = json.toString();
+			return Response.ok(message,MediaType.TEXT_PLAIN).build();
+		}
+	}
 	/**
 	 * @author Adam L.
 	 * <p> </p>

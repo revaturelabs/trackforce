@@ -21,11 +21,17 @@ import {Associate} from "../../models/associate.model";
 const ASSOCIATE_KEY = 'currentAssociate';
 const USER_KEY = 'currentUser';
 const TRAINER_KEY = 'currentTrainer';
-const INTERVIEWS_KEY = 'currentInterviews';
-const BATCHES_TRAINER_KEY = 'currentBatchesTrainer';
-const BATCHES_COTRAINER_KEY = 'currentBatchesCotrainer';
-const BATCHES_KEY = 'currentBatches';
-const CLIENTS_KEY = 'currentClients';
+// const INTERVIEWS_KEY = 'currentInterviews';
+// const BATCHES_TRAINER_KEY = 'currentBatchesTrainer';
+// const BATCHES_COTRAINER_KEY = 'currentBatchesCotrainer';
+// const BATCHES_KEY = 'currentBatches';
+// const CLIENTS_KEY = 'currentClients';
+
+/* 
+  PROBLEM
+  should be admin/sales/staging_key
+  SHOULDNT load all associates as soon as one of those roles logs in
+*/
 const ASSOCIATES_KEY = 'currentAssociates';
 
 
@@ -87,9 +93,9 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationService,
     private router: Router,
     private userService: UserService,
-    private interviewService: InterviewService,
-    private clientService: ClientService,
-    private batchService: BatchService,
+    // private interviewService: InterviewService,
+    // private clientService: ClientService,
+    // private batchService: BatchService,
     private trainerService: TrainerService
   ) {
   }
@@ -252,6 +258,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.username, this.password).subscribe(
         data => {
           localStorage.setItem(USER_KEY, JSON.stringify(data));
+          // console.log(localStorage.getItem(USER_KEY));
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
           if (data.isApproved) {
@@ -303,6 +310,7 @@ export class LoginComponent implements OnInit {
     this.associateService.getAssociate(user.id).subscribe(
       data => {
         localStorage.setItem(ASSOCIATE_KEY, JSON.stringify(data));
+        // console.log(localStorage.getItem(ASSOCIATE_KEY));
         this.router.navigate(['associate-view']);
       },
       err => {
@@ -323,9 +331,16 @@ export class LoginComponent implements OnInit {
     this.trainerService.getTrainer(user.id).subscribe(
       data => {
         localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
+        // console.log(localStorage.getItem(TRAINER_KEY));
+
+        /* =========================================================
+          PROBLEM
+          shouldnt load every associate as soon as a trainer logs in
+        */
         this.associateService.getAllAssociates().subscribe(
           datum => {
             localStorage.setItem('currentAssociates', JSON.stringify(datum));
+            // console.log(localStorage.getItem('currentAssociates'));
             this.router.navigate(['trainer-view']);
           }
         );
@@ -345,7 +360,14 @@ export class LoginComponent implements OnInit {
   salesOrStagingLogin() {
     this.associateService.getAllAssociates().subscribe(
       data => {
+
+        /*
+          PROBLEM
+          should load the admin/sales/staging information
+          SHOULDNT load all associates information
+        */
         localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
+        // console.log(localStorage.getItem(ASSOCIATES_KEY));
         this.router.navigate(['app-home']);
       },
       err => {

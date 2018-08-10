@@ -72,8 +72,7 @@ public class CurriculumResource {
 	 */
 	@GET
 	@ApiOperation(value = "Returns all curriculums", notes = "Returns a list of all curriculums.")
-	public Response getAllCurriculums(@HeaderParam("Authorization") String token)
-			throws HibernateException, IOException {
+	public Response getAllCurriculums(@HeaderParam("Authorization") String token) {
 		logger.info("getAllCurriculums()...");
 		Status status = null;
 		List<TfCurriculum> curriculum = curriculumService.getAllCurriculums();
@@ -81,7 +80,7 @@ public class CurriculumResource {
 		
 		if (payload == null) { // invalid token
 			return Response.status(Status.UNAUTHORIZED).build();
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("1"))) { // wrong roleid
+		} else if (!payload.getId().equals("1")) { // wrong roleid
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
 			status = curriculum == null || curriculum.isEmpty() ? Status.NO_CONTENT : Status.OK;
@@ -100,7 +99,7 @@ public class CurriculumResource {
 		
 		if (payload == null) { // invalid token
 			return Response.status(Status.UNAUTHORIZED).build();
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("1"))) { // wrong roleid
+		} else if (!payload.getId().equals("1")) { // wrong roleid
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
 			return Response.ok(curriculumService.getUnmappedInfo(statusId)).build();

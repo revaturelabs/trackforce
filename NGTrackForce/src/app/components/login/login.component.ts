@@ -345,7 +345,7 @@ export class LoginComponent implements OnInit {
   salesOrStagingLogin() {
     this.associateService.getAllAssociates().subscribe(
       data => {
-        localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
+        // localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
         this.router.navigate(['app-home']);
       },
       err => {

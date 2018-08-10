@@ -29,7 +29,9 @@ const MONTHS_3 = 788923800;
 export class HomeComponent implements OnInit {
 
   private associates: Associate[];
-  private associate: Associate;
+  // private associate: Associate;
+
+  loading = true;
 
 
   //Message from the back-end
@@ -85,7 +87,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private rs: RequestService,
     // private ds: DataSyncService,
-    private router: Router
+    private router: Router,
+    private as: AssociateService
   ) { }
 
   ngOnInit() {
@@ -93,96 +96,105 @@ export class HomeComponent implements OnInit {
   }
 
   load() {
-    // this.associateService.getAllAssociates().subscribe(response => {
-      // this.associates = response;
-      this.associates = <Associate[]> JSON.parse(localStorage.getItem('currentAssociates'));
-      let trainingMapped = 0;
-      let trainingUnmapped = 0;
-      let reservedMapped = 0;
-      let openUnmapped = 0;
-      let selectedMapped = 0;
-      let selectedUnmapped = 0;
-      let confirmedMapped = 0;
-      let confirmedUnmapped = 0;
-      let deployedMapped = 0;
-      let deployedUnmapped = 0;
-      for (let i = 0; i < this.associates.length; i++) {
-        // iterate over associates and aggregate totals
-        const associate = this.associates[i];
-        if (associate.marketingStatus !== null) {
-          // if (associate.marketingStatus !== null || (associate.marketingStatus.id < 6 && associate.client === null)) {
-            const status = associate.marketingStatus.id;
-          switch (status) {
-            case 1: trainingMapped++; break;
-            case 2: reservedMapped++; break;
-            case 3: selectedMapped++; break;
-            case 4: confirmedMapped++; break;
-            case 5: deployedMapped++; break;
-            case 6: trainingUnmapped++; break;
-            case 7: openUnmapped++; break;
-            case 8: selectedUnmapped++; break;
-            case 9: confirmedUnmapped++; break;
-            case 10: deployedUnmapped++; break;
-          }
+    this.as.getAllAssociates().subscribe(
+      associates => {
+        this.associates = associates;
+        this.loading = false;
+        console.log(this.associates)
+        this.setChart();
+      }
+    )
+  }
+
+  setChart() {
+    let trainingMapped = 0;
+    let trainingUnmapped = 0;
+    let reservedMapped = 0;
+    let openUnmapped = 0;
+    let selectedMapped = 0;
+    let selectedUnmapped = 0;
+    let confirmedMapped = 0;
+    let confirmedUnmapped = 0;
+    let deployedMapped = 0;
+    let deployedUnmapped = 0;
+
+    for (let i = 0; i < this.associates.length; i++) {
+      // iterate over associates and aggregate totals
+      const associate = this.associates[i];
+      if (associate.marketingStatus !== null) {
+        // if (associate.marketingStatus !== null || (associate.marketingStatus.id < 6 && associate.client === null)) {
+        const status = associate.marketingStatus.id;
+        switch (status) {
+          case 1: trainingMapped++; break;
+          case 2: reservedMapped++; break;
+          case 3: selectedMapped++; break;
+          case 4: confirmedMapped++; break;
+          case 5: deployedMapped++; break;
+          case 6: trainingUnmapped++; break;
+          case 7: openUnmapped++; break;
+          case 8: selectedUnmapped++; break;
+          case 9: confirmedUnmapped++; break;
+          case 10: deployedUnmapped++; break;
         }
       }
+    }
 
 
-      /**
-       * @member {Array} UndeployedData
-       * @description UndeployedData is an array used to populate the
-       * dataset of the Undeployed chart. The dataset contains two numbers:
-       * the mapped number is the sum of all mapped associates, the unmapped number
-       * is the sum of all unmapped associates.
-       */
-      const undeployedArr: number[] = [trainingMapped
-        + reservedMapped + selectedMapped + confirmedMapped,
-      trainingUnmapped + openUnmapped + selectedUnmapped + confirmedUnmapped];
+    /**
+     * @member {Array} UndeployedData
+     * @description UndeployedData is an array used to populate the
+     * dataset of the Undeployed chart. The dataset contains two numbers:
+     * the mapped number is the sum of all mapped associates, the unmapped number
+     * is the sum of all unmapped associates.
+     */
+    const undeployedArr: number[] = [trainingMapped
+      + reservedMapped + selectedMapped + confirmedMapped,
+    trainingUnmapped + openUnmapped + selectedUnmapped + confirmedUnmapped];
 
-      this.undeployedData = undeployedArr;
-      localStorage.setItem('undeployedData', JSON.stringify(this.undeployedData))
+    this.undeployedData = undeployedArr;
+    localStorage.setItem('undeployedData', JSON.stringify(this.undeployedData))
 
-      /**
-       * @member {Array} MappedData
-       * @description MappedData is an array that stores the
-       * data for the dataset of the Mapped chart.
-       * The dataset contains four numbers: <br>
-       * training mapped <br>
-       * reserved mapped <br>
-       * selected mapped <br>
-       * confirmed mapped<br>
-       */
-      const mappedArr: number[] = [trainingMapped, reservedMapped, selectedMapped, confirmedMapped];
+    /**
+     * @member {Array} MappedData
+     * @description MappedData is an array that stores the
+     * data for the dataset of the Mapped chart.
+     * The dataset contains four numbers: <br>
+     * training mapped <br>
+     * reserved mapped <br>
+     * selected mapped <br>
+     * confirmed mapped<br>
+     */
+    const mappedArr: number[] = [trainingMapped, reservedMapped, selectedMapped, confirmedMapped];
 
-      this.mappedData = mappedArr;
-      localStorage.setItem('mappedData', JSON.stringify(this.mappedData))
+    this.mappedData = mappedArr;
+    localStorage.setItem('mappedData', JSON.stringify(this.mappedData))
 
-      /**
-       * @member {Array} UnmappedData
-       * @description UnmappedData is an array that stores the
-       * data for the dataset of the Unmapped chart.
-       * The dataset contains four numbers: <br>
-       * training unmapped <br>
-       * open unmapped <br>
-       * selected unmapped <br>
-       * confirmed unmapped<br>
-       */
-      const unmappedArr: number[] = [trainingUnmapped, openUnmapped, selectedUnmapped, confirmedUnmapped];
+    /**
+     * @member {Array} UnmappedData
+     * @description UnmappedData is an array that stores the
+     * data for the dataset of the Unmapped chart.
+     * The dataset contains four numbers: <br>
+     * training unmapped <br>
+     * open unmapped <br>
+     * selected unmapped <br>
+     * confirmed unmapped<br>
+     */
+    const unmappedArr: number[] = [trainingUnmapped, openUnmapped, selectedUnmapped, confirmedUnmapped];
 
-      this.unmappedData = unmappedArr;
-      localStorage.setItem('unmappedData', JSON.stringify(this.unmappedData))
+    this.unmappedData = unmappedArr;
+    localStorage.setItem('unmappedData', JSON.stringify(this.unmappedData))
 
-      /**
-       * @member {Array} DeployedData
-       * @description DeployedData is an array used to populate the
-       * dataset of the Deployed chart. The dataset contains two numbers:
-       * the mapped number is the sum of all mapped associates, the unmapped number
-       * is the sum of all unmapped associates. Both numbers contain only deployed associates.
-       */
-      const deployedArr = [deployedMapped, deployedUnmapped];
+    /**
+     * @member {Array} DeployedData
+     * @description DeployedData is an array used to populate the
+     * dataset of the Deployed chart. The dataset contains two numbers:
+     * the mapped number is the sum of all mapped associates, the unmapped number
+     * is the sum of all unmapped associates. Both numbers contain only deployed associates.
+     */
+    const deployedArr = [deployedMapped, deployedUnmapped];
 
-      this.deployedData = deployedArr;
-      localStorage.setItem('deployedData', JSON.stringify(this.deployedData))
+    this.deployedData = deployedArr;
+    localStorage.setItem('deployedData', JSON.stringify(this.deployedData))
     // });
   }
 

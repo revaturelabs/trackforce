@@ -12,6 +12,8 @@ import { Client } from '../../models/client.model';
 @Injectable()
 export class ClientService {
   private baseURL: string = environment.url + 'TrackForce/clients';
+  private mappedClientUrl = environment.url + 'TrackForce/clients/mapped/get/'
+  private clientUrl = environment.url + 'TrackForce/clients/associates/get/'
 
   constructor(private http: HttpClient) { }
 
@@ -21,6 +23,17 @@ export class ClientService {
    */
   getAllClients(): Observable<Client[]> {
     return this.http.get<Client[]>(this.baseURL);
+  }
+
+  //This method was meant to return all clients with mapped associates.
+  //But is currently not used due to incorrect query in the back-end.
+  getAllClientsWithAssoc(): Observable<Client[]>{
+    return this.http.get<Client[]>(this.mappedClientUrl);
+  }
+
+  //This method returns mapped associate counts for a selected client
+  getClientCount(clientId: number): Observable<number>{
+    return this.http.get<number>(this.clientUrl + clientId);
   }
 
 }

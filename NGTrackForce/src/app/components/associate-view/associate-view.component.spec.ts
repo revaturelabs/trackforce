@@ -13,7 +13,11 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 // added imports; DK
 import { ClientService } from '../../services/client-service/client.service';
 import { Associate } from '../../models/associate.model';
+import { Batch } from '../../models/batch.model';
+import { Client } from '../../models/client.model';
+import { EndClient } from '../../models/end-client.model';
 import { User } from '../../models/user.model';
+import { MarketingStatus } from '../../models/marketing-status.model';
 
 export class MockActivatedRoute {
   static createMockRoute(tid: number): any {
@@ -35,6 +39,43 @@ export class MockActivatedRoute {
   }
 }
 
+export class MockAuthenticationService extends AuthenticationService {
+  getAssociate(): Associate {
+    let mockBatch:Batch = new Batch();
+    mockBatch.id = 100;
+    mockBatch.batchName = 'mockBatchName';
+    
+    let batches:Batch[] = [mockBatch];
+
+    let client:Client = new Client();
+    client.name = 'client';
+
+    let endClient:EndClient = new EndClient();
+    endClient.name = 'none';
+
+    const user:User = new User('newUser','pass', 0, 0);
+    const marketingStatus:MarketingStatus = new MarketingStatus(1, 'status');
+
+    const associate:Associate = new Associate('first', 'last', user);
+    
+    // Add objects to associate
+    associate.marketingStatus = marketingStatus;
+    associate.batch = mockBatch;
+    associate.client = client;
+    associate.endClient = endClient;
+
+    return associate;
+  }
+}
+
+export class MockAssociateService extends AssociateService {
+  getAssociate(id: number) {
+    const user:User = new User('newUser','pass', 0, 0);
+    const associate:Associate = new Associate('first', 'last', user);
+    return Observable.of(associate);
+  }
+}
+
 describe('AssociateViewComponent', () => {
   const mockAssociateService: AssociateService = new AssociateService(null);
   const mockAuthService: AuthenticationService = new AuthenticationService(null, null, null);
@@ -43,14 +84,7 @@ describe('AssociateViewComponent', () => {
   let clients: Array<any> = [];
 
   beforeAll(() => {
-    const mockUser: User = new User('mockuser', 'mockPassword', 1, 0);
-    const mockAssociate = new Associate('firstName', 'lastName', mockUser);
-    const mockAssociates: Associate[] = [mockAssociate];
-    
-    spyOn(mockAssociateService, 'getAllAssociates').and.returnValue(Observable.of(mockAssociates));
-    spyOn(mockAssociateService, 'getAssociate').and.returnValue(mockAssociate);
-    spyOn(mockAuthService, 'getAssociate').and.returnValue(mockAssociate);
-    spyOn(mockAssociateService, 'updateAssociate').and.returnValue(mockAssociate);
+  
   });
 
   beforeEach(() => {
@@ -71,8 +105,19 @@ describe('AssociateViewComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AssociateViewComponent);
-    component = fixture.componentInstance;
+    const mockUser: User = new User('mockuser', 'mockPassword', 1, 0);
+    const mockAssociate = new Associate('firstName', 'lastName', mockUser);
+    const mockAssociates: Associate[] = [mockAssociate];
+    
+    // spyOn(mockAssociateService, 'getAllAssociates').and.returnValue(Observable.of(mockAssociates));
+    // spyOn(mockAssociateService, 'getAssociate').and.returnValue(mockAssociate);
+    // spyOn(mockAuthService, 'getAssociate').and.returnValue(mockAssociate);
+    // spyOn(mockAssociateService, 'updateAssociate').and.returnValue(mockAssociate);
+
+    fixture = TestBed.overrideComponent(AssociateViewComponent,
+    {set: {providers: [{provide: AssociateService, useClass: MockAssociateService},
+                       {provide: AuthenticationService, useClass: MockAuthenticationService}]}}).createComponent(AssociateViewComponent);  
+                       component = fixture.componentInstance;
     fixture.detectChanges();
   });
 

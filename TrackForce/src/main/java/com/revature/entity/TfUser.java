@@ -42,6 +42,7 @@ public class TfUser implements java.io.Serializable {
     @Column(name = "TF_USERNAME", length = 20, unique = true)
     private String username;
 
+    @JsonIgnore
     @XmlElement
     @Column(name = "TF_HASHPASSWORD", length = 200)
     private String password;
@@ -84,7 +85,8 @@ public class TfUser implements java.io.Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+	
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}

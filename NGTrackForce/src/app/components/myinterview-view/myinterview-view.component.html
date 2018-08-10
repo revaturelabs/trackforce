@@ -56,7 +56,7 @@
   <div class="card-deck mb-3 text-center">
     <div>
       <h3>My Interviews</h3>
-      <div class="alert alert-danger" *ngIf="conflictingInterviews!=''">
+      <div class="alert alert-danger">
         {{conflictingInterviews}}
       </div>
       <table class="table table-responsive table-hover table-bordered">
@@ -119,7 +119,7 @@
             </td>
 
             <td>
-              <a [routerLink]="['/interview-details']" class="id">view</a>
+              <a [routerLink]="['/interview-details', interview.id]" class="id">view</a>
             </td>
 
             <td>

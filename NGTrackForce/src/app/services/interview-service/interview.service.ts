@@ -46,6 +46,11 @@ export class InterviewService {
     return this.http.get<Interview[]>(url);
   }
 
+  public getInterviewById(id: number): Observable<Interview> {
+    const url: string = this.baseURL + "/getInterviewById/" + id;
+    return this.http.get<Interview>(url);
+  }
+
   /**
    *
    * This method updates an existing interview
@@ -55,8 +60,8 @@ export class InterviewService {
    * @param interview - this is the updated interview object
    * @param id - this is the id of the associate
    */
-  public updateInterview(interview: any, id: number): Observable<boolean> {
-    const url: string = this.baseURL + '/' + interview.id;
+  public updateInterview(interview: Interview): Observable<boolean> {
+    const url: string = this.baseURL + "/" + interview.id;
     return this.http.put<boolean>(url, interview);
   }
 }

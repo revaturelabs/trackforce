@@ -18,7 +18,7 @@ import com.revature.utils.HibernateUtil;
 
 /**
  * Implementation of the BatchDao interface that uses Hibernate to retrieve
- * batch information from the database. lskjdflksdf
+ * batch information from the database.
  */
 
 public class BatchDaoImpl implements BatchDao {
@@ -42,7 +42,13 @@ public class BatchDaoImpl implements BatchDao {
 				.createQuery("from TfBatch", TfBatch.class).getResultList());
 	}
 
-	// TODO add to DAO Interface once it works
+	/**
+	 * 1806_Chris_P: This method retrieves all of the batches that match the technology 
+	 * 	and fall between the dates selected in the Predictions page.
+	 *  This is where the initial data for the batch details comes from.
+	 * 		Note: This could potentially have uses elsewhere, at which point, please rename this method 
+	 * 		to reflect its current use(s)
+	 */
 	public List<TfBatch> getBatchesForPredictions(String name, Timestamp startDate, Timestamp endDate) {
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session.createQuery(
 				"from TfBatch b WHERE b.curriculumName.name = :name AND b.startDate >= :startdate AND b.endDate <= :enddate",
@@ -50,15 +56,23 @@ public class BatchDaoImpl implements BatchDao {
 				.setParameter("enddate", endDate).getResultList());
 	}
 
-	// TODO 1806-Chris_P: add to DAO Interface
+	/**
+	 * 1806_Chris_P: This method is very similar to the above method, except that it grabs the total amount of
+	 * 	associates in the batches that match the technology and fall between the dates selected on the Predictions page
+	 *  and is used for the Associate Breakdown table.  
+	 */
 	public Object getBatchCountsForPredictions(String name, Timestamp startDate, Timestamp endDate) {
+		//1806_Chris_P: Setup the session
 		Session session = null;
-		System.out.println("startDate:" + startDate.toString());
-		System.out.println("endDate:" + endDate.toString());
-
 		session = HibernateUtil.getSessionFactory().openSession();
-		Object tacobell = session.createNativeQuery(
-				"select count(a.tf_associate_id) " + 
+		
+		//1806_Chris_P: So, this monster here was a nightmare to get to work
+		// but it works like a charm. :) Due to the TfBatch returning a set of TfAssociates
+		// getting the actual count of all of those associates was a bit tricky. A for-loop could have been used,
+		// but handling it through a single query seemed like a better idea at the time.
+		// Credit also goes to Andrew H, Cyril M, Austin D and Austin M for their assistance in making this thing finally work
+		Object associateCount = session.createNativeQuery( // Using a Native Query because this was a bit much to handle with hibernate
+				"select count(a.tf_associate_id) " +       // without having some really complex joins and whatnot. If you want to take on the challenge, by all means go for it!
 				"from admin.tf_associate a where a.tf_batch_id IN " + 
 				"(" + 
 				"    select b.tf_batch_id " + 
@@ -73,11 +87,11 @@ public class BatchDaoImpl implements BatchDao {
 				"    AND b.tf_batch_end_date <= TO_TIMESTAMP(:endDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
 				")"
 				).setParameter("curriculumName", name)
-				.setParameter("startDate", startDate.toString())
-				.setParameter("endDate", endDate.toString())
+				.setParameter("startDate", startDate.toString()) // This needs to be a string. It acts weird otherwise
+				.setParameter("endDate", endDate.toString()) // This needs to be a string. It acts weird otherwise
 				.getSingleResult();
-		System.out.println("OMGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG tacobell equals : " + tacobell.toString());
-		return tacobell;
+		
+		return associateCount;
 	}
 
 }

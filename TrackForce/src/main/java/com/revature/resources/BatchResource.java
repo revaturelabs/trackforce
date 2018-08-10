@@ -156,8 +156,9 @@ public class BatchResource {
 	}
 
 	/**
-	 * 1806_Chris_P
+	 * 1806_Chris_P:
 	 * Returns a list of batches related to a selected ciriculum/technology on the Predictions page.
+	 * this is used for the Batch Details page.
 	 */
 	@GET
 	@ApiOperation(value = "Returns associates for batch", notes = "Returns list.")
@@ -173,15 +174,15 @@ public class BatchResource {
 		status = Status.OK;
 		int role = Integer.parseInt(payload.getId());
 
-//		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
-//
-//
-//		if (authorizedRoles.contains(role)) {
-//			// results and status set in here
-//			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
-//		} else {
-//			status = Status.FORBIDDEN;
-//		}
+	/*	Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+
+		// Verifies user's role has proper authority to perform this action
+		if (authorizedRoles.contains(role)) {
+			// results and status set in here
+			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		} else {
+			status = Status.FORBIDDEN;
+		}*/
 		
 		
 		JSONObject batchDetails = new JSONObject();
@@ -207,7 +208,7 @@ public class BatchResource {
 	/**
 	 * 1806_Chris_P
 	 * Super similar to the previous method, except that this one only returns the aggregate count of all associates in
-	 * a particular curiculum selected from the Predictions Page.
+	 * a particular curriculum selected from the Predictions Page.
 	 */
 	@GET
 	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
@@ -234,21 +235,7 @@ public class BatchResource {
 		
 		JSONObject associateCount = new JSONObject();
 		BatchDaoImpl bd = new BatchDaoImpl();
-		Long associateAmount = 0L;
 		
-		/*List<TfBatch> batches = bd.getBatchesForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
-		
-		for (TfBatch batch : batches) {
-
-			associateAmount += batch.getAssociates().size();
-			System.out.println(associateAmount);
-		}
-		
-		associateCount.put("associateCount", associateAmount);
-		return Response.status(status).entity(associateCount.toString()).build();
-		*/
-		
-		// TODO: 1806_Chris_P: Delete the stuff below here if we can't find a solution *****
 		Object count = bd.getBatchCountsForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
 		System.out.println("===================== count is: " + count);
 		

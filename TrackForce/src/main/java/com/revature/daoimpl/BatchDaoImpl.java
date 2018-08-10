@@ -1,15 +1,9 @@
 package com.revature.daoimpl;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
-import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureParameter;
-import javax.persistence.TemporalType;
-
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import com.revature.dao.BatchDao;
@@ -53,30 +47,33 @@ public class BatchDaoImpl implements BatchDao {
 	// TODO 1806-Chris_P: add to DAO Interface
 	public Object getBatchCountsForPredictions(String name, Timestamp startDate, Timestamp endDate) {
 		Session session = null;
-		System.out.println("startDate:" + startDate.toString());
-		System.out.println("endDate:" + endDate.toString());
-
-		session = HibernateUtil.getSessionFactory().openSession();
-		Object tacobell = session.createNativeQuery(
-				"select count(a.tf_associate_id) " + 
-				"from admin.tf_associate a where a.tf_batch_id IN " + 
-				"(" + 
-				"    select b.tf_batch_id " + 
-				"    from admin.tf_batch b " + 
-				"    where b.tf_curriculum_id IN " + 
-				"    (" + 
-				"        select c.tf_curriculum_id " + 
-				"        from admin.tf_curriculum c " + 
-				"        where c.tf_curriculum_name = :curriculumName " +
-				"    )" + 
-				"    AND b.tf_batch_start_date >= TO_TIMESTAMP(:startDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
-				"    AND b.tf_batch_end_date <= TO_TIMESTAMP(:endDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
-				")"
-				).setParameter("curriculumName", name)
-				.setParameter("startDate", startDate.toString())
-				.setParameter("endDate", endDate.toString())
-				.getSingleResult();
-		System.out.println("OMGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG tacobell equals : " + tacobell.toString());
+		Object tacobell = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			tacobell = session.createNativeQuery(
+					"select count(a.tf_associate_id) " + 
+					"from admin.tf_associate a where a.tf_batch_id IN " + 
+					"(" + 
+					"    select b.tf_batch_id " + 
+					"    from admin.tf_batch b " + 
+					"    where b.tf_curriculum_id IN " + 
+					"    (" + 
+					"        select c.tf_curriculum_id " + 
+					"        from admin.tf_curriculum c " + 
+					"        where c.tf_curriculum_name = :curriculumName " +
+					"    )" + 
+					"    AND b.tf_batch_start_date >= TO_TIMESTAMP(:startDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
+					"    AND b.tf_batch_end_date <= TO_TIMESTAMP(:endDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
+					")"
+					).setParameter("curriculumName", name)
+					.setParameter("startDate", startDate.toString())
+					.setParameter("endDate", endDate.toString())
+					.getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			session.close();
+		}
 		return tacobell;
 	}
 

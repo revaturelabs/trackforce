@@ -2,10 +2,8 @@ import { BatchService } from './../../services/batch-service/batch.service';
 import { Component, OnInit } from '@angular/core';
 import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
-import { Batch } from '../../models/batch.model';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { Associate } from '../../models/associate.model';
-import { Curriculum } from '../../models/curriculum.model';
 
 @Component({
   selector: 'app-predictions',
@@ -24,10 +22,12 @@ export class PredictionsComponent implements OnInit {
   public expanded = true;
   public results: any[];
   public message = "";
+  public noBatches: boolean;
   public batches: Object;
   public batchNumberAssociates: number[];
   public associates: Associate[];
   public techNeeded: number[];
+  
 
   constructor(private ss: CurriculumService, private as: AssociateService, private bs: BatchService) { }
 
@@ -35,6 +35,7 @@ export class PredictionsComponent implements OnInit {
     this.getListofCurricula();
     this.techNeeded = [];
     this.results = [];
+    this.noBatches = false;
   }
 
   toggleCheckboxes() {
@@ -56,13 +57,6 @@ export class PredictionsComponent implements OnInit {
           tempArray.push(localtech);
         }
         this.technologies = tempArray;
-        // IF API RETURNS AN OBJECT INSTEAD OF ARRAY
-        // let tempVar = [];
-        // for (let key in data) {
-        //   let tech = data[key];
-        //   tempVar.push(tech);
-        // }
-        // this.technologies = tempVar;
       },
       err => {
       }
@@ -92,8 +86,7 @@ export class PredictionsComponent implements OnInit {
                   requested: this.techNeeded[k],
                   available: 0
                 });
-        if(isUpdate)
-          this.results.sort((o1,o2) => o1['technologyIndex'] - o2['technologyIndex'])
+        this.results.sort((o1,o2) => o1['technologyIndex'] - o2['technologyIndex'])
       },
 
       err => err
@@ -179,10 +172,11 @@ export class PredictionsComponent implements OnInit {
       this.endDate = e;
     }
 
-    let startTime = new Date(this.startDate).getTime();
-    let endTime = new Date(this.endDate).getTime();
-    //Get id of the button that called the function, which should have the name of the technology.
-    //let tech: string = event.target.attributes.id.value;
+    let startTime = new Date(this.startDate);
+    let endTime = new Date(this.endDate);
+    
+    this.detailsReady = false;
+    this.noBatches = false;
 
     /*
       1806_Andrew_H
@@ -190,17 +184,16 @@ export class PredictionsComponent implements OnInit {
       The json object is an array with each element containing info on the batch name,
       number of associates in the batch, and the batch's end date.
     */
-    this.bs.getBatchDetails( new Date(this.startDate), new Date(this.endDate),tech).subscribe(
+    this.bs.getBatchDetails(startTime, endTime,tech).subscribe(
       data => {
         this.batches = data;
         this.detailsReady = true;
-        console.log(data);
+        if(this.batches['courseBatches'].length == 0){
+          this.noBatches = true;
+        }
       },
       error => {
         console.log(error);
       });
-
-
-
   }
 }

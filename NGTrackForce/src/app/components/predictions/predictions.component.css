@@ -1,53 +1,33 @@
-.multiselect {
-  width: 200px;
+
+h3{
+  padding-left: 16px;
 }
 
-.selectBox {
-  position: relative;
+.table-div thead {
+  background-color: #ddd;
 }
 
-.selectBox select {
-  width: 100%;
-  font-weight: bold;
+.table-div{
+  border: 1px solid rgb(200,200,200);
+  border-radius: 3px;
+  padding: 0px;
+  overflow: hidden;
+  margin-bottom: 20px;
 }
 
-.overSelect {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
-
-#checkboxes {
-  max-height: 200px;
-  overflow-y: scroll;
-  background-color: white;
-  border: 1px #dadada solid;
-}
-
-#checkboxes div {
-  width: 100%;
-}
-
-#checkboxes label {
-  display: block;
-}
-
-#checkboxes label:hover {
-  background-color: #1e90ff;
+.table-div table{
+  margin: 0px;
 }
 
 .borderless td, .borderless th {
   border: none;
 }
 
-
-
 .scrollbar {
   overflow-y: scroll;
   margin-bottom: 25px;
 }
+
 
 .nopadding-table td, .nopadding-table th, .nopadding-table row{
   padding: 2px 4px;
@@ -77,10 +57,10 @@ box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
     visibility: hidden;
     clear: both;
 }
+
 .scrollable-table tbody {
   overflow-y: auto;
 }
-
 
 .col-2-table tbody td, .col-2-table thead th {
   width: 50%;

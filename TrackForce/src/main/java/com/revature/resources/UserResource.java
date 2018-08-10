@@ -74,7 +74,9 @@ public class UserResource {
 		int role = newUser.getRole();
 		TfRole tfrole = new TfRole();
 		boolean works = true;
-		if(role != 0) {
+		//EDIT EricS 8/9/18	Added '&& userService.getUser(newUser.getUsername()) == null' to check if username is unique
+		if(role != 0 && userService.getUser(newUser.getUsername()) == null) {
+			System.out.println("Inside.");
 			switch(role) {
 			case 1:
 				tfrole = new TfRole(1, "Admin");
@@ -142,6 +144,7 @@ public class UserResource {
 				break;
 			}
 		}
+		else works = false;
 		if(works) {
 			return Response.status(Status.CREATED).build();
 		}
@@ -154,19 +157,17 @@ public class UserResource {
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response checkUsername(String username) {
-		System.out.println("==============================");
-		System.out.println(username);
-		System.out.println("==============================");
+		final String varName = "result";
 		JsonObject json = new JsonObject();
 		
 		String message;
 		if(userService.getUser(username) == null) {
-			json.addProperty("result", "Username is available");
+			json.addProperty(varName, "true");
 			message = json.toString();
 			return Response.ok(message,MediaType.TEXT_PLAIN).build();
 		}
 		else {
-			json.addProperty("result", "Username is unavailable");
+			json.addProperty(varName, "false");
 			message = json.toString();
 			return Response.ok(message,MediaType.TEXT_PLAIN).build();
 		}

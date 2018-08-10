@@ -11,10 +11,10 @@
       <div class="table-responsive info">
         <table class="table table-hover table-bordered">
           <tbody>
-            <tr *ngIf="(associate && associate.isApproved) ? associate.isApproved != 1 : true">
+            <tr *ngIf="(associate && associate.user && associate.user.isApproved) ? associate.user.isApproved != true : true">
               <td>This Associate has not been approved yet</td>
               <td>
-                <button *ngIf="true" class="btn btn-primary" (click)="approveAssociate()">Approve</button>
+                <button class="btn btn-primary" (click)="approveAssociate()">Approve</button>
               </td>
             </tr>
             <tr>

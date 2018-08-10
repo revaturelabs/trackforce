@@ -84,6 +84,7 @@ export class FormComponent implements OnInit {
       this.associateService.getByAssociateId(this.id).subscribe(
         data => {
           this.associate = data;
+          console.log(this.associate);
           this.getAssociateInterviews(this.associate.id);
         },
         error => {

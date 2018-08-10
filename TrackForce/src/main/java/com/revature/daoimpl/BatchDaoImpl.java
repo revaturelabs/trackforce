@@ -48,7 +48,6 @@ public class BatchDaoImpl implements BatchDao {
 	public Object getBatchCountsForPredictions(String name, Timestamp startDate, Timestamp endDate) {
 		Session session = null;
 		Object tacobell = null;
-		
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			tacobell = session.createNativeQuery(

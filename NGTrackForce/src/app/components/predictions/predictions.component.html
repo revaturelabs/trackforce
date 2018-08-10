@@ -29,7 +29,7 @@
     <div class="col-md-4">
         <!-- Input Table-->
         <div class="table-div">
-          <table class="table borderless table-striped scrollable-table col-2-table fixedw-table">
+          <table class="table borderless scrollable-table col-2-table fixedw-table" style="background-color: #F5F5F5">
             <thead>
               <tr>
                 <th>Technology</th>
@@ -78,7 +78,7 @@
 
    <!-- Batch Details: Breakdown of batches available for a single curriculum -->
   <div class="row" *ngIf="detailsReady">
-      <h3>Batch Details</h3>
+      <h3>{{selectedBatch}} Batch Details</h3>
       <div class="col-md-12">
         
         <div class="alert alert-danger" *ngIf="noBatches">
@@ -86,7 +86,7 @@
         </div>      
 
         <div class="table-div" *ngIf="!noBatches">
-          <table class="table table-striped table-hover table-bordered" *ngIf="detailsReady">
+          <table class="table table-striped table-bordered" *ngIf="detailsReady">
             <thead>
               <tr>
                 <th>Batch ID</th>

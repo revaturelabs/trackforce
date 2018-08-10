@@ -24,6 +24,7 @@ export class PredictionsComponent implements OnInit {
   public expanded = true;
   public results: any[];
   public message = "";
+  public selectedBatch: number;
   public noBatches: boolean;
   public batches: Object;
   public batchNumberAssociates: number[];
@@ -41,11 +42,6 @@ export class PredictionsComponent implements OnInit {
 
     this.setInitialDates();
     this.generateDates();
-  }
-
-  
-  toggleCheckboxes() {
-    this.expanded = !this.expanded;
   }
 
   /**
@@ -71,6 +67,10 @@ export class PredictionsComponent implements OnInit {
     );
   }
 
+  /**
+   * Gets the current date and sets the strings bound to the date inputs.
+   * End date is the current date, start date is the first of the current year.
+   */
   setInitialDates(){
     let now = new Date(Date.now());
     this.endDateString= now.toJSON().substring(0,10);
@@ -79,6 +79,10 @@ export class PredictionsComponent implements OnInit {
     this.startDateString = now.toJSON().substring(0,10);
   }
 
+  /**
+   * Parses the date string to a date object.
+   * Done onchange of date fields.
+   */
   generateDates(){
     this.startDate = new Date(this.startDateString);
     this.endDate = new Date(this.endDateString);
@@ -101,11 +105,17 @@ export class PredictionsComponent implements OnInit {
   }
 
   /**
+   * Fetch details for a single technology, filters previous results to prevent 
+   * duplicate entries and sorts results by index on return
    * 
    * @param techIndex index in technologies array to fetch predictions for
    * @param isUpdate true if part of single fetch; false when part of a batch
    */
   getPrediction(techIndex: number, isUpdate: boolean) {
+
+    this.detailsReady = false;
+    this.noBatches = false;
+
     if(isUpdate)
       this.results = this.results.filter(o => o['technologyIndex'] != techIndex);
 
@@ -132,7 +142,12 @@ export class PredictionsComponent implements OnInit {
   }
 
   
-
+/**
+ * Fetches details of a selected curriculum. The details include all batches 
+ * That start and end within the given time span. Resets previous data so that
+ * old information is not present while loading.
+ * @param tech 
+ */
   getDetails(tech) {
 
     let startTime = new Date(this.startDate);
@@ -141,6 +156,7 @@ export class PredictionsComponent implements OnInit {
     this.detailsReady = false;
     this.noBatches = false;
 
+    this.selectedBatch = tech;
     /*
       1806_Andrew_H
       This method populates the batches object using a json object.

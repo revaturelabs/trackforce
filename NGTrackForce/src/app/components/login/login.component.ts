@@ -258,7 +258,6 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.username, this.password).subscribe(
         data => {
           localStorage.setItem(USER_KEY, JSON.stringify(data));
-          console.log(localStorage.getItem(USER_KEY));
           //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
           if (data.isApproved) {
@@ -310,7 +309,6 @@ export class LoginComponent implements OnInit {
     this.associateService.getAssociate(user.id).subscribe(
       data => {
         localStorage.setItem(ASSOCIATE_KEY, JSON.stringify(data));
-        // console.log(localStorage.getItem(ASSOCIATE_KEY));
         this.router.navigate(['associate-view']);
       },
       err => {
@@ -331,7 +329,6 @@ export class LoginComponent implements OnInit {
     this.trainerService.getTrainer(user.id).subscribe(
       data => {
         localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
-        // console.log(localStorage.getItem(TRAINER_KEY));
 
         /* =========================================================
           PROBLEM
@@ -340,7 +337,6 @@ export class LoginComponent implements OnInit {
         this.associateService.getAllAssociates().subscribe(
           datum => {
             localStorage.setItem('currentAssociates', JSON.stringify(datum));
-            // console.log(localStorage.getItem('currentAssociates'));
             this.router.navigate(['trainer-view']);
           }
         );

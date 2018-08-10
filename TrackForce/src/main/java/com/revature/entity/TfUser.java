@@ -85,7 +85,7 @@ public class TfUser implements java.io.Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+	
 	@JsonIgnore
 	public String getPassword() {
 		return password;
@@ -173,7 +173,7 @@ public class TfUser implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "TfUser [id=" + id + ", username=" + username + /*", password=" + password +*/ ", isApproved=" + isApproved
+		return "TfUser [id=" + id + ", username=" + username + ", password=" + password + ", isApproved=" + isApproved
 				+ ", token=" + token + ", role=" + role + "]";
 	}
 

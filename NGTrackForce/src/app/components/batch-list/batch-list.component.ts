@@ -133,16 +133,8 @@ export class BatchListComponent implements OnInit {
    * and the corresponding graph accordingly
    */
   public applySelectedRange() {
-    console.log("==================STRING=====================");
-    console.log(this.startDate);
-    console.log(this.endDate);
-    console.log("=======================================");
     this.startDate = new Date(this.stringStart);
     this.endDate = new Date(this.stringEnd);
-    console.log("=======================================");
-    console.log(this.startDate.toString());
-    console.log(this.endDate.toString());
-    console.log("=======================================");
 
 
     let longStartDate: number;
@@ -153,17 +145,12 @@ export class BatchListComponent implements OnInit {
     if (this.startDate && this.endDate) {
       longStartDate = this.startDate.getTime();
       longEndDate = this.endDate.getTime();
-      console.log("=======================================");
-      console.log(longStartDate);
-      console.log(longEndDate);
-      console.log("=======================================");
 
 
       if (longStartDate > longEndDate){
         this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
         this.showDateRangeError = true;
       } else {
-        console.log("+++++++++++++++++++++++++++++++++ELSE++++++++++++++++++++++++++")
         this.updateBatches();
       }
     }
@@ -218,9 +205,6 @@ export class BatchListComponent implements OnInit {
                   return false;
                 }
               }
-              console.log("====================UPDATE===============");
-              console.log(this.startDate.toString());
-              console.log("------------------------------------------");
               let dateStartDate = new Date(this.startDate);
               let dateEndDate = new Date(this.endDate);
               let longStartDate = dateStartDate.getTime();
@@ -239,7 +223,6 @@ export class BatchListComponent implements OnInit {
       this.dataReady = true;
     }
     else {
-      console.log("------------ADMIN ELSE-----------");
       this.dataReady = false;
       this.batchService.getAllBatches().subscribe(
         batches => {
@@ -248,9 +231,6 @@ export class BatchListComponent implements OnInit {
             batch => {
               let dateStartDate = new Date(this.startDate);
               let dateEndDate = new Date(this.endDate);
-              console.log("+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+_+");
-              console.log(this.startDate.toString());
-              console.log(dateStartDate.toString());
               let longStartDate = dateStartDate.getTime();
               let longEndDate = dateEndDate.getTime();
 

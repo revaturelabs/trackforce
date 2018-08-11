@@ -62,7 +62,7 @@
             <th class="status">Marketing Status</th>
             <th class="client">Client Name</th>
             <th class="batch">Batch Name</th>
-            <th class="verification">Verification Status</th>
+            <th class="verificationStatus">Verification Status</th>
           </tr>
         </thead>
         <tbody>
@@ -73,19 +73,14 @@
             <td>
               <a [routerLink]="['/form-comp',associate.id]" class="id" *ngIf="associate.id">{{associate.id}}</a>
             </td>
-            <td class="first" *ngIf="associate.firstName">{{associate.firstName}}</td>
-            <td class="last" *ngIf="associate.lastName">{{associate.lastName}}</td>
-            <td class="status" *ngIf="associate.marketingStatus">{{associate.marketingStatus.name}}</td>
-
-            <span *ngIf="associate.client">
-              <td class="client">{{associate.client.name}}</td>
-            </span>
-
+            <td class="first"><span *ngIf="associate.firstName">{{associate.firstName}}</span></td>
+            <td class="last"><span *ngIf="associate.lastName">{{associate.lastName}}</span></td>
+            <td class="status"><span *ngIf="associate.marketingStatus && associate.marketingStatus.name">{{associate.marketingStatus.name}}</span></td>
+            <td class="client"><span *ngIf="associate.client && associate.client.name">{{associate.client.name}}</span></td>
             <td class="batch">
-              <span *ngIf="associate.batch">
-                <a [routerLink]="['/batch-details', associate.batch.id]">{{associate.batch.batchName}}</a>
-              </span>
+              <a *ngIf="associate.batch" class="batch" [routerLink]="['/batch-details', associate.batch.id]"><span *ngIf="associate.batch.batchName">{{associate.batch.batchName}}</span></a>
             </td>
+            <td class="verificationStatus"><span *ngIf="associate.user && associate.user.isApproved != null">{{associate.user.isApproved === 1}}</span></td>
           </tr>
         </tbody>
       </table>

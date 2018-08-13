@@ -10,24 +10,55 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { RouterTestingModule } from '@angular/router/testing';
 //import { CurriculumService } from '../../services/skill-set-service/skill-set.service';
 import {CurriculumService} from "../../services/curriculum-service/curriculum.service";
-
+import { Curriculum } from '../../models/curriculum.model';
 import { FormComponent } from '../form-component/form.component';
 // added imports; DK
 import { FormsModule } from '@angular/forms';
 
+import { Observable } from 'rxjs/Observable';
+
 import {
   ActivatedRoute, ActivatedRouteStub, Router, RouterStub
 } from '../../testing-helpers/router-stubs';
+import { Batch } from '../../models/batch.model';
+import { GraphCounts } from '../../models/graph-counts';
+
+import { SSL_OP_PKCS1_CHECK_1 } from 'constants';
+import { convertToParamMap } from '../../../../node_modules/@angular/router';
+
+export class MockCurriculumService extends CurriculumService {
+    getAllCurricula(): Observable<Curriculum[]> {
+      let c1:Curriculum = new Curriculum();
+      c1.id = 1;
+      c1.name = 'mockCurriculum';
+      c1.batches = [new Batch()];
+
+      let curriculum:Curriculum[] = [c1];
+    
+      return Observable.of(curriculum);
+    }
+
+    getSkillsetsForStatusID(statusID: number): Observable<GraphCounts[]> {
+
+      let g1:GraphCounts = new GraphCounts();
+      g1.id = 1;
+      g1.name = 'mockGraphCounts';
+      g1.count = 20;
+
+      return Observable.of([g1]);
+    }
+}
+
+export class MockActivatedRoute {
+
+}
 
 describe('SkillsetComponent', () => {
   let component: SkillsetComponent;
   let fixture: ComponentFixture<SkillsetComponent>;
   let activatedRoute : ActivatedRouteStub;
 
-  class CurriculumServiceSpy
-  {
 
-  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -42,7 +73,11 @@ describe('SkillsetComponent', () => {
       ],
       providers : [
         CurriculumService,
-        { provide : ActivatedRoute, useValue : activatedRoute },
+        { provide : ActivatedRoute, useValue : {
+          snapshot: {params: {id: '8'},
+                     paramMap: convertToParamMap({id: '8'})}                    
+   
+        } },
         { provide : Router,         useClass : RouterStub }
       ]
     })
@@ -50,6 +85,7 @@ describe('SkillsetComponent', () => {
   }));
 
   beforeEach(() => {
+    localStorage.setItem('unmappedData',JSON.stringify([1,2,3,4]));
     activatedRoute = new ActivatedRouteStub();
     fixture = TestBed.createComponent(SkillsetComponent);
     component = fixture.componentInstance;

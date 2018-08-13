@@ -24,8 +24,14 @@ export class mockClientMappedComponent extends ClientMappedComponent {
     let name2: number = 2;
     let name3: number = 3;
 
+    let string1: String = "Lucy";
+    let string2: String = "Bucey";
+    let string3: String = "Fucey";
+
     let names: number[] = [name1, name2, name3];
+    let names2: String[] = [string1, string2, string3];
     this.clientMappedData = names;
+    this.clientMappedLabels = names2;
   }
 }
 

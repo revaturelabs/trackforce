@@ -20,13 +20,19 @@
   
   <!-- Associate Row: needed input and tech/availibility breakdown -->
   <div class="row">
+    
     <div class="alert alert-danger" *ngIf="message">
       {{message}}
     </div>
-    <h3>Associate Breakdown</h3>
+    
+    <h3 *ngIf="!message">Associate Breakdown</h3>
+
+    <div *ngIf="loadingTechnologies" class="col-md-4" style="text-align: center">
+      <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
+    </div>
 
     <!-- Needed Input -->
-    <div class="col-md-4">
+    <div *ngIf="!loadingTechnologies && !message" class="col-md-4">
         <!-- Input Table-->
         <div class="table-div">
           <table class="table borderless scrollable-table col-2-table fixedw-table" style="background-color: #F5F5F5">
@@ -80,10 +86,16 @@
    <!-- Batch Details: Breakdown of batches available for a single curriculum -->
   <div class="row" *ngIf="detailsReady || loadingDetails">
       <h3>{{selectedBatch}} Batch Details</h3>
-      <div *ngIf="loadingDetails" class="col-md-12">
+      <div *ngIf="loadingDetails" class="col-md-12" style="text-align: center">
         <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
       </div>
-      <div *ngIf="!loadingDetails" class="col-md-12">        
+
+      <div *ngIf="!loadingDetails" class="col-md-12 "> 
+        <div class="checkbox">
+          <label title="Shows batches with no available associates">
+            <input type="checkbox" [(ngModel)]="showEmpty"> Show Empty Batches
+          </label>
+        </div>
         <div class="alert alert-danger" *ngIf="noBatches">
           No batches are available within the selected time span.
         </div>      
@@ -98,12 +110,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let x of batches['courseBatches']">
-                <td>{{x['batchName']}}</td>
-                <td>{{x['associateCount']}}</td>
-                <td>{{x['startDate'] | date}}</td>
-                <td>{{x['endDate'] | date}}</td>
-              </tr>
+              <ng-container *ngFor="let x of batches['courseBatches']">
+                <tr *ngIf="x['associateCount'] != 0 || showEmpty" >
+                  <td>{{x['batchName']}}</td>
+                  <td>{{x['associateCount']}}</td>
+                  <td>{{x['startDate'] | date}}</td>
+                  <td>{{x['endDate'] | date}}</td>
+                </tr>
+              </ng-container>
             </tbody>
           </table>
         </div>

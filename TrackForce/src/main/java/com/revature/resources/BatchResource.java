@@ -192,17 +192,36 @@ public class BatchResource {
 		List<TfBatch> batches = bd.getBatchesForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
 		
 		for (TfBatch batch : batches) {
-
+			int unmappedCount = getUnmappedCount(batch.getAssociates());
+			
 			JSONObject b = new JSONObject();
 			b.put("batchName", batch.getBatchName());
 			b.put("startDate", (Long)batch.getStartDate().getTime());
 			b.put("endDate", (Long)batch.getEndDate().getTime());
-			b.put("associateCount", batch.getAssociates().size());
+			b.put("associateCount", unmappedCount);
 			batchesJ.put(b);
 		}
 		batchDetails.put("courseBatches", batchesJ);
 		
 		return Response.status(status).entity(batchDetails.toString()).build();
+	}
+	
+	/**
+	 * 1806_Austin_M 
+	 * Iterate through set of associates and increment count based on associate status.
+	 * 
+	 * @param associates
+	 * @return count of associates with 'unmapped' status
+	 */
+	public Integer getUnmappedCount(Set<TfAssociate> associates) {
+		int n = 0;
+		
+		for(TfAssociate a : associates) {
+			if(a.getMarketingStatus().getId() > 5)
+				n++;
+		}
+			
+		return n;
 	}
 
 	/**

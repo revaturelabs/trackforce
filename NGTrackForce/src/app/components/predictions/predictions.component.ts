@@ -30,21 +30,23 @@ export class PredictionsComponent implements OnInit {
   public batchNumberAssociates: number[];
   public associates: Associate[];
   public techNeeded: number[];
+  public loadingTechnologies: boolean;
   public loadingPredictions: boolean;
   public loadingDetails: boolean;
   public maxAssociates: number = 1000;
-  
+  public showEmpty: boolean = true;
 
   constructor(private ss: CurriculumService, private as: AssociateService, private bs: BatchService) { }
 
   ngOnInit() {
-    this.getListofCurricula();
     this.techNeeded = [];
     this.results = [];
     this.noBatches = false;
     this.loadingPredictions = false;
     this.loadingDetails = false;
+    this.loadingTechnologies = false;
 
+    this.getListofCurricula();
     this.setInitialDates();
     this.generateDates();
   }
@@ -54,6 +56,9 @@ export class PredictionsComponent implements OnInit {
    * Get a list of curriculum from backend end to generate input fields
    */
   getListofCurricula() {
+    this.message = "";
+    this.loadingTechnologies = true;
+
     this.ss.getAllCurricula().subscribe(
       data => {
         console.log("curricula", data);
@@ -67,8 +72,11 @@ export class PredictionsComponent implements OnInit {
           tempArray.push(localtech);
         }
         this.technologies = tempArray;
+        this.loadingTechnologies = false;
       },
       err => {
+        this.message = "Server error when loading technologies."
+        this.loadingTechnologies = false;
       }
     );
   }

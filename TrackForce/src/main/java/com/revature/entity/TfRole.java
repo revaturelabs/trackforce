@@ -24,7 +24,8 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 @XmlRootElement
 @Entity
 @Table(name = "TF_ROLE", schema = "ADMIN")
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfRole implements java.io.Serializable {
 
 	private static final long serialVersionUID = 2827764589977541041L;

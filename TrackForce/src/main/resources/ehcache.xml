@@ -9,6 +9,15 @@
     diskPersistent="false"
     diskExpiryThreadIntervalSeconds="120"
     memoryStoreEvictionPolicy="LRU"/>
+    
+    <!-- Logans attempt at getting ehcache working below -->
+    <cache name="TrackForce"
+    eternal="false"
+    timeToIdleSeconds="30"
+    timeToLiveSeconds="30"
+    maxEntriesLocalHeap="10000">
+    </cache>
+    
 </ehcache>
 
 <!-- 

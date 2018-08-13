@@ -27,7 +27,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 @Table(name = "TF_CURRICULUM", schema = "ADMIN")
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//Logans attempt at getting ehcache working below
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfCurriculum implements java.io.Serializable {
 
 	private static final long serialVersionUID = 8213885869880424792L;

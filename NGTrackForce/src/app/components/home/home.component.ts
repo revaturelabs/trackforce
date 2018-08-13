@@ -100,7 +100,6 @@ export class HomeComponent implements OnInit {
       associates => {
         this.associates = associates;
         this.loading = false;
-        console.log(this.associates)
         this.setChart();
       }
     )

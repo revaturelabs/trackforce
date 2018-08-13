@@ -136,7 +136,6 @@ export class MyInterviewComponent implements OnInit {
   }
 
   updateInterview(interview: Interview) {
-    console.log(interview);
     interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
     interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
     interview.dateSalesIssued = new Date(

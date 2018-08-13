@@ -50,7 +50,6 @@ export class CreateUserComponent implements OnInit {
     } else {
       this.newUser = new User(this.username, this.password, this.roleId, 1);
       // this.userService.createUser(this.username, this.password, this.roleId).subscribe(
-        console.log(this.newUser);
       this.userService.createUser(this.newUser, this.loggedIn.role).subscribe(
         data => {
           this.sucMsg = 'User created successfully';
@@ -68,7 +67,6 @@ export class CreateUserComponent implements OnInit {
       this.displayErrorUsername = false;
       this.userService.checkUniqueUsername(this.username).subscribe(
           data => {
-              console.log(data);
               if (data["result"] == 'false') this.displayErrorUsername = true; //if 'false', then username is NOT unique.
           }, err => {
               console.log("Error, see next line: ");

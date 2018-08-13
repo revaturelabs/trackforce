@@ -92,7 +92,6 @@ export class BatchListComponent implements OnInit {
       this.dataReady = false;
 
       this.startDate.setMonth(-7);
-      console.log(this.startDate.toJSON().substring(0,10));
 
       this.stringStart = this.startDate.toJSON().substring(0, 10);
       this.stringEnd = this.endDate.toJSON().substring(0, 10);

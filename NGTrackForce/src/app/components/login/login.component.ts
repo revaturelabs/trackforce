@@ -26,6 +26,12 @@ const BATCHES_TRAINER_KEY = 'currentBatchesTrainer';
 const BATCHES_COTRAINER_KEY = 'currentBatchesCotrainer';
 const BATCHES_KEY = 'currentBatches';
 const CLIENTS_KEY = 'currentClients';
+
+/* 
+  PROBLEM
+  should be admin/sales/staging_key
+  SHOULDNT load all associates as soon as one of those roles logs in
+*/
 const ASSOCIATES_KEY = 'currentAssociates';
 
 
@@ -323,6 +329,11 @@ export class LoginComponent implements OnInit {
     this.trainerService.getTrainer(user.id).subscribe(
       data => {
         localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
+
+        /* =========================================================
+          PROBLEM
+          shouldnt load every associate as soon as a trainer logs in
+        */
         this.associateService.getAllAssociates().subscribe(
           datum => {
             localStorage.setItem('currentAssociates', JSON.stringify(datum));
@@ -345,7 +356,7 @@ export class LoginComponent implements OnInit {
   salesOrStagingLogin() {
     this.associateService.getAllAssociates().subscribe(
       data => {
-        localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
+        // localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
         this.router.navigate(['app-home']);
       },
       err => {

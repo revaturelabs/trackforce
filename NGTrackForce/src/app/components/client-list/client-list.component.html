@@ -3,19 +3,21 @@
     <!-- Clients List column -->
     <div class="col-md-3">
       <div class="form-group">
-        <input type="text" [(ngModel)]="searchName" (keyup)="getAllClients()" class="form-control" id="clientSearch" placeholder="Search by client name...">
+        <input type="text" [(ngModel)]="searchName" class="form-control" id="clientSearch" placeholder="Search by client name...">
       </div>
       <h3>Clients</h3>
       <button (click)="initChartData()" class="btn btn-primary">View Data for All Clients</button>
       <div id="clients-list-well" class="well">
-        <!-- <input type="checkbox" [checked]="showNoData" name="showNoData">
-        <label for="showNoData">Show Clients With No Associates</label> -->
-        <ul id="clients-list">
+        <!-- <input type="checkbox" (click)=getMappedClients()>Show Clients with Mapped Associates -->
+        <ul *ngIf=!loading id="clients-list">
           <!-- populate list of company names -->
           <li *ngFor="let clientName of clientNames | searchFilter : searchName" (click)="getOneClient(clientName)">
             <span class="client-name">{{clientName}}</span>
           </li>
         </ul>
+        <div *ngIf=loading>
+          <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
+        </div>
       </div>
     </div>
     <!-- end of Client List Column -->
@@ -36,5 +38,3 @@
     <!-- end of col-md-9 -->
   </div>
 </div>
-
-

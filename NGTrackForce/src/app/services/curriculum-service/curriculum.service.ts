@@ -32,5 +32,4 @@ export class CurriculumService {
       'TrackForce/skillset/unmapped/' + statusID);
   }
 
-
 }

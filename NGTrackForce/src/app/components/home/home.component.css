@@ -2,3 +2,12 @@
 	background-color: white;
 	margin: 10px 0;
 }
+.center-div
+{
+  margin: 0 auto;
+  width: 100px;
+}
+
+img{
+	padding: 20px;
+}

@@ -15,6 +15,9 @@
           </tr>
         </thead>
         <tbody>
+          <div class="center-div" *ngIf="!dataReady">
+            <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
+          </div>
           <ng-container *ngIf="dataReady">
             <tr *ngFor="let batch of batches" class="max-width">
               <td class="name-column">
@@ -50,6 +53,9 @@
           <input type="submit" class="btn btn-danger" value="Reset" (click)="resetToDefaultBatches()" />
         </div>
       </form>
+      <div class="center-div" *ngIf="!dataReady">
+        <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
+      </div>
       <ng-container *ngIf="dataReady && !dataEmpty">
         <canvas baseChart id="pie" class="chart chart-pie" [data]="curriculumCounts" [labels]="curriculumNames" [chartType]="pieChartType"
           [colors]="batchColors" [options]="chartOptions">

@@ -53,3 +53,11 @@ input[name='24hournotice']{
 #add-interview{
   margin-left: 215px;
 }
+.center-div
+{
+  margin: 0 auto;
+  width: 100px;
+}
+img{
+  padding: 20px;
+}

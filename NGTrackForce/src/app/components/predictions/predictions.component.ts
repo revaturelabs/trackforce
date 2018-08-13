@@ -42,6 +42,8 @@ export class PredictionsComponent implements OnInit {
     this.techNeeded = [];
     this.results = [];
     this.noBatches = false;
+    this.loadingPredictions = false;
+    this.loadingDetails = false;
 
     this.setInitialDates();
     this.generateDates();
@@ -120,7 +122,8 @@ export class PredictionsComponent implements OnInit {
    * @param isUpdate true if part of single fetch; false when part of a batch
    */
   getPrediction(techIndex: number, isUpdate: boolean) {
-
+    if(this.results.length == 0)
+      this.loadingPredictions = true;
     this.detailsReady = false;
     this.noBatches = false;
 
@@ -143,6 +146,7 @@ export class PredictionsComponent implements OnInit {
                   available: data["associateCount"]
                 });
         this.results.sort((o1,o2) => o1['technologyIndex'] - o2['technologyIndex'])
+        this.loadingPredictions = false;
       },
 
       err => err
@@ -163,7 +167,9 @@ export class PredictionsComponent implements OnInit {
     let endTime = new Date(this.endDate);
     
     this.detailsReady = false;
+    this.loadingDetails = true;
     this.noBatches = false;
+
 
     this.selectedBatch = tech;
     /*
@@ -176,6 +182,7 @@ export class PredictionsComponent implements OnInit {
       data => {
         this.batches = data;
         this.detailsReady = true;
+        this.loadingDetails = false;
         if(this.batches['courseBatches'].length == 0){
           this.noBatches = true;
         }

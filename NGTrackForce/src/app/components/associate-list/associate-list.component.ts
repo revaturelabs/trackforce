@@ -91,7 +91,6 @@ export class AssociateListComponent implements OnInit {
    * Set our array of all associates
    */
   getAllAssociates() {
-
     this.associateService.getAllAssociates().subscribe(
       data => {
         this.associates = data;
@@ -129,12 +128,10 @@ export class AssociateListComponent implements OnInit {
       const check = <HTMLInputElement>document.getElementById("" + a.id);
       if (check != null && check.checked) {
         ids.push(a.id);
-
         // This line USED to be used to automatically approve an account.
         // Logan commented this out 08/09/2018 to check how this functionality should be implemented. 
         //a.user.isApproved = 1;
         associateList.push(a);
-
       }
     }
 

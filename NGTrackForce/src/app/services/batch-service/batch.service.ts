@@ -45,8 +45,23 @@ export class BatchService {
     return this.http.get<Associate[]>(url);
   }
 
+  /*
+    1806_Andrew_H
+    This method sends a start and end date along with the coursename I.E. Java,PEGA.
+    A Json object array is received and returned
+    See 1806 iteration 6 - Team 4 Predictions - Request Response Doc - #1
+  */
+  public getBatchDetails(startDate: Date, endDate: Date, CourseName: string):Observable<Object>{
+    const url = this.baseURL + 
+            `/details?start=${startDate.getTime()}&end=${endDate.getTime()}&courseName=${CourseName}`;
+            console.log(startDate.getTime());
+    return this.http.get<Object>(url);
+  }
 
-
+  public getAssociateCountByCurriculum(startDate: Date, endDate: Date, CourseName: string): Observable<Object>{
+    return this.http.get<Object>(this.baseURL + 
+      `/countby?start=${startDate.getTime()}&end=${endDate.getTime()}&courseName=${CourseName}`);
+  }
 
   // // ============================================================================
   // // Not in the batch resource

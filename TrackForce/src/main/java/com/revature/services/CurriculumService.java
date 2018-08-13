@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.revature.criteria.GraphedCriteriaResult;
@@ -46,4 +47,9 @@ public class CurriculumService{
 	public List<GraphedCriteriaResult> getUnmappedInfo(int statusId) {
 		return dao.getUnmapped(statusId);
 	}
+
+//	public List<GraphedCriteriaResult> getAssociateCountByCurriculum(Timestamp timestamp, Timestamp timestamp2) {
+//
+//		return dao.getAssociateCountByCurriculum(timestamp, timestamp2);
+//	}
 }

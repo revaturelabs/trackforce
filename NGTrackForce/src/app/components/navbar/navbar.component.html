@@ -5,6 +5,18 @@
         <img src="../../../assets/logo.png" height="52" width="152" alt="Revature Logo">
       </a>
     </div>
+
+    <ul *ngIf='isLoggedIn' class="nav navbar-nav navbar-right navbar-expand-lg">
+      <li>
+        <span>Welcome, {{username}}</span>
+      </li>
+      <li>
+        <button type="button" class="btn btn-danger"(click)="logout()">Logout</button>
+      </li>
+
+      
+    </ul>
+
     <ul *ngIf='isAssociate' class="nav navbar-nav">
       <li>
         <a [routerLink]="['/associate-view']" routerLinkActive="active">Home</a>
@@ -50,14 +62,6 @@
       </li>
     </ul>
 
-    <ul *ngIf='isLoggedIn' class="nav navbar-nav navbar-right visible-lg">
-      <li>
-        <a (click)="logout()">Logout</a>
-      </li>
-
-      <li>
-        <a>Welcome, {{username}}</a>
-      </li>
-    </ul>
+    
   </div>
 </nav>

@@ -270,7 +270,13 @@
 			<artifactId>hibernate-c3p0</artifactId>
 			<version>5.2.12.Final</version>
 		</dependency>
-
+		
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180130</version>
+		</dependency>
 
 	</dependencies>
 

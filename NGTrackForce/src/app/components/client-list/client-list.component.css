@@ -28,7 +28,11 @@ ul{
 .center-div
 {
   margin: 0 auto;
-  width: 200px;
+  width: 100px;
+}
+
+img{
+	padding: 20px;
 }
 
 .client-name{

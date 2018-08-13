@@ -1,9 +1,6 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6">
-      <div class="center-div" *ngIf="!isDataReady">
-        <img src="./../../../assets/loadingcircle.gif" height="200" width="200">
-      </div>
       <h3 class="data-status" *ngIf="isDataReady && isDataEmpty">
         No Associates Found
       </h3>
@@ -23,19 +20,16 @@
             <th>Client</th>
           </tr>
         </thead>
-        <div class="center-div" *ngIf="!isDataReady">
-            <img src="./../../../assets/loadingcircle.gif" height="200" width="200">
-        </div>
         <tbody>
           <ng-container *ngIf="associates">
             <tr *ngFor="let associate of associates | orderBy:'id'">
               <td>
                 <a [routerLink]="" (click)="goToFormComponent(associate.id)">{{associate.id}}</a>
               </td>
-              <td>{{associate.firstName}}</td>
-              <td>{{associate.lastName}}</td>
-              <td>{{associate.marketingStatus.name}}</td>
-              <td>{{associate.client.name}}</td>
+              <td><span *ngIf="associate && associate.firstName">{{associate.firstName}}</span></td>
+              <td><span *ngIf="associate && associate.lastName">{{associate.lastName}}</span></td>
+              <td><span *ngIf="associate && associate.marketingStatus && associate.marketingStatus.name">{{associate.marketingStatus.name}}</span></td>
+              <td><span *ngIf="associate && associate.client && associate.client.name">{{associate.client.name}}</span></td>
             </tr>
           </ng-container>
         </tbody>

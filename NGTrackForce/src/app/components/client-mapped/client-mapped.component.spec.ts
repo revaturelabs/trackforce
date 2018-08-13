@@ -18,6 +18,23 @@ import {AssociateService} from "../../services/associate-service/associate.servi
 import { Associate } from '../../models/associate.model';
 import { HttpClient } from '../../../../node_modules/@angular/common/http';
 
+export class mockClientMappedComponent extends ClientMappedComponent {
+  public getAssociatesByStatus(statusId: number) {
+    let name1: number = 1;
+    let name2: number = 2;
+    let name3: number = 3;
+
+    let string1: String = "Lucy";
+    let string2: String = "Bucey";
+    let string3: String = "Fucey";
+
+    let names: number[] = [name1, name2, name3];
+    let names2: String[] = [string1, string2, string3];
+    this.clientMappedData = names;
+    this.clientMappedLabels = names2;
+  }
+}
+
 describe('ClientMappedComponent', () => {
   let component: ClientMappedComponent;
   let fixture: ComponentFixture<ClientMappedComponent>;
@@ -47,6 +64,8 @@ describe('ClientMappedComponent', () => {
     let associate3: Associate = new Associate('first3','last3',user);
 
     let associates: Associate[] = [associate1, associate2, associate3];
+
+
     
     // Mock the AssociateService
     // Note: this used to be "Mock the Client Service" with the same method.
@@ -58,6 +77,7 @@ describe('ClientMappedComponent', () => {
     
     spyOn(testAuthService, 'getUser').and.returnValue(user);
     spyOn(testAssociateService, 'getAllAssociates').and.returnValue(Observable.of(associates));
+
   });
 
   beforeEach(async(() => {
@@ -65,7 +85,8 @@ describe('ClientMappedComponent', () => {
       declarations: [
         ClientMappedComponent,
         NavbarComponent,
-        HomeComponent
+        HomeComponent,
+        mockClientMappedComponent
       ],
       imports: [
         ChartsModule,
@@ -112,7 +133,7 @@ describe('ClientMappedComponent', () => {
         spyOn(localStorage,'removeItem').and.callFake(mockLocalStorage.removeItem);
         spyOn(localStorage, 'clear').and.callFake(mockLocalStorage.clear);
 
-        fixture = TestBed.createComponent(ClientMappedComponent);
+        fixture = TestBed.createComponent(mockClientMappedComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
   });

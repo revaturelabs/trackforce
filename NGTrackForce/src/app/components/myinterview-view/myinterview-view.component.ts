@@ -45,6 +45,7 @@ export class MyInterviewComponent implements OnInit {
   public openDateNotified: boolean;
   public openInterviewDate: boolean;
   public conflictingInterview: boolean;
+  public isDataReady: boolean = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -69,6 +70,7 @@ export class MyInterviewComponent implements OnInit {
       data => {
         this.associate = data;
         this.getAssociateInterviews(this.associate.id);
+        this.isDataReady = true;
       },
       error => {
         console.log('error');

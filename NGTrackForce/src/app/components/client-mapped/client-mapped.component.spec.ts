@@ -24,12 +24,12 @@ export class mockClientMappedComponent extends ClientMappedComponent {
     let name2: number = 2;
     let name3: number = 3;
 
-    let string1: String = "Lucy";
-    let string2: String = "Bucey";
-    let string3: String = "Fucey";
+    let string1: string = "Lucy";
+    let string2: string = "Bucey";
+    let string3: string = "Fucey";
 
     let names: number[] = [name1, name2, name3];
-    let names2: String[] = [string1, string2, string3];
+    let names2: string[] = [string1, string2, string3];
     this.clientMappedData = names;
     this.clientMappedLabels = names2;
   }
@@ -66,7 +66,7 @@ describe('ClientMappedComponent', () => {
     let associates: Associate[] = [associate1, associate2, associate3];
 
 
-    
+
     // Mock the AssociateService
     // Note: this used to be "Mock the Client Service" with the same method.
     // That was spitting up errors because getAssociatesByStatus wasn't in Client Service,
@@ -74,7 +74,7 @@ describe('ClientMappedComponent', () => {
     // spyOn(testAssociateService, 'getAssociatesByStatus').and.returnValue(Observable.of([client1, client2, client3]));
 
     // Mock the Authentication Service
-    
+
     spyOn(testAuthService, 'getUser').and.returnValue(user);
     spyOn(testAssociateService, 'getAllAssociates').and.returnValue(Observable.of(associates));
 
@@ -104,7 +104,7 @@ describe('ClientMappedComponent', () => {
       ]
     });
 
-    httpMock = TestBed.get(HttpTestingController);    
+    httpMock = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {
@@ -115,7 +115,7 @@ describe('ClientMappedComponent', () => {
           getItem: (key: string): string => {
             return key in store ? store[key] : null;
           },
-          setItem: (key: string, value: String) => {
+          setItem: (key: string, value: string) => {
             store[key] = `${value}`;
           },
           removeItem: (key: string) => {
@@ -125,9 +125,9 @@ describe('ClientMappedComponent', () => {
             store = {};
           }
         };
-    
+
         mockLocalStorage.setItem('mappedData',JSON.stringify([1,2,3,4]));
-        
+
         spyOn(localStorage, 'getItem').and.callFake(mockLocalStorage.getItem);
         spyOn(localStorage, 'setItem').and.callFake(mockLocalStorage.setItem);
         spyOn(localStorage,'removeItem').and.callFake(mockLocalStorage.removeItem);

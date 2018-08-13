@@ -28,7 +28,7 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     browserNoActivityTimeout: 60000,
     autoWatch: true,
-    browsers: ['Chrome'],   //'PhantomJS',
+    browsers: ['PhantomJS', 'Chrome'],   //'Chrome',
     // singleRun is true so it'll work on the pipeline, please don't change it <3
     singleRun: true    //TODO: change this back to true before deploying.
   });

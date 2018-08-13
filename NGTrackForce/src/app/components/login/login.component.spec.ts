@@ -27,6 +27,13 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
 
+  let routes = [
+      {
+          path: 'login',
+          component: LoginComponent
+      }
+  ]
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -36,7 +43,7 @@ describe('LoginComponent', () => {
       ],
       providers: [
         AuthenticationService,
-        RequestService, 
+        RequestService,
         AssociateService,
         UserService,
         InterviewService,
@@ -47,8 +54,8 @@ describe('LoginComponent', () => {
       imports: [
         FormsModule,
         HttpClientTestingModule,
-        RouterTestingModule,
-        ChartsModule, 
+        RouterTestingModule.withRoutes(routes),
+        ChartsModule,
         BrowserAnimationsModule
       ],
       schemas: [

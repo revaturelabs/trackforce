@@ -25,7 +25,7 @@
         
         
 
-        <property name="hibernate.enable_lazy_load_no_trans">true</property>
+        <!--  <property name="hibernate.enable_lazy_load_no_trans">true</property>-->
         
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>

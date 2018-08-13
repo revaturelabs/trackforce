@@ -267,7 +267,6 @@ export class LoginComponent implements OnInit {
               this.trainerLogin(data);
             } else if (data.role === 1 || data.role === 3 || data.role === 4) {
               this.salesOrStagingLogin();
-              // this.router.navigate(['app-home']);
             } else {
               this.authService.logout();
             }
@@ -329,17 +328,6 @@ export class LoginComponent implements OnInit {
     this.trainerService.getTrainer(user.id).subscribe(
       data => {
         localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
-
-        /* =========================================================
-          PROBLEM
-          shouldnt load every associate as soon as a trainer logs in
-        */
-        this.associateService.getAllAssociates().subscribe(
-          datum => {
-            localStorage.setItem('currentAssociates', JSON.stringify(datum));
-            this.router.navigate(['trainer-view']);
-          }
-        );
       },
       err => {
         if (err.status === 500) {
@@ -353,22 +341,10 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  // Logan removed the getAllAssociates from here.
+  // It was running twice, causing initial login for admin/sales/staging to be suuuuuuuper slow
   salesOrStagingLogin() {
-    this.associateService.getAllAssociates().subscribe(
-      data => {
-        // localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
-        this.router.navigate(['app-home']);
-      },
-      err => {
-        if (err.status === 500) {
-          this.router.navigate(['ServerError']);
-          return;
-        } else {
-          this.router.navigate(['Error']);
-          return;
-        }
-      }
-    );
+    this.router.navigate(['app-home']);
   }
 
 }

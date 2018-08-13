@@ -23,7 +23,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 @Table(name = "TF_BATCH", schema = "ADMIN")
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//Logans attempt at getting ehcache working below
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 
 

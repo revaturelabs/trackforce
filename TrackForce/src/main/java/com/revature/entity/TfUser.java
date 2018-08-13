@@ -18,7 +18,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 		schema="ADMIN"
 //		uniqueConstraints= @UniqueConstraint(columnNames= {"TF_USERNAME"})
 )
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfUser implements java.io.Serializable {
 
     private static final long serialVersionUID = 706405344864879997L;

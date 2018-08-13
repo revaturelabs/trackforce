@@ -25,7 +25,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @XmlRootElement
 @Entity
 @Table(name = "TF_PLACEMENT", schema = "ADMIN")
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfPlacement implements java.io.Serializable {
 
 	private static final long serialVersionUID = 6812378121809201089L;

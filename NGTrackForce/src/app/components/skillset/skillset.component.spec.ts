@@ -119,9 +119,9 @@ describe('SkillsetComponent', () => {
     // })
 
     while(!SkillInfoValue.done) {
-      console.log('value: ' + SkillInfoValue.value);
-      console.log('skillID: ' + component.getSkillID());
-      console.log(parseInt(SkillInfoValue.value) === component.getSkillID());
+      // console.log('value: ' + SkillInfoValue.value);
+      //console.log('skillID: ' + component.getSkillID());
+      //console.log(parseInt(SkillInfoValue.value) === component.getSkillID());
       if (SkillInfoValue.value == component.getSkillID()) {
         idFound = true;
         break;
@@ -173,7 +173,7 @@ describe('SkillsetComponent', () => {
     })
   });
 
-  xit('should have one-to-one relation between skillsetData and skillsetLabels', () => {
+  it('should have one-to-one relation between skillsetData and skillsetLabels', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(component.skillsetData.length).toBeTruthy();

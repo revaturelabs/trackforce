@@ -17,8 +17,7 @@ describe('UndeployedComponent', () => {
           path: '',
           component: UndeployedComponent
       }
-
-]
+  ]
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

@@ -64,7 +64,8 @@ export class AssociateListComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem("currentUser"));
-    if (this.user.role === 1 || this.user.role === 3 ||this.user.role===4) {
+    //EDIT EricS 8/8/18: added 'this.user &&' below to prevent null pointers in Jasmine Test. It would appear that this.user = null during testing.
+    if (this.user && (this.user.role === 1 || this.user.role === 3 ||this.user.role===4)) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
     this.getAllAssociates(); //TODO: change method to not use local storage
@@ -129,7 +130,7 @@ export class AssociateListComponent implements OnInit {
       if (check != null && check.checked) {
         ids.push(a.id);
         // This line USED to be used to automatically approve an account.
-        // Logan commented this out 08/09/2018 to check how this functionality should be implemented. 
+        // Logan commented this out 08/09/2018 to check how this functionality should be implemented.
         //a.user.isApproved = 1;
         associateList.push(a);
       }

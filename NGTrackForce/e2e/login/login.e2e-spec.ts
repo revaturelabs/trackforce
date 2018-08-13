@@ -54,7 +54,7 @@ describe('Confirm login failures', () => {
     page.getUsernameInput().sendKeys('1234');
     page.getPasswordInput().sendKeys('password');
     page.getLoginButton().click();
-    expect(page.getFailedLoginResponse()).toEqual('There was an error on the server');
+    expect(page.getFailedLoginResponse()).toEqual('Invalid username and/or password');
   });
 
 });
@@ -74,6 +74,4 @@ describe('confirm login navigation', () => {
 
     expect(page.getTitle()).not.toEqual('NGTrackForce');
   });
-  
-  
 });

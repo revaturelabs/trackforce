@@ -135,7 +135,7 @@ export class SkillsetComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) {
     // setup SKILL_INFO
-    if (!SkillsetComponent.SKILL_INFO) {
+    if (SkillsetComponent.SKILL_INFO == null) {
       SkillsetComponent.SKILL_INFO = new Map();
       SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.TRAINING, 6);
       SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.OPEN, 7);
@@ -164,9 +164,9 @@ export class SkillsetComponent implements OnInit {
     if (this.skillID === SkillsetComponent.NULL) {
       // we get it from the ActivatedRoute params
       this.skillID = Number(this.route.snapshot.paramMap.get('id'));
-      if (this.skillID < 6) {
-        this.skillID += 6;  // TODO: remove this
-      }
+      //if (this.skillID < 6) {
+      //  this.skillID += 6;  // TODO: remove this
+      //}
       // we now set selectedStatus
       SkillsetComponent.SKILL_INFO.forEach((value, key) => {
         if (value === this.skillID) {

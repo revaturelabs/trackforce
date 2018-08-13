@@ -47,10 +47,10 @@ export class CreateUserComponent implements OnInit {
     //EDIT EricS 8/9/18 Added '!this.password ||' to stop submission if password is null
     if (!this.password || this.password !== this.password2) {
       this.errMsg = 'Passwords do not match!';
-    } else {
+  } else if(this.displayErrorUsername){}  
+    else {
       this.newUser = new User(this.username, this.password, this.roleId, 1);
       // this.userService.createUser(this.username, this.password, this.roleId).subscribe(
-        console.log(this.newUser);
       this.userService.createUser(this.newUser, this.loggedIn.role).subscribe(
         data => {
           this.sucMsg = 'User created successfully';

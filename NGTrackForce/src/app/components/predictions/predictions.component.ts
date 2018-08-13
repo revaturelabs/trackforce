@@ -30,6 +30,7 @@ export class PredictionsComponent implements OnInit {
   public batchNumberAssociates: number[];
   public associates: Associate[];
   public techNeeded: number[];
+  public maxAssociates: number = 1000;
   
 
   constructor(private ss: CurriculumService, private as: AssociateService, private bs: BatchService) { }
@@ -125,7 +126,7 @@ export class PredictionsComponent implements OnInit {
       this.results = this.results.filter(o => o['technologyIndex'] != techIndex);
 
     let techName = this.technologies[techIndex]["name"];
-    if(this.techNeeded[techIndex] == undefined || this.techNeeded[techIndex] <= 0 || this.techNeeded[techIndex] >= 1000)
+    if(this.techNeeded[techIndex] == undefined || this.techNeeded[techIndex] <= 0 || this.techNeeded[techIndex] >= this.maxAssociates)
       return;
 
       console.log("date for count", this.startDate, this.endDate);

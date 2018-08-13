@@ -1,6 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-import { InterviewService } from './interview.service';
+import { TestBed, inject } from '@angular/core/testing';import { InterviewService } from './interview.service';
 // added imports; DK
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 

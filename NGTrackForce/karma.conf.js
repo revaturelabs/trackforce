@@ -28,7 +28,18 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     browserNoActivityTimeout: 60000,
     autoWatch: true,
-    browsers: ['PhantomJS', 'Chrome'],   //'Chrome',
+    customLauncher: {
+     ChromeHeadless: {
+       base: 'Chrome',
+       flags: [
+         '--headless--',
+         '--disable-gpu',
+          '--no-sandbox',
+          '--remote-debugging-port-9222'
+       ]
+     }
+   },
+    browsers: ['ChromeHeadless'],
     // singleRun is true so it'll work on the pipeline, please don't change it <3
     singleRun: true    //TODO: change this back to true before deploying.
   });

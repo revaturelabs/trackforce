@@ -79,35 +79,35 @@
             <td>{{ (interview.client && interview.client.name) ? interview.client.name : ""}}</td>
 
             <td>
-              <div *ngIf='!openDateNotified; else dateEdit2'>
+              <div *ngIf="i !== index">
                 {{ interview.dateAssociateIssued | date:'MM/dd/yyyy, hh:mm a'}}
                 <br>
-                <button class="icon-button" type="button" (click)='showDateNotified()'>
+                <button class="icon-button" type="button" (click)='showDateNotified(i)'>
                   <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
                 </button>
               </div>
-              <ng-template #dateEdit2>
+              <div *ngIf="i === index">
                 <input id="date" #date type="datetime-local" [ngModel]="interview.dateAssociateIssued | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="interview.dateAssociateIssued=$event">
-                <button type="button" (click)='showDateNotified()'>
+                <button type="button" (click)='showDateNotified(-1)'>
                   <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
                 </button>
-              </ng-template>
+              </div>
             </td>
 
             <td>
-              <div *ngIf='!openInterviewDate; else dateEdit' [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'rgba(255,0,0,0.5)':''}">
+              <div *ngIf="i !== index2" [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'rgba(255,0,0,0.5)':''}">
                 {{ interview.interviewDate | date:'MM/dd/yyyy, hh:mm a'}}
                 <br>
-                <button class="icon-button" type="button" (click)='showInterviewDate()'>
+                <button class="icon-button" type="button" (click)='showInterviewDate(i)'>
                   <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
                 </button>
               </div>
-              <ng-template #dateEdit>
+              <div *ngIf="i === index2">
                 <input id="date" #date2 type="datetime-local" [ngModel]="interview.interviewDate | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="interview.interviewDate=$event">
-                <button type="button" (click)='showInterviewDate()'>
+                <button type="button" (click)='showInterviewDate(-1)'>
                   <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
                 </button>
-              </ng-template>
+              </div>
             </td>
 
             <td>{{ (interview.interviewType && interview.interviewType.name) ? interview.interviewType.name : "" }}</td>
@@ -130,7 +130,7 @@
         </tbody>
       </table>
       <div class="center-div" *ngIf="!isDataReady">
-          <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
+        <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
       </div>
     </div>
   </div>

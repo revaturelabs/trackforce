@@ -46,6 +46,8 @@ export class MyInterviewComponent implements OnInit {
   public openInterviewDate: boolean;
   public conflictingInterview: boolean;
   public isDataReady: boolean = false;
+  index;
+  index2;
 
   constructor(
     private authService: AuthenticationService,
@@ -173,22 +175,12 @@ export class MyInterviewComponent implements OnInit {
     return false;
   }
 
-  // THIS METHOD IS REPLACED BY STORING THE ASSOCIATE IN LOCAL STORAGE
-  // getAssociate(id: number) {
-  //   this.associateService.getAssociate(id).subscribe(
-  //     data => {
-  //       this.associate = data;
-  //     },
-  //     err => {
-  //     });
-  // }
-
-  showDateNotified() {
-    this.openDateNotified = !this.openDateNotified;
+  showDateNotified(index) {
+    this.index = index;
   }
 
-  showInterviewDate() {
-    this.openInterviewDate = !this.openInterviewDate;
+  showInterviewDate(index) {
+    this.index2 = index;
   }
 
   getAssociateInterviews(id: number) {

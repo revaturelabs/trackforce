@@ -11,17 +11,23 @@
 
     <div class="col-sm-6">
       <div class="white">
-        <canvas baseChart id="pie" class="chart chart-pie" [data]="getUndeployedData()" [colors]="mappedColors" [chartType]="undeployedChartType"
+        <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getUndeployedData()" [colors]="mappedColors" [chartType]="undeployedChartType"
           [labels]="undeployedLabels" [options]="undeployedOptions" (chartClick)="undeployedOnClick($event)">
         </canvas>
+        <div *ngIf=loading>
+          <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
+        </div>
       </div>
     </div>
 
     <div class="col-sm-6">
       <div class="white">
-        <canvas baseChart id="pie" class="chart chart-pie" [data]="getDeployedData()" [colors]="mappedColors" [chartType]="deployedChartType"
+        <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getDeployedData()" [colors]="mappedColors" [chartType]="deployedChartType"
           [options]="deployedOptions" [labels]="deployedLabels" (chartClick)="deployedOnClick($event)">
         </canvas>
+        <div *ngIf=loading>
+          <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
+        </div>
       </div>
     </div>
 
@@ -31,17 +37,23 @@
 
     <div class="col-sm-6">
       <div class="white">
-        <canvas baseChart id="pie" class="chart chart-pie" [data]="getMappedData()" [labels]="mappedLabels" [chartType]="mappedChartType"
+        <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getMappedData()" [labels]="mappedLabels" [chartType]="mappedChartType"
           [colors]="clientColors" [options]="mappedOptions" (chartClick)="mappedOnClick($event)">
         </canvas>
+        <div *ngIf=loading>
+          <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
+        </div>
       </div>
     </div>
 
     <div class="col-sm-6">
       <div class="white">
-        <canvas baseChart id="pie" class="chart chart-pie" [data]="getUnmappedData()" [labels]="unmappedLabels" [chartType]="unmappedChartType"
+        <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getUnmappedData()" [labels]="unmappedLabels" [chartType]="unmappedChartType"
           [colors]="skillColors" [options]="unmappedOptions" (chartClick)="unmappedOnClick($event)">
         </canvas>
+        <div *ngIf=loading>
+          <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
+        </div>
       </div>
     </div>
 

@@ -32,6 +32,13 @@ public class ClientService {
 		return dao.getAllTfClients();
 	}
 	
+	public List<TfClient> getMappedClients(){
+		return dao.getAllClientsWithMappedAssociates();
+	}
+	
+	public List<TfClient> getAllTfClients(String... columns){
+		return dao.getAllTfClients(columns);
+	}
 	/**
 	 * @author Adam L. 
 	 * <p>Gets a client based on their name</p>

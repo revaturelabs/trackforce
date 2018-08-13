@@ -164,6 +164,8 @@ export class BatchListComponent implements OnInit {
     const startTime = Date.now();
     this.dataReady = false;
     this.counter = 0;
+    this.stringStart = this.startDate.toJSON().substring(0, 10);
+    this.stringEnd = this.endDate.toJSON().substring(0, 10);
     this.batchService.getAllBatches().subscribe(
       (batches) => {
         this.batches = [];

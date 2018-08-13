@@ -30,6 +30,8 @@ export class PredictionsComponent implements OnInit {
   public batchNumberAssociates: number[];
   public associates: Associate[];
   public techNeeded: number[];
+  public loadingPredictions: boolean;
+  public loadingDetails: boolean;
   
 
   constructor(private ss: CurriculumService, private as: AssociateService, private bs: BatchService) { }

@@ -48,7 +48,8 @@
     </div>
 
     <!-- Breakdown of associates available by curriculum/technology -->
-    <div class="col-md-8"  *ngIf="results.length > 0">
+    <div *ngIf="!loadingPredictions" class="col-md-8" ></div>
+    <div *ngIf="results.length > 0 && !loadingPredictions" class="col-md-8">
       <div class="table-div">
         <table class="table table-striped table-hover scrollable-table col-5-table">
           <thead>
@@ -77,14 +78,15 @@
   </div>
 
    <!-- Batch Details: Breakdown of batches available for a single curriculum -->
-  <div class="row" *ngIf="detailsReady">
+  <div class="row" *ngIf="detailsReady || loadingDetails">
       <h3>{{selectedBatch}} Batch Details</h3>
-      <div class="col-md-12">
-        
+      <div *ngIf="loadingDetails" class="col-md-12">
+        <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
+      </div>
+      <div *ngIf="!loadingDetails" class="col-md-12">        
         <div class="alert alert-danger" *ngIf="noBatches">
           No batches are available within the selected time span.
         </div>      
-
         <div class="table-div" *ngIf="!noBatches">
           <table class="table table-striped table-bordered" *ngIf="detailsReady">
             <thead>

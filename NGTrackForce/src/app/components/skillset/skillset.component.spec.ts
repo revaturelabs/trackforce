@@ -62,7 +62,10 @@ describe('SkillsetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SkillsetComponent, HomeComponent, NavbarComponent,
+      declarations: [ 
+        SkillsetComponent,
+        HomeComponent,
+        NavbarComponent,
         FormComponent
       ],
       imports : [
@@ -74,8 +77,8 @@ describe('SkillsetComponent', () => {
       providers : [
         CurriculumService,
         { provide : ActivatedRoute, useValue : {
-          snapshot: {params: {id: '8'},
-                     paramMap: convertToParamMap({id: '8'})}                    
+          snapshot: {params: {id: 6},
+                     paramMap: convertToParamMap({id: 6})}                    
    
         } },
         { provide : Router,         useClass : RouterStub }
@@ -104,11 +107,30 @@ describe('SkillsetComponent', () => {
   it('should have skillID that\'s in the acceptable values', () => {
     component.selectedStatus = SelectedStatusConstants.CONFIRMED;
     // get the values in SkillsetComponent, and search for selectedStatus. It better be in there!
-    let idFound = true;
-    SkillsetComponent.getSkillInfo().forEach((value, key) => {
-      idFound = (value === component.getSkillID())
-    })
-    expect(idFound).toBeTruthy();
+    let SkillInfoIter = SkillsetComponent.getSkillInfo().values();
+    let SkillInfoValue = SkillInfoIter.next();
+    let idFound = false;
+
+    // Nathan: 8/13/2018 SkillID of component.getSkillID()
+    // should be one of the values present in getSkillInfo()
+
+    // SkillsetComponent.getSkillInfo().forEach((value, key) => {
+    //   idFound = (value === component.getSkillID())
+    // })
+
+    while(!SkillInfoValue.done) {
+      console.log('value: ' + SkillInfoValue.value);
+      console.log('skillID: ' + component.getSkillID());
+      console.log(parseInt(SkillInfoValue.value) === component.getSkillID());
+      if (SkillInfoValue.value == component.getSkillID()) {
+        idFound = true;
+        break;
+      }
+    }
+    let id = component.getSkillID();
+    let count = SkillsetComponent.getSkillInfo().size;
+
+    expect(idFound).toBeTruthy();//.toBeTruthy();
   })
 
   it('should redirect to home if out-of-bounds id was received', () => {

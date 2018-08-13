@@ -14,6 +14,7 @@ module.exports = function (config) {
       require('@angular-devkit/build-angular/plugins/karma')
     ],
     client:{
+      captureConsole: true,
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
@@ -29,6 +30,6 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],   //'PhantomJS',
     // singleRun is true so it'll work on the pipeline, please don't change it <3
-    singleRun: false    //TODO: change this back to true before deploying.
+    singleRun: true    //TODO: change this back to true before deploying.
   });
 };

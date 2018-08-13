@@ -30,16 +30,23 @@ export class PredictionsComponent implements OnInit {
   public batchNumberAssociates: number[];
   public associates: Associate[];
   public techNeeded: number[];
-  
+  public loadingTechnologies: boolean;
+  public loadingPredictions: boolean;
+  public loadingDetails: boolean;
+  public maxAssociates: number = 1000;
+  public showEmpty: boolean = true;
 
   constructor(private ss: CurriculumService, private as: AssociateService, private bs: BatchService) { }
 
   ngOnInit() {
-    this.getListofCurricula();
     this.techNeeded = [];
     this.results = [];
     this.noBatches = false;
+    this.loadingPredictions = false;
+    this.loadingDetails = false;
+    this.loadingTechnologies = false;
 
+    this.getListofCurricula();
     this.setInitialDates();
     this.generateDates();
   }
@@ -49,6 +56,9 @@ export class PredictionsComponent implements OnInit {
    * Get a list of curriculum from backend end to generate input fields
    */
   getListofCurricula() {
+    this.message = "";
+    this.loadingTechnologies = true;
+
     this.ss.getAllCurricula().subscribe(
       data => {
         console.log("curricula", data);
@@ -62,8 +72,11 @@ export class PredictionsComponent implements OnInit {
           tempArray.push(localtech);
         }
         this.technologies = tempArray;
+        this.loadingTechnologies = false;
       },
       err => {
+        this.message = "Server error when loading technologies."
+        this.loadingTechnologies = false;
       }
     );
   }
@@ -117,7 +130,8 @@ export class PredictionsComponent implements OnInit {
    * @param isUpdate true if part of single fetch; false when part of a batch
    */
   getPrediction(techIndex: number, isUpdate: boolean) {
-
+    if(this.results.length == 0)
+      this.loadingPredictions = true;
     this.detailsReady = false;
     this.noBatches = false;
 
@@ -125,7 +139,7 @@ export class PredictionsComponent implements OnInit {
       this.results = this.results.filter(o => o['technologyIndex'] != techIndex);
 
     let techName = this.technologies[techIndex]["name"];
-    if(this.techNeeded[techIndex] == undefined || this.techNeeded[techIndex] <= 0)
+    if(this.techNeeded[techIndex] == undefined || this.techNeeded[techIndex] <= 0 || this.techNeeded[techIndex] >= this.maxAssociates)
       return;
 
       console.log("date for count", this.startDate, this.endDate);
@@ -140,6 +154,7 @@ export class PredictionsComponent implements OnInit {
                   available: data["associateCount"]
                 });
         this.results.sort((o1,o2) => o1['technologyIndex'] - o2['technologyIndex'])
+        this.loadingPredictions = false;
       },
 
       err => err
@@ -160,7 +175,9 @@ export class PredictionsComponent implements OnInit {
     let endTime = new Date(this.endDate);
     
     this.detailsReady = false;
+    this.loadingDetails = true;
     this.noBatches = false;
+
 
     this.selectedBatch = tech;
     /*
@@ -173,6 +190,7 @@ export class PredictionsComponent implements OnInit {
       data => {
         this.batches = data;
         this.detailsReady = true;
+        this.loadingDetails = false;
         if(this.batches['courseBatches'].length == 0){
           this.noBatches = true;
         }

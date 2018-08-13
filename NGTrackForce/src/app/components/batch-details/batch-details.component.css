@@ -6,6 +6,12 @@ canvas {
   text-align: center;
 }
 
+.center-div
+{
+     margin: 0 auto;
+     width: 200px; 
+}
+
 @media screen and (max-width: 1000px) {
   table {
     width: 100% !important;

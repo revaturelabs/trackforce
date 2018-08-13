@@ -1,15 +1,15 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6">
-      <canvas *ngIf="isDataReady && !isDataEmpty" baseChart id="bar" [chartType]="chartType" [datasets]="dataSets" [labels]="statusNames"
-        [options]="options" [colors]="mappedColors">
-      </canvas>
+      <div class="center-div" *ngIf="!isDataReady">
+        <img src="./../../../assets/loadingcircle.gif" height="200" width="200">
+      </div>
       <h3 class="data-status" *ngIf="isDataReady && isDataEmpty">
         No Associates Found
       </h3>
-      <h3 class="data-status" *ngIf="!isDataReady">
-        Loading ...
-      </h3>
+      <canvas *ngIf="isDataReady && !isDataEmpty" baseChart id="bar" [chartType]="chartType" [datasets]="dataSets" [labels]="statusNames"
+        [options]="options" [colors]="mappedColors">
+      </canvas>
     </div>
     <div class="col-md-6">
       <h3>Associates</h3>
@@ -23,6 +23,9 @@
             <th>Client</th>
           </tr>
         </thead>
+        <div class="center-div" *ngIf="!isDataReady">
+            <img src="./../../../assets/loadingcircle.gif" height="200" width="200">
+        </div>
         <tbody>
           <ng-container *ngIf="associates">
             <tr *ngFor="let associate of associates | orderBy:'id'">

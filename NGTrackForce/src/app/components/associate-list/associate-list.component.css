@@ -42,6 +42,12 @@ thead {
   width: 19%;
 }
 
+.center-div
+{
+  margin: 0 auto;
+  width: 200px;
+}
+
 .verificationStatus {
   /* width: 20px; */
   width: 16%;

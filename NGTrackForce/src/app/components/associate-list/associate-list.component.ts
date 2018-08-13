@@ -25,6 +25,7 @@ export class AssociateListComponent implements OnInit {
   public associates: Associate[];
   public clients: Client[];
   curriculums: Set<string>; //stored unique curriculums
+  public isDataReady: boolean = false;
 
   //used for filtering
   searchByStatus = "";
@@ -104,6 +105,7 @@ export class AssociateListComponent implements OnInit {
         }
         this.curriculums.delete("");
         this.curriculums.delete("null");
+        this.isDataReady = true;
       }
     );
   }

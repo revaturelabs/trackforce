@@ -25,6 +25,12 @@ ul{
 	list-style-type: none;
 }
 
+.center-div
+{
+  margin: 0 auto;
+  width: 200px;
+}
+
 .client-name{
 	color: #757575;
 }

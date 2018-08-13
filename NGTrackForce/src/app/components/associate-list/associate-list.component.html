@@ -64,7 +64,7 @@
             <th class="batch">Batch Name</th>
             <th class="verificationStatus">Verification Status</th>
           </tr>
-        </thead>
+        </thead>        
         <tbody>
           <tr *ngFor="let associate of associates | filterByText : searchByText | pipeByStatus: searchByStatus | pipeByClient: searchByClient">
             <td class="edit" *ngIf="associate.id">
@@ -84,6 +84,9 @@
           </tr>
         </tbody>
       </table>
+      <div class="center-div" *ngIf="!isDataReady">
+          <img src="./../../../assets/loadingcircle.gif" height="200" width="200">
+      </div>
     </div>
   </div>
   <br>

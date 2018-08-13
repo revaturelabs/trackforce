@@ -52,6 +52,12 @@ form > div:first-child {
 .date-column {
   width: 25%;
 }
+.center-div
+{
+     margin: 0 auto;
+     width: 200px; 
+}
+
 
 @media screen and (max-width: 1000px) {
   form > div:first-child {

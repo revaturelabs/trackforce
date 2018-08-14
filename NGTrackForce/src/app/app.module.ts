@@ -56,6 +56,7 @@ import { AssociateSearchByClientPipe } from './pipes/associate-search-by-client-
 //  SECURITY
 ///
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { InvalidSessionRerouteInterceptor } from './interceptors/invalidSessionReroute.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 
 ///
@@ -68,6 +69,7 @@ import { TrainerViewComponent } from './components/trainer-view/trainer-view.com
 import { TrainerService } from './services/trainer-service/trainer.service';
 import { DeployedComponent } from './components/deployed/deployed.component';
 import { UndeployedComponent } from './components/undeployed/undeployed.component';
+
 
 @NgModule({
   declarations: [
@@ -122,11 +124,9 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     InterviewService,
     AuthGuard,
     TrainerService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      multi: true
-    }],
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: InvalidSessionRerouteInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -48,7 +48,7 @@ const ASSOCIATES_KEY = 'currentAssociates';
         ]),
         transition(':leave', [
           style({opacity: 1}),
-          animate('500ms', style({opacity: 0}))
+          animate('0ms', style({opacity: 0}))
         ])
       ]
     )
@@ -267,10 +267,15 @@ export class LoginComponent implements OnInit {
     if (this.username && this.password) {
       this.authService.login(this.username, this.password).subscribe(
         data => {
+
           localStorage.setItem(USER_KEY, JSON.stringify(data));
-          //navigate to appropriate page if return is valid
+
+          if(data == null){
+            this.resetAfterLoginFail();
+            this.errMsg = "Invalid username and/or password";
+          } else if (data.isApproved) {
+            //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
-          if (data.isApproved) {
             if (data.role === 5) {
               this.associateLogin(data);
             } else if (data.role === 2) {
@@ -278,21 +283,18 @@ export class LoginComponent implements OnInit {
             } else if (data.role === 1 || data.role === 3 || data.role === 4) {
               this.salesOrStagingLogin();
             } else {
-              this.authService.logout();
+              this.resetAfterLoginFail();
             }
           } else {
-            this.authService.logout();
+            this.resetAfterLoginFail();
             this.errMsg = "Your account has not been approved.";
           }
         },
         err => {
-          this.authService.logout();
+          this.resetAfterLoginFail();
+
           if (err.status === 500) {
             this.errMsg = "There was an error on the server";
-          }
-          else if (err.status === 401) {
-            this.errMsg = "Invalid username and/or password";
-
           }
           else if (err.status === 403) {
             this.errMsg = "Account not verified";
@@ -305,6 +307,12 @@ export class LoginComponent implements OnInit {
     } else {
       this.errMsg = "Please enter a username and password";
     }
+  }
+
+  resetAfterLoginFail(){
+    this.isLoggingIn = false;
+    this.loginClicked = false;
+    this.authService.logout();
   }
 
   /**

@@ -27,6 +27,14 @@ export class AssociateService {
   }
 
   /**
+   * get the count of the associates to display in the pie charts on the home page
+   */
+  getCountAssociates(): Observable<number[]> {
+    const url: string = this.baseURL + '/countAssociates';
+    return this.http.get<number[]>(url);
+  }
+
+  /**
    *
    * Get specific associate by user id
    * @param id - the user id of the user object of an associate to retrieve

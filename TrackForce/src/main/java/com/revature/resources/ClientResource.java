@@ -81,7 +81,7 @@ public class ClientResource {
 		else {
 			status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
-
+		
 		return Response.status(status).entity(clients).build();
 	}
 
@@ -99,6 +99,12 @@ public class ClientResource {
 	@Path("/mapped/get/")
 	public Response getMappedClients() {
 		return Response.status(200).entity(clientService.getMappedClients()).build();
+	}
+	
+	@GET
+	@Path("/50/")
+	public Response getFirstFiftyClients() {
+		return Response.status(200).entity(clientService.getFirstFiftyClients()).build();
 	}
 	
 	

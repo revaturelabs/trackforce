@@ -120,7 +120,6 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     BatchService,
     UserService,
     CurriculumService,
-    // DataSyncService,
     InterviewService,
     AuthGuard,
     TrainerService,

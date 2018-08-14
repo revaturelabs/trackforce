@@ -114,6 +114,7 @@ export class LoginComponent implements OnInit {
    *
    */
   ngOnInit() {
+    //TODO validate token with backend
     const user = this.authService.getUser();
     if (user != null) {
       if (user.role === 5) {
@@ -309,6 +310,9 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  /**
+   * Resets loading bools for ngif and performs logout action
+   */
   resetAfterLoginFail(){
     this.isLoggingIn = false;
     this.loginClicked = false;

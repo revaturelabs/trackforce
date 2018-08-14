@@ -82,7 +82,10 @@ export const appRoutes: Routes = [
   {
     path: 'create-user',
     canActivate: [AuthGuard],
-    component: CreateUserComponent
+    component: CreateUserComponent,
+    data: {
+      expectedRoles: [1,2,3,4]
+    }
   },
   {
     path: 'app-home',

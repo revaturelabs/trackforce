@@ -17,7 +17,8 @@ export class AuthGuard implements CanActivate {
 	 *  when they log in, should be redirected to. 
 	 */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        // if there is a user already logged in, this can activate
+        
+        // not logged in so redirect to login page with the return url
         if (!localStorage.getItem("currentUser")) {
             this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }}); 
             return false;
@@ -25,8 +26,7 @@ export class AuthGuard implements CanActivate {
 
         const expectedRoles: number[] = route.data.expectedRoles;
 
-        console.log("expectedRole", expectedRoles);
-
+        // check of component is restricted by role
         if(expectedRoles != undefined){
             const user = this.authService.getUser();
             if(!expectedRoles.includes(user.role)){
@@ -35,11 +35,13 @@ export class AuthGuard implements CanActivate {
             }
         }
 
-        // not logged in so redirect to login page with the return url
-        
         return true;
     }
  
+    /**
+     * Routes to home page of given user role.
+     * @param role user role held in local storage 
+     */
     routeToUserHome(role: number){
         if (role == 5) {
             this.router.navigate(['associate-view']);

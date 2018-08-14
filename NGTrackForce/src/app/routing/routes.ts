@@ -30,11 +30,6 @@ import { UndeployedComponent } from '../components/undeployed/undeployed.compone
  */
 
 export const appRoutes: Routes = [
-  // {
-  //   path: 'home',
-  //   canActivate: [AuthGuard],
-  //   component: HomeComponent
-  // },
   {
     path: '',
     redirectTo: '/login',

@@ -54,7 +54,6 @@ export class BatchService {
   public getBatchDetails(startDate: Date, endDate: Date, CourseName: string):Observable<Object>{
     const url = this.baseURL + 
             `/details?start=${startDate.getTime()}&end=${endDate.getTime()}&courseName=${CourseName}`;
-            console.log(startDate.getTime());
     return this.http.get<Object>(url);
   }
 
@@ -67,8 +66,8 @@ export class BatchService {
   // // Not in the batch resource
 
   // /**
-  //  * To save time, only retrieves the batches between 
-  //  * three months before the currrent date 
+  //  * To save time, only retrieves the batches between
+  //  * three months before the currrent date
   //  * and three months after the current date.
   //  *
   //  * @returns {Observable<Batch[]>}

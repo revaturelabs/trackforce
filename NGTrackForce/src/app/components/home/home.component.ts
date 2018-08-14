@@ -98,7 +98,7 @@ export class HomeComponent implements OnInit {
         this.count = count;
         this.undeployedData[0] = this.count['counts'][0];
         this.undeployedData[1] = this.count['counts'][1];
-
+        
         this.deployedData[0] = this.count['counts'][2];
         this.deployedData[1] = this.count['counts'][3];
 

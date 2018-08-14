@@ -96,39 +96,64 @@ public class UserResource {
 
 		switch (role) {
 		case 1:
-			tfrole = new TfRole(1, "Admin");
-			newUser.setTfRole(tfrole);
-			works = userService.insertUser(newUser);
+			if (userService.getUser(newUser.getUsername()) == null){
+				tfrole = new TfRole(1, "Admin");
+				newUser.setTfRole(tfrole);
+				works = userService.insertUser(newUser);
+			}
+			else {
+				works = false;
+			}
 			break;
 		case 2:
-			tfrole = new TfRole(2, "Trainer");
-			newUser.setTfRole(tfrole);
-			TfTrainer newTrainer = new TfTrainer();
-			newTrainer.setTfUser(newUser);
-			newTrainer.setFirstName(TEMP);
-			newTrainer.setLastName(TEMP);
-			logger.info("creating new trainer..." + newTrainer);
-			works = trainerService.createTrainer(newTrainer);
+			if (userService.getUser(newUser.getUsername()) == null) { 
+				tfrole = new TfRole(2, "Trainer");
+				newUser.setTfRole(tfrole);
+				TfTrainer newTrainer = new TfTrainer();
+				newTrainer.setTfUser(newUser);
+				newTrainer.setFirstName(TEMP);
+				newTrainer.setLastName(TEMP);
+				logger.info("creating new trainer..." + newTrainer);
+				works = trainerService.createTrainer(newTrainer);
+			}
+			else {
+				works = false;
+			}
 			break;
 		case 3:
-			tfrole = new TfRole(3, "Sales-Delivery");
-			newUser.setTfRole(tfrole);
-			works = userService.insertUser(newUser);
+			if (userService.getUser(newUser.getUsername()) == null) {
+				tfrole = new TfRole(3, "Sales-Delivery");
+				newUser.setTfRole(tfrole);
+				works = userService.insertUser(newUser);
+			}
+			else {
+				works = false;
+			}
 			break;
 		case 4:
-			tfrole = new TfRole(4, "Staging");
-			newUser.setTfRole(tfrole);
-			works = userService.insertUser(newUser);
+			if (userService.getUser(newUser.getUsername()) == null) {
+				tfrole = new TfRole(4, "Staging");
+				newUser.setTfRole(tfrole);
+				works = userService.insertUser(newUser);
+			}
+			else {
+				works = false;
+			}
 			break;
 		case 5:
-			tfrole = new TfRole(5, ASSC);
-			newUser.setTfRole(tfrole);
-			TfAssociate newAssociate = new TfAssociate();
-			newAssociate.setUser(newUser);
-			newAssociate.setFirstName(TEMP);
-			newAssociate.setLastName(TEMP);
-			logger.info("creating new associate..." + newAssociate);
-			works = associateService.createAssociate(newAssociate);
+			if (userService.getUser(newUser.getUsername()) == null) {
+				tfrole = new TfRole(5, ASSC);
+				newUser.setTfRole(tfrole);
+				TfAssociate newAssociate = new TfAssociate();
+				newAssociate.setUser(newUser);
+				newAssociate.setFirstName(TEMP);
+				newAssociate.setLastName(TEMP);
+				logger.info("creating new associate..." + newAssociate);
+				works = associateService.createAssociate(newAssociate);
+			}
+			else {
+				works = false;
+			}
 			break;
 		default:
 			logger.warn("Role is zero");

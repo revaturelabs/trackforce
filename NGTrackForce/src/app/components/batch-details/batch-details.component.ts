@@ -161,7 +161,6 @@ export class BatchDetailsComponent implements OnInit {
           ];
           this.isDataEmpty = this.associates.length === 0;
           this.isDataReady = true;
-          console.log(this.associates);
         });
     });
   }

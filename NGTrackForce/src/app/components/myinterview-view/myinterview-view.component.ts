@@ -45,6 +45,9 @@ export class MyInterviewComponent implements OnInit {
   public openDateNotified: boolean;
   public openInterviewDate: boolean;
   public conflictingInterview: boolean;
+  public isDataReady: boolean = false;
+  index;
+  index2;
 
   constructor(
     private authService: AuthenticationService,
@@ -69,6 +72,7 @@ export class MyInterviewComponent implements OnInit {
       data => {
         this.associate = data;
         this.getAssociateInterviews(this.associate.id);
+        this.isDataReady = true;
       },
       error => {
         console.log('error');
@@ -128,11 +132,10 @@ export class MyInterviewComponent implements OnInit {
       .createInterview(this.newInterview, this.associate.id)
       .subscribe();
 
-    location.reload();
+    // location.reload();
   }
 
   updateInterview(interview: Interview) {
-    console.log(interview);
     interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
     interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
     interview.dateSalesIssued = new Date(
@@ -142,7 +145,7 @@ export class MyInterviewComponent implements OnInit {
       interview.dateAssociateIssued
     ).getTime();
     this.interviewService.updateInterview(interview).subscribe();
-    location.reload();
+    // location.reload();
   }
 
   /**
@@ -171,22 +174,12 @@ export class MyInterviewComponent implements OnInit {
     return false;
   }
 
-  // THIS METHOD IS REPLACED BY STORING THE ASSOCIATE IN LOCAL STORAGE
-  // getAssociate(id: number) {
-  //   this.associateService.getAssociate(id).subscribe(
-  //     data => {
-  //       this.associate = data;
-  //     },
-  //     err => {
-  //     });
-  // }
-
-  showDateNotified() {
-    this.openDateNotified = !this.openDateNotified;
+  showDateNotified(index) {
+    this.index = index;
   }
 
-  showInterviewDate() {
-    this.openInterviewDate = !this.openInterviewDate;
+  showInterviewDate(index) {
+    this.index2 = index;
   }
 
   getAssociateInterviews(id: number) {

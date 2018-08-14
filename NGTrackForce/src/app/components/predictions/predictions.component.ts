@@ -61,7 +61,6 @@ export class PredictionsComponent implements OnInit {
 
     this.ss.getAllCurricula().subscribe(
       data => {
-        console.log("curricula", data);
         const tempArray = [];
         for (let i = 0; i < data.length; i++) {
           let tech = data[i];
@@ -113,7 +112,6 @@ export class PredictionsComponent implements OnInit {
    * should be changed to a single query in back end
    */
   getAllPredictions(){
-    console.log("get all predictions");
     this.results = [];
     for(let k in this.techNeeded){
       this.getPrediction(+k, false);
@@ -142,11 +140,8 @@ export class PredictionsComponent implements OnInit {
     if(this.techNeeded[techIndex] == undefined || this.techNeeded[techIndex] <= 0 || this.techNeeded[techIndex] >= this.maxAssociates)
       return;
 
-      console.log("date for count", this.startDate, this.endDate);
-
     this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate), techName).subscribe(
       data => {
-        console.log(data)
         this.results.push({
                   technologyIndex: techIndex,
                   technology: techName,

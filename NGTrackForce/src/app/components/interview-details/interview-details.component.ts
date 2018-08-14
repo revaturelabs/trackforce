@@ -46,7 +46,6 @@ export class InterviewDetailsComponent implements OnInit {
     this.promptToggle = false;
     this.interviewService.updateInterview(this.interview).subscribe(
       response => {
-        console.log(response);
         this.promptClassName = "col-sm-4 alert alert-success";
         this.promptMessage = "Success-interview updated";
         this.promptToggle = true;

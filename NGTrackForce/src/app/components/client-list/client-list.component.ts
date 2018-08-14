@@ -98,7 +98,6 @@ export class ClientListComponent implements OnInit {
     this.clientService.getAllClientsWithAssoc().subscribe(
       clients => {
         this.mappedClientInfo = clients;
-        console.log(clients);
         this.clientNames.length = 0;
 
         for(let client of clients){
@@ -146,7 +145,6 @@ export class ClientListComponent implements OnInit {
 
     this.clientService.getClientCount(oneClient.id).subscribe(
       count => {
-        console.log(count);
         stat.trainingMapped = count[0];
         stat.reservedMapped = count[1];
         stat.selectedMapped = count[2];

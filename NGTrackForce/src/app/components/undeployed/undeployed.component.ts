@@ -76,7 +76,6 @@ export class UndeployedComponent implements OnInit {
   loadChart() {
     this.associateService.getUndeployedAssociates(this.selectedStatus.toLowerCase()).subscribe(
       data => {
-        console.log(data);
         let temp_clientUndeployedLabels: string[] = [];
         let temp_clientUndeployedData: number[] = [];
         this.clientUndeployedData = temp_clientUndeployedData;

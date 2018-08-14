@@ -68,7 +68,6 @@ export class CreateUserComponent implements OnInit {
       this.displayErrorUsername = false;
       this.userService.checkUniqueUsername(this.username).subscribe(
           data => {
-              console.log(data);
               if (data["result"] == 'false') this.displayErrorUsername = true; //if 'false', then username is NOT unique.
           }, err => {
               console.log("Error, see next line: ");

@@ -78,6 +78,9 @@ export class LoginComponent implements OnInit {
   public newTrainer: Trainer;
   public newAssociate: Associate;
 
+  public isLoggingIn: boolean = false;
+  public loginClicked: boolean = false;
+
   /**
    *@constructor
    *
@@ -126,6 +129,12 @@ export class LoginComponent implements OnInit {
       } else {
         this.authService.logout();
       }
+    }
+  }
+
+  onAnimationDone($event){
+    if(this.loginClicked){
+      this.isLoggingIn = true;
     }
   }
 
@@ -252,6 +261,7 @@ export class LoginComponent implements OnInit {
    *
    */
   login() {
+    this.loginClicked = true;
     this.sucMsg = "";
     this.errMsg = "";
     if (this.username && this.password) {

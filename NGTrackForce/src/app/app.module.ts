@@ -9,7 +9,8 @@ import { ChartsModule } from 'ng2-charts';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material.module';
+// import { MaterialModule } from './material.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 ///
 //  COMPONENTS
 ///
@@ -43,7 +44,7 @@ import { BatchService } from './services/batch-service/batch.service';
 import { CurriculumService } from './services/curriculum-service/curriculum.service';
 import { DataSyncService } from './services/datasync-service/data-sync.service';
 import { UserService } from './services/user-service/user.service';
-import { InterviewService } from './services/interview-service/interview.service'
+import { InterviewService } from './services/interview-service/interview.service';
 
 ///
 //  FILTERS/PIPES
@@ -63,7 +64,10 @@ import { AuthGuard } from './guards/auth.guard';
 //  CONSTANTS
 ///
 import { appRoutes } from './routing/routes';
-import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-helpers/router-stubs';
+import {
+  RouterLinkStubDirective,
+  RouterOutletStubComponent
+} from './testing-helpers/router-stubs';
 import { InterviewDetailsComponent } from './components/interview-details/interview-details.component';
 import { TrainerViewComponent } from './components/trainer-view/trainer-view.component';
 import { TrainerService } from './services/trainer-service/trainer.service';
@@ -94,9 +98,9 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     PredictionsComponent,
     MyInterviewComponent,
     InterviewDetailsComponent,
-  	InterviewsComponent,
-  	TrainerViewComponent,
-  	DeployedComponent,
+    InterviewsComponent,
+    TrainerViewComponent,
+    DeployedComponent,
     UndeployedComponent,
     AssociateSearchByStatusPipe,
     AssociateSearchByClientPipe
@@ -109,7 +113,7 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     ChartsModule,
     Ng2OrderModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MatProgressSpinnerModule
   ],
   providers: [
     AssociateService,
@@ -128,7 +132,8 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
-    }],
+    }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -9,6 +9,7 @@ import { ChartsModule } from 'ng2-charts';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
 ///
 //  COMPONENTS
 ///
@@ -107,7 +108,8 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     RouterModule.forRoot(appRoutes, {useHash: true}),
     ChartsModule,
     Ng2OrderModule,
-	  BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MaterialModule
   ],
   providers: [
     AssociateService,

@@ -7,6 +7,7 @@ import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfClient;
 import com.revature.entity.TfUser;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
@@ -63,6 +64,10 @@ public class AssociateService {
 	 */
 	public List<TfAssociate> getAllAssociates(){
 		return dao.getAllAssociates();
+	}
+	
+	public List<TfAssociate> getNAssociates(){
+		return dao.getNAssociates();
 	}
 	
 	public Object getCountUndeployedMapped()

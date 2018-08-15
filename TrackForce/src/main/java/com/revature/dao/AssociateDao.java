@@ -11,6 +11,8 @@ public interface AssociateDao {
 
 	List<TfAssociate> getAllAssociates();
 	
+	List<TfAssociate> getNAssociates();
+	
 	Object getCountUndeployedMapped();
 	
 	Object getCountUndeployedUnmapped();

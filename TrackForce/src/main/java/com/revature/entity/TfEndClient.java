@@ -21,7 +21,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 @Table(name = "TF_END_CLIENT", schema = "ADMIN")
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//Logans attempt at getting ehcache working below
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfEndClient implements java.io.Serializable {
 
 	private static final long serialVersionUID = -8077675564245631804L;

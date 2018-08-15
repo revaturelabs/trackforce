@@ -14,7 +14,14 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public List<TfClient> getAllTfClients() {
 		return HibernateUtil.runHibernate((Session session, Object ...args) -> session
-				.createQuery("from TfClient ", TfClient.class)
+				.createQuery("from TfClient order by tf_client_name ", TfClient.class)
+				.getResultList());
+	}
+	
+	public List<TfClient> getFirstFiftyTfClients() {
+		return HibernateUtil.runHibernate((Session session, Object ...args) -> session
+				.createQuery("from TfClient order by tf_client_name ", TfClient.class)
+				.setMaxResults(50)
 				.getResultList());
 	}
 

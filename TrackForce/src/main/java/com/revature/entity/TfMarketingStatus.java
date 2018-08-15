@@ -21,7 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 @Table(name = "TF_MARKETING_STATUS", schema = "ADMIN")
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfMarketingStatus implements java.io.Serializable {
 
 	private static final long serialVersionUID = -1638800519652509525L;

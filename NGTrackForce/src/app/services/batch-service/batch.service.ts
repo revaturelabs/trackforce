@@ -66,8 +66,8 @@ export class BatchService {
   // // Not in the batch resource
 
   // /**
-  //  * To save time, only retrieves the batches between 
-  //  * three months before the currrent date 
+  //  * To save time, only retrieves the batches between
+  //  * three months before the currrent date
   //  * and three months after the current date.
   //  *
   //  * @returns {Observable<Batch[]>}

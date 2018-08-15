@@ -35,7 +35,7 @@ export class LoginPage {
   }
 
   getFailedLoginResponse() {
-    return element(by.xpath('//*[@id="pwd-container"]/div[2]/section/form/div[1]')).getText();
+    return element(by.xpath('//*[@id="pwd-container"]/div/section/form/div[1]')).getText();
   }
 
   get logoutButton() {

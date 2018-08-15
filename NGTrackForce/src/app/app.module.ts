@@ -109,7 +109,7 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, {useHash: true}),
     ChartsModule,
     Ng2OrderModule,
     BrowserAnimationsModule,

@@ -30,7 +30,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 @Table(name = "TF_INTERVIEW", schema = "ADMIN")
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//Logans attempt at getting ehcache working below
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfInterview implements java.io.Serializable {
 
 	private static final long serialVersionUID = -4148475604579144144L;

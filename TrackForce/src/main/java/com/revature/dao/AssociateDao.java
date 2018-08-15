@@ -10,6 +10,32 @@ public interface AssociateDao {
 	TfAssociate getAssociate(Integer associateid);
 
 	List<TfAssociate> getAllAssociates();
+	
+	List<TfAssociate> getNAssociates();
+	
+	Object getCountUndeployedMapped();
+	
+	Object getCountUndeployedUnmapped();
+	
+	Object getCountDeployedMapped();
+	
+	Object getCountDeployedUnmapped();
+
+	Object getCountUnmappedTraining();
+	
+	Object getCountUnmappedOpen();
+	
+	Object getCountUnmappedSelected();
+	
+	Object getCountUnmappedConfirmed();
+	
+	Object getCountMappedTraining();
+	
+	Object getCountMappedReserved();
+	
+	Object getCountMappedSelected();
+	
+	Object getCountMappedConfirmed();
 
 	boolean updateAssociatePartial(TfAssociate associate);
 

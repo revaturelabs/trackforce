@@ -32,6 +32,10 @@ public class ClientService {
 		return dao.getAllTfClients();
 	}
 	
+	public List<TfClient> getFirstFiftyClients(){
+		return dao.getFirstFiftyTfClients();
+	}
+	
 	public List<TfClient> getMappedClients(){
 		return dao.getAllClientsWithMappedAssociates();
 	}

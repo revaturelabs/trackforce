@@ -80,7 +80,7 @@ export class UndeployedComponent implements OnInit {
         let temp_clientUndeployedData: number[] = [];
         this.clientUndeployedData = temp_clientUndeployedData;
         this.clientUndeployedLabels = temp_clientUndeployedLabels;
-  
+
         if (this.statusID === 1) { // mapped
           this.undeployedColors = ThemeConstants.CLIENT_COLORS;
           for (const graphCount of data) {
@@ -92,12 +92,12 @@ export class UndeployedComponent implements OnInit {
                 temp_clientUndeployedLabels.push(graphCount.name);
               }
               temp_clientUndeployedData.push(graphCount.count);
-            }   
-          } 
+            }
+          }
         } else { // unmapped
           this.undeployedColors = ThemeConstants.SKILL_COLORS;
           temp_clientUndeployedData = data.map((obj) => { if (obj.count) { return obj.count } }).filter(this.isNotUndefined);
-          temp_clientUndeployedLabels = data.map((obj) => { if (obj.count) { return obj.name } }).filter(this.isNotUndefined);    
+          temp_clientUndeployedLabels = data.map((obj) => { if (obj.count) { return obj.name } }).filter(this.isNotUndefined);
         }
 
         this.clientUndeployedData = temp_clientUndeployedData;
@@ -168,7 +168,7 @@ export class UndeployedComponent implements OnInit {
   undeployedOnClick(evt: any) {
     if (evt.active[0] !== undefined) {
       //navigate to skillset component
-      this.router.navigate([`undeployed/${evt.active[0]._index}`]);
+      this.router.navigate([`undeployed/${evt.active[0]._index}`]); //NOTE: are these ticks (`) supposed to be apostraphes?
       window.location.reload();
     }
   }

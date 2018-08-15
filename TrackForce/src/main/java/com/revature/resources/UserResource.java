@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -24,11 +26,13 @@ import com.revature.services.BatchService;
 import com.revature.services.ClientService;
 import com.revature.services.CurriculumService;
 import com.revature.services.InterviewService;
+import com.revature.services.JWTService;
 import com.revature.services.MarketingStatusService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
 import com.revature.utils.LogUtil;
 
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.mortbay.util.ajax.JSON;
@@ -293,4 +297,27 @@ public class UserResource {
 			return Response.status(Status.OK).entity(null).build();
 		}
 	}
+	
+	/**
+	 * @author 1806_Austin_M
+	 * Uses JWTService to validate a web token. Used from login component to check if session data is still up to date
+	 * @param token
+	 * @return
+	 */
+	@Path("/check")
+	@GET
+	@ApiOperation(value = "check method", notes = "The method checks whether a JWT is valid. returns 200 if valid, 401 if invalid.")
+	public Response checkCredentials(@HeaderParam("Authorization") String token) {
+		logger.info("checkCredentials()...");
+
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null) 
+			return Response.status(Status.UNAUTHORIZED).build();
+		else
+			return Response.status(Status.OK).build();
+
+	}
+	
+	
 }

@@ -39,6 +39,7 @@ export class AuthGuard implements CanActivate {
     }
  
     /**
+     * 1806_Austin_M
      * Routes to home page of given user role.
      * @param role user role held in local storage 
      */

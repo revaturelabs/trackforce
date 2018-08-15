@@ -103,33 +103,38 @@ export class LoginComponent implements OnInit {
   ) {
   }
 
+
   /**
-   * Called upon component initiation
-   * Checks if the user is already to logged-in
-   * If they are re-route to root
-   * If the user is an associate, route them to associate view
-   * Admins, VPs, and managers/directors are sent to root
-   *
-   *@param none
-   *
+   * 1806_Austin_M
+   * Checks if the user has a current session
+   * Validates the JWT with the back end.
+   * If successful, navigate to user home;
+   * else, remain on login screen
    */
   ngOnInit() {
-    //TODO validate token with backend
+    //Validate token with backend
     const user = this.authService.getUser();
+    
     if (user != null) {
-      if (user.role === 5) {
-        // this.router.navigate(['associate-view']);
+      this.loginClicked = true;
+      this.isLoggingIn = true;
+
+      this.userService.checkJwtValid().subscribe(
+        data => { this.routeToUserHome(user.role); },
+        err => { this.resetAfterLoginFail() }
+      );
+    }
+  }
+
+  routeToUserHome(role: number){
+    if (role == 5) {
         this.router.navigate(['associate-view']);
-        // } else if (user.role === 2) {
-        //   this.router.navigate(['trainer-view']);
-      } else if (user.role === 2) {
+    } else if (role == 2) {
         this.router.navigate(['trainer-view']);
-      } else if (user.role === 1 || user.role === 3 || user.role === 4) {
-        // this.getUser(user.id);
+    } else if (role == 1 || role == 3 || role == 4) {
         this.router.navigate(['app-home']);
-      } else {
-        this.authService.logout();
-      }
+    } else{
+      this.authService.logout();
     }
   }
 

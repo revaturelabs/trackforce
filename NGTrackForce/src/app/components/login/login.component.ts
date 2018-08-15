@@ -267,10 +267,10 @@ export class LoginComponent implements OnInit {
    *
    */
   login() {
-    this.loginClicked = true;
     this.sucMsg = "";
     this.errMsg = "";
     if (this.username && this.password) {
+      this.loginClicked = true;
       this.authService.login(this.username, this.password).subscribe(
         data => {
 

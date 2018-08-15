@@ -9,7 +9,7 @@
 
 #clients-list-well {
 	margin-top: 20px;
-	padding-top: 25px;
+	padding-top: 0px;
 	max-height: 350px;
 	overflow-y: scroll;
 }

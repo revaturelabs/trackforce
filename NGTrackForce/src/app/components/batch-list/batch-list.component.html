@@ -14,6 +14,9 @@
             <th class="date-column">End Date</th>
           </tr>
         </thead>
+        <div class="center-div" *ngIf="!dataReady">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
         <tbody>
           <ng-container *ngIf="dataReady">
             <tr *ngFor="let batch of batches" class="max-width">
@@ -26,9 +29,6 @@
           </ng-container>
         </tbody>
       </table>
-      <div class="center-div" *ngIf="!dataReady">
-        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-      </div>
     </div>
 
     <div class="col-lg-7 col-md-12 mcolumn right">

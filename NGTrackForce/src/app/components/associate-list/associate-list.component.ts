@@ -64,9 +64,12 @@ export class AssociateListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem("currentUser"));
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
     //EDIT EricS 8/8/18: added 'this.user &&' below to prevent null pointers in Jasmine Test. It would appear that this.user = null during testing.
-    if (this.user && (this.user.role === 1 || this.user.role === 3 ||this.user.role===4)) {
+    if (
+      this.user &&
+      (this.user.role === 1 || this.user.role === 3 || this.user.role === 4)
+    ) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
     this.getNAssociates();
@@ -90,39 +93,43 @@ export class AssociateListComponent implements OnInit {
     }
   }
 
-  getNAssociates(){
-    this.associateService.getNAssociates().subscribe(
-      data => {
-        this.associates = data;
-        for (const associate of this.associates) {//get our curriculums from the associates
-          if(associate.batch!==null && associate.batch.curriculumName!==null){
-            this.curriculums.add(associate.batch.curriculumName.name);
-          }
-          if (associate.batch && associate.batch.batchName === 'null') {
-            associate.batch.batchName = 'None'
-          }
+  getNAssociates() {
+    this.associateService.getNAssociates().subscribe(data => {
+      this.associates = data;
+      for (const associate of this.associates) {
+        //get our curriculums from the associates
+        if (
+          associate.batch !== null &&
+          associate.batch.curriculumName !== null
+        ) {
+          this.curriculums.add(associate.batch.curriculumName.name);
         }
-        this.curriculums.delete("");
-        this.curriculums.delete("null");
+        if (associate.batch && associate.batch.batchName === 'null') {
+          associate.batch.batchName = 'None';
+        }
       }
-    );
+      this.curriculums.delete('');
+      this.curriculums.delete('null');
+    });
   }
 
   /**
    * Set our array of all associates
    */
   getAllAssociates() {
-    this.associateService.getAllAssociates().subscribe(
-      data => {
-        this.associates.length = 0;
-        this.associates = data;
-        for (const associate of this.associates) {//get our curriculums from the associates
-          if(associate.batch!==null && associate.batch.curriculumName!==null){
-            this.curriculums.add(associate.batch.curriculumName.name);
-          }
-          if (associate.batch && associate.batch.batchName === 'null') {
-            associate.batch.batchName = 'None'
-          }
+    this.associateService.getAllAssociates().subscribe(data => {
+      this.associates.length = 0;
+      this.associates = data;
+      for (const associate of this.associates) {
+        //get our curriculums from the associates
+        if (
+          associate.batch !== null &&
+          associate.batch.curriculumName !== null
+        ) {
+          this.curriculums.add(associate.batch.curriculumName.name);
+        }
+        if (associate.batch && associate.batch.batchName === 'null') {
+          associate.batch.batchName = 'None';
         }
       }
       this.curriculums.delete('');

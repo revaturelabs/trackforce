@@ -22,6 +22,14 @@ export class BatchService {
     return this.http.get<Batch[]>(url);
   }
 
+  /*
+    Get batches with dates
+  */
+  public getBatchesWithinDates(startDate: Date, endDate: Date): Observable<Batch[]>{
+    const url = this.baseURL + '/withindates' + `/?start=${startDate.getTime()}&end=${endDate.getTime()}`;
+    return this.http.get<Batch[]>(url);
+  }
+
   /**
    * Given start and end date, return the batches that started and completed
    * within the time range

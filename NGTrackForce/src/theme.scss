@@ -1,0 +1,10 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$trackforce-app-primary: mat-palette($mat-deep-orange);
+$trackforce-app-accent:  mat-palette($mat-grey, 500, 900, A100);
+$trackforce-app-warn:    mat-palette($mat-red);
+
+$trackforce-app-theme: mat-light-theme($trackforce-app-primary, $trackforce-app-accent, $trackforce-app-warn);
+
+@include angular-material-theme($trackforce-app-theme);

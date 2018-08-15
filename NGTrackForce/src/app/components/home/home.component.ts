@@ -98,19 +98,23 @@ export class HomeComponent implements OnInit {
         this.count = count;
         this.undeployedData[0] = this.count['counts'][0];
         this.undeployedData[1] = this.count['counts'][1];
+        localStorage.setItem('undeployedData', JSON.stringify(this.undeployedData));
         
         this.deployedData[0] = this.count['counts'][2];
         this.deployedData[1] = this.count['counts'][3];
+        localStorage.setItem('deployedData', JSON.stringify(this.deployedData));
 
         this.unmappedData[0] = this.count['counts'][4];
         this.unmappedData[1] = this.count['counts'][5];
         this.unmappedData[2] = this.count['counts'][6];
         this.unmappedData[3] = this.count['counts'][7];
+        localStorage.setItem('unmappedData', JSON.stringify(this.unmappedData));
 
         this.mappedData[0] = this.count['counts'][8];
         this.mappedData[1] = this.count['counts'][9];
         this.mappedData[2] = this.count['counts'][10];
         this.mappedData[3] = this.count['counts'][11];
+        localStorage.setItem('mappedData', JSON.stringify(this.mappedData));
 
         this.loading = false;
       }

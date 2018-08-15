@@ -144,21 +144,18 @@ export class HomeComponent implements OnInit {
    */
   unmappedOnClick(evt: any) {
     if (evt.active[0] !== undefined) {
-      //navigate to skillset component
       this.router.navigate([`skillset/${evt.active[0]._index}`]);
     }
   }
 
   deployedOnClick(evt: any) {
     if (evt.active[0] !== undefined) {
-      //navigate to skillset component
       this.router.navigate([`deployed/${evt.active[0]._index}`]);
     }
   }
 
   undeployedOnClick(evt: any) {
     if (evt.active[0] !== undefined) {
-      //navigate to skillset component
       this.router.navigate([`undeployed/${evt.active[0]._index}`]);
     }
   }

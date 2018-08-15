@@ -14,7 +14,7 @@ import { GraphCounts } from '../../models/graph-counts';
 @Injectable()
 export class AssociateService {
   private baseURL: string = environment.url + 'TrackForce/associates';
-
+  private nassURL: string = this.baseURL + '/nass';
   constructor(private http: HttpClient) {}
 
   /**
@@ -26,6 +26,12 @@ export class AssociateService {
     return this.http.get<Associate[]>(url);
   }
 
+  /*
+    gets initial associates loaded
+  */
+  getNAssociates(): Observable<Associate[]> {
+    return this.http.get<Associate[]>(this.nassURL);
+  }
   /**
    * get the count of the associates to display in the pie charts on the home page
    */

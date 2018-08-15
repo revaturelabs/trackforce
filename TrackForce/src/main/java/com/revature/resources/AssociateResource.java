@@ -343,4 +343,9 @@ public class AssociateResource {
 				: Response.serverError().entity(false).build();
 	}
 
+	@GET
+	@Path("/nass/")
+	public Response getNAssociates() {
+		return Response.status(200).entity(associateService.getNAssociates()).build();
+	}
 }

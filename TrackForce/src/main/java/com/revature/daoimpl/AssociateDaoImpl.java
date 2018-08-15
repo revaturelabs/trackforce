@@ -68,6 +68,14 @@ public class AssociateDaoImpl implements AssociateDao {
 	}
 	
 	@Override
+	public List<TfAssociate> getNAssociates() {
+		return HibernateUtil.runHibernate((Session session, Object ...args) -> session
+				.createQuery("from TfAssociate", TfAssociate.class)
+				.setMaxResults(100)
+				.getResultList());
+	}
+	
+	@Override
 	public Object getCountUndeployedMapped()
 	{
 		Session session = null;

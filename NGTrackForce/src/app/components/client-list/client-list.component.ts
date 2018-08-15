@@ -71,6 +71,7 @@ export class ClientListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getFiftyClients();
     this.getAllClients();
     this.initChartData();
   }
@@ -87,11 +88,27 @@ export class ClientListComponent implements OnInit {
         for(let client of clients){
           this.clientNames.push(client.name);
         }
-        this.loading = false;
       }, err => {
         console.error("Failed grabbing names");
       });
   }
+
+  getFiftyClients(){
+    this.clientService.getFiftyClients().subscribe(
+      clients => {
+        this.clientInfo = clients;
+
+        for(let client of clients){
+          this.clientNames.push(client.name);
+        }
+        this.loading = false;
+      },
+      err => {
+        console.error("Failed grabbing names");
+      }
+    )
+  }
+
   //This method was meant to return all clients with mapped associates.
   //But is currently not used due to incorrect query in the back-end.
   getMappedClients(){

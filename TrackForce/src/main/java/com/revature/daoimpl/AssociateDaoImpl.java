@@ -3,6 +3,7 @@ package com.revature.daoimpl;
 import static com.revature.utils.HibernateUtil.runHibernateTransaction;
 import static com.revature.utils.HibernateUtil.saveToDB;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -11,7 +12,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
+import javax.persistence.Entity;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.openqa.selenium.InvalidArgumentException;
 
@@ -62,6 +65,292 @@ public class AssociateDaoImpl implements AssociateDao {
 	public List<TfAssociate> getAllAssociates() {
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
 				.createQuery("from TfAssociate", TfAssociate.class).getResultList());
+	}
+	
+	@Override
+	public List<TfAssociate> getNAssociates() {
+		return HibernateUtil.runHibernate((Session session, Object ...args) -> session
+				.createQuery("from TfAssociate", TfAssociate.class)
+				.setMaxResults(100)
+				.getResultList());
+	}
+	
+	@Override
+	public Object getCountUndeployedMapped()
+	{
+		Session session = null;
+		Object undeployedmapped = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			undeployedmapped = session.createNativeQuery(
+					"select count(tf_associate_id) from admin.tf_associate " +
+					"where (tf_marketing_status_id = 1 or tf_marketing_status_id = 2 or tf_marketing_status_id = 3 " +
+					    "or tf_marketing_status_id = 4)"
+					).getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if ( session != null )
+			{
+				session.close();
+			}
+		}
+		return undeployedmapped;
+	}
+	
+	@Override
+	public Object getCountUndeployedUnmapped()
+	{
+		Session session = null;
+		Object undeployedunmapped = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			undeployedunmapped = session.createNativeQuery(
+					"select count(tf_associate_id) from admin.tf_associate " +
+					"where (tf_marketing_status_id = 6 or tf_marketing_status_id = 7 " +
+					    "or tf_marketing_status_id = 8 or tf_marketing_status_id = 9)"
+					).getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if ( session != null )
+			{
+				session.close();
+			}
+		}
+		return undeployedunmapped;
+	}
+	
+	@Override
+	public Object getCountDeployedMapped()
+	{
+		Session session = null;
+		Object deployedmapped = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			deployedmapped = session.createNativeQuery(
+					"select count(tf_associate_id) from admin.tf_associate " +
+					"where tf_marketing_status_id = 5"
+					).getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if ( session != null )
+			{
+				session.close();
+			}
+		}
+		return deployedmapped;
+	}
+	
+	@Override
+	public Object getCountDeployedUnmapped()
+	{
+		Session session = null;
+		Object deployedunmapped = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			deployedunmapped = session.createNativeQuery(
+					"select count(tf_associate_id) from admin.tf_associate " +
+					"where tf_marketing_status_id = 10"
+					).getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if ( session != null )
+			{
+				session.close();
+			}
+		}
+		return deployedunmapped;
+	}
+
+	@Override
+	public Object getCountUnmappedTraining()
+	{
+		Session session = null;
+		Object unmappedtraining = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			unmappedtraining = session.createNativeQuery(
+					"select count(tf_associate_id) from admin.tf_associate " +
+					"where tf_marketing_status_id = 6"
+					).getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if ( session != null )
+			{
+				session.close();
+			}
+		}
+		return unmappedtraining;
+	}
+	
+	@Override
+	public Object getCountUnmappedOpen()
+	{
+		Session session = null;
+		Object unmappedopen = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			unmappedopen = session.createNativeQuery(
+					"select count(tf_associate_id) from admin.tf_associate " +
+					"where tf_marketing_status_id = 7"
+					).getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if ( session != null )
+			{
+				session.close();
+			}
+		}
+		return unmappedopen;
+	}
+	
+	@Override
+	public Object getCountUnmappedSelected()
+	{
+		Session session = null;
+		Object unmappedselected = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			unmappedselected = session.createNativeQuery(
+					"select count(tf_associate_id) from admin.tf_associate " +
+					"where tf_marketing_status_id = 8"
+					).getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if ( session != null )
+			{
+				session.close();
+			}
+		}
+		return unmappedselected;
+	}
+	
+	@Override
+	public Object getCountUnmappedConfirmed()
+	{
+		Session session = null;
+		Object unmappedconfirmed = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			unmappedconfirmed = session.createNativeQuery(
+					"select count(tf_associate_id) from admin.tf_associate " +
+					"where tf_marketing_status_id = 9"
+					).getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if ( session != null )
+			{
+				session.close();
+			}
+		}
+		return unmappedconfirmed;
+	}
+	
+	@Override
+	public Object getCountMappedTraining()
+	{
+		Session session = null;
+		Object mappedtraining = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			mappedtraining = session.createNativeQuery(
+					"select count(tf_associate_id) from admin.tf_associate " +
+					"where tf_marketing_status_id = 1"
+					).getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if ( session != null )
+			{
+				session.close();
+			}
+		}
+		return mappedtraining;
+	}
+	
+	@Override
+	public Object getCountMappedReserved()
+	{
+		Session session = null;
+		Object mappedreserved = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			mappedreserved = session.createNativeQuery(
+					"select count(tf_associate_id) from admin.tf_associate " +
+					"where tf_marketing_status_id = 2"
+					).getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if ( session != null )
+			{
+				session.close();
+			}
+		}
+		return mappedreserved;
+	}
+	
+	@Override
+	public Object getCountMappedSelected()
+	{
+		Session session = null;
+		Object mappedselected = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			mappedselected = session.createNativeQuery(
+					"select count(tf_associate_id) from admin.tf_associate " +
+					"where tf_marketing_status_id = 3"
+					).getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if ( session != null )
+			{
+				session.close();
+			}
+		}
+		return mappedselected;
+	}
+	
+	@Override
+	public Object getCountMappedConfirmed()
+	{
+		Session session = null;
+		Object mappedconfirmed = null;
+		
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			mappedconfirmed = session.createNativeQuery(
+					"select count(tf_associate_id) from admin.tf_associate " +
+					"where tf_marketing_status_id = 4"
+					).getSingleResult();
+		}catch(HibernateException e) {
+			e.printStackTrace();
+		}finally {
+			if ( session != null )
+			{
+				session.close();
+			}
+		}
+		return mappedconfirmed;
 	}
 
 	@Override

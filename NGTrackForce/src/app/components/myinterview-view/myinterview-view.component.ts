@@ -130,9 +130,9 @@ export class MyInterviewComponent implements OnInit {
 
     this.interviewService
       .createInterview(this.newInterview, this.associate.id)
-      .subscribe();
-
-    // location.reload();
+      .subscribe(res => {
+        location.reload();
+      });
   }
 
   updateInterview(interview: Interview) {
@@ -144,8 +144,9 @@ export class MyInterviewComponent implements OnInit {
     interview.dateAssociateIssued = new Date(
       interview.dateAssociateIssued
     ).getTime();
-    this.interviewService.updateInterview(interview).subscribe();
-    // location.reload();
+    this.interviewService.updateInterview(interview).subscribe(res => {
+      location.reload();
+    });
   }
 
   /**

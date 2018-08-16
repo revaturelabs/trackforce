@@ -1,11 +1,13 @@
 package com.revature.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfClient;
 import com.revature.entity.TfUser;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
@@ -64,6 +66,69 @@ public class AssociateService {
 		return dao.getAllAssociates();
 	}
 	
+	public List<TfAssociate> getNAssociates(){
+		return dao.getNAssociates();
+	}
+	
+	public Object getCountUndeployedMapped()
+	{
+		return dao.getCountUndeployedMapped();
+	}
+	
+	public Object getCountUndeployedUnmapped()
+	{
+		return dao.getCountUndeployedUnmapped();
+	}
+	
+	public Object getCountDeployedMapped()
+	{
+		return dao.getCountDeployedMapped();
+	}
+	
+	public Object getCountDeployedUnmapped()
+	{
+		return dao.getCountDeployedUnmapped();
+	}
+
+	public Object getCountUnmappedTraining()
+	{
+		return dao.getCountUnmappedTraining();
+	}
+	
+	public Object getCountUnmappedOpen()
+	{
+		return dao.getCountUnmappedOpen();
+	}
+	
+	public Object getCountUnmappedSelected()
+	{
+		return dao.getCountUnmappedSelected();
+	}
+	
+	public Object getCountUnmappedConfirmed()
+	{
+		return dao.getCountUnmappedConfirmed();
+	}
+	
+	public Object getCountMappedTraining()
+	{
+		return dao.getCountMappedTraining();
+	}
+	
+	public Object getCountMappedReserved()
+	{
+		return dao.getCountMappedReserved();
+	}
+	
+	public Object getCountMappedSelected()
+	{
+		return dao.getCountMappedSelected();
+	}
+	
+	public Object getCountMappedConfirmed()
+	{
+		return dao.getCountMappedConfirmed();
+	}
 	
 	/**
 	 * @author Adam L. 

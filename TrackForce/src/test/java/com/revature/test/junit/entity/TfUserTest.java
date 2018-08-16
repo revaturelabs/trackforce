@@ -95,7 +95,7 @@ public class TfUserTest {
 	@Test
 	public void test8() {
 		assertTrue(tfuser1.equals(tfuser2));
-		assertFalse(tfuser1.equals(new TfUser()));
+		assertFalse(new TfUser().equals(tfuser1));
 	}
 
 	@Test

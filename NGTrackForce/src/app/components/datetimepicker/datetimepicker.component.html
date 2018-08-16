@@ -3,12 +3,13 @@
         <div class='col-sm-6'>
             <div class="form-group" [style.max-width]="width">
                 <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' [(ngModel)]="stringDate" class="form-control" />
+                    <input type='text' [(ngModel)]="stringDate" class="form-control" (change)="manualEntry()"/>
                     <span class="input-group-addon btn" (click)=toggleCalendarView()>
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
-                <owl-date-time-inline [(ngModel)]="date" (click)="dateChanged()" *ngIf="calendarView"></owl-date-time-inline>
+                <div class="alert alert-danger form-group" *ngIf=displayErrorInvalidDate id="error-date">Invalid Date.</div>
+                <owl-date-time-inline [(ngModel)]="date" (click)="dateClicked()" *ngIf="calendarView"></owl-date-time-inline>
             </div>
         </div>
     </div>

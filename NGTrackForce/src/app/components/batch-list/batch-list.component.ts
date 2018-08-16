@@ -123,6 +123,8 @@ export class BatchListComponent implements OnInit {
   public applySelectedRange() {
     this.startDate = new Date(this.stringStart);
     this.endDate = new Date(this.stringEnd);
+    console.log(this.stringStart);
+    console.log(this.startDate);
 
 
     let longStartDate: number;
@@ -165,7 +167,7 @@ export class BatchListComponent implements OnInit {
     this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
       batches => {
         // filter out batches that don't have an associated trainer
-        this.batches = batches
+        this.batches = batches;
         this.updateCountPerCurriculum();
         this.dataReady = true;
       },

@@ -13,11 +13,14 @@ export class DateTimePickerComponent implements OnInit {
     @Input() format = 'date';   //default value
     @Output() datePicked = new EventEmitter();
     calendarView = false;
+    displayErrorInvalidDate = false;
 
     options_date = {month:'long', day: 'numeric', year: 'numeric'};
     options_datetime = {month:'short', day: 'numeric', year: 'numeric', minute:'numeric', hour: 'numeric'};
     date = new Date();   //initialized to today's date
     stringDate: string;
+
+    oldDate: Date;
 
     constructor() {
     }
@@ -30,14 +33,34 @@ export class DateTimePickerComponent implements OnInit {
         this.calendarView = !this.calendarView;
     }
 
-    public dateChanged(){
+    public dateClicked(){
         let localOptions = null;
         switch(this.format){
             case 'date': localOptions = this.options_date; break;
             case 'datetime': localOptions = this.options_datetime; break;
         }
-        this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
+        if (this.date != null){
+            this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
+            this.datePicked.emit(this.stringDate);
+            if (this.oldDate != this.date) this.calendarView = !this.calendarView;
+            this.oldDate = this.date;
+
+            this.validateDate();
+        }
+    }
+
+    public manualEntry(){
+        this.date = new Date(this.stringDate);
         this.datePicked.emit(this.stringDate);
+        this.validateDate();
+    }
+
+    public validateDate(){
+    if (this.date == "Invalid Date"){
+        this.displayErrorInvalidDate = true;
+        this.date = null;
+    }
+    else this.displayErrorInvalidDate = false;
     }
 
 

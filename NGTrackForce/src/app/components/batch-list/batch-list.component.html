@@ -37,18 +37,13 @@
           {{dateRangeMessage}}
       </div>
       <form>
-        <div>
+        <div style="display:inline-block; text-align:left">
           <label for="startDate">From:</label>
-          <!-- You have to use ngModel AND ngModelChange for proper initialization!! -->
-          <input type="date" [ngModel]="stringStart" (ngModelChange)="stringStart = $event" id="startDate" name="stringStart"
-             />
-             <app-datetimepicker width="300px" format="datetime" (datePicked)="testString=$event"></app-datetimepicker>
-             <button type=btn (click)="testFunction()">Click me!</button>
+          <app-datetimepicker width="300px" format="date" (datePicked)="stringStart=$event" id="startDate" name="stringStart"></app-datetimepicker>
         </div>
-        <div>
+        <div style="display:inline-block; text-align:left">
           <label for="endDate">To:</label>
-          <input type="date" [ngModel]="stringEnd" (ngModelChange)="stringEnd = $event" id="endDate" name="stringEnd"
-          />
+          <app-datetimepicker width="300px" format="date" (datePicked)="stringEnd=$event" id="endDate" name="stringEnd"></app-datetimepicker>
         </div>
         <div>
           <input type="submit" class="btn btn-default" value="Submit" (click)="applySelectedRange()" />

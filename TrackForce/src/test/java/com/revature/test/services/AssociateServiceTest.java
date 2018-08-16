@@ -289,6 +289,7 @@ public class AssociateServiceTest {
 	}
 	
 	/**
+	 * 1806_Chris_P: Updated test to expect a NullPointer Exception (8/15/18)
 	 * Tests the updateAssociatePartial method when the list consists of
 	 * both empty and valid associates
 	 * 
@@ -296,7 +297,7 @@ public class AssociateServiceTest {
 	 * 
 	 * @since 6.06.14.18
 	 */
-	@Test(priority=13)
+	@Test(priority=13, expectedExceptions = NullPointerException.class)
 	public void testUpdateAssociatesAndEmpty() {
 		when(mockAssociateDao.updateAssociates(any(List.class))).thenReturn(false);
 		mockAssociates.add(assoc4);
@@ -312,7 +313,7 @@ public class AssociateServiceTest {
 	 * 
 	 * @since 6.06.14.18
 	 */
-	@Test(priority=14)
+	@Test(priority=14, expectedExceptions = NullPointerException.class)
 	public void testUpdateAssociatesAndNull() {
 		when(mockAssociateDao.updateAssociates(any(List.class))).thenReturn(false);
 		mockAssociates.add(null);

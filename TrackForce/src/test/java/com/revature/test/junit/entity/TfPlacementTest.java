@@ -79,6 +79,6 @@ public class TfPlacementTest {
 	@Test
 	public void test8() {
 		assertEquals(tfplacement1.hashCode(), tfplacement2.hashCode());
-		assertNotEquals(tfplacement.hashCode(), new TfPlacement().hashCode());
+		assertNotEquals(tfplacement1.hashCode(), new TfPlacement().hashCode());
 	}
 }

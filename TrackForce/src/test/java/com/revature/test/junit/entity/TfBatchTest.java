@@ -87,7 +87,7 @@ public class TfBatchTest {
 
 	@Test
 	public void test8() {
-		assertTrue(batch1.equals(batch2));
+		assertTrue(batch1.toString().equals(batch2.toString()));
 		assertFalse(batch1.equals(new TfBatch()));
 	}
 

@@ -40,6 +40,8 @@ export class BatchListComponent implements OnInit {
   stringStart: string;
   stringEnd: string;
 
+  testString: string;
+
   dateRangeMessage: string;
   showDateRangeError = false;
 
@@ -49,6 +51,9 @@ export class BatchListComponent implements OnInit {
     'right', false, false
   );
 
+  public testFunction(){
+      console.log(this.testString);
+  }
 
   constructor(private batchService: BatchService, private authService: AuthenticationService) {
   }
@@ -82,7 +87,7 @@ export class BatchListComponent implements OnInit {
         },
         error => {
           console.log(error);
-        } 
+        }
       );
     }
     else {
@@ -101,7 +106,7 @@ export class BatchListComponent implements OnInit {
           // filter out batches that don't have an associated trainer
           this.batches = batches.filter(
             batch => {
-              if(batch.startDate != null && batch.endDate != null 
+              if(batch.startDate != null && batch.endDate != null
                 && batch.location != null && batch.curriculumName != null)
                 return true;
               return false;
@@ -112,7 +117,7 @@ export class BatchListComponent implements OnInit {
         },
         error => {
           console.log(error);
-        } 
+        }
       );
 
     }
@@ -291,7 +296,7 @@ export class BatchListComponent implements OnInit {
           curriculumCountsMap.set(batch.curriculumName.name, count + 1);
         }
       }
-  
+
       // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change
       this.curriculumNames = Array.from(curriculumCountsMap.keys());
       this.curriculumCounts = Array.from(curriculumCountsMap.values());

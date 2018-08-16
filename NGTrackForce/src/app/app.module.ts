@@ -30,6 +30,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PredictionsComponent } from './components/predictions/predictions.component';
 import { MyInterviewComponent } from './components/myinterview-view/myinterview-view.component';
 import { InterviewsComponent } from './components/interviews-view/interviews-view.component';
+import { DateTimePickerComponent } from './components/datetimepicker/datetimepicker.component';
 ///
 //  SERVICES
 ///
@@ -97,6 +98,7 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
   	TrainerViewComponent,
   	DeployedComponent,
     UndeployedComponent,
+    DateTimePickerComponent,
     AssociateSearchByStatusPipe,
     AssociateSearchByClientPipe
   ],

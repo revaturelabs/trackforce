@@ -1,11 +1,85 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="0" errors="0" failures="3" tests="47" time="107.559">
- <testsuite name="Registering as a new associate" timestamp="2018-08-08T15:20:59" hostname="localhost" time="7.039" errors="0" tests="7" skipped="0" disabled="0" failures="1">
-  <testcase classname="Registering as a new associate" name="should navigate to the login page" time="3.796" />
-  <testcase classname="Registering as a new associate" name="allow user to click the register button" time="0.349" />
-  <testcase classname="Registering as a new associate" name="allow associate to enter info into input fields" time="0.367" />
-  <testcase classname="Registering as a new associate" name="should allow associate to click the next page button" time="0.14">
-   <failure type="exception" message="Failed: No element found using locator: By(xpath, //button[contains(text(), &quot;ext&quot;)])"><![CDATA[NoSuchElementError: No element found using locator: By(xpath, //button[contains(text(), "ext")])
+<testsuites disabled="0" errors="0" failures="14" tests="47" time="75.847">
+ <testsuite name="Registering as a new associate" timestamp="2018-08-16T13:25:55" hostname="localhost" time="5.181" errors="0" tests="7" skipped="1" disabled="0" failures="0">
+  <testcase classname="Registering as a new associate" name="should navigate to the login page" time="2.545" />
+  <testcase classname="Registering as a new associate" name="allow user to click the register button" time="0.252" />
+  <testcase classname="Registering as a new associate" name="allow associate to enter info into input fields" time="0.355" />
+  <testcase classname="Registering as a new associate" name="should allow associate to click the next page button" time="0">
+   <skipped message="Temporarily disabled with xit" />
+  </testcase>
+  <testcase classname="Registering as a new associate" name="should allow associate to enter first and last name" time="0.213" />
+  <testcase classname="Registering as a new associate" name="should allow associate to register as an associate by clicking register button" time="0.098" />
+  <testcase classname="Registering as a new associate" name="exit browser" time="1.713" />
+ </testsuite>
+ <testsuite name="login page element existences" timestamp="2018-08-16T13:26:00" hostname="localhost" time="1.87" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+  <testcase classname="login page element existences" name="should have a username input box" time="0.008" />
+  <testcase classname="login page element existences" name="should have a password input box" time="0.006" />
+  <testcase classname="login page element existences" name="should have a login button" time="0.002" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.048" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.039" />
+  <testcase classname="login page element existences" name="should display proper value for button" time="0.056" />
+ </testsuite>
+ <testsuite name="Confirm login failures" timestamp="2018-08-16T13:26:02" hostname="localhost" time="3.179" errors="0" tests="2" skipped="0" disabled="0" failures="2">
+  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.177">
+   <failure type="toEqual" message="Expected &apos;Please enter a username and password
+Username:
+Password:
+Sign in
+Register&apos; to equal &apos;Please enter a username and password&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\login\login.e2e-spec.ts:50:43)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.543">
+   <failure type="toEqual" message="Expected &apos;Invalid username and/or password
+Username:
+Password:
+Sign in
+Register&apos; to equal &apos;Invalid username and/or password&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\login\login.e2e-spec.ts:57:43)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+ </testsuite>
+ <testsuite name="confirm login navigation" timestamp="2018-08-16T13:26:05" hostname="localhost" time="3.689" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="confirm login navigation" name="should reach the index page" time="1.801" />
+ </testsuite>
+ <testsuite name="navbar functionality" timestamp="2018-08-16T13:26:08" hostname="localhost" time="30.091" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+  <testcase classname="navbar functionality" name="should navigate to home page" time="1" />
+  <testcase classname="navbar functionality" name="should navigate to client list page" time="8.607" />
+  <testcase classname="navbar functionality" name="should navigate to batch list page" time="5.001" />
+  <testcase classname="navbar functionality" name="should navigate to associate lising" time="14.599" />
+  <testcase classname="navbar functionality" name="should navigate to predictions" time="0.726" />
+  <testcase classname="navbar functionality" name="should navigate to create user" time="0.156" />
+ </testsuite>
+ <testsuite name="create-user page input and button fields" timestamp="2018-08-16T13:26:39" hostname="localhost" time="1.1" errors="0" tests="8" skipped="0" disabled="0" failures="0">
+  <testcase classname="create-user page input and button fields" name="should accept username input" time="0.114" />
+  <testcase classname="create-user page input and button fields" name="should accept password input" time="0.264" />
+  <testcase classname="create-user page input and button fields" name="should accept password confirmation input" time="0.137" />
+  <testcase classname="create-user page input and button fields" name="should select admin radio button" time="0.149" />
+  <testcase classname="create-user page input and button fields" name="should select trainer radio button" time="0.125" />
+  <testcase classname="create-user page input and button fields" name="should select associate radio button" time="0.11" />
+  <testcase classname="create-user page input and button fields" name="should select staging manager radio button" time="0.096" />
+  <testcase classname="create-user page input and button fields" name="should select delivery radio button" time="0.101" />
+ </testsuite>
+ <testsuite name="When entering valid data into predictions filter it" timestamp="2018-08-16T13:26:40" hostname="localhost" time="4.221" errors="0" tests="5" skipped="0" disabled="0" failures="3">
+  <testcase classname="When entering valid data into predictions filter it" name="should navigate to the predictions page" time="3.833" />
+  <testcase classname="When entering valid data into predictions filter it" name="should allow user to input valid data" time="0.301">
+   <failure type="exception" message="Failed: No element found using locator: By(xpath, //input[@name=&quot;number&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(xpath, //input[@name="number"])
     at elementArrayFinder.getWebElements.then (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
     at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
@@ -14,16 +88,16 @@
     at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7
     at process._tickCallback (internal/process/next_tick.js:68:7)Error
     at ElementArrayFinder.applyAction_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:459:27)
-    at ElementArrayFinder.(anonymous function).args [as click] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:91:29)
-    at ElementFinder.(anonymous function).args [as click] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:831:22)
-    at RegisterAssociatePage.clickNextPageBtn (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\register-associate\register-associate.po.ts:65:26)
-    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\register-associate\register-associate.e2e-spec.ts:33:31)
+    at ElementArrayFinder.(anonymous function).args [as sendKeys] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as sendKeys] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:831:22)
+    at PredictionsPage.inputNumAssociates (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.po.ts:98:33)
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:31:25)
     at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
     at new ManagedPromise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
     at ControlFlow.promise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
     at schedulerExecute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
     at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
-From: Task: Run it("should allow associate to click the next page button") in control flow
+From: Task: Run it("should allow user to input valid data") in control flow
     at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:94:19)
     at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
     at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
@@ -36,60 +110,32 @@ From: Task: Run it("should allow associate to click the next page button") in co
     at runNext (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4446:20)
 From asynchronous test: 
 Error
-    at Suite.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\register-associate\register-associate.e2e-spec.ts:32:5)
+    at Suite.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:28:5)
     at addSpecsToSuite (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1181:25)
     at Env.describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1145:7)
     at describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4593:18)
-    at Object.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\register-associate\register-associate.e2e-spec.ts:7:1)
+    at Object.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:7:1)
     at Module._compile (internal/modules/cjs/loader.js:689:30)
     at Module.m._compile (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:422:23)
     at Module._extensions..js (internal/modules/cjs/loader.js:700:10)
     at Object.require.extensions.(anonymous function) [as .ts] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="Registering as a new associate" name="should allow associate to enter first and last name" time="0.252" />
-  <testcase classname="Registering as a new associate" name="should allow associate to register as an associate by clicking register button" time="0.146" />
-  <testcase classname="Registering as a new associate" name="exit browser" time="1.98" />
- </testsuite>
- <testsuite name="login page element existences" timestamp="2018-08-08T15:21:06" hostname="localhost" time="2.436" errors="0" tests="6" skipped="0" disabled="0" failures="0">
-  <testcase classname="login page element existences" name="should have a username input box" time="0.004" />
-  <testcase classname="login page element existences" name="should have a password input box" time="0.004" />
-  <testcase classname="login page element existences" name="should have a login button" time="0.001" />
-  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.049" />
-  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.053" />
-  <testcase classname="login page element existences" name="should display proper value for button" time="0.089" />
- </testsuite>
- <testsuite name="Confirm login failures" timestamp="2018-08-08T15:21:09" hostname="localhost" time="2.753" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.177" />
-  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.472" />
- </testsuite>
- <testsuite name="confirm login navigation" timestamp="2018-08-08T15:21:12" hostname="localhost" time="3.067" errors="0" tests="1" skipped="0" disabled="0" failures="0">
-  <testcase classname="confirm login navigation" name="should reach the index page" time="0.837" />
- </testsuite>
- <testsuite name="navbar functionality" timestamp="2018-08-08T15:21:15" hostname="localhost" time="36.999" errors="0" tests="6" skipped="0" disabled="0" failures="0">
-  <testcase classname="navbar functionality" name="should navigate to home page" time="11.657" />
-  <testcase classname="navbar functionality" name="should navigate to client list page" time="8.389" />
-  <testcase classname="navbar functionality" name="should navigate to batch list page" time="7.41" />
-  <testcase classname="navbar functionality" name="should navigate to associate lising" time="8.942" />
-  <testcase classname="navbar functionality" name="should navigate to predictions" time="0.446" />
-  <testcase classname="navbar functionality" name="should navigate to create user" time="0.14" />
- </testsuite>
- <testsuite name="create-user page input and button fields" timestamp="2018-08-08T15:21:52" hostname="localhost" time="1.108" errors="0" tests="8" skipped="0" disabled="0" failures="0">
-  <testcase classname="create-user page input and button fields" name="should accept username input" time="0.138" />
-  <testcase classname="create-user page input and button fields" name="should accept password input" time="0.168" />
-  <testcase classname="create-user page input and button fields" name="should accept password confirmation input" time="0.167" />
-  <testcase classname="create-user page input and button fields" name="should select admin radio button" time="0.142" />
-  <testcase classname="create-user page input and button fields" name="should select trainer radio button" time="0.138" />
-  <testcase classname="create-user page input and button fields" name="should select associate radio button" time="0.113" />
-  <testcase classname="create-user page input and button fields" name="should select staging manager radio button" time="0.117" />
-  <testcase classname="create-user page input and button fields" name="should select delivery radio button" time="0.12" />
- </testsuite>
- <testsuite name="When entering valid data into predictions filter it" timestamp="2018-08-08T15:21:53" hostname="localhost" time="9.712" errors="0" tests="5" skipped="0" disabled="0" failures="1">
-  <testcase classname="When entering valid data into predictions filter it" name="should navigate to the predictions page" time="2.969" />
-  <testcase classname="When entering valid data into predictions filter it" name="should allow user to input valid data" time="0.731" />
   <testcase classname="When entering valid data into predictions filter it" name="should provide a table with predictions" time="0.002" />
-  <testcase classname="When entering valid data into predictions filter it" name="should provide the same number of rows entered into the filter" time="5.972" />
-  <testcase classname="When entering valid data into predictions filter it" name="should provide details when the details button is pressed" time="0.035">
+  <testcase classname="When entering valid data into predictions filter it" name="should provide the same number of rows entered into the filter" time="0.032">
+   <failure type="toEqual" message="Expected 12 to equal 3."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:41:67)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+  <testcase classname="When entering valid data into predictions filter it" name="should provide details when the details button is pressed" time="0.051">
    <failure type="exception" message="Failed: No element found using locator: By(xpath, //button[@name=&quot;getDetailsBtn&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(xpath, //button[@name="getDetailsBtn"])
     at elementArrayFinder.getWebElements.then (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -133,11 +179,65 @@ Error
    </failure>
   </testcase>
  </testsuite>
- <testsuite name="When entering valid data using all filters it" timestamp="2018-08-08T15:22:02" hostname="localhost" time="14.987" errors="0" tests="4" skipped="0" disabled="0" failures="1">
-  <testcase classname="When entering valid data using all filters it" name="should navigate to the predictions page" time="7.832" />
-  <testcase classname="When entering valid data using all filters it" name="should allow a user to input valid data and use all filters" time="1.265" />
-  <testcase classname="When entering valid data using all filters it" name="should provide the same number of rows entered into the filter" time="5.862" />
-  <testcase classname="When entering valid data using all filters it" name="should provide details when the details button is pressed" time="0.028">
+ <testsuite name="When entering valid data using all filters it" timestamp="2018-08-16T13:26:44" hostname="localhost" time="8.719" errors="0" tests="4" skipped="0" disabled="0" failures="3">
+  <testcase classname="When entering valid data using all filters it" name="should navigate to the predictions page" time="8.357" />
+  <testcase classname="When entering valid data using all filters it" name="should allow a user to input valid data and use all filters" time="0.294">
+   <failure type="exception" message="Failed: No element found using locator: By(xpath, //input[@name=&quot;number&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(xpath, //input[@name="number"])
+    at elementArrayFinder.getWebElements.then (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
+    at ManagedPromise.invokeCallback_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2927:27)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7
+    at process._tickCallback (internal/process/next_tick.js:68:7)Error
+    at ElementArrayFinder.applyAction_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as sendKeys] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as sendKeys] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:831:22)
+    at PredictionsPage.inputNumAssociates (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.po.ts:98:33)
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:72:25)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+From: Task: Run it("should allow a user to input valid data and use all filters") in control flow
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:94:19)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at QueueRunner.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4384:10)
+    at Spec.queueRunnerFactory (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:964:35)
+    at Spec.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:563:10)
+    at UserContext.fn (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:5541:37)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at runNext (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4446:20)
+From asynchronous test: 
+Error
+    at Suite.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:69:5)
+    at addSpecsToSuite (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1181:25)
+    at Env.describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1145:7)
+    at describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4593:18)
+    at Object.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:50:1)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Module.m._compile (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:422:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Object.require.extensions.(anonymous function) [as .ts] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
+   </failure>
+  </testcase>
+  <testcase classname="When entering valid data using all filters it" name="should provide the same number of rows entered into the filter" time="0.031">
+   <failure type="toEqual" message="Expected 12 to equal 10."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:78:67)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+  <testcase classname="When entering valid data using all filters it" name="should provide details when the details button is pressed" time="0.036">
    <failure type="exception" message="Failed: No element found using locator: By(xpath, //button[@name=&quot;getDetailsBtn&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(xpath, //button[@name="getDetailsBtn"])
     at elementArrayFinder.getWebElements.then (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -181,16 +281,268 @@ Error
    </failure>
   </testcase>
  </testsuite>
- <testsuite name="When I enter a start date that is more current than the end date it" timestamp="2018-08-08T15:22:17" hostname="localhost" time="14.654" errors="0" tests="4" skipped="0" disabled="0" failures="0">
-  <testcase classname="When I enter a start date that is more current than the end date it" name="should navigate to the predictions page" time="7.845" />
-  <testcase classname="When I enter a start date that is more current than the end date it" name="should allow user to input a start date that is more current than the end date" time="0.741" />
-  <testcase classname="When I enter a start date that is more current than the end date it" name="should yield 0 associates" time="6.014" />
-  <testcase classname="When I enter a start date that is more current than the end date it" name="should have a negative amount in Difference" time="0.053" />
+ <testsuite name="When I enter a start date that is more current than the end date it" timestamp="2018-08-16T13:26:53" hostname="localhost" time="8.586" errors="0" tests="4" skipped="0" disabled="0" failures="3">
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should navigate to the predictions page" time="8.231" />
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should allow user to input a start date that is more current than the end date" time="0.248">
+   <failure type="exception" message="Failed: No element found using locator: By(xpath, //input[@name=&quot;number&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(xpath, //input[@name="number"])
+    at elementArrayFinder.getWebElements.then (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
+    at ManagedPromise.invokeCallback_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2927:27)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7
+    at process._tickCallback (internal/process/next_tick.js:68:7)Error
+    at ElementArrayFinder.applyAction_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as sendKeys] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as sendKeys] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:831:22)
+    at PredictionsPage.inputNumAssociates (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.po.ts:98:33)
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:109:25)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+From: Task: Run it("should allow user to input a start date that is more current than the end date") in control flow
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:94:19)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at QueueRunner.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4384:10)
+    at Spec.queueRunnerFactory (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:964:35)
+    at Spec.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:563:10)
+    at UserContext.fn (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:5541:37)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at runNext (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4446:20)
+From asynchronous test: 
+Error
+    at Suite.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:106:5)
+    at addSpecsToSuite (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1181:25)
+    at Env.describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1145:7)
+    at describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4593:18)
+    at Object.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:87:1)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Module.m._compile (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:422:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Object.require.extensions.(anonymous function) [as .ts] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
+   </failure>
+  </testcase>
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should yield 0 associates" time="0.05">
+   <failure type="exception" message="Failed: No element found using locator: By(xpath, //tbody/tr[1]/td[3])"><![CDATA[NoSuchElementError: No element found using locator: By(xpath, //tbody/tr[1]/td[3])
+    at elementArrayFinder.getWebElements.then (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
+    at ManagedPromise.invokeCallback_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2927:27)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7
+    at process._tickCallback (internal/process/next_tick.js:68:7)Error
+    at ElementArrayFinder.applyAction_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as getText] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as getText] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:831:22)
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:115:76)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+From: Task: Run it("should yield 0 associates") in control flow
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:94:19)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at QueueRunner.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4384:10)
+    at Spec.queueRunnerFactory (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:964:35)
+    at Spec.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:563:10)
+    at UserContext.fn (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:5541:37)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at runNext (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4446:20)
+From asynchronous test: 
+Error
+    at Suite.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:114:5)
+    at addSpecsToSuite (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1181:25)
+    at Env.describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1145:7)
+    at describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4593:18)
+    at Object.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:87:1)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Module.m._compile (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:422:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Object.require.extensions.(anonymous function) [as .ts] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
+   </failure>
+  </testcase>
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should have a negative amount in Difference" time="0.047">
+   <failure type="exception" message="Failed: No element found using locator: By(xpath, //tbody/tr[1]/td[4])"><![CDATA[NoSuchElementError: No element found using locator: By(xpath, //tbody/tr[1]/td[4])
+    at elementArrayFinder.getWebElements.then (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
+    at ManagedPromise.invokeCallback_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2927:27)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7
+    at process._tickCallback (internal/process/next_tick.js:68:7)Error
+    at ElementArrayFinder.applyAction_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as getText] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as getText] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:831:22)
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:122:65)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+From: Task: Run it("should have a negative amount in Difference") in control flow
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:94:19)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at QueueRunner.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4384:10)
+    at Spec.queueRunnerFactory (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:964:35)
+    at Spec.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:563:10)
+    at UserContext.fn (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:5541:37)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at runNext (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4446:20)
+From asynchronous test: 
+Error
+    at Suite.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:121:5)
+    at addSpecsToSuite (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1181:25)
+    at Env.describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1145:7)
+    at describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4593:18)
+    at Object.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:87:1)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Module.m._compile (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:422:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Object.require.extensions.(anonymous function) [as .ts] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
+   </failure>
+  </testcase>
  </testsuite>
- <testsuite name="When I enter a very large numeric input it" timestamp="2018-08-08T15:22:32" hostname="localhost" time="14.804" errors="0" tests="4" skipped="0" disabled="0" failures="0">
-  <testcase classname="When I enter a very large numeric input it" name="should navigate to the predictions page" time="7.728" />
-  <testcase classname="When I enter a very large numeric input it" name="should allow user to input a very large number" time="0.947" />
-  <testcase classname="When I enter a very large numeric input it" name="should yield some associates" time="6.082" />
-  <testcase classname="When I enter a very large numeric input it" name="should have a negative amount in Difference" time="0.046" />
+ <testsuite name="When I enter a very large numeric input it" timestamp="2018-08-16T13:27:01" hostname="localhost" time="9.211" errors="0" tests="4" skipped="0" disabled="0" failures="3">
+  <testcase classname="When I enter a very large numeric input it" name="should navigate to the predictions page" time="8.854" />
+  <testcase classname="When I enter a very large numeric input it" name="should allow user to input a very large number" time="0.257">
+   <failure type="exception" message="Failed: No element found using locator: By(xpath, //input[@name=&quot;number&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(xpath, //input[@name="number"])
+    at elementArrayFinder.getWebElements.then (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
+    at ManagedPromise.invokeCallback_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2927:27)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7
+    at process._tickCallback (internal/process/next_tick.js:68:7)Error
+    at ElementArrayFinder.applyAction_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as sendKeys] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as sendKeys] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:831:22)
+    at PredictionsPage.inputNumAssociates (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.po.ts:98:33)
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:151:25)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+From: Task: Run it("should allow user to input a very large number") in control flow
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:94:19)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at QueueRunner.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4384:10)
+    at Spec.queueRunnerFactory (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:964:35)
+    at Spec.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:563:10)
+    at UserContext.fn (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:5541:37)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at runNext (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4446:20)
+From asynchronous test: 
+Error
+    at Suite.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:148:5)
+    at addSpecsToSuite (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1181:25)
+    at Env.describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1145:7)
+    at describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4593:18)
+    at Object.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:129:1)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Module.m._compile (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:422:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Object.require.extensions.(anonymous function) [as .ts] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
+   </failure>
+  </testcase>
+  <testcase classname="When I enter a very large numeric input it" name="should yield some associates" time="0.053">
+   <failure type="exception" message="Failed: No element found using locator: By(xpath, //tbody/tr[1]/td[3])"><![CDATA[NoSuchElementError: No element found using locator: By(xpath, //tbody/tr[1]/td[3])
+    at elementArrayFinder.getWebElements.then (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
+    at ManagedPromise.invokeCallback_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2927:27)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7
+    at process._tickCallback (internal/process/next_tick.js:68:7)Error
+    at ElementArrayFinder.applyAction_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as getText] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as getText] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:831:22)
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:157:76)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+From: Task: Run it("should yield some associates") in control flow
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:94:19)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at QueueRunner.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4384:10)
+    at Spec.queueRunnerFactory (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:964:35)
+    at Spec.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:563:10)
+    at UserContext.fn (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:5541:37)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at runNext (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4446:20)
+From asynchronous test: 
+Error
+    at Suite.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:156:5)
+    at addSpecsToSuite (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1181:25)
+    at Env.describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1145:7)
+    at describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4593:18)
+    at Object.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:129:1)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Module.m._compile (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:422:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Object.require.extensions.(anonymous function) [as .ts] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
+   </failure>
+  </testcase>
+  <testcase classname="When I enter a very large numeric input it" name="should have a negative amount in Difference" time="0.045">
+   <failure type="exception" message="Failed: No element found using locator: By(xpath, //tbody/tr[1]/td[4])"><![CDATA[NoSuchElementError: No element found using locator: By(xpath, //tbody/tr[1]/td[4])
+    at elementArrayFinder.getWebElements.then (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
+    at ManagedPromise.invokeCallback_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2927:27)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7
+    at process._tickCallback (internal/process/next_tick.js:68:7)Error
+    at ElementArrayFinder.applyAction_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as getText] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as getText] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:831:22)
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:164:65)
+    at C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+From: Task: Run it("should have a negative amount in Difference") in control flow
+    at UserContext.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:94:19)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at QueueRunner.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4384:10)
+    at Spec.queueRunnerFactory (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:964:35)
+    at Spec.execute (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:563:10)
+    at UserContext.fn (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:5541:37)
+    at attempt (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4486:26)
+    at QueueRunner.run (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4402:20)
+    at runNext (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4446:20)
+From asynchronous test: 
+Error
+    at Suite.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:163:5)
+    at addSpecsToSuite (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1181:25)
+    at Env.describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1145:7)
+    at describe (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4593:18)
+    at Object.<anonymous> (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:129:1)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Module.m._compile (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:422:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Object.require.extensions.(anonymous function) [as .ts] (C:\Users\andre\Projects\180618_jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
+   </failure>
+  </testcase>
  </testsuite>
 </testsuites>

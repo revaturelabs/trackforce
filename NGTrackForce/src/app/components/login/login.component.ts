@@ -17,6 +17,7 @@ import {TrainerService} from '../../services/trainer-service/trainer.service';
 import {Trainer} from '../../models/trainer.model';
 import {Batch} from '../../models/batch.model';
 import {Associate} from "../../models/associate.model";
+import { NavbarService } from '../../services/navbar-service/navbar.service';
 
 const ASSOCIATE_KEY = 'currentAssociate';
 const USER_KEY = 'currentUser';
@@ -99,7 +100,8 @@ export class LoginComponent implements OnInit {
     private interviewService: InterviewService,
     private clientService: ClientService,
     private batchService: BatchService,
-    private trainerService: TrainerService
+    private trainerService: TrainerService,
+    private navbarService: NavbarService
   ) {
   }
 
@@ -114,10 +116,12 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     //Validate token with backend
     const user = this.authService.getUser();
-    
+    this.navbarService.hide();
+
     if (user != null) {
       this.loginClicked = true;
       this.isLoggingIn = true;
+      
 
       this.userService.checkJwtValid().subscribe(
         data => { this.routeToUserHome(user.role); },
@@ -127,6 +131,8 @@ export class LoginComponent implements OnInit {
   }
 
   routeToUserHome(role: number){
+    this.navbarService.show();
+
     if (role == 5) {
         this.router.navigate(['associate-view']);
     } else if (role == 2) {
@@ -134,6 +140,7 @@ export class LoginComponent implements OnInit {
     } else if (role == 1 || role == 3 || role == 4) {
         this.router.navigate(['app-home']);
     } else{
+      this.navbarService.hide();
       this.authService.logout();
     }
   }
@@ -267,10 +274,10 @@ export class LoginComponent implements OnInit {
    *
    */
   login() {
-    this.loginClicked = true;
     this.sucMsg = "";
     this.errMsg = "";
     if (this.username && this.password) {
+      this.loginClicked = true;
       this.authService.login(this.username, this.password).subscribe(
         data => {
 
@@ -280,6 +287,7 @@ export class LoginComponent implements OnInit {
             this.resetAfterLoginFail();
             this.errMsg = "Invalid username and/or password";
           } else if (data.isApproved) {
+            this.navbarService.show();
             //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
             if (data.role === 5) {

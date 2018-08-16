@@ -68,7 +68,7 @@ export class BatchListComponent implements OnInit {
     if (user.role === 2) {
       this.dataReady = false;
 
-      this.batchService.getAllBatches().subscribe(
+      this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
         batches => {
           // filter out batches that don't have an associated trainer
           this.batches = batches.filter(
@@ -100,18 +100,10 @@ export class BatchListComponent implements OnInit {
 
       this.stringStart = this.startDate.toJSON().substring(0, 10);
       this.stringEnd = this.endDate.toJSON().substring(0, 10);
-
-      this.batchService.getAllBatches().subscribe(
+      this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
         batches => {
           // filter out batches that don't have an associated trainer
-          this.batches = batches.filter(
-            batch => {
-              if(batch.startDate != null && batch.endDate != null
-                && batch.location != null && batch.curriculumName != null)
-                return true;
-              return false;
-            }
-          );
+          this.batches = batches
           this.updateCountPerCurriculum();
           this.dataReady = true;
         },
@@ -170,24 +162,15 @@ export class BatchListComponent implements OnInit {
     this.counter = 0;
     this.stringStart = this.startDate.toJSON().substring(0, 10);
     this.stringEnd = this.endDate.toJSON().substring(0, 10);
-    this.batchService.getAllBatches().subscribe(
-      (batches) => {
-        this.batches = [];
-        for (var bat in batches) {
-          if (batches[bat]['startDate'] != null &&
-            batches[bat]['endDate'] != null &&
-            batches[bat]['location'] != null &&
-            batches[bat]['curriculumName'] != null) {
-            this.batches[this.counter] = batches[bat];
-            this.counter++;
-          }
-          else {
-
-          }
-        }
-
+    this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
+      batches => {
+        // filter out batches that don't have an associated trainer
+        this.batches = batches
         this.updateCountPerCurriculum();
         this.dataReady = true;
+      },
+      error => {
+        console.log(error);
       }
     );
 
@@ -203,7 +186,7 @@ export class BatchListComponent implements OnInit {
     const user = this.authService.getUser();
     if (user.role === 2) {
       this.dataReady = false;
-      this.batchService.getAllBatches().subscribe(
+      this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
         batches => {
           // filter out batches that don't have an associated trainer
           this.batches = batches.filter(
@@ -236,37 +219,16 @@ export class BatchListComponent implements OnInit {
     }
     else {
       this.dataReady = false;
-      this.batchService.getAllBatches().subscribe(
+      this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
         batches => {
-          // they serve as flags in template
-          this.batches = batches.filter(
-            batch => {
-              let dateStartDate = new Date(this.startDate);
-              let dateEndDate = new Date(this.endDate);
-              let longStartDate = dateStartDate.getTime();
-              let longEndDate = dateEndDate.getTime();
-
-              if (batch.startDate && batch.endDate) {
-                return batch.startDate > longStartDate && batch.endDate < longEndDate;
-              }
-              else {
-                return false;
-              }
-            }
-          );
-          this.dataReady = false;
-          this.batches = this.batches.sort((a, b) => {
-            if (a.startDate < b.startDate) {
-              return -1;
-            } else if (a.startDate > b.startDate) {
-              return 1;
-            }
-            return 0;
-          }
-          );
-          this.updateCountPerCurriculum(); //2
+          // filter out batches that don't have an associated trainer
+          this.batches = batches
+          this.updateCountPerCurriculum();
           this.dataReady = true;
         },
+        error => {
+          console.log(error);
+        }
       );
     }
   }

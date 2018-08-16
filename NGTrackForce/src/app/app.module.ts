@@ -74,6 +74,7 @@ import { TrainerViewComponent } from './components/trainer-view/trainer-view.com
 import { TrainerService } from './services/trainer-service/trainer.service';
 import { DeployedComponent } from './components/deployed/deployed.component';
 import { UndeployedComponent } from './components/undeployed/undeployed.component';
+import { HighlightInterviewDirective } from './directives/highlight-interview.directive';
 
 
 
@@ -106,7 +107,8 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     DeployedComponent,
     UndeployedComponent,
     AssociateSearchByStatusPipe,
-    AssociateSearchByClientPipe
+    AssociateSearchByClientPipe,
+    HighlightInterviewDirective
   ],
   imports: [
     BrowserModule,

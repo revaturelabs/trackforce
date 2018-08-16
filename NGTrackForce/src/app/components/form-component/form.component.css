@@ -10,12 +10,15 @@
 }
 
 table {
-  background: #fefefe;
+  background: #f5f5f5;
   border-width: 2px;
 }
 
 .info td:first-child {
   font-weight: bold;
+  text-align: right;
+  max-width: 140px;
+  width: 140px;
 }
 
 .toggledContainer {
@@ -25,4 +28,55 @@ table {
   padding-top: 5px;
   background-color: white;
   border: 2px solid lightgrey;
+}
+
+
+.table-div thead {
+  background-color: #ddd;
+}
+
+.table-div{
+  border: 1px solid rgb(200,200,200);
+  border-radius: 3px;
+  padding: 0px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.table-div table{
+  margin: 0px;
+}
+
+.borderless td, .borderless th {
+  border: none;
+}
+
+.div-window{
+  border: 1px solid rgb(200,200,200);
+  background-color: #f5f5f5;
+  border-radius: 3px;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.scrollable-table thead, 
+.scrollable-table tbody, 
+.scrollable-table tr, 
+.scrollable-table td, 
+.scrollable-table th { display: block; }
+
+.scrollable-table  tr:after {
+  content: ' ';
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+.scrollable-table tbody {
+overflow-y: auto;
+}
+
+.col-5-table tbody td, .col-5-table thead th {
+width: 20%;
+float: left;
 }

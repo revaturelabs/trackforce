@@ -153,8 +153,7 @@ export class SkillsetComponent implements OnInit {
   ngOnInit(): void {
 
     this.getUnmappedData();
-
-    // get skillID
+    console.log(this.selectedStatus);
     this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || SkillsetComponent.NULL;
     // if we didn't get skillID from selectedStatus...
     if (this.skillID === SkillsetComponent.NULL) {
@@ -172,7 +171,7 @@ export class SkillsetComponent implements OnInit {
       }
     }
     // get the skillset data here
-    this.curriculumService.getSkillsetsForStatusID(this.skillID).subscribe((data) => {
+    this.curriculumService.getSkillsetsForStatusID(6).subscribe((data) => {
       // copy in the raw data into local variable
       const skillsets: GraphCounts[] = data;
       console.log(skillsets);

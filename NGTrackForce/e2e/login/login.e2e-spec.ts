@@ -71,7 +71,7 @@ describe('confirm login navigation', () => {
     page.getUsernameInput().sendKeys('TestAdmin');
     page.getPasswordInput().sendKeys('TestAdmin');
     page.getLoginButton().click();
-
+    browser.wait(browser.ExpectedConditions.urlContains('app-home'), 5000);
     expect(page.getTitle()).not.toEqual('NGTrackForce');
   });
 });

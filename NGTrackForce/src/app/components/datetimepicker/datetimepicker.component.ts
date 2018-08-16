@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-// import * as $ from 'jquery';
 
 
 @Component({
@@ -11,6 +10,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class DateTimePickerComponent implements OnInit {
     @Input() width = '250px';   //default value
     @Input() format = 'date';   //default value
+    @Input() originalDate: any;    //no default
     @Output() datePicked = new EventEmitter();
     calendarView = false;
     displayErrorInvalidDate = false;
@@ -23,9 +23,19 @@ export class DateTimePickerComponent implements OnInit {
     oldDate: Date;
 
     constructor() {
+
     }
 
     ngOnInit() {
+
+        setTimeout(()=>{
+
+            if (this.originalDate){ //because its an optional parameter
+                this.date = new Date(this.originalDate);
+                this.toggleCalendarView();
+                this.dateClicked(); //this is to validate it and update other internal variables.
+            }
+        },0);   //UHHHHHH....IT WORKS!! NOTE: Without the timeout, Angular compains with a error related to concurrency, 'ExpressionChangedAfterItHasBeenCheckedError'
 
     }
 

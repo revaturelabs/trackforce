@@ -23,8 +23,8 @@ public class AssociateService {
 	private AssociateDao dao;
 	
 	// public so it can be used for testing 
-	public AssociateService() {dao = new AssociateDaoImpl();};
-	public AssociateService(AssociateDao dao) {this.dao = dao;};
+	public AssociateService() {dao = new AssociateDaoImpl();}
+	public AssociateService(AssociateDao dao) {this.dao = dao;}
 	/**
 	 * @author Adam L. 
 	 * 
@@ -64,6 +64,9 @@ public class AssociateService {
 		return dao.getAllAssociates();
 	}
 	
+	public List<TfAssociate> getAssociatesByTrainer(String username){
+		return dao.getAssociatesByTrainerUsername(username);
+	}
 	
 	/**
 	 * @author Adam L. 

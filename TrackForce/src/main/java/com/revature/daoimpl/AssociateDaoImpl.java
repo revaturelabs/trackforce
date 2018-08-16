@@ -30,7 +30,7 @@ import com.revature.utils.Sessional;
  * Database
  */
 public class AssociateDaoImpl implements AssociateDao {
-	
+	private static final String M_STAT = "marketingStatus";
 	/**
 	 * Gets a single associate with an id
 	 * 
@@ -41,6 +41,32 @@ public class AssociateDaoImpl implements AssociateDao {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
 		session.createQuery("from TfAssociate a where a.id = :id", TfAssociate.class).setParameter("id", id).getSingleResult());
 
+	}
+	
+	@Override
+	public List<TfAssociate> getAssociatesByTrainerUsername(String username){
+		String sql = 
+				"SELECT * FROM admin.tf_associate a " + 
+				"WHERE A.Tf_Batch_Id IN " + 
+				"(" + 
+				"    SELECT B.Tf_Batch_Id FROM admin.tf_trainer t " + 
+				"    LEFT JOIN admin.cotrainer_batch ct " + 
+				"    ON T.Trainer_Id = Ct.Trainer_Id " + 
+				"    LEFT JOIN admin.tf_batch b " + 
+				"    ON B.Primary_Trainer = T.Trainer_Id " + 
+				"    WHERE T.Tf_User_Id IN " + 
+				"    (" + 
+				"        SELECT tf_user_id " + 
+				"        From admin.tf_user u " + 
+				"        WHERE U.Tf_Username = :username" + 
+				"    )" +
+				")";
+		Sessional<List<TfAssociate>> ss = 
+				(Session session, Object ... args) ->
+				session.createNativeQuery(sql, TfAssociate.class)
+				.setParameter("username", args[0])
+				.getResultList();
+		return HibernateUtil.runHibernate(ss, username);
 	}
 
 	/**
@@ -129,7 +155,7 @@ public class AssociateDaoImpl implements AssociateDao {
 			Root<TfAssociate> root = query.from(TfAssociate.class);
 
 			Join<TfAssociate, TfClient> clientJoin = root.join("client");
-			Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
+			Join<TfAssociate, TfMarketingStatus> msJoin = root.join(M_STAT);
 
 			Path<?> clientId = clientJoin.get("id");
 			Path<?> clientName = clientJoin.get("name");
@@ -151,7 +177,7 @@ public class AssociateDaoImpl implements AssociateDao {
 				Root<TfAssociate> root = query.from(TfAssociate.class);
 
 				Join<TfAssociate, TfClient> clientJoin = root.join("client");
-				Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
+				Join<TfAssociate, TfMarketingStatus> msJoin = root.join(M_STAT);
 
 				Path<?> clientId = clientJoin.get("id");
 				Path<?> clientName = clientJoin.get("name");
@@ -172,7 +198,7 @@ public class AssociateDaoImpl implements AssociateDao {
 
 				Join<TfAssociate, TfBatch> batchJoin = root.join("batch");
 				Join<TfBatch, TfCurriculum> curriculumJoin = batchJoin.join("curriculumName");
-				Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
+				Join<TfAssociate, TfMarketingStatus> msJoin = root.join(M_STAT);
 
 				Path<?> curriculumid = curriculumJoin.get("id");
 				Path<?> curriculumName = curriculumJoin.get("name");

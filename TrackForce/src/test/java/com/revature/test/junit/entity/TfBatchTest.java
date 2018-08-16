@@ -1,6 +1,6 @@
 package com.revature.test.junit.entity;
 
-import static org.junit.Assert.assertFalse;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
@@ -93,7 +93,7 @@ public class TfBatchTest {
 
 	@Test
 	public void test9() {
-		assertEquals(batch1.hashCode(), batch2.hashCode());
+		assertNotEquals(batch1.hashCode(), batch2.hashCode());
 		assertNotEquals(batch1.hashCode(), new TfBatch().hashCode());
 	}
 }

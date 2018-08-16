@@ -28,7 +28,7 @@
     <h3 *ngIf="!message">Associate Breakdown</h3>
 
     <div *ngIf="loadingTechnologies" class="col-md-4" style="text-align: center">
-      <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     </div>
 
     <!-- Needed Input -->
@@ -87,7 +87,7 @@
   <div class="row" *ngIf="detailsReady || loadingDetails">
       <h3>{{selectedBatch}} Batch Details</h3>
       <div *ngIf="loadingDetails" class="col-md-12" style="text-align: center">
-        <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
 
       <div *ngIf="!loadingDetails" class="col-md-12 "> 

@@ -128,7 +128,7 @@ public class TfUser implements java.io.Serializable {
 		result = prime * result + id;
 		result = prime * result + isApproved;
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + role;
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((token == null) ? 0 : token.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
@@ -136,8 +136,9 @@ public class TfUser implements java.io.Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
+		if (this == obj) {
+			System.out.println(this.toString() + "and" + obj.toString());
+			return true;}
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
@@ -169,6 +170,7 @@ public class TfUser implements java.io.Serializable {
 				return false;
 		} else if (!username.equals(other.username))
 			return false;
+		System.out.println("You Passed!");
 		return true;
 	}
 

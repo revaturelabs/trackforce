@@ -40,6 +40,8 @@ export class BatchListComponent implements OnInit {
   stringStart: string;
   stringEnd: string;
 
+  testString: string;
+
   dateRangeMessage: string;
   showDateRangeError = false;
 
@@ -49,6 +51,9 @@ export class BatchListComponent implements OnInit {
     'right', false, false
   );
 
+  public testFunction(){
+      console.log(this.testString);
+  }
 
   constructor(private batchService: BatchService, private authService: AuthenticationService) {
   }
@@ -82,7 +87,7 @@ export class BatchListComponent implements OnInit {
         },
         error => {
           console.log(error);
-        } 
+        }
       );
     }
     else {
@@ -104,7 +109,7 @@ export class BatchListComponent implements OnInit {
         },
         error => {
           console.log(error);
-        } 
+        }
       );
 
     }
@@ -118,6 +123,8 @@ export class BatchListComponent implements OnInit {
   public applySelectedRange() {
     this.startDate = new Date(this.stringStart);
     this.endDate = new Date(this.stringEnd);
+    console.log(this.stringStart);
+    console.log(this.startDate);
 
 
     let longStartDate: number;
@@ -160,13 +167,13 @@ export class BatchListComponent implements OnInit {
     this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
       batches => {
         // filter out batches that don't have an associated trainer
-        this.batches = batches
+        this.batches = batches;
         this.updateCountPerCurriculum();
         this.dataReady = true;
       },
       error => {
         console.log(error);
-      } 
+      }
     );
 
   }
@@ -223,7 +230,7 @@ export class BatchListComponent implements OnInit {
         },
         error => {
           console.log(error);
-        } 
+        }
       );
     }
   }
@@ -253,7 +260,7 @@ export class BatchListComponent implements OnInit {
           curriculumCountsMap.set(batch.curriculumName.name, count + 1);
         }
       }
-  
+
       // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change
       this.curriculumNames = Array.from(curriculumCountsMap.keys());
       this.curriculumCounts = Array.from(curriculumCountsMap.values());

@@ -37,7 +37,8 @@
             <tr>
               <td>Batch Name</td>
               <td>
-                <a [routerLink]="['/batch-details', (associate && associate.batch && associate.batch.id) ? associate.batch.id : '#']">{{(associate && associate.batch && associate.batch.batchName) ? associate.batch.batchName : ""}}</a>
+                <a [routerLink]="['/batch-details', (associate && associate.batch && associate.batch.id) ? associate.batch.id : '#']">{{(associate
+                  && associate.batch && associate.batch.batchName) ? associate.batch.batchName : ""}}</a>
               </td>
             </tr>
             <tr>
@@ -54,7 +55,10 @@
     </div>
     <div class="col-12">
       <h3>Interviews</h3>
-      <table class="table table-responsive table-hover table-bordered">
+      <div *ngIf="!isDataReady" class="col-xs-offset-6" style="text-align: center">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </div>
+      <table *ngIf="isDataReady" class="table table-responsive table-hover table-bordered">
         <thead>
           <tr>
             <th>Interview ID</th>
@@ -69,12 +73,16 @@
             <td>{{(interview && interview.id) ? interview.id : ""}}</td>
             <td>{{(interview.client && interview.client.name) ? interview.client.name : ""}}</td>
             <td>{{(interview && interview.interviewDate) ? (interview.interviewDate | date:'longDate') : "" }}</td>
-            <td>{{(interview && interview.interviewType && interview.interviewType.name) ?interview.interviewType.name : ""}}</td>
+            <td>{{(interview && interview.interviewType && interview.interviewType.name) ?interview.interviewType.name :
+              ""}}
+            </td>
             <td>{{(interview && interview.clientFeedback) ? interview.clientFeedback : ""}}</td>
           </tr>
         </tbody>
       </table>
-      <button type="button" *ngIf="!isVP" class="btn btn-primary" (click)="toggleForm()">Toggle Update Interview Feedback Form</button>
+      <button type="button" *ngIf="!isVP" class="btn btn-primary" (click)="toggleForm()">Toggle Update Interview Feedback
+        Form
+      </button>
       <div class="row" *ngIf="formOpen" class="toggledContainer">
         <div class="col-lg-9">
           <form class="form-horizontal">

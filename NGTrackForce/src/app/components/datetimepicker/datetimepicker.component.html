@@ -1,11 +1,15 @@
-<div class="form-group">
-<div class="input-group">
-  <input class="form-control"
-        a2e-datetimepicker
-        [(ngModel)]="dateTo"
-        [options]="a2eOptions"/>
-  <span class="input-group-addon">
-    <span class="glyphicon glyphicon-calendar"></span>
-  </span>
-</div>
+<div class="container">
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group" [style.max-width]="width">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' [(ngModel)]="stringDate" class="form-control" />
+                    <span class="input-group-addon btn" (click)=toggleCalendarView()>
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <owl-date-time-inline [(ngModel)]="date" (click)="dateChanged()" *ngIf="calendarView"></owl-date-time-inline>
+            </div>
+        </div>
+    </div>
 </div>

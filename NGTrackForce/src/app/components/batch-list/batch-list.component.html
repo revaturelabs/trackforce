@@ -42,7 +42,7 @@
           <!-- You have to use ngModel AND ngModelChange for proper initialization!! -->
           <input type="date" [ngModel]="stringStart" (ngModelChange)="stringStart = $event" id="startDate" name="stringStart"
              />
-             <app-datetimepicker width="300px" (datePicked)="testString=$event"></app-datetimepicker>
+             <app-datetimepicker width="300px" format="datetime" (datePicked)="testString=$event"></app-datetimepicker>
              <button type=btn (click)="testFunction()">Click me!</button>
         </div>
         <div>

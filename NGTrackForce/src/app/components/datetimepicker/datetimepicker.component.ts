@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import * as $ from 'jquery';
-import * as moment from 'moment';
+// import * as $ from 'jquery';
+
 
 @Component({
   selector: 'app-datetimepicker',
@@ -10,7 +10,14 @@ import * as moment from 'moment';
 
 export class DateTimePickerComponent implements OnInit {
     @Input() width = '250px';   //default value
+    @Input() format = 'date';   //default value
     @Output() datePicked = new EventEmitter();
+    calendarView = false;
+
+    options_date = {month:'long', day: 'numeric', year: 'numeric'};
+    options_datetime = {month:'short', day: 'numeric', year: 'numeric', minute:'numeric', hour: 'numeric'};
+    date = new Date();   //initialized to today's date
+    stringDate: string;
 
     constructor() {
     }
@@ -19,16 +26,18 @@ export class DateTimePickerComponent implements OnInit {
 
     }
 
-    public onclick(){
-        console.log("clicked!");
+    public toggleCalendarView(){
+        this.calendarView = !this.calendarView;
     }
 
-    public chooseDate(){
-        let date = "apples";
-        console.log($('#datetimepicker1'));
-        // $('#datetimepicker1').datetimepicker();
-
-        this.datePicked.emit(date);     //tells the parent the value of date, wrapped in datePicked
+    public dateChanged(){
+        let localOptions = null;
+        switch(this.format){
+            case 'date': localOptions = this.options_date; break;
+            case 'datetime': localOptions = this.options_datetime; break;
+        }
+        this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
+        this.datePicked.emit(this.stringDate);
     }
 
 

@@ -3,8 +3,6 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +24,6 @@ import javax.ws.rs.core.Response.Status;
 import org.hibernate.HibernateException;
 import org.json.JSONObject;
 
-import com.revature.daoimpl.BatchDaoImpl;
 import com.revature.entity.TfAssociate;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;

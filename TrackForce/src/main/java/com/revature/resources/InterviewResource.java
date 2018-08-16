@@ -148,8 +148,6 @@ public class InterviewResource {
 		if (payload == null) { // invalid token
 
 			status = Status.UNAUTHORIZED;
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) { // wrong roleid
-			status = Status.FORBIDDEN;
 		} else {
 			logger.info(interviews);
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;

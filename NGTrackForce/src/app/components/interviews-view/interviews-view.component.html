@@ -13,9 +13,9 @@
             <th>Date of Interview</th>
             <th>Medium</th>
       		  <th>Job Description</th>
-            <th>Client Feedback</th>    
-            <!-- <th>Associate Feedback <i class="fa fa-edit" style="font-size:24px"></i> </th>
-            <th>Client Feedback</th>  
+            <th>Client Feedback</th>
+            <th>Associate Feedback <i class="fa fa-edit" style="font-size:24px"></i> </th>
+            <th>Client Feedback</th>
           </tr>
         </thead>
         <tbody>
@@ -27,7 +27,7 @@
             <td>{{interview.dateAssociateIssued | date:'short'}}</td>
             <td>{{interview.tfInterviewDate | date:'short'}}</td>
             <td>{{interview.interviewType.name}}</td>
-            <td>{{interview.jobDescription}}</td>           
+            <td>{{interview.jobDescription}}</td>
             <td>{{interview.clientFeedback}}</td>
 			    <td><a class="id"(click)='viewInterview(interview)'>view</a></td>
           </tr>
@@ -62,7 +62,7 @@
               <th class="interviewDate">Date of Interview</th>
               <th class="interviewType">Medium</th>
               <th class="jobDescription">Job Description</th>
-              <th class="clientFeedback">Client Feedback</th>   
+              <th class="clientFeedback">Client Feedback</th>
               <th class="isClientFeedbackVisible">Feedback Visible?</th>
           </tr>
         </thead>

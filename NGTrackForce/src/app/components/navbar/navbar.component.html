@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default custom-nav">
-  <div class="container-fluid">
+  <div class="container-fluid" style="padding: 0px">
     <div class="navbar-header">
       <a class="navbar-brand">
         <img src="../../../assets/logo.png" height="52" width="152" alt="Revature Logo">
@@ -7,15 +7,13 @@
     </div>
 
     <ng-container *ngIf="navbarService.visible">
-      <ul *ngIf='isLoggedIn' class="nav navbar-nav navbar-right navbar-expand-lg">
+      <ul *ngIf='isLoggedIn' class="nav navbar-nav navbar-right">
         <li>
           <span>Welcome, {{username}}</span>
         </li>
         <li>
-          <button type="button" class="btn btn-danger"(click)="logout()">Logout</button>
+          <button type="button" class="btn btn-danger" (click)="logout()">Logout</button>
         </li>
-
-        
       </ul>
 
       <ul *ngIf='isAssociate' class="nav navbar-nav">
@@ -55,14 +53,10 @@
         <li>
           <a [routerLink]="['/predictions']" routerLinkActive="active">Predictions</a>
         </li>
-        <!-- <li>
-          <a routerLink="/interviews" routerLinkActive="active">Interviews</a>
-        </li> -->
         <li>
           <a [routerLink]="['/create-user']" routerLinkActive="active">Create User</a>
         </li>
       </ul>
-
     </ng-container>
   </div>
 </nav>

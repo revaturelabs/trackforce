@@ -18,14 +18,14 @@
         <div class="form-group">
           <label class="control-label col-sm-3">Date of interview:</label>
           <div class="col-sm-3">
-            <input type="datetime-local" class="form-control" name="date" [(ngModel)]="interviewDate" />
+            <app-datetimepicker width="400px" format="datetime" (datePicked)="interviewDate=$event"></app-datetimepicker>
           </div>
         </div>
 
         <div class='form-group'>
           <label class="control-label col-sm-3">Date Assigned:</label>
           <div class="col-sm-3">
-            <input type="datetime-local" class="form-control" name="date" [(ngModel)]="interviewAssigned" />
+            <app-datetimepicker width="400px" format="datetime" (datePicked)="interviewAssigned=$event"></app-datetimepicker>
           </div>
         </div>
 
@@ -79,35 +79,11 @@
             <td>{{ (interview.client && interview.client.name) ? interview.client.name : ""}}</td>
 
             <td>
-              <div *ngIf="i !== index">
-                {{ interview.dateAssociateIssued | date:'MM/dd/yyyy, hh:mm a'}}
-                <br>
-                <button class="icon-button" type="button" (click)='showDateNotified(i)'>
-                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
-                </button>
-              </div>
-              <div *ngIf="i === index">
-                <input id="date" #date type="datetime-local" [ngModel]="interview.dateAssociateIssued | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="interview.dateAssociateIssued=$event">
-                <button type="button" (click)='showDateNotified(-1)'>
-                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
-                </button>
-              </div>
+              <app-datetimepicker width="300px" format="datetime" originalDate="{{interview.dateAssociateIssued | date:'yyyy-MM-ddTHH:mm'}}" (datePicked)="interview.dateAssociateIssued=$event" id="date"></app-datetimepicker>
             </td>
 
             <td>
-              <div *ngIf="i !== index2" [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'rgba(255,0,0,0.5)':''}">
-                {{ interview.interviewDate | date:'MM/dd/yyyy, hh:mm a'}}
-                <br>
-                <button class="icon-button" type="button" (click)='showInterviewDate(i)'>
-                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
-                </button>
-              </div>
-              <div *ngIf="i === index2">
-                <input id="date" #date2 type="datetime-local" [ngModel]="interview.interviewDate | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="interview.interviewDate=$event">
-                <button type="button" (click)='showInterviewDate(-1)'>
-                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
-                </button>
-              </div>
+              <app-datetimepicker width="300px" format="datetime" originalDate="{{interview.interviewDate | date:'yyyy-MM-ddTHH:mm'}}" (datePicked)="interview.interviewDate=$event" id="date"></app-datetimepicker>
             </td>
 
             <td>{{ (interview.interviewType && interview.interviewType.name) ? interview.interviewType.name : "" }}</td>

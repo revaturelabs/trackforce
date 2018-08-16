@@ -192,17 +192,36 @@ public class BatchResource {
 		List<TfBatch> batches = bd.getBatchesForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
 		
 		for (TfBatch batch : batches) {
-
+			int unmappedCount = getUnmappedCount(batch.getAssociates());
+			
 			JSONObject b = new JSONObject();
 			b.put("batchName", batch.getBatchName());
 			b.put("startDate", (Long)batch.getStartDate().getTime());
 			b.put("endDate", (Long)batch.getEndDate().getTime());
-			b.put("associateCount", batch.getAssociates().size());
+			b.put("associateCount", unmappedCount);
 			batchesJ.put(b);
 		}
 		batchDetails.put("courseBatches", batchesJ);
 		
 		return Response.status(status).entity(batchDetails.toString()).build();
+	}
+	
+	/**
+	 * 1806_Austin_M 
+	 * Iterate through set of associates and increment count based on associate status.
+	 * 
+	 * @param associates
+	 * @return count of associates with 'unmapped' status
+	 */
+	public Integer getUnmappedCount(Set<TfAssociate> associates) {
+		int n = 0;
+		
+		for(TfAssociate a : associates) {
+			if(a.getMarketingStatus().getId() > 5)
+				n++;
+		}
+			
+		return n;
 	}
 
 	/**
@@ -242,5 +261,40 @@ public class BatchResource {
 		Long lCount = Long.valueOf(count.toString());
 		associateCount.put("associateCount", lCount);
 		return Response.status(status).entity(associateCount.toString()).build();
+	}
+	
+	//1806_Andrew_H gets all batches within a certain date range, used in batch-details
+	@GET
+	@ApiOperation(value = "Returns associates for batch", notes = "Returns list.")
+	@Path("/withindates")
+	public Response getBatchesWithinDates(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
+						@HeaderParam("Authorization") String token) {
+		logger.info("getBatchesWithinDates()...");
+		Claims payload = JWTService.processToken(token);
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		Status status = null;
+		status = Status.OK;	
+		int role = Integer.parseInt(payload.getId());
+
+	/*	Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+
+		// Verifies user's role has proper authority to perform this action
+		if (authorizedRoles.contains(role)) {
+			// results and status set in here
+			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		} else {
+			status = Status.FORBIDDEN;
+		}*/
+		
+		
+		System.out.println(new Timestamp(endDate).toString());
+		BatchDaoImpl bd = new BatchDaoImpl();
+		List<TfBatch> batches = bd.getBatchesWithinDates(new Timestamp(startDate), new Timestamp(endDate));
+		
+
+		return Response.status(status).entity(batches).build();
+
 	}
 }

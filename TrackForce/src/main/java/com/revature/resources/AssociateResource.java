@@ -3,6 +3,9 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,7 +24,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
+import org.json.JSONObject;
 
+import com.revature.daoimpl.BatchDaoImpl;
 import com.revature.entity.TfAssociate;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
@@ -119,6 +124,44 @@ public class AssociateResource {
 //		}
 
 //		return Response.status(status).entity(associates).build();
+	}
+	
+	@Path("/countAssociates")
+	@GET
+	@ApiOperation(value = "Return count of associates per category", notes = "Gets a count of the associates in each category,", 
+				  response = TfAssociate.class, responseContainer = "Set")
+	public Response getCountAssociates(@HeaderParam("Authorization") String token) {
+		logger.info("getCountAssociates...");
+
+		Claims payload = JWTService.processToken(token);
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		Status status = null;
+		status = Status.OK;
+		
+		JSONObject associateCounts = new JSONObject();
+		
+		List<Integer> counts = new ArrayList<>();
+		
+		counts.add(Integer.parseInt(associateService.getCountUndeployedMapped().toString()));
+		counts.add(Integer.parseInt(associateService.getCountUndeployedUnmapped().toString()));
+		
+		counts.add(Integer.parseInt(associateService.getCountDeployedMapped().toString()));
+		counts.add(Integer.parseInt(associateService.getCountDeployedUnmapped().toString()));
+		
+		counts.add(Integer.parseInt(associateService.getCountUnmappedTraining().toString()));
+		counts.add(Integer.parseInt(associateService.getCountUnmappedOpen().toString()));
+		counts.add(Integer.parseInt(associateService.getCountUnmappedSelected().toString()));
+		counts.add(Integer.parseInt(associateService.getCountUnmappedConfirmed().toString()));
+		
+		counts.add(Integer.parseInt(associateService.getCountMappedTraining().toString()));
+		counts.add(Integer.parseInt(associateService.getCountMappedReserved().toString()));
+		counts.add(Integer.parseInt(associateService.getCountMappedSelected().toString()));
+		counts.add(Integer.parseInt(associateService.getCountMappedConfirmed().toString()));
+	
+		associateCounts.put("counts", counts);
+		return Response.status(status).entity(associateCounts.toString()).build();
 	}
 
 	/**
@@ -306,4 +349,9 @@ public class AssociateResource {
 				: Response.serverError().entity(false).build();
 	}
 
+	@GET
+	@Path("/nass/")
+	public Response getNAssociates() {
+		return Response.status(200).entity(associateService.getNAssociates()).build();
+	}
 }

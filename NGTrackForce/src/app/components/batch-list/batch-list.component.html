@@ -14,6 +14,9 @@
             <th class="date-column">End Date</th>
           </tr>
         </thead>
+        <div class="center-div" *ngIf="!dataReady">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
         <tbody>
           <ng-container *ngIf="dataReady">
             <tr *ngFor="let batch of batches" class="max-width">
@@ -50,6 +53,9 @@
           <input type="submit" class="btn btn-danger" value="Reset" (click)="resetToDefaultBatches()" />
         </div>
       </form>
+      <div class="center-div" *ngIf="!dataReady">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </div>
       <ng-container *ngIf="dataReady && !dataEmpty">
         <canvas baseChart id="pie" class="chart chart-pie" [data]="curriculumCounts" [labels]="curriculumNames" [chartType]="pieChartType"
           [colors]="batchColors" [options]="chartOptions">

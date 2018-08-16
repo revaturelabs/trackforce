@@ -1,15 +1,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6">
-      <canvas *ngIf="isDataReady && !isDataEmpty" baseChart id="bar" [chartType]="chartType" [datasets]="dataSets" [labels]="statusNames"
-        [options]="options" [colors]="mappedColors">
-      </canvas>
       <h3 class="data-status" *ngIf="isDataReady && isDataEmpty">
         No Associates Found
       </h3>
-      <h3 class="data-status" *ngIf="!isDataReady">
-        Loading ...
-      </h3>
+      <canvas *ngIf="isDataReady && !isDataEmpty" baseChart id="bar" [chartType]="chartType" [datasets]="dataSets" [labels]="statusNames"
+        [options]="options" [colors]="mappedColors">
+      </canvas>
     </div>
     <div class="col-md-6">
       <h3>Associates</h3>
@@ -29,10 +26,10 @@
               <td>
                 <a [routerLink]="" (click)="goToFormComponent(associate.id)">{{associate.id}}</a>
               </td>
-              <td>{{associate.firstName}}</td>
-              <td>{{associate.lastName}}</td>
-              <td>{{associate.marketingStatus.name}}</td>
-              <td>{{associate.client.name}}</td>
+              <td><span *ngIf="associate && associate.firstName">{{associate.firstName}}</span></td>
+              <td><span *ngIf="associate && associate.lastName">{{associate.lastName}}</span></td>
+              <td><span *ngIf="associate && associate.marketingStatus && associate.marketingStatus.name">{{associate.marketingStatus.name}}</span></td>
+              <td><span *ngIf="associate && associate.client && associate.client.name">{{associate.client.name}}</span></td>
             </tr>
           </ng-container>
         </tbody>

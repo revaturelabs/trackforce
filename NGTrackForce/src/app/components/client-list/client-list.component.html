@@ -15,8 +15,8 @@
             <span class="client-name">{{clientName}}</span>
           </li>
         </ul>
-        <div *ngIf=loading>
-          <img src="./../../../assets/loadingcircle.gif" height="100" width="100">
+        <div class="center-div" *ngIf=loading>
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
         </div>
       </div>
     </div>

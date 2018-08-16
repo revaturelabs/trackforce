@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
+import org.hibernate.HibernateException;
+import org.hibernate.NonUniqueResultException;
+
 import com.revature.dao.UserDao;
 import com.revature.daoimpl.UserDaoImpl;
 import com.revature.entity.TfRole;
@@ -54,12 +57,18 @@ public class UserService {
 	 * 
 	 * @param username
 	 * @return
+	 * 
+	 * Added a new catch exception to handle other exception
+	 * I am not proud of this but it is what was given to me
+	 * -Coder from batch 1806
 	 */
 	public TfUser getUser(String username) {
 		try {
 			return dao.getUser(username);
 		} catch (NoResultException nre) {
 			return null;
+		} catch (HibernateException e) {
+			return new TfUser();
 		}
 	}
     

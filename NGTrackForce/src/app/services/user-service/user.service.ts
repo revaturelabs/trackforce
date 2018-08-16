@@ -61,4 +61,8 @@ export class UserService {
       return this.http.post<boolean>(this.baseURL + '/checkUsername', username);
   }
 
+  public checkJwtValid(): Observable<boolean> {
+    return this.http.get<boolean>(this.baseURL + '/check');
+}
+
 }

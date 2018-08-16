@@ -9,6 +9,8 @@ import { ChartsModule } from 'ng2-charts';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { MaterialModule } from './material.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 ///
 //  COMPONENTS
 ///
@@ -42,7 +44,7 @@ import { BatchService } from './services/batch-service/batch.service';
 import { CurriculumService } from './services/curriculum-service/curriculum.service';
 import { DataSyncService } from './services/datasync-service/data-sync.service';
 import { UserService } from './services/user-service/user.service';
-import { InterviewService } from './services/interview-service/interview.service'
+import { InterviewService } from './services/interview-service/interview.service';
 
 ///
 //  FILTERS/PIPES
@@ -56,18 +58,23 @@ import { AssociateSearchByClientPipe } from './pipes/associate-search-by-client-
 //  SECURITY
 ///
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { InvalidSessionRerouteInterceptor } from './interceptors/invalidSessionReroute.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 
 ///
 //  CONSTANTS
 ///
 import { appRoutes } from './routing/routes';
-import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-helpers/router-stubs';
+import {
+  RouterLinkStubDirective,
+  RouterOutletStubComponent
+} from './testing-helpers/router-stubs';
 import { InterviewDetailsComponent } from './components/interview-details/interview-details.component';
 import { TrainerViewComponent } from './components/trainer-view/trainer-view.component';
 import { TrainerService } from './services/trainer-service/trainer.service';
 import { DeployedComponent } from './components/deployed/deployed.component';
 import { UndeployedComponent } from './components/undeployed/undeployed.component';
+
 
 @NgModule({
   declarations: [
@@ -93,9 +100,9 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     PredictionsComponent,
     MyInterviewComponent,
     InterviewDetailsComponent,
-  	InterviewsComponent,
-  	TrainerViewComponent,
-  	DeployedComponent,
+    InterviewsComponent,
+    TrainerViewComponent,
+    DeployedComponent,
     UndeployedComponent,
     AssociateSearchByStatusPipe,
     AssociateSearchByClientPipe
@@ -104,10 +111,11 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, {useHash: true}),
     ChartsModule,
     Ng2OrderModule,
-	  BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     AssociateService,
@@ -118,15 +126,12 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     BatchService,
     UserService,
     CurriculumService,
-    // DataSyncService,
     InterviewService,
     AuthGuard,
     TrainerService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      multi: true
-    }],
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: InvalidSessionRerouteInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

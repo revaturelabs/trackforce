@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -24,11 +26,13 @@ import com.revature.services.BatchService;
 import com.revature.services.ClientService;
 import com.revature.services.CurriculumService;
 import com.revature.services.InterviewService;
+import com.revature.services.JWTService;
 import com.revature.services.MarketingStatusService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
 import com.revature.utils.LogUtil;
 
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.mortbay.util.ajax.JSON;
@@ -96,39 +100,64 @@ public class UserResource {
 
 		switch (role) {
 		case 1:
-			tfrole = new TfRole(1, "Admin");
-			newUser.setTfRole(tfrole);
-			works = userService.insertUser(newUser);
+			if (userService.getUser(newUser.getUsername()) == null){
+				tfrole = new TfRole(1, "Admin");
+				newUser.setTfRole(tfrole);
+				works = userService.insertUser(newUser);
+			}
+			else {
+				works = false;
+			}
 			break;
 		case 2:
-			tfrole = new TfRole(2, "Trainer");
-			newUser.setTfRole(tfrole);
-			TfTrainer newTrainer = new TfTrainer();
-			newTrainer.setTfUser(newUser);
-			newTrainer.setFirstName(TEMP);
-			newTrainer.setLastName(TEMP);
-			logger.info("creating new trainer..." + newTrainer);
-			works = trainerService.createTrainer(newTrainer);
+			if (userService.getUser(newUser.getUsername()) == null) { 
+				tfrole = new TfRole(2, "Trainer");
+				newUser.setTfRole(tfrole);
+				TfTrainer newTrainer = new TfTrainer();
+				newTrainer.setTfUser(newUser);
+				newTrainer.setFirstName(TEMP);
+				newTrainer.setLastName(TEMP);
+				logger.info("creating new trainer..." + newTrainer);
+				works = trainerService.createTrainer(newTrainer);
+			}
+			else {
+				works = false;
+			}
 			break;
 		case 3:
-			tfrole = new TfRole(3, "Sales-Delivery");
-			newUser.setTfRole(tfrole);
-			works = userService.insertUser(newUser);
+			if (userService.getUser(newUser.getUsername()) == null) {
+				tfrole = new TfRole(3, "Sales-Delivery");
+				newUser.setTfRole(tfrole);
+				works = userService.insertUser(newUser);
+			}
+			else {
+				works = false;
+			}
 			break;
 		case 4:
-			tfrole = new TfRole(4, "Staging");
-			newUser.setTfRole(tfrole);
-			works = userService.insertUser(newUser);
+			if (userService.getUser(newUser.getUsername()) == null) {
+				tfrole = new TfRole(4, "Staging");
+				newUser.setTfRole(tfrole);
+				works = userService.insertUser(newUser);
+			}
+			else {
+				works = false;
+			}
 			break;
 		case 5:
-			tfrole = new TfRole(5, ASSC);
-			newUser.setTfRole(tfrole);
-			TfAssociate newAssociate = new TfAssociate();
-			newAssociate.setUser(newUser);
-			newAssociate.setFirstName(TEMP);
-			newAssociate.setLastName(TEMP);
-			logger.info("creating new associate..." + newAssociate);
-			works = associateService.createAssociate(newAssociate);
+			if (userService.getUser(newUser.getUsername()) == null) {
+				tfrole = new TfRole(5, ASSC);
+				newUser.setTfRole(tfrole);
+				TfAssociate newAssociate = new TfAssociate();
+				newAssociate.setUser(newUser);
+				newAssociate.setFirstName(TEMP);
+				newAssociate.setLastName(TEMP);
+				logger.info("creating new associate..." + newAssociate);
+				works = associateService.createAssociate(newAssociate);
+			}
+			else {
+				works = false;
+			}
 			break;
 		default:
 			logger.warn("Role is zero");
@@ -265,7 +294,30 @@ public class UserResource {
 			return Response.status(Status.OK).entity(user).build();
 		} else {
 			logger.info("sending unauthorized response..");
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.OK).entity(null).build();
 		}
 	}
+	
+	/**
+	 * @author 1806_Austin_M
+	 * Uses JWTService to validate a web token. Used from login component to check if session data is still up to date
+	 * @param token
+	 * @return
+	 */
+	@Path("/check")
+	@GET
+	@ApiOperation(value = "check method", notes = "The method checks whether a JWT is valid. returns 200 if valid, 401 if invalid.")
+	public Response checkCredentials(@HeaderParam("Authorization") String token) {
+		logger.info("checkCredentials()...");
+
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null) 
+			return Response.status(Status.UNAUTHORIZED).build();
+		else
+			return Response.status(Status.OK).build();
+
+	}
+	
+	
 }

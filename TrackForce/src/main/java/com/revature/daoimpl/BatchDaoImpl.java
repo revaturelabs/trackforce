@@ -37,6 +37,16 @@ public class BatchDaoImpl implements BatchDao {
 				.createQuery("from TfBatch", TfBatch.class).getResultList());
 	}
 
+	/*
+	 * 1806_Andrew_H
+	 * Very similar to the below method, except it doesn't filter by the curriculum name
+	 */
+	public List<TfBatch> getBatchesWithinDates(Timestamp startDate, Timestamp endDate) {
+		return HibernateUtil.runHibernate((Session session, Object... args) -> session.createQuery(
+				"from TfBatch b WHERE b.startDate >= :startdate AND b.endDate <= :enddate",
+				TfBatch.class).setParameter("startdate", startDate)
+				.setParameter("enddate", endDate).getResultList());
+	}
 	/**
 	 * 1806_Chris_P: This method retrieves all of the batches that match the technology 
 	 * 	and fall between the dates selected in the Predictions page.
@@ -46,7 +56,7 @@ public class BatchDaoImpl implements BatchDao {
 	 */
 	public List<TfBatch> getBatchesForPredictions(String name, Timestamp startDate, Timestamp endDate) {
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session.createQuery(
-				"from TfBatch b WHERE b.curriculumName.name = :name AND b.startDate >= :startdate AND b.endDate <= :enddate",
+				"from TfBatch b WHERE b.curriculumName.name = :name AND b.startDate >= :startdate AND b.endDate <= :enddate ORDER BY b.endDate",
 				TfBatch.class).setParameter("name", name).setParameter("startdate", startDate)
 				.setParameter("enddate", endDate).getResultList());
 	}
@@ -70,7 +80,7 @@ public class BatchDaoImpl implements BatchDao {
 			session = HibernateUtil.getSessionFactory().openSession();
 			tacobell = session.createNativeQuery(
 					"select count(a.tf_associate_id) " + 
-					"from admin.tf_associate a where a.tf_batch_id IN " + 
+					"from admin.tf_associate a where a.tf_marketing_status_id > 5 AND a.tf_batch_id IN " + 
 					"(" + 
 					"    select b.tf_batch_id " + 
 					"    from admin.tf_batch b " + 

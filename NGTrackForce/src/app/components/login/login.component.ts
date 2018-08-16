@@ -17,6 +17,7 @@ import {TrainerService} from '../../services/trainer-service/trainer.service';
 import {Trainer} from '../../models/trainer.model';
 import {Batch} from '../../models/batch.model';
 import {Associate} from "../../models/associate.model";
+import { NavbarService } from '../../services/navbar-service/navbar.service';
 
 const ASSOCIATE_KEY = 'currentAssociate';
 const USER_KEY = 'currentUser';
@@ -48,7 +49,7 @@ const ASSOCIATES_KEY = 'currentAssociates';
         ]),
         transition(':leave', [
           style({opacity: 1}),
-          animate('500ms', style({opacity: 0}))
+          animate('0ms', style({opacity: 0}))
         ])
       ]
     )
@@ -99,36 +100,48 @@ export class LoginComponent implements OnInit {
     private interviewService: InterviewService,
     private clientService: ClientService,
     private batchService: BatchService,
-    private trainerService: TrainerService
+    private trainerService: TrainerService,
+    private navbarService: NavbarService
   ) {
   }
 
+
   /**
-   * Called upon component initiation
-   * Checks if the user is already to logged-in
-   * If they are re-route to root
-   * If the user is an associate, route them to associate view
-   * Admins, VPs, and managers/directors are sent to root
-   *
-   *@param none
-   *
+   * 1806_Austin_M
+   * Checks if the user has a current session
+   * Validates the JWT with the back end.
+   * If successful, navigate to user home;
+   * else, remain on login screen
    */
   ngOnInit() {
+    //Validate token with backend
     const user = this.authService.getUser();
+    this.navbarService.hide();
+
     if (user != null) {
-      if (user.role === 5) {
-        // this.router.navigate(['associate-view']);
+      this.loginClicked = true;
+      this.isLoggingIn = true;
+      
+
+      this.userService.checkJwtValid().subscribe(
+        data => { this.routeToUserHome(user.role); },
+        err => { this.resetAfterLoginFail() }
+      );
+    }
+  }
+
+  routeToUserHome(role: number){
+    this.navbarService.show();
+
+    if (role == 5) {
         this.router.navigate(['associate-view']);
-        // } else if (user.role === 2) {
-        //   this.router.navigate(['trainer-view']);
-      } else if (user.role === 2) {
+    } else if (role == 2) {
         this.router.navigate(['trainer-view']);
-      } else if (user.role === 1 || user.role === 3 || user.role === 4) {
-        // this.getUser(user.id);
+    } else if (role == 1 || role == 3 || role == 4) {
         this.router.navigate(['app-home']);
-      } else {
-        this.authService.logout();
-      }
+    } else{
+      this.navbarService.hide();
+      this.authService.logout();
     }
   }
 
@@ -261,16 +274,22 @@ export class LoginComponent implements OnInit {
    *
    */
   login() {
-    this.loginClicked = true;
     this.sucMsg = "";
     this.errMsg = "";
     if (this.username && this.password) {
+      this.loginClicked = true;
       this.authService.login(this.username, this.password).subscribe(
         data => {
+
           localStorage.setItem(USER_KEY, JSON.stringify(data));
-          //navigate to appropriate page if return is valid
+
+          if(data == null){
+            this.resetAfterLoginFail();
+            this.errMsg = "Invalid username and/or password";
+          } else if (data.isApproved) {
+            this.navbarService.show();
+            //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
-          if (data.isApproved) {
             if (data.role === 5) {
               this.associateLogin(data);
             } else if (data.role === 2) {
@@ -278,21 +297,18 @@ export class LoginComponent implements OnInit {
             } else if (data.role === 1 || data.role === 3 || data.role === 4) {
               this.salesOrStagingLogin();
             } else {
-              this.authService.logout();
+              this.resetAfterLoginFail();
             }
           } else {
-            this.authService.logout();
+            this.resetAfterLoginFail();
             this.errMsg = "Your account has not been approved.";
           }
         },
         err => {
-          this.authService.logout();
+          this.resetAfterLoginFail();
+
           if (err.status === 500) {
             this.errMsg = "There was an error on the server";
-          }
-          else if (err.status === 401) {
-            this.errMsg = "Invalid username and/or password";
-
           }
           else if (err.status === 403) {
             this.errMsg = "Account not verified";
@@ -305,6 +321,15 @@ export class LoginComponent implements OnInit {
     } else {
       this.errMsg = "Please enter a username and password";
     }
+  }
+
+  /**
+   * Resets loading bools for ngif and performs logout action
+   */
+  resetAfterLoginFail(){
+    this.isLoggingIn = false;
+    this.loginClicked = false;
+    this.authService.logout();
   }
 
   /**
@@ -338,6 +363,7 @@ export class LoginComponent implements OnInit {
     this.trainerService.getTrainer(user.id).subscribe(
       data => {
         localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
+        this.router.navigate(['trainer-view']);
       },
       err => {
         if (err.status === 500) {

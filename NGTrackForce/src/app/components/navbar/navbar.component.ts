@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { User } from '../../models/user.model';
 import { Associate } from '../../models/associate.model';
+import { NavbarService } from '../../services/navbar-service/navbar.service';
 /**
   * Controls the nav bar
   */
@@ -25,7 +26,7 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
   public isAssociate: boolean;
   public username = '';
 
-  constructor(private router: Router, private authService: AuthenticationService) { }
+  constructor(private router: Router, private authService: AuthenticationService, public navbarService: NavbarService) { }
 
   ngOnInit() {
     // this.navbarDisplay();

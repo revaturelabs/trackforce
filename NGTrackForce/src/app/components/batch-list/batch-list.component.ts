@@ -40,10 +40,9 @@ export class BatchListComponent implements OnInit {
   stringStart: string;
   stringEnd: string;
 
-  testString: string;
-
   dateRangeMessage: string;
   showDateRangeError = false;
+  dateError: boolean;
 
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
     new SideValues(-100, 0, 0, 0),
@@ -121,28 +120,26 @@ export class BatchListComponent implements OnInit {
    * and the corresponding graph accordingly
    */
   public applySelectedRange() {
+    if (!this.dateError){
     this.startDate = new Date(this.stringStart);
     this.endDate = new Date(this.stringEnd);
-    console.log(this.stringStart);
-    console.log(this.startDate);
-
 
     let longStartDate: number;
     let longEndDate: number;
 
     this.resetFormWarnings();
+        if (this.startDate && this.endDate) {
+          longStartDate = this.startDate.getTime();
+          longEndDate = this.endDate.getTime();
 
-    if (this.startDate && this.endDate) {
-      longStartDate = this.startDate.getTime();
-      longEndDate = this.endDate.getTime();
 
-
-      if (longStartDate > longEndDate) {
-        this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
-        this.showDateRangeError = true;
-      } else {
-        this.updateBatches();
-      }
+          if (longStartDate > longEndDate) {
+            this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
+            this.showDateRangeError = true;
+          } else {
+            this.updateBatches();
+          }
+        }
     }
   }
 

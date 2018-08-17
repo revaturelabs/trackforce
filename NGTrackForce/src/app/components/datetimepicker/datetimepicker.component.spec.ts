@@ -23,3 +23,4 @@ describe('DateTimePickerComponent', async () => {
     fixture.detectChanges();
     expect(component.dataReady).toBeTruthy();
   });
+}

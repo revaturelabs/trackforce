@@ -84,8 +84,7 @@ public class HibernateUtil {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			transaction = session.beginTransaction();
-			boolean b = sessional.operate(session, args);
-
+			boolean b = sessional.operate(session, args);	
 			if (b) {
 				logger.debug("Committing...");
 			} else {

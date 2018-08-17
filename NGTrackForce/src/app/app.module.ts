@@ -76,6 +76,7 @@ import { TrainerViewComponent } from './components/trainer-view/trainer-view.com
 import { TrainerService } from './services/trainer-service/trainer.service';
 import { DeployedComponent } from './components/deployed/deployed.component';
 import { UndeployedComponent } from './components/undeployed/undeployed.component';
+import { SalesforceComponent } from './components/salesforce/salesforce.component';
 
 
 
@@ -109,7 +110,8 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     UndeployedComponent,
     DateTimePickerComponent,
     AssociateSearchByStatusPipe,
-    AssociateSearchByClientPipe
+    AssociateSearchByClientPipe,
+    SalesforceComponent
   ],
   imports: [
     BrowserModule,

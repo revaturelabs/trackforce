@@ -62,22 +62,22 @@ public class TfAssociate implements java.io.Serializable {
 	private TfUser user;
 	
 	@XmlElement
-	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "TF_BATCH_ID")
 	private TfBatch batch;
 
 	@XmlElement
-	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "TF_MARKETING_STATUS_ID")
 	private TfMarketingStatus marketingStatus;
 
 	@XmlElement
-	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "TF_CLIENT_ID")
 	private TfClient client;
 
 	@XmlElement
-	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "TF_END_CLIENT_ID")
 	private TfEndClient endClient;
 

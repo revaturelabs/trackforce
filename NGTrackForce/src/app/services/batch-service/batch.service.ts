@@ -9,10 +9,9 @@ import { Associate } from '../../models/associate.model';
 
 @Injectable()
 export class BatchService {
+  private baseURL: string = environment.url + 'TrackForce/batches';
 
-  private baseURL: string = environment.url + "TrackForce/batches";
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    *  This gets all of the batches, every single one
@@ -25,8 +24,14 @@ export class BatchService {
   /*
     Get batches with dates
   */
-  public getBatchesWithinDates(startDate: Date, endDate: Date): Observable<Batch[]>{
-    const url = this.baseURL + '/withindates' + `/?start=${startDate.getTime()}&end=${endDate.getTime()}`;
+  public getBatchesWithinDates(
+    startDate: Date,
+    endDate: Date
+  ): Observable<Batch[]> {
+    const url =
+      this.baseURL +
+      '/withindates' +
+      `/?start=${startDate.getTime()}&end=${endDate.getTime()}`;
     return this.http.get<Batch[]>(url);
   }
 
@@ -39,7 +44,8 @@ export class BatchService {
    * @returns {Observable<Batch[]>}
    */
   public getBatchesByDate(startDate: Date, endDate: Date): Observable<Batch[]> {
-    const url = this.baseURL + `/?start=${startDate.getTime()}&?end=${endDate.getTime()}`;
+    const url =
+      this.baseURL + `/?start=${startDate.getTime()}&?end=${endDate.getTime()}`;
     return this.http.get<Batch[]>(url);
   }
 
@@ -59,15 +65,37 @@ export class BatchService {
     A Json object array is received and returned
     See 1806 iteration 6 - Team 4 Predictions - Request Response Doc - #1
   */
-  public getBatchDetails(startDate: Date, endDate: Date, CourseName: string):Observable<Object>{
-    const url = this.baseURL + 
-            `/details?start=${startDate.getTime()}&end=${endDate.getTime()}&courseName=${CourseName}`;
+  public getBatchDetails(
+    startDate: Date,
+    endDate: Date,
+    CourseName: string
+  ): Observable<Object> {
+    const url =
+      this.baseURL +
+      '/details?start=${startDate.getTime()}&end=${endDate.getTime()}&courseName=${CourseName}';
     return this.http.get<Object>(url);
   }
 
-  public getAssociateCountByCurriculum(startDate: Date, endDate: Date, CourseName: string): Observable<Object>{
-    return this.http.get<Object>(this.baseURL + 
-      `/countby?start=${startDate.getTime()}&end=${endDate.getTime()}&courseName=${CourseName}`);
+  public getAssociateCountByCurriculum(
+    startDate: Date,
+    endDate: Date,
+    CourseName: string
+  ): Observable<Object> {
+    return this.http.get<Object>(
+      this.baseURL +
+        '/countby?start=${startDate.getTime()}&end=${endDate.getTime()}&courseName=${CourseName}'
+    );
+  }
+
+  /*
+    1806_Kevin_C
+    This method sends a start and end date along with the coursename I.E. Java,PEGA.
+    A Json object array is received and returned
+    See 1806 iteration 6 - Team 4 Predictions - Request Response Doc - #1
+  */
+  public getBatchDetailsById(id: number): Observable<Batch> {
+    const url = this.baseURL + '/batch/' + id;
+    return this.http.get<Batch>(url);
   }
 
   // // ============================================================================
@@ -91,7 +119,6 @@ export class BatchService {
   //   return this.getBatchesByDate(threeMonthsBefore, threeMonthsAfter);
   // }
 
-
   // public getBatchesSortedById(): Observable<Batch[]> {
   //   return this.http.get<Batch[]>(this.baseURL + '?sorted=id');
   // }
@@ -103,5 +130,4 @@ export class BatchService {
   // public getBatchByType(threeMonthsBefore: number, threeMonthsAfter: number, type: string): Observable<Batch[]> {
   //   return this.http.get<Batch[]>(this.baseURL + '?start=' + threeMonthsBefore + '&end=' + threeMonthsAfter + '&type=' + type);
   // }
-
 }

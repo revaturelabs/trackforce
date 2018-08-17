@@ -60,7 +60,7 @@ public class TfTrainer implements Serializable{
 	private String lastName;
 	
 	@XmlElement
-	@OneToMany(mappedBy = "trainer")
+	@OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER) // 1806_Chris_P: This needs to be EAGER for TrainerResource.getBatchFromTrainer() to work.
 	@JsonIgnore
 	private List<TfBatch> primary;
 	

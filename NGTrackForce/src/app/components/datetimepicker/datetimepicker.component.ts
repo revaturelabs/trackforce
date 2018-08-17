@@ -66,7 +66,7 @@ export class DateTimePickerComponent implements OnInit {
     }
 
     public validateDate(){
-    if (this.date == "Invalid Date"){
+    if (this.date.toString() == "Invalid Date"){
         this.displayErrorInvalidDate = true;
         this.date = null;
     }

@@ -297,4 +297,29 @@ public class BatchResource {
 		return Response.status(status).entity(batches).build();
 
 	}
+	
+	/**
+	 * 1806_Chris_P
+	 * Super similar to the previous method, except that this one only returns the aggregate count of all associates in
+	 * a particular curriculum selected from the Predictions Page.
+	 */
+	@GET
+	@ApiOperation(value = "Returns batch information given a batch id", notes = "Returns batch information based on batch id.")
+	@Path("/batch/{id}")
+	public Response getBatchInfo(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
+		logger.info("getBatchInformation...");
+
+		Claims payload = JWTService.processToken(token);
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		Status status = null;
+		status = Status.OK;
+		
+		BatchDaoImpl bd = new BatchDaoImpl();
+		TfBatch batch = batchService.getBatchById(id);
+		
+		
+		return Response.status(status).entity(batch).build();
+	}
 }

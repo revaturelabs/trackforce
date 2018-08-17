@@ -22,6 +22,7 @@ import { Router } from '../../testing-helpers/router-stubs';
 import { User } from '../../models/user.model';
 import{ MarketingStatus } from '../../models/marketing-status.model';
 import { Associate } from '../../models/associate.model';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 describe('HomeComponent', () => {
   let requestService: RequestService;
@@ -31,7 +32,7 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent, NavbarComponent, HomeComponent, SkillsetComponent, ClientMappedComponent, FooterComponent ],
+      declarations: [ HomeComponent, NavbarComponent, SkillsetComponent, ClientMappedComponent, FooterComponent, MatProgressSpinner],
       imports: [HttpClientTestingModule, RouterTestingModule, ChartsModule],
       providers: [ RequestService, AuthenticationService, DataSyncService, BatchService, ClientService, AssociateService, CurriculumService, UserService ]
     })

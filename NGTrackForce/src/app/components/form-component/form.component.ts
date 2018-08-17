@@ -54,6 +54,7 @@ export class FormComponent implements OnInit {
   receivedEmailFromClient: boolean;
   passedBackgroundCheck: boolean;
   hasStartDate: boolean;
+  public isDataReady: boolean = false;
 
   associateId: number;
   private sub: any;
@@ -245,9 +246,11 @@ export class FormComponent implements OnInit {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
       data => {
         this.interviews = data;
+        this.isDataReady = true;
       },
       error => {
         console.log('Failed to get interviews.');
+        this.isDataReady = true;
       }
     );
   }

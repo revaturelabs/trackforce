@@ -3,6 +3,8 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,7 +26,9 @@ import javax.ws.rs.core.Response.Status;
 import org.hibernate.HibernateException;
 import org.json.JSONObject;
 
+import com.revature.daoimpl.BatchDaoImpl;
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfTrainer;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -85,42 +89,35 @@ public class AssociateResource {
 	@ApiOperation(value = "Return all associates", notes = "Gets a set of all the associates,", response = TfAssociate.class, responseContainer = "Set")
 	public Response getAllAssociates(@HeaderParam("Authorization") String token) {
 		logger.info("getAllAssociates()...");
-
+		Status status = null;
+		List<TfAssociate> associates = associateService.getAllAssociates();
 		Claims payload = JWTService.processToken(token);
-		if(payload == null || payload.getId().equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).build();
-		}else if(payload.getId().equals("2")) {
-			return Response.status(Status.OK).entity(associateService.getAssociatesByTrainer(payload.getSubject())).build();
-		}else {
-			return Response.status(Status.OK).entity(associateService.getAllAssociates()).build();
-		}
-//		//If there is no payload or if role is associate
-//		if (payload == null || payload.getId().equals("5")) {
-//			return Response.status(Status.UNAUTHORIZED).build();
-//		} else {
-//			//If they are a trainer
-//			if (payload.getId().equals("2")) {
-//				List<TfAssociate> assoc = new ArrayList<>();
-//				for (TfAssociate a : associates) {
-//					if (a.getBatch() != null) {
-//						if (payload.getSubject().equals(a.getBatch().getTrainer().getTfUser().getUsername())) {
-//							assoc.add(a);
-//						}
-//						List<TfTrainer> cotrainers = a.getBatch().getCoTrainer();
-//						for (TfTrainer t : cotrainers) {
-//							if (t.getTfUser().getUsername().equals(payload.getSubject())) {
-//								assoc.add(a);
-//							}
-//						}
-//
-//					}
-//				}
-//				associates = assoc;
-//			}
-//			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
-//		}
 
-//		return Response.status(status).entity(associates).build();
+		if (payload == null || payload.getId().equals("5")) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		} else {
+			if (payload.getId().equals("2")) {
+				List<TfAssociate> assoc = new ArrayList<TfAssociate>();
+				for (TfAssociate a : associates) {
+					if (a.getBatch() != null) {
+						if (payload.getSubject().equals(a.getBatch().getTrainer().getTfUser().getUsername())) {
+							assoc.add(a);
+						}
+						List<TfTrainer> cotrainers = a.getBatch().getCoTrainer();
+						for (TfTrainer t : cotrainers) {
+							if (t.getTfUser().getUsername().equals(payload.getSubject())) {
+								assoc.add(a);
+							}
+						}
+
+					}
+				}
+				associates = assoc;
+			}
+			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		}
+
+		return Response.status(status).entity(associates).build();
 	}
 	
 	@Path("/countAssociates")
@@ -180,7 +177,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 		TfAssociate associateinfo;
 
-		if (payload == null) {
+		if (payload == null || false) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		} else {
 			try {
@@ -214,7 +211,7 @@ public class AssociateResource {
 		Status status = null;	
 		Claims payload = JWTService.processToken(token);	
 		TfAssociate associateinfo;	
- 		if (payload == null) {	
+ 		if (payload == null || false) {	
 			return Response.status(Status.UNAUTHORIZED).build();	
 		}	
 		else {	
@@ -226,8 +223,8 @@ public class AssociateResource {
 			}	
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;	
 		}	
-		logger.info(status);	
-		logger.info(associateinfo);
+		System.out.println(status);	
+		System.out.println(associateinfo);
 		return Response.status(status).entity(associateinfo).build();
 	}
 
@@ -258,7 +255,7 @@ public class AssociateResource {
 			List<Integer> ids) {
 		logger.info("updateAssociates()...");
 		logger.info(ids);
-
+		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
 		List<TfAssociate> associates = new LinkedList<>();
@@ -310,7 +307,7 @@ public class AssociateResource {
 		logger.info("updateAssociate()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
-		logger.info(id);
+		System.out.println(id);
 
 		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).build();

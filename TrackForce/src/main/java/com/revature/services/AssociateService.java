@@ -1,11 +1,13 @@
 package com.revature.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfClient;
 import com.revature.entity.TfUser;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
@@ -23,8 +25,8 @@ public class AssociateService {
 	private AssociateDao dao;
 	
 	// public so it can be used for testing 
-	public AssociateService() {dao = new AssociateDaoImpl();}
-	public AssociateService(AssociateDao dao) {this.dao = dao;}
+	public AssociateService() {dao = new AssociateDaoImpl();};
+	public AssociateService(AssociateDao dao) {this.dao = dao;};
 	/**
 	 * @author Adam L. 
 	 * 
@@ -64,9 +66,6 @@ public class AssociateService {
 		return dao.getAllAssociates();
 	}
 	
-	public List<TfAssociate> getAssociatesByTrainer(String username){
-		return dao.getAssociatesByTrainerUsername(username);
-	}
 	public List<TfAssociate> getNAssociates(){
 		return dao.getNAssociates();
 	}

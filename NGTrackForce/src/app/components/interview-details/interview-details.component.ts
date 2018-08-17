@@ -7,6 +7,7 @@ import { InterviewService } from '../../services/interview-service/interview.ser
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { Associate } from '../../models/associate.model';
 import { Interview } from '../../models/interview.model';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-interview-details',
@@ -15,6 +16,7 @@ import { Interview } from '../../models/interview.model';
 })
 export class InterviewDetailsComponent implements OnInit {
 
+  user: User;
   public interview: Interview;
   public associate: Associate;
   isDataReady: boolean;
@@ -22,6 +24,12 @@ export class InterviewDetailsComponent implements OnInit {
   promptClassName: string = "col-sm-4 alert alert-success";
   promptMessage: string = "Succes-interview updated";
   promptToggle: boolean = false;
+  isEditAss : boolean = false;
+  isDisAss : boolean = false;
+  isEditCli : boolean = false;
+  isDisCli : boolean = false;
+  isEditQue : boolean = false;
+  isDisQue : boolean = false;
   
   constructor(private route: ActivatedRoute, private interviewService: InterviewService,
     private authService: AuthenticationService) { }
@@ -59,7 +67,60 @@ export class InterviewDetailsComponent implements OnInit {
     );
   }
 
+  isDisabledAssFeed()
+  {
+    this.user = this.authService.getUser();
+    if ( this.user.role == 3 )
+    {
+      this.isDisAss = true;
+    }
+    else
+    {
+      this.isDisAss = false;
+    }
+    return this.isDisAss;
+  }
 
+  isDisabledCliFeed()
+  {
+    this.user = this.authService.getUser();
+    if ( this.user.role == 3 )
+    {
+      this.isDisCli = false;
+    }
+    else
+    {
+      this.isDisCli = true;
+    }
+    return this.isDisCli;
+  }
 
+  isDisabledIntQue()
+  {
+    this.user = this.authService.getUser();
+    if ( this.user.role == 3 )
+    {
+      this.isDisQue = true;
+    }
+    else
+    {
+      this.isDisQue = false;
+    }
+    return this.isDisQue;
+  }
+
+  isDisabledExpectedSkillsAndQue()
+  {
+    this.user = this.authService.getUser();
+    if ( this.user.role == 3 )
+    {
+      this.isDisQue = false;
+    }
+    else
+    {
+      this.isDisQue = true;
+    }
+    return this.isDisQue;
+  }
 
 }

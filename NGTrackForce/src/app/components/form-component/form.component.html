@@ -69,7 +69,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let interview of interviews; let i = index">
+          <tr *ngFor="let interview of interviews; let i = index" (click)="goToInterviewDetails(interview)">
             <td>{{(interview && interview.id) ? interview.id : ""}}</td>
             <td>{{(interview.client && interview.client.name) ? interview.client.name : ""}}</td>
             <td>{{(interview && interview.interviewDate) ? (interview.interviewDate | date:'longDate') : "" }}</td>

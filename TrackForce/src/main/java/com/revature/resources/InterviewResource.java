@@ -183,7 +183,7 @@ public class InterviewResource {
 		if (payload == null) { // invalid token
 
 			status = Status.UNAUTHORIZED;
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) { // wrong roleid
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("5") || payload.getId().equals("3"))) { // wrong roleid
 			status = Status.FORBIDDEN;
 		} else {
 			logger.info(interview);
@@ -217,7 +217,7 @@ public class InterviewResource {
 
 		if (payload == null) { // invalid token
 			status = Status.UNAUTHORIZED;
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) { // wrong roleid
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("5") || payload.getId().equals("3"))) { // wrong roleid
 			status = Status.FORBIDDEN;
 		} else {
 			interviewService.updateInterview(interview);

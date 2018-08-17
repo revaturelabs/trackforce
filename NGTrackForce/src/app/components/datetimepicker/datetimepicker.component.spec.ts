@@ -17,10 +17,10 @@ describe('DateTimePickerComponent', async () => {
     fixture = TestBed.createComponent(DateTimePickerComponent);
     component = fixture.componentInstance;
 
-  });
+    });
 
   it('should create', () => {
     fixture.detectChanges();
     expect(component.dataReady).toBeTruthy();
   });
-}
+});

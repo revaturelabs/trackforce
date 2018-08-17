@@ -9,6 +9,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { SkillsetComponent } from '../skillset/skillset.component';
 import { ClientMappedComponent } from '../client-mapped/client-mapped.component';
 // added imports; DK
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ChartsModule } from 'ng2-charts';
 import { FooterComponent } from '../footer/footer.component';
 import { DataSyncService } from '../../services/datasync-service/data-sync.service';
@@ -32,8 +33,12 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent, NavbarComponent, SkillsetComponent, ClientMappedComponent, FooterComponent, MatProgressSpinner],
-      imports: [HttpClientTestingModule, RouterTestingModule, ChartsModule],
+
+     // declarations: [ HomeComponent, NavbarComponent, SkillsetComponent, ClientMappedComponent, FooterComponent, MatProgressSpinner],
+     // imports: [HttpClientTestingModule, RouterTestingModule, ChartsModule],
+
+      declarations: [ HomeComponent, NavbarComponent, HomeComponent, SkillsetComponent, ClientMappedComponent, FooterComponent ],
+      imports: [HttpClientTestingModule, RouterTestingModule, MatProgressSpinnerModule,  ChartsModule],
       providers: [ RequestService, AuthenticationService, DataSyncService, BatchService, ClientService, AssociateService, CurriculumService, UserService ]
     })
     .compileComponents();
@@ -41,13 +46,13 @@ describe('HomeComponent', () => {
 
   beforeEach(() => {
     let mockUser:User = new User('mockUser','pass',0,0);
-    
+
     let associate1:Associate = new Associate('first','last',mockUser);
     let associate2:Associate = new Associate('first','last',mockUser);
     let associate3:Associate = new Associate('first','last',mockUser);
-    
+
     let marketingStatus:MarketingStatus = new MarketingStatus(1, 'status');
-    
+
     associate1.marketingStatus = marketingStatus;
     associate2.marketingStatus = marketingStatus;
     associate3.marketingStatus = marketingStatus;
@@ -61,7 +66,7 @@ describe('HomeComponent', () => {
     // associate1.marketingStatus = marketingStatus1;
     // associate2.marketingStatus = marketingStatus2;
     // associate3.marketingStatus = marketingStatus3;
-    
+
 
     localStorage.setItem('currentAssociates',JSON.stringify(associates));
 

@@ -11,15 +11,9 @@
           <th>End Date</th>
         </tr>
         <tr>
-<<<<<<< HEAD
-          <td><input class="form-control" type="date" [(ngModel)]="startDateString" (change)="generateDates()" (blur)="getAllPredictions()"
-            /></td>
-          <td><input class="form-control" type="date" [(ngModel)]="endDateString" (change)="generateDates()" (blur)="getAllPredictions()"
-=======
           <td><input id='startDate' class="form-control" type="date" [(ngModel)]="startDateString" (change)="generateDates()" (blur)="getAllPredictions()"
             /></td>
           <td><input id='endDate' class="form-control" type="date" [(ngModel)]="endDateString" (change)="generateDates()" (blur)="getAllPredictions()"
->>>>>>> 0df47b3155cef66f9c5470212f4713665c921568
             /></td>
         </tr>
       </table>
@@ -56,11 +50,7 @@
                 <div style="color:red;" *ngIf="techNeeded[i] >= maxAssociates">Please enter a number between 1 and {{maxAssociates}}</div>
               </td>
               <td><input type="number" class="form-control" [(ngModel)]="techNeeded[i]" [ngModelOptions]="{standalone: true}"
-<<<<<<< HEAD
-                  onkeypress="return (event.charCode == 0 || event.charCode == 8 || event.charCode == 13) ? 
-=======
                   onkeypress="return (event.charCode == 0 || event.charCode == 8 || event.charCode == 13) ?
->>>>>>> 0df47b3155cef66f9c5470212f4713665c921568
                   null : event.charCode >= 48 && event.charCode <= 57" (change)="getPrediction(i, true)" [min]="0"></td>
             </tr>
           </tbody>
@@ -98,7 +88,6 @@
     </div>
   </div>
 
-<<<<<<< HEAD
   <!-- Batch Details: Breakdown of batches available for a single curriculum -->
   <div class="row" *ngIf="detailsReady || loadingDetails">
     <h3>{{selectedBatch}} Batch Details</h3>
@@ -127,29 +116,6 @@
           <tbody>
             <ng-container *ngFor="let x of batches['courseBatches']">
               <tr *ngIf="x['associateCount'] != 0 || showEmpty">
-=======
-   <!-- Batch Details: Breakdown of batches available for a single curriculum -->
-  <div class="row" *ngIf="detailsReady">
-      <h3>{{selectedBatch}} Batch Details</h3>
-      <div class="col-md-12">
-
-        <div class="alert alert-danger" *ngIf="noBatches">
-          No batches are available within the selected time span.
-        </div>
-
-        <div class="table-div" *ngIf="!noBatches">
-          <table class="table table-striped table-bordered" *ngIf="detailsReady">
-            <thead>
-              <tr>
-                <th>Batch ID</th>
-                <th>Available Associates</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let x of batches['courseBatches']">
->>>>>>> 0df47b3155cef66f9c5470212f4713665c921568
                 <td>{{x['batchName']}}</td>
                 <td>{{x['associateCount']}}</td>
                 <td>{{x['startDate'] | date}}</td>
@@ -161,8 +127,4 @@
       </div>
     </div>
   </div>
-<<<<<<< HEAD
 </div>
-=======
-</div>
->>>>>>> 0df47b3155cef66f9c5470212f4713665c921568

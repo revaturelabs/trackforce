@@ -170,7 +170,6 @@ public class UserResource {
 			return Response.status(Status.EXPECTATION_FAILED).build();
 		}
 	}
-
 	
 	@Path("/checkUsername")
 	@POST

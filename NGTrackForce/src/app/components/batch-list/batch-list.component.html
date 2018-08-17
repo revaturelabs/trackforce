@@ -39,7 +39,7 @@
       <form>
         <div style="display:inline-block; text-align:left">
           <label for="startDate">From:</label>
-          <app-datetimepicker width="300px" format="date" (datePicked)="stringStart=$event" id="startDate" name="stringStart"></app-datetimepicker>
+          <app-datetimepicker width="300px" format="date" (datePicked)="stringStart=$event" (error)="dateError=$event" id="startDate" name="stringStart"></app-datetimepicker>
         </div>
         <div style="display:inline-block; text-align:left">
           <label for="endDate">To:</label>

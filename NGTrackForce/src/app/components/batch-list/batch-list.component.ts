@@ -50,9 +50,6 @@ export class BatchListComponent implements OnInit {
     'right', false, false
   );
 
-  public testFunction(){
-      console.log(this.testString);
-  }
 
   constructor(private batchService: BatchService, private authService: AuthenticationService) {
   }

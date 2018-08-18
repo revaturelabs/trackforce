@@ -2,8 +2,8 @@ import { browser, by, element } from 'protractor';
 
 export class LoginPage {
   navigateTo(){
-    //return browser.get('/NGTrackForce');
-    return browser.get('/login');
+    return browser.get('/NGTrackForce');
+    //return browser.get('/login');
   }
 
   getUsernameInput(){

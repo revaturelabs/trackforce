@@ -134,6 +134,9 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: InvalidSessionRerouteInterceptor, multi: true },
   ],
+  exports: [
+    MatProgressSpinnerModule
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

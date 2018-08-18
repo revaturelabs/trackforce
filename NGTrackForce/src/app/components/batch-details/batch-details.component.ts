@@ -167,6 +167,11 @@ export class BatchDetailsComponent implements OnInit {
     });
   }
 
+  /**
+   *
+   * @param id The id of the batch
+   * Returns information of a given batch
+   */
   getBatchInformation(id) {
     this.batchService.getBatchDetailsById(id).subscribe(
       data => {

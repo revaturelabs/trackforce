@@ -1,6 +1,6 @@
 /** @Author Princewill Ibe **/
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Batch } from '../../models/batch.model';
 import { BatchService } from '../../services/batch-service/batch.service';
 import { ThemeConstants } from '../../constants/theme.constants';
@@ -8,6 +8,7 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartOptions, SideValues } from '../../models/ng2-charts-options.model';
 import { Color } from 'ng2-charts';
 import 'rxjs/add/observable/from';
+import { DateService } from '../../services/date-service/date.service';
 
 
 // TODO: LABELS SHOULD PROPERLY WRAP
@@ -27,7 +28,7 @@ export class BatchListComponent implements OnInit {
   start: any;
   end: any;
   pieChartType = 'pie';
-  startDate: Date = new Date();
+  @Input() startDate: Date = new Date();
   endDate: Date = new Date();
   batches: Batch[];
   curriculumNames: string[];
@@ -36,6 +37,8 @@ export class BatchListComponent implements OnInit {
   dataEmpty = false;
   batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
   counter = 0;
+  minDate: number = Date.now();
+  @Output() changeDateEm = new EventEmitter<Date>();
 
   stringStart: string;
   stringEnd: string;
@@ -44,6 +47,10 @@ export class BatchListComponent implements OnInit {
 
   dateRangeMessage: string;
   showDateRangeError = false;
+
+  changeDate(){
+    this.changeDateEm.emit(this.startDate);
+  }
 
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
     new SideValues(-100, 0, 0, 0),
@@ -55,7 +62,8 @@ export class BatchListComponent implements OnInit {
       console.log(this.testString);
   }
 
-  constructor(private batchService: BatchService, private authService: AuthenticationService) {
+  constructor(private batchService: BatchService, private authService: AuthenticationService, 
+              private dateService: DateService) {
   }
 
   /**
@@ -79,9 +87,19 @@ export class BatchListComponent implements OnInit {
               if (batch.coTrainer) {
                 return batch.coTrainer.includes(this.authService.getTrainer());
               }
+
+              if (batch.startDate < this.minDate){
+                this.minDate = batch.startDate;
+              }
+
+              this.startDate = new Date(this.minDate);
+              this.dateService.changeDates(this.startDate, this.endDate);
+
               return true;
             }
           );
+          console.log(batches);
+          console.log(this.minDate);
           this.updateCountPerCurriculum();
           this.dataReady = true;
         },
@@ -103,7 +121,18 @@ export class BatchListComponent implements OnInit {
       this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
         batches => {
           // filter out batches that don't have an associated trainer
-          this.batches = batches
+          this.batches = batches;
+
+          this.batches.forEach(batch => {
+            if (batch.startDate < this.minDate){
+              this.minDate = batch.startDate;
+              }
+            }
+          );
+
+          this.startDate = new Date(this.minDate);
+          this.dateService.changeDates(this.startDate, this.endDate);
+
           this.updateCountPerCurriculum();
           this.dataReady = true;
         },
@@ -155,7 +184,7 @@ export class BatchListComponent implements OnInit {
    * reset to original batches
    */
   public resetToDefaultBatches() {
-    this.startDate = new Date();
+    this.startDate = new Date(this.minDate);
     this.startDate.setMonth(new Date().getMonth() - 3);
     this.endDate = new Date();
     this.endDate.setMonth(new Date().getMonth() + 3);
@@ -175,7 +204,6 @@ export class BatchListComponent implements OnInit {
         console.log(error);
       }
     );
-
   }
 
   /**

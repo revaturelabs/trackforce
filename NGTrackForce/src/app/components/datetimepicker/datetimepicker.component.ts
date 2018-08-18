@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { DateService } from '../../services/date-service/date.service';
 
 
 @Component({
@@ -10,7 +11,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class DateTimePickerComponent implements OnInit {
     @Input() width = '250px';   //default value
     @Input() format = 'date';   //default value
-    @Input() originalDate: any;    //no default
+    @Input() originalDate: number;    //no default
+    @Input() dateType: string;  // start or end date
     @Output() datePicked = new EventEmitter();
     calendarView = false;
     displayErrorInvalidDate = false;
@@ -22,14 +24,31 @@ export class DateTimePickerComponent implements OnInit {
 
     oldDate: Date;
 
-    constructor() {
+    constructor(private dateService: DateService) {
+
+    }
+
+    changeDate(){
+        if (this.dateType == "start") {
+            console.log("it's a start date");
+            this.dateService.currStartDate.subscribe(
+                data =>{
+                    this.originalDate = data.getDate();
+                }
+            );
+        } else {
+            console.log("it's an end date");
+            this.dateService.currEndDate.subscribe(
+                data =>{
+                    this.originalDate = data.getDate();
+                }
+            );
+        }
 
     }
 
     ngOnInit() {
-
         setTimeout(()=>{
-
             if (this.originalDate){ //because its an optional parameter
                 this.date = new Date(this.originalDate);
                 this.toggleCalendarView();

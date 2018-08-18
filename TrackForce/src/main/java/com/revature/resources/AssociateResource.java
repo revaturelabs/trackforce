@@ -96,24 +96,24 @@ public class AssociateResource {
 		if (payload == null || payload.getId().equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		} else {
-			if (payload.getId().equals("2")) {
-				List<TfAssociate> assoc = new ArrayList<TfAssociate>();
-				for (TfAssociate a : associates) {
-					if (a.getBatch() != null) {
-						if (payload.getSubject().equals(a.getBatch().getTrainer().getTfUser().getUsername())) {
-							assoc.add(a);
-						}
-						List<TfTrainer> cotrainers = a.getBatch().getCoTrainer();
-						for (TfTrainer t : cotrainers) {
-							if (t.getTfUser().getUsername().equals(payload.getSubject())) {
-								assoc.add(a);
-							}
-						}
-
-					}
-				}
-				associates = assoc;
-			}
+//			if (payload.getId().equals("2")) {
+//				List<TfAssociate> assoc = new ArrayList<TfAssociate>();
+//				for (TfAssociate a : associates) {
+//					if (a.getBatch() != null) {
+//						if (payload.getSubject().equals(a.getBatch().getTrainer().getTfUser().getUsername())) {
+//							assoc.add(a);
+//						}
+//						List<TfTrainer> cotrainers = a.getBatch().getCoTrainer();
+//						for (TfTrainer t : cotrainers) {
+//							if (t.getTfUser().getUsername().equals(payload.getSubject())) {
+//								assoc.add(a);
+//							}
+//						}
+//
+//					}
+//				}
+//				associates = assoc;
+//			}
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
 

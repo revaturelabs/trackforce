@@ -14,6 +14,7 @@ export class DateTimePickerComponent implements OnInit {
     @Input() originalDate: number;    //no default
     @Input() dateType: string;  // start or end date
     @Output() datePicked = new EventEmitter();
+    @Output() error = new EventEmitter();
     calendarView = false;
     displayErrorInvalidDate = false;
 
@@ -85,12 +86,14 @@ export class DateTimePickerComponent implements OnInit {
     }
 
     public validateDate(){
-    if (this.date.toString() == "Invalid Date"){
-        this.displayErrorInvalidDate = true;
-        this.date = null;
+        if (this.date.toString() == "Invalid Date"){
+            this.displayErrorInvalidDate = true;
+            this.date = null;
+        }
+        else this.displayErrorInvalidDate = false;
+        this.error.emit(this.displayErrorInvalidDate);
     }
-    else this.displayErrorInvalidDate = false;
-    }
+
 
 
 

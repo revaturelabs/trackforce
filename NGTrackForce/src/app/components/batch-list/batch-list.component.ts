@@ -28,7 +28,7 @@ export class BatchListComponent implements OnInit {
   start: any;
   end: any;
   pieChartType = 'pie';
-  @Input() startDate: Date = new Date();
+  startDate: Date = new Date();
   endDate: Date = new Date();
   batches: Batch[];
   curriculumNames: string[];
@@ -43,10 +43,9 @@ export class BatchListComponent implements OnInit {
   stringStart: string;
   stringEnd: string;
 
-  testString: string;
-
   dateRangeMessage: string;
   showDateRangeError = false;
+  dateError: boolean;
 
   changeDate(){
     this.changeDateEm.emit(this.startDate);
@@ -58,9 +57,6 @@ export class BatchListComponent implements OnInit {
     'right', false, false
   );
 
-  public testFunction(){
-      console.log(this.testString);
-  }
 
   constructor(private batchService: BatchService, private authService: AuthenticationService, 
               private dateService: DateService) {
@@ -150,28 +146,26 @@ export class BatchListComponent implements OnInit {
    * and the corresponding graph accordingly
    */
   public applySelectedRange() {
+    if (!this.dateError){
     this.startDate = new Date(this.stringStart);
     this.endDate = new Date(this.stringEnd);
-    console.log(this.stringStart);
-    console.log(this.startDate);
-
 
     let longStartDate: number;
     let longEndDate: number;
 
     this.resetFormWarnings();
+        if (this.startDate && this.endDate) {
+          longStartDate = this.startDate.getTime();
+          longEndDate = this.endDate.getTime();
 
-    if (this.startDate && this.endDate) {
-      longStartDate = this.startDate.getTime();
-      longEndDate = this.endDate.getTime();
 
-
-      if (longStartDate > longEndDate) {
-        this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
-        this.showDateRangeError = true;
-      } else {
-        this.updateBatches();
-      }
+          if (longStartDate > longEndDate) {
+            this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
+            this.showDateRangeError = true;
+          } else {
+            this.updateBatches();
+          }
+        }
     }
   }
 

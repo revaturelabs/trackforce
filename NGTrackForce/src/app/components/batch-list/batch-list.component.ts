@@ -1,6 +1,6 @@
 /** @Author Princewill Ibe **/
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Batch } from '../../models/batch.model';
 import { BatchService } from '../../services/batch-service/batch.service';
 import { ThemeConstants } from '../../constants/theme.constants';
@@ -9,6 +9,7 @@ import { ChartOptions, SideValues } from '../../models/ng2-charts-options.model'
 import { Color } from 'ng2-charts';
 import 'rxjs/add/observable/from';
 import { DateService } from '../../services/date-service/date.service';
+import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
 
 
 // TODO: LABELS SHOULD PROPERLY WRAP
@@ -24,6 +25,8 @@ import { DateService } from '../../services/date-service/date.service';
 })
 @AutoUnsubscribe
 export class BatchListComponent implements OnInit {
+
+  @ViewChild(DateTimePickerComponent) dateTimePicker:DateTimePickerComponent;
 
   start: any;
   end: any;
@@ -154,18 +157,19 @@ export class BatchListComponent implements OnInit {
     let longEndDate: number;
 
     this.resetFormWarnings();
-        if (this.startDate && this.endDate) {
-          longStartDate = this.startDate.getTime();
-          longEndDate = this.endDate.getTime();
+
+    if (this.startDate && this.endDate) {
+      longStartDate = this.startDate.getTime();
+      longEndDate = this.endDate.getTime();
 
 
-          if (longStartDate > longEndDate) {
-            this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
-            this.showDateRangeError = true;
-          } else {
-            this.updateBatches();
-          }
-        }
+      if (longStartDate > longEndDate) {
+        this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
+        this.showDateRangeError = true;
+      } else {
+        this.updateBatches();
+      }
+    }
     }
   }
 
@@ -179,7 +183,6 @@ export class BatchListComponent implements OnInit {
    */
   public resetToDefaultBatches() {
     this.startDate = new Date(this.minDate);
-    this.startDate.setMonth(new Date().getMonth() - 3);
     this.endDate = new Date();
     this.endDate.setMonth(new Date().getMonth() + 3);
     const startTime = Date.now();
@@ -187,6 +190,7 @@ export class BatchListComponent implements OnInit {
     this.counter = 0;
     this.stringStart = this.startDate.toJSON().substring(0, 10);
     this.stringEnd = this.endDate.toJSON().substring(0, 10);
+    this.dateTimePicker.dateReset();
     this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
       batches => {
         // filter out batches that don't have an associated trainer

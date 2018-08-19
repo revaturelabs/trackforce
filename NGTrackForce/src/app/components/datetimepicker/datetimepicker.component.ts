@@ -49,14 +49,17 @@ export class DateTimePickerComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.dateReset();
+    }
+
+    dateReset(){
         setTimeout(()=>{
             if (this.originalDate){ //because its an optional parameter
                 this.date = new Date(this.originalDate);
                 this.toggleCalendarView();
                 this.dateClicked(); //this is to validate it and update other internal variables.
             }
-        },0);   //UHHHHHH....IT WORKS!! NOTE: Without the timeout, Angular compains with a error related to concurrency, 'ExpressionChangedAfterItHasBeenCheckedError'
-
+        },0);
     }
 
     public toggleCalendarView(){
@@ -64,6 +67,7 @@ export class DateTimePickerComponent implements OnInit {
     }
 
     public dateClicked(){
+        console.log("date clicked for: "+this.dateType);
         let localOptions = null;
         switch(this.format){
             case 'date': localOptions = this.options_date; break;

@@ -39,11 +39,11 @@
       <form>
         <div style="display:inline-block; text-align:left">
           <label for="startDate">From:</label>
-          <app-datetimepicker [originalDate]=startDate dateType="start" width="300px" format="date" (error)="dateError=$event"  (datePicked)="stringStart=$event" id="startDate" name="stringStart"></app-datetimepicker>
+          <app-datetimepicker [(originalDate)]=startDate dateType="start" width="300px" format="date" (error)="dateError=$event"  (datePicked)="stringStart=$event" id="startDate" name="stringStart"></app-datetimepicker>
         </div>
         <div style="display:inline-block; text-align:left">
           <label for="endDate">To:</label>
-          <app-datetimepicker [originalDate]=endDate dateType="end" width="300px" format="date" (datePicked)="stringEnd=$event" id="endDate" name="stringEnd"></app-datetimepicker>
+          <app-datetimepicker [(originalDate)]=endDate dateType="end" width="300px" format="date" (datePicked)="stringEnd=$event" id="endDate" name="stringEnd"></app-datetimepicker>
         </div>
         <div>
           <input type="submit" class="btn btn-default" value="Submit" (click)="applySelectedRange()" />

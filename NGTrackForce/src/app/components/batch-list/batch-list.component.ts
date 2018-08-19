@@ -26,7 +26,8 @@ import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.compon
 @AutoUnsubscribe
 export class BatchListComponent implements OnInit {
 
-  @ViewChild(DateTimePickerComponent) dateTimePicker:DateTimePickerComponent;
+  @ViewChild('start') startDateTimePicker:DateTimePickerComponent;
+  @ViewChild('end') endDateTimePicker:DateTimePickerComponent;
 
   start: any;
   end: any;
@@ -190,7 +191,8 @@ export class BatchListComponent implements OnInit {
     this.counter = 0;
     this.stringStart = this.startDate.toJSON().substring(0, 10);
     this.stringEnd = this.endDate.toJSON().substring(0, 10);
-    this.dateTimePicker.dateReset();
+    this.startDateTimePicker.dateReset();
+    this.endDateTimePicker.dateReset();
     this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
       batches => {
         // filter out batches that don't have an associated trainer

@@ -114,6 +114,10 @@ export class LoginComponent implements OnInit {
    * else, remain on login screen
    */
   ngOnInit() {
+    this.userService.buildSessionFactory().subscribe(
+      data => {},
+      error => {}
+    );
     //Validate token with backend
     const user = this.authService.getUser();
     this.navbarService.hide();

@@ -37,4 +37,5 @@ export class RequestService {
     return this.http.get<boolean>(this.trackPath + 'marketing');
   }
 
+
 }

@@ -274,4 +274,13 @@ export class FormComponent implements OnInit {
     this.selectedClient = null;
     this.selectedMarketingStatus = null;
   }
+
+  goToInterviewDetails( interview: Interview )
+  {
+    this.user = this.authService.getUser();
+    if ( this.user.role == 3 )
+    {
+      this.router.navigate(['interview-details/' + interview.id]);
+    }
+  }
 }

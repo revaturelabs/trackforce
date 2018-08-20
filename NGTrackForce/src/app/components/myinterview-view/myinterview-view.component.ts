@@ -73,7 +73,6 @@ export class MyInterviewComponent implements OnInit {
       data => {
         this.associate = data;
         this.getAssociateInterviews(this.associate.id);
-        this.isDataReady = true;
       },
       error => {
         console.log('error');
@@ -192,6 +191,7 @@ export class MyInterviewComponent implements OnInit {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
       data => {
         this.interviews = data;
+        this.isDataReady = true;
       },
       error => {
         console.log('error');

@@ -80,3 +80,8 @@ overflow-y: auto;
 width: 20%;
 float: left;
 }
+.center-div
+{
+  margin: 0 auto;
+  width: 100px;
+}

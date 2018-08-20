@@ -19,7 +19,7 @@
         </div>
         <tbody>
           <ng-container *ngIf="dataReady">
-            <tr *ngFor="let batch of batches" class="max-width">
+            <tr *ngFor="let batch of filteredBatches" class="max-width">
               <td class="name-column">
                 <a routerLink="/batch-details/{{batch.id}}">{{batch.batchName}}</a>
               </td>
@@ -39,18 +39,18 @@
       <form>
         <div style="display:inline-block; text-align:left">
           <label for="startDate">From:</label>
-          <app-datetimepicker width="300px" format="date" (datePicked)="stringStart=$event" (error)="dateError=$event" id="startDate" name="stringStart"></app-datetimepicker>
+          <app-datetimepicker #start [(originalDate)]=startDate dateType="start" width="300px" format="date" (error)="dateError=$event"  (datePicked)="stringStart=$event" id="startDate" name="stringStart"></app-datetimepicker>
         </div>
         <div style="display:inline-block; text-align:left">
           <label for="endDate">To:</label>
-          <app-datetimepicker width="300px" format="date" (datePicked)="stringEnd=$event" id="endDate" name="stringEnd"></app-datetimepicker>
+          <app-datetimepicker #end [(originalDate)]=endDate dateType="end" width="300px" format="date" (datePicked)="stringEnd=$event" id="endDate" name="stringEnd"></app-datetimepicker>
         </div>
         <div>
           <input type="submit" class="btn btn-default" value="Submit" (click)="applySelectedRange()" />
           <input type="submit" class="btn btn-danger" value="Reset" (click)="resetToDefaultBatches()" />
         </div>
       </form>
-      <div class="center-div" *ngIf="!dataReady">
+      <div class="center-div" *ngIf="!dataReady"> 
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
       <ng-container *ngIf="dataReady && !dataEmpty">

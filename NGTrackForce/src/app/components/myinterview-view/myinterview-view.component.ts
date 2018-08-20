@@ -64,7 +64,6 @@ export class MyInterviewComponent implements OnInit {
     //gets the associate id from the path
     //the '+' coerces the parameter into a number
     // this.id = +this.activated.snapshot.paramMap.get('id');
-
     this.openDateNotified = false;
     this.openDateNotified = false;
     this.conflictingInterview = false;
@@ -128,7 +127,7 @@ export class MyInterviewComponent implements OnInit {
           this.was24HRNotice ? 1 : 0,
           null,
           new Date(this.interviewAssigned).getTime(),
-          new Date(this.interviewAssigned).getTime()
+          new Date(this.interviewAssigned).getTime().toString()
         );
 
         this.interviewService
@@ -164,7 +163,6 @@ export class MyInterviewComponent implements OnInit {
    This function is called once for every row in the
    "My Interviews" table. If it returns true, the date
    cell is colored red to highlight the conflict.
-
    THIS FUNCTION IS VERY USEFUL BUT IT IS NOT BEING USED // Fixed by batch 1806
   */
   highlightInterviewConflicts(interview: number) {

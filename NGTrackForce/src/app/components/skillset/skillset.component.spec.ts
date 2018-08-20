@@ -28,7 +28,7 @@ import { convertToParamMap, NavigationExtras } from '../../../../node_modules/@a
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import { routerNgProbeToken } from '../../../../node_modules/@angular/router/src/router_module';
 import { MatProgressSpinner, MatProgressSpinnerModule } from '../../../../node_modules/@angular/material';
-import { CommonModule } from '@angular/common';  
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
@@ -56,7 +56,7 @@ export class MockCurriculumService extends CurriculumService {
       c1.batches = [new Batch()];
 
       let curriculum:Curriculum[] = [c1];
-    
+
       return Observable.of(curriculum);
     }
 
@@ -92,7 +92,7 @@ export class MockRouter {
   navigateByUrl(url: String) { return url;}
 }
 
-describe('SkillsetComponent', () => {
+fdescribe('SkillsetComponent', () => {
   let component: SkillsetComponent;
   let fixture: ComponentFixture<SkillsetComponent>;
   let activatedRoute : ActivatedRouteStub;
@@ -104,9 +104,12 @@ describe('SkillsetComponent', () => {
     }
   ];
 
-  beforeEach(async(() => {
+
+  beforeEach(() => {
+    TestBed.resetTestingModule();
+
     TestBed.configureTestingModule({
-      declarations: [ 
+      declarations: [
         SkillsetComponent,
         NavbarComponent,
         FormComponent
@@ -114,7 +117,7 @@ describe('SkillsetComponent', () => {
       imports : [
         HttpClientTestingModule,
         ChartsModule,
-        RouterTestingModule, 
+        RouterTestingModule,
         FormsModule,
         HomeModule,
       ],
@@ -123,17 +126,12 @@ describe('SkillsetComponent', () => {
         // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(6)},
       { provide : ActivatedRoute, useValue : {
         snapshot: {params: {id: 6},
-                   paramMap: convertToParamMap({id: 6})}                    
-  
+                   paramMap: convertToParamMap({id: 6})}
+
         } },
       ]
-    })
-    .compileComponents();
-  }));
+    }).compileComponents();
 
-  beforeEach(() => {
-    TestBed.resetTestingModule();
-    
     localStorage.setItem('unmappedData',JSON.stringify([1,2,3,4]));
     activatedRoute = new ActivatedRouteStub();
     fixture = TestBed.createComponent(SkillsetComponent);

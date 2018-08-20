@@ -5,7 +5,7 @@
       <form>
         <div class="form-group">
             <br>
-            <label class="control-label col-sm-3">Client:</label>
+            <label class="control-label col-sm-2">Client:</label>
             <div class="col-sm-3">
                 <select class="form-control" name="newClient" [(ngModel)]="clientId">
                 <option selected="selected">None</option>
@@ -13,7 +13,7 @@
                 </select>
             </div>
 
-            <label class="control-label col-sm-3">Type:</label>
+            <label class="control-label col-sm-2">Type:</label>
             <div class="col-sm-3">
                 <select class="form-control" name="type" [(ngModel)]="typeId">
                     <option value="1">Phone</option>
@@ -23,19 +23,19 @@
                 </select>
             </div>
             <br><br>
-            <label class="control-label col-sm-3">Date Assigned:</label>
+            <label class="control-label col-sm-2">Date Assigned:</label>
             <div class="col-sm-3">
                 <app-datetimepicker width="400px" format="datetime" (datePicked)="interviewAssigned=$event" (error)="dateError=$event"></app-datetimepicker>
             </div>
 
-            <label class="control-label col-sm-3">Date of interview:</label>
+            <label class="control-label col-sm-2">Date of interview:</label>
             <div class="col-sm-3">
                 <app-datetimepicker width="400px" format="datetime" (datePicked)="interviewDate=$event" (error)="dateError=$event"></app-datetimepicker>
             </div>
-
-            <label class="control-label col-sm-3">24 hour notice?</label>
+            <label class="control-label col-sm-1">24 hour notice?</label>
             <input type="checkbox" name="24hournotice" [(ngModel)]="was24HRNotice">
         </div>
+        <br><br><br>
         <div class="form-group">
             <button id='add-interview' (click)="addInterview()" class="btn btn-success pull-right">Add Interview</button>
         </div>

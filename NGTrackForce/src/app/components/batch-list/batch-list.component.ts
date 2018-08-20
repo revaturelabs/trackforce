@@ -178,37 +178,31 @@ export class BatchListComponent implements OnInit {
       this.showDateRangeError = false;
   }
 
-  /*
-   * reset to original batches
-   */
+  // Logans new resetToDefaultBatches
   public resetToDefaultBatches() {
-    this.startDate = new Date(this.minDate);
-    this.endDate = new Date();
-    this.endDate.setMonth(new Date().getMonth() + 3);
-    const startTime = Date.now();
-    this.dataReady = false;
-    this.counter = 0;
-    this.stringStart = this.startDate.toJSON().substring(0, 10);
-    this.stringEnd = this.endDate.toJSON().substring(0, 10);
-    this.startDateTimePicker.dateReset();
-    this.endDateTimePicker.dateReset();
-    this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
-      batches => {
-        // filter out batches that don't have an associated trainer
-        this.batches = batches;
-        this.updateCountPerCurriculum();
-        this.dataReady = true;
-      },
-      error => {
-        console.log(error);
+    this.filteredBatches = this.batches.filter(
+      batch => {
+        this.startDate = new Date();
+        this.startDate.setMonth(new Date().getMonth() - 3);
+        this.endDate = new Date();
+        this.endDate.setMonth(new Date().getMonth() + 3);
+        const startTime = Date.now();
+        this.dataReady = false;
+        this.counter = 0;
+        this.stringStart = this.startDate.toJSON().substring(0, 10);
+        this.stringEnd = this.endDate.toJSON().substring(0, 10);
+        this.startDateTimePicker.dateReset();
+        this.endDateTimePicker.dateReset();
       }
     );
+    
+    this.updateCountPerCurriculum();
+    this.dataReady = true;
   }
 
-  // Logan testing new update batches method
+  // Logans new update batches method
   public updateBatches()
   {
-    console.log("iNSIDE LOGANS UPDATEBATCHES()");
     const user = this.authService.getUser();
     if (user.role === 2) {
       // filter out batches that don't have an associated trainer
@@ -272,11 +266,11 @@ export class BatchListComponent implements OnInit {
     this.curriculumNames = this.curriculumCounts = null;
     const curriculumCountsMap = new Map<string, number>();
 
-    this.dataEmpty = this.batches.length === 0;
+    this.dataEmpty = this.filteredBatches.length === 0;
 
-    if (this.batches != null) {
+    if (this.filteredBatches != null) {
 
-      for (const batch of this.batches) {
+      for (const batch of this.filteredBatches) {
         if (batch.curriculumName) {
           let count = curriculumCountsMap.get(batch.curriculumName.name);
           if (count === undefined) {

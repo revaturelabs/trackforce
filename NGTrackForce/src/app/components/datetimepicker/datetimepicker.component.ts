@@ -31,14 +31,12 @@ export class DateTimePickerComponent implements OnInit {
 
     changeDate(){
         if (this.dateType == "start") {
-            console.log("it's a start date");
             this.dateService.currStartDate.subscribe(
                 data =>{
                     this.originalDate = data.getDate();
                 }
             );
         } else {
-            console.log("it's an end date");
             this.dateService.currEndDate.subscribe(
                 data =>{
                     this.originalDate = data.getDate();
@@ -67,7 +65,6 @@ export class DateTimePickerComponent implements OnInit {
     }
 
     public dateClicked(){
-        console.log("date clicked for: "+this.dateType);
         let localOptions = null;
         switch(this.format){
             case 'date': localOptions = this.options_date; break;
@@ -97,9 +94,5 @@ export class DateTimePickerComponent implements OnInit {
         else this.displayErrorInvalidDate = false;
         this.error.emit(this.displayErrorInvalidDate);
     }
-
-
-
-
 
 }

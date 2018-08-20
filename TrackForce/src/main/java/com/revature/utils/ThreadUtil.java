@@ -5,11 +5,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class ThreadUtil {
 	//I set it to default at 10 threads can be increased for more performance.
 	//However, it will be to the detriment of the running server. (Most likely an Amazon EC2)
-	private static ExecutorService executor = Executors.newFixedThreadPool(10);
+	private static ExecutorService executor = Executors.newFixedThreadPool(15);
 	
 	public ThreadUtil() {
 		super();
@@ -21,9 +22,18 @@ public class ThreadUtil {
 		try {
 			results = future.get();
 		} catch (InterruptedException | ExecutionException e) {
+			if(!future.isCancelled()) { future.cancel(true); }
+			else {System.out.println("Call was canceled");}
 			e.printStackTrace();
 		}
 		
+		System.out.println("Current Active Threads: " + getActiveThreadCount());
 		return results;
 	}
+	
+	public static int getActiveThreadCount() {
+		return ((ThreadPoolExecutor) executor).getActiveCount();
+	}
+	
+	
 }

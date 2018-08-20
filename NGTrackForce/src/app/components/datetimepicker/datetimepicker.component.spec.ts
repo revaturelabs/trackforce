@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import { DateTimePickerComponent } from './datetimepicker.component';
 
@@ -8,19 +9,19 @@ describe('DateTimePickerComponent', async () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [],
+      declarations: [DateTimePickerComponent],
       providers: [],
-      imports: [],
+      imports: [FormsModule],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
-    });
+  }).compileComponents();
 
     fixture = TestBed.createComponent(DateTimePickerComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
 
     });
 
   it('should create', () => {
-    fixture.detectChanges();
-    expect(component['dataReady']).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

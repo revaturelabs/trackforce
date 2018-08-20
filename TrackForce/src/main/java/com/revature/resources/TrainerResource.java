@@ -69,7 +69,7 @@ public class TrainerResource {
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 		if (payload == null || payload.getId().equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
 				trainer = trainerService.getTrainer(id);
@@ -95,7 +95,7 @@ public class TrainerResource {
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 		if (payload == null || payload.getId().equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
 				trainer = trainerService.getTrainer(id);
@@ -120,7 +120,7 @@ public class TrainerResource {
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 		if (payload == null || payload.getId().equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
 				trainer = trainerService.getTrainerByUserId(id);
@@ -145,7 +145,7 @@ public class TrainerResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build(); // invalid token
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build(); // invalid token
 		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
@@ -178,7 +178,7 @@ public class TrainerResource {
 			return Response.status(Status.NO_CONTENT).build();
 		}
 		else if (payload == null || payload.getId().equals("2") || payload.getId().equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		else {
 			trainerService.updateTrainer(trainer);

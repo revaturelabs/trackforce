@@ -312,7 +312,7 @@ public class UserResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) 
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		else
 			return Response.status(Status.OK).build();
 

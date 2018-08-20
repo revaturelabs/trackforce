@@ -83,20 +83,19 @@ public class HibernateUtil {
 	// Now we abstract further...
 
 	public static boolean runHibernateTransaction(Sessional<Boolean> sessional, Object... args) {
-		Callable<Boolean> caller = () -> {
-			Session session = null;
-			Transaction transaction = null;
-			try {
-				session = HibernateUtil.getSessionFactory().openSession();
-				transaction = session.beginTransaction();
-				boolean b = sessional.operate(session, args);
-
-				if (b) {
-					logger.debug("Committing...");
-				} else {
-					throw new HibernateException("Transaction Operation Failed!");
-				}
-
+		Session session = null;
+		Transaction transaction = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			transaction = session.beginTransaction();
+			boolean b = sessional.operate(session, args);	
+			if (b) {
+				logger.debug("Committing...");
+			} else {
+				throw new HibernateException("Transaction Operation Failed!");
+			}
+			transaction.commit();
+			logger.info("Transaction committed!");
 				transaction.commit();
 				logger.info("Transaction committed!");
 

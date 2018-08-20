@@ -40,6 +40,7 @@ module.exports = function (config) {
      }
    },
     browsers: ['ChromeHeadless'],
+    // browsers: ['Chrome'],
     // singleRun is true so it'll work on the pipeline, please don't change it <3
     singleRun: true    //TODO: change this back to true before deploying.
   });

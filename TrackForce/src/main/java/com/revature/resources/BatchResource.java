@@ -84,7 +84,7 @@ public class BatchResource {
 		
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 
 		Status status = null;
@@ -137,7 +137,7 @@ public class BatchResource {
 		
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
 		int role = Integer.parseInt(payload.getId());
@@ -168,7 +168,7 @@ public class BatchResource {
 		logger.info("getBatchDetails()...");
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
 		status = Status.OK;
@@ -238,7 +238,7 @@ public class BatchResource {
 
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
 		status = Status.OK;
@@ -272,7 +272,7 @@ public class BatchResource {
 		logger.info("getBatchesWithinDates()...");
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
 		status = Status.OK;	
@@ -296,5 +296,29 @@ public class BatchResource {
 
 		return Response.status(status).entity(batches).build();
 
+	}
+	
+	/**
+	 * 1806_Kevin_C
+	 * Gets a batch with the given id
+	 */
+	@GET
+	@ApiOperation(value = "Returns batch information given a batch id", notes = "Returns batch information based on batch id.")
+	@Path("/batch/{id}")
+	public Response getBatchInfo(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
+		logger.info("getBatchInformation...");
+
+		Claims payload = JWTService.processToken(token);
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		Status status = null;
+		status = Status.OK;
+		
+		BatchDaoImpl bd = new BatchDaoImpl();
+		TfBatch batch = batchService.getBatchById(id);
+		
+		
+		return Response.status(status).entity(batch).build();
 	}
 }

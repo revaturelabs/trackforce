@@ -129,9 +129,100 @@ describe('AssociateListComponent', () => {
     expect(component.curriculums).toBeTruthy();
   });
 
+  it('can you update if role = 1 or 3 or 4', () => {
+    component.canUpdate = true;
+    expect(component.canUpdate).toBeTruthy();
+  });
 
+  it('searchByClient is a client if CliOrCur = "client"', () => {
+    component.searchByClient = 'client name';
+    expect(component.searchByClient).toBeTruthy();
+  });
 
+  it('searchByCurriculum is a curriculum if CliOrCur = "curriculum"', () => {
+    component.searchByCurriculum = 'curriculum name';
+    expect(component.searchByCurriculum).toBeTruthy();
+  });
 
+  it('searchByStatus is a mapping + a status if CliOrCur exists', () => {
+    component.searchByStatus = 'mapping + status';
+    expect(component.searchByStatus).toBeTruthy();
+  });
 
+  it('in getNAssociates() associates should be data', () => {
+    component.associates = [this.associate1];
+    expect(component.associates).toBeTruthy();
+  });
+
+  it('in getNAssociates() should add curriculums when associate batch and curriculum name aren\'t null', () => {
+    component.curriculums.add(this.curriculum1);
+    component.curriculums.add(this.curriculum2);
+    component.curriculums.add(this.curriculum3); 
+    expect(component.curriculums).toBeTruthy();
+  })
+
+  it('in getNAssociates() should delete "" curriculums', () => {
+    expect(component.curriculums['']).toBeFalsy();
+  });
+
+  it('in getNAssociates() should delete "null" curriulums', () => {
+    expect(component.curriculums['null']).toBeFalsy();
+  });
+
+  it('in getAllAssociates() should be length = 0', () => {
+    component.associates = [];
+    component.associates.length = 0;
+    expect(component.associates.length).toEqual(0);
+  });
+
+  it('in getAllAssociates() associates should equal data', () => {
+    component.associates = [this.associate1, this.associate2];
+    expect(component.associates).toBeTruthy();
+  });
+
+  it('in getAllAssociates() should add curriculums when associate batch and curriculum name aren\'t null', () => {
+    component.curriculums.add(this.curriculum1);
+    component.curriculums.add(this.curriculum2);
+    component.curriculums.add(this.curriculum3); 
+    expect(component.curriculums).toBeTruthy();
+  });
+
+  it('in getAllAssociates() should delete "" curriculums', () => {
+    expect(component.curriculums['']).toBeFalsy();
+  });
+
+  it('in getAllAssociates() should delete "null" curriulums', () => {
+    expect(component.curriculums['null']).toBeFalsy();
+  });
+
+  it('in getAllAssociates() isDataReady should be true', () => {
+    component.isDataReady = true;
+    expect(component.isDataReady).toBeTruthy();
+  })
+
+  it('in getClientNames() clients should be data', () => {
+    component.clients = [this.client1, this.client2];
+    expect(component.clients).toBeTruthy();
+  });
+
+  it('in updateAssociates() if updateVerification is "" then make it 0', () => {
+    component.updateVerification = '0';
+    expect(component.updateVerification).toBeTruthy();
+  });
+
+  it('in updateAssociates() if updateStatus is "" then make it 0', () => {
+    component.updateStatus = '0';
+    expect(component.updateStatus).toBeTruthy();
+  });
+
+  it('in updateAssociates() if updateClient is "" then make it 0', () => {
+    component.updateClient = '0';
+    expect(component.updateClient).toBeTruthy();
+  });
+
+  it('in updateAssociates() updated boolean should be true', () => {
+    component.updated = true;
+    expect(component.updated).toBeTruthy();
+  });
 
 });

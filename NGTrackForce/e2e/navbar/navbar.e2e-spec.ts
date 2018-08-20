@@ -41,5 +41,5 @@ describe('navbar functionality', () => {
         navbar.goToCreateUser();
         expect(navbar.getCurrentURL()).toEqual(baseURL + 'create-user');
     });
-    
+
 });

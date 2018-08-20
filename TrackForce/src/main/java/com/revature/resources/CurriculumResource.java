@@ -79,8 +79,8 @@ public class CurriculumResource {
 		Claims payload = JWTService.processToken(token);
 		
 		if (payload == null) { // invalid token
-			return Response.status(Status.UNAUTHORIZED).build();
-		} else if (!payload.getId().equals("1")) { // wrong roleid
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} else if (payload.getId().equals("5")) { // wrong roleid
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
 			status = curriculum == null || curriculum.isEmpty() ? Status.NO_CONTENT : Status.OK;
@@ -98,7 +98,7 @@ public class CurriculumResource {
 		Claims payload = JWTService.processToken(token);
 		
 		if (payload == null) { // invalid token
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else if (!payload.getId().equals("1")) { // wrong roleid
 			return Response.status(Status.FORBIDDEN).build();
 		} else {

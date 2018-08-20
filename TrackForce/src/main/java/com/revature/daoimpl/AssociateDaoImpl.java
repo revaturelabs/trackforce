@@ -97,7 +97,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	public List<TfAssociate> getNAssociates() {
 		return HibernateUtil.runHibernate((Session session, Object ...args) -> session
 				.createQuery("from TfAssociate", TfAssociate.class)
-				.setMaxResults(100)
+				.setMaxResults(60)
 				.getResultList());
 	}
 	

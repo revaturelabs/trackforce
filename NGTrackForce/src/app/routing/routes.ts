@@ -24,6 +24,9 @@ import { InterviewsComponent } from '../components/interviews-view/interviews-vi
 import { TrainerViewComponent } from '../components/trainer-view/trainer-view.component';
 import { DeployedComponent } from '../components/deployed/deployed.component';
 import { UndeployedComponent } from '../components/undeployed/undeployed.component';
+import { InvalidSessionComponent } from '../components/invalid-session/invalid-session.component';
+import { SalesforceComponent } from '../components/salesforce/salesforce.component';
+
 
 /**
  * Place paths here
@@ -38,6 +41,10 @@ export const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'invalid-session',
+    component: InvalidSessionComponent
   },
   {
     path: 'client-listing',
@@ -146,6 +153,12 @@ export const appRoutes: Routes = [
     canActivate: [AuthGuard],
     component: UndeployedComponent,
     data: { expectedRoles: [1,3,4] }
+  },
+  {
+    path: 'salesforce',
+    canActivate: [AuthGuard],
+    component: SalesforceComponent,
+    data: {expectedRoles: [1]}
   },
   {
     // must be LAST in this array because this matches all other paths (fallback)

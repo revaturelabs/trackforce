@@ -10,6 +10,7 @@ import { Client } from '../../models/client.model';
 import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { InterviewType } from '../../models/interview-type';
+import { Router } from '@angular/router'
 
 /**
  *@author Katherine Obioha, Andrew Ahn
@@ -46,6 +47,7 @@ export class MyInterviewComponent implements OnInit {
   public openInterviewDate: boolean;
   public conflictingInterview: boolean;
   public isDataReady: boolean = false;
+  public dateError:boolean;
   index;
   index2;
 
@@ -54,14 +56,14 @@ export class MyInterviewComponent implements OnInit {
     private associateService: AssociateService,
     private activated: ActivatedRoute,
     private interviewService: InterviewService,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     //gets the associate id from the path
     //the '+' coerces the parameter into a number
     // this.id = +this.activated.snapshot.paramMap.get('id');
-
     this.openDateNotified = false;
     this.openDateNotified = false;
     this.conflictingInterview = false;
@@ -72,7 +74,6 @@ export class MyInterviewComponent implements OnInit {
       data => {
         this.associate = data;
         this.getAssociateInterviews(this.associate.id);
-        this.isDataReady = true;
       },
       error => {
         console.log('error');
@@ -98,55 +99,63 @@ export class MyInterviewComponent implements OnInit {
   }
 
   addInterview() {
-    switch (+this.typeId) {
-      case 1:
-        this.interviewType = new InterviewType(1, 'Phone');
-        break;
-      case 2:
-        this.interviewType = new InterviewType(2, 'Online');
-        break;
-      case 3:
-        this.interviewType = new InterviewType(3, 'On Site');
-        break;
-      case 4:
-        this.interviewType = new InterviewType(4, 'Skype');
-        break;
-      default:
-        this.interviewType = new InterviewType(5, 'Other');
-        break;
-    }
+      if (!this.dateError){
+        switch (+this.typeId) {
+          case 1:
+            this.interviewType = new InterviewType(1, 'Phone');
+            break;
+          case 2:
+            this.interviewType = new InterviewType(2, 'Online');
+            break;
+          case 3:
+            this.interviewType = new InterviewType(3, 'On Site');
+            break;
+          case 4:
+            this.interviewType = new InterviewType(4, 'Skype');
+            break;
+          default:
+            this.interviewType = new InterviewType(5, 'Other');
+            break;
+        }
 
-    this.newInterview = new Interview(
-      this.associate,
-      this.clientId,
-      this.interviewType,
-      new Date(this.interviewDate).getTime(),
-      null,
-      this.was24HRNotice ? 1 : 0,
-      null,
-      new Date(this.interviewAssigned).getTime(),
-      new Date(this.interviewAssigned).getTime()
-    );
+        this.newInterview = new Interview(
+          this.associate,
+          this.clientId,
+          this.interviewType,
+          new Date(this.interviewDate).getTime(),
+          null,
+          this.was24HRNotice ? 1 : 0,
+          null,
+          new Date(this.interviewAssigned).getTime(),
+          new Date(this.interviewAssigned).getTime().toString()
+        );
 
-    this.interviewService
-      .createInterview(this.newInterview, this.associate.id)
-      .subscribe(res => {
-        location.reload();
-      });
+        this.interviewService
+          .createInterview(this.newInterview, this.associate.id)
+          .subscribe(res => {
+            location.reload();
+          });
+      }
   }
 
   updateInterview(interview: Interview) {
-    interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
-    interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
-    interview.dateSalesIssued = new Date(
-      interview.dateAssociateIssued
-    ).getTime(); // convert into timestamp
-    interview.dateAssociateIssued = new Date(
-      interview.dateAssociateIssued
-    ).getTime();
-    this.interviewService.updateInterview(interview).subscribe(res => {
-      location.reload();
-    });
+    if (!this.dateError){
+        interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
+        interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
+        interview.dateSalesIssued = new Date(
+          interview.dateAssociateIssued
+        ).getTime(); // convert into timestamp
+        interview.dateAssociateIssued = new Date(
+          interview.dateAssociateIssued
+        ).getTime();
+        this.interviewService.updateInterview(interview).subscribe(res => {
+          location.reload();
+        });
+    }
+  }
+
+  viewInterview(interviewId: number) {
+      this.router.navigate(['/interview-details', interviewId]);
   }
 
   /**
@@ -154,7 +163,6 @@ export class MyInterviewComponent implements OnInit {
    This function is called once for every row in the
    "My Interviews" table. If it returns true, the date
    cell is colored red to highlight the conflict.
-
    THIS FUNCTION IS VERY USEFUL BUT IT IS NOT BEING USED // Fixed by batch 1806
   */
   highlightInterviewConflicts(interview: number) {
@@ -187,6 +195,7 @@ export class MyInterviewComponent implements OnInit {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
       data => {
         this.interviews = data;
+        this.isDataReady = true;
       },
       error => {
         console.log('error');

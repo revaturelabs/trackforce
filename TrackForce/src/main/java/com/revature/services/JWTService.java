@@ -4,13 +4,18 @@ import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
+import org.json.JSONObject;
+
 import com.revature.entity.TfUser;
 
+import gherkin.lexer.Da;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
@@ -37,7 +42,7 @@ public class JWTService {
 	UserService userService;
 	
 	private static final String SECRET_KEY = getKey();
-	private static Long EXPIRATION = 120L; //expiration time in minutes
+	private static Long EXPIRATION = 30L; //expiration time in minutes
 
 	/**
 	 * Validates a token
@@ -102,7 +107,9 @@ public class JWTService {
 				throw new UnsupportedJwtException("token null");
 			}
 			payload = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
-		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
+			
+		}catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
+		
 				| IllegalArgumentException | NullPointerException e) {
 
 //			e.printStackTrace();
@@ -122,6 +129,7 @@ public class JWTService {
 	 */
 	public static Date getExpirationDateFromToken(String token) {
 		Date expiration = null;
+		
 		try {
 			final Claims claims = processToken(token);
 			if (claims != null) {
@@ -182,4 +190,40 @@ public class JWTService {
 		return expiration.before(new Date());
 	}
 
+	
+	private static long getExpiredTokenTime(String token) {
+
+		if(token == null)
+			return -1L;
+		
+		Base64.Decoder decoder = Base64.getUrlDecoder();
+
+		String[] parts = token.split("\\."); // Splitting header, payload and signature
+		JSONObject headers = new JSONObject(new String(decoder.decode(parts[1])));
+
+		long exp = headers.getLong("exp");
+
+		return exp*1000;
+	}
+	
+	public static String invalidTokenBody(String token) {
+		
+		JSONObject body = new JSONObject();
+		final long expiration = getExpiredTokenTime(token);
+		
+		Date now = new Date();
+		
+		if(expiration == -1) {
+			//arbitrary response; number of minutes in a day
+			body.put("expirationtime", 1440);
+			return body.toString();
+		}
+		
+		long diffMillies = now.getTime() - expiration;
+		long diffMinutes = TimeUnit.MINUTES.convert(diffMillies, TimeUnit.MILLISECONDS);		
+		
+		body.put("expirationtime", diffMinutes);
+		
+		return body.toString();
+	}
 }

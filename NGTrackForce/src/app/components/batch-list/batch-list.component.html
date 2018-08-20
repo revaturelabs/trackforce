@@ -19,7 +19,7 @@
         </div>
         <tbody>
           <ng-container *ngIf="dataReady">
-            <tr *ngFor="let batch of batches" class="max-width">
+            <tr *ngFor="let batch of filteredBatches" class="max-width">
               <td class="name-column">
                 <a routerLink="/batch-details/{{batch.id}}">{{batch.batchName}}</a>
               </td>

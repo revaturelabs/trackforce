@@ -35,6 +35,7 @@ export class BatchListComponent implements OnInit {
   startDate: Date = new Date();
   endDate: Date = new Date();
   batches: Batch[];
+  filteredBatches: Batch[];
   curriculumNames: string[];
   curriculumCounts: number[];
   dataReady = false;
@@ -98,8 +99,7 @@ export class BatchListComponent implements OnInit {
               return true;
             }
           );
-          console.log(batches);
-          console.log(this.minDate);
+          this.filteredBatches = this.batches;
           this.updateCountPerCurriculum();
           this.dataReady = true;
         },
@@ -129,10 +129,9 @@ export class BatchListComponent implements OnInit {
               }
             }
           );
-
+          this.filteredBatches = this.batches;
           this.startDate = new Date(this.minDate);
           this.dateService.changeDates(this.startDate, this.endDate);
-
           this.updateCountPerCurriculum();
           this.dataReady = true;
         },
@@ -191,8 +190,12 @@ export class BatchListComponent implements OnInit {
     this.counter = 0;
     this.stringStart = this.startDate.toJSON().substring(0, 10);
     this.stringEnd = this.endDate.toJSON().substring(0, 10);
+<<<<<<< HEAD
     this.startDateTimePicker.dateReset();
     this.endDateTimePicker.dateReset();
+=======
+    //this.dateTimePicker.dateReset();
+>>>>>>> 11c89e71c084d8f0842c4bf713b7ebbe561cc16d
     this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
       batches => {
         // filter out batches that don't have an associated trainer
@@ -206,60 +209,58 @@ export class BatchListComponent implements OnInit {
     );
   }
 
-  /**
-   * @function updateBatches
-   * @memberof BatchListComponent
-   * @description This function will return a JavaScript object that contains
-   *              all of the batches within startDate and endDate
-   */
-  public updateBatches() {
+  // Logan testing new update batches method
+  public updateBatches()
+  {
+    console.log("iNSIDE LOGANS UPDATEBATCHES()");
     const user = this.authService.getUser();
     if (user.role === 2) {
-      this.dataReady = false;
-      this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
-        batches => {
-          // filter out batches that don't have an associated trainer
-          this.batches = batches.filter(
-            batch => {
-              if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
-                return false;
-              }
-              if (batch.coTrainer) {
-                if (!batch.coTrainer.includes(this.authService.getTrainer())) {
-                  return false;
-                }
-              }
-              let dateStartDate = new Date(this.startDate);
-              let dateEndDate = new Date(this.endDate);
-              let longStartDate = dateStartDate.getTime();
-              let longEndDate = dateEndDate.getTime();
-
-              if (batch.startDate && batch.endDate) {
-                return batch.startDate > longStartDate && batch.endDate < longEndDate;
-              }
-              else {
-                return false;
-              }
+      // filter out batches that don't have an associated trainer
+      this.filteredBatches = this.batches.filter(
+        batch => {
+          if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
+            return false;
+          }
+          if (batch.coTrainer) {
+            if (!batch.coTrainer.includes(this.authService.getTrainer())) {
+              return false;
             }
-          );
-          this.updateCountPerCurriculum();
-          this.dataReady = true;
+          }
+          let dateStartDate = new Date(this.startDate);
+          let dateEndDate = new Date(this.endDate);
+          let longStartDate = dateStartDate.getTime();
+          let longEndDate = dateEndDate.getTime();
+
+          if (batch.startDate && batch.endDate) {
+            return batch.startDate > longStartDate && batch.endDate < longEndDate;
+          }
+          else {
+            return false;
+          }
         }
       );
+      this.updateCountPerCurriculum();
+      this.dataReady = true;
     }
-    else {
+    else{
       this.dataReady = false;
-      this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
-        batches => {
-          // filter out batches that don't have an associated trainer
-          this.batches = batches
-          this.updateCountPerCurriculum();
-          this.dataReady = true;
-        },
-        error => {
-          console.log(error);
+      this.filteredBatches = this.batches.filter(
+        batch => {
+          let dateStartDate = new Date(this.startDate);
+          let dateEndDate = new Date(this.endDate);
+          let longStartDate = dateStartDate.getTime();
+          let longEndDate = dateEndDate.getTime();
+
+          if (batch.startDate && batch.endDate) {
+            return batch.startDate > longStartDate && batch.endDate < longEndDate;
+          }
+          else {
+            return false;
+          }
         }
       );
+      this.updateCountPerCurriculum();
+      this.dataReady = true;
     }
   }
 

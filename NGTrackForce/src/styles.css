@@ -1,4 +1,5 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~ng-pick-datetime/assets/style/picker.min.css";    /* This is required for the date time picker */
+
 body {
   background-color: #ebedea;
   background-size: cover;

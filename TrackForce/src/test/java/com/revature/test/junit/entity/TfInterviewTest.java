@@ -1,13 +1,13 @@
 package com.revature.test.junit.entity;
 
-import static org.junit.Assert.assertFalse;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.sql.Timestamp;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
@@ -97,10 +97,12 @@ public class TfInterviewTest {
 		assertTrue(interview.getInterviewDate().getTime() == 5000L);
 		assertFalse(interview.getInterviewDate().getTime() == 4000L);
 	}
-
+	
+	@Test
 	public void test11() {
 		interview.setInterviewType(new TfInterviewType());
 		assertTrue(interview.getInterviewType() instanceof TfInterviewType);
+		
 	}
 
 	@Test

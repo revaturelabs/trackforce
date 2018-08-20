@@ -1,7 +1,7 @@
 package com.revature.test.restAssured;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.Assert.assertFalse;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.BeforeClass;
@@ -12,6 +12,7 @@ import com.revature.entity.TfMarketingStatus;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
+import com.revature.entity.TfUserAndCreatorRoleContainer;
 import com.revature.services.JWTService;
 import com.revature.services.MarketingStatusService;
 import com.revature.services.UserService;
@@ -29,11 +30,12 @@ import io.restassured.response.Response;
  */
 public class UserResourceTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/users";
-	//static final String URL = "http://localhost:8085/TrackForce/users";
+	//static final String URL = "http://52.87.205.55:8086/TrackForce/users";
+	static final String URL = "http://localhost:8085/TrackForce/users";
 
 	String token;
 	TfUser user;
+	TfUserAndCreatorRoleContainer container;
 	TfAssociate associate;
 	TfTrainer trainer;
 	TfMarketingStatus ms;
@@ -52,13 +54,17 @@ public class UserResourceTest {
 		
 		role = new TfRole();
 		role = userService.getRole(1);
+		TfRole conRole = new TfRole();
+		conRole.setTfRoleId(1);
 		
 		user = new TfUser();
 		user.setIsApproved(1);
 		user.setPassword("password");
-		user.setUsername("TestUsername");
+		user.setUsername("TestUsernameChris");
 		user.setTfRole(role);
 		user.setRole(1);
+		
+		container = new TfUserAndCreatorRoleContainer(user, 1);
 		
 		associate = new TfAssociate();
 		associate.setFirstName("RestAssured");
@@ -80,7 +86,7 @@ public class UserResourceTest {
 	public void testCreateUser2() {
 		user.setRole(1);
 		user.getTfRole().setTfRoleId(1);
-		given().contentType("application/json").body(user).when().post(URL + "/newUser").then().assertThat()
+		given().contentType("application/json").body(container).when().post(URL + "/newUser").then().assertThat()
 				.statusCode(201);
 		
 		Response response = given().header("Authorization", token).when()

@@ -1,13 +1,12 @@
 package com.revature.test.junit.entity;
 
-import static org.junit.Assert.assertFalse;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
@@ -26,7 +25,7 @@ public class TfUserTest {
 
 	TfUser tfuser = new TfUser();
 
-	@BeforeTest
+	@BeforeClass
 	public void setUpUsers() {
 		tfuser1.setId(1);
 		tfuser1.setIsApproved(0);
@@ -95,6 +94,7 @@ public class TfUserTest {
 	@Test
 	public void test8() {
 		assertTrue(tfuser1.equals(tfuser2));
+		System.out.println(tfuser1.toString());
 		assertFalse(tfuser1.equals(new TfUser()));
 	}
 

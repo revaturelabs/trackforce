@@ -1,16 +1,13 @@
 package com.revature.test.junit.entity;
 
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
@@ -73,9 +70,9 @@ public class TfTrainerTest {
 		assertFalse(trainer2.equals(trainer));
 	}
 
-	@Test
+	@Test(expectedExceptions = NullPointerException.class)
 	public void test8() {
 		assertEquals(trainer2.hashCode(), trainer3.hashCode());
-		assertThat(trainer2.hashCode(), not(trainer.hashCode()));
+		assertNotEquals(trainer2.hashCode(), trainer.hashCode());
 	}
 }

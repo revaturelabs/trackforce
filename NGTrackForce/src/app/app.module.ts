@@ -32,6 +32,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PredictionsComponent } from './components/predictions/predictions.component';
 import { MyInterviewComponent } from './components/myinterview-view/myinterview-view.component';
 import { InterviewsComponent } from './components/interviews-view/interviews-view.component';
+import { DateTimePickerComponent } from './components/datetimepicker/datetimepicker.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 ///
 //  SERVICES
 ///
@@ -45,11 +47,11 @@ import { CurriculumService } from './services/curriculum-service/curriculum.serv
 import { DataSyncService } from './services/datasync-service/data-sync.service';
 import { UserService } from './services/user-service/user.service';
 import { InterviewService } from './services/interview-service/interview.service';
+import { NavbarService } from './services/navbar-service/navbar.service';
 
 ///
 //  FILTERS/PIPES
 ///
-
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
 import { AssociateSearchByStatusPipe } from './pipes/associate-search-by-status-pipe/status-pipe.pipe';
 import { AssociateSearchByClientPipe } from './pipes/associate-search-by-client-pipe/client-pipe.pipe';
@@ -74,6 +76,7 @@ import { TrainerViewComponent } from './components/trainer-view/trainer-view.com
 import { TrainerService } from './services/trainer-service/trainer.service';
 import { DeployedComponent } from './components/deployed/deployed.component';
 import { UndeployedComponent } from './components/undeployed/undeployed.component';
+
 
 
 @NgModule({
@@ -104,6 +107,7 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     TrainerViewComponent,
     DeployedComponent,
     UndeployedComponent,
+    DateTimePickerComponent,
     AssociateSearchByStatusPipe,
     AssociateSearchByClientPipe
   ],
@@ -115,7 +119,9 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     ChartsModule,
     Ng2OrderModule,
     BrowserAnimationsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   providers: [
     AssociateService,
@@ -129,6 +135,7 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     InterviewService,
     AuthGuard,
     TrainerService,
+    NavbarService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: InvalidSessionRerouteInterceptor, multi: true },
   ],

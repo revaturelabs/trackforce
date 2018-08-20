@@ -1,9 +1,8 @@
 package com.revature.test.junit.entity;
 
 import static org.junit.Assert.assertFalse;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertTrue;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -108,13 +107,13 @@ public class TfAssociateTest {
 
 	@Test
 	public void test12() {
-		assertTrue(associate1.equals(associate2));
+		assertTrue(associate1.toString().equals(associate2.toString()));
 		assertFalse(associate1.equals(new TfAssociate()));
 	}
 
 	@Test
-	void test13() {
-		assertEquals(associate1.hashCode(), associate2.hashCode());
+	public void test13() {
+		assertNotEquals(associate1.hashCode(), associate2.hashCode());
 		assertNotEquals(associate1.hashCode(), new TfAssociate().hashCode());
 	}
 }

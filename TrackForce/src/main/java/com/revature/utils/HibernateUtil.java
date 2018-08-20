@@ -80,7 +80,7 @@ public class HibernateUtil {
 
 	// The code above this line to the top of the package is basically an exact copy
 	// of stuff William did in class
-	// Now we abstract further.
+	// Now we abstract further...
 
 	public static boolean runHibernateTransaction(Sessional<Boolean> sessional, Object... args) {
 		Callable<Boolean> caller = () -> {

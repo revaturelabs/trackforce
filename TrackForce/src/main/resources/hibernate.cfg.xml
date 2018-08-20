@@ -20,8 +20,6 @@
         <!-- NEVER SET TO CREATE UNLESS YOU WANT TO REMOVE ALL DATA IN DATABASE -->
         <property name="hibernate.hbm2ddl.auto">validate</property>
         
-        <property name="hibernate.connection.pool_size">3</property>
-        
         <!-- Used for debugging -->
         <property name="show_sql">false</property>
         

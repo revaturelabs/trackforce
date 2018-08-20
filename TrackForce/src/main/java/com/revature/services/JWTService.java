@@ -39,39 +39,7 @@ public class JWTService {
 	UserService userService;
 	
 	private static final String SECRET_KEY = getKey();
-	private static Long EXPIRATION = 120L; //expiration time in minutes
-
-	/**
-	 * Validates a token
-	 * 
-	 * @param token
-	 * 
-	 * @return true if the token is valid, otherwise false
-	 * @throws IOException
-	 *             because of the use of connection pools that requires some files
-	 */
-	public Boolean validateToken(String token) {
-		String tokenUsername = null;
-		TfUser tfUser = null;
-		Claims claims = null;
-		boolean verified = false;
-
-		if (token != null) {
-			claims = processToken(token);
-		}
-		if (claims != null) {
-			tokenUsername = claims.getSubject();
-		}
-		if (tokenUsername != null) {
-			tfUser = userService.getUser(tokenUsername);
-		}
-		if (tfUser != null) {
-			// makes sure the token is fresh and usernames are equal
-			verified = (!isTokenExpired(token) && tfUser.getUsername().equals(tokenUsername));
-		}
-
-		return verified;
-	}
+	private static Long EXPIRATION = 15L; //expiration time in minutes
 
 	/**
 	 * Creates a token with an encoded username An expiration date has been set as
@@ -185,6 +153,9 @@ public class JWTService {
 	}
 	
 	public static Response sendInvalidTokenResponse() {
+		
+		
+		
 		return null;
 	}
 

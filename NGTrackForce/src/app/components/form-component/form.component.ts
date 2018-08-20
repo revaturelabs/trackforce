@@ -56,10 +56,13 @@ export class FormComponent implements OnInit {
   hasStartDate: boolean;
   public isDataReady: boolean = false;
 
+  //loading booleans
+  interviewsLoading: boolean = true;
+
   associateId: number;
   private sub: any;
 
-  public interviewSelected: Interview;
+  public interviewSelected: Interview = null;
   public feedback: string;
 
   /**
@@ -75,6 +78,7 @@ export class FormComponent implements OnInit {
     private http: HttpClient,
     private router: Router
   ) {
+    this.interviews = [];
     //gets id from router url parameter
     //this.id = Number(window.location.href.split('form-comp/')[1]);
   }
@@ -246,7 +250,9 @@ export class FormComponent implements OnInit {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
       data => {
         this.interviews = data;
+        this.interviewsLoading = false;
         this.isDataReady = true;
+
       },
       error => {
         console.log('Failed to get interviews.');
@@ -264,6 +270,10 @@ export class FormComponent implements OnInit {
     this.interviewService.updateInterview(this.interviewSelected).subscribe();
   }
 
+  setSelectedInterview(interview: Interview){
+    this.interviewSelected = interview;
+  }
+
   resetAllFields() {
     this.formOpen = false;
     // THESE NEED REFACTORING
@@ -273,5 +283,14 @@ export class FormComponent implements OnInit {
     // this.newInterview.feedback = null;
     this.selectedClient = null;
     this.selectedMarketingStatus = null;
+  }
+
+  goToInterviewDetails( interview: Interview )
+  {
+    this.user = this.authService.getUser();
+    if ( this.user.role == 3 )
+    {
+      this.router.navigate(['interview-details/' + interview.id]);
+    }
   }
 }

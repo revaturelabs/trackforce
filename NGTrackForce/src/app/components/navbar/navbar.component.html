@@ -37,7 +37,7 @@
         </li>
       </ul>
 
-      <ul *ngIf='isAdmin' class="nav navbar-nav">
+      <ul *ngIf='isStaging || isSales || isAdmin' class="nav navbar-nav">
         <li>
           <a [routerLink]="['/app-home']" routerLinkActive="active">Home</a>
         </li>
@@ -55,6 +55,9 @@
         </li>
         <li>
           <a [routerLink]="['/create-user']" routerLinkActive="active">Create User</a>
+        </li>
+        <li *ngIf='isAdmin'>
+          <a [routerLink]="['/salesforce']" routerLinkActive="active">Salesforce</a>
         </li>
       </ul>
     </ng-container>

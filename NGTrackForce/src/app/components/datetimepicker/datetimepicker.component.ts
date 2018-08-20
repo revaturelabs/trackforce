@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { DateService } from '../../services/date-service/date.service';
 
 
 @Component({
@@ -10,7 +11,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class DateTimePickerComponent implements OnInit {
     @Input() width = '250px';   //default value
     @Input() format = 'date';   //default value
-    @Input() originalDate: any;    //no default
+    @Input() originalDate: number;    //no default
+    @Input() dateType: string;  // start or end date
     @Output() datePicked = new EventEmitter();
     @Output() error = new EventEmitter();
     calendarView = false;
@@ -23,21 +25,39 @@ export class DateTimePickerComponent implements OnInit {
 
     oldDate: Date;
 
-    constructor() {
+    constructor(private dateService: DateService) {
+
+    }
+
+    changeDate(){
+        if (this.dateType == "start") {
+            this.dateService.currStartDate.subscribe(
+                data =>{
+                    this.originalDate = data.getDate();
+                }
+            );
+        } else {
+            this.dateService.currEndDate.subscribe(
+                data =>{
+                    this.originalDate = data.getDate();
+                }
+            );
+        }
 
     }
 
     ngOnInit() {
+        this.dateReset();
+    }
 
+    dateReset(){
         setTimeout(()=>{
-
             if (this.originalDate){ //because its an optional parameter
                 this.date = new Date(this.originalDate);
                 this.toggleCalendarView();
                 this.dateClicked(); //this is to validate it and update other internal variables.
             }
-        },0);   //UHHHHHH....IT WORKS!! NOTE: Without the timeout, Angular compains with a error related to concurrency, 'ExpressionChangedAfterItHasBeenCheckedError'
-
+        },0);
     }
 
     public toggleCalendarView(){
@@ -74,9 +94,5 @@ export class DateTimePickerComponent implements OnInit {
         else this.displayErrorInvalidDate = false;
         this.error.emit(this.displayErrorInvalidDate);
     }
-
-
-
-
 
 }

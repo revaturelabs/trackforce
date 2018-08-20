@@ -78,6 +78,8 @@ import { TrainerService } from './services/trainer-service/trainer.service';
 import { DeployedComponent } from './components/deployed/deployed.component';
 import { UndeployedComponent } from './components/undeployed/undeployed.component';
 import { InvalidSessionComponent } from './components/invalid-session/invalid-session.component';
+import { HighlightInterviewDirective } from './directives/highlight-interview.directive';
+import { SalesforceComponent } from './components/salesforce/salesforce.component';
 
 
 
@@ -113,7 +115,8 @@ import { InvalidSessionComponent } from './components/invalid-session/invalid-se
     AssociateSearchByStatusPipe,
     AssociateSearchByClientPipe,
     InvalidSessionComponent,
-
+    HighlightInterviewDirective,
+    SalesforceComponent
   ],
   imports: [
     BrowserModule,
@@ -142,6 +145,9 @@ import { InvalidSessionComponent } from './components/invalid-session/invalid-se
     NavbarService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: InvalidSessionRerouteInterceptor, multi: true },
+  ],
+  exports: [
+    MatProgressSpinnerModule
   ],
   bootstrap: [AppComponent]
 })

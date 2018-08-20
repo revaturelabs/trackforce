@@ -176,7 +176,6 @@ export class BatchDetailsComponent implements OnInit {
     this.batchService.getBatchDetailsById(id).subscribe(
       data => {
         this.batch = data;
-        console.log(this.batch);
       },
       error => {
         console.log('Could not get batch information.');

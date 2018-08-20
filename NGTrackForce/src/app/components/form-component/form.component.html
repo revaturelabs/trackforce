@@ -57,6 +57,7 @@
         </table>
       </div>
     </div>
+    
     <div class="col-md-8">
       <h3>Update Associate</h3>
       <div class="div-window">
@@ -86,6 +87,7 @@
               <td>Assign Client</td>
               <td>
                 <select class="form-control" name="selectedClient" [(ngModel)]="selectedClient">
+
                   <option selected="selected">None</option>
                   <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
                 </select>

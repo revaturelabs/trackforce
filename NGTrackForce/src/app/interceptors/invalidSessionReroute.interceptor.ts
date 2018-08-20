@@ -24,8 +24,12 @@ export class InvalidSessionRerouteInterceptor implements HttpInterceptor {
     }, (err: any) => {
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
-          console.log("401 caught by session reroute")
-          this.router.navigate(['/login'], { queryParams: { invalidsession: true }}); 
+          console.log("401 caught by session reroute", err)
+
+          if(err.error["expirationtime"] < 15)
+            this.router.navigate(['/invalid-session']); 
+          else
+            this.router.navigate(['/login']); 
         }
       }
     }));

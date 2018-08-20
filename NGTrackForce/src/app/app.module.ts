@@ -34,6 +34,7 @@ import { MyInterviewComponent } from './components/myinterview-view/myinterview-
 import { InterviewsComponent } from './components/interviews-view/interviews-view.component';
 import { DateTimePickerComponent } from './components/datetimepicker/datetimepicker.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+
 ///
 //  SERVICES
 ///
@@ -76,6 +77,7 @@ import { TrainerViewComponent } from './components/trainer-view/trainer-view.com
 import { TrainerService } from './services/trainer-service/trainer.service';
 import { DeployedComponent } from './components/deployed/deployed.component';
 import { UndeployedComponent } from './components/undeployed/undeployed.component';
+import { InvalidSessionComponent } from './components/invalid-session/invalid-session.component';
 
 
 
@@ -109,7 +111,9 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     UndeployedComponent,
     DateTimePickerComponent,
     AssociateSearchByStatusPipe,
-    AssociateSearchByClientPipe
+    AssociateSearchByClientPipe,
+    InvalidSessionComponent,
+
   ],
   imports: [
     BrowserModule,

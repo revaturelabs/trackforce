@@ -24,6 +24,7 @@ import { InterviewsComponent } from '../components/interviews-view/interviews-vi
 import { TrainerViewComponent } from '../components/trainer-view/trainer-view.component';
 import { DeployedComponent } from '../components/deployed/deployed.component';
 import { UndeployedComponent } from '../components/undeployed/undeployed.component';
+import { InvalidSessionComponent } from '../components/invalid-session/invalid-session.component';
 
 /**
  * Place paths here
@@ -38,6 +39,10 @@ export const appRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'invalid-session',
+    component: InvalidSessionComponent
   },
   {
     path: 'client-listing',

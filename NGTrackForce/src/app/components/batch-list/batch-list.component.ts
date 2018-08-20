@@ -190,12 +190,8 @@ export class BatchListComponent implements OnInit {
     this.counter = 0;
     this.stringStart = this.startDate.toJSON().substring(0, 10);
     this.stringEnd = this.endDate.toJSON().substring(0, 10);
-<<<<<<< HEAD
     this.startDateTimePicker.dateReset();
     this.endDateTimePicker.dateReset();
-=======
-    //this.dateTimePicker.dateReset();
->>>>>>> 11c89e71c084d8f0842c4bf713b7ebbe561cc16d
     this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
       batches => {
         // filter out batches that don't have an associated trainer

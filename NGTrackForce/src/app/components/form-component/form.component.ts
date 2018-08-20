@@ -280,7 +280,6 @@ export class FormComponent implements OnInit {
     this.user = this.authService.getUser();
     if ( this.user.role == 3 )
     {
-      console.log(interview.id);
       this.router.navigate(['interview-details/' + interview.id]);
     }
   }

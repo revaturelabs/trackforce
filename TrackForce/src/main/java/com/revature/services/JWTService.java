@@ -107,7 +107,6 @@ public class JWTService {
 				throw new UnsupportedJwtException("token null");
 			}
 			payload = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
-			System.err.println("expire at: " + payload.getExpiration());
 			
 		}catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
 		

@@ -1,4 +1,3 @@
-
 import { Component, OnInit, Input } from '@angular/core';
 import { MyInterviewComponent } from '../myinterview-view/myinterview-view.component';
 import { ActivatedRoute } from '@angular/router';
@@ -24,12 +23,9 @@ export class InterviewDetailsComponent implements OnInit {
   promptClassName: string = "col-sm-4 alert alert-success";
   promptMessage: string = "Succes-interview updated";
   promptToggle: boolean = false;
-  isEditAss : boolean = false;
-  isDisAss : boolean = false;
-  isEditCli : boolean = false;
-  isDisCli : boolean = false;
-  isEditQue : boolean = false;
-  isDisQue : boolean = false;
+  isDisabledAssociate : boolean = false;
+  isDisabledClient : boolean = false;
+  isDisabledQuestions : boolean = false;
   
   constructor(private route: ActivatedRoute, private interviewService: InterviewService,
     private authService: AuthenticationService) { }
@@ -67,60 +63,60 @@ export class InterviewDetailsComponent implements OnInit {
     );
   }
 
-  isDisabledAssFeed()
+  isDisabledAssociateFeedback()
   {
     this.user = this.authService.getUser();
     if ( this.user.role == 3 )
     {
-      this.isDisAss = true;
+      this.isDisabledAssociate = true;
     }
     else
     {
-      this.isDisAss = false;
+      this.isDisabledAssociate = false;
     }
-    return this.isDisAss;
+    return this.isDisabledAssociate;
   }
 
-  isDisabledCliFeed()
+  isDisabledClientFeedback()
   {
     this.user = this.authService.getUser();
     if ( this.user.role == 3 )
     {
-      this.isDisCli = false;
+      this.isDisabledClient = false;
     }
     else
     {
-      this.isDisCli = true;
+      this.isDisabledClient = true;
     }
-    return this.isDisCli;
+    return this.isDisabledClient;
   }
 
-  isDisabledIntQue()
+  isDisabledInterviewQuestions()
   {
     this.user = this.authService.getUser();
     if ( this.user.role == 3 )
     {
-      this.isDisQue = true;
+      this.isDisabledQuestions = true;
     }
     else
     {
-      this.isDisQue = false;
+      this.isDisabledQuestions = false;
     }
-    return this.isDisQue;
+    return this.isDisabledQuestions;
   }
 
-  isDisabledExpectedSkillsAndQue()
+  isDisabledExpectedSkillsAndQuestions()
   {
     this.user = this.authService.getUser();
     if ( this.user.role == 3 )
     {
-      this.isDisQue = false;
+      this.isDisabledQuestions = false;
     }
     else
     {
-      this.isDisQue = true;
+      this.isDisabledQuestions = true;
     }
-    return this.isDisQue;
+    return this.isDisabledQuestions;
   }
 
 }

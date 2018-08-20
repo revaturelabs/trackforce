@@ -101,6 +101,10 @@ describe('SkillsetComponent', () => {
     {
         path: '',
         component: SkillsetComponent
+    },
+    {
+      path: 'app-home',
+      component: HomeComponent
     }
   ];
  
@@ -116,7 +120,7 @@ describe('SkillsetComponent', () => {
       imports : [
         HttpClientTestingModule,
         ChartsModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes(routes),
         FormsModule,
         HomeModule,
       ],
@@ -145,7 +149,7 @@ describe('SkillsetComponent', () => {
       imports : [
         HttpClientTestingModule,
         ChartsModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes(routes),
         FormsModule,
         HomeModule,
       ],

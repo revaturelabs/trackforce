@@ -299,9 +299,8 @@ public class BatchResource {
 	}
 	
 	/**
-	 * 1806_Chris_P
-	 * Super similar to the previous method, except that this one only returns the aggregate count of all associates in
-	 * a particular curriculum selected from the Predictions Page.
+	 * 1806_Kevin_C
+	 * Gets a batch with the given id
 	 */
 	@GET
 	@ApiOperation(value = "Returns batch information given a batch id", notes = "Returns batch information based on batch id.")

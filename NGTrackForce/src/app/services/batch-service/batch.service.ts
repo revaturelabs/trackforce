@@ -87,12 +87,11 @@ export class BatchService {
     );
   }
 
-  /*
-    1806_Kevin_C
-    This method sends a start and end date along with the coursename I.E. Java,PEGA.
-    A Json object array is received and returned
-    See 1806 iteration 6 - Team 4 Predictions - Request Response Doc - #1
-  */
+  /**
+   *1806_Kevin_C
+   * @param id Id of a batch
+   * @returns {Batch} Batch with that id
+   */
   public getBatchDetailsById(id: number): Observable<Batch> {
     const url = this.baseURL + '/batch/' + id;
     return this.http.get<Batch>(url);

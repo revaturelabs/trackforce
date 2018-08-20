@@ -153,7 +153,6 @@ export class SkillsetComponent implements OnInit {
   ngOnInit(): void {
 
     this.getUnmappedData();
-    console.log(this.selectedStatus);
     this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || SkillsetComponent.NULL;
     // if we didn't get skillID from selectedStatus...
     if (this.skillID === SkillsetComponent.NULL) {
@@ -174,7 +173,6 @@ export class SkillsetComponent implements OnInit {
     this.curriculumService.getSkillsetsForStatusID(6).subscribe((data) => {
       // copy in the raw data into local variable
       const skillsets: GraphCounts[] = data;
-      console.log(skillsets);
       // map() that variable into skillsetData,skillsetLabels
       this.skillsetData = skillsets.map((obj) => { if (obj.count) { return obj.count } }).filter(this.isNotUndefined);
       this.skillsetLabels = skillsets.map((obj) => { if (obj.count) { return obj.name } }).filter(this.isNotUndefined);
@@ -182,15 +180,6 @@ export class SkillsetComponent implements OnInit {
         ((!this.skillsetData) || (!this.skillsetData.length))) ?
         'There is no batch data on this status...' : 'Loaded!';
     });
-
-    // console.log("skillsetdata");
-    // console.log(this.skillsetData);
-    // console.log("skillsetData.length");
-    // console.log(this.skillsetData.length);
-    // console.log("skillsetLabels");
-    // console.log(this.skillsetLabels);
-    // console.log("skillsetLabels.length");
-    // console.log(this.skillsetLabels.length);
 
     this.chartOptions.title.text = this.selectedStatus;
 

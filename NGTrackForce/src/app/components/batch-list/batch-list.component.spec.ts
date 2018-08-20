@@ -92,6 +92,8 @@ describe('BatchListComponent', async () => {
     // mock batch service
     // spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
     spyOn(testBatchService, 'getBatchesByDate').and.returnValue(Observable.of([batch1, batch2]));
+    spyOn(testBatchService, 'getBatchesWithinDates').and.returnValue(Observable.of([batch1, batch2]));
+
 
     let user = new User("mockUser", "mockPassword", 1, 0, null, "mockToken");
     spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar

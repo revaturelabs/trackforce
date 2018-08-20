@@ -30,7 +30,6 @@ export class AuthGuard implements CanActivate {
         if(expectedRoles != undefined){
             const user = this.authService.getUser();
             if(!expectedRoles.includes(user.role)){
-                console.log("current role not allowed");
                 this.routeToUserHome(user.role);
                 return false;
             }

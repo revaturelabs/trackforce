@@ -1,13 +1,13 @@
 package com.revature.test.junit.entity;
 
-import static org.junit.Assert.assertFalse;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.util.HashSet;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;

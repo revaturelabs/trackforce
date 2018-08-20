@@ -32,6 +32,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PredictionsComponent } from './components/predictions/predictions.component';
 import { MyInterviewComponent } from './components/myinterview-view/myinterview-view.component';
 import { InterviewsComponent } from './components/interviews-view/interviews-view.component';
+import { DateTimePickerComponent } from './components/datetimepicker/datetimepicker.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 ///
 //  SERVICES
 ///
@@ -74,6 +76,9 @@ import { TrainerViewComponent } from './components/trainer-view/trainer-view.com
 import { TrainerService } from './services/trainer-service/trainer.service';
 import { DeployedComponent } from './components/deployed/deployed.component';
 import { UndeployedComponent } from './components/undeployed/undeployed.component';
+import { HighlightInterviewDirective } from './directives/highlight-interview.directive';
+import { SalesforceComponent } from './components/salesforce/salesforce.component';
+
 
 
 
@@ -105,8 +110,11 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     TrainerViewComponent,
     DeployedComponent,
     UndeployedComponent,
+    DateTimePickerComponent,
     AssociateSearchByStatusPipe,
-    AssociateSearchByClientPipe
+    AssociateSearchByClientPipe,
+    HighlightInterviewDirective,
+    SalesforceComponent
   ],
   imports: [
     BrowserModule,
@@ -116,7 +124,9 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     ChartsModule,
     Ng2OrderModule,
     BrowserAnimationsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   providers: [
     AssociateService,

@@ -129,7 +129,7 @@ export class ClientListComponent implements OnInit {
     this.selectedCompany = "All Client Data";
 
     let stat = new StatusInfo;
-
+    this.searchName = '';
     this.clientService.getClientCount(-1).subscribe(
       count => {
         stat.trainingMapped = count[0];

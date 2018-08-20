@@ -28,16 +28,16 @@ export class Interview {
     interviewDate: number,
     questionGiven: string,
     was24HRNotice: number,
-    jobDescription: string,
     dateSalesIssued: number,
     dateAssociateIssued: number,
+    jobDescription?: string,
     isClientFeedbackVisible?: number,
     associateFeedback?: string,
     clientFeedback?: string,
     isInterviewFlagged?: number,
     flagReason?: string,
     endClient?: EndClient,
-    id?: number
+    id?: number,
   ) {
     this.associate = associate;
     this.client = client;

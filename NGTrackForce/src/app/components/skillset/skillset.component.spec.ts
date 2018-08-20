@@ -92,7 +92,7 @@ export class MockRouter {
   navigateByUrl(url: String) { return url;}
 }
 
-fdescribe('SkillsetComponent', () => {
+describe('SkillsetComponent', () => {
   let component: SkillsetComponent;
   let fixture: ComponentFixture<SkillsetComponent>;
   let activatedRoute : ActivatedRouteStub;
@@ -104,6 +104,32 @@ fdescribe('SkillsetComponent', () => {
     }
   ];
 
+  // beforeEach(async(() => {
+  //   TestBed.configureTestingModule({
+  //     declarations: [
+  //       SkillsetComponent,
+  //       NavbarComponent,
+  //       FormComponent
+  //     ],
+  //     imports : [
+  //       HttpClientTestingModule,
+  //       ChartsModule,
+  //       RouterTestingModule,
+  //       FormsModule,
+  //       HomeModule,
+  //     ],
+  //     providers : [
+  //       CurriculumService,
+  //       // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(6)},
+  //     { provide : ActivatedRoute, useValue : {
+  //       snapshot: {params: {id: 6},
+  //                  paramMap: convertToParamMap({id: 6})}
+  //
+  //       } },
+  //     ]
+  //   })
+  //   .compileComponents();
+  // }));
 
   beforeEach(() => {
     TestBed.resetTestingModule();
@@ -170,6 +196,7 @@ fdescribe('SkillsetComponent', () => {
         idFound = true;
         break;
       }
+      let SkillInfoValue = SkillInfoIter.next();
     }
     let id = component.getSkillID();
     let count = SkillsetComponent.getSkillInfo().size;

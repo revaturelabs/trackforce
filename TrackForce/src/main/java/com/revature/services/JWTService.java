@@ -20,6 +20,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
+import javax.ws.rs.core.Response;
+
 /**
  * 
  * @author Michael Tseng
@@ -180,6 +182,10 @@ public class JWTService {
 	private static Boolean isTokenExpired(String token) {
 		final Date expiration = getExpirationDateFromToken(token);
 		return expiration.before(new Date());
+	}
+	
+	public static Response sendInvalidTokenResponse() {
+		return null;
 	}
 
 }

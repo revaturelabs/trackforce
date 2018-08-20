@@ -7,14 +7,12 @@
       <h3 class="data-status" *ngIf="isDataReady && isDataEmpty">
         No Associates Found
       </h3>
-      <div *ngIf="!isDataReady" class="col-md-offset-6 vertical-center">
-        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      <div class="center-div" *ngIf="!isDataReady">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
-      <div *ngIf="isDataReady">
-        <canvas *ngIf="isDataReady && !isDataEmpty" baseChart id="bar" [chartType]="chartType" [datasets]="dataSets" [labels]="statusNames"
-          [options]="options" [colors]="mappedColors">
-        </canvas>
-      </div>
+      <canvas *ngIf="isDataReady && !isDataEmpty" baseChart id="bar" [chartType]="chartType" [datasets]="dataSets" [labels]="statusNames"
+        [options]="options" [colors]="mappedColors">
+      </canvas>
     </div>
     <div class="col-md-6">
       <div *ngIf="!isDataReady" class="col-md-offset-6 vertical-center">
@@ -46,6 +44,7 @@
             </ng-container>
           </tbody>
         </table>
+
       </div>
     </div>
   </div>

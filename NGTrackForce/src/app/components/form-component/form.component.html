@@ -6,10 +6,14 @@
     <div class="alert alert-danger" *ngIf="errorMessage">
       <h5 class="text-danger">{{errorMessage}}</h5>
     </div>
-    <div class="col-12">
+  </div>
+
+  <!-- Main Row -->
+  <div class="row">
+    <div class="col-md-4">
       <h3>Associate Info</h3>
-      <div class="table-responsive info">
-        <table class="table table-hover table-bordered">
+      <div class="table-responsive info table-div">
+        <table class="table borderless">
           <tbody>
             <tr *ngIf="(associate && associate.user && associate.user.isApproved) ? associate.user.isApproved != true : true">
               <td>This Associate has not been approved yet</td>
@@ -53,137 +57,133 @@
         </table>
       </div>
     </div>
-    <div class="col-12">
-      <h3>Interviews</h3>
-      <div *ngIf="!isDataReady" class="col-xs-offset-6" style="text-align: center">
-        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-      </div>
-      <table *ngIf="isDataReady" class="table table-responsive table-hover table-bordered">
-        <thead>
-          <tr>
-            <th>Interview ID</th>
-            <th>Client</th>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Feedback</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let interview of interviews; let i = index" (click)="goToInterviewDetails(interview)">
-            <td>{{(interview && interview.id) ? interview.id : ""}}</td>
-            <td>{{(interview.client && interview.client.name) ? interview.client.name : ""}}</td>
-            <td>{{(interview && interview.interviewDate) ? (interview.interviewDate | date:'longDate') : "" }}</td>
-            <td>{{(interview && interview.interviewType && interview.interviewType.name) ?interview.interviewType.name :
-              ""}}
-            </td>
-            <td>{{(interview && interview.clientFeedback) ? interview.clientFeedback : ""}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" *ngIf="!isVP" class="btn btn-primary" (click)="toggleForm()">Toggle Update Interview Feedback
-        Form
-      </button>
-      <div class="row" *ngIf="formOpen" class="toggledContainer">
-        <div class="col-lg-9">
-          <form class="form-horizontal">
-            <div class="form-group">
-              <label class="control-label col-sm-3">Interview ID:</label>
-              <div class="col-sm-9">
-                <select class="form-control" name="type" [(ngModel)]="interviewSelected">
-                  <option selected="selected">None</option>
-                  <option *ngFor="let interview of interviews" [ngValue]="interview">{{interview.id}}</option>
+    
+    <div class="col-md-8">
+      <h3>Update Associate</h3>
+      <div class="div-window">
+
+        <div class="form-group">
+          <table class="table borderless">
+            <tr>
+              <td>Choose Status</td>
+              <td>
+                <select class="form-control" name="smkst" [(ngModel)]="selectedMarketingStatus">
+                  <option value="1">MAPPED: Training</option>
+                  <option value="2">MAPPED: Reserved</option>
+                  <option value="3">MAPPED: Selected</option>
+                  <option value="4">MAPPED: Confirmed</option>
+                  <option value="5">MAPPED: Deployed</option>
+                  <option value="6">UNMAPPED: Training</option>
+                  <option value="7">UNMAPPED: Open</option>
+                  <option value="8">UNMAPPED: Selected</option>
+                  <option value="9">UNMAPPED: Confirmed</option>
+                  <option value="10">UNMAPPED: Deployed</option>
+                  <option value="11">Directly Placed</option>
+                  <option value="12">TERMINATED</option>
                 </select>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-3">Feedback:</label>
-              <div class="col-sm-9">
-                <textarea type="text" class="form-control" name="feedback" rows="3" [(ngModel)]="feedback"></textarea>
-              </div>
-            </div>
-            <button type="button" (click)="updateInterviewFeedback(interview)" class="btn btn-warning">Update Feedback</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row" *ngIf="!isVP">
-    <div class="col-sm-12">
-      <div class="bg-white">
-        <h3>Update Associate Form</h3>
+              </td>
+            </tr>
+            <tr>
+              <td>Assign Client</td>
+              <td>
+                <select class="form-control" name="selectedClient" [(ngModel)]="selectedClient">
+
+                  <option selected="selected">None</option>
+                  <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Start Date</td>
+              <td><input type="date" class="form-control" name="date" [(ngModel)]="newStartDate" /></td>
+            </tr>
+          </table>
+          <button (click)="updateAssociate()" class="btn btn-warning" style="margin-top:10px">Update Status</button>
+        </div>            
+        <hr>
         <form>
-          <div class="form-group">
-            <input type="checkbox" [checked]="isMapped" (change)="isMapped = !isMapped">
-            <label>Is the associate mapped?</label>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" [checked]="isMapped" (change)="isMapped = !isMapped"> Is the associate mapped?            
+            </label>
           </div>
-          <div class="form-group">
-            <input type="checkbox" [checked]="eligibleForInterview" (change)="eligibleForInterview = !eligibleForInterview">
-            <label>Is the associate eligible for an interview?</label>
+          <div class="checkbox">
+          <label>
+            <input type="checkbox" [checked]="eligibleForInterview" (change)="eligibleForInterview = !eligibleForInterview"> Is the associate eligible for an interview?
+          </label>
           </div>
-          <div *ngIf="eligibleForInterview" class="form-group">
-            <input type="checkbox" [checked]="interviewScheduled" (change)="interviewScheduled = !interviewScheduled">
-            <label>Is the associate scheduled for an interview?</label>
+          <div *ngIf="eligibleForInterview" class="checkbox">
+            <label><input type="checkbox" [checked]="interviewScheduled" (change)="interviewScheduled = !interviewScheduled">Is the associate scheduled for an interview?</label>
           </div>
-          <div *ngIf="interviewScheduled" class="form-group">
+          <div *ngIf="interviewScheduled" class="checkbox">
             <label for="client">Assign Client:</label>
             <select name="automated-selected-client" [(ngModel)]="selectedClient">
               <option selected="selected">None</option>
               <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
             </select>
           </div>
-          <div *ngIf="interviewScheduled" class="form-group">
-            <input type="checkbox" [checked]="clearedAllInterviews" (change)="clearedAllInterviews = !clearedAllInterviews">
-            <label>Has the associate cleared all interviews?</label>
+          <div *ngIf="interviewScheduled" class="checkbox">
+            <label><input type="checkbox" [checked]="clearedAllInterviews" (change)="clearedAllInterviews = !clearedAllInterviews">Has the associate cleared all interviews?</label>
           </div>
-          <div *ngIf="interviewScheduled" class="form-group">
-            <input type="checkbox" [checked]="receivedEmailFromClient" (change)="receivedEmailFromClient = !receivedEmailFromClient">
-            <label>Has an email been received from the client?</label>
+          <div *ngIf="interviewScheduled" class="checkbox">
+            <label><input type="checkbox" [checked]="receivedEmailFromClient" (change)="receivedEmailFromClient = !receivedEmailFromClient">Has an email been received from the client?</label>
           </div>
-          <div *ngIf="interviewScheduled" class="form-group">
-            <input type="checkbox" [checked]="passedBackgroundCheck" (change)="passedBackgroundCheck = !passedBackgroundCheck">
-            <label>Has the associate passed a background check</label>
+          <div *ngIf="interviewScheduled" class="checkbox">
+            <label><input type="checkbox" [checked]="passedBackgroundCheck" (change)="passedBackgroundCheck = !passedBackgroundCheck">Has the associate passed a background check</label>
           </div>
-          <div *ngIf="passedBackgroundCheck" class="form-group">
-            <input type="checkbox" [checked]="hasStartDate" (change)="hasStartDate = !hasStartDate">
-            <label>Does the associate have a start date?</label>
+          <div *ngIf="passedBackgroundCheck" class="checkbox">
+            <label><input type="checkbox" [checked]="hasStartDate" (change)="hasStartDate = !hasStartDate">Does the associate have a start date?</label>
             <br>
             <input *ngIf="hasStartDate" type="date" name="startdate" [(ngModel)]="newStartDate">
           </div>
           <button type="button" class="btn btn-warning" (click)="processForm()">Update Associate</button>
         </form>
       </div>
+
+
     </div>
   </div>
-  <div class="row" *ngIf="!isVP">
-    <div class="col-sm-6">
-      <h3>Change Status Manually</h3>
-      <div class="form-group">
-        <label for="mStatus">Choose Status:</label>
-        <select class="form-control" name="smkst" [(ngModel)]="selectedMarketingStatus">
-          <option value="1">MAPPED: Training</option>
-          <option value="2">MAPPED: Reserved</option>
-          <option value="3">MAPPED: Selected</option>
-          <option value="4">MAPPED: Confirmed</option>
-          <option value="5">MAPPED: Deployed</option>
-          <option value="6">UNMAPPED: Training</option>
-          <option value="7">UNMAPPED: Open</option>
-          <option value="8">UNMAPPED: Selected</option>
-          <option value="9">UNMAPPED: Confirmed</option>
-          <option value="10">UNMAPPED: Deployed</option>
-          <option value="11">Directly Placed</option>
-          <option value="12">TERMINATED</option>
-        </select>
-        <label for="client">Assign Client:</label>
-        <select class="form-control" name="selectedClient" [(ngModel)]="selectedClient">
-          <option selected="selected">None</option>
-          <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
-        </select>
-        <label class="control-label">Apply Start Date to Associate</label>
-        <input type="date" class="form-control" name="date" [(ngModel)]="newStartDate" />
-        <button (click)="updateAssociate()" class="btn btn-warning" style="margin-top:10px">Update Status</button>
+
+  <!-- Interview Row -->
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Interviews</h3>
+      <div class="table-div">
+        <table class="table table-striped table-responsive table-hover table borderless scrollable-table col-5-table">
+          <thead>
+            <tr>
+              <th>Interview ID</th>
+              <th>Client</th>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Feedback</th>
+            </tr>
+          </thead>
+          <div class="center-div" *ngIf="interviewsLoading">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+          </div>
+          <tbody style="max-height: 300px;"  *ngIf="!interviewsLoading">
+            <tr *ngFor="let interview of interviews; let i = index" (click)="setSelectedInterview(interview)" [appHighlightInterview]="interview == interviewSelected">
+              <td>{{(interview && interview.id) ? interview.id : ""}}</td>
+              <td>{{(interview.client && interview.client.name) ? interview.client.name : ""}}</td>
+              <td>{{(interview && interview.interviewDate) ? (interview.interviewDate | date:'longDate') : "" }}</td>
+              <td>{{(interview && interview.interviewType && interview.interviewType.name) ?interview.interviewType.name : ""}}</td>
+              <td>{{(interview && interview.clientFeedback) ? interview.clientFeedback : ""}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="row" *ngIf="interviewSelected != null" class="div-window">
+        <div class="col-lg-12">
+            <label>Enter feedback for Interview ID: {{interviewSelected.id}}</label>
+            <textarea type="text" class="form-control" name="feedback" rows="3" [(ngModel)]="feedback"></textarea>
+            <br>
+            <button type="button" (click)="updateInterviewFeedback(interview)" class="btn btn-warning">Send</button>
+        </div>
       </div>
     </div>
-  </div>
+  </div>  
 </div>
 <!-- <div *ngIf="isAssociate">
 <div class="col-sm-6">

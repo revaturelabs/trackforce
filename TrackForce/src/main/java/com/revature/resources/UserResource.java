@@ -293,7 +293,7 @@ public class UserResource {
 			return Response.status(Status.OK).entity(user).build();
 		} else {
 			logger.info("sending unauthorized response..");
-			return Response.status(Status.OK).entity(null).build();
+			return Response.status(Status.UNAUTHORIZED).entity(null).build();
 		}
 	}
 	

@@ -195,8 +195,8 @@ describe('SkillsetComponent', () => {
     // })
 
     while(!SkillInfoValue.done) {
-      console.log('value: ' + SkillInfoValue.value);
-      console.log('skillID: ' + component.getSkillID());
+      // console.log('value: ' + SkillInfoValue.value);
+      // console.log('skillID: ' + component.getSkillID());
       //console.log(parseInt(SkillInfoValue.value) === component.getSkillID());
       if (SkillInfoValue.value == component.getSkillID()) {
         idFound = true;

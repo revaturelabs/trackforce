@@ -169,7 +169,7 @@ describe('SkillsetComponent', () => {
         idFound = true;
         break;
       }
-      let SkillInfoValue = SkillInfoIter.next();
+      SkillInfoValue = SkillInfoIter.next();
     }
     let id = component.getSkillID();
     let count = SkillsetComponent.getSkillInfo().size;

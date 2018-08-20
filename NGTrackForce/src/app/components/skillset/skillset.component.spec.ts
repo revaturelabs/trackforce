@@ -74,6 +74,7 @@ export class MockCurriculumService extends CurriculumService {
 export class MockActivatedRoute {
   static createMockRoute(tid: number): any {
     return {
+      route: {
       params: Observable.of({id: tid}),
       snapshot: {
         parent: {
@@ -83,7 +84,7 @@ export class MockActivatedRoute {
         },
         paramMap: convertToParamMap({id: 6})
         }
-    };
+    }};
   }
 }
 
@@ -102,31 +103,29 @@ describe('SkillsetComponent', () => {
         component: SkillsetComponent
     }
   ];
-  let router: Router = new Router(null,null,null,null,null,null,null,null);
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ 
         SkillsetComponent,
         NavbarComponent,
-        FormComponent,
-        MockRouter
+        FormComponent
       ],
       imports : [
         HttpClientTestingModule,
         ChartsModule,
-        RouterTestingModule.withRoutes(routes), 
+        RouterTestingModule, 
         FormsModule,
         HomeModule,
       ],
       providers : [
         CurriculumService,
-        // { provide : ActivatedRoute, useValue : {
-        //   snapshot: {params: {id: 6},
-        //              paramMap: convertToParamMap({id: 6})}                    
-   
-        // } },
-        { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(6)},
-      { provide : Router, useValue : router}
+        // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(6)},
+      { provide : ActivatedRoute, useValue : {
+        snapshot: {params: {id: 6},
+                   paramMap: convertToParamMap({id: 6})}                    
+  
+        } },
       ]
     })
     .compileComponents();

@@ -103,6 +103,35 @@ describe('SkillsetComponent', () => {
         component: SkillsetComponent
     }
   ];
+ 
+  beforeEach(async(() => {
+    TestBed.resetTestingModule();
+    
+    TestBed.configureTestingModule({
+      declarations: [
+        SkillsetComponent,
+        NavbarComponent,
+        FormComponent
+      ],
+      imports : [
+        HttpClientTestingModule,
+        ChartsModule,
+        RouterTestingModule,
+        FormsModule,
+        HomeModule,
+      ],
+      providers : [
+        CurriculumService,
+        // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(6)},
+      { provide : ActivatedRoute, useValue : {
+        snapshot: {params: {id: 6},
+                   paramMap: convertToParamMap({id: 6})}
+  
+        } },
+      ]
+    })
+    .compileComponents();
+  }));
 
   beforeEach(() => {
     TestBed.resetTestingModule();

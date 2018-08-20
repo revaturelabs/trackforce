@@ -42,6 +42,7 @@ export class BatchListComponent implements OnInit {
 
   dateRangeMessage: string;
   showDateRangeError = false;
+  dateError: boolean;
 
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
     new SideValues(-100, 0, 0, 0),
@@ -82,7 +83,7 @@ export class BatchListComponent implements OnInit {
         },
         error => {
           console.log(error);
-        } 
+        }
       );
     }
     else {
@@ -104,7 +105,7 @@ export class BatchListComponent implements OnInit {
         },
         error => {
           console.log(error);
-        } 
+        }
       );
 
     }
@@ -116,26 +117,26 @@ export class BatchListComponent implements OnInit {
    * and the corresponding graph accordingly
    */
   public applySelectedRange() {
+    if (!this.dateError){
     this.startDate = new Date(this.stringStart);
     this.endDate = new Date(this.stringEnd);
-
 
     let longStartDate: number;
     let longEndDate: number;
 
     this.resetFormWarnings();
+        if (this.startDate && this.endDate) {
+          longStartDate = this.startDate.getTime();
+          longEndDate = this.endDate.getTime();
 
-    if (this.startDate && this.endDate) {
-      longStartDate = this.startDate.getTime();
-      longEndDate = this.endDate.getTime();
 
-
-      if (longStartDate > longEndDate) {
-        this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
-        this.showDateRangeError = true;
-      } else {
-        this.updateBatches();
-      }
+          if (longStartDate > longEndDate) {
+            this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
+            this.showDateRangeError = true;
+          } else {
+            this.updateBatches();
+          }
+        }
     }
   }
 
@@ -160,13 +161,13 @@ export class BatchListComponent implements OnInit {
     this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
       batches => {
         // filter out batches that don't have an associated trainer
-        this.batches = batches
+        this.batches = batches;
         this.updateCountPerCurriculum();
         this.dataReady = true;
       },
       error => {
         console.log(error);
-      } 
+      }
     );
 
   }
@@ -223,7 +224,7 @@ export class BatchListComponent implements OnInit {
         },
         error => {
           console.log(error);
-        } 
+        }
       );
     }
   }
@@ -253,7 +254,7 @@ export class BatchListComponent implements OnInit {
           curriculumCountsMap.set(batch.curriculumName.name, count + 1);
         }
       }
-  
+
       // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change
       this.curriculumNames = Array.from(curriculumCountsMap.keys());
       this.curriculumCounts = Array.from(curriculumCountsMap.values());

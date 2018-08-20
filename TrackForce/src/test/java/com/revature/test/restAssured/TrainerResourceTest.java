@@ -1,7 +1,7 @@
 package com.revature.test.restAssured;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertTrue;
 import static org.hamcrest.Matchers.hasSize;
 
 import java.util.ArrayList;
@@ -26,8 +26,8 @@ import io.restassured.response.Response;
 public class TrainerResourceTest {
 
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
-	//static final String URL = "http://localhost:8085/TrackForce/trainers";
+	//static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
+	static final String URL = "http://localhost:8085/TrackForce/trainers";
 	
 	TrainerService trainerService = new TrainerService();
 	List<TfTrainer> trainers;
@@ -99,7 +99,7 @@ public class TrainerResourceTest {
 	public void getTrainerPrimaryBatches1() {
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
 				.post(URL + "/" + knownTrainerId + "/batch").then().extract().response();
-		
+		System.out.println(response.getStatusCode());
 		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200);
 		if (response.statusCode() == 200) {
 			assertTrue(response.asString().contains("1701 Jan30 NET"));

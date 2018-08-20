@@ -54,6 +54,7 @@ export class FormComponent implements OnInit {
   receivedEmailFromClient: boolean;
   passedBackgroundCheck: boolean;
   hasStartDate: boolean;
+  public isDataReady: boolean = false;
 
   //loading booleans
   interviewsLoading: boolean = true;
@@ -250,9 +251,12 @@ export class FormComponent implements OnInit {
       data => {
         this.interviews = data;
         this.interviewsLoading = false;
+        this.isDataReady = true;
+
       },
       error => {
         console.log('Failed to get interviews.');
+        this.isDataReady = true;
       }
     );
   }

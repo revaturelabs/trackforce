@@ -46,6 +46,7 @@ export class MyInterviewComponent implements OnInit {
   public openInterviewDate: boolean;
   public conflictingInterview: boolean;
   public isDataReady: boolean = false;
+  public dateError:boolean;
   index;
   index2;
 
@@ -98,55 +99,59 @@ export class MyInterviewComponent implements OnInit {
   }
 
   addInterview() {
-    switch (+this.typeId) {
-      case 1:
-        this.interviewType = new InterviewType(1, 'Phone');
-        break;
-      case 2:
-        this.interviewType = new InterviewType(2, 'Online');
-        break;
-      case 3:
-        this.interviewType = new InterviewType(3, 'On Site');
-        break;
-      case 4:
-        this.interviewType = new InterviewType(4, 'Skype');
-        break;
-      default:
-        this.interviewType = new InterviewType(5, 'Other');
-        break;
-    }
+      if (!this.dateError){
+        switch (+this.typeId) {
+          case 1:
+            this.interviewType = new InterviewType(1, 'Phone');
+            break;
+          case 2:
+            this.interviewType = new InterviewType(2, 'Online');
+            break;
+          case 3:
+            this.interviewType = new InterviewType(3, 'On Site');
+            break;
+          case 4:
+            this.interviewType = new InterviewType(4, 'Skype');
+            break;
+          default:
+            this.interviewType = new InterviewType(5, 'Other');
+            break;
+        }
 
-    this.newInterview = new Interview(
-      this.associate,
-      this.clientId,
-      this.interviewType,
-      new Date(this.interviewDate).getTime(),
-      null,
-      this.was24HRNotice ? 1 : 0,
-      null,
-      new Date(this.interviewAssigned).getTime(),
-      new Date(this.interviewAssigned).getTime()
-    );
+        this.newInterview = new Interview(
+          this.associate,
+          this.clientId,
+          this.interviewType,
+          new Date(this.interviewDate).getTime(),
+          null,
+          this.was24HRNotice ? 1 : 0,
+          null,
+          new Date(this.interviewAssigned).getTime(),
+          new Date(this.interviewAssigned).getTime()
+        );
 
-    this.interviewService
-      .createInterview(this.newInterview, this.associate.id)
-      .subscribe(res => {
-        location.reload();
-      });
+        this.interviewService
+          .createInterview(this.newInterview, this.associate.id)
+          .subscribe(res => {
+            location.reload();
+          });
+      }
   }
 
   updateInterview(interview: Interview) {
-    interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
-    interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
-    interview.dateSalesIssued = new Date(
-      interview.dateAssociateIssued
-    ).getTime(); // convert into timestamp
-    interview.dateAssociateIssued = new Date(
-      interview.dateAssociateIssued
-    ).getTime();
-    this.interviewService.updateInterview(interview).subscribe(res => {
-      location.reload();
-    });
+    if (!this.dateError){
+        interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
+        interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
+        interview.dateSalesIssued = new Date(
+          interview.dateAssociateIssued
+        ).getTime(); // convert into timestamp
+        interview.dateAssociateIssued = new Date(
+          interview.dateAssociateIssued
+        ).getTime();
+        this.interviewService.updateInterview(interview).subscribe(res => {
+          location.reload();
+        });
+    }
   }
 
   /**

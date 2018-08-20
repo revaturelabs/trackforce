@@ -1,6 +1,6 @@
 package com.revature.test.junit.entity;
 
-import static org.junit.Assert.assertFalse;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.revature.entity.TfBatch;
 import com.revature.entity.TfBatchLocation;
@@ -54,6 +54,7 @@ public class TfBatchLocationTest {
 		assertFalse(batchLoc1.equals(new TfBatchLocation()));
 	}
 
+	@Test
 	public void test5() {
 		assertEquals(batchLoc1.hashCode(), batchLoc2.hashCode());
 		assertNotEquals(batchLoc1.hashCode(), new TfBatchLocation().hashCode());

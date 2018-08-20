@@ -32,6 +32,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PredictionsComponent } from './components/predictions/predictions.component';
 import { MyInterviewComponent } from './components/myinterview-view/myinterview-view.component';
 import { InterviewsComponent } from './components/interviews-view/interviews-view.component';
+import { DateTimePickerComponent } from './components/datetimepicker/datetimepicker.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 ///
 //  SERVICES
 ///
@@ -75,6 +77,8 @@ import { TrainerService } from './services/trainer-service/trainer.service';
 import { DeployedComponent } from './components/deployed/deployed.component';
 import { UndeployedComponent } from './components/undeployed/undeployed.component';
 import { HighlightInterviewDirective } from './directives/highlight-interview.directive';
+import { SalesforceComponent } from './components/salesforce/salesforce.component';
+
 
 
 
@@ -106,9 +110,11 @@ import { HighlightInterviewDirective } from './directives/highlight-interview.di
     TrainerViewComponent,
     DeployedComponent,
     UndeployedComponent,
+    DateTimePickerComponent,
     AssociateSearchByStatusPipe,
     AssociateSearchByClientPipe,
-    HighlightInterviewDirective
+    HighlightInterviewDirective,
+    SalesforceComponent
   ],
   imports: [
     BrowserModule,
@@ -118,7 +124,9 @@ import { HighlightInterviewDirective } from './directives/highlight-interview.di
     ChartsModule,
     Ng2OrderModule,
     BrowserAnimationsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   providers: [
     AssociateService,

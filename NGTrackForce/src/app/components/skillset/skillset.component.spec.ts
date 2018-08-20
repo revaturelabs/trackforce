@@ -79,10 +79,10 @@ export class MockActivatedRoute {
       snapshot: {
         parent: {
           params: {
-            id: 6
+            id: 0
           }
         },
-        paramMap: convertToParamMap({id: 6})
+        paramMap: convertToParamMap({id: 0})
         }
     }};
   }
@@ -126,10 +126,10 @@ describe('SkillsetComponent', () => {
       ],
       providers : [
         CurriculumService,
-        // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(6)},
+        // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(0)},
       { provide : ActivatedRoute, useValue : {
-        snapshot: {params: {id: 6},
-                   paramMap: convertToParamMap({id: 6})}
+        snapshot: {params: {id: 0},
+                   paramMap: convertToParamMap({id: 0})}
   
         } },
       ]
@@ -155,10 +155,10 @@ describe('SkillsetComponent', () => {
       ],
       providers : [
         CurriculumService,
-        // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(6)},
+        // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(0)},
       { provide : ActivatedRoute, useValue : {
-        snapshot: {params: {id: 6},
-                   paramMap: convertToParamMap({id: 6})}
+        snapshot: {params: {id: 0},
+                   paramMap: convertToParamMap({id: 0})}
 
         } },
       ]
@@ -195,8 +195,8 @@ describe('SkillsetComponent', () => {
     // })
 
     while(!SkillInfoValue.done) {
-      // console.log('value: ' + SkillInfoValue.value);
-      //console.log('skillID: ' + component.getSkillID());
+      console.log('value: ' + SkillInfoValue.value);
+      console.log('skillID: ' + component.getSkillID());
       //console.log(parseInt(SkillInfoValue.value) === component.getSkillID());
       if (SkillInfoValue.value == component.getSkillID()) {
         idFound = true;

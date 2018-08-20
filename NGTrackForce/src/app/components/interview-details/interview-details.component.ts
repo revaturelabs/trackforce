@@ -26,6 +26,7 @@ export class InterviewDetailsComponent implements OnInit {
   isDisabledAssociate : boolean = false;
   isDisabledClient : boolean = false;
   isDisabledQuestions : boolean = false;
+  isDisabledSkillsAndQuestions : boolean = false;
   
   constructor(private route: ActivatedRoute, private interviewService: InterviewService,
     private authService: AuthenticationService) { }
@@ -110,13 +111,13 @@ export class InterviewDetailsComponent implements OnInit {
     this.user = this.authService.getUser();
     if ( this.user.role == 3 )
     {
-      this.isDisabledQuestions = false;
+      this.isDisabledSkillsAndQuestions = false;
     }
     else
     {
-      this.isDisabledQuestions = true;
+      this.isDisabledSkillsAndQuestions = true;
     }
-    return this.isDisabledQuestions;
+    return this.isDisabledSkillsAndQuestions;
   }
 
 }

@@ -260,7 +260,7 @@ public class UserResourceTest {
 		given().contentType("application/json").body("{ \"username\": \"TestAdmin\", \"password\": \"TestAdmin\"}")
 				.post(URL + "/login").then().assertThat().statusCode(200);
 
-		given().contentType("application/json").body("{ \"username\": \"BadUsername\", \"password\": \"BadPassword\"}")
+		given().contentType("application/json").body("{ \"username\": \"BadUsername\", \"password\": \"BadPassword23\"}")
 				.post(URL + "/login").then().assertThat().statusCode(401);
 
 		given().contentType("application/json").body("{ \"username\": \"TestAdmin\", \"password\": \"BadPassword\"}")

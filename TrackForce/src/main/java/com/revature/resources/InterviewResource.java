@@ -82,7 +82,7 @@ public class InterviewResource {
 		List<TfInterview> interviews = interviewService.getAllInterviews();
 
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build(); // invalid token
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build(); // invalid token
 		} else if (payload.getId().equals("5")) {
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
@@ -115,6 +115,7 @@ public class InterviewResource {
 		if (payload == null || !(payload.getId().equals("5"))) {
 			status = Status.UNAUTHORIZED;
 		} else {
+			interview.setJobDescription("No current description.");
 			interviewService.createInterview(interview);
 			status = Status.CREATED;
 		}

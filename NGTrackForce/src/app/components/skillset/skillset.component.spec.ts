@@ -261,4 +261,31 @@ describe('SkillsetComponent', () => {
       expect(component.skillsetLabels.length).toEqual(component.skillsetData.length);
     })
   })
+
+  it('chart type should be set by changeChartType method', () => {
+    let type = "stuff";
+    component.changeChartType(type);
+    expect(component.chartType).toEqual(type);
+  })
+
+  it('chart legend should be set for pie and polar charts', () => {
+    let type1 = "pie";
+    let type2 = "polar";
+    let type3 = "bar";
+    
+
+    component.changeChartType(type1);
+    expect(component.chartOptions.legend).not.toBeNull();
+
+    component.changeChartType(type2);
+    expect(component.chartOptions.legend).not.toBeNull();
+
+    component.chartOptions.scales = "";
+    component.changeChartType(type1);
+    expect(component.chartOptions.scales).toBeFalsy();
+
+    component.changeChartType(type3);
+    expect(component.chartOptions.legend).not.toBeNull();
+    expect(component.chartOptions.scales).not.toBeNull();
+  })
 });

@@ -1,101 +1,70 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { BatchDetailsComponent } from './batch-details.component';
-import { ChartsModule } from 'ng2-charts/ng2-charts';
-import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-import { BatchService } from '../../services/batch-service/batch.service';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
-import { HomeComponent } from '../home/home.component';
-import { ClientMappedComponent } from '../client-mapped/client-mapped.component';
-import { AssociateListComponent } from '../associate-list/associate-list.component';
-import { LoginComponent } from '../login/login.component';
-import { ClientListComponent } from '../client-list/client-list.component';
-import { CreateUserComponent } from '../create-user/create-user.component';
-import { SearchFilterPipe } from '../../pipes/search-filter/search-filter.pipe';
-import { AssociateSearchByTextFilter } from '../../pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
-import { NavbarComponent } from '../navbar/navbar.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { FormComponent } from '../form-component/form.component';
-import { SkillsetComponent } from '../skillset/skillset.component';
-import { Batch } from '../../models/batch.model';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import { RequestService } from '../../services/request-service/request.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ChartsModule } from 'ng2-charts';
 import { User } from '../../models/user.model';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Associate } from '../../models/associate.model';
+import { BatchService } from '../../services/batch-service/batch.service';
+import { Ng2OrderPipe } from 'ng2-order-pipe';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockActivatedRoute } from '../associate-view/associate-view.component.spec';
-import { ActivatedRoute } from '@angular/router';
-
-describe('BatchDetailsComponent', async () => {
+describe('BatchDetailsComponent', () => {
   let component: BatchDetailsComponent;
   let fixture: ComponentFixture<BatchDetailsComponent>;
-  const testBatchService: BatchService = new BatchService(null);
   const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
 
-  // setup service mocks
-  beforeAll(() => {
-    const batch1: Batch = new Batch();
-    // crurriculumName needs to be of type Curriculum
-    // batch1.curriculumName = 'Test-Curriculum-1';
-    const batch2: Batch = new Batch();
-    // batch2.curriculumName = 'Test-Curriculum-2';
-    // mock batch service
-    // spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
-    spyOn(testBatchService, 'getBatchesByDate').and.returnValue(Observable.of([batch1, batch2]));
+  //setup service mocks
+  beforeAll(()=>{
+    let user = new User('mockUser', 'mockPassword', 1, 0, 0, 'mockTokent');
 
-    let user: User;
-    user.token = 'mockToken';
-    user.username = 'mockUser';
-    user.role = 1;
-    spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
+    spyOn(testAuthService, 'getUser').and.returnValue(user); // needed by the navbar
   });
-  beforeEach(() => {
+
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        BatchDetailsComponent,
-        HomeComponent,
-        ClientMappedComponent,
-        ClientListComponent,
-        AssociateListComponent,
-        LoginComponent,
-        CreateUserComponent,
-        SearchFilterPipe,
-        AssociateSearchByTextFilter,
-        NavbarComponent,
-        FormComponent,
-        SkillsetComponent
+      declarations: [ 
+        Ng2OrderPipe,
+        BatchDetailsComponent
       ],
       providers: [
-        RequestService,
-        { provide: AuthenticationService, useValue: testAuthService },
-        { provide: BatchService, useValue: testBatchService },  // inject service
+        BatchService,
+        {provide: AuthenticationService, userValue: testAuthService}
       ],
       imports: [
-        RouterTestingModule,
-        FormsModule,
-        BrowserModule,
-        HttpClientModule,
         ChartsModule,
-        { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(1) }
+        RouterTestingModule,
+        HttpClientTestingModule
+      ],
+      schemas:[ 
+        CUSTOM_ELEMENTS_SCHEMA 
       ]
-    });
+    })
+    .compileComponents();
+  }));
 
+  beforeEach(() => {
+    let mockUser:User = new User('mockUser', 'pass', 0, 0);
 
-    beforeEach(() => {
-      fixture = TestBed.createComponent(BatchDetailsComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    });
+    fixture = TestBed.createComponent(BatchDetailsComponent);
+    component = fixture.componentInstance;
+    component.associates = [new Associate('first', 'last', mockUser), new Associate('first', 'last', mockUser), new Associate('first', 'last', mockUser)];
+    fixture.detectChanges();
+  });
 
-    it('should create', () => {
-      expect(component).toBeTruthy();
-    });
+  it('should create', () => {
+    expect(component).toBeDefined();
+  });
 
-    it('should contain associates if loaded', () => {
-      if (component.isDataReady && !component.isDataEmpty) {
-        expect(component.associates).toBeTruthy();
-      }
-    });
+  it('should contain associates if loaded', () => {
+    if (component.isDataReady && !component.isDataEmpty) {
+      expect(component.associates).toBeTruthy();
+    }
+  });
+
+  it('should contain chartType = bar', ()=>{
+    expect(component.chartType).toEqual('bar');
   });
 });

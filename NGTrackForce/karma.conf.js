@@ -32,16 +32,15 @@ module.exports = function (config) {
      ChromeHeadless: {
        base: 'Chrome',
        flags: [
-         '--headless--',
          '--disable-gpu',
           '--no-sandbox',
           '--remote-debugging-port-9222'
        ]
      }
    },
-    browsers: ['ChromeHeadless'],
+    browsers: ['Chrome'],
     // browsers: ['Chrome'],
     // singleRun is true so it'll work on the pipeline, please don't change it <3
-    singleRun: true    //TODO: change this back to true before deploying.
+    singleRun: false    //TODO: change this back to true before deploying.
   });
 };

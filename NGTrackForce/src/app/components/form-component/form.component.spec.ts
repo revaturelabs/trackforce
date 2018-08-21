@@ -51,7 +51,7 @@ export class MockRouter {
 }
 
 
-fdescribe('FormComponent', () => {
+describe('FormComponent', () => {
   let component: FormComponent;
   let fixture: ComponentFixture<FormComponent>;
   const httpClient: HttpClient = new HttpClient(null);

@@ -192,12 +192,15 @@ export class AssociateListComponent implements OnInit {
         Number(this.updateStatus),
         Number(this.updateClient)
       )
-      .subscribe(data => {
-        this.getAllAssociates(); //refresh the associates to reflect the updates made on DB
-        this.updated = true;
-        this.updateSuccessful = true;
-    }, error => {this.updateErrored = true;});
+      .subscribe(
+        data => {
+          this.getAllAssociates(); //refresh the associates to reflect the updates made on DB
+          this.updated = true;
+          this.updateSuccessful = true;
+        }, 
+        error => {
+          this.updateErrored = true;
+        });
         this.updating = false;
-      });
   }
 }

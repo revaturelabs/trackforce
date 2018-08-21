@@ -57,7 +57,7 @@ describe('FormComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create', (done) => {
+  it('should create', (done) => {
     expect(component).toBeDefined();
   });
 });

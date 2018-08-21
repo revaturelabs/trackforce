@@ -15,6 +15,7 @@ import java.util.List;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -98,7 +99,8 @@ public class AssociateServiceTest {
 	 * 
 	 * @since 6.06.14.18
 	 */
-	@BeforeGroups("initAssociateList")
+	//@BeforeGroups("initAssociateList")
+	@BeforeClass
 	public void initMockAssociateList() {
 		mockAssociates = new ArrayList<>();
 		mockAssociates.add(assoc1);
@@ -276,7 +278,9 @@ public class AssociateServiceTest {
 	@Test(priority=10)
 	public void UpdateNonExistantAssociate() {
 		when(mockAssociateDao.updateAssociatePartial(assoc4)).thenReturn(false);
+		System.out.println(assoc4.toString());
 		Boolean actual = service.updateAssociate(assoc4);
+		System.out.println(assoc4.toString());
 		assertFalse(actual);
 	}
 
@@ -318,11 +322,14 @@ public class AssociateServiceTest {
 	 * 
 	 * @since 6.06.14.18
 	 */
-	@Test(priority=13, expectedExceptions = NullPointerException.class)
+	@Test(priority=13)
 	public void testUpdateAssociatesAndEmpty() {
 		when(mockAssociateDao.updateAssociates(any(List.class))).thenReturn(false);
+		System.out.println(assoc4.toString());
 		mockAssociates.add(assoc4);
+		System.out.println(assoc4.toString());
 		Boolean actual = service.updateAssociates(mockAssociates);
+		System.out.println(actual);
 		assertFalse(actual);
 	}
 	

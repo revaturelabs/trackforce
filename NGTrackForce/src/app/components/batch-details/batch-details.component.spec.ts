@@ -26,12 +26,28 @@ import { User } from '../../models/user.model';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockActivatedRoute } from '../associate-view/associate-view.component.spec';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 describe('BatchDetailsComponent', async () => {
   let component: BatchDetailsComponent;
   let fixture: ComponentFixture<BatchDetailsComponent>;
   const testBatchService: BatchService = new BatchService(null);
   const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
+
+  let router = {
+    navigate: jasmine.createSpy('navigate')
+  }
+
+  let routes = [
+    {
+      path: '',
+      component: BatchDetailsComponent
+    },
+    {
+      path: '/form-comp',
+      component: FormComponent
+    }
+  ];
 
   // setup service mocks
   beforeAll(() => {
@@ -72,12 +88,17 @@ describe('BatchDetailsComponent', async () => {
         { provide: BatchService, useValue: testBatchService },  // inject service
       ],
       imports: [
-        RouterTestingModule,
+        // RouterTestingModule,
+        { provide: Router, useValue: router},
         FormsModule,
         BrowserModule,
         HttpClientModule,
         ChartsModule,
-        { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(1) }
+        // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(1) }
+        { provide: ActivatedRoute, useValue : {
+          snapshot: {params: {id: 0},
+        }
+        }}
       ]
     });
 
@@ -96,6 +117,16 @@ describe('BatchDetailsComponent', async () => {
       if (component.isDataReady && !component.isDataEmpty) {
         expect(component.associates).toBeTruthy();
       }
+    });
+
+    it('goToFormComponent() should navigate to the formcomponent', () => {
+      expect(component.goToFormComponent(1)).toBeTruthy();
+    });
+
+    it('getMapStatusBatch() should fetch data and data should be ready.', () => {
+      component.getMapStatusBatch()
+      expect(component.isDataEmpty).toBeFalsy;
+      expect(component.isDataReady).toBeTruthy;
     });
   });
 });

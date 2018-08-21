@@ -47,10 +47,43 @@ getTestBed().initTestEnvironment(
 const context = require.context('./', true, /batch-list\.spec\.ts$/);
 context.keys().map(context);
 */
+export class MockBatchService extends BatchService {
+  public getBatchesByDate(startDate: Date, endDate: Date): Observable<Batch[]> {
+    const mockCurriculum: Curriculum = new Curriculum();
+    mockCurriculum.id = 2;
+    mockCurriculum.name = 'mockCurriculum';
+
+    const mockLocation: BatchLocation = new BatchLocation(700,'Massachusetts');
+
+    const mockUser: User = new User('mockUser', 'password', 0, 0);
+    const trainerUser: User = new User('mockTrainer', 'password', 0, 0);
+
+    const mockAssociate: Associate = new Associate('FirstName', 'LastName', mockUser, 101010, null, null, null, null, null, null, null);
+
+    const mockAssociates: Associate[] = [mockAssociate];
+
+    const batch1: Batch = new Batch();
+
+    const mockTrainer: Trainer = new Trainer('Trainer', 'T.', trainerUser);
+
+    batch1.id = 1;
+    batch1.batchName = 'mockBatch';
+    batch1.curriculumName = mockCurriculum;
+    batch1.location = mockLocation;
+    batch1.startDate = 0;
+    batch1.endDate = 1;
+    batch1.associates = mockAssociates;
+    batch1.trainer = mockTrainer;
+
+    const batches: Batch[] = [batch1];
+    return Observable.of(batches);
+  }
+}
+
 describe('BatchListComponent', async () => {
   let component: BatchListComponent;
   let fixture: ComponentFixture<BatchListComponent>;
-  const testBatchService: BatchService = new BatchService(null);
+  const testBatchService: BatchService = new MockBatchService(null);
   const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
 
   // setup service mocks

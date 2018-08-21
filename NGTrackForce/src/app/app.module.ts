@@ -34,6 +34,7 @@ import { MyInterviewComponent } from './components/myinterview-view/myinterview-
 import { InterviewsComponent } from './components/interviews-view/interviews-view.component';
 import { DateTimePickerComponent } from './components/datetimepicker/datetimepicker.component';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+
 ///
 //  SERVICES
 ///
@@ -76,9 +77,9 @@ import { TrainerViewComponent } from './components/trainer-view/trainer-view.com
 import { TrainerService } from './services/trainer-service/trainer.service';
 import { DeployedComponent } from './components/deployed/deployed.component';
 import { UndeployedComponent } from './components/undeployed/undeployed.component';
+import { InvalidSessionComponent } from './components/invalid-session/invalid-session.component';
 import { HighlightInterviewDirective } from './directives/highlight-interview.directive';
 import { SalesforceComponent } from './components/salesforce/salesforce.component';
-
 
 
 
@@ -113,6 +114,7 @@ import { SalesforceComponent } from './components/salesforce/salesforce.componen
     DateTimePickerComponent,
     AssociateSearchByStatusPipe,
     AssociateSearchByClientPipe,
+    InvalidSessionComponent,
     HighlightInterviewDirective,
     SalesforceComponent
   ],

@@ -30,6 +30,7 @@ export class AssociateViewComponent implements OnInit {
   public succMsg: string;
   public user: User;
   public id: number;
+  isDataReady: boolean = false;
 
   constructor(
     private associateService: AssociateService,
@@ -44,6 +45,7 @@ export class AssociateViewComponent implements OnInit {
     this.associateService.getAssociate(this.id).subscribe(
       data => {
         this.associate = data;
+        this.isDataReady = true;
       },
       error => {
         console.log('error');

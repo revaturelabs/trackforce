@@ -4,13 +4,18 @@ import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
+import org.json.JSONObject;
+
 import com.revature.entity.TfUser;
 
+import gherkin.lexer.Da;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
@@ -19,8 +24,6 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
-
-import javax.ws.rs.core.Response;
 
 /**
  * 
@@ -39,7 +42,39 @@ public class JWTService {
 	UserService userService;
 	
 	private static final String SECRET_KEY = getKey();
-	private static Long EXPIRATION = 15L; //expiration time in minutes
+	private static Long EXPIRATION = 30L; //expiration time in minutes
+
+	/**
+	 * Validates a token
+	 * 
+	 * @param token
+	 * 
+	 * @return true if the token is valid, otherwise false
+	 * @throws IOException
+	 *             because of the use of connection pools that requires some files
+	 */
+	public Boolean validateToken(String token) {
+		String tokenUsername = null;
+		TfUser tfUser = null;
+		Claims claims = null;
+		boolean verified = false;
+
+		if (token != null) {
+			claims = processToken(token);
+		}
+		if (claims != null) {
+			tokenUsername = claims.getSubject();
+		}
+		if (tokenUsername != null) {
+			tfUser = userService.getUser(tokenUsername);
+		}
+		if (tfUser != null) {
+			// makes sure the token is fresh and usernames are equal
+			verified = (!isTokenExpired(token) && tfUser.getUsername().equals(tokenUsername));
+		}
+
+		return verified;
+	}
 
 	/**
 	 * Creates a token with an encoded username An expiration date has been set as
@@ -72,7 +107,9 @@ public class JWTService {
 				throw new UnsupportedJwtException("token null");
 			}
 			payload = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
-		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
+			
+		}catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
+		
 				| IllegalArgumentException | NullPointerException e) {
 
 //			e.printStackTrace();
@@ -92,6 +129,7 @@ public class JWTService {
 	 */
 	public static Date getExpirationDateFromToken(String token) {
 		Date expiration = null;
+		
 		try {
 			final Claims claims = processToken(token);
 			if (claims != null) {
@@ -151,12 +189,63 @@ public class JWTService {
 		final Date expiration = getExpirationDateFromToken(token);
 		return expiration.before(new Date());
 	}
-	
-	public static Response sendInvalidTokenResponse() {
-		
-		
-		
-		return null;
-	}
 
+	/**
+	 * @author 1806_Austin_Molina
+	 * Decodes an expired token to determine the expiration time. 
+	 * The {@link #processToken(String)} method will throw an 
+	 * exception when attempting to decode a web token.
+	 * 
+	 * @param token
+	 * @return expiration time of token in milliseconds
+	 */
+	private static long getExpiredTokenTime(String token) {
+
+		if(token == null)
+			return -1L;
+		
+		Base64.Decoder decoder = Base64.getUrlDecoder();
+
+		String[] parts = token.split("\\."); // Splitting header, payload and signature
+		JSONObject payload = new JSONObject(new String(decoder.decode(parts[1])));
+
+		long exp = payload.getLong("exp");
+
+		return exp*1000;
+	}
+	
+	/**
+	 * @author 1806_Austin_Molina
+	 * 
+	 * all 401 errors are expected to include the nature of the error.
+	 * The front end handles errors differently depending on how old 
+	 * the token is.
+	 * 
+	 * This method creates a JSON object to include in the response body
+	 * which includes how long ago a JWT expired.
+	 * 
+	 * @param token
+	 * @return -1 when the token was invalid or did not exist; 
+	 * 	else number of minutes since the token expired
+	 */
+	public static String invalidTokenBody(String token) {
+		
+		JSONObject body = new JSONObject();
+		final long expiration = getExpiredTokenTime(token);
+		
+		Date now = new Date();
+		
+		if(expiration == -1) {
+			//arbitrary response; number of minutes in a day
+			body.put("expirationtime", -1);
+			return body.toString();
+		}
+		
+		long diffMillies = now.getTime() - expiration;
+		long diffMinutes = TimeUnit.MINUTES.convert(diffMillies, TimeUnit.MILLISECONDS);		
+		
+		body.put("expirationtime", diffMinutes);
+		
+		return body.toString();
+	}
 }

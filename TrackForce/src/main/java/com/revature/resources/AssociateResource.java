@@ -94,7 +94,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null || payload.getId().equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 //			if (payload.getId().equals("2")) {
 //				List<TfAssociate> assoc = new ArrayList<TfAssociate>();
@@ -129,7 +129,7 @@ public class AssociateResource {
 
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
 		status = Status.OK;
@@ -178,7 +178,7 @@ public class AssociateResource {
 		TfAssociate associateinfo;
 
 		if (payload == null || false) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
 				associateinfo = associateService.getAssociateByUserId(id);
@@ -212,7 +212,7 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);	
 		TfAssociate associateinfo;	
  		if (payload == null || false) {	
-			return Response.status(Status.UNAUTHORIZED).build();	
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();	
 		}	
 		else {	
 			try {	
@@ -276,7 +276,7 @@ public class AssociateResource {
 
 
 		if (payload == null || payload.getId().equals("2") || payload.getId().equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 
 			// marketing status & client id are given as query parameters, ids sent in body
@@ -310,7 +310,7 @@ public class AssociateResource {
 		System.out.println(id);
 
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else if (payload.getId().equals("5")) {
 			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		} else {

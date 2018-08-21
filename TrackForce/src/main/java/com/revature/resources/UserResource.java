@@ -30,12 +30,12 @@ import com.revature.services.JWTService;
 import com.revature.services.MarketingStatusService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
+import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.mortbay.util.ajax.JSON;
 
 /**
  * <p>
@@ -84,7 +84,7 @@ public class UserResource {
 		TfUser newUser = container.getUser();
 		int creatorRole = container.getCreatorRole();
 		logger.info("creating new user..." + newUser);
-
+		
 		// any user created by an admin is approved
 		if(creatorRole == 1)
 			newUser.setIsApproved(1);
@@ -312,11 +312,19 @@ public class UserResource {
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) 
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		else
 			return Response.status(Status.OK).build();
 
 	}
 	
-	
+	@Path("/init")
+	@GET
+	@ApiOperation(value = "check method", notes = "The method checks whether a JWT is valid. returns 200 if valid, 401 if invalid.")
+	public Response sessionInitialization() {
+		logger.info("Initizilizing SessionFactory");
+		//HibernateUtil.runHibernate((Session session, Object ... args) -> session.createNativeQuery("SELECT * FROM dual"));
+		HibernateUtil.getSessionFactory();
+		return Response.status(Status.OK).build();
+	}
 }

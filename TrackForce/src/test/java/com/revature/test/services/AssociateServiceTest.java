@@ -15,6 +15,7 @@ import java.util.List;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -98,7 +99,8 @@ public class AssociateServiceTest {
 	 * 
 	 * @since 6.06.14.18
 	 */
-	@BeforeGroups("initAssociateList")
+	//@BeforeGroups("initAssociateList")
+	@BeforeClass
 	public void initMockAssociateList() {
 		mockAssociates = new ArrayList<>();
 		mockAssociates.add(assoc1);

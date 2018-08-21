@@ -261,4 +261,39 @@ describe('SkillsetComponent', () => {
       expect(component.skillsetLabels.length).toEqual(component.skillsetData.length);
     })
   })
+
+  it('chart type should be set by changeChartType method', () => {
+    let type = "stuff";
+    component.changeChartType(type);
+    expect(component.chartType).toEqual(type);
+  })
+
+  it('should set proper legend and scales for pie, polar, and bar', () => {
+    let type1 = "pie";
+    let type2 = "polar";
+    let type3 = "bar";
+    
+
+    component.changeChartType(type1);
+    expect(component.chartOptions.legend).not.toBeNull();
+
+    component.changeChartType(type2);
+    expect(component.chartOptions.legend).not.toBeNull();
+
+    component.chartOptions.scales = "";
+    component.changeChartType(type1);
+    expect(component.chartOptions.scales).toBeFalsy();
+
+    component.changeChartType(type3);
+    expect(component.chartOptions.legend).not.toBeNull();
+    expect(component.chartOptions.scales).not.toBeNull();
+  })
+
+  it('isNotDefined method returns proper boolean', () => {
+    let val1 = undefined;
+    let val2 = "";
+
+    expect(component.isNotUndefined(val1)).toBeFalsy();
+    expect(component.isNotUndefined(val2)).toBeTruthy();
+  })
 });

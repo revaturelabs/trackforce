@@ -1,7 +1,7 @@
 package com.revature.test.services;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
@@ -21,7 +21,10 @@ import org.testng.annotations.Test;
 
 import com.revature.dao.AssociateDao;
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfRole;
+import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
+import com.revature.services.UserService;
 
 /**
  * Tests the various methods in the AssociateService to ensure that they are
@@ -33,9 +36,11 @@ import com.revature.services.AssociateService;
  */
 public class AssociateServiceTest {
 
-	private TfAssociate assoc1, assoc2, assoc3, assoc4;
-
+	private TfAssociate assoc1, assoc2, assoc3, assoc4, associate;
+	private TfUser user;
+	private TfRole role;
 	private List<TfAssociate> mockAssociates;
+	UserService userService = new UserService();
 
 	@Mock // creates a mock of the associateDao
 	private AssociateDao mockAssociateDao;
@@ -64,6 +69,22 @@ public class AssociateServiceTest {
 		assoc3.setId(3);
 		assoc4 = new TfAssociate();
 		assoc4.setId(4);
+		
+		role = new TfRole();
+		role = userService.getRole(1);
+		TfRole conRole = new TfRole();
+		conRole.setTfRoleId(1);
+		
+		user = new TfUser();
+		user.setIsApproved(1);
+		user.setPassword("password");
+		user.setUsername("TestUsernameChris");
+		user.setTfRole(role);
+		user.setRole(1);
+		
+		associate = new TfAssociate();
+		associate.setFirstName("AssociateServerTest");
+		associate.setLastName("Associate");
 
 		//sets the mock method for the mockAssociateDao getAssociate method
 		when(mockAssociateDao.getAssociate(0)).thenReturn(null);
@@ -226,7 +247,7 @@ public class AssociateServiceTest {
 	@Test(priority=8)
 	public void testUpdateAssociateWithEmpty() {
 		when(mockAssociateDao.updateAssociatePartial(any(TfAssociate.class))).thenReturn(true);
-		Boolean actual = service.updateAssociate(new TfAssociate());
+		Boolean actual = service.updateAssociatePartial(new TfAssociate());
 		assertTrue(actual);
 	}
 	
@@ -240,7 +261,7 @@ public class AssociateServiceTest {
 	@Test(priority=9)
 	public void testUpdateAssociate() {
 		when(mockAssociateDao.updateAssociatePartial(assoc1)).thenReturn(true);
-		Boolean actual = service.updateAssociate(assoc1);
+		Boolean actual = service.updateAssociatePartial(assoc1);
 		assertTrue(actual);
 	}
 	
@@ -361,8 +382,13 @@ public class AssociateServiceTest {
 	 */
 	@Test(priority=17)
 	public void testCreateAsssociate() {
-		when(mockAssociateDao.createAssociate(assoc1)).thenReturn(true);
-		Boolean actual = service.createAssociate(assoc1);
+		user.setRole(4);
+		user.setUsername("Associate2");
+		associate.setUser(user);
+		associate.setFirstName("Carlsbad");
+		
+		when(mockAssociateDao.createAssociate(associate)).thenReturn(true);
+		Boolean actual = service.createAssociate(associate);
 		assertTrue(actual);
 	}
 	
@@ -374,7 +400,7 @@ public class AssociateServiceTest {
 	 * 
 	 * @since 6.06.14.18
 	 */
-	@Test(priority=18)
+	@Test(priority=18, expectedExceptions = NullPointerException.class)
 	public void testCreateAsssociateNull() {
 		when(mockAssociateDao.createAssociate(null)).thenReturn(false);
 		Boolean actual = service.createAssociate(null);
@@ -388,7 +414,7 @@ public class AssociateServiceTest {
 	 * 
 	 * @since 6.06.14.18
 	 */
-	@Test(priority=19)
+	@Test(priority=19, expectedExceptions = NullPointerException.class)
 	public void testCreateAsssociateEmpty() {
 		when(mockAssociateDao.createAssociate(new TfAssociate())).thenReturn(false);
 		Boolean actual = service.createAssociate(new TfAssociate());

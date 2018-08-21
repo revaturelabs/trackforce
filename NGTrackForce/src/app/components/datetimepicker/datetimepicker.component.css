@@ -1,0 +1,12 @@
+/* this is intended to make the datetime popup appear over other elements, instead of pushing them down. However, it currently isn't working */
+owl-date-time-inline {
+    z-index:2;
+}
+
+.form-group {
+    padding:5px;
+}
+
+.alert-danger {
+    z-index: 10 !important;
+}

@@ -1,6 +1,6 @@
 /** @Author Princewill Ibe **/
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Batch } from '../../models/batch.model';
 import { BatchService } from '../../services/batch-service/batch.service';
 import { ThemeConstants } from '../../constants/theme.constants';
@@ -8,6 +8,8 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartOptions, SideValues } from '../../models/ng2-charts-options.model';
 import { Color } from 'ng2-charts';
 import 'rxjs/add/observable/from';
+import { DateService } from '../../services/date-service/date.service';
+import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
 
 
 // TODO: LABELS SHOULD PROPERLY WRAP
@@ -24,24 +26,35 @@ import 'rxjs/add/observable/from';
 @AutoUnsubscribe
 export class BatchListComponent implements OnInit {
 
+  @ViewChild('start') startDateTimePicker:DateTimePickerComponent;
+  @ViewChild('end') endDateTimePicker:DateTimePickerComponent;
+
   start: any;
   end: any;
   pieChartType = 'pie';
   startDate: Date = new Date();
   endDate: Date = new Date();
   batches: Batch[];
+  filteredBatches: Batch[];
   curriculumNames: string[];
   curriculumCounts: number[];
   dataReady = false;
   dataEmpty = false;
   batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
   counter = 0;
+  minDate: number = Date.now();
+  @Output() changeDateEm = new EventEmitter<Date>();
 
   stringStart: string;
   stringEnd: string;
 
   dateRangeMessage: string;
   showDateRangeError = false;
+  dateError: boolean;
+
+  changeDate(){
+    this.changeDateEm.emit(this.startDate);
+  }
 
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
     new SideValues(-100, 0, 0, 0),
@@ -50,7 +63,8 @@ export class BatchListComponent implements OnInit {
   );
 
 
-  constructor(private batchService: BatchService, private authService: AuthenticationService) {
+  constructor(private batchService: BatchService, private authService: AuthenticationService, 
+              private dateService: DateService) {
   }
 
   /**
@@ -74,15 +88,24 @@ export class BatchListComponent implements OnInit {
               if (batch.coTrainer) {
                 return batch.coTrainer.includes(this.authService.getTrainer());
               }
+
+              if (batch.startDate < this.minDate){
+                this.minDate = batch.startDate;
+              }
+
+              this.startDate = new Date(this.minDate);
+              this.dateService.changeDates(this.startDate, this.endDate);
+
               return true;
             }
           );
+          this.filteredBatches = this.batches;
           this.updateCountPerCurriculum();
           this.dataReady = true;
         },
         error => {
           console.log(error);
-        } 
+        }
       );
     }
     else {
@@ -98,13 +121,23 @@ export class BatchListComponent implements OnInit {
       this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
         batches => {
           // filter out batches that don't have an associated trainer
-          this.batches = batches
+          this.batches = batches;
+
+          this.batches.forEach(batch => {
+            if (batch.startDate < this.minDate){
+              this.minDate = batch.startDate;
+              }
+            }
+          );
+          this.filteredBatches = this.batches;
+          this.startDate = new Date(this.minDate);
+          this.dateService.changeDates(this.startDate, this.endDate);
           this.updateCountPerCurriculum();
           this.dataReady = true;
         },
         error => {
           console.log(error);
-        } 
+        }
       );
 
     }
@@ -116,9 +149,9 @@ export class BatchListComponent implements OnInit {
    * and the corresponding graph accordingly
    */
   public applySelectedRange() {
+    if (!this.dateError){
     this.startDate = new Date(this.stringStart);
     this.endDate = new Date(this.stringEnd);
-
 
     let longStartDate: number;
     let longEndDate: number;
@@ -137,6 +170,7 @@ export class BatchListComponent implements OnInit {
         this.updateBatches();
       }
     }
+    }
   }
 
   public resetFormWarnings() {
@@ -144,87 +178,79 @@ export class BatchListComponent implements OnInit {
       this.showDateRangeError = false;
   }
 
-  /*
-   * reset to original batches
-   */
+  // Logans new resetToDefaultBatches
   public resetToDefaultBatches() {
-    this.startDate = new Date();
-    this.startDate.setMonth(new Date().getMonth() - 3);
-    this.endDate = new Date();
-    this.endDate.setMonth(new Date().getMonth() + 3);
-    const startTime = Date.now();
-    this.dataReady = false;
-    this.counter = 0;
-    this.stringStart = this.startDate.toJSON().substring(0, 10);
-    this.stringEnd = this.endDate.toJSON().substring(0, 10);
-    this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
-      batches => {
-        // filter out batches that don't have an associated trainer
-        this.batches = batches
-        this.updateCountPerCurriculum();
-        this.dataReady = true;
-      },
-      error => {
-        console.log(error);
-      } 
+    this.filteredBatches = this.batches.filter(
+      batch => {
+        this.startDate = new Date();
+        this.startDate.setMonth(new Date().getMonth() - 3);
+        this.endDate = new Date();
+        this.endDate.setMonth(new Date().getMonth() + 3);
+        const startTime = Date.now();
+        this.dataReady = false;
+        this.counter = 0;
+        this.stringStart = this.startDate.toJSON().substring(0, 10);
+        this.stringEnd = this.endDate.toJSON().substring(0, 10);
+        this.startDateTimePicker.dateReset();
+        this.endDateTimePicker.dateReset();
+      }
     );
-
+    
+    this.updateCountPerCurriculum();
+    this.dataReady = true;
   }
 
-  /**
-   * @function updateBatches
-   * @memberof BatchListComponent
-   * @description This function will return a JavaScript object that contains
-   *              all of the batches within startDate and endDate
-   */
-  public updateBatches() {
+  // Logans new update batches method
+  public updateBatches()
+  {
     const user = this.authService.getUser();
     if (user.role === 2) {
-      this.dataReady = false;
-      this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
-        batches => {
-          // filter out batches that don't have an associated trainer
-          this.batches = batches.filter(
-            batch => {
-              if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
-                return false;
-              }
-              if (batch.coTrainer) {
-                if (!batch.coTrainer.includes(this.authService.getTrainer())) {
-                  return false;
-                }
-              }
-              let dateStartDate = new Date(this.startDate);
-              let dateEndDate = new Date(this.endDate);
-              let longStartDate = dateStartDate.getTime();
-              let longEndDate = dateEndDate.getTime();
-
-              if (batch.startDate && batch.endDate) {
-                return batch.startDate > longStartDate && batch.endDate < longEndDate;
-              }
-              else {
-                return false;
-              }
+      // filter out batches that don't have an associated trainer
+      this.filteredBatches = this.batches.filter(
+        batch => {
+          if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
+            return false;
+          }
+          if (batch.coTrainer) {
+            if (!batch.coTrainer.includes(this.authService.getTrainer())) {
+              return false;
             }
-          );
-          this.updateCountPerCurriculum();
-          this.dataReady = true;
+          }
+          let dateStartDate = new Date(this.startDate);
+          let dateEndDate = new Date(this.endDate);
+          let longStartDate = dateStartDate.getTime();
+          let longEndDate = dateEndDate.getTime();
+
+          if (batch.startDate && batch.endDate) {
+            return batch.startDate > longStartDate && batch.endDate < longEndDate;
+          }
+          else {
+            return false;
+          }
         }
       );
+      this.updateCountPerCurriculum();
+      this.dataReady = true;
     }
-    else {
+    else{
       this.dataReady = false;
-      this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
-        batches => {
-          // filter out batches that don't have an associated trainer
-          this.batches = batches
-          this.updateCountPerCurriculum();
-          this.dataReady = true;
-        },
-        error => {
-          console.log(error);
-        } 
+      this.filteredBatches = this.batches.filter(
+        batch => {
+          let dateStartDate = new Date(this.startDate);
+          let dateEndDate = new Date(this.endDate);
+          let longStartDate = dateStartDate.getTime();
+          let longEndDate = dateEndDate.getTime();
+
+          if (batch.startDate && batch.endDate) {
+            return batch.startDate > longStartDate && batch.endDate < longEndDate;
+          }
+          else {
+            return false;
+          }
+        }
       );
+      this.updateCountPerCurriculum();
+      this.dataReady = true;
     }
   }
 
@@ -240,11 +266,11 @@ export class BatchListComponent implements OnInit {
     this.curriculumNames = this.curriculumCounts = null;
     const curriculumCountsMap = new Map<string, number>();
 
-    this.dataEmpty = this.batches.length === 0;
+    this.dataEmpty = this.filteredBatches.length === 0;
 
-    if (this.batches != null) {
+    if (this.filteredBatches != null) {
 
-      for (const batch of this.batches) {
+      for (const batch of this.filteredBatches) {
         if (batch.curriculumName) {
           let count = curriculumCountsMap.get(batch.curriculumName.name);
           if (count === undefined) {
@@ -253,7 +279,7 @@ export class BatchListComponent implements OnInit {
           curriculumCountsMap.set(batch.curriculumName.name, count + 1);
         }
       }
-  
+
       // note: for angular/ng2-charts to recognize the changes to chart data, the object reference has to change
       this.curriculumNames = Array.from(curriculumCountsMap.keys());
       this.curriculumCounts = Array.from(curriculumCountsMap.values());

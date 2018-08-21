@@ -4,9 +4,10 @@ import { BatchService } from '../../services/batch-service/batch.service';
 import { Associate } from '../../models/associate.model';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ThemeConstants } from '../../constants/theme.constants';
-import { ChartsModule, Color } from 'ng2-charts';
-import {Router, NavigationExtras} from "@angular/router";
+import { ChartsModule, Color } from 'ng2-charts/ng2-charts';
+import { Router, NavigationExtras } from '@angular/router';
 import { Client } from '../../models/client.model';
+import { Batch } from '../../models/batch.model';
 
 /**
  * Data relating to Batch details chart.
@@ -21,6 +22,7 @@ export class BarChartDataSet {
   }
 }
 
+@AutoUnsubscribe
 @Component({
   selector: 'app-batch-details',
   templateUrl: './batch-details.component.html',
@@ -29,7 +31,6 @@ export class BarChartDataSet {
 /**
  * Initialize chart details.
  */
-@AutoUnsubscribe
 export class BatchDetailsComponent implements OnInit {
   chartType = 'bar';
   public options: any = {
@@ -74,6 +75,7 @@ export class BatchDetailsComponent implements OnInit {
   isDataReady = false;
   isDataEmpty = false;
   mappedColors: Array<Color> = ThemeConstants.BATCH_DETAILS_COLORS;
+  batch: Batch;
 
   ngOnInit() {
     this.getMapStatusBatch();
@@ -89,8 +91,6 @@ export class BatchDetailsComponent implements OnInit {
     this.router.navigate(['/form-comp', id]);
   }
 
-
-
   /**
    * given batch id, fetches the mapped vs unmapped statistics
    */
@@ -98,6 +98,8 @@ export class BatchDetailsComponent implements OnInit {
     this.route.params.subscribe(params => {
       const batchId: number = +params['id'];
       this.isDataReady = false;
+
+      this.getBatchInformation(batchId);
 
       this.batchService
         .getAssociatesForBatch(batchId)
@@ -163,5 +165,21 @@ export class BatchDetailsComponent implements OnInit {
           this.isDataReady = true;
         });
     });
+  }
+
+  /**
+   *
+   * @param id The id of the batch
+   * Returns information of a given batch
+   */
+  getBatchInformation(id) {
+    this.batchService.getBatchDetailsById(id).subscribe(
+      data => {
+        this.batch = data;
+      },
+      error => {
+        console.log('Could not get batch information.');
+      }
+    );
   }
 }

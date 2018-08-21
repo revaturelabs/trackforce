@@ -268,7 +268,7 @@ describe('SkillsetComponent', () => {
     expect(component.chartType).toEqual(type);
   })
 
-  it('chart legend should be set for pie and polar charts', () => {
+  it('should set proper legend and scales for pie, polar, and bar', () => {
     let type1 = "pie";
     let type2 = "polar";
     let type3 = "bar";
@@ -287,5 +287,13 @@ describe('SkillsetComponent', () => {
     component.changeChartType(type3);
     expect(component.chartOptions.legend).not.toBeNull();
     expect(component.chartOptions.scales).not.toBeNull();
+  })
+
+  it('isNotDefined method returns proper boolean', () => {
+    let val1 = undefined;
+    let val2 = "";
+
+    expect(component.isNotUndefined(val1)).toBeFalsy();
+    expect(component.isNotUndefined(val2)).toBeTruthy();
   })
 });

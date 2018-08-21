@@ -120,6 +120,5 @@ describe('When I enter a start date that is more current than the end date it', 
         predictionsPage.inputTechCount(0, 30);
         predictionsPage.outOfFocus();
         expect(predictionsPage.getPredictionsTable()).toBeTruthy();
-        browser.driver.quit();
     });
 });

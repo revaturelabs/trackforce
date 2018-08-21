@@ -83,6 +83,7 @@ public class HibernateUtil {
 	// Now we abstract further...
 
 	public static boolean runHibernateTransaction(Sessional<Boolean> sessional, Object... args) {
+		Callable<Boolean> caller = () -> {
 		Session session = null;
 		Transaction transaction = null;
 		try {

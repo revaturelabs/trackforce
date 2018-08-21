@@ -7,6 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import static com.revature.utils.LogUtil.logger;
+
 public class ThreadUtil {
 	//I set it to default at 10 threads can be increased for more performance.
 	//However, it will be to the detriment of the running server. (Most likely an Amazon EC2)
@@ -19,15 +21,16 @@ public class ThreadUtil {
 	public <T> T submitCallable(Callable<T> caller) {
 		Future<T> future = executor.submit(caller);
 		T results = null;
+		
 		try {
 			results = future.get();
 		} catch (InterruptedException | ExecutionException e) {
 			if(!future.isCancelled()) { future.cancel(true); }
-			else {System.out.println("Call was canceled");}
-			e.printStackTrace();
+			else {logger.info("Call was canceled");}
+			logger.debug(e);
 		}
 		
-		System.out.println("Current Active Threads: " + getActiveThreadCount());
+		logger.debug("Current Active Threads: " + getActiveThreadCount());
 		return results;
 	}
 	

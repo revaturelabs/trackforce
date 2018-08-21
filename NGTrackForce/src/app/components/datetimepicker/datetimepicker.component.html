@@ -1,5 +1,5 @@
-<div class="form-group" [style.max-width]="width">
-    <div class='input-group date' id='datetimepicker1'>
+<div class="form-group pickerGroup" [style.max-width]="width">
+    <div class='input-group date'>
         <input type='text' [(ngModel)]="stringDate" class="form-control" (change)="manualEntry()"/>
         <span class="input-group-addon btn" (click)=toggleCalendarView()>
             <span class="glyphicon glyphicon-calendar"></span>

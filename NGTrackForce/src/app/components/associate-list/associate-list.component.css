@@ -68,3 +68,8 @@ img{
   max-height: 550px !important;
   overflow-y: scroll;
 }
+.center-div
+{
+  margin: 0 auto;
+  width: 100px;
+}

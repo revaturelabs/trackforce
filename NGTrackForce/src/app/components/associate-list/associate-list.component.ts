@@ -39,6 +39,7 @@ export class AssociateListComponent implements OnInit {
   updateStatus = '';
   updateClient = '';
   updateVerification: string;
+  updating = false;
   updated = false;
 
   //used for ordering of rows
@@ -151,6 +152,7 @@ export class AssociateListComponent implements OnInit {
    * Bulk edit feature to update associate's verification, statuses and clients.
    */
   updateAssociates() {
+    this.updating = true;
     const ids: number[] = [];
 
     let associateList: Associate[] = [];
@@ -185,6 +187,7 @@ export class AssociateListComponent implements OnInit {
       .subscribe(data => {
         this.getAllAssociates(); //refresh the associates to reflect the updates made on DB
         this.updated = true;
+        this.updating = false;
       });
   }
 }

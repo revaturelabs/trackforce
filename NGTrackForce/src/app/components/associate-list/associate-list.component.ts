@@ -42,6 +42,9 @@ export class AssociateListComponent implements OnInit {
   updating = false;
   updated = false;
 
+  updateSuccessful: boolean;
+  updateErrored: boolean;
+
   //used for ordering of rows
   desc = false;
   sortedColumn = '';
@@ -92,6 +95,8 @@ export class AssociateListComponent implements OnInit {
       }
       this.searchByStatus = mapping.toUpperCase() + ': ' + status.toUpperCase();
     }
+    this.updateErrored = false;
+    this.updateSuccessful = false;
   }
 
   getNAssociates() {
@@ -152,6 +157,9 @@ export class AssociateListComponent implements OnInit {
    * Bulk edit feature to update associate's verification, statuses and clients.
    */
   updateAssociates() {
+
+    this.updateErrored = false;
+    this.updateSuccessful = false;
     this.updating = true;
     const ids: number[] = [];
 
@@ -187,6 +195,8 @@ export class AssociateListComponent implements OnInit {
       .subscribe(data => {
         this.getAllAssociates(); //refresh the associates to reflect the updates made on DB
         this.updated = true;
+        this.updateSuccessful = true;
+    }, error => {this.updateErrored = true;});
         this.updating = false;
       });
   }

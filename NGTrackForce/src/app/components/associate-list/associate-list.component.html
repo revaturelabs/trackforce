@@ -65,7 +65,7 @@
             <th class="batch">Batch Name</th>
             <th class="verificationStatus">Verification Status</th>
           </tr>
-        </thead>        
+        </thead>
         <tbody>
           <tr *ngFor="let associate of associates | filterByText : searchByText | pipeByStatus: searchByStatus | pipeByClient: searchByClient">
             <td class="edit" *ngIf="associate.id">
@@ -88,6 +88,12 @@
       <div class="center-div" *ngIf="!isDataReady">
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
+    </div>
+    <div class="alert alert-success" *ngIf="updateSuccessful">
+        Associate(s) updated successfully
+    </div>
+    <div class="alert alert-danger" *ngIf="updateErrored">
+        There was an error updating the Associate(s)
     </div>
   </div>
   <br>

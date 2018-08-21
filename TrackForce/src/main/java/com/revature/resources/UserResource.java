@@ -84,7 +84,7 @@ public class UserResource {
 		TfUser newUser = container.getUser();
 		int creatorRole = container.getCreatorRole();
 		logger.info("creating new user..." + newUser);
-
+		
 		// any user created by an admin is approved
 		if(creatorRole == 1)
 			newUser.setIsApproved(1);

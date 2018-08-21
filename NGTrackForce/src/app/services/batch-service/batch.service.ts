@@ -72,7 +72,7 @@ export class BatchService {
   ): Observable<Object> {
     const url =
       this.baseURL +
-      '/details?start=${startDate.getTime()}&end=${endDate.getTime()}&courseName=${CourseName}';
+      `/details?start=${startDate.getTime()}&end=${endDate.getTime()}&courseName=${CourseName}`;
     return this.http.get<Object>(url);
   }
 
@@ -83,7 +83,7 @@ export class BatchService {
   ): Observable<Object> {
     return this.http.get<Object>(
       this.baseURL +
-        '/countby?start=${startDate.getTime()}&end=${endDate.getTime()}&courseName=${CourseName}'
+        `/countby?start=${startDate.getTime()}&end=${endDate.getTime()}&courseName=${CourseName}`
     );
   }
 

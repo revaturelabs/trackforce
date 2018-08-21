@@ -10,6 +10,7 @@ import { Client } from '../../models/client.model';
 import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { InterviewType } from '../../models/interview-type';
+import { Router } from '@angular/router'
 
 /**
  *@author Katherine Obioha, Andrew Ahn
@@ -55,7 +56,8 @@ export class MyInterviewComponent implements OnInit {
     private associateService: AssociateService,
     private activated: ActivatedRoute,
     private interviewService: InterviewService,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -150,6 +152,10 @@ export class MyInterviewComponent implements OnInit {
           location.reload();
         });
     }
+  }
+
+  viewInterview(interviewId: number) {
+      this.router.navigate(['/interview-details', interviewId]);
   }
 
   /**

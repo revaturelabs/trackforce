@@ -25,7 +25,10 @@ exports.config = {
     // './e2e/test-associate/homepage-spec.js'
   ],
   capabilities: {
-    'browserName': 'chrome'
+    'browserName': 'chrome',
+    chromeOptions: {
+      args: [ "--headless", "--disable-gpu", "--window-size=800,600" ]
+    }
   },
   // directConnect: true,
     //baseUrl: 'http://localhost:4200/',

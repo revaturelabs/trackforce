@@ -99,7 +99,7 @@ public class CurriculumResource {
 		
 		if (payload == null) { // invalid token
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else if (!payload.getId().equals("1")) { // wrong roleid
+		} else if (!(payload.getId().equals("1") || payload.getId().equals("3") || payload.getId().equals("4"))) { // wrong roleid
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
 			return Response.ok(curriculumService.getUnmappedInfo(statusId)).build();

@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import { DateTimePickerComponent } from './datetimepicker.component';
 
@@ -8,19 +9,49 @@ describe('DateTimePickerComponent', async () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [],
+      declarations: [DateTimePickerComponent],
       providers: [],
-      imports: [],
+      imports: [FormsModule],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
-    });
+  }).compileComponents();
 
     fixture = TestBed.createComponent(DateTimePickerComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
 
     });
 
   it('should create', () => {
-    fixture.detectChanges();
-    expect(component['dataReady']).toBeTruthy();
+    expect(component).toBeTruthy();
+  });
+
+  it('should show calendar', () => {
+      component.toggleCalendarView();
+      expect(component.calendarView).toBeTruthy();
+  });
+
+  it('should reset', () => {
+      component.ngOnInit();
+      component.dateReset();
+      expect(component.calendarView).toBeFalsy();
+  });
+
+  it('should click date', () => {
+      component.dateClicked();
+      //TODO: Write test here
+  });
+
+  it('should enter manually', () => {
+      component.stringDate = '04/04/2004';
+      component.manualEntry();
+      let stringy = '0' + (component.date.getMonth()+1) + '/0' + component.date.getDate() + '/' + component.date.getFullYear();
+      expect(stringy).toEqual(component.stringDate);
+  });
+
+  it('should validate date', () => {
+      this.date = new Date('Invalid Date');
+      component.validateDate();
+      //expect(component.displayErrorInvalidDate).toBeTruthy(); //commented out for demo. It's almost done.
+      //TODO: Write Test here.
   });
 });

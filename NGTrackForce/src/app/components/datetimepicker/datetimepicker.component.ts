@@ -29,23 +29,6 @@ export class DateTimePickerComponent implements OnInit {
 
     }
 
-    changeDate(){
-        if (this.dateType == "start") {
-            this.dateService.currStartDate.subscribe(
-                data =>{
-                    this.originalDate = data.getDate();
-                }
-            );
-        } else {
-            this.dateService.currEndDate.subscribe(
-                data =>{
-                    this.originalDate = data.getDate();
-                }
-            );
-        }
-
-    }
-
     ngOnInit() {
         this.dateReset();
     }

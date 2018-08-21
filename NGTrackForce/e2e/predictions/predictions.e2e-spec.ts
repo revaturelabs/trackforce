@@ -119,20 +119,6 @@ describe('When I enter a start date that is more current than the end date it', 
         predictionsPage.inputEndDate('04062016');
         predictionsPage.inputTechCount(0, 30);
         predictionsPage.outOfFocus();
-        expect(predictionsPage.getPredictionsTable()).toBeTruthy;
-    });
-
-    xit('should yield 0 associates', () => {
-        let numAssociates = predictionsPage.numberOfAssociatesInTableEntry.getText()
-        .then(text => {
-            expect(text).toEqual('0');
-        });
-    });
-
-    xit('should have a negative amount in Difference', () => {
-        let difference = predictionsPage.differenceInTableEntry.getText()
-        .then(text => {
-            expect(text).toEqual('-30');
-        });
+        expect(predictionsPage.getPredictionsTable()).toBeTruthy();
     });
 });

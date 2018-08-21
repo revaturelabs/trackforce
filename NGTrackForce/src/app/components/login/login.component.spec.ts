@@ -70,4 +70,12 @@ describe('LoginComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('OnInit should create user thats not null', () => {
+    component.loginClicked = true;
+    component.isLoggingIn = true;
+    expect(component.loginClicked).toBeTruthy();
+    expect(component.isLoggingIn).toBeTruthy();
+  });
+
 });

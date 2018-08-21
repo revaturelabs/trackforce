@@ -39,6 +39,7 @@ export class AssociateListComponent implements OnInit {
   updateStatus = '';
   updateClient = '';
   updateVerification: string;
+  updating = false;
   updated = false;
 
   updateSuccessful: boolean;
@@ -156,8 +157,10 @@ export class AssociateListComponent implements OnInit {
    * Bulk edit feature to update associate's verification, statuses and clients.
    */
   updateAssociates() {
+
     this.updateErrored = false;
     this.updateSuccessful = false;
+    this.updating = true;
     const ids: number[] = [];
 
     let associateList: Associate[] = [];
@@ -194,5 +197,7 @@ export class AssociateListComponent implements OnInit {
         this.updated = true;
         this.updateSuccessful = true;
     }, error => {this.updateErrored = true;});
+        this.updating = false;
+      });
   }
 }

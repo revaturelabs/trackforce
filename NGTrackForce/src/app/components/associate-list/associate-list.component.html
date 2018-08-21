@@ -134,8 +134,11 @@
           <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
         </select>
       </div>
-      <div class="col-sm-2">
+      <div class="col-sm-2" *ngIf="!updating">
         <button id="submit" (click)="updateAssociates()" class="btn btn-info" style="margin-top:20px">Update</button>
+      </div>
+      <div class="col-sm-2" *ngIf="updating">
+        <mat-progress-spinner style="margin-top:15px;" diameter="50" mode="indeterminate"></mat-progress-spinner>
       </div>
     </div>
   </div>

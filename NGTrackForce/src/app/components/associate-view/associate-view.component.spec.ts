@@ -150,4 +150,19 @@ describe('AssociateViewComponent', () => {
     expect(component.associate.lastName).toBeTruthy();
   });
 
+  it('succMsg should should be "information updated"', () => {
+    component.succMsg = 'Information updated';
+    expect(component.succMsg).toBeTruthy();
+  });
+
+  it('errMsg should be "There was an error with the server" with a 500 error', () => {
+    component.errMsg = 'There was an error with the server';
+    expect(component.errMsg).toBeTruthy();
+  });
+
+  it('errMsg should be "Something went wrong, your information was not updated." with any other error', () => {
+    component.errMsg = 'Something went wrong, your information was not updated.';
+    expect(component.errMsg).toBeTruthy();
+  });
+
 });

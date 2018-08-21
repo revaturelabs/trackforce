@@ -85,6 +85,8 @@ public class UserResource {
 		int creatorRole = container.getCreatorRole();
 		logger.info("creating new user..." + newUser);
 
+		System.err.println("creatorRole: " + creatorRole);
+		
 		// any user created by an admin is approved
 		if(creatorRole == 1)
 			newUser.setIsApproved(1);
@@ -95,6 +97,7 @@ public class UserResource {
 		boolean works = true;
     
 		int role = newUser.getRole();
+		System.err.println("role: " + role);
 
 		TfRole tfrole = null;
 

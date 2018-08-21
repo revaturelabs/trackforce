@@ -255,6 +255,7 @@ describe('SkillsetComponent', () => {
   it('should have one-to-one relation between skillsetData and skillsetLabels', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
+      component.skillsetData = [1, 2, 3];
       expect(component.skillsetData.length).toBeTruthy();
       expect(component.skillsetLabels.length).toBeTruthy();
       expect(component.skillsetLabels.length).toEqual(component.skillsetData.length);

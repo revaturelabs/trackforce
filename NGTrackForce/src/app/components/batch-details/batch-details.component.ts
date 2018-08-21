@@ -4,7 +4,7 @@ import { BatchService } from '../../services/batch-service/batch.service';
 import { Associate } from '../../models/associate.model';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ThemeConstants } from '../../constants/theme.constants';
-import { ChartsModule, Color } from 'ng2-charts';
+import { ChartsModule, Color } from 'ng2-charts/ng2-charts';
 import { Router, NavigationExtras } from '@angular/router';
 import { Client } from '../../models/client.model';
 import { Batch } from '../../models/batch.model';
@@ -22,6 +22,7 @@ export class BarChartDataSet {
   }
 }
 
+@AutoUnsubscribe
 @Component({
   selector: 'app-batch-details',
   templateUrl: './batch-details.component.html',
@@ -30,7 +31,6 @@ export class BarChartDataSet {
 /**
  * Initialize chart details.
  */
-@AutoUnsubscribe
 export class BatchDetailsComponent implements OnInit {
   chartType = 'bar';
   public options: any = {

@@ -1,6 +1,7 @@
 package com.revature.test.restAssured;
 
 import static io.restassured.RestAssured.given;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static org.hamcrest.Matchers.hasSize;
 
@@ -78,7 +79,8 @@ public class TrainerResourceTest {
 	public void testGetTrainer2() {
 		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId).then().extract().response();
 
-		assertTrue(response.statusCode() == 401);
+		assertEquals(401, response.statusCode());
+		System.err.println("error: " + response.asString());
 		assertTrue(response.asString().contains("Unauthorized"));
 
 		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);

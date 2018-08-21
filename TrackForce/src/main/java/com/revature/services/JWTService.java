@@ -207,6 +207,10 @@ public class JWTService {
 		Base64.Decoder decoder = Base64.getUrlDecoder();
 
 		String[] parts = token.split("\\."); // Splitting header, payload and signature
+		
+		if(parts.length < 2)
+			return -1;
+		
 		JSONObject payload = new JSONObject(new String(decoder.decode(parts[1])));
 
 		long exp = payload.getLong("exp");
@@ -231,6 +235,8 @@ public class JWTService {
 	public static String invalidTokenBody(String token) {
 		
 		JSONObject body = new JSONObject();
+		body.put("status", "Unauthorized");
+		
 		final long expiration = getExpiredTokenTime(token);
 		
 		Date now = new Date();

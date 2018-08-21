@@ -4,6 +4,7 @@ import static com.revature.utils.LogUtil.logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -21,6 +22,8 @@ import org.hibernate.cfg.Configuration;
  */
 public class HibernateUtil {
 
+	private static ThreadUtil threadUtil = new ThreadUtil();
+	
 	private HibernateUtil() {
 	}
 
@@ -79,70 +82,88 @@ public class HibernateUtil {
 	// Now we abstract further...
 
 	public static boolean runHibernateTransaction(Sessional<Boolean> sessional, Object... args) {
-		Session session = null;
-		Transaction transaction = null;
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			transaction = session.beginTransaction();
-			boolean b = sessional.operate(session, args);	
-			if (b) {
-				logger.debug("Committing...");
-			} else {
-				throw new HibernateException("Transaction Operation Failed!");
-			}
-			transaction.commit();
-			logger.info("Transaction committed!");
+		Callable<Boolean> caller = () -> {
+			Session session = null;
+			Transaction transaction = null;
+			try {
+				session = HibernateUtil.getSessionFactory().openSession();
+				transaction = session.beginTransaction();
+				boolean b = sessional.operate(session, args);
 
-			return true;
-		} catch (HibernateException | ThrownInHibernate e) {
-			HibernateUtil.rollbackTransaction(transaction);
-			logger.error(e.getMessage(), e);
-		} finally {
-			if (session != null)
-				session.close();
-		}
-		return false;
+				if (b) {
+					logger.debug("Committing...");
+				} else {
+					throw new HibernateException("Transaction Operation Failed!");
+				}
+
+				transaction.commit();
+				logger.info("Transaction committed!");
+
+				return true;
+			} catch (HibernateException | ThrownInHibernate e) {
+				HibernateUtil.rollbackTransaction(transaction);
+				logger.error(e.getMessage(), e);
+			} finally {
+				if (session != null)
+					session.close();
+			}
+			return false;
+		};
+		
+		return threadUtil.submitCallable(caller);
 	}
 
 	public static <T> boolean multiTransaction(Sessional<Boolean> sessional, List<T> items) {
-		return HibernateUtil.runHibernateTransaction((Session session, Object... args) -> {
-			for (T a : items) {
-				if (!sessional.operate(session, a)) {
-					return false;
-				}
-			}
-			return true;
-		});
+		//Be careful using this method as it can create extreme strain by creating multiple threads
+				//This should be refactored along with a refactor of runHibernateTransaction to both call
+				//on another method that does the work that runs x amount of given times. Or implement a
+				//cache the ensures that flush is not called on a hibernate transaction
+				return HibernateUtil.runHibernateTransaction((Session session, Object... args) -> {
+					for (T a : items) {
+						if (!sessional.operate(session, a)) {
+							return false;
+						}
+					}
+					return true;
+				});
 	}
 
 	public static <T> T runHibernate(Sessional<T> ss, Object... args) {
-		Session session = null;
-		Throwable t = null;
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			return ss.operate(session, args);
-		} catch (ThrownInHibernate | HibernateException e) {
-			logger.error(e.getMessage(), e);
-			t = e;
-		} finally {
-			if (session != null)
-				session.close();
-		}
-		throw new HibernateException(t);
+		Callable<T> caller = () -> {
+			Session session = null;
+			Throwable t = null;
+			try {
+				session = HibernateUtil.getSessionFactory().openSession();
+				return ss.operate(session, args);
+			} catch (ThrownInHibernate | HibernateException e) {
+				logger.error(e.getMessage(), e);
+				t = e;
+			} finally {
+				if (session != null)
+					session.close();
+			}
+			throw new HibernateException(t);
+		};
+
+		return threadUtil.submitCallable(caller);
 	}
 
 	public static <T> List<T> runHibernate(ListOp<T> ss, Object... args) {
-		Session session = null;
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			return ss.operate(session, args);
-		} catch (ThrownInHibernate | HibernateException e) {
-			logger.error(e.getMessage(), e);
-		} finally {
-			if (session != null)
-				session.close();
-		}
-		return new ArrayList<>();
+		Callable<List<T>> caller = () -> {
+			Session session = null;
+			try {
+				session = HibernateUtil.getSessionFactory().openSession();
+				return ss.operate(session, args);
+			} catch (ThrownInHibernate | HibernateException e) {
+				logger.error(e.getMessage(), e);
+			} finally {
+				if (session != null)
+					session.close();
+			}
+			return new ArrayList<>();
+		};
+
+		return threadUtil.submitCallable(caller);
 	}
 
 	private static Sessional<Boolean> dbSave = (Session session, Object... args) -> {

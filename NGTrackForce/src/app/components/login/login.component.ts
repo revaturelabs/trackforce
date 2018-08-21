@@ -287,7 +287,6 @@ export class LoginComponent implements OnInit {
             this.resetAfterLoginFail();
             this.errMsg = "Invalid username and/or password";
           } else if (data.isApproved) {
-            this.navbarService.show();
             //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
             if (data.role === 5) {
@@ -342,6 +341,7 @@ export class LoginComponent implements OnInit {
   associateLogin(user: User) {
     this.associateService.getAssociate(user.id).subscribe(
       data => {
+        this.navbarService.show();
         localStorage.setItem(ASSOCIATE_KEY, JSON.stringify(data));
         this.router.navigate(['associate-view']);
       },
@@ -362,6 +362,7 @@ export class LoginComponent implements OnInit {
   trainerLogin(user: User) {
     this.trainerService.getTrainer(user.id).subscribe(
       data => {
+        this.navbarService.show();
         localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
         this.router.navigate(['trainer-view']);
       },
@@ -380,6 +381,7 @@ export class LoginComponent implements OnInit {
   // Logan removed the getAllAssociates from here.
   // It was running twice, causing initial login for admin/sales/staging to be suuuuuuuper slow
   salesOrStagingLogin() {
+    this.navbarService.show();
     this.router.navigate(['app-home']);
   }
 

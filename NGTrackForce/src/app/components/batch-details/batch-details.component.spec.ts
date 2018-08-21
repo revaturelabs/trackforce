@@ -18,7 +18,6 @@ import { RequestService } from '../../services/request-service/request.service';
 import { MockActivatedRoute } from '../associate-view/associate-view.component.spec';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-
 import { BatchService } from '../../services/batch-service/batch.service';
 import { Ng2OrderPipe } from 'ng2-order-pipe';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -30,31 +29,9 @@ describe('BatchDetailsComponent', () => {
   const testBatchService: BatchService = new BatchService(null);
   let user = new User('mockUser', 'mockPassword', 1, 0, 0, 'mockTokent');
 
-  let router = {
-    navigate: jasmine.createSpy('navigate')
-  }
-
-  let routes = [
-    {
-      path: '',
-      component: BatchDetailsComponent
-    },
-    {
-      path: '/form-comp',
-      component: FormComponent
-    }
-  ];
-
-  // setup service mocks
-  beforeAll(() => {
-    const batch1: Batch = new Batch();
-    // crurriculumName needs to be of type Curriculum
-    // batch1.curriculumName = 'Test-Curriculum-1';
-    const batch2: Batch = new Batch();
-    // batch2.curriculumName = 'Test-Curriculum-2';
-    // mock batch service
-    // spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
-    spyOn(testBatchService, 'getBatchesByDate').and.returnValue(Observable.of([batch1, batch2]));
+  //setup service mocks
+  beforeAll(()=>{
+    let user = new User('mockUser', 'mockPassword', 1, 0, 0, 'mockTokent');
 
     spyOn(testAuthService, 'getUser').and.returnValue(user); // needed by the navbar
   });
@@ -70,17 +47,12 @@ describe('BatchDetailsComponent', () => {
         {provide: AuthenticationService, userValue: testAuthService}
       ],
       imports: [
-        // RouterTestingModule,
-        { provide: Router, useValue: router},
-        FormsModule,
-        BrowserModule,
-        HttpClientModule,
         ChartsModule,
-        // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(1) }
-        { provide: ActivatedRoute, useValue : {
-          snapshot: {params: {id: 0},
-        }
-        }}
+        RouterTestingModule,
+        HttpClientTestingModule
+      ],
+      schemas:[ 
+        CUSTOM_ELEMENTS_SCHEMA 
       ]
     })
     .compileComponents();
@@ -118,5 +90,9 @@ describe('BatchDetailsComponent', () => {
     component.getMapStatusBatch()
     expect(component.isDataEmpty).toBeFalsy;
     expect(component.isDataReady).toBeTruthy;
+  });
+    
+  it('should contain chartType = bar', ()=>{
+    expect(component.chartType).toEqual('bar');
   });
 });

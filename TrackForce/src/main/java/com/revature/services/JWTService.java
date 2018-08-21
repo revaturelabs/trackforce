@@ -190,7 +190,15 @@ public class JWTService {
 		return expiration.before(new Date());
 	}
 
-	
+	/**
+	 * @author 1806_Austin_Molina
+	 * Decodes an expired token to determine the expiration time. 
+	 * The {@link #processToken(String)} method will throw an 
+	 * exception when attempting to decode a web token.
+	 * 
+	 * @param token
+	 * @return expiration time of token in milliseconds
+	 */
 	private static long getExpiredTokenTime(String token) {
 
 		if(token == null)
@@ -199,13 +207,27 @@ public class JWTService {
 		Base64.Decoder decoder = Base64.getUrlDecoder();
 
 		String[] parts = token.split("\\."); // Splitting header, payload and signature
-		JSONObject headers = new JSONObject(new String(decoder.decode(parts[1])));
+		JSONObject payload = new JSONObject(new String(decoder.decode(parts[1])));
 
-		long exp = headers.getLong("exp");
+		long exp = payload.getLong("exp");
 
 		return exp*1000;
 	}
 	
+	/**
+	 * @author 1806_Austin_Molina
+	 * 
+	 * all 401 errors are expected to include the nature of the error.
+	 * The front end handles errors differently depending on how old 
+	 * the token is.
+	 * 
+	 * This method creates a JSON object to include in the response body
+	 * which includes how long ago a JWT expired.
+	 * 
+	 * @param token
+	 * @return -1 when the token was invalid or did not exist; 
+	 * 	else number of minutes since the token expired
+	 */
 	public static String invalidTokenBody(String token) {
 		
 		JSONObject body = new JSONObject();
@@ -215,7 +237,7 @@ public class JWTService {
 		
 		if(expiration == -1) {
 			//arbitrary response; number of minutes in a day
-			body.put("expirationtime", 1440);
+			body.put("expirationtime", -1);
 			return body.toString();
 		}
 		

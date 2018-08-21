@@ -30,12 +30,12 @@ import com.revature.services.JWTService;
 import com.revature.services.MarketingStatusService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
+import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.mortbay.util.ajax.JSON;
 
 /**
  * <p>
@@ -318,5 +318,13 @@ public class UserResource {
 
 	}
 	
-	
+	@Path("/init")
+	@GET
+	@ApiOperation(value = "check method", notes = "The method checks whether a JWT is valid. returns 200 if valid, 401 if invalid.")
+	public Response sessionInitialization() {
+		logger.info("Initizilizing SessionFactory");
+		//HibernateUtil.runHibernate((Session session, Object ... args) -> session.createNativeQuery("SELECT * FROM dual"));
+		HibernateUtil.getSessionFactory();
+		return Response.status(Status.OK).build();
+	}
 }

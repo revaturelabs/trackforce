@@ -115,6 +115,7 @@ public class InterviewResource {
 		if (payload == null || !(payload.getId().equals("5"))) {
 			status = Status.UNAUTHORIZED;
 		} else {
+			interview.setJobDescription("No current description.");
 			interviewService.createInterview(interview);
 			status = Status.CREATED;
 		}

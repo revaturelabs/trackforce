@@ -65,4 +65,7 @@ export class UserService {
     return this.http.get<boolean>(this.baseURL + '/check');
 }
 
+public buildSessionFactory(): Observable<boolean>{
+  return this.http.get<boolean>(this.baseURL + '/init');
+}
 }

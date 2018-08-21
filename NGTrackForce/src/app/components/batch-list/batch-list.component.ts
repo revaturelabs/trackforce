@@ -48,6 +48,8 @@ export class BatchListComponent implements OnInit {
   stringStart: string;
   stringEnd: string;
 
+  testString: string;
+
   dateRangeMessage: string;
   showDateRangeError = false;
   dateError: boolean;
@@ -62,6 +64,9 @@ export class BatchListComponent implements OnInit {
     'right', false, false
   );
 
+  public testFunction(){
+      console.log(this.testString);
+  }
 
   constructor(private batchService: BatchService, private authService: AuthenticationService, 
               private dateService: DateService) {
@@ -152,6 +157,8 @@ export class BatchListComponent implements OnInit {
     if (!this.dateError){
     this.startDate = new Date(this.stringStart);
     this.endDate = new Date(this.stringEnd);
+    console.log(this.stringStart);
+    console.log(this.startDate);
 
     let longStartDate: number;
     let longEndDate: number;

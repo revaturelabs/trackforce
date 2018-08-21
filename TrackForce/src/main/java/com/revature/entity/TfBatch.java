@@ -63,7 +63,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	@XmlElement
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "batch")
 	@JsonIgnore
-	private Set<TfAssociate> associates = new HashSet<TfAssociate>(0);
+	private Set<TfAssociate> associates = new HashSet<>(0);
 
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)

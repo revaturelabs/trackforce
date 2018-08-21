@@ -43,7 +43,6 @@ export class DateTimePickerComponent implements OnInit {
                 }
             );
         }
-
     }
 
     ngOnInit() {
@@ -87,6 +86,12 @@ export class DateTimePickerComponent implements OnInit {
     }
 
     public validateDate(){
+    else this.displayErrorInvalidDate = false;
+    }
+
+
+
+
         if (this.date.toString() == "Invalid Date"){
             this.displayErrorInvalidDate = true;
             this.date = null;

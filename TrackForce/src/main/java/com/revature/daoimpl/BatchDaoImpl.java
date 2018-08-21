@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import static com.revature.utils.LogUtil.logger;
 
 import com.revature.dao.BatchDao;
 import com.revature.entity.TfBatch;
@@ -97,9 +98,9 @@ public class BatchDaoImpl implements BatchDao {
 					.setParameter("endDate", endDate.toString())
 					.getSingleResult();
 		}catch(HibernateException e) {
-			e.printStackTrace();
+			logger.warn(e);
 		}finally {
-			session.close();
+			if(session != null)session.close();
 		}
 		return tacobell;
 	}

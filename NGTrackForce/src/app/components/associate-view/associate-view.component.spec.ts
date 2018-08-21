@@ -18,6 +18,7 @@ import { Client } from '../../models/client.model';
 import { EndClient } from '../../models/end-client.model';
 import { User } from '../../models/user.model';
 import { MarketingStatus } from '../../models/marketing-status.model';
+import { CompileNgModuleMetadata } from '../../../../node_modules/@angular/compiler';
 
 export class MockActivatedRoute {
   static createMockRoute(tid: number): any {
@@ -127,14 +128,26 @@ describe('AssociateViewComponent', () => {
     expect(component.associate).toBeTruthy();
   });
 
-  // it('getAssociate() should return the specified associate', () => {
-  //   expect(component.getAssociate(900)).toContain("Cameron");
-  //   expect(component.getAssociate(90000)).toContain(null);
-  // });
+  it('in toggleForm() if formOpen was true then make false', () => {
+    component.formOpen = true;
+    component.toggleForm();
+    expect(component.formOpen).toBeFalsy();
+  });
 
-  // it('getClient() should return a list of clients', () => {
-  //   component.getClients();
-  //   expect(clients.length).toBeGreaterThanOrEqual(0);
-  //   expect(clients.toString).toContain("Ciox Health");
-  // });
+  it('in toggleForm() if formOpen was false then make true', () => {
+    component.formOpen = false;
+    component.toggleForm();
+    expect(component.formOpen).toBeTruthy();
+  });
+
+  it('in updateInfo() firstName should be a name', () => {
+    component.associate.firstName = 'Logan';
+    expect(component.associate.firstName).toBeTruthy();
+  });
+
+  it('in updateInfo() lastName should be a name', () => {
+    component.associate.lastName = 'Logan';
+    expect(component.associate.lastName).toBeTruthy();
+  });
+
 });

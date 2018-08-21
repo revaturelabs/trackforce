@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NgModule } from '@angular/core';
 import { SkillsetComponent } from './skillset.component';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { element, by, browser } from 'protractor';
@@ -24,7 +24,29 @@ import { Batch } from '../../models/batch.model';
 import { GraphCounts } from '../../models/graph-counts';
 
 import { SSL_OP_PKCS1_CHECK_1 } from 'constants';
-import { convertToParamMap } from '../../../../node_modules/@angular/router';
+import { convertToParamMap, NavigationExtras } from '../../../../node_modules/@angular/router';
+import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import { routerNgProbeToken } from '../../../../node_modules/@angular/router/src/router_module';
+import { MatProgressSpinner, MatProgressSpinnerModule } from '../../../../node_modules/@angular/material';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+
+@NgModule({
+  declarations: [HomeComponent],
+  entryComponents: [
+    HomeComponent
+  ],
+  imports: [
+    CommonModule,
+    BrowserModule,
+    ChartsModule,
+    MatProgressSpinnerModule],
+  exports: [
+    HomeComponent,
+    MatProgressSpinnerModule
+  ]
+})
+class HomeModule {}
 
 export class MockCurriculumService extends CurriculumService {
     getAllCurricula(): Observable<Curriculum[]> {
@@ -34,7 +56,7 @@ export class MockCurriculumService extends CurriculumService {
       c1.batches = [new Batch()];
 
       let curriculum:Curriculum[] = [c1];
-    
+
       return Observable.of(curriculum);
     }
 
@@ -43,14 +65,31 @@ export class MockCurriculumService extends CurriculumService {
       let g1:GraphCounts = new GraphCounts();
       g1.id = 1;
       g1.name = 'mockGraphCounts';
-      g1.count = 20;
+      g1.count = 22;
 
       return Observable.of([g1]);
     }
 }
 
 export class MockActivatedRoute {
+  static createMockRoute(tid: number): any {
+    return {
+      route: {
+      params: Observable.of({id: tid}),
+      snapshot: {
+        parent: {
+          params: {
+            id: 0
+          }
+        },
+        paramMap: convertToParamMap({id: 0})
+        }
+    }};
+  }
+}
 
+export class MockRouter {
+  navigateByUrl(url: String) { return url;}
 }
 
 describe('SkillsetComponent', () => {
@@ -58,36 +97,73 @@ describe('SkillsetComponent', () => {
   let fixture: ComponentFixture<SkillsetComponent>;
   let activatedRoute : ActivatedRouteStub;
 
-
-
+  let routes = [
+    {
+        path: '',
+        component: SkillsetComponent
+    },
+    {
+      path: 'app-home',
+      component: HomeComponent
+    }
+  ];
+ 
   beforeEach(async(() => {
+    TestBed.resetTestingModule();
+    
     TestBed.configureTestingModule({
-      declarations: [ 
+      declarations: [
         SkillsetComponent,
-        HomeComponent,
         NavbarComponent,
         FormComponent
       ],
       imports : [
         HttpClientTestingModule,
         ChartsModule,
-        RouterTestingModule, 
-        FormsModule
+        RouterTestingModule.withRoutes(routes),
+        FormsModule,
+        HomeModule,
       ],
       providers : [
         CurriculumService,
-        { provide : ActivatedRoute, useValue : {
-          snapshot: {params: {id: 6},
-                     paramMap: convertToParamMap({id: 6})}                    
-   
+        // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(0)},
+      { provide : ActivatedRoute, useValue : {
+        snapshot: {params: {id: 0},
+                   paramMap: convertToParamMap({id: 0})}
+  
         } },
-        { provide : Router,         useClass : RouterStub }
       ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
+    TestBed.resetTestingModule();
+
+    TestBed.configureTestingModule({
+      declarations: [
+        SkillsetComponent,
+        NavbarComponent,
+        FormComponent
+      ],
+      imports : [
+        HttpClientTestingModule,
+        ChartsModule,
+        RouterTestingModule.withRoutes(routes),
+        FormsModule,
+        HomeModule,
+      ],
+      providers : [
+        CurriculumService,
+        // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(0)},
+      { provide : ActivatedRoute, useValue : {
+        snapshot: {params: {id: 0},
+                   paramMap: convertToParamMap({id: 0})}
+
+        } },
+      ]
+    }).compileComponents();
+
     localStorage.setItem('unmappedData',JSON.stringify([1,2,3,4]));
     activatedRoute = new ActivatedRouteStub();
     fixture = TestBed.createComponent(SkillsetComponent);
@@ -120,12 +196,13 @@ describe('SkillsetComponent', () => {
 
     while(!SkillInfoValue.done) {
       // console.log('value: ' + SkillInfoValue.value);
-      //console.log('skillID: ' + component.getSkillID());
+      // console.log('skillID: ' + component.getSkillID());
       //console.log(parseInt(SkillInfoValue.value) === component.getSkillID());
       if (SkillInfoValue.value == component.getSkillID()) {
         idFound = true;
         break;
       }
+      SkillInfoValue = SkillInfoIter.next();
     }
     let id = component.getSkillID();
     let count = SkillsetComponent.getSkillInfo().size;
@@ -134,7 +211,9 @@ describe('SkillsetComponent', () => {
   })
 
   it('should redirect to home if out-of-bounds id was received', () => {
+    // const url = spyOn(router, 'navigateByUrl').calls.first().args[0];
     activatedRoute.testParamMap = { id: -100 };
+    // expect(url).toBe('/app-home');
   })
 
   it('should have buttons that trigger changeChartType()', () => {

@@ -84,7 +84,7 @@ public class BatchResource {
 		
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 
 		Status status = null;
@@ -137,7 +137,7 @@ public class BatchResource {
 		
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
 		int role = Integer.parseInt(payload.getId());
@@ -168,7 +168,7 @@ public class BatchResource {
 		logger.info("getBatchDetails()...");
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
 		status = Status.OK;
@@ -238,7 +238,7 @@ public class BatchResource {
 
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
 		status = Status.OK;
@@ -272,7 +272,7 @@ public class BatchResource {
 		logger.info("getBatchesWithinDates()...");
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
 		status = Status.OK;	

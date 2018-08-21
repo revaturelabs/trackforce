@@ -29,7 +29,7 @@ describe('Registering as a new associate', () => {
         registerAssociatePage.enterAssociateInfo('john', 'john');
     });
 
-    it('should allow associate to click the next page button', () => {
+    xit('should allow associate to click the next page button', () => {
         registerAssociatePage.clickNextPageBtn();
     });
 

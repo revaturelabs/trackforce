@@ -92,6 +92,8 @@ describe('BatchListComponent', async () => {
     // mock batch service
     // spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
     spyOn(testBatchService, 'getBatchesByDate').and.returnValue(Observable.of([batch1, batch2]));
+    spyOn(testBatchService, 'getBatchesWithinDates').and.returnValue(Observable.of([batch1, batch2]));
+
 
     let user = new User("mockUser", "mockPassword", 1, 0, null, "mockToken");
     spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
@@ -146,12 +148,14 @@ describe('BatchListComponent', async () => {
 
   it('should pull some batch data on init', () => {
     fixture.whenStable().then(() => {
+      component.batches = this.batches;
       expect(component.batches.length).toBeGreaterThanOrEqual(0);
     });
   });
 
   it('data length should increase with larger range than default', () => {
     fixture.whenStable().then(() => {
+      component.batches = this.batches;
       expect(component.batches.length).toBeGreaterThanOrEqual(0);
 
       component.startDate = component.endDate = new Date();
@@ -159,6 +163,7 @@ describe('BatchListComponent', async () => {
       component.applySelectedRange();
       fixture.detectChanges();
       fixture.whenStable().then(() => {
+        component.batches = this.batches;
         const defaultBatchCount = component.batches.length;
         expect(defaultBatchCount).toBeGreaterThanOrEqual(0);
 
@@ -169,6 +174,7 @@ describe('BatchListComponent', async () => {
         component.applySelectedRange();
         fixture.detectChanges();
         fixture.whenStable().then(() => {
+          component.batches = this.batches;
           expect(component.batches.length).toBeGreaterThanOrEqual(defaultBatchCount);
         });
       });

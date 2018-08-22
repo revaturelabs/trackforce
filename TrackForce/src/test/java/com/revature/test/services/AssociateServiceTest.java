@@ -1,11 +1,11 @@
 package com.revature.test.services;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeClass;
@@ -308,7 +309,7 @@ public class AssociateServiceTest {
 	@Test(priority=12,groups = {"initAssociateList"})
 	public void testUpdateAssociates() {
 		
-		when(mockAssociateDao.updateAssociates(any(List.class))).thenReturn(true);
+		when(mockAssociateDao.updateAssociates(Matchers.anyListOf(TfAssociate.class))).thenReturn(true);
 		Boolean actual = service.updateAssociates(mockAssociates);
 		assertTrue(actual);
 	}
@@ -341,9 +342,9 @@ public class AssociateServiceTest {
 	 * 
 	 * @since 6.06.14.18
 	 */
-	@Test(priority=14, expectedExceptions = NullPointerException.class)
+	@Test(priority=14)
 	public void testUpdateAssociatesAndNull() {
-		when(mockAssociateDao.updateAssociates(any(List.class))).thenReturn(false);
+		when(mockAssociateDao.updateAssociates(Matchers.anyListOf(TfAssociate.class))).thenReturn(false);
 		mockAssociates.add(null);
 		Boolean actual = service.updateAssociates(mockAssociates);
 		assertFalse(actual);
@@ -359,7 +360,7 @@ public class AssociateServiceTest {
 	 */
 	@Test(priority=15, groups= {"initEmptyList"})
 	public void testUpdateAssociatesWithEmpty() {
-		when(mockAssociateDao.updateAssociates(any(List.class))).thenReturn(false);
+		when(mockAssociateDao.updateAssociates(Matchers.anyListOf(TfAssociate.class))).thenReturn(false);
 		
 		Boolean actual = service.updateAssociates(mockAssociates);
 		assertFalse(actual);
@@ -375,7 +376,7 @@ public class AssociateServiceTest {
 	 */
 	@Test(priority=16, groups= {"initNullList"})
 	public void testUpdateAssociatesWithNull() {
-		when(mockAssociateDao.updateAssociates(any(List.class))).thenReturn(false);
+		when(mockAssociateDao.updateAssociates(Matchers.anyListOf(TfAssociate.class))).thenReturn(false);
 		Boolean actual = service.updateAssociates(mockAssociates);
 		assertFalse(actual);
 	}
@@ -387,7 +388,7 @@ public class AssociateServiceTest {
 	 * 
 	 * @since 6.06.14.18
 	 */
-	@Test(priority=17)
+	@Test(priority=1)
 	public void testCreateAsssociate() {
 		user.setRole(4);
 		user.setUsername("Associate2");
@@ -435,10 +436,20 @@ public class AssociateServiceTest {
 	 * 
 	 * @since 6.06.14.18
 	 */
-	@Test(priority=20)
+	@Test(priority=2)
 	public void testCreateAsssociateDuplicate() {
-		when(mockAssociateDao.createAssociate(assoc1)).thenReturn(false);
-		Boolean actual = service.createAssociate(assoc1);
+		user.setRole(4);
+		user.setUsername("Associate2");
+		
+		assoc1.setUser(user);
+		assoc1.setFirstName("Carlsbad");
+		
+		assoc2.setUser(user);
+		assoc3.setFirstName("Carlbad");
+		
+		
+		when(mockAssociateDao.createAssociate(assoc1)).thenReturn(true);
+		Boolean actual = service.createAssociate(assoc2);
 		assertFalse(actual);
 	}
 }

@@ -53,14 +53,14 @@ describe('ClientListComponent', () => {
     expect(component).toBeTruthy();
   }));
 
-  it('should get clients', () => {
-    const clients: Client[] = [];
-    component.clientInfo = [];
+  // it('should get clients', () => {
+  //   const clients: Client[] = [];
+  //   component.clientInfo = [];
 
-    spyOn(clientService, "getAllClients").and.returnValue(Observable.of(clients))
+  //   spyOn(clientService, "getAllClients").and.returnValue(Observable.of(clients))
 
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(component.clientInfo).toEqual(clients);    
-  })
+  //   component.ngOnInit();
+  //   fixture.detectChanges();
+  //   expect(component.clientInfo).toEqual(clients);    
+  // })
 });

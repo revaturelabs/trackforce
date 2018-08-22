@@ -11,10 +11,14 @@ import {HomeComponent} from '../home/home.component';
 import {AuthenticationService} from '../../services/authentication-service/authentication.service';
 import {RequestService} from '../../services/request-service/request.service';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import {Client} from "./../../models/client.model";
+import { Observable, of } from 'rxjs';
 
 describe('ClientListComponent', () => {
   let component: ClientListComponent;
   let fixture: ComponentFixture<ClientListComponent>;
+
+  const clientService = new ClientService(null);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,4 +52,15 @@ describe('ClientListComponent', () => {
   it('should create', async(() => {
     expect(component).toBeTruthy();
   }));
+
+  it('should get clients', () => {
+    const clients: Client[] = [];
+    component.clientInfo = [];
+
+    spyOn(clientService, "getAllClients").and.returnValue(Observable.of(clients))
+
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.clientInfo).toEqual(clients);    
+  })
 });

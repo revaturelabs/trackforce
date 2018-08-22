@@ -244,13 +244,12 @@ public class BatchResource {
 		status = Status.OK;
 		int role = Integer.parseInt(payload.getId());
 		
-//		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
-//		if (authorizedRoles.contains(role)) {
-//			// results and status set in here
-//			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
-//		} else {
-//			status = Status.FORBIDDEN;
-//		}
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+		if (authorizedRoles.contains(role)) {
+			status = Status.OK;
+		} else {
+			status = Status.FORBIDDEN;
+		}
 		
 		JSONObject associateCount = new JSONObject();
 		BatchDaoImpl bd = new BatchDaoImpl();
@@ -278,15 +277,12 @@ public class BatchResource {
 		status = Status.OK;	
 		int role = Integer.parseInt(payload.getId());
 
-	/*	Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
-
-		// Verifies user's role has proper authority to perform this action
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
 		if (authorizedRoles.contains(role)) {
-			// results and status set in here
-			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			status = Status.OK;
 		} else {
 			status = Status.FORBIDDEN;
-		}*/
+		}
 		
 		
 		System.out.println(new Timestamp(endDate).toString());

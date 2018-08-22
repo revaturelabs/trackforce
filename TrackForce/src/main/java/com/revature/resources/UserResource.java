@@ -292,8 +292,8 @@ public class UserResource {
 			logger.info("sending 200 response..");
 			return Response.status(Status.OK).entity(user).build();
 		} else {
-			logger.info("sending unauthorized response..");
-			return Response.status(Status.UNAUTHORIZED).entity(null).build();
+			logger.info("sending 200 response with null user data");
+			return Response.status(Status.OK).entity(null).build();
 		}
 	}
 	

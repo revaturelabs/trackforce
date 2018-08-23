@@ -8,8 +8,35 @@ import com.revature.entity.TfAssociate;
 public interface AssociateDao {
 
 	TfAssociate getAssociate(Integer associateid);
+
 	List<TfAssociate> getAllAssociates();
 	
+	List<TfAssociate> getNAssociates();
+	
+	Object getCountUndeployedMapped();
+	
+	Object getCountUndeployedUnmapped();
+	
+	Object getCountDeployedMapped();
+	
+	Object getCountDeployedUnmapped();
+
+	Object getCountUnmappedTraining();
+	
+	Object getCountUnmappedOpen();
+	
+	Object getCountUnmappedSelected();
+	
+	Object getCountUnmappedConfirmed();
+	
+	Object getCountMappedTraining();
+	
+	Object getCountMappedReserved();
+	
+	Object getCountMappedSelected();
+	
+	Object getCountMappedConfirmed();
+
 	boolean updateAssociatePartial(TfAssociate associate);
 
 	boolean approveAssociate(int associateId);
@@ -27,4 +54,6 @@ public interface AssociateDao {
 	boolean updateAssociate(TfAssociate associate);
 
 	boolean updateAssociates(List<TfAssociate> associate);
+
+	<T> T countMappedAssociatesByValue(String column, T value, Integer mappedStatus);
 }

@@ -24,17 +24,15 @@ import { InterviewsComponent } from '../components/interviews-view/interviews-vi
 import { TrainerViewComponent } from '../components/trainer-view/trainer-view.component';
 import { DeployedComponent } from '../components/deployed/deployed.component';
 import { UndeployedComponent } from '../components/undeployed/undeployed.component';
+import { InvalidSessionComponent } from '../components/invalid-session/invalid-session.component';
+import { SalesforceComponent } from '../components/salesforce/salesforce.component';
+
 
 /**
  * Place paths here
  */
 
 export const appRoutes: Routes = [
-  // {
-  //   path: 'home',
-  //   canActivate: [AuthGuard],
-  //   component: HomeComponent
-  // },
   {
     path: '',
     redirectTo: '/login',
@@ -45,94 +43,122 @@ export const appRoutes: Routes = [
     component: LoginComponent
   },
   {
+    path: 'invalid-session',
+    component: InvalidSessionComponent
+  },
+  {
     path: 'client-listing',
     canActivate: [AuthGuard],
-    component: ClientListComponent
+    component: ClientListComponent,
+    data: { expectedRoles: [1,3,4] }
   },
   {
     path: 'client-mapped/:id',
     canActivate: [AuthGuard],
-    component: ClientMappedComponent
+    component: ClientMappedComponent,
+    data: { expectedRoles: [1,3,4] }
   },
   {
     path: 'associate-listing',
     canActivate: [AuthGuard],
-    component: AssociateListComponent
+    component: AssociateListComponent,
+    data: { expectedRoles: [1,2,3,4] }
   },
   {
     path: 'associate-listing/:CliOrCur/:name/:mapping/:status',
     canActivate: [AuthGuard],
-    component: AssociateListComponent
+    component: AssociateListComponent,
+    data: { expectedRoles: [1,2,3,4] }
   },
   {
     path: 'batch-listing',
     canActivate: [AuthGuard],
-    component: BatchListComponent
+    component: BatchListComponent,
+    data: { expectedRoles: [1,2,3,4] }
   },
   {
     path: 'batch-details/:id',
     canActivate: [AuthGuard],
-    component: BatchDetailsComponent
+    component: BatchDetailsComponent,
+    data: { expectedRoles: [1,2,3,4] }
   },
   {
     path: 'form-comp/:id',
     canActivate: [AuthGuard],
-    component: FormComponent
+    component: FormComponent,
+    data: { expectedRoles: [1,2,3,4] }
   },
   {
     path: 'create-user',
     canActivate: [AuthGuard],
-    component: CreateUserComponent
+    component: CreateUserComponent,
+    data: { expectedRoles: [1,3,4] }
   },
   {
     path: 'app-home',
     canActivate: [AuthGuard],
-    component: HomeComponent
+    component: HomeComponent,
+    data: { expectedRoles: [1,3,4] }
   },
   {
     path: 'predictions',
     canActivate: [AuthGuard],
-    component: PredictionsComponent
+    component: PredictionsComponent,
+    data: { expectedRoles: [1,3,4] }
   },
   {
     path: 'skillset/:id',
     canActivate: [AuthGuard],
-    component: SkillsetComponent
+    component: SkillsetComponent,
+    data: { expectedRoles: [1,3,4] }
   },
   {
     path: 'associate-view',
     canActivate: [AuthGuard],
-    component: AssociateViewComponent
+    component: AssociateViewComponent,
+    data: { expectedRoles: [5] }
   },
   {
     path: 'myinterview-view',
     canActivate: [AuthGuard],
-    component: MyInterviewComponent
+    component: MyInterviewComponent,
+    data: { expectedRoles: [5] }
   },
   {
-    path: 'interview-details',
+    path: 'interview-details/:id',
     canActivate: [AuthGuard],
-    component: InterviewDetailsComponent
+    component: InterviewDetailsComponent,
+    data: { expectedRoles: [1,2,3,4,5] }
   },
   {
     path: 'interviews',
     canActivate: [AuthGuard],
-    component: InterviewsComponent
+    component: InterviewsComponent,
+    data: { expectedRoles: [1,2,3,4,5] }
   },
   {
     path: 'trainer-view',
     canActivate: [AuthGuard],
-    component: TrainerViewComponent
+    component: TrainerViewComponent,
+    data: { expectedRoles: [2] }
   },
   {
     path: 'deployed/:id',
     canActivate: [AuthGuard],
-    component: DeployedComponent
+    component: DeployedComponent,
+    data: { expectedRoles: [1,3,4] }
   },
   {
     path: 'undeployed/:id',
     canActivate: [AuthGuard],
-    component: UndeployedComponent
+    component: UndeployedComponent,
+    data: { expectedRoles: [1,3,4] }
+  },
+  {
+    path: 'salesforce',
+    canActivate: [AuthGuard],
+    component: SalesforceComponent,
+    data: {expectedRoles: [1]}
   },
   {
     // must be LAST in this array because this matches all other paths (fallback)

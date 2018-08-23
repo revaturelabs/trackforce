@@ -8,6 +8,7 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { User } from '../../models/user.model';
 import { ActivatedRoute } from '@angular/router';
 import { Curriculum } from '../../models/curriculum.model';
+import { MatSpinner } from '@angular/material';
 
 /**
  * Component for the Associate List page
@@ -15,34 +16,38 @@ import { Curriculum } from '../../models/curriculum.model';
  */
 @AutoUnsubscribe
 @Component({
-  selector: "app-associate-list",
-  templateUrl: "./associate-list.component.html",
-  styleUrls: ["./associate-list.component.css"]
+  selector: 'app-associate-list',
+  templateUrl: './associate-list.component.html',
+  styleUrls: ['./associate-list.component.css']
 })
-
 export class AssociateListComponent implements OnInit {
   //our collection of associates and clients
   public associates: Associate[];
   public clients: Client[];
   curriculums: Set<string>; //stored unique curriculums
+  public isDataReady: boolean = false;
 
   //used for filtering
-  searchByStatus = "";
-  searchByClient = "";
-  searchByText = "";
-  searchByCurriculum = "";
-  searchByVerification = "";
+  searchByStatus = '';
+  searchByClient = '';
+  searchByText = '';
+  searchByCurriculum = '';
+  searchByVerification = '';
 
   //status/client to be updated
   updateShow = false;
-  updateStatus = "";
-  updateClient= "";
+  updateStatus = '';
+  updateClient = '';
   updateVerification: string;
+  updating = false;
   updated = false;
+
+  updateSuccessful: boolean;
+  updateErrored: boolean;
 
   //used for ordering of rows
   desc = false;
-  sortedColumn = "";
+  sortedColumn = '';
 
   //user access data - controls what they can do in the app
   user: User;
@@ -54,7 +59,7 @@ export class AssociateListComponent implements OnInit {
    * @param rs
    */
   constructor(
-    private associateService: AssociateService,//TfAssociate,
+    private associateService: AssociateService, //TfAssociate,
     private clientService: ClientService,
     private rs: RequestService,
     private activated: ActivatedRoute
@@ -63,48 +68,80 @@ export class AssociateListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem("currentUser"));
-    if (this.user.role === 1 || this.user.role === 3 ||this.user.role===4) {
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    //EDIT EricS 8/8/18: added 'this.user &&' below to prevent null pointers in Jasmine Test. It would appear that this.user = null during testing.
+    if (
+      this.user &&
+      (this.user.role === 1 || this.user.role === 3 || this.user.role === 4)
+    ) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
-    this.getAllAssociates(); //grab associates and clients from back end
+    this.getNAssociates();
+    this.getAllAssociates(); //TODO: change method to not use local storage
     this.getClientNames();
 
     //if navigating to this page from clicking on a chart of a different page, set default filters
     const paramMap = this.activated.snapshot.paramMap;
-    const CliOrCur = paramMap.get("CliOrCur");
-    const name = paramMap.get("name");
-    const mapping = paramMap.get("mapping");
-    const status = paramMap.get("status");
-    if (CliOrCur) {//if values passed in, search by values
-      if (CliOrCur === "client") {
+    const CliOrCur = paramMap.get('CliOrCur');
+    const name = paramMap.get('name');
+    const mapping = paramMap.get('mapping');
+    const status = paramMap.get('status');
+    if (CliOrCur) {
+      //if values passed in, search by values
+      if (CliOrCur === 'client') {
         this.searchByClient = name;
-      }
-      else if (CliOrCur === "curriculum") {
+      } else if (CliOrCur === 'curriculum') {
         this.searchByCurriculum = name;
       }
-      this.searchByStatus = mapping.toUpperCase() + ": " + status.toUpperCase();
+      this.searchByStatus = mapping.toUpperCase() + ': ' + status.toUpperCase();
     }
+    this.updateErrored = false;
+    this.updateSuccessful = false;
+  }
+
+  getNAssociates() {
+    this.associateService.getNAssociates().subscribe(data => {
+      this.associates = data;
+      for (const associate of this.associates) {
+        //get our curriculums from the associates
+        if (
+          associate.batch !== null &&
+          associate.batch.curriculumName !== null
+        ) {
+          this.curriculums.add(associate.batch.curriculumName.name);
+        }
+        if (associate.batch && associate.batch.batchName === 'null') {
+          associate.batch.batchName = 'None';
+        }
+      }
+      this.curriculums.delete('');
+      this.curriculums.delete('null');
+    });
   }
 
   /**
    * Set our array of all associates
    */
   getAllAssociates() {
-
-      this.associates = JSON.parse(localStorage.getItem('currentAssociates'));
-      console.log(this.associates);
-      for (const associate of this.associates) {//get our curriculums from the associates
-        if(associate.batch!==null && associate.batch.curriculumName!==null){
+    this.associateService.getAllAssociates().subscribe(data => {
+      this.associates.length = 0;
+      this.associates = data;
+      for (const associate of this.associates) {
+        //get our curriculums from the associates
+        if (
+          associate.batch !== null &&
+          associate.batch.curriculumName !== null
+        ) {
           this.curriculums.add(associate.batch.curriculumName.name);
         }
         if (associate.batch && associate.batch.batchName === 'null') {
-          associate.batch.batchName = 'None'
+          associate.batch.batchName = 'None';
         }
       }
-      this.curriculums.delete("");
-      this.curriculums.delete("null");
-
+      this.curriculums.delete('');
+      this.curriculums.delete('null');
+      this.isDataReady = true;
+    });
   }
 
   /**
@@ -116,35 +153,54 @@ export class AssociateListComponent implements OnInit {
     });
   }
 
-
-
   /**
    * Bulk edit feature to update associate's verification, statuses and clients.
    */
   updateAssociates() {
+
+    this.updateErrored = false;
+    this.updateSuccessful = false;
+    this.updating = true;
     const ids: number[] = [];
-    const self = this;
 
     let associateList: Associate[] = [];
-    for (const a of this.associates) { //grab the checked ids
-      const check = <HTMLInputElement>document.getElementById("" + a.id);
+    for (const a of this.associates) {
+      //grab the checked ids
+      const check = <HTMLInputElement>document.getElementById('' + a.id);
       if (check != null && check.checked) {
         ids.push(a.id);
-        a.user.isApproved = 1;
-        console.log(a);
+        // This line USED to be used to automatically approve an account.
+        // Logan commented this out 08/09/2018 to check how this functionality should be implemented.
+        //a.user.isApproved = 1;
+        associateList.push(a);
       }
-      associateList.push(a);
     }
-    this.associates = associateList;
-    console.log(this.associates);
-    localStorage.setItem("currentAssociates", JSON.stringify(this.associates));
-    if(this.updateVerification==="") {this.updateVerification="0";}
-    if(this.updateStatus==="") {this.updateStatus="0";}
-    if(this.updateClient==="") {this.updateClient="0";}
-    this.associateService.updateAssociates(ids, Number(this.updateVerification), Number(this.updateStatus), Number(this.updateClient)).subscribe(
-      data => {
-        self.getAllAssociates(); //refresh the associates to reflect the updates made on DB
-        self.updated = true;
-      });
+
+    if (this.updateVerification === '') {
+      this.updateVerification = '0';
+    }
+    if (this.updateStatus === '') {
+      this.updateStatus = '0';
+    }
+    if (this.updateClient === '') {
+      this.updateClient = '0';
+    }
+    this.associateService
+      .updateAssociates(
+        ids,
+        Number(this.updateVerification),
+        Number(this.updateStatus),
+        Number(this.updateClient)
+      )
+      .subscribe(
+        data => {
+          this.getAllAssociates(); //refresh the associates to reflect the updates made on DB
+          this.updated = true;
+          this.updateSuccessful = true;
+        }, 
+        error => {
+          this.updateErrored = true;
+        });
+        this.updating = false;
   }
 }

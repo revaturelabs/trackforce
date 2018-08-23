@@ -1,44 +1,48 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6">
-      <canvas *ngIf="isDataReady && !isDataEmpty" baseChart id="bar"
-              [chartType]="chartType"
-              [datasets]="dataSets"
-              [labels]="statusNames"
-              [options]="options"
-              [colors]="mappedColors">
-      </canvas>
+      <div *ngIf="isDataReady">
+        <h3>{{ (batch && batch.batchName) ? batch.batchName : "" }}</h3>
+      </div>
       <h3 class="data-status" *ngIf="isDataReady && isDataEmpty">
         No Associates Found
       </h3>
-      <h3 class="data-status" *ngIf="!isDataReady">
-        Loading ...
-      </h3>
+      <div class="col-md-offset-6 vertical-center" *ngIf="!isDataReady">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </div>
+      <canvas *ngIf="isDataReady && !isDataEmpty" baseChart id="bar" [chartType]="chartType" [datasets]="dataSets" [labels]="statusNames"
+        [options]="options" [colors]="mappedColors">
+      </canvas>
     </div>
     <div class="col-md-6">
-      <h3>Associates</h3>
-      <table class="table table-striped table-hover table-bordered">
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Marketing Status</th>
-          <th>Client</th>
-        </tr>
-        </thead>
-        <tbody>
-        <ng-container *ngIf="associates">
-          <tr *ngFor="let associate of associates | orderBy:'id'">
-            <td><a [routerLink]="['/form-comp',associate.id]">{{associate.id}}</a></td>
-            <td>{{associate.firstName}}</td>
-            <td>{{associate.lastName}}</td>
-            <td>{{associate.marketingStatus.name}}</td>
-            <td>{{associate.client}}</td>
-          </tr>
-        </ng-container>
-        </tbody>
-      </table>
+        <h3>Associates</h3>
+        <table class="table table-striped table-hover table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Marketing Status</th>
+              <th>Client</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="isDataReady">
+              <tr *ngFor="let associate of associates | orderBy:'id'">
+                <td>
+                  <a [routerLink]="" (click)="goToFormComponent(associate.id)">{{associate.id}}</a>
+                </td>
+                <td><span *ngIf="associate && associate.firstName">{{associate.firstName}}</span></td>
+                <td><span *ngIf="associate && associate.lastName">{{associate.lastName}}</span></td>
+                <td><span *ngIf="associate && associate.marketingStatus && associate.marketingStatus.name">{{associate.marketingStatus.name}}</span></td>
+                <td><span *ngIf="associate && associate.client && associate.client.name">{{associate.client.name}}</span></td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+        <div *ngIf="!isDataReady" class="center-div">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
     </div>
   </div>
 </div>

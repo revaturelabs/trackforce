@@ -1,0 +1,10 @@
+<div class="form-group pickerGroup" [style.max-width]="width">
+    <div class='input-group date'>
+        <input type='text' [(ngModel)]="stringDate" class="form-control" (change)="manualEntry()"/>
+        <span class="input-group-addon btn" (click)=toggleCalendarView()>
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>
+    <div class="alert alert-danger form-group" *ngIf=displayErrorInvalidDate id="error-date">Invalid Date.</div>
+    <owl-date-time-inline [(ngModel)]="date" (click)="dateClicked()" *ngIf="calendarView"></owl-date-time-inline>
+</div>

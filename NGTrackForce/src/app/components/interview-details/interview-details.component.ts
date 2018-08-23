@@ -1,11 +1,12 @@
-
 import { Component, OnInit, Input } from '@angular/core';
-import { MyInterviewComponent } from '../../components/myinterview-view/myinterview-view.component';
+import { MyInterviewComponent } from '../myinterview-view/myinterview-view.component';
 import { ActivatedRoute } from '@angular/router';
 
 import { InterviewService } from '../../services/interview-service/interview.service';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { Associate } from '../../models/associate.model';
+import { Interview } from '../../models/interview.model';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-interview-details',
@@ -14,41 +15,109 @@ import { Associate } from '../../models/associate.model';
 })
 export class InterviewDetailsComponent implements OnInit {
 
-
-
-  public interview: any = {};
-  // public i:number;
+  user: User;
+  public interview: Interview;
   public associate: Associate;
-  // public id: number;
+  isDataReady: boolean;
+  isDataEmpty: boolean;
+  promptClassName: string = "col-sm-4 alert alert-success";
+  promptMessage: string = "Succes-interview updated";
+  promptToggle: boolean = false;
+  isDisabledAssociate : boolean = false;
+  isDisabledClient : boolean = false;
+  isDisabledQuestions : boolean = false;
+  isDisabledSkillsAndQuestions : boolean = false;
   
-  constructor(private activated: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private interviewService: InterviewService,
+    private authService: AuthenticationService) { }
 
 
   ngOnInit() {
-     
-    // this.i = +this.activated.snapshot.paramMap.get('i');
-    // this.id = +this.activated.snapshot.paramMap.get('id');
-    const u = JSON.parse(sessionStorage.getItem("interviews"));
-    if(sessionStorage.getItem("changedin") === null)
-      {
-    // this.interview = u[this.i];
-    }
-    else
-      {
-      this.interview = JSON.parse(sessionStorage.getItem("changedin"));
-    }
+    this.route.params.subscribe(params =>{
+      const interviewId: number = +params['id'];
+      this.isDataReady = false;
 
-  //User object containing need data
-
+      this.interviewService.getInterviewById(interviewId)
+        .subscribe(data =>{
+          this.interview = data;
+          this.isDataEmpty = this.interview == null;
+          this.isDataReady = true;
+        });
+    });
   }
 
   commitchanges()
   {
-    // store session the remaining ones
-    sessionStorage.setItem("changedin", JSON.stringify(this.interview));
+    this.promptToggle = false;
+    this.interviewService.updateInterview(this.interview).subscribe(
+      response => {
+        this.promptClassName = "col-sm-4 alert alert-success";
+        this.promptMessage = "Success-interview updated";
+        this.promptToggle = true;
+      }, 
+      error => {
+        this.promptClassName = "col-sm-4 alert alert-danger";
+        this.promptMessage = "Failed-interview not updated";
+        this.promptToggle = true;
+        console.log("Error: ",error);
+      }
+    );
   }
 
+  isDisabledAssociateFeedback()
+  {
+    this.user = this.authService.getUser();
+    if ( this.user.role == 3 )
+    {
+      this.isDisabledAssociate = true;
+    }
+    else
+    {
+      this.isDisabledAssociate = false;
+    }
+    return this.isDisabledAssociate;
+  }
 
+  isDisabledClientFeedback()
+  {
+    this.user = this.authService.getUser();
+    if ( this.user.role == 3 )
+    {
+      this.isDisabledClient = false;
+    }
+    else
+    {
+      this.isDisabledClient = true;
+    }
+    return this.isDisabledClient;
+  }
 
+  isDisabledInterviewQuestions()
+  {
+    this.user = this.authService.getUser();
+    if ( this.user.role == 3 )
+    {
+      this.isDisabledQuestions = true;
+    }
+    else
+    {
+      this.isDisabledQuestions = false;
+    }
+    return this.isDisabledQuestions;
+  }
+
+  isDisabledExpectedSkillsAndQuestions()
+  {
+    this.user = this.authService.getUser();
+    if ( this.user.role == 3 )
+    {
+      this.isDisabledSkillsAndQuestions = false;
+    }
+    else
+    {
+      this.isDisabledSkillsAndQuestions = true;
+    }
+    return this.isDisabledSkillsAndQuestions;
+  }
 
 }

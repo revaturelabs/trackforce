@@ -35,7 +35,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 @Table(name="TF_TRAINER", schema="ADMIN")
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfTrainer implements Serializable{
  
 	private static final long serialVersionUID = 5149341380971468990L;
@@ -59,7 +60,7 @@ public class TfTrainer implements Serializable{
 	private String lastName;
 	
 	@XmlElement
-	@OneToMany(mappedBy = "trainer")
+	@OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER) // 1806_Chris_P: This needs to be EAGER for TrainerResource.getBatchFromTrainer() to work.
 	@JsonIgnore
 	private List<TfBatch> primary;
 	

@@ -9,6 +9,8 @@ import { ChartsModule } from 'ng2-charts';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { MaterialModule } from './material.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 ///
 //  COMPONENTS
 ///
@@ -30,6 +32,9 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PredictionsComponent } from './components/predictions/predictions.component';
 import { MyInterviewComponent } from './components/myinterview-view/myinterview-view.component';
 import { InterviewsComponent } from './components/interviews-view/interviews-view.component';
+import { DateTimePickerComponent } from './components/datetimepicker/datetimepicker.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+
 ///
 //  SERVICES
 ///
@@ -42,30 +47,41 @@ import { BatchService } from './services/batch-service/batch.service';
 import { CurriculumService } from './services/curriculum-service/curriculum.service';
 import { DataSyncService } from './services/datasync-service/data-sync.service';
 import { UserService } from './services/user-service/user.service';
-import { InterviewService } from './services/interview-service/interview.service'
+import { InterviewService } from './services/interview-service/interview.service';
+import { NavbarService } from './services/navbar-service/navbar.service';
 
 ///
-//  FILTERS
+//  FILTERS/PIPES
 ///
-
 import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
+import { AssociateSearchByStatusPipe } from './pipes/associate-search-by-status-pipe/status-pipe.pipe';
+import { AssociateSearchByClientPipe } from './pipes/associate-search-by-client-pipe/client-pipe.pipe';
 
 ///
 //  SECURITY
 ///
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { InvalidSessionRerouteInterceptor } from './interceptors/invalidSessionReroute.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 
 ///
 //  CONSTANTS
 ///
 import { appRoutes } from './routing/routes';
-import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing-helpers/router-stubs';
+import {
+  RouterLinkStubDirective,
+  RouterOutletStubComponent
+} from './testing-helpers/router-stubs';
 import { InterviewDetailsComponent } from './components/interview-details/interview-details.component';
 import { TrainerViewComponent } from './components/trainer-view/trainer-view.component';
 import { TrainerService } from './services/trainer-service/trainer.service';
 import { DeployedComponent } from './components/deployed/deployed.component';
 import { UndeployedComponent } from './components/undeployed/undeployed.component';
+import { InvalidSessionComponent } from './components/invalid-session/invalid-session.component';
+import { HighlightInterviewDirective } from './directives/highlight-interview.directive';
+import { SalesforceComponent } from './components/salesforce/salesforce.component';
+
+
 
 @NgModule({
   declarations: [
@@ -91,19 +107,28 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     PredictionsComponent,
     MyInterviewComponent,
     InterviewDetailsComponent,
-  	InterviewsComponent,
-  	TrainerViewComponent,
-  	DeployedComponent,
-  	UndeployedComponent
+    InterviewsComponent,
+    TrainerViewComponent,
+    DeployedComponent,
+    UndeployedComponent,
+    DateTimePickerComponent,
+    AssociateSearchByStatusPipe,
+    AssociateSearchByClientPipe,
+    InvalidSessionComponent,
+    HighlightInterviewDirective,
+    SalesforceComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, {useHash: true}),
     ChartsModule,
     Ng2OrderModule,
-	  BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   providers: [
     AssociateService,
@@ -114,15 +139,16 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
     BatchService,
     UserService,
     CurriculumService,
-    // DataSyncService,
     InterviewService,
     AuthGuard,
     TrainerService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: JwtInterceptor,
-      multi: true
-    }],
+    NavbarService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: InvalidSessionRerouteInterceptor, multi: true },
+  ],
+  exports: [
+    MatProgressSpinnerModule
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,65 +1,81 @@
 <div class="container">
-  <div>
-    <div>
-      <div class="container">
-        <div *ngIf='errMsg' class="alert alert-danger">
-          {{errMsg}}
-        </div>
-        <div *ngIf='succMsg' class="alert alert-success">
-          {{succMsg}}
-        </div>
-        <h3>Your Information</h3>
-        <div class="table-responsive info">
-          <table class="table table-hover table-bordered">
-            <tbody>
-              <tr>
-                <td>Associate ID</td>
-                <td>{{associate.id}}</td>
-              </tr>
-              <tr>
-                <td>First Name</td>
-                <td>{{associate.firstName}}</td>
-              </tr>
-              <tr>
-                <td>Last Name</td>
-                <td>{{associate.lastName}}</td>
-              </tr>
-              <tr>
-                <td>Marketing Status</td>
-                <td>{{associate.marketingStatus.name}}</td>
-              </tr>
-              <tr>
-                <td>Batch Name</td>
-                <td>{{associate.batch.batchName}}</td>
-              </tr>
-              <tr>
-                <td>Client Name</td>
-                <td>{{associate.client.name}}</td>
-              </tr>
-              <tr>
-                <td>End Client Name</td>
-                <td>{{associate.endClient.name}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <button type="button" class="btn btn-primary" (click)="toggleForm()">Update Your Info</button>
-
-        <div class="container" *ngIf="formOpen" class="toggledContainer">
-          <form>
-            <label for="firstname">First Name:</label>
-            <input type="text" [(ngModel)]='newFirstName'>
-            <br>
-            <label for="lastname">Last Name:</label>
-            <input type="text" [(ngModel)]='newLastName'>
-
-            <input type="button" value="Save" (click)='updateInfo()'>
-          </form>
-
-        </div>
-
+  <div class="row">
+    <div id="left">
+      <div *ngIf='errMsg' class="alert alert-danger">
+        {{errMsg}}
+      </div>
+      <div *ngIf='succMsg' class="alert alert-success">
+        {{succMsg}}
+      </div>
+      <h3>Your Information</h3>
+      <div class="table-responsive info">
+        <table class="table table-hover table-bordered">
+          <tbody>
+            <tr>
+              <td>Associate ID</td>
+              <td *ngIf="isDataReady">{{ (associate && associate.id) ? associate.id : ""}}</td>
+            </tr>
+            <tr>
+              <td>First Name</td>
+              <td *ngIf="isDataReady">{{ (associate && associate.firstName) ? associate.firstName : ""}}</td>
+            </tr>
+            <tr>
+              <td>Last Name</td>
+              <td *ngIf="isDataReady">{{ (associate && associate.lastName) ? associate.lastName : ""}}</td>
+            </tr>
+            <tr>
+              <td>Marketing Status</td>
+              <td *ngIf="isDataReady">{{ (associate && associate.marketingStatus && associate.marketingStatus.name ) ? associate.marketingStatus.name
+                : ""}}</td>
+            </tr>
+            <tr>
+              <td>Batch Name</td>
+              <td *ngIf="isDataReady">{{ (associate && associate.batch && associate.batch.batchName) ? associate.batch.batchName
+                : ""}}</td>
+            </tr>
+            <tr>
+              <td>Client Name</td>
+              <td *ngIf="isDataReady">{{ (associate && associate.client && associate.client.name) ? associate.client.name
+                : ""}}
+              </td>
+            </tr>
+            <tr>
+              <td>End Client Name</td>
+              <td *ngIf="isDataReady">{{ (associate && associate.endClient && associate.endClient.name ) ? associate.endClient.name
+                : ""}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+    <div id="right">
+      <div class="center-div" *ngIf="!isDataReady">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <button type="button" class="btn btn-primary" (click)="toggleForm()">Update Your Info</button>
+
+      <div class="container" *ngIf="formOpen" class="toggledContainer" style="padding: 10px">
+        <form ng-form="changeName">
+          <table>
+          <tr>
+            <td style="padding: 5px"><label for="firstname">First Name:</label></td>
+            <td style="padding: 5px"><input type="text" [(ngModel)]='newFirstName' name="newFirstName"></td>
+          </tr>
+          <tr>
+            <td style="padding: 5px"><label for="lastname">Last Name:</label></td>
+            <td style="padding: 5px"><input type="text" [(ngModel)]='newLastName' name="newLastName"></td>
+          </tr>
+          <tr>  
+            <td style="padding: 10px"><input type="button" class="btn btn-primary" value="Save" (click)='updateInfo()'></td>
+        </tr>  
+        </table>
+        </form>
+      </div>
+    </div>
+    <div class="col-sm-6"></div>
   </div>
 </div>

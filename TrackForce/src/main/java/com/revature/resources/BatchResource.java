@@ -2,6 +2,7 @@ package com.revature.resources;
 
 import static com.revature.utils.LogUtil.logger;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -20,6 +21,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.revature.daoimpl.BatchDaoImpl;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.services.AssociateService;
@@ -79,7 +84,7 @@ public class BatchResource {
 		
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 
 		Status status = null;
@@ -132,7 +137,7 @@ public class BatchResource {
 		
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
 		int role = Integer.parseInt(payload.getId());
@@ -150,4 +155,166 @@ public class BatchResource {
 		return Response.status(status).entity(associates).build();
 	}
 
+	/**
+	 * 1806_Chris_P:
+	 * Returns a list of batches related to a selected ciriculum/technology on the Predictions page.
+	 * this is used for the Batch Details page.
+	 */
+	@GET
+	@ApiOperation(value = "Returns associates for batch", notes = "Returns list.")
+	@Path("/details")
+	public Response getBatchDetails(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
+							@QueryParam("courseName") String courseName, @HeaderParam("Authorization") String token) {
+		logger.info("getBatchDetails()...");
+		Claims payload = JWTService.processToken(token);
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		}
+		Status status = null;
+		status = Status.OK;
+		int role = Integer.parseInt(payload.getId());
+
+	/*	Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+
+		// Verifies user's role has proper authority to perform this action
+		if (authorizedRoles.contains(role)) {
+			// results and status set in here
+			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
+		} else {
+			status = Status.FORBIDDEN;
+		}*/
+		
+		
+		JSONObject batchDetails = new JSONObject();
+		JSONArray batchesJ = new JSONArray();
+
+		BatchDaoImpl bd = new BatchDaoImpl();
+		List<TfBatch> batches = bd.getBatchesForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
+		
+		for (TfBatch batch : batches) {
+			int unmappedCount = getUnmappedCount(batch.getAssociates());
+			
+			JSONObject b = new JSONObject();
+			b.put("batchName", batch.getBatchName());
+			b.put("startDate", (Long)batch.getStartDate().getTime());
+			b.put("endDate", (Long)batch.getEndDate().getTime());
+			b.put("associateCount", unmappedCount);
+			batchesJ.put(b);
+		}
+		batchDetails.put("courseBatches", batchesJ);
+		
+		return Response.status(status).entity(batchDetails.toString()).build();
+	}
+	
+	/**
+	 * 1806_Austin_M 
+	 * Iterate through set of associates and increment count based on associate status.
+	 * 
+	 * @param associates
+	 * @return count of associates with 'unmapped' status
+	 */
+	public Integer getUnmappedCount(Set<TfAssociate> associates) {
+		int n = 0;
+		
+		for(TfAssociate a : associates) {
+			if(a.getMarketingStatus().getId() > 5)
+				n++;
+		}
+			
+		return n;
+	}
+
+	/**
+	 * 1806_Chris_P
+	 * Super similar to the previous method, except that this one only returns the aggregate count of all associates in
+	 * a particular curriculum selected from the Predictions Page.
+	 */
+	@GET
+	@ApiOperation(value = "Returns associates for batch", notes = "Returns list of associates for a specific batch based on batch id.")
+	@Path("/countby")
+	public Response getBatchCounts(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
+							@QueryParam("courseName") String courseName, @HeaderParam("Authorization") String token) {
+		logger.info("getBatchAssociateCounts...");
+
+		Claims payload = JWTService.processToken(token);
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		}
+		Status status = null;
+		status = Status.OK;
+		int role = Integer.parseInt(payload.getId());
+		
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+		if (authorizedRoles.contains(role)) {
+			status = Status.OK;
+		} else {
+			status = Status.FORBIDDEN;
+		}
+		
+		JSONObject associateCount = new JSONObject();
+		BatchDaoImpl bd = new BatchDaoImpl();
+		
+		Object count = bd.getBatchCountsForPredictions(courseName, new Timestamp(startDate), new Timestamp(endDate));
+		System.out.println("===================== count is: " + count);
+		
+		Long lCount = Long.valueOf(count.toString());
+		associateCount.put("associateCount", lCount);
+		return Response.status(status).entity(associateCount.toString()).build();
+	}
+	
+	//1806_Andrew_H gets all batches within a certain date range, used in batch-details
+	@GET
+	@ApiOperation(value = "Returns associates for batch", notes = "Returns list.")
+	@Path("/withindates")
+	public Response getBatchesWithinDates(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
+						@HeaderParam("Authorization") String token) {
+		logger.info("getBatchesWithinDates()...");
+		Claims payload = JWTService.processToken(token);
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		}
+		Status status = null;
+		status = Status.OK;	
+		int role = Integer.parseInt(payload.getId());
+
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+		if (authorizedRoles.contains(role)) {
+			status = Status.OK;
+		} else {
+			status = Status.FORBIDDEN;
+		}
+		
+		
+		System.out.println(new Timestamp(endDate).toString());
+		BatchDaoImpl bd = new BatchDaoImpl();
+		List<TfBatch> batches = bd.getBatchesWithinDates(new Timestamp(startDate), new Timestamp(endDate));
+		
+
+		return Response.status(status).entity(batches).build();
+
+	}
+	
+	/**
+	 * 1806_Kevin_C
+	 * Gets a batch with the given id
+	 */
+	@GET
+	@ApiOperation(value = "Returns batch information given a batch id", notes = "Returns batch information based on batch id.")
+	@Path("/batch/{id}")
+	public Response getBatchInfo(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
+		logger.info("getBatchInformation...");
+
+		Claims payload = JWTService.processToken(token);
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		Status status = null;
+		status = Status.OK;
+		
+		BatchDaoImpl bd = new BatchDaoImpl();
+		TfBatch batch = batchService.getBatchById(id);
+		
+		
+		return Response.status(status).entity(batch).build();
+	}
 }

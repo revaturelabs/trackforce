@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
-import { Associate } from "../../models/associate.model";
-import { environment } from "../../../environments/environment";
-import { Interview } from "../../models/interview.model";
-import {GraphCounts} from "../../models/graph-counts";
+import { Associate } from '../../models/associate.model';
+import { environment } from '../../../environments/environment';
+import { Interview } from '../../models/interview.model';
+import { GraphCounts } from '../../models/graph-counts';
 
 /**
  * Service for retrieving and updating data relating to associates.
@@ -13,9 +13,9 @@ import {GraphCounts} from "../../models/graph-counts";
  */
 @Injectable()
 export class AssociateService {
-  private baseURL: string = environment.url + "TrackForce/associates";
-
-  constructor(private http: HttpClient) { }
+  private baseURL: string = environment.url + 'TrackForce/associates';
+  private nassURL: string = this.baseURL + '/nass';
+  constructor(private http: HttpClient) {}
 
   /**
    *
@@ -26,6 +26,20 @@ export class AssociateService {
     return this.http.get<Associate[]>(url);
   }
 
+  /*
+    gets initial associates loaded
+  */
+  getNAssociates(): Observable<Associate[]> {
+    return this.http.get<Associate[]>(this.nassURL);
+  }
+  /**
+   * get the count of the associates to display in the pie charts on the home page
+   */
+  getCountAssociates(): Observable<number[]> {
+    const url: string = this.baseURL + '/countAssociates';
+    return this.http.get<number[]>(url);
+  }
+
   /**
    *
    * Get specific associate by user id
@@ -33,7 +47,16 @@ export class AssociateService {
    */
   getAssociate(id: number) {
     const url: string = this.baseURL + '/' + id;
-    console.log(url);
+    return this.http.get<Associate>(url);
+  }
+
+  /**
+   *
+   * Get specific associate by associate id
+   * @param id - the user id of the user object of an associate to retrieve
+   */
+  getByAssociateId(id: number) {
+    const url: string = this.baseURL + '/associates/' + id;
     return this.http.get<Associate>(url);
   }
 
@@ -45,7 +68,7 @@ export class AssociateService {
    * @param clientId - the client id that the associates will be mapped to
    */
   updateAssociates(ids: number[], verification: number, marketingStatusId: number, clientId: number): Observable<boolean> {
-    const url: string = this.baseURL + "?marketingStatusId=" + marketingStatusId + "&clientId=" + clientId + "&verification=" + verification;
+    const url: string = this.baseURL + '?marketingStatusId=' + marketingStatusId + '&clientId=' + clientId + '&verification=' + verification;
     return this.http.put<boolean>(url, ids);
   }
 
@@ -55,7 +78,7 @@ export class AssociateService {
    * @param associate - the associate object with the updated values
    */
   updateAssociate(associate: any) {
-    const url: string = this.baseURL + "/" + associate.id;
+    const url: string = this.baseURL + '/' + associate.id;
     return this.http.put<boolean>(url, associate);
   }
 
@@ -64,13 +87,12 @@ export class AssociateService {
   }
 
   approveAssociate(associateID: number) {
-    const url: string = this.baseURL + "/" + associateID + "/approve";
+    const url: string = this.baseURL + '/' + associateID + '/approve';
     return this.http.put<boolean>(url, associateID);
   }
 
   getUndeployedAssociates(mappedOrUnmapped: string): Observable<GraphCounts[]> {
-    const url: string = this.baseURL + "/undeployed/" + mappedOrUnmapped;
+    const url: string = this.baseURL + '/undeployed/' + mappedOrUnmapped;
     return this.http.get<GraphCounts[]>(url);
   }
-
 }

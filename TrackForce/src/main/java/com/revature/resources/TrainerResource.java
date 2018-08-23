@@ -2,18 +2,22 @@ package com.revature.resources;
 
 import static com.revature.utils.LogUtil.logger;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.NoResultException;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
-import com.revature.entity.TfClient;
 import com.revature.entity.TfTrainer;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
@@ -65,7 +69,7 @@ public class TrainerResource {
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 		if (payload == null || payload.getId().equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
 				trainer = trainerService.getTrainer(id);
@@ -91,7 +95,7 @@ public class TrainerResource {
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 		if (payload == null || payload.getId().equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
 				trainer = trainerService.getTrainer(id);
@@ -116,7 +120,7 @@ public class TrainerResource {
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 		if (payload == null || payload.getId().equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
 				trainer = trainerService.getTrainerByUserId(id);
@@ -134,14 +138,14 @@ public class TrainerResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "get all trainers")
-	public Response getAllTrainers(@HeaderParam("Authorization") String token) throws IOException {
+	public Response getAllTrainers(@HeaderParam("Authorization") String token) {
 		logger.info("getAllClients()...");
 		Status status = null;
 		List<TfTrainer> trainers = trainerService.getAllTrainers();
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build(); // invalid token
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build(); // invalid token
 		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
@@ -174,7 +178,7 @@ public class TrainerResource {
 			return Response.status(Status.NO_CONTENT).build();
 		}
 		else if (payload == null || payload.getId().equals("2") || payload.getId().equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		else {
 			trainerService.updateTrainer(trainer);

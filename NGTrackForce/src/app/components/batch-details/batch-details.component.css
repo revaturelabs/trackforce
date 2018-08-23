@@ -1,9 +1,26 @@
 canvas {
-  margin-top: 100px;
+  margin-top: 200px;
 }
 
 .data-status {
   text-align: center;
+}
+
+.center-div {
+  margin: 0 auto;
+  width: 100px;
+}
+
+img {
+  padding: 20px;
+}
+
+.vertical-center {
+  min-height: 60%; /* Fallback for browsers do NOT support vh unit */
+  min-height: 60vh; /* These two lines are counted as one           */
+
+  display: flex;
+  align-items: center;
 }
 
 @media screen and (max-width: 1000px) {

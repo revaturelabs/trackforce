@@ -13,17 +13,21 @@ export class AssociateSearchByTextFilter implements PipeTransform {
 
         if (!items) {
             return [];
-        } if (!searchText) {
+        } 
+        
+        if (!searchText) {
             return items;
-        } searchText = searchText.toLowerCase();
+        } 
+        
+        searchText = searchText.toLowerCase();
 
+        let firstName:string;
+        let lastName:string;
         //return results that contain firstname, lastname, status, client, id
         return items.filter(associate => {
-            return associate.firstName.toLowerCase().includes(searchText)
-                || associate.lastName.toLowerCase().includes(searchText)
-                || associate.marketingStatus.toLowerCase().includes(searchText)
-                || associate.client.toLowerCase().includes(searchText)
-                || associate.id.toString().toLowerCase().includes(searchText);
+            associate.firstName != null? firstName = associate.firstName : false;
+            associate.lastName != null? lastName = associate.lastName: false ;
+            return (firstName+ " " +lastName).toLowerCase().includes(searchText);
         });
     }
 }

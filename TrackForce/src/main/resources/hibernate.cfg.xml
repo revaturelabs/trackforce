@@ -23,13 +23,12 @@
         <!-- Used for debugging -->
         <property name="show_sql">false</property>
         
-        
-
-        <property name="hibernate.enable_lazy_load_no_trans">true</property>
+        <!--  <property name="hibernate.enable_lazy_load_no_trans">true</property>-->
         
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
         
+        <property name="hibernate.connection.pool_size">4</property>
         
        	<property name="hibernate.cache.use_second_level_cache">true</property>
 

@@ -7,7 +7,7 @@ import { Client } from '../../models/client.model';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { Color } from 'ng2-charts';
-import { StatusInfo } from '../../models/status-info.model';
+import { StatusInfo } from '../../models/status-info.model'
 
 /**
  * @author Han Jung
@@ -20,15 +20,16 @@ import { StatusInfo } from '../../models/status-info.model';
 })
 export class ClientListComponent implements OnInit {
   public showNoData = false;
+  public loading = true;
   public selectedCompany: string;
   public clientInfo: Client[];
+  public mappedClientInfo: Client[];
   public clientNames: string[] = [];
-  public client$: any;
   public searchName;
   // chart variable
   public barChartLabel: string[] = SelectedStatusConstants.CLIENT_LABELS;
   public barChartType = 'bar';
-  public barChartLegend = true;
+  public barChartLegend = false;
   public barChartColors: Array<Color> = ThemeConstants.BAR_COLORS
 
   public barChartOptions: any = {
@@ -60,7 +61,7 @@ export class ClientListComponent implements OnInit {
     }
   };
   // data values initialize to 1 for animation
-  public barChartData: any[] = [{ data: [0, 0, 0, 0], label: 'Mapped' }, { data: [0, 0, 0, 0], label: 'Unmapped' }];
+  public barChartData: any[] = [{ data: [0, 0, 0, 0], label: 'Mapped' }];
 
 
   constructor(
@@ -70,9 +71,12 @@ export class ClientListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getFiftyClients();
     this.getAllClients();
+    this.initChartData();
   }
 
+  
   // get client names from data and push to clientNames string array
   getAllClients() {
     this.clientService.getAllClients().subscribe(
@@ -81,83 +85,102 @@ export class ClientListComponent implements OnInit {
         this.clientInfo = clients;
         // clear name list to reload list and run through filter
         this.clientNames.length = 0;
-        // push list of names to an array
-        for (let client of clients) {
-          // Hide clients who do not have associates
-          let stats = client.stats;
-          // if (!this.showNoData) {
-            if (stats.trainingMapped > 0 || stats.trainingUnmapped > 0 ||
-              stats.reservedMapped > 0 || stats.openUnmapped > 0 ||
-              stats.selectedMapped > 0 || stats.selectedUnmapped > 0 ||
-              stats.confirmedMapped > 0 || stats.confirmedUnmapped > 0){
-                this.clientNames.push(client.name);
-              }
-          //}
-          // else {
-          //   this.clientNames.push(client.tfClientName);
-          // }
+        for(let client of clients){
+          this.clientNames.push(client.name);
         }
-        this.initChartData();
       }, err => {
         console.error("Failed grabbing names");
       });
   }
 
-  initChartData() {
-    this.selectedCompany = "";
-    // aggregate client info into overall statistics
-    let trainingMapped = 0;
-    let reservedMapped = 0;
-    let selectedMapped = 0;
-    let confirmedMapped = 0;
-    let trainingUnmapped = 0;
-    let openUnmapped = 0;
-    let selectedUnmapped = 0;
-    let confirmedUnmapped = 0;
-    for (let i=0;i<this.clientInfo.length;i++) {
-      let client: Client = this.clientInfo[i];
-      // the variable stats was removed from the client model
-      // let stats: StatusInfo = client.stats;
-      // trainingMapped += stats.trainingMapped;
-      // reservedMapped += stats.reservedMapped;
-      // selectedMapped += stats.selectedMapped;
-      // confirmedMapped += stats.confirmedMapped;
-      // trainingUnmapped += stats.trainingMapped;
-      // openUnmapped += stats.openUnmapped;
-      // selectedUnmapped += stats.selectedUnmapped;
-      // confirmedUnmapped += stats.confirmedUnmapped;
-    }
-    this.barChartData = [
-      {
-        data: [trainingMapped, reservedMapped, selectedMapped, confirmedMapped],
-        label: 'Mapped',
+  getFiftyClients(){
+    this.clientService.getFiftyClients().subscribe(
+      clients => {
+        this.clientInfo = clients;
+
+        for(let client of clients){
+          this.clientNames.push(client.name);
+        }
+        this.loading = false;
       },
-      {
-        data: [trainingUnmapped, openUnmapped, selectedUnmapped, confirmedUnmapped],
-        label: 'Unmapped',
+      err => {
+        console.error("Failed grabbing names");
       }
-    ]
+    )
+  }
+
+  //This method was meant to return all clients with mapped associates.
+  //But is currently not used due to incorrect query in the back-end.
+  getMappedClients(){
+    this.clientService.getAllClientsWithAssoc().subscribe(
+      clients => {
+        this.mappedClientInfo = clients;
+        this.clientNames.length = 0;
+
+        for(let client of clients){
+          this.clientNames.push(client.name);
+        }
+      }
+    )
+  }
+
+  //show data for all clients
+  initChartData() {
+    this.selectedCompany = "All Client Data";
+
+    let stat = new StatusInfo;
+    this.searchName = '';
+    this.clientService.getClientCount(-1).subscribe(
+      count => {
+        stat.trainingMapped = count[0];
+        stat.reservedMapped = count[1];
+        stat.selectedMapped = count[2];
+        stat.confirmedMapped = count[3];
+
+        this.barChartData = [
+          {
+            data: [stat.trainingMapped, 
+              stat.reservedMapped, 
+              stat.selectedMapped,
+              stat.confirmedMapped],
+            label: 'Mapped'
+          }
+        ]
+      },
+      err => {
+        console.log('Something went wrong');
+      }
+    );
   }
 
   // get client name and find id to request client information
   getOneClient(name: string) {
     this.selectedCompany = name;
     const oneClient = this.clientInfo.find(item => item['name'] === name);
-    // this.clientService.getOneClient(oneClient.id).subscribe(
-    //   client => {
-    //     this.client$ = client;
-    //     this.barChartData = [
-    //       {
-    //         data: [this.client$.stats.trainingMapped, this.client$.stats.reservedMapped, this.client$.stats.selectedMapped, this.client$.stats.confirmedMapped],
-    //         label: 'Mapped',
-    //       },
-    //       {
-    //         data: [this.client$.stats.trainingUnmapped, this.client$.stats.openUnmapped, this.client$.stats.selectedUnmapped, this.client$.stats.confirmedUnmapped],
-    //         label: 'Unmapped',
-    //       }
-    //     ]
-    //   }, err => {
-    //     console.error("Failed grabbing client");
-    //   });
+
+    let stat = new StatusInfo;
+
+    this.clientService.getClientCount(oneClient.id).subscribe(
+      count => {
+        stat.trainingMapped = count[0];
+        stat.reservedMapped = count[1];
+        stat.selectedMapped = count[2];
+        stat.confirmedMapped = count[3];
+        oneClient.stats = stat;
+
+        this.barChartData = [
+          {
+            data: [oneClient.stats.trainingMapped, 
+              oneClient.stats.reservedMapped, 
+              oneClient.stats.selectedMapped,
+              oneClient.stats.confirmedMapped],
+            label: 'Mapped'
+          }
+        ]
+      },
+      err => {
+        console.log('Something went wrong');
+      }
+    );
   }
 }

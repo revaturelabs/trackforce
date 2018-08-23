@@ -17,6 +17,7 @@ import {TrainerService} from '../../services/trainer-service/trainer.service';
 import {Trainer} from '../../models/trainer.model';
 import {Batch} from '../../models/batch.model';
 import {Associate} from "../../models/associate.model";
+import { NavbarService } from '../../services/navbar-service/navbar.service';
 
 const ASSOCIATE_KEY = 'currentAssociate';
 const USER_KEY = 'currentUser';
@@ -26,6 +27,12 @@ const BATCHES_TRAINER_KEY = 'currentBatchesTrainer';
 const BATCHES_COTRAINER_KEY = 'currentBatchesCotrainer';
 const BATCHES_KEY = 'currentBatches';
 const CLIENTS_KEY = 'currentClients';
+
+/* 
+  PROBLEM
+  should be admin/sales/staging_key
+  SHOULDNT load all associates as soon as one of those roles logs in
+*/
 const ASSOCIATES_KEY = 'currentAssociates';
 
 
@@ -42,7 +49,7 @@ const ASSOCIATES_KEY = 'currentAssociates';
         ]),
         transition(':leave', [
           style({opacity: 1}),
-          animate('500ms', style({opacity: 0}))
+          animate('0ms', style({opacity: 0}))
         ])
       ]
     )
@@ -72,6 +79,9 @@ export class LoginComponent implements OnInit {
   public newTrainer: Trainer;
   public newAssociate: Associate;
 
+  public isLoggingIn: boolean = false;
+  public loginClicked: boolean = false;
+
   /**
    *@constructor
    *
@@ -90,36 +100,60 @@ export class LoginComponent implements OnInit {
     private interviewService: InterviewService,
     private clientService: ClientService,
     private batchService: BatchService,
-    private trainerService: TrainerService
+    private trainerService: TrainerService,
+    private navbarService: NavbarService
   ) {
   }
 
+
   /**
-   * Called upon component initiation
-   * Checks if the user is already to logged-in
-   * If they are re-route to root
-   * If the user is an associate, route them to associate view
-   * Admins, VPs, and managers/directors are sent to root
-   *
-   *@param none
-   *
+   * 1806_Austin_M
+   * Checks if the user has a current session
+   * Validates the JWT with the back end.
+   * If successful, navigate to user home;
+   * else, remain on login screen
    */
   ngOnInit() {
+    //build session factory on sign up
+    this.userService.buildSessionFactory().subscribe(
+      data => {},
+      error => {}
+    );
+
+    //Validate token with backend
     const user = this.authService.getUser();
+    this.navbarService.hide();
+
     if (user != null) {
-      if (user.role === 5) {
-        // this.router.navigate(['associate-view']);
+      this.loginClicked = true;
+      this.isLoggingIn = true;
+      
+
+      this.userService.checkJwtValid().subscribe(
+        data => { this.routeToUserHome(user.role); },
+        err => { this.resetAfterLoginFail() }
+      );
+    }
+  }
+
+  routeToUserHome(role: number){
+    this.navbarService.show();
+
+    if (role == 5) {
         this.router.navigate(['associate-view']);
-        // } else if (user.role === 2) {
-        //   this.router.navigate(['trainer-view']);
-      } else if (user.role === 2) {
+    } else if (role == 2) {
         this.router.navigate(['trainer-view']);
-      } else if (user.role === 1 || user.role === 3 || user.role === 4) {
-        // this.getUser(user.id);
+    } else if (role == 1 || role == 3 || role == 4) {
         this.router.navigate(['app-home']);
-      } else {
-        this.authService.logout();
-      }
+    } else{
+      this.navbarService.hide();
+      this.authService.logout();
+    }
+  }
+
+  onAnimationDone($event){
+    if(this.loginClicked){
+      this.isLoggingIn = true;
     }
   }
 
@@ -249,35 +283,37 @@ export class LoginComponent implements OnInit {
     this.sucMsg = "";
     this.errMsg = "";
     if (this.username && this.password) {
+      this.loginClicked = true;
       this.authService.login(this.username, this.password).subscribe(
         data => {
+
           localStorage.setItem(USER_KEY, JSON.stringify(data));
-          //navigate to appropriate page if return is valid
+
+          if(data == null){
+            this.resetAfterLoginFail();
+            this.errMsg = "Invalid username and/or password";
+          } else if (data.isApproved) {
+            //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
-          if (data.isApproved) {
             if (data.role === 5) {
               this.associateLogin(data);
             } else if (data.role === 2) {
               this.trainerLogin(data);
             } else if (data.role === 1 || data.role === 3 || data.role === 4) {
               this.salesOrStagingLogin();
-              // this.router.navigate(['app-home']);
             } else {
-              this.authService.logout();
+              this.resetAfterLoginFail();
             }
           } else {
-            this.authService.logout();
+            this.resetAfterLoginFail();
             this.errMsg = "Your account has not been approved.";
           }
         },
         err => {
-          this.authService.logout();
+          this.resetAfterLoginFail();
+
           if (err.status === 500) {
             this.errMsg = "There was an error on the server";
-          }
-          else if (err.status === 401) {
-            this.errMsg = "Invalid username and/or password";
-
           }
           else if (err.status === 403) {
             this.errMsg = "Account not verified";
@@ -293,6 +329,15 @@ export class LoginComponent implements OnInit {
   }
 
   /**
+   * Resets loading bools for ngif and performs logout action
+   */
+  resetAfterLoginFail(){
+    this.isLoggingIn = false;
+    this.loginClicked = false;
+    this.authService.logout();
+  }
+
+  /**
    * This method is called if the user signing in is an Associate.
    * This method retrieves all of the Interview and Client data connected to the assciate.
    * @param user - user object that was returned after sending a username and password to the server
@@ -302,6 +347,7 @@ export class LoginComponent implements OnInit {
   associateLogin(user: User) {
     this.associateService.getAssociate(user.id).subscribe(
       data => {
+        this.navbarService.show();
         localStorage.setItem(ASSOCIATE_KEY, JSON.stringify(data));
         this.router.navigate(['associate-view']);
       },
@@ -322,13 +368,9 @@ export class LoginComponent implements OnInit {
   trainerLogin(user: User) {
     this.trainerService.getTrainer(user.id).subscribe(
       data => {
+        this.navbarService.show();
         localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
-        this.associateService.getAllAssociates().subscribe(
-          datum => {
-            localStorage.setItem('currentAssociates', JSON.stringify(datum));
-            this.router.navigate(['trainer-view']);
-          }
-        );
+        this.router.navigate(['trainer-view']);
       },
       err => {
         if (err.status === 500) {
@@ -342,22 +384,11 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  // Logan removed the getAllAssociates from here.
+  // It was running twice, causing initial login for admin/sales/staging to be suuuuuuuper slow
   salesOrStagingLogin() {
-    this.associateService.getAllAssociates().subscribe(
-      data => {
-        localStorage.setItem(ASSOCIATES_KEY, JSON.stringify(data));
-        this.router.navigate(['app-home']);
-      },
-      err => {
-        if (err.status === 500) {
-          this.router.navigate(['ServerError']);
-          return;
-        } else {
-          this.router.navigate(['Error']);
-          return;
-        }
-      }
-    );
+    this.navbarService.show();
+    this.router.navigate(['app-home']);
   }
 
 }

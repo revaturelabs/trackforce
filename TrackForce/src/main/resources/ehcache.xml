@@ -8,7 +8,19 @@
     overflowToDisk="true"
     diskPersistent="false"
     diskExpiryThreadIntervalSeconds="120"
-    memoryStoreEvictionPolicy="LRU"/>
+    memoryStoreEvictionPolicy="LRU"
+    statistics="true"/>
+    
+    <!-- Logans attempt at getting ehcache working below -->
+    <cache name="TrackForce"
+    	maxEntriesLocalHeap="10000"
+        maxEntriesLocalDisk="1000"
+        eternal="false"
+        diskSpoolBufferSizeMB="20"
+        timeToIdleSeconds="300" timeToLiveSeconds="600"
+        memoryStoreEvictionPolicy="LFU"
+    	statistics="true"/>
+    
 </ehcache>
 
 <!-- 

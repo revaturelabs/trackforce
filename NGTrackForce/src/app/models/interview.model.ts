@@ -1,8 +1,7 @@
-import { Associate } from "./associate.model";
+import { Associate } from './associate.model';
 import { EndClient } from './end-client.model';
-import { Client } from "./client.model";
-import { InterviewType } from "./interview-type";
-
+import { Client } from './client.model';
+import { InterviewType } from './interview-type';
 
 export class Interview {
   id: number;
@@ -22,23 +21,23 @@ export class Interview {
   isClientFeedbackVisible: number;
   was24HRNotice: number;
 
-  constructor (
+  constructor(
     associate: Associate,
     client: Client,
     interviewType: InterviewType,
     interviewDate: number,
     questionGiven: string,
     was24HRNotice: number,
-    jobDescription: string,
     dateSalesIssued: number,
     dateAssociateIssued: number,
+    jobDescription?: string,
     isClientFeedbackVisible?: number,
     associateFeedback?: string,
     clientFeedback?: string,
     isInterviewFlagged?: number,
     flagReason?: string,
     endClient?: EndClient,
-    id?: number
+    id?: number,
   ) {
     this.associate = associate;
     this.client = client;

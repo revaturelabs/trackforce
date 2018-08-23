@@ -58,7 +58,7 @@ public class ClientResource {
 	 * 
 	 * @author Adam L.
 	 *         <p>
-	 * 		Returns a map of all of the clients as a response object.
+	 *         Returns a map of all of the clients as a response object.
 	 *         </p>
 	 * @version v6.18.06.13
 	 * 
@@ -68,21 +68,44 @@ public class ClientResource {
 	 */
 	@GET
 	@ApiOperation(value = "Returns all clients", notes = "Returns a map of all clients.")
-	public Response getAllClients(@HeaderParam("Authorization") String token) throws IOException {
+	public Response getAllClients(@HeaderParam("Authorization") String token) {
 		logger.info("getAllClients()...");
 		Status status = null;
 		List<TfClient> clients = clientService.getAllTfClients();
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).build();
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		// invalid token
 		else {
 			status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
-
+		
 		return Response.status(status).entity(clients).build();
 	}
 
+	@GET
+	@Path("/associates/get/{client_id}")
+	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id) {
+		Long[] response = new Long[4];
+		for (Integer i = 0; i < response.length; i++) {
+			response[i] = associateService.getMappedAssociateCountByClientId(client_id, i + 1);
+		}
+		return Response.status(200).entity(response).build();
+	}
+	
+	@GET
+	@Path("/mapped/get/")
+	public Response getMappedClients() {
+		return Response.status(200).entity(clientService.getMappedClients()).build();
+	}
+	
+	@GET
+	@Path("/50/")
+	public Response getFirstFiftyClients() {
+		return Response.status(200).entity(clientService.getFirstFiftyClients()).build();
+	}
+	
+	
 }

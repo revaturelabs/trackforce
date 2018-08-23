@@ -7,18 +7,18 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-10">
       <div class="white">
-        <canvas baseChart 
-          class="chart chart-bar" 
-          id="the_graph" 
+        <canvas baseChart
+          class="chart chart-bar"
+          id="the_graph"
           *ngIf="clientUndeployedData && clientUndeployedData.length && clientUndeployedLabels && clientUndeployedLabels.length"
-          [data]="clientUndeployedData" 
-          [labels]="clientUndeployedLabels" 
-          [chartType]="chartType" 
-          [options]="chartOptions" 
+          [data]="clientUndeployedData"
+          [labels]="clientUndeployedLabels"
+          [chartType]="chartType"
+          [options]="chartOptions"
           [colors]="undeployedColors"
-          (chartHover)="chartHovered($event)" 
+          (chartHover)="chartHovered($event)"
           >
         </canvas>
       </div>
@@ -26,16 +26,17 @@
   </div>
 
   <div class="row">
+    <div class="col-md-2"></div>
     <div class="col-md-8">
       <div class="white">
-        <canvas baseChart 
-          id="pie" 
-          class="chart chart-pie" 
-          [data]="undeployedData" 
-          [labels]="undeployedLabels" 
+        <canvas baseChart
+          id="pie"
+          class="chart chart-pie"
+          [data]="undeployedData"
+          [labels]="undeployedLabels"
           [chartType]="undeployedChartType"
-          [colors]="mappedColors" 
-          [options]="undeployedOptions" 
+          [colors]="mappedColors"
+          [options]="undeployedOptions"
           (chartClick)="undeployedOnClick($event)">
         </canvas>
       </div>

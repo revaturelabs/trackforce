@@ -135,13 +135,11 @@ export class SkillsetComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) {
     // setup SKILL_INFO
-    if (!SkillsetComponent.SKILL_INFO) {
+    if (SkillsetComponent.SKILL_INFO == null) {
       SkillsetComponent.SKILL_INFO = new Map();
-      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.TRAINING, 6);
-      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.OPEN, 7);
-      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.SELECTED, 8);
-      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.CONFIRMED, 9);
-      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.DEPLOYED, 10);
+      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.TRAINING, 0);
+      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.OPEN, 1);
+      SkillsetComponent.SKILL_INFO.set(SelectedStatusConstants.SELECTED, 2);
     }
   }
 
@@ -155,31 +153,20 @@ export class SkillsetComponent implements OnInit {
   ngOnInit(): void {
 
     this.getUnmappedData();
-
-
-
-    // get skillID
     this.skillID = SkillsetComponent.SKILL_INFO.get(this.selectedStatus) || SkillsetComponent.NULL;
     // if we didn't get skillID from selectedStatus...
     if (this.skillID === SkillsetComponent.NULL) {
       // we get it from the ActivatedRoute params
       this.skillID = Number(this.route.snapshot.paramMap.get('id'));
-      if (this.skillID < 6) {
-        this.skillID += 6;  // TODO: remove this
-      }
       // we now set selectedStatus
       SkillsetComponent.SKILL_INFO.forEach((value, key) => {
         if (value === this.skillID) {
           this.selectedStatus = key;
         }
       })
-      // if there is empty string, simply go home
-      if (!this.selectedStatus) {
-        this.router.navigate(['/app-home']);
-      }
     }
     // get the skillset data here
-    this.curriculumService.getSkillsetsForStatusID(this.skillID).subscribe((data) => {
+    this.curriculumService.getSkillsetsForStatusID(6).subscribe((data) => {
       // copy in the raw data into local variable
       const skillsets: GraphCounts[] = data;
       // map() that variable into skillsetData,skillsetLabels

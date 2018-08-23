@@ -1,61 +1,52 @@
 <div class="container">
-  <button id='new-interview' type="button" class="btn btn-primary" (click)="toggleForm()">New Interview</button>
-  <div class="row" *ngIf="formOpen" class="toggledContainer">
-    <div class="col-lg-9">
-      <form class="form-horizontal">
+  <h3 style="text-align:center">New Interview</h3>
+  <div class="row" class="toggledContainer">
 
+      <form>
         <div class="form-group">
-          <label class="control-label col-sm-3">Client:</label>
-          <div class="col-sm-3">
-            <select class="form-control" name="newClient" [(ngModel)]="newInterview.clientId">
-              <option selected="selected">None</option>
-              <option *ngFor="let client of clients" [value]="client.id">{{client.tfClientName}}</option>
-            </select>
-          </div>
-        </div> <!-- form-group end-->
-
-        <div class="form-group">
-          <label class="control-label col-sm-3">Date of interview:</label>
-          <div class="col-sm-3">
-            <input type="datetime-local" class="form-control" name="date" [(ngModel)]="interviewDate" />
-          </div>
-        </div>
-
-        <div class='form-group'>
-            <label class="control-label col-sm-3">Date Assigned:</label>
+            <br>
+            <label class="control-label col-sm-2">Client:</label>
             <div class="col-sm-3">
-              <input type="datetime-local" class="form-control" name="date" [(ngModel)]="interviewDateNotification" />
+                <select class="form-control" name="newClient" [(ngModel)]="clientId">
+                <option selected="selected">None</option>
+                <option *ngFor="let client of clients" [ngValue]="client">{{client.name}}</option>
+                </select>
             </div>
+
+            <label class="control-label col-sm-2">Type:</label>
+            <div class="col-sm-3">
+                <select class="form-control" name="type" [(ngModel)]="typeId">
+                    <option value="1">Phone</option>
+                    <option value="2">Online</option>
+                    <option value="3">On-site</option>
+                    <option value="4">Skype</option>
+                </select>
+            </div>
+            <br><br>
+            <label class="control-label col-sm-2">Date Assigned:</label>
+            <div class="col-sm-3">
+                <app-datetimepicker width="400px" format="datetime" (datePicked)="interviewAssigned=$event" (error)="dateError=$event"></app-datetimepicker>
+            </div>
+
+            <label class="control-label col-sm-2">Date of interview:</label>
+            <div class="col-sm-3">
+                <app-datetimepicker width="400px" format="datetime" (datePicked)="interviewDate=$event" (error)="dateError=$event"></app-datetimepicker>
+            </div>
+            <label class="control-label col-sm-1">24 hour notice?</label>
+            <input type="checkbox" name="24hournotice" [(ngModel)]="was24HRNotice">
         </div>
-
-
+        <br><br><br>
         <div class="form-group">
-          <label class="control-label col-sm-3">Type:</label>
-          <div class="col-sm-3">
-            <select class="form-control" name="type " [(ngModel)]="newInterview.typeId">
-              <option value="1">Phone</option>
-              <option value="2">Online</option>
-              <option value="3">On-site</option>
-              <option value="4">Skype</option>
-            </select>
-          </div>
+            <button id='add-interview' (click)="addInterview()" class="btn btn-success pull-right">Add Interview</button>
         </div>
 
-        <div class="form-group">
-            <label class="control-label col-sm-3">24 hour notice?</label>
-            <input type="checkbox" name="24hournotice" [(ngModel)]="newInterview.was24HRNotice">
-        </div>
-
-        <button id='add-interview' (click)="addInterview()" class="btn btn-success">Add Interview</button>
-
-      </form>
-    </div>
+    </form>
   </div>
-  
+
   <div class="card-deck mb-3 text-center">
     <div>
       <h3>My Interviews</h3>
-      <div class="alert alert-danger" *ngIf="conflictingInterviews!=''">
+      <div *ngIf="conflictingInterview" class="alert alert-danger">
         {{conflictingInterviews}}
       </div>
       <table class="table table-responsive table-hover table-bordered">
@@ -69,69 +60,41 @@
             <th>Job Description</th>
             <th>24 hour notice?</th>
             <th>Feedback</th>
-            <!-- <th>Associate Feedback <i class="fa fa-edit" style="font-size:24px"></i> </th>
-            <th>Client Feedback</th>   -->
-            <th> </th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let interview of interviews; let i = index">
             <td>{{i+1}}</td>
-            <td>{{interview.client}}</td>
+            <td>{{ (interview.client && interview.client.name) ? interview.client.name : ""}}</td>
 
             <td>
-              <div *ngIf='!interview.isDateAvailable; else dateEdit2'>
-                {{interview.date | date:'short'}}
-                <br>
-                <button class="icon-button" type="button" (click)='showAvailableDate(interview)'>
-                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
-                </button>
-              </div>
-              <ng-template #dateEdit2>
-                <input id="date" #date type="datetime-local" [(ngModel)]="interview.date">
-                <button type="button" (click)='showAvailableDate(interview,date.value)'>
-                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
-                </button>
-              </ng-template>
+              <app-datetimepicker width="300px" format="datetime" originalDate="{{interview.dateAssociateIssued | date:'yyyy-MM-ddTHH:mm'}}" (datePicked)="interview.dateAssociateIssued=$event" (error)="dateError=$event" id="date"></app-datetimepicker>
             </td>
 
             <td>
-              <div *ngIf='!interview.isEditingAvailable; else dateEdit' [ngStyle]="{'background-color': highlightInterviewConflicts(i) ? 'rgba(255,0,0,0.5)':''}">
-                {{interview.DInterview |date: 'short'}}
-                <br>
-                <button class="icon-button" type="button" (click)='showInputDate(interview)'>
-                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:15px"></i>
-                </button>
-              </div>
-
-              <ng-template #dateEdit>
-                <input id="date" #date2 type="datetime-local" [(ngModel)]="interview.DInterview">
-                <button type="button" (click)='showInputDate(interview,date2.value)'>
-                  <i class="glyphicon glyphicon-pencil pencil" style="font-size:24px"></i>
-                </button>
-              </ng-template>
-
+              <app-datetimepicker width="300px" format="datetime" originalDate="{{interview.interviewDate | date:'yyyy-MM-ddTHH:mm'}}" (datePicked)="interview.interviewDate=$event" (error)="dateError=$event" id="date"></app-datetimepicker>
             </td>
 
-            <td>{{interview.type}}</td>
+            <td>{{ (interview.interviewType && interview.interviewType.name) ? interview.interviewType.name : "" }}</td>
 
-            <td>{{interview.JDescription}}</td>
+            <td>{{ (interview.jobDescription) ? interview.jobDescription : "" }}</td>
 
             <td class="flag">
-              <input type="checkbox" id="flag" [(ngModel)]="interview.Flag">
+              <input type="checkbox" id="flag" [(ngModel)]="interview.was24HRNotice" [disabled]=true>
             </td>
 
-            <td>
-              <a [routerLink]="['/interview-details']" class="id">view</a>
-            </td>
-
-            <td>
-              <button type="button" class="btn btn-primary" (click)='updateInterview(i)'>Save </button>
+            <td class="button_col">
+              <button type="button" class="btn btn-primary" (click)='viewInterview(interview.id)' style.display="inline">View</button>
+              <button type="button" class="btn btn-primary" (click)='updateInterview(interview)'>Update</button>
             </td>
 
           </tr>
         </tbody>
       </table>
+      <div class="center-div" *ngIf="!isDataReady">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </div>
     </div>
   </div>
 </div>

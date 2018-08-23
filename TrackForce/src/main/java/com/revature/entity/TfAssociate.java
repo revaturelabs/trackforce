@@ -9,14 +9,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -46,7 +43,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 @Table(name = "TF_ASSOCIATE", schema = "ADMIN")
-@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+// Logans attempt at getting ehcache working below
+@Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfAssociate implements java.io.Serializable {
 
 
@@ -65,7 +64,7 @@ public class TfAssociate implements java.io.Serializable {
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "TF_BATCH_ID")
-	public TfBatch batch;
+	private TfBatch batch;
 
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
@@ -94,12 +93,12 @@ public class TfAssociate implements java.io.Serializable {
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate", cascade = {CascadeType.ALL})
 	@JsonIgnore
-	private Set<TfInterview> interview = new HashSet<TfInterview>(0);
+	private Set<TfInterview> interview = new HashSet<>(0);
 
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate", cascade = {CascadeType.ALL})
 	@JsonIgnore
-	private Set<TfPlacement> placement = new HashSet<TfPlacement>(0);
+	private Set<TfPlacement> placement = new HashSet<>(0);
 	
 	@XmlElement
 	@Column(name = "TF_CLIENT_START_DATE")

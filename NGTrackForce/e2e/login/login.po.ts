@@ -3,7 +3,7 @@ import { browser, by, element } from 'protractor';
 export class LoginPage {
   navigateTo(){
     return browser.get('/NGTrackForce');
-    // return browser.get('/login');
+    //return browser.get('/login');
   }
 
   getUsernameInput(){
@@ -35,7 +35,7 @@ export class LoginPage {
   }
 
   getFailedLoginResponse() {
-    return element(by.xpath('//*[@id="pwd-container"]/div[2]/section/form/div[1]')).getText();
+    return element(by.xpath('//*[@id="pwd-container"]/div/section/form/div[1]')).getText();
   }
 
   get logoutButton() {

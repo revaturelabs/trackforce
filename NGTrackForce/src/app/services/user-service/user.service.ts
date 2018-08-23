@@ -10,6 +10,7 @@ import {environment} from '../../../environments/environment';
 import {Trainer} from "../../models/trainer.model";
 import {Associate} from "../../models/associate.model";
 import {User} from "../../models/user.model";
+import { UserAndCreatorRoleContainer } from '../../models/userAndCreatorRoleContainer.mode';
 
 
 @Injectable()
@@ -40,9 +41,9 @@ export class UserService {
    *      5  - Associate  - Can register, view and edit their info, add and flag interviews
 
    */
-  public createUser(newUser: User): Observable<boolean> {
+  public createUser(newUser: User, creatorRole: number): Observable<boolean> {
     return this.http.post<boolean>(this.baseURL + '/newUser',
-      newUser);
+      new UserAndCreatorRoleContainer(newUser, creatorRole));
   }
 
   public createAssociate(newAssociate: Associate): Observable<boolean> {
@@ -55,4 +56,16 @@ export class UserService {
       newTrainer);
   }
 
+  //EDIT EricS 8/9/18 Added this service to fix nonunique username bug (Issue 273)
+  public checkUniqueUsername(username: string): Observable<boolean> {
+      return this.http.post<boolean>(this.baseURL + '/checkUsername', username);
+  }
+
+  public checkJwtValid(): Observable<boolean> {
+    return this.http.get<boolean>(this.baseURL + '/check');
+}
+
+public buildSessionFactory(): Observable<boolean>{
+  return this.http.get<boolean>(this.baseURL + '/init');
+}
 }

@@ -1,134 +1,70 @@
 import { BasePage, IdentificationType } from "../BasePage";
 import { element, by } from "protractor";
 
-const Locators = {
-    predictionsTab: {
-        type: IdentificationType[IdentificationType.Css],
-        // value: '[routerlink="/predictions"]'
-        value: '//div[@class="container-fluid"]/ul/li[7]'
-    },
-    startDate: {
-        type: IdentificationType[IdentificationType.Xpath],
-        value: '//input[@id="startDate"]'
-    },
-    endDate: {
-        type: IdentificationType[IdentificationType.Xpath],
-        value: '//input[@id="endDate"]'
-    },
-    numberOfAssociates: {
-        type: IdentificationType[IdentificationType.Xpath],
-        value: '//input[@name="number"]'
-    },
-    overSelect: {
-        type: IdentificationType[IdentificationType.Xpath],
-        value: '//div[@class="overSelect"]'
-    },
-    inputOne: {
-        type: IdentificationType[IdentificationType.Xpath],
-        value: '//input[@id="tech1"]'
-    },
-    inputTwo: {
-        type: IdentificationType[IdentificationType.Xpath],
-        value: '//input[@id="tech2"]'
-    },
-    getPredictionButton: {
-        type: IdentificationType[IdentificationType.Xpath],
-        value: '//button[@type="button"]'
-    },
-    predictionsTable: {
-        type: IdentificationType[IdentificationType.Xpath],
-        value: '//table'
-    },
-    predictionTableEntries: {
-        type: IdentificationType[IdentificationType.Tag],
-        value: 'tr'
-    },
-    numberOfAssociatesInTableEntry: {
-        type: IdentificationType[IdentificationType.Xpath],
-        value: '//tbody/tr[1]/td[3]'
-    },
-    differenceInTableEntry: {
-        type: IdentificationType[IdentificationType.Xpath],
-        value: '//tbody/tr[1]/td[4]'
-    },
-    predictionsTableHead: {
-        type: IdentificationType[IdentificationType.Xpath],
-        value: '//thead'
-    },
-    detailsBtn: {
-        type: IdentificationType[IdentificationType.Xpath],
-        value: '//button[@name="getDetailsBtn"]'
-    },
-    predictionBreakdownHeader: {
-        type: IdentificationType[IdentificationType.Xpath],
-        value: '//h3[contains(text(), "reakdown")]'
-    }
-}
-
 export class PredictionsPage extends BasePage {
-    predictionsTag = this.ElementLocator(Locators.predictionsTab);
-    startDate = this.ElementLocator(Locators.startDate);
-    endDate = this.ElementLocator(Locators.endDate);
-    numberOfAssociates = this.ElementLocator(Locators.numberOfAssociates);
-    overSelect = this.ElementLocator(Locators.overSelect);
-    inputOne = this.ElementLocator(Locators.inputOne);
-    inputTwo = this.ElementLocator(Locators.inputTwo);
-    getPredictionButton = this.ElementLocator(Locators.getPredictionButton);
-    predictionsTable = this.ElementLocator(Locators.predictionsTable);
-    numberOfAssociatesInTableEntry = this.ElementLocator(Locators.numberOfAssociatesInTableEntry);
-    differenceInTableEntry = this.ElementLocator(Locators.differenceInTableEntry);
-    predictionsTableEntries = this.ElementLocator(Locators.predictionTableEntries);
-    predictionsTableHead = this.ElementLocator(Locators.predictionsTableHead);
-    detailsBtn = this.ElementLocator(Locators.detailsBtn);
-    predictionBreakdownHeader = this.ElementLocator(Locators.predictionBreakdownHeader);
-
     navigateTo() {
-        this.predictionsTag.click();
+      element(by.linkText('Predictions')).click();
     }
 
     inputStartDate(input: string) {
-        this.startDate.sendKeys(input);
+      element(by.name('startDate')).sendKeys(input);
     }
 
     inputEndDate(input: string) {
-        this.endDate.sendKeys(input);
+      element(by.name('endDate')).sendKeys(input);
     }
 
-    inputNumAssociates(input: string) {
-        this.numberOfAssociates.sendKeys(input);
+    getTechnologyCount() {
+      return element(by.id('techTable')).all(by.css('tbody tr')).count();
     }
 
-    filterByTechnologies() {
-        this.overSelect.click();
-        this.inputOne.click();
-        this.inputTwo.click();
-        this.getPredictionButton.click();
+    getTechnology(index: number) {
+      return element(by.id('techTable')).all(by.css('tbody tr')).get(index).getText();
+    }
+
+    inputTechCount(index: number, count: number) {
+      this.getTechnologyCount().then( res => {
+        if (index >= 0 && index < res) {
+          this.getTechnology(index).then(tech => {
+            element(by.id(tech+'-input')).click();
+            element(by.id(tech+'-input')).sendKeys(count);
+          });
+        }
+      });
+    }
+
+    clearInputCount() {
+      this.getTechnologyCount().then( count => {
+        for(let i = 0; i < count; ++i) {
+          this.getTechnology(i).then(tech => {
+            element(by.id(tech+'-input')).clear();
+          });
+        }
+      });
+    }
+
+    checkAssociateCount(tech: string) {
+      expect(element(by.id(tech))).toBeTruthy();
     }
 
     getPredictionsTable() {
-        return this.predictionsTable;
+      return element(by.id('predictionsTable'));
     }
 
-    getPredictionsTableEntriesCount() {
-        return this.predictionsTableEntries.count();
+    getPredictionsTableRows() {
+      return element(by.id('predictionsTable')).all(by.css('tbody tr')).count();
     }
 
-    getPredictionsTableHead() {
-        return this.predictionsTableHead;
+    clickPredictionRow(row: number) {
+
     }
 
-    getPredictionsBreakdownHeader() {
-        return this.predictionBreakdownHeader;
+    getPredictionDetailsHeader() {
+      return element(by.id('batchDetailsHeader'));
     }
 
-    checkFirstNineBoxes() {
-        this.overSelect.click();
-        for (let i = 1 ; i <= 9 ; i++) {
-            let path = `//input[@id="tech${i}"]`
-            element(by.xpath(path)).click();
-        }
-        this.getPredictionButton.click();
+    outOfFocus() {
+      element(by.id('predictionsHeader')).click();
     }
-
 
 }

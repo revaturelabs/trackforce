@@ -1,9 +1,9 @@
 /**
- * 
+ *
  * @author Michael Tseng
  * @description Service for authenicating users
- * 
- * This service contains the login and logout logic as well as 
+ *
+ * This service contains the login and logout logic as well as
  * logic to retrieve user, associate, and trainer objects from local storage
  */
 import { Injectable } from '@angular/core';
@@ -28,7 +28,7 @@ export class AuthenticationService {
   constructor(private rs: RequestService, private router: Router, private http: HttpClient) { }
 
   /**
-   * 
+   *
    * Function for submitting login data to the back-end
    * Login service that stores a user object on local storage
    * It will only store a user if the object itself is valid and the token is valid
@@ -57,9 +57,9 @@ export class AuthenticationService {
 
   /**
    * This method will return the User Object from local storage
-   * 
+   *
    * @param none
-   * 
+   *
    * @author Max Dunn
    */
   getUser(): User {
@@ -69,9 +69,9 @@ export class AuthenticationService {
 
   /**
  * This method will return the Associate Object from local storage
- * 
+ *
  * @param none
- * 
+ *
  * @author Max Dunn
  */
   getAssociate(): Associate {
@@ -81,10 +81,10 @@ export class AuthenticationService {
 
   /**
    * This method will return the Trainer Object from local storage
-   * 
+   *
    * @param none
-   * 
-   * @author Max Dunn 
+   *
+   * @author Max Dunn
    */
   getTrainer(): Trainer {
     const trainer: Trainer = JSON.parse(localStorage.getItem(TRAINER_KEY));

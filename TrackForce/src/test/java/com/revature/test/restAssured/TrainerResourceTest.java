@@ -1,7 +1,9 @@
 package com.revature.test.restAssured;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 import static org.hamcrest.Matchers.hasSize;
 
 import java.util.ArrayList;
@@ -26,8 +28,8 @@ import io.restassured.response.Response;
 public class TrainerResourceTest {
 
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
-	//static final String URL = "http://localhost:8085/TrackForce/trainers";
+	//static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
+	static final String URL = "http://localhost:8085/TrackForce/trainers";
 	
 	TrainerService trainerService = new TrainerService();
 	List<TfTrainer> trainers;
@@ -46,9 +48,13 @@ public class TrainerResourceTest {
 		trainers = trainerService.getAllTrainers();
 		knownTrainerId = 24;
 		knownUserId = 60302;
-		
+	}
+	
+	@Test(priority = 1)
+	public void getTrainer() {
 		trainer = new TfTrainer();
 		trainer = trainerService.getTrainer(24);
+		assertNotNull(trainer);
 		trainer.setFirstName("Ava - 2.0");
 	}
 
@@ -78,7 +84,8 @@ public class TrainerResourceTest {
 	public void testGetTrainer2() {
 		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId).then().extract().response();
 
-		assertTrue(response.statusCode() == 401);
+		assertEquals(401, response.statusCode());
+
 		assertTrue(response.asString().contains("Unauthorized"));
 
 		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
@@ -99,7 +106,7 @@ public class TrainerResourceTest {
 	public void getTrainerPrimaryBatches1() {
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
 				.post(URL + "/" + knownTrainerId + "/batch").then().extract().response();
-		
+		System.out.println(response.getStatusCode());
 		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200);
 		if (response.statusCode() == 200) {
 			assertTrue(response.asString().contains("1701 Jan30 NET"));

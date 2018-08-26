@@ -1,38 +1,25 @@
 package com.revature.entity;
-// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
-
-import java.util.HashSet;
-import java.util.Set;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
-
-/**
- * <p> </p>
- * @version v6.18.06.13
- */
+/** @version v6.18.06.13 */
 @XmlRootElement
 @Entity
 @Table(name = "TF_ROLE", schema = "ADMIN")
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
-public class TfRole implements java.io.Serializable {
-
+public class TfRole implements java.io.Serializable 
+{
 	private static final long serialVersionUID = 2827764589977541041L;
 	
 	@XmlElement
 	@Id
-//	@GeneratedValue
+	//@GeneratedValue
 	@Column(name = "TF_ROLE_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer id;
 	
@@ -40,54 +27,41 @@ public class TfRole implements java.io.Serializable {
 	@Column(name = "TF_ROLE_NAME", length = 20)
 	private String name;
 	
-	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "TfRole")
 	@JsonIgnore
-	private Set<TfUser> users = new HashSet<TfUser>(0);
+	private Set<TfUser> users = new HashSet<>(0);
 
-	public TfRole() {
-	}
+	//----------------------
 
-	public TfRole(Integer tfRoleId) {
-		this.id = tfRoleId;
+	public TfRole() { super(); }
+
+	public TfRole(Integer tfRoleId) { 
+		super();
+		this.id = tfRoleId; 
 	}
 
 	public TfRole(Integer roleId, String tfRoleName) {
+		super();
 		this.id = roleId;
 		this.name = tfRoleName;
 	}
 
+	//----------------------
+
+	public Integer getTfRoleId() { return this.id; }
+
+	public void setTfRoleId(Integer roleId) { this.id = roleId; }
 	
-	public Integer getTfRoleId() {
-		return this.id;
-	}
+	public String getTfRoleName() { return this.name; }
 
-	public void setTfRoleId(Integer roleId) {
-		this.id = roleId;
-	}
-
-	
-	public String getTfRoleName() {
-		return this.name;
-	}
-
-	public void setTfRoleName(String tfRoleName) {
-		this.name = tfRoleName;
-	}
+	public void setTfRoleName(String tfRoleName) { this.name = tfRoleName; }
 
 	@JsonIgnore
-	public Set<TfUser> getTfUsers() {
-		return this.users;
-	}
+	public Set<TfUser> getTfUsers() { return this.users; }
 
 	@JsonIgnore
-	public void setTfUsers(Set<TfUser> users) {
-		this.users = users;
-	}
+	public void setTfUsers(Set<TfUser> users) { this.users = users;	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -98,9 +72,6 @@ public class TfRole implements java.io.Serializable {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -129,7 +100,4 @@ public class TfRole implements java.io.Serializable {
 	public String toString() {
 		return "TfRole [tfRoleId=" + id + ", tfRoleName=" + name + "]";
 	}
-	
-	
-
 }

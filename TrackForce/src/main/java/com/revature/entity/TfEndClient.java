@@ -160,12 +160,9 @@ public class TfEndClient implements java.io.Serializable {
 		} else if (!name.equals(other.name))
 			return false;
 		if (placements == null) {
-			if (other.placements != null)
-				return false;
-		} else if (!placements.equals(other.placements))
-			return false;
-		return true;
-	}
+            return other.placements == null;
+		} else return placements.equals(other.placements);
+    }
 	
 	
 

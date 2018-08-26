@@ -1,11 +1,8 @@
 package com.revature.daoimpl;
-
 import static com.revature.utils.HibernateUtil.runHibernateTransaction;
 import static com.revature.utils.HibernateUtil.saveToDB;
-
 import java.math.BigDecimal;
 import java.util.List;
-
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -13,11 +10,9 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 import javax.persistence.Entity;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.openqa.selenium.InvalidArgumentException;
-
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.entity.TfAssociate;
@@ -28,39 +23,29 @@ import com.revature.entity.TfMarketingStatus;
 import com.revature.entity.TfUser;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.Sessional;
-/**
- * Data Access Object implementation to access the associate entity from the
- * Database
- */
+
+/**Data Access Object implementation to access the associate entity from the Database*/
 public class AssociateDaoImpl implements AssociateDao {
 	
-	/**
-	 * Gets a single associate with an id
-	 * 
-	 * @param Integer associateId
-	 */
+	/** Gets a single associate with an id
+	 * @param Integer associateId */
 	@Override
 	public TfAssociate getAssociate(Integer id) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfAssociate a where a.id = :id", TfAssociate.class).setParameter("id", id).getSingleResult());
-
+		session.createQuery("from TfAssociate a where a.id = :id", TfAssociate.class)
+		.setParameter("id", id).getSingleResult());
 	}
 
-	/**
-	 * Gets an associate by an associated user id
-	 * 
-	 * @param int userId
-	 */
+	/** Gets an associate by an associated user id
+	 * @param int userId */
 	@Override
 	public TfAssociate getAssociateByUserId(int id) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-				session.createQuery("from TfAssociate where user.id = :id", TfAssociate.class).setParameter("id", id).getSingleResult());
-
+				session.createQuery("from TfAssociate where user.id = :id", TfAssociate.class)
+				.setParameter("id", id).getSingleResult());
 	}
 
-	/**
-	 * Gets all associates
-	 */
+	/** Gets all associates */
 	@Override
 	public List<TfAssociate> getAllAssociates() {
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session

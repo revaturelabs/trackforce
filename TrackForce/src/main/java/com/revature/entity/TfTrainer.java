@@ -196,10 +196,7 @@ public class TfTrainer implements Serializable{
 		} else if (!primary.equals(other.primary))
 			return false;
 		if (user == null) {
-			if (other.user != null)
-				return false;
-		} else if (!user.equals(other.user))
-			return false;
-		return true;
-	}
+            return other.user == null;
+		} else return user.equals(other.user);
+    }
 }

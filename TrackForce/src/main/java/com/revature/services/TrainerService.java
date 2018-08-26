@@ -21,10 +21,10 @@ public class TrainerService {
 	private static TrainerDao dao = new TrainerDaoImpl();
 	
 	// public so it can be used for testing 
-	public TrainerService() {};
-	
-	public TrainerService(TrainerDao dao) {
-		this.dao = dao;
+	public TrainerService() {}
+
+    public TrainerService(TrainerDao dao) {
+        TrainerService.dao = dao;
 	}
 
 	/**

@@ -29,9 +29,9 @@ public class UserService {
 
 	// public so it can be used for testing
 	public UserService() {
-	};
+	}
 
-	public UserService(UserDao dao) {
+    public UserService(UserDao dao) {
 		this.dao = dao;
 	}
 
@@ -120,7 +120,7 @@ public class UserService {
 				if (PasswordStorage.verifyPassword(loginUser.getPassword(), foundUser.getPassword())) {
 					int role = foundUser.getTfRole().getTfRoleId();
 					foundUser.setRole(role);
-					foundUser.setToken(jwtService.createToken(foundUser.getUsername(), foundUser.getRole()));
+					foundUser.setToken(JWTService.createToken(foundUser.getUsername(), foundUser.getRole()));
 					LogUtil.logger.info("Password verification successful! Returning " + foundUser.toString());
 					return foundUser;
 				}

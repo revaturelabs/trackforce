@@ -90,7 +90,7 @@ public class BatchResource {
 		Status status = null;
 		int role = Integer.parseInt(payload.getId());
 
-		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4 }));
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(1, 2, 3, 4));
 
 		if (authorizedRoles.contains(role)) {
 			if (startDate != null && endDate != null) {
@@ -142,7 +142,7 @@ public class BatchResource {
 		Status status = null;
 		int role = Integer.parseInt(payload.getId());
 
-		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(1, 2, 3, 4));
 
 
 		if (authorizedRoles.contains(role)) {
@@ -244,7 +244,7 @@ public class BatchResource {
 		status = Status.OK;
 		int role = Integer.parseInt(payload.getId());
 		
-		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(1, 2, 3, 4));
 		if (authorizedRoles.contains(role)) {
 			status = Status.OK;
 		} else {
@@ -277,7 +277,7 @@ public class BatchResource {
 		status = Status.OK;	
 		int role = Integer.parseInt(payload.getId());
 
-		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(1, 2, 3, 4));
 		if (authorizedRoles.contains(role)) {
 			status = Status.OK;
 		} else {

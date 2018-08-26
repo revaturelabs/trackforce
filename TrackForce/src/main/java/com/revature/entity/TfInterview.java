@@ -439,12 +439,9 @@ public class TfInterview implements java.io.Serializable {
 		} else if (!questionGiven.equals(other.questionGiven))
 			return false;
 		if (was24HRNotice == null) {
-			if (other.was24HRNotice != null)
-				return false;
-		} else if (!was24HRNotice.equals(other.was24HRNotice))
-			return false;
-		return true;
-	}
+            return other.was24HRNotice == null;
+		} else return was24HRNotice.equals(other.was24HRNotice);
+    }
 
 
 

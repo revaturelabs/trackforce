@@ -124,12 +124,9 @@ public class TfBatchLocation implements java.io.Serializable {
 		} else if (!name.equals(other.name))
 			return false;
 		if (batches == null) {
-			if (other.batches != null)
-				return false;
-		} else if (!batches.equals(other.batches))
-			return false;
-		return true;
-	}
+            return other.batches == null;
+		} else return batches.equals(other.batches);
+    }
 
 	@Override
 	public String toString() {

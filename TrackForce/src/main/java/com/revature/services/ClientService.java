@@ -18,10 +18,11 @@ public class ClientService {
 	private ClientDao dao;
 	
 	// public so it can be used for testing 
-	public ClientService() {dao = new ClientDaoImpl();};
-	public ClientService(ClientDao dao) {this.dao = dao;};
-	
-	/**
+	public ClientService() {dao = new ClientDaoImpl();}
+
+    public ClientService(ClientDao dao) {this.dao = dao;}
+
+    /**
 	 * @author Adam L. 
 	 * <p>Gets all the clients in the database</p>
 	 * @version v6.18.06.13

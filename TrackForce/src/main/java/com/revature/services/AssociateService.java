@@ -25,9 +25,11 @@ public class AssociateService {
 	private AssociateDao dao;
 	
 	// public so it can be used for testing 
-	public AssociateService() {dao = new AssociateDaoImpl();};
-	public AssociateService(AssociateDao dao) {this.dao = dao;};
-	/**
+	public AssociateService() {dao = new AssociateDaoImpl();}
+
+    public AssociateService(AssociateDao dao) {this.dao = dao;}
+
+    /**
 	 * @author Adam L. 
 	 * 
 	 * <p>Gets the associate given by their associate Id.</p>

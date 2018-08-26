@@ -20,10 +20,10 @@ public class CurriculumService{
 	private static CurriculumDao dao = new CurriculumDaoImpl();
 	
 	// public so it can be used for testing 
-	public CurriculumService() {};
-	
-	public CurriculumService(CurriculumDao dao) {
-		this.dao = dao;
+	public CurriculumService() {}
+
+    public CurriculumService(CurriculumDao dao) {
+        CurriculumService.dao = dao;
 	}
 	
 	/**

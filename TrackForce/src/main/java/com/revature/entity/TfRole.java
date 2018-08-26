@@ -121,12 +121,9 @@ public class TfRole implements java.io.Serializable {
 		} else if (!name.equals(other.name))
 			return false;
 		if (users == null) {
-			if (other.users != null)
-				return false;
-		} else if (!users.equals(other.users))
-			return false;
-		return true;
-	}
+            return other.users == null;
+		} else return users.equals(other.users);
+    }
 
 	@Override
 	public String toString() {

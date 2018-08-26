@@ -170,12 +170,9 @@ public class TfPlacement implements java.io.Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		if (start == null) {
-			if (other.start != null)
-				return false;
-		} else if (!start.equals(other.start))
-			return false;
-		return true;
-	}
+            return other.start == null;
+		} else return start.equals(other.start);
+    }
 
 	@Override
 	public String toString() {

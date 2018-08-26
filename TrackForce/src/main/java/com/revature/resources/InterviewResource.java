@@ -133,14 +133,13 @@ public class InterviewResource {
 	 * @param associateId
 	 * @return
 	 * @throws HibernateException
-	 * @throws IOException
-	 */
+     */
 	@Path("/{associateid}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Returns all interviews for an associate", notes = "Returns a list of all interviews.")
 	public Response getAllInterviews(@HeaderParam("Authorization") String token,
-			@PathParam("associateid") Integer associateId) throws HibernateException, IOException {
+			@PathParam("associateid") Integer associateId) throws HibernateException {
 		logger.info("getAllInterviews()...");
 		Status status = null;
 		List<TfInterview> interviews = interviewService.getInterviewsByAssociate(associateId);
@@ -168,14 +167,13 @@ public class InterviewResource {
 	 * @param interviewId
 	 * @return
 	 * @throws HibernateException
-	 * @throws IOException
-	 */
+     */
 	@Path("/getInterviewById/{interviewId}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Returns an interview by id", notes = "Returns an interview.")
 	public Response getInterviewById(@HeaderParam("Authorization") String token,
-			@PathParam("interviewId") Integer interviewId) throws HibernateException, IOException {
+			@PathParam("interviewId") Integer interviewId) throws HibernateException {
 		logger.info("getInterviewById()...");
 		Status status = null;
 		TfInterview interview = interviewService.getInterviewById(interviewId);

@@ -16,11 +16,11 @@ public class BatchService {
 	private BatchDao dao;
 	
 	// public so it can be used for testing 
-	public BatchService() {dao = new BatchDaoImpl();};
-	
-	public BatchService(BatchDao dao) {this.dao = dao;};
+	public BatchService() {dao = new BatchDaoImpl();}
 
-	/**
+    public BatchService(BatchDao dao) {this.dao = dao;}
+
+    /**
 	 * @author Adam L. 
 	 * 
 	 * <p>Gets the batch given the batch name</p>

@@ -81,7 +81,7 @@ public class AssociateDaoImpl implements AssociateDao
 	private Object getCountStringMapper(int sqlID) {
 		final String BEGINNING = "select count(tf_associate_id) from admin.tf_associate ";
 		final String BASE = BEGINNING + "where tf_marketing_status_id = ";
-		String sql = "";
+		String sql;
 		switch (sqlID){
 			case 1: // getCountUndeployedMapped()
 				sql =  BEGINNING + "where (tf_marketing_status_id = 1 or tf_marketing_status_id = 2 " +
@@ -111,6 +111,7 @@ public class AssociateDaoImpl implements AssociateDao
 				sql = BASE + 3; break;
 			case 12: // getCountMappedConfirmed()
 				sql = BASE + 4; break;
+			default: sql = "";
 		}//end switch
 		return getCountOf(sql);
 	}//end getCountStringMapper()
@@ -179,13 +180,13 @@ public class AssociateDaoImpl implements AssociateDao
 	{ return HibernateUtil.runHibernateTransaction(approveAssociate, associateId);  }
 
 	/** approves many given associates
-	 * @param List<Integer> contains associate ids */
+	 * @param associateIds contains associate ids */
 	@Override
 	public boolean approveAssociates(List<Integer> associateIds)
 	{ return HibernateUtil.multiTransaction(approveAssociate, associateIds); }
 
 	/** Creates new associate with a given associate object.
-	 * @param TfAssociate the new associate you wish to persist */
+	 * @param newassociate the new associate you wish to persist */
 	@Override
 	public boolean createAssociate(TfAssociate newassociate) {
 		return saveToDB(newassociate);

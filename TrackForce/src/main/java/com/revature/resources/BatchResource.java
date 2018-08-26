@@ -112,7 +112,7 @@ public class BatchResource
 		if (payload == null)
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		Status status = Status.OK;
-		int role = Integer.parseInt(payload.getId());//UNUSED????
+		//int role = Integer.parseInt(payload.getId());//UNUSED????
 
 	/*	Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
 		// Verifies user's role has proper authority to perform this action
@@ -217,7 +217,7 @@ public class BatchResource
 		if (payload == null)
 			return Response.status(Status.UNAUTHORIZED).build();
 		Status status = Status.OK;
-		BatchDaoImpl bd = new BatchDaoImpl();//UNUSED????
+		//BatchDaoImpl bd = new BatchDaoImpl();//UNUSED????
 		TfBatch batch = batchService.getBatchById(id);
 		return Response.status(status).entity(batch).build();
 	}

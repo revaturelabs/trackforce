@@ -7,16 +7,14 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import static com.revature.utils.LogUtil.logger;
 
-class ThreadUtil {
+public class ThreadUtil {
 	//I set it to default at 10 threads can be increased for more performance.
 	//However, it will be to the detriment of the running server. (Most likely an Amazon EC2)
 	private static ExecutorService executor = Executors.newFixedThreadPool(15);
 	
-	ThreadUtil() {
-		super();
-	}
+	public ThreadUtil() { super(); }
 	
-	<T> T submitCallable(Callable<T> caller) {
+	public <T> T submitCallable(Callable<T> caller) {
 		Future<T> future = executor.submit(caller);
 		T results = null;
 		try { results = future.get(); }

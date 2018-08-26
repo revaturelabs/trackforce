@@ -1,10 +1,9 @@
 package com.revature.daoimpl;
-//package com.revature.dao;
-//
+
+//UNUSED CLASS??
+
 //import java.io.IOException;
-//
 //import javax.persistence.StoredProcedureQuery;
-//
 //import static com.revature.utils.LogUtil.logger;
 //import org.hibernate.HibernateException;
 //import org.hibernate.Session;

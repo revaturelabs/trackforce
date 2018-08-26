@@ -1,31 +1,21 @@
 package com.revature.entity;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import java.util.Objects;
 
 @XmlRootElement
 @Cacheable
 @Entity
-@Table(
-		name = "TF_USER", 
-		schema="ADMIN"
-//		uniqueConstraints= @UniqueConstraint(columnNames= {"TF_USERNAME"})
-)
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+@Table(name = "TF_USER", schema="ADMIN" /*uniqueConstraints= @UniqueConstraint(columnNames= {"TF_USERNAME"}) */)
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
-public class TfUser implements java.io.Serializable {
-
+public class TfUser implements java.io.Serializable 
+{
     private static final long serialVersionUID = 706405344864879997L;
-    
 	public static final int APPROVED = 1;
-	public static final int NOTAPPROVED = 0;
     
     @XmlElement
     @Id
@@ -52,7 +42,7 @@ public class TfUser implements java.io.Serializable {
     @Column(name = "TF_ISAPPROVED")
     private int isApproved;
     
- // This is just used for passing around the string token while logged in - Adam 06.18.06.13
+ 	// This is just used for passing around the string token while logged in - Adam 06.18.06.13
     @XmlElement
     @Transient
     private String token;
@@ -61,64 +51,36 @@ public class TfUser implements java.io.Serializable {
     @Transient
     private Integer role;
 
-	public int getId() {
-		return id;
-	}
+	public int getId() { return id; }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+	public void setId(int id) { this.id = id; }
 
 	@JsonIgnore
-	public TfRole getTfRole() {
-		return TfRole;
-	}
+	public TfRole getTfRole() { return TfRole; }
 
 	@JsonIgnore
-	public void setTfRole(TfRole tfRole) {
-		TfRole = tfRole;
-	}
+	public void setTfRole(TfRole tfRole) { TfRole = tfRole; }
 
-	public String getUsername() {
-		return username;
-	}
+	public String getUsername() { return username; }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+	public void setUsername(String username) { this.username = username; }
 	
 	@JsonIgnore
-	public String getPassword() {
-		return password;
-	}
+	public String getPassword() { return password; }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+	public void setPassword(String password) { this.password = password; }
 
-	public int getIsApproved() {
-		return isApproved;
-	}
+	public int getIsApproved() { return isApproved; }
 
-	public void setIsApproved(int isApproved) {
-		this.isApproved = isApproved;
-	}
+	public void setIsApproved(int isApproved) { this.isApproved = isApproved; }
 
-	public String getToken() {
-		return token;
-	}
+	public String getToken() { return token; }
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+	public void setToken(String token) { this.token = token; }
 
-	public Integer getRole() {
-		return role;
-	}
+	public Integer getRole() { return role; }
 
-	public void setRole(Integer role) {
-		this.role = role;
-	}
+	public void setRole(Integer role) { this.role = role; }
 
 	@Override
 	public int hashCode() {
@@ -158,7 +120,7 @@ public class TfUser implements java.io.Serializable {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (role != other.role)
+		if (!Objects.equals(role, other.role))
 			return false;
 		if (token == null) {
 			if (other.token != null)
@@ -179,8 +141,4 @@ public class TfUser implements java.io.Serializable {
 		return "TfUser [id=" + id + ", username=" + username + ", password=" + password + ", isApproved=" + isApproved
 				+ ", token=" + token + ", role=" + role + "]";
 	}
-
-    
-    
-    
 }

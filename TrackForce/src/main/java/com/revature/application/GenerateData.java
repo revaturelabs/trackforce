@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * <p>Class for generating random primitives</p>
  * <p>Could be used for quickly populating database with dummy data</p>
  * @version v6.18.06.13 */
-public class GenerateData {
+class GenerateData {
 	public static String getRandomString() {
         String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         StringBuilder salt = new StringBuilder();

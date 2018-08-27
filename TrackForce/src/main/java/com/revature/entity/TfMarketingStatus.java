@@ -70,29 +70,35 @@ public class TfMarketingStatus implements java.io.Serializable
 		return result;
 	}
 
+	/** @param obj the reference object with which to compare.
+	 * @return {@code true} if this object is the same as the obj
+	 * argument; {@code false} otherwise. */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TfMarketingStatus other = (TfMarketingStatus) obj;
-		if (associates == null) {
-			if (other.associates != null)
-				return false;
-		} else if (!associates.equals(other.associates))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (name == null) {
-            return other.name == null;
-		} else return name.equals(other.name);
-    }
+	public boolean equals(Object obj) { return super.equals(obj); }
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		TfMarketingStatus other = (TfMarketingStatus) obj;
+//		if (associates == null) {
+//			if (other.associates != null)
+//				return false;
+//		} else if (!associates.equals(other.associates))
+//			return false;
+//		if (id == null) {
+//			if (other.id != null)
+//				return false;
+//		} else if (!id.equals(other.id))
+//			return false;
+//		if (name == null) {
+//            return other.name == null;
+//		} else return name.equals(other.name);
+//    }
 
 	@Override
 	public String toString() 

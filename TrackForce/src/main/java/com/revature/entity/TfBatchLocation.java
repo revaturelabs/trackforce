@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -74,29 +75,35 @@ public class TfBatchLocation implements java.io.Serializable
 		return result;
 	}
 
+	/** @param obj the reference object with which to compare.
+	 * @return {@code true} if this object is the same as the obj
+	 * argument; {@code false} otherwise. */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TfBatchLocation other = (TfBatchLocation) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (batches == null) {
-            return other.batches == null;
-		} else return batches.equals(other.batches);
-    }
+	public boolean equals(Object obj) { return super.equals(obj); }
+
+	//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		TfBatchLocation other = (TfBatchLocation) obj;
+//		if (id == null) {
+//			if (other.id != null)
+//				return false;
+//		} else if (!id.equals(other.id))
+//			return false;
+//		if (name == null) {
+//			if (other.name != null)
+//				return false;
+//		} else if (!name.equals(other.name))
+//			return false;
+//		if (batches == null) {
+//            return other.batches == null;
+//		} else return batches.equals(other.batches);
+//    }
 
 	@Override
 	public String toString() {

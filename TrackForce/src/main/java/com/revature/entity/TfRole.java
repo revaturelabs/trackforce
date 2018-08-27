@@ -72,29 +72,35 @@ public class TfRole implements java.io.Serializable
 		return result;
 	}
 
+	/** @param obj the reference object with which to compare.
+	 * @return {@code true} if this object is the same as the obj
+	 * argument; {@code false} otherwise. */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TfRole other = (TfRole) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (users == null) {
-            return other.users == null;
-		} else return users.equals(other.users);
-    }
+	public boolean equals(Object obj) { return super.equals(obj); }
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		TfRole other = (TfRole) obj;
+//		if (id == null) {
+//			if (other.id != null)
+//				return false;
+//		} else if (!id.equals(other.id))
+//			return false;
+//		if (name == null) {
+//			if (other.name != null)
+//				return false;
+//		} else if (!name.equals(other.name))
+//			return false;
+//		if (users == null) {
+//            return other.users == null;
+//		} else return users.equals(other.users);
+//    }
 
 	@Override
 	public String toString() {

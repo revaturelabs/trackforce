@@ -69,27 +69,33 @@ public class TfCurriculum implements java.io.Serializable
 		return result;
 	}
 
+	/** @param obj the reference object with which to compare.
+	 * @return {@code true} if this object is the same as the obj
+	 * argument; {@code false} otherwise. */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TfCurriculum other = (TfCurriculum) obj;
-		if (batches == null) {
-			if (other.batches != null)
-				return false;
-		} else if (!batches.equals(other.batches))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (name == null) {
-            return other.name == null;
-		} else return name.equals(other.name);
-    }
+	public boolean equals(Object obj) { return super.equals(obj); }
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		TfCurriculum other = (TfCurriculum) obj;
+//		if (batches == null) {
+//			if (other.batches != null)
+//				return false;
+//		} else if (!batches.equals(other.batches))
+//			return false;
+//		if (id == null) {
+//			if (other.id != null)
+//				return false;
+//		} else if (!id.equals(other.id))
+//			return false;
+//		if (name == null) {
+//            return other.name == null;
+//		} else return name.equals(other.name);
+//    }
 }

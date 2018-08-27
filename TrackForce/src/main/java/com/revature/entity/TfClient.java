@@ -5,6 +5,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -95,43 +96,49 @@ public class TfClient implements java.io.Serializable
 		return result;
 	}
 
+	/** @param obj the reference object with which to compare.
+	 * @return {@code true} if this object is the same as the obj
+	 * argument; {@code false} otherwise. */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TfClient other = (TfClient) obj;
-		if (associate == null) {
-			if (other.associate != null)
-				return false;
-		} else if (!associate.equals(other.associate)) {
-			return false;
-		}
-		if (interview == null) {
-			if (other.interview != null)
-				return false;
-		} else if (!interview.equals(other.interview)) {
-			return false;
-		}
-		if (placement == null) {
-			if (other.placement != null)
-				return false;
-		} else if (!placement.equals(other.placement)) {
-			return false;
-		}
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		if (name == null) {
-            return other.name == null;
-		} else return name.equals(other.name);
-    }
+	public boolean equals(Object obj) { return super.equals(obj); }
+
+	//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		TfClient other = (TfClient) obj;
+//		if (associate == null) {
+//			if (other.associate != null)
+//				return false;
+//		} else if (!associate.equals(other.associate)) {
+//			return false;
+//		}
+//		if (interview == null) {
+//			if (other.interview != null)
+//				return false;
+//		} else if (!interview.equals(other.interview)) {
+//			return false;
+//		}
+//		if (placement == null) {
+//			if (other.placement != null)
+//				return false;
+//		} else if (!placement.equals(other.placement)) {
+//			return false;
+//		}
+//		if (id == null) {
+//			if (other.id != null)
+//				return false;
+//		} else if (!id.equals(other.id)) {
+//			return false;
+//		}
+//		if (name == null) {
+//            return other.name == null;
+//		} else return name.equals(other.name);
+//    }
 
 	@Override
 	public String toString() {

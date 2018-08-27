@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.HashSet;
 import java.util.Set;
 
-
 /** @version v6.18.06.13 */
 @XmlRootElement
 @Entity
@@ -70,29 +69,35 @@ public class TfInterviewType implements java.io.Serializable
 		return result;
 	}
 
+	/** @param obj the reference object with which to compare.
+	 * @return {@code true} if this object is the same as the obj
+	 * argument; {@code false} otherwise. */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TfInterviewType other = (TfInterviewType) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (interviews == null) {
-			if (other.interviews != null)
-				return false;
-		} else if (!interviews.equals(other.interviews))
-			return false;
-		if (name == null) {
-            return other.name == null;
-		} else return name.equals(other.name);
-    }
+	public boolean equals(Object obj) { return super.equals(obj); }
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		TfInterviewType other = (TfInterviewType) obj;
+//		if (id == null) {
+//			if (other.id != null)
+//				return false;
+//		} else if (!id.equals(other.id))
+//			return false;
+//		if (interviews == null) {
+//			if (other.interviews != null)
+//				return false;
+//		} else if (!interviews.equals(other.interviews))
+//			return false;
+//		if (name == null) {
+//            return other.name == null;
+//		} else return name.equals(other.name);
+//    }
 
 	@Override
 	public String toString() { return "TfInterviewType [id=" + id + ", name=" + name + "]"; }	

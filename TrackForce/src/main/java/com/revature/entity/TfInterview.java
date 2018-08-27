@@ -200,94 +200,100 @@ public class TfInterview implements java.io.Serializable
 		return result;
 	}
 
+	/** @param obj the reference object with which to compare.
+	 * @return {@code true} if this object is the same as the obj
+	 * argument; {@code false} otherwise. */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TfInterview other = (TfInterview) obj;
-		if (associate == null) {
-			if (other.associate != null)
-				return false;
-		} else if (!associate.equals(other.associate))
-			return false;
-		if (associateFeedback == null) {
-			if (other.associateFeedback != null)
-				return false;
-		} else if (!associateFeedback.equals(other.associateFeedback))
-			return false;
-		if (client == null) {
-			if (other.client != null)
-				return false;
-		} else if (!client.equals(other.client))
-			return false;
-		if (clientFeedback == null) {
-			if (other.clientFeedback != null)
-				return false;
-		} else if (!clientFeedback.equals(other.clientFeedback))
-			return false;
-		if (dateAssociateIssued == null) {
-			if (other.dateAssociateIssued != null)
-				return false;
-		} else if (!dateAssociateIssued.equals(other.dateAssociateIssued))
-			return false;
-		if (dateSalesIssued == null) {
-			if (other.dateSalesIssued != null)
-				return false;
-		} else if (!dateSalesIssued.equals(other.dateSalesIssued))
-			return false;
-		if (endClient == null) {
-			if (other.endClient != null)
-				return false;
-		} else if (!endClient.equals(other.endClient))
-			return false;
-		if (flagReason == null) {
-			if (other.flagReason != null)
-				return false;
-		} else if (!flagReason.equals(other.flagReason))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (interviewDate == null) {
-			if (other.interviewDate != null)
-				return false;
-		} else if (!interviewDate.equals(other.interviewDate))
-			return false;
-		if (interviewType == null) {
-			if (other.interviewType != null)
-				return false;
-		} else if (!interviewType.equals(other.interviewType))
-			return false;
-		if (isClientFeedbackVisible == null) {
-			if (other.isClientFeedbackVisible != null)
-				return false;
-		} else if (!isClientFeedbackVisible.equals(other.isClientFeedbackVisible))
-			return false;
-		if (isInterviewFlagged == null) {
-			if (other.isInterviewFlagged != null)
-				return false;
-		} else if (!isInterviewFlagged.equals(other.isInterviewFlagged))
-			return false;
-		if (jobDescription == null) {
-			if (other.jobDescription != null)
-				return false;
-		} else if (!jobDescription.equals(other.jobDescription))
-			return false;
-		if (questionGiven == null) {
-			if (other.questionGiven != null)
-				return false;
-		} else if (!questionGiven.equals(other.questionGiven))
-			return false;
-		if (was24HRNotice == null) {
-            return other.was24HRNotice == null;
-		} else return was24HRNotice.equals(other.was24HRNotice);
-    }
+	public boolean equals(Object obj) { return super.equals(obj); }
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		TfInterview other = (TfInterview) obj;
+//		if (associate == null) {
+//			if (other.associate != null)
+//				return false;
+//		} else if (!associate.equals(other.associate))
+//			return false;
+//		if (associateFeedback == null) {
+//			if (other.associateFeedback != null)
+//				return false;
+//		} else if (!associateFeedback.equals(other.associateFeedback))
+//			return false;
+//		if (client == null) {
+//			if (other.client != null)
+//				return false;
+//		} else if (!client.equals(other.client))
+//			return false;
+//		if (clientFeedback == null) {
+//			if (other.clientFeedback != null)
+//				return false;
+//		} else if (!clientFeedback.equals(other.clientFeedback))
+//			return false;
+//		if (dateAssociateIssued == null) {
+//			if (other.dateAssociateIssued != null)
+//				return false;
+//		} else if (!dateAssociateIssued.equals(other.dateAssociateIssued))
+//			return false;
+//		if (dateSalesIssued == null) {
+//			if (other.dateSalesIssued != null)
+//				return false;
+//		} else if (!dateSalesIssued.equals(other.dateSalesIssued))
+//			return false;
+//		if (endClient == null) {
+//			if (other.endClient != null)
+//				return false;
+//		} else if (!endClient.equals(other.endClient))
+//			return false;
+//		if (flagReason == null) {
+//			if (other.flagReason != null)
+//				return false;
+//		} else if (!flagReason.equals(other.flagReason))
+//			return false;
+//		if (id == null) {
+//			if (other.id != null)
+//				return false;
+//		} else if (!id.equals(other.id))
+//			return false;
+//		if (interviewDate == null) {
+//			if (other.interviewDate != null)
+//				return false;
+//		} else if (!interviewDate.equals(other.interviewDate))
+//			return false;
+//		if (interviewType == null) {
+//			if (other.interviewType != null)
+//				return false;
+//		} else if (!interviewType.equals(other.interviewType))
+//			return false;
+//		if (isClientFeedbackVisible == null) {
+//			if (other.isClientFeedbackVisible != null)
+//				return false;
+//		} else if (!isClientFeedbackVisible.equals(other.isClientFeedbackVisible))
+//			return false;
+//		if (isInterviewFlagged == null) {
+//			if (other.isInterviewFlagged != null)
+//				return false;
+//		} else if (!isInterviewFlagged.equals(other.isInterviewFlagged))
+//			return false;
+//		if (jobDescription == null) {
+//			if (other.jobDescription != null)
+//				return false;
+//		} else if (!jobDescription.equals(other.jobDescription))
+//			return false;
+//		if (questionGiven == null) {
+//			if (other.questionGiven != null)
+//				return false;
+//		} else if (!questionGiven.equals(other.questionGiven))
+//			return false;
+//		if (was24HRNotice == null) {
+//            return other.was24HRNotice == null;
+//		} else return was24HRNotice.equals(other.was24HRNotice);
+//    }
 
 	@Override
 	public String toString() {

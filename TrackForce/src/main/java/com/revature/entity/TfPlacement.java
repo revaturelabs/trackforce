@@ -97,44 +97,50 @@ public class TfPlacement implements java.io.Serializable
 		return result;
 	}
 
+	/** @param obj the reference object with which to compare.
+	 * @return {@code true} if this object is the same as the obj
+	 * argument; {@code false} otherwise. */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TfPlacement other = (TfPlacement) obj;
-		if (associate == null) {
-			if (other.associate != null)
-				return false;
-		} else if (!associate.equals(other.associate))
-			return false;
-		if (client == null) {
-			if (other.client != null)
-				return false;
-		} else if (!client.equals(other.client))
-			return false;
-		if (end == null) {
-			if (other.end != null)
-				return false;
-		} else if (!end.equals(other.end))
-			return false;
-		if (endClient == null) {
-			if (other.endClient != null)
-				return false;
-		} else if (!endClient.equals(other.endClient))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (start == null) {
-            return other.start == null;
-		} else return start.equals(other.start);
-    }
+	public boolean equals(Object obj) { return super.equals(obj); }
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		TfPlacement other = (TfPlacement) obj;
+//		if (associate == null) {
+//			if (other.associate != null)
+//				return false;
+//		} else if (!associate.equals(other.associate))
+//			return false;
+//		if (client == null) {
+//			if (other.client != null)
+//				return false;
+//		} else if (!client.equals(other.client))
+//			return false;
+//		if (end == null) {
+//			if (other.end != null)
+//				return false;
+//		} else if (!end.equals(other.end))
+//			return false;
+//		if (endClient == null) {
+//			if (other.endClient != null)
+//				return false;
+//		} else if (!endClient.equals(other.endClient))
+//			return false;
+//		if (id == null) {
+//			if (other.id != null)
+//				return false;
+//		} else if (!id.equals(other.id))
+//			return false;
+//		if (start == null) {
+//            return other.start == null;
+//		} else return start.equals(other.start);
+//    }
 
 	@Override
 	public String toString() {

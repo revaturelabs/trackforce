@@ -1,19 +1,13 @@
 package com.revature.test.admin.pom;
-
+import com.revature.test.utils.WaitToLoad;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import com.revature.test.utils.WaitToLoad;
+import java.util.*;
 
 /**
  * All the locations of the elements are specified in the tests.properties file

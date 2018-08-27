@@ -1,25 +1,20 @@
 package com.revature.test.admin.cukes;
-
-import static org.junit.Assert.assertTrue;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-
 import com.revature.test.admin.pom.AssociateListTab;
 import com.revature.test.admin.pom.HomeTab;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
 import com.revature.test.utils.WaitToLoad;
-
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import java.util.ArrayList;
+import java.util.List;
+import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 public class HomeTabCukes{
 	

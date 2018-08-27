@@ -1,25 +1,17 @@
 package com.revature.test.admin.cukes;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
-
-import org.openqa.selenium.WebElement;
-
 import com.revature.test.admin.pom.CreateUserTab;
 import com.revature.test.admin.pom.HomeTab;
 import com.revature.test.admin.pom.Login;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
-
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 public class CreateUserCukes{
-	static WebElement e = null;
 
-		
-	
 	@Given("^I click on Create User Tab$")
 	public static void clickCreateUserTab() {
 		try {

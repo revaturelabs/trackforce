@@ -1,23 +1,19 @@
 package com.revature.test.services;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.revature.dao.InterviewDao;
+import com.revature.entity.TfInterview;
+import com.revature.services.InterviewService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.revature.dao.InterviewDao;
-import com.revature.entity.TfInterview;
-import com.revature.services.InterviewService;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class InterviewServiceTest {
 

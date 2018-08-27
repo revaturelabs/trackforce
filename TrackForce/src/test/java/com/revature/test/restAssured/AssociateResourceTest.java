@@ -1,32 +1,20 @@
 package com.revature.test.restAssured;
-
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Matchers.contains;
-import static org.testng.Assert.assertTrue;
-
+import com.revature.entity.*;
+import com.revature.services.AssociateService;
+import com.revature.services.JWTService;
+import io.restassured.response.Response;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
-import com.revature.entity.TfClient;
-import com.revature.entity.TfEndClient;
-import com.revature.entity.TfMarketingStatus;
-import com.revature.entity.TfUser;
-import com.revature.services.AssociateService;
-import com.revature.services.JWTService;
-
-import io.restassured.response.Response;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Rest Assured to ensure that this resource is functioning properly.
- * 
  * @author Jesse
  * @since 06.18.06.16
  */

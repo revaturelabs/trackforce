@@ -1,16 +1,13 @@
 package com.revature.test.junit.util;
-
-import static org.junit.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
-
+import com.revature.utils.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import com.revature.utils.HibernateUtil;
+import static org.junit.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 public class HibernateUtilTest {
 

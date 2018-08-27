@@ -1,32 +1,23 @@
 package com.revature.test.services;
-
-import org.testng.annotations.Test;
-
 import com.revature.dao.TrainerDao;
 import com.revature.entity.TfTrainer;
-import com.revature.entity.TfTrainer;
-import com.revature.services.AssociateService;
 import com.revature.services.TrainerService;
-
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.testng.annotations.BeforeGroups;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
-
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.matchers.Any;
-import org.testng.annotations.BeforeGroups;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 
 public class TrainerServiceTest {
 	private TfTrainer trainer1, trainer2, trainer3, trainer4;

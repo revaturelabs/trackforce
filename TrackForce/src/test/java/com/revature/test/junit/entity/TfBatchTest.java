@@ -1,27 +1,15 @@
 package com.revature.test.junit.entity;
-
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertTrue;
-
+import com.revature.entity.*;
+import org.testng.annotations.Test;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.testng.annotations.Test;
-
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
-import com.revature.entity.TfBatchLocation;
-import com.revature.entity.TfCurriculum;
-import com.revature.entity.TfTrainer;
+import static org.testng.Assert.*;
 
 /**
  * Tests to test basic getter and setter functionality for TfBatchTest
- * 
  * @author Jesse
  * @Since 6.18.06.11
  */

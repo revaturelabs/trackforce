@@ -1,18 +1,11 @@
 package com.revature.test.admin.pom;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
+import com.revature.test.utils.WaitToLoad;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import com.revature.test.utils.WaitToLoad;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * All the locations of the elements are specified in the tests.properties file

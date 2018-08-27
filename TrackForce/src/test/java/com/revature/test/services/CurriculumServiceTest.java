@@ -1,26 +1,21 @@
 package com.revature.test.services;
-
-import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNull;
-
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.revature.dao.CurriculumDao;
+import com.revature.entity.TfCurriculum;
+import com.revature.entity.TfTrainer;
+import com.revature.services.CurriculumService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import com.revature.dao.CurriculumDao;
-import com.revature.entity.TfCurriculum;
-import com.revature.entity.TfTrainer;
-import com.revature.services.CurriculumService;
-import com.revature.services.TrainerService;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 public class CurriculumServiceTest {
 	private TfCurriculum curr1, curr2, curr3, curr4;

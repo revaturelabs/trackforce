@@ -1,23 +1,17 @@
 package com.revature.test.admin.cukes;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
 import com.revature.test.admin.pom.AssociateListTab;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.*;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 public class AssociateListCukes {
 	

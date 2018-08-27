@@ -1,20 +1,16 @@
 package com.revature.test.admin.cukes;
-
-import static org.testng.Assert.assertEquals;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-
 import com.revature.test.admin.pom.HomeTab;
 import com.revature.test.admin.pom.Login;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
 import com.revature.test.utils.WebDriverUtil;
-
 import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import static org.testng.Assert.assertEquals;
 
 public class LoginCukes {
 	@Given("^I connect to caliber$")

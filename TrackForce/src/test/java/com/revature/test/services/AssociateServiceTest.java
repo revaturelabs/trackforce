@@ -1,17 +1,10 @@
 package com.revature.test.services;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
-
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.revature.dao.AssociateDao;
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfRole;
+import com.revature.entity.TfUser;
+import com.revature.services.AssociateService;
+import com.revature.services.UserService;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
@@ -20,18 +13,17 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import com.revature.dao.AssociateDao;
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfRole;
-import com.revature.entity.TfUser;
-import com.revature.services.AssociateService;
-import com.revature.services.UserService;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.*;
 
 /**
  * Tests the various methods in the AssociateService to ensure that they are
  * functioning properly
- * 
  * @author Daniel Lani
  * 
  * @since 6.06.14.18

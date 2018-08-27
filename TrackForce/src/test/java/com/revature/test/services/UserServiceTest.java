@@ -1,24 +1,20 @@
 package com.revature.test.services;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.testng.Assert.assertEquals;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.revature.dao.UserDao;
+import com.revature.entity.TfUser;
+import com.revature.services.JWTService;
+import com.revature.services.UserService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import com.revature.dao.UserDao;
-import com.revature.entity.TfUser;
-import com.revature.services.JWTService;
-import com.revature.services.UserService;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
 
 /**
  * This class tests major functionalities related to the UserService class using

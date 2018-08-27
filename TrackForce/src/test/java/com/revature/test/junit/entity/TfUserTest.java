@@ -1,19 +1,12 @@
 package com.revature.test.junit.entity;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertTrue;
-
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import static org.testng.Assert.*;
 
 /**
  * Tests to test basic getter and setter functionality for TfUser
- * 
  * @author Jesse
  * @Since 6.18.06.11
  */

@@ -12,8 +12,6 @@ public class ThreadUtil {
 	//However, it will be to the detriment of the running server. (Most likely an Amazon EC2)
 	private static ExecutorService executor = Executors.newFixedThreadPool(15);
 	
-	public ThreadUtil() { super(); }
-	
 	public <T> T submitCallable(Callable<T> caller) {
 		Future<T> future = executor.submit(caller);
 		T results = null;

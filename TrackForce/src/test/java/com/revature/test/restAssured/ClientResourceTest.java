@@ -1,26 +1,19 @@
 package com.revature.test.restAssured;
-
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
-import static org.testng.Assert.assertTrue;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import com.revature.entity.TfClient;
 import com.revature.services.ClientService;
 import com.revature.services.JWTService;
-
 import io.restassured.response.Response;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.hasSize;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Rest Assured for ClientResource
- * 
  * @author Jesse, Andy
  * @since 06.18.06.16
  */

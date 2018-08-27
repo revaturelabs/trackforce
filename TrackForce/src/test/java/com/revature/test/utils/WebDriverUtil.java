@@ -1,14 +1,11 @@
 package com.revature.test.utils;
-
+import com.revature.test.admin.pom.Login;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-
-import com.revature.test.admin.pom.Login;
 
 public class WebDriverUtil {
 

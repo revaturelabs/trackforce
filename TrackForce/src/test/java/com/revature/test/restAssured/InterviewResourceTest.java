@@ -1,15 +1,11 @@
 package com.revature.test.restAssured;
-
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertTrue;
-
 import java.io.IOException;
 import java.sql.Timestamp;
-
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfClient;
 import com.revature.entity.TfEndClient;
@@ -18,12 +14,10 @@ import com.revature.entity.TfInterviewType;
 import com.revature.services.AssociateService;
 import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
-
 import io.restassured.response.Response;
 
 /**
  * Rest Assured to ensure that this resource is functioning as intended.
- * 
  * @author Jesse
  * @since 06.18.06.16
  */

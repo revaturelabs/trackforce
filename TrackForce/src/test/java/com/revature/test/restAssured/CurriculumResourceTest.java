@@ -1,24 +1,16 @@
 package com.revature.test.restAssured;
-
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Matchers.contains;
-import static org.testng.Assert.assertTrue;
-
-import java.io.IOException;
-
+import com.revature.services.JWTService;
+import io.restassured.response.Response;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.revature.services.JWTService;
-
-import io.restassured.response.Response;
+import java.io.IOException;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.hasSize;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Rest Assured testing to ensure that this resource is functioning properly.
- * 
  * @author Jesse
  * @since 06.18.06.16
  */

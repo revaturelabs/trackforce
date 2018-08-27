@@ -1,31 +1,21 @@
 package com.revature.test.restAssured;
-
-import static io.restassured.RestAssured.given;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfMarketingStatus;
-import com.revature.entity.TfRole;
-import com.revature.entity.TfTrainer;
-import com.revature.entity.TfUser;
-import com.revature.entity.TfUserAndCreatorRoleContainer;
+import com.revature.entity.*;
 import com.revature.resources.UserResource;
 import com.revature.services.JWTService;
 import com.revature.services.MarketingStatusService;
 import com.revature.services.UserService;
-
 import io.restassured.response.Response;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import static io.restassured.RestAssured.given;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Rest assured tests for the login resource. Note that many of these tests are
  * creating users so they are by default set to not run. Only run these tests if
  * you are in a testing environment or are comfortable adding additional entries
  * to your tables!
- * 
  * @author Jesse
  * @since 06.18.06.16
  */

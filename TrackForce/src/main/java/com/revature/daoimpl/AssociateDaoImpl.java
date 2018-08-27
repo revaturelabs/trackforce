@@ -82,7 +82,7 @@ public class AssociateDaoImpl implements AssociateDao
 		final String BEGINNING = "select count(tf_associate_id) from admin.tf_associate ";
 		final String BASE = BEGINNING + "where tf_marketing_status_id = ";
 		String sql;
-		switch (sqlID){
+		switch (sqlID) {
 			case 1: // getCountUndeployedMapped()
 				sql =  BEGINNING + "where (tf_marketing_status_id = 1 or tf_marketing_status_id = 2 " +
 						"or tf_marketing_status_id = 3 or tf_marketing_status_id = 4)";
@@ -111,7 +111,8 @@ public class AssociateDaoImpl implements AssociateDao
 				sql = BASE + 3; break;
 			case 12: // getCountMappedConfirmed()
 				sql = BASE + 4; break;
-			default: sql = "";
+			default: 
+				sql = "";  break;
 		}//end switch
 		return getCountOf(sql);
 	}//end getCountStringMapper()
@@ -155,7 +156,7 @@ public class AssociateDaoImpl implements AssociateDao
 
 	@Override
 	public boolean updateAssociatePartial(TfAssociate associate) {
-		return HibernateUtil.runHibernateTransaction((Session session, Object ... args)->
+		return runHibernateTransaction((Session session, Object ... args)->
 		{
 			TfAssociate temp = session.get(TfAssociate.class, associate.getId());
 			temp.setFirstName(associate.getFirstName());
@@ -177,7 +178,7 @@ public class AssociateDaoImpl implements AssociateDao
 	 * @param associateId */
 	@Override
 	public boolean approveAssociate(int associateId)
-	{ return HibernateUtil.runHibernateTransaction(approveAssociate, associateId);  }
+	{ return runHibernateTransaction(approveAssociate, associateId);  }
 
 	/** approves many given associates
 	 * @param associateIds contains associate ids */

@@ -1,28 +1,20 @@
 package com.revature.test.restAssured;
-
-import static io.restassured.RestAssured.given;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
-import static org.hamcrest.Matchers.hasSize;
-
-
+import com.revature.services.BatchService;
+import com.revature.services.JWTService;
+import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import com.revature.services.BatchService;
-import com.revature.services.JWTService;
-
-import io.restassured.response.Response;
+import static io.restassured.RestAssured.given;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Tests to ensure that that batches are only accessible to the right users and that all
  * behavior is intended in relationship to date ranges
- * 
  * @author Daniel L.
  * @since 06.18.06.19
  */
 public class BatchResourceTest {
-
 
 	static final String URL = "http://52.87.205.55:8086/TrackForce/batches";
 	//static final String URL = "http://localhost:8085/TrackForce/batches";

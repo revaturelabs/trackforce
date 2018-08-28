@@ -1,27 +1,19 @@
 package com.revature.test.restAssured;
-
-import static io.restassured.RestAssured.given;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-import static org.hamcrest.Matchers.hasSize;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
 import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
-
 import io.restassured.response.Response;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.hasSize;
+import static org.testng.Assert.*;
 
 /**
  * Rest Assured tests for ensuring that the trainer resource functions properly.
- * 
  * @author Jesse, Andy
  * @since 06.18.06.16
  */

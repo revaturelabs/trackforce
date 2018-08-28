@@ -1,15 +1,11 @@
 package com.revature.test.admin.pom;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
-import com.revature.test.utils.WaitToLoad;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class AssociateView {
 	private static Properties prop = new Properties();

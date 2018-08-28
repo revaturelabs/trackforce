@@ -1,23 +1,11 @@
 package com.revature.test.junit.entity;
-
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertTrue;
-
-import java.sql.Timestamp;
-
+import com.revature.entity.*;
 import org.testng.annotations.Test;
-
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfClient;
-import com.revature.entity.TfEndClient;
-import com.revature.entity.TfInterview;
-import com.revature.entity.TfInterviewType;
+import java.sql.Timestamp;
+import static org.testng.Assert.*;
 
 /**
  * Tests to test basic getter and setter functionality for TfInterviewTest
- * 
  * @author Jesse
  * @Since 6.18.06.11
  */

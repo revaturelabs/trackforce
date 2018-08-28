@@ -1,36 +1,20 @@
 package com.revature.entity;
-// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
-/**
- * <p> </p>
- * @version v6.18.06.13
- */
+/** @version v6.18.06.13 */
 @XmlRootElement
 @Entity
 @Table(name = "TF_INTERVIEW_TYPE", schema = "ADMIN")
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
-//Logans attempt at getting ehcache working below
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
-public class TfInterviewType implements java.io.Serializable {
-
+public class TfInterviewType implements java.io.Serializable 
+{
 	private static final long serialVersionUID = -4949282863102956521L;
 	
 	@XmlElement
@@ -44,10 +28,11 @@ public class TfInterviewType implements java.io.Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "interviewType")
 	@JsonIgnore
-	private Set<TfInterview> interviews = new HashSet<TfInterview>(0);
+	private Set<TfInterview> interviews = new HashSet<>(0);
 
-	public TfInterviewType() {
-	}
+	//---------------------------
+
+	public TfInterviewType() { super(); }
 
 	public TfInterviewType(Integer id, String name, Set<TfInterview> interviews) {
 		super();
@@ -56,35 +41,23 @@ public class TfInterviewType implements java.io.Serializable {
 		this.interviews = interviews;
 	}
 
-	public Integer getId() {
-		return id;
-	}
+	//---------------------------
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	public Integer getId() { return id; }
 
-	public String getName() {
-		return name;
-	}
+	public void setId(Integer id) { this.id = id; }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	public String getName() { return name; }
+
+	public void setName(String name) { this.name = name; }
 
 	@JsonIgnore
-	public Set<TfInterview> getInterviews() {
-		return interviews;
-	}
+	public Set<TfInterview> getInterviews() { return interviews; }
 
 	@JsonIgnore
-	public void setInterviews(Set<TfInterview> interviews) {
-		this.interviews = interviews;
-	}
+	public void setInterviews(Set<TfInterview> interviews) { this.interviews = interviews; }
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	public static long getSerialversionuid() { return serialVersionUID; }
 
 	@Override
 	public int hashCode() {
@@ -96,37 +69,12 @@ public class TfInterviewType implements java.io.Serializable {
 		return result;
 	}
 
+	/** @param obj the reference object with which to compare.
+	 * @return {@code true} if this object is the same as the obj
+	 * argument; {@code false} otherwise. */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TfInterviewType other = (TfInterviewType) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (interviews == null) {
-			if (other.interviews != null)
-				return false;
-		} else if (!interviews.equals(other.interviews))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
+	public boolean equals(Object obj) { return super.equals(obj); }
 
 	@Override
-	public String toString() {
-		return "TfInterviewType [id=" + id + ", name=" + name + "]";
-	}
-
-	
+	public String toString() { return "TfInterviewType [id=" + id + ", name=" + name + "]"; }	
 }

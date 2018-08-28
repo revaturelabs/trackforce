@@ -1,27 +1,13 @@
 package com.revature.test.junit.entity;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotEquals;
-
+import com.revature.entity.*;
+import org.junit.Test;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.junit.Test;
-
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
-import com.revature.entity.TfClient;
-import com.revature.entity.TfEndClient;
-import com.revature.entity.TfInterview;
-import com.revature.entity.TfMarketingStatus;
-import com.revature.entity.TfPlacement;
-import com.revature.entity.TfUser;
+import static org.junit.Assert.*;
 
 /**
  * Tests to test basic getter and setter functionality for TfAssociate
- * 
  * @author Jesse
  * @Since 6.18.06.11
  */

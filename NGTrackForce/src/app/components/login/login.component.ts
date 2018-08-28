@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit {
 
   public isLoggingIn = false;
   public loginClicked = false;
-
+  public userRequirement: String = ""
   /**
    *@constructor
    *
@@ -175,13 +175,14 @@ export class LoginComponent implements OnInit {
     this.sucMsg = "";
     this.errMsg = "";
 
+
     if (this.password === undefined || this.cpassword === undefined || this.password.length === 0 || this.cpassword.length === 0) {
       this.errMsg = 'Please enter a password and confirm password!';
     } else if (this.password !== this.cpassword) {
       this.errMsg = 'Passwords do not match!';
     } else if (!this.usernameRestrictions.test(this.username.trim()) && !this.passwordRestrictions.test(this.password)) {
       this.errMsg = `Invalid username and password!<br>
-        <br>Password requirements:
+        <br>Username requirements:
           <ul>
             <li>• 6 - 20 alphanumeric characters.</li>
             <li>• No spaces.</li>
@@ -197,7 +198,7 @@ export class LoginComponent implements OnInit {
           </ul>`;
     } else if (!this.usernameRestrictions.test(this.username.trim())) {
       this.errMsg = `Invalid username!<br>
-        <br>Password requirements:
+        <br>Username requirements:
           <ul>
             <li>• 6 - 20 characters.</li>
             <li>• No spaces.</li>

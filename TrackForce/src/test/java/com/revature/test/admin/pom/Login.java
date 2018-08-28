@@ -1,12 +1,10 @@
 package com.revature.test.admin.pom;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * All the locations of the elements are specified in the tests.properties file
@@ -16,7 +14,6 @@ import org.openqa.selenium.WebElement;
  * @since 6.18.06.07
  */
 public class Login {
-	public static WebDriver wd = null;
 	private static Properties prop = new Properties();
 	static {
 		InputStream locProps = Login.class.getClassLoader()

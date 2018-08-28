@@ -1,16 +1,13 @@
 package com.revature.daoimpl;
-
 import java.util.List;
-
 import com.revature.entity.TfEndClient;
 import org.hibernate.Session;
-
 import com.revature.dao.ClientDao;
 import com.revature.entity.TfClient;
 import com.revature.utils.HibernateUtil;
 
-public class ClientDaoImpl implements ClientDao {
-
+public class ClientDaoImpl implements ClientDao
+{
 	@Override
 	public List<TfClient> getAllTfClients() {
 		return HibernateUtil.runHibernate((Session session, Object ...args) -> session
@@ -39,16 +36,15 @@ public class ClientDaoImpl implements ClientDao {
 	@Override
 	public List<TfClient> getAllTfClients(String[] columns) {
 		return HibernateUtil.runHibernate((Session session, Object ...args) -> session
-				.createQuery("SELECT " + String.join(" ", (String[]) args[0]) + "FROM TfClient ", TfClient.class)
-				.getResultList());
+				.createQuery("SELECT " + String.join(" ", (String[]) args[0]) +
+						"FROM TfClient ", TfClient.class).getResultList());
 	}
 
 	@Override
 	public TfClient getClient(String name) {
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
 				.createQuery("from TfClient c where c.name like :name", TfClient.class)
-				.setParameter("name", name)
-				.getSingleResult());
+				.setParameter("name", name).getSingleResult());
 	}
 
 	@Override
@@ -63,8 +59,6 @@ public class ClientDaoImpl implements ClientDao {
 	public TfEndClient getEndClient(int id) {
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
 				.createQuery("from TfEndClient c where c.id like :id", TfEndClient.class)
-				.setParameter("id", id)
-				.getSingleResult());
+				.setParameter("id", id).getSingleResult());
 	}
-
 }

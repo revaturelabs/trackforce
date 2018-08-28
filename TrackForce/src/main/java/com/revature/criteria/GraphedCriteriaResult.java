@@ -1,12 +1,12 @@
 package com.revature.criteria;
 
-public class GraphedCriteriaResult {
+public class GraphedCriteriaResult
+{
 	private long count;
 	private int id;
 	private String name;
 
-	public GraphedCriteriaResult() {
-	}
+	public GraphedCriteriaResult() { }
 
 	public GraphedCriteriaResult(long count, int id, String name) {
 		this.count = count;
@@ -14,28 +14,15 @@ public class GraphedCriteriaResult {
 		this.name = name;
 	}
 
-	public long getCount() {
+	public long getCount() { return count; }
 
-		return count;
-	}
+	public void setCount(long count) { this.count = count; }
 
-	public void setCount(long count) {
-		this.count = count;
-	}
+	public int getId() { return id; }
 
-	public int getId() {
-		return id;
-	}
+	public void setId(int id) { this.id = id; }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+	public String getName() { return name; }
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	public void setName(String name) { this.name = name; }
 }

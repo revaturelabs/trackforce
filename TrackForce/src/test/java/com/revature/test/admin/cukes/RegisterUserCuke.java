@@ -1,15 +1,10 @@
 package com.revature.test.admin.cukes;
-
-import static org.testng.Assert.fail;
-
-import com.revature.test.admin.pom.CreateUserTab;
 import com.revature.test.admin.pom.Login;
 import com.revature.test.utils.ServiceHooks;
-
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import static org.testng.Assert.fail;
 
 public class RegisterUserCuke {
 	

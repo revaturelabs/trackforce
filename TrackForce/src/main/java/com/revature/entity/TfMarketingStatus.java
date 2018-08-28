@@ -1,35 +1,25 @@
 package com.revature.entity;
-// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
-
-import java.util.HashSet;
-import java.util.Set;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
-/**
- * <p> </p>
- * @version v6.18.06.13
- */
+/** @version v6.18.06.13 */
 @XmlRootElement
 @Entity
 @Table(name = "TF_MARKETING_STATUS", schema = "ADMIN")
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
-public class TfMarketingStatus implements java.io.Serializable {
-
+public class TfMarketingStatus implements java.io.Serializable 
+{
 	private static final long serialVersionUID = -1638800519652509525L;
 	
 	@XmlElement
 	@Id
-//	@GeneratedValue
+	//@GeneratedValue
 	@Column(name = "TF_MARKETING_STATUS_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer id;
 	
@@ -39,10 +29,11 @@ public class TfMarketingStatus implements java.io.Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "marketingStatus")
 	@JsonIgnore
-	private Set<TfAssociate> associates = new HashSet<TfAssociate>(0);
+	private Set<TfAssociate> associates = new HashSet<>(0);
 
-	public TfMarketingStatus() {
-	}
+	//---------------------
+
+	public TfMarketingStatus() { super(); }
 
 	public TfMarketingStatus(Integer id, String name, Set<TfAssociate> associates) {
 		super();
@@ -51,35 +42,23 @@ public class TfMarketingStatus implements java.io.Serializable {
 		this.associates = associates;
 	}
 
-	public Integer getId() {
-		return id;
-	}
+	//---------------------
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	public Integer getId() { return id; }
 
-	public String getName() {
-		return name;
-	}
+	public void setId(Integer id) { this.id = id; }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	public String getName() { return name; }
+
+	public void setName(String name) { this.name = name; }
 
 	@JsonIgnore
-	public Set<TfAssociate> getAssociates() {
-		return associates;
-	}
+	public Set<TfAssociate> getAssociates() { return associates; }
 
 	@JsonIgnore
-	public void setAssociates(Set<TfAssociate> associates) {
-		this.associates = associates;
-	}
+	public void setAssociates(Set<TfAssociate> associates) { this.associates = associates; }
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	public static long getSerialversionuid() { return serialVersionUID; }
 
 	@Override
 	public int hashCode() {
@@ -91,35 +70,37 @@ public class TfMarketingStatus implements java.io.Serializable {
 		return result;
 	}
 
+	/** @param obj the reference object with which to compare.
+	 * @return {@code true} if this object is the same as the obj
+	 * argument; {@code false} otherwise. */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TfMarketingStatus other = (TfMarketingStatus) obj;
-		if (associates == null) {
-			if (other.associates != null)
-				return false;
-		} else if (!associates.equals(other.associates))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
+	public boolean equals(Object obj) { return super.equals(obj); }
+
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		TfMarketingStatus other = (TfMarketingStatus) obj;
+//		if (associates == null) {
+//			if (other.associates != null)
+//				return false;
+//		} else if (!associates.equals(other.associates))
+//			return false;
+//		if (id == null) {
+//			if (other.id != null)
+//				return false;
+//		} else if (!id.equals(other.id))
+//			return false;
+//		if (name == null) {
+//            return other.name == null;
+//		} else return name.equals(other.name);
+//    }
 
 	@Override
-	public String toString() {
-		return "TfMarketingStatus [id=" + id + ", name=" + name + "]";
-	}
+	public String toString() 
+	{ return "TfMarketingStatus [id=" + id + ", name=" + name + "]"; }
 }

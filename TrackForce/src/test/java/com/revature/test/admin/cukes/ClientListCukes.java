@@ -1,25 +1,19 @@
 package com.revature.test.admin.cukes;
-
-import static org.testng.Assert.fail;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-
 import com.revature.test.admin.pom.ClientListTab;
 import com.revature.test.admin.pom.Login;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import static org.testng.Assert.fail;
 
-public class ClientListCukes{
-	static WebElement e = null;
+public class ClientListCukes {
 	static WebDriver d = ServiceHooks.driver;
 
 	static String firstClient = null; //first client at top of client list initially on page load

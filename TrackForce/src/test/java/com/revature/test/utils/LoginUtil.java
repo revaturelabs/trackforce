@@ -1,13 +1,10 @@
 package com.revature.test.utils;
-
+import com.revature.test.admin.pom.Login;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-
-import com.revature.test.admin.pom.Login;
 
 public class LoginUtil {
 	private static Properties prop = new Properties();

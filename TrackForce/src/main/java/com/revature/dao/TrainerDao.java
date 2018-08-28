@@ -1,11 +1,8 @@
 package com.revature.dao;
-
 import java.util.List;
-
 import com.revature.entity.TfTrainer;
 
 public interface TrainerDao {
-
 	TfTrainer getTrainer(int id);
 	List<TfTrainer> getAllTrainers();
 	boolean createTrainer(TfTrainer trainer);

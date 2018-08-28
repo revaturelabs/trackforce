@@ -9,6 +9,7 @@ import { User } from '../../models/user.model';
 import { ActivatedRoute } from '@angular/router';
 import { Curriculum } from '../../models/curriculum.model';
 import { MatSpinner } from '@angular/material';
+import { SortedBy, SortOption } from './associate-list.enum';
 
 /**
  * Component for the Associate List page
@@ -22,7 +23,7 @@ import { MatSpinner } from '@angular/material';
 })
 export class AssociateListComponent implements OnInit {
   //our collection of associates and clients
-  public associates: Associate[];
+  public associates: Associate[] = [];
   public clients: Client[];
   curriculums: Set<string>; //stored unique curriculums
   public isDataReady = false;
@@ -33,6 +34,16 @@ export class AssociateListComponent implements OnInit {
   searchByText = '';
   searchByCurriculum = '';
   searchByVerification = '';
+
+  //used for sorting
+  sortedBy: any;
+  sortOption: any;
+  sortByIdAsc = true;
+  sortByFNameAsc = true;
+  sortByLNameAsc = true;
+  sortByMarketAsc = true;
+  sortByBatchAsc = true;
+  sortByClientAsc = true;
 
   //status/client to be updated
   updateShow = false;
@@ -62,9 +73,46 @@ export class AssociateListComponent implements OnInit {
     private associateService: AssociateService, //TfAssociate,
     private clientService: ClientService,
     private rs: RequestService,
-    private activated: ActivatedRoute
+    private activated: ActivatedRoute,
   ) {
     this.curriculums = new Set<string>();
+    this.sortedBy = SortedBy;
+    this.sortOption = SortOption;
+  }
+
+  /**
+   * Sorts the array according to the tab that was clicked on.
+   * @param option enum SortOptions, determines how we're sorting the data.
+   * @param sortedBy enum SortBy equal to the sortBy... property identifiers, to toggle sort by asc/desc
+   */
+  sortBy(option: SortOption, sortedBy: SortedBy) {
+    const props = option.split('.');
+    const parent = props[0];
+    const child = props[1];
+    const asc = this[sortedBy];
+    if(!child) {
+      this.associates.sort((associateA, associateB)=> {
+        if (associateA[parent] < associateB[parent]) {
+          return asc === true ? -1 : 1;
+        } else if (associateB[parent] < associateA[parent]) {
+          return asc === true ? 1 : -1;
+        } else {
+          return 0;
+        }
+      });
+    } else {
+      this.associates.sort((associateA, associateB)=> {
+        if (associateA[parent][child] < associateB[parent][child]) {
+          return asc === true ? -1 : 1;
+        } else if (associateB[parent][child] < associateA[parent][child]) {
+          return asc === true ? 1 : -1;
+        } else {
+          return 0;
+        }
+      });
+
+    }
+    this[sortedBy] = !this[sortedBy]
   }
 
   ngOnInit() {
@@ -124,7 +172,6 @@ export class AssociateListComponent implements OnInit {
    */
   getAllAssociates() {
     this.associateService.getAllAssociates().subscribe(data => {
-      this.associates.length = 0;
       this.associates = data;
       for (const associate of this.associates) {
         //get our curriculums from the associates
@@ -204,3 +251,5 @@ export class AssociateListComponent implements OnInit {
         this.updating = false;
   }
 }
+
+

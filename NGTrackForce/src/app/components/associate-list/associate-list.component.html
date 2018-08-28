@@ -57,12 +57,14 @@
         <thead class="pointer">
           <tr>
             <th class="edit">Edit</th>
-            <th class="id">Associate ID</th>
-            <th class="first">First Name</th>
-            <th class="last">Last Name</th>
-            <th class="status">Marketing Status</th>
-            <th class="client">Client Name</th>
-            <th class="batch">Batch Name</th>
+            <th class="id" (click)="sortBy(sortOption.ID, sortedBy.sortByIdAsc)">Associate ID
+              <span [ngClass]="sortByIdAsc === true ? 'caret-up' : 'caret'"></span>
+            </th>
+            <th class="first" (click)="sortBy(sortOption.FNAME, sortedBy.sortByFNameAsc)">First Name</th>
+            <th class="last" (click)="sortBy(sortOption.LNAME, sortedBy.sortByLNameAsc)">Last Name</th>
+            <th class="status" (click)="sortBy(sortOption.MARKET, sortedBy.sortByMarketAsc)">Marketing Status</th>
+            <th class="client" (click)="sortBy(sortOption.CLIENT, sortedBy.sortByClientAsc)">Client Name</th>
+            <th class="batch" (click)="sortBy(sortOption.BATCH, sortedBy.sortByBatchAsc)">Batch Name</th>
             <th class="verificationStatus">Verification Status</th>
           </tr>
         </thead>

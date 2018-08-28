@@ -1,32 +1,20 @@
 package com.revature.entity;
-// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
-
-import java.util.HashSet;
-import java.util.Set;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-/**
- * <p>
- * </p>
- * 
- * @version v6.18.06.13
- */
+/** @version v6.18.06.13 */
 @XmlRootElement
 @Entity
 @Table(name = "TF_CLIENT", schema = "ADMIN")
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-//Logans attempt at getting ehcache working below
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
-public class TfClient implements java.io.Serializable {
-
+public class TfClient implements java.io.Serializable 
+{
 	private static final long serialVersionUID = 3153069785231904041L;
 
 	@XmlElement
@@ -53,9 +41,9 @@ public class TfClient implements java.io.Serializable {
 	@JsonIgnore
 	private Set<TfInterview> interview = new HashSet<>(0);
 
-	public TfClient() {
-		super();
-	}
+	//----------------------------
+
+	public TfClient() { super(); }
 
 	public TfClient(Integer id, String name, Set<TfPlacement> placement, Set<TfAssociate> associate,
 			Set<TfInterview> interview) {
@@ -67,51 +55,33 @@ public class TfClient implements java.io.Serializable {
 		this.interview = interview;
 	}
 
-	public Integer getId() {
-		return id;
-	}
+	//----------------------------
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	public Integer getId() { return id; }
 
-	public String getName() {
-		return name;
-	}
+	public void setId(Integer id) { this.id = id; }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	public String getName() { return name; }
+
+	public void setName(String name) { this.name = name; }
 
 	@JsonIgnore
-	public Set<TfPlacement> getPlacement() {
-		return placement;
-	}
+	public Set<TfPlacement> getPlacement() { return placement; }
 
 	@JsonIgnore
-	public void setPlacement(Set<TfPlacement> placement) {
-		this.placement = placement;
-	}
+	public void setPlacement(Set<TfPlacement> placement) { this.placement = placement; }
 
 	@JsonIgnore
-	public Set<TfAssociate> getAssociate() {
-		return associate;
-	}
+	public Set<TfAssociate> getAssociate() { return associate; }
 
 	@JsonIgnore
-	public void setAssociate(Set<TfAssociate> associate) {
-		this.associate = associate;
-	}
+	public void setAssociate(Set<TfAssociate> associate) { this.associate = associate; }
 
 	@JsonIgnore
-	public Set<TfInterview> getInterview() {
-		return interview;
-	}
+	public Set<TfInterview> getInterview() { return interview; }
 
 	@JsonIgnore
-	public void setInterview(Set<TfInterview> interview) {
-		this.interview = interview;
-	}
+	public void setInterview(Set<TfInterview> interview) { this.interview = interview; }
 
 	@Override
 	public int hashCode() {
@@ -125,47 +95,11 @@ public class TfClient implements java.io.Serializable {
 		return result;
 	}
 
+	/** @param obj the reference object with which to compare.
+	 * @return {@code true} if this object is the same as the obj
+	 * argument; {@code false} otherwise. */
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TfClient other = (TfClient) obj;
-		if (associate == null) {
-			if (other.associate != null)
-				return false;
-		} else if (!associate.equals(other.associate)) {
-			return false;
-		}
-		if (interview == null) {
-			if (other.interview != null)
-				return false;
-		} else if (!interview.equals(other.interview)) {
-			return false;
-		}
-		if (placement == null) {
-			if (other.placement != null)
-				return false;
-		} else if (!placement.equals(other.placement)) {
-			return false;
-		}
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name)) {
-			return false;
-		}
-		return true;
-	}
+	public boolean equals(Object obj) { return super.equals(obj); }
 
 	@Override
 	public String toString() {

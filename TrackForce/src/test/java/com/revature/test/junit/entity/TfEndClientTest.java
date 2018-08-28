@@ -1,24 +1,15 @@
 package com.revature.test.junit.entity;
-
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertTrue;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import org.testng.annotations.Test;
-
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfCurriculum;
 import com.revature.entity.TfEndClient;
 import com.revature.entity.TfInterview;
 import com.revature.entity.TfPlacement;
+import org.testng.annotations.Test;
+import java.util.HashSet;
+import java.util.Set;
+import static org.testng.Assert.*;
 
 /**
  * Tests to test basic getter and setter functionality for TfEndClient
- * 
  * @author Jesse
  * @Since 6.18.06.11
  */

@@ -1,34 +1,18 @@
 package com.revature.test.admin.cukes;
-
-import static org.testng.Assert.fail;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-
 import com.revature.test.admin.pom.BatchListTab;
 import com.revature.test.admin.pom.Login;
 import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
-
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.openqa.selenium.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import static org.testng.Assert.fail;
 
 public class BatchListCukes {
 

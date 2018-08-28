@@ -1,11 +1,7 @@
 package com.revature.test.services;
-
-import static org.mockito.Matchers.anyInt;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.revature.dao.BatchDao;
+import com.revature.entity.TfBatch;
+import com.revature.services.BatchService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -13,18 +9,13 @@ import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import com.revature.dao.BatchDao;
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
-import com.revature.services.BatchService;
-
+import java.util.ArrayList;
+import java.util.List;
+import static org.mockito.Matchers.anyInt;
 
 /**
  * Tests meant to ensure proper functionality of the BatchService methods
- * 
  * Reviewed by Daniel Lani
- * 
  * @since 6.06.07.18
  */
 public class BatchesServiceTest {

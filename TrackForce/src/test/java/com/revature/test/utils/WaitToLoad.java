@@ -1,13 +1,11 @@
 package com.revature.test.utils;
-
-import java.util.List;
-import java.util.function.Function;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import java.util.List;
+import java.util.function.Function;
 
 // Implicit wait util method
 // Accepts webdriver as first param, the selector method, and the maximum time it will wait until it times out

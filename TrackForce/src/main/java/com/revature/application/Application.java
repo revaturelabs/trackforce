@@ -1,43 +1,12 @@
 package com.revature.application;
+import com.revature.services.*;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
-import com.revature.entity.TfRole;
-import com.revature.entity.TfTrainer;
-import com.revature.entity.TfUser;
-import com.revature.services.AssociateService;
-import com.revature.services.BatchService;
-import com.revature.services.ClientService;
-import com.revature.services.CurriculumService;
-import com.revature.services.InterviewService;
-import com.revature.services.MarketingStatusService;
-import com.revature.services.TrainerService;
-import com.revature.services.UserService;
-import com.revature.utils.PasswordStorage;
-
-import java.util.HashSet;
-import java.util.List;
-
-import static com.revature.utils.HibernateUtil.saveToDB;
-import static com.revature.utils.PasswordStorage.createHash;
-
-
-import net.sf.ehcache.CacheManager;
-
-/**
- *
- * @author Adam L.
+/** @author Adam L.
  * <p>Used for a few quick simple tests to ensure hibernate is making the calls it is supposed to</p>
- * @version v6.18.06.13
- *
- */
+ * @version v6.18.06.13 */
 @SuppressWarnings("unused")
-public class Application {
-
+public class Application
+{
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
 	// This is to allow for Mockito tests, which have problems with static methods
 	// This is here for a reason!
@@ -51,9 +20,21 @@ public class Application {
 	static UserService userService = new UserService();
 	static MarketingStatusService marketingStatusService = new MarketingStatusService();
 
-	public static void main(String[] args) throws PasswordStorage.CannotPerformOperationException {
-
-
+	public static void main(String[] args) { }
+//		TfRole role = userService.getRole(1);
+//
+//		TfUser user = new TfUser();
+//		user.setIsApproved(1);
+//		user.setPassword("password");
+//		user.setUsername("TestUsername");
+//		user.setTfRole(role);
+//		user.setRole(1);
+//
+//		TfAssociate associate = new TfAssociate();
+//		associate.setFirstName("RestAssured");
+//		associate.setLastName("Associate");
+//		associate.setUser(user);
+//		System.out.println(associateService.createAssociate(associate));}
 //		TfUser u = new TfUser();
 //		u.setRole(5);
 //		u.setUsername("AssociateTest");
@@ -64,14 +45,11 @@ public class Application {
 
 //		List<TfUser> users = userService.getAllUsers();
 //		
-//		for(TfUser u : users)
-//			System.out.println(u);
+//		for(TfUser u : users) System.out.println(u);
 
 //		List<TfInterview> interviews = interviewService.getAllInterviews();
-//		for(TfInterview i : interviews)
-//			System.out.println(i);
-		
-		
+//		for(TfInterview i : interviews) System.out.println(i);
+
 //		TfTrainer t = new TfTrainer();
 //		t.setFirstName("Ava");
 //		t.setLastName("Trains");
@@ -79,11 +57,10 @@ public class Application {
 //		t.setTfUser(u);
 //		t.setCoTrainer(new ArrayList<>());
 //		t.setPrimary(new ArrayList<>());
-
 //		System.out.println(trainerService.createTrainer(t));
 
 //		TfAssociate a = new TfAssociate();
-////		a.setId(233);
+//		//a.setId(233);
 //		a.setFirstName("Roland");
 //		a.setLastName("Deschain");
 //		a.setUser(userService.getUser("AssociateTest"));
@@ -112,35 +89,15 @@ public class Application {
 //		//a.setInterview(new HashSet<>());
 //		associateService.createAssociate(a);
 
-
 //		for (TfTrainer tt : trainerService.getAllTrainers()) {
 //			System.out.println(t);
 //		}
 
-		
-		TfRole role = new TfRole();
-		role = userService.getRole(1);
-		
-		TfUser user = new TfUser();
-		user.setIsApproved(1);
-		user.setPassword("password");
-		user.setUsername("TestUsername");
-		user.setTfRole(role);
-		user.setRole(1);
-		
-		TfAssociate associate = new TfAssociate();
-		associate.setFirstName("RestAssured");
-		associate.setLastName("Associate");
-		associate.setUser(user);
-		
-		System.out.println(associateService.createAssociate(associate));}}
-
 //		TfInterview interview = new TfInterview();
-//
 
 //		TfAssociate a = new TfAssociate();
 //		a = associateService.getAssociate(392);
-//		
+//
 //		TfClient c = new TfClient();
 //		a.setId(5);
 //		
@@ -151,13 +108,9 @@ public class Application {
 //		it.setId(7);
 
 //		TfAssociate a = associateService.getAssociate(1);
-//		
 //		TfClient c = clientService.getClient(5);
-//		
 //		TfEndClient ec = clientService.getEndClient(250);
-//				
 //		TfInterviewType it = interviewService.getInterviewById(1).getInterviewType();
-
 
 //		interview.setAssociate(a);
 //		interview.setClient(c);
@@ -174,12 +127,9 @@ public class Application {
 //		interview.setIsInterviewFlagged(1);
 //		interview.setFlagReason("Alert");
 //		interview.setIsClientFeedbackVisible(1);
-//		
 //		System.out.println(interview);
 	
-//		for (TfTrainer all : trainerService.getAllTrainers()) {
-//			System.out.println(all);
-//		}
+//		for (TfTrainer all : trainerService.getAllTrainers()) System.out.println(all);
 //		
 //		TfTrainer t = trainerService.getTrainer(24);
 //		
@@ -193,7 +143,6 @@ public class Application {
 //		t.setPrimary(list);
 //		
 //		System.out.println(trainerService.updateTrainer(t));
-
 //		System.out.println(interviewService.updateInterview(interview));
 //		System.out.println(interviewService.createInterview(interview));
 		
@@ -203,30 +152,20 @@ public class Application {
 //		user.setPassword("password");
 //		user.setRole(5);
 //		user.setUsername("A Very Unique Name");
-//		
 //		System.out.println(userService.insertUser(user));
 		
 //		TfUser u = new TfUser();
 //		u.setUsername("Bob");
 //		u.setPassword("BOB");
-//		
 //		System.out.println(userService.submitCredentials(u));
-
 //		System.out.println(interviewService.createInterview(interview));
-
 
 //		associateService.updateAssociate(a);
 
-
 		//System.out.println(associateService.getAssociate(920));
-//				
-		
-		
-	
-		
+
 //		List<TfUser> users = userService.getAllUsers();
-//		for(TfUser u : users)
-//			System.out.println(u);
+//		for(TfUser u : users) System.out.println(u);
 		
 //		TfTrainer t = new TfTrainer();
 //		t.setFirstName("Test");
@@ -260,16 +199,12 @@ public class Application {
 //		a.setPlacement(new HashSet<>());
 //		a.setEndClient(new TfEndClient());
 //		a.setInterview(new HashSet<>());
-//		
 //		associateService.createAssociate(a);
-//		
 //		System.out.println(associateService.getAssociate(920));
-
 
 		// test get all interviews
 //		List<TfInterview> interviews = interviewService.getAllInterviews();
-//		for(TfInterview interview : interviews)
-//			System.out.println(interview);
+//		for(TfInterview interview : interviews) System.out.println(interview);
 
 //		// test a single interview
 //		Integer interviewId = 215;
@@ -286,7 +221,6 @@ public class Application {
 
 		// test getting all users
 
-
 //		TfUser newUser = new TfUser();
 //		TfRole role = new TfRole();
 //		role.setTfRoleId(1);
@@ -301,11 +235,8 @@ public class Application {
 
 		// make a user to be used by max in testing login
 
-
 //TfAssociate associate = new TfAssociate();
 //associate.setId(1);
 //associate.setFirstName("Greg");
-//
 //System.out.println(associateService.updateAssociate(associate));
-//	}
-//}
+}

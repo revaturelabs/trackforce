@@ -1,28 +1,17 @@
 package com.revature.test.dao;
 import org.dbunit.JdbcBasedDBTestCase;
 import org.dbunit.JdbcDatabaseTester;
-import org.dbunit.DBTestCase;
-import org.dbunit.DefaultDatabaseTester;
-import org.dbunit.IDatabaseTester;
+import org.dbunit.PropertiesBasedJdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
-
+import org.dbunit.dataset.xml.XmlDataSet;
+import org.dbunit.operation.DatabaseOperation;
 import java.io.File;
 import java.io.FileInputStream;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.dataset.xml.XmlDataSet;
-import org.dbunit.PropertiesBasedJdbcDatabaseTester;
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.operation.DatabaseOperation;
-import java.sql.DriverManager;
-import java.sql.Connection;
+
 /*DbUnit testing of dao/service code, inherits getConnection() from DBTestCase
  * Only one database used here, hence only one DbUnit
 */
 public class DbUnit extends JdbcBasedDBTestCase{
-   private Connection jdbcConnection;
-    
     
    public DbUnit(String name){
         super(name);

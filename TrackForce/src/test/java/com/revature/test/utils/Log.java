@@ -1,5 +1,4 @@
 package com.revature.test.utils;
-
 import org.apache.log4j.Logger;
 
  /* The Log class wraps log4j to log all desired test results. 
@@ -7,7 +6,6 @@ import org.apache.log4j.Logger;
  * @author joeyi
  */
 public final class Log {
-	
 	// .class gets an instance of the Log class at run time
 	public final static Logger Log = Logger.getLogger(Log.class);
 	

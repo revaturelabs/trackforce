@@ -1,25 +1,16 @@
 package com.revature.test.junit.entity;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertTrue;
-
-import java.util.ArrayList;
-
-import org.testng.annotations.Test;
-
 import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import static org.testng.Assert.*;
 
+/**
+ * Tests to test basic getter and setter functionality for TfTrainer
+ * @author Jesse
+ * @Since 6.18.06.19
+ */
 public class TfTrainerTest {
-
-	/**
-	 * Tests to test basic getter and setter functionality for TfTrainer
-	 * 
-	 * @author Jesse
-	 * @Since 6.18.06.19
-	 */
 
 	TfTrainer trainer = new TfTrainer();
 	TfTrainer trainer2 = new TfTrainer(10, "Jimbo", "Jimbo", new ArrayList<>(), new ArrayList<>());

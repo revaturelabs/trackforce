@@ -24,6 +24,23 @@ public class Application
 	static MarketingStatusService marketingStatusService = new MarketingStatusService();
 
 	public static void main(String[] args) {
+		
+		TfRole role = userService.getRole(1);
+
+		TfUser user = new TfUser();
+		user.setIsApproved(1);
+		user.setPassword("password");
+		user.setUsername("TestUsername");
+		user.setTfRole(role);
+		user.setRole(1);
+		
+		TfAssociate associate = new TfAssociate();
+		associate.setFirstName("RestAssured");
+		associate.setLastName("Associate");
+		associate.setUser(user);
+		System.out.println(associateService.createAssociate(associate));
+		
+	}//end main
 //		TfUser u = new TfUser();
 //		u.setRole(5);
 //		u.setUsername("AssociateTest");
@@ -81,21 +98,6 @@ public class Application
 //		for (TfTrainer tt : trainerService.getAllTrainers()) {
 //			System.out.println(t);
 //		}
-
-		TfRole role = userService.getRole(1);
-
-		TfUser user = new TfUser();
-		user.setIsApproved(1);
-		user.setPassword("password");
-		user.setUsername("TestUsername");
-		user.setTfRole(role);
-		user.setRole(1);
-		
-		TfAssociate associate = new TfAssociate();
-		associate.setFirstName("RestAssured");
-		associate.setLastName("Associate");
-		associate.setUser(user);
-		System.out.println(associateService.createAssociate(associate));
 
 //		TfInterview interview = new TfInterview();
 
@@ -243,5 +245,4 @@ public class Application
 //associate.setId(1);
 //associate.setFirstName("Greg");
 //System.out.println(associateService.updateAssociate(associate));
-	}
 }

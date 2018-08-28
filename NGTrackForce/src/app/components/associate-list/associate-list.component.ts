@@ -25,7 +25,7 @@ export class AssociateListComponent implements OnInit {
   public associates: Associate[];
   public clients: Client[];
   curriculums: Set<string>; //stored unique curriculums
-  public isDataReady: boolean = false;
+  public isDataReady = false;
 
   //used for filtering
   searchByStatus = '';
@@ -163,7 +163,7 @@ export class AssociateListComponent implements OnInit {
     this.updating = true;
     const ids: number[] = [];
 
-    let associateList: Associate[] = [];
+    const associateList: Associate[] = [];
     for (const a of this.associates) {
       //grab the checked ids
       const check = <HTMLInputElement>document.getElementById('' + a.id);

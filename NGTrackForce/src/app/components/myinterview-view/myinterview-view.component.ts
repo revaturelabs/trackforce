@@ -46,7 +46,7 @@ export class MyInterviewComponent implements OnInit {
   public openDateNotified: boolean;
   public openInterviewDate: boolean;
   public conflictingInterview: boolean;
-  public isDataReady: boolean = false;
+  public isDataReady = false;
   public dateError:boolean;
   index;
   index2;

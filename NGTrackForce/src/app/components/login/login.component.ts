@@ -28,7 +28,7 @@ const BATCHES_COTRAINER_KEY = 'currentBatchesCotrainer';
 const BATCHES_KEY = 'currentBatches';
 const CLIENTS_KEY = 'currentClients';
 
-/* 
+/*
   PROBLEM
   should be admin/sales/staging_key
   SHOULDNT load all associates as soon as one of those roles logs in
@@ -79,8 +79,8 @@ export class LoginComponent implements OnInit {
   public newTrainer: Trainer;
   public newAssociate: Associate;
 
-  public isLoggingIn: boolean = false;
-  public loginClicked: boolean = false;
+  public isLoggingIn = false;
+  public loginClicked = false;
 
   /**
    *@constructor
@@ -127,7 +127,7 @@ export class LoginComponent implements OnInit {
     if (user != null) {
       this.loginClicked = true;
       this.isLoggingIn = true;
-      
+
 
       this.userService.checkJwtValid().subscribe(
         data => { this.routeToUserHome(user.role); },
@@ -139,11 +139,11 @@ export class LoginComponent implements OnInit {
   routeToUserHome(role: number){
     this.navbarService.show();
 
-    if (role == 5) {
+    if (role === 5) {
         this.router.navigate(['associate-view']);
-    } else if (role == 2) {
+    } else if (role === 2) {
         this.router.navigate(['trainer-view']);
-    } else if (role == 1 || role == 3 || role == 4) {
+    } else if (role === 1 || role === 3 || role === 4) {
         this.router.navigate(['app-home']);
     } else{
       this.navbarService.hide();

@@ -36,9 +36,9 @@ import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.compon
  *        to get all batches and show meaningful information
  */
 @Component({
-  selector: "app-batch-list",
-  templateUrl: "./batch-list.component.html",
-  styleUrls: ["./batch-list.component.css"]
+  selector: 'app-batch-list',
+  templateUrl: './batch-list.component.html',
+  styleUrls: ['./batch-list.component.css']
 })
 @AutoUnsubscribe
 export class BatchListComponent implements OnInit {
@@ -63,7 +63,7 @@ export class BatchListComponent implements OnInit {
 
   start: any;
   end: any;
-  pieChartType = "pie";
+  pieChartType = 'pie';
   startDate: Date = new Date();
   endDate: Date = new Date();
   batches: Batch[];

@@ -21,6 +21,7 @@ import { StatusInfo } from '../../models/status-info.model'
 export class ClientListComponent implements OnInit {
   public showNoData = false;
   public loading = true;
+  public placeholder = 'Loading client list . . .'
   public selectedCompany: string;
   public clientInfo: Client[];
   public mappedClientInfo: Client[];
@@ -102,6 +103,7 @@ export class ClientListComponent implements OnInit {
           this.clientNames.push(client.name);
         }
         this.loading = false;
+        this.placeholder = 'Enter a client . . .';
       },
       err => {
         console.error("Failed grabbing names");

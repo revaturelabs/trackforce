@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, AsyncSubject, BehaviorSubject } from 'rxjs';
 
 import { Associate } from '../../models/associate.model';
 import { environment } from '../../../environments/environment';
@@ -15,19 +15,31 @@ import { GraphCounts } from '../../models/graph-counts';
 export class AssociateService {
   private baseURL: string = environment.url + 'TrackForce/associates';
   private nassURL: string = this.baseURL + '/nass';
+
+  /**
+   * This behavior subject will hold an initial empty value until a request is sent for associates
+   */
+  private allAssociates: BehaviorSubject<Associate[]> = new BehaviorSubject<Associate[]>([]);
+
   constructor(private http: HttpClient) {}
 
   /**
    *
    * Gets all of the associates
    */
-  getAllAssociates(): Observable<Associate[]> {
+  getAllAssociates(): BehaviorSubject<Associate[]> {
     const url: string = this.baseURL + '/allAssociates';
-    return this.http.get<Associate[]>(url);
+    this.http.get<Associate[]>(url).subscribe((data: Associate[]) => this.allAssociates.next(data));
+    return this.allAssociates;
   }
 
   /*
     gets initial associates loaded
+
+    ! DEPRECATED: This is not a good idea to try to speed up performance
+    ! the plan will be to implement pagination for now the app will just 
+    ! wait for all associates as this request will end up taking just as 
+    ! long due to the problems on the server side
   */
   getNAssociates(): Observable<Associate[]> {
     return this.http.get<Associate[]>(this.nassURL);

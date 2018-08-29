@@ -8,10 +8,10 @@ export enum SortOption {
 }
 
 export enum SortedBy {
-  sortByIdAsc,
-  sortByFNameAsc,
-  sortByLNameAsc,
-  sortByMarketAsc,
-  sortByBatchAsc,
-  sortByClientAsc
+  sortByIdAsc = 'sortByIdAsc',
+  sortByFNameAsc = 'sortByFNameAsc',
+  sortByLNameAsc = 'sortByLNameAsc',
+  sortByMarketAsc = 'sortByMarketAsc',
+  sortByBatchAsc = 'sortByBatchAsc',
+  sortByClientAsc = 'sortByClientAsc'
 }

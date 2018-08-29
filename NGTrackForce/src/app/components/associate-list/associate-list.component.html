@@ -58,13 +58,33 @@
           <tr>
             <th class="edit">Edit</th>
             <th class="id" (click)="sortBy(sortOption.ID, sortedBy.sortByIdAsc)">Associate ID
-              <span [ngClass]="sortByIdAsc === true ? 'caret-up' : 'caret'"></span>
+              <i class="glyphicon pull-right"
+                [ngClass]="sortByIdAsc === true ? 'glyphicon-triangle-top' : 'glyphicon-triangle-bottom'" style="display:inline-block!important;">
+            </i>
             </th>
-            <th class="first" (click)="sortBy(sortOption.FNAME, sortedBy.sortByFNameAsc)">First Name</th>
-            <th class="last" (click)="sortBy(sortOption.LNAME, sortedBy.sortByLNameAsc)">Last Name</th>
-            <th class="status" (click)="sortBy(sortOption.MARKET, sortedBy.sortByMarketAsc)">Marketing Status</th>
-            <th class="client" (click)="sortBy(sortOption.CLIENT, sortedBy.sortByClientAsc)">Client Name</th>
-            <th class="batch" (click)="sortBy(sortOption.BATCH, sortedBy.sortByBatchAsc)">Batch Name</th>
+            <th class="first" (click)="sortBy(sortOption.FNAME, sortedBy.sortByFNameAsc)">First Name       <i class="glyphicon pull-right"
+                [ngClass]="sortByFNameAsc === true ? 'glyphicon-triangle-top' : 'glyphicon-triangle-bottom'" style="display:inline-block!important;">
+            </i>
+            </th>
+            <th class="last" (click)="sortBy(sortOption.LNAME, sortedBy.sortByLNameAsc)">Last Name        <i class="glyphicon pull-right"
+              [ngClass]="sortByLNameAsc === true ? 'glyphicon-triangle-top' : 'glyphicon-triangle-bottom'" style="display:inline-block!important;">
+              </i>
+            </th>
+            <th class="status" (click)="sortBy(sortOption.MARKET, sortedBy.sortByMarketAsc)">Marketing Status
+              <i class="glyphicon pull-right"
+                [ngClass]="sortByMarketAsc === true ? 'glyphicon-triangle-top' : 'glyphicon-triangle-bottom'" style="display:inline-block!important;">
+              </i>
+            </th>
+            <th class="client" (click)="sortBy(sortOption.CLIENT, sortedBy.sortByClientAsc)">Client Name
+              <i class="glyphicon pull-right"
+                [ngClass]="sortByClientAsc === true ? 'glyphicon-triangle-top' : 'glyphicon-triangle-bottom'" style="display:inline-block!important;">
+              </i>
+            </th>
+            <th class="batch" (click)="sortBy(sortOption.BATCH, sortedBy.sortByBatchAsc)">Batch Name
+              <i class="glyphicon pull-right"
+                [ngClass]="sortByBatchAsc === true ? 'glyphicon-triangle-top' : 'glyphicon-triangle-bottom'" style="display:inline-block!important;">
+              </i>
+            </th>
             <th class="verificationStatus">Verification Status</th>
           </tr>
         </thead>

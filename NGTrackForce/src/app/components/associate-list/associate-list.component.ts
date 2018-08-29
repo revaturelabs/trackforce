@@ -83,6 +83,8 @@ export class AssociateListComponent implements OnInit {
   /**
    * Sorts the array according to the tab that was clicked on.
    * @param option enum SortOptions, determines how we're sorting the data.
+   * Because it comes either as property, or a child of a property, we need to use split() to
+   * access that property.
    * @param sortedBy enum SortBy equal to the sortBy... property identifiers, to toggle sort by asc/desc
    */
   sortBy(option: SortOption, sortedBy: SortedBy) {
@@ -90,28 +92,19 @@ export class AssociateListComponent implements OnInit {
     const parent = props[0];
     const child = props[1];
     const asc = this[sortedBy];
-    if(!child) {
-      this.associates.sort((associateA, associateB)=> {
-        if (associateA[parent] < associateB[parent]) {
-          return asc === true ? -1 : 1;
-        } else if (associateB[parent] < associateA[parent]) {
-          return asc === true ? 1 : -1;
-        } else {
-          return 0;
-        }
-      });
-    } else {
-      this.associates.sort((associateA, associateB)=> {
-        if (associateA[parent][child] < associateB[parent][child]) {
-          return asc === true ? -1 : 1;
-        } else if (associateB[parent][child] < associateA[parent][child]) {
-          return asc === true ? 1 : -1;
-        } else {
-          return 0;
-        }
-      });
-
-    }
+    console.log(sortedBy + ": " + this[sortedBy])
+    let sortingKey: (associate: Associate) => string;
+    sortingKey = child ? (associate) => associate[parent][child] :
+      (associate) => associate[parent]
+    this.associates.sort((associateA, associateB)=> {
+      if(sortingKey(associateA) < sortingKey(associateB)) {
+        return asc === true ? -1 : 1;
+      } else if(sortingKey(associateB) < sortingKey(associateA)) {
+        return asc === true ? 1 : -1;
+      } else {
+        return 0;
+      }
+    });
     this[sortedBy] = !this[sortedBy]
   }
 

@@ -79,8 +79,8 @@ export class LoginComponent implements OnInit {
   public newTrainer: Trainer;
   public newAssociate: Associate;
 
-  public isLoggingIn: boolean = false;
-  public loginClicked: boolean = false;
+  public isLoggingIn = false;
+  public loginClicked = false;
   public userRequirement: String = ""
   /**
    *@constructor

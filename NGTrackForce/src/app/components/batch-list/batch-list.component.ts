@@ -1,5 +1,5 @@
 /** @Author Princewill Ibe **/
-import { AuthenticationService } from "../../services/authentication-service/authentication.service";
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import {
   Component,
   OnInit,
@@ -7,19 +7,19 @@ import {
   Output,
   EventEmitter,
   ViewChild
-} from "@angular/core";
-import { Batch } from "../../models/batch.model";
-import { BatchService } from "../../services/batch-service/batch.service";
-import { ThemeConstants } from "../../constants/theme.constants";
-import { AutoUnsubscribe } from "../../decorators/auto-unsubscribe.decorator";
+} from '@angular/core';
+import { Batch } from '../../models/batch.model';
+import { BatchService } from '../../services/batch-service/batch.service';
+import { ThemeConstants } from '../../constants/theme.constants';
+import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import {
   ChartOptions,
   SideValues
-} from "../../models/ng2-charts-options.model";
-import { Color } from "ng2-charts";
-import "rxjs/add/observable/from";
-import { DateService } from "../../services/date-service/date.service";
-import { DateTimePickerComponent } from "../datetimepicker/datetimepicker.component";
+} from '../../models/ng2-charts-options.model';
+import { Color } from 'ng2-charts';
+import 'rxjs/add/observable/from';
+import { DateService } from '../../services/date-service/date.service';
+import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
 
 // TODO: LABELS SHOULD PROPERLY WRAP
 /**
@@ -28,20 +28,20 @@ import { DateTimePickerComponent } from "../datetimepicker/datetimepicker.compon
  *        to get all batches and show meaningful information
  */
 @Component({
-  selector: "app-batch-list",
-  templateUrl: "./batch-list.component.html",
-  styleUrls: ["./batch-list.component.css"]
+  selector: 'app-batch-list',
+  templateUrl: './batch-list.component.html',
+  styleUrls: ['./batch-list.component.css']
 })
 @AutoUnsubscribe
 export class BatchListComponent implements OnInit {
-  @ViewChild("start")
+  @ViewChild('start')
   startDateTimePicker: DateTimePickerComponent;
-  @ViewChild("end")
+  @ViewChild('end')
   endDateTimePicker: DateTimePickerComponent;
 
   start: any;
   end: any;
-  pieChartType = "pie";
+  pieChartType = 'pie';
   startDate: Date = new Date();
   endDate: Date = new Date();
   batches: Batch[];
@@ -70,7 +70,7 @@ export class BatchListComponent implements OnInit {
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
     new SideValues(-100, 0, 0, 0),
     new SideValues(0, 0, 0, 0),
-    "right",
+    'right',
     false,
     false
   );
@@ -189,7 +189,9 @@ export class BatchListComponent implements OnInit {
   }
 
   public resetFormWarnings() {
-    if (this.showDateRangeError == true) this.showDateRangeError = false;
+    if (this.showDateRangeError == true) {
+      this.showDateRangeError = false;
+    }
   }
 
   // Logans new resetToDefaultBatches

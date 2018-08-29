@@ -1,16 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { DateService } from "../../services/date-service/date.service";
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { DateService } from '../../services/date-service/date.service';
 
 @Component({
-  selector: "app-datetimepicker",
-  templateUrl: "./datetimepicker.component.html",
-  styleUrls: ["./datetimepicker.component.css"]
+  selector: 'app-datetimepicker',
+  templateUrl: './datetimepicker.component.html',
+  styleUrls: ['./datetimepicker.component.css']
 })
 export class DateTimePickerComponent implements OnInit {
   @Input()
-  width = "250px"; //default value
+  width = '250px'; //default value
   @Input()
-  format = "date"; //default value
+  format = 'date'; //default value
   @Input()
   originalDate: number; //no default
   @Input()
@@ -22,13 +22,13 @@ export class DateTimePickerComponent implements OnInit {
   calendarView = false;
   displayErrorInvalidDate = false;
 
-  options_date = { month: "long", day: "numeric", year: "numeric" };
+  options_date = { month: 'long', day: 'numeric', year: 'numeric' };
   options_datetime = {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-    minute: "numeric",
-    hour: "numeric"
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    minute: 'numeric',
+    hour: 'numeric'
   };
   date = new Date(); //initialized to today's date
   stringDate: string;
@@ -78,17 +78,18 @@ export class DateTimePickerComponent implements OnInit {
 >>>>>>> TestAdmin "Batch" tab date limits
 
   public dateClicked() {
+    this.displayErrorInvalidDate = false;
     let localOptions = null;
     switch (this.format) {
-      case "date":
+      case 'date':
         localOptions = this.options_date;
         break;
-      case "datetime":
+      case 'datetime':
         localOptions = this.options_datetime;
         break;
     }
     if (this.date != null) {
-      this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
+      this.stringDate = this.date.toLocaleDateString('en-US', localOptions);
       this.datePicked.emit(this.stringDate);
       if (this.oldDate != this.date) {
         this.calendarView = !this.calendarView;
@@ -98,7 +99,7 @@ export class DateTimePickerComponent implements OnInit {
       //if the date chosen is invalid (before 2010, after +1 of current year), revert to previous date
       if (this.validateDate() !== 0) {
         this.date = new Date(this.originalDate);
-        this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
+        this.stringDate = this.date.toLocaleDateString('en-US', localOptions);
         this.datePicked.emit(this.stringDate);
       }
     }

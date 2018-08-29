@@ -18,6 +18,17 @@ export class AssociateService {
 
   /**
    * This behavior subject will hold an initial empty value until a request is sent for associates
+   * The boolean will track if the first set of data is ready. This should not be the way it is
+   * implemented however since we have to remain compatible with the components written already
+   * sending a null value from an AsyncSubject would throw many errors
+   *
+   * TODO: Stop using the boolean and switch to using an AsyncSubject
+   *
+   * Note on things to do that would then allow this
+   * 1. In the dependant components null checking will be needed
+   * 2. Once components can handle a null value switch the BehaviorSubject to an Async Subject
+   * 3. Ideally the components will show loading, error, and success by listening to the three
+   *    events that a subject will output when subscribed to
    */
   private allAssociates: BehaviorSubject<Associate[]> = new BehaviorSubject<Associate[]>([]);
 
@@ -37,8 +48,8 @@ export class AssociateService {
     gets initial associates loaded
 
     ! DEPRECATED: This is not a good idea to try to speed up performance
-    ! the plan will be to implement pagination for now the app will just 
-    ! wait for all associates as this request will end up taking just as 
+    ! the plan will be to implement pagination for now the app will just
+    ! wait for all associates as this request will end up taking just as
     ! long due to the problems on the server side
   */
   getNAssociates(): Observable<Associate[]> {

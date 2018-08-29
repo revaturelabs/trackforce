@@ -137,7 +137,7 @@ export class PredictionsComponent implements OnInit {
       this.results = this.results.filter(o => o['technologyIndex'] != techIndex);
 
     let techName = this.technologies[techIndex]["name"];
-    if(this.techNeeded[techIndex] == undefined || this.techNeeded[techIndex] <= 0 || this.techNeeded[techIndex] >= this.maxAssociates)
+    if(this.techNeeded[techIndex] == undefined || this.techNeeded[techIndex] <= 0 || this.techNeeded[techIndex] > this.maxAssociates)
       return;
 
     this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate), techName).subscribe(

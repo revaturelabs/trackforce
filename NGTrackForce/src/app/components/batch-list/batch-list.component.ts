@@ -1,9 +1,13 @@
 /** @Author Princewill Ibe **/
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 =======
 import { AuthenticationService } from "../../services/authentication-service/authentication.service";
 >>>>>>> fixed merging conflicts in batch-list and datetimepicker components
+=======
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+>>>>>>> TestAdmin "Batch" tab warnings
 import {
   Component,
   OnInit,
@@ -12,11 +16,15 @@ import {
   EventEmitter,
   ViewChild
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> TestAdmin "Batch" tab warnings
 } from '@angular/core';
 import { Batch } from '../../models/batch.model';
 import { BatchService } from '../../services/batch-service/batch.service';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
+<<<<<<< HEAD
 import {
   ChartOptions,
   SideValues
@@ -40,6 +48,16 @@ import "rxjs/add/observable/from";
 import { DateService } from "../../services/date-service/date.service";
 import { DateTimePickerComponent } from "../datetimepicker/datetimepicker.component";
 >>>>>>> fixed merging conflicts in batch-list and datetimepicker components
+=======
+import {
+  ChartOptions,
+  SideValues
+} from '../../models/ng2-charts-options.model';
+import { Color } from 'ng2-charts';
+import 'rxjs/add/observable/from';
+import { DateService } from '../../services/date-service/date.service';
+import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
+>>>>>>> TestAdmin "Batch" tab warnings
 
 // TODO: LABELS SHOULD PROPERLY WRAP
 /**
@@ -48,12 +66,13 @@ import { DateTimePickerComponent } from "../datetimepicker/datetimepicker.compon
  *        to get all batches and show meaningful information
  */
 @Component({
-  selector: "app-batch-list",
-  templateUrl: "./batch-list.component.html",
-  styleUrls: ["./batch-list.component.css"]
+  selector: 'app-batch-list',
+  templateUrl: './batch-list.component.html',
+  styleUrls: ['./batch-list.component.css']
 })
 @AutoUnsubscribe
 export class BatchListComponent implements OnInit {
+<<<<<<< HEAD
 <<<<<<< HEAD
   @ViewChild('start')
   startDateTimePicker: DateTimePickerComponent;
@@ -63,11 +82,16 @@ export class BatchListComponent implements OnInit {
   startDateTimePicker: DateTimePickerComponent;
   @ViewChild("end")
 >>>>>>> fixed merging conflicts in batch-list and datetimepicker components
+=======
+  @ViewChild('start')
+  startDateTimePicker: DateTimePickerComponent;
+  @ViewChild('end')
+>>>>>>> TestAdmin "Batch" tab warnings
   endDateTimePicker: DateTimePickerComponent;
 
   start: any;
   end: any;
-  pieChartType = "pie";
+  pieChartType = 'pie';
   startDate: Date = new Date();
   endDate: Date = new Date();
   batches: Batch[];
@@ -102,8 +126,12 @@ export class BatchListComponent implements OnInit {
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
     new SideValues(-100, 0, 0, 0),
     new SideValues(0, 0, 0, 0),
+<<<<<<< HEAD
     "right",
 >>>>>>> fixed merging conflicts in batch-list and datetimepicker components
+=======
+    'right',
+>>>>>>> TestAdmin "Batch" tab warnings
     false,
     false
   );

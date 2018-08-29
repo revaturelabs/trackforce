@@ -54,10 +54,10 @@ export class FormComponent implements OnInit {
   receivedEmailFromClient: boolean;
   passedBackgroundCheck: boolean;
   hasStartDate: boolean;
-  public isDataReady: boolean = false;
+  public isDataReady = false;
 
   //loading booleans
-  interviewsLoading: boolean = true;
+  interviewsLoading = true;
 
   associateId: number;
   private sub: any;
@@ -288,7 +288,7 @@ export class FormComponent implements OnInit {
   goToInterviewDetails( interview: Interview )
   {
     this.user = this.authService.getUser();
-    if ( this.user.role == 3 )
+    if ( this.user.role === 3 )
     {
       this.router.navigate(['interview-details/' + interview.id]);
     }

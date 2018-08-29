@@ -39,116 +39,131 @@ public class TfInterviewTest {
 	TfInterview interview = new TfInterview();
 
 	@Test
-	public void test1() {
+	public void testInterivewAssociateGetSet() {
 		interview.setAssociate(new TfAssociate());
 		assertTrue(interview.getAssociate() instanceof TfAssociate);
 	}
 
 	@Test
-	public void test2() {
+	public void testInterviewAssociateFeedbackGetSet() {
 		interview.setAssociateFeedback("Great");
 		assertTrue(interview.getAssociateFeedback().equals("Great"));
 		assertFalse(interview.getAssociateFeedback().equals("great"));
 	}
 
 	@Test
-	public void test3() {
+	public void testInterviewClientGetSet() {
 		interview.setClient(new TfClient());
 		assertTrue(interview.getClient() instanceof TfClient);
 	}
 
 	@Test
-	public void test4() {
+	public void testInterviewClientFeedbackGetSet() {
 		interview.setClientFeedback("Great");
 		assertTrue(interview.getClientFeedback().equals("Great"));
 		assertFalse(interview.getClientFeedback().equals("great"));
 	}
 
 	@Test
-	public void test5() {
+	public void testInterviewDateAssociateGetSet() {
 		interview.setDateAssociateIssued(new Timestamp(5000L));
 		assertTrue(interview.getDateAssociateIssued().getTime() == 5000L);
 		assertFalse(interview.getDateAssociateIssued().getTime() == 200L);
 	}
 
 	@Test
-	public void test6() {
+	public void testInterviewDateSalesGetSet() {
 		interview.setDateSalesIssued(new Timestamp(2356L));
 		assertTrue(interview.getDateSalesIssued().getTime() == 2356L);
 		assertFalse(interview.getDateSalesIssued().getTime() == 1235L);
 	}
 
 	@Test
-	public void test7() {
+	public void testInterviewEndClientGetSet() {
 		interview.setEndClient(new TfEndClient());
 		assertTrue(interview.getEndClient() instanceof TfEndClient);
 	}
 
 	@Test
-	public void test8() {
+	public void testFlagReasonGetSet() {
 		interview.setFlagReason("Weak");
 		assertTrue(interview.getFlagReason().equals("Weak"));
 		assertFalse(interview.getFlagReason().equals("weak"));
 	}
 
 	@Test
-	public void test9() {
+	public void testInterviewDateGetSet() {
 		interview.setInterviewDate(new Timestamp(5000L));
 		assertTrue(interview.getInterviewDate().getTime() == 5000L);
 		assertFalse(interview.getInterviewDate().getTime() == 4000L);
 	}
 	
 	@Test
-	public void test11() {
+	public void testInterviewTypeGetSet() {
 		interview.setInterviewType(new TfInterviewType());
 		assertTrue(interview.getInterviewType() instanceof TfInterviewType);
 		
 	}
 
 	@Test
-	public void test12() {
+	public void testInterviewClientFeedVisGetSet() {
 		interview.setIsClientFeedbackVisible(1);
 		assertTrue(interview.getIsClientFeedbackVisible() == 1);
 		assertFalse(interview.getIsClientFeedbackVisible() == 0);
 	}
 
 	@Test
-	public void test13() {
+	public void testInterviewFlaggedGetSet() {
 		interview.setIsInterviewFlagged(1);
 		assertTrue(interview.getIsInterviewFlagged() == 1);
 		assertFalse(interview.getIsInterviewFlagged() == 0);
 	}
 
 	@Test
-	public void test14() {
+	public void testInterviewJobDescGetSet() {
 		interview.setJobDescription("Programmer");
 		assertTrue(interview.getJobDescription().equals("Programmer"));
 		assertFalse(interview.getJobDescription().equals("programmer"));
 	}
 
 	@Test
-	public void test15() {
+	public void testInterviewQuestionGetSet() {
 		interview.setQuestionGiven("Why?");
 		assertTrue(interview.getQuestionGiven().equals("Why?"));
 		assertFalse(interview.getQuestionGiven().equals("why?"));
 	}
 
 	@Test
-	public void test16() {
+	public void testInterview24HRGetSet() {
 		interview.setWas24HRNotice(1);
 		assertTrue(interview.getWas24HRNotice() == 1);
 		assertFalse(interview.getWas24HRNotice() == 0);
 	}
+	
+	//Have to hard code SerialID for now as it is private static,
+	//always verify this is using the correct SerialID as defined
+	//in the TfInterview.java file
+	@Test
+	public void testInterviewSerialIDGet() {
+		long sid = -4148475604579144144L;
+		assertTrue(TfInterview.getSerialversionuid() == sid);
+	}
 
 	@Test
-	public void test17() {
+	public void testInterviewEquivalence() {
 		assertTrue(interview1.equals(interview2));
 		assertFalse(interview1.equals(new TfInterview()));
 	}
 
 	@Test
-	public void test18() {
+	public void testInterviewHashCode() {
 		assertEquals(interview1.hashCode(), interview2.hashCode());
 		assertNotEquals(interview1.hashCode(), new TfInterview());
+	}
+	
+	@Test
+	public void testInterviewToString() {
+		assertEquals(interview1.toString(), interview2.toString());
+		assertNotEquals(interview1.toString(), interview.toString());
 	}
 }

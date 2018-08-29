@@ -49,12 +49,16 @@ export class AssociateListComponent implements OnInit {
   updateShow = false;
   updateStatus = '';
   updateClient = '';
-  updateVerification: string;
+  updateVerification = ''
   updating = false;
   updated = false;
+  updateNotValid = true;
 
   updateSuccessful: boolean;
   updateErrored: boolean;
+
+  //ensures the error message only shows if the user has already attempted to update an assoc
+  updateAttemptedOnce = false;
 
   //used for ordering of rows
   desc = false;
@@ -88,11 +92,11 @@ export class AssociateListComponent implements OnInit {
    * @param sortedBy enum SortBy equal to the sortBy... property identifiers, to toggle sort by asc/desc
    */
   sortBy(option: SortOption, sortedBy: SortedBy) {
+    this.associates.sort((associateA, associateB) => associateA.id - associateB.id);
     const props = option.split('.');
     const parent = props[0];
     const child = props[1];
     const asc = this[sortedBy];
-    console.log(sortedBy + ": " + this[sortedBy])
     let sortingKey: (associate: Associate) => string;
     sortingKey = child ? (associate) => associate[parent][child] :
       (associate) => associate[parent]
@@ -242,6 +246,24 @@ export class AssociateListComponent implements OnInit {
           this.updateErrored = true;
         });
         this.updating = false;
+  }
+
+  /**
+   * Ensures the update fields have a value and that at least one check box is selected
+   * before enabling the update button
+   */
+  validateUpdate() {
+    let checks = Array.from(
+      <NodeListOf<HTMLInputElement>>document.querySelectorAll('input[type="checkbox"')
+    );
+    checks = checks.filter(check => check.checked);
+    this.updateNotValid = this.updateVerification === ''
+      || this.updateStatus === ''
+      || this.updateClient === ''
+      || checks.length <= 0;
+
+    //enable display of error message
+    this.updateAttemptedOnce = true;
   }
 }
 

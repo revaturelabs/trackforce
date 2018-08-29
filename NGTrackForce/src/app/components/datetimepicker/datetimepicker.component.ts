@@ -1,18 +1,24 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DateService } from '../../services/date-service/date.service';
 =======
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { DateService } from "../../services/date-service/date.service";
 >>>>>>> fixed merging conflicts in batch-list and datetimepicker components
+=======
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { DateService } from '../../services/date-service/date.service';
+>>>>>>> TestAdmin "Batch" tab warnings
 
 @Component({
-  selector: "app-datetimepicker",
-  templateUrl: "./datetimepicker.component.html",
-  styleUrls: ["./datetimepicker.component.css"]
+  selector: 'app-datetimepicker',
+  templateUrl: './datetimepicker.component.html',
+  styleUrls: ['./datetimepicker.component.css']
 })
 export class DateTimePickerComponent implements OnInit {
   @Input()
+<<<<<<< HEAD
 <<<<<<< HEAD
   width = '250px'; //default value
   @Input()
@@ -22,6 +28,11 @@ export class DateTimePickerComponent implements OnInit {
   @Input()
   format = "date"; //default value
 >>>>>>> fixed merging conflicts in batch-list and datetimepicker components
+=======
+  width = '250px'; //default value
+  @Input()
+  format = 'date'; //default value
+>>>>>>> TestAdmin "Batch" tab warnings
   @Input()
   originalDate: number; //no default
   @Input()
@@ -33,6 +44,7 @@ export class DateTimePickerComponent implements OnInit {
   calendarView = false;
   displayErrorInvalidDate = false;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   options_date = { month: 'long', day: 'numeric', year: 'numeric' };
   options_datetime = {
@@ -50,6 +62,15 @@ export class DateTimePickerComponent implements OnInit {
     minute: "numeric",
     hour: "numeric"
 >>>>>>> fixed merging conflicts in batch-list and datetimepicker components
+=======
+  options_date = { month: 'long', day: 'numeric', year: 'numeric' };
+  options_datetime = {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    minute: 'numeric',
+    hour: 'numeric'
+>>>>>>> TestAdmin "Batch" tab warnings
   };
   date = new Date(); //initialized to today's date
   stringDate: string;
@@ -125,22 +146,31 @@ export class DateTimePickerComponent implements OnInit {
   }
 
   public dateClicked() {
+    this.displayErrorInvalidDate = false;
     let localOptions = null;
     switch (this.format) {
-      case "date":
+      case 'date':
         localOptions = this.options_date;
         break;
+<<<<<<< HEAD
       case "datetime":
 >>>>>>> fixed merging conflicts in batch-list and datetimepicker components
+=======
+      case 'datetime':
+>>>>>>> TestAdmin "Batch" tab warnings
         localOptions = this.options_datetime;
         break;
     }
     if (this.date != null) {
 <<<<<<< HEAD
+<<<<<<< HEAD
       this.stringDate = this.date.toLocaleDateString('en-US', localOptions);
 =======
       this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
 >>>>>>> fixed merging conflicts in batch-list and datetimepicker components
+=======
+      this.stringDate = this.date.toLocaleDateString('en-US', localOptions);
+>>>>>>> TestAdmin "Batch" tab warnings
       this.datePicked.emit(this.stringDate);
       if (this.oldDate != this.date) {
         this.calendarView = !this.calendarView;
@@ -151,10 +181,14 @@ export class DateTimePickerComponent implements OnInit {
       if (this.validateDate() !== 0) {
         this.date = new Date(this.originalDate);
 <<<<<<< HEAD
+<<<<<<< HEAD
         this.stringDate = this.date.toLocaleDateString('en-US', localOptions);
 =======
         this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
 >>>>>>> fixed merging conflicts in batch-list and datetimepicker components
+=======
+        this.stringDate = this.date.toLocaleDateString('en-US', localOptions);
+>>>>>>> TestAdmin "Batch" tab warnings
         this.datePicked.emit(this.stringDate);
       }
     }

@@ -5,7 +5,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
 
 import com.revature.entity.TfRole;
@@ -20,12 +20,63 @@ import com.revature.entity.TfUser;
 public class TfUserTest {
 	TfRole role = new TfRole();
 
+	//Can't use any other constructor besides default since TfUser class is marked
+	//@Entity, which requires the class to not have any custom constructors
 	TfUser tfuser1 = new TfUser();
 	TfUser tfuser2 = new TfUser();
 
 	TfUser tfuser = new TfUser();
 
-	@BeforeClass
+	@Test
+	public void testUserApprovedGetSet() {
+		tfuser.setIsApproved(1);
+		assertTrue(tfuser.getIsApproved() == 1);
+		assertFalse(tfuser.getIsApproved() != 1);
+	}
+
+	@Test
+	public void testUserTfRoleGetSet() {
+		tfuser.setTfRole(new TfRole());
+		assertTrue(tfuser.getTfRole() instanceof TfRole);
+	}
+
+	@Test
+	public void testUserPasswordGetSet() {
+		tfuser.setPassword("Penguins");
+		assertTrue(tfuser.getPassword().equals("Penguins"));
+		assertFalse(tfuser.getPassword().equals("penguins"));
+	}
+
+	@Test
+	public void testUserIDGetSet() {
+		tfuser.setId(7);
+		assertTrue(tfuser.getId() == 7);
+		assertFalse(tfuser.getId() == 6);
+	}
+
+	@Test
+	public void testUserUsernameGetSet() {
+		tfuser.setUsername("Penguins");
+		assertTrue(tfuser.getUsername().equals("Penguins"));
+		assertFalse(tfuser.getUsername().equals("penguins"));
+	}
+
+	@Test
+	public void testUserTokenGetSet() {
+		tfuser.setToken("Token");
+		assertTrue(tfuser.getToken().equals("Token"));
+		assertFalse(tfuser.getToken().equals("token"));
+	}
+
+	@Test
+	public void testUserIntRoleGetSet() {
+		tfuser.setRole(1);
+		assertTrue(tfuser.getRole() == 1);
+		assertFalse(tfuser.getRole() != 1);
+	}
+	
+
+	@BeforeGroups("NotGetSet")
 	public void setUpUsers() {
 		tfuser1.setId(1);
 		tfuser1.setIsApproved(0);
@@ -43,64 +94,22 @@ public class TfUserTest {
 		tfuser2.setUsername("name");
 	}
 
-	@Test
-	public void test1() {
-		tfuser.setIsApproved(1);
-		assertTrue(tfuser.getIsApproved() == 1);
-		assertFalse(tfuser.getIsApproved() != 1);
-	}
-
-	@Test
-	public void test2() {
-		tfuser.setTfRole(new TfRole());
-		assertTrue(tfuser.getTfRole() instanceof TfRole);
-	}
-
-	@Test
-	public void test4() {
-		tfuser.setPassword("Penguins");
-		assertTrue(tfuser.getPassword().equals("Penguins"));
-		assertFalse(tfuser.getPassword().equals("penguins"));
-	}
-
-	@Test
-	public void test5() {
-		tfuser.setId(7);
-		assertTrue(tfuser.getId() == 7);
-		assertFalse(tfuser.getId() == 6);
-	}
-
-	@Test
-	public void test6() {
-		tfuser.setUsername("Penguins");
-		assertTrue(tfuser.getUsername().equals("Penguins"));
-		assertFalse(tfuser.getUsername().equals("penguins"));
-	}
-
-	@Test
-	public void test7() {
-		tfuser.setToken("Token");
-		assertTrue(tfuser.getToken().equals("Token"));
-		assertFalse(tfuser.getToken().equals("token"));
-	}
-
-	@Test
-	public void rest() {
-		tfuser.setRole(1);
-		assertTrue(tfuser.getRole() == 1);
-		assertFalse(tfuser.getRole() != 1);
-	}
-
-	@Test
+	@Test(groups="NotGetSet")
 	public void test8() {
 		assertTrue(tfuser1.equals(tfuser2));
 		System.out.println(tfuser1.toString());
 		assertFalse(tfuser1.equals(new TfUser()));
 	}
 
-	@Test
+	@Test(groups="NotGetSet")
 	public void test9() {
 		assertEquals(tfuser1.hashCode(), tfuser2.hashCode());
 		assertNotEquals(tfuser1.hashCode(), new TfUser().hashCode());
+	}
+	
+	@Test(groups="NotGetSet")
+	public void testUserToString() {
+		assertEquals(tfuser1.toString(), tfuser2.toString());
+		assertNotEquals(tfuser1.toString(), tfuser.toString());
 	}
 }

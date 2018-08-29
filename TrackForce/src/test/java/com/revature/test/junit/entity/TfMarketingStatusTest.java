@@ -27,35 +27,50 @@ public class TfMarketingStatusTest {
 	TfMarketingStatus tfms = new TfMarketingStatus();
 
 	@Test
-	public void test1() {
+	public void testMarketStatusAssociatesGetSet() {
 		tfms.setAssociates(new HashSet<TfAssociate>());
 		assertTrue(tfms.getAssociates() instanceof HashSet);
 	}
 
 	@Test
-	public void test2() {
+	public void testMarketStatusIDGetSet() {
 		tfms.setId(64);
 		assertTrue(tfms.getId() == 64);
 		assertFalse(tfms.getId() == 123);
 	}
 
 	@Test
-	public void test3() {
+	public void testMarketStatusNameGetSet() {
 		tfms.setName("MarketStatus");
 		assertTrue(tfms.getName().equals("MarketStatus"));
 		assertFalse(tfms.getName().equals("marketstatus"));
 	}
+	
+	//Have to hard code SerialID for now as it is private static,
+	//always verify this is using the correct SerialID as defined
+	//in the TfMarketingStatus.java file
+	@Test
+	public void testMarketStatusSerialIDGet() {
+		long sid = -1638800519652509525L;
+		assertTrue(TfMarketingStatus.getSerialversionuid() == sid);
+	}
 
 	@Test
-	public void test4() {
+	public void testMarketStatusEquivalence() {
 		assertTrue(status1.equals(status2));
 		assertFalse(status1.equals(new TfMarketingStatus()));
 	}
 
 	@Test
-	public void test5() {
+	public void testMarketStatusHashCode() {
 		assertEquals(status1.hashCode(), status2.hashCode());
 		assertNotEquals(status1.hashCode(), new TfMarketingStatus().hashCode());
+	}
+	
+	@Test
+	public void testMarketStatusToString() {
+		assertEquals(status1.toString(), status2.toString());
+		assertNotEquals(status1.toString(), tfms.toString());
 	}
 
 }

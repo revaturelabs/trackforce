@@ -32,44 +32,61 @@ public class TfEndClientTest {
 	TfEndClient endClient = new TfEndClient();
 
 	@Test
-	public void test1() {
+	public void testEndClientAssociateGetSet() {
 		endClient.setAssociates(new HashSet<TfAssociate>());
 		assertTrue(endClient.getAssociates() instanceof HashSet);
 	}
 
 	@Test
-	public void test2() {
+	public void testEndClientIDGetSet() {
 		endClient.setId(1);
 		assertTrue(endClient.getId() == 1);
 		assertFalse(endClient.getId() == 2);
 	}
 
 	@Test
-	public void test3() {
+	public void testEndClientNameGetSet() {
 		endClient.setName("Revature");
 		assertTrue(endClient.getName().equals("Revature"));
 		assertFalse(endClient.getName().equals("revature"));
 	}
 
 	@Test
-	public void test4() {
+	public void testEndClientInterviewsGetSet() {
 		endClient.setInterviews(new HashSet<TfInterview>());
 		assertTrue(endClient.getInterviews() instanceof HashSet);
 	}
 
 	@Test
-	public void test5() {
+	public void testEndClientPlacementGetSet() {
 		endClient.setPlacements(new HashSet<TfPlacement>());
 		assertTrue(endClient.getPlacements() instanceof HashSet);
 	}
 	
+	//Have to hard code SerialID for now as it is private static,
+	//always verify this is using the correct SerialID as defined
+	//in the TfEndClient.java file
 	@Test
-	public void test6() {
+	public void testEndClientSerialIDGet() {
+		long sid = -8077675564245631804L;
+		assertTrue(TfEndClient.getSerialversionuid() == sid);
+	}
+	
+	@Test
+	public void testEndClientEquivalence() {
 		assertTrue(endClient1.equals(endClient2));
 		assertFalse(endClient1.equals(new TfEndClient()));
 	}
-	@Test public void test7() {
+	
+	@Test
+	public void testEndClientHashCode() {
 		assertEquals(endClient1.hashCode(),endClient2.hashCode());
 		assertNotEquals(endClient1.hashCode(),new TfEndClient().hashCode());
+	}
+	
+	@Test
+	public void testEndClientToString() {
+		assertEquals(endClient1.toString(), endClient2.toString());
+		assertNotEquals(endClient1.toString(), endClient.toString());
 	}
 }

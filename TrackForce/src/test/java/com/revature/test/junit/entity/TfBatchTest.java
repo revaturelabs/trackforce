@@ -1,7 +1,6 @@
 package com.revature.test.junit.entity;
 
 import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -40,59 +39,82 @@ public class TfBatchTest {
 	TfBatch tfbatch = new TfBatch();
 
 	@Test
-	public void test1() {
+	public void testBatchAssociateGetSet() {
 		tfbatch.setAssociates(new HashSet<TfAssociate>());
 		assertTrue(tfbatch.getAssociates() instanceof HashSet);
 	}
 
 	@Test
-	public void test2() {
+	public void testBatchEndDateGetSet() {
 		tfbatch.setEndDate(new Timestamp(1000L));
 		assertTrue(tfbatch.getEndDate().getTime() == 1000L);
 		assertFalse(tfbatch.getEndDate().getTime() == 2000L);
 	}
 
 	@Test
-	public void test3() {
+	public void testBatchIDGetSet() {
 		tfbatch.setId(1);
 		assertTrue(tfbatch.getId() == 1);
 		assertFalse(tfbatch.getId() == 2);
 	}
 
 	@Test
-	public void test4() {
+	public void testBatchLocationGetSet() {
 		tfbatch.setLocation(new TfBatchLocation());
 		assertTrue(tfbatch.getLocation() instanceof TfBatchLocation);
 	}
 
 	@Test
-	public void test5() {
+	public void testBatchNameGetSet() {
 		tfbatch.setBatchName("TFbatch");
 		assertTrue(tfbatch.getBatchName().equals("TFbatch"));
 		assertFalse(tfbatch.getBatchName().equals("tfbatch"));
 	}
 
 	@Test
-	public void test6() {
+	public void testBatchStartDateGetSet() {
 		tfbatch.setStartDate(new Timestamp(1000L));
 		assertTrue(tfbatch.getStartDate().getTime() == 1000L);
 		assertFalse(tfbatch.getStartDate().getTime() == 1001L);
 	}
 
+	//CurriculumName methods return TfCurriculum which have a name field
+	//but don't get those confused. This is about the TfCurriculum object itself
 	@Test
-	public void test7() {
+	public void testBatchCurriculumGetSet() {
 		tfbatch.setCurriculumName(new TfCurriculum());
 		assertTrue(tfbatch.getCurriculumName() instanceof TfCurriculum);
 	}
+	
+	@Test
+	public void testBatchTrainerGetSet() {
+		tfbatch.setTrainer(new TfTrainer());
+		assertTrue(tfbatch.getTrainer() instanceof TfTrainer);
+	}
+	
+	@Test
+	public void testBatchCoTrainerGetSet() {
+		tfbatch.setCoTrainer(coTrainer);
+		assertTrue(tfbatch.getCoTrainer() instanceof List);
+	}
+	
+	//Have to hard code SerialID for now as it is private static,
+	//always verify this is using the correct SerialID as defined
+	//in the TfBatch.java file
+	@Test
+	public void testBatchSerialIDGet() {
+		long sid = 1893469049852289417L;
+		assertTrue(TfBatch.getSerialversionuid() == sid);
+	}
 
 	@Test
-	public void test8() {
+	public void testBatchEquivalence() {
 		assertTrue(batch1.toString().equals(batch2.toString()));
 		assertFalse(batch1.equals(new TfBatch()));
 	}
 
 	@Test
-	public void test9() {
+	public void testBatchHashCode() {
 		assertNotEquals(batch1.hashCode(), batch2.hashCode());
 		assertNotEquals(batch1.hashCode(), new TfBatch().hashCode());
 	}

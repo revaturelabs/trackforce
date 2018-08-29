@@ -28,34 +28,49 @@ public class TfInterviewTypeTest {
 	TfInterviewType tfit = new TfInterviewType();
 
 	@Test
-	public void test1() {
+	public void testInterviewTypeInterviewsGetSet() {
 		tfit.setInterviews(new HashSet<TfInterview>());
 		assertTrue(tfit.getInterviews() instanceof HashSet);
 	}
 
 	@Test
-	public void test2() {
+	public void testInterviewTypeIDGetSet() {
 		tfit.setId(54);
 		assertTrue(tfit.getId() == 54);
 		assertFalse(tfit.getId() == 47);
 	}
 
 	@Test
-	public void test3() {
+	public void testInterviewTypeNameGetSet() {
 		tfit.setName("Interview");
 		assertTrue(tfit.getName().equals("Interview"));
 		assertFalse(tfit.getName().equals("interview"));
 	}
+	
+	//Have to hard code SerialID for now as it is private static,
+	//always verify this is using the correct SerialID as defined
+	//in the TfInterviewType.java file
+	@Test
+	public void testInterviewTypeSerialIDGet() {
+		long sid = -4949282863102956521L;
+		assertTrue(TfInterviewType.getSerialversionuid() == sid);
+	}
 
 	@Test
-	public void test4() {
+	public void testInterviewTypeEquivalence() {
 		assertTrue(type1.equals(type2));
 		assertFalse(type1.equals(new TfInterviewType()));
 	}
 
 	@Test
-	public void test5() {
+	public void testInterviewTypeHashCode() {
 		assertEquals(type1.hashCode(), type2.hashCode());
 		assertNotEquals(type1.hashCode(), new TfInterviewType().hashCode());
+	}
+	
+	@Test
+	public void testInterviewTypeToString() {
+		assertEquals(type1.toString(), type2.toString());
+		assertNotEquals(type1.toString(), tfit.toString());
 	}
 }

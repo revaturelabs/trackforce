@@ -47,7 +47,7 @@
           <tbody class="nopadding" style="max-height: 300px;">
             <tr *ngFor="let tech of technologies; let i = index">
               <td id="{{tech.name}}">{{tech.name}}
-                <div style="color:red;" *ngIf="techNeeded[i] >= maxAssociates">Please enter a number between 1 and {{maxAssociates}}</div>
+                <div style="color:red;" *ngIf="techNeeded[i] > maxAssociates">Please enter a number between 1 and {{maxAssociates}}</div>
               </td>
               <td><input id="{{tech.name}}-input" type="number" class="form-control" [(ngModel)]="techNeeded[i]" [ngModelOptions]="{standalone: true}"
                   onkeypress="return (event.charCode == 0 || event.charCode == 8 || event.charCode == 13) ?

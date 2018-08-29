@@ -34,6 +34,35 @@ import com.revature.utils.Sessional;
  */
 public class AssociateDaoImpl implements AssociateDao {
 	
+	/** Gets list of associates matching criteria. Used by updated angular front end to perform 
+	 * pagnation of results and improve performance.
+	 * @author Joshua-Pressley-1807
+	 * @param startIdx starting index
+	 * @param numRes the number of resuts to return
+	 * @param mktStatus the marketing ID
+	 * @param clientId the client ID
+	 * @return list of associates matching criteria */
+	public List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId)
+	{
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<TfAssociate> criteria = builder.createQuery(TfAssociate.class);
+			Root<TfAssociate> root = criteria.from(TfAssociate.class);
+			criteria.where(builder.equal(root.get("TfAssociate_.marketingStatus"), mktStatus));
+			criteria.where(builder.equal(root.get("TfAssociate_.client"), clientId));
+			List<TfAssociate> results = session.createQuery(criteria).getResultList();
+			
+			System.out.println("RESULTS FINAL > " + results);
+			//filter results
+			if (startIdx + numRes > results.size()) {
+				results = results.subList(startIdx, results.size());
+			} else {
+				results = results.subList(startIdx, startIdx+numRes);
+			}
+			System.out.println("RESULTS FINAL > " + results);
+			return results;
+	}
+	
 	/**
 	 * Gets a single associate with an id
 	 * 

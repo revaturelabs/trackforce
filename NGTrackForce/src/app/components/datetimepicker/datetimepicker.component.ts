@@ -6,9 +6,9 @@ import { DateService } from "../../services/date-service/date.service";
 >>>>>>> TestAdmin "Batch" tab warnings
 
 @Component({
-  selector: "app-datetimepicker",
-  templateUrl: "./datetimepicker.component.html",
-  styleUrls: ["./datetimepicker.component.css"]
+  selector: 'app-datetimepicker',
+  templateUrl: './datetimepicker.component.html',
+  styleUrls: ['./datetimepicker.component.css']
 })
 
 export class DateTimePickerComponent implements OnInit {

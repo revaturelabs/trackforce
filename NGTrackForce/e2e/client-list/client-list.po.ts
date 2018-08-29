@@ -116,4 +116,8 @@ export class ClientListPo extends BasePage {
             return false;
         }
     }
+
+    getLogoutButton() {
+        return element(by.buttonText('Logout'));
+    }
 }

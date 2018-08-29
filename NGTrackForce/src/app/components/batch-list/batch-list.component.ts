@@ -1,6 +1,22 @@
 /** @Author Princewill Ibe **/
+<<<<<<< HEAD
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+<<<<<<< HEAD
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+=======
+=======
+import { AuthenticationService } from "../../services/authentication-service/authentication.service";
+>>>>>>> TestAdmin "Batch" tab date limits
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild
+<<<<<<< HEAD
+} from '@angular/core';
+>>>>>>> TestAdmin "Batch" tab date limits
 import { Batch } from '../../models/batch.model';
 import { BatchService } from '../../services/batch-service/batch.service';
 import { ThemeConstants } from '../../constants/theme.constants';
@@ -10,6 +26,21 @@ import { Color } from 'ng2-charts';
 import 'rxjs/add/observable/from';
 import { DateService } from '../../services/date-service/date.service';
 import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
+=======
+} from "@angular/core";
+import { Batch } from "../../models/batch.model";
+import { BatchService } from "../../services/batch-service/batch.service";
+import { ThemeConstants } from "../../constants/theme.constants";
+import { AutoUnsubscribe } from "../../decorators/auto-unsubscribe.decorator";
+import {
+  ChartOptions,
+  SideValues
+} from "../../models/ng2-charts-options.model";
+import { Color } from "ng2-charts";
+import "rxjs/add/observable/from";
+import { DateService } from "../../services/date-service/date.service";
+import { DateTimePickerComponent } from "../datetimepicker/datetimepicker.component";
+>>>>>>> TestAdmin "Batch" tab date limits
 
 
 // TODO: LABELS SHOULD PROPERLY WRAP
@@ -19,19 +50,32 @@ import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.compon
  *        to get all batches and show meaningful information
  */
 @Component({
-  selector: 'app-batch-list',
-  templateUrl: './batch-list.component.html',
-  styleUrls: ['./batch-list.component.css']
+  selector: "app-batch-list",
+  templateUrl: "./batch-list.component.html",
+  styleUrls: ["./batch-list.component.css"]
 })
 @AutoUnsubscribe
 export class BatchListComponent implements OnInit {
+<<<<<<< HEAD
 
   @ViewChild('start') startDateTimePicker:DateTimePickerComponent;
   @ViewChild('end') endDateTimePicker:DateTimePickerComponent;
+=======
+<<<<<<< HEAD
+  @ViewChild('start')
+  startDateTimePicker: DateTimePickerComponent;
+  @ViewChild('end')
+=======
+  @ViewChild("start")
+  startDateTimePicker: DateTimePickerComponent;
+  @ViewChild("end")
+>>>>>>> TestAdmin "Batch" tab date limits
+  endDateTimePicker: DateTimePickerComponent;
+>>>>>>> TestAdmin "Batch" tab date limits
 
   start: any;
   end: any;
-  pieChartType = 'pie';
+  pieChartType = "pie";
   startDate: Date = new Date();
   endDate: Date = new Date();
   batches: Batch[];
@@ -52,20 +96,35 @@ export class BatchListComponent implements OnInit {
   showDateRangeError = false;
   dateError: boolean;
 
+<<<<<<< HEAD
   changeDate(){
     this.changeDateEm.emit(this.startDate);
   }
 
+=======
+>>>>>>> TestAdmin "Batch" tab date limits
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
     new SideValues(-100, 0, 0, 0),
     new SideValues(0, 0, 0, 0),
     'right', false, false
   );
 
+<<<<<<< HEAD
+=======
+  changeDate() {
+    this.changeDateEm.emit(this.startDate);
+  }
+>>>>>>> TestAdmin "Batch" tab date limits
 
   constructor(private batchService: BatchService, private authService: AuthenticationService,
               private dateService: DateService) {
   }
+
+  constructor(
+    private batchService: BatchService,
+    private authService: AuthenticationService,
+    private dateService: DateService
+  ) {}
 
   /**
    * load default batches on initialization
@@ -149,9 +208,27 @@ export class BatchListComponent implements OnInit {
    * and the corresponding graph accordingly
    */
   public applySelectedRange() {
+<<<<<<< HEAD
     if (!this.dateError){
     this.startDate = new Date(this.stringStart);
     this.endDate = new Date(this.stringEnd);
+=======
+    if (!this.dateError) {
+      this.startDate = new Date(this.stringStart);
+      this.endDate = new Date(this.stringEnd);
+<<<<<<< HEAD
+
+      let longStartDate: number;
+      let longEndDate: number;
+
+      this.resetFormWarnings();
+
+      if (this.startDate && this.endDate) {
+        longStartDate = this.startDate.getTime();
+        longEndDate = this.endDate.getTime();
+
+=======
+>>>>>>> TestAdmin "Batch" tab date limits
 
     let longStartDate: number;
     let longEndDate: number;
@@ -162,12 +239,23 @@ export class BatchListComponent implements OnInit {
       longStartDate = this.startDate.getTime();
       longEndDate = this.endDate.getTime();
 
+<<<<<<< HEAD
 
       if (longStartDate > longEndDate) {
         this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
         this.showDateRangeError = true;
       } else {
         this.updateBatches();
+=======
+>>>>>>> TestAdmin "Batch" tab date limits
+        if (longEndDate < longStartDate) {
+          this.dateRangeMessage =
+            "The TO date cannot occur before the FROM date, please try another date.";
+          this.showDateRangeError = true;
+        } else {
+          this.updateBatches();
+        }
+>>>>>>> TestAdmin "Batch" tab date limits
       }
     }
     }
@@ -181,6 +269,7 @@ export class BatchListComponent implements OnInit {
 
   // Logans new resetToDefaultBatches
   public resetToDefaultBatches() {
+<<<<<<< HEAD
     this.filteredBatches = this.batches.filter(
       batch => {
         this.startDate = new Date();
@@ -196,7 +285,25 @@ export class BatchListComponent implements OnInit {
         this.endDateTimePicker.dateReset();
       }
     );
+=======
+    this.filteredBatches = this.batches.filter(batch => {
+      this.startDate = new Date();
+      this.startDate.setMonth(new Date().getMonth() - 3);
+      this.endDate = new Date();
+      this.endDate.setMonth(new Date().getMonth() + 3);
+      const startTime = Date.now();
+      this.dataReady = false;
+      this.counter = 0;
+      this.stringStart = this.startDate.toJSON().substring(0, 10);
+      this.stringEnd = this.endDate.toJSON().substring(0, 10);
+      this.startDateTimePicker.dateReset();
+      this.endDateTimePicker.dateReset();
+    });
+<<<<<<< HEAD
+>>>>>>> TestAdmin "Batch" tab date limits
 
+=======
+>>>>>>> TestAdmin "Batch" tab date limits
     this.updateCountPerCurriculum();
     this.dataReady = true;
   }
@@ -207,6 +314,7 @@ export class BatchListComponent implements OnInit {
     const user = this.authService.getUser();
     if (user.role === 2) {
       // filter out batches that don't have an associated trainer
+<<<<<<< HEAD
       this.filteredBatches = this.batches.filter(
         batch => {
           if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
@@ -249,7 +357,34 @@ export class BatchListComponent implements OnInit {
             return false;
           }
         }
+<<<<<<< HEAD
       );
+=======
+=======
+      this.filteredBatches = this.batches.filter(batch => {
+        if (
+          batch.trainer.firstName !== this.authService.getTrainer().firstName
+        ) {
+          return false;
+        }
+        if (batch.coTrainer) {
+          if (!batch.coTrainer.includes(this.authService.getTrainer())) {
+            return false;
+          }
+        }
+        const dateStartDate = new Date(this.startDate);
+        const dateEndDate = new Date(this.endDate);
+        const longStartDate = dateStartDate.getTime();
+        const longEndDate = dateEndDate.getTime();
+
+        if (batch.startDate && batch.endDate) {
+          return batch.startDate > longStartDate && batch.endDate < longEndDate;
+        } else {
+          return false;
+        }
+>>>>>>> TestAdmin "Batch" tab date limits
+      });
+>>>>>>> TestAdmin "Batch" tab date limits
       this.updateCountPerCurriculum();
       this.dataReady = true;
     }

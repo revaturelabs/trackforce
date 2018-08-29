@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DateService } from '../../services/date-service/date.service';
 =======
@@ -10,14 +11,19 @@ import { DateService } from "../../services/date-service/date.service";
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { DateService } from '../../services/date-service/date.service';
 >>>>>>> TestAdmin "Batch" tab warnings
+=======
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { DateService } from "../../services/date-service/date.service";
+>>>>>>> TestAdmin "Batch" tab date limits
 
 @Component({
-  selector: 'app-datetimepicker',
-  templateUrl: './datetimepicker.component.html',
-  styleUrls: ['./datetimepicker.component.css']
+  selector: "app-datetimepicker",
+  templateUrl: "./datetimepicker.component.html",
+  styleUrls: ["./datetimepicker.component.css"]
 })
 export class DateTimePickerComponent implements OnInit {
   @Input()
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   width = '250px'; //default value
@@ -33,6 +39,11 @@ export class DateTimePickerComponent implements OnInit {
   @Input()
   format = 'date'; //default value
 >>>>>>> TestAdmin "Batch" tab warnings
+=======
+  width = "250px"; //default value
+  @Input()
+  format = "date"; //default value
+>>>>>>> TestAdmin "Batch" tab date limits
   @Input()
   originalDate: number; //no default
   @Input()
@@ -46,6 +57,7 @@ export class DateTimePickerComponent implements OnInit {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   options_date = { month: 'long', day: 'numeric', year: 'numeric' };
   options_datetime = {
     month: 'long',
@@ -54,6 +66,8 @@ export class DateTimePickerComponent implements OnInit {
     minute: 'numeric',
     hour: 'numeric'
 =======
+=======
+>>>>>>> TestAdmin "Batch" tab date limits
   options_date = { month: "long", day: "numeric", year: "numeric" };
   options_datetime = {
     month: "long",
@@ -61,6 +75,7 @@ export class DateTimePickerComponent implements OnInit {
     year: "numeric",
     minute: "numeric",
     hour: "numeric"
+<<<<<<< HEAD
 >>>>>>> fixed merging conflicts in batch-list and datetimepicker components
 =======
   options_date = { month: 'long', day: 'numeric', year: 'numeric' };
@@ -71,6 +86,8 @@ export class DateTimePickerComponent implements OnInit {
     minute: 'numeric',
     hour: 'numeric'
 >>>>>>> TestAdmin "Batch" tab warnings
+=======
+>>>>>>> TestAdmin "Batch" tab date limits
   };
   date = new Date(); //initialized to today's date
   stringDate: string;
@@ -88,6 +105,9 @@ export class DateTimePickerComponent implements OnInit {
     this.dateReset();
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> TestAdmin "Batch" tab date limits
 
   dateReset() {
     setTimeout(() => {
@@ -100,6 +120,7 @@ export class DateTimePickerComponent implements OnInit {
     }, 0);
   }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     public dateClicked(){
         let localOptions = null;
@@ -158,10 +179,24 @@ export class DateTimePickerComponent implements OnInit {
 =======
       case 'datetime':
 >>>>>>> TestAdmin "Batch" tab warnings
+=======
+  public toggleCalendarView() {
+    this.calendarView = !this.calendarView;
+  }
+
+  public dateClicked() {
+    let localOptions = null;
+    switch (this.format) {
+      case "date":
+        localOptions = this.options_date;
+        break;
+      case "datetime":
+>>>>>>> TestAdmin "Batch" tab date limits
         localOptions = this.options_datetime;
         break;
     }
     if (this.date != null) {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
       this.stringDate = this.date.toLocaleDateString('en-US', localOptions);
@@ -171,6 +206,9 @@ export class DateTimePickerComponent implements OnInit {
 =======
       this.stringDate = this.date.toLocaleDateString('en-US', localOptions);
 >>>>>>> TestAdmin "Batch" tab warnings
+=======
+      this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
+>>>>>>> TestAdmin "Batch" tab date limits
       this.datePicked.emit(this.stringDate);
       if (this.oldDate != this.date) {
         this.calendarView = !this.calendarView;
@@ -182,6 +220,7 @@ export class DateTimePickerComponent implements OnInit {
         this.date = new Date(this.originalDate);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         this.stringDate = this.date.toLocaleDateString('en-US', localOptions);
 =======
         this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
@@ -189,10 +228,14 @@ export class DateTimePickerComponent implements OnInit {
 =======
         this.stringDate = this.date.toLocaleDateString('en-US', localOptions);
 >>>>>>> TestAdmin "Batch" tab warnings
+=======
+        this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
+>>>>>>> TestAdmin "Batch" tab date limits
         this.datePicked.emit(this.stringDate);
       }
     }
   }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 <<<<<<< HEAD
@@ -210,6 +253,9 @@ export class DateTimePickerComponent implements OnInit {
 
 
 >>>>>>> fixed merging conflicts in batch-list and datetimepicker components
+=======
+
+>>>>>>> TestAdmin "Batch" tab date limits
   public manualEntry() {
     this.date = new Date(this.stringDate);
     this.datePicked.emit(this.stringDate);
@@ -220,6 +266,16 @@ export class DateTimePickerComponent implements OnInit {
     if (this.date < this.minDate) {
       this.displayErrorInvalidDate = true;
       this.date = this.oldDate;
+<<<<<<< HEAD
+=======
+    }
+    else if (this.date > this.maxDate) {
+      this.displayErrorInvalidDate = true;
+      this.date = this.oldDate;
+    } else {
+      this.displayErrorInvalidDate = false;
+      return 0;
+>>>>>>> TestAdmin "Batch" tab date limits
     }
     else if (this.date > this.maxDate) {
       this.displayErrorInvalidDate = true;
@@ -235,5 +291,9 @@ export class DateTimePickerComponent implements OnInit {
 
     this.error.emit(this.displayErrorInvalidDate);
 
+<<<<<<< HEAD
+=======
+    this.error.emit(this.displayErrorInvalidDate);
+>>>>>>> TestAdmin "Batch" tab date limits
   }
 }

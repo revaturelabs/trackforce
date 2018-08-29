@@ -197,7 +197,7 @@ export class AssociateListComponent implements OnInit {
           this.getAllAssociates(); //refresh the associates to reflect the updates made on DB
           this.updated = true;
           this.updateSuccessful = true;
-        }, 
+        },
         error => {
           this.updateErrored = true;
         });

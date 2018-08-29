@@ -58,4 +58,9 @@ export class TrainerService {
     return this.http.get<Batch[]>(this.baseURL + trainerId + "/cotrainerbatch");
   }
 
+
+  public updateTrainer(trainerId: number): any {
+    return this.http.post(this.baseURL + trainerId + '??');
+  }
+
 }

@@ -78,14 +78,15 @@ export class TrainerViewComponent implements OnInit {
   updateInfo() {
     this.trainer.firstName = this.newFirstName;
     this.trainer.lastName = this.newLastName;
-    // this.trainerService.updateTrainer(this.trainer).subscribe(
-    //   data => {
+    this.formOpen = false;
+    this.trainerService.updateTrainer(this.trainer.id).subscribe(
+      data => {
 
-    //   },
-    //   err => {
+      },
+      err => {
 
-    //   }
-    // );
+      }
+    );
   }
 
 }

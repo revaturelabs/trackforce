@@ -4,6 +4,9 @@ import { CurriculumService } from '../../services/curriculum-service/curriculum.
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { Associate } from '../../models/associate.model';
+import { Client } from '../../models/client.model';
+import {ClientService} from '../../services/client-service/client.service'
+
 
 @Component({
   selector: 'app-predictions',
@@ -36,7 +39,26 @@ export class PredictionsComponent implements OnInit {
   public maxAssociates: number = 1000;
   public showEmpty: boolean = true;
 
-  constructor(private ss: CurriculumService, private as: AssociateService, private bs: BatchService) { }
+  //Assoc----------------------------------
+  public clients: Client[];
+  curriculums: Set<string>; //stored unique curriculums
+  public isDataReady: boolean = false;
+  //----------------------------------------------------------
+
+   //used for filtering
+   searchByStatus = '';
+   searchByClient = '';
+   searchByText = '';
+   searchByCurriculum = '';
+   searchByVerification = '';
+
+    //used for ordering of rows
+  desc = false;
+  sortedColumn = '';
+
+
+  //added: cs
+  constructor(private ss: CurriculumService, private as: AssociateService, private bs: BatchService, private cs:ClientService) { }
 
   ngOnInit() {
     this.techNeeded = [];
@@ -46,10 +68,49 @@ export class PredictionsComponent implements OnInit {
     this.loadingDetails = false;
     this.loadingTechnologies = false;
 
+    //assoc-----------------------------------------------------------------
+    this.getAllAssociates(); //TODO: change method to not use local storage
+    this.getClientNames();
+    //----------------------------------------------------------------------
+
     this.getListofCurricula();
     this.setInitialDates();
     this.generateDates();
   }
+
+  //assoc--------------------------------------------
+  getAllAssociates() {
+    this.as.getAllAssociates().subscribe(data => {
+      // this.associates.length = 0;
+      this.associates = data;
+      for (const associate of this.associates) {
+        //get our curriculums from the associates
+        if (
+          associate.batch !== null &&
+          associate.batch.curriculumName !== null
+        ) {
+          this.curriculums.add(associate.batch.curriculumName.name);
+        }
+        if (associate.batch && associate.batch.batchName === 'null') {
+          associate.batch.batchName = 'None';
+        }
+      }
+      this.curriculums.delete('');
+      this.curriculums.delete('null');
+      this.isDataReady = true;
+    });
+  }
+
+   /**
+   * Fetch the client names
+   */
+  getClientNames() {
+    this.cs.getAllClients().subscribe(data => {
+      this.clients = data;
+    });
+  }
+
+  //------------------------------------------------------------------------------------
 
   /**
    * 1806_Austin_M
@@ -105,10 +166,10 @@ export class PredictionsComponent implements OnInit {
 
   /**
    * 1806_Austin_M
-   * Performs a query for each requested that has input 
-   * (tech without input is skipped within the getPredicton() method). 
-   * 
-   * NOTE: that this will make connection to the DB FOR EACH TECHNOLOGY WITH INPUT 
+   * Performs a query for each requested that has input
+   * (tech without input is skipped within the getPredicton() method).
+   *
+   * NOTE: that this will make connection to the DB FOR EACH TECHNOLOGY WITH INPUT
    * should be changed to a single query in back end
    */
   getAllPredictions(){
@@ -121,9 +182,9 @@ export class PredictionsComponent implements OnInit {
 
   /**
    * 1806_Austin_M
-   * Fetch details for a single technology, filters previous results to prevent 
+   * Fetch details for a single technology, filters previous results to prevent
    * duplicate entries and sorts results by index on return
-   * 
+   *
    * @param techIndex index in technologies array to fetch predictions for
    * @param isUpdate true if part of single fetch; false when part of a batch
    */
@@ -156,19 +217,19 @@ export class PredictionsComponent implements OnInit {
     )
   }
 
-  
+
 /**
  * 1806_Andrew_H_Austin_M
- * Fetches details of a selected curriculum. The details include all batches 
+ * Fetches details of a selected curriculum. The details include all batches
  * That start and end within the given time span. Resets previous data so that
  * old information is not present while loading.
- * @param tech 
+ * @param tech
  */
   getDetails(tech) {
 
     let startTime = new Date(this.startDate);
     let endTime = new Date(this.endDate);
-    
+
     this.detailsReady = false;
     this.loadingDetails = true;
     this.noBatches = false;

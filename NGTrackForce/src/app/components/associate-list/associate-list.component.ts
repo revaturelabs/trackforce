@@ -169,6 +169,7 @@ export class AssociateListComponent implements OnInit {
    */
   getAllAssociates() {
     this.associateService.getAllAssociates().subscribe(data => {
+      // this.associates.length = 0; commented out
       this.associates = data;
       for (const associate of this.associates) {
         //get our curriculums from the associates

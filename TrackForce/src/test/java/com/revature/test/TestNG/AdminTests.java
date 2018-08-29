@@ -52,11 +52,6 @@ public class AdminTests {
 		Assert.assertEquals(AdminHome.charts(wd).size() , 4 );
 	}	
 	
-	@Test(priority = 3, dependsOnMethods = "chartsLoadWithin10Seconds")
-	void random() {
-		
-		System.out.println(NavbarElements.batchList(wd).getText());
-	}	
 	
 	@AfterSuite
 	void quit() {

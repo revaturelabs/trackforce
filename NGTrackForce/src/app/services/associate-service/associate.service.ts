@@ -36,7 +36,16 @@ export class AssociateService {
   private associateCount: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
 
   // TODO: Decide if empty strings is better or if a loading message should be put here
-  private currentAssociate: BehaviorSubject<Associate> = new BehaviorSubject<Associate>(new Associate(
+  // TODO: Why is there a get by user and get by associate this is two different models on backend
+  // ? should one be handled by another service
+  // ? Do we really need two in this section of the frontend
+  private associateByUserId: BehaviorSubject<Associate> = new BehaviorSubject<Associate>(new Associate(
+    "",
+    "",
+    null
+  ));
+
+  private associateByAssociateId: BehaviorSubject<Associate> = new BehaviorSubject<Associate>(new Associate(
     "",
     "",
     null
@@ -81,8 +90,8 @@ export class AssociateService {
    */
   getAssociate(id: number) {
     const url: string = this.baseURL + '/' + id;
-    this.http.get<Associate>(url).subscribe((data: Associate) => this.currentAssociate.next(data));
-    return this.currentAssociate;
+    this.http.get<Associate>(url).subscribe((data: Associate) => this.associateByUserId.next(data));
+    return this.associateByUserId;
   }
 
   /**
@@ -92,7 +101,8 @@ export class AssociateService {
    */
   getByAssociateId(id: number) {
     const url: string = this.baseURL + '/associates/' + id;
-    return this.http.get<Associate>(url);
+    this.http.get<Associate>(url).subscribe((data: Associate) => this.associateByAssociateId.next(data));
+    return this.associateByAssociateId;
   }
 
   /**

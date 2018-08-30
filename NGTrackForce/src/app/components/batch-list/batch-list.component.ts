@@ -63,7 +63,7 @@ export class BatchListComponent implements OnInit {
   );
 
 
-  constructor(private batchService: BatchService, private authService: AuthenticationService, 
+  constructor(private batchService: BatchService, private authService: AuthenticationService,
               private dateService: DateService) {
   }
 
@@ -174,8 +174,9 @@ export class BatchListComponent implements OnInit {
   }
 
   public resetFormWarnings() {
-    if (this.showDateRangeError == true)
+    if (this.showDateRangeError === true) {
       this.showDateRangeError = false;
+    }
   }
 
   // Logans new resetToDefaultBatches
@@ -195,7 +196,7 @@ export class BatchListComponent implements OnInit {
         this.endDateTimePicker.dateReset();
       }
     );
-    
+
     this.updateCountPerCurriculum();
     this.dataReady = true;
   }
@@ -216,10 +217,10 @@ export class BatchListComponent implements OnInit {
               return false;
             }
           }
-          let dateStartDate = new Date(this.startDate);
-          let dateEndDate = new Date(this.endDate);
-          let longStartDate = dateStartDate.getTime();
-          let longEndDate = dateEndDate.getTime();
+          const dateStartDate = new Date(this.startDate);
+          const dateEndDate = new Date(this.endDate);
+          const longStartDate = dateStartDate.getTime();
+          const longEndDate = dateEndDate.getTime();
 
           if (batch.startDate && batch.endDate) {
             return batch.startDate > longStartDate && batch.endDate < longEndDate;
@@ -236,10 +237,10 @@ export class BatchListComponent implements OnInit {
       this.dataReady = false;
       this.filteredBatches = this.batches.filter(
         batch => {
-          let dateStartDate = new Date(this.startDate);
-          let dateEndDate = new Date(this.endDate);
-          let longStartDate = dateStartDate.getTime();
-          let longEndDate = dateEndDate.getTime();
+          const dateStartDate = new Date(this.startDate);
+          const dateEndDate = new Date(this.endDate);
+          const longStartDate = dateStartDate.getTime();
+          const longEndDate = dateEndDate.getTime();
 
           if (batch.startDate && batch.endDate) {
             return batch.startDate > longStartDate && batch.endDate < longEndDate;

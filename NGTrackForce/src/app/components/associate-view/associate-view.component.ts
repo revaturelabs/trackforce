@@ -30,7 +30,7 @@ export class AssociateViewComponent implements OnInit {
   public succMsg: string;
   public user: User;
   public id: number;
-  isDataReady: boolean = false;
+  isDataReady = false;
 
   constructor(
     private associateService: AssociateService,

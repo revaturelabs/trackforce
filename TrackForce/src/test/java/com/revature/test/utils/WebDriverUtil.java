@@ -37,7 +37,12 @@ public class WebDriverUtil {
 			//you can check the logs folder in the apache installation
 			// currently there is a chromedriver in the bin/src/main/resources of the Apache folder
 			//
-			File f1 = new File(prop.getProperty("chromeDriverPath"));
+			// Uncomment this line if you are windows
+			//File f1 = new File(prop.getProperty("chromeDriverPath"));
+		
+			// Uncomment this line if you are on Mac
+			File f1 = new File(prop.getProperty("chromeDriverMacPath"));
+			
 			System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
 			chromeDriver = new ChromeDriver();
 			return chromeDriver;

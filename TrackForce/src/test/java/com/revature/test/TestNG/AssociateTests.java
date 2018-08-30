@@ -35,9 +35,9 @@ public class AssociateTests {
 	   * @ Jacob Golidng
 	   * Uncomment this line if you are working on a Mac OS to run this with test ng
 	   */
-	  File chrome = new File("src/main/resources/chromeDriveer4Mac/chromedriver");
+	  //File chrome = new File("src/main/resources/chromeDriveer4Mac/chromedriver");
 	  // Uncomment this line you are working with Windows to run testng
-	  //File chrome = new File("src/main/resources/chromedriver.exe");
+	  File chrome = new File("src/main/resources/chromedriver.exe");
 	  System.setProperty("webdriver.chrome.driver", chrome.getAbsolutePath());
 	  wd = new ChromeDriver();
 	  wait = new WebDriverWait(wd,15);

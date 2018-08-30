@@ -174,7 +174,7 @@ export class BatchListComponent implements OnInit {
   }
 
   public resetFormWarnings() {
-    if (this.showDateRangeError === true) {
+    if (this.showDateRangeError == true) {
       this.showDateRangeError = false;
     }
   }

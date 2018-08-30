@@ -17,6 +17,8 @@ export class TrainerViewComponent implements OnInit {
   newFirstName: string;
   newLastName: string;
   associates: Associate[] = [];
+  statusMsg: string;
+  statusClass = 'wait';
 
   // ADDED SO THIS COMPILES. Once you're actually making an ajax call you'll want to have these as your success
   // and error messages.
@@ -78,15 +80,21 @@ export class TrainerViewComponent implements OnInit {
   updateInfo() {
     this.trainer.firstName = this.newFirstName;
     this.trainer.lastName = this.newLastName;
-    this.formOpen = false;
-    this.trainerService.updateTrainer(this.trainer.id).subscribe(
+    this.trainer.user.token = '5';
+    this.statusMsg = 'Please wait while your information is updated';
+    this.statusClass = 'wait';
+    this.trainerService.updateTrainer(this.trainer).subscribe(
       data => {
-
+        console.log(data);
+        this.statusMsg = 'Success!';
+        this.statusClass = 'success';
+        this.formOpen = false;
       },
-      err => {
-
+      error => {
+        this.statusMsg = `I'm sorry, something went wrong: ${error}`;
+        this.statusClass = 'error';
+        this.formOpen = false;
       }
     );
   }
-
 }

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { RequestService } from "../request-service/request.service";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from '../../../environments/environment';
 import { Trainer } from "../../models/trainer.model";
 import { Observable } from "rxjs/Observable";
@@ -59,8 +59,25 @@ export class TrainerService {
   }
 
 
-  public updateTrainer(trainerId: number): any {
-    return this.http.post(this.baseURL + trainerId + '??');
+  public updateTrainer(trainer: Trainer): any {
+    console.log(trainer.user.token);
+    // return this.http.put(this.baseURL + trainer.id, JSON.stringify(trainer), {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'application/json',
+    //     'Authorization': trainer.user.token,
+    //     'mode': 'no-cors'
+    //   })
+    // });
+
+    //Fake observable until back end solves auth token
+    const sendData = observer => {
+      setTimeout(()=> {
+        // observer.next({fname: trainer.firstName, lname: trainer.lastName});
+        observer.error('ouch')
+      }, 3000);
+    }
+    return new Observable(sendData);
+    //TODO: REMOVE FAKE OBSERVABLE
   }
 
 }

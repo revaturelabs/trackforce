@@ -23,14 +23,15 @@ export class InvalidSessionRerouteInterceptor implements HttpInterceptor {
       //none
     }, (err: any) => {
       if (err instanceof HttpErrorResponse) {
-        if (err.status === 401) {
-          if(err.error["expirationtime"] < 15) {
-            this.router.navigate(['/invalid-session']);
-          }
-          else {
-            this.router.navigate(['/login']);
-          }
-        }
+        // if (err.status === 401) {
+        //   if(err.error["expirationtime"] < 15) {
+        //     this.router.navigate(['/invalid-session']);
+        //   }
+        //   else {
+        //     this.router.navigate(['/login']);
+        //   }
+        // }
+        // TODO: UNCOMMENT THIS
       }
     }));
   }

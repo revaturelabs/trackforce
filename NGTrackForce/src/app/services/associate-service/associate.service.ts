@@ -34,6 +34,8 @@ export class AssociateService {
 
   private associateCount$: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
 
+  private updateAssociates$: AsyncSubject<boolean> = new AsyncSubject<boolean>();
+
   // TODO: Decide if empty strings is better or if a loading message should be put here
   // TODO: Why is there a get by user and get by associate this is two different models on backend
   // ? should one be handled by another service
@@ -110,10 +112,21 @@ export class AssociateService {
    * @param ids - list of associate ids of associates to be updated
    * @param marketingStatusId - the marketing status these associates will be updated to
    * @param clientId - the client id that the associates will be mapped to
+   * 
+   * ? Changing this to use BehaviorSubjects however it may be wanted to have it not multiplex
    */
   updateAssociates(ids: number[], verification: number, marketingStatusId: number, clientId: number): Observable<boolean> {
     const url: string = this.baseURL + '?marketingStatusId=' + marketingStatusId + '&clientId=' + clientId + '&verification=' + verification;
-    return this.http.put<boolean>(url, ids);
+    this.http.put<boolean>(url, ids).subscribe(
+      (data) => {
+        this.updateAssociates$.next(data);
+      },
+      (error) => {
+        this.updateAssociates$.error(error);
+      }
+    );
+
+    return  this.updateAssociates$;
   }
 
   /**

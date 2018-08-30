@@ -1,3 +1,4 @@
+import { Associate } from './../../models/associate.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, AsyncSubject, BehaviorSubject } from 'rxjs';
@@ -33,6 +34,13 @@ export class AssociateService {
   private allAssociates: BehaviorSubject<Associate[]> = new BehaviorSubject<Associate[]>([]);
 
   private associateCount: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
+
+  // TODO: Decide if empty strings is better or if a loading message should be put here
+  private currentAssociate: BehaviorSubject<Associate> = new BehaviorSubject<Associate>(new Associate(
+    "",
+    "",
+    null
+  ));
 
   constructor(private http: HttpClient) {}
 
@@ -73,7 +81,8 @@ export class AssociateService {
    */
   getAssociate(id: number) {
     const url: string = this.baseURL + '/' + id;
-    return this.http.get<Associate>(url);
+    this.http.get<Associate>(url).subscribe((data: Associate) => this.currentAssociate.next(data));
+    return this.currentAssociate;
   }
 
   /**

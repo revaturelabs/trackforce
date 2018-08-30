@@ -20,6 +20,7 @@ import com.revature.utils.PasswordStorage.CannotPerformOperationException;
  * @version v6.18.06.13
  *
  */
+
 public class AssociateService {
 	
 	private AssociateDao dao;

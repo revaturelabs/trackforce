@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
   ngOnChanges() {
     // this.navbarDisplay();
   }
-  
+
   ngAfterContentChecked() {
     this.navbarDisplay();
   }

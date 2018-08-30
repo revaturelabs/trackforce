@@ -38,10 +38,10 @@ public class WebDriverUtil {
 			// currently there is a chromedriver in the bin/src/main/resources of the Apache folder
 			//
 			// Uncomment this line if you are windows
-			//File f1 = new File(prop.getProperty("chromeDriverPath"));
+			File f1 = new File(prop.getProperty("chromeDriverPath"));
 		
 			// Uncomment this line if you are on Mac
-			File f1 = new File(prop.getProperty("chromeDriverMacPath"));
+			//File f1 = new File(prop.getProperty("chromeDriverMacPath"));
 			
 			System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
 			chromeDriver = new ChromeDriver();

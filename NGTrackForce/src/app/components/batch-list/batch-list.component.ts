@@ -96,6 +96,7 @@ export class BatchListComponent implements OnInit {
     new SideValues(0, 0, 0, 0),
     'right', false, false
   );
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
@@ -103,6 +104,12 @@ export class BatchListComponent implements OnInit {
     this.changeDateEm.emit(this.startDate);
   }
 >>>>>>> TestAdmin "Batch" tab date limits
+=======
+  // This Function Doesn't seem to be used
+  // changeDate() {
+  //   this.changeDateEm.emit(this.startDate);
+  // }
+>>>>>>> TestAdmin "Batches" Submit/Reset Functionality
 
   constructor(
     private batchService: BatchService,
@@ -200,6 +207,7 @@ export class BatchListComponent implements OnInit {
     if (!this.dateError) {
       this.startDate = new Date(this.stringStart);
       this.endDate = new Date(this.stringEnd);
+
       let longStartDate: number;
       let longEndDate: number;
 
@@ -247,7 +255,7 @@ export class BatchListComponent implements OnInit {
   }
 
   public resetFormWarnings() {
-    if (this.showDateRangeError == true) {
+    if (this.showDateRangeError === true) {
       this.showDateRangeError = false;
     }
   }
@@ -273,7 +281,7 @@ export class BatchListComponent implements OnInit {
 =======
     this.filteredBatches = this.batches.filter(batch => {
       this.startDate = new Date();
-      this.startDate.setMonth(new Date().getMonth() - 3);
+      this.startDate.setMonth(new Date().getMonth() - 14);
       this.endDate = new Date();
       this.endDate.setMonth(new Date().getMonth() + 3);
       const startTime = Date.now();
@@ -283,7 +291,9 @@ export class BatchListComponent implements OnInit {
       this.stringEnd = this.endDate.toJSON().substring(0, 10);
       this.startDateTimePicker.dateReset();
       this.endDateTimePicker.dateReset();
+      this.resetFormWarnings();
     });
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> TestAdmin "Batch" tab date limits
@@ -292,6 +302,9 @@ export class BatchListComponent implements OnInit {
 >>>>>>> TestAdmin "Batch" tab date limits
 =======
 >>>>>>> TestAdmin "Batch" tab warnings
+=======
+
+>>>>>>> TestAdmin "Batches" Submit/Reset Functionality
     this.updateCountPerCurriculum();
     this.dataReady = true;
   }
@@ -303,15 +316,11 @@ export class BatchListComponent implements OnInit {
     if (user.role === 2) {
       // filter out batches that don't have an associated trainer
       this.filteredBatches = this.batches.filter(batch => {
-        if (batch.trainer.firstName !== this.authService.getTrainer().firstName ) {
+        if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
           return false;
         }
         if (batch.coTrainer) {
           if (!batch.coTrainer.includes(this.authService.getTrainer())) {
-            return false;
-          }
-          if (batch.coTrainer) {
-            if (!batch.coTrainer.includes(this.authService.getTrainer())) {
               return false;
             }
           }
@@ -326,8 +335,12 @@ export class BatchListComponent implements OnInit {
           else {
             return false;
           }
+<<<<<<< HEAD
         }
       );
+=======
+      });
+>>>>>>> TestAdmin "Batches" Submit/Reset Functionality
       this.updateCountPerCurriculum();
       this.dataReady = true;
     }
@@ -353,6 +366,7 @@ export class BatchListComponent implements OnInit {
 =======
 =======
       this.filteredBatches = this.batches.filter(batch => {
+<<<<<<< HEAD
         if (
           batch.trainer.firstName !== this.authService.getTrainer().firstName
         ) {
@@ -363,6 +377,8 @@ export class BatchListComponent implements OnInit {
             return false;
           }
         }
+=======
+>>>>>>> TestAdmin "Batches" Submit/Reset Functionality
         const dateStartDate = new Date(this.startDate);
         const dateEndDate = new Date(this.endDate);
         const longStartDate = dateStartDate.getTime();
@@ -415,3 +431,4 @@ export class BatchListComponent implements OnInit {
     }
   }
 }
+

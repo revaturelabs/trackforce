@@ -85,7 +85,7 @@ export class DateTimePickerComponent implements OnInit {
       this.oldDate = this.date;
 
       //if the date chosen is invalid (before 2010, after +1 of current year), revert to previous date
-      if (this.validateDate() !== 0) {
+      if (this.validateDate() != 0) {
         this.date = new Date(this.originalDate);
         this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
         this.datePicked.emit(this.stringDate);

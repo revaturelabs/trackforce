@@ -3,6 +3,7 @@ package com.revature.test.services;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -135,6 +136,7 @@ public class UserServiceTest {
 	@Test(enabled = true)
 	public void testGetUsers() {
 		List<TfUser> list = userService.getAllUsers();
+<<<<<<< HEAD
 		
 		// grab the first 4, just to simulate getAllUsers
 		if(list.size() >= 4) {
@@ -143,6 +145,12 @@ public class UserServiceTest {
 		System.out.println("List: " + list);
 		List<TfUser> mockUsers = userDaoMock.getAllUsers();
 		assertEquals(list, mockUsers);
+=======
+		assertEquals(list.get(0).getId(), 1);
+		assertEquals(list.size(), 2);
+		assertEquals(list.get(1).getId(), 4);
+		System.out.println(list);
+>>>>>>> More test changes 8/30
 	}
 
 	/**
@@ -150,23 +158,18 @@ public class UserServiceTest {
 	 * user is being returned by the service method.
 	 */
 	@Test(enabled = true)
-	public void testGetUser1() {
-		TfUser userFromDB = userService.getUser("TestAdmin");
-		TfUser mockUser = userDaoMock.getUser("testadmin");
-		assertEquals(userFromDB, mockUser);
-//		assertTrue(userDaoMock.getUser("username") instanceof TfUser);
-//		TfUser user = userDaoMock.getUser("username");
-//		assertTrue(user.getId() == 1);
-//		assertFalse(user.getId() == 2);
-//		assertEquals(userFromDB, user);
-	}
-	
-	/* A second getUser test */
-	@Test(enabled = true)
-	public void testGetUser2() {
-		TfUser userFromDB = userService.getUser("bobstage");
-		TfUser mockUser = userDaoMock.getUser("bobstage");
-		assertEquals(userFromDB, mockUser);
+	public void testGetUser() {
+		assertTrue(userDaoMock.getUser("username") instanceof TfUser);
+		TfUser user = userDaoMock.getUser("username");
+		assertTrue(user.getId() == 1);
+		assertFalse(user.getId() == 2);
+		assertEquals(user.getId(), 1);
+		TfUser user2 = userDaoMock.getUser("username2");
+		assertTrue(user2.getId() == 2);
+		assertFalse(user2.getId() == 1);
+		TfUser user3 = userDaoMock.getUser("username3");
+		assertTrue(user3 == null);
+		assertNull(user3);
 	}
 
 	/**

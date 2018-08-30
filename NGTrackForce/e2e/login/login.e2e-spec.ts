@@ -13,15 +13,18 @@ describe('login page element existences', () => {
   });
 
   it('should have a username input box', () => {
-    expect(page.getUsernameInput()).toBeTruthy();
+    //expect(page.getUsernameInput()).toBeTruthy();
+    expect(page.getUsernameInput().isPresent()).toBe(true);
   });
 
   it('should have a password input box', () => {
-    expect(page.getPasswordInput()).toBeTruthy();
+    //expect(page.getPasswordInput()).toBeTruthy();
+    expect(page.getPasswordInput().isPresent()).toBe(true);
   });
 
   it('should have a login button', () => {
-    expect(page.getLoginButton()).toBeTruthy();
+   // expect(page.getLoginButton()).toBeTruthy();
+    expect(page.getLoginButton().isPresent()).toBe(true);
   });
 
   it('should display proper placeholder: Username', () => {

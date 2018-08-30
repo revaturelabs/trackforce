@@ -131,7 +131,7 @@ public class BatchesServiceTest {
 	 * @since 6.06.14.18
 	 */
 	@Test(priority = 5)
-	public void testGetBatchByNonExistantId(){
+	public void testGetBatchByNonExistentId(){
 		TfBatch expected = service.getBatchById(-1);
 		Assert.assertNull(expected);
 	}

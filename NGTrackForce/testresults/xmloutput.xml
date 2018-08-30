@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="0" errors="0" failures="22" tests="42" time="22.566">
- <testsuite name="Registering as a new associate" timestamp="2018-08-29T15:46:15" hostname="localhost" time="7.153" errors="0" tests="7" skipped="1" disabled="0" failures="0">
-  <testcase classname="Registering as a new associate" name="should navigate to the login page" time="3.845" />
-  <testcase classname="Registering as a new associate" name="allow user to click the register button" time="0.191" />
-  <testcase classname="Registering as a new associate" name="allow associate to enter info into input fields" time="0.448" />
-  <testcase classname="Registering as a new associate" name="should allow associate to click the next page button" time="0">
+<testsuites disabled="0" errors="0" failures="22" tests="42" time="10.888">
+ <testsuite name="Registering as a new associate" timestamp="2018-08-30T09:09:13" hostname="localhost" time="3.385" errors="0" tests="7" skipped="1" disabled="0" failures="0">
+  <testcase classname="Registering as a new associate" name="should navigate to the login page" time="1.748" />
+  <testcase classname="Registering as a new associate" name="allow user to click the register button" time="0.116" />
+  <testcase classname="Registering as a new associate" name="allow associate to enter info into input fields" time="0.247" />
+  <testcase classname="Registering as a new associate" name="should allow associate to click the next page button" time="0.001">
    <skipped message="Temporarily disabled with xit" />
   </testcase>
-  <testcase classname="Registering as a new associate" name="should allow associate to enter first and last name" time="0.27" />
-  <testcase classname="Registering as a new associate" name="should allow associate to register as an associate by clicking register button" time="0.13" />
-  <testcase classname="Registering as a new associate" name="exit browser" time="2.26" />
+  <testcase classname="Registering as a new associate" name="should allow associate to enter first and last name" time="0.142" />
+  <testcase classname="Registering as a new associate" name="should allow associate to register as an associate by clicking register button" time="0.071" />
+  <testcase classname="Registering as a new associate" name="exit browser" time="1.054" />
  </testsuite>
- <testsuite name="login page element existences" timestamp="2018-08-29T15:46:22" hostname="localhost" time="2.604" errors="0" tests="6" skipped="0" disabled="0" failures="0">
-  <testcase classname="login page element existences" name="should have a username input box" time="0.011" />
-  <testcase classname="login page element existences" name="should have a password input box" time="0.005" />
-  <testcase classname="login page element existences" name="should have a login button" time="0.003" />
-  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.07" />
-  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.066" />
-  <testcase classname="login page element existences" name="should display proper value for button" time="0.086" />
+ <testsuite name="login page element existences" timestamp="2018-08-30T09:09:16" hostname="localhost" time="1.247" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+  <testcase classname="login page element existences" name="should have a username input box" time="0.007" />
+  <testcase classname="login page element existences" name="should have a password input box" time="0.004" />
+  <testcase classname="login page element existences" name="should have a login button" time="0.002" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.039" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.037" />
+  <testcase classname="login page element existences" name="should display proper value for button" time="0.045" />
  </testsuite>
- <testsuite name="Confirm login failures" timestamp="2018-08-29T15:46:25" hostname="localhost" time="3.733" errors="0" tests="2" skipped="0" disabled="0" failures="1">
-  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.223" />
-  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.52">
+ <testsuite name="Confirm login failures" timestamp="2018-08-30T09:09:18" hostname="localhost" time="1.716" errors="0" tests="2" skipped="0" disabled="0" failures="1">
+  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.119" />
+  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.249">
    <failure type="toEqual" message="Expected &apos;The login service could not be reached
 Username:
 Password:
@@ -43,11 +43,11 @@ Register&apos;."><![CDATA[Error: Failed expectation
    </failure>
   </testcase>
  </testsuite>
- <testsuite name="confirm login navigation" timestamp="2018-08-29T15:46:28" hostname="localhost" time="3.543" errors="0" tests="1" skipped="0" disabled="0" failures="0">
-  <testcase classname="confirm login navigation" name="should reach the index page" time="0.566" />
+ <testsuite name="confirm login navigation" timestamp="2018-08-30T09:09:19" hostname="localhost" time="1.689" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="confirm login navigation" name="should reach the index page" time="0.304" />
  </testsuite>
- <testsuite name="navbar functionality" timestamp="2018-08-29T15:46:32" hostname="localhost" time="0.54" errors="0" tests="6" skipped="0" disabled="0" failures="6">
-  <testcase classname="navbar functionality" name="should navigate to home page" time="0.09">
+ <testsuite name="navbar functionality" timestamp="2018-08-30T09:09:21" hostname="localhost" time="0.33" errors="0" tests="6" skipped="0" disabled="0" failures="6">
+  <testcase classname="navbar functionality" name="should navigate to home page" time="0.057">
    <failure type="exception" message="Failed: No element found using locator: By(link text, Home)"><![CDATA[NoSuchElementError: No element found using locator: By(link text, Home)
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -91,7 +91,7 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="navbar functionality" name="should navigate to client list page" time="0.078">
+  <testcase classname="navbar functionality" name="should navigate to client list page" time="0.053">
    <failure type="exception" message="Failed: No element found using locator: By(link text, Client List)"><![CDATA[NoSuchElementError: No element found using locator: By(link text, Client List)
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -135,7 +135,7 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="navbar functionality" name="should navigate to batch list page" time="0.078">
+  <testcase classname="navbar functionality" name="should navigate to batch list page" time="0.06">
    <failure type="exception" message="Failed: No element found using locator: By(link text, Batch List)"><![CDATA[NoSuchElementError: No element found using locator: By(link text, Batch List)
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -179,7 +179,7 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="navbar functionality" name="should navigate to associate lising" time="0.112">
+  <testcase classname="navbar functionality" name="should navigate to associate lising" time="0.05">
    <failure type="exception" message="Failed: No element found using locator: By(link text, Associate List)"><![CDATA[NoSuchElementError: No element found using locator: By(link text, Associate List)
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -223,7 +223,7 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="navbar functionality" name="should navigate to predictions" time="0.107">
+  <testcase classname="navbar functionality" name="should navigate to predictions" time="0.05">
    <failure type="exception" message="Failed: No element found using locator: By(link text, Predictions)"><![CDATA[NoSuchElementError: No element found using locator: By(link text, Predictions)
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -267,7 +267,7 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="navbar functionality" name="should navigate to create user" time="0.074">
+  <testcase classname="navbar functionality" name="should navigate to create user" time="0.058">
    <failure type="exception" message="Failed: No element found using locator: By(link text, Create User)"><![CDATA[NoSuchElementError: No element found using locator: By(link text, Create User)
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -312,8 +312,8 @@ Error
    </failure>
   </testcase>
  </testsuite>
- <testsuite name="create-user page input and button fields" timestamp="2018-08-29T15:46:33" hostname="localhost" time="1.117" errors="0" tests="8" skipped="0" disabled="0" failures="8">
-  <testcase classname="create-user page input and button fields" name="should accept username input" time="0.179">
+ <testsuite name="create-user page input and button fields" timestamp="2018-08-30T09:09:21" hostname="localhost" time="0.572" errors="0" tests="8" skipped="0" disabled="0" failures="8">
+  <testcase classname="create-user page input and button fields" name="should accept username input" time="0.122">
    <failure type="toEqual" message="Expected &apos;TestAdminuser&apos; to equal &apos;user&apos;."><![CDATA[Error: Failed expectation
     at UserContext.<anonymous> (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:29:47)
     at C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
@@ -326,7 +326,7 @@ Error
     at C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
    </failure>
   </testcase>
-  <testcase classname="create-user page input and button fields" name="should accept password input" time="0.254">
+  <testcase classname="create-user page input and button fields" name="should accept password input" time="0.127">
    <failure type="toEqual" message="Expected &apos;TestAdminpassword&apos; to equal &apos;password&apos;."><![CDATA[Error: Failed expectation
     at UserContext.<anonymous> (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:34:47)
     at C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
@@ -339,7 +339,7 @@ Error
     at C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
    </failure>
   </testcase>
-  <testcase classname="create-user page input and button fields" name="should accept password confirmation input" time="0.104">
+  <testcase classname="create-user page input and button fields" name="should accept password confirmation input" time="0.058">
    <failure type="exception" message="Failed: No element found using locator: By(css selector, [name=&quot;password2&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, [name="password2"])
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -383,7 +383,7 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="create-user page input and button fields" name="should select admin radio button" time="0.086">
+  <testcase classname="create-user page input and button fields" name="should select admin radio button" time="0.059">
    <failure type="exception" message="Failed: No element found using locator: By(css selector, [value=&quot;1&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, [value="1"])
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -427,7 +427,7 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="create-user page input and button fields" name="should select trainer radio button" time="0.107">
+  <testcase classname="create-user page input and button fields" name="should select trainer radio button" time="0.057">
    <failure type="exception" message="Failed: No element found using locator: By(css selector, [value=&quot;2&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, [value="2"])
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -471,7 +471,7 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="create-user page input and button fields" name="should select associate radio button" time="0.135">
+  <testcase classname="create-user page input and button fields" name="should select associate radio button" time="0.053">
    <failure type="exception" message="Failed: No element found using locator: By(css selector, [value=&quot;5&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, [value="5"])
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -515,7 +515,7 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="create-user page input and button fields" name="should select staging manager radio button" time="0.13">
+  <testcase classname="create-user page input and button fields" name="should select staging manager radio button" time="0.047">
    <failure type="exception" message="Failed: No element found using locator: By(css selector, [value=&quot;4&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, [value="4"])
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -559,7 +559,7 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="create-user page input and button fields" name="should select delivery radio button" time="0.118">
+  <testcase classname="create-user page input and button fields" name="should select delivery radio button" time="0.047">
    <failure type="exception" message="Failed: No element found using locator: By(css selector, [value=&quot;3&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, [value="3"])
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -604,8 +604,8 @@ Error
    </failure>
   </testcase>
  </testsuite>
- <testsuite name="When entering valid data into predictions filter it" timestamp="2018-08-29T15:46:34" hostname="localhost" time="3.383" errors="0" tests="5" skipped="0" disabled="0" failures="3">
-  <testcase classname="When entering valid data into predictions filter it" name="should navigate to the predictions page" time="3.241">
+ <testsuite name="When entering valid data into predictions filter it" timestamp="2018-08-30T09:09:22" hostname="localhost" time="1.666" errors="0" tests="5" skipped="0" disabled="0" failures="3">
+  <testcase classname="When entering valid data into predictions filter it" name="should navigate to the predictions page" time="1.559">
    <failure type="exception" message="Failed: No element found using locator: By(link text, Predictions)"><![CDATA[NoSuchElementError: No element found using locator: By(link text, Predictions)
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -649,7 +649,7 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="When entering valid data into predictions filter it" name="should allow user to input valid data" time="0.071">
+  <testcase classname="When entering valid data into predictions filter it" name="should allow user to input valid data" time="0.059">
    <failure type="exception" message="Failed: No element found using locator: By(css selector, *[name=&quot;startDate&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, *[name="startDate"])
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -693,8 +693,8 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="When entering valid data into predictions filter it" name="should provide a table with predictions" time="0.003" />
-  <testcase classname="When entering valid data into predictions filter it" name="should provide the same number of rows entered into the filter" time="0.063">
+  <testcase classname="When entering valid data into predictions filter it" name="should provide a table with predictions" time="0.001" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide the same number of rows entered into the filter" time="0.043">
    <failure type="toEqual" message="Expected 0 to equal 1."><![CDATA[Error: Failed expectation
     at UserContext.<anonymous> (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:43:57)
     at C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
@@ -707,10 +707,10 @@ Error
     at C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
    </failure>
   </testcase>
-  <testcase classname="When entering valid data into predictions filter it" name="should provide details when prediction row is clicked" time="0.003" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide details when prediction row is clicked" time="0.001" />
  </testsuite>
- <testsuite name="When entering valid data using all filters it" timestamp="2018-08-29T15:46:37" hostname="localhost" time="0.257" errors="0" tests="5" skipped="0" disabled="0" failures="2">
-  <testcase classname="When entering valid data using all filters it" name="should navigate to the predictions page" time="0.087">
+ <testsuite name="When entering valid data using all filters it" timestamp="2018-08-30T09:09:24" hostname="localhost" time="0.162" errors="0" tests="5" skipped="0" disabled="0" failures="2">
+  <testcase classname="When entering valid data using all filters it" name="should navigate to the predictions page" time="0.052">
    <failure type="exception" message="Failed: No element found using locator: By(link text, Client List)"><![CDATA[NoSuchElementError: No element found using locator: By(link text, Client List)
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -754,7 +754,7 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="When entering valid data using all filters it" name="should allow a user to input valid data and use all filters" time="0.069">
+  <testcase classname="When entering valid data using all filters it" name="should allow a user to input valid data and use all filters" time="0.041">
    <failure type="exception" message="Failed: No element found using locator: By(css selector, *[name=&quot;startDate&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, *[name="startDate"])
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -798,12 +798,12 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="When entering valid data using all filters it" name="should provide a table with predictions" time="0.001" />
-  <testcase classname="When entering valid data using all filters it" name="should provide the same number of rows entered into the filter" time="0.077" />
+  <testcase classname="When entering valid data using all filters it" name="should provide a table with predictions" time="0.003" />
+  <testcase classname="When entering valid data using all filters it" name="should provide the same number of rows entered into the filter" time="0.051" />
   <testcase classname="When entering valid data using all filters it" name="should provide details when prediction row is clicked" time="0.003" />
  </testsuite>
- <testsuite name="When I enter a start date that is more current than the end date it" timestamp="2018-08-29T15:46:37" hostname="localhost" time="0.236" errors="0" tests="2" skipped="0" disabled="0" failures="2">
-  <testcase classname="When I enter a start date that is more current than the end date it" name="should navigate to the predictions page" time="0.118">
+ <testsuite name="When I enter a start date that is more current than the end date it" timestamp="2018-08-30T09:09:24" hostname="localhost" time="0.121" errors="0" tests="2" skipped="0" disabled="0" failures="2">
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should navigate to the predictions page" time="0.053">
    <failure type="exception" message="Failed: No element found using locator: By(link text, Client List)"><![CDATA[NoSuchElementError: No element found using locator: By(link text, Client List)
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -847,7 +847,7 @@ Error
     at Object.require.extensions.(anonymous function) [as .ts] (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
-  <testcase classname="When I enter a start date that is more current than the end date it" name="should allow user to input a start date that is more current than the end date" time="0.116">
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should allow user to input a start date that is more current than the end date" time="0.067">
    <failure type="exception" message="Failed: No element found using locator: By(css selector, *[name=&quot;startDate&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, *[name="startDate"])
     at elementArrayFinder.getWebElements.then (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\my_git_repos\1807-july-jta\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)

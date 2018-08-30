@@ -166,6 +166,7 @@ export class PredictionsComponent implements OnInit {
    * Done onchange of date fields.
    */
   generateDates(){
+    console.log(this.startDateString);
     this.startDate = new Date(this.startDateString);
     this.endDate = new Date(this.endDateString);
   }

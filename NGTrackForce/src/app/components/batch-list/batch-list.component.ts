@@ -40,6 +40,7 @@ import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.compon
   templateUrl: './batch-list.component.html',
   styleUrls: ['./batch-list.component.css']
 })
+
 @AutoUnsubscribe
 export class BatchListComponent implements OnInit {
 <<<<<<< HEAD
@@ -97,6 +98,7 @@ export class BatchListComponent implements OnInit {
     'right', false, false
   );
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
@@ -106,6 +108,9 @@ export class BatchListComponent implements OnInit {
 >>>>>>> TestAdmin "Batch" tab date limits
 =======
   // This Function Doesn't seem to be used
+=======
+
+>>>>>>> TestAdmin "Batch" tab Date Limits are Now Inclusive
   // changeDate() {
   //   this.changeDateEm.emit(this.startDate);
   // }
@@ -160,11 +165,9 @@ export class BatchListComponent implements OnInit {
     }
     else {
       // set default dates displayed on page
-      this.startDate.setMonth(new Date().getMonth() - 3);
+      this.startDate.setMonth(new Date().getMonth() - 14);
       this.endDate.setMonth(new Date().getMonth() + 3);
       this.dataReady = false;
-
-      this.startDate.setMonth(-7);
 
       this.stringStart = this.startDate.toJSON().substring(0, 10);
       this.stringEnd = this.endDate.toJSON().substring(0, 10);
@@ -285,19 +288,19 @@ export class BatchListComponent implements OnInit {
       this.endDate = new Date();
       this.endDate.setMonth(new Date().getMonth() + 3);
       const startTime = Date.now();
-      this.dataReady = false;
+      this.dataReady = true;
       this.counter = 0;
       this.stringStart = this.startDate.toJSON().substring(0, 10);
       this.stringEnd = this.endDate.toJSON().substring(0, 10);
       this.startDateTimePicker.dateReset();
       this.endDateTimePicker.dateReset();
-      this.resetFormWarnings();
     });
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> TestAdmin "Batch" tab date limits
 
+<<<<<<< HEAD
 =======
 >>>>>>> TestAdmin "Batch" tab date limits
 =======
@@ -305,7 +308,11 @@ export class BatchListComponent implements OnInit {
 =======
 
 >>>>>>> TestAdmin "Batches" Submit/Reset Functionality
+=======
+    this.resetFormWarnings();
+>>>>>>> TestAdmin "Batch" tab Date Limits are Now Inclusive
     this.updateCountPerCurriculum();
+    console.log(this.batches);
     this.dataReady = true;
   }
 
@@ -330,7 +337,7 @@ export class BatchListComponent implements OnInit {
           const longEndDate = dateEndDate.getTime();
 
           if (batch.startDate && batch.endDate) {
-            return batch.startDate > longStartDate && batch.endDate < longEndDate;
+            return (batch.startDate >= longStartDate && batch.endDate <= longEndDate);
           }
           else {
             return false;
@@ -385,7 +392,7 @@ export class BatchListComponent implements OnInit {
         const longEndDate = dateEndDate.getTime();
 
         if (batch.startDate && batch.endDate) {
-          return batch.startDate > longStartDate && batch.endDate < longEndDate;
+          return (batch.startDate >= longStartDate && batch.endDate <= longEndDate);
         } else {
           return false;
         }

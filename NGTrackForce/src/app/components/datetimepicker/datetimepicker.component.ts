@@ -76,21 +76,25 @@ export class DateTimePickerComponent implements OnInit {
         break;
       case 'datetime':
     }
-    if (this.date != null) {
-      this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
+
+    //if (this.date != null) {
+      this.stringDate = this.date.toLocaleDateString('en-US', localOptions);
       this.datePicked.emit(this.stringDate);
+      //without this control statement, clicking anywhere on the calendar will remove it
       if (this.oldDate != this.date) {
         this.calendarView = !this.calendarView;
       }
       this.oldDate = this.date;
 
       //if the date chosen is invalid (before 2010, after +1 of current year), revert to previous date
-      if (this.validateDate() != 0) {
+      if (this.validateDate() !== 0) {
+
         this.date = new Date(this.originalDate);
         this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
         this.datePicked.emit(this.stringDate);
       }
-    }
+
+    //}
   }
 
   public manualEntry() {

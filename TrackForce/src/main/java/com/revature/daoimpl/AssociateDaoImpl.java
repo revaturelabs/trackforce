@@ -49,28 +49,31 @@ public class AssociateDaoImpl implements AssociateDao {
 		if (clientId == -1 && mktStatus != -1) {
 			criteria.where(builder.equal(root.get("marketingStatus"), mktStatus));
 			results = session.createQuery(criteria).getResultList();
-		} else if (mktStatus == -1 && clientId != -1) {	
+		} 
+		else if (mktStatus == -1 && clientId != -1) {	
 			criteria.where(builder.equal(root.get("client"), clientId));
 			results = session.createQuery(criteria).getResultList();
-		} else if (mktStatus != -1 && clientId != -1) {
+		} 
+		else if (mktStatus != -1 && clientId != -1) {
 			criteria.where(builder.equal(root.get("marketingStatus"), mktStatus));
 			results = session.createQuery(criteria).getResultList();
+			System.out.println("Starting to remove lines. Initial size: " + results.size());
 		    for(Iterator<TfAssociate> iterator=results.iterator(); iterator.hasNext(); ) {
 		          TfAssociate rfa = iterator.next();
-		          if(rfa.getClient().getId() != clientId) { iterator.remove(); }
-		    }
+		          if (rfa.getClient() != null) {
+		        	  int clID = rfa.getClient().getId();
+			          if(clID != clientId) { iterator.remove(); }
+		          } else { iterator.remove(); }
+		    }//end for
 		} else { results = session.createQuery(criteria).getResultList(); }
 		
-		if (results == null || results.size() == 0)  
-			{ return null; }
-		if (startIdx==1) 
-			{ startIdx = 0; }
+		if (results == null || results.size() == 0) { return null; }
+		if (startIdx==1) { startIdx = 0; }
 		int endPoint = startIdx + numRes;
 		resultList = new ArrayList<>(results);
-		if (endPoint >= results.size()) 
-			{ endPoint = resultList.size(); }
+		if (endPoint >= results.size()) { endPoint = resultList.size(); }
 		return resultList.subList(startIdx, endPoint);
-	}
+	}//end getNAssociateMatchingCriteria()
 	
 	/**
 	 * Gets a single associate with an id

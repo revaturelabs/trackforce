@@ -13,7 +13,7 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		features = {"src/test/resources/AdminFeatureFiles/Login.feature"}
+		features = {"src/test/resources/AdminFeatureFiles/"}
 		,glue = {"com.revature.test.admin.cuke"}
 		)
  

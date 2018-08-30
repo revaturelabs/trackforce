@@ -1,5 +1,9 @@
 /** @Author Princewill Ibe **/
+<<<<<<< HEAD
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+=======
+import { AuthenticationService } from "../../services/authentication-service/authentication.service";
+>>>>>>> fixed merging conflicts in batch-list and datetimepicker components
 import {
   Component,
   OnInit,
@@ -7,6 +11,7 @@ import {
   Output,
   EventEmitter,
   ViewChild
+<<<<<<< HEAD
 } from '@angular/core';
 import { Batch } from '../../models/batch.model';
 import { BatchService } from '../../services/batch-service/batch.service';
@@ -20,6 +25,21 @@ import { Color } from 'ng2-charts';
 import 'rxjs/add/observable/from';
 import { DateService } from '../../services/date-service/date.service';
 import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
+=======
+} from "@angular/core";
+import { Batch } from "../../models/batch.model";
+import { BatchService } from "../../services/batch-service/batch.service";
+import { ThemeConstants } from "../../constants/theme.constants";
+import { AutoUnsubscribe } from "../../decorators/auto-unsubscribe.decorator";
+import {
+  ChartOptions,
+  SideValues
+} from "../../models/ng2-charts-options.model";
+import { Color } from "ng2-charts";
+import "rxjs/add/observable/from";
+import { DateService } from "../../services/date-service/date.service";
+import { DateTimePickerComponent } from "../datetimepicker/datetimepicker.component";
+>>>>>>> fixed merging conflicts in batch-list and datetimepicker components
 
 // TODO: LABELS SHOULD PROPERLY WRAP
 /**
@@ -28,20 +48,26 @@ import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.compon
  *        to get all batches and show meaningful information
  */
 @Component({
-  selector: 'app-batch-list',
-  templateUrl: './batch-list.component.html',
-  styleUrls: ['./batch-list.component.css']
+  selector: "app-batch-list",
+  templateUrl: "./batch-list.component.html",
+  styleUrls: ["./batch-list.component.css"]
 })
 @AutoUnsubscribe
 export class BatchListComponent implements OnInit {
+<<<<<<< HEAD
   @ViewChild('start')
   startDateTimePicker: DateTimePickerComponent;
   @ViewChild('end')
+=======
+  @ViewChild("start")
+  startDateTimePicker: DateTimePickerComponent;
+  @ViewChild("end")
+>>>>>>> fixed merging conflicts in batch-list and datetimepicker components
   endDateTimePicker: DateTimePickerComponent;
 
   start: any;
   end: any;
-  pieChartType = 'pie';
+  pieChartType = "pie";
   startDate: Date = new Date();
   endDate: Date = new Date();
   batches: Batch[];
@@ -62,6 +88,7 @@ export class BatchListComponent implements OnInit {
   dateRangeMessage: string;
   showDateRangeError = false;
   dateError: boolean;
+<<<<<<< HEAD
 
   changeDate() {
     this.changeDateEm.emit(this.startDate);
@@ -71,9 +98,27 @@ export class BatchListComponent implements OnInit {
     new SideValues(-100, 0, 0, 0),
     new SideValues(0, 0, 0, 0),
     'right',
+=======
+  chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
+    new SideValues(-100, 0, 0, 0),
+    new SideValues(0, 0, 0, 0),
+    "right",
+>>>>>>> fixed merging conflicts in batch-list and datetimepicker components
     false,
     false
   );
+
+<<<<<<< HEAD
+  constructor(
+    private batchService: BatchService,
+    private authService: AuthenticationService,
+    private dateService: DateService
+  ) {}
+=======
+  changeDate() {
+    this.changeDateEm.emit(this.startDate);
+  }
+>>>>>>> fixed merging conflicts in batch-list and datetimepicker components
 
   constructor(
     private batchService: BatchService,
@@ -167,6 +212,7 @@ export class BatchListComponent implements OnInit {
     if (!this.dateError) {
       this.startDate = new Date(this.stringStart);
       this.endDate = new Date(this.stringEnd);
+<<<<<<< HEAD
 
       let longStartDate: number;
       let longEndDate: number;
@@ -177,6 +223,18 @@ export class BatchListComponent implements OnInit {
         longStartDate = this.startDate.getTime();
         longEndDate = this.endDate.getTime();
 
+=======
+
+      let longStartDate: number;
+      let longEndDate: number;
+
+      this.resetFormWarnings();
+
+      if (this.startDate && this.endDate) {
+        longStartDate = this.startDate.getTime();
+        longEndDate = this.endDate.getTime();
+
+>>>>>>> fixed merging conflicts in batch-list and datetimepicker components
         if (longEndDate < longStartDate) {
           this.dateRangeMessage =
             "The TO date cannot occur before the FROM date, please try another date.";
@@ -219,6 +277,7 @@ export class BatchListComponent implements OnInit {
     const user = this.authService.getUser();
     if (user.role === 2) {
       // filter out batches that don't have an associated trainer
+<<<<<<< HEAD
       this.filteredBatches = this.batches.filter(batch => {
         if (
           batch.trainer.firstName !== this.authService.getTrainer().firstName
@@ -240,11 +299,36 @@ export class BatchListComponent implements OnInit {
         } else {
           return false;
         }
+=======
+      this.filteredBatches = this.batches.filter(
+        batch => {
+          if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
+            return false;
+          }
+          if (batch.coTrainer) {
+            if (!batch.coTrainer.includes(this.authService.getTrainer())) {
+              return false;
+            }
+          }
+          const dateStartDate = new Date(this.startDate);
+          const dateEndDate = new Date(this.endDate);
+          const longStartDate = dateStartDate.getTime();
+          const longEndDate = dateEndDate.getTime();
+
+          if (batch.startDate && batch.endDate) {
+            return batch.startDate > longStartDate && batch.endDate < longEndDate;
+          }
+          else {
+
+          return false;
+        }
+>>>>>>> fixed merging conflicts in batch-list and datetimepicker components
       });
       this.updateCountPerCurriculum();
       this.dataReady = true;
     } else {
       this.dataReady = false;
+<<<<<<< HEAD
       this.filteredBatches = this.batches.filter(batch => {
         let dateStartDate = new Date(this.startDate);
         let dateEndDate = new Date(this.endDate);
@@ -257,10 +341,26 @@ export class BatchListComponent implements OnInit {
           return false;
         }
       });
+=======
+      this.filteredBatches = this.batches.filter(
+        batch => {
+          const dateStartDate = new Date(this.startDate);
+          const dateEndDate = new Date(this.endDate);
+          const longStartDate = dateStartDate.getTime();
+          const longEndDate = dateEndDate.getTime();
+
+          if (batch.startDate && batch.endDate) {
+            return batch.startDate > longStartDate && batch.endDate < longEndDate;
+          } else {
+            return false;
+          }
+        }
+      )};
+
+>>>>>>> fixed merging conflicts in batch-list and datetimepicker components
       this.updateCountPerCurriculum();
       this.dataReady = true;
     }
-  }
 
   /**
    * @function updateCountPerCurriculum

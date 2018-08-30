@@ -38,19 +38,20 @@ export class PredictionsComponent implements OnInit {
   public loadingDetails: boolean;
   public maxAssociates: number = 1000;
   public showEmpty: boolean = true;
+  //public curriculums: any[];
 
   //Assoc----------------------------------
   public clients: Client[];
-  curriculums: Set<string>; //stored unique curriculums
+  public curriculums: Set<string>; //stored unique curriculums
   public isDataReady: boolean = false;
   //----------------------------------------------------------
 
    //used for filtering
-   searchByStatus = '';
-   searchByClient = '';
-   searchByText = '';
-   searchByCurriculum = '';
-   searchByVerification = '';
+  //  searchByStatus = '';
+  //  searchByClient = '';
+  //  searchByText = '';
+  //  searchByCurriculum = '';
+  //  searchByVerification = '';
 
     //used for ordering of rows
   desc = false;
@@ -58,7 +59,11 @@ export class PredictionsComponent implements OnInit {
 
 
   //added: cs
-  constructor(private ss: CurriculumService, private as: AssociateService, private bs: BatchService, private cs:ClientService) { }
+
+  constructor(private ss: CurriculumService, private as: AssociateService,
+    private bs: BatchService, private cs:ClientService) {
+      this.curriculums = new Set<string>();
+    }
 
   ngOnInit() {
     this.techNeeded = [];
@@ -67,6 +72,7 @@ export class PredictionsComponent implements OnInit {
     this.loadingPredictions = false;
     this.loadingDetails = false;
     this.loadingTechnologies = false;
+    //this.curriculums = [];
 
     //assoc-----------------------------------------------------------------
     this.getAllAssociates(); //TODO: change method to not use local storage

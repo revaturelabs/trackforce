@@ -62,9 +62,8 @@ export class TrainerService {
   public updateTrainer(trainer: Trainer): any {
     return this.http.put(this.baseURL + trainer.id, JSON.stringify(trainer), {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': trainer.user.token,
-        'mode': 'no-cors'
+        'Content-Type': 'application/json'
+        // 'Authorization': `${trainer.user.token}`
       })
     });
 

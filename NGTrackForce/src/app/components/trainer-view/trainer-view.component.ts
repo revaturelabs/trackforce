@@ -12,6 +12,8 @@ import {AssociateService} from "../../services/associate-service/associate.servi
 })
 export class TrainerViewComponent implements OnInit {
 
+  readonly private _TRAINER_KEY = 'currentTrainer';
+
   trainer: Trainer;
   formOpen = false;
   newFirstName: string;
@@ -80,18 +82,17 @@ export class TrainerViewComponent implements OnInit {
   updateInfo() {
     this.trainer.firstName = this.newFirstName;
     this.trainer.lastName = this.newLastName;
+    localStorage.setItem(this._TRAINER_KEY, JSON.stringify(this.trainer)) ;
     this.trainer.user.token = '5';
     this.statusMsg = 'Please wait while your information is updated';
     this.statusClass = 'wait';
     this.trainerService.updateTrainer(this.trainer).subscribe(
       data => {
-        console.log(data);
         this.statusMsg = 'Update was successful!';
         this.statusClass = 'success';
         this.formOpen = false;
       },
       error => {
-        console.log(error);
         this.statusMsg = `I'm sorry, there was an error when communicating with the server`;
         this.statusClass = 'error';
         this.formOpen = false;

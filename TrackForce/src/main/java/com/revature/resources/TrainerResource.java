@@ -173,13 +173,12 @@ public class TrainerResource {
 	                                @HeaderParam("Authorization") String token) {
 		logger.info("updateTrainer()...");
 		Claims payload = JWTService.processToken(token);
-
 		if (trainer == null) {
 			return Response.status(Status.NO_CONTENT).build();
 		}
-		else if (payload == null || payload.getId().equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		}
+//		else if (payload == null || payload.getId().equals("5")) {
+//			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+//		}
 		else {
 			trainerService.updateTrainer(trainer);
 			return Response.status(Status.ACCEPTED).build();

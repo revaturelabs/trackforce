@@ -38,6 +38,12 @@ export class AssociateService {
 
   private updateAssociate$: AsyncSubject<boolean> = new AsyncSubject<boolean>();
 
+  private approveAssociate$: AsyncSubject<boolean> = new AsyncSubject<boolean>();
+
+  private getAssociatesByStatus$: AsyncSubject<GraphCounts[]> = new AsyncSubject<GraphCounts[]>();
+
+  private getUndeployedAssociates$: AsyncSubject<GraphCounts[]> = new AsyncSubject<GraphCounts[]>();
+
   // TODO: Decide if empty strings is better or if a loading message should be put here
   // TODO: Why is there a get by user and get by associate this is two different models on backend
   // ? should one be handled by another service
@@ -158,16 +164,28 @@ export class AssociateService {
   }
 
   getAssociatesByStatus(statusId: number): Observable<GraphCounts[]> {
-    return this.http.get<GraphCounts[]>(this.baseURL + '/mapped/' + statusId);
+    this.http.get<GraphCounts[]>(this.baseURL + '/mapped/' + statusId).subscribe(
+      (data: GraphCounts[]) => this.getAssociatesByStatus$.next(data),
+      error => this.getAssociatesByStatus$.error(error)
+    );
+    return this.getAssociatesByStatus$;
   }
 
   approveAssociate(associateID: number) {
     const url: string = this.baseURL + '/' + associateID + '/approve';
-    return this.http.put<boolean>(url, associateID);
+    this.http.put<boolean>(url, associateID).subscribe(
+      data => this.approveAssociate$.next(data),
+      error => this.approveAssociate$.error(error)
+    );
+    return  this.approveAssociate$;
   }
 
   getUndeployedAssociates(mappedOrUnmapped: string): Observable<GraphCounts[]> {
     const url: string = this.baseURL + '/undeployed/' + mappedOrUnmapped;
-    return this.http.get<GraphCounts[]>(url);
+    this.http.get<GraphCounts[]>(url).subscribe(
+      (data: GraphCounts[]) => this.getUndeployedAssociates$.next(data),
+      error => this.getUndeployedAssociates$.error(error)
+    );
+    return this.getUndeployedAssociates$;
   }
 }

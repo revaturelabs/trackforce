@@ -1,16 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { DateService } from "../../services/date-service/date.service";
-<<<<<<< HEAD
-
-=======
->>>>>>> TestAdmin "Batch" tab warnings
 
 @Component({
   selector: 'app-datetimepicker',
   templateUrl: './datetimepicker.component.html',
   styleUrls: ['./datetimepicker.component.css']
 })
-
 export class DateTimePickerComponent implements OnInit {
   @Input()
   width = "250px"; //default value
@@ -24,7 +19,6 @@ export class DateTimePickerComponent implements OnInit {
   datePicked = new EventEmitter();
   @Output()
   error = new EventEmitter();
-
   calendarView = false;
   displayErrorInvalidDate = false;
 

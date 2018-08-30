@@ -46,7 +46,7 @@ export class FormComponent implements OnInit {
 
   // form booleans
   // isVerified: string;
-  isApproved: boolean;
+  isApproved = 0; //number because if default state set to "false", failure message will display on load
   isMapped: boolean;
   eligibleForInterview: boolean;
   interviewScheduled: boolean;
@@ -141,7 +141,7 @@ export class FormComponent implements OnInit {
   approveAssociate() {
     return this.associateService
       .approveAssociate(this.associate.id)
-      .subscribe(data => (this.isApproved = data ? true : false));
+      .subscribe(data => (this.isApproved = data ? 1 : 2)); //1 for true, 2 for false, 0 for initial state
   }
 
   processForm() {

@@ -46,7 +46,7 @@ export class FormComponent implements OnInit {
 
   // form booleans
   // isVerified: string;
-  isApproved: number;
+  isApproved: boolean;
   isMapped: boolean;
   eligibleForInterview: boolean;
   interviewScheduled: boolean;
@@ -141,7 +141,7 @@ export class FormComponent implements OnInit {
   approveAssociate() {
     return this.associateService
       .approveAssociate(this.associate.id)
-      .subscribe(data => (this.isApproved = data ? 1 : 0));
+      .subscribe(data => (this.isApproved = data ? true : false));
   }
 
   processForm() {

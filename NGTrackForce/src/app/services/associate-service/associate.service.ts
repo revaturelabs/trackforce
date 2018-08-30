@@ -1,4 +1,3 @@
-import { Associate } from './../../models/associate.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, AsyncSubject, BehaviorSubject } from 'rxjs';
@@ -31,21 +30,21 @@ export class AssociateService {
    * 3. Ideally the components will show loading, error, and success by listening to the three
    *    events that a subject will output when subscribed to
    */
-  private allAssociates: BehaviorSubject<Associate[]> = new BehaviorSubject<Associate[]>([]);
+  private allAssociates$: BehaviorSubject<Associate[]> = new BehaviorSubject<Associate[]>([]);
 
-  private associateCount: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
+  private associateCount$: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
 
   // TODO: Decide if empty strings is better or if a loading message should be put here
   // TODO: Why is there a get by user and get by associate this is two different models on backend
   // ? should one be handled by another service
   // ? Do we really need two in this section of the frontend
-  private associateByUserId: BehaviorSubject<Associate> = new BehaviorSubject<Associate>(new Associate(
+  private associateByUserId$: BehaviorSubject<Associate> = new BehaviorSubject<Associate>(new Associate(
     "",
     "",
     null
   ));
 
-  private associateByAssociateId: BehaviorSubject<Associate> = new BehaviorSubject<Associate>(new Associate(
+  private associateByAssociateId$: BehaviorSubject<Associate> = new BehaviorSubject<Associate>(new Associate(
     "",
     "",
     null
@@ -59,8 +58,8 @@ export class AssociateService {
    */
   getAllAssociates(): BehaviorSubject<Associate[]> {
     const url: string = this.baseURL + '/allAssociates';
-    this.http.get<Associate[]>(url).subscribe((data: Associate[]) => this.allAssociates.next(data));
-    return this.allAssociates;
+    this.http.get<Associate[]>(url).subscribe((data: Associate[]) => this.allAssociates$.next(data));
+    return this.allAssociates$;
   }
 
   /*
@@ -79,8 +78,8 @@ export class AssociateService {
    */
   getCountAssociates(): BehaviorSubject<number[]> {
     const url: string = this.baseURL + '/countAssociates';
-    this.http.get<number[]>(url).subscribe((data: number[]) => this.associateCount.next(data));
-    return this.associateCount;
+    this.http.get<number[]>(url).subscribe((data: number[]) => this.associateCount$.next(data));
+    return this.associateCount$;
   }
 
   /**
@@ -90,8 +89,8 @@ export class AssociateService {
    */
   getAssociate(id: number) {
     const url: string = this.baseURL + '/' + id;
-    this.http.get<Associate>(url).subscribe((data: Associate) => this.associateByUserId.next(data));
-    return this.associateByUserId;
+    this.http.get<Associate>(url).subscribe((data: Associate) => this.associateByUserId$.next(data));
+    return this.associateByUserId$;
   }
 
   /**
@@ -101,8 +100,8 @@ export class AssociateService {
    */
   getByAssociateId(id: number) {
     const url: string = this.baseURL + '/associates/' + id;
-    this.http.get<Associate>(url).subscribe((data: Associate) => this.associateByAssociateId.next(data));
-    return this.associateByAssociateId;
+    this.http.get<Associate>(url).subscribe((data: Associate) => this.associateByAssociateId$.next(data));
+    return this.associateByAssociateId$;
   }
 
   /**

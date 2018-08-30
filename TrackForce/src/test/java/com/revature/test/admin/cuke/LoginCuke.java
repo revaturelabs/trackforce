@@ -4,6 +4,8 @@ import static org.testng.Assert.assertEquals;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.revature.test.admin.pom.HomeTab;
 import com.revature.test.admin.pom.Login;
@@ -22,12 +24,14 @@ import cucumber.api.java.en.When;
 public class LoginCuke {
 	
 	public static WebDriver driver;
+	static WebDriverWait wait; 
 	
 	@Given("^I connect to caliber$")
 	public void i_connect_to_caliber(){
 		driver = WebDriverUtil.getChromeDriver();
 		driver.manage().window().maximize();
 		driver.get(TestConfig.getBaseURL());
+		wait = new WebDriverWait(driver,15);
 	}
 	
 	@And("^the login page loads$")
@@ -65,7 +69,6 @@ public class LoginCuke {
 	public void i_click_Submit() throws Throwable {
 		System.out.println("Clicking submit (login)");
 		Login.getSignin(driver).click();
-		Thread.sleep(3000);
 	}
 	
 	@When("^I enter a correct username without a password$")
@@ -98,37 +101,36 @@ public class LoginCuke {
 	@When("^if I click Log out$")
 	public void if_I_click_Log_out() throws Throwable {
 		System.out.println("clicking logout");
-		Thread.sleep(1000);
 		driver.findElement(By.xpath("/html/body/app-component/app-navbar/nav/div/ul[2]/li[1]/a")).click();
 	}
 
 	@Then("^I should remain on the login page$")
 	public void i_should_remain_on_the_login_page() throws Throwable {
-		Thread.sleep(1500);
+		wait.until(ExpectedConditions.urlContains("http://34.227.178.103:8090/NGTrackForce/#/login"));
 		assertEquals(HomeTab.getCurrentURL(driver),"http://34.227.178.103:8090/NGTrackForce/#/login");
 	}
 
 	@Then("^I should be taken to the home page$")
 	public void i_should_be_taken_to_the_home_page() throws Throwable {
-		Thread.sleep(2000);
+		wait.until(ExpectedConditions.urlContains("http://34.227.178.103:8090/NGTrackForce/#/app-home"));
 		assertEquals(HomeTab.getCurrentURL(driver),"http://34.227.178.103:8090/NGTrackForce/#/app-home");
 	}
 	
 	@Then("^I should be taken to the trainer home page$")
 	public void i_should_be_taken_to_the_trainer_home_page() throws Throwable {
-		Thread.sleep(2000);
+		wait.until(ExpectedConditions.urlContains("http://34.227.178.103:8090/NGTrackForce/#/trainer-view"));
 		assertEquals(HomeTab.getCurrentURL(driver),"http://34.227.178.103:8090/NGTrackForce/#/trainer-view");
 	}
 	
 	@Then("^I should be taken to the associate home page$")
 	public void i_should_be_taken_to_the_associate_home_page() throws Throwable {
-		Thread.sleep(2000);
+		wait.until(ExpectedConditions.urlContains("http://34.227.178.103:8090/NGTrackForce/#/associate-view"));
 		assertEquals(driver.getCurrentUrl(),"http://34.227.178.103:8090/NGTrackForce/#/associate-view");
 	}
 
 	@Then("^I should be on the login page$")
 	public void i_should_be_on_the_login_page() throws Throwable {
-		Thread.sleep(2000);
+		wait.until(ExpectedConditions.urlContains("http://34.227.178.103:8090/NGTrackForce/#/login"));
 		assertEquals(driver.getCurrentUrl(),"http://34.227.178.103:8090/NGTrackForce/#/login");
 	}
 	

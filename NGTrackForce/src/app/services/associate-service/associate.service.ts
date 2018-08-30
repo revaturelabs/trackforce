@@ -36,6 +36,8 @@ export class AssociateService {
 
   private updateAssociates$: AsyncSubject<boolean> = new AsyncSubject<boolean>();
 
+  private updateAssociate$: AsyncSubject<boolean> = new AsyncSubject<boolean>();
+
   // TODO: Decide if empty strings is better or if a loading message should be put here
   // TODO: Why is there a get by user and get by associate this is two different models on backend
   // ? should one be handled by another service
@@ -60,7 +62,10 @@ export class AssociateService {
    */
   getAllAssociates(): BehaviorSubject<Associate[]> {
     const url: string = this.baseURL + '/allAssociates';
-    this.http.get<Associate[]>(url).subscribe((data: Associate[]) => this.allAssociates$.next(data));
+    this.http.get<Associate[]>(url).subscribe(
+      (data: Associate[]) => this.allAssociates$.next(data),
+      error => this.allAssociates$.error(error)
+    );
     return this.allAssociates$;
   }
 
@@ -80,7 +85,10 @@ export class AssociateService {
    */
   getCountAssociates(): BehaviorSubject<number[]> {
     const url: string = this.baseURL + '/countAssociates';
-    this.http.get<number[]>(url).subscribe((data: number[]) => this.associateCount$.next(data));
+    this.http.get<number[]>(url).subscribe(
+      (data: number[]) => this.associateCount$.next(data),
+      error => this.associateCount$.error(error)
+    );
     return this.associateCount$;
   }
 
@@ -91,7 +99,10 @@ export class AssociateService {
    */
   getAssociate(id: number) {
     const url: string = this.baseURL + '/' + id;
-    this.http.get<Associate>(url).subscribe((data: Associate) => this.associateByUserId$.next(data));
+    this.http.get<Associate>(url).subscribe(
+      (data: Associate) => this.associateByUserId$.next(data),
+      error => this.associateByUserId$.error(error)
+    );
     return this.associateByUserId$;
   }
 
@@ -102,7 +113,10 @@ export class AssociateService {
    */
   getByAssociateId(id: number) {
     const url: string = this.baseURL + '/associates/' + id;
-    this.http.get<Associate>(url).subscribe((data: Associate) => this.associateByAssociateId$.next(data));
+    this.http.get<Associate>(url).subscribe(
+      (data: Associate) => this.associateByAssociateId$.next(data),
+      error => this.associateByAssociateId$.error(error)
+    );
     return this.associateByAssociateId$;
   }
 
@@ -136,7 +150,11 @@ export class AssociateService {
    */
   updateAssociate(associate: any) {
     const url: string = this.baseURL + '/' + associate.id;
-    return this.http.put<boolean>(url, associate);
+    this.http.put<boolean>(url, associate).subscribe(
+      data => this.updateAssociate$.next(data),
+      error => this.updateAssociate$.error(error)
+    );
+    return this.updateAssociate$;
   }
 
   getAssociatesByStatus(statusId: number): Observable<GraphCounts[]> {

@@ -177,7 +177,10 @@ public class TrainerResource {
 		if (trainer == null) {
 			return Response.status(Status.NO_CONTENT).build();
 		}
-		else if (payload == null || payload.getId().equals("2") || payload.getId().equals("5")) {
+//		else if (payload == null || payload.getId().equals("2") || payload.getId().equals("5")) {
+//			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+//		}
+		else if (payload == null || payload.getId().equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		else {

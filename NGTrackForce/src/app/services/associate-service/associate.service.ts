@@ -17,10 +17,10 @@ export class AssociateService {
   private nassURL: string = this.baseURL + '/nass';
 
   /**
-   * This behavior subject will hold an initial empty value until a request is sent for associates
-   * The boolean will track if the first set of data is ready. This should not be the way it is
-   * implemented however since we have to remain compatible with the components written already
-   * sending a null value from an AsyncSubject would throw many errors
+   * These behavior subjects will hold an initial empty value until a request is sent for their
+   * data. The boolean will track if the first set of data is ready. This should not be the way
+   * it is implemented however since we have to remain compatible with the components written
+   * already sending a null value from an AsyncSubject would throw many errors
    *
    * TODO: Stop using the boolean and switch to using an AsyncSubject
    *
@@ -31,6 +31,8 @@ export class AssociateService {
    *    events that a subject will output when subscribed to
    */
   private allAssociates: BehaviorSubject<Associate[]> = new BehaviorSubject<Associate[]>([]);
+
+  private associateCount: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
 
   constructor(private http: HttpClient) {}
 
@@ -58,9 +60,10 @@ export class AssociateService {
   /**
    * get the count of the associates to display in the pie charts on the home page
    */
-  getCountAssociates(): Observable<number[]> {
+  getCountAssociates(): BehaviorSubject<number[]> {
     const url: string = this.baseURL + '/countAssociates';
-    return this.http.get<number[]>(url);
+    this.http.get<number[]>(url).subscribe((data: number[]) => this.associateCount.next(data));
+    return this.associateCount;
   }
 
   /**

@@ -31,13 +31,11 @@ public class LoginCuke {
 		ServiceHooks.driver.manage().window().maximize();
 		ServiceHooks.driver.get(TestConfig.getBaseURL());
 		ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver,15);
-		System.out.println(ServiceHooks.wait);
 	}
 	
 	@And("^the login page loads$")
 	public void the_login_page_loads() throws Throwable {
 		assertEquals(ServiceHooks.driver.getCurrentUrl(),"http://34.227.178.103:8090/NGTrackForce/#/login");
-		System.out.println(ServiceHooks.driver);
 	}
 
 	@When("^I enter the correct admin login information$")

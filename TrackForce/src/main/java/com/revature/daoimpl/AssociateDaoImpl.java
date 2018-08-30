@@ -72,6 +72,7 @@ public class AssociateDaoImpl implements AssociateDao {
 		int endPoint = startIdx + numRes;
 		resultList = new ArrayList<>(results);
 		if (endPoint >= results.size()) { endPoint = resultList.size(); }
+		session.close(); //close out the session
 		return resultList.subList(startIdx, endPoint);
 	}//end getNAssociateMatchingCriteria()
 	

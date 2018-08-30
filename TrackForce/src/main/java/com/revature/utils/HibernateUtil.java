@@ -39,6 +39,7 @@ public class HibernateUtil {
 			cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
 			cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
 			cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));
+
 			return cfg.configure().buildSessionFactory();
 		} finally { addShutdown(); }
 	}

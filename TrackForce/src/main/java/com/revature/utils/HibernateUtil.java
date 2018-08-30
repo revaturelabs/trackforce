@@ -42,9 +42,13 @@ public class HibernateUtil {
 
 		try {
 			Configuration cfg = new Configuration();
-			cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
-			cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
-			cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));
+//			cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
+//			cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
+//			cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));
+//			
+			cfg.setProperty("hibernate.connection.url", "jdbc:oracle:thin:@testdb.cvorypbhwmza.us-east-1.rds.amazonaws.com:1521:ORCL");
+			cfg.setProperty("hibernate.connection.username", "Admin");
+			cfg.setProperty("hibernate.connection.password", "Password");
 
 			return cfg.configure().buildSessionFactory();
 

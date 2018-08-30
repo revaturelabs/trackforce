@@ -52,6 +52,8 @@ public class Application {
 	static MarketingStatusService marketingStatusService = new MarketingStatusService();
 
 	public static void main(String[] args) throws PasswordStorage.CannotPerformOperationException {
+		
+		System.out.println(userService.getAllUsers());
 
 
 //		TfUser u = new TfUser();
@@ -118,23 +120,24 @@ public class Application {
 //		}
 
 		
-		TfRole role = new TfRole();
-		role = userService.getRole(1);
-		
-		TfUser user = new TfUser();
-		user.setIsApproved(1);
-		user.setPassword("password");
-		user.setUsername("TestUsername");
-		user.setTfRole(role);
-		user.setRole(1);
-		
-		TfAssociate associate = new TfAssociate();
-		associate.setFirstName("RestAssured");
-		associate.setLastName("Associate");
-		associate.setUser(user);
-		
-		System.out.println(associateService.createAssociate(associate));}}
+//		TfRole role = new TfRole();
+//		role = userService.getRole(1);
+//		
+//		TfUser user = new TfUser();
+//		user.setIsApproved(1);
+//		user.setPassword("password");
+//		user.setUsername("TestUsername");
+//		user.setTfRole(role);
+//		user.setRole(1);
+//		
+//		TfAssociate associate = new TfAssociate();
+//		associate.setFirstName("RestAssured");
+//		associate.setLastName("Associate");
+//		associate.setUser(user);
+//		
+//		System.out.println(associateService.createAssociate(associate));}}
 
+	}}
 //		TfInterview interview = new TfInterview();
 //
 

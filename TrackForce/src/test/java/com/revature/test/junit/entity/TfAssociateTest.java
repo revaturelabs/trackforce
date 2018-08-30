@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
+import org.testng.annotations.AfterMethod;
 
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
@@ -115,5 +116,10 @@ public class TfAssociateTest {
 	public void test13() {
 		assertNotEquals(associate1.hashCode(), associate2.hashCode());
 		assertNotEquals(associate1.hashCode(), new TfAssociate().hashCode());
+	}
+	
+	@AfterMethod
+	public void afterTest() {
+		
 	}
 }

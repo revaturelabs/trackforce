@@ -121,7 +121,10 @@ export class AssociateListComponent implements OnInit {
     ) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
-    this.getNAssociates();
+    // ?This is not a good idea to try to get a portion of the data then request all data this is not going
+    // ?to aid performance in reality for now we will just fetch all until the request for pagination of associates is implemented
+    //this.getNAssociates();
+    // TODO: Offload the responsibility of triggering requests to a different service
     this.getAllAssociates(); //TODO: change method to not use local storage
     this.getClientNames();
 
@@ -182,10 +185,11 @@ export class AssociateListComponent implements OnInit {
         if (associate.batch && associate.batch.batchName === 'null') {
           associate.batch.batchName = 'None';
         }
+
+        this.isDataReady = true;
       }
       this.curriculums.delete('');
       this.curriculums.delete('null');
-      this.isDataReady = true;
     });
   }
 

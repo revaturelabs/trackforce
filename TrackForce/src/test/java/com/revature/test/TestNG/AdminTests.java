@@ -19,14 +19,27 @@ import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Test;
 
+/*
+ *  Author: Mohamed Yousef
+ */
+
 public class AdminTests {
-	/*
-	 *  author: Mohamed Yousef
-	 */
+
 	static WebDriver wd;
+	static WebDriverWait wait;
 	String username = "TestAdmin";
 	String password = "TestAdmin";
-
+	
+	// stores the values of batches names on the batches page
+	List<String> batchNames = new ArrayList<String>();
+	
+	/* 
+	 *  stores the values of dates in the batch list page, first element is the start date of first batch & second 
+	 *  element is the end date of the first batch and so on... because start date and end dates dont have unique identifiers
+	 *  
+	 */
+	
+	List<String> batchDates = new ArrayList<String>();
 	
 	// Holds the client list before its cleaned 
 	List<String> clients = new ArrayList<String>();
@@ -40,23 +53,25 @@ public class AdminTests {
 		System.setProperty("webdriver.chrome.driver", chrome.getAbsolutePath());
 		wd = new ChromeDriver();
 		wd.get("http://localhost:4200/NGTrackForce/");
-		new WebDriverWait(wd, 15).until(ExpectedConditions.urlContains("http://localhost:4200/#/login"));
+		wait = new WebDriverWait(wd,10);
+		wait.until(ExpectedConditions.urlContains("http://localhost:4200/#/login"));
+		
 	}
 	
 	@Test(priority = 1, dependsOnMethods = "launchApplication")
 	void adminCanLogin() {
-		new WebDriverWait(wd, 15).until(ExpectedConditions.elementToBeClickable(LoginPage.username(wd)));
+		wait.until(ExpectedConditions.elementToBeClickable(LoginPage.username(wd)));
 		LoginPage.username(wd).sendKeys(username);
 		LoginPage.password(wd).sendKeys(password);
-		new WebDriverWait(wd, 15).until(ExpectedConditions.elementToBeClickable(LoginPage.signIn(wd)));
+		wait.until(ExpectedConditions.elementToBeClickable(LoginPage.signIn(wd)));
 		LoginPage.signIn(wd).click();
-		new WebDriverWait(wd, 15).until(ExpectedConditions.urlContains("#/app-home"));
+		wait.until(ExpectedConditions.urlContains("#/app-home"));
 	}
 	
 	@Test(priority = 2, dependsOnMethods = "adminCanLogin")
 	void chartsLoadWithin10Seconds() {
-		new WebDriverWait(wd, 10).until(ExpectedConditions.presenceOfElementLocated(By.id("pie")));
-		new WebDriverWait(wd, 10).until(ExpectedConditions.visibilityOfAllElements(AdminHome.charts(wd)));
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("pie")));
+		wait.until(ExpectedConditions.visibilityOfAllElements(AdminHome.charts(wd)));
 	}	
 	
 	@Test(priority = 3, dependsOnMethods = "chartsLoadWithin10Seconds")
@@ -66,37 +81,37 @@ public class AdminTests {
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarClientListVisibile() {
-		new WebDriverWait(wd, 10).until(ExpectedConditions.visibilityOf(AdminNavbarElements.clientList(wd)));
+		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.clientList(wd)));
 	}	
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarHomeVisibile() {
-		new WebDriverWait(wd, 10).until(ExpectedConditions.visibilityOf(AdminNavbarElements.home(wd)));
+		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.home(wd)));
 	}	
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarBatchListVisibile() {
-		new WebDriverWait(wd, 10).until(ExpectedConditions.visibilityOf(AdminNavbarElements.batchList(wd)));
+		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.batchList(wd)));
 	}	
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarAssociateListVisibile() {
-		new WebDriverWait(wd, 10).until(ExpectedConditions.visibilityOf(AdminNavbarElements.associateList(wd)));
+		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.associateList(wd)));
 	}	
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarPredictionsVisibile() {
-		new WebDriverWait(wd, 10).until(ExpectedConditions.visibilityOf(AdminNavbarElements.predictions(wd)));
+		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.predictions(wd)));
 	}		
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarCreateUserVisibile() {
-		new WebDriverWait(wd, 10).until(ExpectedConditions.visibilityOf(AdminNavbarElements.createUser(wd)));
+		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.createUser(wd)));
 	}		
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarSalesForceVisibile() {
-		new WebDriverWait(wd, 10).until(ExpectedConditions.visibilityOf(AdminNavbarElements.salesForce(wd)));
+		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.salesForce(wd)));
 	}	
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
@@ -107,9 +122,9 @@ public class AdminTests {
 	
 	@Test(priority = 5, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void clientListPageLoads() {
-		new WebDriverWait(wd, 10).until(ExpectedConditions.elementToBeClickable(AdminNavbarElements.clientList(wd)));
+		wait.until(ExpectedConditions.elementToBeClickable(AdminNavbarElements.clientList(wd)));
 		AdminNavbarElements.clientList(wd).click();
-		new WebDriverWait(wd, 15).until(ExpectedConditions.urlContains("#/client-listing"));
+		wait.until(ExpectedConditions.urlContains("#/client-listing"));
 	}	
 	
 	/*
@@ -120,7 +135,7 @@ public class AdminTests {
 	
 	@Test(priority = 6, dependsOnMethods = "clientListPageLoads")
 	void clientListIsOnlyLoadedOnce() {
-		new WebDriverWait(wd, 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@id=\"clients-list\"]")));
+		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@id=\"clients-list\"]")));
 		
 		
 		
@@ -140,12 +155,10 @@ public class AdminTests {
 		
 	}
 	
-	@Test(priority = 6, dependsOnMethods = "clientListIsOnlyLoadedOnce")
+	@Test(priority = 7, dependsOnMethods = "clientListIsOnlyLoadedOnce")
 	void adminCanFilterClients() {
-		new WebDriverWait(wd, 10).until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@id=\"clients-list\"]")));
-
 		String searchInput = unique.get(0);
-		new WebDriverWait(wd, 15).until(ExpectedConditions.elementToBeClickable(AdminClientList.filter(wd)));
+		wait.until(ExpectedConditions.elementToBeClickable(AdminClientList.filter(wd)));
 		
 		AdminClientList.filter(wd).sendKeys(searchInput);
 		List<String> clientsSearch = new ArrayList<String>();
@@ -156,16 +169,63 @@ public class AdminTests {
 		Assert.assertEquals(AdminClientList.clientList(wd).get(0).getText() , searchInput );
 	}
 	
-//	@Test(priority = 7, dependsOnMethods = "clientListPageLoads")
-//	void clientListIsOnlyLoadedOnce() {
-//		List<String> clients = new ArrayList<String>();
-//		for (WebElement x : AdminClientList.clientList(wd)) {
-//			if (clients.contains(x.getText())) {
-//				Assert.assertTrue(false);
-//			}
-//			clients.add(x.getText());
-//		}
-//	}	
+	@Test(priority = 8)
+	void adminBatchListNavbaFunctional() {
+		wait.until(ExpectedConditions.elementToBeClickable(AdminNavbarElements.batchList(wd)));
+		AdminNavbarElements.batchList(wd).click();
+		wait.until(ExpectedConditions.urlContains("#/batch-listing"));
+	}
+	
+	@Test(priority = 9, dependsOnMethods = "adminBatchListNavbaFunctional")
+	void allBatchesLoad() {
+		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//td[@class='name-column']")));
+		
+		for(WebElement x : AdminBatchList.batchesNames(wd)) {
+			batchNames.add(x.getText());
+		}
+		
+		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//td[@class='date-column']")));
+		
+		for(WebElement x : AdminBatchList.batchesDates(wd)) {
+			batchDates.add(x.getText());
+		}
+	}
+	
+	/*
+	 * There's a defect where the filter functionality on the batch list tab for the admin user does not work at edge cases.
+	 * For example if a batch starts 12/1/2017 and ends 11/2/2018 and you try to filter by inputing start date as 
+	 * 12/1/2018 and end date 11/2/2018 it wont show any results, you have to input one day before start date and one
+	 * day after end date for it to work. 
+	 * 
+	 * This test grabs the start date and end date of the first batch and checks if it shows up after filtering.
+	 */
+	
+	@Test(priority = 10, dependsOnMethods = "allBatchesLoad")
+	void batchFilteringWorksAtEdgeCases() {
+		
+		wait.until(ExpectedConditions.elementToBeClickable(AdminBatchList.startDateInput(wd)));
+		AdminBatchList.startDateInput(wd).clear();
+		AdminBatchList.startDateInput(wd).sendKeys(batchDates.get(0));
+		
+		wait.until(ExpectedConditions.elementToBeClickable(AdminBatchList.endDateInput(wd)));
+		AdminBatchList.endDateInput(wd).clear();
+		AdminBatchList.endDateInput(wd).sendKeys(batchDates.get(1));
+		
+		wait.until(ExpectedConditions.elementToBeClickable(AdminBatchList.submitFilter(wd)));
+		AdminBatchList.submitFilter(wd).click();
+		
+		List<String> filterNames = new ArrayList<String>();
+		for(WebElement x : AdminBatchList.batchesNames(wd)) {
+			filterNames.add(x.getText());
+		}
+		
+		if(filterNames.size() == 0 ) {
+			filterNames.add(0, "");
+		}
+		
+		Assert.assertEquals(filterNames.get(0), batchNames.get(0));
+		
+	}
 	
 	@AfterSuite
 	void quit() {

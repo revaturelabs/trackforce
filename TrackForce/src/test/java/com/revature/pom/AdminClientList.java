@@ -17,7 +17,7 @@ public class AdminClientList {
 	}
 	
 	public static WebElement filter(WebDriver wd) {
-		element = wd.findElement(By.xpath("//input[@placeholder=\"Search by client name...\"]"));
+		element = wd.findElement(By.id("clientSearch"));
 		return element;
 	}
 

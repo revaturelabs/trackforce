@@ -86,12 +86,13 @@ export class TrainerViewComponent implements OnInit {
     this.trainerService.updateTrainer(this.trainer).subscribe(
       data => {
         console.log(data);
-        this.statusMsg = 'Success!';
+        this.statusMsg = 'Update was successful!';
         this.statusClass = 'success';
         this.formOpen = false;
       },
       error => {
-        this.statusMsg = `I'm sorry, something went wrong: ${error}`;
+        console.log(error);
+        this.statusMsg = `I'm sorry, there was an error when communicating with the server`;
         this.statusClass = 'error';
         this.formOpen = false;
       }

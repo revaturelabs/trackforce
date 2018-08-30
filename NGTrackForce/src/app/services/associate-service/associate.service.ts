@@ -18,11 +18,17 @@ export class AssociateService {
 
   /**
    * These behavior subjects will hold an initial empty value until a request is sent for their
-   * data. The boolean will track if the first set of data is ready. This should not be the way
-   * it is implemented however since we have to remain compatible with the components written
-   * already sending a null value from an AsyncSubject would throw many errors
+   * data. This should not be the way it is implemented however since we have to remain compatible 
+   * with the components written already sending a null value from an AsyncSubject would throw many errors
    *
-   * TODO: Stop using the boolean and switch to using an AsyncSubject
+   * Each of the private variables below represents the return of each of the functions that are in this
+   * service this needs to be refactored but in this first pass of the service revamp top priority is to
+   * stop having the data reload each time and allow the application to hold a copy of the data to load
+   * then update in the background.
+   * 
+   * NOTE: The $ on a variable mean it is an Observable
+   * 
+   * TODO: switch to using an AsyncSubject
    *
    * Note on things to do that would then allow this
    * 1. In the dependant components null checking will be needed
@@ -149,6 +155,7 @@ export class AssociateService {
     return  this.updateAssociates$;
   }
 
+  
   /**
    *
    * This method updates the associate in the database
@@ -162,6 +169,10 @@ export class AssociateService {
     );
     return this.updateAssociate$;
   }
+
+  // ? Below this point the requests are for stats which may need to become a seperate service
+  // For now that decision can be left to the service revamp for now the service update will
+  // focus on keeping one copy of data to aid performance
 
   getAssociatesByStatus(statusId: number): Observable<GraphCounts[]> {
     this.http.get<GraphCounts[]>(this.baseURL + '/mapped/' + statusId).subscribe(

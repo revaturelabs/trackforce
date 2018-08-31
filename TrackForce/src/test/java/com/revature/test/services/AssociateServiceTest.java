@@ -107,6 +107,7 @@ public class AssociateServiceTest {
 		mockAssociates.add(assoc1);
 		mockAssociates.add(assoc2);
 		mockAssociates.add(assoc3);
+		mockAssociates.add(assoc4);
 
 		when(mockAssociateDao.getAllAssociates()).thenReturn(mockAssociates);
 	}

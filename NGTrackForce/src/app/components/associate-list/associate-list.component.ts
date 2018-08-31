@@ -9,6 +9,7 @@ import { User } from '../../models/user.model';
 import { ActivatedRoute } from '@angular/router';
 import { Curriculum } from '../../models/curriculum.model';
 import { MatSpinner } from '@angular/material';
+import { SortedBy, SortOption } from './associate-list.enum';
 
 /**
  * Component for the Associate List page
@@ -22,10 +23,10 @@ import { MatSpinner } from '@angular/material';
 })
 export class AssociateListComponent implements OnInit {
   //our collection of associates and clients
-  public associates: Associate[];
+  public associates: Associate[] = [];
   public clients: Client[];
   curriculums: Set<string>; //stored unique curriculums
-  public isDataReady: boolean = false;
+  public isDataReady = false;
 
   //used for filtering
   searchByStatus = '';
@@ -34,16 +35,30 @@ export class AssociateListComponent implements OnInit {
   searchByCurriculum = '';
   searchByVerification = '';
 
+  //used for sorting
+  sortedBy: any;
+  sortOption: any;
+  sortByIdAsc = true;
+  sortByFNameAsc = true;
+  sortByLNameAsc = true;
+  sortByMarketAsc = true;
+  sortByBatchAsc = true;
+  sortByClientAsc = true;
+
   //status/client to be updated
   updateShow = false;
   updateStatus = '';
   updateClient = '';
-  updateVerification: string;
+  updateVerification = ''
   updating = false;
   updated = false;
+  updateNotValid = true;
 
   updateSuccessful: boolean;
   updateErrored: boolean;
+
+  //ensures the error message only shows if the user has already attempted to update an assoc
+  updateAttemptedOnce = false;
 
   //used for ordering of rows
   desc = false;
@@ -62,9 +77,39 @@ export class AssociateListComponent implements OnInit {
     private associateService: AssociateService, //TfAssociate,
     private clientService: ClientService,
     private rs: RequestService,
-    private activated: ActivatedRoute
+    private activated: ActivatedRoute,
   ) {
     this.curriculums = new Set<string>();
+    this.sortedBy = SortedBy;
+    this.sortOption = SortOption;
+  }
+
+  /**
+   * Sorts the array according to the tab that was clicked on.
+   * @param option enum SortOptions, determines how we're sorting the data.
+   * Because it comes either as property, or a child of a property, we need to use split() to
+   * access that property.
+   * @param sortedBy enum SortBy equal to the sortBy... property identifiers, to toggle sort by asc/desc
+   */
+  sortBy(option: SortOption, sortedBy: SortedBy) {
+    this.associates.sort((associateA, associateB) => associateA.id - associateB.id);
+    const props = option.split('.');
+    const parent = props[0];
+    const child = props[1];
+    const asc = this[sortedBy];
+    let sortingKey: (associate: Associate) => string;
+    sortingKey = child ? (associate) => associate[parent][child] :
+      (associate) => associate[parent]
+    this.associates.sort((associateA, associateB)=> {
+      if(sortingKey(associateA) < sortingKey(associateB)) {
+        return asc === true ? -1 : 1;
+      } else if(sortingKey(associateB) < sortingKey(associateA)) {
+        return asc === true ? 1 : -1;
+      } else {
+        return 0;
+      }
+    });
+    this[sortedBy] = !this[sortedBy]
   }
 
   ngOnInit() {
@@ -76,7 +121,10 @@ export class AssociateListComponent implements OnInit {
     ) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
-    this.getNAssociates();
+    // ?This is not a good idea to try to get a portion of the data then request all data this is not going
+    // ?to aid performance in reality for now we will just fetch all until the request for pagination of associates is implemented
+    //this.getNAssociates();
+    // TODO: Offload the responsibility of triggering requests to a different service
     this.getAllAssociates(); //TODO: change method to not use local storage
     this.getClientNames();
 
@@ -124,7 +172,7 @@ export class AssociateListComponent implements OnInit {
    */
   getAllAssociates() {
     this.associateService.getAllAssociates().subscribe(data => {
-      this.associates.length = 0;
+      // this.associates.length = 0; commented out
       this.associates = data;
       for (const associate of this.associates) {
         //get our curriculums from the associates
@@ -137,10 +185,11 @@ export class AssociateListComponent implements OnInit {
         if (associate.batch && associate.batch.batchName === 'null') {
           associate.batch.batchName = 'None';
         }
+
+        this.isDataReady = true;
       }
       this.curriculums.delete('');
       this.curriculums.delete('null');
-      this.isDataReady = true;
     });
   }
 
@@ -163,7 +212,7 @@ export class AssociateListComponent implements OnInit {
     this.updating = true;
     const ids: number[] = [];
 
-    let associateList: Associate[] = [];
+    const associateList: Associate[] = [];
     for (const a of this.associates) {
       //grab the checked ids
       const check = <HTMLInputElement>document.getElementById('' + a.id);
@@ -197,10 +246,30 @@ export class AssociateListComponent implements OnInit {
           this.getAllAssociates(); //refresh the associates to reflect the updates made on DB
           this.updated = true;
           this.updateSuccessful = true;
-        }, 
+        },
         error => {
           this.updateErrored = true;
         });
         this.updating = false;
   }
+
+  /**
+   * Ensures the update fields have a value and that at least one check box is selected
+   * before enabling the update button
+   */
+  validateUpdate() {
+    let checks = Array.from(
+      <NodeListOf<HTMLInputElement>>document.querySelectorAll('input[type="checkbox"')
+    );
+    checks = checks.filter(check => check.checked);
+    this.updateNotValid = this.updateVerification === ''
+      || this.updateStatus === ''
+      || this.updateClient === ''
+      || checks.length <= 0;
+
+    //enable display of error message
+    this.updateAttemptedOnce = true;
+  }
 }
+
+

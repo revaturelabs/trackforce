@@ -2,6 +2,8 @@ package com.revature.test.services;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNull;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -82,7 +84,8 @@ public class InterviewServiceTest {
 	@Test(enabled = true)
 	public void testGetInterviewsByAssociate() {
 		List<TfInterview> interviews = interviewService.getInterviewsByAssociate(0);
-		assertTrue(interviews.size() == 3);
+		//assertTrue(interviews.size() == 3);
+		assertEquals(interviews.size(), 3);
 		assertTrue(interviews.get(1).getInterviewDate().getTime() == 3000L);
 		assertFalse(interviews.size() == 0);
 		List<TfInterview> interviewsEmpty = interviewServiceEmpty.getInterviewsByAssociate(0);
@@ -159,7 +162,7 @@ public class InterviewServiceTest {
 		assertTrue(interview.getInterviewDate().getTime() == 1000L);
 		assertFalse(interview.getInterviewDate().getTime() == 2000L);
 		interview = interviewServiceEmpty.getInterviewById(-1);
-		assertTrue(interview == null);
+		assertNull(interview);
 	}
 
 }

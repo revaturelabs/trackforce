@@ -1,11 +1,8 @@
 package com.revature.daoimpl;
-
 import java.sql.Timestamp;
 import java.util.List;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-
 import com.revature.dao.BatchDao;
 import com.revature.entity.TfBatch;
 import com.revature.utils.HibernateUtil;
@@ -14,13 +11,14 @@ import com.revature.utils.HibernateUtil;
  * Implementation of the BatchDao interface that uses Hibernate to retrieve
  * batch information from the database.
  */
-
 public class BatchDaoImpl implements BatchDao {
 
 	@Override
 	public TfBatch getBatch(String batchName) {
-		return HibernateUtil.runHibernate((Session session, Object... args) -> session
-				.createQuery("from TfBatch", TfBatch.class).getSingleResult());
+		System.out.println("getBatch(Name) was just called ");
+		List<TfBatch> res = HibernateUtil.runHibernate((Session session, Object... args) -> session
+				.createQuery("from TfBatch b WHERE b.batchName = :batchName ", TfBatch.class).getResultList());
+		return res.get(0);
 	}
 
 	@Override

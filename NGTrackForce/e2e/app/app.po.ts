@@ -8,4 +8,8 @@ export class AppPage {
   getParagraphText() {
     return element(by.css('app-root h1')).getText();
   }
+
+  getSelectDatesHeader() {
+    return element(by.xpath('/html/body/app-component/div/app-batch-list/div/div[2]/div[2]/h3'));
+  }
 }

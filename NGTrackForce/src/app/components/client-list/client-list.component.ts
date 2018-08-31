@@ -21,6 +21,7 @@ import { StatusInfo } from '../../models/status-info.model'
 export class ClientListComponent implements OnInit {
   public showNoData = false;
   public loading = true;
+  public placeholder = 'Loading client list . . .'
   public selectedCompany: string;
   public clientInfo: Client[];
   public mappedClientInfo: Client[];
@@ -76,7 +77,7 @@ export class ClientListComponent implements OnInit {
     this.initChartData();
   }
 
-  
+
   // get client names from data and push to clientNames string array
   getAllClients() {
     this.clientService.getAllClients().subscribe(
@@ -85,7 +86,7 @@ export class ClientListComponent implements OnInit {
         this.clientInfo = clients;
         // clear name list to reload list and run through filter
         this.clientNames.length = 0;
-        for(let client of clients){
+        for(const client of clients){
           this.clientNames.push(client.name);
         }
       }, err => {
@@ -98,10 +99,11 @@ export class ClientListComponent implements OnInit {
       clients => {
         this.clientInfo = clients;
 
-        for(let client of clients){
+        for(const client of clients){
           this.clientNames.push(client.name);
         }
         this.loading = false;
+        this.placeholder = 'Enter a client . . .';
       },
       err => {
         console.error("Failed grabbing names");
@@ -117,7 +119,7 @@ export class ClientListComponent implements OnInit {
         this.mappedClientInfo = clients;
         this.clientNames.length = 0;
 
-        for(let client of clients){
+        for(const client of clients){
           this.clientNames.push(client.name);
         }
       }
@@ -128,7 +130,7 @@ export class ClientListComponent implements OnInit {
   initChartData() {
     this.selectedCompany = "All Client Data";
 
-    let stat = new StatusInfo;
+    const stat = new StatusInfo;
     this.searchName = '';
     this.clientService.getClientCount(-1).subscribe(
       count => {
@@ -139,8 +141,8 @@ export class ClientListComponent implements OnInit {
 
         this.barChartData = [
           {
-            data: [stat.trainingMapped, 
-              stat.reservedMapped, 
+            data: [stat.trainingMapped,
+              stat.reservedMapped,
               stat.selectedMapped,
               stat.confirmedMapped],
             label: 'Mapped'
@@ -158,7 +160,7 @@ export class ClientListComponent implements OnInit {
     this.selectedCompany = name;
     const oneClient = this.clientInfo.find(item => item['name'] === name);
 
-    let stat = new StatusInfo;
+    const stat = new StatusInfo;
 
     this.clientService.getClientCount(oneClient.id).subscribe(
       count => {
@@ -170,8 +172,8 @@ export class ClientListComponent implements OnInit {
 
         this.barChartData = [
           {
-            data: [oneClient.stats.trainingMapped, 
-              oneClient.stats.reservedMapped, 
+            data: [oneClient.stats.trainingMapped,
+              oneClient.stats.reservedMapped,
               oneClient.stats.selectedMapped,
               oneClient.stats.confirmedMapped],
             label: 'Mapped'

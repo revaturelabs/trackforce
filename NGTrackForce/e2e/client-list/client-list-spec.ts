@@ -1,5 +1,6 @@
 import { ClientListPo } from "./client-list.po";
 import { TestConfig } from "../configuration/test-config";
+import { by, element } from 'protractor';
 
 describe('When navigating to the client-list page it', function() {
 
@@ -79,6 +80,11 @@ describe('When navigating to the client-list page it', function() {
             expect(count).toEqual(0);
         });
     });
+
+    it('should have logout button', () => {
+        let logout = clientList.getLogoutButton();
+        let button = element(by.css('btn btn-danger'));
+    })
 
     it ('should logout', function() {
         clientList.logout();

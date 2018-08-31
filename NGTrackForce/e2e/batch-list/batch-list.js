@@ -1,4 +1,6 @@
-describe("Batch List Tab Protractor Test (Open site from cmd): "
+import { BatchList } from './batch-list.po';
+
+xdescribe("Batch List Tab Protractor Test (Open site from cmd): "
 		+ "Go to site, login, click batch list tab", function() {
 	it("Should go to login page", function() {
 		wd = browser.driver;
@@ -6,7 +8,7 @@ describe("Batch List Tab Protractor Test (Open site from cmd): "
 	});
 });
 
-describe("Batch List Tab Protractor Test (Login)", function() {
+xdescribe("Batch List Tab Protractor Test (Login)", function() {
 	it("Should login", function() {
 				browser.manage().timeouts().implicitlyWait(50000);
 				wd.findElement(by.id('username')).sendKeys('TestAdmin');
@@ -19,7 +21,7 @@ describe("Batch List Tab Protractor Test (Login)", function() {
 
 });
 
-describe("Batch List Tab Protractor Test (Click Batch List Tab)", function() {
+xdescribe("Batch List Tab Protractor Test (Click Batch List Tab)", function() {
 	it('Should be able to switch to Batch List Tab', function() {
 		browser.driver.sleep(10000);
 		element(by.cssSelector("[href='/batch-listing']")).click();

@@ -18,8 +18,9 @@ export class CreateUserComponent implements OnInit {
   password: string;
   password2: string;
   roleId: number;
-  errMsg: any;
-  sucMsg: any;
+  errMsg: string;
+  sucMsg: string;
+  userNameError: string;
   newUser: User;
   displayErrorUsername: boolean;
   loggedIn: User;
@@ -44,9 +45,12 @@ export class CreateUserComponent implements OnInit {
   createUser() {
     this.errMsg = "";
     this.sucMsg = "";
-    //EDIT EricS 8/9/18 Added '!this.password ||' to stop submission if password is null
-    if (!this.password || this.password !== this.password2) {
+    if(this._validatePassword(this.password)) {
+      this.errMsg = 'Password must have a number, a capital letter and a special character';
+    } else if (this.password !== this.password2) {
       this.errMsg = 'Passwords do not match!';
+    } else if (!this._validateUserName(this.username)) {
+      this.errMsg = 'Invalid username, please do not use spaces or special characters'
     } else {
       this.newUser = new User(this.username, this.password, this.roleId, 1);
       // this.userService.createUser(this.username, this.password, this.roleId).subscribe(
@@ -62,13 +66,60 @@ export class CreateUserComponent implements OnInit {
     }
   }
 
+  private _validateUserName(username): boolean {
+    if(!username) {
+      return false;
+    }
+    return username.match(/([^a-zA-Z0-9])/g) == null;
+  }
+
+  private _showUserNameError(msg) {
+    this.userNameError = msg;
+    this.displayErrorUsername = true;
+  }
+
+  /**
+   * Ensures password follows the password rules
+   * 
+   */
+  private _validatePassword(password) {
+    if(!password) {
+        return false;
+    }
+
+    const capital = /([A-Z]+)/g
+    const special = /([.!@#$%^&*]+)/g
+    const num = /([0-9]+)/g
+
+    //Ensures password is valid by ensuring there's at least one match of each regex.
+    return password.match(capital) !== null
+        && password.match(special) !== null
+        && password.match(num) !== null;
+  }
+
+  checkUserNameHasValidChars() {
+    if(!this._validateUserName(this.username)) {
+      this._showUserNameError('Username cannot have special characters!');
+      return false;
+    } else {
+      this.displayErrorUsername = false;
+      return true;
+    }
+  }
+
   checkUserNameUnique() {
+      //don't even send an HTTP request if username is invalid
+      if(!this.checkUserNameHasValidChars()) {
+        return;
+      }
       this.displayErrorUsername = false;
       this.userService.checkUniqueUsername(this.username).subscribe(
           data => {
               if (data["result"] === 'false') {
-                this.displayErrorUsername = true;
-              } //if 'false', then username is NOT unique.
+                this._showUserNameError('Username is not unique!');
+              } else {
+                this.displayErrorUsername = false;
+              }
           }, err => {
               console.error(err);
           }

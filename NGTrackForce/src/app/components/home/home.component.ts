@@ -96,6 +96,11 @@ export class HomeComponent implements OnInit {
   getCountForCharts() {
     this.as.getCountAssociates().subscribe(
       count => {
+        // Since the switch to the Behavior Subjects has an initial empty value
+        if (!count || count.length === 0) {
+          return;
+        }
+
         this.count = count;
         this.undeployedData[0] = this.count['counts'][0];
         this.undeployedData[1] = this.count['counts'][1];

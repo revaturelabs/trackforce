@@ -88,6 +88,10 @@ export class FormComponent implements OnInit {
       this.id = +params['id']; // (+) converts string 'id' to a number
       this.associateService.getByAssociateId(this.id).subscribe(
         data => {
+          // TODO: Once the code is ready to use AsyncSubject Remove this check
+          if (!data.firstName) {
+            return;
+          }
           this.associate = data;
           this.getAssociateInterviews(this.associate.id);
         },

@@ -1,5 +1,4 @@
 package com.revature.entity;
-// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -27,8 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 @Table(name = "TF_BATCH_LOCATION", schema = "ADMIN")
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
-//Logans attempt at getting ehcache working below
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfBatchLocation implements java.io.Serializable {
 
@@ -49,6 +46,7 @@ public class TfBatchLocation implements java.io.Serializable {
 	private Set<TfBatch> batches = new HashSet<TfBatch>(0);
 
 	public TfBatchLocation() {
+		super();
 	}
 	
 	public TfBatchLocation(BigDecimal tfBatchLocationId) {
@@ -61,20 +59,16 @@ public class TfBatchLocation implements java.io.Serializable {
 		this.batches = tfBatches;
 	}
 
-	
 	public BigDecimal getTfBatchLocationId() {
 		return this.id;
 	}
-
 	public void setTfBatchLocationId(BigDecimal tfBatchLocationId) {
 		this.id = tfBatchLocationId;
 	}
 
-	
 	public String getTfBatchLocationName() {
 		return this.name;
 	}
-
 	public void setTfBatchLocationName(String tfBatchLocationName) {
 		this.name = tfBatchLocationName;
 	}
@@ -88,9 +82,6 @@ public class TfBatchLocation implements java.io.Serializable {
 		this.batches = tfBatches;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -100,10 +91,7 @@ public class TfBatchLocation implements java.io.Serializable {
 		result = prime * result + ((batches == null) ? 0 : batches.hashCode());
 		return result;
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -137,5 +125,4 @@ public class TfBatchLocation implements java.io.Serializable {
 				+ name + "]";
 	}
 	
-
 }

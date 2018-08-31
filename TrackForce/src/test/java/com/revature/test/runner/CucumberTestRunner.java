@@ -13,10 +13,12 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		features = {"src/test/resources/AdminFeatureFiles/Login.feature"}
-		,glue = {"com.revature.test.utils","com.revature.test.admin.cuke"}
+		features = {"src/test/resources/AdminFeatureFiles/"}
+		,glue = {"com.revature.test.admin.cuke"}
 		)
  
 public class CucumberTestRunner extends AbstractTestNGCucumberTests {
  
 }
+// old code my add back later
+// glue = {"com.revature.test.utils","com.revature.test.admin.cuke"}

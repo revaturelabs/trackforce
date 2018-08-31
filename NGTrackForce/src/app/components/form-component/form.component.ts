@@ -54,10 +54,10 @@ export class FormComponent implements OnInit {
   receivedEmailFromClient: boolean;
   passedBackgroundCheck: boolean;
   hasStartDate: boolean;
-  public isDataReady: boolean = false;
+  public isDataReady = false;
 
   //loading booleans
-  interviewsLoading: boolean = true;
+  interviewsLoading = true;
 
   associateId: number;
   private sub: any;
@@ -88,6 +88,10 @@ export class FormComponent implements OnInit {
       this.id = +params['id']; // (+) converts string 'id' to a number
       this.associateService.getByAssociateId(this.id).subscribe(
         data => {
+          // TODO: Once the code is ready to use AsyncSubject Remove this check
+          if (!data.firstName) {
+            return;
+          }
           this.associate = data;
           this.getAssociateInterviews(this.associate.id);
         },
@@ -288,7 +292,7 @@ export class FormComponent implements OnInit {
   goToInterviewDetails( interview: Interview )
   {
     this.user = this.authService.getUser();
-    if ( this.user.role == 3 )
+    if ( this.user.role === 3 )
     {
       this.router.navigate(['interview-details/' + interview.id]);
     }

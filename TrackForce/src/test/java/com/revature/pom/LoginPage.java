@@ -23,4 +23,9 @@ public class LoginPage {
 		return element;		
 	}
 	
+	public static WebElement invalidLogIn(WebDriver wd) {
+		element = wd.findElement(By.xpath("//*[@id=\"pwd-container\"]/div/section/form/div/div[1]"));
+		return element;
+	}
+	
 }

@@ -3,6 +3,12 @@
     <div class="alert alert-success" *ngIf="successMessage">
       <h5 class="text-success">{{successMessage}}</h5>
     </div>
+    <div class="alert alert-success" *ngIf="isApproved === 1">
+      <h5 class="text-success">Successfully Approved!</h5>
+    </div>
+    <div class="alert alert-danger" *ngIf="isApproved === 2">
+      <h5 class="text-danger">Approval failed</h5>
+    </div>
     <div class="alert alert-danger" *ngIf="errorMessage">
       <h5 class="text-danger">{{errorMessage}}</h5>
     </div>

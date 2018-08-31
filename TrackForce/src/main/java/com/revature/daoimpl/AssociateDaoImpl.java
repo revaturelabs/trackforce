@@ -1,25 +1,15 @@
 package com.revature.daoimpl;
 import static com.revature.utils.HibernateUtil.runHibernateTransaction;
 import static com.revature.utils.HibernateUtil.saveToDB;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.openqa.selenium.InvalidArgumentException;
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
@@ -52,36 +42,28 @@ public class AssociateDaoImpl implements AssociateDao {
 		CriteriaQuery<TfAssociate> criteria = builder.createQuery(TfAssociate.class);
 		Root<TfAssociate> root = criteria.from(TfAssociate.class);
 		List<TfAssociate> results;
-		ArrayList<TfAssociate> resultList;
 		
 		if (clientId == -1 && mktStatus != -1) {
 			criteria.where(builder.equal(root.get("marketingStatus"), mktStatus));
-			results = session.createQuery(criteria).getResultList();
 		} 
-		else if (mktStatus == -1 && clientId != -1) {	
+		else if (mktStatus == -1 && clientId != -1) {
 			criteria.where(builder.equal(root.get("client"), clientId));
-			results = session.createQuery(criteria).getResultList();
 		} 
 		else if (mktStatus != -1 && clientId != -1) {
-			criteria.where(builder.equal(root.get("marketingStatus"), mktStatus));
-			results = session.createQuery(criteria).getResultList();
-			System.out.println("Starting to remove lines. Initial size: " + results.size());
-		    for(Iterator<TfAssociate> iterator=results.iterator(); iterator.hasNext(); ) {
-		          TfAssociate rfa = iterator.next();
-		          if (rfa.getClient() != null) {
-		        	  int clID = rfa.getClient().getId();
-			          if(clID != clientId) { iterator.remove(); }
-		          } else { iterator.remove(); }
-		    }//end for
-		} else { results = session.createQuery(criteria).getResultList(); }
+			criteria.where(builder.and(
+					builder.equal(root.get("marketingStatus"), mktStatus),
+					builder.equal(root.get("client"), clientId)));
+		}
 		
-		if (results == null || results.size() == 0) { return null; }
-		if (startIdx==1) { startIdx = 0; }
-		int endPoint = startIdx + numRes;
-		resultList = new ArrayList<>(results);
-		if (endPoint >= results.size()) { endPoint = resultList.size(); }
+		if (startIdx==1) { startIdx = 0; }		
+		results = session.createQuery(criteria)
+				.setFirstResult(startIdx)
+				.setMaxResults(numRes)
+				.getResultList();
+		
 		session.close(); //close out the session
-		return resultList.subList(startIdx, endPoint);
+		if (results == null || results.size() == 0) { return null; }
+		return results;
 	}//end getNAssociateMatchingCriteria()
 	
 	/**

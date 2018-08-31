@@ -51,6 +51,14 @@ public class LoginCuke {
 
 	}
 	
+	//Use this once we make trainer feature
+	@Given("^I login as a Trainer$")
+	public void i_login_as_a_trainer() throws Throwable {
+		System.out.println("Running trainer login meta");
+		i_enter_the_correct_trainer_login_information();
+		i_click_Submit();
+	}
+	
 	@And("^the login page loads$")
 	public void the_login_page_loads() throws Throwable {
 		assertEquals(ServiceHooks.driver.getCurrentUrl(),"http://34.227.178.103:8090/NGTrackForce/#/login");

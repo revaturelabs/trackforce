@@ -25,6 +25,7 @@ public class AssociateViewCukes {
 	@Given("^I am on the Associate Home Page$")
 	public void i_am_on_the_Associate_Home_Page() throws Throwable {
 	System.out.println("I am on the associate homepage");
+		Thread.sleep(500);
 		assertEquals(ServiceHooks.driver.getCurrentUrl(),"http://34.227.178.103:8090/NGTrackForce/#/associate-view");
 	}
 
@@ -54,13 +55,14 @@ public class AssociateViewCukes {
 	
 	@When("^I click the update info button$")
 	public void i_click_the_update_info_button() throws Throwable {
-	    AssociateView.clickUpdate(ServiceHooks.driver);
+		System.out.println("Clicking the update info button");
+		AssociateView.clickUpdate(ServiceHooks.driver);
 	}
 
 	@When("^I enter new name information$")
 	public void i_enter_new_name_information() throws Throwable {
-	    AssociateView.enterFirstName(ServiceHooks.driver, "Test");
-	    AssociateView.enterLastName(ServiceHooks.driver, "Associate");
+	    AssociateView.enterFirstName(ServiceHooks.driver, AssociateView.getEnterFirstName(ServiceHooks.driver));
+	    AssociateView.enterLastName(ServiceHooks.driver, AssociateView.getEnterLastName(ServiceHooks.driver));
 	    
 	}
 
@@ -69,11 +71,13 @@ public class AssociateViewCukes {
 	    AssociateView.clickSave(ServiceHooks.driver);
 	}
 
+	//Fix hard-coding
 	@Then("^the changes should be reflected$")
 	public void the_changes_should_be_reflected() throws Throwable {
-		Thread.sleep(2000);
+		System.out.println("The changes in firstname/lastname should be reflected.");
+		Thread.sleep(3000);
 	   assertEquals(AssociateView.getFirstName(ServiceHooks.driver),"Test");
-	   assertEquals(AssociateView.getFirstName(ServiceHooks.driver),"Associate");
+	   assertEquals(AssociateView.getLastName(ServiceHooks.driver),"Associate");
 	}
 	
 	@When("^I click the interview tab$")
@@ -81,30 +85,30 @@ public class AssociateViewCukes {
 	    AssociateView.clickInterviewTab(ServiceHooks.driver);
 	}
 
-	@When("^I click the createInterview button$")
-	public void i_click_the_createInterview_button() throws Throwable {
-	    AssociateView.clickCreateInterview(ServiceHooks.driver);
-	    Thread.sleep(2000);
-	}
-
+	//"Client" is used for string interpolation.. it's not a hardcode
 	@When("^I select a client$")
 	public void i_select_a_client() throws Throwable {
-	    AssociateView.dropDown(ServiceHooks.driver, "None", "Client");
+	    AssociateView.dropDown(ServiceHooks.driver, AssociateView.getClientTestSubject(), "Client");
 	}
 
 	@When("^I enter an Interview date$")
 	public void i_enter_an_Interview_date() throws Throwable {
-	    AssociateView.enterInterviewDate(ServiceHooks.driver, "01022017");
+	    AssociateView.enterInterviewDate(ServiceHooks.driver, AssociateView.getClientInterviewDate());
 	}
 
 	@When("^I enter an Assigned date$")
 	public void i_enter_an_Assigned_date() throws Throwable {
-		AssociateView.enterAssignedDate(ServiceHooks.driver, "01012017");
+		AssociateView.enterAssignedDate(ServiceHooks.driver, AssociateView.getClientInterviewAssignedDate());
 	}
 
 	@When("^I select a type$")
 	public void i_select_a_type() throws Throwable {
-		AssociateView.dropDown(ServiceHooks.driver, "On-site", "Type");
+		AssociateView.dropDown(ServiceHooks.driver, AssociateView.getClientInterviewType(), "Type");
+	}
+	
+	@When("^I select an interview type$")
+	public void i_select_an_interview_type() throws Throwable {
+		AssociateView.dropDownInterviewType(ServiceHooks.driver, AssociateView.getClientInterviewType());
 	}
 
 	@When("^I select twenty-four hour notice$")
@@ -119,6 +123,7 @@ public class AssociateViewCukes {
 
 	@Then("^it should be in the interview table$")
 	public void it_should_be_in_the_interview_table() throws Throwable {
+		System.out.println("NEED TO IMPLEMENT: it should be in the iterview table");
 	   //check table
 	}
 

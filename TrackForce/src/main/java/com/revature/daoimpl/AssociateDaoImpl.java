@@ -1,23 +1,18 @@
 package com.revature.daoimpl;
-
 import static com.revature.utils.HibernateUtil.runHibernateTransaction;
 import static com.revature.utils.HibernateUtil.saveToDB;
-
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
-import javax.persistence.Entity;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.openqa.selenium.InvalidArgumentException;
-
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.entity.TfAssociate;
@@ -28,11 +23,58 @@ import com.revature.entity.TfMarketingStatus;
 import com.revature.entity.TfUser;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.Sessional;
+
 /**
- * Data Access Object implementation to access the associate entity from the
- * Database
+ * Data Access Object implementation to access the associate entity from the Database
  */
 public class AssociateDaoImpl implements AssociateDao {
+	
+	/** Gets list of associates matching criteria. Used by updated angular front end to perform 
+	 * Pagination of results and improve performance.
+	 * @author Joshua-Pressley-1807
+	 * @param startIdx starting index
+	 * @param numRes the number of resuts to return
+	 * @param mktStatus the marketing ID
+	 * @param clientId the client ID
+	 * @return list of associates matching criteria */
+	public List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId)
+	{
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<TfAssociate> criteria = builder.createQuery(TfAssociate.class);
+		Root<TfAssociate> root = criteria.from(TfAssociate.class);
+		List<TfAssociate> results;
+		ArrayList<TfAssociate> resultList;
+		
+		if (clientId == -1 && mktStatus != -1) {
+			criteria.where(builder.equal(root.get("marketingStatus"), mktStatus));
+			results = session.createQuery(criteria).getResultList();
+		} 
+		else if (mktStatus == -1 && clientId != -1) {	
+			criteria.where(builder.equal(root.get("client"), clientId));
+			results = session.createQuery(criteria).getResultList();
+		} 
+		else if (mktStatus != -1 && clientId != -1) {
+			criteria.where(builder.equal(root.get("marketingStatus"), mktStatus));
+			results = session.createQuery(criteria).getResultList();
+			System.out.println("Starting to remove lines. Initial size: " + results.size());
+		    for(Iterator<TfAssociate> iterator=results.iterator(); iterator.hasNext(); ) {
+		          TfAssociate rfa = iterator.next();
+		          if (rfa.getClient() != null) {
+		        	  int clID = rfa.getClient().getId();
+			          if(clID != clientId) { iterator.remove(); }
+		          } else { iterator.remove(); }
+		    }//end for
+		} else { results = session.createQuery(criteria).getResultList(); }
+		
+		if (results == null || results.size() == 0) { return null; }
+		if (startIdx==1) { startIdx = 0; }
+		int endPoint = startIdx + numRes;
+		resultList = new ArrayList<>(results);
+		if (endPoint >= results.size()) { endPoint = resultList.size(); }
+		session.close(); //close out the session
+		return resultList.subList(startIdx, endPoint);
+	}//end getNAssociateMatchingCriteria()
 	
 	/**
 	 * Gets a single associate with an id
@@ -43,7 +85,6 @@ public class AssociateDaoImpl implements AssociateDao {
 	public TfAssociate getAssociate(Integer id) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
 		session.createQuery("from TfAssociate a where a.id = :id", TfAssociate.class).setParameter("id", id).getSingleResult());
-
 	}
 
 	/**

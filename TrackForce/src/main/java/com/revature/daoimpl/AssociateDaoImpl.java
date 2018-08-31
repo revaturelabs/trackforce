@@ -5,13 +5,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.openqa.selenium.InvalidArgumentException;
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
@@ -116,282 +124,134 @@ public class AssociateDaoImpl implements AssociateDao {
 				.getResultList());
 	}
 	
-	@Override
-	public Object getCountUndeployedMapped()
-	{
+	/** getCount uses CriteriaQuery and cascading switch statement to return count which 
+	 *  matche the marketingStatus. Special query for cases 11 and 12
+	 *  @author Paul Capellan - 1807
+	 *  @param tfmsid is marketing status to be compared
+	 *  @return returns count based on marketingStatus equivalent to tfmsid for case 1 to 10,
+	 *  or statement used for case 11 and 12
+	 */
+	//Called by all getCount methods
+	public Object getCount(int tfmsid) {
 		Session session = null;
-		Object undeployedmapped = null;
-		
+		Object count = null;
+		 
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
-			undeployedmapped = session.createNativeQuery(
-					"select count(tf_associate_id) from admin.tf_associate " +
-					"where (tf_marketing_status_id = 1 or tf_marketing_status_id = 2 or tf_marketing_status_id = 3 " +
-					    "or tf_marketing_status_id = 4)"
-					).getSingleResult();
+			
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<Long> qr = builder.createQuery(Long.class);
+			Root<TfAssociate> root = qr.from(TfAssociate.class);
+			List<Long> results;
+			qr.select(builder.count(root));
+			
+			//Cascading switch statement for case 1 to 10, special query for 11 and 12
+			switch(tfmsid) {
+				case 1: 
+				case 2: 
+				case 3:
+				case 4: 
+				case 5: 
+				case 6: 
+				case 7: 
+				case 8: 
+				case 9:
+				case 10: 
+						qr.where(builder.equal(root.get("marketingStatus"), tfmsid));
+						break;
+						
+				case 11: 
+						qr.where(builder.or(builder.or(builder.equal(root.get("marketingStatus"), 1), 
+								builder.equal(root.get("marketingStatus"), 2)), builder.or(builder.equal(root.get("marketingStatus"), 3), 
+										builder.equal(root.get("marketingStatus"), 4))));
+						break;
+						
+				case 12:  
+						qr.where(builder.or(builder.or(builder.equal(root.get("marketingStatus"), 6), 
+								builder.equal(root.get("marketingStatus"), 7)), builder.or(builder.equal(root.get("marketingStatus"), 8), 
+										builder.equal(root.get("marketingStatus"), 9))));
+						break;
+			}
+			
+			results = session.createQuery(qr).getResultList();
+			count = results.get(0);
+			//System.out.println(count);
+			
 		}catch(HibernateException e) {
 			e.printStackTrace();
 		}finally {
-			if ( session != null )
-			{
+			if ( session != null ) {
 				session.close();
 			}
 		}
-		return undeployedmapped;
+		return count;
+	}
+	
+	/** Calls the getCount method above and passes respective parameter
+	 *  First 2 methods preserve the same query of tf_marketing_status_id, 11 or 12 not valid marketingStatus 
+	 *  @author Paul Capellan - 1807
+	 *  @return returns count from getCount() method based on marketingStatus
+	 */
+	//Call by getCount(11), but preserve the same tf_marketing_status_id!
+	@Override
+	public Object getCountUndeployedMapped() {
+		return getCount(11);
+	}
+	
+	//Call by getCount(12), but preserve the same tf_marketing_status_id!
+	@Override
+	public Object getCountUndeployedUnmapped() {
+		return getCount(12);
 	}
 	
 	@Override
-	public Object getCountUndeployedUnmapped()
-	{
-		Session session = null;
-		Object undeployedunmapped = null;
-		
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			undeployedunmapped = session.createNativeQuery(
-					"select count(tf_associate_id) from admin.tf_associate " +
-					"where (tf_marketing_status_id = 6 or tf_marketing_status_id = 7 " +
-					    "or tf_marketing_status_id = 8 or tf_marketing_status_id = 9)"
-					).getSingleResult();
-		}catch(HibernateException e) {
-			e.printStackTrace();
-		}finally {
-			if ( session != null )
-			{
-				session.close();
-			}
-		}
-		return undeployedunmapped;
+	public Object getCountDeployedMapped() {
+		return getCount(5);
 	}
 	
 	@Override
-	public Object getCountDeployedMapped()
-	{
-		Session session = null;
-		Object deployedmapped = null;
-		
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			deployedmapped = session.createNativeQuery(
-					"select count(tf_associate_id) from admin.tf_associate " +
-					"where tf_marketing_status_id = 5"
-					).getSingleResult();
-		}catch(HibernateException e) {
-			e.printStackTrace();
-		}finally {
-			if ( session != null )
-			{
-				session.close();
-			}
-		}
-		return deployedmapped;
-	}
-	
-	@Override
-	public Object getCountDeployedUnmapped()
-	{
-		Session session = null;
-		Object deployedunmapped = null;
-		
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			deployedunmapped = session.createNativeQuery(
-					"select count(tf_associate_id) from admin.tf_associate " +
-					"where tf_marketing_status_id = 10"
-					).getSingleResult();
-		}catch(HibernateException e) {
-			e.printStackTrace();
-		}finally {
-			if ( session != null )
-			{
-				session.close();
-			}
-		}
-		return deployedunmapped;
+	public Object getCountDeployedUnmapped() {
+		return getCount(10);
 	}
 
 	@Override
-	public Object getCountUnmappedTraining()
-	{
-		Session session = null;
-		Object unmappedtraining = null;
-		
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			unmappedtraining = session.createNativeQuery(
-					"select count(tf_associate_id) from admin.tf_associate " +
-					"where tf_marketing_status_id = 6"
-					).getSingleResult();
-		}catch(HibernateException e) {
-			e.printStackTrace();
-		}finally {
-			if ( session != null )
-			{
-				session.close();
-			}
-		}
-		return unmappedtraining;
+	public Object getCountUnmappedTraining() {
+		return getCount(6);
 	}
 	
 	@Override
-	public Object getCountUnmappedOpen()
-	{
-		Session session = null;
-		Object unmappedopen = null;
-		
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			unmappedopen = session.createNativeQuery(
-					"select count(tf_associate_id) from admin.tf_associate " +
-					"where tf_marketing_status_id = 7"
-					).getSingleResult();
-		}catch(HibernateException e) {
-			e.printStackTrace();
-		}finally {
-			if ( session != null )
-			{
-				session.close();
-			}
-		}
-		return unmappedopen;
+	public Object getCountUnmappedOpen() {
+		return getCount(7);
 	}
 	
 	@Override
-	public Object getCountUnmappedSelected()
-	{
-		Session session = null;
-		Object unmappedselected = null;
-		
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			unmappedselected = session.createNativeQuery(
-					"select count(tf_associate_id) from admin.tf_associate " +
-					"where tf_marketing_status_id = 8"
-					).getSingleResult();
-		}catch(HibernateException e) {
-			e.printStackTrace();
-		}finally {
-			if ( session != null )
-			{
-				session.close();
-			}
-		}
-		return unmappedselected;
+	public Object getCountUnmappedSelected() {
+		return getCount(8);
 	}
 	
 	@Override
-	public Object getCountUnmappedConfirmed()
-	{
-		Session session = null;
-		Object unmappedconfirmed = null;
-		
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			unmappedconfirmed = session.createNativeQuery(
-					"select count(tf_associate_id) from admin.tf_associate " +
-					"where tf_marketing_status_id = 9"
-					).getSingleResult();
-		}catch(HibernateException e) {
-			e.printStackTrace();
-		}finally {
-			if ( session != null )
-			{
-				session.close();
-			}
-		}
-		return unmappedconfirmed;
+	public Object getCountUnmappedConfirmed() {
+		return getCount(9);
 	}
 	
 	@Override
-	public Object getCountMappedTraining()
-	{
-		Session session = null;
-		Object mappedtraining = null;
-		
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			mappedtraining = session.createNativeQuery(
-					"select count(tf_associate_id) from admin.tf_associate " +
-					"where tf_marketing_status_id = 1"
-					).getSingleResult();
-		}catch(HibernateException e) {
-			e.printStackTrace();
-		}finally {
-			if ( session != null )
-			{
-				session.close();
-			}
-		}
-		return mappedtraining;
+	public Object getCountMappedTraining() {
+		return getCount(1);
 	}
 	
 	@Override
-	public Object getCountMappedReserved()
-	{
-		Session session = null;
-		Object mappedreserved = null;
-		
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			mappedreserved = session.createNativeQuery(
-					"select count(tf_associate_id) from admin.tf_associate " +
-					"where tf_marketing_status_id = 2"
-					).getSingleResult();
-		}catch(HibernateException e) {
-			e.printStackTrace();
-		}finally {
-			if ( session != null )
-			{
-				session.close();
-			}
-		}
-		return mappedreserved;
+	public Object getCountMappedReserved() {
+		return getCount(2);
 	}
 	
 	@Override
-	public Object getCountMappedSelected()
-	{
-		Session session = null;
-		Object mappedselected = null;
-		
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			mappedselected = session.createNativeQuery(
-					"select count(tf_associate_id) from admin.tf_associate " +
-					"where tf_marketing_status_id = 3"
-					).getSingleResult();
-		}catch(HibernateException e) {
-			e.printStackTrace();
-		}finally {
-			if ( session != null )
-			{
-				session.close();
-			}
-		}
-		return mappedselected;
+	public Object getCountMappedSelected() {
+		return getCount(3);
 	}
 	
 	@Override
-	public Object getCountMappedConfirmed()
-	{
-		Session session = null;
-		Object mappedconfirmed = null;
-		
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			mappedconfirmed = session.createNativeQuery(
-					"select count(tf_associate_id) from admin.tf_associate " +
-					"where tf_marketing_status_id = 4"
-					).getSingleResult();
-		}catch(HibernateException e) {
-			e.printStackTrace();
-		}finally {
-			if ( session != null )
-			{
-				session.close();
-			}
-		}
-		return mappedconfirmed;
+	public Object getCountMappedConfirmed() {
+		return getCount(4);
 	}
 
 	@Override

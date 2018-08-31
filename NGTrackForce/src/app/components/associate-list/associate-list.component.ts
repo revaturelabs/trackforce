@@ -97,18 +97,46 @@ export class AssociateListComponent implements OnInit {
     const parent = props[0];
     const child = props[1];
     const asc = this[sortedBy];
-    let sortingKey: (associate: Associate) => string;
-    sortingKey = child ? (associate) => associate[parent][child] :
-      (associate) => associate[parent]
-    this.associates.sort((associateA, associateB)=> {
-      if(sortingKey(associateA) < sortingKey(associateB)) {
-        return asc === true ? -1 : 1;
-      } else if(sortingKey(associateB) < sortingKey(associateA)) {
-        return asc === true ? 1 : -1;
-      } else {
-        return 0;
-      }
-    });
+    // let sortingKey: (associate: Associate) => string;
+    // sortingKey = child ? (associate) => associate[parent][child] :
+    //   (associate) => associate[parent]
+    switch(props.length) {
+      case 1:
+
+        let compare = (associateA: Associate, associateB: Associate) => {
+          return (!associateA || !associateB)
+          || (!associateA[parent] || !associateB[parent])
+          || associateA[parent] < associateB[parent] }
+
+
+        this.associates.sort((associateA, associateB)=> {
+          if(compare(associateA, associateB)) {
+            return asc === true ? -1 : 1;
+          } else if(compare(associateB, associateA)) {
+            return asc === true ? 1 : -1;
+          } else {
+            return 0;
+          }
+        });
+        break;
+      case 2:
+
+        compare = (associateA: Associate, associateB: Associate) => {
+          return (!associateA || !associateB)
+          || (!associateA[parent] || !associateB[parent])
+          || associateA[parent][child] < associateB[parent][child] }
+
+        this.associates.sort((associateA, associateB)=> {
+          if(compare(associateA, associateB)) {
+            return asc === true ? -1 : 1;
+          } else if(compare(associateB, associateA)) {
+            return asc === true ? 1 : -1;
+          } else {
+            return 0;
+          }
+        });
+        break;
+    }
     this[sortedBy] = !this[sortedBy]
   }
 

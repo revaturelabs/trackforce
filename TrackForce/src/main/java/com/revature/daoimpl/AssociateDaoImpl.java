@@ -124,6 +124,13 @@ public class AssociateDaoImpl implements AssociateDao {
 				.getResultList());
 	}
 	
+	/** getCount uses CriteriaQuery and cascading switch statement to return count which 
+	 *  matche the marketingStatus. Special query for cases 11 and 12
+	 *  @author Paul Capellan - 1807
+	 *  @param tfmsid is marketing status to be compared
+	 *  @return returns count based on marketingStatus equivalent to tfmsid for case 1 to 10,
+	 *  or statement used for case 11 and 12
+	 */
 	//Called by all getCount methods
 	public Object getCount(int tfmsid) {
 		Session session = null;
@@ -136,6 +143,7 @@ public class AssociateDaoImpl implements AssociateDao {
 			CriteriaQuery<Long> qr = builder.createQuery(Long.class);
 			Root<TfAssociate> root = qr.from(TfAssociate.class);
 			List<Long> results;
+			qr.select(builder.count(root));
 			
 			//Cascading switch statement for case 1 to 10, special query for 11 and 12
 			switch(tfmsid) {
@@ -149,19 +157,16 @@ public class AssociateDaoImpl implements AssociateDao {
 				case 8: 
 				case 9:
 				case 10: 
-						qr.select(builder.count(root)); 
 						qr.where(builder.equal(root.get("marketingStatus"), tfmsid));
 						break;
 						
 				case 11: 
-						qr.select(builder.count(root));
 						qr.where(builder.or(builder.or(builder.equal(root.get("marketingStatus"), 1), 
 								builder.equal(root.get("marketingStatus"), 2)), builder.or(builder.equal(root.get("marketingStatus"), 3), 
 										builder.equal(root.get("marketingStatus"), 4))));
 						break;
 						
-				case 12: 
-						qr.select(builder.count(root)); 
+				case 12:  
 						qr.where(builder.or(builder.or(builder.equal(root.get("marketingStatus"), 6), 
 								builder.equal(root.get("marketingStatus"), 7)), builder.or(builder.equal(root.get("marketingStatus"), 8), 
 										builder.equal(root.get("marketingStatus"), 9))));
@@ -170,90 +175,82 @@ public class AssociateDaoImpl implements AssociateDao {
 			
 			results = session.createQuery(qr).getResultList();
 			count = results.get(0);
-			System.out.println(count);
+			//System.out.println(count);
 			
 		}catch(HibernateException e) {
 			e.printStackTrace();
 		}finally {
-			if ( session != null )
-			{
+			if ( session != null ) {
 				session.close();
 			}
 		}
 		return count;
 	}
 	
+	/** Calls the getCount method above and passes respective parameter
+	 *  First 2 methods preserve the same query of tf_marketing_status_id, 11 or 12 not valid marketingStatus 
+	 *  @author Paul Capellan - 1807
+	 *  @return returns count from getCount() method based on marketingStatus
+	 */
 	//Call by getCount(11), but preserve the same tf_marketing_status_id!
 	@Override
-	public Object getCountUndeployedMapped()
-	{
+	public Object getCountUndeployedMapped() {
 		return getCount(11);
 	}
 	
 	//Call by getCount(12), but preserve the same tf_marketing_status_id!
 	@Override
-	public Object getCountUndeployedUnmapped()
-	{
+	public Object getCountUndeployedUnmapped() {
 		return getCount(12);
 	}
 	
 	@Override
-	public Object getCountDeployedMapped()
-	{
+	public Object getCountDeployedMapped() {
 		return getCount(5);
 	}
 	
 	@Override
-	public Object getCountDeployedUnmapped()
-	{
+	public Object getCountDeployedUnmapped() {
 		return getCount(10);
 	}
 
 	@Override
-	public Object getCountUnmappedTraining()
-	{
+	public Object getCountUnmappedTraining() {
 		return getCount(6);
 	}
 	
 	@Override
-	public Object getCountUnmappedOpen()
-	{
+	public Object getCountUnmappedOpen() {
 		return getCount(7);
 	}
 	
 	@Override
-	public Object getCountUnmappedSelected()
-	{
+	public Object getCountUnmappedSelected() {
 		return getCount(8);
 	}
 	
 	@Override
-	public Object getCountUnmappedConfirmed()
-	{
+	public Object getCountUnmappedConfirmed() {
 		return getCount(9);
 	}
 	
 	@Override
-	public Object getCountMappedTraining()
-	{
+	public Object getCountMappedTraining() {
 		return getCount(1);
 	}
 	
 	@Override
-	public Object getCountMappedReserved()
-	{
+	public Object getCountMappedReserved() {
 		return getCount(2);
 	}
 	
 	@Override
-	public Object getCountMappedSelected()
-	{
+	public Object getCountMappedSelected() {
 		return getCount(3);
 	}
 	
 	@Override
-	public Object getCountMappedConfirmed()
-	{
+	public Object getCountMappedConfirmed() {
 		return getCount(4);
 	}
 

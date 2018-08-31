@@ -59,7 +59,7 @@ public class LoginCuke {
 		i_click_Submit();
 	}
 	
-	@And("^the login page loads$")
+	@Given("^the login page loads$")
 	public void the_login_page_loads() throws Throwable {
 		assertEquals(ServiceHooks.driver.getCurrentUrl(),"http://34.227.178.103:8090/NGTrackForce/#/login");
 	}

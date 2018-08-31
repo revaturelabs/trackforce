@@ -1,20 +1,18 @@
 package com.revature.test.utils;
 
 import org.openqa.selenium.WebDriver;
-<<<<<<< HEAD
+
 import org.openqa.selenium.support.ui.WebDriverWait;
-=======
->>>>>>> created backups of nonfunctional cukes/features
+
 
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 
 public class ServiceHooks {
 	public static WebDriver driver;
-<<<<<<< HEAD
+
 	public static WebDriverWait wait;
-=======
->>>>>>> created backups of nonfunctional cukes/features
+
 	
 	@Before("@HomeTagTest1")
 	public void initializeHomeTabTests(){

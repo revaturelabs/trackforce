@@ -6,11 +6,13 @@ import static org.testng.Assert.fail;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.revature.test.admin.pom.AssociateView;
 import com.revature.test.admin.pom.BatchListTab;
 import com.revature.test.admin.pom.ClientListTab;
 import com.revature.test.admin.pom.CreateUserTab;
+import com.revature.test.admin.pom.HomeTab;
 import com.revature.test.admin.pom.Login;
 import com.revature.test.admin.pom.Predictions;
 import com.revature.test.utils.ServiceHooks;
@@ -25,7 +27,7 @@ public class AssociateViewCukes {
 	@Given("^I am on the Associate Home Page$")
 	public void i_am_on_the_Associate_Home_Page() throws Throwable {
 	System.out.println("I am on the associate homepage");
-		Thread.sleep(500);
+	ServiceHooks.wait.until(ExpectedConditions.urlToBe("http://34.227.178.103:8090/NGTrackForce/#/associate-view"));
 		assertEquals(ServiceHooks.driver.getCurrentUrl(),"http://34.227.178.103:8090/NGTrackForce/#/associate-view");
 	}
 
@@ -61,8 +63,8 @@ public class AssociateViewCukes {
 
 	@When("^I enter new name information$")
 	public void i_enter_new_name_information() throws Throwable {
-	    AssociateView.enterFirstName(ServiceHooks.driver, AssociateView.getEnterFirstName(ServiceHooks.driver));
-	    AssociateView.enterLastName(ServiceHooks.driver, AssociateView.getEnterLastName(ServiceHooks.driver));
+	    AssociateView.enterFirstName(ServiceHooks.driver);
+	    AssociateView.enterLastName(ServiceHooks.driver);
 	    
 	}
 
@@ -76,8 +78,8 @@ public class AssociateViewCukes {
 	public void the_changes_should_be_reflected() throws Throwable {
 		System.out.println("The changes in firstname/lastname should be reflected.");
 		Thread.sleep(3000);
-	   assertEquals(AssociateView.getFirstName(ServiceHooks.driver),"Test");
-	   assertEquals(AssociateView.getLastName(ServiceHooks.driver),"Associate");
+	   assertEquals(AssociateView.getFirstName(ServiceHooks.driver), AssociateView.getEnterFirstName(ServiceHooks.driver));
+	   assertEquals(AssociateView.getLastName(ServiceHooks.driver),AssociateView.getEnterLastName(ServiceHooks.driver));
 	}
 	
 	@When("^I click the interview tab$")

@@ -53,19 +53,19 @@ public class AssociateView {
 	}
 	
 	public static void enterFirstName(WebDriver d) {
-		d.findElement(By.xpath(prop.getProperty("associateViewFirstNameEdit"))).sendKeys(name);
+		d.findElement(By.xpath(prop.getProperty("associateViewFirstNameEdit"))).sendKeys(prop.getProperty("associateViewEnterFirstName"));
 	}
 
 	public static void enterLastName(WebDriver d) {
-		d.findElement(By.xpath(prop.getProperty("associateViewLastNameEdit"))).sendKeys(name);
+		d.findElement(By.xpath(prop.getProperty("associateViewLastNameEdit"))).sendKeys(prop.getProperty("associateViewEnterLastName"));
 	}
 	
 	public static String getEnterFirstName(WebDriver d) {
-		return d.findElement(By.xpath(prop.getProperty("associateViewEnterFirstName"))).getText();
+		return prop.getProperty("associateViewEnterFirstName");
 	}
 	
 	public static String getEnterLastName(WebDriver d) {
-		return d.findElement(By.xpath(prop.getProperty("associateViewEnterLastName"))).getText();
+		return prop.getProperty("associateViewEnterLastName");
 	}
 	
 	public static String getFirstName(WebDriver d) {

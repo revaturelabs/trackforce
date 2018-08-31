@@ -27,13 +27,39 @@ public class LoginCuke {
 	
 	@Given("^I connect to caliber$")
 	public void i_connect_to_caliber(){
+
 		ServiceHooks.driver = WebDriverUtil.getChromeDriver();
 		ServiceHooks.driver.manage().window().maximize();
 		ServiceHooks.driver.get(TestConfig.getBaseURL());
 		ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver,15);
+
+	
 	}
 	
-	@And("^the login page loads$")
+	@Given("^I login as an Administrator$")
+	public void i_login_as_an_administrator() throws Throwable {
+		System.out.println("Running administrator login meta");
+		i_enter_the_correct_admin_login_information();
+		i_click_Submit();
+	}
+	
+	@Given("^I login as an Associate$")
+	public void i_login_as_an_associate() throws Throwable {
+		System.out.println("Running associate login meta");
+		i_enter_the_correct_associate_login_information();
+		i_click_Submit();
+
+	}
+	
+	//Use this once we make trainer feature
+	@Given("^I login as a Trainer$")
+	public void i_login_as_a_trainer() throws Throwable {
+		System.out.println("Running trainer login meta");
+		i_enter_the_correct_trainer_login_information();
+		i_click_Submit();
+	}
+	
+	@Given("^the login page loads$")
 	public void the_login_page_loads() throws Throwable {
 		assertEquals(ServiceHooks.driver.getCurrentUrl(),"http://34.227.178.103:8090/NGTrackForce/#/login");
 	}
@@ -73,28 +99,36 @@ public class LoginCuke {
 	@When("^I enter a correct username without a password$")
 	public void i_enter_a_correct_username_without_a_password() throws Throwable {
 		System.out.println("Entering correct username with no password");
-		Login.login("TestAdmin", "", ServiceHooks.driver);
+
+		Login.login(LoginUtil.getPropertyValue("adminUN"), "", ServiceHooks.driver);
 	}
 	
 	@When("^I enter a correct password with an incorrect username$")
 	public void i_enter_a_correct_password_with_an_incorrect_username() throws Throwable {
 		System.out.println("Entering incorrect username with correct password");
-		Login.login("NotAUsername", "TestAdmin", ServiceHooks.driver);
+
+		Login.login(LoginUtil.getPropertyValue("notAUsername"), LoginUtil.getPropertyValue("adminPW"), ServiceHooks.driver);
+
 	}
 
 	@When("^I enter an incorrect password with an incorrect username$")
 	public void i_enter_an_incorrect_password_with_an_incorrect_username() throws Throwable {
-		Login.login("NotAUsername", "NotAPassword", ServiceHooks.driver);
+
+		Login.login(LoginUtil.getPropertyValue("notAUsername"), LoginUtil.getPropertyValue("notAPassword"), ServiceHooks.driver);
+
 	}
 	
 	@When("^I enter a correct username with an incorrect password$")
 	public void i_enter_a_correct_username_with_an_incorrect_password() throws Throwable {
-		Login.login("TestAdmin","NotAPassword", ServiceHooks.driver);
+
+		Login.login(LoginUtil.getPropertyValue("adminUN"),LoginUtil.getPropertyValue("notAPassword"), ServiceHooks.driver);
 	}
 
 	@When("^I enter a correct password without a username$")
 	public void i_enter_a_correct_password_without_a_username() throws Throwable {
-	    Login.login("", "TestAdmin", ServiceHooks.driver);
+
+	    Login.login("", LoginUtil.getPropertyValue("adminPW"), ServiceHooks.driver);
+
 	}
 	
 	@When("^if I click Log out$")

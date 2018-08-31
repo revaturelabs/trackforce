@@ -19,7 +19,7 @@ export class DateTimePickerComponent implements OnInit {
     displayErrorInvalidDate = false;
 
     options_date = {month:'long', day: 'numeric', year: 'numeric'};
-    options_datetime = {month:'short', day: 'numeric', year: 'numeric', minute:'numeric', hour: 'numeric'};
+    options_datetime = {month:'short', day: 'numeric', year: 'numeric',minute:'numeric', hour: 'numeric'};
     date = new Date();   //initialized to today's date
     stringDate: string;
 

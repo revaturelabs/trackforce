@@ -1,9 +1,6 @@
 package com.revature.application;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.entity.TfRole;
@@ -18,41 +15,38 @@ import com.revature.services.MarketingStatusService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
 import com.revature.utils.PasswordStorage;
-
 import java.util.HashSet;
 import java.util.List;
-
 import static com.revature.utils.HibernateUtil.saveToDB;
 import static com.revature.utils.PasswordStorage.createHash;
-
-
 import net.sf.ehcache.CacheManager;
 
-/**
- *
+/**<p>Use the main mehthod for testing only. This class is unused in "production". 
+ *  Old testing code is commented out below the class for reference. 
+ * Move it into main if you want it to run. </p>
  * @author Adam L.
  * <p>Used for a few quick simple tests to ensure hibernate is making the calls it is supposed to</p>
- * @version v6.18.06.13
- *
- */
+ * @version v6.18.06.13 */
 @SuppressWarnings("unused")
 public class Application {
 
 	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
 	// This is to allow for Mockito tests, which have problems with static methods
 	// This is here for a reason!
+	// ENABLE THESE AS NEEDED
 	// - Adam 06.18.06.13
-	static AssociateService associateService = new AssociateService();
-	static BatchService batchService = new BatchService();
-	static ClientService clientService = new ClientService();
-	static CurriculumService curriculumService = new CurriculumService();
-	static InterviewService interviewService = new InterviewService();
-	static TrainerService trainerService = new TrainerService();
-	static UserService userService = new UserService();
-	static MarketingStatusService marketingStatusService = new MarketingStatusService();
+	// static AssociateService associateService = new AssociateService();
+	// static BatchService batchService = new BatchService();
+	// static ClientService clientService = new ClientService();
+	// static CurriculumService curriculumService = new CurriculumService();
+	// static InterviewService interviewService = new InterviewService();
+	// static TrainerService trainerService = new TrainerService();
+	// static UserService userService = new UserService();
+	// static MarketingStatusService marketingStatusService = new MarketingStatusService();
 
-	public static void main(String[] args) throws PasswordStorage.CannotPerformOperationException {
+	// public static void main(String[] args) { }
 
+}//end class Application
 
 //		TfUser u = new TfUser();
 //		u.setRole(5);
@@ -115,25 +109,23 @@ public class Application {
 
 //		for (TfTrainer tt : trainerService.getAllTrainers()) {
 //			System.out.println(t);
-//		}
-
 		
-		TfRole role = new TfRole();
-		role = userService.getRole(1);
+		// TfRole role = new TfRole();
+		// role = userService.getRole(1);
 		
-		TfUser user = new TfUser();
-		user.setIsApproved(1);
-		user.setPassword("password");
-		user.setUsername("TestUsername");
-		user.setTfRole(role);
-		user.setRole(1);
+		// TfUser user = new TfUser();
+		// user.setIsApproved(1);
+		// user.setPassword("password");
+		// user.setUsername("TestUsername");
+		// user.setTfRole(role);
+		// user.setRole(1);
 		
-		TfAssociate associate = new TfAssociate();
-		associate.setFirstName("RestAssured");
-		associate.setLastName("Associate");
-		associate.setUser(user);
+		// TfAssociate associate = new TfAssociate();
+		// associate.setFirstName("RestAssured");
+		// associate.setLastName("Associate");
+		// associate.setUser(user);
 		
-		System.out.println(associateService.createAssociate(associate));}}
+		// System.out.println(associateService.createAssociate(associate));}
 
 //		TfInterview interview = new TfInterview();
 //
@@ -307,5 +299,3 @@ public class Application {
 //associate.setFirstName("Greg");
 //
 //System.out.println(associateService.updateAssociate(associate));
-//	}
-//}

@@ -118,7 +118,6 @@ import { AssociateListPageComponent } from './components/associate-list-page/ass
     InvalidSessionComponent,
     HighlightInterviewDirective,
     SalesforceComponent,
-    AssociateListv2Component,
     AssociateListPageComponent
   ],
   imports: [

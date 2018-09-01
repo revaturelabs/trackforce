@@ -1,3 +1,5 @@
+import { Client } from './../../models/client.model';
+import { ClientService } from './../../services/client-service/client.service';
 import { SelectedStatusConstants } from './../../constants/selected-status.constants';
 import { Component, OnInit } from '@angular/core';
 
@@ -9,9 +11,11 @@ import { Component, OnInit } from '@angular/core';
 export class AssociateListPageComponent implements OnInit {
 
   protected readonly associateStatuses: string[] = [];
-  protected filterByStatus: string = "";
+  protected clientList$;
+  protected filterByStatus = "";
+  protected filterByClient = "";
 
-  constructor() { }
+  constructor(private clientService: ClientService) { }
 
   ngOnInit() {
     /**
@@ -38,14 +42,18 @@ export class AssociateListPageComponent implements OnInit {
     }
     this.associateStatuses.push(SelectedStatusConstants.DIRECTLY_PLACED);
     this.associateStatuses.push(SelectedStatusConstants.TERMINATED);
-  }
 
+    // Grab Clients (for now this is messy needs to be handled else ware)
+    this.clientList$ = this.clientService.getFiftyClients();
+  }
 
   submitFilter(e) {
     console.log(this.filterByStatus);
+    console.log(this.filterByClient);
   }
 
   clearFilter(): void {
     this.filterByStatus = "";
+    this.filterByClient = "";
   }
 }

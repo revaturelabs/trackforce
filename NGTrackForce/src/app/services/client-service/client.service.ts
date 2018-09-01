@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, AsyncSubject } from 'rxjs';
 import { environment } from '../../../environments/environment'
 import { Client } from '../../models/client.model';
 
@@ -16,18 +16,28 @@ export class ClientService {
   private clientUrl = environment.url + 'TrackForce/clients/associates/get/'
   private fiftyUrl = environment.url + 'TrackForce/clients/50';
 
+  private clients$: AsyncSubject<Client[]> = new AsyncSubject<Client[]>();
+
   constructor(private http: HttpClient) { }
 
   /**
-   * 
+   *
    * Get a list of all of the clients
    */
   getAllClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(this.baseURL);
+    this.http.get<Client[]>(this.baseURL).subscribe(
+      (data: Client[]) => this.clients$.next(data),
+      (error) => this.clients$.error(error)
+    );
+    return this.clients$;
   }
 
   getFiftyClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(this.fiftyUrl);
+    this.http.get<Client[]>(this.fiftyUrl).subscribe(
+      (data: Client[]) => this.clients$.next(data),
+      (error) => this.clients$.error(error)
+    );
+    return this.clients$;
   }
 
   //This method was meant to return all clients with mapped associates.

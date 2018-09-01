@@ -1,0 +1,38 @@
+<div class="container">
+  <!-- This is the filtering options panel -->
+  <div class="row">
+    <div class="col-lg-12 rounded shadow" style="background-color: white;">
+        <form>
+          <!-- Filter Options -->
+          <div class="form-row">
+            <div class="form-group col-md-4 offset-md-1">
+              <label for="exampleFormControlSelect1">Status</label>
+              <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="filterByStatus" name="filterByStatus">
+                <option *ngFor="let status of associateStatuses" [value]="status">{{status}}</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4 offset-md-2">
+              <label for="exampleFormControlSelect1">Client</label>
+              <select class="form-control" id="exampleFormControlSelect1">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Filter Controls (Submitting/ Clearing) -->
+          <div class="form-row">
+            <div class="col-md-4 offset-md-1">
+              <button type="button" class="mb-3 rounded btn-block btn-warning" (click)="clearFilter()" >Clear Filters</button>
+            </div>
+            <div class="col-md-4 offset-md-2">
+              <button type="button" class="mb-3 rounded btn-block btn-primary" (click)="submitFilter()" >Filter</button>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>

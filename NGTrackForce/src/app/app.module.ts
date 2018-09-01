@@ -80,7 +80,7 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
 import { InvalidSessionComponent } from './components/invalid-session/invalid-session.component';
 import { HighlightInterviewDirective } from './directives/highlight-interview.directive';
 import { SalesforceComponent } from './components/salesforce/salesforce.component';
-import { AssociateListv2Component } from './components/associate-listv2/associate-listv2.component';
+import { AssociateListPageComponent } from './components/associate-list-page/associate-list-page.component';
 
 
 
@@ -118,7 +118,8 @@ import { AssociateListv2Component } from './components/associate-listv2/associat
     InvalidSessionComponent,
     HighlightInterviewDirective,
     SalesforceComponent,
-    AssociateListv2Component
+    AssociateListv2Component,
+    AssociateListPageComponent
   ],
   imports: [
     BrowserModule,

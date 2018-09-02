@@ -51,6 +51,10 @@ export class AssociateService {
   private getUndeployedAssociates$: AsyncSubject<GraphCounts[]> = new AsyncSubject<GraphCounts[]>();
 
   private currentAssociateSnapshot$: BehaviorSubject<Associate[]> = new BehaviorSubject<Associate[]>([]);
+  private currentIndex = 0;
+  private withLimit = 20;
+  private currentClientFilter = "";
+  private currentStatusFilter = "";
 
   // TODO: Decide if empty strings is better or if a loading message should be put here
   // TODO: Why is there a get by user and get by associate this is two different models on backend
@@ -207,14 +211,20 @@ export class AssociateService {
   }
 
   fetchAssociateSnapshot(limit: number, filter) {
+    this.withLimit = limit;
+    this.currentIndex = 0;
+
+    this.currentClientFilter = filter.client || "";
+    this.currentStatusFilter = filter.status || "";
+
     // Base route
-    let queryParams = `/page`;
+    let queryParams = `/page?startIndex=${this.currentIndex}&numResults=${this.withLimit}`;
     
 
     // Determine filters if any
     const {status, client} = filter;
     if (status) {
-      queryParams += `?mStatusId=${status}`;
+      queryParams += `&mStatusId=${status}`;
     }
     if (client) {
       queryParams += `&clientId=${client}`;
@@ -227,5 +237,27 @@ export class AssociateService {
       error => this.currentAssociateSnapshot$.error(error)
     );
     return this.currentAssociateSnapshot$;
+  }
+
+  fetchNextSnapshot() {
+    this.currentIndex += this.withLimit;
+    // Base route
+    let queryParams = `/page?startIndex=${this.currentIndex}&numResults=${this.withLimit}`;
+
+    if (this.currentStatusFilter) {
+      queryParams += `&mStatusId=${this.currentStatusFilter}`;
+    }
+    if (this.currentClientFilter) {
+      queryParams += `&clientId=${this.currentClientFilter}`;
+    }
+
+
+    // Make initial request
+    const url: string = this.baseURL + queryParams;
+    this.http.get<Associate[]>(url).subscribe(
+      (data: Associate[]) => this.currentAssociateSnapshot$.next(data),
+      error => this.currentAssociateSnapshot$.error(error)
+    );
+    return this.currentAssociateSnapshot$;    
   }
 }

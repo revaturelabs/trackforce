@@ -49,13 +49,22 @@ export class AssociateListPageComponent implements OnInit {
     this.associateStatuses.push(SelectedStatusConstants.TERMINATED);
 
     // Grab Clients (for now this is messy needs to be handled else ware)
-    this.clientList$ = this.clientService.getFiftyClients();
-    this.associates$ = this.associateService.getAllAssociates();
+    this.clientList$ = this.clientService.getAllClients();
+    this.associates$ = this.associateService.fetchAssociateSnapshot(20, {});
   }
 
   submitFilter(e) {
-    console.log(this.filterByStatus);
-    console.log(this.filterByClient);
+    const filter = {};
+
+    if (this.filterByClient) {
+      filter["client"] = this.filterByClient;
+    }
+
+    if (this.filterByStatus) {
+      filter["status"] = this.associateStatuses.findIndex((value) => value === this.filterByStatus)
+    }
+
+    this.associateService.fetchAssociateSnapshot(20, filter);
   }
 
   clearFilter(): void {
@@ -65,5 +74,9 @@ export class AssociateListPageComponent implements OnInit {
 
   getAssociateDetails(associateId: number): void {
     console.log(associateId);
+  }
+
+  getNextPage() {
+    this.associateService.fetchNextSnapshot();
   }
 }

@@ -1,3 +1,6 @@
+import { AsyncSubject, BehaviorSubject } from 'rxjs';
+import { AssociateService } from './../../services/associate-service/associate.service';
+import { Associate } from './../../models/associate.model';
 import { Client } from './../../models/client.model';
 import { ClientService } from './../../services/client-service/client.service';
 import { SelectedStatusConstants } from './../../constants/selected-status.constants';
@@ -15,7 +18,9 @@ export class AssociateListPageComponent implements OnInit {
   protected filterByStatus = "";
   protected filterByClient = "";
 
-  constructor(private clientService: ClientService) { }
+  protected associates$: BehaviorSubject<Associate[]>;
+
+  constructor(private clientService: ClientService, private associateService: AssociateService) { }
 
   ngOnInit() {
     /**
@@ -45,6 +50,7 @@ export class AssociateListPageComponent implements OnInit {
 
     // Grab Clients (for now this is messy needs to be handled else ware)
     this.clientList$ = this.clientService.getFiftyClients();
+    this.associates$ = this.associateService.getAllAssociates();
   }
 
   submitFilter(e) {
@@ -55,5 +61,9 @@ export class AssociateListPageComponent implements OnInit {
   clearFilter(): void {
     this.filterByStatus = "";
     this.filterByClient = "";
+  }
+
+  getAssociateDetails(associateId: number): void {
+    console.log(associateId);
   }
 }

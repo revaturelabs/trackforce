@@ -1,10 +1,10 @@
-<!-- BUG: Navbar will still show if forced logout (didn't click logout, but timed logout, etc.) -->
-<nav *ngIf="isLoggedIn" class="navbar navbar-expand-lg navbar-light sticky-top">
-  <div class=container>
-    <!-- Brand Image -->
-    <a class="navbar-brand" href="#">
-      <img src="../../../assets/logo.png" id="logo" alt="Revature Logo">
-    </a>
+<nav class="navbar navbar-default custom-nav shadow">
+  <div class="container-fluid" style="padding: 0px">
+    <div class="navbar-header">
+      <a class="navbar-brand">
+        <img src="../../../assets/logo.png" height="52" width="152" alt="Revature Logo">
+      </a>
+    </div>
 
     <!-- if screen becomes to small, organize buttons into dropdown -->
     <button id="collapsedNav" *ngIf="isLoggedIn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNav">
@@ -54,13 +54,9 @@
         </li>
       </ul>
 
-      <!-- Admin/Staging button options -->
-      <ul *ngIf='isStaging || isSales || isAdmin' class="navbar-nav" id="adminNav">
-        <li class="nav-item">
-          <a id="home" class="nav-link" [routerLink]="['/app-home']" routerLinkActive="active">Home</a>
-        </li>
-        <li class="nav-item">
-          <a id="clients" class="nav-link" [routerLink]="['/client-listing']" routerLinkActive="active">Client List</a>
+      <ul *ngIf='isStaging || isSales || isAdmin' class="nav navbar-nav d-flex flex-row">
+        <li>
+          <a [routerLink]="['/app-home']" routerLinkActive="active">Home</a>
         </li>
         <li class="nav-item">
           <a id="batches" class="nav-link" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a>
@@ -89,5 +85,4 @@
       </ul>
     </div>
   </div>
-
 </nav>

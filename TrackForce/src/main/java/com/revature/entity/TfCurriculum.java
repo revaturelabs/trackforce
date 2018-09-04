@@ -1,6 +1,4 @@
 package com.revature.entity;
-// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
-
 
 import java.util.HashSet;
 import java.util.Set;
@@ -27,8 +25,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 @Table(name = "TF_CURRICULUM", schema = "ADMIN")
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
-//Logans attempt at getting ehcache working below
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfCurriculum implements java.io.Serializable {
 
@@ -48,6 +44,9 @@ public class TfCurriculum implements java.io.Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curriculumName")
 	private Set<TfBatch> batches = new HashSet<TfBatch>(0);
 
+	public TfCurriculum() {
+		super();
+	}
 	
 	public TfCurriculum(Integer id, String name, Set<TfBatch> batches) {
 		super();
@@ -56,13 +55,9 @@ public class TfCurriculum implements java.io.Serializable {
 		this.batches = batches;
 	}
 
-	public TfCurriculum() {
-	}
-
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -70,7 +65,6 @@ public class TfCurriculum implements java.io.Serializable {
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -79,7 +73,6 @@ public class TfCurriculum implements java.io.Serializable {
 	public Set<TfBatch> getBatches() {
 		return batches;
 	}
-
 	@JsonIgnore
 	public void setBatches(Set<TfBatch> batches) {
 		this.batches = batches;
@@ -131,6 +124,5 @@ public class TfCurriculum implements java.io.Serializable {
 			return false;
 		return true;
 	}
-
 	
 }

@@ -89,8 +89,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let associate of associates | filterByText : searchByText | pipeByStatus: searchByStatus | pipeByClient: searchByClient">
-            <td class="edit" *ngIf="associate.id !== null">
+          <tr *ngFor="let associate of sortedAssociates | filterByText : searchByText | pipeByStatus: searchByStatus | pipeByClient: searchByClient">
+            <td class="edit" *ngIf="associate.id">
               <input type="checkbox" id={{associate.id}}
               (change)="validateUpdate()">
             </td>

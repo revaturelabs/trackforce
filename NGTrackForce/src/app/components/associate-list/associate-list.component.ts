@@ -36,6 +36,7 @@ export class AssociateListComponent implements OnInit {
   searchByVerification = '';
 
   //used for sorting
+  public sortedAssociates: Associate[] = []; // to avoid mutation associates array
   sortedBy: any;
   sortOption: any;
   sortByIdAsc = true;
@@ -92,23 +93,57 @@ export class AssociateListComponent implements OnInit {
    * @param sortedBy enum SortBy equal to the sortBy... property identifiers, to toggle sort by asc/desc
    */
   sortBy(option: SortOption, sortedBy: SortedBy) {
-    this.associates.sort((associateA, associateB) => associateA.id - associateB.id);
+    this.sortedAssociates.sort((associateA, associateB) => associateA.id - associateB.id);
     const props = option.split('.');
     const parent = props[0];
     const child = props[1];
     const asc = this[sortedBy];
-    let sortingKey: (associate: Associate) => string;
-    sortingKey = child ? (associate) => associate[parent][child] :
-      (associate) => associate[parent]
-    this.associates.sort((associateA, associateB)=> {
-      if(sortingKey(associateA) < sortingKey(associateB)) {
-        return asc === true ? -1 : 1;
-      } else if(sortingKey(associateB) < sortingKey(associateA)) {
-        return asc === true ? 1 : -1;
-      } else {
-        return 0;
-      }
-    });
+
+    //helper function definitions
+    let compare: (associateA: Associate, associateB: Associate) => boolean;
+    let checkNull: (associateA: Associate, associateB: Associate) => boolean;
+
+    switch(props.length) {
+      case 1:
+
+        compare = (associateA: Associate, associateB: Associate) => {
+          return associateA[parent] < associateB[parent] }
+
+        checkNull = (associateA: Associate, associateB: Associate) => {
+          return !((associateA && associateB) && (associateA[parent] && associateB[parent]));
+        }
+
+        this.sortedAssociates.sort((associateA, associateB)=> {
+          if(checkNull(associateA, associateB) || compare(associateA, associateB)) {
+            return asc === true ? -1 : 1;
+          } else if(compare(associateB, associateA)) {
+            return asc === true ? 1 : -1;
+          } else {
+            return 0;
+          }
+        });
+        break;
+      case 2:
+
+        compare = (associateA: Associate, associateB: Associate) => {
+          return associateA[parent][child] < associateB[parent][child] }
+
+        checkNull = (associateA: Associate, associateB: Associate) => {
+          return !((associateA && associateB) && (associateA[parent] && associateB[parent])
+            && (associateA[parent][child] && associateB[parent][child]));
+        }
+
+        this.sortedAssociates.sort((associateA, associateB)=> {
+          if(checkNull(associateA, associateB) || compare(associateA, associateB)) {
+            return asc === true ? -1 : 1;
+          } else if(compare(associateB, associateA)) {
+            return asc === true ? 1 : -1;
+          } else {
+            return 0;
+          }
+        });
+        break;
+    }
     this[sortedBy] = !this[sortedBy]
   }
 
@@ -190,6 +225,7 @@ export class AssociateListComponent implements OnInit {
       }
       this.curriculums.delete('');
       this.curriculums.delete('null');
+      this.sortedAssociates = this.associates;
     });
   }
 

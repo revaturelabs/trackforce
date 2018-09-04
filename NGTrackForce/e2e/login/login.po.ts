@@ -38,7 +38,10 @@ export class LoginPage {
     return element(by.xpath('//*[@id="pwd-container"]/div/section/form/div[1]')).getText();
   }
 
-  get logoutButton() {
+  getlogoutButton() {
     return element(by.css('a[href*="/login"]'));
+  }
+  getUrl(){
+    return browser.baseUrl;
   }
 }

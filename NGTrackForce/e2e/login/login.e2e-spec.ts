@@ -1,8 +1,23 @@
 import { LoginPage } from './login.po';
 import { browser } from 'protractor';
+
 /*
 Smoke test: Checks elements to be exist
 */
+let login_urL = "http://localhost:4200/login";
+let adminUrl = "http://localhost:4200/#/app-home";
+let associateUrl = "http://localhost:4200/#/associate-view";
+let trainerUrl = "http://localhost:4200/#/trainer-view";
+let AdminUsername = "TestAdmin";
+let AdminPassword = "TestAdmin";
+let associateUsername = "cyril";
+let associatePassword = "cyril";
+let stagingManagerUsername = "bobstage";
+let stagingManagerPassword = "bobstage";
+let trainerUsername = "Trainer";
+let trainerPassword = "Trainer";
+let deliverySalesUsername = "salestest";
+let deliverySalesPassword = "salestest";
 
 describe('login page element existences', () => {
   let page: LoginPage;
@@ -68,9 +83,9 @@ describe('confirm login navigation', () => {
   });
 
   it('should reach the index page', () => {
-    page.getUsernameInput().sendKeys('TestAdmin');
-    page.getPasswordInput().sendKeys('TestAdmin');
+    page.getUsernameInput().sendKeys(AdminUsername);
+    page.getPasswordInput().sendKeys(AdminPassword);
     page.getLoginButton().click();
-    expect(page.getTitle()).not.toEqual('NGTrackForce');
+    expect(page.getUrl()).toEqual(adminUrl);
   });
 });

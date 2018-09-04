@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<<<<<<< HEAD
 <testsuites disabled="0" errors="0" failures="0" tests="42" time="31.555">
  <testsuite name="Registering as a new associate" timestamp="2018-08-29T14:35:55" hostname="localhost" time="4.813" errors="0" tests="7" skipped="1" disabled="0" failures="0">
   <testcase classname="Registering as a new associate" name="should navigate to the login page" time="2.52" />
@@ -61,5 +62,34 @@
  <testsuite name="When I enter a start date that is more current than the end date it" timestamp="2018-08-29T14:36:25" hostname="localhost" time="1.768" errors="0" tests="2" skipped="0" disabled="0" failures="0">
   <testcase classname="When I enter a start date that is more current than the end date it" name="should navigate to the predictions page" time="1.385" />
   <testcase classname="When I enter a start date that is more current than the end date it" name="should allow user to input a start date that is more current than the end date" time="0.383" />
+=======
+<testsuites disabled="0" errors="0" failures="1" tests="9" time="5.062">
+ <testsuite name="login page element existences" timestamp="2018-08-31T14:43:38" hostname="localhost" time="3.803" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+  <testcase classname="login page element existences" name="should have a username input box" time="0.006" />
+  <testcase classname="login page element existences" name="should have a password input box" time="0.002" />
+  <testcase classname="login page element existences" name="should have a login button" time="0.001" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.028" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.028" />
+  <testcase classname="login page element existences" name="should display proper value for button" time="0.045" />
+ </testsuite>
+ <testsuite name="Confirm login failures" timestamp="2018-08-31T14:43:42" hostname="localhost" time="0.792" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.15" />
+  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.367" />
+ </testsuite>
+ <testsuite name="confirm login navigation" timestamp="2018-08-31T14:43:43" hostname="localhost" time="0.467" errors="0" tests="1" skipped="0" disabled="0" failures="1">
+  <testcase classname="confirm login navigation" name="should reach the index page" time="0.221">
+   <failure type="toEqual" message="Expected &apos;http://34.227.178.103:8090/NGTrackForce/&apos; to equal &apos;http://localhost:4200/#/app-home&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (/Users/jacobgolding/Desktop/project_3/trackforce/NGTrackForce/e2e/login/login.e2e-spec.ts:89:27)
+    at /usr/local/lib/node_modules/protractor/node_modules/jasminewd2/index.js:112:25
+    at new ManagedPromise (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:1077:7)
+    at ControlFlow.promise (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:2505:12)
+    at schedulerExecute (/usr/local/lib/node_modules/protractor/node_modules/jasminewd2/index.js:95:18)
+    at TaskQueue.execute_ (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:3084:14)
+    at TaskQueue.executeNext_ (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:3067:27)
+    at asyncRun (/usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:2974:25)
+    at /usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:668:7]]>
+   </failure>
+  </testcase>
+>>>>>>> work to make the login spec use less hard coded values
  </testsuite>
 </testsuites>

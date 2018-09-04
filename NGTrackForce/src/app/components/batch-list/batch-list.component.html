@@ -50,7 +50,7 @@
           <input type="submit" class="btn btn-danger" value="Reset" (click)="resetToDefaultBatches()" />
         </div>
       </form>
-      <div class="center-div" *ngIf="!dataReady"> 
+      <div class="center-div" *ngIf="!dataReady">
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
       <ng-container *ngIf="dataReady && !dataEmpty">

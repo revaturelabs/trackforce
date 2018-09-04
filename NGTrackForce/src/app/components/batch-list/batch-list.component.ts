@@ -1,16 +1,24 @@
-/** @Author Princewill Ibe **/
-import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { AuthenticationService } from "../../services/authentication-service/authentication.service";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild
+} from '@angular/core';
 import { Batch } from '../../models/batch.model';
 import { BatchService } from '../../services/batch-service/batch.service';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
-import { ChartOptions, SideValues } from '../../models/ng2-charts-options.model';
+import {
+  ChartOptions,
+  SideValues
+} from '../../models/ng2-charts-options.model';
 import { Color } from 'ng2-charts';
 import 'rxjs/add/observable/from';
 import { DateService } from '../../services/date-service/date.service';
 import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
-
 
 // TODO: LABELS SHOULD PROPERLY WRAP
 /**
@@ -23,11 +31,13 @@ import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.compon
   templateUrl: './batch-list.component.html',
   styleUrls: ['./batch-list.component.css']
 })
+
 @AutoUnsubscribe
 export class BatchListComponent implements OnInit {
-
-  @ViewChild('start') startDateTimePicker:DateTimePickerComponent;
-  @ViewChild('end') endDateTimePicker:DateTimePickerComponent;
+  @ViewChild("start")
+  startDateTimePicker: DateTimePickerComponent;
+  @ViewChild("end")
+  endDateTimePicker: DateTimePickerComponent;
 
   start: any;
   end: any;
@@ -43,7 +53,8 @@ export class BatchListComponent implements OnInit {
   batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
   counter = 0;
   minDate: number = Date.now();
-  @Output() changeDateEm = new EventEmitter<Date>();
+  @Output()
+  changeDateEm = new EventEmitter<Date>();
 
   stringStart: string;
   stringEnd: string;
@@ -51,21 +62,22 @@ export class BatchListComponent implements OnInit {
   dateRangeMessage: string;
   showDateRangeError = false;
   dateError: boolean;
-
-  changeDate(){
-    this.changeDateEm.emit(this.startDate);
-  }
-
   chartOptions: ChartOptions = ChartOptions.createOptionsSpacing(
     new SideValues(-100, 0, 0, 0),
     new SideValues(0, 0, 0, 0),
-    'right', false, false
+    'right',
+    false,
+    false
   );
 
-
-  constructor(private batchService: BatchService, private authService: AuthenticationService,
-              private dateService: DateService) {
-  }
+  // changeDate() {
+  //   this.changeDateEm.emit(this.startDate);
+  // }
+  constructor(
+    private batchService: BatchService,
+    private authService: AuthenticationService,
+    private dateService: DateService
+  ) {}
 
   /**
    * load default batches on initialization
@@ -77,19 +89,23 @@ export class BatchListComponent implements OnInit {
     if (user.role === 2) {
       this.dataReady = false;
 
-      this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
-        batches => {
-          // filter out batches that don't have an associated trainer
-          this.batches = batches.filter(
-            batch => {
-              if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
+      this.batchService
+        .getBatchesWithinDates(this.startDate, this.endDate)
+        .subscribe(
+          batches => {
+            // filter out batches that don't have an associated trainer
+            this.batches = batches.filter(batch => {
+              if (
+                batch.trainer.firstName !==
+                this.authService.getTrainer().firstName
+              ) {
                 return false;
               }
               if (batch.coTrainer) {
                 return batch.coTrainer.includes(this.authService.getTrainer());
               }
 
-              if (batch.startDate < this.minDate){
+              if (batch.startDate < this.minDate) {
                 this.minDate = batch.startDate;
               }
 
@@ -97,123 +113,116 @@ export class BatchListComponent implements OnInit {
               this.dateService.changeDates(this.startDate, this.endDate);
 
               return true;
-            }
-          );
-          this.filteredBatches = this.batches;
-          this.updateCountPerCurriculum();
-          this.dataReady = true;
-        },
-        error => {
-          console.log(error);
-        }
-      );
-    }
-    else {
+            });
+            this.filteredBatches = this.batches;
+            this.updateCountPerCurriculum();
+            this.dataReady = true;
+          },
+          error => {
+            console.log(error);
+          }
+        );
+    } else {
       // set default dates displayed on page
-      this.startDate.setMonth(new Date().getMonth() - 3);
+      this.startDate.setMonth(new Date().getMonth() - 14);
       this.endDate.setMonth(new Date().getMonth() + 3);
       this.dataReady = false;
 
-      this.startDate.setMonth(-7);
-
       this.stringStart = this.startDate.toJSON().substring(0, 10);
       this.stringEnd = this.endDate.toJSON().substring(0, 10);
-      this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
-        batches => {
-          // filter out batches that don't have an associated trainer
-          this.batches = batches;
+      this.batchService
+        .getBatchesWithinDates(this.startDate, this.endDate)
+        .subscribe(
+          batches => {
+            // filter out batches that don't have an associated trainer
+            this.batches = batches;
 
-          this.batches.forEach(batch => {
-            if (batch.startDate < this.minDate){
-              this.minDate = batch.startDate;
+            this.batches.forEach(batch => {
+              if (batch.startDate < this.minDate) {
+                this.minDate = batch.startDate;
               }
-            }
-          );
-          this.filteredBatches = this.batches;
-          this.startDate = new Date(this.minDate);
-          this.dateService.changeDates(this.startDate, this.endDate);
-          this.updateCountPerCurriculum();
-          this.dataReady = true;
-        },
-        error => {
-          console.log(error);
-        }
-      );
-
+            });
+            this.filteredBatches = this.batches;
+            this.startDate = new Date(this.minDate);
+            this.dateService.changeDates(this.startDate, this.endDate);
+            this.updateCountPerCurriculum();
+            this.dataReady = true;
+          },
+          error => {
+            console.log(error);
+          }
+        );
     }
   }
-
 
   /**
    * after user selects date range, this handles updating the data,
    * and the corresponding graph accordingly
    */
   public applySelectedRange() {
-    if (!this.dateError){
-    this.startDate = new Date(this.stringStart);
-    this.endDate = new Date(this.stringEnd);
+    if (!this.dateError) {
+      this.startDate = new Date(this.stringStart);
+      this.endDate = new Date(this.stringEnd);
 
-    let longStartDate: number;
-    let longEndDate: number;
+      let longStartDate: number;
+      let longEndDate: number;
 
-    this.resetFormWarnings();
+      this.resetFormWarnings();
 
-    if (this.startDate && this.endDate) {
-      longStartDate = this.startDate.getTime();
-      longEndDate = this.endDate.getTime();
+      if (this.startDate && this.endDate) {
+        longStartDate = this.startDate.getTime();
+        longEndDate = this.endDate.getTime();
 
-
-      if (longStartDate > longEndDate) {
-        this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
-        this.showDateRangeError = true;
-      } else {
-        this.updateBatches();
+        if (longEndDate < longStartDate) {
+          this.dateRangeMessage =
+            "The TO date cannot occur before the FROM date, please try another date.";
+          this.showDateRangeError = true;
+        } else {
+          this.updateBatches();
+        }
       }
-    }
     }
   }
 
   public resetFormWarnings() {
-    if (this.showDateRangeError === true) {
+    if (this.showDateRangeError == true) {
       this.showDateRangeError = false;
     }
   }
 
   // Logans new resetToDefaultBatches
   public resetToDefaultBatches() {
-    this.filteredBatches = this.batches.filter(
-      batch => {
-        this.startDate = new Date();
-        this.startDate.setMonth(new Date().getMonth() - 3);
-        this.endDate = new Date();
-        this.endDate.setMonth(new Date().getMonth() + 3);
-        const startTime = Date.now();
-        this.dataReady = false;
-        this.counter = 0;
-        this.stringStart = this.startDate.toJSON().substring(0, 10);
-        this.stringEnd = this.endDate.toJSON().substring(0, 10);
-        this.startDateTimePicker.dateReset();
-        this.endDateTimePicker.dateReset();
-      }
-    );
+    this.filteredBatches = this.batches.filter(batch => {
+      this.startDate = new Date();
+      this.startDate.setMonth(new Date().getMonth() - 14);
+      this.endDate = new Date();
+      this.endDate.setMonth(new Date().getMonth() + 3);
+      const startTime = Date.now();
+      this.dataReady = true;
+      this.counter = 0;
+      this.stringStart = this.startDate.toJSON().substring(0, 10);
+      this.stringEnd = this.endDate.toJSON().substring(0, 10);
+      this.startDateTimePicker.dateReset();
+      this.endDateTimePicker.dateReset();
+    });
 
+    this.resetFormWarnings();
     this.updateCountPerCurriculum();
+    console.log(this.batches);
     this.dataReady = true;
   }
 
   // Logans new update batches method
-  public updateBatches()
-  {
+  public updateBatches() {
     const user = this.authService.getUser();
     if (user.role === 2) {
       // filter out batches that don't have an associated trainer
-      this.filteredBatches = this.batches.filter(
-        batch => {
-          if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
-            return false;
-          }
-          if (batch.coTrainer) {
-            if (!batch.coTrainer.includes(this.authService.getTrainer())) {
+      this.filteredBatches = this.batches.filter(batch => {
+        if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
+          return false;
+        }
+        if (batch.coTrainer) {
+          if (!batch.coTrainer.includes(this.authService.getTrainer())) {
               return false;
             }
           }
@@ -223,46 +232,40 @@ export class BatchListComponent implements OnInit {
           const longEndDate = dateEndDate.getTime();
 
           if (batch.startDate && batch.endDate) {
-            return batch.startDate > longStartDate && batch.endDate < longEndDate;
+            return (batch.startDate >= longStartDate && batch.endDate <= longEndDate);
           }
           else {
             return false;
           }
-        }
-      );
+      });
       this.updateCountPerCurriculum();
       this.dataReady = true;
-    }
-    else{
+    } else {
       this.dataReady = false;
-      this.filteredBatches = this.batches.filter(
-        batch => {
-          const dateStartDate = new Date(this.startDate);
-          const dateEndDate = new Date(this.endDate);
-          const longStartDate = dateStartDate.getTime();
-          const longEndDate = dateEndDate.getTime();
+      this.filteredBatches = this.batches.filter(batch => {
+        const dateStartDate = new Date(this.startDate);
+        const dateEndDate = new Date(this.endDate);
+        const longStartDate = dateStartDate.getTime();
+        const longEndDate = dateEndDate.getTime();
 
-          if (batch.startDate && batch.endDate) {
-            return batch.startDate > longStartDate && batch.endDate < longEndDate;
-          }
-          else {
-            return false;
-          }
+        if (batch.startDate && batch.endDate) {
+          return (batch.startDate >= longStartDate && batch.endDate <= longEndDate);
+        } else {
+          return false;
         }
-      );
+      });
       this.updateCountPerCurriculum();
       this.dataReady = true;
     }
   }
 
-
   /**
-  * @function updateCountPerCurriculum
-  * @memberof BatchListComponent
-  * @description This function will return an object that contains
-  *              all of the batches within startDate and endDate
-  *
-  */
+   * @function updateCountPerCurriculum
+   * @memberof BatchListComponent
+   * @description This function will return an object that contains
+   *              all of the batches within startDate and endDate
+   *
+   */
   updateCountPerCurriculum() {
     this.curriculumNames = this.curriculumCounts = null;
     const curriculumCountsMap = new Map<string, number>();
@@ -270,7 +273,6 @@ export class BatchListComponent implements OnInit {
     this.dataEmpty = this.filteredBatches.length === 0;
 
     if (this.filteredBatches != null) {
-
       for (const batch of this.filteredBatches) {
         if (batch.curriculumName) {
           let count = curriculumCountsMap.get(batch.curriculumName.name);

@@ -30,17 +30,23 @@
 
         <button type="button" class="btn btn-primary" (click)="toggleForm()" id="update-info-btn">Update Your Info</button>
 
-        <div class="container" *ngIf="formOpen" class="toggledContainer">
-          <form>
-            <label for="firstname">First Name:</label>
-            <input type="text" [(ngModel)]='newFirstName' required name="newFirstName">
-            <br>
-            <label for="lastname">Last Name:</label>
-            <input type="text" [(ngModel)]='newLastName' required name="newLastName">
+        <div class="container" class="toggledContainer">
+          <div class="row">
+            <div class="col-md-6 mb-1" *ngIf="formOpen">
+              <form>
+                <label for="firstname">First Name:</label>
+                <input type="text" [(ngModel)]='newFirstName' required name="newFirstName">
+                <br>
+                <label for="lastname">Last Name:</label>
+                <input type="text" [(ngModel)]='newLastName' required name="newLastName">
 
-            <input type="button" class="btn btn-success" value="Save" (click)='updateInfo()'>
-          </form>
-
+                <button class="btn btn-success" (click)='updateInfo()'>Save</button>
+              </form>
+            </div>
+            <div class="col-md-6" *ngIf="statusMsg">
+              <div [ngClass]="statusClass" class="msg">{{ statusMsg }}</div>
+            </div>
+          </div>
         </div>
 
       </div>

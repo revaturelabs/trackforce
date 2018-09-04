@@ -9,16 +9,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 @XmlRootElement
 @Cacheable
 @Entity
-@Table(
-		name = "TF_USER", 
-		schema="ADMIN"
-//		uniqueConstraints= @UniqueConstraint(columnNames= {"TF_USERNAME"})
-)
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+@Table(name = "TF_USER", schema="ADMIN")
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfUser implements java.io.Serializable {
 
@@ -30,9 +24,6 @@ public class TfUser implements java.io.Serializable {
     @XmlElement
     @Id
     @Column(name = "TF_USER_ID")
-    /* ID's 1-14 are reserved for manual insertion */
-    @SequenceGenerator(sequenceName = "UserId_seq", name = "UserIdSeq", initialValue=15)
-    @GeneratedValue(generator = "UserIdSeq", strategy = GenerationType.SEQUENCE)
     private int id;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -52,7 +43,6 @@ public class TfUser implements java.io.Serializable {
     @Column(name = "TF_ISAPPROVED")
     private int isApproved;
     
- // This is just used for passing around the string token while logged in - Adam 06.18.06.13
     @XmlElement
     @Transient
     private String token;
@@ -64,7 +54,6 @@ public class TfUser implements java.io.Serializable {
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -73,7 +62,6 @@ public class TfUser implements java.io.Serializable {
 	public TfRole getTfRole() {
 		return TfRole;
 	}
-
 	@JsonIgnore
 	public void setTfRole(TfRole tfRole) {
 		TfRole = tfRole;
@@ -82,7 +70,6 @@ public class TfUser implements java.io.Serializable {
 	public String getUsername() {
 		return username;
 	}
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -91,7 +78,6 @@ public class TfUser implements java.io.Serializable {
 	public String getPassword() {
 		return password;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -99,7 +85,6 @@ public class TfUser implements java.io.Serializable {
 	public int getIsApproved() {
 		return isApproved;
 	}
-
 	public void setIsApproved(int isApproved) {
 		this.isApproved = isApproved;
 	}
@@ -107,7 +92,6 @@ public class TfUser implements java.io.Serializable {
 	public String getToken() {
 		return token;
 	}
-
 	public void setToken(String token) {
 		this.token = token;
 	}
@@ -115,7 +99,6 @@ public class TfUser implements java.io.Serializable {
 	public Integer getRole() {
 		return role;
 	}
-
 	public void setRole(Integer role) {
 		this.role = role;
 	}
@@ -179,8 +162,5 @@ public class TfUser implements java.io.Serializable {
 		return "TfUser [id=" + id + ", username=" + username + ", password=" + password + ", isApproved=" + isApproved
 				+ ", token=" + token + ", role=" + role + "]";
 	}
-
-    
-    
-    
+	
 }

@@ -1,5 +1,4 @@
 package com.revature.entity;
-// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @XmlRootElement
 @Entity
 @Table(name = "TF_MARKETING_STATUS", schema = "ADMIN")
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfMarketingStatus implements java.io.Serializable {
 
@@ -29,7 +27,6 @@ public class TfMarketingStatus implements java.io.Serializable {
 	
 	@XmlElement
 	@Id
-//	@GeneratedValue
 	@Column(name = "TF_MARKETING_STATUS_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer id;
 	
@@ -54,7 +51,6 @@ public class TfMarketingStatus implements java.io.Serializable {
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -62,7 +58,6 @@ public class TfMarketingStatus implements java.io.Serializable {
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -71,7 +66,6 @@ public class TfMarketingStatus implements java.io.Serializable {
 	public Set<TfAssociate> getAssociates() {
 		return associates;
 	}
-
 	@JsonIgnore
 	public void setAssociates(Set<TfAssociate> associates) {
 		this.associates = associates;

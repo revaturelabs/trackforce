@@ -27,6 +27,8 @@ export class HomeComponent implements OnInit {
 
   private associates: Associate[];
 
+  public Path = Path;
+
   loading = true;
 
   //Message from the back-end
@@ -91,15 +93,19 @@ export class HomeComponent implements OnInit {
     this.getCountForCharts();
   }
 
-  getCountForCharts()
-  {
+  getCountForCharts() {
     this.as.getCountAssociates().subscribe(
       count => {
+        // Since the switch to the Behavior Subjects has an initial empty value
+        if (!count || count.length === 0) {
+          return;
+        }
+
         this.count = count;
         this.undeployedData[0] = this.count['counts'][0];
         this.undeployedData[1] = this.count['counts'][1];
         localStorage.setItem('undeployedData', JSON.stringify(this.undeployedData));
-        
+
         this.deployedData[0] = this.count['counts'][2];
         this.deployedData[1] = this.count['counts'][3];
         localStorage.setItem('deployedData', JSON.stringify(this.deployedData));
@@ -115,48 +121,20 @@ export class HomeComponent implements OnInit {
         this.mappedData[2] = this.count['counts'][10];
         this.mappedData[3] = this.count['counts'][11];
         localStorage.setItem('mappedData', JSON.stringify(this.mappedData));
-
         this.loading = false;
       }
     );
   }
 
   /**
-   * @function MappedOnClick
-   * @description When the "Mapped" chart is clicked
-   * the global variable selectedStatus is
-   * set to the label of the slice
-   * clicked.
+   * @function chartOnClick
+   * Routes to the appropriate chart
+   * @param evt click event
+   * @param path path to chart
    */
-  mappedOnClick(evt: any) {
+  chartOnClick(evt: any, path: Path) {
     if (evt.active[0] !== undefined) {
-      //navigate to client-mapped component
-      this.router.navigate([`client-mapped/${evt.active[0]._index}`]);
-    }
-  };
-
-  /**
-   * @function UnmappedOnClick
-   * @description When the "Unmapped" chart is clicked
-   * the global variable selectedStatus is
-   * set to the label of the slice
-   * clicked.
-   */
-  unmappedOnClick(evt: any) {
-    if (evt.active[0] !== undefined) {
-      this.router.navigate([`skillset/${evt.active[0]._index}`]);
-    }
-  }
-
-  deployedOnClick(evt: any) {
-    if (evt.active[0] !== undefined) {
-      this.router.navigate([`deployed/${evt.active[0]._index}`]);
-    }
-  }
-
-  undeployedOnClick(evt: any) {
-    if (evt.active[0] !== undefined) {
-      this.router.navigate([`undeployed/${evt.active[0]._index}`]);
+      this.router.navigate([`${path}/${evt.active[0]._index}`]);
     }
   }
 
@@ -219,5 +197,11 @@ export class HomeComponent implements OnInit {
   //   });
   // }
   ////////////////////////////////////////////////////////////////
+}
 
+enum Path {
+  UNDEPLOYED = 'undeployed',
+  DEPLOYED = 'deployed',
+  CLIENT_MAPPED = 'client-mapped',
+  SKILLSET = 'skillset'
 }

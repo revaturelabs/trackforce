@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { RequestService } from "../request-service/request.service";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from '../../../environments/environment';
 import { Trainer } from "../../models/trainer.model";
 import { Observable } from "rxjs/Observable";
@@ -56,6 +56,16 @@ export class TrainerService {
    */
   public getCoTrainerBatches(trainerId: number): Observable<Batch[]> {
     return this.http.get<Batch[]>(this.baseURL + trainerId + "/cotrainerbatch");
+  }
+
+
+  public updateTrainer(trainer: Trainer): any {
+    return this.http.put(this.baseURL + trainer.id, JSON.stringify(trainer), {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `${trainer.user.token}`
+      })
+    });
   }
 
 }

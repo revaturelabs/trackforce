@@ -57,22 +57,45 @@
         <thead class="pointer">
           <tr>
             <th class="edit">Edit</th>
-            <th class="id">Associate ID</th>
-            <th class="first">First Name</th>
-            <th class="last">Last Name</th>
-            <th class="status">Marketing Status</th>
-            <th class="client">Client Name</th>
-            <th class="batch">Batch Name</th>
+            <th class="id" (click)="sortBy(sortOption.ID, sortedBy.sortByIdAsc)">Associate ID
+              <i class="glyphicon pull-right"
+                [ngClass]="sortByIdAsc === true ? 'glyphicon-triangle-top' : 'glyphicon-triangle-bottom'" style="display:inline-block!important;">
+            </i>
+            </th>
+            <th class="first" (click)="sortBy(sortOption.FNAME, sortedBy.sortByFNameAsc)">First Name       <i class="glyphicon pull-right"
+                [ngClass]="sortByFNameAsc === true ? 'glyphicon-triangle-top' : 'glyphicon-triangle-bottom'" style="display:inline-block!important;">
+            </i>
+            </th>
+            <th class="last" (click)="sortBy(sortOption.LNAME, sortedBy.sortByLNameAsc)">Last Name        <i class="glyphicon pull-right"
+              [ngClass]="sortByLNameAsc === true ? 'glyphicon-triangle-top' : 'glyphicon-triangle-bottom'" style="display:inline-block!important;">
+              </i>
+            </th>
+            <th class="status" (click)="sortBy(sortOption.MARKET, sortedBy.sortByMarketAsc)">Marketing Status
+              <i class="glyphicon pull-right"
+                [ngClass]="sortByMarketAsc === true ? 'glyphicon-triangle-top' : 'glyphicon-triangle-bottom'" style="display:inline-block!important;">
+              </i>
+            </th>
+            <th class="client" (click)="sortBy(sortOption.CLIENT, sortedBy.sortByClientAsc)">Client Name
+              <i class="glyphicon pull-right"
+                [ngClass]="sortByClientAsc === true ? 'glyphicon-triangle-top' : 'glyphicon-triangle-bottom'" style="display:inline-block!important;">
+              </i>
+            </th>
+            <th class="batch" (click)="sortBy(sortOption.BATCH, sortedBy.sortByBatchAsc)">Batch Name
+              <i class="glyphicon pull-right"
+                [ngClass]="sortByBatchAsc === true ? 'glyphicon-triangle-top' : 'glyphicon-triangle-bottom'" style="display:inline-block!important;">
+              </i>
+            </th>
             <th class="verificationStatus">Verification Status</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let associate of associates | filterByText : searchByText | pipeByStatus: searchByStatus | pipeByClient: searchByClient">
-            <td class="edit" *ngIf="associate.id">
-              <input type="checkbox" id={{associate.id}}>
+            <td class="edit" *ngIf="associate.id !== null">
+              <input type="checkbox" id={{associate.id}}
+              (change)="validateUpdate()">
             </td>
             <td>
-              <a [routerLink]="['/form-comp',associate.id]" class="id" *ngIf="associate.id">{{associate.id}}</a>
+              <a [routerLink]="['/form-comp',associate.id]" class="id" *ngIf="associate.id !== null">{{associate.id}}</a>
             </td>
             <td class="first"><span *ngIf="associate.firstName">{{associate.firstName}}</span></td>
             <td class="last"><span *ngIf="associate.lastName">{{associate.lastName}}</span></td>
@@ -95,6 +118,9 @@
     <div class="alert alert-danger" *ngIf="updateErrored">
         There was an error updating the Associate(s)
     </div>
+    <div class="alert alert-danger" *ngIf="updateNotValid && updateAttemptedOnce">
+        Please ensure all options have been selected and at least one associate is checked.
+    </div>
   </div>
   <br>
 
@@ -102,16 +128,20 @@
     <div class="row">
       <div class="col-sm-3">
         <label for="uclient">Update by Verification Status: </label>
-        <select class="form-control" id="uVerify" [(ngModel)]="updateVerification">
-          <option label=""></option>
+        <select class="form-control" id="uVerify"
+        (change)="validateUpdate()"
+        [(ngModel)]="updateVerification">
+          <option value="" selected>--Please chose an option--</option>
           <option value="1">Verified</option>
           <option value="0">Unverified</option>
         </select>
       </div>
       <div class="col-sm-3">
         <label for="uStatus">Update by Marketing Status: </label>
-        <select class="form-control" id="uStatus" [(ngModel)]="updateStatus">
-          <option label=""></option>
+        <select class="form-control" id="uStatus"
+        (change)="validateUpdate()"
+        [(ngModel)]="updateStatus">
+          <option value="" selected>--Please chose an option--</option>
           <option value="1">MAPPED: Training</option>
           <option value="2">MAPPED: Reserved</option>
           <option value="3">MAPPED: Selected</option>
@@ -128,14 +158,21 @@
       </div>
       <div class="col-sm-3">
         <label for="uclient">Update Client: </label>
-        <select class="form-control" id="uclient" [(ngModel)]="updateClient">
-          <option label="" value="0"></option>
-          <option selected="selected" value="0"></option>
+        <select class="form-control" id="uclient"
+          [(ngModel)]="updateClient"
+          (change)="validateUpdate()">
+          <option value="" selected>--Please chose an option--</option>
           <option *ngFor="let client of clients" [value]="client.id">{{client.name}}</option>
         </select>
       </div>
       <div class="col-sm-2" *ngIf="!updating">
-        <button id="submit" (click)="updateAssociates()" class="btn btn-info" style="margin-top:20px">Update</button>
+        <button id="submit"
+          (click)="updateAssociates()"
+          class="btn btn-info"
+          style="margin-top:20px"
+          [disabled]="updateNotValid">
+          Update
+        </button>
       </div>
       <div class="col-sm-2" *ngIf="updating">
         <mat-progress-spinner style="margin-top:15px;" diameter="50" mode="indeterminate"></mat-progress-spinner>

@@ -13,6 +13,7 @@ export class User {
   role: number;
   token: string;
   isApproved: number;
+  firstName: string;
 
   constructor(
     newUsername: string,
@@ -20,7 +21,8 @@ export class User {
     newRole: number,
     newIsApproved: number,
     newId?: number,
-    newToken?: string
+    newToken?: string,
+    newFirstName?: string
   ) {
       this.username = newUsername;
       this.password = newPassword;
@@ -28,5 +30,6 @@ export class User {
       this.isApproved = newIsApproved;
       this.id = newId;
       this.token = newToken;
+      this.firstName = newFirstName;
     }
 }

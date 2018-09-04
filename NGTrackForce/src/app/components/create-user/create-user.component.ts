@@ -25,6 +25,8 @@ export class CreateUserComponent implements OnInit {
   displayErrorUsername: boolean;
   loggedIn: User;
 
+  readonly _TOKEN = 1;
+
   constructor(private authService: AuthenticationService,
               private router: Router,
               private userService: UserService) {
@@ -45,14 +47,14 @@ export class CreateUserComponent implements OnInit {
   createUser() {
     this.errMsg = "";
     this.sucMsg = "";
-    if(this._validatePassword(this.password)) {
+    if (!this._validatePassword(this.password)) {
       this.errMsg = 'Password must have a number, a capital letter and a special character';
     } else if (this.password !== this.password2) {
       this.errMsg = 'Passwords do not match!';
     } else if (!this._validateUserName(this.username)) {
       this.errMsg = 'Invalid username, please do not use spaces or special characters'
     } else {
-      this.newUser = new User(this.username, this.password, this.roleId, 1);
+      this.newUser = new User(this.username, this.password, this.roleId, this._TOKEN);
       // this.userService.createUser(this.username, this.password, this.roleId).subscribe(
       this.userService.createUser(this.newUser, this.loggedIn.role).subscribe(
         data => {
@@ -80,24 +82,25 @@ export class CreateUserComponent implements OnInit {
 
   /**
    * Ensures password follows the password rules
-   * 
+   *
    */
-  private _validatePassword(password) {
+  private _validatePassword(password): boolean {
     if(!password) {
         return false;
     }
 
+    // A password must have a capital, a special char and a number
     const capital = /([A-Z]+)/g
     const special = /([.!@#$%^&*]+)/g
     const num = /([0-9]+)/g
 
-    //Ensures password is valid by ensuring there's at least one match of each regex.
+    // Ensures password is valid by ensuring there's at least one match of each regex.
     return password.match(capital) !== null
         && password.match(special) !== null
         && password.match(num) !== null;
   }
 
-  checkUserNameHasValidChars() {
+  checkUserNameHasValidChars(): boolean {
     if(!this._validateUserName(this.username)) {
       this._showUserNameError('Username cannot have special characters!');
       return false;

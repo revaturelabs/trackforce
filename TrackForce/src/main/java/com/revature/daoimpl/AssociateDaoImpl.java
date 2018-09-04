@@ -314,48 +314,48 @@ public class AssociateDaoImpl implements AssociateDao {
 			return session.createQuery(query).getResultList();
 		}, id);
 	}
-
+	
+	/**
+	 * Optimized getUndeployed of redundancy, preserved logic
+	 * */
 	@Override
 	public List<GraphedCriteriaResult> getUndeployed(String which) {
-		if (which.equals("mapped")) {
-			return HibernateUtil.runHibernate((Session session, Object... args) -> {
-				CriteriaBuilder cb = session.getCriteriaBuilder();
-				CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);
-
-				Root<TfAssociate> root = query.from(TfAssociate.class);
-
-				Join<TfAssociate, TfClient> clientJoin = root.join("client");
-				Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
-
-				Path<?> clientId = clientJoin.get("id");
-				Path<?> clientName = clientJoin.get("name");
-
-				query.where(cb.lessThanOrEqualTo(msJoin.get("id"), 4));
-				query.where(cb.greaterThanOrEqualTo(msJoin.get("id"), 1));
-
-				query.groupBy(clientId, clientName);
-				query.multiselect(cb.count(root), clientId, clientName);
+		
+		if(which.equals("mapped") || which.equals("unmapped")) {
+			return HibernateUtil.runHibernate((Session session, Object... args) -> {//
+				CriteriaBuilder cb = session.getCriteriaBuilder();//
+				CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);//
+		
+				Root<TfAssociate> root = query.from(TfAssociate.class);//
+				
+				if (which.equals("mapped")) {
+					Join<TfAssociate, TfClient> clientJoin = root.join("client");
+					Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
+		
+					Path<?> clientId = clientJoin.get("id");
+					Path<?> clientName = clientJoin.get("name");
+		
+					query.where(cb.lessThanOrEqualTo(msJoin.get("id"), 4));
+					query.where(cb.greaterThanOrEqualTo(msJoin.get("id"), 1));
+		
+					query.groupBy(clientId, clientName);
+					query.multiselect(cb.count(root), clientId, clientName);
+				}
+				else if (which.equals("unmapped")) {
+					Join<TfAssociate, TfBatch> batchJoin = root.join("batch");
+					Join<TfBatch, TfCurriculum> curriculumJoin = batchJoin.join("curriculumName");
+					Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
+		
+					Path<?> curriculumid = curriculumJoin.get("id");
+					Path<?> curriculumName = curriculumJoin.get("name");
+		
+					query.where(cb.lessThanOrEqualTo(msJoin.get("id"), 9));
+					query.where(cb.greaterThanOrEqualTo(msJoin.get("id"), 6));
+					query.groupBy(curriculumid, curriculumName);
+					query.multiselect(cb.count(root), curriculumid, curriculumName);
+				}
 				return session.createQuery(query).getResultList();
-			});
-		} else if (which.equals("unmapped")) {
-			return HibernateUtil.runHibernate((Session session, Object... args) -> {
-				CriteriaBuilder cb = session.getCriteriaBuilder();
-				CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);
-
-				Root<TfAssociate> root = query.from(TfAssociate.class);
-
-				Join<TfAssociate, TfBatch> batchJoin = root.join("batch");
-				Join<TfBatch, TfCurriculum> curriculumJoin = batchJoin.join("curriculumName");
-				Join<TfAssociate, TfMarketingStatus> msJoin = root.join("marketingStatus");
-
-				Path<?> curriculumid = curriculumJoin.get("id");
-				Path<?> curriculumName = curriculumJoin.get("name");
-
-				query.where(cb.lessThanOrEqualTo(msJoin.get("id"), 9));
-				query.where(cb.greaterThanOrEqualTo(msJoin.get("id"), 6));
-				query.groupBy(curriculumid, curriculumName);
-				query.multiselect(cb.count(root), curriculumid, curriculumName);
-				return session.createQuery(query).getResultList();
+				
 			});
 		}
 		

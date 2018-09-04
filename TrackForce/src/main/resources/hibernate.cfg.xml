@@ -26,7 +26,11 @@
         <!--  <property name="hibernate.enable_lazy_load_no_trans">true</property>-->
         
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
+        <property name="hibernate.connection.username">manus_andurkar</property>
+		<property name="hibernate.connection.password">835?4fXw</property>
+		<property name="hibernate.connection.url">jdbc:oracle:thin:@revaturedb.cqyyqqgwax8o.us-east-1.rds.amazonaws.com:1521:ORCL</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
+        
         
         <property name="hibernate.connection.pool_size">4</property>
         

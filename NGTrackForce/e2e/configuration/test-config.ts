@@ -6,7 +6,7 @@ export class TestConfig{
      */
     constructor() {
       this.baseURL = 'http://localhost:4200/#/';
-		  //this.baseURL = 'http://34.227.178.103:8090/NGTrackForce/#';
+	//  this.baseURL = 'http://34.227.178.103:8090/NGTrackForce/#/';
     }
 
     /**

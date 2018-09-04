@@ -2,7 +2,10 @@ package com.revature.resources;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -13,9 +16,11 @@ import com.revature.services.BatchService;
 import com.revature.services.ClientService;
 import com.revature.services.CurriculumService;
 import com.revature.services.InterviewService;
+import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
 
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -48,6 +53,18 @@ public class InitResource {
 	@ApiOperation(value = "Initializes connection", notes = "Used to quickly establish a connection with the database.")
 	public Response connectionInit() {
 		userService.getUser("TestAssociate");
+		return Response.status(Status.OK).build();
+	}
+	
+	@POST
+	@ApiOperation(value = "Reinitialize Database", notes = "Truncates the entire database and inserts the original data set")
+	@Path("/reinitdb")
+	public Response reinitDB(@HeaderParam("Authorization") String token) {
+		Claims payload = JWTService.processToken(token);
+		if(payload.getId() != "1") {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		
 		return Response.status(Status.OK).build();
 	}
 	

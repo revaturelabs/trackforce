@@ -37,9 +37,9 @@
         {{ userNameError }}
       </div>
       <label for="password" class="sr-only">Password: </label>
-      <input class="form-control" type="password" placeholder="Password" name="password" id="password" required [(ngModel)]="password" autocomplete="new-password"/>
+      <input class="form-control" type="password" placeholder="Password" name="password" id="password" required [(ngModel)]="password" autocomplete="new-password" (input)="checkValidPassword(password)" />
       <label for="password" class="sr-only">Confirm Password: </label>
-      <input class="form-control" type="password" placeholder="Confirm Password" name="password2" id="password2" [(ngModel)]="password2" autocomplete="new-password"/>
+      <input class="form-control" type="password" placeholder="Confirm Password" name="password2" id="password2" [(ngModel)]="password2" autocomplete="new-password" (input)="checkConfirmedPassword(password2)"/>
       <br>
       <div *ngIf="errMsg" class="alert alert-danger">
         {{errMsg}}

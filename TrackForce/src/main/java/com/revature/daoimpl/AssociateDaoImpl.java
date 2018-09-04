@@ -86,7 +86,6 @@ public class AssociateDaoImpl implements AssociateDao {
 	
 	/**
 	 * Gets a single associate with an id
-	 * 
 	 * @param Integer associateId
 	 */
 	@Override
@@ -97,7 +96,6 @@ public class AssociateDaoImpl implements AssociateDao {
 
 	/**
 	 * Gets an associate by an associated user id
-	 * 
 	 * @param int userId
 	 */
 	@Override
@@ -145,44 +143,30 @@ public class AssociateDaoImpl implements AssociateDao {
 			List<Long> results;
 			qr.select(builder.count(root));
 			
-			//Cascading switch statement for case 1 to 10, special query for 11 and 12
-			switch(tfmsid) {
-				case 1: 
-				case 2: 
-				case 3:
-				case 4: 
-				case 5: 
-				case 6: 
-				case 7: 
-				case 8: 
-				case 9:
-				case 10: 
-						qr.where(builder.equal(root.get("marketingStatus"), tfmsid));
-						break;
-						
+			switch(tfmsid) {	
 				case 11: 
 						qr.where(builder.or(builder.or(builder.equal(root.get("marketingStatus"), 1), 
-								builder.equal(root.get("marketingStatus"), 2)), builder.or(builder.equal(root.get("marketingStatus"), 3), 
-										builder.equal(root.get("marketingStatus"), 4))));
+								builder.equal(root.get("marketingStatus"), 2)), builder.or(builder.equal(
+								root.get("marketingStatus"), 3), builder.equal(root.get("marketingStatus"), 4))));
 						break;
-						
 				case 12:  
 						qr.where(builder.or(builder.or(builder.equal(root.get("marketingStatus"), 6), 
-								builder.equal(root.get("marketingStatus"), 7)), builder.or(builder.equal(root.get("marketingStatus"), 8), 
-										builder.equal(root.get("marketingStatus"), 9))));
+								builder.equal(root.get("marketingStatus"), 7)), builder.or(builder.equal(
+								root.get("marketingStatus"), 8), builder.equal(root.get("marketingStatus"), 9))));
 						break;
-			}
+				default:
+						qr.where(builder.equal(root.get("marketingStatus"), tfmsid));
+						break;
+			}//end switch
 			
 			results = session.createQuery(qr).getResultList();
 			count = results.get(0);
 			//System.out.println(count);
-			
 		}catch(HibernateException e) {
 			e.printStackTrace();
 		}finally {
-			if ( session != null ) {
+			if ( session != null )
 				session.close();
-			}
 		}
 		return count;
 	}

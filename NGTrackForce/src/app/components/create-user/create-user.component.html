@@ -28,8 +28,8 @@
       <label for="username" class="sr-only">Username: </label>
       <input class="form-control" type="text" placeholder="Username"
         autocomplete="username"
-        name="username" id="username" required 
-        [(ngModel)]="username" 
+        name="username" id="username" required
+        [(ngModel)]="username"
         (change)="checkUserNameUnique()"
         (input)="checkUserNameHasValidChars()"/>
       <div class="alert alert-danger form-control"
@@ -58,7 +58,8 @@
           <input type="radio" name="optradio" value="5" [(ngModel)]="roleId">&ensp;Associate<br>
        </div>
       <br>
-      <input (click)="createUser()" type="submit" class="btn btn-default" value="Submit">
+      <input (click)="createUser()" type="submit" class="btn btn-default" value="Submit"
+      [disabled]="toggleSubmitButton()">
     </form>
   </div>
 </div>

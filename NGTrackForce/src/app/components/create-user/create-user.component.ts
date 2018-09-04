@@ -85,7 +85,7 @@ export class CreateUserComponent implements OnInit {
   /**
    * Displays username error
    */
-  private _showUserNameError(msg) {
+  private _showUserNameError(msg: string) {
     this.userNameError = msg;
     this.displayErrorUsername = true;
   }
@@ -93,7 +93,7 @@ export class CreateUserComponent implements OnInit {
   /**
    * Ensures password follows the password rules
    */
-  private _validatePassword(password): boolean {
+  private _validatePassword(password: string): boolean {
     if(!password) {
         return false;
     }
@@ -110,15 +110,18 @@ export class CreateUserComponent implements OnInit {
   /**
    * Toggles display message if password is invalid
    */
-  checkValidPassword(password: string) {
+  checkValidPassword(password: string): string {
     this.errMsg = this._validatePassword(password) ? '' : StatusMessage.INVALID_PASS;
+    return this.errMsg;
   }
 
   /**
    * Toggles display message if password2 doesn't match password
+   * Must also check if password is valid otherwise it might erase error message if password is invalid
    */
   checkConfirmedPassword(password2: string) {
-    this.errMsg = this.password === password2 ? '' : StatusMessage.MISMATCH;
+    this.errMsg = this.password === password2 ? this.checkValidPassword(this.password)
+                                              : StatusMessage.MISMATCH;
   }
 
   /**
@@ -156,5 +159,15 @@ export class CreateUserComponent implements OnInit {
       );
   }
 
+  /**
+   * Keep the submit button disabled until the fields have valid values
+   */
+  toggleSubmitButton(): boolean {
+    const validUsername = this._validateUserName(this.username);
+    const validPassword = this._validatePassword(this.password) && this.password === this.password2;
+    const validRole = this.roleId !== undefined && this.roleId > 0 && this.roleId <= 5;
+
+    return !(validUsername && validPassword && validRole);
+  }
 
 }

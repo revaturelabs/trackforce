@@ -143,7 +143,7 @@ public class AssociateDaoImpl implements AssociateDao {
 			
 			results = session.createQuery(qr).getResultList();
 			count = results.get(0);
-			//System.out.println(count);
+			//System.out.println(tfmsid + " > " + count);
 		}catch(HibernateException e) {
 			e.printStackTrace();
 		}finally {

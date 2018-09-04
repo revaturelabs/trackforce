@@ -73,7 +73,7 @@ public class AssociateService {
 	 * Get a single page of associates filtered by criteria required for the "Associates"
 	 * page on the front-end. The results can possibly be filtered by marketing status
 	 * and/or clientId
-	 * @param startIdx The first result in the querry to be returned
+	 * @param startIdx The first result in the query to be returned
 	 * @param numRes The number of results to return, starting with startIdx
 	 * @param mktStatus -1 to ignore this field, otherwise return only results matching this marketing status id
 	 * @param clientId -1 to ignore this field, otherwise return only results matching this client id

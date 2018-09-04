@@ -1,3 +1,6 @@
+/**
+ * Enumeration containing all expected display messages for the create user page
+ */
 export enum StatusMessage {
     INVALID_PASS = 'Password must have a number, a capital letter and a special character',
     INVALID_USER = 'Invalid username, please do not use spaces or special characters',

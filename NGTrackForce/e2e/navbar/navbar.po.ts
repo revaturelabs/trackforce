@@ -3,7 +3,13 @@ import { browser, by, element } from 'protractor';
 export class Navbar {
 
     navigateTo(){
-        return browser.get('');
+        return browser.get('/login');
+    }
+
+    logIn(){
+      element(by.name('username')).sendKeys("TestAdmin");
+      element(by.name('password')).sendKeys("TestAdmin");
+      element(by.buttonText('Sign in')).click();
     }
 
     goToHome(){

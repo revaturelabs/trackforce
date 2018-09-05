@@ -10,6 +10,8 @@ describe('navbar functionality', () => {
         navbar = new Navbar();
         testConfig = new TestConfig();
         baseURL = testConfig.getBaseURL();
+        navbar.navigateTo();
+        navbar.logIn();
     });
 
     it('should navigate to home page', () => {

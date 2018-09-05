@@ -6,13 +6,13 @@ export class Navbar {
         return browser.get('/login');
     }
 
-    logIn(){
-      element(by.name('username')).sendKeys("TestAdmin");
-      element(by.name('password')).sendKeys("TestAdmin");
+    logIn(username, password){
+      element(by.name('username')).sendKeys(username);
+      element(by.name('password')).sendKeys(password);
       element(by.buttonText('Sign in')).click();
     }
 
-    goToHome(){
+    goToAdminHome(){
       element(by.linkText('Home')).click();
         //element(by.css('body > app-component > app-navbar > nav > div > ul:nth-child(2) > li:nth-child(1)')).click();
 
@@ -49,5 +49,12 @@ export class Navbar {
     }
     getCurrentURL(){
         return browser.getCurrentUrl();
+    }
+
+    goToAssociateHome(){
+      element(by.linkText('Home')).click();
+    }
+    goToMyInterview(){
+      element(by.xpath('/html/body/app-component/app-navbar/nav/div/ul[2]/li[2]/a')).click();
     }
 }

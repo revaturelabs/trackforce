@@ -46,7 +46,7 @@ export class FormComponent implements OnInit {
 
   // form booleans
   // isVerified: string;
-  isApproved: number;
+  isApproved = 0; //number because if default state set to "false", failure message will display on load
   isMapped: boolean;
   eligibleForInterview: boolean;
   interviewScheduled: boolean;
@@ -88,6 +88,10 @@ export class FormComponent implements OnInit {
       this.id = +params['id']; // (+) converts string 'id' to a number
       this.associateService.getByAssociateId(this.id).subscribe(
         data => {
+          // TODO: Once the code is ready to use AsyncSubject Remove this check
+          if (!data.firstName) {
+            return;
+          }
           this.associate = data;
           this.getAssociateInterviews(this.associate.id);
         },
@@ -141,7 +145,7 @@ export class FormComponent implements OnInit {
   approveAssociate() {
     return this.associateService
       .approveAssociate(this.associate.id)
-      .subscribe(data => (this.isApproved = data ? 1 : 0));
+      .subscribe(data => (this.isApproved = data ? 1 : 2)); //1 for true, 2 for false, 0 for initial state
   }
 
   processForm() {

@@ -90,12 +90,12 @@
         </thead>
         <tbody>
           <tr *ngFor="let associate of associates | filterByText : searchByText | pipeByStatus: searchByStatus | pipeByClient: searchByClient">
-            <td class="edit" *ngIf="associate.id">
+            <td class="edit" *ngIf="associate.id !== null">
               <input type="checkbox" id={{associate.id}}
               (change)="validateUpdate()">
             </td>
             <td>
-              <a [routerLink]="['/form-comp',associate.id]" class="id" *ngIf="associate.id">{{associate.id}}</a>
+              <a [routerLink]="['/form-comp',associate.id]" class="id" *ngIf="associate.id !== null">{{associate.id}}</a>
             </td>
             <td class="first"><span *ngIf="associate.firstName">{{associate.firstName}}</span></td>
             <td class="last"><span *ngIf="associate.lastName">{{associate.lastName}}</span></td>

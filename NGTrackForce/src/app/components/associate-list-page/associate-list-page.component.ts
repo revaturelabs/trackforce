@@ -74,6 +74,7 @@ export class AssociateListPageComponent implements OnInit {
 
   getAssociateDetails(associateId: number): void {
     console.log(associateId);
+    console.log(this.associates$.value.find((value) => associateId === value.id));
   }
 
   getNextPage() {

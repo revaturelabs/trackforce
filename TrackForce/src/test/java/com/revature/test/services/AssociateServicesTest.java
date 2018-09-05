@@ -2,8 +2,8 @@ package com.revature.test.services;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.doNothing;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,10 +11,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-import org.hibernate.Transaction;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -150,13 +146,16 @@ public class AssociateServicesTest {
 		TfAssociate toChange = service.getAssociate(1);
 		toChange.setFirstName("Hank");
 		toChange.setLastName("Pym");
+		toChange.setStagingFeedback("Alabama");
 		service.updateAssociatePartial(toChange);
 		TfAssociate changed = service.getAssociate(1);
 		assertEquals("Hank", changed.getFirstName());
 		assertEquals("Pym", changed.getLastName());
+		assertNotEquals("Alabama", changed.getStagingFeedback());
+		
+		//Undo update change
 		toChange.setFirstName(props.getProperty("associate_firstName"));
 		toChange.setLastName(props.getProperty("associate_lastName"));
-		//Reset 
 		service.updateAssociatePartial(toChange);
 	}
 	

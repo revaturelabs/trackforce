@@ -8,9 +8,9 @@ exports.config = {
   allScriptsTimeout: 20000,
   specs: [
      //'./e2e/register-associate/register-associate.e2e-spec.ts',
-    './e2e/login/login.e2e-spec.ts',
+    //'./e2e/login/login.e2e-spec.ts',
 
-    './e2e/navbar/navbar.e2e-spec.ts',
+    //'./e2e/navbar/navbar.e2e-spec.ts',
     //'./e2e/create-user/create-user.e2e-spec.ts',
     //'./e2e/predictions/predictions.e2e-spec.ts',
     './e2e/client-list/client-list-spec.ts',

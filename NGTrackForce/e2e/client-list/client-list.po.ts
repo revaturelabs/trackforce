@@ -19,7 +19,7 @@ const Locators = {
     },
     barChartHeader: {
         type: IdentificationType[IdentificationType.Xpath],
-        value: '/html/body/app/app-client-list/div/div/div[2]/h1'
+        value: '/html/body/app-component/div/app-client-list/div/div/div[2]/h1'
     },
     clientListSpan: {
         type: IdentificationType[IdentificationType.Xpath],

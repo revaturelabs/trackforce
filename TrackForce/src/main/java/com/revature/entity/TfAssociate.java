@@ -56,9 +56,9 @@ public class TfAssociate implements java.io.Serializable {
 
 	@XmlElement
 	@Id
-	@SequenceGenerator(name="associdSeq", sequenceName="associd_seq", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="associdSeq")
 	@Column(name = "TF_ASSOCIATE_ID", unique = true, nullable = false, precision = 22, scale = 0)
+	@SequenceGenerator(name="associdSeq", sequenceName="associd_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="associdSeq")
 	private Integer id;
 
 	@XmlElement

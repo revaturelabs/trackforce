@@ -46,20 +46,25 @@
             <th class="client">Client Name</th>
             <th class="batch">Batch Name</th>
             <th class="verificationStatus">Verification Status</th>
+            <th>Associate Details</th>
         </thead>
         <tbody>
-          <tr (click)="getAssociateDetails(associate.id)" stlye="cursor: pointer;" *ngFor="let associate of associates$ | async">
+          <tr (click)="getAssociateDetails($event, associate)" [ngClass]="{ selected: currentAssociatesSelected.has(associate.id) }" style="cursor: pointer;" *ngFor="let associate of listOfAssociates">
             <td>{{associate.firstName}}</td>
             <td>{{associate.lastName}}</td>
             <td>{{associate.marketingStatus.name}}</td>
             <td>{{(associate.client) ? associate.client.name : ''}}</td>
             <td>{{(associate.batch) ? associate.batch.batchName : ''}}</td>
             <td>{{(associate.user.isApproved) ? "Approved" : "Not Approved"}}</td>
+            <td><i class=""></i></td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <button (click)="getNextPage()">Test</button>
+  <button *ngIf="currentAssociatesSelected.size" type="button" class="btn btn-warning floatingButton shadow">
+    <!-- <i class="fa fa-pencil iconButton" aria-hidden="true"></i> -->
+    <h6>Update <span class="badge badge-secondary">{{currentAssociatesSelected.size}}</span></h6>
+  </button>
 </div>

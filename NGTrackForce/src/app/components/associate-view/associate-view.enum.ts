@@ -3,3 +3,9 @@ export enum UpdateStatus {
   WAIT ='Your information is being submitted, please wait',
   SUCCESS = 'Your information has been submitted!'
 }
+
+export enum AlertStatusClass {
+  SUCCESS = 'alert-success',
+  WAIT = 'alert-warning',
+  ERROR = 'alert-danger'
+}

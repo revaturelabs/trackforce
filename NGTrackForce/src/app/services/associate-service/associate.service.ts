@@ -18,16 +18,16 @@ export class AssociateService {
 
   /**
    * These behavior subjects will hold an initial empty value until a request is sent for their
-   * data. This should not be the way it is implemented however since we have to remain compatible 
+   * data. This should not be the way it is implemented however since we have to remain compatible
    * with the components written already sending a null value from an AsyncSubject would throw many errors
    *
    * Each of the private variables below represents the return of each of the functions that are in this
    * service this needs to be refactored but in this first pass of the service revamp top priority is to
    * stop having the data reload each time and allow the application to hold a copy of the data to load
    * then update in the background.
-   * 
+   *
    * NOTE: The $ on a variable mean it is an Observable
-   * 
+   *
    * TODO: switch to using an AsyncSubject
    *
    * Note on things to do that would then allow this
@@ -138,7 +138,7 @@ export class AssociateService {
    * @param ids - list of associate ids of associates to be updated
    * @param marketingStatusId - the marketing status these associates will be updated to
    * @param clientId - the client id that the associates will be mapped to
-   * 
+   *
    * ? Changing this to use BehaviorSubjects however it may be wanted to have it not multiplex
    */
   updateAssociates(ids: number[], verification: number, marketingStatusId: number, clientId: number): Observable<boolean> {
@@ -155,7 +155,7 @@ export class AssociateService {
     return  this.updateAssociates$;
   }
 
-  
+
   /**
    *
    * This method updates the associate in the database

@@ -32,14 +32,13 @@ export class MyInterviewComponent implements OnInit {
   public newInterview: Interview;
   public formOpen = false;
   public conflictingInterviews = '';
-  public interviewDate: Date = new Date();
-  public interviewAssigned: Date = new Date();
+  public interviewDate: Date;
+  public interviewAssigned: Date;
   public clients: Client[];
   public typeId: number;
-  public was24HRNotice: any;
+  public was24HRNotice: boolean;
   public associateId: Associate;
   public user: User;
-  public id: number;
   public clientSelected: any;
   public interviewType: InterviewType;
   public clientId: Client;
@@ -47,11 +46,10 @@ export class MyInterviewComponent implements OnInit {
   public openInterviewDate: boolean;
   public conflictingInterview: boolean;
   public isDataReady = false;
-  public dateError:boolean;
+  public dateAssignedError: boolean;
+  public dateOfInterviewError: boolean;
+  public dateError: boolean;
   public updateSuccess = false;
-
-  index;
-  index2;
 
   constructor(
     private authService: AuthenticationService,
@@ -71,8 +69,7 @@ export class MyInterviewComponent implements OnInit {
     this.conflictingInterview = false;
 
     this.user = JSON.parse(localStorage.getItem('currentUser'));
-    this.id = this.user.id;
-    this.associateService.getAssociate(this.id).subscribe(
+    this.associateService.getAssociate(this.user.id).subscribe(
       data => {
         this.associate = data;
         this.getAssociateInterviews(this.associate.id);
@@ -101,7 +98,7 @@ export class MyInterviewComponent implements OnInit {
   }
 
   addInterview() {
-      if (!this.dateError){
+      if (!this.dateAssignedError && !this.dateOfInterviewError){
         switch (+this.typeId) {
           case 1:
             this.interviewType = new InterviewType(1, 'Phone');
@@ -189,14 +186,6 @@ export class MyInterviewComponent implements OnInit {
     return false;
   }
 
-  showDateNotified(index) {
-    this.index = index;
-  }
-
-  showInterviewDate(index) {
-    this.index2 = index;
-  }
-
   getAssociateInterviews(id: number) {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
       data => {
@@ -204,20 +193,55 @@ export class MyInterviewComponent implements OnInit {
         this.isDataReady = true;
       },
       error => {
-        console.log('error');
+        console.error(error);
       }
     );
+  }
+
+  /**
+   * Check that earlier dates are in fact earlier dates
+   * and make sure the dates are later than or equal to today.
+   */
+  private _validateDates(date1: Date, date2: Date): boolean {
+    if(!this._datesAfterToday(date1) || !this._datesAfterToday(date2)) {
+      return false;
+    }
+    return date1 < date2;
+  }
+
+  /**
+   * Ensure the given dates are after today
+   */
+  private _datesAfterToday(date: Date) {
+    return new Date() < date;
+  }
+
+  /**
+   * Data bound to disable button
+   * Enables the button only if the information in the form is valid
+   */
+  validateNewInterviewForm(): boolean {
+    // const datesAreValid = this._validateDates(this.interviewAssigned, this.interviewDate);
+    const datesAreValid = this.interviewAssigned !== undefined && this.interviewDate !== undefined
+                          && !this.dateAssignedError && !this.dateOfInterviewError;
+    const clientIsValid = this.clientId !== null && this.clientId !== undefined;
+    // using coercion to check if the value of typeId is not zero.  tslint disabled on purpose
+    // tslint:disable-next-line:triple-equals
+    const typeIsValid = this.typeId !== null && this.typeId !== undefined && this.typeId != 0;
+    const was24HRselected = this.was24HRNotice !== undefined;
+
+    return datesAreValid && clientIsValid && typeIsValid && was24HRselected;
+  }
+
+  /**
+   * Ensures the 24 hour notice was at least selected.
+   */
+  twentyFourHourNotice() {
+    this.was24HRNotice = Boolean((<HTMLInputElement>event.target).value);
   }
 
   // ===========================================
   // THIS NEEDS TO BE IMPLEMENTED
   // ============================================
   saveInterview(interview: Interview) {}
-
-  // THIS METHOD IS REPLACED BY STORING THE CLIENTS IN LOCAL STORAGE
-  // getClientNames() {
-  //   this.clientService.getAllClients().subscribe(data => {
-  //     this.clients = data;
-  //   });
-  // }
 }

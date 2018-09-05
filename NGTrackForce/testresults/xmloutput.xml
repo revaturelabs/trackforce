@@ -1,65 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="0" errors="0" failures="0" tests="42" time="31.555">
- <testsuite name="Registering as a new associate" timestamp="2018-08-29T14:35:55" hostname="localhost" time="4.813" errors="0" tests="7" skipped="1" disabled="0" failures="0">
-  <testcase classname="Registering as a new associate" name="should navigate to the login page" time="2.52" />
-  <testcase classname="Registering as a new associate" name="allow user to click the register button" time="0.111" />
-  <testcase classname="Registering as a new associate" name="allow associate to enter info into input fields" time="0.232" />
-  <testcase classname="Registering as a new associate" name="should allow associate to click the next page button" time="0.001">
-   <skipped message="Temporarily disabled with xit" />
-  </testcase>
-  <testcase classname="Registering as a new associate" name="should allow associate to enter first and last name" time="0.159" />
-  <testcase classname="Registering as a new associate" name="should allow associate to register as an associate by clicking register button" time="0.066" />
-  <testcase classname="Registering as a new associate" name="exit browser" time="1.721" />
- </testsuite>
- <testsuite name="login page element existences" timestamp="2018-08-29T14:36:00" hostname="localhost" time="1.501" errors="0" tests="6" skipped="0" disabled="0" failures="0">
-  <testcase classname="login page element existences" name="should have a username input box" time="0.002" />
-  <testcase classname="login page element existences" name="should have a password input box" time="0.003" />
+<testsuites disabled="0" errors="0" failures="0" tests="12" time="13.728">
+ <testsuite name="login page element existences" timestamp="2018-09-04T14:58:21" hostname="localhost" time="4.788" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+  <testcase classname="login page element existences" name="should have a username input box" time="0.006" />
+  <testcase classname="login page element existences" name="should have a password input box" time="0.002" />
   <testcase classname="login page element existences" name="should have a login button" time="0.001" />
-  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.032" />
-  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.03" />
-  <testcase classname="login page element existences" name="should display proper value for button" time="0.044" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.036" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.031" />
+  <testcase classname="login page element existences" name="should display proper value for button" time="0.04" />
  </testsuite>
- <testsuite name="Confirm login failures" timestamp="2018-08-29T14:36:02" hostname="localhost" time="2.235" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.132" />
-  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.449" />
+ <testsuite name="Confirm login failures" timestamp="2018-09-04T14:58:25" hostname="localhost" time="1.763" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.103" />
+  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.394" />
  </testsuite>
- <testsuite name="confirm login navigation" timestamp="2018-08-29T14:36:04" hostname="localhost" time="2.057" errors="0" tests="1" skipped="0" disabled="0" failures="0">
-  <testcase classname="confirm login navigation" name="should reach the index page" time="0.443" />
- </testsuite>
- <testsuite name="navbar functionality" timestamp="2018-08-29T14:36:06" hostname="localhost" time="11.039" errors="0" tests="6" skipped="0" disabled="0" failures="0">
-  <testcase classname="navbar functionality" name="should navigate to home page" time="1.272" />
-  <testcase classname="navbar functionality" name="should navigate to client list page" time="1.26" />
-  <testcase classname="navbar functionality" name="should navigate to batch list page" time="5.231" />
-  <testcase classname="navbar functionality" name="should navigate to associate lising" time="2.88" />
-  <testcase classname="navbar functionality" name="should navigate to predictions" time="0.302" />
-  <testcase classname="navbar functionality" name="should navigate to create user" time="0.093" />
- </testsuite>
- <testsuite name="create-user page input and button fields" timestamp="2018-08-29T14:36:17" hostname="localhost" time="0.879" errors="0" tests="8" skipped="0" disabled="0" failures="0">
-  <testcase classname="create-user page input and button fields" name="should accept username input" time="0.086" />
-  <testcase classname="create-user page input and button fields" name="should accept password input" time="0.206" />
-  <testcase classname="create-user page input and button fields" name="should accept password confirmation input" time="0.101" />
-  <testcase classname="create-user page input and button fields" name="should select admin radio button" time="0.111" />
-  <testcase classname="create-user page input and button fields" name="should select trainer radio button" time="0.096" />
-  <testcase classname="create-user page input and button fields" name="should select associate radio button" time="0.09" />
-  <testcase classname="create-user page input and button fields" name="should select staging manager radio button" time="0.091" />
-  <testcase classname="create-user page input and button fields" name="should select delivery radio button" time="0.097" />
- </testsuite>
- <testsuite name="When entering valid data into predictions filter it" timestamp="2018-08-29T14:36:18" hostname="localhost" time="3.648" errors="0" tests="5" skipped="0" disabled="0" failures="0">
-  <testcase classname="When entering valid data into predictions filter it" name="should navigate to the predictions page" time="2.486" />
-  <testcase classname="When entering valid data into predictions filter it" name="should allow user to input valid data" time="0.46" />
-  <testcase classname="When entering valid data into predictions filter it" name="should provide a table with predictions" time="0.002" />
-  <testcase classname="When entering valid data into predictions filter it" name="should provide the same number of rows entered into the filter" time="0.699" />
-  <testcase classname="When entering valid data into predictions filter it" name="should provide details when prediction row is clicked" time="0" />
- </testsuite>
- <testsuite name="When entering valid data using all filters it" timestamp="2018-08-29T14:36:22" hostname="localhost" time="3.615" errors="0" tests="5" skipped="0" disabled="0" failures="0">
-  <testcase classname="When entering valid data using all filters it" name="should navigate to the predictions page" time="1.38" />
-  <testcase classname="When entering valid data using all filters it" name="should allow a user to input valid data and use all filters" time="2.067" />
-  <testcase classname="When entering valid data using all filters it" name="should provide a table with predictions" time="0.002" />
-  <testcase classname="When entering valid data using all filters it" name="should provide the same number of rows entered into the filter" time="0.157" />
-  <testcase classname="When entering valid data using all filters it" name="should provide details when prediction row is clicked" time="0.001" />
- </testsuite>
- <testsuite name="When I enter a start date that is more current than the end date it" timestamp="2018-08-29T14:36:25" hostname="localhost" time="1.768" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="When I enter a start date that is more current than the end date it" name="should navigate to the predictions page" time="1.385" />
-  <testcase classname="When I enter a start date that is more current than the end date it" name="should allow user to input a start date that is more current than the end date" time="0.383" />
+ <testsuite name="Login in  with proper credentials" timestamp="2018-09-04T14:58:27" hostname="localhost" time="7.177" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="Login in  with proper credentials" name="should be able to login in with admin credentials and reach the admin page" time="0.843" />
+  <testcase classname="Login in  with proper credentials" name="should be able to login in with associate credentials and reach the associate page" time="2.336" />
+  <testcase classname="Login in  with proper credentials" name="should be able to login in with Manager credentials and reach the Admin page" time="1.323" />
+  <testcase classname="Login in  with proper credentials" name="should be able to login in with Sales Team credentials and reach the Admin page" time="1.358" />
  </testsuite>
 </testsuites>

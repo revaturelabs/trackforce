@@ -7,13 +7,12 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 exports.config = {
   allScriptsTimeout: 20000,
   specs: [
-     './e2e/register-associate/register-associate.e2e-spec.ts',
-      './e2e/login/login.e2e-spec.ts',
+    //'./e2e/register-associate/register-associate.e2e-spec.ts',
+    './e2e/login/login.e2e-spec.ts',
 
-     './e2e/navbar/navbar.e2e-spec.ts',
-     './e2e/create-user/create-user.e2e-spec.ts',
-    './e2e/predictions/predictions.e2e-spec.ts',
-    '/src/app/components/login/login.component.spec.ts'
+    //'./e2e/navbar/navbar.e2e-spec.ts',
+    //'./e2e/create-user/create-user.e2e-spec.ts',
+    //'./e2e/predictions/predictions.e2e-spec.ts',
     //  './e2e/client-list/client-list-spec.ts',
     //   './e2e/app/app.e2e-spec.ts',
     //   './e2e/associate-list/associate-list.js',
@@ -32,11 +31,18 @@ exports.config = {
     }
   },
   // directConnect: true,
+<<<<<<< HEAD
     baseUrl: 'http://localhost:4200/',
    //baseUrl: 'http://34.227.178.103:8090/NGTrackForce/',
    //for pipeline delpoyment
      //seleniumAddress: "http://127.0.0.1:4444/wd/hub",
      seleniumAddress: "http://localhost:4444/wd/hub",
+=======
+    baseUrl: 'http://localhost:4200',
+   //baseUrl: 'http://34.227.178.103:8090/NGTrackForce/',
+   //for pipeline delpoyment
+   seleniumAddress: "http://127.0.0.1:4444/wd/hub",
+>>>>>>> e3c955166ce4112dcf0205911dc1955ae2f9d667
     // SELENIUM_PROMISE_MANAGER: false,
     //
     //

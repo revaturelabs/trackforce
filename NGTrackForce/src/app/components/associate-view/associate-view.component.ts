@@ -7,6 +7,8 @@ import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../services/client-service/client.service';
 import { userInfo } from 'os';
+import { UpdateStatus } from './associate-view.enum';
+
 /**
  *@author Michael Tseng
  *
@@ -26,8 +28,8 @@ export class AssociateViewComponent implements OnInit {
   public newFirstName: string;
   public newLastName: string;
 
-  public errMsg: string;
-  public succMsg: string;
+  public errMsg = 'something went wrong';
+  public succMsg = 'something went right';
   public user: User;
   public id: number;
   isDataReady = false;
@@ -63,15 +65,10 @@ export class AssociateViewComponent implements OnInit {
 
     this.associateService.updateAssociate(this.associate).subscribe(
       success => {
-        this.succMsg = 'Information updated';
+        this.succMsg = UpdateStatus.SUCCESS;
       },
       err => {
-        if (err.status === 500) {
-          this.errMsg = 'There was an error with the server.';
-        } else {
-          this.errMsg =
-            'Something went wrong, your information was not updated.';
-        }
+        console.error(err);
       }
     );
   }

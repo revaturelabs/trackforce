@@ -1,12 +1,12 @@
 <div class="container">
   <div class="row">
-    <div id="left">
-      <div *ngIf='errMsg' class="alert alert-danger">
+    <div class="col-md-6">
+      <!-- <div *ngIf='errMsg' class="alert alert-danger">
         {{errMsg}}
       </div>
       <div *ngIf='succMsg' class="alert alert-success">
         {{succMsg}}
-      </div>
+      </div> -->
       <h3>Your Information</h3>
       <div class="table-responsive info">
         <table class="table table-hover table-bordered">
@@ -46,19 +46,22 @@
             </tr>
           </tbody>
         </table>
+        <button type="button" class="btn btn-primary" (click)="toggleForm()">Update Your Info</button>
       </div>
     </div>
-    <div id="right">
+
+
+    <div class="col-md-6">
       <div class="center-div" *ngIf="!isDataReady">
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
+      <div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Mollitia, sunt quo dicta voluptates omnis aspernatur quam ab necessitatibus officiis, praesentium id quis porro neque tenetur rem sed! Quidem, officia. Eius?</div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-6">
-      <button type="button" class="btn btn-primary" (click)="toggleForm()">Update Your Info</button>
+  <div class="container">
+    <div class="row">
 
-      <div class="container" *ngIf="formOpen" class="toggledContainer" style="padding: 10px">
+      <div class="col-md-6" *ngIf="formOpen" class="toggledContainer" style="padding: 10px">
         <form ng-form="changeName">
           <table>
           <tr>
@@ -69,9 +72,11 @@
             <td style="padding: 5px"><label for="lastname">Last Name:</label></td>
             <td style="padding: 5px"><input type="text" [(ngModel)]='newLastName' name="newLastName"></td>
           </tr>
-          <tr>  
-            <td style="padding: 10px"><input type="button" class="btn btn-primary" value="Save" (click)='updateInfo()'></td>
-        </tr>  
+          <tr>
+            <td style="padding: 10px">
+              <input type="button" class="btn btn-primary" value="Save" (click)="updateInfo()">
+            </td>
+          </tr>
         </table>
         </form>
       </div>

@@ -56,13 +56,13 @@ public class InitResource {
 		return Response.status(Status.OK).build();
 	}
 	
-	@POST
-	@ApiOperation(value = "Reinitialize Database", notes = "Truncates the entire database and inserts the original data set")
+	@GET
+	@ApiOperation(value = "Reinitialize Database", notes = "Truncates the entire database and reinserts the original data set")
 	@Path("/reinitdb")
 	public Response reinitDB(@HeaderParam("Authorization") String token) {
 		Claims payload = JWTService.processToken(token);
-		if(payload.getId() != "1") {
-			return Response.status(Status.UNAUTHORIZED).build();
+		if(!(payload.getId().equals("1"))) {
+			return Response.status(Status.UNAUTHORIZED).build(); 
 		}
 		
 		return Response.status(Status.OK).build();

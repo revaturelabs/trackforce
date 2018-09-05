@@ -4,21 +4,26 @@ import { Associate } from './../../models/associate.model';
 import { Client } from './../../models/client.model';
 import { ClientService } from './../../services/client-service/client.service';
 import { SelectedStatusConstants } from './../../constants/selected-status.constants';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-associate-list-page',
   templateUrl: './associate-list-page.component.html',
   styleUrls: ['./associate-list-page.component.css']
 })
-export class AssociateListPageComponent implements OnInit {
+export class AssociateListPageComponent implements OnInit, OnDestroy {
 
   protected readonly associateStatuses: string[] = [];
   protected clientList$;
+  protected scrollEvent$;
+
   protected filterByStatus = "";
   protected filterByClient = "";
 
   protected associates$: BehaviorSubject<Associate[]>;
+  protected listOfAssociates: Associate[] = [];
+  private isFetching = true;
+  protected currentAssociatesSelected: Set<number> = new Set<number>();
 
   constructor(private clientService: ClientService, private associateService: AssociateService) { }
 
@@ -50,7 +55,31 @@ export class AssociateListPageComponent implements OnInit {
 
     // Grab Clients (for now this is messy needs to be handled else ware)
     this.clientList$ = this.clientService.getAllClients();
-    this.associates$ = this.associateService.fetchAssociateSnapshot(20, {});
+    this.associates$ = this.associateService.fetchAssociateSnapshot(60, {});
+
+    this.associates$.subscribe((data: Associate[]) => {
+      this.isFetching = false;
+      if (Array.isArray(data) && data.length !== 0) {
+        this.listOfAssociates = this.listOfAssociates.concat(data);
+      } else {
+        console.log(data)
+      }
+    });
+
+    window.addEventListener('scroll', this.onScroll.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    window.removeEventListener('scroll', this.onScroll);
+  }
+
+  onScroll(event: Event) {
+    console.log(event)
+
+    if (document.body.scrollHeight - window.scrollY + window.screen.height <= 5000) {
+      this.getNextPage();
+    }
   }
 
   submitFilter(e) {
@@ -65,6 +94,7 @@ export class AssociateListPageComponent implements OnInit {
     }
 
     this.associateService.fetchAssociateSnapshot(20, filter);
+    this.listOfAssociates = [];
   }
 
   clearFilter(): void {
@@ -72,12 +102,22 @@ export class AssociateListPageComponent implements OnInit {
     this.filterByClient = "";
   }
 
-  getAssociateDetails(associateId: number): void {
-    console.log(associateId);
-    console.log(this.associates$.value.find((value) => associateId === value.id));
+  getAssociateDetails(click: Event, associate: Associate): void {
+    if (!this.currentAssociatesSelected.has(associate.id)) {
+    //  click.currentTarget.className += "selected";
+      this.currentAssociatesSelected.add(associate.id);
+    } else {
+      this.currentAssociatesSelected.delete(associate.id);
+    }
+    console.log(this.currentAssociatesSelected);
+    
   }
 
   getNextPage() {
-    this.associateService.fetchNextSnapshot();
+    if (!this.isFetching) {
+      console.log("FIRE");
+      this.isFetching = true;
+      this.associateService.fetchNextSnapshot();
+    }
   }
 }

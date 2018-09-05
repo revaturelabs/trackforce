@@ -47,6 +47,10 @@ export class Navbar {
       element(by.linkText('Predictions')).click();
         //element(by.css('body > app-component > app-navbar > nav > div > ul:nth-child(2) > li:nth-child(5)')).click();
     }
+
+    goToSalesForce(){
+      element(by.linkText('Salesforce')).click();
+    }
     getCurrentURL(){
         return browser.getCurrentUrl();
     }

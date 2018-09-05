@@ -45,6 +45,7 @@
             <th class="status">Marketing Status</th>
             <th class="client">Client Name</th>
             <th class="batch">Batch Name</th>
+            <th class="verificationStatus">Verification Status</th>
         </thead>
         <tbody>
           <tr (click)="getAssociateDetails(associate.id)" stlye="cursor: pointer;" *ngFor="let associate of associates$ | async">
@@ -53,6 +54,7 @@
             <td>{{associate.marketingStatus.name}}</td>
             <td>{{(associate.client) ? associate.client.name : ''}}</td>
             <td>{{(associate.batch) ? associate.batch.batchName : ''}}</td>
+            <td>{{(associate.user.isApproved) ? "Approved" : "Not Approved"}}</td>
           </tr>
         </tbody>
       </table>

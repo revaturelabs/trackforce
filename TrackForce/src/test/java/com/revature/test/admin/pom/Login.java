@@ -7,6 +7,7 @@ import java.util.Properties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 /**
  * All the locations of the elements are specified in the tests.properties file
@@ -74,14 +75,32 @@ public class Login {
 	}
 	
 	public static void inputRegisterFirstName(WebDriver d,String name) {
-		d.findElement(By.id(prop.getProperty("registrationFName"))).sendKeys(name);
+		d.findElement(By.xpath(prop.getProperty("registrationFName"))).sendKeys(name);
 	}
 	
 	public static void inputRegisteLastName(WebDriver d,String name) {
-		d.findElement(By.id(prop.getProperty("registrationLName"))).sendKeys(name);
+		d.findElement(By.xpath(prop.getProperty("registrationLName"))).sendKeys(name);
 	}
 	
 	public static void getPopup(WebDriver d) {
 		d.findElement(By.xpath(prop.getProperty("registerPopup")));
+	}
+
+	public static void selectAssociateRole(WebDriver d) {
+		Select dropDown = new Select(d.findElement(By.xpath(prop.getProperty("registrationRole"))));
+		for(WebElement el : dropDown.getOptions()) {
+			if(el.getText().equals("Associate"))
+				dropDown.selectByVisibleText(el.getText());
+		}
+		
+	}
+
+	public static void selectTrainerRole(WebDriver d) {
+		Select dropDown = new Select(d.findElement(By.xpath(prop.getProperty("registrationRole"))));
+		for(WebElement el : dropDown.getOptions()) {
+			if(el.getText().equals("Trainer"))
+				dropDown.selectByVisibleText(el.getText());
+		}
+		
 	}
 }

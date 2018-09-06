@@ -24,6 +24,7 @@ import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
+import com.revature.utils.UserAuthentication;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -53,6 +54,9 @@ public class ClientResource {
 	InterviewService interviewService = new InterviewService();
 	TrainerService trainerService = new TrainerService();
 	UserService userService = new UserService();
+	
+	//these arrays are repeatedly used for role verification throughout the authorization 
+	int [] allRoles = {1,2,3,4,5};
 
 	/**
 	 * 
@@ -71,18 +75,16 @@ public class ClientResource {
 	public Response getAllClients(@HeaderParam("Authorization") String token) {
 		logger.info("getAllClients()...");
 		Status status = null;
-		List<TfClient> clients = clientService.getAllTfClients();
-		Claims payload = JWTService.processToken(token);
 
-		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		if (UserAuthentication.Authorized(token, allRoles)) {
+			List<TfClient> clients = clientService.getAllTfClients();
+			status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			return Response.status(status).entity(clients).build();
 		}
 		// invalid token
 		else {
-			status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
-		
-		return Response.status(status).entity(clients).build();
 	}
 
 	@GET

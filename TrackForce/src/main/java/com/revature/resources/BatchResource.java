@@ -226,22 +226,10 @@ public class BatchResource {
 	public Response getBatchCounts(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
 			@QueryParam("courseName") String courseName, @HeaderParam("Authorization") String token) {
 		logger.info("getBatchAssociateCounts...");
-
-		Claims payload = JWTService.processToken(token);
-		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		}
 		Status status = null;
+		
+		if (UserAuthentication.Authorized(token, nonAssociateRole)) {
 		status = Status.OK;
-		int role = Integer.parseInt(payload.getId());
-
-		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
-		if (authorizedRoles.contains(role)) {
-			status = Status.OK;
-		} else {
-			status = Status.FORBIDDEN;
-		}
-
 		JSONObject associateCount = new JSONObject();
 		BatchDaoImpl bd = new BatchDaoImpl();
 
@@ -251,6 +239,10 @@ public class BatchResource {
 		Long lCount = Long.valueOf(count.toString());
 		associateCount.put("associateCount", lCount);
 		return Response.status(status).entity(associateCount.toString()).build();
+		} else {
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+
 	}
 
 	//1806_Andrew_H gets all batches within a certain date range, used in batch-details

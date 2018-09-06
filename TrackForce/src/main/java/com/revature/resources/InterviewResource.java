@@ -29,6 +29,7 @@ import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
+import com.revature.utils.UserAuthentication;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -60,6 +61,20 @@ public class InterviewResource {
 	TrainerService trainerService = new TrainerService();
 	UserService userService = new UserService();
 
+
+	//these arrays are repeatedly used for role verification throughout the authorization 
+	//after all have been created an tested remove unused, so far all and non are the only two used
+	int [] allRoles = {1,2,3,4,5};
+	int [] nonAssociateRole = {1,2,3,4};
+	int [] specialCase = {1,3,5};
+	//	int [] adminRole = {1};
+	//	int [] trainerRole = {2};
+	//	int [] salesRole = {3};
+	//	int [] stagingRole = {4};
+	//	int [] associateRole = {5};
+	
+	//return Response.status(Status.UNAUTHORIZED).build();
+
 	/**
 	 * 
 	 * @author Ian Buitrago, Adam L.
@@ -76,155 +91,143 @@ public class InterviewResource {
 	public Response getAllInterviews(@HeaderParam("Authorization") String token, @QueryParam("sort") String sort) {
 
 		logger.info("getAllInterviews()...");
-
 		Status status = null;
-		Claims payload = JWTService.processToken(token);
-		List<TfInterview> interviews = interviewService.getAllInterviews();
-
-		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build(); // invalid token
-		} else if (payload.getId().equals("5")) {
-			return Response.status(Status.FORBIDDEN).build();
-		} else {
+		
+		if (UserAuthentication.Authorized(token, nonAssociateRole)) {
+			List<TfInterview> interviews = interviewService.getAllInterviews();
 			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
 			logger.info("	interviews.size() = " + interviews.size());
-		}
-		return Response.status(status).entity(interviews).build();
-	}
-
-	/**
-	 * @author Adam L.
-	 *         <p>
-	 *         </p>
-	 * @version v6.18.06.13
-	 * 
-	 * @param associateid
-	 * @param token
-	 * @param interview
-	 * @return
-	 */
-	@Path("/{associateid}")
-	@POST
-	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
-	public Response createInterview(@PathParam("associateid") int associateid,
-			@HeaderParam("Authorization") String token, TfInterview interview) {
-		logger.info("createInterview()...");
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || !(payload.getId().equals("5"))) {
-			status = Status.UNAUTHORIZED;
-		} else {
-			interview.setJobDescription("No current description.");
-			interviewService.createInterview(interview);
-			status = Status.CREATED;
+			return Response.status(status).entity(interviews).build();
+		}else {
+				return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build(); // invalid token
+			}
+			
 		}
 
-		return Response.status(status).build();
-	}
+		/**
+		 * @author Adam L.
+		 *         <p>
+		 *         </p>
+		 * @version v6.18.06.13
+		 * 
+		 * @param associateid
+		 * @param token
+		 * @param interview
+		 * @return
+		 */
+		@Path("/{associateid}")
+		@POST
+		@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 403 if not.")
+		public Response createInterview(@PathParam("associateid") int associateid,
+				@HeaderParam("Authorization") String token, TfInterview interview) {
+			logger.info("createInterview()...");
+			Status status = null;
+			if (UserAuthentication.Authorized(token, nonAssociateRole)){
+				interview.setJobDescription("No current description.");
+				interviewService.createInterview(interview);
+				status = Status.CREATED;
+			} else {
+				status = Status.UNAUTHORIZED;
+			}
 
-	/**
-	 * @author Adam L.
-	 *         <p>
-	 *         </p>
-	 * @version v6.18.06.13
-	 * 
-	 * @param token
-	 * @param associateId
-	 * @return
-	 * @throws HibernateException
-	 * @throws IOException
-	 */
-	@Path("/{associateid}")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Returns all interviews for an associate", notes = "Returns a list of all interviews.")
-	public Response getAllInterviews(@HeaderParam("Authorization") String token,
-			@PathParam("associateid") Integer associateId) throws HibernateException, IOException {
-		logger.info("getAllInterviews()...");
-		Status status = null;
-		List<TfInterview> interviews = interviewService.getInterviewsByAssociate(associateId);
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null) { // invalid token
-
-			status = Status.UNAUTHORIZED;
-		} else {
-			logger.info(interviews);
-			status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			return Response.status(status).build();
 		}
 
-		return Response.status(status).entity(interviews).build();
+		/**
+		 * @author Adam L.
+		 *         <p>
+		 *         </p>
+		 * @version v6.18.06.13
+		 * 
+		 * @param token
+		 * @param associateId
+		 * @return
+		 * @throws HibernateException
+		 * @throws IOException
+		 */
+		@Path("/{associateid}")
+		@GET
+		@Produces(MediaType.APPLICATION_JSON)
+		@ApiOperation(value = "Returns all interviews for an associate", notes = "Returns a list of all interviews.")
+		public Response getAllInterviews(@HeaderParam("Authorization") String token,
+				@PathParam("associateid") Integer associateId) throws HibernateException, IOException {
+			logger.info("getAllInterviews()...");
+			Status status = null;
+			
 
-	}
-	
-	/**
-	 * @author RayR
-	 *         <p>
-	 *         </p>
-	 * @version v6.18.06.13
-	 * 
-	 * @param token
-	 * @param interviewId
-	 * @return
-	 * @throws HibernateException
-	 * @throws IOException
-	 */
-	@Path("/getInterviewById/{interviewId}")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Returns an interview by id", notes = "Returns an interview.")
-	public Response getInterviewById(@HeaderParam("Authorization") String token,
-			@PathParam("interviewId") Integer interviewId) throws HibernateException, IOException {
-		logger.info("getInterviewById()...");
-		Status status = null;
-		TfInterview interview = interviewService.getInterviewById(interviewId);
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null) { // invalid token
-
-			status = Status.UNAUTHORIZED;
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("5") || payload.getId().equals("3"))) { // wrong roleid
-			status = Status.FORBIDDEN;
-		} else {
-			logger.info(interview);
-			status = interview == null ? Status.NO_CONTENT : Status.OK;
+			if (UserAuthentication.Authorized(token, allRoles)) { 
+				List<TfInterview> interviews = interviewService.getInterviewsByAssociate(associateId);
+				logger.info(interviews);
+				status = interviews == null || interviews.isEmpty() ? Status.NO_CONTENT : Status.OK;
+				return Response.status(status).entity(interviews).build();
+			} else {
+				status = Status.UNAUTHORIZED;
+				return Response.status(status).build();
+			}
 		}
 
-		return Response.status(status).entity(interview).build();
+		/**
+		 * @author RayR
+		 *         <p>
+		 *         </p>
+		 * @version v6.18.06.13
+		 * 
+		 * @param token
+		 * @param interviewId
+		 * @return
+		 * @throws HibernateException
+		 * @throws IOException
+		 */
+		@Path("/getInterviewById/{interviewId}")
+		@GET
+		@Produces(MediaType.APPLICATION_JSON)
+		@ApiOperation(value = "Returns an interview by id", notes = "Returns an interview.")
+		public Response getInterviewById(@HeaderParam("Authorization") String token,
+				@PathParam("interviewId") Integer interviewId) throws HibernateException, IOException {
+			logger.info("getInterviewById()...");
+			Status status = null;
+			
+			if (UserAuthentication.Authorized(token, specialCase)) { 
+				TfInterview interview = interviewService.getInterviewById(interviewId);
+				logger.info(interview);
+				status = interview == null ? Status.NO_CONTENT : Status.OK;
+				return Response.status(status).entity(interview).build();
+			} else {
+				status = Status.UNAUTHORIZED;
+				return Response.status(status).build();
+			}
+			
 
-	}
-
-	/**
-	 * @author Adam L.
-	 *         <p>
-	 *         </p>
-	 * @version v6.18.06.13
-	 * 
-	 * @param associateid
-	 * @param interviewId
-	 * @param token
-	 * @param interview
-	 * @return
-	 */
-	@Path("/{interviewid}")
-	@ApiOperation(value = "updates interview", notes = " Updates interview")
-	@PUT
-	public Response updateInterview(@PathParam("interviewid") int interviewId,
-			@HeaderParam("Authorization") String token, TfInterview interview) {
-		logger.info("updateInterview()...");
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null) { // invalid token
-			status = Status.UNAUTHORIZED;
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("5") || payload.getId().equals("3"))) { // wrong roleid
-			status = Status.FORBIDDEN;
-		} else {
-			interviewService.updateInterview(interview);
-			status = Status.ACCEPTED;
 		}
 
-		return Response.status(status).build();
+		/**
+		 * @author Adam L.
+		 *         <p>
+		 *         </p>
+		 * @version v6.18.06.13
+		 * 
+		 * @param associateid
+		 * @param interviewId
+		 * @param token
+		 * @param interview
+		 * @return
+		 */
+		@Path("/{interviewid}")
+		@ApiOperation(value = "updates interview", notes = " Updates interview")
+		@PUT
+		public Response updateInterview(@PathParam("interviewid") int interviewId,
+				@HeaderParam("Authorization") String token, TfInterview interview) {
+			logger.info("updateInterview()...");
+			Status status = null;
+
+			if (UserAuthentication.Authorized(token, specialCase))  { 
+				interviewService.updateInterview(interview);
+				status = Status.ACCEPTED;
+			} else {
+
+				status = Status.UNAUTHORIZED;
+			}
+
+			return Response.status(status).build();
+		}
 	}
-}

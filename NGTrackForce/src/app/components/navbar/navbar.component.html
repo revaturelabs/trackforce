@@ -1,10 +1,10 @@
-<nav *ngIf="isLoggedIn" class="navbar navbar-expand-lg navbar-light">
-  <!-- Brand Image -->
-  <a class="navbar-brand">
-    <img src="../../../assets/logo.png" height="50" alt="Revature Logo">
-    <!-- Welcome Message -->
-    <small *ngIf="isLoggedIn"> Welcome, {{username}}!</small>
-  </a>
+<nav class="navbar navbar-default custom-nav">
+  <div class="container-fluid" style="padding: 0px">
+    <div class="navbar-header">
+      <a class="navbar-brand">
+        <br><img src="../../../assets/logo.png" height="50" alt="Revature Logo">
+      </a>
+    </div>
 
   <!-- if screen becomes to small, organize buttons into dropdown -->
   <button *ngIf="isLoggedIn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNav">
@@ -60,5 +60,6 @@
         <a style="color:#F9231A" class="nav-link" (click)="logout()">Logout</a>
       </li>
     </ul>
+  </div>
   </div>
 </nav>

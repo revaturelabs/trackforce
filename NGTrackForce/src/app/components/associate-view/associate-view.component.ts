@@ -7,6 +7,7 @@ import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../services/client-service/client.service';
 import { NameService } from '../../services/name-service/name.service';
+import { Router } from '@angular/router';
 import { userInfo } from 'os';
 /**
  *@author Michael Tseng
@@ -39,7 +40,8 @@ export class AssociateViewComponent implements OnInit {
     private authService: AuthenticationService,
     private activated: ActivatedRoute,
     private clientService: ClientService,
-    private nameService: NameService
+    private nameService: NameService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -55,7 +57,12 @@ export class AssociateViewComponent implements OnInit {
       }
     );
     
-    this.nameService.currentMessage.subscribe(message => this.associate.firstName = message);
+    //this.nameService.currentMessage.subscribe(message => this.message = this.associate.firstName);
+  }
+
+  sendName() {
+    this.nameService.setData(this.associate.firstName);
+    this.router.navigateByUrl('/navbar');
   }
 
   toggleForm() {

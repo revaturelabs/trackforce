@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="0" errors="0" failures="0" tests="10" time="6.561">
- <testsuite name="Registering as a new associate" timestamp="2018-09-06T10:52:45" hostname="localhost" time="6.561" errors="0" tests="10" skipped="1" disabled="0" failures="0">
-  <testcase classname="Registering as a new associate" name="should navigate to the login page" time="4.598" />
-  <testcase classname="Registering as a new associate" name="allow user to click the register button" time="0.081" />
-  <testcase classname="Registering as a new associate" name="allow associate to enter a username" time="0.182" />
-  <testcase classname="Registering as a new associate" name="allow associate to enter a password" time="0.161" />
-  <testcase classname="Registering as a new associate" name="allow associate to enter a password" time="0.109" />
+<testsuites disabled="0" errors="0" failures="0" tests="10" time="3.577">
+ <testsuite name="Registering as a new associate" timestamp="2018-09-06T12:59:32" hostname="localhost" time="3.577" errors="0" tests="10" skipped="1" disabled="0" failures="0">
+  <testcase classname="Registering as a new associate" name="should navigate to the login page" time="1.598" />
+  <testcase classname="Registering as a new associate" name="allow user to click the register button" time="0.117" />
+  <testcase classname="Registering as a new associate" name="allow associate to enter a username" time="0.216" />
+  <testcase classname="Registering as a new associate" name="allow associate to enter a password" time="0.115" />
+  <testcase classname="Registering as a new associate" name="allow associate to enter a password" time="0.117" />
   <testcase classname="Registering as a new associate" name="should allow associate to click the next page button" time="0">
    <skipped message="Temporarily disabled with xit" />
   </testcase>
-  <testcase classname="Registering as a new associate" name="should allow associate to enter first name" time="0.09" />
-  <testcase classname="Registering as a new associate" name="should allow associate to enter last name" time="0.085" />
-  <testcase classname="Registering as a new associate" name="show allow associate to pick a role" time="0.03" />
-  <testcase classname="Registering as a new associate" name="exit browser" time="1.222" />
+  <testcase classname="Registering as a new associate" name="should allow associate to enter first name" time="0.094" />
+  <testcase classname="Registering as a new associate" name="should allow associate to enter last name" time="0.086" />
+  <testcase classname="Registering as a new associate" name="show allow associate to pick a role" time="0.073" />
+  <testcase classname="Registering as a new associate" name="exit browser" time="1.156" />
  </testsuite>
 </testsuites>

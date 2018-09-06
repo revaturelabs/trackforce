@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -12,13 +11,9 @@ import com.revature.test.admin.pom.AssociateView;
 import com.revature.test.admin.pom.BatchListTab;
 import com.revature.test.admin.pom.ClientListTab;
 import com.revature.test.admin.pom.CreateUserTab;
-import com.revature.test.admin.pom.HomeTab;
-import com.revature.test.admin.pom.Login;
 import com.revature.test.admin.pom.Predictions;
 import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
-import com.revature.test.utils.WaitToLoad;
-
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;

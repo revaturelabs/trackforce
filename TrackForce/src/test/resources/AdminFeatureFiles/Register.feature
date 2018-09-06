@@ -40,7 +40,7 @@ Feature: Testing the registration for new associates
       | select * from tf_users |
       | *aaaaaaa* |
       | ششششششش |
-      
+
   Scenario Outline: Creating an invalid associate with invalid password
     When I enter a valid username
     And I enter a invalid password"<password>"
@@ -73,7 +73,7 @@ Feature: Testing the registration for new associates
       | A3a*ششششششش | A3a*ششششششش |
       
       
-      Scenario: Creating a valid trainer
+  Scenario: Creating a valid trainer
     When I enter a valid username
     And I enter a vaild password
     And I confirm my password
@@ -121,7 +121,7 @@ Feature: Testing the registration for new associates
     Then an error message should appear
 
     Examples: 
-       | password | confPassword |
+      | password | confPassword |
       | NewA!    | NewA!        |
       | NewUsers | NewUsers     |
       | newuser! | newuser!     |
@@ -142,4 +142,4 @@ Feature: Testing the registration for new associates
       | a b c d e f 10 | a b c d e f 10 |
       | A3a*ششششششش | A3a*ششششششش |
       
-      
+

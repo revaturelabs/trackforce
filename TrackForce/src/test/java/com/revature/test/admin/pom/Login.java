@@ -85,7 +85,7 @@ public class Login {
 	public static void getPopup(WebDriver d) {
 		d.findElement(By.xpath(prop.getProperty("registerPopup")));
 	}
-	
+
 	public static void selectAssociateRole(WebDriver d) {
 		Select dropDown = new Select(d.findElement(By.xpath(prop.getProperty("registrationRole"))));
 		for(WebElement el : dropDown.getOptions()) {
@@ -102,5 +102,7 @@ public class Login {
 				dropDown.selectByVisibleText(el.getText());
 		}
 		
-}
+
+  }
+
 }

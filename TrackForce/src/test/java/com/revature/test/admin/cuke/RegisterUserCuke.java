@@ -1,7 +1,5 @@
 package com.revature.test.admin.cuke;
 
-import static org.testng.Assert.fail;
-
 import com.revature.test.admin.pom.Login;
 import com.revature.test.utils.ServiceHooks;
 
@@ -34,12 +32,16 @@ public class RegisterUserCuke {
 
 	@When("^I enter a invalid firstname$")
 	public void i_enter_a_vaild_firstname() throws Throwable {
-	   Login.inputRegisterFirstName(ServiceHooks.driver, "Tom");
+
+	   Login.inputRegisterFirstName(ServiceHooks.driver, "$$$$");
+
 	}
 
 	@When("^I enter a invalid lastname$")
 	public void i_enter_a_vaild_lastname() throws Throwable {
-	    Login.inputRegisteLastName(ServiceHooks.driver, "Smith");
+
+	    Login.inputRegisteLastName(ServiceHooks.driver, "@@@@34");
+
 	}
 
 	@When("^I click register user$")
@@ -49,8 +51,11 @@ public class RegisterUserCuke {
 
 	@Then("^a new user should be registered$")
 	public void a_new_user_should_be_registered() throws Throwable {
-	    Thread.sleep(3000);
-		//new check
+
+		//check that user is registered
+    //NEED TO IMPLEMENT
+
+
 	}
 
 	@When("^I enter a invalid username \"([^\"]*)\"$")
@@ -60,8 +65,7 @@ public class RegisterUserCuke {
 
 	@Then("^an error message should appear$")
 	public void an_error_message_should_appear() throws Throwable {
-		Thread.sleep(1500);
-		
+    
 		Login.getPopup(ServiceHooks.driver);
 
 	}
@@ -86,4 +90,6 @@ public class RegisterUserCuke {
 		Login.selectTrainerRole(ServiceHooks.driver);
 	}
 	
+
 }
+

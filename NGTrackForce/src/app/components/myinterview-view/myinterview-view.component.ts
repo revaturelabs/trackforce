@@ -152,7 +152,8 @@ export class MyInterviewComponent implements OnInit {
         ).getTime();
         this.interviewService.updateInterview(interview).subscribe(res => {
           this.updateSuccess=true;
-          location.reload(); //NEED TO FIX
+          location.reload(false);
+
         });
     }
   }

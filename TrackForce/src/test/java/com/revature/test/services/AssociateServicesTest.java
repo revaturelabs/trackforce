@@ -58,7 +58,7 @@ public class AssociateServicesTest {
 		assertEquals(props.getProperty("associate_firstName"), associate.getFirstName());
 		assertEquals(props.getProperty("associate_lastName"), associate.getLastName());
 		assertEquals(props.getProperty("associate_feedback"), associate.getStagingFeedback());
-		assertEquals(props.getProperty("associate_user"), associate.getUser().getId());
+		assertEquals(props.getProperty("associate_user"), associate.getUser().getId()+"");
 		//associate = service.getAssociate(-1);
 	}
 	
@@ -68,7 +68,7 @@ public class AssociateServicesTest {
 		assertEquals(props.getProperty("associate_firstName"), associate.getFirstName());
 		assertEquals(props.getProperty("associate_lastName"), associate.getLastName());
 		assertEquals(props.getProperty("associate_feedback"), associate.getStagingFeedback());
-		assertEquals(props.getProperty("associate_id"), associate.getId());
+		assertEquals(props.getProperty("associate_id"), associate.getId()+"");
 	}
 	
 	@Test(priority=2)
@@ -151,6 +151,13 @@ public class AssociateServicesTest {
 		TfAssociate changed = service.getAssociate(1);
 		assertEquals("Hank", changed.getFirstName());
 		assertEquals("Pym", changed.getLastName());
+		assertNotEquals("Alabama", changed.getStagingFeedback());
+		
+		changed.setFirstName("Karl");
+		changed.setLastName("Franz");
+		service.updateAssociate(changed);
+		assertEquals("Karl", changed.getFirstName());
+		assertEquals("Franz", changed.getLastName());
 		assertNotEquals("Alabama", changed.getStagingFeedback());
 		
 		//Undo update change

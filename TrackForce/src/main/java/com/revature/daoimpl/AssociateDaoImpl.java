@@ -315,18 +315,15 @@ public class AssociateDaoImpl implements AssociateDao {
 		}, id);
 	}
 	
-	/**
-	 * Optimized getUndeployed of redundancy, preserved logic
-	 * */
+	/** Optimized getUndeployed to remove redundancy
+	 * @author Paul C.-1807*/
 	@Override
 	public List<GraphedCriteriaResult> getUndeployed(String which) {
-		
 		if(which.equals("mapped") || which.equals("unmapped")) {
-			return HibernateUtil.runHibernate((Session session, Object... args) -> {//
-				CriteriaBuilder cb = session.getCriteriaBuilder();//
-				CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);//
-		
-				Root<TfAssociate> root = query.from(TfAssociate.class);//
+			return HibernateUtil.runHibernate((Session session, Object... args) -> {
+				CriteriaBuilder cb = session.getCriteriaBuilder();
+				CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);
+				Root<TfAssociate> root = query.from(TfAssociate.class);
 				
 				if (which.equals("mapped")) {
 					Join<TfAssociate, TfClient> clientJoin = root.join("client");
@@ -355,13 +352,10 @@ public class AssociateDaoImpl implements AssociateDao {
 					query.multiselect(cb.count(root), curriculumid, curriculumName);
 				}
 				return session.createQuery(query).getResultList();
-				
 			});
 		}
-		
-		throw new InvalidArgumentException("NOT MAPPED OR UNMAPPED YOU FOOOL");
-	}
-
+		throw new InvalidArgumentException("getUndeployed(): NOT MAPPED OR UNMAPPED");
+	}//end getUndeployed()
 
 	@Override
 	public boolean updateAssociate(TfAssociate associate) {

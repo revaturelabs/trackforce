@@ -3,13 +3,10 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -26,9 +23,8 @@ import javax.ws.rs.core.Response.Status;
 import org.hibernate.HibernateException;
 import org.json.JSONObject;
 
-import com.revature.daoimpl.BatchDaoImpl;
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfTrainer;
+import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -38,6 +34,7 @@ import com.revature.services.JWTService;
 import com.revature.services.MarketingStatusService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
+import com.revature.utils.UserAuthentication;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -89,34 +86,13 @@ public class AssociateResource {
 	@ApiOperation(value = "Return all associates", notes = "Gets a set of all the associates,", response = TfAssociate.class, responseContainer = "Set")
 	public Response getAllAssociates(@HeaderParam("Authorization") String token) {
 		logger.info("getAllAssociates()...");
-		Status status = null;
-		List<TfAssociate> associates = associateService.getAllAssociates();
-		Claims payload = JWTService.processToken(token);
-
-		if (payload == null || payload.getId().equals("5")) {
+		
+		if (!UserAuthentication.Authorized(token, new int[] {1,2,3,4}))
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else {
-//			if (payload.getId().equals("2")) {
-//				List<TfAssociate> assoc = new ArrayList<TfAssociate>();
-//				for (TfAssociate a : associates) {
-//					if (a.getBatch() != null) {
-//						if (payload.getSubject().equals(a.getBatch().getTrainer().getTfUser().getUsername())) {
-//							assoc.add(a);
-//						}
-//						List<TfTrainer> cotrainers = a.getBatch().getCoTrainer();
-//						for (TfTrainer t : cotrainers) {
-//							if (t.getTfUser().getUsername().equals(payload.getSubject())) {
-//								assoc.add(a);
-//							}
-//						}
-//
-//					}
-//				}
-//				associates = assoc;
-//			}
-			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
-		}
 
+		List<TfAssociate> associates = associateService.getAllAssociates();
+
+		Status status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		return Response.status(status).entity(associates).build();
 	}
 	
@@ -127,15 +103,11 @@ public class AssociateResource {
 	public Response getCountAssociates(@HeaderParam("Authorization") String token) {
 		logger.info("getCountAssociates...");
 
-		Claims payload = JWTService.processToken(token);
-		if (payload == null) {
+		if (!UserAuthentication.Authorized(token, new int[] {1,2,3,4}))
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		}
-		Status status = null;
-		status = Status.OK;
 		
+		Status status = Status.OK;
 		JSONObject associateCounts = new JSONObject();
-		
 		List<Integer> counts = new ArrayList<>();
 		
 		counts.add(Integer.parseInt(associateService.getCountUndeployedMapped().toString()));
@@ -157,6 +129,7 @@ public class AssociateResource {
 		associateCounts.put("counts", counts);
 		return Response.status(status).entity(associateCounts.toString()).build();
 	}
+	
 
 	/**
 	 *
@@ -168,28 +141,30 @@ public class AssociateResource {
 	 * @return
 	 */
 	@GET
-	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = TfAssociate.class)
+	@ApiOperation(value = "Return an associate provided their user ID", notes = "Returns information about a specific associate.", response = TfAssociate.class)
 	@Path("/{id}")
-	public Response getAssociateByUserId(@ApiParam(value = "An associate id.") @PathParam("id") int id,
+	public Response getAssociateByUserId(@ApiParam(value = "The USER ID of an associate.") @PathParam("id") int id,
 			@HeaderParam("Authorization") String token) {
 		logger.info("getAssociateByUserId()...");
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-		TfAssociate associateinfo;
-
-		if (payload == null || false) {
+		
+		//This only checks if this is a valid token, not if authorized
+		if (!UserAuthentication.Authorized(token, new int[] {1,2,3,4,5}))
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else {
-			try {
-				associateinfo = associateService.getAssociateByUserId(id);
-			} catch (NoResultException nre) {
-				logger.info("No associate found...");
-				return Response.status(Status.NO_CONTENT).build();
-			}
-			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
+		
+		TfAssociate associateinfo = associateService.getAssociateByUserId(id);
+		
+		//Get the user account from the token
+		Claims payload = JWTService.processToken(token);
+		TfUser user = userService.getUser(payload.getSubject());
+		
+		if (associateinfo == null) { //No associate with that ID
+			return Response.status(Status.NO_CONTENT).build();
+		} else if (payload.getId().equals("5") && associateinfo.getUser().getId() != user.getId()) {
+			//The user is logged in as a different associate
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 
-		return Response.status(status).entity(associateinfo).build();
+		return Response.status(Status.OK).entity(associateinfo).build();
 	}
 	
 	/**	
@@ -208,30 +183,29 @@ public class AssociateResource {
 	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("id") int id,	
 	                             @HeaderParam("Authorization") String token) {	
 		logger.info("getAssociate()...");	
-		Status status = null;	
-		Claims payload = JWTService.processToken(token);	
-		TfAssociate associateinfo;	
- 		if (payload == null || false) {	
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();	
-		}	
-		else {	
-			try {	
-				associateinfo = associateService.getAssociate(id);	
-			} catch (NoResultException nre) {	
-				logger.info("No associate found...");	
-				return Response.status(Status.NO_CONTENT).build();	
-			}	
-			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;	
-		}	
-		System.out.println(status);	
-		System.out.println(associateinfo);
-		return Response.status(status).entity(associateinfo).build();
+
+		//This only checks if this is a valid token, not if authorized
+		if (!UserAuthentication.Authorized(token, new int[] {1,2,3,4,5}))
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+
+		TfAssociate associateinfo = associateService.getAssociate(id);
+
+		//Get the user account from the token
+		Claims payload = JWTService.processToken(token);
+		TfUser user = userService.getUser(payload.getSubject());
+		
+		if (associateinfo == null) { //No associate with that ID
+			return Response.status(Status.NO_CONTENT).build();
+		} else if (payload.getId().equals("5") && associateinfo.getUser().getId() != user.getId()) {
+			//The user is logged in as a different associate
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		}
+
+		return Response.status(Status.OK).entity(associateinfo).build();
+
 	}
 
 	/**
-	 * 
-	 * ------------- NEEDS WORK -------------
-	 * 
 	 * @author Adam L.
 	 *         <p>
 	 * 		Update the marketing status or client of associates
@@ -243,7 +217,8 @@ public class AssociateResource {
 	 * @param clientId
 	 * @param ids
 	 *            - list of ids to update
-	 * @return response 200 status if successful
+	 * @return response 200 status if successful, regardless of if the id's were present
+	 * 500 on error
 	 */
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -254,35 +229,53 @@ public class AssociateResource {
 			@DefaultValue("-1") @ApiParam(value = "verification") @QueryParam("verification") Integer isApproved,
 			List<Integer> ids) {
 		logger.info("updateAssociates()...");
-		logger.info(ids);
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-
+		
+		if (!UserAuthentication.Authorized(token, new int[] {1,3,4})) {
+			//This user is not of the apropriate role
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} else if (ids == null) {
+			//Request body can not be parsed into type List<Integer>
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		
+		//Get all of the associates requested
 		List<TfAssociate> associates = new LinkedList<>();
-		TfAssociate toBeUpdated = null;
-		for (int associateId : ids) {
-			toBeUpdated = associateService.getAssociate(associateId);
+		for (int associateId : ids) { 
+			associates.add(associateService.getAssociate(associateId));
+		}
+		
+		//An associate ID that is not in the database was requested.
+		//Atomicity says that none of the transaction should resolve
+		if (associates.contains(null)) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		
+		//Update the associates in the list
+		for (TfAssociate associate : associates) {
 			if (marketingStatusId != 0) {
-				toBeUpdated.setMarketingStatus(marketingStatusService.getMarketingStatusById(marketingStatusId));
+				associate.setMarketingStatus(marketingStatusService.getMarketingStatusById(marketingStatusId));
 			}
 			if (clientId != 0) {
-				toBeUpdated.setClient(clientService.getClient(clientId));
+				associate.setClient(clientService.getClient(clientId));
 			}
 			if (isApproved >= 0) {
-				toBeUpdated.getUser().setIsApproved(isApproved);
+				associate.getUser().setIsApproved(isApproved);
 			}
-			associates.add(toBeUpdated);
 		}
 
-
-		if (payload == null || payload.getId().equals("2") || payload.getId().equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else {
-
-			// marketing status & client id are given as query parameters, ids sent in body
-			AssociateService as = new AssociateService();
-			return as.updateAssociates(associates) ? Response.ok().build() : Response.serverError().build();
-		}
+		//FIXME - If one of the querry parameters are not present in the database, the DAO should
+		//signal that an update failure occured, possibly through an exception. As of now, the
+		//associates are updated with null. This is a low priority bug
+		
+		//200 or 500
+		try {
+			associateService.updateAssociates(associates);
+			logger.info("Update successful on " + associates.size() + " associates, no exceptions");
+			return Response.ok().build();
+		} catch (Exception e) { 
+			logger.error(e.getMessage());
+			return Response.serverError().build();
+		} 
 	}
 
 	/**
@@ -294,57 +287,117 @@ public class AssociateResource {
 	 * @version v6.18.06.13
 	 * 
 	 * @param id
+	 * This parameter was never actually used in the origional implementation. I kept it in place to keep
+	 * any tests working. The associate actually updated will be: the one that corresponds to the 
+	 * logged in users token if the user is an associate, or the one that corresponds to the associate
+	 * object passed in the body otherwise. -MD
 	 * @param associate
 	 * @param token
 	 * @return
 	 */
+	
+	/* FIXME!!! This updates the associate based on a TfAssociate object obtained in a seperate resource.
+	That object is missing data such as password, and if this resource is called by a user other than an associate
+	the missing data was set to null. Furthermore, an associate was able to forge a TfAssociate object and
+	update another associate record. The fix I have implemented is a bad hack and should be reworked. Unfourtinately,
+	we have run out of time -MD */
+	
 	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "updates associate values", notes = "The method updates the marketing status or client of a given associate by their id.")
 	@Path("/{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, TfAssociate associate,
 			@HeaderParam("Authorization") String token) {
 
 		logger.info("updateAssociate()...");
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-		System.out.println(id);
-
-		if (payload == null) {
+		
+		//Check if the user has a valid token, role is not considered here
+		if (!UserAuthentication.Authorized(token, new int[] {1,2,3,4,5}))
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else if (payload.getId().equals("5")) {
-			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
-		} else {
-			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
+		
+		//Get the id from the associate object provided. This could throw
+		int reqId;
+		try {
+			reqId = associate.getId();
+		} catch (NullPointerException npe) {
+			logger.info("NullPointerException caught while getting associateId");
+			return Response.status(Status.BAD_REQUEST).build();
 		}
-		return Response.status(status).build();
+
+		Claims payload = JWTService.processToken(token);
+		
+		try {
+			if (payload.getId().equals("5")) {
+				/* An associate wants to update their name
+				Get their associate object based on their token and make sure they are trying to update their own
+				and not someone elses */
+				TfUser user = userService.getUser(payload.getSubject());
+				TfAssociate dbAssoc = associateService.getAssociateByUserId(user.getId());
+				
+				if (dbAssoc == null || dbAssoc.getId() != reqId)			
+					return Response.status(Status.BAD_REQUEST).build();
+				
+				//All checks are good, update
+				associateService.updateAssociatePartial(associate);
+				return Response.ok().build();
+				
+			} else { 
+				//As of now, any other role can make these changes to an associate
+				TfAssociate assocRecordToUpdate = associateService.getAssociate(reqId);
+				assocRecordToUpdate.setMarketingStatus(associate.getMarketingStatus());
+				assocRecordToUpdate.setClient(associate.getClient());
+				assocRecordToUpdate.setBatch(associate.getBatch());
+				assocRecordToUpdate.getUser().setIsApproved(associate.getUser().getIsApproved());
+				
+				associateService.updateAssociate(assocRecordToUpdate);
+				return Response.ok().build();
+			}
+		} catch (NullPointerException npe) {
+			logger.info("NullPointerException caught while parsing associate data");
+			return Response.status(Status.BAD_REQUEST).build();
+		}
 	}
+	
 
 	@GET
 	@ApiOperation(value = "Gets how many associates are mapped to each client", notes = "Gets how many associates are mapped to each client")
 	@Path("mapped/{statusId}")
-	public Response getMappedInfo(@PathParam("statusId") int statusId) {
+	public Response getMappedInfo(@PathParam("statusId") int statusId, @HeaderParam("Authorization") String token) {
+		
 		logger.info("getMappedInfo()...");
-		return Response.ok(associateService.getMappedInfo(statusId)).build();
+		if (UserAuthentication.Authorized(token, new int[] {1,2,3,4}))
+			return Response.ok(associateService.getMappedInfo(statusId)).build();
+		else
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 	}
 
 	@GET
 	@ApiOperation(value = "Gets how many associates are mapped to each client", notes = "Gets how many associates are mapped to each client")
 	@Path("undeployed/{mappedOrUnmapped}")
-	public Response getUndeployed(@PathParam("mappedOrUnmapped") String which) {
+	public Response getUndeployed(@PathParam("mappedOrUnmapped") String which, @HeaderParam("Authorization") String token) {
+		
 		logger.info("getUndeployed()...");
-		return Response.ok(associateService.getUndeployed(which)).build();
+		if (UserAuthentication.Authorized(token, new int[] {1,2,3,4}))
+			return Response.ok(associateService.getUndeployed(which)).build();
+		else
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 	}
 
 	@PUT
 	@ApiOperation(value = "Approves an associate", notes = "Approves an associate")
 	@Path("{assocId}/approve")
-	public Response approveAssociate(@PathParam("assocId") int associateId) {
-		return associateService.approveAssociate(associateId) ? Response.ok(true).build()
-				: Response.serverError().entity(false).build();
+	public Response approveAssociate(@PathParam("assocId") int associateId, @HeaderParam("Authorization") String token) {
+
+		logger.info("approveAssociate() assocId == " + associateId);
+		if (UserAuthentication.Authorized(token, new int[] {1,2,3,4})) 
+			return Response.ok(associateService.approveAssociate(associateId)).build();
+		else
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 	}
 
 	@GET
 	@Path("/nass/")
+	//FIXME This should be removed once paging is implemented
 	public Response getNAssociates() {
 		return Response.status(200).entity(associateService.getNAssociates()).build();
 	}
@@ -373,11 +426,9 @@ public class AssociateResource {
 	
 	{		
 		logger.info("getAssociatePage(" + startIndex + ", " + numResults + ", " + mStatusId + ", " + clientId + ")");
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
 
 		//Check token
-		if (payload == null || payload.getId().equals("5")) {
+		if (!UserAuthentication.Authorized(token, new int[] {1,2,3,4})) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} 
 		
@@ -385,6 +436,7 @@ public class AssociateResource {
 		try {
 			 associates = associateService.getAssociatePage(startIndex, numResults, mStatusId, clientId);
 		} catch (IllegalArgumentException iae) {
+			System.out.println("Exception caught: " + iae.getClass().getName() + " ; " + iae.getMessage());
 			return Response.status(Status.BAD_REQUEST).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -392,7 +444,7 @@ public class AssociateResource {
 		}
 
 		//If no results, return 204 and null ; otherwise 200 and the list 
-		status = associates == null ? Status.NO_CONTENT : Status.OK;
+		Status status = (associates == null) ? Status.NO_CONTENT : Status.OK;
 
 		return Response.status(status).entity(associates).build();
 	}

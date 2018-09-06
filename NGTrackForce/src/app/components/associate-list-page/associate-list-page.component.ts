@@ -4,18 +4,19 @@ import { Associate } from './../../models/associate.model';
 import { Client } from './../../models/client.model';
 import { ClientService } from './../../services/client-service/client.service';
 import { SelectedStatusConstants } from './../../constants/selected-status.constants';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-associate-list-page',
   templateUrl: './associate-list-page.component.html',
   styleUrls: ['./associate-list-page.component.css']
 })
-export class AssociateListPageComponent implements OnInit, OnDestroy {
+export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   protected readonly associateStatuses: string[] = [];
   protected clientList$;
   protected scrollEvent$;
+  protected scrollingTable;
 
   protected filterByStatus = "";
   protected filterByClient = "";
@@ -62,22 +63,30 @@ export class AssociateListPageComponent implements OnInit, OnDestroy {
       if (Array.isArray(data) && data.length !== 0) {
         this.listOfAssociates = this.listOfAssociates.concat(data);
       } else {
-        console.log(data)
+        console.log('Done with Data')
       }
     });
+  }
 
-    window.addEventListener('scroll', this.onScroll.bind(this));
+  ngAfterViewInit() {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    this.scrollingTable = document.getElementById('tableScroller');
+    this.scrollingTable.addEventListener('scroll', this.onScroll.bind(this));
   }
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
-    window.removeEventListener('scroll', this.onScroll);
+   this.scrollingTable.removeEventListener('scroll', this.onScroll.bind(this));
   }
 
   onScroll(event: Event) {
-    console.log(event)
+    
+    // console.log(this.scrollingTable.scrollHeight)
+    // console.log(this.scrollingTable.scrollTop + this.scrollingTable.clientHeight)
+    
 
-    if (document.body.scrollHeight - window.scrollY + window.screen.height <= 5000) {
+    if (this.scrollingTable.scrollHeight - this.scrollingTable.scrollTop + this.scrollingTable.clientHeight <= 5000) {
       this.getNextPage();
     }
   }

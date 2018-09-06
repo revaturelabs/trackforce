@@ -58,9 +58,7 @@ describe('Registering as a new associate', () => {
 
     it('show allow associate to pick a role', () => {
       registerAssociatePage.RolePick().click();
-      registerAssociatePage.RolePick().getAttribute("value")  .then(text => {
-            console.log(text);
-        });
+      expect(registerAssociatePage.RolePick().getText()).toEqual('Associate');
     })
 
     // it('should allow associate to register as an associate by clicking register button', () => {

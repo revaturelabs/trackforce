@@ -16,7 +16,7 @@ http://www.bootstrapzen.com/item/135/simple-login-form-logo/
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
   outline: none;
-} */
+}
 
 .form-control {
   position: relative;
@@ -32,44 +32,40 @@ http://www.bootstrapzen.com/item/135/simple-login-form-logo/
 }
 
 #background {
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  z-index: -999;
+	position: fixed;
+	top: -50%;
+	left: -50%;
+	width: 200%;
+	height: 200%;
+  z-index: -1;
 }
 
-#background img {
+#background img{
   position: absolute;
-  /*   clip-path: circle(40% at 50% 50%);
- */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  min-width: 50%;
-  min-height: 50%;
-  max-height: 100%;
-  max-width: 50%;
+  clip-path: circle(40% at 50% 50%);
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	min-width: 50%;
+	min-height: 50%;
+	max-height: 100%;
+	max-width: 50%;
 }
 
-form[role="login"] {
-  text-align: center;
+
+form[role=login] {
   vertical-align: middle;
-  color: black;
+	color: #5d5d5d;
   background-color: white;
   padding: 26px;
-  margin-top: 175px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-}
 
-form[role="login"] img {
-  display: block;
-  margin: 0 auto;
-  margin-bottom: 35px;
-  width: 300px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #f26925;
+  box-shadow: 2px 4px #f26925;
+
 }
 
 form[role="login"] input,
@@ -78,10 +74,9 @@ form[role="login"] button {
   margin: 16px 0;
 }
 
-.form-links {
-  text-align: center;
-  margin-top: 1em;
-  margin-bottom: 50px;
+form[role=login] input, form[role=login] button {
+	font-size: 18px;
+  margin: 16px 0;
 }
 
 .form-links a {
@@ -113,3 +108,27 @@ input {
   font-size: 16px;
   padding: 0;
 }
+
+button.btn.btn-lg.btn-primary.btn-block{
+  background-color: #f26925;
+  -moz-border-radius: 28px;
+  -webkit-border-radius: 28px;
+  border-radius: 28px;
+  border: 2px solid #f26925;
+  display: inline-block;
+  cursor: pointer;
+  color: #fff!important;
+  font-size: 15px;
+  padding: 12px 30px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 700;
+}
+
+input{
+  height: 50px!important;
+  border: 3px solid #f26925!important;
+  border-radius: 12px!important;
+  font-size: 16px;
+}
+

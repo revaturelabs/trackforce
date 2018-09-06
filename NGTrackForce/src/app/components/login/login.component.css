@@ -15,7 +15,7 @@ http://www.bootstrapzen.com/item/135/simple-login-form-logo/
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	outline: none;
+  outline: none;
 }
 
 .form-control {
@@ -35,11 +35,12 @@ http://www.bootstrapzen.com/item/135/simple-login-form-logo/
 	left: -50%;
 	width: 200%;
 	height: 200%;
-	z-index: -1;
+  z-index: -1;
 }
 
 #background img{
-	position: absolute;
+  position: absolute;
+  clip-path: circle(40% at 50% 50%);
 	top: 0;
 	left: 0;
 	right: 0;
@@ -51,17 +52,18 @@ http://www.bootstrapzen.com/item/135/simple-login-form-logo/
 	max-width: 50%;
 }
 
-.login-form {
-	align-content: center;
-}
 
 form[role=login] {
+  vertical-align: middle;
 	color: #5d5d5d;
-	background: #f2f2f2;
-	padding: 26px;
-	border-radius: 10px;
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
+  background-color: white;
+  padding: 26px;
+
+  border-style: solid;
+  border-width: 1px;
+  border-color: #f26925;
+  box-shadow: 2px 4px #f26925;
+
 }
 
 form[role=login] img {
@@ -72,7 +74,7 @@ form[role=login] img {
 
 form[role=login] input, form[role=login] button {
 	font-size: 18px;
-	margin: 16px 0;
+  margin: 16px 0;
 }
 
 form[role=login] {
@@ -88,3 +90,27 @@ form[role=login] {
 .form-links a {
 	color: #fff;
 }
+
+button.btn.btn-lg.btn-primary.btn-block{
+  background-color: #f26925;
+  -moz-border-radius: 28px;
+  -webkit-border-radius: 28px;
+  border-radius: 28px;
+  border: 2px solid #f26925;
+  display: inline-block;
+  cursor: pointer;
+  color: #fff!important;
+  font-size: 15px;
+  padding: 12px 30px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 700;
+}
+
+input{
+  height: 50px!important;
+  border: 3px solid #f26925!important;
+  border-radius: 12px!important;
+  font-size: 16px;
+}
+

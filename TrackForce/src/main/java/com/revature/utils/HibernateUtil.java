@@ -44,8 +44,12 @@ public class HibernateUtil {
 		} finally { addShutdown(); }
 	}
 
-	public static SessionFactory getSessionFactory()
-	{ return sessionFactory; }
+	public static SessionFactory getSessionFactory() {
+		if(sessionFactory == null) {
+			sessionFactory = buildSessionFactory();
+		}
+		return sessionFactory; 
+	}
 
 	public static void shutdown() {
 		logger.info("Shutting down SessionFactory");

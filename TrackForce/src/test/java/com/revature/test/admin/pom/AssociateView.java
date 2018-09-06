@@ -9,8 +9,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import com.revature.test.utils.WaitToLoad;
-
 public class AssociateView {
 	private static Properties prop = new Properties();
 	static {
@@ -97,7 +95,7 @@ public class AssociateView {
 	}
 	
 	public static void dropDownInterviewType(WebDriver d, String option) throws InterruptedException {
-		Select dropDown = new Select(d.findElement(By.xpath("/html/body/app-component/div/app-myinterview-view/div/div[1]/form/div[1]/div[2]/select")));
+		Select dropDown = new Select(d.findElement(By.name("type")));
 		for(WebElement el : dropDown.getOptions()) {
 			if(el.getText().equals(option))
 				dropDown.selectByVisibleText(el.getText());

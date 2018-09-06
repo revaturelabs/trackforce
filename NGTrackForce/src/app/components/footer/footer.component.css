@@ -1,12 +1,28 @@
-.footer {
-	background-color: #4b4b4b;
-	color: #ddd;
-	width: 100%;
-	
+footer {
+  background-color: #484c55;
+  text-align: center;
 }
-.footer a {
-	color: #ddd;
+
+div.col-md-3 {
+  text-align: center;
 }
-.footer img {
-	margin-top: 20px;
+
+img.img-responsive {
+  width: 180px;
+}
+
+span.main-head-contact{
+  font-weight: 700;
+  font-size: 15px;
+  color: white;
+}
+
+hr {
+  border-color: white;
+}
+
+div.row span.copyright{
+  color: white;
+  font-size: 12px;
+  width: 100%;
 }

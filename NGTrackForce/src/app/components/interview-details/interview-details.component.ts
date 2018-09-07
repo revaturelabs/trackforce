@@ -7,6 +7,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { Associate } from '../../models/associate.model';
 import { Interview } from '../../models/interview.model';
 import { User } from '../../models/user.model';
+import { InterviewUpdate, PromptClass } from './interview-details.enum';
 
 @Component({
   selector: 'app-interview-details',
@@ -20,8 +21,9 @@ export class InterviewDetailsComponent implements OnInit {
   public associate: Associate;
   isDataReady: boolean;
   isDataEmpty: boolean;
-  promptClassName = "col-sm-4 alert alert-success";
-  promptMessage = "Succes-interview updated";
+  serverResponsePending = false;
+  promptClassName = "alert-success";
+  promptMessage: InterviewUpdate;
   promptToggle = false;
   isDisabledAssociate = false;
   isDisabledClient = false;
@@ -46,26 +48,31 @@ export class InterviewDetailsComponent implements OnInit {
     });
   }
 
-  commitchanges()
-  {
-    this.promptToggle = false;
+  private _displayPrompt(
+    serverResponsePending: boolean,
+    promptClass: PromptClass,
+    message: InterviewUpdate) {
+
+      this.serverResponsePending = serverResponsePending;
+      this.promptClassName = promptClass;
+      this.promptMessage = message;
+      this.promptToggle = true;
+  }
+
+  commitchanges() {
+    this._displayPrompt(true, PromptClass.WAIT, InterviewUpdate.WAIT);
     this.interviewService.updateInterview(this.interview).subscribe(
       response => {
-        this.promptClassName = "col-sm-4 alert alert-success";
-        this.promptMessage = "Success-interview updated";
-        this.promptToggle = true;
+        this._displayPrompt(false, PromptClass.SUCCESS, InterviewUpdate.SUCCESS);
       },
       error => {
-        this.promptClassName = "col-sm-4 alert alert-danger";
-        this.promptMessage = "Failed-interview not updated";
-        this.promptToggle = true;
-        console.log("Error: ",error);
+        this._displayPrompt(false, PromptClass.FAILURE, InterviewUpdate.FAILURE);
+        console.error(error);
       }
     );
   }
 
-  isDisabledAssociateFeedback()
-  {
+  isDisabledAssociateFeedback() {
     this.user = this.authService.getUser();
     if ( this.user.role === 3 )
     {
@@ -78,8 +85,7 @@ export class InterviewDetailsComponent implements OnInit {
     return this.isDisabledAssociate;
   }
 
-  isDisabledClientFeedback()
-  {
+  isDisabledClientFeedback() {
     this.user = this.authService.getUser();
     if ( this.user.role === 3 )
     {
@@ -92,8 +98,7 @@ export class InterviewDetailsComponent implements OnInit {
     return this.isDisabledClient;
   }
 
-  isDisabledInterviewQuestions()
-  {
+  isDisabledInterviewQuestions() {
     this.user = this.authService.getUser();
     if ( this.user.role === 3 )
     {
@@ -106,8 +111,7 @@ export class InterviewDetailsComponent implements OnInit {
     return this.isDisabledQuestions;
   }
 
-  isDisabledExpectedSkillsAndQuestions()
-  {
+  isDisabledExpectedSkillsAndQuestions() {
     this.user = this.authService.getUser();
     if ( this.user.role === 3 )
     {

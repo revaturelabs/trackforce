@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -12,12 +11,9 @@ import com.revature.test.admin.pom.AssociateView;
 import com.revature.test.admin.pom.BatchListTab;
 import com.revature.test.admin.pom.ClientListTab;
 import com.revature.test.admin.pom.CreateUserTab;
-import com.revature.test.admin.pom.HomeTab;
-import com.revature.test.admin.pom.Login;
 import com.revature.test.admin.pom.Predictions;
+import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
-import com.revature.test.utils.WaitToLoad;
-
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -27,27 +23,8 @@ public class AssociateViewCukes {
 	@Given("^I am on the Associate Home Page$")
 	public void i_am_on_the_Associate_Home_Page() throws Throwable {
 	System.out.println("I am on the associate homepage");
-	ServiceHooks.wait.until(ExpectedConditions.urlToBe("http://34.227.178.103:8090/NGTrackForce/#/associate-view"));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(),"http://34.227.178.103:8090/NGTrackForce/#/associate-view");
-	}
-
-	@When("^I attempt to click the \"([^\"]*)\" tab$")
-	public void i_attempt_to_click_the_tab(String tab) throws Throwable {
-		System.out.println("I click on the " + tab + " tab.");
-	    try {
-		switch(tab) {
-	    case "client": ClientListTab.getClientTab(ServiceHooks.driver).click();break;
-	    case "batch": BatchListTab.clickBatchListTab(ServiceHooks.driver); break;
-	    case "associate": BatchListTab.clickAssociateListTab(ServiceHooks.driver); break;
-	    case "predictions": Predictions.clickPredictionsTab(ServiceHooks.driver); break;
-	    case "create user": CreateUserTab.getCreateUserTab(ServiceHooks.driver); break;
-	    }
-		fail("associate able to access additional tabs");
-	    }
-	    catch(TimeoutException te) {
-	    	assertTrue(true);
-	    }
-	    
+	ServiceHooks.wait.until(ExpectedConditions.urlToBe(LoginUtil.getPropertyValue("urlBeingUsed") + "#/associate-view"));
+		assertEquals(ServiceHooks.driver.getCurrentUrl(),LoginUtil.getPropertyValue("urlBeingUsed") + "#/associate-view");
 	}
 
 	@Then("^I should not be taken to the page$")
@@ -77,7 +54,6 @@ public class AssociateViewCukes {
 	@Then("^the changes should be reflected$")
 	public void the_changes_should_be_reflected() throws Throwable {
 		System.out.println("The changes in firstname/lastname should be reflected.");
-		Thread.sleep(3000);
 	   assertEquals(AssociateView.getFirstName(ServiceHooks.driver), AssociateView.getEnterFirstName(ServiceHooks.driver));
 	   assertEquals(AssociateView.getLastName(ServiceHooks.driver),AssociateView.getEnterLastName(ServiceHooks.driver));
 	}

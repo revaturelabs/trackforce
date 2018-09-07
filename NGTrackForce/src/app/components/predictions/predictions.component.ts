@@ -1,11 +1,13 @@
 import { BatchService } from './../../services/batch-service/batch.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { Associate } from '../../models/associate.model';
 import { Client } from '../../models/client.model';
-import {ClientService} from '../../services/client-service/client.service'
+import {ClientService} from '../../services/client-service/client.service';
+import { DateService } from '../../services/date-service/date.service';
+import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
 
 
 @Component({
@@ -15,6 +17,10 @@ import {ClientService} from '../../services/client-service/client.service'
 })
 @AutoUnsubscribe
 export class PredictionsComponent implements OnInit {
+
+  //bat date-timepicker------
+  @ViewChild('start') startDateTimePicker:DateTimePickerComponent;
+  @ViewChild('end') endDateTimePicker:DateTimePickerComponent;
 
   start:any;
   end:any;
@@ -40,6 +46,20 @@ export class PredictionsComponent implements OnInit {
   public showEmpty: boolean = true;
   //public curriculums: any[];
 
+  //Batch-list date-picker-----------------
+  @Output() changeDateEm = new EventEmitter<Date>();
+
+  stringStart: string;
+  stringEnd: string;
+
+  dateRangeMessage: string;
+  showDateRangeError = false;
+  dateError: boolean;
+
+  changeDate(){
+    this.changeDateEm.emit(this.startDate);
+  }
+
   //Assoc----------------------------------
   public clients: Client[];
   public curriculums: Set<string>; //stored unique curriculums
@@ -61,7 +81,7 @@ export class PredictionsComponent implements OnInit {
   //added: cs
 
   constructor(private ss: CurriculumService, private as: AssociateService,
-    private bs: BatchService, private cs:ClientService) {
+    private bs: BatchService, private cs:ClientService, private ds:DateService) {
       this.curriculums = new Set<string>();
     }
 
@@ -157,17 +177,31 @@ export class PredictionsComponent implements OnInit {
     this.endDateString= now.toJSON().substring(0,10);
     now.setMonth(0);
     now.setDate(1);
+    now.setFullYear(2017);
     this.startDateString = now.toJSON().substring(0,10);
   }
 
+  // }
   /**
    * 1806_Austin_M
    * Parses the date string to a date object.
    * Done onchange of date fields.
    */
   generateDates(){
-    this.startDate = new Date(this.startDateString);
-    this.endDate = new Date(this.endDateString);
+    console.log(this.startDateString);
+    console.log(this.endDateString);
+    let startYearParsed = parseInt(this.startDateString.substring(0,4));
+    let endYearParsed = parseInt(this.endDateString.substring(0,4));
+    console.log(startYearParsed);
+    console.log(endYearParsed);
+    if (startYearParsed < 2012 || endYearParsed < 2012) {
+      this.dateRangeMessage = "Enter a valid year";
+      this.showDateRangeError = true;
+    } else {
+      this.startDate = new Date(this.startDateString);
+      this.endDate = new Date(this.endDateString);
+      this.showDateRangeError = false;
+    }
   }
 
   /**

@@ -10,12 +10,15 @@
           <th>End Date</th>
         </tr>
         <tr>
-          <td><input name='startDate' class="form-control" type="date" [(ngModel)]="startDateString" (change)="generateDates()" (blur)="getAllPredictions()"
+          <td><input name='startDate' class="form-control" id ="startDate" type="date" [(ngModel)]="startDateString" (change)="generateDates()" (blur)="getAllPredictions()"
             /></td>
-          <td><input name='endDate' class="form-control" type="date" [(ngModel)]="endDateString" (change)="generateDates()" (blur)="getAllPredictions()"
+          <td><input name='endDate' class="form-control" id = "endDate" type="date" [(ngModel)]="endDateString" (change)="generateDates()" (blur)="getAllPredictions()"
             /></td>
         </tr>
       </table>
+      <div *ngIf="showDateRangeError" class="alert alert-danger" role="alert">
+        {{dateRangeMessage}}
+    </div>
     </div>
   </div>
 

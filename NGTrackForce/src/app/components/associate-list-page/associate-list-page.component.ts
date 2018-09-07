@@ -4,7 +4,14 @@ import { Associate } from './../../models/associate.model';
 import { Client } from './../../models/client.model';
 import { ClientService } from './../../services/client-service/client.service';
 import { SelectedStatusConstants } from './../../constants/selected-status.constants';
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, Inject } from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+
+export interface DialogData {
+  animal: string;
+  name: string;
+  associates: Set<Associate>;
+}
 
 @Component({
   selector: 'app-associate-list-page',
@@ -17,6 +24,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   protected clientList$;
   protected scrollEvent$;
   protected scrollingTable;
+  protected showModal = false;
 
   protected filterByStatus = "";
   protected filterByClient = "";
@@ -26,7 +34,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   private isFetching = true;
   protected currentAssociatesSelected: Set<number> = new Set<number>();
 
-  constructor(private clientService: ClientService, private associateService: AssociateService) { }
+  constructor(private clientService: ClientService, private associateService: AssociateService, public dialog: MatDialog) { }
 
   ngOnInit() {
     /**
@@ -129,4 +137,32 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
       this.associateService.fetchNextSnapshot();
     }
   }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(UpdateDialogComponent, {
+      width: '250px',
+      data: {name: 'it me', animal: 'panda', associates: this.currentAssociatesSelected}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+    });
+  }
+}
+
+@Component({
+  selector: 'app-update-dialog-component',
+  templateUrl: 'update-dialog-component.html',
+})
+export class UpdateDialogComponent {
+ 
+  constructor(
+    public dialogRef: MatDialogRef<UpdateDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {console.log(data)}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
 }

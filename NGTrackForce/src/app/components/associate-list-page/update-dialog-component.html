@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>Update {{data.associates.size}}</h1>
+<div mat-dialog-content>
+  <form>
+    <!-- Filter Options -->
+    <div class="form-row">
+      <div class="form-group col-md-4 offset-md-1">
+        <label for="exampleFormControlSelect1">Status</label>
+        <select class="form-control" id="exampleFormControlSelect1" name="filterByStatus">
+          <option default value=""></option>
+          <option value="1">Approve</option>
+          <option value="2">Deny</option>
+        </select>
+      </div>
+      <div class="form-group col-md-4 offset-md-2">
+        <label for="exampleFormControlSelect1">Client</label>
+        <select class="form-control" id="exampleFormControlSelect1" name="filterByClient">
+          <option default value=""></option>
+          <option value="thing">thing</option>
+          <option value="thing">thing</option>
+          <option value="thing">thing</option>
+        </select>
+      </div>
+    </div>
+  </form>
+</div>

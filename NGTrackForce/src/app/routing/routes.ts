@@ -26,6 +26,7 @@ import { DeployedComponent } from '../components/deployed/deployed.component';
 import { UndeployedComponent } from '../components/undeployed/undeployed.component';
 import { InvalidSessionComponent } from '../components/invalid-session/invalid-session.component';
 import { SalesforceComponent } from '../components/salesforce/salesforce.component';
+import { NavbarComponent } from '../components/navbar/navbar.component';
 
 
 /**
@@ -158,6 +159,12 @@ export const appRoutes: Routes = [
     path: 'salesforce',
     canActivate: [AuthGuard],
     component: SalesforceComponent,
+    data: {expectedRoles: [1]}
+  },
+  {
+    path: 'navbar',
+    canActivate: [AuthGuard],
+    component: NavbarComponent,
     data: {expectedRoles: [1]}
   },
   {

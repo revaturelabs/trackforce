@@ -49,7 +49,6 @@ import { DataSyncService } from './services/datasync-service/data-sync.service';
 import { UserService } from './services/user-service/user.service';
 import { InterviewService } from './services/interview-service/interview.service';
 import { NavbarService } from './services/navbar-service/navbar.service';
-import { NameService } from './services/name-service/name.service';
 
 ///
 //  FILTERS/PIPES
@@ -139,7 +138,6 @@ import { SalesforceComponent } from './components/salesforce/salesforce.componen
     CurriculumService,
     BatchService,
     UserService,
-    NameService,
     CurriculumService,
     InterviewService,
     AuthGuard,

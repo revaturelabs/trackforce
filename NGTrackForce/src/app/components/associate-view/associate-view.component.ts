@@ -6,7 +6,6 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../services/client-service/client.service';
-import { NameService } from '../../services/name-service/name.service';
 import { Router } from '@angular/router';
 import { userInfo } from 'os';
 /**
@@ -40,7 +39,6 @@ export class AssociateViewComponent implements OnInit {
     private authService: AuthenticationService,
     private activated: ActivatedRoute,
     private clientService: ClientService,
-    private nameService: NameService,
     private router: Router
   ) {}
 
@@ -56,13 +54,6 @@ export class AssociateViewComponent implements OnInit {
         console.log('error');
       }
     );
-    
-    //this.nameService.currentMessage.subscribe(message => this.message = this.associate.firstName);
-  }
-
-  sendName() {
-    this.nameService.setData(this.associate.firstName);
-    this.router.navigateByUrl('/navbar');
   }
 
   toggleForm() {

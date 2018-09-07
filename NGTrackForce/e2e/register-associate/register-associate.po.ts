@@ -88,4 +88,8 @@ export class RegisterAssociatePage extends BasePage {
         return this.registerUserBtn;
     }
 
+    DangerAlert() {
+      return browser.findElement(by.xpath('//*[@id="pwd-container"]/div/section/form/div/div[1]'));
+    }
+
 }

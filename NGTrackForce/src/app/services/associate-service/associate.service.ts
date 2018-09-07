@@ -115,8 +115,9 @@ export class AssociateService {
       (data: Associate) => this.associateByUserId$.next(data),
       error => this.associateByUserId$.error(error)
     );
-    console.log(this.associateByUserId$.value.firstName);
-    //console.log(this.associateByUserId$);
+    // console.log(this.associateByUserId$.value.firstName);
+    // console.log(this.associateByUserId$);
+    // console.log(id);
     return this.associateByUserId$;
   }
 

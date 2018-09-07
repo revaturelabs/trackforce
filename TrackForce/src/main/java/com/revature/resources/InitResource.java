@@ -1,5 +1,7 @@
 package com.revature.resources;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -19,6 +21,7 @@ import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
+import com.revature.utils.ThreadUtil;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -65,6 +68,16 @@ public class InitResource {
 			return Response.status(Status.UNAUTHORIZED).build(); 
 		}
 		
+		ThreadUtil.setLock(true);//lock all threads while the database reinitializes
+		
+		try {
+			//call database script here
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			ThreadUtil.setLock(false);//unlock all threads, whether it works or not
+		}
 		return Response.status(Status.OK).build();
 	}
 	

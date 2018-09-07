@@ -106,7 +106,6 @@ export class MyInterviewComponent implements OnInit {
       data => {
         this.interviews = data;
         this.isDataReady = true;
-        console.log(this.interviews);
       },
       error => {
         console.error(error);

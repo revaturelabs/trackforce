@@ -11,6 +11,10 @@ import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { InterviewType } from '../../models/interview-type';
 import { Router } from '@angular/router'
+import {
+  InterviewStatusMsg,
+  AlertClass,
+  StatusProp } from './myinterview-view.enum';
 
 /**
  *@author Katherine Obioha, Andrew Ahn
@@ -28,7 +32,6 @@ import { Router } from '@angular/router'
 export class MyInterviewComponent implements OnInit {
   public interviews: Interview[];
   public associate: Associate;
-  // public id = 0;
   public newInterview: Interview;
   public formOpen = false;
   public conflictingInterviews = '';
@@ -44,12 +47,15 @@ export class MyInterviewComponent implements OnInit {
   public clientId: Client;
   public openDateNotified: boolean;
   public openInterviewDate: boolean;
-  public conflictingInterview: boolean;
   public isDataReady = false;
   public dateAssignedError: boolean;
   public dateOfInterviewError: boolean;
   public dateError: boolean;
-  public updateSuccess = false;
+  public updateInterviewStatus: string;
+  public alertUpdateClass: AlertClass;
+  public alertSubmitClass: AlertClass;
+  public submitInterviewStatus: string;
+  public statusProp = StatusProp;
 
   constructor(
     private authService: AuthenticationService,
@@ -57,7 +63,7 @@ export class MyInterviewComponent implements OnInit {
     private activated: ActivatedRoute,
     private interviewService: InterviewService,
     private clientService: ClientService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -66,7 +72,6 @@ export class MyInterviewComponent implements OnInit {
     // this.id = +this.activated.snapshot.paramMap.get('id');
     this.openDateNotified = false;
     this.openDateNotified = false;
-    this.conflictingInterview = false;
 
     this.user = JSON.parse(localStorage.getItem('currentUser'));
     this.associateService.getAssociate(this.user.id).subscribe(
@@ -75,7 +80,7 @@ export class MyInterviewComponent implements OnInit {
         this.getAssociateInterviews(this.associate.id);
       },
       error => {
-        console.log('error');
+        console.log(error);
       }
     );
 
@@ -97,8 +102,38 @@ export class MyInterviewComponent implements OnInit {
     this.formOpen = !this.formOpen;
   }
 
+  /**
+   * Displays a status message dependant on whether the request was successful or not
+   * @param prop StatusProp enum, determines whether the message is for updating or submitting
+   * SUBMIT - status of attempt to submit a new interview
+   * UPDATE - status of attempt to submit a new interview
+   * @param status Determines status message
+   * SUCCESS - Request was recieved by back end and processed appropriately
+   * WAIT - Request was sent, response from the server is still pending
+   * FAILURE - Server threw an error
+   * @param statusClass Determines the bootstrap styling class.
+   */
+  private _displayStatus(prop: StatusProp, status: InterviewStatusMsg, statusClass: AlertClass) {
+    // format replaces {} with either submission or update to make the message more meaningful
+    const format = (string, sub)=> string.replace('{}', sub);
+    switch(prop) {
+      case StatusProp.SUBMIT:
+        this.alertSubmitClass = statusClass;
+        this[prop] = format(status, 'submission');
+        break;
+      case StatusProp.UPDATE:
+        this.alertUpdateClass = statusClass;
+        this[prop] = format(status, 'update');
+        break;
+    }
+  }
+
+  /**
+   * Submits a new interview
+   */
   addInterview() {
       if (!this.dateAssignedError && !this.dateOfInterviewError){
+        this._displayStatus(StatusProp.SUBMIT, InterviewStatusMsg.WAIT, AlertClass.WAIT);
         switch (+this.typeId) {
           case 1:
             this.interviewType = new InterviewType(1, 'Phone');
@@ -133,15 +168,20 @@ export class MyInterviewComponent implements OnInit {
           .createInterview(this.newInterview, this.associate.id)
           .subscribe(
             res => {
-              console.log(res);
+              console.log(res)
+              this._displayStatus(StatusProp.SUBMIT, InterviewStatusMsg.SUCCESS, AlertClass.SUCCESS);
             },
-            error => console.error(error)
+            error => {
+              console.error(error)
+              this._displayStatus(StatusProp.SUBMIT, InterviewStatusMsg.FAILURE, AlertClass.FAILURE);
+            }
           );
       }
   }
 
   updateInterview(interview: Interview) {
     if (!this.dateError){
+        this._displayStatus(StatusProp.UPDATE, InterviewStatusMsg.WAIT, AlertClass.WAIT);
         interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
         interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
         interview.dateSalesIssued = new Date(
@@ -150,10 +190,15 @@ export class MyInterviewComponent implements OnInit {
         interview.dateAssociateIssued = new Date(
           interview.dateAssociateIssued
         ).getTime();
-        this.interviewService.updateInterview(interview).subscribe(res => {
-          this.updateSuccess = true;
-    //      location.reload();
-        });
+        this.interviewService.updateInterview(interview).subscribe(
+          res => {
+            this._displayStatus(StatusProp.UPDATE, InterviewStatusMsg.SUCCESS, AlertClass.SUCCESS);
+          },
+          error => {
+            this._displayStatus(StatusProp.UPDATE, InterviewStatusMsg.FAILURE, AlertClass.FAILURE);
+            console.error(error);
+          }
+        );
     }
   }
 
@@ -170,16 +215,14 @@ export class MyInterviewComponent implements OnInit {
   */
   highlightInterviewConflicts(interview: number) {
     const checkDate = new Date(this.interviews[interview].interviewDate);
+    const thereIsConflict = (index)=> {
+      return new Date(this.interviews[index].interviewDate)
+        .getTime() === checkDate.getTime()
+        && index !== interview
+    };
     for (let i = 0; i < this.interviews.length; i++) {
-      if (
-        new Date(this.interviews[i].interviewDate).getTime() ===
-          checkDate.getTime() &&
-        i !== interview
-      ) {
-        this.conflictingInterviews =
-          'The highlighted interviews are conflicting.' +
-          'They are both scheduled at the same time!';
-        this.conflictingInterview = true;
+      if (thereIsConflict(i)) {
+        this._displayStatus(StatusProp.UPDATE, InterviewStatusMsg.CONFLICT, AlertClass.FAILURE);
         return true;
       }
     }
@@ -240,7 +283,14 @@ export class MyInterviewComponent implements OnInit {
     this.was24HRNotice = Boolean((<HTMLInputElement>event.target).value);
   }
 
-  // ===========================================
+  /**
+   * Hides the update/submit statuses
+   */
+  closeStatus(prop: StatusProp) {
+    this[prop] = null;
+  }
+
+  // ============================================
   // THIS NEEDS TO BE IMPLEMENTED
   // ============================================
   saveInterview(interview: Interview) {}

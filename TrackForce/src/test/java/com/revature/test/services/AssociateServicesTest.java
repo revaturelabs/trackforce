@@ -26,20 +26,11 @@ public class AssociateServicesTest {
 	private AssociateService service;
 	private Properties props;
 	
-	//@Mock
-	//private Transaction transaction;
-//	@Mock
-//	private Callable<Boolean> caller;
-	
-	//@InjectMocks
-	//private HibernateUtil hu;
-	
 	@BeforeClass
 	public void initialize() {
 		service = new AssociateService(new AssociateDaoImpl());
 		props = new Properties();
-		//MockitoAnnotations.initMocks(this);
-		//doNothing().when(transaction).commit();
+		
 		try {
 			FileInputStream propFile = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\database_entries.properties");
 			props.load(propFile);
@@ -85,7 +76,7 @@ public class AssociateServicesTest {
 		assertTrue(!list.isEmpty() && list.size() <= 60);
 	}
 	
-	@Test(expectedExceptions=IllegalArgumentException.class, priority=2)
+	@Test(priority=2)
 	public void testGetAssociatePage() {
 		int start = Integer.parseInt(props.getProperty("page_start"));
 		int numResults = Integer.parseInt(props.getProperty("page_numResults"));

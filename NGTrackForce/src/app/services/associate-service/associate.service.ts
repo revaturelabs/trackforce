@@ -115,7 +115,18 @@ export class AssociateService {
       (data: Associate) => this.associateByUserId$.next(data),
       error => this.associateByUserId$.error(error)
     );
+    console.log(this.associateByUserId$.value.firstName);
+    //console.log(this.associateByUserId$);
     return this.associateByUserId$;
+  }
+
+  getAssociateName(id: number) {
+    const url: string = this.baseURL + '/' + id;
+    this.http.get<Associate>(url).subscribe(
+      (data: Associate) => this.associateByUserId$.next(data),
+      error => this.associateByUserId$.error(error)
+    );
+    return this.associateByUserId$.value.firstName;
   }
 
   /**

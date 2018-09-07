@@ -4,7 +4,6 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { User } from '../../models/user.model';
 import { Associate } from '../../models/associate.model';
 import { NavbarService } from '../../services/navbar-service/navbar.service';
-import { NameService } from '../../services/name-service/name.service';
 import { AssociateService } from '../../services/associate-service/associate.service';
 /**
   * Controls the nav bar
@@ -29,16 +28,31 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
   public isTrainer: boolean;
   public isAssociate: boolean;
   public message: string;
-  public firstName: string;
+  public id: number;
+  public associate: Associate;
+  isDataReady = false;
+  //public firstName = this.associateService.getAssociateName(this.id);
+  public firstName = '';
   public username = '';
 
+
   constructor(private router: Router, private authService: AuthenticationService, public navbarService: NavbarService, 
-    private nameService: NameService, private associateService: AssociateService) { }
+    private associateService: AssociateService) {}
 
   ngOnInit() {
     // this.navbarDisplay();
-    this.nameService.currentMessage.subscribe(message => this.firstName = message);
-    console.log();
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.id = this.user.id;
+    this.associateService.getAssociate(this.id).subscribe(
+      data => {
+        this.associate = data;
+        this.isDataReady = true;
+      },
+      error => {
+        console.log('error');
+      }
+    );
+    console.log(this.firstName);
   }
 
   ngOnChanges() {
@@ -48,7 +62,6 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
   ngAfterContentChecked() {
     this.navbarDisplay();
   }
-
 
   /**
     * Removes user from localStorage and re-routes to login screen

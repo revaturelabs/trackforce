@@ -9,7 +9,7 @@
     <ng-container *ngIf="navbarService.visible">
       <ul *ngIf='isLoggedIn' class="nav navbar-nav navbar-right">
         <li>
-          <span>Welcome, {{username}}</span>
+          <span>Welcome, {{firstName}}</span>
         </li>
         <li>
           <button type="button" class="btn btn-danger" (click)="logout()">Logout</button>

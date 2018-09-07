@@ -1,15 +1,17 @@
 package com.revature.test.services;
 
+import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertEquals;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.junit.Assume;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.revature.daoimpl.AssociateDaoImpl;
-import com.revature.services.AssociateService;
 import com.revature.services.JWTService;
 import com.revature.test.utils.Log;
 
@@ -35,7 +37,7 @@ public class JWTServicesTest {
 	
   @Test
   public void testJWTValidateToken() {
-	  
+	  //boolean validateToken = service.validateToken();
   }
 
   @Test
@@ -55,12 +57,13 @@ public class JWTServicesTest {
 
   @Test
   public void testJWTGetKey() {
-
-  }
-
-  @Test
-  public void testJWTGetSecret() {
-
+	  Assume.assumeTrue(System.getenv("KEY") != null);
+	  String key = JWTService.getKey();
+	  assertNotNull(key);
+	  
+	  Assume.assumeTrue(System.getenv("KEY") == null);
+	  key = JWTService.getKey();
+	  assertEquals(key, "trackforcekey");
   }
 
   @Test

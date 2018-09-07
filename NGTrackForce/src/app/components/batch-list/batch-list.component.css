@@ -11,9 +11,12 @@ form {
 thead, tbody {
   display: block;
   overflow-y: scroll;
+  margin-right: -25px;
+  /* padding-right: 0px; */
 }
 tbody {
   max-height: 500px;
+  background-color: white;
 }
 
 .data-status {
@@ -76,3 +79,12 @@ img{
 .max-width {
   display: flex;
 }
+
+/* TestCSS ---------------*/
+table{
+  border-radius: 0px;
+  overflow: hidden;
+  box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+}
+
+/* TestCSS End -----------*/

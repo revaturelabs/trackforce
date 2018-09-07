@@ -1,6 +1,7 @@
 footer {
   background-color: #484c55;
   text-align: center;
+  width: 100%;
 }
 
 div.col-md-3 {
@@ -21,6 +22,9 @@ hr {
   border-color: white;
 }
 
+body > app-component > app-footer > footer > div {
+  width: 100%;
+}
 div.row span.copyright{
   color: white;
   font-size: 12px;

@@ -1,51 +1,87 @@
-#logo{
-  width:120px;
-}
+/* .navbar .active,
+.navbar .active:hover {
+	background-color: #eee !important;
+} */
+
+/* .navbar-default .navbar-nav > li > a,
+.navbar-header > .navbar-brand {
+	color: #9e9e9e;
+	font-size: 1.2em;
+	font-weight: bold;
+} */
+
+/* .navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus{
+	color: #000000;
+} */
+
+/* .navbar-default .navbar-brand{
+	color: #FF8D3F;
+	margin-top: -4px;
+} */
+
+/* .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
+    color:#000000;
+} */
+
+/* .navbar span
+{
+	display: inline-block;
+	color: black;
+	font-size: 1.2em;
+	font-weight: bold;
+	margin-top: 12px;
+	margin-left: 12px;
+	margin-right: 12px;
+} */
+
+/* .navbar button
+{
+	margin-top: 6px;
+	margin-left: 12px;
+	margin-right: 12px;
+} */
 
 .navbar {
   background-color:white;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  border-bottom: 1px solid #f26925;
 }
 
 .nav {
+  width: 100%;
   background-color: white;
-  text-align: center;
 }
 
-/* color of active tab in navbar */
-.navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
-  color: #00A599;
+div.collapse.navbar-collapse{
+  text-align: center, bottom;
 }
 
-/* background color of active tab if necessary */
-a.nav-link.active{
-  color:white;
+ul {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+ }
+
+ li a{
+  display: block;
+  color: #000;
+  font-weight: bold;
 }
 
 /* Change the link color on hover */
 li:hover {
-  /* text-decoration: underline; */
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+/*   border-left: 1px solid #f26925;
+  border-right: 1px solid #f26925; */
+  background-color: #f26925;
+  color: white;
 }
 
-/* color of welcome message */
-#navbarDropdown {
-  border-left: 1px solid rgba(0,0,0,0.12);
-  color: #F26925;
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  background-color: #f26925;
 }
-
-/* color of logout button */
-.dropdown-item {
+.navbar-brand small {
+  display: block;
   text-align: center;
-  color: #F9231A;
+  font-weight: bold;
 }
-
-/* text within navbar  */
-#collapsingNav {
-  text-align: center;
-  font-size: 17px;
-  font-weight: 500;
-}
-
-
-

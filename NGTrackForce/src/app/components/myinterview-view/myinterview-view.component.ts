@@ -77,6 +77,7 @@ export class MyInterviewComponent implements OnInit {
     this.associateService.getAssociate(this.user.id).subscribe(
       data => {
         this.associate = data;
+        //don't call getAssociateInterviews until data is ready
         if(this.associate.id) {
           this.getAssociateInterviews(this.associate.id);
         }
@@ -105,6 +106,7 @@ export class MyInterviewComponent implements OnInit {
       data => {
         this.interviews = data;
         this.isDataReady = true;
+        console.log(this.interviews);
       },
       error => {
         console.error(error);
@@ -171,7 +173,7 @@ export class MyInterviewComponent implements OnInit {
           this.associate,
           this.clientId,
           this.interviewType,
-          new Date(this.interviewDate).getTime(),
+          new Date(this.interviewDate),
           null,
           this.was24HRNotice ? 1 : 0,
           null,
@@ -194,11 +196,15 @@ export class MyInterviewComponent implements OnInit {
       }
   }
 
+  /**
+   * Updates a specific interview
+   * @param interview: interview to be updated
+   */
   updateInterview(interview: Interview) {
     if (!this.dateError){
         this._displayStatus(StatusProp.UPDATE, InterviewStatusMsg.WAIT, AlertClass.WAIT);
         interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
-        interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
+        interview.interviewDate = new Date(interview.interviewDate); // convert into timestamp
         interview.dateSalesIssued = new Date(
           interview.dateAssociateIssued
         ).getTime(); // convert into timestamp

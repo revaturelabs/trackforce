@@ -77,7 +77,9 @@ export class MyInterviewComponent implements OnInit {
     this.associateService.getAssociate(this.user.id).subscribe(
       data => {
         this.associate = data;
-        this.getAssociateInterviews(this.associate.id);
+        if(this.associate.id) {
+          this.getAssociateInterviews(this.associate.id);
+        }
       },
       error => {
         console.log(error);
@@ -98,12 +100,25 @@ export class MyInterviewComponent implements OnInit {
     );
   }
 
+  getAssociateInterviews(id: number) {
+    this.interviewService.getInterviewsForAssociate(id).subscribe(
+      data => {
+        this.interviews = data;
+        this.isDataReady = true;
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
   toggleForm() {
     this.formOpen = !this.formOpen;
   }
 
   /**
    * Displays a status message dependant on whether the request was successful or not
+   * Generic method for displaying either the update status message or the submit status message
    * @param prop StatusProp enum, determines whether the message is for updating or submitting
    * SUBMIT - status of attempt to submit a new interview
    * UPDATE - status of attempt to submit a new interview
@@ -227,18 +242,6 @@ export class MyInterviewComponent implements OnInit {
       }
     }
     return false;
-  }
-
-  getAssociateInterviews(id: number) {
-    this.interviewService.getInterviewsForAssociate(id).subscribe(
-      data => {
-        this.interviews = data;
-        this.isDataReady = true;
-      },
-      error => {
-        console.error(error);
-      }
-    );
   }
 
   /**

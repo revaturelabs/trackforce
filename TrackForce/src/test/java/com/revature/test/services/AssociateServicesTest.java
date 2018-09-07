@@ -17,7 +17,9 @@ import org.testng.annotations.Test;
 
 import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
+import com.revature.services.UserService;
 import com.revature.test.utils.Log;
 import com.revature.utils.HibernateUtil;
 
@@ -160,10 +162,16 @@ public class AssociateServicesTest {
 	@Test
 	public void testCreateAssociate() {
 		
+		
+		
+		
 	}
 	
 	@Test
 	public void testApproveAssociate() {
+		service.approveAssociate(614);
+		TfAssociate approvedAssociate = service.getAssociate(614);
+		assertEquals(approvedAssociate.getUser().getIsApproved(),1);
 		
 	}
 	

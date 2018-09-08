@@ -32,7 +32,7 @@ describe('When an admin navigates to the client-list page it', function() {
     it('should yield match for search input in one exists', () => {
         clientList.clientListSpan.getText()
         .then(text => {
-            expect(text).toEqual(searchByClientName);
+            expect(text).toContain(searchByClientName);
         });
     });
 
@@ -41,14 +41,14 @@ describe('When an admin navigates to the client-list page it', function() {
         clientList.inputClientName().sendKeys(searchByClientName.toLocaleLowerCase());
         clientList.clientListSpan.getText()
         .then(text => {
-            expect(text).toEqual(searchByClientName);
+            expect(text).toContain(searchByClientName);
         });
     });
 
     it('should be able to click a searched for client', () => {
       clientList.clientListSpan.click();
       clientList.getBarChartHeader().getText().then(text => {
-        expect(text).toEqual(searchByClientName);
+        expect(text).toContain(searchByClientName);
       });
     });
 
@@ -137,10 +137,10 @@ describe('When an Staging Manager navigates to the client-list page it', functio
         expect(clientList.inputClientName().getAttribute("value")).toEqual(searchByClientName);
     });
 
-    it('should yield match for search input in one exists', () => {
+    it('should yield match for search input if one exists', () => {
         clientList.clientListSpan.getText()
         .then(text => {
-            expect(text).toEqual(searchByClientName);
+            expect(text).toContain(searchByClientName);
         });
     });
 
@@ -149,14 +149,14 @@ describe('When an Staging Manager navigates to the client-list page it', functio
         clientList.inputClientName().sendKeys(searchByClientName.toLocaleLowerCase());
         clientList.clientListSpan.getText()
         .then(text => {
-            expect(text).toEqual(searchByClientName);
+            expect(text).toContain(searchByClientName);
         });
     });
 
     it('should be able to click a searched for client', () => {
       clientList.clientListSpan.click();
       clientList.getBarChartHeader().getText().then(text => {
-        expect(text).toEqual(searchByClientName);
+        expect(text).toContain(searchByClientName);
       });
     });
 
@@ -248,7 +248,7 @@ describe('When an Delivery/Sales navigates to the client-list page it', function
     it('should yield match for search input in one exists', () => {
         clientList.clientListSpan.getText()
         .then(text => {
-            expect(text).toEqual(searchByClientName);
+            expect(text).toContain(searchByClientName);
         });
     });
 
@@ -257,14 +257,14 @@ describe('When an Delivery/Sales navigates to the client-list page it', function
         clientList.inputClientName().sendKeys(searchByClientName.toLocaleLowerCase());
         clientList.clientListSpan.getText()
         .then(text => {
-            expect(text).toEqual(searchByClientName);
+            expect(text).toContain(searchByClientName);
         });
     });
 
     it('should be able to click a searched for client', () => {
       clientList.clientListSpan.click();
       clientList.getBarChartHeader().getText().then(text => {
-        expect(text).toEqual(searchByClientName);
+        expect(text).toContain(searchByClientName);
       });
     });
 

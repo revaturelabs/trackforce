@@ -108,12 +108,12 @@ describe('Login in  with proper credentials', () => {
     });
   });
 
-  // it('should be able to login in with Trainer credentials and reach the Trainer page', () => {
-  //   logIn(trainerUsername, trainerPassword, page);
-  //   browser.getCurrentUrl().then( function( url ) {
-  //     expect(url).toEqual(trainerUrl);
-  //   });
-  // });
+  xit('should be able to login in with Trainer credentials and reach the Trainer page', () => {
+    logIn(trainerUsername, trainerPassword, page);
+    browser.getCurrentUrl().then( function( url ) {
+      expect(url).toEqual(trainerUrl);
+    });
+  });
 
   it('should be able to login in with Sales Team credentials and reach the Admin page', () => {
     logIn(deliverySalesUsername, deliverySalesPassword, page);

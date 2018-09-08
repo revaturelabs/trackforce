@@ -79,8 +79,6 @@ export class FormComponent implements OnInit {
     private router: Router
   ) {
     this.interviews = [];
-    //gets id from router url parameter
-    //this.id = Number(window.location.href.split('form-comp/')[1]);
   }
 
   ngOnInit() {
@@ -96,7 +94,7 @@ export class FormComponent implements OnInit {
           this.getAssociateInterviews(this.associate.id);
         },
         error => {
-          console.log('error');
+          console.error(error);
         }
       );
     });
@@ -289,11 +287,9 @@ export class FormComponent implements OnInit {
     this.selectedMarketingStatus = null;
   }
 
-  goToInterviewDetails( interview: Interview )
-  {
+  goToInterviewDetails( interview: Interview ) {
     this.user = this.authService.getUser();
-    if ( this.user.role === 3 )
-    {
+    if (this.user.role === 3) {
       this.router.navigate(['interview-details/' + interview.id]);
     }
   }

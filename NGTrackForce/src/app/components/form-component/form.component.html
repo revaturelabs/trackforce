@@ -21,7 +21,7 @@
       <div class="table-responsive info table-div">
         <table class="table borderless">
           <tbody>
-            <tr *ngIf="(associate && associate.user && associate.user.isApproved) ? associate.user.isApproved != true : true">
+            <tr *ngIf="(associate && associate.user && associate.user.isApproved) ? associate.user.isApproved !== true : true">
               <td>This Associate has not been approved yet</td>
               <td>
                 <button class="btn btn-primary" (click)="approveAssociate()">Approve</button>
@@ -63,7 +63,7 @@
         </table>
       </div>
     </div>
-    
+
     <div class="col-md-8">
       <h3>Update Associate</h3>
       <div class="div-window">
@@ -104,13 +104,13 @@
               <td><input type="date" class="form-control" name="date" [(ngModel)]="newStartDate" /></td>
             </tr>
           </table>
-          <button (click)="updateAssociate()" class="btn btn-warning" style="margin-top:10px">Update Status</button>
-        </div>            
+          <button class="btn btn-warning" style="margin-top:10px">Update Status</button>
+        </div>
         <hr>
         <form>
           <div class="checkbox">
             <label>
-              <input type="checkbox" [checked]="isMapped" (change)="isMapped = !isMapped"> Is the associate mapped?            
+              <input type="checkbox" [checked]="isMapped" (change)="isMapped = !isMapped"> Is the associate mapped?
             </label>
           </div>
           <div class="checkbox">
@@ -185,11 +185,11 @@
             <label>Enter feedback for Interview ID: {{interviewSelected.id}}</label>
             <textarea type="text" class="form-control" name="feedback" rows="3" [(ngModel)]="feedback"></textarea>
             <br>
-            <button type="button" (click)="updateInterviewFeedback(interview)" class="btn btn-warning">Send</button>
+            <button type="button" (click)="updateInterviewFeedback()" class="btn btn-warning">Send</button>
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </div>
 <!-- <div *ngIf="isAssociate">
 <div class="col-sm-6">

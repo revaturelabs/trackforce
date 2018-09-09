@@ -46,7 +46,10 @@ export class FormComponent implements OnInit {
 
   // form booleans
   // isVerified: string;
-  isApproved = 0; //number because if default state set to "false", failure message will display on load
+  /**
+   * isApproved: 0 unitialized, 1 true, 2 false
+   */
+  isApproved = 0;
   isMapped: boolean;
   eligibleForInterview: boolean;
   interviewScheduled: boolean;
@@ -57,6 +60,8 @@ export class FormComponent implements OnInit {
   public isDataReady = false;
 
   //loading booleans
+  approvalPending = false;
+  associateIsLoaded = false;
   interviewsLoading = true;
 
   associateId: number;
@@ -91,6 +96,10 @@ export class FormComponent implements OnInit {
             return;
           }
           this.associate = data;
+          this.associateIsLoaded = this.associate.user !== undefined && this.associate.user !== null;
+          if(this.associateIsLoaded) {
+            console.log(this.associate.user.isApproved)
+          }
           this.getAssociateInterviews(this.associate.id);
         },
         error => {
@@ -141,9 +150,17 @@ export class FormComponent implements OnInit {
   }
 
   approveAssociate() {
+    this.approvalPending = true;
     return this.associateService
       .approveAssociate(this.associate.id)
-      .subscribe(data => (this.isApproved = data ? 1 : 2)); //1 for true, 2 for false, 0 for initial state
+      .subscribe(
+        data => {
+          console.log(data);
+          this.isApproved = data ? 1 : 2
+          this.approvalPending = false;
+        }, //1 for true, 2 for false, 0 for initial state
+        error => console.error(error)
+      );
   }
 
   processForm() {
@@ -180,12 +197,17 @@ export class FormComponent implements OnInit {
       // set status to UNMAPPED: TRAINING
       this.selectedMarketingStatus = 6;
     }
-    // this.updateAssociate();
+    this.updateAssociate();
   }
 
   /**
    * Update the associate with the new verification status, client, status, and/or start date
    */
+
+  updateAssociate() {
+
+  }
+
   // COMMENTED OUT BECAUSE IT BROKE BECAUSE OF CHANGES WE MADE TO MODELS
   // ALSO NEED TO UNCOMMENT OUT LINE 157 WHEN THIS WORKS
   // updateAssociate() {
@@ -257,7 +279,7 @@ export class FormComponent implements OnInit {
 
       },
       error => {
-        console.log('Failed to get interviews.');
+        console.error(error);
         this.isDataReady = true;
       }
     );

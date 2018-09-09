@@ -1,16 +1,19 @@
 <div class="container" ng-init="" *ngIf="!isAssociate">
   <div class="row">
-    <div class="alert alert-success" *ngIf="successMessage">
-      <h5 class="text-success">{{successMessage}}</h5>
-    </div>
     <div class="alert alert-success" *ngIf="isApproved === 1">
       <h5 class="text-success">Successfully Approved!</h5>
     </div>
     <div class="alert alert-danger" *ngIf="isApproved === 2">
       <h5 class="text-danger">Approval failed</h5>
     </div>
+    <div class="alert alert-warning" *ngIf="approvalPending">
+      <h5 class="text-warning">Please wait, approval is pending . . .</h5>
+    </div>
+    <div class="alert alert-success" *ngIf="successMessage">
+      <h5 class="text-success">{{ successMessage }}</h5>
+    </div>
     <div class="alert alert-danger" *ngIf="errorMessage">
-      <h5 class="text-danger">{{errorMessage}}</h5>
+      <h5 class="text-danger">{{ errorMessage }}</h5>
     </div>
   </div>
 
@@ -21,10 +24,14 @@
       <div class="table-responsive info table-div">
         <table class="table borderless">
           <tbody>
-            <tr *ngIf="(associate && associate.user && associate.user.isApproved) ? associate.user.isApproved !== true : true">
+            <tr *ngIf="associateIsLoaded && associate.user.isApproved === 2">
               <td>This Associate has not been approved yet</td>
               <td>
-                <button class="btn btn-primary" (click)="approveAssociate()">Approve</button>
+                <button class="btn btn-primary"
+                  (click)="approveAssociate()"
+                  [disabled]="approvalPending">
+                    Approve
+                </button>
               </td>
             </tr>
             <tr>
@@ -104,7 +111,6 @@
               <td><input type="date" class="form-control" name="date" [(ngModel)]="newStartDate" /></td>
             </tr>
           </table>
-          <button class="btn btn-warning" style="margin-top:10px">Update Status</button>
         </div>
         <hr>
         <form>

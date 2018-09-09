@@ -61,7 +61,7 @@
       <!--Test Conversion to html date input only, will update upon changing the dates-->
       <div class="col-lg-7 col-md-12 mcolumn right">
         <br>
-        <table class="table">
+        <!-- <table class="table borderless fixedw-table nopadding-table">
           <tr>
             <th>From:</th>
             <th>To:</th>
@@ -72,7 +72,22 @@
             <td><input name='endDate' class="form-control" id = "endDate" type="date" [(ngModel)]="toString" (change)="applySelectedRange()"
               /></td>
           </tr>
-        </table>
+        </table> -->
+        <table class="table">
+            <thead>
+              <tr>
+                <th class="name-column"></th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td>From:<input name='startDate' class="form-control" id ="startDate" type="date" [(ngModel)]="fromString" (change)="applySelectedRange()"
+                    /></td>
+                  <td>To:<input name='endDate' class="form-control" id = "endDate" type="date" [(ngModel)]="toString" (change)="applySelectedRange()"
+                    /></td>
+                </tr>
+            </tbody>
+          </table>
         <div *ngIf="showDateRangeError" class="alert alert-danger" role="alert">
           {{dateRangeMessage}}
       </div>

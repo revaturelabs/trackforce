@@ -1,71 +1,62 @@
-<div class="container">
-  <!-- <div class="row">
-      <div class="col-sm-12">
-        <button (click)="populateDB()"  class="btn">Populate Database</button>
-        <button (click)="populateDBSF()" class="btn">Populate Static Salesforce</button>
-        <button (click)="deleteDB()" class="btn" >Empty Database</button>
-        <p>{{dbMessage}}</p>
-      </div>
-    </div> -->
-
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body data-spy="scroll" data-target="chartMenu" data-offset="20">
   <div class="row">
-    <div class="col-sm-12">
-      <h4>For a break down of information, click on a pie chart.</h4>
-    </div>
-  </div>
-  <div class="row">
+    <div class="container">
+      <nav class="col-sm-3" id="chartMenu">
+          <ul class="nav nav-pills nav-stacked">
+            <li (click) = "scroll('#notDeployed')">Not Deployed</li>
+            <li (click) = "scroll('#deployed')">Deployed</li>
+            <li (click) = "scroll('#mapped')">Mapped</li>
+            <li (click) = "scroll('#unmapped')">Unmapped</li>
+          </ul>
+        </nav>
 
-    <div class="col-sm-6">
-      <div class="white" title="Click on the chart for more information">
-        <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getUndeployedData()" [colors]="mappedColors" [chartType]="undeployedChartType"
-          [labels]="undeployedLabels" [options]="undeployedOptions"
-          (chartClick)="chartOnClick($event, Path.UNDEPLOYED)">
-        </canvas>
-        <div class="center-div" *ngIf=loading>
-          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      <div class="col-sm-9">
+        <div id="#notDeployed">
+                <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getUndeployedData()" [colors]="mappedColors" [chartType]="undeployedChartType"
+                  [labels]="undeployedLabels" [options]="undeployedOptions"
+                  (chartClick)="chartOnClick($event, Path.UNDEPLOYED)">
+                </canvas>
+                <div class="center-div" *ngIf=loading>
+                  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+                </div>
+          </div>
+        <div id="#deployed">
+            <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getDeployedData()" [colors]="mappedColors" [chartType]="deployedChartType"
+            [options]="deployedOptions" [labels]="deployedLabels"
+            (chartClick)="chartOnClick($event, Path.DEPLOYED)">
+            </canvas>
+          <div class="center-div" *ngIf=loading>
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+          </div>
+        </div>
+
+        <div id = "#mapped">
+            <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getMappedData()" [labels]="mappedLabels" [chartType]="mappedChartType"
+            [colors]="clientColors" [options]="mappedOptions"
+            (chartClick)="chartOnClick($event, Path.CLIENT_MAPPED)">
+          </canvas>
+          <div class="center-div" *ngIf=loading>
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+          </div>
+        </div>
+
+        <div id="#unmapped">
+            <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getUnmappedData()" [labels]="unmappedLabels" [chartType]="unmappedChartType"
+            [colors]="skillColors" [options]="unmappedOptions"
+            (chartClick)="chartOnClick($event, Path.SKILLSET)">
+          </canvas>
+          <div class="center-div" *ngIf=loading>
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+          </div>
+
         </div>
       </div>
-    </div>
-
-    <div class="col-sm-6">
-      <div class="white" title="Click on the chart for more information">
-        <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getDeployedData()" [colors]="mappedColors" [chartType]="deployedChartType"
-          [options]="deployedOptions" [labels]="deployedLabels"
-          (chartClick)="chartOnClick($event, Path.DEPLOYED)">
-        </canvas>
-        <div class="center-div" *ngIf=loading>
-          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="row">
-
-    <div class="col-sm-6">
-      <div class="white" title="Click on the chart for more information">
-        <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getMappedData()" [labels]="mappedLabels" [chartType]="mappedChartType"
-          [colors]="clientColors" [options]="mappedOptions"
-          (chartClick)="chartOnClick($event, Path.CLIENT_MAPPED)">
-        </canvas>
-        <div class="center-div" *ngIf=loading>
-          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-sm-6">
-      <div class="white" title="Click on the chart for more information">
-        <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getUnmappedData()" [labels]="unmappedLabels" [chartType]="unmappedChartType"
-          [colors]="skillColors" [options]="unmappedOptions"
-          (chartClick)="chartOnClick($event, Path.SKILLSET)">
-        </canvas>
-        <div class="center-div" *ngIf=loading>
-          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-        </div>
-      </div>
-    </div>
 
   </div>
 </div>
+</body>

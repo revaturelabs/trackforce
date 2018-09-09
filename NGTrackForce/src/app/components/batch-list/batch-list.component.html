@@ -32,7 +32,7 @@
       </table>
     </div>
 
-    <div class="col-lg-7 col-md-12 mcolumn right">
+    <!-- <div class="col-lg-7 col-md-12 mcolumn right">
       <h3>Select Dates</h3>
       <div *ngIf="showDateRangeError" class="alert alert-danger" role="alert">
           {{dateRangeMessage}}
@@ -50,10 +50,34 @@
           <input type="submit" class="btn btn-default" value="Submit" (click)="applySelectedRange()" />
           <input type="submit" class="btn btn-danger" value="Reset" (click)="resetToDefaultBatches()" />
         </div>
-      </form>
-      <div class="center-div" *ngIf="!dataReady">
-        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </form> -->
+
+       <!--1807:Test button for conversion from datepicker to html input -->
+       <div class="col-lg-7 col-md-12 mcolumn right">
+        <h3>Select Dates</h3>
+        <!-- <div *ngIf="showDateRangeError" class="alert alert-danger" role="alert">
+            {{dateRangeMessage}}
+        </div> -->
+      <!--Test Conversion to html date input only, will update upon changing the dates-->
+      <div class="col-lg-7 col-md-12 mcolumn right">
+        <br>
+        <table class="table">
+          <tr>
+            <th>From:</th>
+            <th>To:</th>
+          </tr>
+          <tr>
+            <td><input name='startDate' class="form-control" id ="startDate" type="date" [(ngModel)]="fromString" (change)="applySelectedRange()"
+              /></td>
+            <td><input name='endDate' class="form-control" id = "endDate" type="date" [(ngModel)]="toString" (change)="applySelectedRange()"
+              /></td>
+          </tr>
+        </table>
+        <div *ngIf="showDateRangeError" class="alert alert-danger" role="alert">
+          {{dateRangeMessage}}
       </div>
+      </div>
+
       <ng-container *ngIf="dataReady && !dataEmpty">
         <canvas baseChart id="pie" class="chart chart-pie" [data]="curriculumCounts" [labels]="curriculumNames" [chartType]="pieChartType"
           [colors]="batchColors" [options]="chartOptions">

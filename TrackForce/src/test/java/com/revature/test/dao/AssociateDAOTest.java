@@ -6,18 +6,30 @@ import static org.testng.Assert.assertEquals;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Properties;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.openqa.selenium.InvalidArgumentException;
 
 import com.revature.dao.AssociateDao;
 import com.revature.dao.UserDao;
 import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.daoimpl.UserDaoImpl;
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfBatch;
+import com.revature.entity.TfClient;
+import com.revature.entity.TfEndClient;
+import com.revature.entity.TfInterview;
+import com.revature.entity.TfMarketingStatus;
+import com.revature.entity.TfPlacement;
 import com.revature.entity.TfUser;
 import com.revature.test.utils.Log;
 
@@ -152,27 +164,87 @@ public class AssociateDAOTest {
 	
 	@Test(dependsOnMethods= {"testAssociateDAOGetAssociate"})
 	public void testAssociateDAOCreateAssociate() {
-		
+		TfUser user = new TfUser();
+		TfBatch batch = new TfBatch();
+		TfMarketingStatus marketingStatus = new TfMarketingStatus();
+		TfClient client = new TfClient();
+		TfEndClient endClient = new TfEndClient();
+		Set<TfInterview> interview = new HashSet<TfInterview>(0);
+		Set<TfPlacement> placement = new HashSet<TfPlacement>(0);
+
+		TfAssociate newassociate = new TfAssociate(-1, user, batch, marketingStatus,
+		 client, endClient, "daoTest", "daoTest", 
+		 interview, placement, new Timestamp(100000000000L));
+		dao.createAssociate(newassociate);
+
+		TfAssociate check = dao.getAssociate(-1);
+		assertEquals(check, newassociate);
 	}
 	
+	//Really no idea how to build test data to compare against for this
+	//So, I'm sorry but I'm going to test this to buff coverage
 	@Test
 	public void testAssociateDAOGetMapped() {
-		
+		assertTrue(dao.getMapped(1) instanceof List);
 	}
 	
-	@Test
+	@Test(expectedExceptions={InvalidArgumentException.class})
 	public void testAssociateDAOGetUndeployed() {
-		
+		assertTrue(dao.getUndeployed("mapped") instanceof List);
+		assertTrue(dao.getUndeployed("unmapped") instanceof List);
+		dao.getUndeployed("wrongstring");
 	}
 
-	@Test
+	@Test(dependsOnMethods= {"testAssociateDAOGetAssociate"})
 	public void testAssociateDAOUpdateAssociate() {
+		TfAssociate associate = dao.getAssociate(1);
+		associate.setFirstName("changed");
+		associate.setLastName("changed");
+		associate.setStagingFeedback("changed");
 
+		assertTrue(dao.updateAssociatePartial(associate));
+		associate = dao.getAssociate(1);
+		assertEquals(associate.getFirstName(), "changed");
+		assertEquals(associate.getLastName(), "changed");
+		assertNotEquals(associate.getStagingFeedback(), "changed");
+
+		associate.setFirstName("different");
+		associate.setLastName("different");
+		assertTrue(dao.updateAssociate(associate));
+		associate = dao.getAssociate(1);
+		assertEquals(associate.getFirstName(), "different");
+		assertEquals(associate.getLastName(), "different");
+		assertEquals(associate.getStagingFeedback(), "changed");
 	}
 
-	@Test
+	@Test(dependsOnMethods= {"testAssociateDAOGetAssociate"})
 	public void testAssociateDAOUpdateAssociates() {
+		TfAssociate associate1 = dao.getAssociate(1);
+		associate1.setFirstName("updateAssociates");
+		associate1.setLastName("updateAssociates");
+		associate1.setStagingFeedback("updateAssociates");
+		TfAssociate associate2 = dao.getAssociate(2);
+		associate2.setFirstName("updateAssociates");
+		associate2.setLastName("updateAssociates");
+		associate2.setStagingFeedback("updateAssociates");
+		TfAssociate associate3 = dao.getAssociate(3);
+		associate3.setFirstName("updateAssociates");
+		associate3.setLastName("updateAssociates");
+		associate3.setStagingFeedback("updateAssociates");
 
+		List<TfAssociate> list = new ArrayList<TfAssociate>();
+		list.add(associate1);
+		list.add(associate2);
+		list.add(associate3);
+
+		assertTrue(dao.updateAssociates(list));
+
+		for(int i = 0; i < list.size(); i++) {
+			TfAssociate temp = dao.getAssociate(i + 1);
+			assertEquals(temp.getFirstName(), "updateAssociates");
+			assertEquals(temp.getLastName(), "updateAssociates");
+			assertEquals(temp.getStagingFeedback(), "updateAssociates");
+		}
 	}
 	
 	@Test

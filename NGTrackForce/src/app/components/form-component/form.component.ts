@@ -289,16 +289,15 @@ export class FormComponent implements OnInit {
           this.associate.placement,
           this.associate.clientStartDate
         );
-        console.log(newAssociate);
-        // this.associate = newAssociate;
-        // this.associateService.updateAssociate(this.associate).then(
-        //   data => {
-        //     this._displayFormStatus(FormStatus.SUCCESS, StatusProp.UPDATE, StatusClass.UPDATE_CLASS);
-        //   },
-        // ).catch(error => {
-        //   this._displayFormStatus(FormStatus.FAILURE, StatusProp.UPDATE, StatusClass.UPDATE_CLASS);
-        //   console.error(error);
-        // });
+        this.associate = newAssociate;
+        this.associateService.updateAssociate(this.associate).then(
+          data => {
+            this._displayFormStatus(FormStatus.SUCCESS, StatusProp.UPDATE, StatusClass.UPDATE_CLASS);
+          },
+        ).catch(error => {
+          this._displayFormStatus(FormStatus.FAILURE, StatusProp.UPDATE, StatusClass.UPDATE_CLASS);
+          console.error(error);
+        });
       },
       error => console.error(error)
     );

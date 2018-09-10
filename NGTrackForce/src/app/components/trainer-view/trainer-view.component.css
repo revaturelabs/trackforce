@@ -1,0 +1,24 @@
+
+.msg {
+  display: inline-block;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.wait {
+  background: rgb(251, 247, 220);
+  border-color: rgb(191, 187, 160);
+}
+
+.error {
+  background: rgb(237, 214, 214);
+  border-color: rgb(177, 154, 154);
+}
+
+.success {
+  background: rgb(216, 238, 207);
+  border-color: rgb(156, 178, 147);
+}

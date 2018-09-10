@@ -1,13 +1,11 @@
 package com.revature.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfClient;
 import com.revature.entity.TfUser;
 import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
@@ -20,6 +18,7 @@ import com.revature.utils.PasswordStorage.CannotPerformOperationException;
  * @version v6.18.06.13
  *
  */
+
 public class AssociateService {
 	
 	private AssociateDao dao;
@@ -68,6 +67,32 @@ public class AssociateService {
 	
 	public List<TfAssociate> getNAssociates(){
 		return dao.getNAssociates();
+	}
+	
+	/**
+	 * Get a single page of associates filtered by criteria required for the "Associates"
+	 * page on the front-end. The results can possibly be filtered by marketing status
+	 * and/or clientId
+	 * @param startIdx The first result in the querry to be returned
+	 * @param numRes The number of results to return, starting with startIdx
+	 * @param mktStatus -1 to ignore this field, otherwise return only results matching this marketing status id
+	 * @param clientId -1 to ignore this field, otherwise return only results matching this client id
+	 * @return A list of TfAssociate
+	 * @throws IllegalArgumentException If any arguments are lower than allowed values - min values
+	 * are 0 for startIdx and numRes, -1 for mktStatus and clientId
+	 */
+	public List<TfAssociate> getAssociatePage(int startIdx, int numRes, int mktStatus, int clientId) {
+		if (startIdx < 0 || numRes < 0 || mktStatus < -1 || clientId < -1) {
+			LogUtil.logger.warn("AssociateService.getAssociatePage() called with bad value");
+			throw new IllegalArgumentException();
+		}
+		
+		//Any hibernate exceptions are handled in the resource class
+		try {
+			return dao.getNAssociateMatchingCriteria(startIdx, numRes, mktStatus, clientId);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 	
 	public Object getCountUndeployedMapped()

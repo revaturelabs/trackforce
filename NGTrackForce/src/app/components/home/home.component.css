@@ -18,14 +18,15 @@ ul.nav-pills li:hover{
   background-color: moccasin;
 }
 div.col-sm-9 div {
+  display: flex;
+  justify-content: center;
   height: 500px;
   font-size: 30px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
 }
-
 @media screen and (max-width: 810px) {
-  #deployed, #section2, #mapped, #unmapped  {
+  #deployed, #notDeployed, #mapped, #unmapped  {
       margin-left: 150px;
   }
 }

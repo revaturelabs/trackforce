@@ -10,9 +10,9 @@
 import {Color} from 'ng2-charts';
 
 export class ThemeConstants {
-  static MAPPED_COLORS: Array<Color> = [{ backgroundColor: ['#ff9c38', '#004672'] }];
+  static MAPPED_COLORS: Array<Color> = [{ backgroundColor: ['#F27000', '#004672'] }];
 
-  static SKILL_COLORS: Array<Color> = [{ backgroundColor: ['#ff9c38', '#F4B874', '#cc7c2c', '#724614', '#995d21', '#725637', '#663e16','#BF7522'] }];
+  static SKILL_COLORS: Array<Color> = [{ backgroundColor: ['#F27000', '#F4B874', '#cc7c2c', '#724614', '#995d21', '#725637', '#663e16','#BF7522'] }];
   static CLIENT_COLORS: Array<Color> = [{ backgroundColor: ['#004672', '#4ba5ff', '#2BA5F2', '#73b9ff', '#2282BF', '#2295BF', '#53CAF4', '#c3e1ff'] }];
 
   static BATCH_COLORS: Array<Color> = [{ backgroundColor: ['#004672', '#4ba5ff', '#2BA5F2', '#73b9ff', '#2282BF', '#2295BF', '#53CAF4', '#c3e1ff'] }];

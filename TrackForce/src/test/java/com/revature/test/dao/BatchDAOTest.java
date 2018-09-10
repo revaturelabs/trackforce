@@ -6,6 +6,7 @@ import static org.testng.Assert.assertNotEquals;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
@@ -74,7 +75,7 @@ public class BatchDAOTest {
 				new Timestamp(Long.parseLong(props.getProperty("batch_startDate"))),
 				new Timestamp(Long.parseLong(props.getProperty("batch_endDate"))));
 		assertNotEquals(list, null);
-		assertEquals(list.size(), Integer.parseInt("batches_betweenDates_java"));
+		assertEquals(list.size(), Integer.parseInt(props.getProperty("batches_betweenDates_java")));
 		
 	}
 	
@@ -82,8 +83,8 @@ public class BatchDAOTest {
 	public void testBatchDAOGetObjectForPredictions() {
 		long startDate = Long.parseLong(props.getProperty("batch_startDate"));
 		long endDate = Long.parseLong(props.getProperty("batch_endDate"));
-		assertEquals((long)dao.getBatchCountsForPredictions("Java",	new Timestamp(startDate), new Timestamp(endDate)),
-				Long.parseLong(props.getProperty("batches_betweenDates_associates")));
+		BigDecimal count = new BigDecimal(Long.parseLong(props.getProperty("batches_betweenDates_associates")));
+		assertEquals(dao.getBatchCountsForPredictions("Java",	new Timestamp(startDate), new Timestamp(endDate)), count);
 	}
 	
 }

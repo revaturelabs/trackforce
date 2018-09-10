@@ -37,7 +37,7 @@ export class ClientListPo extends BasePage {
     viewDataForAllClients: ElementFinder;
 
     startUp(){
-      return browser.get('/login')
+      return browser.get('./#/login')
     }
 
     logIn(username, password){

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="4" errors="0" failures="2" tests="92" time="188.739">
- <testsuite name="A new user should able to register" timestamp="2018-09-07T16:21:47" hostname="localhost" time="15.287" errors="0" tests="9" skipped="0" disabled="0" failures="1">
-  <testcase classname="A new user should able to register" name="should navigate to the login page" time="4.677" />
-  <testcase classname="A new user should able to register" name="allow user to click the register button" time="0.092" />
-  <testcase classname="A new user should able to register" name="allow associate to enter a username" time="0.205" />
-  <testcase classname="A new user should able to register" name="allow associate to enter a valid password" time="0.123" />
-  <testcase classname="A new user should able to register" name="allow associate to re-enter a valid password" time="0.104" />
-  <testcase classname="A new user should able to register" name="should allow associate to enter first name" time="0.105" />
-  <testcase classname="A new user should able to register" name="should allow associate to enter last name" time="0.079" />
-  <testcase classname="A new user should able to register" name="show allow associate to pick a role" time="0.067" />
-  <testcase classname="A new user should able to register" name="should allow the user to register as an associate" time="8.626">
+<testsuites disabled="4" errors="0" failures="2" tests="116" time="217.429">
+ <testsuite name="A new user should able to register" timestamp="2018-09-10T10:51:12" hostname="localhost" time="16.048" errors="0" tests="9" skipped="0" disabled="0" failures="1">
+  <testcase classname="A new user should able to register" name="should navigate to the login page" time="4.767" />
+  <testcase classname="A new user should able to register" name="allow user to click the register button" time="0.107" />
+  <testcase classname="A new user should able to register" name="allow associate to enter a username" time="0.199" />
+  <testcase classname="A new user should able to register" name="allow associate to enter a valid password" time="0.125" />
+  <testcase classname="A new user should able to register" name="allow associate to re-enter a valid password" time="0.101" />
+  <testcase classname="A new user should able to register" name="should allow associate to enter first name" time="0.086" />
+  <testcase classname="A new user should able to register" name="should allow associate to enter last name" time="0.076" />
+  <testcase classname="A new user should able to register" name="show allow associate to pick a role" time="0.07" />
+  <testcase classname="A new user should able to register" name="should allow the user to register as an associate" time="9.241">
    <failure type="toContain" message="Expected &apos;Error: New Associate is not created!&apos; to contain &apos;Associate account creation successful.&apos;."><![CDATA[Error: Failed expectation
     at UserContext.<anonymous> (/Users/jacobgolding/Desktop/project_3/trackforce/NGTrackForce/e2e/register-associate/register-associate.e2e-spec.ts:69:63)
     at /usr/local/lib/node_modules/protractor/node_modules/jasminewd2/index.js:112:25
@@ -23,56 +23,56 @@
    </failure>
   </testcase>
  </testsuite>
- <testsuite name="A new user should not be able to register with a short username" timestamp="2018-09-07T16:22:02" hostname="localhost" time="3.531" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="A new user should not be able to register with a short username" name="allow associate to enter an invalid username" time="0.089" />
-  <testcase classname="A new user should not be able to register with a short username" name="should not allow the user to register with an invalid username" time="0.097" />
+ <testsuite name="A new user should not be able to register with a short username" timestamp="2018-09-10T10:51:28" hostname="localhost" time="3.344" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="A new user should not be able to register with a short username" name="allow associate to enter an invalid username" time="0.079" />
+  <testcase classname="A new user should not be able to register with a short username" name="should not allow the user to register with an invalid username" time="0.104" />
  </testsuite>
- <testsuite name="A new user should not be able to register with a weak password" timestamp="2018-09-07T16:22:05" hostname="localhost" time="3.871" errors="0" tests="3" skipped="0" disabled="0" failures="0">
-  <testcase classname="A new user should not be able to register with a weak password" name="allow associate to enter an invalid password" time="0.1" />
-  <testcase classname="A new user should not be able to register with a weak password" name="allow associate to re-enter an invalid password" time="0.096" />
-  <testcase classname="A new user should not be able to register with a weak password" name="should not allow the user to register with an invalid password" time="0.093" />
+ <testsuite name="A new user should not be able to register with a weak password" timestamp="2018-09-10T10:51:31" hostname="localhost" time="3.722" errors="0" tests="3" skipped="0" disabled="0" failures="0">
+  <testcase classname="A new user should not be able to register with a weak password" name="allow associate to enter an invalid password" time="0.089" />
+  <testcase classname="A new user should not be able to register with a weak password" name="allow associate to re-enter an invalid password" time="0.088" />
+  <testcase classname="A new user should not be able to register with a weak password" name="should not allow the user to register with an invalid password" time="0.098" />
  </testsuite>
- <testsuite name="A new user should not be able to register with a mismatched paswords" timestamp="2018-09-07T16:22:09" hostname="localhost" time="3.749" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="A new user should not be able to register with a mismatched paswords" name="allow associate to enter an different password" time="0.099" />
-  <testcase classname="A new user should not be able to register with a mismatched paswords" name="should not allow the user to register with an invalid username" time="0.105" />
+ <testsuite name="A new user should not be able to register with a mismatched paswords" timestamp="2018-09-10T10:51:35" hostname="localhost" time="3.673" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="A new user should not be able to register with a mismatched paswords" name="allow associate to enter an different password" time="0.088" />
+  <testcase classname="A new user should not be able to register with a mismatched paswords" name="should not allow the user to register with an invalid username" time="0.092" />
  </testsuite>
- <testsuite name="A new user should not be able to register with a mismatched paswords" timestamp="2018-09-07T16:22:13" hostname="localhost" time="3.53" errors="0" tests="1" skipped="0" disabled="0" failures="0">
-  <testcase classname="A new user should not be able to register with a mismatched paswords" name="should not allow the user to register without selecting a role " time="0.102" />
+ <testsuite name="A new user should not be able to register with a mismatched paswords" timestamp="2018-09-10T10:51:39" hostname="localhost" time="3.752" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="A new user should not be able to register with a mismatched paswords" name="should not allow the user to register without selecting a role " time="0.095" />
  </testsuite>
- <testsuite name="login page element existences" timestamp="2018-09-07T16:22:16" hostname="localhost" time="1.615" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+ <testsuite name="login page element existences" timestamp="2018-09-10T10:51:43" hostname="localhost" time="1.601" errors="0" tests="6" skipped="0" disabled="0" failures="0">
   <testcase classname="login page element existences" name="should have a username input box" time="0.001" />
-  <testcase classname="login page element existences" name="should have a password input box" time="0.001" />
-  <testcase classname="login page element existences" name="should have a login button" time="0" />
-  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.034" />
-  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.028" />
-  <testcase classname="login page element existences" name="should display proper value for button" time="0.035" />
+  <testcase classname="login page element existences" name="should have a password input box" time="0.002" />
+  <testcase classname="login page element existences" name="should have a login button" time="0.002" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.029" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.027" />
+  <testcase classname="login page element existences" name="should display proper value for button" time="0.036" />
  </testsuite>
- <testsuite name="Confirm login failures" timestamp="2018-09-07T16:22:18" hostname="localhost" time="1.985" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.105" />
-  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.339" />
+ <testsuite name="Confirm login failures" timestamp="2018-09-10T10:51:44" hostname="localhost" time="1.982" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.101" />
+  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.359" />
  </testsuite>
- <testsuite name="Login in  with proper credentials" timestamp="2018-09-07T16:22:20" hostname="localhost" time="8.777" errors="0" tests="5" skipped="1" disabled="0" failures="0">
-  <testcase classname="Login in  with proper credentials" name="should be able to login in with admin credentials and reach the admin page" time="1.042" />
-  <testcase classname="Login in  with proper credentials" name="should be able to login in with associate credentials and reach the associate page" time="3.599" />
-  <testcase classname="Login in  with proper credentials" name="should be able to login in with Manager credentials and reach the Admin page" time="1.258" />
+ <testsuite name="Login in  with proper credentials" timestamp="2018-09-10T10:51:46" hostname="localhost" time="8.65" errors="0" tests="5" skipped="1" disabled="0" failures="0">
+  <testcase classname="Login in  with proper credentials" name="should be able to login in with admin credentials and reach the admin page" time="0.966" />
+  <testcase classname="Login in  with proper credentials" name="should be able to login in with associate credentials and reach the associate page" time="3.337" />
+  <testcase classname="Login in  with proper credentials" name="should be able to login in with Manager credentials and reach the Admin page" time="1.435" />
   <testcase classname="Login in  with proper credentials" name="should be able to login in with Trainer credentials and reach the Trainer page" time="0">
    <skipped message="Temporarily disabled with xit" />
   </testcase>
-  <testcase classname="Login in  with proper credentials" name="should be able to login in with Sales Team credentials and reach the Admin page" time="1.321" />
+  <testcase classname="Login in  with proper credentials" name="should be able to login in with Sales Team credentials and reach the Admin page" time="1.379" />
  </testsuite>
- <testsuite name="The admin navbar is functional" timestamp="2018-09-07T16:22:29" hostname="localhost" time="38.153" errors="0" tests="8" skipped="0" disabled="0" failures="0">
-  <testcase classname="The admin navbar is functional" name="should navigate to home page" time="0.724" />
-  <testcase classname="The admin navbar is functional" name="should navigate to client list page" time="5.54" />
-  <testcase classname="The admin navbar is functional" name="should navigate to batch list page" time="7.698" />
-  <testcase classname="The admin navbar is functional" name="should navigate to associate lising" time="12.371" />
-  <testcase classname="The admin navbar is functional" name="should navigate to predictions" time="9.889" />
-  <testcase classname="The admin navbar is functional" name="should navigate to create user" time="0.132" />
-  <testcase classname="The admin navbar is functional" name="should navigate to salesforce" time="0.069" />
-  <testcase classname="The admin navbar is functional" name="should be able to logout" time="0.061" />
+ <testsuite name="The admin navbar is functional" timestamp="2018-09-10T10:51:55" hostname="localhost" time="33.581" errors="0" tests="8" skipped="0" disabled="0" failures="0">
+  <testcase classname="The admin navbar is functional" name="should navigate to home page" time="0.72" />
+  <testcase classname="The admin navbar is functional" name="should navigate to client list page" time="4.796" />
+  <testcase classname="The admin navbar is functional" name="should navigate to batch list page" time="6.857" />
+  <testcase classname="The admin navbar is functional" name="should navigate to associate lising" time="10.118" />
+  <testcase classname="The admin navbar is functional" name="should navigate to predictions" time="8.916" />
+  <testcase classname="The admin navbar is functional" name="should navigate to create user" time="0.133" />
+  <testcase classname="The admin navbar is functional" name="should navigate to salesforce" time="0.07" />
+  <testcase classname="The admin navbar is functional" name="should be able to logout" time="0.059" />
  </testsuite>
- <testsuite name="The Asscoiate navbar is functional" timestamp="2018-09-07T16:23:07" hostname="localhost" time="9.133" errors="0" tests="3" skipped="0" disabled="0" failures="1">
-  <testcase classname="The Asscoiate navbar is functional" name="should navigate to home page" time="3.144" />
-  <testcase classname="The Asscoiate navbar is functional" name="should navigate to My Interviews" time="4.609">
+ <testsuite name="The Asscoiate navbar is functional" timestamp="2018-09-10T10:52:28" hostname="localhost" time="8.609" errors="0" tests="3" skipped="0" disabled="0" failures="1">
+  <testcase classname="The Asscoiate navbar is functional" name="should navigate to home page" time="3.459" />
+  <testcase classname="The Asscoiate navbar is functional" name="should navigate to My Interviews" time="3.773">
    <failure type="toEqual" message="Expected &apos;http://localhost:4200/#/associate-view&apos; to equal &apos;http://localhost:4200/#/myinterview-view&apos;."><![CDATA[Error: Failed expectation
     at UserContext.<anonymous> (/Users/jacobgolding/Desktop/project_3/trackforce/NGTrackForce/e2e/navbar/navbar.e2e-spec.ts:82:40)
     at /usr/local/lib/node_modules/protractor/node_modules/jasminewd2/index.js:112:25
@@ -85,19 +85,19 @@
     at /usr/local/lib/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:668:7]]>
    </failure>
   </testcase>
-  <testcase classname="The Asscoiate navbar is functional" name="should be able to logout" time="0.078" />
+  <testcase classname="The Asscoiate navbar is functional" name="should be able to logout" time="0.07" />
  </testsuite>
- <testsuite name="The Staging Manager navbar is functional" timestamp="2018-09-07T16:23:16" hostname="localhost" time="35.937" errors="0" tests="7" skipped="0" disabled="0" failures="0">
-  <testcase classname="The Staging Manager navbar is functional" name="should navigate to home page" time="0.859" />
-  <testcase classname="The Staging Manager navbar is functional" name="should navigate to client list page" time="4.916" />
-  <testcase classname="The Staging Manager navbar is functional" name="should navigate to batch list page" time="7.373" />
-  <testcase classname="The Staging Manager navbar is functional" name="should navigate to associate lising" time="10.724" />
-  <testcase classname="The Staging Manager navbar is functional" name="should navigate to predictions" time="10.172" />
-  <testcase classname="The Staging Manager navbar is functional" name="should navigate to create user" time="0.127" />
-  <testcase classname="The Staging Manager navbar is functional" name="should be able to logout" time="0.073" />
+ <testsuite name="The Staging Manager navbar is functional" timestamp="2018-09-10T10:52:37" hostname="localhost" time="33.059" errors="0" tests="7" skipped="0" disabled="0" failures="0">
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to home page" time="0.632" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to client list page" time="4.306" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to batch list page" time="7.166" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to associate lising" time="10.449" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to predictions" time="8.929" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to create user" time="0.136" />
+  <testcase classname="The Staging Manager navbar is functional" name="should be able to logout" time="0.063" />
  </testsuite>
- <testsuite name="The Trainer navbar is functional" timestamp="2018-09-07T16:23:52" hostname="localhost" time="0.002" errors="0" tests="4" skipped="0" disabled="4" failures="0">
-  <testcase classname="The Trainer navbar is functional" name="should navigate to home page" time="0.002">
+ <testsuite name="The Trainer navbar is functional" timestamp="2018-09-10T10:53:10" hostname="localhost" time="0.001" errors="0" tests="4" skipped="0" disabled="4" failures="0">
+  <testcase classname="The Trainer navbar is functional" name="should navigate to home page" time="0.001">
    <skipped />
   </testcase>
   <testcase classname="The Trainer navbar is functional" name="should navigate to batch list page" time="0">
@@ -110,64 +110,118 @@
    <skipped />
   </testcase>
  </testsuite>
- <testsuite name="The Delivery/Sales navbar is functional" timestamp="2018-09-07T16:23:52" hostname="localhost" time="36.629" errors="0" tests="7" skipped="0" disabled="0" failures="0">
-  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to home page" time="0.724" />
-  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to client list page" time="5.035" />
-  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to batch list page" time="7.479" />
-  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to associate lising" time="10.452" />
-  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to predictions" time="11.389" />
-  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to create user" time="0.15" />
-  <testcase classname="The Delivery/Sales navbar is functional" name="should be able to logout" time="0.077" />
+ <testsuite name="The Delivery/Sales navbar is functional" timestamp="2018-09-10T10:53:10" hostname="localhost" time="33.833" errors="0" tests="7" skipped="0" disabled="0" failures="0">
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to home page" time="0.71" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to client list page" time="4.72" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to batch list page" time="7.807" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to associate lising" time="9.77" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to predictions" time="9.317" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to create user" time="0.128" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should be able to logout" time="0.071" />
  </testsuite>
- <testsuite name="When an admin navigates to the client-list page it" timestamp="2018-09-07T16:24:29" hostname="localhost" time="10.502" errors="0" tests="11" skipped="2" disabled="0" failures="0">
-  <testcase classname="When an admin navigates to the client-list page it" name="should navigate to the client-list page" time="5.998" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should accept username input" time="0.16" />
+ <testsuite name="The create-user page " timestamp="2018-09-10T10:53:44" hostname="localhost" time="2.603" errors="0" tests="8" skipped="0" disabled="0" failures="0">
+  <testcase classname="The create-user page " name="should accept username input" time="0.493" />
+  <testcase classname="The create-user page " name="should accept password input" time="0.11" />
+  <testcase classname="The create-user page " name="should accept password confirmation input" time="0.096" />
+  <testcase classname="The create-user page " name="should select admin radio button" time="0.089" />
+  <testcase classname="The create-user page " name="should select trainer radio button" time="0.094" />
+  <testcase classname="The create-user page " name="should select associate radio button" time="0.078" />
+  <testcase classname="The create-user page " name="should select staging manager radio button" time="0.066" />
+  <testcase classname="The create-user page " name="should select delivery radio button" time="0.068" />
+ </testsuite>
+ <testsuite name="An Admin" timestamp="2018-09-10T10:53:47" hostname="localhost" time="10.435" errors="0" tests="5" skipped="4" disabled="0" failures="0">
+  <testcase classname="An Admin" name="should be able to create an admin" time="0">
+   <skipped message="Temporarily disabled with xit" />
+  </testcase>
+  <testcase classname="An Admin" name="should be able to create a trainer" time="8.988" />
+  <testcase classname="An Admin" name="should be able to create a associate" time="0">
+   <skipped message="Temporarily disabled with xit" />
+  </testcase>
+  <testcase classname="An Admin" name="should be able to create a staging manager" time="0">
+   <skipped message="Temporarily disabled with xit" />
+  </testcase>
+  <testcase classname="An Admin" name="should be able to create a delivery " time="0">
+   <skipped message="Temporarily disabled with xit" />
+  </testcase>
+ </testsuite>
+ <testsuite name="A Staging Manager" timestamp="2018-09-10T10:53:57" hostname="localhost" time="10.51" errors="0" tests="4" skipped="3" disabled="0" failures="0">
+  <testcase classname="A Staging Manager" name="should be able to create a trainer" time="8.98" />
+  <testcase classname="A Staging Manager" name="should be able to create a associate" time="0">
+   <skipped message="Temporarily disabled with xit" />
+  </testcase>
+  <testcase classname="A Staging Manager" name="should be able to create a staging manager" time="0.001">
+   <skipped message="Temporarily disabled with xit" />
+  </testcase>
+  <testcase classname="A Staging Manager" name="should be able to create a delivery " time="0.001">
+   <skipped message="Temporarily disabled with xit" />
+  </testcase>
+ </testsuite>
+ <testsuite name="A Staging Manager" timestamp="2018-09-10T10:54:07" hostname="localhost" time="11.256" errors="0" tests="4" skipped="3" disabled="0" failures="0">
+  <testcase classname="A Staging Manager" name="should be able to create a trainer" time="9.455" />
+  <testcase classname="A Staging Manager" name="should be able to create a associate" time="0">
+   <skipped message="Temporarily disabled with xit" />
+  </testcase>
+  <testcase classname="A Staging Manager" name="should be able to create a staging manager" time="0">
+   <skipped message="Temporarily disabled with xit" />
+  </testcase>
+  <testcase classname="A Staging Manager" name="should be able to create a delivery " time="0">
+   <skipped message="Temporarily disabled with xit" />
+  </testcase>
+ </testsuite>
+ <testsuite name="A user" timestamp="2018-09-10T10:54:19" hostname="localhost" time="5.068" errors="0" tests="3" skipped="0" disabled="0" failures="0">
+  <testcase classname="A user" name="should get an error if they use a sympol in their username" time="0.88" />
+  <testcase classname="A user" name="should get an error if they enter in an invalid password in the first password box" time="1.128" />
+  <testcase classname="A user" name="should get an error if they enter two different passwords" time="1.232" />
+ </testsuite>
+ <testsuite name="When an admin navigates to the client-list page it" timestamp="2018-09-10T10:54:24" hostname="localhost" time="9.465" errors="0" tests="11" skipped="2" disabled="0" failures="0">
+  <testcase classname="When an admin navigates to the client-list page it" name="should navigate to the client-list page" time="4.622" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should accept username input" time="0.147" />
   <testcase classname="When an admin navigates to the client-list page it" name="should yield match for search input in one exists" time="0.03" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.187" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should be able to click a searched for client" time="0.293" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should be able to click View Data for all Clients" time="1.123" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0.001">
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.204" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should be able to click a searched for client" time="0.297" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should be able to click View Data for all Clients" time="1.096" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0">
    <skipped message="Temporarily disabled with xit" />
   </testcase>
-  <testcase classname="When an admin navigates to the client-list page it" name="should trim the spaces between words in a search string" time="0.001">
+  <testcase classname="When an admin navigates to the client-list page it" name="should trim the spaces between words in a search string" time="0">
    <skipped message="Temporarily disabled with xit" />
   </testcase>
-  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for search input if many results exist" time="1.023" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should yield no matches if none exist" time="0.158" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should logout" time="0.076" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for search input if many results exist" time="1.042" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield no matches if none exist" time="0.178" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should logout" time="0.067" />
  </testsuite>
- <testsuite name="When an Staging Manager navigates to the client-list page it" timestamp="2018-09-07T16:24:39" hostname="localhost" time="7.703" errors="0" tests="11" skipped="2" disabled="0" failures="0">
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should navigate to the client-list page" time="3.329" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should accept username input" time="0.167" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield match for search input if one exists" time="0.025" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.244" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should be able to click a searched for client" time="0.186" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should be able to click View Data for all Clients" time="1.211" />
+ <testsuite name="When an Staging Manager navigates to the client-list page it" timestamp="2018-09-10T10:54:33" hostname="localhost" time="8.16" errors="0" tests="11" skipped="2" disabled="0" failures="0">
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should navigate to the client-list page" time="3.326" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should accept username input" time="0.157" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield match for search input if one exists" time="0.026" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.234" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should be able to click a searched for client" time="0.288" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should be able to click View Data for all Clients" time="1.103" />
   <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0">
    <skipped message="Temporarily disabled with xit" />
   </testcase>
   <testcase classname="When an Staging Manager navigates to the client-list page it" name="should trim the spaces between words in a search string" time="0">
    <skipped message="Temporarily disabled with xit" />
   </testcase>
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for search input if many results exist" time="1.012" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield no matches if none exist" time="0.159" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should logout" time="0.062" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for search input if many results exist" time="1.013" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield no matches if none exist" time="0.17" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should logout" time="0.063" />
  </testsuite>
- <testsuite name="When an Delivery/Sales navigates to the client-list page it" timestamp="2018-09-07T16:24:47" hostname="localhost" time="8.335" errors="0" tests="11" skipped="2" disabled="0" failures="0">
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should navigate to the client-list page" time="3.826" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should accept username input" time="0.137" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield match for search input in one exists" time="0.026" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.187" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should be able to click a searched for client" time="0.288" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should be able to click View Data for all Clients" time="1.108" />
+ <testsuite name="When an Delivery/Sales navigates to the client-list page it" timestamp="2018-09-10T10:54:41" hostname="localhost" time="8.077" errors="0" tests="11" skipped="2" disabled="0" failures="0">
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should navigate to the client-list page" time="3.254" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should accept username input" time="0.132" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield match for search input in one exists" time="0.027" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.172" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should be able to click a searched for client" time="0.281" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should be able to click View Data for all Clients" time="1.121" />
   <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0">
    <skipped message="Temporarily disabled with xit" />
   </testcase>
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should trim the spaces between words in a search string" time="0">
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should trim the spaces between words in a search string" time="0.001">
    <skipped message="Temporarily disabled with xit" />
   </testcase>
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for search input if many results exist" time="1.031" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield no matches if none exist" time="0.175" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should logout" time="0.055" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for search input if many results exist" time="1.027" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield no matches if none exist" time="0.158" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should logout" time="0.068" />
  </testsuite>
 </testsuites>

@@ -41,7 +41,8 @@ export class LoginPage {
   getlogoutButton() {
     return element(by.xpath('/html/body/app-component/app-navbar/nav/div/ul[1]/li[2]/button'));
   }
-  getUrl(){
-    return browser.baseUrl;
+
+  getCurrentUrl(){
+    return browser.getCurrentUrl();
   }
 }

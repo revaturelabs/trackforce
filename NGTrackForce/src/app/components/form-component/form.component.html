@@ -170,7 +170,10 @@
           </div>
           <tbody style="max-height: 300px;"  *ngIf="!interviewsLoading">
             <tr *ngFor="let interview of interviews; let i = index" (click)="goToInterviewDetails(interview)">
-              <td>{{(interview && interview.id) ? interview.id : ""}}</td>
+              <td>
+                <!-- {{(interview && interview.id !== null) ? interview.id : ""}} -->
+                <a [routerLink]="['/interview-details',interview.id]" class="id" *ngIf="interview.id !== null">{{interview.id}}</a>
+              </td>
               <td>{{(interview.client && interview.client.name) ? interview.client.name : ""}}</td>
               <td>{{(interview && interview.interviewDate) ? (interview.interviewDate | date:'longDate') : "" }}</td>
               <td>{{(interview && interview.interviewType && interview.interviewType.name) ?interview.interviewType.name : ""}}</td>

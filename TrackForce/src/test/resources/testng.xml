@@ -15,6 +15,11 @@
 			<class name="com.revature.test.junit.entity.TfUserTest" />
 		</classes>
 	</test>
+		<test name="daoTest">
+		<classes>
+			<class name="com.revature.test.dao.DbUnit" />
+		</classes>
+	</test>
 	<test name="utilTest">
 		<classes>
 			<class name="com.revature.test.junit.util.HibernateUtilTest" />

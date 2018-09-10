@@ -24,17 +24,6 @@ public class ThreadUtil {
 	}
 	
 	public <T> T submitCallable(Callable<T> caller) {
-		
-		while(lock) {//check if the lock is active
-			try {
-				Thread.sleep(1000);//causes the thread to sleep for 1 second
-				logger.info("Thread is locked");
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
 		Future<T> future = executor.submit(caller);
 		T results = null;
 		

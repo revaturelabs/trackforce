@@ -5,9 +5,7 @@ import java.util.concurrent.TimeUnit;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -21,7 +19,6 @@ import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
-import com.revature.utils.ThreadUtil;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -58,28 +55,7 @@ public class InitResource {
 		userService.getUser("TestAssociate");
 		return Response.status(Status.OK).build();
 	}
-	
-	@GET
-	@ApiOperation(value = "Reinitialize Database", notes = "Truncates the entire database and reinserts the original data set")
-	@Path("/reinitdb")
-	public Response reinitDB(@HeaderParam("Authorization") String token) {
-		Claims payload = JWTService.processToken(token);
-		if(!(payload.getId().equals("1"))) {
-			return Response.status(Status.UNAUTHORIZED).build(); 
-		}
-		
-		ThreadUtil.setLock(true);//lock all threads while the database reinitializes
-		
-		try {
-			//call database script here
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		finally {
-			ThreadUtil.setLock(false);//unlock all threads, whether it works or not
-		}
-		return Response.status(Status.OK).build();
-	}
+
 	
 	
 }

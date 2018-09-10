@@ -1,22 +1,23 @@
 import { BasePage, IdentificationType } from "../BasePage";
+import { browser, by, element } from 'protractor';
 import { LoginPage } from "../login/login.po";
 
 const Locators = {
     registerBtn: {
         type: IdentificationType[IdentificationType.Xpath],
-        value: '//button[contains(text(), "egister")]'
+        value: '//*[@id="pwd-container"]/div/section/form/div/div[2]/button[2]'
     },
     usernameInput: {
         type: IdentificationType[IdentificationType.Xpath],
-        value: '//input[@id="username"]'
+        value: '//*[@id="username"]'
     },
     passwordInput: {
         type: IdentificationType[IdentificationType.Xpath],
-        value: '//input[@id="password"]'
+        value: '//*[@id="password"]'
     },
     cPasswordInput: {
         type: IdentificationType[IdentificationType.Xpath],
-        value: '//input[@id="cpassword"]'
+        value: '//*[@id="cpassword"]'
     },
     nextPageBtn: {
         type: IdentificationType[IdentificationType.Xpath],
@@ -24,15 +25,15 @@ const Locators = {
     },
     firstNameInput: {
         type: IdentificationType[IdentificationType.Xpath],
-        value: '//input[@id="fname"]'
+        value: '//*[@id="fname"]'
     },
     lastNameInput: {
         type: IdentificationType[IdentificationType.Xpath],
-        value: '//input[@id="lname"]'
+        value: '//*[@id="lname"]'
     },
     registerUserBtn: {
         type: IdentificationType[IdentificationType.Xpath],
-        value: '//button[contains(text(), "egister")]'
+        value: '//*[@id="pwd-container"]/div/section/form/div/button[1]'
     }
 }
 
@@ -51,30 +52,44 @@ export class RegisterAssociatePage extends BasePage {
         this.loginPage.navigateTo();
     }
 
-    clickRegisterBtn() {
-        this.registerBtn.click();
+    RegisterBtn() {
+        return this.registerBtn;
     }
 
-    enterAssociateInfo(username: string, password: string) {
-        this.usernameInput.sendKeys(username);
-        this.passwordInput.sendKeys(password);
-        this.cPasswordInput.sendKeys(password);
+    AssociateUsername() {
+        return this.usernameInput;
+    }
+
+    AssociatePassword() {
+      return this.passwordInput;
+    }
+
+    AssociateCPassword() {
+      return this.cPasswordInput;
     }
 
     clickNextPageBtn() {
-        this.nextPageBtn.click();
+        this.nextPageBtn;
     }
 
-    enterFirstName(first: string) {
-        this.firstNameInput.sendKeys(first);
+    FirstName() {
+        return this.firstNameInput;
     }
 
-    enterLastName(last: string) {
-        this.lastNameInput.sendKeys(last);
+    LastName() {
+        return this.lastNameInput;
     }
 
-    clickRegisterUserBtn() {
-        this.registerUserBtn.click();
+    RolePick() {
+      return browser.findElement(by.cssContainingText('option', 'Associate'));
+    }
+
+    RegisterUserBtn() {
+        return this.registerUserBtn;
+    }
+
+    DangerAlert() {
+      return browser.findElement(by.xpath('//*[@id="pwd-container"]/div/section/form/div/div[1]'));
     }
 
 }

@@ -142,40 +142,40 @@ describe('The Staging Manager navbar is functional', () => {
   on the initial load of the web page, also do not uncomment out these tests until
   trainer page is fixed
 */
-// describe('The Trainer navbar is functional', () => {
-//     let navbar          : Navbar;
-//     let testConfig      : TestConfig;
-//     let baseURL         : string;
-//
-//     beforeAll(() => {
-//         navbar = new Navbar();
-//         testConfig = new TestConfig();
-//         baseURL = testConfig.getBaseURL();
-//         navbar.navigateTo();
-//         navbar.logIn("Trainer","Trainer");
-//     });
-//
-//     it('should navigate to home page', () => {
-//         navbar.goToAdminHome();
-//         expect(navbar.getCurrentURL()).toEqual(baseURL + 'app-home');
-//     });
-//
-//     it('should navigate to batch list page', () => {
-//         navbar.goToBatchList();
-//         expect(navbar.getCurrentURL()).toEqual(baseURL + 'batch-listing');
-//     });
-//
-//     it('should navigate to associate lising', () => {
-//         navbar.goToAssociateList();
-//         expect(navbar.getCurrentURL()).toEqual(baseURL + 'associate-listing');
-//     });
-//
-//     it('should be able to logout', () => {
-//         navbar.logout();
-//         expect(navbar.getCurrentURL()).toEqual(baseURL + 'login');
-//     });
-//
-// });
+xdescribe('The Trainer navbar is functional', () => {
+    let navbar          : Navbar;
+    let testConfig      : TestConfig;
+    let baseURL         : string;
+
+    beforeAll(() => {
+        navbar = new Navbar();
+        testConfig = new TestConfig();
+        baseURL = testConfig.getBaseURL();
+        navbar.navigateTo();
+        navbar.logIn("Trainer","Trainer");
+    });
+
+    it('should navigate to home page', () => {
+        navbar.goToAdminHome();
+        expect(navbar.getCurrentURL()).toEqual(baseURL + 'app-home');
+    });
+
+    it('should navigate to batch list page', () => {
+        navbar.goToBatchList();
+        expect(navbar.getCurrentURL()).toEqual(baseURL + 'batch-listing');
+    });
+
+    it('should navigate to associate lising', () => {
+        navbar.goToAssociateList();
+        expect(navbar.getCurrentURL()).toEqual(baseURL + 'associate-listing');
+    });
+
+    it('should be able to logout', () => {
+        navbar.logout();
+        expect(navbar.getCurrentURL()).toEqual(baseURL + 'login');
+    });
+
+});
 
 describe('The Delivery/Sales navbar is functional', () => {
     let navbar          : Navbar;

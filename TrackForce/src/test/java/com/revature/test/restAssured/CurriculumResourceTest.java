@@ -88,7 +88,7 @@ public class CurriculumResourceTest {
 	 */
 	@Test(priority = 15)
 	public void testGetUnmappedInfo1() {
-		Response response = given().header("Authorization", tokenAdmin).when().get(URL + "/unmapped/4").then().extract().response();
+		Response response = given().header("Authorization", tokenAdmin).when().get(URL + "/unmapped/2").then().extract().response();
 		
 		assertTrue(response.statusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
@@ -97,7 +97,7 @@ public class CurriculumResourceTest {
 		assertTrue(response.asString().contains("\"name\":\"Java\""));
 
 		
-		given().header("Authorization", tokenAdmin).when().get(URL + "/unmapped/4").then().assertThat().body("id", hasSize(1));
+		given().header("Authorization", tokenAdmin).when().get(URL + "/unmapped/2").then().assertThat().body("id", hasSize(1));
 	}
 	
 	/**

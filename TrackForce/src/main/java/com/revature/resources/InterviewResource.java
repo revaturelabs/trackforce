@@ -245,7 +245,7 @@ public class InterviewResource {
 
 		if (role == 5) {
 			return (assoc.getId() == associateId);
-		} else if (role == 4) {
+		} else if (role == 2) {
 			TfTrainer trainer = trainerService.getTrainerByUserId(user.getId());
 			return (trainer.getPrimary().contains(assoc.getBatch()));
 		} else {

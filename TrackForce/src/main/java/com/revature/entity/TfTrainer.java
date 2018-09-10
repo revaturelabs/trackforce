@@ -60,12 +60,12 @@ public class TfTrainer implements Serializable{
 	private String lastName;
 	
 	@XmlElement
-	@OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER) // 1806_Chris_P: This needs to be EAGER for TrainerResource.getBatchFromTrainer() to work.
+	@OneToMany(mappedBy = "trainer", fetch = FetchType.LAZY) // 1806_Chris_P: This needs to be EAGER for TrainerResource.getBatchFromTrainer() to work.
 	@JsonIgnore
 	private List<TfBatch> primary;
 	
 	@XmlElement
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name="COTRAINER_BATCH",joinColumns= {@JoinColumn(name="TRAINER_ID")},inverseJoinColumns = {@JoinColumn(name="BATCH_ID")}, schema="ADMIN")
 	@JsonIgnore
 	private List<TfBatch> coTrainer = new ArrayList<>();

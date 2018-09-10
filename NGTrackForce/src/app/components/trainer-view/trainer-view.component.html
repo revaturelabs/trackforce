@@ -134,14 +134,13 @@
     <div class="row">
       <div class="col-lg-5 col-md-12 mcolumn left">
         <table class="table">
-          <!-- <thead>
-
-          </thead> -->
-          <tbody>
+          <thead>
               <tr class="max-width">
-                  <td>Trainer ID</td>
-                  <td>{{trainer.id}}</td>
+                  <th>Trainer ID</th>
+                  <th>{{trainer.id}}</th>
               </tr>
+            </thead>
+              <tbody>
               <tr class="max-width">
                       <td>First Name</td>
                       <td>{{trainer.firstName}}</td>
@@ -172,5 +171,11 @@
       <div class="col-md-6" *ngIf="statusMsg">
           <div [ngClass]="statusClass" class="msg">{{ statusMsg }}</div>
       </div>
+      <div *ngIf='errMsg' class="alert alert-danger">
+          {{errMsg}}
+        </div>
+        <div *ngIf='succMsg' class="alert alert-success">
+            {{succMsg}}
+          </div>
     </div>
   </div>

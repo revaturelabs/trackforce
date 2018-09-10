@@ -23,7 +23,7 @@
   border-color: rgb(156, 178, 147);
 }
 
-/* TestCSS */
+/* 1807CSS */
 *, *:before, *:after {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -41,6 +41,36 @@ form {
   padding: 10px 20px;
   background: #f4f7f8;
   border-radius: 8px;
+}
+
+/* table{
+  max-width: 300px;
+  margin: 10px auto;
+  padding: 10px 20px;
+  background: #f4f7f8;
+  border-radius: 8px;
+} */
+
+table{
+  margin: 10px auto;
+  border-radius: 0px;
+  overflow: hidden;
+  background: #f4f7f8;
+  /* box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15); */
+}
+
+tbody > tr {
+  cursor: pointer;
+  opacity: 1.0;
+  transition: opacity .2s ease-in-out;
+}
+
+tbody > tr:hover {
+  opacity: 1.0;
+}
+
+tbody:hover > tr:not(:hover) {
+  opacity: 0.5;
 }
 
 h1 {

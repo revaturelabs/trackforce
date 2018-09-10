@@ -120,15 +120,6 @@ export class FormComponent implements OnInit {
       this.isAssociate = false;
     }
 
-    // this.associateService.getAssociate(this.id).subscribe(data => {
-    //   this.associate = data;
-    //   this.isApproved = this.associate.user.isApproved;
-    //   if (data.clientStartDate.toString() === '0') {
-    //     this.associate.clientStartDate = null;
-    //   } else {
-    //     // this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
-    //   }
-    // });
     this.clientService.getAllClients().subscribe(data => {
       this.clients = data.sort(
         (a: Client, b: Client) =>
@@ -203,72 +194,22 @@ export class FormComponent implements OnInit {
   /**
    * Update the associate with the new verification status, client, status, and/or start date
    */
-
   updateAssociate() {
-
+    console.log(this.associate);
+    // const newAssociate = new Associate(
+    //   this.associate.firstName,
+    //   this.associate.lastName,
+    //   this.associate.user,
+    //   this.associate.id,
+    //   this.associate.batch,
+    //   this.selectedMarketingStatus,
+    //   this.selectedClient,
+    //   this.associate.endClient,
+    //   this.associate.interview,
+    //   this.associate.placement,
+    //   this.associate.clientStartDate
+    // );
   }
-
-  // COMMENTED OUT BECAUSE IT BROKE BECAUSE OF CHANGES WE MADE TO MODELS
-  // ALSO NEED TO UNCOMMENT OUT LINE 157 WHEN THIS WORKS
-  // updateAssociate() {
-  //   if (this.newStartDate) {
-  //     var dateTime = Number((new Date(this.newStartDate).getTime()) / 1000);
-  //   } else {
-  //     var dateTime = Number((new Date(this.associate.clientStartDate).getTime()) / 1000);
-  //   }
-  //   if (this.selectedVerificationStatus) {
-  //     var newVerificationStatus = this.selectedVerificationStatus;
-  //   } else {
-  //     // var newVerificationStatus = this.associate.user.verified;
-  //   }
-  //   if (this.selectedMarketingStatus) {
-  //     var newStatus = Number(this.selectedMarketingStatus);
-  //   } else {
-  //     var newStatus = this.associate.marketingStatus.id;
-  //   }
-  //   if (this.selectedClient) {
-  //     var newClient = this.selectedClient;
-  //   } else {
-  //     var newClient = this.associate.client.id;
-  //   }
-  //   let newAssociate = {
-  //     id: this.id,
-  //     verified: newVerificationStatus,
-  //     mkStatus: newStatus,
-  //     clientId: newClient,
-  //     startDateUnixTime: dateTime
-  //   };
-  //   this.associateService.updateAssociate(newAssociate).subscribe(
-  //     data => {
-  //       this.successMessage = "Successfully updated associate";
-  //       this.associateService.getAssociate(this.id).subscribe(
-  //         data => {
-  //           this.associate = data;
-  //           if (data.clientStartDate.toString() === "0") {
-  //             this.associate.clientStartDate = null;
-  //           } else {
-  //             this.associate.clientStartDate = this.adjustDate(Number(data.clientStartDate) * 1000);
-  //           } this.resetAllFields();
-  //         },
-  //         err => {
-  //         }
-  //       );
-  //     }
-  //   )
-  // }
-
-  /* Verify this Associate */
-  // WHAT EVEN IS THE PURPOSE OF VERIFYING AN ASSOCIATE??????
-  // verifyAssociate() {
-  //   this.associateService.verifyAssociate(this.id).subscribe(
-  //     data => {
-  //       this.successMessage = "The Associate was successfully verified!";
-  //     },
-  //     err => {
-  //       this.errorMessage = "There was an error while verifying the Associate!";
-  //     }
-  //   )
-  // }
 
   getAssociateInterviews(id) {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
@@ -276,7 +217,6 @@ export class FormComponent implements OnInit {
         this.interviews = data;
         this.interviewsLoading = false;
         this.isDataReady = true;
-
       },
       error => {
         console.error(error);

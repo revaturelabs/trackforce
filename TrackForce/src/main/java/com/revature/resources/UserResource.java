@@ -293,7 +293,7 @@ public class UserResource {
 			logger.info("sending 200 response..");
 			return Response.status(Status.OK).entity(user).build();
 		} else {
-			logger.info("sending 200 response with null user data");
+			logger.info("sending 401 response with null user data");
 			return Response.status(Status.UNAUTHORIZED).entity(null).build();
 		}
 	}
@@ -301,7 +301,7 @@ public class UserResource {
 	/**
 	 * @author 1806_Austin_M
 	 * Uses JWTService to validate a web token. Used from login component to check if session data is still up to date
-	 * @param token
+	 * @param token 
 	 * @return
 	 */
 	@Path("/check")

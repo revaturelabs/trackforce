@@ -157,7 +157,11 @@ export class HomeComponent implements OnInit {
 
   public scroll(id){
     const offset = document.getElementById(id).offsetTop;
-    window.scrollTo(0, offset);
+    window.scroll({
+      top: offset,
+      behavior: 'smooth'
+    })
+    // window.scrollTo(0, offset);
   }
   /////////////////////////////////////////////////////////////
   // THESE FUNCTIONS ARE BEING CALLED SOMEWHERE

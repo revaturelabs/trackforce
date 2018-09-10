@@ -1,10 +1,7 @@
 package com.revature.resources;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -16,11 +13,9 @@ import com.revature.services.BatchService;
 import com.revature.services.ClientService;
 import com.revature.services.CurriculumService;
 import com.revature.services.InterviewService;
-import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
 
-import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 

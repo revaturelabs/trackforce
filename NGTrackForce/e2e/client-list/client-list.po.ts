@@ -36,23 +36,6 @@ export class ClientListPo extends BasePage {
     searchByClientName: ElementFinder;
     viewDataForAllClients: ElementFinder;
 
-    startUp(){
-      return browser.get('./#/login')
-    }
-
-    logIn(username, password){
-      element(by.name('username')).sendKeys(username);
-      element(by.name('password')).sendKeys(password);
-      element(by.buttonText('Sign in')).click();
-    }
-
-    /**
-     * Returns the Create List page
-     */
-    navigateTo(){
-        element(by.linkText('Client List')).click();
-    }
-
     logout() {
       element(by.xpath('/html/body/app-component/app-navbar/nav/div/ul[1]/li[2]/button')).click();
     }

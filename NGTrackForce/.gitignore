@@ -10,6 +10,7 @@
 /documentation
 
 **/package-lock.json
+**/chrome-test-report.html
 
 # IDEs and editors
 *.iml

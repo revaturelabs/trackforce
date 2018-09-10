@@ -1,24 +1,17 @@
 package com.revature.entity;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/**
- * <p> </p>
- * @version v6.18.06.13
- */
+/** @version v6.18.06.13 */
 @XmlRootElement
 @Entity
 @Table(name = "TF_BATCH", schema = "ADMIN")
@@ -57,7 +50,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	@XmlElement
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "batch")
 	@JsonIgnore
-	private Set<TfAssociate> associates = new HashSet<TfAssociate>(0);
+	private Set<TfAssociate> associates = new HashSet<>(0);
 
 	@XmlElement
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -71,6 +64,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	public TfBatch() {
 		super();
 	}
+	
 	public TfBatch(Integer id, TfBatchLocation location, TfCurriculum curriculumName, String batchName,
 			Timestamp startDate, Timestamp endDate, Set<TfAssociate> associates, TfTrainer trainer,
 			List<TfTrainer> coTrainer) {
@@ -166,7 +160,5 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	@Override
 	public int compareTo(TfBatch o) {
 		return this.id-o.getId();
-	}
-	
-	
+	}	
 }

@@ -1,9 +1,7 @@
 package com.revature.services;
-
 import com.revature.dao.MarketingStatusDao;
 import com.revature.daoimpl.MarketingStatusDaoImpl;
 import com.revature.entity.TfMarketingStatus;
-
 import java.util.List;
 
 public class MarketingStatusService {

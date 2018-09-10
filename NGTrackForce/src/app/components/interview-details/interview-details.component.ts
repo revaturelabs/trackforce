@@ -20,14 +20,14 @@ export class InterviewDetailsComponent implements OnInit {
   public associate: Associate;
   isDataReady: boolean;
   isDataEmpty: boolean;
-  promptClassName: string = "col-sm-4 alert alert-success";
-  promptMessage: string = "Succes-interview updated";
-  promptToggle: boolean = false;
-  isDisabledAssociate : boolean = false;
-  isDisabledClient : boolean = false;
-  isDisabledQuestions : boolean = false;
-  isDisabledSkillsAndQuestions : boolean = false;
-  
+  promptClassName = "col-sm-4 alert alert-success";
+  promptMessage = "Succes-interview updated";
+  promptToggle = false;
+  isDisabledAssociate = false;
+  isDisabledClient = false;
+  isDisabledQuestions = false;
+  isDisabledSkillsAndQuestions = false;
+
   constructor(private route: ActivatedRoute, private interviewService: InterviewService,
     private authService: AuthenticationService) { }
 
@@ -54,7 +54,7 @@ export class InterviewDetailsComponent implements OnInit {
         this.promptClassName = "col-sm-4 alert alert-success";
         this.promptMessage = "Success-interview updated";
         this.promptToggle = true;
-      }, 
+      },
       error => {
         this.promptClassName = "col-sm-4 alert alert-danger";
         this.promptMessage = "Failed-interview not updated";
@@ -67,7 +67,7 @@ export class InterviewDetailsComponent implements OnInit {
   isDisabledAssociateFeedback()
   {
     this.user = this.authService.getUser();
-    if ( this.user.role == 3 )
+    if ( this.user.role === 3 )
     {
       this.isDisabledAssociate = true;
     }
@@ -81,7 +81,7 @@ export class InterviewDetailsComponent implements OnInit {
   isDisabledClientFeedback()
   {
     this.user = this.authService.getUser();
-    if ( this.user.role == 3 )
+    if ( this.user.role === 3 )
     {
       this.isDisabledClient = false;
     }
@@ -95,7 +95,7 @@ export class InterviewDetailsComponent implements OnInit {
   isDisabledInterviewQuestions()
   {
     this.user = this.authService.getUser();
-    if ( this.user.role == 3 )
+    if ( this.user.role === 3 )
     {
       this.isDisabledQuestions = true;
     }
@@ -109,7 +109,7 @@ export class InterviewDetailsComponent implements OnInit {
   isDisabledExpectedSkillsAndQuestions()
   {
     this.user = this.authService.getUser();
-    if ( this.user.role == 3 )
+    if ( this.user.role === 3 )
     {
       this.isDisabledSkillsAndQuestions = false;
     }

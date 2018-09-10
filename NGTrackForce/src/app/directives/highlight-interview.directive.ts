@@ -7,16 +7,19 @@ export class HighlightInterviewDirective {
 
   constructor(private el: ElementRef) { }
 
-  @Input() appHighlightInterview: boolean = false;
+  @Input() appHighlightInterview = false;
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit() {
-    
+
   }
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnChanges(changes: SimpleChanges){
-    if(this.appHighlightInterview){
+    if (this.appHighlightInterview){
       this.el.nativeElement.style.backgroundColor = "#d9edf7";
-    }else
+    } else {
       this.el.nativeElement.style.backgroundColor = "";
+    }
   }
 }

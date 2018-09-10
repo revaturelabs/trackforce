@@ -6,6 +6,7 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
 import { ClientService } from '../../services/client-service/client.service';
+import { Router } from '@angular/router';
 import { userInfo } from 'os';
 /**
  *@author Michael Tseng
@@ -30,13 +31,15 @@ export class AssociateViewComponent implements OnInit {
   public succMsg: string;
   public user: User;
   public id: number;
-  isDataReady: boolean = false;
+  public message: string;
+  isDataReady = false;
 
   constructor(
     private associateService: AssociateService,
     private authService: AuthenticationService,
     private activated: ActivatedRoute,
-    private clientService: ClientService
+    private clientService: ClientService,
+    private router: Router
   ) {}
 
   ngOnInit() {

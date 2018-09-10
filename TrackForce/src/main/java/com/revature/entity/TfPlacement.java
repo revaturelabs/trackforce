@@ -1,9 +1,7 @@
 package com.revature.entity;
-// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
 
 import java.sql.Timestamp;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +23,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @XmlRootElement
 @Entity
 @Table(name = "TF_PLACEMENT", schema = "ADMIN")
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfPlacement implements java.io.Serializable {
 
@@ -57,6 +54,7 @@ public class TfPlacement implements java.io.Serializable {
 	private Timestamp end;
 
 	public TfPlacement() {
+		super();
 	}
 
 	public TfPlacement(Integer id, TfAssociate associate, TfClient client, TfEndClient endClient, Timestamp start,
@@ -73,7 +71,6 @@ public class TfPlacement implements java.io.Serializable {
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -81,7 +78,6 @@ public class TfPlacement implements java.io.Serializable {
 	public TfAssociate getAssociate() {
 		return associate;
 	}
-
 	public void setAssociate(TfAssociate associate) {
 		this.associate = associate;
 	}
@@ -89,7 +85,6 @@ public class TfPlacement implements java.io.Serializable {
 	public TfClient getClient() {
 		return client;
 	}
-
 	public void setClient(TfClient client) {
 		this.client = client;
 	}
@@ -97,7 +92,6 @@ public class TfPlacement implements java.io.Serializable {
 	public TfEndClient getEndClient() {
 		return endClient;
 	}
-
 	public void setEndClient(TfEndClient endClient) {
 		this.endClient = endClient;
 	}
@@ -105,7 +99,6 @@ public class TfPlacement implements java.io.Serializable {
 	public Timestamp getStart() {
 		return start;
 	}
-
 	public void setStart(Timestamp start) {
 		this.start = start;
 	}
@@ -113,7 +106,6 @@ public class TfPlacement implements java.io.Serializable {
 	public Timestamp getEnd() {
 		return end;
 	}
-
 	public void setEnd(Timestamp end) {
 		this.end = end;
 	}
@@ -182,6 +174,5 @@ public class TfPlacement implements java.io.Serializable {
 		return "TfPlacement [id=" + id + ", client=" + client + ", endClient=" + endClient + ", start=" + start
 				+ ", end=" + end + "]";
 	}
-	
 	
 }

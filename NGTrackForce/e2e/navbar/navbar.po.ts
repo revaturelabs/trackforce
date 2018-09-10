@@ -3,7 +3,7 @@ import { browser, by, element } from 'protractor';
 export class Navbar {
 
     navigateTo(){
-        return browser.get('/login');
+        return browser.get('./#/login');
     }
 
     logIn(username, password){

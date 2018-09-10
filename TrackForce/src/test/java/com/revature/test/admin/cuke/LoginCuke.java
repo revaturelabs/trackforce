@@ -29,7 +29,7 @@ public class LoginCuke {
 		ServiceHooks.driver = WebDriverUtil.getChromeDriver();
 		//ServiceHooks.driver.manage().window().maximize();
 		ServiceHooks.driver.get(TestConfig.getBaseURL());
-		ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver,15);
+		ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver,3);
 
 	
 	}

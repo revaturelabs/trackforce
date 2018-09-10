@@ -1,0 +1,69 @@
+
+7com.revature.entity.TfUser#toString()Ljava/lang/String;
+__unknown_file ("1*ã
+1g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢	 ¢(ê
+g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢	 ¢(%0__concat"
+TfUser [id="
+""ê
+g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢	 ¢(+%1__concat"
+
+%0"
+, username=á
+g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢	 ¢(6%2__concat"
+
+%1"
+""ê
+g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢	 ¢(F%3__concat"
+
+%2"
+, password=á
+g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢	 ¢(Q%4__concat"
+
+%3"
+""í
+g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢	 ¢(c%5__concat"
+
+%4"
+, isApproved=á
+g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢	 ¢(p%6__concat"
+
+%5"
+""ç
+g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢	 £(%7__concat"
+
+%6"
+
+, token=á
+g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢	 £(%8__concat"
+
+%7"
+""å
+g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢	 £($%9__concat"
+
+%8"	
+, role=à
+g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢	 £(+%10__concat"
+
+%9"
+""à
+g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢	 £(1%11__concat"
+
+%10"
+]"r
+g
+[C:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\entity\TfUser.java¢ £(2
+
+%11

@@ -9,8 +9,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import com.revature.test.utils.WaitToLoad;
-
 public class AssociateView {
 	private static Properties prop = new Properties();
 	static {
@@ -23,28 +21,49 @@ public class AssociateView {
 		}
 	}
 	
+	public static String getClientTestSubject() {
+		return prop.getProperty("clientTestSubject");
+	}
+	
+	public static String getClientInterviewDate() {
+		return prop.getProperty("clientInterviewDate");
+	}
+	
+	public static String getClientInterviewAssignedDate() {
+		return prop.getProperty("clientInterviewAssignedDate");
+	}
+	
+	public static String getClientInterviewType() {
+		return prop.getProperty("clientInterviewType");
+	}
+	
 	public static void clickUpdate(WebDriver d) {
-		d.findElement(By.className(prop.getProperty("associateViewUpdate"))).click();
+		d.findElement(By.xpath(prop.getProperty("associateViewUpdate"))).click();
 	}
 	
 	public static void clickSave(WebDriver d) {
 		d.findElement(By.xpath(prop.getProperty("associateViewSave"))).click();
 	}
 	
-	public static void clickCreateInterview(WebDriver d) {
-		d.findElement(By.className(prop.getProperty("associateViewInterview"))).click();
-	}
 	
 	public static void clickSaveInterview(WebDriver d) {
 		d.findElement(By.className(prop.getProperty("associateViewAdd"))).click();
 	}
 	
-	public static void enterFirstName(WebDriver d,String name) {
-		d.findElement(By.xpath(prop.getProperty("associateViewFirstNameEdit"))).sendKeys(name);
+	public static void enterFirstName(WebDriver d) {
+		d.findElement(By.xpath(prop.getProperty("associateViewFirstNameEdit"))).sendKeys(prop.getProperty("associateViewEnterFirstName"));
 	}
 
-	public static void enterLastName(WebDriver d,String name) {
-		d.findElement(By.xpath(prop.getProperty("associateViewLastNameEdit"))).sendKeys(name);
+	public static void enterLastName(WebDriver d) {
+		d.findElement(By.xpath(prop.getProperty("associateViewLastNameEdit"))).sendKeys(prop.getProperty("associateViewEnterLastName"));
+	}
+	
+	public static String getEnterFirstName(WebDriver d) {
+		return prop.getProperty("associateViewEnterFirstName");
+	}
+	
+	public static String getEnterLastName(WebDriver d) {
+		return prop.getProperty("associateViewEnterLastName");
 	}
 	
 	public static String getFirstName(WebDriver d) {
@@ -75,6 +94,15 @@ public class AssociateView {
 		}
 	}
 	
+	public static void dropDownInterviewType(WebDriver d, String option) throws InterruptedException {
+		Select dropDown = new Select(d.findElement(By.name("type")));
+		for(WebElement el : dropDown.getOptions()) {
+			if(el.getText().equals(option))
+				dropDown.selectByVisibleText(el.getText());
+		}
+	}
+	
+	//Might need to refactor for xpath
 	public static void toggleNotice(WebDriver d) {
 		d.findElement(By.name(prop.getProperty("associateViewNotice"))).click();
 	}

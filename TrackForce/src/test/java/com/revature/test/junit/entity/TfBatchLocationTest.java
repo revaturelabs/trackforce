@@ -25,38 +25,44 @@ public class TfBatchLocationTest {
 	Set<TfBatch> tfBatches = new HashSet<>();
 	TfBatchLocation batchLoc1 = new TfBatchLocation(big, "Location", tfBatches);
 	TfBatchLocation batchLoc2 = new TfBatchLocation(big, "Location", tfBatches);
+	TfBatchLocation batchLoc3 = new TfBatchLocation(big);
 	TfBatchLocation batLocTest = new TfBatchLocation();
 
 	@Test
-	public void test1() {
-		batLocTest.setTfBatches(new HashSet());
+	public void testBatchLocTfBatchGetSet() {
+		batLocTest.setTfBatches(new HashSet<>());
 		assertTrue(batLocTest.getTfBatches() instanceof HashSet);
 	}
 
 	@Test
-	public void test2() {
+	public void testBatchLocIDGetSet() {
 		batLocTest.setTfBatchLocationId(new BigDecimal(89));
 		assertTrue(batLocTest.getTfBatchLocationId() instanceof BigDecimal);
 		assertTrue(batLocTest.getTfBatchLocationId().doubleValue() == 89);
-		assertFalse(batLocTest.getTfBatchLocationId().doubleValue() == 123);
 	}
 
 	@Test
-	public void test3() {
+	public void testBatchLocNameGetSet() {
 		batLocTest.setTfBatchLocationName("Virginia");
 		assertTrue(batLocTest.getTfBatchLocationName().equals("Virginia"));
 		assertFalse(batLocTest.getTfBatchLocationName().equals("virginia"));
 	}
 
 	@Test
-	public void test4() {
+	public void testBatchLocEquivalence() {
 		assertTrue(batchLoc1.equals(batchLoc2));
 		assertFalse(batchLoc1.equals(new TfBatchLocation()));
 	}
 
 	@Test
-	public void test5() {
+	public void testBatchLocHashCode() {
 		assertEquals(batchLoc1.hashCode(), batchLoc2.hashCode());
 		assertNotEquals(batchLoc1.hashCode(), new TfBatchLocation().hashCode());
+	}
+	
+	@Test
+	public void testBatchLocToString() {
+		assertEquals(batchLoc1.toString() ,batchLoc2.toString());
+		assertNotEquals(batchLoc1.toString() ,batchLoc3.toString());
 	}
 }

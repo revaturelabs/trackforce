@@ -8,7 +8,8 @@ import {AssociateService} from '../../services/associate-service/associate.servi
 import {ActivatedRoute} from '@angular/router';
 import {RequestService} from '../../services/request-service/request.service';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+//import 'rxjs/add/observable/of';
+import { of } from 'rxjs/index';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 // added imports; DK
 import { ClientService } from '../../services/client-service/client.service';
@@ -19,11 +20,12 @@ import { EndClient } from '../../models/end-client.model';
 import { User } from '../../models/user.model';
 import { MarketingStatus } from '../../models/marketing-status.model';
 import { CompileNgModuleMetadata } from '../../../../node_modules/@angular/compiler';
+import { BehaviorSubject } from 'rxjs';
 
 export class MockActivatedRoute {
   static createMockRoute(tid: number): any {
     return {
-      params: Observable.of({id: tid}),
+      params: of({id: tid}),
       snapshot: {
         parent: {
           params: {
@@ -71,7 +73,7 @@ export class MockAssociateService extends AssociateService {
   getAssociate(id: number) {
     const user:User = new User('newUser','pass', 0, 0);
     const associate:Associate = new Associate('first', 'last', user);
-    return Observable.of(associate);
+    return  new BehaviorSubject(associate);
   }
 }
 

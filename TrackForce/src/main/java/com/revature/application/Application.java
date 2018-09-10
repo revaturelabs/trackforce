@@ -1,25 +1,4 @@
 package com.revature.application;
-import java.util.ArrayList;
-import java.util.List;
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
-import com.revature.entity.TfRole;
-import com.revature.entity.TfTrainer;
-import com.revature.entity.TfUser;
-import com.revature.services.AssociateService;
-import com.revature.services.BatchService;
-import com.revature.services.ClientService;
-import com.revature.services.CurriculumService;
-import com.revature.services.InterviewService;
-import com.revature.services.MarketingStatusService;
-import com.revature.services.TrainerService;
-import com.revature.services.UserService;
-import com.revature.utils.PasswordStorage;
-import java.util.HashSet;
-import java.util.List;
-import static com.revature.utils.HibernateUtil.saveToDB;
-import static com.revature.utils.PasswordStorage.createHash;
-import net.sf.ehcache.CacheManager;
 
 /**<p>Use the main mehthod for testing only. This class is unused in "production". 
  *  Old testing code is commented out below the class for reference. 
@@ -28,13 +7,11 @@ import net.sf.ehcache.CacheManager;
  * <p>Used for a few quick simple tests to ensure hibernate is making the calls it is supposed to</p>
  * @version v6.18.06.13 */
 @SuppressWarnings("unused")
-public class Application {
+public class Application {}
 
-	// You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
-	// This is to allow for Mockito tests, which have problems with static methods
-	// This is here for a reason!
-	// ENABLE THESE AS NEEDED
-	// - Adam 06.18.06.13
+	/* You're probably thinking, why would you ever do this? Why not just just make the methods all static in the service class?
+	This is to allow for Mockito tests, which have problems with static methods. This is here for a reason!
+	ENABLE THESE AS NEEDED - Adam 06.18.06.13 */
 	// static AssociateService associateService = new AssociateService();
 	// static BatchService batchService = new BatchService();
 	// static ClientService clientService = new ClientService();
@@ -45,8 +22,6 @@ public class Application {
 	// static MarketingStatusService marketingStatusService = new MarketingStatusService();
 
 	// public static void main(String[] args) { }
-
-}//end class Application
 
 //		TfUser u = new TfUser();
 //		u.setRole(5);
@@ -64,8 +39,7 @@ public class Application {
 //		List<TfInterview> interviews = interviewService.getAllInterviews();
 //		for(TfInterview i : interviews)
 //			System.out.println(i);
-		
-		
+	
 //		TfTrainer t = new TfTrainer();
 //		t.setFirstName("Ava");
 //		t.setLastName("Trains");
@@ -206,16 +180,10 @@ public class Application {
 
 //		System.out.println(interviewService.createInterview(interview));
 
-
 //		associateService.updateAssociate(a);
 
-
 		//System.out.println(associateService.getAssociate(920));
-//				
-		
-		
-	
-		
+
 //		List<TfUser> users = userService.getAllUsers();
 //		for(TfUser u : users)
 //			System.out.println(u);
@@ -264,38 +232,34 @@ public class Application {
 //			System.out.println(interview);
 
 //		// test a single interview
-//		Integer interviewId = 215;
-//		TfInterview interview = interviewService.getInterviewById(interviewId);
-//		System.out.println(interview);
+// 		Integer interviewId = 215;
+// 		TfInterview interview = interviewService.getInterviewById(interviewId);
+// 		System.out.println(interview);
 
-		// test get all associates
-//		List<TfAssociate> associates = AssociateService.getAllAssociates();
-//		for(TfAssociate a : associates)
-//			System.out.println(a.getTfBatch().getTfBatchName());
+// 		// test get all associates
+// 		List<TfAssociate> associates = AssociateService.getAllAssociates();
+// 		for(TfAssociate a : associates)
+// 			System.out.println(a.getTfBatch().getTfBatchName());
 
-		// test getting an associate
-//		TfAssociate associate = AssociateService.getAssociate(associateid)
+// 		// test getting an associate
+// 		TfAssociate associate = AssociateService.getAssociate(associateid)
 
-		// test getting all users
+// 		// test getting all users
+// 		TfUser newUser = new TfUser();
+// 		TfRole role = new TfRole();
+// 		role.setTfRoleId(1);
+// 		role.setTfRoleName("Admin");
 
+// 		newUser.setTf_isApproved(1);
+// 		newUser.setTfRole(role);
+// 		newUser.setTfUserHashpassword("cool");
+// 		newUser.setTfUserUsername("neat");
 
-//		TfUser newUser = new TfUser();
-//		TfRole role = new TfRole();
-//		role.setTfRoleId(1);
-//		role.setTfRoleName("Admin");
-//
-//		newUser.setTf_isApproved(1);
-//		newUser.setTfRole(role);
-//		newUser.setTfUserHashpassword("cool");
-//		newUser.setTfUserUsername("neat");
-//
-//		UserService.insertUser(newUser);
+// 		UserService.insertUser(newUser);
 
-		// make a user to be used by max in testing login
+// //make a user to be used by max in testing login
+// TfAssociate associate = new TfAssociate();
+// associate.setId(1);
+// associate.setFirstName("Greg");
 
-
-//TfAssociate associate = new TfAssociate();
-//associate.setId(1);
-//associate.setFirstName("Greg");
-//
-//System.out.println(associateService.updateAssociate(associate));
+// System.out.println(associateService.updateAssociate(associate));

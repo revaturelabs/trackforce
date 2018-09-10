@@ -14,7 +14,7 @@ import { InterviewService } from '../../services/interview-service/interview.ser
 import { HttpClient } from '@angular/common/http';
 import { Router, NavigationExtras } from '@angular/router';
 import { MarketingStatus } from '../../models/marketing-status.model';
-import { FormStatus } from './form.enum';
+import { FormStatus, StatusProp, StatusClass } from './form.enum';
 
 /**
  * Component for viewing an individual associate and editing as admin.
@@ -66,11 +66,13 @@ export class FormComponent implements OnInit {
   associateIsLoaded = false;
   interviewsLoading = true;
 
-  //disable the submit button unless we're waiting for a server response
+  //disable the submit button if we're waiting for a server response
   submitDisabled = false;
 
   formStatus: FormStatus;
+  approveStatus: FormStatus;
   formStatusClass: string;
+  approveStatusClass: string;
 
   associateId: number;
   private sub: any;
@@ -145,18 +147,37 @@ export class FormComponent implements OnInit {
     return ldate;
   }
 
+  /**
+   * Recieves a promise from the associate service that either resolves:
+   * true - approval was recieved and successfully processed by server
+   * error - server threw an error
+   *
+   * Disables the approval button if server response is pending
+   */
   approveAssociate() {
     this.approvalPending = true;
+    this._displayFormStatus(FormStatus.WAIT, StatusProp.APPROVE, StatusClass.APROVE_CLASS);
     return this.associateService
       .approveAssociate(this.associate.id)
-      .subscribe(
+      .then(
         data => {
-          console.log(data);
-          this.isApproved = data ? 1 : 2
+          this.isApproved = 1;
           this.approvalPending = false;
+          this._displayFormStatus(FormStatus.SUCCESS, StatusProp.APPROVE, StatusClass.APROVE_CLASS);
         }, //1 for true, 2 for false, 0 for initial state
-        error => console.error(error)
-      );
+      ).catch(error=> {
+        console.error(error)
+        this.isApproved = 2;
+        this.approvalPending = false;
+        this._displayFormStatus(FormStatus.FAILURE, StatusProp.APPROVE, StatusClass.APROVE_CLASS);
+      });
+  }
+
+  /**
+   * Allows user to hide the status message on click
+   */
+  closeApprovalStatus() {
+    this.approveStatus = null;
   }
 
   processForm() {
@@ -196,20 +217,46 @@ export class FormComponent implements OnInit {
     this.updateAssociate();
   }
 
-  private _displayFormStatus(status: FormStatus) {
-    this.formStatus = status;
+  /**
+   * Formats the message to make it appropriate to the situation
+   */
+  private _formatStatusMsg(status: FormStatus, prop: StatusProp) {
+    const format = (string, sub) => string.replace('{}', sub);
+    switch(prop) {
+      case StatusProp.UPDATE:
+        this[prop] = format(status, 'update');
+        break;
+      case StatusProp.APPROVE:
+        this[prop] = format(status, 'approval');
+        break;
+    }
+  }
+
+  /**
+   * Displays a status upon submission, telling user to wait for server response, or whether
+   * request was successful or failed.
+   * @param status SUCCESS, WAIT, FAILURE, displays the appropriate message
+   * @param prop determines which property the message will be applied to.
+   * StatusProp.APPROVAL - displays the message in the APPROVAL status
+   * StatusProp.UPDATE - displays the message in the UPDATE status
+   * @param StatusClass determines which property recieves the bootstrap classes
+   */
+  private _displayFormStatus(status: FormStatus, prop: StatusProp, classProp: StatusClass) {
     switch(status) {
       case FormStatus.SUCCESS:
-        this.formStatusClass = 'alert-success';
+        this[classProp] = 'alert-success';
         this.submitDisabled = false;
+        this._formatStatusMsg(status, prop);
         break;
       case FormStatus.WAIT:
-        this.formStatusClass = 'alert-warning';
+        this[classProp]  = 'alert-warning';
         this.submitDisabled = true;
+        this._formatStatusMsg(status, prop);
         break;
       case FormStatus.FAILURE:
-        this.formStatusClass = 'alert-danger';
+        this[classProp]  = 'alert-danger';
         this.submitDisabled = false;
+        this._formatStatusMsg(status, prop);
         break;
     }
   }
@@ -222,7 +269,7 @@ export class FormComponent implements OnInit {
    * Update the associate with the new verification status, client, status, and/or start date
    */
   updateAssociate() {
-    this._displayFormStatus(FormStatus.WAIT);
+    this._displayFormStatus(FormStatus.WAIT, StatusProp.UPDATE, StatusClass.UPDATE_CLASS);
     this.clientService.getAllClients().subscribe(
       clients => {
         // the select element holds the numbers in string format so loose equality is required here
@@ -243,16 +290,15 @@ export class FormComponent implements OnInit {
           this.associate.clientStartDate
         );
         this.associate = newAssociate;
-        this.associateService.updateAssociate(this.associate).subscribe(
+        this.associateService.updateAssociate(this.associate).then(
           data => {
-            this._displayFormStatus(FormStatus.SUCCESS);
-            console.log(data);
+            this._displayFormStatus(FormStatus.SUCCESS, StatusProp.UPDATE, StatusClass.UPDATE_CLASS);
           },
-          error => {
-            this._displayFormStatus(FormStatus.FAILURE);
-            console.error(error);
-          }
-        );
+
+        ).catch(error => {
+          this._displayFormStatus(FormStatus.FAILURE, StatusProp.UPDATE, StatusClass.UPDATE_CLASS);
+          console.error(error);
+        });
       },
       error => console.error(error)
     );

@@ -1,20 +1,14 @@
 package com.revature.services;
-
 import static com.revature.utils.LogUtil.logger;
-
 import java.io.IOException;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
-
 import org.json.JSONObject;
-
 import com.revature.entity.TfUser;
-
 import gherkin.lexer.Da;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -26,17 +20,13 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
 /**
- * 
  * @author Michael Tseng
  * @editors Adam L. 
- * 
- *         Service for creating and verifying JWT tokens Based on the tutorial
- *         found here: https://stormpath.com/blog/jwt-java-create-verify And
- *         resources from Sean Vaeth
- *
- *	@version v6.18.06.13
- *			Note: made minor updates to allow continued use of these tokens
- */
+ *       Service for creating and verifying JWT tokens Based on the tutorial
+ *       found here: https://stormpath.com/blog/jwt-java-create-verify And
+ *       resources from Sean Vaeth
+ * @version v6.18.06.13
+ *		 Note: made minor updates to allow continued use of these tokens */
 public class JWTService {
 	
 	UserService userService;

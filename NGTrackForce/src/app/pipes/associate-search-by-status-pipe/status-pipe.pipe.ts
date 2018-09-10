@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 
 /**
- * Pipe to filter searches based on select option of Marketing Status 
+ * Pipe to filter searches based on select option of Marketing Status
  * @author Cyril Mathew
  */
 export class AssociateSearchByStatusPipe implements PipeTransform {
@@ -13,15 +13,15 @@ export class AssociateSearchByStatusPipe implements PipeTransform {
 
         if (!items) {
             return [];
-        } 
-        
+        }
+
         if (!searchText) {
             return items;
-        } 
-        
+        }
+
         //return results that contain firstname, lastname, status, client, id that matches a marketing status selection
         return items.filter(associate => {
-            return ((associate.marketingStatus != null)? associate.marketingStatus.name == searchText: false);
+            return ((associate.marketingStatus != null)? associate.marketingStatus.name === searchText: false);
         });
     }
 }

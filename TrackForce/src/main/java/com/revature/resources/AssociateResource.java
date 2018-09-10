@@ -348,4 +348,52 @@ public class AssociateResource {
 	public Response getNAssociates() {
 		return Response.status(200).entity(associateService.getNAssociates()).build();
 	}
+	
+	
+	/**
+	 * Get a single "page" of associates. Previous iterations retrieved all of the associates at once;
+	 * this was a major performance chokepoint. This method will return only the associates requested.
+	 * This method can filter the results by their marketing status id, or client.
+	 * @param startIndex The index of the first employee to return. Note that the order of the results is solely dependant
+	 * on how they are returned from the DAO.
+	 * @param numResults The number of records that should be returned, or all if the actual number is less than numResults
+	 * @param mStatusId Filter the results by this marketing status id. The default, -1, indicates to not use this filter
+	 * @param clientId Filter the results by this client id. The default, -1, indicates to not use this filter
+	 * @param token The authentication token obtained when logging in. User role '5' (Associate) will be rejected
+	 * @return A json encoded list of type TfAssociate
+	 */
+	@GET
+	@Path("/page")
+	public Response getAssociatePage(
+			@DefaultValue("0") @QueryParam("startIndex") Integer startIndex,
+			@DefaultValue("50") @QueryParam("numResults") Integer numResults,
+			@DefaultValue("-1") @QueryParam("mStatusId") Integer mStatusId,
+			@DefaultValue("-1") @QueryParam("clientId") Integer clientId,
+			@HeaderParam("Authorization") String token) 
+	
+	{		
+		logger.info("getAssociatePage(" + startIndex + ", " + numResults + ", " + mStatusId + ", " + clientId + ")");
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+
+		//Check token
+		if (payload == null || payload.getId().equals("5")) {
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} 
+		
+		List<TfAssociate> associates;
+		try {
+			 associates = associateService.getAssociatePage(startIndex, numResults, mStatusId, clientId);
+		} catch (IllegalArgumentException iae) {
+			return Response.status(Status.BAD_REQUEST).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+
+		//If no results, return 204 and null ; otherwise 200 and the list 
+		status = associates == null ? Status.NO_CONTENT : Status.OK;
+
+		return Response.status(status).entity(associates).build();
+	}
 }

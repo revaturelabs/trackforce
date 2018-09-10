@@ -1,9 +1,14 @@
 import { BatchService } from './../../services/batch-service/batch.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { Associate } from '../../models/associate.model';
+import { Client } from '../../models/client.model';
+import {ClientService} from '../../services/client-service/client.service';
+import { DateService } from '../../services/date-service/date.service';
+import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
+
 
 @Component({
   selector: 'app-predictions',
@@ -12,6 +17,10 @@ import { Associate } from '../../models/associate.model';
 })
 @AutoUnsubscribe
 export class PredictionsComponent implements OnInit {
+
+  //bat date-timepicker------
+  @ViewChild('start') startDateTimePicker:DateTimePickerComponent;
+  @ViewChild('end') endDateTimePicker:DateTimePickerComponent;
 
   start:any;
   end:any;
@@ -35,8 +44,46 @@ export class PredictionsComponent implements OnInit {
   public loadingDetails: boolean;
   public maxAssociates: number = 1000;
   public showEmpty: boolean = true;
+  //public curriculums: any[];
 
-  constructor(private ss: CurriculumService, private as: AssociateService, private bs: BatchService) { }
+  //Batch-list date-picker-----------------
+  @Output() changeDateEm = new EventEmitter<Date>();
+
+  stringStart: string;
+  stringEnd: string;
+
+  dateRangeMessage: string;
+  showDateRangeError = false;
+  dateError: boolean;
+
+  changeDate(){
+    this.changeDateEm.emit(this.startDate);
+  }
+
+  //Assoc----------------------------------
+  public clients: Client[];
+  public curriculums: Set<string>; //stored unique curriculums
+  public isDataReady: boolean = false;
+  //----------------------------------------------------------
+
+   //used for filtering
+  //  searchByStatus = '';
+  //  searchByClient = '';
+  //  searchByText = '';
+  //  searchByCurriculum = '';
+  //  searchByVerification = '';
+
+    //used for ordering of rows
+  desc = false;
+  sortedColumn = '';
+
+
+  //added: cs
+
+  constructor(private ss: CurriculumService, private as: AssociateService,
+    private bs: BatchService, private cs:ClientService, private ds:DateService) {
+      this.curriculums = new Set<string>();
+    }
 
   ngOnInit() {
     this.techNeeded = [];
@@ -45,11 +92,51 @@ export class PredictionsComponent implements OnInit {
     this.loadingPredictions = false;
     this.loadingDetails = false;
     this.loadingTechnologies = false;
+    //this.curriculums = [];
+
+    //assoc-----------------------------------------------------------------
+    this.getAllAssociates(); //TODO: change method to not use local storage
+    this.getClientNames();
+    //----------------------------------------------------------------------
 
     this.getListofCurricula();
     this.setInitialDates();
     this.generateDates();
   }
+
+  //assoc--------------------------------------------
+  getAllAssociates() {
+    this.as.getAllAssociates().subscribe(data => {
+      // this.associates.length = 0;
+      this.associates = data;
+      for (const associate of this.associates) {
+        //get our curriculums from the associates
+        if (
+          associate.batch !== null &&
+          associate.batch.curriculumName !== null
+        ) {
+          this.curriculums.add(associate.batch.curriculumName.name);
+        }
+        if (associate.batch && associate.batch.batchName === 'null') {
+          associate.batch.batchName = 'None';
+        }
+      }
+      this.curriculums.delete('');
+      this.curriculums.delete('null');
+      this.isDataReady = true;
+    });
+  }
+
+   /**
+   * Fetch the client names
+   */
+  getClientNames() {
+    this.cs.getAllClients().subscribe(data => {
+      this.clients = data;
+    });
+  }
+
+  //------------------------------------------------------------------------------------
 
   /**
    * 1806_Austin_M
@@ -90,25 +177,39 @@ export class PredictionsComponent implements OnInit {
     this.endDateString= now.toJSON().substring(0,10);
     now.setMonth(0);
     now.setDate(1);
+    now.setFullYear(2017);
     this.startDateString = now.toJSON().substring(0,10);
   }
 
+  // }
   /**
    * 1806_Austin_M
    * Parses the date string to a date object.
    * Done onchange of date fields.
    */
   generateDates(){
-    this.startDate = new Date(this.startDateString);
-    this.endDate = new Date(this.endDateString);
+    console.log(this.startDateString);
+    console.log(this.endDateString);
+    let startYearParsed = parseInt(this.startDateString.substring(0,4));
+    let endYearParsed = parseInt(this.endDateString.substring(0,4));
+    console.log(startYearParsed);
+    console.log(endYearParsed);
+    if (startYearParsed < 2012 || endYearParsed < 2012) {
+      this.dateRangeMessage = "Enter a valid year";
+      this.showDateRangeError = true;
+    } else {
+      this.startDate = new Date(this.startDateString);
+      this.endDate = new Date(this.endDateString);
+      this.showDateRangeError = false;
+    }
   }
 
   /**
    * 1806_Austin_M
-   * Performs a query for each requested that has input 
-   * (tech without input is skipped within the getPredicton() method). 
-   * 
-   * NOTE: that this will make connection to the DB FOR EACH TECHNOLOGY WITH INPUT 
+   * Performs a query for each requested that has input
+   * (tech without input is skipped within the getPredicton() method).
+   *
+   * NOTE: that this will make connection to the DB FOR EACH TECHNOLOGY WITH INPUT
    * should be changed to a single query in back end
    */
   getAllPredictions(){
@@ -121,9 +222,9 @@ export class PredictionsComponent implements OnInit {
 
   /**
    * 1806_Austin_M
-   * Fetch details for a single technology, filters previous results to prevent 
+   * Fetch details for a single technology, filters previous results to prevent
    * duplicate entries and sorts results by index on return
-   * 
+   *
    * @param techIndex index in technologies array to fetch predictions for
    * @param isUpdate true if part of single fetch; false when part of a batch
    */
@@ -137,7 +238,7 @@ export class PredictionsComponent implements OnInit {
       this.results = this.results.filter(o => o['technologyIndex'] != techIndex);
 
     let techName = this.technologies[techIndex]["name"];
-    if(this.techNeeded[techIndex] == undefined || this.techNeeded[techIndex] <= 0 || this.techNeeded[techIndex] >= this.maxAssociates)
+    if(this.techNeeded[techIndex] == undefined || this.techNeeded[techIndex] <= 0 || this.techNeeded[techIndex] > this.maxAssociates)
       return;
 
     this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate), techName).subscribe(
@@ -156,19 +257,19 @@ export class PredictionsComponent implements OnInit {
     )
   }
 
-  
+
 /**
  * 1806_Andrew_H_Austin_M
- * Fetches details of a selected curriculum. The details include all batches 
+ * Fetches details of a selected curriculum. The details include all batches
  * That start and end within the given time span. Resets previous data so that
  * old information is not present while loading.
- * @param tech 
+ * @param tech
  */
   getDetails(tech) {
 
     let startTime = new Date(this.startDate);
     let endTime = new Date(this.endDate);
-    
+
     this.detailsReady = false;
     this.loadingDetails = true;
     this.noBatches = false;

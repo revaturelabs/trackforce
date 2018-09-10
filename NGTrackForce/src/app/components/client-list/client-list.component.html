@@ -3,9 +3,11 @@
     <!-- Clients List column -->
     <div class="col-md-3">
       <div class="form-group">
-        <input type="text" [(ngModel)]="searchName" class="form-control" id="clientSearch" placeholder="Search by client name...">
+        <input type="text" [(ngModel)]="searchName" class="form-control" id="clientSearch"
+        [placeholder]="placeholder"
+        [disabled]="loading">
       </div>
-      
+
       <h3>Clients</h3>
       <button (click)="initChartData();" class="btn btn-primary">View Data for All Clients</button>
       <div id="clients-list-well" class="well">

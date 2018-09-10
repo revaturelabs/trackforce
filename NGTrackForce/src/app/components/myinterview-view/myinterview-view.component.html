@@ -15,7 +15,7 @@
 
             <label class="control-label col-sm-2">Type:</label>
             <div class="col-sm-3">
-                <select class="form-control" name="type" [(ngModel)]="typeId">
+                <select class="form-control" id="interviewType" name="type" [(ngModel)]="typeId">
                     <option value="1">Phone</option>
                     <option value="2">Online</option>
                     <option value="3">On-site</option>
@@ -49,6 +49,10 @@
       <div *ngIf="conflictingInterview" class="alert alert-danger">
         {{conflictingInterviews}}
       </div>
+      <div *ngIf=updateSuccess class=" alert alert-success">
+        Successfully updated interview
+      </div>
+    </div>
       <table class="table table-responsive table-hover table-bordered">
         <thead>
           <tr>
@@ -97,4 +101,4 @@
       </div>
     </div>
   </div>
-</div>
+<!-- </div> -->

@@ -1,11 +1,25 @@
 import { LoginPage } from './login.po';
-import { browser } from 'protractor';
+import { TestConfig } from '../configuration/test-config';
+
 /*
 Smoke test: Checks elements to be exist
 */
+let AdminUsername = "TestAdmin";
+let AdminPassword = "TestAdmin";
+let associateUsername = "cyril";
+let associatePassword = "cyril";
+let stagingManagerUsername = "bobstage";
+let stagingManagerPassword = "bobstage";
+let trainerUsername = "Trainer";
+let trainerPassword = "Trainer";
+let deliverySalesUsername = "salestest";
+let deliverySalesPassword = "salestest";
+let page: LoginPage;
+let testConfig      : TestConfig;
+let baseURL         : string;
 
 describe('login page element existences', () => {
-  let page: LoginPage;
+
 
   beforeAll(() => {
     page = new LoginPage();
@@ -38,7 +52,6 @@ describe('login page element existences', () => {
 });
 
 describe('Confirm login failures', () => {
-  let page: LoginPage;
 
   beforeAll(() => {
     page = new LoginPage();
@@ -56,21 +69,48 @@ describe('Confirm login failures', () => {
     page.getLoginButton().click();
     expect(page.getFailedLoginResponse()).toEqual('Invalid username and/or password\nUsername:\nPassword:\nSign in\nRegister');
   });
-
 });
 
-describe('confirm login navigation', () => {
-  let page: LoginPage;
+function logIn(username, password, thePage){
+  thePage.getUsernameInput().sendKeys(username);
+  thePage.getPasswordInput().sendKeys(password);
+  thePage.getLoginButton().click();
+};
+
+describe('Login in  with proper credentials', () => {
 
   beforeAll(() => {
     page = new LoginPage();
+    testConfig = new TestConfig();
+    baseURL = testConfig.getBaseURL();
     page.navigateTo();
   });
 
-  it('should reach the index page', () => {
-    page.getUsernameInput().sendKeys('TestAdmin');
-    page.getPasswordInput().sendKeys('TestAdmin');
-    page.getLoginButton().click();
-    expect(page.getTitle()).not.toEqual('NGTrackForce');
+  it('should be able to login in with admin credentials and reach the admin page', () => {
+    logIn(AdminUsername, AdminPassword, page);
+    expect(page.getCurrentUrl()).toEqual(baseURL + 'app-home');
+  });
+
+  it('should be able to login in with associate credentials and reach the associate page', () => {
+    logIn(associateUsername, associatePassword, page);
+    expect(page.getCurrentUrl()).toEqual(baseURL + 'associate-view');
+  });
+
+  it('should be able to login in with Manager credentials and reach the Admin page', () => {
+    logIn(stagingManagerUsername, stagingManagerPassword, page);
+    expect(page.getCurrentUrl()).toEqual(baseURL + 'app-home');
+  });
+
+  xit('should be able to login in with Trainer credentials and reach the Trainer page', () => {
+    logIn(trainerUsername, trainerPassword, page);
+    expect(page.getCurrentUrl()).toEqual(baseURL + 'app-home');
+  });
+
+  it('should be able to login in with Sales Team credentials and reach the Admin page', () => {
+    logIn(deliverySalesUsername, deliverySalesPassword, page);
+    expect(page.getCurrentUrl()).toEqual(baseURL + 'app-home');
+  });
+  afterEach(() => {
+    page.getlogoutButton().click();
   });
 });

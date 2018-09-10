@@ -1,17 +1,32 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="BackendCoverageSuite" thread-count="1">
+	<test name="daoImplTest">
+		<classes>
+			<class name="com.revature.test.dao.AssociateDAOTest"/>
+			<class name="com.revature.test.dao.BatchDAOTest"/>
+			<class name="com.revature.test.dao.ClientDAOTest"/>
+			<class name="com.revature.test.dao.CurriculumDAOTest"/>
+			<class name="com.revature.test.dao.InterviewDAOTest"/>
+			<class name="com.revature.test.dao.MarketingStatusDAOTest"/>
+			<class name="com.revature.test.dao.TrainerDAOTest"/>
+			<class name="com.revature.test.dao.UserDAOTest"/>
+		</classes>
+	</test>
 	<test name="entityTest">
 		<classes>
 			<class name="com.revature.test.junit.entity.TfAssociateTest" />
 			<class name="com.revature.test.junit.entity.TfBatchLocationTest" />
 			<class name="com.revature.test.junit.entity.TfBatchTest" />
+			<class name="com.revature.test.junit.entity.TfClientTest"/>
 			<class name="com.revature.test.junit.entity.TfCurriculumTest" />
 			<class name="com.revature.test.junit.entity.TfEndClientTest" />
 			<class name="com.revature.test.junit.entity.TfInterviewTest" />
+			<class name="com.revature.test.junit.entity.TfInterviewTypeTest"/>
 			<class name="com.revature.test.junit.entity.TfMarketingStatusTest" />
 			<class name="com.revature.test.junit.entity.TfPlacementTest" />
 			<class name="com.revature.test.junit.entity.TfRoleTest" />
 			<class name="com.revature.test.junit.entity.TfTrainerTest" />
+			<class name="com.revature.test.junit.entity.TfUserAndCreatorRolerContainerTest" />
 			<class name="com.revature.test.junit.entity.TfUserTest" />
 		</classes>
 	</test>
@@ -23,13 +38,15 @@
 	</test>
 	<test name="servicesTest">
 		<classes>
-			<class name="com.revature.test.services.AssociateServiceTest" />
-			<class name="com.revature.test.services.BatchesServiceTest" />
-			<class name="com.revature.test.services.ClientServiceTest" />
-			<class name="com.revature.test.services.CurriculumServiceTest" />
-			<class name="com.revature.test.services.InterviewServiceTest" />
-			<class name="com.revature.test.services.TrainerServiceTest" />
-			<class name="com.revature.test.services.UserServiceTest" />
+			<class name="com.revature.test.services.AssociateServicesTest" />
+			<class name="com.revature.test.services.BatchServicesTest" />
+			<class name="com.revature.test.services.ClientServicesTest" />
+			<class name="com.revature.test.services.CurriculumServicesTest" />
+			<class name="com.revature.test.services.InterviewServicesTest" />
+			<class name="com.revature.test.services.JWTServicesTest" />
+			<class name="com.revature.test.services.MarketingStatusServicesTest" />
+			<class name="com.revature.test.services.TrainerServicesTest" />
+			<class name="com.revature.test.services.UserServicesTest" />
 		</classes>
 	</test>
 	<test name="resourceTest">
@@ -42,5 +59,10 @@
 			<class name="com.revature.test.restAssured.TrainerResourceTest" />
 			<class name="com.revature.test.restAssured.UserResourceTest" />
 		</classes>
-	</test>
+ 	</test>
+<!-- 		<test name="cucumber"> -->
+<!-- 		<classes> -->
+<!-- 			<class name="com.revature.test.runner.CucumberTestRunner" /> -->
+<!-- 		</classes> -->
+<!-- 	</test> -->
 </suite>

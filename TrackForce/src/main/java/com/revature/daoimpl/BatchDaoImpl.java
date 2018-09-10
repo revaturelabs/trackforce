@@ -1,11 +1,8 @@
 package com.revature.daoimpl;
-
 import java.sql.Timestamp;
 import java.util.List;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-
 import com.revature.dao.BatchDao;
 import com.revature.entity.TfBatch;
 import com.revature.utils.HibernateUtil;
@@ -14,13 +11,17 @@ import com.revature.utils.HibernateUtil;
  * Implementation of the BatchDao interface that uses Hibernate to retrieve
  * batch information from the database.
  */
-
 public class BatchDaoImpl implements BatchDao {
 
 	@Override
 	public TfBatch getBatch(String batchName) {
-		return HibernateUtil.runHibernate((Session session, Object... args) -> session
-				.createQuery("from TfBatch", TfBatch.class).getSingleResult());
+		//System.out.println("getBatch(Name) was just called ");
+		List<TfBatch> res = HibernateUtil.runHibernate((Session session, Object... args) -> session
+				.createQuery("from TfBatch b WHERE b.batchName = :batchName ", TfBatch.class).setParameter("batchName", batchName)
+				.getResultList());
+//		System.out.println("Start time: " + res.get(0).getStartDate().getTime());
+//		System.out.println("End time: " + res.get(0).getEndDate().getTime());
+		return res.get(0);
 	}
 
 	@Override
@@ -41,10 +42,12 @@ public class BatchDaoImpl implements BatchDao {
 	 * Very similar to the below method, except it doesn't filter by the curriculum name
 	 */
 	public List<TfBatch> getBatchesWithinDates(Timestamp startDate, Timestamp endDate) {
-		return HibernateUtil.runHibernate((Session session, Object... args) -> session.createQuery(
+		List<TfBatch> toReturn = HibernateUtil.runHibernate((Session session, Object... args) -> session.createQuery(
 				"from TfBatch b WHERE b.startDate >= :startdate AND b.endDate <= :enddate",
 				TfBatch.class).setParameter("startdate", startDate)
 				.setParameter("enddate", endDate).getResultList());
+		System.out.println("List returned: " + toReturn);
+		return toReturn;
 	}
 	/**
 	 * 1806_Chris_P: This method retrieves all of the batches that match the technology 

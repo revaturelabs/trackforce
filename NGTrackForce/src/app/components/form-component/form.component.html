@@ -3,6 +3,12 @@
     <div class="alert alert-success" *ngIf="successMessage">
       <h5 class="text-success">{{successMessage}}</h5>
     </div>
+    <div class="alert alert-success" *ngIf="isApproved === 1">
+      <h5 class="text-success">Successfully Approved!</h5>
+    </div>
+    <div class="alert alert-danger" *ngIf="isApproved === 2">
+      <h5 class="text-danger">Approval failed</h5>
+    </div>
     <div class="alert alert-danger" *ngIf="errorMessage">
       <h5 class="text-danger">{{errorMessage}}</h5>
     </div>
@@ -23,7 +29,7 @@
             </tr>
             <tr>
               <td>Associate ID</td>
-              <td>{{(associate && associate.id) ? associate.id : ""}}</td>
+              <td>{{(associate && associate.id !== null) ? associate.id : ""}}</td>
             </tr>
             <tr>
               <td>First Name</td>
@@ -164,7 +170,10 @@
           </div>
           <tbody style="max-height: 300px;"  *ngIf="!interviewsLoading">
             <tr *ngFor="let interview of interviews; let i = index" (click)="goToInterviewDetails(interview)">
-              <td>{{(interview && interview.id) ? interview.id : ""}}</td>
+              <td>
+                <!-- {{(interview && interview.id !== null) ? interview.id : ""}} -->
+                <a [routerLink]="['/interview-details',interview.id]" class="id" *ngIf="interview.id !== null">{{interview.id}}</a>
+              </td>
               <td>{{(interview.client && interview.client.name) ? interview.client.name : ""}}</td>
               <td>{{(interview && interview.interviewDate) ? (interview.interviewDate | date:'longDate') : "" }}</td>
               <td>{{(interview && interview.interviewType && interview.interviewType.name) ?interview.interviewType.name : ""}}</td>

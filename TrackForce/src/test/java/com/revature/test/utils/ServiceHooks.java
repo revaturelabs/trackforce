@@ -2,11 +2,17 @@ package com.revature.test.utils;
 
 import org.openqa.selenium.WebDriver;
 
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 
 public class ServiceHooks {
 	public static WebDriver driver;
+
+	public static WebDriverWait wait;
+
 	
 	@Before("@HomeTagTest1")
 	public void initializeHomeTabTests(){

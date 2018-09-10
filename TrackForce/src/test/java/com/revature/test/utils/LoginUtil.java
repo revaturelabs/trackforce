@@ -40,4 +40,9 @@ public class LoginUtil {
 			e.printStackTrace();
 		}
 	}
+	
+	public static String getPropertyValue(String key) {
+		String value = prop.getProperty(key);
+		return value;
+	}
 }

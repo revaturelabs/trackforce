@@ -64,7 +64,6 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
 
   navbarDisplay() {
     this.user = this.authService.getUser();
-    
     if (this.user !== null && this.user !== undefined) {
       this.isLoggedIn = true;
       this.username = this.user.username;
@@ -74,27 +73,28 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
         this.isStaging = false;
         this.isTrainer = false;
         this.isAssociate = false;
-        this.firstName = "";
+        this.firstName = this.username;
       } else if(this.user.role === 3){
         this.isAdmin = false;
         this.isSales = true;
         this.isStaging = false;
         this.isTrainer = false;
         this.isAssociate = false;
-        this.firstName = "";
+        this.firstName = this.username;
       } else if(this.user.role === 4){
         this.isAdmin = false;
         this.isSales = false;
         this.isStaging = true;
         this.isTrainer = false;
         this.isAssociate = false;
-        this.firstName = "";
+        this.firstName = this.username;
       } else if (this.user.role === 2){
         this.isAdmin = false;
         this.isSales = false;
         this.isStaging = false;
         this.isTrainer = true;
         this.isAssociate = false;
+        this.firstName = this.authService.getTrainer().firstName;
       } else if (this.user.role === 5){
         this.isAdmin = false;
         this.isSales = false;
@@ -104,46 +104,5 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
         this.firstName = this.associateService.getAssociate(this.user.id).value.firstName;
       }
     }
-
-    // this.user = JSON.parse(localStorage.getItem('currentUser'));
-    // this.id = this.user.id;
-    // this.firstName = this.associateService.getAssociateName(this.id);
-
-    //Role checks
-    // only role check if there is already a user
-    // if (this.user !== null && this.user !== undefined) {
-    //   this.isLoggedIn = true;
-    //   this.username = this.user.username;
-    //   if (this.user.role === 1) {
-    //     this.isAdmin = true;
-    //     this.isSales = false;
-    //     this.isStaging = false;
-    //     this.isTrainer = false;
-    //     this.isAssociate = false;
-    //   } else if(this.user.role === 3){
-    //     this.isAdmin = false;
-    //     this.isSales = true;
-    //     this.isStaging = false;
-    //     this.isTrainer = false;
-    //     this.isAssociate = false;
-    //   } else if(this.user.role === 4){
-    //     this.isAdmin = false;
-    //     this.isSales = false;
-    //     this.isStaging = true;
-    //     this.isTrainer = false;
-    //     this.isAssociate = false;
-    //   } else if (this.user.role === 2){
-    //     this.isAdmin = false;
-    //     this.isSales = false;
-    //     this.isStaging = false;
-    //     this.isTrainer = true;
-    //     this.isAssociate = false;
-    //   } else if (this.user.role === 5){
-    //     this.isAdmin = false;
-    //     this.isSales = false;
-    //     this.isStaging = false;
-    //     this.isTrainer = false;
-    //     this.isAssociate = true;
-    //   }
     }
   }

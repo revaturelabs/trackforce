@@ -24,7 +24,6 @@ exports.config = {
     // './e2e/associate-list/associate-list-status.js',
     // './e2e/associate-list/associate-list-curriculum.js',
     // './e2e/associate-list/associate-list-client.js',
-    ,
     // './e2e/test-associate/homepage-spec.js'
   ],
   capabilities: {
@@ -34,8 +33,8 @@ exports.config = {
     }
   },
   // directConnect: true,
-   //baseUrl: 'http://localhost:4200/',
-   baseUrl: 'http://34.227.178.103:8090/NGTrackForce',
+   baseUrl: 'http://localhost:4200/',
+   //baseUrl: 'http://34.227.178.103:8090/NGTrackForce',
    //for pipeline delpoyment
      seleniumAddress: "http://127.0.0.1:4444/wd/hub",
     // SELENIUM_PROMISE_MANAGER: false,

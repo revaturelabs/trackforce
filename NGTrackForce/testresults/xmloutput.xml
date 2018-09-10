@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="0" errors="0" failures="0" tests="13" time="16.315">
- <testsuite name="login page element existences" timestamp="2018-09-10T13:46:50" hostname="localhost" time="5.076" errors="0" tests="6" skipped="0" disabled="0" failures="0">
-  <testcase classname="login page element existences" name="should have a username input box" time="0.006" />
-  <testcase classname="login page element existences" name="should have a password input box" time="0.002" />
-  <testcase classname="login page element existences" name="should have a login button" time="0.001" />
-  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.05" />
-  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.029" />
-  <testcase classname="login page element existences" name="should display proper value for button" time="0.046" />
- </testsuite>
- <testsuite name="Confirm login failures" timestamp="2018-09-10T13:46:55" hostname="localhost" time="2.047" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.119" />
-  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.544" />
- </testsuite>
- <testsuite name="Login in  with proper credentials" timestamp="2018-09-10T13:46:57" hostname="localhost" time="9.192" errors="0" tests="5" skipped="1" disabled="0" failures="0">
-  <testcase classname="Login in  with proper credentials" name="should be able to login in with admin credentials and reach the admin page" time="1.47" />
-  <testcase classname="Login in  with proper credentials" name="should be able to login in with associate credentials and reach the associate page" time="3.567" />
-  <testcase classname="Login in  with proper credentials" name="should be able to login in with Manager credentials and reach the Admin page" time="1.33" />
-  <testcase classname="Login in  with proper credentials" name="should be able to login in with Trainer credentials and reach the Trainer page" time="0.001">
-   <skipped message="Temporarily disabled with xit" />
-  </testcase>
-  <testcase classname="Login in  with proper credentials" name="should be able to login in with Sales Team credentials and reach the Admin page" time="1.375" />
+<testsuites disabled="0" errors="0" failures="0" tests="1" time="5.072">
+ <testsuite name="the bactch-list " timestamp="2018-09-10T14:28:48" hostname="localhost" time="5.072" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="the bactch-list " name="should have a batch list table" time="0.006" />
  </testsuite>
 </testsuites>

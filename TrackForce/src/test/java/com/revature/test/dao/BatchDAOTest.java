@@ -75,8 +75,7 @@ public class BatchDAOTest {
 				new Timestamp(Long.parseLong(props.getProperty("batch_startDate"))),
 				new Timestamp(Long.parseLong(props.getProperty("batch_endDate"))));
 		assertNotEquals(list, null);
-		assertEquals(list.size(), Integer.parseInt(props.getProperty("batches_betweenDates_java")));
-		
+		assertEquals(list.size(), Integer.parseInt(props.getProperty("batches_betweenDates_java")));		
 	}
 	
 	@Test

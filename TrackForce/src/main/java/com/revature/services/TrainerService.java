@@ -18,14 +18,11 @@ import com.revature.utils.PasswordStorage.CannotPerformOperationException;
  */
 public class TrainerService {
 	
-	private static TrainerDao dao = new TrainerDaoImpl();
+	private TrainerDao dao;
 	
-	// public so it can be used for testing 
-	public TrainerService() {};
+	public TrainerService() {dao = new TrainerDaoImpl();}
 	
-	public TrainerService(TrainerDao dao) {
-		this.dao = dao;
-	}
+	public TrainerService(TrainerDao dao) {this.dao = dao;}
 
 	/**
 	 * @author Adam L. 

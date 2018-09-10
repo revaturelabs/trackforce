@@ -2,7 +2,6 @@ package com.revature.daoimpl;
 
 import java.util.List;
 
-import com.revature.entity.TfClient;
 import org.hibernate.Session;
 
 import com.revature.dao.MarketingStatusDao;

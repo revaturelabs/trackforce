@@ -1,8 +1,6 @@
 package com.revature.services;
 
-import java.sql.Timestamp;
 import java.util.List;
-
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.CurriculumDao;
 import com.revature.daoimpl.CurriculumDaoImpl;
@@ -37,7 +35,6 @@ public class CurriculumService{
 		return dao.getAllCurriculums();
 	}
 
-
 	/**
 	 * Generates statistics for the expanded view of the home page unmapped chart
 	 *
@@ -47,9 +44,4 @@ public class CurriculumService{
 	public List<GraphedCriteriaResult> getUnmappedInfo(int statusId) {
 		return dao.getUnmapped(statusId);
 	}
-
-//	public List<GraphedCriteriaResult> getAssociateCountByCurriculum(Timestamp timestamp, Timestamp timestamp2) {
-//
-//		return dao.getAssociateCountByCurriculum(timestamp, timestamp2);
-//	}
 }

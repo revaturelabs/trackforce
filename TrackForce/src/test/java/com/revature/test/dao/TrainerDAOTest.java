@@ -12,7 +12,7 @@ import com.revature.entity.TfTrainer;
  *	
  */
 
-public class TrainerDaoTest {
+public class TrainerDAOTest {
   
   @Test
   public void getAllTrainersDoesNotReturnEmptyList() {

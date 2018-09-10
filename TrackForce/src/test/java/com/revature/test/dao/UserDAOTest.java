@@ -11,7 +11,7 @@ import com.revature.entity.TfUser;
 
 
 
-public class UserDaoTest {
+public class UserDAOTest {
   @Test
   public void canGetUserByUsername() {
 	  Assert.assertEquals(1, new UserDaoImpl().getUser("TestAdmin").getId());

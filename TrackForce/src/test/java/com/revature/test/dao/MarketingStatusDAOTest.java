@@ -12,7 +12,7 @@ import com.revature.entity.TfMarketingStatus;
 
 
 
-public class MarketingStatusDaoTest {
+public class MarketingStatusDAOTest {
 
   @Test
   public void canGetMarketingStatusByValidID() {

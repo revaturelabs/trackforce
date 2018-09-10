@@ -1,4 +1,4 @@
-<div class="container" id="content">
+ <!-- <div class="container" id="content">
   <div>
     <div>
       <div class="container">
@@ -52,4 +52,78 @@
       </div>
     </div>
   </div>
+</div> -->
+
+<!-- New Trainer Home Page 1807 -->
+<!-- <div class ="container" id="content">
+<h1>Edit Profile</h1>
+  	<hr>
+	<div class="row">
+      <div class="col-md-3">
+        <div class="text-center">
+          <div *ngIf='errMsg' class="alert alert-danger">
+            {{errMsg}}
+          </div>
+          <div *ngIf='succMsg' class="alert alert-success">
+            {{succMsg}}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9 personal-info">
+
+        <h3> Trainer Id: {{trainer.id}}</h3>
+
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-lg-3 control-label">First name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" value="{{trainer.firstName}}" [(ngModel)]='newFirstName' required name="newFirstName">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Last name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" value="{{trainer.lastName}}" [(ngModel)]='newLastName' required name="newLastName">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <input type="button" class="btn btn-primary" (click)='updateInfo()' value="Update Info">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-6" *ngIf="statusMsg">
+        <div [ngClass]="statusClass" class="msg">{{ statusMsg }}</div>
+      </div>
+  </div>
+</div> -->
+<div class="row">
+  <div class="col-md-3">
+    <div class="text-center">
+      <div *ngIf='errMsg' class="alert alert-danger">
+        {{errMsg}}
+      </div>
+      <div *ngIf='succMsg' class="alert alert-success">
+        {{succMsg}}
+      </div>
+    </div>
+  </div>
+
+<form>
+  <h1>Trainer Id: {{trainer.id}}</h1>
+  <h6>Edit information below</h6>
+  <fieldset>
+    <label for="first">First Name:</label>
+    <input class="form-control" type="text" value="{{trainer.firstName}}" [(ngModel)]='newFirstName' required name="newFirstName">
+    <label for="last">Last Name:</label>
+    <input class="form-control" type="text" value="{{trainer.lastName}}" [(ngModel)]='newLastName' required name="newLastName">
+  </fieldset>
+
+  <!-- <input type="button" class="btn btn-primary" (click)='updateInfo()' value="Update Info"> -->
+  <button type="button" class="btn btn-default" value="Update Info" (click)="updateInfo()">Update Information</button>
+</form>
+<div class="col-md-6" *ngIf="statusMsg">
+  <div [ngClass]="statusClass" class="msg">{{ statusMsg }}</div>
 </div>

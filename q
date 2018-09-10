@@ -1,0 +1,4 @@
+TRACKFORCE_DB_USERNAME=trackforcedev
+HBM_PW_ENV=AyXBhs3X5z3m2djc
+TRACKFORCE_DB_URL=jdbc:oracle:thin:@trackforcedb.chueiwozbnfz.us-east-1.rds.amazonaws.com:1521:ORCL
+TOMCAT_PORT=8085

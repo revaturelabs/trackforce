@@ -31,14 +31,13 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-1">
-				<button type="button" [routerLink]="['/myinterview-view']" class="btn btn-primary">Close</button>
+				<button type="button" onclick=window.history.back() class="btn btn-primary">Close</button>
 			</div>
 			<div class="col-sm-2">
 				<button class="btn btn-primary" type="button" (click)="commitchanges()">
 					Save Changes
 				</button>
 			</div>
-
 		</div>
 	</div>
 </div>

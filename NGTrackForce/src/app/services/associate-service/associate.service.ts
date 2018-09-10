@@ -81,7 +81,7 @@ export class AssociateService {
     return this.allAssociates$;
   }
 
-  /*
+  /**
     gets initial associates loaded
 
     ! DEPRECATED: This is not a good idea to try to speed up performance

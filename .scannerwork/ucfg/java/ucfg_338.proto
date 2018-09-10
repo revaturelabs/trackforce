@@ -1,12 +1,0 @@
-
-\com.revature.services.BatchService#getBatch(Ljava/lang/String;)Lcom/revature/entity/TfBatch;
-__unknown_file (	batchName"1*Å
-1m
-cC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\BatchService.java!	 !(×
-m
-cC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\BatchService.java!	 !( %0Scom.revature.dao.BatchDao#getBatch(Ljava/lang/String;)Lcom/revature/entity/TfBatch;"
-
-	batchName"w
-m
-cC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\BatchService.java! !(!
-""

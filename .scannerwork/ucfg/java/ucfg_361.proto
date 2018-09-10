@@ -1,0 +1,64 @@
+
+Ucom.revature.services.JWTService#validateToken(Ljava/lang/String;)Ljava/lang/Boolean;
+__unknown_file (token"11*Á
+1k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.javaL	 L("u
+k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.javaL L(
+""*‚
+3k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.javaI) I(/≠
+k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.javaI) I(=%3:com.revature.entity.TfUser#getUsername()Ljava/lang/String;∫
+k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.javaI) I(S%4,java.lang.String#equals(Ljava/lang/Object;)Z"
+
+%3"
+
+tokenUsername*
+1*œ
+4k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.javaI I(‘
+k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.javaI I(%%2Vcom.revature.services.JWTService#isTokenExpired(Ljava/lang/String;)Ljava/lang/Boolean;"	
+
+token*
+3
+1*⁄
+6k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.javaE E(ﬂ
+k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.javaE E(.%1Ycom.revature.services.UserService#getUser(Ljava/lang/String;)Lcom/revature/entity/TfUser;"
+
+tokenUsername*
+4
+1*à
+8k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.javaB B(ä
+k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.javaB B(&tokenUsername__id"
+""*	
+4
+6
+1*“
+10k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.java? ?(–
+k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.java? ?(%0Rcom.revature.services.JWTService#processToken(Ljava/lang/String;)L!unknownSymbol!;"	
+
+token*
+4
+6
+8
+1*ê
+11k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.java9 9(ä
+k
+aC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\JWTService.java9 9(tokenUsername__id"
+
+""*
+4
+6
+8
+10
+1

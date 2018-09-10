@@ -1,64 +1,90 @@
-<nav *ngIf="isLoggedIn" class="navbar navbar-expand-lg navbar-light">
-  <!-- Brand Image -->
-  <a class="navbar-brand">
-    <img src="../../../assets/logo.png" height="50" alt="Revature Logo">
-    <!-- Welcome Message -->
-    <small *ngIf="isLoggedIn"> Welcome, {{username}}!</small>
-  </a>
+<!-- BUG: Navbar will still show if forced logout (didn't click logout) -->
+<nav *ngIf="isLoggedIn" class="navbar navbar-expand-lg navbar-light sticky-top">
+  <div class=container>
+    <!-- Brand Image -->
+    <a class="navbar-brand" href="#">
+      <img src="../../../assets/logo.png" id="logo" alt="Revature Logo">
+    </a>
 
-  <!-- if screen becomes to small, organize buttons into dropdown -->
-  <button *ngIf="isLoggedIn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNav">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <!-- if screen becomes to small, organize buttons into dropdown -->
+    <button *ngIf="isLoggedIn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse nav-justified" id="collapsingNav" *ngIf="navbarService.visible">
-    <!-- Navbar Buttons -->
-    <ul *ngIf='isAssociate' class="nav nav-pills" id="associateNav">
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/associate-view']" routerLinkActive="active">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/myinterview-view']" routerLinkActive="active">My Interviews</a>
-      </li>
-    </ul>
+    <div class="collapse navbar-collapse flex-grow-0" id="collapsingNav" *ngIf="navbarService.visible">
+      <!-- Navbar Buttons -->
+      <ul *ngIf='isAssociate' class="navbar-nav" id="associateNav">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/associate-view']" routerLinkActive="active">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/myinterview-view']" routerLinkActive="active">My Interviews</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Welcome, {{username}}!
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
+          </div>
+        </li>
+      </ul>
 
-    <ul *ngIf='isTrainer' class="nav nav-pills" id="trainerNav">
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/trainer-view']" routerLinkActive="active">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/associate-listing']" routerLinkActive="active">Associate List</a>
-      </li>
-    </ul>
+      <ul *ngIf='isTrainer' class="navbar-nav" id="trainerNav">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/trainer-view']" routerLinkActive="active">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/associate-listing']" routerLinkActive="active">Associate List</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Welcome, {{username}}!
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
+          </div>
+        </li>
+      </ul>
 
-    <ul *ngIf='isStaging || isSales || isAdmin' class="nav nav-pills" id="adminNav">
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/app-home']" routerLinkActive="active">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/client-listing']" routerLinkActive="active">Client List</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/associate-listing']" routerLinkActive="active">Associate List</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/predictions']" routerLinkActive="active">Predictions</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/create-user']" routerLinkActive="active">Create User</a>
-      </li>
-      <li *ngIf='isAdmin' class="nav-item">
-        <a class="nav-link" [routerLink]="['/salesforce']" routerLinkActive="active">Salesforce</a>
-      </li>
-      <li class="nav-item">
-        <a style="color:#F9231A" class="nav-link" (click)="logout()">Logout</a>
-      </li>
-    </ul>
+      <ul *ngIf='isStaging || isSales || isAdmin' class="navbar-nav" id="adminNav">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/app-home']" routerLinkActive="active">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/client-listing']" routerLinkActive="active">Client List</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/associate-listing']" routerLinkActive="active">Associate List</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/predictions']" routerLinkActive="active">Prediction List</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/create-user']" routerLinkActive="active">Create User</a>
+        </li>
+        <li *ngIf='isAdmin' class="nav-item">
+          <a class="nav-link" [routerLink]="['/salesforce']" routerLinkActive="active">Salesforce</a>
+        </li>
+        <li class="nav-item dropdown mr-auto">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Welcome, {{username}}!
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
+
 </nav>

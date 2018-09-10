@@ -155,6 +155,14 @@ export class HomeComponent implements OnInit {
     return this.unmappedData;
   }
 
+  public scroll(id){
+    const offset = document.getElementById(id).offsetTop;
+    window.scroll({
+      top: offset,
+      behavior: 'smooth'
+    })
+    // window.scrollTo(0, offset);
+  }
   /////////////////////////////////////////////////////////////
   // THESE FUNCTIONS ARE BEING CALLED SOMEWHERE
   // THEY SHOULD NOT BE CALLED BECUASE THERE IS NO RESOURCE SERVER SIDE

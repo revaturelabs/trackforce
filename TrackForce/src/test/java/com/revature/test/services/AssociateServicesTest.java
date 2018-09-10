@@ -17,9 +17,7 @@ import org.testng.annotations.Test;
 
 import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
-import com.revature.services.UserService;
 import com.revature.test.utils.Log;
 import com.revature.utils.HibernateUtil;
 
@@ -60,10 +58,10 @@ public class AssociateServicesTest {
 	public void testGetAssociateByUserId() {
 		TfAssociate associate = service.getAssociateByUserId(Integer.parseInt(props.getProperty("associate_user")));
 		
-		assertEquals(props.getProperty("associate_firstName"), associate.getFirstName());
-		assertEquals(props.getProperty("associate_lastName"), associate.getLastName());
-		assertEquals(props.getProperty("associate_feedback"), associate.getStagingFeedback());
-		assertEquals(props.getProperty("associate_id"), associate.getId()+"");
+		assertEquals(props.getProperty("associate_userFirst"), associate.getFirstName());
+		assertEquals(props.getProperty("associate_userLast"), associate.getLastName());
+		assertEquals(props.getProperty("associate_userFeed"), associate.getStagingFeedback());
+
 	}
 	
 	@Test(priority=2)

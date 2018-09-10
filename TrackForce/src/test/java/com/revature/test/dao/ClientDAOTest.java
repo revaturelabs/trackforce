@@ -48,6 +48,9 @@ public class ClientDAOTest {
 	public void testClientDAOGetAll() {
 		List<TfClient> list = dao.getAllTfClients();
 		assertEquals(list.size(), Integer.parseInt(props.getProperty("client_total")));
+		
+		//If someone understands what getAllTfClients(String[] columns) does,
+		//please test it because I'm not sure what to pass it to not get null
 		String[] columns = {"tf_associate"};
 		list = dao.getAllTfClients(columns);
 		assertEquals(list, null);

@@ -33,7 +33,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * Pagination of results and improve performance.
 	 * @author Joshua Pressley-1807
 	 * @param startIdx starting index
-	 * @param numRes the number of resuts to return
+	 * @param numRes the number of results to return
 	 * @param mktStatus the marketing ID
 	 * @param clientId the client ID
 	 * @return list of associates matching criteria */
@@ -43,7 +43,6 @@ public class AssociateDaoImpl implements AssociateDao {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<TfAssociate> criteria = builder.createQuery(TfAssociate.class);
 		Root<TfAssociate> root = criteria.from(TfAssociate.class);
-		List<TfAssociate> results;
 		
 		if (clientId == -1 && mktStatus != -1) {
 			criteria.where(builder.equal(root.get(MKTSTS), mktStatus));
@@ -56,7 +55,7 @@ public class AssociateDaoImpl implements AssociateDao {
 		}
 		
 		if (startIdx==1) { startIdx = 0; }		
-		results = session.createQuery(criteria)
+		List<TfAssociate> results = session.createQuery(criteria)
 				.setCacheable(true)
 				.setFirstResult(startIdx)
 				.setMaxResults(numRes)
@@ -136,9 +135,9 @@ public class AssociateDaoImpl implements AssociateDao {
 			
 			results = session.createQuery(qr).setCacheable(true).getResultList();
 			count = results.get(0);
-		}catch(HibernateException e) {
+		} catch(HibernateException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			if ( session != null )
 				session.close();
 		}

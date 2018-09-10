@@ -165,10 +165,15 @@ public class AssociateDAOTest {
 	@Test(dependsOnMethods= {"testAssociateDAOGetAssociate"})
 	public void testAssociateDAOCreateAssociate() {
 		TfUser user = new TfUser();
+		user.setId(-1);
 		TfBatch batch = new TfBatch();
+		batch.setId(1);
 		TfMarketingStatus marketingStatus = new TfMarketingStatus();
+		marketingStatus.setId(1);
 		TfClient client = new TfClient();
+		client.setId(1);
 		TfEndClient endClient = new TfEndClient();
+		endClient.setId(1);
 		Set<TfInterview> interview = new HashSet<TfInterview>(0);
 		Set<TfPlacement> placement = new HashSet<TfPlacement>(0);
 
@@ -188,6 +193,7 @@ public class AssociateDAOTest {
 		assertTrue(dao.getMapped(1) instanceof List);
 	}
 	
+	//Same problem here
 	@Test(expectedExceptions={InvalidArgumentException.class})
 	public void testAssociateDAOGetUndeployed() {
 		assertTrue(dao.getUndeployed("mapped") instanceof List);

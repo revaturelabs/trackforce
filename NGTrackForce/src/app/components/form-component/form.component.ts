@@ -13,6 +13,8 @@ import { Interview } from '../../models/interview.model';
 import { InterviewService } from '../../services/interview-service/interview.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, NavigationExtras } from '@angular/router';
+import { MarketingStatus } from '../../models/marketing-status.model';
+import { FormStatus } from './form.enum';
 
 /**
  * Component for viewing an individual associate and editing as admin.
@@ -36,7 +38,7 @@ export class FormComponent implements OnInit {
   successMessage = '';
   errorMessage = '';
   selectedVerificationStatus: string;
-  selectedMarketingStatus: any;
+  selectedMarketingStatus: MarketingStatus;
   selectedClient: number;
   id: number;
   formOpen: boolean;
@@ -63,6 +65,12 @@ export class FormComponent implements OnInit {
   approvalPending = false;
   associateIsLoaded = false;
   interviewsLoading = true;
+
+  //disable the submit button unless we're waiting for a server response
+  submitDisabled = false;
+
+  formStatus: FormStatus;
+  formStatusClass: string;
 
   associateId: number;
   private sub: any;
@@ -97,9 +105,6 @@ export class FormComponent implements OnInit {
           }
           this.associate = data;
           this.associateIsLoaded = this.associate.user !== undefined && this.associate.user !== null;
-          if(this.associateIsLoaded) {
-            console.log(this.associate.user.isApproved)
-          }
           this.getAssociateInterviews(this.associate.id);
         },
         error => {
@@ -158,57 +163,99 @@ export class FormComponent implements OnInit {
     if (this.hasStartDate) {
       if (Date.now() < new Date(this.newStartDate).getTime()) {
         // if start date is before today, set status to MAPPED: DEPLOYED
-        this.selectedMarketingStatus = 5;
+        this.selectedMarketingStatus = new MarketingStatus(5, 'MAPPED: DEPLOYED');
       } else {
         // if start date is after today, set status to MAPPED: CONFIRMED
-        this.selectedMarketingStatus = 4;
+        this.selectedMarketingStatus = new MarketingStatus(4, 'MAPPED: CONFIRMED');
       }
     } else if (this.passedBackgroundCheck && this.hasStartDate) {
       // if background check is passed and associate has start date, set status to MAPPED: CONFIRMED
-      this.selectedMarketingStatus = 4;
+      this.selectedMarketingStatus = new MarketingStatus(4, 'MAPPED: CONFIRMED');
     } else if (this.clearedAllInterviews) {
       // if interviews are cleared, set status to MAPPED: SELECTED
-      this.selectedMarketingStatus = 3;
+      this.selectedMarketingStatus = new MarketingStatus(3, 'MAPPED: SELECTED');
     } else if (this.interviewScheduled) {
       // if an interview is scheduled, set status to MAPPED: RESERVED
-      this.selectedMarketingStatus = 2;
+      this.selectedMarketingStatus = new MarketingStatus(2, 'MAPPED: RESERVED');
     } else if (this.eligibleForInterview) {
       if (this.isMapped) {
         // if associate is mapped and eligible for an interview, set status to MAPPED: TRAINING
-        this.selectedMarketingStatus = 1;
+        this.selectedMarketingStatus = new MarketingStatus(1, 'MAPPED: TRAINING');
       } else {
         // if associate is NOT mapped, set status to UNMAPPED: TRAINING
-        this.selectedMarketingStatus = 6;
+        this.selectedMarketingStatus = new MarketingStatus(6, 'UNMAPPED: TRAINING');
       }
     } else if (this.isMapped) {
       // if associate is mapped, set status to MAPPED: TRAINING
-      this.selectedMarketingStatus = 1;
+      this.selectedMarketingStatus = new MarketingStatus(1, 'MAPPED: TRAINING');
     } else {
       // associate is unmapped
       // set status to UNMAPPED: TRAINING
-      this.selectedMarketingStatus = 6;
+      this.selectedMarketingStatus = new MarketingStatus(6, 'UNMAPPED: TRAINING');
     }
     this.updateAssociate();
+  }
+
+  private _displayFormStatus(status: FormStatus) {
+    this.formStatus = status;
+    switch(status) {
+      case FormStatus.SUCCESS:
+        this.formStatusClass = 'alert-success';
+        this.submitDisabled = false;
+        break;
+      case FormStatus.WAIT:
+        this.formStatusClass = 'alert-warning';
+        this.submitDisabled = true;
+        break;
+      case FormStatus.FAILURE:
+        this.formStatusClass = 'alert-danger';
+        this.submitDisabled = false;
+        break;
+    }
+  }
+
+  closeStatus() {
+    this.formStatus = null;
   }
 
   /**
    * Update the associate with the new verification status, client, status, and/or start date
    */
   updateAssociate() {
-    console.log(this.associate);
-    // const newAssociate = new Associate(
-    //   this.associate.firstName,
-    //   this.associate.lastName,
-    //   this.associate.user,
-    //   this.associate.id,
-    //   this.associate.batch,
-    //   this.selectedMarketingStatus,
-    //   this.selectedClient,
-    //   this.associate.endClient,
-    //   this.associate.interview,
-    //   this.associate.placement,
-    //   this.associate.clientStartDate
-    // );
+    this._displayFormStatus(FormStatus.WAIT);
+    this.clientService.getAllClients().subscribe(
+      clients => {
+        // the select element holds the numbers in string format so loose equality is required here
+        // in order to match with the number type being held in the client object id.
+        // tslint:disable-next-line:triple-equals
+        const assoc_client = clients.filter(client => client.id == this.selectedClient)[0];
+        const newAssociate = new Associate(
+          this.associate.firstName,
+          this.associate.lastName,
+          this.associate.user,
+          this.associate.id,
+          this.associate.batch,
+          this.selectedMarketingStatus,
+          assoc_client,
+          this.associate.endClient,
+          this.associate.interview,
+          this.associate.placement,
+          this.associate.clientStartDate
+        );
+        this.associate = newAssociate;
+        this.associateService.updateAssociate(this.associate).subscribe(
+          data => {
+            this._displayFormStatus(FormStatus.SUCCESS);
+            console.log(data);
+          },
+          error => {
+            this._displayFormStatus(FormStatus.FAILURE);
+            console.error(error);
+          }
+        );
+      },
+      error => console.error(error)
+    );
   }
 
   getAssociateInterviews(id) {

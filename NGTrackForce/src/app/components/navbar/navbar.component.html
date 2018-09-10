@@ -1,4 +1,4 @@
-<!-- BUG: Navbar will still show if forced logout (didn't click logout) -->
+<!-- BUG: Navbar will still show if forced logout (didn't click logout, but timed logout, etc.) -->
 <nav *ngIf="isLoggedIn" class="navbar navbar-expand-lg navbar-light sticky-top">
   <div class=container>
     <!-- Brand Image -->
@@ -7,18 +7,19 @@
     </a>
 
     <!-- if screen becomes to small, organize buttons into dropdown -->
-    <button *ngIf="isLoggedIn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNav">
+    <button id="collapsedNav" *ngIf="isLoggedIn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- Navbar Buttons -->
     <div class="collapse navbar-collapse flex-grow-0" id="collapsingNav" *ngIf="navbarService.visible">
-      <!-- Navbar Buttons -->
+      <!-- Associate button options -->
       <ul *ngIf='isAssociate' class="navbar-nav" id="associateNav">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/associate-view']" routerLinkActive="active">Home</a>
+          <a id="home" class="nav-link" [routerLink]="['/associate-view']" routerLinkActive="active">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/myinterview-view']" routerLinkActive="active">My Interviews</a>
+          <a id="interviews" class="nav-link" [routerLink]="['/myinterview-view']" routerLinkActive="active">My Interviews</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -26,20 +27,21 @@
             Welcome, {{username}}!
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
+            <a id="logout" class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
           </div>
         </li>
       </ul>
 
+      <!-- Trainer button options -->
       <ul *ngIf='isTrainer' class="navbar-nav" id="trainerNav">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/trainer-view']" routerLinkActive="active">Home</a>
+          <a id="home" class="nav-link" [routerLink]="['/trainer-view']" routerLinkActive="active">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a>
+          <a id="batches" class="nav-link" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/associate-listing']" routerLinkActive="active">Associate List</a>
+          <a id="associates" class="nav-link" [routerLink]="['/associate-listing']" routerLinkActive="active">Associate List</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -47,32 +49,33 @@
             Welcome, {{username}}!
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
+            <a id="logout" class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
           </div>
         </li>
       </ul>
 
+      <!-- Admin/Staging button options -->
       <ul *ngIf='isStaging || isSales || isAdmin' class="navbar-nav" id="adminNav">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/app-home']" routerLinkActive="active">Home</a>
+          <a id="home" class="nav-link" [routerLink]="['/app-home']" routerLinkActive="active">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/client-listing']" routerLinkActive="active">Client List</a>
+          <a id="clients" class="nav-link" [routerLink]="['/client-listing']" routerLinkActive="active">Client List</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a>
+          <a id="batches" class="nav-link" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/associate-listing']" routerLinkActive="active">Associate List</a>
+          <a id="associates" class="nav-link" [routerLink]="['/associate-listing']" routerLinkActive="active">Associate List</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/predictions']" routerLinkActive="active">Prediction List</a>
+          <a id="predictions" class="nav-link" [routerLink]="['/predictions']" routerLinkActive="active">Prediction List</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/create-user']" routerLinkActive="active">Create User</a>
+          <a id="create" class="nav-link" [routerLink]="['/create-user']" routerLinkActive="active">Create User</a>
         </li>
         <li *ngIf='isAdmin' class="nav-item">
-          <a class="nav-link" [routerLink]="['/salesforce']" routerLinkActive="active">Salesforce</a>
+          <a id="salesforce" class="nav-link" [routerLink]="['/salesforce']" routerLinkActive="active">Salesforce</a>
         </li>
         <li class="nav-item dropdown mr-auto">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -80,7 +83,7 @@
             Welcome, {{username}}!
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
+            <a id="logout" class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
           </div>
         </li>
       </ul>

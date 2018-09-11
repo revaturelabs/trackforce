@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
@@ -37,22 +38,48 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * @param mktStatus the marketing ID
 	 * @param clientId the client ID
 	 * @return list of associates matching criteria */
-	public List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId)
+	public List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId, String sortText)
 	{
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<TfAssociate> criteria = builder.createQuery(TfAssociate.class);
 		Root<TfAssociate> root = criteria.from(TfAssociate.class);
 		
-		if (clientId == -1 && mktStatus != -1) {
-			criteria.where(builder.equal(root.get(MKTSTS), mktStatus));
-		} else if (mktStatus == -1 && clientId != -1) {
-			criteria.where(builder.equal(root.get(CLIENT), clientId));
-		} else if (mktStatus != -1 && clientId != -1) {
-			criteria.where(builder.and(
-					builder.equal(root.get(MKTSTS), mktStatus),
-					builder.equal(root.get(CLIENT), clientId)));
-		}
+		if (!sortText.isEmpty()) {
+			Expression<String>  expName = root.get("batchName");
+			Expression<String> expFirst = root.get("firstName");
+			Expression<String>  expLast = root.get("lastName");
+			if (clientId == -1 && mktStatus != -1) {
+				criteria.where(builder.and(
+						(builder.or(builder.like(expName, sortText),
+								builder.or( builder.like(expFirst, sortText),builder.like(expLast, sortText)))),
+						builder.equal(root.get(MKTSTS), mktStatus)));
+			}//end if
+			else if (mktStatus == -1 && clientId != -1) {
+				criteria.where(builder.and(
+						(builder.or(builder.like(expName, sortText),
+								builder.or( builder.like(expFirst, sortText),builder.like(expLast, sortText)))),
+						builder.equal(root.get(CLIENT), clientId)));
+			}//end else
+			else if (mktStatus != -1 && clientId != -1) {
+				criteria.where(builder.and(
+						(builder.or(builder.like(expName, sortText),
+								builder.or( builder.like(expFirst, sortText),builder.like(expLast, sortText)))),
+						builder.and(builder.equal(root.get(MKTSTS), mktStatus),builder.equal(root.get(CLIENT), clientId))));
+			}//end elseif
+		} else {
+			if (clientId == -1 && mktStatus != -1) {
+				criteria.where(builder.equal(root.get(MKTSTS), mktStatus));
+			} 
+			else if (mktStatus == -1 && clientId != -1) {
+				criteria.where(builder.equal(root.get(CLIENT), clientId));
+			}
+			else if (mktStatus != -1 && clientId != -1) {
+				criteria.where(builder.and(
+						builder.equal(root.get(MKTSTS), mktStatus),
+						builder.equal(root.get(CLIENT), clientId)));
+			}//end else if
+		}//end else
 		
 		if (startIdx==1) { startIdx = 0; }		
 		List<TfAssociate> results = session.createQuery(criteria)

@@ -30,3 +30,23 @@ img {
     padding-right: 0px;
   }
 }
+
+table{
+  border-radius: 0px;
+  overflow: hidden;
+  box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+}
+
+tbody > tr {
+  cursor: pointer;
+  opacity: 1.0;
+  transition: opacity .2s ease-in-out;
+}
+
+tbody > tr:hover {
+  opacity: 1.0;
+}
+
+tbody:hover > tr:not(:hover) {
+  opacity: 0.5;
+}

@@ -1,29 +1,6 @@
 
-#predictionsHeader, #requirementsError, #requirementsHeader, #resourcesHeader, #batchDetailsHeader{
-  text-align: center;
-  padding-top: 10px;
-}
-
-#resourcesHeader{
-  margin: 0;
-}
-
-div.col-lg-5{
-  margin: 22px;
-  background-color: rgba(212, 212, 212, 0.349);
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-}
-
-div.col-lg-6.offset-lg-1{
-  margin: 22px;
-  background-color: rgba(212, 212, 212, 0.349);
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-}
-
-div.col-lg-12 {
-  width: 100%;
-  background-color: rgba(212, 212, 212, 0.349);
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+h3{
+  padding-left: 16px;
 }
 
 .table-div thead {
@@ -36,16 +13,6 @@ div.col-lg-12 {
   padding: 0px;
   overflow: hidden;
   margin-bottom: 20px;
-}
-
-#batchDetailsContainer {
-  background-color: rgba(212, 212, 212, 0.349);
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  text-align: center;
-}
-
-#batchDetailsContainer > div > div.table-div > table {
-  background-color: white;
 }
 
 .table-div table{
@@ -103,4 +70,21 @@ box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.5);
 .col-5-table tbody td, .col-5-table thead th {
   width: 25%;
   float: left;
+}
+
+.selected {
+  background-color: rgba(255,140,0,0.5) !important;
+}
+
+.floatingButton {
+  z-index: 5;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  cursor: pointer;
+}
+
+.pre-scrollable {
+  max-height: 550px !important;
+  overflow-y: scroll;
 }

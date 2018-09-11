@@ -17,6 +17,8 @@ import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.compon
  * @class BatchListComponent
  * @description This component is the batch list page
  *        to get all batches and show meaningful information
+ *
+ * 1807 addition: completely change date-time-picker to html input date
  */
 @Component({
   selector: 'app-batch-list',
@@ -48,6 +50,9 @@ export class BatchListComponent implements OnInit {
   stringStart: string;
   stringEnd: string;
 
+  fromString: string;
+  toString: string;
+
   dateRangeMessage: string;
   showDateRangeError = false;
   dateError: boolean;
@@ -61,7 +66,6 @@ export class BatchListComponent implements OnInit {
     new SideValues(0, 0, 0, 0),
     'right', false, false
   );
-
 
   constructor(private batchService: BatchService, private authService: AuthenticationService,
               private dateService: DateService) {
@@ -118,6 +122,8 @@ export class BatchListComponent implements OnInit {
 
       this.stringStart = this.startDate.toJSON().substring(0, 10);
       this.stringEnd = this.endDate.toJSON().substring(0, 10);
+      this.fromString = this.startDate.toJSON().substring(0, 10);
+      this.toString = this.endDate.toJSON().substring(0, 10);
       this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
         batches => {
           // filter out batches that don't have an associated trainer
@@ -150,8 +156,11 @@ export class BatchListComponent implements OnInit {
    */
   public applySelectedRange() {
     if (!this.dateError){
-    this.startDate = new Date(this.stringStart);
-    this.endDate = new Date(this.stringEnd);
+    this.startDate = new Date(this.fromString);
+    this.endDate = new Date(this.toString);
+
+    console.log(this.startDate);
+    console.log(this.endDate);
 
     let longStartDate: number;
     let longEndDate: number;
@@ -172,7 +181,6 @@ export class BatchListComponent implements OnInit {
     }
     }
   }
-
   public resetFormWarnings() {
     if (this.showDateRangeError === true) {
       this.showDateRangeError = false;
@@ -254,6 +262,62 @@ export class BatchListComponent implements OnInit {
       this.dataReady = true;
     }
   }
+
+  //Steve L
+  public updateBatchesTest()
+  {
+    const user = this.authService.getUser();
+    if (user.role === 2) {
+      // filter out batches that don't have an associated trainer
+      this.filteredBatches = this.batches.filter(
+        batch => {
+          if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
+            return false;
+          }
+          if (batch.coTrainer) {
+            if (!batch.coTrainer.includes(this.authService.getTrainer())) {
+              return false;
+            }
+          }
+          const dateStartDate = new Date(this.startDate);
+          const dateEndDate = new Date(this.endDate);
+          const longStartDate = dateStartDate.getTime();
+          const longEndDate = dateEndDate.getTime();
+
+          if (batch.startDate && batch.endDate) {
+            return batch.startDate > longStartDate && batch.endDate < longEndDate;
+          }
+          else {
+            return false;
+          }
+        }
+      );
+      this.updateCountPerCurriculum();
+      this.dataReady = true;
+    }
+    else{
+      this.dataReady = false;
+      this.filteredBatches = this.batches.filter(
+        batch => {
+          const dateStartDate = new Date(this.startDate);
+          const dateEndDate = new Date(this.endDate);
+          const longStartDate = dateStartDate.getTime();
+          const longEndDate = dateEndDate.getTime();
+
+          if (batch.startDate && batch.endDate) {
+            return batch.startDate > longStartDate && batch.endDate < longEndDate;
+          }
+          else {
+            return false;
+          }
+        }
+      );
+      this.updateCountPerCurriculum();
+      this.dataReady = true;
+    }
+  }
+
+
 
 
   /**

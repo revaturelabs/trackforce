@@ -72,7 +72,7 @@ export class ClientListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getFiftyClients();
+    //this.getFiftyClients();
     this.getAllClients();
     this.initChartData();
   }
@@ -89,14 +89,18 @@ export class ClientListComponent implements OnInit {
         for(const client of clients){
           this.clientNames.push(client.name);
         }
-      }, err => {
-        console.error("Failed grabbing names");
-      });
+        this.loading = false;
+      },
+        error => {
+        console.error("Failed grabbing names: ", error);
+      }
+    );
   }
 
   getFiftyClients(){
     this.clientService.getFiftyClients().subscribe(
       clients => {
+        console.log(clients);
         this.clientInfo = clients;
 
         for(const client of clients){
@@ -105,8 +109,8 @@ export class ClientListComponent implements OnInit {
         this.loading = false;
         this.placeholder = 'Enter a client . . .';
       },
-      err => {
-        console.error("Failed grabbing names");
+      error => {
+        console.error("Failed grabbing names: ", error);
       }
     )
   }
@@ -149,8 +153,8 @@ export class ClientListComponent implements OnInit {
           }
         ]
       },
-      err => {
-        console.log('Something went wrong');
+      error => {
+        console.log(error);
       }
     );
   }
@@ -180,8 +184,8 @@ export class ClientListComponent implements OnInit {
           }
         ]
       },
-      err => {
-        console.log('Something went wrong');
+      error => {
+        console.log(error);
       }
     );
   }

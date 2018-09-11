@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { MaterialModule } from './material.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialogModule } from '@angular/material/dialog';
 ///
 //  COMPONENTS
 ///
@@ -80,6 +81,7 @@ import { UndeployedComponent } from './components/undeployed/undeployed.componen
 import { InvalidSessionComponent } from './components/invalid-session/invalid-session.component';
 import { HighlightInterviewDirective } from './directives/highlight-interview.directive';
 import { SalesforceComponent } from './components/salesforce/salesforce.component';
+import { AssociateListPageComponent, UpdateDialogComponent } from './components/associate-list-page/associate-list-page.component';
 
 
 
@@ -116,7 +118,9 @@ import { SalesforceComponent } from './components/salesforce/salesforce.componen
     AssociateSearchByClientPipe,
     InvalidSessionComponent,
     HighlightInterviewDirective,
-    SalesforceComponent
+    SalesforceComponent,
+    AssociateListPageComponent,
+    UpdateDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -129,6 +133,9 @@ import { SalesforceComponent } from './components/salesforce/salesforce.componen
     MatProgressSpinnerModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+  ],
+  entryComponents: [
+    UpdateDialogComponent
   ],
   providers: [
     AssociateService,
@@ -147,7 +154,8 @@ import { SalesforceComponent } from './components/salesforce/salesforce.componen
     { provide: HTTP_INTERCEPTORS, useClass: InvalidSessionRerouteInterceptor, multi: true },
   ],
   exports: [
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule,
   ],
   bootstrap: [AppComponent]
 })

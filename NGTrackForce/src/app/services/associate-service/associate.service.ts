@@ -18,16 +18,16 @@ export class AssociateService {
 
   /**
    * These behavior subjects will hold an initial empty value until a request is sent for their
-   * data. This should not be the way it is implemented however since we have to remain compatible 
+   * data. This should not be the way it is implemented however since we have to remain compatible
    * with the components written already sending a null value from an AsyncSubject would throw many errors
    *
    * Each of the private variables below represents the return of each of the functions that are in this
    * service this needs to be refactored but in this first pass of the service revamp top priority is to
    * stop having the data reload each time and allow the application to hold a copy of the data to load
    * then update in the background.
-   * 
+   *
    * NOTE: The $ on a variable mean it is an Observable
-   * 
+   *
    * TODO: switch to using an AsyncSubject
    *
    * Note on things to do that would then allow this
@@ -49,6 +49,12 @@ export class AssociateService {
   private getAssociatesByStatus$: AsyncSubject<GraphCounts[]> = new AsyncSubject<GraphCounts[]>();
 
   private getUndeployedAssociates$: AsyncSubject<GraphCounts[]> = new AsyncSubject<GraphCounts[]>();
+
+  private currentAssociateSnapshot$: BehaviorSubject<Associate[]> = new BehaviorSubject<Associate[]>([]);
+  private currentIndex = 0;
+  private withLimit = 20;
+  private currentClientFilter = "";
+  private currentStatusFilter = "";
 
   // TODO: Decide if empty strings is better or if a loading message should be put here
   // TODO: Why is there a get by user and get by associate this is two different models on backend
@@ -138,7 +144,7 @@ export class AssociateService {
    * @param ids - list of associate ids of associates to be updated
    * @param marketingStatusId - the marketing status these associates will be updated to
    * @param clientId - the client id that the associates will be mapped to
-   * 
+   *
    * ? Changing this to use BehaviorSubjects however it may be wanted to have it not multiplex
    */
   updateAssociates(ids: number[], verification: number, marketingStatusId: number, clientId: number): Observable<boolean> {
@@ -155,19 +161,23 @@ export class AssociateService {
     return  this.updateAssociates$;
   }
 
-  
+
   /**
    *
    * This method updates the associate in the database
    * @param associate - the associate object with the updated values
+   * @returns Promise - Promise that resolves true on a 200, or an error message on 400/500
    */
   updateAssociate(associate: any) {
-    const url: string = this.baseURL + '/' + associate.id;
-    this.http.put<boolean>(url, associate).subscribe(
-      data => this.updateAssociate$.next(data),
-      error => this.updateAssociate$.error(error)
-    );
-    return this.updateAssociate$;
+    return new Promise((resolve, reject)=> {
+      const url: string = this.baseURL + '/' + associate.id;
+      this.http.put<boolean>(url, associate).subscribe(
+        // resolve true for a successful return since we don't care unless it's not a 200
+        data => resolve(true),
+        // reject on error
+        error => reject(error)
+      );
+    });
   }
 
   // ? Below this point the requests are for stats which may need to become a seperate service
@@ -182,13 +192,17 @@ export class AssociateService {
     return this.getAssociatesByStatus$;
   }
 
+  /**
+   * Returns a promise that resolves to either true for any 200, or an error object for any 400/500
+   */
   approveAssociate(associateID: number) {
-    const url: string = this.baseURL + '/' + associateID + '/approve';
-    this.http.put<boolean>(url, associateID).subscribe(
-      data => this.approveAssociate$.next(data),
-      error => this.approveAssociate$.error(error)
-    );
-    return  this.approveAssociate$;
+    return new Promise((resolve, reject)=> {
+      const url: string = this.baseURL + '/' + associateID + '/approve';
+      this.http.put<boolean>(url, associateID).subscribe(
+        data => resolve(true),
+        error => reject(error)
+      );
+    });
   }
 
   getUndeployedAssociates(mappedOrUnmapped: string): Observable<GraphCounts[]> {
@@ -198,5 +212,60 @@ export class AssociateService {
       error => this.getUndeployedAssociates$.error(error)
     );
     return this.getUndeployedAssociates$;
+  }
+
+  getAssociateSnapshot() {
+    return this.currentAssociateSnapshot$;
+  }
+
+  fetchAssociateSnapshot(limit: number, filter) {
+    this.withLimit = limit;
+    this.currentIndex = 0;
+
+    this.currentClientFilter = filter.client || "";
+    this.currentStatusFilter = filter.status || "";
+
+    // Base route
+    let queryParams = `/page?startIndex=${this.currentIndex}&numResults=${this.withLimit}`;
+    
+
+    // Determine filters if any
+    const {status, client} = filter;
+    if (status) {
+      queryParams += `&mStatusId=${status}`;
+    }
+    if (client) {
+      queryParams += `&clientId=${client}`;
+    }
+
+    // Make initial request
+    const url: string = this.baseURL + queryParams;
+    this.http.get<Associate[]>(url).subscribe(
+      (data: Associate[]) => this.currentAssociateSnapshot$.next(data),
+      error => this.currentAssociateSnapshot$.error(error)
+    );
+    return this.currentAssociateSnapshot$;
+  }
+
+  fetchNextSnapshot() {
+    this.currentIndex += this.withLimit;
+    // Base route
+    let queryParams = `/page?startIndex=${this.currentIndex}&numResults=${this.withLimit}`;
+
+    if (this.currentStatusFilter) {
+      queryParams += `&mStatusId=${this.currentStatusFilter}`;
+    }
+    if (this.currentClientFilter) {
+      queryParams += `&clientId=${this.currentClientFilter}`;
+    }
+
+
+    // Make initial request
+    const url: string = this.baseURL + queryParams;
+    this.http.get<Associate[]>(url).subscribe(
+      (data: Associate[]) => this.currentAssociateSnapshot$.next(data),
+      error => this.currentAssociateSnapshot$.error(error)
+    );
+    return this.currentAssociateSnapshot$;    
   }
 }

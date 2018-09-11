@@ -1,16 +1,14 @@
 <div class="container" ng-init="" *ngIf="!isAssociate">
   <div class="row">
+    <div class="alert" *ngIf="approveStatus" [ngClass]="approveStatusClass">
+        {{ approveStatus }}
+        <span class="close" (click)="closeApprovalStatus()">&times;</span>
+    </div>
     <div class="alert alert-success" *ngIf="successMessage">
-      <h5 class="text-success">{{successMessage}}</h5>
-    </div>
-    <div class="alert alert-success" *ngIf="isApproved === 1">
-      <h5 class="text-success">Successfully Approved!</h5>
-    </div>
-    <div class="alert alert-danger" *ngIf="isApproved === 2">
-      <h5 class="text-danger">Approval failed</h5>
+      <h5 class="text-success">{{ successMessage }}</h5>
     </div>
     <div class="alert alert-danger" *ngIf="errorMessage">
-      <h5 class="text-danger">{{errorMessage}}</h5>
+      <h5 class="text-danger">{{ errorMessage }}</h5>
     </div>
   </div>
 
@@ -21,10 +19,14 @@
       <div class="table-responsive info table-div">
         <table class="table borderless">
           <tbody>
-            <tr *ngIf="(associate && associate.user && associate.user.isApproved) ? associate.user.isApproved != true : true">
+            <tr *ngIf="associateIsLoaded && (isApproved === 2 || isApproved === 0)">
               <td>This Associate has not been approved yet</td>
               <td>
-                <button class="btn btn-primary" (click)="approveAssociate()">Approve</button>
+                <button class="btn btn-primary"
+                  (click)="approveAssociate()"
+                  [disabled]="approvalPending">
+                    Approve
+                </button>
               </td>
             </tr>
             <tr>
@@ -63,7 +65,7 @@
         </table>
       </div>
     </div>
-    
+
     <div class="col-md-8">
       <h3>Update Associate</h3>
       <div class="div-window">
@@ -73,19 +75,21 @@
             <tr>
               <td>Choose Status</td>
               <td>
-                <select class="form-control" name="smkst" [(ngModel)]="selectedMarketingStatus">
-                  <option value="1">MAPPED: Training</option>
-                  <option value="2">MAPPED: Reserved</option>
-                  <option value="3">MAPPED: Selected</option>
-                  <option value="4">MAPPED: Confirmed</option>
-                  <option value="5">MAPPED: Deployed</option>
-                  <option value="6">UNMAPPED: Training</option>
-                  <option value="7">UNMAPPED: Open</option>
-                  <option value="8">UNMAPPED: Selected</option>
-                  <option value="9">UNMAPPED: Confirmed</option>
-                  <option value="10">UNMAPPED: Deployed</option>
-                  <option value="11">Directly Placed</option>
-                  <option value="12">TERMINATED</option>
+                <select class="form-control"
+                  name="marketingStatus"
+                  [(ngModel)]="selectedMarketingStatus">
+                    <option value="1">MAPPED: Training</option>
+                    <option value="2">MAPPED: Reserved</option>
+                    <option value="3">MAPPED: Selected</option>
+                    <option value="4">MAPPED: Confirmed</option>
+                    <option value="5">MAPPED: Deployed</option>
+                    <option value="6">UNMAPPED: Training</option>
+                    <option value="7">UNMAPPED: Open</option>
+                    <option value="8">UNMAPPED: Selected</option>
+                    <option value="9">UNMAPPED: Confirmed</option>
+                    <option value="10">UNMAPPED: Deployed</option>
+                    <option value="11">Directly Placed</option>
+                    <option value="12">TERMINATED</option>
                 </select>
               </td>
             </tr>
@@ -104,13 +108,12 @@
               <td><input type="date" class="form-control" name="date" [(ngModel)]="newStartDate" /></td>
             </tr>
           </table>
-          <button (click)="updateAssociate()" class="btn btn-warning" style="margin-top:10px">Update Status</button>
-        </div>            
+        </div>
         <hr>
         <form>
           <div class="checkbox">
             <label>
-              <input type="checkbox" [checked]="isMapped" (change)="isMapped = !isMapped"> Is the associate mapped?            
+              <input type="checkbox" [checked]="isMapped" (change)="isMapped = !isMapped"> Is the associate mapped?
             </label>
           </div>
           <div class="checkbox">
@@ -142,8 +145,17 @@
             <br>
             <input *ngIf="hasStartDate" type="date" name="startdate" [(ngModel)]="newStartDate">
           </div>
-          <button type="button" class="btn btn-warning" (click)="processForm()">Update Associate</button>
+          <button
+            type="button"
+            class="btn btn-warning"
+            (click)="processForm()"
+            [disabled]="submitDisabled">
+              Update Associate
+          </button>
         </form>
+        <div class="alert" *ngIf="formStatus" [ngClass]="formStatusClass">
+          <p>{{ formStatus }}<span class="close" (click)="closeStatus()">&times;</span></p>
+        </div>
       </div>
 
 
@@ -188,33 +200,9 @@
             <label>Enter feedback for Interview ID: {{interviewSelected.id}}</label>
             <textarea type="text" class="form-control" name="feedback" rows="3" [(ngModel)]="feedback"></textarea>
             <br>
-            <button type="button" (click)="updateInterviewFeedback(interview)" class="btn btn-warning">Send</button>
+            <button type="button" (click)="updateInterviewFeedback()" class="btn btn-warning">Send</button>
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </div>
-<!-- <div *ngIf="isAssociate">
-<div class="col-sm-6">
-      <h3>Interviews</h3>
-      <table class="table table-responsive table-hover table-bordered">
-        <thead>
-          <tr>
-            <th>Interview</th>
-            <th>Client</th>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Feedback</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr >
-            <td>{{currentinterview.client}}</td>
-            <td>{{currentinterview.date | date:'longDate'}}</td>
-            <td>{{currentinterview.type}}</td>
-            <td>{{currentinterview.feedback}}</td>
-          </tr>
-        </tbody>
-      </table>
-      </div>
-</div> -->

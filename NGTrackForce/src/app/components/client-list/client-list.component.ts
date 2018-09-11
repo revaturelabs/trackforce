@@ -80,7 +80,7 @@ export class ClientListComponent implements OnInit {
 
   // get client names from data and push to clientNames string array
   getAllClients() {
-    this.clientService.getAllClientsPromise().then(
+    this.clientService.getAllClients().subscribe(
       clients => {
         // save array of object Client
         this.clientInfo = clients;
@@ -90,10 +90,12 @@ export class ClientListComponent implements OnInit {
           this.clientNames.push(client.name);
         }
         this.loading = false;
-    }).catch(error => {
-      console.error("Failed grabbing names: ", error);
-    });
-  };
+      },
+        error => {
+        console.error("Failed grabbing names: ", error);
+      }
+    );
+  }
 
   getFiftyClients(){
     this.clientService.getFiftyClients().subscribe(

@@ -50,6 +50,7 @@ public class InitResource {
 		userService.getUser("TestAssociate");
 		return Response.status(Status.OK).build();
 	}
+
 	
 	
 }

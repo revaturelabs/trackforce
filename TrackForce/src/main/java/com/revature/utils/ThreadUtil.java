@@ -17,7 +17,6 @@ public class ThreadUtil {
 	public ThreadUtil() {
 		super();
 	}
-	
 	public <T> T submitCallable(Callable<T> caller) {
 		Future<T> future = executor.submit(caller);
 		T results = null;

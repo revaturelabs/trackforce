@@ -100,6 +100,6 @@ export class AssociateViewComponent implements OnInit {
         console.error(err);
         this._displayStatus(UpdateStatus.SUCCESS, AlertStatusClass.SUCCESS);
       }
-    );
+    });
   }
 }

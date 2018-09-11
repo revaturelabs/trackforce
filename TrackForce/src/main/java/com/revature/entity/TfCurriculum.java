@@ -1,8 +1,6 @@
 package com.revature.entity;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,17 +9,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-/**
- * <p> </p>
- * @version v6.18.06.13
- */
+/**@version v6.18.06.13 */
 @XmlRootElement
 @Entity
 @Table(name = "TF_CURRICULUM", schema = "ADMIN")
@@ -42,7 +34,7 @@ public class TfCurriculum implements java.io.Serializable {
 	@JsonIgnore
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curriculumName")
-	private Set<TfBatch> batches = new HashSet<TfBatch>(0);
+	private Set<TfBatch> batches = new HashSet<>(0);
 
 	public TfCurriculum() {
 		super();
@@ -110,19 +102,21 @@ public class TfCurriculum implements java.io.Serializable {
 		if (batches == null) {
 			if (other.batches != null)
 				return false;
-		} else if (!batches.equals(other.batches))
+		} else if (!batches.equals(other.batches)) {
 			return false;
+		}
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!name.equals(other.name)) {
 			return false;
+		}
 		return true;
 	}
-	
 }

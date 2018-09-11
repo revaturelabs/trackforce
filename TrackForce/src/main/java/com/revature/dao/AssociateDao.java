@@ -4,7 +4,6 @@ import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.TfAssociate;
 
 public interface AssociateDao {
-
 	TfAssociate getAssociate(Integer associateid);
 	
 	List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId);

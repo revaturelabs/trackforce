@@ -1,32 +1,21 @@
 package com.revature.entity;
-
 import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-/**
- * <p> </p>
- * @version v6.18.06.13
- */
+/** @version v6.18.06.13 */
 @XmlRootElement
 @Entity
 @Table(name = "TF_INTERVIEW", schema = "ADMIN")
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
-//Logans attempt at getting ehcache working below
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfInterview implements java.io.Serializable {
 
@@ -272,83 +261,114 @@ public class TfInterview implements java.io.Serializable {
 		if (associate == null) {
 			if (other.associate != null)
 				return false;
-		} else if (!associate.equals(other.associate))
+		} else if (!associate.equals(other.associate)) {
 			return false;
+		}
+		
 		if (associateFeedback == null) {
 			if (other.associateFeedback != null)
 				return false;
-		} else if (!associateFeedback.equals(other.associateFeedback))
+		} else if (!associateFeedback.equals(other.associateFeedback)) {
 			return false;
+		}
+		
 		if (client == null) {
 			if (other.client != null)
 				return false;
-		} else if (!client.equals(other.client))
+		} else if (!client.equals(other.client)) {
 			return false;
+		}
+	
 		if (clientFeedback == null) {
 			if (other.clientFeedback != null)
 				return false;
-		} else if (!clientFeedback.equals(other.clientFeedback))
+		} else if (!clientFeedback.equals(other.clientFeedback)) {
 			return false;
+		}
+		
 		if (dateAssociateIssued == null) {
 			if (other.dateAssociateIssued != null)
 				return false;
-		} else if (!dateAssociateIssued.equals(other.dateAssociateIssued))
+		} else if (!dateAssociateIssued.equals(other.dateAssociateIssued)) {
 			return false;
+		}
+		
 		if (dateSalesIssued == null) {
 			if (other.dateSalesIssued != null)
 				return false;
-		} else if (!dateSalesIssued.equals(other.dateSalesIssued))
+		} else if (!dateSalesIssued.equals(other.dateSalesIssued)) {
 			return false;
+		}
+		
 		if (endClient == null) {
 			if (other.endClient != null)
 				return false;
-		} else if (!endClient.equals(other.endClient))
+		} else if (!endClient.equals(other.endClient)) {
 			return false;
+		}
+		
 		if (flagReason == null) {
 			if (other.flagReason != null)
 				return false;
-		} else if (!flagReason.equals(other.flagReason))
+		} else if (!flagReason.equals(other.flagReason)) {
 			return false;
+		}
+		
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
+		
 		if (interviewDate == null) {
 			if (other.interviewDate != null)
 				return false;
-		} else if (!interviewDate.equals(other.interviewDate))
+		} else if (!interviewDate.equals(other.interviewDate)) {
 			return false;
+		}
+		
 		if (interviewType == null) {
 			if (other.interviewType != null)
 				return false;
-		} else if (!interviewType.equals(other.interviewType))
+		} else if (!interviewType.equals(other.interviewType)) {
 			return false;
+		}
+		
 		if (isClientFeedbackVisible == null) {
 			if (other.isClientFeedbackVisible != null)
 				return false;
-		} else if (!isClientFeedbackVisible.equals(other.isClientFeedbackVisible))
+		} else if (!isClientFeedbackVisible.equals(other.isClientFeedbackVisible)) {
 			return false;
+		}
+		
 		if (isInterviewFlagged == null) {
 			if (other.isInterviewFlagged != null)
 				return false;
-		} else if (!isInterviewFlagged.equals(other.isInterviewFlagged))
+		} else if (!isInterviewFlagged.equals(other.isInterviewFlagged)) {
 			return false;
+		}
+		
 		if (jobDescription == null) {
 			if (other.jobDescription != null)
 				return false;
-		} else if (!jobDescription.equals(other.jobDescription))
+		} else if (!jobDescription.equals(other.jobDescription)) {
 			return false;
+		}
+		
 		if (questionGiven == null) {
 			if (other.questionGiven != null)
 				return false;
-		} else if (!questionGiven.equals(other.questionGiven))
+		} else if (!questionGiven.equals(other.questionGiven)) {
 			return false;
+		}
+		
 		if (was24HRNotice == null) {
 			if (other.was24HRNotice != null)
 				return false;
-		} else if (!was24HRNotice.equals(other.was24HRNotice))
+		} else if (!was24HRNotice.equals(other.was24HRNotice)) {
 			return false;
+		}
 		return true;
 	}
 

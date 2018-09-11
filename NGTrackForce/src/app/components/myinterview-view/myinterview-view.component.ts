@@ -48,6 +48,7 @@ export class MyInterviewComponent implements OnInit {
   public openDateNotified: boolean;
   public openInterviewDate: boolean;
   public isDataReady = false;
+<<<<<<< associate-update
   public dateAssignedError: boolean;
   public dateOfInterviewError: boolean;
   public dateError: boolean;
@@ -56,6 +57,13 @@ export class MyInterviewComponent implements OnInit {
   public alertSubmitClass: AlertClass;
   public submitInterviewStatus: string;
   public statusProp = StatusProp;
+=======
+  public dateError:boolean;
+  public updateSuccess = false;
+
+  index;
+  index2;
+>>>>>>> dev1807
 
   constructor(
     private authService: AuthenticationService,
@@ -210,6 +218,7 @@ export class MyInterviewComponent implements OnInit {
         interview.dateAssociateIssued = new Date(
           interview.dateAssociateIssued
         ).getTime();
+<<<<<<< associate-update
         this.interviewService.updateInterview(interview).subscribe(
           res => {
             this._displayStatus(StatusProp.UPDATE, InterviewStatusMsg.SUCCESS, AlertClass.SUCCESS);
@@ -219,6 +228,13 @@ export class MyInterviewComponent implements OnInit {
             console.error(error);
           }
         );
+=======
+        this.interviewService.updateInterview(interview).subscribe(res => {
+          this.updateSuccess=true;
+          location.reload();
+
+        });
+>>>>>>> dev1807
     }
   }
 

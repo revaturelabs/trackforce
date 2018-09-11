@@ -52,13 +52,13 @@ public class InterviewResource {
 	// This is to allow for Mockito tests, which have problems with static methods
 	// This is here for a reason!
 	// - Adam 06.18.06.13
-	AssociateService associateService = new AssociateService();
-	BatchService batchService = new BatchService();
-	ClientService clientService = new ClientService();
-	CurriculumService curriculumService = new CurriculumService();
-	InterviewService interviewService = new InterviewService();
-	TrainerService trainerService = new TrainerService();
-	UserService userService = new UserService();
+	static AssociateService associateService = new AssociateService();
+	static BatchService batchService = new BatchService();
+	static ClientService clientService = new ClientService();
+	static CurriculumService curriculumService = new CurriculumService();
+	static InterviewService interviewService = new InterviewService();
+	static TrainerService trainerService = new TrainerService();
+	static UserService userService = new UserService();
 
 	/**
 	 * 

@@ -58,6 +58,7 @@ public class InterviewResourceTest {
 		
 		knownAssociateId = 392;
 	}
+	
 
 	/**
 	 * Test that the resource can be accessed properly. Check that the content type

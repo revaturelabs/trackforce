@@ -3,14 +3,22 @@
 <div class="container">
   <div class="row" style="text-align:center">
     <div class="col-sm-12">
-      <h3>For a break down of information, click on a pie chart.</h3>
+      <h3 style="padding-bottom: 10px; text-align: center">Home</h3>
+      <div style="text-align:center" class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Click</strong> on a pie chart for further information.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
     </div>
   </div>
 
   <div class="row">
+
+  <div class="row">
     <div class="col-sm-6">
       <div class="card border-info text-center">
-        <h3 class="card-header">Mapped vs Unmapped (Undeployed)</h3>
+        <h5 class="card-header">Mapped vs Unmapped (Undeployed)</h5>
         <div class="card-body">
           <div class="white" title="Click on the chart for more information">
             <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getUndeployedData()" [colors]="mappedColors" [chartType]="undeployedChartType"
@@ -27,7 +35,7 @@
 
       <div class="col-sm-6">
           <div class="card border-info text-center">
-        <h3 class="card-header">Mapped vs Unmapped (Deployed)</h3>
+        <h5 class="card-header">Mapped vs Unmapped (Deployed)</h5>
           <div class="card-body">
             <div class="white" title="Click on the chart for more information">
               <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getDeployedData()" [colors]="mappedColors" [chartType]="deployedChartType"
@@ -41,11 +49,14 @@
             </div>
         </div>
       </div>
+
   <div class="w-100"></div>
+
   <br>
+
   <div class="col-sm-6">
       <div class="card border-info text-center">
-      <h3 class="card-header">Mapped</h3>
+      <h5 class="card-header">Mapped</h5>
         <div class="card-body">
           <div class="white" title="Click on the chart for more information">
             <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getMappedData()" [labels]="mappedLabels" [chartType]="mappedChartType"
@@ -62,7 +73,7 @@
 
     <div class="col-sm-6">
         <div class="card border-info text-center">
-      <h3 class="card-header">Unmapped</h3>
+      <h5 class="card-header">Unmapped</h5>
         <div class="card-body">
           <div class="white" title="Click on the chart for more information">
             <canvas *ngIf=!loading baseChart id="pie" class="chart chart-pie" [data]="getUnmappedData()" [labels]="unmappedLabels" [chartType]="unmappedChartType"
@@ -75,6 +86,7 @@
             </div>
           </div>
         </div>
-    </div>
+      </div>
+
   </div>
 </div>

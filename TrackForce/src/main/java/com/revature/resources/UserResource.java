@@ -284,8 +284,8 @@ public class UserResource {
 		try {
 			user = userService.submitCredentials(loginUser);
 			logger.info("	user: " + user);
-		} catch (NoResultException nre) {
-			logger.error(nre);
+		} catch (NoResultException | NullPointerException ex) {
+			logger.error(ex);
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		if (user != null) {

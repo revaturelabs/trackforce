@@ -32,18 +32,6 @@ export class ClientService {
     return this.clients$;
   }
 
-  /**
-   * Same as above, but promise based rather than using an Async Behavior
-   */
-  getAllClientsPromise(): Promise<Client[]> {
-    return new Promise((resolve, reject)=> {
-      this.http.get<Client[]>(this.baseURL).subscribe(
-        (data: Client[]) => resolve(data),
-        (error) => reject(error)
-      );
-    });
-  }
-
   getFiftyClients(): Observable<Client[]> {
     this.http.get<Client[]>(this.fiftyUrl).subscribe(
       (data: Client[]) => this.clients$.next(data),

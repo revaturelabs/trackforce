@@ -3,7 +3,7 @@ package com.revature.test.utils;
 import static org.testng.Assert.assertTrue;
 
 import org.testng.annotations.Test;
-import com.revature.utils.DbResetUtil;
+//import com.revature.utils.DbResetUtil;
 
 /**
  *Must be run before ALL of the back-end tests to get consistent
@@ -15,10 +15,10 @@ import com.revature.utils.DbResetUtil;
  */
 public class ResetDatabase {
 	
-	@Test
-	public void resetDB() { 
-		DbResetUtil dru = new DbResetUtil();
-		assertTrue(dru.resetDatabase());
-	}
+//	@Test
+//	public void resetDB() { 
+//		DbResetUtil dru = new DbResetUtil();
+//		assertTrue(dru.resetDatabase());
+//	}
 
 }

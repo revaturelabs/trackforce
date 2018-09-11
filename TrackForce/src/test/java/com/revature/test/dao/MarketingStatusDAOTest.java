@@ -64,7 +64,7 @@ public class MarketingStatusDAOTest {
 		  statusesExpected.add(x);
 	  }
 
-	  Assert.assertTrue(statusesExpected.equals(statusesActual));
+	  Assert.assertEquals(statusesExpected, statusesActual);
   }
   
 }

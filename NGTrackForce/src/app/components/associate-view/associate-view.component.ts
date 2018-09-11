@@ -91,15 +91,23 @@ export class AssociateViewComponent implements OnInit {
     this.associate.firstName = this.newFirstName;
     this.associate.lastName = this.newLastName;
     this._displayStatus(UpdateStatus.WAIT, AlertStatusClass.WAIT);
-    this.associateService.updateAssociate(this.associate).subscribe(
-      success => {
-        console.log(success);
-        this._displayStatus(UpdateStatus.SUCCESS, AlertStatusClass.SUCCESS);
-      },
-      err => {
-        console.error(err);
-        this._displayStatus(UpdateStatus.SUCCESS, AlertStatusClass.SUCCESS);
-      }
-    );
+
+    this.associateService.updateAssociate(this.associate).then(() => {
+      this._displayStatus(UpdateStatus.SUCCESS, AlertStatusClass.SUCCESS);
+    }).catch((err) => {
+      console.error(err);
+      this._displayStatus(UpdateStatus.SUCCESS, AlertStatusClass.SUCCESS);
+    });
+
+    // this.associateService.updateAssociate(this.associate).subscribe(
+    //   success => {
+    //     console.log(success);
+    //     this._displayStatus(UpdateStatus.SUCCESS, AlertStatusClass.SUCCESS);
+    //   },
+    //   err => {
+    //     console.error(err);
+    //     this._displayStatus(UpdateStatus.SUCCESS, AlertStatusClass.SUCCESS);
+    //   }
+    // );
   }
 }

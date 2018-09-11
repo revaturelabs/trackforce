@@ -210,13 +210,6 @@ export class MyInterviewComponent implements OnInit {
         interview.dateAssociateIssued = new Date(
           interview.dateAssociateIssued
         ).getTime();
-<<<<<<< HEAD
-        this.interviewService.updateInterview(interview).subscribe(res => {
-          this.updateSuccess=true;
-          location.reload();
-
-        });
-=======
         this.interviewService.updateInterview(interview).subscribe(
           res => {
             this._displayStatus(StatusProp.UPDATE, InterviewStatusMsg.SUCCESS, AlertClass.SUCCESS);
@@ -226,7 +219,6 @@ export class MyInterviewComponent implements OnInit {
             console.error(error);
           }
         );
->>>>>>> jonathan/associate-update
     }
   }
 

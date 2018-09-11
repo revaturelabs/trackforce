@@ -2,6 +2,7 @@ import { ClientListPo } from "./client-list.po";
 import { Navbar } from "../navbar/navbar.po";
 import { LoginPage } from '../login/login.po';
 import { TestConfig } from "../configuration/test-config";
+import { by, element } from 'protractor';
 
 let clientList  : ClientListPo;
 let testConfig  : TestConfig;

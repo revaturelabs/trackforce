@@ -6,12 +6,15 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Matchers.contains;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 
 import java.io.IOException;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.revature.resources.CurriculumResource;
 import com.revature.services.JWTService;
 
 import io.restassured.response.Response;
@@ -22,6 +25,12 @@ import io.restassured.response.Response;
  * @author Jesse
  * @since 06.18.06.16
  */
+/**
+ * In order to increase coverage percentages, most of the Rest Assured Tests have been 
+ * preserved, but appended asserts on Entities from Responses from CurriculumResource
+ * 
+ * @author Paul Capellan
+ * */
 public class CurriculumResourceTest {
 
 	static final String URL = "http://52.87.205.55:8086/TrackForce/skillset";
@@ -29,6 +38,7 @@ public class CurriculumResourceTest {
 
 	String tokenAdmin;
 	String tokenAssociate;
+	CurriculumResource cResource = new CurriculumResource();
 
 	/**
 	 * Set up before any tests. Need to generate a token
@@ -63,6 +73,7 @@ public class CurriculumResourceTest {
 
 		given().header("Authorization", tokenAdmin).when().get(URL).then().assertThat().body("name", notNullValue());
 
+		assertNotNull(cResource.getAllCurriculums(tokenAdmin).getEntity());
 	}
 
 	/**
@@ -80,6 +91,9 @@ public class CurriculumResourceTest {
 		given().header("Authorization", tokenAdmin).when().post(URL).then().assertThat().statusCode(405);
 
 		given().header("Authorization", tokenAssociate).when().get(URL).then().assertThat().statusCode(403);
+		
+		assertNotNull(cResource.getAllCurriculums("").getEntity());
+		assertNull(cResource.getAllCurriculums(tokenAssociate).getEntity());
 	}
 	
 	/**
@@ -98,10 +112,12 @@ public class CurriculumResourceTest {
 
 		
 		given().header("Authorization", tokenAdmin).when().get(URL + "/unmapped/2").then().assertThat().body("id", hasSize(1));
+		
+		assertNotNull(cResource.getUnmappedInfo(tokenAdmin, 6).getEntity());
 	}
 	
 	/**
-	 * Unhappy path testing for getUnmappedInfo
+	 * Unhappy path testing for getUnmappedInfo, used empty and Associate tokens
 	 */
 	@Test(priority = 20)
 	public void testGetUnmappedInfo2() {
@@ -116,5 +132,8 @@ public class CurriculumResourceTest {
 		given().header("Authorization", tokenAdmin).when().post(URL + "/unmapped/4").then().assertThat().statusCode(405);
 
 		given().header("Authorization", tokenAssociate).when().get(URL + "/unmapped/4").then().assertThat().statusCode(403);
+	
+		assertNotNull(cResource.getUnmappedInfo("", 3).getEntity());
+		assertNull(cResource.getUnmappedInfo(tokenAssociate, 3).getEntity());
 	}
 }

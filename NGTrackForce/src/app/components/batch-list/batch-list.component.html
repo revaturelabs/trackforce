@@ -1,8 +1,6 @@
 <!-- @Author Princewill Ibe -->
-<div class="container table-width-adjust">
-  <div>
-    <title class="text-center text-primary">Batch List</title>
-  </div>
+<div class="container">
+  <h3 style="padding-bottom: 10px; text-align: center">Batch List</h3>
   <div class="row">
     <div class="col-lg-5 col-md-12 mcolumn left">
       <h3>All Batches</h3>
@@ -50,7 +48,7 @@
           <input type="submit" class="btn btn-danger" value="Reset" (click)="resetToDefaultBatches()" />
         </div>
       </form>
-      <div class="center-div" *ngIf="!dataReady"> 
+      <div class="center-div" *ngIf="!dataReady">
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
       <ng-container *ngIf="dataReady && !dataEmpty">

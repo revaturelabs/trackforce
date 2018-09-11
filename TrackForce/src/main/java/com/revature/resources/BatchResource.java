@@ -270,10 +270,6 @@ public class BatchResource {
 	@Path("/withindates")
 	public Response getBatchesWithinDates(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
 						@HeaderParam("Authorization") String token) throws IOException {
-		logger.info("reseting");
-		boolean res = DbResetUtil.resetDatabase();
-		logger.info("reset result: " + res);
-		
 		logger.info("getBatchesWithinDates()...");
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {

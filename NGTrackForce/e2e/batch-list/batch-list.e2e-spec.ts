@@ -3,12 +3,13 @@ import { Navbar } from "../navbar/navbar.po";
 import { LoginPage } from '../login/login.po';
 import { TestConfig } from "../configuration/test-config";
 
-describe('the bactch-list tab', () => {
-  let navbar          : Navbar;
-  let page            : LoginPage;
-  let testConfig      : TestConfig;
-  let batchlist       : BatchList;
-  let baseURL         : string;
+let navbar          : Navbar;
+let page            : LoginPage;
+let testConfig      : TestConfig;
+let batchlist       : BatchList;
+let baseURL         : string;
+
+xdescribe('the bactch-list tab', () => {
 
   beforeAll(() => {
       navbar = new Navbar();
@@ -48,5 +49,36 @@ describe('the bactch-list tab', () => {
   afterAll(() => {
     page.getlogoutButton().click();
   });
+});
 
+xdescribe('The All Batches table', () => {
+
+  beforeAll(() => {
+      navbar = new Navbar();
+      page = new LoginPage();
+      testConfig = new TestConfig();
+      batchlist = new BatchList();
+      baseURL = testConfig.getBaseURL();
+      page.navigateTo();
+      navbar.logIn("TestAdmin","TestAdmin");
+      navbar.goToBatchList();
+  });
+
+  it('should direct you to a batch page', () => {
+    let url1 = batchlist.getCurrentUrl();
+    batchlist.getBatch().click();
+    expect(batchlist.getCurrentUrl()).not.toEqual(url1);
+  });
+
+  it('should direct you to a batch page with a chart ', () => {
+    expect(batchlist.getBatchCart().isPresent()).toBe(true);
+  });
+
+  it('should direct you to a batch page with a table ', () => {
+    expect(batchlist.getBatchTable().isPresent()).toBe(true);
+  });
+
+  afterAll(() => {
+    page.getlogoutButton().click();
+  });
 });

@@ -8,9 +8,10 @@ import { Component, OnInit, OnDestroy, AfterViewInit, Inject } from '@angular/co
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 export interface DialogData {
-  animal: string;
-  name: string;
+  selected: Set<number>;
+  clients: Client[];
   associates: Set<Associate>;
+  statuses: String[];
 }
 
 @Component({
@@ -20,7 +21,7 @@ export interface DialogData {
 })
 export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  protected readonly associateStatuses: string[] = [];
+  protected readonly associateStatuses: String[] = [];
   protected clientList$;
   protected scrollEvent$;
   protected scrollingTable;
@@ -141,28 +142,65 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   openDialog(): void {
     const dialogRef = this.dialog.open(UpdateDialogComponent, {
       width: '250px',
-      data: {name: 'it me', animal: 'panda', associates: this.currentAssociatesSelected}
+      data: {selected: this.currentAssociatesSelected, clients: this.clientList$.value, associates: this.currentAssociatesSelected, statuses: this.associateStatuses}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // this.animal = result;
+      this.currentAssociatesSelected.clear();
+      this.listOfAssociates = [];
+      this.submitFilter(null);
     });
+  }
+
+  navigate(event, id) {
+    event.stopPropagation();
+    console.log(id);
   }
 }
 
 @Component({
   selector: 'app-update-dialog-component',
   templateUrl: 'update-dialog-component.html',
+  styleUrls: ['./associate-list-page.component.css']
 })
 export class UpdateDialogComponent {
+
+  public verification = 0;
+  public client = 0;
+  public status = "";
+
+  public statusToId = {
+    "MAPPED: TRAINING": 1,
+    "MAPPED: RESERVED": 2,
+    "MAPPED: SELECTED": 3,
+    "MAPPED: CONFIRMED": 4,
+    "MAPPED: DEPLOYED": 5,
+    "UNMAPPED: TRAINING": 6,
+    "UNMAPPED: OPEN": 7,
+    "UNMAPPED: SELECTED": 8,
+    "UNMAPPED: CONFIRMED": 9,
+    "UNMAPPED: DEPLOYED": 10,
+    "DIRECTLY PLACED": 11,
+    "TERMINATED": 12
+  }
  
-  constructor(
+  constructor(private associateService: AssociateService,
     public dialogRef: MatDialogRef<UpdateDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {console.log(data)}
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
+  submit() {
+    console.log(this.verification)
+    console.log(this.client);
+    console.log(this.data.statuses);
+    console.log(this.status);
 
+    this.associateService
+      .updateAssociates(
+        Array.from(this.data.selected),
+        Number(this.verification),
+        (this.status !== "") ? this.statusToId[this.status.toUpperCase()] : "",
+        Number(this.client)
+      ).then(() => this.dialogRef.close())
+      .catch((err) => console.error(err));
+  }
 }

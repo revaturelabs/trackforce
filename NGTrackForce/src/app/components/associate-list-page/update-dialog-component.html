@@ -1,25 +1,35 @@
-<h1 mat-dialog-title>Update {{data.associates.size}}</h1>
-<div mat-dialog-content>
+<h2 mat-dialog-title>Update {{data.associates.size}} Associates</h2>
+<div mat-dialog-content class="mat-typography">
   <form>
     <!-- Filter Options -->
     <div class="form-row">
-      <div class="form-group col-md-4 offset-md-1">
+      <div class="form-group col-md-12">
         <label for="exampleFormControlSelect1">Status</label>
-        <select class="form-control" id="exampleFormControlSelect1" name="filterByStatus">
-          <option default value=""></option>
+        <select class="form-control" id="updateVerification" name="verification" [(ngModel)]="verification">
+          <option default value="-1"></option>
           <option value="1">Approve</option>
           <option value="2">Deny</option>
         </select>
       </div>
-      <div class="form-group col-md-4 offset-md-2">
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-12 ">
         <label for="exampleFormControlSelect1">Client</label>
-        <select class="form-control" id="exampleFormControlSelect1" name="filterByClient">
-          <option default value=""></option>
-          <option value="thing">thing</option>
-          <option value="thing">thing</option>
-          <option value="thing">thing</option>
+        <select class="form-control" id="updateClient" name="client" [(ngModel)]="client">
+          <option default value="0"></option>
+          <option value="thing" *ngFor="let client of data.clients" value="{{client.id}}" >{{client.name}}</option>
         </select>
       </div>
     </div>
+    <div class="form-row">
+      <div class="form-group col-md-12 ">
+        <label for="exampleFormControlSelect1">Marketing Status</label>
+        <select class="form-control" id="updatedStatus" name="status" [(ngModel)]="status">
+          <option default value="0"></option>
+          <option value="{{status}}" *ngFor="let status of data.statuses">{{status}}</option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-default colored-button" value="Submit" (click)="submit()">Submit</button>
   </form>
 </div>

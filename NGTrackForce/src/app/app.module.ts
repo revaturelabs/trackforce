@@ -16,7 +16,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 //  COMPONENTS
 ///
 import { AppComponent } from './app.component';
-import { AssociateListComponent } from './components/associate-list/associate-list.component';
 import { BatchListComponent } from './components/batch-list/batch-list.component';
 import { ClientMappedComponent } from './components/client-mapped/client-mapped.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
@@ -90,7 +89,6 @@ import { AssociateListPageComponent, UpdateDialogComponent } from './components/
     AppComponent,
     NavbarComponent,
     HomeComponent,
-    AssociateListComponent,
     AssociateSearchByTextFilter,
     BatchListComponent,
     ClientMappedComponent,

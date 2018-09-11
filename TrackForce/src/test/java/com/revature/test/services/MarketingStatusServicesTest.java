@@ -54,7 +54,8 @@ public class MarketingStatusServicesTest {
 
 	@Test
 	public void testMarketingStatusGetById() {
-
-		assertEquals(service.getMarketingStatusById(Integer.parseInt(props.getProperty("marketing_Id"))), props.getProperty("marketingName"));
+		TfMarketingStatus status = service.getMarketingStatusById(Integer.parseInt(props.getProperty("marketing_Id")));
+	
+		assertEquals(status.getName(), props.getProperty("marketingName"));
 	}
 }

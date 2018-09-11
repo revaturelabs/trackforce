@@ -20,16 +20,19 @@ import cucumber.api.java.en.When;
 
 public class AssociateViewCukes {
 	
+
+	String baseUrl = System.getenv("url");
+	
 	@Given("^I am on the Associate Home Page$")
 	public void i_am_on_the_Associate_Home_Page() throws Throwable {
 	System.out.println("I am on the associate homepage");
-	ServiceHooks.wait.until(ExpectedConditions.urlToBe(LoginUtil.getPropertyValue("urlBeingUsed") + "#/associate-view"));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(),LoginUtil.getPropertyValue("urlBeingUsed") + "#/associate-view");
+	ServiceHooks.wait.until(ExpectedConditions.urlToBe(baseUrl + "#/associate-view"));
+		assertEquals(ServiceHooks.driver.getCurrentUrl(),baseUrl + "#/associate-view");
 	}
 
 	@Then("^I should not be taken to the page$")
 	public void i_should_not_be_taken_to_the_page() throws Throwable {
-	    assertEquals(ServiceHooks.driver.getCurrentUrl(),"http://34.227.178.103:8090/NGTrackForce/#/associate-view");
+	    assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "#/associate-view");
 	}
 	
 	@When("^I click the update info button$")

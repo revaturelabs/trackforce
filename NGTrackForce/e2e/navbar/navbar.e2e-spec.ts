@@ -1,16 +1,20 @@
 import { Navbar } from './navbar.po';
+import { LoginPage } from '../login/login.po';
 import { TestConfig } from '../configuration/test-config';
 
+let navbar          : Navbar;
+let page            : LoginPage;
+let testConfig      : TestConfig;
+let baseURL         : string;
+
 describe('The admin navbar is functional', () => {
-    let navbar          : Navbar;
-    let testConfig      : TestConfig;
-    let baseURL         : string;
 
     beforeAll(() => {
         navbar = new Navbar();
+        page = new LoginPage();
         testConfig = new TestConfig();
         baseURL = testConfig.getBaseURL();
-        navbar.navigateTo();
+        page.navigateTo();
         navbar.logIn("TestAdmin","TestAdmin");
     });
 
@@ -50,22 +54,20 @@ describe('The admin navbar is functional', () => {
     });
 
     it('should be able to logout', () => {
-        navbar.logout();
+        page.getlogoutButton().click();
         expect(navbar.getCurrentURL()).toEqual(baseURL + 'login');
     });
 
 });
 
 describe('The Asscoiate navbar is functional', () => {
-    let navbar          : Navbar;
-    let testConfig      : TestConfig;
-    let baseURL         : string;
 
     beforeAll(() => {
         navbar = new Navbar();
+        page = new LoginPage();
         testConfig = new TestConfig();
         baseURL = testConfig.getBaseURL();
-        navbar.navigateTo();
+        page.navigateTo();
         navbar.logIn("cyril","cyril");
     });
 
@@ -83,21 +85,19 @@ describe('The Asscoiate navbar is functional', () => {
     });
 
     it('should be able to logout', () => {
-        navbar.logout();
+        page.getlogoutButton().click();
         expect(navbar.getCurrentURL()).toEqual(baseURL + 'login');
     });
 });
 
 describe('The Staging Manager navbar is functional', () => {
-    let navbar          : Navbar;
-    let testConfig      : TestConfig;
-    let baseURL         : string;
 
     beforeAll(() => {
         navbar = new Navbar();
+        page = new LoginPage();
         testConfig = new TestConfig();
         baseURL = testConfig.getBaseURL();
-        navbar.navigateTo();
+        page.navigateTo();
         navbar.logIn("bobstage","bobstage");
     });
 
@@ -132,7 +132,7 @@ describe('The Staging Manager navbar is functional', () => {
     });
 
     it('should be able to logout', () => {
-        navbar.logout();
+        page.getlogoutButton().click();
         expect(navbar.getCurrentURL()).toEqual(baseURL + 'login');
     });
 
@@ -142,22 +142,20 @@ describe('The Staging Manager navbar is functional', () => {
   on the initial load of the web page, also do not uncomment out these tests until
   trainer page is fixed
 */
-xdescribe('The Trainer navbar is functional', () => {
-    let navbar          : Navbar;
-    let testConfig      : TestConfig;
-    let baseURL         : string;
+describe('The Trainer navbar is functional', () => {
 
     beforeAll(() => {
         navbar = new Navbar();
+        page = new LoginPage();
         testConfig = new TestConfig();
         baseURL = testConfig.getBaseURL();
-        navbar.navigateTo();
-        navbar.logIn("Trainer","Trainer");
+        page.navigateTo();
+        navbar.logIn("Trainer0","Trainer");
     });
 
     it('should navigate to home page', () => {
-        navbar.goToAdminHome();
-        expect(navbar.getCurrentURL()).toEqual(baseURL + 'app-home');
+        navbar.goToTrainerHome();
+        expect(navbar.getCurrentURL()).toEqual(baseURL + 'trainer-view');
     });
 
     it('should navigate to batch list page', () => {
@@ -171,22 +169,20 @@ xdescribe('The Trainer navbar is functional', () => {
     });
 
     it('should be able to logout', () => {
-        navbar.logout();
+        page.getlogoutButton().click();
         expect(navbar.getCurrentURL()).toEqual(baseURL + 'login');
     });
 
 });
 
 describe('The Delivery/Sales navbar is functional', () => {
-    let navbar          : Navbar;
-    let testConfig      : TestConfig;
-    let baseURL         : string;
 
     beforeAll(() => {
         navbar = new Navbar();
+        page = new LoginPage();
         testConfig = new TestConfig();
         baseURL = testConfig.getBaseURL();
-        navbar.navigateTo();
+        page.navigateTo();
         navbar.logIn("salestest","salestest");
     });
 
@@ -221,7 +217,7 @@ describe('The Delivery/Sales navbar is functional', () => {
     });
 
     it('should be able to logout', () => {
-        navbar.logout();
+        page.getlogoutButton().click();
         expect(navbar.getCurrentURL()).toEqual(baseURL + 'login');
     });
 

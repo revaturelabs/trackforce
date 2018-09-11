@@ -51,11 +51,11 @@ public class AssociateView {
 	}
 	
 	public static void enterFirstName(WebDriver d) {
-		d.findElement(By.xpath(prop.getProperty("associateViewFirstNameEdit"))).sendKeys(prop.getProperty("associateViewEnterFirstName"));
+		d.findElement(By.name(prop.getProperty("associateViewFirstNameEdit"))).sendKeys(prop.getProperty("associateViewEnterFirstName"));
 	}
 
 	public static void enterLastName(WebDriver d) {
-		d.findElement(By.xpath(prop.getProperty("associateViewLastNameEdit"))).sendKeys(prop.getProperty("associateViewEnterLastName"));
+		d.findElement(By.name(prop.getProperty("associateViewLastNameEdit"))).sendKeys(prop.getProperty("associateViewEnterLastName"));
 	}
 	
 	public static String getEnterFirstName(WebDriver d) {
@@ -73,11 +73,11 @@ public class AssociateView {
 	public static String getLastName(WebDriver d) {
 		return d.findElement(By.xpath(prop.getProperty("associateViewLastName"))).getText();
 	}
-	
+
 	public static void enterAssignedDate(WebDriver d,String date) {
 		d.findElement(By.xpath(prop.getProperty("associateViewAssignedDate"))).sendKeys(date);
 	}
-	
+
 	public static void enterInterviewDate(WebDriver d,String date) {
 		d.findElement(By.xpath(prop.getProperty("associateViewInterviewDate"))).sendKeys(date);
 	}

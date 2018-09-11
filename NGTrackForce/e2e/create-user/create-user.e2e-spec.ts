@@ -1,12 +1,13 @@
 import { CreateUserPo } from "./create-user.po";
 import { TestConfig } from "../configuration/test-config";
 import { Navbar } from "../navbar/navbar.po";
+import { LoginPage } from '../login/login.po';
 
 let createUser      : CreateUserPo;
 let testConfig      : TestConfig;
 let navbar          : Navbar;
+let page            : LoginPage;
 let baseURL         : string;
-let testURL         : string;
 let username        : string;
 let password        : string;
 
@@ -16,12 +17,12 @@ describe('The create-user page ', () => {
         createUser = new CreateUserPo();
         testConfig = new TestConfig();
         navbar     = new Navbar();
+        page       = new LoginPage();
         baseURL = testConfig.getBaseURL();
-        testURL = 'create-user';
         // this creates a random 6 letter string for the username
         username = Math.random().toString(36).substring(7);
         password = 'Testca$e'
-        navbar.navigateTo();
+        page.navigateTo();
         navbar.logIn('TestAdmin','TestAdmin');
         navbar.goToCreateUser();
     });
@@ -66,7 +67,7 @@ describe('The create-user page ', () => {
         expect(createUser.getCheckedRadioValue()).toEqual('3');
     });
     afterAll(() => {
-      navbar.logout();
+      page.getlogoutButton().click();
     });
 });
 describe('An Admin', () => {
@@ -76,9 +77,8 @@ describe('An Admin', () => {
         testConfig = new TestConfig();
         navbar     = new Navbar();
         baseURL = testConfig.getBaseURL();
-        testURL = 'create-user';
         password = 'Testca$e1'
-        navbar.navigateTo();
+        page.navigateTo();
         navbar.logIn('TestAdmin','TestAdmin');
     });
 
@@ -122,7 +122,7 @@ describe('An Admin', () => {
       });
 
     afterAll(() => {
-      navbar.logout();
+      page.getlogoutButton().click();
     });
 });
 
@@ -133,9 +133,8 @@ describe('A Staging Manager', () => {
         testConfig = new TestConfig();
         navbar     = new Navbar();
         baseURL = testConfig.getBaseURL();
-        testURL = 'create-user';
         password = 'Testca$e1'
-        navbar.navigateTo();
+        page.navigateTo();
         navbar.logIn('bobstage','bobstage');
     });
 
@@ -173,7 +172,7 @@ describe('A Staging Manager', () => {
       });
 
     afterAll(() => {
-      navbar.logout();
+      page.getlogoutButton().click();
     });
 });
 
@@ -184,9 +183,8 @@ describe('A Staging Manager', () => {
         testConfig = new TestConfig();
         navbar     = new Navbar();
         baseURL = testConfig.getBaseURL();
-        testURL = 'create-user';
         password = 'Testca$e1'
-        navbar.navigateTo();
+        page.navigateTo();
         navbar.logIn('salestest','salestest');
     });
 
@@ -224,7 +222,7 @@ describe('A Staging Manager', () => {
       });
 
     afterAll(() => {
-      navbar.logout();
+      page.getlogoutButton().click();
     });
 });
 describe('A user', () => {
@@ -234,8 +232,7 @@ describe('A user', () => {
         testConfig = new TestConfig();
         navbar     = new Navbar();
         baseURL = testConfig.getBaseURL();
-        testURL = 'create-user';
-        navbar.navigateTo();
+        page.navigateTo();
         navbar.logIn('TestAdmin','TestAdmin');
     });
 
@@ -269,6 +266,6 @@ describe('A user', () => {
     });
 
     afterAll(() => {
-      navbar.logout();
+      page.getlogoutButton().click();
     });
 });

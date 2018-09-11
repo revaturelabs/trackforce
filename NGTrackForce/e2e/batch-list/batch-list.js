@@ -12,8 +12,8 @@ describe("Batch List Tab Protractor Test (Login)", function() {
 				wd.findElement(by.id('username')).sendKeys('TestAdmin');
 				wd.findElement(by.id('password')).sendKeys('TestAdmin');
 				wd.findElement(by.xpath("//button[@type='submit']")).click();
-		
-		
+
+
 		expect(browser.driver.getTitle()).toEqual('TrackForce');
 			});
 
@@ -24,11 +24,10 @@ describe("Batch List Tab Protractor Test (Click Batch List Tab)", function() {
 		browser.driver.sleep(10000);
 		element(by.cssSelector("[href='/batch-listing']")).click();
 		// If tab is clicked, find something to match
-		
+
 	});
 
 	it('should log out', () => {
 	    wd.findElement(by.css('[routerlink="/login"]')).click();
 	});
 });
-

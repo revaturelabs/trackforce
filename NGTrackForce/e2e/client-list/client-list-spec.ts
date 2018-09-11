@@ -1,26 +1,32 @@
 import { ClientListPo } from "./client-list.po";
+import { Navbar } from "../navbar/navbar.po";
+import { LoginPage } from '../login/login.po';
 import { TestConfig } from "../configuration/test-config";
 
-describe('When an admin navigates to the client-list page it', function() {
+let clientList  : ClientListPo;
+let testConfig  : TestConfig;
+let navbar      : Navbar;
+let page        : LoginPage;
+let baseURL     : string;
+let testURL     : string;
+let searchByClientName: string;
 
-    let clientList: ClientListPo;
-    let testConfig: TestConfig;
-    let baseURL: string;
-    let testURL: string;
-    let searchByClientName: string;
+describe('When an admin navigates to the client-list page it', function() {
 
     beforeAll(() => {
         clientList = new ClientListPo();
         testConfig = new TestConfig();
+        page = new LoginPage();
+        navbar = new Navbar();
         baseURL = testConfig.getBaseURL();
         testURL = 'client-listing';
         searchByClientName = 'Accenture';
-        clientList.startUp();
-        clientList.logIn("TestAdmin","TestAdmin");
+        page.navigateTo();
+        navbar.logIn("TestAdmin","TestAdmin");
     });
 
     it('should navigate to the client-list page', () => {
-        clientList.navigateTo();
+        navbar.goToClientList();
         expect(clientList.getCurrentURL()).toEqual(baseURL + testURL);
     });
 
@@ -59,33 +65,16 @@ describe('When an admin navigates to the client-list page it', function() {
       });
     })
 
-    /* @Jacob Golding
-      Cannot propely implement these test since in the test data there
-      are no name with spaces in them
-    */
-    xit('should yield a match for a search string with spaces', () => {
+    it('should yield a match for a search string with spaces', () => {
         clientList.clientSearch.clear();
-        let searchInput = '3 s business corporation inc'
+        let searchInput = 'AMG Technology'
         clientList.inputClientName().sendKeys(searchInput);
         clientList.clientListSpan.getText()
         .then(text => {
-                expect(text).toEqual('3 S Business Corporation Inc (BlackListed)');
+                expect(text).toContain('AMG Technology');
             });
-        });
-
-    xit('should trim the spaces between words in a search string', () => {
-        clientList.clientSearch.clear();
-        let searchInput = '3 s        business       corporation inc';
-        clientList.inputClientName().sendKeys(searchInput);
-        clientList.clientListSpan.getText()
-        .then(text => {
-            expect(text).toEqual('');
-        });
     });
-    /* @Jacob Golding
-      This should fail because multiple client of the same company have not been
-      added but because of a bug this test may pass
-    */
+
     it('should yield a match for search input if many results exist', () => {
         clientList.clientSearch.clear();
         clientList.inputClientName().sendKeys('Infosys');
@@ -104,31 +93,27 @@ describe('When an admin navigates to the client-list page it', function() {
         });
     });
 
-    it ('should logout', function() {
-        clientList.logout();
+    afterAll( () => {
+        page.getlogoutButton().click();
     });
 });
 
 describe('When an Staging Manager navigates to the client-list page it', function() {
 
-    let clientList: ClientListPo;
-    let testConfig: TestConfig;
-    let baseURL: string;
-    let testURL: string;
-    let searchByClientName: string;
-
     beforeAll(() => {
-        clientList = new ClientListPo();
-        testConfig = new TestConfig();
-        baseURL = testConfig.getBaseURL();
-        testURL = 'client-listing';
-        searchByClientName = 'Infosys';
-        clientList.startUp();
-        clientList.logIn("bobstage","bobstage");
+      clientList = new ClientListPo();
+      testConfig = new TestConfig();
+      page = new LoginPage();
+      navbar = new Navbar();
+      baseURL = testConfig.getBaseURL();
+      testURL = 'client-listing';
+      searchByClientName = 'Accenture';
+      page.navigateTo();
+      navbar.logIn("bobstage","bobstage");
     });
 
     it('should navigate to the client-list page', () => {
-        clientList.navigateTo();
+        navbar.goToClientList();
         expect(clientList.getCurrentURL()).toEqual(baseURL + testURL);
     });
 
@@ -167,33 +152,16 @@ describe('When an Staging Manager navigates to the client-list page it', functio
       });
     })
 
-    /* @Jacob Golding
-      Cannot propely implement these test since in the test data there
-      are no name with spaces in them
-    */
-    xit('should yield a match for a search string with spaces', () => {
+    it('should yield a match for a search string with spaces', () => {
         clientList.clientSearch.clear();
-        let searchInput = '3 s business corporation inc'
+        let searchInput = '22nd Century Staffing Inc'
         clientList.inputClientName().sendKeys(searchInput);
         clientList.clientListSpan.getText()
         .then(text => {
-                expect(text).toEqual('3 S Business Corporation Inc (BlackListed)');
+                expect(text).toEqual('22nd Century Staffing Inc');
             });
-        });
-
-    xit('should trim the spaces between words in a search string', () => {
-        clientList.clientSearch.clear();
-        let searchInput = '3 s        business       corporation inc';
-        clientList.inputClientName().sendKeys(searchInput);
-        clientList.clientListSpan.getText()
-        .then(text => {
-            expect(text).toEqual('');
-        });
     });
-    /* @Jacob Golding
-      This should fail because multiple client of the same company have not been
-      added but because of a bug this test may pass
-    */
+
     it('should yield a match for search input if many results exist', () => {
         clientList.clientSearch.clear();
         clientList.inputClientName().sendKeys('Infosys');
@@ -212,31 +180,27 @@ describe('When an Staging Manager navigates to the client-list page it', functio
         });
     });
 
-    it ('should logout', function() {
-        clientList.logout();
+    afterAll( () => {
+        page.getlogoutButton().click();
     });
 });
 
 describe('When an Delivery/Sales navigates to the client-list page it', function() {
 
-    let clientList: ClientListPo;
-    let testConfig: TestConfig;
-    let baseURL: string;
-    let testURL: string;
-    let searchByClientName: string;
-
     beforeAll(() => {
-        clientList = new ClientListPo();
-        testConfig = new TestConfig();
-        baseURL = testConfig.getBaseURL();
-        testURL = 'client-listing';
-        searchByClientName = 'Revature';
-        clientList.startUp();
-        clientList.logIn("salestest","salestest");
+      clientList = new ClientListPo();
+      testConfig = new TestConfig();
+      page = new LoginPage();
+      navbar = new Navbar();
+      baseURL = testConfig.getBaseURL();
+      testURL = 'client-listing';
+      searchByClientName = 'Accenture';
+      page.navigateTo();
+      navbar.logIn("salestest","salestest");
     });
 
     it('should navigate to the client-list page', () => {
-        clientList.navigateTo();
+        navbar.goToClientList();
         expect(clientList.getCurrentURL()).toEqual(baseURL + testURL);
     });
 
@@ -275,11 +239,7 @@ describe('When an Delivery/Sales navigates to the client-list page it', function
       });
     })
 
-    /* @Jacob Golding
-      Cannot propely implement these test since in the test data there
-      are no name with spaces in them
-    */
-    xit('should yield a match for a search string with spaces', () => {
+    it('should yield a match for a search string with spaces', () => {
         clientList.clientSearch.clear();
         let searchInput = '3 s business corporation inc'
         clientList.inputClientName().sendKeys(searchInput);
@@ -287,21 +247,8 @@ describe('When an Delivery/Sales navigates to the client-list page it', function
         .then(text => {
                 expect(text).toEqual('3 S Business Corporation Inc (BlackListed)');
             });
-        });
-
-    xit('should trim the spaces between words in a search string', () => {
-        clientList.clientSearch.clear();
-        let searchInput = '3 s        business       corporation inc';
-        clientList.inputClientName().sendKeys(searchInput);
-        clientList.clientListSpan.getText()
-        .then(text => {
-            expect(text).toEqual('');
-        });
     });
-    /* @Jacob Golding
-      This should fail because multiple client of the same company have not been
-      added but because of a bug this test may pass
-    */
+
     it('should yield a match for search input if many results exist', () => {
         clientList.clientSearch.clear();
         clientList.inputClientName().sendKeys('Infosys');
@@ -320,7 +267,7 @@ describe('When an Delivery/Sales navigates to the client-list page it', function
         });
     });
 
-    it ('should logout', function() {
-        clientList.logout();
+    afterAll( () => {
+        page.getlogoutButton().click();
     });
 });

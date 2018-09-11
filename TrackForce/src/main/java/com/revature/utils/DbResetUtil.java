@@ -1,20 +1,17 @@
-package com.revature.daoimpl;
+package com.revature.utils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import org.hibernate.Session;
-import com.revature.dao.DbResetDao;
-import com.revature.utils.HibernateUtil;
 
 /** This implementation is used to reset the database with 
  * proper variables so testing and modifications can be made.
  * @author Josh Pressley ,Chris Siu - 1807 */
-public class DbResetDaoImpl implements DbResetDao {
+public class DbResetUtil {
 	
 	/** Calls the sql script that resets the DB*/
-	@Override
 	public boolean resetDatabase() {
 		Session session = null;
 		int result = -1;
@@ -27,8 +24,7 @@ public class DbResetDaoImpl implements DbResetDao {
 		} finally {
 			if (session != null) { session.close(); }
 		}
-		if (result != -1) { return true; }
-		return false;
+		return (result != -1);
 	}
 
 	/** Reads in sql reset script */

@@ -1,7 +1,0 @@
-organization=mfy5013-github
-projectKey=mfy5013_trackforce
-serverUrl=https://sonarcloud.io
-serverVersion=7.4.0.16482
-dashboardUrl=https://sonarcloud.io/dashboard?id=mfy5013_trackforce
-ceTaskId=AWWsHHZWHZ_RHZXc9nm_
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWWsHHZWHZ_RHZXc9nm_

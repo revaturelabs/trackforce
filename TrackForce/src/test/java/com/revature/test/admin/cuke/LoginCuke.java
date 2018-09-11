@@ -22,6 +22,7 @@ import cucumber.api.java.en.When;
 
 public class LoginCuke {
 	
+	String baseUrl = System.getenv("url");
 	
 	@Given("^I connect to caliber$")
 	public void i_connect_to_caliber(){
@@ -29,7 +30,7 @@ public class LoginCuke {
 		ServiceHooks.driver = WebDriverUtil.getChromeDriver();
 		//ServiceHooks.driver.manage().window().maximize();
 		ServiceHooks.driver.get(TestConfig.getBaseURL());
-		ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver,3);
+		ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver,4);
 
 	
 	}
@@ -59,7 +60,7 @@ public class LoginCuke {
 	
 	@Given("^the login page loads$")
 	public void the_login_page_loads() throws Throwable {
-		assertEquals(ServiceHooks.driver.getCurrentUrl(), LoginUtil.getPropertyValue("urlBeingUsed") + "#/login");
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "#/login");
 	}
 
 	@When("^I enter the correct admin login information$")
@@ -137,32 +138,32 @@ public class LoginCuke {
 
 	@Then("^I should remain on the login page$")
 	public void i_should_remain_on_the_login_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains(LoginUtil.getPropertyValue("urlBeingUsed") + "#/login"));
-		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver), LoginUtil.getPropertyValue("urlBeingUsed") + "#/login");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains(baseUrl + "#/login"));
+		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver), baseUrl + "#/login");
 	}
 
 	@Then("^I should be taken to the home page$")
 	public void i_should_be_taken_to_the_home_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains( LoginUtil.getPropertyValue("urlBeingUsed") + "#/app-home"));
-		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver),LoginUtil.getPropertyValue("urlBeingUsed") + "#/app-home");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "#/app-home"));
+		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver), baseUrl + "#/app-home");
 	}
 	
 	@Then("^I should be taken to the trainer home page$")
 	public void i_should_be_taken_to_the_trainer_home_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains(LoginUtil.getPropertyValue("urlBeingUsed") +  "#/trainer-view"));
-		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver), LoginUtil.getPropertyValue("urlBeingUsed") + "#/trainer-view");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains(baseUrl +  "#/trainer-view"));
+		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver), baseUrl + "#/trainer-view");
 	}
 	
 	@Then("^I should be taken to the associate home page$")
 	public void i_should_be_taken_to_the_associate_home_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains( LoginUtil.getPropertyValue("urlBeingUsed") + "#/associate-view"));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(), LoginUtil.getPropertyValue("urlBeingUsed") + "#/associate-view");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "#/associate-view"));
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "#/associate-view");
 	}
 
 	@Then("^I should be on the login page$")
 	public void i_should_be_on_the_login_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains( LoginUtil.getPropertyValue("urlBeingUsed") + "#/login"));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(), LoginUtil.getPropertyValue("urlBeingUsed") + "#/login");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "#/login"));
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "#/login");
 	}
 	
 	@After

@@ -6,7 +6,7 @@ Feature: Testing the registration for new associates
 
   Scenario: Creating a valid associate
     When I enter a valid username
-    And I enter a vaild password
+    And I enter a valid password
     And I confirm my password
     And I enter a invalid firstname
     And I enter a invalid lastname
@@ -16,7 +16,7 @@ Feature: Testing the registration for new associates
 
   Scenario Outline: Creating an invalid associate with invalid username
     When I enter a invalid username "<username>"
-    And I enter a vaild password
+    And I enter a valid password
     And I confirm my password
     And I enter a invalid firstname
     And I enter a invalid lastname
@@ -75,7 +75,7 @@ Feature: Testing the registration for new associates
       
   Scenario: Creating a valid trainer
     When I enter a valid username
-    And I enter a vaild password
+    And I enter a valid password
     And I confirm my password
     And I enter a invalid firstname
     And I enter a invalid lastname
@@ -85,7 +85,7 @@ Feature: Testing the registration for new associates
 
   Scenario Outline: Creating an invalid trainer with invalid username
     When I enter a invalid username "<username>"
-    And I enter a vaild password
+    And I enter a valid password
     And I confirm my password
     And I enter a invalid firstname
     And I enter a invalid lastname

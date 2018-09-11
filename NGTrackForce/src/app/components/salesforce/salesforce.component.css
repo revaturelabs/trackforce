@@ -1,0 +1,21 @@
+button {
+    font-size: 25px;
+    position: relative;
+    left: 125px;
+    margin-bottom: 15px;
+}
+
+.desc {
+    position: relative;
+}
+
+div.col-lg-5 {
+    margin: 22px;
+    background-color: rgba(212, 212, 212, 0.349);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    padding: 15px;
+    position: relative;
+    left: 400px;
+    top: 100px;
+    width: 30%;
+  }

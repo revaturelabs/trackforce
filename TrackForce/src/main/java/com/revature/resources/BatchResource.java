@@ -2,6 +2,7 @@ package com.revature.resources;
 
 import static com.revature.utils.LogUtil.logger;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -35,6 +36,7 @@ import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
+import com.revature.utils.DbResetUtil;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -267,7 +269,11 @@ public class BatchResource {
 	@ApiOperation(value = "Returns associates for batch", notes = "Returns list.")
 	@Path("/withindates")
 	public Response getBatchesWithinDates(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
-						@HeaderParam("Authorization") String token) {
+						@HeaderParam("Authorization") String token) throws IOException {
+		logger.info("reseting");
+		boolean res = DbResetUtil.resetDatabase();
+		logger.info("reset result: " + res);
+		
 		logger.info("getBatchesWithinDates()...");
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {

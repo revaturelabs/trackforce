@@ -97,10 +97,25 @@ select {
   border-radius: 2px;
 }
 
-button {
-  padding: 19px 39px 18px 39px;
+
+#submitButton {
+  padding: 5px 15px 5px 15px;
   color: #FFF;
-  background-color: #F26925;
+  background-color: #4CAF50;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  border-radius: 5px;
+  width: 100%;
+  /* border: 1px solid #3ac162; */
+  border-width: 1px 1px 3px;
+  box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+  margin-bottom: 10px;
+}
+
+#resetButton{
+  padding: 5px 15px 5px 15px;
+  color: #FFF;
   font-size: 18px;
   text-align: center;
   font-style: normal;

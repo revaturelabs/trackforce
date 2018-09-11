@@ -78,7 +78,8 @@ select {
 }
 
 button {
-  padding: 19px 39px 18px 39px;
+  /* padding: 19px 39px 18px 39px; */
+  padding: 5px 15px 5px 15px;
   color: #FFF;
   background-color: #F26925;
   font-size: 18px;

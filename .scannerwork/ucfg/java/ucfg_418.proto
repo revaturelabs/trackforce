@@ -1,0 +1,36 @@
+
+Kcom.revature.test.TestNG.AdminTests#randomStringInvalid()Ljava/lang/String;
+__unknown_file ("4*©
+1n
+dC:\trackforce-workspace\trackforce\TrackForce\src\test\java\com\revature\test\TestNG\AdminTests.javaL L(ª
+n
+dC:\trackforce-workspace\trackforce\TrackForce\src\test\java\com\revature\test\TestNG\AdminTests.javaL L("%24java.lang.StringBuilder#toString()Ljava/lang/String;‡
+n
+dC:\trackforce-workspace\trackforce\TrackForce\src\test\java\com\revature\test\TestNG\AdminTests.javaL L(#saltStr__id"
+
+%2"}
+n
+dC:\trackforce-workspace\trackforce\TrackForce\src\test\java\com\revature\test\TestNG\AdminTests.javaM M(
+	
+saltStr*È
+2n
+dC:\trackforce-workspace\trackforce\TrackForce\src\test\java\com\revature\test\TestNG\AdminTests.javaI I(Ÿ
+n
+dC:\trackforce-workspace\trackforce\TrackForce\src\test\java\com\revature\test\TestNG\AdminTests.javaI( I(:%0java.lang.String#length()I"
+
+	SALTCHARS¨
+n
+dC:\trackforce-workspace\trackforce\TrackForce\src\test\java\com\revature\test\TestNG\AdminTests.javaJ J(&%1java.lang.String#charAt(I)C"
+
+	SALTCHARS"
+""*
+2
+1*‡
+4n
+dC:\trackforce-workspace\trackforce\TrackForce\src\test\java\com\revature\test\TestNG\AdminTests.javaE E(,‰
+n
+dC:\trackforce-workspace\trackforce\TrackForce\src\test\java\com\revature\test\TestNG\AdminTests.javaE E(-	SALTCHARS__id"
+
+""*
+2
+1

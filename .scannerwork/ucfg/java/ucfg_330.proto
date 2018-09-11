@@ -1,0 +1,15 @@
+
+}com.revature.services.AssociateService#getMappedAssociateCountByClientId(Ljava/lang/Long;Ljava/lang/Integer;)Ljava/lang/Long;
+__unknown_file (	client_idmappedStatus"1*®
+1s
+gC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\AssociateService.java´	 ´(´
+s
+gC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\AssociateService.java´	 ·(%0…com.revature.dao.AssociateDao#countMappedAssociatesByValue(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Integer;)Ljava/lang/Object;"
+TF_CLIENT_ID"
+
+	client_id"
+
+mappedStatus"}
+s
+gC:\trackforce-workspace\trackforce\TrackForce\src\main\java\com\revature\services\AssociateService.java´ ·(
+""

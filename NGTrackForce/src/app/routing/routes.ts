@@ -9,7 +9,7 @@ import { HomeComponent } from '../components/home/home.component';
 import { ClientListComponent } from '../components/client-list/client-list.component';
 import { LoginComponent } from '../components/login/login.component';
 import { ClientMappedComponent } from '../components/client-mapped/client-mapped.component';
-import { AssociateListComponent } from '../components/associate-list/associate-list.component';
+import { AssociateListv2Component } from '../components/associate-listv2/associate-listv2.component';
 import { BatchListComponent } from '../components/batch-list/batch-list.component';
 import { CreateUserComponent } from '../components/create-user/create-user.component';
 import { SkillsetComponent } from '../components/skillset/skillset.component';
@@ -61,13 +61,13 @@ export const appRoutes: Routes = [
   {
     path: 'associate-listing',
     canActivate: [AuthGuard],
-    component: AssociateListComponent,
+    component: AssociateListv2Component,
     data: { expectedRoles: [1,2,3,4] }
   },
   {
     path: 'associate-listing/:CliOrCur/:name/:mapping/:status',
     canActivate: [AuthGuard],
-    component: AssociateListComponent,
+    component: AssociateListv2Component,
     data: { expectedRoles: [1,2,3,4] }
   },
   {

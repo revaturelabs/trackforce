@@ -50,6 +50,8 @@ export class AssociateService {
 
   private getUndeployedAssociates$: AsyncSubject<GraphCounts[]> = new AsyncSubject<GraphCounts[]>();
 
+  private currentAssociateSnapshot$: BehaviorSubject<Associate[]> = new BehaviorSubject<Associate[]>([]);
+
   // TODO: Decide if empty strings is better or if a loading message should be put here
   // TODO: Why is there a get by user and get by associate this is two different models on backend
   // ? should one be handled by another service
@@ -198,5 +200,32 @@ export class AssociateService {
       error => this.getUndeployedAssociates$.error(error)
     );
     return this.getUndeployedAssociates$;
+  }
+
+  getAssociateSnapshot() {
+    return this.currentAssociateSnapshot$;
+  }
+
+  fetchAssociateSnapshot(limit: number, filter) {
+    // Base route
+    let queryParams = `/page`;
+    
+
+    // Determine filters if any
+    const {status, client} = filter;
+    if (status) {
+      queryParams += `?mStatusId=${status}`;
+    }
+    if (client) {
+      queryParams += `&clientId=${client}`;
+    }
+
+    // Make initial request
+    const url: string = this.baseURL + queryParams;
+    this.http.get<Associate[]>(url).subscribe(
+      (data: Associate[]) => this.currentAssociateSnapshot$.next(data),
+      error => this.currentAssociateSnapshot$.error(error)
+    );
+    return this.currentAssociateSnapshot$;
   }
 }

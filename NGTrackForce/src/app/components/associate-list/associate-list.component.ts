@@ -28,6 +28,21 @@ export class AssociateListComponent implements OnInit {
   curriculums: Set<string>; //stored unique curriculums
   public isDataReady = false;
 
+  // This is temporary need a way to map the string to the ID of the status
+  public statusToId = [
+    "MAPPED: TRAINING",
+    "MAPPED: RESERVED",    
+    "MAPPED: SELECTED",
+    "MAPPED: CONFIRMED",
+    "MAPPED: DEPLOYED",
+    "UNMAPPED: TRAINING",
+    "UNMAPPED: OPEN",
+    "UNMAPPED: SELECTED",
+    "UNMAPPED: CONFIRMED",
+    "UNMAPPED: DEPLOYED",
+    "TERMINATED"
+  ];
+
   //used for filtering
   searchByStatus = '';
   searchByClient = '';
@@ -171,7 +186,10 @@ export class AssociateListComponent implements OnInit {
    * Set our array of all associates
    */
   getAllAssociates() {
-    this.associateService.getAllAssociates().subscribe(data => {
+    this.associateService.fetchAssociateSnapshot(20, {
+      status: this.statusToId.findIndex(text => text === this.searchByStatus),
+      client: 577
+    }).subscribe(data => {
       // this.associates.length = 0; commented out
       this.associates = data;
       for (const associate of this.associates) {

@@ -369,10 +369,11 @@ public class AssociateResource {
 			@DefaultValue("50") @QueryParam("numResults") Integer numResults,
 			@DefaultValue("-1") @QueryParam("mStatusId") Integer mStatusId,
 			@DefaultValue("-1") @QueryParam("clientId") Integer clientId,
+			@DefaultValue("") @QueryParam("sortText") String sortText,
 			@HeaderParam("Authorization") String token) 
 	
 	{		
-		logger.info("getAssociatePage(" + startIndex + ", " + numResults + ", " + mStatusId + ", " + clientId + ")");
+		logger.info("getAssociatePage(" + startIndex + ", " + numResults + ", " + mStatusId + ", " + clientId + ", " + sortText +")");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -383,7 +384,7 @@ public class AssociateResource {
 		
 		List<TfAssociate> associates;
 		try {
-			 associates = associateService.getAssociatePage(startIndex, numResults, mStatusId, clientId);
+			 associates = associateService.getAssociatePage(startIndex, numResults, mStatusId, clientId, sortText);
 		} catch (IllegalArgumentException iae) {
 			return Response.status(Status.BAD_REQUEST).build();
 		} catch (Exception e) {

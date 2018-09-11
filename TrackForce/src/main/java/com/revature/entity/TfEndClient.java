@@ -1,22 +1,14 @@
 package com.revature.entity;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-/**
- * <p> </p>
- * @version v6.18.06.13
- */
+/** @version v6.18.06.13 */
 @XmlRootElement
 @Entity
 @Table(name = "TF_END_CLIENT", schema = "ADMIN")
@@ -36,15 +28,15 @@ public class TfEndClient implements java.io.Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "endClient")
 	@JsonIgnore
-	private Set<TfAssociate> associates = new HashSet<TfAssociate>(0);
+	private Set<TfAssociate> associates = new HashSet<>(0);
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "endClient")
 	@JsonIgnore
-	private Set<TfPlacement> placements = new HashSet<TfPlacement>(0);
+	private Set<TfPlacement> placements = new HashSet<>(0);
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "endClient")
 	@JsonIgnore
-	private Set<TfInterview> interviews = new HashSet<TfInterview>(0);
+	private Set<TfInterview> interviews = new HashSet<>(0);
 
 	public TfEndClient() {
 		super();
@@ -134,29 +126,37 @@ public class TfEndClient implements java.io.Serializable {
 		if (associates == null) {
 			if (other.associates != null)
 				return false;
-		} else if (!associates.equals(other.associates))
+		} else if (!associates.equals(other.associates)) {
 			return false;
+		}
+		
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
+		
 		if (interviews == null) {
 			if (other.interviews != null)
 				return false;
-		} else if (!interviews.equals(other.interviews))
+		} else if (!interviews.equals(other.interviews)) {
 			return false;
+		}
+		
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!name.equals(other.name)) {
 			return false;
+		}
+		
 		if (placements == null) {
 			if (other.placements != null)
 				return false;
-		} else if (!placements.equals(other.placements))
+		} else if (!placements.equals(other.placements)) {
 			return false;
+		}
 		return true;
 	}
-	
 }

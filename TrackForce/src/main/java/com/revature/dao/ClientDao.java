@@ -1,20 +1,20 @@
 package com.revature.dao;
-
 import java.util.List;
-
 import com.revature.entity.TfClient;
 import com.revature.entity.TfEndClient;
 
 public interface ClientDao {
-
+	List<TfClient> getAllTfClients();
 	
-	public List<TfClient> getAllTfClients();
-	public List<TfClient> getFirstFiftyTfClients();
-	public TfClient getClient(String name);
-	public TfClient getClient(Integer id);
+	List<TfClient> getFirstFiftyTfClients();
+	
+	TfClient getClient(String name);
+	
+	TfClient getClient(Integer id);
+	
 	TfEndClient getEndClient(int id);
-	public List<TfClient> getAllTfClients(String[] columns);
-	public List<TfClient> getAllClientsWithMappedAssociates();
-
-
+	
+	List<TfClient> getAllTfClients(String[] columns);
+	
+	List<TfClient> getAllClientsWithMappedAssociates();
 }

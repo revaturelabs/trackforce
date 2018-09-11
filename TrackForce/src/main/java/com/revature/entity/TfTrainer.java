@@ -1,41 +1,30 @@
 package com.revature.entity;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/**
- * @author Andy A 
+/** @author Andy A 
  * <p>Created Trainer entity to be used to pull trainer information from the DB</p>
- * @version v6.18.06.08
- *
- */
+ * @version v6.18.06.08 */
 @XmlRootElement
 @Entity
 @Table(name="TF_TRAINER", schema="ADMIN")
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfTrainer implements Serializable{
  
@@ -65,7 +54,7 @@ public class TfTrainer implements Serializable{
 	private List<TfBatch> primary;
 	
 	@XmlElement
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name="COTRAINER_BATCH",joinColumns= {@JoinColumn(name="TRAINER_ID")},inverseJoinColumns = {@JoinColumn(name="BATCH_ID")}, schema="ADMIN")
 	@JsonIgnore
 	private List<TfBatch> coTrainer = new ArrayList<>();
@@ -87,8 +76,6 @@ public class TfTrainer implements Serializable{
 		this.primary = primary;
 		this.coTrainer = coTrainer;
 	}
-	
-	
 
 	public TfUser getTfUser() {
 		return user;
@@ -176,30 +163,40 @@ public class TfTrainer implements Serializable{
 		if (coTrainer == null) {
 			if (other.coTrainer != null)
 				return false;
-		} else if (!coTrainer.equals(other.coTrainer))
+		} else if (!coTrainer.equals(other.coTrainer)) {
 			return false;
+		}
+		
 		if (firstName == null) {
 			if (other.firstName != null)
 				return false;
-		} else if (!firstName.equals(other.firstName))
+		} else if (!firstName.equals(other.firstName)) {
 			return false;
+		}
+		
 		if (id != other.id)
 			return false;
 		if (lastName == null) {
 			if (other.lastName != null)
 				return false;
-		} else if (!lastName.equals(other.lastName))
+		} else if (!lastName.equals(other.lastName)) {
 			return false;
+		}
+		
 		if (primary == null) {
 			if (other.primary != null)
 				return false;
-		} else if (!primary.equals(other.primary))
+		} else if (!primary.equals(other.primary)) {
 			return false;
+		}
+		
 		if (user == null) {
 			if (other.user != null)
 				return false;
-		} else if (!user.equals(other.user))
+		} else if (!user.equals(other.user)) {
 			return false;
+		}
+			
 		return true;
 	}
 }

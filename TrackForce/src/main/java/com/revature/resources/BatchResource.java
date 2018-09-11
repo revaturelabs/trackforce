@@ -3,7 +3,6 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -36,7 +35,6 @@ import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
-import com.revature.utils.DbResetUtil;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;

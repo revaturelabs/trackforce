@@ -1,9 +1,7 @@
 package com.revature.entity;
-
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,15 +17,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-/**
- * @category Integer tfAssociateId
+/** @category Integer tfAssociateId
  * @category TfUser tfUser
  * @category TfBatch tfBatch
  * @category TfMarketingStatus tfMarketingStatus
@@ -38,10 +32,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @category Set<TfInterview> tfInterviews
  * @category Set<TfPlacement> tfPlacements
  * @category Timestamp clientStartDate
- * 
  * @author Adam L. 
- * @version v6.18.06.13
- */
+ * @version v6.18.06.13*/
 @XmlRootElement
 @Entity
 @Table(name = "TF_ASSOCIATE", schema = "ADMIN")

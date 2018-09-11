@@ -75,7 +75,7 @@ export class ChartOptions {
    */
   public static createOptionsTitle(title: string, titleFontSize: number, titleColor: string, legendPosition: string): ChartOptions {
     const options = new ChartOptions();
-    options.title = { display: true, text: title, fontSize: titleFontSize, fontColor: titleColor };
+    options.title = { display: false, text: title, fontSize: titleFontSize, fontColor: titleColor };
     options.legend = { display: true, position: legendPosition };
     return options;
   }

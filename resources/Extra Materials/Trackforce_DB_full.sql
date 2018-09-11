@@ -44,20 +44,33 @@ drop table tf_role;
 
 drop sequence interviewid_seq2; 
 drop sequence userid_seq; 
+drop sequence associd_seq; 
+drop sequence interview_seq; 
 
 --------------------------------------------------
 --   create sequences
 --------------------------------------------------
 
 create sequence interviewid_seq2
-    start with     1
-    increment by   50
+    start with 2000
+    increment by 1
     nocache;
 
 create sequence userid_seq
-    start with     1
-    increment by   50
+    start with 2000
+    increment by 1
     nocache;
+
+create sequence associd_seq     
+    start with 2000
+    increment by 1
+    nocache;
+
+create sequence interview_seq     
+    start with 2000
+    increment by 1
+    nocache;
+    
 
 --------------------------------------------------
 --   create tables and constraints

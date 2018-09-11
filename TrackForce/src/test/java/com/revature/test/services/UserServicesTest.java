@@ -23,13 +23,12 @@ import com.revature.test.utils.Log;
 public class UserServicesTest {
 
   private UserService service;
-  private List<TfUser> users;
   private Properties prop;
 	
   @BeforeClass
   public void init() {
 	  service = new UserService();
-	  users = service.getAllUsers();
+	  service.getAllUsers();
 	  prop = new Properties();
 		try {
 			FileInputStream propFile = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\database_entries.properties");
@@ -51,19 +50,9 @@ public class UserServicesTest {
 
   @Test
   public void testUserGetByUsername() {
-	  String existingUser = prop.getProperty("user_username");
-	  Integer existingId = Integer.parseInt(prop.getProperty("user_id"));
-	  Integer existingRole = Integer.parseInt(prop.getProperty("user_role"));
-	  Integer existingApproved = Integer.parseInt(prop.getProperty("user_approved"));
-	  // values from database
-	  TfUser user = service.getUser(existingUser);
-	  Integer id = user.getId();
-	  Integer approved = user.getIsApproved();
-	  Integer role = user.getRole();
-	  String retrievedUser = user.getUsername();
-	  boolean result = id == existingId && approved == existingApproved && 
-			  		   role == existingRole && retrievedUser.equals(existingUser);
-	  assertTrue(result);
+	  TfUser user = service.getUser(prop.getProperty("user_username"));
+	  
+	  assertEquals(user.getUsername(), prop.getProperty("user_username"));
   }
   
   @Test
@@ -94,6 +83,7 @@ public class UserServicesTest {
   public void testCreateNullUser() {
 	  TfUser nullUser = null;
 	  boolean result = service.insertUser(nullUser);
+	
 	  assertFalse(result);
   }
 
@@ -102,6 +92,7 @@ public class UserServicesTest {
 	  Integer roleId = Integer.parseInt(prop.getProperty("role_id"));
 	  String roleName = prop.getProperty("role_name");
 	  TfRole role = service.getRole(roleId);
+	  
 	  assertEquals(role.getTfRoleId(), roleId);
 	  assertEquals(role.getTfRoleName(), roleName);
   }
@@ -110,6 +101,7 @@ public class UserServicesTest {
   public void testGetNonExistentRole() {
 	  int badRoleId = 90;
 	  TfRole badRole = service.getRole(badRoleId);
+	 
 	  assertNull(badRole);
   }
 
@@ -119,13 +111,15 @@ public class UserServicesTest {
 	  String username = prop.getProperty("user_username");
 	  TfUser user = service.getUser(username);
 	  TfUser verifyUser = service.submitCredentials(user);
-	  assertEquals(verifyUser, user);
+	  
+	  assertEquals(user, verifyUser);
 	  // Now test nonexistent / null users
 	  TfUser nullUser = service.submitCredentials(null);
 	  assertNull(nullUser);
 	  TfUser userNoPassword = new TfUser();
 	  userNoPassword.setUsername("User with no password");
 	  TfUser noPasswordResult = service.submitCredentials(userNoPassword);
+	
 	  assertNull(noPasswordResult);
   }
 }

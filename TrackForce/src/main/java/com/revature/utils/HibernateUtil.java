@@ -83,7 +83,7 @@ public class HibernateUtil {
 				session = HibernateUtil.getSessionFactory().openSession();
 				transaction = session.beginTransaction();
 
-				if (sessional.operate(session, args)) { logger.debug("Committing..."); }
+				if (sessional.operate(session, args)) {logger.debug("Committing..."); }
 				else { throw new HibernateException("Transaction Operation Failed!"); }
 
 				transaction.commit();

@@ -342,9 +342,9 @@
 					<!-- change this n the properties at the top of the pom -->
 					<skipTests>${skip.unit.tests}</skipTests>
 
-					<suiteXmlFiles>
-						<file>src/test/resources/testng.xml</file>
-					</suiteXmlFiles>
+<!-- 					<suiteXmlFiles> -->
+<!-- 						<file>src/test/resources/testng.xml</file> -->
+<!-- 					</suiteXmlFiles> -->
 					<properties>
 						<property>
 							<name>suitethreadpoolsize</name>

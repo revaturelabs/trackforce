@@ -1,72 +1,43 @@
 <div class="container">
   <h3 style="text-align:center">New Interview</h3>
-  <div class="toggledContainer">
+  <div class="row" class="toggledContainer">
+
       <form>
-        <div class="row">
-            <div class="col-sm-2">
-                <label class="control-label">Client:</label>
-            </div>
-            <div class="col-sm-4">
-                <select class="form-control interview-select"
-                  name="newClient"
-                  [(ngModel)]="clientId">
-                    <option selected [ngValue]="null">None</option>
-                    <option *ngFor="let client of clients" [ngValue]="client">{{client.name}}</option>
+        <div class="form-group">
+            <br>
+            <label class="control-label col-sm-2">Client:</label>
+            <div class="col-sm-3">
+                <select class="form-control" name="newClient" [(ngModel)]="clientId">
+                <option selected="selected">None</option>
+                <option *ngFor="let client of clients" [ngValue]="client">{{client.name}}</option>
                 </select>
             </div>
-            <div class="col-sm-2">
-              <label class="control-label">Medium:</label>
-            </div>
-            <div class="col-sm-4">
-                <select class="form-control interview-select"
-                  name="type"
-                  [(ngModel)]="typeId">
-                    <option value="0">None</option>
+
+            <label class="control-label col-sm-2">Type:</label>
+            <div class="col-sm-3">
+                <select class="form-control" id="interviewType" name="type" [(ngModel)]="typeId">
                     <option value="1">Phone</option>
                     <option value="2">Online</option>
-                    <option value="3" selected>On-site</option>
+                    <option value="3">On-site</option>
                     <option value="4">Skype</option>
                 </select>
             </div>
-          </div>
-          <div class="row">
+            <br><br>
             <label class="control-label col-sm-2">Date Assigned:</label>
-            <div class="col-sm-4">
-                <app-datetimepicker width="400px" format="datetime" (datePicked)="interviewAssigned=$event" (error)="dateAssignedError=$event"></app-datetimepicker>
+            <div class="col-sm-3">
+                <app-datetimepicker width="400px" format="datetime" (datePicked)="interviewAssigned=$event" (error)="dateError=$event"></app-datetimepicker>
             </div>
 
             <label class="control-label col-sm-2">Date of interview:</label>
-            <div class="col-sm-4">
-                <app-datetimepicker width="400px" format="datetime" (datePicked)="interviewDate=$event" (error)="dateOfInterviewError=$event"></app-datetimepicker>
+            <div class="col-sm-3">
+                <app-datetimepicker width="400px" format="datetime" (datePicked)="interviewDate=$event" (error)="dateError=$event"></app-datetimepicker>
             </div>
+            <label class="control-label col-sm-1">24 hour notice?</label>
+            <input type="checkbox" name="24hournotice" [(ngModel)]="was24HRNotice">
         </div>
-
-        <div class="row">
-          <div class="col-sm-6">
-            <p>Were you given 24 hour notice?</p>
-              <input type="radio" name="24hournotice" id="yes" value="1"
-                (change)="twentyFourHourNotice()">
-              <label for="yes">Yes</label>
-              <input type="radio" name="24hournotice" id="no" value="0"
-                (change)="twentyFourHourNotice()">
-              <label for="no">No</label>
-          </div>
-          <div class="col-sm-6">
-              <button (click)="addInterview()"
-                class="btn btn-success pull-right"
-                [disabled]="!validateNewInterviewForm()">
-                  Add Interview
-              </button>
-          </div>
-        </div>
-
-        <div class="row" *ngIf="submitInterviewStatus">
-          <div class="col-md-10">
-            <div class="alert" [ngClass]="alertSubmitClass">
-              {{ submitInterviewStatus }}
-              <span class="close" (click)="closeStatus(statusProp.SUBMIT)">&times;</span>
-            </div>
-          </div>
+        <br><br><br>
+        <div class="form-group">
+            <button id='add-interview' (click)="addInterview()" class="btn btn-success pull-right">Add Interview</button>
         </div>
 
     </form>
@@ -75,9 +46,11 @@
   <div class="card-deck mb-3 text-center">
     <div>
       <h3>My Interviews</h3>
-      <div *ngIf="updateInterviewStatus" class="alert" [ngClass]="alertUpdateClass">
-        {{ updateInterviewStatus }}
-        <span class="close" (click)="closeStatus(statusProp.UPDATE)">&times;</span>
+      <div *ngIf="conflictingInterview" class="alert alert-danger">
+        {{conflictingInterviews}}
+      </div>
+      <div *ngIf=updateSuccess class=" alert alert-success">
+        Successfully updated interview
       </div>
     </div>
       <table class="table table-responsive table-hover table-bordered">
@@ -116,17 +89,8 @@
             </td>
 
             <td class="button_col">
-              <button type="button"
-                class="btn btn-primary"
-                (click)="viewInterview(interview.id)"
-                style.display="inline">
-                View
-              </button>
-              <button type="button"
-                class="btn btn-primary"
-                (click)="updateInterview(interview)">
-                Update
-              </button>
+              <button type="button" class="btn btn-primary" (click)='viewInterview(interview.id)' style.display="inline">View</button>
+              <button type="button" class="btn btn-primary" (click)='updateInterview(interview)'>Update</button>
             </td>
 
           </tr>
@@ -135,5 +99,6 @@
       <div class="center-div" *ngIf="!isDataReady">
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
+    </div>
   </div>
-</div>
+<!-- </div> -->

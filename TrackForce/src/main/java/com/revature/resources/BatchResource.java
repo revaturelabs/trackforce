@@ -1,8 +1,19 @@
 package com.revature.resources;
 
-import static com.revature.utils.LogUtil.logger;
+import com.revature.daoimpl.BatchDaoImpl;
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfBatch;
+import com.revature.services.*;
+import io.jsonwebtoken.Claims;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.math.BigDecimal;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -10,35 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.revature.daoimpl.BatchDaoImpl;
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
-import com.revature.services.AssociateService;
-import com.revature.services.BatchService;
-import com.revature.services.ClientService;
-import com.revature.services.CurriculumService;
-import com.revature.services.InterviewService;
-import com.revature.services.JWTService;
-import com.revature.services.TrainerService;
-import com.revature.services.UserService;
-
-import io.jsonwebtoken.Claims;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import static com.revature.utils.LogUtil.logger;
 
 /**
  * <p>Class that provides RESTful services for the batch listing and batch details

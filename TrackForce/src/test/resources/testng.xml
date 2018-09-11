@@ -1,5 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="BackendCoverageSuite" thread-count="1">
+	<test name="reinitDatabase">
+		<classes>
+			<class name="com.revature.test.utils.ResetDatabase"/>
+		</classes>
+	</test>
 	<test name="daoImplTest">
 		<classes>
 			<class name="com.revature.test.dao.AssociateDAOTest"/>
@@ -65,9 +70,15 @@
 			<class name="com.revature.test.restAssured.UserResourceTest" />
 		</classes>
  	</test>
-<!-- 		<test name="cucumber"> -->
-<!-- 		<classes> -->
-<!-- 			<class name="com.revature.test.runner.CucumberTestRunner" /> -->
-<!-- 		</classes> -->
-<!-- 	</test> -->
+	<test name="cucumber">
+		<classes>
+			<class name="com.revature.test.runner.CucumberTestRunner" />
+		</classes>
+	</test>
+
+	<test name="resetDatabase">
+		<classes>
+			<class name="com.revature.test.utils.ResetDatabase"/>
+		</classes>
+	</test>
 </suite>

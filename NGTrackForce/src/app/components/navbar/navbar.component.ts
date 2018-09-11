@@ -4,6 +4,8 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { User } from '../../models/user.model';
 import { Associate } from '../../models/associate.model';
 import { NavbarService } from '../../services/navbar-service/navbar.service';
+import { AssociateService } from '../../services/associate-service/associate.service';
+import { TrainerService } from '../../services/trainer-service/trainer.service';
 /**
   * Controls the nav bar
   */
@@ -26,10 +28,15 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
   public isStaging: boolean;
   public isTrainer: boolean;
   public isAssociate: boolean;
-  public firstName: '';
+  public id: number;
+  isDataReady = false;
+  public firstName = '';
   public username = '';
+  public currentUser: User;
 
-  constructor(private router: Router, private authService: AuthenticationService, public navbarService: NavbarService) { }
+
+  constructor(private router: Router, private authService: AuthenticationService, public navbarService: NavbarService, 
+    private associateService: AssociateService, public trainerService: TrainerService) {}
 
   ngOnInit() {
     // this.navbarDisplay();
@@ -43,7 +50,6 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
     this.navbarDisplay();
   }
 
-
   /**
     * Removes user from localStorage and re-routes to login screen
     */
@@ -54,14 +60,10 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
     this.isAssociate = false;
     this.user = null;
     this.authService.logout();
-    // linked to /login page directly on anchor for testing purposes
-    //this.router.navigateByUrl('/login');
   }
 
   navbarDisplay() {
     this.user = this.authService.getUser();
-    //Role checks
-    // only role check if there is already a user
     if (this.user !== null && this.user !== undefined) {
       this.isLoggedIn = true;
       this.username = this.user.username;
@@ -71,31 +73,37 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
         this.isStaging = false;
         this.isTrainer = false;
         this.isAssociate = false;
+        this.firstName = this.username;
       } else if(this.user.role === 3){
         this.isAdmin = false;
         this.isSales = true;
         this.isStaging = false;
         this.isTrainer = false;
         this.isAssociate = false;
+        this.firstName = this.username;
       } else if(this.user.role === 4){
         this.isAdmin = false;
         this.isSales = false;
         this.isStaging = true;
         this.isTrainer = false;
         this.isAssociate = false;
+        this.firstName = this.username;
       } else if (this.user.role === 2){
         this.isAdmin = false;
         this.isSales = false;
         this.isStaging = false;
         this.isTrainer = true;
         this.isAssociate = false;
+        this.firstName = this.authService.getTrainer().firstName;
       } else if (this.user.role === 5){
         this.isAdmin = false;
         this.isSales = false;
         this.isStaging = false;
         this.isTrainer = false;
         this.isAssociate = true;
+        this.firstName = this.associateService.getAssociate(this.user.id).value.firstName;
       }
     }
+    }
   }
-}
+

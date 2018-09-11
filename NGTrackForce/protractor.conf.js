@@ -7,13 +7,14 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 exports.config = {
   allScriptsTimeout: 20000,
   specs: [
-    //'./e2e/register-associate/register-associate.e2e-spec.ts',
+    './e2e/register-associate/register-associate.e2e-spec.ts',
     './e2e/login/login.e2e-spec.ts',
-
-    //'./e2e/navbar/navbar.e2e-spec.ts',
-    //'./e2e/create-user/create-user.e2e-spec.ts',
+    './e2e/navbar/navbar.e2e-spec.ts',
+    './e2e/create-user/create-user.e2e-spec.ts',
+    './e2e/client-list/client-list-spec.ts',
+    './e2e/batch-list/batch-list.e2e-spec.ts',
     //'./e2e/predictions/predictions.e2e-spec.ts',
-    //  './e2e/client-list/client-list-spec.ts',
+
     //   './e2e/app/app.e2e-spec.ts',
     //   './e2e/associate-list/associate-list.js',
     //  './e2e/associate-list/associate-list-search.js',
@@ -21,7 +22,6 @@ exports.config = {
     // './e2e/associate-list/associate-list-status.js',
     // './e2e/associate-list/associate-list-curriculum.js',
     // './e2e/associate-list/associate-list-client.js',
-    // './e2e/batch-list/batch-list.js',
     // './e2e/test-associate/homepage-spec.js'
   ],
   capabilities: {
@@ -31,10 +31,10 @@ exports.config = {
     }
   },
   // directConnect: true,
-    baseUrl: 'http://localhost:4200',
-   //baseUrl: 'http://34.227.178.103:8090/NGTrackForce/',
+   //baseUrl: 'http://localhost:4200/',
+   baseUrl: 'http://34.227.178.103:8090/NGTrackForce',
    //for pipeline delpoyment
-   seleniumAddress: "http://127.0.0.1:4444/wd/hub",
+     seleniumAddress: "http://127.0.0.1:4444/wd/hub",
     // SELENIUM_PROMISE_MANAGER: false,
     //
     //

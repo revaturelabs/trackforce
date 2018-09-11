@@ -35,7 +35,8 @@ public class HibernateUtil {
 
 	private static SessionFactory buildSessionFactory() {
 		try {
-			Configuration cfg = new Configuration();
+			Configuration cfg = new Configuration();			
+
 			cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
 			cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
 			cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));
@@ -44,8 +45,12 @@ public class HibernateUtil {
 		} finally { addShutdown(); }
 	}
 
-	public static SessionFactory getSessionFactory()
-	{ return sessionFactory; }
+	public static SessionFactory getSessionFactory() {
+		if(sessionFactory == null) {
+			sessionFactory = buildSessionFactory();
+		}
+		return sessionFactory; 
+	}
 
 	public static void shutdown() {
 		logger.info("Shutting down SessionFactory");

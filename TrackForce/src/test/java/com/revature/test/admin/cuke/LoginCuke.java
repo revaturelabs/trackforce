@@ -3,7 +3,6 @@ package com.revature.test.admin.cuke;
 import static org.testng.Assert.assertEquals;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -15,7 +14,6 @@ import com.revature.test.utils.TestConfig;
 import com.revature.test.utils.WebDriverUtil;
 
 import cucumber.api.java.After;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -24,14 +22,15 @@ import cucumber.api.java.en.When;
 
 public class LoginCuke {
 	
+	String baseUrl = System.getenv("url");
 	
 	@Given("^I connect to caliber$")
 	public void i_connect_to_caliber(){
 
 		ServiceHooks.driver = WebDriverUtil.getChromeDriver();
-		ServiceHooks.driver.manage().window().maximize();
+		//ServiceHooks.driver.manage().window().maximize();
 		ServiceHooks.driver.get(TestConfig.getBaseURL());
-		ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver,15);
+		ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver,4);
 
 	
 	}
@@ -61,7 +60,7 @@ public class LoginCuke {
 	
 	@Given("^the login page loads$")
 	public void the_login_page_loads() throws Throwable {
-		assertEquals(ServiceHooks.driver.getCurrentUrl(),"http://34.227.178.103:8090/NGTrackForce/#/login");
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "#/login");
 	}
 
 	@When("^I enter the correct admin login information$")
@@ -139,32 +138,32 @@ public class LoginCuke {
 
 	@Then("^I should remain on the login page$")
 	public void i_should_remain_on_the_login_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains("http://34.227.178.103:8090/NGTrackForce/#/login"));
-		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver),"http://34.227.178.103:8090/NGTrackForce/#/login");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains(baseUrl + "#/login"));
+		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver), baseUrl + "#/login");
 	}
 
 	@Then("^I should be taken to the home page$")
 	public void i_should_be_taken_to_the_home_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains("http://34.227.178.103:8090/NGTrackForce/#/app-home"));
-		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver),"http://34.227.178.103:8090/NGTrackForce/#/app-home");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "#/app-home"));
+		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver), baseUrl + "#/app-home");
 	}
 	
 	@Then("^I should be taken to the trainer home page$")
 	public void i_should_be_taken_to_the_trainer_home_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains("http://34.227.178.103:8090/NGTrackForce/#/trainer-view"));
-		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver),"http://34.227.178.103:8090/NGTrackForce/#/trainer-view");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains(baseUrl +  "#/trainer-view"));
+		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver), baseUrl + "#/trainer-view");
 	}
 	
 	@Then("^I should be taken to the associate home page$")
 	public void i_should_be_taken_to_the_associate_home_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains("http://34.227.178.103:8090/NGTrackForce/#/associate-view"));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(),"http://34.227.178.103:8090/NGTrackForce/#/associate-view");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "#/associate-view"));
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "#/associate-view");
 	}
 
 	@Then("^I should be on the login page$")
 	public void i_should_be_on_the_login_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains("http://34.227.178.103:8090/NGTrackForce/#/login"));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(),"http://34.227.178.103:8090/NGTrackForce/#/login");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "#/login"));
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "#/login");
 	}
 	
 	@After

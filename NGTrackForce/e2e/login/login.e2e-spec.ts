@@ -1,26 +1,25 @@
 import { LoginPage } from './login.po';
-import { browser } from 'protractor';
+import { TestConfig } from '../configuration/test-config';
 
 /*
 Smoke test: Checks elements to be exist
 */
-let login_urL = "http://localhost:4200/login";
-let adminUrl = "http://localhost:4200/#/app-home";
-let associateUrl = "http://localhost:4200/#/associate-view";
-let trainerUrl = "http://localhost:4200/#/trainer-view";
 let AdminUsername = "TestAdmin";
 let AdminPassword = "TestAdmin";
 let associateUsername = "cyril";
 let associatePassword = "cyril";
 let stagingManagerUsername = "bobstage";
 let stagingManagerPassword = "bobstage";
-let trainerUsername = "Trainer";
+let trainerUsername = "Trainer0";
 let trainerPassword = "Trainer";
 let deliverySalesUsername = "salestest";
 let deliverySalesPassword = "salestest";
+let page: LoginPage;
+let testConfig      : TestConfig;
+let baseURL         : string;
 
 describe('login page element existences', () => {
-  let page: LoginPage;
+
 
   beforeAll(() => {
     page = new LoginPage();
@@ -48,12 +47,11 @@ describe('login page element existences', () => {
   });
 
   it('should display proper value for button', () => {
-    expect(page.getLoginButtonText()).toEqual('Sign in');
+    expect(page.getLoginButtonText()).toEqual('SIGN IN');
   });
 });
 
 describe('Confirm login failures', () => {
-  let page: LoginPage;
 
   beforeAll(() => {
     page = new LoginPage();
@@ -62,14 +60,14 @@ describe('Confirm login failures', () => {
 
   it('should fail to log in when nothing is entered', () => {
     page.getLoginButton().click();
-    expect(page.getFailedLoginResponse()).toEqual('Please enter a username and password\nUsername:\nPassword:\nSign in\nRegister');
+    expect(page.getFailedLoginResponse()).toContain('Please enter a username and password');
   });
 
   it('should fail to login when incorrect credentials are entered', () => {
     page.getUsernameInput().sendKeys('1234');
     page.getPasswordInput().sendKeys('password');
     page.getLoginButton().click();
-    expect(page.getFailedLoginResponse()).toEqual('Invalid username and/or password\nUsername:\nPassword:\nSign in\nRegister');
+    expect(page.getFailedLoginResponse()).toContain('Invalid username and/or password');
   });
 });
 
@@ -80,46 +78,37 @@ function logIn(username, password, thePage){
 };
 
 describe('Login in  with proper credentials', () => {
-  let page: LoginPage;
 
   beforeAll(() => {
     page = new LoginPage();
+    testConfig = new TestConfig();
+    baseURL = testConfig.getBaseURL();
     page.navigateTo();
   });
 
   it('should be able to login in with admin credentials and reach the admin page', () => {
     logIn(AdminUsername, AdminPassword, page);
-    browser.getCurrentUrl().then( function( url ) {
-      expect(url).toEqual(adminUrl);
-    });
+    expect(page.getCurrentUrl()).toEqual(baseURL + 'app-home');
   });
 
   it('should be able to login in with associate credentials and reach the associate page', () => {
     logIn(associateUsername, associatePassword, page);
-    browser.getCurrentUrl().then( function( url ) {
-      expect(url).toEqual(associateUrl);
-    });
+    expect(page.getCurrentUrl()).toEqual(baseURL + 'associate-view');
   });
 
   it('should be able to login in with Manager credentials and reach the Admin page', () => {
     logIn(stagingManagerUsername, stagingManagerPassword, page);
-    browser.getCurrentUrl().then( function( url ) {
-      expect(url).toEqual(adminUrl);
-    });
+    expect(page.getCurrentUrl()).toEqual(baseURL + 'app-home');
   });
 
-  // it('should be able to login in with Trainer credentials and reach the Trainer page', () => {
-  //   logIn(trainerUsername, trainerPassword, page);
-  //   browser.getCurrentUrl().then( function( url ) {
-  //     expect(url).toEqual(trainerUrl);
-  //   });
-  // });
+  it('should be able to login in with Trainer credentials and reach the Trainer page', () => {
+    logIn(trainerUsername, trainerPassword, page);
+    expect(page.getCurrentUrl()).toEqual(baseURL + 'trainer-view');
+  });
 
   it('should be able to login in with Sales Team credentials and reach the Admin page', () => {
     logIn(deliverySalesUsername, deliverySalesPassword, page);
-    browser.getCurrentUrl().then( function( url ) {
-      expect(url).toEqual(adminUrl);
-    });
+    expect(page.getCurrentUrl()).toEqual(baseURL + 'app-home');
   });
   afterEach(() => {
     page.getlogoutButton().click();

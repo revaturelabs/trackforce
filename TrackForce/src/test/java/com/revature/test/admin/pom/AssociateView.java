@@ -9,8 +9,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import com.revature.test.utils.WaitToLoad;
-
 public class AssociateView {
 	private static Properties prop = new Properties();
 	static {
@@ -53,11 +51,11 @@ public class AssociateView {
 	}
 	
 	public static void enterFirstName(WebDriver d) {
-		d.findElement(By.xpath(prop.getProperty("associateViewFirstNameEdit"))).sendKeys(prop.getProperty("associateViewEnterFirstName"));
+		d.findElement(By.name(prop.getProperty("associateViewFirstNameEdit"))).sendKeys(prop.getProperty("associateViewEnterFirstName"));
 	}
 
 	public static void enterLastName(WebDriver d) {
-		d.findElement(By.xpath(prop.getProperty("associateViewLastNameEdit"))).sendKeys(prop.getProperty("associateViewEnterLastName"));
+		d.findElement(By.name(prop.getProperty("associateViewLastNameEdit"))).sendKeys(prop.getProperty("associateViewEnterLastName"));
 	}
 	
 	public static String getEnterFirstName(WebDriver d) {
@@ -75,11 +73,11 @@ public class AssociateView {
 	public static String getLastName(WebDriver d) {
 		return d.findElement(By.xpath(prop.getProperty("associateViewLastName"))).getText();
 	}
-	
+
 	public static void enterAssignedDate(WebDriver d,String date) {
 		d.findElement(By.xpath(prop.getProperty("associateViewAssignedDate"))).sendKeys(date);
 	}
-	
+
 	public static void enterInterviewDate(WebDriver d,String date) {
 		d.findElement(By.xpath(prop.getProperty("associateViewInterviewDate"))).sendKeys(date);
 	}
@@ -97,7 +95,7 @@ public class AssociateView {
 	}
 	
 	public static void dropDownInterviewType(WebDriver d, String option) throws InterruptedException {
-		Select dropDown = new Select(d.findElement(By.xpath("/html/body/app-component/div/app-myinterview-view/div/div[1]/form/div[1]/div[2]/select")));
+		Select dropDown = new Select(d.findElement(By.name("type")));
 		for(WebElement el : dropDown.getOptions()) {
 			if(el.getText().equals(option))
 				dropDown.selectByVisibleText(el.getText());

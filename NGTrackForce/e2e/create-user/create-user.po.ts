@@ -194,4 +194,22 @@ export class CreateUserPo {
             return '';
         }
     }
+
+    private getSubmitButton(){
+      return element(by.xpath('//*[@id="NewUserForm"]/input[4]'));
+    }
+
+    clickSubmitButton(){
+      this.getSubmitButton().click();
+    }
+
+    getAlert(){
+      return element(by.xpath('//*[@id="NewUserForm"]/div[1]'));
+    }
+    getUserNameAlert(){
+      return element(by.xpath('//*[@id="error-username"]'));
+    }
+    refresh(){
+      return browser.refresh();
+    }
 }

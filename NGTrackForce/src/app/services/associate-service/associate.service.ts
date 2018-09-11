@@ -81,7 +81,7 @@ export class AssociateService {
     return this.allAssociates$;
   }
 
-  /*
+  /**
     gets initial associates loaded
 
     ! DEPRECATED: This is not a good idea to try to speed up performance
@@ -160,14 +160,18 @@ export class AssociateService {
    *
    * This method updates the associate in the database
    * @param associate - the associate object with the updated values
+   * @returns Promise - Promise that resolves true on a 200, or an error message on 400/500
    */
   updateAssociate(associate: any) {
-    const url: string = this.baseURL + '/' + associate.id;
-    this.http.put<boolean>(url, associate).subscribe(
-      data => this.updateAssociate$.next(data),
-      error => this.updateAssociate$.error(error)
-    );
-    return this.updateAssociate$;
+    return new Promise((resolve, reject)=> {
+      const url: string = this.baseURL + '/' + associate.id;
+      this.http.put<boolean>(url, associate).subscribe(
+        // resolve true for a successful return since we don't care unless it's not a 200
+        data => resolve(true),
+        // reject on error
+        error => reject(error)
+      );
+    });
   }
 
   // ? Below this point the requests are for stats which may need to become a seperate service
@@ -182,13 +186,17 @@ export class AssociateService {
     return this.getAssociatesByStatus$;
   }
 
+  /**
+   * Returns a promise that resolves to either true for any 200, or an error object for any 400/500
+   */
   approveAssociate(associateID: number) {
-    const url: string = this.baseURL + '/' + associateID + '/approve';
-    this.http.put<boolean>(url, associateID).subscribe(
-      data => this.approveAssociate$.next(data),
-      error => this.approveAssociate$.error(error)
-    );
-    return  this.approveAssociate$;
+    return new Promise((resolve, reject)=> {
+      const url: string = this.baseURL + '/' + associateID + '/approve';
+      this.http.put<boolean>(url, associateID).subscribe(
+        data => resolve(true),
+        error => reject(error)
+      );
+    });
   }
 
   getUndeployedAssociates(mappedOrUnmapped: string): Observable<GraphCounts[]> {

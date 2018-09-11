@@ -6,7 +6,7 @@ import com.revature.entity.TfAssociate;
 public interface AssociateDao {
 	TfAssociate getAssociate(Integer associateid);
 	
-	List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId);
+	List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId, String sortText);
 
 	List<TfAssociate> getAllAssociates();
 	

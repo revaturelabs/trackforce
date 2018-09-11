@@ -63,6 +63,9 @@ public class AssociateTests {
   
   @Test (priority = 2)
   public void LogOut() {
+	  
+	  wait.until(ExpectedConditions.elementToBeClickable(AssociateHome.navBarDropDown(wd)));
+	  AssociateHome.navBarDropDown(wd).click();
 	  wait.until(ExpectedConditions.elementToBeClickable(AssociateHome.logout(wd)));
 	  AssociateHome.logout(wd).click();
 	  wait.until(ExpectedConditions.urlContains(System.getenv("url")+"#/login"));

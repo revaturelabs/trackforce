@@ -40,8 +40,8 @@ export class LoginPage {
   }
 
   getlogoutButton() {
-    element(by.id('navbarDropdown')).click();
-    return element(by.id('logout'));
+    element(by.xpath('//*[@id="navbarDropdown"]')).click();
+    return element(by.xpath('//*[@id="logout"]'));
   }
 
   getCurrentUrl(){

@@ -1,5 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="BackendCoverageSuite" thread-count="1">
+	<test name="reinitDatabase">
+		<classes>
+			<class name="com.revature.test.utils.ResetDatabase"/>
+		</classes>
+	</test>
 	<test name="daoImplTest">
 		<classes>
 			<class name="com.revature.test.dao.AssociateDAOTest"/>
@@ -28,11 +33,6 @@
 			<class name="com.revature.test.junit.entity.TfTrainerTest" />
 			<class name="com.revature.test.junit.entity.TfUserAndCreatorRolerContainerTest" />
 			<class name="com.revature.test.junit.entity.TfUserTest" />
-		</classes>
-	</test>
-		<test name="daoTest">
-		<classes>
-			<class name="com.revature.test.dao.DbUnit" />
 		</classes>
 	</test>
 	<test name="utilTest">
@@ -74,5 +74,10 @@
  		<classes>
  			<class name="com.revature.test.runner.CucumberTestRunner" />
  		</classes>
+  </test>
+	<test name="resetDatabase">
+		<classes>
+			<class name="com.revature.test.utils.ResetDatabase"/>
+		</classes>
 	</test>
 </suite>

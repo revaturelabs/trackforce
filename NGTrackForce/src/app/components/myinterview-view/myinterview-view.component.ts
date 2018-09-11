@@ -131,11 +131,10 @@ export class MyInterviewComponent implements OnInit {
           new Date(this.interviewAssigned).getTime(),
           new Date(this.interviewAssigned).getTime().toString()
         );
-
         this.interviewService
           .createInterview(this.newInterview, this.associate.id)
           .subscribe(res => {
-            location.reload();
+            location.reload(false);
           });
       }
   }
@@ -152,8 +151,7 @@ export class MyInterviewComponent implements OnInit {
         ).getTime();
         this.interviewService.updateInterview(interview).subscribe(res => {
           this.updateSuccess=true;
-          location.reload();
-
+          location.reload(false);
         });
     }
   }

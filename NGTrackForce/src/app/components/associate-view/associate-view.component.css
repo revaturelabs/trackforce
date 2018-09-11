@@ -27,12 +27,3 @@ thead, tbody {
   margin-top: 100px;
   padding: 20px;
 }
-
-#left {
-  float: left;
-  overflow: hidden;
-}
-
-#right {
-  overflow: hidden;
-}

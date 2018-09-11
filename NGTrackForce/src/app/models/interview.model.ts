@@ -9,7 +9,7 @@ export class Interview {
   client: Client;
   endClient: EndClient;
   interviewType: InterviewType;
-  interviewDate: number;
+  interviewDate: Date;
   questionGiven: string;
   associateFeedback: string;
   clientFeedback: string;
@@ -25,7 +25,7 @@ export class Interview {
     associate: Associate,
     client: Client,
     interviewType: InterviewType,
-    interviewDate: number,
+    interviewDate: Date,
     questionGiven: string,
     was24HRNotice: number,
     dateSalesIssued: number,

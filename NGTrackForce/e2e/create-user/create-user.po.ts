@@ -196,7 +196,7 @@ export class CreateUserPo {
     }
 
     private getSubmitButton(){
-      return element(by.xpath('//*[@id="NewUserForm"]/input[4]'));
+      return element(by.xpath('/html/body/app-component/div/app-create-user/form/button'));
     }
 
     clickSubmitButton(){
@@ -204,7 +204,7 @@ export class CreateUserPo {
     }
 
     getAlert(){
-      return element(by.xpath('//*[@id="NewUserForm"]/div[1]'));
+      return element(by.css('body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div'));
     }
     getUserNameAlert(){
       return element(by.xpath('//*[@id="error-username"]'));

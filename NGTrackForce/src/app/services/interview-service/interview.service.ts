@@ -63,7 +63,6 @@ y
    */
   public updateInterview(interview: Interview): Observable<boolean> {
     const url: string = this.baseURL + "/" + interview.id;
-    // console.log("asdf");
     return this.http.put<boolean>(url, interview);
   }
 }

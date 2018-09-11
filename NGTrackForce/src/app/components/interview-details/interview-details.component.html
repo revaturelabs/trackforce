@@ -25,8 +25,8 @@
 
 	<div class="container-fluid">
 		<div class="row"*ngIf="promptToggle">
-			<div class={{promptClassName}} role="alert">
-				{{promptMessage}}
+			<div class="col-sm-4 alert" role="alert" [ngClass]="promptClassName">
+				{{ promptMessage }}
 			</div>
 		</div>
 		<div class="row">
@@ -34,7 +34,11 @@
 				<button type="button" onclick=window.history.back() class="btn btn-primary">Close</button>
 			</div>
 			<div class="col-sm-2">
-				<button class="btn btn-primary" type="button" (click)="commitchanges()">
+        <button
+          class="btn btn-primary"
+          type="button"
+          [disabled]="serverResponsePending"
+          (click)="commitchanges()">
 					Save Changes
 				</button>
 			</div>

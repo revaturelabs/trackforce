@@ -23,7 +23,7 @@ export class LoginPage {
   }
 
   getLoginButton(){
-    return element(by.buttonText('Sign in'));
+    return element(by.buttonText('SIGN IN'));
   }
 
   getLoginButtonText(){
@@ -35,11 +35,13 @@ export class LoginPage {
   }
 
   getFailedLoginResponse() {
-    return element(by.xpath('//*[@id="pwd-container"]/div/section/form/div[1]')).getText();
+    return element(by.xpath('//*[@id="pwd-container"]/div/section/form/div/div[1]/span')).getText();
+    //
   }
 
   getlogoutButton() {
-    return element(by.xpath('/html/body/app-component/app-navbar/nav/div/ul[1]/li[2]/button'));
+    element(by.xpath('//*[@id="navbarDropdown"]')).click();
+    return element(by.xpath('//*[@id="logout"]'));
   }
 
   getCurrentUrl(){

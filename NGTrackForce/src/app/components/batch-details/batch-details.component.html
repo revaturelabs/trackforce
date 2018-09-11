@@ -2,21 +2,22 @@
   <div class="row">
     <div class="col-md-6">
       <div *ngIf="isDataReady">
-        <h3>{{ (batch && batch.batchName) ? batch.batchName : "" }}</h3>
+        <h1>{{ (batch && batch.batchName) ? batch.batchName : "" }}</h1>
+        <h4>Associate Distribution</h4>
       </div>
       <h3 class="data-status" *ngIf="isDataReady && isDataEmpty">
         No Associates Found
       </h3>
-      <div class="col-md-offset-6 vertical-center" *ngIf="!isDataReady">
+      <!-- <div class="col-md-offset-6 vertical-center" *ngIf="!isDataReady">
           <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-      </div>
+      </div> -->
       <canvas *ngIf="isDataReady && !isDataEmpty" baseChart id="bar" [chartType]="chartType" [datasets]="dataSets" [labels]="statusNames"
         [options]="options" [colors]="mappedColors">
       </canvas>
     </div>
     <div class="col-md-6">
         <h3>Associates</h3>
-        <table class="table table-striped table-hover table-bordered">
+        <table class="table">
           <thead>
             <tr>
               <th>ID</th>

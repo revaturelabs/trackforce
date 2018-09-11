@@ -46,6 +46,7 @@ public class AssociateServicesTest {
 	public void testGetAssociateById() {
 		//assertEquals(props.getProperty("associate_id"), "1");
 		TfAssociate associate = service.getAssociate(Integer.parseInt(props.getProperty("associate_id")));
+		
 		assertEquals(props.getProperty("associate_firstName"), associate.getFirstName());
 		assertEquals(props.getProperty("associate_lastName"), associate.getLastName());
 		assertEquals(props.getProperty("associate_feedback"), associate.getStagingFeedback());
@@ -56,15 +57,17 @@ public class AssociateServicesTest {
 	@Test(priority=2)
 	public void testGetAssociateByUserId() {
 		TfAssociate associate = service.getAssociateByUserId(Integer.parseInt(props.getProperty("associate_user")));
-		assertEquals(props.getProperty("associate_firstName"), associate.getFirstName());
-		assertEquals(props.getProperty("associate_lastName"), associate.getLastName());
-		assertEquals(props.getProperty("associate_feedback"), associate.getStagingFeedback());
-		assertEquals(props.getProperty("associate_id"), associate.getId()+"");
+		
+		assertEquals(props.getProperty("associate_userFirst"), associate.getFirstName());
+		assertEquals(props.getProperty("associate_userLast"), associate.getLastName());
+		assertEquals(props.getProperty("associate_userFeed"), associate.getStagingFeedback());
+
 	}
 	
 	@Test(priority=2)
 	public void testGetAllAssociates() {
 		List<TfAssociate> list = service.getAllAssociates();
+		
 		assertNotNull(list);
 		assertTrue(!list.isEmpty());
 	}
@@ -72,6 +75,7 @@ public class AssociateServicesTest {
 	@Test(priority=2)
 	public void testGetNAssociates() {
 		List<TfAssociate> list = service.getNAssociates();
+		
 		assertNotNull(list);
 		assertTrue(!list.isEmpty() && list.size() <= 60);
 	}
@@ -140,6 +144,7 @@ public class AssociateServicesTest {
 		toChange.setStagingFeedback("Alabama");
 		service.updateAssociatePartial(toChange);
 		TfAssociate changed = service.getAssociate(1);
+		
 		assertEquals("Hank", changed.getFirstName());
 		assertEquals("Pym", changed.getLastName());
 		assertNotEquals("Alabama", changed.getStagingFeedback());
@@ -147,6 +152,7 @@ public class AssociateServicesTest {
 		changed.setFirstName("Karl");
 		changed.setLastName("Franz");
 		service.updateAssociate(changed);
+		
 		assertEquals("Karl", changed.getFirstName());
 		assertEquals("Franz", changed.getLastName());
 		assertNotEquals("Alabama", changed.getStagingFeedback());
@@ -159,12 +165,31 @@ public class AssociateServicesTest {
 	
 	@Test
 	public void testCreateAssociate() {
+		TfAssociate createAssociate = new TfAssociate();
+		createAssociate.setId(Integer.parseInt(props.getProperty("createAssociate_Id")));
+		createAssociate.setFirstName(props.getProperty("createAssociate_firstName"));
+		createAssociate.setLastName(props.getProperty("createAssociate_lastName"));
+		createAssociate.setStagingFeedback(props.getProperty("createAssociate_feedback"));
+		service.createAssociate(createAssociate);
 		
+		assertEquals(createAssociate.getFirstName(), 
+				service.getAssociateByUserId(Integer.parseInt(props.getProperty("createAssociate_Id"))).getFirstName());
+		assertEquals(createAssociate.getLastName(), 
+				service.getAssociateByUserId(Integer.parseInt(props.getProperty("createAssociate_Id"))).getLastName());
+		assertEquals(createAssociate.getStagingFeedback(), 
+				service.getAssociateByUserId(Integer.parseInt(props.getProperty("createAssociate_Id"))).getStagingFeedback());
 	}
 	
 	@Test
 	public void testApproveAssociate() {
+		service.approveAssociate(Integer.parseInt(props.getProperty("approveAssociate_Id")));
+		TfAssociate approvedAssociate = service.getAssociate(Integer.parseInt(props.getProperty("approveAssociate_Id")));
 		
+		assertEquals(approvedAssociate.getUser().getIsApproved(), Integer.parseInt(props.getProperty("approvedValue")));
+		
+		//undo approved status
+		TfAssociate associate1 = service.getAssociate(Integer.parseInt(props.getProperty("approveAssociate_Id")));
+		associate1.getUser().setIsApproved(0);
 	}
 	
 	@AfterClass

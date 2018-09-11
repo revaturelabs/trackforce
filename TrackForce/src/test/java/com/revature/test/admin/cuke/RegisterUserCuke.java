@@ -20,7 +20,7 @@ public class RegisterUserCuke {
 	    Login.inputRegisterUsername(ServiceHooks.driver, "NewUserTom");
 	}
 
-	@When("^I enter a vaild password$")
+	@When("^I enter a valid password$")
 	public void i_enter_a_vaild_password() throws Throwable {
 		Login.inputRegisterPassword(ServiceHooks.driver, "Tom'spass!");
 	}

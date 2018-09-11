@@ -7,8 +7,10 @@ import com.revature.entity.TfMarketingStatus;
 import java.util.List;
 
 public class MarketingStatusService {
-	private static MarketingStatusDao dao = new MarketingStatusDaoImpl();
-	public MarketingStatusService(){}
+	private MarketingStatusDao dao; 
+	public MarketingStatusService(){dao = new MarketingStatusDaoImpl();}
+	
+	public MarketingStatusService(MarketingStatusDao dao) {this.dao = dao;}
 
 	public List<TfMarketingStatus> getAllMarketingStatuses() {
 		return dao.getAllMarketingStatuses();

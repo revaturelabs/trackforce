@@ -40,11 +40,7 @@ export class LoginPage {
   }
 
   getlogoutButton() {
-    browser.driver.sleep(1000);
-    element(by.xpath('//*[@id="collapsedNav"]/span')).click();
-    browser.driver.sleep(1000);
     element(by.xpath('//*[@id="navbarDropdown"]')).click();
-    browser.driver.sleep(1000);
     return element(by.xpath('//*[@id="logout"]'));
   }
 

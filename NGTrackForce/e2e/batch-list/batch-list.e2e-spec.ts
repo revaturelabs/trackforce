@@ -9,7 +9,7 @@ let testConfig      : TestConfig;
 let batchlist       : BatchList;
 let baseURL         : string;
 
-xdescribe('the bactch-list tab', () => {
+describe('the bactch-list tab', () => {
 
   beforeAll(() => {
       navbar = new Navbar();
@@ -26,32 +26,22 @@ xdescribe('the bactch-list tab', () => {
     expect(batchlist.getBatchListTable().isPresent()).toBe(true);
   });
 
-  it('should have a start calander', () => {
+  it('should have a start date input', () => {
     expect(batchlist.getFirstCalander().isPresent()).toBe(true);
   });
 
-  it('should have a end calander', () => {
+  it('should have a end date input', () => {
     expect(batchlist.getSecondCalander().isPresent()).toBe(true);
-  });
-  it('should have a submit button', () => {
-    expect(batchlist.getSubmitBtn().isPresent()).toBe(true);
-  });
-  it('should have a reset button', () => {
-    expect(batchlist.getResetBtn().isPresent()).toBe(true);
   });
   it('should have a pie cart', () => {
     expect(batchlist.getPieCart().isPresent()).toBe(true);
-  });
-  it('should not have a pie cart after the reset button is clicked', () => {
-    batchlist.getResetBtn().click();
-    expect(batchlist.getPieChartPlaceHolder().getText()).toContain('No Batch Found');
   });
   afterAll(() => {
     page.getlogoutButton().click();
   });
 });
 
-xdescribe('The All Batches table', () => {
+describe('The All Batches table', () => {
 
   beforeAll(() => {
       navbar = new Navbar();

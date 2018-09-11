@@ -91,7 +91,7 @@ describe('Login in  with proper credentials', () => {
     expect(page.getCurrentUrl()).toEqual(baseURL + 'app-home');
   });
 
-  it('should be able to login in with associate credentials and reach the associate page', () => {
+  xit('should be able to login in with associate credentials and reach the associate page', () => {
     logIn(associateUsername, associatePassword, page);
     expect(page.getCurrentUrl()).toEqual(baseURL + 'associate-view');
   });

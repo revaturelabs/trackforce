@@ -29,10 +29,6 @@ th {
   border: 2px solid lightgrey;
 }
 
-.form-horizontal {
-
-}
-
 .flag {
   /* width: 4px; */
   width: 4%;
@@ -65,23 +61,22 @@ input[name='24hournotice']{
   margin-left: 15px;
 }
 
-.center-div
-{
+.center-div {
   margin: 0 auto;
   width: 100px;
 }
-img{
-  padding: 20px;
-}
 
-form
-{
+form {
     padding: 30px;
     margin: 0 auto;
     width: 100%;
 }
 
-.button_col > button
-{
+.button_col > button {
     margin-bottom: 10px;
+}
+
+.interview-select {
+  padding: 5px;
+  margin-left: 5px;
 }

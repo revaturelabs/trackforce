@@ -11,6 +11,10 @@ import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { InterviewType } from '../../models/interview-type';
 import { Router } from '@angular/router'
+import {
+  InterviewStatusMsg,
+  AlertClass,
+  StatusProp } from './myinterview-view.enum';
 
 /**
  *@author Katherine Obioha, Andrew Ahn
@@ -28,30 +32,38 @@ import { Router } from '@angular/router'
 export class MyInterviewComponent implements OnInit {
   public interviews: Interview[];
   public associate: Associate;
-  // public id = 0;
   public newInterview: Interview;
   public formOpen = false;
   public conflictingInterviews = '';
-  public interviewDate: Date = new Date();
-  public interviewAssigned: Date = new Date();
+  public interviewDate: Date;
+  public interviewAssigned: Date;
   public clients: Client[];
   public typeId: number;
-  public was24HRNotice: any;
+  public was24HRNotice: boolean;
   public associateId: Associate;
   public user: User;
-  public id: number;
   public clientSelected: any;
   public interviewType: InterviewType;
   public clientId: Client;
   public openDateNotified: boolean;
   public openInterviewDate: boolean;
-  public conflictingInterview: boolean;
   public isDataReady = false;
+<<<<<<< associate-update
+  public dateAssignedError: boolean;
+  public dateOfInterviewError: boolean;
+  public dateError: boolean;
+  public updateInterviewStatus: string;
+  public alertUpdateClass: AlertClass;
+  public alertSubmitClass: AlertClass;
+  public submitInterviewStatus: string;
+  public statusProp = StatusProp;
+=======
   public dateError:boolean;
   public updateSuccess = false;
 
   index;
   index2;
+>>>>>>> dev1807
 
   constructor(
     private authService: AuthenticationService,
@@ -59,7 +71,7 @@ export class MyInterviewComponent implements OnInit {
     private activated: ActivatedRoute,
     private interviewService: InterviewService,
     private clientService: ClientService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -68,17 +80,18 @@ export class MyInterviewComponent implements OnInit {
     // this.id = +this.activated.snapshot.paramMap.get('id');
     this.openDateNotified = false;
     this.openDateNotified = false;
-    this.conflictingInterview = false;
 
     this.user = JSON.parse(localStorage.getItem('currentUser'));
-    this.id = this.user.id;
-    this.associateService.getAssociate(this.id).subscribe(
+    this.associateService.getAssociate(this.user.id).subscribe(
       data => {
         this.associate = data;
-        this.getAssociateInterviews(this.associate.id);
+        //don't call getAssociateInterviews until data is ready
+        if(this.associate.id) {
+          this.getAssociateInterviews(this.associate.id);
+        }
       },
       error => {
-        console.log('error');
+        console.log(error);
       }
     );
 
@@ -96,12 +109,55 @@ export class MyInterviewComponent implements OnInit {
     );
   }
 
+  getAssociateInterviews(id: number) {
+    this.interviewService.getInterviewsForAssociate(id).subscribe(
+      data => {
+        this.interviews = data;
+        this.isDataReady = true;
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
   toggleForm() {
     this.formOpen = !this.formOpen;
   }
 
+  /**
+   * Displays a status message dependant on whether the request was successful or not
+   * Generic method for displaying either the update status message or the submit status message
+   * @param prop StatusProp enum, determines whether the message is for updating or submitting
+   * SUBMIT - status of attempt to submit a new interview
+   * UPDATE - status of attempt to submit a new interview
+   * @param status Determines status message
+   * SUCCESS - Request was recieved by back end and processed appropriately
+   * WAIT - Request was sent, response from the server is still pending
+   * FAILURE - Server threw an error
+   * @param statusClass Determines the bootstrap styling class.
+   */
+  private _displayStatus(prop: StatusProp, status: InterviewStatusMsg, statusClass: AlertClass) {
+    // format replaces {} with either submission or update to make the message more meaningful
+    const format = (string, sub)=> string.replace('{}', sub);
+    switch(prop) {
+      case StatusProp.SUBMIT:
+        this.alertSubmitClass = statusClass;
+        this[prop] = format(status, 'submission');
+        break;
+      case StatusProp.UPDATE:
+        this.alertUpdateClass = statusClass;
+        this[prop] = format(status, 'update');
+        break;
+    }
+  }
+
+  /**
+   * Submits a new interview
+   */
   addInterview() {
-      if (!this.dateError){
+      if (!this.dateAssignedError && !this.dateOfInterviewError){
+        this._displayStatus(StatusProp.SUBMIT, InterviewStatusMsg.WAIT, AlertClass.WAIT);
         switch (+this.typeId) {
           case 1:
             this.interviewType = new InterviewType(1, 'Phone');
@@ -124,7 +180,7 @@ export class MyInterviewComponent implements OnInit {
           this.associate,
           this.clientId,
           this.interviewType,
-          new Date(this.interviewDate).getTime(),
+          new Date(this.interviewDate),
           null,
           this.was24HRNotice ? 1 : 0,
           null,
@@ -134,27 +190,51 @@ export class MyInterviewComponent implements OnInit {
 
         this.interviewService
           .createInterview(this.newInterview, this.associate.id)
-          .subscribe(res => {
-            location.reload();
-          });
+          .subscribe(
+            res => {
+              console.log(res)
+              this._displayStatus(StatusProp.SUBMIT, InterviewStatusMsg.SUCCESS, AlertClass.SUCCESS);
+            },
+            error => {
+              console.error(error)
+              this._displayStatus(StatusProp.SUBMIT, InterviewStatusMsg.FAILURE, AlertClass.FAILURE);
+            }
+          );
       }
   }
 
+  /**
+   * Updates a specific interview
+   * @param interview: interview to be updated
+   */
   updateInterview(interview: Interview) {
     if (!this.dateError){
+        this._displayStatus(StatusProp.UPDATE, InterviewStatusMsg.WAIT, AlertClass.WAIT);
         interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
-        interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
+        interview.interviewDate = new Date(interview.interviewDate); // convert into timestamp
         interview.dateSalesIssued = new Date(
           interview.dateAssociateIssued
         ).getTime(); // convert into timestamp
         interview.dateAssociateIssued = new Date(
           interview.dateAssociateIssued
         ).getTime();
+<<<<<<< associate-update
+        this.interviewService.updateInterview(interview).subscribe(
+          res => {
+            this._displayStatus(StatusProp.UPDATE, InterviewStatusMsg.SUCCESS, AlertClass.SUCCESS);
+          },
+          error => {
+            this._displayStatus(StatusProp.UPDATE, InterviewStatusMsg.FAILURE, AlertClass.FAILURE);
+            console.error(error);
+          }
+        );
+=======
         this.interviewService.updateInterview(interview).subscribe(res => {
           this.updateSuccess=true;
           location.reload();
 
         });
+>>>>>>> dev1807
     }
   }
 
@@ -171,51 +251,71 @@ export class MyInterviewComponent implements OnInit {
   */
   highlightInterviewConflicts(interview: number) {
     const checkDate = new Date(this.interviews[interview].interviewDate);
+    const thereIsConflict = (index)=> {
+      return new Date(this.interviews[index].interviewDate)
+        .getTime() === checkDate.getTime()
+        && index !== interview
+    };
     for (let i = 0; i < this.interviews.length; i++) {
-      if (
-        new Date(this.interviews[i].interviewDate).getTime() ===
-          checkDate.getTime() &&
-        i !== interview
-      ) {
-        this.conflictingInterviews =
-          'The highlighted interviews are conflicting.' +
-          'They are both scheduled at the same time!';
-        this.conflictingInterview = true;
+      if (thereIsConflict(i)) {
+        this._displayStatus(StatusProp.UPDATE, InterviewStatusMsg.CONFLICT, AlertClass.FAILURE);
         return true;
       }
     }
     return false;
   }
 
-  showDateNotified(index) {
-    this.index = index;
+  /**
+   * Check that earlier dates are in fact earlier dates
+   * and make sure the dates are later than or equal to today.
+   */
+  private _validateDates(date1: Date, date2: Date): boolean {
+    if(!this._datesAfterToday(date1) || !this._datesAfterToday(date2)) {
+      return false;
+    }
+    return date1 < date2;
   }
 
-  showInterviewDate(index) {
-    this.index2 = index;
+  /**
+   * Ensure the given dates are after today
+   */
+  private _datesAfterToday(date: Date) {
+    return new Date() < date;
   }
 
-  getAssociateInterviews(id: number) {
-    this.interviewService.getInterviewsForAssociate(id).subscribe(
-      data => {
-        this.interviews = data;
-        this.isDataReady = true;
-      },
-      error => {
-        console.log('error');
-      }
-    );
+  /**
+   * Data bound to disable button
+   * Enables the button only if the information in the form is valid
+   */
+  validateNewInterviewForm(): boolean {
+    // const datesAreValid = this._validateDates(this.interviewAssigned, this.interviewDate);
+    const datesAreValid = this.interviewAssigned !== undefined && this.interviewDate !== undefined
+                          && !this.dateAssignedError && !this.dateOfInterviewError;
+    const clientIsValid = this.clientId !== null && this.clientId !== undefined;
+    // using coercion to check if the value of typeId is not zero.  tslint disabled on purpose
+    // tslint:disable-next-line:triple-equals
+    const typeIsValid = this.typeId !== null && this.typeId !== undefined && this.typeId != 0;
+    const was24HRselected = this.was24HRNotice !== undefined;
+
+    return datesAreValid && clientIsValid && typeIsValid && was24HRselected;
   }
 
-  // ===========================================
+  /**
+   * Ensures the 24 hour notice was at least selected.
+   */
+  twentyFourHourNotice() {
+    this.was24HRNotice = Boolean((<HTMLInputElement>event.target).value);
+  }
+
+  /**
+   * Hides the update/submit statuses
+   */
+  closeStatus(prop: StatusProp) {
+    this[prop] = null;
+  }
+
+  // ============================================
   // THIS NEEDS TO BE IMPLEMENTED
   // ============================================
   saveInterview(interview: Interview) {}
-
-  // THIS METHOD IS REPLACED BY STORING THE CLIENTS IN LOCAL STORAGE
-  // getClientNames() {
-  //   this.clientService.getAllClients().subscribe(data => {
-  //     this.clients = data;
-  //   });
-  // }
 }

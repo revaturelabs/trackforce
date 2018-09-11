@@ -106,29 +106,73 @@ public class AssociateServicesTest {
 	}
 	
 	@Test(priority=2)
-	public void testGetCounts() {
+	public void testGetCountUndeployedMapped() {
 		assertEquals((long)service.getCountUndeployedMapped(),
 				Long.parseLong(props.getProperty("undeployed_mapped_count")));
+	}
+	
+	@Test(priority=2)
+	public void testGetCountUndeployedUnmapped() {
 		assertEquals((long)service.getCountUndeployedUnmapped(),
 				Long.parseLong(props.getProperty("undeployed_unmapped_count")));
+	}
+	
+	@Test(priority=2)
+	public void testGetCountDeployedMapped() {
 		assertEquals((long)service.getCountDeployedMapped(),
 				Long.parseLong(props.getProperty("deployed_mapped_count")));
+	}
+	
+	@Test(priority=2)
+	public void testGetCountDeployedUnmapped() {
 		assertEquals((long)service.getCountDeployedUnmapped(),
 				Long.parseLong(props.getProperty("deployed_unmapped_count")));
+	}
+	
+	@Test(priority=2)
+	public void testGetCountMappedTraining() {
 		assertEquals((long)service.getCountMappedTraining(),
 				Long.parseLong(props.getProperty("training_mapped_count")));
+	}
+	
+	@Test(priority=2)
+	public void testGetCountUnmappedTraining() {
 		assertEquals((long)service.getCountUnmappedTraining(),
 				Long.parseLong(props.getProperty("training_unmapped_count")));
+	}
+	
+	@Test(priority=2)
+	public void testGetCountMappedSelected() {
 		assertEquals((long)service.getCountMappedSelected(),
 				Long.parseLong(props.getProperty("selected_mapped_count")));
+	}
+	
+	@Test(priority=2)
+	public void testGetCountUnmappedSelected() {
 		assertEquals((long)service.getCountUnmappedSelected(),
 				Long.parseLong(props.getProperty("selected_unmapped_count")));
+	}
+	
+	@Test(priority=2)
+	public void testGetCountMappedConfirmed() {
 		assertEquals((long)service.getCountMappedConfirmed(),
 				Long.parseLong(props.getProperty("confirmed_mapped_count")));
+	}
+	
+	@Test(priority=2)
+	public void testGetCountUnmappedConfirmed() {
 		assertEquals((long)service.getCountUnmappedConfirmed(),
 				Long.parseLong(props.getProperty("confirmed_unmapped_count")));
+	}
+	
+	@Test(priority=2)
+	public void testGetCountMappedReserved() {
 		assertEquals((long)service.getCountMappedReserved(),
 				Long.parseLong(props.getProperty("reserved_mapped_count")));
+	}
+	
+	@Test(priority=2)
+	public void testGetCountUnmappedOpen() {
 		assertEquals((long)service.getCountUnmappedOpen(),
 				Long.parseLong(props.getProperty("open_unmapped_count")));
 	}

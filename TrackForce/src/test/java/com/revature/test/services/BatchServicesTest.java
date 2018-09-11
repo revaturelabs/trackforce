@@ -1,6 +1,5 @@
 package com.revature.test.services;
 
-import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -31,8 +30,7 @@ public class BatchServicesTest {
 	public void beforeClass() {
 		service = new BatchService(new BatchDaoImpl());
 		props = new Properties();
-		//MockitoAnnotations.initMocks(this);
-		//doNothing().when(transaction).commit();
+
 		try {
 			FileInputStream propFile = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\database_entries.properties");
 			props.load(propFile);
@@ -46,9 +44,9 @@ public class BatchServicesTest {
 	
 	@Test
 	public void testGetBatchByName() {
-		service.getBatch(props.getProperty("batchName"));
+		TfBatch batch = service.getBatch(props.getProperty("batchName"));
 		
-		assertEquals(service.getBatch(props.getProperty("batchName")), props.getProperty("batchName"));
+		assertEquals(batch.getBatchName(), props.getProperty("batchName"));
 	}
 	
 	@Test

@@ -44,23 +44,21 @@ public class AssociateServicesTest {
 	
 	@Test(priority=1)
 	public void testGetAssociateById() {
-		//assertEquals(props.getProperty("associate_id"), "1");
-		TfAssociate associate = service.getAssociate(Integer.parseInt(props.getProperty("associate_id")));
+		TfAssociate associate = service.getAssociate(Integer.parseInt(props.getProperty("associate3_id")));
 		
-		assertEquals(props.getProperty("associate_firstName"), associate.getFirstName());
-		assertEquals(props.getProperty("associate_lastName"), associate.getLastName());
-		assertEquals(props.getProperty("associate_feedback"), associate.getStagingFeedback());
-		assertEquals(props.getProperty("associate_user"), associate.getUser().getId()+"");
-		//associate = service.getAssociate(-1);
+		assertEquals(props.getProperty("associate3_firstName"), associate.getFirstName());
+		assertEquals(props.getProperty("associate3_lastName"), associate.getLastName());
+		assertEquals(props.getProperty("associate3_feedback"), associate.getStagingFeedback());
 	}
 	
 	@Test(priority=2)
 	public void testGetAssociateByUserId() {
-		TfAssociate associate = service.getAssociateByUserId(Integer.parseInt(props.getProperty("associate_user")));
-		
-		assertEquals(props.getProperty("associate_userFirst"), associate.getFirstName());
-		assertEquals(props.getProperty("associate_userLast"), associate.getLastName());
-		assertEquals(props.getProperty("associate_userFeed"), associate.getStagingFeedback());
+		TfAssociate associate = service.getAssociateByUserId(Integer.parseInt(props.getProperty("associate50_user")));
+		System.out.println(associate.getFirstName());
+	
+		assertEquals(associate.getFirstName(), props.getProperty("associate50_userFirst"));
+		assertEquals(associate.getLastName(), props.getProperty("associate50_userLast"));
+		assertEquals(associate.getStagingFeedback(), props.getProperty("associate50_userFeed"));
 
 	}
 	
@@ -166,7 +164,6 @@ public class AssociateServicesTest {
 	@Test
 	public void testCreateAssociate() {
 		TfAssociate createAssociate = new TfAssociate();
-		createAssociate.setId(Integer.parseInt(props.getProperty("createAssociate_Id")));
 		createAssociate.setFirstName(props.getProperty("createAssociate_firstName"));
 		createAssociate.setLastName(props.getProperty("createAssociate_lastName"));
 		createAssociate.setStagingFeedback(props.getProperty("createAssociate_feedback"));

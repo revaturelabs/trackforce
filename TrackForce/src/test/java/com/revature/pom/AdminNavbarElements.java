@@ -9,37 +9,37 @@ public class AdminNavbarElements {
 	private static WebElement element;
 	
 	public static WebElement home(WebDriver wd) {
-		element = wd.findElement(By.xpath("/html/body/app-component/app-navbar/nav/div/ul[2]/li[1]/a"));
+		element = wd.findElement(By.id("home"));
 		return element;
 	}
 	
 	public static WebElement clientList(WebDriver wd) {
-		element = wd.findElement(By.xpath("/html/body/app-component/app-navbar/nav/div/ul[2]/li[2]/a"));
+		element = wd.findElement(By.id("clients"));
 		return element;
 	}
 	
 	public static WebElement associateList(WebDriver wd) {
-		element = wd.findElement(By.xpath("/html/body/app-component/app-navbar/nav/div/ul[2]/li[4]/a"));
+		element = wd.findElement(By.id("associates"));
 		return element;
 	}
 	
 	public static WebElement batchList(WebDriver wd) {
-		element = wd.findElement(By.xpath("/html/body/app-component/app-navbar/nav/div/ul[2]/li[3]/a"));
+		element = wd.findElement(By.id("batches"));
 		return element;
 	}
 	
 	public static WebElement predictions(WebDriver wd) {
-		element = wd.findElement(By.xpath("/html/body/app-component/app-navbar/nav/div/ul[2]/li[5]/a"));
+		element = wd.findElement(By.id("predictions"));
 		return element;
 	}
 	
 	public static WebElement createUser(WebDriver wd) {
-		element = wd.findElement(By.xpath("/html/body/app-component/app-navbar/nav/div/ul[2]/li[6]/a"));
+		element = wd.findElement(By.id("create"));
 		return element;
 	}
 	
 	public static WebElement salesForce(WebDriver wd) {
-		element = wd.findElement(By.xpath("/html/body/app-component/app-navbar/nav/div/ul[2]/li[7]/a"));
+		element = wd.findElement(By.id("salesforce"));
 		return element;
 	}
 	

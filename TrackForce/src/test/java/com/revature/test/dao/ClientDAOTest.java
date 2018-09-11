@@ -66,7 +66,7 @@ public class ClientDAOTest {
 	public void testClientDAOGetAllWithMappedAssociates() {
 		List<TfClient> list = dao.getAllClientsWithMappedAssociates();
 		TfClient infosys = list.get(Integer.parseInt(props.getProperty("client_infosys_index")));
-		assertEquals(infosys.getName(), "Infosys");
+		assertEquals(infosys.getName(), "Virtusa");
 		assertEquals(list.size(), Integer.parseInt(props.getProperty("client_withAssociates")));
 	}
 	

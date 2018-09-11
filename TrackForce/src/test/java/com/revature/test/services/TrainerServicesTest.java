@@ -86,15 +86,22 @@ public class TrainerServicesTest {
 	@Test
 	public void testTrainerUpdate() {
 		
-		TfTrainer trainerUpdate = service.getTrainer(Integer.parseInt(props.getProperty("createTrainer_Id")));
+		TfTrainer trainerUpdate = service.getTrainer(Integer.parseInt(props.getProperty("updateTrainer_Id")));
+		System.out.println(trainerUpdate.getFirstName() );
 		trainerUpdate.setFirstName(props.getProperty("updateTrainer_firstName"));
 		trainerUpdate.setLastName(props.getProperty("updateTrainer_lastName"));
 		service.updateTrainer(trainerUpdate);
 		
-		assertEquals(service.getTrainer(Integer.parseInt(props.getProperty("createTrainer_Id"))).getFirstName(), 
+		assertEquals(service.getTrainer(Integer.parseInt(props.getProperty("updateTrainer_Id"))).getFirstName(), 
 				props.getProperty("updateTrainer_firstName"));
-		assertEquals(service.getTrainer(Integer.parseInt(props.getProperty("createTrainer_Id"))).getLastName(), 
+		assertEquals(service.getTrainer(Integer.parseInt(props.getProperty("updateTrainer_Id"))).getLastName(), 
 				props.getProperty("updateTrainer_lastName"));
+		
+		//undo the change 
+		TfTrainer redo = service.getTrainer(Integer.parseInt(props.getProperty("createTrainer_Id")));
+		redo.setFirstName(props.getProperty("redo_first"));
+		redo.setLastName(props.getProperty("redo_last"));
+		service.updateTrainer(redo);
 		
 	}
 }

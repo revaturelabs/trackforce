@@ -46,7 +46,10 @@ public class InterviewServicesTest {
 	  List<TfInterview> interviews = service.getInterviewsByAssociate(aId);
 	  boolean result = true;
 	  for(TfInterview tfi : interviews) {
-		  result = tfi.getId() == aId;
+		  result = tfi.getAssociate().getId().equals(aId);
+		  if(result == false) {
+			  break;
+		  }
 	  }
 	  assertTrue(result);
   }

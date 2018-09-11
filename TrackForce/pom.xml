@@ -335,7 +335,13 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.20</version>
 				<configuration>
-					<forkCount>0</forkCount>
+					<forkMode>always</forkMode>
+					<environmentVariables>
+						<TRACKFORCE_DB_URL>jdbc:oracle:thin:@siudb.ckqj1sf1jfmd.us-east-1.rds.amazonaws.com:1521:ORCL</TRACKFORCE_DB_URL>
+						<TRACKFORCE_DB_USERNAME>admin</TRACKFORCE_DB_USERNAME>
+						<HBM_PW_ENV>password145</HBM_PW_ENV>
+					</environmentVariables>
+					<forkCount>2</forkCount>
 					<!-- Skips unit tests if the value of skip.unit.tests property is true -->
 					<!-- William changed the value of skipTests to true on 2/15/18 -->
 					<!-- to see if we can successfully deploy current build of application -->

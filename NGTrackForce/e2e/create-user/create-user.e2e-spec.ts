@@ -243,7 +243,7 @@ describe('A user', () => {
 
     it('should get an error if they use a sympol in their username', () => {
       createUser.inputUsername('a$');
-      expect(createUser.getUserNameAlert().getText()).toContain('Invalid username, please do not use spaces or special characters');
+      expect(createUser.getUserNameAlert().getText()).toContain('Alphabetical and numerical characters only, no spaces');
     });
 
     it('should get an error if they enter in an invalid password in the first password box', () => {

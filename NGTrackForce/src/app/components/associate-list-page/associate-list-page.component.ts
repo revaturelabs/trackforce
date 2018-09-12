@@ -21,20 +21,20 @@ export interface DialogData {
 })
 export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  protected readonly associateStatuses: String[] = [];
-  protected clientList$;
-  protected scrollEvent$;
-  protected scrollingTable;
-  protected showModal = false;
+  public readonly associateStatuses: String[] = [];
+  public clientList$;
+  public scrollEvent$;
+  public scrollingTable;
+  public showModal = false;
 
-  protected filterByStatus = "";
-  protected filterByClient = "";
-  protected filterByText = "";
+  public filterByStatus = "";
+  public filterByClient = "";
+  public filterByText = "";
 
-  protected associates$: BehaviorSubject<Associate[]>;
-  protected listOfAssociates: Associate[] = [];
-  private isFetching = true;
-  protected currentAssociatesSelected: Set<number> = new Set<number>();
+  public associates$: BehaviorSubject<Associate[]>;
+  public listOfAssociates: Associate[] = [];
+  public isFetching = true;
+  public currentAssociatesSelected: Set<number> = new Set<number>();
 
   public statusToId = {
     "MAPPED: TRAINING": 1,

@@ -249,8 +249,8 @@ public class AssociateResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Batch update associates", notes = "Updates the marketing status and/or the client of one or more associates")
 	public Response updateAssociates(@HeaderParam("Authorization") String token,
-			@DefaultValue("0") @ApiParam(value = "marketingStatusId") @QueryParam("marketingStatusId") Integer marketingStatusId,
-			@DefaultValue("0") @ApiParam(value = "clientId") @QueryParam("clientId") Integer clientId,
+			@DefaultValue("-1") @ApiParam(value = "marketingStatusId") @QueryParam("marketingStatusId") Integer marketingStatusId,
+			@DefaultValue("-1") @ApiParam(value = "clientId") @QueryParam("clientId") Integer clientId,
 			@DefaultValue("-1") @ApiParam(value = "verification") @QueryParam("verification") Integer isApproved,
 			List<Integer> ids) {
 		logger.info("updateAssociates()...");
@@ -262,10 +262,10 @@ public class AssociateResource {
 		TfAssociate toBeUpdated = null;
 		for (int associateId : ids) {
 			toBeUpdated = associateService.getAssociate(associateId);
-			if (marketingStatusId != 0) {
+			if (marketingStatusId >= 0) {
 				toBeUpdated.setMarketingStatus(marketingStatusService.getMarketingStatusById(marketingStatusId));
 			}
-			if (clientId != 0) {
+			if (clientId >= 0) {
 				toBeUpdated.setClient(clientService.getClient(clientId));
 			}
 			if (isApproved >= 0) {

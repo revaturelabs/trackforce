@@ -72,7 +72,7 @@ export class ClientListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getFiftyClients();
+    //this.getFiftyClients();
     this.getAllClients();
     this.initChartData();
   }
@@ -80,10 +80,15 @@ export class ClientListComponent implements OnInit {
 
   // get client names from data and push to clientNames string array
   getAllClients() {
+    
     this.clientService.getAllClients().subscribe(
       clients => {
+        if (Array.isArray(clients) && clients.length === 0) {
+          return;
+        }
         // save array of object Client
         this.clientInfo = clients;
+        this.loading = false;
         // clear name list to reload list and run through filter
         this.clientNames.length = 0;
         for(const client of clients){

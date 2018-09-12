@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, AsyncSubject } from 'rxjs';
+import { Observable, AsyncSubject, BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment'
 import { Client } from '../../models/client.model';
 
@@ -16,7 +16,7 @@ export class ClientService {
   private clientUrl = environment.url + 'TrackForce/clients/associates/get/'
   private fiftyUrl = environment.url + 'TrackForce/clients/50';
 
-  private clients$: AsyncSubject<Client[]> = new AsyncSubject<Client[]>();
+  private clients$: BehaviorSubject<Client[]> = new BehaviorSubject<Client[]>([]);
 
   constructor(private http: HttpClient) { }
 

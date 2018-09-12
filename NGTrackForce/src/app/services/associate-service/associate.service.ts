@@ -50,6 +50,14 @@ export class AssociateService {
 
   private getUndeployedAssociates$: AsyncSubject<GraphCounts[]> = new AsyncSubject<GraphCounts[]>();
 
+  private currentAssociateSnapshot$: BehaviorSubject<Associate[]> = new BehaviorSubject<Associate[]>([]);
+  private currentIndex = 0;
+  private withLimit = 20;
+  private currentClientFilter = "";
+  private currentStatusFilter = "";
+  private currentTextFilter = "";
+  public hasReceivedEndForCurrentFilter = true;
+
   // TODO: Decide if empty strings is better or if a loading message should be put here
   // TODO: Why is there a get by user and get by associate this is two different models on backend
   // ? should one be handled by another service
@@ -141,18 +149,18 @@ export class AssociateService {
    *
    * ? Changing this to use BehaviorSubjects however it may be wanted to have it not multiplex
    */
-  updateAssociates(ids: number[], verification: number, marketingStatusId: number, clientId: number): Observable<boolean> {
-    const url: string = this.baseURL + '?marketingStatusId=' + marketingStatusId + '&clientId=' + clientId + '&verification=' + verification;
-    this.http.put<boolean>(url, ids).subscribe(
-      (data) => {
-        this.updateAssociates$.next(data);
-      },
-      (error) => {
-        this.updateAssociates$.error(error);
-      }
-    );
-
-    return  this.updateAssociates$;
+  updateAssociates(ids: number[], verification: number, marketingStatusId: number, clientId: number): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const url: string = this.baseURL + '?marketingStatusId=' + marketingStatusId + '&clientId=' + clientId + '&verification=' + verification;
+      this.http.put<boolean>(url, ids).subscribe(
+        (data) => {
+          resolve(data);
+        },
+        (error) => {
+          reject(error)
+        }
+      );
+    });
   }
 
 
@@ -206,5 +214,77 @@ export class AssociateService {
       error => this.getUndeployedAssociates$.error(error)
     );
     return this.getUndeployedAssociates$;
+  }
+
+  getAssociateSnapshot() {
+    return this.currentAssociateSnapshot$;
+  }
+
+  fetchAssociateSnapshot(limit: number, filter) {
+    this.hasReceivedEndForCurrentFilter = false;
+    this.withLimit = limit;
+    this.currentIndex = 0;
+
+    this.currentClientFilter = filter.client || "";
+    this.currentStatusFilter = filter.status || "";
+    this.currentTextFilter = filter.sortText || "";
+
+    // Base route
+    let queryParams = `/page?startIndex=${this.currentIndex}&numResults=${this.withLimit}`;
+
+
+    // Determine filters if any
+    const {status, client, sortText} = filter;
+
+    if (status) {
+      queryParams += `&mStatusId=${status}`;
+    }
+    if (client) {
+      queryParams += `&clientId=${client}`;
+    }
+    if (sortText) {
+      queryParams += `&sortText=${sortText}`;
+    }
+
+    // Make initial request
+    const url: string = this.baseURL + queryParams;
+    this.http.get<Associate[]>(url).subscribe(
+      (data: Associate[]) => {
+        this.currentAssociateSnapshot$.next(data);
+        if (!data) {
+          this.hasReceivedEndForCurrentFilter = true;
+        }
+      },
+      error => this.currentAssociateSnapshot$.error(error)
+    );
+    return this.currentAssociateSnapshot$;
+  }
+
+  fetchNextSnapshot() {
+    if (this.hasReceivedEndForCurrentFilter) {
+      return this.currentAssociateSnapshot$;
+    }
+
+    this.currentIndex += this.withLimit;
+    // Base route
+    let queryParams = `/page?startIndex=${this.currentIndex}&numResults=${this.withLimit}`;
+
+    if (this.currentStatusFilter) {
+      queryParams += `&mStatusId=${this.currentStatusFilter}`;
+    }
+    if (this.currentClientFilter) {
+      queryParams += `&clientId=${this.currentClientFilter}`;
+    }
+    if (this.currentTextFilter) {
+      queryParams += `&sortText=${this.currentTextFilter}`;
+    }
+
+    // Make initial request
+    const url: string = this.baseURL + queryParams;
+    this.http.get<Associate[]>(url).subscribe(
+      (data: Associate[]) => this.currentAssociateSnapshot$.next(data),
+      error => this.currentAssociateSnapshot$.error(error)
+    );
+    return this.currentAssociateSnapshot$;
   }
 }

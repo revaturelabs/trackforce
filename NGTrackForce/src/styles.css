@@ -1,8 +1,7 @@
 @import "~ng-pick-datetime/assets/style/picker.min.css";    /* This is required for the date time picker */
 
 body {
-/*   background-color: #ebedea;
- */  background-color: white;
+  background-color: #f8f9fa!important;
   background-size: cover;
 }
 

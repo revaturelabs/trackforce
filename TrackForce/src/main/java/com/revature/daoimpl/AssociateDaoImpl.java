@@ -45,28 +45,34 @@ public class AssociateDaoImpl implements AssociateDao {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<TfAssociate> criteria = builder.createQuery(TfAssociate.class);
 		Root<TfAssociate> root = criteria.from(TfAssociate.class);
-		Expression<String>  expName = root.get("batchName");
-		Expression<String> expFirst = root.get("firstName");
-		Expression<String>  expLast = root.get("lastName");
+		//Expression<String>  expName = root.get("batchName");
+		Expression<String> expFirst = builder.lower(root.get("firstName"));
+		Expression<String>  expLast = builder.lower(root.get("lastName"));
+		sortText = "%" + sortText.toLowerCase() + "%";
 		
 		if (!sortText.isEmpty()) {
 			if (clientId == -1 && mktStatus != -1) {
 				criteria.where(builder.and(
-						(builder.or(builder.like(expName, sortText),
-								builder.or( builder.like(expFirst, sortText),builder.like(expLast, sortText)))),
+						(
+								builder.or( builder.like(expFirst, sortText),builder.like(expLast, sortText))),
 						builder.equal(root.get(MKTSTS), mktStatus)));
 			}
 			else if (mktStatus == -1 && clientId != -1) {
 				criteria.where(builder.and(
-						(builder.or(builder.like(expName, sortText),
-								builder.or( builder.like(expFirst, sortText),builder.like(expLast, sortText)))),
+						(
+								builder.or( builder.like(expFirst, sortText),builder.like(expLast, sortText))),
 						builder.equal(root.get(CLIENT), clientId)));
 			}
 			else if (mktStatus != -1 && clientId != -1) {
 				criteria.where(builder.and(
-						(builder.or(builder.like(expName, sortText),
-								builder.or( builder.like(expFirst, sortText),builder.like(expLast, sortText)))),
+						(
+								builder.or( builder.like(expFirst, sortText),builder.like(expLast, sortText))),
 						builder.and(builder.equal(root.get(MKTSTS), mktStatus),builder.equal(root.get(CLIENT), clientId))));
+			} else { 
+				criteria.where(
+						builder.or( 
+								builder.like(expFirst, sortText),
+								builder.like(expLast, sortText)));
 			}
 		} else {
 			if (clientId == -1 && mktStatus != -1) {

@@ -55,6 +55,8 @@ export class AssociateService {
   private withLimit = 20;
   private currentClientFilter = "";
   private currentStatusFilter = "";
+  private currentTextFilter = "";
+  public hasReceivedEndForCurrentFilter = true;
 
   // TODO: Decide if empty strings is better or if a loading message should be put here
   // TODO: Why is there a get by user and get by associate this is two different models on backend
@@ -219,35 +221,50 @@ export class AssociateService {
   }
 
   fetchAssociateSnapshot(limit: number, filter) {
+    this.hasReceivedEndForCurrentFilter = false;
     this.withLimit = limit;
     this.currentIndex = 0;
 
     this.currentClientFilter = filter.client || "";
     this.currentStatusFilter = filter.status || "";
+    this.currentTextFilter = filter.sortText || "";
 
     // Base route
     let queryParams = `/page?startIndex=${this.currentIndex}&numResults=${this.withLimit}`;
-    
+
 
     // Determine filters if any
-    const {status, client} = filter;
+    const {status, client, sortText} = filter;
+
     if (status) {
       queryParams += `&mStatusId=${status}`;
     }
     if (client) {
       queryParams += `&clientId=${client}`;
     }
+    if (sortText) {
+      queryParams += `&sortText=${sortText}`;
+    }
 
     // Make initial request
     const url: string = this.baseURL + queryParams;
     this.http.get<Associate[]>(url).subscribe(
-      (data: Associate[]) => this.currentAssociateSnapshot$.next(data),
+      (data: Associate[]) => {
+        this.currentAssociateSnapshot$.next(data);
+        if (!data) {
+          this.hasReceivedEndForCurrentFilter = true;
+        }
+      },
       error => this.currentAssociateSnapshot$.error(error)
     );
     return this.currentAssociateSnapshot$;
   }
 
   fetchNextSnapshot() {
+    if (this.hasReceivedEndForCurrentFilter) {
+      return this.currentAssociateSnapshot$;
+    }
+
     this.currentIndex += this.withLimit;
     // Base route
     let queryParams = `/page?startIndex=${this.currentIndex}&numResults=${this.withLimit}`;
@@ -258,7 +275,9 @@ export class AssociateService {
     if (this.currentClientFilter) {
       queryParams += `&clientId=${this.currentClientFilter}`;
     }
-
+    if (this.currentTextFilter) {
+      queryParams += `&sortText=${this.currentTextFilter}`;
+    }
 
     // Make initial request
     const url: string = this.baseURL + queryParams;
@@ -266,6 +285,6 @@ export class AssociateService {
       (data: Associate[]) => this.currentAssociateSnapshot$.next(data),
       error => this.currentAssociateSnapshot$.error(error)
     );
-    return this.currentAssociateSnapshot$;    
+    return this.currentAssociateSnapshot$;
   }
 }

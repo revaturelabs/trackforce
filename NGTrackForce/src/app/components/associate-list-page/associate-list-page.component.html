@@ -5,6 +5,12 @@
         <form>
           <!-- Filter Options -->
           <div class="form-row">
+              <div class="form-group col-md-4 offset-md-1">
+                  <label for="exampleFormControlSelect1">Filter by Text</label>
+                  <input  type="text" class="form-control" id="exampleFormControlSelect1" [(ngModel)]="filterByText" name="filterByText" />
+                </div>
+          </div>
+          <div class="form-row">
             <div class="form-group col-md-4 offset-md-1">
               <label for="exampleFormControlSelect1">Status</label>
               <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="filterByStatus" name="filterByStatus">
@@ -49,20 +55,20 @@
             <th>Associate Details</th>
         </thead>
         <tbody>
-          <tr *ngIf="listOfAssociates.length === 0">
-            <td colspan="7" class="center">
-              <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-            </td>
-          </tr>
           <tr (click)="getAssociateDetails($event, associate)" [ngClass]="{ selected: currentAssociatesSelected.has(associate.id) }" style="cursor: pointer;" *ngFor="let associate of listOfAssociates">
             <td>{{(associate.firstName) ? associate.firstName : ''}}</td>
             <td>{{(associate.lastName) ? associate.lastName : ''}}</td>
             <td>{{(associate.marketingStatus) ? associate.marketingStatus.name : ''}}</td>
             <td>{{(associate.client) ? associate.client.name : ''}}</td>
-            <td>{{(associate.batch) ? associate.batch.batchName : ''}}</td>
+            <td><a (click)="stopProp($event)" *ngIf="associate.batch"  href="#/batch-details/{{associate.batch.id}}">{{(associate.batch) ? associate.batch.batchName : ''}}</a></td>
             <td>{{(associate.user.isApproved === 1) ? "Approved" : ((associate.user.isApproved === 2) ?  "Denied"  : "Pending Approval")}}</td>
             <td><a href="#/form-comp/{{associate.id}}"><i (click)="navigate($event, associate.id)" class="fa fa-external-link-square link-size"></i></a></td>
           </tr>
+          <tr *ngIf="isFetching">
+              <td colspan="7" class="center">
+                <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+              </td>
+            </tr>
         </tbody>
       </table>
     </div>

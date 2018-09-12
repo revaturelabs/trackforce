@@ -29,13 +29,29 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
 
   protected filterByStatus = "";
   protected filterByClient = "";
+  protected filterByText = "";
 
   protected associates$: BehaviorSubject<Associate[]>;
   protected listOfAssociates: Associate[] = [];
   private isFetching = true;
   protected currentAssociatesSelected: Set<number> = new Set<number>();
 
-  constructor(private clientService: ClientService, private associateService: AssociateService, public dialog: MatDialog) { }
+  public statusToId = {
+    "MAPPED: TRAINING": 1,
+    "MAPPED: RESERVED": 2,
+    "MAPPED: SELECTED": 3,
+    "MAPPED: CONFIRMED": 4,
+    "MAPPED: DEPLOYED": 5,
+    "UNMAPPED: TRAINING": 6,
+    "UNMAPPED: OPEN": 7,
+    "UNMAPPED: SELECTED": 8,
+    "UNMAPPED: CONFIRMED": 9,
+    "UNMAPPED: DEPLOYED": 10,
+    "DIRECTLY PLACED": 11,
+    "TERMINATED": 12
+  }
+
+  constructor(private clientService: ClientService, public associateService: AssociateService, public dialog: MatDialog) { }
 
   ngOnInit() {
     /**
@@ -71,8 +87,6 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
       this.isFetching = false;
       if (Array.isArray(data) && data.length !== 0) {
         this.listOfAssociates = this.listOfAssociates.concat(data);
-      } else {
-        console.log('Done with Data')
       }
     });
   }
@@ -90,11 +104,6 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   onScroll(event: Event) {
-    
-    // console.log(this.scrollingTable.scrollHeight)
-    // console.log(this.scrollingTable.scrollTop + this.scrollingTable.clientHeight)
-    
-
     if (this.scrollingTable.scrollHeight - this.scrollingTable.scrollTop + this.scrollingTable.clientHeight <= 5000) {
       this.getNextPage();
     }
@@ -108,16 +117,26 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     }
 
     if (this.filterByStatus) {
-      filter["status"] = this.associateStatuses.findIndex((value) => value === this.filterByStatus)
+      filter["status"] = this.statusToId[this.filterByStatus.toUpperCase()];
     }
 
-    this.associateService.fetchAssociateSnapshot(20, filter);
+    if (this.filterByText) {
+      filter["sortText"] = this.filterByText;
+    }
+
+    this.isFetching = true;
+    this.associateService.fetchAssociateSnapshot(60, filter);
     this.listOfAssociates = [];
   }
 
   clearFilter(): void {
     this.filterByStatus = "";
     this.filterByClient = "";
+    this.filterByText = "";
+  }
+
+  stopProp(e) {
+    e.stopPropagation();
   }
 
   getAssociateDetails(click: Event, associate: Associate): void {
@@ -127,13 +146,10 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     } else {
       this.currentAssociatesSelected.delete(associate.id);
     }
-    console.log(this.currentAssociatesSelected);
-    
   }
 
   getNextPage() {
     if (!this.isFetching) {
-      console.log("FIRE");
       this.isFetching = true;
       this.associateService.fetchNextSnapshot();
     }
@@ -154,7 +170,6 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
 
   navigate(event, id) {
     event.stopPropagation();
-    console.log(id);
   }
 }
 
@@ -183,17 +198,12 @@ export class UpdateDialogComponent {
     "DIRECTLY PLACED": 11,
     "TERMINATED": 12
   }
- 
+
   constructor(private associateService: AssociateService,
     public dialogRef: MatDialogRef<UpdateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {console.log(data)}
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   submit() {
-    console.log(this.verification)
-    console.log(this.client);
-    console.log(this.data.statuses);
-    console.log(this.status);
-
     this.associateService
       .updateAssociates(
         Array.from(this.data.selected),

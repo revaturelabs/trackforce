@@ -84,8 +84,8 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     this.associates$ = this.associateService.fetchAssociateSnapshot(60, {});
 
     this.associates$.subscribe((data: Associate[]) => {
-      this.isFetching = false;
       if (Array.isArray(data) && data.length !== 0) {
+        this.isFetching = false;
         this.listOfAssociates = this.listOfAssociates.concat(data);
       }
     });

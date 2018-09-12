@@ -64,7 +64,7 @@
             <td>{{(associate.user.isApproved === 1) ? "Approved" : ((associate.user.isApproved === 2) ?  "Denied"  : "Pending Approval")}}</td>
             <td><a href="#/form-comp/{{associate.id}}"><i (click)="navigate($event, associate.id)" class="fa fa-external-link-square link-size"></i></a></td>
           </tr>
-          <tr *ngIf="isFetching">
+          <tr *ngIf="isFetching && !associateService.hasReceivedEndForCurrentFilter">
               <td colspan="7" class="center">
                 <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
               </td>

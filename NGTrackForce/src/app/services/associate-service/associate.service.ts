@@ -56,7 +56,7 @@ export class AssociateService {
   private currentClientFilter = "";
   private currentStatusFilter = "";
   private currentTextFilter = "";
-  public hasReceivedEndForCurrentFilter = true;
+  public hasReceivedEndForCurrentFilter = false;
 
   // TODO: Decide if empty strings is better or if a loading message should be put here
   // TODO: Why is there a get by user and get by associate this is two different models on backend
@@ -282,7 +282,12 @@ export class AssociateService {
     // Make initial request
     const url: string = this.baseURL + queryParams;
     this.http.get<Associate[]>(url).subscribe(
-      (data: Associate[]) => this.currentAssociateSnapshot$.next(data),
+      (data: Associate[]) => {
+        if (!data) {
+          this.hasReceivedEndForCurrentFilter = true;
+        }
+        this.currentAssociateSnapshot$.next(data)
+      },
       error => this.currentAssociateSnapshot$.error(error)
     );
     return this.currentAssociateSnapshot$;

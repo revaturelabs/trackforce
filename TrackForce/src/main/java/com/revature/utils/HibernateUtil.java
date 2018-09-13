@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -16,7 +17,10 @@ public class HibernateUtil {
 	private static ThreadUtil threadUtil = new ThreadUtil();
 
 	private static SessionFactory sessionFactory = buildSessionFactory();
-
+	
+	//Used to lock asccess to the database while reloading default data
+	private static boolean lockDatabase = false;
+	
 	private static Sessional<Boolean> detachedUpdate = (Session session, Object... args) -> {
 		session.update(args[0]);
 		return true;
@@ -45,7 +49,16 @@ public class HibernateUtil {
 		} finally { addShutdown(); }
 	}
 
-	public static SessionFactory getSessionFactory() {
+	/**
+	 * Get the session factory. Synchronized to prevent multiple SessionFactory objects
+	 * from being created if called from multiple threads. 
+	 * @return The SessionFactory object
+	 * @throws HibernateException if the database has been locked or the SessionFactory faild to build
+	 */
+	public static synchronized SessionFactory getSessionFactory() {
+		if (lockDatabase)
+			throw new HibernateException("Database reinitializing, access denied");
+		
 		if(sessionFactory == null) {
 			sessionFactory = buildSessionFactory();
 		}
@@ -54,7 +67,8 @@ public class HibernateUtil {
 
 	public static void shutdown() {
 		logger.info("Shutting down SessionFactory");
-		getSessionFactory().close();
+		if (sessionFactory != null && sessionFactory.isOpen())
+			sessionFactory.close();
 		logger.info("SessionFactory closed");
 	}
 
@@ -70,6 +84,23 @@ public class HibernateUtil {
 			transaction.rollback();
 			logger.warn("Transaction rolled back");
 		}
+	}
+	
+	/**
+	 * Set a flag that determines if the database is locked
+	 * Specifically, if locked the getSessionFactory() method will throw a HibernateException
+	 * @param locked Should the database be locked?
+	 */
+	public static void setDatabaseLock(boolean locked) {
+		lockDatabase = locked;
+	}
+	
+	/**
+	 * Determine if the database is locked and can not be accessed
+	 * @return true if the database is locked, false otherwise
+	 */
+	public static boolean isDatabaseLocked() {
+		return lockDatabase;
 	}
 
 	// The code above this line to the top of the package is basically an exact copy

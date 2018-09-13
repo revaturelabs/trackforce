@@ -1,9 +1,61 @@
 package com.revature.utils;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import org.hibernate.HibernateException;
+import org.hibernate.stat.Statistics;
+
 /** This implementation is used to reset the database with 
  * proper variables so testing and modifications can be made.
  * @author Josh Pressley ,Chris Siu - 1807 */
 public class DbResetUtil {
+	
+	//Open sessions have this long to finish once a database reset is initiated
+	public static final long SESSION_RESET_TIMEOUT_MILLS = 30000;
+	
+	/**
+	 * Remove all transactional data and reinitialize the database to a known working state
+	 * This method will do the following in order:
+	 * 1. Prevent future access to the SessionFactory; any call to getSessionFactory() will receive a HibernateException
+	 * 2. Determine if any Session objects are still open - any open Sessions will be given SESSION_RESET_TIMEOUT_MILLS to finish
+	 * 3. Close the SessionFactory invalidating any open session and evicting all cache
+	 * 4. Run the database reinitialize script
+	 * 5. Unlock getSessionFactory()
+	 * 6. Get an instance of SessionFactory to ensure it starts properly
+	 * @throws IOException if the reinitialize script can no be opened
+	 * @throws SQLException if the script does not execute successfuly 
+	 */
+	public static void resetDatabase() throws IOException, SQLException {
+		Statistics stats = HibernateUtil.getSessionFactory().getStatistics();
+		HibernateUtil.setDatabaseLock(true);
+		long openSessions = stats.getSessionOpenCount() - stats.getSessionCloseCount();
+
+		//If openSessions > 0 then there are sessions currently open, give them some time to finish
+		if (openSessions > 0) {
+			System.out.println("resetDatabase() called with open session count == " + openSessions + ", " + SESSION_RESET_TIMEOUT_MILLS + " mills timeout started");
+			try {
+				Thread.sleep(SESSION_RESET_TIMEOUT_MILLS);
+			} catch (InterruptedException ex) {
+				//Do nothing
+			}
+		}
+		
+		try {
+			HibernateUtil.shutdown();
+			
+			//Execute script
+			
+			HibernateUtil.setDatabaseLock(false);
+			HibernateUtil.getSessionFactory();
+		} catch (HibernateException he) {
+			throw he; //FIXME what should I do with this?
+		} finally {
+			//No matter what happens, make sure the database is unlocked before leaving
+			HibernateUtil.setDatabaseLock(false);
+		}
+	}
+	
 	
 	/* The method implementations below both have issues with the script file.
 	 * Method 1:
@@ -19,9 +71,9 @@ public class DbResetUtil {
 	 * Best of luck -1807 */
 	
 	//Dummy method for functionalities sake.
-	public static boolean resetDatabase() { 
-		return true;
-	}
+//	public static void resetDatabase() throws IOException, SQLException { 
+//		
+//	}
 	
 	/** Calls the sql script that resets the DB
 	* Hibernate reformatting version */
@@ -62,4 +114,7 @@ public class DbResetUtil {
 //		flyway.migrate();
 //		return true;
 //	}
+	
+	
+
 }

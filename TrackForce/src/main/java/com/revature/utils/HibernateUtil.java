@@ -69,6 +69,8 @@ public class HibernateUtil {
 		logger.info("Shutting down SessionFactory");
 		if (sessionFactory != null && sessionFactory.isOpen())
 			sessionFactory.close();
+		
+		sessionFactory = null;
 		logger.info("SessionFactory closed");
 	}
 
@@ -91,7 +93,7 @@ public class HibernateUtil {
 	 * Specifically, if locked the getSessionFactory() method will throw a HibernateException
 	 * @param locked Should the database be locked?
 	 */
-	public static void setDatabaseLock(boolean locked) {
+	public static void setDatabaseLocked(boolean locked) {
 		lockDatabase = locked;
 	}
 	

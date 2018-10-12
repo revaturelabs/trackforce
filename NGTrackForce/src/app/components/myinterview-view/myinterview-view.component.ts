@@ -46,8 +46,10 @@ export class MyInterviewComponent implements OnInit {
   public openDateNotified: boolean;
   public openInterviewDate: boolean;
   public conflictingInterview: boolean;
-  public isDataReady: boolean = false;
+  public isDataReady = false;
   public dateError:boolean;
+  public updateSuccess = false;
+
   index;
   index2;
 
@@ -129,11 +131,10 @@ export class MyInterviewComponent implements OnInit {
           new Date(this.interviewAssigned).getTime(),
           new Date(this.interviewAssigned).getTime().toString()
         );
-
         this.interviewService
           .createInterview(this.newInterview, this.associate.id)
           .subscribe(res => {
-            location.reload();
+            location.reload(false);
           });
       }
   }
@@ -149,7 +150,8 @@ export class MyInterviewComponent implements OnInit {
           interview.dateAssociateIssued
         ).getTime();
         this.interviewService.updateInterview(interview).subscribe(res => {
-          location.reload();
+          this.updateSuccess=true;
+          location.reload(false);
         });
     }
   }

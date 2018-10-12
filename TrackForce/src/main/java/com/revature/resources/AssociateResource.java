@@ -249,8 +249,8 @@ public class AssociateResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Batch update associates", notes = "Updates the marketing status and/or the client of one or more associates")
 	public Response updateAssociates(@HeaderParam("Authorization") String token,
-			@DefaultValue("0") @ApiParam(value = "marketingStatusId") @QueryParam("marketingStatusId") Integer marketingStatusId,
-			@DefaultValue("0") @ApiParam(value = "clientId") @QueryParam("clientId") Integer clientId,
+			@DefaultValue("-1") @ApiParam(value = "marketingStatusId") @QueryParam("marketingStatusId") Integer marketingStatusId,
+			@DefaultValue("-1") @ApiParam(value = "clientId") @QueryParam("clientId") Integer clientId,
 			@DefaultValue("-1") @ApiParam(value = "verification") @QueryParam("verification") Integer isApproved,
 			List<Integer> ids) {
 		logger.info("updateAssociates()...");
@@ -262,10 +262,10 @@ public class AssociateResource {
 		TfAssociate toBeUpdated = null;
 		for (int associateId : ids) {
 			toBeUpdated = associateService.getAssociate(associateId);
-			if (marketingStatusId != 0) {
+			if (marketingStatusId >= 0) {
 				toBeUpdated.setMarketingStatus(marketingStatusService.getMarketingStatusById(marketingStatusId));
 			}
-			if (clientId != 0) {
+			if (clientId >= 0) {
 				toBeUpdated.setClient(clientService.getClient(clientId));
 			}
 			if (isApproved >= 0) {
@@ -347,5 +347,54 @@ public class AssociateResource {
 	@Path("/nass/")
 	public Response getNAssociates() {
 		return Response.status(200).entity(associateService.getNAssociates()).build();
+	}
+	
+	
+	/**
+	 * Get a single "page" of associates. Previous iterations retrieved all of the associates at once;
+	 * this was a major performance chokepoint. This method will return only the associates requested.
+	 * This method can filter the results by their marketing status id, or client.
+	 * @param startIndex The index of the first employee to return. Note that the order of the results is solely dependant
+	 * on how they are returned from the DAO.
+	 * @param numResults The number of records that should be returned, or all if the actual number is less than numResults
+	 * @param mStatusId Filter the results by this marketing status id. The default, -1, indicates to not use this filter
+	 * @param clientId Filter the results by this client id. The default, -1, indicates to not use this filter
+	 * @param token The authentication token obtained when logging in. User role '5' (Associate) will be rejected
+	 * @return A json encoded list of type TfAssociate
+	 */
+	@GET
+	@Path("/page")
+	public Response getAssociatePage(
+			@DefaultValue("0") @QueryParam("startIndex") Integer startIndex,
+			@DefaultValue("50") @QueryParam("numResults") Integer numResults,
+			@DefaultValue("-1") @QueryParam("mStatusId") Integer mStatusId,
+			@DefaultValue("-1") @QueryParam("clientId") Integer clientId,
+			@DefaultValue("") @QueryParam("sortText") String sortText,
+			@HeaderParam("Authorization") String token) 
+	
+	{		
+		logger.info("getAssociatePage(" + startIndex + ", " + numResults + ", " + mStatusId + ", " + clientId + ", " + sortText +")");
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+
+		//Check token
+		if (payload == null || payload.getId().equals("5")) {
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} 
+		
+		List<TfAssociate> associates;
+		try {
+			 associates = associateService.getAssociatePage(startIndex, numResults, mStatusId, clientId, sortText);
+		} catch (IllegalArgumentException iae) {
+			return Response.status(Status.BAD_REQUEST).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+
+		//If no results, return 204 and null ; otherwise 200 and the list 
+		status = associates == null ? Status.NO_CONTENT : Status.OK;
+
+		return Response.status(status).entity(associates).build();
 	}
 }

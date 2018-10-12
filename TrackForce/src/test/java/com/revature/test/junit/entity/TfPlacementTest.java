@@ -32,53 +32,68 @@ public class TfPlacementTest {
 	TfPlacement tfplacement = new TfPlacement();
 
 	@Test
-	public void test1() {
+	public void testPlacementAssociateGetSet() {
 		tfplacement.setAssociate(new TfAssociate());
 		assertTrue(tfplacement.getAssociate() instanceof TfAssociate);
 	}
 
 	@Test
-	public void test2() {
+	public void testPlacementClientGetSet() {
 		tfplacement.setClient(new TfClient());
 		assertTrue(tfplacement.getClient() instanceof TfClient);
 	}
 
 	@Test
-	public void test3() {
+	public void testPlacementEndClientGetSet() {
 		tfplacement.setEndClient(new TfEndClient());
 		assertTrue(tfplacement.getEndClient() instanceof TfEndClient);
 	}
 
 	@Test
-	public void test4() {
+	public void testPlacementEndGetSet() {
 		tfplacement.setEnd(new Timestamp(1000L));
 		assertTrue(tfplacement.getEnd().getTime() == 1000L);
 		assertFalse(tfplacement.getEnd().getTime() == 2000L);
 	}
 
 	@Test
-	public void test5() {
+	public void testPlacementIDGetSet() {
 		tfplacement.setId(99);
 		assertTrue(tfplacement.getId() == 99);
 		assertFalse(tfplacement.getId() == 1234);
 	}
 
 	@Test
-	public void test6() {
+	public void testPlacementStartGetSet() {
 		tfplacement.setStart(new Timestamp(1000L));
 		assertTrue(tfplacement.getStart().getTime() == 1000L);
 		assertFalse(tfplacement.getStart().getTime() == 2000L);
 	}
+	
+	//Have to hard code SerialID for now as it is private static,
+	//always verify this is using the correct SerialID as defined
+	//in the TfPlacement.java file
+	@Test
+	public void testPlacementSerialIDGet() {
+		long sid = 6812378121809201089L;
+		assertTrue(TfPlacement.getSerialversionuid() == sid);
+	}
 
 	@Test
-	public void test7() {
+	public void testPlacementEquivalence() {
 		assertTrue(tfplacement1.equals(tfplacement2));
 		assertFalse(tfplacement1.equals(new TfPlacement()));
 	}
 
 	@Test
-	public void test8() {
+	public void testPlacementHashCode() {
 		assertEquals(tfplacement1.hashCode(), tfplacement2.hashCode());
 		assertNotEquals(tfplacement1.hashCode(), new TfPlacement().hashCode());
+	}
+	
+	@Test
+	public void testPlacementToString() {
+		assertEquals(tfplacement1.toString(), tfplacement2.toString());
+		assertNotEquals(tfplacement.toString(), tfplacement1.toString());
 	}
 }

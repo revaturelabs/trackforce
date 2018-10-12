@@ -10,7 +10,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {HomeComponent} from '../home/home.component';
 import {ClientMappedComponent} from '../client-mapped/client-mapped.component';
-import {AssociateListComponent} from '../associate-list/associate-list.component';
 import {LoginComponent} from '../login/login.component';
 import {ClientListComponent} from '../client-list/client-list.component';
 import {CreateUserComponent} from '../create-user/create-user.component';
@@ -139,7 +138,6 @@ describe('BatchListComponent', async () => {
         HomeComponent,
         ClientMappedComponent,
         ClientListComponent,
-        AssociateListComponent,
         LoginComponent,
         CreateUserComponent,
         SearchFilterPipe,

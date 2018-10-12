@@ -194,4 +194,22 @@ export class CreateUserPo {
             return '';
         }
     }
+
+    private getSubmitButton(){
+      return element(by.xpath('/html/body/app-component/div/app-create-user/form/button'));
+    }
+
+    clickSubmitButton(){
+      this.getSubmitButton().click();
+    }
+
+    getAlert(){
+      return element(by.css('body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div'));
+    }
+    getUserNameAlert(){
+      return element(by.xpath('//*[@id="error-username"]'));
+    }
+    refresh(){
+      return browser.refresh();
+    }
 }

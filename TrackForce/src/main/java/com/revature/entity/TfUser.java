@@ -1,38 +1,25 @@
 package com.revature.entity;
-
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 
 @XmlRootElement
 @Cacheable
 @Entity
-@Table(
-		name = "TF_USER", 
-		schema="ADMIN"
-//		uniqueConstraints= @UniqueConstraint(columnNames= {"TF_USERNAME"})
-)
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
+@Table(name = "TF_USER", schema="ADMIN")
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfUser implements java.io.Serializable {
 
     private static final long serialVersionUID = 706405344864879997L;
-    
 	public static final int APPROVED = 1;
 	public static final int NOTAPPROVED = 0;
     
     @XmlElement
     @Id
     @Column(name = "TF_USER_ID")
-    /* ID's 1-14 are reserved for manual insertion */
-    @SequenceGenerator(sequenceName = "UserId_seq", name = "UserIdSeq", initialValue=15)
-    @GeneratedValue(generator = "UserIdSeq", strategy = GenerationType.SEQUENCE)
     private int id;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -52,7 +39,6 @@ public class TfUser implements java.io.Serializable {
     @Column(name = "TF_ISAPPROVED")
     private int isApproved;
     
- // This is just used for passing around the string token while logged in - Adam 06.18.06.13
     @XmlElement
     @Transient
     private String token;
@@ -64,7 +50,6 @@ public class TfUser implements java.io.Serializable {
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -73,7 +58,6 @@ public class TfUser implements java.io.Serializable {
 	public TfRole getTfRole() {
 		return TfRole;
 	}
-
 	@JsonIgnore
 	public void setTfRole(TfRole tfRole) {
 		TfRole = tfRole;
@@ -82,7 +66,6 @@ public class TfUser implements java.io.Serializable {
 	public String getUsername() {
 		return username;
 	}
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -91,7 +74,6 @@ public class TfUser implements java.io.Serializable {
 	public String getPassword() {
 		return password;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -99,7 +81,6 @@ public class TfUser implements java.io.Serializable {
 	public int getIsApproved() {
 		return isApproved;
 	}
-
 	public void setIsApproved(int isApproved) {
 		this.isApproved = isApproved;
 	}
@@ -107,7 +88,6 @@ public class TfUser implements java.io.Serializable {
 	public String getToken() {
 		return token;
 	}
-
 	public void setToken(String token) {
 		this.token = token;
 	}
@@ -115,7 +95,6 @@ public class TfUser implements java.io.Serializable {
 	public Integer getRole() {
 		return role;
 	}
-
 	public void setRole(Integer role) {
 		this.role = role;
 	}
@@ -136,9 +115,8 @@ public class TfUser implements java.io.Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			System.out.println(this.toString() + "and" + obj.toString());
-			return true;}
+		if (this == obj)
+			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
@@ -147,8 +125,9 @@ public class TfUser implements java.io.Serializable {
 		if (TfRole == null) {
 			if (other.TfRole != null)
 				return false;
-		} else if (!TfRole.equals(other.TfRole))
+		} else if (!TfRole.equals(other.TfRole)) {
 			return false;
+		}
 		if (id != other.id)
 			return false;
 		if (isApproved != other.isApproved)
@@ -156,21 +135,25 @@ public class TfUser implements java.io.Serializable {
 		if (password == null) {
 			if (other.password != null)
 				return false;
-		} else if (!password.equals(other.password))
+		} else if (!password.equals(other.password)) {
 			return false;
+		}
+		
 		if (role != other.role)
 			return false;
 		if (token == null) {
 			if (other.token != null)
 				return false;
-		} else if (!token.equals(other.token))
+		} else if (!token.equals(other.token)) {
 			return false;
+		}
+		
 		if (username == null) {
 			if (other.username != null)
 				return false;
-		} else if (!username.equals(other.username))
+		} else if (!username.equals(other.username)) {
 			return false;
-		System.out.println("You Passed!");
+		}
 		return true;
 	}
 
@@ -179,8 +162,4 @@ public class TfUser implements java.io.Serializable {
 		return "TfUser [id=" + id + ", username=" + username + ", password=" + password + ", isApproved=" + isApproved
 				+ ", token=" + token + ", role=" + role + "]";
 	}
-
-    
-    
-    
 }

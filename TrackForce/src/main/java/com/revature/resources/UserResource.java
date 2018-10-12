@@ -284,16 +284,16 @@ public class UserResource {
 		try {
 			user = userService.submitCredentials(loginUser);
 			logger.info("	user: " + user);
-		} catch (NoResultException nre) {
-			logger.error(nre);
-			return Response.status(Status.FORBIDDEN).build();
+		} catch (NoResultException | NullPointerException ex) {
+			logger.error(ex);
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		if (user != null) {
 			logger.info("sending 200 response..");
 			return Response.status(Status.OK).entity(user).build();
 		} else {
-			logger.info("sending 200 response with null user data");
-			return Response.status(Status.OK).entity(null).build();
+			logger.info("sending 401 response with null user data");
+			return Response.status(Status.UNAUTHORIZED).entity(null).build();
 		}
 	}
 	

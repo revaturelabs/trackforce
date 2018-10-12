@@ -3,17 +3,25 @@ canvas {
   width: 100%;
 }
 
-form {
+/* form {
   text-align: center;
   margin-bottom: 50px;
-}
+} */
+/* thead{
+background: linear-gradient(21deg, #10abff, #1beabd);
+} */
 
-thead, tbody {
+/* previous: thead,tbody */
+
+ tbody {
   display: block;
   overflow-y: scroll;
+  margin-right: -25px;
+  /* padding-right: 0px; */
 }
 tbody {
   max-height: 500px;
+  background-color: white;
 }
 
 .data-status {
@@ -75,4 +83,24 @@ img{
 
 .max-width {
   display: flex;
+}
+
+table{
+  border-radius: 0px;
+  overflow: hidden;
+  box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
+}
+
+tbody > tr {
+  cursor: pointer;
+  opacity: 1.0;
+  transition: opacity .2s ease-in-out;
+}
+
+tbody > tr:hover {
+  opacity: 1.0;
+}
+
+tbody:hover > tr:not(:hover) {
+  opacity: 0.5;
 }

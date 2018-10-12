@@ -9,9 +9,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.Ignore;
 import org.junit.Test;
+//import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import com.revature.utils.HibernateUtil;
 
+//@PrepareForTest(HibernateUtil.class)
 public class HibernateUtilTest {
 
 	@Test

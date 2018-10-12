@@ -1,9 +1,6 @@
 package com.revature.entity;
-// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
-
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,22 +9,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-/**
- * <p> </p>
- * @version v6.18.06.13
- */
+/** @version v6.18.06.13 */
 @XmlRootElement
 @Entity
 @Table(name = "TF_INTERVIEW_TYPE", schema = "ADMIN")
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
-//Logans attempt at getting ehcache working below
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfInterviewType implements java.io.Serializable {
 
@@ -44,7 +33,7 @@ public class TfInterviewType implements java.io.Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "interviewType")
 	@JsonIgnore
-	private Set<TfInterview> interviews = new HashSet<TfInterview>(0);
+	private Set<TfInterview> interviews = new HashSet<>(0);
 
 	public TfInterviewType() {
 	}
@@ -59,7 +48,6 @@ public class TfInterviewType implements java.io.Serializable {
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -67,7 +55,6 @@ public class TfInterviewType implements java.io.Serializable {
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -76,7 +63,6 @@ public class TfInterviewType implements java.io.Serializable {
 	public Set<TfInterview> getInterviews() {
 		return interviews;
 	}
-
 	@JsonIgnore
 	public void setInterviews(Set<TfInterview> interviews) {
 		this.interviews = interviews;
@@ -108,18 +94,23 @@ public class TfInterviewType implements java.io.Serializable {
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
+		
 		if (interviews == null) {
 			if (other.interviews != null)
 				return false;
-		} else if (!interviews.equals(other.interviews))
+		} else if (!interviews.equals(other.interviews)) {
 			return false;
+		}
+			
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!name.equals(other.name)) {
 			return false;
+		}
 		return true;
 	}
 
@@ -127,6 +118,4 @@ public class TfInterviewType implements java.io.Serializable {
 	public String toString() {
 		return "TfInterviewType [id=" + id + ", name=" + name + "]";
 	}
-
-	
 }

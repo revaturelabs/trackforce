@@ -1,10 +1,6 @@
 package com.revature.entity;
-// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
-
-
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,22 +9,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-/**
- * <p> </p>
- * @version v6.18.06.13
- */
+/**@version v6.18.06.13 */
 @XmlRootElement
 @Entity
 @Table(name = "TF_CURRICULUM", schema = "ADMIN")
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
-//Logans attempt at getting ehcache working below
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfCurriculum implements java.io.Serializable {
 
@@ -46,8 +34,11 @@ public class TfCurriculum implements java.io.Serializable {
 	@JsonIgnore
 	@XmlElement
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curriculumName")
-	private Set<TfBatch> batches = new HashSet<TfBatch>(0);
+	private Set<TfBatch> batches = new HashSet<>(0);
 
+	public TfCurriculum() {
+		super();
+	}
 	
 	public TfCurriculum(Integer id, String name, Set<TfBatch> batches) {
 		super();
@@ -56,13 +47,9 @@ public class TfCurriculum implements java.io.Serializable {
 		this.batches = batches;
 	}
 
-	public TfCurriculum() {
-	}
-
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -70,7 +57,6 @@ public class TfCurriculum implements java.io.Serializable {
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -79,7 +65,6 @@ public class TfCurriculum implements java.io.Serializable {
 	public Set<TfBatch> getBatches() {
 		return batches;
 	}
-
 	@JsonIgnore
 	public void setBatches(Set<TfBatch> batches) {
 		this.batches = batches;
@@ -117,20 +102,21 @@ public class TfCurriculum implements java.io.Serializable {
 		if (batches == null) {
 			if (other.batches != null)
 				return false;
-		} else if (!batches.equals(other.batches))
+		} else if (!batches.equals(other.batches)) {
 			return false;
+		}
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!name.equals(other.name)) {
 			return false;
+		}
 		return true;
 	}
-
-	
 }

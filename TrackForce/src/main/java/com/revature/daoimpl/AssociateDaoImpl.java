@@ -2,6 +2,7 @@ package com.revature.daoimpl;
 import static com.revature.utils.HibernateUtil.runHibernateTransaction;
 import static com.revature.utils.HibernateUtil.saveToDB;
 import java.util.List;
+
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -9,8 +10,12 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
+
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.openqa.selenium.InvalidArgumentException;
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
@@ -131,6 +136,38 @@ public class AssociateDaoImpl implements AssociateDao {
 				.createQuery("from TfAssociate", TfAssociate.class)
 				.setMaxResults(60).setCacheable(true).getResultList());
 	}
+
+	/** getAllCounts returns a List of Longs, representing the number of associates
+	 * for each status code, in the following order:
+	 * 1. Mapped: Training
+	 * 2. Mapped: Reserved
+	 * 3. Mapped: Selected
+	 * 4. Mapped: Confirmed
+	 * 5. Mapped: Deployed
+	 * 6. Unmapped: Training
+	 * 7. Unmapped: Open
+	 * 8. Unmapped: Selected
+	 * 9. Unmapped: Confirmed
+	 * 10. Unmapped: Deployed
+	 * 11. Directly Placed
+	 * 12. Terminated
+	 */
+//	@SuppressWarnings({ "unchecked", "deprecation" })
+//	public List<Object> getAllCounts(){
+//		try {
+//			List<Object> list = (List<Object>) HibernateUtil.getSessionFactory().openSession().createCriteria(TfAssociate.class)
+//					.setProjection(Projections.projectionList().add(Projections.count(MKTSTS)))
+//					.addOrder(Order.asc(MKTSTS)).list();
+//			for(Object obj : list) {
+//				System.out.println(((Long) obj).longValue());
+//			}
+//			return list;
+//
+//		} catch( Exception e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 	
 	/** getCount uses CriteriaQuery and a switch statement to return count which 
 	 *  matches the marketingStatus. Special query for cases 11 and 12.
@@ -142,6 +179,8 @@ public class AssociateDaoImpl implements AssociateDao {
 	private Object getCount(int tfmsid) {
 		Session session = null;
 		Object count = null;
+//		getAllCounts();
+		
 		 
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();

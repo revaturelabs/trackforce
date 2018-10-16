@@ -80,9 +80,13 @@ public class UserResource {
 	@POST
 	@Consumes("application/json")
 	@ApiOperation(value = "Creates new user", notes = "")
-	public Response createUser(TfUserAndCreatorRoleContainer container) {
+	public Response createUser(TfUserAndCreatorRoleContainer container, @HeaderParam("Authorization") String token) {
+		Claims payload = JWTService.processToken(token);
+
+//		if (payload == null || payload.getId().equals("5")) 
+//			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		TfUser newUser = container.getUser();
-		int creatorRole = container.getCreatorRole();
+		int creatorRole = Integer.parseInt(payload.getId());
 		logger.info("creating new user..." + newUser);
 		
 		// any user created by an admin is approved

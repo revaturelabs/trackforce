@@ -1,4 +1,5 @@
 package com.revature.dao;
+import java.util.HashMap;
 import java.util.List;
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.TfAssociate;
@@ -11,6 +12,8 @@ public interface AssociateDao {
 	List<TfAssociate> getAllAssociates();
 	
 	List<TfAssociate> getNAssociates();
+	
+	HashMap<String,Integer> getStatusCountsMap();
 	
 	Object getCountUndeployedMapped();
 	

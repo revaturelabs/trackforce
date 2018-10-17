@@ -1,6 +1,8 @@
 package com.revature.daoimpl;
 import static com.revature.utils.HibernateUtil.runHibernateTransaction;
 import static com.revature.utils.HibernateUtil.saveToDB;
+
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -16,7 +18,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.transform.Transformers;
 import org.openqa.selenium.InvalidArgumentException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.entity.TfAssociate;
@@ -137,9 +143,9 @@ public class AssociateDaoImpl implements AssociateDao {
 				.setMaxResults(60).setCacheable(true).getResultList());
 	}
 
-	/** getAllCounts returns a List of Longs, representing the number of associates
-	 * for each status code, in the following order:
-	 * 1. Mapped: Training
+	/** getAllStatusCounts returns a HashMap of Integer keys with Long values, representing the number of associates
+	 * for each status code:
+	 * 1. Mapped: Training (name is null in the database)
 	 * 2. Mapped: Reserved
 	 * 3. Mapped: Selected
 	 * 4. Mapped: Confirmed
@@ -153,21 +159,45 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * 12. Terminated
 	 */
 //	@SuppressWarnings({ "unchecked", "deprecation" })
-//	public List<Object> getAllCounts(){
-//		try {
-//			List<Object> list = (List<Object>) HibernateUtil.getSessionFactory().openSession().createCriteria(TfAssociate.class)
-//					.setProjection(Projections.projectionList().add(Projections.count(MKTSTS)))
-//					.addOrder(Order.asc(MKTSTS)).list();
-//			for(Object obj : list) {
-//				System.out.println(((Long) obj).longValue());
-//			}
-//			return list;
-//
-//		} catch( Exception e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
+	private HashMap<Integer,Integer> getAllStatusCounts() {
+		List<String> resultList = HibernateUtil.getSessionFactory().openSession().createQuery(
+				"select " +
+				"a.marketingStatus || ',' || " +
+				"count( a.marketingStatus ) " +
+				"from TfAssociate a " +
+				"group by a.marketingStatus " +
+				"order by a.marketingStatus", String.class).getResultList();
+		HashMap<Integer,Integer> resultMap = new HashMap<Integer,Integer>();
+		for (String result : resultList) {
+			String[] split = result.split(",");
+			resultMap.put(Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+		}
+		if (resultMap.size() < 12) for (int i = 1; i < 13; i++) resultMap.putIfAbsent(i, 0);
+		return resultMap;
+	}
+	
+	/** Sorts the values retrieved from getAllStatusCounts into the order that the Resource uses them,
+	 * and converts it to a HashMap with a String key instead
+	 * 
+	 */
+	
+	public HashMap<String,Integer> getStatusCountsMap(){
+		HashMap<Integer,Integer> rawMap = getAllStatusCounts();
+		HashMap<String,Integer> stringMap = new HashMap<String,Integer>();
+		stringMap.put("Undeployed Mapped", rawMap.get(1)+rawMap.get(2)+rawMap.get(3)+rawMap.get(4));
+		stringMap.put("Undeployed Unmapped", rawMap.get(6)+rawMap.get(7)+rawMap.get(8)+rawMap.get(9));
+		stringMap.put("Deployed Mapped", rawMap.get(5));
+		stringMap.put("Deployed Unmapped", rawMap.get(10));
+		stringMap.put("Unmapped Training", rawMap.get(6));
+		stringMap.put("Unmapped Open", rawMap.get(7));
+		stringMap.put("Unmapped Selected", rawMap.get(8));
+		stringMap.put("Unmapped Confirmed", rawMap.get(9));
+		stringMap.put("Mapped Training", rawMap.get(1));
+		stringMap.put("Mapped Reserved", rawMap.get(2));
+		stringMap.put("Mapped Selected", rawMap.get(3));
+		stringMap.put("Mapped Confirmed", rawMap.get(4));
+		return stringMap;
+	}
 	
 	/** getCount uses CriteriaQuery and a switch statement to return count which 
 	 *  matches the marketingStatus. Special query for cases 11 and 12.
@@ -179,9 +209,6 @@ public class AssociateDaoImpl implements AssociateDao {
 	private Object getCount(int tfmsid) {
 		Session session = null;
 		Object count = null;
-//		getAllCounts();
-		
-		 
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -220,73 +247,78 @@ public class AssociateDaoImpl implements AssociateDao {
 	/** Gets count matching this marketing status */
 	@Override
 	public Object getCountUndeployedMapped() {
-		return getCount(11);
+		Integer sum = 0;
+		for (int i = 1; i < 5; i++) sum += getAllStatusCounts().get(i);
+		return (Object) sum;
 	}
 	
 	/** Gets count matching this marketing status */
 	@Override
 	public Object getCountUndeployedUnmapped() {
-		return getCount(12);
+		Integer sum = 0;
+		for (int i = 6; i < 10; i++) sum += getAllStatusCounts().get(i);
+		return (Object) sum;
 	}
 	
 	/** Gets count matching this marketing status */
 	@Override
 	public Object getCountDeployedMapped() {
-		return getCount(5);
+		return getAllStatusCounts().get(5);
+//		return getCount(5);
 	}
 	
 	/** Gets count matching this marketing status */
 	@Override
 	public Object getCountDeployedUnmapped() {
-		return getCount(10);
+		return getAllStatusCounts().get(10);
 	}
 
 	/** Gets count matching this marketing status */
 	@Override
 	public Object getCountUnmappedTraining() {
-		return getCount(6);
+		return getAllStatusCounts().get(6);
 	}
 	
 	/** Gets count matching this marketing status */
 	@Override
 	public Object getCountUnmappedOpen() {
-		return getCount(7);
+		return getAllStatusCounts().get(7);
 	}
 	
 	/** Gets count matching this marketing status */
 	@Override
 	public Object getCountUnmappedSelected() {
-		return getCount(8);
+		return getAllStatusCounts().get(8);
 	}
 	
 	/** Gets count matching this marketing status */
 	@Override
 	public Object getCountUnmappedConfirmed() {
-		return getCount(9);
+		return getAllStatusCounts().get(9);
 	}
 	
 	/** Gets count matching this marketing status */
 	@Override
 	public Object getCountMappedTraining() {
-		return getCount(1);
+		return getAllStatusCounts().get(1);
 	}
 	
 	/** Gets count matching this marketing status */
 	@Override
 	public Object getCountMappedReserved() {
-		return getCount(2);
+		return getAllStatusCounts().get(2);
 	}
 	
 	/** Gets count matching this marketing status */
 	@Override
 	public Object getCountMappedSelected() {
-		return getCount(3);
+		return getAllStatusCounts().get(3);
 	}
 	
 	/** Gets count matching this marketing status */
 	@Override
 	public Object getCountMappedConfirmed() {
-		return getCount(4);
+		return getAllStatusCounts().get(4);
 	}
 
 	@Override

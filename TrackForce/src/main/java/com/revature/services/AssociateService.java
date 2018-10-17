@@ -1,4 +1,6 @@
 package com.revature.services;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
@@ -87,6 +89,10 @@ public class AssociateService {
         } catch (Exception e) {
             throw e;
         }
+    }
+    
+    public HashMap<String,Integer> getStatusCountsMap() {
+    	return dao.getStatusCountsMap();
     }
     
     public Object getCountUndeployedMapped()

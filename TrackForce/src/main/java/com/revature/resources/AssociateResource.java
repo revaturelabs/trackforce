@@ -156,22 +156,6 @@ public class AssociateResource {
 		counts.add(rawCounts.get("Mapped Reserved"));
 		counts.add(rawCounts.get("Mapped Selected"));
 		counts.add(rawCounts.get("Mapped Confirmed"));
-		
-//		counts.add(Integer.parseInt(associateService.getCountUndeployedMapped().toString()));
-//		counts.add(Integer.parseInt(associateService.getCountUndeployedUnmapped().toString()));
-		
-//		counts.add(Integer.parseInt(associateService.getCountDeployedMapped().toString()));
-//		counts.add(Integer.parseInt(associateService.getCountDeployedUnmapped().toString()));
-		
-//		counts.add(Integer.parseInt(associateService.getCountUnmappedTraining().toString()));
-//		counts.add(Integer.parseInt(associateService.getCountUnmappedOpen().toString()));
-//		counts.add(Integer.parseInt(associateService.getCountUnmappedSelected().toString()));
-//		counts.add(Integer.parseInt(associateService.getCountUnmappedConfirmed().toString()));
-//		
-//		counts.add(Integer.parseInt(associateService.getCountMappedTraining().toString()));
-//		counts.add(Integer.parseInt(associateService.getCountMappedReserved().toString()));
-//		counts.add(Integer.parseInt(associateService.getCountMappedSelected().toString()));
-//		counts.add(Integer.parseInt(associateService.getCountMappedConfirmed().toString()));
 	
 		associateCounts.put("counts", counts);
 		return Response.status(status).entity(associateCounts.toString()).build();

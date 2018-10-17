@@ -78,7 +78,8 @@ public class JWTService {
 		SignatureAlgorithm signAlgorithm = SignatureAlgorithm.HS256;
 		Key key = new SecretKeySpec(getSecret(), signAlgorithm.getJcaName());
 
-		JwtBuilder token = Jwts.builder().setSubject(username).setId("" + tfroleid)
+		JwtBuilder token = Jwts.builder().setSubject(username)
+				.claim("roleID" , "" + tfroleid)
 				.setExpiration(generateExpirationDate()).signWith(signAlgorithm, key);
 
 		return token.compact();

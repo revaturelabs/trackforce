@@ -86,7 +86,7 @@ public class UserResource {
 //		if (payload == null || payload.getId().equals("5")) 
 //			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		TfUser newUser = container.getUser();
-		int creatorRole = Integer.parseInt(payload.getId());
+		int creatorRole = Integer.parseInt((String) payload.get("roleID"));
 		logger.info("creating new user..." + newUser);
 		
 		// any user created by an admin is approved
@@ -330,5 +330,19 @@ public class UserResource {
 		//HibernateUtil.runHibernate((Session session, Object ... args) -> session.createNativeQuery("SELECT * FROM dual"));
 		HibernateUtil.getSessionFactory();
 		return Response.status(Status.OK).build();
+	}
+	
+	@Path("/getUserRole")
+	@POST
+	@Consumes("application/json")
+	@Produces("application/json")
+	@ApiOperation(value = "Get Role value method", notes = "parses the JWT to check if its valid and returns the value if valid")
+	public Response returnRole(@HeaderParam("Authorization") String token) {
+		Claims payload = JWTService.processToken(token);
+		
+		if(payload == null) {
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		}
+		return Response.status(Status.OK).entity(payload.get("roleID")).build();
 	}
 }

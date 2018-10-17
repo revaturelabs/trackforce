@@ -71,7 +71,7 @@ public class BatchResource {
 		}
 
 		Status status = null;
-		int role = Integer.parseInt(payload.getId());
+		int role = Integer.parseInt((String)payload.get("roleID"));
 
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4 }));
 
@@ -123,7 +123,7 @@ public class BatchResource {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
-		int role = Integer.parseInt(payload.getId());
+		int role = Integer.parseInt((String) payload.get("roleID"));
 
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
 
@@ -155,7 +155,7 @@ public class BatchResource {
 		}
 		Status status = null;
 		status = Status.OK;
-		int role = Integer.parseInt(payload.getId());
+		int role = Integer.parseInt((String)payload.get("roleID"));
 
 	/*	Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
 
@@ -225,7 +225,7 @@ public class BatchResource {
 		}
 		Status status = null;
 		status = Status.OK;
-		int role = Integer.parseInt(payload.getId());
+		int role = Integer.parseInt((String)payload.get("roleID"));
 		
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
 		if (authorizedRoles.contains(role)) {
@@ -258,7 +258,7 @@ public class BatchResource {
 		}
 		Status status = null;
 		status = Status.OK;	
-		int role = Integer.parseInt(payload.getId());
+		int role = Integer.parseInt((String)payload.get("roleID"));
 
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
 		if (authorizedRoles.contains(role)) {

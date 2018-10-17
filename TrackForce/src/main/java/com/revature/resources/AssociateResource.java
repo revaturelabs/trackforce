@@ -128,8 +128,10 @@ public class AssociateResource {
 		logger.info("getCountAssociates...");
 
 		Claims payload = JWTService.processToken(token);
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null ) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} else if (payload.getId().equals("5")) {
+			return Response.status(Status.FORBIDDEN).build();
 		}
 		Status status = null;
 		status = Status.OK;

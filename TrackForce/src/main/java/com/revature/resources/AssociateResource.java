@@ -93,9 +93,12 @@ public class AssociateResource {
 		List<TfAssociate> associates = associateService.getAllAssociates();
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else {
+		} else if (payload.getId().equals("5")) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
+		else {
 //			if (payload.getId().equals("2")) {
 //				List<TfAssociate> assoc = new ArrayList<TfAssociate>();
 //				for (TfAssociate a : associates) {
@@ -169,30 +172,30 @@ public class AssociateResource {
 	 * @param token
 	 * @return
 	 */
-	@GET
-	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = TfAssociate.class)
-	@Path("/{id}")
-	public Response getAssociateByUserId(@ApiParam(value = "An associate id.") @PathParam("id") int id,
-			@HeaderParam("Authorization") String token) {
-		logger.info("getAssociateByUserId()...");
-		Status status = null;
-		Claims payload = JWTService.processToken(token);
-		TfAssociate associateinfo;
-
-		if (payload == null || false) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else {
-			try {
-				associateinfo = associateService.getAssociateByUserId(id);
-			} catch (NoResultException nre) {
-				logger.info("No associate found...");
-				return Response.status(Status.NO_CONTENT).build();
-			}
-			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
-		}
-
-		return Response.status(status).entity(associateinfo).build();
-	}
+//	@GET
+//	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = TfAssociate.class)
+//	@Path("/{id}")
+//	public Response getAssociateByUserId(@ApiParam(value = "An associate id.") @PathParam("id") int id,
+//			@HeaderParam("Authorization") String token) {
+//		logger.info("getAssociateByUserId()...");
+//		Status status = null;
+//		Claims payload = JWTService.processToken(token);
+//		TfAssociate associateinfo;
+//
+//		if (payload == null || false) {
+//			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+//		} else {
+//			try {
+//				associateinfo = associateService.getAssociateByUserId(id);
+//			} catch (NoResultException nre) {
+//				logger.info("No associate found...");
+//				return Response.status(Status.NO_CONTENT).build();
+//			}
+//			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
+//		}
+//
+//		return Response.status(status).entity(associateinfo).build();
+//	}
 	
 	/**	
 	 *	
@@ -380,9 +383,11 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 
 		//Check token
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} 
+		} else if ( payload.getId().equals("5")) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 		
 		List<TfAssociate> associates;
 		try {

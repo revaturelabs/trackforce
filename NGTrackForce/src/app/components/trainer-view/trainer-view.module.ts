@@ -6,6 +6,7 @@ import { AssociateService } from "../../services/associate-service/associate.ser
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     imports: [
       FormsModule,
       ChartsModule,
-      MatProgressSpinnerModule
+      MatProgressSpinnerModule,
+      CommonModule
     ]
 })
 export class TrainerViewModule { }

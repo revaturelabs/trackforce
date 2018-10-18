@@ -12,7 +12,7 @@ public class GenerateData {
         StringBuilder salt = new StringBuilder();
         Random rnd = new Random();
         while (salt.length() < 15) { 
-            int index = (rnd.nextInt() * SALTCHARS.length());
+            int index = (rnd.nextInt(SALTCHARS.length()));
             salt.append(SALTCHARS.charAt(index));
         }
         return salt.toString();

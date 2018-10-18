@@ -48,8 +48,9 @@ public class AdminNavbarElements {
 		return element;
 	}
 	
+	// old welcomeText test was using xpath, now using id
 	public static WebElement welcomeText(WebDriver wd) {
-		element = wd.findElement(By.xpath("/html/body/app-component/app-navbar/nav/div/ul[1]/li[1]/span"));
+		element = wd.findElement(By.id("navbarDropdown"));
 		return element;
 	}
 	

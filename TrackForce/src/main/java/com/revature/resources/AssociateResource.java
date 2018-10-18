@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -93,9 +94,12 @@ public class AssociateResource {
 		List<TfAssociate> associates = associateService.getAllAssociates();
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else {
+		} else if (((String) payload.get("roleID")).equals("5")) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
+		else {
 //			if (payload.getId().equals("2")) {
 //				List<TfAssociate> assoc = new ArrayList<TfAssociate>();
 //				for (TfAssociate a : associates) {
@@ -128,31 +132,35 @@ public class AssociateResource {
 		logger.info("getCountAssociates...");
 
 		Claims payload = JWTService.processToken(token);
-		if (payload == null) {
+		if (payload == null ) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} else if (((String) payload.get("roleID")).equals("5")) {
+			return Response.status(Status.FORBIDDEN).build();
 		}
 		Status status = null;
 		status = Status.OK;
 		
 		JSONObject associateCounts = new JSONObject();
 		
+		HashMap<String,Integer> rawCounts = associateService.getStatusCountsMap();
+		
 		List<Integer> counts = new ArrayList<>();
 		
-		counts.add(Integer.parseInt(associateService.getCountUndeployedMapped().toString()));
-		counts.add(Integer.parseInt(associateService.getCountUndeployedUnmapped().toString()));
+		counts.add(rawCounts.get("Undeployed Mapped"));
+		counts.add(rawCounts.get("Undeployed Unmapped"));
 		
-		counts.add(Integer.parseInt(associateService.getCountDeployedMapped().toString()));
-		counts.add(Integer.parseInt(associateService.getCountDeployedUnmapped().toString()));
+		counts.add(rawCounts.get("Deployed Mapped"));
+		counts.add(rawCounts.get("Deployed Unmapped"));
 		
-		counts.add(Integer.parseInt(associateService.getCountUnmappedTraining().toString()));
-		counts.add(Integer.parseInt(associateService.getCountUnmappedOpen().toString()));
-		counts.add(Integer.parseInt(associateService.getCountUnmappedSelected().toString()));
-		counts.add(Integer.parseInt(associateService.getCountUnmappedConfirmed().toString()));
+		counts.add(rawCounts.get("Unmapped Training"));
+		counts.add(rawCounts.get("Unmapped Open"));
+		counts.add(rawCounts.get("Unmapped Selected"));
+		counts.add(rawCounts.get("Unmapped Confirmed"));
 		
-		counts.add(Integer.parseInt(associateService.getCountMappedTraining().toString()));
-		counts.add(Integer.parseInt(associateService.getCountMappedReserved().toString()));
-		counts.add(Integer.parseInt(associateService.getCountMappedSelected().toString()));
-		counts.add(Integer.parseInt(associateService.getCountMappedConfirmed().toString()));
+		counts.add(rawCounts.get("Mapped Training"));
+		counts.add(rawCounts.get("Mapped Reserved"));
+		counts.add(rawCounts.get("Mapped Selected"));
+		counts.add(rawCounts.get("Mapped Confirmed"));
 	
 		associateCounts.put("counts", counts);
 		return Response.status(status).entity(associateCounts.toString()).build();
@@ -275,7 +283,7 @@ public class AssociateResource {
 		}
 
 
-		if (payload == null || payload.getId().equals("2") || payload.getId().equals("5")) {
+		if (payload == null || ((String) payload.get("roleID")).equals("2") || ((String) payload.get("roleID")).equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 
@@ -311,7 +319,7 @@ public class AssociateResource {
 
 		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else if (payload.getId().equals("5")) {
+		} else if (((String) payload.get("roleID")).equals("5")) {
 			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		} else {
 			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
@@ -338,9 +346,19 @@ public class AssociateResource {
 	@PUT
 	@ApiOperation(value = "Approves an associate", notes = "Approves an associate")
 	@Path("{assocId}/approve")
-	public Response approveAssociate(@PathParam("assocId") int associateId) {
+	public Response approveAssociate(@PathParam("assocId") int associateId, @HeaderParam("Authorization") String token) {
+		logger.info("approveAssociate()...");
+		Claims payload = JWTService.processToken(token);
+		System.out.println(associateId);
+
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} else if (((String) payload.get("roleID")).equals("1") || ((String) payload.get("roleID")).equals("2")) {
 		return associateService.approveAssociate(associateId) ? Response.ok(true).build()
 				: Response.serverError().entity(false).build();
+		} else {
+		return Response.status(Status.FORBIDDEN).build();
+		}
 	}
 
 	@GET
@@ -378,9 +396,11 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 
 		//Check token
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} 
+		} else if ( ((String) payload.get("roleID")).equals("5")) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 		
 		List<TfAssociate> associates;
 		try {

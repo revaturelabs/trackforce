@@ -22,6 +22,7 @@ public class TfUser implements java.io.Serializable {
     @Column(name = "TF_USER_ID")
     private int id;
 
+//  @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TF_ROLE_ID")
     private TfRole TfRole;

@@ -28,7 +28,7 @@ public class UserAuthentication {
 		}else {
 			//checks if the users role# is within the parameter for the request
 			boolean result = IntStream.of(levelNeeded).anyMatch(
-					x -> x == Integer.parseInt(payload.getId())
+					x -> x == Integer.parseInt((String) payload.get("roleID"))
 			);
 			
 			if ( result) {

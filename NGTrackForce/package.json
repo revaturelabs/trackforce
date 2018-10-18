@@ -40,7 +40,6 @@
     "ng2-order-pipe": "^0.1.5",
     "rxjs": "^6.1.4",
     "rxjs-compat": "^6.1.4",
-    "webpack": "^4.16.5",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

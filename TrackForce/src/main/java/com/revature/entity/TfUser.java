@@ -19,6 +19,8 @@ public class TfUser implements java.io.Serializable {
     
     @XmlElement
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="USER_ID_GEN_SEQUENCE")
+    @SequenceGenerator(name = "USER_ID_GEN_SEQUENCE", sequenceName = "ADMIN.userid_seq")
     @Column(name = "TF_USER_ID")
     private int id;
 

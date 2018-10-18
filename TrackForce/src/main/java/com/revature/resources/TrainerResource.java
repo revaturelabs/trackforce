@@ -180,6 +180,7 @@ public class TrainerResource {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		else {
+			System.out.println(payload.get(trainer));
 			trainerService.updateTrainer(trainer);
 			return Response.status(Status.ACCEPTED).build();
 		}

@@ -6,12 +6,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -32,6 +35,8 @@ public class TfTrainer implements Serializable{
 	
 	@XmlElement
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TRAINER_ID_GEN_SEQUENCE")
+    @SequenceGenerator(name = "TRAINER_ID_GEN_SEQUENCE", sequenceName = "ADMIN.TRAINER_ID_GEN_SEQUENCE")
 	@Column(name="TRAINER_ID", unique = true, nullable = false)
 	private int id;
 	

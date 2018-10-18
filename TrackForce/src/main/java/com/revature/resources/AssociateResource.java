@@ -94,9 +94,12 @@ public class AssociateResource {
 		List<TfAssociate> associates = associateService.getAllAssociates();
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else {
+		} else if (((String) payload.get("roleID")).equals("5")) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
+		else {
 //			if (payload.getId().equals("2")) {
 //				List<TfAssociate> assoc = new ArrayList<TfAssociate>();
 //				for (TfAssociate a : associates) {
@@ -129,8 +132,10 @@ public class AssociateResource {
 		logger.info("getCountAssociates...");
 
 		Claims payload = JWTService.processToken(token);
-		if (payload == null) {
+		if (payload == null ) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} else if (((String) payload.get("roleID")).equals("5")) {
+			return Response.status(Status.FORBIDDEN).build();
 		}
 		Status status = null;
 		status = Status.OK;
@@ -278,7 +283,7 @@ public class AssociateResource {
 		}
 
 
-		if (payload == null || payload.getId().equals("2") || payload.getId().equals("5")) {
+		if (payload == null || ((String) payload.get("roleID")).equals("2") || ((String) payload.get("roleID")).equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 
@@ -314,7 +319,7 @@ public class AssociateResource {
 
 		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else if (payload.getId().equals("5")) {
+		} else if (((String) payload.get("roleID")).equals("5")) {
 			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		} else {
 			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
@@ -341,9 +346,19 @@ public class AssociateResource {
 	@PUT
 	@ApiOperation(value = "Approves an associate", notes = "Approves an associate")
 	@Path("{assocId}/approve")
-	public Response approveAssociate(@PathParam("assocId") int associateId) {
+	public Response approveAssociate(@PathParam("assocId") int associateId, @HeaderParam("Authorization") String token) {
+		logger.info("approveAssociate()...");
+		Claims payload = JWTService.processToken(token);
+		System.out.println(associateId);
+
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} else if (((String) payload.get("roleID")).equals("1") || ((String) payload.get("roleID")).equals("2")) {
 		return associateService.approveAssociate(associateId) ? Response.ok(true).build()
 				: Response.serverError().entity(false).build();
+		} else {
+		return Response.status(Status.FORBIDDEN).build();
+		}
 	}
 
 	@GET
@@ -381,9 +396,11 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 
 		//Check token
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} 
+		} else if ( ((String) payload.get("roleID")).equals("5")) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 		
 		List<TfAssociate> associates;
 		try {

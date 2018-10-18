@@ -172,30 +172,30 @@ public class AssociateResource {
 	 * @param token
 	 * @return
 	 */
-//	@GET
-//	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = TfAssociate.class)
-//	@Path("/{id}")
-//	public Response getAssociateByUserId(@ApiParam(value = "An associate id.") @PathParam("id") int id,
-//			@HeaderParam("Authorization") String token) {
-//		logger.info("getAssociateByUserId()...");
-//		Status status = null;
-//		Claims payload = JWTService.processToken(token);
-//		TfAssociate associateinfo;
-//
-//		if (payload == null || false) {
-//			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-//		} else {
-//			try {
-//				associateinfo = associateService.getAssociateByUserId(id);
-//			} catch (NoResultException nre) {
-//				logger.info("No associate found...");
-//				return Response.status(Status.NO_CONTENT).build();
-//			}
-//			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
-//		}
-//
-//		return Response.status(status).entity(associateinfo).build();
-//	}
+	@GET
+	@ApiOperation(value = "Return an associate", notes = "Returns information about a specific associate.", response = TfAssociate.class)
+	@Path("/{id}")
+	public Response getAssociateByUserId(@ApiParam(value = "An associate id.") @PathParam("id") int id,
+			@HeaderParam("Authorization") String token) {
+		logger.info("getAssociateByUserId()...");
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+		TfAssociate associateinfo;
+
+		if (payload == null || false) {
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} else {
+			try {
+				associateinfo = associateService.getAssociateByUserId(id);
+			} catch (NoResultException nre) {
+				logger.info("No associate found...");
+				return Response.status(Status.NO_CONTENT).build();
+			}
+			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
+		}
+
+		return Response.status(status).entity(associateinfo).build();
+	}
 	
 	/**	
 	 *	
@@ -343,9 +343,19 @@ public class AssociateResource {
 	@PUT
 	@ApiOperation(value = "Approves an associate", notes = "Approves an associate")
 	@Path("{assocId}/approve")
-	public Response approveAssociate(@PathParam("assocId") int associateId) {
+	public Response approveAssociate(@PathParam("assocId") int associateId, @HeaderParam("Authorization") String token) {
+		logger.info("approveAssociate()...");
+		Claims payload = JWTService.processToken(token);
+		System.out.println(associateId);
+
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} else if (((String) payload.get("roleID")).equals("1") || ((String) payload.get("roleID")).equals("2")) {
 		return associateService.approveAssociate(associateId) ? Response.ok(true).build()
 				: Response.serverError().entity(false).build();
+		} else {
+		return Response.status(Status.FORBIDDEN).build();
+		}
 	}
 
 	@GET

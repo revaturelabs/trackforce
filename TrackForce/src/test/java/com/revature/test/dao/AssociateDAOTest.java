@@ -96,34 +96,37 @@ public class AssociateDAOTest {
 		List<TfAssociate> list = dao.getNAssociates();
 		assertTrue(list != null && list.size() <= 60);
 	}
-
-	@Test(groups= {"getters"})
-	public void testAssociateDAOGetCounts() {
-		assertEquals((long)dao.getCountUndeployedMapped(),
-				Long.parseLong(props.getProperty("undeployed_mapped_count")));
-		assertEquals((long)dao.getCountUndeployedUnmapped(),
-				Long.parseLong(props.getProperty("undeployed_unmapped_count")));
-		assertEquals((long)dao.getCountDeployedMapped(),
-				Long.parseLong(props.getProperty("deployed_mapped_count")));
-		assertEquals((long)dao.getCountDeployedUnmapped(),
-				Long.parseLong(props.getProperty("deployed_unmapped_count")));
-		assertEquals((long)dao.getCountMappedTraining(),
-				Long.parseLong(props.getProperty("training_mapped_count")));
-		assertEquals((long)dao.getCountUnmappedTraining(),
-				Long.parseLong(props.getProperty("training_unmapped_count")));
-		assertEquals((long)dao.getCountMappedSelected(),
-				Long.parseLong(props.getProperty("selected_mapped_count")));
-		assertEquals((long)dao.getCountUnmappedSelected(),
-				Long.parseLong(props.getProperty("selected_unmapped_count")));
-		assertEquals((long)dao.getCountMappedConfirmed(),
-				Long.parseLong(props.getProperty("confirmed_mapped_count")));
-		assertEquals((long)dao.getCountUnmappedConfirmed(),
-				Long.parseLong(props.getProperty("confirmed_unmapped_count")));
-		assertEquals((long)dao.getCountMappedReserved(),
-				Long.parseLong(props.getProperty("reserved_mapped_count")));
-		assertEquals((long)dao.getCountUnmappedOpen(),
-				Long.parseLong(props.getProperty("open_unmapped_count")));
-	}
+	
+	
+//	TODO: Replace this test with one testing the functionality of the 'getStatusCountsMap' method
+//	that replaced these methods - Art B.
+//	@Test(groups= {"getters"})
+//	public void testAssociateDAOGetCounts() {
+//		assertEquals((long)dao.getCountUndeployedMapped(),
+//				Long.parseLong(props.getProperty("undeployed_mapped_count")));
+//		assertEquals((long)dao.getCountUndeployedUnmapped(),
+//				Long.parseLong(props.getProperty("undeployed_unmapped_count")));
+//		assertEquals((long)dao.getCountDeployedMapped(),
+//				Long.parseLong(props.getProperty("deployed_mapped_count")));
+//		assertEquals((long)dao.getCountDeployedUnmapped(),
+//				Long.parseLong(props.getProperty("deployed_unmapped_count")));
+//		assertEquals((long)dao.getCountMappedTraining(),
+//				Long.parseLong(props.getProperty("training_mapped_count")));
+//		assertEquals((long)dao.getCountUnmappedTraining(),
+//				Long.parseLong(props.getProperty("training_unmapped_count")));
+//		assertEquals((long)dao.getCountMappedSelected(),
+//				Long.parseLong(props.getProperty("selected_mapped_count")));
+//		assertEquals((long)dao.getCountUnmappedSelected(),
+//				Long.parseLong(props.getProperty("selected_unmapped_count")));
+//		assertEquals((long)dao.getCountMappedConfirmed(),
+//				Long.parseLong(props.getProperty("confirmed_mapped_count")));
+//		assertEquals((long)dao.getCountUnmappedConfirmed(),
+//				Long.parseLong(props.getProperty("confirmed_unmapped_count")));
+//		assertEquals((long)dao.getCountMappedReserved(),
+//				Long.parseLong(props.getProperty("reserved_mapped_count")));
+//		assertEquals((long)dao.getCountUnmappedOpen(),
+//				Long.parseLong(props.getProperty("open_unmapped_count")));
+//	}
 
 	@Test
 	public void testAssociateDAOApproveAssociate() {

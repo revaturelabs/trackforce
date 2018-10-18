@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -136,23 +137,25 @@ public class AssociateResource {
 		
 		JSONObject associateCounts = new JSONObject();
 		
+		HashMap<String,Integer> rawCounts = associateService.getStatusCountsMap();
+		
 		List<Integer> counts = new ArrayList<>();
 		
-		counts.add(Integer.parseInt(associateService.getCountUndeployedMapped().toString()));
-		counts.add(Integer.parseInt(associateService.getCountUndeployedUnmapped().toString()));
+		counts.add(rawCounts.get("Undeployed Mapped"));
+		counts.add(rawCounts.get("Undeployed Unmapped"));
 		
-		counts.add(Integer.parseInt(associateService.getCountDeployedMapped().toString()));
-		counts.add(Integer.parseInt(associateService.getCountDeployedUnmapped().toString()));
+		counts.add(rawCounts.get("Deployed Mapped"));
+		counts.add(rawCounts.get("Deployed Unmapped"));
 		
-		counts.add(Integer.parseInt(associateService.getCountUnmappedTraining().toString()));
-		counts.add(Integer.parseInt(associateService.getCountUnmappedOpen().toString()));
-		counts.add(Integer.parseInt(associateService.getCountUnmappedSelected().toString()));
-		counts.add(Integer.parseInt(associateService.getCountUnmappedConfirmed().toString()));
+		counts.add(rawCounts.get("Unmapped Training"));
+		counts.add(rawCounts.get("Unmapped Open"));
+		counts.add(rawCounts.get("Unmapped Selected"));
+		counts.add(rawCounts.get("Unmapped Confirmed"));
 		
-		counts.add(Integer.parseInt(associateService.getCountMappedTraining().toString()));
-		counts.add(Integer.parseInt(associateService.getCountMappedReserved().toString()));
-		counts.add(Integer.parseInt(associateService.getCountMappedSelected().toString()));
-		counts.add(Integer.parseInt(associateService.getCountMappedConfirmed().toString()));
+		counts.add(rawCounts.get("Mapped Training"));
+		counts.add(rawCounts.get("Mapped Reserved"));
+		counts.add(rawCounts.get("Mapped Selected"));
+		counts.add(rawCounts.get("Mapped Confirmed"));
 	
 		associateCounts.put("counts", counts);
 		return Response.status(status).entity(associateCounts.toString()).build();

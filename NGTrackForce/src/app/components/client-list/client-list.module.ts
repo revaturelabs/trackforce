@@ -10,12 +10,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-//import { SearchFilterPipe } from '../../pipes/search-filter/search-filter.pipe';
+import { PipeModule } from '../../pipes/pipe.module';
 
 @NgModule({
     declarations: [
-        ClientListComponent,
-        //SearchFilterPipe
+        ClientListComponent
     ],
     providers:[
         RequestService,
@@ -26,7 +25,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         CommonModule,
         FormsModule,
         ChartsModule,
-        MatProgressSpinnerModule
+      MatProgressSpinnerModule,
+        PipeModule
     ]
 })
 export class ClientListModule { }

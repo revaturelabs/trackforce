@@ -9,7 +9,7 @@ import { ChartsModule } from 'ng2-charts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
-  declarations: [DateTimePickerComponent],
+  declarations: [],
   providers: [DateService],
   imports:[
     CommonModule,

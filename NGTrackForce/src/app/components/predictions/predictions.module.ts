@@ -5,7 +5,7 @@ import { CurriculumService } from '../../services/curriculum-service/curriculum.
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { ClientService } from '../../services/client-service/client.service';
 import { DateService } from '../../services/date-service/date.service';
-import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
+//import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
 
 import {CommonModule} from '@angular/common';
 import {PredictionsRoutingModule} from './predictions-routing.module';
@@ -17,7 +17,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @NgModule({
     declarations: [
       PredictionsComponent,
-      DateTimePickerComponent
+      //DateTimePickerComponent
     ],
     providers:[
       BatchService,

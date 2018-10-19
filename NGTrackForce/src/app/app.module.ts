@@ -37,8 +37,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 // import { PredictionsComponent } from './components/predictions/predictions.component';
 // import { MyInterviewComponent } from './components/myinterview-view/myinterview-view.component';
 // import { InterviewsComponent } from './components/interviews-view/interviews-view.component';
-// import { DateTimePickerComponent } from './components/datetimepicker/datetimepicker.component';
-// import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { DateTimePickerComponent } from './components/datetimepicker/datetimepicker.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 ///
 //  SERVICES
@@ -47,7 +47,7 @@ import { RequestService } from './services/request-service/request.service';
 import { AssociateService } from './services/associate-service/associate.service';
 // import { ClientService } from './services/client-service/client.service';
 import { AuthenticationService } from './services/authentication-service/authentication.service';
-import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
+//import { SearchFilterPipe } from './pipes/search-filter/search-filter.pipe';
 // import { BatchService } from './services/batch-service/batch.service';
 import { CurriculumService } from './services/curriculum-service/curriculum.service';
 import { DataSyncService } from './services/datasync-service/data-sync.service';
@@ -58,9 +58,9 @@ import { NavbarService } from './services/navbar-service/navbar.service';
 ///
 //  FILTERS/PIPES
 ///
-import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
-import { AssociateSearchByStatusPipe } from './pipes/associate-search-by-status-pipe/status-pipe.pipe';
-import { AssociateSearchByClientPipe } from './pipes/associate-search-by-client-pipe/client-pipe.pipe';
+//import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
+//import { AssociateSearchByStatusPipe } from './pipes/associate-search-by-status-pipe/status-pipe.pipe';
+//import { AssociateSearchByClientPipe } from './pipes/associate-search-by-client-pipe/client-pipe.pipe';
 
 ///
 //  SECURITY
@@ -94,14 +94,14 @@ import { UpdateDialogComponent } from './components/associate-list-page/associat
     AppComponent,
     NavbarComponent,
     // HomeComponent,
-    AssociateSearchByTextFilter,
+    //AssociateSearchByTextFilter,
     // BatchListComponent,
     // ClientMappedComponent,
     // FormComponent,
     // ClientListComponent,
     LoginComponent,
     // CreateUserComponent,
-    SearchFilterPipe,
+    //SearchFilterPipe,
     // BatchDetailsComponent,
     // SkillsetComponent,
     AssociateViewComponent,
@@ -113,12 +113,12 @@ import { UpdateDialogComponent } from './components/associate-list-page/associat
     // MyInterviewComponent,
     // InterviewDetailsComponent,
     // InterviewsComponent,
-    // TrainerViewComponent,
+    //TrainerViewComponent,
     // DeployedComponent,
     // UndeployedComponent,
-    // DateTimePickerComponent,
-    AssociateSearchByStatusPipe,
-    AssociateSearchByClientPipe,
+    DateTimePickerComponent,
+    //AssociateSearchByStatusPipe,
+    //AssociateSearchByClientPipe,
     InvalidSessionComponent,
     // HighlightInterviewDirective,
     // SalesforceComponent,
@@ -134,8 +134,8 @@ import { UpdateDialogComponent } from './components/associate-list-page/associat
     Ng2OrderModule,
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
-    // OwlDateTimeModule,
-    // OwlNativeDateTimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     AppRoutingModule
   ],
   entryComponents: [

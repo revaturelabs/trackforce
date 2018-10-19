@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
+import { TrainerRoutingModule } from './trainer-view-routing.module';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import { CommonModule } from '@angular/common';
       FormsModule,
       ChartsModule,
       MatProgressSpinnerModule,
-      CommonModule
+      CommonModule,
+      TrainerRoutingModule
     ]
 })
 export class TrainerViewModule { }

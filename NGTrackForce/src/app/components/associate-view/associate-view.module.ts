@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-import { ClientService } from '../../services/client-service/client.service';
+//import { ClientService } from '../../services/client-service/client.service';
 import { AssociateViewComponent } from './associate-view.component';
-import {AssociateViewRoutingModule } from './associate-view-routing.module';
+import { AssociateViewRoutingModule } from './associate-view-routing.module';
 import { CommonModule } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
@@ -17,7 +17,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     providers:[
         AuthenticationService,
         AssociateService,
-        ClientService
+        //ClientService
     ],
     imports:[
         AssociateViewRoutingModule,

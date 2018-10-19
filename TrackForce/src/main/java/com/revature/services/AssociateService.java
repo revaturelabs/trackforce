@@ -1,4 +1,6 @@
 package com.revature.services;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
@@ -88,65 +90,17 @@ public class AssociateService {
             throw e;
         }
     }
-    
-    public Object getCountUndeployedMapped()
-    {
-        return dao.getCountUndeployedMapped();
+
+    /**
+     * @author Art B.
+     * 
+     * pulls in the HashMap of Marketing Status names/counts from the DAO
+     */
+    public HashMap<String,Integer> getStatusCountsMap() {
+    	return dao.getStatusCountsMap();
     }
     
-    public Object getCountUndeployedUnmapped()
-    {
-        return dao.getCountUndeployedUnmapped();
-    }
-    
-    public Object getCountDeployedMapped()
-    {
-        return dao.getCountDeployedMapped();
-    }
-    
-    public Object getCountDeployedUnmapped()
-    {
-        return dao.getCountDeployedUnmapped();
-    }
-    public Object getCountUnmappedTraining()
-    {
-        return dao.getCountUnmappedTraining();
-    }
-    
-    public Object getCountUnmappedOpen()
-    {
-        return dao.getCountUnmappedOpen();
-    }
-    
-    public Object getCountUnmappedSelected()
-    {
-        return dao.getCountUnmappedSelected();
-    }
-    
-    public Object getCountUnmappedConfirmed()
-    {
-        return dao.getCountUnmappedConfirmed();
-    }
-    
-    public Object getCountMappedTraining()
-    {
-        return dao.getCountMappedTraining();
-    }
-    
-    public Object getCountMappedReserved()
-    {
-        return dao.getCountMappedReserved();
-    }
-    
-    public Object getCountMappedSelected()
-    {
-        return dao.getCountMappedSelected();
-    }
-    
-    public Object getCountMappedConfirmed()
-    {
-        return dao.getCountMappedConfirmed();
-    }
+
     
     /**
      * @author Adam L. 
@@ -204,9 +158,7 @@ public class AssociateService {
             TfUser associateuser = newassociate.getUser();
             associateuser.setPassword(PasswordStorage.createHash(newassociate.getUser().getPassword()));
             newassociate.setUser(associateuser);
-            List<TfAssociate> associates = getAllAssociates();
-            int maxid = associates.size();
-            newassociate.setId(4951 + maxid); // Late game fix for non-functional Seq gen
+			//TODO: Id is not the real id because of auto generate id. Need to add a new update from database to server
             LogUtil.logger.info("The associate with hashed password is " + newassociate);
         } catch (CannotPerformOperationException e) {
             LogUtil.logger.warn(e.getMessage());

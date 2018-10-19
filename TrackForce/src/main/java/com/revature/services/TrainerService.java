@@ -74,9 +74,7 @@ public class TrainerService {
 			TfUser traineruser = trainer.getTfUser();
 			traineruser.setPassword(PasswordStorage.createHash(trainer.getTfUser().getPassword()));
 			trainer.setTfUser(traineruser);
-			List<TfTrainer> trainers = getAllTrainers();
-			int maxid = trainers.size();
-			trainer.setId(75 + maxid); // Late game fix for non-functional Seq gen
+			//TODO: Id is not the real id because of auto generate id. Need to add a new update from database to server
 			LogUtil.logger.info("The trainer with hashed password is " + trainer);
 		} catch (CannotPerformOperationException e) {
 			LogUtil.logger.warn(e.getMessage());

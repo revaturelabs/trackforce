@@ -231,7 +231,7 @@ public class InterviewResource {
 
 		int role = 0;
 		try {
-			role = Integer.parseInt(payload.getId());
+			role = Integer.parseInt((String)payload.get("roleID"));
 		} catch (NumberFormatException nfe) {
 			return false;
 		}

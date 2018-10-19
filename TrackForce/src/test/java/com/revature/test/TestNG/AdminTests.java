@@ -32,7 +32,6 @@ public class AdminTests {
 	static WebDriverWait wait;
 	String username = "TestAdmin";
 	String password = "TestAdmin";
-	
 	// stores the values of batches names on the batches page
 	List<String> batchNames = new ArrayList<String>();
 	

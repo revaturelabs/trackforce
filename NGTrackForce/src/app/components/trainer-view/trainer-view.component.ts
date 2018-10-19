@@ -84,13 +84,13 @@ export class TrainerViewComponent implements OnInit {
   updateInfo() {
     this.statusMsg = 'Please wait while your information is updated';
     this.statusClass = 'wait';
+    this.trainer.firstName = this.newFirstName;
+    this.trainer.lastName = this.newLastName;
     this.trainerService.updateTrainer(this.trainer).subscribe(
       data => {
         this.statusMsg = 'Update was successful!';
         this.statusClass = 'success';
         this.formOpen = false;
-        this.trainer.firstName = this.newFirstName;
-        this.trainer.lastName = this.newLastName;
         localStorage.setItem(this._TRAINER_KEY, JSON.stringify(this.trainer));
       },
       error => {

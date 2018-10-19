@@ -10,8 +10,9 @@ import { Client } from '../../models/client.model';
 import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { InterviewType } from '../../models/interview-type';
-import { Router } from '@angular/router'
-
+import { Router } from '@angular/router';
+import { DateService } from '../../services/date-service/date.service';
+import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
 /**
  *@author Katherine Obioha, Andrew Ahn
  *
@@ -28,7 +29,7 @@ import { Router } from '@angular/router'
 export class MyInterviewComponent implements OnInit {
   public interviews: Interview[];
   public associate: Associate;
-  // public id = 0;
+  //public id = 0;
   public newInterview: Interview;
   public formOpen = false;
   public conflictingInterviews = '';

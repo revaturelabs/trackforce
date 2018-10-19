@@ -68,7 +68,7 @@ public class TrainerResource {
 		List<TfBatch> batches;
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null || ((String) payload.get("roleID")).equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
@@ -94,7 +94,7 @@ public class TrainerResource {
 		List<TfBatch> batches;
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null || ((String) payload.get("roleID")).equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
@@ -119,7 +119,7 @@ public class TrainerResource {
 		TfTrainer trainer;
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null || ((String) payload.get("roleID")).equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
@@ -146,7 +146,7 @@ public class TrainerResource {
 
 		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build(); // invalid token
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
+		} else if (!(((String) payload.get("roleID")).equals("1") || ((String) payload.get("roleID")).equals("5"))) {
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
 			status = trainers == null || trainers.isEmpty() ? Status.NO_CONTENT : Status.OK;
@@ -176,10 +176,11 @@ public class TrainerResource {
 		if (trainer == null) {
 			return Response.status(Status.NO_CONTENT).build();
 		}
-		else if (payload == null || payload.getId().equals("5")) {
+		else if (payload == null || ((String) payload.get("roleID")).equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		else {
+			System.out.println(payload.get(trainer));
 			trainerService.updateTrainer(trainer);
 			return Response.status(Status.ACCEPTED).build();
 		}

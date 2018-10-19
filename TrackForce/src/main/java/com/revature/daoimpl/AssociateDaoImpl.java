@@ -1,7 +1,10 @@
 package com.revature.daoimpl;
 import static com.revature.utils.HibernateUtil.runHibernateTransaction;
 import static com.revature.utils.HibernateUtil.saveToDB;
+
+import java.util.HashMap;
 import java.util.List;
+
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -9,9 +12,17 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
+
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.transform.Transformers;
 import org.openqa.selenium.InvalidArgumentException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.entity.TfAssociate;
@@ -131,123 +142,67 @@ public class AssociateDaoImpl implements AssociateDao {
 				.createQuery("from TfAssociate", TfAssociate.class)
 				.setMaxResults(60).setCacheable(true).getResultList());
 	}
-	
-	/** getCount uses CriteriaQuery and a switch statement to return count which 
-	 *  matches the marketingStatus. Special query for cases 11 and 12.
-	 *  Called by all getCount methods
-	 *  @author Paul C. - 1807
-	 *  @param tfmsid is marketing status to be compared
-	 *  @return returns count based on marketingStatus equivalent to tfmsid for case 1 to 10,
-	 *  or statement used for case 11 and 12 */
-	private Object getCount(int tfmsid) {
-		Session session = null;
-		Object count = null;
-		 
-		try {
-			session = HibernateUtil.getSessionFactory().openSession();
-			CriteriaBuilder builder = session.getCriteriaBuilder();
-			CriteriaQuery<Long> qr = builder.createQuery(Long.class);
-			Root<TfAssociate> root = qr.from(TfAssociate.class);
-			List<Long> results;
-			qr.select(builder.count(root));
-			
-			switch(tfmsid) {	
-				case 11: 
-						qr.where(builder.or(builder.or(builder.equal(root.get(MKTSTS), 1), 
-								builder.equal(root.get(MKTSTS), 2)), builder.or(builder.equal(
-								root.get(MKTSTS), 3), builder.equal(root.get(MKTSTS), 4))));
-						break;
-				case 12:  
-						qr.where(builder.or(builder.or(builder.equal(root.get(MKTSTS), 6), 
-								builder.equal(root.get(MKTSTS), 7)), builder.or(builder.equal(
-								root.get(MKTSTS), 8), builder.equal(root.get(MKTSTS), 9))));
-						break;
-				default:
-						qr.where(builder.equal(root.get(MKTSTS), tfmsid));
-						break;
-			}//end switch
-			
-			results = session.createQuery(qr).setCacheable(true).getResultList();
-			count = results.get(0);
-		} catch(HibernateException e) {
-			e.printStackTrace();
-		} finally {
-			if ( session != null )
-				session.close();
-		}
-		return count;
-	}
-	
-	/** Gets count matching this marketing status */
-	@Override
-	public Object getCountUndeployedMapped() {
-		return getCount(11);
-	}
-	
-	/** Gets count matching this marketing status */
-	@Override
-	public Object getCountUndeployedUnmapped() {
-		return getCount(12);
-	}
-	
-	/** Gets count matching this marketing status */
-	@Override
-	public Object getCountDeployedMapped() {
-		return getCount(5);
-	}
-	
-	/** Gets count matching this marketing status */
-	@Override
-	public Object getCountDeployedUnmapped() {
-		return getCount(10);
-	}
 
-	/** Gets count matching this marketing status */
-	@Override
-	public Object getCountUnmappedTraining() {
-		return getCount(6);
+	/** 
+	 * @author Art B.
+	 * getAllStatusCounts returns a HashMap of Integer keys and values, representing the number of associates (value)
+	 * for each status code id (key). Below is what each id represents:
+	 * 1. Mapped: Training (name is null in the database)
+	 * 2. Mapped: Reserved
+	 * 3. Mapped: Selected
+	 * 4. Mapped: Confirmed
+	 * 5. Mapped: Deployed
+	 * 6. Unmapped: Training
+	 * 7. Unmapped: Open
+	 * 8. Unmapped: Selected
+	 * 9. Unmapped: Confirmed
+	 * 10. Unmapped: Deployed
+	 * 11. Directly Placed
+	 * 12. Terminated
+	 */
+
+	private HashMap<Integer,Integer> getAllStatusCounts() {
+		List<String> resultList = HibernateUtil.getSessionFactory().openSession().createQuery(
+				"select " +
+				"a.marketingStatus || ',' || " +
+				"count( a.marketingStatus ) " +
+				"from TfAssociate a " +
+				"group by a.marketingStatus " +
+				"order by a.marketingStatus", String.class).getResultList();
+		HashMap<Integer,Integer> resultMap = new HashMap<Integer,Integer>();
+		for (String result : resultList) {
+			String[] split = result.split(",");
+			resultMap.put(Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+		}
+		if (resultMap.size() < 12) for (int i = 1; i < 13; i++) resultMap.putIfAbsent(i, 0);
+		return resultMap;
 	}
 	
-	/** Gets count matching this marketing status */
-	@Override
-	public Object getCountUnmappedOpen() {
-		return getCount(7);
-	}
+	/** 
+	 * @author Art B.
+	 * Sorts the values retrieved from getAllStatusCounts into the order that the AssociateResource uses them,
+	 * and converts it to a HashMap with a String keys instead that represent the names.
+	 * Removes 'Directly Placed' and 'Terminated' values, and adds "Undeployed Mapped" and "Undeployed Unmapped"
+	 * aggregate values in the process.
+	 * 
+	 */
 	
-	/** Gets count matching this marketing status */
-	@Override
-	public Object getCountUnmappedSelected() {
-		return getCount(8);
-	}
-	
-	/** Gets count matching this marketing status */
-	@Override
-	public Object getCountUnmappedConfirmed() {
-		return getCount(9);
-	}
-	
-	/** Gets count matching this marketing status */
-	@Override
-	public Object getCountMappedTraining() {
-		return getCount(1);
-	}
-	
-	/** Gets count matching this marketing status */
-	@Override
-	public Object getCountMappedReserved() {
-		return getCount(2);
-	}
-	
-	/** Gets count matching this marketing status */
-	@Override
-	public Object getCountMappedSelected() {
-		return getCount(3);
-	}
-	
-	/** Gets count matching this marketing status */
-	@Override
-	public Object getCountMappedConfirmed() {
-		return getCount(4);
+	public HashMap<String,Integer> getStatusCountsMap(){
+		HashMap<Integer,Integer> rawMap = getAllStatusCounts();
+		HashMap<String,Integer> stringMap = new HashMap<String,Integer>();
+		stringMap.put("Undeployed Mapped", rawMap.get(1)+rawMap.get(2)+rawMap.get(3)+rawMap.get(4));
+		stringMap.put("Undeployed Unmapped", rawMap.get(6)+rawMap.get(7)+rawMap.get(8)+rawMap.get(9));
+		stringMap.put("Deployed Mapped", rawMap.get(5));
+		stringMap.put("Deployed Unmapped", rawMap.get(10));
+		stringMap.put("Unmapped Training", rawMap.get(6));
+		stringMap.put("Unmapped Open", rawMap.get(7));
+		stringMap.put("Unmapped Selected", rawMap.get(8));
+		stringMap.put("Unmapped Confirmed", rawMap.get(9));
+		stringMap.put("Mapped Training", rawMap.get(1));
+		stringMap.put("Mapped Reserved", rawMap.get(2));
+		stringMap.put("Mapped Selected", rawMap.get(3));
+		stringMap.put("Mapped Confirmed", rawMap.get(4));
+		return stringMap;
 	}
 
 	@Override

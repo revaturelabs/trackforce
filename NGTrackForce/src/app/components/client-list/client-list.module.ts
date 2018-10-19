@@ -10,8 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { PipeModule } from '../../pipes/pipe.module';
-
+import { SearchFilterPipeModule } from '../../pipes/search-filter/search-filter.module';
 @NgModule({
     declarations: [
         ClientListComponent
@@ -26,7 +25,7 @@ import { PipeModule } from '../../pipes/pipe.module';
         FormsModule,
         ChartsModule,
       MatProgressSpinnerModule,
-        PipeModule
+      SearchFilterPipeModule
     ]
 })
 export class ClientListModule { }

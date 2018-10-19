@@ -10,11 +10,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { PipeModule } from '../../pipes/pipe.module';
+import { SearchFilterPipeModule } from '../../pipes/search-filter/search-filter.module';
 
 @NgModule({
   declarations: [BatchListComponent, DateTimePickerComponent],
-  imports: [BatchListRoutingModule,CommonModule, FormsModule, ChartsModule, MatProgressSpinnerModule, PipeModule],
+  imports: [BatchListRoutingModule,CommonModule, FormsModule, ChartsModule, MatProgressSpinnerModule, SearchFilterPipeModule],
   entryComponents: [],
   providers: [BatchService, DateService],
   exports: [BatchListComponent],

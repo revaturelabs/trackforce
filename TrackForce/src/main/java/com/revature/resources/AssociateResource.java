@@ -191,7 +191,7 @@ public class AssociateResource {
 			try {
 				associateinfo = associateService.getAssociateByUserId(id);
 			} catch (NoResultException nre) {
-				logger.info("No associate found...");
+				logger.error("No associate found...");
 				return Response.status(Status.NO_CONTENT).build();
 			}
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
@@ -215,7 +215,7 @@ public class AssociateResource {
 	@Path("/associates/{id}")	
 	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("id") int id,	
 	                             @HeaderParam("Authorization") String token) {	
-		logger.info("getAssociate()...");	
+		logger.info("getAssociate()...");
 		Status status = null;	
 		Claims payload = JWTService.processToken(token);	
 		TfAssociate associateinfo;	
@@ -226,8 +226,8 @@ public class AssociateResource {
 			try {	
 				associateinfo = associateService.getAssociate(id);	
 			} catch (NoResultException nre) {	
-				logger.info("No associate found...");	
-				return Response.status(Status.NO_CONTENT).build();	
+				logger.error("No associate found...");
+				return Response.status(Status.NO_CONTENT).build();
 			}	
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;	
 		}	
@@ -262,6 +262,8 @@ public class AssociateResource {
 			@DefaultValue("-1") @ApiParam(value = "verification") @QueryParam("verification") Integer isApproved,
 			List<Integer> ids) {
 		logger.info("updateAssociates()..."+ids);
+		
+
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 

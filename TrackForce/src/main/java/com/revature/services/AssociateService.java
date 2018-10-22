@@ -79,7 +79,7 @@ public class AssociateService {
      */
     public List<TfAssociate> getAssociatePage(int startIdx, int numRes, int mktStatus, int clientId, String sortText) {
         if (startIdx < 0 || numRes < 0 || mktStatus < -1 || clientId < -1) {
-            LogUtil.logger.warn("AssociateService.getAssociatePage() called with bad value");
+            LogUtil.logger.error("AssociateService.getAssociatePage() called with bad value");
             throw new IllegalArgumentException();
         }
         
@@ -160,7 +160,7 @@ public class AssociateService {
             newassociate.setUser(associateuser);
 			//TODO: Id is not the real id because of auto generate id. Need to add a new update from database to server
         } catch (CannotPerformOperationException e) {
-            LogUtil.logger.warn(e.getMessage());
+            LogUtil.logger.error(e.getMessage());
         }       
         return dao.createAssociate(newassociate);
     }

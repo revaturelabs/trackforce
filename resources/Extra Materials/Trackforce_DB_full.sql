@@ -46,7 +46,7 @@ drop sequence interviewid_seq2;
 drop sequence userid_seq; 
 drop sequence associd_seq; 
 drop sequence interview_seq; 
-
+drop sequence TRAINER_ID_GEN_SEQUENCE;
 --------------------------------------------------
 --   create sequences
 --------------------------------------------------
@@ -71,6 +71,11 @@ create sequence interview_seq
     increment by 1
     nocache;
     
+    
+create sequence TRAINER_ID_GEN_SEQUENCE  
+    start with 100
+    increment by 1
+    nocache;
 
 --------------------------------------------------
 --   create tables and constraints

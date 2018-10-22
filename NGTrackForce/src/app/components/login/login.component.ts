@@ -10,12 +10,12 @@ import {User} from '../../models/user.model';
 import {UserService} from '../../services/user-service/user.service';
 import {trigger, state, style, transition, animate, keyframes} from '@angular/animations';
 import {AssociateService} from '../../services/associate-service/associate.service';
-import {InterviewService} from '../../services/interview-service/interview.service';
-import {ClientService} from '../../services/client-service/client.service';
-import {BatchService} from '../../services/batch-service/batch.service';
+// import {InterviewService} from '../../services/interview-service/interview.service';
+// import {ClientService} from '../../services/client-service/client.service';
+// import {BatchService} from '../../services/batch-service/batch.service';
 import {TrainerService} from '../../services/trainer-service/trainer.service';
 import {Trainer} from '../../models/trainer.model';
-import {Batch} from '../../models/batch.model';
+// import {Batch} from '../../models/batch.model';
 import {Associate} from "../../models/associate.model";
 import { NavbarService } from '../../services/navbar-service/navbar.service';
 
@@ -97,9 +97,9 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationService,
     private router: Router,
     private userService: UserService,
-    private interviewService: InterviewService,
-    private clientService: ClientService,
-    private batchService: BatchService,
+    // private interviewService: InterviewService,
+    // private clientService: ClientService,
+    // private batchService: BatchService,
     private trainerService: TrainerService,
     private navbarService: NavbarService
   ) {

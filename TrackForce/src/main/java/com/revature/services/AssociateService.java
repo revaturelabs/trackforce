@@ -158,9 +158,7 @@ public class AssociateService {
             TfUser associateuser = newassociate.getUser();
             associateuser.setPassword(PasswordStorage.createHash(newassociate.getUser().getPassword()));
             newassociate.setUser(associateuser);
-            List<TfAssociate> associates = getAllAssociates();
-            int maxid = associates.size();
-            newassociate.setId(4951 + maxid); // Late game fix for non-functional Seq gen
+			//TODO: Id is not the real id because of auto generate id. Need to add a new update from database to server
             LogUtil.logger.info("The associate with hashed password is " + newassociate);
         } catch (CannotPerformOperationException e) {
             LogUtil.logger.warn(e.getMessage());

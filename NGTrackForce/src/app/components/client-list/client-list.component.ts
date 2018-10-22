@@ -8,6 +8,7 @@ import { SelectedStatusConstants } from '../../constants/selected-status.constan
 import { ThemeConstants } from '../../constants/theme.constants';
 import { Color } from 'ng2-charts';
 import { StatusInfo } from '../../models/status-info.model'
+import { SearchFilterPipe } from '../../pipes/search-filter/search-filter.pipe';
 
 /**
  * @author Han Jung

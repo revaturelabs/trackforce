@@ -159,7 +159,6 @@ public class AssociateService {
             associateuser.setPassword(PasswordStorage.createHash(newassociate.getUser().getPassword()));
             newassociate.setUser(associateuser);
 			//TODO: Id is not the real id because of auto generate id. Need to add a new update from database to server
-            LogUtil.logger.info("The associate with hashed password is " + newassociate);
         } catch (CannotPerformOperationException e) {
             LogUtil.logger.warn(e.getMessage());
         }       

@@ -261,8 +261,7 @@ public class AssociateResource {
 			@DefaultValue("-1") @ApiParam(value = "clientId") @QueryParam("clientId") Integer clientId,
 			@DefaultValue("-1") @ApiParam(value = "verification") @QueryParam("verification") Integer isApproved,
 			List<Integer> ids) {
-		logger.info("updateAssociates()...");
-		logger.info(ids);
+		logger.info("updateAssociates()..."+ids);
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 

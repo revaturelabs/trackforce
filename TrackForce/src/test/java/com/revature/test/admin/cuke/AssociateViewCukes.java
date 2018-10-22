@@ -7,11 +7,11 @@ import static org.testng.Assert.fail;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import com.revature.test.admin.pom.AssociateView;
-import com.revature.test.admin.pom.BatchListTab;
-import com.revature.test.admin.pom.ClientListTab;
-import com.revature.test.admin.pom.CreateUserTab;
-import com.revature.test.admin.pom.Predictions;
+import com.revature.test.pom.AssociateView;
+import com.revature.test.pom.BatchListTab;
+import com.revature.test.pom.ClientListTab;
+import com.revature.test.pom.CreateUserTab;
+import com.revature.test.pom.Predictions;
 import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
 import cucumber.api.java.en.Given;

@@ -1,6 +1,6 @@
 package com.revature.test.admin.cuke;
 
-import com.revature.test.admin.pom.Login;
+import com.revature.test.pom.Login;
 import com.revature.test.utils.ServiceHooks;
 
 import cucumber.api.java.en.And;

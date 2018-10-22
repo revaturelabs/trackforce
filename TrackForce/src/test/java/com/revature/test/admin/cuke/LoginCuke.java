@@ -6,8 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.revature.test.admin.pom.HomeTab;
-import com.revature.test.admin.pom.Login;
+import com.revature.test.pom.HomeTab;
+import com.revature.test.pom.Login;
 import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;

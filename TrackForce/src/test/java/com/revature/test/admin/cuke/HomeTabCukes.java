@@ -3,7 +3,8 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 import java.util.ArrayList;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import com.revature.test.admin.pom.HomeTab;
+
+import com.revature.test.pom.HomeTab;
 import com.revature.test.utils.ServiceHooks;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;

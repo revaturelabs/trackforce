@@ -1,4 +1,4 @@
-package com.revature.test.admin.cuke;
+package com.revature.test.cuke;
 
 import com.revature.test.pom.Login;
 import com.revature.test.utils.ServiceHooks;

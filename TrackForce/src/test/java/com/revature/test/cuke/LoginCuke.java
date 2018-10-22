@@ -1,4 +1,4 @@
-package com.revature.test.admin.cuke;
+package com.revature.test.cuke;
 
 import static org.testng.Assert.assertEquals;
 

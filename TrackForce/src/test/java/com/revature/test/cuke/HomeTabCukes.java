@@ -1,4 +1,4 @@
-package com.revature.test.admin.cuke;
+package com.revature.test.cuke;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 import java.util.ArrayList;

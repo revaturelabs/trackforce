@@ -1,10 +1,11 @@
 package com.revature.test.TestNG;
 
 import org.testng.annotations.Test;
-import org.testng.annotations.Test;
 
-import com.revature.pom.AssociateHome;
-import com.revature.pom.LoginPage;
+import com.revature.test.pom.AssociateHome;
+import com.revature.test.pom.LoginPage;
+
+import org.testng.annotations.Test;
 
 import static org.testng.Assert.expectThrows;
 

@@ -43,6 +43,7 @@ public class AssociateViewCukes {
 
 	@When("^I enter new name information$")
 	public void i_enter_new_name_information() throws Throwable {
+		AssociateView.clickReset(ServiceHooks.driver);
 	    AssociateView.enterFirstName(ServiceHooks.driver);
 	    AssociateView.enterLastName(ServiceHooks.driver);
 	    
@@ -57,8 +58,8 @@ public class AssociateViewCukes {
 	@Then("^the changes should be reflected$")
 	public void the_changes_should_be_reflected() throws Throwable {
 		System.out.println("The changes in firstname/lastname should be reflected.");
-	   assertEquals(AssociateView.getFirstName(ServiceHooks.driver), AssociateView.getEnterFirstName(ServiceHooks.driver));
-	   assertEquals(AssociateView.getLastName(ServiceHooks.driver),AssociateView.getEnterLastName(ServiceHooks.driver));
+	   assertEquals(AssociateView.getCurrentFirstName(ServiceHooks.driver), AssociateView.getFirstNameValue(ServiceHooks.driver));
+	   assertEquals(AssociateView.getCurrentLastName(ServiceHooks.driver),AssociateView.getLastNameValue(ServiceHooks.driver));
 	}
 	
 	@When("^I click the interview tab$")

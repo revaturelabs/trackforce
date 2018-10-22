@@ -38,52 +38,55 @@ public class AssociateView {
 	}
 	
 	public static void clickUpdate(WebDriver d) {
-		d.findElement(By.xpath(prop.getProperty("associateViewUpdate"))).click();
+		//d.findElement(By.xpath(prop.getProperty("associateViewUpdate"))).click();
+		d.findElement(By.cssSelector(prop.getProperty("associateViewUpdate"))).click();
 	}
 	
 	public static void clickSave(WebDriver d) {
-		d.findElement(By.xpath(prop.getProperty("associateViewSave"))).click();
+		d.findElement(By.cssSelector(prop.getProperty("associateViewSave"))).click();
 	}
-	
+	public static void clickReset(WebDriver d) {
+		d.findElement(By.cssSelector(prop.getProperty("associateViewReset"))).click();
+	}
 	
 	public static void clickSaveInterview(WebDriver d) {
 		d.findElement(By.className(prop.getProperty("associateViewAdd"))).click();
 	}
 	
 	public static void enterFirstName(WebDriver d) {
-		d.findElement(By.name(prop.getProperty("associateViewFirstNameEdit"))).sendKeys(prop.getProperty("associateViewEnterFirstName"));
+		d.findElement(By.cssSelector(prop.getProperty("associateViewFirstNameField"))).sendKeys(prop.getProperty("associateViewFirstNameValue"));
 	}
 
 	public static void enterLastName(WebDriver d) {
-		d.findElement(By.name(prop.getProperty("associateViewLastNameEdit"))).sendKeys(prop.getProperty("associateViewEnterLastName"));
+		d.findElement(By.cssSelector(prop.getProperty("associateViewLastNameField"))).sendKeys(prop.getProperty("associateViewLastNameValue"));
 	}
 	
-	public static String getEnterFirstName(WebDriver d) {
-		return prop.getProperty("associateViewEnterFirstName");
+	public static String getFirstNameValue(WebDriver d) {
+		return prop.getProperty("associateViewFirstNameValue");
 	}
 	
-	public static String getEnterLastName(WebDriver d) {
-		return prop.getProperty("associateViewEnterLastName");
+	public static String getLastNameValue(WebDriver d) {
+		return prop.getProperty("associateViewLastNameValue");
 	}
 	
-	public static String getFirstName(WebDriver d) {
-		return d.findElement(By.xpath(prop.getProperty("associateViewFirstName"))).getText();
+	public static String getCurrentFirstName(WebDriver d) {
+		return d.findElement(By.cssSelector(prop.getProperty("associateViewCurrentFirstName"))).getText();
 	}
 	
-	public static String getLastName(WebDriver d) {
-		return d.findElement(By.xpath(prop.getProperty("associateViewLastName"))).getText();
+	public static String getCurrentLastName(WebDriver d) {
+		return d.findElement(By.cssSelector(prop.getProperty("associateViewCurrentLastName"))).getText();
 	}
 
 	public static void enterAssignedDate(WebDriver d,String date) {
-		d.findElement(By.xpath(prop.getProperty("associateViewAssignedDate"))).sendKeys(date);
+		d.findElement(By.cssSelector(prop.getProperty("associateViewAssignedDate"))).sendKeys(date);
 	}
 
 	public static void enterInterviewDate(WebDriver d,String date) {
-		d.findElement(By.xpath(prop.getProperty("associateViewInterviewDate"))).sendKeys(date);
+		d.findElement(By.cssSelector(prop.getProperty("associateViewInterviewDate"))).sendKeys(date);
 	}
 
 	public static void clickInterviewTab(WebDriver d) {
-		d.findElement(By.xpath(prop.getProperty("associateViewInterviewTab"))).click();	
+		d.findElement(By.cssSelector(prop.getProperty("associateViewInterviewTab"))).click();	
 	}
 	
 	public static void dropDown(WebDriver d, String option,String name) throws InterruptedException {
@@ -102,13 +105,13 @@ public class AssociateView {
 		}
 	}
 	
-	//Might need to refactor for xpath
+	//Might need to refactor for cssSelector
 	public static void toggleNotice(WebDriver d) {
 		d.findElement(By.name(prop.getProperty("associateViewNotice"))).click();
 	}
 	
 	public static boolean popUp(WebDriver d) {
-		return d.findElement(By.xpath(prop.getProperty("associateViewPopup"))).isDisplayed();
+		return d.findElement(By.cssSelector(prop.getProperty("associateViewPopup"))).isDisplayed();
 	}
 	
 }

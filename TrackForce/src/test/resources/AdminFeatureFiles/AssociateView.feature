@@ -7,8 +7,7 @@ Feature: Testing the various user stories connected to the Associate use case
 #The changes should be reflected is failing - relies on broken database/frontend schema
   Scenario: Associate is attempting to update
     Given I am on the Associate Home Page
-    When I click the update info button
-    And I enter new name information
+    When I enter new name information
     And I click the save button
     Then the changes should be reflected
 

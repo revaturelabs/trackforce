@@ -104,7 +104,7 @@ public class JWTService {
 				| IllegalArgumentException | NullPointerException e) {
 
 //			e.printStackTrace();
-			logger.info("Invalid token.");
+			logger.error("Invalid token: \n" + e.getMessage());
 
 		}
 
@@ -127,7 +127,7 @@ public class JWTService {
 				expiration = claims.getExpiration();
 			}
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage());
 		}
 		return expiration;
 	}

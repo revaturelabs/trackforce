@@ -83,8 +83,8 @@ public class UserResource {
 	public Response createUser(TfUserAndCreatorRoleContainer container, @HeaderParam("Authorization") String token) {
 		Claims payload = JWTService.processToken(token);
 
-//		if (payload == null || payload.getId().equals("5")) 
-//			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		if (payload == null) 
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		TfUser newUser = container.getUser();
 		int creatorRole = Integer.parseInt((String) payload.get("roleID"));
 		logger.info("creating new user..." + newUser);

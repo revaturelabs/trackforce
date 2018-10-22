@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Ng2OrderModule } from 'ng2-order-pipe';
 
 @NgModule({
     declarations: [
@@ -20,6 +21,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         BatchDetailsRoutingModule,
         FormsModule,
         ChartsModule,
+        Ng2OrderModule, 
         MatProgressSpinnerModule
     ]
 })

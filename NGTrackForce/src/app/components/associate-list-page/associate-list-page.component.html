@@ -60,9 +60,9 @@
             <td>{{(associate.lastName) ? associate.lastName : ''}}</td>
             <td>{{(associate.marketingStatus) ? associate.marketingStatus.name : ''}}</td>
             <td>{{(associate.client) ? associate.client.name : ''}}</td>
-            <td><a (click)="stopProp($event)" *ngIf="associate.batch"  href="/batch-details/{{associate.batch.id}}">{{(associate.batch) ? associate.batch.batchName : ''}}</a></td>
+            <td><a (click)="stopProp($event)" *ngIf="associate.batch"  href="#/batch-details/{{associate.batch.id}}">{{(associate.batch) ? associate.batch.batchName : ''}}</a></td>
             <td>{{(associate.user.isApproved === 1) ? "Approved" : ((associate.user.isApproved === 2) ?  "Denied"  : "Pending Approval")}}</td>
-            <td><a href="/form-comp/{{associate.id}}"><i (click)="navigate($event, associate.id)" class="fa fa-external-link-square link-size"></i></a></td>
+            <td><a href="#/form-comp/{{associate.id}}"><i (click)="navigate($event, associate.id)" class="fa fa-external-link-square link-size"></i></a></td>
           </tr>
           <tr *ngIf="isFetching && !associateService.hasReceivedEndForCurrentFilter">
               <td colspan="7" class="center">

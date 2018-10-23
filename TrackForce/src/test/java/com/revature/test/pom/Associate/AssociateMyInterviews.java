@@ -11,9 +11,9 @@ public class AssociateMyInterviews {
 		return driver.findElement(By.name("newClient"));
 	}
 	//Warning this method might return A LOT of options (could be deleted).  If you are worried about creating 1000+ WebElements try the next one
-	public static List<WebElement> getAllClientSelectOptions(WebDriver driver) {
-		return getClientSelect(driver).findElements(By.cssSelector("*"));
-	}
+//	public static List<WebElement> getAllClientSelectOptions(WebDriver driver) {
+//		return getClientSelect(driver).findElements(By.cssSelector("*"));
+//	}
 	public static WebElement getClientSelectOptionsByValue(WebDriver driver, String value) {
 		return getClientSelect(driver).findElement(By.cssSelector("option[value="+ value +"]"));
 	}
@@ -24,9 +24,9 @@ public class AssociateMyInterviews {
 		return driver.findElement(By.name("type"));
 	}
 	//might be obsolete but returns not too much WebElements
-	public static List<WebElement> getTypeSelectOptions(WebDriver driver) {
-		return getTypeSelect(driver).findElements(By.cssSelector("*"));
-	}
+//	public static List<WebElement> getTypeSelectOptions(WebDriver driver) {
+//		return getTypeSelect(driver).findElements(By.cssSelector("*"));
+//	}
 	public static WebElement getTypeSelectOptionsByValue(WebDriver driver, String value) {
 		return getTypeSelect(driver).findElement(By.cssSelector("option[value="+ value +"]"));
 	}

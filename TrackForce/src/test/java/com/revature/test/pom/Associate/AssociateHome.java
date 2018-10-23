@@ -13,10 +13,6 @@ import com.revature.test.pom.Login;
 //IMPORTANT: A lot of code for this POM already exists in the general POM Package.
 public class AssociateHome {
 	
-	
-//	public static WebElement getNavBarDropDown(WebDriver driver) {
-//		return driver.findElement(By.id("navbarDropdown"));
-//	}
 	private static String getTableValueSelector(int n) {
 		return ".table > tbody > tr:nth-child("+n+") > td:nth-child(2)";
 	}
@@ -40,17 +36,20 @@ public class AssociateHome {
 	public static WebElement getCurrentFirstName(WebDriver driver) {
 		return driver.findElement(By.cssSelector(getTableValueSelector(2)));
 	}
-	public static WebElement getCurrentMarketingStatus(WebDriver driver) {
+	public static WebElement getCurrentLastName(WebDriver driver) {
 		return driver.findElement(By.cssSelector(getTableValueSelector(3)));
 	}
-	public static WebElement getCurrentBatchName(WebDriver driver) {
+	public static WebElement getCurrentMarketingStatus(WebDriver driver) {
 		return driver.findElement(By.cssSelector(getTableValueSelector(4)));
 	}
-	public static WebElement getCurrentClientName(WebDriver driver) {
+	public static WebElement getCurrentBatchName(WebDriver driver) {
 		return driver.findElement(By.cssSelector(getTableValueSelector(5)));
 	}
-	public static WebElement getCurrentEndClientName(WebDriver driver) {
+	public static WebElement getCurrentClientName(WebDriver driver) {
 		return driver.findElement(By.cssSelector(getTableValueSelector(6)));
+	}
+	public static WebElement getCurrentEndClientName(WebDriver driver) {
+		return driver.findElement(By.cssSelector(getTableValueSelector(7)));
 	}
 
 	public static WebElement getFirstNameInputField(WebDriver driver) {

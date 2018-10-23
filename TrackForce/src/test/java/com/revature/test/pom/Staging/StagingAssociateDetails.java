@@ -1,5 +1,7 @@
 package com.revature.test.pom.Staging;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -84,24 +86,38 @@ public class StagingAssociateDetails {
 		return driver.findElement(By.cssSelector("button[type='button'][ Update Associate ]"));
 	}
 	
+	public static WebElement getInterviewTable(WebDriver driver) {
+		return driver.findElement(By.cssSelector("table[class='table table-striped']"));
+	}
+	
 	public static WebElement getInterviewRow(WebDriver driver, int id) {
+		List<WebElement> rows = getInterviewTable(driver).findElements(By.tagName("tr"));
+		for (WebElement row: rows) {
+			if (getInterviewId(driver, row).getAttribute("innerText").equals(id)) {
+				return row;
+			}
+		}
 		return null;
 	}
 	
 	public static WebElement getInterviewId(WebDriver driver, WebElement row) {
-		return null;
+		return row.findElement(By.tagName("a"));
+	}
+	
+	public static WebElement getInterviewClient(WebDriver driver, WebElement row) {
+		return row.findElements(By.tagName("td")).get(1);
 	}
 	
 	public static WebElement getInterviewDate(WebDriver driver, WebElement row) {
-		return null;
+		return row.findElements(By.tagName("td")).get(2);
 	}
 	
 	public static WebElement getInterviewType(WebDriver driver, WebElement row) {
-		return null;
+		return row.findElements(By.tagName("td")).get(3);
 	}
 	
 	public static WebElement getInterviewFeedback(WebDriver driver, WebElement row) {
-		return null;
+		return row.findElements(By.tagName("td")).get(4);
 	}
 	
 }

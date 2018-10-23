@@ -1,4 +1,4 @@
-package com.revature.test.pom.Sales;
+package com.revature.test.pom;
 
 import java.util.List;
 
@@ -6,16 +6,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class SalesBatchList {
-
-	
-	private static List<WebElement> elementList;
-	
+public class BatchList {
 
 	public static List<WebElement> getBatchListElements(WebDriver driver) {
-		elementList = driver.findElements(By.cssSelector("tr[class = 'max-width ng-star-inserted']"));
-		return elementList;
-		
+		return driver.findElements(By.cssSelector("tr[class = 'max-width ng-star-inserted']"));
 	}
 	
 	public static WebElement getBatchName(WebDriver driver,WebElement row) {
@@ -31,18 +25,15 @@ public class SalesBatchList {
 	}
 	
 	public static WebElement getStartDateInput(WebDriver driver) {
-		WebElement element = driver.findElement(By.id("startDate"));
-		return element;
+		return driver.findElement(By.id("startDate"));
 	}
 	
 	public static WebElement getEndDateInput(WebDriver driver) {
-		WebElement element = driver.findElement(By.id("endDate"));
-		return element;
+		return driver.findElement(By.id("endDate"));
 	}
 	
 	public static WebElement getPieChart(WebDriver driver) {	
-		WebElement element = driver.findElement(By.id("pie"));
-		return element;		
+		return driver.findElement(By.id("pie"));
 	}
 	
 	

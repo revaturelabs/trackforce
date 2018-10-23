@@ -1,4 +1,4 @@
-package com.revature.test.pom.Sales;
+package com.revature.test.pom;
 
 import java.util.List;
 
@@ -6,18 +6,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class SalesBatchDetails {
+public class BatchDetails {
 	
-	private static List<WebElement> elementList;
 	
 	public static WebElement getBarGraph(WebDriver driver) {	
-		WebElement element = driver.findElement(By.id("bar"));
-		return element;		
+		return driver.findElement(By.id("bar"));
 	}
 	
 	public static List<WebElement> getAssociateList(WebDriver driver) {
-		elementList = driver.findElements(By.tagName("tr"));
-		return elementList;
+		return driver.findElements(By.tagName("tr"));
 	}
 
 }

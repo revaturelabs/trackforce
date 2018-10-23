@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-//IMPORTANT: A lot of code for this POM already exists in the general POM Package.
 public class AdminClientList {
 
 	public static List<WebElement> elementList = new ArrayList<WebElement>();
@@ -18,8 +17,9 @@ public class AdminClientList {
 		return elementList;
 	}
 
-	public static WebElement filter(WebDriver driver) {
+	public static WebElement getFilter(WebDriver driver) {
 		element = driver.findElement(By.id("clientSearch"));
 		return element;
 	}
+
 }

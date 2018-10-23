@@ -73,17 +73,17 @@ export class AuthenticationService {
   }
 
  
-  getUserRole(token: string): number {
-    let role: number = 0;
-    this.http
-      .get<User>(environment.url + "TrackForce/users/getUserRole", {
-        token: token
-      })
-      .subscribe(data => {
-        role = data.role;
-      });
-    return role;
-  }
+  // getUserRole(token: string): number {
+  //   let role: number = 0;
+  //   this.http
+  //     .get<User>(environment.url + "TrackForce/users/getUserRole", {
+  //       token: token
+  //     })
+  //     .subscribe(data => {
+  //       role = data.role;
+  //     });
+  //   return role;
+  // }
 
   /**
    * This method will return the Associate Object from local storage

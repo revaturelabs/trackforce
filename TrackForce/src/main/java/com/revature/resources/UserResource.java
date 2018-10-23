@@ -342,8 +342,7 @@ public class UserResource {
 	}
 	
 	@Path("/getUserRole")
-	@POST
-	@Consumes("application/json")
+	@GET
 	@Produces("application/json")
 	@ApiOperation(value = "Get Role value method", notes = "parses the JWT to check if its valid and returns the value if valid")
 	public Response returnRole(@HeaderParam("Authorization") String token) {

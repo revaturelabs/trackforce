@@ -17,6 +17,18 @@ public class StagingBatchList {
 		
 	}
 	
+	public static WebElement getBatchName(WebDriver driver,WebElement row) {
+		return row.findElements(By.tagName("td")).get(0);
+	}
+	
+	public static WebElement getBatchStartDate(WebDriver driver,WebElement row) {
+		return row.findElements(By.tagName("td")).get(1);
+	}
+	
+	public static WebElement getBatchEndDate(WebDriver driver,WebElement row) {
+		return row.findElements(By.tagName("td")).get(2);
+	}
+	
 	
 	public static WebElement getStartDateInput(WebDriver driver) {
 		WebElement element = driver.findElement(By.id("startDate"));

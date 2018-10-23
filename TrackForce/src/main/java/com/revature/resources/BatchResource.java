@@ -62,7 +62,9 @@ public class BatchResource {
 	@ApiOperation(value = "Returns all Batches", notes = "Returns a list of a list of all batches optionally filtered by start and end dates.")
 	public Response getAllBatches(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
 			@HeaderParam("Authorization") String token) {
-		logger.info("getallBatches()...");
+		
+		StringBuilder logMessage = new StringBuilder();
+		logMessage.append("getallBatches()...");
 		List<TfBatch> batches = batchService.getAllBatches();
 		
 		Claims payload = JWTService.processToken(token);
@@ -77,8 +79,8 @@ public class BatchResource {
 
 		if (authorizedRoles.contains(role)) {
 			if (startDate != null && endDate != null) {
-				logger.info("	start = " + new Timestamp(startDate));
-				logger.info("	end = " + new Timestamp(endDate));
+				logMessage.append("	start = " + new Timestamp(startDate));
+				logMessage.append("	end = " + new Timestamp(endDate));
 				int i = 0;
 				Date start = new Date(startDate);
 				Date end = new Date(endDate);
@@ -97,7 +99,8 @@ public class BatchResource {
 		} else {
 			status = Status.FORBIDDEN;
 		}
-		logger.info("	batches size: " + (batches == null ? null : batches.size()));
+		logMessage.append("	batches size: " + (batches == null ? null : batches.size()));
+		logger.info(logMessage);
 
 		return Response.status(status).entity(batches).build();
 	}

@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 
 public class SalesHome {
 	
-private static List<WebElement> elementList;
+	private static List<WebElement> elementList;
 	
 	public static List<WebElement> getPieCharts(WebDriver driver) {	
 		elementList = driver.findElements(By.id("pie"));

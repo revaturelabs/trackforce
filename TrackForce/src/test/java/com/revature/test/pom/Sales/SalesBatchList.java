@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 public class SalesBatchList {
 
 	
-private static List<WebElement> elementList;
+	private static List<WebElement> elementList;
 	
 
 	public static List<WebElement> getBatchListElements(WebDriver driver) {

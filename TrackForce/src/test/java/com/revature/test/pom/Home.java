@@ -1,4 +1,4 @@
-package com.revature.test.pom.Staging;
+package com.revature.test.pom;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 //Written 10/23/18 - Josh
-public class StagingHome {
+public class Home {
 
 	private static WebDriverWait wait;
 	

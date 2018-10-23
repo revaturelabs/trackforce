@@ -1,4 +1,4 @@
-package com.revature.test.pom.Staging;
+package com.revature.test.pom;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class StagingAssociateList {
+public class AssociateList {
 
 	public static WebElement getFilterByText(WebDriver driver) {
 		return driver.findElement(By.cssSelector("input[type='text'][name='filterByText']"));

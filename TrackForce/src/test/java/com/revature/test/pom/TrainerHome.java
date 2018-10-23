@@ -1,4 +1,4 @@
-package com.revature.test.pom.Trainer;
+package com.revature.test.pom;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

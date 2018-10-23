@@ -1,13 +1,17 @@
-package com.revature.test.pom.Staging;
+package com.revature.test.pom;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class StagingNavBar {
+public class NavBar {
 	
 	public static WebElement getRevatureLogo(WebDriver driver) {
 		return driver.findElement(By.id("logo"));
+	}
+	
+	public WebElement getMyInterviews(WebDriver driver) {
+		return driver.findElement(By.id("interviews"));
 	}
 	
 	public static WebElement getHome(WebDriver driver) {
@@ -34,7 +38,11 @@ public class StagingNavBar {
 		return driver.findElement(By.id("create"));
 	}
 	
-	public static WebElement getWelcome(WebDriver driver) {
+	public static WebElement getSalesForce(WebDriver driver){
+		return driver.findElement(By.id("salesforce"));	
+	}
+	
+	public static WebElement getWelcomeDropdown(WebDriver driver) {
 		return driver.findElement(By.id("navbarDropdown"));
 	}
 	
@@ -43,6 +51,6 @@ public class StagingNavBar {
 	}
 	
 	public static WebElement getMobileNavToggler(WebDriver driver) {
-		return driver.findElement(By.cssSelector("span[class='navbar-toggler-icon']"));
+		return driver.findElement(By.id("collapsedNav"));
 	}
 }

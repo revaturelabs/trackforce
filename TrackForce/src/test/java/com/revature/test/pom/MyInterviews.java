@@ -1,4 +1,4 @@
-package com.revature.test.pom.Associate;
+package com.revature.test.pom;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class AssociateMyInterviews {
+public class MyInterviews {
 	public static WebElement getClientSelect(WebDriver driver) {
 		return driver.findElement(By.name("newClient"));
 	}

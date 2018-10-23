@@ -1,4 +1,4 @@
-package com.revature.test.pom.Staging;
+package com.revature.test.pom;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class StagingAssociateDetails {
+public class AssociateDetails {
 	
 	private static WebElement getAssociateInfo(WebDriver driver) {
 		return driver.findElement(By.cssSelector("div[class='col-md-4']"));

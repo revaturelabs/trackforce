@@ -1,4 +1,4 @@
-package com.revature.test.pom.Associate;
+package com.revature.test.pom;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,8 +7,6 @@ import java.util.Properties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import com.revature.test.pom.Login;
 
 //IMPORTANT: A lot of code for this POM already exists in the general POM Package.
 public class AssociateHome {

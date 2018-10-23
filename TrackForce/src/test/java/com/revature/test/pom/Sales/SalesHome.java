@@ -10,29 +10,24 @@ public class SalesHome {
 	
 private static List<WebElement> elementList;
 	
-	public static List<WebElement> getPieCharts(WebDriver driver) {	
-		elementList = driver.findElements(By.id("pie"));
-		return elementList;		
+	public static List<WebElement> getAllPieCharts(WebDriver driver) {	
+		return driver.findElements(By.id("pie"));
 	}
 	
 	public static WebElement getUndeployedPieChart(WebDriver driver) {
-		elementList = driver.findElements(By.id("pie"));
-		return elementList.get(0);
+		return getAllPieCharts(driver).get(0);
 	}
 	
 	public static WebElement getDeployedPieChart(WebDriver driver) {
-		elementList = driver.findElements(By.id("pie"));
-		return elementList.get(1);
+		return getAllPieCharts(driver).get(1);
 	}
 	
 	public static WebElement getMappedPieChart(WebDriver driver) {
-		elementList = driver.findElements(By.id("pie"));
-		return elementList.get(2);
+		return getAllPieCharts(driver).get(2);
 	}
 	
 	public static WebElement getUnmappedPieChart(WebDriver driver) {
-		elementList = driver.findElements(By.id("pie"));
-		return elementList.get(3);
+		return getAllPieCharts(driver).get(3);
 	}
 	
 	public static WebElement getClosingX(WebDriver driver) {

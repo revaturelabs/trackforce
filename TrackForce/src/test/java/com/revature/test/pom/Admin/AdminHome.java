@@ -8,11 +8,8 @@ import org.openqa.selenium.WebElement;
 
 public class AdminHome {
 
-	private static List<WebElement> element;
-
 	public static List<WebElement> getCharts(WebDriver driver) {
-		element = driver.findElements(By.id("pie"));
-		return element;
+		return driver.findElements(By.id("pie"));
 	}
 
 }

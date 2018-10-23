@@ -55,7 +55,7 @@ public class StagingAssociateList {
 	}
 	
 	public static List<WebElement> getRowColumns(WebDriver driver, WebElement row) {
-		return driver.findElements(By.tagName("td"));
+		return row.findElements(By.tagName("td"));
 	}
 	
 	public static WebElement getFirstName(WebDriver driver, WebElement row) {
@@ -84,6 +84,10 @@ public class StagingAssociateList {
 	
 	public static WebElement getAssociateDetails(WebDriver driver, WebElement row) {
 		return getRowColumns(driver, row).get(6).findElement(By.tagName("a"));
+	}
+	
+	public static WebElement getUpdateAssociatesButton(WebDriver driver) {
+		return driver.findElement(By.cssSelector("button[type='button'][innerText='Update']"));
 	}
 	
 }

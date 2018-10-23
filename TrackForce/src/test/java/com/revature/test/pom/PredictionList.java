@@ -1,4 +1,4 @@
-package com.revature.test.pom.Staging;
+package com.revature.test.pom;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -8,19 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 //Written 10/23/18 - Josh
-public class StagingPredictionList {
-	private static WebDriverWait wait;
-	
-	/*public static void waitForPredictionListOpen(WebDriver driver) {
-		try {
-			wait = new WebDriverWait(driver, 20);
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("predictionsHeader")));
-		} catch (TimeoutException e) {
-			e.printStackTrace();
-			driver.quit();
-		}
-		
-	}*/
+public class PredictionList {
 	
 	public static WebElement getJTATextBox(WebDriver driver) {
 		return driver.findElement(By.id("JTA-input"));

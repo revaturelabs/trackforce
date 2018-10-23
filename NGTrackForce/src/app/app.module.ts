@@ -7,7 +7,7 @@ import { NgModule } from '@angular/core';
 //import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
-import { Ng2OrderModule } from 'ng2-order-pipe';
+
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { MaterialModule } from './material.module';
@@ -131,7 +131,6 @@ import { UpdateDialogComponent } from './components/associate-list-page/associat
     HttpClientModule,
     //RouterModule.forRoot(appRoutes, {useHash: true}),
     ChartsModule,
-    Ng2OrderModule,
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
     OwlDateTimeModule,

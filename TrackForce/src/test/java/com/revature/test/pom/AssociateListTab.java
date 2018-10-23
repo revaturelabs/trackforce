@@ -1,4 +1,4 @@
-package com.revature.test.admin.pom;
+package com.revature.test.pom;
 
 import java.io.IOException;
 import java.io.InputStream;

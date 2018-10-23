@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 
 public class SalesBatchDetails {
 	
-private static List<WebElement> elementList;
+	private static List<WebElement> elementList;
 	
 	public static WebElement getBarGraph(WebDriver driver) {	
 		WebElement element = driver.findElement(By.id("bar"));

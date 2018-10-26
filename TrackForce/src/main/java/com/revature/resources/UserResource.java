@@ -87,7 +87,7 @@ public class UserResource {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		TfUser newUser = container.getUser();
 		int creatorRole = Integer.parseInt((String) payload.get("roleID"));
-		logger.info("creating new user..." + newUser);
+		StringBuilder logMessage = new StringBuilder("creating new user..." + newUser);
 		
 		// any user created by an admin is approved
 		if(creatorRole == 1)
@@ -107,6 +107,7 @@ public class UserResource {
 			if (userService.getUser(newUser.getUsername()) == null){
 				tfrole = new TfRole(1, "Admin");
 				newUser.setTfRole(tfrole);
+				logMessage.append("\n	The user with hashed password is " + newUser);
 				works = userService.insertUser(newUser);
 			}
 			else {
@@ -121,7 +122,8 @@ public class UserResource {
 				newTrainer.setTfUser(newUser);
 				newTrainer.setFirstName(TEMP);
 				newTrainer.setLastName(TEMP);
-				logger.info("creating new trainer..." + newTrainer);
+				logMessage.append(logMessage + "\n	creating new trainer..." + newTrainer);
+				logMessage.append("The trainer with hashed password is " + newTrainer);
 				works = trainerService.createTrainer(newTrainer);
 			}
 			else {
@@ -132,6 +134,7 @@ public class UserResource {
 			if (userService.getUser(newUser.getUsername()) == null) {
 				tfrole = new TfRole(3, "Sales-Delivery");
 				newUser.setTfRole(tfrole);
+				logMessage.append("\n	The user with hashed password is " + newUser);
 				works = userService.insertUser(newUser);
 			}
 			else {
@@ -142,6 +145,7 @@ public class UserResource {
 			if (userService.getUser(newUser.getUsername()) == null) {
 				tfrole = new TfRole(4, "Staging");
 				newUser.setTfRole(tfrole);
+				logMessage.append("\n	The user with hashed password is " + newUser);
 				works = userService.insertUser(newUser);
 			}
 			else {
@@ -156,7 +160,8 @@ public class UserResource {
 				newAssociate.setUser(newUser);
 				newAssociate.setFirstName(TEMP);
 				newAssociate.setLastName(TEMP);
-				logger.info("creating new associate..." + newAssociate);
+				logMessage.append("\n	creating new associate..." + newAssociate);
+				logMessage.append("\n	The associate with hashed password is " + newAssociate);
 				works = associateService.createAssociate(newAssociate);
 			}
 			else {
@@ -164,11 +169,12 @@ public class UserResource {
 			}
 			break;
 		default:
-			logger.warn("Role is zero");
+			logger.warn(logMessage + "\n	Warning: Role is zero");
 			break;
 		}
 
 		if (works) {
+			logger.info(logMessage);
 			return Response.status(Status.CREATED).build();
 		} else {
 			return Response.status(Status.EXPECTATION_FAILED).build();
@@ -288,21 +294,18 @@ public class UserResource {
 	@Produces("application/json")
 	@ApiOperation(value = "login method", notes = "The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 403 if invalid.")
 	public Response submitCredentials(TfUser loginUser) {
-		logger.info("submitCredentials()...");
-		logger.info("	login: " + loginUser);
+		String logMessage = "submitCredentials()...\n	login: " + loginUser;
 		TfUser user;
 		try {
 			user = userService.submitCredentials(loginUser);
-			logger.info("	user: " + user);
+			logger.info(logMessage + "\n	user: " + user);
 		} catch (NoResultException | NullPointerException ex) {
-			logger.error(ex);
+			logger.error(ex.getMessage());
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		if (user != null) {
-			logger.info("sending 200 response..");
 			return Response.status(Status.OK).entity(user).build();
 		} else {
-			logger.info("sending 401 response with null user data");
 			return Response.status(Status.UNAUTHORIZED).entity(null).build();
 		}
 	}
@@ -339,8 +342,7 @@ public class UserResource {
 	}
 	
 	@Path("/getUserRole")
-	@POST
-	@Consumes("application/json")
+	@GET
 	@Produces("application/json")
 	@ApiOperation(value = "Get Role value method", notes = "parses the JWT to check if its valid and returns the value if valid")
 	public Response returnRole(@HeaderParam("Authorization") String token) {

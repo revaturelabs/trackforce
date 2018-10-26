@@ -6,6 +6,8 @@ import { ClientService } from './../../services/client-service/client.service';
 import { SelectedStatusConstants } from './../../constants/selected-status.constants';
 import { Component, OnInit, OnDestroy, AfterViewInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { Router, NavigationExtras } from '@angular/router';
+
 
 export interface DialogData {
   selected: Set<number>;
@@ -90,6 +92,9 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
       }
     });
   }
+
+
+  
 
   ngAfterViewInit() {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.

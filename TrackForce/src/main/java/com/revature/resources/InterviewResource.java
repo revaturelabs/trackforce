@@ -80,15 +80,17 @@ public class InterviewResource {
 	@ApiOperation(value = "returns all interviews", notes = "Gets a list of all interviews that can be sorted in ascending or descending order based on date.")
 	public Response getAllInterviews(@HeaderParam("Authorization") String token, @QueryParam("sort") String sort) {
 
-		logger.info("getAllInterviews()...");
+		StringBuilder logMessage = new StringBuilder("getAllInterviews()...");
 		Status status = null;
 
 		if (UserAuthentication.Authorized(token, new int[] { 1, 3, 4 })) {
 			List<TfInterview> interviews = interviewService.getAllInterviews();
 			status = (interviews == null || interviews.isEmpty()) ? Status.NO_CONTENT : Status.OK;
-			logger.info("	interviews.size() = " + interviews.size());
+			logMessage.append("\n	interviews.size() = " + interviews.size());
+			logger.info(logMessage);
 			return Response.status(status).entity(interviews).build();
 		} else {
+			logger.info(logMessage);
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 

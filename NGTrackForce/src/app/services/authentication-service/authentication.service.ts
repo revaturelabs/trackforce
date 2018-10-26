@@ -6,26 +6,29 @@
  * This service contains the login and logout logic as well as
  * logic to retrieve user, associate, and trainer objects from local storage
  */
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 
-import { RequestService } from '../request-service/request.service';
-import { User } from '../../models/user.model';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { Associate } from '../../models/associate.model';
-import { Trainer } from '../../models/trainer.model';
+import { RequestService } from "../request-service/request.service";
+import { User } from "../../models/user.model";
+import { Router } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../environments/environment";
+import { Associate } from "../../models/associate.model";
+import { Trainer } from "../../models/trainer.model";
 // import 'rxjs/Rx';
 
-const ASSOCIATE_KEY = 'currentAssociate'
-const USER_KEY = 'currentUser';
-const TRAINER_KEY = 'currentTrainer';
+const ASSOCIATE_KEY = "currentAssociate";
+const USER_KEY = "currentUser";
+const TRAINER_KEY = "currentTrainer";
 
 @Injectable()
 export class AuthenticationService {
-
-  constructor(private rs: RequestService, private router: Router, private http: HttpClient) { }
+  constructor(
+    private rs: RequestService,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   /**
    *
@@ -40,19 +43,21 @@ export class AuthenticationService {
    * If credentials are wrong, 401 is returned
    */
   public login(username: string, password: string): Observable<User> {
-    return this.http.post<User>(environment.url + 'TrackForce/users/login', { username: username, password: password });
+    return this.http.post<User>(environment.url + "TrackForce/users/login", {
+      username: username,
+      password: password
+    });
   }
 
-
   /**
-  *Removes user from localStorage
-  *And navigates back to login
-  *
-  *@param none
-  */
+   *Removes user from localStorage
+   *And navigates back to login
+   *
+   *@param none
+   */
   logout() {
     localStorage.clear();
-    this.router.navigate(['login']);
+    this.router.navigate(["login"]);
   }
 
   /**
@@ -67,15 +72,30 @@ export class AuthenticationService {
     return user;
   }
 
+ 
+  // getUserRole(token: string): number {
+  //   let role: number = 0;
+  //   this.http
+  //     .get<User>(environment.url + "TrackForce/users/getUserRole", {
+  //       token: token
+  //     })
+  //     .subscribe(data => {
+  //       role = data.role;
+  //     });
+  //   return role;
+  // }
+
   /**
- * This method will return the Associate Object from local storage
- *
- * @param none
- *
- * @author Max Dunn
- */
+   * This method will return the Associate Object from local storage
+   *
+   * @param none
+   *
+   * @author Max Dunn
+   */
   getAssociate(): Associate {
-    const associate: Associate = JSON.parse(localStorage.getItem(ASSOCIATE_KEY));
+    const associate: Associate = JSON.parse(
+      localStorage.getItem(ASSOCIATE_KEY)
+    );
     return associate;
   }
 
@@ -90,5 +110,4 @@ export class AuthenticationService {
     const trainer: Trainer = JSON.parse(localStorage.getItem(TRAINER_KEY));
     return trainer;
   }
-
 }

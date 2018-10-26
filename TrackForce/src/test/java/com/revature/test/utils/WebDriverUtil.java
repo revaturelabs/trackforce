@@ -8,7 +8,7 @@ import java.util.Properties;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import com.revature.test.admin.pom.Login;
+import com.revature.test.pom.Login;
 
 public class WebDriverUtil {
 

@@ -10,10 +10,10 @@
           Password must have a number, a capital letter and a special character
  */
 export enum StatusMessage {
-    INVALID_PASS = 'Password must have a number, a capital letter and a special character',
+    INVALID_PASS = 'Password must be at least 8 characters and include a number, a capital letter and a special character ',
     INVALID_USER = 'Alphabetical and numerical characters only, no spaces',
     MISMATCH = 'Passwords do not match!',
     NONUNIQUE = 'Username is not unique!',
     SUCCESS = 'User created successfully',
-    ERROR = 'Error: new user not created!'
+    ERROR = 'Error: new user not created!',
 }

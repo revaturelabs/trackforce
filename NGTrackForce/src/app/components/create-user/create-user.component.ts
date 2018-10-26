@@ -104,7 +104,8 @@ export class CreateUserComponent implements OnInit {
     // Ensures password is valid by ensuring there's at least one match of each regex.
     return password.match(capital) !== null
         && password.match(special) !== null
-        && password.match(num) !== null;
+        && password.match(num) !== null
+        && password.length >= 8;
   }
 
   /**

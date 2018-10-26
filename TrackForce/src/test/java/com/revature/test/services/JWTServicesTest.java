@@ -1,14 +1,13 @@
 package com.revature.test.services;
 
-import static org.junit.Assert.assertNotNull;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.junit.Assume;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -57,13 +56,15 @@ public class JWTServicesTest {
 
   @Test
   public void testJWTGetKey() {
-	  Assume.assumeTrue(System.getenv("KEY") != null);
-	  String key = JWTService.getKey();
-	  assertNotNull(key);
-	  
-	  Assume.assumeTrue(System.getenv("KEY") == null);
-	  key = JWTService.getKey();
-	  assertEquals(key, "trackforcekey");
+	  if(System.getenv("KEY") == null) {
+		  String key = JWTService.getKey();
+		  assertNotNull(key);
+	  }
+	  else {
+
+		  String key = JWTService.getKey();
+		  assertEquals(key, "trackforcekey");
+	  }
   }
 
   @Test

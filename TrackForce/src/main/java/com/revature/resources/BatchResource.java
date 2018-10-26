@@ -159,17 +159,6 @@ public class BatchResource {
 		Status status = null;
 		status = Status.OK;
 		int role = Integer.parseInt((String)payload.get("roleID"));
-
-	/*	Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
-
-		// Verifies user's role has proper authority to perform this action
-		if (authorizedRoles.contains(role)) {
-			// results and status set in here
-			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
-		} else {
-			status = Status.FORBIDDEN;
-		}*/
-		
 		
 		JSONObject batchDetails = new JSONObject();
 		JSONArray batchesJ = new JSONArray();

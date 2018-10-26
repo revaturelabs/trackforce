@@ -155,13 +155,4 @@ public class HibernateUtil {
 		return multiTransaction(dbSave, o);
 	}
 
-	//UNUSED
-	public static <T> boolean updateDetached(T det) {
-		return runHibernateTransaction(detachedUpdate, det);
-	}
-
-	//UNUSED
-	public static <T> boolean updateDetached(List<T> det) {
-		return multiTransaction(detachedUpdate, det);
-	}
 }

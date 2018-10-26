@@ -1,10 +1,20 @@
 package com.revature.utils;
 
+/*	NOTE FROM 1808 LEAD:
+ * This whole file is leftover from previous batches. It should ultimately be removed from both
+ * Front- and Back-ends. It *should* be unnecessary, but we're leaving it here for you just in case.
+ * - Art B.
+*/	
+
+
+
+
 /** This implementation is used to reset the database with 
  * proper variables so testing and modifications can be made.
  * @author Josh Pressley ,Chris Siu - 1807 */
 public class DbResetUtil {
 	
+
 	/* The method implementations below both have issues with the script file.
 	 * Method 1:
 	 * 		Hibernate has to read and execute every line individually. Latest error hints that the script needs to use

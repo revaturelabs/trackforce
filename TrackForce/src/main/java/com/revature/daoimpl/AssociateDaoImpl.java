@@ -56,7 +56,6 @@ public class AssociateDaoImpl implements AssociateDao {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<TfAssociate> criteria = builder.createQuery(TfAssociate.class);
 		Root<TfAssociate> root = criteria.from(TfAssociate.class);
-		//Expression<String>  expName = root.get("batchName");
 		Expression<String> expFirst = builder.lower(root.get("firstName"));
 		Expression<String>  expLast = builder.lower(root.get("lastName"));
 		sortText = "%" + sortText.toLowerCase() + "%";
@@ -109,7 +108,7 @@ public class AssociateDaoImpl implements AssociateDao {
 		session.close(); //close out the session
 		if (results == null || results.isEmpty()) { return null; }
 		return results;
-	}//end getNAssociateMatchingCriteria()
+	}
 	
 	/** Gets a single associate with an id
 	 * @param Integer associateId */
@@ -307,7 +306,7 @@ public class AssociateDaoImpl implements AssociateDao {
 			});
 		}
 		throw new InvalidArgumentException("getUndeployed(): NOT MAPPED OR UNMAPPED");
-	}//end getUndeployed()
+	}
 
 	@Override
 	public boolean updateAssociate(TfAssociate associate) {

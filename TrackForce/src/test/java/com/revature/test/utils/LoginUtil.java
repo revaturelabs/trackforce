@@ -7,7 +7,7 @@ import java.util.Properties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import com.revature.test.admin.pom.Login;
+import com.revature.test.pom.Login;
 
 public class LoginUtil {
 	private static Properties prop = new Properties();

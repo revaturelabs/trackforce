@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.revature.pom.*;
 import com.revature.services.*;
-
+import com.revature.test.pom.*;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptException;

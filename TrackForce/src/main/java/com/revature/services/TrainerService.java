@@ -6,7 +6,7 @@ import com.revature.dao.TrainerDao;
 import com.revature.daoimpl.TrainerDaoImpl;
 import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
-import com.revature.utils.LogUtil;
+import static com.revature.utils.LogUtil.logger;
 import com.revature.utils.PasswordStorage;
 import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 
@@ -75,9 +75,8 @@ public class TrainerService {
 			traineruser.setPassword(PasswordStorage.createHash(trainer.getTfUser().getPassword()));
 			trainer.setTfUser(traineruser);
 			//TODO: Id is not the real id because of auto generate id. Need to add a new update from database to server
-			LogUtil.logger.info("The trainer with hashed password is " + trainer);
 		} catch (CannotPerformOperationException e) {
-			LogUtil.logger.warn(e.getMessage());
+			logger.warn(e.getMessage());
 		}
 		return dao.createTrainer(trainer);
 	}

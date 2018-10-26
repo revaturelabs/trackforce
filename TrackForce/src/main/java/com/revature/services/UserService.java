@@ -11,7 +11,7 @@ import com.revature.dao.UserDao;
 import com.revature.daoimpl.UserDaoImpl;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
-import com.revature.utils.LogUtil;
+import static com.revature.utils.LogUtil.logger;
 import com.revature.utils.PasswordStorage;
 import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 import com.revature.utils.PasswordStorage.InvalidHashException;
@@ -83,9 +83,8 @@ public class UserService {
 	public boolean insertUser(TfUser newUser) {
 		try {
 			newUser.setPassword(PasswordStorage.createHash(newUser.getPassword()));
-			LogUtil.logger.info("The user with hashed password is " + newUser);
 		} catch (CannotPerformOperationException e) {
-			LogUtil.logger.warn(e.getMessage());
+			logger.warn(e.getMessage());
 		}
 		return dao.insertUser(newUser);
 	}
@@ -112,20 +111,17 @@ public class UserService {
 	 * @return foundUser
 	 */
 	public TfUser submitCredentials(TfUser loginUser) {
-		LogUtil.logger.info("creating query in hibernate..");
 		TfUser foundUser = getUser(loginUser.getUsername());
-		LogUtil.logger.info("The found user was " + foundUser);
 		if (foundUser != null) {
 			try {
 				if (PasswordStorage.verifyPassword(loginUser.getPassword(), foundUser.getPassword())) {
 					int role = foundUser.getTfRole().getTfRoleId();
 					foundUser.setRole(role);
 					foundUser.setToken(JWTService.createToken(foundUser.getUsername(), foundUser.getRole()));
-					LogUtil.logger.info("Password verification successful! Returning " + foundUser.toString());
 					return foundUser;
 				}
 			} catch (CannotPerformOperationException | InvalidHashException e) {
-				LogUtil.logger.warn(e.getMessage());
+				logger.warn(e.getMessage());
 			}
 		}
 		return null;

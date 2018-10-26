@@ -2,41 +2,41 @@
   <!-- This is the filtering options panel -->
   <div class="row">
     <div class="col-lg-12 rounded shadow" style="background-color: white;">
-        <form>
-          <!-- Filter Options -->
-          <div class="form-row">
-              <div class="form-group col-md-4 offset-md-1">
-                  <label for="exampleFormControlSelect1">Filter by Text</label>
-                  <input  type="text" class="form-control" id="exampleFormControlSelect1" [(ngModel)]="filterByText" name="filterByText" />
-                </div>
+      <form>
+        <!-- Filter Options -->
+        <div class="form-row">
+          <div class="form-group col-md-4 offset-md-1">
+            <label for="exampleFormControlSelect1">Filter by Text</label>
+            <input type="text" class="form-control" id="exampleFormControlSelect1" [(ngModel)]="filterByText" name="filterByText" />
           </div>
-          <div class="form-row">
-            <div class="form-group col-md-4 offset-md-1">
-              <label for="exampleFormControlSelect1">Status</label>
-              <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="filterByStatus" name="filterByStatus">
-                <option *ngFor="let status of associateStatuses" [value]="status">{{status}}</option>
-              </select>
-            </div>
-            <div class="form-group col-md-4 offset-md-2">
-              <label for="exampleFormControlSelect1">Client</label>
-              <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="filterByClient" name="filterByClient">
-                <option default value=""></option>
-                <option *ngFor="let client of clientList$.value" [value]="client.id">{{client.name}}</option>
-                <option *ngIf="!clientList$.value">Loading...</option>
-              </select>
-            </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4 offset-md-1">
+            <label for="exampleFormControlSelect1">Status</label>
+            <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="filterByStatus" name="filterByStatus">
+              <option *ngFor="let status of associateStatuses" [value]="status">{{status}}</option>
+            </select>
           </div>
+          <div class="form-group col-md-4 offset-md-2">
+            <label for="exampleFormControlSelect1">Client</label>
+            <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="filterByClient" name="filterByClient">
+              <option default value=""></option>
+              <option *ngFor="let client of clientList$.value" [value]="client.id">{{client.name}}</option>
+              <option *ngIf="!clientList$.value">Loading...</option>
+            </select>
+          </div>
+        </div>
 
-          <!-- Filter Controls (Submitting/ Clearing) -->
-          <div class="form-row">
-            <div class="col-md-4 offset-md-1">
-              <button type="button" class="colored-button mb-3 rounded btn-block" (click)="clearFilter()" >Clear Filters</button>
-            </div>
-            <div class="col-md-4 offset-md-2">
-              <button type="button" class="colored-button mb-3 rounded btn-block" (click)="submitFilter($event)" >Filter</button>
-            </div>
+        <!-- Filter Controls (Submitting/ Clearing) -->
+        <div class="form-row">
+          <div class="col-md-4 offset-md-1">
+            <button type="button" class="colored-button mb-3 rounded btn-block" (click)="clearFilter()">Clear Filters</button>
           </div>
-        </form>
+          <div class="col-md-4 offset-md-2">
+            <button type="button" class="colored-button mb-3 rounded btn-block" (click)="submitFilter($event)">Filter</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -46,29 +46,32 @@
     <div id="tableScroller" class="col-lg-12 shadow rounded mt-5 pre-scrollable" style="background-color: white;">
       <table class="table table-striped table-hover mt-2">
         <thead>
-            <th class="first">First Name</th>
-            <th class="last">Last Name</th>
-            <th class="status">Marketing Status</th>
-            <th class="client">Client Name</th>
-            <th class="batch">Batch Name</th>
-            <th class="verificationStatus">Verification Status</th>
-            <th>Associate Details</th>
+          <th class="first">First Name</th>
+          <th class="last">Last Name</th>
+          <th class="status">Marketing Status</th>
+          <th class="client">Client Name</th>
+          <th class="batch">Batch Name</th>
+          <th class="verificationStatus">Verification Status</th>
+          <th>Associate Details</th>
         </thead>
         <tbody>
-          <tr (click)="getAssociateDetails($event, associate)" [ngClass]="{ selected: currentAssociatesSelected.has(associate.id) }" style="cursor: pointer;" *ngFor="let associate of listOfAssociates">
+          <tr (click)="getAssociateDetails($event, associate)" [ngClass]="{ selected: currentAssociatesSelected.has(associate.id) }"
+            style="cursor: pointer;" *ngFor="let associate of listOfAssociates">
             <td>{{(associate.firstName) ? associate.firstName : ''}}</td>
             <td>{{(associate.lastName) ? associate.lastName : ''}}</td>
             <td>{{(associate.marketingStatus) ? associate.marketingStatus.name : ''}}</td>
             <td>{{(associate.client) ? associate.client.name : ''}}</td>
-            <td><a (click)="stopProp($event)" *ngIf="associate.batch"  href="/batch-details/{{associate.batch.id}}">{{(associate.batch) ? associate.batch.batchName : ''}}</a></td>
-            <td>{{(associate.user.isApproved === 1) ? "Approved" : ((associate.user.isApproved === 2) ?  "Denied"  : "Pending Approval")}}</td>
-            <td><a href="/form-comp/{{associate.id}}"><i (click)="navigate($event, associate.id)" class="fa fa-external-link-square link-size"></i></a></td>
+            <td><a (click)="stopProp($event)" *ngIf="associate.batch"  [routerLink]="['/batch-details',associate.batch.id]">{{(associate.batch)
+                ? associate.batch.batchName : ''}}</a></td>
+            <td>{{(associate.user.isApproved === 1) ? "Approved" : ((associate.user.isApproved === 2) ? "Denied" :
+              "Pending Approval")}}</td>
+            <td><a [routerLink]="['/form-comp',associate.id]" ><i class="fa fa-external-link-square link-size"></i></a></td>
           </tr>
           <tr *ngIf="isFetching && !associateService.hasReceivedEndForCurrentFilter">
-              <td colspan="7" class="center">
-                <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-              </td>
-            </tr>
+            <td colspan="7" class="center">
+              <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

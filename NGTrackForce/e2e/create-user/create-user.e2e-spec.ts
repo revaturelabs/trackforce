@@ -248,7 +248,7 @@ describe('A user', () => {
 
     it('should get an error if they enter in an invalid password in the first password box', () => {
       createUser.inputPassword('ab');
-      expect(createUser.getAlert().getText()).toContain('Password must have a number, a capital letter and a special character');
+      expect(createUser.getAlert().getText()).toContain('Password must be at least 8 characters and include a number, a capital letter and a special character');
     });
     /*
       @jacob Golding

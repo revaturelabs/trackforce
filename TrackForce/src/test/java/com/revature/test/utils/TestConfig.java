@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.revature.test.admin.pom.Login;
+import com.revature.test.pom.Login;
 
 
 public class TestConfig {

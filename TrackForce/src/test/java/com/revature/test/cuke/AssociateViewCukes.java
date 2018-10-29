@@ -1,4 +1,4 @@
-package com.revature.test.admin.cuke;
+package com.revature.test.cuke;
 
 import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
@@ -7,11 +7,11 @@ import static org.testng.Assert.fail;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import com.revature.test.admin.pom.AssociateView;
-import com.revature.test.admin.pom.BatchListTab;
-import com.revature.test.admin.pom.ClientListTab;
-import com.revature.test.admin.pom.CreateUserTab;
-import com.revature.test.admin.pom.Predictions;
+import com.revature.test.pom.AssociateView;
+import com.revature.test.pom.BatchListTab;
+import com.revature.test.pom.ClientListTab;
+import com.revature.test.pom.CreateUserTab;
+import com.revature.test.pom.Predictions;
 import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
 import cucumber.api.java.en.Given;
@@ -43,6 +43,7 @@ public class AssociateViewCukes {
 
 	@When("^I enter new name information$")
 	public void i_enter_new_name_information() throws Throwable {
+		AssociateView.clickReset(ServiceHooks.driver);
 	    AssociateView.enterFirstName(ServiceHooks.driver);
 	    AssociateView.enterLastName(ServiceHooks.driver);
 	    
@@ -57,8 +58,8 @@ public class AssociateViewCukes {
 	@Then("^the changes should be reflected$")
 	public void the_changes_should_be_reflected() throws Throwable {
 		System.out.println("The changes in firstname/lastname should be reflected.");
-	   assertEquals(AssociateView.getFirstName(ServiceHooks.driver), AssociateView.getEnterFirstName(ServiceHooks.driver));
-	   assertEquals(AssociateView.getLastName(ServiceHooks.driver),AssociateView.getEnterLastName(ServiceHooks.driver));
+	   assertEquals(AssociateView.getCurrentFirstName(ServiceHooks.driver), AssociateView.getFirstNameValue(ServiceHooks.driver));
+	   assertEquals(AssociateView.getCurrentLastName(ServiceHooks.driver),AssociateView.getLastNameValue(ServiceHooks.driver));
 	}
 	
 	@When("^I click the interview tab$")

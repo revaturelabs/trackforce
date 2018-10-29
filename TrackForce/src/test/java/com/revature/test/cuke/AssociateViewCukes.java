@@ -7,11 +7,9 @@ import static org.testng.Assert.fail;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import com.revature.test.pom.AssociateView;
-import com.revature.test.pom.BatchListTab;
-import com.revature.test.pom.ClientListTab;
-import com.revature.test.pom.CreateUserTab;
-import com.revature.test.pom.Predictions;
+import com.revature.test.pom.AssociateHome;
+import com.revature.test.pom.MyInterviews;
+import com.revature.test.pom.NavBar;
 import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
 import cucumber.api.java.en.Given;
@@ -38,98 +36,92 @@ public class AssociateViewCukes {
 	@When("^I click the update info button$")
 	public void i_click_the_update_info_button() throws Throwable {
 		System.out.println("Clicking the update info button");
-		AssociateView.clickUpdate(ServiceHooks.driver);
+		AssociateHome.getSaveButton(ServiceHooks.driver).click();
 	}
 
 	@When("^I enter new name information$")
 	public void i_enter_new_name_information() throws Throwable {
-		AssociateView.clickReset(ServiceHooks.driver);
-	    AssociateView.enterFirstName(ServiceHooks.driver);
-	    AssociateView.enterLastName(ServiceHooks.driver);
+		AssociateHome.getResetButton(ServiceHooks.driver).click();
+	    AssociateHome.getFirstNameInputField(ServiceHooks.driver).sendKeys("TestFirstName");
+	    AssociateHome.getLastNameInputField(ServiceHooks.driver).sendKeys("TestLastName");
 	    
 	}
 
 	@When("^I click the save button$")
 	public void i_click_the_save_button() throws Throwable {
-	    AssociateView.clickSave(ServiceHooks.driver);
+	    AssociateHome.getSaveButton(ServiceHooks.driver).click();
 	}
 
 	//Fix hard-coding
 	@Then("^the changes should be reflected$")
 	public void the_changes_should_be_reflected() throws Throwable {
-		System.out.println("The changes in firstname/lastname should be reflected.");
-	   assertEquals(AssociateView.getCurrentFirstName(ServiceHooks.driver), AssociateView.getFirstNameValue(ServiceHooks.driver));
-	   assertEquals(AssociateView.getCurrentLastName(ServiceHooks.driver),AssociateView.getLastNameValue(ServiceHooks.driver));
+	  assertEquals(AssociateHome.getCurrentFirstName(ServiceHooks.driver).getText(), "TestFirstName");
+	  assertEquals(AssociateHome.getCurrentLastName(ServiceHooks.driver).getText(), "TestLastName");
 	}
 	
 	@When("^I click the interview tab$")
 	public void i_click_the_interview_tab() throws Throwable {
-	    AssociateView.clickInterviewTab(ServiceHooks.driver);
+	    NavBar.getMyInterviews(ServiceHooks.driver);
 	}
 
-	//"Client" is used for string interpolation.. it's not a hardcode
 	@When("^I select a client$")
 	public void i_select_a_client() throws Throwable {
-	    AssociateView.dropDown(ServiceHooks.driver, AssociateView.getClientTestSubject(), "Client");
+	    MyInterviews.getClientSelect(ServiceHooks.driver).click();
+	    // Currently hard coded to select the second option in the drop down.
+	    MyInterviews.getClientSelectOptionsByIndex(ServiceHooks.driver, 1).click();
 	}
 
 	@When("^I enter an Interview date$")
 	public void i_enter_an_Interview_date() throws Throwable {
-	    AssociateView.enterInterviewDate(ServiceHooks.driver, AssociateView.getClientInterviewDate());
+	    // The MyInterview page does not have anywhere to input the interview date
+		// Inputting interview date deeds to be reimplemented on front-end
 	}
 
 	@When("^I enter an Assigned date$")
 	public void i_enter_an_Assigned_date() throws Throwable {
-		AssociateView.enterAssignedDate(ServiceHooks.driver, AssociateView.getClientInterviewAssignedDate());
-	}
-
-	@When("^I select a type$")
-	public void i_select_a_type() throws Throwable {
-		AssociateView.dropDown(ServiceHooks.driver, AssociateView.getClientInterviewType(), "Type");
+		// The MyInterview page does not have anywhere to input the assigned date.
+		// Inputing Assigned date needs to be reimplemented on front-end
 	}
 	
 	@When("^I select an interview type$")
 	public void i_select_an_interview_type() throws Throwable {
-		AssociateView.dropDownInterviewType(ServiceHooks.driver, AssociateView.getClientInterviewType());
+		MyInterviews.getTypeSelect(ServiceHooks.driver).click();
+		MyInterviews.getTypeSelectOptionsByIndex(ServiceHooks.driver, 1).click();
 	}
 
 	@When("^I select twenty-four hour notice$")
 	public void i_select_twenty_four_hour_notice() throws Throwable {
-	    AssociateView.toggleNotice(ServiceHooks.driver);
+	    MyInterviews.get24HrNoticeCheckbox(ServiceHooks.driver).click();
 	}
 
 	@When("^press the add interview button$")
 	public void press_the_add_interview_button() throws Throwable {
-	    AssociateView.clickInterviewTab(ServiceHooks.driver);
+	    MyInterviews.getAddInterviewButton(ServiceHooks.driver).click();
 	}
 
 	@Then("^it should be in the interview table$")
 	public void it_should_be_in_the_interview_table() throws Throwable {
-		System.out.println("NEED TO IMPLEMENT: it should be in the iterview table");
-	   //check table
+	   //Checks table to confirm the correct information was added.
 	}
 
 	@When("^I enter an Interview date that occurs after my Assigned date$")
 	public void i_enter_an_Interview_date_that_occurs_after_my_Assigned_date() throws Throwable {
-		AssociateView.enterInterviewDate(ServiceHooks.driver, "01012017");
-		AssociateView.enterAssignedDate(ServiceHooks.driver, "01022017");
+		// The MyInterview page does not have anywhere to input the assigned date.
 	}
 
 	@When("^I enter dates less than twenty-four hours apart$")
 	public void i_enter_dates_less_than_twenty_four_hours_apart() throws Throwable {
-		AssociateView.enterInterviewDate(ServiceHooks.driver, "01012017");
-		AssociateView.enterAssignedDate(ServiceHooks.driver, "01012017");
+		// The MyInterview page does not have anywhere to input the assigned date or interview date.
 	}
 
 	@When("^I enter dates more than twenty-four hours apart$")
 	public void i_enter_dates_more_than_twenty_four_hours_apart() throws Throwable {
-		AssociateView.enterInterviewDate(ServiceHooks.driver, "01052017");
-		AssociateView.enterAssignedDate(ServiceHooks.driver, "01012017");
+		// The MyInterview page does not have anywhere to input the assigned date or interview date.
 	}
 
 	
 	@Then("^an error popup should display$")
 	public void an_error_popup_should_display() throws Throwable {
-		//check pop when implemented
+		// There are currently no error popups implemented on the MyInterview page.
 	}
 }

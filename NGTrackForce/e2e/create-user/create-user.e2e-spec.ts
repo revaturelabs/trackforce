@@ -93,7 +93,6 @@ describe('An Admin', () => {
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    //Expected 'Error: new user not created!' to contain 'User created successfully'.
     it('should be able to create an admin', () => {
        createUser.clickAdminRadio();
        createUser.clickSubmitButton();
@@ -101,7 +100,6 @@ describe('An Admin', () => {
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    //Expected 'Error: new user not created!' to contain 'User created successfully'.
     it('should be able to create a trainer', () => {
         createUser.clickTrainerRadio();
         createUser.clickSubmitButton();
@@ -109,7 +107,6 @@ describe('An Admin', () => {
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    //Failed: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
     it('should be able to create a associate', () => {
         createUser.clickAssociateRadio();
         createUser.clickSubmitButton();
@@ -117,7 +114,6 @@ describe('An Admin', () => {
     });
     
     //FAILS - Change 'it' to 'xit' to skip this test
-    //Failed: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
     it('should be able to create a staging manager', () => {
         createUser.clickManagerRadio();
         createUser.clickSubmitButton();
@@ -125,7 +121,6 @@ describe('An Admin', () => {
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    //Failed: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
     it('should be able to create a delivery ', () => {
         createUser.clickDeliveryRadio();
         createUser.clickSubmitButton();
@@ -159,7 +154,6 @@ describe('A Staging Manager', () => {
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    //Expected 'Error: new user not created!' to contain 'User created successfully'.
     it('should be able to create a trainer', () => {
         createUser.clickTrainerRadio();
         createUser.clickSubmitButton();
@@ -167,7 +161,6 @@ describe('A Staging Manager', () => {
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    //Failed: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
     it('should be able to create a associate', () => {
         createUser.clickAssociateRadio();
         createUser.clickSubmitButton();
@@ -175,7 +168,6 @@ describe('A Staging Manager', () => {
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    //Failed: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
     it('should be able to create a staging manager', () => {
         createUser.clickManagerRadio();
         createUser.clickSubmitButton();
@@ -183,7 +175,6 @@ describe('A Staging Manager', () => {
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    //Failed: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
     it('should be able to create a delivery ', () => {
         createUser.clickDeliveryRadio();
         createUser.clickSubmitButton();
@@ -217,7 +208,6 @@ describe('A Sales Manager', () => {
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    //Expected 'Error: new user not created!' to contain 'User created successfully'.
     it('should be able to create a trainer', () => {
         createUser.clickTrainerRadio();
         createUser.clickSubmitButton();
@@ -225,7 +215,6 @@ describe('A Sales Manager', () => {
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    //Failed: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
     it('should be able to create a associate', () => {
         createUser.clickAssociateRadio();
         createUser.clickSubmitButton();
@@ -241,7 +230,6 @@ describe('A Sales Manager', () => {
       });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    //Failed: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
     it('should be able to create a delivery ', () => {
         createUser.clickDeliveryRadio();
         createUser.clickSubmitButton();

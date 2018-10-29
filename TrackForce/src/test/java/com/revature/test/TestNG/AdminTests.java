@@ -10,6 +10,7 @@ import com.revature.test.pom.*;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptException;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -41,6 +42,8 @@ public class AdminTests {
 	 */
 	
 	List<String> batchDates = new ArrayList<String>();
+	List<String> batchStartDates = new ArrayList<String>();
+	List<String> batchEndDates = new ArrayList<String>();
 	
 	// Holds the client list before its cleaned 
 	List<String> clients = new ArrayList<String>();
@@ -81,79 +84,79 @@ public class AdminTests {
 		File chrome = new File("src/main/resources/chromedriver.exe");
 		System.setProperty("webdriver.chrome.driver", chrome.getAbsolutePath());
 		wd = new ChromeDriver();
-		wd.get(System.getenv("url")+"NGTrackForce/");
+		wd.get(System.getenv("url")+"login/");
 		wait = new WebDriverWait(wd,10);
-		wait.until(ExpectedConditions.urlContains(System.getenv("url")+"#/login"));
+		wait.until(ExpectedConditions.urlContains(System.getenv("url")+"login"));
 		
 	}
 	
 	@Test(priority = 1, dependsOnMethods = "launchApplication")
 	void adminCanLogin() {
-		wait.until(ExpectedConditions.elementToBeClickable(LoginPage.username(wd)));
-		LoginPage.username(wd).sendKeys(username);
-		LoginPage.password(wd).sendKeys(password);
-		wait.until(ExpectedConditions.elementToBeClickable(LoginPage.signIn(wd)));
-		LoginPage.signIn(wd).click();
-		wait.until(ExpectedConditions.urlContains("#/app-home"));
+		wait.until(ExpectedConditions.elementToBeClickable(Login.getUsername(wd)));
+		Login.getUsername(wd).sendKeys(username);
+		Login.getPassword(wd).sendKeys(password);
+		wait.until(ExpectedConditions.elementToBeClickable(Login.getSignInButton(wd)));
+		Login.getSignInButton(wd).click();
+		wait.until(ExpectedConditions.urlContains("/app-home"));
 	}
 	
 	@Test(priority = 2, dependsOnMethods = "adminCanLogin")
 	void chartsLoadWithin10Seconds() {
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.id("pie")));
-		wait.until(ExpectedConditions.visibilityOfAllElements(AdminHome.charts(wd)));
+		wait.until(ExpectedConditions.visibilityOfAllElements(Home.getGraphs(wd)));
 	}	
 	
 	@Test(priority = 3, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void thereAreFourChartsOnAdminHome() {
-		Assert.assertEquals(AdminHome.charts(wd).size() , 4 );
+		Assert.assertEquals(Home.getGraphs(wd).size() , 4 );
 	}	
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarClientListVisibile() {
-		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.clientList(wd)));
+		wait.until(ExpectedConditions.visibilityOf(NavBar.getClientList(wd)));
 	}	
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarHomeVisibile() {
-		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.home(wd)));
+		wait.until(ExpectedConditions.visibilityOf(NavBar.getHome(wd)));
 	}	
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarBatchListVisibile() {
-		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.batchList(wd)));
+		wait.until(ExpectedConditions.visibilityOf(NavBar.getBatchList(wd)));
 	}	
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarAssociateListVisibile() {
-		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.associateList(wd)));
+		wait.until(ExpectedConditions.visibilityOf(NavBar.getAssociateList(wd)));
 	}	
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarPredictionsVisibile() {
-		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.predictions(wd)));
+		wait.until(ExpectedConditions.visibilityOf(NavBar.getPredictionList(wd)));
 	}		
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarCreateUserVisibile() {
-		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.createUser(wd)));
+		wait.until(ExpectedConditions.visibilityOf(NavBar.getCreateUser(wd)));
 	}		
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarSalesForceVisibile() {
-		wait.until(ExpectedConditions.visibilityOf(AdminNavbarElements.salesForce(wd)));
+		wait.until(ExpectedConditions.visibilityOf(NavBar.getSalesForce(wd)));
 	}	
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarWelcomeAdminByName() {
-		new WebDriverWait(wd, 10).until(ExpectedConditions.visibilityOf(AdminNavbarElements.welcomeText(wd)));
-		Assert.assertTrue(AdminNavbarElements.welcomeText(wd).getText().contains(username));
+		new WebDriverWait(wd, 10).until(ExpectedConditions.visibilityOf(NavBar.getWelcomeDropdown(wd)));
+		Assert.assertTrue(NavBar.getWelcomeDropdown(wd).getText().contains(username));
 	}	
 	
 	@Test(priority = 5, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void clientListPageLoads() {
-		wait.until(ExpectedConditions.elementToBeClickable(AdminNavbarElements.clientList(wd)));
-		AdminNavbarElements.clientList(wd).click();
-		wait.until(ExpectedConditions.urlContains("#/client-listing"));
+		wait.until(ExpectedConditions.elementToBeClickable(NavBar.getClientList(wd)));
+		NavBar.getClientList(wd).click();
+		wait.until(ExpectedConditions.urlContains("/client-listing"));
 	}	
 	
 	/*
@@ -166,9 +169,7 @@ public class AdminTests {
 	void clientListIsOnlyLoadedOnce() {
 		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@id=\"clients-list\"]")));
 		
-		
-		
-		for (WebElement x : AdminClientList.clientList(wd)) {
+		for (WebElement x : ClientList.getAllClients(wd)) {
 			clients.add(x.getText());
 		}
 		
@@ -187,36 +188,37 @@ public class AdminTests {
 	@Test(priority = 7, dependsOnMethods = "clientListIsOnlyLoadedOnce")
 	void adminCanFilterClients() {
 		String searchInput = unique.get(0);
-		wait.until(ExpectedConditions.elementToBeClickable(AdminClientList.filter(wd)));
+		wait.until(ExpectedConditions.elementToBeClickable(ClientList.getFilter(wd)));
 		
-		AdminClientList.filter(wd).sendKeys(searchInput);
+		ClientList.getFilter(wd).sendKeys(searchInput);
 		List<String> clientsSearch = new ArrayList<String>();
-		for (WebElement x : AdminClientList.clientList(wd)) {
+		for (WebElement x : ClientList.getAllClients(wd)) {
 			clientsSearch.add(x.getText());
 		}
 
-		Assert.assertEquals(AdminClientList.clientList(wd).get(0).getText() , searchInput );
+		Assert.assertEquals(ClientList.getAllClients(wd).get(0).getText() , searchInput );
 	}
 	
 	@Test(priority = 8)
 	void adminBatchListNavbaFunctional() {
-		wait.until(ExpectedConditions.elementToBeClickable(AdminNavbarElements.batchList(wd)));
-		AdminNavbarElements.batchList(wd).click();
-		wait.until(ExpectedConditions.urlContains("#/batch-listing"));
+		wait.until(ExpectedConditions.elementToBeClickable(NavBar.getBatchList(wd)));
+		NavBar.getBatchList(wd).click();
+		wait.until(ExpectedConditions.urlContains("/batch-listing"));
 	}
 	
 	@Test(priority = 9, dependsOnMethods = "adminBatchListNavbaFunctional")
 	void allBatchesLoad() {
 		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//td[@class='name-column']")));
 		
-		for(WebElement x : AdminBatchList.batchesNames(wd)) {
-			batchNames.add(x.getText());
+		for(WebElement x : BatchList.getBatchListElements(wd)) {
+			batchNames.add(BatchList.getBatchName(wd, x).getText());
 		}
 		
 		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//td[@class='date-column']")));
 		
-		for(WebElement x : AdminBatchList.batchesDates(wd)) {
-			batchDates.add(x.getText());
+		for(WebElement x : BatchList.getBatchListElements(wd)) {
+			batchStartDates.add(BatchList.getBatchStartDate(wd, x).getText());
+			batchEndDates.add(BatchList.getBatchEndDate(wd, x).getText());
 		}
 	}
 	
@@ -232,20 +234,24 @@ public class AdminTests {
 	@Test(priority = 10, dependsOnMethods = "allBatchesLoad")
 	void batchFilteringWorksAtEdgeCases() {
 		
-		wait.until(ExpectedConditions.elementToBeClickable(AdminBatchList.startDateInput(wd)));
-		AdminBatchList.startDateInput(wd).clear();
-		AdminBatchList.startDateInput(wd).sendKeys(batchDates.get(0));
+		wait.until(ExpectedConditions.elementToBeClickable(BatchList.getStartDateInput(wd)));
+		BatchList.getStartDateInput(wd).click();
+		BatchList.getStartDateInput(wd).sendKeys(Keys.ARROW_LEFT);
+		BatchList.getStartDateInput(wd).sendKeys(Keys.ARROW_LEFT);
+		BatchList.getStartDateInput(wd).sendKeys(batchStartDates.get(0));
 		
-		wait.until(ExpectedConditions.elementToBeClickable(AdminBatchList.endDateInput(wd)));
-		AdminBatchList.endDateInput(wd).clear();
-		AdminBatchList.endDateInput(wd).sendKeys(batchDates.get(1));
+		wait.until(ExpectedConditions.elementToBeClickable(BatchList.getEndDateInput(wd)));
+		BatchList.getEndDateInput(wd).click();
+		BatchList.getEndDateInput(wd).sendKeys(Keys.ARROW_LEFT);
+		BatchList.getEndDateInput(wd).sendKeys(Keys.ARROW_LEFT);
+		BatchList.getEndDateInput(wd).sendKeys(batchEndDates.get(0));
 		
-		wait.until(ExpectedConditions.elementToBeClickable(AdminBatchList.submitFilter(wd)));
-		AdminBatchList.submitFilter(wd).click();
+//		wait.until(ExpectedConditions.elementToBeClickable(BatchList.submitFilter(wd)));
+//		AdminBatchList.submitFilter(wd).click();
 		
 		List<String> filterNames = new ArrayList<String>();
-		for(WebElement x : AdminBatchList.batchesNames(wd)) {
-			filterNames.add(x.getText());
+		for(WebElement x : BatchList.getBatchListElements(wd)) {
+			filterNames.add(BatchList.getBatchName(wd, x).getText());
 		}
 		
 		if(filterNames.size() == 0 ) {
@@ -258,85 +264,95 @@ public class AdminTests {
 
 	@Test(priority = 11)
 	void associatePageLoads() {
-		wait.until(ExpectedConditions.elementToBeClickable(AdminNavbarElements.associateList(wd)));
-		AdminNavbarElements.associateList(wd).click();
-		wait.until(ExpectedConditions.urlContains("#/associate-listing"));
+		wait.until(ExpectedConditions.elementToBeClickable(NavBar.getAssociateList(wd)));
+		NavBar.getAssociateList(wd).click();
+		wait.until(ExpectedConditions.urlContains("/associate-listing"));
 	}
 	
 	@Test(priority = 12, dependsOnMethods = "associatePageLoads")
 	void adminCanUpdateAssociateNoErrors() {
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"1\"]")));
-		wait.until(ExpectedConditions.elementToBeClickable(AdminAssociateList.associate1(wd)));
-		AdminAssociateList.associate1(wd).click();
+		// cant find button except when being ran on debug mode?
+		wait.until(ExpectedConditions.elementToBeClickable(AssociateList.getTopAssociateRow(wd)));
+		AssociateList.getTopAssociateRow(wd).click();
 		
-		Select dropdown = new Select(AdminAssociateList.verificationMenu(wd));
+		wait.until(ExpectedConditions.visibilityOf(AssociateList.getUpdateAssociatesButton(wd)));
+		wait.until(ExpectedConditions.elementToBeClickable(AssociateList.getUpdateAssociatesButton(wd)));
+		AssociateList.getUpdateAssociatesButton(wd).click();
+		
+		Select dropdown = new Select(AssociateList.getVerificationModalSelect(wd));
 		dropdown.selectByIndex(1);
 		
-		Select dropdown1 = new Select(AdminAssociateList.statusMenu(wd));
-		dropdown1.selectByIndex(1);
+		Select dropdown1 = new Select(AssociateList.getStatusModalSelect(wd));
+		dropdown1.selectByIndex(2);
 		
-		Select dropdown2 = new Select(AdminAssociateList.clientMenu(wd));
+		Select dropdown2 = new Select(AssociateList.getClientModalSelect(wd));
 		dropdown2.selectByIndex(1);
 
-		wait.until(ExpectedConditions.elementToBeClickable(AdminAssociateList.updateAssociateBTN(wd)));
-		AdminAssociateList.updateAssociateBTN(wd).click();
+		wait.until(ExpectedConditions.elementToBeClickable(AssociateList.getAscModalSubmit(wd)));
+		AssociateList.getAscModalSubmit(wd).click();
 		
 		try {
-		new WebDriverWait(wd,7).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='alert alert-danger ng-star-inserted']")));
+			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='alert alert-danger ng-star-inserted']")));
 		} catch (Exception e) {			
 			// this is just here to not fail the test if the element was not loaded
 		}
+		
+		wait.until(ExpectedConditions.visibilityOf(AssociateList.getTopAssociateRow(wd)));
+		wait.until(ExpectedConditions.elementToBeClickable(AssociateList.getTopAssociateRow(wd)));
 		Assert.assertFalse(wd.getPageSource().contains("There was an error updating the Associate(s)"));
 	}
 	
 	@Test(priority = 13)
 	void createUserPageLoads() {
-		wait.until(ExpectedConditions.elementToBeClickable(AdminNavbarElements.createUser(wd)));
-		AdminNavbarElements.createUser(wd).click();
-		wait.until(ExpectedConditions.urlContains("#/create-user"));
+
+		wait.until(ExpectedConditions.elementToBeClickable(NavBar.getCreateUser(wd)));
+		NavBar.getCreateUser(wd).click();
+		wait.until(ExpectedConditions.urlContains("/create-user"));
 	}
 	
 	@Test(priority = 14, dependsOnMethods = "createUserPageLoads")
 	void adminCanCreateValidAssociate() {
-		wait.until(ExpectedConditions.elementToBeClickable(AdminCreateUser.usernameInput(wd)));
-		AdminCreateUser.usernameInput(wd).sendKeys(randomStringValid());
+		// will not pass currently because users cannot be created
+		// test is not idempotent
+		wait.until(ExpectedConditions.elementToBeClickable(CreateUser.getUsername(wd)));
+		CreateUser.getUsername(wd).sendKeys(randomStringValid());
 		
-		AdminCreateUser.passwordInput(wd).sendKeys("#Mwm12345@");
-		AdminCreateUser.confirmPasswordInput(wd).sendKeys("#Mwm12345@");
+		CreateUser.getPassword(wd).sendKeys("#Mwm12345@");
+		CreateUser.getConfirmPassword(wd).sendKeys("#Mwm12345@");
 		
-		wait.until(ExpectedConditions.elementToBeClickable(AdminCreateUser.selectAssociate(wd)));
+		wait.until(ExpectedConditions.elementToBeClickable(CreateUser.getAssociateRadio(wd)));
 		Actions action = new Actions(wd);
-		action.moveToElement(AdminCreateUser.selectAssociate(wd)).perform();
+		action.moveToElement(CreateUser.getAssociateRadio(wd)).perform();
 		action.click().perform();
 		
-		wait.until(ExpectedConditions.elementToBeClickable(AdminCreateUser.submitAssociateBTN(wd)));
-		AdminCreateUser.submitAssociateBTN(wd).click();
+		wait.until(ExpectedConditions.elementToBeClickable(CreateUser.getSubmitButton(wd)));
+		CreateUser.getSubmitButton(wd).click();
 		
-		wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#NewUserForm > div.alert.alert-success")));
-		String message = wd.findElement(By.cssSelector("#NewUserForm > div.alert.alert-success")).getText();
-		
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("div[class='alert alert-success ng-star-inserted']")));
+		String message = wd.findElement(By.cssSelector("div[class='alert alert-success ng-star-inserted']")).getText();
 		Assert.assertEquals(message, "User created successfully");
 
 	}
 	
 	@Test(priority = 14, dependsOnMethods = "adminCanCreateValidAssociate")
+	// will skip because of the above test
 	void adminCannotCreateInvalidAssociate() {
-		wait.until(ExpectedConditions.elementToBeClickable(AdminCreateUser.usernameInput(wd)));
-		AdminCreateUser.usernameInput(wd).clear();
-		AdminCreateUser.usernameInput(wd).sendKeys(randomStringInvalid());
+		wait.until(ExpectedConditions.elementToBeClickable(CreateUser.getUsername(wd)));
+		CreateUser.getUsername(wd).clear();
+		CreateUser.getUsername(wd).sendKeys(randomStringInvalid());
 		
-		AdminCreateUser.passwordInput(wd).clear();
-		AdminCreateUser.passwordInput(wd).sendKeys("123");
-		AdminCreateUser.confirmPasswordInput(wd).clear();
-		AdminCreateUser.confirmPasswordInput(wd).sendKeys("123");
+		CreateUser.getPassword(wd).clear();
+		CreateUser.getPassword(wd).sendKeys("123");
+		CreateUser.getConfirmPassword(wd).clear();
+		CreateUser.getConfirmPassword(wd).sendKeys("123");
 		
-		wait.until(ExpectedConditions.elementToBeClickable(AdminCreateUser.selectAssociate(wd)));
+		wait.until(ExpectedConditions.elementToBeClickable(CreateUser.getAssociateRadio(wd)));
 		Actions action = new Actions(wd);
-		action.moveToElement(AdminCreateUser.selectAssociate(wd)).perform();
+		action.moveToElement(CreateUser.getAssociateRadio(wd)).perform();
 		action.click().perform();
 		
-		wait.until(ExpectedConditions.elementToBeClickable(AdminCreateUser.submitAssociateBTN(wd)));
-		AdminCreateUser.submitAssociateBTN(wd).click();
+		wait.until(ExpectedConditions.elementToBeClickable(CreateUser.getSubmitButton(wd)));
+		CreateUser.getSubmitButton(wd).click();
 		new WebDriverWait(wd,6).until(ExpectedConditions.presenceOfElementLocated(
 				By.cssSelector("#NewUserForm > div.alert.alert-danger")));
 	}

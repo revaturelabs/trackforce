@@ -64,68 +64,67 @@
   </div>
 </div> -->
 
-  <form>
+<form>
 
-    <h1>Creating a user</h1>
+  <h1>Creating a user</h1>
 
-    <fieldset>
-      <legend><span class="number">1</span>Basic info</legend>
-      <label for="username">Username:</label>
-      <input class="form-control" type="text" placeholder="Username"
-      autocomplete="username"
-      name="username" id="username" required
-      [(ngModel)]="username"
-      (change)="checkUserNameUnique()"
-      (input)="checkUserNameHasValidChars()"/>
-      <div *ngIf=displayErrorUsername class="alert alert-danger" id="error-username">
-        {{ userNameError }}
-      </div>
-      <label for="password">Password:</label>
-      <input class="form-control" type="password" placeholder="Minimum 8 characters" name="password" id="password" required [(ngModel)]="password" autocomplete="new-password" (input)="checkValidPassword(password)" />
-      <label for="password" class="sr-only">Confirm Password: </label>
-      <input class="form-control" type="password" placeholder="Confirm Password" name="password2" id="password2" [(ngModel)]="password2" autocomplete="new-password" (input)="checkConfirmedPassword(password2)"/>
-      <br>
-      <div *ngIf="errMsg" class="alert alert-danger">
-        {{errMsg}}
-      </div>
-      <div *ngIf="sucMsg" class="alert alert-success">
-        {{sucMsg}}
-      </div>
-    </fieldset>
+  <fieldset>
+    <legend><span class="number">1</span>Basic info</legend>
+    <label for="username">Username:</label>
+    <input class="form-control" type="text" placeholder="Username" autocomplete="username" name="username" id="username"
+      required [(ngModel)]="username" (change)="checkUserNameUnique()" (input)="checkUserNameHasValidChars()" />
+    <div *ngIf=displayErrorUsername class="alert alert-danger" id="error-username">
+      {{ userNameError }}
+    </div>
+    <label for="password">Password:</label>
+    <input class="form-control" type="password" placeholder="Minimum 8 characters" name="password" id="password"
+      required [(ngModel)]="password" autocomplete="new-password" (input)="checkValidPassword(password)" />
+    <label for="password" class="sr-only">Confirm Password: </label>
+    <input class="form-control" type="password" placeholder="Confirm Password" name="password2" id="password2"
+      [(ngModel)]="password2" autocomplete="new-password" (input)="checkConfirmedPassword(password2)" />
+    <br>
+    <div *ngIf="errMsg" class="alert alert-danger">
+      {{errMsg}}
+    </div>
+    <div *ngIf="sucMsg" class="alert alert-success">
+      {{sucMsg}}
+    </div>
+  </fieldset>
 
-    <fieldset>
-      <legend><span class="number">2</span>Select Role Type</legend>
-      <div *ngIf="this.loggedIn.role === 1">
-          <input type="radio" name="optradio" value="1" [(ngModel)]="roleId">&ensp;Administrator<br>
-          <div class="reveal-if-active">
-              <label for="admin-text">Can do everything the other users can as well as creating new users.</label>
-          </div>
+  <fieldset>
+    <legend><span class="number">2</span>Select Role Type</legend>
+    <div *ngIf="this.role === 1">
+      <input type="radio" name="optradio" value="1" [(ngModel)]="roleId">&ensp;Administrator<br>
+      <div class="reveal-if-active">
+        <label for="admin-text">Can do everything the other users can as well as creating new users.</label>
       </div>
-        <div>
-          <input type="radio" name="optradio" value="2" [(ngModel)]="roleId">&ensp;Trainer<br>
-          <div class="reveal-if-active">
-              <label for="trainer-text">Can view everything, but not edit. Trainers can also approve newly registered Associates.</label>
-          </div>
-        </div>
-        <div>
-          <input type="radio" name="optradio" value="3" [(ngModel)]="roleId">&ensp;Delivery/Sales<br>
-          <div class="reveal-if-active">
-              <label for="sales-text">Can view and edit everything. Can also comment on interviews, and add feedback.</label>
-          </div>
-        </div>
-        <div>
-          <input type="radio" name="optradio" value="4" [(ngModel)]="roleId">&ensp;Staging Manager <br>
-          <div class="reveal-if-active">
-              <label for="stagin-text">Can view and edit everything. Can also comment on interviews, and add feedback.</label>
-          </div>
-        </div>
-        <div>
-          <input type="radio" name="optradio" value="5" [(ngModel)]="roleId">&ensp;Associate<br>
-          <div class="reveal-if-active">
-              <label for="assoc-text">Can register, view their information, submit and flag interviews, and request status updates.</label>
-          </div>
-        </div>
-    </fieldset>
-    <button type="submit" class="btn btn-default" value="Submit" (click)="createUser()" [disabled]="toggleSubmitButton()">Submit</button>
-  </form>
-
+    </div>
+    <div>
+      <input type="radio" name="optradio" value="2" [(ngModel)]="roleId">&ensp;Trainer<br>
+      <div class="reveal-if-active">
+        <label for="trainer-text">Can view everything, but not edit. Trainers can also approve newly registered
+          Associates.</label>
+      </div>
+    </div>
+    <div>
+      <input type="radio" name="optradio" value="3" [(ngModel)]="roleId">&ensp;Delivery/Sales<br>
+      <div class="reveal-if-active">
+        <label for="sales-text">Can view and edit everything. Can also comment on interviews, and add feedback.</label>
+      </div>
+    </div>
+    <div>
+      <input type="radio" name="optradio" value="4" [(ngModel)]="roleId">&ensp;Staging Manager <br>
+      <div class="reveal-if-active">
+        <label for="stagin-text">Can view and edit everything. Can also comment on interviews, and add feedback.</label>
+      </div>
+    </div>
+    <div>
+      <input type="radio" name="optradio" value="5" [(ngModel)]="roleId">&ensp;Associate<br>
+      <div class="reveal-if-active">
+        <label for="assoc-text">Can register, view their information, submit and flag interviews, and request status
+          updates.</label>
+      </div>
+    </div>
+  </fieldset>
+  <button type="submit" class="btn btn-default" value="Submit" (click)="createUser()" [disabled]="toggleSubmitButton()">Submit</button>
+</form>

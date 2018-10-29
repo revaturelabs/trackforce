@@ -15,6 +15,7 @@ import { StatusMessage } from './create-user.enum';
   styleUrls: ['./create-user.component.css']
 })
 export class CreateUserComponent implements OnInit {
+  role: number;
   username: string;
   password: string;
   password2: string;
@@ -34,10 +35,9 @@ export class CreateUserComponent implements OnInit {
   }
 
   ngOnInit() {
-
       this.displayErrorUsername = false;
       this.loggedIn = this.authService.getUser();
-
+      this.role = this.authService.getUserRole();
   }
 
   /**

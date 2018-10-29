@@ -331,9 +331,10 @@ export class LoginComponent implements OnInit {
           }
           else if (err.status === 403) {
             this.errMsg = "Account not verified";
-          }
-          else {
-            this.errMsg = "The login service could not be reached";
+          } else if (err.status === 401) {
+            this.errMsg = "Username or Password invalid";
+          } else {
+            this.errMsg = "Login service cannot be reached.";
           }
         }
       );

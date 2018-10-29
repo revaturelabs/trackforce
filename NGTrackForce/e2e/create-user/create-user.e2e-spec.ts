@@ -91,7 +91,7 @@ describe('An Admin', () => {
       createUser.inputPasswordConfirm(password);
     });
 
-     xit('should be able to create an admin', () => {
+     xit('should be able to create an admin', () => { //xit
        createUser.clickAdminRadio();
        createUser.clickSubmitButton();
        expect(createUser.getAlert()).toContain('User created successfully');
@@ -103,19 +103,19 @@ describe('An Admin', () => {
         expect(createUser.getAlert().getText()).toContain('User created successfully');
     });
 
-    xit('should be able to create a associate', () => {
+    xit('should be able to create a associate', () => { //xit
         createUser.inputUsername(username);
         createUser.clickSubmitButton();
         expect(createUser.getAlert()).toContain('User created successfully');
       });
 
-    xit('should be able to create a staging manager', () => {
+    xit('should be able to create a staging manager', () => { //xit
         createUser.inputUsername(username);
         createUser.clickSubmitButton();
         expect(createUser.getAlert()).toContain('User created successfully');
       });
 
-    xit('should be able to create a delivery ', () => {
+    xit('should be able to create a delivery ', () => { //xit
         createUser.inputUsername(username);
         createUser.clickSubmitButton();
         expect(createUser.getAlert()).toContain('User created successfully');
@@ -153,19 +153,19 @@ describe('A Staging Manager', () => {
         expect(createUser.getAlert().getText()).toContain('User created successfully');
     });
 
-    xit('should be able to create a associate', () => {
+    xit('should be able to create a associate', () => { //xit
         createUser.inputUsername(username);
         createUser.clickSubmitButton();
         expect(createUser.getAlert()).toContain('User created successfully');
       });
 
-    xit('should be able to create a staging manager', () => {
+    xit('should be able to create a staging manager', () => { //xit
         createUser.inputUsername(username);
         createUser.clickSubmitButton();
         expect(createUser.getAlert()).toContain('User created successfully');
       });
 
-    xit('should be able to create a delivery ', () => {
+    xit('should be able to create a delivery ', () => { //xit
         createUser.inputUsername(username);
         createUser.clickSubmitButton();
         expect(createUser.getAlert()).toContain('User created successfully');
@@ -176,7 +176,7 @@ describe('A Staging Manager', () => {
     });
 });
 
-describe('A Staging Manager', () => {
+describe('A Sales Manager', () => {
 
     beforeAll(() => {
         createUser = new CreateUserPo();
@@ -203,19 +203,19 @@ describe('A Staging Manager', () => {
         expect(createUser.getAlert().getText()).toContain('User created successfully');
     });
 
-    xit('should be able to create a associate', () => {
+    xit('should be able to create a associate', () => { //xit
         createUser.inputUsername(username);
         createUser.clickSubmitButton();
         expect(createUser.getAlert()).toContain('User created successfully');
       });
 
-    xit('should be able to create a staging manager', () => {
+    xit('should be able to create a staging manager', () => { //xit
         createUser.inputUsername(username);
         createUser.clickSubmitButton();
         expect(createUser.getAlert()).toContain('User created successfully');
       });
 
-    xit('should be able to create a delivery ', () => {
+    xit('should be able to create a delivery ', () => { //xit
         createUser.inputUsername(username);
         createUser.clickSubmitButton();
         expect(createUser.getAlert()).toContain('User created successfully');

@@ -1,4 +1,4 @@
-import { browser, by, element } from 'protractor';
+import { protractor, browser, by, element } from 'protractor';
 
 export class Navbar {
 
@@ -39,7 +39,9 @@ export class Navbar {
     }
 
     goToPredictions(){
-      element(by.id('predictions')).click();
+      let ec = protractor.ExpectedConditions;
+      browser.wait(ec.visibilityOf(element(by.linkText('Prediction List'))), 5000);
+      element(by.linkText('Prediction List')).click();
         //element(by.css('body > app-component > app-navbar > nav > div > ul:nth-child(2) > li:nth-child(5)')).click();
     }
 

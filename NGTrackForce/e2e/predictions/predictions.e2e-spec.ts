@@ -23,6 +23,7 @@ describe('When entering valid data into predictions filter it', () => {
 
     it('should navigate to the predictions page', () => {
       loginPage.navigateTo();
+      navbar.logIn('TestAdmin','TestAdmin');
       navbar.goToPredictions();
       expect(navbar.getCurrentURL()).toEqual(baseURL + 'predictions');
     });

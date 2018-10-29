@@ -24,13 +24,13 @@ exports.config = {
     './e2e/predictions/predictions.e2e-spec.ts',
 
     //   './e2e/app/app.e2e-spec.ts', REMOVE THIS TEST - NO LONGER VALID
-    //   './e2e/associate-list/associate-list.js',
+    //   './e2e/associate-list/associate-list.js', REMOVE THIS TEST - NO LONGER VALID
     //  './e2e/associate-list/associate-list-search.js',
 
     // './e2e/associate-list/associate-list-status.js',
     // './e2e/associate-list/associate-list-curriculum.js',
     // './e2e/associate-list/associate-list-client.js',
-    // './e2e/test-associate/homepage-spec.js'
+    // './e2e/test-associate/homepage-spec.js' REMOVE THIS TEST - NO LONGER VALID
   ],
   beforeLaunch: function() {
     return new Promise(function(resolve){

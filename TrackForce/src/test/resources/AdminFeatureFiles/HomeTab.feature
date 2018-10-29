@@ -2,7 +2,7 @@ Feature: Home Page Tab
   I want to use this template for my feature file
   
   Background:
-  	Given I connect to caliber
+  	Given I connect to trackforce
     Given the login page loads
 
   Scenario: I click on the Revature telephone number

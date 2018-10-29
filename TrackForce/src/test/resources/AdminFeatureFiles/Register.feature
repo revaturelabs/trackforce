@@ -1,7 +1,7 @@
 Feature: Testing the registration for new associates
 
   Background: 
-    Given I connect to caliber
+    Given I connect to trackforce
     And I click on the register button
 
   Scenario: Creating a valid associate

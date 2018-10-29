@@ -38,7 +38,7 @@ public class BatchDaoImpl implements BatchDao {
 				"from TfBatch b WHERE b.startDate >= :startdate AND b.endDate <= :enddate",
 				TfBatch.class).setParameter("startdate", startDate).setCacheable(true)
 				.setParameter("enddate", endDate).getResultList());
-		System.out.println("List returned: " + toReturn);
+		
 		return toReturn;
 	}
 	

@@ -69,6 +69,7 @@ public class InterviewServicesTest {
 	  assertTrue(!interviews.isEmpty());
   }
 
+  
   @Test
   public void testInterviewCreate() {
 	  TfInterview interview = new TfInterview();
@@ -76,21 +77,28 @@ public class InterviewServicesTest {
 	  interview.setFlagReason("Unique string : flag reason");
 	  interview.setJobDescription("SDET");
 	  interview.setIsInterviewFlagged(1);
+	  //this ends up false
 	  boolean result = service.createInterview(interview);
 	  assertTrue(result);
   }
-  
+   /*
+    * this test creates a NullPointerException service.createInterview can't currently handle null
+    * */
   @Test
   public void testInterviewCreateNull() {
 	  boolean result = service.createInterview(null);
 	  assertFalse(result);
   }
 
+  /*
+   * Not idempotent because old information gets in the way of new 
+   * but there isnt a simple way to delete a Client at the moment so fix that
+   * */
   @Test
   public void testInterviewUpdate() {
 	  TfInterview interview = service.getInterviewById(0);
 	  TfClient sampleClient = new TfClient();
-	  sampleClient.setId(4000);
+	  sampleClient.setId(4004);
 	  interview.setAssociateFeedback("Update A-Feedback");
 	  interview.setClientFeedback("Update C-Feedback");
 	  interview.setClient(sampleClient);

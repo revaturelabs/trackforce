@@ -1,9 +1,10 @@
 package com.revature.test.services;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -207,6 +208,10 @@ public class AssociateServicesTest {
 		service.updateAssociatePartial(toChange);
 	}
 	
+	
+	/*
+	 * This test currently fails because creating an associate is actually impossible
+	 */
 	@Test
 	public void testCreateAssociate() {
 		TfAssociate createAssociate = new TfAssociate();
@@ -223,6 +228,7 @@ public class AssociateServicesTest {
 				service.getAssociateByUserId(Integer.parseInt(props.getProperty("createAssociate_Id"))).getStagingFeedback());
 	}
 	
+	
 	@Test
 	public void testApproveAssociate() {
 		service.approveAssociate(Integer.parseInt(props.getProperty("approveAssociate_Id")));
@@ -235,6 +241,9 @@ public class AssociateServicesTest {
 		associate1.getUser().setIsApproved(0);
 	}
 	
+	/*
+	 * This throws a NoClassDefFoundError
+	 */
 	@AfterClass
 	public void closeSession() {
 		HibernateUtil.shutdown();

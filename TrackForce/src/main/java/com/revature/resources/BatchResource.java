@@ -59,7 +59,7 @@ public class BatchResource {
 	 * @return Response with 200 status and a List<BatchInfo> in the response body
 	 */
 	@GET
-	@ApiOperation(value = "Returns all Batches", notes = "Returns a list of a list of all batches optionally filtered by start and end dates.")
+	@ApiOperation(value = "Returns all Batches", notes = "Returns a list of all batches optionally filtered by start and end dates.")
 	public Response getAllBatches(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
 			@HeaderParam("Authorization") String token) {
 		
@@ -147,7 +147,7 @@ public class BatchResource {
 	 * this is used for the Batch Details page.
 	 */
 	@GET
-	@ApiOperation(value = "Returns associates for batch", notes = "Returns list.")
+	@ApiOperation(value = "Returns batches", notes = "Returns list of batches that matches the date range and course.")
 	@Path("/details")
 	public Response getBatchDetails(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
 							@QueryParam("courseName") String courseName, @HeaderParam("Authorization") String token) {

@@ -40,7 +40,6 @@ public class AssociateTests {
 	
   @Test(priority = 0)
   public void LoadWebpage() {
-	  System.out.println(System.getenv("url") + "#/login");
 	  wd.get(System.getenv("url") + "#/login");
 	  new WebDriverWait(wd, 15).until(ExpectedConditions.urlContains("/login"));
   }

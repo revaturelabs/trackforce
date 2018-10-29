@@ -125,7 +125,7 @@ public class InterviewResourceTest {
 	 * @since 6.18.06.13
 	 */
 	@Test(priority = 10)
-	public void testGetAllInterviews() {
+	public void testGetAllInterviewsByAssociateId() {
 		Response response = given().header("Authorization", adminToken).when().get(URL + "/" + 1).then().extract()
 				.response();
 

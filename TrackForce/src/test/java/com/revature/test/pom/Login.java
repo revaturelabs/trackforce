@@ -33,11 +33,11 @@ public class Login {
 	}
 
 	public static WebElement getSignInButton(WebDriver driver) {
-		return driver.findElement(By.cssSelector("button[type='submit'][innerText='Sign In']"));
+		return driver.findElement(By.cssSelector("button[type='submit']"));
 	}
 	
 	public static WebElement getRegisterButton(WebDriver driver) {
-		return driver.findElement(By.cssSelector("button[type='submit'][innerText='Register']"));
+		return driver.findElement(By.cssSelector("button[type='button']"));
 	}
 	
 	public static WebElement getConfirmPassword(WebDriver driver) {

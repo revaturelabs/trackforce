@@ -2,26 +2,20 @@ package com.revature.test.TestNG;
 
 import org.testng.annotations.Test;
 
-import com.revature.test.pom.AssociateHome;
-import com.revature.test.pom.LoginPage;
+import com.revature.test.pom.Login;
+import com.revature.test.pom.NavBar;
 
-import org.testng.annotations.Test;
-
-import static org.testng.Assert.expectThrows;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.DataProvider;
+
 
 
 public class AssociateTests {
@@ -46,40 +40,39 @@ public class AssociateTests {
 	
   @Test(priority = 0)
   public void LoadWebpage() {
-	  System.out.println(System.getenv("url") + "#/login");
 	  wd.get(System.getenv("url") + "#/login");
-	  new WebDriverWait(wd, 15).until(ExpectedConditions.urlContains("#/login"));
+	  new WebDriverWait(wd, 15).until(ExpectedConditions.urlContains("/login"));
   }
   
   @Test (priority = 1)
   public void LoginAssociate() {
-	 wait.until(ExpectedConditions.elementToBeClickable(LoginPage.username(wd)));
-	 LoginPage.username(wd).sendKeys(username);
-	 wait.until(ExpectedConditions.elementToBeClickable(LoginPage.password(wd)));
-	 LoginPage.password(wd).sendKeys(password);
-	 wait.until(ExpectedConditions.elementToBeClickable(LoginPage.signIn(wd)));
-	 LoginPage.signIn(wd).click();
-	 wait.until(ExpectedConditions.urlContains(System.getenv("url")+"#/associate-view"));
+	 wait.until(ExpectedConditions.elementToBeClickable(Login.getUsername(wd)));
+	 Login.getUsername(wd).sendKeys(username);
+	 wait.until(ExpectedConditions.elementToBeClickable(Login.getPassword(wd)));
+	 Login.getPassword(wd).sendKeys(password);
+	 wait.until(ExpectedConditions.elementToBeClickable(Login.getSignInButton(wd)));
+	 Login.getSignInButton(wd).click();
+	 wait.until(ExpectedConditions.urlContains(System.getenv("url")+"/associate-view"));
   }
   
   @Test (priority = 2)
   public void LogOut() {
 	  
-	  wait.until(ExpectedConditions.elementToBeClickable(AssociateHome.navBarDropDown(wd)));
-	  AssociateHome.navBarDropDown(wd).click();
-	  wait.until(ExpectedConditions.elementToBeClickable(AssociateHome.logout(wd)));
-	  AssociateHome.logout(wd).click();
-	  wait.until(ExpectedConditions.urlContains(System.getenv("url")+"#/login"));
+	  wait.until(ExpectedConditions.elementToBeClickable(NavBar.getWelcomeDropdown(wd)));
+	  NavBar.getWelcomeDropdown(wd).click();
+	  wait.until(ExpectedConditions.elementToBeClickable(NavBar.getLogout(wd)));
+	  NavBar.getLogout(wd).click();
+	  wait.until(ExpectedConditions.urlContains(System.getenv("url")+"/login"));
 	  
   }
   @Test (priority = 3)
   public void invalidLogin() {
-	  wait.until(ExpectedConditions.elementToBeClickable(LoginPage.username(wd)));
-		 LoginPage.username(wd).sendKeys("hat");
-		 wait.until(ExpectedConditions.elementToBeClickable(LoginPage.password(wd)));
-		 LoginPage.password(wd).sendKeys("bat");
-		 wait.until(ExpectedConditions.elementToBeClickable(LoginPage.signIn(wd)));
-		 LoginPage.signIn(wd).click();
+	  wait.until(ExpectedConditions.elementToBeClickable(Login.getUsername(wd)));
+		 Login.getUsername(wd).sendKeys("hat");
+		 wait.until(ExpectedConditions.elementToBeClickable(Login.getPassword(wd)));
+		 Login.getPassword(wd).sendKeys("bat");
+		 wait.until(ExpectedConditions.elementToBeClickable(Login.getSignInButton(wd)));
+		 Login.getSignInButton(wd).click();
 		 wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"pwd-container\"]/div/section/form/div/div[1]")));
   }
   

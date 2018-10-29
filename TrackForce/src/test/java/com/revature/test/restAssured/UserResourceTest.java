@@ -19,7 +19,7 @@ import com.revature.resources.UserResource;
 import com.revature.services.JWTService;
 import com.revature.services.MarketingStatusService;
 import com.revature.services.UserService;
-
+import com.revature.utils.HibernateUtil;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -74,8 +74,6 @@ public class UserResourceTest {
 		user.setRole(1);
 		
 		container = new TfUserAndCreatorRoleContainer(user, 1);
-		
-
 	}
 
 	/**
@@ -97,6 +95,9 @@ public class UserResourceTest {
 	 * Happy path testing for create user. This should create an admin, staging
 	 * manager or sales user when each of those specified roles is used.
 	 * 
+	 * Issue: This test would work but the backend would have to restart everytime because once a user is created it is saved to the database
+	 * and the backend's Hibernate cache.  This test deletes the user from the database, but the user object still persists in the cache
+	 * resulting in a 417 message.  This test can run multiple times if there is a way to delete that detached object too.
 	 * @author Jesse and Seth L.
 	 * @since 06.18.06.16
 	 */
@@ -118,6 +119,8 @@ public class UserResourceTest {
 		//should expect error if reentering the same data
 		given().header(adminTokenHeader).contentType("application/json").body(container)
 			.when().post(URL + "/newUser").then().assertThat().statusCode(417);
+		//an unused method to delete a user
+		userService.deleteUser(newUser);
 	}
 
 //	@Test(enabled = true, priority = 13)

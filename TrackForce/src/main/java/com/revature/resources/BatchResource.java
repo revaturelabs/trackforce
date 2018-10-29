@@ -1,8 +1,19 @@
 package com.revature.resources;
 
-import static com.revature.utils.LogUtil.logger;
+import com.revature.daoimpl.BatchDaoImpl;
+import com.revature.entity.TfAssociate;
+import com.revature.entity.TfBatch;
+import com.revature.services.*;
+import io.jsonwebtoken.Claims;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.math.BigDecimal;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
@@ -10,35 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.revature.daoimpl.BatchDaoImpl;
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
-import com.revature.services.AssociateService;
-import com.revature.services.BatchService;
-import com.revature.services.ClientService;
-import com.revature.services.CurriculumService;
-import com.revature.services.InterviewService;
-import com.revature.services.JWTService;
-import com.revature.services.TrainerService;
-import com.revature.services.UserService;
-
-import io.jsonwebtoken.Claims;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import static com.revature.utils.LogUtil.logger;
 
 /**
  * <p>Class that provides RESTful services for the batch listing and batch details
@@ -79,7 +62,9 @@ public class BatchResource {
 	@ApiOperation(value = "Returns all Batches", notes = "Returns a list of a list of all batches optionally filtered by start and end dates.")
 	public Response getAllBatches(@QueryParam("start") Long startDate, @QueryParam("end") Long endDate,
 			@HeaderParam("Authorization") String token) {
-		logger.info("getallBatches()...");
+		
+		StringBuilder logMessage = new StringBuilder();
+		logMessage.append("getallBatches()...");
 		List<TfBatch> batches = batchService.getAllBatches();
 		
 		Claims payload = JWTService.processToken(token);
@@ -88,14 +73,14 @@ public class BatchResource {
 		}
 
 		Status status = null;
-		int role = Integer.parseInt(payload.getId());
+		int role = Integer.parseInt((String)payload.get("roleID"));
 
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4 }));
 
 		if (authorizedRoles.contains(role)) {
 			if (startDate != null && endDate != null) {
-				logger.info("	start = " + new Timestamp(startDate));
-				logger.info("	end = " + new Timestamp(endDate));
+				logMessage.append("	start = " + new Timestamp(startDate));
+				logMessage.append("	end = " + new Timestamp(endDate));
 				int i = 0;
 				Date start = new Date(startDate);
 				Date end = new Date(endDate);
@@ -114,7 +99,8 @@ public class BatchResource {
 		} else {
 			status = Status.FORBIDDEN;
 		}
-		logger.info("	batches size: " + (batches == null ? null : batches.size()));
+		logMessage.append("	batches size: " + (batches == null ? null : batches.size()));
+		logger.info(logMessage);
 
 		return Response.status(status).entity(batches).build();
 	}
@@ -140,7 +126,7 @@ public class BatchResource {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
-		int role = Integer.parseInt(payload.getId());
+		int role = Integer.parseInt((String) payload.get("roleID"));
 
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
 
@@ -172,7 +158,7 @@ public class BatchResource {
 		}
 		Status status = null;
 		status = Status.OK;
-		int role = Integer.parseInt(payload.getId());
+		int role = Integer.parseInt((String)payload.get("roleID"));
 
 	/*	Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
 
@@ -242,7 +228,7 @@ public class BatchResource {
 		}
 		Status status = null;
 		status = Status.OK;
-		int role = Integer.parseInt(payload.getId());
+		int role = Integer.parseInt((String)payload.get("roleID"));
 		
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
 		if (authorizedRoles.contains(role)) {
@@ -275,7 +261,7 @@ public class BatchResource {
 		}
 		Status status = null;
 		status = Status.OK;	
-		int role = Integer.parseInt(payload.getId());
+		int role = Integer.parseInt((String)payload.get("roleID"));
 
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
 		if (authorizedRoles.contains(role)) {

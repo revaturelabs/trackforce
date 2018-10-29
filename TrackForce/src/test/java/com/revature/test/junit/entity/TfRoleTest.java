@@ -25,34 +25,40 @@ public class TfRoleTest {
 	TfRole tfrole = new TfRole();
 
 	@Test
-	public void test1() {
+	public void testRoleIDGetSet() {
 		tfrole.setTfRoleId(7);
 		assertTrue(tfrole.getTfRoleId() == 7);
 		assertFalse(tfrole.getTfRoleId() == 8);
 	}
 
 	@Test
-	public void test2() {
+	public void testRoleNameGetSet() {
 		tfrole.setTfRoleName("Penguins");
 		assertTrue(tfrole.getTfRoleName().equals("Penguins"));
 		assertFalse(tfrole.getTfRoleName().equals("penguins"));
 	}
 
 	@Test
-	public void test3() {
+	public void testRoleUsersGetSet() {
 		tfrole.setTfUsers(new HashSet<TfUser>());
 		assertTrue(tfrole.getTfUsers() instanceof HashSet);
 	}
 
 	@Test
-	public void test4() {
+	public void testRoleEquivalence() {
 		assertTrue(role1.equals(role2));
 		assertFalse(role1.equals(new TfRole()));
 	}
 
 	@Test
-	public void test5() {
+	public void testRoleHashCode() {
 		assertEquals(role1.hashCode(), role2.hashCode());
 		assertNotEquals(role1.hashCode(), new TfRole().hashCode());
+	}
+	
+	@Test
+	public void testRoleToString() {
+		assertEquals(role1.toString(), role2.toString());
+		assertNotEquals(role1.toString(), tfrole.toString());
 	}
 }

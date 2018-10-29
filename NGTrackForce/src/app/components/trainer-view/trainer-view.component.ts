@@ -12,11 +12,15 @@ import {AssociateService} from "../../services/associate-service/associate.servi
 })
 export class TrainerViewComponent implements OnInit {
 
+  readonly _TRAINER_KEY = 'currentTrainer';
+
   trainer: Trainer;
   formOpen = false;
   newFirstName: string;
   newLastName: string;
   associates: Associate[] = [];
+  statusMsg: string;
+  statusClass = 'wait';
 
   // ADDED SO THIS COMPILES. Once you're actually making an ajax call you'll want to have these as your success
   // and error messages.
@@ -74,18 +78,26 @@ export class TrainerViewComponent implements OnInit {
   }
 
 
-
+  /**
+   * Allows a trainer to update his information, also updates the information held in local storage
+   */
   updateInfo() {
+    this.statusMsg = 'Please wait while your information is updated';
+    this.statusClass = 'wait';
     this.trainer.firstName = this.newFirstName;
     this.trainer.lastName = this.newLastName;
-    // this.trainerService.updateTrainer(this.trainer).subscribe(
-    //   data => {
-
-    //   },
-    //   err => {
-
-    //   }
-    // );
+    this.trainerService.updateTrainer(this.trainer).subscribe(
+      data => {
+        this.statusMsg = 'Update was successful!';
+        this.statusClass = 'success';
+        this.formOpen = false;
+        localStorage.setItem(this._TRAINER_KEY, JSON.stringify(this.trainer));
+      },
+      error => {
+        this.statusMsg = `I'm sorry, there was an error when communicating with the server`;
+        this.statusClass = 'error';
+        this.formOpen = false;
+      }
+    );
   }
-
 }

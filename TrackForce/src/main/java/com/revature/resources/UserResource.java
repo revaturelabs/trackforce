@@ -80,16 +80,20 @@ public class UserResource {
 	@POST
 	@Consumes("application/json")
 	@ApiOperation(value = "Creates new user", notes = "")
-	public Response createUser(TfUserAndCreatorRoleContainer container) {
+	public Response createUser(TfUserAndCreatorRoleContainer container, @HeaderParam("Authorization") String token) {
+		Claims payload = JWTService.processToken(token);
+
+		if (payload == null) 
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		TfUser newUser = container.getUser();
-		int creatorRole = container.getCreatorRole();
-		logger.info("creating new user..." + newUser);
+		int creatorRole = Integer.parseInt((String) payload.get("roleID"));
+		StringBuilder logMessage = new StringBuilder("creating new user..." + newUser);
 		
 		// any user created by an admin is approved
 		if(creatorRole == 1)
 			newUser.setIsApproved(1);
 		else if (creatorRole > 4)
-			return Response.status(Status.EXPECTATION_FAILED).build();
+			return Response.status(Status.FORBIDDEN).build();
 
 		// get the role being passed in
 		boolean works = true;
@@ -103,6 +107,7 @@ public class UserResource {
 			if (userService.getUser(newUser.getUsername()) == null){
 				tfrole = new TfRole(1, "Admin");
 				newUser.setTfRole(tfrole);
+				logMessage.append("\n	The user with hashed password is " + newUser);
 				works = userService.insertUser(newUser);
 			}
 			else {
@@ -117,7 +122,8 @@ public class UserResource {
 				newTrainer.setTfUser(newUser);
 				newTrainer.setFirstName(TEMP);
 				newTrainer.setLastName(TEMP);
-				logger.info("creating new trainer..." + newTrainer);
+				logMessage.append(logMessage + "\n	creating new trainer..." + newTrainer);
+				logMessage.append("The trainer with hashed password is " + newTrainer);
 				works = trainerService.createTrainer(newTrainer);
 			}
 			else {
@@ -128,6 +134,7 @@ public class UserResource {
 			if (userService.getUser(newUser.getUsername()) == null) {
 				tfrole = new TfRole(3, "Sales-Delivery");
 				newUser.setTfRole(tfrole);
+				logMessage.append("\n	The user with hashed password is " + newUser);
 				works = userService.insertUser(newUser);
 			}
 			else {
@@ -138,6 +145,7 @@ public class UserResource {
 			if (userService.getUser(newUser.getUsername()) == null) {
 				tfrole = new TfRole(4, "Staging");
 				newUser.setTfRole(tfrole);
+				logMessage.append("\n	The user with hashed password is " + newUser);
 				works = userService.insertUser(newUser);
 			}
 			else {
@@ -152,7 +160,8 @@ public class UserResource {
 				newAssociate.setUser(newUser);
 				newAssociate.setFirstName(TEMP);
 				newAssociate.setLastName(TEMP);
-				logger.info("creating new associate..." + newAssociate);
+				logMessage.append("\n	creating new associate..." + newAssociate);
+				logMessage.append("\n	The associate with hashed password is " + newAssociate);
 				works = associateService.createAssociate(newAssociate);
 			}
 			else {
@@ -160,11 +169,12 @@ public class UserResource {
 			}
 			break;
 		default:
-			logger.warn("Role is zero");
+			logger.warn(logMessage + "\n	Warning: Role is zero");
 			break;
 		}
 
 		if (works) {
+			logger.info(logMessage);
 			return Response.status(Status.CREATED).build();
 		} else {
 			return Response.status(Status.EXPECTATION_FAILED).build();
@@ -180,6 +190,7 @@ public class UserResource {
 		JsonObject json = new JsonObject();
 		
 		String message;
+		/*
 		if(userService.getUser(username) == null) {
 			json.addProperty(varName, "true");
 			message = json.toString();
@@ -189,7 +200,11 @@ public class UserResource {
 			json.addProperty(varName, "false");
 			message = json.toString();
 			return Response.ok(message,MediaType.TEXT_PLAIN).build();
-		}
+		}*/
+		Boolean found = userService.getUser(username) == null;
+		json.addProperty(varName, found.toString());
+		message = json.toString();
+		return Response.ok(message, MediaType.TEXT_PLAIN).build();
 	}
 	/**
 	 * @author Adam L.
@@ -200,67 +215,68 @@ public class UserResource {
 	 * @param newAssociate
 	 * @return
 	 */
-	@Path("/newAssociate")
-	@POST
-	@Consumes("application/json")
-	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new associate and user")
-	public Response createNewAssociate(TfAssociate newAssociate) {
-		logger.info("createNewAssociate()...");
-		LogUtil.logger.info(newAssociate);
-		if (newAssociate.getUser().getRole() == 5) {
-			boolean works = false;
-
-			TfRole tfrole = null;
-			tfrole = new TfRole(5, ASSC);
-			newAssociate.getUser().setTfRole(tfrole);
-			logger.info(newAssociate.getUser().getTfRole());
-			logger.info("creating new associate..." + newAssociate);
-			works = associateService.createAssociate(newAssociate);
-
-			if (works) {
-				return Response.status(Status.CREATED).build();
-			}
-			return Response.status(Status.EXPECTATION_FAILED).build();
-		} else {
-			return Response.status(Status.FORBIDDEN).build();
-		}
-	}
-
-	/**
-	 * @author Adam L.
-	 *         <p>
-	 *         </p>
-	 * @version v6.18.06.13
-	 *
-	 * @param newTrainer
-	 * @return
-	 */
-	@Path("/newTrainer")
-	@POST
-	@Consumes("application/json")
-	@ApiOperation(value = "Creates new trainer", notes = "")
-	public Response createTrainer(TfTrainer newTrainer) {
-		logger.info("creating new user...");
-		LogUtil.logger.info(newTrainer);
-		if (newTrainer.getTfUser().getRole() == 2) {
-			boolean works = false;
-
-			TfRole tfrole = null;
-			tfrole = new TfRole(5, ASSC);
-			newTrainer.getTfUser().setIsApproved(0);
-			newTrainer.getTfUser().setTfRole(tfrole);
-			logger.info(newTrainer.getTfUser().getTfRole());
-			logger.info("creating new trainer..." + newTrainer);
-			works = trainerService.createTrainer(newTrainer);
-
-			if (works) {
-				return Response.status(Status.CREATED).build();
-			}
-			return Response.status(Status.EXPECTATION_FAILED).build();
-		} else {
-			return Response.status(Status.FORBIDDEN).build();
-		}
-	}
+//	The methods "new Associate" and "new trainer" are not used since "new user" can create a trainer and associate
+//	@Path("/newAssociate")
+//	@POST
+//	@Consumes("application/json")
+//	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new associate and user")
+//	public Response createNewAssociate(TfAssociate newAssociate) {
+//		logger.info("createNewAssociate()...");
+//		LogUtil.logger.info(newAssociate);
+//		if (newAssociate.getUser().getRole() == 5) {
+//			boolean works = false;
+//
+//			TfRole tfrole = null;
+//			tfrole = new TfRole(5, ASSC);
+//			newAssociate.getUser().setTfRole(tfrole);
+//			logger.info(newAssociate.getUser().getTfRole());
+//			logger.info("creating new associate..." + newAssociate);
+//			works = associateService.createAssociate(newAssociate);
+//
+//			if (works) {
+//				return Response.status(Status.CREATED).build();
+//			}
+//			return Response.status(Status.EXPECTATION_FAILED).build();
+//		} else {
+//			return Response.status(Status.FORBIDDEN).build();
+//		}
+//	}
+//
+//	/**
+//	 * @author Adam L.
+//	 *         <p>
+//	 *         </p>
+//	 * @version v6.18.06.13
+//	 *
+//	 * @param newTrainer
+//	 * @return
+//	 */
+//	@Path("/newTrainer")
+//	@POST
+//	@Consumes("application/json")
+//	@ApiOperation(value = "Creates new trainer", notes = "")
+//	public Response createTrainer(TfTrainer newTrainer) {
+//		logger.info("creating new user...");
+//		LogUtil.logger.info(newTrainer);
+//		if (newTrainer.getTfUser().getRole() == 2) {
+//			boolean works = false;
+//
+//			TfRole tfrole = null;
+//			tfrole = new TfRole(5, ASSC);
+//			newTrainer.getTfUser().setIsApproved(0);
+//			newTrainer.getTfUser().setTfRole(tfrole);
+//			logger.info(newTrainer.getTfUser().getTfRole());
+//			logger.info("creating new trainer..." + newTrainer);
+//			works = trainerService.createTrainer(newTrainer);
+//
+//			if (works) {
+//				return Response.status(Status.CREATED).build();
+//			}
+//			return Response.status(Status.EXPECTATION_FAILED).build();
+//		} else {
+//			return Response.status(Status.FORBIDDEN).build();
+//		}
+//	}
 
 	/**
 	 * @author Adam L.
@@ -278,22 +294,19 @@ public class UserResource {
 	@Produces("application/json")
 	@ApiOperation(value = "login method", notes = "The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 403 if invalid.")
 	public Response submitCredentials(TfUser loginUser) {
-		logger.info("submitCredentials()...");
-		logger.info("	login: " + loginUser);
+		String logMessage = "submitCredentials()...\n	login: " + loginUser;
 		TfUser user;
 		try {
 			user = userService.submitCredentials(loginUser);
-			logger.info("	user: " + user);
-		} catch (NoResultException nre) {
-			logger.error(nre);
-			return Response.status(Status.FORBIDDEN).build();
+			logger.info(logMessage + "\n	user: " + user);
+		} catch (NoResultException | NullPointerException ex) {
+			logger.error(ex.getMessage());
+			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		if (user != null) {
-			logger.info("sending 200 response..");
 			return Response.status(Status.OK).entity(user).build();
 		} else {
-			logger.info("sending 200 response with null user data");
-			return Response.status(Status.OK).entity(null).build();
+			return Response.status(Status.UNAUTHORIZED).entity(null).build();
 		}
 	}
 	
@@ -320,11 +333,24 @@ public class UserResource {
 	
 	@Path("/init")
 	@GET
-	@ApiOperation(value = "check method", notes = "The method checks whether a JWT is valid. returns 200 if valid, 401 if invalid.")
+	@ApiOperation(value = "Init method", notes = "Initializes the Hibernate Session Factory.")
 	public Response sessionInitialization() {
 		logger.info("Initizilizing SessionFactory");
 		//HibernateUtil.runHibernate((Session session, Object ... args) -> session.createNativeQuery("SELECT * FROM dual"));
 		HibernateUtil.getSessionFactory();
 		return Response.status(Status.OK).build();
+	}
+	
+	@Path("/getUserRole")
+	@GET
+	@Produces("application/json")
+	@ApiOperation(value = "Get Role value method", notes = "parses the JWT to check if its valid and returns the value if valid")
+	public Response returnRole(@HeaderParam("Authorization") String token) {
+		Claims payload = JWTService.processToken(token);
+		
+		if(payload == null) {
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		}
+		return Response.status(Status.OK).entity(payload.get("roleID")).build();
 	}
 }

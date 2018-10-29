@@ -2,8 +2,8 @@ import { browser, by, element } from 'protractor';
 
 export class LoginPage {
   navigateTo(){
-    return browser.get('/NGTrackForce');
-    //return browser.get('/login');
+    //return browser.get('localhost:4200/login');
+    return browser.get('http://ec2-34-227-178-103.compute-1.amazonaws.com:8090/NGTrackForce/#/login');
   }
 
   getUsernameInput(){
@@ -23,7 +23,7 @@ export class LoginPage {
   }
 
   getLoginButton(){
-    return element(by.buttonText('Sign in'));
+    return element(by.buttonText('SIGN IN'));
   }
 
   getLoginButtonText(){
@@ -35,10 +35,16 @@ export class LoginPage {
   }
 
   getFailedLoginResponse() {
-    return element(by.xpath('//*[@id="pwd-container"]/div/section/form/div[1]')).getText();
+    return element(by.xpath('//*[@id="pwd-container"]/div/section/form/div/div[1]/span')).getText();
+    //
   }
 
-  get logoutButton() {
-    return element(by.css('a[href*="/login"]'));
+  getlogoutButton() {
+    element(by.xpath('//*[@id="navbarDropdown"]')).click();
+    return element(by.xpath('//*[@id="logout"]'));
+  }
+
+  getCurrentUrl(){
+    return browser.getCurrentUrl();
   }
 }

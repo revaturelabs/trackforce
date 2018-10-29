@@ -7,7 +7,7 @@ import java.util.Properties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import com.revature.test.admin.pom.Login;
+import com.revature.test.pom.Login;
 
 public class LoginUtil {
 	private static Properties prop = new Properties();
@@ -39,5 +39,10 @@ public class LoginUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static String getPropertyValue(String key) {
+		String value = prop.getProperty(key);
+		return value;
 	}
 }

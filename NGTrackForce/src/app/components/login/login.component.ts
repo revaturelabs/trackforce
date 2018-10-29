@@ -10,12 +10,12 @@ import {User} from '../../models/user.model';
 import {UserService} from '../../services/user-service/user.service';
 import {trigger, state, style, transition, animate, keyframes} from '@angular/animations';
 import {AssociateService} from '../../services/associate-service/associate.service';
-import {InterviewService} from '../../services/interview-service/interview.service';
-import {ClientService} from '../../services/client-service/client.service';
-import {BatchService} from '../../services/batch-service/batch.service';
+// import {InterviewService} from '../../services/interview-service/interview.service';
+// import {ClientService} from '../../services/client-service/client.service';
+// import {BatchService} from '../../services/batch-service/batch.service';
 import {TrainerService} from '../../services/trainer-service/trainer.service';
 import {Trainer} from '../../models/trainer.model';
-import {Batch} from '../../models/batch.model';
+// import {Batch} from '../../models/batch.model';
 import {Associate} from "../../models/associate.model";
 import { NavbarService } from '../../services/navbar-service/navbar.service';
 
@@ -28,7 +28,7 @@ const BATCHES_COTRAINER_KEY = 'currentBatchesCotrainer';
 const BATCHES_KEY = 'currentBatches';
 const CLIENTS_KEY = 'currentClients';
 
-/* 
+/*
   PROBLEM
   should be admin/sales/staging_key
   SHOULDNT load all associates as soon as one of those roles logs in
@@ -79,9 +79,9 @@ export class LoginComponent implements OnInit {
   public newTrainer: Trainer;
   public newAssociate: Associate;
 
-  public isLoggingIn: boolean = false;
-  public loginClicked: boolean = false;
-
+  public isLoggingIn = false;
+  public loginClicked = false;
+  public userRequirement: String = ""
   /**
    *@constructor
    *
@@ -97,9 +97,9 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationService,
     private router: Router,
     private userService: UserService,
-    private interviewService: InterviewService,
-    private clientService: ClientService,
-    private batchService: BatchService,
+    // private interviewService: InterviewService,
+    // private clientService: ClientService,
+    // private batchService: BatchService,
     private trainerService: TrainerService,
     private navbarService: NavbarService
   ) {
@@ -127,7 +127,7 @@ export class LoginComponent implements OnInit {
     if (user != null) {
       this.loginClicked = true;
       this.isLoggingIn = true;
-      
+
 
       this.userService.checkJwtValid().subscribe(
         data => { this.routeToUserHome(user.role); },
@@ -139,11 +139,11 @@ export class LoginComponent implements OnInit {
   routeToUserHome(role: number){
     this.navbarService.show();
 
-    if (role == 5) {
+    if (role === 5) {
         this.router.navigate(['associate-view']);
-    } else if (role == 2) {
+    } else if (role === 2) {
         this.router.navigate(['trainer-view']);
-    } else if (role == 1 || role == 3 || role == 4) {
+    } else if (role === 1 || role === 3 || role === 4) {
         this.router.navigate(['app-home']);
     } else{
       this.navbarService.hide();
@@ -175,13 +175,14 @@ export class LoginComponent implements OnInit {
     this.sucMsg = "";
     this.errMsg = "";
 
+
     if (this.password === undefined || this.cpassword === undefined || this.password.length === 0 || this.cpassword.length === 0) {
       this.errMsg = 'Please enter a password and confirm password!';
     } else if (this.password !== this.cpassword) {
       this.errMsg = 'Passwords do not match!';
     } else if (!this.usernameRestrictions.test(this.username.trim()) && !this.passwordRestrictions.test(this.password)) {
       this.errMsg = `Invalid username and password!<br>
-        <br>Password requirements:
+        <br>Username requirements:
           <ul>
             <li>• 6 - 20 alphanumeric characters.</li>
             <li>• No spaces.</li>
@@ -197,7 +198,7 @@ export class LoginComponent implements OnInit {
           </ul>`;
     } else if (!this.usernameRestrictions.test(this.username.trim())) {
       this.errMsg = `Invalid username!<br>
-        <br>Password requirements:
+        <br>Username requirements:
           <ul>
             <li>• 6 - 20 characters.</li>
             <li>• No spaces.</li>

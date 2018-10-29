@@ -2,14 +2,19 @@ import { browser, by, element } from 'protractor';
 
 export class Navbar {
 
-    navigateTo(){
-        return browser.get('');
+    logIn(username, password){
+      element(by.name('username')).sendKeys(username);
+      element(by.name('password')).sendKeys(password);
+      element(by.buttonText('SIGN IN')).click();
     }
 
-    goToHome(){
+    goToAdminHome(){
       element(by.linkText('Home')).click();
         //element(by.css('body > app-component > app-navbar > nav > div > ul:nth-child(2) > li:nth-child(1)')).click();
 
+    }
+    goToTrainerHome(){
+      element(by.id('home')).click();
     }
 
     goToClientList(){
@@ -27,10 +32,6 @@ export class Navbar {
         //element(by.css('body > app-component > app-navbar > nav > div > ul:nth-child(2) > li:nth-child(4)')).click();
     }
 
-    logout(){
-      element(by.buttonText('Logout')).click();
-        //element(by.css('body > app-component > app-navbar > nav > div > ul.nav.navbar-nav.navbar-right.visible-lg > li:nth-child(1)')).click();
-    }
     //html/body/app-component/app-navbar/nav/div/ul[1]/li[2]/button
     goToCreateUser(){
       element(by.linkText('Create User')).click();
@@ -38,10 +39,21 @@ export class Navbar {
     }
 
     goToPredictions(){
-      element(by.linkText('Predictions')).click();
+      element(by.id('predictions')).click();
         //element(by.css('body > app-component > app-navbar > nav > div > ul:nth-child(2) > li:nth-child(5)')).click();
+    }
+
+    goToSalesForce(){
+      element(by.linkText('Salesforce')).click();
     }
     getCurrentURL(){
         return browser.getCurrentUrl();
+    }
+
+    goToAssociateHome(){
+      element(by.linkText('Home')).click();
+    }
+    goToMyInterview(){
+      element(by.id('interviews')).click();
     }
 }

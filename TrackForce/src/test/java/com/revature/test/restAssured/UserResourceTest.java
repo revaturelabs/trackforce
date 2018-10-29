@@ -34,7 +34,7 @@ public class UserResourceTest {
 	//static final String URL = "http://52.87.205.55:8086/TrackForce/users";
 	static final String URL = "http://localhost:8085/TrackForce/users";
 
-	String token;
+	String adminToken, associateToken;
 	TfUser user;
 	TfUserAndCreatorRoleContainer container;
 	TfAssociate associate;
@@ -48,16 +48,17 @@ public class UserResourceTest {
 
 	@BeforeClass
 	public void beforeClass() {
-		token = JWTService.createToken("TestAdmin", 1);
-		System.out.println(token);
+		adminToken = JWTService.createToken("TestAdmin", 1);
+		associateToken = JWTService.createToken("cyril", 5);
+		System.out.println(adminToken);
 		knownTrainerId = 64832;
 		
-		ms = marketService.getMarketingStatusById(1);
+//		ms = marketService.getMarketingStatusById(1);
 		
 		role = new TfRole();
 		role = userService.getRole(1);
-		TfRole conRole = new TfRole();
-		conRole.setTfRoleId(1);
+//		TfRole conRole = new TfRole();
+//		conRole.setTfRoleId(1);
 		
 		user = new TfUser();
 		user.setIsApproved(1);
@@ -89,33 +90,33 @@ public class UserResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = true, priority = 10)
-	public void testCreateUser2() {
-		user.setRole(1);
-		user.getTfRole().setTfRoleId(1);
-		
-		userResource.createUser(container);
-		
-		Response response = given().header("Authorization", token).when()
-				.get(URL.replaceAll("users", "associates") + "/allAssociates").then().extract().response();
+//	@Test(enabled = true, priority = 10)
+//	public void testCreateUser1() {
+//		user.setRole(1);
+//		user.getTfRole().setTfRoleId(1);
+//		
+//		userResource.createUser(container, adminToken);
+//		
+//		Response response = given().header("Authorization", adminToken).when()
+//				.get(URL.replaceAll("users", "associates") + "/allAssociates").then().extract().response();
+//
+//		assertTrue(response.statusCode() == 200);
+//		assertTrue(response.contentType().equals("application/json"));
+//	}
 
-		assertTrue(response.statusCode() == 200);
-		assertTrue(response.contentType().equals("application/json"));
-	}
-
-	@Test(enabled = true, priority = 13)
-	public void testCreateUser3() {
-		user.setRole(3);
-		user.getTfRole().setTfRoleId(3);
-		
-		userResource.createUser(container);
-		
-		Response response = given().header("Authorization", token).when()
-				.get(URL.replaceAll("users", "associates") + "/allAssociates").then().extract().response();
-
-		assertTrue(response.statusCode() == 200);
-		assertTrue(response.contentType().equals("application/json"));
-	}
+//	@Test(enabled = true, priority = 13)
+//	public void testCreateUser2() {
+//		user.setRole(3);
+//		user.getTfRole().setTfRoleId(3);
+//		
+//		userResource.createUser(container, adminToken);
+//		
+//		Response response = given().header("Authorization", adminToken).when()
+//				.get(URL.replaceAll("users", "associates") + "/allAssociates").then().extract().response();
+//
+//		assertTrue(response.statusCode() == 200);
+//		assertTrue(response.contentType().equals("application/json"));
+//	}
 
 	/**
 	 * More unhappy path testing to ensure that verbs and URLs return the
@@ -141,21 +142,23 @@ public class UserResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = true, priority = 20)
-	public void testCreateNewAssociate1() {
-		user.setRole(5);
-		user.setUsername("Associate1");
-		associate.setUser(user);
-		
-		userResource.createNewAssociate(associate);
 
-		Response response = given().header("Authorization", token).when()
-				.get(URL.replaceAll("users", "associates") + "/allAssociates").then().extract().response();
+//	@Test(enabled = true, priority = 20)
+//	public void testCreateNewAssociate1() {
+//		user.setRole(5);
+//		user.setUsername("Associate1");
+//		associate.setUser(user);
+//		
+//**    userResource.createNewAssociate(associate);
+//
+//		Response response = given().header("Authorization", adminToken).when()
+//				.get(URL.replaceAll("users", "associates") + "/allAssociates").then().extract().response();
+//
+//		assertTrue(response.statusCode() == 200);
+//		assertTrue(response.contentType().equals("application/json"));
+//		assertTrue(response.asString().contains(associate.getFirstName()));
+//	}
 
-		assertTrue(response.statusCode() == 200);
-		assertTrue(response.contentType().equals("application/json"));
-		assertTrue(response.asString().contains(associate.getFirstName()));
-	}
 
 	/**
 	 * Test that a user with a role other than 5 cannot be made into an associate
@@ -164,12 +167,16 @@ public class UserResourceTest {
 	public void testCreateNewAssociate2() {
 		user.setRole(4);
 		user.setUsername("Associate2");
+		TfUserAndCreatorRoleContainer container = new TfUserAndCreatorRoleContainer();
+		container.setUser(user);
+		container.setCreatorRole(1);
 		associate.setUser(user);
 		associate.setFirstName("Carlsbad");
-		given().contentType("application/json").body(associate).when().post(URL + "/newAssociate").then().assertThat()
-				.statusCode(403);
-
-		Response response = given().header("Authorization", token).when()
+		given().contentType("application/json").body(container).headers("Authorization", "bad adminToken").when().post(URL + "/newUser").then().assertThat()
+				.statusCode(401);
+		
+		
+		Response response = given().header("Authorization", adminToken).when()
 				.get(URL.replaceAll("users", "associates") + "/allAssociates").then().extract().response();
 
 		assertTrue(response.statusCode() == 200);
@@ -186,7 +193,7 @@ public class UserResourceTest {
 	 */
 	@Test(enabled = true, priority = 25)
 	public void testCreateNewAssociate3() {
-		given().contentType("application/json").body(user).when().get(URL + "/newAssociate").then().assertThat()
+		given().contentType("application/json").body(user).when().get(URL + "/newUser").then().assertThat()
 				.statusCode(405);
 
 		given().contentType("application/json").body(user).when().post(URL + "/newAssociateBADURL").then().assertThat()
@@ -201,20 +208,8 @@ public class UserResourceTest {
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = true, priority = 30)
-	public void testCreateNewTrainer1() {
-		user.setRole(2);
-		user.getTfRole().setTfRoleId(2);
-		trainer.setTfUser(user);
-		
-		userResource.createTrainer(trainer);
 
-		Response response = given().header("Authorization", token).when()
-				.get(URL.replaceAll("users", "trainers") + "/" + knownTrainerId).then().extract().response();
 
-		assertTrue(response.statusCode() == 200);
-		assertTrue(response.asString().contains("RestAssured"));
-	}
 
 	/**
 	 * Check that you cannot create a trainer with a non 2 role id
@@ -223,12 +218,14 @@ public class UserResourceTest {
 	public void testCreateNewTrainer2() {
 		user.setRole(3);
 		user.getTfRole().setTfRoleId(3);
-		trainer.setTfUser(user);
-		given().contentType("application/json").body(trainer).when().post(URL + "/newTrainer").then().assertThat()
-				.statusCode(403);
+		TfUserAndCreatorRoleContainer container = new TfUserAndCreatorRoleContainer();
+		container.setUser(user);
+		container.setCreatorRole(1);
+		given().contentType("application/json").body(container).headers("Authorization", "bad adminToken").when().post(URL + "/newUser").then().assertThat()
+				.statusCode(401);
 		
-		trainer.getTfUser().setRole(5);
-		given().contentType("application/json").body(trainer).when().post(URL + "/newTrainer").then().assertThat()
+		container.setCreatorRole(1);
+		given().contentType("application/json").body(container).headers("Authorization", associateToken).when().post(URL + "/newUser").then().assertThat()
 		.statusCode(403);
 	}
 	/**
@@ -240,7 +237,7 @@ public class UserResourceTest {
 	 */
 	@Test(enabled = true, priority = 35)
 	public void testCreateNewTrainer3() {
-		given().contentType("application/json").body(trainer).when().get(URL + "/newTrainer").then().assertThat()
+		given().contentType("application/json").body(trainer).when().get(URL + "/newUser").then().assertThat()
 				.statusCode(405);
 
 		given().contentType("application/json").body(trainer).when().post(URL + "/newTrainerBAD").then().assertThat()

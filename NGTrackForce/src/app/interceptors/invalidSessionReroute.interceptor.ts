@@ -1,7 +1,7 @@
 /**
 * @author Austin Molina
 *
-* @description Intercepts all HttpRequest and checks the response for an authorization error. 
+* @description Intercepts all HttpRequest and checks the response for an authorization error.
 * When a 401 is found, redirect to login or Invalid Session component
 *
 */
@@ -24,10 +24,12 @@ export class InvalidSessionRerouteInterceptor implements HttpInterceptor {
     }, (err: any) => {
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
-          if(err.error["expirationtime"] < 15)
-            this.router.navigate(['/invalid-session']); 
-          else
-            this.router.navigate(['/login']); 
+          if(err.error["expirationtime"] < 15) {
+            this.router.navigate(['/invalid-session']);
+          }
+          else {
+            this.router.navigate(['/login']);
+          }
         }
       }
     }));

@@ -1,41 +1,19 @@
 package com.revature.dao;
-
+import java.util.HashMap;
 import java.util.List;
-
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.TfAssociate;
 
 public interface AssociateDao {
-
 	TfAssociate getAssociate(Integer associateid);
+	
+	List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId, String sortText);
 
 	List<TfAssociate> getAllAssociates();
 	
 	List<TfAssociate> getNAssociates();
 	
-	Object getCountUndeployedMapped();
-	
-	Object getCountUndeployedUnmapped();
-	
-	Object getCountDeployedMapped();
-	
-	Object getCountDeployedUnmapped();
-
-	Object getCountUnmappedTraining();
-	
-	Object getCountUnmappedOpen();
-	
-	Object getCountUnmappedSelected();
-	
-	Object getCountUnmappedConfirmed();
-	
-	Object getCountMappedTraining();
-	
-	Object getCountMappedReserved();
-	
-	Object getCountMappedSelected();
-	
-	Object getCountMappedConfirmed();
+	HashMap<String,Integer> getStatusCountsMap();
 
 	boolean updateAssociatePartial(TfAssociate associate);
 

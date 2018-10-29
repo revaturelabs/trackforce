@@ -1,9 +1,5 @@
 package com.revature.entity;
-// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
-
 import java.sql.Timestamp;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,19 +9,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-
-/**
- * <p> </p>
- * @version v6.18.06.13
- */
+/** @version v6.18.06.13 */
 @XmlRootElement
 @Entity
 @Table(name = "TF_PLACEMENT", schema = "ADMIN")
-//@Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfPlacement implements java.io.Serializable {
 
@@ -57,6 +47,7 @@ public class TfPlacement implements java.io.Serializable {
 	private Timestamp end;
 
 	public TfPlacement() {
+		super();
 	}
 
 	public TfPlacement(Integer id, TfAssociate associate, TfClient client, TfEndClient endClient, Timestamp start,
@@ -73,7 +64,6 @@ public class TfPlacement implements java.io.Serializable {
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -81,7 +71,6 @@ public class TfPlacement implements java.io.Serializable {
 	public TfAssociate getAssociate() {
 		return associate;
 	}
-
 	public void setAssociate(TfAssociate associate) {
 		this.associate = associate;
 	}
@@ -89,7 +78,6 @@ public class TfPlacement implements java.io.Serializable {
 	public TfClient getClient() {
 		return client;
 	}
-
 	public void setClient(TfClient client) {
 		this.client = client;
 	}
@@ -97,7 +85,6 @@ public class TfPlacement implements java.io.Serializable {
 	public TfEndClient getEndClient() {
 		return endClient;
 	}
-
 	public void setEndClient(TfEndClient endClient) {
 		this.endClient = endClient;
 	}
@@ -105,7 +92,6 @@ public class TfPlacement implements java.io.Serializable {
 	public Timestamp getStart() {
 		return start;
 	}
-
 	public void setStart(Timestamp start) {
 		this.start = start;
 	}
@@ -113,7 +99,6 @@ public class TfPlacement implements java.io.Serializable {
 	public Timestamp getEnd() {
 		return end;
 	}
-
 	public void setEnd(Timestamp end) {
 		this.end = end;
 	}
@@ -147,33 +132,44 @@ public class TfPlacement implements java.io.Serializable {
 		if (associate == null) {
 			if (other.associate != null)
 				return false;
-		} else if (!associate.equals(other.associate))
+		} else if (!associate.equals(other.associate)) {
 			return false;
+		}
+		
 		if (client == null) {
 			if (other.client != null)
 				return false;
-		} else if (!client.equals(other.client))
+		} else if (!client.equals(other.client)) {
 			return false;
+		}
+		
 		if (end == null) {
 			if (other.end != null)
 				return false;
-		} else if (!end.equals(other.end))
+		} else if (!end.equals(other.end)) {
 			return false;
+		}
+		
 		if (endClient == null) {
 			if (other.endClient != null)
 				return false;
-		} else if (!endClient.equals(other.endClient))
+		} else if (!endClient.equals(other.endClient)) {
 			return false;
+		}
+		
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!id.equals(other.id)) {
 			return false;
+		}
+		
 		if (start == null) {
 			if (other.start != null)
 				return false;
-		} else if (!start.equals(other.start))
+		} else if (!start.equals(other.start)) {
 			return false;
+		}
 		return true;
 	}
 
@@ -182,6 +178,4 @@ public class TfPlacement implements java.io.Serializable {
 		return "TfPlacement [id=" + id + ", client=" + client + ", endClient=" + endClient + ", start=" + start
 				+ ", end=" + end + "]";
 	}
-	
-	
 }

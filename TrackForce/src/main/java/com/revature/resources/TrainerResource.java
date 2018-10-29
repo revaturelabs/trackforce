@@ -63,17 +63,18 @@ public class TrainerResource {
 	@ApiOperation(value = "Displays the batch from the trainer", notes = "")
 	public Response getBatchFromTrainer(@ApiParam("Trainer id") @PathParam("id") int id,
 			@HeaderParam("Authorization") String token) {
-		logger.info("getting batch from trainers...");
+		String logMessage = "getting batch from trainer: ";
 		TfTrainer trainer;
 		List<TfBatch> batches;
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null || ((String) payload.get("roleID")).equals("5")) {
+			logger.info(logMessage + "unauthorized; payload == null");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
 				trainer = trainerService.getTrainer(id);
-				LogUtil.logger.info(trainer);
+				logger.info(logMessage + trainer);
 				batches = trainer.getPrimary();
 			} catch (NoResultException nre) {
 				return Response.status(Status.NO_CONTENT).build();
@@ -89,17 +90,18 @@ public class TrainerResource {
 	@ApiOperation(value = "Displays the batches that the trainer is cotrainer on", notes = "")
 	public Response getBatchFromCotrainer(@ApiParam("trainer id") @PathParam("id") int id,
 			@HeaderParam("Authorization") String token) {
-		logger.info("getting batch from trainers...");
+		String logMessage = "getting batch from co-trainer: ";
 		TfTrainer trainer;
 		List<TfBatch> batches;
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null || ((String) payload.get("roleID")).equals("5")) {
+			logger.info(logMessage + "unauthorized; payload == null");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
 				trainer = trainerService.getTrainer(id);
-				LogUtil.logger.info(trainer);
+				logger.info(logMessage + trainer);
 				batches = trainer.getCoTrainer();
 			} catch (NoResultException nre) {
 				return Response.status(Status.NO_CONTENT).build();
@@ -119,13 +121,12 @@ public class TrainerResource {
 		TfTrainer trainer;
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null || ((String) payload.get("roleID")).equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
 				trainer = trainerService.getTrainerByUserId(id);
 			} catch (NoResultException nre) {
-				logger.debug("NoResultException!");
 				return Response.status(Status.NO_CONTENT).build();
 			}
 			status = trainer == null ? Status.NO_CONTENT : Status.OK;
@@ -139,19 +140,22 @@ public class TrainerResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "get all trainers")
 	public Response getAllTrainers(@HeaderParam("Authorization") String token) {
-		logger.info("getAllClients()...");
+		String logMessage = "getAllClients()...";
 		Status status = null;
 		List<TfTrainer> trainers = trainerService.getAllTrainers();
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) {
+			logger.info(logMessage + "\n unauthorized; payload == null");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build(); // invalid token
-		} else if (!(payload.getId().equals("1") || payload.getId().equals("5"))) {
+		} else if (!(((String) payload.get("roleID")).equals("1") || ((String) payload.get("roleID")).equals("5"))) {
+			logger.info(logMessage);
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
+			logger.info(logMessage);
 			status = trainers == null || trainers.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
-
+		
 		return Response.status(status).entity(trainers).build();
 	}
 
@@ -173,14 +177,14 @@ public class TrainerResource {
 	                                @HeaderParam("Authorization") String token) {
 		logger.info("updateTrainer()...");
 		Claims payload = JWTService.processToken(token);
-
 		if (trainer == null) {
 			return Response.status(Status.NO_CONTENT).build();
 		}
-		else if (payload == null || payload.getId().equals("2") || payload.getId().equals("5")) {
+		else if (payload == null || ((String) payload.get("roleID")).equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		else {
+			System.out.println(payload.get(trainer));
 			trainerService.updateTrainer(trainer);
 			return Response.status(Status.ACCEPTED).build();
 		}

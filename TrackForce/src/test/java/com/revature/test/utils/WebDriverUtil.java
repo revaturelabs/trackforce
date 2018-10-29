@@ -8,7 +8,7 @@ import java.util.Properties;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import com.revature.test.admin.pom.Login;
+import com.revature.test.pom.Login;
 
 public class WebDriverUtil {
 
@@ -37,7 +37,12 @@ public class WebDriverUtil {
 			//you can check the logs folder in the apache installation
 			// currently there is a chromedriver in the bin/src/main/resources of the Apache folder
 			//
+			// Uncomment this line if you are windows
 			File f1 = new File(prop.getProperty("chromeDriverPath"));
+		
+			// Uncomment this line if you are on Mac
+			//File f1 = new File(prop.getProperty("chromeDriverMacPath"));
+			
 			System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
 			chromeDriver = new ChromeDriver();
 			return chromeDriver;

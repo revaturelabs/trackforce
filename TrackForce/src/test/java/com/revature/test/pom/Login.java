@@ -15,6 +15,8 @@ import org.openqa.selenium.support.ui.Select;
  * referenced with prop.getProperty("element")
  * @author Jesse (reviewer)
  * @since 6.18.06.07
+ * 
+ * As of 10/21/18, this comment is no longer valid because 1808 batch has revamped POMs to no longer reference WebElement selectors in tests.properties file. - Josh, 1808
  */
 public class Login {
 
@@ -31,11 +33,11 @@ public class Login {
 	}
 
 	public static WebElement getSignInButton(WebDriver driver) {
-		return driver.findElement(By.cssSelector("button[type='submit'][innerText='Sign In']"));
+		return driver.findElement(By.cssSelector("button[type='submit']"));
 	}
 	
 	public static WebElement getRegisterButton(WebDriver driver) {
-		return driver.findElement(By.cssSelector("button[type='submit'][innerText='Register']"));
+		return driver.findElement(By.cssSelector("button[type='button']"));
 	}
 	
 	public static WebElement getConfirmPassword(WebDriver driver) {

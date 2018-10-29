@@ -13,4 +13,6 @@ public interface UserDao {
 	TfRole getRole(int roleId);
 	
 	boolean updateUser(TfUser user);
+	
+	public void deleteUser(TfUser user);
 }

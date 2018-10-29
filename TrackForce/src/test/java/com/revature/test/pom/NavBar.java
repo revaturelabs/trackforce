@@ -10,7 +10,7 @@ public class NavBar {
 		return driver.findElement(By.id("logo"));
 	}
 	
-	public WebElement getMyInterviews(WebDriver driver) {
+	public static WebElement getMyInterviews(WebDriver driver) {
 		return driver.findElement(By.id("interviews"));
 	}
 	

@@ -1,5 +1,6 @@
 package com.revature.test.dao;
 
+import static org.junit.Assert.assertNotNull;
 import static org.testng.Assert.assertEquals;
 
 import java.io.FileInputStream;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import com.revature.daoimpl.ClientDaoImpl;
@@ -21,7 +23,7 @@ public class ClientDAOTest {
 	private ClientDaoImpl dao;
 	private Properties props;
 	
-	@BeforeClass
+	@BeforeSuite
 	public void initialize() {
 		dao = new ClientDaoImpl();
 		props = new Properties();
@@ -49,11 +51,10 @@ public class ClientDAOTest {
 		List<TfClient> list = dao.getAllTfClients();
 		assertEquals(list.size(), Integer.parseInt(props.getProperty("client_total")));
 		
-		//If someone understands what getAllTfClients(String[] columns) does,
-		//please test it because I'm not sure what to pass it to not get null
-		String[] columns = {"tf_associate"};
+		//this test will need to be perfected to verify the contents of the list
+		String[] columns = {"c.id","c.name"};
 		list = dao.getAllTfClients(columns);
-		assertEquals(list, null);
+		assertNotNull (list);
 	}
 	
 	@Test

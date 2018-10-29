@@ -26,6 +26,9 @@
             </div>
 
             <div *ngIf='registerPage==0;'>
+              <div class="center-div" *ngIf="!dataReady">
+                <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+              </div>
               <label for="username" class="sr-only">Username: </label>
               <input class="form-control input-lg" type="text" placeholder="Username" name="username" id="username"
                 required [(ngModel)]="username" />
@@ -45,6 +48,7 @@
           </div>
 
           <ng-template #elseBlockZero>
+
             <div *ngIf='this.isRegistering'>
               <label [@enterAnimation] for="cpassword" class="sr-only">Confirm Password: </label>
               <input [@enterAnimation] class="form-control" type="password" placeholder="Confirm Password" name="cpassword"

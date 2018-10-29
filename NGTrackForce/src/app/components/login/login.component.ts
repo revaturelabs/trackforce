@@ -84,6 +84,7 @@ export class LoginComponent implements OnInit {
   public isLoggingIn = false;
   public loginClicked = false;
   public userRequirement: String = ""
+  public dataReady = true;
   /**
    *@constructor
    *
@@ -219,28 +220,35 @@ export class LoginComponent implements OnInit {
     } else {
       switch (this.role) {
         case 2:
+          this.dataReady = false;
           this.newUser = new User(this.username, this.password, 2, 0);
           this.newTrainer = new Trainer(this.fname, this.lname, this.newUser);
           this.resetFields();
           this.userService.createTrainer(this.newTrainer).subscribe(
+
             data => {
+              this.dataReady = true;
               this.sucMsg = "Trainer account creation successful.";
             },
             err => {
+              this.dataReady = true;
               console.error(err + "Error Occurred!");
               this.errMsg = 'Error: New Trainer is not created!';
             }
           );
           break;
         case 5:
+        this.dataReady = false;
           this.newUser = new User(this.username, this.password, 5, 0);
           this.newAssociate = new Associate(this.fname, this.lname, this.newUser);
           this.resetFields();
           this.userService.createAssociate(this.newAssociate).subscribe(
             data => {
+              this.dataReady = true;
               this.sucMsg = "Associate account creation successful.";
             },
             err => {
+              this.dataReady = true;
               console.error(err + " Error Occurred!");
               this.errMsg = 'Error: New Associate is not created!';
             }

@@ -67,7 +67,7 @@ describe('Confirm login failures', () => {
     page.getUsernameInput().sendKeys('1234');
     page.getPasswordInput().sendKeys('password');
     page.getLoginButton().click();
-    expect(page.getFailedLoginResponse()).toContain('Invalid username and/or password');
+    expect(page.getFailedLoginResponse()).toContain('Username or Password invalid');
   });
 });
 
@@ -91,7 +91,7 @@ describe('Login in with proper credentials', () => {
     expect(page.getCurrentUrl()).toEqual(baseURL + 'app-home');
   });
 
-  xit('should be able to login in with associate credentials and reach the associate page', () => { //xit
+  it('should be able to login in with associate credentials and reach the associate page', () => {
     logIn(associateUsername, associatePassword, page);
     expect(page.getCurrentUrl()).toEqual(baseURL + 'associate-view');
   });

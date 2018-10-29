@@ -18,6 +18,8 @@ import io.restassured.response.Response;
  * Tests to ensure that that batches are only accessible to the right users and that all
  * behavior is intended in relationship to date ranges
  * 
+ * 1808_Seth_L This suite needs tests for the following endpoints: /{id}/associates, /details, /countby, /withindates, /batch/{id}
+ * 
  * @author Daniel L.
  * @since 06.18.06.19
  */
@@ -41,7 +43,7 @@ public class BatchResourceTest {
 	}
 
 	/**
-	 * Test to ensure that each of the roles besides an associate is able to access batches.
+	 * A positive test to ensure that admins and trainers are able to access batches.
 	 * Verify that the batches returned are what we would expect.
 	 */
 	@Test(priority = 1)
@@ -54,23 +56,23 @@ public class BatchResourceTest {
 		given().header("Authorization", token).when().get(URL).then().assertThat().body("batchName",
 				Matchers.hasSize(size));
 
-		token = JWTService.createToken("TestSales", 2);
+		token = JWTService.createToken("TestTrainer", 2);
 		response = given().header("Authorization", token).when().get(URL).then().extract().response();
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 	}
 	
 	/**
-	 * Part two of testing getAllBatches
+	 * Another positive test to ensure that Sales and Staging can access batches
 	 */
 	@Test(priority = 2)
 	public void getAllBatchesTest2() {
-		token = JWTService.createToken("TestManger", 3);
+		token = JWTService.createToken("TestSales", 3);
 		Response response = given().header("Authorization", token).when().get(URL).then().extract().response();
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 
-		token = JWTService.createToken("TestTrainer", 4);
+		token = JWTService.createToken("TestStaging", 4);
 		response = given().header("Authorization", token).when().get(URL).then().extract().response();
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));

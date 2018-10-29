@@ -2,7 +2,13 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const { SpecReporter } = require('jasmine-spec-reporter');
+var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
+var reporter = new HtmlScreenshotReporter({
+dest: 'testresults/screenshots',
+filename: 'my-report.html',
+captureOnlyFailedSpecs: true
+});
 
 exports.config = {
   allScriptsTimeout: 20000,
@@ -26,6 +32,11 @@ exports.config = {
     // './e2e/associate-list/associate-list-client.js',
     // './e2e/test-associate/homepage-spec.js'
   ],
+  beforeLaunch: function() {
+    return new Promise(function(resolve){
+      reporter.beforeLaunch(resolve);
+    });
+  },
   capabilities: {
     'browserName': 'chrome',
     chromeOptions: {
@@ -58,6 +69,7 @@ exports.config = {
     // jasmine.getEnv().addReporter(
     //   new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));
     var jasmineReporters = require('jasmine-reporters');
+     jasmine.getEnv().addReporter(reporter);
     jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({
         consolidateAll: true,
         savePath: 'testresults',
@@ -85,5 +97,10 @@ exports.config = {
        };
        new HTMLReport().from('testresults/xmloutput.xml', testConfig);
    });
- }
+ },
+ afterLaunch: function(exitCode) {
+    return new Promise(function(resolve){
+      reporter.afterLaunch(resolve.bind(this, exitCode));
+    });
+  }
 };

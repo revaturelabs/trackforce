@@ -77,7 +77,7 @@ function logIn(username, password, thePage){
   thePage.getLoginButton().click();
 };
 
-describe('Login in  with proper credentials', () => {
+describe('Login in with proper credentials', () => {
 
   beforeAll(() => {
     page = new LoginPage();

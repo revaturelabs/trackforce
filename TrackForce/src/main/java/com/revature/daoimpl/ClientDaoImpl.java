@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import com.revature.dao.ClientDao;
 import com.revature.entity.TfClient;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.ListOp;
 
 public class ClientDaoImpl implements ClientDao {
 
@@ -32,11 +33,14 @@ public class ClientDaoImpl implements ClientDao {
 		);
 	}
 	
+	//this function retrieves specific columns from the client table
+	//pass arguments such as "c.id" to get list of all IDs or c.name to get list of all names
+	//repaired 10/29/18 - BSS
 	@Override
-	public List<TfClient> getAllTfClients(String[] columns) {
-		return HibernateUtil.runHibernate((Session session, Object ...args) -> session
-				.createQuery("SELECT " + String.join(" ", (String[]) args[0]) + "FROM TfClient ", TfClient.class)
-				.setCacheable(true).getResultList());
+	public List getAllTfClients(String[] columns) {
+		return HibernateUtil.runHibernate( (Session session, Object ...args) -> session
+		.createQuery("SELECT " + String.join(",", (String[]) args) + " FROM TfClient c")
+		.setCacheable(true).getResultList(),(Object[])columns);
 	}
 
 	@Override

@@ -11,7 +11,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
-import org.testng.annotations.BeforeClass;
+
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 //import com.revature.dao.BatchDao;
@@ -24,7 +25,7 @@ public class BatchDAOTest {
 	private BatchDaoImpl dao;
 	private Properties props;
 	
-	@BeforeClass
+	@BeforeSuite
 	public void initialize() {
 		dao = new BatchDaoImpl();
 		props = new Properties();

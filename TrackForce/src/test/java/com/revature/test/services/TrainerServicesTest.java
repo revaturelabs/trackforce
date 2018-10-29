@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 
 import com.revature.daoimpl.TrainerDaoImpl;
 import com.revature.entity.TfTrainer;
+import com.revature.entity.TfUser;
 import com.revature.services.TrainerService;
 import com.revature.test.utils.Log;
 
@@ -26,7 +27,7 @@ public class TrainerServicesTest {
 
 	@BeforeClass
 	public void initialize() {
-		service = new TrainerService(new TrainerDaoImpl());
+		service = new TrainerService();
 		props = new Properties();
 
 		try {
@@ -40,7 +41,11 @@ public class TrainerServicesTest {
 			Log.Log.error(e.getMessage());
 		}
 	}
-
+	
+	/*
+	 * Test currently fails when the DAO tries to get a trainer
+	 * Throws a NoClassDefFoundError
+	 */
 	@Test
 	public void testTrainerGetById() {
 		
@@ -50,6 +55,10 @@ public class TrainerServicesTest {
 		assertEquals(trainer.getLastName(), props.getProperty("trainerLastName"));
 	}
 
+	/*
+	 * Test currently fails when the DAO tries to get a trainer
+	 * Throws a NoClassDefFoundError
+	 */
 	@Test
 	public void testTrainerGetByUserId() {
 		TfTrainer trainer = service.getTrainerByUserId(Integer.parseInt(props.getProperty("trainerUser_Id")));
@@ -58,23 +67,33 @@ public class TrainerServicesTest {
 		assertEquals(trainer.getLastName(), props.getProperty("trainerLastName"));
 	}
 
+	/*
+	 * Test currently fails when the DAO tries to get a list of trainers
+	 * Throws a NoClassDefFoundError
+	 */
 	@Test
 	public void testTrainerGetAll() {
 		
-		List<TfTrainer> allTrainers = new ArrayList<TfTrainer>();
-		allTrainers.addAll(service.getAllTrainers());
+		List<TfTrainer> allTrainers = service.getAllTrainers();
 		
 		assertNotNull(allTrainers);
 		assertFalse(allTrainers.isEmpty());
 	}
 
+	/*
+	 * Test currently fails when the DAO tries to create the trainer
+	 * Throws an ExceptionInInitializerError
+	 */
 	@Test
-	public void testTraineCreate() {
+	public void testTrainerCreate() {
 		
 		TfTrainer createTrainer = new TfTrainer();
+		TfUser user = new TfUser();
 		createTrainer.setId(Integer.parseInt(props.getProperty("createTrainer_Id")));
 		createTrainer.setFirstName(props.getProperty("createTrainer_firstName"));
 		createTrainer.setLastName(props.getProperty("createTrainer_lastName"));
+		createTrainer.setTfUser(user);
+		user.setPassword("p");
 		service.createTrainer(createTrainer);
 		
 		assertEquals(service.getTrainer(Integer.parseInt(props.getProperty("createTrainer_Id"))).getFirstName(), 
@@ -83,6 +102,10 @@ public class TrainerServicesTest {
 				props.getProperty("createTrainer_lastName"));
 	}
 
+	/*
+	 * Test currently fails when the DAO tries to get a trainer
+	 * Throws a NoClassDefFoundError
+	 */
 	@Test
 	public void testTrainerUpdate() {
 		

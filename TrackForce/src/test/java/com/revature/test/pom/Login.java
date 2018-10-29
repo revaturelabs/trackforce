@@ -15,6 +15,8 @@ import org.openqa.selenium.support.ui.Select;
  * referenced with prop.getProperty("element")
  * @author Jesse (reviewer)
  * @since 6.18.06.07
+ * 
+ * As of 10/21/18, this comment is no longer valid because 1808 batch has revamped POMs to no longer reference WebElement selectors in tests.properties file. - Josh, 1808
  */
 public class Login {
 

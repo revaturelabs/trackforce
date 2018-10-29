@@ -1,4 +1,4 @@
-import { browser, by, element } from 'protractor';
+import { protractor, browser, by, element } from 'protractor';
 
 export class LoginPage {
   navigateTo(){
@@ -45,6 +45,8 @@ export class LoginPage {
   }
 
   getCurrentUrl(){
+    let ec = protractor.ExpectedConditions;
+    browser.wait(ec.visibilityOf(element(by.id('logo'))), 5000);  //waits until the logo element is loaded to check url -CR
     return browser.getCurrentUrl();
   }
 }

@@ -1,6 +1,5 @@
 import { LoginPage } from './login.po';
 import { TestConfig } from '../configuration/test-config';
-import { protractor, browser, by, element } from 'protractor';
 
 /*
 Smoke test: Checks elements to be exist
@@ -89,8 +88,6 @@ describe('Login in with proper credentials', () => {
 
   it('should be able to login in with admin credentials and reach the admin page', () => {
     logIn(AdminUsername, AdminPassword, page);
-    let ec = protractor.ExpectedConditions;
-    browser.wait(ec.visibilityOf(element(by.linkText('Client List'))), 5000);  //waits until an any element is loaded to check url
     expect(page.getCurrentUrl()).toEqual(baseURL + 'app-home');
   });
 
@@ -101,22 +98,16 @@ describe('Login in with proper credentials', () => {
 
   it('should be able to login in with Manager credentials and reach the Admin page', () => {
     logIn(stagingManagerUsername, stagingManagerPassword, page);
-    let ec = protractor.ExpectedConditions;
-    browser.wait(ec.visibilityOf(element(by.linkText('Client List'))), 5000);  //waits until an any element is loaded to check url
     expect(page.getCurrentUrl()).toEqual(baseURL + 'app-home');
   });
 
   it('should be able to login in with Trainer credentials and reach the Trainer page', () => {
     logIn(trainerUsername, trainerPassword, page);
-    let ec = protractor.ExpectedConditions;
-    browser.wait(ec.visibilityOf(element(by.linkText('Associate List'))), 5000);  //waits until an any element is loaded to check url
     expect(page.getCurrentUrl()).toEqual(baseURL + 'trainer-view');
   });
 
   it('should be able to login in with Sales Team credentials and reach the Admin page', () => {
     logIn(deliverySalesUsername, deliverySalesPassword, page);
-    let ec = protractor.ExpectedConditions;
-    browser.wait(ec.visibilityOf(element(by.linkText('Client List'))), 5000);  //waits until an any element is loaded to check url
     expect(page.getCurrentUrl()).toEqual(baseURL + 'app-home');
   });
   afterEach(() => {

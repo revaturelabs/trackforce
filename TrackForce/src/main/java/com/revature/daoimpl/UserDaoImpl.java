@@ -41,4 +41,17 @@ public class UserDaoImpl implements UserDao {
 			return true;
 		});
 	}
+	/**
+	 * Allows deletion of the user in the database.  So far its only used for a RestAssured test to allow rerunability.
+	 * Could be used in the future in the case that say an administrator can delete a user.
+	 * @author Seth L.
+	 * @param newUser
+	 */
+	@Override
+	public void deleteUser(TfUser user) {
+		runHibernateTransaction((Session session, Object ... args)->{
+			session.delete(user);
+			return true;
+		});
+	}
 }

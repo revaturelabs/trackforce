@@ -89,7 +89,17 @@ public class UserService {
 		return dao.insertUser(newUser);
 	}
 
+	/**
+	 * Allows deletion of the user in the database.  So far its only used for a RestAssured test to allow rerunability.
+	 * Could be used in the future in the case that say an administrator can delete a user.
+	 * @author Seth L.
+	 * @param newUser
+	 */
+	public void deleteUser(TfUser newUser) {
 
+		dao.deleteUser(newUser);
+	}
+	
 	public TfRole getRole(int roleId) {
 		return dao.getRole(roleId);
 	}

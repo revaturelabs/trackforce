@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { User } from '../../models/user.model';
 import { Interview } from '../../models/interview.model';
 import { InterviewService } from '../../services/interview-service/interview.service';
@@ -35,12 +36,12 @@ export class InterviewsComponent implements OnInit {
   canUpdate = false;
 
   constructor(
-    private interviewService: InterviewService, 
+    private interviewService: InterviewService, private authService: AuthenticationService
   ) { }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem("currentUser"));
-    if (this.user.role === 1 || this.user.role === 3 ||this.user.role===4) {
+    if (this.authService.getUserRole() === 1 || this.authService.getUserRole() === 3 ||this.authService.getUserRole()===4) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
     this.getInterviews();
@@ -53,7 +54,7 @@ export class InterviewsComponent implements OnInit {
         this.interviews = data;
       }
     )
-  } 
+  }
 
   // updateInterviews() {
   //   const ids: number[] = [];

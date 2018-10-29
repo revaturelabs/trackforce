@@ -118,9 +118,9 @@ export class FormComponent implements OnInit {
     this.user = this.authService.getUser();
     // this.isVerified = this.user.verified;
     //Role checks
-    if (this.user.role === 3) {
+    if (this.authService.getUserRole() === 3) {
       this.isVP = true;
-    } else if (this.user.role === 5) {
+    } else if (this.authService.getUserRole() === 5) {
       this.isAssociate = true;
     } else {
       this.isVP = false;
@@ -343,7 +343,7 @@ export class FormComponent implements OnInit {
 
   goToInterviewDetails( interview: Interview ) {
     this.user = this.authService.getUser();
-    if (this.user.role === 3) {
+    if (this.authService.getUserRole() === 3) {
       this.router.navigate(['interview-details/' + interview.id]);
     }
   }

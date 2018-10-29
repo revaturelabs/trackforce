@@ -57,7 +57,7 @@ export class CreateUserComponent implements OnInit {
     } else {
       this.newUser = new User(this.username, this.password, this.roleId, this._TOKEN);
       // this.userService.createUser(this.username, this.password, this.roleId).subscribe(
-      this.userService.createUser(this.newUser, this.loggedIn.role).subscribe(
+      this.userService.createUser(this.newUser, this.authService.getUserRole()).subscribe(
         data => {
           this.sucMsg = StatusMessage.SUCCESS;
         },

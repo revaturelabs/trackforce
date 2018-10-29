@@ -74,7 +74,7 @@ export class InterviewDetailsComponent implements OnInit {
 
   isDisabledAssociateFeedback() {
     this.user = this.authService.getUser();
-    if ( this.user.role === 3 || this.user.role === 4 || this.user.role === 1)
+    if ( this.authService.getUserRole() === 3 || this.authService.getUserRole() === 4 || this.authService.getUserRole() === 1)
     {
       this.isDisabledAssociate = true;
     }
@@ -87,7 +87,7 @@ export class InterviewDetailsComponent implements OnInit {
 
   isDisabledClientFeedback() {
     this.user = this.authService.getUser();
-    if ( this.user.role === 3 || this.user.role === 4 || this.user.role === 1 )
+    if ( this.authService.getUserRole() === 3 || this.authService.getUserRole() === 4 || this.authService.getUserRole() === 1 )
     {
       this.isDisabledClient = false;
     }
@@ -100,7 +100,7 @@ export class InterviewDetailsComponent implements OnInit {
 
   isDisabledInterviewQuestions() {
     this.user = this.authService.getUser();
-    if ( this.user.role === 3 || this.user.role === 4 || this.user.role === 1 )
+    if ( this.authService.getUserRole() === 3 || this.authService.getUserRole() === 4 || this.authService.getUserRole() === 1 )
     {
       this.isDisabledQuestions = true;
     }
@@ -113,7 +113,7 @@ export class InterviewDetailsComponent implements OnInit {
 
   isDisabledExpectedSkillsAndQuestions() {
     this.user = this.authService.getUser();
-    if ( this.user.role === 3 || this.user.role === 4 || this.user.role === 1 )
+    if ( this.authService.getUserRole() === 3 || this.authService.getUserRole() === 4 || this.authService.getUserRole() === 1 )
     {
       this.isDisabledSkillsAndQuestions = false;
     }

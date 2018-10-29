@@ -10,7 +10,7 @@ export class User {
   id: number;
   username: string;
   password: string;
-  role: number;
+  //role: number;
   token: string;
   isApproved: number;
 
@@ -24,7 +24,7 @@ export class User {
   ) {
       this.username = newUsername;
       this.password = newPassword;
-      this.role = newRole;
+      // this.role = newRole;
       this.isApproved = newIsApproved;
       this.id = newId;
       this.token = newToken;

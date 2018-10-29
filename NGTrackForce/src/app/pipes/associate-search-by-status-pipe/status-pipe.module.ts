@@ -1,11 +1,11 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from '@angular/common';
-import { AssociateSearchByStatusPipe } from './status-pipe.pipe';
+//import { CommonModule } from '@angular/common';
+//import { AssociateSearchByStatusPipe } from './status-pipe.pipe';
 
 
 @NgModule({
-  declarations: [CommonModule, AssociateSearchByStatusPipe],
+  declarations: [],
   providers: [],
-  imports: [AssociateSearchByStatusPipe]
+  imports: []
 })
 export class AssociateSearchByStatusPipeModule {}

@@ -64,31 +64,31 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
     if (this.user !== null && this.user !== undefined) {
       this.isLoggedIn = true;
       this.username = this.user.username;
-      if (this.user.role === 1) {
+      if (this.authService.getUserRole() === 1) {
         this.isAdmin = true;
         this.isSales = false;
         this.isStaging = false;
         this.isTrainer = false;
         this.isAssociate = false;
-      } else if(this.user.role === 3){
+      } else if(this.authService.getUserRole() === 3){
         this.isAdmin = false;
         this.isSales = true;
         this.isStaging = false;
         this.isTrainer = false;
         this.isAssociate = false;
-      } else if(this.user.role === 4){
+      } else if(this.authService.getUserRole() === 4){
         this.isAdmin = false;
         this.isSales = false;
         this.isStaging = true;
         this.isTrainer = false;
         this.isAssociate = false;
-      } else if (this.user.role === 2){
+      } else if (this.authService.getUserRole() === 2){
         this.isAdmin = false;
         this.isSales = false;
         this.isStaging = false;
         this.isTrainer = true;
         this.isAssociate = false;
-      } else if (this.user.role === 5){
+      } else if (this.authService.getUserRole() === 5){
         this.isAdmin = false;
         this.isSales = false;
         this.isStaging = false;

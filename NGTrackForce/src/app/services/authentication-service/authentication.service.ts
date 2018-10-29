@@ -16,6 +16,8 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import { Associate } from "../../models/associate.model";
 import { Trainer } from "../../models/trainer.model";
+import { AngularWaitBarrier } from "blocking-proxy/built/lib/angular_wait_barrier";
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 // import 'rxjs/Rx';
 
 const ASSOCIATE_KEY = "currentAssociate";
@@ -24,6 +26,7 @@ const TRAINER_KEY = "currentTrainer";
 
 @Injectable()
 export class AuthenticationService {
+  role;
   constructor(
     private rs: RequestService,
     private router: Router,
@@ -72,19 +75,17 @@ export class AuthenticationService {
     return user;
   }
 
- 
-  // getUserRole(token: string): number {
-  //   let role: number = 0;
-  //   this.http
-  //     .get<User>(environment.url + "TrackForce/users/getUserRole", {
-  //       token: token
-  //     })
-  //     .subscribe(data => {
-  //       role = data.role;
-  //     });
-  //   return role;
-  // }
 
+  getUserRole() {
+    return this.role;
+  }
+  async getUserRoleFirst() {
+    this.http.get<number>(environment.url + "TrackForce/users/getUserRole")
+      .subscribe(data => {
+        console.log('In Subscribe');
+        this.role = data;
+        }, error => error)
+  }
   /**
    * This method will return the Associate Object from local storage
    *
@@ -110,4 +111,5 @@ export class AuthenticationService {
     const trainer: Trainer = JSON.parse(localStorage.getItem(TRAINER_KEY));
     return trainer;
   }
+
 }

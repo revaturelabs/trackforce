@@ -70,7 +70,9 @@ export class LoginComponent implements OnInit {
   public associate: any;
   public registerPage = 0;
   public role: number;
+  public role2: number;
   public usernameRestrictions = RegExp("^[a-zA-Z0-9]{6,20}$");
+  public boolean = false;
 
   // public passwordRestrictions = RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[.!@#$%^&*])(?=.{8,})");
   // Regex for getting 3 out of 4 restrictions
@@ -130,7 +132,7 @@ export class LoginComponent implements OnInit {
 
 
       this.userService.checkJwtValid().subscribe(
-        data => { this.routeToUserHome(user.role); },
+        data => { this.routeToUserHome(this.authService.getUserRole()); },
         err => { this.resetAfterLoginFail() }
       );
     }
@@ -287,24 +289,35 @@ export class LoginComponent implements OnInit {
       this.loginClicked = true;
       this.authService.login(this.username, this.password).subscribe(
         data => {
-
+          console.log("In login");
           localStorage.setItem(USER_KEY, JSON.stringify(data));
+          console.log(data);
 
           if(data == null){
             this.resetAfterLoginFail();
             this.errMsg = "Invalid username and/or password";
           } else if (data.isApproved) {
+            this.authService.getUserRoleFirst();
+            setTimeout(() => {
+              //awful and hacky definitely fix this
+              this.role2 = this.authService.getUserRole();
+              if (this.boolean === false) {
+                this.boolean = true;
+                this.login();
+              }
+            }, 1000);
             //navigate to appropriate page if return is valid
           //4 represents an associate role, who are routed to associate-view
-            if (data.role === 5) {
-              this.associateLogin(data);
-            } else if (data.role === 2) {
-              this.trainerLogin(data);
-            } else if (data.role === 1 || data.role === 3 || data.role === 4) {
-              this.salesOrStagingLogin();
-            } else {
-              this.resetAfterLoginFail();
-            }
+              if (this.role2 === 5) {
+                this.associateLogin(data);
+              } else if (this.role2 === 2) {
+                this.trainerLogin(data);
+              } else if (this.role2 === 1 || this.role2 === 3 || this.role2 === 4) {
+                console.log("In sales or staging login");
+                this.salesOrStagingLogin();
+              } else {
+                this.resetAfterLoginFail();
+              }
           } else {
             this.resetAfterLoginFail();
             this.errMsg = "Your account has not been approved.";

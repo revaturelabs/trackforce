@@ -79,6 +79,16 @@ export class BatchListComponent implements OnInit {
     const user = this.authService.getUser();
     //user is a trainer they can only see their batches
     if (this.authService.getUserRole() === 2) {
+      this.startDate.setMonth(new Date().getMonth() - 3);
+      this.endDate.setMonth(new Date().getMonth() + 3);
+      this.dataReady = false;
+
+      this.startDate.setMonth(-7);
+
+      this.stringStart = this.startDate.toJSON().substring(0, 10);
+      this.stringEnd = this.endDate.toJSON().substring(0, 10);
+      this.fromString = this.startDate.toJSON().substring(0, 10);
+      this.toString = this.endDate.toJSON().substring(0, 10);
       this.dataReady = false;
       console.log(this.authService.getTrainer());
       console.log(user);
@@ -87,7 +97,7 @@ export class BatchListComponent implements OnInit {
           // filter out batches that don't have an associated trainer
           this.batches = batches.filter(
             batch => {
-              if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
+              if (batch.trainer.user.id !== this.authService.getTrainer().user.id) {
                 console.log(batch);
                 return false;
               }
@@ -106,15 +116,15 @@ export class BatchListComponent implements OnInit {
               return true;
             }
           );
-
+          this.filteredBatches = this.batches;
+          this.updateCountPerCurriculum();
+          this.dataReady = true;
         },
         error => {
           console.log(error);
         }
       );
-      this.filteredBatches = this.batches;
-      this.updateCountPerCurriculum();
-      this.dataReady = true;
+
 
     }
     else {

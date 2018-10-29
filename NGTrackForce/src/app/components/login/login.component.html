@@ -27,8 +27,8 @@
 
             <div *ngIf='registerPage==0;'>
               <label for="username" class="sr-only">Username: </label>
-              <input class="form-control input-lg" type="text" placeholder="Username" name="username" id="username" required
-                [(ngModel)]="username" />
+              <input class="form-control input-lg" type="text" placeholder="Username" name="username" id="username"
+                required [(ngModel)]="username" />
               <label for="password" class="sr-only">Password: </label>
               <input class="form-control" type="password" placeholder="Password" name="password" id="password" required
                 [(ngModel)]="password" />
@@ -41,23 +41,24 @@
             </div>
           </div>
           <div [@enterAnimation] *ngIf="isLoggingIn">
-            <img src="../../../assets/loading.gif">
+            <img src="../../../assets/loading.gif" alt="gif">
           </div>
 
           <ng-template #elseBlockZero>
             <div *ngIf='this.isRegistering'>
               <label [@enterAnimation] for="cpassword" class="sr-only">Confirm Password: </label>
-              <input [@enterAnimation] class="form-control" type="password" placeholder="Confirm Password" name="cpassword" id="cpassword"
-                required [(ngModel)]="cpassword" />
+              <input [@enterAnimation] class="form-control" type="password" placeholder="Confirm Password" name="cpassword"
+                id="cpassword" required [(ngModel)]="cpassword" />
               <label for="username" class="sr-only">First Name: </label>
-              <input [@enterAnimation] class="form-control input-lg" type="text" placeholder="First Name" name="fname" id="fname" required
-                [(ngModel)]="fname" />
+              <input [@enterAnimation] class="form-control input-lg" type="text" placeholder="First Name" name="fname"
+                id="fname" required [(ngModel)]="fname" />
               <label for="password" class="sr-only">Last Name: </label>
-              <input [@enterAnimation] class="form-control" type="text" placeholder="Last Name" name="lname" id="lname" required [(ngModel)]="lname"
-              />
+              <input [@enterAnimation] class="form-control" type="text" placeholder="Last Name" name="lname" id="lname"
+                required [(ngModel)]="lname" />
               <label for="chosenRole" class="sr-only"></label>
 
-              <select [@enterAnimation] type="number" class="form-control" id="chosenRole" required [(ngModel)]="role" name="chosenRole">
+              <select [@enterAnimation] type="number" class="form-control" id="chosenRole" required [(ngModel)]="role"
+                name="chosenRole">
                 <option [ngValue]="undefined">Select Role...</option>
                 <option [ngValue]="5">Associate</option>
                 <option [ngValue]="2">Trainer</option>

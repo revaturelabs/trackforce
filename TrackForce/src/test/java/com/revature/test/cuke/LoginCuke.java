@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.revature.test.pom.HomeTab;
 import com.revature.test.pom.Login;
 import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
@@ -24,8 +23,8 @@ public class LoginCuke {
 	
 	String baseUrl = System.getenv("url");
 	
-	@Given("^I connect to caliber$")
-	public void i_connect_to_caliber(){
+	@Given("^I connect to trackforce$")
+	public void i_connect_to_trackforce(){
 
 		ServiceHooks.driver = WebDriverUtil.getChromeDriver();
 		//ServiceHooks.driver.manage().window().maximize();
@@ -38,14 +37,14 @@ public class LoginCuke {
 	@Given("^I login as an Administrator$")
 	public void i_login_as_an_administrator() throws Throwable {
 		System.out.println("Running administrator login meta");
-		i_enter_the_correct_admin_login_information();
+		i_submit_the_correct_admin_login_information();
 		i_click_Submit();
 	}
 	
 	@Given("^I login as an Associate$")
 	public void i_login_as_an_associate() throws Throwable {
 		System.out.println("Running associate login meta");
-		i_enter_the_correct_associate_login_information();
+		i_submit_the_correct_associate_login_information();
 		i_click_Submit();
 
 	}
@@ -54,7 +53,7 @@ public class LoginCuke {
 	@Given("^I login as a Trainer$")
 	public void i_login_as_a_trainer() throws Throwable {
 		System.out.println("Running trainer login meta");
-		i_enter_the_correct_trainer_login_information();
+		i_submit_the_correct_trainer_login_information();
 		i_click_Submit();
 	}
 	
@@ -63,75 +62,79 @@ public class LoginCuke {
 		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "#/login");
 	}
 
-	@When("^I enter the correct admin login information$")
-	public void i_enter_the_correct_admin_login_information() throws Throwable {
+	@When("^I submit the correct admin login information$")
+	public void i_submit_the_correct_admin_login_information() throws Throwable {
 		System.out.println("Entering correct admin login info");
-		Login.login(LoginUtil.getPropertyValue("adminUN"),LoginUtil.getPropertyValue("adminPW"),ServiceHooks.driver);
+		LoginUtil.loginAsAdmin(ServiceHooks.driver);
 	}
-	@When("^I enter the correct associate login information$")
-	public void i_enter_the_correct_associate_login_information() throws Throwable {
+	
+	@When("^I submit the correct associate login information$")
+	public void i_submit_the_correct_associate_login_information() throws Throwable {
 		System.out.println("Entering correct associate login info");
-	   Login.login(LoginUtil.getPropertyValue("associateUN"),LoginUtil.getPropertyValue("associatePW"),ServiceHooks.driver);
+		LoginUtil.loginAsAssociate(ServiceHooks.driver);
 	}
-	@When("^I enter the correct manager login information$")
-	public void i_enter_the_correct_manager_login_information() throws Throwable {
+	
+	@When("^I submit the correct manager login information$")
+	public void i_submit_the_correct_manager_login_information() throws Throwable {
 		System.out.println("Entering correct testmanager login info");
-	   Login.login(LoginUtil.getPropertyValue("stagingManagerUN"),LoginUtil.getPropertyValue("stagingManagerPW"),ServiceHooks.driver);
+		LoginUtil.loginAsStaging(ServiceHooks.driver);
 	}
-	@When("^I enter the correct trainer login information$")
-	public void i_enter_the_correct_trainer_login_information() throws Throwable {
+	
+	@When("^I submit the correct trainer login information$")
+	public void i_submit_the_correct_trainer_login_information() throws Throwable {
 		System.out.println("Entering correct trainer login info");
-	   Login.login(LoginUtil.getPropertyValue("trainerUN"),LoginUtil.getPropertyValue("trainerPW"),ServiceHooks.driver);
+		LoginUtil.loginAsTrainer(ServiceHooks.driver);
 	}
-	@When("^I enter the correct delivery login information$")
-	public void i_enter_the_correct_sales_login_information() throws Throwable {
+	
+	@When("^I submit the correct delivery login information$")
+	public void i_submit_the_correct_sales_login_information() throws Throwable {
 		System.out.println("Entering correct sales login info");
-	   Login.login(LoginUtil.getPropertyValue("salesDeliveryUN"),LoginUtil.getPropertyValue("salesDeliveryPW"),ServiceHooks.driver);
+		LoginUtil.loginAsSalesDelivery(ServiceHooks.driver);
 	}
 
 	@When("^I click Submit$")
 	public void i_click_Submit() throws Throwable {
 		System.out.println("Clicking submit (login)");
-		Login.getSignin(ServiceHooks.driver).click();
+		Login.getSignInButton(ServiceHooks.driver).click();
 	}
 	
-	@When("^I enter a correct username without a password$")
-	public void i_enter_a_correct_username_without_a_password() throws Throwable {
+	@When("^I submit a correct username without a password$")
+	public void i_submit_a_correct_username_without_a_password() throws Throwable {
 		System.out.println("Entering correct username with no password");
 
-		Login.login(LoginUtil.getPropertyValue("adminUN"), "", ServiceHooks.driver);
+		LoginUtil.login(ServiceHooks.driver, LoginUtil.getPropertyValue("adminUN"), "");
 	}
 	
-	@When("^I enter a correct password with an incorrect username$")
-	public void i_enter_a_correct_password_with_an_incorrect_username() throws Throwable {
+	@When("^I submit a correct password with an incorrect username$")
+	public void i_submit_a_correct_password_with_an_incorrect_username() throws Throwable {
 		System.out.println("Entering incorrect username with correct password");
 
-		Login.login(LoginUtil.getPropertyValue("notAUsername"), LoginUtil.getPropertyValue("adminPW"), ServiceHooks.driver);
+		LoginUtil.login(ServiceHooks.driver, LoginUtil.getPropertyValue("notAUsername"), LoginUtil.getPropertyValue("adminPW"));
 
 	}
 
-	@When("^I enter an incorrect password with an incorrect username$")
-	public void i_enter_an_incorrect_password_with_an_incorrect_username() throws Throwable {
+	@When("^I submit an incorrect password with an incorrect username$")
+	public void i_submit_an_incorrect_password_with_an_incorrect_username() throws Throwable {
 
-		Login.login(LoginUtil.getPropertyValue("notAUsername"), LoginUtil.getPropertyValue("notAPassword"), ServiceHooks.driver);
-
-	}
-	
-	@When("^I enter a correct username with an incorrect password$")
-	public void i_enter_a_correct_username_with_an_incorrect_password() throws Throwable {
-
-		Login.login(LoginUtil.getPropertyValue("adminUN"),LoginUtil.getPropertyValue("notAPassword"), ServiceHooks.driver);
-	}
-
-	@When("^I enter a correct password without a username$")
-	public void i_enter_a_correct_password_without_a_username() throws Throwable {
-
-	    Login.login("", LoginUtil.getPropertyValue("adminPW"), ServiceHooks.driver);
+		LoginUtil.login(ServiceHooks.driver, LoginUtil.getPropertyValue("notAUsername"), LoginUtil.getPropertyValue("notAPassword"));
 
 	}
 	
-	@When("^if I click Log out$")
-	public void if_I_click_Log_out() throws Throwable {
+	@When("^I submit a correct username with an incorrect password$")
+	public void i_submit_a_correct_username_with_an_incorrect_password() throws Throwable {
+
+		LoginUtil.login(ServiceHooks.driver, LoginUtil.getPropertyValue("adminUN"),LoginUtil.getPropertyValue("notAPassword"));
+	}
+
+	@When("^I submit a correct password without a username$")
+	public void i_submit_a_correct_password_without_a_username() throws Throwable {
+
+	    LoginUtil.login(ServiceHooks.driver, "", LoginUtil.getPropertyValue("adminPW"));
+
+	}
+	
+	@When("^I click Log out$")
+	public void i_click_Log_out() throws Throwable {
 		System.out.println("clicking logout");
 		ServiceHooks.driver.findElement(By.xpath("/html/body/app-component/app-navbar/nav/div/ul[2]/li[1]/a")).click();
 	}
@@ -139,19 +142,19 @@ public class LoginCuke {
 	@Then("^I should remain on the login page$")
 	public void i_should_remain_on_the_login_page() throws Throwable {
 		ServiceHooks.wait.until(ExpectedConditions.urlContains(baseUrl + "#/login"));
-		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver), baseUrl + "#/login");
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "#/login");
 	}
 
 	@Then("^I should be taken to the home page$")
 	public void i_should_be_taken_to_the_home_page() throws Throwable {
 		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "#/app-home"));
-		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver), baseUrl + "#/app-home");
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "#/app-home");
 	}
 	
 	@Then("^I should be taken to the trainer home page$")
 	public void i_should_be_taken_to_the_trainer_home_page() throws Throwable {
 		ServiceHooks.wait.until(ExpectedConditions.urlContains(baseUrl +  "#/trainer-view"));
-		assertEquals(HomeTab.getCurrentURL(ServiceHooks.driver), baseUrl + "#/trainer-view");
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "#/trainer-view");
 	}
 	
 	@Then("^I should be taken to the associate home page$")

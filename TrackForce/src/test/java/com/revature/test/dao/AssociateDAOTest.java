@@ -12,6 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.HashSet;
 import java.util.Properties;
 
@@ -165,10 +167,19 @@ public class AssociateDAOTest {
 		
 	}
 	
+	/*
+	 * TODO Fix this 
+	 * This test throws a NullPointerException, just in case you couldn't tell from running the test.
+	 * Upon further inspection, it looks like the exception is coming from 
+	 * 'com.revature.utils.HibernateUtil.runHibernateTransaction(Sessional<Boolean> sessional, Object... args)'
+	 * where 'return threadUtil.submitCallable(caller);' is returning null due to ThreadUtil catching a
+	 * InterruptedException or ExecutionException, causing the submitCallable(Callable<T> caller) to return a null,
+	 * causing a chain reaction... Not sure why InterruptedException or ExecutionException is being thrown.
+	 */
 	@Test(dependsOnGroups= {"getters"})
 	public void testAssociateDAOCreateAssociate() {
 		TfUser user = new TfUser();
-		user.setId(-1);
+		user.setId(791);
 		TfBatch batch = new TfBatch();
 		batch.setId(1);
 		TfMarketingStatus marketingStatus = new TfMarketingStatus();

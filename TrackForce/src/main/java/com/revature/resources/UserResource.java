@@ -215,68 +215,67 @@ public class UserResource {
 	 * @param newAssociate
 	 * @return
 	 */
-//	The methods "new Associate" and "new trainer" are not used since "new user" can create a trainer and associate
-//	@Path("/newAssociate")
-//	@POST
-//	@Consumes("application/json")
-//	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new associate and user")
-//	public Response createNewAssociate(TfAssociate newAssociate) {
-//		logger.info("createNewAssociate()...");
-//		LogUtil.logger.info(newAssociate);
-//		if (newAssociate.getUser().getRole() == 5) {
-//			boolean works = false;
-//
-//			TfRole tfrole = null;
-//			tfrole = new TfRole(5, ASSC);
-//			newAssociate.getUser().setTfRole(tfrole);
-//			logger.info(newAssociate.getUser().getTfRole());
-//			logger.info("creating new associate..." + newAssociate);
-//			works = associateService.createAssociate(newAssociate);
-//
-//			if (works) {
-//				return Response.status(Status.CREATED).build();
-//			}
-//			return Response.status(Status.EXPECTATION_FAILED).build();
-//		} else {
-//			return Response.status(Status.FORBIDDEN).build();
-//		}
-//	}
-//
-//	/**
-//	 * @author Adam L.
-//	 *         <p>
-//	 *         </p>
-//	 * @version v6.18.06.13
-//	 *
-//	 * @param newTrainer
-//	 * @return
-//	 */
-//	@Path("/newTrainer")
-//	@POST
-//	@Consumes("application/json")
-//	@ApiOperation(value = "Creates new trainer", notes = "")
-//	public Response createTrainer(TfTrainer newTrainer) {
-//		logger.info("creating new user...");
-//		LogUtil.logger.info(newTrainer);
-//		if (newTrainer.getTfUser().getRole() == 2) {
-//			boolean works = false;
-//
-//			TfRole tfrole = null;
-//			tfrole = new TfRole(5, ASSC);
-//			newTrainer.getTfUser().setIsApproved(0);
-//			newTrainer.getTfUser().setTfRole(tfrole);
-//			logger.info(newTrainer.getTfUser().getTfRole());
-//			logger.info("creating new trainer..." + newTrainer);
-//			works = trainerService.createTrainer(newTrainer);
-//
-//			if (works) {
-//				return Response.status(Status.CREATED).build();
-//			}
-//			return Response.status(Status.EXPECTATION_FAILED).build();
-//		} else {
-//			return Response.status(Status.FORBIDDEN).build();
-//		}
-//	}
+	@Path("/newAssociate")
+	@POST
+	@Consumes("application/json")
+	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new associate and user")
+	public Response createNewAssociate(TfAssociate newAssociate) {
+		logger.info("createNewAssociate()...");
+		LogUtil.logger.info(newAssociate);
+		if (newAssociate.getUser().getRole() == 5) {
+			boolean works = false;
+
+			TfRole tfrole = null;
+			tfrole = new TfRole(5, ASSC);
+			newAssociate.getUser().setTfRole(tfrole);
+			logger.info(newAssociate.getUser().getTfRole());
+			logger.info("creating new associate..." + newAssociate);
+			works = associateService.createAssociate(newAssociate);
+
+			if (works) {
+				return Response.status(Status.CREATED).build();
+			}
+			return Response.status(Status.EXPECTATION_FAILED).build();
+		} else {
+			return Response.status(Status.FORBIDDEN).build();
+		}
+	}
+
+	/**
+	 * @author Adam L.
+	 *         <p>
+	 *         </p>
+	 * @version v6.18.06.13
+	 *
+	 * @param newTrainer
+	 * @return
+	 */
+	@Path("/newTrainer")
+	@POST
+	@Consumes("application/json")
+	@ApiOperation(value = "Creates new trainer", notes = "")
+	public Response createTrainer(TfTrainer newTrainer) {
+		logger.info("creating new user...");
+		LogUtil.logger.info(newTrainer);
+		if (newTrainer.getTfUser().getRole() == 2) {
+			boolean works = false;
+
+			TfRole tfrole = null;
+			tfrole = new TfRole(5, ASSC);
+			newTrainer.getTfUser().setIsApproved(0);
+			newTrainer.getTfUser().setTfRole(tfrole);
+			logger.info(newTrainer.getTfUser().getTfRole());
+			logger.info("creating new trainer..." + newTrainer);
+			works = trainerService.createTrainer(newTrainer);
+
+			if (works) {
+				return Response.status(Status.CREATED).build();
+			}
+			return Response.status(Status.EXPECTATION_FAILED).build();
+		} else {
+			return Response.status(Status.FORBIDDEN).build();
+		}
+	}
 
 	/**
 	 * @author Adam L.

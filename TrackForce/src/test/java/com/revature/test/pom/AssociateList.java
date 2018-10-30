@@ -54,6 +54,10 @@ public class AssociateList {
 		return null;
 	}
 	
+	public static WebElement getTopAssociateRow(WebDriver driver) {
+		return driver.findElement(By.cssSelector("#tableScroller > table > tbody > tr:nth-child(1)"));
+	}
+	
 	public static List<WebElement> getRowColumns(WebDriver driver, WebElement row) {
 		return row.findElements(By.tagName("td"));
 	}
@@ -87,7 +91,23 @@ public class AssociateList {
 	}
 	
 	public static WebElement getUpdateAssociatesButton(WebDriver driver) {
-		return driver.findElement(By.cssSelector("button[type='button'][innerText='Update']"));
+		return driver.findElement(By.cssSelector("button[class='btn btn-warning floatingButton shadow ng-star-inserted']"));
+	}
+	
+	public static WebElement getVerificationModalSelect(WebDriver driver) {
+		return driver.findElement(By.id("updateVerification"));
+	}
+	
+	public static WebElement getClientModalSelect(WebDriver driver) {
+		return driver.findElement(By.id("updateClient"));
+	}
+	
+	public static WebElement getStatusModalSelect(WebDriver driver) {
+		return driver.findElement(By.id("updatedStatus"));
+	}
+	
+	public static WebElement getAscModalSubmit(WebDriver driver) {
+		return driver.findElement(By.cssSelector("button[value='Submit']"));
 	}
 	
 }

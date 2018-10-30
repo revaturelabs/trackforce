@@ -46,6 +46,7 @@ public class AssociateTests {
   @Test (priority = 1)
   public void LoginAssociate() {
 	 LoginUtil.loginAsAssociate(ServiceHooks.driver);
+	 Login.getSignInButton(ServiceHooks.driver).click();
 	 ServiceHooks.wait.until(ExpectedConditions.urlContains(System.getenv("url")+"/associate-view"));
   }
   
@@ -67,7 +68,7 @@ public class AssociateTests {
 		 Login.getPassword(ServiceHooks.driver).sendKeys("bat");
 		 ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Login.getSignInButton(ServiceHooks.driver)));
 		 Login.getSignInButton(ServiceHooks.driver).click();
-		 ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Login.getErrorPopup(ServiceHooks.driver)));
+		 ServiceHooks.wait.until(ExpectedConditions.visibilityOf(Login.getErrorPopup(ServiceHooks.driver)));
   }
   
   @AfterSuite

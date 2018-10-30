@@ -88,6 +88,8 @@ public class BatchDaoImpl implements BatchDao {
 					.getSingleResult();
 		}catch(HibernateException e) {
 			e.printStackTrace();
+		}catch(NullPointerException e) {
+			e.printStackTrace();
 		}finally {
 			session.close();
 		}

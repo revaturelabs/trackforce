@@ -30,7 +30,7 @@ public class LoginCuke {
 		ServiceHooks.driver = WebDriverUtil.getChromeDriver();
 		ServiceHooks.driver.manage().window().maximize();
 		ServiceHooks.driver.get(baseUrl);
-		ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver,10000);
+		ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver,4);
 	}
 
 	@Given("^I login as an Administrator$")
@@ -106,11 +106,12 @@ public class LoginCuke {
 		LoginUtil.login(ServiceHooks.driver, "", LoginUtil.getPropertyValue("adminPW"));
 	}
 
+	//TODO: Find way to wait without having hardcoded ids.
 	@When("^I click Log out$")
 	public void i_click_Log_out() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(NavBar.getWelcomeDropdown(ServiceHooks.driver)));
+		ServiceHooks.wait.until(ExpectedConditions.presenceOfElementLocated(By.id("navbarDropdown")));
 		NavBar.getWelcomeDropdown(ServiceHooks.driver).click();
-		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(NavBar.getLogout(ServiceHooks.driver)));
+		ServiceHooks.wait.until(ExpectedConditions.presenceOfElementLocated(By.id("logout")));
 		NavBar.getLogout(ServiceHooks.driver).click();
 	}
 

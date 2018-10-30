@@ -1,6 +1,7 @@
 package com.revature.test.cuke;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 
 import com.revature.test.pom.Login;
 import com.revature.test.utils.ServiceHooks;
@@ -70,11 +71,9 @@ public class RegisterUserCuke {
 
 	@Then("^an error message should appear$")
 	public void an_error_message_should_appear() throws Throwable {
-		//Login.getPopup(ServiceHooks.driver);
-		//TODO: Error popup should appear if username/password are invalid
-		//Error popup should appear if password/confirmPassword do not match
-		//No methods in Page Object Model that grab the error popup
-
+		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Login.getErrorPopup(ServiceHooks.driver)));
+		Assert.assertTrue(Login.getErrorPopup(ServiceHooks.driver).isDisplayed());
+		
 	}
 
 	@When("^I enter a invalid password\"([^\"]*)\"$")

@@ -4,7 +4,9 @@ import org.testng.annotations.Test;
 
 import com.revature.test.pom.Login;
 import com.revature.test.pom.NavBar;
-
+import com.revature.test.utils.LoginUtil;
+import com.revature.test.utils.ServiceHooks;
+import com.revature.test.utils.WebDriverUtil;
 
 import java.io.File;
 
@@ -19,10 +21,6 @@ import org.testng.annotations.BeforeSuite;
 
 
 public class AssociateTests {
-  static WebDriver wd;
-  String username = "cyril";
-  String password = "cyril";
-  static WebDriverWait wait;
   
   @BeforeSuite
   void startup() {
@@ -32,53 +30,49 @@ public class AssociateTests {
 	   */
 	  //File chrome = new File("src/main/resources/chromeDriveer4Mac/chromedriver");
 	  // Uncomment this line you are working with Windows to run testng
-	  File chrome = new File("src/main/resources/chromedriver.exe");
-	  System.setProperty("webdriver.chrome.driver", chrome.getAbsolutePath());
-	  wd = new ChromeDriver();
-	  wait = new WebDriverWait(wd,15);
+	 
+	  
+	  ServiceHooks.driver = WebDriverUtil.getChromeDriver();
+	  ServiceHooks.driver.get(System.getenv("url"));
+	  ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver,5);
   }
 	
   @Test(priority = 0)
   public void LoadWebpage() {
-	  wd.get(System.getenv("url") + "#/login");
-	  new WebDriverWait(wd, 15).until(ExpectedConditions.urlContains("/login"));
+	 ServiceHooks.driver.get(System.getenv("url") + "#/login");
+	 ServiceHooks.wait.until(ExpectedConditions.urlContains("/login"));
   }
   
   @Test (priority = 1)
   public void LoginAssociate() {
-	 wait.until(ExpectedConditions.elementToBeClickable(Login.getUsername(wd)));
-	 Login.getUsername(wd).sendKeys(username);
-	 wait.until(ExpectedConditions.elementToBeClickable(Login.getPassword(wd)));
-	 Login.getPassword(wd).sendKeys(password);
-	 wait.until(ExpectedConditions.elementToBeClickable(Login.getSignInButton(wd)));
-	 Login.getSignInButton(wd).click();
-	 wait.until(ExpectedConditions.urlContains(System.getenv("url")+"/associate-view"));
+	 LoginUtil.loginAsAssociate(ServiceHooks.driver);
+	 ServiceHooks.wait.until(ExpectedConditions.urlContains(System.getenv("url")+"/associate-view"));
   }
   
   @Test (priority = 2)
   public void LogOut() {
 	  
-	  wait.until(ExpectedConditions.elementToBeClickable(NavBar.getWelcomeDropdown(wd)));
-	  NavBar.getWelcomeDropdown(wd).click();
-	  wait.until(ExpectedConditions.elementToBeClickable(NavBar.getLogout(wd)));
-	  NavBar.getLogout(wd).click();
-	  wait.until(ExpectedConditions.urlContains(System.getenv("url")+"/login"));
+	  ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(NavBar.getWelcomeDropdown(ServiceHooks.driver)));
+	  NavBar.getWelcomeDropdown(ServiceHooks.driver).click();
+	  ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(NavBar.getLogout(ServiceHooks.driver)));
+	  NavBar.getLogout(ServiceHooks.driver).click();
+	  ServiceHooks.wait.until(ExpectedConditions.urlContains(System.getenv("url")+"/login"));
 	  
   }
   @Test (priority = 3)
   public void invalidLogin() {
-	  wait.until(ExpectedConditions.elementToBeClickable(Login.getUsername(wd)));
-		 Login.getUsername(wd).sendKeys("hat");
-		 wait.until(ExpectedConditions.elementToBeClickable(Login.getPassword(wd)));
-		 Login.getPassword(wd).sendKeys("bat");
-		 wait.until(ExpectedConditions.elementToBeClickable(Login.getSignInButton(wd)));
-		 Login.getSignInButton(wd).click();
-		 wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"pwd-container\"]/div/section/form/div/div[1]")));
+	  ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Login.getUsername(ServiceHooks.driver)));
+		 Login.getUsername(ServiceHooks.driver).sendKeys("hat");
+		 ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Login.getPassword(ServiceHooks.driver)));
+		 Login.getPassword(ServiceHooks.driver).sendKeys("bat");
+		 ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Login.getSignInButton(ServiceHooks.driver)));
+		 Login.getSignInButton(ServiceHooks.driver).click();
+		 ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Login.getErrorPopup(ServiceHooks.driver)));
   }
   
   @AfterSuite
 	void quit() {
-	  wd.quit();
+	  ServiceHooks.driver.quit();
   }
 
 }

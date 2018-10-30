@@ -48,4 +48,24 @@ public class Home {
 		//waitForSkillset(driver);
 		return driver.findElement(By.id("skillset"));
 	}
+	
+	public static WebElement getPhone(WebDriver driver) {
+		//waitForHomePageOpen(driver);
+		return driver.findElement(By.linkText("tel:703 995 4500"));
+	}
+	
+	public static WebElement getFax(WebDriver driver) {
+		//waitForHomePageOpen(driver);
+		return driver.findElement(By.linkText("tel:(703) 570-8181"));
+	}
+	
+	public static WebElement getEmail(WebDriver driver) {
+		//waitForHomePageOpen(driver);
+		return driver.findElement(By.linkText("info@revature.com"));
+	}
+	
+	public static WebElement getWebsite(WebDriver driver) {
+		//waitForHomePageOpen(driver);
+		return driver.findElement(By.className("img-responsive footer-img"));
+	}
 }

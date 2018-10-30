@@ -1,7 +1,7 @@
 Feature: Testing the various user stories connected to the Associate use case
 
   Background: 
-    Given I connect to caliber
+    Given I connect to trackforce
     Given I login as an Associate
 
 #The changes should be reflected is failing - relies on broken database/frontend schema

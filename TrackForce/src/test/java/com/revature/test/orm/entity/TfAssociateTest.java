@@ -1,7 +1,7 @@
-package com.revature.test.junit.entity;
+package com.revature.test.orm.entity;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 import java.sql.Timestamp;
 import java.util.HashSet;

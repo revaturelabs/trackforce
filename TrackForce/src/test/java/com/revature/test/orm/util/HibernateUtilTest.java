@@ -1,15 +1,14 @@
-package com.revature.test.junit.util;
+package com.revature.test.orm.util;
 
-import static org.junit.Assert.assertFalse;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.junit.Ignore;
-import org.junit.Test;
 //import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.testng.annotations.Test;
 
 import com.revature.utils.HibernateUtil;
 
@@ -41,7 +40,7 @@ public class HibernateUtilTest {
 		}
 	}
 	
-	@Ignore
+	@Test(enabled=false)
 	public void testRollbackTransaction() {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		sf.openSession();

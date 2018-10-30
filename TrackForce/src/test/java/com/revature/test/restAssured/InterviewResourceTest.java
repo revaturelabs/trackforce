@@ -62,10 +62,8 @@ public class InterviewResourceTest {
 
 	/**
 	 * Test that the resource can be accessed properly. Check that the content type
-	 * is what is expected. Test that a bad token gives a 401. Test that a bad url
-	 * gives a 404. Test that a bad method gives a 405. This should return a 401
+	 * is what is expected. This should return a 401
 	 * as admins are not allowed to create interviews
-	 * 
 	 * @param ifc
 	 *            - an interviewFromClient object returned from the data provider
 	 * @author Jesse
@@ -100,10 +98,12 @@ public class InterviewResourceTest {
 	}
 	
 	/**
-	 * Unhappy path testing for testCreateInterview
+	 * Unhappy path testing for testCreateInterview. Test that a bad token gives a 401. Test that a bad url
+	 * gives a 404. Test that a bad method gives a 405. 
+	 * 
 	 */
 	@Test(priority = 7, dataProvider = "interview1", enabled = true)
-	public void testCreateInterview3(TfInterview interview) {
+	public void testCreateInterviewUnhappyPath(TfInterview interview) {
 		Response response = given().header("Authorization", "Bad Token").contentType("application/json").body(interview)
 				.when().post(URL + "/" + knownAssociateId).then().extract().response();
 
@@ -160,7 +160,7 @@ public class InterviewResourceTest {
 
 	/**
 	 * This tests that the update request was properly processed and should return a
-	 * 202. Also checks for a bad verb, a bad token and a bad url.
+	 * 202. 
 	 * 
 	 * @param ifc
 	 *            - the updated interviewFromClient to pass in for updating values
@@ -168,7 +168,7 @@ public class InterviewResourceTest {
 	 * @since 6.18.06.13
 	 */
 	@Test(priority = 20, dataProvider = "interview2", enabled = true)
-	public void testUpdateInterview1(TfInterview interview) {
+	public void testUpdateInterview(TfInterview interview) {
 		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
 				.when().put(URL + "/" +  knownAssociateId).then().extract().response();
 
@@ -181,10 +181,10 @@ public class InterviewResourceTest {
 	}
 	
 	/**
-	 * Unhappy path testing for testUpdateInterview
+	 * Unhappy path testing for testUpdateInterview.  It checks for a bad verb, a bad token and a bad url.
 	 */
 	@Test(priority = 25, dataProvider = "interview2", enabled = true)
-	public void testUpdateInterview2(TfInterview interview) {
+	public void testUpdateInterviewUnhappyPath(TfInterview interview) {
 		Response response = given().header("Authorization", "Bad Token").contentType("application/json").body(interview).when()
 				.put(URL + "/" + knownAssociateId).then().extract().response();
 

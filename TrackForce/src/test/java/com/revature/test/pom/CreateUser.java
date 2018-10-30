@@ -35,7 +35,7 @@ public class CreateUser {
 	}
 	
 	public static WebElement getSubmitButton(WebDriver driver) {
-		return driver.findElement(By.cssSelector("button[type='submit'][innerText='Submit']"));
+		return driver.findElement(By.cssSelector("button[type='submit']"));
 	}
 
 }

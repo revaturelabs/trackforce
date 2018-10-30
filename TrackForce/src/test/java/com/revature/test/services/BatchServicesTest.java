@@ -42,6 +42,9 @@ public class BatchServicesTest {
 		}
 	}
 	
+	/*
+	 * This test causes an IndexOutOfBoundsException in BatchDaoImpl.getBatch
+	 */
 	@Test
 	public void testGetBatchByName() {
 		TfBatch batch = service.getBatch(props.getProperty("batchName"));

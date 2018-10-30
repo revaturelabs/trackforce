@@ -4,7 +4,7 @@ import static org.testng.Assert.fail;
 import java.util.ArrayList;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import com.revature.test.pom.HomeTab;
+import com.revature.test.pom.Home;
 import com.revature.test.utils.ServiceHooks;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -13,8 +13,8 @@ public class HomeTabCukes{
     @When("^I click on the telephone link$")
     public static void i_click_on_the_telephone_link()  {
         try {
-            ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(HomeTab.phone(ServiceHooks.driver)));
-            HomeTab.phone(ServiceHooks.driver).click();
+            ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Home.getPhone(ServiceHooks.driver)));
+            Home.getPhone(ServiceHooks.driver).click();
         } catch (Throwable e) {
             System.out.println(("Failed click on the phone link"));
             fail(("Failed click on the phone link"));
@@ -33,8 +33,8 @@ public class HomeTabCukes{
     @When("^I click on the email link$")
     public static void i_click_on_the_email_link()  {
         try {
-            ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(HomeTab.email(ServiceHooks.driver)));
-            HomeTab.email(ServiceHooks.driver).click(); 
+            ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Home.getEmail(ServiceHooks.driver)));
+            Home.getEmail(ServiceHooks.driver).click(); 
         } catch (Throwable e) {
             System.out.println(("Failed click on the email link"));
             fail(("Failed click on the email link"));
@@ -49,8 +49,8 @@ public class HomeTabCukes{
     public static void i_click_on_the_website_link()  {
         
         try {
-            ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(HomeTab.website(ServiceHooks.driver)));
-            HomeTab.website(ServiceHooks.driver).click();
+            ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Home.getWebsite(ServiceHooks.driver)));
+            Home.getWebsite(ServiceHooks.driver).click();
             
         } catch (Throwable e) {
             System.out.println(("Failed click on the website link"));

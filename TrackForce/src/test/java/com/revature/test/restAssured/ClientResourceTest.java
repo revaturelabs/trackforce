@@ -20,7 +20,7 @@ import io.restassured.response.Response;
 
 /**
  * Rest Assured for ClientResource
- * 
+ * 1808_Seth_L This test needs to test the following endpoints: /associates/get/{id}, /mapped/get, /50
  * @author Jesse, Andy
  * @since 06.18.06.16
  */

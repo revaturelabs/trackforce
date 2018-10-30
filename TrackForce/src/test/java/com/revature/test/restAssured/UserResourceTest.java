@@ -42,8 +42,8 @@ import io.restassured.specification.RequestSpecification;
  */
 public class UserResourceTest {
 
-	//static final String URL = "http://52.87.205.55:8086/TrackForce/users";
-	static final String URL = "http://localhost:8085/TrackForce/users";
+	static final String URL = "http://52.87.205.55:8086/TrackForce/users";
+	//static final String URL = "http://localhost:8085/TrackForce/users";
 
 	TfUser user;
 	TfUserAndCreatorRoleContainer container;
@@ -98,6 +98,7 @@ public class UserResourceTest {
 	 * Issue: This test would work but the backend would have to restart everytime because once a user is created it is saved to the database
 	 * and the backend's Hibernate cache.  This test deletes the user from the database, but the user object still persists in the cache
 	 * resulting in a 417 message.  This test can run multiple times if there is a way to delete that detached object too.
+	 * Issue 2: As of 10/30/18 I have discovered that this test fails because of a server-side error that needs looking into. - Seth L.
 	 * @author Jesse and Seth L.
 	 * @since 06.18.06.16
 	 */
@@ -140,7 +141,7 @@ public class UserResourceTest {
 	/**
 	 * More unhappy path testing to ensure that verbs and URLs return the
 	 * appropriate status code
-	 * disabled because the unhappy Path Test tests this endpoint.
+	 * disabled because the unhappy Path Test tests this endpoint. - Seth L.
 	 * @author Jesse
 	 * @since 06.18.06.16
 	 */
@@ -167,31 +168,37 @@ public class UserResourceTest {
 	 * 2. uses a service without a token
 	 * 3. uses a bad token
 	 * 4. the role in the token deemed the user unauthorized to use the service
+	 * As this method of unhappy testing is consistent, I (Seth L.) suggest using this and its dependent methods to perform unhappy tests for all
+	 * Jersey resources.
+	 * Only submitCredentials is not used here because it does not require any tokens to use.
 	 * @author Seth L.
-	 * @param method - the HTTP Verb that the service requires
+	 * @param method - comma-separated list of HTTP Verbs that the service uses
 	 * @param url - the uri for the service
 	 * @param needAuth - if the user has to be a higher level of authorization than Associate like Admin to use the service, this value is true;
 	 */
 	@Test(enabled = true, priority = 20, dataProvider = "urls")
 	public void unhappyPathTest(String method, String url, Boolean needAuth) {
+		String[] verbs = method.split(", ");
 		url = URL + url;
-		testNoToken(method, url);
-		testBadVerb(method, url);
-		testBadToken(method, url);
-		if(needAuth)
-			testUnauth(method, url);
-	}
-	private void testNoToken(String method, String url) {
-		sendRequest(method,url, null).then().assertThat().statusCode(401);
-	}
-	private void testBadVerb(String method, String url) {
-		sendRequest(method.equals("GET")?"POST":"GET", url, adminTokenHeader).then().assertThat().statusCode(405);
-	}
-	private void testBadToken(String method, String url) {
-		sendRequest(method, url, badTokenHeader).then().assertThat().statusCode(401);
-	}
-	private void testUnauth(String method, String url) {
-		sendRequest(method, url, assocTokenHeader).then().assertThat().statusCode(403);
+		//test no token
+		for(String verb : verbs) {
+			sendRequest(verb,url, null).then().assertThat().statusCode(401);
+			//test invalid token
+			sendRequest(verb, url, badTokenHeader).then().assertThat().statusCode(401);
+			//test with associate token
+			if(needAuth)
+				sendRequest(verb, url, assocTokenHeader).then().assertThat().statusCode(403);
+		}
+		//look for an HTTP verb not used
+		String knownVerbs[] = new String[] {"GET", "POST", "PUT", "DELETE"};
+		for(String verb : knownVerbs) {
+			if(!method.contains(verb)) {
+				//test unsupported verb
+				sendRequest(verb, url, adminTokenHeader).then().assertThat().statusCode(405);
+				break;
+			}
+		}
+		
 	}
 	/*
 	 * This method performs the appropriate request based on the HTTP verb and returns the response
@@ -204,7 +211,6 @@ public class UserResourceTest {
 		case "GET":
 			return given.when().get(url);
 		case "POST":
-			System.out.println(url);
 			return given.when().post(url);
 		case "PUT":
 			return given.when().put(url);
@@ -216,7 +222,7 @@ public class UserResourceTest {
 	}
 	@DataProvider(name = "urls") 
 	public Object[][] getURLs() {
-		return new Object[][] {{"POST", "/newUser", new Boolean(true)},
+		return new Object[][]  {{"POST", "/newUser", new Boolean(true)},
 								{"GET", "/check", new Boolean(false)},
 								{"GET", "/getUserRole", new Boolean(false)}};
 	}
@@ -261,7 +267,7 @@ public class UserResourceTest {
 	/**
 	 * Simple test for the token validation method.  Assert that valid token results in an OK response and an invalid
 	 * token results in an UNAUTHORIZED response.
-	 * @author Seth Lemanek
+	 * @author Seth L.
 	 */
 	@Test(enabled = true, priority = 50)
 	public void testTokenCheck() {

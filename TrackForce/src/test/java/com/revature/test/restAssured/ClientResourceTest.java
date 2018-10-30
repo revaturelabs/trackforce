@@ -10,13 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.revature.entity.TfClient;
 import com.revature.services.ClientService;
 import com.revature.services.JWTService;
 
+import io.restassured.http.Header;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 /**
  * Rest Assured for ClientResource
@@ -79,5 +82,75 @@ public class ClientResourceTest {
 		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
 
 		given().header("Authorization", token).when().post(URL).then().assertThat().statusCode(405);
+	}
+	
+	/**
+	 * An unhappy test method that checks every method but login to assure that those that need security must
+	 * block the user if he:
+	 * 1. uses an unsupported verb
+	 * 2. uses a service without a token
+	 * 3. uses a bad token
+	 * 4. the role in the token deemed the user unauthorized to use the service
+	 * As this method of unhappy testing is consistent, I (Seth L.) suggest using this and its dependent methods to perform unhappy tests for all
+	 * Jersey resources.
+	 * Note: All unhappy tests failed. The ClientResource needs improved security.
+	 * Same goes for /batch/{id}
+	 * @author Seth L.
+	 * @param method - comma-separated list of HTTP Verbs that the service uses
+	 * @param url - the uri for the service
+	 * @param needAuth - if the user has to be a higher level of authorization than Associate like Admin to use the service, this value is true;
+	 */
+	@Test(enabled = true, priority = 11, dataProvider = "urls")
+	public void unhappyPathTest(String method, String url, Boolean needAuth) {
+		String adminToken = token;
+		String assocToken = JWTService.createToken("TestAssociate", 5);
+		String[] verbs = method.split(", ");
+		url = URL + url;
+		//test no token
+		for(String verb : verbs) {
+			sendRequest(verb,url, null).then().assertThat().statusCode(401);
+			//test invalid token
+			sendRequest(verb, url, new Header("Authorization", "badtoken")).then().assertThat().statusCode(401);
+			//test with associate token
+			if(needAuth)
+				sendRequest(verb, url, new Header("Authorization", assocToken)).then().assertThat().statusCode(403);
+		}
+		//look for an HTTP verb not used
+		String knownVerbs[] = new String[] {"GET", "POST", "PUT", "DELETE"};
+		for(String verb : knownVerbs) {
+			if(!method.contains(verb)) {
+				//test unsupported verb
+				sendRequest(verb, url, new Header("Authorization", adminToken)).then().assertThat().statusCode(405);
+				break;
+			}
+		}
+		
+	}
+	/*
+	 * This method performs the appropriate request based on the HTTP verb and returns the response
+	 */
+	private Response sendRequest(String method, String url, Header h) {
+		RequestSpecification given = given().contentType("application/json");
+		if(h != null)
+			given.header(h);
+		switch(method) {
+		case "GET":
+			return given.when().get(url);
+		case "POST":
+			return given.when().post(url);
+		case "PUT":
+			return given.when().put(url);
+		case "DELETE":
+			return given.when().delete(url);
+		default:
+			return given().when().get();
+		}
+	}
+	@DataProvider(name = "urls") 
+	public Object[][] getURLs() {
+		return new Object[][]  {{"GET", "/", new Boolean(true)},
+								{"GET", "/associates/get/0", new Boolean(true)}, 
+								{"GET", "/mapped/get", new Boolean(true)},
+								{"GET", "/50", new Boolean(true)}};
 	}
 }

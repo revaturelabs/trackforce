@@ -49,25 +49,22 @@ public class TrainerResourceTest {
 		knownTrainerId = 0;
 		//knownUserId = 60302; //Does not exist in Mock Database
 		knownUserId = 1;
-	}
-	
-	@Test(priority = 1)
-	public void getTrainer() {
 		trainer = new TfTrainer();
 		trainer = trainerService.getTrainer(0);
 		assertNotNull(trainer);
 		trainer.setFirstName("Ava - 2.0");
 	}
 
+
+
 	/**
 	 * Test that a trainer can be successfully retrieved, that a 204 is returns when
-	 * there are no trainers, that a 401 is returns with a bad token, that a 404 is
-	 * returned with a bad URL and that a 405 is returned when the wrong verb is used.
+	 * there are no trainers
 	 * @author Jesse, Andy
 	 * @since 06.18.06.18
 	 */
 	@Test(priority = 2)
-	public void testGetTrainer1() {
+	public void testGetTrainer() {
 		Response response = given().header("Authorization", token).when().get(URL + "/" + knownUserId).then().extract()
 				.response();
 
@@ -79,10 +76,11 @@ public class TrainerResourceTest {
 	}
 	
 	/**
-	 * Unhappy path testing for getTrainer
+	 * Unhappy path testing for getTrainer where a 401 is returns with a bad token, that a 404 is
+	 * returned with a bad URL and that a 405 is returned when the wrong verb is used.
 	 */
 	@Test(priority = 3)
-	public void testGetTrainer2() {
+	public void testGetTrainerunhappyPath() {
 		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId).then().extract().response();
 
 		assertEquals(401, response.statusCode());
@@ -97,14 +95,12 @@ public class TrainerResourceTest {
 
 	/**
 	 * Test that a trainers primary batch can be successfully retrieved, that a 204 is returned when
-	 * that trainer has no batch, that a 401 is returned with a bad token, that a 404 is returned
-	 * with a bad URL, a 405 is returned with a bad verb and a 415 is returned if JSON is not 
-	 * specified.
+	 * that trainer has no batch
 	 * @author Jesse, Andy
 	 * @since 06.18.06.18
 	 */
 	@Test(priority = 4)
-	public void getTrainerPrimaryBatches1() {
+	public void getTrainerPrimaryBatches() {
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
 				.post(URL + "/" + knownTrainerId + "/batch").then().extract().response();
 		System.out.println(response.getStatusCode());
@@ -112,16 +108,18 @@ public class TrainerResourceTest {
 		if (response.statusCode() == 200) {
 //			assertTrue(response.asString().contains("1701 Jan30 NET")); /*contains values don't exist in mock database*/
 //			assertTrue(response.asString().contains("1702 Feb27 Java"));
-			assertTrue(response.asString().contains("1712 Dec04 AP-USF"));
-			assertTrue(response.asString().contains("1710 Oct09 PEGA"));
+			assertTrue(response.getBody().asString().contains("1712 Dec11 Java AP-USF"));
+//			assertTrue(response.asString().contains("1710 Oct09 PEGA"));
 		}
 	}
 	
 	/**
-	 * Unhappy path testing for getTrainerPrimaryBatches
+	 * Unhappy path testing for getTrainerPrimaryBatches where that a 401 is returned with a bad token, that a 404 is returned
+	 * with a bad URL, a 405 is returned with a bad verb and a 415 is returned if JSON is not 
+	 * specified.
 	 */
 	@Test(priority = 5)
-	public void testGetTrainerPrimaryBatches2() {
+	public void testGetTrainerPrimaryBatchesUnhappyPath() {
 		Response response = given().header("Authorization", "Bad Token").contentType("application/json").when()
 				.post(URL + "/" + knownTrainerId + "/batch").then().extract().response();
 
@@ -140,24 +138,24 @@ public class TrainerResourceTest {
 
 	/**
 	 * Test that a containers primary batch can be successfully retrieved, that a 204 is returned when
-	 * that trainer has no batch, that a 401 is returned with a bad token, that a 404 is returned
-	 * with a bad URL, a 405 is returned with a bad verb and a 415 is returned if JSON is not 
-	 * specified.
+	 * that trainer has no batch, 
 	 * @author Jesse, Andy
 	 * @since 06.18.06.18
 	 */
 	@Test(priority = 6)
-	public void testGetTrainerCotrainerBatch1() {
+	public void testGetTrainerCotrainerBatch() {
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
 				.post(URL + "/" + knownTrainerId + "/cotrainerbatch").then().extract().response();
-		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200);
+		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200, "Expected 200 or 204 but got " + response.getStatusCode());
 	}
 	
 	/**
-	 * Unhappy path testing for getTrainerCotrainerBatch
+	 * Unhappy path testing for getTrainerCotrainerBatch where a 401 is returned with a bad token, that a 404 is returned
+	 * with a bad URL, a 405 is returned with a bad verb and a 415 is returned if JSON is not 
+	 * specified.
 	 */
 	@Test(priority = 7)
-	public void testGetTrainerCotrainerBatch2() {
+	public void testGetTrainerCotrainerBatchUnhappyPath() {
 		Response response = given().header("Authorization", "Bad Token").contentType("application/json").when()
 				.post(URL + "/" + knownTrainerId + "/cotrainerbatch").then().extract().response();
 
@@ -176,13 +174,12 @@ public class TrainerResourceTest {
 	
 	/**
 	 * Test that a trainer can be successfully updated, that a 204 is returned when
-	 * there is no trainer, that a 401 is returned with a bad token, that a 404 is returned
-	 * with a bad URL, a 405 is returned with a bad verb.
+	 * there is no trainer
 	 * @author Jesse, Andy
 	 * @since 06.18.06.18
 	 */
 	@Test(priority = 8)
-	public void testUpdateTrainer1() {
+	public void testUpdateTrainer() {
 		Response response = given().headers("Authorization", token).contentType("application/json").body(trainer).when()
 				.put(URL + "/" + knownTrainerId).then().extract().response();
 		
@@ -198,10 +195,11 @@ public class TrainerResourceTest {
 	}
 	
 	/**
-	 * Unhappy path testing for testUpdateTrainer
+	 * Unhappy path testing for testUpdateTrainer where a 401 is returned with a bad token, that a 404 is returned
+	 * with a bad URL, a 405 is returned with a bad verb.
 	 */
 	@Test(priority = 9)
-	public void testUpdateTrainer2() {
+	public void testUpdateTrainerUnhappyPath() {
 		Response response = given().headers("Authorization", "Bad Token").contentType("application/json").body(trainer).when()
 				.put(URL + "/" + knownTrainerId).then().extract().response();
 
@@ -217,11 +215,10 @@ public class TrainerResourceTest {
 	
 	/**
 	 * Testing to ensure that all trainers can be successfully retrieved and that the list
-	 * is what we would expect it to be. Also test that a bad token returns a 401, a bad
-	 * verb returns a 405, and a bad URL returns a 404
+	 * is what we would expect it to be. 
 	 */
 	@Test(priority = 20)
-	public void testGetAllTrainers1() {
+	public void testGetAllTrainers() {
 		List<TfTrainer> trainers = trainerService.getAllTrainers();
 		
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
@@ -236,10 +233,11 @@ public class TrainerResourceTest {
 	}
 	
 	/**
-	 * Unhappy path testing for getAllTrainers
+	 * test that a bad token returns a 401, a bad
+	 * verb returns a 405, and a bad URL returns a 404
 	 */
 	@Test(priority = 25)
-	public void testGetAllTrainers2() {
+	public void testGetAllTrainersUnhappyPath() {
 		given().headers("Authorization", "Bad Token").contentType("application/json").when()
 		.get(URL + "/allTrainers").then().assertThat().statusCode(401);
 		

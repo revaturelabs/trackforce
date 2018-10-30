@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <testsuites disabled="3" errors="0" failures="204" tests="117" time="5.25">
  <testsuite name="A new user should able to register" timestamp="2018-10-23T11:33:12" hostname="localhost" time="0.487" errors="0" tests="9" skipped="0" disabled="0" failures="9">
   <testcase classname="A new user should able to register" name="should navigate to the login page" time="0.106">
@@ -2597,6 +2598,149 @@ Error
    <skipped message="Temporarily disabled with xit" />
   </testcase>
   <testcase classname="An Admin" name="should be able to create a trainer" time="1.791">
+=======
+<testsuites disabled="3" errors="0" failures="14" tests="129" time="143.745">
+ <testsuite name="A new user should able to register" timestamp="2018-10-30T10:04:24" hostname="localhost" time="3.46" errors="0" tests="9" skipped="0" disabled="0" failures="1">
+  <testcase classname="A new user should able to register" name="should navigate to the login page" time="1.159" />
+  <testcase classname="A new user should able to register" name="allow user to click the register button" time="0.119" />
+  <testcase classname="A new user should able to register" name="allow associate to enter a username" time="0.127" />
+  <testcase classname="A new user should able to register" name="allow associate to enter a valid password" time="0.132" />
+  <testcase classname="A new user should able to register" name="allow associate to re-enter a valid password" time="0.14" />
+  <testcase classname="A new user should able to register" name="should allow associate to enter first name" time="0.114" />
+  <testcase classname="A new user should able to register" name="should allow associate to enter last name" time="0.107" />
+  <testcase classname="A new user should able to register" name="show allow associate to pick a role" time="0.098" />
+  <testcase classname="A new user should able to register" name="should allow the user to register as an associate" time="0.493">
+   <failure type="toContain" message="Expected &apos;Error: New Associate is not created!&apos; to contain &apos;Associate account creation successful.&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\register-associate\register-associate.e2e-spec.ts:69:63)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+ </testsuite>
+ <testsuite name="A new user should not be able to register with a short username" timestamp="2018-10-30T10:04:28" hostname="localhost" time="1.159" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="A new user should not be able to register with a short username" name="allow associate to enter an invalid username" time="0.121" />
+  <testcase classname="A new user should not be able to register with a short username" name="should not allow the user to register with an invalid username" time="0.135" />
+ </testsuite>
+ <testsuite name="A new user should not be able to register with a weak password" timestamp="2018-10-30T10:04:29" hostname="localhost" time="1.145" errors="0" tests="3" skipped="0" disabled="0" failures="0">
+  <testcase classname="A new user should not be able to register with a weak password" name="allow associate to enter an invalid password" time="0.122" />
+  <testcase classname="A new user should not be able to register with a weak password" name="allow associate to re-enter an invalid password" time="0.107" />
+  <testcase classname="A new user should not be able to register with a weak password" name="should not allow the user to register with an invalid password" time="0.132" />
+ </testsuite>
+ <testsuite name="A new user should not be able to register with a mismatched paswords" timestamp="2018-10-30T10:04:30" hostname="localhost" time="1.132" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="A new user should not be able to register with a mismatched paswords" name="allow associate to enter an different password" time="0.125" />
+  <testcase classname="A new user should not be able to register with a mismatched paswords" name="should not allow the user to register with an invalid username" time="0.129" />
+ </testsuite>
+ <testsuite name="A new user should not be able to register with a mismatched paswords" timestamp="2018-10-30T10:04:31" hostname="localhost" time="1.147" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="A new user should not be able to register with a mismatched paswords" name="should not allow the user to register without selecting a role " time="0.129" />
+ </testsuite>
+ <testsuite name="login page element existences" timestamp="2018-10-30T10:04:32" hostname="localhost" time="0.389" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+  <testcase classname="login page element existences" name="should have a username input box" time="0.004" />
+  <testcase classname="login page element existences" name="should have a password input box" time="0.002" />
+  <testcase classname="login page element existences" name="should have a login button" time="0.002" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.038" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.038" />
+  <testcase classname="login page element existences" name="should display proper value for button" time="0.048" />
+ </testsuite>
+ <testsuite name="Confirm login failures" timestamp="2018-10-30T10:04:33" hostname="localhost" time="0.747" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.136" />
+  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.357" />
+ </testsuite>
+ <testsuite name="Login in with proper credentials" timestamp="2018-10-30T10:04:33" hostname="localhost" time="14.508" errors="0" tests="5" skipped="0" disabled="0" failures="0">
+  <testcase classname="Login in with proper credentials" name="should be able to login in with admin credentials and reach the admin page" time="2.885" />
+  <testcase classname="Login in with proper credentials" name="should be able to login in with associate credentials and reach the associate page" time="2.942" />
+  <testcase classname="Login in with proper credentials" name="should be able to login in with Manager credentials and reach the Admin page" time="2.802" />
+  <testcase classname="Login in with proper credentials" name="should be able to login in with Trainer credentials and reach the Trainer page" time="2.85" />
+  <testcase classname="Login in with proper credentials" name="should be able to login in with Sales Team credentials and reach the Admin page" time="2.784" />
+ </testsuite>
+ <testsuite name="The admin navbar is functional" timestamp="2018-10-30T10:04:48" hostname="localhost" time="8.919" errors="0" tests="8" skipped="0" disabled="0" failures="0">
+  <testcase classname="The admin navbar is functional" name="should navigate to home page" time="2.389" />
+  <testcase classname="The admin navbar is functional" name="should navigate to client list page" time="1.911" />
+  <testcase classname="The admin navbar is functional" name="should navigate to batch list page" time="0.605" />
+  <testcase classname="The admin navbar is functional" name="should navigate to associate lising" time="1.499" />
+  <testcase classname="The admin navbar is functional" name="should navigate to predictions" time="1.263" />
+  <testcase classname="The admin navbar is functional" name="should navigate to create user" time="0.285" />
+  <testcase classname="The admin navbar is functional" name="should navigate to salesforce" time="0.277" />
+  <testcase classname="The admin navbar is functional" name="should be able to logout" time="0.284" />
+ </testsuite>
+ <testsuite name="The Asscoiate navbar is functional" timestamp="2018-10-30T10:04:57" hostname="localhost" time="0.002" errors="0" tests="3" skipped="0" disabled="3" failures="0">
+  <testcase classname="The Asscoiate navbar is functional" name="should navigate to home page" time="0">
+   <skipped />
+  </testcase>
+  <testcase classname="The Asscoiate navbar is functional" name="should navigate to My Interviews" time="0.001">
+   <skipped />
+  </testcase>
+  <testcase classname="The Asscoiate navbar is functional" name="should be able to logout" time="0.001">
+   <skipped />
+  </testcase>
+ </testsuite>
+ <testsuite name="The Staging Manager navbar is functional" timestamp="2018-10-30T10:04:57" hostname="localhost" time="7.727" errors="0" tests="7" skipped="0" disabled="0" failures="0">
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to home page" time="2.375" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to client list page" time="1.306" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to batch list page" time="0.531" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to associate lising" time="1.418" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to predictions" time="1.1" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to create user" time="0.201" />
+  <testcase classname="The Staging Manager navbar is functional" name="should be able to logout" time="0.285" />
+ </testsuite>
+ <testsuite name="The Trainer navbar is functional" timestamp="2018-10-30T10:05:05" hostname="localhost" time="5.252" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="The Trainer navbar is functional" name="should navigate to home page" time="2.37" />
+  <testcase classname="The Trainer navbar is functional" name="should navigate to batch list page" time="0.508" />
+  <testcase classname="The Trainer navbar is functional" name="should navigate to associate lising" time="1.557" />
+  <testcase classname="The Trainer navbar is functional" name="should be able to logout" time="0.334" />
+ </testsuite>
+ <testsuite name="The Delivery/Sales navbar is functional" timestamp="2018-10-30T10:05:10" hostname="localhost" time="7.732" errors="0" tests="7" skipped="0" disabled="0" failures="0">
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to home page" time="2.386" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to client list page" time="1.41" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to batch list page" time="0.518" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to associate lising" time="1.427" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to predictions" time="0.976" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to create user" time="0.241" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should be able to logout" time="0.295" />
+ </testsuite>
+ <testsuite name="The create-user page " timestamp="2018-10-30T10:05:18" hostname="localhost" time="4.266" errors="0" tests="8" skipped="0" disabled="0" failures="0">
+  <testcase classname="The create-user page " name="should accept username input" time="0.104" />
+  <testcase classname="The create-user page " name="should accept password input" time="0.225" />
+  <testcase classname="The create-user page " name="should accept password confirmation input" time="0.131" />
+  <testcase classname="The create-user page " name="should select admin radio button" time="0.113" />
+  <testcase classname="The create-user page " name="should select trainer radio button" time="0.13" />
+  <testcase classname="The create-user page " name="should select associate radio button" time="0.132" />
+  <testcase classname="The create-user page " name="should select staging manager radio button" time="0.14" />
+  <testcase classname="The create-user page " name="should select delivery radio button" time="0.129" />
+ </testsuite>
+ <testsuite name="An Admin" timestamp="2018-10-30T10:05:22" hostname="localhost" time="12.55" errors="0" tests="5" skipped="0" disabled="0" failures="5">
+  <testcase classname="An Admin" name="should be able to create an admin" time="3.205">
+   <failure type="toContain" message="Expected &apos;Error: new user not created!&apos; to contain &apos;User created successfully&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:99:48)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+  <testcase classname="An Admin" name="should be able to create a trainer" time="2.008">
+   <failure type="toContain" message="Expected &apos;Error: new user not created!&apos; to contain &apos;User created successfully&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:106:49)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+  <testcase classname="An Admin" name="should be able to create a associate" time="1.929">
    <failure type="exception" message="Failed: No element found using locator: By(css selector, body &gt; app-component &gt; div &gt; app-create-user &gt; form &gt; fieldset:nth-child(2) &gt; div)"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
     at elementArrayFinder.getWebElements.then (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\built\element.js:814:27)
     at ManagedPromise.invokeCallback_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1376:14)
@@ -2604,6 +2748,119 @@ Error
     at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
     at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2927:27)
     at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:189:7)Error
+    at ElementArrayFinder.applyAction_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as getText] (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as getText] (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\built\element.js:831:22)
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:113:38)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+From: Task: Run it("should be able to create a associate") in control flow
+    at UserContext.<anonymous> (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:94:19)
+    at attempt (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4297:26)
+    at QueueRunner.run (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4217:20)
+    at runNext (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4257:20)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4264:13
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4172:9
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:64:48
+    at ControlFlow.emit (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\events.js:62:21)
+    at ControlFlow.shutdown_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2674:10)
+    at shutdownTask_.MicroTask (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2599:53)
+From asynchronous test: 
+Error
+    at Suite.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:110:5)
+    at addSpecsToSuite (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1107:25)
+    at Env.describe (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1074:7)
+    at describe (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4399:18)
+    at Object.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:74:1)
+    at Module._compile (module.js:653:30)
+    at Module.m._compile (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:422:23)
+    at Module._extensions..js (module.js:664:10)
+    at Object.require.extensions.(anonymous function) [as .ts] (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
+   </failure>
+  </testcase>
+  <testcase classname="An Admin" name="should be able to create a staging manager" time="2.1">
+   <failure type="toContain" message="Expected &apos;Error: new user not created!&apos; to contain &apos;User created successfully&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:120:49)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+  <testcase classname="An Admin" name="should be able to create a delivery " time="2.227">
+   <failure type="toContain" message="Expected &apos;Error: new user not created!&apos; to contain &apos;User created successfully&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:127:49)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+ </testsuite>
+ <testsuite name="A Staging Manager" timestamp="2018-10-30T10:05:34" hostname="localhost" time="10.749" errors="0" tests="4" skipped="0" disabled="0" failures="4">
+  <testcase classname="A Staging Manager" name="should be able to create a trainer" time="3.314">
+   <failure type="toContain" message="Expected &apos;Error: new user not created!&apos; to contain &apos;User created successfully&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:160:49)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+  <testcase classname="A Staging Manager" name="should be able to create a associate" time="2.181">
+   <failure type="toContain" message="Expected &apos;Error: new user not created!&apos; to contain &apos;User created successfully&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:167:49)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+  <testcase classname="A Staging Manager" name="should be able to create a staging manager" time="2.085">
+   <failure type="toContain" message="Expected &apos;Error: new user not created!&apos; to contain &apos;User created successfully&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:174:49)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+  <testcase classname="A Staging Manager" name="should be able to create a delivery " time="1.998">
+>>>>>>> 1808-angular-test
+   <failure type="exception" message="Failed: No element found using locator: By(css selector, body &gt; app-component &gt; div &gt; app-create-user &gt; form &gt; fieldset:nth-child(2) &gt; div)"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
+    at elementArrayFinder.getWebElements.then (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\built\element.js:814:27)
+    at ManagedPromise.invokeCallback_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1376:14)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2927:27)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7
+<<<<<<< HEAD
     at <anonymous>
     at process._tickCallback (internal/process/next_tick.js:189:7)Error
     at ElementArrayFinder.applyAction_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\built\element.js:459:27)
@@ -8340,12 +8597,45 @@ Error
     at Env.describe (C:\Users\Alex Peterson\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1074:7)
     at describe (C:\Users\Alex Peterson\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4399:18)
     at Object.<anonymous> (C:\Users\Alex Peterson\Desktop\trackforce\NGTrackForce\e2e\client-list\client-list-spec.ts:188:1)
+=======
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:189:7)Error
+    at ElementArrayFinder.applyAction_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as getText] (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as getText] (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\built\element.js:831:22)
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:181:38)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+From: Task: Run it("should be able to create a delivery ") in control flow
+    at UserContext.<anonymous> (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:94:19)
+    at attempt (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4297:26)
+    at QueueRunner.run (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4217:20)
+    at runNext (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4257:20)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4264:13
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4172:9
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:64:48
+    at ControlFlow.emit (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\events.js:62:21)
+    at ControlFlow.shutdown_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2674:10)
+    at shutdownTask_.MicroTask (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2599:53)
+From asynchronous test: 
+Error
+    at Suite.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:178:5)
+    at addSpecsToSuite (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1107:25)
+    at Env.describe (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1074:7)
+    at describe (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4399:18)
+    at Object.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:135:1)
+>>>>>>> 1808-angular-test
     at Module._compile (module.js:653:30)
     at Module.m._compile (C:\Users\Alex Peterson\Desktop\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:422:23)
     at Module._extensions..js (module.js:664:10)
     at Object.require.extensions.(anonymous function) [as .ts] (C:\Users\Alex Peterson\Desktop\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
+<<<<<<< HEAD
   <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should be able to click View Data for all Clients" time="0.028">
    <failure type="exception" message="Failed: invalid element state: Failed to execute &apos;replace&apos; on &apos;Location&apos;: &apos;login&apos; is not a valid URL.
   (Session info: headless chrome=69.0.3497.100)
@@ -8428,12 +8718,55 @@ Error
     at Env.describe (C:\Users\Alex Peterson\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1074:7)
     at describe (C:\Users\Alex Peterson\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4399:18)
     at Object.<anonymous> (C:\Users\Alex Peterson\Desktop\trackforce\NGTrackForce\e2e\client-list\client-list-spec.ts:188:1)
+=======
+ </testsuite>
+ <testsuite name="A Sales Manager" timestamp="2018-10-30T10:05:45" hostname="localhost" time="10.658" errors="0" tests="4" skipped="0" disabled="0" failures="4">
+  <testcase classname="A Sales Manager" name="should be able to create a trainer" time="3.11">
+   <failure type="exception" message="Failed: No element found using locator: By(css selector, body &gt; app-component &gt; div &gt; app-create-user &gt; form &gt; fieldset:nth-child(2) &gt; div)"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
+    at elementArrayFinder.getWebElements.then (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\built\element.js:814:27)
+    at ManagedPromise.invokeCallback_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1376:14)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2927:27)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:189:7)Error
+    at ElementArrayFinder.applyAction_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as getText] (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as getText] (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\built\element.js:831:22)
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:214:38)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+From: Task: Run it("should be able to create a trainer") in control flow
+    at UserContext.<anonymous> (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:94:19)
+    at attempt (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4297:26)
+    at QueueRunner.run (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4217:20)
+    at runNext (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4257:20)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4264:13
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4172:9
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:64:48
+    at ControlFlow.emit (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\events.js:62:21)
+    at ControlFlow.shutdown_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2674:10)
+    at shutdownTask_.MicroTask (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2599:53)
+From asynchronous test: 
+Error
+    at Suite.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:211:5)
+    at addSpecsToSuite (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1107:25)
+    at Env.describe (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1074:7)
+    at describe (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4399:18)
+    at Object.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:189:1)
+>>>>>>> 1808-angular-test
     at Module._compile (module.js:653:30)
     at Module.m._compile (C:\Users\Alex Peterson\Desktop\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:422:23)
     at Module._extensions..js (module.js:664:10)
     at Object.require.extensions.(anonymous function) [as .ts] (C:\Users\Alex Peterson\Desktop\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:425:12)]]>
    </failure>
   </testcase>
+<<<<<<< HEAD
   <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0.034">
    <failure type="exception" message="Failed: invalid element state: Failed to execute &apos;replace&apos; on &apos;Location&apos;: &apos;login&apos; is not a valid URL.
   (Session info: headless chrome=69.0.3497.100)
@@ -9253,50 +9586,121 @@ Error
   <testcase classname="A user" name="should get an error if they use a sympol in their username" time="1.443" />
   <testcase classname="A user" name="should get an error if they enter in an invalid password in the first password box" time="1.176" />
   <testcase classname="A user" name="should get an error if they enter two different passwords" time="1.283" />
+=======
+  <testcase classname="A Sales Manager" name="should be able to create a associate" time="2.286">
+   <failure type="toContain" message="Expected &apos;Error: new user not created!&apos; to contain &apos;User created successfully&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:221:49)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+  <testcase classname="A Sales Manager" name="should be able to create a staging manager" time="2.081">
+   <failure type="toContain" message="Expected &apos;Error: new user not created!&apos; to contain &apos;User created successfully&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:229:49)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+  <testcase classname="A Sales Manager" name="should be able to create a delivery " time="2.038">
+   <failure type="toContain" message="Expected &apos;Error: new user not created!&apos; to contain &apos;User created successfully&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\Segal\Desktop\Revature\project3\Updated\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:236:49)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\Segal\AppData\Roaming\npm\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
  </testsuite>
- <testsuite name="When an admin navigates to the client-list page it" timestamp="2018-10-23T15:17:51" hostname="localhost" time="7.233" errors="0" tests="9" skipped="0" disabled="0" failures="0">
-  <testcase classname="When an admin navigates to the client-list page it" name="should navigate to the client-list page" time="1.544" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should accept username input" time="0.188" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should yield match for search input in one exists" time="0.043" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.241" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should be able to click a searched for client" time="0.247" />
+ <testsuite name="A user" timestamp="2018-10-30T10:05:56" hostname="localhost" time="6.38" errors="0" tests="3" skipped="0" disabled="0" failures="0">
+  <testcase classname="A user" name="should get an error if they use a sympol in their username" time="2.667" />
+  <testcase classname="A user" name="should get an error if they enter in an invalid password in the first password box" time="1.371" />
+  <testcase classname="A user" name="should get an error if they enter two different passwords" time="1.489" />
+ </testsuite>
+ <testsuite name="When an admin navigates to the client-list page it" timestamp="2018-10-30T10:06:02" hostname="localhost" time="7.944" errors="0" tests="9" skipped="0" disabled="0" failures="0">
+  <testcase classname="When an admin navigates to the client-list page it" name="should navigate to the client-list page" time="3.657" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should accept username input" time="0.195" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield match for search input in one exists" time="0.047" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.243" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should be able to click a searched for client" time="0.219" />
   <testcase classname="When an admin navigates to the client-list page it" name="should be able to click View Data for all Clients" time="2.173" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0.216" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for search input if many results exist" time="0.228" />
-  <testcase classname="When an admin navigates to the client-list page it" name="should yield no matches if none exist" time="0.207" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0.211" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for search input if many results exist" time="0.209" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield no matches if none exist" time="0.191" />
  </testsuite>
- <testsuite name="When an Staging Manager navigates to the client-list page it" timestamp="2018-10-23T15:17:58" hostname="localhost" time="7.146" errors="0" tests="9" skipped="0" disabled="0" failures="0">
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should navigate to the client-list page" time="1.56" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should accept username input" time="0.185" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield match for search input if one exists" time="0.036" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.25" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should be able to click a searched for client" time="0.211" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should be able to click View Data for all Clients" time="2.171" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0.23" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for search input if many results exist" time="0.217" />
-  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield no matches if none exist" time="0.204" />
+ <testsuite name="When an Staging Manager navigates to the client-list page it" timestamp="2018-10-30T10:06:10" hostname="localhost" time="7.799" errors="0" tests="9" skipped="0" disabled="0" failures="0">
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should navigate to the client-list page" time="3.54" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should accept username input" time="0.193" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield match for search input if one exists" time="0.038" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.268" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should be able to click a searched for client" time="0.228" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should be able to click View Data for all Clients" time="2.054" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0.256" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for search input if many results exist" time="0.218" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield no matches if none exist" time="0.246" />
+>>>>>>> 1808-angular-test
  </testsuite>
- <testsuite name="When an Delivery/Sales navigates to the client-list page it" timestamp="2018-10-23T15:18:05" hostname="localhost" time="7.28" errors="0" tests="9" skipped="0" disabled="0" failures="0">
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should navigate to the client-list page" time="1.535" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should accept username input" time="0.183" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield match for search input in one exists" time="0.033" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.247" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should be able to click a searched for client" time="0.21" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should be able to click View Data for all Clients" time="2.146" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0.232" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for search input if many results exist" time="0.223" />
-  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield no matches if none exist" time="0.204" />
+ <testsuite name="When an Delivery/Sales navigates to the client-list page it" timestamp="2018-10-30T10:06:18" hostname="localhost" time="7.939" errors="0" tests="9" skipped="0" disabled="0" failures="0">
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should navigate to the client-list page" time="3.683" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should accept username input" time="0.165" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield match for search input in one exists" time="0.048" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.221" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should be able to click a searched for client" time="0.213" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should be able to click View Data for all Clients" time="2.157" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0.288" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for search input if many results exist" time="0.206" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield no matches if none exist" time="0.207" />
  </testsuite>
- <testsuite name="the bactch-list tab" timestamp="2018-10-23T15:18:12" hostname="localhost" time="3.94" errors="0" tests="4" skipped="0" disabled="0" failures="0">
-  <testcase classname="the bactch-list tab" name="should have a batch list table" time="0.363" />
-  <testcase classname="the bactch-list tab" name="should have a start date input" time="0.965" />
-  <testcase classname="the bactch-list tab" name="should have a end date input" time="0.062" />
-  <testcase classname="the bactch-list tab" name="should have a pie cart" time="0.037" />
+ <testsuite name="the bactch-list tab" timestamp="2018-10-30T10:06:26" hostname="localhost" time="4.463" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="the bactch-list tab" name="should have a batch list table" time="0.359" />
+  <testcase classname="the bactch-list tab" name="should have a start date input" time="0.862" />
+  <testcase classname="the bactch-list tab" name="should have a end date input" time="0.034" />
+  <testcase classname="the bactch-list tab" name="should have a pie cart" time="0.036" />
  </testsuite>
+ <testsuite name="The All Batches table" timestamp="2018-10-30T10:06:30" hostname="localhost" time="5.6" errors="0" tests="3" skipped="0" disabled="0" failures="0">
+  <testcase classname="The All Batches table" name="should direct you to a batch page" time="1.582" />
+  <testcase classname="The All Batches table" name="should direct you to a batch page with a chart " time="0.964" />
+  <testcase classname="The All Batches table" name="should direct you to a batch page with a table " time="0.043" />
+ </testsuite>
+ <testsuite name="When entering valid data into predictions filter it" timestamp="2018-10-30T10:06:36" hostname="localhost" time="4.394" errors="0" tests="5" skipped="0" disabled="0" failures="0">
+  <testcase classname="When entering valid data into predictions filter it" name="should navigate to the predictions page" time="3.73" />
+  <testcase classname="When entering valid data into predictions filter it" name="should allow user to input valid data" time="0.514" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide a table with predictions" time="0.002" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide the same number of rows entered into the filter" time="0.145" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide details when prediction row is clicked" time="0.001" />
+ </testsuite>
+ <testsuite name="When entering valid data using all filters it" timestamp="2018-10-30T10:06:40" hostname="localhost" time="5.226" errors="0" tests="5" skipped="0" disabled="0" failures="0">
+  <testcase classname="When entering valid data using all filters it" name="should navigate to the predictions page" time="2.077" />
+  <testcase classname="When entering valid data using all filters it" name="should allow a user to input valid data and use all filters" time="2.966" />
+  <testcase classname="When entering valid data using all filters it" name="should provide a table with predictions" time="0.001" />
+  <testcase classname="When entering valid data using all filters it" name="should provide the same number of rows entered into the filter" time="0.17" />
+  <testcase classname="When entering valid data using all filters it" name="should provide details when prediction row is clicked" time="0.002" />
+ </testsuite>
+<<<<<<< HEAD
  <testsuite name="The All Batches table" timestamp="2018-10-23T15:18:16" hostname="localhost" time="5.199" errors="0" tests="3" skipped="0" disabled="0" failures="0">
   <testcase classname="The All Batches table" name="should direct you to a batch page" time="1.604" />
   <testcase classname="The All Batches table" name="should direct you to a batch page with a chart " time="1.063" />
   <testcase classname="The All Batches table" name="should direct you to a batch page with a table " time="0.038" />
+>>>>>>> 1808-angular-test
+=======
+ <testsuite name="When I enter a start date that is more current than the end date it" timestamp="2018-10-30T10:06:46" hostname="localhost" time="2.458" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should navigate to the predictions page" time="1.999" />
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should allow user to input a start date that is more current than the end date" time="0.458" />
 >>>>>>> 1808-angular-test
  </testsuite>
 </testsuites>

@@ -70,6 +70,7 @@ describe('The create-user page ', () => {
       page.getlogoutButton().click();
     });
 });
+
 describe('An Admin', () => {
 
     beforeAll(() => {
@@ -91,35 +92,40 @@ describe('An Admin', () => {
       createUser.inputPasswordConfirm(password);
     });
 
-     xit('should be able to create an admin', () => {
+    //FAILS - Change 'it' to 'xit' to skip this test
+    it('should be able to create an admin', () => {
        createUser.clickAdminRadio();
        createUser.clickSubmitButton();
-       expect(createUser.getAlert()).toContain('User created successfully');
-     });
+       expect(createUser.getAlert().getText()).toContain('User created successfully');
+    });
 
+    //FAILS - Change 'it' to 'xit' to skip this test
     it('should be able to create a trainer', () => {
         createUser.clickTrainerRadio();
         createUser.clickSubmitButton();
         expect(createUser.getAlert().getText()).toContain('User created successfully');
     });
 
-    xit('should be able to create a associate', () => {
-        createUser.inputUsername(username);
+    //FAILS - Change 'it' to 'xit' to skip this test
+    it('should be able to create a associate', () => {
+        createUser.clickAssociateRadio();
         createUser.clickSubmitButton();
-        expect(createUser.getAlert()).toContain('User created successfully');
-      });
+        expect(createUser.getAlert().getText()).toContain('User created successfully');
+    });
+    
+    //FAILS - Change 'it' to 'xit' to skip this test
+    it('should be able to create a staging manager', () => {
+        createUser.clickManagerRadio();
+        createUser.clickSubmitButton();
+        expect(createUser.getAlert().getText()).toContain('User created successfully');
+    });
 
-    xit('should be able to create a staging manager', () => {
-        createUser.inputUsername(username);
+    //FAILS - Change 'it' to 'xit' to skip this test
+    it('should be able to create a delivery ', () => {
+        createUser.clickDeliveryRadio();
         createUser.clickSubmitButton();
-        expect(createUser.getAlert()).toContain('User created successfully');
-      });
-
-    xit('should be able to create a delivery ', () => {
-        createUser.inputUsername(username);
-        createUser.clickSubmitButton();
-        expect(createUser.getAlert()).toContain('User created successfully');
-      });
+        expect(createUser.getAlert().getText()).toContain('User created successfully');
+    });
 
     afterAll(() => {
       page.getlogoutButton().click();
@@ -147,28 +153,32 @@ describe('A Staging Manager', () => {
       createUser.inputPasswordConfirm(password);
     });
 
+    //FAILS - Change 'it' to 'xit' to skip this test
     it('should be able to create a trainer', () => {
         createUser.clickTrainerRadio();
         createUser.clickSubmitButton();
         expect(createUser.getAlert().getText()).toContain('User created successfully');
     });
 
-    xit('should be able to create a associate', () => {
-        createUser.inputUsername(username);
+    //FAILS - Change 'it' to 'xit' to skip this test
+    it('should be able to create a associate', () => {
+        createUser.clickAssociateRadio();
         createUser.clickSubmitButton();
-        expect(createUser.getAlert()).toContain('User created successfully');
-      });
+        expect(createUser.getAlert().getText()).toContain('User created successfully');
+    });
 
-    xit('should be able to create a staging manager', () => {
-        createUser.inputUsername(username);
+    //FAILS - Change 'it' to 'xit' to skip this test
+    it('should be able to create a staging manager', () => {
+        createUser.clickManagerRadio();
         createUser.clickSubmitButton();
-        expect(createUser.getAlert()).toContain('User created successfully');
-      });
+        expect(createUser.getAlert().getText()).toContain('User created successfully');
+    });
 
-    xit('should be able to create a delivery ', () => {
-        createUser.inputUsername(username);
+    //FAILS - Change 'it' to 'xit' to skip this test
+    it('should be able to create a delivery ', () => {
+        createUser.clickDeliveryRadio();
         createUser.clickSubmitButton();
-        expect(createUser.getAlert()).toContain('User created successfully');
+        expect(createUser.getAlert().getText()).toContain('User created successfully');
       });
 
     afterAll(() => {
@@ -176,7 +186,7 @@ describe('A Staging Manager', () => {
     });
 });
 
-describe('A Staging Manager', () => {
+describe('A Sales Manager', () => {
 
     beforeAll(() => {
         createUser = new CreateUserPo();
@@ -197,28 +207,33 @@ describe('A Staging Manager', () => {
       createUser.inputPasswordConfirm(password);
     });
 
+    //FAILS - Change 'it' to 'xit' to skip this test
     it('should be able to create a trainer', () => {
         createUser.clickTrainerRadio();
         createUser.clickSubmitButton();
         expect(createUser.getAlert().getText()).toContain('User created successfully');
     });
 
-    xit('should be able to create a associate', () => {
-        createUser.inputUsername(username);
+    //FAILS - Change 'it' to 'xit' to skip this test
+    it('should be able to create a associate', () => {
+        createUser.clickAssociateRadio();
         createUser.clickSubmitButton();
-        expect(createUser.getAlert()).toContain('User created successfully');
+        expect(createUser.getAlert().getText()).toContain('User created successfully');
       });
 
-    xit('should be able to create a staging manager', () => {
-        createUser.inputUsername(username);
+    //FAILS - Change 'it' to 'xit' to skip this test
+    //Failed: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
+    it('should be able to create a staging manager', () => {
+        createUser.clickManagerRadio();
         createUser.clickSubmitButton();
-        expect(createUser.getAlert()).toContain('User created successfully');
+        expect(createUser.getAlert().getText()).toContain('User created successfully');
       });
 
-    xit('should be able to create a delivery ', () => {
-        createUser.inputUsername(username);
+    //FAILS - Change 'it' to 'xit' to skip this test
+    it('should be able to create a delivery ', () => {
+        createUser.clickDeliveryRadio();
         createUser.clickSubmitButton();
-        expect(createUser.getAlert()).toContain('User created successfully');
+        expect(createUser.getAlert().getText()).toContain('User created successfully');
       });
 
     afterAll(() => {

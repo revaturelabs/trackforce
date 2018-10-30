@@ -15,12 +15,15 @@ import static org.hamcrest.Matchers.hasSize;
 
 import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import com.revature.services.BatchService;
 import com.revature.services.JWTService;
 
+import io.restassured.http.Header;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 /**
  * Tests to ensure that that batches are only accessible to the right users and that all
@@ -112,7 +115,7 @@ public class BatchResourceTest {
 	/**
 	 * Test to ensure that an invalid token does not allow access to batches
 	 */
-	@Test(priority = 5)
+	@Test(enabled = false, priority = 5)
 	public void getAllBatchesInvalidAuthorizationTest() {
 		Response response = given().header("Authorization", "NotAuthorization").when().get(URL).then().extract()
 				.response();
@@ -121,8 +124,9 @@ public class BatchResourceTest {
 
 	/**
 	 * Test to make sure that associates do not have access to batches
+	 * Disabled because unhappypathtest checks this method
 	 */
-	@Test(priority = 6)
+	@Test(enabled = false, priority = 6)
 	public void getAllBatchesUnauthorizedTest() {
 		Response response = given().header("Authorization", assocToken).when().get(URL).then().extract().response();
 		assertEquals(response.getStatusCode(), 403);
@@ -181,5 +185,77 @@ public class BatchResourceTest {
 				.queryParam("courseName", "Java").get(URL + "/countby");
 		Integer resultCount = res.getBody().jsonPath().getInt("associateCount");
 		assertEquals(total, resultCount);
+	}
+	
+	/**
+	 * An unhappy test method that checks every method but login to assure that those that need security must
+	 * block the user if he:
+	 * 1. uses an unsupported verb
+	 * 2. uses a service without a token
+	 * 3. uses a bad token
+	 * 4. the role in the token deemed the user unauthorized to use the service
+	 * As this method of unhappy testing is consistent, I (Seth L.) suggest using this and its dependent methods to perform unhappy tests for all
+	 * Jersey resources.
+	 * Note: GET /details fails because it expects an associate to be unauthorized but is authorized because in BatchResource.java getBatchDetails()
+	 * has a method to check authorization that is commented out.  I leave it to the next group whether or not this method should not authorize associates.
+	 * Same goes for /batch/{id}
+	 * @author Seth L.
+	 * @param method - comma-separated list of HTTP Verbs that the service uses
+	 * @param url - the uri for the service
+	 * @param needAuth - if the user has to be a higher level of authorization than Associate like Admin to use the service, this value is true;
+	 */
+	@Test(enabled = true, priority = 10, dataProvider = "urls")
+	public void unhappyPathTest(String method, String url, Boolean needAuth) {
+		String[] verbs = method.split(", ");
+		url = URL + url;
+		//test no token
+		for(String verb : verbs) {
+			sendRequest(verb,url, null).then().assertThat().statusCode(401);
+			//test invalid token
+			sendRequest(verb, url, new Header("Authorization", "badtoken")).then().assertThat().statusCode(401);
+			//test with associate token
+			if(needAuth)
+				sendRequest(verb, url, new Header("Authorization", assocToken)).then().assertThat().statusCode(403);
+		}
+		//look for an HTTP verb not used
+		String knownVerbs[] = new String[] {"GET", "POST", "PUT", "DELETE"};
+		for(String verb : knownVerbs) {
+			if(!method.contains(verb)) {
+				//test unsupported verb
+				sendRequest(verb, url, new Header("Authorization", adminToken)).then().assertThat().statusCode(405);
+				break;
+			}
+		}
+		
+	}
+	/*
+	 * This method performs the appropriate request based on the HTTP verb and returns the response
+	 */
+	private Response sendRequest(String method, String url, Header h) {
+		RequestSpecification given = given().contentType("application/json");
+		if(h != null)
+			given.header(h);
+		switch(method) {
+		case "GET":
+			return given.when().get(url);
+		case "POST":
+			return given.when().post(url);
+		case "PUT":
+			return given.when().put(url);
+		case "DELETE":
+			return given.when().delete(url);
+		default:
+			return given().when().get();
+		}
+	}
+	@DataProvider(name = "urls") 
+	public Object[][] getURLs() {
+		return new Object[][]  {{"GET", "/", new Boolean(true)},
+								{"GET", "?start=1490000000000&end=1600000000000", new Boolean(true)}, 
+								{"GET", "/0/associates", new Boolean(true)},
+								{"GET", "/details?start=1490000000000&end=1600000000000&courseName=Java", new Boolean(true)},
+								{"GET", "/countby?start=1490000000000&end=1600000000000&courseName=Java", new Boolean(true)},
+								{"GET", "/withindates?start=1490000000000&end=1600000000000", new Boolean(true)},
+								{"GET", "/batch/0", new Boolean(true)}};
 	}
 }

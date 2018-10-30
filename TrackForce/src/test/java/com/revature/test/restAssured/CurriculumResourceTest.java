@@ -44,14 +44,13 @@ public class CurriculumResourceTest {
 
 	/**
 	 * Test that the resource can be accessed properly. Check that the content type
-	 * is what is expected. Test that a bad token gives a 401. Test that a bad url
-	 * gives a 404. Test that a bad method gives a 405.
+	 * is what is expected. 
 	 * 
 	 * @author Jesse
 	 * @since 6.18.06.13
 	 */
 	@Test(priority = 5)
-	public void testGetAllCurriculums1() {
+	public void testGetAllCurriculums() {
 		Response response = given().header("Authorization", tokenAdmin).when().get(URL).then().extract().response();
 
 		assertTrue(response.statusCode() == 200);
@@ -66,10 +65,11 @@ public class CurriculumResourceTest {
 	}
 
 	/**
-	 * Unhappy path testing for getAllCurriculums
+	 * Unhappy path testing for getAllCurriculums.  Test that a bad token gives a 401. Test that a bad url
+	 * gives a 404. Test that a bad method gives a 405.
 	 */
 	@Test(priority = 10)
-	public void testGetAllCurriculums2() {
+	public void testGetAllCurriculumsUnhappyPath() {
 		Response response = given().header("Authorization", "Bad token").when().get(URL).then().extract().response();
 
 		assertTrue(response.statusCode() == 401);
@@ -87,7 +87,7 @@ public class CurriculumResourceTest {
 	 * returned, and that values are what we would expect them to be
 	 */
 	@Test(priority = 15)
-	public void testGetUnmappedInfo1() {
+	public void testGetUnmappedInfo() {
 		Response response = given().header("Authorization", tokenAdmin).when().get(URL + "/unmapped/2").then().extract().response();
 		
 		assertTrue(response.statusCode() == 200);
@@ -104,7 +104,7 @@ public class CurriculumResourceTest {
 	 * Unhappy path testing for getUnmappedInfo
 	 */
 	@Test(priority = 20)
-	public void testGetUnmappedInfo2() {
+	public void testGetUnmappedInfoUnhappyPath() {
 		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/unmapped/4").then().extract().response();
 		
 		System.out.println(response.statusCode());

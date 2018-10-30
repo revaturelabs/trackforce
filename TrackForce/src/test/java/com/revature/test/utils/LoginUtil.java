@@ -52,7 +52,6 @@ public class LoginUtil {
 			Login.getUsername(wd).sendKeys(user);
 			wait.until(ExpectedConditions.visibilityOf(Login.getPassword(wd)));
 			Login.getPassword(wd).sendKeys(pass);
-			Login.getSignInButton(wd).click();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

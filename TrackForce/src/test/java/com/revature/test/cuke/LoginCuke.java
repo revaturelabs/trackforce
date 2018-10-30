@@ -59,51 +59,61 @@ public class LoginCuke {
 	@When("^I submit the correct admin login information$")
 	public void i_submit_the_correct_admin_login_information() throws Throwable {
 		LoginUtil.loginAsAdmin(ServiceHooks.driver);
+		I_click_Submit();
 	}
 
 	@When("^I submit the correct associate login information$")
 	public void i_submit_the_correct_associate_login_information() throws Throwable {
 		LoginUtil.loginAsAssociate(ServiceHooks.driver);
+		I_click_Submit();
 	}
 
 	@When("^I submit the correct manager login information$")
 	public void i_submit_the_correct_manager_login_information() throws Throwable {
 		LoginUtil.loginAsStaging(ServiceHooks.driver);
+		I_click_Submit();
 	}
 
 	@When("^I submit the correct trainer login information$")
 	public void i_submit_the_correct_trainer_login_information() throws Throwable {
 		LoginUtil.loginAsTrainer(ServiceHooks.driver);
+		I_click_Submit();
 	}
 
 	@When("^I submit the correct delivery login information$")
 	public void i_submit_the_correct_delivery_login_information() throws Throwable {
 		LoginUtil.loginAsSalesDelivery(ServiceHooks.driver);
+		I_click_Submit();
 	}
 
 	@When("^I submit a correct username without a password$")
 	public void i_submit_a_correct_username_without_a_password() throws Throwable {
 		LoginUtil.login(ServiceHooks.driver, LoginUtil.getPropertyValue("adminUN"), "");
+		I_click_Submit();
 	}
 
 	@When("^I submit a correct password with an incorrect username$")
 	public void i_submit_a_correct_password_with_an_incorrect_username() throws Throwable {
 		LoginUtil.login(ServiceHooks.driver, LoginUtil.getPropertyValue("notAUsername"), LoginUtil.getPropertyValue("adminPW"));
+		I_click_Submit();
 	}
 
 	@When("^I submit an incorrect password with an incorrect username$")
 	public void i_submit_an_incorrect_password_with_an_incorrect_username() throws Throwable {
 		LoginUtil.login(ServiceHooks.driver, LoginUtil.getPropertyValue("notAUsername"), LoginUtil.getPropertyValue("notAPassword"));
+		I_click_Submit();
 	}
 
 	@When("^I submit a correct username with an incorrect password$")
 	public void i_submit_a_correct_username_with_an_incorrect_password() throws Throwable {
 		LoginUtil.login(ServiceHooks.driver, LoginUtil.getPropertyValue("adminUN"),LoginUtil.getPropertyValue("notAPassword"));
+		I_click_Submit();
 	}
 
 	@When("^I submit a correct password without a username$")
 	public void i_submit_a_correct_password_without_a_username() throws Throwable {
 		LoginUtil.login(ServiceHooks.driver, "", LoginUtil.getPropertyValue("adminPW"));
+		I_click_Submit();
 	}
 
 	//TODO: Find way to wait without having hardcoded ids.
@@ -144,6 +154,10 @@ public class LoginCuke {
 	public void i_should_be_on_the_login_page() throws Throwable {
 		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "/login"));
 		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "/login");
+	}
+	
+	public void I_click_Submit() throws Throwable {
+		Login.getSignInButton(ServiceHooks.driver).click();
 	}
 
 	@After

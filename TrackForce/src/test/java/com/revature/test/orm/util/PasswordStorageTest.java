@@ -1,7 +1,7 @@
-package com.revature.test.junit.util;
+package com.revature.test.orm.util;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import org.junit.Test;

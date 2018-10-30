@@ -1,4 +1,4 @@
-package com.revature.test.junit.entity;
+package com.revature.test.orm.entity;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;

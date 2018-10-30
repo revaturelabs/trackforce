@@ -14,7 +14,7 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 @RunWith(Cucumber.class)
 @CucumberOptions(
 		plugin = {"pretty"},
-		features = {"src/test/resources/AdminFeatureFiles/Login.feature"},
+		features = {"src/test/resources/AdminFeatureFiles/"},
 		glue = {"com.revature.test.utils","com.revature.test.cuke"}
 		)
 

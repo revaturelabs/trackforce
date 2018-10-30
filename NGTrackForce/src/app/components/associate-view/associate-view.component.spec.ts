@@ -47,7 +47,7 @@ export class MockAuthenticationService extends AuthenticationService {
     let mockBatch:Batch = new Batch();
     mockBatch.id = 100;
     mockBatch.batchName = 'mockBatchName';
-    
+
     let batches:Batch[] = [mockBatch];
 
     let client:Client = new Client(0,'client',null,null,null);
@@ -58,7 +58,7 @@ export class MockAuthenticationService extends AuthenticationService {
     const marketingStatus:MarketingStatus = new MarketingStatus(1, 'status');
 
     const associate:Associate = new Associate('first', 'last', user);
-    
+
     // Add objects to associate
     associate.marketingStatus = marketingStatus;
     associate.batch = mockBatch;
@@ -80,12 +80,12 @@ export class MockAssociateService extends AssociateService {
 describe('AssociateViewComponent', () => {
   const mockAssociateService: AssociateService = new AssociateService(null);
   const mockAuthService: AuthenticationService = new AuthenticationService(null, null, null);
-  let component: AssociateViewComponent = new AssociateViewComponent(mockAssociateService, mockAuthService, null, null);
+  let component: AssociateViewComponent = new AssociateViewComponent(mockAssociateService, mockAuthService, null);
   let fixture: ComponentFixture<AssociateViewComponent>;
   let clients: Array<any> = [];
 
   beforeAll(() => {
-  
+
   });
 
   beforeEach(() => {
@@ -109,7 +109,7 @@ describe('AssociateViewComponent', () => {
     const mockUser: User = new User('mockuser', 'mockPassword', 1, 0);
     const mockAssociate = new Associate('firstName', 'lastName', mockUser);
     const mockAssociates: Associate[] = [mockAssociate];
-    
+
     // spyOn(mockAssociateService, 'getAllAssociates').and.returnValue(Observable.of(mockAssociates));
     // spyOn(mockAssociateService, 'getAssociate').and.returnValue(mockAssociate);
     // spyOn(mockAuthService, 'getAssociate').and.returnValue(mockAssociate);
@@ -117,7 +117,7 @@ describe('AssociateViewComponent', () => {
 
     fixture = TestBed.overrideComponent(AssociateViewComponent,
     {set: {providers: [{provide: AssociateService, useClass: MockAssociateService},
-                       {provide: AuthenticationService, useClass: MockAuthenticationService}]}}).createComponent(AssociateViewComponent);  
+                       {provide: AuthenticationService, useClass: MockAuthenticationService}]}}).createComponent(AssociateViewComponent);
                        component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -9,7 +9,7 @@ let testConfig      : TestConfig;
 let batchlist       : BatchList;
 let baseURL         : string;
 
-describe('the bactch-list tab', () => {
+describe('the batch-list tab', () => {
 
   beforeAll(() => {
       navbar = new Navbar();

@@ -66,8 +66,12 @@ public class Login {
 	}
 	
 	public static WebElement getRegisterNewUserButton(WebDriver driver) {
-		return driver.findElement(By.cssSelector("button[type='submit'][innerText='Register New User']"));
+		return driver.findElements(By.cssSelector("button[type='submit']")).get(1);
 
+	}
+	
+	public static WebElement getErrorPopup(WebDriver driver) {
+		return driver.findElement(By.cssSelector("div[class='alert alert-danger ng-tns-c3-0 ng-star-inserted']"));
 	}
 
 

@@ -39,5 +39,5 @@ public class CurriculumDaoImpl implements CurriculumDao {
 					query.multiselect(cb.count(root), curriculumid, curriculumName);
 					return session.createQuery(query).setCacheable(true).getResultList();
 				}, id );
-	}//end getUnmapped()
-}//end class
+	}
+}

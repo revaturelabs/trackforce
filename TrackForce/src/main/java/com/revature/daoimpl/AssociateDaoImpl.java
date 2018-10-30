@@ -13,16 +13,9 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Projections;
-import org.hibernate.transform.Transformers;
 import org.openqa.selenium.InvalidArgumentException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.dao.AssociateDao;
 import com.revature.entity.TfAssociate;
@@ -56,7 +49,6 @@ public class AssociateDaoImpl implements AssociateDao {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<TfAssociate> criteria = builder.createQuery(TfAssociate.class);
 		Root<TfAssociate> root = criteria.from(TfAssociate.class);
-		//Expression<String>  expName = root.get("batchName");
 		Expression<String> expFirst = builder.lower(root.get("firstName"));
 		Expression<String>  expLast = builder.lower(root.get("lastName"));
 		sortText = "%" + sortText.toLowerCase() + "%";
@@ -109,7 +101,7 @@ public class AssociateDaoImpl implements AssociateDao {
 		session.close(); //close out the session
 		if (results == null || results.isEmpty()) { return null; }
 		return results;
-	}//end getNAssociateMatchingCriteria()
+	}
 	
 	/** Gets a single associate with an id
 	 * @param Integer associateId */
@@ -169,7 +161,7 @@ public class AssociateDaoImpl implements AssociateDao {
 				"from TfAssociate a " +
 				"group by a.marketingStatus " +
 				"order by a.marketingStatus", String.class).getResultList();
-		HashMap<Integer,Integer> resultMap = new HashMap<Integer,Integer>();
+		HashMap<Integer,Integer> resultMap = new HashMap<>();
 		for (String result : resultList) {
 			String[] split = result.split(",");
 			resultMap.put(Integer.valueOf(split[0]), Integer.valueOf(split[1]));
@@ -189,7 +181,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	
 	public HashMap<String,Integer> getStatusCountsMap(){
 		HashMap<Integer,Integer> rawMap = getAllStatusCounts();
-		HashMap<String,Integer> stringMap = new HashMap<String,Integer>();
+		HashMap<String,Integer> stringMap = new HashMap<>();
 		stringMap.put("Undeployed Mapped", rawMap.get(1)+rawMap.get(2)+rawMap.get(3)+rawMap.get(4));
 		stringMap.put("Undeployed Unmapped", rawMap.get(6)+rawMap.get(7)+rawMap.get(8)+rawMap.get(9));
 		stringMap.put("Deployed Mapped", rawMap.get(5));
@@ -307,7 +299,7 @@ public class AssociateDaoImpl implements AssociateDao {
 			});
 		}
 		throw new InvalidArgumentException("getUndeployed(): NOT MAPPED OR UNMAPPED");
-	}//end getUndeployed()
+	}
 
 	@Override
 	public boolean updateAssociate(TfAssociate associate) {

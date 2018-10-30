@@ -32,7 +32,6 @@ public class Login {
 		return driver.findElement(By.id("password"));
 	}
 
-	//ElementNotFoundException on my computer only - Josh, 1808
 	public static WebElement getSignInButton(WebDriver driver) {
 		return driver.findElement(By.cssSelector("button[type='submit']"));
 	}

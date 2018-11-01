@@ -301,10 +301,10 @@ export class LoginComponent implements OnInit {
           localStorage.setItem(USER_KEY, JSON.stringify(data));
           console.log(data);
 
-          if(data == null){
+          if(data == null){//if user not in db, it is null
             this.resetAfterLoginFail();
             this.errMsg = "Invalid username and/or password";
-          } else if (data.isApproved) {
+          } else if (data.isApproved) {//user is in the db
             this.authService.getUserRoleFirst();
             setTimeout(() => {
               //awful and hacky definitely fix this
@@ -345,7 +345,7 @@ export class LoginComponent implements OnInit {
             this.errMsg = "Login service cannot be reached.";
           }
         }
-      );
+      );//end subscribe
     } else {
       this.errMsg = "Please enter a username and password";
     }

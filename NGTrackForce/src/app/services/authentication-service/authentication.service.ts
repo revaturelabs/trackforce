@@ -28,7 +28,7 @@ const TRAINER_KEY = "currentTrainer";
 
 @Injectable()
 export class AuthenticationService {
-    role = 0;
+    role: number;
     constructor(
         private rs: RequestService,
         private router: Router,

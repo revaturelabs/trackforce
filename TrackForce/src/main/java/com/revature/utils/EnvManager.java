@@ -1,8 +1,8 @@
 package com.revature.utils;
 
 public class EnvManager {
-	public static String NGTrackForce_URL = System.getenv("NGTrackForce_URL");
-	public static String TomTrackForce_URL = System.getenv("TomTrackForce_URL");
+	public final static String NGTrackForce_URL = System.getenv("NGTrackForce_URL");
+	public final static String TomTrackForce_URL = System.getenv("TomTrackForce_URL");
 
 	/**
 	 * A shorthand for OsCheck.getOperatingSystemType()

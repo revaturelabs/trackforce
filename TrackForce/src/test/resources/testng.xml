@@ -37,8 +37,8 @@
    </test>
    <test name="utilTest">
    	<classes>
-   		<class name="com.revature.orm.util.HibernateUtilTest"/>
-   		<class name="com.revature.orm.util.PasswordStorageTest"/>
+   		<class name="com.revature.test.orm.util.HibernateUtilTest"/>
+   		<class name="com.revature.test.orm.util.PasswordStorageTest"/>
    	</classes>
    </test>
 	<test name="servicesTest">

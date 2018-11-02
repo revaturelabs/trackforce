@@ -63,8 +63,10 @@ public class CurriculumResourceTest {
 	}
 
 	/**
-	 * Unhappy path testing for getAllCurriculums. Test that a bad token gives a
-	 * 401. Test that a bad url gives a 404. Test that a bad method gives a 405.
+	 * Unhappy path testing for getAllCurriculums. 
+	 * Test that a bad token gives a 401.
+	 * Test that a bad url gives a 404.
+	 * Test that a bad method gives a 405.
 	 */
 	@Test(priority = 10)
 	public void testGetAllCurriculumsUnhappyPath() {

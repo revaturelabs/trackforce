@@ -17,30 +17,6 @@
 			<class name="com.revature.test.dao.UserDAOTest"/>
 		</classes>
 	</test>
-	<test name="entityTest">
-		<classes>
-			<class name="com.revature.test.junit.entity.TfAssociateTest" />
-			<class name="com.revature.test.junit.entity.TfBatchLocationTest" />
-			<class name="com.revature.test.junit.entity.TfBatchTest" />
-			<class name="com.revature.test.junit.entity.TfClientTest"/>
-			<class name="com.revature.test.junit.entity.TfCurriculumTest" />
-			<class name="com.revature.test.junit.entity.TfEndClientTest" />
-			<class name="com.revature.test.junit.entity.TfInterviewTest" />
-			<class name="com.revature.test.junit.entity.TfInterviewTypeTest"/>
-			<class name="com.revature.test.junit.entity.TfMarketingStatusTest" />
-			<class name="com.revature.test.junit.entity.TfPlacementTest" />
-			<class name="com.revature.test.junit.entity.TfRoleTest" />
-			<class name="com.revature.test.junit.entity.TfTrainerTest" />
-			<class name="com.revature.test.junit.entity.TfUserAndCreatorRolerContainerTest" />
-			<class name="com.revature.test.junit.entity.TfUserTest" />
-		</classes>
-	</test>
-	<test name="utilTest">
-		<classes>
-			<class name="com.revature.test.junit.util.HibernateUtilTest" />
-			<class name="com.revature.test.junit.util.PasswordStorageTest" />
-		</classes>
-	</test>
 	<test name="servicesTest">
 		<classes>
 			<class name="com.revature.test.services.AssociateServicesTest" />

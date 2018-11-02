@@ -1,31 +1,34 @@
 package com.revature.test.dao;
 
-import java.sql.Timestamp;
 import java.util.List;
-import java.util.Set;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.daoimpl.InterviewDaoImpl;
-import com.revature.entity.TfBatch;
-import com.revature.entity.TfClient;
-import com.revature.entity.TfEndClient;
 import com.revature.entity.TfInterview;
-import com.revature.entity.TfMarketingStatus;
-import com.revature.entity.TfPlacement;
-import com.revature.entity.TfUser;
 
 public class InterviewDAOTest {
 
+  /**
+   * BeforeTest run before each Test to initialize interview lists
+   */
 	
+  // loads interviews for associate_ID 710	
+  List <TfInterview> interviews = new InterviewDaoImpl().getInterviewsByAssociate(710);
+  // List of all interviews
+  List<TfInterview> allInterviews = new InterviewDaoImpl().getAllInterviews();
+	
+  @BeforeTest
+  public void setup() {
+	  interviews = new InterviewDaoImpl().getInterviewsByAssociate(710);
+	  allInterviews = new InterviewDaoImpl().getAllInterviews();
+  }
+  
   /**
    *  These tests depend on data in the full SQL script
    */
-
-  // loads interviews for associate_ID 710	
-  List <TfInterview> interviews = new InterviewDaoImpl().getInterviewsByAssociate(710);
 
   // Tests for getInterviewsByAssociate method  
   @Test
@@ -87,8 +90,6 @@ public class InterviewDAOTest {
    * Tests for getAllInterviews method  
    */
   
-  // List of all interviews
-  List<TfInterview> allInterviews = new InterviewDaoImpl().getAllInterviews();
   @Test
   public void getAllInterviewsNotNull() {
 	  Assert.assertNotEquals(allInterviews.size(), 0);

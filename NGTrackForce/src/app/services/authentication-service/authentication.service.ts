@@ -20,13 +20,15 @@ import { AngularWaitBarrier } from "blocking-proxy/built/lib/angular_wait_barrie
 import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 // import 'rxjs/Rx';
 
+import { async } from '@angular/core/testing';
+
 const ASSOCIATE_KEY = "currentAssociate";
 const USER_KEY = "currentUser";
 const TRAINER_KEY = "currentTrainer";
 
 @Injectable()
 export class AuthenticationService {
-    role;
+    role: number;
     constructor(
         private rs: RequestService,
         private router: Router,
@@ -75,18 +77,16 @@ export class AuthenticationService {
         return user;
     }
 
-
     getUserRole() {
         return this.role;
     }
 
-    async getUserRoleFirst() {
-        this.http.get<number>(environment.url + "TrackForce/users/getUserRole")
-            .subscribe(data => {
-                console.log('In Subscribe');
-                this.role = data;
-            }, error => error)
+    getUserRoleFirst() {
+        return this.http.get<number>(environment.url + "TrackForce/users/getUserRole").subscribe(data => {
+            this.role = data;
+        }, err => err);
     }
+  
     /**
      * This method will return the Associate Object from local storage
      *

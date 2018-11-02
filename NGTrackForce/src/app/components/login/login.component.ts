@@ -274,7 +274,7 @@ export class LoginComponent implements OnInit {
         this.lname = '';
         this.role = undefined;
     }
-
+  
     /**
      * Exit the register state
      */
@@ -284,7 +284,7 @@ export class LoginComponent implements OnInit {
         this.isRegistering = false;
         this.registerPage = 0;
     }
-
+  
     /**
      * Function wrapper for AuthenticationService login()
      * Sends user input to service for real login

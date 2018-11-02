@@ -77,7 +77,6 @@ export class AuthenticationService {
         return user;
     }
 
-
     getUserRole() {
         return this.role;
     }
@@ -86,8 +85,8 @@ export class AuthenticationService {
         return this.http.get<number>(environment.url + "TrackForce/users/getUserRole").subscribe(data => {
             this.role = data;
         }, err => err);
-
     }
+  
     /**
      * This method will return the Associate Object from local storage
      *

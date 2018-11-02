@@ -16,14 +16,20 @@ public class InterviewDAOTest {
    */
 	
   // loads interviews for associate_ID 710	
-  List <TfInterview> interviews = new InterviewDaoImpl().getInterviewsByAssociate(710);
+  List <TfInterview> interviews = null;
   // List of all interviews
-  List<TfInterview> allInterviews = new InterviewDaoImpl().getAllInterviews();
+  List<TfInterview> allInterviews = null;
 	
   @BeforeTest
   public void setup() {
-	  interviews = new InterviewDaoImpl().getInterviewsByAssociate(710);
-	  allInterviews = new InterviewDaoImpl().getAllInterviews();
+	  if (interviews == null) {
+		 interviews = new InterviewDaoImpl().getInterviewsByAssociate(710);  
+	  }
+	  if (allInterviews == null) {
+		  allInterviews = new InterviewDaoImpl().getAllInterviews(); 
+	  }
+	 
+	  
   }
   
   /**

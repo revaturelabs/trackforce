@@ -98,8 +98,10 @@ public class InterviewResourceTest {
 	}
 
 	/**
-	 * Unhappy path testing for testCreateInterview. Test that a bad token gives a
-	 * 401. Test that a bad url gives a 404. Test that a bad method gives a 405.
+	 * Unhappy path testing for testCreateInterview.
+	 * Test that a bad token gives a 401.
+	 * Test that a bad url gives a 404.
+	 * Test that a bad method gives a 405.
 	 * 
 	 */
 	@Test(priority = 7, dataProvider = "interview1", enabled = true)

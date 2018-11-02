@@ -30,9 +30,12 @@ import io.restassured.specification.RequestSpecification;
  * @since 06.18.06.16
  */
 /*
- * Note by Seth L.: Every unhappy path test should have these test scenarios: 1.
- * Using an unsupported method 2. Not using a token 3. Using a bad token 4.
- * Using an unauthorized token (i.e. associate token) 5. Bad data
+ * Note by Seth L.: Every unhappy path test should have these test scenarios: 
+ * 1. Using an unsupported method. 
+ * 2. Not using a token. 
+ * 3. Using a bad token.
+ * 4. Using an unauthorized token (i.e. associate token).
+ * 5. Bad data.
  */
 public class UserResourceTest {
 
@@ -80,13 +83,14 @@ public class UserResourceTest {
 	 * 1808_Seth_L: Following the previous comment because of the @JSONIGNORE
 	 * annotation, I have to manually create the JSON for the TFUser so I could pass
 	 * the password directly. Unfortunately there is no way to delete the user once
-	 * its created and there are some ways around this: 1. randomly generate a
-	 * username string everytime. Pros: No time wasted reloading the database
+	 * its created and there are some ways around this: 
+	 * 1. randomly generate a username string everytime. Pros: No time wasted reloading the database
 	 * everytime a test needs to be made. Cons: Loads the database with dummy
 	 * entries. Not a problem with a test database but would be for a production
-	 * one. 2. Reload the database before every test Pros: Fresh and "untouched"
-	 * data reduces complications of running tests. Cons: time-consuming 3. Manually
-	 * deleting the entry from the database. Happy path testing for create user.
+	 * one.
+	 * 2. Reload the database before every test Pros: Fresh and "untouched"
+	 * data reduces complications of running tests. Cons: time-consuming.
+	 * 3. Manually deleting the entry from the database. Happy path testing for create user.
 	 * This should create an admin, staging manager or sales user when each of those
 	 * specified roles is used.
 	 * 
@@ -164,9 +168,11 @@ public class UserResourceTest {
 
 	/**
 	 * An unhappy test method that checks every method but login to assure that
-	 * those that need security must block the user if he: 1. uses an unsupported
-	 * verb 2. uses a service without a token 3. uses a bad token 4. the role in the
-	 * token deemed the user unauthorized to use the service As this method of
+	 * those that need security must block the user if he:
+	 * 1. uses an unsupported verb. 
+	 * 2. uses a service without a token.
+	 * 3. uses a bad token.
+	 * 4. the role in the token deemed the user unauthorized to use the service As this method of
 	 * unhappy testing is consistent, I (Seth L.) suggest using this and its
 	 * dependent methods to perform unhappy tests for all Jersey resources. Only
 	 * submitCredentials is not used here because it does not require any tokens to

@@ -33,6 +33,8 @@ import io.restassured.specification.RequestSpecification;
  * Warning GET /batches works and returns with all batches but if you add "start" and "end" date query parameters
  * the server throws an exception.  Use GET /batches/withindates with these query parameters to get batches within dates
  * 
+ * 1809_Katelyn_B
+ * 
  * @author Daniel L.
  * @since 06.18.06.19
  */
@@ -42,26 +44,35 @@ public class BatchResourceTest {
 	static final String URL = "http://52.87.205.55:8086/TrackForce/batches";
 	//static final String URL = "http://localhost:8085/TrackForce/batches";
 
-	private final String adminToken = JWTService.createToken("TestAdmin", 1), trainerToken = JWTService.createToken("TestTrainer", 2),
-						 salesToken = JWTService.createToken("TestSales", 3), stagingToken = JWTService.createToken("TestStaging", 4),
-						 assocToken = JWTService.createToken("TestAssoc", 5);
+	private String adminToken, trainerToken, salesToken, stagingToken, assocToken;
 	BatchService service;
-	private final int knownBatchId = 0;
-	private final Long startDate = 1490000000000L, endDate = 1600000000000L;
+	private int knownBatchId;
+	private Long startDate , endDate;
 	/**
 	 * Setup to run before any test is run
 	 */
 	@BeforeClass
 	public void beforeClass() {
 		service = new BatchService();
+		
+		adminToken = JWTService.createToken("TestAdmin", 1); 
+		trainerToken = JWTService.createToken("TestTrainer", 2);
+		salesToken = JWTService.createToken("TestSales", 3);
+		stagingToken = JWTService.createToken("TestStaging", 4);
+		assocToken = JWTService.createToken("TestAssoc", 5);
+		
+		knownBatchId = 0;
+		
+		startDate = 1490000000000L;
+		endDate = 1600000000000L;
 	}
 
 	/**
-	 * A positive test to ensure that admins and trainers are able to access batches.
+	 * A positive test to ensure that admins are able to access batches.
 	 * Verify that the batches returned are what we would expect.
 	 */
 	@Test(priority = 1)
-	public void getAllBatchesTest() {
+	public void testGetAllBatchesAdmin() {
 		int size = service.getAllBatches().size();
 		Response response = given().header("Authorization", adminToken).when().get(URL).then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
@@ -73,6 +84,21 @@ public class BatchResourceTest {
 		response = given().header("Authorization", trainerToken).when().get(URL).then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
 		assertEquals(response.contentType(),"application/json");
+	}
+	
+	/**
+	 * A positive test to ensure that trainers are able to access batches.
+	 * Verify that the batches returned are what we would expect.
+	 */
+	@Test(priority = 1)
+	public void testGetAllBatchesTrainer() {
+		int size = service.getAllBatches().size();
+		Response response = given().header("Authorization", trainerToken).when().get(URL).then().extract().response();
+		assertEquals(response.getStatusCode(), 200);
+		assertEquals(response.contentType(),"application/json");
+
+		given().header("Authorization", trainerToken).when().get(URL).then().assertThat().body("batchName",
+				Matchers.hasSize(size));
 	}
 	
 	/**

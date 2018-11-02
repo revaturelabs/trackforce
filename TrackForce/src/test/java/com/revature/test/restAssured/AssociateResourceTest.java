@@ -1,7 +1,6 @@
 package com.revature.test.restAssured;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -10,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -21,12 +21,14 @@ import com.revature.entity.TfMarketingStatus;
 import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.JWTService;
+import com.revature.services.UserService;
 
-import io.jsonwebtoken.Claims;
 import io.restassured.response.Response;
 
 /**
  * Rest Assured to ensure that this resource is functioning properly.
+ * 
+ * Cleaned up by Katelyn Barnes 1809
  * 
  * @author Jesse
  * @since 06.18.06.16
@@ -40,10 +42,14 @@ public class AssociateResourceTest {
 	List<TfAssociate> associates;
 	String token;
 	TfAssociate associate;
+	TfAssociate toBeChanged;
 
 	// added these new knownUserIds, may want to update -Ian M
 	int knownUserId1 = 147;
-	int knownUserId2 = 790;
+	int knownUserId2 = 790; // Username: Harvey
+	int knownUserId3 = 695; // Username: Tabitha, Associate id: 685
+	
+	int knownAssociateId = 685;
 	
 	@BeforeClass
 	public void beforeClass() {
@@ -74,8 +80,25 @@ public class AssociateResourceTest {
 		associate.setBatch(new TfBatch());
 		associate.setId(876);
 		associate.setClient(new TfClient());
+		
+		toBeChanged = associateService.getAssociate(knownAssociateId);
+		associate.setFirstName("Tom");
+		associate.setLastName("Jerry");
+		
+		
 	}
 
+	@AfterClass
+	public void afterClass() {
+		TfAssociate changed = associateService.getAssociate(knownAssociateId);
+		
+		changed.setFirstName("Roberto");
+		changed.setLastName("Alvarez,Jr.");
+		
+		associateService.updateAssociate(changed);
+		
+		
+	}
 	/**
 	 * Test for the happy path of getAllAssociates, gives a valid token and a valid URL.
 	 * Tests that the response has the correct status code, and that the list of associates
@@ -184,15 +207,15 @@ public class AssociateResourceTest {
 	@Test(priority = 40, enabled = true)
 	public void testUpdateAssociateHappyPath() {
 		AssociateService service = new AssociateService();
-		Response response = given().header("Authorization", token).contentType("application/json")
-				.body(associate).when().put(URL + "/" + knownUserId2).then().extract()
-				.response();
-		assertTrue(response.statusCode() == 200);
-		assertTrue(response.contentType().equals("application/json"));
-
-		assertTrue(response.asString().contains("Tom") && response.asString().contains("Jerry"));
 		
-		Assert.assertEquals(response.body().jsonPath().getString("marketingStatus.id"), 1);
+		Response response = given().header("Authorization", token).contentType("application/json")
+				.body(toBeChanged).when().put(URL + "/" + knownAssociateId).then().extract()
+				.response();
+		// This is all we can test as of 11.18 since updateAssociate currently returns a 
+		// response with a status code and nothing else
+		// 1809_Katelyn_B
+		assertEquals(response.statusCode(), 200);
+
 	}
 
 	/**

@@ -298,7 +298,6 @@ public class AssociateResource {
 		logger.info("updateAssociate()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
-		System.out.println(id);
 
 		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();

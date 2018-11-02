@@ -88,8 +88,11 @@ public class ClientResourceTest {
 
 	/**
 	 * An unhappy test method that checks every method but login to assure that
-	 * those that need security must block the user if he: 1. uses an unsupported
-	 * verb 2. uses a service without a token 3. uses a bad token 4. the role in the
+	 * those that need security must block the user if he: 
+	 * 1. uses an unsupported verb.
+	 * 2. uses a service without a token
+	 * 3. uses a bad token. 
+	 * 4. the role in the
 	 * token deemed the user unauthorized to use the service As this method of
 	 * unhappy testing is consistent, I (Seth L.) suggest using this and its
 	 * dependent methods to perform unhappy tests for all Jersey resources. Note:

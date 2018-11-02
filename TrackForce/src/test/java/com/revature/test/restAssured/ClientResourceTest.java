@@ -52,8 +52,10 @@ public class ClientResourceTest {
 
 	/**
 	 * Test that the resource can be accessed properly. Check that the content type
-	 * is what is expected. Test that a bad token gives a 401. Test that a bad url
-	 * gives a 404. Test that a bad method gives a 405.
+	 * is what is expected. 
+	 * Test that a bad token gives a 401.
+	 * Test that a bad url gives a 404.
+	 * Test that a bad method gives a 405.
 	 * 
 	 * @author Jesse
 	 * @since 6.18.06.13

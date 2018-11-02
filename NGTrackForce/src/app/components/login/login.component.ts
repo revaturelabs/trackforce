@@ -307,33 +307,19 @@ export class LoginComponent implements OnInit {
                         this.resetAfterLoginFail();
                         this.errMsg = "Invalid username and/or password";
                     } else if (data.isApproved) {
+                      //removed call to login and set user role after a 10 millisecond delay
                         this.authService.getUserRoleFirst();
                         setTimeout(() => {
                             this.role2 = this.authService.getUserRole();
-                            console.log(this.role2);
                             if (this.role2 === 5) {
                                 this.associateLogin(data);
                             } else if (this.role2 === 2) {
                                 this.trainerLogin(data);
                             } else if (this.role2 === 1 || this.role2 === 3 || this.role2 === 4) {
-                                console.log("In sales or staging login");
                                 this.salesOrStagingLogin();
                             }
                         }, 10);
 
-
-                        //navigate to appropriate page if return is valid
-                        //5 represents an associate role, who are routed to associate-view
-                        // if (this.role2 === 5) {
-                        //     this.associateLogin(data);
-                        // } else if (this.role2 === 2) {
-                        //     this.trainerLogin(data);
-                        // } else if (this.role2 === 1 || this.role2 === 3 || this.role2 === 4) {
-                        //     console.log("In sales or staging login");
-                        //     this.salesOrStagingLogin();
-                        // } else {
-                        //     this.resetAfterLoginFail();
-                        // }
                     } else {
                         this.resetAfterLoginFail();
                         this.errMsg = "Your account has not been approved.";

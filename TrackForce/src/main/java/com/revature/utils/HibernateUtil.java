@@ -34,6 +34,7 @@ public class HibernateUtil {
 	}
 
 	private static SessionFactory buildSessionFactory() {
+		SchedulePendingUserCleanup.Start();
 		try {
 			Configuration cfg = new Configuration();			
 
@@ -85,7 +86,7 @@ public class HibernateUtil {
 
 				if (sessional.operate(session, args)) {logger.debug("Committing..."); }
 				else { throw new HibernateException("Transaction Operation Failed!"); }
-
+				System.out.println("iiiiiiiiiiii");
 				transaction.commit();
 				logger.info("Transaction committed!");
 				return true;
@@ -93,6 +94,7 @@ public class HibernateUtil {
 				HibernateUtil.rollbackTransaction(transaction);
 				logger.error(e.getMessage(), e);
 			} finally {
+				System.out.println("yeet!");
 				if (session != null) session.close();
 			}
 			return false;

@@ -333,4 +333,14 @@ public class AssociateDaoImpl implements AssociateDao {
 		};
 		return HibernateUtil.runHibernate(ss, value, mappedStatus);
 	}
+
+	@Override
+	public void deleteAssociate(TfAssociate associate) {
+		System.out.println("in delete method");
+		runHibernateTransaction((Session session, Object... args) -> {
+			session.delete(associate);
+			return true;
+		});
+		
+	}
 }

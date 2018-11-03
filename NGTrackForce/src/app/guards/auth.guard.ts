@@ -9,19 +9,19 @@ import { AuthenticationService } from '../services/authentication-service/authen
  * an array that contains this
  **/
 export class AuthGuard implements CanActivate {
-	// dependency-injecting the router
-    constructor(private router: Router, private authService: AuthenticationService) {}
+    // dependency-injecting the router
+    constructor(private router: Router, private authService: AuthenticationService) { }
 	/**
 	 *  The method provided to us by CanActivate interface. Controls whether or not the element with this...canActivate !
 	 *  Responsible for redirecting the user to the login page, and maintaining the state of their original request, which,
 	 *  when they log in, should be redirected to.
 	 */
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-      console.log("In AuthGuard Outer")
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        console.log("In AuthGuard Outer")
 
         // not logged in so redirect to login page with the return url
         if (!localStorage.getItem("currentUser")) {
-            this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
+            this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
             window.alert("test");
             window.alert(localStorage.getItem("currentUser"));
 
@@ -31,13 +31,19 @@ export class AuthGuard implements CanActivate {
         const expectedRoles: number[] = route.data.expectedRoles;
 
         // check of component is restricted by role
-        if(expectedRoles !== undefined){
-          const user = this.authService.getUser();
-          console.log("in AuthGuard Inner");
-            if(!expectedRoles.includes(this.authService.getUserRole())){
-                this.routeToUserHome(this.authService.getUserRole());
-                return false;
+        // up refresh getUserRole was undefined. Added line 38-40 to call the database agian upon refresh.
+        if (expectedRoles !== undefined) {
+            const user = this.authService.getUser();
+            console.log("in AuthGuard Inner");
+            if (this.authService.getUserRole() === undefined) {
+                this.authService.getUserRoleFirst();
             }
+            setTimeout(() => {
+                if (!expectedRoles.includes(this.authService.getUserRole())) {
+                    this.routeToUserHome(this.authService.getUserRole());
+                    return false;
+                }
+            }, 10);
         }
 
         return true;
@@ -48,8 +54,9 @@ export class AuthGuard implements CanActivate {
      * Routes to home page of given user role.
      * @param role user role held in local storage
      */
-  routeToUserHome(role: number) {
-    console.log("in AuthGuard Inner");
+    routeToUserHome(role: number) {
+        console.log("in AuthGuard Inner");
+        console.log(role)
         if (role === 5) {
             this.router.navigate(['associate-view']);
         } else if (role === 2) {

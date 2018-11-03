@@ -274,7 +274,7 @@ export class LoginComponent implements OnInit {
         this.lname = '';
         this.role = undefined;
     }
-  
+
     /**
      * Exit the register state
      */
@@ -284,7 +284,7 @@ export class LoginComponent implements OnInit {
         this.isRegistering = false;
         this.registerPage = 0;
     }
-  
+
     /**
      * Function wrapper for AuthenticationService login()
      * Sends user input to service for real login
@@ -308,9 +308,8 @@ export class LoginComponent implements OnInit {
                         this.errMsg = "Invalid username and/or password";
                     } else if (data.isApproved) {
                       //removed call to login and set user role after a 10 millisecond delay
-                        this.authService.getUserRoleFirst();
-                        setTimeout(() => {
-                            this.role2 = this.authService.getUserRole();
+                        this.authService.getUserRoleFirst((userRole) => {
+                            this.role2 = userRole;
                             if (this.role2 === 5) {
                                 this.associateLogin(data);
                             } else if (this.role2 === 2) {
@@ -318,7 +317,7 @@ export class LoginComponent implements OnInit {
                             } else if (this.role2 === 1 || this.role2 === 3 || this.role2 === 4) {
                                 this.salesOrStagingLogin();
                             }
-                        }, 10);
+                        });
 
                     } else {
                         this.resetAfterLoginFail();

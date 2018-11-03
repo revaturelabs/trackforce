@@ -173,6 +173,7 @@ export class BatchListComponent implements OnInit {
     if (!this.dateError){
     this.startDate = new Date(this.fromString);
     this.endDate = new Date(this.toString);
+		this.endDate.setDate(this.endDate.getDate() + 1);
 
     console.log(this.startDate);
     console.log(this.endDate);

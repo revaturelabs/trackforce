@@ -87,7 +87,9 @@ public class HibernateUtil {
 				if (sessional.operate(session, args)) {logger.debug("Committing..."); }
 				else { throw new HibernateException("Transaction Operation Failed!"); }
 				System.out.println("iiiiiiiiiiii");
+//				transaction.setTimeout(5);
 				transaction.commit();
+				System.out.println("iiiiiiiiiiii");
 				logger.info("Transaction committed!");
 				return true;
 			} catch (HibernateException | ThrownInHibernate e) {

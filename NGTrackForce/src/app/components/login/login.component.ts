@@ -307,7 +307,7 @@ export class LoginComponent implements OnInit {
                         this.resetAfterLoginFail();
                         this.errMsg = "Invalid username and/or password";
                     } else if (data.isApproved) {
-                      //removed call to login and set user role after a 10 millisecond delay
+                      // using a callback function to assign role once authService's request is complete
                         this.authService.getUserRoleFirst((userRole) => {
                             this.role2 = userRole;
                             if (this.role2 === 5) {

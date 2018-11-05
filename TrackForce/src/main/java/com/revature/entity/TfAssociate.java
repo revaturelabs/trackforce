@@ -83,12 +83,12 @@ public class TfAssociate implements java.io.Serializable {
 	private String lastName;
 
 	@XmlElement
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate", cascade = {CascadeType.ALL})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
 	@JsonIgnore
 	private Set<TfInterview> interview = new HashSet<>(0);
 
 	@XmlElement
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate", cascade = {CascadeType.ALL})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
 	@JsonIgnore
 	private Set<TfPlacement> placement = new HashSet<>(0);
 	

@@ -51,7 +51,7 @@ public class SchedulePendingUserCleanup extends TimerTask {
 		 */
 		System.out.println(associates.get(4).toString());
 		System.out.println("about to finaaaaa");
-		int i =0;
+		
 		for (TfAssociate a : associates) {
 			System.out.println("im looping");
 			// set submission date for current element
@@ -66,7 +66,7 @@ public class SchedulePendingUserCleanup extends TimerTask {
 				System.out.println("about to delete");
 				// delete user from associate table first
 				try {
-					i++;
+				
 					System.out.println(tempUser.getId());
 					System.out.println(a.getId());
 					ad.deleteAssociate(a);
@@ -74,8 +74,7 @@ public class SchedulePendingUserCleanup extends TimerTask {
 				}catch (Exception e) {
 					e.printStackTrace();
 				}
-if(i == 5)
-	break;
+
 				System.out.println("did i work?");
 				// delete user from user table
 				// ud.deleteUser(tempUser);

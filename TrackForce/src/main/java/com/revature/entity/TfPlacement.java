@@ -28,7 +28,7 @@ public class TfPlacement implements java.io.Serializable {
 	@Column(name = "TF_PLACEMENT_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer id;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "TF_ASSOCIATE_ID")
 	private TfAssociate associate;
 	

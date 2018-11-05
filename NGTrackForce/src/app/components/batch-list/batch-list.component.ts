@@ -191,7 +191,7 @@ export class BatchListComponent implements OnInit {
         this.counter = 0;
         this.fromString = this.startDate.toJSON().substring(0, 10);
         this.toString = this.endDate.toJSON().substring(0, 10);
-				// The next wor lines are commented because they throw an Error
+				// The next two lines are commented because they throw an Error
         // this.startDateTimePicker.dateReset();
         // this.endDateTimePicker.dateReset();
 				this.updateBatches();

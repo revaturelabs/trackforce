@@ -1,3 +1,8 @@
+import { RouterTestingModule } from '@angular/router/testing';
+import { FooterComponent } from './../footer/footer.component';
+import { NavbarComponent } from './../navbar/navbar.component';
+import { AppComponent } from './../../app.component';
+import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NotFoundComponent } from './../not-found/not-found.component';
 import { AssociateViewComponent } from './../associate-view/associate-view.component';
@@ -16,9 +21,25 @@ fdescribe('InvalidSessionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InvalidSessionComponent, LoginComponent, AssociateViewComponent, NotFoundComponent ],
-      providers: [ RequestService ],
-      imports: [ HttpClientModule, AppRoutingModule, MatProgressSpinnerModule ]
+      declarations: [
+        InvalidSessionComponent,
+        LoginComponent,
+        AssociateViewComponent,
+        NotFoundComponent,
+        NavbarComponent,
+        FooterComponent,
+        AppComponent
+      ],
+      providers: [
+        RequestService
+      ],
+      imports: [
+        FormsModule,
+        HttpClientModule,
+        AppRoutingModule, 
+        MatProgressSpinnerModule,
+        RouterTestingModule
+      ]
     })
     .compileComponents();
   }));

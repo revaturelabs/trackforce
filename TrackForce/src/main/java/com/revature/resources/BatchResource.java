@@ -136,8 +136,6 @@ public class BatchResource {
 			logger.info("in authorized roles");
 			// results and status set in here
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
-			//status = Status.NO_CONTENT;
-			//if(associates == null || associates.isEmpty()) {Status.NO_CONTENT;}
 		} else {
 			status = Status.FORBIDDEN;
 		}

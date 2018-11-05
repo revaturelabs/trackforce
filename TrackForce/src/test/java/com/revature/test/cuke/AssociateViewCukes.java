@@ -1,17 +1,15 @@
 package com.revature.test.cuke;
 
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
 
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.revature.test.pom.AssociateHome;
 import com.revature.test.pom.MyInterviews;
 import com.revature.test.pom.NavBar;
-import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
+
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -101,7 +99,8 @@ public class AssociateViewCukes {
 
 	@Then("^it should be in the interview table$")
 	public void it_should_be_in_the_interview_table() throws Throwable {
-	   //Checks table to confirm the correct information was added.
+	   assertNotNull(MyInterviews.getLatestInterviewFromTable(ServiceHooks.driver));//Checks table to confirm there is information
+	   //need to add that it checks if that information was new as the :last-child.
 	}
 
 	@When("^I enter an Interview date that occurs after my Assigned date$")

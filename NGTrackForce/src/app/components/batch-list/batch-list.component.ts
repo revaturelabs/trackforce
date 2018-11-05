@@ -88,6 +88,14 @@ export class BatchListComponent implements OnInit {
     console.log(user);
     this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
       batches => {
+				// This condition should be at the begining of the init method
+				// but since the auth guard isn't asynchronous yet it has to be for now
+				if(this.authService.getUserRole() == 2 &&
+					(!this.authService.getTrainer() || this.authService.getTrainer() == null)){
+					// Can be removed once the guard is asynchronous
+					this.dataReady = true;
+					return;
+				}
         this.batches = batches.filter(
           batch => {
 
@@ -98,16 +106,15 @@ export class BatchListComponent implements OnInit {
 						this.startDate = new Date(this.minDate);
 						this.dateService.changeDates(this.startDate, this.endDate);
 
-						//user is a trainer they can only see their batches
 						if (this.authService.getUserRole() === 2) {
-              if (batch.trainer.user.id !== this.authService.getTrainer().user.id) {
-                console.log(batch);
-                return false;
-              }
-              if (batch.coTrainer) {
-                console.log(batch.coTrainer.includes(this.authService.getTrainer()))
-                return batch.coTrainer.includes(this.authService.getTrainer());
-              }
+					     // filter out batches that don't have an association with the trainer
+							let trainer = batch.trainer.id !== this.authService.getTrainer().id;
+			        let coTrainer = batch.coTrainer && !batch.coTrainer.includes(this.authService.getTrainer());
+			        if (trainer && (coTrainer == undefined || coTrainer)) {
+								console.log(batch.coTrainer);
+								console.log(batch);
+			          return false;
+			        }
 						}
 
             return true;
@@ -199,11 +206,10 @@ export class BatchListComponent implements OnInit {
     this.filteredBatches = this.batches.filter(
       batch => {
 				if (this.authService.getUserRole() === 2) {
-			     // filter out batches that don't have an associated trainer
-	        if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
-	          return false;
-	        }
-	        if (batch.coTrainer && !batch.coTrainer.includes(this.authService.getTrainer())) {
+			     // filter out batches that don't have an association with the trainer
+					let trainer = batch.trainer.id !== this.authService.getTrainer().id;
+	        let coTrainer = batch.coTrainer && !batch.coTrainer.includes(this.authService.getTrainer());
+	        if (trainer && (coTrainer == undefined || coTrainer)) {
 	          return false;
 	        }
 				}
@@ -235,14 +241,13 @@ export class BatchListComponent implements OnInit {
     this.filteredBatches = this.batches.filter(
       batch => {
 				if (this.authService.getUserRole() === 2) {
-		      // filter out batches that don't have an associated trainer
-          if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
-            return false;
-          }
-          if (batch.coTrainer && !batch.coTrainer.includes(this.authService.getTrainer())) {
-            return false;
-          }
-        }
+			     // filter out batches that don't have an association with the trainer
+					let trainer = batch.trainer.id !== this.authService.getTrainer().id;
+	        let coTrainer = batch.coTrainer && !batch.coTrainer.includes(this.authService.getTrainer());
+	        if (trainer && (coTrainer == undefined || coTrainer)) {
+	          return false;
+	        }
+				}
         const dateStartDate = new Date(this.startDate);
         const dateEndDate = new Date(this.endDate);
         const longStartDate = dateStartDate.getTime();

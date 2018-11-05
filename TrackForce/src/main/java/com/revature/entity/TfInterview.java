@@ -26,10 +26,11 @@ public class TfInterview implements java.io.Serializable {
 
 	@XmlElement
 	@Id
-	@Column(name = "TF_INTERVIEW_ID")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="interview_seq")
-	@SequenceGenerator(name="interview_seq", sequenceName="admin.interview_seq")
-	
+
+	@Column(name = "TF_INTERVIEW_ID", unique = true)
+	@SequenceGenerator(name="interviewSeq", sequenceName="admin.interview_seq")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="interviewSeq")
+
 	private Integer id;
 
 	@ManyToOne(fetch = FetchType.EAGER)

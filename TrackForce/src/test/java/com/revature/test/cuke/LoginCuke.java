@@ -4,15 +4,14 @@ import static org.testng.Assert.assertEquals;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.revature.test.pom.Login;
 import com.revature.test.pom.NavBar;
 import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
-import com.revature.test.utils.TestConfig;
 import com.revature.test.utils.WebDriverUtil;
+import com.revature.utils.EnvManager;
 
 import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
@@ -23,7 +22,7 @@ import cucumber.api.java.en.When;
 
 public class LoginCuke {
 
-	String baseUrl = System.getenv("url");
+	static String baseUrl = EnvManager.NGTrackForce_URL;
 
 	@Given("^I connect to trackforce$")
 	public void i_connect_to_trackforce() throws Throwable {
@@ -53,7 +52,7 @@ public class LoginCuke {
 	public void the_login_page_loads() throws Throwable {
 		ServiceHooks.wait.until(ExpectedConditions.visibilityOf(Login.getUsername(ServiceHooks.driver)));
 		ServiceHooks.wait.until(ExpectedConditions.visibilityOf(Login.getPassword(ServiceHooks.driver)));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "/login");
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "login");
 	}
 
 	@When("^I submit the correct admin login information$")
@@ -128,32 +127,32 @@ public class LoginCuke {
 	//Took out '#' in each "baseUrl + "#/<param>"" below because url automatically omits '#" on loading - Josh, 1808
 	@Then("^I should remain on the login page$")
 	public void i_should_remain_on_the_login_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains(baseUrl + "/login"));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "/login");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains(baseUrl + "login"));
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "login");
 	}
 
 	@Then("^I should be taken to the home page$")
 	public void i_should_be_taken_to_the_home_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "/app-home"));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "/app-home");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "app-home"));
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "app-home");
 	}
 
 	@Then("^I should be taken to the trainer home page$")
 	public void i_should_be_taken_to_the_trainer_home_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains(baseUrl +  "/trainer-view"));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "/trainer-view");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains(baseUrl +  "trainer-view"));
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "trainer-view");
 	}
 
 	@Then("^I should be taken to the associate home page$")
 	public void i_should_be_taken_to_the_associate_home_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "/associate-view"));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "/associate-view");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "associate-view"));
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "associate-view");
 	}
 
 	@Then("^I should be on the login page$")
 	public void i_should_be_on_the_login_page() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "/login"));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "/login");
+		ServiceHooks.wait.until(ExpectedConditions.urlContains( baseUrl + "login"));
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), baseUrl + "login");
 	}
 	
 	public void I_click_Submit() throws Throwable {

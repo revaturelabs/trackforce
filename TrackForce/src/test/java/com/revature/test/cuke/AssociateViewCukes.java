@@ -1,17 +1,15 @@
 package com.revature.test.cuke;
 
-import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
 
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.revature.test.pom.AssociateHome;
 import com.revature.test.pom.MyInterviews;
 import com.revature.test.pom.NavBar;
-import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
+import com.revature.utils.EnvManager;
+
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -19,7 +17,7 @@ import cucumber.api.java.en.When;
 public class AssociateViewCukes {
 	
 
-	String baseUrl = System.getenv("url");
+	String baseUrl = EnvManager.NGTrackForce_URL;
 	
 	@Given("^I am on the Associate Home Page$")
 	public void i_am_on_the_Associate_Home_Page() throws Throwable {

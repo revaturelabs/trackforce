@@ -173,6 +173,8 @@ export class BatchListComponent implements OnInit {
     if (!this.dateError){
     this.startDate = new Date(this.fromString);
     this.endDate = new Date(this.toString);
+    // need to add one in order to include batches that end on the specified date
+		this.endDate.setDate(this.endDate.getDate() + 1);
 
     console.log(this.startDate);
     console.log(this.endDate);

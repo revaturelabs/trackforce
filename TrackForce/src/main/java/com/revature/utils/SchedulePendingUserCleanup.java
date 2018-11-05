@@ -62,6 +62,7 @@ public class SchedulePendingUserCleanup extends TimerTask {
 			// complete date checks prior to deletion & is not approved
 			System.out.println("about to do checking");
 			if (submissionDate.before(cutOffDate) && tempUser.getIsApproved() == 0) {
+				
 				System.out.println(a.toString());
 				System.out.println("about to delete");
 				// delete user from associate table first

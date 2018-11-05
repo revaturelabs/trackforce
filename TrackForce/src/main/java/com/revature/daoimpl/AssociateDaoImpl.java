@@ -322,6 +322,7 @@ public class AssociateDaoImpl implements AssociateDao {
 			String condition = null;
 
 			if (Integer.valueOf(value.toString()) != -1) {
+				
 				condition = column + " = " + args[0] + " AND ";
 			} else {
 				condition = "";

@@ -16,12 +16,12 @@ import { Client } from '../../models/client.model';
 import { EndClient } from '../../models/end-client.model';
 import { Associate } from '../../models/associate.model';
 import { HttpClient, HttpHandler } from '../../../../node_modules/@angular/common/http';
-import 'rxjs/add/observable/of';
+import { of } from 'rxjs/observable/of';
 
 export class MockActivatedRoute {
   static createMockRoute(tid: number): any {
     return {
-      params: Observable.of({id: tid}),
+      params: of({id: tid}),
       snapshot: {
         parent: {
           params: {

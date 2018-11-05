@@ -15,7 +15,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { InvalidSessionComponent } from './invalid-session.component';
 import { LoginComponent } from '../login/login.component';
 
-fdescribe('InvalidSessionComponent', () => {
+describe('InvalidSessionComponent', () => {
   let component: InvalidSessionComponent;
   let fixture: ComponentFixture<InvalidSessionComponent>;
 
@@ -53,4 +53,7 @@ fdescribe('InvalidSessionComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  
+
 });

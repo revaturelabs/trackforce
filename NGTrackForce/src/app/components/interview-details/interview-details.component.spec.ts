@@ -16,6 +16,7 @@ import { Client } from '../../models/client.model';
 import { EndClient } from '../../models/end-client.model';
 import { Associate } from '../../models/associate.model';
 import { HttpClient, HttpHandler } from '../../../../node_modules/@angular/common/http';
+import 'rxjs/add/observable/of';
 
 export class MockActivatedRoute {
   static createMockRoute(tid: number): any {

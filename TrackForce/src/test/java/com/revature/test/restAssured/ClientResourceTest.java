@@ -59,7 +59,7 @@ public class ClientResourceTest {
 	 * @since 6.18.06.13
 	 */
 	@Test(priority = 5)
-	public void testGetAllClients1() {
+	public void testGetAllClientsHappyPath() {
 		Response response = given().header("Authorization", token).when().get(URL).then().extract().response();
 
 		assertTrue(response.getStatusCode() == 200);
@@ -70,10 +70,13 @@ public class ClientResourceTest {
 	}
 	
 	/**
-	 * Unhappy path testing for testGetAllClients
+	 * Unhappy path testing for testGetAllClients, tests that a 401 status code
+	 * is given if a request is made with a bad token
+	 * @author Katelyn B 
+	 * Written Nov. 4, 2018, Batch 1809
 	 */
 	@Test(priority = 10)
-	public void testGetAllClients2() {
+	public void testGetAllClientsBadToken() {
 		Response response = given().header("Authorization", "Bad Token").when().get(URL).then().extract().response();
 
 		assertTrue(response.statusCode() == 401);
@@ -82,6 +85,31 @@ public class ClientResourceTest {
 		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
 
 		given().header("Authorization", token).when().post(URL).then().assertThat().statusCode(405);
+	}
+	/**
+	 * Unhappy path testing for testGetAllClient, tests that a 404 status code is generated for a 
+	 * bad URL
+	 * @author Katelyn B 
+	 * Written Nov. 4, 2018, Batch 1809
+	 */
+	@Test(priority = 10)
+	public void testGetAllClientsBadUrl() {
+		Response response = given().header("Authorization", token).when().get(URL + "/notAURL").then().extract().response();
+
+		assertTrue(response.statusCode() == 404);
+	}
+	
+	/**
+	 * Unhappy path testing for testGetAllClient, tests that a 405 status code is given for a
+	 * bad html verb
+	 * @author Katelyn B 
+	 * Written Nov. 4, 2018, Batch 1809
+	 */
+	@Test(priority = 10)
+	public void testGetAllClientsBadVerb() {
+		Response response = given().header("Authorization", token).when().post(URL).then().extract().response();
+
+		assertTrue(response.statusCode() == 405);
 	}
 	
 	/**

@@ -50,6 +50,8 @@ export class MyInterviewComponent implements OnInit {
   public isDataReady = false;
   public dateError:boolean;
   public updateSuccess = false;
+  public succMsg: string;
+  show : boolean;
 
   index;
   index2;
@@ -79,7 +81,7 @@ export class MyInterviewComponent implements OnInit {
         this.getAssociateInterviews(this.associate.id);
       },
       error => {
-        console.log('error');
+        console.log('ngOnInit error');
       }
     );
 
@@ -92,7 +94,7 @@ export class MyInterviewComponent implements OnInit {
         this.clients = data;
       },
       error => {
-        console.log('error');
+        console.log('getAllClients error');
       }
     );
   }
@@ -106,18 +108,23 @@ export class MyInterviewComponent implements OnInit {
         switch (+this.typeId) {
           case 1:
             this.interviewType = new InterviewType(1, 'Phone');
+            console.log("phone");
             break;
           case 2:
             this.interviewType = new InterviewType(2, 'Online');
+            console.log("online");
             break;
           case 3:
             this.interviewType = new InterviewType(3, 'On Site');
+            console.log("onsite");
             break;
           case 4:
             this.interviewType = new InterviewType(4, 'Skype');
+            console.log("skype");
             break;
           default:
             this.interviewType = new InterviewType(5, 'Other');
+            console.log("other");
             break;
         }
 
@@ -132,6 +139,12 @@ export class MyInterviewComponent implements OnInit {
           new Date(this.interviewAssigned).getTime(),
           new Date(this.interviewAssigned).getTime().toString()
         );
+        console.log("interview added");
+      
+          this.succMsg="Interview Added";
+          setTimeout(() => {
+            this.succMsg= '';
+          }, 1000);
         this.interviewService
           .createInterview(this.newInterview, this.associate.id)
           .subscribe(res => {
@@ -197,11 +210,12 @@ export class MyInterviewComponent implements OnInit {
   getAssociateInterviews(id: number) {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
       data => {
+        console.log(data);
         this.interviews = data;
         this.isDataReady = true;
       },
       error => {
-        console.log('error');
+        console.log('getAssociateInterview error');
       }
     );
   }

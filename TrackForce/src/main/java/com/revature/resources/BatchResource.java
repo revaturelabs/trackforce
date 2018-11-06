@@ -120,6 +120,7 @@ public class BatchResource {
 	public Response getBatchAssociates(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
 		logger.info("getBatchAssociates()...");
 		Set<TfAssociate> associates = batchService.getBatchById(id).getAssociates();
+		logger.info("associates batch set _>"+associates.isEmpty());
 		
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
@@ -132,12 +133,13 @@ public class BatchResource {
 
 
 		if (authorizedRoles.contains(role)) {
+			logger.info("in authorized roles");
 			// results and status set in here
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		} else {
 			status = Status.FORBIDDEN;
 		}
-
+		logger.info("status"+status);
 		return Response.status(status).entity(associates).build();
 	}
 

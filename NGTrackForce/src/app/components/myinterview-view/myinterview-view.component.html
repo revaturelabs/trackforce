@@ -76,11 +76,11 @@
             <td>{{ (interview.client && interview.client.name) ? interview.client.name : ""}}</td>
 
             <td>
-              <!-- <app-datetimepicker width="300px" format="datetime" originalDate="{{interview.dateAssociateIssued | date:'yyyy-MM-ddTHH:mm'}}" (datePicked)="interview.dateAssociateIssued=$event" (error)="dateError=$event" id="date"></app-datetimepicker> -->
+              
             </td>
 
             <td>
-              <!-- <app-datetimepicker width="300px" format="datetime" originalDate="{{interview.interviewDate | date:'yyyy-MM-ddTHH:mm'}}" (datePicked)="interview.interviewDate=$event" (error)="dateError=$event" id="date"></app-datetimepicker> -->
+              <input type="date" name="bday">
             </td>
 
             <td>{{ (interview.interviewType && interview.interviewType.name) ? interview.interviewType.name : "" }}</td>

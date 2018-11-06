@@ -5,7 +5,9 @@ import static com.revature.utils.HibernateUtil.saveToDB;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.persistence.ParameterMode;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
@@ -336,11 +338,24 @@ public class AssociateDaoImpl implements AssociateDao {
 
 	@Override
 	public void deleteAssociate(TfAssociate associate) {
-		System.out.println("in delete method");
 		runHibernateTransaction((Session session, Object... args) -> {
 			session.delete(associate);
 			return true;
 		});
 		
+	}
+
+	/*
+	 *The method deleteOldAssociateProcedure() will call a stored procedure on the database side.
+	 *the procedure is meant to delete associates who are pending approval 
+	 *for over 30 days. Only deletes associates, not trainers, etc. 
+	 */
+	@Override
+	public void deleteOldAssociateProcedure() {
+		runHibernateTransaction((Session session, Object... args) -> {
+			StoredProcedureQuery query = session.createStoredProcedureCall("delete_old_associates").registerStoredProcedureParameter(1, Integer.class, ParameterMode.OUT);
+			query.execute();
+			return ((Integer) query.getOutputParameterValue(1)) == 1;
+		});	
 	}
 }

@@ -4897,7 +4897,31 @@ insert into admin.tf_interview values (51, 'Easy', 'Adventure', TO_TIMESTAMP('20
 insert into admin.tf_interview values (52, 'Grow', 'Bounty', TO_TIMESTAMP('2017-06-09 12:39:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2017-11-03 17:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'No Reason', TO_TIMESTAMP('2017-08-04 01:00:00', 'YYYY-MM-DD HH24:MI:SS'), 0, 0, 'Programmer', 'Questions...', 1, 150, 577, 1244, 1);
 insert into admin.tf_interview values (53, 'Powerful', 'frighten', TO_TIMESTAMP('2017-08-02 21:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_TIMESTAMP('2017-05-22 19:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'No Reason', TO_TIMESTAMP('2017-11-01 16:00:00', 'YYYY-MM-DD HH24:MI:SS'), 1, 0, 'Developer', 'Questions...', 1, 714, 577, 1251, 3);
 
-
+CREATE OR REPLACE PROCEDURE admin.delete_old_associates(res OUT NUMBER)
+AS
+    CURSOR c1 IS SELECT u.tf_user_id FROM admin.tf_user u;
+    TYPE id_typ IS TABLE OF c1%ROWTYPE;
+    all_id id_typ;
+BEGIN
+    res := 0;
+    DELETE FROM admin.tf_placement p WHERE p.tf_associate_id IN 
+        (SELECT a.tf_associate_id FROM admin.tf_associate a INNER JOIN admin.tf_user u ON u.tf_user_id = a.tf_user_id WHERE u.tf_isapproved = 0 AND a.tf_client_start_date <= SYSDATE - 30); 
+    DELETE FROM admin.tf_interview p WHERE p.tf_associate_id IN 
+        (SELECT a.tf_associate_id FROM admin.tf_associate a INNER JOIN admin.tf_user u ON u.tf_user_id = a.tf_user_id WHERE u.tf_isapproved = 0 AND a.tf_client_start_date <= SYSDATE - 30);
+    SELECT u.tf_user_id BULK COLLECT INTO all_id FROM admin.tf_associate a INNER JOIN admin.tf_user u ON a.tf_user_id = u.tf_user_id WHERE u.tf_isapproved = 0 AND a.tf_client_start_date <= SYSDATE - 30;
+    DELETE FROM admin.tf_associate a WHERE a.tf_user_id IN 
+            (SELECT u.tf_user_id FROM admin.tf_user u WHERE u.tf_user_id = a.tf_user_id AND u.tf_isapproved = 0 AND a.tf_client_start_date <= SYSDATE -30);
+    IF all_id.FIRST IS NULL THEN
+        res := 1;
+        RETURN;
+    END IF;
+    FOR i IN all_id.FIRST .. all_id.LAST
+    LOOP
+        DELETE FROM admin.tf_user u WHERE u.tf_isapproved = 0 AND u.tf_user_id = i;
+    END LOOP;
+    res := 1;
+END delete_old_associates;
+/
 
 commit;
 

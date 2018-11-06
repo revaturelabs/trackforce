@@ -37,4 +37,6 @@ public interface AssociateDao {
 	<T> T countMappedAssociatesByValue(String column, T value, Integer mappedStatus);
 	
 	public void deleteAssociate(TfAssociate associate);
+	
+	public void deleteOldAssociateProcedure();
 }

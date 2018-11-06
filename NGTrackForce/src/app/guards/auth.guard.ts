@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
 	 *  Responsible for redirecting the user to the login page, and maintaining the state of their original request, which,
 	 *  when they log in, should be redirected to.
 	 */
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         console.log("In AuthGuard Outer")
 
         // not logged in so redirect to login page with the return url
@@ -36,14 +36,13 @@ export class AuthGuard implements CanActivate {
             const user = this.authService.getUser();
             console.log("in AuthGuard Inner");
             if (this.authService.getUserRole() === undefined) {
-                this.authService.getUserRoleFirst();
+                await this.authService.getUserRoleFirst((UserRole) => {
+                    if (!expectedRoles.includes(UserRole)) {
+                        this.routeToUserHome(UserRole);
+                        return false;
+                    }
+                });
             }
-            setTimeout(() => {
-                if (!expectedRoles.includes(this.authService.getUserRole())) {
-                    this.routeToUserHome(this.authService.getUserRole());
-                    return false;
-                }
-            }, 10);
         }
 
         return true;

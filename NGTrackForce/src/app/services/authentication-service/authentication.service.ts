@@ -81,13 +81,12 @@ export class AuthenticationService {
         return this.role;
     }
 
-    getUserRoleFirst(callback = undefined) {
-        return this.http.get<number>(environment.url + "TrackForce/users/getUserRole").subscribe(data => {
-            this.role = data;
-            if(callback){
-              callback(data);
-            }
-        }, err => err);
+    async getUserRoleFirst(callback = undefined) {
+      this.role = await this.http.get<number>(environment.url + "TrackForce/users/getUserRole").toPromise();
+      if(callback){
+        callback(this.role);
+      }
+      return this.role;
     }
 
     /**

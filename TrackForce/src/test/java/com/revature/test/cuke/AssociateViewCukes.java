@@ -20,7 +20,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class AssociateViewCukes {
-		
+	
 	@Given("^I am on the Associate Home Page$")
 	public void i_am_on_the_Associate_Home_Page() throws Exception {
 	System.out.println("I am on the associate homepage");

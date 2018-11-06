@@ -226,10 +226,7 @@ export class BatchListComponent implements OnInit {
         }
       }
     );
-
-		// Commented by Mussab cause issue #588 states the the chart
-		// be for all batches
-    // this.updateCountPerCurriculum();
+    this.updateCountPerCurriculum();
     this.dataReady = true;
   }
 
@@ -261,7 +258,7 @@ export class BatchListComponent implements OnInit {
         }
       }
     );
-    // this.updateCountPerCurriculum();
+    this.updateCountPerCurriculum();
     this.dataReady = true;
   }
 

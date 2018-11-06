@@ -13,6 +13,7 @@ import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.TestConfig;
 import com.revature.test.utils.WebDriverUtil;
+import com.revature.utils.EnvManager;
 
 import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
@@ -23,7 +24,8 @@ import cucumber.api.java.en.When;
 
 public class LoginCuke {
 
-	String baseUrl = System.getenv("url");
+	//11/5/2018 Courie changed the base url to reference the EnvManager rather than the system's environment variable.
+	String baseUrl = EnvManager.NGTrackForce_URL;
 
 	@Given("^I connect to trackforce$")
 	public void i_connect_to_trackforce() throws Throwable {

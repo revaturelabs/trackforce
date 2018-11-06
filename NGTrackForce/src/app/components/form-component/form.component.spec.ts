@@ -1,14 +1,14 @@
+import { RouterModule } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ChartsModule } from 'ng2-charts';
 import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-import { RouterTestingModule } from '@angular/router/testing';
 import { BatchService } from '../../services/batch-service/batch.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormComponent } from '../form-component/form.component';
-import { NgModel } from '@angular/forms';
+import { NgModel, FormsModule } from '@angular/forms';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { ClientService } from '../../services/client-service/client.service';
 import { InterviewService } from '../../services/interview-service/interview.service';
@@ -16,6 +16,8 @@ import { RequestService } from '../../services/request-service/request.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { of } from 'rxjs/observable/of';
+import { LocationStrategy } from '@angular/common';
 
 export class MockAuthenticationService extends AuthenticationService {
   getUser(): User {
@@ -27,7 +29,7 @@ export class MockAuthenticationService extends AuthenticationService {
 export class MockActivatedRoute {
   static createMockRoute(tid: number): any {
     return {
-      params: { subscribe(val: string) { Observable.of({id: tid}) }},
+      params: { subscribe(val: string) { of({id: tid}) }},
       snapshot: {
         parent: {
           params: {
@@ -51,7 +53,7 @@ export class MockRouter {
 }
 
 
-describe('FormComponent', () => {
+fdescribe('FormComponent', () => {
   let component: FormComponent;
   let fixture: ComponentFixture<FormComponent>;
   const httpClient: HttpClient = new HttpClient(null);
@@ -76,6 +78,7 @@ describe('FormComponent', () => {
         AssociateService,
         ClientService,
         InterviewService,
+        LocationStrategy,
         {provide: AuthenticationService, useValue: testAuthService},
         {provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(0)},
         {provide: HttpClient, useClass: HttpClient},
@@ -83,8 +86,8 @@ describe('FormComponent', () => {
       ],
       imports: [
         ChartsModule,
-        RouterTestingModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        RouterModule
       ],
       schemas:[ 
         CUSTOM_ELEMENTS_SCHEMA 

@@ -31,6 +31,7 @@ import {User} from '../../models/user.model';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import { Associate } from '../../models/associate.model';
 import { Trainer } from '../../models/trainer.model';
+import { of } from 'rxjs/observable/of';
 /*
 import { getTestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule,
@@ -75,7 +76,7 @@ export class MockBatchService extends BatchService {
     batch1.trainer = mockTrainer;
 
     const batches: Batch[] = [batch1];
-    return Observable.of(batches);
+    return of(batches);
   }
 }
 
@@ -115,16 +116,16 @@ describe('BatchListComponent', async () => {
 
     const batches: Batch[] = [batch1];
 
-    spyOn(testBatchService, 'getAllBatches').and.returnValue(Observable.of(batches));
+    spyOn(testBatchService, 'getAllBatches').and.returnValue(of(batches));
 
     // crurriculumName needs to be of type Curriculum
     // batch1.curriculumName = "Test-Curriculum-1";
     const batch2: Batch = new Batch();
     // batch2.curriculumName = "Test-Curriculum-2";
     // mock batch service
-    // spyOn(testBatchService, 'getDefaultBatches').and.returnValue(Observable.of([batch1]));
-    spyOn(testBatchService, 'getBatchesByDate').and.returnValue(Observable.of([batch1, batch2]));
-    spyOn(testBatchService, 'getBatchesWithinDates').and.returnValue(Observable.of([batch1, batch2]));
+    // spyOn(testBatchService, 'getDefaultBatches').and.returnValue(of([batch1]));
+    spyOn(testBatchService, 'getBatchesByDate').and.returnValue(of([batch1, batch2]));
+    spyOn(testBatchService, 'getBatchesWithinDates').and.returnValue(of([batch1, batch2]));
 
 
     let user = new User("mockUser", "mockPassword", 1, 0, null, "mockToken");

@@ -232,6 +232,8 @@ export class BatchListComponent implements OnInit {
 
   //Steve L
 	// Refactored by Mussab
+  // Daniel V, 11/6/18: We are not sure why this method is here. It doesn't appear to be used anywhere
+  // and is identical to the above method.
   public updateBatchesTest()
   {
     const user = this.authService.getUser();

@@ -12,7 +12,7 @@ import {RequestService} from '../../services/request-service/request.service';
 import {GraphCounts} from "../../models/graph-counts";
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import { of } from 'rxjs/observable/of';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {AssociateService} from "../../services/associate-service/associate.service";
 import { Associate } from '../../models/associate.model';
@@ -35,7 +35,7 @@ export class mockClientMappedComponent extends ClientMappedComponent {
   }
 }
 
-describe('ClientMappedComponent', () => {
+fdescribe('ClientMappedComponent', () => {
   let component: ClientMappedComponent;
   let fixture: ComponentFixture<ClientMappedComponent>;
   let httpMock: HttpTestingController;
@@ -76,7 +76,7 @@ describe('ClientMappedComponent', () => {
     // Mock the Authentication Service
 
     spyOn(testAuthService, 'getUser').and.returnValue(user);
-    spyOn(testAssociateService, 'getAllAssociates').and.returnValue(Observable.of(associates));
+    spyOn(testAssociateService, 'getAllAssociates').and.returnValue(of(associates));
 
   });
 

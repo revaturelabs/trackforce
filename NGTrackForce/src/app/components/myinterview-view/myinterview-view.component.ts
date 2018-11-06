@@ -13,6 +13,7 @@ import { InterviewType } from '../../models/interview-type';
 import { Router } from '@angular/router';
 import { DateService } from '../../services/date-service/date.service';
 import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
+import { Timestamp } from 'rxjs/internal/operators/timestamp';
 /**
  *@author Katherine Obioha, Andrew Ahn
  *
@@ -33,7 +34,7 @@ export class MyInterviewComponent implements OnInit {
   public newInterview: Interview;
   public formOpen = false;
   public conflictingInterviews = '';
-  public interviewDate: Date = new Date();
+  public interviewDate: Timestamp<Date>;
   public interviewAssigned: Date = new Date();
   public clients: Client[];
   public typeId: number;
@@ -133,7 +134,7 @@ export class MyInterviewComponent implements OnInit {
           this.associate,
           this.clientId,
           this.interviewType,
-          new Date(this.interviewDate).getTime(),
+          new Date(this.interviewDate.timestamp).getTime(),
           null,
           this.was24HRNotice ? 1 : 0,
           null,

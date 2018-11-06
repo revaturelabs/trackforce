@@ -52,6 +52,7 @@ export class MyInterviewComponent implements OnInit {
   public updateSuccess = false;
   public succMsg: string;
   show : boolean;
+  
 
   index;
   index2;

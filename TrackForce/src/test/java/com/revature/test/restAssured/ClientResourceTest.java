@@ -108,7 +108,7 @@ public class ClientResourceTest {
 		url = URL + url;
 		//test no token
 		for(String verb : verbs) {
-			sendRequest(verb,url, null).then().assertThat().statusCode(401);
+			sendRequest(verb, url, null).then().assertThat().statusCode(401);
 			//test invalid token
 			sendRequest(verb, url, new Header("Authorization", "badtoken")).then().assertThat().statusCode(401);
 			//test with associate token

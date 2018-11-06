@@ -29,7 +29,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
  *		 Note: made minor updates to allow continued use of these tokens */
 public class JWTService {
 	
-	UserService userService;
+	static UserService userService;
 	
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 30L; //expiration time in minutes
@@ -43,7 +43,7 @@ public class JWTService {
 	 * @throws IOException
 	 *             because of the use of connection pools that requires some files
 	 */
-	public Boolean validateToken(String token) {
+	public static Boolean validateToken(String token) {
 		String tokenUsername = null;
 		TfUser tfUser = null;
 		Claims claims = null;

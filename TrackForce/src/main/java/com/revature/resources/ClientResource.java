@@ -24,6 +24,7 @@ import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
+import com.revature.utils.UserAuthentication;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -67,20 +68,26 @@ public class ClientResource {
 	 * @throws IOException
 	 */
 	@GET
+	@Path("/") //added by Ashley R.
 	@ApiOperation(value = "Returns all clients", notes = "Returns a map of all clients.")
 	public Response getAllClients(@HeaderParam("Authorization") String token) {
 		logger.info("getAllClients()...");
 		Status status = null;
 		List<TfClient> clients = clientService.getAllTfClients();
 		Claims payload = JWTService.processToken(token);
-
-		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		}
-		// invalid token
-		else {
-			status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
-		}
+		
+//		if (UserAuthentication.Authorized(token, new int[] {1})) {
+			if (payload == null || UserAuthentication.Authorized(token, new int[] {1})) {
+				System.out.println("Authentication Failed.");
+				return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+			}
+			// invalid token
+			else {
+				JWTService.validateToken(token);
+				status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			}
+		
+		//}
 		
 		return Response.status(status).entity(clients).build();
 	}
@@ -103,9 +110,20 @@ public class ClientResource {
 	
 	@GET
 	@Path("/50/")
-	public Response getFirstFiftyClients() {
-		return Response.status(200).entity(clientService.getFirstFiftyClients()).build();
+	public Response getFirstFiftyClients(@HeaderParam("Authorization") String token) {
+		//create a list to store the 50 clients that get returned.
+		List<TfClient> clients = clientService.getFirstFiftyClients();
+		//create a variable to store the status code
+		Status status = null;
+		//decode the token to check the roleId provided
+		Claims payload = JWTService.processToken(token);
+		
+		if (payload == null) {
+			return Response.status(405).entity(null).build();
+		}
+		return Response.status(status).entity(clients).build();
 	}
+	
 	
 	
 }

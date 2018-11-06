@@ -3,6 +3,8 @@ package com.revature.utils;
 
 import java.util.stream.IntStream;
 
+import com.revature.dao.UserDao;
+import com.revature.daoimpl.UserDaoImpl;
 import com.revature.services.JWTService;
 
 import io.jsonwebtoken.Claims;
@@ -22,6 +24,8 @@ public class UserAuthentication {
 	public static boolean Authorized (String token, int [] levelNeeded) {
 		//creates payload object that we can get the role of the user from
 		Claims payload = JWTService.processToken(token);
+		//creates a UserDoa object to query the database for the roleId of the user
+		UserDao ud = new UserDaoImpl();
 		//makes sure payload is not null
 		if (payload == null) {
 			return false;
@@ -31,7 +35,11 @@ public class UserAuthentication {
 					x -> x == Integer.parseInt((String) payload.get("roleID"))
 			);
 			
-			if ( result) {
+			//used to compare the roleId stored in the token to the roleId of the user in the database
+			//Ben S. & Curtiss Y.
+			boolean compare = (payload.get("roleID") == ud.getUser(payload.getSubject()).getTfRole().getTfRoleId());
+			
+			if (result && compare) {
 				//if it is then they are authorized for the page
 				return true;
 			}else {

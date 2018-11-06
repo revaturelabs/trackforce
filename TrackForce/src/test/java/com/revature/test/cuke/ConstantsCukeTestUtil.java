@@ -20,7 +20,6 @@ public class ConstantsCukeTestUtil {
 	private static final String REVATURE_URL = "https://revature.com/";
 	private static final String TEST_FIRST_NAME = "TestFirstName";
 	private static final String TEST_LAST_NAME = "TestLastName";
-	private static final String ASSOCIATE_VIEW_URL = "#/associate-view";
 	private static final String baseUrl = EnvManager.NGTrackForce_URL;
 
 	static final String getPasswordCapitalized() {
@@ -52,9 +51,6 @@ public class ConstantsCukeTestUtil {
 	}
 	static final String getTestLastName() {
 		return TEST_LAST_NAME;
-	}
-	static final String getAssociateViewUrl() {
-		return ASSOCIATE_VIEW_URL;
 	}
 	static final String getBaseUrl() {
 		return baseUrl;

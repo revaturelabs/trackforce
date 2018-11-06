@@ -4,7 +4,7 @@ import static org.testng.Assert.assertEquals;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import static com.revature.test.cuke.ConstantsCukeTestUtil.getAssociateViewUrl;
+import static com.revature.test.cuke.ConstantsCukeTestUtil.getAssociateView;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getBaseUrl;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getTestFirstName;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getTestLastName;
@@ -24,13 +24,13 @@ public class AssociateViewCukes {
 	@Given("^I am on the Associate Home Page$")
 	public void i_am_on_the_Associate_Home_Page() throws Exception {
 	System.out.println("I am on the associate homepage");
-	ServiceHooks.wait.until(ExpectedConditions.urlToBe(getBaseUrl() + getAssociateViewUrl()));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(),getBaseUrl() + getAssociateViewUrl());
+	ServiceHooks.wait.until(ExpectedConditions.urlToBe(getBaseUrl() + getAssociateView()));
+		assertEquals(ServiceHooks.driver.getCurrentUrl(),getBaseUrl() + getAssociateView());
 	}
 
 	@Then("^I should not be taken to the page$")
 	public void i_should_not_be_taken_to_the_page() throws Exception {
-	    assertEquals(ServiceHooks.driver.getCurrentUrl(), getBaseUrl() + getAssociateViewUrl());
+	    assertEquals(ServiceHooks.driver.getCurrentUrl(), getBaseUrl() + getAssociateView());
 	}
 	
 	@When("^I click the update info button$")

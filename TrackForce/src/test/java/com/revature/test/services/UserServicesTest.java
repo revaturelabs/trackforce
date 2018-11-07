@@ -64,7 +64,7 @@ public class UserServicesTest {
 
   @Test
   public void testUserCreate() {
-	  // This test is not idempotent
+	  // This test is not idempotent (it affects the application beyond the test itself)
 	  // Throws nullpointer exception
 	  TfUser newUser = new TfUser();
 	  String newUsername = "Sample user for testing";
@@ -81,9 +81,8 @@ public class UserServicesTest {
 	  Assert.assertEquals(retrieveUser, newUser);
   }
   
-  @Test
+  @Test(expectedExceptions=NullPointerException.class)
   public void testCreateNullUser() {
-	  // throws nullpointer exception
 	  TfUser nullUser = null;
 	  boolean result = service.insertUser(nullUser);
 	  Assert.assertFalse(result);

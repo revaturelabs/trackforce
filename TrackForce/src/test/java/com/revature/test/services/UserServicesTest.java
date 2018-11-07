@@ -74,7 +74,8 @@ public class UserServicesTest {
 	  newUser.setPassword(password);
 	  newUser.setRole(3);
 	  newUser.setUsername(newUsername);
-	  boolean result = service.insertUser(newUser);
+	  
+	  boolean result = service.insertUser(newUser);//null pointer here
 	  Assert.assertTrue(result);
 	  TfUser retrieveUser = service.getUser(newUsername);
 	  Assert.assertEquals(retrieveUser, newUser);
@@ -112,20 +113,20 @@ public class UserServicesTest {
 	  // get existing user
 	  String username = prop.getProperty("user_username");
 	  TfUser user = service.getUser(username);
-	  TfUser verifyUser = service.submitCredentials(user);
+	  TfUser verifyUser = service.submitCredentials(user); //nullpointer
 	  
 	  Assert.assertEquals(user, verifyUser);
   }
   @Test
   public void testUserSubmitBadCredentials() {
 	  //submits a null for a user
-	  TfUser nullUser = service.submitCredentials(null);
+	  TfUser nullUser = service.submitCredentials(null); //null pointer
 	  Assert.assertNull(nullUser);
 	  
 	  //submits a user with no password
 	  TfUser userNoPassword = new TfUser();
 	  userNoPassword.setUsername("User with no password");
-	  TfUser noPasswordResult = service.submitCredentials(userNoPassword);
+	  TfUser noPasswordResult = service.submitCredentials(userNoPassword); 
 	  Assert.assertNull(noPasswordResult);
   }
 }

@@ -43,7 +43,9 @@ describe('test assocation pagenation functionality', function() {
         }else{
             expect(element.all(by.css("table tbody tr")).count()).toBeLessThanOrEqual(60);
         }
-        
+        //logout
+        element(by.id('navbarDropdown')).click();
+        element(by.id('logout')).click();
     });
 
   });

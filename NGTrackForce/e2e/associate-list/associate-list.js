@@ -31,16 +31,14 @@ describe('Go to associate list tab', function(){
 
 });
 
-describe('YEEEEET', function(){
-    it('Should load 60 or less associates.', function() {
-        browser.manage().timeouts().implicitlyWait(5000);
+// describe('YEEEEET', function(){
+//     it('Should load 60 or less associates.', function() {
+//         browser.manage().timeouts().implicitlyWait(5000);
 
-        rowCount = document.getElementsByTagName("tr").length;
-        expect(rowCount).toBeLessThan(60);
-    });
-  
-
-});
+//         rowCount = document.getElementsByTagName("tr").length;
+//         expect(rowCount).toBeLessThan(60);
+//     });
+  //});
 
 
 

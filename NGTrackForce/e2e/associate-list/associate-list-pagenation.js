@@ -1,7 +1,16 @@
+//This test checks the functionality of the association
+//pagenation feature which currently loads 60 associates
+//on the associate page.  Then when scrolled to the bottom
+//Loads 60 more
 describe('test assocation pagenation functionality', function() {
-    
-    browser.get('http://localhost:4200/login');
+    //Tested on local host, should go to EC2 Location
+    //browser.get('http://localhost:4200/login');
+
+    //NGTrackForce_URL
+    browser.get('http://34.227.178.103:8090/NGTrackForce/');
+
     browser.manage().timeouts().implicitlyWait(5000);
+
     it('should log in', function() {
   
       element(by.id('username')).sendKeys('TestAdmin');

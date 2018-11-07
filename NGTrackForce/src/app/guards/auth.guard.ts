@@ -37,11 +37,11 @@ export class AuthGuard implements CanActivate {
             console.log("in AuthGuard Inner");
             if (this.authService.getUserRole() === undefined) {
                 await this.authService.getUserRoleFirst((UserRole) => {
-                    if (!expectedRoles.includes(UserRole)) {
-                        this.routeToUserHome(UserRole);
-                        return false;
-                    }
-                });
+                  if (!expectedRoles.includes(UserRole)) {
+                    this.routeToUserHome(UserRole);
+                    return false;
+                  }
+              });
             }
         }
 

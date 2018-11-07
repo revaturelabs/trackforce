@@ -35,7 +35,7 @@ export class mockClientMappedComponent extends ClientMappedComponent {
   }
 }
 
-fdescribe('ClientMappedComponent', () => {
+describe('ClientMappedComponent', () => {
   let component: ClientMappedComponent;
   let fixture: ComponentFixture<ClientMappedComponent>;
   let httpMock: HttpTestingController;

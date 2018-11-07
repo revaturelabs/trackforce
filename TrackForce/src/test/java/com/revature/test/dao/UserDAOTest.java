@@ -11,8 +11,6 @@ import com.revature.entity.TfUser;
 
 public class UserDAOTest {
 	
-	private static final String INTEGER_SIMPLE_CLASS_NAME = "Integer";
-	
 	@Test
 	public void canGetUserByUsername() {
 		Assert.assertEquals(1, new UserDaoImpl().getUser("TestAdmin").getId());
@@ -30,7 +28,7 @@ public class UserDAOTest {
 	public void getAllUsersWorks() {
 		List<TfUser> list = new ArrayList<TfUser>();
 		list = new UserDaoImpl().getAllUsers();
-		Assert.assertEquals(new Integer(list.get(10).getId()).getClass().getSimpleName(), INTEGER_SIMPLE_CLASS_NAME);
+		Assert.assertNotNull(list);
 	}
 
 	@Test(expectedExceptions = NullPointerException.class)

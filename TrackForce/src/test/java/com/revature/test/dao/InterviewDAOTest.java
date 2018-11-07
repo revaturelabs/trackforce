@@ -100,18 +100,6 @@ public class InterviewDAOTest {
 		Assert.assertNotEquals(allInterviews.size(), 0);
 	}
 
-	/**
-	 * This test was modified from a hard-coded int value of size
-	 * to an assertEquals on a boxed int's simple class name to 
-	 * allow for this test to be more generalized. Fixed the issue
-	 * of failing due to assertEquals being compared to a hardcoded 
-	 * value (original was 54).
-	 */
-	@Test
-	public void getAllInterviewsHasCorrectSize() {
-		Assert.assertEquals(new Integer(allInterviews.size()).getClass().getSimpleName(), INTEGER_CLASS_SIMPLE_NAME);
-	}
-
 	@Test
 	public void getAllInterviewsHasCorrectInterviews() {
 		Assert.assertNotEquals(allInterviews.get(0), new InterviewDaoImpl().getInterviewById(0));

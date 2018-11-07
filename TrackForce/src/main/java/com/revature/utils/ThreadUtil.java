@@ -24,7 +24,6 @@ public class ThreadUtil {
 		
 		try {
 			results = future.get();
-			return results;
 		} catch (InterruptedException | ExecutionException e) {
 			if(!future.isCancelled()) { future.cancel(true); }
 			else {logger.info("Call was canceled");}

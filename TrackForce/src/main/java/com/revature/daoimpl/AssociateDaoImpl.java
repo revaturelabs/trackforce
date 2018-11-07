@@ -209,7 +209,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	}
 
 	/** Sessional with instructions on how to approve an associate */
-	private Sessional<Boolean> approveAssociate = (Session session, Object... args) -> {
+	private static Sessional<Boolean> approveAssociate = (Session session, Object... args) -> {
 		TfAssociate temp = session.get(TfAssociate.class, (Integer) args[0]);
 		temp.getUser().setIsApproved(TfUser.APPROVED);
 		session.update(temp);

@@ -37,7 +37,7 @@ public class ClientDaoImpl implements ClientDao {
 	//pass arguments such as "c.id" to get list of all IDs or c.name to get list of all names
 	//repaired 10/29/18 - BSS
 	@Override
-	public List getAllTfClients(String[] columns) {
+	public List<TfClient> getAllTfClients(String[] columns) {
 		return HibernateUtil.runHibernate( (Session session, Object ...args) -> session
 		.createQuery("SELECT " + String.join(",", (String[]) args) + " FROM TfClient c")
 		.setCacheable(true).getResultList(),(Object[])columns);

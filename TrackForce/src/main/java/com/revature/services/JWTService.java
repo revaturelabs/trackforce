@@ -1,15 +1,21 @@
 package com.revature.services;
 import static com.revature.utils.LogUtil.logger;
+
 import java.io.IOException;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
 import javax.crypto.spec.SecretKeySpec;
+import javax.ws.rs.core.Response;
 import javax.xml.bind.DatatypeConverter;
+
 import org.json.JSONObject;
+
 import com.revature.entity.TfUser;
-import gherkin.lexer.Da;
+import com.revature.resources.UserResource;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
@@ -29,7 +35,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
  *		 Note: made minor updates to allow continued use of these tokens */
 public class JWTService {
 	
-	UserService userService;
+	public static UserService userService;
 	
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 30L; //expiration time in minutes
@@ -43,10 +49,12 @@ public class JWTService {
 	 * @throws IOException
 	 *             because of the use of connection pools that requires some files
 	 */
-	public Boolean validateToken(String token) {
+	public static Boolean validateToken(String token) {
 		String tokenUsername = null;
 		TfUser tfUser = null;
 		Claims claims = null;
+		UserService userService = new UserService();
+		
 		boolean verified = false;
 
 		if (token != null) {
@@ -60,7 +68,7 @@ public class JWTService {
 		}
 		if (tfUser != null) {
 			// makes sure the token is fresh and usernames are equal
-			verified = (!isTokenExpired(token) && tfUser.getUsername().equals(tokenUsername));
+			verified = (!isTokenExpired(token) && tfUser.getUsername().equals(tokenUsername)); //look at username - will not be the same as encrypted tokenUsername
 		}
 
 		return verified;
@@ -77,11 +85,11 @@ public class JWTService {
 	public static String createToken(String username, int tfroleid) {
 		SignatureAlgorithm signAlgorithm = SignatureAlgorithm.HS256;
 		Key key = new SecretKeySpec(getSecret(), signAlgorithm.getJcaName());
-
+		
+		//veridate token
 		JwtBuilder token = Jwts.builder().setSubject(username)
 				.claim("roleID" , "" + tfroleid)
 				.setExpiration(generateExpirationDate()).signWith(signAlgorithm, key);
-
 		return token.compact();
 	}
 
@@ -98,7 +106,7 @@ public class JWTService {
 				throw new UnsupportedJwtException("token null");
 			}
 			payload = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
-			
+		
 		}catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException
 		
 				| IllegalArgumentException | NullPointerException e) {

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import static com.revature.utils.LogUtil.logger;
 
+
 /** @author Curtis H., Adam L., Josh P
  * <p> The abstracted methods for making Hibernate calls to the database </p>
  * @version v6.18.06.13 */

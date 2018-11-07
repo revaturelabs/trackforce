@@ -25,7 +25,7 @@ import com.revature.utils.PasswordStorage.InvalidHashException;
  */
 public class UserService {
 
-	private UserDao dao = new UserDaoImpl();
+	private static UserDao dao = new UserDaoImpl();
 
 	// public so it can be used for testing
 	public UserService() {
@@ -62,7 +62,7 @@ public class UserService {
 	 * I am not proud of this but it is what was given to me
 	 * -Coder from batch 1806
 	 */
-	public TfUser getUser(String username) {
+	public static TfUser getUser(String username) {
 		try {
 			return dao.getUser(username);
 		} catch (NoResultException nre) {
@@ -100,7 +100,7 @@ public class UserService {
 		dao.deleteUser(newUser);
 	}
 	
-	public TfRole getRole(int roleId) {
+	public static TfRole getRole(int roleId) {
 		return dao.getRole(roleId);
 	}
 
@@ -127,6 +127,8 @@ public class UserService {
 				if (PasswordStorage.verifyPassword(loginUser.getPassword(), foundUser.getPassword())) {
 					int role = foundUser.getTfRole().getTfRoleId();
 					foundUser.setRole(role);
+					
+					//verify token, if role correct issue token
 					foundUser.setToken(JWTService.createToken(foundUser.getUsername(), foundUser.getRole()));
 					return foundUser;
 				}

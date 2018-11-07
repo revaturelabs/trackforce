@@ -51,7 +51,7 @@ public class ClientResource {
 	AssociateService associateService = new AssociateService();
 	BatchService batchService = new BatchService();
 	ClientService clientService = new ClientService();
-	CurriculumService curriculumService=new CurriculumService();
+	CurriculumService curriculumService = new CurriculumService();
 	InterviewService interviewService = new InterviewService();
 	TrainerService trainerService = new TrainerService();
 	UserService userService = new UserService();
@@ -73,7 +73,7 @@ public class ClientResource {
 	@ApiOperation(value = "Returns all clients", notes = "Returns a map of all clients.")
 	public Response getAllClients(@HeaderParam("Authorization") String token) {
 		logger.info("getAllClients()...");
-		//ClientResource.authorizedUser(TfUser);
+		// ClientResource.authorizedUser(TfUser);
 
 		Status status = null;
 		List<TfClient> clients = clientService.getAllTfClients();
@@ -106,54 +106,48 @@ public class ClientResource {
 	@Path("/mapped/get/")
 	public Response getMappedClients(@HeaderParam("Authorization") String token, int tfroleid) {
 		Claims payload = JWTService.processToken(token);
-		//UserService userService = new UserService();
-		//UserResource userResource = new UserResource();
 		Status status = null;
-		//TfUser foundUser = userService.submitCredentials(loginUser);
-		//claim
-		
+
 		if (payload == null) {
-			//return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 			return Response.status(401).entity(clientService.getMappedClients()).build();
-		}else {
-		
+		} else {
+
 			if (JWTService.validateToken(token) == false) {
 				return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-			}else {
+			} else {
 				int role = 0;
-				role = Integer.parseInt((String)payload.get("roleID"));
+				role = Integer.parseInt((String) payload.get("roleID"));
 				if (role == 1) {
-				return Response.status(200).entity(clientService.getMappedClients()).build();
-				}else {
+					return Response.status(200).entity(clientService.getMappedClients()).build();
+				} else {
 					return Response.status(401).entity(clientService.getMappedClients()).build();
-		}}}}
-		
-		
-	
+				}
+			}
+		}
+	}
 
-		
 	@GET
 	@Path("/50/")
 	public Response getFirstFiftyClients() {
 		return Response.status(200).entity(clientService.getFirstFiftyClients()).build();
 	}
 
-public Boolean authorizeAdminUser(String token) {
-	Claims payload = JWTService.processToken(token);
+	public Boolean authorizeAdminUser(String token) {
+		Claims payload = JWTService.processToken(token);
 		if (payload == null)
 			return false;
-		
+
 		int role = 0;
 		try {
-			role = Integer.parseInt((String)payload.get("roleID"));
-		}catch (NumberFormatException nfe) {
+			role = Integer.parseInt((String) payload.get("roleID"));
+		} catch (NumberFormatException nfe) {
 			return false;
 		}
-		
+
 		if (role == 1) {
 			return true;
-		}else {
-		return false;
+		} else {
+			return false;
+		}
 	}
-}
 }

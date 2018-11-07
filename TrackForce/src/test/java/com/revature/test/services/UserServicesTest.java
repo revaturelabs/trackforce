@@ -109,19 +109,20 @@ public class UserServicesTest {
   @Test
   public void testUserSubmitCredentials() {
 	  // get existing user
-	  // expects noPasswordResult to be null, but still has non-null fields?
 	  String username = prop.getProperty("user_username");
 	  TfUser user = service.getUser(username);
 	  TfUser verifyUser = service.submitCredentials(user);
 	  
 	  Assert.assertEquals(user, verifyUser);
-	  // Now test nonexistent / null users
+  }
+  @Test
+  public void testUserSubmitBadCredentials() {
 	  TfUser nullUser = service.submitCredentials(null);
 	  Assert.assertNull(nullUser);
+	  
 	  TfUser userNoPassword = new TfUser();
 	  userNoPassword.setUsername("User with no password");
 	  TfUser noPasswordResult = service.submitCredentials(userNoPassword);
-	
 	  Assert.assertNull(noPasswordResult);
   }
 }

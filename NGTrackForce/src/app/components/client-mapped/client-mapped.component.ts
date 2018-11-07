@@ -126,7 +126,7 @@ export class ClientMappedComponent implements OnInit {
     this.getMappedData();
     //Fetch the statusId from the URL. Used to fetch and display data
      //Adjust the statud id. Values passed in are off by 1.
-    this.statusID = Number(Number(this.route.snapshot.paramMap.get('id'))) + 1;
+    this.statusID = Number(this.route.snapshot.paramMap.get('id')) + 1;
     //Initialize the chart to type 'bar'
     this.changeSelectedStatus(this.statusID);
 

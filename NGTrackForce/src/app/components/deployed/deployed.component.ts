@@ -63,7 +63,7 @@ export class DeployedComponent implements OnInit {
   ngOnInit() {
     this.getDeployedData();
      //Adjust the statud id. Values passed in are off by 1.
-    this.statusID = Number(Number(this.route.snapshot.paramMap.get('id'))) + 1;
+    this.statusID = Number(this.route.snapshot.paramMap.get('id')) + 1;
 
     this.changeSelectedStatus(this.statusID);
     this.chartOptions.title.text = this.selectedStatus;

@@ -5,7 +5,7 @@ import { Color } from 'ng2-charts';
 import { ChartOptions } from '../../models/ng2-charts-options.model';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { ChartScale } from '../../models/chart-scale.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-undeployed',
@@ -41,6 +41,7 @@ export class UndeployedComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private associateService: AssociateService
   ) {
     this.chartOptions = {
@@ -61,16 +62,14 @@ export class UndeployedComponent implements OnInit {
 
   ngOnInit() {
     this.getUndeployedData();
-
-    this.statusID = window.location.href.split('undeployed/')[1];
-    this.statusID = Number(this.statusID) + 1; //Adjust the statud id. Values passed in are off by 1.
+     //Adjust the statud id. Values passed in are off by 1.
+    this.statusID = Number(Number(this.route.snapshot.paramMap.get('id'))) + 1;
 
     this.changeSelectedStatus(this.statusID);
     this.chartOptions.title.text = this.selectedStatus;
     this.changeChartType('pie');
 
     this.loadChart();
-
   }
 
   loadChart() {

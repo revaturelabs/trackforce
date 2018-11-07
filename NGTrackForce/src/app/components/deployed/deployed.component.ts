@@ -3,7 +3,7 @@ import { ChartOptions } from '../../models/ng2-charts-options.model';
 import { ThemeConstants } from '../../constants/theme.constants';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { Color } from 'ng2-charts';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { ChartScale } from '../../models/chart-scale.model';
 
@@ -41,6 +41,7 @@ export class DeployedComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private associateService: AssociateService
   ) {
     this.chartOptions = {
@@ -61,8 +62,8 @@ export class DeployedComponent implements OnInit {
 
   ngOnInit() {
     this.getDeployedData();
-    this.statusID = window.location.href.split('deployed/')[1];
-    this.statusID = Number(this.statusID) + 1; //Adjust the statud id. Values passed in are off by 1.
+     //Adjust the statud id. Values passed in are off by 1.
+    this.statusID = Number(Number(this.route.snapshot.paramMap.get('id'))) + 1;
 
     this.changeSelectedStatus(this.statusID);
     this.chartOptions.title.text = this.selectedStatus;

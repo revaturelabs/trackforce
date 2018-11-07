@@ -77,7 +77,6 @@ export class BatchListComponent implements OnInit {
   ngOnInit() {
     if(this.authService.getUserRole() == 2 &&
       (!this.authService.getTrainer() || this.authService.getTrainer() == null)){
-      // Can be removed once the guard is asynchronous
       this.dataReady = true;
       return;
     }

@@ -1,6 +1,6 @@
 package com.revature.test.services;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
@@ -64,7 +64,6 @@ public class UserServicesTest {
 
   @Test
   public void testUserCreate() {
-	  // This test is not idempotent (it affects the application beyond the test itself)
 	  // Throws nullpointer exception
 	  TfUser newUser = new TfUser();
 	  String newUsername = "Sample user for testing";
@@ -79,6 +78,8 @@ public class UserServicesTest {
 	  Assert.assertTrue(result);
 	  TfUser retrieveUser = service.getUser(newUsername);
 	  Assert.assertEquals(retrieveUser, newUser);
+	  service.deleteUser(newUser);
+	  Assert.assertNull(newUser);
   }
   
   @Test(expectedExceptions=NullPointerException.class)
@@ -117,9 +118,11 @@ public class UserServicesTest {
   }
   @Test
   public void testUserSubmitBadCredentials() {
+	  //submits a null for a user
 	  TfUser nullUser = service.submitCredentials(null);
 	  Assert.assertNull(nullUser);
 	  
+	  //submits a user with no password
 	  TfUser userNoPassword = new TfUser();
 	  userNoPassword.setUsername("User with no password");
 	  TfUser noPasswordResult = service.submitCredentials(userNoPassword);

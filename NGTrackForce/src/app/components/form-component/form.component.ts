@@ -287,7 +287,7 @@ export class FormComponent implements OnInit {
           this.associate.endClient,
           this.associate.interview,
           this.associate.placement,
-          this.associate.clientStartDate
+          Number.parseInt(this.newStartDate.toString())
         );
         this.associate = newAssociate;
         this.associateService.updateAssociate(this.associate).then(

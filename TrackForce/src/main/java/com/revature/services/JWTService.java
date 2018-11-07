@@ -32,7 +32,7 @@ public class JWTService {
 	UserService userService;
 	
 	private static final String SECRET_KEY = getKey();
-	private static Long EXPIRATION = 1L * 60 * 24; //expiration time in minutes
+	private static Long EXPIRATION = 1L * 60 * 12; //expiration time in minutes
 
 	/**
 	 * Validates a token

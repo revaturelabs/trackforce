@@ -36,7 +36,7 @@ import io.restassured.specification.RequestSpecification;
  */
 public class BatchResourceTest {
 
-	static final String URL = EnvManager.TomTrackForce_URL + "batches";
+	static final String URL = EnvManager.TomTrackForce_URL + "batches/";
 
 	private final String adminToken = JWTService.createToken("TestAdmin", 1),
 			trainerToken = JWTService.createToken("TestTrainer", 2),
@@ -94,7 +94,7 @@ public class BatchResourceTest {
 	@Test(priority = 3)
 	public void getAllBatchesBackwardsDateTest() {
 		Response response = given().header("Authorization", adminToken).queryParam("start", endDate)
-				.queryParam("end", startDate).when().get(URL + "/withindates").then().extract().response();
+				.queryParam("end", startDate).when().get(URL + "withindates/").then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
 		assertEquals(response.contentType(), "application/json");
 		assertEquals(response.body().jsonPath().getList("courseBatches").size(), 0);
@@ -107,7 +107,7 @@ public class BatchResourceTest {
 	@Test(priority = 4)
 	public void getBatchesInARangeTest() {
 		Response response = given().header("Authorization", adminToken).queryParam("start", startDate)
-				.queryParam("end", endDate).when().get(URL + "/withindates").then().extract().response();
+				.queryParam("end", endDate).when().get(URL + "withindates/").then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
 		assertEquals(response.contentType(), "application/json");
 	}
@@ -143,7 +143,7 @@ public class BatchResourceTest {
 	 */
 	@Test(priority = 7)
 	public void getAssociatesByBatchId() {
-		given().header("Authorization", adminToken).when().get(URL + "/" + knownBatchId + "/associates").then()
+		given().header("Authorization", adminToken).when().get(URL + knownBatchId + "/associates/").then()
 				.assertThat().statusCode(200).and().assertThat().body("batch.id", everyItem(equalTo(0)));
 
 	}
@@ -157,7 +157,7 @@ public class BatchResourceTest {
 	@Test(priority = 8)
 	public void getDetails() {
 		Response res = given().header("Authorization", adminToken).queryParam("start", startDate)
-				.queryParam("end", endDate).queryParam("courseName", "Java").get(URL + "/details");
+				.queryParam("end", endDate).queryParam("courseName", "Java").get(URL + "details/");
 		assertEquals(res.getStatusCode(), 200);
 		for (Object o : res.getBody().jsonPath().getList("courseBatches")) { // read response body as a JSON List
 			HashMap<String, Object> h = (HashMap<String, Object>) o;
@@ -182,7 +182,7 @@ public class BatchResourceTest {
 	@Test(priority = 9, dependsOnMethods = { "getDetails" })
 	public void verifyDetailsCount() {
 		Response detsRes = given().header("Authorization", adminToken).queryParam("start", startDate)
-				.queryParam("end", endDate).queryParam("courseName", "Java").get(URL + "/details");
+				.queryParam("end", endDate).queryParam("courseName", "Java").get(URL + "details/");
 		Integer total = 0;
 		for (Object o : detsRes.getBody().jsonPath().getList("courseBatches")) {
 			HashMap<String, Object> h = (HashMap<String, Object>) o;
@@ -190,7 +190,7 @@ public class BatchResourceTest {
 			total += count;
 		}
 		Response res = given().header("Authorization", adminToken).queryParam("start", startDate)
-				.queryParam("end", endDate).queryParam("courseName", "Java").get(URL + "/countby");
+				.queryParam("end", endDate).queryParam("courseName", "Java").get(URL + "countby/");
 		Integer resultCount = res.getBody().jsonPath().getInt("associateCount");
 		assertEquals(total, resultCount);
 	}
@@ -263,12 +263,12 @@ public class BatchResourceTest {
 
 	@DataProvider(name = "urls")
 	public Object[][] getURLs() {
-		return new Object[][] { { "GET", "/", new Boolean(true) },
+		return new Object[][] { { "GET", "", new Boolean(true) },
 				{ "GET", "?start=1490000000000&end=1600000000000", new Boolean(true) },
-				{ "GET", "/0/associates", new Boolean(true) },
-				{ "GET", "/details?start=1490000000000&end=1600000000000&courseName=Java", new Boolean(true) },
-				{ "GET", "/countby?start=1490000000000&end=1600000000000&courseName=Java", new Boolean(true) },
-				{ "GET", "/withindates?start=1490000000000&end=1600000000000", new Boolean(true) },
-				{ "GET", "/batch/0", new Boolean(true) } };
+				{ "GET", "0/associates/", new Boolean(true) },
+				{ "GET", "details?start=1490000000000&end=1600000000000&courseName=Java/", new Boolean(true) },
+				{ "GET", "countby?start=1490000000000&end=1600000000000&courseName=Java/", new Boolean(true) },
+				{ "GET", "withindates?start=1490000000000&end=1600000000000/", new Boolean(true) },
+				{ "GET", "batch/0/", new Boolean(true) } };
 	}
 }

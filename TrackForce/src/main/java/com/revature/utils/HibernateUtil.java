@@ -98,6 +98,7 @@ public class HibernateUtil {
 			return false;
 		};
 		return threadUtil.submitCallable(caller);
+		
 	}
 
 	public static <T> boolean multiTransaction(Sessional<Boolean> sessional, List<T> items) {

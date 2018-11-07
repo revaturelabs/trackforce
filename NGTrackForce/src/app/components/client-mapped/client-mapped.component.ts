@@ -195,7 +195,6 @@ export class ClientMappedComponent implements OnInit {
   mappedOnClick(evt: any) {
     if (evt.active[0] !== undefined) {
       this.router.navigate([`client-mapped/${evt.active[0]._index}`]);
-      window.location.reload();
     }
   };
 

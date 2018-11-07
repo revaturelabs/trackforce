@@ -42,7 +42,7 @@ export class DeployedComponent implements OnInit {
   constructor(
     private router: Router,
     private associateService: AssociateService
-  ) { 
+  ) {
     this.chartOptions = {
       xAxes: [{ ticks: { autoSkip: false } }], scales: { yAxes: [{ ticks: { min: 0 } }] },
       legend: {
@@ -132,7 +132,6 @@ export class DeployedComponent implements OnInit {
     if (evt.active[0] !== undefined) {
       //navigate to skillset component
       this.router.navigate([`deployed/${evt.active[0]._index}`]);
-      window.location.reload();
     }
   }
 

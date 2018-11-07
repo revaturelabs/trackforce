@@ -250,7 +250,6 @@ export class SkillsetComponent implements OnInit {
     if (evt.active[0] !== undefined) {
       //navigate to skillset component
       this.router.navigate([`skillset/${evt.active[0]._index}`]);
-      window.location.reload();
     }
   }
 

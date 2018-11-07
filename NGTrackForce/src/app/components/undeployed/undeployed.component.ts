@@ -169,7 +169,6 @@ export class UndeployedComponent implements OnInit {
     if (evt.active[0] !== undefined) {
       //navigate to skillset component
       this.router.navigate([`undeployed/${evt.active[0]._index}`]); //NOTE: are these ticks (`) supposed to be apostraphes?
-      window.location.reload();
     }
   }
 

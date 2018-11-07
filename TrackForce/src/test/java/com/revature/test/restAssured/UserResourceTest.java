@@ -39,7 +39,7 @@ import io.restassured.specification.RequestSpecification;
  */
 public class UserResourceTest {
 
-	static final String URL = EnvManager.TomTrackForce_URL + "users";
+	static final String URL = EnvManager.TomTrackForce_URL + "users/";
 
 	TfUser user;
 	TfUserAndCreatorRoleContainer container;
@@ -112,7 +112,7 @@ public class UserResourceTest {
 				+ "\", \"password\":\"" + container.getUser().getPassword() + "\", \"role\":"
 				+ container.getUser().getRole() + "}, \"creatorRole\":" + container.getCreatorRole() + "}";
 		given().header(adminTokenHeader).contentType("application/json").body(jsonContainer).when()
-				.post(URL + "/newUser").then().assertThat().statusCode(201);
+				.post(URL + "newUser/").then().assertThat().statusCode(201);
 //		Response r = given().header(adminTokenHeader).contentType("application/json").body(jsonContainer).when().post(URL+"/newUser");
 		TfUser newUser = userService.getUser(username);
 
@@ -121,7 +121,7 @@ public class UserResourceTest {
 		assertEquals(user.getTfRole().getTfRoleId(), newUser.getTfRole().getTfRoleId());
 		assertEquals(user.getIsApproved(), newUser.getIsApproved());
 		// should expect error if reentering the same data
-		given().header(adminTokenHeader).contentType("application/json").body(container).when().post(URL + "/newUser")
+		given().header(adminTokenHeader).contentType("application/json").body(container).when().post(URL + "newUser/")
 				.then().assertThat().statusCode(417);
 		// an unused method to delete a user
 		userService.deleteUser(newUser);
@@ -153,16 +153,16 @@ public class UserResourceTest {
 	public void testCreateUserUnhappyPath() {
 
 		// not using a token
-		given().contentType("application/json").body(container).when().get(URL + "/newUser").then().assertThat()
+		given().contentType("application/json").body(container).when().get(URL + "newUser/").then().assertThat()
 				.statusCode(405);
 		// using the wrong http method
 		given().contentType("application/json").header(adminTokenHeader).body(container).when()
-				.post(URL + "/newUserBADURL").then().assertThat().statusCode(404);
+				.post(URL + "newUserBADURL/").then().assertThat().statusCode(404);
 		// using an invalid token
-		given().contentType("application/json").header(badTokenHeader).body(container).when().post(URL + "/newUser")
+		given().contentType("application/json").header(badTokenHeader).body(container).when().post(URL + "newUser/")
 				.then().assertThat().statusCode(401);
 		// using an unauthorized token
-		given().contentType("application/json").header(assocTokenHeader).body(container).when().post(URL + "/newUser")
+		given().contentType("application/json").header(assocTokenHeader).body(container).when().post(URL + "newUser/")
 				.then().assertThat().statusCode(403);
 	}
 
@@ -233,8 +233,8 @@ public class UserResourceTest {
 
 	@DataProvider(name = "urls")
 	public Object[][] getURLs() {
-		return new Object[][] { { "POST", "/newUser", new Boolean(true) }, { "GET", "/check", new Boolean(false) },
-				{ "GET", "/getUserRole", new Boolean(false) } };
+		return new Object[][] { { "POST", "newUser/", new Boolean(true) }, { "GET", "check/", new Boolean(false) },
+				{ "GET", "getUserRole/", new Boolean(false) } };
 	}
 
 	/**
@@ -254,10 +254,10 @@ public class UserResourceTest {
 	public void testSubmitCredentials() {
 		// positive test
 		given().contentType("application/json").body("{ \"username\": \"TestAdmin\", \"password\": \"TestAdmin\"}")
-				.post(URL + "/login").then().assertThat().statusCode(200);
+				.post(URL + "login/").then().assertThat().statusCode(200);
 		// wrong password should result in an unauthorized response
 		given().contentType("application/json").body("{ \"username\": \"TestAdmin\", \"password\": \"badpassword\"}")
-				.post(URL + "/login").then().assertThat().statusCode(401);
+				.post(URL + "login/").then().assertThat().statusCode(401);
 	}
 
 	/**
@@ -271,10 +271,10 @@ public class UserResourceTest {
 	public void testSubmitCredentialsUnhappyPath() {
 		// wrong http method
 		given().contentType("application/json").body("{ \"username\": \"TestAdmin\", \"password\": \"TestAdmin\"}")
-				.when().get(URL + "/login").then().assertThat().statusCode(405);
+				.when().get(URL + "login/").then().assertThat().statusCode(405);
 		// wrong password
 		given().contentType("application/json").body("{ \"username\": \"TestAdmin\", \"password\": \"TestAdmin\"}")
-				.when().post(URL + "/loginBad").then().assertThat().statusCode(404);
+				.when().post(URL + "loginBad/").then().assertThat().statusCode(404);
 	}
 
 	/**
@@ -286,9 +286,9 @@ public class UserResourceTest {
 	@Test(enabled = true, priority = 50)
 	public void testTokenCheck() {
 		// good token should pass
-		given().header(assocTokenHeader).when().get(URL + "/check").then().assertThat().statusCode(200);
+		given().header(assocTokenHeader).when().get(URL + "check/").then().assertThat().statusCode(200);
 		// bad token should fail
-		given().header(badTokenHeader).when().get(URL + "/check").then().assertThat().statusCode(401);
+		given().header(badTokenHeader).when().get(URL + "check/").then().assertThat().statusCode(401);
 	}
 
 	/**
@@ -299,15 +299,15 @@ public class UserResourceTest {
 	 */
 	@Test(enabled = true, priority = 55)
 	public void testRoleChecker() {
-		Response adminTokenResponse = given().header(adminTokenHeader).when().get(URL + "/getUserRole").andReturn();
+		Response adminTokenResponse = given().header(adminTokenHeader).when().get(URL + "getUserRole/").andReturn();
 		assertEquals(adminTokenResponse.getStatusCode(), 200);
 		assertEquals(adminTokenResponse.getBody().asString(), "1");
 		System.out.println(adminTokenResponse.getHeader("Allow"));
-		Response assocTokenResponse = given().header(assocTokenHeader).when().get(URL + "/getUserRole").andReturn();
+		Response assocTokenResponse = given().header(assocTokenHeader).when().get(URL + "getUserRole/").andReturn();
 		assertEquals(assocTokenResponse.getStatusCode(), 200);
 		assertEquals(assocTokenResponse.getBody().asString(), "5");
 
-		Response badTokenResponse = given().header(badTokenHeader).when().get(URL + "/getUserRole").andReturn();
+		Response badTokenResponse = given().header(badTokenHeader).when().get(URL + "getUserRole/").andReturn();
 		assertEquals(badTokenResponse.getStatusCode(), 401);
 	}
 }

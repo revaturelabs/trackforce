@@ -33,7 +33,7 @@ import io.restassured.response.Response;
  */
 public class AssociateResourceTest {
 
-	static final String URL = EnvManager.TomTrackForce_URL + "associates";
+	static final String URL = EnvManager.TomTrackForce_URL + "associates/";
 
 	AssociateService associateService = new AssociateService();
 	List<TfAssociate> associates;
@@ -84,7 +84,7 @@ public class AssociateResourceTest {
 	// this needs to be fixed/looked into -Ian M
 	@Test(priority = 5, enabled = true)
 	public void testGetAllAssociates1() {
-		Response response = given().header("Authorization", token).when().get(URL + "/allAssociates").then().extract()
+		Response response = given().header("Authorization", token).when().get(URL + "allAssociates/").then().extract()
 				.response();
 
 		assertTrue(response.getStatusCode() == 200);
@@ -101,13 +101,13 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 7, enabled = true)
 	public void testGetAllAssociates2() {
-		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/allAssociates").then()
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + "allAssociates/").then()
 				.extract().response();
 
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 
-		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
+		given().header("Authorization", token).when().get(URL + "notAURL/").then().assertThat().statusCode(404);
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 10, enabled = true)
 	public void testGetAssociate1() {
-		Response response = given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().extract()
+		Response response = given().header("Authorization", token).when().get(URL + knownUserId1 + "/").then().extract()
 				.response();
 
 		assertTrue(response.getStatusCode() == 200 || response.getStatusCode() == 204);
@@ -145,16 +145,16 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 15, enabled = true)
 	public void testGetAssociate2() {
-		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId1).then()
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + knownUserId1 + "/").then()
 				.extract().response();
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 
-		given().header("Authorization", token).when().get(URL + "/0").then().assertThat().statusCode(204);
+		given().header("Authorization", token).when().get(URL + "0/").then().assertThat().statusCode(204);
 
-		given().header("Authorization", token).when().get(URL + "/badURL").then().assertThat().statusCode(404);
+		given().header("Authorization", token).when().get(URL + "badURL/").then().assertThat().statusCode(404);
 
-		given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().assertThat().body("address",
+		given().header("Authorization", token).when().get(URL + knownUserId1 + "/").then().assertThat().body("address",
 				equalTo(null));
 	}
 
@@ -174,7 +174,7 @@ public class AssociateResourceTest {
 		AssociateService service = new AssociateService();
 
 		Response response = given().header("Authorization", token).contentType("application/json")
-				.body(service.getAssociate(associate.getId())).when().put(URL + "/" + knownUserId2).then().extract()
+				.body(service.getAssociate(associate.getId())).when().put(URL + knownUserId2 + "/").then().extract()
 				.response();
 		assertTrue(response.statusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
@@ -195,15 +195,15 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 45, enabled = true)
 	public void testUpdateAssociate2() {
-		given().header("Authorization", token).when().post(URL + "/" + knownUserId2).then().assertThat()
+		given().header("Authorization", token).when().post(URL + knownUserId2 + "/").then().assertThat()
 				.statusCode(405);
 
-		given().header("Authorization", token).when().get(URL + "/badURL").then().assertThat().statusCode(404);
+		given().header("Authorization", token).when().get(URL + "badURL/").then().assertThat().statusCode(404);
 
-		given().header("Authorization", token).when().get(URL + "/" + knownUserId2).then().assertThat().body("address",
+		given().header("Authorization", token).when().get(URL + knownUserId2 + "/").then().assertThat().body("address",
 				equalTo(null));
 
-		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId2).then()
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + knownUserId2 + "/").then()
 				.extract().response();
 
 		assertTrue(response.statusCode() == 401);

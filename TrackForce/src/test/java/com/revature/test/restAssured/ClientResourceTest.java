@@ -30,7 +30,7 @@ import io.restassured.specification.RequestSpecification;
  */
 public class ClientResourceTest {
 
-	static final String URL = EnvManager.TomTrackForce_URL + "clients";
+	static final String URL = EnvManager.TomTrackForce_URL + "clients/";
 
 	ClientService cs = new ClientService();
 	List<TfClient> clients;
@@ -81,7 +81,7 @@ public class ClientResourceTest {
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 
-		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
+		given().header("Authorization", token).when().get(URL + "notAURL/").then().assertThat().statusCode(404);
 
 		given().header("Authorization", token).when().post(URL).then().assertThat().statusCode(405);
 	}
@@ -156,7 +156,7 @@ public class ClientResourceTest {
 
 	@DataProvider(name = "urls")
 	public Object[][] getURLs() {
-		return new Object[][] { { "GET", "/", new Boolean(true) }, { "GET", "/associates/get/0", new Boolean(true) },
-				{ "GET", "/mapped/get", new Boolean(true) }, { "GET", "/50", new Boolean(true) } };
+		return new Object[][] { { "GET", "", new Boolean(true) }, { "GET", "associates/get/0/", new Boolean(true) },
+				{ "GET", "mapped/get/", new Boolean(true) }, { "GET", "50/", new Boolean(true) } };
 	}
 }

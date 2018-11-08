@@ -4906,12 +4906,12 @@ AS
 BEGIN
     res := 0;
     DELETE FROM admin.tf_placement p WHERE p.tf_associate_id IN 
-        (SELECT a.tf_associate_id FROM admin.tf_associate a INNER JOIN admin.tf_user u ON u.tf_user_id = a.tf_user_id WHERE u.tf_isapproved = 0 AND a.tf_client_start_date <= SYSDATE - 30); 
+        (SELECT a.tf_associate_id FROM admin.tf_associate a INNER JOIN admin.tf_user u ON u.tf_user_id = a.tf_user_id WHERE u.tf_isapproved = 0 AND u.tf_user_register_date <= SYSDATE - 30); 
     DELETE FROM admin.tf_interview p WHERE p.tf_associate_id IN 
-        (SELECT a.tf_associate_id FROM admin.tf_associate a INNER JOIN admin.tf_user u ON u.tf_user_id = a.tf_user_id WHERE u.tf_isapproved = 0 AND a.tf_client_start_date <= SYSDATE - 30);
-    SELECT u.tf_user_id BULK COLLECT INTO all_id FROM admin.tf_associate a INNER JOIN admin.tf_user u ON a.tf_user_id = u.tf_user_id WHERE u.tf_isapproved = 0 AND a.tf_client_start_date <= SYSDATE - 30;
+        (SELECT a.tf_associate_id FROM admin.tf_associate a INNER JOIN admin.tf_user u ON u.tf_user_id = a.tf_user_id WHERE u.tf_isapproved = 0 AND u.tf_user_register_date <= SYSDATE - 30);
+    SELECT u.tf_user_id BULK COLLECT INTO all_id FROM admin.tf_associate a INNER JOIN admin.tf_user u ON a.tf_user_id = u.tf_user_id WHERE u.tf_isapproved = 0 AND u.tf_user_register_date <= SYSDATE - 30;
     DELETE FROM admin.tf_associate a WHERE a.tf_user_id IN 
-            (SELECT u.tf_user_id FROM admin.tf_user u WHERE u.tf_user_id = a.tf_user_id AND u.tf_isapproved = 0 AND a.tf_client_start_date <= SYSDATE -30);
+            (SELECT u.tf_user_id FROM admin.tf_user u WHERE u.tf_user_id = a.tf_user_id AND u.tf_isapproved = 0 AND u.tf_user_register_date <= SYSDATE -30);
     IF all_id.FIRST IS NULL THEN
         res := 1;
         RETURN;
@@ -4923,6 +4923,8 @@ BEGIN
     res := 1;
 END delete_old_associates;
 /
+
+
 
 commit;
 

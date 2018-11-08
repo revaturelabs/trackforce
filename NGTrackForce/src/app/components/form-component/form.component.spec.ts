@@ -54,7 +54,7 @@ export class MockRouter {
 }
 
 
-fdescribe('FormComponent', () => {
+describe('FormComponent', () => {
   let component: FormComponent;
   let fixture: ComponentFixture<FormComponent>;
   const httpClient: HttpClient = new HttpClient(null);
@@ -69,11 +69,10 @@ fdescribe('FormComponent', () => {
     spyOn(testAuthService, 'getUser').and.returnValue(user); // needed by the navbar
   });
 
-  beforeEach(async(() => {
+  beforeEach( () => {
     TestBed.configureTestingModule({
       declarations: [ 
-        FormComponent,
-        NgModel
+        FormComponent
       ],
       providers: [
         AssociateService,
@@ -82,21 +81,21 @@ fdescribe('FormComponent', () => {
         LocationStrategy,
         {provide: AuthenticationService, useValue: testAuthService},
         {provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(0)},
-        /*{provide: HttpClient, useClass: HttpClient},*/
         { provide: LocationStrategy, useClass: PathLocationStrategy }, // Added to resolve base href path
-        { provide: APP_BASE_HREF, useValue: '/page' }
+        { provide: APP_BASE_HREF, useValue: '/page' } // Same as above
       ],
       imports: [
         ChartsModule,
         HttpClientTestingModule, // Changed to HttpClientTestingModule from HttpClientModule,
-        RouterTestingModule // Added to supress subscribe undefined error
+        RouterTestingModule, // Added to supress subscribe undefined error
+        FormsModule // Added to resolve value accessor error in form.component.html
       ],
       schemas:[ 
         CUSTOM_ELEMENTS_SCHEMA 
       ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     let mockUser:User = new User('mockUser', 'pass', 0, 0);
@@ -106,7 +105,7 @@ fdescribe('FormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', (done) => {
+  it('should create', () => {
     expect(component).toBeDefined();
   });
 });

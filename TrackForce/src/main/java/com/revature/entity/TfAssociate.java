@@ -50,27 +50,27 @@ public class TfAssociate implements java.io.Serializable {
 	private Integer id;
 
 	@XmlElement
-	@OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_USER_ID")
 	private TfUser user;
 	
 	@XmlElement
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_BATCH_ID")
 	private TfBatch batch;
 
 	@XmlElement
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_MARKETING_STATUS_ID")
 	private TfMarketingStatus marketingStatus;
 
 	@XmlElement
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_CLIENT_ID")
 	private TfClient client;
 
 	@XmlElement
-	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "TF_END_CLIENT_ID")
 	private TfEndClient endClient;
 
@@ -83,12 +83,12 @@ public class TfAssociate implements java.io.Serializable {
 	private String lastName;
 
 	@XmlElement
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate", cascade = {CascadeType.ALL})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
 	@JsonIgnore
 	private Set<TfInterview> interview = new HashSet<>(0);
 
 	@XmlElement
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate", cascade = {CascadeType.ALL})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
 	@JsonIgnore
 	private Set<TfPlacement> placement = new HashSet<>(0);
 	

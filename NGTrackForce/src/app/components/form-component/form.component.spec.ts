@@ -1,3 +1,4 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { RouterModule } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -17,7 +18,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/observable/of';
-import { LocationStrategy } from '@angular/common';
+import { LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from '@angular/common';
 
 export class MockAuthenticationService extends AuthenticationService {
   getUser(): User {
@@ -53,7 +54,7 @@ export class MockRouter {
 }
 
 
-describe('FormComponent', () => {
+fdescribe('FormComponent', () => {
   let component: FormComponent;
   let fixture: ComponentFixture<FormComponent>;
   const httpClient: HttpClient = new HttpClient(null);
@@ -81,13 +82,14 @@ describe('FormComponent', () => {
         LocationStrategy,
         {provide: AuthenticationService, useValue: testAuthService},
         {provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(0)},
-        {provide: HttpClient, useClass: HttpClient},
-        {provide: Router, useClass: MockRouter}
+        /*{provide: HttpClient, useClass: HttpClient},*/
+        { provide: LocationStrategy, useClass: PathLocationStrategy }, // Added to resolve base href path
+        { provide: APP_BASE_HREF, useValue: '/page' }
       ],
       imports: [
         ChartsModule,
-        HttpClientTestingModule,
-        RouterModule
+        HttpClientTestingModule, // Changed to HttpClientTestingModule from HttpClientModule,
+        RouterTestingModule // Added to supress subscribe undefined error
       ],
       schemas:[ 
         CUSTOM_ELEMENTS_SCHEMA 

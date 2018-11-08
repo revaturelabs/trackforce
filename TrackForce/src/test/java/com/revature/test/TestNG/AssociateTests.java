@@ -34,7 +34,7 @@ public class AssociateTests {
 	 
 	  
 	  ServiceHooks.driver = WebDriverUtil.getChromeDriver();
-	  ServiceHooks.driver.get(System.getenv("NGTrackForce_URL"));
+	  ServiceHooks.driver.get(EnvManager.NGTrackForce_URL);
 	  ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver,5);
   }
 	

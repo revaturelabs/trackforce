@@ -228,6 +228,10 @@ export class PredictionsComponent implements OnInit {
    *
    * @param techIndex index in technologies array to fetch predictions for
    * @param isUpdate true if part of single fetch; false when part of a batch
+   * 
+   * 1809_Courie_G
+   * getPrediction now only gets called from getAllPredictions instead of on
+   * every change of the table data.
    */
   getPrediction(techIndex: number, isUpdate: boolean) {
     if(this.results.length == 0)
@@ -242,6 +246,7 @@ export class PredictionsComponent implements OnInit {
     if(this.techNeeded[techIndex] == undefined || this.techNeeded[techIndex] <= 0 || this.techNeeded[techIndex] > this.maxAssociates)
       return;
 
+    
     this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate), techName).subscribe(
       data => {
         this.results.push({
@@ -257,7 +262,6 @@ export class PredictionsComponent implements OnInit {
       err => err
     )
   }
-
 
 /**
  * 1806_Andrew_H_Austin_M

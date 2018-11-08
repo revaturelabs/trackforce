@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites disabled="0" errors="0" failures="0" tests="33" time="42.227">
+ <testsuite name="test assocation pagenation functionality" timestamp="2018-11-07T15:58:24" hostname="localhost" time="13.688" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="test assocation pagenation functionality" name="should log in" time="6.119" />
+  <testcase classname="test assocation pagenation functionality" name="Go to associate list tab" time="2.972" />
+  <testcase classname="test assocation pagenation functionality" name="Should load 60 or less associates." time="0.027" />
+  <testcase classname="test assocation pagenation functionality" name="Should load more associate if page scrolls down and theres more than 60." time="4.568" />
+ </testsuite>
+ <testsuite name="Lets do some stuff in the associates list tab..." timestamp="2018-11-07T15:58:38" hostname="localhost" time="11.593" errors="0" tests="8" skipped="0" disabled="0" failures="0">
+  <testcase classname="Lets do some stuff in the associates list tab..." name="should log in" time="1.527" />
+  <testcase classname="Lets do some stuff in the associates list tab..." name="Go to associate list tab" time="6.236" />
+  <testcase classname="Lets do some stuff in the associates list tab..." name="Test out search by name of associate" time="0.241" />
+  <testcase classname="Lets do some stuff in the associates list tab..." name="Check return results of entered values, with name of associate" time="1.114" />
+  <testcase classname="Lets do some stuff in the associates list tab..." name="Clear the search input box" time="0.084" />
+  <testcase classname="Lets do some stuff in the associates list tab..." name="Test out search by last name" time="0.224" />
+  <testcase classname="Lets do some stuff in the associates list tab..." name="Check results of search by associates last name" time="0.878" />
+  <testcase classname="Lets do some stuff in the associates list tab..." name="Clear out search input once more" time="1.288" />
+ </testsuite>
+ <testsuite name="Testing associate list page further by changing search status." timestamp="2018-11-07T15:58:50" hostname="localhost" time="6.984" errors="0" tests="13" skipped="0" disabled="0" failures="0">
+  <testcase classname="Testing associate list page further by changing search status." name="should log in" time="1.479" />
+  <testcase classname="Testing associate list page further by changing search status." name="Go to associate list tab" time="2.931" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select mapped: training" time="0.178" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select mapped: reserved" time="0.139" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: SELECTED" time="0.155" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: CONFIRMED" time="0.134" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: DEPLOYED" time="0.149" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: TRAINING" time="0.132" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: OPEN" time="0.147" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: SELECTED" time="0.176" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: CONFIRMED" time="0.136" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: DEPLOYED" time="0.143" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select default" time="1.078" />
+ </testsuite>
+ <testsuite name="Testing associate list via Client Search" timestamp="2018-11-07T15:58:57" hostname="localhost" time="9.962" errors="0" tests="8" skipped="0" disabled="0" failures="0">
+  <testcase classname="Testing associate list via Client Search" name="should log in" time="1.573" />
+  <testcase classname="Testing associate list via Client Search" name="Go to associate list tab" time="2.928" />
+  <testcase classname="Testing associate list via Client Search" name="Should select None" time="0.526" />
+  <testcase classname="Testing associate list via Client Search" name="Should select 22nd Century Technologies" time="0.209" />
+  <testcase classname="Testing associate list via Client Search" name="Should select 3 Edge USA Group, LLC" time="0.252" />
+  <testcase classname="Testing associate list via Client Search" name="Should select 3 S Business Corporation Inc (, LLC" time="0.212" />
+  <testcase classname="Testing associate list via Client Search" name="Should select some more" time="3.089" />
+  <testcase classname="Testing associate list via Client Search" name="should log out" time="1.172" />
+ </testsuite>
+</testsuites>

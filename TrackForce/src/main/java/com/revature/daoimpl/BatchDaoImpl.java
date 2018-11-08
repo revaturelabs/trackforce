@@ -11,10 +11,19 @@ import com.revature.utils.HibernateUtil;
  * batch information from the database.*/
 public class BatchDaoImpl implements BatchDao {
 
+	/**
+	 * getBatch
+	 * 
+	 * ToDo:
+	 * This method returns the first result of a list while expecting batchName to not be a unique identifier.
+	 * If repeated names are in the result set, this will not be known in either testing or user. Implement an
+	 * additional method that returns the entire list of batches by batch name.
+	 */
 	@Override
 	public TfBatch getBatch(String batchName) {
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
 				.createQuery("from TfBatch b WHERE b.batchName = :batchName ", TfBatch.class)
+				.setParameter("batchName", batchName)
 				.setCacheable(true).getResultList()).get(0);
 	}
 
@@ -28,7 +37,8 @@ public class BatchDaoImpl implements BatchDao {
 	@Override
 	public List<TfBatch> getAllBatches() {
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
-				.createQuery("from TfBatch", TfBatch.class).setCacheable(true).getResultList());
+				.createQuery("from TfBatch", TfBatch.class)
+				.setCacheable(true).getResultList());
 	}
 
 	/* @author 1806_Andrew_H

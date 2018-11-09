@@ -275,6 +275,7 @@ export class FormComponent implements OnInit {
         // the select element holds the numbers in string format so loose equality is required here
         // in order to match with the number type being held in the client object id.
         // tslint:disable-next-line:triple-equals
+
         const assoc_client = clients.filter(client => client.id == this.selectedClient)[0];
         const newAssociate = new Associate(
           this.associate.firstName,
@@ -287,7 +288,7 @@ export class FormComponent implements OnInit {
           this.associate.endClient,
           this.associate.interview,
           this.associate.placement,
-          Number.parseInt(this.newStartDate.toString())
+          this.newStartDate
         );
         this.associate = newAssociate;
         this.associateService.updateAssociate(this.associate).then(

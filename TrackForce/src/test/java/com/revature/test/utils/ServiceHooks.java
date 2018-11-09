@@ -17,7 +17,6 @@ public class ServiceHooks {
 	@Before("@HomeTagTest1")
 	public void initializeHomeTabTests(){
 		if(driver==null) {
-			System.out.println("Initializing HomeTab Tests");
 			driver = WebDriverUtil.getChromeDriver();
 			driver.get(TestConfig.getBaseURL());
 			LoginUtil.loginAsAdmin(driver);
@@ -33,7 +32,6 @@ public class ServiceHooks {
 	@Before("@ClientListStart")
 	public void initializeClientListTests(){
 		if(driver==null) {
-			System.out.println("Initializing HomeTab Tests");
 			driver = WebDriverUtil.getChromeDriver();
 			driver.get(TestConfig.getBaseURL());
 			LoginUtil.loginAsAdmin(driver);
@@ -49,7 +47,6 @@ public class ServiceHooks {
 	@Before("@AssociateListStart")
 	public void initializeAssociateTabTests(){
 		if(driver==null) {
-			System.out.println("Initializing HomeTab Tests");
 			driver = WebDriverUtil.getChromeDriver();
 			driver.get(TestConfig.getBaseURL());
 			LoginUtil.loginAsAdmin(driver);
@@ -64,7 +61,6 @@ public class ServiceHooks {
 
 	@Before("@batchTag1")
 	public void initializeBatchTabTests(){
-		System.out.println("Initializing BatchTab Tests");
 		driver = WebDriverUtil.getChromeDriver();
 		driver.get(TestConfig.getBaseURL());
 	}
@@ -77,7 +73,6 @@ public class ServiceHooks {
 	@Before("@CreateNewAdmin")
 	public void initializeCreateUserTabTests(){
 		if(driver==null) {
-		System.out.println("Initializing HomeTab Tests");
 		driver = WebDriverUtil.getChromeDriver();
 		driver.get(TestConfig.getBaseURL());
 		LoginUtil.loginAsAdmin(driver);

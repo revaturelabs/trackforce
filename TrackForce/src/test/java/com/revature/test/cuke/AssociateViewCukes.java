@@ -34,7 +34,6 @@ public class AssociateViewCukes {
 	
 	@When("^I click the update info button$")
 	public void i_click_the_update_info_button()  {
-		System.out.println("Clicking the update info button");
 		AssociateHome.getSaveButton(ServiceHooks.driver).click();
 	}
 

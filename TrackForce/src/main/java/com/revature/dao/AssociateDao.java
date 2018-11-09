@@ -33,5 +33,7 @@ public interface AssociateDao {
 
 	boolean updateAssociates(List<TfAssociate> associate);
 
-	<T> T countMappedAssociatesByValue(String column, T value, Integer mappedStatus);
+	long countMappedAssociatesByValue(String column, String value, int mappedStatus);
+
+	//<T> T countMappedAssociatesByValue(String column, T value, Integer mappedStatus);
 }

@@ -1,14 +1,15 @@
 package com.revature.test.restAssured;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.hasSize;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
-import static org.hamcrest.Matchers.hasSize;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -21,6 +22,20 @@ import io.restassured.response.Response;
 
 /**
  * Rest Assured tests for ensuring that the trainer resource functions properly.
+ * 
+ * As of November 6, 2018 Trainer Resource maps two separate methods to trainers/{number}:
+ * getTrainer and updateTrainer.
+ * 
+ * getTrainer - GET request, interprets {number} as a trainerId
+ * updateTrainer - PUT request, interprets {number} as a userId
+ * 
+ * This _WORKS_ but is also horribly
+ * convoluted, should not be done and allows for the unhappy paths for some
+ * methods to actually break other things.
+ * 
+ * I would (strongly) suggest fixing this in future iterations.
+ * 
+ *  - Katelyn Barnes 1809
  * 
  * @author Jesse, Andy
  * @since 06.18.06.16
@@ -35,6 +50,8 @@ public class TrainerResourceTest {
 	List<TfTrainer> trainers;
 	String token;
 	int knownTrainerId;
+	int nonexistantTrainerId; // a trainer id that does not correspond to a trainer
+	int knownTrainerIdNoBatch;
 	int knownUserId;
 	TfTrainer trainer;
 	TfTrainer trainerNull;
@@ -47,16 +64,19 @@ public class TrainerResourceTest {
 		trainers = new ArrayList<>();
 		trainers = trainerService.getAllTrainers();
 		knownTrainerId = 0;
-		//knownUserId = 60302; //Does not exist in Mock Database
 		knownUserId = 1;
+		knownTrainerIdNoBatch = 5100; // a trainer id for a trainer with no batch
 		trainer = new TfTrainer();
 		trainer = trainerService.getTrainer(0);
 		assertNotNull(trainer);
 		trainer.setFirstName("Ava - 2.0");
+		
 	}
 
-
-
+	@AfterClass
+	public void afterClass() {
+		System.out.println(trainer.getTfUser());
+	}
 	/**
 	 * Test that a trainer can be successfully retrieved, that a 204 is returns when
 	 * there are no trainers
@@ -64,35 +84,84 @@ public class TrainerResourceTest {
 	 * @since 06.18.06.18
 	 */
 	@Test(priority = 2)
-	public void testGetTrainer() {
+	public void testGetTrainerHappyPathNoTrainers() {
 		Response response = given().header("Authorization", token).when().get(URL + "/" + knownUserId).then().extract()
 				.response();
 
-		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200);
-		if(response.statusCode() == 200) {
-			assertTrue(response.asString().contains("Ava"));
-			assertTrue(response.asString().contains("Trains"));
-		}
+		assertEquals(response.getStatusCode(),204);
 	}
 	
 	/**
-	 * Unhappy path testing for getTrainer where a 401 is returns with a bad token, that a 404 is
-	 * returned with a bad URL and that a 405 is returned when the wrong verb is used.
+	 * Test that a trainer tests that if the trainer id is valid but there is no
+	 * such  trainer a 204 response is returned
+	 * @author Jesse, Andy
+	 * @since 06.18.06.18
+	 */
+	@Test(priority = 2)
+	public void testGetTrainerUnhappyPathTrainerDoesNotExist() {
+		Response response = given().header("Authorization", token).when().get(URL + "/" + nonexistantTrainerId).then().extract()
+				.response();
+
+		assertEquals(response.getStatusCode(),204);
+	}
+	
+	/**
+	 * Unhappy path testing for getTrainer where a 401 is returned with a bad token
 	 */
 	@Test(priority = 3)
-	public void testGetTrainerunhappyPath() {
+	public void testGetTrainerUnhappyPathBadToken() {
 		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId).then().extract().response();
 
-		assertEquals(401, response.statusCode());
+		assertEquals(response.statusCode(),401);
 
 		assertTrue(response.asString().contains("Unauthorized"));
-
-		given().header("Authorization", token).when().get(URL + "/notAURL").then().assertThat().statusCode(404);
-
-		given().header("Authorization", token).contentType("application/json").when().post(URL + "/" + knownUserId).then()
-				.assertThat().statusCode(405);
 	}
+	/**
+	 * Unhappy path testing for getTrainer where a 404 is
+	 * returned with a bad URL
+	 */
+	@Test(priority = 3)
+	public void testGetTrainerUnhappyPathBadUrl() {
+		Response response = given().header("Authorization", token).when().get(URL + "/notAURL").then().extract().response();
 
+		assertEquals(404, response.statusCode());
+	}
+	/**
+	 * Unhappy path testing where a status code of 405 is given
+	 * if a post request is used
+	 */
+	@Test(priority = 3)
+	public void testGetTrainerUnhappyPathBadVerbPost() {
+		Response response = given().header("Authorization", token).contentType("application/json").when().post(URL + "/" + knownUserId).then().extract().response();
+
+		assertEquals(response.statusCode(), 405);
+	}
+	/**
+	 * Unhappy path testing where a status code of 405 is given
+	 * if a put request is used
+	 * 
+	 * NOTE: Currently autofails as PUT to /{number} goes to update
+	 * trainer and that has the potential to break things so we 
+	 * can't even think about running these tests yet
+	 */
+	@Test(priority = 3)
+	public void testGetTrainerUnhappyPathBadVerbPut() {
+		assertTrue(false);
+		Response response = given().header("Authorization", token).contentType("application/json").when().put(URL + "/" + knownUserId).then().extract().response();
+
+		assertEquals(response.statusCode(), 405);
+	}
+	
+	/**
+	 * Unhappy path testing where a status code of 405 is given
+	 * if a delete request is used
+	 */
+	@Test(priority = 3)
+	public void testGetTrainerUnhappyPathBadVerbDelete() {
+		Response response = given().header("Authorization", token).contentType("application/json").when().delete(URL + "/" + knownUserId).then().extract().response();
+
+		assertEquals(response.statusCode(), 405);
+	}
 	/**
 	 * Test that a trainers primary batch can be successfully retrieved, that a 204 is returned when
 	 * that trainer has no batch
@@ -103,13 +172,10 @@ public class TrainerResourceTest {
 	public void getTrainerPrimaryBatches() {
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
 				.post(URL + "/" + knownTrainerId + "/batch").then().extract().response();
-		System.out.println(response.getStatusCode());
+
 		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200);
 		if (response.statusCode() == 200) {
-//			assertTrue(response.asString().contains("1701 Jan30 NET")); /*contains values don't exist in mock database*/
-//			assertTrue(response.asString().contains("1702 Feb27 Java"));
 			assertTrue(response.getBody().asString().contains("1712 Dec11 Java AP-USF"));
-//			assertTrue(response.asString().contains("1710 Oct09 PEGA"));
 		}
 	}
 	
@@ -138,7 +204,12 @@ public class TrainerResourceTest {
 
 	/**
 	 * Test that a containers primary batch can be successfully retrieved, that a 204 is returned when
-	 * that trainer has no batch, 
+	 * that trainer has no batch
+	 * 
+	 * Currently fails due to a Lazy Initialization Exception caused by attempting to access batches 
+	 * in the getBatchFromCotrainer method in Trainer Resource
+	 * - Katelyn Barnes Nov. 9, 2019
+	 * 
 	 * @author Jesse, Andy
 	 * @since 06.18.06.18
 	 */
@@ -146,7 +217,7 @@ public class TrainerResourceTest {
 	public void testGetTrainerCotrainerBatch() {
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
 				.post(URL + "/" + knownTrainerId + "/cotrainerbatch").then().extract().response();
-		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200, "Expected 200 or 204 but got " + response.getStatusCode());
+		assertTrue(response.getStatusCode() == 204 || response.getStatusCode() == 200);
 	}
 	
 	/**
@@ -246,5 +317,7 @@ public class TrainerResourceTest {
 		
 		given().headers("Authorization", token).contentType("application/json").when()
 		.get(URL + "/allTrainersss").then().assertThat().statusCode(404);
+		
+
 	}
 }

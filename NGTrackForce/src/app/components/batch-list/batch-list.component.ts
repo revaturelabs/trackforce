@@ -75,6 +75,11 @@ export class BatchListComponent implements OnInit {
    * load default batches on initialization
    */
   ngOnInit() {
+    if(this.authService.getUserRole() == 2 &&
+      (!this.authService.getTrainer() || this.authService.getTrainer() == null)){
+      this.dataReady = true;
+      return;
+    }
     // get current user
     const user = this.authService.getUser();
     this.dataReady = false;
@@ -88,14 +93,6 @@ export class BatchListComponent implements OnInit {
     console.log(user);
     this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
       batches => {
-				// This condition should be at the begining of the init method
-				// but since the auth guard isn't asynchronous yet it has to be for now
-				if(this.authService.getUserRole() == 2 &&
-					(!this.authService.getTrainer() || this.authService.getTrainer() == null)){
-					// Can be removed once the guard is asynchronous
-					this.dataReady = true;
-					return;
-				}
         this.batches = batches.filter(
           batch => {
 

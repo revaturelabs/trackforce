@@ -34,10 +34,22 @@ import com.revature.entity.TfPlacement;
 import com.revature.entity.TfUser;
 import com.revature.test.utils.Log;
 
+/** Test class for testing AssociateDAOImpl
+ * 
+ * Danger of false negatives in the case of database changes.
+ * 
+ * Depends on Properties file referring to existent entries in database.
+ * Also directly refers to existent entries in the database. Be warned that any
+ * change in the database may very well cause tests to fail despite the DAO 
+ * working just fine.
+ */
 public class AssociateDAOTest {
 	
 	private AssociateDao dao;
 	private UserDao userDao;
+	//PLEASTE NOTE: The file referenced by this variable upon initialization can be out of date.
+	//Check that this is not out of date with the database being accessed before troubleshooting
+	//failing tests. Due to lambdas inside lambdas (HibernateUtil's Callable, Dao's Sessionals)
 	private Properties props;
 	
 	@BeforeClass
@@ -46,6 +58,7 @@ public class AssociateDAOTest {
 		userDao = new UserDaoImpl();
 		props = new Properties();
 		try {
+			//Please check the file indicated here when troubleshooting failing tests to make sure that hardcoded values correspond.
 			FileInputStream propFile = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\database_entries.properties");
 			props.load(propFile);
 			propFile.close();

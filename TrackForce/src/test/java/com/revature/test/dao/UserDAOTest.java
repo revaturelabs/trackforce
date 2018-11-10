@@ -45,7 +45,7 @@ public class UserDAOTest {
 
 	@Test
 	public void updateUserDaoWorks() {
-		TfUser user = new UserDaoImpl().getUser("Associate2");
+		TfUser user = new UserDaoImpl().getUser("dvtestuser2");
 		Assert.assertEquals(new UserDaoImpl().updateUser(user), true);
 	}
 }

@@ -30,7 +30,7 @@ public class InterviewDaoImpl implements InterviewDao {
 	public boolean updateInterview(TfInterview interview) {
 		return HibernateUtil.runHibernateTransaction((Session session, Object ... args) -> {
 			TfInterview temp = session.get(TfInterview.class, interview.getId());
-			System.out.println(interview);
+		
 			temp.setAssociate(interview.getAssociate());
 			temp.setAssociateFeedback(interview.getAssociateFeedback());
 			temp.setClient(interview.getClient());

@@ -34,7 +34,10 @@ export class MyInterviewComponent implements OnInit {
   public newInterview: Interview;
   public formOpen = false;
   public conflictingInterviews = '';
+
   public interviewDate: Timestamp<Date>;
+  public updateTheInterview: Date;
+        
   public interviewAssigned: Date = new Date();
   public clients: Client[];
   public typeId: number;
@@ -53,10 +56,11 @@ export class MyInterviewComponent implements OnInit {
   public updateSuccess = false;
   public succMsg: string;
   show : boolean;
+  public convertedTime : string;
   
-
   index;
   index2;
+  date :string;
 
   constructor(
     private authService: AuthenticationService,
@@ -67,7 +71,7 @@ export class MyInterviewComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(){
     //gets the associate id from the path
     //the '+' coerces the parameter into a number
     // this.id = +this.activated.snapshot.paramMap.get('id');
@@ -81,6 +85,7 @@ export class MyInterviewComponent implements OnInit {
       data => {
         this.associate = data;
         this.getAssociateInterviews(this.associate.id);
+       
       },
       error => {
         console.log('ngOnInit error');
@@ -99,7 +104,9 @@ export class MyInterviewComponent implements OnInit {
         console.log('getAllClients error');
       }
     );
-  }
+    
+  
+  }//end ngOnInit()
 
   toggleForm() {
     this.formOpen = !this.formOpen;
@@ -154,21 +161,25 @@ export class MyInterviewComponent implements OnInit {
           });
       }
   }
+  
 
-  updateInterview(interview: Interview) {
+  updateInterview(interview: Interview){
     if (!this.dateError){
         interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
         interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
         interview.dateSalesIssued = new Date(
           interview.dateAssociateIssued
         ).getTime(); // convert into timestamp
-        interview.dateAssociateIssued = new Date(
-          interview.dateAssociateIssued
-        ).getTime();
+        
+        interview.dateAssociateIssued = new Date (this.updateTheInterview).getTime() ;
+       
+      
         this.interviewService.updateInterview(interview).subscribe(res => {
-          this.updateSuccess=true;
+        this.updateSuccess=true;
+      
+          
           location.reload(false);
-        });
+       });
     }
   }
 
@@ -208,13 +219,17 @@ export class MyInterviewComponent implements OnInit {
   showInterviewDate(index) {
     this.index2 = index;
   }
+ 
 
   getAssociateInterviews(id: number) {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
-      data => {
-        console.log(data);
+      data =>{
+       
         this.interviews = data;
         this.isDataReady = true;
+       
+       
+      
       },
       error => {
         console.log('getAssociateInterview error');
@@ -226,6 +241,7 @@ export class MyInterviewComponent implements OnInit {
   // THIS NEEDS TO BE IMPLEMENTED
   // ============================================
   saveInterview(interview: Interview) {}
+  
 
   // THIS METHOD IS REPLACED BY STORING THE CLIENTS IN LOCAL STORAGE
   // getClientNames() {

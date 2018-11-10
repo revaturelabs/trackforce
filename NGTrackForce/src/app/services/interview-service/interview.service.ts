@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Interview } from '../../models/interview.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
 @Injectable()
 export class InterviewService {
@@ -61,7 +62,8 @@ y
    * @param interview - this is the updated interview object
    * @param id - this is the id of the associate
    */
-  public updateInterview(interview: Interview): Observable<boolean> {
+  public updateInterview(interview): Observable<boolean> {
+    console.log(interview);
     const url: string = this.baseURL + "/" + interview.id;
     return this.http.put<boolean>(url, interview);
   }

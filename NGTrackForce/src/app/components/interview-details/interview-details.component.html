@@ -2,22 +2,22 @@
 	<!-- NGMODEL Then set session and cancel session once updates calls -->
 
 	<h2>Associate Feedback</h2>
-	<textarea maxlength="1900" [disabled]="isDisabledAssociateFeedback()" style="min-width: 1200px; min-height: 200px" [value]="interview?.associateFeedback"
+	<textarea maxlength="1900" [disabled]="isDisabledAssociate" style="min-width: 1200px; min-height: 200px" [value]="interview?.associateFeedback"
 	 [ngModel]="interview?.associateFeedback" [ngModelOptions]="{standalone: true}" (ngModelChange)="interview.associateFeedback = $event">
 		</textarea>
 
 	<h2>Interview Questions</h2>
-	<textarea maxlength="1900" [disabled]="isDisabledInterviewQuestions()" style="min-width: 1200px; min-height: 200px" [value]="interview?.questionGiven"
+	<textarea maxlength="1900" [disabled]="isDisabledQuestions" style="min-width: 1200px; min-height: 200px" [value]="interview?.questionGiven"
 	 [ngModel]="interview?.questionGiven" [ngModelOptions]="{standalone: true}" (ngModelChange)="interview.questionGiven = $event">
 	 {{interview?.questionGiven}}</textarea>
 
 	<h2>Client Feedback</h2>
-	<textarea maxlength="1900" [disabled]="isDisabledClientFeedback()" style="min-width: 1200px; min-height: 200px" [value]="interview?.clientFeedback"
+	<textarea maxlength="1900" [disabled]="isDisabledClient" style="min-width: 1200px; min-height: 200px" [value]="interview?.clientFeedback"
 	 [ngModel]="interview?.clientFeedback" [ngModelOptions]="{standalone: true}" (ngModelChange)="interview.clientFeedback = $event">
 		{{interview?.clientFeedback}}</textarea>
 
 	<h2>Expected Skills and Types of Questions</h2>
-	<textarea maxlength="1900" [disabled]="isDisabledExpectedSkillsAndQuestions()" style="min-width: 1200px; min-height: 200px" [value]="interview?.jobDescription"
+	<textarea maxlength="1900" [disabled]="isDisabledSkillsAndQuestions" style="min-width: 1200px; min-height: 200px" [value]="interview?.jobDescription"
  	 [ngModel]="interview?.jobDescription" [ngModelOptions]="{standalone: true}" (ngModelChange)="interview.jobDescription = $event">
 		{{interview?.jobDescription}}</textarea>
 

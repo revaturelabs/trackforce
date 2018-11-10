@@ -214,7 +214,7 @@ public class InterviewResourceTest {
 	@Test(priority = 10)
 	public void testGetAllInterviewsByAssociateIdHappyPathAssoc() {
 		Response response = given().header("Authorization", knownAssociateToken).when()
-				.get(URL + "/" + knownAssociateId).then().extract().response();
+				.get(URL + knownAssociateId + "/").then().extract().response();
 
 		assertEquals(response.statusCode(), 200);
 

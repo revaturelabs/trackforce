@@ -456,7 +456,7 @@ public class TrainerResourceTest {
 	 */
 	@Test(priority = 25)
 	public void testGetAllTrainersUnhappyPathBadVerbDelete() {
-		given().headers("Authorization", token).contentType("application/json").when().delete(URL + "/allTrainers").then()
+		given().headers("Authorization", token).contentType("application/json").when().delete(URL + "allTrainers/").then()
 				.assertThat().statusCode(405);
 
 	}

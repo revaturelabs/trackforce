@@ -254,7 +254,7 @@ public class BatchResourceTest {
 	@Test(enabled=true, priority=1)
 	public void testGetBatchInfoAdminHappyPath() {
 		TfBatch batch = service.getBatchById(knownBatchId);
-		Response response = given().header("Authorization", adminToken).when().get(URL+"/batch/"+knownBatchId).then().extract().response();
+		Response response = given().header("Authorization", adminToken).when().get(URL+"batch/"+knownBatchId + "/").then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
 		assertEquals(response.contentType(),"application/json");
 	
@@ -273,7 +273,7 @@ public class BatchResourceTest {
 	@Test(enabled=true, priority=1)
 	public void testGetBatchInfoTrainerHappyPath() {
 		TfBatch batch = service.getBatchById(knownBatchId);
-		Response response = given().header("Authorization", trainerToken).when().get(URL+"/batch/"+knownBatchId).then().extract().response();
+		Response response = given().header("Authorization", trainerToken).when().get(URL+"batch/"+knownBatchId + "/").then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
 		assertEquals(response.contentType(),"application/json");
 		
@@ -292,7 +292,7 @@ public class BatchResourceTest {
 	@Test(enabled=true, priority=1)
 	public void testGetBatchInfoSalesHappyPath() {
 		TfBatch batch = service.getBatchById(knownBatchId);
-		Response response = given().header("Authorization", salesToken).when().get(URL+"/batch/"+knownBatchId).then().extract().response();
+		Response response = given().header("Authorization", salesToken).when().get(URL+"batch/"+knownBatchId + "/").then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
 		assertEquals(response.contentType(),"application/json");
 		
@@ -311,7 +311,7 @@ public class BatchResourceTest {
 	@Test(enabled=true, priority=1)
 	public void testGetBatchInfoStagingHappyPath() {
 		TfBatch batch = service.getBatchById(knownBatchId);
-		Response response = given().header("Authorization", stagingToken).when().get(URL+"/batch/"+knownBatchId).then().extract().response();
+		Response response = given().header("Authorization", stagingToken).when().get(URL+"batch/"+knownBatchId + "/").then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
 		assertEquals(response.contentType(),"application/json");
 		
@@ -328,7 +328,7 @@ public class BatchResourceTest {
 	 */
 	@Test(enabled=true, priority=10)
 	public void testGetBatchInfoBadAuthorization() {
-		Response response = given().header("Authorization", assocToken).when().get(URL+"/batch/"+knownBatchId).then().extract().response();
+		Response response = given().header("Authorization", assocToken).when().get(URL+"batch/"+knownBatchId + "/").then().extract().response();
 		assertEquals(response.getStatusCode(), 403);
 	}
 	
@@ -339,7 +339,7 @@ public class BatchResourceTest {
 	 */
 	@Test(enabled=true, priority=10)
 	public void testGetBatchInfoBadToken() {
-		Response response = given().header("Authorization", "not a real token").when().get(URL+"/batch/"+knownBatchId).then().extract().response();
+		Response response = given().header("Authorization", "not a real token").when().get(URL+"batch/"+knownBatchId).then().extract().response();
 		assertEquals(response.getStatusCode(), 401);
 	}
 	
@@ -351,7 +351,7 @@ public class BatchResourceTest {
 	 */
 	@Test(enabled=true, priority=10)
 	public void testGetBatchInfoBadUrl() {
-		Response response = given().header("Authorization", adminToken).when().get(URL+"/badbatchurl/"+knownBatchId).then().extract().response();
+		Response response = given().header("Authorization", adminToken).when().get(URL+"badbatchurl/"+knownBatchId + "/").then().extract().response();
 		assertEquals(response.getStatusCode(), 404);
 	}
 
@@ -363,7 +363,7 @@ public class BatchResourceTest {
 	 */
 	@Test(enabled=true, priority=10)
 	public void testGetBatchInfoBadId() {
-		Response response = given().header("Authorization", adminToken).when().get(URL+"/batch/"+"9999999999999999999999999999999999999999999999999999").then().extract().response();
+		Response response = given().header("Authorization", adminToken).when().get(URL+"batch/"+"9999999999999999999999999999999999999999999999999999/").then().extract().response();
 		assertEquals(response.getStatusCode(), 404);
 	}
 
@@ -440,10 +440,10 @@ public class BatchResourceTest {
 	public Object[][] getURLs() {
 		return new Object[][]  {{"GET", "", new Boolean(true)},
 								{"GET", "?start=1490000000000&end=1600000000000", new Boolean(true)}, 
-								{"GET", "0/associates/", new Boolean(true)},
-								{"GET", "details?start=1490000000000&end=1600000000000&courseName=Java/", new Boolean(false)},
-								{"GET", "countby?start=1490000000000&end=1600000000000&courseName=Java/", new Boolean(true)},
-								{"GET", "withindates?start=1490000000000&end=1600000000000/", new Boolean(true)},
-								{"GET", "batch/0/", new Boolean(false)}};
+								{"GET", "0/associates", new Boolean(true)},
+								{"GET", "details?start=1490000000000&end=1600000000000&courseName=Java", new Boolean(false)},
+								{"GET", "countby?start=1490000000000&end=1600000000000&courseName=Java", new Boolean(true)},
+								{"GET", "withindates?start=1490000000000&end=1600000000000", new Boolean(true)},
+								{"GET", "batch/0", new Boolean(false)}};
 	}
 }

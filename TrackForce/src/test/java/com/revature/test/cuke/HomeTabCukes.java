@@ -17,10 +17,10 @@ public class HomeTabCukes{
             ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Home.getPhone(ServiceHooks.driver)));
             Home.getPhone(ServiceHooks.driver).click();
         } catch (Exception e) {
-            System.out.println(("Failed click on the phone link"));
             fail(("Failed click on the phone link"));
         }
     }
+    
     @Then("^I should see the telephone number link open on a browser$")
     public void i_should_see_the_telephone_number_link_open_on_a_browser(){
         /*
@@ -54,7 +54,6 @@ public class HomeTabCukes{
             Home.getWebsite(ServiceHooks.driver).click();
             
         } catch (Exception e) {
-            System.out.println(("Failed click on the website link"));
             fail(("Failed click on the website link"));
         }
         

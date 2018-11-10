@@ -29,6 +29,7 @@ public class UserDAOTest {
 		List<TfUser> list = new ArrayList<TfUser>();
 		list = new UserDaoImpl().getAllUsers();
 		Assert.assertNotNull(list);
+		Assert.assertNotEquals(list.size(), 0);
 	}
 
 	@Test(expectedExceptions = NullPointerException.class)

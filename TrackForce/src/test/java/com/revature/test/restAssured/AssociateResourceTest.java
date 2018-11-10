@@ -2,6 +2,7 @@ package com.revature.test.restAssured;
 
 import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.testng.Assert.assertTrue;
 
 import java.sql.Timestamp;
@@ -23,6 +24,8 @@ import com.revature.services.AssociateService;
 import com.revature.services.JWTService;
 import com.revature.services.UserService;
 
+import com.revature.utils.EnvManager;
+
 import io.restassured.response.Response;
 
 /**
@@ -35,9 +38,8 @@ import io.restassured.response.Response;
  */
 public class AssociateResourceTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/associates";
-	//static final String URL = "http://localhost:8085/TrackForce/associates";
-	
+	static final String URL = EnvManager.TomTrackForce_URL + "associates/";
+
 	AssociateService associateService = new AssociateService();
 	List<TfAssociate> associates;
 	String token;
@@ -106,7 +108,7 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 5, enabled = true)
 	public void testGetAllAssociatesHappyPath() {
-		Response response = given().header("Authorization", token).when().get(URL + "/allAssociates").then().extract()
+		Response response = given().header("Authorization", token).when().get(URL + "allAssociates/").then().extract()
 				.response();
 
 		assertTrue(response.getStatusCode() == 200);
@@ -121,7 +123,8 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 7, enabled = true)
 	public void testGetAllAssociatesBadToken() {
-		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/allAssociates").then()
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + "allAssociates/").then()
+
 				.extract().response();
 
 		assertTrue(response.statusCode() == 401);
@@ -134,7 +137,7 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 7, enabled = true)
 	public void testGetAllAssociatesBadUrl() {
-		Response response = given().header("Authorization", token).when().get(URL + "/notAURL").then()
+		Response response = given().header("Authorization", token).when().get(URL + "notAURL/").then()
 				.extract().response();
 		
 		assertTrue(response.statusCode() == 404);
@@ -147,7 +150,7 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 10, enabled = true)
 	public void testGetAssociateHappyPath() {
-		Response response = given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().extract()
+		Response response = given().header("Authorization", token).when().get(URL + knownUserId1 + "/").then().extract()
 				.response();
 
 		assertTrue(response.getStatusCode() == 200 || response.getStatusCode() == 204);
@@ -157,9 +160,9 @@ public class AssociateResourceTest {
 
 		Assert.assertEquals(response.body().jsonPath().getString("batch.trainer.firstName"), "updateTrainer");
 
-				
 		assertTrue(response.asString().contains("\"id\":3"));
-		assertTrue(response.asString().contains("\"name\":\"Revature LLC, 11730 Plaza America Drive, 2nd Floor | Reston, VA 20190\""));
+		assertTrue(response.asString()
+				.contains("\"name\":\"Revature LLC, 11730 Plaza America Drive, 2nd Floor | Reston, VA 20190\""));
 	}
 
 	/**
@@ -167,7 +170,7 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 15, enabled = true)
 	public void testGetAssociateBadToken() {
-		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId1).then().extract()
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + knownUserId1 + "/").then().extract()
 				.response();
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
@@ -178,7 +181,7 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 15, enabled = true)
 	public void testGetAssociateBadUrl() {
-		Response response = given().header("Authorization", token).when().get(URL + "/badURL").then().extract()
+		Response response = given().header("Authorization", token).when().get(URL + "badURL/").then().extract()
 				.response();
 		assertTrue(response.statusCode() == 404);
 	}
@@ -189,7 +192,7 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 15, enabled = true)
 	public void testGetAssociateBadUserId() {
-		Response response = given().header("Authorization", token).when().get(URL + "/0").then().extract()
+		Response response = given().header("Authorization", token).when().get(URL + "0/").then().extract()
 				.response();
 		assertTrue(response.statusCode() == 204);
 	}
@@ -209,13 +212,12 @@ public class AssociateResourceTest {
 		AssociateService service = new AssociateService();
 		
 		Response response = given().header("Authorization", token).contentType("application/json")
-				.body(toBeChanged).when().put(URL + "/" + knownAssociateId).then().extract()
+				.body(toBeChanged).when().put(URL + knownAssociateId + "/").then().extract()
 				.response();
 		// This is all we can test as of 11.18 since updateAssociate currently returns a 
 		// response with a status code and nothing else
 		// 1809_Katelyn_B
 		assertEquals(response.statusCode(), 200);
-
 	}
 
 	/**
@@ -227,18 +229,19 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 45, enabled = true)
 	public void testUpdateAssociateBadToken() {
-		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId2).then().extract()
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + knownUserId2 + "/").then().extract()
 				.response();
 
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 	}
+	
 	/**
 	 * Unhappy path testing for updateAssociate. Ensure that a bad URL returns a 404
 	 */
 	@Test(priority = 45, enabled = true)
 	public void testUpdateAssociateBadUrl() {
-		Response response = given().header("Authorization", token).when().get(URL + "/badURL").then().extract().response();
+		Response response = given().header("Authorization", token).when().get(URL + "badURL/").then().extract().response();
 		
 		assertEquals(response.getStatusCode(), 404);
 	}
@@ -246,12 +249,11 @@ public class AssociateResourceTest {
 	 * Unhappy path testing for updateAssociate. Ensures that a nonexistent associate returns 200 (because
 	 * its a put request)
 	 */
+	 
 	@Test(priority = 45, enabled = true)
 	public void testUpdateAssociateBadAssociate() {
-		Response response = given().header("Authorization", token).when().post(URL + "/" + knownUserId2).then().extract()
+		Response response = given().header("Authorization", token).when().post(URL + knownUserId2 + "/").then().extract()
 				.response();
-		
 		assertEquals(response.getStatusCode(), 405);
-
 	}
 }

@@ -17,6 +17,7 @@ import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
 import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
+import com.revature.utils.EnvManager;
 
 import io.restassured.response.Response;
 
@@ -41,8 +42,7 @@ import io.restassured.response.Response;
  */
 public class TrainerResourceTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
-//	static final String URL = "http://localhost:8085/TrackForce/trainers";
+	static final String URL = EnvManager.TomTrackForce_URL + "trainers/";
 
 	TrainerService trainerService = new TrainerService();
 	List<TfTrainer> trainers;
@@ -67,11 +67,10 @@ public class TrainerResourceTest {
 		trainer = trainerService.getTrainer(0);
 		assertNotNull(trainer);
 		trainer.setFirstName("Ava - 2.0");
-
+		
 		nonexistantTrainerId = 1000;
 
 	}
-
 	/**
 	 * Test that a trainer can be successfully retrieved, that a 200 is returns when
 	 * there are no trainers
@@ -80,8 +79,9 @@ public class TrainerResourceTest {
 	 * @since 06.18.06.18
 	 */
 	@Test(priority = 2)
+<<<<<<< HEAD
 	public void testGetTrainerHappyPath() {
-		Response response = given().header("Authorization", token).when().get(URL + "/" + knownUserId).then().extract()
+		Response response = given().header("Authorization", token).when().get(URL + knownUserId + "/").then().extract()
 				.response();
 
 		assertEquals(response.getStatusCode(), 200);
@@ -97,7 +97,7 @@ public class TrainerResourceTest {
 	 */
 	@Test(priority = 2)
 	public void testGetTrainerUnhappyPathTrainerDoesNotExist() {
-		Response response = given().header("Authorization", token).when().get(URL + "/" + nonexistantTrainerId).then()
+		Response response = given().header("Authorization", token).when().get(URL + nonexistantTrainerId + "/").then()
 				.extract().response();
 
 		assertEquals(response.getStatusCode(), 204);
@@ -108,7 +108,7 @@ public class TrainerResourceTest {
 	 */
 	@Test(priority = 3)
 	public void testGetTrainerUnhappyPathBadToken() {
-		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId).then()
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + knownUserId + "/").then()
 				.extract().response();
 
 		assertEquals(response.statusCode(), 401);
@@ -121,7 +121,7 @@ public class TrainerResourceTest {
 	 */
 	@Test(priority = 3)
 	public void testGetTrainerUnhappyPathBadUrl() {
-		Response response = given().header("Authorization", token).when().get(URL + "/notAURL").then().extract()
+		Response response = given().header("Authorization", token).when().get(URL + "notAURL/").then().extract()
 				.response();
 
 		assertEquals(404, response.statusCode());
@@ -134,7 +134,7 @@ public class TrainerResourceTest {
 	@Test(priority = 3)
 	public void testGetTrainerUnhappyPathBadVerbPost() {
 		Response response = given().header("Authorization", token).contentType("application/json").when()
-				.post(URL + "/" + knownUserId).then().extract().response();
+				.post(URL + knownUserId + "/").then().extract().response();
 
 		assertEquals(response.statusCode(), 405);
 	}
@@ -151,7 +151,7 @@ public class TrainerResourceTest {
 	public void testGetTrainerUnhappyPathBadVerbPut() {
 		assertTrue(false);
 		Response response = given().header("Authorization", token).contentType("application/json").when()
-				.put(URL + "/" + knownUserId).then().extract().response();
+				.put(URL + knownUserId + "/").then().extract().response();
 
 		assertEquals(response.statusCode(), 405);
 	}
@@ -163,7 +163,7 @@ public class TrainerResourceTest {
 	@Test(priority = 3)
 	public void testGetTrainerUnhappyPathBadVerbDelete() {
 		Response response = given().header("Authorization", token).contentType("application/json").when()
-				.delete(URL + "/" + knownUserId).then().extract().response();
+				.delete(URL + knownUserId + "/").then().extract().response();
 
 		assertEquals(response.statusCode(), 405);
 	}
@@ -177,7 +177,8 @@ public class TrainerResourceTest {
 	@Test(priority = 4)
 	public void testGetTrainerPrimaryBatchesHappyPath() {
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
-				.post(URL + "/" + knownTrainerId + "/batch").then().extract().response();
+<<<<<<< HEAD
+				.post(URL + knownTrainerId + "/batch/").then().extract().response();
 
 		assertEquals(response.getStatusCode(), 200);
 		assertTrue(response.getBody().asString().contains("1712 Dec11 Java AP-USF"));
@@ -192,7 +193,7 @@ public class TrainerResourceTest {
 	@Test(priority = 4)
 	public void testGetTrainerPrimaryBatchesUnhappyPathNoBatch() {
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
-				.post(URL + "/" + knownTrainerIdNoBatch + "/batch").then().extract().response();
+				.post(URL + knownTrainerIdNoBatch + "/batch/").then().extract().response();
 
 		assertEquals(response.getStatusCode(), 204);
 
@@ -206,23 +207,24 @@ public class TrainerResourceTest {
 	@Test(priority = 5)
 	public void testGetTrainerPrimaryBatchesUnhappyPath() {
 		Response response = given().header("Authorization", "Bad Token").contentType("application/json").when()
-				.post(URL + "/" + knownTrainerId + "/batch").then().extract().response();
+				.post(URL + knownTrainerId + "/batch" + "/").then().extract().response();
 
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 
 		given().header("Authorization", token).contentType("application/json").when()
-				.post(URL + "/" + knownTrainerId + "/batchBAD").then().assertThat().statusCode(404);
+				.post(URL + knownTrainerId + "/batchBAD/").then().assertThat().statusCode(404);
 
 		given().header("Authorization", token).contentType("application/json").when()
-				.put(URL + "/" + knownTrainerId + "/batch").then().assertThat().statusCode(405);
+				.put(URL + knownTrainerId + "/batch/").then().assertThat().statusCode(405);
 
-		given().header("Authorization", token).when().post(URL + "/" + knownTrainerId + "/batch").then().assertThat()
+		given().header("Authorization", token).when().post(URL + knownTrainerId + "/batch" + "/").then().assertThat()
 				.statusCode(415);
 	}
 
 	/**
 	 * Test that a containers primary batch can be successfully retrieved, that a
+<<<<<<< HEAD
 	 * 204 is returned when that trainer has no batch
 	 * 
 	 * Currently fails due to a Lazy Initialization Exception caused by attempting
@@ -231,6 +233,9 @@ public class TrainerResourceTest {
 	 * batches they are cotrainer for. Currently I cannot find a trainer for which
 	 * that is true due to the same Lazy Initialization Exception that causes the
 	 * failure of this test! - Katelyn Barnes Nov. 9, 2019
+=======
+	 * 204 is returned when that trainer has no batch,
+>>>>>>> Staging
 	 * 
 	 * @author Jesse, Andy
 	 * @since 06.18.06.18
@@ -238,7 +243,7 @@ public class TrainerResourceTest {
 	@Test(priority = 6)
 	public void testGetTrainerCotrainerBatchHappyPath() {
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
-				.post(URL + "/" + knownTrainerId + "/cotrainerbatch").then().extract().response();
+				.post(URL + knownTrainerId + "/cotrainerbatch/").then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
 	}
 
@@ -249,7 +254,7 @@ public class TrainerResourceTest {
 	@Test(priority = 7)
 	public void testGetTrainerCotrainerBatchUnhappyPathBadToken() {
 		Response response = given().header("Authorization", "Bad Token").contentType("application/json").when()
-				.post(URL + "/" + knownTrainerId + "/cotrainerbatch").then().extract().response();
+				.post(URL + knownTrainerId + "/cotrainerbatch"  + "/").then().extract().response();
 
 		assertEquals(response.statusCode(), 401);
 		assertTrue(response.asString().contains("Unauthorized"));
@@ -262,7 +267,7 @@ public class TrainerResourceTest {
 	@Test(priority = 7)
 	public void testGetTrainerCotrainerBatchUnhappyPathBadUrl() {
 		Response response = given().header("Authorization", token).contentType("application/json").when()
-				.post(URL + "/" + knownTrainerId + "/cotrainerbatchBAD").then().extract().response();
+				.post(URL + knownTrainerId + "/cotrainerbatchBAD/").then().extract().response();
 
 		assertEquals(response.statusCode(), 404);
 	}
@@ -273,7 +278,7 @@ public class TrainerResourceTest {
 	 */
 	@Test(priority = 7)
 	public void testGetTrainerCotrainerBatchUnhappyPathBadContentType() {
-		Response response = given().header("Authorization", token).when().post(URL + "/" + knownTrainerId + "/batch")
+		Response response = given().header("Authorization", token).when().post(URL + knownTrainerId + "/batch/")
 				.then().extract().response();
 
 		assertEquals(response.statusCode(), 415);
@@ -286,7 +291,7 @@ public class TrainerResourceTest {
 	@Test(priority = 7)
 	public void testGetTrainerCotrainerBatchUnhappyPathBadVerbPut() {
 		Response response = given().header("Authorization", token).contentType("application/json").when()
-				.put(URL + "/" + knownTrainerId + "/cotrainerbatch").then().extract().response();
+				.put(URL + knownTrainerId + "/cotrainerbatch/").then().extract().response();
 
 		assertEquals(response.statusCode(), 405);
 
@@ -299,7 +304,7 @@ public class TrainerResourceTest {
 	@Test(priority = 7)
 	public void testGetTrainerCotrainerBatchUnhappyPathBadVerbGet() {
 		Response response = given().header("Authorization", token).contentType("application/json").when()
-				.put(URL + "/" + knownTrainerId + "/cotrainerbatch").then().extract().response();
+				.put(URL + knownTrainerId + "/cotrainerbatch/").then().extract().response();
 
 		assertEquals(response.statusCode(), 405);
 
@@ -312,14 +317,14 @@ public class TrainerResourceTest {
 	@Test(priority = 7)
 	public void testGetTrainerCotrainerBatchUnhappyPathBadVerbDelete() {
 		Response response = given().header("Authorization", token).contentType("application/json").when()
-				.delete(URL + "/" + knownTrainerId + "/cotrainerbatch").then().extract().response();
+				.delete(URL + knownTrainerId + "/cotrainerbatch/").then().extract().response();
 
 		assertEquals(response.statusCode(), 405);
 
 	}
 
 	/**
-	 * Test that a trainer can be successfully updated,
+	 * Test that a trainer can be successfully updated
 	 * 
 	 * @author Jesse, Andy
 	 * @since 06.18.06.18
@@ -327,7 +332,7 @@ public class TrainerResourceTest {
 	@Test(priority = 8)
 	public void testUpdateTrainerHappyPath() {
 		Response response = given().headers("Authorization", token).contentType("application/json").body(trainer).when()
-				.put(URL + "/" + knownTrainerId).then().extract().response();
+				.put(URL + knownTrainerId + "/").then().extract().response();
 
 		assertEquals(response.statusCode(), 202);
 	}
@@ -340,7 +345,7 @@ public class TrainerResourceTest {
 	@Test(priority = 8)
 	public void testUpdateTrainerUnhappyPathNoTrainer() {
 		Response response = given().headers("Authorization", token).contentType("application/json").body("").when()
-				.put(URL + "/" + nonexistantTrainerId).then().extract().response();
+				.put(URL + nonexistantTrainerId + "/").then().extract().response();
 
 		assertEquals(response.statusCode(), 204);
 
@@ -353,7 +358,7 @@ public class TrainerResourceTest {
 	@Test(priority = 9)
 	public void testUpdateTrainerUnhappyPathBadToken() {
 		Response response = given().headers("Authorization", "Bad Token").contentType("application/json").body(trainer)
-				.when().put(URL + "/" + knownTrainerId).then().extract().response();
+				.when().put(URL + knownTrainerId + "/").then().extract().response();
 
 		assertEquals(response.statusCode(), 401);
 		assertTrue(response.asString().contains("Unauthorized"));
@@ -366,7 +371,7 @@ public class TrainerResourceTest {
 	@Test(priority = 9)
 	public void testUpdateTrainerUnhappyPathBadUrl() {
 		Response response = given().headers("Authorization", "Bad Token").contentType("application/json").body(trainer)
-				.when().put(URL + "/" + knownTrainerId + "BADURL").then().extract().response();
+				.when().put(URL + knownTrainerId + "/BADURL/").then().extract().response();
 
 		assertEquals(response.statusCode(), 404);
 
@@ -379,7 +384,7 @@ public class TrainerResourceTest {
 	@Test(priority = 9)
 	public void testUpdateTrainerUnhappyPathBadVerbPost() {
 		Response response = given().header("Authorization", token).contentType("application/json").when()
-				.post(URL + "/" + knownTrainerId).then().extract().response();
+				.post(URL + knownTrainerId + "/").then().extract().response();
 
 		assertEquals(response.statusCode(), 405);
 	}
@@ -396,7 +401,7 @@ public class TrainerResourceTest {
 	public void testUpdateTrainerUnhappyPathBadVerbGet() {
 		assertTrue(false);
 		Response response = given().header("Authorization", token).contentType("application/json").when()
-				.get(URL + "/" + knownTrainerId).then().extract().response();
+				.get(URL + knownTrainerId + "/").then().extract().response();
 
 		assertEquals(response.statusCode(), 405);
 	}
@@ -408,7 +413,7 @@ public class TrainerResourceTest {
 	@Test(priority = 9)
 	public void testUpdateTrainerUnhappyPathBadVerbDelete() {
 		Response response = given().header("Authorization", token).contentType("application/json").when()
-				.delete(URL + "/" + knownTrainerId).then().extract().response();
+				.delete(URL + knownTrainerId + "/").then().extract().response();
 
 		assertEquals(response.statusCode(), 405);
 	}
@@ -422,12 +427,12 @@ public class TrainerResourceTest {
 		List<TfTrainer> trainers = trainerService.getAllTrainers();
 
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
-				.get(URL + "/allTrainers").then().extract().response();
+				.get(URL + "allTrainers/").then().extract().response();
 
 		assertEquals(response.statusCode(), 200);
 		assertEquals(response.contentType(), "application/json");
 
-		given().headers("Authorization", token).contentType("application/json").when().get(URL + "/allTrainers").then()
+		given().headers("Authorization", token).contentType("application/json").when().get(URL + "allTrainers/").then()
 				.assertThat().body("id", hasSize(trainers.size()));
 	}
 
@@ -436,7 +441,7 @@ public class TrainerResourceTest {
 	 */
 	@Test(priority = 25)
 	public void testGetAllTrainersUnhappyPathBadVerbPost() {
-		given().headers("Authorization", token).contentType("application/json").when().post(URL + "/allTrainers").then()
+		given().headers("Authorization", token).contentType("application/json").when().post(URL + "allTrainers/").then()
 				.assertThat().statusCode(405);
 
 	}
@@ -446,11 +451,11 @@ public class TrainerResourceTest {
 	 */
 	@Test(priority = 25)
 	public void testGetAllTrainersUnhappyPathBadVerbPut() {
-		given().headers("Authorization", token).contentType("application/json").when().put(URL + "/allTrainers").then()
+		given().headers("Authorization", token).contentType("application/json").when().put(URL + "allTrainers/").then()
 				.assertThat().statusCode(405);
-
+				
 	}
-	
+
 	/**
 	 * Test that attempting to Delete to getAllTrainers returns a 405 status code
 	 */
@@ -466,7 +471,7 @@ public class TrainerResourceTest {
 	 */
 	@Test(priority = 25)
 	public void testGetAllTrainersUnhappyPathBadToken() {
-		given().headers("Authorization", "Bad Token").contentType("application/json").when().get(URL + "/allTrainers")
+		given().headers("Authorization", "Bad Token").contentType("application/json").when().get(URL + "allTrainers/")
 				.then().assertThat().statusCode(401);
 	}
 
@@ -476,7 +481,7 @@ public class TrainerResourceTest {
 	 */
 	@Test(priority = 25)
 	public void testGetAllTrainersUnhappyPathBadUrl() {
-		given().headers("Authorization", token).contentType("application/json").when().get(URL + "/allTrainersss")
+		given().headers("Authorization", token).contentType("application/json").when().get(URL + "allTrainersss/")
 				.then().assertThat().statusCode(404);
 
 	}

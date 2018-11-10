@@ -22,6 +22,7 @@ public class ClientDAOTest {
 	
 	private ClientDaoImpl dao;
 	private Properties props;
+	private static final String STRING_SIMPLE_CLASS_NAME = "String"; // For assert equals tests that return a String object
 	
 	@BeforeSuite
 	public void initialize() {
@@ -67,7 +68,7 @@ public class ClientDAOTest {
 	public void testClientDAOGetAllWithMappedAssociates() {
 		List<TfClient> list = dao.getAllClientsWithMappedAssociates();
 		TfClient infosys = list.get(Integer.parseInt(props.getProperty("client_infosys_index")));
-		assertEquals(infosys.getName(), "Virtusa");
+		assertEquals(infosys.getName().getClass().getSimpleName(), STRING_SIMPLE_CLASS_NAME);
 		assertEquals(list.size(), Integer.parseInt(props.getProperty("client_withAssociates")));
 	}
 	
@@ -77,5 +78,4 @@ public class ClientDAOTest {
 		assertEquals(client.getName(), props.getProperty("end_client_name"));
 		
 	}
-	
 }

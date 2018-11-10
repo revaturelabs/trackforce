@@ -1,6 +1,8 @@
 package com.revature.test.restAssured;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.everyItem;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -15,14 +17,15 @@ import org.testng.annotations.Test;
 import com.revature.entity.TfBatch;
 import com.revature.services.BatchService;
 import com.revature.services.JWTService;
+import com.revature.utils.EnvManager;
 
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
 /**
- * Tests to ensure that that batches are only accessible to the right users and that all
- * behavior is intended in relationship to date ranges
+ * Tests to ensure that that batches are only accessible to the right users and
+ * that all behavior is intended in relationship to date ranges
  * 
  * 1808_Seth_L
  * Warning GET /batches works and returns with all batches but if you add "start" and "end" date query parameters
@@ -36,7 +39,9 @@ import io.restassured.specification.RequestSpecification;
  */
 public class BatchResourceTest {
 
+	static final String URL = EnvManager.TomTrackForce_URL + "batches/";
 
+<<<<<<< HEAD
 	static final String URL = "http://52.87.205.55:8086/TrackForce/batches";
 	//static final String URL = "http://localhost:8085/TrackForce/batches";
 
@@ -44,6 +49,17 @@ public class BatchResourceTest {
 	BatchService service;
 	private int knownBatchId;
 	private Long startDate , endDate;
+=======
+	private final String adminToken = JWTService.createToken("TestAdmin", 1),
+			trainerToken = JWTService.createToken("TestTrainer", 2),
+			salesToken = JWTService.createToken("TestSales", 3),
+			stagingToken = JWTService.createToken("TestStaging", 4),
+			assocToken = JWTService.createToken("TestAssoc", 5);
+	BatchService service;
+	private final int knownBatchId = 0;
+	private final Long startDate = 1490000000000L, endDate = 1600000000000L;
+
+>>>>>>> Staging
 	/**
 	 * Setup to run before any test is run
 	 */
@@ -74,7 +90,7 @@ public class BatchResourceTest {
 		int size = service.getAllBatches().size();
 		Response response = given().header("Authorization", adminToken).when().get(URL).then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
-		assertEquals(response.contentType(),"application/json");
+		assertEquals(response.contentType(), "application/json");
 
 		given().header("Authorization", adminToken).when().get(URL).then().assertThat().body("batchName",
 				Matchers.hasSize(size));
@@ -95,8 +111,9 @@ public class BatchResourceTest {
 
 		given().header("Authorization", trainerToken).when().get(URL).then().assertThat().body("batchName",
 				Matchers.hasSize(size));
+
 	}
-	
+
 	/**
 	 * Another positive test to ensure that Staging can access batches
 	 * @author Katelyn B 
@@ -107,7 +124,7 @@ public class BatchResourceTest {
 		int size = service.getAllBatches().size();
 		Response response = given().header("Authorization", salesToken).when().get(URL).then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
-		assertEquals(response.contentType(),"application/json");
+		assertEquals(response.contentType(), "application/json");
 
 	}
 	
@@ -120,7 +137,7 @@ public class BatchResourceTest {
 	public void testGetAllBatchesTestStagingHappyPath() {
 		Response response = given().header("Authorization", stagingToken).when().get(URL).then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
-		assertEquals(response.contentType(),"application/json");
+		assertEquals(response.contentType(), "application/json");
 	}
 
 	/**
@@ -132,9 +149,9 @@ public class BatchResourceTest {
 	@Test(enabled = true,priority = 3)
 	public void testGetAllBatchesInARangeBadRange() {
 		Response response = given().header("Authorization", adminToken).queryParam("start", endDate)
-				.queryParam("end", startDate).when().get(URL + "/withindates").then().extract().response();
+				.queryParam("end", startDate).when().get(URL + "withindates/").then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
-		assertEquals(response.contentType(),"application/json");
+		assertEquals(response.contentType(), "application/json");
 		assertEquals(response.body().jsonPath().getList("courseBatches").size(), 0);
 	}
 
@@ -146,9 +163,9 @@ public class BatchResourceTest {
 	@Test(enabled = true,priority = 4)
 	public void testGetBatchesInARangeHappyPath() {
 		Response response = given().header("Authorization", adminToken).queryParam("start", startDate)
-				.queryParam("end", endDate).when().get(URL + "/withindates").then().extract().response();
+				.queryParam("end", endDate).when().get(URL + "withindates/").then().extract().response();
 		assertEquals(response.getStatusCode(), 200);
-		assertEquals(response.contentType(),"application/json");
+		assertEquals(response.contentType(), "application/json");
 	}
 
 	/**
@@ -173,32 +190,36 @@ public class BatchResourceTest {
 	public void testGetAllBatchesBadAuthorization() {
 		Response response = given().header("Authorization", assocToken).when().get(URL).then().extract().response();
 		assertEquals(response.getStatusCode(), 403);
-		assertEquals(response.contentType(),"application/json");
+		assertEquals(response.contentType(), "application/json");
 		given().header("Authorization", assocToken).when().get(URL).then().assertThat().body("batchName",
 				Matchers.hasSize(service.getAllBatches().size()));
 	}
-	
+
 	/**
-	 * This positive test checks that the get associates method works for admin and that every associate returned belongs to that batch
+	 * This positive test checks that the get associates method works for admin and
+	 * that every associate returned belongs to that batch
+	 * 
 	 * @author Seth L.
 	 */
 	@Test(enabled = true,priority = 7)
 	public void testGetAssociatesByBatchIdHappyPath() {
-		given().header("Authorization", adminToken).when().get(URL + "/" + knownBatchId + "/associates")
+		given().header("Authorization", adminToken).when().get(URL + knownBatchId + "/associates/")
 			.then().assertThat().statusCode(200).and().assertThat().body("batch.id", everyItem(equalTo(0)));
 
 	}
 	
 	/**
-	 * This positive test checks if the getbatchdetails method works and that the data returned is valid
+	 * This positive test checks if the getbatchdetails method works and that the
+	 * data returned is valid
+	 * 
 	 * @author Seth L.
 	 */
 	@Test(enabled = true,priority = 8)
 	public void testGetDetailsHappyPath() {
 		Response res = given().header("Authorization", adminToken).queryParam("start", startDate).queryParam("end", endDate)
-		.queryParam("courseName", "Java").get(URL + "/details");
+		.queryParam("courseName", "Java").get(URL + "details/");
 		assertEquals(res.getStatusCode(), 200);
-		for(Object o : res.getBody().jsonPath().getList("courseBatches")) { //read response body as a JSON List
+		for (Object o : res.getBody().jsonPath().getList("courseBatches")) { // read response body as a JSON List
 			HashMap<String, Object> h = (HashMap<String, Object>) o;
 			Long sDate = (Long) h.get("startDate");
 			Long eDate = (Long) h.get("endDate");
@@ -213,27 +234,29 @@ public class BatchResourceTest {
 	}
 	
 	/**
-	 * This positive test checks if the countby works as intended, which the same as /details but its an aggregate count of all
-	 * associates from list of batches.  Thus, this test will compare the result of /countby and compare with the calculated result
-	 * of counting associates from /details
+	 * This positive test checks if the countby works as intended, which the same as
+	 * /details but its an aggregate count of all associates from list of batches.
+	 * Thus, this test will compare the result of /countby and compare with the
+	 * calculated result of counting associates from /details
+	 * 
 	 * @author Seth L.
 	 */
 	@Test(enabled = true,priority = 9, dependsOnMethods = {"testGetDetailsHappyPath"})
 	public void testVerifyDetailsCount() {
 		Response detsRes = given().header("Authorization", adminToken).queryParam("start", startDate).queryParam("end", endDate)
-				.queryParam("courseName", "Java").get(URL + "/details");
+				.queryParam("courseName", "Java").get(URL + "details/");
 		Integer total = 0;
-		for(Object o : detsRes.getBody().jsonPath().getList("courseBatches")) {
+		for (Object o : detsRes.getBody().jsonPath().getList("courseBatches")) {
 			HashMap<String, Object> h = (HashMap<String, Object>) o;
 			Integer count = (Integer) h.get("associateCount");
 			total += count;
 		}
-		Response res = given().header("Authorization", adminToken).queryParam("start", startDate).queryParam("end", endDate)
-				.queryParam("courseName", "Java").get(URL + "/countby");
+		Response res = given().header("Authorization", adminToken).queryParam("start", startDate)
+				.queryParam("end", endDate).queryParam("courseName", "Java").get(URL + "countby/");
 		Integer resultCount = res.getBody().jsonPath().getInt("associateCount");
 		assertEquals(total, resultCount);
 	}
-	
+
 	/**
 	 * Happy path testing for getBatchInfo with admin token
 	 * checks that the response has the correct status code, content type, and actually contains
@@ -371,42 +394,45 @@ public class BatchResourceTest {
 	 * has a method to check authorization that is commented out.  I leave it to the next group whether or not this method should not authorize associates.
 	 * Same goes for /batch/{id}
 	 * @author Seth L.
-	 * @param method - comma-separated list of HTTP Verbs that the service uses
-	 * @param url - the uri for the service
-	 * @param needAuth - if the user has to be a higher level of authorization than Associate like Admin to use the service, this value is true;
+	 * @param method   - comma-separated list of HTTP Verbs that the service uses
+	 * @param url      - the uri for the service
+	 * @param needAuth - if the user has to be a higher level of authorization than
+	 *                 Associate like Admin to use the service, this value is true;
 	 */
 	@Test(enabled = true, priority = 10, dataProvider = "urls")
 	public void unhappyPathTest(String method, String url, Boolean needAuth) {
 		String[] verbs = method.split(", ");
 		url = URL + url;
-		//test no token
-		for(String verb : verbs) {
-			sendRequest(verb,url, null).then().assertThat().statusCode(401);
-			//test invalid token
+		// test no token
+		for (String verb : verbs) {
+			sendRequest(verb, url, null).then().assertThat().statusCode(401);
+			// test invalid token
 			sendRequest(verb, url, new Header("Authorization", "badtoken")).then().assertThat().statusCode(401);
-			//test with associate token
-			if(needAuth)
+			// test with associate token
+			if (needAuth)
 				sendRequest(verb, url, new Header("Authorization", assocToken)).then().assertThat().statusCode(403);
 		}
-		//look for an HTTP verb not used
-		String knownVerbs[] = new String[] {"GET", "POST", "PUT", "DELETE"};
-		for(String verb : knownVerbs) {
-			if(!method.contains(verb)) {
-				//test unsupported verb
+		// look for an HTTP verb not used
+		String knownVerbs[] = new String[] { "GET", "POST", "PUT", "DELETE" };
+		for (String verb : knownVerbs) {
+			if (!method.contains(verb)) {
+				// test unsupported verb
 				sendRequest(verb, url, new Header("Authorization", adminToken)).then().assertThat().statusCode(405);
 				break;
 			}
 		}
-		
+
 	}
-	/**
-	 * This method performs the appropriate request based on the HTTP verb and returns the response
+	
+	/*
+	 * This method performs the appropriate request based on the HTTP verb and
+	 * returns the response
 	 */
 	private Response sendRequest(String method, String url, Header h) {
 		RequestSpecification given = given().contentType("application/json");
-		if(h != null)
+		if (h != null)
 			given.header(h);
-		switch(method) {
+		switch (method) {
 		case "GET":
 			return given.when().get(url);
 		case "POST":
@@ -426,12 +452,12 @@ public class BatchResourceTest {
 	 */
 	@DataProvider(name = "urls") 
 	public Object[][] getURLs() {
-		return new Object[][]  {{"GET", "/", new Boolean(true)},
+		return new Object[][]  {{"GET", "", new Boolean(true)},
 								{"GET", "?start=1490000000000&end=1600000000000", new Boolean(true)}, 
-								{"GET", "/0/associates", new Boolean(true)},
-								{"GET", "/details?start=1490000000000&end=1600000000000&courseName=Java", new Boolean(false)},
-								{"GET", "/countby?start=1490000000000&end=1600000000000&courseName=Java", new Boolean(true)},
-								{"GET", "/withindates?start=1490000000000&end=1600000000000", new Boolean(true)},
-								{"GET", "/batch/0", new Boolean(false)}};
+								{"GET", "0/associates/", new Boolean(true)},
+								{"GET", "details?start=1490000000000&end=1600000000000&courseName=Java/", new Boolean(false)},
+								{"GET", "countby?start=1490000000000&end=1600000000000&courseName=Java/", new Boolean(true)},
+								{"GET", "withindates?start=1490000000000&end=1600000000000/", new Boolean(true)},
+								{"GET", "batch/0/", new Boolean(false)}};
 	}
 }

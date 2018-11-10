@@ -25,10 +25,10 @@ export class InterviewDetailsComponent implements OnInit {
   promptClassName = "alert-success";
   promptMessage: InterviewUpdate;
   promptToggle = false;
-  isDisabledAssociate = false;
+  isDisabledAssociate = true;
   isDisabledClient = true;
-  isDisabledQuestions = false;
-  isDisabledSkillsAndQuestions = false;
+  isDisabledQuestions = true;
+  isDisabledSkillsAndQuestions = true;
   userRole: number;
 
   constructor(private route: ActivatedRoute, private interviewService: InterviewService,

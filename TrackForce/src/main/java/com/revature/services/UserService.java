@@ -120,6 +120,8 @@ public class UserService {
 	 * @param loginUser
 	 * @return foundUser
 	 */
+	@POST
+	@Path("/submitCredentials/")
 	public TfUser submitCredentials(TfUser loginUser) {
 		TfUser foundUser = getUser(loginUser.getUsername());
 		if (foundUser != null) {

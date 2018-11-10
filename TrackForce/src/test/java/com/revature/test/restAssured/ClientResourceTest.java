@@ -88,7 +88,6 @@ public class ClientResourceTest {
 
 		given().header("Authorization", token).when().post(URL).then().assertThat().statusCode(405);
 	}
-<<<<<<< HEAD
 	/**
 	 * Unhappy path testing for testGetAllClient, tests that a 404 status code is generated for a 
 	 * bad URL

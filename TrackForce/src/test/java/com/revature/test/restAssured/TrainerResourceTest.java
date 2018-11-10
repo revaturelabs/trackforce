@@ -79,7 +79,6 @@ public class TrainerResourceTest {
 	 * @since 06.18.06.18
 	 */
 	@Test(priority = 2)
-<<<<<<< HEAD
 	public void testGetTrainerHappyPath() {
 		Response response = given().header("Authorization", token).when().get(URL + knownUserId + "/").then().extract()
 				.response();
@@ -177,7 +176,6 @@ public class TrainerResourceTest {
 	@Test(priority = 4)
 	public void testGetTrainerPrimaryBatchesHappyPath() {
 		Response response = given().headers("Authorization", token).contentType("application/json").when()
-<<<<<<< HEAD
 				.post(URL + knownTrainerId + "/batch/").then().extract().response();
 
 		assertEquals(response.getStatusCode(), 200);
@@ -233,9 +231,6 @@ public class TrainerResourceTest {
 	 * batches they are cotrainer for. Currently I cannot find a trainer for which
 	 * that is true due to the same Lazy Initialization Exception that causes the
 	 * failure of this test! - Katelyn Barnes Nov. 9, 2019
-=======
-	 * 204 is returned when that trainer has no batch,
->>>>>>> Staging
 	 * 
 	 * @author Jesse, Andy
 	 * @since 06.18.06.18

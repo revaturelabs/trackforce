@@ -41,25 +41,11 @@ public class BatchResourceTest {
 
 	static final String URL = EnvManager.TomTrackForce_URL + "batches/";
 
-<<<<<<< HEAD
-	static final String URL = "http://52.87.205.55:8086/TrackForce/batches";
-	//static final String URL = "http://localhost:8085/TrackForce/batches";
-
 	private String adminToken, trainerToken, salesToken, stagingToken, assocToken;
 	BatchService service;
 	private int knownBatchId;
 	private Long startDate , endDate;
-=======
-	private final String adminToken = JWTService.createToken("TestAdmin", 1),
-			trainerToken = JWTService.createToken("TestTrainer", 2),
-			salesToken = JWTService.createToken("TestSales", 3),
-			stagingToken = JWTService.createToken("TestStaging", 4),
-			assocToken = JWTService.createToken("TestAssoc", 5);
-	BatchService service;
-	private final int knownBatchId = 0;
-	private final Long startDate = 1490000000000L, endDate = 1600000000000L;
 
->>>>>>> Staging
 	/**
 	 * Setup to run before any test is run
 	 */

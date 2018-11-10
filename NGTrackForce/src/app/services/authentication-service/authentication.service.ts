@@ -82,6 +82,8 @@ export class AuthenticationService {
     }
 
     async getUserRoleFirst(callback = undefined) {
+        console.log("UserRoleFirst:")
+        console.trace();
       this.role = await this.http.get<number>(environment.url + "TrackForce/users/getUserRole").toPromise();
       if(callback){
         callback(this.role);

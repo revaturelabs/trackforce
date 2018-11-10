@@ -1,3 +1,4 @@
+import { MockAuthenticationService } from './../associate-view/associate-view.component.spec';
 
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
@@ -31,7 +32,14 @@ import {User} from '../../models/user.model';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import { Associate } from '../../models/associate.model';
 import { Trainer } from '../../models/trainer.model';
+/* 
+*  [ of ] Added on 11/10/2018. As of RXJS 6.3, Observable.of is depreciated
+*  Updated with the latest intended function. Additionally, swapped out
+*  uses of Observable.of with of. This was done to fix the spec file,
+*  which was not a working test suite prior.
+*/
 import { of } from 'rxjs/observable/of';
+
 /*
 import { getTestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule,
@@ -84,7 +92,7 @@ describe('BatchListComponent', async () => {
   let component: BatchListComponent;
   let fixture: ComponentFixture<BatchListComponent>;
   const testBatchService: BatchService = new MockBatchService(null);
-  const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
+  const testAuthService: AuthenticationService = new MockAuthenticationService(null, null, null);
 
   // setup service mocks
   beforeAll(() => {

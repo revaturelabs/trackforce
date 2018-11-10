@@ -19,6 +19,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/observable/of';
 import { LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from '@angular/common';
+import { HttpInterceptorHandler } from '@angular/common/http/src/interceptor';
 
 export class MockAuthenticationService extends AuthenticationService {
   getUser(): User {

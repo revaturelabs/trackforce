@@ -16,6 +16,12 @@ import { Client } from '../../models/client.model';
 import { EndClient } from '../../models/end-client.model';
 import { Associate } from '../../models/associate.model';
 import { HttpClient, HttpHandler } from '../../../../node_modules/@angular/common/http';
+/* 
+*  [ of ] Added on 11/10/2018. As of RXJS 6.3, Observable.of is depreciated
+*  Updated with the latest intended function. Additionally, swapped out
+*  uses of Observable.of with of. This was done to fix the spec file,
+*  which was not a working test suite prior.
+*/
 import { of } from 'rxjs/observable/of';
 
 export class MockActivatedRoute {

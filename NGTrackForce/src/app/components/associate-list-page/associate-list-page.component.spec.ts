@@ -27,6 +27,17 @@ describe('AssociateListPageComponent', () => {
   let fixture: ComponentFixture<AssociateListPageComponent>;
 
   beforeEach(async(() => {
+
+    /**
+     * [Declarations, Providers, and Imports on the TestBed]
+     * 
+     * Added all needed/missing components, services, and modules
+     * to configure the component to test. Done on 11/10/2018.
+     * 
+     * As of this fix, the Associate List Page component successfully
+     * creates in this spec and is available to write tests for.
+     */
+
     TestBed.configureTestingModule({
      declarations: [
         AssociateListPageComponent,

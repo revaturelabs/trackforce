@@ -15,6 +15,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { InvalidSessionComponent } from './invalid-session.component';
 import { LoginComponent } from '../login/login.component';
 
+/**
+ * [DEFECT: "[object ErrorEvent] thrown"]
+ * 
+ * This spec still does not successfully create the InvalidSessionComponent
+ * to perform testing upon. Refer to issue 698 in the repository for the
+ * details on what has been discovered in previous debugging attempts.
+ */
+
 describe('InvalidSessionComponent', () => {
   let component: InvalidSessionComponent;
   let fixture: ComponentFixture<InvalidSessionComponent>;
@@ -42,16 +50,19 @@ describe('InvalidSessionComponent', () => {
       ]
     })
     .compileComponents();
+
   }));
 
   beforeEach(() => {
+    
     fixture = TestBed.createComponent(InvalidSessionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 
   

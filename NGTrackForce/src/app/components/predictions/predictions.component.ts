@@ -14,6 +14,13 @@ import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.compon
   selector: 'app-predictions',
   templateUrl: './predictions.component.html',
   styleUrls: ['./predictions.component.css'],
+  /**
+   * [ClientService]
+   * 
+   * This service was added as a provider on 11/10/2018.
+   * It was needed in order to successfully create the
+   * component in the Jasmine test spec, and test it.
+   */
   providers:[ClientService]
 })
 @AutoUnsubscribe

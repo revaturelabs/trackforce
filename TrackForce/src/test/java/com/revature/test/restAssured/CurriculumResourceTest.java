@@ -133,7 +133,6 @@ public class CurriculumResourceTest {
 	public void testGetUnmappedInfoUnhappyPath() {
 		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/unmapped/4").then().extract().response();
 		
-		System.out.println(response.statusCode());
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 		

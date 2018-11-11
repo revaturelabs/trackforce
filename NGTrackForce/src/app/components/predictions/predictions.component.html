@@ -40,12 +40,14 @@
                 <td><input id="{{tech.name}}-input" type="number" class="form-control" [(ngModel)]="techNeeded[i]"
                     [ngModelOptions]="{standalone: true}" onkeypress="return (event.charCode == 0 || event.charCode == 8 || event.charCode == 13) ?
                   null : event.charCode >= 48 && event.charCode <= 57"
-                    (change)="getPrediction(i, true)" [min]="0"></td>
+                     [min]="0"></td>
               </tr>
             </tbody>
           </table>
         </div>
+      <button (click)="getAllPredictions()" class="btn btn-primary">Check Resources</button>
       </div>
+
     </div>
 
     <!-- After inputting data in requirements table, obtain following resources table -->

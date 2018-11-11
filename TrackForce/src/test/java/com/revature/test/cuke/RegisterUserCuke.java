@@ -2,6 +2,9 @@ package com.revature.test.cuke;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import static com.revature.test.cuke.ConstantsCukeTestUtil.getPasswordCapitalized;
+import static com.revature.test.cuke.ConstantsCukeTestUtil.getPasswordLowercase;
+
 
 import com.revature.test.pom.Login;
 import com.revature.test.utils.ServiceHooks;
@@ -28,13 +31,13 @@ public class RegisterUserCuke {
 	@When("^I enter a valid password$")
 	public void i_enter_a_vaild_password() throws Exception {
 		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Login.getPassword(ServiceHooks.driver)));
-		Login.getPassword(ServiceHooks.driver).sendKeys("Password");
+		Login.getPassword(ServiceHooks.driver).sendKeys(getPasswordCapitalized());
 	}
 
 	@When("^I confirm my password$")
 	public void i_confirm_my_password() throws Exception {
 		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Login.getConfirmPassword(ServiceHooks.driver)));
-		Login.getConfirmPassword(ServiceHooks.driver).sendKeys("Password");
+		Login.getConfirmPassword(ServiceHooks.driver).sendKeys(getPasswordCapitalized());
 	}
 
 	@When("^I enter a invalid firstname$")
@@ -79,13 +82,13 @@ public class RegisterUserCuke {
 	@When("^I enter a invalid password\"([^\"]*)\"$")
 	public void i_enter_a_invalid_password(String password) throws Exception {
 		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Login.getPassword(ServiceHooks.driver)));
-		Login.getPassword(ServiceHooks.driver).sendKeys("password");
+		Login.getPassword(ServiceHooks.driver).sendKeys(getPasswordLowercase());
 	}
 
 	@When("^I confirm my invalid password\"([^\"]*)\"$")
 	public void i_confirm_my_invalid_password(String password) throws Exception {
 		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Login.getConfirmPassword(ServiceHooks.driver)));
-		Login.getConfirmPassword(ServiceHooks.driver).sendKeys("password");
+		Login.getConfirmPassword(ServiceHooks.driver).sendKeys(getPasswordLowercase());
 	}
 
 	@And("^I select an associate role$")

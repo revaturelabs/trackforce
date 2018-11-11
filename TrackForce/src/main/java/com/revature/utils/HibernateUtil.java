@@ -34,6 +34,7 @@ public class HibernateUtil {
 	}
 
 	private static SessionFactory buildSessionFactory() {
+		SchedulePendingUserCleanup.Start();
 		try {
 			Configuration cfg = new Configuration();			
 			cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
@@ -84,7 +85,6 @@ public class HibernateUtil {
 
 				if (sessional.operate(session, args)) {logger.debug("Committing..."); }
 				else { throw new HibernateException("Transaction Operation Failed!"); }
-
 				transaction.commit();
 				logger.info("Transaction committed!");
 				return true;
@@ -97,6 +97,7 @@ public class HibernateUtil {
 			return false;
 		};
 		return threadUtil.submitCallable(caller);
+		
 	}
 
 	public static <T> boolean multiTransaction(Sessional<Boolean> sessional, List<T> items) {

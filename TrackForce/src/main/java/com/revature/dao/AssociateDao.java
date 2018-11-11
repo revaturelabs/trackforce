@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfUser;
 
 public interface AssociateDao {
 	TfAssociate getAssociate(Integer associateid);
@@ -34,4 +35,8 @@ public interface AssociateDao {
 	boolean updateAssociates(List<TfAssociate> associate);
 
 	<T> T countMappedAssociatesByValue(String column, T value, Integer mappedStatus);
+	
+	public void deleteAssociate(TfAssociate associate);
+	
+	public void deleteOldAssociateProcedure();
 }

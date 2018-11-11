@@ -18,29 +18,29 @@
 		</classes>
 	</test>
 	<test name="entityTest">
-		<classes>
-			<class name="com.revature.test.junit.entity.TfAssociateTest" />
-			<class name="com.revature.test.junit.entity.TfBatchLocationTest" />
-			<class name="com.revature.test.junit.entity.TfBatchTest" />
-			<class name="com.revature.test.junit.entity.TfClientTest"/>
-			<class name="com.revature.test.junit.entity.TfCurriculumTest" />
-			<class name="com.revature.test.junit.entity.TfEndClientTest" />
-			<class name="com.revature.test.junit.entity.TfInterviewTest" />
-			<class name="com.revature.test.junit.entity.TfInterviewTypeTest"/>
-			<class name="com.revature.test.junit.entity.TfMarketingStatusTest" />
-			<class name="com.revature.test.junit.entity.TfPlacementTest" />
-			<class name="com.revature.test.junit.entity.TfRoleTest" />
-			<class name="com.revature.test.junit.entity.TfTrainerTest" />
-			<class name="com.revature.test.junit.entity.TfUserAndCreatorRolerContainerTest" />
-			<class name="com.revature.test.junit.entity.TfUserTest" />
-		</classes>
-	</test>
-	<test name="utilTest">
-		<classes>
-			<class name="com.revature.test.junit.util.HibernateUtilTest" />
-			<class name="com.revature.test.junit.util.PasswordStorageTest" />
-		</classes>
-	</test>
+       <classes>
+           <class name="com.revature.test.orm.entity.TfAssociateTest" />
+           <class name="com.revature.test.orm.entity.TfBatchLocationTest" />
+           <class name="com.revature.test.orm.entity.TfBatchTest" />
+           <class name="com.revature.test.orm.entity.TfClientTest"/>
+           <class name="com.revature.test.orm.entity.TfCurriculumTest" />
+           <class name="com.revature.test.orm.entity.TfEndClientTest" />
+           <class name="com.revature.test.orm.entity.TfInterviewTest" />
+           <class name="com.revature.test.orm.entity.TfInterviewTypeTest"/>
+           <class name="com.revature.test.orm.entity.TfMarketingStatusTest" />
+           <class name="com.revature.test.orm.entity.TfPlacementTest" />
+           <class name="com.revature.test.orm.entity.TfRoleTest" />
+           <class name="com.revature.test.orm.entity.TfTrainerTest" />
+           <class name="com.revature.test.orm.entity.TfUserAndCreatorRolerContainerTest" />
+           <class name="com.revature.test.orm.entity.TfUserTest" />
+       </classes>
+   </test>
+   <test name="utilTest">
+   	<classes>
+   		<class name="com.revature.test.orm.util.HibernateUtilTest"/>
+   		<class name="com.revature.test.orm.util.PasswordStorageTest"/>
+   	</classes>
+   </test>
 	<test name="servicesTest">
 		<classes>
 			<class name="com.revature.test.services.AssociateServicesTest" />

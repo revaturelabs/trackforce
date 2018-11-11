@@ -116,7 +116,6 @@ public class CurriculumResourceTest {
 				.response();
 
 
-
 		assertEquals(response.statusCode(), 200);
 		assertEquals(response.contentType(), "application/json");
 		assertTrue(response.asString().contains("\"id\":2"));

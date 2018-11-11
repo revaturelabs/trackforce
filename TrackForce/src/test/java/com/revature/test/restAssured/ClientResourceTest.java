@@ -198,8 +198,11 @@ public class ClientResourceTest {
 
 	@DataProvider(name = "urls")
 	public Object[][] getURLs() {
-		return new Object[][] { { "GET", "", new Boolean(true) }, { "GET", "associates/get/0/", new Boolean(true) },
-				{ "GET", "mapped/get/", new Boolean(true) }, { "GET", "50/", new Boolean(true) } };
+		return new Object[][] { 
+			{ "GET", "", new Boolean(true) }, 
+			{ "GET", "associates/get/0/", new Boolean(true) },
+			{ "GET", "mapped/get/", new Boolean(true) }, 
+			{ "GET", "50/", new Boolean(true) } };
 	}
 }
 

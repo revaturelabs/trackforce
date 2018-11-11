@@ -79,22 +79,24 @@ public class ClientResource {
 		int[] level = {1};
 		if (JWTService.validateToken(token) == true) {
 			if (UserAuthentication.Authorized(token, level)) {
+				System.out.println("AUTHENTICATION PASSED");
 				Status status = null;
 				List<TfClient> clients = clientService.getAllTfClients();
 				Claims payload = JWTService.processToken(token);
-
+				System.out.println("TOKEN PROCESSED");
 				if (payload == null) {
 					return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 				}
-				// invalid token
-				else if (payload == Response.accepted()) {
+				else {
 				status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
 				}
 				return Response.status(status).entity(clients).build();
 			} else {
+				System.out.println("AUTHENTICATION FAILED");
 				return Response.status(403).entity(JWTService.forbiddenToken(token)).build();
 				} 
 		} else {
+			System.out.println("TOKEN INVALID");
 			return Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
 		}
 	}
@@ -140,24 +142,5 @@ public class ClientResource {
 	public Response getFirstFiftyClients() {
 		System.out.println("GET FIRST FIFTY CLIENTS CALLED");
 		return Response.status(200).entity(clientService.getFirstFiftyClients()).build();
-	}
-
-	public Boolean authorizeAdminUser(String token) {
-		Claims payload = JWTService.processToken(token);
-		if (payload == null)
-			return false;
-
-		int role = 0;
-		try {
-			role = Integer.parseInt((String) payload.get("roleID"));
-		} catch (NumberFormatException nfe) {
-			return false;
-		}
-
-		if (role == 1) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 }

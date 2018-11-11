@@ -32,7 +32,7 @@ public class UserAuthentication {
 			//boolean result = IntStream.of(levelNeeded).anyMatch(
 			//		x -> x == Integer.parseInt((String) payload.get("roleID"))
 			//);
-			/*
+			
 			boolean result = false;
 			
 			for(int level: levelNeeded) {
@@ -40,10 +40,10 @@ public class UserAuthentication {
 					result = true;
 					break;
 				}
-			}*/
-			boolean result = true;
-			//boolean compare = (ud.getUser(payload.getSubject()).getTfRole().getTfRoleId() == payload.get("roleID"));
-			boolean compare = true;
+			}
+			//boolean result = true;
+			boolean compare = (ud.getUser((String)payload.getSubject()).getTfRole().getTfRoleId() == Integer.parseInt((String)payload.get("roleID")));
+			//boolean compare = true;
 			System.out.println("RESULT: " + result);
 			System.out.println("COMPARE: " + compare);
 			if ( result && compare) {

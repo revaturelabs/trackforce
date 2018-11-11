@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Interview } from '../../models/interview.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
 @Injectable()
 export class InterviewService {

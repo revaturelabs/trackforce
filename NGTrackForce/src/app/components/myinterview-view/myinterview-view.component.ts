@@ -11,9 +11,6 @@ import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { InterviewType } from '../../models/interview-type';
 import { Router } from '@angular/router';
-import { DateService } from '../../services/date-service/date.service';
-import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { FormGroup, FormBuilder } from '@angular/forms';
 /**
  *@author Katherine Obioha, Andrew Ahn

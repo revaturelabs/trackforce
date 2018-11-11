@@ -26,6 +26,7 @@ import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
+import com.revature.utils.UserAuthentication;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -69,15 +70,17 @@ public class ClientResource {
 	 * @throws IOException
 	 */
 	@GET
-	@Path("/TrackForce/clients")
+	@Path("/getAll/")
 	@ApiOperation(value = "Returns all clients", notes = "Returns a map of all clients.")
-	public Response getAllClients(@HeaderParam("Authorization") String token) {
+	public Response getAllClients(@HeaderParam("Authorization") String token ) {
+		
+		
 		logger.info("getAllClients()...");
-		// ClientResource.authorizedUser(TfUser);
-
+		if (UserAuthentication.Authorized (token, new int [] {1})) {
 		Status status = null;
 		List<TfClient> clients = clientService.getAllTfClients();
 		Claims payload = JWTService.processToken(token);
+		
 		if (JWTService.validateToken(token) == true) {
 
 			if (payload == null) {
@@ -90,8 +93,11 @@ public class ClientResource {
 		}
 
 		return Response.status(status).entity(clients).build();
+	}else {
+		return Response.status(403).entity(JWTService.forbiddenToken(token)).build();
 	}
-
+	
+	}
 	@GET
 	@Path("/associates/get/{client_id}")
 	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id) {
@@ -104,23 +110,23 @@ public class ClientResource {
 
 	@GET
 	@Path("/mapped/get/")
-	public Response getMappedClients(@HeaderParam("Authorization") String token, int tfroleid) {
+	public Response getMappedClients(@HeaderParam("Authorization") String token) {
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 
 		if (payload == null) {
-			return Response.status(401).entity(clientService.getMappedClients()).build();
+			return Response.status(403).entity(clientService.getMappedClients()).build();
 		} else {
 
 			if (JWTService.validateToken(token) == false) {
-				return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+				return Response.status(Status.FORBIDDEN).entity(JWTService.invalidTokenBody(token)).build();
 			} else {
 				int role = 0;
 				role = Integer.parseInt((String) payload.get("roleID"));
 				if (role == 1) {
 					return Response.status(200).entity(clientService.getMappedClients()).build();
 				} else {
-					return Response.status(401).entity(clientService.getMappedClients()).build();
+					return Response.status(403).entity(clientService.getMappedClients()).build();
 				}
 			}
 		}

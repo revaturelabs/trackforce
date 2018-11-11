@@ -73,10 +73,8 @@ public class ClientResource {
 	@Path("/getAll/")
 	@ApiOperation(value = "Returns all clients", notes = "Returns a map of all clients.")
 	public Response getAllClients(@HeaderParam("Authorization") String token) {
-
 		logger.info("getAllClients()...");
-		System.out.println("GET ALL CLIENTS CALLED");
-		int[] level = {1};
+		int[] level = { 1 };
 		if (JWTService.validateToken(token) == true) {
 			if (UserAuthentication.Authorized(token, level)) {
 				System.out.println("AUTHENTICATION PASSED");
@@ -86,31 +84,38 @@ public class ClientResource {
 				System.out.println("TOKEN PROCESSED");
 				if (payload == null) {
 					return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-				}
-				else {
-				status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
+				} else {
+					status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
 				}
 				return Response.status(status).entity(clients).build();
 			} else {
 				System.out.println("AUTHENTICATION FAILED");
 				return Response.status(403).entity(JWTService.forbiddenToken(token)).build();
-				} 
+			}
 		} else {
 			System.out.println("TOKEN INVALID");
 			return Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
 		}
 	}
 
-
 	@GET
 	@Path("/associates/get/{client_id}")
-	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id) {
-		System.out.println("GET MAPPED ASSOCIATES BY CLIENT ID CALLED");
-		Long[] response = new Long[4];
-		for (Integer i = 0; i < response.length; i++) {
-			response[i] = associateService.getMappedAssociateCountByClientId(client_id, i + 1);
+	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id,
+			@HeaderParam("Authorization") String token) {
+		int[] level = { 1 };
+		if (JWTService.validateToken(token)) {
+			if (UserAuthentication.Authorized(token, level)) {
+				Long[] response = new Long[4];
+				for (Integer i = 0; i < response.length; i++) {
+					response[i] = associateService.getMappedAssociateCountByClientId(client_id, i + 1);
+				}
+				return Response.status(200).entity(response).build();
+			} else {
+				return Response.status(403).entity(JWTService.forbiddenToken(token)).build();
+			}
+		} else {
+			return Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
 		}
-		return Response.status(200).entity(response).build();
 	}
 
 	@GET
@@ -118,24 +123,21 @@ public class ClientResource {
 	public Response getMappedClients(@HeaderParam("Authorization") String token) {
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
-
-		if (payload == null) {
-			return Response.status(403).entity(clientService.getMappedClients()).build();
-		} else {
-
-			if (JWTService.validateToken(token) == false) {
-				return Response.status(Status.FORBIDDEN).entity(JWTService.invalidTokenBody(token)).build();
-			} else {
-				int role = 0;
-				role = Integer.parseInt((String) payload.get("roleID"));
-				if (role == 1) {
-					return Response.status(200).entity(clientService.getMappedClients()).build();
-				} else {
+		int[] level = { 1 };
+		if (JWTService.validateToken(token)) {
+			if (UserAuthentication.Authorized(token, level)) {
+				if (payload == null) {
 					return Response.status(403).entity(clientService.getMappedClients()).build();
+				} else {
+					return Response.status(200).entity(clientService.getMappedClients()).build();
 				}
+			} else {
+				return Response.status(403).entity(JWTService.forbiddenToken(token)).build();
 			}
+		} else {
+			return Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
 		}
-	}
+	}	
 
 	@GET
 	@Path("/50/")

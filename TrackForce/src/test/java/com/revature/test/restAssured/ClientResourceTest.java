@@ -66,13 +66,14 @@ public class ClientResourceTest {
 	 */
 	@Test(priority = 5)
 	public void testGetAllClientsHappyPath() {
-		given().header("Authorization", token).when().get(URL + "/getAll/").then().assertThat().statusCode(200);
-		Response response = given().header("Authorization", token).when().get(URL + "/getAll/").then().extract().response();
+		String newUrl = URL + "/getAll/";
+		given().header("Authorization", token).when().get(newUrl).then().assertThat().statusCode(200);
+		Response response = given().header("Authorization", token).when().get(newUrl).then().extract().response();
 
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 
-		given().header("Authorization", token).when().get(URL + "/getAll/").then().assertThat().body("name",
+		given().header("Authorization", token).when().get(newUrl).then().assertThat().body("name",
 				hasSize(clients.size()));
 	}
 
@@ -89,10 +90,6 @@ public class ClientResourceTest {
 
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
-
-		given().header("Authorization", token).when().get(URL + "notAURL/").then().assertThat().statusCode(404);
-
-		given().header("Authorization", token).when().post(URL + "/getAll/").then().assertThat().statusCode(405);
 	}
 	/**
 	 * Unhappy path testing for testGetAllClient, tests that a 404 status code is generated for a 
@@ -128,6 +125,16 @@ public class ClientResourceTest {
 		//assertTrue(response.statusCode() == 403);
 	}
 	
+	@DataProvider(name = "urls")
+	public String[] getURLs() {
+		return new String[] { 
+			 "/getAll/", 
+			 "/associates/get/0",
+			 "/mapped/get/" 
+			// "/50/"  
+			};
+	}
+	
 	/**
 	 * An unhappy test method that checks every method but login to assure that
 	 * those that need security must block the user if he: 
@@ -150,7 +157,7 @@ public class ClientResourceTest {
 	@Test(enabled = true, priority = 11, dataProvider = "urls")
 	public void unhappyPathTest(String method, String url, Boolean needAuth) {
 		String adminToken = token;
-		String assocToken = JWTService.createToken("TestAssociate", 5);
+		String assocToken = JWTService.createToken("AssociateTest", 5);
 		String[] verbs = method.split(", ");
 		url = URL + url;
 		// test no token
@@ -195,7 +202,7 @@ public class ClientResourceTest {
 			return given().when().get();
 		}
 	}
-
+/*
 	@DataProvider(name = "urls")
 	public Object[][] getURLs() {
 		return new Object[][] { 
@@ -203,6 +210,8 @@ public class ClientResourceTest {
 			{ "GET", "associates/get/0/", new Boolean(true) },
 			{ "GET", "mapped/get/", new Boolean(true) }, 
 			{ "GET", "50/", new Boolean(true) } };
-	}
+	}*/
+	
+	
 }
 

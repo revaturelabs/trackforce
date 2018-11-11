@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { DateService } from '../../services/date-service/date.service';
 import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
+import { FormGroup, FormBuilder } from '@angular/forms';
 /**
  *@author Katherine Obioha, Andrew Ahn
  *
@@ -28,6 +29,7 @@ import { Timestamp } from 'rxjs/internal/operators/timestamp';
 })
 @AutoUnsubscribe
 export class MyInterviewComponent implements OnInit {
+  registerForm:FormGroup;
   public interviews: Interview[];
   public associate: Associate;
   //public id = 0;
@@ -35,8 +37,8 @@ export class MyInterviewComponent implements OnInit {
   public formOpen = false;
   public conflictingInterviews = '';
 
-  public interviewDate: Timestamp<Date>;
-  public updateTheInterview: Date;
+  public interviewDate: Date;
+  
         
   public interviewAssigned: Date = new Date();
   public clients: Client[];
@@ -68,10 +70,17 @@ export class MyInterviewComponent implements OnInit {
     private activated: ActivatedRoute,
     private interviewService: InterviewService,
     private clientService: ClientService,
-    private router: Router
+    private router: Router,
+    private formBuilder:FormBuilder
   ) {}
 
   ngOnInit(){
+   
+   
+      this.registerForm = this.formBuilder.group({
+        dateinput: [''],
+       });
+    
     //gets the associate id from the path
     //the '+' coerces the parameter into a number
     // this.id = +this.activated.snapshot.paramMap.get('id');
@@ -141,12 +150,12 @@ export class MyInterviewComponent implements OnInit {
           this.associate,
           this.clientId,
           this.interviewType,
-          new Date(this.interviewDate.timestamp).getTime(),
+          new Date(this.interviewDate).getTime(),
           null,
           this.was24HRNotice ? 1 : 0,
           null,
           new Date(this.interviewAssigned).getTime(),
-          new Date(this.interviewAssigned).getTime().toString()
+          new Date(this.interviewDate).getTime().toString()
         );
         console.log("interview added");
       
@@ -158,27 +167,29 @@ export class MyInterviewComponent implements OnInit {
           .createInterview(this.newInterview, this.associate.id)
           .subscribe(res => {
             location.reload(false);
-          });
+          
+         });
       }
   }
-  
+ 
 
   updateInterview(interview: Interview){
     if (!this.dateError){
         interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
-        interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
+        interview.interviewDate = new Date(this.registerForm.value['dateinput']).getTime(); // convert into timestamp
         interview.dateSalesIssued = new Date(
           interview.dateAssociateIssued
         ).getTime(); // convert into timestamp
         
-        interview.dateAssociateIssued = new Date (this.updateTheInterview).getTime() ;
-       
+        interview.dateAssociateIssued = new Date (this.registerForm.value['dateinput']).getTime() ;
+        console.log("in updateinterview");
+        
       
         this.interviewService.updateInterview(interview).subscribe(res => {
         this.updateSuccess=true;
       
           
-          location.reload(false);
+         location.reload(false);
        });
     }
   }

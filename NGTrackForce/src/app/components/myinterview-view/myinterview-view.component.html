@@ -67,8 +67,8 @@
           <tr>
             <th>Interview</th>
             <th>Client</th>
-            <th>Date Notified</th>
             <th>Interview Date</th>
+            <th>Update Date</th>
             <th>Medium</th>
             <th>Job Description</th>
             <th>24 hour notice?</th>
@@ -82,15 +82,14 @@
             <td>{{ (interview.client && interview.client.name) ? interview.client.name : ""}}</td>
 
             <td>
-              {{interview.dateAssociateIssued | date:'medium'}} 
+              {{interview.interviewDate| date:'medium'}} 
             </td>
 
             <td>
-              
-               <input type="datetime-local"
-                   name="modDate" id="moddedDate" [(ngModel)]="updateTheInterview"
-                  placeholder="Date" size="2">
-            
+              <form [formGroup]="registerForm" >
+               <input  type="datetime-local" formControlName="dateinput">
+               <button type="button" class="btn btn-primary" (click)='updateInterview(interview)'>Update</button>
+               </form>
             </td>
 
             <td>{{ (interview.interviewType && interview.interviewType.name) ? interview.interviewType.name : "" }}</td>
@@ -103,7 +102,7 @@
 
             <td class="button_col">
               <button type="button" class="btn btn-primary" (click)='viewInterview(interview.id)' style.display="inline">View</button>
-              <button type="button" class="btn btn-primary" (click)='updateInterview(interview)'>Updatee</button>
+           
             </td>
 
           </tr>

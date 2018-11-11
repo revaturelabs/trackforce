@@ -253,4 +253,27 @@ public class JWTService {
 		
 		return body.toString();
 	}
+	
+public static String forbiddenToken(String token) {
+		
+		JSONObject body = new JSONObject();
+		body.put("status", "Forbidden");
+		
+		final long expiration = getExpiredTokenTime(token);
+		
+		Date now = new Date();
+		
+		if(expiration == -1) {
+			//arbitrary response; number of minutes in a day
+			body.put("expirationtime", -1);
+			return body.toString();
+		}
+		
+		long diffMillies = now.getTime() - expiration;
+		long diffMinutes = TimeUnit.MINUTES.convert(diffMillies, TimeUnit.MILLISECONDS);		
+		
+		body.put("expirationtime", diffMinutes);
+		
+		return body.toString();
+	}
 }

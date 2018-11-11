@@ -72,35 +72,38 @@ public class ClientResource {
 	@GET
 	@Path("/getAll/")
 	@ApiOperation(value = "Returns all clients", notes = "Returns a map of all clients.")
-	public Response getAllClients(@HeaderParam("Authorization") String token ) {
-		
-		
+	public Response getAllClients(@HeaderParam("Authorization") String token) {
+
 		logger.info("getAllClients()...");
-		if (UserAuthentication.Authorized (token, new int [] {1})) {
-		Status status = null;
-		List<TfClient> clients = clientService.getAllTfClients();
-		Claims payload = JWTService.processToken(token);
-		
+		System.out.println("GET ALL CLIENTS CALLED");
+		int[] level = {1};
 		if (JWTService.validateToken(token) == true) {
+			if (UserAuthentication.Authorized(token, level)) {
+				Status status = null;
+				List<TfClient> clients = clientService.getAllTfClients();
+				Claims payload = JWTService.processToken(token);
 
-			if (payload == null) {
-				return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-			}
-			// invalid token
-
-		} else if (payload == Response.accepted()) {
-			status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
+				if (payload == null) {
+					return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+				}
+				// invalid token
+				else if (payload == Response.accepted()) {
+				status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
+				}
+				return Response.status(status).entity(clients).build();
+			} else {
+				return Response.status(403).entity(JWTService.forbiddenToken(token)).build();
+				} 
+		} else {
+			return Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
 		}
+	}
 
-		return Response.status(status).entity(clients).build();
-	}else {
-		return Response.status(403).entity(JWTService.forbiddenToken(token)).build();
-	}
-	
-	}
+
 	@GET
 	@Path("/associates/get/{client_id}")
 	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id) {
+		System.out.println("GET MAPPED ASSOCIATES BY CLIENT ID CALLED");
 		Long[] response = new Long[4];
 		for (Integer i = 0; i < response.length; i++) {
 			response[i] = associateService.getMappedAssociateCountByClientId(client_id, i + 1);
@@ -135,6 +138,7 @@ public class ClientResource {
 	@GET
 	@Path("/50/")
 	public Response getFirstFiftyClients() {
+		System.out.println("GET FIRST FIFTY CLIENTS CALLED");
 		return Response.status(200).entity(clientService.getFirstFiftyClients()).build();
 	}
 

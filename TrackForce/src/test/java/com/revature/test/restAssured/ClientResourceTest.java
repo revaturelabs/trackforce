@@ -166,28 +166,19 @@ public class ClientResourceTest {
 	 *                 Associate like Admin to use the service, this value is true;
 	 */
 	@Test(enabled = true, priority = 15, dataProvider = "urls")
-	public void unhappyPathTest(String method, String url, Boolean needAuth) {
-		String adminToken = token;
-		String assocToken = JWTService.createToken("AssociateTest", 5);
-		String[] verbs = method.split(", ");
-		url = URL + url;
+	public void unhappyPathTest(String url) {
+		String newURL = URL + url;
 		// test no token
-		for (String verb : verbs) {
-			sendRequest(verb, url, null).then().assertThat().statusCode(401);
-			// test invalid token
-			sendRequest(verb, url, new Header("Authorization", "badtoken")).then().assertThat().statusCode(401);
-			// test with associate token
-			if (needAuth)
-				sendRequest(verb, url, new Header("Authorization", assocToken)).then().assertThat().statusCode(403);
-		}
+		given().header("Authorization", "").when().get(newURL).then().assertThat().statusCode(401);
+		// test invalid token
+		given().header("Authorization", "Bad Token").when().get(newURL).then().assertThat().statusCode(401);
+		// test with associate token
+		given().header("Authorization", assocToken).when().get(newURL).then().assertThat().statusCode(403);
 		// look for an HTTP verb not used
-		String knownVerbs[] = new String[] { "GET", "POST", "PUT", "DELETE" };
+		String knownVerbs[] = new String[] { "POST", "PUT", "DELETE" };
 		for (String verb : knownVerbs) {
-			if (!method.contains(verb)) {
-				// test unsupported verb
-				sendRequest(verb, url, new Header("Authorization", adminToken)).then().assertThat().statusCode(405);
-				break;
-			}
+			// test unsupported verb
+			sendRequest(verb, newURL, new Header("Authorization", token)).then().assertThat().statusCode(405);
 		}
 
 	}

@@ -151,6 +151,7 @@ public class InterviewResource {
 
 		if (canAccessInterview(token, associateId)) {
 			List<TfInterview> interviewList = interviewService.getInterviewsByAssociate(associateId);
+			logger.info("list has this data ->"+interviewList);
 			return Response.status(Status.OK).entity(interviewList).build();
 		} else {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
@@ -209,7 +210,7 @@ public class InterviewResource {
 		 * interviewId so the one present in the object passed in will be used,
 		 * regardless of the one in the path parameter
 		 */
-
+		
 		if (canAccessInterview(token, interview.getAssociate().getId())) {
 			interviewService.updateInterview(interview);
 			return Response.status(Status.ACCEPTED).build();

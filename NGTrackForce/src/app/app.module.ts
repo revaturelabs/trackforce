@@ -1,6 +1,8 @@
 ///
 //  DEPENDENCIES
 ///
+
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './routing/app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -83,6 +85,7 @@ import { UpdateDialogComponent } from './components/associate-list-page/associat
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     ChartsModule,
     BrowserAnimationsModule,

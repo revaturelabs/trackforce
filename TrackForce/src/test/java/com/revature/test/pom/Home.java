@@ -51,12 +51,12 @@ public class Home {
 	
 	public static WebElement getPhone(WebDriver driver) {
 		//waitForHomePageOpen(driver);
-		return driver.findElement(By.linkText("tel:703 995 4500"));
+		return driver.findElement(By.xpath("//a[@href='tel:703 995 4500']"));
 	}
 	
 	public static WebElement getFax(WebDriver driver) {
 		//waitForHomePageOpen(driver);
-		return driver.findElement(By.linkText("tel:(703) 570-8181"));
+		return driver.findElement(By.xpath("//a[@href='tel:(703) 570-8181']"));
 	}
 	
 	public static WebElement getEmail(WebDriver driver) {

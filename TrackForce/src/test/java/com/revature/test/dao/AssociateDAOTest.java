@@ -8,18 +8,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
+import org.openqa.selenium.InvalidArgumentException;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.openqa.selenium.InvalidArgumentException;
 
 import com.revature.dao.AssociateDao;
 import com.revature.dao.UserDao;
@@ -35,10 +34,22 @@ import com.revature.entity.TfPlacement;
 import com.revature.entity.TfUser;
 import com.revature.test.utils.Log;
 
+/** Test class for testing AssociateDAOImpl
+ * 
+ * Danger of false negatives in the case of database changes.
+ * 
+ * Depends on Properties file referring to existent entries in database.
+ * Also directly refers to existent entries in the database. Be warned that any
+ * change in the database may very well cause tests to fail despite the DAO 
+ * working just fine.
+ */
 public class AssociateDAOTest {
 	
 	private AssociateDao dao;
 	private UserDao userDao;
+	//PLEASTE NOTE: The file referenced by this variable upon initialization can be out of date.
+	//Check that this is not out of date with the database being accessed before troubleshooting
+	//failing tests. Due to lambdas inside lambdas (HibernateUtil's Callable, Dao's Sessionals)
 	private Properties props;
 	
 	@BeforeClass
@@ -47,6 +58,7 @@ public class AssociateDAOTest {
 		userDao = new UserDaoImpl();
 		props = new Properties();
 		try {
+			//Please check the file indicated here when troubleshooting failing tests to make sure that hardcoded values correspond.
 			FileInputStream propFile = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\database_entries.properties");
 			props.load(propFile);
 			propFile.close();
@@ -54,6 +66,24 @@ public class AssociateDAOTest {
 			Log.Log.error(e.getMessage());
 		} catch (IOException e) {
 			Log.Log.error(e.getMessage());
+		}
+	}
+	
+	@AfterClass
+	public void teardown() {
+		//Resetting the single update entry
+		TfAssociate associate = dao.getAssociate(0);
+		associate.setFirstName("TestFirstName");
+		associate.setLastName("TestLastName");
+		associate.setStagingFeedback("Prepared");
+		dao.updateAssociate(associate);
+		//Resetting the batch update entries
+		for (int i = 0;  i < 3; i++) {
+			associate = dao.getAssociate(i + 191);
+			associate.setFirstName("Roger" + i);
+			associate.setLastName("William");
+			associate.setStagingFeedback("Ghastly");
+			dao.updateAssociate(associate);
 		}
 	}
 
@@ -135,8 +165,8 @@ public class AssociateDAOTest {
 
 	@Test
 	public void testAssociateDAOApproveAssociate() {
-		dao.approveAssociate(2);
-		TfUser user = userDao.getUser("Duncan");
+		dao.approveAssociate(209);
+		TfUser user = userDao.getUser("Luciana");
 		assertEquals(user.getIsApproved(), 1);
 		
 		//Undo change to database
@@ -148,17 +178,18 @@ public class AssociateDAOTest {
 	@Test
 	public void testAssociateDAOApproveAssociates() {
 		List<Integer> toBeApproved = new LinkedList<Integer>();
-		toBeApproved.add(2);
-		toBeApproved.add(3);
-		toBeApproved.add(4);
-		toBeApproved.add(5);
-		toBeApproved.add(6);
-		toBeApproved.add(7);
-		toBeApproved.add(8);
-		toBeApproved.add(9);
-		toBeApproved.add(10);
+		toBeApproved.add(191);
+		toBeApproved.add(192);
+		toBeApproved.add(193);
+		toBeApproved.add(194);
+		toBeApproved.add(195);
+		toBeApproved.add(196);
+		toBeApproved.add(197);
+		toBeApproved.add(198);
+		toBeApproved.add(199);
 		
 		dao.approveAssociates(toBeApproved);
+		
 		String[] userlist = ((String)props.get("usernames")).split(",");
 		for(String username : userlist) {
 			TfUser user = userDao.getUser(username);
@@ -220,38 +251,46 @@ public class AssociateDAOTest {
 	}
 
 	@Test(dependsOnMethods= {"testAssociateDAOGetAssociate"})
-	public void testAssociateDAOUpdateAssociate() {
-		TfAssociate associate = dao.getAssociate(1);
+	public void testPartialAssociateDAOUpdateAssociate() {
+		TfAssociate associate = dao.getAssociate(0);
 		associate.setFirstName("changed");
 		associate.setLastName("changed");
-		associate.setStagingFeedback("changed");
+		associate.setStagingFeedback("corgi");
 
 		assertTrue(dao.updateAssociatePartial(associate));
-		associate = dao.getAssociate(1);
+		associate = dao.getAssociate(0);
 		assertEquals(associate.getFirstName(), "changed");
 		assertEquals(associate.getLastName(), "changed");
-		assertNotEquals(associate.getStagingFeedback(), "changed");
-
+		assertNotEquals(associate.getStagingFeedback(), "corgi");
+	}
+	
+	@Test(dependsOnMethods= {"testAssociateDAOGetAssociate"})
+	public void testAssociateDAOUpdateAssociate() {
+		TfAssociate associate = dao.getAssociate(0);
 		associate.setFirstName("different");
 		associate.setLastName("different");
-		assertTrue(dao.updateAssociate(associate));
-		associate = dao.getAssociate(1);
+		associate.setStagingFeedback("changed");
+		
+		boolean updateTrue =  dao.updateAssociate(associate);
+		
+		assertTrue(updateTrue);
+		associate = dao.getAssociate(0);
 		assertEquals(associate.getFirstName(), "different");
 		assertEquals(associate.getLastName(), "different");
-		//assertEquals(associate.getStagingFeedback(), "changed");
+		assertEquals(associate.getStagingFeedback(), "changed");
 	}
 
-	@Test(dependsOnMethods= {"testAssociateDAOGetAssociate", "testAssociateDAOUpdateAssociate"})
+	@Test(dependsOnMethods= {"testAssociateDAOGetAssociate", "testAssociateDAOUpdateAssociate", "testPartialAssociateDAOUpdateAssociate"})
 	public void testAssociateDAOUpdateAssociates() {
-		TfAssociate associate1 = dao.getAssociate(1);
+		TfAssociate associate1 = dao.getAssociate(191);
 		associate1.setFirstName("updateAssociates");
 		associate1.setLastName("updateAssociates");
 		associate1.setStagingFeedback("updateAssociates");
-		TfAssociate associate2 = dao.getAssociate(2);
+		TfAssociate associate2 = dao.getAssociate(192);
 		associate2.setFirstName("updateAssociates");
 		associate2.setLastName("updateAssociates");
 		associate2.setStagingFeedback("updateAssociates");
-		TfAssociate associate3 = dao.getAssociate(3);
+		TfAssociate associate3 = dao.getAssociate(193);
 		associate3.setFirstName("updateAssociates");
 		associate3.setLastName("updateAssociates");
 		associate3.setStagingFeedback("updateAssociates");
@@ -264,7 +303,7 @@ public class AssociateDAOTest {
 		assertTrue(dao.updateAssociates(list));
 
 		for(int i = 0; i < list.size(); i++) {
-			TfAssociate temp = dao.getAssociate(i + 1);
+			TfAssociate temp = dao.getAssociate(i + 191);
 			assertEquals(temp.getFirstName(), "updateAssociates");
 			assertEquals(temp.getLastName(), "updateAssociates");
 			assertEquals(temp.getStagingFeedback(), "updateAssociates");
@@ -277,8 +316,7 @@ public class AssociateDAOTest {
 	
 	@Test(groups= {"getters"})
 	public void testAssociateDAOCountMapped() {
-		assertEquals((long)dao.countMappedAssociatesByValue("tf_batch_id", 0L, 10), 11L);
-		// ToDo: Find the actual size of the countMappedAssiciatesBy
-		assertEquals((long)dao.countMappedAssociatesByValue("tf_staging_feedback", -1L, 10), 68L);
+		assertEquals(dao.countMappedAssociatesByValue("tf_batch_id", "38", 6), 13);
+		assertEquals(dao.countMappedAssociatesByValue("tf_staging_feedback", "Eager", 6), 1);
 	}
 }

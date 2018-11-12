@@ -90,17 +90,6 @@ export class AssociateService {
   }
 
   /**
-    gets initial associates loaded
-
-    ! DEPRECATED: This is not a good idea to try to speed up performance
-    ! the plan will be to implement pagination for now the app will just
-    ! wait for all associates as this request will end up taking just as
-    ! long due to the problems on the server side
-  */
-  getNAssociates(): Observable<Associate[]> {
-    return this.http.get<Associate[]>(this.nassURL);
-  }
-  /**
    * get the count of the associates to display in the pie charts on the home page
    */
   getCountAssociates(): BehaviorSubject<number[]> {

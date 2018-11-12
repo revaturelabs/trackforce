@@ -9,6 +9,14 @@ import org.testng.annotations.Test;
 import com.revature.daoimpl.UserDaoImpl;
 import com.revature.entity.TfUser;
 
+/** Test class for testing UserDAOImpl
+ * 
+ * Danger of false negatives in the case of database changes.
+ * 
+ * Directly refers to existent entries in the database. Be warned that any
+ * change in the database may very well cause tests to fail despite the DAO 
+ * working just fine.
+ */
 public class UserDAOTest {
 	
 	@Test
@@ -29,6 +37,7 @@ public class UserDAOTest {
 		List<TfUser> list = new ArrayList<TfUser>();
 		list = new UserDaoImpl().getAllUsers();
 		Assert.assertNotNull(list);
+		Assert.assertNotEquals(list.size(), 0);
 	}
 
 	@Test(expectedExceptions = NullPointerException.class)
@@ -44,7 +53,7 @@ public class UserDAOTest {
 
 	@Test
 	public void updateUserDaoWorks() {
-		TfUser user = new UserDaoImpl().getUser("Associate2");
+		TfUser user = new UserDaoImpl().getUser("dvtestuser2");
 		Assert.assertEquals(new UserDaoImpl().updateUser(user), true);
 	}
 }

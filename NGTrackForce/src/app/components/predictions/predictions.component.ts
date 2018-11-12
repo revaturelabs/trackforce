@@ -1,3 +1,4 @@
+import { ClientService } from './../../services/client-service/client.service';
 import { BatchService } from './../../services/batch-service/batch.service';
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
@@ -5,7 +6,6 @@ import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { Associate } from '../../models/associate.model';
 import { Client } from '../../models/client.model';
-import {ClientService} from '../../services/client-service/client.service';
 import { DateService } from '../../services/date-service/date.service';
 import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
 
@@ -13,7 +13,15 @@ import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.compon
 @Component({
   selector: 'app-predictions',
   templateUrl: './predictions.component.html',
-  styleUrls: ['./predictions.component.css']
+  styleUrls: ['./predictions.component.css'],
+  /**
+   * [ClientService]
+   * 
+   * This service was added as a provider on 11/10/2018.
+   * It was needed in order to successfully create the
+   * component in the Jasmine test spec, and test it.
+   */
+  providers:[ClientService]
 })
 @AutoUnsubscribe
 export class PredictionsComponent implements OnInit {

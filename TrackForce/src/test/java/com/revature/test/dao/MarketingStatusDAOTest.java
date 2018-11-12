@@ -1,7 +1,6 @@
 package com.revature.test.dao;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.testng.Assert;

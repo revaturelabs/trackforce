@@ -9,9 +9,15 @@ import org.testng.annotations.Test;
 import com.revature.daoimpl.InterviewDaoImpl;
 import com.revature.entity.TfInterview;
 
+/** Test class for testing InterviewDAOImpl
+ * 
+ * Danger of false negatives in the case of database changes.
+ * 
+ * Directly refers to existent entries in the database. Be warned that any
+ * change in the database may very well cause tests to fail despite the DAO 
+ * working just fine.
+ */
 public class InterviewDAOTest {
-
-	private static final String INTEGER_CLASS_SIMPLE_NAME = "Integer";
 	// loads interviews for associate_ID 710
 	List<TfInterview> interviews = null;
 	// List of all interviews

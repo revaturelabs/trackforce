@@ -12,7 +12,13 @@ import {RequestService} from '../../services/request-service/request.service';
 import {GraphCounts} from "../../models/graph-counts";
 import { User } from '../../models/user.model';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+/* 
+*  [ of ] Added on 11/10/2018. As of RXJS 6.3, Observable.of is depreciated
+*  Updated with the latest intended function. Additionally, swapped out
+*  uses of Observable.of with of. This was done to fix the spec file,
+*  which was not a working test suite prior.
+*/
+import { of } from 'rxjs/observable/of'; 
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {AssociateService} from "../../services/associate-service/associate.service";
 import { Associate } from '../../models/associate.model';
@@ -76,7 +82,7 @@ describe('ClientMappedComponent', () => {
     // Mock the Authentication Service
 
     spyOn(testAuthService, 'getUser').and.returnValue(user);
-    spyOn(testAssociateService, 'getAllAssociates').and.returnValue(Observable.of(associates));
+    spyOn(testAssociateService, 'getAllAssociates').and.returnValue(of(associates));
 
   });
 

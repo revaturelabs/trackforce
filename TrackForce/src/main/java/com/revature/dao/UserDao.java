@@ -15,4 +15,6 @@ public interface UserDao {
 	boolean updateUser(TfUser user);
 	
 	public void deleteUser(TfUser user);
+	
+	TfUser getUser(Integer id);
 }

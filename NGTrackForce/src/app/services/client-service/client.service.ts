@@ -10,7 +10,7 @@ import { AuthenticationService } from './../authentication-service/authenticatio
 import { JwtInterceptor } from './../../interceptors/jwt.interceptor';
 import { Token } from '@angular/compiler';
 import { of } from 'rxjs/index';
-import 'rxjs/add/operator/of';
+//import 'rxjs/add/operator/of';
 
 
 /**
@@ -27,14 +27,16 @@ export class ClientService {
   private authService: AuthenticationService;
   public role:number;
   private user: User;
-  private jwtInterceptor: JwtInterceptor;
   private clients$: BehaviorSubject<Client[]> = new BehaviorSubject<Client[]>([]);
 
   constructor(private http: HttpClient) { }
 
   /**
    *
-   * Get a list of all of the clients
+   * Gets a list of all of the clients.
+   * Makes a call to authService to check
+   * role of the current user and ensures
+   * they are an administrator. 
    */
   getAllClients(): Observable<Client[]> {
     this.role = this.authService.getUserRole();
@@ -46,6 +48,14 @@ export class ClientService {
     return this.clients$;
   }}
 
+  /**
+   * 
+   * Started working on this to add another layer of security to the front end.
+   * Resubmits credentials to ensure that the user trying to access the client list
+   * is authenticated. It then checks the user role to ensure that they are an
+   * administrator (role == 1). Currently getAllClients() makes a call to the 
+   * authService in lieu of using this intercept.
+   */
   clientIntercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let user = this.user;
 
@@ -58,18 +68,16 @@ export class ClientService {
       }
     }
     //return Observable to server api call
-    if (request.url.endsWith('//mapped/get/') && request.method === 'GET'){
+    if (request.url.endsWith('/mapped/get/') && request.method === 'GET'){
       if (request.body.role === this.user.role) {
-        this.getAllClients();
+        //return this.getAllClients();
         return Observable.of(new HttpResponse({status: 200, body: {token: this.user.token}}));
         
     } else {
-      return Observable.of(new HttpResponse({status: 401, body: {token: this.user.token}}));
+      return Observable.of(new HttpResponse({status: 401, body: {user: null}}));
     }
     }
-    //return this.getAllClients();
   }
-
 
   getFiftyClients(): Observable<Client[]> {
     this.http.get<Client[]>(this.fiftyUrl).subscribe(

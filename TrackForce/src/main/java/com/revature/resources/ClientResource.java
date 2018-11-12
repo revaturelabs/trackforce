@@ -16,8 +16,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.revature.entity.TfClient;
-import com.revature.entity.TfRole;
-import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -56,7 +54,10 @@ public class ClientResource {
 	InterviewService interviewService = new InterviewService();
 	TrainerService trainerService = new TrainerService();
 	UserService userService = new UserService();
-
+	Response badToken = null;
+	Response forbidden = null;
+	Response authorized = null;
+	
 	/**
 	 * 
 	 * @author Adam L.
@@ -72,32 +73,18 @@ public class ClientResource {
 	@GET
 	@Path("/getAll/")
 	@ApiOperation(value = "Returns all clients", notes = "Returns a map of all clients.")
-	public Response getAllClients(@HeaderParam("Authorization") String token ) {
-		
-		
-		logger.info("getAllClients()...");
-		if (UserAuthentication.Authorized (token, new int [] {1})) {
-		Status status = null;
+	public Response getAllClients(@HeaderParam("Authorization") String token) {
+		logger.info("Method call to getAllClients()...");
 		List<TfClient> clients = clientService.getAllTfClients();
-		Claims payload = JWTService.processToken(token);
+		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
+		Response forbidden = Response.status(403).entity(clients).build();
+		Response authorized = Response.status(clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK).entity(clients).build();
+
+		return authorizeAdminUser(badToken, forbidden, authorized, token);
 		
-		if (JWTService.validateToken(token) == true) {
-
-			if (payload == null) {
-				return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-			}
-			// invalid token
-
-		} else if (payload == Response.accepted()) {
-			status = clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK;
-		}
-
-		return Response.status(status).entity(clients).build();
-	}else {
-		return Response.status(403).entity(JWTService.forbiddenToken(token)).build();
 	}
-	
-	}
+
+
 	@GET
 	@Path("/associates/get/{client_id}")
 	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id) {
@@ -111,49 +98,42 @@ public class ClientResource {
 	@GET
 	@Path("/mapped/get/")
 	public Response getMappedClients(@HeaderParam("Authorization") String token) {
-		Claims payload = JWTService.processToken(token);
-		Status status = null;
+		List<TfClient> clients = clientService.getMappedClients();
+		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
+		Response forbidden = Response.status(403).entity(clients).build();
+		Response authorized = Response.status(200).entity(clients).build();
 
-		if (payload == null) {
-			return Response.status(403).entity(clientService.getMappedClients()).build();
-		} else {
-
-			if (JWTService.validateToken(token) == false) {
-				return Response.status(Status.FORBIDDEN).entity(JWTService.invalidTokenBody(token)).build();
-			} else {
-				int role = 0;
-				role = Integer.parseInt((String) payload.get("roleID"));
-				if (role == 1) {
-					return Response.status(200).entity(clientService.getMappedClients()).build();
-				} else {
-					return Response.status(403).entity(clientService.getMappedClients()).build();
-				}
-			}
-		}
+		return authorizeAdminUser(badToken, forbidden, authorized, token);
 	}
 
 	@GET
 	@Path("/50/")
-	public Response getFirstFiftyClients() {
-		return Response.status(200).entity(clientService.getFirstFiftyClients()).build();
-	}
+	public Response getFirstFiftyClients(@HeaderParam("Authorization") String token) {
+		List<TfClient> clients = clientService.getFirstFiftyClients();
+		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
+		Response forbidden = Response.status(403).entity(clients).build();
+		Response authorized = Response.status(200).entity(clients).build();
 
-	public Boolean authorizeAdminUser(String token) {
+		return authorizeAdminUser(badToken, forbidden, authorized, token);
+	
+	}
+	
+	public Response authorizeAdminUser(Response badToken, Response forbidden, Response authorized, String token) {
 		Claims payload = JWTService.processToken(token);
-		if (payload == null)
-			return false;
-
-		int role = 0;
-		try {
-			role = Integer.parseInt((String) payload.get("roleID"));
-		} catch (NumberFormatException nfe) {
-			return false;
-		}
-
-		if (role == 1) {
-			return true;
+		if (payload == null) {
+			return badToken;
 		} else {
-			return false;
+
+			if (JWTService.validateToken(token) == false) {
+				return forbidden;
+			} else {
+				int role = 0;
+				role = Integer.parseInt((String) payload.get("roleID"));
+				if (role == 1) {
+					return authorized;
+				} else {
+					return forbidden;
+				}
+			}
 		}
-	}
-}
+}}

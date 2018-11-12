@@ -16,9 +16,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import { Associate } from "../../models/associate.model";
 import { Trainer } from "../../models/trainer.model";
-import { AngularWaitBarrier } from "blocking-proxy/built/lib/angular_wait_barrier";
-import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
-// import 'rxjs/Rx';
+import { Token } from "@angular/compiler";
 
 const ASSOCIATE_KEY = "currentAssociate";
 const USER_KEY = "currentUser";
@@ -46,10 +44,15 @@ export class AuthenticationService {
    * If credentials are wrong, 401 is returned
    */
   public login(username: string, password: string): Observable<User> {
+    console.log(Token);
     return this.http.post<User>(environment.url + "TrackForce/users/login", {
       username: username,
       password: password
+
+      
     });
+    
+
   }
 
   /**
@@ -76,8 +79,10 @@ export class AuthenticationService {
   }
 
 
-  getUserRole() {
-    return this.role;
+  getUserRole(): number {
+    //added user object to reflect currently logged in user
+    const user: User = JSON.parse(localStorage.getItem(USER_KEY));
+    return user.role;
   }
   async getUserRoleFirst() {
     this.http.get<number>(environment.url + "TrackForce/users/getUserRole")

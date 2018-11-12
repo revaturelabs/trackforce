@@ -298,6 +298,7 @@ public class AssociateResource {
 		logger.info("updateAssociate()...");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
+		System.out.println(id);
 
 		System.out.println(associate);
 		if (payload == null) {

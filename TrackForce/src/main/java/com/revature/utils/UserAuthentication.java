@@ -3,7 +3,6 @@ package com.revature.utils;
 
 import java.util.stream.IntStream;
 
-import com.revature.entity.TfUser;
 import com.revature.services.JWTService;
 
 import io.jsonwebtoken.Claims;
@@ -42,6 +41,5 @@ public class UserAuthentication {
 		}
 	}
 }
-
 
 

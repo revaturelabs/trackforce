@@ -1,4 +1,3 @@
-
 /**
  *
  * @author Michael Tseng
@@ -79,8 +78,6 @@ export class AuthenticationService {
     }
 
     getUserRole() {
-		//added user object to reflect currently logged in user
-		const user: User = JSON.parse(localStorage.getItem(USER_KEY));
         return this.role;
     }
 

@@ -1,6 +1,7 @@
 package com.revature.test.dao;
 
 import org.junit.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import com.revature.daoimpl.TrainerDaoImpl;
@@ -14,6 +15,14 @@ import com.revature.entity.TfTrainer;
 
 public class TrainerDAOTest {
   
+  @AfterClass
+  public void teardown() {
+	  TfTrainer tf = new TrainerDaoImpl().getTrainer(0);
+	  tf.setFirstName("Ava - 2.0");
+	  tf.setLastName("Trainer0");
+	  new TrainerDaoImpl().updateTrainer(tf);
+  }
+	
   @Test
   public void getAllTrainersDoesNotReturnEmptyList() {
 	  Assert.assertNotEquals(0, new TrainerDaoImpl().getAllTrainers().size());
@@ -41,7 +50,7 @@ public class TrainerDAOTest {
   
   @Test
   public void updateTrainerReturnsTrue() {
-	TfTrainer tf = new TrainerDaoImpl().getTrainer(94);
+	TfTrainer tf = new TrainerDaoImpl().getTrainer(0);
 	tf.setFirstName("updatedFirstName");
 	tf.setLastName("updatedLastName");
 	Assert.assertEquals(true, new TrainerDaoImpl().updateTrainer(tf));
@@ -49,13 +58,13 @@ public class TrainerDAOTest {
   
   @Test(dependsOnMethods = "updateTrainerReturnsTrue")
   public void updateTrainerHasUpdatedFirstName() {
-	TfTrainer tf = new TrainerDaoImpl().getTrainer(94);
+	TfTrainer tf = new TrainerDaoImpl().getTrainer(0);
 	Assert.assertEquals("updatedFirstName", tf.getFirstName());
   }
   
   @Test(dependsOnMethods = "updateTrainerReturnsTrue")
   public void updateTrainerHasUpdatedLastName() {
-	TfTrainer tf = new TrainerDaoImpl().getTrainer(94);
+	TfTrainer tf = new TrainerDaoImpl().getTrainer(0);
 	Assert.assertEquals("updatedLastName", tf.getLastName());
   }
   

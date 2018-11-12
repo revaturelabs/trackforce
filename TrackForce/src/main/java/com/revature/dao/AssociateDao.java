@@ -3,7 +3,6 @@ import java.util.HashMap;
 import java.util.List;
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfUser;
 
 public interface AssociateDao {
 	TfAssociate getAssociate(Integer associateid);

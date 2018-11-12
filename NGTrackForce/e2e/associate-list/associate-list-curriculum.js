@@ -1,5 +1,4 @@
 describe('Testing associate list by curriculum', function () {
-    
     it('Should select Java option', function() {
         wd.findElement(by.xpath('//*[@id="curriculum"]/option[2]')).click();
         

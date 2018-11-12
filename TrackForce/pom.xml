@@ -16,17 +16,13 @@
 		<skip.unit.tests>false</skip.unit.tests>
 		<skip.integration.tests>false</skip.integration.tests>
 	</properties>
-
+	
 	<repositories>
 		<repository>
 			<id>terracotta-releases</id>
 			<url>http://www.terracotta.org/download/reflector/releases</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
+			<releases><enabled>true</enabled></releases>
+			<snapshots><enabled>false</enabled></snapshots>
 		</repository>
 	</repositories>
 
@@ -37,23 +33,23 @@
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>2.26</version>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.slf4j</groupId> -->
-		<!-- <artifactId>slf4j-log4j12</artifactId> -->
-		<!-- <version>1.7.5</version> -->
-		<!-- </dependency> -->
+<!--  		<dependency>  -->
+<!-- 			<groupId>org.slf4j</groupId> -->
+<!-- 			<artifactId>slf4j-log4j12</artifactId> -->
+<!-- 			<version>1.7.5</version> -->
+<!-- 		</dependency>  -->
+ 
+<dependency>
+  <groupId>org.apache.logging.log4j</groupId>
+  <artifactId>log4j-slf4j-impl</artifactId>
+  <version>2.11.1</version>
+</dependency>
 
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.11.1</version>
-		</dependency>
-
-		<!-- <dependency> -->
-		<!-- <groupId>org.slf4j</groupId> -->
-		<!-- <artifactId>slf4j-api</artifactId> -->
-		<!-- <version>1.7.5</version> -->
-		<!-- </dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.slf4j</groupId> -->
+<!-- 			<artifactId>slf4j-api</artifactId> -->
+<!-- 			<version>1.7.5</version> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.dbunit</groupId>
 			<artifactId>dbunit</artifactId>
@@ -174,9 +170,9 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
 		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-			<version>5.1.4</version>
+		   <groupId>org.flywaydb</groupId>
+		   <artifactId>flyway-core</artifactId>
+		   <version>5.1.4</version>
 		</dependency>
 
 		<dependency>
@@ -204,15 +200,15 @@
 			<version>1.5.18</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.commons</groupId> -->
-		<!-- <artifactId>commons-lang3</artifactId> -->
-		<!-- <version>3.7</version> -->
-		<!-- </dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.apache.commons</groupId> -->
+<!-- 			<artifactId>commons-lang3</artifactId> -->
+<!-- 			<version>3.7</version> -->
+<!-- 		</dependency> -->
 		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-			<version>1.1.1</version>
+		    <groupId>javax.activation</groupId>
+		    <artifactId>activation</artifactId>
+		    <version>1.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.mojo</groupId>
@@ -225,7 +221,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache  -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>
@@ -251,11 +247,11 @@
 			<artifactId>jaxb-core</artifactId>
 			<version>2.3.0</version>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.ehcache</groupId> -->
-		<!-- <artifactId>ehcache</artifactId> -->
-		<!-- <version>3.4.0</version> -->
-		<!-- </dependency> -->
+<!--  		<dependency> -->
+<!-- 			<groupId>org.ehcache</groupId> -->
+<!-- 			<artifactId>ehcache</artifactId> -->
+<!-- 			<version>3.4.0</version> -->
+<!-- 		</dependency> -->
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -268,13 +264,6 @@
 			<artifactId>json</artifactId>
 			<version>20180130</version>
 		</dependency>
-
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>7.0</version>
-		</dependency>
-
 	</dependencies>
 
 	<!-- William added the below tags on 2/15/18 so that the main application 
@@ -293,9 +282,9 @@
 					<!-- change this n the properties at the top of the pom -->
 					<skipTests>${skip.unit.tests}</skipTests>
 
-					<!-- <suiteXmlFiles> -->
-					<!-- <file>src/test/resources/testng.xml</file> -->
-					<!-- </suiteXmlFiles> -->
+<!-- 					<suiteXmlFiles> -->
+<!-- 						<file>src/test/resources/testng.xml</file> -->
+<!-- 					</suiteXmlFiles> -->
 					<properties>
 						<property>
 							<name>suitethreadpoolsize</name>
@@ -308,24 +297,24 @@
 					</properties>
 				</configuration>
 			</plugin>
-
+			
 			<plugin>
-				<groupId>org.flywaydb</groupId>
-				<artifactId>flyway-maven-plugin</artifactId>
-				<version>5.1.4</version>
-				<configuration>
-					<url>jdbc:h2:file:./src/main/resources/</url>
-					<user>sa</user>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.h2database</groupId>
-						<artifactId>h2</artifactId>
-						<version>1.4.191</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>5.1.4</version>
+                <configuration>
+                    <url>jdbc:h2:file:./src/main/resources/</url>
+                    <user>sa</user>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>1.4.191</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>

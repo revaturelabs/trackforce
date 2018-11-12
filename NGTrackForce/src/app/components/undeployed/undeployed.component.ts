@@ -5,7 +5,7 @@ import { Color } from 'ng2-charts';
 import { ChartOptions } from '../../models/ng2-charts-options.model';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { ChartScale } from '../../models/chart-scale.model';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-undeployed',
@@ -41,7 +41,6 @@ export class UndeployedComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private associateService: AssociateService
   ) {
     this.chartOptions = {
@@ -62,14 +61,16 @@ export class UndeployedComponent implements OnInit {
 
   ngOnInit() {
     this.getUndeployedData();
-     //Adjust the statud id. Values passed in are off by 1.
-    this.statusID = Number(this.route.snapshot.paramMap.get('id')) + 1;
+
+    this.statusID = window.location.href.split('undeployed/')[1];
+    this.statusID = Number(this.statusID) + 1; //Adjust the statud id. Values passed in are off by 1.
 
     this.changeSelectedStatus(this.statusID);
     this.chartOptions.title.text = this.selectedStatus;
     this.changeChartType('pie');
 
     this.loadChart();
+
   }
 
   loadChart() {
@@ -168,6 +169,7 @@ export class UndeployedComponent implements OnInit {
     if (evt.active[0] !== undefined) {
       //navigate to skillset component
       this.router.navigate([`undeployed/${evt.active[0]._index}`]); //NOTE: are these ticks (`) supposed to be apostraphes?
+      window.location.reload();
     }
   }
 

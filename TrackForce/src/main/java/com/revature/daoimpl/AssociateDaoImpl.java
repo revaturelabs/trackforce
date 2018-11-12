@@ -5,9 +5,7 @@ import static com.revature.utils.HibernateUtil.saveToDB;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.persistence.ParameterMode;
 import javax.persistence.Query;
-import javax.persistence.StoredProcedureQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
@@ -218,6 +216,14 @@ public class AssociateDaoImpl implements AssociateDao {
 		});
 	}
 
+	/** Sessional with instructions on how to approve an associate */
+	private Sessional<Boolean> approveAssociate = (Session session, Object... args) -> {
+		TfAssociate temp = session.get(TfAssociate.class, (Integer) args[0]);
+		temp.getUser().setIsApproved(TfUser.APPROVED);
+		session.update(temp);
+		return true;
+	};
+
 	/** approves given associate
 	 * @param int associateId */
 	@Override
@@ -328,7 +334,6 @@ public class AssociateDaoImpl implements AssociateDao {
 			String condition = null;
 
 			if (Integer.valueOf(value.toString()) != -1) {
-				
 				condition = column + " = " + args[0] + " AND ";
 			} else {
 				condition = "";
@@ -365,28 +370,5 @@ public class AssociateDaoImpl implements AssociateDao {
 		};
 		return HibernateUtil.runHibernate(ss, value, mappedStatus);
 		
-	}
-
-	@Override
-	public void deleteAssociate(TfAssociate associate) {
-		runHibernateTransaction((Session session, Object... args) -> {
-			session.delete(associate);
-			return true;
-		});
-		
-	}
-
-	/*
-	 *The method deleteOldAssociateProcedure() will call a stored procedure on the database side.
-	 *the procedure is meant to delete associates who are pending approval 
-	 *for over 30 days. Only deletes associates, not trainers, etc. 
-	 */
-	@Override
-	public void deleteOldAssociateProcedure() {
-		runHibernateTransaction((Session session, Object... args) -> {
-			StoredProcedureQuery query = session.createStoredProcedureCall("delete_old_associates").registerStoredProcedureParameter(1, Integer.class, ParameterMode.OUT);
-			query.execute();
-			return ((Integer) query.getOutputParameterValue(1)) == 1;
-		});	
 	}
 }

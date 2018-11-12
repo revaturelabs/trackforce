@@ -3,7 +3,7 @@ import { ClientService } from '../../services/client-service/client.service';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartsModule, Color } from 'ng2-charts';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { ThemeConstants } from '../../constants/theme.constants';
 import { ChartOptions } from '../../models/ng2-charts-options.model';
@@ -102,7 +102,6 @@ export class ClientMappedComponent implements OnInit {
   constructor(
     // private ClientService: ClientService,
     private router: Router,
-    private route: ActivatedRoute,
     private associateService: AssociateService
   ) {
     this.chartOptions = {
@@ -125,8 +124,11 @@ export class ClientMappedComponent implements OnInit {
   ngOnInit() {
     this.getMappedData();
     //Fetch the statusId from the URL. Used to fetch and display data
-     //Adjust the statud id. Values passed in are off by 1.
-    this.statusID = Number(this.route.snapshot.paramMap.get('id')) + 1;
+    //For now, parse out the desired number
+    //To-Do: Use "Activated Routes" to fetch the value
+    this.statusID = window.location.href.split('client-mapped/')[1];
+    this.statusID = Number(this.statusID) + 1; //Adjust the statud id. Values passed in are off by 1.
+
     //Initialize the chart to type 'bar'
     this.changeSelectedStatus(this.statusID);
 
@@ -136,6 +138,8 @@ export class ClientMappedComponent implements OnInit {
 
     //Initialize the title
     this.chartOptions.title.text = this.selectedStatus;
+
+
   }
 
   /**
@@ -191,6 +195,7 @@ export class ClientMappedComponent implements OnInit {
   mappedOnClick(evt: any) {
     if (evt.active[0] !== undefined) {
       this.router.navigate([`client-mapped/${evt.active[0]._index}`]);
+      window.location.reload();
     }
   };
 

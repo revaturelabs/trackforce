@@ -94,8 +94,7 @@ public class AssociateDAOTest {
 		int mktStat = Integer.parseInt(props.getProperty("page_mktStat"));
 		int clientId = Integer.parseInt(props.getProperty("page_clientId"));
 		List<TfAssociate> list = dao.getNAssociateMatchingCriteria(start, numResults, mktStat, clientId, "");
-		assertTrue(list != null);
-		assertTrue(list.size() <= numResults);
+		assertTrue(list != null && list.size() <= numResults);
 	}
 
 	@Test(groups= {"getters"})
@@ -121,15 +120,13 @@ public class AssociateDAOTest {
 	public void testAssociateDAOGetAllAssociates() {
 		List<TfAssociate> list = dao.getAllAssociates();
 		int total = Integer.parseInt(props.getProperty("total"));
-		assertTrue(list != null);
-		assertTrue(list.size() <= total);
+		assertTrue(list != null && list.size() <= total);
 	}
 
 	@Test(groups= {"getters"})
 	public void testAssociateDAOGetNAssociates() {
 		List<TfAssociate> list = dao.getNAssociates();
-		assertTrue(list != null);
-		assertTrue(list.size() <= 60);
+		assertTrue(list != null && list.size() <= 60);
 	}
 	
 	

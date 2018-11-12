@@ -7,7 +7,6 @@ import com.revature.test.pom.NavBar;
 import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.WebDriverUtil;
-import com.revature.utils.EnvManager;
 
 import java.io.File;
 
@@ -34,7 +33,7 @@ public class AssociateTests {
 	 
 	  
 	  ServiceHooks.driver = WebDriverUtil.getChromeDriver();
-	  ServiceHooks.driver.get(EnvManager.NGTrackForce_URL);
+	  ServiceHooks.driver.get(System.getenv("url"));
 	  ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver,5);
   }
 	

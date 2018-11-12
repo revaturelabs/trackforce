@@ -38,7 +38,7 @@ public class JWTService {
 	public static UserService userService;
 	
 	private static final String SECRET_KEY = getKey();
-	private static Long EXPIRATION = 1L * 60 * 12; //expiration time in minutes
+	private static Long EXPIRATION = 30L; //expiration time in minutes
 
 	/**
 	 * Validates a token
@@ -235,29 +235,6 @@ public class JWTService {
 		
 		JSONObject body = new JSONObject();
 		body.put("status", "Unauthorized");
-		
-		final long expiration = getExpiredTokenTime(token);
-		
-		Date now = new Date();
-		
-		if(expiration == -1) {
-			//arbitrary response; number of minutes in a day
-			body.put("expirationtime", -1);
-			return body.toString();
-		}
-		
-		long diffMillies = now.getTime() - expiration;
-		long diffMinutes = TimeUnit.MINUTES.convert(diffMillies, TimeUnit.MILLISECONDS);		
-		
-		body.put("expirationtime", diffMinutes);
-		
-		return body.toString();
-	}
-	
-public static String forbiddenToken(String token) {
-		
-		JSONObject body = new JSONObject();
-		body.put("status", "Forbidden");
 		
 		final long expiration = getExpiredTokenTime(token);
 		

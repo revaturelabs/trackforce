@@ -33,7 +33,6 @@ public class ClientDAOTest {
 	//Check that this is not out of date with the database being accessed before troubleshooting
 	//failing tests. Due to lambdas inside lambdas (HibernateUtil's Callable, Dao's Sessionals)
 	private Properties props;
-	private static final String STRING_SIMPLE_CLASS_NAME = "String"; // For assert equals tests that return a String object
 	
 	@BeforeSuite
 	public void initialize() {
@@ -79,7 +78,7 @@ public class ClientDAOTest {
 	public void testClientDAOGetAllWithMappedAssociates() {
 		List<TfClient> list = dao.getAllClientsWithMappedAssociates();
 		TfClient infosys = list.get(Integer.parseInt(props.getProperty("client_infosys_index")));
-		assertEquals(infosys.getName().getClass().getSimpleName(), STRING_SIMPLE_CLASS_NAME);
+		assertEquals(infosys.getName(), "Virtusa");
 		assertEquals(list.size(), Integer.parseInt(props.getProperty("client_withAssociates")));
 	}
 	
@@ -89,4 +88,5 @@ public class ClientDAOTest {
 		assertEquals(client.getName(), props.getProperty("end_client_name"));
 		
 	}
+	
 }

@@ -1,19 +1,17 @@
 package com.revature.services;
 
-import static com.revature.utils.LogUtil.logger;
-
 import java.util.List;
 
 import javax.persistence.NoResultException;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 
 import org.hibernate.HibernateException;
+import org.hibernate.NonUniqueResultException;
 
 import com.revature.dao.UserDao;
 import com.revature.daoimpl.UserDaoImpl;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
+import static com.revature.utils.LogUtil.logger;
 import com.revature.utils.PasswordStorage;
 import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 import com.revature.utils.PasswordStorage.InvalidHashException;

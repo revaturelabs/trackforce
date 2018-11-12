@@ -4,8 +4,8 @@
     <!-- Filter Options -->
     <div class="form-row">
       <div class="form-group col-md-12">
-        <label for="stat">Status</label>
-        <select class="form-control" id="stat" name="verification" [(ngModel)]="verification">
+        <label for="exampleFormControlSelect1">Status</label>
+        <select class="form-control" id="updateVerification" name="verification" [(ngModel)]="verification">
           <option default value="-1"></option>
           <option value="1">Approve</option>
           <option value="2">Deny</option>
@@ -14,8 +14,8 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-12 ">
-        <label for="client">Client</label>
-        <select class="form-control" id="client" name="client" [(ngModel)]="client">
+        <label for="exampleFormControlSelect1">Client</label>
+        <select class="form-control" id="updateClient" name="client" [(ngModel)]="client">
           <option default value="0"></option>
           <option value="thing" *ngFor="let client of data.clients" value="{{client.id}}" >{{client.name}}</option>
         </select>
@@ -23,8 +23,8 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-12 ">
-        <label for="marketStat">Marketing Status</label>
-        <select class="form-control" id="marketStat" name="status" [(ngModel)]="status">
+        <label for="exampleFormControlSelect1">Marketing Status</label>
+        <select class="form-control" id="updatedStatus" name="status" [(ngModel)]="status">
           <option default value="0"></option>
           <option value="{{status}}" *ngFor="let status of data.statuses">{{status}}</option>
         </select>

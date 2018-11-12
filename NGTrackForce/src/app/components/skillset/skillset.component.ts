@@ -2,7 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { ChartScale } from '../../models/chart-scale.model';
 import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { GraphCounts } from '../../models/graph-counts';
 
 import { ThemeConstants } from '../../constants/theme.constants';
@@ -249,6 +250,7 @@ export class SkillsetComponent implements OnInit {
     if (evt.active[0] !== undefined) {
       //navigate to skillset component
       this.router.navigate([`skillset/${evt.active[0]._index}`]);
+      window.location.reload();
     }
   }
 

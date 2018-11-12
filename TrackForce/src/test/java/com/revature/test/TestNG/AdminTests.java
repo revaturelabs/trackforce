@@ -7,7 +7,6 @@ import java.util.Random;
 
 import com.revature.services.*;
 import com.revature.test.pom.*;
-import com.revature.utils.EnvManager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptException;

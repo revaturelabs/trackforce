@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.revature.test.pom.Home;
-import static com.revature.test.cuke.ConstantsCukeTestUtil.getRevatureUrl;
 import com.revature.test.utils.ServiceHooks;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -16,7 +15,8 @@ public class HomeTabCukes{
         try {
             ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Home.getPhone(ServiceHooks.driver)));
             Home.getPhone(ServiceHooks.driver).click();
-        } catch (Exception e) {
+        } catch (Throwable e) {
+            System.out.println(("Failed click on the phone link"));
             fail(("Failed click on the phone link"));
         }
     }
@@ -36,7 +36,7 @@ public class HomeTabCukes{
         try {
             ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Home.getEmail(ServiceHooks.driver)));
             Home.getEmail(ServiceHooks.driver).click(); 
-        } catch (Exception e) {
+        } catch (Throwable e) {
             System.out.println(("Failed click on the email link"));
             fail(("Failed click on the email link"));
             
@@ -53,7 +53,8 @@ public class HomeTabCukes{
             ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Home.getWebsite(ServiceHooks.driver)));
             Home.getWebsite(ServiceHooks.driver).click();
             
-        } catch (Exception e) {
+        } catch (Throwable e) {
+            System.out.println(("Failed click on the website link"));
             fail(("Failed click on the website link"));
         }
         
@@ -63,8 +64,8 @@ public class HomeTabCukes{
         ServiceHooks.wait.until(ExpectedConditions.numberOfWindowsToBe(2));
         ArrayList<String> handlers = new ArrayList<>(ServiceHooks.driver.getWindowHandles());
         ServiceHooks.driver.switchTo().window(handlers.get(1));
-        ServiceHooks.wait.until(ExpectedConditions.urlContains(getRevatureUrl()));
-        assertEquals(ServiceHooks.driver.getCurrentUrl(), getRevatureUrl());
+        ServiceHooks.wait.until(ExpectedConditions.urlContains("https://revature.com/"));
+        assertEquals(ServiceHooks.driver.getCurrentUrl(),"https://revature.com/");
     }
     
     

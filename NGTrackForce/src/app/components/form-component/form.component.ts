@@ -127,12 +127,16 @@ export class FormComponent implements OnInit {
       this.isAssociate = false;
     }
 
-    this.clientService.getAllClients().subscribe(data => {
+    this.clientService.getAllClients().subscribe(data => { 
       this.clients = data.sort(
         (a: Client, b: Client) =>
           a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
       );
-    });
+    },
+    error=>{
+      console.error(error);
+    }
+    );
   }
 
   adjustDate(date: any) {
@@ -299,7 +303,7 @@ export class FormComponent implements OnInit {
           this._displayFormStatus(FormStatus.FAILURE, StatusProp.UPDATE, StatusClass.UPDATE_CLASS);
           console.error(error);
         });
-      },
+      },      
       error => console.error(error)
     );
   }

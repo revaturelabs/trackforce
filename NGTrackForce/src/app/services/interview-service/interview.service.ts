@@ -61,7 +61,8 @@ y
    * @param interview - this is the updated interview object
    * @param id - this is the id of the associate
    */
-  public updateInterview(interview: Interview): Observable<boolean> {
+  public updateInterview(interview): Observable<boolean> {
+    console.log(interview);
     const url: string = this.baseURL + "/" + interview.id;
     return this.http.put<boolean>(url, interview);
   }

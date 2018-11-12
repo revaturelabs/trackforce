@@ -84,6 +84,7 @@ describe('LoginComponent', () => {
 
   it('should set isLoggingIn to true if clicked login', () => {
     component.loginClicked = true;
+    component.onAnimationDone(null);
     expect(component.isLoggingIn).toBeTruthy();
   });
 

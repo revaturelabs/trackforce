@@ -124,7 +124,7 @@ public class AssociateService {
     public Long getMappedAssociateCountByClientId(Long client_id, Integer mappedStatus) {
         return dao.countMappedAssociatesByValue(
                 "TF_CLIENT_ID",
-                client_id,
+                client_id.toString(),
                 mappedStatus);
     }
     /**

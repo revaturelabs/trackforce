@@ -1,14 +1,15 @@
+import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ChartsModule } from 'ng2-charts';
 import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
-import { RouterTestingModule } from '@angular/router/testing';
 import { BatchService } from '../../services/batch-service/batch.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormComponent } from '../form-component/form.component';
-import { NgModel } from '@angular/forms';
+import { NgModel, FormsModule } from '@angular/forms';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { ClientService } from '../../services/client-service/client.service';
 import { InterviewService } from '../../services/interview-service/interview.service';
@@ -16,6 +17,9 @@ import { RequestService } from '../../services/request-service/request.service';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { of } from 'rxjs/observable/of';
+import { LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from '@angular/common';
+import { HttpInterceptorHandler } from '@angular/common/http/src/interceptor';
 
 export class MockAuthenticationService extends AuthenticationService {
   getUser(): User {
@@ -27,7 +31,7 @@ export class MockAuthenticationService extends AuthenticationService {
 export class MockActivatedRoute {
   static createMockRoute(tid: number): any {
     return {
-      params: { subscribe(val: string) { Observable.of({id: tid}) }},
+      params: { subscribe(val: string) { of({id: tid}) }},
       snapshot: {
         parent: {
           params: {
@@ -66,32 +70,33 @@ describe('FormComponent', () => {
     spyOn(testAuthService, 'getUser').and.returnValue(user); // needed by the navbar
   });
 
-  beforeEach(async(() => {
+  beforeEach( () => {
     TestBed.configureTestingModule({
       declarations: [ 
-        FormComponent,
-        NgModel
+        FormComponent
       ],
       providers: [
         AssociateService,
         ClientService,
         InterviewService,
+        LocationStrategy,
         {provide: AuthenticationService, useValue: testAuthService},
         {provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(0)},
-        {provide: HttpClient, useClass: HttpClient},
-        {provide: Router, useClass: MockRouter}
+        { provide: LocationStrategy, useClass: PathLocationStrategy }, // Added to resolve base href path
+        { provide: APP_BASE_HREF, useValue: '/page' } // Same as above
       ],
       imports: [
         ChartsModule,
-        RouterTestingModule,
-        HttpClientTestingModule
+        HttpClientTestingModule, // Changed to HttpClientTestingModule from HttpClientModule,
+        RouterTestingModule, // Added to supress subscribe undefined error
+        FormsModule // Added to resolve value accessor error in form.component.html
       ],
       schemas:[ 
         CUSTOM_ELEMENTS_SCHEMA 
       ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     let mockUser:User = new User('mockUser', 'pass', 0, 0);
@@ -101,7 +106,7 @@ describe('FormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', (done) => {
+  it('should create', () => {
     expect(component).toBeDefined();
   });
 });

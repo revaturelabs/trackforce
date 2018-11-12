@@ -299,10 +299,9 @@ public class AssociateResource {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
+		System.out.println(associate);
 		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else if (((String) payload.get("roleID")).equals("5")) {
-			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		} else {
 			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		}
@@ -335,7 +334,8 @@ public class AssociateResource {
 
 		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else if (((String) payload.get("roleID")).equals("1") || ((String) payload.get("roleID")).equals("2")) {
+		} else if (((String) payload.get("roleID")).equals("1") || ((String) payload.get("roleID")).equals("2")
+				|| ((String) payload.get("roleID")).equals("4")) {
 		return associateService.approveAssociate(associateId) ? Response.ok(true).build()
 				: Response.serverError().entity(false).build();
 		} else {

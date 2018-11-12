@@ -101,6 +101,7 @@ public class ClientResourceTest {
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 	}
+	
 	/**
 	 * Unhappy path testing for testGetAllClient, tests that a 404 status code is generated for a 
 	 * bad URL
@@ -203,7 +204,4 @@ public class ClientResourceTest {
 			return given().when().get();
 		}
 	}
-
-	
-	
 }

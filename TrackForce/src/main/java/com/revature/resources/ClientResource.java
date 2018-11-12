@@ -91,6 +91,7 @@ public class ClientResource {
 		return authorizeAdminUser(badToken, forbidden, authorized, token);
 	}
 
+
 	@GET
 	@Path("/associates/get/{client_id}")
 	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id, @HeaderParam("Authorization") String token) {
@@ -162,4 +163,5 @@ public class ClientResource {
 				}
 			}
 		}
-}}
+	}
+}

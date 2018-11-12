@@ -76,7 +76,7 @@ public class ClientResourceTest {
 	}
 
 	/**
-	 * Unhappy path testing for testGetAllClients, tests thatn a 401 status code
+	 * Unhappy path testing for testGetAllClients, tests that a 401 status code
 	 * is given if a request is made with a bad token
 	 * @author Katelyn B 
 	 * Written Nov. 4, 2018, Batch 1809
@@ -114,10 +114,9 @@ public class ClientResourceTest {
 
 		assertTrue(response.statusCode() == 404);
 	}
-	
 	/**
-	 * Unhappy path testing for testGetAllClient, tests that a 405 status code is given for a
-	 * bad html verb
+	 * Unhappy path testing for testGetAllClient, tests that a 404 status code is generated for a 
+	 * bad URL
 	 * @author Katelyn B 
 	 * Written Nov. 4, 2018, Batch 1809
 	 */

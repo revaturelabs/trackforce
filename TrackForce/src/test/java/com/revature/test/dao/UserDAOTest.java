@@ -9,6 +9,14 @@ import org.testng.annotations.Test;
 import com.revature.daoimpl.UserDaoImpl;
 import com.revature.entity.TfUser;
 
+/** Test class for testing UserDAOImpl
+ * 
+ * Danger of false negatives in the case of database changes.
+ * 
+ * Directly refers to existent entries in the database. Be warned that any
+ * change in the database may very well cause tests to fail despite the DAO 
+ * working just fine.
+ */
 public class UserDAOTest {
 	
 	@Test

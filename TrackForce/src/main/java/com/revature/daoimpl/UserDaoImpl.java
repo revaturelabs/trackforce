@@ -3,7 +3,6 @@ package com.revature.daoimpl;
 import static com.revature.utils.HibernateUtil.runHibernateTransaction;
 import java.util.List;
 
-import com.revature.entity.TfAssociate;
 import com.revature.entity.TfRole;
 import org.hibernate.Session;
 import com.revature.dao.UserDao;

@@ -71,7 +71,9 @@ public class RegisterUserCuke {
 
 	@Then("^an error message should appear$")
 	public void an_error_message_should_appear() throws Throwable {
+		// wait for the error message to be shown on the screen.
 		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Login.getErrorPopup(ServiceHooks.driver)));
+		// assert that the element is showing up
 		Assert.assertTrue(Login.getErrorPopup(ServiceHooks.driver).isDisplayed());
 		
 	}

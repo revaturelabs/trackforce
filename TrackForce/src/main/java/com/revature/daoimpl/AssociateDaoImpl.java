@@ -34,6 +34,14 @@ public class AssociateDaoImpl implements AssociateDao {
 	private static final String MKTSTS = "marketingStatus";
 	private static final String CLIENT = "client";
 	
+	/** Sessional with instructions on how to approve an associate */
+	private static Sessional<Boolean> approveAssociate = (Session session, Object... args) -> {
+		TfAssociate temp = session.get(TfAssociate.class, (Integer) args[0]);
+		temp.getUser().setIsApproved(TfUser.APPROVED);
+		session.update(temp);
+		return true;
+	};
+	
 	/** Gets list of associates matching criteria. Used by updated angular front end to perform 
 	 * Pagination of results and improve performance.
 	 * @author Joshua Pressley-1807
@@ -108,7 +116,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	@Override
 	public TfAssociate getAssociate(Integer id) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfAssociate a where a.id = :id", TfAssociate.class)
+	    session.createQuery("from TfAssociate a where a.id = :id", TfAssociate.class)
 		.setParameter("id", id).setCacheable(true).getSingleResult());
 	}
 
@@ -304,7 +312,11 @@ public class AssociateDaoImpl implements AssociateDao {
 	@Override
 	public boolean updateAssociate(TfAssociate associate) {
 		return runHibernateTransaction((Session session, Object... args) -> {
-			session.update(associate);
+			TfAssociate temp = session.get(TfAssociate.class, associate.getId());
+			temp.setFirstName(associate.getFirstName());
+			temp.setLastName(associate.getLastName());
+			temp.setStagingFeedback(associate.getStagingFeedback());
+			session.update(temp);
 			return true;
 		});
 	}
@@ -315,7 +327,7 @@ public class AssociateDaoImpl implements AssociateDao {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
 	@Override
 	public <T> T countMappedAssociatesByValue(String column, T value, Integer mappedStatus) {
 		Sessional<T> ss = (Session session, Object... args) -> {
@@ -332,5 +344,31 @@ public class AssociateDaoImpl implements AssociateDao {
 			return (T) query.setParameter("status", args[1]).getSingleResult();
 		};
 		return HibernateUtil.runHibernate(ss, value, mappedStatus);
+	}*/
+	
+	@Override
+	public long countMappedAssociatesByValue(String column, String value, int mappedStatus) {
+		Sessional<Long> ss = (Session session, Object... args) -> {
+			Long numValue;
+			try {
+				numValue = Long.valueOf((String) args[0]);
+			}
+			catch (NumberFormatException e) {
+				numValue = null;
+			}
+			String hql = "SELECT COUNT(TF_ASSOCIATE_ID) FROM TfAssociate WHERE "
+					+ column + " = :value AND TF_MARKETING_STATUS_ID = :status";
+			Query query = session.createQuery(hql).setCacheable(true);
+			query.setParameter("status", args[1]);
+			if (numValue == null) {
+				query.setParameter("value", args[0]);
+			}
+			else {
+				query.setParameter("value", numValue);
+			}
+			return (Long) query.getSingleResult();
+		};
+		return HibernateUtil.runHibernate(ss, value, mappedStatus);
+		
 	}
 }

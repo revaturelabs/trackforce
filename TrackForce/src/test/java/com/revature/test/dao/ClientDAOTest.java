@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -18,9 +17,21 @@ import com.revature.entity.TfClient;
 import com.revature.entity.TfEndClient;
 import com.revature.test.utils.Log;
 
+/** Test class for testing ClientDAOImpl
+ * 
+ * Danger of false negatives in the case of database changes.
+ * 
+ * Depends on Properties file referring to existent entries in database.
+ * Also directly refers to existent entries in the database. Be warned that any
+ * change in the database may very well cause tests to fail despite the DAO 
+ * working just fine.
+ */
 public class ClientDAOTest {
 	
 	private ClientDaoImpl dao;
+	//PLEASTE NOTE: The file referenced by this variable upon initialization can be out of date.
+	//Check that this is not out of date with the database being accessed before troubleshooting
+	//failing tests. Due to lambdas inside lambdas (HibernateUtil's Callable, Dao's Sessionals)
 	private Properties props;
 	
 	@BeforeSuite

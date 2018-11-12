@@ -20,6 +20,7 @@ public class HomeTabCukes{
             fail(("Failed click on the phone link"));
         }
     }
+    
     @Then("^I should see the telephone number link open on a browser$")
     public void i_should_see_the_telephone_number_link_open_on_a_browser(){
         /*

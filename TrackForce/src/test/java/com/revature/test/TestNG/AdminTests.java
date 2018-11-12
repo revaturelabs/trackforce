@@ -84,9 +84,9 @@ public class AdminTests {
 		File chrome = new File("src/main/resources/chromedriver.exe");
 		System.setProperty("webdriver.chrome.driver", chrome.getAbsolutePath());
 		wd = new ChromeDriver();
-		wd.get(System.getenv("url")+"login/");
+		wd.get(EnvManager.NGTrackForce_URL+"login/");
 		wait = new WebDriverWait(wd,10);
-		wait.until(ExpectedConditions.urlContains(System.getenv("url")+"login"));
+		wait.until(ExpectedConditions.urlContains(EnvManager.NGTrackForce_URL+"login/"));
 		
 	}
 	

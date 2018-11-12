@@ -39,7 +39,7 @@ public class AssociateTests {
 	
   @Test(priority = 0)
   public void LoadWebpage() {
-	 ServiceHooks.driver.get(System.getenv("url") + "#/login");
+	 ServiceHooks.driver.get(EnvManager.NGTrackForce_URL + "#/login/");
 	 ServiceHooks.wait.until(ExpectedConditions.urlContains("/login"));
   }
   
@@ -47,7 +47,7 @@ public class AssociateTests {
   public void LoginAssociate() {
 	 LoginUtil.loginAsAssociate(ServiceHooks.driver);
 	 Login.getSignInButton(ServiceHooks.driver).click();
-	 ServiceHooks.wait.until(ExpectedConditions.urlContains(System.getenv("url")+"/associate-view"));
+	 ServiceHooks.wait.until(ExpectedConditions.urlContains(EnvManager.NGTrackForce_URL+"associate-view/"));
   }
   
   @Test (priority = 2)
@@ -57,7 +57,7 @@ public class AssociateTests {
 	  NavBar.getWelcomeDropdown(ServiceHooks.driver).click();
 	  ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(NavBar.getLogout(ServiceHooks.driver)));
 	  NavBar.getLogout(ServiceHooks.driver).click();
-	  ServiceHooks.wait.until(ExpectedConditions.urlContains(System.getenv("url")+"/login"));
+	  ServiceHooks.wait.until(ExpectedConditions.urlContains(EnvManager.NGTrackForce_URL+"login/"));
 	  
   }
   @Test (priority = 3)

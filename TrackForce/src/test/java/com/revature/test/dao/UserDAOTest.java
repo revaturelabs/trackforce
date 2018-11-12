@@ -9,7 +9,29 @@ import org.testng.annotations.Test;
 import com.revature.daoimpl.UserDaoImpl;
 import com.revature.entity.TfUser;
 
+public class UserDAOTest {
+	
+	@Test
+	public void canGetUserByUsername() {
+		Assert.assertEquals(1, new UserDaoImpl().getUser("TestAdmin").getId());
+	}
 
+	@Test
+	public void getAllUsersIsNotEmpty() {
+		Assert.assertNotEquals(0, new UserDaoImpl().getAllUsers().size());
+	}
+
+	/**
+	 * getAllUsersWorks tests for an
+	 */
+	@Test
+	public void getAllUsersWorks() {
+		List<TfUser> list = new ArrayList<TfUser>();
+		list = new UserDaoImpl().getAllUsers();
+		Assert.assertNotNull(list);
+		Assert.assertNotEquals(list.size(), 0);
+	}
+	
 
 public class UserDAOTest {
   @Test

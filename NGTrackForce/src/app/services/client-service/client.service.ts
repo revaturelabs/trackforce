@@ -39,14 +39,15 @@ export class ClientService {
    * they are an administrator. 
    */
   getAllClients(): Observable<Client[]> {
-    this.role = this.authService.getUserRole();
-    if (this.role === 1) {
-    this.http.get<Client[]>(this.baseURL).subscribe(
-      (data: Client[]) => this.clients$.next(data),
-      (error) => this.clients$.error(error)
-    );
-    return this.clients$;
-  }}
+    // this.role = this.authService.getUserRole();
+    // if (this.role === 1) {
+      this.http.get<Client[]>(this.baseURL).subscribe(
+        (data: Client[]) => this.clients$.next(data),
+        (error) => this.clients$.error(error)
+      );
+      return this.clients$;
+  // }
+   }
 
   /**
    * 

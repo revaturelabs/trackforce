@@ -96,14 +96,12 @@ public class CurriculumResource {
 		logger.info("getUnmappedInfo()...");		
 
 		Claims payload = JWTService.processToken(token);
-		System.out.println("Here");
 		
 		if (payload == null) { // invalid token
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else if (!(((String) payload.get("roleID")).equals("1") || ((String) payload.get("roleID")).equals("3") || ((String) payload.get("roleID")).equals("4"))) { // wrong roleid
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
-			System.out.println("Size: " + curriculumService.getUnmappedInfo(statusId).size());
 			return Response.ok(curriculumService.getUnmappedInfo(statusId)).build();
 		}
 	}

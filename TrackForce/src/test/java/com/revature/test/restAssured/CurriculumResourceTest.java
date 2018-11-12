@@ -1,11 +1,8 @@
 package com.revature.test.restAssured;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.contains;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -15,6 +12,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.revature.services.JWTService;
+import com.revature.utils.EnvManager;
 
 import io.restassured.response.Response;
 
@@ -26,8 +24,7 @@ import io.restassured.response.Response;
  */
 public class CurriculumResourceTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/skillset";
-	//static final String URL = "http://localhost:8085/TrackForce/skillset";
+	static final String URL = EnvManager.TomTrackForce_URL + "skillset/";
 
 	String tokenAdmin;
 	String tokenAssociate;
@@ -87,7 +84,7 @@ public class CurriculumResourceTest {
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 
-		given().header("Authorization", tokenAdmin).when().get(URL + "/badurl").then().assertThat().statusCode(404);
+		given().header("Authorization", tokenAdmin).when().get(URL + "badurl/").then().assertThat().statusCode(404);
 
 		given().header("Authorization", tokenAdmin).when().post(URL).then().assertThat().statusCode(405);
 
@@ -112,7 +109,7 @@ public class CurriculumResourceTest {
 	@Test(priority = 15)
 	public void testGetUnmappedInfo() {
 
-		Response response = given().header("Authorization", tokenAdmin).when().get(URL + "/unmapped/2").then().extract()
+		Response response = given().header("Authorization", tokenAdmin).when().get(URL + "unmapped/2/").then().extract()
 				.response();
 
 
@@ -122,7 +119,7 @@ public class CurriculumResourceTest {
 		assertTrue(response.asString().contains("\"id\":2"));
 		assertTrue(response.asString().contains("\"name\":\"Java\""));
 		
-		given().header("Authorization", tokenAdmin).when().get(URL + "/unmapped/2").then().assertThat().body("id", hasSize(1));
+		given().header("Authorization", tokenAdmin).when().get(URL + "unmapped/2/").then().assertThat().body("id", hasSize(1));
 	}
 	
 	/**
@@ -132,16 +129,16 @@ public class CurriculumResourceTest {
 	 */
 	@Test(priority = 20)
 	public void testGetUnmappedInfoUnhappyPath() {
-		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/unmapped/4").then().extract().response();
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + "unmapped/4/").then().extract().response();
 		
 		System.out.println(response.statusCode());
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 		
-		given().header("Authorization", tokenAdmin).when().get(URL + "/unmapped/4badurl").then().assertThat().statusCode(404);
+		given().header("Authorization", tokenAdmin).when().get(URL + "unmapped/4badurl/").then().assertThat().statusCode(404);
 
-		given().header("Authorization", tokenAdmin).when().post(URL + "/unmapped/4").then().assertThat().statusCode(405);
+		given().header("Authorization", tokenAdmin).when().post(URL + "unmapped/4/").then().assertThat().statusCode(405);
 
-		given().header("Authorization", tokenAssociate).when().get(URL + "/unmapped/4").then().assertThat().statusCode(403);
+		given().header("Authorization", tokenAssociate).when().get(URL + "unmapped/4/").then().assertThat().statusCode(403);
 	}
 }

@@ -58,7 +58,6 @@ public class ClientResource {
 	Response forbidden = null;
 	Response authorized = null;
 	
-	
 	/*
 	 * Each of the methods below builds three different responses determined by the method
 	 * authorizeAdminUser whether or not the 1) token is bad, 2) if the token is either expired 
@@ -90,7 +89,6 @@ public class ClientResource {
 		Response authorized = Response.status(clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK).entity(clients).build();
 
 		return authorizeAdminUser(badToken, forbidden, authorized, token);
-		
 	}
 
 	@GET
@@ -127,7 +125,6 @@ public class ClientResource {
 		Response authorized = Response.status(200).entity(clients).build();
 
 		return authorizeAdminUser(badToken, forbidden, authorized, token);
-	
 	}
 	
 	/**

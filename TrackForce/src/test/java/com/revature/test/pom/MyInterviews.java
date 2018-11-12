@@ -8,7 +8,8 @@ import org.openqa.selenium.WebElement;
 
 public class MyInterviews {
 	public static WebElement getClientSelect(WebDriver driver) {
-		return driver.findElement(By.name("newClient"));
+		// get the select elements where the name is newClient
+		return driver.findElement(By.xpath("//select[@name='newClient']"));
 	}
 	//Warning this method might return A LOT of options (could be deleted).  If you are worried about creating 1000+ WebElements try the next one
 //	public static List<WebElement> getAllClientSelectOptions(WebDriver driver) {

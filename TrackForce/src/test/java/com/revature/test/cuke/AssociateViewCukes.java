@@ -1,6 +1,5 @@
 package com.revature.test.cuke;
 
-import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertEquals;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -99,29 +98,28 @@ public class AssociateViewCukes {
 	}
 
 	@Then("^it should be in the interview table$")
-	public void it_should_be_in_the_interview_table() throws Exception {
-	   assertNotNull(MyInterviews.getLatestInterviewFromTable(ServiceHooks.driver));//Checks table to confirm there is information
-	   //need to add that it checks if that information was new as the :last-child.
+	public void it_should_be_in_the_interview_table()  {
+	   //Checks table to confirm the correct information was added.
 	}
 
 	@When("^I enter an Interview date that occurs after my Assigned date$")
-	public void i_enter_an_Interview_date_that_occurs_after_my_Assigned_date() throws Exception {
+	public void i_enter_an_Interview_date_that_occurs_after_my_Assigned_date()  {
 		// The MyInterview page does not have anywhere to input the assigned date.
 	}
 
 	@When("^I enter dates less than twenty-four hours apart$")
-	public void i_enter_dates_less_than_twenty_four_hours_apart() throws Exception {
+	public void i_enter_dates_less_than_twenty_four_hours_apart()  {
 		// The MyInterview page does not have anywhere to input the assigned date or interview date.
 	}
 
 	@When("^I enter dates more than twenty-four hours apart$")
-	public void i_enter_dates_more_than_twenty_four_hours_apart() throws Exception {
+	public void i_enter_dates_more_than_twenty_four_hours_apart()  {
 		// The MyInterview page does not have anywhere to input the assigned date or interview date.
 	}
 
 	
 	@Then("^an error popup should display$")
-	public void an_error_popup_should_display() throws Exception {
+	public void an_error_popup_should_display()  {
 		// There are currently no error popups implemented on the MyInterview page.
 	}
 }

@@ -67,7 +67,4 @@ public class MyInterviews {
 	public static WebElement getInterviewDateByRowIndex(WebDriver driver, int index) {
 		return driver.findElement(By.cssSelector(".table > tbody > tr:nth-child("+index+") > td:nth-child(4)"));
 	}
-	public static WebElement getLatestInterviewFromTable(WebDriver driver) {
-		return driver.findElement(By.cssSelector(".table > tbody > tr:last-child"));
-	}
 }

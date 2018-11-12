@@ -1,6 +1,6 @@
 package com.revature.test.services;
 
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
@@ -64,7 +64,6 @@ public class UserServicesTest {
 
   @Test
   public void testUserCreate() {
-	  // This test is not idempotent
 	  // Throws nullpointer exception
 	  TfUser newUser = new TfUser();
 	  String newUsername = "Sample user for testing";
@@ -75,15 +74,17 @@ public class UserServicesTest {
 	  newUser.setPassword(password);
 	  newUser.setRole(3);
 	  newUser.setUsername(newUsername);
-	  boolean result = service.insertUser(newUser);
+	  
+	  boolean result = service.insertUser(newUser);//null pointer here
 	  Assert.assertTrue(result);
 	  TfUser retrieveUser = service.getUser(newUsername);
 	  Assert.assertEquals(retrieveUser, newUser);
+	  service.deleteUser(newUser);
+	  Assert.assertNull(newUser);
   }
   
-  @Test
+  @Test(expectedExceptions=NullPointerException.class)
   public void testCreateNullUser() {
-	  // throws nullpointer exception
 	  TfUser nullUser = null;
 	  boolean result = service.insertUser(nullUser);
 	  Assert.assertFalse(result);
@@ -110,19 +111,22 @@ public class UserServicesTest {
   @Test
   public void testUserSubmitCredentials() {
 	  // get existing user
-	  // expects noPasswordResult to be null, but still has non-null fields?
 	  String username = prop.getProperty("user_username");
 	  TfUser user = service.getUser(username);
-	  TfUser verifyUser = service.submitCredentials(user);
+	  TfUser verifyUser = service.submitCredentials(user); //nullpointer
 	  
 	  Assert.assertEquals(user, verifyUser);
-	  // Now test nonexistent / null users
-	  TfUser nullUser = service.submitCredentials(null);
+  }
+  @Test
+  public void testUserSubmitBadCredentials() {
+	  //submits a null for a user
+	  TfUser nullUser = service.submitCredentials(null); //null pointer
 	  Assert.assertNull(nullUser);
+	  
+	  //submits a user with no password
 	  TfUser userNoPassword = new TfUser();
 	  userNoPassword.setUsername("User with no password");
-	  TfUser noPasswordResult = service.submitCredentials(userNoPassword);
-	
+	  TfUser noPasswordResult = service.submitCredentials(userNoPassword); 
 	  Assert.assertNull(noPasswordResult);
   }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import static com.revature.utils.LogUtil.logger;
 
+
 /** @author Curtis H., Adam L., Josh P
  * <p> The abstracted methods for making Hibernate calls to the database </p>
  * @version v6.18.06.13 */
@@ -37,7 +38,6 @@ public class HibernateUtil {
 		SchedulePendingUserCleanup.Start();
 		try {
 			Configuration cfg = new Configuration();			
-
 			cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
 			cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
 			cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));

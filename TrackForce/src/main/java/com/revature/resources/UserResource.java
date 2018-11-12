@@ -319,7 +319,7 @@ public class UserResource {
 	@Path("/check")
 	@GET
 	@ApiOperation(value = "check method", notes = "The method checks whether a JWT is valid. returns 200 if valid, 401 if invalid.")
-	public Response checkCredentials(@HeaderParam("Authorization") String token) {
+	public static Response checkCredentials(@HeaderParam("Authorization") String token) {
 		logger.info("checkCredentials()...");
 
 		Claims payload = JWTService.processToken(token);
@@ -345,7 +345,7 @@ public class UserResource {
 	@GET
 	@Produces("application/json")
 	@ApiOperation(value = "Get Role value method", notes = "parses the JWT to check if its valid and returns the value if valid")
-	public Response returnRole(@HeaderParam("Authorization") String token) {
+	public static Response returnRole(@HeaderParam("Authorization") String token) {
 		Claims payload = JWTService.processToken(token);
 		
 		if(payload == null) {

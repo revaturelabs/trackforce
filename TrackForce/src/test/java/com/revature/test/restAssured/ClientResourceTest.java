@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import com.revature.entity.TfClient;
 import com.revature.services.ClientService;
 import com.revature.services.JWTService;
+import com.revature.utils.EnvManager;
 
 import io.restassured.http.Header;
 import io.restassured.response.Response;
@@ -29,9 +30,7 @@ import io.restassured.specification.RequestSpecification;
  */
 public class ClientResourceTest {
 
-	//static final String URL = "http://52.87.205.55:8086/TrackForce/clients";
-	static final String URL = "http://localhost:8085/TrackForce/clients";
-	//static final String URL = EnvManager.TomTrackForce_URL + "clients/";
+	static final String URL = EnvManager.TomTrackForce_URL + "clients/";
 
 	ClientService cs = new ClientService();
 	List<TfClient> clients;

@@ -63,9 +63,9 @@ export class UserService {
 
   public checkJwtValid(): Observable<boolean> {
     return this.http.get<boolean>(this.baseURL + '/check');
-}
+  }
 
-public buildSessionFactory(): Observable<boolean>{
-  return this.http.get<boolean>(this.baseURL + '/init');
-}
+  public buildSessionFactory(): Observable<boolean>{
+    return this.http.get<boolean>(this.baseURL + '/init');
+  }
 }

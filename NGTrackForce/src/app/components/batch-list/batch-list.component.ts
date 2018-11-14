@@ -17,6 +17,8 @@ import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.compon
  * @class BatchListComponent
  * @description This component is the batch list page
  *        to get all batches and show meaningful information
+ *
+ * 1807 addition: completely change date-time-picker to html input date
  */
 @Component({
   selector: 'app-batch-list',
@@ -32,7 +34,7 @@ export class BatchListComponent implements OnInit {
   start: any;
   end: any;
   pieChartType = 'pie';
-  startDate: Date = new Date();
+  startDate: Date = new Date(0);
   endDate: Date = new Date();
   batches: Batch[];
   filteredBatches: Batch[];
@@ -48,6 +50,9 @@ export class BatchListComponent implements OnInit {
   stringStart: string;
   stringEnd: string;
 
+  fromString: string;
+  toString: string;
+
   dateRangeMessage: string;
   showDateRangeError = false;
   dateError: boolean;
@@ -62,8 +67,7 @@ export class BatchListComponent implements OnInit {
     'right', false, false
   );
 
-
-  constructor(private batchService: BatchService, private authService: AuthenticationService, 
+  constructor(private batchService: BatchService, private authService: AuthenticationService,
               private dateService: DateService) {
   }
 
@@ -71,76 +75,57 @@ export class BatchListComponent implements OnInit {
    * load default batches on initialization
    */
   ngOnInit() {
+    if(this.authService.getUserRole() == 2 &&
+      (!this.authService.getTrainer() || this.authService.getTrainer() == null)){
+      this.dataReady = true;
+      return;
+    }
     // get current user
     const user = this.authService.getUser();
-    //user is a trainer they can only see their batches
-    if (user.role === 2) {
-      this.dataReady = false;
+    this.dataReady = false;
 
-      this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
-        batches => {
-          // filter out batches that don't have an associated trainer
-          this.batches = batches.filter(
-            batch => {
-              if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
-                return false;
-              }
-              if (batch.coTrainer) {
-                return batch.coTrainer.includes(this.authService.getTrainer());
-              }
+    this.stringStart = this.startDate.toJSON().substring(0, 10);
+    this.stringEnd = this.endDate.toJSON().substring(0, 10);
+    this.fromString = this.startDate.toJSON().substring(0, 10);
+    this.toString = this.endDate.toJSON().substring(0, 10);
+    this.dataReady = false;
+    console.log(this.authService.getTrainer());
+    console.log(user);
+    this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
+      batches => {
+        this.batches = batches.filter(
+          batch => {
 
-              if (batch.startDate < this.minDate){
-                this.minDate = batch.startDate;
-              }
+						if (batch.startDate < this.minDate){
+							this.minDate = batch.startDate;
+						}
 
-              this.startDate = new Date(this.minDate);
-              this.dateService.changeDates(this.startDate, this.endDate);
+						this.startDate = new Date(this.minDate);
+						this.dateService.changeDates(this.startDate, this.endDate);
 
-              return true;
-            }
-          );
-          this.filteredBatches = this.batches;
-          this.updateCountPerCurriculum();
-          this.dataReady = true;
-        },
-        error => {
-          console.log(error);
-        }
-      );
-    }
-    else {
-      // set default dates displayed on page
-      this.startDate.setMonth(new Date().getMonth() - 3);
-      this.endDate.setMonth(new Date().getMonth() + 3);
-      this.dataReady = false;
+						if (this.authService.getUserRole() === 2) {
+					     // filter out batches that don't have an association with the trainer
+							let trainer = batch.trainer.id !== this.authService.getTrainer().id;
+			        let coTrainer = batch.coTrainer && !batch.coTrainer.includes(this.authService.getTrainer());
+			        if (trainer && (coTrainer == undefined || coTrainer)) {
+								console.log(batch.coTrainer);
+								console.log(batch);
+			          return false;
+			        }
+						}
 
-      this.startDate.setMonth(-7);
-
-      this.stringStart = this.startDate.toJSON().substring(0, 10);
-      this.stringEnd = this.endDate.toJSON().substring(0, 10);
-      this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
-        batches => {
-          // filter out batches that don't have an associated trainer
-          this.batches = batches;
-
-          this.batches.forEach(batch => {
-            if (batch.startDate < this.minDate){
-              this.minDate = batch.startDate;
-              }
-            }
-          );
-          this.filteredBatches = this.batches;
-          this.startDate = new Date(this.minDate);
-          this.dateService.changeDates(this.startDate, this.endDate);
-          this.updateCountPerCurriculum();
-          this.dataReady = true;
-        },
-        error => {
-          console.log(error);
-        }
-      );
-
-    }
+            return true;
+          }
+        );
+        this.filteredBatches = this.batches;
+				this.fromString = this.startDate.toJSON().substring(0, 10);
+        this.updateCountPerCurriculum();
+        this.dataReady = true;
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
 
@@ -148,10 +133,21 @@ export class BatchListComponent implements OnInit {
    * after user selects date range, this handles updating the data,
    * and the corresponding graph accordingly
    */
+	 // Edited by Mussab
   public applySelectedRange() {
     if (!this.dateError){
-    this.startDate = new Date(this.stringStart);
-    this.endDate = new Date(this.stringEnd);
+			// Added Timezone offset becasue the constructor of new Date(yyyy-dd-mm)
+			// gets the UTC time and depending on your current timezone it will add/remove
+			// couple of hours thus could cause a change in the date either a day early or
+			// a day late so adding the offset time makes sure that the correct
+			// date is being referenced
+    this.startDate = new Date(this.fromString);
+		this.startDate.setMinutes(this.startDate.getMinutes() + this.startDate.getTimezoneOffset());
+    this.endDate = new Date(this.toString);
+		this.endDate.setMinutes(this.endDate.getMinutes() + this.endDate.getTimezoneOffset());
+
+    console.log(this.startDate);
+    console.log(this.endDate);
 
     let longStartDate: number;
     let longEndDate: number;
@@ -166,93 +162,106 @@ export class BatchListComponent implements OnInit {
       if (longStartDate > longEndDate) {
         this.dateRangeMessage = "The to date cannot be before the from date, please try another date.";
         this.showDateRangeError = true;
-      } else {
+      } else if(longStartDate < this.minDate){
+				this.dateRangeMessage = `The from date cannot be before ${new Date(this.minDate).toDateString().substring(4)}, please try another date.`;
+        this.showDateRangeError = true;
+			} else if(longEndDate > Date.now()){
+				this.dateRangeMessage = "The to date cannot be after today, please try another date.";
+        this.showDateRangeError = true;
+			} else {
         this.updateBatches();
       }
     }
     }
   }
-
   public resetFormWarnings() {
-    if (this.showDateRangeError == true)
+    if (this.showDateRangeError === true) {
       this.showDateRangeError = false;
+    }
   }
 
   // Logans new resetToDefaultBatches
+	// Edited by Mussab
   public resetToDefaultBatches() {
+        this.startDate = new Date(this.minDate);
+        this.endDate = new Date();
+        this.counter = 0;
+        this.fromString = this.startDate.toJSON().substring(0, 10);
+        this.toString = this.endDate.toJSON().substring(0, 10);
+				// The next two lines are commented because they throw an Error
+        // this.startDateTimePicker.dateReset();
+        // this.endDateTimePicker.dateReset();
+				this.updateBatches();
+  }
+
+  // Logans new update batches method
+	// Refactored by Mussab
+  public updateBatches()
+  {
+    const user = this.authService.getUser();
+		this.dataReady = false;
     this.filteredBatches = this.batches.filter(
       batch => {
-        this.startDate = new Date();
-        this.startDate.setMonth(new Date().getMonth() - 3);
-        this.endDate = new Date();
-        this.endDate.setMonth(new Date().getMonth() + 3);
-        const startTime = Date.now();
-        this.dataReady = false;
-        this.counter = 0;
-        this.stringStart = this.startDate.toJSON().substring(0, 10);
-        this.stringEnd = this.endDate.toJSON().substring(0, 10);
-        this.startDateTimePicker.dateReset();
-        this.endDateTimePicker.dateReset();
+				if (this.authService.getUserRole() === 2) {
+			     // filter out batches that don't have an association with the trainer
+					let trainer = batch.trainer.id !== this.authService.getTrainer().id;
+	        let coTrainer = batch.coTrainer && !batch.coTrainer.includes(this.authService.getTrainer());
+	        if (trainer && (coTrainer == undefined || coTrainer)) {
+	          return false;
+	        }
+				}
+        const dateStartDate = new Date(this.startDate);
+        const dateEndDate = new Date(this.endDate);
+        const longStartDate = dateStartDate.getTime();
+        const longEndDate = dateEndDate.getTime();
+
+        if (batch.startDate && batch.endDate) {
+          return batch.startDate >= longStartDate && batch.endDate <= longEndDate;
+        }
+        else {
+          return false;
+        }
       }
     );
-    
     this.updateCountPerCurriculum();
     this.dataReady = true;
   }
 
-  // Logans new update batches method
-  public updateBatches()
+  //Steve L
+	// Refactored by Mussab
+  // Daniel V, 11/6/18: We are not sure why this method is here. It doesn't appear to be used anywhere
+  // and is identical to the above method.
+  public updateBatchesTest()
   {
     const user = this.authService.getUser();
-    if (user.role === 2) {
-      // filter out batches that don't have an associated trainer
-      this.filteredBatches = this.batches.filter(
-        batch => {
-          if (batch.trainer.firstName !== this.authService.getTrainer().firstName) {
-            return false;
-          }
-          if (batch.coTrainer) {
-            if (!batch.coTrainer.includes(this.authService.getTrainer())) {
-              return false;
-            }
-          }
-          let dateStartDate = new Date(this.startDate);
-          let dateEndDate = new Date(this.endDate);
-          let longStartDate = dateStartDate.getTime();
-          let longEndDate = dateEndDate.getTime();
+    this.filteredBatches = this.batches.filter(
+      batch => {
+				if (this.authService.getUserRole() === 2) {
+			     // filter out batches that don't have an association with the trainer
+					let trainer = batch.trainer.id !== this.authService.getTrainer().id;
+	        let coTrainer = batch.coTrainer && !batch.coTrainer.includes(this.authService.getTrainer());
+	        if (trainer && (coTrainer == undefined || coTrainer)) {
+	          return false;
+	        }
+				}
+        const dateStartDate = new Date(this.startDate);
+        const dateEndDate = new Date(this.endDate);
+        const longStartDate = dateStartDate.getTime();
+        const longEndDate = dateEndDate.getTime();
 
-          if (batch.startDate && batch.endDate) {
-            return batch.startDate > longStartDate && batch.endDate < longEndDate;
-          }
-          else {
-            return false;
-          }
+        if (batch.startDate && batch.endDate) {
+          return batch.startDate >= longStartDate && batch.endDate <= longEndDate;
         }
-      );
-      this.updateCountPerCurriculum();
-      this.dataReady = true;
-    }
-    else{
-      this.dataReady = false;
-      this.filteredBatches = this.batches.filter(
-        batch => {
-          let dateStartDate = new Date(this.startDate);
-          let dateEndDate = new Date(this.endDate);
-          let longStartDate = dateStartDate.getTime();
-          let longEndDate = dateEndDate.getTime();
-
-          if (batch.startDate && batch.endDate) {
-            return batch.startDate > longStartDate && batch.endDate < longEndDate;
-          }
-          else {
-            return false;
-          }
+        else {
+          return false;
         }
-      );
-      this.updateCountPerCurriculum();
-      this.dataReady = true;
-    }
+      }
+    );
+    this.updateCountPerCurriculum();
+    this.dataReady = true;
   }
+
+
 
 
   /**

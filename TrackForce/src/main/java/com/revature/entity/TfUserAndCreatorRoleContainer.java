@@ -1,7 +1,5 @@
 package com.revature.entity;
-
 import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,6 +26,7 @@ public class TfUserAndCreatorRoleContainer implements Serializable {
 	public void setUser(TfUser user) {
 		this.user = user;
 	}
+	
 	public int getCreatorRole() {
 		return creatorRole;
 	}

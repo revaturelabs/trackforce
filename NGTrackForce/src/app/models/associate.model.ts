@@ -21,7 +21,7 @@ export class Associate {
   endClient: EndClient;
   interview: Interview[];
   placement: Placement;
-  clientStartDate: number;
+  clientStartDate: Date;
   stagingFeedback: string;
 
   constructor(
@@ -35,7 +35,7 @@ export class Associate {
     newEndClient?: EndClient,
     newInterview?: Interview[],
     newPlacement?: Placement,
-    newClientStartDate?: number
+    newClientStartDate?: Date
   ) {
     this.firstName = newFirstName;
     this.lastName = newLastName;

@@ -7,7 +7,7 @@ let header;
 const Locators = {
     clientSearch: {
         type: IdentificationType[IdentificationType.Xpath],
-        value: '//input[@id="clientSearch"]'
+        value: '//*[@id="clientSearch"]'
     },
     clientResultList: {
         type: IdentificationType[IdentificationType.ElementsByXpath],
@@ -19,7 +19,7 @@ const Locators = {
     },
     barChartHeader: {
         type: IdentificationType[IdentificationType.Xpath],
-        value: '/html/body/app/app-client-list/div/div/div[2]/h1'
+        value: '/html/body/app-component/div/app-client-list/div/div/div[2]/h1'
     },
     clientListSpan: {
         type: IdentificationType[IdentificationType.Xpath],
@@ -36,15 +36,8 @@ export class ClientListPo extends BasePage {
     searchByClientName: ElementFinder;
     viewDataForAllClients: ElementFinder;
 
-    /**
-     * Returns the Create List page
-     */
-    navigateTo(){
-        return browser.get('client-listing');
-    }
-
     logout() {
-      element(by.css('[routerlink="/login"]')).click();
+      element(by.xpath('/html/body/app-component/app-navbar/nav/div/ul[1]/li[2]/button')).click();
     }
 
 
@@ -66,8 +59,8 @@ export class ClientListPo extends BasePage {
      * Sends the given input string to the search by client name element in the DOM
      * @param input
      */
-    inputClientName(input: string){
-        this.clientSearch.sendKeys(input);
+    inputClientName(){
+        return this.clientSearch;
     }
 
     getClientResultListCount() {

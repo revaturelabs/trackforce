@@ -8,7 +8,8 @@ import { environment } from '../../../environments/environment';
 export class InterviewService {
   private baseURL: string = environment.url + 'TrackForce/interviews';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {};
+y
 
   /**
    *
@@ -60,7 +61,8 @@ export class InterviewService {
    * @param interview - this is the updated interview object
    * @param id - this is the id of the associate
    */
-  public updateInterview(interview: Interview): Observable<boolean> {
+  public updateInterview(interview): Observable<boolean> {
+    console.log(interview);
     const url: string = this.baseURL + "/" + interview.id;
     return this.http.put<boolean>(url, interview);
   }

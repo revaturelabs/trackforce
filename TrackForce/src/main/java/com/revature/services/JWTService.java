@@ -1,20 +1,14 @@
 package com.revature.services;
-
 import static com.revature.utils.LogUtil.logger;
-
 import java.io.IOException;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
-
 import org.json.JSONObject;
-
 import com.revature.entity.TfUser;
-
 import gherkin.lexer.Da;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -26,23 +20,19 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
 /**
- * 
  * @author Michael Tseng
  * @editors Adam L. 
- * 
- *         Service for creating and verifying JWT tokens Based on the tutorial
- *         found here: https://stormpath.com/blog/jwt-java-create-verify And
- *         resources from Sean Vaeth
- *
- *	@version v6.18.06.13
- *			Note: made minor updates to allow continued use of these tokens
- */
+ *       Service for creating and verifying JWT tokens Based on the tutorial
+ *       found here: https://stormpath.com/blog/jwt-java-create-verify And
+ *       resources from Sean Vaeth
+ * @version v6.18.06.13
+ *		 Note: made minor updates to allow continued use of these tokens */
 public class JWTService {
 	
 	UserService userService;
 	
 	private static final String SECRET_KEY = getKey();
-	private static Long EXPIRATION = 30L; //expiration time in minutes
+	private static Long EXPIRATION = 1L * 60 * 12; //expiration time in minutes
 
 	/**
 	 * Validates a token
@@ -88,7 +78,8 @@ public class JWTService {
 		SignatureAlgorithm signAlgorithm = SignatureAlgorithm.HS256;
 		Key key = new SecretKeySpec(getSecret(), signAlgorithm.getJcaName());
 
-		JwtBuilder token = Jwts.builder().setSubject(username).setId("" + tfroleid)
+		JwtBuilder token = Jwts.builder().setSubject(username)
+				.claim("roleID" , "" + tfroleid)
 				.setExpiration(generateExpirationDate()).signWith(signAlgorithm, key);
 
 		return token.compact();
@@ -113,7 +104,7 @@ public class JWTService {
 				| IllegalArgumentException | NullPointerException e) {
 
 //			e.printStackTrace();
-			logger.info("Invalid token.");
+			logger.error("Invalid token: \n" + e.getMessage());
 
 		}
 
@@ -136,7 +127,7 @@ public class JWTService {
 				expiration = claims.getExpiration();
 			}
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e.getMessage());
 		}
 		return expiration;
 	}

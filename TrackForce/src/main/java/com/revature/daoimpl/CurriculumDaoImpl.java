@@ -1,26 +1,22 @@
 package com.revature.daoimpl;
-
-import java.sql.Timestamp;
 import java.util.List;
-
 import com.revature.criteria.GraphedCriteriaResult;
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.entity.TfMarketingStatus;
 import org.hibernate.Session;
-
 import com.revature.dao.CurriculumDao;
 import com.revature.entity.TfCurriculum;
 import com.revature.utils.HibernateUtil;
-
 import javax.persistence.criteria.*;
 
 public class CurriculumDaoImpl implements CurriculumDao {
-
+	
 	@Override
 	public List<TfCurriculum> getAllCurriculums() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-			session.createQuery("from TfCurriculum", TfCurriculum.class).getResultList());
+			session.createQuery("from TfCurriculum", TfCurriculum.class)
+			.setCacheable(true).getResultList());
 	}
 
 	@Override
@@ -41,10 +37,7 @@ public class CurriculumDaoImpl implements CurriculumDao {
 					query.where(cb.equal(msJoin.get("id"), args[0]));
 					query.groupBy(curriculumid, curriculumName);
 					query.multiselect(cb.count(root), curriculumid, curriculumName);
-					return session.createQuery(query).getResultList();
-				}, id
-		);
+					return session.createQuery(query).setCacheable(true).getResultList();
+				}, id );
 	}
-	
-	
 }

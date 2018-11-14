@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -93,27 +94,12 @@ public class AssociateResource {
 		List<TfAssociate> associates = associateService.getAllAssociates();
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null || payload.getId().equals("5")) {
+		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else {
-//			if (payload.getId().equals("2")) {
-//				List<TfAssociate> assoc = new ArrayList<TfAssociate>();
-//				for (TfAssociate a : associates) {
-//					if (a.getBatch() != null) {
-//						if (payload.getSubject().equals(a.getBatch().getTrainer().getTfUser().getUsername())) {
-//							assoc.add(a);
-//						}
-//						List<TfTrainer> cotrainers = a.getBatch().getCoTrainer();
-//						for (TfTrainer t : cotrainers) {
-//							if (t.getTfUser().getUsername().equals(payload.getSubject())) {
-//								assoc.add(a);
-//							}
-//						}
-//
-//					}
-//				}
-//				associates = assoc;
-//			}
+		} else if (((String) payload.get("roleID")).equals("5")) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
+		else {
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
 
@@ -128,31 +114,35 @@ public class AssociateResource {
 		logger.info("getCountAssociates...");
 
 		Claims payload = JWTService.processToken(token);
-		if (payload == null) {
+		if (payload == null ) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} else if (((String) payload.get("roleID")).equals("5")) {
+			return Response.status(Status.FORBIDDEN).build();
 		}
 		Status status = null;
 		status = Status.OK;
 		
 		JSONObject associateCounts = new JSONObject();
 		
+		HashMap<String,Integer> rawCounts = associateService.getStatusCountsMap();
+		
 		List<Integer> counts = new ArrayList<>();
 		
-		counts.add(Integer.parseInt(associateService.getCountUndeployedMapped().toString()));
-		counts.add(Integer.parseInt(associateService.getCountUndeployedUnmapped().toString()));
+		counts.add(rawCounts.get("Undeployed Mapped"));
+		counts.add(rawCounts.get("Undeployed Unmapped"));
 		
-		counts.add(Integer.parseInt(associateService.getCountDeployedMapped().toString()));
-		counts.add(Integer.parseInt(associateService.getCountDeployedUnmapped().toString()));
+		counts.add(rawCounts.get("Deployed Mapped"));
+		counts.add(rawCounts.get("Deployed Unmapped"));
 		
-		counts.add(Integer.parseInt(associateService.getCountUnmappedTraining().toString()));
-		counts.add(Integer.parseInt(associateService.getCountUnmappedOpen().toString()));
-		counts.add(Integer.parseInt(associateService.getCountUnmappedSelected().toString()));
-		counts.add(Integer.parseInt(associateService.getCountUnmappedConfirmed().toString()));
+		counts.add(rawCounts.get("Unmapped Training"));
+		counts.add(rawCounts.get("Unmapped Open"));
+		counts.add(rawCounts.get("Unmapped Selected"));
+		counts.add(rawCounts.get("Unmapped Confirmed"));
 		
-		counts.add(Integer.parseInt(associateService.getCountMappedTraining().toString()));
-		counts.add(Integer.parseInt(associateService.getCountMappedReserved().toString()));
-		counts.add(Integer.parseInt(associateService.getCountMappedSelected().toString()));
-		counts.add(Integer.parseInt(associateService.getCountMappedConfirmed().toString()));
+		counts.add(rawCounts.get("Mapped Training"));
+		counts.add(rawCounts.get("Mapped Reserved"));
+		counts.add(rawCounts.get("Mapped Selected"));
+		counts.add(rawCounts.get("Mapped Confirmed"));
 	
 		associateCounts.put("counts", counts);
 		return Response.status(status).entity(associateCounts.toString()).build();
@@ -183,7 +173,7 @@ public class AssociateResource {
 			try {
 				associateinfo = associateService.getAssociateByUserId(id);
 			} catch (NoResultException nre) {
-				logger.info("No associate found...");
+				logger.error("No associate found...");
 				return Response.status(Status.NO_CONTENT).build();
 			}
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
@@ -207,7 +197,7 @@ public class AssociateResource {
 	@Path("/associates/{id}")	
 	public Response getAssociate(@ApiParam(value = "An associate id.") @PathParam("id") int id,	
 	                             @HeaderParam("Authorization") String token) {	
-		logger.info("getAssociate()...");	
+		logger.info("getAssociate()...");
 		Status status = null;	
 		Claims payload = JWTService.processToken(token);	
 		TfAssociate associateinfo;	
@@ -218,8 +208,8 @@ public class AssociateResource {
 			try {	
 				associateinfo = associateService.getAssociate(id);	
 			} catch (NoResultException nre) {	
-				logger.info("No associate found...");	
-				return Response.status(Status.NO_CONTENT).build();	
+				logger.error("No associate found...");
+				return Response.status(Status.NO_CONTENT).build();
 			}	
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;	
 		}	
@@ -249,12 +239,13 @@ public class AssociateResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Batch update associates", notes = "Updates the marketing status and/or the client of one or more associates")
 	public Response updateAssociates(@HeaderParam("Authorization") String token,
-			@DefaultValue("0") @ApiParam(value = "marketingStatusId") @QueryParam("marketingStatusId") Integer marketingStatusId,
-			@DefaultValue("0") @ApiParam(value = "clientId") @QueryParam("clientId") Integer clientId,
+			@DefaultValue("-1") @ApiParam(value = "marketingStatusId") @QueryParam("marketingStatusId") Integer marketingStatusId,
+			@DefaultValue("-1") @ApiParam(value = "clientId") @QueryParam("clientId") Integer clientId,
 			@DefaultValue("-1") @ApiParam(value = "verification") @QueryParam("verification") Integer isApproved,
 			List<Integer> ids) {
-		logger.info("updateAssociates()...");
-		logger.info(ids);
+		logger.info("updateAssociates()..."+ids);
+		
+
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 
@@ -262,10 +253,10 @@ public class AssociateResource {
 		TfAssociate toBeUpdated = null;
 		for (int associateId : ids) {
 			toBeUpdated = associateService.getAssociate(associateId);
-			if (marketingStatusId != 0) {
+			if (marketingStatusId >= 0) {
 				toBeUpdated.setMarketingStatus(marketingStatusService.getMarketingStatusById(marketingStatusId));
 			}
-			if (clientId != 0) {
+			if (clientId >= 0) {
 				toBeUpdated.setClient(clientService.getClient(clientId));
 			}
 			if (isApproved >= 0) {
@@ -275,7 +266,7 @@ public class AssociateResource {
 		}
 
 
-		if (payload == null || payload.getId().equals("2") || payload.getId().equals("5")) {
+		if (payload == null || ((String) payload.get("roleID")).equals("2") || ((String) payload.get("roleID")).equals("5")) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 
@@ -309,10 +300,9 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);
 		System.out.println(id);
 
+		System.out.println(associate);
 		if (payload == null) {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else if (payload.getId().equals("5")) {
-			status = associateService.updateAssociatePartial(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		} else {
 			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		}
@@ -338,14 +328,76 @@ public class AssociateResource {
 	@PUT
 	@ApiOperation(value = "Approves an associate", notes = "Approves an associate")
 	@Path("{assocId}/approve")
-	public Response approveAssociate(@PathParam("assocId") int associateId) {
+	public Response approveAssociate(@PathParam("assocId") int associateId, @HeaderParam("Authorization") String token) {
+		logger.info("approveAssociate()...");
+		Claims payload = JWTService.processToken(token);
+		System.out.println(associateId);
+
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} else if (((String) payload.get("roleID")).equals("1") || ((String) payload.get("roleID")).equals("2")
+				|| ((String) payload.get("roleID")).equals("4")) {
 		return associateService.approveAssociate(associateId) ? Response.ok(true).build()
 				: Response.serverError().entity(false).build();
+		} else {
+		return Response.status(Status.FORBIDDEN).build();
+		}
 	}
 
 	@GET
 	@Path("/nass/")
 	public Response getNAssociates() {
 		return Response.status(200).entity(associateService.getNAssociates()).build();
+	}
+	
+	
+	/**
+	 * Get a single "page" of associates. Previous iterations retrieved all of the associates at once;
+	 * this was a major performance chokepoint. This method will return only the associates requested.
+	 * This method can filter the results by their marketing status id, or client.
+	 * @param startIndex The index of the first employee to return. Note that the order of the results is solely dependant
+	 * on how they are returned from the DAO.
+	 * @param numResults The number of records that should be returned, or all if the actual number is less than numResults
+	 * @param mStatusId Filter the results by this marketing status id. The default, -1, indicates to not use this filter
+	 * @param clientId Filter the results by this client id. The default, -1, indicates to not use this filter
+	 * @param token The authentication token obtained when logging in. User role '5' (Associate) will be rejected
+	 * @return A json encoded list of type TfAssociate
+	 */
+	@GET
+	@Path("/page")
+	public Response getAssociatePage(
+			@DefaultValue("0") @QueryParam("startIndex") Integer startIndex,
+			@DefaultValue("50") @QueryParam("numResults") Integer numResults,
+			@DefaultValue("-1") @QueryParam("mStatusId") Integer mStatusId,
+			@DefaultValue("-1") @QueryParam("clientId") Integer clientId,
+			@DefaultValue("") @QueryParam("sortText") String sortText,
+			@HeaderParam("Authorization") String token) 
+	
+	{		
+		logger.info("getAssociatePage(" + startIndex + ", " + numResults + ", " + mStatusId + ", " + clientId + ", " + sortText +")");
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+
+		//Check token
+		if (payload == null) {
+			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} else if ( ((String) payload.get("roleID")).equals("5")) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
+		
+		List<TfAssociate> associates;
+		try {
+			 associates = associateService.getAssociatePage(startIndex, numResults, mStatusId, clientId, sortText);
+		} catch (IllegalArgumentException iae) {
+			return Response.status(Status.BAD_REQUEST).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+
+		//If no results, return 204 and null ; otherwise 200 and the list 
+		status = associates == null ? Status.NO_CONTENT : Status.OK;
+
+		return Response.status(status).entity(associates).build();
 	}
 }

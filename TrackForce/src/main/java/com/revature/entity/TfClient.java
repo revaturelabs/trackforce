@@ -1,29 +1,17 @@
 package com.revature.entity;
-// Generated Nov 7, 2017 9:24:46 PM by Hibernate Tools 5.2.5.Final
-
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/**
- * <p>
- * </p>
- * 
- * @version v6.18.06.13
- */
+/** @version v6.18.06.13 */
 @XmlRootElement
 @Entity
 @Table(name = "TF_CLIENT", schema = "ADMIN")
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-//Logans attempt at getting ehcache working below
 @Cache(usage=CacheConcurrencyStrategy.READ_WRITE, region="TrackForce")
 public class TfClient implements java.io.Serializable {
 
@@ -70,7 +58,6 @@ public class TfClient implements java.io.Serializable {
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -78,7 +65,6 @@ public class TfClient implements java.io.Serializable {
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -87,7 +73,6 @@ public class TfClient implements java.io.Serializable {
 	public Set<TfPlacement> getPlacement() {
 		return placement;
 	}
-
 	@JsonIgnore
 	public void setPlacement(Set<TfPlacement> placement) {
 		this.placement = placement;
@@ -97,7 +82,6 @@ public class TfClient implements java.io.Serializable {
 	public Set<TfAssociate> getAssociate() {
 		return associate;
 	}
-
 	@JsonIgnore
 	public void setAssociate(Set<TfAssociate> associate) {
 		this.associate = associate;
@@ -107,7 +91,6 @@ public class TfClient implements java.io.Serializable {
 	public Set<TfInterview> getInterview() {
 		return interview;
 	}
-
 	@JsonIgnore
 	public void setInterview(Set<TfInterview> interview) {
 		this.interview = interview;

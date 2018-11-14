@@ -2,16 +2,21 @@ package com.revature.test.utils;
 
 import org.openqa.selenium.WebDriver;
 
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 
 public class ServiceHooks {
 	public static WebDriver driver;
+
+	public static WebDriverWait wait;
+
 	
 	@Before("@HomeTagTest1")
 	public void initializeHomeTabTests(){
 		if(driver==null) {
-			System.out.println("Initializing HomeTab Tests");
 			driver = WebDriverUtil.getChromeDriver();
 			driver.get(TestConfig.getBaseURL());
 			LoginUtil.loginAsAdmin(driver);
@@ -27,7 +32,6 @@ public class ServiceHooks {
 	@Before("@ClientListStart")
 	public void initializeClientListTests(){
 		if(driver==null) {
-			System.out.println("Initializing HomeTab Tests");
 			driver = WebDriverUtil.getChromeDriver();
 			driver.get(TestConfig.getBaseURL());
 			LoginUtil.loginAsAdmin(driver);
@@ -43,7 +47,6 @@ public class ServiceHooks {
 	@Before("@AssociateListStart")
 	public void initializeAssociateTabTests(){
 		if(driver==null) {
-			System.out.println("Initializing HomeTab Tests");
 			driver = WebDriverUtil.getChromeDriver();
 			driver.get(TestConfig.getBaseURL());
 			LoginUtil.loginAsAdmin(driver);
@@ -58,7 +61,6 @@ public class ServiceHooks {
 
 	@Before("@batchTag1")
 	public void initializeBatchTabTests(){
-		System.out.println("Initializing BatchTab Tests");
 		driver = WebDriverUtil.getChromeDriver();
 		driver.get(TestConfig.getBaseURL());
 	}
@@ -71,7 +73,6 @@ public class ServiceHooks {
 	@Before("@CreateNewAdmin")
 	public void initializeCreateUserTabTests(){
 		if(driver==null) {
-		System.out.println("Initializing HomeTab Tests");
 		driver = WebDriverUtil.getChromeDriver();
 		driver.get(TestConfig.getBaseURL());
 		LoginUtil.loginAsAdmin(driver);

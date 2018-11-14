@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache>
 	<defaultCache 
-    maxElementsInMemory="10000"
-    eternal="false"
-    timeToIdleSeconds="120"
-    timeToLiveSeconds="120"
-    overflowToDisk="true"
-    diskPersistent="false"
-    diskExpiryThreadIntervalSeconds="120"
-    memoryStoreEvictionPolicy="LRU"
-    statistics="true"/>
+	    maxElementsInMemory="10000"
+	    eternal="false"
+	    timeToIdleSeconds="500"
+	    timeToLiveSeconds="1000"
+	    overflowToDisk="true"
+	    diskPersistent="false"
+	    diskExpiryThreadIntervalSeconds="120"
+	    memoryStoreEvictionPolicy="LRU"
+	    statistics="false"/>
     
-    <!-- Logans attempt at getting ehcache working below -->
-    <cache name="TrackForce"
+    <cache 	
+    	name="TrackForce"
     	maxEntriesLocalHeap="10000"
         maxEntriesLocalDisk="1000"
         eternal="false"
         diskSpoolBufferSizeMB="20"
-        timeToIdleSeconds="300" timeToLiveSeconds="600"
+        timeToIdleSeconds="500" 
+        timeToLiveSeconds="1000"
         memoryStoreEvictionPolicy="LFU"
-    	statistics="true"/>
-    
+    	statistics="false"/>
+    	
+    <cache
+		name="org.hibernate.cache.spi.UpdateTimestampsCache"
+		maxElementsInMemory="1000"
+		eternal="false"
+		timeToLiveSeconds="1200"
+		statistics="false"
+		overflowToDisk="true"/>
+
+	<cache
+	   name="org.hibernate.cache.internal.StandardQueryCache"
+	   maxElementsInMemory="10"
+	   eternal="false"
+	   statistics="false"
+	   timeToLiveSeconds="120"
+	   overflowToDisk="true"/>
 </ehcache>
 
 <!-- 

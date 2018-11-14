@@ -1,16 +1,20 @@
 package com.revature.dao;
-
 import java.util.List;
-
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 
 public interface UserDao {
+	TfUser getUser(String username);
 	
-	public TfUser getUser(String username);
-	public List<TfUser> getAllUsers();
-	public boolean insertUser(TfUser newUser);
+	List<TfUser> getAllUsers();
+	
+	boolean insertUser(TfUser newUser);
+	
 	TfRole getRole(int roleId);
-	public boolean updateUser(TfUser user);
-
+	
+	boolean updateUser(TfUser user);
+	
+	public void deleteUser(TfUser user);
+	
+	TfUser getUser(Integer id);
 }

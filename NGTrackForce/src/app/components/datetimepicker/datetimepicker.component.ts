@@ -19,7 +19,7 @@ export class DateTimePickerComponent implements OnInit {
     displayErrorInvalidDate = false;
 
     options_date = {month:'long', day: 'numeric', year: 'numeric'};
-    options_datetime = {month:'short', day: 'numeric', year: 'numeric', minute:'numeric', hour: 'numeric'};
+    options_datetime = {month:'short', day: 'numeric', year: 'numeric',minute:'numeric', hour: 'numeric'};
     date = new Date();   //initialized to today's date
     stringDate: string;
 
@@ -56,7 +56,9 @@ export class DateTimePickerComponent implements OnInit {
         if (this.date != null){
             this.stringDate = this.date.toLocaleDateString("en-US", localOptions);
             this.datePicked.emit(this.stringDate);
-            if (this.oldDate != this.date) this.calendarView = !this.calendarView;
+            if (this.oldDate !== this.date) {
+              this.calendarView = !this.calendarView;
+            }
             this.oldDate = this.date;
 
             this.validateDate();
@@ -70,11 +72,13 @@ export class DateTimePickerComponent implements OnInit {
     }
 
     public validateDate(){
-        if (this.date.toString() == "Invalid Date"){
+        if (this.date.toString() === "Invalid Date"){
             this.displayErrorInvalidDate = true;
             this.date = null;
         }
-        else this.displayErrorInvalidDate = false;
+        else {
+          this.displayErrorInvalidDate = false;
+        }
         this.error.emit(this.displayErrorInvalidDate);
     }
 

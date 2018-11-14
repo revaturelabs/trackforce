@@ -10,8 +10,8 @@ import { Client } from '../../models/client.model';
 import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { InterviewType } from '../../models/interview-type';
-import { Router } from '@angular/router'
-
+import { Router } from '@angular/router';
+import { FormGroup, FormBuilder } from '@angular/forms';
 /**
  *@author Katherine Obioha, Andrew Ahn
  *
@@ -26,13 +26,17 @@ import { Router } from '@angular/router'
 })
 @AutoUnsubscribe
 export class MyInterviewComponent implements OnInit {
+  registerForm:FormGroup;
   public interviews: Interview[];
   public associate: Associate;
-  // public id = 0;
+  //public id = 0;
   public newInterview: Interview;
   public formOpen = false;
   public conflictingInterviews = '';
-  public interviewDate: Date = new Date();
+
+  public interviewDate: Date;
+  
+        
   public interviewAssigned: Date = new Date();
   public clients: Client[];
   public typeId: number;
@@ -46,10 +50,16 @@ export class MyInterviewComponent implements OnInit {
   public openDateNotified: boolean;
   public openInterviewDate: boolean;
   public conflictingInterview: boolean;
-  public isDataReady: boolean = false;
+  public isDataReady = false;
   public dateError:boolean;
+  public updateSuccess = false;
+  public succMsg: string;
+  show : boolean;
+  public convertedTime : string;
+  
   index;
   index2;
+  date :string;
 
   constructor(
     private authService: AuthenticationService,
@@ -57,10 +67,17 @@ export class MyInterviewComponent implements OnInit {
     private activated: ActivatedRoute,
     private interviewService: InterviewService,
     private clientService: ClientService,
-    private router: Router
+    private router: Router,
+    private formBuilder:FormBuilder
   ) {}
 
-  ngOnInit() {
+  ngOnInit(){
+   
+   
+      this.registerForm = this.formBuilder.group({
+        dateinput: [''],
+       });
+    
     //gets the associate id from the path
     //the '+' coerces the parameter into a number
     // this.id = +this.activated.snapshot.paramMap.get('id');
@@ -74,9 +91,10 @@ export class MyInterviewComponent implements OnInit {
       data => {
         this.associate = data;
         this.getAssociateInterviews(this.associate.id);
+       
       },
       error => {
-        console.log('error');
+        console.log('ngOnInit error');
       }
     );
 
@@ -89,10 +107,12 @@ export class MyInterviewComponent implements OnInit {
         this.clients = data;
       },
       error => {
-        console.log('error');
+        console.log('getAllClients error');
       }
     );
-  }
+    
+  
+  }//end ngOnInit()
 
   toggleForm() {
     this.formOpen = !this.formOpen;
@@ -103,18 +123,23 @@ export class MyInterviewComponent implements OnInit {
         switch (+this.typeId) {
           case 1:
             this.interviewType = new InterviewType(1, 'Phone');
+            console.log("phone");
             break;
           case 2:
             this.interviewType = new InterviewType(2, 'Online');
+            console.log("online");
             break;
           case 3:
             this.interviewType = new InterviewType(3, 'On Site');
+            console.log("onsite");
             break;
           case 4:
             this.interviewType = new InterviewType(4, 'Skype');
+            console.log("skype");
             break;
           default:
             this.interviewType = new InterviewType(5, 'Other');
+            console.log("other");
             break;
         }
 
@@ -127,30 +152,42 @@ export class MyInterviewComponent implements OnInit {
           this.was24HRNotice ? 1 : 0,
           null,
           new Date(this.interviewAssigned).getTime(),
-          new Date(this.interviewAssigned).getTime().toString()
+          new Date(this.interviewDate).getTime().toString()
         );
-
+        console.log("interview added");
+      
+          this.succMsg="Interview Added";
+          setTimeout(() => {
+            this.succMsg= '';
+          }, 1000);
         this.interviewService
           .createInterview(this.newInterview, this.associate.id)
           .subscribe(res => {
-            location.reload();
-          });
+            location.reload(false);
+          
+         });
       }
   }
+ 
 
-  updateInterview(interview: Interview) {
+  updateInterview(interview: Interview){
     if (!this.dateError){
         interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
-        interview.interviewDate = new Date(interview.interviewDate).getTime(); // convert into timestamp
+        interview.interviewDate = new Date(this.registerForm.value['dateinput']).getTime(); // convert into timestamp
         interview.dateSalesIssued = new Date(
           interview.dateAssociateIssued
         ).getTime(); // convert into timestamp
-        interview.dateAssociateIssued = new Date(
-          interview.dateAssociateIssued
-        ).getTime();
+        
+        interview.dateAssociateIssued = new Date (this.registerForm.value['dateinput']).getTime() ;
+        console.log("in updateinterview");
+        
+      
         this.interviewService.updateInterview(interview).subscribe(res => {
-          location.reload();
-        });
+        this.updateSuccess=true;
+      
+          
+         location.reload(false);
+       });
     }
   }
 
@@ -190,15 +227,20 @@ export class MyInterviewComponent implements OnInit {
   showInterviewDate(index) {
     this.index2 = index;
   }
+ 
 
   getAssociateInterviews(id: number) {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
-      data => {
+      data =>{
+       
         this.interviews = data;
         this.isDataReady = true;
+       
+       
+      
       },
       error => {
-        console.log('error');
+        console.log('getAssociateInterview error');
       }
     );
   }
@@ -207,6 +249,7 @@ export class MyInterviewComponent implements OnInit {
   // THIS NEEDS TO BE IMPLEMENTED
   // ============================================
   saveInterview(interview: Interview) {}
+  
 
   // THIS METHOD IS REPLACED BY STORING THE CLIENTS IN LOCAL STORAGE
   // getClientNames() {

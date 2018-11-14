@@ -2,41 +2,22 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-<!--         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
-        <property name="hibernate.search.autoregister_listeners">true</property>
-        <property name="hibernate.validator.apply_to_ddl">false</property>
-        <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
-        <property name="hibernate.generate_statistics">false</property>
-        <property name="hibernate.connection.release_mode">after_transaction</property> -->
-        
-        
-                
-        <!--
-            note all properties here are only default values; can be overwritten with
-            values in dbProps passed into HibernateUtil initSessionFactory; dialect
-            and driver must be overwritten for different databases (such as hsql)
-        -->
-        
         <!-- NEVER SET TO CREATE UNLESS YOU WANT TO REMOVE ALL DATA IN DATABASE -->
         <property name="hibernate.hbm2ddl.auto">validate</property>
-        
         <!-- Used for debugging -->
         <property name="show_sql">false</property>
-        
-        <!--  <property name="hibernate.enable_lazy_load_no_trans">true</property>-->
-        
+        <property name="hibernate.id.new_generator_mappings">false</property>
+        <property name="hibernate.format_sql">false</property> <!-- Make false to compress SQL in console if above is enabled -->
+        <!-- Dialect and driver -->
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
-        
-        <property name="hibernate.connection.pool_size">4</property>
-        
+        <!-- Caching -->
+        <property name="hibernate.cache.default_cache_concurrency_strategy">read-write</property>
        	<property name="hibernate.cache.use_second_level_cache">true</property>
-
-       	<!-- Tells Hibernate which class to use for caching, exposed from the org.hibernate.ehcache dependency -->
-		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
-		<property name="net.sf.ehcache.configurationResourceName">/ehcache.xml</property>
-
-        
+		<property name="hibernate.cache.use_query_cache">true</property>
+        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+        <!-- Connection pool -->
+        <property name="hibernate.connection.pool_size">4</property>
         <!-- Mapped entities -->
         <mapping class="com.revature.entity.TfAssociate"/>
         <mapping class="com.revature.entity.TfCurriculum"/>
@@ -50,7 +31,6 @@
         <mapping class="com.revature.entity.TfBatch"/>
         <mapping class="com.revature.entity.TfInterview"/>
         <mapping class="com.revature.entity.TfClient"/>
-        <mapping class="com.revature.entity.TfTrainer"/>
-        
+        <mapping class="com.revature.entity.TfTrainer"/>   
     </session-factory>
 </hibernate-configuration>

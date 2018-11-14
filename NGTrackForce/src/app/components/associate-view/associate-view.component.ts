@@ -5,7 +5,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
-import { ClientService } from '../../services/client-service/client.service';
+//import { ClientService } from '../../services/client-service/client.service';
 import { userInfo } from 'os';
 /**
  *@author Michael Tseng
@@ -30,13 +30,13 @@ export class AssociateViewComponent implements OnInit {
   public succMsg: string;
   public user: User;
   public id: number;
-  isDataReady: boolean = false;
+  isDataReady = false;
 
   constructor(
     private associateService: AssociateService,
     private authService: AuthenticationService,
     private activated: ActivatedRoute,
-    private clientService: ClientService
+    //private clientService: ClientService
   ) {}
 
   ngOnInit() {
@@ -61,18 +61,15 @@ export class AssociateViewComponent implements OnInit {
     this.associate.firstName = this.newFirstName;
     this.associate.lastName = this.newLastName;
 
-    this.associateService.updateAssociate(this.associate).subscribe(
-      success => {
-        this.succMsg = 'Information updated';
-      },
-      err => {
-        if (err.status === 500) {
-          this.errMsg = 'There was an error with the server.';
-        } else {
-          this.errMsg =
-            'Something went wrong, your information was not updated.';
-        }
+    this.associateService.updateAssociate(this.associate).then(() => {
+      this.succMsg = 'Information updated';
+    }).catch((err) => {
+      if (err.status === 500) {
+        this.errMsg = 'There was an error with the server.';
+      } else {
+        this.errMsg =
+          'Something went wrong, your information was not updated.';
       }
-    );
+    });
   }
 }

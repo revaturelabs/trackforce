@@ -1,15 +1,17 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+//import { MockAssociateService } from './associate-view.component.spec';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {AssociateViewComponent} from './associate-view.component';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {AuthenticationService} from '../../services/authentication-service/authentication.service';
-import {AssociateService} from '../../services/associate-service/associate.service';
-import {ActivatedRoute} from '@angular/router';
-import {RequestService} from '../../services/request-service/request.service';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
+import { AssociateViewComponent } from './associate-view.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AuthenticationService } from '../../services/authentication-service/authentication.service';
+import { AssociateService } from '../../services/associate-service/associate.service';
+import { ActivatedRoute } from '@angular/router';
+import { RequestService } from '../../services/request-service/request.service';
+import { Observable } from 'rxjs/Observable';
+//import 'rxjs/add/observable/of';
+import { of } from 'rxjs/index';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 // added imports; DK
 import { ClientService } from '../../services/client-service/client.service';
 import { Associate } from '../../models/associate.model';
@@ -19,11 +21,12 @@ import { EndClient } from '../../models/end-client.model';
 import { User } from '../../models/user.model';
 import { MarketingStatus } from '../../models/marketing-status.model';
 import { CompileNgModuleMetadata } from '../../../../node_modules/@angular/compiler';
+import { BehaviorSubject } from 'rxjs';
 
 export class MockActivatedRoute {
   static createMockRoute(tid: number): any {
     return {
-      params: Observable.of({id: tid}),
+      params: of({ id: tid }),
       snapshot: {
         parent: {
           params: {
@@ -42,21 +45,21 @@ export class MockActivatedRoute {
 
 export class MockAuthenticationService extends AuthenticationService {
   getAssociate(): Associate {
-    let mockBatch:Batch = new Batch();
+    let mockBatch: Batch = new Batch();
     mockBatch.id = 100;
     mockBatch.batchName = 'mockBatchName';
-    
-    let batches:Batch[] = [mockBatch];
 
-    let client:Client = new Client(0,'client',null,null,null);
-    let endClient:EndClient = new EndClient();
+    let batches: Batch[] = [mockBatch];
+
+    let client: Client = new Client(0, 'client', null, null, null);
+    let endClient: EndClient = new EndClient();
     endClient.name = 'none';
 
-    const user:User = new User('newUser','pass', 0, 0);
-    const marketingStatus:MarketingStatus = new MarketingStatus(1, 'status');
+    const user: User = new User('newUser', 'pass', 0, 0);
+    const marketingStatus: MarketingStatus = new MarketingStatus(1, 'status');
 
-    const associate:Associate = new Associate('first', 'last', user);
-    
+    const associate: Associate = new Associate('first', 'last', user);
+
     // Add objects to associate
     associate.marketingStatus = marketingStatus;
     associate.batch = mockBatch;
@@ -65,25 +68,32 @@ export class MockAuthenticationService extends AuthenticationService {
 
     return associate;
   }
+
 }
+
 
 export class MockAssociateService extends AssociateService {
   getAssociate(id: number) {
-    const user:User = new User('newUser','pass', 0, 0);
-    const associate:Associate = new Associate('first', 'last', user);
-    return Observable.of(associate);
+    const user: User = new User('newUser', 'pass', 0, 0);
+    const associate: Associate = new Associate('first', 'last', user);
+    return new BehaviorSubject(associate);
   }
 }
 
+
 describe('AssociateViewComponent', () => {
-  const mockAssociateService: AssociateService = new AssociateService(null);
-  const mockAuthService: AuthenticationService = new AuthenticationService(null, null, null);
-  let component: AssociateViewComponent = new AssociateViewComponent(mockAssociateService, mockAuthService, null, null);
+  // Instantiate mock services by passing null values to inherited constructors
+  // to prevent erroneous use of injected dependencies provided in parent service classes
+  const mockAssociateService: MockAssociateService = new MockAssociateService(null);
+  const mockAuthService: MockAuthenticationService = new MockAuthenticationService(null, null, null);
+  let component: AssociateViewComponent = new AssociateViewComponent(mockAssociateService, mockAuthService, null);
   let fixture: ComponentFixture<AssociateViewComponent>;
   let clients: Array<any> = [];
+  // Save AssociateViewComponent's prototype's ngOnInit method definition for afterAll() method on test teardown
+  const AssociateViewComponentNgOnInit = AssociateViewComponent.prototype.ngOnInit;
 
   beforeAll(() => {
-  
+
   });
 
   beforeEach(() => {
@@ -96,7 +106,7 @@ describe('AssociateViewComponent', () => {
         RequestService,
         AssociateService,
         ClientService,
-        {provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(1)}
+        { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(1) }
       ],
       imports: [HttpClientTestingModule, RouterTestingModule.withRoutes([])],
       schemas: [NO_ERRORS_SCHEMA]
@@ -107,17 +117,37 @@ describe('AssociateViewComponent', () => {
     const mockUser: User = new User('mockuser', 'mockPassword', 1, 0);
     const mockAssociate = new Associate('firstName', 'lastName', mockUser);
     const mockAssociates: Associate[] = [mockAssociate];
-    
+
     // spyOn(mockAssociateService, 'getAllAssociates').and.returnValue(Observable.of(mockAssociates));
     // spyOn(mockAssociateService, 'getAssociate').and.returnValue(mockAssociate);
     // spyOn(mockAuthService, 'getAssociate').and.returnValue(mockAssociate);
     // spyOn(mockAssociateService, 'updateAssociate').and.returnValue(mockAssociate);
 
+    // Date: 11/07/2018
+    // Override the ngOnInit method from AssociateViewComponent to prevent null access to
+    // localStorage key "currentUser" from HeadlessChrome driver instance (illegal access inside AssociateViewComponent).
+    // 
+    // AssociateViewComponent's prototype is reset to initial state in afterAll() teardown method below
+    AssociateViewComponent.prototype.ngOnInit = () => {
+      this.user = mockUser;
+      this.id = this.user.id;
+    }
+
     fixture = TestBed.overrideComponent(AssociateViewComponent,
-    {set: {providers: [{provide: AssociateService, useClass: MockAssociateService},
-                       {provide: AuthenticationService, useClass: MockAuthenticationService}]}}).createComponent(AssociateViewComponent);  
-                       component = fixture.componentInstance;
+      {
+        set: {
+          providers: [{ provide: AssociateService, useClass: MockAssociateService },
+          { provide: AuthenticationService, useClass: MockAuthenticationService }]
+        }
+      }).createComponent(AssociateViewComponent);
+    component = fixture.componentInstance;
+    component.associate = mockAssociate; // overridden AssociateViewComponent's associate field assigned to mockAssociate
     fixture.detectChanges();
+  });
+
+  // Perform teardown, resetting AssociateViewComponent's prototype to its initial value
+  afterEach(() => {
+    AssociateViewComponent.prototype.ngOnInit = AssociateViewComponentNgOnInit;
   });
 
   it('should create', () => {

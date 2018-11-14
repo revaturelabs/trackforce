@@ -24,7 +24,7 @@ export class User {
   ) {
       this.username = newUsername;
       this.password = newPassword;
-      this.role = newRole;
+       this.role = newRole;
       this.isApproved = newIsApproved;
       this.id = newId;
       this.token = newToken;

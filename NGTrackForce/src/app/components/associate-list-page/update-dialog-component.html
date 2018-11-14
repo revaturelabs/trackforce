@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Update {{data.associates.size}} Associates</h2>
+<div mat-dialog-content class="mat-typography">
+  <form>
+    <!-- Filter Options -->
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="stat">Status</label>
+        <select class="form-control" id="stat" name="verification" [(ngModel)]="verification">
+          <option default value="-1"></option>
+          <option value="1">Approve</option>
+          <option value="2">Deny</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-12 ">
+        <label for="client">Client</label>
+        <select class="form-control" id="client" name="client" [(ngModel)]="client">
+          <option default value="0"></option>
+          <option value="thing" *ngFor="let client of data.clients" value="{{client.id}}" >{{client.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-12 ">
+        <label for="marketStat">Marketing Status</label>
+        <select class="form-control" id="marketStat" name="status" [(ngModel)]="status">
+          <option default value="0"></option>
+          <option value="{{status}}" *ngFor="let status of data.statuses">{{status}}</option>
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-default colored-button" value="Submit" (click)="submit()">Submit</button>
+  </form>
+</div>

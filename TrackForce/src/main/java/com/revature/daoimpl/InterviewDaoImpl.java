@@ -1,11 +1,6 @@
 package com.revature.daoimpl;
-
 import java.util.List;
-
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import com.revature.dao.InterviewDao;
 import com.revature.entity.TfInterview;
 import com.revature.utils.HibernateUtil;
@@ -14,21 +9,23 @@ public class InterviewDaoImpl implements InterviewDao {
 
 	@Override
 	public List<TfInterview> getInterviewsByAssociate(int associateId) {
-		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfInterview i where i.associate.id like :associateId", TfInterview.class).setParameter("associateId", associateId).getResultList());
+		return HibernateUtil.runHibernate(
+				(Session session, Object ... args) ->
+				session.createQuery("from TfInterview i where i.associate.id like :associateId", TfInterview.class)
+				.setParameter("associateId", associateId)
+				.setCacheable(true)
+				.getResultList());
 	}
 	
 
 	@Override
 	public List<TfInterview> getAllInterviews() {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfInterview", TfInterview.class).getResultList());
+		session.createQuery("from TfInterview", TfInterview.class).setCacheable(true).getResultList());
 	}
 
 	@Override
 	public boolean createInterview(TfInterview interview) {
-//		 HibernateUtil.saveToDB(interview.getAssociate());
-//		 HibernateUtil.saveToDB(interview.getClient());
 		return HibernateUtil.saveToDB(interview);
 	}
 
@@ -36,7 +33,7 @@ public class InterviewDaoImpl implements InterviewDao {
 	public boolean updateInterview(TfInterview interview) {
 		return HibernateUtil.runHibernateTransaction((Session session, Object ... args) -> {
 			TfInterview temp = session.get(TfInterview.class, interview.getId());
-			System.out.println(interview);
+		
 			temp.setAssociate(interview.getAssociate());
 			temp.setAssociateFeedback(interview.getAssociateFeedback());
 			temp.setClient(interview.getClient());
@@ -52,7 +49,6 @@ public class InterviewDaoImpl implements InterviewDao {
 			temp.setJobDescription(interview.getJobDescription());
 			temp.setQuestionGiven(interview.getQuestionGiven());
 			temp.setWas24HRNotice(interview.getWas24HRNotice());
-
 			session.update(temp);
 			return true;
 		});
@@ -61,8 +57,7 @@ public class InterviewDaoImpl implements InterviewDao {
 	@Override
 	public TfInterview getInterviewById(int interviewId) {
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfInterview i where i.id like :interviewId", TfInterview.class).setParameter("interviewId", interviewId).getSingleResult());
+		session.createQuery("from TfInterview i where i.id like :interviewId", TfInterview.class)
+		.setParameter("interviewId", interviewId).setCacheable(true).getSingleResult());
 	}
-	
-
 }

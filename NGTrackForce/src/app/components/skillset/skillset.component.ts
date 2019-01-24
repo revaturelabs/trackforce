@@ -65,7 +65,9 @@ export class SkillsetComponent implements OnInit {
   /**
    * The dummy data to compare against for our tests
    */
-  DUMMY_DATA = [{ data: [1, 1, 1, 1, 1], label: 'Mapped' }, { data: [1, 1, 1, 1, 1], label: 'Unmapped' }];
+  DUMMY_DATA = [
+    { data: [1, 1, 1, 1, 1], label: 'Mapped' },
+    { data: [1, 1, 1, 1, 1], label: 'Unmapped' }];
 
   /**
    * The type of chart
@@ -246,9 +248,9 @@ export class SkillsetComponent implements OnInit {
  * clicked.
  */
   unmappedOnClick(evt: any) {
-    if (evt.active[0] !== undefined) {
+    if (evt.active[1] !== undefined) {
       //navigate to skillset component
-      this.router.navigate([`skillset/${evt.active[0]._index}`]);
+      this.router.navigate([`skillset/${evt.active[1]._index}`]);
     }
   }
 

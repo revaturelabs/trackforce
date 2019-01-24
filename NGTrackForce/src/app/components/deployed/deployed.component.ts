@@ -45,7 +45,14 @@ export class DeployedComponent implements OnInit {
     private associateService: AssociateService
   ) {
     this.chartOptions = {
-      xAxes: [{ ticks: { autoSkip: false } }], scales: { yAxes: [{ ticks: { min: 0 } }] },
+      xAxes: [
+        { ticks: { autoSkip: false } }
+      ],
+      scales: { 
+        yAxes: [{ 
+          ticks: { 
+            min: 0 } }] 
+          },
       legend: {
         display: false
       },

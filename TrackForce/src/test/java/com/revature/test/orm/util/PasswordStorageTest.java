@@ -41,8 +41,8 @@ public class PasswordStorageTest {
 	 */
 	@Test
 	public void testCreateHashString() throws CannotPerformOperationException {
-		assertTrue(PasswordStorage.createHash("password") instanceof String);
-		assertFalse(PasswordStorage.createHash("password").equals("password"));
+		assertTrue(PasswordStorage.createHash("p4ssword") instanceof String);
+		assertFalse(PasswordStorage.createHash("p4ssword").equals("p4ssword"));
 
 	}
 	

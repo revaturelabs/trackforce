@@ -1,6 +1,7 @@
 package com.revature.test.restAssured;
 
 import static io.restassured.RestAssured.given;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
@@ -15,25 +16,47 @@ import com.revature.entity.TfClient;
 import com.revature.entity.TfEndClient;
 import com.revature.entity.TfInterview;
 import com.revature.entity.TfInterviewType;
+import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
-import com.revature.utils.EnvManager;
 
 import io.restassured.response.Response;
 
 /**
  * Rest Assured to ensure that this resource is functioning as intended.
  * 
+ * As of November 6, 2018 InterviewResource maps three different methods to the
+ * interviews/{number} url: createInterview, getAllInterviews, and
+ * updateInterview each with a different associated verb. createInterview and
+ * getAllInterviews interpret the number as an associate id and updateInterview
+ * interprets it as an interview id. This _WORKS_ but is also horribly
+ * convoluted, should not be done and allows for the unhappy paths for some
+ * methods to actually break other things.
+ * 
+ * As it stands: createInterview: POST to /{number}, number is read as an
+ * associate id getAllInterviews: GET to /{number}, number is read as an
+ * associate id updateInterview: PUT to /{number}, number is read as an
+ * interview id
+ * 
+ * I would (strongly) suggest fixing this in future iterations. A good fix for
+ * this would be to give each method a unique URL ie
+ * interviews/updateInterview/{interviewId}, interviews/associate/{associateId},
+ * and interviews/createInterview/{associateId}
+ * 
+ * - Katelyn Barnes 1809
+ * 
  * @author Jesse
  * @since 06.18.06.16
  */
 public class InterviewResourceTest {
 
-	static final String URL = EnvManager.TomTrackForce_URL + "interviews/";
+	static final String URL = "http://52.87.205.55:8086/TrackForce/interviews";
+	// static final String URL = "http://localhost:8085/TrackForce/interviews";
 
 	String adminToken;
 	String associateToken;
+	String knownAssociateToken;
 	TfInterview interview1;
 	TfInterview interview2;
 	InterviewService interviewService;
@@ -52,32 +75,33 @@ public class InterviewResourceTest {
 		interview1 = new TfInterview();
 
 		adminToken = JWTService.createToken("TestAdmin", 1);
-		System.out.println(adminToken);
 		associateToken = JWTService.createToken("AssociateTest", 5);
-		System.out.println(associateToken);
 
 		knownAssociateId = 392;
+
+		TfAssociate knownAssociate = associateService.getAssociate(392);
+		TfUser knownUser = knownAssociate.getUser();
+
+		knownAssociateToken = JWTService.createToken(knownUser.getUsername(), 5);
+
 	}
 
 	/**
 	 * Test that the resource can be accessed properly. Check that the content type
-	 * is what is expected. This should return a 401 as admins are not allowed to
-	 * create interviews
+	 * is what is expected. This should return a 201 for an admin
+	 * 
+	 * NOTE: As of Nov. 5, 2018 admins have interview creation power, as dictated by
+	 * Ryan Lessley. Cleaned by Katelyn Barnes
 	 * 
 	 * @param ifc - an interviewFromClient object returned from the data provider
 	 * @author Jesse
 	 * @since 6.18.06.13
 	 */
 	@Test(priority = 5, dataProvider = "interview1", enabled = true)
-	public void testCreateInterview1(TfInterview interview) {
-
-		given().header("Authorization", adminToken).contentType("application/json").body(interview).when()
-				.post(URL + knownAssociateId + "/").then().assertThat().statusCode(401);
-
+	public void testCreateInterviewHappyPathAdmin(TfInterview interview) {
 		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
-				.when().get(URL + knownAssociateId + "/").then().extract().response();
-
-		assertTrue(response.asString().contains("Strong Java knowledge"));
+				.when().post(URL + "/" + knownAssociateId).then().extract().response();
+		assertEquals(response.statusCode(), 201);
 	}
 
 	/**
@@ -86,85 +110,189 @@ public class InterviewResourceTest {
 	 * @param interview
 	 */
 	@Test(priority = 6, dataProvider = "interview1", enabled = true)
-	public void testCreateInterview2(TfInterview interview) {
-
-		given().header("Authorization", associateToken).contentType("application/json").body(interview).when()
-				.post(URL + knownAssociateId + "/").then().assertThat().statusCode(201);
-
-		Response response = given().header("Authorization", associateToken).contentType("application/json")
-				.body(interview).when().get(URL + knownAssociateId + "/").then().extract().response();
-
-		assertTrue(response.asString().contains("Strong Java knowledge"));
+	public void testCreateInterviewHappyPathAssoc(TfInterview interview) {
+		Response response = given().header("Authorization", knownAssociateToken).contentType("application/json")
+				.body(interview).when().post(URL + "/" + knownAssociateId).then().extract().response();
+		System.out.println(response.asString());
+		assertEquals(response.statusCode(), 201);
 	}
 
 	/**
-	 * Unhappy path testing for testCreateInterview.
-	 * Test that a bad token gives a 401.
-	 * Test that a bad url gives a 404.
-	 * Test that a bad method gives a 405.
+	 * Unhappy path testing for testCreateInterview. Test that a bad token gives a
+	 * 401.
 	 * 
 	 */
 	@Test(priority = 7, dataProvider = "interview1", enabled = true)
-	public void testCreateInterviewUnhappyPath(TfInterview interview) {
+	public void testCreateInterviewBadToken(TfInterview interview) {
 		Response response = given().header("Authorization", "Bad Token").contentType("application/json").body(interview)
-				.when().post(URL + knownAssociateId + "/").then().extract().response();
+				.when().post(URL + "/" + knownAssociateId).then().extract().response();
 
-		assertTrue(response.statusCode() == 401);
+		assertEquals(response.statusCode(), 401);
 		assertTrue(response.asString().contains("Unauthorized"));
+	}
 
-		given().header("Authorization", adminToken).contentType("application/json").body(interview).when()
-				.post(URL + knownAssociateId + "BADURL" + "/").then().assertThat().statusCode(404);
+	/**
+	 * Unhappy path testing for testCreateInterview. Test that a bad url gives a
+	 * 404.
+	 */
+	@Test(priority = 7, dataProvider = "interview1", enabled = true)
+	public void testCreateInterviewBadUrl(TfInterview interview) {
+		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
+				.when().post(URL + "/" + knownAssociateId + "BADURL").then().extract().response();
 
-		given().header("Authorization", adminToken).contentType("application/json").body(interview).when().put(URL)
-				.then().assertThat().statusCode(405);
+		assertEquals(response.statusCode(), 404);
+	}
+
+	/**
+	 * Unhappy path testing for testCreateInterview. Test that a put request gives a
+	 * 405.
+	 * 
+	 * NOTE: This test is currently set to ALWAYS fail as a PUT to /{number} goes to
+	 * updateInterview and that has potential to break even more things so we can't
+	 * even test a bad verb yet.
+	 */
+	@Test(priority = 7, dataProvider = "interview1", enabled = true)
+	public void testCreateInterviewBadVerbPut(TfInterview interview) {
+		assertTrue(false);
+		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
+				.when().put(URL).then().extract().response();
+
+		assertEquals(response.statusCode(), 405);
+	}
+
+	/**
+	 * Unhappy path testing for testCreateInterview. Test that a get request gives a
+	 * 405.
+	 * 
+	 * NOTE: This test is currently set to ALWAYS fail as a GET to /{number} goes to
+	 * getAllInterviews and that has potential to break even more things so we can't
+	 * even test a bad verb yet.
+	 */
+	@Test(priority = 7, dataProvider = "interview1", enabled = true)
+	public void testCreateInterviewBadVerbGet(TfInterview interview) {
+		assertTrue(false); 
+		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
+				.when().get(URL).then().extract().response();
+
+		assertEquals(response.statusCode(), 405);
+	}
+
+	/**
+	 * Unhappy path testing for testCreateInterview. Test that a delete request
+	 * gives a 405.
+	 */
+	@Test(priority = 7, dataProvider = "interview1", enabled = true)
+	public void testCreateInterviewBadVerbDelete(TfInterview interview) {
+
+		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
+				.when().delete(URL).then().extract().response();
+
+		assertEquals(response.statusCode(), 405);
 	}
 
 	/**
 	 * Tests that you can get an associate interview by passing in the number of the
-	 * associateId. Also checks for a bad verb, a bad token and a bad url.
+	 * associateId.
 	 * 
 	 * @author Jesse
 	 * @since 6.18.06.13
 	 */
 	@Test(priority = 10)
-	public void testGetAllInterviewsByAssociateId() {
-		Response response = given().header("Authorization", adminToken).when().get(URL + 1 + "/").then().extract()
-				.response();
+	public void testGetAllInterviewsByAssociateIdHappyPathAdmin() {
+		Response response = given().header("Authorization", adminToken).when().get(URL + "/" + knownAssociateId).then()
+				.extract().response();
 
-		assertTrue(response.statusCode() == 200);
+		assertEquals(response.statusCode(), 200);
 
-		given().header("Authorization", "Bad Token").when().get(URL + knownAssociateId + "/").then().assertThat()
-				.statusCode(401);
-
-		given().header("Authorization", adminToken).when().get(URL + knownAssociateId + "BAD" + "/").then().assertThat()
-				.statusCode(404);
-
-		given().header("Authorization", adminToken).when().post(URL + knownAssociateId + "/").then().assertThat()
-				.statusCode(415);
 	}
 
 	/**
-	 * Tests that you can get an associate interview by passing in the number of the
-	 * interviewId. Also checks for a bad verb, a bad token and a bad url.
+	 * Tests that you can get an associate can get their own interviews.
 	 * 
-	 * @author Jesse
-	 * @since 6.18.06.13
+	 * @author Kateyln Barnes
+	 */
+	@Test(priority = 10)
+	public void testGetAllInterviewsByAssociateIdHappyPathAssoc() {
+		Response response = given().header("Authorization", knownAssociateToken).when()
+				.get(URL + "/" + knownAssociateId).then().extract().response();
+
+		assertEquals(response.statusCode(), 200);
+
+	}
+
+	/**
+	 * Tests that attempting to access an associate interview with a bad token gets
+	 * a 401 status code
+	 * 
+	 * @author Katelyn Barnes
 	 */
 	@Test(priority = 15)
-	public void testGetAssociateInterview() {
-		Response response = given().header("Authorization", adminToken).when().get(URL + 3 + "/").then().extract()
-				.response();
+	public void testGetAssociateInterviewBadToken() {
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownAssociateId).then()
+				.extract().response();
 
-		assertTrue(response.statusCode() == 200);
+		assertEquals(response.statusCode(), 401);
+	}
 
-		given().header("Authorization", "Bad Token").when().get(URL + knownAssociateId + "/").then().assertThat()
-				.statusCode(401);
+	/**
+	 * Test that attempting to access an associate interview with a bad url gets a
+	 * 404 status code
+	 * 
+	 * @author Katelyn Barnes
+	 */
+	@Test(priority = 15)
+	public void testGetAssociateInterviewBadUrl() {
+		Response response = given().header("Authorization", adminToken).when().get(URL + "/" + knownAssociateId + "BAD")
+				.then().extract().response();
 
-		given().header("Authorization", adminToken).when().get(URL + knownAssociateId + "BAD" + "/").then().assertThat()
-				.statusCode(404);
+		assertEquals(response.statusCode(), 404);
+	}
 
-		given().header("Authorization", adminToken).when().post(URL + knownAssociateId + "/").then().assertThat()
-				.statusCode(415);
+	/**
+	 * Tests that attempting to use a post request gets a 405 response code
+	 * 
+	 * NOTE: Currently set to auto fail as multiple methods in InterviewResource map
+	 * to the same URL pattern but different verbs. In this case POST calls
+	 * createInterview
+	 */
+	@Test(priority = 15)
+	public void testGetAssociateInterviewBadVerbPost() {
+		assertTrue(false);
+		Response response = given().header("Authorization", adminToken).when().post(URL + "/" + knownAssociateId).then()
+				.extract().response();
+
+		assertEquals(response.statusCode(), 405);
+
+	}
+
+	/**
+	 * Tests that attempting to use a put request gets a 405 response code
+	 * 
+	 * NOTE: Currently set to auto fail as multiple methods in InterviewResource map
+	 * to the same URL pattern but different verbs. In this case PUT calls
+	 * updateInterview
+	 */
+	@Test(priority = 15)
+	public void testGetAssociateInterviewBadVerbPut() {
+		assertTrue(false);
+		Response response = given().header("Authorization", adminToken).when().post(URL + "/" + knownAssociateId).then()
+				.extract().response();
+
+		assertEquals(response.statusCode(), 405);
+
+	}
+
+	/**
+	 * Tests that attempting to use a delete request gets a 415 response code
+	 */
+	@Test(priority = 15)
+	public void testGetAssociateInterviewBadVerbDelete() {
+
+		Response response = given().header("Authorization", adminToken).when().post(URL + "/" + knownAssociateId).then()
+				.extract().response();
+
+		assertEquals(response.statusCode(), 415);
+
 	}
 
 	/**
@@ -178,30 +306,82 @@ public class InterviewResourceTest {
 	@Test(priority = 20, dataProvider = "interview2", enabled = true)
 	public void testUpdateInterview(TfInterview interview) {
 		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
-				.when().put(URL + knownAssociateId + "/").then().extract().response();
+				.when().put(URL + "/" + knownAssociateId).then().extract().response();
 
-		assertTrue(response.statusCode() == 202);
-
-		response = given().header("Authorization", adminToken).contentType("application/json").body(interview).when()
-				.get(URL + knownAssociateId + "/").then().extract().response();
-
+		assertEquals(response.statusCode(), 202);
 		assertTrue(response.asString().contains("MEME LORD"));
 	}
 
 	/**
-	 * Unhappy path testing for testUpdateInterview. It checks for a bad verb, a bad
-	 * token and a bad url.
+	 * Unhappy path testing for testUpdateInterview. Checks that a bad token gets a
+	 * 401 status code.
 	 */
 	@Test(priority = 25, dataProvider = "interview2", enabled = true)
-	public void testUpdateInterviewUnhappyPath(TfInterview interview) {
+	public void testUpdateInterviewBadToken(TfInterview interview) {
 		Response response = given().header("Authorization", "Bad Token").contentType("application/json").body(interview)
-				.when().put(URL + knownAssociateId + "/").then().extract().response();
+				.when().put(URL + "/" + knownAssociateId).then().extract().response();
 
-		assertTrue(response.statusCode() == 401);
+		assertEquals(response.statusCode(), 401);
 		assertTrue(response.asString().contains("Unauthorized"));
 
-		given().header("Authorization", adminToken).contentType("application/json").body(interview).when()
-				.put(URL + "three" + "/").then().assertThat().statusCode(404);
+	}
+
+	/**
+	 * Unhappy path testing for testUpdateInterview. Checks that a bad URL gets a
+	 * 404 status code
+	 *
+	 */
+	@Test(priority = 25, dataProvider = "interview2", enabled = true)
+	public void testUpdateInterviewBadUrl(TfInterview interview) {
+		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
+				.when().put(URL + "/" + "three").then().extract().response();
+
+		assertEquals(response.statusCode(), 404);
+	}
+
+	/**
+	 * Unhappy path testing for testUpdateInterview. Checks that POST returns a 405
+	 * error
+	 * 
+	 * NOTE: Currently set to auto fail as multiple methods in InterviewResource map
+	 * to the same URL pattern but different verbs. In this case POST calls
+	 * createInterview
+	 */
+	@Test(priority = 25, dataProvider = "interview2", enabled = true)
+	public void testUpdateInterviewBadVerbPost(TfInterview interview) {
+		assertTrue(false);
+		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
+				.when().post(URL + "/" + knownAssociateId).then().extract().response();
+
+		assertEquals(response.statusCode(), 405);
+	}
+
+	/**
+	 * Unhappy path testing for testUpdateInterview. Tests that attempting to use a
+	 * delete request gets a 405 response code
+	 */
+	@Test(priority = 25, dataProvider = "interview2", enabled = true)
+	public void testUpdateInterviewBadVerbDelte(TfInterview interview) {
+		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
+				.when().post(URL + "/" + knownAssociateId).then().extract().response();
+
+		assertEquals(response.statusCode(), 405);
+	}
+
+	/**
+	 * Unhappy path testing for testUpdateInterview. Checks that GET returns a 405
+	 * error
+	 * 
+	 * NOTE: currently set to autofail as multiple methods in InterviewResource map
+	 * to the same URL. In this case GET calls getAssociateInterview
+	 */
+	@Test(priority = 25, dataProvider = "interview2", enabled = true)
+	public void testUpdateInterviewBadVerbGet(TfInterview interview) {
+		assertTrue(false);
+		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
+				.when().get(URL + "/" + knownAssociateId).then().extract().response();
+
+		assertEquals(response.statusCode(), 405);
 	}
 
 	/**
@@ -274,7 +454,6 @@ public class InterviewResourceTest {
 		TfInterviewType it = new TfInterviewType();
 
 		interview2 = interviewService.getInterviewById(1604);
-		System.out.println(interview2);
 
 		interview2.setAssociate(a);
 
@@ -289,8 +468,6 @@ public class InterviewResourceTest {
 		interview2.setInterviewType(it);
 		interview2.getInterviewType().setId(4);
 		interview2.getInterviewType().setName("Skype");
-
-		System.out.println(interview2);
 
 		interview2.setInterviewDate(new Timestamp(152500500L));
 		interview2.setAssociateFeedback("Interviewed well");

@@ -23,18 +23,6 @@ import io.restassured.response.Response;
 /**
  * Rest Assured tests for ensuring that the trainer resource functions properly.
  * 
- * As of November 6, 2018 Trainer Resource maps two separate methods to
- * trainers/{number}: getTrainer and updateTrainer.
- * 
- * getTrainer - GET request, interprets {number} as a trainerId updateTrainer -
- * PUT request, interprets {number} as a userId
- * 
- * This _WORKS_ but is also horribly convoluted, should not be done and allows
- * for the unhappy paths for some methods to actually break other things.
- * 
- * I would (strongly) suggest fixing this in future iterations.
- * 
- * - Katelyn Barnes 1809
  * 
  * @author Jesse, Andy
  * @since 06.18.06.16
@@ -327,7 +315,7 @@ public class TrainerResourceTest {
 	@Test(priority = 8)
 	public void testUpdateTrainerHappyPath() {
 		Response response = given().headers("Authorization", token).contentType("application/json").body(trainer).when()
-				.put(URL + "/" + knownTrainerId).then().extract().response();
+				.put(URL + "/update/" + knownTrainerId).then().extract().response();
 
 		assertEquals(response.statusCode(), 202);
 	}
@@ -340,7 +328,7 @@ public class TrainerResourceTest {
 	@Test(priority = 8)
 	public void testUpdateTrainerUnhappyPathNoTrainer() {
 		Response response = given().headers("Authorization", token).contentType("application/json").body("").when()
-				.put(URL + "/" + nonexistantTrainerId).then().extract().response();
+				.put(URL + "/update/" + nonexistantTrainerId).then().extract().response();
 
 		assertEquals(response.statusCode(), 204);
 
@@ -353,7 +341,7 @@ public class TrainerResourceTest {
 	@Test(priority = 9)
 	public void testUpdateTrainerUnhappyPathBadToken() {
 		Response response = given().headers("Authorization", "Bad Token").contentType("application/json").body(trainer)
-				.when().put(URL + "/" + knownTrainerId).then().extract().response();
+				.when().put(URL + "/update/" + knownTrainerId).then().extract().response();
 
 		assertEquals(response.statusCode(), 401);
 		assertTrue(response.asString().contains("Unauthorized"));
@@ -366,7 +354,7 @@ public class TrainerResourceTest {
 	@Test(priority = 9)
 	public void testUpdateTrainerUnhappyPathBadUrl() {
 		Response response = given().headers("Authorization", "Bad Token").contentType("application/json").body(trainer)
-				.when().put(URL + "/" + knownTrainerId + "BADURL").then().extract().response();
+				.when().put(URL + "/update/" + knownTrainerId + "BADURL").then().extract().response();
 
 		assertEquals(response.statusCode(), 404);
 
@@ -379,7 +367,7 @@ public class TrainerResourceTest {
 	@Test(priority = 9)
 	public void testUpdateTrainerUnhappyPathBadVerbPost() {
 		Response response = given().header("Authorization", token).contentType("application/json").when()
-				.post(URL + "/" + knownTrainerId).then().extract().response();
+				.post(URL + "/update/" + knownTrainerId).then().extract().response();
 
 		assertEquals(response.statusCode(), 405);
 	}
@@ -396,7 +384,7 @@ public class TrainerResourceTest {
 	public void testUpdateTrainerUnhappyPathBadVerbGet() {
 		assertTrue(false);
 		Response response = given().header("Authorization", token).contentType("application/json").when()
-				.get(URL + "/" + knownTrainerId).then().extract().response();
+				.get(URL + "/update/" + knownTrainerId).then().extract().response();
 
 		assertEquals(response.statusCode(), 405);
 	}
@@ -408,7 +396,7 @@ public class TrainerResourceTest {
 	@Test(priority = 9)
 	public void testUpdateTrainerUnhappyPathBadVerbDelete() {
 		Response response = given().header("Authorization", token).contentType("application/json").when()
-				.delete(URL + "/" + knownTrainerId).then().extract().response();
+				.delete(URL + "/update/" + knownTrainerId).then().extract().response();
 
 		assertEquals(response.statusCode(), 405);
 	}

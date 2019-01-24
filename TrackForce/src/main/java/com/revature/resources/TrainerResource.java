@@ -172,7 +172,7 @@ public class TrainerResource {
 	 */
 	@PUT
 	@ApiOperation(value = "updates trainer values", notes = "The method updates a trainer based on their id.")
-	@Path("/{trainerId}")
+	@Path("/update/{trainerId}")
 	public Response updateTrainer(@PathParam("trainerId") Integer id, TfTrainer trainer,
 	                                @HeaderParam("Authorization") String token) {
 		logger.info("updateTrainer()...");

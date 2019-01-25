@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.revature.services.*;
 import com.revature.test.pom.*;
+//import com.revature.test.pom.Login;
 import com.revature.utils.EnvManager;
 
 import org.openqa.selenium.By;
@@ -173,7 +174,9 @@ public class AdminTests {
 	void clientListIsOnlyLoadedOnce() {
 		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@id=\"clients-list\"]")));
 		
-		for (WebElement x : ClientList.getAllClients(wd)) {
+		List<WebElement> clientlist = ClientList.getAllClients(wd);
+		
+		for (WebElement x : clientlist) {
 			clients.add(x.getText());
 		}
 		

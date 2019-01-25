@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import com.revature.services.*;
 import com.revature.test.pom.*;
@@ -21,6 +22,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /*
@@ -33,6 +35,7 @@ public class AdminTests {
 	static WebDriverWait wait;
 	String username = "TestAdmin";
 	String password = "TestAdmin";
+	public final String url = "localhost:4200";
 	// stores the values of batches names on the batches page
 	List<String> batchNames = new ArrayList<String>();
 	
@@ -85,9 +88,10 @@ public class AdminTests {
 		File chrome = new File("src/main/resources/chromedriver.exe");
 		System.setProperty("webdriver.chrome.driver", chrome.getAbsolutePath());
 		wd = new ChromeDriver();
-		wd.get(EnvManager.NGTrackForce_URL+"login/");
+		//wd.get(url);
+		wd.get(url);//EnvManager.NGTrackForce_URL+"login/");
 		wait = new WebDriverWait(wd,10);
-		wait.until(ExpectedConditions.urlContains(EnvManager.NGTrackForce_URL+"login/"));
+		wait.until(ExpectedConditions.urlContains(url));//EnvManager.NGTrackForce_URL+"login/"));
 		
 	}
 	

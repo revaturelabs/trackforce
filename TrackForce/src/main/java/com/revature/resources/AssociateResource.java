@@ -291,7 +291,7 @@ public class AssociateResource {
 	 */
 	@PUT
 	@ApiOperation(value = "updates associate values", notes = "The method updates the marketing status or client of a given associate by their id.")
-	@Path("/{associateId}")
+	@Path("/update/{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, TfAssociate associate,
 			@HeaderParam("Authorization") String token) {
 

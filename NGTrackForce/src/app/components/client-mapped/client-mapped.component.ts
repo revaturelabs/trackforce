@@ -213,7 +213,7 @@ export class ClientMappedComponent implements OnInit {
 
   public getAssociatesByStatus(statusId: number) {
     // HTTP request to fetch data. See client-service
-    this.associateService.getAssociatesByStatus(statusId).subscribe(data => {
+    this.associateService.getAssociatesByStatus(this.statusID).subscribe(data => {
       /*
       Store the data from the http request in temporary objects.
       In order for the2 property binding refresh on clientMappedData

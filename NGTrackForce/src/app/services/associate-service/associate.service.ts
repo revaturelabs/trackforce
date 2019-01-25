@@ -176,11 +176,7 @@ export class AssociateService {
   // focus on keeping one copy of data to aid performance
 
   getAssociatesByStatus(statusId: number): Observable<GraphCounts[]> {
-    this.http.get<GraphCounts[]>(this.baseURL + '/mapped/' + statusId).subscribe(
-      (data: GraphCounts[]) => this.getAssociatesByStatus$.next(data),
-      error => this.getAssociatesByStatus$.error(error)
-    );
-    return this.getAssociatesByStatus$;
+    return this.http.get<GraphCounts[]>(this.baseURL + '/mapped/' + statusId);
   }
 
   /**
@@ -198,11 +194,7 @@ export class AssociateService {
 
   getUndeployedAssociates(mappedOrUnmapped: string): Observable<GraphCounts[]> {
     const url: string = this.baseURL + '/undeployed/' + mappedOrUnmapped;
-    this.http.get<GraphCounts[]>(url).subscribe(
-      (data: GraphCounts[]) => this.getUndeployedAssociates$.next(data),
-      error => this.getUndeployedAssociates$.error(error)
-    );
-    return this.getUndeployedAssociates$;
+    return this.http.get<GraphCounts[]>(url);
   }
 
   getAssociateSnapshot() {

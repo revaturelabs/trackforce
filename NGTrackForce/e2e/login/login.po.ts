@@ -1,9 +1,9 @@
 import { protractor, browser, by, element } from 'protractor';
-import { environment } from '../../src/environments/environment';
+import { environment, ngEnvironment } from '../../src/environments/environment';
 
-export class LoginPage { 
+export class LoginPage {  
   navigateTo(){
-    return browser.get(environment.url + 'TrackForce/login');
+    return browser.get(ngEnvironment.url + 'NGTrackForce/#/login');
   }
 
   getUsernameInput(){

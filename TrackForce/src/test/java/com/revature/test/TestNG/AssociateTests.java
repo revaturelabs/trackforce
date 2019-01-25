@@ -8,7 +8,6 @@ import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.WebDriverUtil;
 import com.revature.utils.EnvManager;
-
 import java.io.File;
 
 import org.openqa.selenium.By;

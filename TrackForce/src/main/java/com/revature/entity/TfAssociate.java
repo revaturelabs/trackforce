@@ -50,7 +50,7 @@ public class TfAssociate implements java.io.Serializable {
 	private Integer id;
 
 	@XmlElement
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "TF_USER_ID")
 	private TfUser user;
 	

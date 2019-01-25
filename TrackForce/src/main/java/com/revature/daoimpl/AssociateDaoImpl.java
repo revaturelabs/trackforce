@@ -236,7 +236,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * @param TfAssociate the new associate you wish to persist */
 	@Override
 	public boolean createAssociate(TfAssociate newassociate) {
-		return saveToDB(newassociate);
+		return HibernateUtil.saveToDB(newassociate);
 	}
 
 	/** Does something */

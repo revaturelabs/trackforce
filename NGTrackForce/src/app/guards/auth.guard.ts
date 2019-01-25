@@ -17,7 +17,6 @@ export class AuthGuard implements CanActivate {
 	 *  when they log in, should be redirected to.
 	 */
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        console.log("In AuthGuard Outer")
 
         // not logged in so redirect to login page with the return url
         if (!localStorage.getItem("currentUser")) {
@@ -34,7 +33,6 @@ export class AuthGuard implements CanActivate {
         // up refresh getUserRole was undefined. Added line 38-40 to call the database agian upon refresh.
         if (expectedRoles !== undefined) {
             const user = this.authService.getUser();
-            console.log("in AuthGuard Inner");
             if (this.authService.getUserRole() === undefined) {
                 await this.authService.getUserRoleFirst((UserRole) => {
                   if (!expectedRoles.includes(UserRole)) {
@@ -54,7 +52,6 @@ export class AuthGuard implements CanActivate {
      * @param role user role held in local storage
      */
     routeToUserHome(role: number) {
-        console.log("in AuthGuard Inner");
         console.log(role)
         if (role === 5) {
             this.router.navigate(['associate-view']);

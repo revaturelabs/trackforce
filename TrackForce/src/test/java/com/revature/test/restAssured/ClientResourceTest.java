@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
 import com.revature.entity.TfClient;
 import com.revature.services.ClientService;
 import com.revature.services.JWTService;
-import com.revature.utils.EnvManager;
 
 import io.restassured.http.Header;
 import io.restassured.response.Response;
@@ -30,11 +29,14 @@ import io.restassured.specification.RequestSpecification;
  */
 public class ClientResourceTest {
 
-	static final String URL = EnvManager.TomTrackForce_URL + "clients/";
+	//static final String URL = "http://52.87.205.55:8086/TrackForce/clients";
+	static final String URL = "http://localhost:8082/TrackForce/clients";
+	//static final String URL = EnvManager.TomTrackForce_URL + "clients/";
 
 	ClientService cs = new ClientService();
 	List<TfClient> clients;
 	String token;
+	String assocToken;
 
 	/**
 	 * Set up before any tests. Need to generate a token and generate a list of
@@ -45,6 +47,7 @@ public class ClientResourceTest {
 	@BeforeClass
 	public void beforeClass() throws IOException {
 		token = JWTService.createToken("TestAdmin", 1);
+		assocToken = JWTService.createToken("cyril", 5);
 		System.out.println(token);
 		clients = new ArrayList<>();
 		clients = cs.getAllTfClients();
@@ -61,31 +64,88 @@ public class ClientResourceTest {
 	 * @since 6.18.06.13
 	 */
 	@Test(priority = 5)
-	public void testGetAllClients1() {
-		Response response = given().header("Authorization", token).when().get(URL).then().extract().response();
+	public void testGetAllClientsHappyPath() {
+		String newUrl = URL + "/getAll/";
+		given().header("Authorization", token).when().get(newUrl).then().assertThat().statusCode(200);
+		Response response = given().header("Authorization", token).when().get(newUrl).then().extract().response();
 
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));
 
-		given().header("Authorization", token).when().get(URL).then().assertThat().body("name",
+		given().header("Authorization", token).when().get(newUrl).then().assertThat().body("name",
 				hasSize(clients.size()));
 	}
 
 	/**
-	 * Unhappy path testing for testGetAllClients
+	 * Unhappy path testing for testGetAllClients, tests thatn a 401 status code
+	 * is given if a request is made with a bad token
+	 * @author Katelyn B 
+	 * Written Nov. 4, 2018, Batch 1809
 	 */
-	@Test(priority = 10)
-	public void testGetAllClients2() {
-		Response response = given().header("Authorization", "Bad Token").when().get(URL).then().extract().response();
+	@Test(priority = 10, dataProvider = "urls")
+	public void testGetAllClientsBadToken(String url) {
+		String newURL = URL + url;
+		given().header("Authorization", "Bad Token").when().get(newURL).then().assertThat().statusCode(401);
+		Response response = given().header("Authorization", "Bad Token").when().get(newURL).then().extract().response();
 
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));
-
-		given().header("Authorization", token).when().get(URL + "notAURL/").then().assertThat().statusCode(404);
-
-		given().header("Authorization", token).when().post(URL).then().assertThat().statusCode(405);
 	}
+	
+	@Test(priority = 10, dataProvider = "urls")
+	public void testNoToken(String url) {
+		String newURL = URL + url;
+		String emptyToken = null;
+		given().header("Authorization", "").when().get(newURL).then().assertThat().statusCode(401);
+		Response response = given().header("Authorization", "").when().get(newURL).then().extract().response();
+	
+		assertTrue(response.statusCode() == 401);
+		assertTrue(response.asString().contains("Unauthorized"));
+	}
+	/**
+	 * Unhappy path testing for testGetAllClient, tests that a 404 status code is generated for a 
+	 * bad URL
+	 * @author Katelyn B 
+	 * Written Nov. 4, 2018, Batch 1809
+	 */
+	@Test(priority = 10)
+	public void testGetAllClientsBadUrl() {
+		Response response = given().header("Authorization", token).when().get(URL + "notAURL/").then().extract().response();
 
+		assertTrue(response.statusCode() == 404);
+	}
+	
+	/**
+	 * Unhappy path testing for testGetAllClient, tests that a 405 status code is given for a
+	 * bad html verb
+	 * @author Katelyn B 
+	 * Written Nov. 4, 2018, Batch 1809
+	 */
+	@Test(priority = 10)
+	public void testGetAllClientsBadVerb() {
+		Response response = given().header("Authorization", token).when().post(URL + "/getAll/").then().extract().response();
+
+		assertTrue(response.statusCode() == 405);
+	}
+	
+	@Test(priority = 10)
+	public void testUserRole() {
+		String url = URL + "/getAll/";
+		given().header("Authorization", assocToken).when().get(url).then().assertThat().statusCode(403);
+		//Response response = given().header("Authorization", assocToken).when().post(URL + "getAll").then().extract().response();
+		//assertTrue(response.statusCode() == 403);
+	}
+	
+	@DataProvider(name = "urls")
+	public String[] getURLs() {
+		return new String[] { 
+			 "/getAll/", 
+			 "/associates/get/0",
+			 "/mapped/get/", 
+			 "/50/"  
+			};
+	}
+	
 	/**
 	 * An unhappy test method that checks every method but login to assure that
 	 * those that need security must block the user if he: 
@@ -105,29 +165,20 @@ public class ClientResourceTest {
 	 * @param needAuth - if the user has to be a higher level of authorization than
 	 *                 Associate like Admin to use the service, this value is true;
 	 */
-	@Test(enabled = true, priority = 11, dataProvider = "urls")
-	public void unhappyPathTest(String method, String url, Boolean needAuth) {
-		String adminToken = token;
-		String assocToken = JWTService.createToken("TestAssociate", 5);
-		String[] verbs = method.split(", ");
-		url = URL + url;
+	@Test(enabled = true, priority = 15, dataProvider = "urls")
+	public void unhappyPathTest(String url) {
+		String newURL = URL + url;
 		// test no token
-		for (String verb : verbs) {
-			sendRequest(verb, url, null).then().assertThat().statusCode(401);
-			// test invalid token
-			sendRequest(verb, url, new Header("Authorization", "badtoken")).then().assertThat().statusCode(401);
-			// test with associate token
-			if (needAuth)
-				sendRequest(verb, url, new Header("Authorization", assocToken)).then().assertThat().statusCode(403);
-		}
+		given().header("Authorization", "").when().get(newURL).then().assertThat().statusCode(401);
+		// test invalid token
+		given().header("Authorization", "Bad Token").when().get(newURL).then().assertThat().statusCode(401);
+		// test with associate token
+		given().header("Authorization", assocToken).when().get(newURL).then().assertThat().statusCode(403);
 		// look for an HTTP verb not used
-		String knownVerbs[] = new String[] { "GET", "POST", "PUT", "DELETE" };
+		String knownVerbs[] = new String[] { "POST", "PUT", "DELETE" };
 		for (String verb : knownVerbs) {
-			if (!method.contains(verb)) {
-				// test unsupported verb
-				sendRequest(verb, url, new Header("Authorization", adminToken)).then().assertThat().statusCode(405);
-				break;
-			}
+			// test unsupported verb
+			sendRequest(verb, newURL, new Header("Authorization", token)).then().assertThat().statusCode(405);
 		}
 
 	}
@@ -154,9 +205,6 @@ public class ClientResourceTest {
 		}
 	}
 
-	@DataProvider(name = "urls")
-	public Object[][] getURLs() {
-		return new Object[][] { { "GET", "", new Boolean(true) }, { "GET", "associates/get/0/", new Boolean(true) },
-				{ "GET", "mapped/get/", new Boolean(true) }, { "GET", "50/", new Boolean(true) } };
-	}
+	
+	
 }

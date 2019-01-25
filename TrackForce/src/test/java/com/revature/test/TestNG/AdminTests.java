@@ -50,7 +50,7 @@ public class AdminTests {
 	List<String> batchStartDates = new ArrayList<String>();
 	List<String> batchEndDates = new ArrayList<String>();
 	
-	// Holds the client list before its cleaned 
+	// Holds the client list before it's cleaned 
 	List<String> clients = new ArrayList<String>();
 	
 	// Holds a unique set of clients and formated nicely

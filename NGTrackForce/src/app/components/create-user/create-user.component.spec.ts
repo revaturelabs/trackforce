@@ -12,6 +12,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {UserService} from '../../services/user-service/user.service';
 import {User} from '../../models/user.model';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
+import { of } from 'rxjs/observable/of';
 
 describe('CreateUserComponent', () => {
   let component: CreateUserComponent;
@@ -21,7 +22,7 @@ describe('CreateUserComponent', () => {
   // setup service mocks
   beforeAll(() => {
     let user = new User("mockUser", "mockPassword", 1, 0, 0, "mockToken");
-    spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
+    spyOn(testAuthService, 'getUser').and.returnValue(of(user));  // needed by navbar
   });
 
   beforeEach(() => {

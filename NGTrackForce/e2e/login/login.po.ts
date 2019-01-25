@@ -1,9 +1,9 @@
 import { protractor, browser, by, element } from 'protractor';
+import { environment } from '../../src/environments/environment';
 
-export class LoginPage {
+export class LoginPage { 
   navigateTo(){
-    //return browser.get('localhost:4200/login');
-    return browser.get('http://ec2-34-227-178-103.compute-1.amazonaws.com:8090/NGTrackForce/#/login');
+    return browser.get(environment.url + 'TrackForce/login');
   }
 
   getUsernameInput(){

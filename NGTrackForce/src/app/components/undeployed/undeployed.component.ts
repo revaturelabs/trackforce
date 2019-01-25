@@ -166,6 +166,4 @@ export class UndeployedComponent implements OnInit {
       this.router.navigate([`undeployed/${evt.active[0]._index}`]); //NOTE: are these ticks (`) supposed to be apostraphes?
     }
   }
-
-
 }

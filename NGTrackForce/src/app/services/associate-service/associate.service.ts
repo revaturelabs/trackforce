@@ -161,7 +161,7 @@ export class AssociateService {
    */
   updateAssociate(associate: any) {
     return new Promise((resolve, reject)=> {
-      const url: string = this.baseURL + '/' + associate.id;
+      const url: string = this.baseURL + '/update/' + associate.id;
       this.http.put<boolean>(url, associate).subscribe(
         // resolve true for a successful return since we don't care unless it's not a 200
         data => resolve(true),

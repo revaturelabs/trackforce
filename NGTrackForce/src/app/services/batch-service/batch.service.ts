@@ -67,7 +67,7 @@ export class BatchService {
     */
     public getBatchDetails(
         startDate: Date,
-        endDate: Date,
+        endDate: Date, 
         CourseName: string
     ): Observable<Object> {
         const url =

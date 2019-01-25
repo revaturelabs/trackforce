@@ -44,7 +44,7 @@ export class TrainerService {
    * @since 6.19.06.16
    */
   getAllTrainers(): Observable<Trainer[]> {
-    return this.http.get<Trainer[]>(this.baseURL + "/allTrainers");
+    return this.http.get<Trainer[]>(this.baseURL + "allTrainers");
   }
 
   /**
@@ -60,7 +60,7 @@ export class TrainerService {
 
 
   public updateTrainer(trainer: Trainer): any {
-    return this.http.put(this.baseURL + trainer.id, JSON.stringify(trainer), {
+    return this.http.put(this.baseURL + "update/" + trainer.id, JSON.stringify(trainer), {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `${trainer.user.token}`

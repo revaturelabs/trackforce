@@ -107,7 +107,7 @@ public class InterviewResource {
 	 * @param interview
 	 * @return
 	 */
-	@Path("/{associateid}")
+	@Path("/create/{associateid}")
 	@POST
 	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 401 if not.")
 	public Response createInterview(@PathParam("associateid") int associateid, @HeaderParam("Authorization") String token, TfInterview interview) {
@@ -142,7 +142,7 @@ public class InterviewResource {
 	 * @throws HibernateException
 	 * @throws IOException
 	 */
-	@Path("/{associateid}")
+	@Path("/associate/{associateid}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Returns all interviews for an associate", notes = "Returns a list of all interviews.")
@@ -195,7 +195,7 @@ public class InterviewResource {
 	 * @param interview
 	 * @return
 	 */
-	@Path("/{interviewid}")
+	@Path("/update/{interviewid}")
 	@ApiOperation(value = "updates interview", notes = " Updates interview")
 	@PUT
 	public Response updateInterview(@PathParam("interviewid") int interviewId, @HeaderParam("Authorization") String token, TfInterview interview) {

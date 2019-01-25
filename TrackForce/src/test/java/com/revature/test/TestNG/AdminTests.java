@@ -36,7 +36,7 @@ public class AdminTests {
 	static WebDriverWait wait;
 	String username = "TestAdmin";
 	String password = "TestAdmin";
-	public final String url = "http://localhost:4200";//"http://34.227.178.103:8090/NGTrackForce/";
+	public final String url = "http://34.227.178.103:8090/NGTrackForce/";
 	// stores the values of batches names on the batches page
 	List<String> batchNames = new ArrayList<String>();
 	

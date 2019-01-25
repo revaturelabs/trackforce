@@ -29,7 +29,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
  *		 Note: made minor updates to allow continued use of these tokens */
 public class JWTService {
 	
-	UserService userService;
+	UserService userService = new UserService();
 	
 	private static final String SECRET_KEY = getKey();
 	private static Long EXPIRATION = 1L * 60 * 12; //expiration time in minutes

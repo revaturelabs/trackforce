@@ -25,7 +25,7 @@ export class ClientService {
    * Get a list of all of the clients
    */
   getAllClients(): Observable<Client[]> {
-    this.http.get<Client[]>(this.baseURL).subscribe(
+    this.http.get<Client[]>(this.baseURL + "/getAll/").subscribe(
       (data: Client[]) => this.clients$.next(data),
       (error) => this.clients$.error(error)
     );

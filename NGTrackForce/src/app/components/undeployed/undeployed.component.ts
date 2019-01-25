@@ -75,34 +75,30 @@ export class UndeployedComponent implements OnInit {
   loadChart() {
     this.associateService.getUndeployedAssociates(this.selectedStatus.toLowerCase()).subscribe(
       data => {
-        let temp_clientUndeployedLabels: string[] = [];
-        let temp_clientUndeployedData: number[] = [];
-        this.clientUndeployedData = temp_clientUndeployedData;
-        this.clientUndeployedLabels = temp_clientUndeployedLabels;
-
         if (this.statusID === 1) { // mapped
           this.undeployedColors = ThemeConstants.CLIENT_COLORS;
           for (const graphCount of data) {
             if (graphCount.count > 0) {
               //Check if the fetched name is empty
               if (graphCount.name === "") {
-                temp_clientUndeployedLabels.push("Client not Specified");
+                this.clientUndeployedLabels.push("Client not Specified");
               } else {
-                temp_clientUndeployedLabels.push(graphCount.name);
+                this.clientUndeployedLabels.push(graphCount.name);
               }
-              temp_clientUndeployedData.push(graphCount.count);
+              this.clientUndeployedData.push(graphCount.count);
             }
           }
         } else { // unmapped
           this.undeployedColors = ThemeConstants.SKILL_COLORS;
-          temp_clientUndeployedData = data.map((obj) => { if (obj.count) { return obj.count } }).filter(this.isNotUndefined);
-          temp_clientUndeployedLabels = data.map((obj) => { if (obj.count) { return obj.name } }).filter(this.isNotUndefined);
+          this.clientUndeployedData = data.map((obj) => { if (obj.count) { return obj.count } }).filter(this.isNotUndefined);
+          this.clientUndeployedLabels = data.map((obj) => { if (obj.count) { return obj.name } }).filter(this.isNotUndefined);
         }
-
-        this.clientUndeployedData = temp_clientUndeployedData;
-        this.clientUndeployedLabels = temp_clientUndeployedLabels;
+      },
+      error => {
+        console.log(error);
       }
     );
+    console.log("End");
   }
 
   public isNotUndefined(val): boolean {

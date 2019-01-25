@@ -196,12 +196,9 @@ export class PredictionsComponent implements OnInit {
    * Done onchange of date fields.
    */
   generateDates(){
-    console.log(this.startDateString);
-    console.log(this.endDateString);
     let startYearParsed = parseInt(this.startDateString.substring(0,4));
     let endYearParsed = parseInt(this.endDateString.substring(0,4));
-    console.log(startYearParsed);
-    console.log(endYearParsed);
+
     if (startYearParsed < 2012 || endYearParsed < 2012) {
       this.dateRangeMessage = "Enter a valid year";
       this.showDateRangeError = true;

@@ -49,9 +49,8 @@ describe('DateTimePickerComponent', async () => {
   });
 
   it('should validate date', () => {
-      this.date = new Date('Invalid Date');
+      component.date = new Date('Invalid Date');
       component.validateDate();
-      //expect(component.displayErrorInvalidDate).toBeTruthy(); //commented out for demo. It's almost done.
-      //TODO: Write Test here.
+      expect(component.displayErrorInvalidDate).toBeTruthy();
   });
 });

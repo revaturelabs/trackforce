@@ -56,6 +56,8 @@ const context = require.context('./', true, /batch-list\.spec\.ts$/);
 context.keys().map(context);
 */
 export class MockBatchService extends BatchService {
+  batches: Batch[]
+
   public getBatchesByDate(startDate: Date, endDate: Date): Observable<Batch[]> {
     const mockCurriculum: Curriculum = new Curriculum();
     mockCurriculum.id = 2;
@@ -122,9 +124,9 @@ describe('BatchListComponent', async () => {
     batch1.associates = mockAssociates;
     batch1.trainer = mockTrainer;
 
-    const batches: Batch[] = [batch1];
+    this.batches = [batch1];
 
-    spyOn(testBatchService, 'getAllBatches').and.returnValue(of(batches));
+    spyOn(testBatchService, 'getAllBatches').and.returnValue(of(this.batches));
 
     // crurriculumName needs to be of type Curriculum
     // batch1.curriculumName = "Test-Curriculum-1";
@@ -199,8 +201,7 @@ describe('BatchListComponent', async () => {
       expect(component.batches.length).toBeGreaterThanOrEqual(0);
 
       component.startDate = component.endDate = new Date();
-      // These arguments were added to stop a compilation error, what they are were implied by the method signature.
-      component.applySelectedRange();
+     
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         component.batches = this.batches;
@@ -210,8 +211,7 @@ describe('BatchListComponent', async () => {
         const now: Date = new Date();
         component.startDate = new Date(0);  // 1970, aka very far back
         component.endDate = new Date(now.getFullYear(), now.getMonth() + 6, 1); // 5-6 months in the future
-        // These arguments were added to stop a compilation error, what they are were implied by the method signature.
-        component.applySelectedRange();
+        
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           component.batches = this.batches;

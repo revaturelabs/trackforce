@@ -67,7 +67,7 @@ describe('FormComponent', () => {
   beforeAll(()=>{
     let user = new User('mockUser', 'mockPassword', 1, 0, 0, 'mockTokent');
 
-    spyOn(testAuthService, 'getUser').and.returnValue(user); // needed by the navbar
+    spyOn(testAuthService, 'getUser').and.returnValue(of(user)); // needed by the navbar
   });
 
   beforeEach( () => {

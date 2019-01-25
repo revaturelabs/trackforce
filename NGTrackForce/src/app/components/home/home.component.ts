@@ -15,7 +15,7 @@ import { ChartOptions } from '../../models/ng2-charts-options.model';
 import '../../constants/selected-status.constants';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { Associate } from '../../models/associate.model';
-
+import { of } from 'rxjs/observable/of';
 
 @Component({
   selector: 'app-home',
@@ -122,7 +122,8 @@ export class HomeComponent implements OnInit {
         this.mappedData[3] = this.count['counts'][11];
         localStorage.setItem('mappedData', JSON.stringify(this.mappedData));
         this.loading = false;
-      }
+      },
+      error => console.log('Error in home.component.ts getCountForCharts(): ', error)
     );
   }
 
@@ -154,49 +155,6 @@ export class HomeComponent implements OnInit {
   public getUnmappedData(): number[] {
     return this.unmappedData;
   }
-
-  /////////////////////////////////////////////////////////////
-  // THESE FUNCTIONS ARE BEING CALLED SOMEWHERE
-  // THEY SHOULD NOT BE CALLED BECUASE THERE IS NO RESOURCE SERVER SIDE
-  // FOR THE SERVICES TO ACCESS (NO END POINTS)
-  // But we do need to keep them for eventual SalesForce integration
-  //
-  // /**
-  //  * @function populateDB
-  //  * @description Populates the database with information from
-  //  *              data script
-  //  */
-  // populateDB() {
-  //   this.rs.populateDB().subscribe(response => {
-  //     this.load();
-  //   }, err => {
-  //   });
-  // }
-  //
-  // /**
-  //  * @function deleteDB
-  //  * @description Truncates all the tables in the database
-  //  */
-  // deleteDB() {
-  //   this.rs.deleteDB().subscribe(response => {
-  //     this.load();
-  //   }, err => {
-  //   })
-  // }
-  //
-  // /**
-  //  * @function populateDBSF
-  //  * @description SF Populates the database with information
-  //  *              from data script
-  //  * For Salesforce data integration
-  //  */
-  // populateDBSF() {
-  //   this.rs.populateDBSF().subscribe(response => {
-  //     this.load();
-  //   }, err => {
-  //   });
-  // }
-  ////////////////////////////////////////////////////////////////
 }
 
 enum Path {

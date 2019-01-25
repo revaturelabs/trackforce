@@ -45,7 +45,9 @@ export class InterviewDetailsComponent implements OnInit {
           this.interview = data;
           this.isDataEmpty = this.interview == null;
           this.isDataReady = true;
-        });
+        },
+          error => console.log('Error in interview-details.component.ts ngOnInit(): ', error)
+        );
     });
 
     this.authService.getUserRoleFirst((userRole) => {
@@ -54,7 +56,6 @@ export class InterviewDetailsComponent implements OnInit {
   }
 
   ngAfterContentChecked() {
-    console.log('userRole: ' + this.userRole);
     this.isDisabledClientFeedback();
     this.isDisabledAssociateFeedback();
     this.isDisabledExpectedSkillsAndQuestions();
@@ -82,7 +83,7 @@ export class InterviewDetailsComponent implements OnInit {
         this._displayPrompt(false, PromptClass.FAILURE, InterviewUpdate.FAILURE);
         console.error(error);
       }
-    );
+    )
   }
 
   isDisabledAssociateFeedback() {

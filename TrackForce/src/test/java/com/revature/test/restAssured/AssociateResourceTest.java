@@ -209,7 +209,7 @@ public class AssociateResourceTest {
 		AssociateService service = new AssociateService();
 		
 		Response response = given().header("Authorization", token).contentType("application/json")
-				.body(toBeChanged).when().put(URL + "/" + knownAssociateId).then().extract()
+				.body(toBeChanged).when().put(URL + "/update/" + knownAssociateId).then().extract()
 				.response();
 		// This is all we can test as of 11.18 since updateAssociate currently returns a 
 		// response with a status code and nothing else
@@ -227,7 +227,7 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 45, enabled = true)
 	public void testUpdateAssociateBadToken() {
-		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId2).then().extract()
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/update/" + knownUserId2).then().extract()
 				.response();
 
 		assertTrue(response.statusCode() == 401);
@@ -238,7 +238,7 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 45, enabled = true)
 	public void testUpdateAssociateBadUrl() {
-		Response response = given().header("Authorization", token).when().get(URL + "/badURL").then().extract().response();
+		Response response = given().header("Authorization", token).when().get(URL + "/update/" + "badURL").then().extract().response();
 		
 		assertEquals(response.getStatusCode(), 404);
 	}
@@ -248,7 +248,7 @@ public class AssociateResourceTest {
 	 */
 	@Test(priority = 45, enabled = true)
 	public void testUpdateAssociateBadAssociate() {
-		Response response = given().header("Authorization", token).when().post(URL + "/" + knownUserId2).then().extract()
+		Response response = given().header("Authorization", token).when().post(URL + "/update/" + knownUserId2).then().extract()
 				.response();
 		
 		assertEquals(response.getStatusCode(), 405);

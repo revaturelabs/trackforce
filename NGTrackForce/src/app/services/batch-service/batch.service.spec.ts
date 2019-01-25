@@ -2,6 +2,7 @@ import {TestBed, inject} from '@angular/core/testing';
 import {BatchService} from './batch.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {Batch} from '../../models/batch.model';
+import { of } from 'rxjs/observable/of';
 
 describe('BatchService', () => {
   beforeEach(() => {
@@ -21,11 +22,12 @@ describe('BatchService', () => {
 
 
   it('should hit right endpoint', inject([BatchService], (service: BatchService) => {
-    service.getBatchesByDate(new Date(), new Date()).subscribe(
-      (batches: Batch[]) => {
-        expect(batches).toBeTruthy();
-        expect(batches.length).toEqual(0);
-      }
-    )
+    const batches: Batch[] = [];
+    spyOn(service, 'getBatchesByDate').and.returnValue(of(batches))
+
+    service.getBatchesByDate(new Date(), new Date()).subscribe()
+
+    expect(batches).toBeTruthy();
+    expect(batches.length).toEqual(0);
   }));
 });

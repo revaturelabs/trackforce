@@ -84,7 +84,7 @@ export class BatchDetailsComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private batchService: BatchService,
-        private router: Router
+        public router: Router
     ) { }
 
     goToFormComponent(id) {
@@ -165,7 +165,9 @@ export class BatchDetailsComponent implements OnInit {
                     ];
 
                     this.isDataReady = true;
-                });
+                },
+                    error => console.log('Error in interview-details.component.ts getMapStatusBatch(): ', error)
+                )
         });
     }
 

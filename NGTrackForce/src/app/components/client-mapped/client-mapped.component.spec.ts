@@ -81,7 +81,7 @@ describe('ClientMappedComponent', () => {
 
     // Mock the Authentication Service
 
-    spyOn(testAuthService, 'getUser').and.returnValue(user);
+    spyOn(testAuthService, 'getUser').and.returnValue(of(user));
     spyOn(testAssociateService, 'getAllAssociates').and.returnValue(of(associates));
 
   });

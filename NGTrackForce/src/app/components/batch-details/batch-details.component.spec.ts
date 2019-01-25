@@ -21,6 +21,7 @@ import { Router } from '@angular/router';
 import { BatchService } from '../../services/batch-service/batch.service';
 import { Ng2OrderPipe } from 'ng2-order-pipe';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { of } from 'rxjs/observable/of';
 
 describe('BatchDetailsComponent', () => {
   let component: BatchDetailsComponent;
@@ -33,7 +34,7 @@ describe('BatchDetailsComponent', () => {
   beforeAll(()=>{
     let user = new User('mockUser', 'mockPassword', 1, 0, 0, 'mockTokent');
 
-    spyOn(testAuthService, 'getUser').and.returnValue(user); // needed by the navbar
+    spyOn(testAuthService, 'getUser').and.returnValue(of(user)); // needed by the navbar
   });
 
   beforeEach(async(() => {
@@ -83,8 +84,9 @@ describe('BatchDetailsComponent', () => {
   });
 
   it('goToFormComponent() should navigate to the formcomponent', () => {
+    spyOn(component.router, 'navigate').and.returnValue(of(true));
     component.goToFormComponent(1)
-    // expect().toBeTruthy();
+    expect(component.router.navigate).toHaveBeenCalledWith(['/form-comp', 1]);
   });
 
   it('getMapStatusBatch() should fetch data and data should be ready.', () => {

@@ -126,7 +126,9 @@ export class DeployedComponent implements OnInit {
          this.clientDeployedData.push(graphCount.count);
         }
       }
-    });
+    },
+      error => console.log('Error in deployed.component.ts loadChart(): ', error)
+    );
 
   }
 

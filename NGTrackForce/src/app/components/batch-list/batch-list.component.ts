@@ -89,8 +89,7 @@ export class BatchListComponent implements OnInit {
     this.fromString = this.startDate.toJSON().substring(0, 10);
     this.toString = this.endDate.toJSON().substring(0, 10);
     this.dataReady = false;
-    console.log(this.authService.getTrainer());
-    console.log(user);
+
     this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
       batches => {
         this.batches = batches.filter(
@@ -145,9 +144,6 @@ export class BatchListComponent implements OnInit {
 		this.startDate.setMinutes(this.startDate.getMinutes() + this.startDate.getTimezoneOffset());
     this.endDate = new Date(this.toString);
 		this.endDate.setMinutes(this.endDate.getMinutes() + this.endDate.getTimezoneOffset());
-
-    console.log(this.startDate);
-    console.log(this.endDate);
 
     let longStartDate: number;
     let longEndDate: number;

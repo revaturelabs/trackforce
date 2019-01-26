@@ -262,7 +262,7 @@ public class UserResource {
 			boolean works = false;
 
 			TfRole tfrole = null;
-			tfrole = new TfRole(5, ASSC);
+			tfrole = new TfRole(2, "Trainer");
 			newTrainer.getTfUser().setIsApproved(0);
 			newTrainer.getTfUser().setTfRole(tfrole);
 			logger.info(newTrainer.getTfUser().getTfRole());

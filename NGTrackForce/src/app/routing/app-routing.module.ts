@@ -28,7 +28,6 @@ import { AuthGuard } from "../guards/auth.guard";
 // import { DeployedComponent } from "../components/deployed/deployed.component";
 // import { UndeployedComponent } from "../components/undeployed/undeployed.component";
 import { InvalidSessionComponent } from "../components/invalid-session/invalid-session.component";
-// import { SalesforceComponent } from "../components/salesforce/salesforce.component";
 // import { AssociateListPageComponent } from "../components/associate-list-page/associate-list-page.component";
 
 
@@ -186,13 +185,6 @@ const appRoutes: Routes = [
     loadChildren: "../components/undeployed/undeployed.module#UndeployedModule",
     //component: UndeployedComponent,
     data: { expectedRoles: [1, 3, 4] }
-  },
-  {
-    path: "salesforce",
-    canActivate: [AuthGuard],
-    loadChildren: "../components/salesforce/salesforce.module#SalesforceModule",
-    //component: SalesforceComponent,
-    data: { expectedRoles: [1] }
   },
   {
     // must be LAST in this array because this matches all other paths (fallback)

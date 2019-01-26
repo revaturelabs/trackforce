@@ -8,6 +8,11 @@
 //   url: "http://localhost:8085/"
 // };
 
+export const environment = {
+  production: false,
+  url: "http://52.87.205.55:8086/"
+};
+
 export const ngEnvironment = {
   production: false,
   url: "http://34.227.178.103:8090/"

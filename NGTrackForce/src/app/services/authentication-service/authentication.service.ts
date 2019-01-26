@@ -82,7 +82,14 @@ export class AuthenticationService {
     }
 
     async getUserRoleFirst(callback = undefined) {
-      this.role = await this.http.get<number>(environment.url + "TrackForce/users/getUserRole").toPromise();
+      this.role = await this.http.get<number>(environment.url + "TrackForce/users/getUserRole")
+          .toPromise()
+          .catch(error => {
+                console.error("Error in authentication.service.ts getUserRoleFirst():", error.message)
+                return Promise.reject()
+            }
+          )
+
       if(callback){
         callback(this.role);
       }

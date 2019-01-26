@@ -95,10 +95,9 @@ export class UndeployedComponent implements OnInit {
         }
       },
       error => {
-        console.log(error);
+        console.error(error);
       }
     );
-    console.log("End");
   }
 
   public isNotUndefined(val): boolean {

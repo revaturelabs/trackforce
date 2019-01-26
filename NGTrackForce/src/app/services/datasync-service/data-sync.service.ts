@@ -109,7 +109,9 @@ export class DataSyncService {
   public fetchAssociateStorage() {
     this.as.getAllAssociates().subscribe(data => {
       // this.setAssociateStorage(data);
-    });
+    },
+      error => console.error('Error in data-sync.service.ts fetchAssociateStorage()): ', error.message)
+    );
   }
 
   private setClientStorage(data: any) {
@@ -120,7 +122,9 @@ export class DataSyncService {
   public fetchClientStorage() {
     this.cs.getAllClients().subscribe(data => {
       // this.setClientStorage(data);
-    })
+    },
+      error => console.error('Error in data-sync.service.ts fetchClientStorage(): ', error.message)
+    )
   }
 
   private setBatchStorageSortedById(data: any) {
@@ -153,19 +157,25 @@ export class DataSyncService {
   public fetchCurriculumStorage() {
     this.ss.getAllCurricula().subscribe(data => {
       // this.setCurriculumStorage(data);
-    })
+    },
+      error => console.error('Error in data-sync.service.ts fetchCurriculumStorage(): ', error.message)
+    )
   }
 
   private setMarketingStorage(data: any) {
     this.marketingStorage = data;
     this.marketingStorage.subscribe(() => {
 
-    });
+    },
+      error => console.error('Error in data-sync.service.ts setMarketingStorage(): ', error.message)
+    );
   }
 
   public fetchMarketingStorage() {
     this.rs.getStatuses().subscribe(data => {
       // this.setMarketingStorage(data);
-    })
+    },
+      error => console.error('Error in data-sync.service.ts fetchMarketingStorage(): ', error.message)
+    )
   }
 }

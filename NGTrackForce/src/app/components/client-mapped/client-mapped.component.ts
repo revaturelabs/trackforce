@@ -244,7 +244,9 @@ export class ClientMappedComponent implements OnInit {
       //Set data, trigger property binding
       this.clientMappedData = temp_clientMappedData;
       this.clientMappedLabels = temp_clientMappedLabels;
-    });
+    },
+      error => console.error('Error in client-mapped.component.ts getAssociatesByStatus(): ', error.message)
+    );
 
   }
 

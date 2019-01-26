@@ -25,7 +25,10 @@ describe('BatchService', () => {
     const batches: Batch[] = [];
     spyOn(service, 'getBatchesByDate').and.returnValue(of(batches))
 
-    service.getBatchesByDate(new Date(), new Date()).subscribe()
+    service.getBatchesByDate(new Date(), new Date()).subscribe(
+      data => 
+      error => console.error('Error in batch.service.spec.ts: ', error.message)
+    )
 
     expect(batches).toBeTruthy();
     expect(batches.length).toEqual(0);

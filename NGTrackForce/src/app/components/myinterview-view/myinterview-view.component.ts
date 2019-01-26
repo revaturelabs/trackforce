@@ -187,7 +187,9 @@ export class MyInterviewComponent implements OnInit {
       
           
          location.reload(false);
-       });
+       },
+         error => console.error('Error in myinterview-view.component.ts updateInterview(): ', error.message)
+       );
     }
   }
 

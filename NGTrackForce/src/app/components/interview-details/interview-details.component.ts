@@ -46,9 +46,11 @@ export class InterviewDetailsComponent implements OnInit {
           this.isDataEmpty = this.interview == null;
           this.isDataReady = true;
         },
-          error => console.log('Error in interview-details.component.ts ngOnInit(): ', error)
+          error => console.error('Error in interview-details.component.ts ngOnInit(): ', error.message)
         );
-    });
+    },
+      error => console.error('Error in interview-details.component.ts ngOnInit(): ', error.message)
+    );
 
     this.authService.getUserRoleFirst((userRole) => {
       this.userRole = userRole;
@@ -81,7 +83,7 @@ export class InterviewDetailsComponent implements OnInit {
       },
       error => {
         this._displayPrompt(false, PromptClass.FAILURE, InterviewUpdate.FAILURE);
-        console.error(error);
+        console.error("Error in interview-details.component.ts commitchanges()", error.message);
       }
     )
   }

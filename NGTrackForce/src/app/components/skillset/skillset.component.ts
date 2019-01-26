@@ -176,7 +176,9 @@ export class SkillsetComponent implements OnInit {
       this.status = (((!this.skillsetLabels) || (!this.skillsetLabels.length)) &&
         ((!this.skillsetData) || (!this.skillsetData.length))) ?
         'There is no batch data on this status...' : 'Loaded!';
-    });
+    },
+      error => console.error('Error in skillset.component.ts ngOnInit(): ', error.message)
+    );
 
     this.chartOptions.title.text = this.selectedStatus;
 

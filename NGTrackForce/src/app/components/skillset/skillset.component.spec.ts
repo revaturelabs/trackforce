@@ -247,7 +247,9 @@ describe('SkillsetComponent', () => {
       let service : CurriculumService = TestBed.get(CurriculumService);
       service.getSkillsetsForStatusID(1).subscribe((res) => {
         expect(component.skillsetData).toEqual(res.map((obj) => obj.count))
-      })
+      },
+        error => console.error('Error in skillset.component.spec.ts: ', error.message)
+      )
       .unsubscribe()
     })
   });

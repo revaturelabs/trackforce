@@ -52,8 +52,9 @@ export class InterviewsComponent implements OnInit {
     this.interviewService.getAllInterviews().subscribe(
      data => {
         this.interviews = data;
-      }
-    )
+      },
+        error => console.error('Error in interviews-view.component.ts getInterviews(): ', error.message)
+      )
   }
 
   // updateInterviews() {

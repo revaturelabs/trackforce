@@ -210,7 +210,7 @@ public class AdminTests {
 	void adminBatchListNavbaFunctional() {
 		wait.until(ExpectedConditions.elementToBeClickable(NavBar.getBatchList(wd)));
 		NavBar.getBatchList(wd).click();
-		wait.until(ExpectedConditions.urlContains("/batch-listing"));
+		boolean el =  wait.until(ExpectedConditions.urlContains("batch-listing"));
 	}
 	
 	@Test(priority = 9, dependsOnMethods = "adminBatchListNavbaFunctional")

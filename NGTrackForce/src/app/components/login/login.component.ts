@@ -123,7 +123,9 @@ export class LoginComponent implements OnInit {
         //build session factory on sign up
         this.userService.buildSessionFactory().subscribe(
             data => { },
-            error => { }
+            error => { 
+                console.error("Error in login.component.ts ngOnInit()", error.message);
+             }
         );
 
         //Validate token with backend

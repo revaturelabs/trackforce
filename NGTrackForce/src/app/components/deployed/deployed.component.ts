@@ -101,7 +101,6 @@ export class DeployedComponent implements OnInit {
 
 
   loadChart() {
-    console.log("loadChart");
     this.associateService.getAssociatesByStatus(this.statusID).subscribe(data => {
       /*
       Store the data from the http request in temporary objects.
@@ -127,7 +126,7 @@ export class DeployedComponent implements OnInit {
         }
       }
     },
-      error => console.log('Error in deployed.component.ts loadChart(): ', error)
+      error => console.error('Error in deployed.component.ts loadChart(): ', error.message)
     );
 
   }

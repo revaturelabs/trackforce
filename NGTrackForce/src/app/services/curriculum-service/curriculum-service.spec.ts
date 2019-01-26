@@ -31,8 +31,9 @@ describe('CurriculumService', () => {
                 // // let's get the first record in data
                 // expect(data[0]).toBeTruthy();
                 // // it should be truthy...
-            })
-                .unsubscribe()
+            },
+              error => console.error('Error in curriculum-services.spec.ts:', error.message)
+            ).unsubscribe()
         })
     });
 

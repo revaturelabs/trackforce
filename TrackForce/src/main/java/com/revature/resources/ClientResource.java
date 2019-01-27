@@ -1,6 +1,7 @@
 package com.revature.resources;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -95,9 +96,22 @@ public class ClientResource {
 	@Path("/associates/get/{client_id}")
 	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id, @HeaderParam("Authorization") String token) {
 		Long[] response = new Long[4];
-		for (Integer i = 0; i < response.length; i++) {
-			response[i] = associateService.getMappedAssociateCountByClientId(client_id, i + 1);
+		
+		// Requesting data for all clients is indicated by -1 for client id
+		if(client_id == -1) {
+			String[] countMapKeys = {"Mapped Training", "Mapped Reserved", "Mapped Selected", "Mapped Confirmed"};
+			HashMap<String,Integer> countMap = associateService.getStatusCountsMap();
+			
+			for (Integer i = 0; i < response.length; i++) {
+				response[i] = Long.parseLong(countMap.get(countMapKeys[i]).toString());
+			}
+		// Otherwise return data for a single specific client
+		} else {
+			for (Integer i = 0; i < response.length; i++) {
+				response[i] = associateService.getMappedAssociateCountByClientId(client_id, i + 1);
+			}
 		}
+
 		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
 		Response forbidden = Response.status(403).entity(response).build();
 		Response authorized = Response.status(200).entity(response).build();

@@ -86,10 +86,10 @@ public class ClientResource {
 		logger.info("Method call to getAllClients()...");
 		List<TfClient> clients = clientService.getAllTfClients();
 		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
-		Response forbidden = Response.status(403).entity(clients).build();
+		Response forbidden = Response.status(403).build();
 		Response authorized = Response.status(clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK).entity(clients).build();
 
-		return authorizeAdminUser(badToken, forbidden, authorized, token);
+		return authorizeUserToken(badToken, forbidden, authorized, token);
 	}
 
 	@GET
@@ -113,10 +113,10 @@ public class ClientResource {
 		}
 
 		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
-		Response forbidden = Response.status(403).entity(response).build();
+		Response forbidden = Response.status(403).build();
 		Response authorized = Response.status(200).entity(response).build();
 
-		return authorizeAdminUser(badToken, forbidden, authorized, token);
+		return authorizeUserToken(badToken, forbidden, authorized, token);
 	}
 
 	@GET
@@ -124,10 +124,10 @@ public class ClientResource {
 	public Response getMappedClients(@HeaderParam("Authorization") String token) {
 		List<TfClient> clients = clientService.getMappedClients();
 		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
-		Response forbidden = Response.status(403).entity(clients).build();
+		Response forbidden = Response.status(403).build();
 		Response authorized = Response.status(200).entity(clients).build();
 
-		return authorizeAdminUser(badToken, forbidden, authorized, token);
+		return authorizeUserToken(badToken, forbidden, authorized, token);
 	}
 
 	@GET
@@ -135,10 +135,10 @@ public class ClientResource {
 	public Response getFirstFiftyClients(@HeaderParam("Authorization") String token) {
 		List<TfClient> clients = clientService.getFirstFiftyClients();
 		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
-		Response forbidden = Response.status(403).entity(clients).build();
+		Response forbidden = Response.status(403).build();
 		Response authorized = Response.status(200).entity(clients).build();
 
-		return authorizeAdminUser(badToken, forbidden, authorized, token);
+		return authorizeUserToken(badToken, forbidden, authorized, token);
 	}
 	
 	/**
@@ -148,7 +148,7 @@ public class ClientResource {
 	 *@author Ashley R
 	 *Written 11 Nov 2018
 	 */
-	public Response authorizeAdminUser(Response badToken, Response forbidden, Response authorized, String token) {
+	public Response authorizeUserToken(Response badToken, Response forbidden, Response authorized, String token) {
 		//Processes the token and returns the payload
 		Claims payload = JWTService.processToken(token);
 		logger.info("Processing the user's JWT.");
@@ -162,13 +162,13 @@ public class ClientResource {
 				logger.info("Checking to see if the JWT is valid.");
 				return forbidden;
 			} else {
-				//The roleID is checked from the decrypted token. Since only administrators
-				//are allowed to view the client lists, only a value of 1 is permitted 
-				//to return with a status of 200. 
+				//The roleID is checked from the decrypted token. Any user should 
+				// be able to view the client list as associates need the list
+				// for scheduling interviews
 				int role = 0;
 				role = Integer.parseInt((String) payload.get("roleID"));
 				logger.info("Returning user roleID.");
-				if (role == 1) {
+				if (role > 0 && role <= 5) {
 					logger.info("User authorized to view client list.");
 					return authorized;
 				} else {

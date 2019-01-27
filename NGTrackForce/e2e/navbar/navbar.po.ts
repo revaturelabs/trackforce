@@ -57,11 +57,6 @@ export class Navbar {
         //element(by.css('body > app-component > app-navbar > nav > div > ul:nth-child(2) > li:nth-child(5)')).click();
     }
 
-    goToSalesForce(){
-      let ec = protractor.ExpectedConditions;
-      browser.wait(ec.visibilityOf(element(by.linkText('Salesforce'))), 5000);
-      element(by.linkText('Salesforce')).click();
-    }
     getCurrentURL(){
         return browser.getCurrentUrl();
     }

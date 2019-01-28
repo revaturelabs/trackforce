@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { MockAssociateService } from './../associate-view/associate-view.component.spec';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
@@ -14,9 +15,11 @@ describe('UndeployedComponent Test Suite', () => {
   let mockAssociateService = new MockAssociateService(null);
   let service = new AssociateService(null);
   actRouter:ActivatedRoute;
-  let component: UndeployedComponent;
+  let component = new UndeployedComponent(null, null, null);
+  component.statusID = 1;
   let fixture: ComponentFixture<UndeployedComponent>;
   let spy: any;
+  let spy2: any;
 
   let routes = [
       {
@@ -36,12 +39,11 @@ describe('UndeployedComponent Test Suite', () => {
     .compileComponents();
   }));
 
-  //this test, as well as a few others, is still failing; clientUndeployedData is null, so the last expectation fails
+  //this setup test is still failing, which in turn is making the other tests in this suite fail as well
   beforeEach(() => {
-    spy = spyOn(service, 'getUndeployedAssociates').and.returnValues(mockAssociateService.mockData);
+    spy = spyOn(service, 'getUndeployedAssociates').and.returnValue(Observable.of(mockAssociateService.mockData));
     fixture = TestBed.createComponent(UndeployedComponent);
     component = fixture.componentInstance;
-    expect(component.loadChart).toHaveBeenCalled;
     expect(component.clientUndeployedData.length).toBeGreaterThan(0);
     fixture.detectChanges();
   });

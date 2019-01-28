@@ -146,10 +146,10 @@ public class AdminTests {
 		wait.until(ExpectedConditions.visibilityOf(NavBar.getCreateUser(wd)));
 	}		
 	
-	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
+	/*@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarSalesForceVisibile() {
 		wait.until(ExpectedConditions.visibilityOf(NavBar.getSalesForce(wd)));
-	}	
+	}	*/
 	
 	@Test(priority = 4, dependsOnMethods = "chartsLoadWithin10Seconds")
 	void navbarWelcomeAdminByName() {

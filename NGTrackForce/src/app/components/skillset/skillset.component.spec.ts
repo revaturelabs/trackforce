@@ -258,6 +258,7 @@ describe('SkillsetComponent', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       component.skillsetData = [1, 2, 3];
+      component.skillsetLabels = ["1", "2", "3"];
       expect(component.skillsetData.length).toBeTruthy();
       expect(component.skillsetLabels.length).toBeTruthy();
       expect(component.skillsetLabels.length).toEqual(component.skillsetData.length);

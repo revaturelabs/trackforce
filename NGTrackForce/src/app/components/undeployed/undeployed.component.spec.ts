@@ -7,6 +7,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { UndeployedComponent } from './undeployed.component';
 import { AssociateService } from '../../services/associate-service/associate.service';
+import { MockAssociateService } from '../../testing-helpers/test-mock-services'
+
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('UndeployedComponent', () => {
@@ -24,7 +26,7 @@ describe('UndeployedComponent', () => {
       declarations: [ UndeployedComponent],
       imports: [ChartsModule, RouterTestingModule.withRoutes(routes)],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [AssociateService, HttpClient, HttpHandler]
+      providers: [HttpClient, HttpHandler, {provide: AssociateService, useClass: MockAssociateService}]
     })
     .compileComponents();
   }));

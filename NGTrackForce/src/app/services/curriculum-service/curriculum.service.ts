@@ -7,7 +7,7 @@ import { Curriculum } from "../../models/curriculum.model";
 import {GraphCounts} from "../../models/graph-counts";
 
 @Injectable()
-export class CurriculumService {
+export class CurriculumService { 
   private baseURL: string = environment.url + "TrackForce/skillset";
 
   constructor(private http: HttpClient) { }

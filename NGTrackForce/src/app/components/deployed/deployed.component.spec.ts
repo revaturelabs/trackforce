@@ -4,9 +4,10 @@ import {ChartsModule} from 'ng2-charts';
 import { DeployedComponent } from './deployed.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import { AssociateService } from '../../services/associate-service/associate.service';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { LocalStorage } from '../../constants/local-storage';
+import { AssociateService } from '../../services/associate-service/associate.service';
+import { MockAssociateService } from '../../testing-helpers/test-mock-services'
 
 describe('DeployedComponent', () => {
   let component: DeployedComponent;
@@ -24,7 +25,8 @@ describe('DeployedComponent', () => {
       declarations: [ DeployedComponent ],
       imports: [ChartsModule, RouterTestingModule.withRoutes(routes)],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [AssociateService, HttpClient, HttpHandler]
+      providers: [ HttpClient, HttpHandler, {provide: AssociateService, useClass: MockAssociateService}],
+   
     })
     .compileComponents();
   }));

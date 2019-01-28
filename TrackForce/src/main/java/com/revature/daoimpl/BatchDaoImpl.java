@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import com.revature.dao.BatchDao;
 import com.revature.entity.TfBatch;
 import com.revature.utils.HibernateUtil;
+import static com.revature.utils.LogUtil.logger;
 
 /** Implementation of the BatchDao interface that uses Hibernate to retrieve
  * batch information from the database.*/
@@ -21,6 +22,7 @@ public class BatchDaoImpl implements BatchDao {
 	 */
 	@Override
 	public TfBatch getBatch(String batchName) {
+		logger.info("Getting batch via the batchName: "+batchName);
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
 				.createQuery("from TfBatch b WHERE b.batchName = :batchName ", TfBatch.class)
 				.setParameter("batchName", batchName)
@@ -29,6 +31,7 @@ public class BatchDaoImpl implements BatchDao {
 
 	@Override
 	public TfBatch getBatchById(Integer id) {
+		logger.trace("Getting batch via the batchId: " + id);
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
 				.createQuery("from TfBatch b where b.id = :id", TfBatch.class).setParameter("id", id)
 				.setCacheable(true).getSingleResult());
@@ -36,6 +39,7 @@ public class BatchDaoImpl implements BatchDao {
 
 	@Override
 	public List<TfBatch> getAllBatches() {
+		logger.trace("Getting all batches.");
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
 				.createQuery("from TfBatch", TfBatch.class)
 				.setCacheable(true).getResultList());
@@ -44,6 +48,7 @@ public class BatchDaoImpl implements BatchDao {
 	/* @author 1806_Andrew_H
 	 * Very similar to the below method, except it doesn't filter by the curriculum name */
 	public List<TfBatch> getBatchesWithinDates(Timestamp startDate, Timestamp endDate) {
+		logger.trace("Getting batches within Dates start: " + startDate + " - end:" +endDate);
 		List<TfBatch> toReturn = HibernateUtil.runHibernate((Session session, Object... args) -> session.createQuery(
 				"from TfBatch b WHERE b.startDate >= :startdate AND b.endDate <= :enddate",
 				TfBatch.class).setParameter("startdate", startDate).setCacheable(true)
@@ -58,6 +63,7 @@ public class BatchDaoImpl implements BatchDao {
 	 * 	Note: This could potentially have uses elsewhere, at which point, please rename this method 
 	 * 	to reflect its current use(s) */
 	public List<TfBatch> getBatchesForPredictions(String name, Timestamp startDate, Timestamp endDate) {
+		logger.trace("Batches for Predictions. Curriculumn: " + name + " within Dates start: " + startDate + " - end:" +endDate);
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session.createQuery(
 				"from TfBatch b WHERE b.curriculumName.name = :name AND b.startDate >= :startdate AND b.endDate <= :enddate ORDER BY b.endDate",
 				TfBatch.class).setParameter("name", name).setParameter("startdate", startDate).setCacheable(true)
@@ -75,6 +81,7 @@ public class BatchDaoImpl implements BatchDao {
 		// getting the actual count of all of those associates was a bit tricky. A for-loop could have been used,
 		// but handling it through a single query seemed like a better idea at the time.
 		// Credit also goes to Andrew H, Cyril M, Austin D and Austin M for their assistance in making this thing finally work
+		logger.info("Getting number of Associates for Curriculumn: " + name + "within Dates. Start: " + startDate + " - End: " + endDate);
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			results = session.createNativeQuery(
@@ -97,12 +104,15 @@ public class BatchDaoImpl implements BatchDao {
 					.setParameter("endDate", endDate.toString())
 					.getSingleResult();
 		}catch(HibernateException e) {
+			logger.error("Hibernate Exception occured" + e.getMessage());
 			e.printStackTrace();
 		}catch(NullPointerException e) {
+			logger.error("Null Pointer Error occured" + e.getMessage());
 			e.printStackTrace();
 		}finally {
 			session.close();
 		}
+		//logger.info("Result : " + results);
 		return results;
 	}
 }

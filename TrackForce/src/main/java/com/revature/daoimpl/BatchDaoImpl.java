@@ -19,6 +19,9 @@ public class BatchDaoImpl implements BatchDao {
 	 * This method returns the first result of a list while expecting batchName to not be a unique identifier.
 	 * If repeated names are in the result set, this will not be known in either testing or user. Implement an
 	 * additional method that returns the entire list of batches by batch name.
+	 * 
+	 * IE: Only gets the first result if searching for Batchnames with duplicates in the database. Need an
+	 * iterator capability to return all matched results for Batchnames.
 	 */
 	@Override
 	public TfBatch getBatch(String batchName) {

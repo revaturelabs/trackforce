@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { HttpClient, HttpHandler } from '@angular/common/http';
+import { LocalStorage } from '../../constants/local-storage';
 
 describe('DeployedComponent', () => {
   let component: DeployedComponent;
@@ -29,6 +30,7 @@ describe('DeployedComponent', () => {
   }));
 
   beforeEach(() => {
+    localStorage.setItem(LocalStorage.DEPLOYED_DATA_KEY, LocalStorage.TEST_DEPLOYED_DATA_VALUE);
     fixture = TestBed.createComponent(DeployedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

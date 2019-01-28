@@ -10,7 +10,7 @@ import { TrainerService } from '../../services/trainer-service/trainer.service';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { User } from '../../models/user.model';
 import { Trainer } from '../../models/trainer.model';
-
+import { LocalStorage } from '../../constants/local-storage';
 
 describe('TrainerViewComponent', () => {
   let component: TrainerViewComponent;
@@ -26,9 +26,9 @@ describe('TrainerViewComponent', () => {
   }));
 
   beforeEach(() => {
-      let mockUser = new User("mockUsername", "mockPassword", 0, 0);
-      let mockTrainer = new Trainer("mockFirstName", "mockLastName", mockUser);
-      localStorage.setItem('currentTrainer',JSON.stringify(mockTrainer));
+      let mockUser = new User(LocalStorage.TEST_USER_NAME, LocalStorage.TEST_USER_PASSWORD, 0, 0);
+      let mockTrainer = new Trainer(LocalStorage.TEST_USER_FIRST_NAME, LocalStorage.TEST_USER_LAST_NAME, mockUser);
+      localStorage.setItem(LocalStorage.CURRENT_TRAINER_KEY, JSON.stringify(mockTrainer));
 
 
     fixture = TestBed.createComponent(TrainerViewComponent);

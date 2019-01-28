@@ -77,7 +77,7 @@ public class AssociateService {
      * @throws IllegalArgumentException If any arguments are lower than allowed values - min values
      * are 0 for startIdx and numRes, -1 for mktStatus and clientId
      */
-    public List<TfAssociate> getAssociatePage(int startIdx, int numRes, int mktStatus, int clientId, String sortText) {
+    public List<TfAssociate> getAssociatePage(int startIdx, int numRes, int mktStatus, int clientId, String sortText, String firstName, String lastName) {
         if (startIdx < 0 || numRes < 0 || mktStatus < -1 || clientId < -1) {
             LogUtil.logger.error("AssociateService.getAssociatePage() called with bad value");
             throw new IllegalArgumentException();
@@ -85,7 +85,7 @@ public class AssociateService {
         
         //Any hibernate exceptions are handled in the resource class
         try {
-            return dao.getNAssociateMatchingCriteria(startIdx, numRes, mktStatus, clientId, sortText);
+            return dao.getNAssociateMatchingCriteria(startIdx, numRes, mktStatus, clientId, sortText, firstName, lastName);
         } catch (Exception e) {
             throw e;
         }

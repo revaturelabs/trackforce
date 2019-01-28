@@ -385,6 +385,8 @@ public class AssociateResource {
 			@DefaultValue("-1") @QueryParam("mStatusId") Integer mStatusId,
 			@DefaultValue("-1") @QueryParam("clientId") Integer clientId,
 			@DefaultValue("") @QueryParam("sortText") String sortText,
+			@DefaultValue("") @QueryParam("firstName") String firstName,
+			@DefaultValue("") @QueryParam("lastName") String lastName,
 			@HeaderParam("Authorization") String token) 
 	
 	{		
@@ -403,7 +405,7 @@ public class AssociateResource {
 		
 		List<TfAssociate> associates;
 		try {
-			 associates = associateService.getAssociatePage(startIndex, numResults, mStatusId, clientId, sortText);
+			 associates = associateService.getAssociatePage(startIndex, numResults, mStatusId, clientId, sortText, firstName, lastName);
 		} catch (IllegalArgumentException iae) {
 			logger.error("Bad request.");
 			logger.error(iae.getMessage());

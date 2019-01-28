@@ -287,6 +287,14 @@ public class BatchResource {
 		}
 		Status status = null;
 		status = Status.OK;
+		int role = Integer.parseInt((String)payload.get("roleID"));
+
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+		if (authorizedRoles.contains(role)) {
+			status = Status.OK;
+		} else {
+			status = Status.FORBIDDEN;
+		}
 		
 		BatchDaoImpl bd = new BatchDaoImpl();
 		TfBatch batch = batchService.getBatchById(id);

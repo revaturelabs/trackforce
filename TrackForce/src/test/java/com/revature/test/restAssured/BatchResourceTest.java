@@ -312,7 +312,6 @@ public class BatchResourceTest {
 	
 	/**
 	 * Unhappy path testing for getBatchInfo, tests to check that an Associate cannot view batch info
-	 * 	NOTE: CURRENTLY FAILS AS ASSOCIATES ARE CONSIDERED TO BE AUTHORIZED WHEN THEY SHOULDN'T BE
 	 * 
 	 * @author Katelyn B
 	 * Written Nov. 4 2018, Batch 1809

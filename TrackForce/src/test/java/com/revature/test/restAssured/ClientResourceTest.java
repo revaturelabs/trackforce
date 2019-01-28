@@ -77,7 +77,7 @@ public class ClientResourceTest {
 	}
 
 	/**
-	 * Unhappy path testing for testGetAllClients, tests thatn a 401 status code
+	 * Unhappy path testing for testGetAllClients, tests that a 401 status code
 	 * is given if a request is made with a bad token
 	 * @author Katelyn B 
 	 * Written Nov. 4, 2018, Batch 1809
@@ -110,7 +110,7 @@ public class ClientResourceTest {
 	 */
 	@Test(priority = 10)
 	public void testGetAllClientsBadUrl() {
-		Response response = given().header("Authorization", token).when().get(URL + "notAURL/").then().extract().response();
+		Response response = given().header("Authorization", token).when().get(URL + "/notAURL/").then().extract().response();
 
 		assertTrue(response.statusCode() == 404);
 	}
@@ -132,8 +132,6 @@ public class ClientResourceTest {
 	public void testUserRole() {
 		String url = URL + "/getAll/";
 		given().header("Authorization", assocToken).when().get(url).then().assertThat().statusCode(403);
-		//Response response = given().header("Authorization", assocToken).when().post(URL + "getAll").then().extract().response();
-		//assertTrue(response.statusCode() == 403);
 	}
 	
 	@DataProvider(name = "urls")
@@ -155,7 +153,8 @@ public class ClientResourceTest {
 	 * 4. the role in the
 	 * token deemed the user unauthorized to use the service As this method of
 	 * unhappy testing is consistent, I (Seth L.) suggest using this and its
-	 * dependent methods to perform unhappy tests for all Jersey resources. Note:
+	 * dependent methods to perform unhappy tests for all Jersey resources. 
+	 * Note:
 	 * All unhappy tests failed. The ClientResource needs improved security. Same
 	 * goes for /batch/{id}
 	 * 

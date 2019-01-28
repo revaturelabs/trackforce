@@ -103,8 +103,7 @@ public class JWTService {
 		
 				| IllegalArgumentException | NullPointerException e) {
 
-//			e.printStackTrace();
-			logger.error("Invalid token: \n" + e.getMessage());
+			logger.error("Invalid token: \n  " + e.getMessage());
 
 		}
 
@@ -245,4 +244,9 @@ public class JWTService {
 		
 		return body.toString();
 	}
+<<<<<<< Updated upstream
 }
+=======
+	
+}
+>>>>>>> Stashed changes

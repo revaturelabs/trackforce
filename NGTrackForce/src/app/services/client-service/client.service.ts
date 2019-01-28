@@ -25,7 +25,11 @@ export class ClientService {
    * Get a list of all of the clients
    */
   getAllClients(): Observable<Client[]> {
+<<<<<<< Updated upstream
     this.http.get<Client[]>(this.baseURL + "/getAll/").subscribe(
+=======
+    this.http.get<Client[]>(this.baseURL + '/getAll/').subscribe(
+>>>>>>> Stashed changes
       (data: Client[]) => this.clients$.next(data),
       (error) => this.clients$.error(error)
     );

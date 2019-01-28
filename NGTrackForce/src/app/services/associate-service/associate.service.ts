@@ -232,7 +232,6 @@ export class AssociateService {
     }
     if (firstName && lastName) {
       queryParams += `&firstName=${firstName}&lastName=${lastName}`;
-      //console.log("first name: " + firstName + "\nlast name: " + lastName);
     }
 
     // Make initial request

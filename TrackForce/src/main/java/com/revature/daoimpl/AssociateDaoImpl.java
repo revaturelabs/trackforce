@@ -53,7 +53,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * @param clientId the client ID
 	 * @param sortText the text to sort by.
 	 * @return list of associates matching criteria */
-	public List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId, String sortText)
+	public List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId, String sortText, String firstName, String lastName)
 	{		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -63,7 +63,13 @@ public class AssociateDaoImpl implements AssociateDao {
 		Expression<String>  expLast = builder.lower(root.get("lastName"));
 		sortText = "%" + sortText.toLowerCase() + "%";
 		
-		if (!sortText.isEmpty()) {
+		if(!firstName.isEmpty() && !lastName.isEmpty()) {
+			criteria.where(
+					builder.and( 
+							builder.like(expFirst, firstName.toLowerCase()),
+							builder.like(expLast, lastName.toLowerCase())));
+		}
+		else if (!sortText.isEmpty()) {
 			if (clientId == -1 && mktStatus != -1) {
 				criteria.where(builder.and(
 						(

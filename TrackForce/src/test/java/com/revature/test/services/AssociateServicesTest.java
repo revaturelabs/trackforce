@@ -87,7 +87,7 @@ public class AssociateServicesTest {
 		int clientId = Integer.parseInt(props.getProperty("page_clientId"));
 		
 		//Test valid inputs
-		List<TfAssociate> list = service.getAssociatePage(start, numResults, mktStat, clientId, "");
+		List<TfAssociate> list = service.getAssociatePage(start, numResults, mktStat, clientId, "", "", "");
 		assertNotNull(list);
 		assertTrue(!list.isEmpty() && list.size() == numResults);
 		

@@ -80,7 +80,7 @@ public class InterviewResource {
 	@ApiOperation(value = "returns all interviews", notes = "Gets a list of all interviews that can be sorted in ascending or descending order based on date.")
 	public Response getAllInterviews(@HeaderParam("Authorization") String token, @QueryParam("sort") String sort) {
 
-		StringBuilder logMessage = new StringBuilder("getAllInterviews()...");
+		StringBuilder logMessage = new StringBuilder("Call Method getAllInterviews()");
 		Status status = null;
 
 		if (UserAuthentication.Authorized(token, new int[] { 1, 3, 4 })) {
@@ -88,9 +88,11 @@ public class InterviewResource {
 			status = (interviews == null || interviews.isEmpty()) ? Status.NO_CONTENT : Status.OK;
 			logMessage.append("\n	interviews.size() = " + interviews.size());
 			logger.info(logMessage);
+			logger.info("Returning ALL Interviews. Admin/Sales/Staging roles only.");
 			return Response.status(status).entity(interviews).build();
 		} else {
 			logger.info(logMessage);
+			logger.error("User had insufficent privileges. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 
@@ -120,9 +122,11 @@ public class InterviewResource {
 			interviewService.createInterview(interview);
 			status = Status.CREATED;
 		} else {
+			logger.error("User not Authenticated. Unathorized access.");
 			status = Status.UNAUTHORIZED;
 		}
 
+		logger.info("Interview created for Associate: " + associateid);
 		return Response.status(status).build();
 	}
 
@@ -151,9 +155,10 @@ public class InterviewResource {
 
 		if (canAccessInterview(token, associateId)) {
 			List<TfInterview> interviewList = interviewService.getInterviewsByAssociate(associateId);
-			logger.info("list has this data ->"+interviewList);
+			logger.info("Associate: " + associateId + " list has this data ->"+interviewList);
 			return Response.status(Status.OK).entity(interviewList).build();
 		} else {
+			logger.error("User not Authenticated. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 	}
@@ -177,8 +182,10 @@ public class InterviewResource {
 		TfInterview interview = interviewService.getInterviewById(interviewId);
 
 		if (interview != null && canAccessInterview(token, interview.getAssociate().getId())) {
+			logger.info("Returning Interview: " + interviewId);
 			return Response.status(Status.OK).entity(interview).build();
 		} else {
+			logger.error("User not Authenticated. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 	}
@@ -201,9 +208,10 @@ public class InterviewResource {
 	public Response updateInterview(@PathParam("interviewid") int interviewId, @HeaderParam("Authorization") String token, TfInterview interview) {
 		logger.info("updateInterview()...");
 
-		if (interview == null)
+		if (interview == null) {
+			logger.error("Interview object was null.");
 			return Response.status(Status.BAD_REQUEST).build();
-
+		}
 		/*
 		 * FIXME - Not sure why the interview ID was passed in as a path param with the interview
 		 * object, the interview object should have the interview ID already. There is no setter for
@@ -213,8 +221,10 @@ public class InterviewResource {
 		
 		if (canAccessInterview(token, interview.getAssociate().getId())) {
 			interviewService.updateInterview(interview);
+			logger.info("Updated Interview: " +interviewId);
 			return Response.status(Status.ACCEPTED).build();
 		} else {
+			logger.error("User not Authenticated. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 	}
@@ -229,13 +239,16 @@ public class InterviewResource {
 	 */
 	private boolean canAccessInterview(String token, int associateId) {
 		Claims payload = JWTService.processToken(token);
-		if (payload == null)
+		if (payload == null) {
+			logger.error("Payload was null.");
 			return false;
-
+		}
 		int role = 0;
 		try {
 			role = Integer.parseInt((String)payload.get("roleID"));
 		} catch (NumberFormatException nfe) {
+			logger.error("RoleId was not an integer.");
+			logger.error(nfe.getMessage());
 			return false;
 		}
 
@@ -247,11 +260,14 @@ public class InterviewResource {
 		TfAssociate assoc = associateService.getAssociateByUserId(user.getId());
 
 		if (role == 5) {
+			logger.info("Role was Associate. Obtaining associate of this id: " + associateId);
 			return (assoc.getId() == associateId);
 		} else if (role == 2) {
 			TfTrainer trainer = trainerService.getTrainerByUserId(user.getId());
+			logger.info("Role was Trainer. Getting all batch associates.");
 			return (trainer.getPrimary().contains(assoc.getBatch()));
 		} else {
+			logger.error("RoleId was not in range of 1-5.");
 			return false; // Somehow a user ended up with a role not in [1,5]
 		}
 	}

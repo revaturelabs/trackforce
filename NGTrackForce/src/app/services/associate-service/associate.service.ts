@@ -56,6 +56,8 @@ export class AssociateService {
   private currentClientFilter = "";
   private currentStatusFilter = "";
   private currentTextFilter = "";
+  private currentFirstName = "";
+  private currentLastName = "";
   public hasReceivedEndForCurrentFilter = false;
 
   // TODO: Decide if empty strings is better or if a loading message should be put here
@@ -209,13 +211,15 @@ export class AssociateService {
     this.currentClientFilter = filter.client || "";
     this.currentStatusFilter = filter.status || "";
     this.currentTextFilter = filter.sortText || "";
+    this.currentFirstName = filter.firstName || "";
+    this.currentLastName = filter.lastName || "";
 
     // Base route
     let queryParams = `/page?startIndex=${this.currentIndex}&numResults=${this.withLimit}`;
 
 
     // Determine filters if any
-    const {status, client, sortText} = filter;
+    const {status, client, sortText, firstName, lastName} = filter;
 
     if (status) {
       queryParams += `&mStatusId=${status}`;
@@ -225,6 +229,10 @@ export class AssociateService {
     }
     if (sortText) {
       queryParams += `&sortText=${sortText}`;
+    }
+    if (firstName && lastName) {
+      queryParams += `&firstName=${firstName}&lastName=${lastName}`;
+      //console.log("first name: " + firstName + "\nlast name: " + lastName);
     }
 
     // Make initial request

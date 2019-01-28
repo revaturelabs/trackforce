@@ -91,7 +91,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
         this.listOfAssociates = this.listOfAssociates.concat(data);
       }
     },
-      error => console.log('Error in associate-list-page.component.ts ngOnInit(): ', error)
+      error => console.error('Error in associate-list-page.component.ts ngOnInit(): ', error.message)
     );
   }
 
@@ -172,7 +172,9 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
       this.currentAssociatesSelected.clear();
       this.listOfAssociates = [];
       this.submitFilter(null);
-    });
+    },
+      error => console.error('Error in associate-list-page.component.ts ngOnInit(): ', error.message)
+    );
   }
 
   navigate(event, id) {

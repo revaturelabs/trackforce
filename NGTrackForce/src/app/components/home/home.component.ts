@@ -123,7 +123,7 @@ export class HomeComponent implements OnInit {
         localStorage.setItem('mappedData', JSON.stringify(this.mappedData));
         this.loading = false;
       },
-      error => console.log('Error in home.component.ts getCountForCharts(): ', error)
+      error => console.error('Error in home.component.ts getCountForCharts(): ', error.message)
     );
   }
 

@@ -122,7 +122,7 @@ export class BatchListComponent implements OnInit {
         this.dataReady = true;
       },
       error => {
-        console.log(error);
+        console.error('Error in batch-list.component.ts ngOnInit(): ', error.message)
       }
     );
   }

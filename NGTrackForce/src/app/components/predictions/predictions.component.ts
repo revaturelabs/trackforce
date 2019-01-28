@@ -132,7 +132,9 @@ export class PredictionsComponent implements OnInit {
       this.curriculums.delete('');
       this.curriculums.delete('null');
       this.isDataReady = true;
-    });
+    },
+      error => console.error('Error in predictions.component.ts getAllAssociates(): ', error.message)
+    );
   }
 
    /**
@@ -141,7 +143,9 @@ export class PredictionsComponent implements OnInit {
   getClientNames() {
     this.cs.getAllClients().subscribe(data => {
       this.clients = data;
-    });
+    },
+      error => console.error('Error in predictions.component.ts getClientNames(): ', error.message)
+    );
   }
 
   //------------------------------------------------------------------------------------
@@ -263,7 +267,7 @@ export class PredictionsComponent implements OnInit {
         this.loadingPredictions = false;
       },
 
-      err => err
+      err => console.error('Error in predictions.component.ts getPredictions(): ', err.message)
     )
   }
 
@@ -301,7 +305,7 @@ export class PredictionsComponent implements OnInit {
         }
       },
       error => {
-        console.log(error);
+        console.error("Error in predictions.component.ts getDetails()", error.message);
       });
   }
 }

@@ -166,9 +166,11 @@ export class BatchDetailsComponent implements OnInit {
 
                     this.isDataReady = true;
                 },
-                    error => console.log('Error in interview-details.component.ts getMapStatusBatch(): ', error)
+                    error => console.error('Error in batch.component.ts getMapStatusBatch(): ', error.message)
                 )
-        });
+        },
+            error => console.error('Error in batch-details.component.ts getMapStatusBatch(): ', error.message)
+        );
     }
 
     /**
@@ -182,7 +184,7 @@ export class BatchDetailsComponent implements OnInit {
                 this.batch = data;
             },
             error => {
-                console.log('Could not get batch information.');
+                console.error('Could not get batch information.');
             }
         );
     }

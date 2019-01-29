@@ -9,6 +9,8 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import org.json.JSONObject;
 import com.revature.entity.TfUser;
+import com.revature.utils.LogUtil;
+
 import gherkin.lexer.Da;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -52,17 +54,31 @@ public class JWTService {
 		if (token != null) {
 			claims = processToken(token);
 		}
+		else {
+			logger.error("Token was null.");
+		}
 		if (claims != null) {
 			tokenUsername = claims.getSubject();
 		}
+		else {
+			logger.error("JWT Claims[JSON Mapping] was null.");
+		}
 		if (tokenUsername != null) {
 			tfUser = userService.getUser(tokenUsername);
+		}
+		else {
+			logger.error("Token's Username was null.");
 		}
 		if (tfUser != null) {
 			// makes sure the token is fresh and usernames are equal
 			verified = (!isTokenExpired(token) && tfUser.getUsername().equals(tokenUsername));
 		}
-
+		else {
+			logger.error("Token was expired or the usernames did not match.");
+		}
+		if (verified == false) {
+			logger.error("JWT could not validate the Token.");
+		}
 		return verified;
 	}
 
@@ -77,7 +93,7 @@ public class JWTService {
 	public static String createToken(String username, int tfroleid) {
 		SignatureAlgorithm signAlgorithm = SignatureAlgorithm.HS256;
 		Key key = new SecretKeySpec(getSecret(), signAlgorithm.getJcaName());
-
+		logger.trace("JWT Token being generated for Username: " + username + " with Role: "+tfroleid);
 		JwtBuilder token = Jwts.builder().setSubject(username)
 				.claim("roleID" , "" + tfroleid)
 				.setExpiration(generateExpirationDate()).signWith(signAlgorithm, key);
@@ -95,6 +111,7 @@ public class JWTService {
 
 		try {
 			if (token == null) {
+				logger.error("Token was null.");
 				throw new UnsupportedJwtException("token null");
 			}
 			payload = Jwts.parser().setSigningKey(getSecret()).parseClaimsJws(token).getBody();
@@ -143,6 +160,7 @@ public class JWTService {
 		// in case, someone forgot to set their system environments
 		// this will be the default key
 		if (key == null) {
+			logger.trace("System Environment Variable for 'KEY' was not set.");
 			key = "trackforcekey";
 		}
 

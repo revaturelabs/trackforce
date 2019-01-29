@@ -29,6 +29,7 @@ describe('BatchDetailsComponent', () => {
   const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
   const testBatchService: BatchService = new BatchService(null);
   let user = new User('mockUser', 'mockPassword', 1, 0, 0, 'mockTokent');
+  let spy: any;
 
   //setup service mocks
   beforeAll(()=>{
@@ -90,7 +91,7 @@ describe('BatchDetailsComponent', () => {
   });
 
   it('getMapStatusBatch() should fetch data and data should be ready.', () => {
-    component.getMapStatusBatch()
+    component.getMapStatusBatch();
     expect(component.isDataEmpty).toBeFalsy;
     expect(component.isDataReady).toBeTruthy;
   });

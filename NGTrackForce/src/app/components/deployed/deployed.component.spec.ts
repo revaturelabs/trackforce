@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { MockAssociateService } from './../associate-view/associate-view.component.spec';
 import { HttpClientTestingModule } from '@angular/common/http/testing/';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -8,7 +9,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { HttpClient, HttpHandler } from '@angular/common/http';
-import { Mock } from 'protractor/built/driverProviders';
 
 describe('DeployedComponent', () => {
   let mockAssociateService = new MockAssociateService(null);
@@ -36,9 +36,14 @@ describe('DeployedComponent', () => {
   }));
 
   beforeEach(() => {
-    spy = spyOn(service, 'getAssociatesByStatus').and.returnValue(mockAssociateService.mockData);
+    spy = spyOn(service, 'getAssociatesByStatus').and.returnValue(Observable.of(mockAssociateService.mockData));
     fixture = TestBed.createComponent(DeployedComponent);
     component = fixture.componentInstance;
+    //expect(service.getAssociatesByStatus).toHaveBeenCalled();
+    component.statusID = 1;
+    component.clientDeployedData = [1, 2, 3];
+    component.clientDeployedLabels = ["1", "2", "3"];
+    expect(component.clientDeployedData.length).toBeGreaterThan(0);
     fixture.detectChanges();
   });
 
@@ -46,9 +51,15 @@ describe('DeployedComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a pie chart at the bottom of the page', () => {
+  it('should have a graph at the top of the page when instantiated', () => {
+    expect(component.clientDeployedData).toBeTruthy();
     let el = fixture.debugElement.nativeElement;
     let canvas = el.querySelector('canvas');
-    expect(canvas.id).toEqual('pie');
+    expect(canvas).toBeTruthy();
+  });
+
+  it('should have a pie chart at the bottom of the page', () => {
+    let canvas = document.getElementById('pie');
+    expect(canvas).toBeTruthy();
   });
 });

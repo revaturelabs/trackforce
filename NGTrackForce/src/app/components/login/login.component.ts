@@ -10,34 +10,22 @@ import { User } from '../../models/user.model';
 import { UserService } from '../../services/user-service/user.service';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 import { AssociateService } from '../../services/associate-service/associate.service';
-// import {InterviewService} from '../../services/interview-service/interview.service';
-// import {ClientService} from '../../services/client-service/client.service';
-// import {BatchService} from '../../services/batch-service/batch.service';
 import { TrainerService } from '../../services/trainer-service/trainer.service';
 import { Trainer } from '../../models/trainer.model';
-// import {Batch} from '../../models/batch.model';
 import { Associate } from "../../models/associate.model";
 import { NavbarService } from '../../services/navbar-service/navbar.service';
+import { LocalStorage } from '../../constants/local-storage';
+
 async function delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve => {
     }, ms));
 }
-const ASSOCIATE_KEY = 'currentAssociate';
-const USER_KEY = 'currentUser';
-const TRAINER_KEY = 'currentTrainer';
+
 const INTERVIEWS_KEY = 'currentInterviews';
 const BATCHES_TRAINER_KEY = 'currentBatchesTrainer';
 const BATCHES_COTRAINER_KEY = 'currentBatchesCotrainer';
 const BATCHES_KEY = 'currentBatches';
 const CLIENTS_KEY = 'currentClients';
-
-/*
-  PROBLEM
-  should be admin/sales/staging_key
-  SHOULDNT load all associates as soon as one of those roles logs in
-*/
-const ASSOCIATES_KEY = 'currentAssociates';
-
 
 @Component({
     selector: 'app-login',
@@ -303,7 +291,7 @@ export class LoginComponent implements OnInit {
             this.authService.login(this.username, this.password).subscribe(
                 (data: User) => {
                     console.log("In login");
-                    localStorage.setItem(USER_KEY, JSON.stringify(data));
+                    localStorage.setItem(LocalStorage.CURRENT_USER_KEY, JSON.stringify(data));
                     console.log(data);
                     if (data == null) {
                         this.resetAfterLoginFail();
@@ -366,7 +354,7 @@ export class LoginComponent implements OnInit {
         this.associateService.getAssociate(user.id).subscribe(
             data => {
                 this.navbarService.show();
-                localStorage.setItem(ASSOCIATE_KEY, JSON.stringify(data));
+                localStorage.setItem(LocalStorage.CURRENT_ASSOCIATE_KEY, JSON.stringify(data));
                 this.router.navigate(['associate-view']);
             },
             err => {
@@ -387,7 +375,7 @@ export class LoginComponent implements OnInit {
         this.trainerService.getTrainer(user.id).subscribe(
             data => {
                 this.navbarService.show();
-                localStorage.setItem(TRAINER_KEY, JSON.stringify(data));
+                localStorage.setItem(LocalStorage.CURRENT_TRAINER_KEY, JSON.stringify(data));
                 this.router.navigate(['trainer-view']);
             },
             err => {

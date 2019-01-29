@@ -4,6 +4,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { TrainerService } from '../../services/trainer-service/trainer.service';
 import { Associate } from '../../models/associate.model';
 import {AssociateService} from "../../services/associate-service/associate.service";
+import { LocalStorage } from '../../constants/local-storage';
 
 @Component({
   selector: 'app-trainer-view',
@@ -11,9 +12,6 @@ import {AssociateService} from "../../services/associate-service/associate.servi
   styleUrls: ['./trainer-view.component.css']
 })
 export class TrainerViewComponent implements OnInit {
-
-  readonly _TRAINER_KEY = 'currentTrainer';
-
   trainer: Trainer;
   formOpen = false;
   newFirstName: string;
@@ -40,39 +38,6 @@ export class TrainerViewComponent implements OnInit {
     //this.getTrainerAssociates();
   }
 
-  getTrainerAssociates() {
-    this.associates = [];
-    // if (this.trainer.primary) {
-    //   const primary = this.trainer.primary;
-    //   for (const batch of primary) {
-    //     if (batch.associates) {
-    //       for (const associate of batch.associates) {
-    //         this.associates.push(associate);
-    //       }
-    //     }
-    //   }
-    // }
-    // if (this.trainer.coTrainer) {
-    //   const coTrainer = this.trainer.coTrainer;
-    //   for (const batch of coTrainer) {
-    //     if (batch.associates) {
-    //       for (const associate of batch.associates) {
-    //         this.associates.push(associate);
-    //       }
-    //     }
-    //   }
-    // }
-
-    // this.associateService.getAllAssociates().subscribe(
-    //   data => {
-    //     this.associates = data;
-    //     localStorage.setItem('currentAssociates', JSON.stringify(this.associates));
-    //   }
-    // );
-
-
-  }
-
   toggleForm() {
     this.formOpen = !this.formOpen;
   }
@@ -91,7 +56,7 @@ export class TrainerViewComponent implements OnInit {
         this.statusMsg = 'Update was successful!';
         this.statusClass = 'success';
         this.formOpen = false;
-        localStorage.setItem(this._TRAINER_KEY, JSON.stringify(this.trainer));
+        localStorage.setItem(LocalStorage.CURRENT_TRAINER_KEY, JSON.stringify(this.trainer));
       },
       error => {
         this.statusMsg = `I'm sorry, there was an error when communicating with the server`;

@@ -1,3 +1,4 @@
+import { MockBatchService } from './../batch-list/batch-list.component.spec';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BatchDetailsComponent } from './batch-details.component';
@@ -27,7 +28,7 @@ describe('BatchDetailsComponent', () => {
   let component: BatchDetailsComponent;
   let fixture: ComponentFixture<BatchDetailsComponent>;
   const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
-  const testBatchService: BatchService = new BatchService(null);
+  const testBatchService = new MockBatchService(null);
   let user = new User('mockUser', 'mockPassword', 1, 0, 0, 'mockTokent');
   let spy: any;
 
@@ -45,7 +46,7 @@ describe('BatchDetailsComponent', () => {
         BatchDetailsComponent
       ],
       providers: [
-        BatchService,
+        {provide: BatchService, useClass: MockBatchService},
         {provide: AuthenticationService, userValue: testAuthService}
       ],
       imports: [
@@ -61,7 +62,6 @@ describe('BatchDetailsComponent', () => {
   }));
 
   beforeEach(() => {
-    let mockUser:User = new User('mockUser', 'pass', 0, 0);
 
     fixture = TestBed.createComponent(BatchDetailsComponent);
     component = fixture.componentInstance;
@@ -71,29 +71,21 @@ describe('BatchDetailsComponent', () => {
   it('should create', () => {
     expect(component).toBeDefined();
   });
-
+  
   it('should contain associates if loaded', () => {
-    if (component.isDataReady && !component.isDataEmpty) {
       expect(component.associates).toBeTruthy();
-    }
-  });
-
-  it('should contain associates if loaded', () => {
-    if (component.isDataReady && !component.isDataEmpty) {
-      expect(component.associates).toBeTruthy();
-    }
   });
 
   it('goToFormComponent() should navigate to the formcomponent', () => {
     spyOn(component.router, 'navigate').and.returnValue(of(true));
-    component.goToFormComponent(1)
+    component.goToFormComponent(1);
+    fixture.detectChanges();
     expect(component.router.navigate).toHaveBeenCalledWith(['/form-comp', 1]);
   });
 
   it('getMapStatusBatch() should fetch data and data should be ready.', () => {
-    component.getMapStatusBatch();
-    expect(component.isDataEmpty).toBeFalsy;
-    expect(component.isDataReady).toBeTruthy;
+    expect(component.isDataEmpty).toBeFalsy();
+    expect(component.isDataReady).toBeTruthy();
   });
     
   it('should contain chartType = bar', ()=>{

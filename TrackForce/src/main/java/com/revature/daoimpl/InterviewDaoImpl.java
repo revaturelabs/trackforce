@@ -26,7 +26,11 @@ public class InterviewDaoImpl implements InterviewDao {
 
 	@Override
 	public boolean createInterview(TfInterview interview) {
-		return HibernateUtil.saveToDB(interview);
+		if(interview.getId()!=null && getInterviewById(interview.getId())==null) {
+			System.out.println(getInterviewById(interview.getId()));
+			return HibernateUtil.saveToDB(interview);
+		}
+		return false;
 	}
 
 	@Override

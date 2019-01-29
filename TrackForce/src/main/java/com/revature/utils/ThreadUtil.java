@@ -12,6 +12,8 @@ import static com.revature.utils.LogUtil.logger;
 public class ThreadUtil {
 	//I set it to default at 10 threads can be increased for more performance.
 	//However, it will be to the detriment of the running server. (Most likely an Amazon EC2)
+	
+	//1811 Branch - Threadpool increased to 15 by previous batch. Unsure when.
 	private static ExecutorService executor = Executors.newFixedThreadPool(15);
 	
 	public ThreadUtil() {

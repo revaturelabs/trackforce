@@ -8,6 +8,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import static com.revature.utils.LogUtil.logger;
+
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
 import com.revature.services.ClientService;
@@ -47,6 +49,7 @@ public class InitResource {
 	@GET
 	@ApiOperation(value = "Initializes connection", notes = "Used to quickly establish a connection with the database.")
 	public Response connectionInit() {
+		logger.info("connectionInit Started. TestAssociate used to establish connection to Database.");
 		userService.getUser("TestAssociate");
 		return Response.status(Status.OK).build();
 	}

@@ -17,6 +17,8 @@ import { Trainer } from '../models/trainer.model';
 import { ClientService } from '../services/client-service/client.service';
 import { BehaviorSubject } from 'rxjs';
 import { CurriculumService } from '../services/curriculum-service/curriculum.service';
+import { TrainerService } from '../services/trainer-service/trainer.service';
+import { RequestService } from '../services/request-service/request.service';
 
 export class MockActivatedRoute {
   static createMockRoute(tid: number): any {
@@ -86,6 +88,27 @@ export class MockClientService extends ClientService {
 
     return of([client1,client2,client3])
   }
+
+  getFiftyClients(): Observable<Client[]> {
+    let clients = Client[50];
+    for(let i = 0; i <= 50; i++) {
+      clients[i] = new Client(i+1,"Test Client" + i,null,null,null)
+    }
+
+    return clients;
+  }
+
+  getAllClientsWithAssoc(): Observable<Client[]>{
+    let client1 = new Client(0,"Test Client1",null,null,null)
+    let client2 = new Client(1,"Test Client2",null,null,null)
+    let client3 = new Client(2,"Test Client3",null,null,null)
+
+    return of([client1, client2, client3]);
+  }
+
+  getClientCount(clientId: number): Observable<number>{
+    return of(1234)
+  }
 }
 
 export class MockCurriculumService extends CurriculumService {
@@ -108,6 +131,31 @@ export class MockInterviewService extends InterviewService {
 
   public updateInterview(interview): Observable<boolean> {
     return of(true);
+  }
+}
+
+export class MockRequestService extends RequestService {
+
+  public populateDB(): Observable<boolean> {
+    return of(true)
+  }
+
+  public populateDBSF(): Observable<boolean> {
+    return of(true)
+  }
+
+  public deleteDB(): Observable<boolean> {
+    return of(true)
+  }
+
+  public getStatuses(): Observable<boolean> {
+    return of(true)
+  }
+}
+
+export class MockTrainerService extends TrainerService {
+  public updateTrainer(trainer: Trainer): any {
+      return false
   }
 }
 

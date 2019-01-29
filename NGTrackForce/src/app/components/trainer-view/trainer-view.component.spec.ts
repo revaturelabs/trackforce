@@ -11,6 +11,7 @@ import { AssociateService } from '../../services/associate-service/associate.ser
 import { User } from '../../models/user.model';
 import { Trainer } from '../../models/trainer.model';
 import { LocalStorage } from '../../constants/local-storage';
+import { MockAssociateService, MockAuthenticationService, MockTrainerService } from '../../testing-helpers/test-mock-services'
 
 describe('TrainerViewComponent', () => {
   let component: TrainerViewComponent;
@@ -20,7 +21,11 @@ describe('TrainerViewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ TrainerViewComponent ],
       imports: [ FormsModule, HttpClientTestingModule, RouterTestingModule ],
-      providers: [ AuthenticationService, RequestService, TrainerService, AssociateService ]
+      providers: [ 
+        {provide: AuthenticationService, useClass: MockAuthenticationService}, 
+        RequestService, 
+        {provide: TrainerService, useClass: MockTrainerService}, 
+        {provide: AssociateService, useClass: MockAssociateService} ]
     })
     .compileComponents();
   }));

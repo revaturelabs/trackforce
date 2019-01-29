@@ -12,6 +12,7 @@ export class LocalStorage {
 
   // Sample test data
   public static readonly TEST_DEPLOYED_DATA_VALUE = '[102,68]'
+  public static readonly TEST_UNDEPLOYED_DATA_VALUE = '[88,391]'
   public static readonly TEST_UNMAPPED_DATA_VALUE = '[1,2,3,4]'
   public static readonly TEST_CURRENT_USER_VALUE = '{"id":0,"username":"mockUsername","isApproved":1,"token":"","role":5}'
   

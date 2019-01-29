@@ -1,40 +1,43 @@
-import { TestBed, inject, getTestBed } from "@angular/core/testing";
+import { TestBed, inject, getTestBed, async, ComponentFixture } from "@angular/core/testing";
 import { CurriculumService } from "./curriculum.service";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 
+fdescribe('CurriculumService Test Suite', () => {
+    let service;
+    let fixture: ComponentFixture<CurriculumService>;
 
-
-describe('CurriculumService', () => {
-    beforeEach(() => {
+    beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [CurriculumService],
             imports: [
                 HttpClientTestingModule
             ]
-        });
-    });
-
-    it('should be created', inject([CurriculumService], (service: CurriculumService) => {
-        expect(service).toBeTruthy();
+        }).compileComponents();
     }));
 
-    it('should return data for specified skillset id', () => {
-        const service: CurriculumService = getTestBed().get(CurriculumService);
+    beforeEach(inject([CurriculumService], (theService: CurriculumService) =>{
+        fixture = TestBed.createComponent(CurriculumService);
+        service = fixture.debugElement.injector.get(theService);
+    }));
 
-        getTestBed().compileComponents().then(() => {
-            service.getSkillsetsForStatusID(1).subscribe((res) => {
-                const data = res;
-                // this service better be returning some data...
-                expect(data).toBeTruthy();
-                // ... and that data better have stuff in it...
-                // expect(data.length).toBeTruthy();
-                // // let's get the first record in data
-                // expect(data[0]).toBeTruthy();
-                // // it should be truthy...
-            },
-              error => console.error('Error in curriculum-services.spec.ts:', error.message)
-            ).unsubscribe()
-        })
+    it('should be created', () => {
+        expect(service).toBeTruthy();
     });
 
+    it('should return data for specified skillset id', () => {
+        service = getTestBed().get(CurriculumService);
+
+        service.getSkillsetsForStatusID(1).subscribe((res) => {
+            const data = res;
+            // this service better be returning some data...
+            expect(data).toBeTruthy();
+            // ... and that data better have stuff in it...
+            // expect(data.length).toBeTruthy();
+            // // let's get the first record in data
+            // expect(data[0]).toBeTruthy();
+            // // it should be truthy...
+        },
+            error => console.error('Error in curriculum-services.spec.ts:', error.message)
+        ).unsubscribe()
+    })
 });

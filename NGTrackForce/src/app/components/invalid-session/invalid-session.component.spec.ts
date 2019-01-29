@@ -14,6 +14,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InvalidSessionComponent } from './invalid-session.component';
 import { LoginComponent } from '../login/login.component';
+import { MockRequestService } from '../../testing-helpers/test-mock-services'
 
 /**
  * [DEFECT: "[object ErrorEvent] thrown"]
@@ -39,7 +40,7 @@ describe('InvalidSessionComponent', () => {
         AppComponent
       ],
       providers: [
-        RequestService
+        {provide: RequestService, useClass: MockRequestService}, 
       ],
       imports: [
         FormsModule,
@@ -54,7 +55,6 @@ describe('InvalidSessionComponent', () => {
   }));
 
   beforeEach(() => {
-    
     fixture = TestBed.createComponent(InvalidSessionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -12,6 +12,8 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { InterviewType } from '../../models/interview-type';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { LocalStorage } from '../../constants/local-storage';
+
 /**
  *@author Katherine Obioha, Andrew Ahn
  *
@@ -85,7 +87,7 @@ export class MyInterviewComponent implements OnInit {
     this.openDateNotified = false;
     this.conflictingInterview = false;
 
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.user = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER_KEY));
     this.id = this.user.id;
     this.associateService.getAssociate(this.id).subscribe(
       data => {

@@ -30,6 +30,7 @@ import { routerNgProbeToken } from '../../../../node_modules/@angular/router/src
 import { MatProgressSpinner, MatProgressSpinnerModule } from '../../../../node_modules/@angular/material';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { LocalStorage } from '../../constants/local-storage';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -164,7 +165,7 @@ describe('SkillsetComponent', () => {
       ]
     }).compileComponents();
 
-    localStorage.setItem('unmappedData',JSON.stringify([1,2,3,4]));
+    localStorage.setItem(LocalStorage.UNMAPPED_DATA_KEY, LocalStorage.TEST_UNMAPPED_DATA_VALUE);
     activatedRoute = new ActivatedRouteStub();
     fixture = TestBed.createComponent(SkillsetComponent);
     component = fixture.componentInstance;
@@ -258,6 +259,7 @@ describe('SkillsetComponent', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       component.skillsetData = [1, 2, 3];
+      component.skillsetLabels = ["1", "2", "3"];
       expect(component.skillsetData.length).toBeTruthy();
       expect(component.skillsetLabels.length).toBeTruthy();
       expect(component.skillsetLabels.length).toEqual(component.skillsetData.length);

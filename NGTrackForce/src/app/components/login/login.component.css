@@ -55,7 +55,7 @@ http://www.bootstrapzen.com/item/135/simple-login-form-logo/
   max-width: 50%;
 }
 
-form[role="login"] {
+form[="login"] {
   text-align: center;
   vertical-align: middle;
   color: black;

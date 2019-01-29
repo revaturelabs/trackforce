@@ -128,7 +128,16 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     }
 
     if (this.filterByText) {
-      filter["sortText"] = this.filterByText;
+      let name = this.filterByText.split(" ");
+      // first name AND last name entered
+      if(name.length > 1) {
+        filter["firstName"] = name[0];
+        filter["lastName"] = name[1];
+      }
+      // first name OR last name entered 
+      else {
+        filter["sortText"] = this.filterByText;
+      }
     }
 
     this.isFetching = true;

@@ -13,6 +13,7 @@ import {RequestService} from '../../services/request-service/request.service';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {Client} from "./../../models/client.model";
 import { Observable, of } from 'rxjs';
+import { MockAuthenticationService, MockClientService } from '../../testing-helpers/test-mock-services'
 
 describe('ClientListComponent', () => {
   let component: ClientListComponent;
@@ -36,7 +37,8 @@ describe('ClientListComponent', () => {
       ],
       providers: [
         ClientService,
-        AuthenticationService,
+        {provide: AuthenticationService, useClass: MockAuthenticationService}, 
+        {provide: ClientService, useClass: MockClientService}, 
         RequestService
       ],
       schemas: [

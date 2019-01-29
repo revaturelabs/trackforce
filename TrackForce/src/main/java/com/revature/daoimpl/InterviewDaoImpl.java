@@ -4,11 +4,13 @@ import org.hibernate.Session;
 import com.revature.dao.InterviewDao;
 import com.revature.entity.TfInterview;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 
 public class InterviewDaoImpl implements InterviewDao {
 
 	@Override
 	public List<TfInterview> getInterviewsByAssociate(int associateId) {
+		LogUtil.logger.trace("Hibernate Call to get Interviews by AssociateId: " + associateId );
 		return HibernateUtil.runHibernate(
 				(Session session, Object ... args) ->
 				session.createQuery("from TfInterview i where i.associate.id like :associateId", TfInterview.class)
@@ -20,17 +22,25 @@ public class InterviewDaoImpl implements InterviewDao {
 
 	@Override
 	public List<TfInterview> getAllInterviews() {
+		LogUtil.logger.trace("Hibernate Call for ALL interviews.");
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
 		session.createQuery("from TfInterview", TfInterview.class).setCacheable(true).getResultList());
 	}
 
 	@Override
 	public boolean createInterview(TfInterview interview) {
-		return HibernateUtil.saveToDB(interview);
+		LogUtil.logger.trace("Hibernate Call to create Interview: " + interview.getId());
+		if(interview.getId()!=null && getInterviewById(interview.getId())==null) {
+			System.out.println(getInterviewById(interview.getId()));
+			return HibernateUtil.saveToDB(interview);
+		}
+		LogUtil.logger.error("Interview ["+interview.getId()+"] was invalid or already exists in the database.");
+		return false;
 	}
 
 	@Override
 	public boolean updateInterview(TfInterview interview) {
+		LogUtil.logger.trace("Hibernate Call to update Interview: " + interview.getId());
 		return HibernateUtil.runHibernateTransaction((Session session, Object ... args) -> {
 			TfInterview temp = session.get(TfInterview.class, interview.getId());
 		
@@ -56,6 +66,7 @@ public class InterviewDaoImpl implements InterviewDao {
 
 	@Override
 	public TfInterview getInterviewById(int interviewId) {
+		LogUtil.logger.trace("Hibernate Call to get Interview by Id: " + interviewId);
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
 		session.createQuery("from TfInterview i where i.id like :interviewId", TfInterview.class)
 		.setParameter("interviewId", interviewId).setCacheable(true).getSingleResult());

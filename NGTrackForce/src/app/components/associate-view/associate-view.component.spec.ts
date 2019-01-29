@@ -73,10 +73,33 @@ export class MockAuthenticationService extends AuthenticationService {
 
 
 export class MockAssociateService extends AssociateService {
+  public mockData =
+    [
+      {
+          "count": 10,
+          "id": 5,
+          "name": "DynamicCRM"
+      },
+      {
+          "count": 315,
+          "id": 2,
+          "name": "Java"
+      },
+      {
+          "count": 1,
+          "id": 8,
+          "name": "SEED"
+      }
+    ];
+
   getAssociate(id: number) {
     const user: User = new User('newUser', 'pass', 0, 0);
     const associate: Associate = new Associate('first', 'last', user);
     return new BehaviorSubject(associate);
+  }
+
+  getData(){
+    return this.mockData;
   }
 }
 

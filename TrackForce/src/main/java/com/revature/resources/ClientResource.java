@@ -1,5 +1,7 @@
 package com.revature.resources;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -86,17 +88,21 @@ public class ClientResource {
 		logger.info("Method call to getAllClients()...");
 		List<TfClient> clients = clientService.getAllTfClients();
 		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
-		Response forbidden = Response.status(403).entity(clients).build();
+		Response forbidden = Response.status(403).build();
 		Response authorized = Response.status(clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK).entity(clients).build();
 
-		return authorizeAdminUser(badToken, forbidden, authorized, token);
+
+		logger.info("Status 401: Null token. Status 403: Forbidden Access. Status 200: Good to Go");
+		return authorizeUserToken(badToken, forbidden, authorized, token);
 	}
 
 	@GET
 	@Path("/associates/get/{client_id}")
 	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id, @HeaderParam("Authorization") String token) {
 		Long[] response = new Long[4];
-		
+
+		logger.info("Method call to getMappedAssociatesByClientId");
+
 		// Requesting data for all clients is indicated by -1 for client id
 		if(client_id == -1) {
 			String[] countMapKeys = {"Mapped Training", "Mapped Reserved", "Mapped Selected", "Mapped Confirmed"};
@@ -113,32 +119,37 @@ public class ClientResource {
 		}
 
 		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
-		Response forbidden = Response.status(403).entity(response).build();
+		Response forbidden = Response.status(403).build();
 		Response authorized = Response.status(200).entity(response).build();
+		logger.info("Status 401: Null token. Status 403: Forbidden Access. Status 200: Good to Go");
 
-		return authorizeAdminUser(badToken, forbidden, authorized, token);
+		return authorizeUserToken(badToken, forbidden, authorized, token);
 	}
 
 	@GET
 	@Path("/mapped/get/")
 	public Response getMappedClients(@HeaderParam("Authorization") String token) {
+		logger.info("Method call to getMappedClients");
 		List<TfClient> clients = clientService.getMappedClients();
 		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
-		Response forbidden = Response.status(403).entity(clients).build();
+		Response forbidden = Response.status(403).build();
 		Response authorized = Response.status(200).entity(clients).build();
+		logger.info("Status 401: Null token. Status 403: Forbidden Access. Status 200: Good to Go");
 
-		return authorizeAdminUser(badToken, forbidden, authorized, token);
+		return authorizeUserToken(badToken, forbidden, authorized, token);
 	}
 
 	@GET
 	@Path("/50/")
 	public Response getFirstFiftyClients(@HeaderParam("Authorization") String token) {
+		logger.info("Method call to getFirstFiftyClients");
 		List<TfClient> clients = clientService.getFirstFiftyClients();
 		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
-		Response forbidden = Response.status(403).entity(clients).build();
+		Response forbidden = Response.status(403).build();
 		Response authorized = Response.status(200).entity(clients).build();
+		logger.info("Status 401: Null token. Status 403: Forbidden Access. Status 200: Good to Go");
 
-		return authorizeAdminUser(badToken, forbidden, authorized, token);
+		return authorizeUserToken(badToken, forbidden, authorized, token);
 	}
 	
 	/**
@@ -148,30 +159,32 @@ public class ClientResource {
 	 *@author Ashley R
 	 *Written 11 Nov 2018
 	 */
-	public Response authorizeAdminUser(Response badToken, Response forbidden, Response authorized, String token) {
+	public Response authorizeUserToken(Response badToken, Response forbidden, Response authorized, String token) {
 		//Processes the token and returns the payload
 		Claims payload = JWTService.processToken(token);
 		logger.info("Processing the user's JWT.");
 		//Checks to see if payload is null, and if so assigns it as being an invalid token body 
 		if (payload == null) {
+			logger.error("The payload was null. Unathorized access.");
 			return badToken;
 		} else {
 			//Ensures the token is unexpired and the username on the token matches that
 			//of the logged in user. If it is not valid, assigns it a status of forbidden
 			if (new JWTService().validateToken(token) == false) {
-				logger.info("Checking to see if the JWT is valid.");
+				logger.info("JWT Token was invalid/false.");
 				return forbidden;
 			} else {
-				//The roleID is checked from the decrypted token. Since only administrators
-				//are allowed to view the client lists, only a value of 1 is permitted 
-				//to return with a status of 200. 
+				//The roleID is checked from the decrypted token. Any user should 
+				// be able to view the client list as associates need the list
+				// for scheduling interviews
 				int role = 0;
 				role = Integer.parseInt((String) payload.get("roleID"));
-				logger.info("Returning user roleID.");
-				if (role == 1) {
+				logger.info("Returning user roleID: " + role);
+				if (role > 0 && role <= 5) {
 					logger.info("User authorized to view client list.");
 					return authorized;
 				} else {
+					logger.error("User had insufficent privileges.");
 					return forbidden;
 				}
 			}

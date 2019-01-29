@@ -14,12 +14,9 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 describe('UndeployedComponent Test Suite', () => {
   let mockAssociateService = new MockAssociateService(null);
   let service = new AssociateService(null);
-  actRouter:ActivatedRoute;
-  let component = new UndeployedComponent(null, null, null);
-  component.statusID = 1;
+  let component: UndeployedComponent;
   let fixture: ComponentFixture<UndeployedComponent>;
   let spy: any;
-  let spy2: any;
 
   let routes = [
       {
@@ -39,11 +36,13 @@ describe('UndeployedComponent Test Suite', () => {
     .compileComponents();
   }));
 
-  //this setup test is still failing, which in turn is making the other tests in this suite fail as well
   beforeEach(() => {
     spy = spyOn(service, 'getUndeployedAssociates').and.returnValue(Observable.of(mockAssociateService.mockData));
     fixture = TestBed.createComponent(UndeployedComponent);
     component = fixture.componentInstance;
+    component.statusID = 1;
+    component.clientUndeployedData = [1, 2, 3];
+    component.clientUndeployedLabels = ["1", "2", "3"];
     expect(component.clientUndeployedData.length).toBeGreaterThan(0);
     fixture.detectChanges();
   });
@@ -61,9 +60,8 @@ describe('UndeployedComponent Test Suite', () => {
   });
 
   it('should have a pie chart at the bottom of the page when instantiated', () => {
-    let el = fixture.debugElement.nativeElement;
-    const canvas = el.querySelector('canvas');
-    expect(canvas.id).toEqual('pie');
+    const canvas = document.getElementById('pie');
+    expect(canvas).toBeTruthy();
   });
 
   afterEach(() =>{

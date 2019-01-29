@@ -43,7 +43,7 @@ public class AssociateServicesTest {
 		}
 	}
 	
-	@Test(priority=1)
+	@Test(priority=0)
 	public void testGetAssociateById() {
 		TfAssociate associate = service.getAssociate(Integer.parseInt(props.getProperty("associate3_id")));
 		
@@ -63,7 +63,7 @@ public class AssociateServicesTest {
 
 	}
 	
-	@Test(priority=2)
+	@Test(priority=1)
 	public void testGetAllAssociates() {
 		List<TfAssociate> list = service.getAllAssociates();
 		

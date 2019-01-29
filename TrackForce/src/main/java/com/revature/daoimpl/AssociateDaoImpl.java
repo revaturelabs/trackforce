@@ -27,6 +27,7 @@ import com.revature.entity.TfCurriculum;
 import com.revature.entity.TfMarketingStatus;
 import com.revature.entity.TfUser;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
 import com.revature.utils.Sessional;
 
 /** Data Access Object implementation to access the associate entity from the Database 
@@ -41,6 +42,7 @@ public class AssociateDaoImpl implements AssociateDao {
 		TfAssociate temp = session.get(TfAssociate.class, (Integer) args[0]);
 		temp.getUser().setIsApproved(TfUser.APPROVED);
 		session.update(temp);
+		LogUtil.logger.trace("Update Associate via Sessional for AssociateId: " + temp.getId());
 		return true;
 	};
 	
@@ -53,8 +55,9 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * @param clientId the client ID
 	 * @param sortText the text to sort by.
 	 * @return list of associates matching criteria */
-	public List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId, String sortText)
+	public List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId, String sortText, String firstName, String lastName)
 	{		
+		LogUtil.logger.trace("Hibernate Call to Match an Associate List to a criteria");
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<TfAssociate> criteria = builder.createQuery(TfAssociate.class);
@@ -63,7 +66,13 @@ public class AssociateDaoImpl implements AssociateDao {
 		Expression<String>  expLast = builder.lower(root.get("lastName"));
 		sortText = "%" + sortText.toLowerCase() + "%";
 		
-		if (!sortText.isEmpty()) {
+		if(!firstName.isEmpty() && !lastName.isEmpty()) {
+			criteria.where(
+					builder.and( 
+							builder.like(expFirst, firstName.toLowerCase()),
+							builder.like(expLast, lastName.toLowerCase())));
+		}
+		else if (!sortText.isEmpty()) {
 			if (clientId == -1 && mktStatus != -1) {
 				criteria.where(builder.and(
 						(
@@ -109,7 +118,10 @@ public class AssociateDaoImpl implements AssociateDao {
 				.getResultList();
 		
 		session.close(); //close out the session
-		if (results == null || results.isEmpty()) { return null; }
+		if (results == null || results.isEmpty()) { 
+			LogUtil.logger.error("Result List was empty.");
+			return null; }
+		LogUtil.logger.trace("Results: " + results);
 		return results;
 	}
 	
@@ -117,6 +129,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * @param Integer associateId */
 	@Override
 	public TfAssociate getAssociate(Integer id) {
+		LogUtil.logger.trace("Hibernate Call to get AssociateId: " + id);
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
 	    session.createQuery("from TfAssociate a where a.id = :id", TfAssociate.class)
 		.setParameter("id", id).setCacheable(true).getSingleResult());
@@ -126,6 +139,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * @param int userId */
 	@Override
 	public TfAssociate getAssociateByUserId(int id) {
+		LogUtil.logger.trace("Hibernate Call to get Associate via UserId: " + id);
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
 				session.createQuery("from TfAssociate where user.id = :id", TfAssociate.class)
 				.setParameter("id", id).setCacheable(true).getSingleResult());
@@ -134,12 +148,14 @@ public class AssociateDaoImpl implements AssociateDao {
 	/** Gets all associates */
 	@Override
 	public List<TfAssociate> getAllAssociates() {
+		LogUtil.logger.trace("Hibernate Call to get all Associates.");
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
 				.createQuery("from TfAssociate", TfAssociate.class).setCacheable(true).getResultList());
 	}
 	
 	@Override
 	public List<TfAssociate> getNAssociates() {
+		LogUtil.logger.trace("Hibernate Call to get first 60 Associates" );
 		return HibernateUtil.runHibernate((Session session, Object ...args) -> session
 				.createQuery("from TfAssociate", TfAssociate.class)
 				.setMaxResults(60).setCacheable(true).getResultList());
@@ -222,6 +238,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * @param int associateId */
 	@Override
 	public boolean approveAssociate(int associateId) {
+		LogUtil.logger.trace("Hibernate Call to Approve AssociateId: " + associateId);
 		return HibernateUtil.runHibernateTransaction(approveAssociate, associateId);
 	}
 
@@ -229,6 +246,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * @param List<Integer> contains associate ids */
 	@Override
 	public boolean approveAssociates(List<Integer> associateIds) {
+		LogUtil.logger.trace("Hibernate Call to Approve Multiple AssociateId: " + associateIds);
 		return HibernateUtil.multiTransaction(approveAssociate, associateIds);
 	}
 
@@ -236,12 +254,14 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * @param TfAssociate the new associate you wish to persist */
 	@Override
 	public boolean createAssociate(TfAssociate newassociate) {
+		LogUtil.logger.trace("Hibernate Call to Create Associate: " + newassociate.getId());
 		return HibernateUtil.saveToDB(newassociate);
 	}
 
-	/** Does something */
+	/** Gets Mapped Associates to Clients. */
 	@Override
 	public List<GraphedCriteriaResult> getMapped(int id) {
+		LogUtil.logger.trace("List Mapping for Associates mapped to ClientId: " + id);
 		return HibernateUtil.runHibernate((Session session, Object... args) -> {
 			CriteriaBuilder cb = session.getCriteriaBuilder();
 			CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);
@@ -265,6 +285,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	 * Optimized to remove redundancy @author Paul C.-1807*/
 	@Override
 	public List<GraphedCriteriaResult> getUndeployed(String which) {
+		LogUtil.logger.trace("List Mapping for Associates Undeployed currently. Mapping Type: " + which);
 		if(which.equals("mapped") || which.equals("unmapped")) {
 			return HibernateUtil.runHibernate((Session session, Object... args) -> {
 				CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -305,6 +326,7 @@ public class AssociateDaoImpl implements AssociateDao {
 
 	@Override
 	public boolean updateAssociate(TfAssociate associate) {
+		LogUtil.logger.trace("Hibernate Transaction to update AssociateId: " + associate.getId());
 		return runHibernateTransaction((Session session, Object... args) -> {
 			TfAssociate temp = session.get(TfAssociate.class, associate.getId());
 			temp.setFirstName(associate.getFirstName());
@@ -317,6 +339,7 @@ public class AssociateDaoImpl implements AssociateDao {
 
 	@Override
 	public boolean updateAssociates(List<TfAssociate> associates) {
+		LogUtil.logger.trace("Calls updateAssociate for List of <Associates>: " + associates);
 		associates.forEach(this::updateAssociate);
 		return true;
 	}
@@ -342,7 +365,13 @@ public class AssociateDaoImpl implements AssociateDao {
 	}*/
 	
 	@Override
+	/*
+	 * Sends back number of Associates compared against Column name. [Passed as a string-variable].
+	 * Value - Conditional Clause against the Column name. TF_Client_Id - "some id variable"
+	 * mappedStatus - the marketing status of mapped Associates.
+	 */
 	public long countMappedAssociatesByValue(String column, String value, int mappedStatus) {
+		LogUtil.logger.trace("Number of Mapped Associates based of what ColumnName: " + column + " and the value: " + value);
 		Sessional<Long> ss = (Session session, Object... args) -> {
 			Long numValue;
 			try {
@@ -367,8 +396,10 @@ public class AssociateDaoImpl implements AssociateDao {
 		
 	}
 
+	//Should probably only be used for testing. Deleting records for production is a bad idea.
 	@Override
 	public void deleteAssociate(TfAssociate associate) {
+		LogUtil.logger.trace("Hibernate Call to delete an Associate.");
 		runHibernateTransaction((Session session, Object... args) -> {
 			session.delete(associate);
 			return true;
@@ -383,6 +414,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	 */
 	@Override
 	public void deleteOldAssociateProcedure() {
+		LogUtil.logger.trace("Automatic Deleting Unapproved Old Associates.");
 		runHibernateTransaction((Session session, Object... args) -> {
 			StoredProcedureQuery query = session.createStoredProcedureCall("delete_old_associates").registerStoredProcedureParameter(1, Integer.class, ParameterMode.OUT);
 			query.execute();

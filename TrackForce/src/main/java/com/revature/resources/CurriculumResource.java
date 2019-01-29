@@ -79,13 +79,16 @@ public class CurriculumResource {
 		Claims payload = JWTService.processToken(token);
 		
 		if (payload == null) { // invalid token
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else if (((String) payload.get("roleID")).equals("5")) { // wrong roleid
+			logger.error("Associate Role detected. Forbidden Access.");
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
 			status = curriculum == null || curriculum.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
 
+		logger.info("Return all curriculumns currently.");
 		return Response.status(status).entity(curriculum).build();
 	}
 
@@ -98,10 +101,13 @@ public class CurriculumResource {
 		Claims payload = JWTService.processToken(token);
 		
 		if (payload == null) { // invalid token
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else if (!(((String) payload.get("roleID")).equals("1") || ((String) payload.get("roleID")).equals("3") || ((String) payload.get("roleID")).equals("4"))) { // wrong roleid
+			logger.error("User has insufficient Privileges. Forbidden Access");
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
+			logger.info("Return number of unmapped Associates for each Curriculum.");
 			return Response.ok(curriculumService.getUnmappedInfo(statusId)).build();
 		}
 	}

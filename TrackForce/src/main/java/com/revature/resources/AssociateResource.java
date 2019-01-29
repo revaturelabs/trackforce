@@ -89,20 +89,22 @@ public class AssociateResource {
 	@GET
 	@ApiOperation(value = "Return all associates", notes = "Gets a set of all the associates,", response = TfAssociate.class, responseContainer = "Set")
 	public Response getAllAssociates(@HeaderParam("Authorization") String token) {
-		logger.info("getAllAssociates()...");
+		logger.info("Starting getAllAssociates()...");
 		Status status = null;
 		List<TfAssociate> associates = associateService.getAllAssociates();
 		Claims payload = JWTService.processToken(token);
 
 		if (payload == null) {
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else if (((String) payload.get("roleID")).equals("5")) {
+			logger.error("Associate Role detected. Forbidden Access.");
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		else {
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
-
+		logger.info("Returning all associates contained in Database.");
 		return Response.status(status).entity(associates).build();
 	}
 	
@@ -115,8 +117,10 @@ public class AssociateResource {
 
 		Claims payload = JWTService.processToken(token);
 		if (payload == null ) {
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else if (((String) payload.get("roleID")).equals("5")) {
+			logger.error("Associate Role detected. Forbidden Access.");
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		Status status = null;
@@ -145,6 +149,7 @@ public class AssociateResource {
 		counts.add(rawCounts.get("Mapped Confirmed"));
 	
 		associateCounts.put("counts", counts);
+		logger.info("Returning the count of associates.");
 		return Response.status(status).entity(associateCounts.toString()).build();
 	}
 
@@ -168,17 +173,19 @@ public class AssociateResource {
 		TfAssociate associateinfo;
 
 		if (payload == null || false) {
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
+				logger.info("Seeking Associate by this user id: " + id);
 				associateinfo = associateService.getAssociateByUserId(id);
 			} catch (NoResultException nre) {
-				logger.error("No associate found...");
+				logger.error("No associate found for this user id: " + id);
 				return Response.status(Status.NO_CONTENT).build();
 			}
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
 		}
-
+		logger.info("Returning associate.");
 		return Response.status(status).entity(associateinfo).build();
 	}
 	
@@ -202,19 +209,22 @@ public class AssociateResource {
 		Claims payload = JWTService.processToken(token);	
 		TfAssociate associateinfo;	
  		if (payload == null || false) {	
+ 			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();	
 		}	
 		else {	
 			try {	
+				logger.info("Seeking Associate by this id: " + id);
 				associateinfo = associateService.getAssociate(id);	
 			} catch (NoResultException nre) {	
-				logger.error("No associate found...");
+				logger.error("No Associate found by this id: " + id);
 				return Response.status(Status.NO_CONTENT).build();
 			}	
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;	
 		}	
 		System.out.println(status);	
-		System.out.println(associateinfo);
+		System.out.println(associateinfo);	
+		logger.info("Returning Associate");
 		return Response.status(status).entity(associateinfo).build();
 	}
 
@@ -267,6 +277,7 @@ public class AssociateResource {
 
 
 		if (payload == null || ((String) payload.get("roleID")).equals("2") || ((String) payload.get("roleID")).equals("5")) {
+			logger.error("Refusing Access. Payload either null or Role insufficient");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 
@@ -302,10 +313,12 @@ public class AssociateResource {
 
 		System.out.println(associate);
 		if (payload == null) {
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		}
+		logger.info("Associate: " + id + " updated");
 		return Response.status(status).build();
 	}
 
@@ -347,6 +360,7 @@ public class AssociateResource {
 	@GET
 	@Path("/nass/")
 	public Response getNAssociates() {
+		logger.info("Get 60 Associates.");
 		return Response.status(200).entity(associateService.getNAssociates()).build();
 	}
 	
@@ -371,6 +385,8 @@ public class AssociateResource {
 			@DefaultValue("-1") @QueryParam("mStatusId") Integer mStatusId,
 			@DefaultValue("-1") @QueryParam("clientId") Integer clientId,
 			@DefaultValue("") @QueryParam("sortText") String sortText,
+			@DefaultValue("") @QueryParam("firstName") String firstName,
+			@DefaultValue("") @QueryParam("lastName") String lastName,
 			@HeaderParam("Authorization") String token) 
 	
 	{		
@@ -380,17 +396,22 @@ public class AssociateResource {
 
 		//Check token
 		if (payload == null) {
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else if ( ((String) payload.get("roleID")).equals("5")) {
+			logger.error("Associate Role detected. Forbidden Access.");
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		
 		List<TfAssociate> associates;
 		try {
-			 associates = associateService.getAssociatePage(startIndex, numResults, mStatusId, clientId, sortText);
+			 associates = associateService.getAssociatePage(startIndex, numResults, mStatusId, clientId, sortText, firstName, lastName);
 		} catch (IllegalArgumentException iae) {
+			logger.error("Bad request.");
+			logger.error(iae.getMessage());
 			return Response.status(Status.BAD_REQUEST).build();
 		} catch (Exception e) {
+			logger.error("Catch All Exeception.");
 			logger.error(e.getMessage());
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
@@ -398,6 +419,7 @@ public class AssociateResource {
 		//If no results, return 204 and null ; otherwise 200 and the list 
 		status = associates == null ? Status.NO_CONTENT : Status.OK;
 
+		logger.info("Returning Status 200 along with List");
 		return Response.status(status).entity(associates).build();
 	}
 }

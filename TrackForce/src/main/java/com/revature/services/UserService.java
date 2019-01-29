@@ -66,6 +66,7 @@ public class UserService {
 		try {
 			return dao.getUser(username);
 		} catch (NoResultException nre) {
+			logger.error("No Such User: " + username + "\n" + nre.getMessage());
 			return null;
 		} catch (HibernateException e) {
 			return new TfUser();

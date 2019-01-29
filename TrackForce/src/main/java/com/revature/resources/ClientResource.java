@@ -171,7 +171,7 @@ public class ClientResource {
 			//Ensures the token is unexpired and the username on the token matches that
 			//of the logged in user. If it is not valid, assigns it a status of forbidden
 			if (new JWTService().validateToken(token) == false) {
-				logger.info("Checking to see if the JWT is valid.");
+				logger.info("JWT Token was invalid/false.");
 				return forbidden;
 			} else {
 				//The roleID is checked from the decrypted token. Any user should 
@@ -179,7 +179,7 @@ public class ClientResource {
 				// for scheduling interviews
 				int role = 0;
 				role = Integer.parseInt((String) payload.get("roleID"));
-				logger.info("Returning user roleID.");
+				logger.info("Returning user roleID: " + role);
 				if (role > 0 && role <= 5) {
 					logger.info("User authorized to view client list.");
 					return authorized;

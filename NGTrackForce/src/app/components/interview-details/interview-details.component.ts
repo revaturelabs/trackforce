@@ -36,7 +36,7 @@ export class InterviewDetailsComponent implements OnInit {
 
 
   ngOnInit() {
-    this.route.params.subscribe(params =>{ 
+    this.route.params.subscribe(params =>{
       const interviewId: number = +params['id'];
       this.isDataReady = false;
 

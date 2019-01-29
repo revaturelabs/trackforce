@@ -59,11 +59,12 @@
         <li class="nav-item">
           <a id="home" class="nav-link" [routerLink]="['/app-home']" routerLinkActive="active">Home</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"> 
           <a id="clients" class="nav-link" [routerLink]="['/client-listing']" routerLinkActive="active">Client List</a>
         </li>
-        <li class="nav-item">
-          <a id="batches" class="nav-link" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a>
+        <li>
+          <a *ngIf="this.router.url.includes('/batch-details')" id="batches" class="nav-link active" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a> 
+          <a *ngIf="!this.router.url.includes('/batch-details')" id="batches" class="nav-link" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a> 
         </li>
         <li class="nav-item">
           <a id="associates" class="nav-link" [routerLink]="['/associate-listing']" routerLinkActive="active">Associate List</a>

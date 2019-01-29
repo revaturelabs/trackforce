@@ -97,6 +97,7 @@ public class BatchResource {
 			}
 			status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		} else {
+			logger.info("User has insufficient Privilieges. Forbidden Access");
 			status = Status.FORBIDDEN;
 		}
 		logMessage.append("	batches size: " + (batches == null ? null : batches.size()));
@@ -120,10 +121,11 @@ public class BatchResource {
 	public Response getBatchAssociates(@PathParam("id") Integer id, @HeaderParam("Authorization") String token) {
 		logger.info("getBatchAssociates()...");
 		Set<TfAssociate> associates = batchService.getBatchById(id).getAssociates();
-		logger.info("associates batch set _>"+associates.isEmpty());
+		logger.info("associates batch set -> "+associates.isEmpty());
 		
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
@@ -137,9 +139,10 @@ public class BatchResource {
 			// results and status set in here
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		} else {
+			logger.error("User has insufficient Privileges. Forbidden Access");
 			status = Status.FORBIDDEN;
 		}
-		logger.info("status"+status);
+		logger.info("Return status: "+status);
 		return Response.status(status).entity(associates).build();
 	}
 
@@ -156,11 +159,20 @@ public class BatchResource {
 		logger.info("getBatchDetails()...");
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
 		status = Status.OK;
 		int role = Integer.parseInt((String)payload.get("roleID"));
+		
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+		if (authorizedRoles.contains(role)) {
+			status = Status.OK;
+		} else {
+			logger.info("User has insufficient Privilieges. Forbidden Access");
+			status = Status.FORBIDDEN;
+		}
 		
 		JSONObject batchDetails = new JSONObject();
 		JSONArray batchesJ = new JSONArray();
@@ -192,12 +204,13 @@ public class BatchResource {
 	 */
 	public Integer getUnmappedCount(Set<TfAssociate> associates) {
 		int n = 0;
-		
+		logger.info("Method call to getUnammpedCount");
 		for(TfAssociate a : associates) {
 			if(a.getMarketingStatus().getId() > 5)
 				n++;
 		}
-			
+		
+		logger.info("Return all unmapped Associates.");
 		return n;
 	}
 
@@ -215,6 +228,7 @@ public class BatchResource {
 
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
@@ -225,6 +239,7 @@ public class BatchResource {
 		if (authorizedRoles.contains(role)) {
 			status = Status.OK;
 		} else {
+			logger.info("User has insufficient Privilieges. Forbidden Access");
 			status = Status.FORBIDDEN;
 		}
 		
@@ -236,6 +251,7 @@ public class BatchResource {
 		
 		Long lCount = Long.valueOf(count.toString());
 		associateCount.put("associateCount", lCount);
+		logger.info("Return Batch Counts for associates.");
 		return Response.status(status).entity(associateCount.toString()).build();
 	}
 	
@@ -248,6 +264,7 @@ public class BatchResource {
 		logger.info("getBatchesWithinDates()...");
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
@@ -258,6 +275,7 @@ public class BatchResource {
 		if (authorizedRoles.contains(role)) {
 			status = Status.OK;
 		} else {
+			logger.info("User has insufficient Privilieges. Forbidden Access");
 			status = Status.FORBIDDEN;
 		}
 		
@@ -283,10 +301,20 @@ public class BatchResource {
 
 		Claims payload = JWTService.processToken(token);
 		if (payload == null) {
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		Status status = null;
 		status = Status.OK;
+		int role = Integer.parseInt((String)payload.get("roleID"));
+
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+		if (authorizedRoles.contains(role)) {
+			status = Status.OK;
+		} else {
+			logger.info("User has insufficient Privilieges. Forbidden Access");
+			status = Status.FORBIDDEN;
+		}
 		
 		BatchDaoImpl bd = new BatchDaoImpl();
 		TfBatch batch = batchService.getBatchById(id);

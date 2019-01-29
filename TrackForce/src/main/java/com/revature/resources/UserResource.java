@@ -83,18 +83,21 @@ public class UserResource {
 	public Response createUser(TfUserAndCreatorRoleContainer container, @HeaderParam("Authorization") String token) {
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null) 
+		if (payload == null) {
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		}
 		TfUser newUser = container.getUser();
 		int creatorRole = Integer.parseInt((String) payload.get("roleID"));
-		StringBuilder logMessage = new StringBuilder("creating new user..." + newUser);
+		StringBuilder logMessage = new StringBuilder("Call Method createUser(). User: " + newUser);
 		
 		// any user created by an admin is approved
 		if(creatorRole == 1)
 			newUser.setIsApproved(1);
-		else if (creatorRole > 4)
+		else if (creatorRole > 4) {
+			logger.error("Associate Role detected. Forbidden Access.");
 			return Response.status(Status.FORBIDDEN).build();
-
+		}
 		// get the role being passed in
 		boolean works = true;
     
@@ -107,6 +110,7 @@ public class UserResource {
 			if (userService.getUser(newUser.getUsername()) == null){
 				tfrole = new TfRole(1, "Admin");
 				newUser.setTfRole(tfrole);
+				logMessage.append(logMessage + " \n Admin user is being created.");
 				logMessage.append("\n	The user with hashed password is " + newUser);
 				works = userService.insertUser(newUser);
 			}
@@ -134,6 +138,7 @@ public class UserResource {
 			if (userService.getUser(newUser.getUsername()) == null) {
 				tfrole = new TfRole(3, "Sales-Delivery");
 				newUser.setTfRole(tfrole);
+				logMessage.append(logMessage + " \n SalesForce user is being created.");
 				logMessage.append("\n	The user with hashed password is " + newUser);
 				works = userService.insertUser(newUser);
 			}
@@ -145,6 +150,7 @@ public class UserResource {
 			if (userService.getUser(newUser.getUsername()) == null) {
 				tfrole = new TfRole(4, "Staging");
 				newUser.setTfRole(tfrole);
+				logMessage.append(logMessage + " \n Staging Manager user is being created.");
 				logMessage.append("\n	The user with hashed password is " + newUser);
 				works = userService.insertUser(newUser);
 			}
@@ -177,6 +183,8 @@ public class UserResource {
 			logger.info(logMessage);
 			return Response.status(Status.CREATED).build();
 		} else {
+			logger.info(logMessage);
+			logger.error("Invalid Username.");
 			return Response.status(Status.EXPECTATION_FAILED).build();
 		}
 	}
@@ -186,9 +194,9 @@ public class UserResource {
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response checkUsername(String username) {
+		logger.info("Call Method checkUsername().");
 		final String varName = "result";
 		JsonObject json = new JsonObject();
-		
 		String message;
 		/*
 		if(userService.getUser(username) == null) {
@@ -204,6 +212,7 @@ public class UserResource {
 		Boolean found = userService.getUser(username) == null;
 		json.addProperty(varName, found.toString());
 		message = json.toString();
+		logger.info("Send back if username found. Found: "+found);
 		return Response.ok(message, MediaType.TEXT_PLAIN).build();
 	}
 	/**
@@ -221,7 +230,7 @@ public class UserResource {
 	@Consumes("application/json")
 	@ApiOperation(value = "Creates new Associate", notes = "Takes username, password, fname and lname to create new associate and user")
 	public Response createNewAssociate(TfAssociate newAssociate) {
-		logger.info("createNewAssociate()...");
+		logger.info("Method Call from Login Page with Register. createNewAssociate().");
 		LogUtil.logger.info(newAssociate);
 		if (newAssociate.getUser().getRole() == 5) {
 			boolean works = false;
@@ -234,10 +243,13 @@ public class UserResource {
 			works = associateService.createAssociate(newAssociate);
 
 			if (works) {
+				logger.info("Valid Associate Created.");
 				return Response.status(Status.CREATED).build();
 			}
+			logger.error("Associate could not be created. Invalid parameters.");
 			return Response.status(Status.EXPECTATION_FAILED).build();
 		} else {
+			logger.error("Invalid Role-type. Associate Role expected.");
 			return Response.status(Status.FORBIDDEN).build();
 		}
 	}
@@ -256,7 +268,7 @@ public class UserResource {
 	@Consumes("application/json")
 	@ApiOperation(value = "Creates new trainer", notes = "")
 	public Response createTrainer(TfTrainer newTrainer) {
-		logger.info("creating new user...");
+		logger.info("Method Call from Login Page with Register. createTrainer().");
 		LogUtil.logger.info(newTrainer);
 		if (newTrainer.getTfUser().getRole() == 2) {
 			boolean works = false;
@@ -270,10 +282,13 @@ public class UserResource {
 			works = trainerService.createTrainer(newTrainer);
 
 			if (works) {
+				logger.info("Valid Trainer Created.");
 				return Response.status(Status.CREATED).build();
 			}
+			logger.error("Trainer could not be created. Invalid Parameters.");
 			return Response.status(Status.EXPECTATION_FAILED).build();
 		} else {
+			logger.error("Invalid Role-type. Trainer Role expected.");
 			return Response.status(Status.FORBIDDEN).build();
 		}
 	}
@@ -304,8 +319,10 @@ public class UserResource {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 		if (user != null) {
+			logger.info("User object detected. Valid parameters.");
 			return Response.status(Status.OK).entity(user).build();
 		} else {
+			logger.error("No user object found. Invalid parameters.");
 			return Response.status(Status.UNAUTHORIZED).entity(null).build();
 		}
 	}
@@ -324,10 +341,14 @@ public class UserResource {
 
 		Claims payload = JWTService.processToken(token);
 
-		if (payload == null) 
+		if (payload == null) {
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		else
+		}
+		else {
+			logger.info("Payload contains Information. JWT valid.");
 			return Response.status(Status.OK).build();
+		}
 
 	}
 	
@@ -349,8 +370,10 @@ public class UserResource {
 		Claims payload = JWTService.processToken(token);
 		
 		if(payload == null) {
+			logger.error("The payload was null. Unathorized access.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
+		logger.info("JWT Valid. Returning User Role.");
 		return Response.status(Status.OK).entity(payload.get("roleID")).build();
 	}
 }

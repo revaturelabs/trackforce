@@ -10,7 +10,7 @@ import { ChartOptions } from '../../models/ng2-charts-options.model';
 import '../../constants/selected-status.constants';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { Color } from 'ng2-charts';
-
+import { LocalStorage } from '../../constants/local-storage';
 
 @Component({
   selector: 'app-skillset',
@@ -239,7 +239,7 @@ export class SkillsetComponent implements OnInit {
   }
 
   public getUnmappedData() {
-    this.unmappedData = JSON.parse(localStorage.getItem('unmappedData'));
+    this.unmappedData = JSON.parse(localStorage.getItem(LocalStorage.UNMAPPED_DATA_KEY));
   }
 
   /**

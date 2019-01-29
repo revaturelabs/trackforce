@@ -6,6 +6,7 @@ import { Color } from 'ng2-charts';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { ChartScale } from '../../models/chart-scale.model';
+import { LocalStorage } from '../../constants/local-storage';
 
 @Component({
   selector: 'app-deployed',
@@ -143,7 +144,7 @@ export class DeployedComponent implements OnInit {
   }
 
   getDeployedData() {
-    this.deployedData = JSON.parse(localStorage.getItem('deployedData'));
+    this.deployedData = JSON.parse(localStorage.getItem(LocalStorage.DEPLOYED_DATA_KEY));
   }
 
     /**

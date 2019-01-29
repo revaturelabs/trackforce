@@ -5,8 +5,9 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
-//import { ClientService } from '../../services/client-service/client.service';
+import { LocalStorage } from '../../constants/local-storage';
 import { userInfo } from 'os';
+
 /**
  *@author Michael Tseng
  *
@@ -40,7 +41,7 @@ export class AssociateViewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.user = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER_KEY));
     this.id = this.user.id;
     this.associateService.getAssociate(this.id).subscribe(
       data => {

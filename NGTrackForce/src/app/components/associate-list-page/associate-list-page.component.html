@@ -12,7 +12,7 @@
         </div>
         <div class="form-row">
           <div class="form-group col-md-4 offset-md-1">
-            <label for="stat">Status</label>
+            <label for="stat">Marketing Status</label>
             <select class="form-control" id="stat" [(ngModel)]="filterByStatus" name="filterByStatus">
               <option *ngFor="let status of associateStatuses" [value]="status">{{status}}</option>
             </select>

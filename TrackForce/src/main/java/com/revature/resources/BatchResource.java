@@ -166,6 +166,14 @@ public class BatchResource {
 		status = Status.OK;
 		int role = Integer.parseInt((String)payload.get("roleID"));
 		
+		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4}));
+		if (authorizedRoles.contains(role)) {
+			status = Status.OK;
+		} else {
+			logger.info("User has insufficient Privilieges. Forbidden Access");
+			status = Status.FORBIDDEN;
+		}
+		
 		JSONObject batchDetails = new JSONObject();
 		JSONArray batchesJ = new JSONArray();
 
@@ -304,6 +312,7 @@ public class BatchResource {
 		if (authorizedRoles.contains(role)) {
 			status = Status.OK;
 		} else {
+			logger.info("User has insufficient Privilieges. Forbidden Access");
 			status = Status.FORBIDDEN;
 		}
 		

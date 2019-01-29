@@ -136,9 +136,13 @@ public class InterviewDAOTest {
 	/**
 	 * Tests for createInterview method
 	 */
-	@Test(expectedExceptions = NullPointerException.class)
+	@Test
 	public void interviewDaoCannotCreateDuplicateInterview() {
-		Assert.assertTrue(new InterviewDaoImpl().createInterview((new InterviewDaoImpl().getInterviewById(3))));
+		Assert.assertFalse(new InterviewDaoImpl().createInterview((new InterviewDaoImpl().getInterviewById(3))));
+	}
+	@Test
+	public void interviewDaoCanCreateInterview() {
+		Assert.assertTrue(new InterviewDaoImpl().createInterview(new TfInterview(999,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)));
 	}
 
 }

@@ -50,3 +50,7 @@ tbody > tr:hover {
 tbody:hover > tr:not(:hover) {
   opacity: 0.5;
 }
+
+#back-button {
+  margin: 20px 0;
+}

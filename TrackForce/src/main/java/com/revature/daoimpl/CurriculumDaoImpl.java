@@ -8,12 +8,15 @@ import org.hibernate.Session;
 import com.revature.dao.CurriculumDao;
 import com.revature.entity.TfCurriculum;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
+
 import javax.persistence.criteria.*;
 
 public class CurriculumDaoImpl implements CurriculumDao {
 	
 	@Override
 	public List<TfCurriculum> getAllCurriculums() {
+		LogUtil.logger.trace("Hibernate Call to get all Curriculumns.");
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
 			session.createQuery("from TfCurriculum", TfCurriculum.class)
 			.setCacheable(true).getResultList());
@@ -21,6 +24,7 @@ public class CurriculumDaoImpl implements CurriculumDao {
 
 	@Override
 	public List<GraphedCriteriaResult> getUnmapped(int id) {
+		LogUtil.logger.trace("Hibernate Call to get Curriculums for Unmapped Associates based on StatusId.");
 		return HibernateUtil.runHibernate((Session session, Object ... args) -> {
 					CriteriaBuilder cb = session.getCriteriaBuilder();
 					CriteriaQuery<GraphedCriteriaResult> query = cb.createQuery(GraphedCriteriaResult.class);

@@ -65,8 +65,6 @@ import { InvalidSessionComponent } from './components/invalid-session/invalid-se
 import { HighlightInterviewDirective } from './directives/highlight-interview.directive';
 import { UpdateDialogComponent } from './components/associate-list-page/associate-list-page.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,

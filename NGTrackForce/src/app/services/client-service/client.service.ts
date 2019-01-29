@@ -10,7 +10,7 @@ import { Client } from '../../models/client.model';
  */
 
 @Injectable()
-export class ClientService {
+export class ClientService { 
   private baseURL: string = environment.url + 'TrackForce/clients';
   private mappedClientUrl = environment.url + 'TrackForce/clients/mapped/get/'
   private clientUrl = environment.url + 'TrackForce/clients/associates/get/'

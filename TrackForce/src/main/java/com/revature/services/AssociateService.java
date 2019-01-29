@@ -87,6 +87,7 @@ public class AssociateService {
         try {
             return dao.getNAssociateMatchingCriteria(startIdx, numRes, mktStatus, clientId, sortText, firstName, lastName);
         } catch (Exception e) {
+        	LogUtil.logger.error("Catch-all Exception Thrown." + e.getMessage());
             throw e;
         }
     }

@@ -262,9 +262,4 @@ public class JWTService {
 		
 		return body.toString();
 	}
-<<<<<<< Updated upstream
 }
-=======
-	
-}
->>>>>>> Stashed changes

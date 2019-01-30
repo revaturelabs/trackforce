@@ -53,7 +53,7 @@ public class UserDAOTest {
 
 	@Test
 	public void updateUserDaoWorks() {
-		TfUser user = new UserDaoImpl().getUser("dvtestuser2");
+		TfUser user = new UserDaoImpl().getUser("Jose");
 		Assert.assertEquals(new UserDaoImpl().updateUser(user), true);
 	}
 }

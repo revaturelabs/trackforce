@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgModule, DebugElement } from '@angular/core';
+import { NgModule, DebugElement, NgModuleFactoryLoader, Injector, Compiler } from '@angular/core';
 import { SkillsetComponent } from './skillset.component';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -22,9 +22,9 @@ import {
 import { Batch } from '../../models/batch.model';
 import { GraphCounts } from '../../models/graph-counts';
 
-import { convertToParamMap, NavigationExtras } from '../../../../node_modules/@angular/router';
+import { convertToParamMap, NavigationExtras, UrlSerializer, ChildrenOutletContexts } from '../../../../node_modules/@angular/router';
 import { MatProgressSpinner, MatProgressSpinnerModule } from '../../../../node_modules/@angular/material';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { LocalStorage } from '../../constants/local-storage';
 import { Router } from '@angular/router';
@@ -90,7 +90,7 @@ export class MockRouter {
   navigateByUrl(url: String) { return url;}
 }
 
-describe('SkillsetComponent', () => {
+fdescribe('SkillsetComponent', () => {
   let component: SkillsetComponent;
   let fixture: ComponentFixture<SkillsetComponent>;
   let activatedRoute : ActivatedRouteStub;
@@ -127,6 +127,7 @@ describe('SkillsetComponent', () => {
       ],
       providers : [
         {provide: CurriculumService, useClass: MockCurriculumService},
+        {provide: Router, useClass: MockRouter},
         // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(0)},
       { provide : ActivatedRoute, useValue : {
         snapshot: {params: {id: 0},
@@ -194,6 +195,7 @@ describe('SkillsetComponent', () => {
 
   it('should have buttons that trigger changeChartType()', () => {
     spy = spyOn(component, "changeChartType");
+    let numOfBtns:number = 3;
     // click each of the buttons
     let els = fixture.debugElement.nativeElement;
     let btns = els.querySelectorAll('button');
@@ -208,14 +210,11 @@ describe('SkillsetComponent', () => {
       btn.click();
     }
 
-    expect(spy).toHaveBeenCalledTimes(i);
+    expect(spy).toHaveBeenCalledTimes(numOfBtns);
 
   })
 
-  //Not sure this test belongs here. It seems like they wanted to test a service's functionality.
   it('should have one-to-one relation between skillsetData and skillsetLabels', () => {
-      component.skillsetData = [1, 2, 3];
-      component.skillsetLabels = ["1", "2", "3"];
       expect(component.skillsetData.length).toBeTruthy();
       expect(component.skillsetLabels.length).toBeTruthy();
       expect(component.skillsetLabels.length).toEqual(component.skillsetData.length);
@@ -232,7 +231,6 @@ describe('SkillsetComponent', () => {
     let type2 = "polar";
     let type3 = "bar";
     
-
     component.changeChartType(type1);
     expect(component.chartOptions.legend).not.toBeNull();
 

@@ -21,6 +21,7 @@ import { MatDialog, MatDialogModule } from '@angular/material';
 import { CommonModule } from '@angular/common';
 import { AssociateListRoutingModule } from './associate-list-page-routing.module';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { MockAssociateService, MockClientService } from '../../testing-helpers/test-mock-services'
 
 describe('AssociateListPageComponent', () => {
   let component: AssociateListPageComponent;
@@ -50,8 +51,8 @@ describe('AssociateListPageComponent', () => {
       ],
       providers: [
         RequestService,
-        AssociateService,
-        ClientService
+        {provide: ClientService, useClass: MockClientService},
+        {provide: AssociateService, useClass: MockAssociateService}
       ],
       imports:[
         FormsModule,

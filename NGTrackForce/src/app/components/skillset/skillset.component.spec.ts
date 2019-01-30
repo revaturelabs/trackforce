@@ -1,8 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgModule } from '@angular/core';
+import { NgModule, DebugElement, NgModuleFactoryLoader, Injector, Compiler } from '@angular/core';
 import { SkillsetComponent } from './skillset.component';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
-import { element, by, browser } from 'protractor';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ChartsModule } from 'ng2-charts';
 import { HomeComponent } from '../home/home.component';
@@ -15,21 +14,20 @@ import { FormComponent } from '../form-component/form.component';
 // added imports; DK
 import { FormsModule } from '@angular/forms';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import {
-  ActivatedRoute, ActivatedRouteStub, Router, RouterStub
+  ActivatedRoute, ActivatedRouteStub, RouterStub
 } from '../../testing-helpers/router-stubs';
 import { Batch } from '../../models/batch.model';
 import { GraphCounts } from '../../models/graph-counts';
 
-import { SSL_OP_PKCS1_CHECK_1 } from 'constants';
-import { convertToParamMap, NavigationExtras } from '../../../../node_modules/@angular/router';
-import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
-import { routerNgProbeToken } from '../../../../node_modules/@angular/router/src/router_module';
+import { convertToParamMap, NavigationExtras, UrlSerializer, ChildrenOutletContexts } from '../../../../node_modules/@angular/router';
 import { MatProgressSpinner, MatProgressSpinnerModule } from '../../../../node_modules/@angular/material';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { LocalStorage } from '../../constants/local-storage';
+import { Router } from '@angular/router';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -92,10 +90,13 @@ export class MockRouter {
   navigateByUrl(url: String) { return url;}
 }
 
-describe('SkillsetComponent', () => {
+fdescribe('SkillsetComponent', () => {
   let component: SkillsetComponent;
   let fixture: ComponentFixture<SkillsetComponent>;
   let activatedRoute : ActivatedRouteStub;
+  let service = new MockCurriculumService(null);
+  let router:Router;
+  let spy: any;
 
   let routes = [
     {
@@ -125,7 +126,8 @@ describe('SkillsetComponent', () => {
         HomeModule,
       ],
       providers : [
-        CurriculumService,
+        {provide: CurriculumService, useClass: MockCurriculumService},
+        {provide: Router, useClass: MockRouter},
         // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(0)},
       { provide : ActivatedRoute, useValue : {
         snapshot: {params: {id: 0},
@@ -138,33 +140,7 @@ describe('SkillsetComponent', () => {
   }));
 
   beforeEach(() => {
-    TestBed.resetTestingModule();
-
-    TestBed.configureTestingModule({
-      declarations: [
-        SkillsetComponent,
-        NavbarComponent,
-        FormComponent
-      ],
-      imports : [
-        HttpClientTestingModule,
-        ChartsModule,
-        RouterTestingModule.withRoutes(routes),
-        FormsModule,
-        HomeModule,
-      ],
-      providers : [
-        CurriculumService,
-        // { provide: ActivatedRoute, useValue: MockActivatedRoute.createMockRoute(0)},
-      { provide : ActivatedRoute, useValue : {
-        snapshot: {params: {id: 0},
-                   paramMap: convertToParamMap({id: 0})}
-
-        } },
-      ]
-    }).compileComponents();
-
-    localStorage.setItem('unmappedData',JSON.stringify([1,2,3,4]));
+    localStorage.setItem(LocalStorage.UNMAPPED_DATA_KEY, LocalStorage.TEST_UNMAPPED_DATA_VALUE);
     activatedRoute = new ActivatedRouteStub();
     fixture = TestBed.createComponent(SkillsetComponent);
     component = fixture.componentInstance;
@@ -210,59 +186,38 @@ describe('SkillsetComponent', () => {
     expect(idFound).toBeTruthy();//.toBeTruthy();
   })
 
+  //This is the only test that fails in this suite right now.
   it('should redirect to home if out-of-bounds id was received', () => {
-    // const url = spyOn(router, 'navigateByUrl').calls.first().args[0];
+    const url = spyOn(router, 'navigateByUrl').calls.first().args[0];
     activatedRoute.testParamMap = { id: -100 };
-    // expect(url).toBe('/app-home');
+    expect(url).toBe('/app-home');
   })
 
   it('should have buttons that trigger changeChartType()', () => {
+    spy = spyOn(component, "changeChartType");
+    let numOfBtns:number = 3;
     // click each of the buttons
-    let chartChangeButtons = fixture.nativeElement.querySelector('.btn.btn-default');
+    let els = fixture.debugElement.nativeElement;
+    let btns = els.querySelectorAll('button');
     let i = 0;
-    for (let btn of chartChangeButtons)
+    
+    for (let btn of btns)
     {
+      i++;
       // sanity testing the buttons to make sure they are actual buttons and not indices of some array
-      expect(btn).toBeNaN();
       expect(btn.click).not.toBeUndefined();
       // clicking the buttons
-      btn.click().then((data) => {
-        // on click, changeChartType should invoke
-        // TODO: find way to check the data itself
-        expect(component.changeChartType).toHaveBeenCalledTimes(++i);
-
-      });
+      btn.click();
     }
+
+    expect(spy).toHaveBeenCalledTimes(numOfBtns);
 
   })
 
-    it('should not be using DUMMY_DATA', () => {
-    // waiting on the observable in ngOnInit() to finish ...
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(component.skillsetData).not.toEqual(component.DUMMY_DATA);
-    })
-    // making sure that the skillsetData is now equal to the results of the data returned from CurriculumService
-    .then(() => {
-      let service : CurriculumService = TestBed.get(CurriculumService);
-      service.getSkillsetsForStatusID(1).subscribe((res) => {
-        expect(component.skillsetData).toEqual(res.map((obj) => obj.count))
-      },
-        error => console.error('Error in skillset.component.spec.ts: ', error.message)
-      )
-      .unsubscribe()
-    })
-  });
-
   it('should have one-to-one relation between skillsetData and skillsetLabels', () => {
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      component.skillsetData = [1, 2, 3];
-      component.skillsetLabels = ["1", "2", "3"];
       expect(component.skillsetData.length).toBeTruthy();
       expect(component.skillsetLabels.length).toBeTruthy();
       expect(component.skillsetLabels.length).toEqual(component.skillsetData.length);
-    })
   })
 
   it('chart type should be set by changeChartType method', () => {
@@ -276,7 +231,6 @@ describe('SkillsetComponent', () => {
     let type2 = "polar";
     let type3 = "bar";
     
-
     component.changeChartType(type1);
     expect(component.chartOptions.legend).not.toBeNull();
 

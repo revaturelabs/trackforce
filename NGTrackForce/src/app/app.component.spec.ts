@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AuthenticationService } from './services/authentication-service/authentication.service';
+import { MockAuthenticationService } from './testing-helpers/test-mock-services'
 import { RequestService } from './services/request-service/request.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing/';
 
@@ -20,7 +21,7 @@ describe('AppComponent', () => {
         RouterTestingModule, HttpClientTestingModule
       ], 
       providers: [
-        AuthenticationService,
+        {provide: AuthenticationService, useClass: MockAuthenticationService},
         RequestService
       ]
     }).compileComponents();

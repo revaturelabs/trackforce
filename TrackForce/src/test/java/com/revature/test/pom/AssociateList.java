@@ -98,6 +98,10 @@ public class AssociateList {
 		return driver.findElement(By.id("updateVerification"));
 	}
 	
+	public static WebElement getUpdatePopup(WebDriver driver) {
+		return driver.findElement(By.linkText("Update"));
+	}
+	
 	public static WebElement getClientModalSelect(WebDriver driver) {
 		return driver.findElement(By.id("updateClient"));
 	}

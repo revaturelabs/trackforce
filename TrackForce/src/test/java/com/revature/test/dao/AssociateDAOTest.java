@@ -122,14 +122,14 @@ public class AssociateDAOTest {
 		List<TfAssociate> list = dao.getAllAssociates();
 		int total = Integer.parseInt(props.getProperty("total"));
 		assertTrue(list != null);
-		assertTrue(list.size() >= 0);
+		assertTrue(!list.isEmpty());
 	}
 
 	@Test(groups= {"getters"})
 	public void testAssociateDAOGetNAssociates() {
 		List<TfAssociate> list = dao.getNAssociates();
 		assertTrue(list != null);
-		assertTrue(list.size() >= 0);
+		assertTrue(!list.isEmpty());
 	}
 	
 	

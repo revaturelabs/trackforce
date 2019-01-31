@@ -6,7 +6,7 @@ import { ChartOptions } from '../../models/ng2-charts-options.model';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { ChartScale } from '../../models/chart-scale.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LocalStorage } from '../../constants/local-storage';
+import { LocalStorageUtils } from '../../constants/local-storage';
 
 @Component({
   selector: 'app-undeployed',
@@ -140,7 +140,7 @@ export class UndeployedComponent implements OnInit {
 
 
   getUndeployedData() {
-    this.undeployedData = JSON.parse(localStorage.getItem(LocalStorage.UNDEPLOYED_DATA_KEY));
+    this.undeployedData = JSON.parse(localStorage.getItem(LocalStorageUtils.UNDEPLOYED_DATA_KEY));
   }
 
   changeSelectedStatus(status: number) {

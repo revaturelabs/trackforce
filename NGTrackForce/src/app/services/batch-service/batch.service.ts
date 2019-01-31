@@ -3,9 +3,11 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Batch } from '../../models/batch.model';
 import { Associate } from '../../models/associate.model';
+import { LocalStorageUtils } from '../../constants/local-storage';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class BatchService {
@@ -24,15 +26,24 @@ export class BatchService {
     /*
       Get batches with dates
     */
-    public getBatchesWithinDates(
-        startDate: Date,
-        endDate: Date
-    ): Observable<Batch[]> {
-        const url =
-            this.baseURL +
-            '/withindates' +
-            `/?start=${startDate.getTime()}&end=${endDate.getTime()}`;
-        return this.http.get<Batch[]>(url);
+    public getBatchesWithinDates(startDate: Date,endDate: Date): Observable<Batch[]> {
+        const url = this.baseURL + '/withindates' + `/?start=${startDate.getTime()}&end=${endDate.getTime()}`;
+        let key: string = LocalStorageUtils.CACHE_BATCHES_WITHIN_DATES 
+            + "|" + startDate.toDateString() + "|" + endDate.toDateString()
+        let batches: BehaviorSubject<Batch[]>  = new BehaviorSubject<Batch[]>([])
+
+        if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+            this.http.get<Batch[]>(url).subscribe(
+                (data: Batch[]) => {
+                    batches.next(data)
+                    localStorage.setItem(key, JSON.stringify(data));
+                }
+            );
+        } else {
+            batches.next(JSON.parse(localStorage.getItem(key)));
+        }
+
+        return batches
     }
 
     /**

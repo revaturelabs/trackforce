@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
-import { LocalStorage } from '../constants/local-storage';
+import { LocalStorageUtils } from '../constants/local-storage';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -26,7 +26,7 @@ export class JwtInterceptor implements HttpInterceptor {
   *
   */
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const currentUser: User = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER_KEY));
+    const currentUser: User = JSON.parse(localStorage.getItem(LocalStorageUtils.CURRENT_USER_KEY));
     if(currentUser && currentUser.token){
       request = request.clone({
         setHeaders: {

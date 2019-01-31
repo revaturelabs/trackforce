@@ -21,7 +21,7 @@ import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 // import 'rxjs/Rx';
 
 import { async } from '@angular/core/testing';
-import { LocalStorage } from '../../constants/local-storage';
+import { LocalStorageUtils } from '../../constants/local-storage';
 
 @Injectable()
 export class AuthenticationService {
@@ -70,7 +70,7 @@ export class AuthenticationService {
      * @author Max Dunn
      */
     getUser(): User {
-        const user: User = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER_KEY));
+        const user: User = JSON.parse(localStorage.getItem(LocalStorageUtils.CURRENT_USER_KEY));
         return user;
     }
 
@@ -102,7 +102,7 @@ export class AuthenticationService {
      */
     getAssociate(): Associate {
         const associate: Associate = JSON.parse(
-            localStorage.getItem(LocalStorage.CURRENT_ASSOCIATE_KEY)
+            localStorage.getItem(LocalStorageUtils.CURRENT_ASSOCIATE_KEY)
         );
         return associate;
     }
@@ -115,7 +115,7 @@ export class AuthenticationService {
      * @author Max Dunn
      */
     getTrainer(): Trainer {
-        const trainer: Trainer = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_TRAINER_KEY));
+        const trainer: Trainer = JSON.parse(localStorage.getItem(LocalStorageUtils.CURRENT_TRAINER_KEY));
         return trainer;
     }
 

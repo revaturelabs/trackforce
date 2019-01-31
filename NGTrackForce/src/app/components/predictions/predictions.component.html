@@ -45,7 +45,7 @@
             </tbody>
           </table>
         </div>
-      <button (click)="getAllPredictions()" class="btn btn-primary">Check Resources</button>
+      <button (click)="getAllPredictions()" class="btn btn-primary" id="check-resources">Check Resources</button>
       </div>
 
     </div>
@@ -91,11 +91,11 @@
             <tbody style="max-height: 222px;">
               <tr *ngFor="let o of results" (click)="getDetails(o.technology)" style="cursor: pointer;" id="{{o.technology}}">
                 <td><em style="margin-right:10px" class="fa fa-info-circle" aria-hidden="true"></em>{{o.technology}}</td>
-                <td>{{o.requested}}</td>
-                <td>{{o.available}}</td>
+                <td id="needed">{{o.requested}}</td>
+                <td id="available">{{o.available}}</td>
                 <!-- <td [class]="o.available > o.requested ? bg-success : bg-danger">{{o.available - o.requested}}</td> -->
-                <td class="bg-success" *ngIf="o.available > o.requested">{{o.available - o.requested}}</td>
-                <td class="bg-danger" *ngIf="o.available < o.requested">{{o.available - o.requested}}</td>
+                <td id="difference" class="bg-success" *ngIf="o.available > o.requested">{{o.available - o.requested}}</td>
+                <td id="difference" class="bg-danger" *ngIf="o.available < o.requested">{{o.available - o.requested}}</td>
                 <td *ngIf="o.available == o.requested">{{o.available - o.requested}}</td>
               </tr>
             </tbody>

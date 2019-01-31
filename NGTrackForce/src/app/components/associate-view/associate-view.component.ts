@@ -47,6 +47,7 @@ export class AssociateViewComponent implements OnInit {
       data => {
         this.associate = data;
         this.isDataReady = true;
+        console.log(data);
       },
       error => {
         console.log('error');
@@ -59,12 +60,26 @@ export class AssociateViewComponent implements OnInit {
   }
 
   updateInfo() {
-    this.associate.firstName = this.newFirstName;
-    this.associate.lastName = this.newLastName;
+    
+    if(this.newFirstName || this.newLastName) {
+      if(this.newFirstName) {
+        this.associate.firstName = this.newFirstName;
+      }
+      if(this.newLastName) {
+        this.associate.lastName = this.newLastName;
+      }
+    }
+    else {
+      return;
+    }    
 
     this.associateService.updateAssociate(this.associate).then(() => {
       this.succMsg = 'Information updated';
+      this.newFirstName = "";
+      this.newLastName = "";
     }).catch((err) => {
+      this.newFirstName = "";
+      this.newLastName = "";
       if (err.status === 500) {
         this.errMsg = 'There was an error with the server.';
       } else {

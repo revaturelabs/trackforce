@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Associate } from '../../models/associate.model';
 
-describe("AssociateService", () => {
+fdescribe("AssociateService", () => {
     //let service: AssociateService;
 
     beforeEach(() => {
@@ -30,10 +30,10 @@ describe("AssociateService", () => {
     );
 
     it("should successfully fetch associate data", inject([AssociateService], (service: AssociateService) => {
-        service.getAssociate(5).subscribe(
+        service.getAssociateByUserId(5).subscribe(
             data => {
                 expect(data).toBeTruthy();
-                //console.log(data);
+                console.log(data);
                 //expect(data.id).toBeTruthy();
                 //expect(data.marketingStatus).toBeTruthy();
             },

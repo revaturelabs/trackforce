@@ -3,7 +3,7 @@ Feature: Tests for the login page on Chrome
   Background:
     Given I connect to trackforce
     Given the login page loads
- 
+  
   Scenario: Log in as Administrator
     When I submit the correct admin login information
     Then I should be taken to the home page

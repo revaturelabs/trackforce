@@ -90,7 +90,7 @@ export class MockRouter {
   navigateByUrl(url: String) { return url;}
 }
 
-fdescribe('SkillsetComponent', () => {
+describe('SkillsetComponent', () => {
   let component: SkillsetComponent;
   let fixture: ComponentFixture<SkillsetComponent>;
   let activatedRoute : ActivatedRouteStub;
@@ -186,7 +186,9 @@ fdescribe('SkillsetComponent', () => {
     expect(idFound).toBeTruthy();//.toBeTruthy();
   })
 
-  //This is the only test that fails in this suite right now.
+  //This is the only test that fails in this suite right now. I can't tell exactly what the person who
+  //originally created it had in mind, but my implementation is definitely wrong (since the router object isn't initialized). 
+  //That said, feel free to take a stab at it! -Christina
   it('should redirect to home if out-of-bounds id was received', () => {
     const url = spyOn(router, 'navigateByUrl').calls.first().args[0];
     activatedRoute.testParamMap = { id: -100 };

@@ -103,8 +103,8 @@ export class MockAssociateService extends AssociateService {
     return Observable.of(this.mockData);
   }
 
-  getData(){
-    return this.mockData;
+  public getUndeployedAssociates() :Observable<GraphCounts[]>{
+    return Observable.of(this.mockData);
   }
 }
 

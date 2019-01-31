@@ -258,16 +258,24 @@ export class AssociateService {
 
     // Make initial request
     const url: string = this.baseURL + queryParams;
-    this.http.get<Associate[]>(url).subscribe(
-      (data: Associate[]) => {
-        this.currentAssociateSnapshot$.next(data);
-        if (!data) {
-          this.hasReceivedEndForCurrentFilter = true;
-        }
-      },
-      error => this.currentAssociateSnapshot$.error(error)
-    );
-    return this.currentAssociateSnapshot$;
+    // let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + queryParams
+
+    // if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      this.http.get<Associate[]>(url).subscribe(
+        (data: Associate[]) => {
+          this.currentAssociateSnapshot$.next(data);
+          // localStorage.setItem(key, JSON.stringify(data));
+
+          if (!data) {
+            this.hasReceivedEndForCurrentFilter = true;
+          }
+        },
+        error => this.currentAssociateSnapshot$.error(error)
+      );
+      return this.currentAssociateSnapshot$;
+    // } else {
+    //   return new BehaviorSubject<Associate[]>(JSON.parse(localStorage.getItem(key)));
+    // }
   }
 
   fetchNextSnapshot() {
@@ -291,15 +299,22 @@ export class AssociateService {
 
     // Make initial request
     const url: string = this.baseURL + queryParams;
-    this.http.get<Associate[]>(url).subscribe(
-      (data: Associate[]) => {
-        if (!data) {
-          this.hasReceivedEndForCurrentFilter = true;
-        }
-        this.currentAssociateSnapshot$.next(data)
-      },
-      error => this.currentAssociateSnapshot$.error(error)
-    );
-    return this.currentAssociateSnapshot$;
+    // let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + queryParams
+
+    // if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      this.http.get<Associate[]>(url).subscribe(
+        (data: Associate[]) => {
+          if (!data) {
+            this.hasReceivedEndForCurrentFilter = true;
+          }
+          this.currentAssociateSnapshot$.next(data)
+          // localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.currentAssociateSnapshot$.error(error)
+      );
+      return this.currentAssociateSnapshot$;
+    // } else {
+    //   return new BehaviorSubject<Associate[]>(JSON.parse(localStorage.getItem(key)));
+    // }
   }
 }

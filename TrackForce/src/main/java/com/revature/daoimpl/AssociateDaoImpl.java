@@ -332,6 +332,10 @@ public class AssociateDaoImpl implements AssociateDao {
 			temp.setFirstName(associate.getFirstName());
 			temp.setLastName(associate.getLastName());
 			temp.setStagingFeedback(associate.getStagingFeedback());
+			//v1811 - Temp code for updating client, marketing status, and isApproved via both update associate and List<Associates>
+			temp.setClient(associate.getClient());
+			temp.setMarketingStatus(associate.getMarketingStatus());
+			temp.getUser().setIsApproved(associate.getUser().getIsApproved());
 			session.update(temp);
 			return true;
 		});

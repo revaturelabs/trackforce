@@ -1,4 +1,5 @@
-Feature: Home Page Bottom Info Banner
+Feature: Home Page Tab
+  I want to use this template for my feature file
   
   Background:
   	Given I connect to trackforce
@@ -6,10 +7,6 @@ Feature: Home Page Bottom Info Banner
 
   Scenario: I click on the Revature telephone number
     When I click on the telephone link
-    Then I should see the telephone number link open on a browser
-    
-  Scenario: I click on the Revature fax number
-    When I click on the fax link
     Then I should see the telephone number link open on a browser
 
   Scenario: I click on the Revature email

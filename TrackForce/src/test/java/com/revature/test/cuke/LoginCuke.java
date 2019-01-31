@@ -11,7 +11,6 @@ import static com.revature.test.cuke.ConstantsCukeTestUtil.getAppHome;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getTrainerView;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getAssociateView;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getBaseUrl;
-import static com.revature.test.cuke.ConstantsCukeTestUtil.getTagPostLogin;
 
 import com.revature.test.pom.Login;
 import com.revature.test.pom.NavBar;
@@ -37,13 +36,6 @@ public class LoginCuke {
 		ServiceHooks.driver.get(getBaseUrl());
 		ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver, 4);
 	}
-	
-	@Given("^the login page loads$")
-	public void the_login_page_loads() throws Exception {
-		ServiceHooks.wait.until(ExpectedConditions.visibilityOf(Login.getUsername(ServiceHooks.driver)));
-		ServiceHooks.wait.until(ExpectedConditions.visibilityOf(Login.getPassword(ServiceHooks.driver)));
-		assertEquals(ServiceHooks.driver.getCurrentUrl(), getBaseUrl() + getLogin());
-	}
 
 	@Given("^I login as an Administrator$")
 	public void i_login_as_an_administrator() throws Exception {
@@ -55,9 +47,17 @@ public class LoginCuke {
 		i_submit_the_correct_associate_login_information();
 	}
 
+	// Use this once we make trainer feature
 	@Given("^I login as a Trainer$")
 	public void i_login_as_a_trainer() throws Exception {
 		i_submit_the_correct_trainer_login_information();
+	}
+
+	@Given("^the login page loads$")
+	public void the_login_page_loads() throws Exception {
+		ServiceHooks.wait.until(ExpectedConditions.visibilityOf(Login.getUsername(ServiceHooks.driver)));
+		ServiceHooks.wait.until(ExpectedConditions.visibilityOf(Login.getPassword(ServiceHooks.driver)));
+		assertEquals(ServiceHooks.driver.getCurrentUrl(), getBaseUrl() + getLogin());
 	}
 
 	@When("^I submit the correct admin login information$")
@@ -123,9 +123,10 @@ public class LoginCuke {
 		I_click_Submit();
 	}
 
+	// TODO: Find way to wait without having hardcoded ids.
 	@When("^I click Log out$")
 	public void i_click_Log_out() throws Exception {
-		ServiceHooks.wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName(getTagPostLogin())));
+		ServiceHooks.wait.until(ExpectedConditions.presenceOfElementLocated(By.id("navbarDropdown")));
 		NavBar.getWelcomeDropdown(ServiceHooks.driver).click();
 		ServiceHooks.wait.until(ExpectedConditions.presenceOfElementLocated(By.id(getLogout())));
 		NavBar.getLogout(ServiceHooks.driver).click();

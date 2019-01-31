@@ -1,4 +1,4 @@
-export class LocalStorage {
+export class LocalStorageUtils {
   public static readonly DEPLOYED_DATA_KEY = 'deployedData'
   public static readonly UNDEPLOYED_DATA_KEY = 'undeployedData'
   // Roles
@@ -9,6 +9,13 @@ export class LocalStorage {
 
   public static readonly MAPPED_DATA_KEY = 'mappedData'
   public static readonly UNMAPPED_DATA_KEY = 'unmappedData'
+
+  // Local cache data
+  public static readonly CACHE_ENABLED = true
+  public static readonly CACHE_CLIENT_ALL = 'clientGetAll'
+  public static readonly CACHE_CLIENT_COUNT = 'clientCount'
+  public static readonly CACHE_ASSOCIATE_COUNT = 'associateCount'
+  public static readonly CACHE_ASSOCIATE_BY_USER_ID = 'associateByUserId'
 
   // Sample test data
   public static readonly TEST_DEPLOYED_DATA_VALUE = '[102,68]'

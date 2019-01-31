@@ -6,6 +6,8 @@ import { Associate } from '../../models/associate.model';
 import { environment } from '../../../environments/environment';
 import { Interview } from '../../models/interview.model';
 import { GraphCounts } from '../../models/graph-counts';
+import { LocalStorageUtils } from '../../constants/local-storage';
+import { of } from 'rxjs/observable/of';
 
 /**
  * Service for retrieving and updating data relating to associates.
@@ -95,12 +97,23 @@ export class AssociateService {
    * get the count of the associates to display in the pie charts on the home page
    */
   getCountAssociates(): BehaviorSubject<number[]> {
-    const url: string = this.baseURL + '/countAssociates';
-    this.http.get<number[]>(url).subscribe(
-      (data: number[]) => this.associateCount$.next(data),
-      error => this.associateCount$.error(error)
-    );
-    return this.associateCount$;
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_COUNT
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      const url: string = this.baseURL + '/countAssociates';
+      this.http.get<number[]>(url).subscribe(
+        (data: number[]) => {
+          this.associateCount$.next(data)
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.associateCount$.error(error)
+      );
+
+      return this.associateCount$;
+    } else {
+      let count: number[] = JSON.parse(localStorage.getItem(key));
+      return new BehaviorSubject<number[]>(count);
+    }
   }
 
   /**
@@ -108,19 +121,28 @@ export class AssociateService {
    * Get specific associate by user id
    * @param id - the user id of the user object of an associate to retrieve
    */
-  getAssociate(id: number) {
-    const url: string = this.baseURL + '/' + id;
-    this.http.get<Associate>(url).subscribe(
-      (data: Associate) => this.associateByUserId$.next(data),
-      error => this.associateByUserId$.error(error)
-    );
-    return this.associateByUserId$;
+  getAssociateByUserId(id: number) {
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_BY_USER_ID + id
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      const url: string = this.baseURL + '/' + id;
+      this.http.get<Associate>(url).subscribe(
+        (data: Associate) => {
+          this.associateByUserId$.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.associateByUserId$.error(error)
+      )
+      return this.associateByUserId$;
+    } else {
+      return of(JSON.parse(localStorage.getItem(key)))
+    }
   }
 
   /**
    *
    * Get specific associate by associate id
-   * @param id - the user id of the user object of an associate to retrieve
+   * @param id - the associate id of an associate object
    */
   getByAssociateId(id: number) {
     const url: string = this.baseURL + '/associates/' + id;

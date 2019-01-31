@@ -9,7 +9,7 @@ import { ThemeConstants } from '../../constants/theme.constants';
 import { ChartOptions } from '../../models/ng2-charts-options.model';
 import '../../constants/selected-status.constants';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
-import { LocalStorage } from '../../constants/local-storage';
+import { LocalStorageUtils } from '../../constants/local-storage';
 
 @Component({
   selector: 'app-client-mapped',
@@ -195,7 +195,7 @@ export class ClientMappedComponent implements OnInit {
   };
 
   public getMappedData() {
-    this.mappedData = JSON.parse(localStorage.getItem(LocalStorage.MAPPED_DATA_KEY));
+    this.mappedData = JSON.parse(localStorage.getItem(LocalStorageUtils.MAPPED_DATA_KEY));
   }
 
   public changeSelectedStatus(statusId: number) {

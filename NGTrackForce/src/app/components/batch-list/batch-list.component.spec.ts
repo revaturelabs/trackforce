@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { MarketingStatus } from './../../models/marketing-status.model';
 import { Observable } from 'rxjs';
 import { MockAuthenticationService, MockAssociateService } from './../associate-view/associate-view.component.spec';
@@ -63,6 +64,8 @@ export class MockBatchService extends BatchService {
     const mockCurriculum: Curriculum = new Curriculum();
     mockCurriculum.id = 2;
     mockCurriculum.name = 'mockCurriculum';
+    const mockStartDate = 4;
+    const mockEndDate = 5;
 
     const mockLocation: BatchLocation = new BatchLocation(700,'Massachusetts');
 
@@ -127,9 +130,41 @@ export class MockBatchService extends BatchService {
 
     return Observable.of(mockAssociates);
   }
+
+  public getBatchesWithinDates(mockEndDate, mockStartDate):Observable<Batch[]>{
+
+    const mockUser: User = new User('mockUser', 'password', 0, 0);
+
+    const mockAssociate: Associate = new Associate('FirstName', 'LastName', mockUser, 101010, null, null, null, null, null, null, null);
+
+    const mockAssociates: Associate[] = [mockAssociate];
+
+    const mockCurriculum: Curriculum = new Curriculum();
+    mockCurriculum.id = 2;
+    mockCurriculum.name = 'mockCurriculum';
+
+    const mockLocation: BatchLocation = new BatchLocation(1, 'location');
+
+    const mockTrainer = new Trainer('ryan', 'something', mockUser, 2);
+
+    const mockBatch = new Batch();
+    mockBatch.id = 1;
+    mockBatch.batchName = 'name';
+    mockBatch.curriculumName = mockCurriculum;
+    mockBatch.location = mockLocation;
+    mockBatch.startDate = 4;
+    mockBatch.endDate = 5;
+    mockBatch.associates = mockAssociates;
+    mockBatch.trainer = mockTrainer;
+
+    const batches:Batch[] = [mockBatch];
+
+    return Observable.of(batches);
+
+  }
 }
 
-describe('BatchListComponent', async () => {
+describe('BatchListComponent', () => {
   let component: BatchListComponent;
   let fixture: ComponentFixture<BatchListComponent>;
   const testBatchService = new MockBatchService(null);
@@ -181,7 +216,7 @@ describe('BatchListComponent', async () => {
     spyOn(testAuthService, 'getUser').and.returnValue(user);  // needed by navbar
   });
 
-  beforeEach(() => {
+  beforeEach(async (() => {
     TestBed.configureTestingModule({
       declarations: [
         BatchListComponent,
@@ -191,9 +226,6 @@ describe('BatchListComponent', async () => {
         LoginComponent,
         CreateUserComponent,
         SearchFilterPipe,
-  //      AssociateSearchByTextFilter,
-  //      AssociateSearchByClientPipe,
-  //      AssociateSearchByStatusPipe,
         NavbarComponent,
         FormComponent,
         SkillsetComponent
@@ -201,7 +233,7 @@ describe('BatchListComponent', async () => {
       providers: [
         RequestService,
         {provide: AuthenticationService, useValue: testAuthService},
-        {provide: BatchService, useValue: testBatchService},  // inject service
+        {provide: BatchService, useValue: testBatchService},
       ],
       imports: [
         RouterTestingModule,
@@ -213,52 +245,21 @@ describe('BatchListComponent', async () => {
       schemas: [
         CUSTOM_ELEMENTS_SCHEMA
       ]
-    });
+    }).compileComponents();
+  }));
 
+  beforeEach(() =>{
     fixture = TestBed.createComponent(BatchListComponent);
     component = fixture.componentInstance;
-
-
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-    // expect(component).toBeTruthy();
-    fixture.detectChanges();
-    expect(component.dataReady).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it('should pull some batch data on init', () => {
-    fixture.whenStable().then(() => {
-      component.batches = this.batches;
-      expect(component.batches.length).toBeGreaterThanOrEqual(0);
-    });
-  });
-
-  it('data length should increase with larger range than default', () => {
-    fixture.whenStable().then(() => {
-      component.batches = this.batches;
-      expect(component.batches.length).toBeGreaterThanOrEqual(0);
-
-      component.startDate = component.endDate = new Date();
-     
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        component.batches = this.batches;
-        const defaultBatchCount = component.batches.length;
-        expect(defaultBatchCount).toBeGreaterThanOrEqual(0);
-
-        const now: Date = new Date();
-        component.startDate = new Date(0);  // 1970, aka very far back
-        component.endDate = new Date(now.getFullYear(), now.getMonth() + 6, 1); // 5-6 months in the future
-        
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          component.batches = this.batches;
-          expect(component.batches.length).toBeGreaterThanOrEqual(defaultBatchCount);
-        });
-      });
-    });
-
+      expect(component.batches.length).toBeGreaterThan(0);
   });
 
 });

@@ -8,9 +8,8 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { ActivatedRoute } from '@angular/router';
 import { RequestService } from '../../services/request-service/request.service';
-import { Observable } from 'rxjs/Observable';
 //import 'rxjs/add/observable/of';
-import { of } from 'rxjs/index';
+import { Observable } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 // added imports; DK
 import { ClientService } from '../../services/client-service/client.service';
@@ -22,11 +21,12 @@ import { User } from '../../models/user.model';
 import { MarketingStatus } from '../../models/marketing-status.model';
 import { CompileNgModuleMetadata } from '../../../../node_modules/@angular/compiler';
 import { BehaviorSubject } from 'rxjs';
+import { GraphCounts } from '../../models/graph-counts';
 
 export class MockActivatedRoute {
   static createMockRoute(tid: number): any {
     return {
-      params: of({ id: tid }),
+      params: Observable.of({ id: tid }),
       snapshot: {
         parent: {
           params: {
@@ -73,7 +73,7 @@ export class MockAuthenticationService extends AuthenticationService {
 
 
 export class MockAssociateService extends AssociateService {
-  public mockData =
+  public mockData:GraphCounts[] =
     [
       {
           "count": 10,
@@ -98,8 +98,13 @@ export class MockAssociateService extends AssociateService {
     return new BehaviorSubject(associate);
   }
 
-  getData(){
-    return this.mockData;
+  public getAssociatesByStatus(statusId:number): Observable<GraphCounts[]>{
+
+    return Observable.of(this.mockData);
+  }
+
+  public getUndeployedAssociates() :Observable<GraphCounts[]>{
+    return Observable.of(this.mockData);
   }
 }
 

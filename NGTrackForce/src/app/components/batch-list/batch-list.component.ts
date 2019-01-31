@@ -107,8 +107,6 @@ export class BatchListComponent implements OnInit {
 							let trainer = batch.trainer.id !== this.authService.getTrainer().id;
 			        let coTrainer = batch.coTrainer && !batch.coTrainer.includes(this.authService.getTrainer());
 			        if (trainer && (coTrainer == undefined || coTrainer)) {
-								console.log(batch.coTrainer);
-								console.log(batch);
 			          return false;
 			        }
 						}

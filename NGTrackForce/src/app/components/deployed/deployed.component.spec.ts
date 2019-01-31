@@ -29,22 +29,18 @@ describe('DeployedComponent', () => {
       declarations: [ DeployedComponent ],
       imports: [ChartsModule, RouterTestingModule.withRoutes(routes), HttpClientTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [AssociateService,
+      providers: [
+        {provide: AssociateService, useClass: MockAssociateService},
         HttpClient, HttpHandler]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    spy = spyOn(service, 'getAssociatesByStatus').and.returnValue(Observable.of(mockAssociateService.mockData));
     fixture = TestBed.createComponent(DeployedComponent);
     component = fixture.componentInstance;
-    //expect(service.getAssociatesByStatus).toHaveBeenCalled();
-    component.statusID = 1;
-    component.clientDeployedData = [1, 2, 3];
-    component.clientDeployedLabels = ["1", "2", "3"];
-    expect(component.clientDeployedData.length).toBeGreaterThan(0);
     fixture.detectChanges();
+    expect(component.clientDeployedData.length).toBeGreaterThan(0);
   });
 
   it('should create', () => {
@@ -52,7 +48,6 @@ describe('DeployedComponent', () => {
   });
 
   it('should have a graph at the top of the page when instantiated', () => {
-    expect(component.clientDeployedData).toBeTruthy();
     let el = fixture.debugElement.nativeElement;
     let canvas = el.querySelector('canvas');
     expect(canvas).toBeTruthy();

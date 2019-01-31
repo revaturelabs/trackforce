@@ -109,7 +109,7 @@ public class TrainerResource {
 				logger.error("No results found. CoTrainer had no batches.");
 				return Response.status(Status.NO_CONTENT).build();
 			}
-			status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			status = (batches == null || batches.isEmpty()) ? Status.NO_CONTENT : Status.OK;
 		}
 
 		logger.info("Returning all Batches associated with CoTrainer: " + id);

@@ -1,11 +1,8 @@
 import { AssociateService } from "./associate.service";
 import { TestBed, inject } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Associate } from '../../models/associate.model';
 
-fdescribe("AssociateService", () => {
-    //let service: AssociateService;
+describe("AssociateService", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -13,16 +10,10 @@ fdescribe("AssociateService", () => {
                 HttpClientTestingModule,
             ],
             providers: [
-                AssociateService,
-                //HttpClient
+                AssociateService
             ]
         });
-        //service = TestBed.get(AssociateService);
     });
-
-    // it("should be instantiated", () => {
-    //     expect(service).toBeTruthy;
-    // });
 
     it("should be instantiated", inject([AssociateService], (service: AssociateService) => {
             expect(service).toBeTruthy();
@@ -38,7 +29,7 @@ fdescribe("AssociateService", () => {
                 //expect(data.marketingStatus).toBeTruthy();
             },
             error => {
-                console.log('error');
+                console.log('getAssociateByUserId FAILED');
             }
         );
     }));

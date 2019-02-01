@@ -5,7 +5,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
 import { ActivatedRoute } from '@angular/router';
-import { LocalStorage } from '../../constants/local-storage';
+import { LocalStorageUtils } from '../../constants/local-storage';
 import { userInfo } from 'os';
 
 /**
@@ -41,12 +41,13 @@ export class AssociateViewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem(LocalStorage.CURRENT_USER_KEY));
+    this.user = JSON.parse(localStorage.getItem(LocalStorageUtils.CURRENT_USER_KEY));
     this.id = this.user.id;
-    this.associateService.getAssociate(this.id).subscribe(
+    this.associateService.getAssociateByUserId(this.id).subscribe(
       data => {
         this.associate = data;
         this.isDataReady = true;
+        console.log(data);
       },
       error => {
         console.log('error');
@@ -59,12 +60,26 @@ export class AssociateViewComponent implements OnInit {
   }
 
   updateInfo() {
-    this.associate.firstName = this.newFirstName;
-    this.associate.lastName = this.newLastName;
+    
+    if(this.newFirstName || this.newLastName) {
+      if(this.newFirstName) {
+        this.associate.firstName = this.newFirstName;
+      }
+      if(this.newLastName) {
+        this.associate.lastName = this.newLastName;
+      }
+    }
+    else {
+      return;
+    }    
 
     this.associateService.updateAssociate(this.associate).then(() => {
       this.succMsg = 'Information updated';
+      this.newFirstName = "";
+      this.newLastName = "";
     }).catch((err) => {
+      this.newFirstName = "";
+      this.newLastName = "";
       if (err.status === 500) {
         this.errMsg = 'There was an error with the server.';
       } else {

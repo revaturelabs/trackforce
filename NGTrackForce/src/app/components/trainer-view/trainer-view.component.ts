@@ -4,7 +4,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { TrainerService } from '../../services/trainer-service/trainer.service';
 import { Associate } from '../../models/associate.model';
 import {AssociateService} from "../../services/associate-service/associate.service";
-import { LocalStorage } from '../../constants/local-storage';
+import { LocalStorageUtils } from '../../constants/local-storage';
 
 @Component({
   selector: 'app-trainer-view',
@@ -56,7 +56,7 @@ export class TrainerViewComponent implements OnInit {
         this.statusMsg = 'Update was successful!';
         this.statusClass = 'success';
         this.formOpen = false;
-        localStorage.setItem(LocalStorage.CURRENT_TRAINER_KEY, JSON.stringify(this.trainer));
+        localStorage.setItem(LocalStorageUtils.CURRENT_TRAINER_KEY, JSON.stringify(this.trainer));
       },
       error => {
         this.statusMsg = `I'm sorry, there was an error when communicating with the server`;

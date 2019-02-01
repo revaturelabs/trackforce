@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, AsyncSubject, BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment'
 import { Client } from '../../models/client.model';
+import { LocalStorageUtils } from '../../constants/local-storage';
+import { of } from 'rxjs/observable/of';
 
 /**
  * @author Han Jung
@@ -10,7 +12,7 @@ import { Client } from '../../models/client.model';
  */
 
 @Injectable()
-export class ClientService { 
+export class ClientService {
   private baseURL: string = environment.url + 'TrackForce/clients';
   private mappedClientUrl = environment.url + 'TrackForce/clients/mapped/get/'
   private clientUrl = environment.url + 'TrackForce/clients/associates/get/'
@@ -25,11 +27,20 @@ export class ClientService {
    * Get a list of all of the clients
    */
   getAllClients(): Observable<Client[]> {
-    this.http.get<Client[]>(this.baseURL + "/getAll/").subscribe(
-      (data: Client[]) => this.clients$.next(data),
-      (error) => this.clients$.error(error)
-    );
-    return this.clients$;
+    let key: string = LocalStorageUtils.CACHE_CLIENT_ALL
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+        this.http.get<Client[]>(this.baseURL + "/getAll/").subscribe(
+          (data: Client[]) => {
+            this.clients$.next(data);
+            localStorage.setItem(key, JSON.stringify(data));
+          },
+          (error) => this.clients$.error(error)
+        );
+        return this.clients$;
+      } else {
+        return of(JSON.parse(localStorage.getItem(key)));
+      }
   }
 
   getFiftyClients(): Observable<Client[]> {
@@ -50,5 +61,4 @@ export class ClientService {
   getClientCount(clientId: number): Observable<number>{
     return this.http.get<number>(this.clientUrl + clientId);
   }
-
 }

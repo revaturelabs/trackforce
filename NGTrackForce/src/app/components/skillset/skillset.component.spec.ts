@@ -26,7 +26,7 @@ import { convertToParamMap, NavigationExtras, UrlSerializer, ChildrenOutletConte
 import { MatProgressSpinner, MatProgressSpinnerModule } from '../../../../node_modules/@angular/material';
 import { CommonModule, Location } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { LocalStorage } from '../../constants/local-storage';
+import { LocalStorageUtils } from '../../constants/local-storage';
 import { Router } from '@angular/router';
 
 @NgModule({
@@ -140,7 +140,7 @@ describe('SkillsetComponent', () => {
   }));
 
   beforeEach(() => {
-    localStorage.setItem(LocalStorage.UNMAPPED_DATA_KEY, LocalStorage.TEST_UNMAPPED_DATA_VALUE);
+    localStorage.setItem(LocalStorageUtils.UNMAPPED_DATA_KEY, LocalStorageUtils.TEST_UNMAPPED_DATA_VALUE);
     activatedRoute = new ActivatedRouteStub();
     fixture = TestBed.createComponent(SkillsetComponent);
     component = fixture.componentInstance;

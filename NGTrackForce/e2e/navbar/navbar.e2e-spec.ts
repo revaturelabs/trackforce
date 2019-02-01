@@ -48,11 +48,6 @@ describe('The admin navbar is functional', () => {
         expect(navbar.getCurrentURL()).toEqual(baseURL + 'create-user');
     });
 
-    it('should navigate to salesforce', () => {
-      navbar.goToSalesForce();
-      expect(navbar.getCurrentURL()).toEqual(baseURL + 'salesforce')
-    });
-
     it('should be able to logout', () => {
         page.getlogoutButton().click();
         expect(navbar.getCurrentURL()).toEqual(baseURL + 'login');

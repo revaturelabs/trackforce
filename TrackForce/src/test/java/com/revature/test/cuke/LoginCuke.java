@@ -1,6 +1,7 @@
 package com.revature.test.cuke;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -27,7 +28,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class LoginCuke {
-
+//Chrome Tests
 	@Given("^I connect to trackforce$")
 	public void i_connect_to_trackforce() throws Exception {
 		ServiceHooks.driver = WebDriverUtil.getChromeDriver();
@@ -166,7 +167,55 @@ public class LoginCuke {
 	public void I_click_Submit() throws Exception {
 		Login.getSignInButton(ServiceHooks.driver).click();
 	}
-
+	
+//End Chrome Tests
+	
+//Firefox Tests
+	@Given("^I connect to trackforce on Firefox$")
+	public void i_connect_to_trackforce_on_Firefox() throws Throwable {
+		ServiceHooks.driver = WebDriverUtil.getFirefoxDriver();
+		if (EnvManager.getOperatingSystemType() != OSType.MacOS) {
+			ServiceHooks.driver.manage().window().maximize();
+		}
+		ServiceHooks.driver.get(getBaseUrl());
+		ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver, 4);
+	}
+	
+	@When("^I input login credential username as \"([^\"]*)\"$")
+	public void i_input_login_credential_username_as(String username) throws Throwable {
+	   ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(By.id("username")));
+	   ServiceHooks.driver.findElement(By.id("username")).sendKeys(username.trim());
+	}
+	
+	@When("^input credential password as \"([^\"]*)\"$")
+	public void input_credential_password_as(String password) throws Throwable {
+		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(By.id("password")));
+		ServiceHooks.driver.findElement(By.id("password")).sendKeys(password.trim());
+	}
+	
+	@Then("^login succeeds and navigates away from the login page$")
+	public void login_succeeds_and_navigates_away_from_the_login_page() throws Throwable {
+		I_click_Submit();
+		ServiceHooks.wait.until(ExpectedConditions.not(ExpectedConditions.urlContains(getLogin())));
+		assertNotEquals(ServiceHooks.driver.getCurrentUrl(), getBaseUrl() + getLogin());
+	}
+	
+	@When("^I input an incorrect username as \"([^\"]*)\"$")
+	public void i_input_an_incorrect_username_as(String username) throws Throwable {
+		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(By.id("username")));
+		ServiceHooks.driver.findElement(By.id("username")).sendKeys(username.trim());
+	}
+	
+	@When("^I input an incorrect password as \"([^\"]*)\"$")
+	public void i_input_an_incorrect_password_as(String password) throws Throwable {
+		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(By.id("password")));
+		ServiceHooks.driver.findElement(By.id("password")).sendKeys(password.trim());
+		I_click_Submit();
+	}
+	//@Then I remain on the login page is already given above
+	
+//End Firefox Tests
+	
 	@After
 	public void close() {
 		ServiceHooks.driver.quit();

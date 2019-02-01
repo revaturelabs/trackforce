@@ -69,8 +69,8 @@ public class InterviewServicesTest {
 	  assertTrue(!interviews.isEmpty());
   }
 
-  
-  @Test
+  //Disabling test until it can be properly stubbed to prevent inserting to database
+  @Test(enabled=false)
   public void testInterviewCreate() {
 	  TfInterview interview = new TfInterview();
 	  interview.setAssociateFeedback("Unique string : associate feedback");
@@ -94,7 +94,7 @@ public class InterviewServicesTest {
    * Not idempotent because old information gets in the way of new 
    * but there isnt a simple way to delete a Client at the moment so fix that
    * */
-  @Test
+  @Test(enabled=false)//disabled until dao method can be properly stubbed.
   public void testInterviewUpdate() {
 	  TfInterview interview = service.getInterviewById(0);
 	  TfClient sampleClient = new TfClient();

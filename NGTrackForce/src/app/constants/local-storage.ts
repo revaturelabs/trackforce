@@ -12,13 +12,15 @@ export class LocalStorageUtils {
 
   // Local cache data
   public static readonly CACHE_ENABLED = true
+  public static readonly CACHE_ASSOCIATE_ALL = 'associateAll'
+  public static readonly CACHE_ASSOCIATE_COUNT = 'associateCount'
+  public static readonly CACHE_ASSOCIATE_BY_USER_ID = 'associateByUserId'
+  public static readonly CACHE_ASSOCIATE_PAGE = 'associatePage'
   public static readonly CACHE_BATCHES_WITHIN_DATES = 'batchesWithinDates'
   public static readonly CACHE_CLIENT_ALL = 'clientGetAll'
   public static readonly CACHE_CLIENT_COUNT = 'clientCount'
   public static readonly CACHE_CLIENT_ASSOCIATE_COUNT = 'clientAssociateCount'
-  public static readonly CACHE_ASSOCIATE_COUNT = 'associateCount'
-  public static readonly CACHE_ASSOCIATE_BY_USER_ID = 'associateByUserId'
-  public static readonly CACHE_ASSOCIATE_PAGE = 'associatePage'
+  public static readonly CACHE_CURRICULUM_ALL = 'clientCurriculumAll'
 
   // Sample test data
   public static readonly TEST_DEPLOYED_DATA_VALUE = '[102,68]'

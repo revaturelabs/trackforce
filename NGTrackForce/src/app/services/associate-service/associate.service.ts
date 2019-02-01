@@ -85,11 +85,22 @@ export class AssociateService {
    * Gets all of the associates
    */
   getAllAssociates(): BehaviorSubject<Associate[]> {
-    const url: string = this.baseURL + '/allAssociates';
-    this.http.get<Associate[]>(url).subscribe(
-      (data: Associate[]) => this.allAssociates$.next(data),
-      error => this.allAssociates$.error(error)
-    );
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_ALL;
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      const url: string = this.baseURL + '/allAssociates';
+      this.http.get<Associate[]>(url).subscribe(
+        (data: Associate[]) => {
+          this.allAssociates$.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.allAssociates$.error(error)
+      );
+      return this.allAssociates$;
+    } else {
+      this.allAssociates$.next(JSON.parse(localStorage.getItem(key)))
+    }
+          
     return this.allAssociates$;
   }
 

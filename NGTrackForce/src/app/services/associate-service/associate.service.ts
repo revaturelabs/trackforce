@@ -211,7 +211,23 @@ export class AssociateService {
   // focus on keeping one copy of data to aid performance
 
   getAssociatesByStatus(statusId: number): Observable<GraphCounts[]> {
-    return this.http.get<GraphCounts[]>(this.baseURL + '/mapped/' + statusId);
+    const url: string = this.baseURL + '/mapped/' + statusId;
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_BY_STATUS + "|" + '/mapped/' + statusId;
+    let count: BehaviorSubject<GraphCounts[]>  = new BehaviorSubject<GraphCounts[]>([])
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      this.http.get<GraphCounts[]>(url).subscribe(
+        (data: GraphCounts[]) => {
+          count.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.currentAssociateSnapshot$.error(error)
+      );
+    } else {
+      count.next(JSON.parse(localStorage.getItem(key)))
+    }
+          
+    return count;
   }
 
   /**
@@ -229,7 +245,22 @@ export class AssociateService {
 
   getUndeployedAssociates(mappedOrUnmapped: string): Observable<GraphCounts[]> {
     const url: string = this.baseURL + '/undeployed/' + mappedOrUnmapped;
-    return this.http.get<GraphCounts[]>(url);
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + '/undeployed/' + mappedOrUnmapped;
+    let count: BehaviorSubject<GraphCounts[]>  = new BehaviorSubject<GraphCounts[]>([])
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      this.http.get<GraphCounts[]>(url).subscribe(
+        (data: GraphCounts[]) => {
+          count.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.currentAssociateSnapshot$.error(error)
+      );
+    } else {
+      count.next(JSON.parse(localStorage.getItem(key)))
+    }
+          
+    return count;
   }
 
   getAssociateSnapshot() {

@@ -45,8 +45,23 @@ export class CurriculumService {
    * @param {number} statusID - id of the skillset
    */
   getSkillsetsForStatusID(statusID: number): Observable<GraphCounts[]> {
-    return this.http.get<GraphCounts[]>((environment.url) +
-      'TrackForce/skillset/unmapped/' + statusID);
+    const url: string = (environment.url) + 'TrackForce/skillset/unmapped/' + statusID
+    let skillsets: BehaviorSubject<GraphCounts[]> = new BehaviorSubject<GraphCounts[]>([]);
+    let key: string = LocalStorageUtils.CACHE_CURRICULUM_ALL;
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      this.http.get<GraphCounts[]>(url).subscribe(
+        (data: GraphCounts[]) => {
+          skillsets.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => skillsets.error(error)
+      );
+    } else {
+      skillsets.next(JSON.parse(localStorage.getItem(key)))
+    }
+          
+    return skillsets;
   }
 
 }

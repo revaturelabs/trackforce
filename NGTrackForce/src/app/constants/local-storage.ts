@@ -15,6 +15,7 @@ export class LocalStorageUtils {
   public static readonly CACHE_ASSOCIATE_ALL = 'associateAll'
   public static readonly CACHE_ASSOCIATE_COUNT = 'associateCount'
   public static readonly CACHE_ASSOCIATE_BY_USER_ID = 'associateByUserId'
+  public static readonly CACHE_ASSOCIATE_BY_STATUS = 'associateByStatus'
   public static readonly CACHE_ASSOCIATE_PAGE = 'associatePage'
   public static readonly CACHE_BATCHES_WITHIN_DATES = 'batchesWithinDates'
   public static readonly CACHE_CLIENT_ALL = 'clientGetAll'

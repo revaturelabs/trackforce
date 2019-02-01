@@ -68,13 +68,11 @@ public class TrainerService {
 	 * @param trainer
 	 * @return
 	 */
-	UserService userService = new UserService();
 	public boolean createTrainer(TfTrainer trainer) {
 		try {
 			TfUser traineruser = trainer.getTfUser();
 			traineruser.setPassword(PasswordStorage.createHash(trainer.getTfUser().getPassword()));
 			trainer.setTfUser(traineruser);
-			//TODO: Id is not the real id because of auto generate id. Need to add a new update from database to server
 		} catch (CannotPerformOperationException e) {
 			logger.warn(e.getMessage());
 		}

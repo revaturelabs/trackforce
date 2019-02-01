@@ -199,7 +199,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
 export class UpdateDialogComponent {
 
   public verification = 0;
-  public client = 0;
+  public client = -1;
   public status = "";
 
   public statusToId = {

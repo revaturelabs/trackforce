@@ -1,14 +1,14 @@
-Feature: Tests for the login page
+Feature: Tests for the login page on Chrome
 
- Background:
+  Background:
     Given I connect to trackforce
-    And the login page loads
- 
- Scenario: Log in as Administrator
+    Given the login page loads
+  
+  Scenario: Log in as Administrator
     When I submit the correct admin login information
     Then I should be taken to the home page
  
- Scenario: Log in as Staging
+  Scenario: Log in as Staging
     When I submit the correct manager login information
     Then I should be taken to the home page
 

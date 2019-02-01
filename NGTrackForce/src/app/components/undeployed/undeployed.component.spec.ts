@@ -11,7 +11,7 @@ import { UndeployedComponent } from './undeployed.component';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 
-fdescribe('UndeployedComponent Test Suite', () => {
+describe('UndeployedComponent Test Suite', () => {
   let mockAssociateService = new MockAssociateService(null);
   let service = new AssociateService(null);
   let component: UndeployedComponent;

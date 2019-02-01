@@ -168,7 +168,6 @@ export class ClientListComponent implements OnInit {
     const oneClient = this.clientInfo.find(item => item['name'] === name);
 
     const stat = new StatusInfo;
-
     this.clientService.getClientCount(oneClient.id).subscribe(
       count => {
         stat.trainingMapped = count[0];

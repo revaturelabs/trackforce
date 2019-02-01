@@ -225,7 +225,7 @@ export class AssociateService {
     return this.currentAssociateSnapshot$;
   }
 
-  fetchAssociateSnapshot(limit: number, filter) {
+  fetchAssociateSnapshot(limit: number, filter): BehaviorSubject<Associate[]> {
     this.hasReceivedEndForCurrentFilter = false;
     this.withLimit = limit;
     this.currentIndex = 0;
@@ -256,26 +256,7 @@ export class AssociateService {
       queryParams += `&firstName=${firstName}&lastName=${lastName}`;
     }
 
-    // Make initial request
-    const url: string = this.baseURL + queryParams;
-    // let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + queryParams
-
-    // if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
-      this.http.get<Associate[]>(url).subscribe(
-        (data: Associate[]) => {
-          this.currentAssociateSnapshot$.next(data);
-          // localStorage.setItem(key, JSON.stringify(data));
-
-          if (!data) {
-            this.hasReceivedEndForCurrentFilter = true;
-          }
-        },
-        error => this.currentAssociateSnapshot$.error(error)
-      );
-      return this.currentAssociateSnapshot$;
-    // } else {
-    //   return new BehaviorSubject<Associate[]>(JSON.parse(localStorage.getItem(key)));
-    // }
+    return this.fetchCachedSnapshot(queryParams);
   }
 
   fetchNextSnapshot() {
@@ -297,24 +278,29 @@ export class AssociateService {
       queryParams += `&sortText=${this.currentTextFilter}`;
     }
 
-    // Make initial request
-    const url: string = this.baseURL + queryParams;
-    // let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + queryParams
+    return this.fetchCachedSnapshot(queryParams);
+  }
 
-    // if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+  fetchCachedSnapshot(queryParams: string): BehaviorSubject<Associate[]> {
+    const url: string = this.baseURL + queryParams;
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + queryParams
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
       this.http.get<Associate[]>(url).subscribe(
         (data: Associate[]) => {
+          this.currentAssociateSnapshot$.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+
           if (!data) {
             this.hasReceivedEndForCurrentFilter = true;
           }
-          this.currentAssociateSnapshot$.next(data)
-          // localStorage.setItem(key, JSON.stringify(data));
         },
         error => this.currentAssociateSnapshot$.error(error)
       );
-      return this.currentAssociateSnapshot$;
-    // } else {
-    //   return new BehaviorSubject<Associate[]>(JSON.parse(localStorage.getItem(key)));
-    // }
+    } else {
+      this.currentAssociateSnapshot$.next(JSON.parse(localStorage.getItem(key)))
+    }
+          
+    return this.currentAssociateSnapshot$;
   }
 }

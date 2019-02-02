@@ -54,6 +54,12 @@ const appRoutes: Routes = [
     component: InvalidSessionComponent
   },
   {
+    path: "username-update",
+    canActivate: [AuthGuard],
+    loadChildren: '../components/usernameupdate/usernameupdate.module#UsernameUpdateModule',
+    data: { expectedRoles: [1, 2, 3, 4, 5] }
+  },
+  {
     path: "password-update",
     canActivate: [AuthGuard],
     loadChildren: '../components/passwordupdate/passwordupdate.module#PasswordUpdateModule',

@@ -1,0 +1,27 @@
+<div class="col-lg-7 col-md-12 mcolumn right userupdate-main">
+
+  <form>
+    <h3>Update Username</h3>
+
+    <div class="update-result">
+      <div *ngIf='error' class="alert alert-danger">
+        {{error}}
+      </div>
+      <div *ngIf='success' class="alert alert-success">
+        {{success}}
+      </div>
+    </div>
+
+    <fieldset>
+      <label for="newUsername">New Username:</label>
+      <input class="form-control" type="text" value="" [(ngModel)]='newUsername' 
+        required name="newUsername">
+      <label for="password">Password:</label>
+      <input class="form-control" type="password" value="" [(ngModel)]='password' 
+        required name="password">
+    </fieldset>
+
+    <button type="button" id="submitButton" class="btn btn-default" value="Update Username" (click)="updateUsername()">Update
+      Username</button>
+  </form>
+</div>

@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
 	 *  when they log in, should be redirected to.
 	 */
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-
+        
         // not logged in so redirect to login page with the return url
         if (!localStorage.getItem(LocalStorageUtils.CURRENT_USER_KEY)) {
             this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
@@ -27,7 +27,6 @@ export class AuthGuard implements CanActivate {
 
             return false;
         }
-
         const expectedRoles: number[] = route.data.expectedRoles;
 
         // check of component is restricted by role
@@ -43,7 +42,7 @@ export class AuthGuard implements CanActivate {
               });
             }
         }
-
+        
         return true;
     }
 

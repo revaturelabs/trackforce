@@ -27,6 +27,10 @@
             Welcome, {{username}}!
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a id="username-update" class="dropdown-item nav-item"
+              [routerLink]="['/username-update']">Update Username</a>
+            <a id="password-update" class="dropdown-item nav-item"
+              [routerLink]="['/password-update']">Update Password</a>
             <a id="logout" class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
           </div>
         </li>
@@ -49,6 +53,10 @@
             Welcome, {{username}}!
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a id="username-update" class="dropdown-item nav-item"
+              [routerLink]="['/username-update']">Update Username</a>
+            <a id="password-update" class="dropdown-item nav-item"
+              [routerLink]="['/password-update']" >Update Password</a>
             <a id="logout" class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
           </div>
         </li>
@@ -81,6 +89,10 @@
             Welcome, {{username}}!
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a id="username-update" class="dropdown-item nav-item"
+              [routerLink]="['/username-update']">Update Username</a>
+            <a id="password-update" class="dropdown-item nav-item" 
+            [routerLink]="['/password-update']" >Update Password</a>
             <a id="logout" class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
           </div>
         </li>

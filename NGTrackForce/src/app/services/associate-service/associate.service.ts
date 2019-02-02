@@ -85,11 +85,22 @@ export class AssociateService {
    * Gets all of the associates
    */
   getAllAssociates(): BehaviorSubject<Associate[]> {
-    const url: string = this.baseURL + '/allAssociates';
-    this.http.get<Associate[]>(url).subscribe(
-      (data: Associate[]) => this.allAssociates$.next(data),
-      error => this.allAssociates$.error(error)
-    );
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_ALL;
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      const url: string = this.baseURL + '/allAssociates';
+      this.http.get<Associate[]>(url).subscribe(
+        (data: Associate[]) => {
+          this.allAssociates$.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.allAssociates$.error(error)
+      );
+      return this.allAssociates$;
+    } else {
+      this.allAssociates$.next(JSON.parse(localStorage.getItem(key)))
+    }
+          
     return this.allAssociates$;
   }
 
@@ -200,7 +211,23 @@ export class AssociateService {
   // focus on keeping one copy of data to aid performance
 
   getAssociatesByStatus(statusId: number): Observable<GraphCounts[]> {
-    return this.http.get<GraphCounts[]>(this.baseURL + '/mapped/' + statusId);
+    const url: string = this.baseURL + '/mapped/' + statusId;
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_BY_STATUS + "|" + '/mapped/' + statusId;
+    let count: BehaviorSubject<GraphCounts[]>  = new BehaviorSubject<GraphCounts[]>([])
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      this.http.get<GraphCounts[]>(url).subscribe(
+        (data: GraphCounts[]) => {
+          count.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.currentAssociateSnapshot$.error(error)
+      );
+    } else {
+      count.next(JSON.parse(localStorage.getItem(key)))
+    }
+          
+    return count;
   }
 
   /**
@@ -218,14 +245,29 @@ export class AssociateService {
 
   getUndeployedAssociates(mappedOrUnmapped: string): Observable<GraphCounts[]> {
     const url: string = this.baseURL + '/undeployed/' + mappedOrUnmapped;
-    return this.http.get<GraphCounts[]>(url);
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + '/undeployed/' + mappedOrUnmapped;
+    let count: BehaviorSubject<GraphCounts[]>  = new BehaviorSubject<GraphCounts[]>([])
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      this.http.get<GraphCounts[]>(url).subscribe(
+        (data: GraphCounts[]) => {
+          count.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.currentAssociateSnapshot$.error(error)
+      );
+    } else {
+      count.next(JSON.parse(localStorage.getItem(key)))
+    }
+          
+    return count;
   }
 
   getAssociateSnapshot() {
     return this.currentAssociateSnapshot$;
   }
 
-  fetchAssociateSnapshot(limit: number, filter) {
+  fetchAssociateSnapshot(limit: number, filter): BehaviorSubject<Associate[]> {
     this.hasReceivedEndForCurrentFilter = false;
     this.withLimit = limit;
     this.currentIndex = 0;
@@ -256,26 +298,7 @@ export class AssociateService {
       queryParams += `&firstName=${firstName}&lastName=${lastName}`;
     }
 
-    // Make initial request
-    const url: string = this.baseURL + queryParams;
-    // let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + queryParams
-
-    // if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
-      this.http.get<Associate[]>(url).subscribe(
-        (data: Associate[]) => {
-          this.currentAssociateSnapshot$.next(data);
-          // localStorage.setItem(key, JSON.stringify(data));
-
-          if (!data) {
-            this.hasReceivedEndForCurrentFilter = true;
-          }
-        },
-        error => this.currentAssociateSnapshot$.error(error)
-      );
-      return this.currentAssociateSnapshot$;
-    // } else {
-    //   return new BehaviorSubject<Associate[]>(JSON.parse(localStorage.getItem(key)));
-    // }
+    return this.fetchCachedSnapshot(queryParams);
   }
 
   fetchNextSnapshot() {
@@ -297,24 +320,29 @@ export class AssociateService {
       queryParams += `&sortText=${this.currentTextFilter}`;
     }
 
-    // Make initial request
-    const url: string = this.baseURL + queryParams;
-    // let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + queryParams
+    return this.fetchCachedSnapshot(queryParams);
+  }
 
-    // if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+  fetchCachedSnapshot(queryParams: string): BehaviorSubject<Associate[]> {
+    const url: string = this.baseURL + queryParams;
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + queryParams
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
       this.http.get<Associate[]>(url).subscribe(
         (data: Associate[]) => {
+          this.currentAssociateSnapshot$.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+
           if (!data) {
             this.hasReceivedEndForCurrentFilter = true;
           }
-          this.currentAssociateSnapshot$.next(data)
-          // localStorage.setItem(key, JSON.stringify(data));
         },
         error => this.currentAssociateSnapshot$.error(error)
       );
-      return this.currentAssociateSnapshot$;
-    // } else {
-    //   return new BehaviorSubject<Associate[]>(JSON.parse(localStorage.getItem(key)));
-    // }
+    } else {
+      this.currentAssociateSnapshot$.next(JSON.parse(localStorage.getItem(key)))
+    }
+          
+    return this.currentAssociateSnapshot$;
   }
 }

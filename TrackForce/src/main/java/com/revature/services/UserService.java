@@ -103,6 +103,9 @@ public class UserService {
     * @return
     */
 	public boolean insertUser(TfUser newUser) {
+		if(newUser==null) {
+			return false;
+		}
 		try {
 			newUser.setPassword(PasswordStorage.createHash(newUser.getPassword()));
 		} catch (CannotPerformOperationException e) {
@@ -143,6 +146,9 @@ public class UserService {
 	 * @return foundUser
 	 */
 	public TfUser submitCredentials(TfUser loginUser) {
+		if(loginUser==null) {
+			return null;
+		}
 		TfUser foundUser = getUser(loginUser.getUsername());
 		if (foundUser != null) {
 			try {

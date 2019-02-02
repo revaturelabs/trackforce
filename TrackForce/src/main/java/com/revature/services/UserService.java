@@ -166,6 +166,6 @@ public class UserService {
 	}
 	
 	public Boolean updateUserPassword(TfUser userUpdatePass, String updatePass) {
-		return dao.updateUser(userUpdatePass);
+		return dao.updateUserPass(userUpdatePass, updatePass);
 	}
 }

@@ -59,6 +59,20 @@ export class ClientService {
 
   //This method returns mapped associate counts for a selected client
   getClientCount(clientId: number): Observable<number>{
-    return this.http.get<number>(this.clientUrl + clientId);
+    let key: string = LocalStorageUtils.CACHE_CLIENT_ASSOCIATE_COUNT + "|" + clientId
+    let count: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      this.http.get<number>(this.clientUrl + clientId).subscribe(
+        (data: number) => {
+          count.next(data)
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        (error) => this.clients$.error(error)
+      )
+      return count;
+    } else {
+      return of(JSON.parse(localStorage.getItem(key)));
+    }
   }
 }

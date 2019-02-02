@@ -48,7 +48,7 @@ export class CreateUserComponent implements OnInit {
   createUser() {
     this.errMsg = "";
     this.sucMsg = "";
-    if (!this._validatePassword(this.password)) {
+    if (!this.validatePassword(this.password)) {
       this.errMsg = StatusMessage.INVALID_PASS;
     } else if (this.password !== this.password2) {
       this.errMsg = StatusMessage.MISMATCH;
@@ -93,7 +93,7 @@ export class CreateUserComponent implements OnInit {
   /**
    * Ensures password follows the password rules
    */
-  private _validatePassword(password: string): boolean {
+  public validatePassword(password: string): boolean {
     if(!password) {
         return false;
     }
@@ -112,7 +112,7 @@ export class CreateUserComponent implements OnInit {
    * Toggles display message if password is invalid
    */
   checkValidPassword(password: string): string {
-    this.errMsg = this._validatePassword(password) ? '' : StatusMessage.INVALID_PASS;
+    this.errMsg = this.validatePassword(password) ? '' : StatusMessage.INVALID_PASS;
     return this.errMsg;
   }
 
@@ -165,7 +165,7 @@ export class CreateUserComponent implements OnInit {
    */
   toggleSubmitButton(): boolean {
     const validUsername = this._validateUserName(this.username);
-    const validPassword = this._validatePassword(this.password) && this.password === this.password2;
+    const validPassword = this.validatePassword(this.password) && this.password === this.password2;
     const validRole = this.roleId !== undefined && this.roleId > 0 && this.roleId <= 5;
 
     return !(validUsername && validPassword && validRole);

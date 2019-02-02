@@ -50,7 +50,7 @@ public class InterviewDaoImpl implements InterviewDao {
 			temp.setClientFeedback(interview.getClientFeedback());
 			temp.setDateAssociateIssued(interview.getDateAssociateIssued());
 			temp.setEndClient(interview.getEndClient());
-			temp.setDateSalesIssued(interview.getDateAssociateIssued());
+			temp.setDateSalesIssued(interview.getDateSalesIssued());
 			temp.setFlagReason(interview.getFlagReason());
 			temp.setInterviewDate(interview.getInterviewDate());
 			temp.setInterviewType(interview.getInterviewType());

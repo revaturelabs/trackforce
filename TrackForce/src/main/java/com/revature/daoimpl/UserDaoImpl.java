@@ -9,6 +9,10 @@ import com.revature.dao.UserDao;
 import com.revature.entity.TfUser;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
+import com.revature.utils.PasswordStorage;
+import com.revature.utils.PasswordStorage.CannotPerformOperationException;
+
+import ch.qos.logback.classic.Logger;
 
 public class UserDaoImpl implements UserDao {
 
@@ -73,6 +77,23 @@ public class UserDaoImpl implements UserDao {
 							". Currently only used as part of RestAssured tests.");
 		runHibernateTransaction((Session session, Object... args) -> {
 			session.delete(user);
+			return true;
+		});
+	}
+
+	@Override
+	public boolean updateUserPass(TfUser user, String updatePass) {
+		LogUtil.logger.trace("Hibernate Call to update User: " + user.getId()+"'s password.");
+		return runHibernateTransaction((Session session, Object... args) -> {
+			TfUser temp = session.get(TfUser.class, user.getId());
+			try {
+				temp.setPassword((PasswordStorage.createHash(updatePass)));
+			} catch (CannotPerformOperationException e) {
+				e.printStackTrace();
+				LogUtil.logger.error("Could not set password.\n" + e.getMessage());
+				return false;
+			}
+			session.update(temp);
 			return true;
 		});
 	}

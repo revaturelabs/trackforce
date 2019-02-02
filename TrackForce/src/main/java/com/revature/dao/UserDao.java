@@ -17,4 +17,6 @@ public interface UserDao {
 	public void deleteUser(TfUser user);
 	
 	TfUser getUser(Integer id);
+	
+	boolean updateUserPass(TfUser user, String updatePass);
 }

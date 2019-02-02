@@ -53,8 +53,16 @@ public class AssociateHome {
 	public static WebElement getFirstNameInputField(WebDriver driver) {
 		return driver.findElement(By.name("newFirstName"));
 	}
-
 	public static WebElement getLastNameInputField(WebDriver driver) {
 		return driver.findElement(By.name("newLastName"));
+	}
+	public static WebElement getCurrentPassword(WebDriver driver) {
+		return driver.findElement(By.id("currentPassword"));
+	}
+	public static WebElement getNewPassword(WebDriver driver) {
+		return driver.findElement(By.id("newPassword"));
+	}
+	public static WebElement getConfirmPassword(WebDriver driver) {
+		return driver.findElement(By.id("confirmPassword"));
 	}
 }

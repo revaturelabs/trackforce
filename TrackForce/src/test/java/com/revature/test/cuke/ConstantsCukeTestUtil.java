@@ -17,13 +17,16 @@ public class ConstantsCukeTestUtil {
 	private static final String APP_HOME = "app-home"; //uri for admin and staging views
 	private static final String TRAINER_VIEW = "trainer-view";
 	private static final String ASSOCIATE_VIEW = "associate-view";
+	private static final String MY_INTERVIEW_VIEW = "myinterview-view"; 
 	private static final String TAG_POST_LOGIN = "li";  //tag only exists post-login, used for waiting in PosiTest
 	private static final String REVATURE_URL = "https://revature.com/";
 	private static final String TEST_FIRST_NAME = "TestFirstName";
 	private static final String TEST_LAST_NAME = "TestLastName";
 	private static final String baseUrl = EnvManager.NGTrackForce_URL;
 	private static final String EMAIL_URL = "info@revature.com";
-
+	private static final String INTERVIEW_DATE = "2/24/2025 11:30 AM";
+	private static final String INTERVIEW_TYPE = "Phone";
+	
 	static final String getPasswordCapitalized() {
 		return PASSWORD_CAPITALIZED;
 	}
@@ -45,6 +48,9 @@ public class ConstantsCukeTestUtil {
 	static final String getAssociateView() {
 		return ASSOCIATE_VIEW;
 	}
+	static final String getMyInterviewView() {
+		return MY_INTERVIEW_VIEW;
+	}
 	public static String getTagPostLogin() {
 		return TAG_POST_LOGIN;
 	}
@@ -63,5 +69,10 @@ public class ConstantsCukeTestUtil {
 	static final String getEmailUrl() {
 		return EMAIL_URL;
 	}
-	
+	public static String getInterviewDate() {
+		return INTERVIEW_DATE;
+	}
+	public static String getInterviewType() {
+		return INTERVIEW_TYPE;
+	}
 }

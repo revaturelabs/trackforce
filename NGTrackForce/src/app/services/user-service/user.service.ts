@@ -18,6 +18,7 @@ export class UserService {
 
   private baseURL: string = environment.url + "TrackForce/users";
   private updatePasswordUrl: string = this.baseURL + "/updatepassword";
+  private updateUsernameUrl: string = this.baseURL + "/updateusername";
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
 
@@ -68,6 +69,11 @@ export class UserService {
 
   public buildSessionFactory(): Observable<boolean>{
     return this.http.get<boolean>(this.baseURL + '/init');
+  }
+
+  public updateUsername(userId: number, newUser: string, pass: string): Observable<boolean> {
+    let usernameUpdateData = {"userId": userId, "newUsername": newUser, "password": pass}
+    return this.http.post<boolean>(this.updateUsernameUrl, usernameUpdateData)
   }
 
   public updatePassword(userId: number, oldPass: string, newPass: string): Observable<boolean> {

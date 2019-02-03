@@ -273,6 +273,7 @@ public class AssociateResource {
 				toBeUpdated.getUser().setIsApproved(isApproved);
 			}
 			associates.add(toBeUpdated);
+			logger.info("Associate: " + toBeUpdated);
 		}
 
 

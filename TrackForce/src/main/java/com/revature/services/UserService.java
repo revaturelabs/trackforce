@@ -72,6 +72,27 @@ public class UserService {
 			return new TfUser();
 		}
 	}
+	
+	/**
+	 * @author Lei Z.
+	 * <p> </p>
+	 * @version v6.18.11
+	 * 
+	 * @param userId
+	 * @return TfUser
+	 * 
+	 * Same code-type as above but using the provided getting user by userId
+	 */
+	public TfUser getUser(Integer userId) {
+		try {
+			return dao.getUser(userId);
+		} catch (NoResultException nre) {
+			logger.error("No Such User: " + userId + "\n" + nre.getMessage());
+			return null;
+		} catch (HibernateException e) {
+			return new TfUser();
+		}
+	}
     
    /**
     * @author Adam L. 
@@ -142,5 +163,24 @@ public class UserService {
 			}
 		}
 		return null;
+	}
+	
+	/*
+	 * @author Lei Z
+	 * @param userUpdatePass, updatePass
+	 * Updates the user's password based on the passed TfUser object and password String object.
+	 * Will return false if could not perform the hashing of the new password.
+	 */
+	public Boolean updateUserPassword(TfUser userUpdatePass, String updatePass) {
+		return dao.updateUserPass(userUpdatePass, updatePass);
+	}
+	
+	/*
+	 * @author Lei Z
+	 * @param userUpdateName, newUsername
+	 * Updates the user's username based on the passed TfUser object and username String object.
+	 */
+	public Boolean updateUsername(TfUser userUpdateName, String newUsername) {
+		return dao.updateUsername(userUpdateName, newUsername);
 	}
 }

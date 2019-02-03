@@ -52,7 +52,7 @@ export class CreateUserComponent implements OnInit {
       this.errMsg = StatusMessage.INVALID_PASS;
     } else if (this.password !== this.password2) {
       this.errMsg = StatusMessage.MISMATCH;
-    } else if (!this._validateUserName(this.username)) {
+    } else if (!this.validateUserName(this.username)) {
       this.errMsg = StatusMessage.INVALID_USER;
     } else {
       this.newUser = new User(this.username, this.password, this.roleId, this._TOKEN);
@@ -75,7 +75,7 @@ export class CreateUserComponent implements OnInit {
    * Also ensures that the username exists
    * @param username
    */
-  private _validateUserName(username): boolean {
+  public validateUserName(username): boolean {
     if(!username) {
       return false;
     }
@@ -129,7 +129,7 @@ export class CreateUserComponent implements OnInit {
    * Toggles display of error message if username is invalid
    */
   checkUserNameHasValidChars(): boolean {
-    if(!this._validateUserName(this.username)) {
+    if(!this.validateUserName(this.username)) {
       this._showUserNameError(StatusMessage.INVALID_USER);
       return false;
     } else {
@@ -164,7 +164,7 @@ export class CreateUserComponent implements OnInit {
    * Keep the submit button disabled until the fields have valid values
    */
   toggleSubmitButton(): boolean {
-    const validUsername = this._validateUserName(this.username);
+    const validUsername = this.validateUserName(this.username);
     const validPassword = this.validatePassword(this.password) && this.password === this.password2;
     const validRole = this.roleId !== undefined && this.roleId > 0 && this.roleId <= 5;
 

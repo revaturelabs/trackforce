@@ -19,4 +19,6 @@ public interface UserDao {
 	TfUser getUser(Integer id);
 	
 	boolean updateUserPass(TfUser user, String updatePass);
+	
+	boolean updateUsername(TfUser user, String updateName);
 }

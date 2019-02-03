@@ -382,14 +382,61 @@ public class UserResource {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		TfUser userUpdatePass = new UserService().getUser(userId);
-		logger.info("Method Call to update User["+userId+"]'s password.");
+		logger.info("Method Call to update User[" + userId + "]'s password.");
 		try {
 			if (payload == null) {
 				logger.error("The payload was null. Unathorized access.");
 				return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-			} else if (PasswordStorage.verifyPassword(oldpassword, userUpdatePass.getPassword())) {
-				logger.info("Oldpass verified against User's password in database.");
+			}
+			// if oldpassword is sent as standard string
+			else if (PasswordStorage.verifyPassword(oldpassword, userUpdatePass.getPassword())) {
+				logger.info("Oldpass[String] verified against User's password in database.");
 				status = userService.updateUserPassword(userUpdatePass, updatepassword) ? Status.OK
+						: Status.INTERNAL_SERVER_ERROR;
+			}
+			// if oldpassword is sent as the hashed password from the database
+			else if (userUpdatePass.getPassword().equals(oldpassword)) {
+				logger.info("Oldpass[Hashed] verified against User's password in database.");
+				status = userService.updateUserPassword(userUpdatePass, updatepassword) ? Status.OK
+						: Status.INTERNAL_SERVER_ERROR;
+			} else {
+				logger.error("Oldpassword incorrect against User's password in database.");
+				return Response.status(Status.UNAUTHORIZED).entity(null).build();
+			}
+		} catch (CannotPerformOperationException e) {
+			logger.error("Could not perform VerifyPassword.");
+			e.printStackTrace();
+		} catch (InvalidHashException e) {
+			logger.error("User's password in database had an invalid hashset.");
+			e.printStackTrace();
+		}
+		return Response.status(status).build();
+	}
+	
+	@Path("/updateusername")
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Update User's username", notes = "Compare if old password is correct and then update user with new password")
+	public Response updateUserUsername(@HeaderParam("Authorization") String token, String oldpassword, String newUsername, Integer userId){
+		Status status = null;
+		Claims payload = JWTService.processToken(token);
+		TfUser userUpdateName = new UserService().getUser(userId);
+		logger.info("Method Call to update User[" + userId + "]'s username.");
+		try {
+			if (payload == null) {
+				logger.error("The payload was null. Unathorized access.");
+				return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+			}
+			// if oldpassword is sent as standard string
+			else if (PasswordStorage.verifyPassword(oldpassword, userUpdateName.getPassword())) {
+				logger.info("Oldpass[String] verified against User's password in database.");
+				status = userService.updateUsername(userUpdateName, newUsername) ? Status.OK
+						: Status.INTERNAL_SERVER_ERROR;
+			}
+			// if oldpassword is sent as the hashed password from the database
+			else if (userUpdateName.getPassword().equals(oldpassword)) {
+				logger.info("Oldpass[Hashed] verified against User's password in database.");
+				status = userService.updateUsername(userUpdateName, newUsername) ? Status.OK
 						: Status.INTERNAL_SERVER_ERROR;
 			} else {
 				logger.error("Oldpassword incorrect against User's password in database.");

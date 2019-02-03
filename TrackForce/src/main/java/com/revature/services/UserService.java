@@ -165,7 +165,22 @@ public class UserService {
 		return null;
 	}
 	
+	/*
+	 * @author Lei Z
+	 * @param userUpdatePass, updatePass
+	 * Updates the user's password based on the passed TfUser object and password String object.
+	 * Will return false if could not perform the hashing of the new password.
+	 */
 	public Boolean updateUserPassword(TfUser userUpdatePass, String updatePass) {
 		return dao.updateUserPass(userUpdatePass, updatePass);
+	}
+	
+	/*
+	 * @author Lei Z
+	 * @param userUpdateName, newUsername
+	 * Updates the user's username based on the passed TfUser object and username String object.
+	 */
+	public Boolean updateUsername(TfUser userUpdateName, String newUsername) {
+		return dao.updateUsername(userUpdateName, newUsername);
 	}
 }

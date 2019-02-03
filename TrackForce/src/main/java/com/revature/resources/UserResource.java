@@ -381,8 +381,8 @@ public class UserResource {
 	@ApiOperation(value = "Update user password", notes = "Compare if old password is correct and then update user with new password")
 	public Response updateUserPassword(
             @HeaderParam("Authorization") String token,
-            @ApiParam(value = "oldpassword") @QueryParam("oldpassword") String oldpassword,
-            @ApiParam(value = "updatepassword") @QueryParam("updatepassword")String updatepassword,
+            @ApiParam(value = "oldPassword") @QueryParam("oldPassword") String oldpassword,
+            @ApiParam(value = "newPassword") @QueryParam("newPassword")String updatepassword,
             @ApiParam(value = "userId") @QueryParam("userId") Integer userId) {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
@@ -424,7 +424,7 @@ public class UserResource {
 	@ApiOperation(value = "Update User's username", notes = "Compare if old password is correct and then update user with new password")
 	public Response updateUserUsername(
             @HeaderParam("Authorization") String token,
-            @ApiParam(value = "oldpassword") @QueryParam("oldpassword") String oldpassword,
+            @ApiParam(value = "password") @QueryParam("password") String oldpassword,
             @ApiParam(value = "newUsername") @QueryParam("newUsername") String newUsername,
             @ApiParam(value = "userId") @QueryParam("userId") Integer userId){
 		Status status = null;

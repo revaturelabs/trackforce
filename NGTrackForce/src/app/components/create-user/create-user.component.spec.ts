@@ -58,8 +58,10 @@ fdescribe('CreateUserComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  //This button's property "disabled" is bound to a function. But is that function ever actually called?
   it('should have a button which triggers the createUser function', () =>{
     spy = spyOn(component, 'createUser');
+    //let spy2 = spyOn(component, 'toggleSubmitButton').and.returnValue(true);
     let el = fixture.debugElement.nativeElement;
     let btn = el.querySelector('button');
     btn.click();

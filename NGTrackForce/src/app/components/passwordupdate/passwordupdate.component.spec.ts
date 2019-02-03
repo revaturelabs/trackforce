@@ -6,7 +6,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PasswordUpdateComponent } from './passwordupdate.component';
 import { UserService } from '../../services/user-service/user.service';
 
-fdescribe('PasswordupdateComponent', () => {
+describe('PasswordupdateComponent', () => {
   let component: PasswordUpdateComponent;
   let fixture: ComponentFixture<PasswordUpdateComponent>;
   let spy: any;

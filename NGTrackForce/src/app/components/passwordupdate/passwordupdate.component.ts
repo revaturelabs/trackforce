@@ -12,16 +12,16 @@ import { CreateUserComponent } from '../create-user/create-user.component'
 export class PasswordUpdateComponent implements OnInit {
   createUserComp: CreateUserComponent = new CreateUserComponent(null,null,null);
   
-  private user: User
-  private userId: number;
+  user: User
+  userId: number;
 
-  private oldPassword: string;
-  private newPassword: string;
-  private newPasswordConfirm: string;
+  oldPassword: string;
+  newPassword: string;
+  newPasswordConfirm: string;
 
-  private passReq: string = "Minimum 8 characters, number, capital, special character"
-  private success: string;
-  private error: string;
+  passReq: string = "Minimum 8 characters, number, capital, special character"
+  success: string;
+  error: string;
 
   constructor(private userService: UserService) { }
 

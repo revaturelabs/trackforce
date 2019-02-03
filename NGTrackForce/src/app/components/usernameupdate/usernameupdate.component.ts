@@ -12,13 +12,13 @@ import { CreateUserComponent } from '../create-user/create-user.component'
 export class UsernameUpdateComponent implements OnInit {
   createUserComp: CreateUserComponent = new CreateUserComponent(null,null,null);
   
-  private user: User
-  private userId: number;
-  private newUsername: string;
-  private password: string;
+  user: User
+  userId: number;
+  newUsername: string;
+  password: string;
 
-  private success: string;
-  private error: string;
+  success: string;
+  error: string;
 
   constructor(private userService: UserService) { }
 

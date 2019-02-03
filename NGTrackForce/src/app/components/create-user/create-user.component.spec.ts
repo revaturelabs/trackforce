@@ -14,10 +14,11 @@ import {User} from '../../models/user.model';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import { of } from 'rxjs/observable/of';
 
-describe('CreateUserComponent', () => {
+fdescribe('CreateUserComponent', () => {
   let component: CreateUserComponent;
   let fixture: ComponentFixture<CreateUserComponent>;
   const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);
+  let spy: any;
 
   // setup service mocks
   beforeAll(() => {
@@ -55,5 +56,13 @@ describe('CreateUserComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have a button which triggers the createUser function', () =>{
+    spy = spyOn(component, 'createUser');
+    let el = fixture.debugElement.nativeElement;
+    let btn = el.querySelector('button');
+    btn.click();
+    expect(spy).toHaveBeenCalled();
   });
 });

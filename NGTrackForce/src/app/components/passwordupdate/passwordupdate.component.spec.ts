@@ -26,6 +26,7 @@ fdescribe('PasswordupdateComponent', () => {
     fixture.detectChanges();
   });
 
+  //These tests currently fail because the component's user is null in onInit
   it('should create', () => {
     expect(component).toBeTruthy();
   });

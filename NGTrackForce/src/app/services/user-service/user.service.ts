@@ -73,11 +73,11 @@ export class UserService {
 
   public updateUsername(userId: number, newUser: string, pass: string): Observable<boolean> {
     let usernameUpdateData = {"userId": userId, "newUsername": newUser, "password": pass}
-    return this.http.post<boolean>(this.updateUsernameUrl, usernameUpdateData)
+    return this.http.put<boolean>(this.updateUsernameUrl, usernameUpdateData)
   }
 
   public updatePassword(userId: number, oldPass: string, newPass: string): Observable<boolean> {
     let passwordUpdateData = {"userId": userId, "oldPassword": oldPass, "newPassword": newPass}
-    return this.http.post<boolean>(this.updatePasswordUrl, passwordUpdateData)
+    return this.http.put<boolean>(this.updatePasswordUrl, passwordUpdateData)
   }
 }

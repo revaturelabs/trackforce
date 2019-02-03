@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user.model';
 import { LocalStorageUtils } from '../../constants/local-storage'

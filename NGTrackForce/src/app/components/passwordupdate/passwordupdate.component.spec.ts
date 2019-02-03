@@ -1,14 +1,21 @@
+import { RequestService } from './../../services/request-service/request.service';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PasswordUpdateComponent } from './passwordupdate.component';
+import { UserService } from '../../services/user-service/user.service';
 
 describe('PasswordupdateComponent', () => {
   let component: PasswordUpdateComponent;
   let fixture: ComponentFixture<PasswordUpdateComponent>;
+  let spy: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PasswordUpdateComponent ]
+      declarations: [ PasswordUpdateComponent ],
+      imports: [FormsModule],
+      providers: [UserService, RequestService, HttpClient, HttpHandler]
     })
     .compileComponents();
   }));
@@ -19,7 +26,16 @@ describe('PasswordupdateComponent', () => {
     fixture.detectChanges();
   });
 
+  //These tests currently fail because the component's user is null in onInit
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have a button that calls the updatePassword function', () =>{
+    spy = spyOn(component, 'updatePassword');
+    let el = fixture.debugElement.nativeElement;
+    let btn = el.querySelector('button');
+    btn.click();
+    expect(spy).toHaveBeenCalled();
   });
 });

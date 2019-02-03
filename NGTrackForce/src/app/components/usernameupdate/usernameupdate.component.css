@@ -1,0 +1,29 @@
+.userupdate-main {
+    margin: 20px auto;
+}
+
+h3 {
+    text-align: center;
+}
+
+form, .update-result {
+    max-width: 500px;
+    margin: 10px auto;
+}
+
+fieldset {
+    margin-top: 50px;
+}
+
+#submitButton {
+    padding: 5px 15px 5px 15px;
+    color: #FFF;
+    background-color: #4CAF50;
+    font-size: 18px;
+    text-align: center;
+    font-style: normal;
+    border-radius: 5px;
+    border-width: 1px 1px 3px;
+    box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+    margin: 30px 0 30px 60%;
+  }

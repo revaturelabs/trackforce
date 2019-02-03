@@ -36,7 +36,7 @@ li:hover {
 
 /* color of logout button */
 .dropdown-item {
-  text-align: center;
+  text-align: right;
   color: #F9231A;
 }
 

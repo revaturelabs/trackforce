@@ -14,7 +14,7 @@ import { TrainerService } from '../../services/trainer-service/trainer.service';
 import { Trainer } from '../../models/trainer.model';
 import { Associate } from "../../models/associate.model";
 import { NavbarService } from '../../services/navbar-service/navbar.service';
-import { LocalStorage } from '../../constants/local-storage';
+import { LocalStorageUtils } from '../../constants/local-storage';
 
 async function delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve => {
@@ -291,7 +291,7 @@ export class LoginComponent implements OnInit {
             this.authService.login(this.username, this.password).subscribe(
                 (data: User) => {
                     console.log("In login");
-                    localStorage.setItem(LocalStorage.CURRENT_USER_KEY, JSON.stringify(data));
+                    localStorage.setItem(LocalStorageUtils.CURRENT_USER_KEY, JSON.stringify(data));
                     console.log(data);
                     if (data == null) {
                         this.resetAfterLoginFail();
@@ -351,10 +351,10 @@ export class LoginComponent implements OnInit {
      * @author Max Dunn
      */
     associateLogin(user: User) {
-        this.associateService.getAssociate(user.id).subscribe(
+        this.associateService.getAssociateByUserId(user.id).subscribe(
             data => {
                 this.navbarService.show();
-                localStorage.setItem(LocalStorage.CURRENT_ASSOCIATE_KEY, JSON.stringify(data));
+                localStorage.setItem(LocalStorageUtils.CURRENT_ASSOCIATE_KEY, JSON.stringify(data));
                 this.router.navigate(['associate-view']);
             },
             err => {
@@ -375,7 +375,7 @@ export class LoginComponent implements OnInit {
         this.trainerService.getTrainer(user.id).subscribe(
             data => {
                 this.navbarService.show();
-                localStorage.setItem(LocalStorage.CURRENT_TRAINER_KEY, JSON.stringify(data));
+                localStorage.setItem(LocalStorageUtils.CURRENT_TRAINER_KEY, JSON.stringify(data));
                 this.router.navigate(['trainer-view']);
             },
             err => {

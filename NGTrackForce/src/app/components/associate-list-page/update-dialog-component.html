@@ -16,7 +16,7 @@
       <div class="form-group col-md-12 ">
         <label for="client">Client</label>
         <select class="form-control" id="client" name="client" [(ngModel)]="client">
-          <option default value="0"></option>
+          <option default value="-1"></option>
           <option value="thing" *ngFor="let client of data.clients" value="{{client.id}}" >{{client.name}}</option>
         </select>
       </div>

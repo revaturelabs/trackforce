@@ -16,6 +16,8 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
+import org.hibernate.id.CompositeNestedGeneratedValueGenerator.GenerationContextLocator;
+import org.hibernate.tuple.entity.EntityMetamodel.GenerationStrategyPair;
 import org.openqa.selenium.InvalidArgumentException;
 
 import com.revature.criteria.GraphedCriteriaResult;
@@ -329,9 +331,25 @@ public class AssociateDaoImpl implements AssociateDao {
 		LogUtil.logger.trace("Hibernate Transaction to update AssociateId: " + associate.getId());
 		return runHibernateTransaction((Session session, Object... args) -> {
 			TfAssociate temp = session.get(TfAssociate.class, associate.getId());
-			temp.setFirstName(associate.getFirstName());
-			temp.setLastName(associate.getLastName());
-			temp.setStagingFeedback(associate.getStagingFeedback());
+			if (associate.getFirstName() != null || !associate.getFirstName().equals("") || !temp.getFirstName().equals(associate.getFirstName())) {
+				temp.setFirstName(associate.getFirstName());
+			}
+			if (associate.getLastName() != null || !associate.getLastName().equals("") || !temp.getLastName().equals(associate.getLastName())) {
+				temp.setLastName(associate.getLastName());
+			}
+			if (associate.getStagingFeedback() != null || !associate.getStagingFeedback().equals("") 
+					|| !temp.getStagingFeedback().equals(associate.getStagingFeedback())) {
+				temp.setStagingFeedback(associate.getStagingFeedback());
+			}
+			//v1811 - Temp code for updating client, marketing status, and isApproved via both update associate and List<Associates>
+			if (associate.getClient() != null || !temp.getClient().equals(associate.getClient())) {
+				temp.setClient(associate.getClient());
+			}
+			if (associate.getMarketingStatus() != null|| !temp.getMarketingStatus().equals(associate.getMarketingStatus())) {
+				temp.setMarketingStatus(associate.getMarketingStatus());
+			}
+			
+			temp.getUser().setIsApproved(associate.getUser().getIsApproved());
 			session.update(temp);
 			return true;
 		});

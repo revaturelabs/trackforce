@@ -42,20 +42,20 @@ public class TrainerResourceTest {
 	TfTrainer trainer;
 	TfTrainer trainerNull;
 	TfUser user;
+	
 
 	@BeforeClass
 	public void beforeClass() {
 		token = JWTService.createToken("TestAdmin", 1);
 		trainers = new ArrayList<>();
 		trainers = trainerService.getAllTrainers();
-		knownTrainerId = 0;
+		knownTrainerId = 3;
 		knownUserId = 6;
 		knownTrainerIdNoBatch = 5100; // a trainer id for a trainer with no batch
 		trainer = new TfTrainer();
 		trainer = trainerService.getTrainer(0);
 		assertNotNull(trainer);
 		trainer.setFirstName("Ava - 2.0");
-
 		nonexistantTrainerId = 1000;
 
 	}
@@ -131,13 +131,13 @@ public class TrainerResourceTest {
 	 * Unhappy path testing where a status code of 405 is given if a put request is
 	 * used
 	 * 
-	 * NOTE: Currently autofails as PUT to /{number} goes to update trainer and that
-	 * has the potential to break things so we can't even think about running these
-	 * tests yet
+	 * NOTE:This test actually attempts to hit the database and update the trainer. This
+	 * Test is intended to fail, since it tests improper input, so the database is not
+	 * updated.
 	 */
 	@Test(priority = 3)
 	public void testGetTrainerUnhappyPathBadVerbPut() {
-		assertTrue(false);
+
 		Response response = given().header("Authorization", token).contentType("application/json").when()
 				.put(URL + "/" + knownUserId).then().extract().response();
 
@@ -168,7 +168,7 @@ public class TrainerResourceTest {
 				.post(URL + "/" + knownTrainerId + "/batch").then().extract().response();
 
 		assertEquals(response.getStatusCode(), 200);
-		assertTrue(response.getBody().asString().contains("1712 Dec11 Java AP-USF"));
+		assertTrue(response.getBody().asString().contains("1704 Apr10 SEED"));
 
 	}
 
@@ -223,12 +223,12 @@ public class TrainerResourceTest {
 	 * @author Jesse, Andy
 	 * @since 06.18.06.18
 	 */
-	@Test(priority = 6)
-	public void testGetTrainerCotrainerBatchHappyPath() {
-		Response response = given().headers("Authorization", token).contentType("application/json").when()
-				.post(URL + "/" + knownTrainerId + "/cotrainerbatch").then().extract().response();
-		assertEquals(response.getStatusCode(), 200);
-	}
+//	@Test(priority = 6)
+//	public void testGetTrainerCotrainerBatchHappyPath() {
+//		Response response = given().headers("Authorization", token).contentType("application/json").when()
+//				.post(URL + "/" + knownTrainerId + "/cotrainerbatch").then().extract().response();
+//		assertEquals(response.getStatusCode(), 200);
+//	}
 
 	/**
 	 * Unhappy path testing for getTrainerCotrainerBatch where a 401 is returned
@@ -376,13 +376,9 @@ public class TrainerResourceTest {
 	 * Unhappy path testing for testUpdateTrainer where a 405 is returned with a bad
 	 * verb. In this case the verb is Get
 	 * 
-	 * Currently autofails because TrainerResource has multiple methods mapped to
-	 * the same URL so performing a GET to /{number} doesn't even call
-	 * updateTrainer.
 	 */
 	@Test(priority = 9)
 	public void testUpdateTrainerUnhappyPathBadVerbGet() {
-		assertTrue(false);
 		Response response = given().header("Authorization", token).contentType("application/json").when()
 				.get(URL + "/update/" + knownTrainerId).then().extract().response();
 

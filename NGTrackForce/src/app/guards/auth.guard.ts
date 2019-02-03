@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthenticationService } from '../services/authentication-service/authentication.service';
-import { LocalStorage } from '../constants/local-storage';
+import { LocalStorageUtils } from '../constants/local-storage';
 
 @Injectable()
 /**
@@ -18,16 +18,15 @@ export class AuthGuard implements CanActivate {
 	 *  when they log in, should be redirected to.
 	 */
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-
+        
         // not logged in so redirect to login page with the return url
-        if (!localStorage.getItem(LocalStorage.CURRENT_USER_KEY)) {
+        if (!localStorage.getItem(LocalStorageUtils.CURRENT_USER_KEY)) {
             this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
             window.alert("test");
-            window.alert(localStorage.getItem(LocalStorage.CURRENT_USER_KEY));
+            window.alert(localStorage.getItem(LocalStorageUtils.CURRENT_USER_KEY));
 
             return false;
         }
-
         const expectedRoles: number[] = route.data.expectedRoles;
 
         // check of component is restricted by role
@@ -43,7 +42,7 @@ export class AuthGuard implements CanActivate {
               });
             }
         }
-
+        
         return true;
     }
 

@@ -30,21 +30,18 @@ describe('UndeployedComponent Test Suite', () => {
       declarations: [ UndeployedComponent],
       imports: [ChartsModule, RouterTestingModule.withRoutes(routes)],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [AssociateService,
+      providers: [
+        {provide: AssociateService, useClass: MockAssociateService},
          HttpClient, HttpHandler]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    spy = spyOn(service, 'getUndeployedAssociates').and.returnValue(Observable.of(mockAssociateService.mockData));
     fixture = TestBed.createComponent(UndeployedComponent);
     component = fixture.componentInstance;
-    component.statusID = 1;
-    component.clientUndeployedData = [1, 2, 3];
-    component.clientUndeployedLabels = ["1", "2", "3"];
-    expect(component.clientUndeployedData.length).toBeGreaterThan(0);
     fixture.detectChanges();
+    expect(component.clientUndeployedData.length).toBeGreaterThan(0);
   });
 
   it('should create', () => {
@@ -52,7 +49,6 @@ describe('UndeployedComponent Test Suite', () => {
   });
 
   it('should have a div that contains a chart at the top of the page', ()=> {
-    expect(component.clientUndeployedData).toBeTruthy();
     let el = fixture.debugElement.nativeElement;
     let canvas = el.querySelector('canvas');
     expect(canvas.id).toEqual('the_graph');

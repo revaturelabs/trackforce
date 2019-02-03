@@ -21,5 +21,3 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 public class CucumberTestRunner extends AbstractTestNGCucumberTests {
  
 }
-// old code my add back later
-// glue = {"com.revature.test.utils","com.revature.test.admin.cuke"}

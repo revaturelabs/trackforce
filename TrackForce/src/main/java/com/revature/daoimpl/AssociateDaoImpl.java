@@ -331,23 +331,28 @@ public class AssociateDaoImpl implements AssociateDao {
 		LogUtil.logger.trace("Hibernate Transaction to update AssociateId: " + associate.getId());
 		return runHibernateTransaction((Session session, Object... args) -> {
 			TfAssociate temp = session.get(TfAssociate.class, associate.getId());
-			if (associate.getFirstName() != null || !associate.getFirstName().equals("") || !temp.getFirstName().equals(associate.getFirstName())) {
+		//	if (associate.getFirstName() != null || !associate.getFirstName().equals("") || !temp.getFirstName().equals(associate.getFirstName())) {
 				temp.setFirstName(associate.getFirstName());
-			}
-			if (associate.getLastName() != null || !associate.getLastName().equals("") || !temp.getLastName().equals(associate.getLastName())) {
+				System.out.println(temp.getFirstName());
+			//}
+		//	if (associate.getLastName() != null || !associate.getLastName().equals("") || !temp.getLastName().equals(associate.getLastName())) {
 				temp.setLastName(associate.getLastName());
-			}
-			if (associate.getStagingFeedback() != null || !associate.getStagingFeedback().equals("") 
-					|| !temp.getStagingFeedback().equals(associate.getStagingFeedback())) {
+				System.out.println(temp.getLastName());
+			//}
+			//if (associate.getStagingFeedback() != null || !associate.getStagingFeedback().equals("") 
+			//		|| !temp.getStagingFeedback().equals(associate.getStagingFeedback())) {
 				temp.setStagingFeedback(associate.getStagingFeedback());
-			}
+				System.out.println(temp.getStagingFeedback());
+			//}
 			//v1811 - Temp code for updating client, marketing status, and isApproved via both update associate and List<Associates>
-			if (associate.getClient() != null || !temp.getClient().equals(associate.getClient())) {
+			//if (associate.getClient() != null || !temp.getClient().equals(associate.getClient())) {
 				temp.setClient(associate.getClient());
-			}
-			if (associate.getMarketingStatus() != null|| !temp.getMarketingStatus().equals(associate.getMarketingStatus())) {
+				System.out.println(temp.getClient());
+			//}
+			//if (associate.getMarketingStatus() != null|| !temp.getMarketingStatus().equals(associate.getMarketingStatus())) {
 				temp.setMarketingStatus(associate.getMarketingStatus());
-			}
+				System.out.println(temp.getMarketingStatus());
+			//}
 			
 			temp.getUser().setIsApproved(associate.getUser().getIsApproved());
 			session.update(temp);

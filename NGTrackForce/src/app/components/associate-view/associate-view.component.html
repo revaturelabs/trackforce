@@ -91,11 +91,11 @@
           </tr>
           <tr>
             <td>First Name</td>
-            <td *ngIf="isDataReady">{{ (associate && associate.firstName) ? associate.firstName : ""}}</td>
+            <td *ngIf="isDataReady" id="updatedFirstName">{{ (associate && associate.firstName) ? associate.firstName : ""}}</td>
           </tr>
           <tr>
             <td>Last Name</td>
-            <td *ngIf="isDataReady">{{ (associate && associate.lastName) ? associate.lastName : ""}}</td>
+            <td *ngIf="isDataReady" id="updatedLastName">{{ (associate && associate.lastName) ? associate.lastName : ""}}</td>
           </tr>
           <tr>
             <td>Marketing Status</td>
@@ -141,7 +141,7 @@
     <div *ngIf='errMsg' class="alert alert-danger">
         {{errMsg}}
       </div>
-      <div *ngIf='succMsg' class="alert alert-success">
+      <div *ngIf='succMsg' class="alert alert-success" id="infoUpdated">
           {{succMsg}}
         </div>
   </div>

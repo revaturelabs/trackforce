@@ -2,6 +2,7 @@ package com.revature.test.TestNG;
 
 import org.testng.annotations.Test;
 
+import com.revature.test.pom.AssociateHome;
 import com.revature.test.pom.Login;
 import com.revature.test.pom.NavBar;
 import com.revature.test.utils.LoginUtil;
@@ -12,6 +13,7 @@ import java.io.File;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -37,7 +39,9 @@ public class AssociateTests {
 		wait.until(ExpectedConditions.urlContains(url));// EnvManager.NGTrackForce_URL+"login/"));
 		
 	}
-
+	/**
+	 * Login in as an associate 
+	 */
 	@Test(priority = 0)
 	public void LoginAssociate() {
 		wait.until(ExpectedConditions.elementToBeClickable(Login.getUsername(wd)));
@@ -50,23 +54,47 @@ public class AssociateTests {
 	}
 
 	/*
-	 * making sure that the appropriate tabs are visible on the associates 
-	 * homepage
+	 * Verifying that the tabs shows up on the associate's page when they log in 
 	 */
-	@Test(dependsOnMethods= {"LoginAssociate"})
+	@Test(priority = 1)
 	public void elementsOnPage() {
 		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.linkText("My Interviews")));
 	}
 	
-	@Test(priority = 1)
+	/*
+	 * Updates the user information.
+	 * first name and last name
+	 */
+	@Test(priority = 2)
+	public void updateInformation() {
+		WebElement fName = AssociateHome.newFirstName(wd);
+		WebElement lName = AssociateHome.newLastName(wd);
+		WebElement submit = AssociateHome.submitName(wd);
+		fName.click();
+		fName.clear();
+		fName.sendKeys("FirstName");
+		
+		lName.click();
+		lName.clear();
+		lName.sendKeys("LastName");
+		
+		submit.click();
+		
+	}
+	
+	/*
+	 * Verifying that associate can logout from their session
+	 */
+	@Test(priority = 3)
 	public void LogOut() {
 		wait.until(ExpectedConditions.elementToBeClickable(NavBar.getWelcomeDropdown(wd)));
 		NavBar.getWelcomeDropdown(wd).click();
 		wait.until(ExpectedConditions.elementToBeClickable(NavBar.getLogout(wd)));
 		NavBar.getLogout(wd).click();
-		wait.until(ExpectedConditions.urlContains(url));//EnvManager.NGTrackForce_URL + "login/"));
+		wait.until(ExpectedConditions.urlContains(url));
 	}
 
+		
 	@AfterSuite
 	void quit() {
 		wd.quit();

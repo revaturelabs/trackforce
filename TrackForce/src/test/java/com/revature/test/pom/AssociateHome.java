@@ -65,4 +65,16 @@ public class AssociateHome {
 	public static WebElement getConfirmPassword(WebDriver driver) {
 		return driver.findElement(By.id("confirmPassword"));
 	}
+	
+	public static WebElement newFirstName(WebDriver driver) {
+		return driver.findElement(By.name("newFirstName"));
+	}
+	
+	public static WebElement newLastName(WebDriver driver) {
+		return driver.findElement(By.name("newLastName"));
+	}
+	
+	public static WebElement submitName(WebDriver driver) {
+		return driver.findElement(By.id("submitButton"));
+	}
 }

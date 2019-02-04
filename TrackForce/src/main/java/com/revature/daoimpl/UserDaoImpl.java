@@ -100,7 +100,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean updateUsername(TfUser user, String updateName) {
-		LogUtil.logger.trace("Hibernate Call to update User: " + user.getId()+"'s password.");
+		LogUtil.logger.trace("Hibernate Call to update User: " + user.getId()+"'s username.");
 		return runHibernateTransaction((Session session, Object... args) -> {
 			TfUser temp = session.get(TfUser.class, user.getId());
 			if (updateName != null || !updateName.equals("") || !temp.getUsername().equals(updateName)) {

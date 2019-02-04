@@ -1,8 +1,9 @@
+import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user.model';
 import { LocalStorageUtils } from '../../constants/local-storage'
 import { UserService } from '../../services/user-service/user.service';
-import { CreateUserComponent } from '../create-user/create-user.component'
+import { CreateUserComponent } from '../create-user/create-user.component';
 
 @Component({
   selector: 'app-usernameupdate',

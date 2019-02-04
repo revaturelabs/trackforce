@@ -381,9 +381,13 @@ public class UserResource {
 	@ApiOperation(value = "Update user password", notes = "Compare if old password is correct and then update user with new password")
 	public Response updateUserPassword(
             @HeaderParam("Authorization") String token,
-            @ApiParam(value = "oldPassword") @QueryParam("oldPassword") String oldpassword,
-            @ApiParam(value = "newPassword") @QueryParam("newPassword")String updatepassword,
-            @ApiParam(value = "userId") @QueryParam("userId") Integer userId) {
+            @ApiParam(value = "userId") @QueryParam("userId") 
+            Integer userId,
+            @ApiParam(value = "oldPassword") @QueryParam("oldPassword") 
+            String oldpassword,
+            @ApiParam(value = "newPassword") @QueryParam("newPassword")
+            String updatepassword
+            ) {
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		TfUser userUpdatePass = new UserService().getUser(userId);
@@ -421,16 +425,22 @@ public class UserResource {
 	@Path("/updateusername")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Update User's username", notes = "Compare if old password is correct and then update user with new password")
+	@ApiOperation(value = "Update User's username", notes = "Compare if password is correct and then update user with new username")
 	public Response updateUserUsername(
             @HeaderParam("Authorization") String token,
-            @ApiParam(value = "password") @QueryParam("password") String oldpassword,
-            @ApiParam(value = "newUsername") @QueryParam("newUsername") String newUsername,
-            @ApiParam(value = "userId") @QueryParam("userId") Integer userId){
+            @ApiParam(value = "userId") @QueryParam("userId") 
+            Integer userId,
+            @ApiParam(value = "newUsername") @QueryParam("newUsername") 
+            String newUsername,
+            @ApiParam(value = "password") @QueryParam("password") 
+            String oldpassword
+            ){
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		TfUser userUpdateName = new UserService().getUser(userId);
 		logger.info("Method Call to update User[" + userId + "]'s username.");
+		System.out.println("Payload: " + payload);
+		System.out.println("Password: " + oldpassword + ". NewUsername: " + newUsername);
 		try {
 			if (payload == null) {
 				logger.error("The payload was null. Unathorized access.");

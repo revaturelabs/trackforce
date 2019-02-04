@@ -4,13 +4,17 @@ import static com.revature.test.cuke.ConstantsCukeTestUtil.getAssociateView;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getBaseUrl;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getInterviewDate;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getInterviewType;
+import static com.revature.test.cuke.ConstantsCukeTestUtil.getLogout;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getMyInterviewView;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getTestFirstName;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getTestLastName;
+import static com.revature.test.cuke.ConstantsCukeTestUtil.getUsernameUpdate;
+import static com.revature.test.cuke.ConstantsCukeTestUtil.getPasswordUpdate;
 import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,6 +22,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import com.revature.test.pom.AssociateHome;
 import com.revature.test.pom.MyInterviews;
 import com.revature.test.pom.NavBar;
+import com.revature.test.pom.PasswordUpdate;
+import com.revature.test.pom.UsernameUpdate;
 import com.revature.test.utils.ServiceHooks;
 
 import cucumber.api.java.en.Given;
@@ -60,34 +66,90 @@ public class AssociateViewCukes {
 	}
 	//End Scenario: Associate is attempting to update information
 
+	//Scenario: update password
+	@When("^I click on the update password option$")
+	public void i_click_on_the_update_password_option() throws Throwable {
+	    ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getAssociateView()));
+	    NavBar.getWelcomeDropdown(ServiceHooks.driver).click();
+		ServiceHooks.wait.until(ExpectedConditions.presenceOfElementLocated(By.id(getPasswordUpdate())));
+		NavBar.getPasswordUpdate(ServiceHooks.driver).click();
+	}
+	
 	@When("^I enter my current password$")
 	public void i_enter_my_current_password() throws Throwable {
-	    ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(AssociateHome.getCurrentPassword(ServiceHooks.driver)));
-	    AssociateHome.getCurrentPassword(ServiceHooks.driver).sendKeys(/*currentPassword*/);
+	    ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(PasswordUpdate.getOldPassword(ServiceHooks.driver)));
+	    PasswordUpdate.getOldPassword(ServiceHooks.driver).sendKeys(/*currentPassword*/);
 	}
 
 	@When("^enter a new password$")
 	public void enter_a_new_password() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(AssociateHome.getNewPassword(ServiceHooks.driver)));
-	    AssociateHome.getNewPassword(ServiceHooks.driver).sendKeys(/*newPassword*/);
+		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(PasswordUpdate.getNewPassword(ServiceHooks.driver)));
+	    PasswordUpdate.getNewPassword(ServiceHooks.driver).sendKeys(/*newPassword*/);
 	}
 
 	@When("^confirm the new password$")
 	public void confirm_the_new_password() throws Throwable {
-		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(AssociateHome.getConfirmPassword(ServiceHooks.driver)));
-	    AssociateHome.getConfirmPassword(ServiceHooks.driver).sendKeys(/*newPassword*/);
+		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(PasswordUpdate.getConfirmPassword(ServiceHooks.driver)));
+	    PasswordUpdate.getConfirmPassword(ServiceHooks.driver).sendKeys(/*newPassword*/);
+	}
+	
+	@When("^click the update button$")
+	public void click_the_update_button() throws Throwable {
+	    ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(UsernameUpdate.getUpdateButton(ServiceHooks.driver)));
+	    PasswordUpdate.getUpdateButton(ServiceHooks.driver).click();
+	    //This method is used for the Username update as well. 
+	    //The buttons on each page can be found the exact same way, so this will not fail to find the button. 
+	    //@Michael Tinning, Batch 1811
 	}
 
 	@Then("^A success message should appear on the page$")
 	public void a_success_message_should_appear_on_the_page() throws Throwable {
 		//Note that the success alert is not a true alert pop-up but a small message that appears on the page
+		//If implementation changes to expect an Alert, use ExpCond.alertIsPresent(), which throws a NoAlertPresentExc. if there is no alert
 		try {
 			ServiceHooks.wait.until(ExpectedConditions.visibilityOf(MyInterviews.getSuccessAlert(ServiceHooks.driver)));
 		} catch (TimeoutException e) {
-			fail("Success alert did not appear, update password failed");
+			fail("Success message did not appear, update password failed");
 		}
+		/*Note: Checking the update persists in the system should either
+		 *   for Username: reload the page and check for an update on the greeting in the NavBar. 
+		 *   for Password: log out and log back in. 
+		 * Changes are currently NOT IMPLEMENTED on the back-end, so the changes do not persist. 
+		 */
 	}
 	//End Scenario: update password
+	
+	//Scenario: update Username
+	@When("^I click on the update username option$")
+	public void i_click_on_the_update_username_option() throws Throwable {
+		ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getAssociateView()));
+	    NavBar.getWelcomeDropdown(ServiceHooks.driver).click();
+		ServiceHooks.wait.until(ExpectedConditions.presenceOfElementLocated(By.id(getPasswordUpdate())));
+		NavBar.getUsernameUpdate(ServiceHooks.driver).click();
+	}
+
+	@When("^I enter a new username$")
+	public void i_enter_a_new_username() throws Throwable {
+		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(UsernameUpdate.getNewUsername(ServiceHooks.driver)));
+	    UsernameUpdate.getNewUsername(ServiceHooks.driver).sendKeys(/*newUsername*/);
+	}
+
+	@When("^I enter my password$")
+	public void i_enter_my_password() throws Throwable {
+		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(UsernameUpdate.getNewUsername(ServiceHooks.driver)));
+	    UsernameUpdate.getNewUsername(ServiceHooks.driver).sendKeys(/*userPassword*/);
+	}
+
+	//Should check for the username in the NavBar, currently not used 
+	//Will need to implement this change on the backend and reload the page to check the change. 
+//	@Then("^my username change should be reflected$")
+//	public void my_username_change_should_be_reflected() throws Throwable {
+//	    //Reload the page
+		//ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(NavBar.getWelcomeDropdown(ServiceHooks.driver)));
+		//Check the element's text() if it matches the change
+		//Should also change the name back to the old name for good practice
+//	}
+	//End Scenario : Update Username
 	
 	//Scenario: navigate to the MyInterview tab
 	@When("^I click the interview tab$")

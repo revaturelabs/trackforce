@@ -14,6 +14,8 @@ public class ConstantsCukeTestUtil {
 	private static final String PASSWORD_LOWERCASE = "password";
 	private static final String LOGIN = "login";
 	private static final String LOGOUT = "logout";
+	private static final String USERNAME_UPDATE = "username-update";
+	private static final String PASSWORD_UPDATE = "password-update";
 	private static final String APP_HOME = "app-home"; //uri for admin and staging views
 	private static final String TRAINER_VIEW = "trainer-view";
 	private static final String ASSOCIATE_VIEW = "associate-view";
@@ -38,6 +40,12 @@ public class ConstantsCukeTestUtil {
 	}
 	static final String getLogout() {
 		return LOGOUT;
+	}
+	public static String getUsernameUpdate() {
+		return USERNAME_UPDATE;
+	}
+	public static String getPasswordUpdate() {
+		return PASSWORD_UPDATE;
 	}
 	static final String getAppHome() {
 		return APP_HOME;

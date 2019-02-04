@@ -2,12 +2,12 @@
   <h3 style="text-align:center">New Interview</h3>
   <div class="row" class="toggledContainer">
 
-      <form>
+      <form (ngSubmit)=addInterview() [formGroup]=addInterviewForm>
         <div class="form-group">
             <br>
             <label class="control-label col-sm-2">Client:</label>
             <div class="col-sm-3">
-                <select class="form-control" name="newClient" [(ngModel)]="clientId">
+                <select class="form-control" name="newClient" formControlName=clientId>
                 <option selected="selected">None</option>
                 <option *ngFor="let client of clients" [ngValue]="client">{{client.name}}</option>
                 </select>
@@ -15,7 +15,7 @@
 
             <label class="control-label col-sm-2">Type:</label>
             <div class="col-sm-3">
-                <select class="form-control" id="interviewType" name="type" [(ngModel)]="typeId">
+                <select class="form-control" id="interviewType" name="type" formControlName=typeId>
                     <option value="1">Phone</option>
                     <option value="2">Online</option>
                     <option value="3">On-site</option>
@@ -24,31 +24,31 @@
             </div>
 
             <div class="form-group col-md-3">
-              <label for="inputDate">Interview Date:</label> <input type="datetime-local"
-                class="form-control" name="startDate" id="inputDate" [(ngModel)]="interviewDate"
+              <label for="inputDate">Interview Date:</label>
+              <input type="datetime-local"
+                class="form-control" name="startDate" id="inputDate" formControlName="interviewDate"
                 placeholder="Date">
+              <span *ngIf="!addInterviewForm.get('interviewDate').valid && addInterviewForm.get('interviewDate').touched"
+               class=help-block
+               id="interviewDateHelpText">Enter a Date of the form "dd/mm/yyyy hh:mm (AM|PM)"
+              </span>
             </div>
             <br><br>
-            <!-- <label class="control-label col-sm-2">Date Assigned:</label>
-            <div class="col-sm-3">
-                <app-datetimepicker width="400px" format="datetime" (datePicked)="interviewAssigned=$event" (error)="dateError=$event"></app-datetimepicker>
-            </div>
-
-            <label class="control-label col-sm-2">Date of interview:</label>
-            <div class="col-sm-3">
-                <app-datetimepicker width="400px" format="datetime" (datePicked)="interviewDate=$event" (error)="dateError=$event"></app-datetimepicker>
-            </div> -->
             <label class="control-label col-sm-1">24 hour notice?</label>
-            <input type="checkbox" name="24hournotice" [(ngModel)]="was24HRNotice">
+            <input title="Were you given 24-hr notice for the interview?"
+            type="checkbox" name="24hournotice" formControlName="was24HRNotice">
         </div>
         <br><br><br>
         <div class="form-group">
-            <button id='add-interview' (click)="addInterview()" class="btn btn-success pull-right">Add Interview</button>
+            <button id='add-interview' class="btn btn-success pull-right" type="submit">Add Interview</button>
         </div>
+    </form> <!--Add Interview Form-->
 
-    </form>
     <div *ngIf='succMsg' class="alert alert-success">
       {{succMsg}}
+    </div>
+    <div *ngIf='failMsg' class="alert alert-danger">
+      {{failMsg}}
     </div>
   </div>
 
@@ -82,7 +82,7 @@
             <td>{{ (interview.client && interview.client.name) ? interview.client.name : ""}}</td>
 
             <td>
-              {{interview.interviewDate| date:'medium'}} 
+              {{interview.interviewDate| date:'medium'}}
             </td>
 
             <td>
@@ -102,7 +102,7 @@
 
             <td class="button_col">
               <button type="button" class="btn btn-primary" (click)='viewInterview(interview.id)' style.display="inline">View</button>
-           
+
             </td>
 
           </tr>

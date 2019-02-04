@@ -87,8 +87,11 @@
 
             <td>
               <form [formGroup]="registerForm" >
-               <input  type="datetime-local" formControlName="dateinput">
-               <button type="button" class="btn btn-primary" (click)='updateInterview(interview)'>Update</button>
+                  <div class="input-group mb-3" style="width: 310px;">
+                      <input class="form-control" type="datetime-local" formControlName="dateinput">
+                      <span class="input-group-addon" style="width: 10px;"></span>
+                      <button type="button" class="btn btn-primary" (click)='updateInterview(interview)'>Update</button>       
+                  </div>
                </form>
             </td>
 

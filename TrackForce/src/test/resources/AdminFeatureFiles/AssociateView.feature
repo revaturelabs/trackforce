@@ -12,10 +12,19 @@ Feature: Testing the various user stories connected to the Associate use case
     Then the changes should be reflected
   
   Scenario: An associate updates their password
-  	When I enter my current password 
+  	When I click on the update password option
+  	And I enter my current password
   	And enter a new password 
   	And confirm the new password
+  	And click the update button
   	Then A success message should appear on the page
+  	
+	Scenario: An associate updates their username
+		When I click on the update username option
+		And I enter a new username 
+		And I enter my password
+		And click the update button
+		Then A success message should appear on the page
   	
     
   Scenario: Login as Associate and navigate to the My Interviews tab

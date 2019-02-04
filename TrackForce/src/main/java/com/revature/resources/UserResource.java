@@ -12,10 +12,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import org.json.JSONObject;
 
 import com.google.gson.JsonObject;
 import com.revature.entity.TfAssociate;
@@ -41,7 +42,6 @@ import com.revature.utils.PasswordStorage.InvalidHashException;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 /**
  * <p>
@@ -380,10 +380,10 @@ public class UserResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Update user password", notes = "Compare if old password is correct and then update user with new password")
 	public Response updateUserPassword(
-            @HeaderParam("Authorization") String token,
-            @ApiParam(value = "oldPassword") @QueryParam("oldPassword") String oldpassword,
-            @ApiParam(value = "newPassword") @QueryParam("newPassword")String updatepassword,
-            @ApiParam(value = "userId") @QueryParam("userId") Integer userId) {
+            @HeaderParam("Authorization") String token, String requestBody) {
+		int userId = new JSONObject(requestBody).getInt("userId");
+		String oldpassword = new JSONObject(requestBody).getString("oldPassword");
+		String updatepassword = new JSONObject(requestBody).getString("newPassword");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		TfUser userUpdatePass = new UserService().getUser(userId);
@@ -423,10 +423,10 @@ public class UserResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Update User's username", notes = "Compare if old password is correct and then update user with new password")
 	public Response updateUserUsername(
-            @HeaderParam("Authorization") String token,
-            @ApiParam(value = "password") @QueryParam("password") String oldpassword,
-            @ApiParam(value = "newUsername") @QueryParam("newUsername") String newUsername,
-            @ApiParam(value = "userId") @QueryParam("userId") Integer userId){
+            @HeaderParam("Authorization") String token, String requestBody){
+		int userId = new JSONObject(requestBody).getInt("userId");
+		String oldpassword = new JSONObject(requestBody).getString("password");
+		String newUsername = new JSONObject(requestBody).getString("newUsername");
 		Status status = null;
 		Claims payload = JWTService.processToken(token);
 		TfUser userUpdateName = new UserService().getUser(userId);

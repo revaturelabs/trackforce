@@ -166,7 +166,6 @@ export class MyInterviewComponent implements OnInit {
           .createInterview(this.newInterview, this.associate.id)
           .subscribe(res => {
             location.reload(false);
-
          });
       }
   }

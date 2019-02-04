@@ -50,6 +50,14 @@ public class NavBar {
 		return driver.findElement(By.id("logout"));
 	}
 	
+	public static WebElement getPasswordUpdate(WebDriver driver) {
+		return driver.findElement(By.id("password-update"));
+	}
+	
+	public static WebElement getUsernameUpdate(WebDriver driver) {
+		return driver.findElement(By.id("username-update"));
+	}
+	
 	public static WebElement getMobileNavToggler(WebDriver driver) {
 		return driver.findElement(By.id("collapsedNav"));
 	}

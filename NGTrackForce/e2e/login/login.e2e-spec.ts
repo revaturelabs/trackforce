@@ -57,7 +57,10 @@ describe('Confirm login failures', () => {
   beforeAll(() => {
     page = new LoginPage();
     page.navigateTo();
-    browser.sleep(4000);
+  });
+
+  beforeEach(() => {
+    browser.manage().timeouts().implicitlyWait(5000);
   });
 
   it('should fail to log in when nothing is entered', () => {

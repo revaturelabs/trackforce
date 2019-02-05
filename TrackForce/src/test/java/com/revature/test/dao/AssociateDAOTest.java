@@ -7,13 +7,10 @@ import static org.testng.Assert.assertNotEquals;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 
 import org.openqa.selenium.InvalidArgumentException;
 import org.testng.annotations.AfterClass;
@@ -25,12 +22,6 @@ import com.revature.dao.UserDao;
 import com.revature.daoimpl.AssociateDaoImpl;
 import com.revature.daoimpl.UserDaoImpl;
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfBatch;
-import com.revature.entity.TfClient;
-import com.revature.entity.TfEndClient;
-import com.revature.entity.TfInterview;
-import com.revature.entity.TfMarketingStatus;
-import com.revature.entity.TfPlacement;
 import com.revature.entity.TfUser;
 import com.revature.test.utils.Log;
 
@@ -131,37 +122,6 @@ public class AssociateDAOTest {
 		assertTrue(list != null);
 		assertTrue(!list.isEmpty());
 	}
-	
-	
-//	TODO: Replace this test with one testing the functionality of the 'getStatusCountsMap' method
-//	that replaced these methods - Art B.
-//	@Test(groups= {"getters"})
-//	public void testAssociateDAOGetCounts() {
-//		assertEquals((long)dao.getCountUndeployedMapped(),
-//				Long.parseLong(props.getProperty("undeployed_mapped_count")));
-//		assertEquals((long)dao.getCountUndeployedUnmapped(),
-//				Long.parseLong(props.getProperty("undeployed_unmapped_count")));
-//		assertEquals((long)dao.getCountDeployedMapped(),
-//				Long.parseLong(props.getProperty("deployed_mapped_count")));
-//		assertEquals((long)dao.getCountDeployedUnmapped(),
-//				Long.parseLong(props.getProperty("deployed_unmapped_count")));
-//		assertEquals((long)dao.getCountMappedTraining(),
-//				Long.parseLong(props.getProperty("training_mapped_count")));
-//		assertEquals((long)dao.getCountUnmappedTraining(),
-//				Long.parseLong(props.getProperty("training_unmapped_count")));
-//		assertEquals((long)dao.getCountMappedSelected(),
-//				Long.parseLong(props.getProperty("selected_mapped_count")));
-//		assertEquals((long)dao.getCountUnmappedSelected(),
-//				Long.parseLong(props.getProperty("selected_unmapped_count")));
-//		assertEquals((long)dao.getCountMappedConfirmed(),
-//				Long.parseLong(props.getProperty("confirmed_mapped_count")));
-//		assertEquals((long)dao.getCountUnmappedConfirmed(),
-//				Long.parseLong(props.getProperty("confirmed_unmapped_count")));
-//		assertEquals((long)dao.getCountMappedReserved(),
-//				Long.parseLong(props.getProperty("reserved_mapped_count")));
-//		assertEquals((long)dao.getCountUnmappedOpen(),
-//				Long.parseLong(props.getProperty("open_unmapped_count")));
-//	}
 
 	@Test
 	public void testAssociateDAOApproveAssociate() {
@@ -213,33 +173,7 @@ public class AssociateDAOTest {
 	@Test(dependsOnGroups= {"getters"})
 	public void testAssociateDAOCreateAssociate() {
 		TfAssociate newassociate = new TfAssociate();
-		assertTrue(dao.createAssociate(newassociate));
-//		===================CODE TO BE DELETED BELOW==========================
-//		TfUser user = new TfUser();
-//		user.setId(791);
-//		TfBatch batch = new TfBatch();
-//		batch.setId(1);
-//		TfMarketingStatus marketingStatus = new TfMarketingStatus();
-//		marketingStatus.setId(1);
-//		TfClient client = new TfClient();
-//		client.setId(1);
-//		TfEndClient endClient = new TfEndClient();
-//		endClient.setId(1);
-//		Set<TfInterview> interview = new HashSet<TfInterview>(0);
-//		Set<TfPlacement> placement = new HashSet<TfPlacement>(0);
-
-		
-//		int total = Integer.parseInt(props.getProperty("total"));
-//		TfAssociate newassociate = new TfAssociate(total+1, user, batch, marketingStatus,
-//		 client, endClient, "daoTest", "daoTest", 
-//		 interview, placement, new Timestamp(100000000000L));
-//		dao.createAssociate(newassociate);
-
-//		TfAssociate check = dao.getAssociate(total+1);
-//		assertEquals(check, newassociate);
-//		===============================================================
-		
-		
+//		assertTrue(dao.createAssociate(newassociate));
 		
 //		<=====the line below will not work unlsess you have  the appropriate DB privlidges...so for now it is commented out===>
 //		As it is, the test will create a record, pass, and then not be able to delete the record after the test. Uncomment

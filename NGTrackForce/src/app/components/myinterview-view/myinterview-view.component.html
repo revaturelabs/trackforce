@@ -76,8 +76,8 @@
             <th></th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let interview of interviews; let i = index">
+        <tbody id="tableBody">
+          <tr *ngFor="let interview of interviews; let i = index" id="tableRows">
             <td>{{i+1}}</td>
             <td>{{ (interview.client && interview.client.name) ? interview.client.name : ""}}</td>
 

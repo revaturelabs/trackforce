@@ -144,7 +144,7 @@ export class MockInterviewService extends InterviewService {
     let interview2 = new Interview(associate, client, interviewType, 0,"Questions?",0,0,0);
     let interviews:Interview[] = [interview, interview2];
 
-    return Observable.of(interviews);
+    return of(interviews);
   }
 }
 

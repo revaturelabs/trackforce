@@ -8,8 +8,7 @@ describe('test assocation pagenation functionality', function() {
 
     //NGTrackForce_URL
     browser.get('http://34.227.178.103:8090/NGTrackForce/');
-
-    browser.manage().timeouts().implicitlyWait(5000);
+    browser.manage().timeouts().implicitlyWait(10000);
 
     it('should log in', function() {
   

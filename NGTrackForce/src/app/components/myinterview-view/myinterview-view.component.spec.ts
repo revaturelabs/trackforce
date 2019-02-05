@@ -1,3 +1,5 @@
+import { MockInterviewService } from './../../testing-helpers/test-mock-services';
+import { InterviewService } from './../../services/interview-service/interview.service';
 import { ActivatedRouteStub } from './../../testing-helpers/router-stubs';
 import { AssociateService } from './../../services/associate-service/associate.service';
 import { MockRouter } from './../skillset/skillset.component.spec';
@@ -10,9 +12,9 @@ import { MyInterviewComponent } from './myinterview-view.component';
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { RequestService } from '../../services/request-service/request.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { InterviewService } from '../../services/interview-service/interview.service';
+import { LocalStorageUtils } from '../../constants/local-storage';
 
-fdescribe('My Interview Component', () =>{
+describe('My Interview Component', () =>{
     let component: MyInterviewComponent;
     let fixture: ComponentFixture<MyInterviewComponent>;
     let spy: any;
@@ -23,19 +25,21 @@ fdescribe('My Interview Component', () =>{
             imports: [FormsModule, ReactiveFormsModule],
             providers: [AuthenticationService, ClientService, RequestService, AssociateService, 
                 {provide: ActivatedRoute, useClass: ActivatedRouteStub}, HttpClient, HttpHandler, 
-                {provide: Router, useClass: MockRouter}, InterviewService],
+                {provide: Router, useClass: MockRouter}, 
+                {provide: InterviewService, useClass: MockInterviewService}],
             schemas: [CUSTOM_ELEMENTS_SCHEMA]
         }).compileComponents();
 
     }));
 
+    //This one is still failing due to an NgFor error
     beforeEach(() =>{
+        spy = spyOn(localStorage, 'getItem').and.returnValue(LocalStorageUtils.TEST_CURRENT_USER_VALUE);
         fixture = TestBed.createComponent(MyInterviewComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-    //All of the tests in this suite fail because, again, the user info that is pulled from local storage for these tests is null.
     it('should create', () =>{
         expect(component).toBeTruthy();
     });

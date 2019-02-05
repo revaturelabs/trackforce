@@ -1,3 +1,4 @@
+import { LocalStorageUtils } from './../../constants/local-storage';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { RequestService } from './../../services/request-service/request.service';
 import { FormsModule } from '@angular/forms';
@@ -21,12 +22,12 @@ describe('UsernameupdateComponent', () => {
   }));
 
   beforeEach(() => {
+    spy = spyOn(localStorage, 'getItem').and.returnValue(LocalStorageUtils.TEST_CURRENT_USER_VALUE);
     fixture = TestBed.createComponent(UsernameUpdateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  //Both of the tests in this suite currently fail because the user id that is referenced in ngOnit is null.
   it('should create', () => {
     expect(component).toBeTruthy();
   });

@@ -5,6 +5,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PasswordUpdateComponent } from './passwordupdate.component';
 import { UserService } from '../../services/user-service/user.service';
+import { LocalStorageUtils } from '../../constants/local-storage';
 
 describe('PasswordupdateComponent', () => {
   let component: PasswordUpdateComponent;
@@ -21,12 +22,12 @@ describe('PasswordupdateComponent', () => {
   }));
 
   beforeEach(() => {
+    spy = spyOn(localStorage, 'getItem').and.returnValue(LocalStorageUtils.TEST_CURRENT_USER_VALUE);
     fixture = TestBed.createComponent(PasswordUpdateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  //These tests currently fail because the component's user is null in onInit
   it('should create', () => {
     expect(component).toBeTruthy();
   });

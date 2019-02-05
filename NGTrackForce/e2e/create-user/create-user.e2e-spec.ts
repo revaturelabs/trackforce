@@ -66,6 +66,7 @@ describe('The create-user page ', () => {
         createUser.clickDeliveryRadio();
         expect(createUser.getCheckedRadioValue()).toEqual('3');
     });
+    
     afterAll(() => {
       page.getlogoutButton().click();
     });

@@ -1,3 +1,4 @@
+import { async } from '@angular/core/testing';
 import { RegisterAssociatePage } from "./register-associate.po";
 import { TestConfig } from "../configuration/test-config";
 import { LoginPage } from "../login/login.po";

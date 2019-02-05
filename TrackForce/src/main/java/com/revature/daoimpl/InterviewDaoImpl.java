@@ -31,15 +31,17 @@ public class InterviewDaoImpl implements InterviewDao {
 			// System.out.println(getInterviewById(interview.getId()));
 			return HibernateUtil.saveToDB(interview);
 		}
-		LogUtil.logger.error("Interview [" + interview.getId() + "] was invalid or already exists in the database.");
-		return false;
+		else {
+			LogUtil.logger.error("Interview [" + getInterviewById(interview.getId()).getId() + "] already exists in the database.");
+			return false;
+		}
 	}
 
 	/*Nested if statements to prevent shortcircuit if statements from throwing a nullpointerexception on the hibernate transactions
 	 * Reference AssociateDaoImpl.
 	 * Currently updates all fields in TfInterview but as of, v1811, not all fields are sent as data from the front-end
 	 * Current data received for updates are: Timestamp - interviewDate. String - associateFeedback. 
-	 * 										String - questionGiven. String - clientFeedback
+	 * 										String - questionGiven. String - clientFeedback. String - JobDescription.
 	 */
 	@Override
 	public boolean updateInterview(TfInterview interview) {

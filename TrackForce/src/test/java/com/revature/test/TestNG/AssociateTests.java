@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -102,9 +103,11 @@ public class AssociateTests {
 		int pickType = new Random().nextInt(4);
 		
 		Select client = AssociateHome.chooseclient(wd);
+		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		client.selectByIndex(pickClient);
 		
 		Select type = AssociateHome.chooseType(wd);
+		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		type.selectByIndex(pickType);
 		
 		WebElement date = AssociateHome.inputDate(wd);

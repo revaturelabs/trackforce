@@ -25,11 +25,9 @@ describe('Lets test searching on associates list tab...', function () {
 
     it('Test out search by name of associate', function() {
         associate = "Steven";
-        element(by.id('exampleFormControlSelect1')).sendKeys(associate);
+        element(by.id('FilterName')).sendKeys(associate);
         element(by.buttonText('Filter')).click();
-    });
-    
-    it('Check return results of entered values, with name of associate', function() {
+
         if(element(by.css("table tbody tr:nth-child(1) td:nth-child(1)")).isPresent){
             expect(element(by.css("table tbody tr:nth-child(1) td:nth-child(1)")).getText()).toEqual(associate);
         }
@@ -37,23 +35,21 @@ describe('Lets test searching on associates list tab...', function () {
 
     it('Clear the search input box', function() {
         element(by.buttonText('Clear Filters')).click();
+        expect(by.id('FilterName')).toMatch('');
     });
 
     it('Test out search by last name',function() {
         associateLast = "Huelsman";
-        element(by.id('exampleFormControlSelect1')).sendKeys(associateLast);
+        element(by.id('FilterName')).sendKeys(associateLast);
         element(by.buttonText('Filter')).click();
-    });
 
-    it('Check results of search by associates last name', function(){
         if(element(by.css("table tbody tr:nth-child(1) td:nth-child(2)")).isPresent){
             expect(element(by.css("table tbody tr:nth-child(1) td:nth-child(2)")).getText()).toEqual(associateLast);
         }
     });
 
-    it('Clear out search input once more', function(){
+    it('Clear out search input once more and logout', function(){
         element(by.buttonText('Clear Filters')).click();
-        //logout
         element(by.id('navbarDropdown')).click();
         element(by.id('logout')).click();
     });

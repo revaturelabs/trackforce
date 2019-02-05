@@ -124,13 +124,27 @@ export class MockInterviewService extends InterviewService {
     let interviewType = new InterviewType(0, "Test Interview Type")
   
     let client = new Client(0,"Test Client",null,null,null)
-    let interview = new Interview(associate, client, interviewType, 0,"Questions?",0,0,0)
+    let interview = new Interview(associate, client, interviewType, 0,"Questions?",0,0,0);
 
     return of(interview)
   }
 
   public updateInterview(interview): Observable<boolean> {
     return of(true);
+  }
+
+  public getInterviewsForAssociate(id:number):Observable<Interview[]>{
+
+    let user = new User("mockUsername","mockPassword",5,1)
+    let associate = new Associate('mockFirstName', 'mockLastName', user)
+    let interviewType = new InterviewType(0, "Test Interview Type")
+  
+    let client = new Client(0,"Test Client",null,null,null)
+    let interview = new Interview(associate, client, interviewType, 0,"Questions?",0,0,0);
+    let interview2 = new Interview(associate, client, interviewType, 0,"Questions?",0,0,0);
+    let interviews:Interview[] = [interview, interview2];
+
+    return Observable.of(interviews);
   }
 }
 

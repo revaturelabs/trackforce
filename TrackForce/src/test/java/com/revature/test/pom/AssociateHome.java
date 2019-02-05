@@ -6,7 +6,9 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 //IMPORTANT: A lot of code for this POM already exists in the general POM Package.
 public class AssociateHome {
@@ -114,6 +116,13 @@ public class AssociateHome {
 	}
 	
 	public static WebElement addInterview(WebDriver driver) {
-		return driver.findElement(By.id("add-interview"));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("add-interview")));
+		return driver.findElement(By.linkText("Add Interview"));
+	}
+	
+	public static WebElement checkBox(WebDriver driver) {
+		return driver.findElement(By.name("24hournotice"));
 	}
 }

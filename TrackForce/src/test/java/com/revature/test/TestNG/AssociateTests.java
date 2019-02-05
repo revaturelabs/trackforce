@@ -19,15 +19,14 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.revature.test.pom.AssociateHome;
-import com.revature.test.pom.BatchList;
 import com.revature.test.pom.Login;
 import com.revature.test.pom.NavBar;
 
 public class AssociateTests {
 	static WebDriver wd;
 	static WebDriverWait wait;
-	String username = "cyril";
-	String password = "cyril";
+	String username = "bobbert1234";
+	String password = "Bobbert12!";
 	public final String url = "http://34.227.178.103:8090/NGTrackForce/";
 
 
@@ -100,26 +99,30 @@ public class AssociateTests {
 	public void addInterview() {
 		AssociateHome.interviewTab(wd).click();
 		int beforeAddingInterview = AssociateHome.numberOfTR(wd).size();
-		int pickClient = new Random().nextInt(50);
-		int pickType = new Random().nextInt(4);
 		
 		Select client = AssociateHome.chooseclient(wd);
 		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		client.selectByIndex(pickClient);
+		client.selectByVisibleText("ADP");//Index(pickClient);
 		
 		Select type = AssociateHome.chooseType(wd);
 		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		wd.findElement(By.id("interviewType"));
-		type.selectByIndex(pickType);
+		type.selectByVisibleText("Online");//Index(pickType);
 		
 		WebElement date = AssociateHome.inputDate(wd);
 		String datetime = new SimpleDateFormat("MM/dd/yyyy HH:mm aaa").format(Calendar.getInstance().getTime());
-		date.sendKeys(datetime);
+		String datetime1 = "02/09/2019	12:45	PM";
+		date.sendKeys(datetime1);
+		
+		AssociateHome.checkBox(wd).click();
+		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		AssociateHome.addInterview(wd).click();
 		
 		
+		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		int afterAddingInterview = AssociateHome.numberOfTR(wd).size();
-		Assert.assertEquals(beforeAddingInterview+1, afterAddingInterview);
+		
+		Assert.assertEquals(afterAddingInterview, beforeAddingInterview+1);
 	}
 	
 	/*

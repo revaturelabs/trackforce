@@ -1,6 +1,7 @@
 package com.revature.test.pom;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -95,10 +96,12 @@ public class AssociateHome {
 		return driver.findElement(By.linkText("My Interviews"));
 	}
 	public static Select chooseclient(WebDriver driver) {
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		return new Select(driver.findElement(By.name("newClient")));
 	}
 	
 	public static Select chooseType(WebDriver driver) {
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		return new Select(driver.findElement(By.id("interviewType")));
 	}
 	

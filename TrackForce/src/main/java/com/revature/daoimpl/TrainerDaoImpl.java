@@ -38,16 +38,33 @@ public class TrainerDaoImpl implements TrainerDao{
 		return HibernateUtil.saveToDB(trainer);
 	}
 
+/*	Nested if statements to prevent shortcircuit if statements from throwing a nullpointerexception on the hibernate transactions
+	Reference AssociateDaoImpl.
+	Currently updates: Firstname, Lastname, Primary, Cotrainer.
+	Does not update User object.
+	The data recieved from the front-end to update are: String - firstName. String - lastName.*/
 	@Override
 	public boolean updateTrainer(TfTrainer trainer) {
 		LogUtil.logger.trace("Hibernate Call to update Trainer: " + trainer.getId());
 		return HibernateUtil.runHibernateTransaction((Session session, Object ... args)->
 		{
 			TfTrainer temp = session.get(TfTrainer.class, trainer.getId());
+			if(trainer.getCoTrainer() !=null) {
 			temp.setCoTrainer(trainer.getCoTrainer());
-			temp.setFirstName(trainer.getFirstName());
-			temp.setLastName(trainer.getLastName());
-			temp.setPrimary(trainer.getPrimary());
+			}
+			if(trainer.getFirstName() != null) {
+				if(!trainer.getFirstName().equals("")) {
+					temp.setFirstName(trainer.getFirstName());
+				}
+			}
+			if(trainer.getLastName() != null) {
+				if(!trainer.getLastName().equals("")) {
+					temp.setLastName(trainer.getLastName());
+				}
+			}
+			if(trainer.getPrimary() != null) {
+				temp.setPrimary(trainer.getPrimary());
+			}
 			session.update(temp);
 			return true;
 		});

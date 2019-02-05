@@ -64,7 +64,7 @@ public class AssociateViewCukes {
 		//reset test changes after validation
 		reset_associate_information();
 	}
-	//End Scenario: Associate is attempting to update information
+	//End Scenario: Associate is attempting to update information (Fname Lname)
 
 	//Scenario: update password
 	@When("^I click on the update password option$")
@@ -156,6 +156,7 @@ public class AssociateViewCukes {
 	public void i_click_the_interview_tab() throws Throwable {
 		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(NavBar.getMyInterviews(ServiceHooks.driver)));
 		NavBar.getMyInterviews(ServiceHooks.driver).click();
+		ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getMyInterviewView()));
 	}
 
 	@Then("^I am on the interview view$")
@@ -214,13 +215,13 @@ public class AssociateViewCukes {
 	public void an_error_popup_should_display() throws Throwable {
 		try {
 			//If the below throws an error, the alert did not appear
-			ServiceHooks.wait.until(ExpectedConditions.alertIsPresent());
-			ServiceHooks.driver.switchTo().alert().dismiss();
-		} catch (NoAlertPresentException | TimeoutException e) {
+			ServiceHooks.wait.until(ExpectedConditions.visibilityOf(MyInterviews.getFailureAlert(ServiceHooks.driver)));
+			ServiceHooks.wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(MyInterviews.getFailureAlert(ServiceHooks.driver))));
+		} catch (TimeoutException e) {
 			fail("Failure alert did not appear on the page");
 		}
 	}
-	
+
 	
 	//Used to reset info update tests. 
 	private String originalFirstName = "";

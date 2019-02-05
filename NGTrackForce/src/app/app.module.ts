@@ -64,6 +64,7 @@ import { TrainerService } from './services/trainer-service/trainer.service';
 import { InvalidSessionComponent } from './components/invalid-session/invalid-session.component';
 import { HighlightInterviewDirective } from './directives/highlight-interview.directive';
 import { UpdateDialogComponent } from './components/associate-list-page/associate-list-page.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import { UpdateDialogComponent } from './components/associate-list-page/associat
     NavbarService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: InvalidSessionRerouteInterceptor, multi: true },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   exports: [
     MatProgressSpinnerModule,

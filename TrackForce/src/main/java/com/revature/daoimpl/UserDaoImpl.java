@@ -19,10 +19,10 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public TfUser getUser(Integer id) {
 		LogUtil.logger.trace("Hibernate Call to get User by Id: " + id);
-		return HibernateUtil.runHibernate((Session session, Object ... args) ->
-		session.createQuery("from TfUser u where u.id = :id", TfUser.class)
-		.setParameter("id", id).setCacheable(true).getSingleResult());
-		
+		return HibernateUtil.runHibernate(
+				(Session session, Object... args) -> session.createQuery("from TfUser u where u.id = :id", TfUser.class)
+						.setParameter("id", id).setCacheable(true).getSingleResult());
+
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean insertUser(TfUser newUser) {
-		LogUtil.logger.trace("Hibernate Call to save created User["+newUser.getId()+"] to the Database.");
+		LogUtil.logger.trace("Hibernate Call to save created User[" + newUser.getId() + "] to the Database.");
 		return HibernateUtil.saveToDB(newUser);
 	}
 
@@ -73,8 +73,8 @@ public class UserDaoImpl implements UserDao {
 	 */
 	@Override
 	public void deleteUser(TfUser user) {
-		LogUtil.logger.trace("Hibernate Call to delete User: " + user.getId() +
-							". Currently only used as part of RestAssured tests.");
+		LogUtil.logger.trace("Hibernate Call to delete User: " + user.getId()
+				+ ". Currently only used as part of RestAssured tests.");
 		runHibernateTransaction((Session session, Object... args) -> {
 			session.delete(user);
 			return true;
@@ -83,16 +83,21 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean updateUserPass(TfUser user, String updatePass) {
-		LogUtil.logger.trace("Hibernate Call to update User: " + user.getId()+"'s password.");
+		LogUtil.logger.trace("Hibernate Call to update User: " + user.getId() + "'s password.");
 		return runHibernateTransaction((Session session, Object... args) -> {
 			TfUser temp = session.get(TfUser.class, user.getId());
 			try {
-				temp.setPassword((PasswordStorage.createHash(updatePass)));
+				if (updatePass != null) {
+					if (!updatePass.equals("")) {
+						temp.setPassword((PasswordStorage.createHash(updatePass)));
+					}
+				}
 			} catch (CannotPerformOperationException e) {
 				e.printStackTrace();
 				LogUtil.logger.error("Could not set password.\n" + e.getMessage());
 				return false;
 			}
+			LogUtil.logger.trace("User["+user.getId()+"]'s password updated.");
 			session.update(temp);
 			return true;
 		});
@@ -100,12 +105,15 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean updateUsername(TfUser user, String updateName) {
-		LogUtil.logger.trace("Hibernate Call to update User: " + user.getId()+"'s username.");
+		LogUtil.logger.trace("Hibernate Call to update User: " + user.getId() + "'s username.");
 		return runHibernateTransaction((Session session, Object... args) -> {
 			TfUser temp = session.get(TfUser.class, user.getId());
-			if (updateName != null || !updateName.equals("") || !temp.getUsername().equals(updateName)) {
-				temp.setUsername(updateName);
+			if (updateName != null) {
+				if (!updateName.equals("")) {
+					temp.setUsername(updateName);
+				}
 			}
+			LogUtil.logger.trace("User["+user.getId()+"]'s username updated.");
 			session.update(temp);
 			return true;
 		});

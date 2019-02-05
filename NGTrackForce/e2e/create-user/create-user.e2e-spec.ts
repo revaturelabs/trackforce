@@ -30,7 +30,7 @@ describe('The create-user page ', () => {
     });
 
     beforeEach(() => {
-        browser.sleep(4000);
+        browser.manage().timeouts().implicitlyWait(5000);
     });
 
     it('should accept username input', () => {
@@ -97,7 +97,7 @@ describe('An Admin', () => {
       createUser.inputUsername(username);
       createUser.inputPassword(password);
       createUser.inputPasswordConfirm(password);
-      browser.sleep(4000);
+      browser.manage().timeouts().implicitlyWait(5000);
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
@@ -161,7 +161,7 @@ describe('A Staging Manager', () => {
       createUser.inputUsername(username);
       createUser.inputPassword(password);
       createUser.inputPasswordConfirm(password);
-      browser.sleep(4000);
+      browser.manage().timeouts().implicitlyWait(5000);
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
@@ -216,7 +216,7 @@ describe('A Sales Manager', () => {
       createUser.inputUsername(username);
       createUser.inputPassword(password);
       createUser.inputPasswordConfirm(password);
-      browser.sleep(4000);
+      browser.manage().timeouts().implicitlyWait(5000);
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test

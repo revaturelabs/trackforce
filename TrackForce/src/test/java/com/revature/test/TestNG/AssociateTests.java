@@ -19,6 +19,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.revature.test.pom.AssociateHome;
+import com.revature.test.pom.BatchList;
 import com.revature.test.pom.Login;
 import com.revature.test.pom.NavBar;
 
@@ -108,6 +109,7 @@ public class AssociateTests {
 		
 		Select type = AssociateHome.chooseType(wd);
 		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		wd.findElement(By.id("interviewType"));
 		type.selectByIndex(pickType);
 		
 		WebElement date = AssociateHome.inputDate(wd);

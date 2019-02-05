@@ -2,7 +2,8 @@ import { CreateUserPo } from "./create-user.po";
 import { TestConfig } from "../configuration/test-config";
 import { Navbar } from "../navbar/navbar.po";
 import { LoginPage } from '../login/login.po';
-import { browser } from 'protractor';
+import { protractor, browser, by, element } from 'protractor';
+
 
 let createUser      : CreateUserPo;
 let testConfig      : TestConfig;
@@ -28,6 +29,10 @@ describe('The create-user page ', () => {
         navbar.goToCreateUser();
     });
 
+    beforeEach(() => {
+        browser.sleep(4000);
+    });
+
     it('should accept username input', () => {
         createUser.inputUsername(username);
         expect(createUser.getUsernameValue()).toEqual(username);
@@ -49,30 +54,21 @@ describe('The create-user page ', () => {
     });
 
     it('should select trainer radio button', () => {
-        //sometimes the change is not detected fast enough leading to a failed test. 
-        //using browser.sleep() may be bad practice. Should implement browser.wait() later.
-        browser.sleep(2000);
         createUser.clickTrainerRadio();
         expect(createUser.getCheckedRadioValue()).toEqual('2');
     });
 
     it('should select associate radio button', () => {
-        //using browser.sleep() may be bad practice. Should implement browser.wait() later.
-        browser.sleep(2000);
         createUser.clickAssociateRadio();
         expect(createUser.getCheckedRadioValue()).toEqual('5');
     });
 
     it('should select staging manager radio button', () => {
-        //using browser.sleep() may be bad practice. Should implement browser.wait() later.
-        browser.sleep(2000);
         createUser.clickManagerRadio();
         expect(createUser.getCheckedRadioValue()).toEqual('4');
     });
 
     it('should select delivery radio button', () => {
-        //using browser.sleep() may be bad practice. Should implement browser.wait() later.
-        browser.sleep(2000);
         createUser.clickDeliveryRadio();
         expect(createUser.getCheckedRadioValue()).toEqual('3');
     });
@@ -101,6 +97,7 @@ describe('An Admin', () => {
       createUser.inputUsername(username);
       createUser.inputPassword(password);
       createUser.inputPasswordConfirm(password);
+      browser.sleep(4000);
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
@@ -118,6 +115,13 @@ describe('An Admin', () => {
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
+        it('should be able to create a delivery ', () => {
+            createUser.clickDeliveryRadio();
+            createUser.clickSubmitButton();
+            expect(createUser.getAlert().getText()).toContain('User created successfully');
+        });
+
+    //FAILS - Change 'it' to 'xit' to skip this test
     it('should be able to create a associate', () => {
         createUser.clickAssociateRadio();
         createUser.clickSubmitButton();
@@ -131,12 +135,7 @@ describe('An Admin', () => {
         expect(createUser.getAlert().getText()).toContain('User created successfully');
     });
 
-    //FAILS - Change 'it' to 'xit' to skip this test
-    it('should be able to create a delivery ', () => {
-        createUser.clickDeliveryRadio();
-        createUser.clickSubmitButton();
-        expect(createUser.getAlert().getText()).toContain('User created successfully');
-    });
+    
 
     afterAll(() => {
       page.getlogoutButton().click();
@@ -162,6 +161,7 @@ describe('A Staging Manager', () => {
       createUser.inputUsername(username);
       createUser.inputPassword(password);
       createUser.inputPasswordConfirm(password);
+      browser.sleep(4000);
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
@@ -216,6 +216,7 @@ describe('A Sales Manager', () => {
       createUser.inputUsername(username);
       createUser.inputPassword(password);
       createUser.inputPasswordConfirm(password);
+      browser.sleep(4000);
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test

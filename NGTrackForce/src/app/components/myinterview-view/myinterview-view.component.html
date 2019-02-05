@@ -30,7 +30,7 @@
                 placeholder="Date">
               <span *ngIf="!addInterviewForm.get('interviewDate').valid && addInterviewForm.get('interviewDate').touched"
                class=help-block
-               id="interviewDateHelpText">Enter a Date of the form "dd/mm/yyyy hh:mm (AM|PM)"
+               id="interviewDateHelpText">Enter a Date of the form "mm/dd/yyyy hh:mm (AM|PM)"
               </span>
             </div>
             <br><br>
@@ -47,7 +47,7 @@
     <div *ngIf='succMsg' class="alert alert-success">
       {{succMsg}}
     </div>
-    <div *ngIf='failMsg' class="alert alert-danger">
+    <div *ngIf='failMsg' class="alert alert-danger" id="failureAlert">
       {{failMsg}}
     </div>
   </div>

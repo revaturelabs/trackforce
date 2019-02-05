@@ -75,7 +75,7 @@ export class MyInterviewComponent implements OnInit {
          clientId: ['', Validators.required],
          typeId: ['', Validators.required],
          interviewDate: ['', Validators.compose([
-           Validators.required, Validators.pattern("[0-9]{2}/[0-9]{2}/[0-9]{4}\s{1}[0-9]{2}:[0-9]{2}\s{1}(AM|PM)")])
+           Validators.required, Validators.pattern("[0-9]{0,2}\/*[0-9]{0,2}\/*[0-9]{4}.*[0-9]{1,2}:[0-9]{2}.*")])
          ],
          was24HRNotice: ['']
         });

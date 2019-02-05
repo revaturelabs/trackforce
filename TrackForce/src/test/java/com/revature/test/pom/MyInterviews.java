@@ -10,7 +10,7 @@ public class MyInterviews {
 	//Get the element holding the client list
 	public static WebElement getClientSelect(WebDriver driver) {
 		// get the select elements where the name is newClient
-		return driver.findElement(By.xpath("//select[@name='newClient']"));
+		return driver.findElement(By.name("newClient"));
 	}
 	//Select from the Client List by either value or index 
 	public static WebElement getClientSelectOptionsByValue(WebDriver driver, String value) {
@@ -42,6 +42,9 @@ public class MyInterviews {
 	//Works for both the "Add Interview" test and "Update Interview" test, since the alert has a timeout
 	public static WebElement getSuccessAlert(WebDriver driver) {
 		return driver.findElement(By.className("alert-success"));
+	}
+	public static WebElement getFailureAlert(WebDriver driver) {
+		return driver.findElement(By.id("failureAlert"));
 	}
 	/*
 	 * returns the row index which contains specified client name, return -1 if unsuccessful  

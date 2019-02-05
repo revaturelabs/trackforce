@@ -9,6 +9,9 @@ import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
 import com.revature.test.utils.WebDriverUtil;
 import com.revature.utils.EnvManager;
+
+import org.testng.Assert;
+
 import java.io.File;
 
 import org.openqa.selenium.By;
@@ -62,23 +65,32 @@ public class AssociateTests {
 	}
 	
 	/*
-	 * Updates the user information.
-	 * first name and last name
+	 * Update first and last name, click submit and check if the 
+	 * the names are indeed updated in associate information
+	 * 
+	 * Test pass
 	 */
 	@Test(priority = 2)
 	public void updateInformation() {
+		String first = "FirstName", last = "LasName";
+		
 		WebElement fName = AssociateHome.newFirstName(wd);
 		WebElement lName = AssociateHome.newLastName(wd);
 		WebElement submit = AssociateHome.submitName(wd);
 		fName.click();
 		fName.clear();
-		fName.sendKeys("FirstName");
+		fName.sendKeys(first);
 		
 		lName.click();
 		lName.clear();
-		lName.sendKeys("LastName");
+		lName.sendKeys(last);
 		
 		submit.click();
+		
+		String updatedFirst = AssociateHome.updatedFirstName(wd).getText();
+		String updatedLast = AssociateHome.updatedLastName(wd).getText();
+		Assert.assertEquals(updatedFirst, first);
+		Assert.assertEquals(updatedLast, last);
 		
 	}
 	

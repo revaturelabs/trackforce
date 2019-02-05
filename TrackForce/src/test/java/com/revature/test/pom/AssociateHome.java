@@ -77,4 +77,16 @@ public class AssociateHome {
 	public static WebElement submitName(WebDriver driver) {
 		return driver.findElement(By.id("submitButton"));
 	}
+	
+	public static WebElement updatedFirstName(WebDriver driver) {
+		return driver.findElement(By.id("updatedFirstName"));
+	}
+	
+	public static WebElement updatedLastName(WebDriver driver) {
+		return driver.findElement(By.id("updatedLastName"));
+	}
+	
+	public static Select chooseclient(WebDriver driver) {
+		
+	}
 }

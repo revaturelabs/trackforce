@@ -52,6 +52,7 @@ export class MyInterviewComponent implements OnInit {
   public failMsg: string;
   show : boolean;
   public convertedTime : string;
+  public today: string = new Date().toLocaleDateString();
 
   index;
   index2;

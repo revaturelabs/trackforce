@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -111,8 +112,9 @@ public class AssociateTests {
 		
 		WebElement date = AssociateHome.inputDate(wd);
 		String datetime = new SimpleDateFormat("MM/dd/yyyy HH:mm aaa").format(Calendar.getInstance().getTime());
-		String datetime1 = "02/09/2019	12:45	PM";
+		String datetime1 = "02/09/2019	12:45";
 		date.sendKeys(datetime1);
+		date.sendKeys(Keys.ARROW_UP);
 		
 		AssociateHome.checkBox(wd).click();
 		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);

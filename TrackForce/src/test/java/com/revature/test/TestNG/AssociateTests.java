@@ -1,28 +1,25 @@
 package com.revature.test.TestNG;
 
-import org.testng.annotations.Test;
-
-import com.revature.test.pom.AssociateHome;
-import com.revature.test.pom.Login;
-import com.revature.test.pom.NavBar;
-import com.revature.test.utils.LoginUtil;
-import com.revature.test.utils.ServiceHooks;
-import com.revature.test.utils.WebDriverUtil;
-import com.revature.utils.EnvManager;
-
-import org.testng.Assert;
-
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
+
+import com.revature.test.pom.AssociateHome;
+import com.revature.test.pom.Login;
+import com.revature.test.pom.NavBar;
 
 public class AssociateTests {
 	static WebDriver wd;
@@ -95,9 +92,35 @@ public class AssociateTests {
 	}
 	
 	/*
-	 * Verifying that associate can logout from their session
+	 * Associate adding an interview
 	 */
 	@Test(priority = 3)
+	public void addInterview() {
+		AssociateHome.interviewTab(wd).click();
+		int beforeAddingInterview = AssociateHome.numberOfTR(wd).size();
+		int pickClient = new Random().nextInt(50);
+		int pickType = new Random().nextInt(4);
+		
+		Select client = AssociateHome.chooseclient(wd);
+		client.selectByIndex(pickClient);
+		
+		Select type = AssociateHome.chooseType(wd);
+		type.selectByIndex(pickType);
+		
+		WebElement date = AssociateHome.inputDate(wd);
+		String datetime = new SimpleDateFormat("MM/dd/yyyy HH:mm aaa").format(Calendar.getInstance().getTime());
+		date.sendKeys(datetime);
+		AssociateHome.addInterview(wd).click();
+		
+		
+		int afterAddingInterview = AssociateHome.numberOfTR(wd).size();
+		Assert.assertEquals(beforeAddingInterview+1, afterAddingInterview);
+	}
+	
+	/*
+	 * Verifying that associate can logout from their session
+	 */
+	@Test(priority = 4)
 	public void LogOut() {
 		wait.until(ExpectedConditions.elementToBeClickable(NavBar.getWelcomeDropdown(wd)));
 		NavBar.getWelcomeDropdown(wd).click();

@@ -2,6 +2,8 @@ import { CreateUserPo } from "./create-user.po";
 import { TestConfig } from "../configuration/test-config";
 import { Navbar } from "../navbar/navbar.po";
 import { LoginPage } from '../login/login.po';
+import { protractor, browser, by, element } from 'protractor';
+
 
 let createUser      : CreateUserPo;
 let testConfig      : TestConfig;
@@ -25,6 +27,10 @@ describe('The create-user page ', () => {
         page.navigateTo();
         navbar.logIn('TestAdmin','TestAdmin');
         navbar.goToCreateUser();
+    });
+
+    beforeEach(() => {
+        browser.manage().timeouts().implicitlyWait(5000);
     });
 
     it('should accept username input', () => {
@@ -66,6 +72,7 @@ describe('The create-user page ', () => {
         createUser.clickDeliveryRadio();
         expect(createUser.getCheckedRadioValue()).toEqual('3');
     });
+    
     afterAll(() => {
       page.getlogoutButton().click();
     });
@@ -90,6 +97,7 @@ describe('An Admin', () => {
       createUser.inputUsername(username);
       createUser.inputPassword(password);
       createUser.inputPasswordConfirm(password);
+      browser.manage().timeouts().implicitlyWait(5000);
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
@@ -107,6 +115,13 @@ describe('An Admin', () => {
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
+        it('should be able to create a delivery ', () => {
+            createUser.clickDeliveryRadio();
+            createUser.clickSubmitButton();
+            expect(createUser.getAlert().getText()).toContain('User created successfully');
+        });
+
+    //FAILS - Change 'it' to 'xit' to skip this test
     it('should be able to create a associate', () => {
         createUser.clickAssociateRadio();
         createUser.clickSubmitButton();
@@ -120,12 +135,7 @@ describe('An Admin', () => {
         expect(createUser.getAlert().getText()).toContain('User created successfully');
     });
 
-    //FAILS - Change 'it' to 'xit' to skip this test
-    it('should be able to create a delivery ', () => {
-        createUser.clickDeliveryRadio();
-        createUser.clickSubmitButton();
-        expect(createUser.getAlert().getText()).toContain('User created successfully');
-    });
+    
 
     afterAll(() => {
       page.getlogoutButton().click();
@@ -151,6 +161,7 @@ describe('A Staging Manager', () => {
       createUser.inputUsername(username);
       createUser.inputPassword(password);
       createUser.inputPasswordConfirm(password);
+      browser.manage().timeouts().implicitlyWait(5000);
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
@@ -205,6 +216,7 @@ describe('A Sales Manager', () => {
       createUser.inputUsername(username);
       createUser.inputPassword(password);
       createUser.inputPasswordConfirm(password);
+      browser.manage().timeouts().implicitlyWait(5000);
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test

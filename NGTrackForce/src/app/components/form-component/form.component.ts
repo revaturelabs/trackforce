@@ -108,6 +108,8 @@ export class FormComponent implements OnInit {
           this.associate = data;
           this.associateIsLoaded = this.associate.user !== undefined && this.associate.user !== null;
           this.getAssociateInterviews(this.associate.id);
+          console.log("IsApproved: " + this.associate.user.isApproved);
+          this.isApproved = this.associate.user.isApproved;
         },
         error => {
           console.error("Error in form.component.ts ngOnInit()", error.message);
@@ -126,7 +128,9 @@ export class FormComponent implements OnInit {
       this.isVP = false;
       this.isAssociate = false;
     }
-
+    
+    
+    
     this.clientService.getAllClients().subscribe(data => { 
       this.clients = data.sort(
         (a: Client, b: Client) =>

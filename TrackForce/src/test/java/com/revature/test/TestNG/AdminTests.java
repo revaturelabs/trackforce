@@ -309,7 +309,6 @@ public class AdminTests {
 		}
 
 		Assert.assertNotEquals(filterNames.get(0), batchNames.get(0));
-
 	}
 
 	@Test(priority = 19)

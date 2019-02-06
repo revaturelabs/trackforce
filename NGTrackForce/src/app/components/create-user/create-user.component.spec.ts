@@ -14,7 +14,7 @@ import {User} from '../../models/user.model';
 import {CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import { of } from 'rxjs/observable/of';
 
-fdescribe('CreateUserComponent', () => {
+describe('CreateUserComponent', () => {
   let component: CreateUserComponent;
   let fixture: ComponentFixture<CreateUserComponent>;
   const testAuthService: AuthenticationService = new AuthenticationService(null, null, null);

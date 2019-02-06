@@ -28,7 +28,7 @@
               <input type="datetime-local"
                 class="form-control" name="startDate" id="inputDate" formControlName="interviewDate"
                 placeholder="Date">
-              <span *ngIf="!addInterviewForm.get('interviewDate').valid && addInterviewForm.get('interviewDate').touched"
+              <span *ngIf="addInterviewForm.get('interviewDate').touched"
                class="help-block"
                id="interviewDateHelpText">Enter a Date of the form "mm/dd/yyyy hh:mm (AM|PM)"
               </span>

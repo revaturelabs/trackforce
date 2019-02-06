@@ -75,8 +75,7 @@ export class MyInterviewComponent implements OnInit {
       this.addInterviewForm = this.formBuilder.group({
          clientId: ['', Validators.required],
          typeId: ['', Validators.required],
-         interviewDate: ['', Validators.compose([
-           Validators.required, Validators.pattern("[0-9]{0,2}\/*[0-9]{0,2}\/*[0-9]{4}[^0-9]*[0-9]{1,2}:[0-9]{2}.*")])
+         interviewDate: [''
          ],
          was24HRNotice: ['']
         });

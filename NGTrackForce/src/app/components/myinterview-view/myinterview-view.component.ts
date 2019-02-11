@@ -75,10 +75,8 @@ export class MyInterviewComponent implements OnInit {
       this.addInterviewForm = this.formBuilder.group({
          clientId: ['', Validators.required],
          typeId: ['', Validators.required],
-         interviewDate: ['', Validators.required
-        // regex validator enforced onto InterviewDate. Currently did not allow Chrome interviews to be added.
-        //  Validators.compose(
-        //    [Validators.required, Validators.pattern("[0-9]{0,2}\/*[0-9]{0,2}\/*[0-9]{4}[^0-9]*[0-9]{1,2}:[0-9]{2}.*")])
+         interviewDate: ['', Validators.compose(
+           [Validators.required, Validators.pattern("[0-9]{0,2}\/*[0-9]{0,2}\/*[0-9]{4}\s*T[0-9]{1,2}:[0-9]{2}.*")])
          ],
          was24HRNotice: ['']
         });

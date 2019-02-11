@@ -50,11 +50,7 @@ import io.swagger.annotations.ApiParam;
 @Produces(MediaType.APPLICATION_JSON)
 public class AssociateResource {
 
-	// You're probably thinking, why would you ever do this? Why not just just make
-	// the methods all static in the service class?
-	// This is to allow for Mockito tests, which have problems with static methods
-	// This is here for a reason!
-	// - Adam 06.18.06.13
+	//These are used for the purpose of Mockito Unit Testing for code coverage
 	public AssociateService getAssociateService() { return new AssociateService(); }
 	public ClientService getClientService() { return new ClientService(); }
 	public MarketingStatusService getMarketingStatusService() { return new MarketingStatusService(); }

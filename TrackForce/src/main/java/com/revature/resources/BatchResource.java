@@ -143,7 +143,7 @@ public class BatchResource {
 
 	/**
 	 * 1806_Chris_P: Returns a list of batches related to a selected
-	 * ciriculum/technology on the Predictions page. this is used for the Batch
+	 * curriculum/technology on the Predictions page. this is used for the Batch
 	 * Details page.
 	 */
 	@GET
@@ -201,7 +201,7 @@ public class BatchResource {
 	 */
 	public Integer getUnmappedCount(Set<TfAssociate> associates) {
 		int n = 0;
-		logger.info("Method call to getUnammpedCount");
+		logger.info("Method call to getUnmappedCount");
 		for (TfAssociate a : associates) {
 			if (a.getMarketingStatus().getId() > 5)
 				n++;

@@ -1,7 +1,5 @@
 package com.revature.resources;
 
-import static com.revature.utils.LogUtil.logger;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -14,19 +12,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.apache.log4j.Logger;
 
 import com.revature.entity.TfClient;
 import com.revature.services.AssociateService;
-import com.revature.services.BatchService;
 import com.revature.services.ClientService;
-import com.revature.services.CurriculumService;
-import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
-import com.revature.services.TrainerService;
-import com.revature.services.UserService;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -45,13 +39,9 @@ import io.swagger.annotations.ApiOperation;
 public class ClientResource {
 	private final static Logger logger = Logger.getLogger(ClientResource.class);
 
-	AssociateService associateService = new AssociateService();
-//	BatchService batchService = new BatchService();
-	ClientService clientService = new ClientService();
-//	CurriculumService curriculumService = new CurriculumService();
-//	InterviewService interviewService = new InterviewService();
-//	TrainerService trainerService = new TrainerService();
-//	UserService userService = new UserService();
+	public AssociateService getAssociateService() { return new AssociateService(); }
+	public ClientService getClientService() { return new ClientService(); }
+
 	Response badToken = null;
 	Response forbidden = null;
 	Response authorized = null;
@@ -81,10 +71,11 @@ public class ClientResource {
 	@ApiOperation(value = "Returns all clients", notes = "Returns a map of all clients.")
 	public Response getAllClients(@HeaderParam("Authorization") String token) {
 		logger.info("Method call to getAllClients()...");
-		List<TfClient> clients = clientService.getAllTfClients();
-		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
-		Response forbidden = Response.status(403).build();
-		Response authorized = Response.status(clients == null || clients.isEmpty() ? Status.NO_CONTENT : Status.OK).entity(clients).build();
+		List<TfClient> clients = getClientService().getAllTfClients();
+		Response badToken = responseStatus(401).entity(jwtInvalidTokenBody(token)).build();
+		Response forbidden = responseStatus(403).build();
+		Response authorized = responseStatus(clients == null || clients.isEmpty() ? 
+				Status.NO_CONTENT : Status.OK).entity(clients).build();
 
 		return authorizeUserToken(badToken, forbidden, authorized, token);
 	}
@@ -92,26 +83,26 @@ public class ClientResource {
 	@GET
 	@Path("/associates/get/{client_id}")
 	public Response getMappedAssociatesByClientId(@PathParam("client_id") Long client_id, @HeaderParam("Authorization") String token) {
-		Long[] response = new Long[4];
+		Long[] response = makeLongArray(4);
 
 		// Requesting data for all clients is indicated by -1 for client id
 		if(client_id == -1) {
 			String[] countMapKeys = {"Mapped Training", "Mapped Reserved", "Mapped Selected", "Mapped Confirmed"};
-			HashMap<String,Integer> countMap = associateService.getStatusCountsMap();
+			HashMap<String,Integer> countMap = getAssociateService().getStatusCountsMap();
 			
 			for (Integer i = 0; i < response.length; i++) {
-				response[i] = Long.parseLong(countMap.get(countMapKeys[i]).toString());
+				response[i] = longParseLong(countMap.get(countMapKeys[i]).toString());
 			}
 		// Otherwise return data for a single specific client
 		} else {
 			for (Integer i = 0; i < response.length; i++) {
-				response[i] = associateService.getMappedAssociateCountByClientId(client_id, i + 1);
+				response[i] = getAssociateService().getMappedAssociateCountByClientId(client_id, i + 1);
 			}
 		}
 
-		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
-		Response forbidden = Response.status(403).build();
-		Response authorized = Response.status(200).entity(response).build();
+		Response badToken = responseStatus(401).entity(jwtInvalidTokenBody(token)).build();
+		Response forbidden = responseStatus(403).build();
+		Response authorized = responseStatus(200).entity(response).build();
 
 		return authorizeUserToken(badToken, forbidden, authorized, token);
 	}
@@ -120,10 +111,10 @@ public class ClientResource {
 	@Path("/mapped/get/")
 	public Response getMappedClients(@HeaderParam("Authorization") String token) {
 		logger.info("Method call to getMappedClients");
-		List<TfClient> clients = clientService.getMappedClients();
-		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
-		Response forbidden = Response.status(403).build();
-		Response authorized = Response.status(200).entity(clients).build();
+		List<TfClient> clients = getClientService().getMappedClients();
+		Response badToken = responseStatus(401).entity(jwtInvalidTokenBody(token)).build();
+		Response forbidden = responseStatus(403).build();
+		Response authorized = responseStatus(200).entity(clients).build();
 
 		return authorizeUserToken(badToken, forbidden, authorized, token);
 	}
@@ -132,10 +123,10 @@ public class ClientResource {
 	@Path("/50/")
 	public Response getFirstFiftyClients(@HeaderParam("Authorization") String token) {
 		logger.info("Method call to getFirstFiftyClients");
-		List<TfClient> clients = clientService.getFirstFiftyClients();
-		Response badToken = Response.status(401).entity(JWTService.invalidTokenBody(token)).build();
-		Response forbidden = Response.status(403).build();
-		Response authorized = Response.status(200).entity(clients).build();
+		List<TfClient> clients = getClientService().getFirstFiftyClients();
+		Response badToken = responseStatus(401).entity(jwtInvalidTokenBody(token)).build();
+		Response forbidden = responseStatus(403).build();
+		Response authorized = responseStatus(200).entity(clients).build();
 
 		return authorizeUserToken(badToken, forbidden, authorized, token);
 	}
@@ -149,7 +140,7 @@ public class ClientResource {
 	 */
 	public Response authorizeUserToken(Response badToken, Response forbidden, Response authorized, String token) {
 		//Processes the token and returns the payload
-		Claims payload = JWTService.processToken(token);
+		Claims payload = jwtProcessToken(token);
 		logger.info("Processing the user's JWT.");
 		//Checks to see if payload is null, and if so assigns it as being an invalid token body 
 		if (payload == null) {
@@ -158,7 +149,7 @@ public class ClientResource {
 		} else {
 			//Ensures the token is unexpired and the username on the token matches that
 			//of the logged in user. If it is not valid, assigns it a status of forbidden
-			if (new JWTService().validateToken(token) == false) {
+			if (jwtValidateToken(token) == false) {
 				logger.info("JWT Token was invalid/false.");
 				return forbidden;
 			} else {
@@ -166,7 +157,7 @@ public class ClientResource {
 				// be able to view the client list as associates need the list
 				// for scheduling interviews
 				int role = 0;
-				role = Integer.parseInt((String) payload.get("roleID"));
+				role = intParseInt((String) payload.get("roleID"));
 				logger.info("Returning user roleID: " + role);
 				if (role > 0 && role <= 5) {
 					logger.info("User authorized to view client list.");
@@ -177,4 +168,31 @@ public class ClientResource {
 				}
 			}
 		}
-}}
+	}
+	
+	//Helper methods used to enable Mockito Unit Tests in tests.resources
+	public Integer intParseInt(String str) {
+		return Integer.parseInt(str);
+	}
+	public Long[] makeLongArray(int size) {
+		return new Long[size];
+	}
+	public Long longParseLong(String str) {
+		return Long.parseLong(str);
+	}
+	public Claims jwtProcessToken(String token) {
+		return JWTService.processToken(token);
+	}
+	public Boolean jwtValidateToken(String token) {
+		return new JWTService().validateToken(token);
+	}
+	public String jwtInvalidTokenBody(String token) {
+		return JWTService.invalidTokenBody(token);
+	}
+	public ResponseBuilder responseStatus(Status status) {
+		return Response.status(status);
+	}
+	public ResponseBuilder responseStatus(int status) {
+		return Response.status(status);
+	}
+}

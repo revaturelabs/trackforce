@@ -34,7 +34,7 @@ import io.restassured.specification.RequestSpecification;
  * @author Daniel L.
  * @since 06.18.06.19
  */
-public class BatchResourceTest {
+public class BatchRestTest {
 
 
 	static final String URL = "http://52.87.205.55:8086/TrackForce/batches";

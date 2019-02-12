@@ -27,7 +27,7 @@ import io.restassured.specification.RequestSpecification;
  * @author Jesse, Andy
  * @since 06.18.06.16
  */
-public class ClientResourceTest {
+public class ClientRestTest {
 
 	//static final String URL = "http://52.87.205.55:8086/TrackForce/clients";
 	static final String URL = "http://localhost:8082/TrackForce/clients";

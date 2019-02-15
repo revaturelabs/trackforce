@@ -6,6 +6,8 @@ import { Associate } from '../../models/associate.model';
 import { environment } from '../../../environments/environment';
 import { Interview } from '../../models/interview.model';
 import { GraphCounts } from '../../models/graph-counts';
+import { LocalStorageUtils } from '../../constants/local-storage';
+import { of } from 'rxjs/observable/of';
 
 /**
  * Service for retrieving and updating data relating to associates.
@@ -56,6 +58,8 @@ export class AssociateService {
   private currentClientFilter = "";
   private currentStatusFilter = "";
   private currentTextFilter = "";
+  private currentFirstName = "";
+  private currentLastName = "";
   public hasReceivedEndForCurrentFilter = false;
 
   // TODO: Decide if empty strings is better or if a loading message should be put here
@@ -81,11 +85,22 @@ export class AssociateService {
    * Gets all of the associates
    */
   getAllAssociates(): BehaviorSubject<Associate[]> {
-    const url: string = this.baseURL + '/allAssociates';
-    this.http.get<Associate[]>(url).subscribe(
-      (data: Associate[]) => this.allAssociates$.next(data),
-      error => this.allAssociates$.error(error)
-    );
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_ALL;
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      const url: string = this.baseURL + '/allAssociates';
+      this.http.get<Associate[]>(url).subscribe(
+        (data: Associate[]) => {
+          this.allAssociates$.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.allAssociates$.error(error)
+      );
+      return this.allAssociates$;
+    } else {
+      this.allAssociates$.next(JSON.parse(localStorage.getItem(key)))
+    }
+          
     return this.allAssociates$;
   }
 
@@ -93,12 +108,23 @@ export class AssociateService {
    * get the count of the associates to display in the pie charts on the home page
    */
   getCountAssociates(): BehaviorSubject<number[]> {
-    const url: string = this.baseURL + '/countAssociates';
-    this.http.get<number[]>(url).subscribe(
-      (data: number[]) => this.associateCount$.next(data),
-      error => this.associateCount$.error(error)
-    );
-    return this.associateCount$;
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_COUNT
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      const url: string = this.baseURL + '/countAssociates';
+      this.http.get<number[]>(url).subscribe(
+        (data: number[]) => {
+          this.associateCount$.next(data)
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.associateCount$.error(error)
+      );
+
+      return this.associateCount$;
+    } else {
+      let count: number[] = JSON.parse(localStorage.getItem(key));
+      return new BehaviorSubject<number[]>(count);
+    }
   }
 
   /**
@@ -106,19 +132,28 @@ export class AssociateService {
    * Get specific associate by user id
    * @param id - the user id of the user object of an associate to retrieve
    */
-  getAssociate(id: number) {
-    const url: string = this.baseURL + '/' + id;
-    this.http.get<Associate>(url).subscribe(
-      (data: Associate) => this.associateByUserId$.next(data),
-      error => this.associateByUserId$.error(error)
-    );
-    return this.associateByUserId$;
+  getAssociateByUserId(id: number) {
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_BY_USER_ID + id
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      const url: string = this.baseURL + '/' + id;
+      this.http.get<Associate>(url).subscribe(
+        (data: Associate) => {
+          this.associateByUserId$.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.associateByUserId$.error(error)
+      )
+      return this.associateByUserId$;
+    } else {
+      return of(JSON.parse(localStorage.getItem(key)))
+    }
   }
 
   /**
    *
    * Get specific associate by associate id
-   * @param id - the user id of the user object of an associate to retrieve
+   * @param id - the associate id of an associate object
    */
   getByAssociateId(id: number) {
     const url: string = this.baseURL + '/associates/' + id;
@@ -161,7 +196,7 @@ export class AssociateService {
    */
   updateAssociate(associate: any) {
     return new Promise((resolve, reject)=> {
-      const url: string = this.baseURL + '/' + associate.id;
+      const url: string = this.baseURL + '/update/' + associate.id;
       this.http.put<boolean>(url, associate).subscribe(
         // resolve true for a successful return since we don't care unless it's not a 200
         data => resolve(true),
@@ -176,11 +211,23 @@ export class AssociateService {
   // focus on keeping one copy of data to aid performance
 
   getAssociatesByStatus(statusId: number): Observable<GraphCounts[]> {
-    this.http.get<GraphCounts[]>(this.baseURL + '/mapped/' + statusId).subscribe(
-      (data: GraphCounts[]) => this.getAssociatesByStatus$.next(data),
-      error => this.getAssociatesByStatus$.error(error)
-    );
-    return this.getAssociatesByStatus$;
+    const url: string = this.baseURL + '/mapped/' + statusId;
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_BY_STATUS + "|" + '/mapped/' + statusId;
+    let count: BehaviorSubject<GraphCounts[]>  = new BehaviorSubject<GraphCounts[]>([])
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      this.http.get<GraphCounts[]>(url).subscribe(
+        (data: GraphCounts[]) => {
+          count.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.currentAssociateSnapshot$.error(error)
+      );
+    } else {
+      count.next(JSON.parse(localStorage.getItem(key)))
+    }
+          
+    return count;
   }
 
   /**
@@ -198,18 +245,29 @@ export class AssociateService {
 
   getUndeployedAssociates(mappedOrUnmapped: string): Observable<GraphCounts[]> {
     const url: string = this.baseURL + '/undeployed/' + mappedOrUnmapped;
-    this.http.get<GraphCounts[]>(url).subscribe(
-      (data: GraphCounts[]) => this.getUndeployedAssociates$.next(data),
-      error => this.getUndeployedAssociates$.error(error)
-    );
-    return this.getUndeployedAssociates$;
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + '/undeployed/' + mappedOrUnmapped;
+    let count: BehaviorSubject<GraphCounts[]>  = new BehaviorSubject<GraphCounts[]>([])
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      this.http.get<GraphCounts[]>(url).subscribe(
+        (data: GraphCounts[]) => {
+          count.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+        },
+        error => this.currentAssociateSnapshot$.error(error)
+      );
+    } else {
+      count.next(JSON.parse(localStorage.getItem(key)))
+    }
+          
+    return count;
   }
 
   getAssociateSnapshot() {
     return this.currentAssociateSnapshot$;
   }
 
-  fetchAssociateSnapshot(limit: number, filter) {
+  fetchAssociateSnapshot(limit: number, filter): BehaviorSubject<Associate[]> {
     this.hasReceivedEndForCurrentFilter = false;
     this.withLimit = limit;
     this.currentIndex = 0;
@@ -217,13 +275,15 @@ export class AssociateService {
     this.currentClientFilter = filter.client || "";
     this.currentStatusFilter = filter.status || "";
     this.currentTextFilter = filter.sortText || "";
+    this.currentFirstName = filter.firstName || "";
+    this.currentLastName = filter.lastName || "";
 
     // Base route
     let queryParams = `/page?startIndex=${this.currentIndex}&numResults=${this.withLimit}`;
 
 
     // Determine filters if any
-    const {status, client, sortText} = filter;
+    const {status, client, sortText, firstName, lastName} = filter;
 
     if (status) {
       queryParams += `&mStatusId=${status}`;
@@ -234,19 +294,11 @@ export class AssociateService {
     if (sortText) {
       queryParams += `&sortText=${sortText}`;
     }
+    if (firstName && lastName) {
+      queryParams += `&firstName=${firstName}&lastName=${lastName}`;
+    }
 
-    // Make initial request
-    const url: string = this.baseURL + queryParams;
-    this.http.get<Associate[]>(url).subscribe(
-      (data: Associate[]) => {
-        this.currentAssociateSnapshot$.next(data);
-        if (!data) {
-          this.hasReceivedEndForCurrentFilter = true;
-        }
-      },
-      error => this.currentAssociateSnapshot$.error(error)
-    );
-    return this.currentAssociateSnapshot$;
+    return this.fetchCachedSnapshot(queryParams);
   }
 
   fetchNextSnapshot() {
@@ -268,17 +320,29 @@ export class AssociateService {
       queryParams += `&sortText=${this.currentTextFilter}`;
     }
 
-    // Make initial request
+    return this.fetchCachedSnapshot(queryParams);
+  }
+
+  fetchCachedSnapshot(queryParams: string): BehaviorSubject<Associate[]> {
     const url: string = this.baseURL + queryParams;
-    this.http.get<Associate[]>(url).subscribe(
-      (data: Associate[]) => {
-        if (!data) {
-          this.hasReceivedEndForCurrentFilter = true;
-        }
-        this.currentAssociateSnapshot$.next(data)
-      },
-      error => this.currentAssociateSnapshot$.error(error)
-    );
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + queryParams
+
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      this.http.get<Associate[]>(url).subscribe(
+        (data: Associate[]) => {
+          this.currentAssociateSnapshot$.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+
+          if (!data) {
+            this.hasReceivedEndForCurrentFilter = true;
+          }
+        },
+        error => this.currentAssociateSnapshot$.error(error)
+      );
+    } else {
+      this.currentAssociateSnapshot$.next(JSON.parse(localStorage.getItem(key)))
+    }
+          
     return this.currentAssociateSnapshot$;
   }
 }

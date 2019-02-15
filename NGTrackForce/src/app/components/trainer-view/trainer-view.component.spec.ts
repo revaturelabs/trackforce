@@ -10,7 +10,8 @@ import { TrainerService } from '../../services/trainer-service/trainer.service';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { User } from '../../models/user.model';
 import { Trainer } from '../../models/trainer.model';
-
+import { LocalStorageUtils } from '../../constants/local-storage';
+import { MockAssociateService, MockAuthenticationService, MockTrainerService } from '../../testing-helpers/test-mock-services'
 
 describe('TrainerViewComponent', () => {
   let component: TrainerViewComponent;
@@ -20,15 +21,19 @@ describe('TrainerViewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ TrainerViewComponent ],
       imports: [ FormsModule, HttpClientTestingModule, RouterTestingModule ],
-      providers: [ AuthenticationService, RequestService, TrainerService, AssociateService ]
+      providers: [ 
+        {provide: AuthenticationService, useClass: MockAuthenticationService}, 
+        RequestService, 
+        {provide: TrainerService, useClass: MockTrainerService}, 
+        {provide: AssociateService, useClass: MockAssociateService} ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-      let mockUser = new User("mockUsername", "mockPassword", 0, 0);
-      let mockTrainer = new Trainer("mockFirstName", "mockLastName", mockUser);
-      localStorage.setItem('currentTrainer',JSON.stringify(mockTrainer));
+      let mockUser = new User(LocalStorageUtils.TEST_USER_NAME, LocalStorageUtils.TEST_USER_PASSWORD, 0, 0);
+      let mockTrainer = new Trainer(LocalStorageUtils.TEST_USER_FIRST_NAME, LocalStorageUtils.TEST_USER_LAST_NAME, mockUser);
+      localStorage.setItem(LocalStorageUtils.CURRENT_TRAINER_KEY, JSON.stringify(mockTrainer));
 
 
     fixture = TestBed.createComponent(TrainerViewComponent);

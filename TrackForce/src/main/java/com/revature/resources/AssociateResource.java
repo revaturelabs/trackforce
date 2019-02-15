@@ -3,8 +3,6 @@ package com.revature.resources;
 import static com.revature.utils.LogUtil.logger;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -22,23 +20,17 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
 import org.json.JSONObject;
 
-import com.revature.daoimpl.BatchDaoImpl;
 import com.revature.entity.TfAssociate;
-import com.revature.entity.TfTrainer;
 import com.revature.services.AssociateService;
-import com.revature.services.BatchService;
 import com.revature.services.ClientService;
-import com.revature.services.CurriculumService;
-import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
 import com.revature.services.MarketingStatusService;
-import com.revature.services.TrainerService;
-import com.revature.services.UserService;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
@@ -63,14 +55,9 @@ public class AssociateResource {
 	// This is to allow for Mockito tests, which have problems with static methods
 	// This is here for a reason!
 	// - Adam 06.18.06.13
-	AssociateService associateService = new AssociateService();
-	BatchService batchService = new BatchService();
-	ClientService clientService = new ClientService();
-	CurriculumService curriculumService = new CurriculumService();
-	InterviewService interviewService = new InterviewService();
-	TrainerService trainerService = new TrainerService();
-	UserService userService = new UserService();
-	MarketingStatusService marketingStatusService = new MarketingStatusService();
+	public AssociateService getAssociateService() { return new AssociateService(); }
+	public ClientService getClientService() { return new ClientService(); }
+	public MarketingStatusService getMarketingStatusService() { return new MarketingStatusService(); }
 
 	/**
 	 * <p>
@@ -89,21 +76,23 @@ public class AssociateResource {
 	@GET
 	@ApiOperation(value = "Return all associates", notes = "Gets a set of all the associates,", response = TfAssociate.class, responseContainer = "Set")
 	public Response getAllAssociates(@HeaderParam("Authorization") String token) {
-		logger.info("getAllAssociates()...");
+		logger.info("Starting getAllAssociates()...");
 		Status status = null;
-		List<TfAssociate> associates = associateService.getAllAssociates();
-		Claims payload = JWTService.processToken(token);
+		List<TfAssociate> associates = getAssociateService().getAllAssociates();
+		Claims payload = jwtProcessToken(token);
 
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+			logger.error("The payload was null. Unathorized access.");
+			return responseStatus(Status.UNAUTHORIZED).entity(jwtInvalidBody(token)).build();
 		} else if (((String) payload.get("roleID")).equals("5")) {
-			return Response.status(Status.FORBIDDEN).build();
+			logger.error("Associate Role detected. Forbidden Access.");
+			return responseStatus(Status.FORBIDDEN).build();
 		}
 		else {
 			status = associates == null || associates.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
-
-		return Response.status(status).entity(associates).build();
+		logger.info("Returning all associates contained in Database.");
+		return responseStatus(status).entity(associates).build();
 	}
 	
 	@Path("/countAssociates")
@@ -113,20 +102,22 @@ public class AssociateResource {
 	public Response getCountAssociates(@HeaderParam("Authorization") String token) {
 		logger.info("getCountAssociates...");
 
-		Claims payload = JWTService.processToken(token);
+		Claims payload = jwtProcessToken(token);
 		if (payload == null ) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+			logger.error("The payload was null. Unathorized access.");
+			return responseStatus(Status.UNAUTHORIZED).entity(jwtInvalidBody(token)).build();
 		} else if (((String) payload.get("roleID")).equals("5")) {
-			return Response.status(Status.FORBIDDEN).build();
+			logger.error("Associate Role detected. Forbidden Access.");
+			return responseStatus(Status.FORBIDDEN).build();
 		}
 		Status status = null;
 		status = Status.OK;
 		
-		JSONObject associateCounts = new JSONObject();
+		JSONObject associateCounts = getJSONObject();
 		
-		HashMap<String,Integer> rawCounts = associateService.getStatusCountsMap();
+		HashMap<String,Integer> rawCounts = getAssociateService().getStatusCountsMap();
 		
-		List<Integer> counts = new ArrayList<>();
+		List<Integer> counts = getArrayList();
 		
 		counts.add(rawCounts.get("Undeployed Mapped"));
 		counts.add(rawCounts.get("Undeployed Unmapped"));
@@ -145,12 +136,13 @@ public class AssociateResource {
 		counts.add(rawCounts.get("Mapped Confirmed"));
 	
 		associateCounts.put("counts", counts);
-		return Response.status(status).entity(associateCounts.toString()).build();
+		logger.info("Returning the count of associates.");
+		return responseStatus(status).entity(associateCounts.toString()).build();
 	}
 
 	/**
 	 *
-	 * @author Curtis H. Given a user id, returns an associate.
+	 * @author Curtis H. Given a USER ID, returns an associate.
 	 * @version v6.18.06.13
 	 *
 	 * @param id
@@ -164,28 +156,30 @@ public class AssociateResource {
 			@HeaderParam("Authorization") String token) {
 		logger.info("getAssociateByUserId()...");
 		Status status = null;
-		Claims payload = JWTService.processToken(token);
-		TfAssociate associateinfo;
+		Claims payload = jwtProcessToken(token);
+		TfAssociate associateinfo = new TfAssociate();
 
-		if (payload == null || false) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		if (payload == null) {
+			logger.error("The payload was null. Unathorized access.");
+			return responseStatus(Status.UNAUTHORIZED).entity(jwtInvalidBody(token)).build();
 		} else {
 			try {
-				associateinfo = associateService.getAssociateByUserId(id);
+				logger.info("Seeking Associate by this user id: " + id);
+				associateinfo = getAssociateService().getAssociateByUserId(id);
 			} catch (NoResultException nre) {
-				logger.error("No associate found...");
-				return Response.status(Status.NO_CONTENT).build();
+				logger.error("No associate found for this user id: " + id);
+				return responseStatus(Status.NO_CONTENT).build();
 			}
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;
 		}
-
-		return Response.status(status).entity(associateinfo).build();
+		logger.info("Returning associate.");
+		return responseStatus(status).entity(associateinfo).build();
 	}
 	
 	/**	
 	 *	
 	 * @author 	
-	 * Given a associate id, returns an associate.	
+	 * Given a ASSOCIATE ID, returns an associate.	
 	 * @version v6.18.06.13	
 	 *	
 	 * @param id	
@@ -199,23 +193,25 @@ public class AssociateResource {
 	                             @HeaderParam("Authorization") String token) {	
 		logger.info("getAssociate()...");
 		Status status = null;	
-		Claims payload = JWTService.processToken(token);	
-		TfAssociate associateinfo;	
- 		if (payload == null || false) {	
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();	
+		Claims payload = jwtProcessToken(token);	
+		TfAssociate associateinfo = new TfAssociate();
+		
+ 		if (payload == null) {	
+ 			logger.error("The payload was null. Unathorized access.");
+			return responseStatus(Status.UNAUTHORIZED).entity(jwtInvalidBody(token)).build();	
 		}	
 		else {	
 			try {	
-				associateinfo = associateService.getAssociate(id);	
+				logger.info("Seeking Associate by this id: " + id);
+				associateinfo = getAssociateService().getAssociate(id);	
 			} catch (NoResultException nre) {	
-				logger.error("No associate found...");
-				return Response.status(Status.NO_CONTENT).build();
+				logger.error("No Associate found by this id: " + id);
+				return responseStatus(Status.NO_CONTENT).build();
 			}	
 			status = associateinfo == null ? Status.NO_CONTENT : Status.OK;	
 		}	
-		System.out.println(status);	
-		System.out.println(associateinfo);
-		return Response.status(status).entity(associateinfo).build();
+		logger.info("Returning Associate");
+		return responseStatus(status).entity(associateinfo).build();
 	}
 
 	/**
@@ -244,35 +240,36 @@ public class AssociateResource {
 			@DefaultValue("-1") @ApiParam(value = "verification") @QueryParam("verification") Integer isApproved,
 			List<Integer> ids) {
 		logger.info("updateAssociates()..."+ids);
-		
 
 		Status status = null;
-		Claims payload = JWTService.processToken(token);
+		Claims payload = jwtProcessToken(token);
 
-		List<TfAssociate> associates = new LinkedList<>();
-		TfAssociate toBeUpdated = null;
-		for (int associateId : ids) {
-			toBeUpdated = associateService.getAssociate(associateId);
-			if (marketingStatusId >= 0) {
-				toBeUpdated.setMarketingStatus(marketingStatusService.getMarketingStatusById(marketingStatusId));
-			}
-			if (clientId >= 0) {
-				toBeUpdated.setClient(clientService.getClient(clientId));
-			}
-			if (isApproved >= 0) {
-				toBeUpdated.getUser().setIsApproved(isApproved);
-			}
-			associates.add(toBeUpdated);
-		}
-
-
-		if (payload == null || ((String) payload.get("roleID")).equals("2") || ((String) payload.get("roleID")).equals("5")) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		if (payload == null) {
+			logger.error("Refusing Access. Payload null");
+			return responseStatus(Status.UNAUTHORIZED).entity(jwtInvalidBody(token)).build();
+		} else if(((String) payload.get("roleID")).equals("2") || ((String) payload.get("roleID")).equals("5")) {
+			logger.error("Refusing Access. User does not have this authority");
+			return responseStatus(Status.FORBIDDEN).entity(jwtInvalidBody(token)).build();
 		} else {
-
+			List<TfAssociate> associates = getLinkedList();
+			TfAssociate toBeUpdated = null;
+			for (int associateId : ids) {
+				toBeUpdated = getAssociateService().getAssociate(associateId);
+				if (marketingStatusId >= 0) {
+					toBeUpdated.setMarketingStatus(getMarketingStatusService().getMarketingStatusById(marketingStatusId));
+				}
+				if (clientId >= 0) {
+					toBeUpdated.setClient(getClientService().getClient(clientId));
+				}
+				if (isApproved >= 0) {
+					toBeUpdated.getUser().setIsApproved(isApproved);
+				}
+				associates.add(toBeUpdated);
+				logger.info("Associate: " + toBeUpdated);
+			}
 			// marketing status & client id are given as query parameters, ids sent in body
-			AssociateService as = new AssociateService();
-			return as.updateAssociates(associates) ? Response.ok().build() : Response.serverError().build();
+			return getAssociateService().updateAssociates(associates) ? 
+					responseStatus(Status.OK).build() : responseStatus(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -291,22 +288,22 @@ public class AssociateResource {
 	 */
 	@PUT
 	@ApiOperation(value = "updates associate values", notes = "The method updates the marketing status or client of a given associate by their id.")
-	@Path("/{associateId}")
+	@Path("/update/{associateId}")
 	public Response updateAssociate(@PathParam("associateId") Integer id, TfAssociate associate,
 			@HeaderParam("Authorization") String token) {
 
 		logger.info("updateAssociate()...");
 		Status status = null;
-		Claims payload = JWTService.processToken(token);
-		System.out.println(id);
+		Claims payload = jwtProcessToken(token);
 
-		System.out.println(associate);
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+			logger.error("The payload was null. Unathorized access.");
+			return responseStatus(Status.UNAUTHORIZED).entity(jwtInvalidBody(token)).build();
 		} else {
-			status = associateService.updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
+			status = getAssociateService().updateAssociate(associate) ? Status.OK : Status.INTERNAL_SERVER_ERROR;
 		}
-		return Response.status(status).build();
+		logger.info("Associate: " + id + " updated");
+		return responseStatus(status).build();
 	}
 
 	@GET
@@ -314,7 +311,7 @@ public class AssociateResource {
 	@Path("mapped/{statusId}")
 	public Response getMappedInfo(@PathParam("statusId") int statusId) {
 		logger.info("getMappedInfo()...");
-		return Response.ok(associateService.getMappedInfo(statusId)).build();
+		return responseStatus(Status.OK).entity(getAssociateService().getMappedInfo(statusId)).build();
 	}
 
 	@GET
@@ -322,7 +319,7 @@ public class AssociateResource {
 	@Path("undeployed/{mappedOrUnmapped}")
 	public Response getUndeployed(@PathParam("mappedOrUnmapped") String which) {
 		logger.info("getUndeployed()...");
-		return Response.ok(associateService.getUndeployed(which)).build();
+		return responseStatus(Status.OK).entity(getAssociateService().getUndeployed(which)).build();
 	}
 
 	@PUT
@@ -330,24 +327,27 @@ public class AssociateResource {
 	@Path("{assocId}/approve")
 	public Response approveAssociate(@PathParam("assocId") int associateId, @HeaderParam("Authorization") String token) {
 		logger.info("approveAssociate()...");
-		Claims payload = JWTService.processToken(token);
-		System.out.println(associateId);
+		Claims payload = jwtProcessToken(token);
 
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
-		} else if (((String) payload.get("roleID")).equals("1") || ((String) payload.get("roleID")).equals("2")
-				|| ((String) payload.get("roleID")).equals("4")) {
-		return associateService.approveAssociate(associateId) ? Response.ok(true).build()
-				: Response.serverError().entity(false).build();
+			return responseStatus(Status.UNAUTHORIZED).entity(jwtInvalidBody(token)).build();
+		} else if ( ((String) payload.get("roleID")).equals("1") || 
+						((String) payload.get("roleID")).equals("2") || 
+						((String) payload.get("roleID")).equals("4") )    
+		{
+			return getAssociateService().approveAssociate(associateId) ? 
+					responseStatus(Status.OK).entity(true).build()
+					: responseStatus(Status.INTERNAL_SERVER_ERROR).entity(false).build();
 		} else {
-		return Response.status(Status.FORBIDDEN).build();
+			return responseStatus(Status.FORBIDDEN).build();
 		}
 	}
 
 	@GET
 	@Path("/nass/")
 	public Response getNAssociates() {
-		return Response.status(200).entity(associateService.getNAssociates()).build();
+		logger.info("Get 60 Associates.");
+		return responseStatus(Status.OK).entity(getAssociateService().getNAssociates()).build();
 	}
 	
 	
@@ -371,33 +371,67 @@ public class AssociateResource {
 			@DefaultValue("-1") @QueryParam("mStatusId") Integer mStatusId,
 			@DefaultValue("-1") @QueryParam("clientId") Integer clientId,
 			@DefaultValue("") @QueryParam("sortText") String sortText,
+			@DefaultValue("") @QueryParam("firstName") String firstName,
+			@DefaultValue("") @QueryParam("lastName") String lastName,
 			@HeaderParam("Authorization") String token) 
 	
 	{		
 		logger.info("getAssociatePage(" + startIndex + ", " + numResults + ", " + mStatusId + ", " + clientId + ", " + sortText +")");
 		Status status = null;
-		Claims payload = JWTService.processToken(token);
+		Claims payload = jwtProcessToken(token);
 
 		//Check token
 		if (payload == null) {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+			logger.error("The payload was null. Unathorized access.");
+			return responseStatus(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else if ( ((String) payload.get("roleID")).equals("5")) {
-			return Response.status(Status.FORBIDDEN).build();
+			logger.error("Associate Role detected. Forbidden Access.");
+			return responseStatus(Status.FORBIDDEN).build();
 		}
 		
 		List<TfAssociate> associates;
 		try {
-			 associates = associateService.getAssociatePage(startIndex, numResults, mStatusId, clientId, sortText);
+			 associates = getAssociateService().getAssociatePage(startIndex, numResults, mStatusId, clientId, sortText, firstName, lastName);
 		} catch (IllegalArgumentException iae) {
-			return Response.status(Status.BAD_REQUEST).build();
+			logger.error("Bad request.");
+			logger.error(iae.getMessage());
+			return responseStatus(Status.BAD_REQUEST).build();
 		} catch (Exception e) {
+			logger.error("Catch All Exeception.");
 			logger.error(e.getMessage());
-			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+			return responseStatus(Status.INTERNAL_SERVER_ERROR).build();
 		}
 
 		//If no results, return 204 and null ; otherwise 200 and the list 
 		status = associates == null ? Status.NO_CONTENT : Status.OK;
 
-		return Response.status(status).entity(associates).build();
+		logger.info("Returning Status 200 along with List");
+		return responseStatus(status).entity(associates).build();
+	}
+	
+	
+	/**
+	 * Helper method for JWT token parsing. Used for the benefit of Mock testing. 
+	 * @author Michael Tinning, Batch1811
+	 * @param token
+	 * @return "the payload, i.e. the username and roleID, or null if invalid" -Ian Buitrago
+	 */
+	public Claims jwtProcessToken(String token) {
+		return JWTService.processToken(token);
+	}
+	public String jwtInvalidBody(String token) {
+		return JWTService.invalidTokenBody(token);
+	}
+	public ResponseBuilder responseStatus(Status status) {
+		return Response.status(status);
+	} 
+	public JSONObject getJSONObject() { 
+		return new JSONObject();
+	}
+	public ArrayList getArrayList() {
+		return new ArrayList<>();
+	}
+	public LinkedList getLinkedList() {
+		return new LinkedList<>();
 	}
 }

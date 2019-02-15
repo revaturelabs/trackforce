@@ -1,5 +1,6 @@
 import { LoginPage } from './login.po';
 import { TestConfig } from '../configuration/test-config';
+import { protractor, browser, by, element } from 'protractor';
 
 /*
 Smoke test: Checks elements to be exist
@@ -56,6 +57,10 @@ describe('Confirm login failures', () => {
   beforeAll(() => {
     page = new LoginPage();
     page.navigateTo();
+  });
+
+  beforeEach(() => {
+    browser.manage().timeouts().implicitlyWait(5000);
   });
 
   it('should fail to log in when nothing is entered', () => {

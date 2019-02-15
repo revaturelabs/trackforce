@@ -128,8 +128,9 @@ export class ClientListComponent implements OnInit {
         for(const client of clients){
           this.clientNames.push(client.name);
         }
-      }
-    )
+      },     
+        error => console.error('Error in client-list.component.ts getMappedClients(): ', error.message)
+      )
   }
 
   //show data for all clients
@@ -156,7 +157,7 @@ export class ClientListComponent implements OnInit {
         ]
       },
       err => {
-        console.log('Something went wrong');
+        console.error("Error in client-list.component.ts initChartData(): ", err.message);
       }
     );
   }
@@ -167,7 +168,6 @@ export class ClientListComponent implements OnInit {
     const oneClient = this.clientInfo.find(item => item['name'] === name);
 
     const stat = new StatusInfo;
-
     this.clientService.getClientCount(oneClient.id).subscribe(
       count => {
         stat.trainingMapped = count[0];
@@ -187,7 +187,7 @@ export class ClientListComponent implements OnInit {
         ]
       },
       err => {
-        console.log('Something went wrong');
+        console.error('Error in client-list.component.ts getOneClient(): ', err.message);
       }
     );
   }

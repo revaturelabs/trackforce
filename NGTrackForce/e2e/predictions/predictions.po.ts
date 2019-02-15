@@ -59,6 +59,10 @@ export class PredictionsPage extends BasePage {
 
     }
 
+    clickCheckResourcesButton(){
+      element(by.id('check-resources')).click();
+    }
+
     getPredictionDetailsHeader() {
       return element(by.id('batchDetailsHeader'));
     }

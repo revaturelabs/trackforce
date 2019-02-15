@@ -11,7 +11,9 @@ import { User } from '../../models/user.model';
 import { AuthenticationService } from '../../services/authentication-service/authentication.service';
 import { InterviewType } from '../../models/interview-type';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { LocalStorageUtils } from '../../constants/local-storage';
+
 /**
  *@author Katherine Obioha, Andrew Ahn
  *
@@ -26,27 +28,20 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 @AutoUnsubscribe
 export class MyInterviewComponent implements OnInit {
-  registerForm:FormGroup;
+  registerForm:FormGroup; //used for updateInterview
+  addInterviewForm:FormGroup; //used for addInterview
   public interviews: Interview[];
   public associate: Associate;
-  //public id = 0;
   public newInterview: Interview;
   public formOpen = false;
   public conflictingInterviews = '';
 
   public interviewDate: Date;
-  
-        
   public interviewAssigned: Date = new Date();
   public clients: Client[];
-  public typeId: number;
-  public was24HRNotice: any;
-  public associateId: Associate;
   public user: User;
   public id: number;
-  public clientSelected: any;
   public interviewType: InterviewType;
-  public clientId: Client;
   public openDateNotified: boolean;
   public openInterviewDate: boolean;
   public conflictingInterview: boolean;
@@ -54,9 +49,11 @@ export class MyInterviewComponent implements OnInit {
   public dateError:boolean;
   public updateSuccess = false;
   public succMsg: string;
+  public failMsg: string;
   show : boolean;
   public convertedTime : string;
-  
+  public today: string = new Date().toLocaleDateString();
+
   index;
   index2;
   date :string;
@@ -72,35 +69,38 @@ export class MyInterviewComponent implements OnInit {
   ) {}
 
   ngOnInit(){
-   
-   
       this.registerForm = this.formBuilder.group({
         dateinput: [''],
        });
-    
+      this.addInterviewForm = this.formBuilder.group({
+         clientId: ['', Validators.required],
+         typeId: ['', Validators.required],
+         interviewDate: ['', Validators.required
+        // regex validator enforced onto InterviewDate. Currently did not allow Chrome interviews to be added.
+        //  Validators.compose(
+        //    [Validators.required, Validators.pattern("[0-9]{0,2}\/*[0-9]{0,2}\/*[0-9]{4}[^0-9]*[0-9]{1,2}:[0-9]{2}.*")])
+         ],
+         was24HRNotice: ['']
+        });
+
     //gets the associate id from the path
     //the '+' coerces the parameter into a number
     // this.id = +this.activated.snapshot.paramMap.get('id');
     this.openDateNotified = false;
-    this.openDateNotified = false;
+    this.openInterviewDate = false;
     this.conflictingInterview = false;
 
-    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.user = JSON.parse(localStorage.getItem(LocalStorageUtils.CURRENT_USER_KEY));
     this.id = this.user.id;
-    this.associateService.getAssociate(this.id).subscribe(
+    this.associateService.getAssociateByUserId(this.id).subscribe(
       data => {
         this.associate = data;
         this.getAssociateInterviews(this.associate.id);
-       
       },
       error => {
         console.log('ngOnInit error');
       }
     );
-
-    /* this.interviews = <Interview[]>(
-      JSON.parse(localStorage.getItem('currentInterviews'))
-    ); */
 
     this.clientService.getAllClients().subscribe(
       data => {
@@ -110,65 +110,73 @@ export class MyInterviewComponent implements OnInit {
         console.log('getAllClients error');
       }
     );
-    
-  
   }//end ngOnInit()
 
+  //Currently not used, could be used to toggle form view
   toggleForm() {
     this.formOpen = !this.formOpen;
   }
 
+  //Convenience. Allows this.aif.<control> to easily access
+  // addInterviewForm field data (.value) or control validator status
+  get aif() {
+    return this.addInterviewForm.controls;
+  }
+
   addInterview() {
-      if (!this.dateError){
-        switch (+this.typeId) {
+      if (!this.dateError && this.aif.interviewDate.valid){
+        //the '+' coerces type to be number
+        switch (+this.aif.typeId.value) {
           case 1:
             this.interviewType = new InterviewType(1, 'Phone');
-            console.log("phone");
             break;
           case 2:
             this.interviewType = new InterviewType(2, 'Online');
-            console.log("online");
             break;
           case 3:
             this.interviewType = new InterviewType(3, 'On Site');
-            console.log("onsite");
             break;
           case 4:
             this.interviewType = new InterviewType(4, 'Skype');
-            console.log("skype");
             break;
           default:
             this.interviewType = new InterviewType(5, 'Other');
-            console.log("other");
             break;
         }
 
         this.newInterview = new Interview(
           this.associate,
-          this.clientId,
+          this.aif.clientId.value,
           this.interviewType,
-          new Date(this.interviewDate).getTime(),
+          new Date(this.aif.interviewDate.value).getTime(),
           null,
-          this.was24HRNotice ? 1 : 0,
+          this.aif.was24HRNotice.value ? 1 : 0,
           null,
+          //Deprecated on page, but necessary to the backend.
+          // refers to the 'Assigned' date given to the Associate.
+          //  unsure whether this originally referenced the given time or the actual time
           new Date(this.interviewAssigned).getTime(),
-          new Date(this.interviewDate).getTime().toString()
+          new Date(this.aif.interviewDate.value).getTime().toString()
         );
-        console.log("interview added");
-      
-          this.succMsg="Interview Added";
-          setTimeout(() => {
-            this.succMsg= '';
-          }, 1000);
+
+        this.succMsg="Interview Added";
+        setTimeout(() => {
+          this.succMsg= '';
+        }, 3000);
         this.interviewService
           .createInterview(this.newInterview, this.associate.id)
           .subscribe(res => {
             location.reload(false);
-          
          });
+      } else {
+        this.failMsg = "Invalid Interview Submission";
+        setTimeout(() => {
+          this.failMsg = '';
+        }, 3000);
+        console.log("submission failed");
       }
   }
- 
+
 
   updateInterview(interview: Interview){
     if (!this.dateError){
@@ -177,17 +185,19 @@ export class MyInterviewComponent implements OnInit {
         interview.dateSalesIssued = new Date(
           interview.dateAssociateIssued
         ).getTime(); // convert into timestamp
-        
+
         interview.dateAssociateIssued = new Date (this.registerForm.value['dateinput']).getTime() ;
         console.log("in updateinterview");
-        
-      
+
+
         this.interviewService.updateInterview(interview).subscribe(res => {
         this.updateSuccess=true;
-      
-          
+
+
          location.reload(false);
-       });
+       },
+         error => console.error('Error in myinterview-view.component.ts updateInterview(): ', error.message)
+       );
     }
   }
 
@@ -227,17 +237,17 @@ export class MyInterviewComponent implements OnInit {
   showInterviewDate(index) {
     this.index2 = index;
   }
- 
+
 
   getAssociateInterviews(id: number) {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
       data =>{
-       
+
         this.interviews = data;
         this.isDataReady = true;
-       
-       
-      
+
+
+
       },
       error => {
         console.log('getAssociateInterview error');
@@ -249,7 +259,7 @@ export class MyInterviewComponent implements OnInit {
   // THIS NEEDS TO BE IMPLEMENTED
   // ============================================
   saveInterview(interview: Interview) {}
-  
+
 
   // THIS METHOD IS REPLACED BY STORING THE CLIENTS IN LOCAL STORAGE
   // getClientNames() {

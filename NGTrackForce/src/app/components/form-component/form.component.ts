@@ -108,9 +108,11 @@ export class FormComponent implements OnInit {
           this.associate = data;
           this.associateIsLoaded = this.associate.user !== undefined && this.associate.user !== null;
           this.getAssociateInterviews(this.associate.id);
+          console.log("IsApproved: " + this.associate.user.isApproved);
+          this.isApproved = this.associate.user.isApproved;
         },
         error => {
-          console.error(error);
+          console.error("Error in form.component.ts ngOnInit()", error.message);
         }
       );
     });
@@ -126,7 +128,9 @@ export class FormComponent implements OnInit {
       this.isVP = false;
       this.isAssociate = false;
     }
-
+    
+    
+    
     this.clientService.getAllClients().subscribe(data => { 
       this.clients = data.sort(
         (a: Client, b: Client) =>
@@ -134,7 +138,7 @@ export class FormComponent implements OnInit {
       );
     },
     error=>{
-      console.error(error);
+      console.error("Error in form.component.ts ngOnInit()", error.message);
     }
     );
   }
@@ -170,7 +174,7 @@ export class FormComponent implements OnInit {
           this._displayFormStatus(FormStatus.SUCCESS, StatusProp.APPROVE, StatusClass.APROVE_CLASS);
         }, //1 for true, 2 for false, 0 for initial state
       ).catch(error=> {
-        console.error(error)
+        console.error("Error in form.component.ts approveAssociate()", error.message);
         this.isApproved = 2;
         this.approvalPending = false;
         this._displayFormStatus(FormStatus.FAILURE, StatusProp.APPROVE, StatusClass.APROVE_CLASS);
@@ -301,11 +305,11 @@ export class FormComponent implements OnInit {
           },
         ).catch(error => {
           this._displayFormStatus(FormStatus.FAILURE, StatusProp.UPDATE, StatusClass.UPDATE_CLASS);
-          console.error(error);
+          console.error("Error in form.component.ts updateAssociate()", error.message);
         });
       },      
-      error => console.error(error)
-    );
+        error => console.error("Error in form.component.ts updateAssociate()", error.message)
+      );
   }
 
   getAssociateInterviews(id) {
@@ -316,7 +320,7 @@ export class FormComponent implements OnInit {
         this.isDataReady = true;
       },
       error => {
-        console.error(error);
+        console.error("Error in form.component.ts getAssociateInterviews()", error.message);
         this.isDataReady = true;
       }
     );
@@ -328,7 +332,12 @@ export class FormComponent implements OnInit {
 
   updateInterviewFeedback() {
     this.interviewSelected.clientFeedback = this.feedback;
-    this.interviewService.updateInterview(this.interviewSelected).subscribe();
+    this.interviewService.updateInterview(this.interviewSelected).subscribe(
+      data => {},
+      error => {
+        console.error("Error in form.component.ts updateInterviewFeedback()", error.message);
+      }
+    );
   }
 
   setSelectedInterview(interview: Interview){

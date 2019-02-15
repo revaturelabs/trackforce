@@ -6,6 +6,7 @@ import { Color } from 'ng2-charts';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { ChartScale } from '../../models/chart-scale.model';
+import { LocalStorageUtils } from '../../constants/local-storage';
 
 @Component({
   selector: 'app-deployed',
@@ -45,7 +46,14 @@ export class DeployedComponent implements OnInit {
     private associateService: AssociateService
   ) {
     this.chartOptions = {
-      xAxes: [{ ticks: { autoSkip: false } }], scales: { yAxes: [{ ticks: { min: 0 } }] },
+      xAxes: [
+        { ticks: { autoSkip: false } }
+      ],
+      scales: { 
+        yAxes: [{ 
+          ticks: { 
+            min: 0 } }] 
+          },
       legend: {
         display: false
       },
@@ -94,7 +102,7 @@ export class DeployedComponent implements OnInit {
 
 
   loadChart() {
-    this.associateService.getAssociatesByStatus(6).subscribe(data => {
+    this.associateService.getAssociatesByStatus(this.statusID).subscribe(data => {
       /*
       Store the data from the http request in temporary objects.
       In order for the2 property binding refresh on clientMappedData
@@ -103,29 +111,24 @@ export class DeployedComponent implements OnInit {
       clientMappedLabels.push(...) does not trigger property binding
       and does not display data).
       */
-      const temp_clientDeployedLabels: string[] = [];
-      const temp_clientDeployedData: number[] = [];
-      this.clientDeployedData = temp_clientDeployedData;
-      this.clientDeployedLabels = temp_clientDeployedLabels;
-
 
       //Loop over 'data' and extract fetched information
+      console.log(data);
       for (const graphCount of data) {
+        console.log(graphCount);
         if (graphCount.count > 0) {
           //Check if the fetched name is empty
           if (graphCount.name === "") {
-            temp_clientDeployedLabels.push("Client not Specified");
+            this.clientDeployedLabels.push("Client not Specified");
           } else {
-            temp_clientDeployedLabels.push(graphCount.name);
+            this.clientDeployedLabels.push(graphCount.name);
           }
-          temp_clientDeployedData.push(graphCount.count);
+         this.clientDeployedData.push(graphCount.count);
         }
       }
-
-      //Set data, trigger property binding
-      this.clientDeployedData = temp_clientDeployedData;
-      this.clientDeployedLabels = temp_clientDeployedLabels;
-    });
+    },
+      error => console.error('Error in deployed.component.ts loadChart(): ', error.message)
+    );
 
   }
 
@@ -141,7 +144,7 @@ export class DeployedComponent implements OnInit {
   }
 
   getDeployedData() {
-    this.deployedData = JSON.parse(localStorage.getItem('deployedData'));
+    this.deployedData = JSON.parse(localStorage.getItem(LocalStorageUtils.DEPLOYED_DATA_KEY));
   }
 
     /**

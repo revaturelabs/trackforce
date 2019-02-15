@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthenticationService } from '../services/authentication-service/authentication.service';
+import { LocalStorageUtils } from '../constants/local-storage';
 
 @Injectable()
 /**
@@ -17,24 +18,21 @@ export class AuthGuard implements CanActivate {
 	 *  when they log in, should be redirected to.
 	 */
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        console.log("In AuthGuard Outer")
-
+        
         // not logged in so redirect to login page with the return url
-        if (!localStorage.getItem("currentUser")) {
+        if (!localStorage.getItem(LocalStorageUtils.CURRENT_USER_KEY)) {
             this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
             window.alert("test");
-            window.alert(localStorage.getItem("currentUser"));
+            window.alert(localStorage.getItem(LocalStorageUtils.CURRENT_USER_KEY));
 
             return false;
         }
-
         const expectedRoles: number[] = route.data.expectedRoles;
 
         // check of component is restricted by role
         // up refresh getUserRole was undefined. Added line 38-40 to call the database agian upon refresh.
         if (expectedRoles !== undefined) {
             const user = this.authService.getUser();
-            console.log("in AuthGuard Inner");
             if (this.authService.getUserRole() === undefined) {
                 await this.authService.getUserRoleFirst((UserRole) => {
                   if (!expectedRoles.includes(UserRole)) {
@@ -44,7 +42,7 @@ export class AuthGuard implements CanActivate {
               });
             }
         }
-
+        
         return true;
     }
 
@@ -54,7 +52,6 @@ export class AuthGuard implements CanActivate {
      * @param role user role held in local storage
      */
     routeToUserHome(role: number) {
-        console.log("in AuthGuard Inner");
         console.log(role)
         if (role === 5) {
             this.router.navigate(['associate-view']);

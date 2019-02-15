@@ -30,7 +30,7 @@ y
     interview: Interview,
     id: number
   ): Observable<boolean> {
-    const url: string = this.baseURL + '/' + id;
+    const url: string = this.baseURL + '/create/' + id;
     return this.http.post<boolean>(url, interview);
   }
 
@@ -43,7 +43,7 @@ y
    * @param id - this is the associate's id
    */
   public getInterviewsForAssociate(id: number): Observable<Interview[]> {
-    const url: string = this.baseURL + '/' + id;
+    const url: string = this.baseURL + '/associate/' + id;
     return this.http.get<Interview[]>(url);
   }
 
@@ -62,8 +62,7 @@ y
    * @param id - this is the id of the associate
    */
   public updateInterview(interview): Observable<boolean> {
-    console.log(interview);
-    const url: string = this.baseURL + "/" + interview.id;
+    const url: string = this.baseURL + "/update/" + interview.id;
     return this.http.put<boolean>(url, interview);
   }
 }

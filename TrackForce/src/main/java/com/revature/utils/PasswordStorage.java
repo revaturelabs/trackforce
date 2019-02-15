@@ -82,11 +82,13 @@ public class PasswordStorage {
 		// Decode the hash into its parameters
 		String[] params = correctHash.split(":");
 		if (params.length != HASH_SECTIONS) {
+			LogUtil.logger.warn("Fields are missing from the password hash.");
 			throw new InvalidHashException("Fields are missing from the password hash.");
 		}
 
 		// Currently, Java only supports SHA1.
 		if (!params[HASH_ALGORITHM_INDEX].equals("sha1")) {
+			LogUtil.logger.warn("Unsupported hash type.");
 			throw new CannotPerformOperationException("Unsupported hash type.");
 		}
 
@@ -94,10 +96,12 @@ public class PasswordStorage {
 		try {
 			iterations = Integer.parseInt(params[ITERATION_INDEX]);
 		} catch (NumberFormatException ex) {
+			LogUtil.logger.warn("Could not parse the iteration count as an integer.");
 			throw new InvalidHashException("Could not parse the iteration count as an integer.", ex);
 		}
 
 		if (iterations < 1) {
+			LogUtil.logger.warn("Invalid number of iterations. Must be >= 1.");
 			throw new InvalidHashException("Invalid number of iterations. Must be >= 1.");
 		}
 
@@ -105,6 +109,7 @@ public class PasswordStorage {
 		try {
 			salt = fromBase64(params[SALT_INDEX]);
 		} catch (IllegalArgumentException ex) {
+			LogUtil.logger.warn("Base64 decoding of salt failed.");
 			throw new InvalidHashException("Base64 decoding of salt failed.", ex);
 		}
 
@@ -112,6 +117,7 @@ public class PasswordStorage {
 		try {
 			hash = fromBase64(params[PBKDF2_INDEX]);
 		} catch (IllegalArgumentException ex) {
+			LogUtil.logger.warn("Base64 decoding of pbkdf2 output failed.");
 			throw new InvalidHashException("Base64 decoding of pbkdf2 output failed.", ex);
 		}
 
@@ -119,10 +125,12 @@ public class PasswordStorage {
 		try {
 			storedHashSize = Integer.parseInt(params[HASH_SIZE_INDEX]);
 		} catch (NumberFormatException ex) {
+			LogUtil.logger.warn("Could not parse the hash size as an integer.");
 			throw new InvalidHashException("Could not parse the hash size as an integer.", ex);
 		}
 
 		if (storedHashSize != hash.length) {
+			LogUtil.logger.warn("Hash length doesn't match stored hash length.");
 			throw new InvalidHashException("Hash length doesn't match stored hash length.");
 		}
 
@@ -148,8 +156,10 @@ public class PasswordStorage {
 			SecretKeyFactory skf = SecretKeyFactory.getInstance(PBKDF2_ALGORITHM);
 			return skf.generateSecret(spec).getEncoded();
 		} catch (NoSuchAlgorithmException ex) {
+			LogUtil.logger.warn("Hash algorithm not supported.");
 			throw new CannotPerformOperationException("Hash algorithm not supported.", ex);
 		} catch (InvalidKeySpecException ex) {
+			LogUtil.logger.warn("Invalid key spec.");
 			throw new CannotPerformOperationException("Invalid key spec.", ex);
 		}
 	}

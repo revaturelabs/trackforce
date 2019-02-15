@@ -6,7 +6,7 @@
       <img src="../../../assets/logo.png" id="logo" alt="Revature Logo">
     </a>
 
-    <!-- if screen becomes to small, organize buttons into dropdown -->
+    <!-- if screen becomes too small, organize buttons into dropdown -->
     <button id="collapsedNav" *ngIf="isLoggedIn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNav">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -27,6 +27,10 @@
             Welcome, {{username}}!
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a id="username-update" class="dropdown-item nav-item"
+              [routerLink]="['/username-update']">Update Username</a>
+            <a id="password-update" class="dropdown-item nav-item"
+              [routerLink]="['/password-update']">Update Password</a>
             <a id="logout" class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
           </div>
         </li>
@@ -49,6 +53,10 @@
             Welcome, {{username}}!
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a id="username-update" class="dropdown-item nav-item"
+              [routerLink]="['/username-update']">Update Username</a>
+            <a id="password-update" class="dropdown-item nav-item"
+              [routerLink]="['/password-update']" >Update Password</a>
             <a id="logout" class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
           </div>
         </li>
@@ -59,11 +67,12 @@
         <li class="nav-item">
           <a id="home" class="nav-link" [routerLink]="['/app-home']" routerLinkActive="active">Home</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"> 
           <a id="clients" class="nav-link" [routerLink]="['/client-listing']" routerLinkActive="active">Client List</a>
         </li>
-        <li class="nav-item">
-          <a id="batches" class="nav-link" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a>
+        <li>
+          <a *ngIf="this.router.url.includes('/batch-details')" id="batches" class="nav-link active" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a> 
+          <a *ngIf="!this.router.url.includes('/batch-details')" id="batches" class="nav-link" [routerLink]="['/batch-listing']" routerLinkActive="active">Batch List</a> 
         </li>
         <li class="nav-item">
           <a id="associates" class="nav-link" [routerLink]="['/associate-listing']" routerLinkActive="active">Associate List</a>
@@ -74,15 +83,16 @@
         <li class="nav-item">
           <a id="create" class="nav-link" [routerLink]="['/create-user']" routerLinkActive="active">Create User</a>
         </li>
-        <li *ngIf='isAdmin' class="nav-item">
-          <a id="salesforce" class="nav-link" [routerLink]="['/salesforce']" routerLinkActive="active">Salesforce</a>
-        </li>
         <li class="nav-item dropdown mr-auto">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
             aria-expanded="false">
             Welcome, {{username}}!
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a id="username-update" class="dropdown-item nav-item"
+              [routerLink]="['/username-update']">Update Username</a>
+            <a id="password-update" class="dropdown-item nav-item" 
+            [routerLink]="['/password-update']" >Update Password</a>
             <a id="logout" class="dropdown-item nav-item" href="#" (click)="logout()">Logout</a>
           </div>
         </li>

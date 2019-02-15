@@ -4,7 +4,8 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
+
 
 import com.revature.utils.PasswordStorage;
 import com.revature.utils.PasswordStorage.CannotPerformOperationException;
@@ -12,12 +13,13 @@ import com.revature.utils.PasswordStorage.InvalidHashException;
 
 public class PasswordStorageTest {
 	
+	
 	/**
 	 * Exception is properly thrown
 	 * @author Jesse
 	 * @since 06.18.06.15
 	 */
-	@Test(expected = InvalidHashException.class)
+	@Test(expectedExceptions = InvalidHashException.class)
 	public void testHashException() throws InvalidHashException {
 		throw new InvalidHashException("Invalid");
 	}
@@ -27,7 +29,7 @@ public class PasswordStorageTest {
 	 * @author Jesse
 	 * @since 06.18.06.15
 	 */
-	@Test(expected = CannotPerformOperationException.class)
+	@Test(expectedExceptions = CannotPerformOperationException.class)
 	public void testOperationException() throws CannotPerformOperationException {
 		throw new CannotPerformOperationException("Cannot Perform");
 	}
@@ -41,8 +43,8 @@ public class PasswordStorageTest {
 	 */
 	@Test
 	public void testCreateHashString() throws CannotPerformOperationException {
-		assertTrue(PasswordStorage.createHash("password") instanceof String);
-		assertFalse(PasswordStorage.createHash("password").equals("password"));
+		assertTrue(PasswordStorage.createHash("p4ssword") instanceof String);
+		assertFalse(PasswordStorage.createHash("p4ssword").equals("p4ssword"));
 
 	}
 	

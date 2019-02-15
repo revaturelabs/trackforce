@@ -8,7 +8,7 @@ import com.revature.entity.TfUser;
 public interface AssociateDao {
 	TfAssociate getAssociate(Integer associateid);
 	
-	List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId, String sortText);
+	List<TfAssociate> getNAssociateMatchingCriteria(int startIdx, int numRes, int mktStatus, int clientId, String sortText, String firstName, String lastName);
 
 	List<TfAssociate> getAllAssociates();
 	

@@ -90,7 +90,9 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
         this.isFetching = false;
         this.listOfAssociates = this.listOfAssociates.concat(data);
       }
-    });
+    },
+      error => console.error('Error in associate-list-page.component.ts ngOnInit(): ', error.message)
+    );
   }
 
 
@@ -126,7 +128,16 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     }
 
     if (this.filterByText) {
-      filter["sortText"] = this.filterByText;
+      let name = this.filterByText.split(" ");
+      // first name AND last name entered
+      if(name.length > 1) {
+        filter["firstName"] = name[0];
+        filter["lastName"] = name[1];
+      }
+      // first name OR last name entered 
+      else {
+        filter["sortText"] = this.filterByText;
+      }
     }
 
     this.isFetching = true;
@@ -170,7 +181,9 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
       this.currentAssociatesSelected.clear();
       this.listOfAssociates = [];
       this.submitFilter(null);
-    });
+    },
+      error => console.error('Error in associate-list-page.component.ts ngOnInit(): ', error.message)
+    );
   }
 
   navigate(event, id) {
@@ -186,7 +199,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
 export class UpdateDialogComponent {
 
   public verification = 0;
-  public client = 0;
+  public client = -1;
   public status = "";
 
   public statusToId = {

@@ -1,44 +1,377 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="0" errors="0" failures="0" tests="33" time="42.227">
- <testsuite name="test assocation pagenation functionality" timestamp="2018-11-07T15:58:24" hostname="localhost" time="13.688" errors="0" tests="4" skipped="0" disabled="0" failures="0">
-  <testcase classname="test assocation pagenation functionality" name="should log in" time="6.119" />
-  <testcase classname="test assocation pagenation functionality" name="Go to associate list tab" time="2.972" />
-  <testcase classname="test assocation pagenation functionality" name="Should load 60 or less associates." time="0.027" />
-  <testcase classname="test assocation pagenation functionality" name="Should load more associate if page scrolls down and theres more than 60." time="4.568" />
+<testsuites disabled="3" errors="0" failures="5" tests="156" time="266.884">
+ <testsuite name="A new user should able to register" timestamp="2019-02-05T14:39:39" hostname="localhost" time="14.319" errors="0" tests="9" skipped="1" disabled="0" failures="0">
+  <testcase classname="A new user should able to register" name="should navigate to the login page" time="0.234" />
+  <testcase classname="A new user should able to register" name="allow user to click the register button" time="0.079" />
+  <testcase classname="A new user should able to register" name="allow associate to enter a username" time="0.075" />
+  <testcase classname="A new user should able to register" name="allow associate to enter a valid password" time="0.078" />
+  <testcase classname="A new user should able to register" name="allow associate to re-enter a valid password" time="0.074" />
+  <testcase classname="A new user should able to register" name="should allow associate to enter first name" time="0.066" />
+  <testcase classname="A new user should able to register" name="should allow associate to enter last name" time="0.065" />
+  <testcase classname="A new user should able to register" name="show allow associate to pick a role" time="0.057" />
+  <testcase classname="A new user should able to register" name="should allow the user to register as an associate" time="0.001">
+   <skipped message="Temporarily disabled with xit" />
+  </testcase>
  </testsuite>
- <testsuite name="Lets do some stuff in the associates list tab..." timestamp="2018-11-07T15:58:38" hostname="localhost" time="11.593" errors="0" tests="8" skipped="0" disabled="0" failures="0">
-  <testcase classname="Lets do some stuff in the associates list tab..." name="should log in" time="1.527" />
-  <testcase classname="Lets do some stuff in the associates list tab..." name="Go to associate list tab" time="6.236" />
-  <testcase classname="Lets do some stuff in the associates list tab..." name="Test out search by name of associate" time="0.241" />
-  <testcase classname="Lets do some stuff in the associates list tab..." name="Check return results of entered values, with name of associate" time="1.114" />
-  <testcase classname="Lets do some stuff in the associates list tab..." name="Clear the search input box" time="0.084" />
-  <testcase classname="Lets do some stuff in the associates list tab..." name="Test out search by last name" time="0.224" />
-  <testcase classname="Lets do some stuff in the associates list tab..." name="Check results of search by associates last name" time="0.878" />
-  <testcase classname="Lets do some stuff in the associates list tab..." name="Clear out search input once more" time="1.288" />
+ <testsuite name="A new user should not be able to register with a short username" timestamp="2019-02-05T14:39:54" hostname="localhost" time="1.047" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="A new user should not be able to register with a short username" name="allow associate to enter an invalid username" time="0.058" />
+  <testcase classname="A new user should not be able to register with a short username" name="should not allow the user to register with an invalid username" time="0.097" />
  </testsuite>
- <testsuite name="Testing associate list page further by changing search status." timestamp="2018-11-07T15:58:50" hostname="localhost" time="6.984" errors="0" tests="13" skipped="0" disabled="0" failures="0">
-  <testcase classname="Testing associate list page further by changing search status." name="should log in" time="1.479" />
-  <testcase classname="Testing associate list page further by changing search status." name="Go to associate list tab" time="2.931" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select mapped: training" time="0.178" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select mapped: reserved" time="0.139" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: SELECTED" time="0.155" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: CONFIRMED" time="0.134" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: DEPLOYED" time="0.149" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: TRAINING" time="0.132" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: OPEN" time="0.147" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: SELECTED" time="0.176" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: CONFIRMED" time="0.136" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: DEPLOYED" time="0.143" />
-  <testcase classname="Testing associate list page further by changing search status." name="Select default" time="1.078" />
+ <testsuite name="A new user should not be able to register with a weak password" timestamp="2019-02-05T14:39:55" hostname="localhost" time="0.972" errors="0" tests="3" skipped="0" disabled="0" failures="0">
+  <testcase classname="A new user should not be able to register with a weak password" name="allow associate to enter an invalid password" time="0.068" />
+  <testcase classname="A new user should not be able to register with a weak password" name="allow associate to re-enter an invalid password" time="0.071" />
+  <testcase classname="A new user should not be able to register with a weak password" name="should not allow the user to register with an invalid password" time="0.095" />
  </testsuite>
- <testsuite name="Testing associate list via Client Search" timestamp="2018-11-07T15:58:57" hostname="localhost" time="9.962" errors="0" tests="8" skipped="0" disabled="0" failures="0">
-  <testcase classname="Testing associate list via Client Search" name="should log in" time="1.573" />
-  <testcase classname="Testing associate list via Client Search" name="Go to associate list tab" time="2.928" />
-  <testcase classname="Testing associate list via Client Search" name="Should select None" time="0.526" />
-  <testcase classname="Testing associate list via Client Search" name="Should select 22nd Century Technologies" time="0.209" />
-  <testcase classname="Testing associate list via Client Search" name="Should select 3 Edge USA Group, LLC" time="0.252" />
-  <testcase classname="Testing associate list via Client Search" name="Should select 3 S Business Corporation Inc (, LLC" time="0.212" />
-  <testcase classname="Testing associate list via Client Search" name="Should select some more" time="3.089" />
-  <testcase classname="Testing associate list via Client Search" name="should log out" time="1.172" />
+ <testsuite name="A new user should not be able to register with a mismatched paswords" timestamp="2019-02-05T14:39:56" hostname="localhost" time="0.958" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="A new user should not be able to register with a mismatched paswords" name="allow associate to enter an different password" time="0.07" />
+  <testcase classname="A new user should not be able to register with a mismatched paswords" name="should not allow the user to register with an invalid username" time="0.092" />
+ </testsuite>
+ <testsuite name="A new user should not be able to register with a mismatched paswords" timestamp="2019-02-05T14:39:57" hostname="localhost" time="0.901" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="A new user should not be able to register with a mismatched paswords" name="should not allow the user to register without selecting a role " time="0.085" />
+ </testsuite>
+ <testsuite name="login page element existences" timestamp="2019-02-05T14:39:58" hostname="localhost" time="0.353" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+  <testcase classname="login page element existences" name="should have a username input box" time="0.003" />
+  <testcase classname="login page element existences" name="should have a password input box" time="0.003" />
+  <testcase classname="login page element existences" name="should have a login button" time="0.002" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Username" time="0.051" />
+  <testcase classname="login page element existences" name="should display proper placeholder: Password" time="0.02" />
+  <testcase classname="login page element existences" name="should display proper value for button" time="0.031" />
+ </testsuite>
+ <testsuite name="Confirm login failures" timestamp="2019-02-05T14:39:58" hostname="localhost" time="4.611" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="Confirm login failures" name="should fail to log in when nothing is entered" time="0.128" />
+  <testcase classname="Confirm login failures" name="should fail to login when incorrect credentials are entered" time="0.265" />
+ </testsuite>
+ <testsuite name="Login in with proper credentials" timestamp="2019-02-05T14:40:03" hostname="localhost" time="6.897" errors="0" tests="5" skipped="0" disabled="0" failures="0">
+  <testcase classname="Login in with proper credentials" name="should be able to login in with admin credentials and reach the admin page" time="1.725" />
+  <testcase classname="Login in with proper credentials" name="should be able to login in with associate credentials and reach the associate page" time="0.896" />
+  <testcase classname="Login in with proper credentials" name="should be able to login in with Manager credentials and reach the Admin page" time="1.585" />
+  <testcase classname="Login in with proper credentials" name="should be able to login in with Trainer credentials and reach the Trainer page" time="0.897" />
+  <testcase classname="Login in with proper credentials" name="should be able to login in with Sales Team credentials and reach the Admin page" time="1.581" />
+ </testsuite>
+ <testsuite name="The admin navbar is functional" timestamp="2019-02-05T14:40:10" hostname="localhost" time="10.001" errors="0" tests="7" skipped="0" disabled="0" failures="0">
+  <testcase classname="The admin navbar is functional" name="should navigate to home page" time="1.256" />
+  <testcase classname="The admin navbar is functional" name="should navigate to client list page" time="1.361" />
+  <testcase classname="The admin navbar is functional" name="should navigate to batch list page" time="1.499" />
+  <testcase classname="The admin navbar is functional" name="should navigate to associate lising" time="0.72" />
+  <testcase classname="The admin navbar is functional" name="should navigate to predictions" time="4.285" />
+  <testcase classname="The admin navbar is functional" name="should navigate to create user" time="0.222" />
+  <testcase classname="The admin navbar is functional" name="should be able to logout" time="0.218" />
+ </testsuite>
+ <testsuite name="The Asscoiate navbar is functional" timestamp="2019-02-05T14:40:20" hostname="localhost" time="0.002" errors="0" tests="3" skipped="0" disabled="3" failures="0">
+  <testcase classname="The Asscoiate navbar is functional" name="should navigate to home page" time="0.001">
+   <skipped />
+  </testcase>
+  <testcase classname="The Asscoiate navbar is functional" name="should navigate to My Interviews" time="0">
+   <skipped />
+  </testcase>
+  <testcase classname="The Asscoiate navbar is functional" name="should be able to logout" time="0">
+   <skipped />
+  </testcase>
+ </testsuite>
+ <testsuite name="The Staging Manager navbar is functional" timestamp="2019-02-05T14:40:20" hostname="localhost" time="9.022" errors="0" tests="7" skipped="0" disabled="0" failures="0">
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to home page" time="1.374" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to client list page" time="1.3" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to batch list page" time="1.568" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to associate lising" time="0.589" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to predictions" time="3.319" />
+  <testcase classname="The Staging Manager navbar is functional" name="should navigate to create user" time="0.126" />
+  <testcase classname="The Staging Manager navbar is functional" name="should be able to logout" time="0.218" />
+ </testsuite>
+ <testsuite name="The Trainer navbar is functional" timestamp="2019-02-05T14:40:29" hostname="localhost" time="3.097" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="The Trainer navbar is functional" name="should navigate to home page" time="0.417" />
+  <testcase classname="The Trainer navbar is functional" name="should navigate to batch list page" time="1.518" />
+  <testcase classname="The Trainer navbar is functional" name="should navigate to associate lising" time="0.45" />
+  <testcase classname="The Trainer navbar is functional" name="should be able to logout" time="0.282" />
+ </testsuite>
+ <testsuite name="The Delivery/Sales navbar is functional" timestamp="2019-02-05T14:40:32" hostname="localhost" time="8.682" errors="0" tests="7" skipped="0" disabled="0" failures="0">
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to home page" time="1.368" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to client list page" time="1.334" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to batch list page" time="1.485" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to associate lising" time="0.5" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to predictions" time="3.131" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should navigate to create user" time="0.226" />
+  <testcase classname="The Delivery/Sales navbar is functional" name="should be able to logout" time="0.222" />
+ </testsuite>
+ <testsuite name="The create-user page " timestamp="2019-02-05T14:40:40" hostname="localhost" time="34.756" errors="0" tests="8" skipped="0" disabled="0" failures="0">
+  <testcase classname="The create-user page " name="should accept username input" time="4.068" />
+  <testcase classname="The create-user page " name="should accept password input" time="4.251" />
+  <testcase classname="The create-user page " name="should accept password confirmation input" time="4.094" />
+  <testcase classname="The create-user page " name="should select admin radio button" time="4.084" />
+  <testcase classname="The create-user page " name="should select trainer radio button" time="4.067" />
+  <testcase classname="The create-user page " name="should select associate radio button" time="4.066" />
+  <testcase classname="The create-user page " name="should select staging manager radio button" time="4.076" />
+  <testcase classname="The create-user page " name="should select delivery radio button" time="4.088" />
+ </testsuite>
+ <testsuite name="An Admin" timestamp="2019-02-05T14:41:15" hostname="localhost" time="30.605" errors="0" tests="5" skipped="0" disabled="0" failures="0">
+  <testcase classname="An Admin" name="should be able to create an admin" time="6.623" />
+  <testcase classname="An Admin" name="should be able to create a trainer" time="5.778" />
+  <testcase classname="An Admin" name="should be able to create a delivery " time="5.939" />
+  <testcase classname="An Admin" name="should be able to create a associate" time="5.843" />
+  <testcase classname="An Admin" name="should be able to create a staging manager" time="5.732" />
+ </testsuite>
+ <testsuite name="A Staging Manager" timestamp="2019-02-05T14:41:46" hostname="localhost" time="24.882" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="A Staging Manager" name="should be able to create a trainer" time="6.242" />
+  <testcase classname="A Staging Manager" name="should be able to create a associate" time="5.834" />
+  <testcase classname="A Staging Manager" name="should be able to create a staging manager" time="5.807" />
+  <testcase classname="A Staging Manager" name="should be able to create a delivery " time="6.343" />
+ </testsuite>
+ <testsuite name="A Sales Manager" timestamp="2019-02-05T14:42:11" hostname="localhost" time="34.334" errors="0" tests="4" skipped="0" disabled="0" failures="2">
+  <testcase classname="A Sales Manager" name="should be able to create a trainer" time="6.181" />
+  <testcase classname="A Sales Manager" name="should be able to create a associate" time="10.59">
+   <failure type="exception" message="Failed: No element found using locator: By(css selector, body &gt; app-component &gt; div &gt; app-create-user &gt; form &gt; fieldset:nth-child(2) &gt; div)"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
+    at elementArrayFinder.getWebElements.then (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
+    at ManagedPromise.invokeCallback_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
+    at TaskQueue.execute_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2927:27)
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7
+    at process._tickCallback (internal/process/next_tick.js:68:7)Error
+    at ElementArrayFinder.applyAction_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as getText] (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as getText] (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\protractor\built\element.js:831:22)
+    at UserContext.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:233:38)
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+From: Task: Run it("should be able to create a associate") in control flow
+    at UserContext.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:94:19)
+    at attempt (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4297:26)
+    at QueueRunner.run (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4217:20)
+    at runNext (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4257:20)
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4264:13
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4172:9
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:64:48
+    at ControlFlow.emit (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\events.js:62:21)
+    at ControlFlow.shutdown_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2674:10)
+    at shutdownTask_.MicroTask (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2599:53)
+From asynchronous test: 
+Error
+    at Suite.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:230:5)
+    at addSpecsToSuite (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1107:25)
+    at Env.describe (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1074:7)
+    at describe (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4399:18)
+    at Object.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:200:1)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Module.m._compile (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:413:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Object.require.extensions.(anonymous function) [as .ts] (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:416:12)]]>
+   </failure>
+  </testcase>
+  <testcase classname="A Sales Manager" name="should be able to create a staging manager" time="10.926">
+   <failure type="exception" message="Failed: No element found using locator: By(css selector, body &gt; app-component &gt; div &gt; app-create-user &gt; form &gt; fieldset:nth-child(2) &gt; div)"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
+    at elementArrayFinder.getWebElements.then (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
+    at ManagedPromise.invokeCallback_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
+    at TaskQueue.execute_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2927:27)
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7
+    at process._tickCallback (internal/process/next_tick.js:68:7)Error
+    at ElementArrayFinder.applyAction_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as getText] (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as getText] (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\protractor\built\element.js:831:22)
+    at UserContext.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:241:38)
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+From: Task: Run it("should be able to create a staging manager") in control flow
+    at UserContext.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:94:19)
+    at attempt (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4297:26)
+    at QueueRunner.run (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4217:20)
+    at runNext (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4257:20)
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4264:13
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4172:9
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:64:48
+    at ControlFlow.emit (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\events.js:62:21)
+    at ControlFlow.shutdown_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2674:10)
+    at shutdownTask_.MicroTask (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2599:53)
+From asynchronous test: 
+Error
+    at Suite.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:238:5)
+    at addSpecsToSuite (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1107:25)
+    at Env.describe (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1074:7)
+    at describe (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4399:18)
+    at Object.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\e2e\create-user\create-user.e2e-spec.ts:200:1)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Module.m._compile (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:413:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Object.require.extensions.(anonymous function) [as .ts] (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\ts-node\src\index.ts:416:12)]]>
+   </failure>
+  </testcase>
+  <testcase classname="A Sales Manager" name="should be able to create a delivery " time="6.027" />
+ </testsuite>
+ <testsuite name="A user" timestamp="2019-02-05T14:42:45" hostname="localhost" time="4.996" errors="0" tests="3" skipped="0" disabled="0" failures="0">
+  <testcase classname="A user" name="should get an error if they use a sympol in their username" time="1.693" />
+  <testcase classname="A user" name="should get an error if they enter in an invalid password in the first password box" time="1.25" />
+  <testcase classname="A user" name="should get an error if they enter two different passwords" time="1.307" />
+ </testsuite>
+ <testsuite name="When an admin navigates to the client-list page it" timestamp="2019-02-05T14:42:50" hostname="localhost" time="11.232" errors="0" tests="9" skipped="0" disabled="0" failures="0">
+  <testcase classname="When an admin navigates to the client-list page it" name="should navigate to the client-list page" time="2.626" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should accept username input" time="0.113" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield match for search input in one exists" time="0.031" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.181" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should be able to click a searched for client" time="1.23" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should be able to click View Data for all Clients" time="1.074" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0.152" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield a match for search input if many results exist" time="0.132" />
+  <testcase classname="When an admin navigates to the client-list page it" name="should yield no matches if none exist" time="5.132" />
+ </testsuite>
+ <testsuite name="When an Staging Manager navigates to the client-list page it" timestamp="2019-02-05T14:43:01" hostname="localhost" time="11.175" errors="0" tests="9" skipped="0" disabled="0" failures="0">
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should navigate to the client-list page" time="2.632" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should accept username input" time="0.12" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield match for search input if one exists" time="0.02" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.169" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should be able to click a searched for client" time="1.108" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should be able to click View Data for all Clients" time="1.155" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0.16" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield a match for search input if many results exist" time="0.127" />
+  <testcase classname="When an Staging Manager navigates to the client-list page it" name="should yield no matches if none exist" time="5.145" />
+ </testsuite>
+ <testsuite name="When an Delivery/Sales navigates to the client-list page it" timestamp="2019-02-05T14:43:12" hostname="localhost" time="11.199" errors="0" tests="9" skipped="0" disabled="0" failures="0">
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should navigate to the client-list page" time="2.554" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should accept username input" time="0.118" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield match for search input in one exists" time="0.024" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for a search regardless of case" time="0.155" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should be able to click a searched for client" time="1.129" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should be able to click View Data for all Clients" time="1.187" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for a search string with spaces" time="0.191" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield a match for search input if many results exist" time="0.131" />
+  <testcase classname="When an Delivery/Sales navigates to the client-list page it" name="should yield no matches if none exist" time="5.155" />
+ </testsuite>
+ <testsuite name="the batch-list tab" timestamp="2019-02-05T14:43:24" hostname="localhost" time="3.482" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="the batch-list tab" name="should have a batch list table" time="1.4" />
+  <testcase classname="the batch-list tab" name="should have a start date input" time="0.021" />
+  <testcase classname="the batch-list tab" name="should have a end date input" time="0.023" />
+  <testcase classname="the batch-list tab" name="should have a pie cart" time="0.022" />
+ </testsuite>
+ <testsuite name="The All Batches table" timestamp="2019-02-05T14:43:27" hostname="localhost" time="4.585" errors="0" tests="3" skipped="0" disabled="0" failures="0">
+  <testcase classname="The All Batches table" name="should direct you to a batch page" time="2.656" />
+  <testcase classname="The All Batches table" name="should direct you to a batch page with a chart " time="0.021" />
+  <testcase classname="The All Batches table" name="should direct you to a batch page with a table " time="0.021" />
+ </testsuite>
+ <testsuite name="When entering valid data into predictions filter it" timestamp="2019-02-05T14:43:32" hostname="localhost" time="10.367" errors="0" tests="5" skipped="0" disabled="0" failures="1">
+  <testcase classname="When entering valid data into predictions filter it" name="should navigate to the predictions page" time="4.782" />
+  <testcase classname="When entering valid data into predictions filter it" name="should allow user to input valid data" time="0.309" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide a table with predictions" time="0" />
+  <testcase classname="When entering valid data into predictions filter it" name="should provide the same number of rows entered into the filter" time="5.054">
+   <failure type="toEqual" message="Expected 0 to equal 1."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:44:57)
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+  <testcase classname="When entering valid data into predictions filter it" name="should provide details when prediction row is clicked" time="0.222" />
+ </testsuite>
+ <testsuite name="When entering valid data using all filters it" timestamp="2019-02-05T14:43:42" hostname="localhost" time="8.079" errors="0" tests="5" skipped="0" disabled="0" failures="1">
+  <testcase classname="When entering valid data using all filters it" name="should navigate to the predictions page" time="1.485" />
+  <testcase classname="When entering valid data using all filters it" name="should allow a user to input valid data and use all filters" time="1.281" />
+  <testcase classname="When entering valid data using all filters it" name="should provide a table with predictions" time="0" />
+  <testcase classname="When entering valid data using all filters it" name="should provide the same number of rows entered into the filter" time="5.05">
+   <failure type="toEqual" message="Expected 0 to equal 9."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\e2e\predictions\predictions.e2e-spec.ts:90:57)
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2974:25)
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7]]>
+   </failure>
+  </testcase>
+  <testcase classname="When entering valid data using all filters it" name="should provide details when prediction row is clicked" time="0.257" />
+ </testsuite>
+ <testsuite name="When I enter a start date that is more current than the end date it" timestamp="2019-02-05T14:43:50" hostname="localhost" time="1.642" errors="0" tests="2" skipped="0" disabled="0" failures="0">
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should navigate to the predictions page" time="1.358" />
+  <testcase classname="When I enter a start date that is more current than the end date it" name="should allow user to input a start date that is more current than the end date" time="0.284" />
+ </testsuite>
+ <testsuite name="test assocation pagenation functionality" timestamp="2019-02-05T14:43:52" hostname="localhost" time="6.115" errors="0" tests="4" skipped="0" disabled="0" failures="1">
+  <testcase classname="test assocation pagenation functionality" name="should log in" time="5.026">
+   <failure type="exception" message="Failed: No element found using locator: By(css selector, *[id=&quot;username&quot;])"><![CDATA[NoSuchElementError: No element found using locator: By(css selector, *[id="username"])
+    at elementArrayFinder.getWebElements.then (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\protractor\built\element.js:814:27)
+    at ManagedPromise.invokeCallback_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1376:14)
+    at TaskQueue.execute_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2927:27)
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:668:7
+    at process._tickCallback (internal/process/next_tick.js:68:7)Error
+    at ElementArrayFinder.applyAction_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as sendKeys] (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as sendKeys] (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\protractor\built\element.js:831:22)
+    at UserContext.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\e2e\associate-list\associate-list-pagenation.js:16:34)
+    at C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+From: Task: Run it("should log in") in control flow
+    at UserContext.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasminewd2\index.js:94:19)
+    at attempt (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4297:26)
+    at QueueRunner.run (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4217:20)
+    at QueueRunner.execute (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4199:10)
+    at Spec.queueRunnerFactory (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:909:35)
+    at Spec.execute (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:526:10)
+    at UserContext.fn (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:5340:37)
+    at attempt (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4297:26)
+    at QueueRunner.run (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4217:20)
+    at QueueRunner.execute (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4199:10)
+From asynchronous test: 
+Error
+    at Suite.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\e2e\associate-list\associate-list-pagenation.js:14:5)
+    at addSpecsToSuite (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1107:25)
+    at Env.describe (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1074:7)
+    at describe (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4399:18)
+    at Object.<anonymous> (C:\Users\scott\Desktop\git repo\trackforce\NGTrackForce\e2e\associate-list\associate-list-pagenation.js:5:1)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Module.load (internal/modules/cjs/loader.js:599:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)]]>
+   </failure>
+  </testcase>
+  <testcase classname="test assocation pagenation functionality" name="Go to associate list tab" time="0.6" />
+  <testcase classname="test assocation pagenation functionality" name="Should load 60 or less associates." time="0.016" />
+  <testcase classname="test assocation pagenation functionality" name="Should load more associate if page scrolls down and theres more than 60." time="0.473" />
+ </testsuite>
+ <testsuite name="Lets test searching on associates list tab..." timestamp="2019-02-05T14:43:58" hostname="localhost" time="2.815" errors="0" tests="6" skipped="0" disabled="0" failures="0">
+  <testcase classname="Lets test searching on associates list tab..." name="should log in" time="1.54" />
+  <testcase classname="Lets test searching on associates list tab..." name="Go to associate list tab" time="0.371" />
+  <testcase classname="Lets test searching on associates list tab..." name="Test out search by name of associate" time="0.367" />
+  <testcase classname="Lets test searching on associates list tab..." name="Clear the search input box" time="0.045" />
+  <testcase classname="Lets test searching on associates list tab..." name="Test out search by last name" time="0.337" />
+  <testcase classname="Lets test searching on associates list tab..." name="Clear out search input once more and logout" time="0.155" />
+ </testsuite>
+ <testsuite name="Testing associate list page further by changing search status." timestamp="2019-02-05T14:44:01" hostname="localhost" time="2.804" errors="0" tests="11" skipped="0" disabled="0" failures="0">
+  <testcase classname="Testing associate list page further by changing search status." name="should log in" time="1.398" />
+  <testcase classname="Testing associate list page further by changing search status." name="Go to associate list tab" time="0.362" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select mapped: training" time="0.134" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select mapped: reserved" time="0.101" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: SELECTED" time="0.097" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select MAPPED: CONFIRMED" time="0.082" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: TRAINING" time="0.086" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: OPEN" time="0.098" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: SELECTED" time="0.099" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select UNMAPPED: CONFIRMED" time="0.114" />
+  <testcase classname="Testing associate list page further by changing search status." name="Select default" time="0.233" />
+ </testsuite>
+ <testsuite name="Testing associate list via Client Search" timestamp="2019-02-05T14:44:03" hostname="localhost" time="2.954" errors="0" tests="7" skipped="0" disabled="0" failures="0">
+  <testcase classname="Testing associate list via Client Search" name="should log in" time="1.394" />
+  <testcase classname="Testing associate list via Client Search" name="Go to associate list tab" time="0.43" />
+  <testcase classname="Testing associate list via Client Search" name="Should select None" time="0.432" />
+  <testcase classname="Testing associate list via Client Search" name="Should select 22nd Century Technologies" time="0.155" />
+  <testcase classname="Testing associate list via Client Search" name="Should select 3 Edge USA Group, LLC" time="0.228" />
+  <testcase classname="Testing associate list via Client Search" name="Should select 3 S Business Corporation Inc (, LLC" time="0.14" />
+  <testcase classname="Testing associate list via Client Search" name="should log out" time="0.175" />
  </testsuite>
 </testsuites>

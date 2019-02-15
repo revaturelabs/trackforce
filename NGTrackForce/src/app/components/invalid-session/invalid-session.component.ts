@@ -14,10 +14,18 @@ export class InvalidSessionComponent implements OnInit {
   constructor(private authService: AuthenticationService, private navbarService: NavbarService) { }
 
   ngOnInit() {
-    this.navbarService.hide();
+    try{
+      this.navbarService.hide();
+    } catch(error) {
+      console.error("Error in invalid-session.component.ts ngOnInit(): ", error)
+    }
   }
 
   toLogin() {
-    this.authService.logout();
+    try{
+      this.authService.logout();
+    } catch(error) {
+      console.error("Error in invalid-session.component.ts toLogin(): ", error)
+    }
   }
 }

@@ -21,10 +21,7 @@ import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 // import 'rxjs/Rx';
 
 import { async } from '@angular/core/testing';
-
-const ASSOCIATE_KEY = "currentAssociate";
-const USER_KEY = "currentUser";
-const TRAINER_KEY = "currentTrainer";
+import { LocalStorageUtils } from '../../constants/local-storage';
 
 @Injectable()
 export class AuthenticationService {
@@ -73,7 +70,7 @@ export class AuthenticationService {
      * @author Max Dunn
      */
     getUser(): User {
-        const user: User = JSON.parse(localStorage.getItem(USER_KEY));
+        const user: User = JSON.parse(localStorage.getItem(LocalStorageUtils.CURRENT_USER_KEY));
         return user;
     }
 
@@ -82,7 +79,14 @@ export class AuthenticationService {
     }
 
     async getUserRoleFirst(callback = undefined) {
-      this.role = await this.http.get<number>(environment.url + "TrackForce/users/getUserRole").toPromise();
+      this.role = await this.http.get<number>(environment.url + "TrackForce/users/getUserRole")
+          .toPromise()
+          .catch(error => {
+                console.error("Error in authentication.service.ts getUserRoleFirst():", error.message)
+                return Promise.reject()
+            }
+          )
+
       if(callback){
         callback(this.role);
       }
@@ -98,7 +102,7 @@ export class AuthenticationService {
      */
     getAssociate(): Associate {
         const associate: Associate = JSON.parse(
-            localStorage.getItem(ASSOCIATE_KEY)
+            localStorage.getItem(LocalStorageUtils.CURRENT_ASSOCIATE_KEY)
         );
         return associate;
     }
@@ -111,7 +115,7 @@ export class AuthenticationService {
      * @author Max Dunn
      */
     getTrainer(): Trainer {
-        const trainer: Trainer = JSON.parse(localStorage.getItem(TRAINER_KEY));
+        const trainer: Trainer = JSON.parse(localStorage.getItem(LocalStorageUtils.CURRENT_TRAINER_KEY));
         return trainer;
     }
 

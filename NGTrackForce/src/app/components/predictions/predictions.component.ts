@@ -132,7 +132,9 @@ export class PredictionsComponent implements OnInit {
       this.curriculums.delete('');
       this.curriculums.delete('null');
       this.isDataReady = true;
-    });
+    },
+      error => console.error('Error in predictions.component.ts getAllAssociates(): ', error.message)
+    );
   }
 
    /**
@@ -141,7 +143,9 @@ export class PredictionsComponent implements OnInit {
   getClientNames() {
     this.cs.getAllClients().subscribe(data => {
       this.clients = data;
-    });
+    },
+      error => console.error('Error in predictions.component.ts getClientNames(): ', error.message)
+    );
   }
 
   //------------------------------------------------------------------------------------
@@ -196,12 +200,9 @@ export class PredictionsComponent implements OnInit {
    * Done onchange of date fields.
    */
   generateDates(){
-    console.log(this.startDateString);
-    console.log(this.endDateString);
     let startYearParsed = parseInt(this.startDateString.substring(0,4));
     let endYearParsed = parseInt(this.endDateString.substring(0,4));
-    console.log(startYearParsed);
-    console.log(endYearParsed);
+
     if (startYearParsed < 2012 || endYearParsed < 2012) {
       this.dateRangeMessage = "Enter a valid year";
       this.showDateRangeError = true;
@@ -266,7 +267,7 @@ export class PredictionsComponent implements OnInit {
         this.loadingPredictions = false;
       },
 
-      err => err
+      err => console.error('Error in predictions.component.ts getPredictions(): ', err.message)
     )
   }
 
@@ -304,7 +305,7 @@ export class PredictionsComponent implements OnInit {
         }
       },
       error => {
-        console.log(error);
+        console.error("Error in predictions.component.ts getDetails()", error.message);
       });
   }
 }

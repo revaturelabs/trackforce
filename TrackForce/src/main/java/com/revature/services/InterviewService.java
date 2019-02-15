@@ -56,6 +56,9 @@ public class InterviewService {
 	 * @return
 	 */
 	public boolean createInterview(TfInterview interview) {
+		if(interview==null) {//Prevent NullPointerException
+			return false;
+		}
 		return dao.createInterview(interview);
 	}
 	

@@ -77,10 +77,12 @@ public class TrainerResource {
 				logger.info(logMessage + trainer);
 				batches = trainer.getPrimary();
 			} catch (NoResultException nre) {
+				logger.error("No results found. Trainer had no batches.");
 				return Response.status(Status.NO_CONTENT).build();
 			}
 			status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
+		logger.info("Returning all batch data for this Trainer: " + id);
 		return Response.status(status).entity(batches).build();
 	}
 
@@ -104,11 +106,13 @@ public class TrainerResource {
 				logger.info(logMessage + trainer);
 				batches = trainer.getCoTrainer();
 			} catch (NoResultException nre) {
+				logger.error("No results found. CoTrainer had no batches.");
 				return Response.status(Status.NO_CONTENT).build();
 			}
-			status = batches == null || batches.isEmpty() ? Status.NO_CONTENT : Status.OK;
+			status = (batches == null || batches.isEmpty()) ? Status.NO_CONTENT : Status.OK;
 		}
 
+		logger.info("Returning all Batches associated with CoTrainer: " + id);
 		return Response.status(status).entity(batches).build();
 	}
 
@@ -122,16 +126,19 @@ public class TrainerResource {
 		Claims payload = JWTService.processToken(token);
 		Status status = null;
 		if (payload == null || ((String) payload.get("roleID")).equals("5")) {
+			logger.error("Either Payload was null or User had insufficent privileges.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		} else {
 			try {
 				trainer = trainerService.getTrainerByUserId(id);
 			} catch (NoResultException nre) {
+				logger.error("No results found. This User '"+id+"' is not a trainer.");
 				return Response.status(Status.NO_CONTENT).build();
 			}
 			status = trainer == null ? Status.NO_CONTENT : Status.OK;
 		}
 
+		logger.info("Returning Trainer via UserId: " + id);
 		return Response.status(status).entity(trainer).build();
 	}
 	
@@ -149,13 +156,14 @@ public class TrainerResource {
 			logger.info(logMessage + "\n unauthorized; payload == null");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build(); // invalid token
 		} else if (!(((String) payload.get("roleID")).equals("1") || ((String) payload.get("roleID")).equals("5"))) {
-			logger.info(logMessage);
+			logger.info(logMessage + "\n Insufficient Privileges. Either not Admin or is an Associate.");
 			return Response.status(Status.FORBIDDEN).build();
 		} else {
 			logger.info(logMessage);
 			status = trainers == null || trainers.isEmpty() ? Status.NO_CONTENT : Status.OK;
 		}
 		
+		logger.info("Returning all Trainers.");
 		return Response.status(status).entity(trainers).build();
 	}
 
@@ -172,20 +180,23 @@ public class TrainerResource {
 	 */
 	@PUT
 	@ApiOperation(value = "updates trainer values", notes = "The method updates a trainer based on their id.")
-	@Path("/{trainerId}")
+	@Path("/update/{trainerId}")
 	public Response updateTrainer(@PathParam("trainerId") Integer id, TfTrainer trainer,
 	                                @HeaderParam("Authorization") String token) {
 		logger.info("updateTrainer()...");
 		Claims payload = JWTService.processToken(token);
 		if (trainer == null) {
+			logger.error("This Trainer '"+id+"' does not exist.");
 			return Response.status(Status.NO_CONTENT).build();
 		}
 		else if (payload == null || ((String) payload.get("roleID")).equals("5")) {
+			logger.error("Either Payload was null or User had insufficent privileges.");
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		else {
 			System.out.println(payload.get(trainer));
 			trainerService.updateTrainer(trainer);
+			logger.info("Updated Trainer: " + id);
 			return Response.status(Status.ACCEPTED).build();
 		}
 	}

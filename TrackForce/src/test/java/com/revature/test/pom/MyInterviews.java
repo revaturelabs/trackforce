@@ -7,27 +7,23 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class MyInterviews {
+	//Get the element holding the client list
 	public static WebElement getClientSelect(WebDriver driver) {
 		// get the select elements where the name is newClient
-		return driver.findElement(By.xpath("//select[@name='newClient']"));
+		return driver.findElement(By.name("newClient"));
 	}
-	//Warning this method might return A LOT of options (could be deleted).  If you are worried about creating 1000+ WebElements try the next one
-//	public static List<WebElement> getAllClientSelectOptions(WebDriver driver) {
-//		return getClientSelect(driver).findElements(By.cssSelector("*"));
-//	}
+	//Select from the Client List by either value or index 
 	public static WebElement getClientSelectOptionsByValue(WebDriver driver, String value) {
 		return getClientSelect(driver).findElement(By.cssSelector("option[value="+ value +"]"));
 	}
 	public static WebElement getClientSelectOptionsByIndex(WebDriver driver, int index) {
 		return getClientSelect(driver).findElement(By.cssSelector("option:nth-child("+ index +")"));
 	}
+	//Get the element holding the Interview type dropdown
 	public static WebElement getTypeSelect(WebDriver driver) {
 		return driver.findElement(By.name("type"));
 	}
-	//might be obsolete but returns not too much WebElements
-//	public static List<WebElement> getTypeSelectOptions(WebDriver driver) {
-//		return getTypeSelect(driver).findElements(By.cssSelector("*"));
-//	}
+	//Select Interview type either by value (i.e."Phone") or by list index
 	public static WebElement getTypeSelectOptionsByValue(WebDriver driver, String value) {
 		return getTypeSelect(driver).findElement(By.cssSelector("option[value="+ value +"]"));
 	}
@@ -40,8 +36,15 @@ public class MyInterviews {
 	public static WebElement getAddInterviewButton(WebDriver driver) {
 		return driver.findElement(By.id("add-interview"));
 	}
-	public static WebElement getTable(WebDriver driver) {
-		return driver.findElement(By.className("table"));
+	public static WebElement getInterviewDate(WebDriver driver) {
+		return driver.findElement(By.name("startDate"));
+	}
+	//Works for both the "Add Interview" test and "Update Interview" test, since the alert has a timeout
+	public static WebElement getSuccessAlert(WebDriver driver) {
+		return driver.findElement(By.className("alert-success"));
+	}
+	public static WebElement getFailureAlert(WebDriver driver) {
+		return driver.findElement(By.id("failureAlert"));
 	}
 	/*
 	 * returns the row index which contains specified client name, return -1 if unsuccessful  
@@ -66,5 +69,10 @@ public class MyInterviews {
 	}
 	public static WebElement getInterviewDateByRowIndex(WebDriver driver, int index) {
 		return driver.findElement(By.cssSelector(".table > tbody > tr:nth-child("+index+") > td:nth-child(4)"));
+	}
+	//fetch the number of rows currently in the My Interviews table
+	public static Integer getNumberOfInterviews(WebDriver driver) {
+		//xpath to the first data in each row of the Interviews table returns a list of those elements with size equal to # rows
+		return driver.findElements(By.xpath("/html/body/app-component/div/app-myinterview-view/div/div[2]/table/tbody/tr/td[1]")).size();
 	}
 }

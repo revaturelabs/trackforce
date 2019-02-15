@@ -24,6 +24,7 @@ import { User } from '../../models/user.model';
 import{ MarketingStatus } from '../../models/marketing-status.model';
 import { Associate } from '../../models/associate.model';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { LocalStorageUtils } from '../../constants/local-storage';
 
 describe('HomeComponent', () => {
   let requestService: RequestService;
@@ -68,7 +69,7 @@ describe('HomeComponent', () => {
     // associate3.marketingStatus = marketingStatus3;
 
 
-    localStorage.setItem('currentAssociates',JSON.stringify(associates));
+    localStorage.setItem(LocalStorageUtils.CURRENT_ASSOCIATES_PLURAL_KEY,JSON.stringify(associates));
 
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;

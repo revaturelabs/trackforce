@@ -10,7 +10,7 @@ import { ChartOptions } from '../../models/ng2-charts-options.model';
 import '../../constants/selected-status.constants';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { Color } from 'ng2-charts';
-
+import { LocalStorageUtils } from '../../constants/local-storage';
 
 @Component({
   selector: 'app-skillset',
@@ -65,7 +65,9 @@ export class SkillsetComponent implements OnInit {
   /**
    * The dummy data to compare against for our tests
    */
-  DUMMY_DATA = [{ data: [1, 1, 1, 1, 1], label: 'Mapped' }, { data: [1, 1, 1, 1, 1], label: 'Unmapped' }];
+  DUMMY_DATA = [
+    { data: [1, 1, 1, 1, 1], label: 'Mapped' },
+    { data: [1, 1, 1, 1, 1], label: 'Unmapped' }];
 
   /**
    * The type of chart
@@ -174,7 +176,9 @@ export class SkillsetComponent implements OnInit {
       this.status = (((!this.skillsetLabels) || (!this.skillsetLabels.length)) &&
         ((!this.skillsetData) || (!this.skillsetData.length))) ?
         'There is no batch data on this status...' : 'Loaded!';
-    });
+    },
+      error => console.error('Error in skillset.component.ts ngOnInit(): ', error.message)
+    );
 
     this.chartOptions.title.text = this.selectedStatus;
 
@@ -235,7 +239,7 @@ export class SkillsetComponent implements OnInit {
   }
 
   public getUnmappedData() {
-    this.unmappedData = JSON.parse(localStorage.getItem('unmappedData'));
+    this.unmappedData = JSON.parse(localStorage.getItem(LocalStorageUtils.UNMAPPED_DATA_KEY));
   }
 
   /**
@@ -246,9 +250,9 @@ export class SkillsetComponent implements OnInit {
  * clicked.
  */
   unmappedOnClick(evt: any) {
-    if (evt.active[0] !== undefined) {
+    if (evt.active[1] !== undefined) {
       //navigate to skillset component
-      this.router.navigate([`skillset/${evt.active[0]._index}`]);
+      this.router.navigate([`skillset/${evt.active[1]._index}`]);
     }
   }
 

@@ -9,7 +9,7 @@ import { ThemeConstants } from '../../constants/theme.constants';
 import { ChartOptions } from '../../models/ng2-charts-options.model';
 import '../../constants/selected-status.constants';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
-
+import { LocalStorageUtils } from '../../constants/local-storage';
 
 @Component({
   selector: 'app-client-mapped',
@@ -195,7 +195,7 @@ export class ClientMappedComponent implements OnInit {
   };
 
   public getMappedData() {
-    this.mappedData = JSON.parse(localStorage.getItem('mappedData'));
+    this.mappedData = JSON.parse(localStorage.getItem(LocalStorageUtils.MAPPED_DATA_KEY));
   }
 
   public changeSelectedStatus(statusId: number) {
@@ -213,7 +213,7 @@ export class ClientMappedComponent implements OnInit {
 
   public getAssociatesByStatus(statusId: number) {
     // HTTP request to fetch data. See client-service
-    this.associateService.getAssociatesByStatus(statusId).subscribe(data => {
+    this.associateService.getAssociatesByStatus(this.statusID).subscribe(data => {
       /*
       Store the data from the http request in temporary objects.
       In order for the2 property binding refresh on clientMappedData
@@ -244,7 +244,9 @@ export class ClientMappedComponent implements OnInit {
       //Set data, trigger property binding
       this.clientMappedData = temp_clientMappedData;
       this.clientMappedLabels = temp_clientMappedLabels;
-    });
+    },
+      error => console.error('Error in client-mapped.component.ts getAssociatesByStatus(): ', error.message)
+    );
 
   }
 

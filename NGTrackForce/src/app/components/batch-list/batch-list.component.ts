@@ -89,8 +89,7 @@ export class BatchListComponent implements OnInit {
     this.fromString = this.startDate.toJSON().substring(0, 10);
     this.toString = this.endDate.toJSON().substring(0, 10);
     this.dataReady = false;
-    console.log(this.authService.getTrainer());
-    console.log(user);
+
     this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
       batches => {
         this.batches = batches.filter(
@@ -108,8 +107,6 @@ export class BatchListComponent implements OnInit {
 							let trainer = batch.trainer.id !== this.authService.getTrainer().id;
 			        let coTrainer = batch.coTrainer && !batch.coTrainer.includes(this.authService.getTrainer());
 			        if (trainer && (coTrainer == undefined || coTrainer)) {
-								console.log(batch.coTrainer);
-								console.log(batch);
 			          return false;
 			        }
 						}
@@ -123,7 +120,7 @@ export class BatchListComponent implements OnInit {
         this.dataReady = true;
       },
       error => {
-        console.log(error);
+        console.error('Error in batch-list.component.ts ngOnInit(): ', error.message)
       }
     );
   }
@@ -145,9 +142,6 @@ export class BatchListComponent implements OnInit {
 		this.startDate.setMinutes(this.startDate.getMinutes() + this.startDate.getTimezoneOffset());
     this.endDate = new Date(this.toString);
 		this.endDate.setMinutes(this.endDate.getMinutes() + this.endDate.getTimezoneOffset());
-
-    console.log(this.startDate);
-    console.log(this.endDate);
 
     let longStartDate: number;
     let longEndDate: number;

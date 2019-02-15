@@ -45,8 +45,12 @@ export class InterviewDetailsComponent implements OnInit {
           this.interview = data;
           this.isDataEmpty = this.interview == null;
           this.isDataReady = true;
-        });
-    });
+        },
+          error => console.error('Error in interview-details.component.ts ngOnInit(): ', error.message)
+        );
+    },
+      error => console.error('Error in interview-details.component.ts ngOnInit(): ', error.message)
+    );
 
     this.authService.getUserRoleFirst((userRole) => {
       this.userRole = userRole;
@@ -54,7 +58,6 @@ export class InterviewDetailsComponent implements OnInit {
   }
 
   ngAfterContentChecked() {
-    console.log('userRole: ' + this.userRole);
     this.isDisabledClientFeedback();
     this.isDisabledAssociateFeedback();
     this.isDisabledExpectedSkillsAndQuestions();
@@ -80,13 +83,13 @@ export class InterviewDetailsComponent implements OnInit {
       },
       error => {
         this._displayPrompt(false, PromptClass.FAILURE, InterviewUpdate.FAILURE);
-        console.error(error);
+        console.error("Error in interview-details.component.ts commitchanges()", error.message);
       }
-    );
+    )
   }
 
   isDisabledAssociateFeedback() {
-    if ( this.userRole === 3 || this.userRole === 4 || this.userRole === 1)
+    if ( this.userRole === 3 || this.userRole === 4 || this.userRole === 1 || this.userRole === 2)
     {
       this.isDisabledAssociate = true;
     }
@@ -97,7 +100,7 @@ export class InterviewDetailsComponent implements OnInit {
   }
 
   isDisabledClientFeedback() {
-    if ( this.userRole === 3 || this.userRole === 4 || this.userRole === 1 )
+    if ( this.userRole === 3 || this.userRole === 4 || this.userRole === 1)
     {
       this.isDisabledClient = false;
     }
@@ -109,7 +112,7 @@ export class InterviewDetailsComponent implements OnInit {
 
   isDisabledInterviewQuestions() {
     // this.user = this.authService.getUser();
-    if ( this.userRole === 3 || this.userRole === 4 || this.userRole === 1 )
+    if ( this.userRole === 3 || this.userRole === 4 || this.userRole === 1 || this.userRole === 2)
     {
       this.isDisabledQuestions = true;
     }
@@ -120,7 +123,7 @@ export class InterviewDetailsComponent implements OnInit {
   }
 
   isDisabledExpectedSkillsAndQuestions() {
-    if ( this.userRole === 3 || this.userRole === 4 || this.userRole === 1 )
+    if ( this.userRole === 3 || this.userRole === 4 || this.userRole === 1)
     {
       this.isDisabledSkillsAndQuestions = false;
     }

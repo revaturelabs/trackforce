@@ -16,13 +16,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.HibernateException;
 
 import com.revature.entity.TfAssociate;
 import com.revature.entity.TfInterview;
-import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.BatchService;
@@ -56,13 +56,9 @@ public class InterviewResource {
 	// This is to allow for Mockito tests, which have problems with static methods
 	// This is here for a reason!
 	// - Adam 06.18.06.13
-	static AssociateService associateService = new AssociateService();
-	static BatchService batchService = new BatchService();
-	static ClientService clientService = new ClientService();
-	static CurriculumService curriculumService = new CurriculumService();
-	static InterviewService interviewService = new InterviewService();
-	static TrainerService trainerService = new TrainerService();
-	static UserService userService = new UserService();
+	public AssociateService getAssociateService() { return new AssociateService(); }
+	public InterviewService getInterviewService() { return new InterviewService(); }
+	public UserService getUserService() { return new UserService(); }
 
 	/**
 	 * 
@@ -80,18 +76,20 @@ public class InterviewResource {
 	@ApiOperation(value = "returns all interviews", notes = "Gets a list of all interviews that can be sorted in ascending or descending order based on date.")
 	public Response getAllInterviews(@HeaderParam("Authorization") String token, @QueryParam("sort") String sort) {
 
-		StringBuilder logMessage = new StringBuilder("getAllInterviews()...");
+		StringBuilder logMessage = new StringBuilder("Call Method getAllInterviews()");
 		Status status = null;
 
-		if (UserAuthentication.Authorized(token, new int[] { 1, 3, 4 })) {
-			List<TfInterview> interviews = interviewService.getAllInterviews();
+		if (authorized(token, 1, 3, 4)) {
+			List<TfInterview> interviews = getInterviewService().getAllInterviews();
 			status = (interviews == null || interviews.isEmpty()) ? Status.NO_CONTENT : Status.OK;
-			logMessage.append("\n	interviews.size() = " + interviews.size());
+			logMessage.append("\n	interviews.size() = " + ((interviews != null) ? interviews.size() : "null"));
 			logger.info(logMessage);
-			return Response.status(status).entity(interviews).build();
+			logger.info("Returning ALL Interviews. Admin/Sales/Staging roles only.");
+			return responseStatus(status).entity(interviews).build();
 		} else {
 			logger.info(logMessage);
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+			logger.error("User had insufficent privileges. Unathorized access.");
+			return responseStatus(Status.UNAUTHORIZED).entity(jwtInvalidToken(token)).build();
 		}
 
 	}
@@ -107,7 +105,7 @@ public class InterviewResource {
 	 * @param interview
 	 * @return
 	 */
-	@Path("/{associateid}")
+	@Path("/create/{associateid}")
 	@POST
 	@ApiOperation(value = "Creates interview", notes = "Creates an interview for a specific associate based on associate id. Returns 201 if successful, 401 if not.")
 	public Response createInterview(@PathParam("associateid") int associateid, @HeaderParam("Authorization") String token, TfInterview interview) {
@@ -115,15 +113,17 @@ public class InterviewResource {
 		Status status = null;
 		
 		if (canAccessInterview(token, associateid)) {
-			interview.setAssociate(associateService.getAssociate(associateid));
+			interview.setAssociate(getAssociateService().getAssociate(associateid));
 			interview.setJobDescription("No current description.");
-			interviewService.createInterview(interview);
+			getInterviewService().createInterview(interview);
 			status = Status.CREATED;
 		} else {
+			logger.error("User not Authenticated. Unathorized access.");
 			status = Status.UNAUTHORIZED;
 		}
 
-		return Response.status(status).build();
+		logger.info("Interview created for Associate: " + associateid);
+		return responseStatus(status).build();
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class InterviewResource {
 	 * @throws HibernateException
 	 * @throws IOException
 	 */
-	@Path("/{associateid}")
+	@Path("/associate/{associateid}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "Returns all interviews for an associate", notes = "Returns a list of all interviews.")
@@ -150,11 +150,12 @@ public class InterviewResource {
 		logger.info("getAllInterviews()...");
 
 		if (canAccessInterview(token, associateId)) {
-			List<TfInterview> interviewList = interviewService.getInterviewsByAssociate(associateId);
-			logger.info("list has this data ->"+interviewList);
-			return Response.status(Status.OK).entity(interviewList).build();
+			List<TfInterview> interviewList = getInterviewService().getInterviewsByAssociate(associateId);
+			logger.info("Associate: " + associateId + " list has this data ->"+interviewList);
+			return responseStatus(Status.OK).entity(interviewList).build();
 		} else {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+			logger.error("User not Authenticated. Unathorized access.");
+			return responseStatus(Status.UNAUTHORIZED).entity(jwtInvalidToken(token)).build();
 		}
 	}
 
@@ -174,12 +175,14 @@ public class InterviewResource {
 	public Response getInterviewById(@HeaderParam("Authorization") String token, @PathParam("interviewId") Integer interviewId) throws HibernateException, IOException {
 		logger.info("getInterviewById()...");
 
-		TfInterview interview = interviewService.getInterviewById(interviewId);
+		TfInterview interview = getInterviewService().getInterviewById(interviewId);
 
 		if (interview != null && canAccessInterview(token, interview.getAssociate().getId())) {
-			return Response.status(Status.OK).entity(interview).build();
+			logger.info("Returning Interview: " + interviewId);
+			return responseStatus(Status.OK).entity(interview).build();
 		} else {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+			logger.error("User not Authenticated. Unathorized access.");
+			return responseStatus(Status.UNAUTHORIZED).entity(jwtInvalidToken(token)).build();
 		}
 	}
 
@@ -195,15 +198,16 @@ public class InterviewResource {
 	 * @param interview
 	 * @return
 	 */
-	@Path("/{interviewid}")
+	@Path("/update/{interviewid}")
 	@ApiOperation(value = "updates interview", notes = " Updates interview")
 	@PUT
 	public Response updateInterview(@PathParam("interviewid") int interviewId, @HeaderParam("Authorization") String token, TfInterview interview) {
 		logger.info("updateInterview()...");
 
-		if (interview == null)
-			return Response.status(Status.BAD_REQUEST).build();
-
+		if (interview == null) {
+			logger.error("Interview object was null.");
+			return responseStatus(Status.BAD_REQUEST).build();
+		}
 		/*
 		 * FIXME - Not sure why the interview ID was passed in as a path param with the interview
 		 * object, the interview object should have the interview ID already. There is no setter for
@@ -212,10 +216,12 @@ public class InterviewResource {
 		 */
 		
 		if (canAccessInterview(token, interview.getAssociate().getId())) {
-			interviewService.updateInterview(interview);
-			return Response.status(Status.ACCEPTED).build();
+			getInterviewService().updateInterview(interview);
+			logger.info("Updated Interview: " +interviewId);
+			return responseStatus(Status.ACCEPTED).build();
 		} else {
-			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+			logger.error("User not Authenticated. Unathorized access.");
+			return responseStatus(Status.UNAUTHORIZED).entity(jwtInvalidToken(token)).build();
 		}
 	}
 
@@ -227,32 +233,69 @@ public class InterviewResource {
 	 * @param associateId
 	 * @return
 	 */
-	private boolean canAccessInterview(String token, int associateId) {
-		Claims payload = JWTService.processToken(token);
-		if (payload == null)
+	public boolean canAccessInterview(String token, int associateId) {
+		Claims payload = jwtProcessToken(token);
+		if (payload == null) {
+			logger.error("Payload was null.");
 			return false;
-
+		}
 		int role = 0;
 		try {
-			role = Integer.parseInt((String)payload.get("roleID"));
+			role = parseRole((String)payload.get("roleID"));
 		} catch (NumberFormatException nfe) {
+			logger.error("RoleId was not an integer.");
+			logger.error(nfe.getMessage());
 			return false;
 		}
-
 		// These roles have unlimited access to interviews
-		if (role == 1 || role == 3 || role == 4)
+        //v1811: role == 2 was temp added to bypass a nullpointerexception thrown
+        // when the trainer does not have a batch assigned to them
+        // When trainers can be properly assigned to batches or updated for certain batches,
+        // then removal of role==2 can be done to allow the trainer only to view their batches' associates.
+        //v1811: Currently throws a nullpointerexception if the trainer does not have a batch assigned to them.
+        // Does not hit this point because the previous group check of role types returns true for trainer.
+		// These roles have unlimited access to interviews
+		if (role == 1 || role == 2 || role == 3 || role == 4)
 			return true;
 
-		TfUser user = userService.getUser(payload.getSubject());
-		TfAssociate assoc = associateService.getAssociateByUserId(user.getId());
+		TfUser user = getUserService().getUser(payload.getSubject());
+		TfAssociate assoc = getAssociateService().getAssociateByUserId(user.getId());
 
 		if (role == 5) {
+			logger.info("Role was Associate. Obtaining associate of this id: " + associateId);
 			return (assoc.getId() == associateId);
-		} else if (role == 2) {
-			TfTrainer trainer = trainerService.getTrainerByUserId(user.getId());
-			return (trainer.getPrimary().contains(assoc.getBatch()));
-		} else {
+		} else {//if (role == 2) {
+//			TfTrainer trainer = getTrainerService().getTrainerByUserId(user.getId());
+//			logger.info("Role was Trainer. Getting all batch associates.");
+//			return (trainer.getPrimary().contains(assoc.getBatch()));
+//		} else {
+			logger.error("RoleId was not in range of 1-5.");
 			return false; // Somehow a user ended up with a role not in [1,5]
 		}
+	}
+	
+	/**
+	 * Calls UserService.Authorized to determine if a user is authorized. 
+	 * Takes varargs ints specifying which User IDs (1=admin, 5=associate) are allowed on the page.
+	 * Allows for Mockito testing 
+	 * @author Michael Tinning, Batch1811
+	 * @param token
+	 * @param ids
+	 * @return true if user token is allowed on the page, else false
+	 */
+	public Boolean authorized(String token, int ... ids) {
+		return UserAuthentication.Authorized(token, ids);
+	}
+	public ResponseBuilder responseStatus(Status status) {
+		return Response.status(status);
+	}
+	public Claims jwtProcessToken(String token) {
+		return JWTService.processToken(token);
+	}
+	public Integer parseRole(String role) {
+		return Integer.parseInt(role);
+	}
+	public String jwtInvalidToken(String token) {
+		return JWTService.invalidTokenBody(token);
 	}
 }

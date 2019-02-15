@@ -15,7 +15,8 @@ import { ChartOptions } from '../../models/ng2-charts-options.model';
 import '../../constants/selected-status.constants';
 import { SelectedStatusConstants } from '../../constants/selected-status.constants';
 import { Associate } from '../../models/associate.model';
-
+import { of } from 'rxjs/observable/of';
+import { LocalStorageUtils } from '../../constants/local-storage';
 
 @Component({
   selector: 'app-home',
@@ -104,25 +105,26 @@ export class HomeComponent implements OnInit {
         this.count = count;
         this.undeployedData[0] = this.count['counts'][0];
         this.undeployedData[1] = this.count['counts'][1];
-        localStorage.setItem('undeployedData', JSON.stringify(this.undeployedData));
+        localStorage.setItem(LocalStorageUtils.UNDEPLOYED_DATA_KEY, JSON.stringify(this.undeployedData));
 
         this.deployedData[0] = this.count['counts'][2];
         this.deployedData[1] = this.count['counts'][3];
-        localStorage.setItem('deployedData', JSON.stringify(this.deployedData));
+        localStorage.setItem(LocalStorageUtils.DEPLOYED_DATA_KEY, JSON.stringify(this.deployedData));
 
         this.unmappedData[0] = this.count['counts'][4];
         this.unmappedData[1] = this.count['counts'][5];
         this.unmappedData[2] = this.count['counts'][6];
         this.unmappedData[3] = this.count['counts'][7];
-        localStorage.setItem('unmappedData', JSON.stringify(this.unmappedData));
+        localStorage.setItem(LocalStorageUtils.UNMAPPED_DATA_KEY, JSON.stringify(this.unmappedData));
 
         this.mappedData[0] = this.count['counts'][8];
         this.mappedData[1] = this.count['counts'][9];
         this.mappedData[2] = this.count['counts'][10];
         this.mappedData[3] = this.count['counts'][11];
-        localStorage.setItem('mappedData', JSON.stringify(this.mappedData));
+        localStorage.setItem(LocalStorageUtils.MAPPED_DATA_KEY, JSON.stringify(this.mappedData));
         this.loading = false;
-      }
+      },
+      error => console.error('Error in home.component.ts getCountForCharts(): ', error.message)
     );
   }
 
@@ -154,49 +156,6 @@ export class HomeComponent implements OnInit {
   public getUnmappedData(): number[] {
     return this.unmappedData;
   }
-
-  /////////////////////////////////////////////////////////////
-  // THESE FUNCTIONS ARE BEING CALLED SOMEWHERE
-  // THEY SHOULD NOT BE CALLED BECUASE THERE IS NO RESOURCE SERVER SIDE
-  // FOR THE SERVICES TO ACCESS (NO END POINTS)
-  // But we do need to keep them for eventual SalesForce integration
-  //
-  // /**
-  //  * @function populateDB
-  //  * @description Populates the database with information from
-  //  *              data script
-  //  */
-  // populateDB() {
-  //   this.rs.populateDB().subscribe(response => {
-  //     this.load();
-  //   }, err => {
-  //   });
-  // }
-  //
-  // /**
-  //  * @function deleteDB
-  //  * @description Truncates all the tables in the database
-  //  */
-  // deleteDB() {
-  //   this.rs.deleteDB().subscribe(response => {
-  //     this.load();
-  //   }, err => {
-  //   })
-  // }
-  //
-  // /**
-  //  * @function populateDBSF
-  //  * @description SF Populates the database with information
-  //  *              from data script
-  //  * For Salesforce data integration
-  //  */
-  // populateDBSF() {
-  //   this.rs.populateDBSF().subscribe(response => {
-  //     this.load();
-  //   }, err => {
-  //   });
-  // }
-  ////////////////////////////////////////////////////////////////
 }
 
 enum Path {

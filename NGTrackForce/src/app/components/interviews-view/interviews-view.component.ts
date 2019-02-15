@@ -5,7 +5,7 @@ import { AuthenticationService } from '../../services/authentication-service/aut
 import { User } from '../../models/user.model';
 import { Interview } from '../../models/interview.model';
 import { InterviewService } from '../../services/interview-service/interview.service';
-
+import { LocalStorageUtils } from '../../constants/local-storage';
 
 /**
 *@description This will be for the staging manager to provide feedback from the client
@@ -40,7 +40,7 @@ export class InterviewsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem("currentUser"));
+    this.user = JSON.parse(localStorage.getItem(LocalStorageUtils.CURRENT_USER_KEY));
     if (this.authService.getUserRole() === 1 || this.authService.getUserRole() === 3 ||this.authService.getUserRole()===4) {
       this.canUpdate = true; // let the user update data if user is admin or manager
     }
@@ -52,8 +52,9 @@ export class InterviewsComponent implements OnInit {
     this.interviewService.getAllInterviews().subscribe(
      data => {
         this.interviews = data;
-      }
-    )
+      },
+        error => console.error('Error in interviews-view.component.ts getInterviews(): ', error.message)
+      )
   }
 
   // updateInterviews() {

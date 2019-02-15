@@ -24,6 +24,7 @@ public class UserAuthentication {
 		Claims payload = JWTService.processToken(token);
 		//makes sure payload is not null
 		if (payload == null) {
+			LogUtil.logger.error("Payload was null.");
 			return false;
 		}else {
 			//checks if the users role# is within the parameter for the request
@@ -36,6 +37,7 @@ public class UserAuthentication {
 				return true;
 			}else {
 				//if not then they are denied 
+				LogUtil.logger.error("User is not authorized for this page.");
 				return false;
 			}
 		}

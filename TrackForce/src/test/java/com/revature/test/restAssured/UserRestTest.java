@@ -40,7 +40,7 @@ import io.restassured.specification.RequestSpecification;
  *   4. Using an unauthorized token (i.e. associate token)
  *   5. Bad data
  */
-public class UserResourceTest {
+public class UserRestTest {
 
 	static final String URL = "http://52.87.205.55:8086/TrackForce/users";
 	//static final String URL = "http://localhost:8085/TrackForce/users";

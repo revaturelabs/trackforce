@@ -68,6 +68,10 @@ public class UserResource {
 	 * @param newUser
 	 * @return
 	 */
+	/*
+	 * This method can create new Associates as well as new Trainers, so the newAssociate and newTrainer methods
+	 * are unused and can likely be deleted. They may need their calls updated on the Angular side, however
+	 */
 	@Path("/newUser")
 	@POST
 	@Consumes("application/json")
@@ -185,13 +189,6 @@ public class UserResource {
 		final String varName = "result";
 		JsonObject json = new JsonObject();
 		String message;
-		/*
-		 * if(userService.getUser(username) == null) { json.addProperty(varName,
-		 * "true"); message = json.toString(); return
-		 * Response.ok(message,MediaType.TEXT_PLAIN).build(); } else {
-		 * json.addProperty(varName, "false"); message = json.toString(); return
-		 * Response.ok(message,MediaType.TEXT_PLAIN).build(); }
-		 */
 		Boolean found = getUserService().getUser(username) == null;
 		json.addProperty(varName, found.toString());
 		message = json.toString();
@@ -459,32 +456,12 @@ public class UserResource {
 		return new AssociateService();
 	}
 
-	public BatchService getBatchService() {
-		return new BatchService();
-	}
-
-	public ClientService getClientService() {
-		return new ClientService();
-	}
-
-	public CurriculumService getCurriculumService() {
-		return new CurriculumService();
-	}
-
-	public InterviewService getInterviewService() {
-		return new InterviewService();
-	}
-
 	public TrainerService getTrainerService() {
 		return new TrainerService();
 	}
 
 	public UserService getUserService() {
 		return new UserService();
-	}
-
-	public MarketingStatusService getMarketingStatusService() {
-		return new MarketingStatusService();
 	}
 
 	public JWTService getJWTService() {

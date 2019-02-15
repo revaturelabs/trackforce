@@ -27,7 +27,7 @@ import io.restassured.response.Response;
  * @author Jesse, Andy
  * @since 06.18.06.16
  */
-public class TrainerResourceTest {
+public class TrainerRestTest {
 
 	static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
 //	static final String URL = "http://localhost:8085/TrackForce/trainers";

@@ -22,7 +22,7 @@ import io.restassured.response.Response;
  * @author Jesse
  * @since 06.18.06.16
  */
-public class CurriculumResourceTest {
+public class CurriculumRestTest {
 	
     //static final String URL = EnvManager.TomTrackForce_URL + "skillset/";
 	static final String URL = "http://52.87.205.55:8086/TrackForce/skillset";

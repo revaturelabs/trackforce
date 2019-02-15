@@ -100,7 +100,7 @@ export class AssociateService {
     } else {
       this.allAssociates$.next(JSON.parse(localStorage.getItem(key)))
     }
-          
+
     return this.allAssociates$;
   }
 
@@ -187,7 +187,6 @@ export class AssociateService {
     });
   }
 
-
   /**
    *
    * This method updates the associate in the database
@@ -226,7 +225,7 @@ export class AssociateService {
     } else {
       count.next(JSON.parse(localStorage.getItem(key)))
     }
-          
+
     return count;
   }
 
@@ -259,7 +258,7 @@ export class AssociateService {
     } else {
       count.next(JSON.parse(localStorage.getItem(key)))
     }
-          
+
     return count;
   }
 
@@ -342,7 +341,7 @@ export class AssociateService {
     } else {
       this.currentAssociateSnapshot$.next(JSON.parse(localStorage.getItem(key)))
     }
-          
+
     return this.currentAssociateSnapshot$;
   }
 }

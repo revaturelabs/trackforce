@@ -94,12 +94,7 @@ public class UserResourceTest {
 		UserResource userSpy = spy(new UserResource());
 		
 		doReturn(associateServe).when(userSpy).getAssociateService();
-		doReturn(batchServe).when(userSpy).getBatchService();
-		doReturn(clientServe).when(userSpy).getClientService();
-		doReturn(curriculumServe).when(userSpy).getCurriculumService();
-		doReturn(interviewServe).when(userSpy).getInterviewService();
 		doReturn(userServe).when(userSpy).getUserService();
-		doReturn(marketingServe).when(userSpy).getMarketingStatusService();
 		doReturn(trainerServe).when(userSpy).getTrainerService();
 		doReturn(payload).when(userSpy).jwtServiceProcessToken(anyString());
 		
@@ -127,12 +122,7 @@ public class UserResourceTest {
 		UserResource userSpy = spy(new UserResource());
 		
 		doReturn(associateServe).when(userSpy).getAssociateService();
-		doReturn(batchServe).when(userSpy).getBatchService();
-		doReturn(clientServe).when(userSpy).getClientService();
-		doReturn(curriculumServe).when(userSpy).getCurriculumService();
-		doReturn(interviewServe).when(userSpy).getInterviewService();
 		doReturn(userServe).when(userSpy).getUserService();
-		doReturn(marketingServe).when(userSpy).getMarketingStatusService();
 		doReturn(trainerServe).when(userSpy).getTrainerService();
 		doReturn(null).when(userSpy).jwtServiceProcessToken(anyString());
 		
@@ -161,12 +151,7 @@ public class UserResourceTest {
 		UserResource userSpy = spy(new UserResource());
 		
 		doReturn(associateServe).when(userSpy).getAssociateService();
-		doReturn(batchServe).when(userSpy).getBatchService();
-		doReturn(clientServe).when(userSpy).getClientService();
-		doReturn(curriculumServe).when(userSpy).getCurriculumService();
-		doReturn(interviewServe).when(userSpy).getInterviewService();
 		doReturn(userServe).when(userSpy).getUserService();
-		doReturn(marketingServe).when(userSpy).getMarketingStatusService();
 		doReturn(trainerServe).when(userSpy).getTrainerService();
 		doReturn(payload).when(userSpy).jwtServiceProcessToken(anyString());
 		
@@ -196,12 +181,7 @@ public class UserResourceTest {
 		UserResource userSpy = spy(new UserResource());
 		
 		doReturn(associateServe).when(userSpy).getAssociateService();
-		doReturn(batchServe).when(userSpy).getBatchService();
-		doReturn(clientServe).when(userSpy).getClientService();
-		doReturn(curriculumServe).when(userSpy).getCurriculumService();
-		doReturn(interviewServe).when(userSpy).getInterviewService();
 		doReturn(userServe).when(userSpy).getUserService();
-		doReturn(marketingServe).when(userSpy).getMarketingStatusService();
 		doReturn(trainerServe).when(userSpy).getTrainerService();
 		doReturn(payload).when(userSpy).jwtServiceProcessToken(anyString());
 		
@@ -229,12 +209,7 @@ public class UserResourceTest {
 		UserResource userSpy = spy(new UserResource());
 		
 		doReturn(associateServe).when(userSpy).getAssociateService();
-		doReturn(batchServe).when(userSpy).getBatchService();
-		doReturn(clientServe).when(userSpy).getClientService();
-		doReturn(curriculumServe).when(userSpy).getCurriculumService();
-		doReturn(interviewServe).when(userSpy).getInterviewService();
 		doReturn(userServe).when(userSpy).getUserService();
-		doReturn(marketingServe).when(userSpy).getMarketingStatusService();
 		doReturn(trainerServe).when(userSpy).getTrainerService();
 		doReturn(payload).when(userSpy).jwtServiceProcessToken(anyString());
 		
@@ -262,12 +237,7 @@ public class UserResourceTest {
 		UserResource userSpy = spy(new UserResource());
 		
 		doReturn(associateServe).when(userSpy).getAssociateService();
-		doReturn(batchServe).when(userSpy).getBatchService();
-		doReturn(clientServe).when(userSpy).getClientService();
-		doReturn(curriculumServe).when(userSpy).getCurriculumService();
-		doReturn(interviewServe).when(userSpy).getInterviewService();
 		doReturn(userServe).when(userSpy).getUserService();
-		doReturn(marketingServe).when(userSpy).getMarketingStatusService();
 		doReturn(trainerServe).when(userSpy).getTrainerService();
 		doReturn(payload).when(userSpy).jwtServiceProcessToken(anyString());
 		
@@ -295,12 +265,7 @@ public class UserResourceTest {
 		UserResource userSpy = spy(new UserResource());
 		
 		doReturn(associateServe).when(userSpy).getAssociateService();
-		doReturn(batchServe).when(userSpy).getBatchService();
-		doReturn(clientServe).when(userSpy).getClientService();
-		doReturn(curriculumServe).when(userSpy).getCurriculumService();
-		doReturn(interviewServe).when(userSpy).getInterviewService();
 		doReturn(userServe).when(userSpy).getUserService();
-		doReturn(marketingServe).when(userSpy).getMarketingStatusService();
 		doReturn(trainerServe).when(userSpy).getTrainerService();
 		doReturn(payload).when(userSpy).jwtServiceProcessToken(anyString());
 		
@@ -328,12 +293,7 @@ public class UserResourceTest {
 		UserResource userSpy = spy(new UserResource());
 		
 		doReturn(associateServe).when(userSpy).getAssociateService();
-		doReturn(batchServe).when(userSpy).getBatchService();
-		doReturn(clientServe).when(userSpy).getClientService();
-		doReturn(curriculumServe).when(userSpy).getCurriculumService();
-		doReturn(interviewServe).when(userSpy).getInterviewService();
 		doReturn(userServe).when(userSpy).getUserService();
-		doReturn(marketingServe).when(userSpy).getMarketingStatusService();
 		doReturn(trainerServe).when(userSpy).getTrainerService();
 		doReturn(payload).when(userSpy).jwtServiceProcessToken(anyString());
 		

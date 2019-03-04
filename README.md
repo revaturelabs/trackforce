@@ -27,6 +27,7 @@ A user can login and is authenticated as having a particular role. Charts displa
  - Restrict access to the pages that update infomation for users with particular roles
  - Develop charts that show future projections based off of current data
  - View graphical representations of how long an associate spends in a particular role
+ - Automate addition of new associates
  
  ## Users / Stakeholders
  

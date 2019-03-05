@@ -194,9 +194,9 @@ export class CreateUserPo {
             return '';
         }
     }
-
+    //Changed from xpath to css Jamir & Brandon 1901SDET --success
     private getSubmitButton(){
-      return element(by.xpath('/html/body/app-component/div/app-create-user/form/button'));
+      return element(by.css('html > body > app-component > div > app-create-user > form > button'));
     }
 
     clickSubmitButton(){

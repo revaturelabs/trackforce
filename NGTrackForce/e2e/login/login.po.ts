@@ -7,7 +7,7 @@ export class LoginPage {
   }
 
   getUsernameInput(){
-    return element(by.name('username'));
+    return element(by.id('username'));
   }
 
   getUsernamePlaceholder(){

@@ -5,7 +5,7 @@ export class LoginPage {
   navigateTo(){
     return browser.get(ngEnvironment.url + 'NGTrackForce/#/login');
   }
-
+  //id is username name is Username
   getUsernameInput(){
     return element(by.id('username'));
   }

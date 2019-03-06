@@ -1,9 +1,9 @@
 describe('Testing associate list page further by changing search status.', function() {
     //Tested on local host, should go to EC2 Location
-    // browser.get('http://localhost:4200/login');
+    browser.get('http://localhost:4200/login');
 
     //NGTrackForce_URL
-    browser.get('http://34.227.178.103:8090/NGTrackForce/');
+    // browser.get('http://34.227.178.103:8090/NGTrackForce/');
     browser.manage().timeouts().implicitlyWait(5000);
 
     it('should log in', function() {

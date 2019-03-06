@@ -3,7 +3,7 @@ import { environment, ngEnvironment } from '../../src/environments/environment';
 
 export class LoginPage {  
   navigateTo(){
-    return browser.get(ngEnvironment.url + 'NGTrackForce/#/login');
+    return browser.get(ngEnvironment.url + 'login');
   }
   //id is username name is Username
   getUsernameInput(){

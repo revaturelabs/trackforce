@@ -1,6 +1,7 @@
 import { Navbar } from './navbar.po';
 import { LoginPage } from '../login/login.po';
 import { TestConfig } from '../configuration/test-config';
+import { ngEnvironment } from '../../src/environments/environment';
 
 let navbar          : Navbar;
 let page            : LoginPage;
@@ -13,7 +14,7 @@ describe('The admin navbar is functional', () => {
         navbar = new Navbar();
         page = new LoginPage();
         testConfig = new TestConfig();
-        baseURL = testConfig.getBaseURL();
+        baseURL = ngEnvironment.url+'#/';
         page.navigateTo();
         navbar.logIn("TestAdmin","TestAdmin");
     });

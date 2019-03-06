@@ -15,7 +15,7 @@ let trainerUsername = "Trainer0";
 let trainerPassword = "Trainer";
 let deliverySalesUsername = "salestest";
 let deliverySalesPassword = "salestest";
-let page: LoginPage;
+let page            : LoginPage;
 let testConfig      : TestConfig;
 let baseURL         : string;
 
@@ -87,7 +87,7 @@ describe('Login in with proper credentials', () => {
   beforeAll(() => {
     page = new LoginPage();
     testConfig = new TestConfig();
-    baseURL = testConfig.getBaseURL();
+    baseURL = testConfig.getBaseURL()+'#/';
     page.navigateTo();
   });
 

@@ -4,17 +4,18 @@
 //Loads 60 more
 describe('test assocation pagenation functionality', function() {
     //Tested on local host, should go to EC2 Location
-    // browser.get('http://localhost:4200/login');
+    browser.get('http://localhost:4200/login');
 
     //NGTrackForce_URL
-    browser.get(ngEnvironement.url);
+    // browser.get('http://34.227.178.103:8090/NGTrackForce/');
     browser.manage().timeouts().implicitlyWait(10000);
 
     it('should log in', function() {
   
       element(by.id('username')).sendKeys('TestAdmin');
       element(by.id('password')).sendKeys('TestAdmin');
-      element(by.xpath("//button[@type='submit']")).click();
+      //document.querySelector('#pwd-container > div > section > form > div > div:nth-child(3) > button:nth-child(1)')
+      element(by.css('#pwd-container > div > section > form > div > div:nth-child(3) > button:nth-child(1)')).click();
       expect(element(by.id('home')).getText()).toEqual('Home');
       
     });

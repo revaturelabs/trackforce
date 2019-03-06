@@ -1,3 +1,4 @@
+import { ngEnvironment } from '../../src/environments/environment';
 export class TestConfig{
     private baseURL: string;
 
@@ -8,7 +9,7 @@ export class TestConfig{
      */
     constructor() {
     // this.baseURL = 'http://localhost:4200/';
-      this.baseURL = 'http://34.227.178.103:8090/NGTrackForce/#/';
+      this.baseURL = ngEnvironment.url;
      //this.baseURL = 'http://ec2-34-227-178-103.compute-1.amazonaws.com:8090/NGTrackForce/';
     }
 

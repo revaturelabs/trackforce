@@ -29,7 +29,8 @@
                 class="form-control" name="startDate" id="inputDate" formControlName="interviewDate"
                 placeholder="mm/dd/yyyy">
               <label for="interviewTime">Interview Time:</label>
-              <input type="time" class="form-control" name="interviewTime" id="interviewTime" formControlName="interveiwDate"
+              <input type="time" 
+                class="form-control" name="startTime" id="interviewTime" formControlName="interviewTime"
                 placeholder="hh:mm">
               <span *ngIf="addInterviewForm.get('interviewDate').touched"
                class="help-block"

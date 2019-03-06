@@ -25,12 +25,16 @@
 
             <div class="form-group col-md-3">
               <label for="inputDate">Interview Date:</label>
-              <input type="datetime-local"
+              <input type="date"
                 class="form-control" name="startDate" id="inputDate" formControlName="interviewDate"
-                placeholder="Date">
+                placeholder="mm/dd/yyyy">
+              <label for="interviewTime">Interview Time:</label>
+              <input type="time" class="form-control" name="interviewTime" id="interviewTime" formControlName="interveiwDate"
+                placeholder="hh:mm">
               <span *ngIf="addInterviewForm.get('interviewDate').touched"
                class="help-block"
-               id="interviewDateHelpText">Enter a Date of the form "mm/dd/yyyy hh:mm (AM|PM)"
+               id="interviewDateHelpText">Enter a Date of the form "mm/dd/yyyy" for date 
+                and "hh:mm (AM|PM)" for time.
               </span>
             </div>
             <br><br>

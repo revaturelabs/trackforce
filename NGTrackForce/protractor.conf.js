@@ -16,8 +16,8 @@ exports.config = {
     './e2e/register-associate/register-associate.e2e-spec.ts',
     './e2e/login/login.e2e-spec.ts',
     
-    // //failing
     // './e2e/navbar/navbar.e2e-spec.ts',
+
     // //failing
     // './e2e/create-user/create-user.e2e-spec.ts',
     
@@ -27,10 +27,10 @@ exports.config = {
     // './e2e/predictions/predictions.e2e-spec.ts',
     
     //ALL JASMINE TESTS PASSING JAMIR & BRANDON -1901SDET
-    // './e2e/associate-list/associate-list-pagenation.js',  //Test for Association Pagenation functionality
-    // './e2e/associate-list/associate-list-search.js',
-    // './e2e/associate-list/associate-list-status.js',
-    // './e2e/associate-list/associate-list-client.js',
+    './e2e/associate-list/associate-list-pagenation.js',  //Test for Association Pagenation functionality
+    './e2e/associate-list/associate-list-search.js',
+    './e2e/associate-list/associate-list-status.js',
+    './e2e/associate-list/associate-list-client.js',
     // //failing  
     
     // './e2e/associate-list/associate-list-curriculum.js', NO LONGER VALID

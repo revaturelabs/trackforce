@@ -14,4 +14,6 @@ public interface BatchDao {
 	List<TfBatch> getBatchesForPredictions(String name, Timestamp startDate, Timestamp endDate);
 	
 	Object getBatchCountsForPredictions(String name, Timestamp startDate, Timestamp endDate);
+
+	boolean createBatch(TfBatch newbatch);
 }

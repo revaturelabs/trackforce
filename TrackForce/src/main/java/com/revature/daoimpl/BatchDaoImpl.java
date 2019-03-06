@@ -4,8 +4,11 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import com.revature.dao.BatchDao;
+import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
+
 import static com.revature.utils.LogUtil.logger;
 
 /** Implementation of the BatchDao interface that uses Hibernate to retrieve
@@ -117,5 +120,16 @@ public class BatchDaoImpl implements BatchDao {
 		}
 		//logger.info("Result : " + results);
 		return results;
+	}
+
+	/*
+	 * 1901 Daniel 
+	 * This method adds batches to the database after being passed a batch object
+	 * from the Caliber application.
+	 */
+	@Override
+	public boolean createBatch(TfBatch newbatch) {
+		LogUtil.logger.trace("Hibernate Call to Create Batch: " + newbatch.getId());
+		return HibernateUtil.saveToDB(newbatch);
 	}
 }

@@ -4,10 +4,10 @@
 //Loads 60 more
 describe('test assocation pagenation functionality', function() {
     //Tested on local host, should go to EC2 Location
-    //browser.get('http://localhost:4200/login');
+    // browser.get('http://localhost:4200/login');
 
     //NGTrackForce_URL
-    browser.get('http://34.227.178.103:8090/NGTrackForce/');
+    browser.get(ngEnvironement.url);
     browser.manage().timeouts().implicitlyWait(10000);
 
     it('should log in', function() {

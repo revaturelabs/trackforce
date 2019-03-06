@@ -3,17 +3,17 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
-// export const environment = {
-//   production: false,
-//   url: "http://localhost:8085/"
-// };
+export const ngEnvironment = {
+  production: false,
+  url: "http://localhost:4200/"
+};
 
 export const environment = {
   production: false,
-  url: "http://52.87.205.55:8086/"
+  url: "http://localhost:8080/"
 };
 
-export const ngEnvironment = {
-  production: false,
-  url: "http://34.227.178.103:8090/"
-};
+// export const ngEnvironment = {
+//   production: false,
+//   url: "http://34.227.178.103:8090/"
+// };

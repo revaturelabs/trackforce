@@ -14,6 +14,16 @@
       "id": 3,
       "title": "json-server",
       "author": "typicode"
+    },
+    {
+      "id": 22,
+      "title": "json-server",
+      "author": "typicode"
+    },
+    {
+      "id": 23,
+      "title": "json-server",
+      "author": "typicode"
     }
   ],
   "comments": [
@@ -25,5 +35,23 @@
   ],
   "profile": {
     "name": "typicode"
-  }
+  },
+  "users": [
+    {
+      "username": "timmay",
+      "password": "testpass"
+    },
+    {
+      "username": "job",
+      "password": "testpass"
+    },
+    {
+      "username": "8888upo",
+      "password": "testpass"
+    },
+    {
+      "username": "jerry",
+      "password": "gergich!"
+    }
+  ]
 }

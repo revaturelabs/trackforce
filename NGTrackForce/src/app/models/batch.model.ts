@@ -10,6 +10,7 @@ import { Curriculum } from "./curriculum.model";
  * Holds data needed by front end for a batch
  */
 export class Batch {
+  salesforceId: string;
   id: number;
   batchName: string;
   curriculumName: Curriculum;

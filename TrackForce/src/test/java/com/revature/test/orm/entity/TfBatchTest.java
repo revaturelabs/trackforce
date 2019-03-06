@@ -54,8 +54,8 @@ public class TfBatchTest {
 	@Test
 	public void testBatchIDGetSet() {
 		tfbatch.setId(1);
-		assertTrue(tfbatch.getId() == 1);
-		assertFalse(tfbatch.getId() == 2);
+		assertTrue(tfbatch.getId().equals(1));
+		assertFalse(tfbatch.getId().equals(2));
 	}
 
 	@Test

@@ -22,6 +22,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	
 	@XmlElement
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TF_BATCH_SEQ")
 	@Column(name = "TF_BATCH_ID", unique = true, nullable = false, precision = 22, scale = 0)
 	private Integer id;
 	
@@ -39,6 +40,18 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	@Column(name = "TF_BATCH_NAME", length = 50)
 	private String batchName;
 	
+	@XmlElement
+	@Column(name = "TF_SALESFORCE_ID", length = 50)
+	private String salesforceId;
+	
+	public String getSalesforceId() {
+		return salesforceId;
+	}
+
+	public void setSalesforceId(String salesforceId) {
+		this.salesforceId = salesforceId;
+	}
+
 	@XmlElement
 	@Column(name = "TF_BATCH_START_DATE")
 	private Timestamp startDate;
@@ -159,6 +172,6 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 
 	@Override
 	public int compareTo(TfBatch o) {
-		return this.id-o.getId();
+		return o.getStartDate().compareTo(this.getStartDate());
 	}	
 }

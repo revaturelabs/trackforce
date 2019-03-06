@@ -26,8 +26,10 @@ import com.revature.test.pom.NavBar;
 public class AssociateTests {
 	static WebDriver wd;
 	static WebDriverWait wait;
-	String username = "bobbert1234";
-	String password = "Bobbert12!";
+	String username = "cyril";
+	String password = "cyril";
+//	String username = "bobbert1234";
+//	String password = "Bobbert12!";
 	public final String url = "http://34.227.178.103:8090/NGTrackForce/";
 
 

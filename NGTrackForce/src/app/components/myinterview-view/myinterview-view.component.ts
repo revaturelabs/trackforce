@@ -71,7 +71,6 @@ export class MyInterviewComponent implements OnInit {
 
   ngOnInit(){
       this.registerForm = this.formBuilder.group({
-        dateinput: [''],
         updateDate: [''],
         updateTime: ['']
        });
@@ -188,7 +187,7 @@ export class MyInterviewComponent implements OnInit {
         interview.dateAssociateIssued = interview.interviewDate = 
           new Date(this.registerForm.value['updateDate'] + "T" + 
         this.registerForm.value['updateTime'] + ":00").getTime();
-        
+
         this.interviewService.updateInterview(interview).subscribe(res => {
         this.updateSuccess=true;
         location.reload(false);

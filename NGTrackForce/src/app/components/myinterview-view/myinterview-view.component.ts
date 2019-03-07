@@ -35,7 +35,7 @@ export class MyInterviewComponent implements OnInit {
   public newInterview: Interview;
   public formOpen = false;
   public conflictingInterviews = '';
-
+  
   public interviewDate: Date;
   public interviewTime: any;
   public interviewAssigned: Date = new Date();
@@ -53,7 +53,7 @@ export class MyInterviewComponent implements OnInit {
   public failMsg: string;
   show : boolean;
   public convertedTime : string;
-  public today: string = new Date().toLocaleDateString();
+  today: Date = new Date();
 
   index;
   index2;
@@ -77,7 +77,7 @@ export class MyInterviewComponent implements OnInit {
          clientId: ['', Validators.required],
          typeId: ['', Validators.required],
          interviewDate: ['', Validators.compose(
-           [Validators.required, Validators.pattern("[0-9]{4}\-\s*[0-9]{0,2}\-*[0-9]{0,2}\-*")])
+           [Validators.required, Validators.pattern("[0-9]{4}\-*[0-9]{0,2}\-*[0-9]{0,2}\-*")])
          ],
          interviewTime: ['', Validators.compose(
           [Validators.required, Validators.pattern("[0-9]{1,2}:[0-9]{2}.*")])

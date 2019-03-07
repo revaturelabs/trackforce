@@ -205,7 +205,16 @@ export class CreateUserPo {
     }
 
     getAlert(){
-      return element(by.css('body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div'));
+      //return element(by.class('class="alert alert-success ng-star-inserted"'));
+      //return element(by.css('[class="alert alert-success ng-star-inserted"]'));
+    //   return element(by.css('body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div'));
+    // return(element(by.xpath('/html/body/app-component/div/app-create-user/form/fieldset[1]/div')))
+    //   return element(by.xpath('//*[@id="sucMsgAlert"]'));
+    // return element(by.css('//*[@id="sucMsgAlert"]'));
+    //document.querySelector('#sucMsgAlert')
+    //*[@id="sucMsgAlert"]
+      return element(by.id('sucMsgAlert'));
+      
     }
     getUserNameAlert(){
       return element(by.xpath('//*[@id="error-username"]'));

@@ -1,69 +1,3 @@
-<!-- <div class="container">
-  <div class="col-md-6">
-    <h3>Creating a user</h3>
-    <label>Usernames</label>
-    <p>Usernames can have alphabetical and numerical characters</p>
-    <p>Usernames cannot have special characters</p>
-    <label>Password</label>
-    <ul>
-      <li>At least, 8 characters.</li>
-      <li>At least, 1 number.</li>
-      <li>At least, 1 lowercase letter.</li>
-      <li>At least, 1 uppercase letter.</li>
-      <li>At least, 1 special character. (.!@#$%^&*)</li>
-    </ul>
-    <h3>Roles</h3>
-    <label>Administrator</label>
-    <p>Can do everything the other users can do in addition to creating new users.</p>
-    <label>Sales/Delivery/Staging Manager</label>
-    <p>Can view and edit everything. Can also comment on interviews, and add feedback.</p>
-	<label>Trainer</label>
-    <p>Can view everything, but not edit. Trainers can also approve newly registered Associates.</p>
-    <label>Associate</label>
-    <p>Can register, view their information, submit and flag interviews, and request status updates.</p>
-  </div>
-  <div class="well col-md-5">
-    <h3>Create New User:</h3>
-    <form id="NewUserForm">
-      <label for="username" class="sr-only">Username: </label>
-      <input class="form-control" type="text" placeholder="Username"
-        autocomplete="username"
-        name="username" id="username" required
-        [(ngModel)]="username"
-        (change)="checkUserNameUnique()"
-        (input)="checkUserNameHasValidChars()"/>
-      <div class="alert alert-danger form-control"
-        *ngIf=displayErrorUsername id="error-username">
-        {{ userNameError }}
-      </div>
-      <label for="password" class="sr-only">Password: </label>
-      <input class="form-control" type="password" placeholder="Password" name="password" id="password" required [(ngModel)]="password" autocomplete="new-password" (input)="checkValidPassword(password)" />
-      <label for="password" class="sr-only">Confirm Password: </label>
-      <input class="form-control" type="password" placeholder="Confirm Password" name="password2" id="password2" [(ngModel)]="password2" autocomplete="new-password" (input)="checkConfirmedPassword(password2)"/>
-      <br>
-      <div *ngIf="errMsg" class="alert alert-danger">
-        {{errMsg}}
-      </div>
-      <div *ngIf="sucMsg" class="alert alert-success">
-        {{sucMsg}}
-      </div>
-      <div class="form-group">
-          <label for="RoleType">Please Select Role Type:</label><br>
-          <div *ngIf="this.loggedIn.role === 1">
-            <input type="radio" name="optradio" value="1" [(ngModel)]="roleId">&ensp;Administrator<br>
-          </div>
-          <input type="radio" name="optradio" value="2" [(ngModel)]="roleId">&ensp;Trainer<br>
-          <input type="radio" name="optradio" value="3" [(ngModel)]="roleId">&ensp;Delivery/Sales<br>
-          <input type="radio" name="optradio" value="4" [(ngModel)]="roleId">&ensp;Staging Manager <br>
-          <input type="radio" name="optradio" value="5" [(ngModel)]="roleId">&ensp;Associate<br>
-       </div>
-      <br>
-      <input (click)="createUser()" type="submit" class="btn btn-default" value="Submit"
-      [disabled]="toggleSubmitButton()">
-    </form>
-  </div>
-</div> -->
-
 <form>
 
   <h1>Creating a user</h1>
@@ -86,7 +20,7 @@
     <div *ngIf="errMsg" class="alert alert-danger">
       {{errMsg}}
     </div>
-    <div *ngIf="sucMsg" class="alert alert-success">
+    <div *ngIf="sucMsg" class="alert alert-success" id="sucMsgAlert">
       {{sucMsg}}
     </div>
   </fieldset>

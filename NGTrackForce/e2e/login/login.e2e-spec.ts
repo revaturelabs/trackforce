@@ -87,7 +87,7 @@ describe('Login in with proper credentials', () => {
   beforeAll(() => {
     page = new LoginPage();
     testConfig = new TestConfig();
-    baseURL = testConfig.getBaseURL()+'#/';
+    baseURL = testConfig.getBaseURL();
     page.navigateTo();
   });
 

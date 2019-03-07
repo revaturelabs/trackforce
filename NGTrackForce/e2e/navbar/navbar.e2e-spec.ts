@@ -14,7 +14,7 @@ describe('The admin navbar is functional', () => {
         navbar = new Navbar();
         page = new LoginPage();
         testConfig = new TestConfig();
-        baseURL = ngEnvironment.url+'#/';
+        baseURL = testConfig.getBaseURL();
         page.navigateTo();
         navbar.logIn("TestAdmin","TestAdmin");
     });

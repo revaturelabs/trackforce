@@ -194,7 +194,7 @@ describe('When an Delivery/Sales navigates to the client-list page it', function
       testConfig = new TestConfig();
       page = new LoginPage();
       navbar = new Navbar();
-      baseURL = testConfig.getBaseURL()+'#/';
+      baseURL = testConfig.getBaseURL();
       testURL = 'client-listing';
       searchByClientName = 'Accenture';
       page.navigateTo();

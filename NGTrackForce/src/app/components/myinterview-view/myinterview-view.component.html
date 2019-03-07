@@ -24,34 +24,41 @@
                   <option value="4">Skype</option>
               </select>
           </div>
+            <label class="control-label col-sm-2">Type:</label>
+            <div class="col-sm-3">
+                <select class="form-control" id="interviewType" name="type" formControlName=typeId>
+                    <option value="1">Phone</option>
+                    <option value="2">Online</option>
+                    <option value="3">On-site</option>
+                    <option value="4">Skype</option>
+                </select>
+            </div>
 
-          <div class="form-group col-md-3">
-            <label for="inputDate">Interview Date:</label>
-            <input type="date"
-              class="form-control" name="startDate" id="inputDate" formControlName="interviewDate"
-              placeholder="mm/dd/yyyy">
-            <label for="inputTime">Interview Time:</label>
-            <input type="time" 
-              class="form-control" name="startTime" id="inputTime" formControlName="interviewTime"
-              placeholder="hh:mm">
-            <span *ngIf="addInterviewForm.get('interviewDate').touched"
-              class="help-block"
-              id="interviewDateHelpText">Enter a Date of the form "mm/dd/yyyy" for date 
-              and "hh:mm (AM|PM)" for time.
-            </span>
-          </div>
-          <br><br>
-          <label class="control-label col-sm-1">24 hour notice?</label>
-          <input title="Were you given 24-hr notice for the interview?"
-          type="checkbox" name="24hournotice" formControlName="was24HRNotice">
-      </div>
-      <br><br><br>
-      <div class="form-group">
-          <button id='add-interview' class="btn btn-success pull-right" type="submit">
-            Add Interview
-          </button>
-      </div>
-  </form>
+            <div class="form-group col-md-3">
+              <label for="inputDate">Interview Date:</label>
+              <input type="date"
+                class="form-control" name="startDate" id="inputDate" formControlName="interviewDate"
+                placeholder="mm/dd/yyyy" min = "{{today | date:'yyyy-MM-dd'}}">
+              <label for="inputTime">Interview Time:</label>
+              <input type="time" 
+                class="form-control" name="startTime" id="inputTime" formControlName="interviewTime"
+                placeholder="hh:mm">
+              <span *ngIf="addInterviewForm.get('interviewDate').touched"
+               class="help-block"
+               id="interviewDateHelpText">Enter a Date of the form "mm/dd/yyyy" for date 
+                and "hh:mm (AM|PM)" for time.
+              </span>
+            </div>
+            <br><br>
+            <label class="control-label col-sm-1">24 hour notice?</label>
+            <input title="Were you given 24-hr notice for the interview?"
+            type="checkbox" name="24hournotice" formControlName="was24HRNotice">
+        </div>
+        <br><br><br>
+        <div class="form-group">
+            <button id='add-interview' class="btn btn-success pull-right" type="submit">Add Interview</button>
+        </div>
+    </form> <!--Add Interview Form-->
 
     <div *ngIf='succMsg' class="alert alert-success">
       {{succMsg}}

@@ -1,18 +1,29 @@
 <div class="container">
   <h3 style="text-align:center">New Interview</h3>
   <div class="row" class="toggledContainer">
+    <!-- 
+    Interview Creator 
+    -->
+    <form (ngSubmit)=addInterview() [formGroup]=addInterviewForm>
+      <div class="form-group">
+          <br>
+          <label class="control-label col-sm-2">Client:</label>
+          <div class="col-sm-3">
+              <select class="form-control" name="newClient" formControlName=clientId>
+              <option selected="selected">None</option>
+              <option *ngFor="let client of clients" [ngValue]="client">{{client.name}}</option>
+              </select>
+          </div>
 
-      <form (ngSubmit)=addInterview() [formGroup]=addInterviewForm>
-        <div class="form-group">
-            <br>
-            <label class="control-label col-sm-2">Client:</label>
-            <div class="col-sm-3">
-                <select class="form-control" name="newClient" formControlName=clientId>
-                <option selected="selected">None</option>
-                <option *ngFor="let client of clients" [ngValue]="client">{{client.name}}</option>
-                </select>
-            </div>
-
+          <label class="control-label col-sm-2">Type:</label>
+          <div class="col-sm-3">
+              <select class="form-control" id="interviewType" name="type" formControlName=typeId>
+                  <option value="1">Phone</option>
+                  <option value="2">Online</option>
+                  <option value="3">On-site</option>
+                  <option value="4">Skype</option>
+              </select>
+          </div>
             <label class="control-label col-sm-2">Type:</label>
             <div class="col-sm-3">
                 <select class="form-control" id="interviewType" name="type" formControlName=typeId>
@@ -90,10 +101,23 @@
               {{interview.interviewDate| date:'medium'}}
             </td>
 
+            <!-- 
+            Interview Update 
+            -->
             <td>
               <form [formGroup]="registerForm" >
                   <div class="input-group mb-3" style="width: 310px;">
-                      <input class="form-control" type="datetime-local" formControlName="dateinput">
+
+                      <!-- <label for="updateDate">Interview Date:</label> -->
+                      <input type="date"
+                        class="form-control" name="updateDate" id="updateDate" formControlName="updateDate"
+                        placeholder="mm/dd/yyyy">
+                      <!-- <label for="updateTime">Interview Time:</label> -->
+                      <input type="time" 
+                        class="form-control" name="updateTime" id="updateTime" formControlName="updateTime"
+                        placeholder="hh:mm">
+
+
                       <span class="input-group-addon" style="width: 10px;"></span>
                       <button type="button" class="btn btn-primary" (click)='updateInterview(interview)'>Update</button>       
                   </div>
@@ -121,4 +145,3 @@
       </div>
     </div>
   </div>
-<!-- </div> -->

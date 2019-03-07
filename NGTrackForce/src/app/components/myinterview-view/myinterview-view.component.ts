@@ -71,7 +71,8 @@ export class MyInterviewComponent implements OnInit {
 
   ngOnInit(){
       this.registerForm = this.formBuilder.group({
-        dateinput: [''],
+        updateDate: [''],
+        updateTime: ['']
        });
       this.addInterviewForm = this.formBuilder.group({
          clientId: ['', Validators.required],
@@ -183,20 +184,13 @@ export class MyInterviewComponent implements OnInit {
   updateInterview(interview: Interview){
     if (!this.dateError){
         interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
-        interview.interviewDate = new Date(this.registerForm.value['dateinput']).getTime(); // convert into timestamp
-        interview.dateSalesIssued = new Date(
-          interview.dateAssociateIssued
-        ).getTime(); // convert into timestamp
-
-        interview.dateAssociateIssued = new Date (this.registerForm.value['dateinput']).getTime() ;
-        console.log("in updateinterview");
-
+        interview.dateAssociateIssued = interview.interviewDate = 
+          new Date(this.registerForm.value['updateDate'] + "T" + 
+        this.registerForm.value['updateTime'] + ":00").getTime();
 
         this.interviewService.updateInterview(interview).subscribe(res => {
         this.updateSuccess=true;
-
-
-         location.reload(false);
+        location.reload(false);
        },
          error => console.error('Error in myinterview-view.component.ts updateInterview(): ', error.message)
        );
@@ -240,33 +234,15 @@ export class MyInterviewComponent implements OnInit {
     this.index2 = index;
   }
 
-
   getAssociateInterviews(id: number) {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
       data =>{
-
         this.interviews = data;
         this.isDataReady = true;
-
-
-
       },
       error => {
         console.log('getAssociateInterview error');
       }
     );
   }
-
-  // ===========================================
-  // THIS NEEDS TO BE IMPLEMENTED
-  // ============================================
-  saveInterview(interview: Interview) {}
-
-
-  // THIS METHOD IS REPLACED BY STORING THE CLIENTS IN LOCAL STORAGE
-  // getClientNames() {
-  //   this.clientService.getAllClients().subscribe(data => {
-  //     this.clients = data;
-  //   });
-  // }
 }

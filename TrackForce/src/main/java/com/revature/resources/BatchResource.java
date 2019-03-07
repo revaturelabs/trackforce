@@ -284,6 +284,23 @@ public class BatchResource {
 		return Response.status(status).entity(batches).build();
 
 	}
+	
+	@GET
+	@Path("/syncdatabase")
+	public Response syncDatabase(@HeaderParam("Authorization") String token) {
+		Claims payload = JWTService.processToken(token);
+		if (payload == null) {
+			logger.error("The payload was null. Unathorized access.");
+			return Response.status(Status.UNAUTHORIZED).build();
+		}
+		Status status = null;
+		status = Status.OK;
+		
+		//run syncdatabase class here
+		//could take several minutes to an hour
+		
+		return Response.status(status).build();
+	}
 
 	/**
 	 * 1806_Kevin_C Gets a batch with the given id

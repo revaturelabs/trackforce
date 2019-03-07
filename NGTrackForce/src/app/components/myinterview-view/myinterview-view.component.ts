@@ -37,6 +37,7 @@ export class MyInterviewComponent implements OnInit {
   public conflictingInterviews = '';
 
   public interviewDate: Date;
+  public interviewTime: any;
   public interviewAssigned: Date = new Date();
   public clients: Client[];
   public user: User;
@@ -76,7 +77,10 @@ export class MyInterviewComponent implements OnInit {
          clientId: ['', Validators.required],
          typeId: ['', Validators.required],
          interviewDate: ['', Validators.compose(
-           [Validators.required, Validators.pattern("[0-9]{0,2}\/*[0-9]{0,2}\/*[0-9]{4}\s*T[0-9]{1,2}:[0-9]{2}.*")])
+           [Validators.required, Validators.pattern("[0-9]{4}\-\s*[0-9]{0,2}\-*[0-9]{0,2}\-*")])
+         ],
+         interviewTime: ['', Validators.compose(
+          [Validators.required, Validators.pattern("[0-9]{1,2}:[0-9]{2}.*")])
          ],
          was24HRNotice: ['']
         });
@@ -122,7 +126,7 @@ export class MyInterviewComponent implements OnInit {
   }
 
   addInterview() {
-      if (!this.dateError && this.aif.interviewDate.valid){
+      if (!this.dateError && this.aif.interviewDate.valid && this.aif.interviewTime.valid){
         //the '+' coerces type to be number
         switch (+this.aif.typeId.value) {
           case 1:
@@ -146,7 +150,7 @@ export class MyInterviewComponent implements OnInit {
           this.associate,
           this.aif.clientId.value,
           this.interviewType,
-          new Date(this.aif.interviewDate.value).getTime(),
+          new Date(this.aif.interviewDate.value + "T" + this.aif.interviewTime.value + ":00").getTime(),
           null,
           this.aif.was24HRNotice.value ? 1 : 0,
           null,
@@ -154,7 +158,7 @@ export class MyInterviewComponent implements OnInit {
           // refers to the 'Assigned' date given to the Associate.
           //  unsure whether this originally referenced the given time or the actual time
           new Date(this.interviewAssigned).getTime(),
-          new Date(this.aif.interviewDate.value).getTime().toString()
+          new Date(this.aif.interviewDate.value + "T" + this.aif.interviewTime.value + ":00").getTime().toString()
         );
 
         this.succMsg="Interview Added";

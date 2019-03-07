@@ -183,17 +183,25 @@ export class MyInterviewComponent implements OnInit {
 
   updateInterview(interview: Interview){
     if (!this.dateError){
-        interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
-        interview.dateAssociateIssued = interview.interviewDate = 
-          new Date(this.registerForm.value['updateDate'] + "T" + 
-        this.registerForm.value['updateTime'] + ":00").getTime();
 
-        this.interviewService.updateInterview(interview).subscribe(res => {
-        this.updateSuccess=true;
-        location.reload(false);
-       },
-         error => console.error('Error in myinterview-view.component.ts updateInterview(): ', error.message)
-       );
+      //interview.dateAssociateIssued and interview.interviewDate were assigned the same value
+      //int the old code, so I kept it in my code.  I would consider removing one at all levels.
+      if (this.registerForm.value['updateDate'] != "" && this.registerForm.value['updateTime'] != "") {
+        interview.dateAssociateIssued = interview.interviewDate = 
+        new Date(this.registerForm.value['updateDate'] + "T" + 
+          this.registerForm.value['updateTime'] + ":00").getTime();
+      }
+      else {
+        return;
+      }
+      
+
+      this.interviewService.updateInterview(interview).subscribe(res => {
+      this.updateSuccess=true;
+      location.reload(false);
+      },
+        error => console.error('Error in myinterview-view.component.ts updateInterview(): ', error.message)
+      );
     }
   }
 

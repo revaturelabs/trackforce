@@ -77,10 +77,10 @@ export class MyInterviewComponent implements OnInit {
          clientId: ['', Validators.required],
          typeId: ['', Validators.required],
          interviewDate: ['', Validators.compose(
-           [Validators.required, Validators.pattern("[0-9]{0,2}\/*[0-9]{0,2}\/*[0-9]{4}\s*")])
+           [Validators.required, Validators.pattern("[0-9]{4}\-\s*[0-9]{0,2}\-*[0-9]{0,2}\-*")])
          ],
          interviewTime: ['', Validators.compose(
-          [Validators.required, Validators.pattern("T[0-9]{1,2}:[0-9]{2}.*")])
+          [Validators.required, Validators.pattern("[0-9]{1,2}:[0-9]{2}.*")])
          ],
          was24HRNotice: ['']
         });
@@ -126,10 +126,7 @@ export class MyInterviewComponent implements OnInit {
   }
 
   addInterview() {
-    console.log(this.aif.interviewDate.value+ "T" + this.aif.interviewTime.value + ":00");
-    console.log(!this.dateError);
-    console.log(this.aif.interviewDate.valid);
-      if (!this.dateError && this.aif.interviewDate.valid){
+      if (!this.dateError && this.aif.interviewDate.valid && this.aif.interviewTime.valid){
         //the '+' coerces type to be number
         switch (+this.aif.typeId.value) {
           case 1:

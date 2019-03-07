@@ -127,7 +127,7 @@ export class MyInterviewComponent implements OnInit {
   }
 
   addInterview() {
-      if (!this.dateError && this.aif.interviewDate.valid && this.aif.interviewTime.valid){
+      if (!this.dateError && this.aif.interviewDate.valid && this.aif.interviewTime.valid && !this.interviewConflict()){
         //the '+' coerces type to be number
         switch (+this.aif.typeId.value) {
           case 1:
@@ -180,7 +180,6 @@ export class MyInterviewComponent implements OnInit {
       }
   }
 
-
   updateInterview(interview: Interview){
     if (!this.dateError){
         interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
@@ -202,24 +201,14 @@ export class MyInterviewComponent implements OnInit {
   }
 
   /**
-   Function to search for conflicting interviews.
-   This function is called once for every row in the
-   "My Interviews" table. If it returns true, the date
-   cell is colored red to highlight the conflict.
-   THIS FUNCTION IS VERY USEFUL BUT IT IS NOT BEING USED // Fixed by batch 1806
-  */
-  highlightInterviewConflicts(interview: number) {
-    const checkDate = new Date(this.interviews[interview].interviewDate);
+   * Function to determine if the start date and time for a new interview
+   * conflicts with the start date and time of an already scheduled interview
+   * for this associate.
+   */
+  interviewConflict() {
+    const checkDate = new Date(this.aif.interviewDate.value + "T" + this.aif.interviewTime.value + ":00");
     for (let i = 0; i < this.interviews.length; i++) {
-      if (
-        new Date(this.interviews[i].interviewDate).getTime() ===
-          checkDate.getTime() &&
-        i !== interview
-      ) {
-        this.conflictingInterviews =
-          'The highlighted interviews are conflicting.' +
-          'They are both scheduled at the same time!';
-        this.conflictingInterview = true;
+      if (new Date(this.interviews[i].interviewDate).getTime() === checkDate.getTime()) {
         return true;
       }
     }

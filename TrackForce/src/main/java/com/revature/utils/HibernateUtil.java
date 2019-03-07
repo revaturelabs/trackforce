@@ -38,6 +38,10 @@ public class HibernateUtil {
 		try {
 			Configuration cfg = new Configuration();			
 
+			System.out.println(System.getenv("TRACKFORCE_DB_URL"));
+			System.out.println(System.getenv("TRACKFORCE_DB_USERNAME"));
+			System.out.println(System.getenv("HBM_PW_ENV"));
+
 			cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
 			cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
 			cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));

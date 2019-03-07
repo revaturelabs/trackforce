@@ -44,6 +44,7 @@ public class LoginCuke {
 		ServiceHooks.wait.until(ExpectedConditions.visibilityOf(Login.getUsername(ServiceHooks.driver)));
 		ServiceHooks.wait.until(ExpectedConditions.visibilityOf(Login.getPassword(ServiceHooks.driver)));
 		assertEquals(ServiceHooks.driver.getCurrentUrl(), getBaseUrl() + getLogin());
+
 	}
 
 	@Given("^I login as an Administrator$")
@@ -138,6 +139,7 @@ public class LoginCuke {
 	public void i_should_remain_on_the_login_page() throws Exception {
 		ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getLogin()));
 		assertEquals(ServiceHooks.driver.getCurrentUrl(), getBaseUrl() + getLogin());
+
 	}
 
 	@Then("^I should be taken to the home page$")
@@ -161,6 +163,7 @@ public class LoginCuke {
 	@Then("^I should be on the login page$")
 	public void i_should_be_on_the_login_page() throws Exception {
 		ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getLogin()));
+
 		assertEquals(ServiceHooks.driver.getCurrentUrl(), getBaseUrl() + getLogin());
 	}
 
@@ -197,7 +200,9 @@ public class LoginCuke {
 	public void login_succeeds_and_navigates_away_from_the_login_page() throws Throwable {
 		I_click_Submit();
 		ServiceHooks.wait.until(ExpectedConditions.not(ExpectedConditions.urlContains(getLogin())));
+		
 		assertNotEquals(ServiceHooks.driver.getCurrentUrl(), getBaseUrl() + getLogin());
+
 	}
 	
 	@When("^I input an incorrect username as \"([^\"]*)\"$")

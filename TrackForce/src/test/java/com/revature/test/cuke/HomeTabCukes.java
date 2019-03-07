@@ -66,7 +66,8 @@ public class HomeTabCukes{
     }
     @Then("^I should see the email link open on a browser$")
     public void i_should_see_the_email_link_open_on_a_browser() throws InterruptedException  {
-    	ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getEmailUrl()));
+    	ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() +getEmailUrl()));
+
     	assertEquals(ServiceHooks.driver.getCurrentUrl(), getBaseUrl() + getEmailUrl());
     }
     @When("^I click on the website link$")

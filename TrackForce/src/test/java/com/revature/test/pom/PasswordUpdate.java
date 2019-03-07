@@ -13,7 +13,7 @@ import org.openqa.selenium.WebElement;
  */
 public class PasswordUpdate {
 	public static WebElement getOldPassword(WebDriver driver) {
-		return driver.findElement(By.name("oldPassword"));
+		return driver.findElement(By.cssSelector(("body > app-component > div > app-passwordupdate > div > form > fieldset > input:nth-child(2)")));
 	}
 	public static WebElement getNewPassword(WebDriver driver) {
 		return driver.findElement(By.name("newPassword"));

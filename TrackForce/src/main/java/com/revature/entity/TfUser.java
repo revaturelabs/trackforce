@@ -30,7 +30,7 @@ public class TfUser implements java.io.Serializable {
     private TfRole TfRole;
     
     @XmlElement
-    @Column(name = "TF_USERNAME", length = 20, unique = true)
+    @Column(name = "TF_USERNAME", length = 60, unique = true)
     private String username;
 
     @JsonIgnore

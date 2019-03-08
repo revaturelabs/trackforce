@@ -370,6 +370,9 @@ public class AssociateDaoImpl implements AssociateDao {
 			if (associate.getMarketingStatus() != null) {
 				temp.setMarketingStatus(associate.getMarketingStatus());
 			}
+			if (associate.getBatch() != null) {
+				temp.setBatch(associate.getBatch());
+			}
 
 			temp.getUser().setIsApproved(associate.getUser().getIsApproved());
 			session.update(temp);

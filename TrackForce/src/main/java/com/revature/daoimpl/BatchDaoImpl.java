@@ -43,6 +43,19 @@ public class BatchDaoImpl implements BatchDao {
 				.setCacheable(true).getSingleResult());
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see com.revature.dao.BatchDao#getBatchBySalesforceId(java.lang.String)
+	 * 1901 Thomas: Added this method to fetch batches by their salesforce ID
+	 */
+	@Override
+	public TfBatch getBatchBySalesforceId(String sfId) {
+		logger.trace("Getting batch via the salesforce ID: " + sfId);
+		return HibernateUtil.runHibernate((Session session, Object... args) -> session
+				.createQuery("from TfBatch b where b.salesforceId = :id", TfBatch.class).setParameter("id", sfId)
+				.setCacheable(true).getSingleResult());
+	}
+
 	@Override
 	public List<TfBatch> getAllBatches() {
 		logger.trace("Getting all batches.");
@@ -129,7 +142,7 @@ public class BatchDaoImpl implements BatchDao {
 	 */
 	@Override
 	public boolean createBatch(TfBatch newbatch) {
-		LogUtil.logger.trace("Hibernate Call to Create Batch: " + newbatch.getId());
+		LogUtil.logger.trace("Hibernate Call to Create Batch: " + newbatch.getSalesforceId());
 		return HibernateUtil.saveToDB(newbatch);
 	}
 }

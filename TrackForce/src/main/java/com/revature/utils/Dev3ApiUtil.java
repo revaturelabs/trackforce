@@ -185,7 +185,7 @@ public class Dev3ApiUtil {
 		    request.addHeader("content-type", "application/json");
 		    request.addHeader("encryptedToken", encryptedToken);
 		    URI uriBuilder = new URIBuilder(request.getURI()).addParameter("endDateAfter", todaysDate).build();
-
+		    System.out.println(uriBuilder.getPath());
 		    request.setURI(uriBuilder);
 		    
 		    ResponseHandler<String> responseHandler=new BasicResponseHandler();

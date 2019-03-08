@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.hibernate.SessionFactory;
 
 import com.revature.dao.BatchDao;
@@ -22,7 +23,6 @@ import static com.revature.utils.LogUtil.logger;
 
 public class HttpPlayground {
 	public static void main(String[] args) {
-		
 		populateDatabase();
 		
 	}

@@ -1,7 +1,9 @@
 package com.revature.utils;
 
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 /*
  * The purpose of this class is to receive Batch and Associate information daily from
  * the https://dev3.revature.com/docs API. Once the data is retrieved it adds Batch and 
@@ -19,13 +21,17 @@ public class DailyDatabaseSync extends TimerTask {
 	}
 
 	private DailyDatabaseSync() {
-		//will run every 24 hours
-		time.schedule(this, 1000 * 60 * 60 * 24, 1000 * 60 * 60 * 24);
+		Calendar today = Calendar.getInstance();
+		today.set(Calendar.HOUR_OF_DAY, 2);
+		today.set(Calendar.MINUTE, 0);
+		today.set(Calendar.SECOND, 0);
+		
+		time.schedule(this, today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
 	}
 	
 	@Override
 	public void run() {
-		
+		System.out.println("Daily Database Sync");
 		
 	}
 

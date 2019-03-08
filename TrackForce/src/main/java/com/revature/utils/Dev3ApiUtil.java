@@ -51,76 +51,81 @@ public class Dev3ApiUtil {
 	private static CurriculumService currService = new CurriculumService();
 	
 	// This information should be changed to be valid login info for the dev3.revature.com
+
 	// "jerry" and "gergich!" are just for the dummy database
-	private static final String username = "employeee@yopmail.com";
-	private static final String password = "Pass123$";
-	private static final String url = "https://dev3.revature.com/caliber";
-	
+	private static final String username = EnvManager.Dev3Username;
+	// "employeee@yopmail.com";
+	private static final String password = EnvManager.Dev3Password;
+	// "Pass123$";
+	private static final String url = EnvManager.Dev3API_URL;
+	// "https://dev3.revature.com/caliber";
+
 	public static boolean login() {
 		String loginJson = "{" + 
-				"    \"password\": \"Pass123$\",\r\n" + 
-				"    \"userName\": \"employeee@yopmail.com\"" + 
-				"}";
+				"    \"password\": \"" + password + "\",\r\n" + 
+				"    \"userName\": \"" + username+ "\"" 
+				+ "}";
 		HttpClient httpClient = HttpClientBuilder.create().build();
 
 		try {
 
-		    HttpPost request = new HttpPost(url + "/authentication/login");
-		    StringEntity params =new StringEntity(loginJson);
-		    params.setContentType("application/json");
-		    request.addHeader("content-type", "application/json");
-		    request.setEntity(params);
-		    ResponseHandler<String> responseHandler=new BasicResponseHandler();
-		    
-		    String response = httpClient.execute(request, responseHandler);
+			HttpPost request = new HttpPost(url + "/authentication/login");
+			StringEntity params = new StringEntity(loginJson);
+			params.setContentType("application/json");
+			request.addHeader("content-type", "application/json");
+			request.setEntity(params);
+			ResponseHandler<String> responseHandler = new BasicResponseHandler();
 
-		    //handle response here...
+			String response = httpClient.execute(request, responseHandler);
 
-		    JSONObject obj = new JSONObject(response);
-		    if (obj.getInt("statusCode")==200) {
+			// handle response here...
+
+			JSONObject obj = new JSONObject(response);
+			if (obj.getInt("statusCode") == 200) {
 				encryptedToken = obj.getString("data");
 				return true;
 			} else {
 				return false;
 			}
 
-		}catch (Exception ex) {
+		} catch (Exception ex) {
 
-		    //handle exception here
+			// handle exception here
 			return false;
 
 		} finally {
-		    //Deprecated
-		    //httpClient.getConnectionManager().shutdown(); 
+			// Deprecated
+			// httpClient.getConnectionManager().shutdown();
 		}
-		
+
 	}
-	
+
 	public static boolean isLoggedIn() {
-		return encryptedToken!=null;
+		return encryptedToken != null;
 	}
-	
+
 	public static List<TfBatch> getBatches() {
-		HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead 
+		HttpClient httpClient = HttpClientBuilder.create().build(); // Use this instead
 		List<TfBatch> batches = new ArrayList<TfBatch>();
-		
+
 		try {
 
-		    HttpGet request = new HttpGet(url + "/secure/batches");
-		    
-		    request.addHeader("content-type", "application/json");
-		    request.addHeader("encryptedToken", encryptedToken);
+			HttpGet request = new HttpGet(url + "/secure/batches");
 
-		    ResponseHandler<String> responseHandler=new BasicResponseHandler();
-		    
-		    String response = httpClient.execute(request, responseHandler);
+			request.addHeader("content-type", "application/json");
+			request.addHeader("encryptedToken", encryptedToken);
 
-		    //handle response here...
+			ResponseHandler<String> responseHandler = new BasicResponseHandler();
 
-		    JSONObject obj = new JSONObject(response);
-		    if (obj.getInt("statusCode")==200) {
-		    	JSONArray jsonarray = obj.getJSONArray("data");
+			String response = httpClient.execute(request, responseHandler);
+
+			// handle response here...
+
+			JSONObject obj = new JSONObject(response);
+			if (obj.getInt("statusCode") == 200) {
+				JSONArray jsonarray = obj.getJSONArray("data");
 				for (int i = 0; i < jsonarray.length(); i++) {
+
 //					TfBatch newbatch = new TfBatch(id, location, curriculumName, batchName, startDate, endDate, associates, trainer, coTrainer) 
 					JSONObject data = jsonarray.getJSONObject(i);
 					String salesforceId = data.getString("salesforceId");
@@ -149,17 +154,18 @@ public class Dev3ApiUtil {
 			} else {
 				return null;
 			}
-		    
-		}catch (Exception ex) {
 
-		    //handle exception here
+		} catch (Exception ex) {
+
+			// handle exception here
 
 		} finally {
-		    //Deprecated
-		    //httpClient.getConnectionManager().shutdown(); 
+			// Deprecated
+			// httpClient.getConnectionManager().shutdown();
 		}
 		return null;
 	}
+
 	
 	public static List<TfBatch> getBatchesEndingWithinLastNMonths(int nMonths) {
 		

@@ -36,7 +36,7 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome',
     chromeOptions: {
-      args: [ "--headless", "--disable-gpu" ]
+      args: [ "--headless", "--disable-gpu", "--window-size=2000,2000" ]
       // args: [ "--disable-gpu", "--window-size=2000,2000" ]
     }
   },
@@ -61,7 +61,8 @@ exports.config = {
       project: 'e2e/tsconfig.e2e.json'
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
-
+    browser.manage().timeouts().implicitlyWait(5000);
+    // browser.driver.manage().window().maximize();
     // require('jasmine-reporters');
     // jasmine.getEnv().addReporter(
     //   new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));

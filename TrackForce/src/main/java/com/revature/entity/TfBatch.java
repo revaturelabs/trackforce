@@ -22,8 +22,9 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	
 	@XmlElement
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TF_BATCH_SEQ")
 	@Column(name = "TF_BATCH_ID", unique = true, nullable = false, precision = 22, scale = 0)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TF_BATCHES_SEQ")
+	@SequenceGenerator(name = "TF_BATCHES_SEQ", sequenceName = "admin.tf_batch_seq")
 	private Integer id;
 	
 	@XmlElement

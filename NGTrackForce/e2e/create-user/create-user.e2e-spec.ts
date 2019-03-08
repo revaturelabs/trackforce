@@ -2,7 +2,7 @@ import { CreateUserPo } from "./create-user.po";
 import { TestConfig } from "../configuration/test-config";
 import { Navbar } from "../navbar/navbar.po";
 import { LoginPage } from '../login/login.po';
-import { protractor, browser, by, element } from 'protractor';
+import { browser } from 'protractor';
 
 
 let createUser      : CreateUserPo;
@@ -30,45 +30,45 @@ describe('The create-user page ', () => {
     });
 
     beforeEach(() => {
-        browser.manage().timeouts().implicitlyWait(5000);
+      browser.manage().timeouts().implicitlyWait(15000);
     });
 
-    xit('should accept username input', () => {
+    it('should accept username input', () => {
         createUser.inputUsername(username);
         expect(createUser.getUsernameValue()).toEqual(username);
     });
 
-    xit('should accept password input', () => {
+    it('should accept password input', () => {
         createUser.inputPassword(password);
         expect(createUser.getPasswordValue()).toEqual(password);
     });
 
-    xit('should accept password confirmation input', () => {
+    it('should accept password confirmation input', () => {
         createUser.inputPasswordConfirm(password);
         expect(createUser.getPasswordConfirmValue()).toEqual(password);
     });
 
-    xit('should select admin radio button', () => {
+    it('should select admin radio button', () => {
         createUser.clickAdminRadio();
         expect(createUser.getCheckedRadioValue()).toEqual('1');
     });
 
-    xit('should select trainer radio button', () => {
+    it('should select trainer radio button', () => {
         createUser.clickTrainerRadio();
         expect(createUser.getCheckedRadioValue()).toEqual('2');
     });
 
-    xit('should select associate radio button', () => {
+    it('should select associate radio button', () => {
         createUser.clickAssociateRadio();
         expect(createUser.getCheckedRadioValue()).toEqual('5');
     });
 
-    xit('should select staging manager radio button', () => {
+    it('should select staging manager radio button', () => {
         createUser.clickManagerRadio();
         expect(createUser.getCheckedRadioValue()).toEqual('4');
     });
 
-    xit('should select delivery radio button', () => {
+    it('should select delivery radio button', () => {
         createUser.clickDeliveryRadio();
         expect(createUser.getCheckedRadioValue()).toEqual('3');
     });
@@ -97,7 +97,7 @@ describe('An Admin', () => {
       createUser.inputUsername(username);
       createUser.inputPassword(password);
       createUser.inputPasswordConfirm(password);
-      browser.manage().timeouts().implicitlyWait(5000);
+      browser.manage().timeouts().implicitlyWait(15000);
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
@@ -152,6 +152,8 @@ describe('A Staging Manager', () => {
         password = 'Testca$e1'
         page.navigateTo();
         navbar.logIn('bobstage','bobstage');
+        browser.manage().timeouts().implicitlyWait(15000);
+
     });
 
     beforeEach(() => {
@@ -161,7 +163,6 @@ describe('A Staging Manager', () => {
       createUser.inputUsername(username);
       createUser.inputPassword(password);
       createUser.inputPasswordConfirm(password);
-      browser.manage().timeouts().implicitlyWait(15000);
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
@@ -216,18 +217,18 @@ describe('A Sales Manager', () => {
       createUser.inputUsername(username);
       createUser.inputPassword(password);
       createUser.inputPasswordConfirm(password);
-      browser.manage().timeouts().implicitlyWait(5000);
+      browser.manage().timeouts().implicitlyWait(15000);
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    xit('should be able to create a trainer', () => {
+    it('should be able to create a trainer', () => {
         createUser.clickTrainerRadio();
         createUser.clickSubmitButton();
         expect(createUser.getAlert().getText()).toContain('User created successfully');
     });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    xit('should be able to create a associate', () => {
+    it('should be able to create a associate', () => {
         createUser.clickAssociateRadio();
         createUser.clickSubmitButton();
         expect(createUser.getAlert().getText()).toContain('User created successfully');
@@ -235,14 +236,14 @@ describe('A Sales Manager', () => {
 
     //FAILS - Change 'it' to 'xit' to skip this test
     //Failed: No element found using locator: By(css selector, body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div)
-    xit('should be able to create a staging manager', () => {
+    it('should be able to create a staging manager', () => {
         createUser.clickManagerRadio();
         createUser.clickSubmitButton();
         expect(createUser.getAlert().getText()).toContain('User created successfully');
       });
 
     //FAILS - Change 'it' to 'xit' to skip this test
-    xit('should be able to create a delivery ', () => {
+    it('should be able to create a delivery ', () => {
         createUser.clickDeliveryRadio();
         createUser.clickSubmitButton();
         expect(createUser.getAlert().getText()).toContain('User created successfully');
@@ -268,12 +269,12 @@ describe('A user', () => {
       navbar.goToCreateUser();
     });
 
-    xit('should get an error if they use a sympol in their username', () => {
+    it('should get an error if they use a sympol in their username', () => {
       createUser.inputUsername('a$');
       expect(createUser.getUserNameAlert().getText()).toContain('Alphabetical and numerical characters only, no spaces');
     });
 
-    xit('should get an error if they enter in an invalid password in the first password box', () => {
+    it('should get an error if they enter in an invalid password in the first password box', () => {
       createUser.inputPassword('ab');
       expect(createUser.getAlert().getText()).toContain('Password must be at least 8 characters and include a number, a capital letter and a special character');
     });
@@ -281,12 +282,12 @@ describe('A user', () => {
       @jacob Golding
       This test should pass but beacuse of how protractor runs the code it forces this test to fail
     */
-    // xit('should get an error if they enter in an invalid password in the secound password box', () => {
+    // it('should get an error if they enter in an invalid password in the secound password box', () => {
     //   createUser.inputPasswordConfirm('ab');
     //   expect(createUser.getAlert().getText()).toContain('Password must have a number, a capital letter and a special character');
     // });
 
-    xit('should get an error if they enter two different passwords', () => {
+    it('should get an error if they enter two different passwords', () => {
       createUser.inputPassword('Testca$e1');
       createUser.inputPasswordConfirm('Testca$e2');
       expect(createUser.getAlert().getText()).toContain('Passwords do not match!');

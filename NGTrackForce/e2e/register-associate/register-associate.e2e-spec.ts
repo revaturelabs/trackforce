@@ -29,8 +29,9 @@ describe('A new user should able to register', () => {
     });
 
     it('allow associate to enter a username', () => {
-        registerAssociatePage.AssociateUsername().sendKeys('jimbob');
-        expect(registerAssociatePage.AssociateUsername().getAttribute("value")).toEqual('jimbob');
+        let registerUsername = Math.random().toString(36).substring(7);
+        registerAssociatePage.AssociateUsername().sendKeys(registerUsername);
+        expect(registerAssociatePage.AssociateUsername().getAttribute("value")).toEqual(registerUsername);
     });
 
     it('allow associate to enter a valid password', () => {
@@ -67,7 +68,8 @@ describe('A new user should able to register', () => {
 
     //This test will only pass the first time without proper teardown code to delete this user
     //Todo: implement the teardown and a delete endpoint in the backend
-    xit('should allow the user to register as an associate', () => {
+    //fixed by using a random username
+    it('should allow the user to register as an associate', () => {
         registerAssociatePage.RegisterUserBtn().click();
         expect(registerAssociatePage.DangerAlert().getText()).toContain('Associate account creation successful.');
     });

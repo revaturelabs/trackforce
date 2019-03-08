@@ -38,6 +38,8 @@ export class MyInterviewComponent implements OnInit {
   
   public interviewDate: Date;
   public interviewTime: any;
+  public updateDate: Date;
+  public updateTime: any;
   public interviewAssigned: Date = new Date();
   public clients: Client[];
   public user: User;
@@ -49,6 +51,7 @@ export class MyInterviewComponent implements OnInit {
   public isDataReady = false;
   public dateError:boolean;
   public updateSuccess = false;
+  public updateFailure = false;
   public succMsg: string;
   public failMsg: string;
   show : boolean;
@@ -71,8 +74,12 @@ export class MyInterviewComponent implements OnInit {
 
   ngOnInit(){
       this.registerForm = this.formBuilder.group({
-        updateDate: [''],
-        updateTime: ['']
+        updateDate: ['', Validators.compose(
+          [Validators.required, Validators.pattern("[0-9]{4}\-*[0-9]{0,2}\-*[0-9]{0,2}\-*")])
+        ],
+        updateTime: ['', Validators.compose(
+          [Validators.required, Validators.pattern("[0-9]{1,2}:[0-9]{2}.*")])
+         ]
        });
       this.addInterviewForm = this.formBuilder.group({
          clientId: ['', Validators.required],
@@ -126,8 +133,15 @@ export class MyInterviewComponent implements OnInit {
     return this.addInterviewForm.controls;
   }
 
+  get rf() {
+    return this.registerForm.controls;
+  }
+
   addInterview() {
-      if (!this.dateError && this.aif.interviewDate.valid && this.aif.interviewTime.valid && !this.interviewConflict()){
+    // interview date and time must be valid and they cannot conflict with another
+    // interview already scheduled at that date and time
+      if (!this.dateError && this.aif.interviewDate.valid && this.aif.interviewTime.valid && 
+        !this.interviewConflict(this.aif.interviewDate.value, this.aif.interviewTime.value)){
         //the '+' coerces type to be number
         switch (+this.aif.typeId.value) {
           case 1:
@@ -181,26 +195,33 @@ export class MyInterviewComponent implements OnInit {
   }
 
   updateInterview(interview: Interview){
-    if (!this.dateError){
-
-      //interview.dateAssociateIssued and interview.interviewDate were assigned the same value
-      //int the old code, so I kept it in my code.  I would consider removing one at all levels.
-      if (this.registerForm.value['updateDate'] != "" && this.registerForm.value['updateTime'] != "") {
-        interview.dateAssociateIssued = interview.interviewDate = 
-        new Date(this.registerForm.value['updateDate'] + "T" + 
-          this.registerForm.value['updateTime'] + ":00").getTime();
-      }
-      else {
-        return;
-      }
+    console.log(this.rf.updateDate.value);
+    console.log(this.rf.updateTime.value);
+    // update date and time must be valid and they cannot conflict with another
+    // interview already scheduled at that date and time
+    if (!this.dateError && this.rf.updateDate.valid && this.rf.updateTime.valid &&
+      !this.interviewConflict(this.rf.updateDate.value, this.rf.updateTime.value)){
+ 
+      interview.dateAssociateIssued = interview.interviewDate = 
+      new Date(this.rf.updateDate.value + "T" + this.rf.updateTime.value + ":00").getTime();
       
-
+      // successfully update the interview
       this.interviewService.updateInterview(interview).subscribe(res => {
       this.updateSuccess=true;
       location.reload(false);
       },
         error => console.error('Error in myinterview-view.component.ts updateInterview(): ', error.message)
       );
+
+    } else {
+      // update failure
+      this.updateFailure = true;
+      setTimeout(() => {
+        this.updateFailure = false;
+      }, 3000);
+      console.log("update submission failed");
+      // clear selected values from form
+      this.registerForm.reset();
     }
   }
 
@@ -213,8 +234,8 @@ export class MyInterviewComponent implements OnInit {
    * conflicts with the start date and time of an already scheduled interview
    * for this associate.
    */
-  interviewConflict() {
-    const checkDate = new Date(this.aif.interviewDate.value + "T" + this.aif.interviewTime.value + ":00");
+  interviewConflict(interviewDate :any, interviewTime :any) {
+    const checkDate = new Date(interviewDate + "T" + interviewTime + ":00");
     for (let i = 0; i < this.interviews.length; i++) {
       if (new Date(this.interviews[i].interviewDate).getTime() === checkDate.getTime()) {
         return true;

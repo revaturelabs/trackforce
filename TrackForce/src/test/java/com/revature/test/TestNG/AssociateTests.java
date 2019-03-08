@@ -3,10 +3,12 @@ package com.revature.test.TestNG;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,12 +25,15 @@ import com.revature.test.pom.AssociateHome;
 import com.revature.test.pom.Login;
 import com.revature.test.pom.NavBar;
 
+import oracle.sql.DATE;
+
 public class AssociateTests {
 	static WebDriver wd;
 	static WebDriverWait wait;
 	String username = "cyril";
 	String password = "cyril";
-	public final String url = "http://34.227.178.103:8090/NGTrackForce/";
+	public final String url = "http://localhost:4200/";
+//	public final String url = "http://34.227.178.103:8090/NGTrackForce/";
 
 
 	@BeforeClass
@@ -99,33 +104,56 @@ public class AssociateTests {
 	@Test(priority = 3)
 	public void addInterview() {
 		AssociateHome.interviewTab(wd).click();
-		int beforeAddingInterview = AssociateHome.numberOfTR(wd).size();
-		
+		Dimension beforeAddingInterview = wd.findElement(By.id("tableBody")).getSize();
 		Select client = AssociateHome.chooseclient(wd);
 		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		client.selectByVisibleText("ADP");
-		
 		Select type = AssociateHome.chooseType(wd);
-		//wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		//wd.findElement(By.id("interviewType"));
 		type.selectByVisibleText("Online");
 		
 		WebElement date = wd.findElement(By.id("inputDate"));
-		//String datetime = new SimpleDateFormat("MM/dd/yyyy HH:mm aaa").format(Calendar.getInstance().getTime());
-		//String datetime1 = "02/09/2019	12:45";
-		String dateInput = "02092019";
+		WebElement time = wd.findElement(By.id("inputTime"));
+		
+		Calendar cal = Calendar.getInstance();
+		
+		String month = "" + (cal.get(Calendar.MONTH) + 1);
+		String day = "" + (cal.get(Calendar.DAY_OF_MONTH));
+		String year = "" + cal.get(Calendar.YEAR);
+		if (month.length() == 1) {
+			month = "0" + month;
+		}
+		if (day.length() == 1) {
+			day = "0" + day;
+		}
+		
+		String hour = "" + cal.get(Calendar.HOUR);
+		String minute = "" + cal.get(Calendar.MINUTE);
+		if (hour.length() == 1) {
+			hour = "0" + hour;
+		}
+		if (minute.length() == 1) {
+			minute = "0" + minute;
+		}
+		
+		
+		String dateInput = month + day + year;
+		String timeInput = hour + minute + (cal.get(Calendar.AM_PM) == 0? "AM": "PM");
 		date.sendKeys(dateInput);
-		date.sendKeys(Keys.ARROW_UP);
+		time.sendKeys(timeInput);
+		wd.findElement(By.id("add-interview")).click();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Dimension afterAddingInterview = wd.findElement(By.id("tableBody")).getSize();
+		try {
+			Thread.sleep(55000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Assert.assertTrue(afterAddingInterview.height > beforeAddingInterview.height);
 		
-		AssociateHome.checkBox(wd).click();
-		//wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		AssociateHome.addInterview(wd).click();
-		
-		
-		//wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		int afterAddingInterview = AssociateHome.numberOfTR(wd).size();
-		
-		Assert.assertEquals(afterAddingInterview, beforeAddingInterview+1);
 	}
 	
 	/*

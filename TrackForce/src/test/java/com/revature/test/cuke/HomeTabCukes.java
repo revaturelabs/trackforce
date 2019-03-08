@@ -2,6 +2,7 @@ package com.revature.test.cuke;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getBaseUrl;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getEmailUrl;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getRevatureUrl;
+import static com.revature.test.cuke.ConstantsCukeTestUtil.getMailPrefix;
 import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
@@ -66,10 +67,11 @@ public class HomeTabCukes{
     }
     @Then("^I should see the email link open on a browser$")
     public void i_should_see_the_email_link_open_on_a_browser() throws InterruptedException  {
-    	ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getEmailUrl()));
-    	assertEquals(ServiceHooks.driver.getCurrentUrl(), getBaseUrl() + getEmailUrl());
+    	String href = Home.getEmail(ServiceHooks.driver).getAttribute("href");
+    	assertTrue(href.contains("mailto:"));
     }
-    @When("^I click on the website link$")
+
+	@When("^I click on the website link$")
     public static void i_click_on_the_website_link() throws InterruptedException {
         ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Home.getWebsite(ServiceHooks.driver)));
         Home.getWebsite(ServiceHooks.driver).click();

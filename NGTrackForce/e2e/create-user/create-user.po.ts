@@ -51,7 +51,7 @@ export class CreateUserPo {
      * Returns the username element in the DOM
      */
     private getUsernameInput(){
-        return element(by.css('[name="username"]'));
+        return element(by.id('username'));
     }
 
     /**
@@ -197,7 +197,8 @@ export class CreateUserPo {
     
     //Changed from xpath to css Jamir & Brandon 1901SDET --success
     private getSubmitButton(){
-      return element(by.css('html > body > app-component > div > app-create-user > form > button'));
+        return element(by.css('[value="Submit"]'));
+    //   return element(by.id('html > body > app-component > div > app-create-user > form > button'));
     }
 
     clickSubmitButton(){
@@ -217,7 +218,7 @@ export class CreateUserPo {
       
     }
     getUserNameAlert(){
-      return element(by.xpath('//*[@id="error-username"]'));
+      return element(by.id('error-username'));
     }
     refresh(){
       return browser.refresh();

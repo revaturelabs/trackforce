@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.http.HttpResponse;
@@ -34,6 +35,8 @@ import com.revature.entity.TfRole;
 import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
+import com.revature.services.CurriculumService;
+import com.revature.services.MarketingStatusService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
 import static com.revature.utils.LogUtil.logger;
@@ -45,6 +48,7 @@ public class Dev3ApiUtil {
     private static UserService userv = new UserService();
     private static BatchDao batchdao = new BatchDaoImpl();
 	private static String encryptedToken=null;
+	private static CurriculumService currService = new CurriculumService();
 	
 	// This information should be changed to be valid login info for the dev3.revature.com
 	// "jerry" and "gergich!" are just for the dummy database
@@ -207,7 +211,6 @@ public class Dev3ApiUtil {
 				    trainer.setLastName(data.getJSONObject("trainer").getString("lastName"));
 				    
 				    batch.setTrainer(trainer);
-					
 
 				    batches.add(batch);
 				    if (!data.isNull("skill")) {
@@ -282,6 +285,13 @@ public class Dev3ApiUtil {
 					logger.debug("No \"batchTrainees\" field in this batch");
 				}
 				
+				try {
+					Integer currId = parseCurriculumId(data.getString("skill"));
+					batch.setCurriculumName(currService.getAllCurriculums().get(currId-1));//Here get is zero indexed by the database is one-indexed
+				} catch (Exception e) {
+					logger.trace(e);
+				}
+				
 			    boolean createdBatch = batchdao.createBatch(batch);
 			    
 			    //This if statement sets each associate's batch and persists it in the DB
@@ -318,7 +328,7 @@ public class Dev3ApiUtil {
 	}
 	
 	private static TfAssociate getOrBuildAssociate(JSONObject jsonAssoc) {
-
+		MarketingStatusService mss = new MarketingStatusService();
 		String email = jsonAssoc.getString("email");
 		TfUser user = userv.getUser(email);
 		try {
@@ -328,13 +338,14 @@ public class Dev3ApiUtil {
 				user=new TfUser();
 				user.setUsername(email);
 				user.setPassword(RandomStringUtils.randomAlphanumeric(10));
-				user.setIsApproved(1); //What exactly does "approved" mean?
+				user.setIsApproved(0); //What exactly does "approved" mean?
 				user.setTfRole(new TfRole(5));
 				userv.insertUser(user);
 				
 				TfAssociate associate = new TfAssociate();
 				associate.setFirstName(jsonAssoc.optString("firstName"));
 				associate.setLastName(jsonAssoc.optString("lastName"));
+				associate.setMarketingStatus(mss.getMarketingStatusById(6));
 				associate.setUser(user);
 				
 				assServ.createAssociate(associate);
@@ -374,6 +385,38 @@ public class Dev3ApiUtil {
 		} 
 		
 		
+		return null;
+	}
+	
+	private static Integer parseCurriculumId(String skills) {
+		if (Pattern.compile(Pattern.quote("JTA"), Pattern.CASE_INSENSITIVE).matcher(skills).find()) {
+			return 1;
+		}
+		if (Pattern.compile(Pattern.quote("JAVA"), Pattern.CASE_INSENSITIVE).matcher(skills).find()
+				&& !Pattern.compile(Pattern.quote("JAVASCRIPT"), Pattern.CASE_INSENSITIVE).matcher(skills).find()) {
+			return 2;
+		}
+		if (Pattern.compile(Pattern.quote("NET"), Pattern.CASE_INSENSITIVE).matcher(skills).find()) {
+			return 3;
+		}
+		if (Pattern.compile(Pattern.quote("PEGA"), Pattern.CASE_INSENSITIVE).matcher(skills).find()) {
+			return 4;
+		}
+		if (Pattern.compile(Pattern.quote("CRM"), Pattern.CASE_INSENSITIVE).matcher(skills).find()) {
+			return 5;
+		}
+		if (Pattern.compile(Pattern.quote("SALESFORCE"), Pattern.CASE_INSENSITIVE).matcher(skills).find()) {
+			return 6;
+		}
+		if (Pattern.compile(Pattern.quote("MICROSERVICE"), Pattern.CASE_INSENSITIVE).matcher(skills).find()) {
+			return 7;
+		}
+		if (Pattern.compile(Pattern.quote("SEED"), Pattern.CASE_INSENSITIVE).matcher(skills).find()) {
+			return 8;
+		}
+		if (Pattern.compile(Pattern.quote("FUSION"), Pattern.CASE_INSENSITIVE).matcher(skills).find()) {
+			return 9;
+		}
 		return null;
 	}
 }

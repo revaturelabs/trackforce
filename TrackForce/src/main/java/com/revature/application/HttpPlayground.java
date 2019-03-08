@@ -3,6 +3,7 @@ package com.revature.application;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.hibernate.SessionFactory;
 
@@ -21,6 +22,12 @@ import static com.revature.utils.LogUtil.logger;
 
 public class HttpPlayground {
 	public static void main(String[] args) {
+		
+		populateDatabase();
+		
+	}
+
+	private static void populateDatabase() {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
 		logger.debug("Started Session Factory");
 		BatchDao bdao = new BatchDaoImpl();
@@ -36,13 +43,13 @@ public class HttpPlayground {
 		}
 
 		Dev3ApiUtil.login();
-		List<TfBatch> batches = Dev3ApiUtil.getBatchesEndingWithinLastNMonths(6);
+		List<TfBatch> batches = Dev3ApiUtil.getBatchesEndingWithinLastNMonths(0);
 		System.out.println(batches.size());
-//		for (TfBatch tfBatch : batches) {
-//			if (bdao.getBatchBySalesforceId(tfBatch.getSalesforceId()) == null) {
-//				Dev3ApiUtil.loadBatchAndAssociatesIntoDB(tfBatch.getSalesforceId());
-//			}
-//		}
+		for (TfBatch tfBatch : batches) {
+			if (bdao.getBatchBySalesforceId(tfBatch.getSalesforceId()) == null) {
+				Dev3ApiUtil.loadBatchAndAssociatesIntoDB(tfBatch.getSalesforceId());
+			}
+		}
 		System.out.println("Reached End");
 		HibernateUtil.shutdown();
 	}

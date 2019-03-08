@@ -195,8 +195,6 @@ export class MyInterviewComponent implements OnInit {
   }
 
   updateInterview(interview: Interview){
-    console.log(this.rf.updateDate.value);
-    console.log(this.rf.updateTime.value);
     // update date and time must be valid and they cannot conflict with another
     // interview already scheduled at that date and time
     if (!this.dateError && this.rf.updateDate.valid && this.rf.updateTime.valid &&

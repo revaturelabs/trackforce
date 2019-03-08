@@ -99,7 +99,9 @@ public class AssociateTests {
 	}
 	
 	/*
-	 * Associate adding an interview
+	 * Associate adding an interview.  Will take around a minute.  If interrupted and restarted,
+	 * there is a large possibility of a failure due to an interview being generated at the same time
+	 * (They are based on current time and date.), which isn't allowed.
 	 */
 	@Test(priority = 3)
 	public void addInterview() {

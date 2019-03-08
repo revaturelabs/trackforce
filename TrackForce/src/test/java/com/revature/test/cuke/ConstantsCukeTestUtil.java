@@ -25,10 +25,15 @@ public class ConstantsCukeTestUtil {
 	private static final String TEST_FIRST_NAME = "TestFirstName";
 	private static final String TEST_LAST_NAME = "TestLastName";
 	private static final String baseUrl = EnvManager.NGTrackForce_URL;
+	private static final String MAIL_PREFIX = "mailto:";
 	private static final String EMAIL_URL = "info@revature.com";
 	private static final String INTERVIEW_DATE = "2/24/2025 11:30 AM";
 	private static final String INTERVIEW_TYPE = "Phone";
+
 	
+	static final String getMailPrefix(){
+		return MAIL_PREFIX;
+	}
 	static final String getPasswordCapitalized() {
 		return PASSWORD_CAPITALIZED;
 	}

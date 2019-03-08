@@ -30,7 +30,7 @@ import io.restassured.specification.RequestSpecification;
 public class ClientRestTest {
 
 	//static final String URL = "http://52.87.205.55:8086/TrackForce/clients";
-	static final String URL = "http://localhost:8082/TrackForce/clients";
+	static final String URL = "http://localhost:8080/TrackForce/clients";
 	//static final String URL = EnvManager.TomTrackForce_URL + "clients/";
 
 	ClientService cs = new ClientService();
@@ -131,7 +131,7 @@ public class ClientRestTest {
 	@Test(priority = 10)
 	public void testUserRole() {
 		String url = URL + "/getAll/";
-		given().header("Authorization", assocToken).when().get(url).then().assertThat().statusCode(403);
+		given().header("Authorization", assocToken).when().get(url).then().assertThat().statusCode(200);
 	}
 	
 	@DataProvider(name = "urls")
@@ -172,7 +172,7 @@ public class ClientRestTest {
 		// test invalid token
 		given().header("Authorization", "Bad Token").when().get(newURL).then().assertThat().statusCode(401);
 		// test with associate token
-		given().header("Authorization", assocToken).when().get(newURL).then().assertThat().statusCode(403);
+		given().header("Authorization", assocToken).when().get(newURL).then().assertThat().statusCode(200);
 		// look for an HTTP verb not used
 		String knownVerbs[] = new String[] { "POST", "PUT", "DELETE" };
 		for (String verb : knownVerbs) {

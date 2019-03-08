@@ -79,8 +79,7 @@ public class AssociateViewCukes {
 	@When("^I enter my current password$")
 	public void i_enter_my_current_password() throws Throwable {
 	    ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(PasswordUpdate.getOldPassword(ServiceHooks.driver)));
-	    //PasswordUpdate.getOldPassword(ServiceHooks.driver).sendKeys(/*currentPassword*/);// orignal
-	    PasswordUpdate.getOldPassword(ServiceHooks.driver).sendKeys("cyril");
+	    PasswordUpdate.getOldPassword(ServiceHooks.driver).sendKeys(/*currentPassword*/);
 
 	}
 

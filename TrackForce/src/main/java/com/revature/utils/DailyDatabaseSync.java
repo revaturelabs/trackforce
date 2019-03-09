@@ -1,9 +1,15 @@
 package com.revature.utils;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+
+import com.revature.daoimpl.BatchDaoImpl;
+import com.revature.entity.TfBatch;
+
+import static com.revature.utils.LogUtil.logger;
 /*
  * The purpose of this class is to receive Batch and Associate information daily from
  * the https://dev3.revature.com/docs API. Once the data is retrieved it adds Batch and 
@@ -11,6 +17,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class DailyDatabaseSync extends TimerTask {
 
+	private static BatchDaoImpl batchdao = new BatchDaoImpl();
 	private static DailyDatabaseSync schedule;
 	private Timer time = new Timer();
 
@@ -31,8 +38,15 @@ public class DailyDatabaseSync extends TimerTask {
 	
 	@Override
 	public void run() {
-		System.out.println("Daily Database Sync");
-		
+		logger.debug("Syncing batches with database");
+		List<TfBatch> newBatches = Dev3ApiUtil.getBatchesEndingWithinLastNMonths(1);
+		for (TfBatch b : newBatches) {
+			logger.debug(b.getSalesforceId());
+			TfBatch tempBatch = batchdao.getBatchBySalesforceId(b.getSalesforceId());
+			if (tempBatch == null) {
+				Dev3ApiUtil.loadBatchAndAssociatesIntoDB(b.getSalesforceId());
+			}
+		}
 	}
 
 }

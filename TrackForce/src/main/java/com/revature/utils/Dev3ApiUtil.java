@@ -104,69 +104,6 @@ public class Dev3ApiUtil {
 		return encryptedToken != null;
 	}
 
-	public static List<TfBatch> getBatches() {
-		HttpClient httpClient = HttpClientBuilder.create().build(); // Use this instead
-		List<TfBatch> batches = new ArrayList<TfBatch>();
-
-		try {
-
-			HttpGet request = new HttpGet(url + "/secure/batches");
-
-			request.addHeader("content-type", "application/json");
-			request.addHeader("encryptedToken", encryptedToken);
-
-			ResponseHandler<String> responseHandler = new BasicResponseHandler();
-
-			String response = httpClient.execute(request, responseHandler);
-
-			// handle response here...
-
-			JSONObject obj = new JSONObject(response);
-			if (obj.getInt("statusCode") == 200) {
-				JSONArray jsonarray = obj.getJSONArray("data");
-				for (int i = 0; i < jsonarray.length(); i++) {
-
-//					TfBatch newbatch = new TfBatch(id, location, curriculumName, batchName, startDate, endDate, associates, trainer, coTrainer) 
-					JSONObject data = jsonarray.getJSONObject(i);
-					String salesforceId = data.getString("salesforceId");
-					TfBatch batch = new TfBatch();
-					batch.setSalesforceId(salesforceId);
-					batch.setBatchName(data.getString("name"));
-					
-					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss +SSSS");
-				    Date startDate = dateFormat.parse(data.getString("startDate"));
-				    Date endDate = dateFormat.parse(data.getString("endDate"));
-				    
-				    batch.setStartDate(new Timestamp(startDate.getTime()));
-				    batch.setEndDate(new Timestamp(endDate.getTime()));
-				    
-				    TfTrainer trainer = new TfTrainer();
-				    trainer.setFirstName(data.getJSONObject("trainer").getString("firstName"));
-				    trainer.setLastName(data.getJSONObject("trainer").getString("lastName"));
-				    
-				    batch.setTrainer(trainer);
-					
-
-				    batches.add(batch);
-				    
-				}
-				return batches;
-			} else {
-				return null;
-			}
-
-		} catch (Exception ex) {
-
-			// handle exception here
-
-		} finally {
-			// Deprecated
-			// httpClient.getConnectionManager().shutdown();
-		}
-		return null;
-	}
-
-	
 	public static List<TfBatch> getBatchesEndingWithinLastNMonths(int nMonths) {
 		
 		HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead 

@@ -75,17 +75,6 @@ public class AssociateServicesTest {
 		assertEquals(props.getProperty("associate3_feedback"), associate.getStagingFeedback());
 	}
 
-	@Test(priority = 2)
-	public void testGetAssociateByUserId() {
-		TfAssociate associate = service.getAssociateByUserId(Integer.parseInt(props.getProperty("associate50_user")));
-		System.out.println(associate.getFirstName());
-
-		assertEquals(associate.getFirstName(), props.getProperty("associate50_userFirst"));
-		assertEquals(associate.getLastName(), props.getProperty("associate50_userLast"));
-		assertEquals(associate.getStagingFeedback(), props.getProperty("associate50_userFeed"));
-
-	}
-
 	@Test(priority = 1)
 	public void testGetAllAssociates() {
 		List<TfAssociate> list = service.getAllAssociates();

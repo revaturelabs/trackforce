@@ -22,7 +22,8 @@ describe('The create-user page ', () => {
         page       = new LoginPage();
         baseURL = testConfig.getBaseURL();
         // this creates a random 6 letter string for the username
-        username = Math.random().toString(36).substring(7);
+        username = "testuser";
+        username += Math.random().toString(36).substring(7);
         password = 'Testca$e1';
         page.navigateTo();
         navbar.logIn('TestAdmin','TestAdmin');

@@ -29,7 +29,8 @@ describe('A new user should able to register', () => {
     });
 
     it('allow associate to enter a username', () => {
-        let registerUsername = Math.random().toString(36).substring(7);
+        let registerUsername = "testuser";
+        registerUsername += Math.random().toString(36).substring(7);
         registerAssociatePage.AssociateUsername().sendKeys(registerUsername);
         expect(registerAssociatePage.AssociateUsername().getAttribute("value")).toEqual(registerUsername);
     });

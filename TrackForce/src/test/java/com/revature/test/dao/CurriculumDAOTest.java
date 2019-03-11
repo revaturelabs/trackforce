@@ -46,7 +46,8 @@ public class CurriculumDAOTest {
 	public void testCurriculumDAOGetUnmapped() {
 		List<GraphedCriteriaResult> list = dao.getUnmapped(Integer.parseInt(props.getProperty("curriculum_java")));
 		assertEquals(list.get(0).getName(), "Java");
-		assertEquals(list.get(0).getCount(), Long.parseLong(props.getProperty("curriculum_java_count")));
+//		assertEquals(list.get(0).getCount(), Long.parseLong(props.getProperty("curriculum_java_count")));
+		assertEquals(list.get(0).getCount(), 2);
 		
 	}
 }

@@ -18,7 +18,7 @@ import com.revature.entity.TfInterview;
  * working just fine.
  */
 public class InterviewDAOTest {
-	// loads interviews for associate_ID 710
+	// loads interviews for associate_ID 104905
 	List<TfInterview> interviews = null;
 	// List of all interviews
 	List<TfInterview> allInterviews = null;
@@ -29,7 +29,7 @@ public class InterviewDAOTest {
 	@BeforeTest
 	public void setup() {
 		if (interviews == null) {
-			interviews = new InterviewDaoImpl().getInterviewsByAssociate(710);
+			interviews = new InterviewDaoImpl().getInterviewsByAssociate(104905);
 		}
 		if (allInterviews == null) {
 			allInterviews = new InterviewDaoImpl().getAllInterviews();
@@ -49,32 +49,32 @@ public class InterviewDAOTest {
 
 	@Test
 	public void interviewDaoReturnsCorrectAssociateFeedback() {
-		Assert.assertEquals(interviews.get(0).getAssociateFeedback(), "Prepared");
+		Assert.assertEquals(interviews.get(0).getAssociateFeedback(), "Interview was great.");
 	}
 
 	@Test
 	public void interviewDaoReturnsCorrectClienteFeedback() {
-		Assert.assertEquals(interviews.get(0).getClientFeedback(), "nondescript");
+		Assert.assertEquals(interviews.get(0).getClientFeedback(), null);
 	}
 
 	@Test
 	public void interviewDaoReturnsCorrectInterviewID() {
-		Assert.assertTrue(interviews.get(0).getId() == 0);
+		Assert.assertTrue(interviews.get(0).getId() == 100004);
 	}
 
 	@Test
 	public void interviewDaoReturnsCorrectTF_flag() {
-		Assert.assertEquals(interviews.get(0).getFlagReason(), "No Reason");
+		Assert.assertEquals(interviews.get(0).getFlagReason(), null);
 	}
 
 	@Test
 	public void interviewDaoReturnsCorrectFlagged() {
-		Assert.assertTrue(interviews.get(0).getIsInterviewFlagged() == 1);
+		Assert.assertTrue(interviews.get(0).getIsInterviewFlagged() == 0);
 	}
 
 	@Test(dependsOnMethods = "interviewDaoReturnsCorrectAssociateFeedback")
 	public void interviewDaoReturnsCorrectQuestions() {
-		Assert.assertEquals(interviews.get(0).getQuestionGiven(), "Questions...");
+		Assert.assertEquals(interviews.get(0).getQuestionGiven(), "What is test automation?");
 	}
 
 	@Test
@@ -84,19 +84,18 @@ public class InterviewDAOTest {
 
 	@Test
 	public void interviewDaoReturnsCorrectClient() {
-		Assert.assertTrue(interviews.get(0).getClient().getId() == 577);
+		Assert.assertTrue(interviews.get(0).getClient().getId() == 6);
 	}
 
 	@Test
 	public void interviewDaoReturnsCorrectEndClient() {
-		Assert.assertTrue(interviews.get(0).getEndClient().getId() == 1251);
+		Assert.assertTrue(interviews.get(0).getEndClient() == null);
 	}
 
 	@Test
 	public void interviewDaoReturnsCorrectType() {
-		Assert.assertTrue(interviews.get(0).getInterviewType().getId() == 3);
+		Assert.assertTrue(interviews.get(0).getInterviewType().getId() == 1);
 	}
-
 	/**
 	 * Tests for getAllInterviews method
 	 */
@@ -116,7 +115,7 @@ public class InterviewDAOTest {
 	 */
 	@Test
 	public void interviewDaoCanGetInterviewByID() {
-		Assert.assertTrue(new InterviewDaoImpl().getInterviewById(0).getAssociate().getId() == 710);
+		Assert.assertTrue(new InterviewDaoImpl().getInterviewById(100004).getAssociate().getId() == 104905);
 	}
 
 	/**
@@ -125,7 +124,7 @@ public class InterviewDAOTest {
 	@Test
 	public void interviewDaoCanUpdateValidInterview() {
 
-		Assert.assertTrue(new InterviewDaoImpl().updateInterview(new InterviewDaoImpl().getInterviewById(2)));
+		Assert.assertTrue(new InterviewDaoImpl().updateInterview(new InterviewDaoImpl().getInterviewById(100061)));
 	}
 
 	@Test(expectedExceptions = NullPointerException.class)
@@ -138,7 +137,7 @@ public class InterviewDAOTest {
 	 */
 	@Test
 	public void interviewDaoCannotCreateDuplicateInterview() {
-		Assert.assertFalse(new InterviewDaoImpl().createInterview((new InterviewDaoImpl().getInterviewById(3))));
+		Assert.assertFalse(new InterviewDaoImpl().createInterview((new InterviewDaoImpl().getInterviewById(100004))));
 	}
 	@Test
 	public void interviewDaoCanCreateInterview() {

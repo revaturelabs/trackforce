@@ -49,7 +49,7 @@ public class AssociateRestTest {
 	int knownUserId2 = 790; // Username: Harvey
 	int knownUserId3 = 695; // Username: Tabitha, Associate id: 685
 	
-	int knownAssociateId = 685;
+	int knownAssociateId = 0;
 	
 	@BeforeClass
 	public void beforeClass() {
@@ -108,6 +108,8 @@ public class AssociateRestTest {
 	public void testGetAllAssociatesHappyPath() {
 		Response response = given().header("Authorization", token).when().get(URL + "/allAssociates").then().extract()
 				.response();
+		
+		System.out.println("\n =-= token: " + token + " , " + response.getStatusCode());
 
 		assertTrue(response.getStatusCode() == 200);
 		assertTrue(response.contentType().equals("application/json"));

@@ -142,7 +142,7 @@ public class InterviewDAOTest {
 	}
 	@Test
 	public void interviewDaoCanCreateInterview() {
-		Assert.assertTrue(new InterviewDaoImpl().createInterview(new TfInterview(999,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)));
+		Assert.assertTrue(new InterviewDaoImpl().createInterview(new TfInterview(54,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)));
 	}
 
 }

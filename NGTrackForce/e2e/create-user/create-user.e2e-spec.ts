@@ -203,7 +203,7 @@ describe('A Staging Manager', () => {
       page.getlogoutButton().click();
     });
 });
-
+ 
 describe('A Sales Manager', () => {
 
     beforeAll(() => {

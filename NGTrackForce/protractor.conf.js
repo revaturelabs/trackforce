@@ -13,20 +13,22 @@ captureOnlyFailedSpecs: true
 exports.config = {
   allScriptsTimeout: 20000,
   specs: [
+    //ALL JASMINE TESTS PASSING JAMIR & BRANDON -1901SDET (tests must be in this order currently)
+    './e2e/associate-list/associate-list-pagenation.js',  //Test for Association Pagenation functionality
+    './e2e/associate-list/associate-list-search.js',
+    './e2e/associate-list/associate-list-status.js',
+    './e2e/associate-list/associate-list-client.js',
+
+    //PROTRACTOR TESTS
     './e2e/register-associate/register-associate.e2e-spec.ts',
     './e2e/login/login.e2e-spec.ts',
     './e2e/navbar/navbar.e2e-spec.ts',
     './e2e/create-user/create-user.e2e-spec.ts',
     './e2e/client-list/client-list-spec.ts',
     './e2e/batch-list/batch-list.e2e-spec.ts',
-    // failing
     './e2e/predictions/predictions.e2e-spec.ts',
     
-    //ALL JASMINE TESTS PASSING JAMIR & BRANDON -1901SDET (tests must be in this order currently)
-    './e2e/associate-list/associate-list-pagenation.js',  //Test for Association Pagenation functionality
-    './e2e/associate-list/associate-list-search.js',
-    './e2e/associate-list/associate-list-status.js',
-    './e2e/associate-list/associate-list-client.js',
+    
   ],
   beforeLaunch: function() {
     return new Promise(function(resolve){
@@ -47,8 +49,7 @@ exports.config = {
      //seleniumAddress: "http://127.0.0.1:4444/wd/hub",
      //seleniumAddress: "http://localhost:4444/wd/hub",
     // SELENIUM_PROMISE_MANAGER: false,
-    //
-    //
+
 
   framework: 'jasmine',
   jasmineNodeOpts: {

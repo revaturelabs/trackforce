@@ -4,32 +4,35 @@
 //Loads 60 more
 describe('test assocation pagenation functionality', function() {
     //Tested on local host, should go to EC2 Location
-    browser.get('http://localhost:4200/login');
-
+    beforeAll(() =>{  
+        browser.get('http://localhost:4200/login');
+    });
     //NGTrackForce_URL
     // browser.get('http://34.227.178.103:8090/NGTrackForce/');
-    browser.manage().timeouts().implicitlyWait(10000);
+
+    beforeEach(() =>{
+        browser.manage().timeouts().implicitlyWait(5000);
+    });
 
     it('should log in', function() {
   
       element(by.id('username')).sendKeys('TestAdmin');
       element(by.id('password')).sendKeys('TestAdmin');
-      //document.querySelector('#pwd-container > div > section > form > div > div:nth-child(3) > button:nth-child(1)')
+    //   document.querySelector('#pwd-container > div > section > form > div > div:nth-child(3) > button:nth-child(1)').click();
       element(by.css('#pwd-container > div > section > form > div > div:nth-child(3) > button:nth-child(1)')).click();
       expect(element(by.id('home')).getText()).toEqual('Home');
-      
     });
 
     it('Go to associate list tab', function() {
     
         element(by.id('associates')).click();
+        browser.wait(element(by.id('tableScroller')), 2000, 'Table not found in 2 seconds');
         expect(element(by.id('tableScroller')).isPresent()).toBe(true);
 
     });
 
     it('Should load 60 or less associates.', function() {
-    expect(element.all(by.css("table tbody tr")).count()).toBeLessThanOrEqual(60);
-
+        expect(element.all(by.css("table tbody tr")).count()).toBeLessThanOrEqual(60);
     });
 
     it('Should load more associate if page scrolls down and theres more than 60.', function() {
@@ -48,4 +51,4 @@ describe('test assocation pagenation functionality', function() {
         element(by.id('logout')).click();
     });
 
-  });
+});

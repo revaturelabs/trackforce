@@ -202,19 +202,25 @@ export class CreateUserPo {
     }
 
     clickSubmitButton(){
-      this.getSubmitButton().click();
+      let sButton = this.getSubmitButton()
+      if(sButton.isEnabled()){
+          sButton.click();
+      }
+      else{
+          browser.wait(sButton.isEnabled(), 2*1000, 'Button not displayed within 2 seconds');
+      }
     }
 
     getAlert(){
       //return element(by.class('class="alert alert-success ng-star-inserted"'));
       //return element(by.css('[class="alert alert-success ng-star-inserted"]'));
-    //   return element(by.css('body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div'));
+      return element(by.css('body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div'));
     // return(element(by.xpath('/html/body/app-component/div/app-create-user/form/fieldset[1]/div')))
     //   return element(by.xpath('//*[@id="sucMsgAlert"]'));
     // return element(by.css('//*[@id="sucMsgAlert"]'));
     //document.querySelector('#sucMsgAlert')
     //*[@id="sucMsgAlert"]
-      return element(by.id('sucMsgAlert'));
+    //   return element(by.id('sucMsgAlert'));
       
     }
     getUserNameAlert(){

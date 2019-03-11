@@ -77,7 +77,7 @@ describe('The create-user page ', () => {
     });
 });
 
-xdescribe('An Admin', () => {
+describe('An Admin', () => {
 
     beforeAll(() => {
         createUser = new CreateUserPo();
@@ -169,7 +169,7 @@ describe('A Staging Manager', () => {
     it('should be able to create a trainer', () => {
 
         createUser.clickTrainerRadio();
-        browser.sleep(2000);
+        
         createUser.clickSubmitButton();
         // browser.wait(() => return element(by.css('[value="Submit"]')), 5000);
         expect(createUser.getAlert().getText()).toContain('User created successfully');
@@ -178,7 +178,7 @@ describe('A Staging Manager', () => {
     //FAILS - Change 'it' to 'xit' to skip this test
     it('should be able to create a associate', () => {
         createUser.clickAssociateRadio();
-        browser.sleep(2000);
+        
         createUser.clickSubmitButton();
         expect(createUser.getAlert().getText()).toContain('User created successfully');
     });
@@ -186,7 +186,7 @@ describe('A Staging Manager', () => {
     //FAILS - Change 'it' to 'xit' to skip this test
     it('should be able to create a staging manager', () => {
         createUser.clickManagerRadio();
-        browser.sleep(2000);
+        
         createUser.clickSubmitButton();
         expect(createUser.getAlert().getText()).toContain('User created successfully');
     });
@@ -194,7 +194,7 @@ describe('A Staging Manager', () => {
     //FAILS - Change 'it' to 'xit' to skip this test
     it('should be able to create a delivery ', () => {
         createUser.clickDeliveryRadio();
-        browser.sleep(2000);
+        
         createUser.clickSubmitButton();
         expect(createUser.getAlert().getText()).toContain('User created successfully');
       });
@@ -204,7 +204,7 @@ describe('A Staging Manager', () => {
     });
 });
 
-xdescribe('A Sales Manager', () => {
+describe('A Sales Manager', () => {
 
     beforeAll(() => {
         createUser = new CreateUserPo();
@@ -258,7 +258,7 @@ xdescribe('A Sales Manager', () => {
       page.getlogoutButton().click();
     });
 });
-xdescribe('A user', () => {
+describe('A user', () => {
 
     beforeAll(() => {
         createUser = new CreateUserPo();

@@ -102,11 +102,9 @@
               <form [formGroup]="registerForm" >
                   <div class="input-group mb-3" style="width: 310px;">
 
-                      <!-- <label for="updateDate">Interview Date:</label> -->
                       <input type="date"
                         class="form-control" name="updateDate" id="updateDate" formControlName="updateDate"
                         placeholder="mm/dd/yyyy" min = "{{today | date:'yyyy-MM-dd'}}">
-                      <!-- <label for="updateTime">Interview Time:</label> -->
                       <input type="time" 
                         class="form-control" name="updateTime" id="updateTime" formControlName="updateTime"
                         placeholder="hh:mm">

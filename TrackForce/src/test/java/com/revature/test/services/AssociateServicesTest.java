@@ -121,12 +121,12 @@ public class AssociateServicesTest {
 	// if that's what we are testing.
 	@Test(priority = 100)
 	public void testUpdateAssociate() {
-		TfAssociate toChange = service.getAssociate(1);
+		TfAssociate toChange = service.getAssociate(100442);
 		toChange.setFirstName("Hank");
 		toChange.setLastName("Pym");
 		toChange.setStagingFeedback("Alabama");
 		service.updateAssociatePartial(toChange);
-		TfAssociate changed = service.getAssociate(1);
+		TfAssociate changed = service.getAssociate(100442);
 
 		assertEquals("Hank", changed.getFirstName());
 		assertEquals("Pym", changed.getLastName());

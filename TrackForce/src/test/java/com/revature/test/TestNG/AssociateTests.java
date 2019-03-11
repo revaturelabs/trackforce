@@ -106,23 +106,16 @@ public class AssociateTests {
 		client.selectByVisibleText("ADP");
 		
 		Select type = AssociateHome.chooseType(wd);
-		//wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		//wd.findElement(By.id("interviewType"));
 		type.selectByVisibleText("Online");
 		
 		WebElement date = wd.findElement(By.id("inputDate"));
-		//String datetime = new SimpleDateFormat("MM/dd/yyyy HH:mm aaa").format(Calendar.getInstance().getTime());
-		//String datetime1 = "02/09/2019	12:45";
 		String dateInput = "02092019";
 		date.sendKeys(dateInput);
 		date.sendKeys(Keys.ARROW_UP);
 		
 		AssociateHome.checkBox(wd).click();
-		//wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		AssociateHome.addInterview(wd).click();
 		
-		
-		//wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		int afterAddingInterview = AssociateHome.numberOfTR(wd).size();
 		
 		Assert.assertEquals(afterAddingInterview, beforeAddingInterview+1);

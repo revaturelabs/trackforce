@@ -35,8 +35,11 @@ export class MyInterviewComponent implements OnInit {
   public newInterview: Interview;
   public formOpen = false;
   public conflictingInterviews = '';
-
+  
   public interviewDate: Date;
+  public interviewTime: any;
+  public updateDate: Date;
+  public updateTime: any;
   public interviewAssigned: Date = new Date();
   public clients: Client[];
   public user: User;
@@ -48,11 +51,12 @@ export class MyInterviewComponent implements OnInit {
   public isDataReady = false;
   public dateError:boolean;
   public updateSuccess = false;
+  public updateFailure = false;
   public succMsg: string;
   public failMsg: string;
   show : boolean;
   public convertedTime : string;
-  public today: string = new Date().toLocaleDateString();
+  today: Date = new Date();
 
   index;
   index2;
@@ -70,13 +74,21 @@ export class MyInterviewComponent implements OnInit {
 
   ngOnInit(){
       this.registerForm = this.formBuilder.group({
-        dateinput: [''],
+        updateDate: ['', Validators.compose(
+          [Validators.required, Validators.pattern("[0-9]{4}\-*[0-9]{0,2}\-*[0-9]{0,2}\-*")])
+        ],
+        updateTime: ['', Validators.compose(
+          [Validators.required, Validators.pattern("[0-9]{1,2}:[0-9]{2}.*")])
+         ]
        });
       this.addInterviewForm = this.formBuilder.group({
          clientId: ['', Validators.required],
          typeId: ['', Validators.required],
          interviewDate: ['', Validators.compose(
-           [Validators.required, Validators.pattern("[0-9]{0,2}\/*[0-9]{0,2}\/*[0-9]{4}\s*T[0-9]{1,2}:[0-9]{2}.*")])
+           [Validators.required, Validators.pattern("[0-9]{4}\-*[0-9]{0,2}\-*[0-9]{0,2}\-*")])
+         ],
+         interviewTime: ['', Validators.compose(
+          [Validators.required, Validators.pattern("[0-9]{1,2}:[0-9]{2}.*")])
          ],
          was24HRNotice: ['']
         });
@@ -121,8 +133,15 @@ export class MyInterviewComponent implements OnInit {
     return this.addInterviewForm.controls;
   }
 
+  get rf() {
+    return this.registerForm.controls;
+  }
+
   addInterview() {
-      if (!this.dateError && this.aif.interviewDate.valid){
+    // interview date and time must be valid and they cannot conflict with another
+    // interview already scheduled at that date and time
+      if (!this.dateError && this.aif.interviewDate.valid && this.aif.interviewTime.valid && 
+        !this.interviewConflict(this.aif.interviewDate.value, this.aif.interviewTime.value)){
         //the '+' coerces type to be number
         switch (+this.aif.typeId.value) {
           case 1:
@@ -146,7 +165,7 @@ export class MyInterviewComponent implements OnInit {
           this.associate,
           this.aif.clientId.value,
           this.interviewType,
-          new Date(this.aif.interviewDate.value).getTime(),
+          new Date(this.aif.interviewDate.value + "T" + this.aif.interviewTime.value + ":00").getTime(),
           null,
           this.aif.was24HRNotice.value ? 1 : 0,
           null,
@@ -154,7 +173,7 @@ export class MyInterviewComponent implements OnInit {
           // refers to the 'Assigned' date given to the Associate.
           //  unsure whether this originally referenced the given time or the actual time
           new Date(this.interviewAssigned).getTime(),
-          new Date(this.aif.interviewDate.value).getTime().toString()
+          new Date(this.aif.interviewDate.value + "T" + this.aif.interviewTime.value + ":00").getTime().toString()
         );
 
         this.succMsg="Interview Added";
@@ -175,27 +194,32 @@ export class MyInterviewComponent implements OnInit {
       }
   }
 
-
   updateInterview(interview: Interview){
-    if (!this.dateError){
-        interview.isInterviewFlagged = +interview.isInterviewFlagged; // set it to number
-        interview.interviewDate = new Date(this.registerForm.value['dateinput']).getTime(); // convert into timestamp
-        interview.dateSalesIssued = new Date(
-          interview.dateAssociateIssued
-        ).getTime(); // convert into timestamp
+    // update date and time must be valid and they cannot conflict with another
+    // interview already scheduled at that date and time
+    if (!this.dateError && this.rf.updateDate.valid && this.rf.updateTime.valid &&
+      !this.interviewConflict(this.rf.updateDate.value, this.rf.updateTime.value)){
+ 
+      interview.dateAssociateIssued = interview.interviewDate = 
+      new Date(this.rf.updateDate.value + "T" + this.rf.updateTime.value + ":00").getTime();
+      
+      // successfully update the interview
+      this.interviewService.updateInterview(interview).subscribe(res => {
+      this.updateSuccess=true;
+      location.reload(false);
+      },
+        error => console.error('Error in myinterview-view.component.ts updateInterview(): ', error.message)
+      );
 
-        interview.dateAssociateIssued = new Date (this.registerForm.value['dateinput']).getTime() ;
-        console.log("in updateinterview");
-
-
-        this.interviewService.updateInterview(interview).subscribe(res => {
-        this.updateSuccess=true;
-
-
-         location.reload(false);
-       },
-         error => console.error('Error in myinterview-view.component.ts updateInterview(): ', error.message)
-       );
+    } else {
+      // update failure
+      this.updateFailure = true;
+      setTimeout(() => {
+        this.updateFailure = false;
+      }, 3000);
+      console.log("update submission failed");
+      // clear selected values from form
+      this.registerForm.reset();
     }
   }
 
@@ -204,24 +228,14 @@ export class MyInterviewComponent implements OnInit {
   }
 
   /**
-   Function to search for conflicting interviews.
-   This function is called once for every row in the
-   "My Interviews" table. If it returns true, the date
-   cell is colored red to highlight the conflict.
-   THIS FUNCTION IS VERY USEFUL BUT IT IS NOT BEING USED // Fixed by batch 1806
-  */
-  highlightInterviewConflicts(interview: number) {
-    const checkDate = new Date(this.interviews[interview].interviewDate);
+   * Function to determine if the start date and time for a new interview
+   * conflicts with the start date and time of an already scheduled interview
+   * for this associate.
+   */
+  interviewConflict(interviewDate :any, interviewTime :any) {
+    const checkDate = new Date(interviewDate + "T" + interviewTime + ":00");
     for (let i = 0; i < this.interviews.length; i++) {
-      if (
-        new Date(this.interviews[i].interviewDate).getTime() ===
-          checkDate.getTime() &&
-        i !== interview
-      ) {
-        this.conflictingInterviews =
-          'The highlighted interviews are conflicting.' +
-          'They are both scheduled at the same time!';
-        this.conflictingInterview = true;
+      if (new Date(this.interviews[i].interviewDate).getTime() === checkDate.getTime()) {
         return true;
       }
     }
@@ -236,33 +250,15 @@ export class MyInterviewComponent implements OnInit {
     this.index2 = index;
   }
 
-
   getAssociateInterviews(id: number) {
     this.interviewService.getInterviewsForAssociate(id).subscribe(
       data =>{
-
         this.interviews = data;
         this.isDataReady = true;
-
-
-
       },
       error => {
         console.log('getAssociateInterview error');
       }
     );
   }
-
-  // ===========================================
-  // THIS NEEDS TO BE IMPLEMENTED
-  // ============================================
-  saveInterview(interview: Interview) {}
-
-
-  // THIS METHOD IS REPLACED BY STORING THE CLIENTS IN LOCAL STORAGE
-  // getClientNames() {
-  //   this.clientService.getAllClients().subscribe(data => {
-  //     this.clients = data;
-  //   });
-  // }
 }

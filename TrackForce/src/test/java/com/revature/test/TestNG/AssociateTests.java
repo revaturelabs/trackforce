@@ -26,8 +26,8 @@ import com.revature.test.pom.NavBar;
 public class AssociateTests {
 	static WebDriver wd;
 	static WebDriverWait wait;
-	String username = "bobbert1234";
-	String password = "Bobbert12!";
+	String username = "cyril";
+	String password = "cyril";
 	public final String url = "http://34.227.178.103:8090/NGTrackForce/";
 
 
@@ -103,25 +103,19 @@ public class AssociateTests {
 		
 		Select client = AssociateHome.chooseclient(wd);
 		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		client.selectByVisibleText("ADP");//Index(pickClient);
+		client.selectByVisibleText("ADP");
 		
 		Select type = AssociateHome.chooseType(wd);
-		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		wd.findElement(By.id("interviewType"));
-		type.selectByVisibleText("Online");//Index(pickType);
+		type.selectByVisibleText("Online");
 		
-		WebElement date = AssociateHome.inputDate(wd);
-		String datetime = new SimpleDateFormat("MM/dd/yyyy HH:mm aaa").format(Calendar.getInstance().getTime());
-		String datetime1 = "02/09/2019	12:45";
-		date.sendKeys(datetime1);
+		WebElement date = wd.findElement(By.id("inputDate"));
+		String dateInput = "02092019";
+		date.sendKeys(dateInput);
 		date.sendKeys(Keys.ARROW_UP);
 		
 		AssociateHome.checkBox(wd).click();
-		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		AssociateHome.addInterview(wd).click();
 		
-		
-		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		int afterAddingInterview = AssociateHome.numberOfTR(wd).size();
 		
 		Assert.assertEquals(afterAddingInterview, beforeAddingInterview+1);

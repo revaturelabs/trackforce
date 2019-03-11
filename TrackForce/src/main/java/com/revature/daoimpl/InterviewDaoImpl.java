@@ -13,7 +13,7 @@ public class InterviewDaoImpl implements InterviewDao {
 	public List<TfInterview> getInterviewsByAssociate(int associateId) {
 		LogUtil.logger.trace("Hibernate Call to get Interviews by AssociateId: " + associateId);
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
-				.createQuery("from TfInterview i where i.associate.id like :associateId", TfInterview.class)
+				.createQuery("from TfInterview i where i.associate.id like :associateId order by tf_interview_date", TfInterview.class)
 				.setParameter("associateId", associateId).setCacheable(true).getResultList());
 	}
 

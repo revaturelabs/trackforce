@@ -130,6 +130,9 @@ describe('When I enter a start date that is more current than the end date it', 
         expect(predictionsPage.getPredictionsTable()).toBeTruthy();
     });
 
+    //adding this after all breaks the last test of this suite, to get around this
+    //we simply put the jasmine tests first.
+    
     // afterAll(()=>{
     //   element(by.id('logout')).click();
     // });

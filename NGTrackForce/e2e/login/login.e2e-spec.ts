@@ -1,6 +1,6 @@
 import { LoginPage } from './login.po';
 import { TestConfig } from '../configuration/test-config';
-import { protractor, browser, by, element } from 'protractor';
+import { browser } from 'protractor';
 
 /*
 Smoke test: Checks elements to be exist

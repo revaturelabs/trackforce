@@ -56,7 +56,7 @@ describe('The admin navbar is functional', () => {
 
 });
 
-xdescribe('The Asscoiate navbar is functional', () => {
+describe('The Asscoiate navbar is functional', () => {
 
     beforeAll(() => {
         navbar = new Navbar();

@@ -5,9 +5,9 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
 var reporter = new HtmlScreenshotReporter({
-dest: 'testresults/screenshots',
-filename: 'my-report.html',
-captureOnlyFailedSpecs: true
+  dest: 'testresults/screenshots',
+  filename: 'my-report.html',
+  captureOnlyFailedSpecs: true
 });
 
 exports.config = {
@@ -27,8 +27,7 @@ exports.config = {
     './e2e/client-list/client-list-spec.ts',
     './e2e/batch-list/batch-list.e2e-spec.ts',
     './e2e/predictions/predictions.e2e-spec.ts',
-    
-    
+       
   ],
   beforeLaunch: function() {
     return new Promise(function(resolve){
@@ -68,11 +67,11 @@ exports.config = {
     // jasmine.getEnv().addReporter(
     //   new jasmineReporters.JUnitXmlReporter('outputxmldir', true, true));
     var jasmineReporters = require('jasmine-reporters');
-     jasmine.getEnv().addReporter(reporter);
+    jasmine.getEnv().addReporter(reporter);
     jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({
-        consolidateAll: true,
-        savePath: 'testresults',
-        filePrefix: 'xmloutput'
+      consolidateAll: true,
+      savePath: 'testresults',
+      filePrefix: 'xmloutput'
     }));
   },
   onComplete: function() {
@@ -80,12 +79,12 @@ exports.config = {
     var capsPromise = browser.getCapabilities();
 
     capsPromise.then(function (caps) {
-       browserName = caps.get('browserName');
-       browserVersion = caps.get('version');
+      browserName = caps.get('browserName');
+      browserVersion = caps.get('version');
 
-       var HTMLReport = require('protractor-html-reporter');
+      var HTMLReport = require('protractor-html-reporter');
 
-       testConfig = {
+      testConfig = {
            reportTitle: 'Test Execution Report',
            outputPath: './',
            screenshotPath: './screenshots',

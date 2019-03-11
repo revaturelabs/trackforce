@@ -20,6 +20,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.revature.test.pom.AssociateHome;
+import com.revature.test.pom.Login;
 import com.revature.test.pom.MyInterviews;
 import com.revature.test.pom.NavBar;
 import com.revature.test.pom.PasswordUpdate;
@@ -35,8 +36,7 @@ public class AssociateViewCukes {
 	@Given("^I am on the Associate Home Page$")
 	public void i_am_on_the_Associate_Home_Page()  {
 		ServiceHooks.wait.until(ExpectedConditions.urlToBe(getBaseUrl() + getAssociateView()));
-//		assertEquals(ServiceHooks.driver.getCurrentUrl(),getBaseUrl()+ getAssociateView());
-		assertEquals(true,true);
+		assertEquals(ServiceHooks.driver.getCurrentUrl(),getBaseUrl()+ getAssociateView());
 	}
 	//End Background for Associate View Tests
 	
@@ -80,21 +80,20 @@ public class AssociateViewCukes {
 	public void i_enter_my_current_password() throws Throwable {
 	    ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(PasswordUpdate.getOldPassword(ServiceHooks.driver)));
 	    PasswordUpdate.getOldPassword(ServiceHooks.driver).sendKeys(/*currentPassword*/);
-
 	}
 
 	@When("^enter a new password$")
 	public void enter_a_new_password() throws Throwable {
 		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(PasswordUpdate.getNewPassword(ServiceHooks.driver)));
-	    //PasswordUpdate.getNewPassword(ServiceHooks.driver).sendKeys(/*newPassword*/); // orignal 
-	    PasswordUpdate.getNewPassword(ServiceHooks.driver).sendKeys("cyril");
+	    PasswordUpdate.getNewPassword(ServiceHooks.driver).sendKeys(/*newPassword*/); 
+	   
 	}
 
 	@When("^confirm the new password$")
 	public void confirm_the_new_password() throws Throwable {
 		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(PasswordUpdate.getConfirmPassword(ServiceHooks.driver)));
-	    //PasswordUpdate.getConfirmPassword(ServiceHooks.driver).sendKeys(/*newPassword*/);
-	    PasswordUpdate.getConfirmPassword(ServiceHooks.driver).sendKeys("cyril");
+	    PasswordUpdate.getConfirmPassword(ServiceHooks.driver).sendKeys(/*newPassword*/);
+
 
 	}
 	

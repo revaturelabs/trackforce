@@ -13,10 +13,10 @@ Feature: Testing the various user stories connected to the Associate use case
   
   Scenario: An associate updates their password
   	When I click on the update password option
-  	And I enter my current password
+  #	And I enter my current password
   #	And enter a new password 
-  #	And confirm the new password
-  #	And click the update button
+  # And confirm the new password
+  	And click the update button
   #	Then A success message should appear on the page
   	
 #	Scenario: An associate updates their username

@@ -108,7 +108,7 @@ public class AssociateServicesTest {
 	}
 
 	@Test(priority = 2)
-	public void testGetMappedAssociateByClient() {
+	public void testGetMappedAssociateCountByClient() {
 		long count = Long.parseLong(props.getProperty("market_count"));
 		long clientId = Long.parseLong(props.getProperty("market_clientId"));
 		int markId = Integer.parseInt(props.getProperty("market_id"));

@@ -69,6 +69,7 @@ public class HomeTabCukes{
     public void i_should_see_the_email_link_open_on_a_browser() throws InterruptedException  {
     	String href = Home.getEmail(ServiceHooks.driver).getAttribute("href");
     	assertTrue(href.contains("mailto:"));
+
     }
 
 	@When("^I click on the website link$")

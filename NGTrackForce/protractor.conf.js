@@ -27,6 +27,7 @@ exports.config = {
     './e2e/client-list/client-list-spec.ts',
     './e2e/batch-list/batch-list.e2e-spec.ts',
     './e2e/predictions/predictions.e2e-spec.ts',
+    './src/app/pipes/search-filter/search-filter.pipe.spec.ts'
        
   ],
   beforeLaunch: function() {
@@ -85,13 +86,13 @@ exports.config = {
       var HTMLReport = require('protractor-html-reporter');
 
       testConfig = {
-           reportTitle: 'Test Execution Report',
-           outputPath: './',
-           screenshotPath: './screenshots',
-           testBrowser: browserName,
-           browserVersion: browserVersion,
-           modifiedSuiteName: false,
-           screenshotsOnlyOnFailure: true
+        reportTitle: 'Test Execution Report',
+        outputPath: './',
+        screenshotPath: './screenshots',
+        testBrowser: browserName,
+        browserVersion: browserVersion,
+        modifiedSuiteName: false,
+        screenshotsOnlyOnFailure: true
        };
        new HTMLReport().from('testresults/xmloutput.xml', testConfig);
    });

@@ -37,8 +37,7 @@ public class Login {
 	}
 	
 	public static WebElement getRegisterButton(WebDriver driver) {
-		//return driver.findElement(By.cssSelector("button[type='button']"));// orignal
-		return driver.findElement(By.id("registerbtn")); // testing
+		return driver.findElement(By.id("registerbtn"));
 	}
 	
 	public static WebElement getConfirmPassword(WebDriver driver) {
@@ -72,8 +71,7 @@ public class Login {
 	
 	public static WebElement getErrorPopup(WebDriver driver) {
 		// gets the error pop-up for incorrect user name or password. The same elements are generated in either case.
-		//return driver.findElement(By.xpath("//form//span/text()[1]"));// orignal
-		return driver.findElement(By.id("errorMsg"));// testing
+		return driver.findElement(By.id("errorMsg"));
 	}
 
 

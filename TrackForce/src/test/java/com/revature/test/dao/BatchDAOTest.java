@@ -93,10 +93,11 @@ public class BatchDAOTest {
 	
 	@Test
 	public void testBatchDAOGetObjectForPredictions() {
+		String batchName = props.getProperty("batch_name");
 		long startDate = Long.parseLong(props.getProperty("batch_startDate"));
 		long endDate = Long.parseLong(props.getProperty("batch_endDate"));
 		BigDecimal count = new BigDecimal(Long.parseLong(props.getProperty("batches_betweenDates_associates")));
-		assertEquals(dao.getBatchCountsForPredictions("Java",	new Timestamp(startDate), new Timestamp(endDate)), count);
+		assertEquals(dao.getBatchCountsForPredictions(batchName, new Timestamp(startDate), new Timestamp(endDate)), count);
 	}
 	
 }

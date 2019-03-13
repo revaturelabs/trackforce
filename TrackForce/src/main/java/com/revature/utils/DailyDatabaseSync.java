@@ -44,7 +44,13 @@ public class DailyDatabaseSync extends TimerTask {
 			for (TfBatch b : newBatches) {
 				String sfId = b.getSalesforceId();
 				logger.debug(sfId);
-				TfBatch batch = batchdao.getBatchBySalesforceId(sfId);
+				TfBatch batch;
+				try {
+					batch = batchdao.getBatchBySalesforceId(sfId);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					batch=null;
+				}
 				logger.debug("The detached batch : " + batch);
 				
 				if (batch == null) {

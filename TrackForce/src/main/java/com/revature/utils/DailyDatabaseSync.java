@@ -31,7 +31,7 @@ public class DailyDatabaseSync extends TimerTask {
 	
 	@Override
 	public void run() {
-		System.out.println("Daily Database Sync");
+		System.out.println("***** Daily Database Sync ******");
 		
 	}
 

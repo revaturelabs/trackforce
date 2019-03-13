@@ -42,7 +42,7 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	private String batchName;
 	
 	@XmlElement
-	@Column(name = "TF_SALESFORCE_ID", length = 50)
+	@Column(name = "TF_SALESFORCE_ID", length = 50, unique = true)
 	private String salesforceId;
 	
 	public String getSalesforceId() {

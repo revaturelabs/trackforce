@@ -57,7 +57,7 @@ public class DailyDatabaseSync extends TimerTask {
 					Dev3ApiUtil.loadBatchAndAssociatesIntoDB(b.getSalesforceId());
 				}
 			} 
-			logger.debug("Finished Syncing.");
+			logger.debug("DailyDatabaseSync: Finished Syncing.");
 		}
 	}
 

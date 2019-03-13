@@ -122,7 +122,7 @@ public class AssociateTests {
 		
 		String month = "" + (cal.get(Calendar.MONTH) + 1);
 		String day = "" + (cal.get(Calendar.DAY_OF_MONTH));
-		String year = "" + cal.get(Calendar.YEAR);
+		String year = cal.get(Calendar.SECOND) + "" + (cal.get(Calendar.YEAR) % 100);
 		if (month.length() == 1) {
 			month = "0" + month;
 		}
@@ -146,16 +146,16 @@ public class AssociateTests {
 		time.sendKeys(timeInput);
 		wd.findElement(By.id("add-interview")).click();
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		Dimension afterAddingInterview = wd.findElement(By.id("tableBody")).getSize();
-		try {
-			Thread.sleep(55000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(55000);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		Assert.assertTrue(afterAddingInterview.height > beforeAddingInterview.height);
 		
 	}

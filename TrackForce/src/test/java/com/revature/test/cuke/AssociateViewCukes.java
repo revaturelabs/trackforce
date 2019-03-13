@@ -86,7 +86,6 @@ public class AssociateViewCukes {
 	public void i_enter_my_current_password() throws Throwable {
 	    ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(PasswordUpdate.getOldPassword(ServiceHooks.driver)));
 	    ServiceHooks.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS) ;
-	    //PasswordUpdate.getOldPassword(ServiceHooks.driver).sendKeys(/*currentPassword*/);
 	    PasswordUpdate.getOldPassword(ServiceHooks.driver).sendKeys(LoginUtil.getPropertyValue("associatePW"));
 
 	}
@@ -94,7 +93,6 @@ public class AssociateViewCukes {
 	@When("^enter a new password$")
 	public void enter_a_new_password() throws Throwable {
 		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(PasswordUpdate.getNewPassword(ServiceHooks.driver)));
-	    //PasswordUpdate.getNewPassword(ServiceHooks.driver).sendKeys(/*newPassword*/);
 	    PasswordUpdate.getNewPassword(ServiceHooks.driver).sendKeys(LoginUtil.getPropertyValue("associatePW")); 
 	   
 	}
@@ -102,7 +100,6 @@ public class AssociateViewCukes {
 	@When("^confirm the new password$")
 	public void confirm_the_new_password() throws Throwable {
 		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(PasswordUpdate.getConfirmPassword(ServiceHooks.driver)));
-	    //PasswordUpdate.getConfirmPassword(ServiceHooks.driver).sendKeys(/*newPassword*/);
 	    PasswordUpdate.getConfirmPassword(ServiceHooks.driver).sendKeys(LoginUtil.getPropertyValue("associatePW"));
 
 
@@ -168,17 +165,6 @@ public class AssociateViewCukes {
 		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(UsernameUpdate.getNewUsername(ServiceHooks.driver)));
 	    UsernameUpdate.getPassword(ServiceHooks.driver).sendKeys(LoginUtil.getPropertyValue("associatePW"));
 	}
-
-	//Should check for the username in the NavBar, currently not used 
-	//Will need to implement this change on the backend and reload the page to check the change. 
-//	@Then("^my username change should be reflected$")
-//	public void my_username_change_should_be_reflected() throws Throwable {
-//	    //Reload the page
-		//ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(NavBar.getWelcomeDropdown(ServiceHooks.driver)));
-		//Check the element's text() if it matches the change
-		//Should also change the name back to the old name for good practice
-//	}
-	//End Scenario : Update Username
 	
 	//Scenario: navigate to the MyInterview tab
 	@When("^I click the interview tab$")

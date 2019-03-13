@@ -32,8 +32,8 @@ public class AssociateTests {
 	static WebDriverWait wait;
 	String username = "cyril";
 	String password = "cyril";
-	//public final String url = "http://localhost:4200/";
-	public final String url = "http://34.227.178.103:8090/NGTrackForce/";
+	public final String url = "http://localhost:4200/";
+//	public final String url = "http://34.227.178.103:8090/NGTrackForce/";
 
 
 	@BeforeClass
@@ -81,13 +81,15 @@ public class AssociateTests {
 		WebElement fName = AssociateHome.newFirstName(wd);
 		WebElement lName = AssociateHome.newLastName(wd);
 		WebElement submit = AssociateHome.submitName(wd);
-		fName.click();
+		
 		fName.clear();
 		fName.sendKeys(first);
+		fName.click();
 		
-		lName.click();
+		
 		lName.clear();
 		lName.sendKeys(last);
+		lName.click();
 		
 		submit.click();
 		

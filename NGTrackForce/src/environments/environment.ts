@@ -10,10 +10,10 @@
 
 export const environment = {
   production: false,
-  url: "http://3.84.1.206:8086/"
+  url: "http://localhost:8080/"
 };
 
 export const ngEnvironment = {
   production: false,
-  url: "http://34.227.178.103:8090/"
+  url: "http://localhost:4200/"
 };

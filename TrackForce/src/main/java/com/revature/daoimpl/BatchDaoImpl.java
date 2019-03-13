@@ -52,7 +52,7 @@ public class BatchDaoImpl implements BatchDao {
 	public TfBatch getBatchBySalesforceId(String sfId) {
 		logger.trace("Getting batch via the salesforce ID: " + sfId);
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
-				.createQuery("from TfBatch b where b.salesforceId = :id", TfBatch.class).setParameter("id", sfId)
+				.createQuery("from TfBatch b where b.salesforceId = :sfid", TfBatch.class).setParameter("sfid", sfId)
 				.setCacheable(true).getSingleResult());
 	}
 

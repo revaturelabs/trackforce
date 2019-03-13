@@ -16,6 +16,7 @@ import com.revature.entity.TfBatch;
 import com.revature.entity.TfRole;
 import com.revature.entity.TfUser;
 import com.revature.services.UserService;
+import com.revature.utils.DailyDatabaseSync;
 import com.revature.utils.Dev3ApiUtil;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.ThreadUtil;
@@ -23,12 +24,14 @@ import static com.revature.utils.LogUtil.logger;
 
 public class HttpPlayground {
 	public static void main(String[] args) {
-		populateDatabase();
+		SessionFactory sf = HibernateUtil.getSessionFactory();
+//		populateDatabase();
+		
 		
 	}
 
 	private static void populateDatabase() {
-		SessionFactory sf = HibernateUtil.getSessionFactory();
+		
 		logger.debug("Started Session Factory");
 		BatchDao bdao = new BatchDaoImpl();
 		UserDao udao = new UserDaoImpl();
@@ -43,14 +46,16 @@ public class HttpPlayground {
 		}
 
 		Dev3ApiUtil.login();
-		List<TfBatch> batches = Dev3ApiUtil.getBatchesEndingWithinLastNMonths(0);
-		System.out.println(batches.size());
-		for (TfBatch tfBatch : batches) {
-			if (bdao.getBatchBySalesforceId(tfBatch.getSalesforceId()) == null) {
-				Dev3ApiUtil.loadBatchAndAssociatesIntoDB(tfBatch.getSalesforceId());
+		if (Dev3ApiUtil.isLoggedIn()) {
+			List<TfBatch> batches = Dev3ApiUtil.getBatchesEndingWithinLastNMonths(1);
+			System.out.println(batches.size());
+			for (TfBatch tfBatch : batches) {
+				if (bdao.getBatchBySalesforceId(tfBatch.getSalesforceId()) == null) {
+					Dev3ApiUtil.loadBatchAndAssociatesIntoDB(tfBatch.getSalesforceId());
+				}
 			}
+			System.out.println("Reached End");
 		}
-		System.out.println("Reached End");
-		HibernateUtil.shutdown();
+		
 	}
 }

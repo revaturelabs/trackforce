@@ -38,14 +38,20 @@ public class DailyDatabaseSync extends TimerTask {
 	
 	@Override
 	public void run() {
-		logger.debug("Syncing batches with database");
-		List<TfBatch> newBatches = Dev3ApiUtil.getBatchesEndingWithinLastNMonths(1);
-		for (TfBatch b : newBatches) {
-			logger.debug(b.getSalesforceId());
-			TfBatch tempBatch = batchdao.getBatchBySalesforceId(b.getSalesforceId());
-			if (tempBatch == null) {
-				Dev3ApiUtil.loadBatchAndAssociatesIntoDB(b.getSalesforceId());
-			}
+		if (Dev3ApiUtil.login()) {
+			logger.debug("DailyDatabaseSync: Syncing batches with database");
+			List<TfBatch> newBatches = Dev3ApiUtil.getBatchesEndingWithinLastNMonths(0);
+			for (TfBatch b : newBatches) {
+				String sfId = b.getSalesforceId();
+				logger.debug(sfId);
+				TfBatch batch = batchdao.getBatchBySalesforceId(sfId);
+				logger.debug("The detached batch : " + batch);
+				
+				if (batch == null) {
+					Dev3ApiUtil.loadBatchAndAssociatesIntoDB(b.getSalesforceId());
+				}
+			} 
+			logger.debug("Finished Syncing.");
 		}
 	}
 

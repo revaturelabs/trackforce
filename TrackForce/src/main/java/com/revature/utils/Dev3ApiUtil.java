@@ -65,6 +65,7 @@ public class Dev3ApiUtil {
 				"    \"password\": \"" + password + "\",\r\n" + 
 				"    \"userName\": \"" + username+ "\"" 
 				+ "}";
+
 		HttpClient httpClient = HttpClientBuilder.create().build();
 
 		try {
@@ -83,6 +84,7 @@ public class Dev3ApiUtil {
 			JSONObject obj = new JSONObject(response);
 			if (obj.getInt("statusCode") == 200) {
 				encryptedToken = obj.getString("data");
+				
 				return true;
 			} else {
 				return false;
@@ -122,7 +124,7 @@ public class Dev3ApiUtil {
 		    request.addHeader("content-type", "application/json");
 		    request.addHeader("encryptedToken", encryptedToken);
 		    URI uriBuilder = new URIBuilder(request.getURI()).addParameter("endDateAfter", todaysDate).build();
-		    System.out.println(uriBuilder.getPath());
+		    
 		    request.setURI(uriBuilder);
 		    
 		    ResponseHandler<String> responseHandler=new BasicResponseHandler();
@@ -161,7 +163,7 @@ public class Dev3ApiUtil {
 					}
 				    
 				}
-				System.out.println(curruculumNames);
+				
 				return batches;
 			} else {
 				return null;

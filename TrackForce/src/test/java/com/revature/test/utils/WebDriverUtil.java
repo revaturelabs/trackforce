@@ -7,7 +7,9 @@ import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import com.revature.test.pom.Login;
 import com.revature.utils.EnvManager;
@@ -49,7 +51,9 @@ public class WebDriverUtil {
 			f1 = new File(prop.getProperty("chromeDriverMacPath"));
 		}
 		System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
-		chromeDriver = new ChromeDriver();
+		ChromeOptions options = new ChromeOptions();
+		options.setHeadless(true);
+		chromeDriver = new ChromeDriver(options);
 		return chromeDriver;
 	}
 	
@@ -61,11 +65,15 @@ public class WebDriverUtil {
 			//Currently don't have a Firefox for Mac driver, so fetches the chrome Mac path
 			f1 = new File(prop.getProperty("chromeDriverMacPath"));
 			System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
-			chromeDriver = new ChromeDriver();
+			ChromeOptions options = new ChromeOptions();
+			options.setHeadless(false);
+			chromeDriver = new ChromeDriver(options);
 			return chromeDriver;
 		}
 		System.setProperty("webdriver.gecko.driver", f1.getAbsolutePath());
-		firefoxDriver = new FirefoxDriver();
+		FirefoxOptions options = new FirefoxOptions();
+		options.setHeadless(false);
+		firefoxDriver = new FirefoxDriver(options);
 		return firefoxDriver;
 	}
 

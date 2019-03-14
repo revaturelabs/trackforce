@@ -103,15 +103,15 @@
                   <div class="input-group mb-3" style="width: 310px;">
 
                       <input type="date"
-                        class="form-control" name="updateDate" id="updateDate" formControlName="updateDate"
+                        class="form-control" name="updateDate" [id]="'updateDate-'+(i+1)" formControlName="updateDate"
                         placeholder="mm/dd/yyyy" min = "{{today | date:'yyyy-MM-dd'}}">
                       <input type="time" 
-                        class="form-control" name="updateTime" id="updateTime" formControlName="updateTime"
+                        class="form-control" name="updateTime" [id]="'updateTime-'+(i+1)" formControlName="updateTime"
                         placeholder="hh:mm">
 
 
                       <span class="input-group-addon" style="width: 10px;"></span>
-                      <button type="button" class="btn btn-primary" (click)='updateInterview(interview)'>Update</button>       
+                      <button type="button" class="btn btn-primary" [id]="'updateButton-'+(i+1)" (click)='updateInterview(interview)'>Update</button>       
                   </div>
                </form>
             </td>

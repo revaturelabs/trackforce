@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import com.revature.entity.TfBatch;
 import com.revature.services.BatchService;
 import com.revature.services.JWTService;
+import com.revature.utils.EnvManager;
 
 import io.restassured.http.Header;
 import io.restassured.response.Response;
@@ -37,7 +38,7 @@ import io.restassured.specification.RequestSpecification;
 public class BatchRestTest {
 
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/batches";
+	static final String URL = EnvManager.TrackForce_URL+"/TrackForce/batches";
 	//static final String URL = "http://localhost:8085/TrackForce/batches";
 
 	private String adminToken, trainerToken, salesToken, stagingToken, assocToken;

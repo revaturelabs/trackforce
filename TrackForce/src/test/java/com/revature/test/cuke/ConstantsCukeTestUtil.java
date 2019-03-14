@@ -1,5 +1,8 @@
 package com.revature.test.cuke;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import com.revature.utils.EnvManager;
 
 /**
@@ -27,8 +30,8 @@ public class ConstantsCukeTestUtil {
 	private static final String baseUrl = EnvManager.NGTrackForce_URL;
 	private static final String MAIL_PREFIX = "mailto:";
 	private static final String EMAIL_URL = "info@revature.com";
-	private static final String INTERVIEW_DATE = "02242025";
-	private static final String INTERVIEW_TIME = "1006a";
+	private static final String INTERVIEW_DATE = setInterviewDate();
+	private static final String INTERVIEW_TIME = setInterviewTime();
 	private static final int INTERVIEW_TYPE = 2;
 	private static final int INTERVIEWER = 77;
 
@@ -94,5 +97,21 @@ public class ConstantsCukeTestUtil {
 	}
 	public static int getInterviewer() {
 		return INTERVIEWER;
+	}
+	
+	private static String setInterviewTime() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		String currentTime = dtf.format(now);
+		currentTime = currentTime.replace(":", "");
+		return currentTime;
+	}
+	
+	private static String setInterviewDate() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("mm/dd/yyyy");
+		LocalDateTime now = LocalDateTime.now();
+		String currentDate = dtf.format(now);
+		currentDate = currentDate.replace("/", "");
+		return currentDate;
 	}
 }

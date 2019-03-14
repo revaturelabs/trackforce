@@ -60,5 +60,4 @@ public class DailyDatabaseSync extends TimerTask {
 			logger.debug("DailyDatabaseSync: Finished Syncing.");
 		}
 	}
-
 }

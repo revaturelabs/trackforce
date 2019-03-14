@@ -1,10 +1,10 @@
 describe('tests searching on associates list tab...', function () {
 
     //Tested on local host, should go to EC2 Location
-    browser.get('http://localhost:4200');
+    // browser.get('http://localhost:4200');
 
     //NGTrackForce_URL
-    // browser.get('http://34.227.178.103:8090/NGTrackForce/');
+    browser.get('http://trackforce.revaturelabs.com/NGTrackForce/');
     beforeEach(() =>{
         // browser.sleep(200);
         browser.manage().timeouts().implicitlyWait(5000);

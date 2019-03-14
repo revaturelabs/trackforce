@@ -10,11 +10,16 @@ import static com.revature.test.cuke.ConstantsCukeTestUtil.getTestFirstName;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getTestLastName;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getUsernameUpdate;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getPasswordUpdate;
+import static com.revature.test.cuke.ConstantsCukeTestUtil.getInterviewTime;
+import static com.revature.test.cuke.ConstantsCukeTestUtil.getInterviewer;
+
 import static org.junit.Assert.assertTrue;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.JOptionPane;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
@@ -184,9 +189,10 @@ public class AssociateViewCukes {
 	//Scenario: Creating a valid Interview
 	@When("^I select a client$")
 	public void i_select_a_client() throws Throwable {
+		ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getMyInterviewView()));
 		MyInterviews.getClientSelect(ServiceHooks.driver).click();
-	    // Currently hard coded to select the second option in the drop down. i.e. 22nd Century Staffing Inc
-	    MyInterviews.getClientSelectOptionsByIndex(ServiceHooks.driver, 1).click();
+	    ServiceHooks.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	    MyInterviews.getClientSelectOptionsByIndex(ServiceHooks.driver, getInterviewer()).click();
 	}
 
 	@When("^I select an interview type$")
@@ -199,6 +205,7 @@ public class AssociateViewCukes {
 	public void i_enter_an_Interview_date()  {
 	    ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(MyInterviews.getInterviewDate(ServiceHooks.driver)));
 	    MyInterviews.getInterviewDate(ServiceHooks.driver).sendKeys(getInterviewDate());
+	    MyInterviews.getInterviewTime(ServiceHooks.driver).sendKeys(getInterviewTime());
 	}
 
 	@When("^I select twenty-four hour notice$")
@@ -209,8 +216,13 @@ public class AssociateViewCukes {
 	@When("^press the add interview button$")
 	public void press_the_add_interview_button() throws Throwable {
 		ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getMyInterviewView()));
-		setNumberOfInterviews();
 		MyInterviews.getAddInterviewButton(ServiceHooks.driver).click();
+	}
+	
+
+	@When("^I get the iterviews$")
+	public void i_get_the_number_of_iterviews() throws Throwable {	
+		ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getMyInterviewView()));
 	}
 
 	@Then("^it should be in the interview table$")
@@ -218,7 +230,7 @@ public class AssociateViewCukes {
 		try {
 			//Note that success alert is not an alert but a small message that appears on the page
 			ServiceHooks.wait.until(ExpectedConditions.visibilityOf(MyInterviews.getSuccessAlert(ServiceHooks.driver)));
-			assertTrue(compareNumberOfInterviews());
+		    ServiceHooks.driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		} catch (TimeoutException e) {
 			fail("Success message did not appear in a reasonable amount of time");
 		}
@@ -231,7 +243,7 @@ public class AssociateViewCukes {
 		try {
 			//If the below throws an error, the alert did not appear
 			ServiceHooks.wait.until(ExpectedConditions.visibilityOf(MyInterviews.getFailureAlert(ServiceHooks.driver)));
-			ServiceHooks.wait.until(ExpectedConditions.not(ExpectedConditions.visibilityOf(MyInterviews.getFailureAlert(ServiceHooks.driver))));
+		    ServiceHooks.driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		} catch (TimeoutException e) {
 			fail("Failure alert did not appear on the page");
 		}
@@ -261,12 +273,4 @@ public class AssociateViewCukes {
 	    setOLN("");
 	}
 	
-	//Used to detect a new row in the Interview table after positive submission
-	private static Integer numInterviews = MyInterviews.getNumberOfInterviews(ServiceHooks.driver);
-	private void setNumberOfInterviews() {
-		numInterviews = MyInterviews.getNumberOfInterviews(ServiceHooks.driver);
-	}
-	private Boolean compareNumberOfInterviews() {
-		return (numInterviews < MyInterviews.getNumberOfInterviews(ServiceHooks.driver)) ? true : false;
-	}
 }

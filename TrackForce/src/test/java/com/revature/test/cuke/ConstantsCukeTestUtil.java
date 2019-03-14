@@ -27,10 +27,14 @@ public class ConstantsCukeTestUtil {
 	private static final String baseUrl = EnvManager.NGTrackForce_URL;
 	private static final String MAIL_PREFIX = "mailto:";
 	private static final String EMAIL_URL = "info@revature.com";
-	private static final String INTERVIEW_DATE = "2/24/2025 11:30 AM";
-	private static final String INTERVIEW_TYPE = "Phone";
+	private static final String INTERVIEW_DATE = "02242025";
+	private static final String INTERVIEW_TIME = "1006a";
+	private static final int INTERVIEW_TYPE = 2;
+	private static final int INTERVIEWER = 77;
 
-	
+	static final String getInterviewTime() {
+		return INTERVIEW_TIME;
+	}
 	static final String getMailPrefix(){
 		return MAIL_PREFIX;
 	}
@@ -85,7 +89,10 @@ public class ConstantsCukeTestUtil {
 	public static String getInterviewDate() {
 		return INTERVIEW_DATE;
 	}
-	public static String getInterviewType() {
+	public static int getInterviewType() {
 		return INTERVIEW_TYPE;
+	}
+	public static int getInterviewer() {
+		return INTERVIEWER;
 	}
 }

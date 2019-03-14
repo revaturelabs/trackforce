@@ -14,19 +14,19 @@ exports.config = {
   allScriptsTimeout: 20000,
   specs: [
     //ALL JASMINE TESTS PASSING JAMIR & BRANDON -1901SDET (tests must be in this order currently)
-    // './e2e/associate-list/associate-list-pagenation.js',  //Test for Association Pagenation functionality
-    // './e2e/associate-list/associate-list-search.js',
-    // './e2e/associate-list/associate-list-status.js',
-    // './e2e/associate-list/associate-list-client.js',
+    './e2e/associate-list/associate-list-pagenation.js',  //Test for Association Pagenation functionality
+    './e2e/associate-list/associate-list-search.js',
+    './e2e/associate-list/associate-list-status.js',
+    './e2e/associate-list/associate-list-client.js',
 
     //PROTRACTOR TESTS
-    // './e2e/register-associate/register-associate.e2e-spec.ts',
-    // './e2e/login/login.e2e-spec.ts',
-    // './e2e/navbar/navbar.e2e-spec.ts',
-    // './e2e/create-user/create-user.e2e-spec.ts',
-    // './e2e/client-list/client-list-spec.ts',
-    // './e2e/batch-list/batch-list.e2e-spec.ts',
-    // './e2e/predictions/predictions.e2e-spec.ts',
+    './e2e/register-associate/register-associate.e2e-spec.ts',
+    './e2e/login/login.e2e-spec.ts',
+    './e2e/navbar/navbar.e2e-spec.ts',
+    './e2e/create-user/create-user.e2e-spec.ts',
+    './e2e/client-list/client-list-spec.ts',
+    './e2e/batch-list/batch-list.e2e-spec.ts',
+    './e2e/predictions/predictions.e2e-spec.ts',
     
     //added already written tests to suite
     './src/app/pipes/search-filter/search-filter.pipe.spec.ts'
@@ -37,32 +37,42 @@ exports.config = {
       reporter.beforeLaunch(resolve);
     });
   },
-  multiCapabilities: [{
-    'browserName': "chrome", 
-    chromeOptions: {
-      args: [ "--headless", "--disable-gpu", "--window-size=2000,2000" ]
-    }
-  },{
-    'browserName': "firefox", 
-    'moz:firefoxOptions': {
-      args: ["--headless"]
-    }
-  }],
-  // capabilities: {
-  //   'browserName': 'chrome',
+  //test both chrome and firefox
+  // multiCapabilities: [{
+  //   'browserName': "chrome", 
   //   chromeOptions: {
   //     args: [ "--headless", "--disable-gpu", "--window-size=2000,2000" ]
-  //     // args: [ "--disable-gpu", "--window-size=2000,2000" ]
+  //   }
+  // },{
+  //   'browserName': "firefox", 
+  //   'moz:firefoxOptions': {
+  //     args: ["--headless"]
+  //   }
+  // }],
+  //test only firefox
+  // capabilities: {
+  //   'browserName':'firefox',
+  //   'moz:firefoxOptions': {
+  //     args: ["--headless"]
   //   }
   // },
-  directConnect: true,
-   //baseUrl: 'http://localhost:4200/',
-   //baseUrl: 'http://34.227.178.103:8090/NGTrackForce',
-   //for pipeline delpoyment
-     //seleniumAddress: "http://127.0.0.1:4444/wd/hub",
-     //seleniumAddress: "http://localhost:4444/wd/hub",
-    // SELENIUM_PROMISE_MANAGER: false,
+  //test only chrome
+  capabilities: {
+    'browserName': 'chrome',
+    chromeOptions: {
+      args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
+      // args: [ "--disable-gpu", "--window-size=2000,2000" ]
+    }
+  },
 
+  directConnect: true,
+  
+  //baseUrl: 'http://localhost:4200/',
+  //baseUrl: 'http://34.227.178.103:8090/NGTrackForce',
+  //for pipeline delpoyment
+  //seleniumAddress: "http://127.0.0.1:4444/wd/hub",
+  //seleniumAddress: "http://localhost:4444/wd/hub",
+  // SELENIUM_PROMISE_MANAGER: false,
 
   framework: 'jasmine',
   jasmineNodeOpts: {
@@ -75,7 +85,7 @@ exports.config = {
       project: 'e2e/tsconfig.e2e.json'
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
-    browser.manage().timeouts().implicitlyWait(5000);
+    browser.manage().timeouts().implicitlyWait(10000);
     // browser.driver.manage().window().maximize();
     // require('jasmine-reporters');
     // jasmine.getEnv().addReporter(

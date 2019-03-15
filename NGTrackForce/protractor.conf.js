@@ -37,6 +37,7 @@ exports.config = {
       reporter.beforeLaunch(resolve);
     });
   },
+
   //test both chrome and firefox
   // multiCapabilities: [{
   //   'browserName': "chrome", 
@@ -49,6 +50,7 @@ exports.config = {
   //     args: ["--headless"]
   //   }
   // }],
+
   //test only firefox
   // capabilities: {
   //   'browserName':'firefox',
@@ -64,14 +66,14 @@ exports.config = {
       // args: [ "--disable-gpu", "--window-size=2000,2000" ]
     }
   },
-
-  // directConnect: true,
   
-  //baseUrl: 'http://localhost:4200/',
   // baseUrl: 'http://trackforce.revaturelabs.com/NGTrackForce',
+  
   //for pipeline delpoyment
+  //change direct connect to false
+  directConnect: true,
   // seleniumAddress: "http://127.0.0.1:4444/wd/hub",
-  seleniumAddress: "http://localhost:4444/wd/hub",
+  // seleniumAddress: "http://localhost:4444/wd/hub",
   // SELENIUM_PROMISE_MANAGER: false,
 
   framework: 'jasmine',

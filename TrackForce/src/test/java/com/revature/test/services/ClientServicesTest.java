@@ -9,6 +9,7 @@ import static org.testng.Assert.assertTrue;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
 
@@ -32,7 +33,7 @@ public class ClientServicesTest {
 		prop = new Properties();
 		clients = service.getAllTfClients();
 		try {
-			FileInputStream propFile = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\database_entries.properties");
+			FileInputStream propFile = new FileInputStream( Paths.get(System.getProperty("user.dir"),"src","test","resources","database_entries.properties").toString() );
 			prop.load(propFile);
 			propFile.close();
 		} catch(FileNotFoundException e) {

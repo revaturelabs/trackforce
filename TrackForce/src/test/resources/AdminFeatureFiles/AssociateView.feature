@@ -34,15 +34,15 @@ Feature: Testing the various user stories connected to the Associate use case
     And I select an interview type
     And I enter an Interview date
     And I select twenty-four hour notice
-    When I get the iterviews
+    When I get the interviews
     And press the add interview button
-    Then it should be in the interview table
+    Then a success popup should display
 
   Scenario: Creating an Interview without selecting a client
     When I click the interview tab
     And I select an interview type
     And I enter an Interview date
-    When I get the iterviews
+    When I get the interviews
     And press the add interview button
     Then an error popup should display
 
@@ -51,7 +51,7 @@ Feature: Testing the various user stories connected to the Associate use case
     And I select a client
     And I select an interview type
     And I select twenty-four hour notice
-    When I get the iterviews
+    When I get the interviews
     And press the add interview button
     Then an error popup should display
 
@@ -61,43 +61,42 @@ Feature: Testing the various user stories connected to the Associate use case
     And I select a client
     And I enter an Interview date
     And I select twenty-four hour notice
-    When I get the iterviews
+    When I get the interviews
     And press the add interview button
     Then an error popup should display
     
-   #Scenario: Creating an interview at a time that is already booked
-    #When I click the interview tab
-    #And I select a client
-    #And I select an interview type
-    #And I enter an Interview date
-    #And I select twenty-four hour notice
-    #When I get the iterviews
-    #And press the add interview button
-    #Then an error popup should display
-#
-    #
-   #Scenario: Successfully updating an interview to a new date and time
-   #	When I click the interview tab
-   #	And I select an interview date to update
-   #	And I select an interview time to update
-   #	And I click update interview
-   #	Then an update success popup should display
-   #
-   #Scenario: Updating an interview to a time that is already booked
-   #	When I click the interview tab
-   #	And I select an interview date to update
-   #	And I select an interview time to update
-   #	And I click update interview
-   #	Then an update error should display
-   #
-   #Scenario: Updating an interview without selecting a date
-   #	When I click the interview tab
-   #	And I select an interview time to update
-   #	And I click update interview
-   #	Then an update error should display
-   #
-   #Scenario: Updating an interview without selecting a time
-   #	When I click the interview tab
-   #	And I select an interview date to update
-   #	And I click update interview
-   #	Then an update error should display
+   Scenario: Creating an interview at a time that is already booked
+    When I click the interview tab
+    And I select a client
+    And I select an interview type
+    And I enter an Interview date
+    And I select twenty-four hour notice
+    When I get the interviews
+    And press the add interview button
+    Then an error popup should display
+
+   Scenario: Successfully updating an interview to a new date and time
+   	When I click the interview tab
+   	And I select an interview date to update
+   	And I select an interview time to update
+   	And I click update interview
+   	Then an update success popup should display
+   
+   Scenario: Updating an interview to a time that is already booked
+   	When I click the interview tab
+   	And I select an interview date to update
+   	And I select an interview time to update
+   	And I click update interview
+   	Then an update error should display
+   
+   Scenario: Updating an interview without selecting a date
+   	When I click the interview tab
+   	And I select an interview time to update
+   	And I click update interview
+   	Then an update error should display
+   
+   Scenario: Updating an interview without selecting a time
+   	When I click the interview tab
+   	And I select an interview date to update
+   	And I click update interview
+   	Then an update error should display

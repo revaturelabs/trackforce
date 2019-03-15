@@ -43,6 +43,19 @@ public class MyInterviews {
 	public static WebElement getInterviewTime(WebDriver driver) {
 		return driver.findElement(By.id("inputTime"));
 	}
+	
+	public static WebElement getUpdateDate(WebDriver driver) {
+		return driver.findElement(By.id("updateDate-1"));
+	}
+	
+	public static WebElement getUpdateTime(WebDriver driver) {
+		return driver.findElement(By.id("updateTime-1"));
+	}
+	
+	public static WebElement getUpdateButton(WebDriver driver) {
+		return driver.findElement(By.id("updateButton-1"));
+	}
+	
 	//Works for both the "Add Interview" test and "Update Interview" test, since the alert has a timeout
 	public static WebElement getSuccessAlert(WebDriver driver) {
 		return driver.findElement(By.className("alert-success"));
@@ -50,6 +63,15 @@ public class MyInterviews {
 	public static WebElement getFailureAlert(WebDriver driver) {
 		return driver.findElement(By.id("failureAlert"));
 	}
+	
+	public static WebElement getUpdateFailureAlert(WebDriver driver) {
+		return driver.findElement(By.id("updateFailureAlert"));
+	}
+	
+	public static WebElement getUpdateSuccessAlert(WebDriver driver) {
+		return driver.findElement(By.id("updateSuccessAlert"));
+	}
+	
 	/*
 	 * returns the row index which contains specified client name, return -1 if unsuccessful  
 	 */

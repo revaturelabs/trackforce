@@ -62,13 +62,10 @@
   <div class="card-deck mb-3 text-center">
     <div>
       <h3>My Interviews</h3>
-      <div *ngIf="conflictingInterview" class="alert alert-danger">
-        {{conflictingInterviews}}
-      </div>
-      <div *ngIf=updateSuccess class=" alert alert-success">
+      <div *ngIf=updateSuccess class=" alert alert-success" id="updateSuccessAlert">
         Successfully updated interview
       </div>
-      <div *ngIf=updateFailure class=" alert alert-danger">
+      <div *ngIf=updateFailure class=" alert alert-danger" id="updateFailureAlert">
         Failed to update interview
       </div>
     </div>

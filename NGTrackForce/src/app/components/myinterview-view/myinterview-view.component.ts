@@ -180,10 +180,14 @@ export class MyInterviewComponent implements OnInit {
         setTimeout(() => {
           this.succMsg= '';
         }, 3000);
+        
         this.interviewService
           .createInterview(this.newInterview, this.associate.id)
           .subscribe(res => {
-            location.reload(false);
+            setTimeout(() => {
+              location.reload(false);
+            }, 3000);
+            
          });
       } else {
         this.failMsg = "Invalid Interview Submission";
@@ -206,7 +210,9 @@ export class MyInterviewComponent implements OnInit {
       // successfully update the interview
       this.interviewService.updateInterview(interview).subscribe(res => {
       this.updateSuccess=true;
-      location.reload(false);
+      setTimeout(() => {
+        location.reload(false);
+      }, 3000);
       },
         error => console.error('Error in myinterview-view.component.ts updateInterview(): ', error.message)
       );

@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.hibernate.Session;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
@@ -21,9 +22,12 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.revature.entity.TfInterview;
+import com.revature.services.InterviewService;
 import com.revature.test.pom.AssociateHome;
 import com.revature.test.pom.Login;
 import com.revature.test.pom.NavBar;
+import com.revature.utils.HibernateUtil;
 
 import oracle.sql.DATE;
 
@@ -108,7 +112,9 @@ public class AssociateTests {
 	@Test(priority = 3)
 	public void addInterview() {
 		AssociateHome.interviewTab(wd).click();
-		Dimension beforeAddingInterview = wd.findElement(By.id("tableBody")).getSize();
+		
+		int beforeAddingInterview = new InterviewService().getAllInterviews().size();
+		
 		Select client = AssociateHome.chooseclient(wd);
 		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		client.selectByVisibleText("ADP");
@@ -145,18 +151,11 @@ public class AssociateTests {
 		date.sendKeys(dateInput);
 		time.sendKeys(timeInput);
 		wd.findElement(By.id("add-interview")).click();
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		Dimension afterAddingInterview = wd.findElement(By.id("tableBody")).getSize();
-//		try {
-//			Thread.sleep(55000);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-		Assert.assertTrue(afterAddingInterview.height > beforeAddingInterview.height);
+		
+		int afterAddingInterview = new InterviewService().getAllInterviews().size();
+		
+		
+		Assert.assertEquals(afterAddingInterview, beforeAddingInterview + 1);
 		
 	}
 	

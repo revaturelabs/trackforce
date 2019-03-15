@@ -111,6 +111,7 @@ public class AssociateTests {
 	 */
 	@Test(priority = 3)
 	public void addInterview() {
+		wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		AssociateHome.interviewTab(wd).click();
 		
 		int beforeAddingInterview = wd.findElement(By.id("tableBody")).getSize().height;
@@ -151,6 +152,12 @@ public class AssociateTests {
 		date.sendKeys(dateInput);
 		time.sendKeys(timeInput);
 		wd.findElement(By.id("add-interview")).click();
+		
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 		int afterAddingInterview = wd.findElement(By.id("tableBody")).getSize().height;
 		//= new InterviewService().getAllInterviews().size();

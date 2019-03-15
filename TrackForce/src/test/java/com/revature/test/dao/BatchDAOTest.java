@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
@@ -42,7 +43,7 @@ public class BatchDAOTest {
 		dao = new BatchDaoImpl();
 		props = new Properties();
 		try {
-			FileInputStream propFile = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\database_entries.properties");
+			FileInputStream propFile = new FileInputStream( Paths.get(System.getProperty("user.dir"),"src","test","resources","database_entries.properties").toString() );
 			props.load(propFile);
 			propFile.close();
 		} catch(FileNotFoundException e) {

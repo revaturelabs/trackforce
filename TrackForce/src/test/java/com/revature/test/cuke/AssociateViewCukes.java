@@ -25,6 +25,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.revature.test.pom.AssociateHome;
 import com.revature.test.pom.Login;
@@ -34,6 +35,9 @@ import com.revature.test.pom.PasswordUpdate;
 import com.revature.test.pom.UsernameUpdate;
 import com.revature.test.utils.LoginUtil;
 import com.revature.test.utils.ServiceHooks;
+import com.revature.test.utils.WebDriverUtil;
+import com.revature.utils.EnvManager;
+import com.revature.utils.EnvManager.OsCheck.OSType;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -235,6 +239,15 @@ public class AssociateViewCukes {
 			fail("Success message did not appear in a reasonable amount of time");
 		}
 	}
+//	@Given("^I connect to trackforce on Firefox$")
+//	public void i_connect_to_trackforce_on_Firefox() throws Throwable {
+//		ServiceHooks.driver = WebDriverUtil.getFirefoxDriver();
+//		if (EnvManager.getOperatingSystemType() != OSType.MacOS) {
+//			ServiceHooks.driver.manage().window().maximize();
+//		}
+//		ServiceHooks.driver.get(getBaseUrl());
+//		ServiceHooks.wait = new WebDriverWait(ServiceHooks.driver, 4);
+//	}
 	//End Scenario: Creating a valid Interview
 	
 	//This step is re-used as the failure check for a majority of tests
@@ -247,6 +260,7 @@ public class AssociateViewCukes {
 		} catch (TimeoutException e) {
 			fail("Failure alert did not appear on the page");
 		}
+		
 	}
 
 	

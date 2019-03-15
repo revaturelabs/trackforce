@@ -38,10 +38,10 @@ public class MyInterviews {
 		return driver.findElement(By.id("add-interview"));
 	}
 	public static WebElement getInterviewDate(WebDriver driver) {
-		return driver.findElement(By.name("startDate"));
+		return driver.findElement(By.id("inputDate"));
 	}
 	public static WebElement getInterviewTime(WebDriver driver) {
-		return driver.findElement(By.name("startTime"));
+		return driver.findElement(By.id("inputTime"));
 	}
 	//Works for both the "Add Interview" test and "Update Interview" test, since the alert has a timeout
 	public static WebElement getSuccessAlert(WebDriver driver) {

@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
-
+import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -69,7 +69,7 @@ public class BatchDAOTest {
 	public void testBatchDAOGetAll() {
 		List<TfBatch> list = dao.getAllBatches();
 		assertNotEquals(list, null);
-		assertEquals(list.size(), 59);
+		Assert.assertTrue(list.size() > 90);
 	}
 	
 	@Test

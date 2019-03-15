@@ -149,8 +149,10 @@ public class AssociateRestTest {
 	 */
 	@Test(priority = 10, enabled = true)
 	public void testGetAssociateHappyPath() {
-		Response response = given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().extract()
+		Response response = given().header("Authorization", token).when().get(URL + "/" + 1).then().extract()
 				.response();
+		
+		System.out.println("{{{" + response.asString());
 
 		assertTrue(response.getStatusCode() == 200 || response.getStatusCode() == 204);
 		if (response.statusCode() == 200) {

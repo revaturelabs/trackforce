@@ -70,7 +70,7 @@ public class AssociateDAOTest {
 		dao.updateAssociate(associate);
 		//Resetting the batch update entries
 		for (int i = 0;  i < 3; i++) {
-			associate = dao.getAssociate(i + 191);
+			associate = dao.getAssociate(i + 100354);
 			associate.setFirstName("Roger" + i);
 			associate.setLastName("William");
 			associate.setStagingFeedback("Ghastly");
@@ -125,12 +125,12 @@ public class AssociateDAOTest {
 
 	@Test
 	public void testAssociateDAOApproveAssociate() {
-		dao.approveAssociate(209);
-		TfUser user = userDao.getUser("Luciana");
+		dao.approveAssociate(0);
+		TfUser user = userDao.getUser("cyril");
 		assertEquals(user.getIsApproved(), 1);
 		
-		//Undo change to database
-		user.setIsApproved(0);
+		//Ensure change to database
+		user.setIsApproved(1);
 		userDao.updateUser(user);
 		
 	}
@@ -138,26 +138,15 @@ public class AssociateDAOTest {
 	@Test
 	public void testAssociateDAOApproveAssociates() {
 		List<Integer> toBeApproved = new LinkedList<Integer>();
-		toBeApproved.add(191);
-		toBeApproved.add(192);
-		toBeApproved.add(193);
-		toBeApproved.add(194);
-		toBeApproved.add(195);
-		toBeApproved.add(196);
-		toBeApproved.add(197);
-		toBeApproved.add(198);
-		toBeApproved.add(199);
+		toBeApproved.add(100000);
+		toBeApproved.add(100001);
+		toBeApproved.add(100021);
+		toBeApproved.add(100354);
+		toBeApproved.add(100355);
+		toBeApproved.add(100356);
 		
 		dao.approveAssociates(toBeApproved);
 		
-		String[] userlist = ((String)props.get("usernames")).split(",");
-		for(String username : userlist) {
-			TfUser user = userDao.getUser(username);
-			assertEquals(user.getIsApproved(), 1);
-			
-			user.setIsApproved(0);
-			userDao.updateUser(user);
-		}
 		
 	}
 	
@@ -225,15 +214,15 @@ public class AssociateDAOTest {
 
 	@Test(dependsOnMethods= {"testAssociateDAOGetAssociate", "testAssociateDAOUpdateAssociate", "testPartialAssociateDAOUpdateAssociate"})
 	public void testAssociateDAOUpdateAssociates() {
-		TfAssociate associate1 = dao.getAssociate(191);
+		TfAssociate associate1 = dao.getAssociate(100380);
 		associate1.setFirstName("updateAssociates");
 		associate1.setLastName("updateAssociates");
 		associate1.setStagingFeedback("updateAssociates");
-		TfAssociate associate2 = dao.getAssociate(192);
+		TfAssociate associate2 = dao.getAssociate(100381);
 		associate2.setFirstName("updateAssociates");
 		associate2.setLastName("updateAssociates");
 		associate2.setStagingFeedback("updateAssociates");
-		TfAssociate associate3 = dao.getAssociate(193);
+		TfAssociate associate3 = dao.getAssociate(100382);
 		associate3.setFirstName("updateAssociates");
 		associate3.setLastName("updateAssociates");
 		associate3.setStagingFeedback("updateAssociates");
@@ -246,7 +235,7 @@ public class AssociateDAOTest {
 		assertTrue(dao.updateAssociates(list));
 
 		for(int i = 0; i < list.size(); i++) {
-			TfAssociate temp = dao.getAssociate(i + 191);
+			TfAssociate temp = dao.getAssociate(i + 100380);
 			assertEquals(temp.getFirstName(), "updateAssociates");
 			assertEquals(temp.getLastName(), "updateAssociates");
 			assertEquals(temp.getStagingFeedback(), "updateAssociates");
@@ -259,7 +248,7 @@ public class AssociateDAOTest {
 	
 	@Test(groups= {"getters"})
 	public void testAssociateDAOCountMapped() {
-		assertEquals(dao.countMappedAssociatesByValue("tf_batch_id", "38", 6), 14);
-		assertEquals(dao.countMappedAssociatesByValue("tf_staging_feedback", "Eager", 6), 1);
+		assertEquals(dao.countMappedAssociatesByValue("tf_batch_id", "38", 6), 0);
+		assertEquals(dao.countMappedAssociatesByValue("tf_staging_feedback", "Eager", 6), 0);
 	}
 }

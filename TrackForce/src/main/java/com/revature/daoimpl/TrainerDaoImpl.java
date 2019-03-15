@@ -11,7 +11,7 @@ public class TrainerDaoImpl implements TrainerDao{
 
 	@Override
 	public TfTrainer getTrainer(int trainerId) {
-		LogUtil.logger.trace("Hibnerate Call to get Trainer by Id: " + trainerId);
+		LogUtil.logger.trace("Hibernate Call to get Trainer by Id: " + trainerId);
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
 			session.createQuery("from TfTrainer t where t.id like :trainerId", TfTrainer.class)
 			.setParameter("trainerId", trainerId).setCacheable(true).getSingleResult());

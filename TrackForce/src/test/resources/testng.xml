@@ -7,14 +7,14 @@
 	</test>
 	<test name="daoImplTest">
 		<classes>
-			<class name="com.revature.test.dao.AssociateDAOTest"/>
-			<class name="com.revature.test.dao.BatchDAOTest"/>
+			<!-- <class name="com.revature.test.dao.AssociateDAOTest"/> -->
+			<!-- <class name="com.revature.test.dao.BatchDAOTest"/> -->
 			<class name="com.revature.test.dao.ClientDAOTest"/>
 			<class name="com.revature.test.dao.CurriculumDAOTest"/>
-			<class name="com.revature.test.dao.InterviewDAOTest"/>
-			<class name="com.revature.test.dao.MarketingStatusDAOTest"/>
-			<class name="com.revature.test.dao.TrainerDAOTest"/>
-			<class name="com.revature.test.dao.UserDAOTest"/>
+			<!-- <class name="com.revature.test.dao.InterviewDAOTest"/> -->
+			<!-- <class name="com.revature.test.dao.MarketingStatusDAOTest"/> -->
+			<!-- <class name="com.revature.test.dao.TrainerDAOTest"/> -->
+			<!-- <class name="com.revature.test.dao.UserDAOTest"/> -->
 		</classes>
 	</test>
 	<test name="entityTest">
@@ -43,26 +43,26 @@
    </test>
 	<test name="servicesTest">
 		<classes>
-			<class name="com.revature.test.services.AssociateServicesTest" />
+			<!-- <class name="com.revature.test.services.AssociateServicesTest" /> -->
 			<class name="com.revature.test.services.BatchServicesTest" />
 			<class name="com.revature.test.services.ClientServicesTest" />
 			<class name="com.revature.test.services.CurriculumServicesTest" />
-			<class name="com.revature.test.services.InterviewServicesTest" />
-			<class name="com.revature.test.services.JWTServicesTest" />
-			<class name="com.revature.test.services.MarketingStatusServicesTest" />
-			<class name="com.revature.test.services.TrainerServicesTest" />
-			<class name="com.revature.test.services.UserServicesTest" />
+			<!-- <class name="com.revature.test.services.InterviewServicesTest" /> -->
+			<!-- <class name="com.revature.test.services.JWTServicesTest" /> -->
+			<!-- <class name="com.revature.test.services.MarketingStatusServicesTest" /> -->
+			<!-- <class name="com.revature.test.services.TrainerServicesTest" /> -->
+			<!-- <class name="com.revature.test.services.UserServicesTest" /> -->
 		</classes>
 	</test>
 	<test name="restAssuredTest">
 		<classes>
-			<class name="com.revature.test.restAssured.AssociateRestTest" />
-			<class name="com.revature.test.restAssured.BatchRestTest" />
-			<class name="com.revature.test.restAssured.ClientRestTest" />
+			<!-- <class name="com.revature.test.restAssured.AssociateRestTest" /> -->
+			<!-- <class name="com.revature.test.restAssured.BatchRestTest" /> -->
+			<!-- <class name="com.revature.test.restAssured.ClientRestTest" /> -->
 			<class name="com.revature.test.restAssured.CurriculumRestTest" />
-			<class name="com.revature.test.restAssured.InterviewRestTest" />
-			<class name="com.revature.test.restAssured.TrainerRestTest" />
-			<class name="com.revature.test.restAssured.UserRestTest" />
+			<!-- <class name="com.revature.test.restAssured.InterviewRestTest" /> -->
+			<!-- <class name="com.revature.test.restAssured.TrainerRestTest" /> -->
+			<!-- <class name="com.revature.test.restAssured.UserRestTest" /> -->
 		</classes>
  	</test>
  	<test name="resourceTest">

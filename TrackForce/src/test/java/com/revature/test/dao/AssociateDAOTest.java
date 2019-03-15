@@ -7,6 +7,7 @@ import static org.testng.Assert.assertNotEquals;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,7 +51,7 @@ public class AssociateDAOTest {
 		props = new Properties();
 		try {
 			//Please check the file indicated here when troubleshooting failing tests to make sure that hardcoded values correspond.
-			FileInputStream propFile = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\database_entries.properties");
+			FileInputStream propFile = new FileInputStream( Paths.get(System.getProperty("user.dir"),"src","test","resources","database_entries.properties").toString() );
 			props.load(propFile);
 			propFile.close();
 		} catch(FileNotFoundException e) {

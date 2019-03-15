@@ -19,6 +19,7 @@ import com.revature.resources.UserResource;
 import com.revature.services.JWTService;
 import com.revature.services.MarketingStatusService;
 import com.revature.services.UserService;
+import com.revature.utils.EnvManager;
 import com.revature.utils.HibernateUtil;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
@@ -42,7 +43,7 @@ import io.restassured.specification.RequestSpecification;
  */
 public class UserRestTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/users";
+	static final String URL = EnvManager.TrackForce_URL+"/TrackForce/users";
 	//static final String URL = "http://localhost:8085/TrackForce/users";
 
 	TfUser user;

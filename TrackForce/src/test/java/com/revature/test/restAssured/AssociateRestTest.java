@@ -22,6 +22,7 @@ import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.JWTService;
 import com.revature.services.UserService;
+import com.revature.utils.EnvManager;
 
 import io.restassured.response.Response;
 
@@ -35,8 +36,10 @@ import io.restassured.response.Response;
  */
 public class AssociateRestTest {
 
-	static final String URL = "http://3.84.1.206:8086/TrackForce/associates";
-//	static final String URL = "http://localhost:8085/TrackForce/associates";
+
+	static final String URL = EnvManager.TrackForce_URL+"/TrackForce/associates";
+	//static final String URL = "http://localhost:8085/TrackForce/associates";
+
 	
 	AssociateService associateService = new AssociateService();
 	List<TfAssociate> associates;

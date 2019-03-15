@@ -20,6 +20,7 @@ import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
+import com.revature.utils.EnvManager;
 
 import io.restassured.response.Response;
 
@@ -32,7 +33,7 @@ import io.restassured.response.Response;
  */
 public class InterviewRestTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/interviews";
+	static final String URL = EnvManager.TrackForce_URL+"/TrackForce/interviews";
 //	 static final String URL = "http://localhost:8085/TrackForce/interviews";
 
 	String adminToken;

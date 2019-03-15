@@ -4,8 +4,11 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import com.revature.dao.BatchDao;
+import com.revature.entity.TfAssociate;
 import com.revature.entity.TfBatch;
 import com.revature.utils.HibernateUtil;
+import com.revature.utils.LogUtil;
+
 import static com.revature.utils.LogUtil.logger;
 
 /** Implementation of the BatchDao interface that uses Hibernate to retrieve
@@ -37,6 +40,19 @@ public class BatchDaoImpl implements BatchDao {
 		logger.trace("Getting batch via the batchId: " + id);
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
 				.createQuery("from TfBatch b where b.id = :id", TfBatch.class).setParameter("id", id)
+				.setCacheable(true).getSingleResult());
+	}
+
+	
+	/* (non-Javadoc)
+	 * @see com.revature.dao.BatchDao#getBatchBySalesforceId(java.lang.String)
+	 * 1901 Thomas: Added this method to fetch batches by their salesforce ID
+	 */
+	@Override
+	public TfBatch getBatchBySalesforceId(String sfId) {
+		logger.trace("Getting batch via the salesforce ID: " + sfId);
+		return HibernateUtil.runHibernate((Session session, Object... args) -> session
+				.createQuery("from TfBatch b where b.salesforceId = :sfid", TfBatch.class).setParameter("sfid", sfId)
 				.setCacheable(true).getSingleResult());
 	}
 
@@ -117,5 +133,16 @@ public class BatchDaoImpl implements BatchDao {
 		}
 		//logger.info("Result : " + results);
 		return results;
+	}
+
+	/*
+	 * 1901 Daniel 
+	 * This method adds batches to the database after being passed a batch object
+	 * from the Caliber application.
+	 */
+	@Override
+	public boolean createBatch(TfBatch newbatch) {
+		LogUtil.logger.trace("Hibernate Call to Create Batch: " + newbatch.getSalesforceId());
+		return HibernateUtil.saveToDB(newbatch);
 	}
 }

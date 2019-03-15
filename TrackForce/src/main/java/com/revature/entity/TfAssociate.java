@@ -75,11 +75,11 @@ public class TfAssociate implements java.io.Serializable {
 	private TfEndClient endClient;
 
 	@XmlElement
-	@Column(name = "TF_ASSOCIATE_FIRST_NAME", length = 30)
+	@Column(name = "TF_ASSOCIATE_FIRST_NAME", length = 60)
 	private String firstName;
 
 	@XmlElement
-	@Column(name = "TF_ASSOCIATE_LAST_NAME", length = 30)
+	@Column(name = "TF_ASSOCIATE_LAST_NAME", length = 60)
 	private String lastName;
 
 	@XmlElement

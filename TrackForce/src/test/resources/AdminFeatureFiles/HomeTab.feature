@@ -12,6 +12,7 @@ Feature: Home Page Bottom Info Banner
     When I click on the fax link
     Then I should see the telephone number link open on a browser
 
+
   Scenario: I click on the Revature email
     When I click on the email link
     Then I should see the email link open on a browser

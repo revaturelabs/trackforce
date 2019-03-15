@@ -141,5 +141,4 @@ Feature: Testing the registration for new associates
       | Abc*3fd | Abc*3fd |
       | a b c d e f 10 | a b c d e f 10 |
       | A3a*ششششششش | A3a*ششششششش |
-      
 

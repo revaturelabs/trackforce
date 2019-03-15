@@ -72,7 +72,6 @@ public class WebDriverUtil {
 		}
 		System.setProperty("webdriver.gecko.driver", f1.getAbsolutePath());
 		FirefoxOptions options = new FirefoxOptions();
-		options.setHeadless(false);
 		firefoxDriver = new FirefoxDriver(options);
 		return firefoxDriver;
 	}

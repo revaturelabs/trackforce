@@ -262,6 +262,32 @@ public class AssociateViewCukes {
 		}
 		
 	}
+	
+	// updating an interview
+	@When("^I select an interview date to update$")
+	public void i_select_an_interview_date_to_update() throws Throwable {
+	    
+	}
+
+	@When("^I select an interview time to update$")
+	public void i_select_an_interview_time_to_update() throws Throwable {
+	    
+	}
+
+	@When("^I click update interview$")
+	public void i_click_update_interview() throws Throwable {
+	    
+	}
+
+	@Then("^an update success popup should display$")
+	public void an_update_success_popup_should_display() throws Throwable {
+	    
+	}
+
+	@Then("^an update error should display$")
+	public void an_update_error_should_display() throws Throwable {
+	    
+	}
 
 	
 	//Used to reset info update tests. 

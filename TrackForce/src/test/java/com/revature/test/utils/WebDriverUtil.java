@@ -8,6 +8,7 @@ import java.util.Properties;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import com.revature.test.pom.Login;
 import com.revature.utils.EnvManager;
@@ -65,7 +66,8 @@ public class WebDriverUtil {
 			return chromeDriver;
 		}
 		System.setProperty("webdriver.gecko.driver", f1.getAbsolutePath());
-		firefoxDriver = new FirefoxDriver();
+		FirefoxOptions options = new FirefoxOptions();
+		firefoxDriver = new FirefoxDriver(options);
 		return firefoxDriver;
 	}
 

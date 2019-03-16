@@ -93,7 +93,7 @@ public class BatchDAOTest {
 				new Timestamp(Long.parseLong(props.getProperty("batch_endDate"))));
 		assertNotEquals(list, null);
 		for (TfBatch tfBatch : list) {
-			System.out.println(tfBatch.getId() + " : " + tfBatch.getAssociates().size());
+			Log.Log.debug(tfBatch.getId() + " : " + tfBatch.getAssociates().size());
 		}
 		assertEquals(list.size(), Integer.parseInt(props.getProperty("batches_betweenDates_java")));		
 	}
@@ -104,7 +104,7 @@ public class BatchDAOTest {
 		long endDate = Long.parseLong(props.getProperty("batch_endDate"));
 		Log.Log.debug("From: " + startDate + " to: " + endDate);
 		BigDecimal count = new BigDecimal(Long.parseLong(props.getProperty("batches_betweenDates_associates")));
-		System.out.println(dao.getBatchCountsForPredictions("Java",	new Timestamp(startDate), new Timestamp(endDate)));
+		Log.Log.debug(dao.getBatchCountsForPredictions("Java",	new Timestamp(startDate), new Timestamp(endDate)));
 		assertEquals(dao.getBatchCountsForPredictions("Java",	new Timestamp(startDate), new Timestamp(endDate)), count);
 	}
 	

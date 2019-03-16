@@ -1,6 +1,7 @@
 package com.revature.utils;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,7 +34,14 @@ public class DailyDatabaseSync extends TimerTask {
 		today.set(Calendar.MINUTE, 0);
 		today.set(Calendar.SECOND, 0);
 		
-		time.schedule(this, today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
+		Date firstTime = today.getTime();
+		
+		if (firstTime.before(new Date())) {
+			today.add(Calendar.DATE, 1);
+			firstTime = today.getTime();
+		}
+		
+		time.schedule(this, firstTime, TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
 	}
 	
 	@Override

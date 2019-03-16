@@ -288,6 +288,7 @@
 				<configuration>
 					<argLine>${argLine}</argLine>
 					<forkCount>2</forkCount>
+					<reuseForks>true</reuseForks>
 					<!-- Skips unit tests if the value of skip.unit.tests property is true -->
 					<!-- William changed the value of skipTests to true on 2/15/18 -->
 					<!-- to see if we can successfully deploy current build of application -->

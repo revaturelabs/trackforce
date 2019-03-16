@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
-
+import java.util.TimeZone;
 
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -41,6 +41,7 @@ public class BatchDAOTest {
 	
 	@BeforeSuite
 	public void initialize() {
+		TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"));
 		dao = new BatchDaoImpl();
 		props = new Properties();
 		try {

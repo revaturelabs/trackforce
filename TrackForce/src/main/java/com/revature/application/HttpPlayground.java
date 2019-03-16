@@ -24,9 +24,22 @@ import static com.revature.utils.LogUtil.logger;
 
 public class HttpPlayground {
 	public static void main(String[] args) {
-		SessionFactory sf = HibernateUtil.getSessionFactory();
+//		SessionFactory sf = HibernateUtil.getSessionFactory();
 //		populateDatabase();
-		
+		System.out.println("select count(a.tf_associate_id) " + 
+					"from admin.tf_associate a where a.tf_marketing_status_id > 5 AND a.tf_batch_id IN " + 
+					"(" + 
+					"    select b.tf_batch_id " + 
+					"    from admin.tf_batch b " + 
+					"    where b.tf_curriculum_id IN " + 
+					"    (" + 
+					"        select c.tf_curriculum_id " + 
+					"        from admin.tf_curriculum c " + 
+					"        where c.tf_curriculum_name = :curriculumName " +
+					"    )" + 
+					"    AND b.tf_batch_start_date >= TO_TIMESTAMP(:startDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
+					"    AND b.tf_batch_end_date <= TO_TIMESTAMP(:endDate, 'YYYY-MM-DD HH24:MI:SS.FF')" +
+					")");
 		
 	}
 

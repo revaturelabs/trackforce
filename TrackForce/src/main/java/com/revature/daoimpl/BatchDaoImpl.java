@@ -129,7 +129,9 @@ public class BatchDaoImpl implements BatchDao {
 			logger.error("Null Pointer Error occured" + e.getMessage());
 			e.printStackTrace();
 		}finally {
-			session.close();
+			if (session != null) {
+				session.close();
+			}
 		}
 		//logger.info("Result : " + results);
 		return results;

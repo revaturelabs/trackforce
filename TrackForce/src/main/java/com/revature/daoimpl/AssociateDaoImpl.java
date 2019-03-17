@@ -16,6 +16,7 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.id.CompositeNestedGeneratedValueGenerator.GenerationContextLocator;
 import org.hibernate.tuple.entity.EntityMetamodel.GenerationStrategyPair;
@@ -175,20 +176,35 @@ public class AssociateDaoImpl implements AssociateDao {
 	 */
 
 	private HashMap<Integer, Integer> getAllStatusCounts() {
-		List<String> resultList = HibernateUtil.getSessionFactory().openSession()
-				.createQuery(
-						"select " + "a.marketingStatus || ',' || " + "count( a.marketingStatus ) "
-								+ "from TfAssociate a " + "group by a.marketingStatus " + "order by a.marketingStatus",
-						String.class)
-				.getResultList();
+		Session sess = null;
 		HashMap<Integer, Integer> resultMap = new HashMap<>();
-		for (String result : resultList) {
-			String[] split = result.split(",");
-			resultMap.put(Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+		try {
+			sess = HibernateUtil.getSessionFactory().openSession();
+			List<String> resultList = sess
+					.createQuery(
+							"select " + "a.marketingStatus || ',' || " + "count( a.marketingStatus ) "
+									+ "from TfAssociate a " + "group by a.marketingStatus " + "order by a.marketingStatus",
+							String.class)
+					.getResultList();
+			
+			for (String result : resultList) {
+				String[] split = result.split(",");
+				resultMap.put(Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+			}
+			if (resultMap.size() < 12)
+				for (int i = 1; i < 13; i++)
+					resultMap.putIfAbsent(i, 0);
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (sess!=null) {
+				sess.close();
+			}
 		}
-		if (resultMap.size() < 12)
-			for (int i = 1; i < 13; i++)
-				resultMap.putIfAbsent(i, 0);
 		return resultMap;
 	}
 

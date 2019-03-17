@@ -95,8 +95,8 @@ public class AssociateRestTest {
 	public void afterClass() {
 		TfAssociate changed = associateService.getAssociate(knownAssociateId);
 		
-		changed.setFirstName("Roberto");
-		changed.setLastName("Alvarez,Jr.");
+		changed.setFirstName("TestFirstName");
+		changed.setLastName("TestLastName");
 		
 		associateService.updateAssociate(changed);
 		
@@ -152,14 +152,15 @@ public class AssociateRestTest {
 	 */
 	@Test(priority = 10, enabled = true)
 	public void testGetAssociateHappyPath() {
-		Response response = given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().extract()
+		System.out.println("known User ID: " + knownAssociateId);
+		Response response = given().header("Authorization", token).when().get(URL + "/" + knownAssociateId).then().extract()
 				.response();
 
 		assertTrue(response.getStatusCode() == 200 || response.getStatusCode() == 204);
 		if (response.statusCode() == 200) {
 			assertTrue(response.contentType().equals("application/json"));
 		}
-
+		System.out.println("Code: " + response.getStatusCode());
 		Assert.assertEquals(response.body().jsonPath().getString("batch.trainer.firstName"), "Trainer3");
 
 				
@@ -172,7 +173,7 @@ public class AssociateRestTest {
 	 */
 	@Test(priority = 15, enabled = true)
 	public void testGetAssociateBadToken() {
-		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId1).then().extract()
+		Response response = given().header("Authorization", "Bad Token").when().get(URL + "/" + knownUserId2).then().extract()
 				.response();
 		assertTrue(response.statusCode() == 401);
 		assertTrue(response.asString().contains("Unauthorized"));

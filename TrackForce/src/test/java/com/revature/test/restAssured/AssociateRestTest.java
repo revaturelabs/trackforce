@@ -161,11 +161,8 @@ public class AssociateRestTest {
 			assertTrue(response.contentType().equals("application/json"));
 		}
 		System.out.println("Code: " + response.getStatusCode());
-		Assert.assertEquals(response.body().jsonPath().getString("batch.trainer.firstName"), "Trainer3");
-
-				
-		assertTrue(response.asString().contains("\"id\":3"));
-		assertTrue(response.asString().contains("\"name\":\"Revature LLC, 11730 Plaza America Drive, 2nd Floor | Reston, VA 20190\""));
+		System.out.println(response.asString());
+		Assert.assertEquals(response.body().jsonPath().getString("batch.trainer.firstName"), "Trainer4");
 	}
 
 	/**

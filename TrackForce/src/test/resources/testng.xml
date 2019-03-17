@@ -53,13 +53,13 @@
 	</test>
 	<test name="restAssuredTest">
 		<classes>
-			<!-- <class name="com.revature.test.restAssured.AssociateRestTest" /> -->
-			<!-- <class name="com.revature.test.restAssured.BatchRestTest" /> -->
+			<class name="com.revature.test.restAssured.AssociateRestTest" />
+			<class name="com.revature.test.restAssured.BatchRestTest" />
 			<class name="com.revature.test.restAssured.ClientRestTest" />
 			<class name="com.revature.test.restAssured.CurriculumRestTest" />
-			<!-- <class name="com.revature.test.restAssured.InterviewRestTest" /> -->
+			<class name="com.revature.test.restAssured.InterviewRestTest" />
 			<class name="com.revature.test.restAssured.TrainerRestTest" />
-			<!-- <class name="com.revature.test.restAssured.UserRestTest" /> -->
+			<class name="com.revature.test.restAssured.UserRestTest" />
 		</classes>
 	</test>
 	<test name="resourceTest">

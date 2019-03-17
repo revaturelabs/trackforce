@@ -48,7 +48,7 @@ public class AssociateRestTest {
 	TfAssociate toBeChanged;
 
 	// added these new knownUserIds, may want to update -Ian M
-	int knownUserId1 = 147;
+	int knownUserId1 = 614;
 	int knownUserId2 = 790; // Username: Harvey
 	int knownUserId3 = 695; // Username: Tabitha, Associate id: 685
 	
@@ -152,8 +152,8 @@ public class AssociateRestTest {
 	 */
 	@Test(priority = 10, enabled = true)
 	public void testGetAssociateHappyPath() {
-		System.out.println("known User ID: " + knownAssociateId);
-		Response response = given().header("Authorization", token).when().get(URL + "/" + knownAssociateId).then().extract()
+		System.out.println("known User ID: " + knownUserId1);
+		Response response = given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().extract()
 				.response();
 
 		assertTrue(response.getStatusCode() == 200 || response.getStatusCode() == 204);

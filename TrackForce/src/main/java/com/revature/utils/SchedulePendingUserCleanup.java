@@ -30,7 +30,7 @@ public class SchedulePendingUserCleanup extends TimerTask {
 
 	private SchedulePendingUserCleanup() {
 		//will run every 24 hours
-		time.schedule(this, 1000 * 60 * 60 * 24, 1000 * 60 * 60 * 24);
+		time.schedule(this, 1000 * 60 * 60 * 24L, 1000 * 60 * 60 * 24L);
 	}
 
 	@Override

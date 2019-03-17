@@ -5,8 +5,16 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.commons.lang.RandomStringUtils;
 
 
+
+/**
+ * @author tbnil from batch 1901
+ * As of writing this, this entity is not used. It is intended to be used to send back password 
+ * reset information when an admin resets another user's password to a random string.
+ *
+ */
 @XmlRootElement
 public class TfPasswordResetContainer implements Serializable {
 	private static final long serialVersionUID = -6436922296724471174L;

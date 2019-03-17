@@ -195,7 +195,11 @@ public class JWTService {
 	 */
 	private static Boolean isTokenExpired(String token) {
 		final Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(new Date());
+		if (expiration != null) {
+			return expiration.before(new Date());
+		} else {
+			return false;
+		}
 	}
 
 	/**

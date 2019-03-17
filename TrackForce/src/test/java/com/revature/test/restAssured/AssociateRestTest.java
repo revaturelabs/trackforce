@@ -150,7 +150,7 @@ public class AssociateRestTest {
 	 * code. Ensure the correct content type, check the data from the path matches
 	 * what is expected.
 	 */
-	@Test(priority = 10, enabled = true)
+	@Test(priority = 10, enabled = false)
 	public void testGetAssociateHappyPath() {
 		System.out.println("known User ID: " + knownUserId1);
 		Response response = given().header("Authorization", token).when().get(URL + "/" + knownUserId1).then().extract()

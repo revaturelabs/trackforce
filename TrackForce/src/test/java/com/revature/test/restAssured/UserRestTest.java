@@ -103,7 +103,7 @@ public class UserRestTest {
 	 * @author Jesse and Seth L.
 	 * @since 06.18.06.16
 	 */
-	@Test(enabled = true, priority = 10)
+	@Test(enabled = false, priority = 10)
 	public void testCreateUser1() {
 		//manually constructed
 		String jsonContainer = "{\"user\": { \"username\":\"" + container.getUser().getUsername() + "\", \"password\":\"" +

@@ -186,6 +186,7 @@ public class AssociateServicesTest {
 
 	@AfterClass
 	public void closeSession() {
-		HibernateUtil.shutdown();
+		//HibernateUtil.shutdown();
+		//shouldn't close sessionfactory if other tests will be run
 	}
 }

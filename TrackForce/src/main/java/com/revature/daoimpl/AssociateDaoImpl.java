@@ -144,7 +144,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	public TfAssociate getAssociateByUserId(int id) {
 		LogUtil.logger.trace("Hibernate Call to get Associate via UserId: " + id);
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
-				.createQuery("from TfAssociate where user.id = :id", TfAssociate.class).setParameter("id", id)
+				.createQuery("from TfAssociate a where a.user.id = :id", TfAssociate.class).setParameter("id", id)
 				.setCacheable(true).getSingleResult());
 	}
 

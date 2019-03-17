@@ -48,7 +48,7 @@ public class AssociateRestTest {
 	TfAssociate toBeChanged;
 
 	// added these new knownUserIds, may want to update -Ian M
-	int knownUserId1 = 614;
+	int knownUserId1 = 624;
 	int knownUserId2 = 790; // Username: Harvey
 	int knownUserId3 = 695; // Username: Tabitha, Associate id: 685
 	

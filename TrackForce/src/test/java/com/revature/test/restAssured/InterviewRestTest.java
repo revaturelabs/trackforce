@@ -60,9 +60,9 @@ public class InterviewRestTest {
 		adminToken = JWTService.createToken("TestAdmin", 1);
 		associateToken = JWTService.createToken("AssociateTest", 5);
 
-		knownAssociateId = 392;
+		knownAssociateId = 100382;
 
-		TfAssociate knownAssociate = associateService.getAssociate(392);
+		TfAssociate knownAssociate = associateService.getAssociate(100382);
 		TfUser knownUser = knownAssociate.getUser();
 
 		knownAssociateToken = JWTService.createToken(knownUser.getUsername(), 5);
@@ -80,7 +80,7 @@ public class InterviewRestTest {
 	 * @author Jesse
 	 * @since 6.18.06.13
 	 */
-	@Test(priority = 5, dataProvider = "interview1", enabled = true)
+	@Test(priority = 5, dataProvider = "interview1", enabled = false)
 	public void testCreateInterviewHappyPathAdmin(TfInterview interview) {
 		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
 				.when().post(URL + "/create/" + knownAssociateId).then().extract().response();
@@ -92,7 +92,7 @@ public class InterviewRestTest {
 	 * 
 	 * @param interview
 	 */
-	@Test(priority = 6, dataProvider = "interview1", enabled = true)
+	@Test(priority = 6, dataProvider = "interview1", enabled = false)
 	public void testCreateInterviewHappyPathAssoc(TfInterview interview) {
 		Response response = given().header("Authorization", knownAssociateToken).contentType("application/json")
 				.body(interview).when().post(URL + "/create/" + knownAssociateId).then().extract().response();

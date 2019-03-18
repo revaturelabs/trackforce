@@ -324,7 +324,6 @@ export class BatchListComponent implements OnInit {
           }
         );
         this.filteredBatches = this.batches;
-				this.fromString = this.startDate.toJSON().substring(0, 10);
         this.dataReady = true;
       },
       error => {

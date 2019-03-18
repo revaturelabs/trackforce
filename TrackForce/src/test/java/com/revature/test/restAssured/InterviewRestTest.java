@@ -402,7 +402,7 @@ public class InterviewRestTest {
 	@DataProvider(name = "interview2")
 	public Object[][] provideInterview2() {
 
-		TfAssociate a = associateService.getAssociate(1);
+		TfAssociate a = associateService.getAssociate(3);
 
 		TfClient c = new TfClient();
 
@@ -410,7 +410,7 @@ public class InterviewRestTest {
 
 		TfInterviewType it = new TfInterviewType();
 
-		interview2 = interviewService.getInterviewById(18);
+		interview2 = interviewService.getInterviewById(100050);
 		interview2.setAssociate(a);
 
 		interview2.setClient(c);

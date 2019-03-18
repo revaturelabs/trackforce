@@ -45,6 +45,7 @@ export class BatchListComponent implements OnInit {
   batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
   counter = 0;
   minDate: number = Date.now();
+  
   @Output() changeDateEm = new EventEmitter<Date>();
 
   stringStart: string;
@@ -229,6 +230,7 @@ export class BatchListComponent implements OnInit {
       }
     );
     this.updateCountPerCurriculum();
+    this.getBatchesList();
     this.dataReady = true;
   }
 
@@ -265,10 +267,6 @@ export class BatchListComponent implements OnInit {
     this.updateCountPerCurriculum();
     this.dataReady = true;
   }
-
-
-
-
   /**
   * @function updateCountPerCurriculum
   * @memberof BatchListComponent
@@ -298,5 +296,40 @@ export class BatchListComponent implements OnInit {
       this.curriculumNames = Array.from(curriculumCountsMap.keys());
       this.curriculumCounts = Array.from(curriculumCountsMap.values());
     }
+  }
+  
+  getBatchesList(){
+    this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
+      batches => {
+        this.batches = batches.filter(
+          batch => {
+
+						if (batch.startDate < this.minDate){
+							this.minDate = batch.startDate;
+						}
+
+						this.startDate = new Date(this.minDate);
+						this.dateService.changeDates(this.startDate, this.endDate);
+
+						if (this.authService.getUserRole() === 2) {
+					     // filter out batches that don't have an association with the trainer
+							let trainer = batch.trainer.id !== this.authService.getTrainer().id;
+			        let coTrainer = batch.coTrainer && !batch.coTrainer.includes(this.authService.getTrainer());
+			        if (trainer && (coTrainer == undefined || coTrainer)) {
+			          return false;
+			        }
+						}
+
+            return true;
+          }
+        );
+        this.filteredBatches = this.batches;
+				this.fromString = this.startDate.toJSON().substring(0, 10);
+        this.dataReady = true;
+      },
+      error => {
+        console.error('Error in batch-list.component.ts ngOnInit(): ', error.message)
+      }
+    );
   }
 }

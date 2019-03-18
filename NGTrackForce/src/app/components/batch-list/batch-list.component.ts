@@ -140,7 +140,7 @@ export class BatchListComponent implements OnInit {
 			// a day late so adding the offset time makes sure that the correct
 			// date is being referenced
     this.startDate = new Date(this.fromString);
-		this.startDate.setMinutes(this.startDate.getMinutes() + this.startDate.getTimezoneOffset());
+		// this.startDate.setMinutes(this.startDate.getMinutes() + this.startDate.getTimezoneOffset());
     this.endDate = new Date(this.toString);
 		this.endDate.setMinutes(this.endDate.getMinutes() + this.endDate.getTimezoneOffset());
 
@@ -229,7 +229,6 @@ export class BatchListComponent implements OnInit {
         }
       }
     );
-    this.updateCountPerCurriculum();
     this.getBatchesList();
     this.dataReady = true;
   }
@@ -325,6 +324,7 @@ export class BatchListComponent implements OnInit {
         );
         this.filteredBatches = this.batches;
         this.dataReady = true;
+        this.updateCountPerCurriculum();
       },
       error => {
         console.error('Error in batch-list.component.ts ngOnInit(): ', error.message)

@@ -289,6 +289,7 @@ export class FormComponent implements OnInit {
           this.associate.firstName,
           this.associate.lastName,
           this.associate.user,
+          this.associate.salesforceId,
           this.associate.id,
           this.associate.batch,
           this.selectedMarketingStatus,

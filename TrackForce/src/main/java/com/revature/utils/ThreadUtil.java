@@ -30,6 +30,10 @@ public class ThreadUtil {
 			if(!future.isCancelled()) { future.cancel(true); }
 			else {logger.info("Call was canceled");}
 			logger.debug(e);
+			if (e instanceof InterruptedException) {
+				logger.info("Thread was interrupted");
+				Thread.currentThread().interrupt();
+			}
 		}
 		
 		logger.debug("Current Active Threads: " + getActiveThreadCount());

@@ -2,8 +2,10 @@ package com.revature.utils;
 
 public class EnvManager {
 	public final static String NGTrackForce_URL = System.getenv("NGTrackForce_URL");
-	public final static String TomTrackForce_URL = System.getenv("TomTrackForce_URL");
-
+	public final static String TrackForce_URL = System.getenv("TrackForce_URL");
+	public final static String Dev3API_URL = System.getenv("DEV3_API_URL");
+	public final static String Dev3Username = System.getenv("DEV3_API_USERNAME");
+	public final static String Dev3Password = System.getenv("DEV3_API_PASSWORD");
 	/**
 	 * A shorthand for OsCheck.getOperatingSystemType()
 	 * 

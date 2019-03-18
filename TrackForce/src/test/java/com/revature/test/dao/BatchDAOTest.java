@@ -1,5 +1,6 @@
 package com.revature.test.dao;
 
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 
@@ -7,11 +8,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
-
 import org.testng.Assert;
+import java.util.TimeZone;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -39,10 +41,11 @@ public class BatchDAOTest {
 	
 	@BeforeSuite
 	public void initialize() {
+		TimeZone.setDefault(TimeZone.getTimeZone("America/New_York"));
 		dao = new BatchDaoImpl();
 		props = new Properties();
 		try {
-			FileInputStream propFile = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\database_entries.properties");
+			FileInputStream propFile = new FileInputStream( Paths.get(System.getProperty("user.dir"),"src","test","resources","database_entries.properties").toString() );
 			props.load(propFile);
 			propFile.close();
 		} catch(FileNotFoundException e) {
@@ -88,6 +91,9 @@ public class BatchDAOTest {
 				new Timestamp(Long.parseLong(props.getProperty("batch_startDate"))),
 				new Timestamp(Long.parseLong(props.getProperty("batch_endDate"))));
 		assertNotEquals(list, null);
+		for (TfBatch tfBatch : list) {
+			Log.Log.debug(tfBatch.getId() + " : " + tfBatch.getAssociates().size());
+		}
 		assertEquals(list.size(), Integer.parseInt(props.getProperty("batches_betweenDates_java")));		
 	}
 	
@@ -95,7 +101,9 @@ public class BatchDAOTest {
 	public void testBatchDAOGetObjectForPredictions() {
 		long startDate = Long.parseLong(props.getProperty("batch_startDate"));
 		long endDate = Long.parseLong(props.getProperty("batch_endDate"));
+		Log.Log.debug("From: " + startDate + " to: " + endDate);
 		BigDecimal count = new BigDecimal(Long.parseLong(props.getProperty("batches_betweenDates_associates")));
+		Log.Log.debug(dao.getBatchCountsForPredictions("Java",	new Timestamp(startDate), new Timestamp(endDate)));
 		assertEquals(dao.getBatchCountsForPredictions("Java",	new Timestamp(startDate), new Timestamp(endDate)), count);
 	}
 	

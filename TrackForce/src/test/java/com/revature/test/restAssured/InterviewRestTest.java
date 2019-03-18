@@ -20,6 +20,7 @@ import com.revature.entity.TfUser;
 import com.revature.services.AssociateService;
 import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
+import com.revature.utils.EnvManager;
 
 import io.restassured.response.Response;
 
@@ -32,7 +33,7 @@ import io.restassured.response.Response;
  */
 public class InterviewRestTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/interviews";
+	static final String URL = EnvManager.TrackForce_URL+"/TrackForce/interviews";
 //	 static final String URL = "http://localhost:8085/TrackForce/interviews";
 
 	String adminToken;
@@ -59,9 +60,9 @@ public class InterviewRestTest {
 		adminToken = JWTService.createToken("TestAdmin", 1);
 		associateToken = JWTService.createToken("AssociateTest", 5);
 
-		knownAssociateId = 392;
+		knownAssociateId = 100382;
 
-		TfAssociate knownAssociate = associateService.getAssociate(392);
+		TfAssociate knownAssociate = associateService.getAssociate(100382);
 		TfUser knownUser = knownAssociate.getUser();
 
 		knownAssociateToken = JWTService.createToken(knownUser.getUsername(), 5);
@@ -79,7 +80,7 @@ public class InterviewRestTest {
 	 * @author Jesse
 	 * @since 6.18.06.13
 	 */
-	@Test(priority = 5, dataProvider = "interview1", enabled = true)
+	@Test(priority = 5, dataProvider = "interview1", enabled = false)
 	public void testCreateInterviewHappyPathAdmin(TfInterview interview) {
 		Response response = given().header("Authorization", adminToken).contentType("application/json").body(interview)
 				.when().post(URL + "/create/" + knownAssociateId).then().extract().response();
@@ -91,7 +92,7 @@ public class InterviewRestTest {
 	 * 
 	 * @param interview
 	 */
-	@Test(priority = 6, dataProvider = "interview1", enabled = true)
+	@Test(priority = 6, dataProvider = "interview1", enabled = false)
 	public void testCreateInterviewHappyPathAssoc(TfInterview interview) {
 		Response response = given().header("Authorization", knownAssociateToken).contentType("application/json")
 				.body(interview).when().post(URL + "/create/" + knownAssociateId).then().extract().response();

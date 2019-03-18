@@ -11,6 +11,7 @@ import { Interview } from "./interview.model";
 import { Placement } from "./placement.model";
 
 export class Associate {
+  salesforceId: string;
   id: number;
   firstName: string;
   lastName: string;
@@ -28,6 +29,7 @@ export class Associate {
     newFirstName: string,
     newLastName: string,
     newUser: User,
+    salesforceId?: string,
     newId?: number,
     newBatch?: Batch,
     newMarketingStatus?: MarketingStatus,
@@ -40,6 +42,7 @@ export class Associate {
     this.firstName = newFirstName;
     this.lastName = newLastName;
     this.user = newUser;
+    this.salesforceId = salesforceId;
     this.id = newId;
     this.batch = newBatch;
     this.marketingStatus = newMarketingStatus;

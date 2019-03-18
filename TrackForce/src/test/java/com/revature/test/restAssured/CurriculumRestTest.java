@@ -13,6 +13,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.revature.services.JWTService;
+import com.revature.utils.EnvManager;
 
 import io.restassured.response.Response;
 
@@ -24,8 +25,7 @@ import io.restassured.response.Response;
  */
 public class CurriculumRestTest {
 	
-    //static final String URL = EnvManager.TomTrackForce_URL + "skillset/";
-	static final String URL = "http://52.87.205.55:8086/TrackForce/skillset";
+	static final String URL = EnvManager.TrackForce_URL+"/TrackForce/skillset";
 	//static final String URL = "http://localhost:8085/TrackForce/skillset";
 
 	String tokenAdmin;

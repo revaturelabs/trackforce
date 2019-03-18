@@ -36,8 +36,11 @@ public class AssociateTests {
 	static WebDriverWait wait;
 	String username = "cyril";
 	String password = "cyril";
-	public final String url = "http://localhost:4200/";
-//	public final String url = "http://34.227.178.103:8090/NGTrackForce/";
+
+//	String username = "bobbert1234";
+//	String password = "Bobbert12!";
+	public final String url = "http://trackforce.revaturelabs.com/";
+
 
 
 	@BeforeClass

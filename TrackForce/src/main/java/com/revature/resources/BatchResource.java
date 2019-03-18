@@ -37,6 +37,8 @@ import static com.revature.utils.LogUtil.logger;
 @Produces(MediaType.APPLICATION_JSON)
 public class BatchResource {
 
+	private static final String ROLE_ID = "roleID";
+
 	/**
 	 * @author Ian Buitrago, Andy A., Adam L.
 	 *         <p>
@@ -67,7 +69,7 @@ public class BatchResource {
 		}
 
 		Status status = null;
-		int role = Integer.parseInt((String) payload.get("roleID"));
+		int role = Integer.parseInt((String) payload.get(ROLE_ID));
 
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4 }));
 
@@ -125,7 +127,7 @@ public class BatchResource {
 			return Response.status(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
 		}
 		Status status = null;
-		int role = Integer.parseInt((String) payload.get("roleID"));
+		int role = Integer.parseInt((String) payload.get(ROLE_ID));
 
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4 }));
 
@@ -159,7 +161,7 @@ public class BatchResource {
 		}
 		Status status = null;
 		status = Status.OK;
-		int role = Integer.parseInt((String) payload.get("roleID"));
+		int role = Integer.parseInt((String) payload.get(ROLE_ID));
 
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4 }));
 		if (authorizedRoles.contains(role)) {
@@ -230,7 +232,7 @@ public class BatchResource {
 		}
 		Status status = null;
 		status = Status.OK;
-		int role = Integer.parseInt((String) payload.get("roleID"));
+		int role = Integer.parseInt((String) payload.get(ROLE_ID));
 
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4 }));
 		if (authorizedRoles.contains(role)) {
@@ -267,7 +269,7 @@ public class BatchResource {
 		}
 		Status status = null;
 		status = Status.OK;
-		int role = Integer.parseInt((String) payload.get("roleID"));
+		int role = Integer.parseInt((String) payload.get(ROLE_ID));
 
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4 }));
 		if (authorizedRoles.contains(role)) {
@@ -318,7 +320,7 @@ public class BatchResource {
 		}
 		Status status = null;
 		status = Status.OK;
-		int role = Integer.parseInt((String) payload.get("roleID"));
+		int role = Integer.parseInt((String) payload.get(ROLE_ID));
 
 		Set<Integer> authorizedRoles = new HashSet<>(Arrays.asList(new Integer[] { 1, 2, 3, 4 }));
 		if (authorizedRoles.contains(role)) {

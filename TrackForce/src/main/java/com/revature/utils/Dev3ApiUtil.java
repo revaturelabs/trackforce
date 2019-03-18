@@ -47,30 +47,26 @@ public class Dev3ApiUtil {
     private static AssociateService assServ = new AssociateService();
     private static UserService userv = new UserService();
     private static BatchDao batchdao = new BatchDaoImpl();
+    private static AssociateDao assdao = new AssociateDaoImpl();
 	private static String encryptedToken=null;
 	private static CurriculumService currService = new CurriculumService();
 	
-	// This information should be changed to be valid login info for the dev3.revature.com
-
-	// "jerry" and "gergich!" are just for the dummy database
-	private static final String username = EnvManager.Dev3Username;
-	// "employeee@yopmail.com";
-	private static final String password = EnvManager.Dev3Password;
-	// "Pass123$";
-	private static final String url = EnvManager.Dev3API_URL;
+	private static final String DEV3_USERNAME = EnvManager.Dev3Username;
+	private static final String DEV3_PASSWORD = EnvManager.Dev3Password;
+	private static final String DEV3_URL = EnvManager.Dev3API_URL;
 	// "https://dev3.revature.com/caliber";
 
 	public static boolean login() {
 		String loginJson = "{" + 
-				"    \"password\": \"" + password + "\",\r\n" + 
-				"    \"userName\": \"" + username+ "\"" 
+				"    \"password\": \"" + DEV3_PASSWORD + "\",\r\n" + 
+				"    \"userName\": \"" + DEV3_USERNAME+ "\"" 
 				+ "}";
 
 		HttpClient httpClient = HttpClientBuilder.create().build();
 
 		try {
 
-			HttpPost request = new HttpPost(url + "/authentication/login");
+			HttpPost request = new HttpPost(DEV3_URL + "/authentication/login");
 			StringEntity params = new StringEntity(loginJson);
 			params.setContentType("application/json");
 			request.addHeader("content-type", "application/json");
@@ -119,7 +115,7 @@ public class Dev3ApiUtil {
 		String todaysDate = shortDateFormat.format(cal.getTime());
 		try {
 			Set<String> curruculumNames = new HashSet<String>();
-		    HttpGet request = new HttpGet(url + "/secure/batches");
+		    HttpGet request = new HttpGet(DEV3_URL + "/secure/batches");
 		    
 		    request.addHeader("content-type", "application/json");
 		    request.addHeader("encryptedToken", encryptedToken);
@@ -177,11 +173,11 @@ public class Dev3ApiUtil {
 
 	public static boolean loadBatchAndAssociatesIntoDB(String salesforceId) {
 		HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead 
-		BatchDao batchdao = new BatchDaoImpl();
+		
 		
 		try {
 
-		    HttpGet request = new HttpGet(url + "/secure/batch/" + salesforceId + "/associates");
+		    HttpGet request = new HttpGet(DEV3_URL + "/secure/batch/" + salesforceId + "/associates");
 		    
 		    request.addHeader("content-type", "application/json");
 		    request.addHeader("encryptedToken", encryptedToken);
@@ -191,7 +187,7 @@ public class Dev3ApiUtil {
 		    String response = httpClient.execute(request, responseHandler);
 
 		    //handle response here...
-		    AssociateDao assdao = new AssociateDaoImpl();
+		    
 		    JSONObject obj = new JSONObject(response);
 		    if (obj.getInt("statusCode")==200) {
 		    	JSONObject data = obj.getJSONObject("data");
@@ -231,27 +227,7 @@ public class Dev3ApiUtil {
 					logger.trace(e);
 				}
 				
-			    boolean createdBatch = batchdao.createBatch(batch);
-			    
-			    //This if statement sets each associate's batch and persists it in the DB
-			    if (createdBatch) {
-			    	Set<TfAssociate> asses = batch.getAssociates();
-			    	
-			    	if (asses.size()>0) {
-						for (TfAssociate ass : asses) {
-							TfAssociate persistentAss = assdao.getAssociate(ass.getId());
-							TfBatch persistentBatch = batchdao.getBatchBySalesforceId(batch.getSalesforceId());
-							persistentAss.setBatch(persistentBatch);
-							assdao.updateAssociate(persistentAss);
-							logger.debug("***** " + persistentAss.getUser().getUsername() + " was added to batch: "
-									+ batch.getSalesforceId());
-						} 
-					}
-			    	
-					return true;
-			    } else {
-			    	return false;
-			    }
+			    return persistBatchAndAssociates(batch);
 
 			} else {
 				return false;
@@ -261,6 +237,34 @@ public class Dev3ApiUtil {
 			logger.trace(ex.getMessage(), ex);
 		}
 		return false;
+	}
+
+	/**
+	 * @param batch
+	 * @return
+	 */
+	private static boolean persistBatchAndAssociates(TfBatch batch) {
+		boolean createdBatch = batchdao.createBatch(batch);
+		
+		//This if statement sets each associate's batch and persists it in the DB
+		if (createdBatch) {
+			Set<TfAssociate> asses = batch.getAssociates();
+			
+			if (asses.size()>0) {
+				for (TfAssociate ass : asses) {
+					TfAssociate persistentAss = assdao.getAssociate(ass.getId());
+					TfBatch persistentBatch = batchdao.getBatchBySalesforceId(batch.getSalesforceId());
+					persistentAss.setBatch(persistentBatch);
+					assdao.updateAssociate(persistentAss);
+					logger.debug("***** " + persistentAss.getUser().getUsername() + " was added to batch: "
+							+ batch.getSalesforceId());
+				} 
+			}
+			
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	private static TfAssociate getOrBuildAssociate(JSONObject jsonAssoc) {

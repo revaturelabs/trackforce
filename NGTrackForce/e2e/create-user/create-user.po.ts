@@ -198,7 +198,6 @@ export class CreateUserPo {
     //Changed from xpath to css Jamir & Brandon 1901SDET --success
     private getSubmitButton(){
         return element(by.css('[value="Submit"]'));
-    //   return element(by.id('html > body > app-component > div > app-create-user > form > button'));
     }
  
     clickSubmitButton(){

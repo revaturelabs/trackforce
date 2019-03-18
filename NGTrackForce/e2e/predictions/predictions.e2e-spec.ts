@@ -2,7 +2,6 @@ import { PredictionsPage } from "./predictions.po";
 import { Navbar } from "../navbar/navbar.po";
 import { TestConfig } from "../configuration/test-config";
 import { LoginPage } from "../login/login.po";
-// import { browser, element, by } from "../../node_modules/protractor";
 import { browser, element, by } from "protractor";
 
 import { forEach } from "../../node_modules/@angular/router/src/utils/collection";

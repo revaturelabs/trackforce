@@ -3,10 +3,7 @@
 //on the associate page.  Then when scrolled to the bottom
 //Loads 60 more
 describe('test assocation pagenation functionality', function() {
-    //Tested on local host, should go to EC2 Location
-    beforeAll(() =>{  
-        // browser.get('http://localhost:4200/login');
-    });
+    
     //NGTrackForce_URL
     browser.get('http://trackforce.revaturelabs.com/NGTrackForce/');
 
@@ -18,7 +15,6 @@ describe('test assocation pagenation functionality', function() {
   
       element(by.id('username')).sendKeys('TestAdmin');
       element(by.id('password')).sendKeys('TestAdmin');
-    //   document.querySelector('#pwd-container > div > section > form > div > div:nth-child(3) > button:nth-child(1)').click();
       element(by.css('#pwd-container > div > section > form > div > div:nth-child(3) > button:nth-child(1)')).click();
       expect(element(by.id('home')).getText()).toEqual('Home');
     });

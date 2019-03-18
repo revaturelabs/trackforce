@@ -1,6 +1,4 @@
 describe('Testing associate list via Client Search', function() {
-    //Tested on local host, should go to EC2 Location
-    // browser.get('http://localhost:4200/login');
 
     //NGTrackForce_URL
     browser.get('http://trackforce.revaturelabs.com/NGTrackForce/');

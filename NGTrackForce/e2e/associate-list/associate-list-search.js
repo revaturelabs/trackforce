@@ -1,8 +1,5 @@
 describe('tests searching on associates list tab...', function () {
 
-    //Tested on local host, should go to EC2 Location
-    // browser.get('http://localhost:4200');
-
     //NGTrackForce_URL
     browser.get('http://trackforce.revaturelabs.com/NGTrackForce/');
     beforeEach(() =>{

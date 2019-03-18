@@ -32,7 +32,10 @@ import com.revature.entity.TfMarketingStatus;
 import com.revature.entity.TfUser;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
+import static com.revature.utils.LogUtil.logger;
 import com.revature.utils.Sessional;
+
+import ch.qos.logback.classic.Logger;
 
 /**
  * Data Access Object implementation to access the associate entity from the
@@ -196,10 +199,12 @@ public class AssociateDaoImpl implements AssociateDao {
 					resultMap.putIfAbsent(i, 0);
 		} catch (HibernateException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			logger.trace("Hibernate Exception", e);
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			logger.trace("Number Format Exception", e);
 		} finally {
 			if (sess!=null) {
 				sess.close();

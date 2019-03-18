@@ -124,10 +124,10 @@ public class BatchDaoImpl implements BatchDao {
 					.getSingleResult();
 		}catch(HibernateException e) {
 			logger.error("Hibernate Exception occured" + e.getMessage());
-			e.printStackTrace();
+			
 		}catch(NullPointerException e) {
 			logger.error("Null Pointer Error occured" + e.getMessage());
-			e.printStackTrace();
+			
 		}finally {
 			if (session != null) {
 				session.close();

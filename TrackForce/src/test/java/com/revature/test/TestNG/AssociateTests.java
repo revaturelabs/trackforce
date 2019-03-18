@@ -1,5 +1,7 @@
 package com.revature.test.TestNG;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -158,8 +160,8 @@ public class AssociateTests {
 		
 		try {
 			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		} catch (InterruptedException ex) {
+			logger.trace(ex.getMessage(), ex);
 		}
 		
 		int afterAddingInterview = wd.findElement(By.id("tableBody")).getSize().height;

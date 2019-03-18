@@ -93,7 +93,7 @@ public class UserDaoImpl implements UserDao {
 					}
 				}
 			} catch (CannotPerformOperationException e) {
-				e.printStackTrace();
+				
 				LogUtil.logger.error("Could not set password.\n" + e.getMessage());
 				return false;
 			}

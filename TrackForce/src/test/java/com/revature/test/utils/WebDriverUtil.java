@@ -52,7 +52,7 @@ public class WebDriverUtil {
 		}
 		System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
 		ChromeOptions options = new ChromeOptions();
-		options.setHeadless(true);
+		options.setHeadless(false);
 		chromeDriver = new ChromeDriver(options);
 		return chromeDriver;
 	}

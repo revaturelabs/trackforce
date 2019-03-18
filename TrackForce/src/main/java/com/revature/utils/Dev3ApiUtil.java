@@ -170,13 +170,7 @@ public class Dev3ApiUtil {
 			}
 		    
 		}catch (Exception ex) {
-
-		    //handle exception here
-			ex.printStackTrace();
-
-		} finally {
-		    //Deprecated
-		    //httpClient.getConnectionManager().shutdown(); 
+			logger.trace(ex.getMessage(), ex);
 		}
 		return null;
 	}
@@ -264,10 +258,7 @@ public class Dev3ApiUtil {
 			}
 		    
 		}catch (Exception ex) {
-
-			//handle exception here
-			ex.printStackTrace();
-
+			logger.trace(ex.getMessage(), ex);
 		}
 		return false;
 	}
@@ -297,7 +288,7 @@ public class Dev3ApiUtil {
 				return assServ.getAssociateByUserId(userv.getUser(email).getId());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.trace(e.getMessage(), e);
 		}
 		return null;
 	}
@@ -324,12 +315,9 @@ public class Dev3ApiUtil {
 			    trainServ.createTrainer(trainer);
 			    return trainServ.getTrainerByUserId(userv.getUser(email).getId());
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-		
+		} catch (Exception ex) {
+			logger.trace(ex.getMessage(), ex);
+		}
 		return null;
 	}
 	

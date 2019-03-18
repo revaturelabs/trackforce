@@ -21,7 +21,7 @@ import { UserService } from '../../services/user-service/user.service';
 import { Router } from '../../testing-helpers/router-stubs';
 
 import { User } from '../../models/user.model';
-import{ MarketingStatus } from '../../models/marketing-status.model';
+import { MarketingStatus } from '../../models/marketing-status.model';
 import { Associate } from '../../models/associate.model';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { LocalStorageUtils } from '../../constants/local-storage';

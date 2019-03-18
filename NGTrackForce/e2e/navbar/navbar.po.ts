@@ -68,7 +68,7 @@ export class Navbar {
     }
     goToMyInterview(){
       let ec = protractor.ExpectedConditions;
-      browser.wait(ec.visibilityOf(element(by.linkText('Interviews'))), 5000);
+      browser.wait(ec.visibilityOf(element(by.linkText('My Interviews'))), 5000);
       element(by.id('interviews')).click();
     }
 }

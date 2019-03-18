@@ -21,6 +21,9 @@ export class PredictionsPage extends BasePage {
     getTechnology(index: number) {
       return element(by.id('techTable')).all(by.css('tbody tr')).get(index).getText();
     }
+    getLogoutButton(){
+      return element(by.id('logout'));
+    }
 
     inputTechCount(index: number, count: number) {
       this.getTechnologyCount().then( res => {

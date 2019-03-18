@@ -1,5 +1,7 @@
 package com.revature.test.utils;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -16,7 +18,7 @@ public class TestConfig {
 		try {
 			prop.load(locProps);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.trace(e.getMessage(), e);
 		}
 	}
 	

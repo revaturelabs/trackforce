@@ -26,7 +26,7 @@ public class ContextListener implements ServletContextListener {
 				dataSource.close();
 			} catch (SQLException e) {
 				// note - do not use log4j since it may have been unloaded by this point
-				e.printStackTrace();
+				System.out.println("SQL Exception during during contextDestroyed()");
 			}
 		}
 	}

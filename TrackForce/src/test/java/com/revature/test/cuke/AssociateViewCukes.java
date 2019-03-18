@@ -4,6 +4,8 @@ import static com.revature.test.cuke.ConstantsCukeTestUtil.getAssociateView;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getBaseUrl;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getInterviewDate;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getInterviewType;
+import static com.revature.test.cuke.ConstantsCukeTestUtil.getUpdateDate;
+import static com.revature.test.cuke.ConstantsCukeTestUtil.getUpdateTime;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getLogout;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getMyInterviewView;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getTestFirstName;
@@ -25,7 +27,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 
 import com.revature.test.pom.AssociateHome;
 import com.revature.test.pom.Login;
@@ -195,7 +199,7 @@ public class AssociateViewCukes {
 	public void i_select_a_client() throws Throwable {
 		ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getMyInterviewView()));
 		MyInterviews.getClientSelect(ServiceHooks.driver).click();
-	    ServiceHooks.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	    ServiceHooks.driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	    MyInterviews.getClientSelectOptionsByIndex(ServiceHooks.driver, getInterviewer()).click();
 	}
 
@@ -224,12 +228,12 @@ public class AssociateViewCukes {
 	}
 	
 
-	@When("^I get the iterviews$")
-	public void i_get_the_number_of_iterviews() throws Throwable {	
+	@When("^I get the interviews$")
+	public void i_get_the_number_of_interviews() throws Throwable {	
 		ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getMyInterviewView()));
 	}
 
-	@Then("^it should be in the interview table$")
+	@Then("^a success popup should display$")
 	public void it_should_be_in_the_interview_table() throws Throwable {
 		try {
 			//Note that success alert is not an alert but a small message that appears on the page
@@ -266,27 +270,46 @@ public class AssociateViewCukes {
 	// updating an interview
 	@When("^I select an interview date to update$")
 	public void i_select_an_interview_date_to_update() throws Throwable {
-	    
+		ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getMyInterviewView()));
+		ServiceHooks.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(MyInterviews.getUpdateDate(ServiceHooks.driver)));
+	    MyInterviews.getUpdateDate(ServiceHooks.driver).sendKeys(getUpdateDate());
 	}
 
 	@When("^I select an interview time to update$")
 	public void i_select_an_interview_time_to_update() throws Throwable {
-	    
+		ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getMyInterviewView()));
+		ServiceHooks.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(MyInterviews.getUpdateTime(ServiceHooks.driver)));
+	    MyInterviews.getUpdateTime(ServiceHooks.driver).sendKeys(getUpdateTime());
 	}
 
 	@When("^I click update interview$")
 	public void i_click_update_interview() throws Throwable {
-	    
+		ServiceHooks.wait.until(ExpectedConditions.urlContains(getBaseUrl() + getMyInterviewView()));
+		MyInterviews.getUpdateButton(ServiceHooks.driver).click();
 	}
 
 	@Then("^an update success popup should display$")
 	public void an_update_success_popup_should_display() throws Throwable {
-	    
+			
+			ServiceHooks.wait.until(ExpectedConditions.visibilityOf(MyInterviews.getUpdateSuccessAlert(ServiceHooks.driver)));
+//		    ServiceHooks.driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+			
+			// assert that the element is showing up
+			Assert.assertTrue(MyInterviews.getUpdateSuccessAlert(ServiceHooks.driver).isDisplayed());
+		
 	}
 
 	@Then("^an update error should display$")
 	public void an_update_error_should_display() throws Throwable {
-	    
+		try {
+			//If the below throws an error, the alert did not appear
+			ServiceHooks.wait.until(ExpectedConditions.visibilityOf(MyInterviews.getUpdateFailureAlert(ServiceHooks.driver)));
+		    ServiceHooks.driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		} catch (TimeoutException e) {
+			fail("Failure alert did not appear on the page");
+		}
 	}
 
 	

@@ -1,7 +1,7 @@
 describe('Open the browser and get to the website', function() {
     wd = browser.driver;
-    wd.get('http://34.227.178.103:8090/NGTrackForce');
-    // wd.get('http://localhost:4200/login');
+    // wd.get('http://34.227.178.103:8090/NGTrackForce');
+    wd.get('http://localhost:4200/login');
 
 });
 

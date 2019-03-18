@@ -51,7 +51,7 @@ export class CreateUserPo {
      * Returns the username element in the DOM
      */
     private getUsernameInput(){
-        return element(by.css('[name="username"]'));
+        return element(by.id('username'));
     }
 
     /**
@@ -194,20 +194,27 @@ export class CreateUserPo {
             return '';
         }
     }
-
+    
+    //Changed from xpath to css Jamir & Brandon 1901SDET --success
     private getSubmitButton(){
-      return element(by.xpath('/html/body/app-component/div/app-create-user/form/button'));
+        return element(by.css('[value="Submit"]'));
     }
-
+ 
     clickSubmitButton(){
-      this.getSubmitButton().click();
+      let sButton = this.getSubmitButton()
+      if(sButton.isEnabled()){
+          sButton.click();
+      }
+      else{
+          browser.wait(sButton.isEnabled(), 2*1000, 'Button not displayed within 2 seconds');
+      }
     }
 
     getAlert(){
       return element(by.css('body > app-component > div > app-create-user > form > fieldset:nth-child(2) > div'));
     }
     getUserNameAlert(){
-      return element(by.xpath('//*[@id="error-username"]'));
+      return element(by.id('error-username'));
     }
     refresh(){
       return browser.refresh();

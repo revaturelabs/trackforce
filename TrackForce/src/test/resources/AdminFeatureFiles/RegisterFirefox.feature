@@ -1,3 +1,4 @@
+
 Feature: Testing the registration for new associates
 
   Background: 
@@ -109,7 +110,7 @@ Feature: Testing the registration for new associates
       | select * from tf_users |
       | *aaaaaaa* |
       | ششششششش |
-#
+
   Scenario Outline: Creating an invalid trainer with invalid password
     When I enter a valid username
     And I enter a invalid password"<password>"

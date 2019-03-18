@@ -3,7 +3,7 @@ describe('Testing associate list page further by changing search status.', funct
     // browser.get('http://localhost:4200/login');
 
     //NGTrackForce_URL
-    browser.get('http://34.227.178.103:8090/NGTrackForce/');
+    browser.get('http://trackforce.revaturelabs.com/NGTrackForce/');
     browser.manage().timeouts().implicitlyWait(5000);
 
     it('should log in', function() {

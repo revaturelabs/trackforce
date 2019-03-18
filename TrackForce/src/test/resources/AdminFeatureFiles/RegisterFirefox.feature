@@ -1,7 +1,7 @@
-@FirefoxTest
-Feature: Tests the registration for each user type on Firefox
 
-	Background: 
+Feature: Testing the registration for new associates
+
+  Background: 
     Given I connect to trackforce on Firefox
     And I click on the register button
 
@@ -142,4 +142,4 @@ Feature: Tests the registration for each user type on Firefox
       | Abc*3fd | Abc*3fd |
       | a b c d e f 10 | a b c d e f 10 |
       | A3a*ششششششش | A3a*ششششششش |
-      
+

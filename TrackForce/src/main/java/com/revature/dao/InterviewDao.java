@@ -11,5 +11,5 @@ public interface InterviewDao {
 	
 	boolean updateInterview(	TfInterview interview);
 	
-	TfInterview getInterviewById(int interviewId);
+	TfInterview getInterviewById(Integer interviewId);
 }

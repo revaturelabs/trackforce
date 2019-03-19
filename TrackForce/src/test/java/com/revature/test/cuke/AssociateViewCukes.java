@@ -97,8 +97,10 @@ public class AssociateViewCukes {
 	
 	@When("^I enter my current password$")
 	public void i_enter_my_current_password() throws Throwable {
-	    ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(PasswordUpdate.getOldPassword(ServiceHooks.driver)));
-	    ServiceHooks.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS) ;
+		ServiceHooks.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	    ServiceHooks.wait.withTimeout(5, TimeUnit.SECONDS)
+	    	.until(ExpectedConditions.elementToBeClickable(PasswordUpdate.getOldPassword(ServiceHooks.driver)));
+	    
 	    PasswordUpdate.getOldPassword(ServiceHooks.driver).sendKeys(LoginUtil.getPropertyValue("associatePW"));
 
 	}
@@ -156,6 +158,7 @@ public class AssociateViewCukes {
 
 	@When("^I enter a new username$")
 	public void i_enter_a_new_username() throws Throwable {
+		ServiceHooks.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(UsernameUpdate.getNewUsername(ServiceHooks.driver)));
 	    UsernameUpdate.getNewUsername(ServiceHooks.driver).sendKeys(LoginUtil.getPropertyValue("associateNEW"));
 	}
@@ -205,6 +208,7 @@ public class AssociateViewCukes {
 
 	@When("^I select an interview type$")
 	public void i_select_an_interview_type() throws Throwable {
+		ServiceHooks.driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		MyInterviews.getTypeSelect(ServiceHooks.driver).click();
 		MyInterviews.getTypeSelectOptionsByValue(ServiceHooks.driver, getInterviewType()).click();
 	}

@@ -27,7 +27,7 @@ public class ConstantsCukeTestUtil {
 	private static final String REVATURE_URL = "https://revature.com/";
 	private static final String TEST_FIRST_NAME = "TestFirstName";
 	private static final String TEST_LAST_NAME = "TestLastName";
-	private static final String baseUrl = EnvManager.NGTrackForce_URL;
+	private static final String baseUrl = EnvManager.NGTrackForce_URL + "/#/";
 	private static final String MAIL_PREFIX = "mailto:";
 	private static final String EMAIL_URL = "info@revature.com";
 

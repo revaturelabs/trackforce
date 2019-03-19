@@ -2,6 +2,9 @@ import { ClientListPo } from "./client-list.po";
 import { Navbar } from "../navbar/navbar.po";
 import { LoginPage } from '../login/login.po';
 import { TestConfig } from "../configuration/test-config";
+import { ngEnvironment } from '../../src/environments/environment';
+import { browser } from 'protractor';
+
 
 let clientList  : ClientListPo;
 let testConfig  : TestConfig;
@@ -18,16 +21,19 @@ describe('When an admin navigates to the client-list page it', function() {
         testConfig = new TestConfig();
         page = new LoginPage();
         navbar = new Navbar();
-        baseURL = testConfig.getBaseURL();
+        baseURL = ngEnvironment.url;
         testURL = 'client-listing';
         searchByClientName = 'Accenture';
         page.navigateTo();
         navbar.logIn("TestAdmin","TestAdmin");
     });
+    beforeEach(() => {
+        browser.manage().timeouts().implicitlyWait(2000);
+    });
 
     it('should navigate to the client-list page', () => {
         navbar.goToClientList();
-        expect(clientList.getCurrentURL()).toEqual(baseURL + testURL);
+        expect(clientList.getCurrentURL()).toEqual(baseURL+'#/' + testURL);
     });
 
     it('should accept username input', () => {

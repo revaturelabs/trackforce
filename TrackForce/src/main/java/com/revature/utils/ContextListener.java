@@ -1,5 +1,7 @@
 package com.revature.utils;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.sql.SQLException;
 import java.util.Set;
 
@@ -26,7 +28,7 @@ public class ContextListener implements ServletContextListener {
 				dataSource.close();
 			} catch (SQLException e) {
 				// note - do not use log4j since it may have been unloaded by this point
-				System.out.println("SQL Exception during during contextDestroyed()");
+				logger.trace(e.getMessage(), e);
 			}
 		}
 	}

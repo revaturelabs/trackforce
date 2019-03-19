@@ -51,8 +51,8 @@ public class Dev3ApiUtil {
 	private static String encryptedToken=null;
 	private static CurriculumService currService = new CurriculumService();
 	
-	private static final String DEV3_USERNAME = EnvManager.Dev3Username;
-	private static final String DEV3_PASSWORD = EnvManager.DEV3PASSWORD;
+	private static final String DEV3_USERNAME = EnvManager.DEV3_USERNAME;
+	private static final String DEV3_PASSWORD = EnvManager.DEV3_PASSWORD;
 	private static final String DEV3_URL = EnvManager.DEV3API_URL;
 	// "https://dev3.revature.com/caliber";
 

@@ -158,12 +158,6 @@ public class AssociateTests {
 		time.sendKeys(timeInput);
 		wd.findElement(By.id("add-interview")).click();
 		
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException ex) {
-			logger.trace(ex.getMessage(), ex);
-		}
-		
 		int afterAddingInterview = wd.findElement(By.id("tableBody")).getSize().height;
 		//= new InterviewService().getAllInterviews().size();
 		

@@ -4,8 +4,8 @@ public class EnvManager {
 	public static final  String NGTrackForce_URL = System.getenv("NGTrackForce_URL");
 	public static final  String TrackForce_URL = System.getenv("TrackForce_URL");
 	public static final  String DEV3API_URL = System.getenv("DEV3_API_URL");
-	public static final  String Dev3Username = System.getenv("DEV3_API_USERNAME");
-	public static final  String DEV3PASSWORD = System.getenv("DEV3_API_PASSWORD");
+	public static final  String DEV3_USERNAME = System.getenv("DEV3_API_USERNAME");
+	public static final  String DEV3_PASSWORD = System.getenv("DEV3_API_PASSWORD");
 	/**
 	 * A shorthand for OsCheck.getOperatingSystemType()
 	 * 

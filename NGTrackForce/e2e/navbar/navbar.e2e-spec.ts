@@ -64,7 +64,7 @@ describe('The Asscoiate navbar is functional', () => {
         testConfig = new TestConfig();
         baseURL = testConfig.getBaseURL();
         page.navigateTo();
-        navbar.logIn("cyril","cyril");
+        navbar.logIn("TestAssociate","TestAssoc1@te");
     });
 
     it('should navigate to home page', () => {

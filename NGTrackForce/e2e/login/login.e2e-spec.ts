@@ -7,8 +7,8 @@ Smoke test: Checks elements to be exist
 */
 let AdminUsername = "TestAdmin";
 let AdminPassword = "TestAdmin";
-let associateUsername = "cyril";
-let associatePassword = "cyril";
+let associateUsername = "TestAssociate";
+let associatePassword = "TestAssoc1@te";
 let stagingManagerUsername = "bobstage";
 let stagingManagerPassword = "bobstage";
 let trainerUsername = "Trainer0";

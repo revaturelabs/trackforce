@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.NoResultException;
 
 import org.hibernate.HibernateException;
-import org.hibernate.NonUniqueResultException;
 
 import com.revature.dao.UserDao;
 import com.revature.daoimpl.UserDaoImpl;

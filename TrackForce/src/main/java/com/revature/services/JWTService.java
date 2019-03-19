@@ -9,7 +9,6 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import org.json.JSONObject;
 import com.revature.entity.TfUser;
-import com.revature.utils.LogUtil;
 
 import gherkin.lexer.Da;
 import io.jsonwebtoken.Claims;

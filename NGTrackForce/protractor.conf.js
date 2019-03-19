@@ -71,9 +71,9 @@ exports.config = {
   
   //for pipeline delpoyment
   //change direct connect to false
-  directConnect: true,
+  directConnect: false,
   // seleniumAddress: "http://127.0.0.1:4444/wd/hub",
-  // seleniumAddress: "http://localhost:4444/wd/hub",
+  seleniumAddress: "http://localhost:4444/wd/hub",
   // SELENIUM_PROMISE_MANAGER: false,
 
   framework: 'jasmine',

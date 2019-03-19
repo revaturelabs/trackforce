@@ -56,7 +56,6 @@ public class DailyDatabaseSync extends TimerTask {
 				try {
 					batch = batchdao.getBatchBySalesforceId(sfId);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					batch=null;
 				}
 				logger.debug("The detached batch : " + batch);

@@ -1,7 +1,6 @@
 package com.revature.daoimpl;
 
 import static com.revature.utils.HibernateUtil.runHibernateTransaction;
-import static com.revature.utils.HibernateUtil.saveToDB;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +17,6 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.id.CompositeNestedGeneratedValueGenerator.GenerationContextLocator;
-import org.hibernate.tuple.entity.EntityMetamodel.GenerationStrategyPair;
 import org.openqa.selenium.InvalidArgumentException;
 
 import com.revature.criteria.GraphedCriteriaResult;
@@ -35,7 +32,6 @@ import com.revature.utils.LogUtil;
 import static com.revature.utils.LogUtil.logger;
 import com.revature.utils.Sessional;
 
-import ch.qos.logback.classic.Logger;
 
 /**
  * Data Access Object implementation to access the associate entity from the
@@ -198,11 +194,9 @@ public class AssociateDaoImpl implements AssociateDao {
 				for (int i = 1; i < 13; i++)
 					resultMap.putIfAbsent(i, 0);
 		} catch (HibernateException e) {
-			// TODO Auto-generated catch block
 			
 			logger.trace("Hibernate Exception", e);
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			
 			logger.trace("Number Format Exception", e);
 		} finally {

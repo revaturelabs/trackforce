@@ -26,14 +26,15 @@ public class ThreadUtil {
 		
 		try {
 			results = future.get();
-		} catch (InterruptedException | ExecutionException e) {
+		} catch (ExecutionException e) {
 			if(!future.isCancelled()) { future.cancel(true); }
 			else {logger.info("Call was canceled");}
 			logger.debug(e);
-			if (e instanceof InterruptedException) {
-				logger.info("Thread was interrupted");
-				Thread.currentThread().interrupt();
-			}
+		} catch(InterruptedException e) {
+			if(!future.isCancelled()) { future.cancel(true); }
+			logger.info("Thread was interrupted");
+			Thread.currentThread().interrupt();
+			
 		}
 		
 		logger.debug("Current Active Threads: " + getActiveThreadCount());

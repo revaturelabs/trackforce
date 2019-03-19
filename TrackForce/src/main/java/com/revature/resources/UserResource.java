@@ -391,13 +391,11 @@ public class UserResource {
 				return Response.status(Status.UNAUTHORIZED).entity(null).build();
 			}
 		} catch (CannotPerformOperationException e) {
-			logger.error("Could not perform VerifyPassword.");
+			logger.error("Could not perform VerifyPassword.\n" + e.getMessage());
 			status = Status.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
 		} catch (InvalidHashException e) {
-			logger.error("User's password in database had an invalid hashset.");
+			logger.error("User's password in database had an invalid hashset.\n" + e.getMessage());
 			status = Status.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
 		}
 		return Response.status(status).build();
 	}
@@ -439,13 +437,11 @@ public class UserResource {
 				return Response.status(Status.UNAUTHORIZED).entity(null).build();
 			}
 		} catch (CannotPerformOperationException e) {
-			logger.error("Could not perform VerifyPassword.");
+			logger.error("Could not perform VerifyPassword.\n" + e.getMessage());
 			status = Status.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
 		} catch (InvalidHashException e) {
-			logger.error("User's password in database had an invalid hashset.");
+			logger.error("User's password in database had an invalid hashset.\n" + e.getMessage());
 			status = Status.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
 		}
 		return Response.status(status).build();
 	}

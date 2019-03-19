@@ -17,6 +17,7 @@ import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
 import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
+import com.revature.utils.EnvManager;
 
 import io.restassured.response.Response;
 
@@ -29,7 +30,7 @@ import io.restassured.response.Response;
  */
 public class TrainerRestTest {
 
-	static final String URL = "http://52.87.205.55:8086/TrackForce/trainers";
+	static final String URL = EnvManager.TrackForce_URL+"/TrackForce/trainers";
 //	static final String URL = "http://localhost:8085/TrackForce/trainers";
 
 	TrainerService trainerService = new TrainerService();

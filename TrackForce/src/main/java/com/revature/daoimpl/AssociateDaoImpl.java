@@ -16,6 +16,7 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.id.CompositeNestedGeneratedValueGenerator.GenerationContextLocator;
 import org.hibernate.tuple.entity.EntityMetamodel.GenerationStrategyPair;
@@ -31,7 +32,10 @@ import com.revature.entity.TfMarketingStatus;
 import com.revature.entity.TfUser;
 import com.revature.utils.HibernateUtil;
 import com.revature.utils.LogUtil;
+import static com.revature.utils.LogUtil.logger;
 import com.revature.utils.Sessional;
+
+import ch.qos.logback.classic.Logger;
 
 /**
  * Data Access Object implementation to access the associate entity from the
@@ -144,7 +148,7 @@ public class AssociateDaoImpl implements AssociateDao {
 	public TfAssociate getAssociateByUserId(int id) {
 		LogUtil.logger.trace("Hibernate Call to get Associate via UserId: " + id);
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
-				.createQuery("from TfAssociate where user.id = :id", TfAssociate.class).setParameter("id", id)
+				.createQuery("from TfAssociate a where a.user.id = :id", TfAssociate.class).setParameter("id", id)
 				.setCacheable(true).getSingleResult());
 	}
 
@@ -175,20 +179,37 @@ public class AssociateDaoImpl implements AssociateDao {
 	 */
 
 	private HashMap<Integer, Integer> getAllStatusCounts() {
-		List<String> resultList = HibernateUtil.getSessionFactory().openSession()
-				.createQuery(
-						"select " + "a.marketingStatus || ',' || " + "count( a.marketingStatus ) "
-								+ "from TfAssociate a " + "group by a.marketingStatus " + "order by a.marketingStatus",
-						String.class)
-				.getResultList();
+		Session sess = null;
 		HashMap<Integer, Integer> resultMap = new HashMap<>();
-		for (String result : resultList) {
-			String[] split = result.split(",");
-			resultMap.put(Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+		try {
+			sess = HibernateUtil.getSessionFactory().openSession();
+			List<String> resultList = sess
+					.createQuery(
+							"select " + "a.marketingStatus || ',' || " + "count( a.marketingStatus ) "
+									+ "from TfAssociate a " + "group by a.marketingStatus " + "order by a.marketingStatus",
+							String.class)
+					.getResultList();
+			
+			for (String result : resultList) {
+				String[] split = result.split(",");
+				resultMap.put(Integer.valueOf(split[0]), Integer.valueOf(split[1]));
+			}
+			if (resultMap.size() < 12)
+				for (int i = 1; i < 13; i++)
+					resultMap.putIfAbsent(i, 0);
+		} catch (HibernateException e) {
+			// TODO Auto-generated catch block
+			
+			logger.trace("Hibernate Exception", e);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			
+			logger.trace("Number Format Exception", e);
+		} finally {
+			if (sess!=null) {
+				sess.close();
+			}
 		}
-		if (resultMap.size() < 12)
-			for (int i = 1; i < 13; i++)
-				resultMap.putIfAbsent(i, 0);
 		return resultMap;
 	}
 
@@ -369,6 +390,9 @@ public class AssociateDaoImpl implements AssociateDao {
 			}
 			if (associate.getMarketingStatus() != null) {
 				temp.setMarketingStatus(associate.getMarketingStatus());
+			}
+			if (associate.getBatch() != null) {
+				temp.setBatch(associate.getBatch());
 			}
 
 			temp.getUser().setIsApproved(associate.getUser().getIsApproved());

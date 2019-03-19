@@ -1,5 +1,7 @@
 package com.revature.test.utils;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +27,7 @@ public class WebDriverUtil {
 		try {
 			prop.load(locProps);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.trace(e.getMessage(), e);
 		}
 	}
 

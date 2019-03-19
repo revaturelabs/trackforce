@@ -16,6 +16,9 @@ import ch.qos.logback.classic.Logger;
 
 public class UserDaoImpl implements UserDao {
 
+	private static final String UPDATE_USER_MESSAGE = "Hibernate Call to update User: ";
+	private static final String GET_USER_MSG = "Hibernate Call to get User by Username: ";
+
 	@Override
 	public TfUser getUser(Integer id) {
 		LogUtil.logger.trace("Hibernate Call to get User by Id: " + id);
@@ -27,7 +30,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public TfUser getUser(String username) {
-		LogUtil.logger.trace("Hibernate Call to get User by Username: " + username);
+		LogUtil.logger.trace(GET_USER_MSG + username);
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
 				.createQuery("from TfUser u where u.username like :username", TfUser.class)
 				.setParameter("username", username).setCacheable(true).getSingleResult());
@@ -56,7 +59,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean updateUser(TfUser user) {
-		LogUtil.logger.trace("Hibernate Call to update User: " + user.getId());
+		LogUtil.logger.trace(UPDATE_USER_MESSAGE + user.getId());
 		return runHibernateTransaction((Session session, Object... args) -> {
 			session.update(user);
 			return true;
@@ -83,7 +86,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean updateUserPass(TfUser user, String updatePass) {
-		LogUtil.logger.trace("Hibernate Call to update User: " + user.getId() + "'s password.");
+		LogUtil.logger.trace(UPDATE_USER_MESSAGE + user.getId() + "'s password.");
 		return runHibernateTransaction((Session session, Object... args) -> {
 			TfUser temp = session.get(TfUser.class, user.getId());
 			try {
@@ -93,7 +96,7 @@ public class UserDaoImpl implements UserDao {
 					}
 				}
 			} catch (CannotPerformOperationException e) {
-				e.printStackTrace();
+				
 				LogUtil.logger.error("Could not set password.\n" + e.getMessage());
 				return false;
 			}
@@ -105,7 +108,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean updateUsername(TfUser user, String updateName) {
-		LogUtil.logger.trace("Hibernate Call to update User: " + user.getId() + "'s username.");
+		LogUtil.logger.trace(UPDATE_USER_MESSAGE + user.getId() + "'s username.");
 		return runHibernateTransaction((Session session, Object... args) -> {
 			TfUser temp = session.get(TfUser.class, user.getId());
 			if (updateName != null) {

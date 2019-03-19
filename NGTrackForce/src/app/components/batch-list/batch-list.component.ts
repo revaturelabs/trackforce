@@ -45,6 +45,7 @@ export class BatchListComponent implements OnInit {
   batchColors: Array<Color> = ThemeConstants.BATCH_COLORS;
   counter = 0;
   minDate: number = Date.now();
+  
   @Output() changeDateEm = new EventEmitter<Date>();
 
   stringStart: string;
@@ -139,12 +140,23 @@ export class BatchListComponent implements OnInit {
 			// a day late so adding the offset time makes sure that the correct
 			// date is being referenced
     this.startDate = new Date(this.fromString);
-		this.startDate.setMinutes(this.startDate.getMinutes() + this.startDate.getTimezoneOffset());
+		// this.startDate.setMinutes(this.startDate.getMinutes() + this.startDate.getTimezoneOffset());
     this.endDate = new Date(this.toString);
 		this.endDate.setMinutes(this.endDate.getMinutes() + this.endDate.getTimezoneOffset());
 
     let longStartDate: number;
     let longEndDate: number;
+    let longNewMaxEndDate : number;
+
+
+    //This code is to allow the user to select a batch with an end date of
+    //up to a year after the current date.
+    let maxEndDate = new Date();
+    let year = maxEndDate.getFullYear();
+    let month = maxEndDate.getMonth();
+    let day = maxEndDate.getDate();
+    let newMaxEndDate = new Date(year+1, month, day);
+    longNewMaxEndDate =  newMaxEndDate.getTime();
 
     this.resetFormWarnings();
 
@@ -159,8 +171,8 @@ export class BatchListComponent implements OnInit {
       } else if(longStartDate < this.minDate){
 				this.dateRangeMessage = `The from date cannot be before ${new Date(this.minDate).toDateString().substring(4)}, please try another date.`;
         this.showDateRangeError = true;
-			} else if(longEndDate > Date.now()){
-				this.dateRangeMessage = "The to date cannot be after today, please try another date.";
+			} else if(longEndDate > longNewMaxEndDate){
+				this.dateRangeMessage = "The to date cannot be after a year from today, please try another date.";
         this.showDateRangeError = true;
 			} else {
         this.updateBatches();
@@ -217,7 +229,7 @@ export class BatchListComponent implements OnInit {
         }
       }
     );
-    this.updateCountPerCurriculum();
+    this.getBatchesList();
     this.dataReady = true;
   }
 
@@ -254,10 +266,6 @@ export class BatchListComponent implements OnInit {
     this.updateCountPerCurriculum();
     this.dataReady = true;
   }
-
-
-
-
   /**
   * @function updateCountPerCurriculum
   * @memberof BatchListComponent
@@ -287,5 +295,40 @@ export class BatchListComponent implements OnInit {
       this.curriculumNames = Array.from(curriculumCountsMap.keys());
       this.curriculumCounts = Array.from(curriculumCountsMap.values());
     }
+  }
+  
+  getBatchesList(){
+    this.batchService.getBatchesWithinDates(this.startDate,this.endDate).subscribe(
+      batches => {
+        this.batches = batches.filter(
+          batch => {
+
+						if (batch.startDate < this.minDate){
+							this.minDate = batch.startDate;
+						}
+
+						this.startDate = new Date(this.minDate);
+						this.dateService.changeDates(this.startDate, this.endDate);
+
+						if (this.authService.getUserRole() === 2) {
+					     // filter out batches that don't have an association with the trainer
+							let trainer = batch.trainer.id !== this.authService.getTrainer().id;
+			        let coTrainer = batch.coTrainer && !batch.coTrainer.includes(this.authService.getTrainer());
+			        if (trainer && (coTrainer == undefined || coTrainer)) {
+			          return false;
+			        }
+						}
+
+            return true;
+          }
+        );
+        this.filteredBatches = this.batches;
+        this.dataReady = true;
+        this.updateCountPerCurriculum();
+      },
+      error => {
+        console.error('Error in batch-list.component.ts ngOnInit(): ', error.message)
+      }
+    );
   }
 }

@@ -1,5 +1,7 @@
 package com.revature.test.TestNG;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -7,6 +9,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.hibernate.Session;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
@@ -21,9 +24,12 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.revature.entity.TfInterview;
+import com.revature.services.InterviewService;
 import com.revature.test.pom.AssociateHome;
 import com.revature.test.pom.Login;
 import com.revature.test.pom.NavBar;
+import com.revature.utils.HibernateUtil;
 
 import oracle.sql.DATE;
 
@@ -32,8 +38,11 @@ public class AssociateTests {
 	static WebDriverWait wait;
 	String username = "cyril";
 	String password = "cyril";
-	//public final String url = "http://localhost:4200/";
-	public final String url = "http://34.227.178.103:8090/NGTrackForce/";
+
+//	String username = "bobbert1234";
+//	String password = "Bobbert12!";
+	public final String url = "http://trackforce.revaturelabs.com/";
+
 
 
 	@BeforeClass
@@ -81,13 +90,15 @@ public class AssociateTests {
 		WebElement fName = AssociateHome.newFirstName(wd);
 		WebElement lName = AssociateHome.newLastName(wd);
 		WebElement submit = AssociateHome.submitName(wd);
-		fName.click();
+		
 		fName.clear();
 		fName.sendKeys(first);
+		fName.click();
 		
-		lName.click();
+		
 		lName.clear();
 		lName.sendKeys(last);
+		lName.click();
 		
 		submit.click();
 		
@@ -105,8 +116,11 @@ public class AssociateTests {
 	 */
 	@Test(priority = 3)
 	public void addInterview() {
+		wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		AssociateHome.interviewTab(wd).click();
-		Dimension beforeAddingInterview = wd.findElement(By.id("tableBody")).getSize();
+		
+		int beforeAddingInterview = wd.findElement(By.id("tableBody")).getSize().height;
+		
 		Select client = AssociateHome.chooseclient(wd);
 		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		client.selectByVisibleText("ADP");
@@ -120,7 +134,7 @@ public class AssociateTests {
 		
 		String month = "" + (cal.get(Calendar.MONTH) + 1);
 		String day = "" + (cal.get(Calendar.DAY_OF_MONTH));
-		String year = "" + cal.get(Calendar.YEAR);
+		String year = cal.get(Calendar.SECOND) + "" + (cal.get(Calendar.YEAR) % 100);
 		if (month.length() == 1) {
 			month = "0" + month;
 		}
@@ -143,18 +157,19 @@ public class AssociateTests {
 		date.sendKeys(dateInput);
 		time.sendKeys(timeInput);
 		wd.findElement(By.id("add-interview")).click();
+		
 		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Thread.sleep(3000);
+		} catch (InterruptedException ex) {
+			logger.trace(ex.getMessage(), ex);
 		}
-		Dimension afterAddingInterview = wd.findElement(By.id("tableBody")).getSize();
-		try {
-			Thread.sleep(55000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		Assert.assertTrue(afterAddingInterview.height > beforeAddingInterview.height);
+		
+		int afterAddingInterview = wd.findElement(By.id("tableBody")).getSize().height;
+		//= new InterviewService().getAllInterviews().size();
+		
+		//System.exit(0);
+		
+		Assert.assertTrue(afterAddingInterview > beforeAddingInterview);
 		
 	}
 	

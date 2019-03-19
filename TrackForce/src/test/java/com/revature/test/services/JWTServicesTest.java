@@ -8,6 +8,7 @@ import static org.testng.AssertJUnit.assertFalse;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Properties;
 
@@ -30,8 +31,7 @@ public class JWTServicesTest {
 		service = new JWTService();
 		prop = new Properties();
 		try {
-			FileInputStream propFile = new FileInputStream(
-					System.getProperty("user.dir") + "\\src\\test\\resources\\database_entries.properties");
+			FileInputStream propFile = new FileInputStream( Paths.get(System.getProperty("user.dir"),"src","test","resources","database_entries.properties").toString() );
 			prop.load(propFile);
 			propFile.close();
 		} catch (FileNotFoundException e) {

@@ -1,7 +1,8 @@
+
 Feature: Testing the registration for new associates
 
   Background: 
-    Given I connect to trackforce
+    Given I connect to trackforce on Firefox
     And I click on the register button
 
   Scenario: Creating a valid associate

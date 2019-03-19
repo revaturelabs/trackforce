@@ -285,7 +285,7 @@ public class UserResource {
 	 * @throws IOException
 	 */
 	@Path("/login")
-	@POST
+	@POST 	
 	@Consumes("application/json")
 	@Produces("application/json")
 	@ApiOperation(value = "login method", notes = "The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 403 if invalid.")

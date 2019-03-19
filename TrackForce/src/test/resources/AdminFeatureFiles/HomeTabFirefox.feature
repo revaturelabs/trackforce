@@ -1,7 +1,7 @@
 Feature: Home Page Bottom Info Banner
   
   Background:
-  	Given I connect to trackforce
+  	Given I connect to trackforce on Firefox
     Given the login page loads
 
   Scenario: I click on the Revature telephone number

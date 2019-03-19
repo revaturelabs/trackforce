@@ -47,6 +47,7 @@ public class LoginUtil {
 
 	private static String associateUsername = prop.getProperty("associateUN");
 	private static String associatePassword = prop.getProperty("associatePW");
+	private static String associateUsernameNew = prop.getProperty("associateNEW");
 	
 	public static void login(WebDriver wd, String user, String pass) {
 		try {

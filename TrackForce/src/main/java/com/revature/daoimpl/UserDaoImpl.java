@@ -12,8 +12,6 @@ import com.revature.utils.LogUtil;
 import com.revature.utils.PasswordStorage;
 import com.revature.utils.PasswordStorage.CannotPerformOperationException;
 
-import ch.qos.logback.classic.Logger;
-
 public class UserDaoImpl implements UserDao {
 
 	private static final String UPDATE_USER_MESSAGE = "Hibernate Call to update User: ";

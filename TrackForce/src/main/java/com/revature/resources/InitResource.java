@@ -10,12 +10,6 @@ import javax.ws.rs.core.Response.Status;
 
 import static com.revature.utils.LogUtil.logger;
 
-import com.revature.services.AssociateService;
-import com.revature.services.BatchService;
-import com.revature.services.ClientService;
-import com.revature.services.CurriculumService;
-import com.revature.services.InterviewService;
-import com.revature.services.TrainerService;
 import com.revature.services.UserService;
 
 import io.swagger.annotations.Api;

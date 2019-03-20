@@ -1,14 +1,9 @@
 package com.revature.utils;
 
-import java.sql.Timestamp;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import com.revature.daoimpl.AssociateDaoImpl;
-import com.revature.daoimpl.UserDaoImpl;
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfUser;
 
 /*
  * The purpose of this class is to run a separate thread that is on

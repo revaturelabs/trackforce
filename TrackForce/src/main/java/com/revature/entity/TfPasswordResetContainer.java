@@ -6,8 +6,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
-
-
 /**
  * @author tbnil from batch 1901
  * As of writing this, this entity is not used. It is intended to be used to send back password 

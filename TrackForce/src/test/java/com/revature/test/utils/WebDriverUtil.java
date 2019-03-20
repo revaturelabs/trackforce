@@ -54,7 +54,8 @@ public class WebDriverUtil {
 		}
 		System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
 		ChromeOptions options = new ChromeOptions();
-		options.setHeadless(false);
+		options.setHeadless(true);
+		options.addArguments("window-size=1200,1100");
 		chromeDriver = new ChromeDriver(options);
 		return chromeDriver;
 	}
@@ -68,13 +69,15 @@ public class WebDriverUtil {
 			f1 = new File(prop.getProperty("chromeDriverMacPath"));
 			System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
 			ChromeOptions options = new ChromeOptions();
-			options.setHeadless(false);
+			options.setHeadless(true);
+			options.addArguments("window-size=1200,1100");
 			chromeDriver = new ChromeDriver(options);
 			return chromeDriver;
 		}
 		System.setProperty("webdriver.gecko.driver", f1.getAbsolutePath());
 		FirefoxOptions options = new FirefoxOptions();
-		options.setHeadless(false);
+		options.setHeadless(true);
+		options.addArguments("window-size=1200,1100");
 		firefoxDriver = new FirefoxDriver(options);
 		return firefoxDriver;
 	}

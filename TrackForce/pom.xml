@@ -197,11 +197,6 @@
 			<version>2.20</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.github.mkolisnyk</groupId>
-			<artifactId>cucumber-reports</artifactId>
-			<version>0.0.2</version>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/io.swagger/swagger-jersey2-jaxrs -->
 		<dependency>
 			<groupId>io.swagger</groupId>
@@ -300,7 +295,7 @@
 					<skipTests>${skip.unit.tests}</skipTests>
 
 					<suiteXmlFiles>
-						<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+					<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
 					</suiteXmlFiles>
 					<properties>
 						<property>
@@ -328,11 +323,11 @@
 					</execution>
 					<execution>
 						<id>post-unit-test</id>
-						<phase>test</phase>
+       						<phase>test</phase>         
 						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
+           					<goal>report</goal>
+         					</goals>
+       					</execution>
 					<execution>
 						<id>default-check</id>
 						<goals>
@@ -389,7 +384,7 @@
 							<goal>verify</goal>
 						</goals>
 						<configuration>
-							<forkCount>2</forkCount>
+							<forkCount>0</forkCount>
 							<!--Skips integration tests if the value of skip.integration.tests 
 								property is true -->
 							<!-- Skips unit tests if the value of skip.unit.tests property is 
@@ -402,9 +397,6 @@
 								<exclude>com/revature/test/admin/cukes/*.java</exclude>
 								<exclude>com/revature/test/admin/pom/*.java</exclude>
 							</excludes>
-							<includes>
-							<include>**/*TestRunner.java</include>
-							</includes>
 						</configuration>
 
 					</execution>

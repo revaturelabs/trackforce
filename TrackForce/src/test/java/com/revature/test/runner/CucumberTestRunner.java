@@ -1,12 +1,6 @@
 package com.revature.test.runner;
 
-import static com.revature.utils.LogUtil.logger;
-
 import org.junit.runner.RunWith;
-import org.testng.annotations.AfterSuite;
-
-import com.github.mkolisnyk.cucumber.reporting.CucumberResultsOverview;
-
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
@@ -19,26 +13,11 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        plugin = {"pretty","json:src/test/resources/cucumber.json"},
-        features = {"src/test/resources/AdminFeatureFiles/"},
-        glue = {"com.revature.test.utils","com.revature.test.cuke"}
-        )
+		plugin = {"pretty"},
+		features = {"src/test/resources/AdminFeatureFiles/"},
+		glue = {"com.revature.test.utils","com.revature.test.cuke"}
+		)
 
 public class CucumberTestRunner extends AbstractTestNGCucumberTests {
-    
-    @AfterSuite
-    public static void teardown() {
-        
-        CucumberResultsOverview results = new CucumberResultsOverview();
-        results.setOutputDirectory("target");
-        results.setOutputName("cucumber-results");
-        results.setSourceFile("./src/test/resources/cucumber.json");
-        try {
-            results.executeFeaturesOverviewReport();
-        } catch (Exception e) {
-        	logger.error("Cucumber report issue" + e.getMessage());
-        }
-        
-    }
-
+ 
 }

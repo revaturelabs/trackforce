@@ -19,15 +19,8 @@ import javax.ws.rs.core.Response.Status;
 
 import com.revature.entity.TfBatch;
 import com.revature.entity.TfTrainer;
-import com.revature.services.AssociateService;
-import com.revature.services.BatchService;
-import com.revature.services.ClientService;
-import com.revature.services.CurriculumService;
-import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
 import com.revature.services.TrainerService;
-import com.revature.services.UserService;
-import com.revature.utils.LogUtil;
 
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;

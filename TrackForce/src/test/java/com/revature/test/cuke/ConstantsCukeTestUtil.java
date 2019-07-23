@@ -1,5 +1,8 @@
 package com.revature.test.cuke;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import com.revature.utils.EnvManager;
 
 /**
@@ -24,11 +27,23 @@ public class ConstantsCukeTestUtil {
 	private static final String REVATURE_URL = "https://revature.com/";
 	private static final String TEST_FIRST_NAME = "TestFirstName";
 	private static final String TEST_LAST_NAME = "TestLastName";
-	private static final String baseUrl = EnvManager.NGTrackForce_URL;
+	private static final String baseUrl = EnvManager.NGTrackForce_URL + "/#/";
+	private static final String MAIL_PREFIX = "mailto:";
 	private static final String EMAIL_URL = "info@revature.com";
-	private static final String INTERVIEW_DATE = "2/24/2025 11:30 AM";
-	private static final String INTERVIEW_TYPE = "Phone";
-	
+
+	private static final String INTERVIEW_DATE = setInterviewDate();
+	private static final String INTERVIEW_TIME = setInterviewTime();
+	private static final String UPDATE_DATE = setInterviewDate();
+	private static final String UPDATE_TIME = setUpdateTime();
+	private static final int INTERVIEW_TYPE = 2;
+	private static final int INTERVIEWER = 77;
+
+	static final String getInterviewTime() {
+		return INTERVIEW_TIME;
+	}
+	static final String getMailPrefix(){
+		return MAIL_PREFIX;
+	}
 	static final String getPasswordCapitalized() {
 		return PASSWORD_CAPITALIZED;
 	}
@@ -80,7 +95,45 @@ public class ConstantsCukeTestUtil {
 	public static String getInterviewDate() {
 		return INTERVIEW_DATE;
 	}
-	public static String getInterviewType() {
+	public static int getInterviewType() {
 		return INTERVIEW_TYPE;
+	}
+	public static int getInterviewer() {
+		return INTERVIEWER;
+	}
+	public static String getUpdateDate() {
+		return UPDATE_DATE;
+	}
+	public static String getUpdateTime() {
+		return UPDATE_TIME;
+	}
+	
+	// used for creating a new interview
+	private static String setInterviewTime() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm a");
+		LocalDateTime now = LocalDateTime.now();
+		String currentTime = dtf.format(now);
+		currentTime = currentTime.replace(":", "");
+		currentTime = currentTime.replace(" ", "");
+		return currentTime;
+	}
+	
+	// used for creating a new interview and updating an interview
+	private static String setInterviewDate() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		LocalDateTime now = LocalDateTime.now();
+		String currentDate = dtf.format(now);
+		currentDate = currentDate.replace("/", "");
+		return currentDate;
+	}
+	
+	// adds 1 minute to the current time - useful for updating an interview time
+	private static String setUpdateTime() {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm a");
+		LocalDateTime now = LocalDateTime.now().plusMinutes(1);
+		String currentTime = dtf.format(now);
+		currentTime = currentTime.replace(":", "");
+		currentTime = currentTime.replace(" ", "");
+		return currentTime;
 	}
 }

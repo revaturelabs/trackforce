@@ -1,5 +1,7 @@
 package com.revature.test.utils;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -22,8 +24,8 @@ public class LoginUtil {
 			prop.load(locProps);
 			
 			locProps.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ex) {
+			logger.trace(ex.getMessage(), ex);
 		} finally {
 		}
 	}
@@ -45,6 +47,7 @@ public class LoginUtil {
 
 	private static String associateUsername = prop.getProperty("associateUN");
 	private static String associatePassword = prop.getProperty("associatePW");
+	private static String associateUsernameNew = prop.getProperty("associateNEW");
 	
 	public static void login(WebDriver wd, String user, String pass) {
 		try {
@@ -52,8 +55,8 @@ public class LoginUtil {
 			Login.getUsername(wd).sendKeys(user);
 			wait.until(ExpectedConditions.visibilityOf(Login.getPassword(wd)));
 			Login.getPassword(wd).sendKeys(pass);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			logger.trace(ex.getMessage(), ex);
 		}
 	}
 	

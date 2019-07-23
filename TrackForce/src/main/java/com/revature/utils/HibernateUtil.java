@@ -35,6 +35,7 @@ public class HibernateUtil {
 
 	private static SessionFactory buildSessionFactory() {
 		SchedulePendingUserCleanup.Start();
+		DailyDatabaseSync.Start();
 		try {
 			Configuration cfg = new Configuration();			
 

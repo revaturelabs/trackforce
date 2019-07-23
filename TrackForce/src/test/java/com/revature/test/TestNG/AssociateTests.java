@@ -1,12 +1,17 @@
 package com.revature.test.TestNG;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.hibernate.Session;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,16 +24,25 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.revature.entity.TfInterview;
+import com.revature.services.InterviewService;
 import com.revature.test.pom.AssociateHome;
 import com.revature.test.pom.Login;
 import com.revature.test.pom.NavBar;
+import com.revature.utils.HibernateUtil;
+
+import oracle.sql.DATE;
 
 public class AssociateTests {
 	static WebDriver wd;
 	static WebDriverWait wait;
-	String username = "bobbert1234";
-	String password = "Bobbert12!";
-	public final String url = "http://34.227.178.103:8090/NGTrackForce/";
+	String username = "cyril";
+	String password = "cyril";
+
+//	String username = "bobbert1234";
+//	String password = "Bobbert12!";
+	public final String url = "http://trackforce.revaturelabs.com/";
+
 
 
 	@BeforeClass
@@ -76,13 +90,15 @@ public class AssociateTests {
 		WebElement fName = AssociateHome.newFirstName(wd);
 		WebElement lName = AssociateHome.newLastName(wd);
 		WebElement submit = AssociateHome.submitName(wd);
-		fName.click();
+		
 		fName.clear();
 		fName.sendKeys(first);
+		fName.click();
 		
-		lName.click();
+		
 		lName.clear();
 		lName.sendKeys(last);
+		lName.click();
 		
 		submit.click();
 		
@@ -94,37 +110,61 @@ public class AssociateTests {
 	}
 	
 	/*
-	 * Associate adding an interview
+	 * Associate adding an interview.  Will take around a minute.  If interrupted and restarted,
+	 * there is a large possibility of a failure due to an interview being generated at the same time
+	 * (They are based on current time and date.), which isn't allowed.
 	 */
 	@Test(priority = 3)
 	public void addInterview() {
+		wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		AssociateHome.interviewTab(wd).click();
-		int beforeAddingInterview = AssociateHome.numberOfTR(wd).size();
+		
+		int beforeAddingInterview = wd.findElement(By.id("tableBody")).getSize().height;
 		
 		Select client = AssociateHome.chooseclient(wd);
 		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		client.selectByVisibleText("ADP");//Index(pickClient);
-		
+		client.selectByVisibleText("ADP");
 		Select type = AssociateHome.chooseType(wd);
-		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		wd.findElement(By.id("interviewType"));
-		type.selectByVisibleText("Online");//Index(pickType);
+		type.selectByVisibleText("Online");
 		
-		WebElement date = AssociateHome.inputDate(wd);
-		String datetime = new SimpleDateFormat("MM/dd/yyyy HH:mm aaa").format(Calendar.getInstance().getTime());
-		String datetime1 = "02/09/2019	12:45";
-		date.sendKeys(datetime1);
-		date.sendKeys(Keys.ARROW_UP);
+		WebElement date = wd.findElement(By.id("inputDate"));
+		WebElement time = wd.findElement(By.id("inputTime"));
 		
-		AssociateHome.checkBox(wd).click();
-		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		AssociateHome.addInterview(wd).click();
+		Calendar cal = Calendar.getInstance();
+		
+		String month = "" + (cal.get(Calendar.MONTH) + 1);
+		String day = "" + (cal.get(Calendar.DAY_OF_MONTH));
+		String year = cal.get(Calendar.SECOND) + "" + (cal.get(Calendar.YEAR) % 100);
+		if (month.length() == 1) {
+			month = "0" + month;
+		}
+		if (day.length() == 1) {
+			day = "0" + day;
+		}
+		
+		String hour = "" + cal.get(Calendar.HOUR);
+		String minute = "" + cal.get(Calendar.MINUTE);
+		if (hour.length() == 1) {
+			hour = "0" + hour;
+		}
+		if (minute.length() == 1) {
+			minute = "0" + minute;
+		}
 		
 		
-		wd.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		int afterAddingInterview = AssociateHome.numberOfTR(wd).size();
+		String dateInput = month + day + year;
+		String timeInput = hour + minute + (cal.get(Calendar.AM_PM) == 0? "AM": "PM");
+		date.sendKeys(dateInput);
+		time.sendKeys(timeInput);
+		wd.findElement(By.id("add-interview")).click();
 		
-		Assert.assertEquals(afterAddingInterview, beforeAddingInterview+1);
+		int afterAddingInterview = wd.findElement(By.id("tableBody")).getSize().height;
+		//= new InterviewService().getAllInterviews().size();
+		
+		//System.exit(0);
+		
+		Assert.assertTrue(afterAddingInterview > beforeAddingInterview);
+		
 	}
 	
 	/*

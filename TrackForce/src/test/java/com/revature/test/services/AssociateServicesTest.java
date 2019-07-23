@@ -12,6 +12,7 @@ import static org.testng.Assert.assertTrue;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
 
@@ -50,8 +51,7 @@ public class AssociateServicesTest {
 		props = new Properties();
 
 		try {
-			FileInputStream propFile = new FileInputStream(
-					System.getProperty("user.dir") + "\\src\\test\\resources\\database_entries.properties");
+			FileInputStream propFile = new FileInputStream( Paths.get(System.getProperty("user.dir"),"src","test","resources","database_entries.properties").toString() );
 			props.load(propFile);
 			propFile.close();
 		} catch (FileNotFoundException e) {
@@ -73,17 +73,6 @@ public class AssociateServicesTest {
 		assertEquals(props.getProperty("associate3_firstName"), associate.getFirstName());
 		assertEquals(props.getProperty("associate3_lastName"), associate.getLastName());
 		assertEquals(props.getProperty("associate3_feedback"), associate.getStagingFeedback());
-	}
-
-	@Test(priority = 2)
-	public void testGetAssociateByUserId() {
-		TfAssociate associate = service.getAssociateByUserId(Integer.parseInt(props.getProperty("associate50_user")));
-		System.out.println(associate.getFirstName());
-
-		assertEquals(associate.getFirstName(), props.getProperty("associate50_userFirst"));
-		assertEquals(associate.getLastName(), props.getProperty("associate50_userLast"));
-		assertEquals(associate.getStagingFeedback(), props.getProperty("associate50_userFeed"));
-
 	}
 
 	@Test(priority = 1)
@@ -119,7 +108,7 @@ public class AssociateServicesTest {
 	}
 
 	@Test(priority = 2)
-	public void testGetMappedAssociateByClient() {
+	public void testGetMappedAssociateCountByClient() {
 		long count = Long.parseLong(props.getProperty("market_count"));
 		long clientId = Long.parseLong(props.getProperty("market_clientId"));
 		int markId = Integer.parseInt(props.getProperty("market_id"));
@@ -127,91 +116,17 @@ public class AssociateServicesTest {
 		assertTrue((long) service.getMappedAssociateCountByClientId(clientId, markId) >= count);
 	}
 
-//	TODO: Replace these tests with one testing the functionality of the 'getStatusCountsMap' method
-//	that replaced these methods - Art B.
-//	@Test(priority=2)
-//	public void testGetCountUndeployedMapped() {
-//		assertEquals((long)service.getCountUndeployedMapped(),
-//				Long.parseLong(props.getProperty("undeployed_mapped_count")));
-//	}
-//	
-//	@Test(priority=2)
-//	public void testGetCountUndeployedUnmapped() {
-//		assertEquals((long)service.getCountUndeployedUnmapped(),
-//				Long.parseLong(props.getProperty("undeployed_unmapped_count")));
-//	}
-//	
-//	@Test(priority=2)
-//	public void testGetCountDeployedMapped() {
-//		assertEquals((long)service.getCountDeployedMapped(),
-//				Long.parseLong(props.getProperty("deployed_mapped_count")));
-//	}
-//	
-//	@Test(priority=2)
-//	public void testGetCountDeployedUnmapped() {
-//		assertEquals((long)service.getCountDeployedUnmapped(),
-//				Long.parseLong(props.getProperty("deployed_unmapped_count")));
-//	}
-//	
-//	@Test(priority=2)
-//	public void testGetCountMappedTraining() {
-//		assertEquals((long)service.getCountMappedTraining(),
-//				Long.parseLong(props.getProperty("training_mapped_count")));
-//	}
-//	
-//	@Test(priority=2)
-//	public void testGetCountUnmappedTraining() {
-//		assertEquals((long)service.getCountUnmappedTraining(),
-//				Long.parseLong(props.getProperty("training_unmapped_count")));
-//	}
-//	
-//	@Test(priority=2)
-//	public void testGetCountMappedSelected() {
-//		assertEquals((long)service.getCountMappedSelected(),
-//				Long.parseLong(props.getProperty("selected_mapped_count")));
-//	}
-//	
-//	@Test(priority=2)
-//	public void testGetCountUnmappedSelected() {
-//		assertEquals((long)service.getCountUnmappedSelected(),
-//				Long.parseLong(props.getProperty("selected_unmapped_count")));
-//	}
-//	
-//	@Test(priority=2)
-//	public void testGetCountMappedConfirmed() {
-//		assertEquals((long)service.getCountMappedConfirmed(),
-//				Long.parseLong(props.getProperty("confirmed_mapped_count")));
-//	}
-//	
-//	@Test(priority=2)
-//	public void testGetCountUnmappedConfirmed() {
-//		assertEquals((long)service.getCountUnmappedConfirmed(),
-//				Long.parseLong(props.getProperty("confirmed_unmapped_count")));
-//	}
-//	
-//	@Test(priority=2)
-//	public void testGetCountMappedReserved() {
-//		assertEquals((long)service.getCountMappedReserved(),
-//				Long.parseLong(props.getProperty("reserved_mapped_count")));
-//	}
-//	
-//	@Test(priority=2)
-//	public void testGetCountUnmappedOpen() {
-//		assertEquals((long)service.getCountUnmappedOpen(),
-//				Long.parseLong(props.getProperty("open_unmapped_count")));
-//	}
-
 	// Testing only if there is a Hibernate error thrown so we do not actually
 	// change the database with this test. We CANNOT mock a database connection
 	// if that's what we are testing.
 	@Test(priority = 100)
 	public void testUpdateAssociate() {
-		TfAssociate toChange = service.getAssociate(1);
+		TfAssociate toChange = service.getAssociate(100442);
 		toChange.setFirstName("Hank");
 		toChange.setLastName("Pym");
 		toChange.setStagingFeedback("Alabama");
 		service.updateAssociatePartial(toChange);
-		TfAssociate changed = service.getAssociate(1);
+		TfAssociate changed = service.getAssociate(100442);
 
 		assertEquals("Hank", changed.getFirstName());
 		assertEquals("Pym", changed.getLastName());
@@ -271,6 +186,7 @@ public class AssociateServicesTest {
 
 	@AfterClass
 	public void closeSession() {
-		HibernateUtil.shutdown();
+		//HibernateUtil.shutdown();
+		//shouldn't close sessionfactory if other tests will be run
 	}
 }

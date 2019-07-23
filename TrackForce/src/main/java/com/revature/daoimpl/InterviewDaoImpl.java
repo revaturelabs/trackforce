@@ -13,7 +13,7 @@ public class InterviewDaoImpl implements InterviewDao {
 	public List<TfInterview> getInterviewsByAssociate(int associateId) {
 		LogUtil.logger.trace("Hibernate Call to get Interviews by AssociateId: " + associateId);
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
-				.createQuery("from TfInterview i where i.associate.id like :associateId", TfInterview.class)
+				.createQuery("from TfInterview i where i.associate.id like :associateId order by tf_interview_date", TfInterview.class)
 				.setParameter("associateId", associateId).setCacheable(true).getResultList());
 	}
 
@@ -27,8 +27,7 @@ public class InterviewDaoImpl implements InterviewDao {
 	@Override
 	public boolean createInterview(TfInterview interview) {
 		LogUtil.logger.trace("Hibernate Call to create Interview: " + interview.getId());
-		if (interview.getId() == null) {
-			// System.out.println(getInterviewById(interview.getId()));
+		if (getInterviewById(interview.getId()) == null) {
 			return HibernateUtil.saveToDB(interview);
 		}
 		else {
@@ -110,7 +109,7 @@ public class InterviewDaoImpl implements InterviewDao {
 	}
 
 	@Override
-	public TfInterview getInterviewById(int interviewId) {
+	public TfInterview getInterviewById(Integer interviewId) {
 		LogUtil.logger.trace("Hibernate Call to get Interview by Id: " + interviewId);
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
 				.createQuery("from TfInterview i where i.id like :interviewId", TfInterview.class)

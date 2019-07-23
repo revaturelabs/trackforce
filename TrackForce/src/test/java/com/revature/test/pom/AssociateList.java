@@ -45,7 +45,7 @@ public class AssociateList {
 	}
 	
 	public static WebElement getAssociateRow(WebDriver driver, int id) {
-		String detailsHref = "/NGTrackForce/form-comp/"+id;
+		String detailsHref = "/form-comp/"+id;
 		for (WebElement row: getAssociateRows(driver)) {
 			if (getAssociateDetails(driver, row).getAttribute("href").equals(detailsHref)) {
 				return row;

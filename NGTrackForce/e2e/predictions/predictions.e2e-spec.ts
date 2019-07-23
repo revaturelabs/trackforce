@@ -2,9 +2,9 @@ import { PredictionsPage } from "./predictions.po";
 import { Navbar } from "../navbar/navbar.po";
 import { TestConfig } from "../configuration/test-config";
 import { LoginPage } from "../login/login.po";
-import { browser } from "../../node_modules/protractor";
+import { browser, element, by } from "protractor";
+
 import { forEach } from "../../node_modules/@angular/router/src/utils/collection";
-import { element } from '@angular/core/src/render3';
 
 // Happy Path
 describe('When entering valid data into predictions filter it', () => {
@@ -128,4 +128,13 @@ describe('When I enter a start date that is more current than the end date it', 
         predictionsPage.outOfFocus();
         expect(predictionsPage.getPredictionsTable()).toBeTruthy();
     });
-});
+
+    //adding this after all breaks the last test of this suite, to get around this
+    //we simply put the jasmine tests first.
+    
+    // afterAll(()=>{
+    //   element(by.id('logout')).click();
+    // });
+    
+  });
+  

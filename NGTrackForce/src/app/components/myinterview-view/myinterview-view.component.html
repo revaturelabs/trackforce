@@ -1,36 +1,43 @@
 <div class="container">
   <h3 style="text-align:center">New Interview</h3>
   <div class="row" class="toggledContainer">
+    <!-- 
+    Interview Creator 
+    -->
+    <form (ngSubmit)=addInterview() [formGroup]=addInterviewForm>
+      <div class="form-group">
+          <br>
+          <label class="control-label col-sm-2">Client:</label>
+          <div class="col-sm-3">
+              <select class="form-control" name="newClient" formControlName=clientId>
+              <option selected="selected">None</option>
+              <option *ngFor="let client of clients" [ngValue]="client">{{client.name}}</option>
+              </select>
+          </div>
 
-      <form (ngSubmit)=addInterview() [formGroup]=addInterviewForm>
-        <div class="form-group">
-            <br>
-            <label class="control-label col-sm-2">Client:</label>
-            <div class="col-sm-3">
-                <select class="form-control" name="newClient" formControlName=clientId>
-                <option selected="selected">None</option>
-                <option *ngFor="let client of clients" [ngValue]="client">{{client.name}}</option>
-                </select>
-            </div>
-
-            <label class="control-label col-sm-2">Type:</label>
-            <div class="col-sm-3">
-                <select class="form-control" id="interviewType" name="type" formControlName=typeId>
-                    <option value="1">Phone</option>
-                    <option value="2">Online</option>
-                    <option value="3">On-site</option>
-                    <option value="4">Skype</option>
-                </select>
-            </div>
+          <label class="control-label col-sm-2">Type:</label>
+          <div class="col-sm-3">
+              <select class="form-control" id="interviewType" name="type" formControlName=typeId>
+                  <option value="1">Phone</option>
+                  <option value="2">Online</option>
+                  <option value="3">On-site</option>
+                  <option value="4">Skype</option>
+              </select>
+          </div>
 
             <div class="form-group col-md-3">
               <label for="inputDate">Interview Date:</label>
-              <input type="datetime-local"
+              <input type="date"
                 class="form-control" name="startDate" id="inputDate" formControlName="interviewDate"
-                placeholder="Date">
+                placeholder="mm/dd/yyyy" min = "{{today | date:'yyyy-MM-dd'}}">
+              <label for="inputTime">Interview Time:</label>
+              <input type="time" 
+                class="form-control" name="startTime" id="inputTime" formControlName="interviewTime"
+                placeholder="hh:mm">
               <span *ngIf="addInterviewForm.get('interviewDate').touched"
                class="help-block"
-               id="interviewDateHelpText">Enter a Date of the form "mm/dd/yyyy hh:mm (AM|PM)"
+               id="interviewDateHelpText">Enter a Date of the form "mm/dd/yyyy" for date 
+                and "hh:mm (AM|PM)" for time.
               </span>
             </div>
             <br><br>
@@ -44,7 +51,7 @@
         </div>
     </form> <!--Add Interview Form-->
 
-    <div *ngIf='succMsg' class="alert alert-success">
+    <div *ngIf='succMsg' class="alert alert-success" id ="succMsgAlert">
       {{succMsg}}
     </div>
     <div *ngIf='failMsg' class="alert alert-danger" id="failureAlert">
@@ -55,11 +62,11 @@
   <div class="card-deck mb-3 text-center">
     <div>
       <h3>My Interviews</h3>
-      <div *ngIf="conflictingInterview" class="alert alert-danger">
-        {{conflictingInterviews}}
-      </div>
-      <div *ngIf=updateSuccess class=" alert alert-success">
+      <div *ngIf=updateSuccess class=" alert alert-success" id="updateSuccessAlert">
         Successfully updated interview
+      </div>
+      <div *ngIf=updateFailure class=" alert alert-danger" id="updateFailureAlert">
+        Failed to update interview
       </div>
     </div>
       <table class="table table-responsive table-hover table-bordered">
@@ -85,12 +92,23 @@
               {{interview.interviewDate| date:'medium'}}
             </td>
 
+            <!-- 
+            Interview Update 
+            -->
             <td>
               <form [formGroup]="registerForm" >
                   <div class="input-group mb-3" style="width: 310px;">
-                      <input class="form-control" type="datetime-local" formControlName="dateinput">
+
+                      <input type="date"
+                        class="form-control" name="updateDate" [id]="'updateDate-'+(i+1)" formControlName="updateDate"
+                        placeholder="mm/dd/yyyy" min = "{{today | date:'yyyy-MM-dd'}}">
+                      <input type="time" 
+                        class="form-control" name="updateTime" [id]="'updateTime-'+(i+1)" formControlName="updateTime"
+                        placeholder="hh:mm">
+
+
                       <span class="input-group-addon" style="width: 10px;"></span>
-                      <button type="button" class="btn btn-primary" (click)='updateInterview(interview)'>Update</button>       
+                      <button type="button" class="btn btn-primary" [id]="'updateButton-'+(i+1)" (click)='updateInterview(interview)'>Update</button>       
                   </div>
                </form>
             </td>
@@ -116,4 +134,3 @@
       </div>
     </div>
   </div>
-<!-- </div> -->

@@ -2,6 +2,20 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
+    
+		
+		<property name="hibernate.connection.url">
+			jdbc:oracle:thin:@trackforce-dev.chueiwozbnfz.us-east-1.rds.amazonaws.com:1521:ORCL
+		</property>
+		
+		<property name="hibernate.connection.username">
+			admin
+		</property>
+		
+		<property name="hibernate.connection.password">
+			revaPassword123$
+		</property>
+		
         <!-- NEVER SET TO CREATE UNLESS YOU WANT TO REMOVE ALL DATA IN DATABASE -->
         <property name="hibernate.hbm2ddl.auto">validate</property>
         <!-- Used for debugging -->

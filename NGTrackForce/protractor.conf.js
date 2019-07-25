@@ -21,14 +21,6 @@ exports.config = {
 
     //PROTRACTOR TESTS
     './e2e/register-associate/register-associate.e2e-spec.ts',
-<<<<<<< Updated upstream
-    './e2e/login/login.e2e-spec.ts',
-    './e2e/navbar/navbar.e2e-spec.ts',
-    './e2e/create-user/create-user.e2e-spec.ts',
-    './e2e/client-list/client-list-spec.ts',
-    './e2e/batch-list/batch-list.e2e-spec.ts',
-    './e2e/predictions/predictions.e2e-spec.ts',
-=======
     //-- Start comment by V
       // './e2e/login/login.e2e-spec.ts',
       // './e2e/navbar/navbar.e2e-spec.ts',
@@ -37,7 +29,6 @@ exports.config = {
       // './e2e/batch-list/batch-list.e2e-spec.ts',
       // './e2e/predictions/predictions.e2e-spec.ts',
     // -- end Comment by V
->>>>>>> Stashed changes
     
     //added already written tests to suite
     './src/app/pipes/search-filter/search-filter.pipe.spec.ts'

@@ -156,6 +156,16 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	
+
+	public String getSalesforceId() {
+		return salesforceId;
+	}
+
+	public void setSalesforceId(String salesforceId) {
+		this.salesforceId = salesforceId;
+	}
 
 	@Override
 	public String toString() {

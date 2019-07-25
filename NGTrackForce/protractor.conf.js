@@ -21,12 +21,14 @@ exports.config = {
 
     //PROTRACTOR TESTS
     './e2e/register-associate/register-associate.e2e-spec.ts',
-    './e2e/login/login.e2e-spec.ts',
-    './e2e/navbar/navbar.e2e-spec.ts',
-    './e2e/create-user/create-user.e2e-spec.ts',
-    './e2e/client-list/client-list-spec.ts',
-    './e2e/batch-list/batch-list.e2e-spec.ts',
-    './e2e/predictions/predictions.e2e-spec.ts',
+    //-- Start comment by Vajira
+      // './e2e/login/login.e2e-spec.ts',
+      // './e2e/navbar/navbar.e2e-spec.ts',
+      // './e2e/create-user/create-user.e2e-spec.ts',
+      // './e2e/client-list/client-list-spec.ts',
+      // './e2e/batch-list/batch-list.e2e-spec.ts',
+      // './e2e/predictions/predictions.e2e-spec.ts',
+    // -- end Comment by Vajira
     
     //added already written tests to suite
     './src/app/pipes/search-filter/search-filter.pipe.spec.ts'
@@ -62,8 +64,9 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome',
     chromeOptions: {
-      args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
+    //  args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
       // args: [ "--disable-gpu", "--window-size=2000,2000" ]
+      args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
     }
   },
   

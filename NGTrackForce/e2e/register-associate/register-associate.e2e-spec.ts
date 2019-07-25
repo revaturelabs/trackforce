@@ -79,140 +79,146 @@ describe('A new user should able to register', () => {
     })
 });
 
-describe('A new user should not be able to register with a short username', () => {
-    let registerAssociatePage: RegisterAssociatePage;
-    let loginPage            : LoginPage
-    let testConfig           : TestConfig;
-    let baseURL              : string;
+// Strat comment By Vajira
 
-    beforeAll(() => {
-        registerAssociatePage = new RegisterAssociatePage();
-        loginPage = new LoginPage();
-        testConfig = new TestConfig();
-        baseURL = testConfig.getBaseURL();
-        loginPage.navigateTo();
-        registerAssociatePage.RegisterBtn().click();
-        registerAssociatePage.AssociatePassword().sendKeys('Testca$e1');
-        registerAssociatePage.AssociateCPassword().sendKeys('Testca$e1');
-        registerAssociatePage.FirstName().sendKeys('John');
-        registerAssociatePage.LastName().sendKeys('Doe');
-        registerAssociatePage.RolePick().click();
-    });
+// describe('A new user should not be able to register with a short username', () => {
+//     let registerAssociatePage: RegisterAssociatePage;
+//     let loginPage            : LoginPage
+//     let testConfig           : TestConfig;
+//     let baseURL              : string;
 
-    it('allow associate to enter an invalid username', () => {
-        registerAssociatePage.AssociateUsername().sendKeys('jim');
-        expect(registerAssociatePage.AssociateUsername().getAttribute("value")).toEqual('jim');
-    });
+//     beforeAll(() => {
+//         registerAssociatePage = new RegisterAssociatePage();
+//         loginPage = new LoginPage();
+//         testConfig = new TestConfig();
+//         baseURL = testConfig.getBaseURL();
+//         loginPage.navigateTo();
+//         registerAssociatePage.RegisterBtn().click();
+//         registerAssociatePage.AssociatePassword().sendKeys('Testca$e1');
+//         registerAssociatePage.AssociateCPassword().sendKeys('Testca$e1');
+//         registerAssociatePage.FirstName().sendKeys('John');
+//         registerAssociatePage.LastName().sendKeys('Doe');
+//         registerAssociatePage.RolePick().click();
+//     });
 
-    it('should not allow the user to register with an invalid username', () => {
-        registerAssociatePage.RegisterUserBtn().click();
-        expect(registerAssociatePage.DangerAlert().getText()).toContain('Invalid username!');
-    });
+//     it('allow associate to enter an invalid username', () => {
+//         registerAssociatePage.AssociateUsername().sendKeys('jim');
+//         expect(registerAssociatePage.AssociateUsername().getAttribute("value")).toEqual('jim');
+//     });
 
-    afterAll(() => {
-      loginPage.navigateTo();
-    })
-});
-describe('A new user should not be able to register with a weak password', () => {
-    let registerAssociatePage: RegisterAssociatePage;
-    let loginPage            : LoginPage
-    let testConfig           : TestConfig;
-    let baseURL              : string;
+//     it('should not allow the user to register with an invalid username', () => {
+//         registerAssociatePage.RegisterUserBtn().click();
+//         expect(registerAssociatePage.DangerAlert().getText()).toContain('Invalid username!');
+//     });
 
-    beforeAll(() => {
-        registerAssociatePage = new RegisterAssociatePage();
-        loginPage = new LoginPage();
-        testConfig = new TestConfig();
-        baseURL = testConfig.getBaseURL();
-        loginPage.navigateTo();
-        registerAssociatePage.RegisterBtn().click();
-        registerAssociatePage.AssociateUsername().sendKeys('jimbob');
-        registerAssociatePage.FirstName().sendKeys('John');
-        registerAssociatePage.LastName().sendKeys('Doe');
-        registerAssociatePage.RolePick().click();
-    });
+//     afterAll(() => {
+//       loginPage.navigateTo();
+//     })
+// });
+// describe('A new user should not be able to register with a weak password', () => {
+//     let registerAssociatePage: RegisterAssociatePage;
+//     let loginPage            : LoginPage
+//     let testConfig           : TestConfig;
+//     let baseURL              : string;
 
-    it('allow associate to enter an invalid password', () => {
-        registerAssociatePage.AssociatePassword().sendKeys('password');
-        expect(registerAssociatePage.AssociatePassword().getAttribute("value")).toEqual('password');
-    });
+//     beforeAll(() => {
+//         registerAssociatePage = new RegisterAssociatePage();
+//         loginPage = new LoginPage();
+//         testConfig = new TestConfig();
+//         baseURL = testConfig.getBaseURL();
+//         loginPage.navigateTo();
+//         registerAssociatePage.RegisterBtn().click();
+//         registerAssociatePage.AssociateUsername().sendKeys('jimbob');
+//         registerAssociatePage.FirstName().sendKeys('John');
+//         registerAssociatePage.LastName().sendKeys('Doe');
+//         registerAssociatePage.RolePick().click();
+//     });
 
-    it('allow associate to re-enter an invalid password', () => {
-        registerAssociatePage.AssociateCPassword().sendKeys('password');
-        expect(registerAssociatePage.AssociateCPassword().getAttribute("value")).toEqual('password');
-    });
+//     it('allow associate to enter an invalid password', () => {
+//         registerAssociatePage.AssociatePassword().sendKeys('password');
+//         expect(registerAssociatePage.AssociatePassword().getAttribute("value")).toEqual('password');
+//     });
 
-    it('should not allow the user to register with an invalid password', () => {
-        registerAssociatePage.RegisterUserBtn().click();
-        expect(registerAssociatePage.DangerAlert().getText()).toContain('Invalid password!');
-    });
+//     it('allow associate to re-enter an invalid password', () => {
+//         registerAssociatePage.AssociateCPassword().sendKeys('password');
+//         expect(registerAssociatePage.AssociateCPassword().getAttribute("value")).toEqual('password');
+//     });
 
-    afterAll(() => {
-      loginPage.navigateTo();
-    })
-});
+//     it('should not allow the user to register with an invalid password', () => {
+//         registerAssociatePage.RegisterUserBtn().click();
+//         expect(registerAssociatePage.DangerAlert().getText()).toContain('Invalid password!');
+//     });
 
-describe('A new user should not be able to register with a mismatched paswords', () => {
-    let registerAssociatePage: RegisterAssociatePage;
-    let loginPage            : LoginPage
-    let testConfig           : TestConfig;
-    let baseURL              : string;
+//     afterAll(() => {
+//       loginPage.navigateTo();
+//     })
+// });
 
-    beforeAll(() => {
-        registerAssociatePage = new RegisterAssociatePage();
-        loginPage = new LoginPage();
-        testConfig = new TestConfig();
-        baseURL = testConfig.getBaseURL();
-        loginPage.navigateTo();
-        registerAssociatePage.RegisterBtn().click();
-        registerAssociatePage.AssociateUsername().sendKeys('jimbob');
-        registerAssociatePage.AssociatePassword().sendKeys('Testca$e1');
-        registerAssociatePage.FirstName().sendKeys('John');
-        registerAssociatePage.LastName().sendKeys('Doe');
-        registerAssociatePage.RolePick().click();
-    });
+// describe('A new user should not be able to register with a mismatched paswords', () => {
+//     let registerAssociatePage: RegisterAssociatePage;
+//     let loginPage            : LoginPage
+//     let testConfig           : TestConfig;
+//     let baseURL              : string;
 
-    it('allow associate to enter an different password', () => {
-      registerAssociatePage.AssociateCPassword().sendKeys('Testca$e2');
-      expect(registerAssociatePage.AssociateCPassword().getAttribute("value")).toEqual('Testca$e2');
-    });
+//     beforeAll(() => {
+//         registerAssociatePage = new RegisterAssociatePage();
+//         loginPage = new LoginPage();
+//         testConfig = new TestConfig();
+//         baseURL = testConfig.getBaseURL();
+//         loginPage.navigateTo();
+//         registerAssociatePage.RegisterBtn().click();
+//         registerAssociatePage.AssociateUsername().sendKeys('jimbob');
+//         registerAssociatePage.AssociatePassword().sendKeys('Testca$e1');
+//         registerAssociatePage.FirstName().sendKeys('John');
+//         registerAssociatePage.LastName().sendKeys('Doe');
+//         registerAssociatePage.RolePick().click();
+//     });
 
-    it('should not allow the user to register with an invalid username', () => {
-        registerAssociatePage.RegisterUserBtn().click();
-        expect(registerAssociatePage.DangerAlert().getText()).toContain('Passwords do not match!');
-    });
+//     it('allow associate to enter an different password', () => {
+//       registerAssociatePage.AssociateCPassword().sendKeys('Testca$e2');
+//       expect(registerAssociatePage.AssociateCPassword().getAttribute("value")).toEqual('Testca$e2');
+//     });
 
-    afterAll(() => {
-      loginPage.navigateTo();
-    })
-});
+//     it('should not allow the user to register with an invalid username', () => {
+//         registerAssociatePage.RegisterUserBtn().click();
+//         expect(registerAssociatePage.DangerAlert().getText()).toContain('Passwords do not match!');
+//     });
 
-describe('A new user should not be able to register with a mismatched paswords', () => {
-    let registerAssociatePage: RegisterAssociatePage;
-    let loginPage            : LoginPage
-    let testConfig           : TestConfig;
-    let baseURL              : string;
+//     afterAll(() => {
+//       loginPage.navigateTo();
+//     })
+// });
 
-    beforeAll(() => {
-        registerAssociatePage = new RegisterAssociatePage();
-        loginPage = new LoginPage();
-        testConfig = new TestConfig();
-        baseURL = testConfig.getBaseURL();
-        loginPage.navigateTo();
-        registerAssociatePage.RegisterBtn().click();
-        registerAssociatePage.AssociateUsername().sendKeys('jimbob');
-        registerAssociatePage.AssociatePassword().sendKeys('Testca$e1');
-        registerAssociatePage.AssociateCPassword().sendKeys('Testca$e1');
-        registerAssociatePage.FirstName().sendKeys('John');
-        registerAssociatePage.LastName().sendKeys('Doe');
-    });
+// describe('A new user should not be able to register with a mismatched paswords', () => {
+//     let registerAssociatePage: RegisterAssociatePage;
+//     let loginPage            : LoginPage
+//     let testConfig           : TestConfig;
+//     let baseURL              : string;
 
-    it('should not allow the user to register without selecting a role ', () => {
-        registerAssociatePage.RegisterUserBtn().click();
-        expect(registerAssociatePage.DangerAlert().getText()).toContain('Please select a role!');
-    });
+//     beforeAll(() => {
+//         registerAssociatePage = new RegisterAssociatePage();
+//         loginPage = new LoginPage();
+//         testConfig = new TestConfig();
+//         baseURL = testConfig.getBaseURL();
+//         loginPage.navigateTo();
+//         registerAssociatePage.RegisterBtn().click();
+//         registerAssociatePage.AssociateUsername().sendKeys('jimbob');
+//         registerAssociatePage.AssociatePassword().sendKeys('Testca$e1');
+//         registerAssociatePage.AssociateCPassword().sendKeys('Testca$e1');
+//         registerAssociatePage.FirstName().sendKeys('John');
+//         registerAssociatePage.LastName().sendKeys('Doe');
+//     });
 
-    afterAll(() => {
-      loginPage.navigateTo();
-    })
-});
+//     it('should not allow the user to register without selecting a role ', () => {
+//         registerAssociatePage.RegisterUserBtn().click();
+//         expect(registerAssociatePage.DangerAlert().getText()).toContain('Please select a role!');
+//     });
+
+//     afterAll(() => {
+//       loginPage.navigateTo();
+//     })
+// });
+
+
+
+// End comment By Vajira

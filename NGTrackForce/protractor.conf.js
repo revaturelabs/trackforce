@@ -14,10 +14,10 @@ exports.config = {
   allScriptsTimeout: 20000,
   specs: [
     //ALL JASMINE TESTS PASSING JAMIR & BRANDON -1901SDET (tests must be in this order currently)
-    './e2e/associate-list/associate-list-pagenation.js',  //Test for Association Pagenation functionality
-    './e2e/associate-list/associate-list-search.js',
-    './e2e/associate-list/associate-list-status.js',
-    './e2e/associate-list/associate-list-client.js',
+    // './e2e/associate-list/associate-list-pagenation.js',  //Test for Association Pagenation functionality
+    // './e2e/associate-list/associate-list-search.js',
+    // './e2e/associate-list/associate-list-status.js',
+    // './e2e/associate-list/associate-list-client.js',
 
     //PROTRACTOR TESTS
     './e2e/register-associate/register-associate.e2e-spec.ts',
@@ -31,7 +31,7 @@ exports.config = {
     // -- end Comment by V
     
     //added already written tests to suite
-    './src/app/pipes/search-filter/search-filter.pipe.spec.ts'
+  //  './src/app/pipes/search-filter/search-filter.pipe.spec.ts'
        
   ],
   beforeLaunch: function() {
@@ -64,8 +64,9 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome',
     chromeOptions: {
-      args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
+     // args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
       // args: [ "--disable-gpu", "--window-size=2000,2000" ]
+      args: [ ]
     }
   },
   

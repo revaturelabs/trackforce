@@ -11,5 +11,7 @@ export const environment = {
 
 export const ngEnvironment = {
   production: true,
-  url: "http://trackforce.revaturelabs.com/"
+  //url: "http://trackforce.revaturelabs.com/"
+  url : "http://localhost:4200/"
 };
+

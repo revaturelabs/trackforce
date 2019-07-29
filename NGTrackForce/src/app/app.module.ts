@@ -65,7 +65,6 @@ import { InvalidSessionComponent } from './components/invalid-session/invalid-se
 import { HighlightInterviewDirective } from './directives/highlight-interview.directive';
 import { UpdateDialogComponent } from './components/associate-list-page/associate-list-page.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { SprintReportComponent } from './components/sprint-report/sprint-report.component';
 
 @NgModule({
   declarations: [
@@ -80,8 +79,7 @@ import { SprintReportComponent } from './components/sprint-report/sprint-report.
     DateTimePickerComponent,
     InvalidSessionComponent,
     HighlightInterviewDirective,
-    UpdateDialogComponent,
-    SprintReportComponent
+    UpdateDialogComponent
   ],
   imports: [
     BrowserModule,

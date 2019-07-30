@@ -6,10 +6,10 @@
 
 export const environment = {
   production: true,
-  url: "http://3.84.1.206:8086/"
+  url: "http://localhost:8080/"
 };
 
 export const ngEnvironment = {
   production: true,
-  url: "http://trackforce.revaturelabs.com/"
+  url: "http://localhost:4200/"
 };

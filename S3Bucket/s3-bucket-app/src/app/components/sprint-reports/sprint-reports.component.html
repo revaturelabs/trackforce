@@ -5,23 +5,22 @@
         <div class="list-group-item list-group-item-action active">
           Projects
         </div>
-        <button type="button" class="list-group-item list-group-item-action" (click)="showTrackforce()">Trackforce</button>
-        <button type="button" class="list-group-item list-group-item-action" (click)="showRideforce()">Rideforce</button>
-        <button type="button" class="list-group-item list-group-item-action" (click)="showSMS()">SMS</button>
-        <button type="button" class="list-group-item list-group-item-action" (click)="showCMS()">CMS</button>
+        <div *ngFor="let project of projectList">
+          <button type="button" class="list-group-item list-group-item-action" (click)="showIterations(project)">{{ project }}</button>
+        </div>
       </div>
     </div>
     <div class="col-4 mr-auto">
-      <div class="list-group" *ngSwitchCase="'trackforce'">
+      <div class="list-group" *ngSwitchCase="'Trackforce'">
         Trackforce Iterations
       </div>
-      <div class="list-group" *ngSwitchCase="'rideforce'">
+      <div class="list-group" *ngSwitchCase="'Rideforce'">
         Rideforce Iterations
       </div>
-      <div class="list-group" *ngSwitchCase="'sms'">
+      <div class="list-group" *ngSwitchCase="'SMS'">
         SMS Iterations
       </div>
-      <div class="list-group" *ngSwitchCase="'cms'">
+      <div class="list-group" *ngSwitchCase="'CMS'">
         CMS Iterations
       </div>
       <div class="list-group" *ngSwitchDefault>
@@ -29,4 +28,39 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="input-group col-7 mx-auto mt-3">
+      <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Project</button>
+        <div class="dropdown-menu">
+          <p class="dropdown-item" (click)="setProject('Trackforce')">Trackforce</p>
+          <p class="dropdown-item" (click)="setProject('Rideforce')">Rideforce</p>
+          <p class="dropdown-item" (click)="setProject('SMS')">SMS</p>
+          <p class="dropdown-item" (click)="setProject('CMS')">CMS</p>
+        </div>
+      </div>
+      <input type="text" class="form-control" [(ngModel)]="iteration" placeholder="Enter iteration...">
+      <div class="input-group-append ml-2">
+          <div class="custom-file">
+            <input type="file" id="upload" class="custom-file-input" (change)="selectFiles($event)">
+            <label class="custom-file-label" for="upload">Upload Files...</label>
+          </div>
+          <button class="btn btn-outline-secondary ml-2" type="button" (click)="submit()">Submit</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-7 mx-auto mt-3" *ngIf="project != undefined">
+      Project: {{ project }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-7 mx-auto mt-3" *ngIf="fileList != ''">
+      Files: 
+      <div *ngFor="let file of fileList">
+        {{ file.name }}
+      </div>
+    </div>
+  </div>
 </div>
+

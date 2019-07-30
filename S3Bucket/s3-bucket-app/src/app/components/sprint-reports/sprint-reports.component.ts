@@ -5,30 +5,40 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './sprint-reports.component.html',
   styleUrls: ['./sprint-reports.component.css']
 })
+
 export class SprintReportsComponent implements OnInit {
 
+  projectList : string[];
   projectChoice : string;
+  fileList : File[];
+  iteration : string;
+  project : string;
 
   constructor() { }
 
   ngOnInit() {
-    this.projectChoice = "";
+    this.projectList = ["Trackforce", "Rideforce", "SMS", "CMS"];
+    this.fileList = [];
   }
 
-  showTrackforce() {
-    this.projectChoice = "trackforce";
+  showIterations(value : string) {
+    this.projectChoice = value;
   }
 
-  showRideforce() {
-    this.projectChoice = "rideforce";
+  selectFiles(event) {
+    this.fileList.push(event.target.files.item(0));
+    console.log(this.fileList);
   }
 
-  showSMS() {
-    this.projectChoice = "sms";
+  setProject(value: string) {
+    this.project = value;
   }
 
-  showCMS() {
-    this.projectChoice = "cms";
+  submit() {
+    // send this.fileList and this.iteration and this.project to S3 bucket
+    console.log("Project: " + this.project);
+    console.log("Iteration: " + this.iteration);
+    console.log("Files: " + this.fileList);
   }
 
 }

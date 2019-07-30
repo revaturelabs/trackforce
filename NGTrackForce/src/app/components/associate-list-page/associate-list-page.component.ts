@@ -7,6 +7,7 @@ import { SelectedStatusConstants } from './../../constants/selected-status.const
 import { Component, OnInit, OnDestroy, AfterViewInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Router, NavigationExtras } from '@angular/router';
+import { Helpers } from '../../lsHelper';
 
 
 export interface DialogData {
@@ -53,7 +54,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     "TERMINATED": 12
   }
 
-  constructor(private clientService: ClientService, public associateService: AssociateService, public dialog: MatDialog) { }
+  constructor(private clientService: ClientService, public associateService: AssociateService, public dialog: MatDialog, public lsHelp: Helpers) { }
 
   ngOnInit() {
     /**
@@ -108,6 +109,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
    this.scrollingTable.removeEventListener('scroll', this.onScroll.bind(this));
+   this.lsHelp.removeStorageItem("clientGetAll");
   }
 
   onScroll(event: Event) {

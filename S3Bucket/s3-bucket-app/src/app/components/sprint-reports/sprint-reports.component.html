@@ -1,1 +1,32 @@
-<p>sprint-reports works!</p>
+<div class="container-fluid mt-5">
+  <div class="row" [ngSwitch]="projectChoice">
+    <div class="col-3 ml-auto">
+      <div class="list-group">
+        <div class="list-group-item list-group-item-action active">
+          Projects
+        </div>
+        <button type="button" class="list-group-item list-group-item-action" (click)="showTrackforce()">Trackforce</button>
+        <button type="button" class="list-group-item list-group-item-action" (click)="showRideforce()">Rideforce</button>
+        <button type="button" class="list-group-item list-group-item-action" (click)="showSMS()">SMS</button>
+        <button type="button" class="list-group-item list-group-item-action" (click)="showCMS()">CMS</button>
+      </div>
+    </div>
+    <div class="col-4 mr-auto">
+      <div class="list-group" *ngSwitchCase="'trackforce'">
+        Trackforce Iterations
+      </div>
+      <div class="list-group" *ngSwitchCase="'rideforce'">
+        Rideforce Iterations
+      </div>
+      <div class="list-group" *ngSwitchCase="'sms'">
+        SMS Iterations
+      </div>
+      <div class="list-group" *ngSwitchCase="'cms'">
+        CMS Iterations
+      </div>
+      <div class="list-group" *ngSwitchDefault>
+        Default
+      </div>
+    </div>
+  </div>
+</div>

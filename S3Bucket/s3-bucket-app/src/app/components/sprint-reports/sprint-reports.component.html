@@ -1,9 +1,10 @@
 <div class="container-fluid mt-5">
+  <h1 class="display-1 text-center">S3 Bucket</h1>
   <div class="row" [ngSwitch]="projectChoice">
     <div class="col-3 ml-auto">
       <div class="list-group">
         <div class="list-group-item list-group-item-action active">
-          Projects
+          Project
         </div>
         <div *ngFor="let project of projectList">
           <button type="button" class="list-group-item list-group-item-action" (click)="showIterations(project)">{{ project }}</button>
@@ -50,7 +51,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-7 mx-auto mt-3" *ngIf="project != undefined">
+    <div class="col-7 mx-auto mt-3" *ngIf="project != ''">
       Project: {{ project }}
     </div>
   </div>
@@ -58,7 +59,7 @@
     <div class="col-7 mx-auto mt-3" *ngIf="fileList != ''">
       Files: 
       <div *ngFor="let file of fileList">
-        {{ file.name }}
+        {{ file.name }} {{ file.type }}
       </div>
     </div>
   </div>

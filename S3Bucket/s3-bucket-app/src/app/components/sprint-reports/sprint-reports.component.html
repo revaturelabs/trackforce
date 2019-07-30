@@ -1,31 +1,21 @@
 <div class="container-fluid mt-5">
   <h1 class="display-1 text-center">S3 Bucket</h1>
-  <div class="row" [ngSwitch]="projectChoice">
+  <div class="row">
     <div class="col-3 ml-auto">
       <div class="list-group">
         <div class="list-group-item list-group-item-action active">
           Project
         </div>
         <div *ngFor="let project of projectList">
-          <button type="button" class="list-group-item list-group-item-action" (click)="showIterations(project)">{{ project }}</button>
+          <button type="button" class="list-group-item list-group-item-action" (click)="showIterations(project+12345)">{{ project }}</button>
         </div>
       </div>
     </div>
     <div class="col-4 mr-auto">
-      <div class="list-group" *ngSwitchCase="'Trackforce'">
-        Trackforce Iterations
-      </div>
-      <div class="list-group" *ngSwitchCase="'Rideforce'">
-        Rideforce Iterations
-      </div>
-      <div class="list-group" *ngSwitchCase="'SMS'">
-        SMS Iterations
-      </div>
-      <div class="list-group" *ngSwitchCase="'CMS'">
-        CMS Iterations
-      </div>
-      <div class="list-group" *ngSwitchDefault>
-        Default
+      <div *ngFor="let iter of iterationList | async">
+        <div class="panel-body">
+          {{iter}}
+        </div>
       </div>
     </div>
   </div>
@@ -34,10 +24,10 @@
       <div class="input-group-prepend">
         <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Project</button>
         <div class="dropdown-menu">
-          <p class="dropdown-item" (click)="setProject('Trackforce')">Trackforce</p>
-          <p class="dropdown-item" (click)="setProject('Rideforce')">Rideforce</p>
-          <p class="dropdown-item" (click)="setProject('SMS')">SMS</p>
-          <p class="dropdown-item" (click)="setProject('CMS')">CMS</p>
+          <p class="dropdown-item" (click)="setProject('trackforce')">Trackforce</p>
+          <p class="dropdown-item" (click)="setProject('rideforce')">Rideforce</p>
+          <p class="dropdown-item" (click)="setProject('sms')">SMS</p>
+          <p class="dropdown-item" (click)="setProject('cms')">CMS</p>
         </div>
       </div>
       <input type="text" class="form-control" [(ngModel)]="iteration" placeholder="Enter iteration...">

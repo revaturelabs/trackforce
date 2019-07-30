@@ -42,7 +42,7 @@ import { NavbarService } from './services/navbar-service/navbar.service';
 //  FILTERS/PIPES
 ///
 //import { AssociateSearchByTextFilter } from './pipes/associate-search-by-text-filter/associate-search-by-text-filter.pipes';
- import { AssociateSearchByStatusPipeModule } from './pipes/associate-search-by-status-pipe/status-pipe.module';
+//import { AssociateSearchByStatusPipeModule } from './pipes/associate-search-by-status-pipe/status-pipe.module';
 //import { AssociateSearchByClientPipe } from './pipes/associate-search-by-client-pipe/client-pipe.pipe';
 
 ///
@@ -91,8 +91,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     MatProgressSpinnerModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    AppRoutingModule,
-    AssociateSearchByStatusPipeModule
+    AppRoutingModule
   ],
   entryComponents: [
     UpdateDialogComponent

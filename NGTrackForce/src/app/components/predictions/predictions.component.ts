@@ -1,6 +1,6 @@
 import { ClientService } from './../../services/client-service/client.service';
 import { BatchService } from './../../services/batch-service/batch.service';
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { CurriculumService } from '../../services/curriculum-service/curriculum.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { AssociateService } from '../../services/associate-service/associate.service';
@@ -8,6 +8,7 @@ import { Associate } from '../../models/associate.model';
 import { Client } from '../../models/client.model';
 import { DateService } from '../../services/date-service/date.service';
 import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.component';
+import { Helpers } from '../../lsHelper';
 
 
 @Component({
@@ -24,7 +25,7 @@ import { DateTimePickerComponent } from '../datetimepicker/datetimepicker.compon
   providers:[ClientService]
 })
 @AutoUnsubscribe
-export class PredictionsComponent implements OnInit {
+export class PredictionsComponent implements OnInit, OnDestroy{
 
   //bat date-timepicker------
   @ViewChild('start') startDateTimePicker:DateTimePickerComponent;
@@ -89,8 +90,12 @@ export class PredictionsComponent implements OnInit {
   //added: cs
 
   constructor(private ss: CurriculumService, private as: AssociateService,
-    private bs: BatchService, private cs:ClientService, private ds:DateService) {
+    private bs: BatchService, private cs:ClientService, private ds:DateService, private lsHelp: Helpers) {
       this.curriculums = new Set<string>();
+    }
+    ngOnDestroy(): void {
+      //Called once, before the instance is destroyed.
+     this.lsHelp.removeStorageItem("clientGetAll");
     }
 
   ngOnInit() {

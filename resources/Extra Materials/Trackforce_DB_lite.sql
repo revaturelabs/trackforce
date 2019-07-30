@@ -104,6 +104,7 @@ create table tf_curriculum(
 create table tf_batch (
     tf_batch_id number primary key,
     tf_batch_name varchar2(50),
+    TF_SALESFORCE_ID varchar2(50),
     tf_batch_start_date timestamp,
     tf_batch_end_date timestamp,
     tf_curriculum_id number,
@@ -488,16 +489,16 @@ insert into tf_batch_location values(5, 'Tech Incubator at Queens College, 65-30
 insert into tf_batch_location values(6, 'CUNY-SPS 119 West 31st Street, New York, NY 10001');
 
 --INSERT DUMMY VALUES INTO BATCH
-insert into tf_batch values (0, '1712 Dec04 AP-USF', TO_TIMESTAMP('2017-12-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2018-02-16', 'YYYY-MM-DD'),2,3,0);
-insert into tf_batch values (1, '1710 Oct09 PEGA', TO_TIMESTAMP('2017-10-9', 'YYYY-MM-DD'), TO_TIMESTAMP('2017-12-15', 'YYYY-MM-DD'),4,1,0);
-insert into tf_batch values (2, '1709 Sept11 JTA', TO_TIMESTAMP('2017-09-11', 'YYYY-MM-DD'), TO_TIMESTAMP('2017-11-17', 'YYYY-MM-DD'),1,1,0);
-insert into tf_batch values (3, '1707 Jul24 Java', TO_TIMESTAMP('2017-07-24', 'YYYY-MM-DD'), TO_TIMESTAMP('2017-09-29', 'YYYY-MM-DD'),2,1,0);
-insert into tf_batch values (4, '1707 Jul10 PEGA', TO_TIMESTAMP('2017-07-10', 'YYYY-MM-DD'), TO_TIMESTAMP('2017-09-15', 'YYYY-MM-DD'),4,1,0);
-insert into tf_batch values(5, '1701 Jan09 Java', TO_TIMESTAMP('1/9/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('3/17/2017', 'MM/DD/YYYY'),2,1,0);
-insert into tf_batch values(6, '1701 Jan30 NET', TO_TIMESTAMP('1/30/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('4/17/2017', 'MM/DD/YYYY'),3,1,0);
-insert into tf_batch values(7, '1709 Sep18 Salesforce', TO_TIMESTAMP('9/18/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('12/8/2017', 'MM/DD/YYYY'),6,1,0);
-insert into tf_batch values(8, '1709 Sep25 Java AP-CUNY', TO_TIMESTAMP('9/25/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('12/1/2017', 'MM/DD/YYYY'),2,6,0);
-insert into tf_batch values(9, '1712 Dec04-2', TO_TIMESTAMP('12/4/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('2/9/2018', 'MM/DD/YYYY'),2,1,0);
+insert into tf_batch values (0, '1712 Dec04 AP-USF', 'AAA', TO_TIMESTAMP('2017-12-04', 'YYYY-MM-DD'), TO_TIMESTAMP('2018-02-16', 'YYYY-MM-DD'),2,3,0);
+insert into tf_batch values (1, '1710 Oct09 PEGA', 'AAA', TO_TIMESTAMP('2017-10-9', 'YYYY-MM-DD'), TO_TIMESTAMP('2017-12-15', 'YYYY-MM-DD'),4,1,0);
+insert into tf_batch values (2, '1709 Sept11 JTA', 'AAA', TO_TIMESTAMP('2017-09-11', 'YYYY-MM-DD'), TO_TIMESTAMP('2017-11-17', 'YYYY-MM-DD'),1,1,0);
+insert into tf_batch values (3, '1707 Jul24 Java', 'AAA', TO_TIMESTAMP('2017-07-24', 'YYYY-MM-DD'), TO_TIMESTAMP('2017-09-29', 'YYYY-MM-DD'),2,1,0);
+insert into tf_batch values (4, '1707 Jul10 PEGA', 'AAA', TO_TIMESTAMP('2017-07-10', 'YYYY-MM-DD'), TO_TIMESTAMP('2017-09-15', 'YYYY-MM-DD'),4,1,0);
+insert into tf_batch values(5, '1701 Jan09 Java', 'AAA', TO_TIMESTAMP('1/9/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('3/17/2017', 'MM/DD/YYYY'),2,1,0);
+insert into tf_batch values(6, '1701 Jan30 NET', 'AAA', TO_TIMESTAMP('1/30/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('4/17/2017', 'MM/DD/YYYY'),3,1,0);
+insert into tf_batch values(7, '1709 Sep18 Salesforce', 'AAA', TO_TIMESTAMP('9/18/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('12/8/2017', 'MM/DD/YYYY'),6,1,0);
+insert into tf_batch values(8, '1709 Sep25 Java AP-CUNY', 'AAA', TO_TIMESTAMP('9/25/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('12/1/2017', 'MM/DD/YYYY'),2,6,0);
+insert into tf_batch values(9, '1712 Dec04-2', 'AAA', TO_TIMESTAMP('12/4/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('2/9/2018', 'MM/DD/YYYY'),2,1,0);
 
 
 

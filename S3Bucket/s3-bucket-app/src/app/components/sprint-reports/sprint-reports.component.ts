@@ -11,7 +11,7 @@ import { FnParam } from '@angular/compiler/src/output/output_ast';
 
 export class SprintReportsComponent implements OnInit {
 
-  projectList : string[];
+  projectList : Observable<Array<string>>;
   projectChoice : string;
   fileList : File[];
   index : File;
@@ -24,7 +24,8 @@ export class SprintReportsComponent implements OnInit {
   constructor(private uploadService:UploadService) { }
 
   ngOnInit() {
-    this.projectList = ["Trackforce", "Rideforce", "SMS", "CMS"];
+
+    this.projectList = this.uploadService.getProjectList();
     this.fileList = [];
     this.project="";
   }

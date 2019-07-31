@@ -6,7 +6,7 @@
         <div class="list-group-item list-group-item-action active">
           Project
         </div>
-        <div *ngFor="let project of projectList">
+        <div *ngFor="let project of projectList | async">
           <button type="button" class="list-group-item list-group-item-action" (click)="showIterations(project)">{{ project }}</button>
         </div>
       </div>

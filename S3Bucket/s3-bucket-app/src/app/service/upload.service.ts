@@ -40,7 +40,29 @@ export class UploadService {
       return true;
     });
   }
+  getProjectList():Observable<Array<string>>{
+    const projects = new Array<string>();
 
+    const params = {
+      Bucket: this.bucketARN,
+      Prefix: '',
+      Delimiter: '/'
+    };
+    this.bucket.listObjects(params, function (err, data) {
+      if (err) {
+        console.log('There was an error getting your files: ' + err);
+        return;
+      }
+
+      console.log('Successfully get files.', data);
+
+      data.CommonPrefixes.forEach(function (file) {
+        projects.push(file.Prefix.replace("/",""))
+      });
+    });
+
+    return observableOf(projects);
+  }
   getProjectSprints(project:string):Observable<Array<string>>{
     console.log(project);
     const sprints = new Array<string>();

@@ -235,12 +235,18 @@ export class PredictionsComponent implements OnInit, OnDestroy {
   getAllPredictions() {
     this.results = [];
     for (const tech in this.techNeeded) {
-      if(tech) {
+      if (tech) {
         this.getPrediction(+tech, false);
       }
     }
 
     this.results.sort((o1, o2) => o1['technologyIndex'] - o2['technologyIndex'])
+  }
+
+  // this small utility function checks if two objects are equivalent given their own keys and values
+  // used this instead of Array.prototype.includes because includes will not check the object keys and values
+  matches(object, source) {
+    return Object.keys(source).every(key => object.hasOwnProperty(key) && object[key] === source[key]);
   }
 
   /**
@@ -274,16 +280,21 @@ export class PredictionsComponent implements OnInit, OnDestroy {
 
     this.batchService.getAssociateCountByCurriculum(this.startDate, this.endDate, techName).subscribe(
       data => {
-        this.results.push({
+        const resource = {
           technologyIndex: techIndex,
           technology: techName,
           requested: this.techNeeded[techIndex],
           available: data['associateCount']
+        };
+        const found = this.results.find((result) => {
+          return this.matches(result, resource);
         });
+        if (!found) {
+          this.results.push(resource);
+        }
         this.results.sort((o1, o2) => o1['technologyIndex'] - o2['technologyIndex'])
         this.loadingPredictions = false;
       },
-
       err => console.error('Error in predictions.component.ts getPredictions(): ', err.message)
     )
   }

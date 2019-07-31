@@ -24,7 +24,7 @@ export class SprintReportsComponent implements OnInit {
   constructor(private uploadService:UploadService) { }
 
   ngOnInit() {
-    this.projectList = ["trackforce", "rideforce", "sms", "cms"];
+    this.projectList = ["Trackforce", "Rideforce", "SMS", "CMS"];
     this.fileList = [];
     this.project="";
   }
@@ -47,7 +47,7 @@ export class SprintReportsComponent implements OnInit {
 
   submit() {
     // send this.fileList, this.iteration, this.project, and this.index to S3 bucket
-    this.index = new File(['<head><title>HI</title></head><body></body>'], "index.html", {type: "text/html"});
+    this.index = new File(['<head><title>HI</title></head><body>Hello World.... MicDrop</body>'], "index.html", {type: "text/html"});
     console.log("Project: " + this.project);
     console.log("Iteration: " + this.iteration);
     console.log("Files: " + this.fileList);

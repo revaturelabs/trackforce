@@ -9,7 +9,7 @@ import { of as observableOf} from 'rxjs';
 export class UploadService {
 
   constructor() { }
-
+  bucketARN="ccoverage"
   
   bucket = new S3(
     {
@@ -22,8 +22,8 @@ export class UploadService {
   uploadReport(file, project:string, filepath:string){
     
     const params = {
-      Bucket: project,//temp
-      Key: filepath,
+      Bucket: this.bucketARN,//temp
+      Key: project+'/'+filepath,
       Body: file,
       ACL: 'public-read',
       ContentType: file.type
@@ -41,13 +41,12 @@ export class UploadService {
     });
   }
 
-  getProjectSprints(name:string):Observable<Array<string>>{
-    console.log(name);
+  getProjectSprints(project:string):Observable<Array<string>>{
+    console.log(project);
     const sprints = new Array<string>();
-
     const params = {
-      Bucket: name,
-      Prefix: '',
+      Bucket: this.bucketARN,
+      Prefix: project+'/',
       Delimiter: '/'
     };
 
@@ -60,7 +59,7 @@ export class UploadService {
       console.log('Successfully get files.', data);
 
       data.CommonPrefixes.forEach(function (file) {
-        sprints.push(file.Prefix.replace("/",""))
+        sprints.push(file.Prefix.replace(project+"/","").replace("/",""))
       });
     });
 

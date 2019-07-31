@@ -94,9 +94,24 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     },
       error => console.error('Error in associate-list-page.component.ts ngOnInit(): ', error.message)
     );
+
+    this.checkTrainer();
   }
 
-
+    checkTrainer(){
+      const thingy = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
+      if (thingy.role === 2){
+        let x: number;
+        let y: Array<any>;
+        const otherThingy = JSON.parse(this.lsHelp.localStorageItem("currentTrainer"));
+        for (x = 0; x < this.listOfAssociates.length; x++){
+          if (this.listOfAssociates[x].batch.trainer.id === otherThingy.id){
+            y.push(this.listOfAssociates[x]);
+          }
+        }
+        this.listOfAssociates = y;
+      }
+    }
   
 
   ngAfterViewInit() {

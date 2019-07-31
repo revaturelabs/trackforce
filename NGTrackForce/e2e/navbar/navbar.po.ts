@@ -57,7 +57,9 @@ export class Navbar {
         //element(by.css('body > app-component > app-navbar > nav > div > ul:nth-child(2) > li:nth-child(5)')).click();
     }
 
+    //Implemented an exlplicit time to let the page load first.
     getCurrentURL(){
+        browser.manage().timeouts().implicitlyWait(5000);
         return browser.getCurrentUrl();
     }
 

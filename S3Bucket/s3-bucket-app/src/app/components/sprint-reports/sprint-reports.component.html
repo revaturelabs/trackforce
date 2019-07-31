@@ -7,7 +7,7 @@
   <div class="container col-7" id="bucket-container">
     <h1 class="display-1 text-center">S3 Bucket</h1>
     <h3 class="mx-auto mt-5">View files</h3>
-    <div class="row">
+    <div class="row mt-3">
       <div class="col ml-auto">
         <div class="list-group">
           <div class="list-group-item list-group-item-action active">
@@ -28,49 +28,70 @@
       </div>
     </div>
     <h3 class="mx-auto mt-5">Upload files</h3>
+    <h5 class="mx-auto mt-4">Sprint Metrics</h5>
     <div class="row">
-      <div class="input-group mx-auto mt-3">
-        <div class="input-group-prepend">
-          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Project</button>
-          <div class="dropdown-menu">
-            <p class="dropdown-item" (click)="setProject('Trackforce')">Trackforce</p>
-            <p class="dropdown-item" (click)="setProject('Rideforce')">Rideforce</p>
-            <p class="dropdown-item" (click)="setProject('SMS')">SMS</p>
-            <p class="dropdown-item" (click)="setProject('CMS')">CMS</p>
-          </div>
+        <div class="col">
+          <label for="start-date">Start Date</label>
+          <input type="date" id="start-date" [(ngModel)]="startDate" class="form-control" placeholder="mm/dd/yyyy">
         </div>
-        <input type="text" class="form-control" [(ngModel)]="iteration" placeholder="Enter iteration...">
-        <div class="input-group-append ml-2">
-            <div class="custom-file">
-              <input type="file" id="upload" class="custom-file-input" (change)="selectFiles($event)">
-              <label class="custom-file-label" for="upload">Upload Files...</label>
+        <div class="col">
+          <label for="end-date">End Date</label>
+          <input type="date" id="end-date" [(ngModel)]="endDate" class="form-control" placeholder="mm/dd/yyyy">
+        </div>
+        <div class="col">
+          <label for="assigned">Assigned SP's</label>
+          <input type="number" id="assigned" [(ngModel)]="assignedStoryPoints" class="form-control" placeholder="00">
+        </div>
+        <div class="col">
+          <label for="completed">Completed SP's</label>
+          <input type="number" id="completed" [(ngModel)]="completedStoryPoints" class="form-control" placeholder="00">
+        </div>
+    </div>
+    <h5 class="mx-auto mt-3">Iteration Information</h5>
+    <div class="row">
+      <div class="col">
+        <div class="input-group mx-auto mt-3">
+          <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Project</button>
+            <div class="dropdown-menu">
+              <p class="dropdown-item" (click)="setProject('Trackforce')">Trackforce</p>
+              <p class="dropdown-item" (click)="setProject('Rideforce')">Rideforce</p>
+              <p class="dropdown-item" (click)="setProject('SMS')">SMS</p>
+              <p class="dropdown-item" (click)="setProject('CMS')">CMS</p>
             </div>
-            <button class="btn btn-outline-secondary ml-2" type="button" (click)="submit()">Submit</button>
+          </div>
+          <input type="text" class="form-control" [(ngModel)]="iteration" placeholder="Enter iteration...">
+          <div class="input-group-append ml-2">
+              <div class="custom-file">
+                <input type="file" id="upload" class="custom-file-input" (change)="selectFiles($event)">
+                <label class="custom-file-label" for="upload">Upload Files...</label>
+              </div>
+              <button class="btn btn-outline-secondary ml-2" type="button" (click)="submit()">Submit</button>
+          </div>
         </div>
       </div>
     </div>
-    <ng-container *ngIf="!submitted">
-      <div class="row">
+    <div class="row">
+      <ng-container *ngIf="!submitted">
         <div class="col mx-auto mt-3" *ngIf="project != ''">
           <h5>Project:</h5> {{ project }}
         </div>
-      </div>
-      <div class="row">
-        <div class="col mx-auto mt-3" *ngIf="fileList != ''">
+        <div class="col-9 mx-auto mt-3" *ngIf="fileList != ''">
           <h5>Files:</h5> 
           <div *ngFor="let file of fileList">
             <b>Name:</b> {{ file.name }} <b>Type:</b> {{ file.type }}
           </div>
         </div>
-      </div>
-    </ng-container>
-    <ng-container *ngIf="submitted">
-      <div class="alert alert-success mx-auto mt-3 text-center" role="alert">
-        Files have been successfully uploaded.
-      </div>
-    </ng-container>
+      </ng-container>
+      <ng-container *ngIf="submitted">
+        <div class="alert alert-success mx-auto mt-3 text-center" role="alert">
+          Files have been successfully uploaded.
+        </div>
+      </ng-container>
+    </div>
+    
   </div>
-  
+
 </div>
   
 

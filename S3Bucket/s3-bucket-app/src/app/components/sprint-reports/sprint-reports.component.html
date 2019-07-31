@@ -13,8 +13,8 @@
           <div class="list-group-item list-group-item-action active">
             Project
           </div>
-          <div *ngFor="let project of projectList">
-            <button type="button" class="list-group-item list-group-item-action" (click)="showIterations(project+12345)">{{ project |titlecase }}</button>
+          <div *ngFor="let project of projectList | async">
+            <button type="button" class="list-group-item list-group-item-action" (click)="showIterations(project)">{{ project |titlecase }}</button>
           </div>
         </div>
       </div>
@@ -33,10 +33,10 @@
         <div class="input-group-prepend">
           <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Project</button>
           <div class="dropdown-menu">
-            <p class="dropdown-item" (click)="setProject('trackforce12345')">Trackforce</p>
-            <p class="dropdown-item" (click)="setProject('rideforce12345')">Rideforce</p>
-            <p class="dropdown-item" (click)="setProject('sms12345')">SMS</p>
-            <p class="dropdown-item" (click)="setProject('cms12345')">CMS</p>
+            <p class="dropdown-item" (click)="setProject('Trackforce')">Trackforce</p>
+            <p class="dropdown-item" (click)="setProject('Rideforce')">Rideforce</p>
+            <p class="dropdown-item" (click)="setProject('SMS')">SMS</p>
+            <p class="dropdown-item" (click)="setProject('CMS')">CMS</p>
           </div>
         </div>
         <input type="text" class="form-control" [(ngModel)]="iteration" placeholder="Enter iteration...">

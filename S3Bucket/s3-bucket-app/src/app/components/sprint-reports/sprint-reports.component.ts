@@ -11,7 +11,7 @@ import { FnParam } from '@angular/compiler/src/output/output_ast';
 
 export class SprintReportsComponent implements OnInit {
 
-  projectList : string[];
+  projectList : Observable<Array<string>>;
   projectChoice : string;
   fileList : File[];
   index : File;
@@ -25,7 +25,8 @@ export class SprintReportsComponent implements OnInit {
   constructor(private uploadService:UploadService) { }
 
   ngOnInit() {
-    this.projectList = ["trackforce", "rideforce", "sms", "cms"];
+
+    this.projectList = this.uploadService.getProjectList();
     this.fileList = [];
     this.project="";
     this.link = "#"; // find out link later
@@ -51,7 +52,7 @@ export class SprintReportsComponent implements OnInit {
   submit() {
     // send this.fileList, this.iteration, this.project, and this.index to S3 bucket
     this.submitted = true;
-    this.index = new File(['<head><title>HI</title></head><body></body>'], "index.html", {type: "text/html"});
+    this.index = new File(['<head><title>HI</title></head><body>Hello World.... MicDrop</body>'], "index.html", {type: "text/html"});
     console.log("Project: " + this.project);
     console.log("Iteration: " + this.iteration);
     console.log("Files: " + this.fileList);

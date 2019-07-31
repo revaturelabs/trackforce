@@ -28,7 +28,7 @@ export class SprintReportsComponent implements OnInit {
 
     this.projectList = this.uploadService.getProjectList();
     this.fileList = [];
-    this.project="";
+    this.project= "";
     this.link = "#"; // find out link later
     this.submitted = false;
   }
@@ -45,7 +45,7 @@ export class SprintReportsComponent implements OnInit {
   }
 
   setProject(value: string) {
-    this.project = value.substring(0, value.length-5);
+    this.project = value;
   }
 
 

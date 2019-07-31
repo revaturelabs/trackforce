@@ -14,7 +14,7 @@
             Project
           </div>
           <div *ngFor="let project of projectList | async">
-            <button type="button" class="list-group-item list-group-item-action" (click)="showIterations(project)">{{ project |titlecase }}</button>
+            <button type="button" class="list-group-item list-group-item-action" (click)="showIterations(project)">{{ project }}</button>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
     <ng-container *ngIf="!submitted">
       <div class="row">
         <div class="col mx-auto mt-3" *ngIf="project != ''">
-          <h5>Project:</h5> {{ project | titlecase }}
+          <h5>Project:</h5> {{ project }}
         </div>
       </div>
       <div class="row">

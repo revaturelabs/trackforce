@@ -44,14 +44,6 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 	@XmlElement
 	@Column(name = "TF_SALESFORCE_ID", length = 50, unique = true)
 	private String salesforceId;
-	
-	public String getSalesforceId() {
-		return salesforceId;
-	}
-
-	public void setSalesforceId(String salesforceId) {
-		this.salesforceId = salesforceId;
-	}
 
 	@XmlElement
 	@Column(name = "TF_BATCH_START_DATE")
@@ -163,6 +155,16 @@ public class TfBatch implements java.io.Serializable, Comparable<TfBatch> {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	
+
+	public String getSalesforceId() {
+		return salesforceId;
+	}
+
+	public void setSalesforceId(String salesforceId) {
+		this.salesforceId = salesforceId;
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RequestService } from '../../services/request-service/request.service';
 import { ClientService } from '../../services/client-service/client.service';
@@ -9,6 +9,7 @@ import { ThemeConstants } from '../../constants/theme.constants';
 import { Color } from 'ng2-charts';
 import { StatusInfo } from '../../models/status-info.model'
 //import { SearchFilterPipe } from '../../pipes/search-filter/search-filter.pipe';
+import { Helpers } from '../../lsHelper';
 
 /**
  * @author Han Jung
@@ -19,7 +20,7 @@ import { StatusInfo } from '../../models/status-info.model'
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.css']
 })
-export class ClientListComponent implements OnInit {
+export class ClientListComponent implements OnInit, OnDestroy {
   public showNoData = false;
   public loading = true;
   public placeholder = 'Loading client list . . .'
@@ -68,7 +69,7 @@ export class ClientListComponent implements OnInit {
 
   constructor(
     private rs: RequestService,
-    private clientService: ClientService
+    private clientService: ClientService, public lsHelp: Helpers
   ) {
   }
 
@@ -78,7 +79,10 @@ export class ClientListComponent implements OnInit {
     this.initChartData();
   }
 
-
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+   this.lsHelp.removeStorageItem("clientGetAll");
+  }
   // get client names from data and push to clientNames string array
   getAllClients() {
 

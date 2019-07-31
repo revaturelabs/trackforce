@@ -17,22 +17,22 @@ import { Helpers } from '../../lsHelper';
   styleUrls: ['./predictions.component.css'],
   /**
    * [ClientService]
-   * 
+   *
    * This service was added as a provider on 11/10/2018.
    * It was needed in order to successfully create the
    * component in the Jasmine test spec, and test it.
    */
-  providers:[ClientService]
+  providers: [ClientService]
 })
 @AutoUnsubscribe
-export class PredictionsComponent implements OnInit, OnDestroy{
+export class PredictionsComponent implements OnInit, OnDestroy {
 
   //bat date-timepicker------
-  @ViewChild('start') startDateTimePicker:DateTimePickerComponent;
-  @ViewChild('end') endDateTimePicker:DateTimePickerComponent;
+  @ViewChild('start') startDateTimePicker: DateTimePickerComponent;
+  @ViewChild('end') endDateTimePicker: DateTimePickerComponent;
 
-  start:any;
-  end:any;
+  start: any;
+  end: any;
   public detailsReady = false;
   public startDateString: string;
   public endDateString: string;
@@ -41,7 +41,7 @@ export class PredictionsComponent implements OnInit, OnDestroy{
   public technologies: any[];
   public expanded = true;
   public results: any[];
-  public message = "";
+  public message = '';
   public selectedBatch: number;
   public noBatches: boolean;
   public batches: Object;
@@ -51,8 +51,8 @@ export class PredictionsComponent implements OnInit, OnDestroy{
   public loadingTechnologies: boolean;
   public loadingPredictions: boolean;
   public loadingDetails: boolean;
-  public maxAssociates: number = 1000;
-  public showEmpty: boolean = true;
+  public maxAssociates = 1000;
+  public showEmpty = true;
   //public curriculums: any[];
 
   //Batch-list date-picker-----------------
@@ -65,38 +65,43 @@ export class PredictionsComponent implements OnInit, OnDestroy{
   showDateRangeError = false;
   dateError: boolean;
 
-  changeDate(){
-    this.changeDateEm.emit(this.startDate);
-  }
-
   //Assoc----------------------------------
   public clients: Client[];
   public curriculums: Set<string>; //stored unique curriculums
-  public isDataReady: boolean = false;
+  public isDataReady = false;
   //----------------------------------------------------------
 
-   //used for filtering
+  //used for filtering
   //  searchByStatus = '';
   //  searchByClient = '';
   //  searchByText = '';
   //  searchByCurriculum = '';
   //  searchByVerification = '';
 
-    //used for ordering of rows
-  desc = false;
-  sortedColumn = '';
-
+  //used for ordering of rows
+  public desc = false;
+  public sortedColumn = '';
 
   //added: cs
 
-  constructor(private ss: CurriculumService, private as: AssociateService,
-    private bs: BatchService, private cs:ClientService, private ds:DateService, private lsHelp: Helpers) {
-      this.curriculums = new Set<string>();
-    }
-    ngOnDestroy(): void {
-      //Called once, before the instance is destroyed.
-     this.lsHelp.removeStorageItem("clientGetAll");
-    }
+  changeDate() {
+    this.changeDateEm.emit(this.startDate);
+  }
+
+
+  constructor(
+    private curriculumService: CurriculumService,
+    private associateService: AssociateService,
+    private batchService: BatchService,
+    private clientService: ClientService,
+    private dateService: DateService,
+    private localStorageHelper: Helpers) {
+    this.curriculums = new Set<string>();
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    this.localStorageHelper.removeStorageItem("clientGetAll");
+  }
 
   ngOnInit() {
     this.techNeeded = [];
@@ -119,7 +124,7 @@ export class PredictionsComponent implements OnInit, OnDestroy{
 
   //assoc--------------------------------------------
   getAllAssociates() {
-    this.as.getAllAssociates().subscribe(data => {
+    this.associateService.getAllAssociates().subscribe(data => {
       // this.associates.length = 0;
       this.associates = data;
       for (const associate of this.associates) {
@@ -142,11 +147,11 @@ export class PredictionsComponent implements OnInit, OnDestroy{
     );
   }
 
-   /**
-   * Fetch the client names
-   */
+  /**
+  * Fetch the client names
+  */
   getClientNames() {
-    this.cs.getAllClients().subscribe(data => {
+    this.clientService.getAllClients().subscribe(data => {
       this.clients = data;
     },
       error => console.error('Error in predictions.component.ts getClientNames(): ', error.message)
@@ -160,15 +165,15 @@ export class PredictionsComponent implements OnInit, OnDestroy{
    * Get a list of curriculum from backend end to generate input fields
    */
   getListofCurricula() {
-    this.message = "";
+    this.message = '';
     this.loadingTechnologies = true;
 
-    this.ss.getAllCurricula().subscribe(
+    this.curriculumService.getAllCurricula().subscribe(
       data => {
         const tempArray = [];
         for (let i = 0; i < data.length; i++) {
-          let tech = data[i];
-          let localtech = {
+          const tech = data[i];
+          const localtech = {
             id: tech.id,
             name: tech.name,
           }
@@ -178,7 +183,7 @@ export class PredictionsComponent implements OnInit, OnDestroy{
         this.loadingTechnologies = false;
       },
       err => {
-        this.message = "Server error when loading technologies."
+        this.message = 'Server error when loading technologies.';
         this.loadingTechnologies = false;
       }
     );
@@ -189,13 +194,13 @@ export class PredictionsComponent implements OnInit, OnDestroy{
    * Gets the current date and sets the strings bound to the date inputs.
    * End date is the current date, start date is the first of the current year.
    */
-  setInitialDates(){
-    let now = new Date(Date.now());
-    this.endDateString= now.toJSON().substring(0,10);
+  setInitialDates() {
+    const now = new Date();
+    this.endDateString = now.toJSON().substring(0, 10);
     now.setMonth(0);
     now.setDate(1);
     now.setFullYear(2017);
-    this.startDateString = now.toJSON().substring(0,10);
+    this.startDateString = now.toJSON().substring(0, 10);
   }
 
   // }
@@ -204,12 +209,13 @@ export class PredictionsComponent implements OnInit, OnDestroy{
    * Parses the date string to a date object.
    * Done onchange of date fields.
    */
-  generateDates(){
-    let startYearParsed = parseInt(this.startDateString.substring(0,4));
-    let endYearParsed = parseInt(this.endDateString.substring(0,4));
+  generateDates() {
+    //convert string into base10 integer
+    const startYearParsed = parseInt(this.startDateString.substring(0, 4), 10);
+    const endYearParsed = parseInt(this.endDateString.substring(0, 4), 10);
 
     if (startYearParsed < 2012 || endYearParsed < 2012) {
-      this.dateRangeMessage = "Enter a valid year";
+      this.dateRangeMessage = 'Enter a valid year';
       this.showDateRangeError = true;
     } else {
       this.startDate = new Date(this.startDateString);
@@ -226,12 +232,15 @@ export class PredictionsComponent implements OnInit, OnDestroy{
    * NOTE: that this will make connection to the DB FOR EACH TECHNOLOGY WITH INPUT
    * should be changed to a single query in back end
    */
-  getAllPredictions(){
+  getAllPredictions() {
     this.results = [];
-    for(let k in this.techNeeded){
-      this.getPrediction(+k, false);
+    for (const tech in this.techNeeded) {
+      if(tech) {
+        this.getPrediction(+tech, false);
+      }
     }
-    this.results.sort((o1,o2) => o1['technologyIndex'] - o2['technologyIndex'])
+
+    this.results.sort((o1, o2) => o1['technologyIndex'] - o2['technologyIndex'])
   }
 
   /**
@@ -241,34 +250,37 @@ export class PredictionsComponent implements OnInit, OnDestroy{
    *
    * @param techIndex index in technologies array to fetch predictions for
    * @param isUpdate true if part of single fetch; false when part of a batch
-   * 
+   *
    * 1809_Courie_G
    * getPrediction now only gets called from getAllPredictions instead of on
    * every change of the table data.
    */
   getPrediction(techIndex: number, isUpdate: boolean) {
-    if(this.results.length == 0)
+    if (this.results.length === 0) {
       this.loadingPredictions = true;
+    }
     this.detailsReady = false;
     this.noBatches = false;
 
-    if(isUpdate)
-      this.results = this.results.filter(o => o['technologyIndex'] != techIndex);
+    if (isUpdate) {
+      this.results = this.results.filter(o => o['technologyIndex'] !== techIndex);
+    }
 
-    let techName = this.technologies[techIndex]["name"];
-    if(this.techNeeded[techIndex] == undefined || this.techNeeded[techIndex] <= 0 || this.techNeeded[techIndex] > this.maxAssociates)
+    const techName = this.technologies[techIndex]['name'];
+    if (this.techNeeded[techIndex] === undefined || this.techNeeded[techIndex] <= 0 || this.techNeeded[techIndex] > this.maxAssociates) {
       return;
+    }
 
-    
-    this.bs.getAssociateCountByCurriculum(new Date(this.startDate), new Date(this.endDate), techName).subscribe(
+
+    this.batchService.getAssociateCountByCurriculum(this.startDate, this.endDate, techName).subscribe(
       data => {
         this.results.push({
-                  technologyIndex: techIndex,
-                  technology: techName,
-                  requested: this.techNeeded[techIndex],
-                  available: data["associateCount"]
-                });
-        this.results.sort((o1,o2) => o1['technologyIndex'] - o2['technologyIndex'])
+          technologyIndex: techIndex,
+          technology: techName,
+          requested: this.techNeeded[techIndex],
+          available: data['associateCount']
+        });
+        this.results.sort((o1, o2) => o1['technologyIndex'] - o2['technologyIndex'])
         this.loadingPredictions = false;
       },
 
@@ -276,17 +288,14 @@ export class PredictionsComponent implements OnInit, OnDestroy{
     )
   }
 
-/**
- * 1806_Andrew_H_Austin_M
- * Fetches details of a selected curriculum. The details include all batches
- * That start and end within the given time span. Resets previous data so that
- * old information is not present while loading.
- * @param tech
- */
+  /**
+   * 1806_Andrew_H_Austin_M
+   * Fetches details of a selected curriculum. The details include all batches
+   * That start and end within the given time span. Resets previous data so that
+   * old information is not present while loading.
+   * @param tech
+   */
   getDetails(tech) {
-
-    let startTime = new Date(this.startDate);
-    let endTime = new Date(this.endDate);
 
     this.detailsReady = false;
     this.loadingDetails = true;
@@ -300,12 +309,12 @@ export class PredictionsComponent implements OnInit, OnDestroy{
       The json object is an array with each element containing info on the batch name,
       number of associates in the batch, and the batch's end date.
     */
-    this.bs.getBatchDetails(startTime, endTime,tech).subscribe(
+    this.batchService.getBatchDetails(this.startDate, this.endDate, tech).subscribe(
       data => {
         this.batches = data;
         this.detailsReady = true;
         this.loadingDetails = false;
-        if(this.batches['courseBatches'].length == 0){
+        if (this.batches['courseBatches'].length === 0) {
           this.noBatches = true;
         }
       },

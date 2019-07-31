@@ -6,3 +6,4 @@ target
 # IDE - Intellij
 *.iml
 /.idea/
+**/.factorypath

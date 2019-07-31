@@ -207,7 +207,7 @@ public class BatchResource {
 		int n = 0;
 		logger.info("Method call to getUnmappedCount");
 		for (TfAssociate a : associates) {
-			if (a.getMarketingStatus().getId() > 5)
+			if (a.getMarketingStatus().getId() < 12 && a.getMarketingStatus().getId() > 5)
 				n++;
 		}
 

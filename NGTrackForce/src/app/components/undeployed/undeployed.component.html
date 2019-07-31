@@ -7,38 +7,49 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-10">
-      <div class="white">
-        <canvas baseChart
-          class="chart chart-bar"
-          id="the_graph"
-          *ngIf="clientUndeployedData && clientUndeployedData.length && clientUndeployedLabels && clientUndeployedLabels.length"
-          [data]="clientUndeployedData"
-          [labels]="clientUndeployedLabels"
-          [chartType]="chartType"
-          [options]="chartOptions"
-          [colors]="undeployedColors"
-          (chartHover)="chartHovered($event)"
-          >
-        </canvas>
-      </div>
-    </div>
+    <div class="col-md-8">
+        <div class="card border-info text-center">
+            <h5 class="card-header"></h5>
+            <div class="card-body">
+              <div class="white">
+                <canvas baseChart
+                  class="chart chart-bar"
+                  id="the_graph"
+                  *ngIf="clientUndeployedData && clientUndeployedData.length && clientUndeployedLabels && clientUndeployedLabels.length"
+                  [data]="clientUndeployedData"
+                  [labels]="clientUndeployedLabels"
+                  [chartType]="chartType"
+                  [options]="chartOptions"
+                  [colors]="undeployedColors"
+                  (chartHover)="chartHovered($event)"
+                  >
+                </canvas>
+              </div>
+            </div>
+          </div>
+        </div>
   </div>
 
   <div class="row">
-    <div class="col-md-2"></div>
     <div class="col-md-8">
-      <div class="white">
-        <canvas baseChart
-          id="pie"
-          class="chart chart-pie"
-          [data]="undeployedData"
-          [labels]="undeployedLabels"
-          [chartType]="undeployedChartType"
-          [colors]="mappedColors"
-          [options]="undeployedOptions"
-          (chartClick)="undeployedOnClick($event)">
-        </canvas>
+        <div class="col-md-2"></div>
+          <div class="card border-info text-center">
+            <h5 class="card-header">Mapped vs Unmapped Associates (Undeployed)</h5>
+            <div class="card-body">
+              <div class="white">
+                <canvas baseChart
+                id="pie"
+                class="chart chart-pie"
+                [data]="undeployedData"
+                [labels]="undeployedLabels"
+                [chartType]="undeployedChartType"
+                [colors]="mappedColors"
+                [options]="undeployedOptions"
+                (chartClick)="undeployedOnClick($event)">
+                </canvas>
+              </div>
+            </div>
+        </div>
       </div>
     </div>
   </div>

@@ -51,7 +51,8 @@ import io.swagger.annotations.ApiOperation;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-	private static final String TEMP = "placeholder";
+	private static final String TEMP_FIRSTNAME = "John";
+	private static final String TEMP_LASTNAME = "Doe";
 	private static final String ASSC = "Associate";
 
 	/**
@@ -114,8 +115,8 @@ public class UserResource {
 				newUser.setTfRole(tfrole);
 				TfTrainer newTrainer = new TfTrainer();
 				newTrainer.setTfUser(newUser);
-				newTrainer.setFirstName(TEMP);
-				newTrainer.setLastName(TEMP);
+				newTrainer.setFirstName(TEMP_FIRSTNAME);
+				newTrainer.setLastName(TEMP_LASTNAME);
 				logMessage.append(logMessage + "\n	creating new trainer..." + newTrainer);
 				logMessage.append("The trainer with hashed password is " + newTrainer);
 				works = getTrainerService().createTrainer(newTrainer);
@@ -151,8 +152,8 @@ public class UserResource {
 				newUser.setTfRole(tfrole);
 				TfAssociate newAssociate = new TfAssociate();
 				newAssociate.setUser(newUser);
-				newAssociate.setFirstName(TEMP);
-				newAssociate.setLastName(TEMP);
+				newAssociate.setFirstName(TEMP_FIRSTNAME);
+				newAssociate.setLastName(TEMP_LASTNAME);
 				logMessage.append("\n	creating new associate..." + newAssociate);
 				logMessage.append("\n	The associate with hashed password is " + newAssociate);
 				works = getAssociateService().createAssociate(newAssociate);

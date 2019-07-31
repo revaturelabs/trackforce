@@ -19,14 +19,15 @@ export class UploadService {
     }
   );
 
-  uploadReport(file, project:string, sprint:string){
+  uploadReport(file, project:string, filepath:string){
     
-
     const params = {
       Bucket: project,//temp
-      Key: sprint+"/report/"+file.name,
+      Key: filepath,
       Body: file,
-      ACL: 'public-read'
+      ACL: 'public-read',
+      ContentType: file.type
+
     };
 
 

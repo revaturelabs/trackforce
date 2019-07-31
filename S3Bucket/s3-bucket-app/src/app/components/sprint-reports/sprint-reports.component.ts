@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UploadService } from 'src/app/service/upload.service';
 import { Observable } from 'rxjs';
+import { FnParam } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-sprint-reports',
@@ -46,10 +47,17 @@ export class SprintReportsComponent implements OnInit {
 
   submit() {
     // send this.fileList, this.iteration, this.project, and this.index to S3 bucket
-    this.index = new File([""], "index.html", {type: "text/html"});
+    this.index = new File(['<head><title>HI</title></head><body></body>'], "index.html", {type: "text/html"});
     console.log("Project: " + this.project);
     console.log("Iteration: " + this.iteration);
     console.log("Files: " + this.fileList);
+    const proj = this.project;
+    const iter = this.iteration;
+    const uservice= this.uploadService;
+    this.fileList.forEach(function(file){
+      uservice.uploadReport(file, proj, iter+"/report/"+ file.name)
+    });
+      this.uploadService.uploadReport(this.index, this.project, this.iteration+"/index.html")
     console.log(this.index);
   }
 

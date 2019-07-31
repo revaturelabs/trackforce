@@ -184,9 +184,11 @@ export class MyInterviewComponent implements OnInit {
         this.interviewService
           .createInterview(this.newInterview, this.associate.id)
           .subscribe(res => {
-            setTimeout(() => {
-              location.reload(false);
-            }, 3000);
+            this.associateService.getAssociateByUserId(this.id).subscribe(
+              data => {
+                this.associate = data;
+                this.getAssociateInterviews(this.associate.id);
+              })  
             
          });
       } else {
@@ -210,9 +212,11 @@ export class MyInterviewComponent implements OnInit {
       // successfully update the interview
       this.interviewService.updateInterview(interview).subscribe(res => {
       this.updateSuccess=true;
-      setTimeout(() => {
-        location.reload(false);
-      }, 3000);
+      this.associateService.getAssociateByUserId(this.id).subscribe(
+        data => {
+          this.associate = data;
+          this.getAssociateInterviews(this.associate.id);
+        })  
       },
         error => console.error('Error in myinterview-view.component.ts updateInterview(): ', error.message)
       );

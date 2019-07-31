@@ -18,7 +18,8 @@ export class SprintReportsComponent implements OnInit {
   iteration : string;
   iterationList: Observable<Array<string>>;
   project : string;
-
+  link : string;
+  submitted : boolean;
   
 
   constructor(private uploadService:UploadService) { }
@@ -27,6 +28,8 @@ export class SprintReportsComponent implements OnInit {
     this.projectList = ["trackforce", "rideforce", "sms", "cms"];
     this.fileList = [];
     this.project="";
+    this.link = "#"; // find out link later
+    this.submitted = false;
   }
 
   showIterations(value : string) {
@@ -41,12 +44,13 @@ export class SprintReportsComponent implements OnInit {
   }
 
   setProject(value: string) {
-    this.project = value;
+    this.project = value.substring(0, value.length-5);
   }
 
 
   submit() {
     // send this.fileList, this.iteration, this.project, and this.index to S3 bucket
+    this.submitted = true;
     this.index = new File(['<head><title>HI</title></head><body></body>'], "index.html", {type: "text/html"});
     console.log("Project: " + this.project);
     console.log("Iteration: " + this.iteration);

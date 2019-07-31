@@ -21,6 +21,10 @@ export class SprintReportsComponent implements OnInit {
   link : string;
   submitted : boolean;
   bucketName : string;
+  startDate: Date;
+  endDate: Date;
+  completedStoryPoints: number;
+  assignedStoryPoints: number;
   
 
   constructor(private uploadService:UploadService) { }
@@ -55,6 +59,8 @@ export class SprintReportsComponent implements OnInit {
   submit() {
     // send this.fileList, this.iteration, this.project, and this.index to S3 bucket
     this.submitted = true;
+    const days = (this.endDate.getTime()-this.startDate.getTime())*1000*60*60*24
+    const velocity = (this.completedStoryPoints-this.assignedStoryPoints)/days;
     this.index = new File(
       [`
       <html>
@@ -65,9 +71,10 @@ export class SprintReportsComponent implements OnInit {
           <h1>Sprint Metrics:</h1>
           <b>Project:</b> ${this.project} <br>
           <b>Iteration:</b> ${this.iteration} <br>
-          <b>Velocity:</b> PUT THINGS HERE <br>
-          <b>Start Date:</b> PUT THINGS HERE <br>
-          <b>End Date:</b> PUT THINGS HERE <br>
+          <b>Velocity:</b> ${velocity} <br>
+          <b>Start Date:</b> ${this.startDate.toUTCString} <br>
+          <b>End Date:</b> ${this.endDate.toUTCString} <br>
+          <b>Story Points:</b> ${this.completedStoryPoints}/${this.assignedStoryPoints}<br>
           <b>Files:</b>${this.fileList.map(file => `<a href="report/${file.name}" target="_blank">${file.name}</a>`)}
         </body>
       </html>

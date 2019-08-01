@@ -1,6 +1,7 @@
 import { Navbar } from './navbar.po';
 import { LoginPage } from '../login/login.po';
 import { TestConfig } from '../configuration/test-config';
+import { ngEnvironment } from '../../src/environments/environment';
 
 let navbar          : Navbar;
 let page            : LoginPage;
@@ -55,15 +56,15 @@ describe('The admin navbar is functional', () => {
 
 });
 
-xdescribe('The Asscoiate navbar is functional', () => {
+describe('The Asscoiate navbar is functional', () => {
 
     beforeAll(() => {
         navbar = new Navbar();
         page = new LoginPage();
         testConfig = new TestConfig();
-        baseURL = testConfig.getBaseURL();
+        baseURL = testConfig.getBaseURL(); 
         page.navigateTo();
-        navbar.logIn("cyril","cyril");
+        navbar.logIn("TestAssociate","TestAssoc1@te");
     });
 
     it('should navigate to home page', () => {

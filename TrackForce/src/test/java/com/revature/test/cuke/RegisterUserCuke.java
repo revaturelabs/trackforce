@@ -1,14 +1,21 @@
 package com.revature.test.cuke;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import static com.revature.test.cuke.ConstantsCukeTestUtil.getBaseUrl;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getPasswordCapitalized;
 import static com.revature.test.cuke.ConstantsCukeTestUtil.getPasswordLowercase;
 
 
 import com.revature.test.pom.Login;
 import com.revature.test.utils.ServiceHooks;
+import com.revature.test.utils.WebDriverUtil;
+import com.revature.utils.EnvManager;
+import com.revature.utils.EnvManager.OsCheck.OSType;
 
+import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -108,7 +115,13 @@ public class RegisterUserCuke {
 		ServiceHooks.wait.until(ExpectedConditions.elementToBeClickable(Login.getTrainerRole(ServiceHooks.driver)));
 		Login.getTrainerRole(ServiceHooks.driver).click();
 	}
+	
+	//firefox tests
 
+//	@After
+//	public void close() {
+//		ServiceHooks.driver.quit();
+//	}
 
 }
 

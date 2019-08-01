@@ -13,13 +13,13 @@ import org.openqa.selenium.WebElement;
  */
 public class PasswordUpdate {
 	public static WebElement getOldPassword(WebDriver driver) {
-		return driver.findElement(By.name("oldPassword"));
+		return driver.findElement(By.id("oldPassword"));
 	}
 	public static WebElement getNewPassword(WebDriver driver) {
-		return driver.findElement(By.name("newPassword"));
+		return driver.findElement(By.id("newPassword"));
 	}
 	public static WebElement getConfirmPassword(WebDriver driver) {
-		return driver.findElement(By.name("newPasswordConfirm"));
+		return driver.findElement(By.id("newPasswordConfirm"));
 	}
 	public static WebElement getUpdateButton(WebDriver driver) {
 		return driver.findElement(By.id("submitButton"));

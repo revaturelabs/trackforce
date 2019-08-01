@@ -1,5 +1,4 @@
 package com.revature.services;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import com.revature.criteria.GraphedCriteriaResult;

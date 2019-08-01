@@ -25,12 +25,7 @@ import com.revature.entity.TfTrainer;
 import com.revature.entity.TfUser;
 import com.revature.entity.TfUserAndCreatorRoleContainer;
 import com.revature.services.AssociateService;
-import com.revature.services.BatchService;
-import com.revature.services.ClientService;
-import com.revature.services.CurriculumService;
-import com.revature.services.InterviewService;
 import com.revature.services.JWTService;
-import com.revature.services.MarketingStatusService;
 import com.revature.services.TrainerService;
 import com.revature.services.UserService;
 import com.revature.utils.HibernateUtil;
@@ -285,7 +280,7 @@ public class UserResource {
 	 * @throws IOException
 	 */
 	@Path("/login")
-	@POST
+	@POST 	
 	@Consumes("application/json")
 	@Produces("application/json")
 	@ApiOperation(value = "login method", notes = "The method takes login inforation and verifies whether or not it is valid. returns 200 if valid, 403 if invalid.")
@@ -391,13 +386,11 @@ public class UserResource {
 				return Response.status(Status.UNAUTHORIZED).entity(null).build();
 			}
 		} catch (CannotPerformOperationException e) {
-			logger.error("Could not perform VerifyPassword.");
+			logger.error("Could not perform VerifyPassword.\n" + e.getMessage());
 			status = Status.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
 		} catch (InvalidHashException e) {
-			logger.error("User's password in database had an invalid hashset.");
+			logger.error("User's password in database had an invalid hashset.\n" + e.getMessage());
 			status = Status.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
 		}
 		return Response.status(status).build();
 	}
@@ -439,13 +432,11 @@ public class UserResource {
 				return Response.status(Status.UNAUTHORIZED).entity(null).build();
 			}
 		} catch (CannotPerformOperationException e) {
-			logger.error("Could not perform VerifyPassword.");
+			logger.error("Could not perform VerifyPassword.\n" + e.getMessage());
 			status = Status.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
 		} catch (InvalidHashException e) {
-			logger.error("User's password in database had an invalid hashset.");
+			logger.error("User's password in database had an invalid hashset.\n" + e.getMessage());
 			status = Status.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
 		}
 		return Response.status(status).build();
 	}

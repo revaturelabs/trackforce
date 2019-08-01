@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import com.revature.dao.ClientDao;
 import com.revature.entity.TfClient;
 import com.revature.utils.HibernateUtil;
-import com.revature.utils.ListOp;
+
 import static com.revature.utils.LogUtil.logger;
 public class ClientDaoImpl implements ClientDao {
 

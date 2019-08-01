@@ -32,16 +32,16 @@ export class BatchService {
             + "|" + startDate.toDateString() + "|" + endDate.toDateString()
         let batches: BehaviorSubject<Batch[]>  = new BehaviorSubject<Batch[]>([])
 
-        if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+        // if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
             this.http.get<Batch[]>(url).subscribe(
                 (data: Batch[]) => {
                     batches.next(data)
                     localStorage.setItem(key, JSON.stringify(data));
                 }
             );
-        } else {
-            batches.next(JSON.parse(localStorage.getItem(key)));
-        }
+        // } else {
+        //     batches.next(JSON.parse(localStorage.getItem(key)));
+        // }
 
         return batches
     }

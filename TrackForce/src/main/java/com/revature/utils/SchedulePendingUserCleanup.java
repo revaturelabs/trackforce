@@ -1,14 +1,9 @@
 package com.revature.utils;
 
-import java.sql.Timestamp;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import com.revature.daoimpl.AssociateDaoImpl;
-import com.revature.daoimpl.UserDaoImpl;
-import com.revature.entity.TfAssociate;
-import com.revature.entity.TfUser;
 
 /*
  * The purpose of this class is to run a separate thread that is on
@@ -30,7 +25,7 @@ public class SchedulePendingUserCleanup extends TimerTask {
 
 	private SchedulePendingUserCleanup() {
 		//will run every 24 hours
-		time.schedule(this, 1000 * 60 * 60 * 24, 1000 * 60 * 60 * 24);
+		time.schedule(this, 1000 * 60 * 60 * 24L, 1000 * 60 * 60 * 24L);
 	}
 
 	@Override

@@ -140,6 +140,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
       }
     }
 
+    console.log("In submit filter method");
     this.isFetching = true;
     this.associateService.fetchAssociateSnapshot(60, filter);
     this.listOfAssociates = [];

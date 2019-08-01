@@ -1,5 +1,7 @@
 package com.revature.test.utils;
 
+import static com.revature.utils.LogUtil.logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,7 +9,9 @@ import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import com.revature.test.pom.Login;
 import com.revature.utils.EnvManager;
@@ -23,7 +27,7 @@ public class WebDriverUtil {
 		try {
 			prop.load(locProps);
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.trace(e.getMessage(), e);
 		}
 	}
 
@@ -49,7 +53,10 @@ public class WebDriverUtil {
 			f1 = new File(prop.getProperty("chromeDriverMacPath"));
 		}
 		System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
-		chromeDriver = new ChromeDriver();
+		ChromeOptions options = new ChromeOptions();
+		options.setHeadless(true);
+		options.addArguments("window-size=1200,1100");
+		chromeDriver = new ChromeDriver(options);
 		return chromeDriver;
 	}
 	
@@ -61,11 +68,17 @@ public class WebDriverUtil {
 			//Currently don't have a Firefox for Mac driver, so fetches the chrome Mac path
 			f1 = new File(prop.getProperty("chromeDriverMacPath"));
 			System.setProperty("webdriver.chrome.driver", f1.getAbsolutePath());
-			chromeDriver = new ChromeDriver();
+			ChromeOptions options = new ChromeOptions();
+			options.setHeadless(true);
+			options.addArguments("window-size=1200,1100");
+			chromeDriver = new ChromeDriver(options);
 			return chromeDriver;
 		}
 		System.setProperty("webdriver.gecko.driver", f1.getAbsolutePath());
-		firefoxDriver = new FirefoxDriver();
+		FirefoxOptions options = new FirefoxOptions();
+		options.setHeadless(true);
+		options.addArguments("window-size=1200,1100");
+		firefoxDriver = new FirefoxDriver(options);
 		return firefoxDriver;
 	}
 

@@ -18,7 +18,7 @@
           <div [@enterAnimation] *ngIf="!loginClicked" (@enterAnimation.done)="onAnimationDone($event)">
             <img src="../../../assets/logo.png" class="img-fluid" alt="Background image" />
             <div *ngIf="errMsg" class="alert alert-danger">
-              <span [innerHTML]=errMsg></span>
+              <span id = "errorMsg"[innerHTML]=errMsg></span>
             </div>
 
             <div *ngIf="sucMsg" class="alert alert-success">
@@ -39,7 +39,7 @@
             <div *ngIf='!this.isRegistering; else elseBlockZero'>
               <button class="btn btn-lg btn-primary btn-block" type="submit" (click)='login()'>SIGN IN
               </button>
-              <button class="btn btn-lg btn-primary btn-block" type="button" (click)='register()'>REGISTER
+              <button id = "registerbtn"class="btn btn-lg btn-primary btn-block" type="button" (click)='register()'>REGISTER
               </button>
             </div>
           </div>
@@ -71,7 +71,7 @@
 
             </div>
 
-            <button [@enterAnimation] class="btn btn-lg btn-primary btn-block" type="submit" (click)='createUser()'>
+            <button [@enterAnimation] id= "registerbtn" class="btn btn-lg btn-primary btn-block" type="submit" (click)='createUser()'>
               REGISTER NEW USER
             </button>
 

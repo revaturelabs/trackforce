@@ -21,10 +21,15 @@ export class SprintReportsComponent implements OnInit {
   iterationLink : string;
   submitted : boolean;
   bucketName : string;
-  inputStartDate: string;
-  inputEndDate: string;
-  completedStoryPoints: number;
-  assignedStoryPoints: number;
+  inputStartDate : string;
+  inputEndDate : string;
+  completedStoryPoints : number;
+  assignedStoryPoints : number;
+  complete : boolean;
+  projectSelected : boolean;
+  incompleteAlert : boolean;
+  incorrectDateAlert : boolean;
+  incorrectStoryPointsAlert : boolean;
   
   constructor(private uploadService:UploadService) { }
 
@@ -45,25 +50,67 @@ export class SprintReportsComponent implements OnInit {
     this.fileList.push(event.target.files.item(0));
   }
 
+  removeFromFileList(file: File) {
+    let index = this.fileList.indexOf(file);
+    this.fileList.splice(index, 1);
+  }
+
   setProject(project: string) {
+    this.projectSelected = true;
     this.project = project;
+    this.validate();
   }
 
   createLink(iter: string) {
     this.iterationLink = "https://" + this.bucketName + ".s3.amazonaws.com/" + this.projectChoice + "/" + iter + "/index.html";
   }
 
+  validate() {
+    // if start date is after end date
+    if(this.getDuration() < 0) {
+      this.incorrectDateAlert = true;
+      this.incorrectStoryPointsAlert = false;
+      this.incompleteAlert = false;
+    // if completed story points are greater than assigned story points
+    } else if(this.completedStoryPoints > this.assignedStoryPoints) {
+      this.incorrectStoryPointsAlert = true;
+      this.incorrectDateAlert = false;
+      this.incompleteAlert = false;
+    // if all fieldds are completed
+    } else if (this.inputStartDate != undefined && this.inputStartDate != "" && 
+               this.inputEndDate != undefined && this.inputEndDate != "" && 
+               this.assignedStoryPoints != undefined  && this.assignedStoryPoints != null && 
+               this.completedStoryPoints != undefined  && this.completedStoryPoints != null && 
+               this.projectSelected && this.iteration != undefined && this.iteration != "") {
+      this.complete = true;
+      this.incorrectDateAlert = false;
+      this.incorrectStoryPointsAlert = false;
+      this.incompleteAlert= false;
+    // if all fields are not complete
+    } else {
+      this.incompleteAlert = true;
+      this.complete = false;
+      this.incorrectDateAlert = false;
+      this.incorrectStoryPointsAlert = false;
+    }
+  }
+
+  getDuration(): number {
+    let startDate = new Date(this.inputStartDate);
+    let endDate = new Date(this.inputEndDate);
+    let days = (endDate.getTime() - startDate.getTime()) / 1000 / 60 / 60 / 24;
+    return days;
+  }
+
   submit() {
     // send this.fileList, this.iteration, this.project, and this.index to S3 bucket
     this.submitted = true;
-    let startDate = new Date(this.inputStartDate);
-    let endDate = new Date(this.inputEndDate);
-    const days = (endDate.getTime() - startDate.getTime()) / 1000 / 60 / 60 / 24;
+    let days = this.getDuration();
     this.index = new File(
       [`
       <html>
         <head>
-          <title>${this.iteration}</title>
+          <title>Sprint Report - ${this.iteration}</title>
         </head>
         <body>
           <h1>Sprint Metrics:</h1>

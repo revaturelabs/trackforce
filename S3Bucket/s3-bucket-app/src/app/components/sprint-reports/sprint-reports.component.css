@@ -29,3 +29,30 @@
     margin-bottom: 100px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.35);
   }
+
+  #remove {
+    cursor: pointer;
+  }
+
+  #header {
+    color:  rgb(242, 106, 37);
+    font-weight: 500;
+    letter-spacing: -5px;
+  }
+
+  #bucket {
+    color: black;
+  }
+
+  #iteration {
+    color: rgb(242, 106, 37);
+  }
+
+  .list-group-item.active, .btn {
+    background-color: rgb(242, 106, 37);
+    color: white;
+  }
+
+  h5 {
+    color: rgb(242, 106, 37);
+  }

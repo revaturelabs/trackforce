@@ -11,40 +11,65 @@ import { FnParam } from '@angular/compiler/src/output/output_ast';
 
 export class SprintReportsComponent implements OnInit {
 
+  // View reports
   projectList : Observable<Array<string>>;
-  projectChoice : string;
-  fileList : File[];
-  index : File;
-  iteration : string;
-  iterationList: Observable<Array<string>>;
-  project : string;
+  iterationList : Observable<Array<string>>;
   iterationLink : string;
-  submitted : boolean;
   bucketName : string;
+
+  // Upload reports
+  fileList : File[];
+  indexFile : File;
+  projectChoice : string;
+  iteration : string;
+  project : string;
+
+  // Upload validations
   inputStartDate : string;
   inputEndDate : string;
   completedStoryPoints : number;
   assignedStoryPoints : number;
+  submitted : boolean;
   complete : boolean;
   projectSelected : boolean;
   incompleteAlert : boolean;
   incorrectDateAlert : boolean;
   incorrectStoryPointsAlert : boolean;
+
+  // Edit reports
+  iterationListEdit : Observable<Array<string>>;
+  fileListEdit : File[];
+  iterationChoice : string;
+
+  // Edit validations
+  submittedEdit : boolean;
+  completeEdit : boolean;
   
   constructor(private uploadService:UploadService) { }
 
   ngOnInit() {
     this.projectList = this.uploadService.getProjectList();
+    this.iterationListEdit = this.uploadService.getAllProjectSprints();
     this.fileList = [];
+    this.fileListEdit = [];
     this.project = "";
-    this.submitted = false;
+    this.iterationChoice = "";
     this.bucketName = "ccoverage"; // temp
   }
+
+  // View Report methods
 
   showIterations(value : string) {
     this.projectChoice = value;
     this.iterationList = this.uploadService.getProjectSprints(value);
   }
+
+  createLink(iter: string) {
+    this.iterationLink = "https://" + this.bucketName + ".s3.amazonaws.com/" + this.projectChoice + "/" + iter + "/index.html";
+  }
+
+
+  // Upload Report methods 
 
   selectFiles(event) {
     this.fileList.push(event.target.files.item(0));
@@ -59,10 +84,6 @@ export class SprintReportsComponent implements OnInit {
     this.projectSelected = true;
     this.project = project;
     this.validate();
-  }
-
-  createLink(iter: string) {
-    this.iterationLink = "https://" + this.bucketName + ".s3.amazonaws.com/" + this.projectChoice + "/" + iter + "/index.html";
   }
 
   validate() {
@@ -106,7 +127,7 @@ export class SprintReportsComponent implements OnInit {
     // send this.fileList, this.iteration, this.project, and this.index to S3 bucket
     this.submitted = true;
     let days = this.getDuration();
-    this.index = new File(
+    this.indexFile = new File(
       [`
       <html>
         <head>
@@ -131,7 +152,7 @@ export class SprintReportsComponent implements OnInit {
     this.fileList.forEach(function(file){
       uservice.uploadReport(file, proj, iter+"/report/"+ file.name)
     });
-      this.uploadService.uploadReport(this.index, this.project, this.iteration+"/index.html")
+      this.uploadService.uploadReport(this.indexFile, this.project, this.iteration+"/index.html")
     setTimeout( () => {
       this.resetValues();
     }, 2000);
@@ -148,4 +169,36 @@ export class SprintReportsComponent implements OnInit {
     this.completedStoryPoints = undefined;
   }
 
+  // Edit Reports methods
+
+  setIteration(iter: string) {
+    this.iterationChoice = iter;
+  }
+
+  selectFilesEdit(event) {
+    this.fileListEdit.push(event.target.files.item(0));
+  }
+
+  removeFromFileListEdit(file: File) {
+    let index = this.fileListEdit.indexOf(file);
+    this.fileListEdit.splice(index, 1);
+  }
+
+  validateEdit() {
+    console.log(this.fileListEdit.length);
+    // TODO: validate that there is at least one file in filelist, even after delete
+    if (this.iterationChoice != undefined) {
+      this.completeEdit = true;
+    } else {
+      this.completeEdit = false;
+    }
+  }
+
+  submitEdit() {
+    this.submittedEdit = true;
+  }
+
+  resetValuesEdit() {
+    this.submittedEdit = false;
+  }
 }

@@ -63,6 +63,7 @@ export class UploadService {
 
     return observableOf(projects);
   }
+
   getProjectSprints(project:string):Observable<Array<string>>{
     console.log(project);
     const sprints = new Array<string>();
@@ -84,6 +85,38 @@ export class UploadService {
         sprints.push(file.Prefix.replace(project+"/","").replace("/",""))
       });
     });
+
+    return observableOf(sprints);
+
+  }
+
+  getAllProjectSprints():Observable<Array<string>>{
+
+    const sprints = new Array<string>();
+
+    // find a way to retrieve a string array of projects
+    let projectList = ["Trackforce", "Rideforce", "SMS", "CMS"];
+
+    for(let project of projectList) {
+      const params = {
+        Bucket: this.bucketARN,
+        Prefix: project+'/',
+        Delimiter: '/'
+      };
+  
+      this.bucket.listObjects(params, function (err, data) {
+        if (err) {
+          console.log('There was an error getting your files: ' + err);
+          return;
+        }
+  
+        console.log('Successfully get files.', data);
+  
+        data.CommonPrefixes.forEach(function (file) {
+          sprints.push(file.Prefix.replace(project+"/","").replace("/",""))
+        });
+      });
+    }
 
     return observableOf(sprints);
 

@@ -8,36 +8,47 @@
   </div>
   <div class="row">
     <div class="col-md-8">
-      <div class="white">
-        <canvas baseChart 
-          class="chart chart-bar" 
-          id="the_graph" 
-          *ngIf="clientDeployedData && clientDeployedData.length && clientDeployedLabels && clientDeployedLabels.length"
-          [data]="clientDeployedData" 
-          [labels]="clientDeployedLabels" 
-          [chartType]="chartType" 
-          [options]="chartOptions" 
-          [colors]="mappedColors"
-          >
-        </canvas>
+        <div class="card border-info text-center">
+            <h5 class="card-header"></h5>
+              <div class="card-body">
+                <div class="white">
+                  <canvas baseChart 
+                    class="chart chart-bar" 
+                    id="the_graph" 
+                    *ngIf="clientDeployedData && clientDeployedData.length && clientDeployedLabels && clientDeployedLabels.length"
+                    [data]="clientDeployedData" 
+                    [labels]="clientDeployedLabels" 
+                    [chartType]="chartType" 
+                    [options]="chartOptions" 
+                    [colors]="mappedColors"
+                    >
+                  </canvas>
+                </div>
+              </div>
+            </div>
       </div>
-    </div>
   </div>
 
   <div class="row">
     <div class="col-md-8">
-      <div class="white">
-        <canvas baseChart 
-          id="pie" 
-          class="chart chart-pie" 
-          [data]="deployedData" 
-          [colors]="mappedColors" 
-          [chartType]="deployedChartType"
-          [options]="deployedOptions" 
-          [labels]="deployedLabels" 
-          (chartClick)="deployedOnClick($event)">
-        </canvas>
+        <div class="col-md-2"></div>
+        <div class="card border-info text-center">
+            <h5 class="card-header">Mapped vs Unmapped Associates (Deployed)</h5>
+              <div class="card-body">
+                <div class="white">
+                  <canvas baseChart 
+                    id="pie" 
+                    class="chart chart-pie" 
+                    [data]="deployedData" 
+                    [colors]="mappedColors" 
+                    [chartType]="deployedChartType"
+                    [options]="deployedOptions" 
+                    [labels]="deployedLabels" 
+                    (chartClick)="deployedOnClick($event)">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
-    </div>
   </div>
-</div>

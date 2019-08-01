@@ -1,4 +1,4 @@
-// This file will be used instead of environment.ts when you use the 
+// This file will be used instead of environment.ts when you use the
 // command: ng serve --configuration=local
 // This is intended to be used when testing the application and both the frontend+backend are running
 // on the local machine.

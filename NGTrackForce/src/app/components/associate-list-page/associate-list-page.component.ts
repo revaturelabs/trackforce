@@ -102,7 +102,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
       const thingy = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
       if (thingy.role === 2){
         let x: number;
-        let y: Array<any>;
+        let y: Associate[] = [];
         const otherThingy = JSON.parse(this.lsHelp.localStorageItem("currentTrainer"));
         for (x = 0; x < this.listOfAssociates.length; x++){
           if (this.listOfAssociates[x].batch.trainer.id === otherThingy.id){

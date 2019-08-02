@@ -10,8 +10,8 @@ import { UploadService } from 'src/app/service/upload.service';
 export class ViewReportsComponent implements OnInit {
 
   @Input() bucketName: string;
+  @Input() projectList: Observable<Array<string>>;
   projectChoice: string;
-  projectList: Observable<Array<string>>;
   iterationList: Observable<Array<string>>;
   iterationLink: string;
   iterationViewShow = false;
@@ -19,7 +19,6 @@ export class ViewReportsComponent implements OnInit {
   constructor(private uploadService: UploadService) { }
 
   ngOnInit() {
-    this.projectList = this.uploadService.getProjectList();
   }
 
   createLink(iter: string) {

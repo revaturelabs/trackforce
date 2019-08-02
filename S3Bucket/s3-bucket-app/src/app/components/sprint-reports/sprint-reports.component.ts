@@ -13,6 +13,7 @@ export class SprintReportsComponent implements OnInit {
 
   // View reports
   bucketName: string;
+  projectList: Observable<Array<string>>;
 
   // Upload reports
   fileList: File[];
@@ -48,6 +49,7 @@ export class SprintReportsComponent implements OnInit {
   constructor(private uploadService: UploadService) { }
 
   ngOnInit() {
+    this.projectList = this.uploadService.getProjectList();
     this.fileList = [];
     this.fileListEdit = [];
     this.project = '';
@@ -139,7 +141,7 @@ export class SprintReportsComponent implements OnInit {
     const proj = this.project;
     const iter = this.iteration;
     const uservice = this.uploadService;
-    this.fileList.forEach(function (file) {
+    this.fileList.forEach((file) => {
       uservice.uploadReport(file, proj, iter + '/report/' + file.name);
     });
     this.uploadService.uploadReport(this.indexFile, this.project, this.iteration + '/index.html')
@@ -181,7 +183,7 @@ export class SprintReportsComponent implements OnInit {
   }
 
   removeFile(file: string) {
-    this.filesEdit = this.filesEdit.filter(function (value) {
+    this.filesEdit = this.filesEdit.filter((value) => {
 
       return value != file;
 

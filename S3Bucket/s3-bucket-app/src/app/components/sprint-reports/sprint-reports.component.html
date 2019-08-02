@@ -28,7 +28,7 @@
 
     <div class="tab-content">
       <div class="tab-pane fade show active" id="view-reports">
-        <app-view-reports [bucketName]='bucketName'></app-view-reports>
+        <app-view-reports [bucketName]='bucketName' [projectList]='projectList'></app-view-reports>
       </div>
 
       <div (change)="validate()" class="tab-pane fade" id="upload-reports">

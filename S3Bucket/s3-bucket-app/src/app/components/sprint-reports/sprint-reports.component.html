@@ -28,35 +28,7 @@
 
     <div class="tab-content">
       <div class="tab-pane fade show active" id="view-reports">
-        <div class="row mt-3">
-          <div class="col ml-auto">
-            <div class="list-group">
-              <label for="lblSelectProject">Select a Project</label>
-              <select id="projectChoice" class="form-control" [(ngModel)]="projectChoice" name="projectChoice"
-                (change)=showIterations()>
-                <option *ngFor="let project of projectList | async" [value]="project">{{project}}</option>
-              </select>
-            </div>
-          </div>
-          <div class="col mr-auto">
-            <h4 *ngIf="iterationList != undefined">Iterations</h4>
-            <div *ngFor="let iter of iterationList | async">
-              <div class="panel-body">
-                <a [href]=iterationLink target="blank" (click)="createLink(iter)">{{iter}}</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div *ngIf="this.iterationViewShow" id="iterationView" class="row mt-3">
-          <!-- iframe -->
-          <p>{{iterationLink}}</p>
-          <div class="embed-responsive embed-responsive-16by9">
-            <iframe title="itaretion" class="embed-responsive-item"
-              src="https://ccoverage.s3.amazonaws.com/Rideforce/JSTEST4/index.html"></iframe>
-          </div>
-        </div>
-
+        <app-view-reports [bucketName]='bucketName'></app-view-reports>
       </div>
 
       <div (change)="validate()" class="tab-pane fade" id="upload-reports">
@@ -146,59 +118,63 @@
       </div>
 
       <div class="tab-pane fade" id="edit-reports">
-          <div class="row mt-4" (change)="validateEdit()">
-            <div class="col-3">
-              <h4 class="mt-1 text-center">Add Files: </h4>
-            </div>
-            <div class="col">
-              <div class="input-group">
-                  <div class="input-group-prepend">
-                      <button class="btn btn-outline-secondary dropdown-toggle" style="width:100px;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Project</button>
-                      <div class="dropdown-menu">
-                        <div *ngFor="let project of projectList | async">
-                          <p class="dropdown-item" (click)="setProjectEdit(project)"> {{ project }}</p>
-                        </div>
-                      </div>
+        <div class="row mt-4" (change)="validateEdit()">
+          <div class="col-3">
+            <h4 class="mt-1 text-center">Add Files: </h4>
+          </div>
+          <div class="col">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary dropdown-toggle" style="width:100px;" type="button"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Project</button>
+                <div class="dropdown-menu">
+                  <div *ngFor="let project of projectList | async">
+                    <p class="dropdown-item" (click)="setProjectEdit(project)"> {{ project }}</p>
                   </div>
-                <div class="input-group-prepend ml-2">
-                    <button class="btn btn-outline-secondary dropdown-toggle" style="width:100px;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Iterations</button>
-                    <div class="dropdown-menu">
-                      <div *ngFor="let iter of iterationListEdit | async">
-                        <p class="dropdown-item" (click)="setIteration(iter)"> {{ iter }}</p>
-                      </div>
-                    </div>
                 </div>
-                <div class="input-group-append ml-2">
-
-                  <button class="btn btn-secondary" type="button" (click)="submitEdit()" [disabled]="!iterationChoice && !filesEdit">Submit</button>
-                </div>
-
               </div>
+              <div class="input-group-prepend ml-2">
+                <button class="btn btn-outline-secondary dropdown-toggle" style="width:100px;" type="button"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Iterations</button>
+                <div class="dropdown-menu">
+                  <div *ngFor="let iter of iterationListEdit | async">
+                    <p class="dropdown-item" (click)="setIteration(iter)"> {{ iter }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="input-group-append ml-2">
+
+                <button class="btn btn-secondary" type="button" (click)="submitEdit()"
+                  [disabled]="!iterationChoice && !filesEdit">Submit</button>
+              </div>
+
             </div>
           </div>
-          <div class="row">
-            <ng-container *ngIf="!submittedEdit">
-             <div class="col mx-auto mt-3" *ngIf="projectEdit">
-                <h5>Project:</h5> {{ projectEdit }}
+        </div>
+        <div class="row">
+          <ng-container *ngIf="!submittedEdit">
+            <div class="col mx-auto mt-3" *ngIf="projectEdit">
+              <h5>Project:</h5> {{ projectEdit }}
+            </div>
+            <div class="col mx-auto mt-3" *ngIf="iterationChoice != ''">
+              <h5>Iteration:</h5> {{ iterationChoice }}
+            </div>
+            <div class="col-9 mx-auto mt-3" *ngIf="filesEdit">
+              <h5>Files:</h5>
+              <div *ngFor="let file of filesEdit">
+                <b>Name:</b> {{ file }} <p class="badge badge-danger ml-2" id="remove" title="Remove"
+                  (click)="removeFile(file)">X</p>
               </div>
-              <div class="col mx-auto mt-3" *ngIf="iterationChoice != ''">
-                <h5>Iteration:</h5> {{ iterationChoice }}
+              <div>
+                <span class="badge badge-success ml-2 btn-file">
+                  + <input type="file" (change)="addFile($event)">
+                </span>
               </div>
-              <div class="col-9 mx-auto mt-3" *ngIf="filesEdit">
-                <h5>Files:</h5> 
-                <div *ngFor="let file of filesEdit">
-                  <b>Name:</b> {{ file }} <p class="badge badge-danger ml-2" id="remove" title="Remove" (click)="removeFile(file)">X</p>
-                </div>
-                <div>
-                    <span class="badge badge-success ml-2 btn-file">
-                        + <input type="file" (change)="addFile($event)">
-                    </span>
-              </div>
-              </div>
-            </ng-container>
-            <ng-container *ngIf="submittedEdit">
-              <div class="alert alert-success mx-auto mt-3 text-center" role="alert">
-                Sprint report has been successfully submitted.
+            </div>
+          </ng-container>
+          <ng-container *ngIf="submittedEdit">
+            <div class="alert alert-success mx-auto mt-3 text-center" role="alert">
+              Sprint report has been successfully submitted.
             </div>
           </ng-container>
         </div>

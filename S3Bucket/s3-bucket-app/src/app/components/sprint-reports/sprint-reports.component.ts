@@ -12,16 +12,12 @@ import { FnParam } from '@angular/compiler/src/output/output_ast';
 export class SprintReportsComponent implements OnInit {
 
   // View reports
-  projectList : Observable<Array<string>>;
-  iterationList : Observable<Array<string>>;
-  iterationLink : string;
   bucketName : string;
 
   // Upload reports
   fileList : File[];
   indexFile : File;
   jsFile: File;
-  projectChoice : string;
   iteration : string;
   project : string;
 
@@ -49,27 +45,15 @@ export class SprintReportsComponent implements OnInit {
   submittedEdit : boolean;
   completeEdit : boolean;
 
-  constructor(private uploadService:UploadService) { }
+  constructor(private uploadService: UploadService) { }
 
   ngOnInit() {
-    this.projectList = this.uploadService.getProjectList();
     this.fileList = [];
     this.fileListEdit = [];
-    this.project = "";
-    this.iterationChoice = "";
-    this.bucketName = "ccoverage"; // temp
+    this.project = '';
+    this.iterationChoice = '';
+    this.bucketName = 'ccoverage'; // temp
   }
-
-  // View Report methods
-  showIterations( ) {
-    this.iterationList = this.uploadService.getProjectSprints(this.projectChoice);
-  }
-
-  createLink(iter: string) {
-    this.iterationViewShow = true;
-    this.iterationLink = "https://" + this.bucketName + ".s3.amazonaws.com/" + this.projectChoice + "/" + iter + "/index.html";
-  }
-
 
   // Upload Report methods
 
@@ -199,12 +183,12 @@ export class SprintReportsComponent implements OnInit {
     this.filesEdit= this.filesEdit.filter(function(value){
 
       return value != file;
-  
+
     });
     this.uploadService.deleteFiles(this.projectEdit, this.iterationChoice, file);
   }
 
-  
+
   validateEdit() {
     console.log(this.fileListEdit.length);
     // TODO: validate that there is at least one file in filelist, even after delete

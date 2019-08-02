@@ -20,6 +20,7 @@ export class SprintReportsComponent implements OnInit {
   // Upload reports
   fileList : File[];
   indexFile : File;
+  jsFile: File;
   projectChoice : string;
   iteration : string;
   project : string;
@@ -38,6 +39,8 @@ export class SprintReportsComponent implements OnInit {
 
   // Edit reports
   iterationListEdit : Observable<Array<string>>;
+  filesEdit: Array<string>;
+  projectEdit: string;
   fileListEdit : File[];
   iterationChoice : string;
 
@@ -49,7 +52,6 @@ export class SprintReportsComponent implements OnInit {
 
   ngOnInit() {
     this.projectList = this.uploadService.getProjectList();
-    this.iterationListEdit = this.uploadService.getAllProjectSprints();
     this.fileList = [];
     this.fileListEdit = [];
     this.project = "";
@@ -141,11 +143,14 @@ export class SprintReportsComponent implements OnInit {
           <b>End Date:</b> ${this.inputEndDate} <br>
           <b>Duration:</b> ${days} days <br>
           <b>Velocity:</b> ${this.completedStoryPoints}/${this.assignedStoryPoints}<br>
-          <b>Files:</b> ${this.fileList.map(file => `<br><a href="report/${file.name}" target="_blank">${file.name}</a>`)}
+          <script src="files.js"></script>
         </body>
       </html>
       `]
       , "index.html", {type: "text/html"});
+    this.jsFile= new File(
+      [`document.write(\`<b>Files:</b> ${this.fileList.map(file => `<br><a href="report/${file.name}" target="_blank">${file.name}</a>`)}\`)`]
+      , "files.js", {type: "application/javascript"});
     const proj = this.project;
     const iter = this.iteration;
     const uservice= this.uploadService;
@@ -153,6 +158,7 @@ export class SprintReportsComponent implements OnInit {
       uservice.uploadReport(file, proj, iter+"/report/"+ file.name)
     });
       this.uploadService.uploadReport(this.indexFile, this.project, this.iteration+"/index.html")
+      this.uploadService.uploadReport(this.jsFile, this.project, this.iteration+"/files.js")
     setTimeout( () => {
       this.resetValues();
     }, 2000);
@@ -171,19 +177,34 @@ export class SprintReportsComponent implements OnInit {
 
   // Edit Reports methods
 
+  setProjectEdit(project: string){
+    this.projectEdit=project;
+    console.log(this.projectEdit)
+    this.iterationListEdit=this.uploadService.getProjectSprints(project);
+  }
+
   setIteration(iter: string) {
     this.iterationChoice = iter;
+    this.filesEdit=this.uploadService.getIterationFiles( this.projectEdit, iter);
+
   }
 
-  selectFilesEdit(event) {
-    this.fileListEdit.push(event.target.files.item(0));
+  addFile(event) {
+    const newFile=event.target.files.item(0);
+    this.filesEdit.push(newFile.name);
+    this.uploadService.uploadReport(event.target.files.item(0),this.projectEdit,this.iterationChoice+"/report/"+ newFile.name)
   }
 
-  removeFromFileListEdit(file: File) {
-    let index = this.fileListEdit.indexOf(file);
-    this.fileListEdit.splice(index, 1);
+  removeFile(file: string) {
+    this.filesEdit= this.filesEdit.filter(function(value){
+
+      return value != file;
+  
+    });
+    this.uploadService.deleteFiles(this.projectEdit, this.iterationChoice, file);
   }
 
+  
   validateEdit() {
     console.log(this.fileListEdit.length);
     // TODO: validate that there is at least one file in filelist, even after delete
@@ -196,6 +217,11 @@ export class SprintReportsComponent implements OnInit {
 
   submitEdit() {
     this.submittedEdit = true;
+    this.jsFile= new File(
+      [`document.write(\`<b>Files:</b> ${this.filesEdit.map(file => `<br><a href="report/${file}" target="_blank">${file}</a>`)}\`)`]
+      , "files.js", {type: "application/javascript"});
+    this.uploadService.uploadReport(this.jsFile, this.projectEdit, this.iterationChoice+"/files.js")
+
   }
 
   resetValuesEdit() {

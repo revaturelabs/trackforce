@@ -90,36 +90,51 @@ export class UploadService {
 
   }
 
-  getAllProjectSprints():Observable<Array<string>>{
+  getIterationFiles(project:string, iter:string):Array<string>{
+    const files = new Array<string>();
+    const prefix = project+'/'+iter+'/report/'
+    const params = {
+      Bucket: this.bucketARN,
+      Prefix: prefix
+    };
 
-    const sprints = new Array<string>();
+    this.bucket.listObjects(params, function (err, data) {
+      if (err) {
+        console.log('There was an error getting your files: ' + err);
+        return;
+      }
 
-    // find a way to retrieve a string array of projects
-    let projectList = ["Trackforce", "Rideforce", "SMS", "CMS"];
+      console.log('Successfully get files.', data);
 
-    for(let project of projectList) {
-      const params = {
-        Bucket: this.bucketARN,
-        Prefix: project+'/',
-        Delimiter: '/'
-      };
-  
-      this.bucket.listObjects(params, function (err, data) {
-        if (err) {
-          console.log('There was an error getting your files: ' + err);
-          return;
-        }
-  
-        console.log('Successfully get files.', data);
-  
-        data.CommonPrefixes.forEach(function (file) {
-          sprints.push(file.Prefix.replace(project+"/","").replace("/",""))
-        });
+      data.Contents.forEach(function (file) {
+        files.push(file.Key.replace(prefix,""))
+        console.log(file.Key.replace(prefix,""))
       });
-    }
-
-    return observableOf(sprints);
-
+    });
+    
+    return files;
   }
+
+  deleteFiles(project:string, iter:string, filename:string){
+    const key = project+'/'+iter+'/report/'+filename;
+
+    const params = {
+      Bucket: this.bucketARN,
+      Key: key
+    };
+
+    this.bucket.deleteObject(params, function (err, data) {
+      if (err) {
+        console.log('There was an error getting your files: ' + err);
+        return;
+      }
+
+      console.log('Successfully deleted file.', data);
+    });
+  }
+
+
+
+
 }
 

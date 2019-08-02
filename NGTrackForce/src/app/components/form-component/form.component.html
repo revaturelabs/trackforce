@@ -85,6 +85,9 @@
             <tr>
               <td>Start Date</td>
               <td><input type="date" class="form-control" name="date" [(ngModel)]="newStartDate" /></td>
+              <div class="alert alert-danger" *ngIf="newStartDateIncorrect">
+                <h6 class="text-danger">Start date must be after batch start date!</h6>
+              </div>
             </tr>
           </table>
         </div>

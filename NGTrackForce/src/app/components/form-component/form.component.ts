@@ -59,6 +59,7 @@ export class FormComponent implements OnInit {
   receivedEmailFromClient: boolean;
   passedBackgroundCheck: boolean;
   hasStartDate: boolean;
+  newStartDateIncorrect: boolean;
   public isDataReady = false;
 
   //loading booleans
@@ -278,6 +279,12 @@ export class FormComponent implements OnInit {
    */
   updateAssociate() {
     this._displayFormStatus(FormStatus.WAIT, StatusProp.UPDATE, StatusClass.UPDATE_CLASS);
+    // checks date to ensure start date is not before batch start.
+    if (new Date(this.associate.batch.startDate).getTime() >= (new Date(this.newStartDate)).getTime()) {
+      console.log('Problem with start date. Returning.')
+      this.newStartDateIncorrect = true;
+      return;
+    }
     this.clientService.getAllClients().subscribe(
       clients => {
         // the select element holds the numbers in string format so loose equality is required here

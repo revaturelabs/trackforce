@@ -40,6 +40,7 @@ export class SprintReportsComponent implements OnInit {
   iterationListEdit : Observable<Array<string>>;
   fileListEdit : File[];
   iterationChoice : string;
+  iterationViewShow = false;
 
   // Edit validations
   submittedEdit : boolean;
@@ -63,6 +64,7 @@ export class SprintReportsComponent implements OnInit {
   }
 
   createLink(iter: string) {
+    this.iterationViewShow = true;
     this.iterationLink = "https://" + this.bucketName + ".s3.amazonaws.com/" + this.projectChoice + "/" + iter + "/index.html";
   }
 

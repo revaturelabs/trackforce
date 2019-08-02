@@ -28,9 +28,9 @@ export class BatchService {
     */
     public getBatchesWithinDates(startDate: Date,endDate: Date): Observable<Batch[]> {
         const url = this.baseURL + '/withindates' + `/?start=${startDate.getTime()}&end=${endDate.getTime()}`;
-        let key: string = LocalStorageUtils.CACHE_BATCHES_WITHIN_DATES 
+        const key: string = LocalStorageUtils.CACHE_BATCHES_WITHIN_DATES
             + "|" + startDate.toDateString() + "|" + endDate.toDateString()
-        let batches: BehaviorSubject<Batch[]>  = new BehaviorSubject<Batch[]>([])
+        const batches: BehaviorSubject<Batch[]>  = new BehaviorSubject<Batch[]>([])
 
         // if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
             this.http.get<Batch[]>(url).subscribe(
@@ -78,7 +78,7 @@ export class BatchService {
     */
     public getBatchDetails(
         startDate: Date,
-        endDate: Date, 
+        endDate: Date,
         CourseName: string
     ): Observable<Object> {
         const url =

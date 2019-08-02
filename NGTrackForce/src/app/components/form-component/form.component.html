@@ -144,7 +144,11 @@
   <!-- Interview Row -->
   <div class="row">
     <div class="col-md-12">
-      <h3>Interviews</h3>
+      <h3>Interviews
+        <span *ngIf="!interviewsLoading && interviews.length != 0">
+        ({{ interviews.length }})
+        </span>
+      </h3>
       <div class="table-div">
         <table class="table table-striped table-responsive table-hover table borderless scrollable-table col-5-table">
           <thead>

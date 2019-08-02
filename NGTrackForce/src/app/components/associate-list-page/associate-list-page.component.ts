@@ -90,6 +90,9 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
       if (Array.isArray(data) && data.length !== 0) {
         this.isFetching = false;
         this.listOfAssociates = this.listOfAssociates.concat(data);
+        this.listOfAssociates.sort((a,b) => 
+        (a.lastName+a.firstName).localeCompare((b.lastName+a.firstName))
+        );
       }
     },
       error => console.error('Error in associate-list-page.component.ts ngOnInit(): ', error.message)

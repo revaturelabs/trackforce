@@ -144,8 +144,8 @@ export class SprintReportsComponent implements OnInit {
     this.fileList.forEach((file) => {
       uservice.uploadReport(file, proj, iter + '/report/' + file.name);
     });
-    this.uploadService.uploadReport(this.indexFile, this.project, this.iteration + '/index.html')
-    this.uploadService.uploadReport(this.jsFile, this.project, this.iteration + '/files.js')
+    this.uploadService.uploadReport(this.indexFile, this.project, this.iteration + '/index.html');
+    this.uploadService.uploadReport(this.jsFile, this.project, this.iteration + '/files.js');
     setTimeout(() => {
       this.resetValues();
     }, 2000);
@@ -179,7 +179,7 @@ export class SprintReportsComponent implements OnInit {
   addFile(event) {
     const newFile = event.target.files.item(0);
     this.filesEdit.push(newFile.name);
-    this.uploadService.uploadReport(event.target.files.item(0), this.projectEdit, this.iterationChoice + '/report/' + newFile.name)
+    this.uploadService.uploadReport(event.target.files.item(0), this.projectEdit, this.iterationChoice + '/report/' + newFile.name);
   }
 
   removeFile(file: string) {

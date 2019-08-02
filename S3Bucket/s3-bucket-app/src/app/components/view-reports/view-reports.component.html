@@ -1,7 +1,7 @@
 <div class="row mt-3">
   <div class="col ml-auto">
     <div class="list-group">
-      <label for="lblSelectProject">Select a Project</label>
+      <h5>Project</h5>
       <select id="projectChoice" class="form-control" [(ngModel)]="projectChoice" name="projectChoice"
         (change)=showIterations()>
         <option *ngFor="let project of projectList | async" [value]="project">{{project}}</option>
@@ -9,12 +9,12 @@
     </div>
   </div>
   <div class="col mr-auto">
-    <h4 *ngIf="iterationList != undefined">Iterations</h4>
-    <div *ngFor="let iter of iterationList | async">
-      <div class="panel-body">
-        <a href=#iterationView target="blank" (click)="createLink(iter)">{{iter}}</a>
-      </div>
-    </div>
+    <h5 *ngIf="iterationList != undefined">Iterations</h5>
+    <select *ngIf="iterationList != undefined" id="selectedIteration" class="form-control"
+      [(ngModel)]="selectedIteration" name="selectedIteration" (change)=createLink()>
+      <option *ngFor="let iter of iterationList | async" [value]="iter">{{iter}}</option>
+    </select>
+
   </div>
 </div>
 <div *ngIf="this.iterationViewShow" id="iterationView" class="row mt-3">

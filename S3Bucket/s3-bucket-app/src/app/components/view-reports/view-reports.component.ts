@@ -25,6 +25,7 @@ export class ViewReportsComponent implements OnInit {
   projectChoice: string;
   iterationList: Observable<Array<string>>;
   iterationLink: string;
+  selectedIteration: string;
   iterationViewShow = false;
 
   constructor(private uploadService: UploadService) { }
@@ -32,9 +33,10 @@ export class ViewReportsComponent implements OnInit {
   ngOnInit() {
   }
 
-  createLink(iter: string) {
+  createLink() {
     this.iterationViewShow = true;
-    this.iterationLink = 'https://' + this.bucketName + '.s3.amazonaws.com/' + this.projectChoice + '/' + iter + '/index.html';
+    // tslint:disable-next-line: max-line-length
+    this.iterationLink = 'https://' + this.bucketName + '.s3.amazonaws.com/' + this.projectChoice + '/' + this.selectedIteration + '/index.html';
   }
 
   showIterations() {

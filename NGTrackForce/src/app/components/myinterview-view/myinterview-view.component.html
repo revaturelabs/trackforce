@@ -34,15 +34,19 @@
               <input type="time" 
                 class="form-control" name="startTime" id="inputTime" formControlName="interviewTime"
                 placeholder="hh:mm">
+              <label for="jobDesc">Job Description:</label>
+              <input type="text" 
+                class="form-control" name="jobDesc" id="jobDesc" formControlName="jobDesc"
+                placeholder="Enter the job description here!">
               <span *ngIf="addInterviewForm.get('interviewDate').touched"
                class="help-block"
-               id="interviewDateHelpText">Enter a Date of the form "mm/dd/yyyy" for date 
-                and "hh:mm (AM|PM)" for time.
+               id="interviewDateHelpText"> <h6>Enter a Date of the form "mm/dd/yyyy" for date 
+                  and "hh:mm (AM|PM)" for time.</h6>
               </span>
             </div>
             <br><br>
-            <label class="control-label col-sm-1">24 hour notice?</label>
-            <input title="Were you given 24-hr notice for the interview?"
+            <label class="control-label col-sm-1">Received 24-hour notice?</label>
+            <input title="24 hour notice?"
             type="checkbox" name="24hournotice" formControlName="was24HRNotice">
         </div>
         <br><br><br>

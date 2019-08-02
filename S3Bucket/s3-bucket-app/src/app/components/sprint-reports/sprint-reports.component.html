@@ -42,7 +42,7 @@
             <h4 *ngIf="iterationList != undefined">Iterations</h4>
             <div *ngFor="let iter of iterationList | async">
               <div class="panel-body">
-                <a href="#iterationView" target="blank" (click)="createLink(iter)">{{iter}}</a>
+                <a [href]=iterationLink target="blank" (click)="createLink(iter)">{{iter}}</a>
               </div>
             </div>
           </div>

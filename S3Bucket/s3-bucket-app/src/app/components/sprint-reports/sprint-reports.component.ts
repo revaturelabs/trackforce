@@ -12,38 +12,38 @@ import { FnParam } from '@angular/compiler/src/output/output_ast';
 export class SprintReportsComponent implements OnInit {
 
   // View reports
-  bucketName : string;
+  bucketName: string;
 
   // Upload reports
-  fileList : File[];
-  indexFile : File;
+  fileList: File[];
+  indexFile: File;
   jsFile: File;
-  iteration : string;
-  project : string;
+  iteration: string;
+  project: string;
 
   // Upload validations
-  inputStartDate : string;
-  inputEndDate : string;
-  completedStoryPoints : number;
-  assignedStoryPoints : number;
-  submitted : boolean;
-  complete : boolean;
-  projectSelected : boolean;
-  incompleteAlert : boolean;
-  incorrectDateAlert : boolean;
-  incorrectStoryPointsAlert : boolean;
+  inputStartDate: string;
+  inputEndDate: string;
+  completedStoryPoints: number;
+  assignedStoryPoints: number;
+  submitted: boolean;
+  complete: boolean;
+  projectSelected: boolean;
+  incompleteAlert: boolean;
+  incorrectDateAlert: boolean;
+  incorrectStoryPointsAlert: boolean;
 
   // Edit reports
-  iterationListEdit : Observable<Array<string>>;
+  iterationListEdit: Observable<Array<string>>;
   filesEdit: Array<string>;
   projectEdit: string;
-  fileListEdit : File[];
-  iterationChoice : string;
+  fileListEdit: File[];
+  iterationChoice: string;
   iterationViewShow = false;
 
   // Edit validations
-  submittedEdit : boolean;
-  completeEdit : boolean;
+  submittedEdit: boolean;
+  completeEdit: boolean;
 
   constructor(private uploadService: UploadService) { }
 
@@ -62,7 +62,7 @@ export class SprintReportsComponent implements OnInit {
   }
 
   removeFromFileList(file: File) {
-    let index = this.fileList.indexOf(file);
+    const index = this.fileList.indexOf(file);
     this.fileList.splice(index, 1);
   }
 
@@ -74,26 +74,26 @@ export class SprintReportsComponent implements OnInit {
 
   validate() {
     // if start date is after end date
-    if(this.getDuration() < 0) {
+    if (this.getDuration() < 0) {
       this.incorrectDateAlert = true;
       this.incorrectStoryPointsAlert = false;
       this.incompleteAlert = false;
-    // if completed story points are greater than assigned story points
-    } else if(this.completedStoryPoints > this.assignedStoryPoints) {
+      // if completed story points are greater than assigned story points
+    } else if (this.completedStoryPoints > this.assignedStoryPoints) {
       this.incorrectStoryPointsAlert = true;
       this.incorrectDateAlert = false;
       this.incompleteAlert = false;
-    // if all fieldds are completed
-    } else if (this.inputStartDate != undefined && this.inputStartDate != "" &&
-               this.inputEndDate != undefined && this.inputEndDate != "" &&
-               this.assignedStoryPoints != undefined  && this.assignedStoryPoints != null &&
-               this.completedStoryPoints != undefined  && this.completedStoryPoints != null &&
-               this.projectSelected && this.iteration != undefined && this.iteration != "") {
+      // if all fieldds are completed
+    } else if (this.inputStartDate != undefined && this.inputStartDate != '' &&
+      this.inputEndDate != undefined && this.inputEndDate != '' &&
+      this.assignedStoryPoints != undefined && this.assignedStoryPoints != null &&
+      this.completedStoryPoints != undefined && this.completedStoryPoints != null &&
+      this.projectSelected && this.iteration != undefined && this.iteration != '') {
       this.complete = true;
       this.incorrectDateAlert = false;
       this.incorrectStoryPointsAlert = false;
-      this.incompleteAlert= false;
-    // if all fields are not complete
+      this.incompleteAlert = false;
+      // if all fields are not complete
     } else {
       this.incompleteAlert = true;
       this.complete = false;
@@ -103,16 +103,16 @@ export class SprintReportsComponent implements OnInit {
   }
 
   getDuration(): number {
-    let startDate = new Date(this.inputStartDate);
-    let endDate = new Date(this.inputEndDate);
-    let days = (endDate.getTime() - startDate.getTime()) / 1000 / 60 / 60 / 24;
+    const startDate = new Date(this.inputStartDate);
+    const endDate = new Date(this.inputEndDate);
+    const days = (endDate.getTime() - startDate.getTime()) / 1000 / 60 / 60 / 24;
     return days;
   }
 
   submit() {
     // send this.fileList, this.iteration, this.project, and this.index to S3 bucket
     this.submitted = true;
-    let days = this.getDuration();
+    const days = this.getDuration();
     this.indexFile = new File(
       [`
       <html>
@@ -127,23 +127,24 @@ export class SprintReportsComponent implements OnInit {
           <b>End Date:</b> ${this.inputEndDate} <br>
           <b>Duration:</b> ${days} days <br>
           <b>Velocity:</b> ${this.completedStoryPoints}/${this.assignedStoryPoints}<br>
-          <script src="files.js"></script>
+          <script src='files.js'></script>
         </body>
       </html>
       `]
-      , "index.html", {type: "text/html"});
-    this.jsFile= new File(
-      [`document.write(\`<b>Files:</b> ${this.fileList.map(file => `<br><a href="report/${file.name}" target="_blank">${file.name}</a>`)}\`)`]
-      , "files.js", {type: "application/javascript"});
+      , 'index.html', { type: 'text/html' });
+    this.jsFile = new File(
+      // tslint:disable-next-line: max-line-length
+      [`document.write(\`<b>Files:</b> ${this.fileList.map(file => `<br><a href='report/${file.name}' target='_blank'>${file.name}</a>`)}\`)`]
+      , 'files.js', { type: 'application/javascript' });
     const proj = this.project;
     const iter = this.iteration;
-    const uservice= this.uploadService;
-    this.fileList.forEach(function(file){
-      uservice.uploadReport(file, proj, iter+"/report/"+ file.name)
+    const uservice = this.uploadService;
+    this.fileList.forEach(function (file) {
+      uservice.uploadReport(file, proj, iter + '/report/' + file.name);
     });
-      this.uploadService.uploadReport(this.indexFile, this.project, this.iteration+"/index.html")
-      this.uploadService.uploadReport(this.jsFile, this.project, this.iteration+"/files.js")
-    setTimeout( () => {
+    this.uploadService.uploadReport(this.indexFile, this.project, this.iteration + '/index.html')
+    this.uploadService.uploadReport(this.jsFile, this.project, this.iteration + '/files.js')
+    setTimeout(() => {
       this.resetValues();
     }, 2000);
   }
@@ -151,36 +152,36 @@ export class SprintReportsComponent implements OnInit {
   resetValues() {
     this.submitted = false;
     this.fileList = [];
-    this.project = "";
-    this.iteration = "";
-    this.inputStartDate = "";
-    this.inputEndDate = "";
+    this.project = '';
+    this.iteration = '';
+    this.inputStartDate = '';
+    this.inputEndDate = '';
     this.assignedStoryPoints = undefined;
     this.completedStoryPoints = undefined;
   }
 
   // Edit Reports methods
 
-  setProjectEdit(project: string){
-    this.projectEdit=project;
-    console.log(this.projectEdit)
-    this.iterationListEdit=this.uploadService.getProjectSprints(project);
+  setProjectEdit(project: string) {
+    this.projectEdit = project;
+    console.log(this.projectEdit);
+    this.iterationListEdit = this.uploadService.getProjectSprints(project);
   }
 
   setIteration(iter: string) {
     this.iterationChoice = iter;
-    this.filesEdit=this.uploadService.getIterationFiles( this.projectEdit, iter);
+    this.filesEdit = this.uploadService.getIterationFiles(this.projectEdit, iter);
 
   }
 
   addFile(event) {
-    const newFile=event.target.files.item(0);
+    const newFile = event.target.files.item(0);
     this.filesEdit.push(newFile.name);
-    this.uploadService.uploadReport(event.target.files.item(0),this.projectEdit,this.iterationChoice+"/report/"+ newFile.name)
+    this.uploadService.uploadReport(event.target.files.item(0), this.projectEdit, this.iterationChoice + '/report/' + newFile.name)
   }
 
   removeFile(file: string) {
-    this.filesEdit= this.filesEdit.filter(function(value){
+    this.filesEdit = this.filesEdit.filter(function (value) {
 
       return value != file;
 
@@ -201,10 +202,10 @@ export class SprintReportsComponent implements OnInit {
 
   submitEdit() {
     this.submittedEdit = true;
-    this.jsFile= new File(
-      [`document.write(\`<b>Files:</b> ${this.filesEdit.map(file => `<br><a href="report/${file}" target="_blank">${file}</a>`)}\`)`]
-      , "files.js", {type: "application/javascript"});
-    this.uploadService.uploadReport(this.jsFile, this.projectEdit, this.iterationChoice+"/files.js")
+    this.jsFile = new File(
+      [`document.write(\`<b>Files:</b> ${this.filesEdit.map(file => `<br><a href='report/${file}' target='_blank'>${file}</a>`)}\`)`]
+      , 'files.js', { type: 'application/javascript' });
+    this.uploadService.uploadReport(this.jsFile, this.projectEdit, this.iterationChoice + '/files.js');
 
   }
 

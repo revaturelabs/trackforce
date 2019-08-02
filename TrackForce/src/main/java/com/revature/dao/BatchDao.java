@@ -9,9 +9,13 @@ public interface BatchDao {
 	
 	TfBatch getBatchById(Integer id);
 	
+	TfBatch getBatchBySalesforceId(String sfId);
+	
 	List<TfBatch> getAllBatches();
 	
 	List<TfBatch> getBatchesForPredictions(String name, Timestamp startDate, Timestamp endDate);
 	
 	Object getBatchCountsForPredictions(String name, Timestamp startDate, Timestamp endDate);
+
+	boolean createBatch(TfBatch newbatch);
 }

@@ -1,50 +1,61 @@
-<div class="container-fluid">
+<div class="container-fluid vertical-center">
 
   <div id="background">
-    <img src="assets\images\23.jpg" />
+    <img src="assets\images\23.jpg" alt="background" />
   </div>
 
   <div class="container col-7" id="bucket-container">
     <h1 class="display-1 text-center" id="header">S3<span id="bucket">Bucket</span></h1>
-    <h3 class="mx-auto mt-3">View Reports</h3>
-    <div class="row mt-3">
-      <div class="col ml-auto">
-        <div class="list-group">
-          <div class="list-group-item list-group-item-action active">
-            Project
-          </div>
-          <div *ngFor="let project of projectList | async">
-            <button type="button" class="list-group-item list-group-item-action" (click)="showIterations(project)">{{ project }}</button>
-          </div>
-        </div>
-      </div>
-      <div class="col mr-auto">
-        <h4 *ngIf="iterationList != undefined">Iterations</h4>
-        <div *ngFor="let iter of iterationList | async">
-          <div class="panel-body">
-            <a [href]="iterationLink" target="blank" (click)="createLink(iter)">{{iter}}</a>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
     <ul class="nav nav-tabs mt-5">
       <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#upload-reports" aria-selected="true"><h3>Upload Report</h3></a>
+        <a class="nav-link active" data-toggle="tab" href="#view-reports" aria-selected="true">
+          <h3>View Reports</h3>
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#edit-reports" aria-selected="false"><h3>Edit Report</h3></a>
+        <a class="nav-link" data-toggle="tab" href="#upload-reports" aria-selected="false">
+          <h3>Upload Report</h3>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#edit-reports" aria-selected="false">
+          <h3>Edit Report</h3>
+        </a>
       </li>
     </ul>
 
     <div class="tab-content">
+      <div class="tab-pane fade show active" id="view-reports">
+        <div class="row mt-3">
+          <div class="col ml-auto">
+            <div class="list-group">
+              <label for="lblSelectProject">Select a Project</label>
+              <select id="projectChoice" class="form-control" [(ngModel)]="projectChoice" name="projectChoice"
+                (change)=showIterations()>
+                <option *ngFor="let project of projectList | async" [value]="project">{{project}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col mr-auto">
+            <h4 *ngIf="iterationList != undefined">Iterations</h4>
+            <div *ngFor="let iter of iterationList | async">
+              <div class="panel-body">
+                <a [href]="iterationLink" target="blank" (click)="createLink(iter)">{{iter}}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <div (change)="validate()" class="tab-pane fade show active" id="upload-reports">
+      <div (change)="validate()" class="tab-pane fade" id="upload-reports">
         <h5 class="mx-auto mt-4">Sprint Metrics</h5>
         <div class="row">
           <div class="col">
             <label for="start-date">Start Date</label>
-            <input type="date" id="start-date" [(ngModel)]="inputStartDate" class="form-control" placeholder="mm/dd/yyyy">
+            <input type="date" id="start-date" [(ngModel)]="inputStartDate" class="form-control"
+              placeholder="mm/dd/yyyy">
           </div>
           <div class="col">
             <label for="end-date">End Date</label>
@@ -52,7 +63,8 @@
           </div>
           <div class="col">
             <label for="completed">Completed SP's</label>
-            <input type="number" id="completed" [(ngModel)]="completedStoryPoints" class="form-control" placeholder="00">
+            <input type="number" id="completed" [(ngModel)]="completedStoryPoints" class="form-control"
+              placeholder="00">
           </div>
           <div class="col">
             <label for="assigned">Assigned SP's</label>
@@ -64,7 +76,8 @@
           <div class="col">
             <div class="input-group mx-auto mt-3">
               <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Project</button>
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">Project</button>
                 <div class="dropdown-menu">
                   <p class="dropdown-item" (click)="setProject('Trackforce')">Trackforce</p>
                   <p class="dropdown-item" (click)="setProject('Rideforce')">Rideforce</p>
@@ -78,7 +91,8 @@
                   <input type="file" id="upload" class="custom-file-input" (change)="selectFiles($event)">
                   <label class="custom-file-label" for="upload">Upload Files...</label>
                 </div>
-                <button class="btn btn-secondary ml-2" type="button" (click)="submit()" [disabled]="!complete">Submit</button>
+                <button class="btn btn-secondary ml-2" type="button" (click)="submit()"
+                  [disabled]="!complete">Submit</button>
               </div>
             </div>
           </div>
@@ -106,9 +120,10 @@
               <h5>Project:</h5> {{ project }}
             </div>
             <div class="col-9 mx-auto mt-3" *ngIf="fileList != ''">
-              <h5>Files:</h5> 
+              <h5>Files:</h5>
               <div *ngFor="let file of fileList">
-                <b>Name:</b> {{ file.name }} <p class="badge badge-danger ml-2" id="remove" title="Remove" (click)="removeFromFileList(file)">X</p>
+                <b>Name:</b> {{ file.name }} <p class="badge badge-danger ml-2" id="remove" title="Remove"
+                  (click)="removeFromFileList(file)">X</p>
               </div>
             </div>
           </ng-container>
@@ -147,6 +162,8 @@
 
                   <button class="btn btn-secondary" type="button" (click)="submitEdit()" [disabled]="!iterationChoice && !filesEdit">Submit</button>
                 </div>
+                <button class="btn btn-secondary ml-2" type="button" (click)="submitEdit()"
+                  [disabled]="!completeEdit">Submit</button>
               </div>
             </div>
           </div>
@@ -173,14 +190,12 @@
             <ng-container *ngIf="submittedEdit">
               <div class="alert alert-success mx-auto mt-3 text-center" role="alert">
                 Sprint report has been successfully submitted.
-              </div>
-            </ng-container>
-          </div>
+            </div>
+          </ng-container>
+        </div>
       </div>
 
     </div>
-  
+
   </div>
 </div>
-  
-

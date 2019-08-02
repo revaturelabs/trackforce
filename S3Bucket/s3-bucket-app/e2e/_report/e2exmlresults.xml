@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites disabled="0" errors="0" failures="0" tests="1" time="2.756">
+ <testsuite name="workspace-project App" timestamp="2019-08-02T01:02:23" hostname="localhost" time="2.756" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="workspace-project App" name="should display welcome message" time="2.753" />
+ </testsuite>
+</testsuites>

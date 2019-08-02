@@ -15,8 +15,6 @@ export enum IdentificationType {
 
 
 export class BasePage {
-
-
      ElementLocator(obj) {
         switch (obj.type) {
             case IdentificationType[IdentificationType.Xpath]:

@@ -16,7 +16,7 @@ public class CurriculumDaoImpl implements CurriculumDao {
 	
 	@Override
 	public List<TfCurriculum> getAllCurriculums() {
-		LogUtil.logger.trace("Hibernate Call to get all Curriculumns.");
+		LogUtil.logger.trace("Hibernate Call to get all Curriculums.");
 		return HibernateUtil.runHibernate((Session session, Object ... args) ->
 			session.createQuery("from TfCurriculum", TfCurriculum.class)
 			.setCacheable(true).getResultList());

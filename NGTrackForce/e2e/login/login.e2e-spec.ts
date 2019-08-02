@@ -1,21 +1,21 @@
 import { LoginPage } from './login.po';
 import { TestConfig } from '../configuration/test-config';
-import { protractor, browser, by, element } from 'protractor';
+import { browser } from 'protractor';
 
 /*
 Smoke test: Checks elements to be exist
 */
 let AdminUsername = "TestAdmin";
 let AdminPassword = "TestAdmin";
-let associateUsername = "cyril";
-let associatePassword = "cyril";
-let stagingManagerUsername = "bobstage";
+let associateUsername = "TestAssociate";
+let associatePassword = "TestAssoc1@te";
+let stagingManagerUsername = "bobstage"; 
 let stagingManagerPassword = "bobstage";
 let trainerUsername = "Trainer0";
 let trainerPassword = "Trainer";
 let deliverySalesUsername = "salestest";
 let deliverySalesPassword = "salestest";
-let page: LoginPage;
+let page            : LoginPage;
 let testConfig      : TestConfig;
 let baseURL         : string;
 

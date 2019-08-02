@@ -47,7 +47,7 @@ export class SprintReportsComponent implements OnInit {
   // Edit validations
   submittedEdit : boolean;
   completeEdit : boolean;
-  
+
   constructor(private uploadService:UploadService) { }
 
   ngOnInit() {
@@ -60,10 +60,8 @@ export class SprintReportsComponent implements OnInit {
   }
 
   // View Report methods
-
-  showIterations(value : string) {
-    this.projectChoice = value;
-    this.iterationList = this.uploadService.getProjectSprints(value);
+  showIterations( ) {
+    this.iterationList = this.uploadService.getProjectSprints(this.projectChoice);
   }
 
   createLink(iter: string) {
@@ -71,7 +69,7 @@ export class SprintReportsComponent implements OnInit {
   }
 
 
-  // Upload Report methods 
+  // Upload Report methods
 
   selectFiles(event) {
     this.fileList.push(event.target.files.item(0));
@@ -100,10 +98,10 @@ export class SprintReportsComponent implements OnInit {
       this.incorrectDateAlert = false;
       this.incompleteAlert = false;
     // if all fieldds are completed
-    } else if (this.inputStartDate != undefined && this.inputStartDate != "" && 
-               this.inputEndDate != undefined && this.inputEndDate != "" && 
-               this.assignedStoryPoints != undefined  && this.assignedStoryPoints != null && 
-               this.completedStoryPoints != undefined  && this.completedStoryPoints != null && 
+    } else if (this.inputStartDate != undefined && this.inputStartDate != "" &&
+               this.inputEndDate != undefined && this.inputEndDate != "" &&
+               this.assignedStoryPoints != undefined  && this.assignedStoryPoints != null &&
+               this.completedStoryPoints != undefined  && this.completedStoryPoints != null &&
                this.projectSelected && this.iteration != undefined && this.iteration != "") {
       this.complete = true;
       this.incorrectDateAlert = false;

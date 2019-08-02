@@ -27,8 +27,7 @@ public class InterviewDaoImpl implements InterviewDao {
 	@Override
 	public boolean createInterview(TfInterview interview) {
 		LogUtil.logger.trace("Hibernate Call to create Interview: " + interview.getId());
-		if (interview.getId() == null) {
-			// System.out.println(getInterviewById(interview.getId()));
+		if (getInterviewById(interview.getId()) == null) {
 			return HibernateUtil.saveToDB(interview);
 		}
 		else {
@@ -110,7 +109,7 @@ public class InterviewDaoImpl implements InterviewDao {
 	}
 
 	@Override
-	public TfInterview getInterviewById(int interviewId) {
+	public TfInterview getInterviewById(Integer interviewId) {
 		LogUtil.logger.trace("Hibernate Call to get Interview by Id: " + interviewId);
 		return HibernateUtil.runHibernate((Session session, Object... args) -> session
 				.createQuery("from TfInterview i where i.id like :interviewId", TfInterview.class)

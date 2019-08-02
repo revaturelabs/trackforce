@@ -9,7 +9,6 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import org.json.JSONObject;
 import com.revature.entity.TfUser;
-import com.revature.utils.LogUtil;
 
 import gherkin.lexer.Da;
 import io.jsonwebtoken.Claims;
@@ -195,7 +194,11 @@ public class JWTService {
 	 */
 	private static Boolean isTokenExpired(String token) {
 		final Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(new Date());
+		if (expiration != null) {
+			return expiration.before(new Date());
+		} else {
+			return false;
+		}
 	}
 
 	/**

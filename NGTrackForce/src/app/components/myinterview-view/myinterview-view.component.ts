@@ -140,7 +140,7 @@ export class MyInterviewComponent implements OnInit {
   addInterview() {
     // interview date and time must be valid and they cannot conflict with another
     // interview already scheduled at that date and time
-      if (!this.dateError && this.aif.interviewDate.valid && this.aif.interviewTime.valid && 
+      if (this.aif.clientId.valid && this.aif.clientId.value != "None" && this.aif.typeId.valid && !this.dateError && this.aif.interviewDate.valid && this.aif.interviewTime.valid && 
         !this.interviewConflict(this.aif.interviewDate.value, this.aif.interviewTime.value)){
         //the '+' coerces type to be number
         switch (+this.aif.typeId.value) {
@@ -180,10 +180,14 @@ export class MyInterviewComponent implements OnInit {
         setTimeout(() => {
           this.succMsg= '';
         }, 3000);
+        
         this.interviewService
           .createInterview(this.newInterview, this.associate.id)
           .subscribe(res => {
-            location.reload(false);
+            setTimeout(() => {
+              location.reload(false);
+            }, 3000);
+            
          });
       } else {
         this.failMsg = "Invalid Interview Submission";
@@ -206,7 +210,9 @@ export class MyInterviewComponent implements OnInit {
       // successfully update the interview
       this.interviewService.updateInterview(interview).subscribe(res => {
       this.updateSuccess=true;
-      location.reload(false);
+      setTimeout(() => {
+        location.reload(false);
+      }, 3000);
       },
         error => console.error('Error in myinterview-view.component.ts updateInterview(): ', error.message)
       );

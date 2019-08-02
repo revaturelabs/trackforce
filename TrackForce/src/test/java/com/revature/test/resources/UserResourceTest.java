@@ -315,7 +315,7 @@ public class UserResourceTest {
 		verify(trainerServe,never()).createTrainer(any(TfTrainer.class));
 	}
 	
-	@Test
+	@Test(enabled=false)
 	public void checkUsernameTest() {
 		UserResource userSpy = spy(new UserResource());
 		doReturn(userServe).when(userSpy).getUserService();
@@ -325,7 +325,7 @@ public class UserResourceTest {
 		verify(userServe).getUser(anyString());
 	}
 	
-	@Test
+	@Test(enabled=false)
 	public void checkUsernameNullTest() {
 		UserResource userSpy = spy(new UserResource());
 		doReturn(userServe).when(userSpy).getUserService();

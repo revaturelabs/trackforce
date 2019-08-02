@@ -12,16 +12,14 @@
     <h4 *ngIf="iterationList != undefined">Iterations</h4>
     <div *ngFor="let iter of iterationList | async">
       <div class="panel-body">
-        <a [href]=iterationLink target="blank" (click)="createLink(iter)">{{iter}}</a>
+        <a href=#iterationView target="blank" (click)="createLink(iter)">{{iter}}</a>
       </div>
     </div>
   </div>
 </div>
 <div *ngIf="this.iterationViewShow" id="iterationView" class="row mt-3">
   <!-- iframe -->
-  <p>{{iterationLink}}</p>
   <div class="embed-responsive embed-responsive-16by9">
-    <iframe title="itaretion" class="embed-responsive-item"
-      src="https://ccoverage.s3.amazonaws.com/CMS/you%20are%20wrong/index.html"></iframe>
+    <iframe title="itaretion" class="embed-responsive-item" [src]="iterationLink | safe"></iframe>
   </div>
 </div>

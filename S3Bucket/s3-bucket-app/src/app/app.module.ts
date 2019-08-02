@@ -5,13 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { SprintReportsComponent } from './components/sprint-reports/sprint-reports.component';
 import { CommonModule } from '@angular/common';
-import { ViewReportsComponent } from './components/view-reports/view-reports.component';
+import { ViewReportsComponent, SafePipe } from './components/view-reports/view-reports.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SprintReportsComponent,
-    ViewReportsComponent
+    ViewReportsComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,

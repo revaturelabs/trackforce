@@ -7,7 +7,7 @@ const Locators = {
   },
   projectListSelector: {
     type: IdentificationType[IdentificationType.Id],
-    value: 'projectChoice';
+    value: 'projectChoice'
   }
 };
 export class ViewReport extends BasePage {

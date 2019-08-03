@@ -12,12 +12,12 @@
         </div>
         <div class="col">
         <label for="completed">Completed SP's</label>
-        <input type="number" id="completed" [(ngModel)]="completedStoryPoints" class="form-control"
+        <input type="number" id="completed" [(ngModel)]="completedStoryPoints" min="0" class="form-control"
             placeholder="00">
         </div>
         <div class="col">
         <label for="assigned">Assigned SP's</label>
-        <input type="number" id="assigned" [(ngModel)]="assignedStoryPoints" class="form-control" placeholder="00">
+        <input type="number" id="assigned" [(ngModel)]="assignedStoryPoints" min="0" class="form-control" placeholder="00">
         </div>
     </div>
     <h5 class="mx-auto mt-3">Iteration Information</h5>

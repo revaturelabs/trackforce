@@ -1,4 +1,4 @@
-import { BasePage, IdentificationType } from '../../base.po';
+import { BasePage, IdentificationType } from './../base.po';
 import { browser, by, element } from 'protractor';
 
 const Locators = {
@@ -66,10 +66,23 @@ const Locators = {
     type: IdentificationType[IdentificationType.Xpath],
     value: ''
   }
-}
+};
 
 export class UploadTabPage extends BasePage {
+  uploadtab = this.ElementLocator(Locators.uploadtab);
+  stardate = this.ElementLocator(Locators.stardate);
 
+  navigateuploadtab() {
+    return this.uploadtab;
+  }
+
+  getstardate() {
+    return this.stardate;
+  }
+
+  selectstartdate(){
+    return this.stardate;
+  }
 
 }
 

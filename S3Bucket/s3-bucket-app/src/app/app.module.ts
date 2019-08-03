@@ -6,13 +6,17 @@ import { AppComponent } from './app.component';
 import { SprintReportsComponent } from './components/sprint-reports/sprint-reports.component';
 import { CommonModule } from '@angular/common';
 import { ViewReportsComponent, SafePipe } from './components/view-reports/view-reports.component';
+import { UploadReportsComponent } from './components/upload-reports/upload-reports.component';
+import { EditReportsComponent } from './components/edit-reports/edit-reports.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SprintReportsComponent,
     ViewReportsComponent,
-    SafePipe
+    SafePipe,
+    UploadReportsComponent,
+    EditReportsComponent
   ],
   imports: [
     BrowserModule,

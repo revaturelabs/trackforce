@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as S3 from 'aws-sdk/clients/s3';
 import { Observable } from 'rxjs';
 import { of as observableOf } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,20 +10,20 @@ import { of as observableOf } from 'rxjs';
 export class UploadService {
 
   constructor() { }
-  bucketARN = 'ccoverage';
+  bucketName = environment.bucketName;
 
   bucket = new S3(
     {
-      accessKeyId: 'AKIAY4PLP5GV6ODA4YV6',//temp
-      secretAccessKey: '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',//temp
-      region: 'us-east-1'
+      accessKeyId:  environment.accessKey,//temp
+      secretAccessKey: environment.secretKey,//temp
+      region: environment.region
     }
   );
 
   uploadReport(file, project: string, filepath: string) {
 
     const params = {
-      Bucket: this.bucketARN,//temp
+      Bucket: this.bucketName,
       Key: project + '/' + filepath,
       Body: file,
       ACL: 'public-read',
@@ -42,7 +43,7 @@ export class UploadService {
     const projects = new Array<string>();
 
     const params = {
-      Bucket: this.bucketARN,
+      Bucket: this.bucketName,
       Prefix: '',
       Delimiter: '/'
     };
@@ -53,6 +54,8 @@ export class UploadService {
 
 
       data.CommonPrefixes.forEach((file) => {
+        console.log(file.Prefix)
+        if(file.Prefix!=='s3app/')//ignores s3 application on bucket
         projects.push(file.Prefix.replace('/', ''));
       });
     });
@@ -63,7 +66,7 @@ export class UploadService {
   getProjectSprints(project: string): Observable<Array<string>> {
     const sprints = new Array<string>();
     const params = {
-      Bucket: this.bucketARN,
+      Bucket: this.bucketName,
       Prefix: project + '/',
       Delimiter: '/'
     };
@@ -87,7 +90,7 @@ export class UploadService {
     const files = new Array<string>();
     const prefix = project + '/' + iter + '/report/';
     const params = {
-      Bucket: this.bucketARN,
+      Bucket: this.bucketName,
       Prefix: prefix
     };
 
@@ -109,7 +112,7 @@ export class UploadService {
     const key = project + '/' + iter + '/report/' + filename;
 
     const params = {
-      Bucket: this.bucketARN,
+      Bucket: this.bucketName,
       Key: key
     };
 

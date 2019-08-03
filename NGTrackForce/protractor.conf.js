@@ -21,18 +21,17 @@ exports.config = {
 
     //PROTRACTOR TESTS
     './e2e/register-associate/register-associate.e2e-spec.ts',
-    //-- Start comment by Vajira
-      // './e2e/login/login.e2e-spec.ts',
-      // './e2e/navbar/navbar.e2e-spec.ts',
-      // './e2e/create-user/create-user.e2e-spec.ts',
-      // './e2e/client-list/client-list-spec.ts',
-      // './e2e/batch-list/batch-list.e2e-spec.ts',
-      // './e2e/predictions/predictions.e2e-spec.ts',
-    // -- end Comment by Vajira
-    
+
+      './e2e/login/login.e2e-spec.ts',
+      './e2e/navbar/navbar.e2e-spec.ts',
+      './e2e/create-user/create-user.e2e-spec.ts',
+      './e2e/client-list/client-list-spec.ts',
+      './e2e/batch-list/batch-list.e2e-spec.ts',
+      './e2e/predictions/predictions.e2e-spec.ts',
+
     //added already written tests to suite
     './src/app/pipes/search-filter/search-filter.pipe.spec.ts'
-       
+
   ],
   beforeLaunch: function() {
     return new Promise(function(resolve){
@@ -42,12 +41,12 @@ exports.config = {
 
   //test both chrome and firefox
   // multiCapabilities: [{
-  //   'browserName': "chrome", 
+  //   'browserName': "chrome",
   //   chromeOptions: {
   //     args: [ "--headless", "--disable-gpu", "--window-size=2000,2000" ]
   //   }
   // },{
-  //   'browserName': "firefox", 
+  //   'browserName': "firefox",
   //   'moz:firefoxOptions': {
   //     args: ["--headless"]
   //   }
@@ -69,9 +68,9 @@ exports.config = {
       args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
     }
   },
-  
+
   // baseUrl: 'http://trackforce.revaturelabs.com/NGTrackForce',
-  
+
   //for pipeline delpoyment
   //change direct connect to false
   directConnect: false,

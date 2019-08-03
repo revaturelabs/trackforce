@@ -53,6 +53,8 @@ export class UploadService {
 
 
       data.CommonPrefixes.forEach((file) => {
+        console.log(file.Prefix)
+        if(file.Prefix!=='s3app/')//ignores s3 application on bucket
         projects.push(file.Prefix.replace('/', ''));
       });
     });

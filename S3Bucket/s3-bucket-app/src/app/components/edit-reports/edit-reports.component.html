@@ -38,7 +38,7 @@
                 <h5>Files:</h5>
                 <div>
                     <span class="badge badge-success btn-file">
-                        Add files <input type="file" (change)="addFile($event)">
+                        Add files <input type="file" (change)="addFile($event)" multiple>
                     </span>
                 </div>
                 <div *ngFor="let file of filesEdit">

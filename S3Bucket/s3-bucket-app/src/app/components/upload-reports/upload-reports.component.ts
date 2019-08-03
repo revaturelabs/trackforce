@@ -33,7 +33,9 @@ export class UploadReportsComponent implements OnInit {
   }
 
   selectFiles(event) {
-    this.fileList.push(event.target.files.item(0));
+    for(let i = 0; i<event.target.files.length; i++){
+      this.fileList.push(event.target.files.item(i));
+    }
   }
 
   removeFromFileList(file: File) {

@@ -39,6 +39,8 @@ export class EditReportsComponent implements OnInit {
     this.projectEdit = project;
     console.log(this.projectEdit);
     this.iterationListEdit = this.uploadService.getProjectSprints(project);
+    this.iterationChoice = "";
+    this.filesEdit = undefined;
   }
 
   setIteration(iter: string) {
@@ -97,6 +99,7 @@ export class EditReportsComponent implements OnInit {
   resetValuesEdit() {
     this.submittedEdit = false;
     this.filesEdit = undefined;
+    this.iterationListEdit = undefined;
     this.iterationChoice = '';
     this.projectEdit = '';
   }

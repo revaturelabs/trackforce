@@ -28,8 +28,10 @@
     </div>
     <div class="row">
         <ng-container *ngIf="!submittedEdit">
-            <div class="col mx-auto mt-3" *ngIf="iterationChoice != ''">
+            <div class="col mx-auto mt-3" *ngIf="iterationChoice">
                 <h5>Iteration:</h5> {{ iterationChoice }}
+                <p class="badge badge-danger ml-2" id="remove" title="Remove"
+                (click)="deleteIteration()">X</p>
             </div>
             <div class="col-9 mx-auto mt-3" *ngIf="filesEdit">
                 <h5>Files:</h5>

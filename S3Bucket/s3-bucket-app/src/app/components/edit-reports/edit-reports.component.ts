@@ -65,7 +65,14 @@ export class EditReportsComponent implements OnInit {
     });
     this.filesToDel.push(file);
   }
-
+  deleteIteration(){
+    const uservice = this.uploadService;
+    this.filesEdit.forEach((file) => {
+      uservice.deleteFiles(this.projectEdit, this.iterationChoice, file);
+    });
+    this.uploadService.deleteIteration(this.projectEdit, this.iterationChoice);
+    this.resetValuesEdit();
+  }
 
   validateEdit() {
     // TODO: validate that there is at least one file in filelist, even after delete

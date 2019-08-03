@@ -9,17 +9,13 @@ import { UploadService } from 'src/app/service/upload.service';
 })
 export class EditReportsComponent implements OnInit {
 
-  jsFile : File;
   @Input() projectList: Observable<Array<string>>;
-
-  // Edit reports
+  jsFile : File;
   iterationListEdit: Observable<Array<string>>;
   filesEdit: Array<string>;
   projectEdit: string;
   iterationChoice: string;
   iterationViewShow = false;
-
-  // Edit validations
   submittedEdit: boolean;
   completeEdit: boolean;
 
@@ -29,11 +25,8 @@ export class EditReportsComponent implements OnInit {
     this.iterationChoice = '';
   }
 
-  // Edit Reports methods
-
   setProjectEdit(project: string) {
     this.projectEdit = project;
-    console.log(this.projectEdit);
     this.iterationListEdit = this.uploadService.getProjectSprints(project);
   }
 
@@ -56,16 +49,6 @@ export class EditReportsComponent implements OnInit {
 
     });
     this.uploadService.deleteFiles(this.projectEdit, this.iterationChoice, file);
-  }
-
-
-  validateEdit() {
-    // TODO: validate that there is at least one file in filelist, even after delete
-    if (this.iterationChoice != undefined) {
-      this.completeEdit = true;
-    } else {
-      this.completeEdit = false;
-    }
   }
 
   submitEdit() {

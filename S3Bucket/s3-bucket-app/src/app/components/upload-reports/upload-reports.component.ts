@@ -10,15 +10,11 @@ import { Observable } from 'rxjs';
 export class UploadReportsComponent implements OnInit {
 
   @Input() projectList: Observable<Array<string>>;
-
-  // Upload reports
   fileList: File[];
   indexFile: File;
   jsFile: File;
   iteration: string;
   project: string;
-
-  // Upload validations
   inputStartDate: string;
   inputEndDate: string;
   completedStoryPoints: number;
@@ -35,8 +31,6 @@ export class UploadReportsComponent implements OnInit {
     this.project = '';
     this.fileList = [];
   }
-
-  // Upload Report methods
 
   selectFiles(event) {
     this.fileList.push(event.target.files.item(0));

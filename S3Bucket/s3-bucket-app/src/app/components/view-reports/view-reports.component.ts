@@ -21,8 +21,8 @@ export class SafePipe implements PipeTransform {
 
 export class ViewReportsComponent implements OnInit {
 
-  bucketName: string;
   @Input() projectList: Observable<Array<string>>;
+  bucketName: string;
   projectChoice: string;
   iterationList: Observable<Array<string>>;
   iterationLink: string;
@@ -43,6 +43,14 @@ export class ViewReportsComponent implements OnInit {
 
   showIterations() {
     this.iterationList = this.uploadService.getProjectSprints(this.projectChoice);
+    this.iterationViewShow = false;
+  }
+
+  resetValues() {
+    this.iterationViewShow = false;
+    this.iterationList = undefined;
+    this.projectChoice = "";
+    this.selectedIteration = "";
   }
 
 

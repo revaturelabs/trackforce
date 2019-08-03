@@ -9,13 +9,19 @@ import { UploadService } from 'src/app/service/upload.service';
 })
 export class EditReportsComponent implements OnInit {
 
-  @Input() projectList: Observable<Array<string>>;
   jsFile : File;
+  @Input() projectList: Observable<Array<string>>;
+
+  // Edit reports
   iterationListEdit: Observable<Array<string>>;
   filesEdit: Array<string>;
+  fileList: File[];
+  filesToDel: Array<string>;
   projectEdit: string;
   iterationChoice: string;
   iterationViewShow = false;
+
+  // Edit validations
   submittedEdit: boolean;
   completeEdit: boolean;
 
@@ -23,10 +29,15 @@ export class EditReportsComponent implements OnInit {
 
   ngOnInit() {
     this.iterationChoice = '';
+    this.fileList=[];
+    this.filesToDel=[];
   }
+
+  // Edit Reports methods
 
   setProjectEdit(project: string) {
     this.projectEdit = project;
+    console.log(this.projectEdit);
     this.iterationListEdit = this.uploadService.getProjectSprints(project);
   }
 
@@ -38,8 +49,8 @@ export class EditReportsComponent implements OnInit {
 
   addFile(event) {
     for(let i = 0; i<event.target.files.length; i++){
+      this.fileList.push(event.target.files.item(i));
       this.filesEdit.push(event.target.files.item(i).name);
-      this.uploadService.uploadReport(event.target.files.item(0), this.projectEdit, this.iterationChoice + '/report/' + event.target.files.item(i).name);
     }
     
   }
@@ -50,14 +61,33 @@ export class EditReportsComponent implements OnInit {
       return value != file;
 
     });
-    this.uploadService.deleteFiles(this.projectEdit, this.iterationChoice, file);
+    this.filesToDel.push(file);
+  }
+
+
+  validateEdit() {
+    // TODO: validate that there is at least one file in filelist, even after delete
+    if (this.iterationChoice != undefined) {
+      this.completeEdit = true;
+    } else {
+      this.completeEdit = false;
+    }
   }
 
   submitEdit() {
     this.submittedEdit = true;
     this.jsFile = new File(
-      [`document.write(\`<b>Files:</b> ${this.filesEdit.map(file => `<br><a href='report/${file}' target='_blank'>${file}</a>`)}\`)`]
+      [`document.write(\`<b>Files:</b> ${this.fileList.map(file => `<br><a href='report/${file.name}' target='_blank'>${file.name}</a>`)}\`)`]
       , 'files.js', { type: 'application/javascript' });
+    const uservice = this.uploadService;
+
+    this.fileList.forEach((file) => {
+      uservice.uploadReport(file, this.projectEdit, this.iterationChoice + '/report/' + file.name);
+    });
+    this.filesToDel.forEach((file) => {
+      uservice.deleteFiles(this.projectEdit, this.iterationChoice, file);
+    });
+
     this.uploadService.uploadReport(this.jsFile, this.projectEdit, this.iterationChoice + '/files.js');
     setTimeout(() => {
       this.resetValuesEdit();

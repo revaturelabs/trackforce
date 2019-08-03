@@ -10,9 +10,9 @@ describe('A user can able to view previous reports', () => {
     appPage.navigateTo();
   });
 
-  it('should be navigate to the login tab', () => {
-    viewReport.ViewReportTab().click();
-    expect(viewReport.ProjectListSelector()).toBeTruthy();
+  it('should be navigate to the view tab', () => {
+    viewReport.getViewReportTab().click();
+    expect(viewReport.getProjectListSelector()).toBeTruthy();
   });
 
 

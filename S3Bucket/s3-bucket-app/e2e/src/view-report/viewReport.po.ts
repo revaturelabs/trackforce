@@ -13,13 +13,14 @@ const Locators = {
 export class ViewReport extends BasePage {
 
   viewReportTab = this.ElementLocator(Locators.viewReportTab);
+  projectListSelector = this.ElementLocator(Locators.projectListSelector);
 
-  ViewReportTab() {
+  getViewReportTab() {
     return this.viewReportTab;
   }
 
-  ProjectListSelector(){
-    return this.ProjectListSelector;
+  getProjectListSelector() {
+    return this.projectListSelector;
   }
 
 

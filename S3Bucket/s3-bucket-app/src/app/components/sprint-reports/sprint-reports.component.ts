@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UploadService } from 'src/app/service/upload.service';
 import { Observable } from 'rxjs';
 import { FnParam } from '@angular/compiler/src/output/output_ast';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-sprint-reports',
@@ -54,7 +55,7 @@ export class SprintReportsComponent implements OnInit {
     this.fileListEdit = [];
     this.project = '';
     this.iterationChoice = '';
-    this.bucketName = 'ccoverage'; // temp
+    this.bucketName = environment.bucketName; 
   }
 
   // Upload Report methods

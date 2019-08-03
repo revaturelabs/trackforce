@@ -36,7 +36,7 @@
                 <input type="text" class="form-control" [(ngModel)]="iteration" placeholder="Enter iteration...">
                 <div class="input-group-append ml-2">
                 <div class="custom-file">
-                    <input type="file" id="upload" class="custom-file-input" (change)="selectFiles($event)">
+                    <input type="file" id="upload" class="custom-file-input" (change)="selectFiles($event)" multiple>
                     <label class="custom-file-label" for="upload">Upload Files...</label>
                 </div>
                 <button class="btn btn-secondary ml-2" type="button" (click)="submit()"

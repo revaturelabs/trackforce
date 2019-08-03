@@ -44,9 +44,11 @@ export class EditReportsComponent implements OnInit {
   }
 
   addFile(event) {
-    const newFile = event.target.files.item(0);
-    this.filesEdit.push(newFile.name);
-    this.uploadService.uploadReport(event.target.files.item(0), this.projectEdit, this.iterationChoice + '/report/' + newFile.name);
+    for(let i = 0; i<event.target.files.length; i++){
+      this.filesEdit.push(event.target.files.item(i).name);
+      this.uploadService.uploadReport(event.target.files.item(0), this.projectEdit, this.iterationChoice + '/report/' + event.target.files.item(i).name);
+    }
+    
   }
 
   removeFile(file: string) {

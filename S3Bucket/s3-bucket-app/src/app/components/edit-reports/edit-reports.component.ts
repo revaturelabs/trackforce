@@ -46,7 +46,6 @@ export class EditReportsComponent implements OnInit {
   setIteration(iter: string) {
     this.iterationChoice = iter;
     this.filesEdit = this.uploadService.getIterationFiles(this.projectEdit, iter);
-
   }
 
   addFile(event) {

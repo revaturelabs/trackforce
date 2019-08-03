@@ -1,7 +1,7 @@
 import { ViewReport } from './viewReport.po';
 import { AppPage } from './../app.po';
 
-describe('A user can able to view previous reports', () => {
+describe('A user is able to view previous reports', () => {
 
   const appPage = new AppPage();
   const viewReport = new ViewReport();
@@ -11,8 +11,14 @@ describe('A user can able to view previous reports', () => {
   });
 
   it('should be navigate to the view tab', () => {
-    viewReport.getViewReportTab().click();
-    expect(viewReport.getProjectListSelector()).toBeTruthy();
+    viewReport.ViewReportTab().click();
+    // expect(viewReport.ProjectListSelector()).toBeTruthy();
+    viewReport.ProjectListSelector().click();
+    viewReport.CmsOption().click();
+    expect(viewReport.SelectedIteration()).toBeTruthy();
+    viewReport.SelectedIteration().click();
+    viewReport.YouAreWrongOption().click();
+    expect(viewReport.IterationView()).toBeTruthy();
   });
 
 

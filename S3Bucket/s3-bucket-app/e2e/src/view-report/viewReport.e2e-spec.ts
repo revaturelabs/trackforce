@@ -16,7 +16,9 @@ describe('A user is able to view previous reports', () => {
     viewReport.ProjectListSelector().click();
     viewReport.CmsOption().click();
     expect(viewReport.SelectedIteration()).toBeTruthy();
-    
+    viewReport.SelectedIteration().click();
+    viewReport.YouAreWrongOption().click();
+    expect(viewReport.IterationView()).toBeTruthy();
   });
 
 

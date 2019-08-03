@@ -31,13 +31,13 @@ export class EditReportsComponent implements OnInit {
     this.iterationChoice = '';
     this.fileList=[];
     this.filesToDel=[];
+    this.projectEdit = "Project";
   }
 
   // Edit Reports methods
 
   setProjectEdit(project: string) {
     this.projectEdit = project;
-    console.log(this.projectEdit);
     this.iterationListEdit = this.uploadService.getProjectSprints(project);
     this.iterationChoice = "";
     this.filesEdit = undefined;
@@ -101,7 +101,7 @@ export class EditReportsComponent implements OnInit {
     this.filesEdit = undefined;
     this.iterationListEdit = undefined;
     this.iterationChoice = '';
-    this.projectEdit = '';
+    this.projectEdit = 'Project';
   }
 
 }

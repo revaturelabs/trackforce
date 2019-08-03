@@ -26,7 +26,7 @@
             <div class="input-group mx-auto mt-3">
                 <div class="input-group-prepend">
                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">Project</button>
+                    aria-haspopup="true" aria-expanded="false">{{ project }}</button>
                 <div class="dropdown-menu">
                     <div *ngFor="let project of projectList | async">
                         <p class="dropdown-item" (click)="setProject(project)"> {{ project }}</p>
@@ -60,10 +60,7 @@
     </div>
     <div class="row">
         <ng-container *ngIf="!submitted">
-        <div class="col mx-auto mt-3" *ngIf="project != ''">
-            <h5>Project:</h5> {{ project }}
-        </div>
-        <div class="col-9 mx-auto mt-3" *ngIf="fileList != ''">
+        <div class="col mx-auto mt-3" *ngIf="fileList != ''">
             <h5>Files:</h5>
             <div *ngFor="let file of fileList">
             <b>Name:</b> {{ file.name }} <p class="badge badge-danger ml-2" id="remove" title="Remove"

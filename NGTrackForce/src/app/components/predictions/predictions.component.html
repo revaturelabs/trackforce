@@ -150,7 +150,7 @@
     </div>
 
     <!-- Individual associate within each batch information -->
-    <!--   <div class="row" style="position:relative;">
+      <div class="row" style="position:relative;">
       <div class="table-responsive pre-scrollable" id="info" style="overflow-x:none!important;">
         <table class="table table-striped table-hover table-bordered" border-width=2px>
           <thead class="pointer">
@@ -164,7 +164,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let associate of associates | pipeByStatus: 'MAPPED: TRAINING'">
+            <tr *ngFor="let associate of associates | AssociateStatusPipe: 'MAPPED: TRAINING'">
               <td>
                 <a [routerLink]="['/form-comp',associate.id]" class="id" *ngIf="associate.id">{{associate.id}}</a>
               </td>
@@ -178,5 +178,5 @@
             </tr>
           </tbody>
         </table>
-      </div> -->
+      </div>
   </div>

@@ -28,7 +28,7 @@ export class UploadReportsComponent implements OnInit {
   constructor(private uploadService : UploadService) { }
 
   ngOnInit() {
-    this.project = '';
+    this.project = 'Project';
     this.fileList = [];
   }
 
@@ -127,12 +127,17 @@ export class UploadReportsComponent implements OnInit {
   resetValues() {
     this.submitted = false;
     this.fileList = [];
-    this.project = '';
+    this.project = 'Project';
     this.iteration = '';
     this.inputStartDate = '';
     this.inputEndDate = '';
     this.assignedStoryPoints = undefined;
     this.completedStoryPoints = undefined;
+    this.submitted = false;
+    this.complete = false;
+    this.projectSelected = false;;
+    this.incorrectDateAlert = false;
+    this.incorrectStoryPointsAlert = false;
   }
 
 }

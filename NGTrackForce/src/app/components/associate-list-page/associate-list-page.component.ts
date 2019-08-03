@@ -80,7 +80,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
       this.associateStatuses.push(`Unmapped: ${status}`);
     }
     this.associateStatuses.push(SelectedStatusConstants.DIRECTLY_PLACED);
-    this.associateStatuses.push(SelectedStatusConstants.TERMINATED);
+    this.associateStatuses.push(SelectedStatusConstants.TERMINATED);  
 
     // Grab Clients (for now this is messy needs to be handled else ware)
     this.clientList$ = this.clientService.getAllClients();
@@ -90,9 +90,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
       if (Array.isArray(data) && data.length !== 0) {
         this.isFetching = false;
         this.listOfAssociates = this.listOfAssociates.concat(data);
-        this.listOfAssociates.sort((a,b) => 
-        (a.lastName+a.firstName).localeCompare((b.lastName+a.firstName))
-        );
+        this.orderByLastName();
       }
     },
       error => console.error('Error in associate-list-page.component.ts ngOnInit(): ', error.message)
@@ -134,6 +132,37 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     if (this.scrollingTable.scrollHeight - this.scrollingTable.scrollTop + this.scrollingTable.clientHeight <= 5000) {
       this.getNextPage();
     }
+  }
+
+  orderByBatchName(){
+    this.listOfAssociates.sort((a,b) => 
+      (a.batch.batchName).localeCompare((b.batch.batchName))
+    );
+  }
+  orderByClient(){
+    this.listOfAssociates.sort((a,b) => 
+      ((a.client) ? a.client.name : '').localeCompare((b.client) ? b.client.name : '')
+    );
+  }
+  orderByMarketStatus(){
+    this.listOfAssociates.sort((a,b) => 
+     (a.marketingStatus.name).localeCompare((b.marketingStatus.name))
+    );
+  }
+  orderByVerification(){  
+    this.listOfAssociates.sort((a,b) => 
+      (a.user.isApproved.toString()).localeCompare((b.user.isApproved.toString()))
+    ); 
+  }
+  orderByLastName(){
+    this.listOfAssociates.sort((a,b) => 
+     (a.lastName+a.firstName).localeCompare((b.lastName+a.firstName))
+    );
+  }
+  orderByFirstName(){
+    this.listOfAssociates.sort((a,b) => 
+     (a.firstName+a.lastName).localeCompare((b.firstName+a.lastName))
+    );
   }
 
   submitFilter(e) {

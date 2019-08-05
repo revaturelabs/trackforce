@@ -62,9 +62,6 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
    this.lsHelp.removeStorageItem("clientGetAll");
    this.lsHelp.removeStorageItem("checked");
    this.lsHelp.removeStorageItem('associatePage|/page?startIndex=0&numResults=500');
-   let trainNerd: Trainer;
-   trainNerd = JSON.parse(this.lsHelp.localStorageItem("currentTrainer"));
-   this.lsHelp.removeStorageItem(`associatePage|/pagetrain?startIndex=0&numResults=60&trainerId=${trainNerd.id}`);
     /**
      * This is weird you are correct.
      *
@@ -80,6 +77,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
      */
 
     // Add option for none
+
     const possibleTrainer = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
     if (possibleTrainer.role === 2){
       this.associateStatuses.push("");

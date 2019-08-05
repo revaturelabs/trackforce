@@ -85,7 +85,7 @@ export class EditReportsComponent implements OnInit {
   submitEdit() {
     this.submittedEdit = true;
     this.jsFile = new File(
-      [`document.write(\`<b>Files:</b> ${this.fileList.map(file => `<br><a href='report/${file.name}' target='_blank'>${file.name}</a>`)}\`)`]
+      [`document.write(\`<b>Files:</b> ${this.filesEdit.map(file => `<br><a href='report/${file}' target='_blank'>${file}</a>`)}\`)`]
       , 'files.js', { type: 'application/javascript' });
     const uservice = this.uploadService;
 

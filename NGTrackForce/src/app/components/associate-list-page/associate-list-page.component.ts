@@ -58,6 +58,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   constructor(private clientService: ClientService, public associateService: AssociateService, public dialog: MatDialog, public lsHelp: Helpers) { }
 
   ngOnInit() {
+    //Local storage items generated on page load must be destroyed onInit and OnDestroy to avoid an infinite loop on refresh or return
    this.lsHelp.removeStorageItem("clientGetAll");
    this.lsHelp.removeStorageItem("checked");
    this.lsHelp.removeStorageItem('associatePage|/page?startIndex=0&numResults=500');

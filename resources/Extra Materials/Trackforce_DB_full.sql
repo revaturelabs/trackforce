@@ -123,6 +123,7 @@ create table tf_curriculum(
 create table tf_batch (
     tf_batch_id number primary key,
     tf_batch_name varchar2(50),
+    TF_SALESFORCE_ID varchar2(50),
     tf_batch_start_date timestamp,
     tf_batch_end_date timestamp,
     tf_curriculum_id number,
@@ -3660,65 +3661,65 @@ insert into tf_batch_location values(6, 'CUNY-SPS 119 West 31st Street, New York
 
 
 --batch id, name, start, end, curriculum, location
-insert into admin.tf_batch values (0, '1701 Jan09 Java', TO_TIMESTAMP('1/9/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('3/17/2017',  'MM/DD/YYYY'), 2, 1, 1);
-insert into admin.tf_batch values (1, '1701 Jan09 Java AP-ASU', TO_TIMESTAMP('1/9/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('3/17/2017',  'MM/DD/YYYY'), 2, 4, 4);
-insert into admin.tf_batch values (2, '1701 Jan30 NET', TO_TIMESTAMP('1/30/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('4/7/2017',  'MM/DD/YYYY'), 3, 1, 2);
-insert into admin.tf_batch values (3, '1702 Feb13 Java AP-QC', TO_TIMESTAMP('2/13/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('4/21/2017',  'MM/DD/YYYY'), 2, 5, 2);
-insert into admin.tf_batch values (4, '1702 Feb27 Java', TO_TIMESTAMP('2/27/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('5/5/2017',  'MM/DD/YYYY'), 2, 1, 0);
-insert into admin.tf_batch values (5, '1703 Mar20 Java', TO_TIMESTAMP('3/20/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('5/26/2017',  'MM/DD/YYYY'), 2, 1, 4);
-insert into admin.tf_batch values (6, '1703 Mar27 Java', TO_TIMESTAMP('3/27/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('6/2/2017',  'MM/DD/YYYY'), 2, 1, 1);
-insert into admin.tf_batch values (7, '1704 Apr03 Java Cancelled', TO_TIMESTAMP('4/3/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('6/9/2017',  'MM/DD/YYYY'), 2, 1, 4);
-insert into admin.tf_batch values (8, '1704 Apr10 Java', TO_TIMESTAMP('4/10/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('6/16/2017',  'MM/DD/YYYY'), 2, 1, 3);
-insert into admin.tf_batch values (9, '1704 Apr10 SEED', TO_TIMESTAMP('4/10/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('4/21/2017',  'MM/DD/YYYY'), 8, 1, 3);
-insert into admin.tf_batch values (10, '1704 Apr24 Java', TO_TIMESTAMP('4/24/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('6/30/2017',  'MM/DD/YYYY'), 2, 1, 2);
-insert into admin.tf_batch values (11, '1704 Apr24 SEED', TO_TIMESTAMP('4/24/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('5/5/2017',  'MM/DD/YYYY'), 8, 1, 4);
-insert into admin.tf_batch values (12, '1705 May08 JAVA', TO_TIMESTAMP('5/8/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('7/14/2017',  'MM/DD/YYYY'), 2, 1, 1);
-insert into admin.tf_batch values (13, '1705 May08 SEED .NET', TO_TIMESTAMP('5/8/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('5/19/2017',  'MM/DD/YYYY'), 3, 1, 2);
-insert into admin.tf_batch values (14, '1705 May15 Java', TO_TIMESTAMP('5/15/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('7/21/2017',  'MM/DD/YYYY'), 2, 1, 3);
-insert into admin.tf_batch values (15, '1705 May22 .NET', TO_TIMESTAMP('5/22/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('7/28/2017',  'MM/DD/YYYY'), 3, 1, 3);
-insert into admin.tf_batch values (16, '1705 May22 Java', TO_TIMESTAMP('5/22/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('7/28/2017',  'MM/DD/YYYY'), 2, 1, 3);
-insert into admin.tf_batch values (17, '1705 May22 Java AP-UMUC Cancelled', TO_TIMESTAMP('5/22/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('8/4/2017',  'MM/DD/YYYY'), 2, 2, 2);
-insert into admin.tf_batch values (18, '1705 May30 Java AP-USF', TO_TIMESTAMP('5/30/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('8/4/2017',  'MM/DD/YYYY'), 2, 3, 3);
-insert into admin.tf_batch values (19, '1706 Jun05 AP-USF SEED', TO_TIMESTAMP('6/5/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('6/23/2017',  'MM/DD/YYYY'), 8, 3, 0);
-insert into admin.tf_batch values (20, '1706 Jun12 Java AP-SPS', TO_TIMESTAMP('6/12/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('8/25/2017',  'MM/DD/YYYY'), 2, 6, 3);
-insert into admin.tf_batch values (21, '1706 Jun19 Java AP-USF', TO_TIMESTAMP('6/19/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/1/2017',  'MM/DD/YYYY'), 2, 3, 2);
-insert into admin.tf_batch values (22, '1706 Jun19 Salesforce', TO_TIMESTAMP('6/19/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('8/25/2017',  'MM/DD/YYYY'), 6, 1, 1);
-insert into admin.tf_batch values (23, '1706 Jun26 Dynamics 365', TO_TIMESTAMP('6/26/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/1/2017',  'MM/DD/YYYY'), 5, 1, 3);
-insert into admin.tf_batch values (24, '1706 Jun26 Java AP-QC', TO_TIMESTAMP('6/26/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/1/2017',  'MM/DD/YYYY'), 2, 5, 4);
-insert into admin.tf_batch values (25, '1706 Jun26 Oracle Fusion', TO_TIMESTAMP('6/26/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/1/2017',  'MM/DD/YYYY'), 9, 1, 2);
-insert into admin.tf_batch values (26, '1707 Jul05 AP-USF', TO_TIMESTAMP('7/5/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/8/2017',  'MM/DD/YYYY'), null, 3, 4);
-insert into admin.tf_batch values (27, '1707 Jul10 PEGA', TO_TIMESTAMP('7/10/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/15/2017',  'MM/DD/YYYY'), 4, 1, 2);
-insert into admin.tf_batch values (28, '1707 Jul24 Java', TO_TIMESTAMP('7/24/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/29/2017',  'MM/DD/YYYY'), 2, 1, 4);
-insert into admin.tf_batch values (29, '1707 Jul24 Java', TO_TIMESTAMP('7/24/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/29/2017',  'MM/DD/YYYY'), 2, 1, 4);
-insert into admin.tf_batch values (30, '1708 Aug07 Java', TO_TIMESTAMP('8/7/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('10/13/2017',  'MM/DD/YYYY'), 2, 1, 0);
-insert into admin.tf_batch values (31, '1708 Aug14 Java', TO_TIMESTAMP('8/14/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('10/20/2017',  'MM/DD/YYYY'), 2, 1, 0);
-insert into admin.tf_batch values (32, '1708 Aug21 .Net AP-USF', TO_TIMESTAMP('8/21/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('11/3/2017',  'MM/DD/YYYY'), 3, 3, 2);
-insert into admin.tf_batch values (33, '1709 Sep11 .NET PR', TO_TIMESTAMP('9/11/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('11/17/2017',  'MM/DD/YYYY'), 3, 1, 1);
-insert into admin.tf_batch values (34, '1709 Sep11 SEED WITNY', TO_TIMESTAMP('9/11/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/22/2017',  'MM/DD/YYYY'), 8, 6, 2);
-insert into admin.tf_batch values (35, '1709 Sep18 Java AP-USF', TO_TIMESTAMP('9/18/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('11/24/2017',  'MM/DD/YYYY'), 2, 3, 1);
-insert into admin.tf_batch values (36, '1709 Sep18 Salesforce', TO_TIMESTAMP('9/18/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('12/8/2017',  'MM/DD/YYYY'), 6, 1, 4);
-insert into admin.tf_batch values (37, '1709 Sep25 Java AP-CUNY', TO_TIMESTAMP('9/25/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('12/1/2017',  'MM/DD/YYYY'), 2, 6, 0);
-insert into admin.tf_batch values (38, '1709 Sep11 JTA', TO_TIMESTAMP('9/11/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('11/17/2017',  'MM/DD/YYYY'), 1, 1, 1);
-insert into admin.tf_batch values (39, '1710 Oct09 PEGA', TO_TIMESTAMP('10/9/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('12/15/2017',  'MM/DD/YYYY'), 4, 1, 4);
-insert into admin.tf_batch values (40, '1710 Oct23 Java AP-CUNY', TO_TIMESTAMP('10/23/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('1/5/2018',  'MM/DD/YYYY'), 2, 6, 4);
-insert into admin.tf_batch values (41, '1710 Oct30 Java AP-USF', TO_TIMESTAMP('10/30/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('1/12/2018',  'MM/DD/YYYY'), 2, 3, 1);
-insert into admin.tf_batch values (42, '1711 Nov06 JTA', TO_TIMESTAMP('11/6/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('1/12/2018',  'MM/DD/YYYY'), 1, 1, 4);
-insert into admin.tf_batch values (43, '1711 Nov13 Java', TO_TIMESTAMP('11/13/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('1/26/2018',  'MM/DD/YYYY'), 2, 1, 1);
-insert into admin.tf_batch values (44, '1711 Nov13 Java AP-USF', TO_TIMESTAMP('11/13/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('1/19/2018',  'MM/DD/YYYY'), 2, 3, 0);
-insert into admin.tf_batch values (45, '1711 Nov13 Dynamics Lateral Hire', TO_TIMESTAMP('11/13/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('1/12/2018',  'MM/DD/YYYY'), 5, 1, 2);
-insert into admin.tf_batch values (46, '1712 Dec04 Java AP-USF', TO_TIMESTAMP('12/4/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('2/16/2018',  'MM/DD/YYYY'), 2, 3, 2);
-insert into admin.tf_batch values (47, '1712 Dec04 Java', TO_TIMESTAMP('12/4/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('2/9/2018',  'MM/DD/YYYY'), 2, 1, 4);
-insert into admin.tf_batch values (48, '1712 Dec04 .Net', TO_TIMESTAMP('12/4/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('2/9/2018',  'MM/DD/YYYY'), 3, 1, 3);
-insert into admin.tf_batch values (49, '1712 Dec11 Java', TO_TIMESTAMP('12/11/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('2/23/2018',  'MM/DD/YYYY'), 2, 1, 1);
-insert into admin.tf_batch values (50, '1712 Dec11 Java AP-USF', TO_TIMESTAMP('12/11/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('2/23/2018',  'MM/DD/YYYY'), 2, 3, 0);
-insert into admin.tf_batch values (51, '1712 Dec18', null, null, null, null, 0);
-insert into admin.tf_batch values (52, '1801 Jan08', null, null, null, null, 0);
-insert into admin.tf_batch values (53, '1801 Jan22 AP-QC', null, null, null, null, 3);
-insert into admin.tf_batch values (54, '1801 Jan29', null, null, null, null, 4);
-insert into admin.tf_batch values (55, '1802 Feb05', null, null, null, null, 4);
-insert into admin.tf_batch values (56, '1802 Feb12 AP-USF', null, null, null, null, 3);
-insert into admin.tf_batch values (57, '1802 Feb26', null, null, null, null, 0);
-insert into admin.tf_batch values (58, '1611 Nov28 JTA', null, null, 1, null, 4);
+insert into admin.tf_batch values (0, '1701 Jan09 Java', 'AAA', TO_TIMESTAMP('1/9/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('3/17/2017',  'MM/DD/YYYY'), 2, 1, 1);
+insert into admin.tf_batch values (1, '1701 Jan09 Java AP-ASU', 'AAA', TO_TIMESTAMP('1/9/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('3/17/2017',  'MM/DD/YYYY'), 2, 4, 4);
+insert into admin.tf_batch values (2, '1701 Jan30 NET', 'AAA', TO_TIMESTAMP('1/30/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('4/7/2017',  'MM/DD/YYYY'), 3, 1, 2);
+insert into admin.tf_batch values (3, '1702 Feb13 Java AP-QC', 'AAA', TO_TIMESTAMP('2/13/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('4/21/2017',  'MM/DD/YYYY'), 2, 5, 2);
+insert into admin.tf_batch values (4, '1702 Feb27 Java', 'AAA', TO_TIMESTAMP('2/27/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('5/5/2017',  'MM/DD/YYYY'), 2, 1, 0);
+insert into admin.tf_batch values (5, '1703 Mar20 Java', 'AAA', TO_TIMESTAMP('3/20/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('5/26/2017',  'MM/DD/YYYY'), 2, 1, 4);
+insert into admin.tf_batch values (6, '1703 Mar27 Java', 'AAA', TO_TIMESTAMP('3/27/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('6/2/2017',  'MM/DD/YYYY'), 2, 1, 1);
+insert into admin.tf_batch values (7, '1704 Apr03 Java Cancelled', 'AAA', TO_TIMESTAMP('4/3/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('6/9/2017',  'MM/DD/YYYY'), 2, 1, 4);
+insert into admin.tf_batch values (8, '1704 Apr10 Java', 'AAA', TO_TIMESTAMP('4/10/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('6/16/2017',  'MM/DD/YYYY'), 2, 1, 3);
+insert into admin.tf_batch values (9, '1704 Apr10 SEED', 'AAA', TO_TIMESTAMP('4/10/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('4/21/2017',  'MM/DD/YYYY'), 8, 1, 3);
+insert into admin.tf_batch values (10, '1704 Apr24 Java', 'AAA', TO_TIMESTAMP('4/24/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('6/30/2017',  'MM/DD/YYYY'), 2, 1, 2);
+insert into admin.tf_batch values (11, '1704 Apr24 SEED', 'AAA', TO_TIMESTAMP('4/24/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('5/5/2017',  'MM/DD/YYYY'), 8, 1, 4);
+insert into admin.tf_batch values (12, '1705 May08 JAVA', 'AAA', TO_TIMESTAMP('5/8/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('7/14/2017',  'MM/DD/YYYY'), 2, 1, 1);
+insert into admin.tf_batch values (13, '1705 May08 SEED .NET', 'AAA', TO_TIMESTAMP('5/8/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('5/19/2017',  'MM/DD/YYYY'), 3, 1, 2);
+insert into admin.tf_batch values (14, '1705 May15 Java', 'AAA', TO_TIMESTAMP('5/15/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('7/21/2017',  'MM/DD/YYYY'), 2, 1, 3);
+insert into admin.tf_batch values (15, '1705 May22 .NET', 'AAA', TO_TIMESTAMP('5/22/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('7/28/2017',  'MM/DD/YYYY'), 3, 1, 3);
+insert into admin.tf_batch values (16, '1705 May22 Java', 'AAA', TO_TIMESTAMP('5/22/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('7/28/2017',  'MM/DD/YYYY'), 2, 1, 3);
+insert into admin.tf_batch values (17, '1705 May22 Java AP-UMUC Cancelled', 'AAA', TO_TIMESTAMP('5/22/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('8/4/2017',  'MM/DD/YYYY'), 2, 2, 2);
+insert into admin.tf_batch values (18, '1705 May30 Java AP-USF', 'AAA', TO_TIMESTAMP('5/30/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('8/4/2017',  'MM/DD/YYYY'), 2, 3, 3);
+insert into admin.tf_batch values (19, '1706 Jun05 AP-USF SEED', 'AAA', TO_TIMESTAMP('6/5/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('6/23/2017',  'MM/DD/YYYY'), 8, 3, 0);
+insert into admin.tf_batch values (20, '1706 Jun12 Java AP-SPS', 'AAA', TO_TIMESTAMP('6/12/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('8/25/2017',  'MM/DD/YYYY'), 2, 6, 3);
+insert into admin.tf_batch values (21, '1706 Jun19 Java AP-USF', 'AAA', TO_TIMESTAMP('6/19/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/1/2017',  'MM/DD/YYYY'), 2, 3, 2);
+insert into admin.tf_batch values (22, '1706 Jun19 Salesforce', 'AAA', TO_TIMESTAMP('6/19/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('8/25/2017',  'MM/DD/YYYY'), 6, 1, 1);
+insert into admin.tf_batch values (23, '1706 Jun26 Dynamics 365', 'AAA', TO_TIMESTAMP('6/26/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/1/2017',  'MM/DD/YYYY'), 5, 1, 3);
+insert into admin.tf_batch values (24, '1706 Jun26 Java AP-QC', 'AAA', TO_TIMESTAMP('6/26/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/1/2017',  'MM/DD/YYYY'), 2, 5, 4);
+insert into admin.tf_batch values (25, '1706 Jun26 Oracle Fusion', 'AAA', TO_TIMESTAMP('6/26/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/1/2017',  'MM/DD/YYYY'), 9, 1, 2);
+insert into admin.tf_batch values (26, '1707 Jul05 AP-USF', 'AAA', TO_TIMESTAMP('7/5/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/8/2017',  'MM/DD/YYYY'), null, 3, 4);
+insert into admin.tf_batch values (27, '1707 Jul10 PEGA', 'AAA', TO_TIMESTAMP('7/10/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/15/2017',  'MM/DD/YYYY'), 4, 1, 2);
+insert into admin.tf_batch values (28, '1707 Jul24 Java', 'AAA', TO_TIMESTAMP('7/24/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/29/2017',  'MM/DD/YYYY'), 2, 1, 4);
+insert into admin.tf_batch values (29, '1707 Jul24 Java', 'AAA', TO_TIMESTAMP('7/24/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/29/2017',  'MM/DD/YYYY'), 2, 1, 4);
+insert into admin.tf_batch values (30, '1708 Aug07 Java', 'AAA', TO_TIMESTAMP('8/7/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('10/13/2017',  'MM/DD/YYYY'), 2, 1, 0);
+insert into admin.tf_batch values (31, '1708 Aug14 Java', 'AAA', TO_TIMESTAMP('8/14/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('10/20/2017',  'MM/DD/YYYY'), 2, 1, 0);
+insert into admin.tf_batch values (32, '1708 Aug21 .Net AP-USF', 'AAA', TO_TIMESTAMP('8/21/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('11/3/2017',  'MM/DD/YYYY'), 3, 3, 2);
+insert into admin.tf_batch values (33, '1709 Sep11 .NET PR', 'AAA', TO_TIMESTAMP('9/11/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('11/17/2017',  'MM/DD/YYYY'), 3, 1, 1);
+insert into admin.tf_batch values (34, '1709 Sep11 SEED WITNY', 'AAA', TO_TIMESTAMP('9/11/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('9/22/2017',  'MM/DD/YYYY'), 8, 6, 2);
+insert into admin.tf_batch values (35, '1709 Sep18 Java AP-USF', 'AAA', TO_TIMESTAMP('9/18/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('11/24/2017',  'MM/DD/YYYY'), 2, 3, 1);
+insert into admin.tf_batch values (36, '1709 Sep18 Salesforce', 'AAA', TO_TIMESTAMP('9/18/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('12/8/2017',  'MM/DD/YYYY'), 6, 1, 4);
+insert into admin.tf_batch values (37, '1709 Sep25 Java AP-CUNY', 'AAA', TO_TIMESTAMP('9/25/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('12/1/2017',  'MM/DD/YYYY'), 2, 6, 0);
+insert into admin.tf_batch values (38, '1709 Sep11 JTA', 'AAA', TO_TIMESTAMP('9/11/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('11/17/2017',  'MM/DD/YYYY'), 1, 1, 1);
+insert into admin.tf_batch values (39, '1710 Oct09 PEGA', 'AAA', TO_TIMESTAMP('10/9/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('12/15/2017',  'MM/DD/YYYY'), 4, 1, 4);
+insert into admin.tf_batch values (40, '1710 Oct23 Java AP-CUNY', 'AAA', TO_TIMESTAMP('10/23/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('1/5/2018',  'MM/DD/YYYY'), 2, 6, 4);
+insert into admin.tf_batch values (41, '1710 Oct30 Java AP-USF', 'AAA', TO_TIMESTAMP('10/30/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('1/12/2018',  'MM/DD/YYYY'), 2, 3, 1);
+insert into admin.tf_batch values (42, '1711 Nov06 JTA', 'AAA', TO_TIMESTAMP('11/6/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('1/12/2018',  'MM/DD/YYYY'), 1, 1, 4);
+insert into admin.tf_batch values (43, '1711 Nov13 Java', 'AAA', TO_TIMESTAMP('11/13/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('1/26/2018',  'MM/DD/YYYY'), 2, 1, 1);
+insert into admin.tf_batch values (44, '1711 Nov13 Java AP-USF', 'AAA', TO_TIMESTAMP('11/13/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('1/19/2018',  'MM/DD/YYYY'), 2, 3, 0);
+insert into admin.tf_batch values (45, '1711 Nov13 Dynamics Lateral Hire', 'AAA', TO_TIMESTAMP('11/13/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('1/12/2018',  'MM/DD/YYYY'), 5, 1, 2);
+insert into admin.tf_batch values (46, '1712 Dec04 Java AP-USF', 'AAA', TO_TIMESTAMP('12/4/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('2/16/2018',  'MM/DD/YYYY'), 2, 3, 2);
+insert into admin.tf_batch values (47, '1712 Dec04 Java', 'AAA', TO_TIMESTAMP('12/4/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('2/9/2018',  'MM/DD/YYYY'), 2, 1, 4);
+insert into admin.tf_batch values (48, '1712 Dec04 .Net', 'AAA', TO_TIMESTAMP('12/4/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('2/9/2018',  'MM/DD/YYYY'), 3, 1, 3);
+insert into admin.tf_batch values (49, '1712 Dec11 Java', 'AAA', TO_TIMESTAMP('12/11/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('2/23/2018',  'MM/DD/YYYY'), 2, 1, 1);
+insert into admin.tf_batch values (50, '1712 Dec11 Java AP-USF', 'AAA', TO_TIMESTAMP('12/11/2017', 'MM/DD/YYYY'), TO_TIMESTAMP('2/23/2018',  'MM/DD/YYYY'), 2, 3, 0);
+insert into admin.tf_batch values (51, '1712 Dec18', 'AAA', null, null, null, null, 0);
+insert into admin.tf_batch values (52, '1801 Jan08', 'AAA', null, null, null, null, 0);
+insert into admin.tf_batch values (53, '1801 Jan22 AP-QC', 'AAA', null, null, null, null, 3);
+insert into admin.tf_batch values (54, '1801 Jan29', 'AAA', null, null, null, null, 4);
+insert into admin.tf_batch values (55, '1802 Feb05', 'AAA', null, null, null, null, 4);
+insert into admin.tf_batch values (56, '1802 Feb12 AP-USF', 'AAA', null, null, null, null, 3);
+insert into admin.tf_batch values (57, '1802 Feb26', 'AAA', null, null, null, null, 0);
+insert into admin.tf_batch values (58, '1611 Nov28 JTA', 'AAA', null, null, 1, null, 4);
 
 
 

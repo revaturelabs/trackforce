@@ -131,28 +131,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     );
   }
     this.lsHelp.localStorageSet("checked",JSON.stringify(this.listOfAssociates));
-    //this.checkTrainer();
-  }
-
-    checkTrainer(){
-      const thingy = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
-      if (thingy.role === 2){
-        let x: number;
-        let y: Associate[] = [];
-        const otherThingy = JSON.parse(this.lsHelp.localStorageItem("currentTrainer"));
-        for (x = 0; x < this.listOfAssociates.length; x++){
-          console.log(this.listOfAssociates[x].batch.trainer);
-          console.log(otherThingy);
-          if (this.listOfAssociates[x].batch.trainer.id === otherThingy.id){
-            console.log(this.listOfAssociates[x]);
-            y.push(this.listOfAssociates[x]);
-          }
-        }
-        this.listOfAssociates = y;
-        this.lsHelp.localStorageSet('myAssoc', JSON.stringify(y));
-      }
-    }
-  
+  }  
 
   ngAfterViewInit() {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.

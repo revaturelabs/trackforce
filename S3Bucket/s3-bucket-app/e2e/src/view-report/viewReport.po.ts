@@ -18,7 +18,7 @@ export class ViewReport extends BasePage {
     return this.viewReportTab;
   }
 
-  ProjectListSelector(){
+  ProjectListSelector() {
     return this.ProjectListSelector;
   }
 

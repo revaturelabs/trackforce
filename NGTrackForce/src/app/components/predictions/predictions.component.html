@@ -24,7 +24,8 @@
       <div *ngIf="!loadingTechnologies && !message">
         <!-- Input Table-->
         <div class="table-div">
-          <table id="techTable" class="table borderless scrollable-table col-2-table fixedw-table" style="background-color: #F5F5F5">
+          <table id="techTable" class="table borderless scrollable-table col-2-table fixedw-table"
+            style="background-color: #F5F5F5">
             <thead>
               <tr>
                 <th>Technology</th>
@@ -39,13 +40,12 @@
                 </td>
                 <td><input id="{{tech.name}}-input" type="number" class="form-control" [(ngModel)]="techNeeded[i]"
                     [ngModelOptions]="{standalone: true}" onkeypress="return (event.charCode == 0 || event.charCode == 8 || event.charCode == 13) ?
-                  null : event.charCode >= 48 && event.charCode <= 57"
-                     [min]="0"></td>
+                  null : event.charCode >= 48 && event.charCode <= 57" [min]="0"></td>
               </tr>
             </tbody>
           </table>
         </div>
-      <button (click)="getAllPredictions()" class="btn btn-primary" id="check-resources">Check Resources</button>
+        <button (click)="getAllPredictions()" class="btn btn-primary" id="check-resources">Check Resources</button>
       </div>
 
     </div>
@@ -89,14 +89,18 @@
               </tr>
             </thead>
             <tbody style="max-height: 222px;">
-              <tr *ngFor="let o of results" (click)="getDetails(o.technology)" style="cursor: pointer;" id="{{o.technology}}">
-                <td><em style="margin-right:10px" class="fa fa-info-circle" aria-hidden="true"></em>{{o.technology}}</td>
-                <td id="needed">{{o.requested}}</td>
-                <td id="available">{{o.available}}</td>
+              <tr *ngFor="let result of results" (click)="getDetails(result.technology)" style="cursor: pointer;"
+                id="{{result.technology}}">
+                <td><em style="margin-right:10px" class="fa fa-info-circle"
+                    aria-hidden="true"></em>{{result.technology}}</td>
+                <td id="needed">{{result.requested}}</td>
+                <td id="available">{{result.available}}</td>
                 <!-- <td [class]="o.available > o.requested ? bg-success : bg-danger">{{o.available - o.requested}}</td> -->
-                <td id="difference" class="bg-success" *ngIf="o.available > o.requested">{{o.available - o.requested}}</td>
-                <td id="difference" class="bg-danger" *ngIf="o.available < o.requested">{{o.available - o.requested}}</td>
-                <td *ngIf="o.available == o.requested">{{o.available - o.requested}}</td>
+                <td id="difference" class="bg-success" *ngIf="result.available > result.requested">
+                  {{result.available - result.requested}}</td>
+                <td id="difference" class="bg-danger" *ngIf="result.available < result.requested">
+                  {{result.available - result.requested}}</td>
+                <td *ngIf="result.available == result.requested">{{result.available - result.requested}}</td>
               </tr>
             </tbody>
           </table>
@@ -132,12 +136,12 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let x of batches['courseBatches']">
-              <tr *ngIf="x['associateCount'] != 0 || showEmpty">
-                <td>{{x['batchName']}}</td>
-                <td>{{x['associateCount']}}</td>
-                <td>{{x['startDate'] | date}}</td>
-                <td>{{x['endDate'] | date}}</td>
+            <ng-container *ngFor="let batch of batches['courseBatches']">
+              <tr *ngIf="batch['associateCount'] !== 0 || showEmpty">
+                <td>{{batch['batchName']}}</td>
+                <td>{{batch['associateCount']}}</td>
+                <td>{{batch['startDate'] | date}}</td>
+                <td>{{batch['endDate'] | date}}</td>
               </tr>
             </ng-container>
           </tbody>

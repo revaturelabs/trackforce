@@ -7,6 +7,7 @@ import { SelectedStatusConstants } from './../../constants/selected-status.const
 import { Component, OnInit, OnDestroy, AfterViewInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Router, NavigationExtras } from '@angular/router';
+import { Helpers } from '../../lsHelper';
 
 
 export interface DialogData {
@@ -53,7 +54,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     "TERMINATED": 12
   }
 
-  constructor(private clientService: ClientService, public associateService: AssociateService, public dialog: MatDialog) { }
+  constructor(private clientService: ClientService, public associateService: AssociateService, public dialog: MatDialog, public lsHelp: Helpers) { }
 
   ngOnInit() {
     /**
@@ -93,9 +94,24 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     },
       error => console.error('Error in associate-list-page.component.ts ngOnInit(): ', error.message)
     );
+
+    this.checkTrainer();
   }
 
-
+    checkTrainer(){
+      const thingy = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
+      if (thingy.role === 2){
+        let x: number;
+        let y: Associate[] = [];
+        const otherThingy = JSON.parse(this.lsHelp.localStorageItem("currentTrainer"));
+        for (x = 0; x < this.listOfAssociates.length; x++){
+          if (this.listOfAssociates[x].batch.trainer.id === otherThingy.id){
+            y.push(this.listOfAssociates[x]);
+          }
+        }
+        this.listOfAssociates = y;
+      }
+    }
   
 
   ngAfterViewInit() {
@@ -108,6 +124,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
    this.scrollingTable.removeEventListener('scroll', this.onScroll.bind(this));
+   this.lsHelp.removeStorageItem("clientGetAll");
   }
 
   onScroll(event: Event) {

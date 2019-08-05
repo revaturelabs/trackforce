@@ -13,7 +13,7 @@ export class EditReportsComponent implements OnInit {
   @Input() projectList: Observable<Array<string>>;
 
   // Edit reports
-  iterationListEdit: Observable<Array<string>>;
+  iterationListEdit: string[];
   filesEdit: Array<string>;
   fileList: File[];
   filesToDel: Array<string>;
@@ -24,24 +24,27 @@ export class EditReportsComponent implements OnInit {
   // Edit validations
   submittedEdit: boolean;
   submittedDelete: boolean;
+  submittedDeleteWarn: boolean;
   completeEdit: boolean;
 
   constructor(private uploadService: UploadService) { }
 
   ngOnInit() {
-    this.iterationChoice = '';
+    this.iterationChoice = 'Select Iteration';
+    this.projectEdit = 'Select Project';
     this.fileList=[];
     this.filesToDel=[];
-    this.projectEdit = 'Select Project';
   }
 
   // Edit Reports methods
 
   setProjectEdit(project: string) {
     this.projectEdit = project;
-    this.iterationListEdit = this.uploadService.getProjectSprints(project);
-    this.iterationChoice = "";
-    this.filesEdit = undefined;
+    this.uploadService.getProjectSprints(project).subscribe( iter => {
+      this.iterationListEdit = iter;
+    })
+    this.iterationChoice = 'Select Iteration';
+    this.filesEdit = [];
   }
 
   setIteration(iter: string) {
@@ -64,7 +67,16 @@ export class EditReportsComponent implements OnInit {
     this.filesToDel.push(file);
   }
 
+  deletionWarning() {
+    this.submittedDeleteWarn = true;
+  }
+
+  resetDelete() {
+    this.submittedDeleteWarn = false;
+  }
+
   deleteIteration(){
+    this.submittedDeleteWarn = false;
     this.submittedDelete = true;
     const uservice = this.uploadService;
     this.filesEdit.forEach((file) => {
@@ -100,11 +112,12 @@ export class EditReportsComponent implements OnInit {
   resetValuesEdit() {
     this.submittedEdit = false;
     this.submittedDelete = false;
+    this.submittedDeleteWarn = false;
     this.filesEdit = undefined;
     this.iterationListEdit = undefined;
     this.fileList = [];
     this.filesToDel = [];
-    this.iterationChoice = '';
+    this.iterationChoice = 'Select Iteration';
     this.projectEdit = 'Select Poject';
   }
 

@@ -24,7 +24,7 @@ export class ViewReportsComponent implements OnInit {
   @Input() projectList: Observable<Array<string>>;
   bucketName: string;
   projectChoice: string;
-  iterationList: Observable<Array<string>>;
+  iterationList: string[];
   iterationLink: string;
   selectedIteration: string;
   iterationViewShow = false;
@@ -34,7 +34,7 @@ export class ViewReportsComponent implements OnInit {
   ngOnInit() {
     this.bucketName = environment.bucketName; 
     this.projectChoice = 'Select Project';
-    this.selectedIteration = 'Iteration';
+    this.selectedIteration = ' Select Iteration';
   }
 
   createLink(iter : string) {
@@ -45,8 +45,11 @@ export class ViewReportsComponent implements OnInit {
   }
 
   showIterations(project: string) {
+    this.selectedIteration = 'Select Iteration'
     this.projectChoice = project;
-    this.iterationList = this.uploadService.getProjectSprints(project);
+    this.uploadService.getProjectSprints(project).subscribe(iter => {
+      this.iterationList = iter;
+    });
     this.iterationViewShow = false;
   }
 
@@ -54,8 +57,7 @@ export class ViewReportsComponent implements OnInit {
     this.iterationViewShow = false;
     this.iterationList = undefined;
     this.projectChoice = 'Select Project';
-    this.selectedIteration = 'Iteration';
+    this.selectedIteration = 'Select Iteration';
   }
-
 
 }

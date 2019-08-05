@@ -100,8 +100,8 @@ export class UploadReportsComponent implements OnInit {
           <b>Iteration:</b> ${this.iteration} <br>
           <b>Start Date:</b> ${this.inputStartDate}<br>
           <b>End Date:</b> ${this.inputEndDate} <br>
-          <b>Duration:</b> ${days} days <br>
-          <b>Velocity:</b> ${this.completedStoryPoints}/${this.assignedStoryPoints}<br>
+          <b>Duration:</b> ${days} day(s) <br>
+          <b>Velocity:</b> ${this.completedStoryPoints/days} user stories per day<br>
           <script src='files.js'></script>
         </body>
       </html>

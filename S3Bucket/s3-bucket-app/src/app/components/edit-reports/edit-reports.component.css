@@ -1,4 +1,4 @@
-.btn {
+.select {
   background-color: rgb(242, 106, 37);
   color: white;
 }
@@ -41,4 +41,8 @@ h5, a {
   
 #remove {
   cursor: pointer;
+}
+
+#update {
+  float: right;
 }

@@ -14,9 +14,14 @@
                 <button class="btn btn-outline-secondary dropdown-toggle" type="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >{{ selectedIteration }}</button>
                 <div class="dropdown-menu">
-                    <div *ngFor="let iter of iterationList | async">
-                        <p class="dropdown-item" (click)="createLink(iter)"> {{ iter }}</p>
-                    </div>
+                    <ng-container *ngIf="iterationList.length == 0; else iterations">
+                        <p class="dropdown-item">No Iterations</p>
+                    </ng-container>
+                    <ng-template #iterations>
+                        <div *ngFor="let iter of iterationList">
+                            <p class="dropdown-item" (click)="createLink(iter)"> {{ iter }}</p>
+                        </div>
+                    </ng-template>
                 </div>
             </div>
         </div>

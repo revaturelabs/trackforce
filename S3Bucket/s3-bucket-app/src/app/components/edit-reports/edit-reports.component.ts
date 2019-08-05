@@ -23,6 +23,7 @@ export class EditReportsComponent implements OnInit {
 
   // Edit validations
   submittedEdit: boolean;
+  submittedDelete: boolean;
   completeEdit: boolean;
 
   constructor(private uploadService: UploadService) { }
@@ -31,7 +32,7 @@ export class EditReportsComponent implements OnInit {
     this.iterationChoice = '';
     this.fileList=[];
     this.filesToDel=[];
-    this.projectEdit = "Project";
+    this.projectEdit = 'Select Project';
   }
 
   // Edit Reports methods
@@ -58,28 +59,21 @@ export class EditReportsComponent implements OnInit {
 
   removeFile(file: string) {
     this.filesEdit = this.filesEdit.filter((value) => {
-
       return value != file;
-
     });
     this.filesToDel.push(file);
   }
+
   deleteIteration(){
+    this.submittedDelete = true;
     const uservice = this.uploadService;
     this.filesEdit.forEach((file) => {
       uservice.deleteFiles(this.projectEdit, this.iterationChoice, file);
     });
     this.uploadService.deleteIteration(this.projectEdit, this.iterationChoice);
-    this.resetValuesEdit();
-  }
-
-  validateEdit() {
-    // TODO: validate that there is at least one file in filelist, even after delete
-    if (this.iterationChoice != undefined) {
-      this.completeEdit = true;
-    } else {
-      this.completeEdit = false;
-    }
+    setTimeout(() => {
+      this.resetValuesEdit();
+    }, 2000);
   }
 
   submitEdit() {
@@ -94,6 +88,7 @@ export class EditReportsComponent implements OnInit {
     });
     this.filesToDel.forEach((file) => {
       uservice.deleteFiles(this.projectEdit, this.iterationChoice, file);
+      console.log(file);
     });
 
     this.uploadService.uploadReport(this.jsFile, this.projectEdit, this.iterationChoice + '/files.js');
@@ -104,10 +99,13 @@ export class EditReportsComponent implements OnInit {
 
   resetValuesEdit() {
     this.submittedEdit = false;
+    this.submittedDelete = false;
     this.filesEdit = undefined;
     this.iterationListEdit = undefined;
+    this.fileList = [];
+    this.filesToDel = [];
     this.iterationChoice = '';
-    this.projectEdit = 'Project';
+    this.projectEdit = 'Select Poject';
   }
 
 }

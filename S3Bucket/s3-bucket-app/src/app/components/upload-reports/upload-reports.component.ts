@@ -28,7 +28,7 @@ export class UploadReportsComponent implements OnInit {
   constructor(private uploadService : UploadService) { }
 
   ngOnInit() {
-    this.project = '';
+    this.project = 'Project';
     this.fileList = [];
   }
 
@@ -69,7 +69,7 @@ export class UploadReportsComponent implements OnInit {
     // if all fields are completed
     if (this.inputStartDate && this.inputEndDate && this.assignedStoryPoints && 
         this.completedStoryPoints && this.projectSelected && this.iteration &&
-        !this.incorrectStoryPointsAlert && !this.incorrectDateAlert) {
+        !this.incorrectStoryPointsAlert && !this.incorrectDateAlert && this.project != "Project") {
       this.complete = true;
     } else {
       this.complete = false;
@@ -127,7 +127,7 @@ export class UploadReportsComponent implements OnInit {
   resetValues() {
     this.submitted = false;
     this.fileList = [];
-    this.project = '';
+    this.project = 'Project';
     this.iteration = '';
     this.inputStartDate = '';
     this.inputEndDate = '';

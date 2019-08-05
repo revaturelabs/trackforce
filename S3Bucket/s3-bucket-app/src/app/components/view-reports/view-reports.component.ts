@@ -33,6 +33,7 @@ export class ViewReportsComponent implements OnInit {
 
   ngOnInit() {
     this.bucketName = environment.bucketName; 
+    
   }
 
   createLink() {
@@ -43,6 +44,8 @@ export class ViewReportsComponent implements OnInit {
 
   showIterations() {
     this.iterationList = this.uploadService.getProjectSprints(this.projectChoice);
+    console.log(environment.test)
+    console.log(environment.test1)
     this.iterationViewShow = false;
   }
 

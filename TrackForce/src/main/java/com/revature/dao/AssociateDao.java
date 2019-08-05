@@ -38,4 +38,6 @@ public interface AssociateDao {
 	public void deleteAssociate(TfAssociate associate);
 	
 	public void deleteOldAssociateProcedure();
+
+
 }

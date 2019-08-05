@@ -8,6 +8,7 @@ import { Component, OnInit, OnDestroy, AfterViewInit, Inject } from '@angular/co
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Router, NavigationExtras } from '@angular/router';
 import { Helpers } from '../../lsHelper';
+import { Trainer } from '../../models/trainer.model';
 
 
 export interface DialogData {
@@ -72,6 +73,34 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
      */
 
     // Add option for none
+    const thingy2 = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
+    if (thingy2.role === 2){
+      this.associateStatuses.push("");
+      for (const status of SelectedStatusConstants.MAPPED_LABELS) {
+        this.associateStatuses.push(`Mapped: ${status}`);
+      }
+      for (const status of SelectedStatusConstants.UNMAPPED_LABELS) {
+        this.associateStatuses.push(`Unmapped: ${status}`);
+      }
+      this.associateStatuses.push(SelectedStatusConstants.DIRECTLY_PLACED);
+      this.associateStatuses.push(SelectedStatusConstants.TERMINATED);
+  
+      // Grab Clients (for now this is messy needs to be handled else ware)
+      this.clientList$ = this.clientService.getAllClients();
+      this.associates$ = this.associateService.fetchAssociateSnapshotT(60, {});
+  
+      this.associates$.subscribe((data: Associate[]) => {
+        if (Array.isArray(data) && data.length !== 0) {
+          this.isFetching = false;
+          this.listOfAssociates = this.listOfAssociates.concat(data);
+        }
+      },
+        error => console.error('Error in associate-list-page.component.ts ngOnInit(): ', error.message)
+      );
+      // Grab Clients (for now this is messy needs to be handled else ware)
+
+    }
+    else{
     this.associateStatuses.push("");
     for (const status of SelectedStatusConstants.MAPPED_LABELS) {
       this.associateStatuses.push(`Mapped: ${status}`);
@@ -94,8 +123,8 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     },
       error => console.error('Error in associate-list-page.component.ts ngOnInit(): ', error.message)
     );
-
-    this.checkTrainer();
+  }
+    //this.checkTrainer();
   }
 
     checkTrainer(){
@@ -105,11 +134,15 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
         let y: Associate[] = [];
         const otherThingy = JSON.parse(this.lsHelp.localStorageItem("currentTrainer"));
         for (x = 0; x < this.listOfAssociates.length; x++){
+          console.log(this.listOfAssociates[x].batch.trainer);
+          console.log(otherThingy);
           if (this.listOfAssociates[x].batch.trainer.id === otherThingy.id){
+            console.log(this.listOfAssociates[x]);
             y.push(this.listOfAssociates[x]);
           }
         }
         this.listOfAssociates = y;
+        this.lsHelp.localStorageSet('myAssoc', JSON.stringify(y));
       }
     }
   
@@ -125,6 +158,10 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     //Called once, before the instance is destroyed.
    this.scrollingTable.removeEventListener('scroll', this.onScroll.bind(this));
    this.lsHelp.removeStorageItem("clientGetAll");
+   this.lsHelp.removeStorageItem('associatePage|/page?startIndex=0&numResults=500');
+   let trainNerd: Trainer;
+   trainNerd = JSON.parse(this.lsHelp.localStorageItem("currentTrainer"));
+   this.lsHelp.removeStorageItem(`associatePage|/pagetrain?startIndex=0&numResults=60&trainerId=${trainNerd.id}`);
   }
 
   onScroll(event: Event) {
@@ -183,9 +220,16 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   getNextPage() {
-    if (!this.isFetching) {
+    const thingy3 = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
+    if (thingy3.role === 2 && !this.isFetching){  
       this.isFetching = true;
-      this.associateService.fetchNextSnapshot();
+      this.associateService.fetchNextSnapshotT();
+    }
+    else  {
+      if (!this.isFetching){
+        this.isFetching = true;
+        this.associateService.fetchNextSnapshot();
+      }
     }
   }
 

@@ -38,7 +38,7 @@ describe('test assocation pagenation functionality', function () {
     //More associates should load in
     if (element(by.css("table tbody tr:nth-child(60)")).isPresent) {
       browser.actions().mouseMove(element(by.css("table tbody tr:nth-child(60)"))).perform();
-      expect(element.all(by.css("table tbody tr")).count()).toBeLessThanOrEqual(120);
+      expect(element.all(by.css("table tbody tr")).count()).toBeLessThanOrEqual(121);
       //In case there are less than 60 associates
     } else {
       expect(element.all(by.css("table tbody tr")).count()).toBeLessThanOrEqual(60);

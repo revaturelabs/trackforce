@@ -10,15 +10,11 @@ import { Observable } from 'rxjs';
 export class UploadReportsComponent implements OnInit {
 
   @Input() projectList: Observable<Array<string>>;
-
-  // Upload reports
   fileList: File[];
   indexFile: File;
   jsFile: File;
   iteration: string;
   project: string;
-
-  // Upload validations
   inputStartDate: string;
   inputEndDate: string;
   completedStoryPoints: number;
@@ -36,10 +32,10 @@ export class UploadReportsComponent implements OnInit {
     this.fileList = [];
   }
 
-  // Upload Report methods
-
   selectFiles(event) {
-    this.fileList.push(event.target.files.item(0));
+    for(let i = 0; i<event.target.files.length; i++){
+      this.fileList.push(event.target.files.item(i));
+    }
   }
 
   removeFromFileList(file: File) {
@@ -57,6 +53,7 @@ export class UploadReportsComponent implements OnInit {
     // if start date is after end date
     if (this.getDuration() < 0) {
       this.incorrectDateAlert = true;
+      this.complete = false;
     } else {
       this.incorrectDateAlert = false;
     }
@@ -64,13 +61,15 @@ export class UploadReportsComponent implements OnInit {
     // if completed story points are greater than assigned story points
     if (this.completedStoryPoints > this.assignedStoryPoints) {
       this.incorrectStoryPointsAlert = true;
+      this.complete = false;
     } else {
       this.incorrectStoryPointsAlert = false;
     }
     
     // if all fields are completed
     if (this.inputStartDate && this.inputEndDate && this.assignedStoryPoints && 
-        this.completedStoryPoints && this.projectSelected && this.iteration) {
+        this.completedStoryPoints && this.projectSelected && this.iteration &&
+        !this.incorrectStoryPointsAlert && !this.incorrectDateAlert) {
       this.complete = true;
     } else {
       this.complete = false;

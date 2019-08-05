@@ -31,6 +31,10 @@
   align-items: center;
 }
 
+.badge {
+  cursor: pointer;
+}
+
 h5, a {
   color: rgb(242, 106, 37);
 }

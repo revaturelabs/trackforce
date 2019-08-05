@@ -15,6 +15,8 @@ export class EditReportsComponent implements OnInit {
   // Edit reports
   iterationListEdit: Observable<Array<string>>;
   filesEdit: Array<string>;
+  fileList: File[];
+  filesToDel: Array<string>;
   projectEdit: string;
   iterationChoice: string;
   iterationViewShow = false;
@@ -27,26 +29,31 @@ export class EditReportsComponent implements OnInit {
 
   ngOnInit() {
     this.iterationChoice = '';
+    this.fileList=[];
+    this.filesToDel=[];
+    this.projectEdit = "Project";
   }
 
   // Edit Reports methods
 
   setProjectEdit(project: string) {
     this.projectEdit = project;
-    console.log(this.projectEdit);
     this.iterationListEdit = this.uploadService.getProjectSprints(project);
+    this.iterationChoice = "";
+    this.filesEdit = undefined;
   }
 
   setIteration(iter: string) {
     this.iterationChoice = iter;
     this.filesEdit = this.uploadService.getIterationFiles(this.projectEdit, iter);
-
   }
 
   addFile(event) {
-    const newFile = event.target.files.item(0);
-    this.filesEdit.push(newFile.name);
-    this.uploadService.uploadReport(event.target.files.item(0), this.projectEdit, this.iterationChoice + '/report/' + newFile.name);
+    for(let i = 0; i<event.target.files.length; i++){
+      this.fileList.push(event.target.files.item(i));
+      this.filesEdit.push(event.target.files.item(i).name);
+    }
+    
   }
 
   removeFile(file: string) {
@@ -55,9 +62,16 @@ export class EditReportsComponent implements OnInit {
       return value != file;
 
     });
-    this.uploadService.deleteFiles(this.projectEdit, this.iterationChoice, file);
+    this.filesToDel.push(file);
   }
-
+  deleteIteration(){
+    const uservice = this.uploadService;
+    this.filesEdit.forEach((file) => {
+      uservice.deleteFiles(this.projectEdit, this.iterationChoice, file);
+    });
+    this.uploadService.deleteIteration(this.projectEdit, this.iterationChoice);
+    this.resetValuesEdit();
+  }
 
   validateEdit() {
     // TODO: validate that there is at least one file in filelist, even after delete
@@ -71,8 +85,17 @@ export class EditReportsComponent implements OnInit {
   submitEdit() {
     this.submittedEdit = true;
     this.jsFile = new File(
-      [`document.write(\`<b>Files:</b> ${this.filesEdit.map(file => `<br><a href='report/${file}' target='_blank'>${file}</a>`)}\`)`]
+      [`document.write(\`<b>Files:</b> ${this.fileList.map(file => `<br><a href='report/${file.name}' target='_blank'>${file.name}</a>`)}\`)`]
       , 'files.js', { type: 'application/javascript' });
+    const uservice = this.uploadService;
+
+    this.fileList.forEach((file) => {
+      uservice.uploadReport(file, this.projectEdit, this.iterationChoice + '/report/' + file.name);
+    });
+    this.filesToDel.forEach((file) => {
+      uservice.deleteFiles(this.projectEdit, this.iterationChoice, file);
+    });
+
     this.uploadService.uploadReport(this.jsFile, this.projectEdit, this.iterationChoice + '/files.js');
     setTimeout(() => {
       this.resetValuesEdit();
@@ -82,8 +105,9 @@ export class EditReportsComponent implements OnInit {
   resetValuesEdit() {
     this.submittedEdit = false;
     this.filesEdit = undefined;
+    this.iterationListEdit = undefined;
     this.iterationChoice = '';
-    this.projectEdit = '';
+    this.projectEdit = 'Project';
   }
 
 }

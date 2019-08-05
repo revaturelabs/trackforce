@@ -123,7 +123,54 @@ export class UploadService {
     });
   }
 
+  deleteIteration(project: string, iter:string){
+    this.deleteIndex(project, iter);
+    this.deleteJS(project, iter);
+    const key = project + '/' + iter+'/';
 
+    const params = {
+      Bucket: this.bucketName,
+      Key: key
+    };
+    
+    this.bucket.deleteObject(params, (err, data) => {
+      if (err) {
+        return;
+      }
+      console.log(data)
+    });
+  }
+  deleteIndex(project: string, iter:string){
+    const key = project + '/' + iter+'/index.html';
+
+    const params = {
+      Bucket: this.bucketName,
+      Key: key
+    };
+    
+    this.bucket.deleteObject(params, (err, data) => {
+      if (err) {
+        return;
+      }
+      console.log(data)
+    });
+  }
+  deleteJS(project: string, iter:string){
+    const key = project + '/' + iter+'/files.js';
+
+    const params = {
+      Bucket: this.bucketName,
+      Key: key
+    };
+    
+    this.bucket.deleteObject(params, (err, data) => {
+      if (err) {
+        return;
+      }
+      console.log(data)
+    });
+  }
+  
 
 
 }

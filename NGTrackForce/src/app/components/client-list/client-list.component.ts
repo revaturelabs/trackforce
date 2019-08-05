@@ -74,6 +74,7 @@ export class ClientListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.lsHelp.removeStorageItem("clientGetAll");
     //this.getFiftyClients();
     this.getAllClients();
     this.initChartData();

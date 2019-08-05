@@ -90,6 +90,7 @@ public class AssociateService {
             throw e;
         }
     }
+    
 
     /**
      * @author Art B.

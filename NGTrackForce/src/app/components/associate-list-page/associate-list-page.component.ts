@@ -8,6 +8,7 @@ import { Component, OnInit, OnDestroy, AfterViewInit, Inject } from '@angular/co
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Router, NavigationExtras } from '@angular/router';
 import { Helpers } from '../../lsHelper';
+import { Trainer } from '../../models/trainer.model';
 
 
 export interface DialogData {
@@ -57,6 +58,10 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   constructor(private clientService: ClientService, public associateService: AssociateService, public dialog: MatDialog, public lsHelp: Helpers) { }
 
   ngOnInit() {
+    //Local storage items generated on page load must be destroyed onInit and OnDestroy to avoid an infinite loop on refresh or return
+   this.lsHelp.removeStorageItem("clientGetAll");
+   this.lsHelp.removeStorageItem("checked");
+   this.lsHelp.removeStorageItem('associatePage|/page?startIndex=0&numResults=500');
     /**
      * This is weird you are correct.
      *
@@ -72,6 +77,35 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
      */
 
     // Add option for none
+
+    const possibleTrainer = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
+    if (possibleTrainer.role === 2){
+      this.associateStatuses.push("");
+      for (const status of SelectedStatusConstants.MAPPED_LABELS) {
+        this.associateStatuses.push(`Mapped: ${status}`);
+      }
+      for (const status of SelectedStatusConstants.UNMAPPED_LABELS) {
+        this.associateStatuses.push(`Unmapped: ${status}`);
+      }
+      this.associateStatuses.push(SelectedStatusConstants.DIRECTLY_PLACED);
+      this.associateStatuses.push(SelectedStatusConstants.TERMINATED);
+  
+      // Grab Clients (for now this is messy needs to be handled else ware)
+      this.clientList$ = this.clientService.getAllClients();
+      this.associates$ = this.associateService.fetchAssociateSnapshotT(60, {});
+  
+      this.associates$.subscribe((data: Associate[]) => {
+        if (Array.isArray(data) && data.length !== 0) {
+          this.isFetching = false;
+          this.listOfAssociates = this.listOfAssociates.concat(data);
+        }
+      },
+        error => console.error('Error in associate-list-page.component.ts ngOnInit(): ', error.message)
+      );
+      // Grab Clients (for now this is messy needs to be handled else ware)
+
+    }
+    else{
     this.associateStatuses.push("");
     for (const status of SelectedStatusConstants.MAPPED_LABELS) {
       this.associateStatuses.push(`Mapped: ${status}`);
@@ -95,9 +129,8 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
       error => console.error('Error in associate-list-page.component.ts ngOnInit(): ', error.message)
     );
   }
-
-
-  
+    this.lsHelp.localStorageSet("checked",JSON.stringify(this.listOfAssociates));
+  }  
 
   ngAfterViewInit() {
     //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
@@ -108,8 +141,13 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
+   this.lsHelp.removeStorageItem("checked");
    this.scrollingTable.removeEventListener('scroll', this.onScroll.bind(this));
    this.lsHelp.removeStorageItem("clientGetAll");
+   this.lsHelp.removeStorageItem('associatePage|/page?startIndex=0&numResults=500');
+   let trainNerd: Trainer;
+   trainNerd = JSON.parse(this.lsHelp.localStorageItem("currentTrainer"));
+   this.lsHelp.removeStorageItem(`associatePage|/pagetrain?startIndex=0&numResults=60&trainerId=${trainNerd.id}`);
   }
 
   onScroll(event: Event) {
@@ -168,9 +206,16 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   getNextPage() {
-    if (!this.isFetching) {
+    const potentialTrainer = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
+    if (potentialTrainer.role === 2 && !this.isFetching){  
       this.isFetching = true;
-      this.associateService.fetchNextSnapshot();
+      this.associateService.fetchNextSnapshotT();
+    }
+    else  {
+      if (!this.isFetching){
+        this.isFetching = true;
+        this.associateService.fetchNextSnapshot();
+      }
     }
   }
 

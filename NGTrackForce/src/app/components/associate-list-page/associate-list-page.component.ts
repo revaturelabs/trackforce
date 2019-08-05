@@ -79,8 +79,8 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
      */
 
     // Add option for none
-    const thingy2 = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
-    if (thingy2.role === 2){
+    const possibleTrainer = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
+    if (possibleTrainer.role === 2){
       this.associateStatuses.push("");
       for (const status of SelectedStatusConstants.MAPPED_LABELS) {
         this.associateStatuses.push(`Mapped: ${status}`);
@@ -207,8 +207,8 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   getNextPage() {
-    const thingy3 = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
-    if (thingy3.role === 2 && !this.isFetching){  
+    const potentialTrainer = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
+    if (potentialTrainer.role === 2 && !this.isFetching){  
       this.isFetching = true;
       this.associateService.fetchNextSnapshotT();
     }

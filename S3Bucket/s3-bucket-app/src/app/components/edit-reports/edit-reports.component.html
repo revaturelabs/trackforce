@@ -1,61 +1,61 @@
-<div (change)="validateEdit()">
-    <div class="row mt-4">
-        <div class="col-3">
-            <h4>Edit Files: </h4>
+<div class="row mt-4">
+    <div class="col">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ projectEdit }}</button>
+                <div class="dropdown-menu">
+                    <div *ngFor="let project of projectList | async">
+                        <p class="dropdown-item" (click)="setProjectEdit(project)"> {{ project }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group-append ml-2" *ngIf="iterationListEdit">
+                <button class="btn btn-outline-secondary dropdown-toggle" style="width:100px;" type="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Iterations</button>
+                <div class="dropdown-menu">
+                    <div *ngFor="let iter of iterationListEdit | async">
+                        <p class="dropdown-item" (click)="setIteration(iter)"> {{ iter }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col">
+    </div>
+</div>
+<div class="row">
+    <ng-container *ngIf="!submittedEdit && !submittedDelete">
+        <div class="col mx-auto mt-3" *ngIf="iterationChoice">
+            <h5>Delete Iteration:</h5> 
+            <p>{{ iterationChoice }} <span class="badge badge-danger ml-2" id="remove" title="Remove"
+                (click)="deleteIteration()">X</span></p>
+        </div>
+        <div class="col-9 mx-auto mt-3" *ngIf="filesEdit">
+            <h5>Edit Files: <span class="badge badge-success btn-file" title="Add Files">
+                    + <input type="file" (change)="addFile($event)" multiple>
+                </span> </h5>
+            <ng-container *ngIf="filesEdit.length == 0; else files">
+                <p>No files</p>
+            </ng-container>
+            <ng-template #files>
+                <div *ngFor="let file of filesEdit">
+                    <b>Name:</b> {{ file }} <p class="badge badge-danger ml-2" id="remove" title="Remove"
+                    (click)="removeFile(file)">X</p>
+                </div>
+            </ng-template>
             <div class="input-group">
-                <div class="input-group-prepend">
-                    <button class="btn btn-outline-secondary dropdown-toggle" style="width:100px;" type="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ projectEdit }}</button>
-                    <div class="dropdown-menu">
-                        <div *ngFor="let project of projectList | async">
-                            <p class="dropdown-item" (click)="setProjectEdit(project)"> {{ project }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group-append ml-2">
-                    <button class="btn btn-outline-secondary dropdown-toggle" style="width:100px;" type="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Iterations</button>
-                    <div class="dropdown-menu">
-                        <div *ngFor="let iter of iterationListEdit | async">
-                            <p class="dropdown-item" (click)="setIteration(iter)"> {{ iter }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <button class="btn btn-secondary" type="button" (click)="submitEdit()"
+                [disabled]="!iterationChoice && !filesEdit">Update</button>
+            </div>  
         </div>
-    </div>
-    <div class="row">
-        <ng-container *ngIf="!submittedEdit">
-            <div class="col mx-auto mt-3" *ngIf="iterationChoice">
-                <h5>Iteration:</h5> {{ iterationChoice }}
-                <p class="badge badge-danger ml-2" id="remove" title="Remove"
-                (click)="deleteIteration()">X</p>
-            </div>
-            <div class="col-9 mx-auto mt-3" *ngIf="filesEdit">
-                <h5>Files: <span class="badge badge-success btn-file" title="Add Files">
-                        + <input type="file" (change)="addFile($event)" multiple>
-                    </span> </h5>
-                <ng-container *ngIf="filesEdit.length == 0; else files">
-                    <p>No files</p>
-                </ng-container>
-                <ng-template #files>
-                    <div *ngFor="let file of filesEdit">
-                        <b>Name:</b> {{ file }} <p class="badge badge-danger ml-2" id="remove" title="Remove"
-                        (click)="removeFile(file)">X</p>
-                    </div>
-                </ng-template>
-                <div class="input-group">
-                    <button class="btn btn-secondary" type="button" (click)="submitEdit()"
-                    [disabled]="!iterationChoice && !filesEdit">Update</button>
-                </div>  
-            </div>
-        </ng-container>
-        <ng-container *ngIf="submittedEdit">
-            <div class="alert alert-success mx-auto mt-3 text-center" role="alert">
-            Sprint report has been successfully updated.
-            </div>
-        </ng-container>
-    </div>
+    </ng-container>
+    <ng-container *ngIf="submittedEdit">
+        <div class="alert alert-success mx-auto mt-3 text-center" role="alert">
+        Sprint report has been successfully updated.
+        </div>
+    </ng-container>
+    <ng-container *ngIf="submittedDelete">
+        <div class="alert alert-success mx-auto mt-3 text-center" role="alert">
+        Sprint report has been successfully deleted.
+        </div>
+    </ng-container>
 </div>

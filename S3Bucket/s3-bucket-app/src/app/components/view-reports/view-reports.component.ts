@@ -33,24 +33,28 @@ export class ViewReportsComponent implements OnInit {
 
   ngOnInit() {
     this.bucketName = environment.bucketName; 
+    this.projectChoice = 'Select Project';
+    this.selectedIteration = 'Iteration';
   }
 
-  createLink() {
+  createLink(iter : string) {
     this.iterationViewShow = true;
+    this.selectedIteration = iter;
     // tslint:disable-next-line: max-line-length
-    this.iterationLink = 'https://' + this.bucketName + '.s3.amazonaws.com/' + this.projectChoice + '/' + this.selectedIteration + '/index.html';
+    this.iterationLink = 'https://' + this.bucketName + '.s3.amazonaws.com/' + this.projectChoice + '/' + iter + '/index.html';
   }
 
-  showIterations() {
-    this.iterationList = this.uploadService.getProjectSprints(this.projectChoice);
+  showIterations(project: string) {
+    this.projectChoice = project;
+    this.iterationList = this.uploadService.getProjectSprints(project);
     this.iterationViewShow = false;
   }
 
   resetValues() {
     this.iterationViewShow = false;
     this.iterationList = undefined;
-    this.projectChoice = "";
-    this.selectedIteration = "";
+    this.projectChoice = 'Select Project';
+    this.selectedIteration = 'Iteration';
   }
 
 

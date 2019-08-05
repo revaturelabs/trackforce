@@ -9,7 +9,7 @@
   margin-top: 10px;
 }
 
-.btn {
+.btn, .btn-outline-secondary.dropdown-toggle {
   background-color: rgb(242, 106, 37);
   color: white;
 }

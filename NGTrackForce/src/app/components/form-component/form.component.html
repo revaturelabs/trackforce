@@ -85,6 +85,9 @@
             <tr>
               <td>Start Date</td>
               <td><input type="date" class="form-control" name="date" [(ngModel)]="newStartDate" /></td>
+              <div class="alert alert-danger" *ngIf="newStartDateIncorrect">
+                <h6 class="text-danger">Start date must be after batch start date!</h6>
+              </div>
             </tr>
           </table>
         </div>
@@ -144,7 +147,11 @@
   <!-- Interview Row -->
   <div class="row">
     <div class="col-md-12">
-      <h3>Interviews</h3>
+      <h3>Interviews
+        <span *ngIf="!interviewsLoading && interviews.length != 0">
+        ({{ interviews.length }})
+        </span>
+      </h3>
       <div class="table-div">
         <table class="table table-striped table-responsive table-hover table borderless scrollable-table col-5-table">
           <thead>

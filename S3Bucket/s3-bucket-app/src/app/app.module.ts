@@ -27,3 +27,4 @@ import { EditReportsComponent } from './components/edit-reports/edit-reports.com
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+ 

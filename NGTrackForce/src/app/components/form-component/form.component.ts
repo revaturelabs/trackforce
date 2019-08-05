@@ -129,18 +129,18 @@ export class FormComponent implements OnInit {
       this.isVP = false;
       this.isAssociate = false;
     }
-    
-    
-    
-    this.clientService.getAllClients().subscribe(data => { 
+
+
+
+    this.clientService.getAllClients().subscribe(data => {
       this.clients = data.sort(
         (a: Client, b: Client) =>
           a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
       );
     },
-    error=>{
-      console.error("Error in form.component.ts ngOnInit()", error.message);
-    }
+      error => {
+        console.error("Error in form.component.ts ngOnInit()", error.message);
+      }
     );
   }
 
@@ -174,7 +174,7 @@ export class FormComponent implements OnInit {
           this.approvalPending = false;
           this._displayFormStatus(FormStatus.SUCCESS, StatusProp.APPROVE, StatusClass.APROVE_CLASS);
         }, //1 for true, 2 for false, 0 for initial state
-      ).catch(error=> {
+      ).catch(error => {
         console.error("Error in form.component.ts approveAssociate()", error.message);
         this.isApproved = 2;
         this.approvalPending = false;
@@ -231,7 +231,7 @@ export class FormComponent implements OnInit {
    */
   private _formatStatusMsg(status: FormStatus, prop: StatusProp) {
     const format = (string, sub) => string.replace('{}', sub);
-    switch(prop) {
+    switch (prop) {
       case StatusProp.UPDATE:
         this[prop] = format(status, 'update');
         break;
@@ -251,19 +251,19 @@ export class FormComponent implements OnInit {
    * @param StatusClass determines which property recieves the bootstrap classes
    */
   private _displayFormStatus(status: FormStatus, prop: StatusProp, classProp: StatusClass) {
-    switch(status) {
+    switch (status) {
       case FormStatus.SUCCESS:
         this[classProp] = 'alert-success';
         this.submitDisabled = false;
         this._formatStatusMsg(status, prop);
         break;
       case FormStatus.WAIT:
-        this[classProp]  = 'alert-warning';
+        this[classProp] = 'alert-warning';
         this.submitDisabled = true;
         this._formatStatusMsg(status, prop);
         break;
       case FormStatus.FAILURE:
-        this[classProp]  = 'alert-danger';
+        this[classProp] = 'alert-danger';
         this.submitDisabled = false;
         this._formatStatusMsg(status, prop);
         break;
@@ -290,8 +290,13 @@ export class FormComponent implements OnInit {
         // the select element holds the numbers in string format so loose equality is required here
         // in order to match with the number type being held in the client object id.
         // tslint:disable-next-line:triple-equals
-
         const assoc_client = clients.filter(client => client.id == this.selectedClient)[0];
+
+        const time = new Date(this.newStartDate).getTime() - this.associate.batch.startDate;
+        if (time <= 0) {
+          this.newStartDate = new Date(this.associate.batch.startDate);
+        }
+
         const newAssociate = new Associate(
           this.associate.firstName,
           this.associate.lastName,
@@ -315,9 +320,9 @@ export class FormComponent implements OnInit {
           this._displayFormStatus(FormStatus.FAILURE, StatusProp.UPDATE, StatusClass.UPDATE_CLASS);
           console.error("Error in form.component.ts updateAssociate()", error.message);
         });
-      },      
-        error => console.error("Error in form.component.ts updateAssociate()", error.message)
-      );
+      },
+      error => console.error("Error in form.component.ts updateAssociate()", error.message)
+    );
   }
 
   getAssociateInterviews(id) {
@@ -341,14 +346,14 @@ export class FormComponent implements OnInit {
   updateInterviewFeedback() {
     this.interviewSelected.clientFeedback = this.feedback;
     this.interviewService.updateInterview(this.interviewSelected).subscribe(
-      data => {},
+      data => { },
       error => {
         console.error("Error in form.component.ts updateInterviewFeedback()", error.message);
       }
     );
   }
 
-  setSelectedInterview(interview: Interview){
+  setSelectedInterview(interview: Interview) {
     this.interviewSelected = interview;
   }
 
@@ -363,7 +368,7 @@ export class FormComponent implements OnInit {
     this.selectedMarketingStatus = null;
   }
 
-  goToInterviewDetails( interview: Interview ) {
+  goToInterviewDetails(interview: Interview) {
     this.user = this.authService.getUser();
     if (this.authService.getUserRole() === 3) {
       this.router.navigate(['interview-details/' + interview.id]);

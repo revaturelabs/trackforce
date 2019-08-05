@@ -18,9 +18,15 @@ describe('A user can able to edit previous reports', () => {
 
   it('should be able select first project', () => {
     editReport.getProjectBtn().click();
-    browser.sleep(2000);
-    const firstElementText = editReport.getFirstElementInProjectSelector().getText();
-    editReport.getFirstElementInProjectSelector().click();
+    const firstElementText = editReport.getFirstProject().getText();
+    editReport.getFirstProject().click();
     expect(editReport.getProjectBtn().getText()).toBe(firstElementText);
+  });
+
+  it('should be able select first itteration', () => {
+    editReport.getItterationBtn().click();
+    const firstIterationText = editReport.getFirstItteration().getText();
+    editReport.getFirstItteration().click();
+    expect(editReport.getItterationBtn().getText()).toBe(firstIterationText);
   });
 });

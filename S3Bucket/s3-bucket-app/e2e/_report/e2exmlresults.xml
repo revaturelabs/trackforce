@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites disabled="0" errors="0" failures="1" tests="4" time="7.338">
+ <testsuite name="workspace-project App" timestamp="2019-08-05T09:19:00" hostname="localhost" time="2.771" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="workspace-project App" name="should display welcome message" time="2.768" />
+ </testsuite>
+ <testsuite name="A user can able to edit previous reports" timestamp="2019-08-05T09:19:03" hostname="localhost" time="1.407" errors="0" tests="2" skipped="0" disabled="0" failures="1">
+  <testcase classname="A user can able to edit previous reports" name="should be navigate to the edit tab" time="0.156" />
+  <testcase classname="A user can able to edit previous reports" name="should be able select first project" time="0.19">
+   <failure type="exception" message="Failed: element not interactable
+  (Session info: chrome=75.0.3770.142)
+Build info: version: &apos;3.141.59&apos;, revision: &apos;e82be7d358&apos;, time: &apos;2018-11-14T08:25:53&apos;
+System info: host: &apos;DESKTOP-C97TA8O&apos;, ip: &apos;10.1.10.162&apos;, os.name: &apos;Windows 10&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;1.8.0_221&apos;
+Driver info: driver.version: unknown"><![CDATA[WebDriverError: element not interactable
+  (Session info: chrome=75.0.3770.142)
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:53'
+System info: host: 'DESKTOP-C97TA8O', ip: '10.1.10.162', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '1.8.0_221'
+Driver info: driver.version: unknown
+    at Object.checkLegacyResponse (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\error.js:546:15)
+    at parseHttpResponse (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\http.js:509:13)
+    at doSend.then.response (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\http.js:441:30)
+    at process._tickCallback (internal/process/next_tick.js:68:7)
+From: Task: WebElement.click()
+    at thenableWebDriverProxy.schedule (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\webdriver.js:807:17)
+    at WebElement.schedule_ (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\webdriver.js:2010:25)
+    at WebElement.click (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\webdriver.js:2092:17)
+    at actionFn (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\protractor\built\element.js:89:44)
+    at Array.map (<anonymous>)
+    at actionResults.getWebElements.then (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\protractor\built\element.js:461:65)
+    at ManagedPromise.invokeCallback_ (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\promise.js:1376:14)
+    at TaskQueue.execute_ (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+    at asyncRun (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\promise.js:2927:27)Error: 
+    at ElementArrayFinder.applyAction_ (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\protractor\built\element.js:459:27)
+    at ElementArrayFinder.(anonymous function).args [as click] (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\protractor\built\element.js:91:29)
+    at ElementFinder.(anonymous function).args [as click] (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\protractor\built\element.js:831:22)
+    at UserContext.<anonymous> (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\e2e\src\edit-report\editReport.e2e-spec.ts:20:32)
+    at D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasminewd2\index.js:112:25
+    at new ManagedPromise (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\promise.js:1077:7)
+    at ControlFlow.promise (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\promise.js:2505:12)
+    at schedulerExecute (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasminewd2\index.js:95:18)
+    at TaskQueue.execute_ (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\promise.js:3084:14)
+    at TaskQueue.executeNext_ (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\selenium-webdriver\lib\promise.js:3067:27)
+From: Task: Run it("should be able select first project") in control flow
+    at UserContext.<anonymous> (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasminewd2\index.js:94:19)
+    at attempt (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4297:26)
+    at QueueRunner.run (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4217:20)
+    at QueueRunner.execute (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4199:10)
+    at Spec.queueRunnerFactory (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:909:35)
+    at Spec.execute (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:526:10)
+    at UserContext.fn (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:5340:37)
+    at attempt (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4297:26)
+    at QueueRunner.run (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4217:20)
+    at runNext (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4257:20)
+From asynchronous test: 
+Error: 
+    at Suite.<anonymous> (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\e2e\src\edit-report\editReport.e2e-spec.ts:19:3)
+    at addSpecsToSuite (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1107:25)
+    at Env.describe (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:1074:7)
+    at describe (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\jasmine\node_modules\jasmine-core\lib\jasmine-core\jasmine.js:4399:18)
+    at Object.<anonymous> (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\e2e\src\edit-report\editReport.e2e-spec.ts:5:1)
+    at Module._compile (internal/modules/cjs/loader.js:776:30)
+    at Module.m._compile (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\ts-node\src\index.ts:439:23)
+    at Module._extensions..js (internal/modules/cjs/loader.js:787:10)
+    at Object.require.extensions.(anonymous function) [as .ts] (D:\Vajira\Revature\Projects\Project 03\S3 Bucket Project\trackforce\S3Bucket\s3-bucket-app\node_modules\ts-node\src\index.ts:442:12)]]>
+   </failure>
+  </testcase>
+ </testsuite>
+ <testsuite name="A user is able to view previous reports" timestamp="2019-08-05T09:19:05" hostname="localhost" time="3.16" errors="0" tests="1" skipped="0" disabled="0" failures="0">
+  <testcase classname="A user is able to view previous reports" name="should be navigate to the view tab" time="1.256" />
+ </testsuite>
+</testsuites>

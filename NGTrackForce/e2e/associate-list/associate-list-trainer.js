@@ -8,11 +8,11 @@ describe('Trainer only sees associates in their batches', () => {
         browser.driver.sleep(5000);
         element(by.id('associates')).click();
         browser.driver.sleep(10000);
-        let associates = JSON.parse(localStorage.getItem('associatePage|/page?startIndex=0&numResults=60'));
+        let associates = JSON.parse(localStorage.getItem('associatePage|/pagetrain?startIndex=0&numResults=60&trainerId=0'));
         let x = 0;
         let validation = 0;
         for (x = 0; x < associates.length; x++){
-            if (associate[x].firstName === 'Samuel'){
+            if (associate[x].batch.trainer.id === 0){
                 validation = 1;
                 break;
             }

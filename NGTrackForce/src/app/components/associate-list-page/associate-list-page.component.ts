@@ -58,6 +58,12 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   constructor(private clientService: ClientService, public associateService: AssociateService, public dialog: MatDialog, public lsHelp: Helpers) { }
 
   ngOnInit() {
+   this.lsHelp.removeStorageItem("clientGetAll");
+   this.lsHelp.removeStorageItem("checked");
+   this.lsHelp.removeStorageItem('associatePage|/page?startIndex=0&numResults=500');
+   let trainNerd: Trainer;
+   trainNerd = JSON.parse(this.lsHelp.localStorageItem("currentTrainer"));
+   this.lsHelp.removeStorageItem(`associatePage|/pagetrain?startIndex=0&numResults=60&trainerId=${trainNerd.id}`);
     /**
      * This is weird you are correct.
      *
@@ -124,6 +130,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
       error => console.error('Error in associate-list-page.component.ts ngOnInit(): ', error.message)
     );
   }
+    this.lsHelp.localStorageSet("checked",JSON.stringify(this.listOfAssociates));
     //this.checkTrainer();
   }
 
@@ -156,6 +163,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
+   this.lsHelp.removeStorageItem("checked");
    this.scrollingTable.removeEventListener('scroll', this.onScroll.bind(this));
    this.lsHelp.removeStorageItem("clientGetAll");
    this.lsHelp.removeStorageItem('associatePage|/page?startIndex=0&numResults=500');

@@ -55,18 +55,25 @@ const Locators = {
 
   project_iteration: {
     type: IdentificationType[IdentificationType.Xpath],
-    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/div[2]/div/div/input'
+    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[2]/div/div/input'
   },
 
-  browsebtn: {
+  uploadfile: {
     type: IdentificationType[IdentificationType.Xpath],
     value: '//*[@id="upload"]'
   },
 
+
+  uploadedfile: {
+    type: IdentificationType[IdentificationType.Xpath],
+    value : '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[4]/div/div/b'
+  },
+
   submitbtn: {
     type: IdentificationType[IdentificationType.Xpath],
-    value: ''
+    value: '//*[@id="submitbtn"]'
   }
+
 };
 
 export class UploadTabPage extends BasePage {
@@ -81,6 +88,10 @@ export class UploadTabPage extends BasePage {
   project_rideforce = this.ElementLocator(Locators.project_rideforce);
   project_sms = this.ElementLocator(Locators.project_sms);
   project_cms = this.ElementLocator(Locators.project_cms);
+  project_iteration = this.ElementLocator(Locators.project_iteration);
+  uploadfile = this.ElementLocator(Locators.uploadfile);
+  uploadedfile = this.ElementLocator(Locators.uploadedfile);
+  submitbtn = this.ElementLocator(Locators.submitbtn);
 
   navigateuploadtab() {
     return this.uploadtab;
@@ -92,22 +103,22 @@ export class UploadTabPage extends BasePage {
 
   selectstartdate(){
     browser.sleep(1000);
-    return this.stardate.sendKeys('08/03/2019');
+    return this.stardate;
   }
 
   selectendtdate(){
     browser.sleep(1000);
-    return this.enddate.sendKeys('08/06/2019');
+    return this.enddate;
   }
 
   entercompletedsp(){
     browser.sleep(1000);
-    return this.completedsp.sendKeys('2');
+    return this.completedsp;
   }
 
   enterassignedsp(){
     browser.sleep(1000);
-    return this.completedsp.sendKeys('2');
+    return this.assignedsp;
   }
 
   selectprojectbtn(){
@@ -133,6 +144,26 @@ export class UploadTabPage extends BasePage {
   selectprojectcms(){
     browser.sleep(1000);
     return this.project_cms;
+  }
+
+  enterprojectiteration(){
+    browser.sleep(1000);
+    return this.project_iteration;
+  }
+
+  uploadafile(){
+    browser.sleep(1000);
+    return this.uploadfile;
+  }
+
+  getuploadedfile(){
+    browser.sleep(1000);
+    return this.uploadedfile;
+  }
+
+  sendreport(){
+    browser.sleep(1000);
+    return this.submitbtn;
   }
 
 }

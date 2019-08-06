@@ -20,7 +20,15 @@ const Locators = {
   firstItteration: {
     type: IdentificationType[IdentificationType.Xpath],
     value: '//*[@id="edit-reports"]/app-edit-reports/div[1]/div/div/div[2]/div/div/p'
-  }
+  },
+  addFilesInputBox: {
+    type: IdentificationType[IdentificationType.Xpath],
+    value: '  //*[@id="edit-reports"]/app-edit-reports/div[2]/div/div/button[1]/input'
+  },
+  updateBtn: {
+    type: IdentificationType[IdentificationType.Xpath],
+    value: '//*[@id="update"]'
+  },
 };
 
 export class EditReport extends BasePage {
@@ -30,6 +38,8 @@ export class EditReport extends BasePage {
   firstProject = this.ElementLocator(Locators.firstProject);
   itterationBtn = this.ElementLocator(Locators.itterationBtn);
   firstItteration = this.ElementLocator(Locators.firstItteration);
+  addFilesInputBox = this.ElementLocator(Locators.addFilesInputBox);
+  updateBtn = this.ElementLocator(Locators.updateBtn);
 
   getEditReportTab() {
     return this.editReportTab;
@@ -50,4 +60,13 @@ export class EditReport extends BasePage {
   getFirstItteration() {
     return this.firstItteration;
   }
+
+  getAddFilesInputBox() {
+    return this.addFilesInputBox;
+  }
+
+  getUpdateBtn() {
+    return this.updateBtn;
+  }
+
 }

@@ -16,8 +16,8 @@ const fs = require('fs-extra');
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
-   './src/**/*.e2e-spec.ts'
-   //'./src/edit-report/editReport.e2e-spec.ts'
+  // './src/**/*.e2e-spec.ts'
+   './src/edit-report/editReport.e2e-spec.ts'
   ],
 
   capabilities: {

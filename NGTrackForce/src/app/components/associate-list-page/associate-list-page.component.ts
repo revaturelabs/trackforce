@@ -62,6 +62,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
    this.lsHelp.removeStorageItem("clientGetAll");
    this.lsHelp.removeStorageItem("checked");
    this.lsHelp.removeStorageItem('associatePage|/page?startIndex=0&numResults=500');
+   this.lsHelp.removeStorageItem('associatePage|/pagetrain?startIndex=0&numResults=100&trainerId=0');
     /**
      * This is weird you are correct.
      *
@@ -92,7 +93,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   
       // Grab Clients (for now this is messy needs to be handled else ware)
       this.clientList$ = this.clientService.getAllClients();
-      this.associates$ = this.associateService.fetchAssociateSnapshotT(60, {});
+      this.associates$ = this.associateService.fetchAssociateSnapshotT(100, {});
   
       this.associates$.subscribe((data: Associate[]) => {
         if (Array.isArray(data) && data.length !== 0) {
@@ -142,6 +143,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
    this.lsHelp.removeStorageItem("checked");
+   this.lsHelp.removeStorageItem('associatePage|/pagetrain?startIndex=0&numResults=100&trainerId=0');
    this.scrollingTable.removeEventListener('scroll', this.onScroll.bind(this));
    this.lsHelp.removeStorageItem("clientGetAll");
    this.lsHelp.removeStorageItem('associatePage|/page?startIndex=0&numResults=500');
@@ -182,8 +184,14 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
 
     console.log("In submit filter method");
     this.isFetching = true;
-    this.associateService.fetchAssociateSnapshot(60, filter);
-    this.listOfAssociates = [];
+    const possibleTrainer = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
+    if (possibleTrainer.role === 2){
+      this.associateService.fetchAssociateSnapshotT(60, filter);
+    }
+    else {
+      this.associateService.fetchAssociateSnapshot(60, filter);
+      this.listOfAssociates = [];
+    }
   }
 
   clearFilter(): void {

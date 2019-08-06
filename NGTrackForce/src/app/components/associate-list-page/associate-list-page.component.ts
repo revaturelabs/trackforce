@@ -80,7 +80,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
      */
 
     // Add option for none
-
+    this.currentUserRole = (JSON.parse(this.lsHelp.localStorageItem("currentUser"))).role;
     const possibleTrainer = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
     if (possibleTrainer.role === 2){
       this.associateStatuses.push("");
@@ -118,7 +118,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     }
     this.associateStatuses.push(SelectedStatusConstants.DIRECTLY_PLACED);
     this.associateStatuses.push(SelectedStatusConstants.TERMINATED);
-    this.currentUserRole = (JSON.parse(this.lsHelp.localStorageItem("currentUser"))).role;
+    
 
     // Grab Clients (for now this is messy needs to be handled else ware)
     this.clientList$ = this.clientService.getAllClients();

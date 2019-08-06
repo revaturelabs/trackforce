@@ -15,7 +15,7 @@ import static com.revature.utils.LogUtil.logger;
 public class HibernateUtil {
 	private static ThreadUtil threadUtil = new ThreadUtil();
 
-	private static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+	private static SessionFactory sessionFactory = buildSessionFactory();
 
 	private static Sessional<Boolean> detachedUpdate = (Session session, Object... args) -> {
 		session.update(args[0]);
@@ -37,8 +37,13 @@ public class HibernateUtil {
 		SchedulePendingUserCleanup.Start();
 		DailyDatabaseSync.Start();
 		try {
+			Configuration cfg = new Configuration();			
 
-			return sessionFactory;
+			cfg.setProperty("hibernate.connection.url", System.getenv("TRACKFORCE_DB_URL"));
+			cfg.setProperty("hibernate.connection.username", System.getenv("TRACKFORCE_DB_USERNAME"));
+			cfg.setProperty("hibernate.connection.password", System.getenv("HBM_PW_ENV"));
+
+			return cfg.configure().buildSessionFactory();
 		} finally { addShutdown(); }
 	}
 

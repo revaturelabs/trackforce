@@ -58,32 +58,34 @@
             </div>
         </ng-container>
     </div>
-    <!-- <div class="row">
-       <mat-form-field class="trainer-list">
-                <mat-chip-list #chipList aria-label="Trainer selection">
+    <div class="row">
+        <h5 class="mx-auto mt-3">Project Trainers</h5>
+        <mat-form-field class="trainer-list">
+                <mat-chip-list #trainerChipList aria-label="Trainer selection">
                     <mat-chip *ngFor="let trainer of trainers" [selectable]="trainerSelectable"
                             [removable]="trainerRemovable" (removed)="removeTrainer(trainer)">
                     {{trainer}}
                     <mat-icon matChipRemove *ngIf="trainerRemovable">cancel</mat-icon>
                     </mat-chip>
                     <input placeholder="Please enter trainers..."
-                            [matChipInputFor]="chipList"
+                            [matChipInputFor]="trainerChipList"
                             [matChipInputSeparatorKeyCodes]="trainerSeparatorKeysCodes"
                             [matChipInputAddOnBlur]="trainerAddOnBlur"
                             (matChipInputTokenEnd)="addTrainer($event)">
                 </mat-chip-list>
         </mat-form-field>
-    </div> -->
+    </div>
     <div class="row">
+        <h5 class="mx-auto mt-3">Project Observers</h5>
         <mat-form-field class="observer-list">
-                <mat-chip-list #chipList aria-label="Observer selection">
+                <mat-chip-list #observerChipList aria-label="Observer selection">
                     <mat-chip *ngFor="let observer of observers" [selectable]="observerSelectable"
                             [removable]="observerRemovable" (removed)="removeObserver(observer)">
                     {{observer}}
                     <mat-icon matChipRemove *ngIf="observerRemovable">cancel</mat-icon>
                     </mat-chip>
                     <input placeholder="Please enter observers..."
-                            [matChipInputFor]="chipList"
+                            [matChipInputFor]="observerChipList"
                             [matChipInputSeparatorKeyCodes]="observerSeparatorKeysCodes"
                             [matChipInputAddOnBlur]="observerAddOnBlur"
                             (matChipInputTokenEnd)="addObserver($event)">

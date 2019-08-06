@@ -36,8 +36,8 @@ export class UploadReportsComponent implements OnInit {
   observerRemovable = true;
   observerAddOnBlur = true;
   readonly observerSeparatorKeysCodes: number[] = [ENTER, COMMA];
-  trainers: string[] = [];
-  observers: string[] = [];
+  trainers: string[];
+  observers: string[];
 
   constructor(private uploadService : UploadService) { }
 
@@ -67,7 +67,7 @@ export class UploadReportsComponent implements OnInit {
 
   validate() {
     // if start date is after end date
-    if (this.getDuration() < 0) {
+    if (this.getDuration() < 1) {
       this.incorrectDateAlert = true;
       this.complete = false;
     } else {
@@ -150,14 +150,13 @@ export class UploadReportsComponent implements OnInit {
     const endDate = new Date(this.inputEndDate).toDateString();
     const days = this.getDuration();
     const velocity = (this.completedStoryPoints/days).toFixed(2);
+    let trainerList = this.trainers.map(trainer => trainer).join(' ');
+    let observerList = this.observers.map(observer => observer).join(' ');
 
-    let trainerList = this.trainers.toString();
-    let observerList = this.observers.toString();
-
-    if (this.trainers.length == 0) {
+    if (!trainerList) {
       trainerList = "Unspecified";
     }
-    if (this.observers.length == 0) {
+    if (!observerList) {
       observerList = "Unspecified";
     }
 

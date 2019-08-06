@@ -121,7 +121,7 @@ export class EditReportsComponent implements OnInit {
     this.fileList = [];
     this.filesToDel = [];
     this.iterationChoice = 'Select Iteration';
-    this.projectEdit = 'Select Poject';
+    this.projectEdit = 'Select Project';
   }
 
 }

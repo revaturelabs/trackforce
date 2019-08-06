@@ -95,7 +95,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
   
       // Grab Clients (for now this is messy needs to be handled else ware)
       this.clientList$ = this.clientService.getAllClients();
-      this.associates$ = this.associateService.fetchAssociateSnapshotT(100, {});
+      this.associates$ = this.associateService.fetchAssociateSnapshotT(80, {});
   
       this.associates$.subscribe((data: Associate[]) => {
         if (Array.isArray(data) && data.length !== 0) {
@@ -189,10 +189,10 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     this.isFetching = true;
     const possibleTrainer = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
     if (possibleTrainer.role === 2){
-      this.associateService.fetchAssociateSnapshotT(60, filter);
+      this.associateService.fetchAssociateSnapshotT(80, filter);
     }
     else {
-      this.associateService.fetchAssociateSnapshot(60, filter);
+      this.associateService.fetchAssociateSnapshot(80, filter);
       this.listOfAssociates = [];
     }
   }

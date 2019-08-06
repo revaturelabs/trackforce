@@ -24,6 +24,8 @@ export interface DialogData {
 })
 export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewInit {
 
+  public currentUserRole: number;
+
   public readonly associateStatuses: String[] = [];
   public clientList$;
   public scrollEvent$;
@@ -81,6 +83,7 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     }
     this.associateStatuses.push(SelectedStatusConstants.DIRECTLY_PLACED);
     this.associateStatuses.push(SelectedStatusConstants.TERMINATED);
+    this.currentUserRole = (JSON.parse(this.lsHelp.localStorageItem("currentUser"))).role;
 
     // Grab Clients (for now this is messy needs to be handled else ware)
     this.clientList$ = this.clientService.getAllClients();

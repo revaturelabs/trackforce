@@ -78,7 +78,7 @@
   </div>
 
   <!-- This is the update button with counter -->
-  <button *ngIf="currentAssociatesSelected.size" (click)="openDialog()" type="button" class="btn btn-warning floatingButton shadow">
-    <h6>Update <span class="badge badge-secondary">{{currentAssociatesSelected.size}}</span></h6>
-  </button>
+    <button *ngIf="currentAssociatesSelected.size && !(currentUserRole === 2)" (click)="openDialog()" type="button" class="btn btn-warning floatingButton shadow">
+      <h6>Update <span class="badge badge-secondary">{{currentAssociatesSelected.size}}</span></h6>
+    </button>
 </div>

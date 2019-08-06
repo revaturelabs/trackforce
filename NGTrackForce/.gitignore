@@ -46,7 +46,6 @@ testem.log
 Thumbs.db
 
 #testresults
-/testresults
-chrome-test-report.html
+**/testresults
+**/chrome-test-report.html
 
-e2e/_report

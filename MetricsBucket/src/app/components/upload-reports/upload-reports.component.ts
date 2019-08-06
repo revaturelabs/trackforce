@@ -87,7 +87,12 @@ export class UploadReportsComponent implements OnInit {
   submit() {
     // send this.fileList, this.iteration, this.project, and this.index to S3 bucket
     this.submitted = true;
+
+    const startDate = new Date(this.inputStartDate).toDateString();
+    const endDate = new Date(this.inputEndDate).toDateString();
     const days = this.getDuration();
+    const velocity = (this.completedStoryPoints/days).toFixed(2);
+
     this.indexFile = new File(
       [`
       <html>
@@ -98,10 +103,10 @@ export class UploadReportsComponent implements OnInit {
           <h1>Sprint Metrics:</h1>
           <b>Project:</b> ${this.project} <br>
           <b>Iteration:</b> ${this.iteration} <br>
-          <b>Start Date:</b> ${this.inputStartDate}<br>
-          <b>End Date:</b> ${this.inputEndDate} <br>
+          <b>Start Date:</b> ${startDate}<br>
+          <b>End Date:</b> ${endDate} <br>
           <b>Duration:</b> ${days} day(s) <br>
-          <b>Velocity:</b> ${this.completedStoryPoints/days} user stories per day<br>
+          <b>Velocity:</b> ${velocity} user stories per day <br>
           <script src='files.js'></script>
         </body>
       </html>

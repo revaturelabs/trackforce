@@ -1,0 +1,76 @@
+#background {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: -999;
+}
+
+#background img {
+  position: absolute;
+  /*   clip-path: circle(40% at 50% 50%);
+  */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  min-width: 50%;
+  min-height: 50%;
+  max-height: 100%;
+  max-width: 50%;
+}
+
+#bucket-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px 70px 70px 70px;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.35);
+}
+
+#remove {
+  cursor: pointer;
+}
+
+#header {
+  color:  rgb(242, 106, 37);
+  font-weight: 500;
+  letter-spacing: -5px;
+}
+
+#bucket {
+  color: black;
+}
+
+h5, a {
+  color: rgb(242, 106, 37);
+}
+
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;   
+  cursor: inherit;
+  display: block;
+}
+
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+  display: flex;
+  align-items: center;
+}

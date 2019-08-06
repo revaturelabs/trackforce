@@ -20,6 +20,7 @@ describe('When entering valid data into predictions filter it', () => {
       navbar = new Navbar();
       testConfig = new TestConfig();
       baseURL = testConfig.getBaseURL();
+      browser.driver.manage().window().maximize();
     });
 
     it('should navigate to the predictions page', () => {
@@ -131,10 +132,9 @@ describe('When I enter a start date that is more current than the end date it', 
 
     //adding this after all breaks the last test of this suite, to get around this
     //we simply put the jasmine tests first.
-    
+
     // afterAll(()=>{
     //   element(by.id('logout')).click();
     // });
-    
+
   });
-  

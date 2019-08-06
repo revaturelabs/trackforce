@@ -2,7 +2,7 @@
     <div class="col">
         <div class="input-group">
             <div class="input-group-prepend">
-                <button class="btn btn-outline-secondary dropdown-toggle select" type="button"
+                <button class="btn btn-outline-secondary dropdown-toggle select" type="button" id="project"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ projectEdit }}</button>
                 <div class="dropdown-menu">
                     <div *ngFor="let project of projectList | async">
@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="input-group-append ml-2" *ngIf="iterationListEdit">
-                <button class="btn btn-outline-secondary dropdown-toggle select" type="button"
+                <button class="btn btn-outline-secondary dropdown-toggle select" type="button" id="iterations"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ iterationChoice }}</button>
                 <div class="dropdown-menu">
                     <ng-container *ngIf="iterationListEdit.length == 0; else iterations">
@@ -38,7 +38,7 @@
                 <ng-template #files>
                     <div  *ngFor="let file of filesEdit">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <b>File Name:</b> {{ file }}
+                            <b>File Name:</b> <span class="fileNames">{{ file }}</span>
                             <span class="badge badge-danger badge-pill" id="remove" title="Remove"
                             (click)="removeFile(file)">X</span>
                         </li>
@@ -46,7 +46,7 @@
                 </ng-template>
             </ul>
             <div class="mt-2">
-                <button class="btn btn-success btn-file mr-2" title="Add Files">Add Files<input type="file" (change)="addFile($event)" multiple></button> 
+                <button class="btn btn-success btn-file mr-2" title="Add Files">Add Files<input type="file" (change)="addFile($event)" multiple></button>
                 <button class="btn btn-danger mr-2" id="remove" title="Delete Iteration" (click)="deletionWarning()">Delete Iteration</button>
                 <button class="btn select" id="update" title="Update Files" type="button" (click)="submitEdit()" [disabled]="!iterationChoice && !filesEdit">Update Files</button>
             </div>
@@ -68,7 +68,7 @@
     <div class="col">
         <ng-container *ngIf="submittedDeleteWarn">
             <div class="alert alert-warning mx-auto mt-3 text-center" role="alert">
-            Are you sure you would like to delete this iteration? 
+            Are you sure you would like to delete this iteration?
             <button type="button" class="btn btn-outline-success mr-2" (click)="deleteIteration()">Yes</button>
             <button type="button" class="btn btn-outline-danger" (click)="resetDelete()">No</button>
             </div>

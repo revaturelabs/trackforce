@@ -6,7 +6,6 @@ describe('A user can able to edit previous reports', () => {
 
   const appPage = new AppPage();
   const editReport = new EditReport();
-  let path = require('path');
 
   beforeAll(() => {
     appPage.navigateTo();
@@ -32,9 +31,38 @@ describe('A user can able to edit previous reports', () => {
   });
 
   it('should be able to upload new files', () => {
-    const filepath = process.cwd() + '\\src\\assets\\testFiles.\\file.txt';
+    const fileName = 'file.txt';
+    const filepath = process.cwd() + '\\src\\assets\\testFiles.\\' + fileName;
     editReport.getAddFilesInputBox().sendKeys(filepath);
-    browser.sleep(2000);
     editReport.getUpdateBtn().click();
+    browser.sleep(2000);
+    editReport.getProjectBtn().click();
+    editReport.getFirstProject().click();
+    editReport.getItterationBtn().click();
+    editReport.getFirstItteration().click();
+    editReport.getLastFile().getText().then((f) => {
+      expect(f.toString().replace('[', '').replace(']', '')).toBe(fileName);
+    });
+  });
+
+  it('should be able to remove files', () => {
+    const fileName = 'file.txt';
+    editReport.getLastFileRemoveBtn().click();
+    editReport.getUpdateBtn().click();
+    browser.sleep(2000);
+    editReport.getProjectBtn().click();
+    editReport.getFirstProject().click();
+    editReport.getItterationBtn().click();
+    editReport.getFirstItteration().click();
+    editReport.getLastFile().getText().then((f) => {
+      expect(f.toString().replace('[', '').replace(']', '')).not.toBe(fileName);
+    });
+  });
+
+  it('should be able to delete iterators', () => {
+    editReport.getRemoveIterationBtn().click();
+    browser.sleep(2000);
+    editReport.getremoveIterationConfirmBtn().click();
+    browser.sleep(2000);
   });
 });

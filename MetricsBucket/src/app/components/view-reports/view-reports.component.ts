@@ -32,12 +32,12 @@ export class ViewReportsComponent implements OnInit {
   constructor(private uploadService: UploadService) { }
 
   ngOnInit() {
-    this.bucketName = environment.bucketName; 
+    this.bucketName = environment.bucketName;
     this.projectChoice = 'Select Project';
     this.selectedIteration = ' Select Iteration';
   }
 
-  createLink(iter : string) {
+  createLink(iter: string) {
     this.iterationViewShow = true;
     this.selectedIteration = iter;
     // tslint:disable-next-line: max-line-length
@@ -45,7 +45,7 @@ export class ViewReportsComponent implements OnInit {
   }
 
   showIterations(project: string) {
-    this.selectedIteration = 'Select Iteration'
+    this.selectedIteration = 'Select Iteration';
     this.projectChoice = project;
     this.uploadService.getProjectSprints(project).subscribe(iter => {
       this.iterationList = iter;

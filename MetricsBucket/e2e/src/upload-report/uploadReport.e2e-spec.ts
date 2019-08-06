@@ -17,56 +17,47 @@ describe('A user is able to upload file to s3 bucket', () => {
     expect(UploadTab.getstardate()).toBeTruthy();
   });
 
-//need some work
   it('should be able to enter a start date', () => {
     UploadTab.selectstartdate().sendKeys('08/03/2019');
     expect(UploadTab.getstardate().getAttribute('value')).not.toBe('');
-    //expect(UploadTab.getstardate()).toBeTruthy();
   });
 
   it('should be able to enter a end date', () => {
     UploadTab.selectendtdate().sendKeys('08/06/2019');
-    //expect(UploadTab.getstardate()).toBeTruthy();
     expect(UploadTab.selectendtdate().getAttribute('value')).not.toBe('');
   });
 
   it('should be able to enter completedsp number', () => {
     UploadTab.entercompletedsp().sendKeys('2');
-    //expect(UploadTab.getstardate()).toBeTruthy();
     expect(UploadTab.entercompletedsp().getAttribute('value')).not.toBe('');
   });
 
   it('should be able to enter assignedsp number', () => {
     UploadTab.enterassignedsp().sendKeys('2');
-    //expect(UploadTab.getstardate()).toBeTruthy();
     expect(UploadTab.enterassignedsp().getAttribute('value')).not.toBe('');
   });
 
   it('should be able to select trackforce in project ', () => {
     UploadTab.selectprojectbtn().click();
     UploadTab.selectprojecttrackforce().click();
-    //expect(UploadTab.getstardate()).toBeTruthy();
     expect(UploadTab.selectprojectbtn().getText()).toBe('Trackforce');
   });
 
   it('should be able to select rideforce in project ', () => {
     UploadTab.selectprojectbtn().click();
     UploadTab.selectprojectrideforce().click();
-    //expect(UploadTab.getstardate()).toBeTruthy();
     expect(UploadTab.selectprojectbtn().getText()).toBe('Rideforce');
   });
 
   it('should be able to select sms in project ', () => {
     UploadTab.selectprojectbtn().click();
     UploadTab.selectprojectsms().click();
-    //expect(UploadTab.getstardate()).toBeTruthy();
     expect(UploadTab.selectprojectbtn().getText()).toBe('SMS');
   });
 
   it('should be able to select cms in project ', () => {
     UploadTab.selectprojectbtn().click();
     UploadTab.selectprojectcms().click();
-    //expect(UploadTab.getstardate()).toBeTruthy();
     expect(UploadTab.selectprojectbtn().getText()).toBe('CMS');
   });
 

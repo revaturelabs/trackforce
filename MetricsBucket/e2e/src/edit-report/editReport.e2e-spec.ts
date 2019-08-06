@@ -13,6 +13,7 @@ describe('A user can able to edit previous reports', () => {
 
   it('should be navigate to the edit tab', () => {
     editReport.getEditReportTab().click();
+    browser.sleep(2000);
     expect(editReport.getProjectBtn()).toBeTruthy();
   });
 

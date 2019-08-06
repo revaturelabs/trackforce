@@ -101,67 +101,67 @@ export class UploadTabPage extends BasePage {
     return this.stardate;
   }
 
-  selectstartdate(){
+  selectstartdate() {
     browser.sleep(1000);
     return this.stardate;
   }
 
-  selectendtdate(){
+  selectendtdate() {
     browser.sleep(1000);
     return this.enddate;
   }
 
-  entercompletedsp(){
+  entercompletedsp() {
     browser.sleep(1000);
     return this.completedsp;
   }
 
-  enterassignedsp(){
+  enterassignedsp() {
     browser.sleep(1000);
     return this.assignedsp;
   }
 
-  selectprojectbtn(){
+  selectprojectbtn() {
     browser.sleep(1000);
     return this.project;
   }
 
-  selectprojecttrackforce(){
+  selectprojecttrackforce() {
     browser.sleep(1000);
     return this.project_trackforce;
   }
 
-  selectprojectrideforce(){
+  selectprojectrideforce() {
     browser.sleep(1000);
     return this.project_rideforce;
   }
 
-  selectprojectsms(){
+  selectprojectsms() {
     browser.sleep(1000);
     return this.project_sms;
   }
 
-  selectprojectcms(){
+  selectprojectcms() {
     browser.sleep(1000);
     return this.project_cms;
   }
 
-  enterprojectiteration(){
+  enterprojectiteration() {
     browser.sleep(1000);
     return this.project_iteration;
   }
 
-  uploadafile(){
+  uploadafile() {
     browser.sleep(1000);
     return this.uploadfile;
   }
 
-  getuploadedfile(){
+  getuploadedfile() {
     browser.sleep(1000);
     return this.uploadedfile;
   }
 
-  sendreport(){
+  sendreport() {
     browser.sleep(1000);
     return this.submitbtn;
   }

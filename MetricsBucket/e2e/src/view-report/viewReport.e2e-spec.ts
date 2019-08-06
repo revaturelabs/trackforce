@@ -12,7 +12,7 @@ describe('A user is able to view previous reports', () => {
 
   it('should be navigate to the view tab', () => {
     viewReport.ViewReportTab().click();
-    // expect(viewReport.ProjectListSelector()).toBeTruthy();
+    expect(viewReport.ProjectListSelector()).toBeTruthy();
     viewReport.ProjectListSelector().click();
     viewReport.CmsOption().click();
     expect(viewReport.SelectedIteration()).toBeTruthy();

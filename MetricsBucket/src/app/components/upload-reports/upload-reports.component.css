@@ -1,0 +1,19 @@
+#remove {
+  cursor: pointer;
+}
+
+#note {
+  font-size: 10pt;
+  font-style: italic;
+  text-align: right;
+  margin-top: 10px;
+}
+
+.btn, .btn-outline-secondary.dropdown-toggle {
+  background-color: rgb(242, 106, 37);
+  color: white;
+}
+
+h5, a {
+  color: rgb(242, 106, 37);
+}

@@ -1,0 +1,44 @@
+<div class="container-fluid vertical-center">
+
+  <div id="background">
+    <img src="assets\images\23.jpg" alt="background" />
+  </div>
+
+  <div class="container col-7" id="bucket-container">
+    <h1 class="display-1 text-center" id="header">Metrics<span id="bucket">Bucket</span></h1>
+
+    <ul class="nav nav-tabs mt-5">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#view-reports" aria-selected="true" (click)="editReports.resetValuesEdit(); uploadReports.resetValues()">
+          <h3>View Reports</h3>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#upload-reports" aria-selected="false" (click)="editReports.resetValuesEdit(); viewReports.resetValues()">
+          <h3>Upload Report</h3>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#edit-reports" aria-selected="false" (click)="viewReports.resetValues(); uploadReports.resetValues()">
+          <h3>Edit Report</h3>
+        </a>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="view-reports">
+        <app-view-reports #viewReports [projectList]='projectList'></app-view-reports>
+      </div>
+
+      <div class="tab-pane fade" id="upload-reports">
+        <app-upload-reports #uploadReports [projectList]='projectList'></app-upload-reports>
+      </div>
+
+      <div class="tab-pane fade" id="edit-reports">
+        <app-edit-reports #editReports [projectList]='projectList'></app-edit-reports>
+      </div>
+
+    </div>
+
+  </div>
+</div>

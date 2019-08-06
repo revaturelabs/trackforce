@@ -111,7 +111,6 @@ public class InterviewResource {
 		
 		if (canAccessInterview(token, associateid)) {
 			interview.setAssociate(getAssociateService().getAssociate(associateid));
-			interview.setJobDescription("No current description.");
 			getInterviewService().createInterview(interview);
 			status = Status.CREATED;
 		} else {

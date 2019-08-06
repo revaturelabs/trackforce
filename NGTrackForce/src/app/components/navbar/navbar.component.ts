@@ -53,6 +53,7 @@ export class NavbarComponent implements OnInit, OnChanges, AfterContentChecked {
     this.isAssociate = false;
     this.user = null;
     this.authService.logout();
+    
     // linked to /login page directly on anchor for testing purposes
     //this.router.navigateByUrl('/login');
   }

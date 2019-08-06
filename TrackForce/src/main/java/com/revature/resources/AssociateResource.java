@@ -27,11 +27,12 @@ import org.hibernate.HibernateException;
 import org.json.JSONObject;
 
 import com.revature.entity.TfAssociate;
+import com.revature.entity.TfBatch;
 import com.revature.services.AssociateService;
 import com.revature.services.ClientService;
 import com.revature.services.JWTService;
 import com.revature.services.MarketingStatusService;
-
+import com.revature.services.BatchService;
 import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -414,6 +415,78 @@ public class AssociateResource {
 			return responseStatus(Status.INTERNAL_SERVER_ERROR).build();
 		}
 
+		//If no results, return 204 and null ; otherwise 200 and the list 
+		status = associates == null ? Status.NO_CONTENT : Status.OK;
+
+		logger.info("Returning Status 200 along with List");
+		return responseStatus(status).entity(associates).build();
+	}
+	
+	
+	/*
+	 * Gnarly bit'o stuff to get trainer only associates
+	 */
+	@SuppressWarnings("null")
+	@GET
+	@Path("/pagetrain")
+	public Response getAssociatePageT(
+			@DefaultValue("0") @QueryParam("startIndex") Integer startIndex,
+			@DefaultValue("50") @QueryParam("numResults") Integer numResults,
+			@DefaultValue("-1") @QueryParam("mStatusId") Integer mStatusId,
+			@DefaultValue("-1") @QueryParam("clientId") Integer clientId,
+			@DefaultValue("") @QueryParam("sortText") String sortText,
+			@DefaultValue("") @QueryParam("firstName") String firstName,
+			@DefaultValue("") @QueryParam("lastName") String lastName,
+			@DefaultValue("") @QueryParam("trainerId") Integer trainerId,
+			@HeaderParam("Authorization") String token) 
+	
+	{		
+		logger.info("getAssociatePage(" + startIndex + ", " + numResults + ", " + mStatusId + ", " + clientId + ", " + sortText + "," + trainerId + ")");
+		Status status = null;
+		Claims payload = jwtProcessToken(token);
+
+		//Check token
+		if (payload == null) {
+			logger.error(NULL_PAYLOAD_MESSAGE);
+			return responseStatus(Status.UNAUTHORIZED).entity(JWTService.invalidTokenBody(token)).build();
+		} else if ( ((String) payload.get("roleID")).equals("5")) {
+			logger.error("Associate Role detected. Forbidden Access.");
+			return responseStatus(Status.FORBIDDEN).build();
+		}
+		
+		List<TfAssociate> associatesOG;
+		List<TfAssociate> associates = new ArrayList<TfAssociate>();
+		List<TfBatch> batches = new ArrayList<TfBatch>();
+		List<TfBatch> batchesOG;
+		try {
+			 associatesOG = getAssociateService().getAssociatePage(startIndex, numResults, mStatusId, clientId, sortText, firstName, lastName);
+			 BatchService bs = new BatchService(); 
+			 batchesOG = bs.getAllBatches();
+
+			 
+		} catch (IllegalArgumentException iae) {
+			logger.error("Bad request.");
+			logger.error(iae.getMessage());
+			return responseStatus(Status.BAD_REQUEST).build();
+		} catch (Exception e) {
+			logger.error("Catch All Exeception.");
+			logger.error(e.getMessage());
+			return responseStatus(Status.INTERNAL_SERVER_ERROR).build();
+		}
+		
+		 for (int i = 0; i < batchesOG.size(); i++) {
+			 if (batchesOG.get(i).getTrainer().getId() == trainerId) {
+				 batches.add(batchesOG.get(i));
+			 }
+		 }
+		 for (int i = 0; i < associatesOG.size(); i++) {
+			 for (int j = 0; j < batches.size(); j++) {
+				 if (associatesOG.get(i).getBatch().getId() == batches.get(j).getId()) {
+					 associates.add(associatesOG.get(i));
+				 }
+			 }
+		 }
+		 
 		//If no results, return 204 and null ; otherwise 200 and the list 
 		status = associates == null ? Status.NO_CONTENT : Status.OK;
 

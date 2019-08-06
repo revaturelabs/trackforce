@@ -13,11 +13,13 @@ import {PredictionsRoutingModule} from './predictions-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { StatusPipe } from '../../pipes/associate-search-by-status/status.pipe';
 
 @NgModule({
     declarations: [
       PredictionsComponent,
       //DateTimePickerComponent
+      StatusPipe  
     ],
     providers:[
       BatchService,

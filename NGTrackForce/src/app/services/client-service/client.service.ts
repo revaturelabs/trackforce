@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment'
 import { Client } from '../../models/client.model';
 import { LocalStorageUtils } from '../../constants/local-storage';
 import { of } from 'rxjs/observable/of';
+import { Helpers } from '../../lsHelper';
 
 /**
  * @author Han Jung
@@ -20,7 +21,7 @@ export class ClientService {
 
   private clients$: BehaviorSubject<Client[]> = new BehaviorSubject<Client[]>([]);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public lsHelp: Helpers) { }
 
   /**
    *
@@ -33,7 +34,7 @@ export class ClientService {
         this.http.get<Client[]>(this.baseURL + "/getAll/").subscribe(
           (data: Client[]) => {
             this.clients$.next(data);
-            localStorage.setItem(key, JSON.stringify(data));
+            this.lsHelp.localStorageSet(key, JSON.stringify(data));
           },
           (error) => this.clients$.error(error)
         );

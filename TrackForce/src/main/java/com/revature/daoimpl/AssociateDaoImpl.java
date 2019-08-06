@@ -121,6 +121,7 @@ public class AssociateDaoImpl implements AssociateDao {
 		LogUtil.logger.trace("Results: " + results);
 		return results;
 	}
+	
 
 	/**
 	 * Gets a single associate with an id

@@ -61,4 +61,10 @@ describe('A user is able to upload file to s3 bucket', () => {
     expect(UploadTab.getstardate()).toBeTruthy();
   });
 
+  it('should be able to enter an iteration name ', () => {
+    UploadTab.enterprojectiteration().click();
+    UploadTab.enterprojectiteration().sendKeys('FirstIteration');
+    expect(UploadTab.enterprojectiteration().getText()).not.toEqual(0);
+  });
+
 });

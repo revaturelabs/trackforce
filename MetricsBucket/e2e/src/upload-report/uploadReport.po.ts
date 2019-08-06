@@ -55,7 +55,7 @@ const Locators = {
 
   project_iteration: {
     type: IdentificationType[IdentificationType.Xpath],
-    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/div[2]/div/div/input'
+    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[2]/div/div/input'
   },
 
   browsebtn: {
@@ -81,6 +81,7 @@ export class UploadTabPage extends BasePage {
   project_rideforce = this.ElementLocator(Locators.project_rideforce);
   project_sms = this.ElementLocator(Locators.project_sms);
   project_cms = this.ElementLocator(Locators.project_cms);
+  project_iteration = this.ElementLocator(Locators.project_iteration);
 
   navigateuploadtab() {
     return this.uploadtab;
@@ -107,7 +108,7 @@ export class UploadTabPage extends BasePage {
 
   enterassignedsp(){
     browser.sleep(1000);
-    return this.completedsp.sendKeys('2');
+    return this.assignedsp.sendKeys('2');
   }
 
   selectprojectbtn(){
@@ -133,6 +134,11 @@ export class UploadTabPage extends BasePage {
   selectprojectcms(){
     browser.sleep(1000);
     return this.project_cms;
+  }
+
+  enterprojectiteration(){
+    browser.sleep(1000);
+    return this.project_iteration;
   }
 
 }

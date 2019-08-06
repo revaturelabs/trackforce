@@ -21,6 +21,47 @@
         </div>
     </div>
     <h5 class="mx-auto mt-3">Iteration Information</h5>
+
+    <div class="row">
+        <div class="col ml-3">
+            <div class="row">Trainer</div>
+            <div class="row">
+                <mat-form-field class="trainer-list" style="width:100%">
+                    <mat-chip-list #trainerChipList aria-label="Trainer selection">
+                        <mat-chip *ngFor="let trainer of trainers" [selectable]="trainerSelectable"
+                                [removable]="trainerRemovable" (removed)="removeTrainer(trainer)">
+                        {{trainer}}
+                        <mat-icon matChipRemove *ngIf="trainerRemovable">cancel</mat-icon>
+                        </mat-chip>
+                        <input placeholder="Please enter trainers..."
+                                [matChipInputFor]="trainerChipList"
+                                [matChipInputSeparatorKeyCodes]="trainerSeparatorKeysCodes"
+                                [matChipInputAddOnBlur]="trainerAddOnBlur"
+                                (matChipInputTokenEnd)="addTrainer($event)">
+                    </mat-chip-list>
+                </mat-form-field>
+            </div>
+        </div>  
+        <div class="col ml-3">
+            <div class="row">Observer</div>
+            <div class="row">
+                <mat-form-field class="observer-list" style="width:100%">
+                        <mat-chip-list #observerChipList aria-label="Observer selection">
+                            <mat-chip *ngFor="let observer of observers" [selectable]="observerSelectable"
+                                    [removable]="observerRemovable" (removed)="removeObserver(observer)">
+                            {{observer}}
+                            <mat-icon matChipRemove *ngIf="observerRemovable">cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="Please enter observers..."
+                                    [matChipInputFor]="observerChipList"
+                                    [matChipInputSeparatorKeyCodes]="observerSeparatorKeysCodes"
+                                    [matChipInputAddOnBlur]="observerAddOnBlur"
+                                    (matChipInputTokenEnd)="addObserver($event)">
+                        </mat-chip-list>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col">
             <div class="input-group mx-auto mt-3">

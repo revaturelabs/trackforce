@@ -17,16 +17,16 @@ exports.config = {
   allScriptsTimeout: 11000,
   specs: [
     // './src/**/*.e2e-spec.ts'
+     './src/upload-report/uploadReport.e2e-spec.ts',
     './src/view-report/viewReport.e2e-spec.ts',
-    './src/upload-report/uploadReport.e2e-spec.ts',
     './src/edit-report/editReport.e2e-spec.ts'
   ],
 
   capabilities: {
     'browserName': 'chrome',
     chromeOptions: {
-      args: ['start-maximized']
-      //   args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
+      // args: ['start-maximized'],
+      args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
     }
   },
 

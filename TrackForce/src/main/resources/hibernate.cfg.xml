@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-
 	<session-factory>
 		<!-- NEVER SET TO CREATE UNLESS YOU WANT TO REMOVE ALL DATA IN DATABASE -->
 		<property name="hibernate.hbm2ddl.auto">update</property>
@@ -16,7 +15,6 @@
 		<property
 			name="hibernate.cache.default_cache_concurrency_strategy">read-write</property>
 		<property name="hibernate.cache.use_second_level_cache">true</property>
-
 		<property name="hibernate.cache.use_query_cache">true</property>
 		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
 		<!-- Connection pool -->

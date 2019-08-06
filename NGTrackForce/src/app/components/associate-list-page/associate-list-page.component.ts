@@ -83,6 +83,9 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
     this.currentUserRole = (JSON.parse(this.lsHelp.localStorageItem("currentUser"))).role;
     const possibleTrainer = JSON.parse(this.lsHelp.localStorageItem("currentUser"));
     if (possibleTrainer.role === 2){
+      let trainNerd: Trainer;
+      trainNerd = JSON.parse(this.lsHelp.localStorageItem("currentTrainer"));
+      this.lsHelp.removeStorageItem(`associatePage|/pagetrain?startIndex=0&numResults=60&trainerId=${trainNerd.id}`);
       this.associateStatuses.push("");
       for (const status of SelectedStatusConstants.MAPPED_LABELS) {
         this.associateStatuses.push(`Mapped: ${status}`);
@@ -151,9 +154,6 @@ export class AssociateListPageComponent implements OnInit, OnDestroy, AfterViewI
    this.scrollingTable.removeEventListener('scroll', this.onScroll.bind(this));
    this.lsHelp.removeStorageItem("clientGetAll");
    this.lsHelp.removeStorageItem('associatePage|/page?startIndex=0&numResults=500');
-   let trainNerd: Trainer;
-   trainNerd = JSON.parse(this.lsHelp.localStorageItem("currentTrainer"));
-   this.lsHelp.removeStorageItem(`associatePage|/pagetrain?startIndex=0&numResults=60&trainerId=${trainNerd.id}`);
   }
 
   onScroll(event: Event) {

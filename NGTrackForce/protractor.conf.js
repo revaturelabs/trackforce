@@ -20,6 +20,8 @@ exports.config = {
       './e2e/associate-list/associate-list-client.js',
 
     //PROTRACTOR TESTS
+
+
      './e2e/register-associate/register-associate.e2e-spec.ts',
         './e2e/login/login.e2e-spec.ts',
          './e2e/navbar/navbar.e2e-spec.ts',
@@ -63,9 +65,11 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome',
     chromeOptions: {
-    // args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
+
+     args: [ "--headless", "--disable-gpu", "--window-size=1000,1000" ]
       // args: [ "--disable-gpu", "--window-size=2000,2000" ]
-      args: [ ]
+      //args: [ ]
+
     }
   },
 

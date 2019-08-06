@@ -249,7 +249,7 @@ public class AssociateDAOTest {
 	
 	@Test(groups= {"getters"})
 	public void testAssociateDAOCountMapped() {
-		assertEquals(dao.countMappedAssociatesByValue("tf_batch_id", "38", 6), 0);
-		assertEquals(dao.countMappedAssociatesByValue("tf_staging_feedback", "Eager", 6), 0);
+		assertEquals(dao.countMappedAssociatesByValue("tf_batch_id", "38", 6), 14);
+		assertEquals(dao.countMappedAssociatesByValue("tf_staging_feedback", "Eager", 6), 1);
 	}
 }

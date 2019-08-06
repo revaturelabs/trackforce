@@ -18,19 +18,21 @@ import com.revature.entity.TfCurriculum;
 import com.revature.test.utils.Log;
 
 public class CurriculumDAOTest {
-	
+
 	private CurriculumDaoImpl dao;
 	private Properties props;
-	
+
 	@BeforeClass
 	public void initialize() {
 		dao = new CurriculumDaoImpl();
 		props = new Properties();
 		try {
-			FileInputStream propFile = new FileInputStream( Paths.get(System.getProperty("user.dir"),"src","test","resources","database_entries.properties").toString() );
+			FileInputStream propFile = new FileInputStream(
+					Paths.get(System.getProperty("user.dir"), "src", "test", "resources", "database_entries.properties")
+							.toString());
 			props.load(propFile);
 			propFile.close();
-		} catch(FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			Log.Log.error(e.getMessage());
 		} catch (IOException e) {
 			Log.Log.error(e.getMessage());
@@ -42,13 +44,13 @@ public class CurriculumDAOTest {
 		List<TfCurriculum> list = dao.getAllCurriculums();
 		assertEquals(list.size(), Integer.parseInt(props.getProperty("curriculum_total")));
 	}
-	
+
 	@Test
 	public void testCurriculumDAOGetUnmapped() {
 		List<GraphedCriteriaResult> list = dao.getUnmapped(Integer.parseInt(props.getProperty("curriculum_java")));
 		assertEquals(list.get(0).getName(), "Java");
-//		assertEquals(list.get(0).getCount(), Long.parseLong(props.getProperty("curriculum_java_count")));
-		assertEquals(list.get(0).getCount(), 2);
-		
+		assertEquals(list.get(0).getId(), Integer.parseInt(props.getProperty("curriculum_java")));
+		assertEquals(list.get(0).getCount(), Integer.parseInt(props.getProperty("curriculum_java_count")));
+
 	}
 }

@@ -44,6 +44,8 @@ export class UploadReportsComponent implements OnInit {
   ngOnInit() {
     this.project = 'Project';
     this.fileList = [];
+    this.trainers = [];
+    this.observers = [];
   }
 
   selectFiles(event) {
@@ -153,6 +155,16 @@ export class UploadReportsComponent implements OnInit {
     const days = this.getDuration();
     const velocity = (this.completedStoryPoints/days).toFixed(2);
 
+    let trainerList = this.trainers.toString();
+    let observerList = this.observers.toString();
+
+    if (this.trainers.length == 0) {
+      trainerList = "Unspecified";
+    }
+    if (this.observers.length == 0) {
+      observerList = "Unspecified";
+    }
+
     this.indexFile = new File(
       [`
       <html>
@@ -163,6 +175,8 @@ export class UploadReportsComponent implements OnInit {
           <h1>Sprint Metrics:</h1>
           <b>Project:</b> ${this.project} <br>
           <b>Iteration:</b> ${this.iteration} <br>
+          <b>Trainer(s):</b> ${trainerList} <br>
+          <b>Observer(s):</b> ${observerList} <br>
           <b>Start Date:</b> ${startDate}<br>
           <b>End Date:</b> ${endDate} <br>
           <b>Duration:</b> ${days} day(s) <br>
@@ -192,6 +206,8 @@ export class UploadReportsComponent implements OnInit {
   resetValues() {
     this.submitted = false;
     this.fileList = [];
+    this.trainers = [];
+    this.observers = [];
     this.project = 'Project';
     this.iteration = '';
     this.inputStartDate = '';

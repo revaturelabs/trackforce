@@ -104,12 +104,10 @@ export class UploadReportsComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || '').trim()) {
       this.trainers.push(value);
     }
 
-    // Reset the input value
     if (input) {
       input.value = '';
     }
@@ -127,12 +125,10 @@ export class UploadReportsComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
     if ((value || '').trim()) {
       this.observers.push(value);
     }
 
-    // Reset the input value
     if (input) {
       input.value = '';
     }

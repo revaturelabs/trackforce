@@ -6,7 +6,7 @@
 CREATE USER ADMIN
 
 -- ***************  YOUR PASSWORD HERE ********************
-IDENTIFIED BY revaPassword123$
+IDENTIFIED BY Password
 
 DEFAULT TABLESPACE users
 TEMPORARY TABLESPACE temp
@@ -19,7 +19,7 @@ GRANT create table TO ADMIN;
 GRANT create view TO ADMIN;
 
 -- ***************  YOUR PASSWORD HERE ********************
-conn ADMIN/revaPassword123$
+conn ADMIN/Password
 
 
 

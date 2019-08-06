@@ -225,6 +225,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache -->
 		<dependency>
 			<groupId>org.hibernate</groupId>

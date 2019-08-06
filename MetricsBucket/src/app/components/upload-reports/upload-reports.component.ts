@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UploadService } from 'src/app/service/upload.service';
 import { Observable } from 'rxjs';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips'
 
 @Component({
   selector: 'app-upload-reports',
@@ -24,6 +26,18 @@ export class UploadReportsComponent implements OnInit {
   projectSelected: boolean;
   incorrectDateAlert: boolean;
   incorrectStoryPointsAlert: boolean;
+  trainerVisible = true;
+  trainerSelectable = true;
+  trainerRemovable = true;
+  trainerAddOnBlur = true;
+  readonly trainerSeparatorKeysCodes: number[] = [ENTER, COMMA];
+  observerVisible = true;
+  observerSelectable = true;
+  observerRemovable = true;
+  observerAddOnBlur = true;
+  readonly observerSeparatorKeysCodes: number[] = [ENTER, COMMA];
+  trainers: string[] = [];
+  observers: string[] = [];
 
   constructor(private uploadService : UploadService) { }
 
@@ -82,6 +96,52 @@ export class UploadReportsComponent implements OnInit {
     const endDate = new Date(this.inputEndDate);
     const days = (endDate.getTime() - startDate.getTime()) / 1000 / 60 / 60 / 24;
     return days;
+  }
+
+  addTrainer(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.trainers.push(value);
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeTrainer(trainer: string): void {
+    const index = this.trainers.indexOf(trainer);
+
+    if (index >= 0) {
+      this.trainers.splice(index, 1);
+    }
+  }
+
+    addObserver(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.observers.push(value);
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeObserver(observer: string): void {
+    const index = this.observers.indexOf(observer);
+
+    if (index >= 0) {
+      this.observers.splice(index, 1);
+    }
   }
 
   submit() {

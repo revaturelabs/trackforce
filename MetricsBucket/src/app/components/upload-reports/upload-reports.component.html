@@ -58,6 +58,38 @@
             </div>
         </ng-container>
     </div>
+    <!-- <div class="row">
+       <mat-form-field class="trainer-list">
+                <mat-chip-list #chipList aria-label="Trainer selection">
+                    <mat-chip *ngFor="let trainer of trainers" [selectable]="trainerSelectable"
+                            [removable]="trainerRemovable" (removed)="removeTrainer(trainer)">
+                    {{trainer}}
+                    <mat-icon matChipRemove *ngIf="trainerRemovable">cancel</mat-icon>
+                    </mat-chip>
+                    <input placeholder="Please enter trainers..."
+                            [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="trainerSeparatorKeysCodes"
+                            [matChipInputAddOnBlur]="trainerAddOnBlur"
+                            (matChipInputTokenEnd)="addTrainer($event)">
+                </mat-chip-list>
+        </mat-form-field>
+    </div> -->
+    <div class="row">
+        <mat-form-field class="observer-list">
+                <mat-chip-list #chipList aria-label="Observer selection">
+                    <mat-chip *ngFor="let observer of observers" [selectable]="observerSelectable"
+                            [removable]="observerRemovable" (removed)="removeObserver(observer)">
+                    {{observer}}
+                    <mat-icon matChipRemove *ngIf="observerRemovable">cancel</mat-icon>
+                    </mat-chip>
+                    <input placeholder="Please enter observers..."
+                            [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="observerSeparatorKeysCodes"
+                            [matChipInputAddOnBlur]="observerAddOnBlur"
+                            (matChipInputTokenEnd)="addObserver($event)">
+                </mat-chip-list>
+        </mat-form-field>
+    </div>
     <div class="row">
         <ng-container *ngIf="!submitted">
         <div class="col mx-auto mt-3" *ngIf="fileList != ''">

@@ -55,7 +55,7 @@ export class EditReport extends BasePage {
   updateBtn = this.ElementLocator(Locators.updateBtn);
   allFiles = this.ElementsArrayLocator(Locators.allFiles);
   removeIterationBtn = this.ElementLocator(Locators.removeIterationBtn);
-  removeIterationConfirmBtn = this.ElementLocator(Locators.removeIterationConfirmBtn)
+  removeIterationConfirmBtn = this.ElementLocator(Locators.removeIterationConfirmBtn);
 
   getEditReportTab() {
     return this.editReportTab;

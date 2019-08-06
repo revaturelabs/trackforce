@@ -39,6 +39,7 @@ export class EditReportsComponent implements OnInit {
   // Edit Reports methods
 
   setProjectEdit(project: string) {
+    this.submittedDeleteWarn = false;
     this.projectEdit = project;
     this.uploadService.getProjectSprints(project).subscribe( iter => {
       this.iterationListEdit = iter;
@@ -48,6 +49,7 @@ export class EditReportsComponent implements OnInit {
   }
 
   setIteration(iter: string) {
+    this.submittedDeleteWarn = false;
     this.iterationChoice = iter;
     this.filesEdit = this.uploadService.getIterationFiles(this.projectEdit, iter);
   }
@@ -89,6 +91,7 @@ export class EditReportsComponent implements OnInit {
   }
 
   submitEdit() {
+    this.submittedDeleteWarn = false;
     this.submittedEdit = true;
     this.jsFile = new File(
       [`document.write(\`<b>Files:</b> ${this.filesEdit.map(file => `<br><a href='report/${file}' target='_blank'>${file}</a>`)}\`)`]

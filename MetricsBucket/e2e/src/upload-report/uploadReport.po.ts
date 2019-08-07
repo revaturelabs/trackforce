@@ -35,27 +35,27 @@ const Locators = {
 
   project_trackforce: {
     type: IdentificationType[IdentificationType.Xpath],
-    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[2]/div/div/div[1]/div/div[4]/p'
+    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[3]/div/div/div[1]/div/div[4]/p'
   },
 
   project_rideforce: {
     type: IdentificationType[IdentificationType.Xpath],
-    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[2]/div/div/div[1]/div/div[2]/p'
+    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[3]/div/div/div[1]/div/div[2]/p'
   },
 
   project_sms: {
     type: IdentificationType[IdentificationType.Xpath],
-    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[2]/div/div/div[1]/div/div[3]/p'
+    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[3]/div/div/div[1]/div/div[3]/p'
   },
 
   project_cms: {
     type: IdentificationType[IdentificationType.Xpath],
-    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[2]/div/div/div[1]/div/div[1]/p'
+    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[3]/div/div/div[1]/div/div[1]/p'
   },
 
   project_iteration: {
     type: IdentificationType[IdentificationType.Xpath],
-    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[2]/div/div/input'
+    value: '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[3]/div/div/input'
   },
 
   uploadfile: {
@@ -66,7 +66,7 @@ const Locators = {
 
   uploadedfile: {
     type: IdentificationType[IdentificationType.Xpath],
-    value : '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[4]/div/div/b'
+    value : '/html/body/app-root/app-sprint-reports/div/div[2]/div/div[2]/app-upload-reports/div/div[5]/div/div/b'
   },
 
   submitbtn: {

@@ -8,6 +8,8 @@ import { Interview } from '../../models/interview.model';
 import { GraphCounts } from '../../models/graph-counts';
 import { LocalStorageUtils } from '../../constants/local-storage';
 import { of } from 'rxjs/observable/of';
+import { Helpers } from '../../lsHelper';
+import { Trainer } from '../../models/trainer.model';
 
 /**
  * Service for retrieving and updating data relating to associates.
@@ -78,7 +80,7 @@ export class AssociateService {
     null
   ));
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, public lsHelp: Helpers) {}
 
   /**
    *
@@ -323,6 +325,103 @@ export class AssociateService {
   }
 
   fetchCachedSnapshot(queryParams: string): BehaviorSubject<Associate[]> {
+    const url: string = this.baseURL + queryParams;
+    let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + queryParams
+
+    
+    /*So the following if statement is in here because 
+    * there was an issue with the filter where after clearing 
+    * the filters there would be a value in local storage. 
+    * Having values in local storage for some reason prevents
+    * the result list from being populated with results so whenever
+    * localstorage has a value make it null to prevent 
+    * filter functionality from breaking. 
+    */
+    if(localStorage.getItem(key) !== null)
+    {
+      localStorage.removeItem(key);
+    }
+    if(!LocalStorageUtils.CACHE_ENABLED || !localStorage.getItem(key)) {
+      this.http.get<Associate[]>(url).subscribe(
+        (data: Associate[]) => {
+          this.currentAssociateSnapshot$.next(data);
+          localStorage.setItem(key, JSON.stringify(data));
+
+          if (!data) {
+            this.hasReceivedEndForCurrentFilter = true;
+          }
+        },
+        error => this.currentAssociateSnapshot$.error(error)
+      );
+    } else {
+      this.currentAssociateSnapshot$.next(JSON.parse(localStorage.getItem(key)))
+    }
+
+    return this.currentAssociateSnapshot$;
+  }
+
+  fetchAssociateSnapshotT(limit: number, filter): BehaviorSubject<Associate[]> {
+    this.hasReceivedEndForCurrentFilter = false;
+    this.withLimit = limit;
+    this.currentIndex = 0;
+
+    this.currentClientFilter = filter.client || "";
+    this.currentStatusFilter = filter.status || "";
+    this.currentTextFilter = filter.sortText || "";
+    this.currentFirstName = filter.firstName || "";
+    this.currentLastName = filter.lastName || "";
+
+    // Base route
+    let queryParams = `/pagetrain?startIndex=${this.currentIndex}&numResults=${this.withLimit}`;
+
+
+    // Determine filters if any
+    const {status, client, sortText, firstName, lastName} = filter;
+
+    if (status) {
+      queryParams += `&mStatusId=${status}`;
+    }
+    if (client) {
+      queryParams += `&clientId=${client}`;
+    }
+    if (sortText) {
+      queryParams += `&sortText=${sortText}`;
+    }
+    if (firstName && lastName) {
+      queryParams += `&firstName=${firstName}&lastName=${lastName}`;
+    }
+    const trainer: Trainer = JSON.parse(this.lsHelp.localStorageItem("currentTrainer"));
+
+    queryParams += `&trainerId=${trainer.id}`;
+
+    return this.fetchCachedSnapshot(queryParams);
+  }
+
+  fetchNextSnapshotT() {
+    if (this.hasReceivedEndForCurrentFilter) {
+      return this.currentAssociateSnapshot$;
+    }
+
+    this.currentIndex += this.withLimit;
+    // Base route
+    let queryParams = `/pagetrain?startIndex=${this.currentIndex}&numResults=${this.withLimit}`;
+
+    if (this.currentStatusFilter) {
+      queryParams += `&mStatusId=${this.currentStatusFilter}`;
+    }
+    if (this.currentClientFilter) {
+      queryParams += `&clientId=${this.currentClientFilter}`;
+    }
+    if (this.currentTextFilter) {
+      queryParams += `&sortText=${this.currentTextFilter}`;
+    }
+    const trainer: Trainer = JSON.parse(this.lsHelp.localStorageItem("currentTrainer"));
+
+    queryParams += `&trainerId=${trainer.id}`;
+    return this.fetchCachedSnapshot(queryParams);
+  }
+
+  fetchCachedSnapshotT(queryParams: string): BehaviorSubject<Associate[]> {
     const url: string = this.baseURL + queryParams;
     let key: string = LocalStorageUtils.CACHE_ASSOCIATE_PAGE + "|" + queryParams
 

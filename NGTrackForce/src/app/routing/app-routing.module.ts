@@ -3,7 +3,7 @@
  * @description Defines all possible navigatable routes for TrackForce application
  */
 
-import {NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from "@angular/router";
 
 //import { ModuleWithProviders } from "@angular/core";
@@ -30,21 +30,11 @@ import { AuthGuard } from "../guards/auth.guard";
 import { InvalidSessionComponent } from "../components/invalid-session/invalid-session.component";
 // import { AssociateListPageComponent } from "../components/associate-list-page/associate-list-page.component";
 
-
-
-
-
-
 /**
  * Place paths here
  */
 
 const appRoutes: Routes = [
-  {
-    path: "",
-    redirectTo: "/login",
-    pathMatch: "full"
-  },
   {
     path: "login",
     component: LoginComponent
@@ -199,13 +189,18 @@ const appRoutes: Routes = [
     data: { expectedRoles: [1, 3, 4] }
   },
   {
+    path: "",
+    redirectTo: "/login",
+    pathMatch: "full"
+  },
+  {
     // must be LAST in this array because this matches all other paths (fallback)
     path: "**",
     component: NotFoundComponent
   }
 ];
 
-@NgModule( {
+@NgModule({
   imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule]
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AssociateService } from '../../services/associate-service/associate.service';
 import { AutoUnsubscribe } from '../../decorators/auto-unsubscribe.decorator';
 import { Associate } from '../../models/associate.model';
@@ -47,6 +47,7 @@ export class MyInterviewComponent implements OnInit {
   public interviewType: InterviewType;
   public openDateNotified: boolean;
   public openInterviewDate: boolean;
+  public jobDesc: string = '';
   public conflictingInterview: boolean;
   public isDataReady = false;
   public dateError:boolean;
@@ -90,7 +91,8 @@ export class MyInterviewComponent implements OnInit {
          interviewTime: ['', Validators.compose(
           [Validators.required, Validators.pattern("[0-9]{1,2}:[0-9]{2}.*")])
          ],
-         was24HRNotice: ['']
+         was24HRNotice: [''],
+         jobDesc: ['', Validators.required]
         });
 
     //gets the associate id from the path
@@ -140,7 +142,7 @@ export class MyInterviewComponent implements OnInit {
   addInterview() {
     // interview date and time must be valid and they cannot conflict with another
     // interview already scheduled at that date and time
-      if (this.aif.clientId.valid && this.aif.clientId.value != "None" && this.aif.typeId.valid && !this.dateError && this.aif.interviewDate.valid && this.aif.interviewTime.valid && 
+      if (this.aif.clientId.valid && this.aif.clientId.value != "None" && this.aif.jobDesc.valid && this.aif.typeId.valid && !this.dateError && this.aif.interviewDate.valid && this.aif.interviewTime.valid && 
         !this.interviewConflict(this.aif.interviewDate.value, this.aif.interviewTime.value)){
         //the '+' coerces type to be number
         switch (+this.aif.typeId.value) {
@@ -160,7 +162,6 @@ export class MyInterviewComponent implements OnInit {
             this.interviewType = new InterviewType(5, 'Other');
             break;
         }
-
         this.newInterview = new Interview(
           this.associate,
           this.aif.clientId.value,
@@ -173,9 +174,9 @@ export class MyInterviewComponent implements OnInit {
           // refers to the 'Assigned' date given to the Associate.
           //  unsure whether this originally referenced the given time or the actual time
           new Date(this.interviewAssigned).getTime(),
-          new Date(this.aif.interviewDate.value + "T" + this.aif.interviewTime.value + ":00").getTime().toString()
+          this.aif.jobDesc.value
         );
-
+          console.log(this.newInterview.jobDescription)
         this.succMsg="Interview Added";
         setTimeout(() => {
           this.succMsg= '';
@@ -184,9 +185,11 @@ export class MyInterviewComponent implements OnInit {
         this.interviewService
           .createInterview(this.newInterview, this.associate.id)
           .subscribe(res => {
-            setTimeout(() => {
-              location.reload(false);
-            }, 3000);
+            this.associateService.getAssociateByUserId(this.id).subscribe(
+              data => {
+                this.associate = data;
+                this.getAssociateInterviews(this.associate.id);
+              })  
             
          });
       } else {
@@ -210,9 +213,11 @@ export class MyInterviewComponent implements OnInit {
       // successfully update the interview
       this.interviewService.updateInterview(interview).subscribe(res => {
       this.updateSuccess=true;
-      setTimeout(() => {
-        location.reload(false);
-      }, 3000);
+      this.associateService.getAssociateByUserId(this.id).subscribe(
+        data => {
+          this.associate = data;
+          this.getAssociateInterviews(this.associate.id);
+        })  
       },
         error => console.error('Error in myinterview-view.component.ts updateInterview(): ', error.message)
       );

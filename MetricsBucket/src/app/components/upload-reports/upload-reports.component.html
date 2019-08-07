@@ -1,0 +1,118 @@
+<div (change)=validate()>
+    <h5 class="mx-auto mt-4">Sprint Metrics</h5>
+    <div class="row">
+        <div class="col">
+        <label for="start-date">Start Date</label>
+        <input type="date" id="start-date" [(ngModel)]="inputStartDate" class="form-control"
+            placeholder="mm/dd/yyyy">
+        </div>
+        <div class="col">
+        <label for="end-date">End Date</label>
+        <input type="date" id="end-date" [(ngModel)]="inputEndDate" class="form-control" placeholder="mm/dd/yyyy">
+        </div>
+        <div class="col">
+        <label for="completed">Completed SP's</label>
+        <input type="number" id="completed" [(ngModel)]="completedStoryPoints" min="0" class="form-control"
+            placeholder="00">
+        </div>
+        <div class="col">
+        <label for="assigned">Assigned SP's</label>
+        <input type="number" id="assigned" [(ngModel)]="assignedStoryPoints" min="0" class="form-control" placeholder="00">
+        </div>
+    </div>
+    <h5 class="mx-auto mt-3">Iteration Information</h5>
+
+    <div class="row">
+        <div class="col ml-3">
+            <div class="row">Trainer</div>
+            <div class="row">
+                <mat-form-field class="trainer-list" style="width:100%">
+                    <mat-chip-list #trainerChipList aria-label="Trainer selection">
+                        <mat-chip *ngFor="let trainer of trainers" [selectable]="trainerSelectable"
+                                [removable]="trainerRemovable" (removed)="removeTrainer(trainer)">
+                        {{trainer}}
+                        <mat-icon matChipRemove *ngIf="trainerRemovable">cancel</mat-icon>
+                        </mat-chip>
+                        <input placeholder="Please enter trainers..."
+                                [matChipInputFor]="trainerChipList"
+                                [matChipInputSeparatorKeyCodes]="trainerSeparatorKeysCodes"
+                                [matChipInputAddOnBlur]="trainerAddOnBlur"
+                                (matChipInputTokenEnd)="addTrainer($event)">
+                    </mat-chip-list>
+                </mat-form-field>
+            </div>
+        </div>  
+        <div class="col ml-3">
+            <div class="row">Observer</div>
+            <div class="row">
+                <mat-form-field class="observer-list" style="width:100%">
+                        <mat-chip-list #observerChipList aria-label="Observer selection">
+                            <mat-chip *ngFor="let observer of observers" [selectable]="observerSelectable"
+                                    [removable]="observerRemovable" (removed)="removeObserver(observer)">
+                            {{observer}}
+                            <mat-icon matChipRemove *ngIf="observerRemovable">cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="Please enter observers..."
+                                    [matChipInputFor]="observerChipList"
+                                    [matChipInputSeparatorKeyCodes]="observerSeparatorKeysCodes"
+                                    [matChipInputAddOnBlur]="observerAddOnBlur"
+                                    (matChipInputTokenEnd)="addObserver($event)">
+                        </mat-chip-list>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="input-group mx-auto mt-3">
+                <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" id="projectbtn"
+                    aria-haspopup="true" aria-expanded="false">{{ project }}</button>
+                <div class="dropdown-menu">
+                    <div *ngFor="let project of projectList | async">
+                        <p class="dropdown-item" (click)="setProject(project)"> {{ project }}</p>
+                    </div>
+                </div>
+                </div>
+                <input type="text" class="form-control" [(ngModel)]="iteration" placeholder="Enter iteration...">
+                <div class="input-group-append ml-2">
+                <div class="custom-file">
+                    <input type="file" id="upload" class="custom-file-input" (change)="selectFiles($event)" multiple>
+                    <label class="custom-file-label" for="upload">Upload Files...</label>
+                </div>
+                <button class="btn btn-secondary ml-2" type="button" (click)="submit()"
+                    [disabled]="!complete" id="submitbtn">Submit</button>
+                </div>
+            </div>
+            <p id="note">Note: All fields must be completed before submitting.</p>
+        </div>
+    </div>
+    <div class="row">
+        <ng-container *ngIf="incorrectDateAlert">
+            <div class="alert alert-danger mx-auto mt-3 text-center" role="alert">
+                Start date must be before end date.
+            </div>
+        </ng-container>
+        <ng-container *ngIf="incorrectStoryPointsAlert">
+            <div class="alert alert-danger mx-auto mt-3 text-center" role="alert">
+                Completed story points must be smaller than or equal to assigned story points.
+            </div>
+        </ng-container>
+    </div>
+    <div class="row">
+        <ng-container *ngIf="!submitted">
+        <div class="col mx-auto mt-3" *ngIf="fileList != ''">
+            <h5>Files:</h5>
+            <div *ngFor="let file of fileList">
+            <b>Name:</b> {{ file.name }} <p class="badge badge-danger ml-2" id="remove" title="Remove"
+                (click)="removeFromFileList(file)">X</p>
+            </div>
+        </div>
+        </ng-container>
+        <ng-container *ngIf="submitted">
+        <div class="alert alert-success mx-auto mt-3 text-center" role="alert">
+            Sprint report has been successfully submitted.
+        </div>
+        </ng-container>
+    </div>
+</div>

@@ -104,6 +104,9 @@ export class UndeployedComponent implements OnInit {
   public isNotUndefined(val): boolean {
     return val !== undefined;
   }
+  
+  public chartHovered(e: any): void {
+  }
 
     /**
    * Changes the chart type of this component (does this really need explanation?!)

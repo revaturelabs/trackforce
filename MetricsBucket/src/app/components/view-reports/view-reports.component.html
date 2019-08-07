@@ -1,0 +1,38 @@
+<div class="row mt-4">
+    <div class="col">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ projectChoice }}</button>
+                <div class="dropdown-menu">
+                    <div *ngFor="let project of projectList | async">
+                        <p class="dropdown-item" (click)="showIterations(project)"> {{ project }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group-append ml-2" *ngIf="iterationList">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >{{ selectedIteration }}</button>
+                <div class="dropdown-menu">
+                    <ng-container *ngIf="iterationList.length == 0; else iterations">
+                        <p class="dropdown-item">No Iterations</p>
+                    </ng-container>
+                    <ng-template #iterations>
+                        <div *ngFor="let iter of iterationList">
+                            <p class="dropdown-item" (click)="createLink(iter)"> {{ iter }}</p>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="this.iterationViewShow" id="iterationView" class="row mt-3">
+  <!-- iframe -->
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe title="iteration" class="embed-responsive-item" [src]="iterationLink | safe"></iframe>
+  </div>
+  <div class="ml-3 mt-4">
+    <a [href]="iterationLink" target="_blank"><button type="button" style="background-color:#666666; color: #ffffff;" class="btn btn-secondary btn-sm">Full Report</button></a>
+  </div>
+</div>
